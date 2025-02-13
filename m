@@ -2,215 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C085EA33B24
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 10:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03213A33B34
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 10:27:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F1A10EA3D;
-	Thu, 13 Feb 2025 09:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E124A10EA3C;
+	Thu, 13 Feb 2025 09:27:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="bKQrPtHF";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="j+0SN71C";
+	dkim=pass (2048-bit key; unprotected) header.d=3xo.fr header.i=@3xo.fr header.b="Z6A+DlfO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4866710EA3D
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:25:51 +0000 (UTC)
-X-UUID: 8142a074e9ec11efbd192953cf12861f-20250213
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=GOqpr65tiIUj4INv8G0QLKBb4QCPvtctYhvn5x7B9RM=; 
- b=bKQrPtHFcECHkQsf09szoj/aWz8tn6OoTJa/ZcEFAeLF7ndczjqJCdEgn70D2GrQ+geOKz4V5EsHji9qj5KWYbcN0ccmlmvhwZouEjvYiV8ORJ3YEGvEfEvHNFX+TK/schQv9r6vM4DL/z+azrgtaBlxch7kNYsqm6nlzYqyskI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46, REQID:5414b982-acc4-4121-b898-288981860ccb, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:60aa074, CLOUDID:516369a1-97df-4c26-9c83-d31de0c9db26,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
- EDM:-3,IP:nil,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
- ,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 8142a074e9ec11efbd192953cf12861f-20250213
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1934783508; Thu, 13 Feb 2025 17:25:46 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Thu, 13 Feb 2025 17:25:44 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1258.28 via Frontend Transport; Thu, 13 Feb 2025 17:25:44 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=seZSii/2d/uS/T3n4yBUbBXac32S0ZasrVKBu2Qnr8AQvGEGzCQiUd+Ol4Pr4dliA37FwwNUMR7iUOX3vaVGKtYlrW9hK4dRcPRDnHdbQ6o9GHduESNCz+uXZjuhQm0RV+HqVyHkF3Aym+1iBHPqgdRtE1ue7y0dFmCTwsZ9K6hev9jEAgLPnInMOVWa3QUDseRBMEh0Xdbhi/yrq4+nbDt9UNybsbxh8KgedQKW8Rf6EAE551ecFPmUYprmK8ptbrTo4D9r6BGcSZ2s1sCDfzLtWFzp/i/wbuIEC8jaGeyC8y8mb3uKsSKlahSFgsbe36XjnGdpMbZfEQQra2aBXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f3fj7EfxRnnz7voMTBbYSPdXnORezxQeK7ahFb0wkec=;
- b=ZGx93KaGbmk6EOSSgq58oxLaEQu3iyFvagHnF0njiITMEDhmfOgn8CXzPOnf13EOvnFzYJz9QVqsaDcZa1UOXeDdPJ9JiIB4RWFfeHqV6fqvc9HAzSs7a7A0Bm0YcgN46H7K5kr9X36kC+Ikt8MINsrrcWmSP2F9zNg2EQv7OUY6HBdUEd8MMaZGOpZXiwfXQ16Qg01b3x+vyjDmDJGLhlmqVIWvCdHg2+CfretdyxVSsA+Jd/OVODAP3tYigN6ugcKx3yRa5Nr42IAt2TUL9kkkjSSJJmM38RKosvopNiwZJATYmI3TmdWDA6Cjsx/oBk3yjG9CqsPe95N4G1ie7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f3fj7EfxRnnz7voMTBbYSPdXnORezxQeK7ahFb0wkec=;
- b=j+0SN71C0asa7wGNlM6o4bkpQ9TrpMFWGxl0f9m6zRSnUQaN12T93T5JQP2kuwpl6p8CHcwqMI6JeV0N61rGN6q+o41wLcR6wtRQ5JSzaeqzQW+ULRtY1/vKgY53GDz5mcCkFwEUaiyabMSXdns2j9WcHkWUPio3khJKqyhVOeY=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SEZPR03MB6596.apcprd03.prod.outlook.com (2603:1096:101:78::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Thu, 13 Feb
- 2025 09:25:16 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54%3]) with mapi id 15.20.8422.015; Thu, 13 Feb 2025
- 09:25:16 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-CC: "robh@kernel.org" <robh@kernel.org>, "jie.qiu@mediatek.com"
- <jie.qiu@mediatek.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>, =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
- <jitao.shi@mediatek.com>, "linux-mediatek@lists.infradead.org"
- <linux-mediatek@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "kernel@collabora.com" <kernel@collabora.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- =?utf-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
- "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>, =?utf-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?=
- <TommyYL.Chen@mediatek.com>, =?utf-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?=
- <Ives.Chenjh@mediatek.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?=
- <Jason-JH.Lin@mediatek.com>, "junzhi.zhao@mediatek.com"
- <junzhi.zhao@mediatek.com>
-Subject: Re: [PATCH v6 42/42] drm/mediatek/hdmi: Use
- syscon_regmap_lookup_by_phandle_args
-Thread-Topic: [PATCH v6 42/42] drm/mediatek/hdmi: Use
- syscon_regmap_lookup_by_phandle_args
-Thread-Index: AQHbfHk3jSCh8aiAEU6sSDMN20nTYbNE+W6A
-Date: Thu, 13 Feb 2025 09:25:16 +0000
-Message-ID: <2443b8a50c1d1134b045d8724f204cb81acf2978.camel@mediatek.com>
-References: <20250211113409.1517534-1-angelogioacchino.delregno@collabora.com>
- <20250211113409.1517534-43-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250211113409.1517534-43-angelogioacchino.delregno@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEZPR03MB6596:EE_
-x-ms-office365-filtering-correlation-id: 731abd41-0d53-4dc7-5136-08dd4c1053c2
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|366016|7416014|1800799024|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?QTE1S09nSlg0RGlVdDZqQXpRMTNCK3JrNGZwRHBLTGg1ejdPUllBZW15SXFJ?=
- =?utf-8?B?MFB3Zk5DdFJCUmtMTXMxNkZrcW9ISTBvVkhjRFN4MnJqUlgvT3ZieHNFSEdP?=
- =?utf-8?B?VEQrRTZRR1o4S0w2RXE0cWpnVmdneGFCKzJrb0U3SEx0TVJpOVhGODdKa0xq?=
- =?utf-8?B?QkFlYjMwZjVYSGN2WlRqN1htQUJaVEpJQ1RreDJldExTWlZtam9Na1VZWFJa?=
- =?utf-8?B?ZUp2RkZyeHQ0SnVPOG9JUnh2bnIzeVNrZzVqaG9LWFczZXZhOGxLWk1wTFpT?=
- =?utf-8?B?RjJvc2pjMGZBOUFKdkxDMEwraHVuaDhtcTVrM1VjeFhCbmpKSHQyb2JnT2tv?=
- =?utf-8?B?bndzaC9pYzdaR2NQUzhkbXUyYnVaZ3M0cjdXS2VCbDdneURvTktJa0tkRXFI?=
- =?utf-8?B?Y2l5ZkltL2RpYW1CZHJReHJvaElqSFVmcGhsU2VYd0xRc0krSzFGaDdsQVpw?=
- =?utf-8?B?bVhraUk3c1FPZm9vM3NaOFRESnNoUlp3aUxaZjJYL3RmbUJIbEVkMGl4MmF3?=
- =?utf-8?B?N2Q2YndLTHF6T0FRcHFIUENPQ3Y0eGlKSlN2WWtXMmZOSjZaeUR5Mm9CbHdQ?=
- =?utf-8?B?aW02SXJxa0h6eTBIUW1OKzExeGU4MC8yOVpaWVd1UmtHekNuOXg0eHo5TDA4?=
- =?utf-8?B?TVpBbUU3VU1pSDVvb1hxb09mSCt1NisvK2Z0bkJkVytjUjNHZUJqdmtQdkRq?=
- =?utf-8?B?WU5iMzZ0TUNaT2pvZFFHeEh1bHlvZXRnd3hwR1dDK0RGMk9GZ3FDNlllYm1H?=
- =?utf-8?B?bXZPcE5RV2sva011d0FZMVU0ZUhzVkZLdXEvdW1FZHRVMVMxeDhITUhKVzhK?=
- =?utf-8?B?QldIV092d05MSFVBRTAvSmI4UElUYm5Vc2R4QURGNS9oazJnOVlHd1Uvc0Vt?=
- =?utf-8?B?WTM0T0NYdWxBaUJqYjQvK2NNOXFQZ1pZanBxb2kxQ1cybEVEMkpadll2b2RQ?=
- =?utf-8?B?UmJMSUJQZlFJMDBUNnFiS2MwREMwQklablV1UUNGZ0RWTmRCV0VUcGE0enFK?=
- =?utf-8?B?YVpzRHRmdkJFUzVPei9ObTI2TXBFNlR0QWNUV3pTbVBEWWM5YmExcTRLaXZD?=
- =?utf-8?B?M28wS0xISDdNYlpqYThsYVNlWFc4UHFQZG5CaEVtNmJvRTkyMmw5WG9uYUxw?=
- =?utf-8?B?NzJJZ21PNVBkOUQ5NFRNMjFTVUZGRFlzMHdIV0w2NXp0YW9XenZ5T0RkYlBh?=
- =?utf-8?B?M2pHWllHZ0xtc1Yva3BPTXpCSmgwRWdxdi9EQXhkeUd4MG0xak1ReDRSWU01?=
- =?utf-8?B?NDBENlEraVU2Y3owdFN5V3JML1BEUXRyTTlIK2N2LzRsVUd5dU9nT25oejBy?=
- =?utf-8?B?NlBZSjltZjdlUjI2SUgvWlZldDkyVk1PRzVPZlhIVndNamxNMGxrcWplSWNI?=
- =?utf-8?B?TDZnVU96cDhUbituY1IwV2JaK2w3Z0FiRi9SUWdHYVEwN3M0czAzekh2Nzdi?=
- =?utf-8?B?ZUZDNWk5YTlCQ0JFenY5ODBLK3hScWRudkJjQWdTcWNjTWxCNnN5TDg4ZmtE?=
- =?utf-8?B?cmxXWm9GUFk1T0RSV1grNUpmZW40N2ZvZzgxYlcrMnFaMnVDcDNXek42UWtN?=
- =?utf-8?B?NEhDTWJ3a3UyTFN0TVczcDZQMkhEVlNKWFBSN1piQ3dQMzQwa0VvQmVOUmFy?=
- =?utf-8?B?TWF3RjI5TUMxZ2FWaHhFQnl6TjR0dWx3bllKdG9TRDdvdWNDNmgycjVuMDI5?=
- =?utf-8?B?S05JQTFBeEc5bHVsdVRQWFZVRlIzSlhyUFBDWXdNTUNTd3YwUmNITTJaUCtR?=
- =?utf-8?B?ZGRTbHMzd3BDQis0SVNob2RveFdPcHF1cGlsNnpUK1l1NFdxY3F4Ny9Icm5k?=
- =?utf-8?B?VUQ0Rkgyd3RHMnR5bWpTcEpuL0FZUmdzOXpneUMzZXJNWk12aU41YWF1WnVz?=
- =?utf-8?B?clpFVU5hMG9MaGJoU282QkVjNE8wbm5Ed3g2a1AvVnpxSmtHdDVIS3RsSzI2?=
- =?utf-8?Q?FVq0c3ThoFAVKOy/fl5Sb48J/qNFpAqw?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RTNYZW0rL3MwZStaa1pRdENieTRJSU90M2dTeWJ5Zno3bzczUllWYXJ3V2Rh?=
- =?utf-8?B?TS9KTk1MM0RWL25PalF5b2tNZllWTHN5a2ovZWdXUFN1VzJCWEMzMDc2TEhR?=
- =?utf-8?B?eHp0bTlINzNSSmFsTEt0MzFsY3NCRkViUEUrZVBmZitlVlZPQitVZzNxYVlR?=
- =?utf-8?B?dDhhNUQ5ZzhVd3EybktPMkFEYzd1TGxlcVJkWjl6ZitNNlJ6T0xYZDdLOU1w?=
- =?utf-8?B?c2hDTHpzN0VsTFhRbEE3Q2ZZVFJLR1JOdnBnYnNIRE1vblkwMENLRUV5Uks0?=
- =?utf-8?B?dzRHdEZHRnRDVDhRQ0E4d0VFeE1TcHJoU2RodWJpK1drODJ1WmJUa05HQnBU?=
- =?utf-8?B?dkI5QUsreXNrdzlxTlhMcE9LTStYWWlTY0xqdm5RRzc1Qm9WUkp1WXpORnFu?=
- =?utf-8?B?RXVEOUg3L3BlaFVtajgxWnBQWkxlek5TRDRDZUhXcnNJZ2grN2NVbXR2b1ZL?=
- =?utf-8?B?bGdHWjlJM0lwQVFzUU5VdnN0cG5iREF1bWJHNFdGN0xIWjNoaklzMENQbkJa?=
- =?utf-8?B?YWV3cXlTdkhuanZMSmxBRjVmc3UraTFnQ0YwOXNDS1QzRVVibW94K2xHdjUw?=
- =?utf-8?B?L0cvbXpWbXh1VkRNOHhsZUQwUEVWTElla0dwZDk3ck02RDE5K2g4QUNCcEF1?=
- =?utf-8?B?RXNmaFdjWTB4ekpadDNHZ2MwVHc3cXRUYXdicENUdzZ2NzlvdHJkVE0za3pQ?=
- =?utf-8?B?d25yR0h0NmRxN0FjYkVvSUJrUUNUbFNLSU0rc1dBYmtJQ2wydWk3alZwRzF2?=
- =?utf-8?B?dW1yUnUrb2pZRzZaemMvYXNKa0NuNkhzb2dNQlZHdmg5a0dncTgxRzFaRGJu?=
- =?utf-8?B?ZkpqcmZJNzZ3L0QzclptZ3JhcW54WUM0THJVYW9ESmJsNDY3VmNMZG5sYlpO?=
- =?utf-8?B?Rm44bDgvT21vcjJDd3lTSStDNjJqU1Q4Y0hUVXRzenAwbEJGWE02aVlKNTlQ?=
- =?utf-8?B?QkJ5VENmZTdGVHBPQVpCdnFhS2tkQndoVHBkMFM0NVNTVmJaODZIeThSWW8x?=
- =?utf-8?B?Ykc1c2ZVNHN2K1NsV1lQU0hBditsRlhKOUwvbjAzSlU1RWVUaUdBRzJ1UUN5?=
- =?utf-8?B?ZG04YkhZbnFDRTYwWTc0T3BrMm9lMjFWL0RKZUxrdmcwUUF6ZWJOVkw1VVZo?=
- =?utf-8?B?cVFaRWRkcXJMd2dmbkc1R2xaR3NSRU1oMmRrazlXOUxqSHF3VVJzenpQeXZB?=
- =?utf-8?B?VVU0TzFob0kyaWMwbXhkS1I1anNCR0RzWjVsUjM1Mml4cWdsT3YzNjFNWFFR?=
- =?utf-8?B?TWloY0V6akVNRXUrZ1dOOWd1R29IR2hzSm1UNW9HUGR3SUhTalpYd21hZjBs?=
- =?utf-8?B?VUttT1ZMSDRaRUptVDBqaEhuaGs5UCtONDhMWGJ4aGZRZ3M2bSt1czYvTXpl?=
- =?utf-8?B?MHZRMnd5a3N6SHlSYTFodEtBYzlIZmw4UFFERGU4QVViZ1kzSCtweUlpMHo1?=
- =?utf-8?B?bitvODczZVRPV2pENDIrZFFQdXQvRGxpSFJUUlZaZnk0NC9nZGxOdVVxN21q?=
- =?utf-8?B?MnRSeW9ZOW9EVGp6WEdUU0x2RFRCTjNVQ1dYdFVpYzE1cXdWbDZ2czFDUzZa?=
- =?utf-8?B?cTYvc0NuWlk3WHVMZWJLWEhaQU9pTWpXb0RMVi91Uy95Y0dzV1VWWjhxK0gv?=
- =?utf-8?B?N1BYOVU2UFIyeEdlQUZ6NlpUZlBhSnF2Y0lKWDl3R2JOUGZON0NXZXFuN1RG?=
- =?utf-8?B?dEYwb0ZEUW5IRncvWStiSWhCWEtJUjJKSTRFSmljdXRhQkFzUmdkS2IvVkcz?=
- =?utf-8?B?clRvZjhBdDRoRG9OK0RRd0x5dnRXWUg2citNcTZMKzBEL0cwdlQ5cEVQY082?=
- =?utf-8?B?MVlYRzhQdjg1VUEvQ21yZk9TS2JZRFJwaWtuclczV0FBK3hySGhod1NLUWJu?=
- =?utf-8?B?bThMc1dRVnd0T29ERld1Ukp4M1NsY1FCeEtvOG1JWG82NWs5ekN2SVIybkpv?=
- =?utf-8?B?cjB6emNkbEtNNkMwZFk3VXllM01HL2czL2RKOFRCYjdUNVlOeTlqOXUyYms2?=
- =?utf-8?B?NjE0N25pUVFmVzdXV3dNVjhUTXdVUTY5SkxvZENTWTM4WFVHQWlKTHJnQTFw?=
- =?utf-8?B?VXp3VVplR3EwNVJXTDV6TCs5OW53bUVmWmlwY3FlVTRLMmFoV0ZhMUVkOW0x?=
- =?utf-8?Q?AlI4SHl8FcIm9N0HG/Fb6TdaE?=
-Content-ID: <D29D0CA655DC3D43A676DB16338CF218@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0043F10EA3C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:27:34 +0000 (UTC)
+Received: from localhost (mail.3xo.fr [212.129.21.66])
+ by mail.3xo.fr (Postfix) with ESMTP id 9992C8D;
+ Thu, 13 Feb 2025 10:27:33 +0100 (CET)
+X-Virus-Scanned: Debian amavis at nxo2.3xo.fr
+Received: from mail.3xo.fr ([212.129.21.66])
+ by localhost (mail.3xo.fr [212.129.21.66]) (amavis, port 10024) with ESMTP
+ id 7lvH9Cxf2RSb; Thu, 13 Feb 2025 10:27:30 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.3xo.fr 07D568C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xo.fr; s=3xo;
+ t=1739438850; bh=SrNHVHOPUBZCuYZ2tBHYPbn2IauTKO7yvN0++//Y0oA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Z6A+DlfOiELtaRyW+IkxZJdKlSSQSx7nfUYl/kofJR1n7jGsdGbY2A1ogGLXPnuFc
+ V3Qbf7FdbMSzW1xqViDLOijj18ir8gzalIKII5RslIFRA7M1Qsov4uYyQ6kw//WYu9
+ r2LqZmc8oPTmgjsu6woenr4f9pGl14qB/2N8Vav3aGzbcpwjqRlxKMzQWdI36moNCp
+ nuj3ZLN8XkJwsL20cumh1QJcSUB4GHTEhsKR0ArRKAkuuYzlbjEmkd+TuwbhGEMPW2
+ Tl6M6TP8Xl+Q+P0nNHGmpAHzuX818gFhdn5AMi6xhc8a1pF6owDwTpHHeBf9yUmw6T
+ mLCiSts3dG0AQ==
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3xo.fr (Postfix) with ESMTPSA id 07D568C;
+ Thu, 13 Feb 2025 10:27:30 +0100 (CET)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 731abd41-0d53-4dc7-5136-08dd4c1053c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2025 09:25:16.4385 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 11i2JzLFwTLMN89U8+rKagEETVRZ3qk8blVgSeJGUU6iVg4ZebQ3oM3QjI+dAHMR1PWfreTodBasOHjw2NqOtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB6596
+Date: Thu, 13 Feb 2025 10:27:29 +0100
+From: Nicolas Baranger <nicolas.baranger@3xo.fr>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com, Jocelyn Falempe
+ <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
+In-Reply-To: <b296bfef-1a9c-4452-baeb-09f86758addd@suse.de>
+References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
+ <194c4656963debcf074d87e89ab1a829@3xo.fr>
+ <b296bfef-1a9c-4452-baeb-09f86758addd@suse.de>
+Message-ID: <984c317de1027f5886390a65f1f66126@3xo.fr>
+X-Sender: nicolas.baranger@3xo.fr
 Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_008_2112160432.666244039"
+ boundary="=_3e0cbcb59b0719a1c5c1c4ad90ac98b1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -226,153 +71,342 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_008_2112160432.666244039
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+--=_3e0cbcb59b0719a1c5c1c4ad90ac98b1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 
-T24gVHVlLCAyMDI1LTAyLTExIGF0IDEyOjM0ICswMTAwLCBBbmdlbG9HaW9hY2NoaW5vIERlbCBS
-ZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtz
-IG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRlciBv
-ciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnp5
-c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+DQo+IA0KPiBVc2Ugc3lzY29uX3JlZ21hcF9sb29r
-dXBfYnlfcGhhbmRsZV9hcmdzKCkgd2hpY2ggaXMgYSB3cmFwcGVyIG92ZXINCj4gc3lzY29uX3Jl
-Z21hcF9sb29rdXBfYnlfcGhhbmRsZSgpIGNvbWJpbmVkIHdpdGggZ2V0dGluZyB0aGUgc3lzY29u
-DQo+IGFyZ3VtZW50LiAgRXhjZXB0IHNpbXBsZXIgY29kZSB0aGlzIGFubm90YXRlcyB3aXRoaW4g
-b25lIGxpbmUgdGhhdCBnaXZlbg0KPiBwaGFuZGxlIGhhcyBhcmd1bWVudHMsIHNvIGdyZXBwaW5n
-IGZvciBjb2RlIHdvdWxkIGJlIGVhc2llci4NCj4gDQo+IFRoZXJlIGlzIGFsc28gbm8gcmVhbCBi
-ZW5lZml0IGluIHByaW50aW5nIGVycm9ycyBvbiBtaXNzaW5nIHN5c2Nvbg0KPiBhcmd1bWVudCwg
-YmVjYXVzZSB0aGlzIGlzIGRvbmUganVzdCB0b28gbGF0ZTogcnVudGltZSBjaGVjayBvbg0KPiBz
-dGF0aWMvYnVpbGQtdGltZSBkYXRhLiAgRHRzY2hlbWEgYW5kIERldmljZXRyZWUgYmluZGluZ3Mg
-b2ZmZXIgdGhlDQo+IHN0YXRpYy9idWlsZC10aW1lIGNoZWNrIGZvciB0aGlzIGFscmVhZHkuDQoN
-ClJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPg0KDQpNYXliZSBJIHNob3Vs
-ZCBhcHBseSB0aGlzIHZlcnNpb24gdG8gcHJldmVudCBmaXhpbmcgY29uZmxpY3QuDQoNClJlZ2Fy
-ZHMsDQpDSw0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnp5
-c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+DQo+IFtBbmdlbG86IFJlYmFzZWQgb3ZlciBIRE1J
-djIvRERDdjIgc2VyaWVzIGNsZWFudXBzXQ0KPiBTaWduZWQtb2ZmLWJ5OiBBbmdlbG9HaW9hY2No
-aW5vIERlbCBSZWdubyA8YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJvcmEuY29tPg0K
-PiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaV9jb21tb24uYyB8IDcg
-KystLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMo
-LSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWlf
-Y29tbW9uLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWlfY29tbW9uLmMNCj4g
-aW5kZXggNzUwYmNiNDVjMzNkLi5jOWJmNzA4NTMyOGMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaV9jb21tb24uYw0KPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2hkbWlfY29tbW9uLmMNCj4gQEAgLTI2OSwxMiArMjY5LDkgQEAgc3Rh
-dGljIGludCBtdGtfaGRtaV9nZXRfY2VjX2RldihzdHJ1Y3QgbXRrX2hkbWkgKmhkbWksIHN0cnVj
-dCBkZXZpY2UgKmRldiwgc3RydWMNCj4gICAgICAgICAgKiBNTVNZU19DT05GSUcgZGV2aWNlIGFu
-ZCB0aGUgcmVnaXN0ZXIgb2Zmc2V0IG9mIHRoZSBIRE1JX1NZU19DRkcNCj4gICAgICAgICAgKiBy
-ZWdpc3RlcnMgaXQgY29udGFpbnMuDQo+ICAgICAgICAgICovDQo+IC0gICAgICAgaGRtaS0+c3lz
-X3JlZ21hcCA9IHN5c2Nvbl9yZWdtYXBfbG9va3VwX2J5X3BoYW5kbGUobnAsICJtZWRpYXRlayxz
-eXNjb24taGRtaSIpOw0KPiArICAgICAgIGhkbWktPnN5c19yZWdtYXAgPSBzeXNjb25fcmVnbWFw
-X2xvb2t1cF9ieV9waGFuZGxlX2FyZ3MobnAsICJtZWRpYXRlayxzeXNjb24taGRtaSIsDQo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAxLCAmaGRtaS0+c3lzX29mZnNldCk7DQo+ICAgICAgICAgaWYgKElTX0VSUihoZG1pLT5z
-eXNfcmVnbWFwKSkNCj4gLSAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGhkbWktPnN5c19y
-ZWdtYXApOw0KPiAtDQo+IC0gICAgICAgcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzJfaW5kZXgo
-bnAsICJtZWRpYXRlayxzeXNjb24taGRtaSIsIDEsICZoZG1pLT5zeXNfb2Zmc2V0KTsNCj4gLSAg
-ICAgICBpZiAocmV0KQ0KPiAgICAgICAgICAgICAgICAgcmV0dXJuIGRldl9lcnJfcHJvYmUoZGV2
-LCByZXQsDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiRmFpbGVkIHRv
-IGdldCBzeXN0ZW0gY29uZmlndXJhdGlvbiByZWdpc3RlcnNcbiIpOw0KPiANCj4gLS0NCj4gMi40
-OC4xDQo+IA0KDQo=
 
---__=_Part_Boundary_008_2112160432.666244039
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1R1ZSwmIzMyOzIwMjUtMDItMTEmIzMyO2F0
-JiMzMjsxMjozNCYjMzI7KzAxMDAsJiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
-Z25vJiMzMjt3cm90ZToNCiZndDsmIzMyO0V4dGVybmFsJiMzMjtlbWFpbCYjMzI7OiYjMzI7UGxl
-YXNlJiMzMjtkbyYjMzI7bm90JiMzMjtjbGljayYjMzI7bGlua3MmIzMyO29yJiMzMjtvcGVuJiMz
-MjthdHRhY2htZW50cyYjMzI7dW50aWwmIzMyO3lvdSYjMzI7aGF2ZSYjMzI7dmVyaWZpZWQmIzMy
-O3RoZSYjMzI7c2VuZGVyJiMzMjtvciYjMzI7dGhlJiMzMjtjb250ZW50Lg0KJmd0OyYjMzI7DQom
-Z3Q7JiMzMjsNCiZndDsmIzMyO0Zyb206JiMzMjtLcnp5c3p0b2YmIzMyO0tvemxvd3NraSYjMzI7
-Jmx0O2tyenlzenRvZi5rb3psb3dza2lAbGluYXJvLm9yZyZndDsNCiZndDsmIzMyOw0KJmd0OyYj
-MzI7VXNlJiMzMjtzeXNjb25fcmVnbWFwX2xvb2t1cF9ieV9waGFuZGxlX2FyZ3MoKSYjMzI7d2hp
-Y2gmIzMyO2lzJiMzMjthJiMzMjt3cmFwcGVyJiMzMjtvdmVyDQomZ3Q7JiMzMjtzeXNjb25fcmVn
-bWFwX2xvb2t1cF9ieV9waGFuZGxlKCkmIzMyO2NvbWJpbmVkJiMzMjt3aXRoJiMzMjtnZXR0aW5n
-JiMzMjt0aGUmIzMyO3N5c2Nvbg0KJmd0OyYjMzI7YXJndW1lbnQuJiMzMjsmIzMyO0V4Y2VwdCYj
-MzI7c2ltcGxlciYjMzI7Y29kZSYjMzI7dGhpcyYjMzI7YW5ub3RhdGVzJiMzMjt3aXRoaW4mIzMy
-O29uZSYjMzI7bGluZSYjMzI7dGhhdCYjMzI7Z2l2ZW4NCiZndDsmIzMyO3BoYW5kbGUmIzMyO2hh
-cyYjMzI7YXJndW1lbnRzLCYjMzI7c28mIzMyO2dyZXBwaW5nJiMzMjtmb3ImIzMyO2NvZGUmIzMy
-O3dvdWxkJiMzMjtiZSYjMzI7ZWFzaWVyLg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtUaGVyZSYjMzI7
-aXMmIzMyO2Fsc28mIzMyO25vJiMzMjtyZWFsJiMzMjtiZW5lZml0JiMzMjtpbiYjMzI7cHJpbnRp
-bmcmIzMyO2Vycm9ycyYjMzI7b24mIzMyO21pc3NpbmcmIzMyO3N5c2Nvbg0KJmd0OyYjMzI7YXJn
-dW1lbnQsJiMzMjtiZWNhdXNlJiMzMjt0aGlzJiMzMjtpcyYjMzI7ZG9uZSYjMzI7anVzdCYjMzI7
-dG9vJiMzMjtsYXRlOiYjMzI7cnVudGltZSYjMzI7Y2hlY2smIzMyO29uDQomZ3Q7JiMzMjtzdGF0
-aWMvYnVpbGQtdGltZSYjMzI7ZGF0YS4mIzMyOyYjMzI7RHRzY2hlbWEmIzMyO2FuZCYjMzI7RGV2
-aWNldHJlZSYjMzI7YmluZGluZ3MmIzMyO29mZmVyJiMzMjt0aGUNCiZndDsmIzMyO3N0YXRpYy9i
-dWlsZC10aW1lJiMzMjtjaGVjayYjMzI7Zm9yJiMzMjt0aGlzJiMzMjthbHJlYWR5Lg0KDQpSZXZp
-ZXdlZC1ieTomIzMyO0NLJiMzMjtIdSYjMzI7Jmx0O2NrLmh1QG1lZGlhdGVrLmNvbSZndDsNCg0K
-TWF5YmUmIzMyO0kmIzMyO3Nob3VsZCYjMzI7YXBwbHkmIzMyO3RoaXMmIzMyO3ZlcnNpb24mIzMy
-O3RvJiMzMjtwcmV2ZW50JiMzMjtmaXhpbmcmIzMyO2NvbmZsaWN0Lg0KDQpSZWdhcmRzLA0KQ0sN
-Cg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYjMzI7S3J6eXN6dG9mJiMzMjtL
-b3psb3dza2kmIzMyOyZsdDtrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmcmZ3Q7DQomZ3Q7
-JiMzMjtbQW5nZWxvOiYjMzI7UmViYXNlZCYjMzI7b3ZlciYjMzI7SERNSXYyL0REQ3YyJiMzMjtz
-ZXJpZXMmIzMyO2NsZWFudXBzXQ0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO0FuZ2Vsb0dp
-b2FjY2hpbm8mIzMyO0RlbCYjMzI7UmVnbm8mIzMyOyZsdDthbmdlbG9naW9hY2NoaW5vLmRlbHJl
-Z25vQGNvbGxhYm9yYS5jb20mZ3Q7DQomZ3Q7JiMzMjstLS0NCiZndDsmIzMyOyYjMzI7ZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pX2NvbW1vbi5jJiMzMjt8JiMzMjs3JiMzMjsrKy0t
-LS0tDQomZ3Q7JiMzMjsmIzMyOzEmIzMyO2ZpbGUmIzMyO2NoYW5nZWQsJiMzMjsyJiMzMjtpbnNl
-cnRpb25zKCspLCYjMzI7NSYjMzI7ZGVsZXRpb25zKC0pDQomZ3Q7JiMzMjsNCiZndDsmIzMyO2Rp
-ZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaV9jb21t
-b24uYyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWlfY29tbW9uLmMNCiZn
-dDsmIzMyO2luZGV4JiMzMjs3NTBiY2I0NWMzM2QuLmM5YmY3MDg1MzI4YyYjMzI7MTAwNjQ0DQom
-Z3Q7JiMzMjstLS0mIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pX2NvbW1v
-bi5jDQomZ3Q7JiMzMjsrKysmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1p
-X2NvbW1vbi5jDQomZ3Q7JiMzMjtAQCYjMzI7LTI2OSwxMiYjMzI7KzI2OSw5JiMzMjtAQCYjMzI7
-c3RhdGljJiMzMjtpbnQmIzMyO210a19oZG1pX2dldF9jZWNfZGV2KHN0cnVjdCYjMzI7bXRrX2hk
-bWkmIzMyOypoZG1pLCYjMzI7c3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYsJiMzMjtzdHJ1Yw0K
-Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7KiYj
-MzI7TU1TWVNfQ09ORklHJiMzMjtkZXZpY2UmIzMyO2FuZCYjMzI7dGhlJiMzMjtyZWdpc3RlciYj
-MzI7b2Zmc2V0JiMzMjtvZiYjMzI7dGhlJiMzMjtIRE1JX1NZU19DRkcNCiZndDsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyomIzMyO3JlZ2lzdGVycyYj
-MzI7aXQmIzMyO2NvbnRhaW5zLg0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7Ki8NCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyO2hkbWktJmd0O3N5c19yZWdtYXAmIzMyOz0mIzMyO3N5c2Nvbl9yZWdtYXBfbG9v
-a3VwX2J5X3BoYW5kbGUobnAsJiMzMjsmcXVvdDttZWRpYXRlayxzeXNjb24taGRtaSZxdW90Oyk7
-DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtoZG1pLSZndDtz
-eXNfcmVnbWFwJiMzMjs9JiMzMjtzeXNjb25fcmVnbWFwX2xvb2t1cF9ieV9waGFuZGxlX2FyZ3Mo
-bnAsJiMzMjsmcXVvdDttZWRpYXRlayxzeXNjb24taGRtaSZxdW90OywNCiZndDsmIzMyOysmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxLCYjMzI7JmFtcDtoZG1pLSZndDtzeXNfb2Zmc2V0
-KTsNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtpZiYj
-MzI7KElTX0VSUihoZG1pLSZndDtzeXNfcmVnbWFwKSkNCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjtyZXR1cm4mIzMyO1BUUl9FUlIoaGRtaS0mZ3Q7c3lzX3JlZ21hcCk7DQomZ3Q7JiMzMjst
-DQomZ3Q7JiMzMjstJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtyZXQmIzMyOz0m
-IzMyO29mX3Byb3BlcnR5X3JlYWRfdTMyX2luZGV4KG5wLCYjMzI7JnF1b3Q7bWVkaWF0ZWssc3lz
-Y29uLWhkbWkmcXVvdDssJiMzMjsxLCYjMzI7JmFtcDtoZG1pLSZndDtzeXNfb2Zmc2V0KTsNCiZn
-dDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2lmJiMzMjsocmV0KQ0K
-Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtyZXR1cm4mIzMyO2Rldl9lcnJfcHJvYmUo
-ZGV2LCYjMzI7cmV0LA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmcXVvdDtGYWlsZWQmIzMyO3Rv
-JiMzMjtnZXQmIzMyO3N5c3RlbSYjMzI7Y29uZmlndXJhdGlvbiYjMzI7cmVnaXN0ZXJzJiM5Mjtu
-JnF1b3Q7KTsNCiZndDsmIzMyOw0KJmd0OyYjMzI7LS0NCiZndDsmIzMyOzIuNDguMQ0KJmd0OyYj
-MzI7DQoNCg0KPC9wcmU+DQo8L3A+PC9ib2R5PjwvaHRtbD48IS0tdHlwZTp0ZXh0LS0+PCEtLXst
-LT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioq
-KioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFp
-bCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRp
-YWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRp
-c2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNv
-bnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNz
-ZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5n
-IG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5k
-ZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3
-ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWws
-IG9yIGJlbGlldmUgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9y
-LCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8g
-dGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwg
-KGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QN
-CmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24u
-IFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
+Dear Thomas
 
---__=_Part_Boundary_008_2112160432.666244039--
+Thanks for answer and help.
 
+Yes, due to .date total removal in linux 6.14 
+(https://github.com/torvalds/linux/commit/cb2e1c2136f71618142557ceca3a8802e87a44cd) 
+the last DKMS sources are :
+https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/
+
+You can also find this sources in directory drivers/gpu/drm/ast_new of 
+the tarball 
+https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/linux-6.14.0.1-ast1.15.1-rc2_nba0_20250212.tar.gz
+
+I'm surprised by the fact the in-kernel driver 0.1.0 is more advanced 
+than Aspeed version 1.15.1 because on my system it has very poor 
+rendering and is very slow, twinkle is high and had poor colors.
+The screen flickering is high and it's like if I was using a very old 
+cathode ray tube monitor (In fact I'm using a SAMSUNG LCD monitor which 
+is perfectly functionnal and which display a nice and eyes confortable 
+picture when using ast 1.15.1 driver or the video output of the Nvidia 
+GPU ).
+
+My testing system is a test Xeon server with an AST2400 BMC with its AST 
+VGA card as the main video output (to be able to have a screen on the 
+BMC KVM) +a discrete NVIDIA GPU I'm using for GPGPU and 3D rendering 
+with Nvidia prime render offload.
+What I constat with embed kernel driver 0.1.0 is that the Xeon processor 
+is doing the video job for example when watching a video, and it's not 
+the case with version 1.15.1 even when displaying on the AST VGA card a 
+vulkan rotating cube (compute by nvidia GPU with nvidia prime but 
+display by the AST VGA card of the AST2400).
+Note that with in-kernel version 0.1.0 it's nearly impossible to make 
+round the vulkan cube at more than half a round by  second where it's 
+working (very) fine for a 32MB video memory card with version 1.15.1 as 
+you can see in the video present in the online directory
+
+I'm not developer or kernel developer so be sure that I wouldn't have 
+done all this work if the in-kernel ast version 0.1.0 was usable 
+out-of-the-box
+
+Sure you can give me a patch I will test on this server (building 
+mainline+ast_new yesterday tooks 19 minutes on this server)
+
+PS:
+here is a 'git diff linux-6.14.0.1-ast-rc2/drivers/gpu/drm/ast 
+linux-6.14.0.1-ast-rc2/drivers/gpu/drm/ast_new'
+https://xba.soartist.net/ast-drm_nba_20250211/nba-dump/ast-fullpatch.patch
+Diff is about 250+ kb so the 2 drivers seems to have nothing to do with 
+each others...
+
+Thanks again for help
+
+Kind regards
+Nicolas
+
+Le 2025-02-13 08:57, Thomas Zimmermann a écrit :
+
+> Hi Nicolas
+> 
+> Am 12.02.25 um 19:58 schrieb Nicolas Baranger:
+> 
+>> Dear maintener
+> 
+> That's mostly me and Jocelyn.
+> 
+>> I did include ast-drm driver version 1.15.1 (in replacement of version 
+>> 0.1.0) on the new mainline kernel too (6.14.0-rc2) and I issue a new 
+>> dkms patch
+>> 
+>> Last DKMS patch had been sucessfully tested on mainline.
+>> And last ast.ko version 1.15.1 included in linux tree had also been 
+>> sucessfully tested
+>> 
+>> Online directory is updated with :
+>> - new DKMS patch
+>> - new DKMS srouces
+>> - new DKMS debian package
+>> - new tarball of mainline included ast_new ported in kernel tree
+>> - new kernel debian package (mainline with ast_new)
+>> 
+>> NB: online directory is here: 
+>> https://xba.soartist.net/ast-drm_nba_20250211/
+>> 
+>> Please let me know what I should do to see this change in linux-next
+> 
+> I'm having a little trouble with figuring out which of the many driver 
+> sources is the relevant one. Am I correct to assume it's the one at
+> 
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/
+> 
+> About that driver: Although the official driver reports an ancient 
+> version number, it is an up-to-date driver. It is actually more 
+> up-to-date than Aspeed's package. Both drivers share source code and a 
+> few years ago there was an effort to bring the kernel's driver up to 
+> the same feature set. Since then, the kernel's driver has been updated, 
+> reworked and improved.
+> 
+> About the performance: From what I can tell, the only significant 
+> difference in these drivers is memory management. Your ast_new driver 
+> uses an older algorithm that we replaced quite a few releases ago. The 
+> old version was unreliable on systems with little video memory, so we 
+> had to replace it.  I don't know why the new code should be slower 
+> though.
+> 
+> If I give you a patch against a recent Linux kernel, are you capable of 
+> building the patched kernel and testing that change on your system?
+> 
+> Best regards
+> Thomas
+> 
+> Thanks for help
+> 
+> Kind regards
+> Nicolas Baranger
+> 
+> Le 2025-02-11 19:15, Nicolas Baranger a écrit :
+> 
+> Dear maintener
+> 
+> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video 
+> driver on mainline kernel (6.13.0 + 6.13.1).
+> 
+> ASPEED video driver is availiable here:
+> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
+> 
+> But it only work for LTS kernel
+> So I modify the DKMS package and I build a new Debian DKMS package with 
+> the adapted  source.
+> My patch can be find here :
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
+> See the README:
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
+> 
+> Using this new 'ast 1.15.1' driver, performance are amazing compared to 
+> the 'ast' driver include in kernel tree, specially when using a 
+> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card as 
+> the main video card and as the main and only video output (the discrete 
+> GPU is used only for offloading 3D or for cuda/opencl)
+> 
+> So to make things easier, I include the new 'ast 1.15.1' driver in 
+> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
+> It's working fine as you can see on this video :
+> https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm 
+> I upload all the work I've done here :
+> https://xba.soartist.net/ast-drm_nba_20250211/
+> 
+> See the global README :
+> https://xba.soartist.net/ast-drm_nba_20250211/README
+> 
+> and the README in nba-kernel sub-directory :
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
+> 
+> I'm not a developer so please let me know if I made the things the 
+> right way and if this new 'ast 1.15.1' driver can be ported to 
+> linux-next or linux-? ?
+> If you need more explanations, do not hesitate to contact me, I would 
+> be happy to help
+> 
+> Kind regards
+> Nicolas Baranger
+--=_3e0cbcb59b0719a1c5c1c4ad90ac98b1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8" /></head><body style=3D'font-size: 10pt; font-family: Verdana,Gen=
+eva,sans-serif'>
+<p>Dear Thomas<br /><br /></p>
+<p>Thanks for answer and help.<br /><br />Yes, due to .date total removal i=
+n linux 6.14 (<a href=3D"https://github.com/torvalds/linux/commit/cb2e1c213=
+6f71618142557ceca3a8802e87a44cd">https://github.com/torvalds/linux/commit/c=
+b2e1c2136f71618142557ceca3a8802e87a44cd</a>) the last DKMS sources are :&nb=
+sp;<br /><span style=3D"white-space: nowrap;"><a href=3D"https://xba.soarti=
+st.net/ast-drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/" target=3D"=
+_blank" rel=3D"noopener noreferrer">https://xba.soartist.net/ast-drm_nba_20=
+250211/nba-dkms/nba_last_src_20250212/src/</a></span><br /><br /></p>
+<p>You can also find this sources in directory drivers/gpu/drm/ast_new of t=
+he tarball <a href=3D"https://xba.soartist.net/ast-drm_nba_20250211/nba-ker=
+nel/linux-6.14.0.1-ast1.15.1-rc2_nba0_20250212.tar.gz">https://xba.soartist=
+=2Enet/ast-drm_nba_20250211/nba-kernel/linux-6.14.0.1-ast1.15.1-rc2_nba0_20=
+250212.tar.gz</a><br /><br /></p>
+<p>I'm surprised by the fact the in-kernel driver 0.1.0 is more advanced th=
+an Aspeed version 1.15.1 because on my system it has very poor rendering an=
+d is very slow, twinkle is high and had poor colors.<br />The screen flicke=
+ring is high and it's like if I was using a very old cathode ray tube monit=
+or (In fact I'm using a SAMSUNG LCD monitor which is perfectly functionnal =
+and which display a nice and eyes confortable picture when using ast 1.15.1=
+ driver or the video output of the Nvidia GPU ).&nbsp;<br /><br /><br />My =
+testing system is a test Xeon server with an AST2400 BMC with its AST VGA c=
+ard as the main video output (to be able to have a screen on the BMC KVM) +=
+a discrete NVIDIA GPU I'm using for GPGPU and 3D rendering with Nvidia prim=
+e render offload.<br />What I constat with embed kernel driver 0.1.0 is tha=
+t the Xeon processor is doing the video job for example when watching a vid=
+eo, and it's not the case with version 1.15.1 even when displaying on the A=
+ST VGA card a vulkan rotating cube (compute by nvidia GPU with nvidia prime=
+ but display by the AST VGA card of the AST2400). <br />Note that with in-k=
+ernel version 0.1.0 it's nearly impossible to make round the vulkan cube at=
+ more than half a round by&nbsp; second where it's working (very) fine for =
+a 32MB video memory card with version 1.15.1 as you can see in the video pr=
+esent in the online directory&nbsp;<br /><br />I'm not developer or kernel =
+developer so be sure that I wouldn't have done all this work if the in-kern=
+el ast version 0.1.0 was usable out-of-the-box</p>
+<p>Sure you can give me a patch I will test on this server (building mainli=
+ne+ast_new yesterday tooks 19 minutes on this server)&nbsp;</p>
+<p>PS:&nbsp;<br />here is a 'git diff linux-6.14.0.1-ast-rc2/drivers/gpu/dr=
+m/ast linux-6.14.0.1-ast-rc2/drivers/gpu/drm/ast_new'<br /><a href=3D"https=
+://xba.soartist.net/ast-drm_nba_20250211/nba-dump/ast-fullpatch.patch">http=
+s://xba.soartist.net/ast-drm_nba_20250211/nba-dump/ast-fullpatch.patch</a><=
+br />Diff is about 250+ kb so the 2 drivers seems to have nothing to do wit=
+h each others...<br /><br /></p>
+<p><span style=3D"font-size: 10pt;">Thanks again for help<br /><br />Kind r=
+egards<br />Nicolas&nbsp;</span></p>
+<p><br /></p>
+<p id=3D"reply-intro">Le 2025-02-13 08:57, Thomas Zimmermann a &eacute;crit=
+&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
+px solid; margin: 0">
+<div class=3D"pre" style=3D"margin: 0; padding: 0; font-family: monospace">=
+<span style=3D"white-space: nowrap;">Hi&nbsp;Nicolas</span><br /><br /><spa=
+n style=3D"white-space: nowrap;">Am&nbsp;12.02.25&nbsp;um&nbsp;19:58&nbsp;s=
+chrieb&nbsp;Nicolas&nbsp;Baranger:</span>
+<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
+px solid; margin: 0"><span style=3D"white-space: nowrap;">Dear&nbsp;mainten=
+er</span></blockquote>
+<br /><span style=3D"white-space: nowrap;">That's&nbsp;mostly&nbsp;me&nbsp;=
+and&nbsp;Jocelyn.</span><br /><br />
+<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
+px solid; margin: 0"><br />I did include ast-drm driver version 1.15.1 (in =
+replacement of version 0.1.0) on the new mainline kernel too (6.14.0-rc2) a=
+nd I issue a new dkms patch<br /><br /><span style=3D"white-space: nowrap;"=
+>Last&nbsp;DKMS&nbsp;patch&nbsp;had&nbsp;been&nbsp;sucessfully&nbsp;tested&=
+nbsp;on&nbsp;mainline.</span><br />And last ast.ko version&nbsp;1.15.1 incl=
+uded in linux tree had also been sucessfully tested<br /><br /><span style=
+=3D"white-space: nowrap;">Online&nbsp;directory&nbsp;is&nbsp;updated&nbsp;w=
+ith&nbsp;:</span><br /><span style=3D"white-space: nowrap;">-&nbsp;new&nbsp=
+;DKMS&nbsp;patch</span><br /><span style=3D"white-space: nowrap;">-&nbsp;ne=
+w&nbsp;DKMS&nbsp;srouces</span><br /><span style=3D"white-space: nowrap;">-=
+&nbsp;new&nbsp;DKMS&nbsp;debian&nbsp;package</span><br /><span style=3D"whi=
+te-space: nowrap;">-&nbsp;new&nbsp;tarball&nbsp;of&nbsp;mainline&nbsp;inclu=
+ded&nbsp;ast_new&nbsp;ported&nbsp;in&nbsp;kernel&nbsp;tree</span><br /><spa=
+n style=3D"white-space: nowrap;">-&nbsp;new&nbsp;kernel&nbsp;debian&nbsp;pa=
+ckage&nbsp;(mainline&nbsp;with&nbsp;ast_new)</span><br /><br /><br />NB: on=
+line directory is here: <a href=3D"https://xba.soartist.net/ast-drm_nba_202=
+50211/" target=3D"_blank" rel=3D"noopener noreferrer">https://xba.soartist.=
+net/ast-drm_nba_20250211/</a><br /><br /><span style=3D"white-space: nowrap=
+;">Please&nbsp;let&nbsp;me&nbsp;know&nbsp;what&nbsp;I&nbsp;should&nbsp;do&n=
+bsp;to&nbsp;see&nbsp;this&nbsp;change&nbsp;in&nbsp;linux-next</span></block=
+quote>
+<br />I'm having a little trouble with figuring out which of the many drive=
+r sources is the relevant one. Am I correct to assume it's the one at<br />=
+<br /><span style=3D"white-space: nowrap;"><a href=3D"https://xba.soartist.=
+net/ast-drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/" target=3D"_bl=
+ank" rel=3D"noopener noreferrer">https://xba.soartist.net/ast-drm_nba_20250=
+211/nba-dkms/nba_last_src_20250212/src/</a></span><br /><br /><br />About t=
+hat driver: Although the official driver reports an ancient version number,=
+ it is an up-to-date driver. It is actually more up-to-date than Aspeed's p=
+ackage. Both drivers share source code and a few years ago there was an eff=
+ort to bring the kernel's driver up to the same feature set. Since then, th=
+e kernel's driver has been updated, reworked and improved.<br /><br />About=
+ the performance: From what I can tell, the only significant difference in =
+these drivers is memory management. Your ast_new driver uses an older algor=
+ithm that we replaced quite a few releases ago. The old version was unrelia=
+ble on systems with little video memory, so we had to replace it.&nbsp; I d=
+on't know why the new code should be slower though.<br /><br />If I give yo=
+u a patch against a recent Linux kernel, are you capable of building the pa=
+tched kernel and testing that change on your system?<br /><br /><span style=
+=3D"white-space: nowrap;">Best&nbsp;regards</span><br />Thomas<br /><br /><=
+br />
+<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
+px solid; margin: 0"><br /><span style=3D"white-space: nowrap;">Thanks&nbsp=
+;for&nbsp;help</span><br /><br /><span style=3D"white-space: nowrap;">Kind&=
+nbsp;regards</span><br /><span style=3D"white-space: nowrap;">Nicolas&nbsp;=
+Baranger</span><br /><br /><br /><span style=3D"white-space: nowrap;">Le&nb=
+sp;2025-02-11&nbsp;19:15,&nbsp;Nicolas&nbsp;Baranger&nbsp;a&nbsp;&eacute;cr=
+it&nbsp;:</span><br /><br />
+<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
+px solid; margin: 0"><span style=3D"white-space: nowrap;">Dear&nbsp;mainten=
+er</span><br /><br />For my own usage, I did make work the ASPEED ast-drm 1=
+=2E15.1 video driver on mainline kernel (6.13.0 + 6.13.1).<br /><br /><span=
+ style=3D"white-space: nowrap;">ASPEED&nbsp;video&nbsp;driver&nbsp;is&nbsp;=
+availiable&nbsp;here:</span><br /><span style=3D"white-space: nowrap;"><a h=
+ref=3D"https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz" t=
+arget=3D"_blank" rel=3D"noopener noreferrer">https://www.aspeedtech.com/fil=
+e/support/Linux_DRM_1.15.1_4.tar.gz</a></span><br /><br /><span style=3D"wh=
+ite-space: nowrap;">But&nbsp;it&nbsp;only&nbsp;work&nbsp;for&nbsp;LTS&nbsp;=
+kernel</span><br />So I modify the DKMS package and I build a new Debian DK=
+MS package with the adapted&nbsp; source.<br /><span style=3D"white-space: =
+nowrap;">My&nbsp;patch&nbsp;can&nbsp;be&nbsp;find&nbsp;here&nbsp;:</span><b=
+r /><span style=3D"white-space: nowrap;"><a href=3D"https://xba.soartist.ne=
+t/ast-drm_nba_20250211/nba-dkms/astdiff.patch" target=3D"_blank" rel=3D"noo=
+pener noreferrer">https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/as=
+tdiff.patch</a></span><br /><span style=3D"white-space: nowrap;">See&nbsp;t=
+he&nbsp;README:</span><br /><span style=3D"white-space: nowrap;"><a href=3D=
+"https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README" target=3D"_=
+blank" rel=3D"noopener noreferrer">https://xba.soartist.net/ast-drm_nba_202=
+50211/nba-dkms/README</a></span><br /><br />Using this new 'ast 1.15.1' dri=
+ver, performance are amazing compared to the 'ast' driver include in kernel=
+ tree, specially when using a discrete GPU and offloading VULKAN / 3D on it=
+ but using AST VGA card as the main video card and as the main and only vid=
+eo output (the discrete GPU is used only for offloading 3D or for cuda/open=
+cl)<br /><br />So to make things easier, I include the new 'ast 1.15.1' dri=
+ver in kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'<b=
+r /><span style=3D"white-space: nowrap;">It's&nbsp;working&nbsp;fine&nbsp;a=
+s&nbsp;you&nbsp;can&nbsp;see&nbsp;on&nbsp;this&nbsp;video&nbsp;:</span><br =
+/><a href=3D"https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_pr=
+ime_render_offload_on_ast_vga_card.webm" target=3D"_blank" rel=3D"noopener =
+noreferrer">https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_pri=
+me_render_offload_on_ast_vga_card.webm</a> I upload all the work I've done =
+here :<br /><span style=3D"white-space: nowrap;"><a href=3D"https://xba.soa=
+rtist.net/ast-drm_nba_20250211/" target=3D"_blank" rel=3D"noopener noreferr=
+er">https://xba.soartist.net/ast-drm_nba_20250211/</a></span><br /><br /><s=
+pan style=3D"white-space: nowrap;">See&nbsp;the&nbsp;global&nbsp;README&nbs=
+p;:</span><br /><span style=3D"white-space: nowrap;"><a href=3D"https://xba=
+=2Esoartist.net/ast-drm_nba_20250211/README" target=3D"_blank" rel=3D"noope=
+ner noreferrer">https://xba.soartist.net/ast-drm_nba_20250211/README</a></s=
+pan><br /><br /><span style=3D"white-space: nowrap;">and&nbsp;the&nbsp;READ=
+ME&nbsp;in&nbsp;nba-kernel&nbsp;sub-directory&nbsp;:</span><br /><span styl=
+e=3D"white-space: nowrap;"><a href=3D"https://xba.soartist.net/ast-drm_nba_=
+20250211/nba-kernel/README" target=3D"_blank" rel=3D"noopener noreferrer">h=
+ttps://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README</a></span><b=
+r /><br />I'm not a developer so please let me know if I made the things th=
+e right way and if this new 'ast 1.15.1' driver can be ported to linux-next=
+ or linux-? ?<br />If you need more explanations, do not hesitate to contac=
+t me, I would be happy to help<br /><br /><span style=3D"white-space: nowra=
+p;">Kind&nbsp;regards</span><br /><span style=3D"white-space: nowrap;">Nico=
+las&nbsp;Baranger</span></blockquote>
+</blockquote>
+</div>
+</blockquote>
+</body></html>
+
+--=_3e0cbcb59b0719a1c5c1c4ad90ac98b1--
