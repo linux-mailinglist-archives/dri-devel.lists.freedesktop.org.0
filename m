@@ -2,154 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C4AA33D98
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 12:16:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A32A33DE8
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 12:26:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF06210EA52;
-	Thu, 13 Feb 2025 11:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB8F10E3A8;
+	Thu, 13 Feb 2025 11:26:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="V3U9lK+V";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BMDBBi0g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F403E10EA52
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 11:16:06 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E35D10E3A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 11:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739445366;
+ s=mimecast20190719; t=1739445998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MqBgnP/CgEjSGM61CsD0xppS2mhBqrdvYWeODyjEQ8M=;
- b=V3U9lK+V4maViGHQ8wgT5H6Jr2VtLxzy2gvumL0nKL1FWe9GTIn8W34neVD2/GS2wPHNGK
- f5URGt480GUIHxJHMR1l51QWoxxy18oQbsS0K0bM/xGcQ5SKqlShnPUZimDUyMYZ4VF499
- pLR6BJwqrf2u4Hltc3Ieg89ynXhZU7I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-0JG8onTsNnSE-4IViU0erA-1; Thu, 13 Feb 2025 06:16:04 -0500
-X-MC-Unique: 0JG8onTsNnSE-4IViU0erA-1
-X-Mimecast-MFC-AGG-ID: 0JG8onTsNnSE-4IViU0erA
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-43935bcec74so4088855e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 03:16:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739445363; x=1740050163;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=MqBgnP/CgEjSGM61CsD0xppS2mhBqrdvYWeODyjEQ8M=;
- b=HmLkuW3BaY2HDwyMWWwKfoJGPrdLzbE8ocWefa0QAXrIyFuNUBfqRUrZYlt3AM5Ppv
- DcG3igYmijI+e4w93ZQVHaLLVvatPSlat3ctT1Ly03hDjKpNcSX/kRaHoeVnQB5WsquG
- RHOo71OphTPkabYId69Vnq4iPs8ce+Zo+9FXXzHeY1ky2DsyP8twqBW0CJe0+K7YmO0O
- Hzj5mHA2vpAwp0Y7zuFw030CpYN+LsRRFh+AVNmh+vs+AUwZRhCj7h3LsvzQQ7ZYOzB+
- f/IZF2r9j+AiWFU/HM3Xz78p5rzWdSjlKFAniMvoSZ224GxNZ/SgS2l5ontDjr6FM81X
- q0tQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQf9kgOTOr+Z+6chHsKcIjpQ6YOMxRDC7PTytSyySHFz7dgQvLpWbgP+IHmVM1LUncFuT6Q677a2I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlRm7cdKrAzoIb16X9uG8aaQY1Z4IirX7/7A1Lh0xldFE3IboB
- /G00VxGIZJ83Bfnt4ChyzwE4TrRD0TlGYadR34rJ0dQUHYek4njcUuFsPkIXMEIEPD3FdrAXf8m
- Frg3KPD+15nUBBaaD5UCA8LUAhgJZt6L44oDYShcj913/yyQ/XBKD0rkqIcmSDCu8HQ==
-X-Gm-Gg: ASbGncsGMEVAJkSvF5DqMGDBf9duKZl5+TXS5koa2kaTT5vVC8Z35IYuD9csVc7DRSe
- lzpAhJsvnNPcRIq7Ot93p30J9NmTKMU5J7VD50PnQz/slBuRH2DjxU6QALqXfiuReajTaR+U2Zp
- Km9KGv3Orj1FwIqKivqsIv7pEVA4sKtnnz5ePymmDhrhdUDEh3c7dK1GpQaniPlSyiBzZ5h/yDv
- jngxLcAlXBdKVWNoCSX2X3axD6cYfqO6S6gSbau1YwS/rmIs0TYYZo2+B7NpDjdOJP6l8oBWWhw
- J3VPgd29VMPRkQcsQbvVY7P0404l/oiFDftCTAsCIPLws/czXs3YPRdG3+1a2V7Qh8vI1/zqSvn
- fHcueOPsboTw7wuFq4GddfnWJTilm5g==
-X-Received: by 2002:a05:6000:2ce:b0:38f:287a:43e2 with SMTP id
- ffacd0b85a97d-38f287a45b1mr1243722f8f.11.1739445363523; 
- Thu, 13 Feb 2025 03:16:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFNb1T2Y6u+6rZWLCFG3K5jK4MKsiuwX2PBSjG3UR8Z0S96jlm3wlxln2RhnV2KuarUxPIcCQ==
-X-Received: by 2002:a05:6000:2ce:b0:38f:287a:43e2 with SMTP id
- ffacd0b85a97d-38f287a45b1mr1243510f8f.11.1739445361530; 
- Thu, 13 Feb 2025 03:16:01 -0800 (PST)
-Received: from ?IPV6:2003:cb:c718:100:347d:db94:161d:398f?
- (p200300cbc7180100347ddb94161d398f.dip0.t-ipconnect.de.
- [2003:cb:c718:100:347d:db94:161d:398f])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f25915785sm1623471f8f.58.2025.02.13.03.15.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Feb 2025 03:16:00 -0800 (PST)
-Message-ID: <039b2e48-1d7c-48dc-b832-24db12af216a@redhat.com>
-Date: Thu, 13 Feb 2025 12:15:58 +0100
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tqCQhoc9yHBw/Ye9zCVr4BN8IJWP/oqPEgk4B/klK10=;
+ b=BMDBBi0gZeQWk26Mr3zmRDwphwgxZZEb8VHut0RKSFTibvRXgm+wq7eX0sNcMyZkYTv0FL
+ EW6TTQUFU7S+zqWa54IPjoW6OBVdqOjuwgUMYYOYbfDWyWsf0LLbYG08FQgi4AInGIssD4
+ LkYVF3N1jPy4Mv58hvibFk3e1phGYAA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-86-qVJDI2yZMZa2Wn-XGHgW5A-1; Thu,
+ 13 Feb 2025 06:26:35 -0500
+X-MC-Unique: qVJDI2yZMZa2Wn-XGHgW5A-1
+X-Mimecast-MFC-AGG-ID: qVJDI2yZMZa2Wn-XGHgW5A_1739445994
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 809821800876; Thu, 13 Feb 2025 11:26:33 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.45.225.79])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 5A70E300018D; Thu, 13 Feb 2025 11:26:28 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [RFC PATCH v4 0/8] drm/i915: Add drm_panic support
+Date: Thu, 13 Feb 2025 12:19:24 +0100
+Message-ID: <20250213112620.1923927-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/17] mm: fixes for device-exclusive entries (hmm)
-To: Alistair Popple <apopple@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- nouveau@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, damon@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- SeongJae Park <sj@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>
-References: <20250210193801.781278-1-david@redhat.com>
- <6sejv2hauce3il5lq6sw53xmjjjglxkhz5copm62oryga6jioi@u66wl2nc3hoy>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <6sejv2hauce3il5lq6sw53xmjjjglxkhz5copm62oryga6jioi@u66wl2nc3hoy>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hlw2FD08NOeMu7VKCeZyV8RcwOXXn4KmFuAElmerVE4_1739445364
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,103 +72,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.02.25 12:03, Alistair Popple wrote:
-> On Mon, Feb 10, 2025 at 08:37:42PM +0100, David Hildenbrand wrote:
->> Against mm-hotfixes-stable for now.
->>
->> Discussing the PageTail() call in make_device_exclusive_range() with
->> Willy, I recently discovered [1] that device-exclusive handling does
->> not properly work with THP, making the hmm-tests selftests fail if THPs
->> are enabled on the system.
->>
->> Looking into more details, I found that hugetlb is not properly fenced,
->> and I realized that something that was bugging me for longer -- how
->> device-exclusive entries interact with mapcounts -- completely breaks
->> migration/swapout/split/hwpoison handling of these folios while they have
->> device-exclusive PTEs.
->>
->> The program below can be used to allocate 1 GiB worth of pages and
->> making them device-exclusive on a kernel with CONFIG_TEST_HMM.
->>
->> Once they are device-exclusive, these folios cannot get swapped out
->> (proc$pid/smaps_rollup will always indicate 1 GiB RSS no matter how
->> much one forces memory reclaim), and when having a memory block onlined
->> to ZONE_MOVABLE, trying to offline it will loop forever and complain about
->> failed migration of a page that should be movable.
->>
->> # echo offline > /sys/devices/system/memory/memory136/state
->> # echo online_movable > /sys/devices/system/memory/memory136/state
->> # ./hmm-swap &
->> ... wait until everything is device-exclusive
->> # echo offline > /sys/devices/system/memory/memory136/state
->> [  285.193431][T14882] page: refcount:2 mapcount:0 mapping:0000000000000000
->>    index:0x7f20671f7 pfn:0x442b6a
->> [  285.196618][T14882] memcg:ffff888179298000
->> [  285.198085][T14882] anon flags: 0x5fff0000002091c(referenced|uptodate|
->>    dirty|active|owner_2|swapbacked|node=1|zone=3|lastcpupid=0x7ff)
->> [  285.201734][T14882] raw: ...
->> [  285.204464][T14882] raw: ...
->> [  285.207196][T14882] page dumped because: migration failure
->> [  285.209072][T14882] page_owner tracks the page as allocated
->> [  285.210915][T14882] page last allocated via order 0, migratetype
->>    Movable, gfp_mask 0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_COMP|__GFP_ZERO),
->>    id 14926, tgid 14926 (hmm-swap), ts 254506295376, free_ts 227402023774
->> [  285.216765][T14882]  post_alloc_hook+0x197/0x1b0
->> [  285.218874][T14882]  get_page_from_freelist+0x76e/0x3280
->> [  285.220864][T14882]  __alloc_frozen_pages_noprof+0x38e/0x2740
->> [  285.223302][T14882]  alloc_pages_mpol+0x1fc/0x540
->> [  285.225130][T14882]  folio_alloc_mpol_noprof+0x36/0x340
->> [  285.227222][T14882]  vma_alloc_folio_noprof+0xee/0x1a0
->> [  285.229074][T14882]  __handle_mm_fault+0x2b38/0x56a0
->> [  285.230822][T14882]  handle_mm_fault+0x368/0x9f0
->> ...
->>
->> This series fixes all issues I found so far. There is no easy way to fix
->> without a bigger rework/cleanup. I have a bunch of cleanups on top (some
->> previous sent, some the result of the discussion in v1) that I will send
->> out separately once this landed and I get to it.
->> I wish we could just use some special present PROT_NONE PTEs instead of
-> 
-> First off David thanks for finding and fixing these issues. If you have further
-> clean-ups in mind that you need help with please let me know as I'd be happy
-> to help.
+This is a draft of drm_panic support for i915.
 
-Sure! I have some cleanups TBD as result of the previous discussion, but 
-nothing bigger so far.
+I've tested it on the 4 intel laptops I have at my disposal.
+ * Haswell with 128MB of eDRAM.
+ * Comet Lake.
+ * Alder Lake (with DPT, and Y-tiling).
+ * Lunar Lake (with DPT, and 4-tiling, and using the Xe driver.
 
-(removing the folio lock could be considered bigger, if we want to go 
-down that path)
+I tested panic in both fbdev console and gnome desktop.
 
-> 
->> these (non-present, non-none) fake-swap entries; but that just results in
->> the same problem we keep having (lack of spare PTE bits), and staring at
->> other similar fake-swap entries, that ship has sailed.
->>
->> With this series, make_device_exclusive() doesn't actually belong into
->> mm/rmap.c anymore, but I'll leave moving that for another day.
->>
->> I only tested this series with the hmm-tests selftests due to lack of HW,
->> so I'd appreciate some testing, especially if the interaction between
->> two GPUs wanting a device-exclusive entry works as expected.
-> 
-> I'm still reviewing the series but so far testing on my single GPU system
-> appears to be working as expected. I will try and fire up a dual GPU system
-> tomorrow and test it there as well.
+Best regards,
 
-Great, thanks a bunch for testing!
+v2:
+ * Add the proper abstractions to build also for Xe.
+ * Fix dim checkpatch issues.
 
-Out of interest: does the nvidia driver make use of this interface as 
-well, and are you testing with that or with the nouveau driver? I saw 
-some reports that nvidia at least checks for it [1] when building the 
-module:
+v3:
+ * Add support for Y-tiled framebuffer when DPT is enabled.
 
-	CONFTEST: make_device_exclusive_range
+v4:
+ * Add support for Xe driver, which shares most of the code.
+ * Add support for 4-tiled framebuffer found in newest GPU.
 
-[1] 
-https://www.googlecloudcommunity.com/gc/AI-ML/Can-t-Install-Nvidia-Drivers-on-6-1-0-18-Kernel/m-p/722596
+Jocelyn Falempe (8):
+  drm/i915/fbdev: Add intel_fbdev_get_map()
+  drm/i915/display/i9xx: Add a disable_tiling() for i9xx planes
+  drm/i915/display: Add a disable_tiling() for skl planes
+  drm/i915/gem: Add i915_gem_object_panic_map()
+  drm/i915/display: Add drm_panic support
+  drm/i915/display: Flush the front buffer in panic handler
+  drm/i915/display: Add drm_panic support for Y-tiling with DPT
+  drm/i915: Add drm_panic support for 4-tiling with DPT
 
+ drivers/gpu/drm/i915/display/i9xx_plane.c     |  23 +++
+ .../gpu/drm/i915/display/intel_atomic_plane.c | 177 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_bo.c       |  10 +
+ drivers/gpu/drm/i915/display/intel_bo.h       |   2 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_fb_pin.c   |   5 +
+ drivers/gpu/drm/i915/display/intel_fb_pin.h   |   2 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +
+ drivers/gpu/drm/i915/display/intel_fbdev.h    |   6 +
+ .../drm/i915/display/skl_universal_plane.c    |  27 +++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  25 +++
+ drivers/gpu/drm/i915/i915_vma.h               |   5 +
+ drivers/gpu/drm/xe/display/intel_bo.c         |  17 ++
+ drivers/gpu/drm/xe/display/xe_fb_pin.c        |   5 +
+ 15 files changed, 312 insertions(+), 1 deletion(-)
+
+
+base-commit: ff3881cc6a588f8cd714c9ffbbcc9ef6b02c8d0f
 -- 
-Cheers,
-
-David / dhildenb
+2.47.1
 
