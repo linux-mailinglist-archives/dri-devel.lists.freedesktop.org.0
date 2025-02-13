@@ -2,82 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFDE4A34739
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 16:33:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7BCA34BA1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:20:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 333EF10E055;
-	Thu, 13 Feb 2025 15:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9396610EB55;
+	Thu, 13 Feb 2025 17:20:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hqBghxN0";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="snREXPx2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E21410E055
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 15:32:59 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-43937cf2131so7296165e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 07:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739460777; x=1740065577; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MfLc32cRf3eetQpPP5I7Ug+lhC4HSsOzdCRi3IPd+cY=;
- b=hqBghxN0dXxX1W++lcCKNSZA0Q2jJXVokcEA/5etvJLRTfCDPpzD6FMvzM7UG5/fsI
- 0q9YtqhkfU6z6SUj1VmPZcN3Tlk/QCYBtTv5CVC1686dNAs7xZuDUBDd66agHhcRJDbM
- 1/7rDnzQCT2HFDv9cVEmVkOqeR9+gCxLyv1IW0pf6NizCFShDa46bVY/BFKLqmL/r5Ha
- po2Dq+NLEbUPxcm4oiaVApYx7OBVA//VV6sHEcFjtskS2or57MEf1q+jkAIspDYDxYWF
- /Kp8CrWeYcWf67aqhMrUm00kCrYlXFAhwOu5pOAcZuJd82qG76d3VCOewP48mqYjJyXw
- zQkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739460777; x=1740065577;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MfLc32cRf3eetQpPP5I7Ug+lhC4HSsOzdCRi3IPd+cY=;
- b=dMuCrWXw13u3wWXnW2pnBEiqJC6m+SQWTxGSVhC2OwKg0kQTB6plLJC1GfWfW3UnSE
- IIuTc9Gm1grpkqyAuz57XbgByEf+t+6vmiLXHAQbtF4tFz+7lqbvc4fQ2B/2YpH4IIMb
- rJNtwjLPEMYxtCj/ISvub2M5O9ZS0WUMpRixjZtioZYc91dX4zaZjJrlak6t6mG/t5p1
- oDyBMWr5xVHd9qBBxn8CM1rr5b7RGypePDD/1PGb8WIXOM5Vvbej3dahF+ZsaPSFENCO
- d3EKrhdUiiDZzkAjJoZXVUBNx8G5c9cKzKhDsdQaNughsIG0IB9NUyzbhjG9qLiKikhn
- Wi+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6/iflPZ1eGgu6JrZALTPzgZLvbhvydDPZVpJo7MmVpDFRhl3T6NxczK/KA+Da4DAUNXexrviOMIY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLOG8BYfpLn5jrf4KERU7vKiiGspGgRvC6pjunDG/DZzu/MyTw
- qIXKr8vIwkZ0P0JbljbGrYsl2gleqKCRDOHJOLNqY0CA/mAgyqe2
-X-Gm-Gg: ASbGnctblxxbCnfOoNy4w/ss8Wl5joXRVX2GjTWS9CZbG3Ccvol3EFtqFJw//Ci/RFy
- +2MIpguOL7BhEZl2DVu8VE+C/jY2UujCdGOrd+3Ni4AsS4tl/e0GFlvLj05BAtta79/nPgbXKK8
- hVLijnNqAcJO95Ak9kqYxxcxHVE7VTUXbGJDRnfDXhv7qNg7dOvKdnf9rezsbeP0zyfVjEzn18e
- 4jQVqAUpfI7EF8/VJ156HKsK71OY9yARSLT0XjATOj9p5e0kMJZi3xdpEQSHqbxflPedHhZVG/8
- cWhBw47kHPJTdxs=
-X-Google-Smtp-Source: AGHT+IFlrVjfyCynKmQHnjJcSFdCu8zrg+P3t2BTmUgSmBdpMC/9LI9CKtj1SkjQ1nL3tla2lBW9fQ==
-X-Received: by 2002:a05:6000:402c:b0:38b:d7c3:3768 with SMTP id
- ffacd0b85a97d-38dea3cfaabmr7191145f8f.12.1739460777196; 
- Thu, 13 Feb 2025 07:32:57 -0800 (PST)
-Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259d5eeesm2200468f8f.63.2025.02.13.07.32.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 07:32:56 -0800 (PST)
-Date: Thu, 13 Feb 2025 16:32:54 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/13] drm/vkms: Allow to attach planes and CRTCs
-Message-ID: <Z64QpktpcVjtelKY@fedora>
-References: <20250129110059.12199-1-jose.exposito89@gmail.com>
- <20250129110059.12199-10-jose.exposito89@gmail.com>
- <Z5uDJd4iV9Vnrp9e@louis-chauvet-laptop> <Z6sq0h0lKxjmBcxk@fedora>
- <b05831de-c67b-4ba9-8808-f049d97b3654@bootlin.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2056.outbound.protection.outlook.com [40.107.237.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F337C10EB55;
+ Thu, 13 Feb 2025 17:20:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BfhVM0EHfEvPBzrHDUl0XIn2Gzz1nn6xlcS2P9DxHz2u/IUzcrFeNvlApsYRr54auZ3UUVgqjM/2kQ4upGbF3n/OcLgb2vmWxm4erQMVLV9xcP7rMnJ5OHwD3IryDCeln8UH9uuWW20qV8pdtTcF1m6IvmnpMxsMbt1Iqbe3vBBrwGNxjb/uBk7EXZPy8r2QqD9fPyq2pCwiblgLwURecL8Yqr+sd4FSPOMMYRZJUHhjHofDd8C+CSm3D91mNy6AUs3Bzl5TWWvA+HOGPuji2ATVrhqWciLnap4fMNuNqJEDI7XdnxG0QgxQWyLmmkSxFk0+OKSW5DSeqHlQsyZ8Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I2s3nKEfRPCwZN6KsPnLmHknNGWoXsDeOJH/Wu0dDk0=;
+ b=iYq/dL4PZCbAotfr2KQxVCyReP5ZtyKk7blwmoU6CFSHMWPKolanC0BbXnD+NesO5m5xMkQ7srl/ceOHSNZG0aO/r7U6MPGioOEdafW3d6L3oE80bLBhEeH2X9nw5ut1BzxZVuO5Y64jzeMkDzCs1OVxQL0wKWr5QScM4oG/1pxD5+Cbcb1Abf5elKmNu3yTTkSjKOk+n8m3XgtRA4EsyupbXS0f2c+F01ODkSzYCBDZiCaO3FSB8ZMkayBdjb4NLVprla0jxOOp8/03RpbHL0Dd2MzF01w0JDKZShYbrHcINnK/fKFnTMqtnpiM1h3ICOKsMtpp/8CaHob9UEJwIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I2s3nKEfRPCwZN6KsPnLmHknNGWoXsDeOJH/Wu0dDk0=;
+ b=snREXPx2fPRFJGRELAfb8QC4s2txOR8LutRbhZ30wx3hrwpXhL2W9S7vbL6rC5nQSXzq711W8ELNKB1yM6PPod1XPlKZWSeRgDEtzIgwDB6k/p0cNhZBTedRbRq70uzxup55941aGwZZgwug2lcFhPxYUEhKSiarMZlAccU2h4M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5311.namprd12.prod.outlook.com (2603:10b6:5:39f::7) by
+ CY8PR12MB7681.namprd12.prod.outlook.com (2603:10b6:930:84::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8445.14; Thu, 13 Feb 2025 17:20:34 +0000
+Received: from DM4PR12MB5311.namprd12.prod.outlook.com
+ ([fe80::a846:49eb:e660:1b5b]) by DM4PR12MB5311.namprd12.prod.outlook.com
+ ([fe80::a846:49eb:e660:1b5b%4]) with mapi id 15.20.8445.013; Thu, 13 Feb 2025
+ 17:20:34 +0000
+Message-ID: <dd3ae1a4-56ee-480f-a5b3-b97f276c5069@amd.com>
+Date: Thu, 13 Feb 2025 10:35:34 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [V7 26/45] drm/amd/display: Add support for sRGB EOTF in DEGAM
+ block
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-27-alex.hung@amd.com>
+Content-Language: en-US
+From: Leo Li <sunpeng.li@amd.com>
+In-Reply-To: <20241220043410.416867-27-alex.hung@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT2PR01CA0012.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::17) To DM4PR12MB5311.namprd12.prod.outlook.com
+ (2603:10b6:5:39f::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b05831de-c67b-4ba9-8808-f049d97b3654@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5311:EE_|CY8PR12MB7681:EE_
+X-MS-Office365-Filtering-Correlation-Id: 357f2dbf-ded4-41b7-6d7f-08dd4c52b998
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VTZRVTFDbG5OMS9ETDc4WW9ZTVl1S2IxdnUwWFFKalk1VWhaajVveGVKOXNC?=
+ =?utf-8?B?Q2FKTDh0Wit6aXFkeVZhcTZiVFJtMkVtNXU1L0ZSL1h4U0N1UmxRRTdFOWpO?=
+ =?utf-8?B?OEY4Z2ZoRHRsQnMrZzVaOWltNUZxaWtRS3l1VlJoc3VKOTAzeC9mSU0rdE1W?=
+ =?utf-8?B?cGtlNzMrVVFubGdlSWNZejdTOXBFM3ZpK2xvVHkvc0VDZkROZisyQ3Z3eDcw?=
+ =?utf-8?B?Y3VER2g2QjJkVlJvbXdqUTMrTC9hM1loMU5Tb1REb3RkOXRGdGNjUzcwZldP?=
+ =?utf-8?B?UnZlQ0IyaS83VEZoUG5WVnpLL0xiWVVDZTl5QjFNeDJyQmJVaFF0ZTducStk?=
+ =?utf-8?B?ZTRzWHhsbjNULzZaT2pLaWU2ZStNamd2Y1ltSTM3enNGdTRyazN1L3k2MmRk?=
+ =?utf-8?B?MVhLdVRETkRaM2ppbjlZVW1CZEZzZlo1TXZRS2FTeUpnMjhsd0plSThkaWpl?=
+ =?utf-8?B?VEZ1dDZKN0ZLV1lOVFhkTDZWc0xMWU9DN3l6czhsNzJPWWU2QkZmNTJPZ1Ex?=
+ =?utf-8?B?aGtwaVkyanZCUmJXZHk1aVZTODNkQUZ6Zll4NjJiUURXYnh6RTU2UjVsSjJ4?=
+ =?utf-8?B?S2J1MVJucUpMaW1XdFpBRjVTNHRqYXJrK2c4RGllNi9uSFlIbCtiVTNtZ1dE?=
+ =?utf-8?B?bnp2YXNnRmxTSm05d1FBek1JblNZV2diMFpjTGQwM2lDZUdtSEJCVjBOTnNP?=
+ =?utf-8?B?UGRUVzVPbFMyT3huQmxRbDkvWTg1cGpoL256MDhJVWdtZHl5aVptZGZQbTE0?=
+ =?utf-8?B?YTBHNVhybHBOVlI0TmkrN0RkZGhkSmxqdkxJSEF3bUdhMzhEZ09rc2tJYmVP?=
+ =?utf-8?B?WFZBeTZ5U0lvcE5tajVLYXlucHZTLzZIUThqSjh1Q1kyVWtidlROcVl5c3hw?=
+ =?utf-8?B?T2lhL1Y4N0dlVU1wcmlWVEIzQXN6QkpxUldabVp6Wmo2U01KbzJ3OFRvQVBo?=
+ =?utf-8?B?NE5tbmZGU1Y4SzFkZlFXQTdMbzdYbE5GL2JCWDdvRThvcER4d2VxMVBwY3I3?=
+ =?utf-8?B?VFlKMjRWUlFDN2JtdEhPdmJtZHhwTVZOWmY1MkhDSm01TzlzdVBmZnhua3Mw?=
+ =?utf-8?B?VTJiZ0FFcXMwNHdET3E1czR0cXpJZVNQVXdaZzdvbEFHZFZWdlBHMG1JblJv?=
+ =?utf-8?B?Q0Y4SjVMTzgxVTVSOGp0UU0yUWJ2QmZqTEVsZHRQZDNEa3Z3ajhvWEdwSmJ6?=
+ =?utf-8?B?ZkhlU0J4aXBnbmUxaTFhMzdSYkFXWXNPV2w2VXlUdklQb1VQOFFXc25lcXVu?=
+ =?utf-8?B?QTNCQzVYTmFwa2lqdUNMeHhycjMyOEYyMmtUOEhkbjVQTGgzV2ZCTjRWTElu?=
+ =?utf-8?B?TW9lUDBRTHVGRjUxejZuREpwZmZFaW9RS0toWnFHTkNzcnQ1OXd5SXdDdG9X?=
+ =?utf-8?B?VzZ1RG1MT0I3RGN3dzdjU0dzS2Fia1YvaC9nVmpkd1lPMzRuaFZJTFoxUUVE?=
+ =?utf-8?B?UVB2OXBXRWRacFEwSVh5R0p6b0hsWndDdjdHSFkwbHdRMlRSU0s0MjMxS0VN?=
+ =?utf-8?B?OUxDL3RYR01jVWxzMVNkek5qdy84dkl6azd5SkVSekdNNURpMnhPd3V6Qkoy?=
+ =?utf-8?B?K3o3WVpWRTFXZnoyUG5UU3d6MEE2QzhhWGdEVWp3V09iVG0vZWFndWtjYncr?=
+ =?utf-8?B?UmlNVXJUQmJjd3QzeGdQN3RGdm9yaG5jb0JRQTRGdmxDeis1dzd2cTVxeEJU?=
+ =?utf-8?B?V054V0JZRVQzN2ZRUFhpTGhnbGVHbHJncXpZeUhlQWl4QjI3cVlrVDRHU25Q?=
+ =?utf-8?B?enZQQTFJSFRUY2pWdEMzTWhnSklncFlJbVAzdkJGdGtLa3FVdC95eHVyTEZ6?=
+ =?utf-8?B?WUhXV0VUYUMvTW0xa1ErYlg4TkwzL0pBNFFpVmdYYXRWOUc2WmVqeE1NMkhr?=
+ =?utf-8?Q?uUnQq2lw+Uxay?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5311.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0p0WWk0RXNZSmE0MG1TcGN6Sit2TFpBWE5XdUlsYWlGZWRtZTNmUHJmNzd6?=
+ =?utf-8?B?Zlk2VlV6NEJkd2NOOHhnbEVwTGZOK0JCdU5lMUpnejUvekQ2VlFidlV3cC9t?=
+ =?utf-8?B?NWVORUdRb0hsR2xhdTlncVYyQ2ZnVmZBMjViQWVocEFNeEdMSmNVTnV3Sm9a?=
+ =?utf-8?B?VGdsV3lqWWVFUkRPYkI5SlhRNlBjZWZBNFR5dFJKUGZ0bXVjamZ3QWtBRXQ2?=
+ =?utf-8?B?V25PUGRjc01taTNxMHBkQ1VkNWdZWlJXekpwK1RwSVBUdjRtdTJvck9xdjlK?=
+ =?utf-8?B?TnZxSzRGbkdOT1lPNjlwQWJESDMzY01LUnMzOElXR2VyQ0tGUldMNCtHcVly?=
+ =?utf-8?B?M2FSV3U4R2dQMU4rQzVKSXFyTnY0VGVnNjlyQndENDFDT1E2Z2pEQ0RsRkVV?=
+ =?utf-8?B?dE5tT0hPSWNwNnZnemNqMWJBQlNPZmczZzBqZUpMLzhNcjRqRHd2RDBvUkdn?=
+ =?utf-8?B?eXowdUY1bGRLZzZDK3hpRStCeHhvdUREQ0pLUklLVlZjNTlxY2pGb0tDV0hx?=
+ =?utf-8?B?TkhzeS9PM2dueEZqTTV5U1NnSW5RZ2J3a0xmQUZsUEt1QklweTU4NWltOXNI?=
+ =?utf-8?B?MXVHcFlabEwzdC9SWDZXajNSTjhlSkdSSU5sd2EyY0VQTkRMM3paaEU2WG51?=
+ =?utf-8?B?ZU05Y01iQjV1eitTYmZvZ0crb1JadUZmOHBlaldJL3FtY3ZUK2R2U1JCSVBa?=
+ =?utf-8?B?bkIrc1I2eGJQaElremJURFZ0aFIrZndhSGMwYkFLZkdPdXdSaFlSd09ac2Ja?=
+ =?utf-8?B?MXFUZVFOQ3E3L3luazFZc3ZoSWlTWnB2UVFMZ2lVMkY3RUdWVklzWnBoeDJC?=
+ =?utf-8?B?Y1NRaDNUUE1YbDhDQitLR1lENzloVlg1aUFRa0cvRGkxa0NwbTlkeklpWUFW?=
+ =?utf-8?B?S3ZkdjcrN3BSMEpZQzR5VmdLQmkxVWdHcjcza3YybjdoaXhPYk5sRVJEbG1j?=
+ =?utf-8?B?NHNHU1RqVERkdW5TeWV6RTJTMWhPY09IN1p3MHRKZ2VFQnhpRTJadHBTQ0Jq?=
+ =?utf-8?B?cXlvN3lLaFhuMjJucmlCcjAyaTV1Zlc5Qk9vL2VvUWVwdm1iWmtFTDV4TXZT?=
+ =?utf-8?B?dmJQMjVmaldLS2wzSUxuVFplV3RHRmtKV2lQZHo3ekNNa3pyNDVhcTVOT3hV?=
+ =?utf-8?B?ckI1SEViU3lXdlA2eTkwV1pKNWpUWHVtelpLcms0cGRJNDNOenFBOW1VZHBu?=
+ =?utf-8?B?TitKRHg5RFp0OHFXbEs2TW0rMUdBd3BvRXo1SzhlUzF6WVVJeDNveUJCcjBL?=
+ =?utf-8?B?SVlGUzRxaUozSmlwSit0UkpzaWRHRTR2NG5EaE5GblVTd0RKZUJ3Q0dYZHEy?=
+ =?utf-8?B?Vi9HajJHaFo3MStDd0llTmNLRnlFclAyY2VGYmpPTDM4U1g2QjNIdUFxOVFM?=
+ =?utf-8?B?dlRDTXBueG1rbUMvcngralRKS0VUZnRaY0pRdTM1RmJNREpmckFHZjFCU3NG?=
+ =?utf-8?B?ejcyUFV5YXp5TlNHdkVTSUQ5RkJVSTBFdEhwY1QrRnlkeUN0TEJuQVdPa3Zm?=
+ =?utf-8?B?b3VWN0hSdmxVZG9CVlR4WTJLTU4xK3I3S1NYRUFBZ2Y5OFBWNjFjVkJPM3d6?=
+ =?utf-8?B?dTNzRHZlN1luWGUzd3orV0wveVBxdzhSWTJLbDdoWmpYOUVDZk5NZ1g2V3Nk?=
+ =?utf-8?B?VjZhbW9RSzVsc1gvaVU2R0xJRVVxcGgyTjJUNzc2K3M0amFOTSsxeGJ4Ukx5?=
+ =?utf-8?B?a1cxRkNHNkJGNXUrY2dIZFZaQ1JkdW9kRG5jNHlOLzQ4UTU3SWhyVGhLbUxk?=
+ =?utf-8?B?dlI1alUralRyL1o0Rjl5Z3dqTjlqOUNFN3E4RjFqbUNhT0NTNldMRVlHVWJN?=
+ =?utf-8?B?bm1uOFR5VWV4dmpTd1IwVEV2Z2t3WlpnQTArK3l2dzRhWTdSdzZGNTJmVmxs?=
+ =?utf-8?B?RDFWb0xYVDZUTGdmVHQvSFVaN2FnMnQ5UG9WZVpqbHoraERncElGQng5Y1hF?=
+ =?utf-8?B?WnJlY21WTlNqY2RCQ1Y3Z1g1N0thdjdpWXhlcEM1ekR6OHJ3azdTM0drOHN0?=
+ =?utf-8?B?R29GZ3dKZ1YvWDRxeGdIWTM5RG5rL1B0RGRFUjZFR2JXWHpCVmZYeVc2K1h5?=
+ =?utf-8?B?SVlFYUczYjlEYTQxcDRESDloSzEra1FiU1FGeDZBb2hnYzRTUi9nTTBjZW4z?=
+ =?utf-8?Q?qyjP+Z7GlVPjZs564HGZWfXL4?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 357f2dbf-ded4-41b7-6d7f-08dd4c52b998
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5311.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2025 17:20:34.3608 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yrvnPouvJSHzedGhhMfF+pmHjrmx9C8kjngYRwnNxRY0lF6saCDc3KbQ3VVuFSzv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7681
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,223 +163,329 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 12, 2025 at 03:10:49PM +0100, Louis Chauvet wrote:
+
+
+On 2024-12-19 23:33, Alex Hung wrote:
+> Expose one 1D curve colorop with support for
+> DRM_COLOROP_1D_CURVE_SRGB_EOTF and program HW to perform
+> the sRGB transform when the colorop is not in bypass.
 > 
+> With this change the following IGT test passes:
+> kms_colorop --run plane-XR30-XR30-srgb_eotf
 > 
-> Le 11/02/2025 à 11:47, José Expósito a écrit :
-> > On Thu, Jan 30, 2025 at 02:48:21PM +0100, Louis Chauvet wrote:
-> > > On 29/01/25 - 12:00, José Expósito wrote:
-> > > > Add a list of possible CRTCs to the plane configuration and helpers to
-> > > > attach, detach and get the primary and cursor planes attached to a CRTC.
-> > > > 
-> > > > Now that the default configuration has its planes and CRTC correctly
-> > > > attached, configure the output following the configuration.
-> > > > 
-> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > > 
-> > > Co-developped-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > > 
-> > > [...]
-> > > 
-> > > > +int __must_check vkms_config_plane_attach_crtc(struct vkms_config_plane *plane_cfg,
-> > > > +					       struct vkms_config_crtc *crtc_cfg)
-> > > > +{
-> > > > +	struct vkms_config_crtc *possible_crtc;
-> > > > +	unsigned long idx = 0;
-> > > > +	u32 crtc_idx = 0;
-> > > > +
-> > > > +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
-> > > > +		if (possible_crtc == crtc_cfg)
-> > > > +			return -EINVAL;
-> > > 
-> > > Is it really an error? After this call, we expect plane and crtc to be
-> > > attached, so if the plane is already attached, I don't see any issue.
-> > 
-> > In my opinion, this could be either handled as an error or not. I think that
-> > there are arguments for both approaches but, for our use case, I think that it
-> > is better to return an error.
-> > 
-> > Since the main (and for the moment only) user of this function will be configfs,
-> > it is very convenient to return an error to avoid creating 2 links between
-> > plane <-> crtc.
-> > 
-> > If we allow to create multiple links, and the user deletes one of them, the
-> > items would be still linked, which is a bit unexpected.
-> > 
-> > The same applies to the other vkms_config_*_attach_* functions.
+> The color pipeline now consists of a single colorop:
+> 1. 1D curve colorop w/ sRGB EOTF
 > 
-> I see your reasoning, I did not think about this issue.
-> We can keep the error, but can we use `EEXIST` to reflect better the status?
-
-Very good point, I'll change it to EEXIST in v3.
- 
-> And I just think about it, maybe we can add here the check "is the crtc part
-> of the same config as the plane" (and return EINVAL if not)? It will remove
-> the need to do the check in configFS + avoid errors for future users of
-> vkms_config.
-
-Another excellent point. Since we can not use the vkms_config_plane.plane and
-vkms_config_crtc.crtc pointers to check if they belong to the same device, the
-only solution I see is adding a pointer to the parent vkms_config to every
-structure (vkms_config_plane, vkms_config_crtc, etc).
-
-In this way we can do something like:
-
-  if (plane_cfg->config != crtc_cfg->config)
-          return -EINVAL;
-
-I tried with container_of(), but I don't think it'll work with the current data
-structure.
-
-Unless you can think of a better solution, I'll implement this in v3.
-
-Thanks for the great comments,
-Jose
-
-> > For these reasons, I didn't change it in v2, let me know your opinion.
-> > Jose
-> > 
-> > > > +	}
-> > > > +
-> > > > +	return xa_alloc(&plane_cfg->possible_crtcs, &crtc_idx, crtc_cfg,
-> > > > +			xa_limit_32b, GFP_KERNEL);
-> > > > +}
-> > > > +
-> > > 
-> > > [...]
-> > > 
-> > > > +struct vkms_config_crtc **vkms_config_plane_get_possible_crtcs(struct vkms_config_plane *plane_cfg,
-> > > > +							       size_t *out_length)
-> > > > +{
-> > > > +	struct vkms_config_crtc **array;
-> > > > +	struct vkms_config_crtc *possible_crtc;
-> > > > +	unsigned long idx;
-> > > > +	size_t length = 0;
-> > > > +	int n = 0;
-> > > > +
-> > > > +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc)
-> > > > +		length++;
-> > > > +
-> > > > +	if (length == 0) {
-> > > > +		*out_length = length;
-> > > > +		return NULL;
-> > > > +	}
-> > > > +
-> > > > +	array = kmalloc_array(length, sizeof(*array), GFP_KERNEL);
-> > > > +	if (!array)
-> > > > +		return ERR_PTR(-ENOMEM);
-> > > > +
-> > > > +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
-> > > > +		array[n] = possible_crtc;
-> > > > +		n++;
-> > > > +	}
-> > > > +
-> > > > +	*out_length = length;
-> > > > +	return array;
-> > > > +}
-> > > 
-> > > Same as before, can we use an iterator?
-> > > 
-> > > > +static struct vkms_config_plane *vkms_config_crtc_get_plane(const struct vkms_config *config,
-> > > > +							    struct vkms_config_crtc *crtc_cfg,
-> > > > +							    enum drm_plane_type type)
-> > > 
-> > > Even if this is a private function, can we add a comment explaning that
-> > > the returned value is only one of the available planes of this type?
-> > > 
-> > > 	/**
-> > > 	 * vkms_config_crtc_get_plane() - Get the first attached plane
-> > >           * found of a specific type
-> > > 	 * @config: configuration containing the crtc and the planes
-> > > 	 * @crtc_cfg: Only find planes attached to this CRTC
-> > > 	 * @type: Plane type to search
-> > > 	 *
-> > > 	 * Returns:
-> > > 	 * The first plane found attached to @crtc_cfg with the type
-> > > 	 * @type.
-> > > 	 */
-> > > 
-> > > > +{
-> > > > +	struct vkms_config_plane *plane_cfg;
-> > > > +	struct vkms_config_crtc *possible_crtc;
-> > > > +	enum drm_plane_type current_type;
-> > > > +	unsigned long idx;
-> > > > +
-> > > > +	list_for_each_entry(plane_cfg, &config->planes, link) {
-> > > > +		current_type = vkms_config_plane_get_type(plane_cfg);
-> > > > +
-> > > > +		xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
-> > > > +			if (possible_crtc == crtc_cfg && current_type == type)
-> > > > +				return plane_cfg;
-> > > > +		}
-> > > > +	}
-> > > > +
-> > > > +	return NULL;
-> > > > +}
-> > > 
-> > > [...]
-> > > 
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> > > 
-> > > [...]
-> > > 
-> > > > +/**
-> > > > + * vkms_config_crtc_primary_plane() - Return the primary plane for a CRTC
-> > > > + * @config: Configuration containing the CRTC
-> > > > + * @crtc_config: Target CRTC
-> > > > + *
-> > > > + * Returns:
-> > > > + * The primary plane or NULL if none is assigned yet.
-> > > > + */
-> > > 
-> > > Same as above, can you speficy that it is one of the primary plane?
-> > > 
-> > > > +struct vkms_config_plane *vkms_config_crtc_primary_plane(const struct vkms_config *config,
-> > > > +							 struct vkms_config_crtc *crtc_cfg);
-> > > > +
-> > > > +/**
-> > > > + * vkms_config_crtc_cursor_plane() - Return the cursor plane for a CRTC
-> > > 
-> > > Ditto
-> > > 
-> > > [...]
-> > > 
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> > > 
-> > > [...]
-> > > 
-> > > > @@ -35,19 +41,54 @@ int vkms_output_init(struct vkms_device *vkmsdev)
-> > > >   			ret = PTR_ERR(plane_cfg->plane);
-> > > >   			goto err_free;
-> > > >   		}
-> > > > +	}
-> > > > +
-> > > > +	for (n = 0; n < n_crtcs; n++) {
-> > > > +		struct vkms_config_crtc *crtc_cfg;
-> > > > +		struct vkms_config_plane *primary, *cursor;
-> > > > +
-> > > > +		crtc_cfg = crtc_cfgs[n];
-> > > > +		primary = vkms_config_crtc_primary_plane(vkmsdev->config, crtc_cfg);
-> > > > +		cursor = vkms_config_crtc_cursor_plane(vkmsdev->config, crtc_cfg);
-> > > 
-> > > Linked with a previous comment: here we have no garantee that primary is a
-> > > valid pointer, can we check it or call vkms_config_is_valid to ensure it?
-> > > 
-> > > > +		crtc_cfg->crtc = vkms_crtc_init(dev, &primary->plane->base,
-> > > > +						cursor ? &cursor->plane->base : NULL);
-> > > > +		if (IS_ERR(crtc_cfg->crtc)) {
-> > > > +			DRM_ERROR("Failed to allocate CRTC\n");
-> > > > +			ret = PTR_ERR(crtc_cfg->crtc);
-> > > > +			goto err_free;
-> > > > +		}
-> > > 
-> > > [...]
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+> v7:
+>   - Fix checkpatch warnings
+>    - Change switch "{ }" position
+>    - Delete double ";"
+>    - Delete "{ }" for single-line if-statement
+>    - Add a new line at EOF
+>    - Change SPDX-License-Identifier: GPL-2.0+ from // to /* */
 > 
-> -- 
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> v6:
+>   - cleanup if colorop alloc or init fails
 > 
+>   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  3 +-
+>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 86 +++++++++++++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 70 +++++++++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h | 34 ++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 10 +++
+>   5 files changed, 202 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> index ab2a97e354da..46158d67ab12 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> @@ -38,7 +38,8 @@ AMDGPUDM = \
+>   	amdgpu_dm_pp_smu.o \
+>   	amdgpu_dm_psr.o \
+>   	amdgpu_dm_replay.o \
+> -	amdgpu_dm_wb.o
+> +	amdgpu_dm_wb.o \
+> +	amdgpu_dm_colorop.o
+>   
+>   ifdef CONFIG_DRM_AMD_DC_FP
+>   AMDGPUDM += dc_fpu.o
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index ebabfe3a512f..566035af00cd 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -668,6 +668,18 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
+>   	}
+>   }
+>   
+> +static enum dc_transfer_func_predefined
+> +amdgpu_colorop_tf_to_dc_tf(enum drm_colorop_curve_1d_type tf)
+> +{
+> +	switch (tf) {
+> +	case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> +	case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+> +		return TRANSFER_FUNCTION_SRGB;
+> +	default:
+> +		return TRANSFER_FUNCTION_LINEAR;
+> +	}
+> +}
+> +
+>   static void __to_dc_lut3d_color(struct dc_rgb *rgb,
+>   				const struct drm_color_lut lut,
+>   				int bit_precision)
+> @@ -1137,6 +1149,59 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>   	return 0;
+>   }
+>   
+> +static int
+> +__set_colorop_in_tf_1d_curve(struct dc_plane_state *dc_plane_state,
+> +		       struct drm_colorop_state *colorop_state)
+> +{
+> +	struct dc_transfer_func *tf = &dc_plane_state->in_transfer_func;
+> +	struct drm_colorop *colorop = colorop_state->colorop;
+> +	struct drm_device *drm = colorop->dev;
+> +
+> +	if (colorop->type != DRM_COLOROP_1D_CURVE &&
+> +	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
+
+Should it be || instead of &&? It sounds to me that this should error if either 
+condition is the case.
+
+It's not critical, since they look to be dropped as more subtypes are introduced 
+in later patches. Just curious if the && was intentional.
+
+- Leo
+
+> +		return -EINVAL;
+> +
+> +	if (colorop_state->bypass) {
+> +		tf->type = TF_TYPE_BYPASS;
+> +		tf->tf = TRANSFER_FUNCTION_LINEAR;
+> +		return 0;
+> +	}
+> +
+> +	drm_dbg(drm, "Degamma colorop with ID: %d\n", colorop->base.id);
+> +
+> +	tf->type = TF_TYPE_PREDEFINED;
+> +	tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +__set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+> +			       struct dc_plane_state *dc_plane_state,
+> +			       struct drm_colorop *colorop)
+> +{
+> +	struct drm_colorop *old_colorop;
+> +	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
+> +	struct drm_atomic_state *state = plane_state->state;
+> +	int i = 0;
+> +
+> +	old_colorop = colorop;
+> +
+> +	/* 1st op: 1d curve - degamma */
+> +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+> +		if (new_colorop_state->colorop == old_colorop &&
+> +		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_EOTF) {
+> +			colorop_state = new_colorop_state;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!colorop_state)
+> +		return -EINVAL;
+> +
+> +	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);
+> +}
+> +
+>   static int
+>   amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
+>   				     struct dc_plane_state *dc_plane_state)
+> @@ -1187,6 +1252,24 @@ amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
+>   	return 0;
+>   }
+>   
+> +static int
+> +amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
+> +		       struct dc_plane_state *dc_plane_state)
+> +{
+> +	struct drm_colorop *colorop = plane_state->color_pipeline;
+> +	int ret;
+> +
+> +	/* 1D Curve - DEGAM TF */
+> +	if (!colorop)
+> +		return -EINVAL;
+> +
+> +	ret = __set_dm_plane_colorop_degamma(plane_state, dc_plane_state, colorop);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+>   /**
+>    * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
+>    * @crtc: amdgpu_dm crtc state
+> @@ -1283,5 +1366,8 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>   		dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
+>   	}
+>   
+> +	if (!amdgpu_dm_plane_set_colorop_properties(plane_state, dc_plane_state))
+> +		return 0;
+> +
+>   	return amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state);
+>   }
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> new file mode 100644
+> index 000000000000..3be0cb19ebc7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> @@ -0,0 +1,70 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> + *
+> + * Authors: AMD
+> + *
+> + */
+> +
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_property.h>
+> +#include <drm/drm_colorop.h>
+> +
+> +#include "amdgpu_dm_colorop.h"
+> +
+> +const u64 amdgpu_dm_supported_degam_tfs =
+> +	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF);
+> +
+> +#define MAX_COLOR_PIPELINE_OPS 10
+> +
+> +int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
+> +{
+> +	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
+> +	struct drm_device *dev = plane->dev;
+> +	int ret;
+> +	int i = 0;
+> +
+> +	memset(ops, 0, sizeof(ops));
+> +
+> +	/* 1D curve - DEGAM TF */
+> +	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> +	if (!ops[i]) {
+> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> +		ret = -ENOMEM;
+> +		goto cleanup;
+> +	}
+> +
+> +	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, amdgpu_dm_supported_degam_tfs);
+> +	if (ret)
+> +		goto cleanup;
+> +
+> +	list->type = ops[i]->base.id;
+> +	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]->base.id);
+> +
+> +	return 0;
+> +
+> +cleanup:
+> +	for (; i >= 0; i--)
+> +		kfree(ops[i]);
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> new file mode 100644
+> index 000000000000..3324e2a66079
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> + *
+> + * Authors: AMD
+> + *
+> + */
+> +
+> +#ifndef __AMDGPU_DM_COLOROP_H__
+> +#define __AMDGPU_DM_COLOROP_H__
+> +
+> +extern const u64 amdgpu_dm_supported_degam_tfs;
+> +
+> +int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list);
+> +
+> +#endif /* __AMDGPU_DM_COLOROP_H__*/
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index 1bfb9f340c24..78c749ce1bd0 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -36,6 +36,7 @@
+>   #include "amdgpu_display.h"
+>   #include "amdgpu_dm_trace.h"
+>   #include "amdgpu_dm_plane.h"
+> +#include "amdgpu_dm_colorop.h"
+>   #include "gc/gc_11_0_0_offset.h"
+>   #include "gc/gc_11_0_0_sh_mask.h"
+>   
+> @@ -1763,10 +1764,19 @@ dm_plane_init_colorops(struct drm_plane *plane)
+>   {
+>   	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
+>   	int len = 0;
+> +	int ret;
+>   
+>   	if (plane->type == DRM_PLANE_TYPE_CURSOR)
+>   		return 0;
+>   
+> +	/* initialize default pipeline */
+> +	ret = amdgpu_dm_initialize_default_pipeline(plane, &(pipelines[len]));
+> +	if (ret) {
+> +		DRM_ERROR("Failed to create color pipeline for plane %d: %d\n", plane->base.id, ret);
+> +		return ret;
+> +	}
+> +	len++;
+> +
+>   	/* Create COLOR_PIPELINE property and attach */
+>   	drm_plane_create_color_pipeline_property(plane, pipelines, len);
+>   
+
