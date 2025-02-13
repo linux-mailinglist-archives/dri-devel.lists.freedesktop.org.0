@@ -2,88 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DABA3503D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 22:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D24A35071
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 22:23:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D0510E0DF;
-	Thu, 13 Feb 2025 21:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED74110EBB4;
+	Thu, 13 Feb 2025 21:23:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QhcDsv1G";
+	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="H7ADysvA";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="QFDpXexv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D45010E0DF
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 21:09:00 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-308ee953553so14551391fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:09:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739480938; x=1740085738; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TeNMrpUqpwoLFI0ojzBCoD9uOLScIV/Ka4QcI/0Cif0=;
- b=QhcDsv1G/ADI4KXCXT668iK6VKZh6+woB7Cop0iTj4sFCmXCkoAQBDCgdLf0nBP+ZB
- Jq8U8Yo/tRqENYsuQGhjdX8alAd2dihgHnxaBi9g1fnT9IZ9mpRGeLt7AhOMPbCuV2Xj
- KzjqEKCyJx3i70S6ub9n+YIE83Bm1Z1btkMyITJX0mK98+8imq7Khb3hjZngn0HgdS2/
- 09f2+GISx60WPHIGTummLT86vp6H2NtfG/EFeakBcG9HGu6XSgSlEDHY6arWSl8Wsizo
- c7PGnr+tgHb7HFVyOtA0ztDViPBr2RsHga6H5ZOH5NCa3k7jkOL4hxB7hXAhXRWm5qEV
- aXBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739480938; x=1740085738;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TeNMrpUqpwoLFI0ojzBCoD9uOLScIV/Ka4QcI/0Cif0=;
- b=UVpezrlTx4rpn1MgqI0S/4ZAQLXYhETx/1+J4XXYDI/hNPxVO4y9gCqgyqHS2Fd+eZ
- VoIkpPXN0YYa3hghPJa9XtUb7dB8MnDqGuVWQlQuKO9J/xDz6JyHJiQxvsXSpJDf3W1I
- CjTkYsPj7Rvpf25KxFxSoW4yhj2WdcQSqH4teaysExPQs1e/+7xHmeXj1PV/B5msCalT
- 7yQPJCqP8lk4WdFL75J1KrZIbBxc4RAqrHh9tkauhmgRdaGqX5Wx1VnfjJW/ajCNeh65
- CmWvlOt7wLk4Q0O+jIBXUWEJWl20HCmoJ9TtLZBlFMbOawjRJOdUXPRClYhDeoAyj1tw
- D4UQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUu593VUs8BztGoxx427VIiqJVQAyfYxOMjjjWWzFffAOrLhU/w/INSUR+WGZOsMNbivnZvZ/H9Mj0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxRHYcv6+4q2/CEqanEFDufPgxRLWDc9IT5Sng3hrNRzsqCTeAJ
- zBt0XPiqENTt1FUYG2YND1zVrR3i9LoAAZK6k7ZmqY5NbGeMLtcIhxTrx1ft52M=
-X-Gm-Gg: ASbGnctTtEgT88t0g42HyljYH0kbHYGKf8pdyCvArFJR2LsqMAPM848nVY2PpgXLjIO
- bccQ7OrVU5WfDXZgrJmTbJRptiJVaqj12IHtSIBBVDPhbci1+OTSN8vElFZR23cMEuLgwH0OD6Z
- Ao1C/MR7HzGZL034z6tjm0t2b7tJqphUEAal122TBhp4Xw2/CQOATsL8wUMCjjKlGofe0+BDsK4
- RHkl+9aqT3hq4PO5LVXXOFpIHXgVHV3oNq4Mifxt2VcS88+eRcWWrYh3YhTpSidauY6dPIkNP9x
- XfVlzKPawtbQQCMPXnl88vIJuiIoVINrpMZ84I1CFQXZIaD9H5yAp1iMD2cFBqkRK+4/LSE=
-X-Google-Smtp-Source: AGHT+IFoISTHPwl7NmM39tEjJazTxUu4ZlSD1ldej2CAwAd50t/8PacosIj09OljiXHD8nuiFDIq4g==
-X-Received: by 2002:a05:651c:211f:b0:2ff:a89b:4210 with SMTP id
- 38308e7fff4ca-3090379d3f6mr26646011fa.8.1739480938463; 
- Thu, 13 Feb 2025 13:08:58 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30914801757sm1997551fa.94.2025.02.13.13.08.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 13:08:57 -0800 (PST)
-Date: Thu, 13 Feb 2025 23:08:54 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Joel Selvaraj <jo@jsfamily.in>, 
- Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>, 
- Jianhua Lu <lujianhua000@gmail.com>, Robert Chiras <robert.chiras@nxp.com>, 
- Artur Weber <aweber.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 03/20] drm/panel/asus-tm5p5-n35596: Move to using
- mipi_dsi_*_multi() variants
-Message-ID: <axar3e6jb7uzway52adqm27cox43uubkey7fcqqi5yu6wp3kfy@imipkyyg4ag7>
-References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
- <20250213-mipi_cocci_multi-v1-3-67d94ff319cc@redhat.com>
+Received: from fhigh-b1-smtp.messagingengine.com
+ (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B059C10EBB1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 21:23:24 +0000 (UTC)
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal
+ [10.202.2.47])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 9397B25400FA;
+ Thu, 13 Feb 2025 16:23:23 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-07.internal (MEProxy); Thu, 13 Feb 2025 16:23:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ invisiblethingslab.com; h=cc:cc:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1739481803;
+ x=1739568203; bh=2YBwoQx1jhXXzHgwlmtwwwI5G9BcfG0CVeHyendjRs0=; b=
+ H7ADysvA1CG1ZSoqTA684Un+3NSqCbcsuunC0K38ovLtObaOoRsQVmfJTIgGiSkQ
+ nnG7ixpcOoGB3aRv/yLNd6q8kK6kEOcJrbWNSQZdoV8T2zhEwivzJLstW8oRxQ9+
+ zdEBeBXq9bJLtWOSHs3jm41MH8DWFSAF/WpUipX/oXnSn1+EkYG9BoQXiWFjZCG+
+ ufSlgxhhwN8aY+g526MyDmtLLWT0ga51+89I/cCj/ptYajMYHsC20qK2oZNxGrpS
+ LFxxvD7/NB0qLsbMtNnfuvk5GHpePHuY7HqbHwvzzv6QBiVUVpgyeQJxCh4rgZQ/
+ msh/JyThn9n2ng6DQNvlrA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1739481803; x=1739568203; bh=2YBwoQx1jhXXzHgwlmtwwwI5G9BcfG0CVeH
+ yendjRs0=; b=QFDpXexv48ZAqKGrs7/vx8vXcVPraudzI/oHc76NjOdCyiLUqNX
+ 79pR0pGPCAmXwYF+JSR6o0LrCscvGwR4MFHUClUZFhgD6bMyfFLjD8DyU0juhJ2e
+ VNPmFL9KLk+YOsKjK9ufUuyQDw6SxWuZxccUygtCOUTsLJ1CFT8QRanZNaQAIflz
+ tk4h6CfDFjguh98x2peDrlLpgUbs/Au4iYG/rVmr70dWNNMwqOOFtSkPNSyvLYcw
+ rpaeWMlPkE40WdZZrh3oOxUl7oBoACwWejNpdn8Gyi1tW0FL0eiY5GcN6YaXU6Po
+ Q9q2QcbnbB1YskOQnCl6PHrQ13dmcaElyGA==
+X-ME-Sender: <xms:y2KuZ8_iJI2QvdNICWJXumlwijrGqdKW08RFs9WlczeAFiIc90TELA>
+ <xme:y2KuZ0uoRB31QjVUhezMcd9GNISdH_PjIMMiKERFT6knkdHI7ZIvBl4L2F8t4N-GS
+ 7AYiuHwRjnUhaw>
+X-ME-Received: <xmr:y2KuZyBi80sIaLADm92zriqcUH5yMsCs2f2OHJeFj-pfvvvG_UQFX4pOCiw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegjeekgecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdej
+ necuhfhrohhmpeffvghmihcuofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvh
+ hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeeigfei
+ feevfeejhfdvtdduheeftdevjeeujefgheetvdekleegudeikeffudeuvdenucffohhmrg
+ hinhepfhhrvggvuggvshhkthhophdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhs
+ thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepuggvmhhisehinhhvih
+ hsihgslhgvthhhihhnghhslhgrsgdrtghomhdpnhgspghrtghpthhtohepuddtpdhmohgu
+ vgepshhmthhpohhuthdprhgtphhtthhopehmrghtthhhvgifrdgsrhhoshhtsehinhhtvg
+ hlrdgtohhmpdhrtghpthhtohepihhnthgvlhdqgigvsehlihhsthhsrdhfrhgvvgguvghs
+ khhtohhprdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvg
+ gvuggvshhkthhophdrohhrghdprhgtphhtthhopehhihhmrghlrdhprhgrshgrugdrghhh
+ ihhmihhrrgihsehinhhtvghlrdgtohhmpdhrtghpthhtoheprghpohhpphhlvgesnhhvih
+ guihgrrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgt
+ phhtthhopehthhhomhgrshdrhhgvlhhlshhtrhhomheslhhinhhugidrihhnthgvlhdrtg
+ homhdprhgtphhtthhopehsihhmohhnrgdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgt
+ phhtthhopehfvghlihigrdhkuhgvhhhlihhnghesrghmugdrtghomh
+X-ME-Proxy: <xmx:y2KuZ8fzLHvDcsT43a7rNfHFyThzNcWDXpM9KgTGIgm_pVQAv852cQ>
+ <xmx:y2KuZxNa4F4zombS3Fs3Zd1tVbpOVmnt04F-GmI_vg5LNVj4zYTulA>
+ <xmx:y2KuZ2kI3voHhTTv3g89g6A7HuGvUiZzGUaahmRnb2Eo8KjQhTQajQ>
+ <xmx:y2KuZzt8gY3sjA6oPfu6X22sCkcFBTWzcfWgzwYqnlQnT-7xdirl3A>
+ <xmx:y2KuZyGXrVgIKoH79N0zIZcAI77WB7OG5vNshOBcV1GI8WTvn-uJDat->
+Feedback-ID: iac594737:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Feb 2025 16:23:22 -0500 (EST)
+Date: Thu, 13 Feb 2025 16:23:06 -0500
+From: Demi Marie Obenour <demi@invisiblethingslab.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
+ felix.kuehling@amd.com, dakr@kernel.org
+Subject: Re: [PATCH v5 00/32] Introduce GPU SVM and Xe SVM implementation
+Message-ID: <Z65ix566lLCPOsob@itl-email>
+References: <20250213021112.1228481-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1VPiR4+hFRDhCtB9"
 Content-Disposition: inline
-In-Reply-To: <20250213-mipi_cocci_multi-v1-3-67d94ff319cc@redhat.com>
+In-Reply-To: <20250213021112.1228481-1-matthew.brost@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,45 +107,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 03:44:20PM -0500, Anusha Srivatsa wrote:
-> Stop using deprecated API.
-> Used Coccinelle to make the change.
-> 
-> 
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> index b05a663c134c974df2909e228d6b2e67e39d54c0..aedf644b4a81649fd9a17b6dfdcdb95be1d5762c 100644
-> --- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> +++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> @@ -168,14 +168,12 @@ static const struct drm_panel_funcs tm5p5_nt35596_panel_funcs = {
->  static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
->  {
->  	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
->  	u16 brightness = backlight_get_brightness(bl);
-> -	int ret;
->  
->  	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->  
-> -	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
-> -	if (ret < 0)
-> -		return ret;
-> +	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, brightness);
 
-Lost return in the error case.
+--1VPiR4+hFRDhCtB9
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Feb 2025 16:23:06 -0500
+From: Demi Marie Obenour <demi@invisiblethingslab.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+	thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
+	felix.kuehling@amd.com, dakr@kernel.org
+Subject: Re: [PATCH v5 00/32] Introduce GPU SVM and Xe SVM implementation
 
->  
->  	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->  
-> 
-> -- 
-> 2.47.0
-> 
+On Wed, Feb 12, 2025 at 06:10:40PM -0800, Matthew Brost wrote:
+> Version 5 of GPU SVM. Thanks to everyone (especially Sima, Thomas,
+> Alistair, Himal) for their numerous reviews on revision 1, 2, 3  and for
+> helping to address many design issues.
+>=20
+> This version has been tested with IGT [1] on PVC, BMG, and LNL. Also
+> tested with level0 (UMD) PR [2].
 
--- 
-With best wishes
-Dmitry
+What is the plan to deal with not being able to preempt while a page
+fault is pending?  This seems like an easy DoS vector.  My understanding
+is that SVM is mostly used by compute workloads on headless systems.
+Recent AMD client GPUs don't support SVM, so programs that want to run
+on client systems should not require SVM if they wish to be portable.
+
+Given the potential for abuse, I think it would be best to require
+explicit administrator opt-in to enable SVM, along with possibly having
+a timeout to resolve a page fault (after which the context is killed).
+Since I expect most uses of SVM to be in the datacenter space (for the
+reasons mentioned above), I don't believe this will be a major
+limitation in practice.  Programs that wish to run on client systems
+already need to use explicit memory transfer or pinned userptr, and
+administrators of compute clusters should be willing to enable this
+feature because only one workload will be using a GPU at a time.
+
+> Major changes in v2:
+> - Dropped mmap write abuse
+> - core MM locking and retry loops instead of driver locking to avoid races
+> - Removed physical to virtual references
+> - Embedded structure/ops for drm_gpusvm_devmem
+> - Fixed mremap and fork issues
+> - Added DRM pagemap
+> - Included RFC documentation in the kernel doc
+>=20
+> Major changes in v3:
+> - Move GPU SVM and DRM pagemap to DRM level
+> - Mostly addresses Thomas's feedback, lots of small changes documented
+>   in each individual patch change log
+>=20
+> Major changes in v4:
+> - Pull documentation patch in
+> - Fix Kconfig / VRAM migration issue
+> - Address feedback which came out of internal multi-GPU implementation
+>=20
+> Major changes in v5:
+> - Rebase on s/xe_mem_region/xe_vram_region
+> - Bit for uAPI has changed given PXP has landed
+>=20
+> Known issues in v5:
+> - Check pages still exists, changed to threshold in this version which
+>   is better but still need to root cause cross process page finding on
+>   small user allocations.
+>=20
+> Matt
+>=20
+> [1] https://patchwork.freedesktop.org/series/137545/#rev3
+> [2] https://github.com/intel/compute-runtime/pull/782
+>=20
+> Matthew Brost (28):
+>   drm/xe: Retry BO allocation
+>   mm/migrate: Add migrate_device_pfns
+>   mm/migrate: Trylock device page in do_swap_page
+>   drm/gpusvm: Add support for GPU Shared Virtual Memory
+>   drm/xe: Select DRM_GPUSVM Kconfig
+>   drm/xe/uapi: Add DRM_XE_VM_BIND_FLAG_CPU_ADDR_MIRROR
+>   drm/xe: Add SVM init / close / fini to faulting VMs
+>   drm/xe: Nuke VM's mapping upon close
+>   drm/xe: Add SVM range invalidation and page fault
+>   drm/gpuvm: Add DRM_GPUVA_OP_DRIVER
+>   drm/xe: Add (re)bind to SVM page fault handler
+>   drm/xe: Add SVM garbage collector
+>   drm/xe: Add unbind to SVM garbage collector
+>   drm/xe: Do not allow CPU address mirror VMA unbind if the GPU has
+>     bindings
+>   drm/xe: Enable CPU address mirror uAPI
+>   drm/xe/uapi: Add DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR
+>   drm/xe: Add migrate layer functions for SVM support
+>   drm/xe: Add SVM device memory mirroring
+>   drm/xe: Add drm_gpusvm_devmem to xe_bo
+>   drm/xe: Add GPUSVM device memory copy vfunc functions
+>   drm/xe: Add Xe SVM populate_devmem_pfn GPU SVM vfunc
+>   drm/xe: Add Xe SVM devmem_release GPU SVM vfunc
+>   drm/xe: Add SVM VRAM migration
+>   drm/xe: Basic SVM BO eviction
+>   drm/xe: Add SVM debug
+>   drm/xe: Add modparam for SVM notifier size
+>   drm/xe: Add always_migrate_to_vram modparam
+>   drm/doc: gpusvm: Add GPU SVM documentation
+>=20
+> Thomas Hellstr=C3=B6m (4):
+>   drm/pagemap: Add DRM pagemap
+>   drm/xe/bo: Introduce xe_bo_put_async
+>   drm/xe: Add dma_addr res cursor
+>   drm/xe: Add drm_pagemap ops to SVM
+>=20
+>  Documentation/gpu/rfc/gpusvm.rst            |   84 +
+>  Documentation/gpu/rfc/index.rst             |    4 +
+>  drivers/gpu/drm/Kconfig                     |    9 +
+>  drivers/gpu/drm/Makefile                    |    1 +
+>  drivers/gpu/drm/drm_gpusvm.c                | 2230 +++++++++++++++++++
+>  drivers/gpu/drm/xe/Kconfig                  |   10 +
+>  drivers/gpu/drm/xe/Makefile                 |    1 +
+>  drivers/gpu/drm/xe/xe_bo.c                  |   54 +
+>  drivers/gpu/drm/xe/xe_bo.h                  |   20 +
+>  drivers/gpu/drm/xe/xe_bo_types.h            |    4 +
+>  drivers/gpu/drm/xe/xe_device.c              |    3 +
+>  drivers/gpu/drm/xe/xe_device_types.h        |   22 +
+>  drivers/gpu/drm/xe/xe_gt_pagefault.c        |   18 +-
+>  drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c |   22 +
+>  drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h |    2 +
+>  drivers/gpu/drm/xe/xe_migrate.c             |  175 ++
+>  drivers/gpu/drm/xe/xe_migrate.h             |   10 +
+>  drivers/gpu/drm/xe/xe_module.c              |    7 +
+>  drivers/gpu/drm/xe/xe_module.h              |    2 +
+>  drivers/gpu/drm/xe/xe_pt.c                  |  393 +++-
+>  drivers/gpu/drm/xe/xe_pt.h                  |    5 +
+>  drivers/gpu/drm/xe/xe_pt_types.h            |    2 +
+>  drivers/gpu/drm/xe/xe_query.c               |    5 +-
+>  drivers/gpu/drm/xe/xe_res_cursor.h          |  116 +-
+>  drivers/gpu/drm/xe/xe_svm.c                 |  964 ++++++++
+>  drivers/gpu/drm/xe/xe_svm.h                 |   96 +
+>  drivers/gpu/drm/xe/xe_tile.c                |    5 +
+>  drivers/gpu/drm/xe/xe_vm.c                  |  374 +++-
+>  drivers/gpu/drm/xe/xe_vm.h                  |   15 +-
+>  drivers/gpu/drm/xe/xe_vm_types.h            |   57 +
+>  include/drm/drm_gpusvm.h                    |  507 +++++
+>  include/drm/drm_gpuvm.h                     |    5 +
+>  include/drm/drm_pagemap.h                   |  105 +
+>  include/linux/migrate.h                     |    1 +
+>  include/uapi/drm/xe_drm.h                   |   22 +-
+>  mm/memory.c                                 |   13 +-
+>  mm/migrate_device.c                         |  116 +-
+>  37 files changed, 5326 insertions(+), 153 deletions(-)
+>  create mode 100644 Documentation/gpu/rfc/gpusvm.rst
+>  create mode 100644 drivers/gpu/drm/drm_gpusvm.c
+>  create mode 100644 drivers/gpu/drm/xe/xe_svm.c
+>  create mode 100644 drivers/gpu/drm/xe/xe_svm.h
+>  create mode 100644 include/drm/drm_gpusvm.h
+>  create mode 100644 include/drm/drm_pagemap.h
+>=20
+> --=20
+> 2.34.1
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+Invisible Things Lab
+
+--1VPiR4+hFRDhCtB9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmeuYsIACgkQszaHOrMp
+8lOOxBAAi6IRIrbovubZoNdKoggeYgY+mCBC1yyuti6IOaSL58kNPkU0lU0nSv8G
+UIk1B9020xRtug2BaOV/82VB/KGLrWBhmD/G9bhFDULC9+ZI6WxpagwaBL9k5hxj
+tGGUbmUGN6YbLXQJkL4NJNNhmnAmqcl5LdTVWRkAkCoN5Y+JRbmpnS023N7KlbOi
+R1iE2JjQKwMOrzKUZ6gcoDx2+Y4IOMhZeRdyf5nTCKbC76OgrllUUP7oJR8z5rXx
+fTkQBLFwS6XnTnbzQXn1dAqSz7JCX9B6nmaN/ijLLWskIwMBKL3F1VZnb9h/Vpfv
+RwxghozM8KfclX3MFAeaEEmRnTSgiqfFzyxaC8igAV+rIY7BZC08mQjnib/33SJ9
+u98pt8yJBwLI2X4vvcf4e/Yl2v0T1r2ugVrNj/geA7rITzuXnSFrAslSHaBGEJ4R
+iYcr3BFEVELICyTVRzTBTWgbGjYkJXnqU3NxFPllxdYAoAYY6BQuomxq/IKgJJ+e
+CwmqhYyTDoyNX0p8K+LCqHKHjElkp8CPqOVnYKJMRTR97gOz9O5X1/ATrLqtXahQ
+uHCLBKEJsswqrIP8l+zYL/oden6Wa2jCU9tYrrTadJBV7OeNpHOz0YyXbhQYp1Co
+B5uVutynNBfux52V/Aql3YVbAmWHzMfX/FErFuLQcnatOWgLASo=
+=onyn
+-----END PGP SIGNATURE-----
+
+--1VPiR4+hFRDhCtB9--
