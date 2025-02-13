@@ -2,107 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DC7A349C9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:28:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CB4A349D4
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:29:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7302210EB21;
-	Thu, 13 Feb 2025 16:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D921810E0D8;
+	Thu, 13 Feb 2025 16:29:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="t8MdI4+5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kCu8fgAH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B42A10EB2A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:28:07 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43965592e1bso4787785e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:28:07 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A396210E0D8
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:29:50 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-543e47e93a3so1135324e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739464086; x=1740068886; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=iDc93kMEYWIE43KW8M1DQx0zrLSt7yqt1TtwJm30k9Y=;
- b=t8MdI4+5u+U2mHDINWC6lMycDuhUZf9l2QjWqRpUNJLfS+ptBk4sGijzuy/YD34PtJ
- v4zNXcTXKQA/phV0rXF8xVVAG+vAwNrmdk0HH95BB/1AvR8sSx0mZvVHOFAPWQFtsAfp
- zxzsn47Xk/dDCeVZsSGzcESFHMJhP8sqxc19q2tKePQcRM5f9Dz7/xW5h7UAmLYnahfU
- 1B29WzlSezBnSmxCkatD5Lz2CsE4gHYWSJYRWQ5YpqHMevxoAyUPPCMUlzopr09Ku+gX
- iSOW+g4YPUsv+NyLJrN9Y4ObFkCsCykv4D2mgVlZOitRvMay35p421FZnOc+oK4jeyGc
- /shA==
+ d=linaro.org; s=google; t=1739464189; x=1740068989; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kJugKKEOwlREPb+p1Z0P7OAg934ldgSxN+eJwACQfYc=;
+ b=kCu8fgAHiJ+2nuyOFrYy6rvtwt5k98ulGwQc7DQvEPHKg/s2tXLTBXvADP66ONJ0xx
+ oRzHvLetCt0vGlAXyKJhePfvRjTHDTrq8HKKgFE980oPb323/zMgogaBB2yF/JSNmgPd
+ 4STcM6DqekrVg9zmNRwD6FfDJW2wuDa5Z/thSjBc1/wqB6WHzBWy30mkMWwdK3NBTedX
+ 8J3aRjdMaFolP/4lvTAzcqOTxrVLTcfPwRO5cumHHMtKxEKoDj4UoYW5E6yPK5v9OiC/
+ 6jLKcBv+Yxzp6tl84arEX5lRQ4Khvu0aiYiHZRW5fUeRpx2FBZIgRtTw+DAmEDL1+BrB
+ rDvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739464086; x=1740068886;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iDc93kMEYWIE43KW8M1DQx0zrLSt7yqt1TtwJm30k9Y=;
- b=g2WOqk5iKthRMRE4oB4q4cG5uR1A6QFbZI+oLXWGmPaPCuRvgKNosSUvVcfYeObP/9
- oZ6MU8puavDiZ6VM7cj7NIugkU0+D40K13o05OVnUMqr2B2Ree/IUsqAnImHKKIyNy5E
- uT0b8FUAlA200H6zeBHMTaDP28eGK52UbIByr4WByWmvPbSpBKeBQo2MXe4MHMQ+txhL
- GKRuoHCe0hPrN2eFSkbBIBRdnIrElzOcm0KW2qSBCDf8aNb/u0bticYv6Be3DyH23vD4
- dmOcfhA+xuc2UebTgFsuhydgCUOTRyzTuhtESY4/WMARHHrA9YYyJ37xNz4Zl221F04F
- qD8g==
+ d=1e100.net; s=20230601; t=1739464189; x=1740068989;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kJugKKEOwlREPb+p1Z0P7OAg934ldgSxN+eJwACQfYc=;
+ b=WrUvLKynOF7VjtH/fAEjFO9CYMO/97tvS4mO2ChDfZSKNMWau4Q9IbzpcV7YEkm9ne
+ c9HeCh8CdNrKd4cI4T0JCjsM/xGubTTAQE9DdrN0rq2i10FhuTO8xTdOXIz36Ai63s00
+ lNX82hQi+/tWHaVpJpUSs5bVLFZLUE9QWTR/rH6zNJjZl+gR9P4jU7ZEbu2cztttmmv8
+ JkVTs164j1HzTz+4hai8u2EMdK61iR/EFXg7ig5DuM0YWhz3yce0JO/OCQCXSgBl4zyx
+ RrPqsmHEpF0VfJcZVr8okFyvE08XXF59MsUTcMYWJT75LouWpD9MGsFpsDZ0snz5/BgJ
+ vtoA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX4OaeKWI9BI4gAJKHqfXgduJGpeAkijIZTprQ2vaCzWtsnEmtb6AQDQAyYYSSaHcUIOeMoJvpQZKQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbFnV/wLyFNSBHWb680zzriANSUj5DYf82SvtDnWWBpqHm5MSb
- kIw7fcJ6wkMdlFrq3c00ey0DaB2pTLZhWsp4qHMVvp4fGOhn0gCnvcROnF6rWeRV206aEYy7mEO
- L
-X-Gm-Gg: ASbGnctZCCndmuiK24HddXcd+kSZHWzieMfj7kncJU02SG6lmnntrNtaD2pouScf9h6
- MT8uhsEghpPPyKVM00BzAfj0xxFdUuT1yEjTLMvQ9GrND+fDM/pl4LQntG/xiAxqqtKqAmP5pV0
- sNe3Cnedqpge4jupg/8G1YhxWbfEdyLRFc+e3xTJmRgeT066bq70OUcYEJr/hy5Fe0Z3X+pnU7g
- yFB6WxZFGxSsTozDcToPW+41mVwszvzqGRqcs0rnWC8HWoHLRIvE88O5mAzC3/UUr34h4Z1R7r5
- NZybKOeL7COR8lrg5Y+Lc6OPLp05QC5mWtO7
-X-Google-Smtp-Source: AGHT+IFU/9Ezw9WpHOEwKFHI3agr//zJrArAr/XSAw2dHqAeOMUzEQHlgonTqcBFZjTTclKxtAjURw==
-X-Received: by 2002:a05:6000:186d:b0:38d:dffc:c134 with SMTP id
- ffacd0b85a97d-38dea2eb4bfmr8227417f8f.39.1739464085999; 
- Thu, 13 Feb 2025 08:28:05 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ AJvYcCWuUfucWEKhWkXwfrvEFI81nntLHOgb2lkWRVb4CLzqr3MK39xL+UxHkzGLPyAVAeyLNSRI/teS9Ww=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRaOJp5YQttas4XNVcMbSU5jrx8GgOhSmKRvG39OIKE4WMVbcZ
+ YxbDGqn719lhHH14WPPLrgx84dVedComX2psoKkestTzl8vkloA+q64iHzcJTy0=
+X-Gm-Gg: ASbGncsIdWOSFVJIorlylzbHf7FuQNSYDKcAUlsH+V9NCkbVbHdgyBXvv1A4DJm1fL6
+ pEPw/DlSHoy8KyJelnaUzB1mntXeOLr1pWYerLv2kGRgJjqHrT+GL1eFWgQ0Gpu4ZcTIdhZQETI
+ vqy1TMNlTl5Gjvka294MCdGepRQ1jSpwKPqtiD0dUuUmMI7uILUIEwoBcGAfUfeCy7SP8HTnUyt
+ P9uU9OPfcAeeDgmUS9wcS9rtHwN6/irCqhFcK6OybW2+xmM5bmf1GCDHHF+le5y+iR7PMf+8JyH
+ 2AWCebU61ukkUCihvpR/+b1rPnImIUq4oHQBhWfIAJVtdqJBoMR2Y3ZE4h/J3l7rFFfmKsQ=
+X-Google-Smtp-Source: AGHT+IF+hsft0VbXMNxPd7FKHumPUJvG86RfezAnMtzpnxwfK6f53xvCiC2uO574gIXJvAXy7nelxQ==
+X-Received: by 2002:a05:6512:e93:b0:545:2300:924d with SMTP id
+ 2adb3069b0e04-5452300945dmr420589e87.22.1739464188919; 
+ Thu, 13 Feb 2025 08:29:48 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f258b412esm2274382f8f.1.2025.02.13.08.28.05
+ 2adb3069b0e04-5451f11241csm214792e87.206.2025.02.13.08.29.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 08:28:05 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 13 Feb 2025 17:27:59 +0100
-Subject: [PATCH v4 4/4] arm64: dts: qcom: sm8650: add missing cpu-cfg
- interconnect path in the mdss node
+ Thu, 13 Feb 2025 08:29:48 -0800 (PST)
+Date: Thu, 13 Feb 2025 18:29:46 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 30/37] drm/bridge: Assume that a bridge is atomic if
+ it has atomic_reset
+Message-ID: <vjdpctck2afcjrt2rlgjtzmrkf4a5bg5ihymc53vuw6md576wd@kbb5y27a5woi>
+References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-30-e71598f49c8f@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-topic-sm8x50-mdss-interconnect-bindings-fix-v4-4-3fa0bc42dd38@linaro.org>
-References: <20250213-topic-sm8x50-mdss-interconnect-bindings-fix-v4-0-3fa0bc42dd38@linaro.org>
-In-Reply-To: <20250213-topic-sm8x50-mdss-interconnect-bindings-fix-v4-0-3fa0bc42dd38@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1271;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=my+RB9Jrip9aPGRvZHAD/1/UpXRs0+h6VzBYQ3PsJO4=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnrh2RyIwuxEyQJnCqN4BQzwBgsz22oIe5p3/foBpN
- 3ycZJKeJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ64dkQAKCRB33NvayMhJ0Z4JD/
- 9QWqppUyEnVCwdINgX9VFB0i8zoyuyZeu6IuDCoC9ZEqWoOs8NkpPN3ASdQr13S8PSIYLl377Y1oyp
- 5eeA6/WQAaEysK6t2aXfsQ3/ReD0a5Ac3DdRrNmleh6ZlEeaU0+AmQIoTygKbsAwZPRni9ZA9K98fl
- /NQ8weA+fwoAs+dY4XyM1Mh3m1kA/oq27fC/jiAe8K4S3OS2WaLDRZ3B0SmJMkY82b2fjv73YjqBRV
- 3htFOiOZTllEcFeMvAT7w+fE13umvRgT/kXrTsnd36VAvyDaZFltGUz6ymHB4kJVzytzc0UwLEMDmL
- E4z5cc4mtjo6iEE2Xlc0uY3OQz9pQ/Ni6m4RckyzTQ2ZackPXKh8WuINx/IwLSGFtY4K6i7OgB+YlV
- 49QaGlZgn4Ns7+BI/r8wuaAZHnijxZ17M1a0871JFon21oS/3XOfIDj+PIqVQH9bWGnV1erkdHce7R
- XJK8ffMPB/BQitgVl+Mm3J4mGbVgoTgfO9yjSi3fsoejYJGmspR9wnA5mDszU6zgeLiqYpeOD+hPSy
- hlcMhtnhos8K5RDwdhWfZ7yj/fYr9K4Rv5hxb8jbgxyLbaBMVqXVI6MgSA1Ya5MJnGDI/7uioYE4wW
- GTZlXhTPjsoFcf9wfs4Ga5/nJ/HJjdfx/ymjSsOzPSybrYUrT5wB+dYZxK6w==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213-bridge-connector-v3-30-e71598f49c8f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,35 +97,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bindings requires the mdp0-mem and the cpu-cfg interconnect path,
-add the missing cpu-cfg path to fix the dtbs check error.
+On Thu, Feb 13, 2025 at 03:43:49PM +0100, Maxime Ripard wrote:
+> The drm_atomic_bridge_check() runs the atomic_check callback if needed,
+> or falls back to mode_fixup if it's not there.
+> 
+> Going forward, we'll need to setup the bridge atomic state even though
+> drivers might not be implementing atomic_check at all.
+> 
+> We can thus switch to using drm_bridge_is_atomic() to take the atomic
+> path, and do additional things there in the future, or go the mode_fixup
+> route.
 
-Fixes: 9fa33cbca3d2 ("arm64: dts: qcom: sm8650: correct MDSS interconnects")
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8650.dtsi | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+This will break bridges like tc358768, rcar_lvds and mtk_hdmi: they
+implement atomic_reset() and mode_fixup().
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-index 483ae63e6032823e8cc13e8aeb6db70e3948f02d..1737265d364601494c329e79174c082c98e4d0ec 100644
---- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-@@ -3997,8 +3997,11 @@ mdss: display-subsystem@ae00000 {
- 			resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
- 
- 			interconnects = <&mmss_noc MASTER_MDP QCOM_ICC_TAG_ALWAYS
--					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
--			interconnect-names = "mdp0-mem";
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-+					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-+					 &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
-+			interconnect-names = "mdp0-mem",
-+					     "cpu-cfg";
- 
- 			power-domains = <&dispcc MDSS_GDSC>;
- 
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index d2525d0b1324cc3a63e32f5bf6ca6c4f9034eb4e..b6d24092674c8fa33d9b6ebab9ece0f91fb8f8ea 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -803,23 +803,25 @@ EXPORT_SYMBOL(drm_atomic_bridge_chain_enable);
+>  
+>  static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+>  				   struct drm_crtc_state *crtc_state,
+>  				   struct drm_connector_state *conn_state)
+>  {
+> -	if (bridge->funcs->atomic_check) {
+> +	if (drm_bridge_is_atomic(bridge)) {
+>  		struct drm_bridge_state *bridge_state;
+>  		int ret;
+>  
+>  		bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+>  							       bridge);
+>  		if (WARN_ON(!bridge_state))
+>  			return -EINVAL;
+>  
+> -		ret = bridge->funcs->atomic_check(bridge, bridge_state,
+> -						  crtc_state, conn_state);
+> -		if (ret)
+> -			return ret;
+> +		if (bridge->funcs->atomic_check) {
+> +			ret = bridge->funcs->atomic_check(bridge, bridge_state,
+> +							  crtc_state, conn_state);
+> +			if (ret)
+> +				return ret;
+> +		}
+>  	} else if (bridge->funcs->mode_fixup) {
+>  		if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
+>  					       &crtc_state->adjusted_mode))
+>  			return -EINVAL;
+>  	}
+> 
+> -- 
+> 2.48.0
+> 
 
 -- 
-2.34.1
-
+With best wishes
+Dmitry
