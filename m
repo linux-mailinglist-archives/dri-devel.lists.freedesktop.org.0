@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B732A34BE0
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18531A34BFA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:33:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83AF910EB5E;
-	Thu, 13 Feb 2025 17:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD2F10E0D7;
+	Thu, 13 Feb 2025 17:33:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Ws91bnDM";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="gHt2sI3u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC62110EB5E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:26:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739467611; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4BC010E0D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:33:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1739467992; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=DBi2zEpYnKy4XuIgWkaFTscHZ7nB/Yg9TWfeiuiqUtEh568pSlCHcprWV131jLiyNkPrV0PgXxkXOJF+7/joCDKC38TqYAzrCGxvzkMLV61uE0Cy2Cwlt0NXSVaWUu1C8LJGg9BVDEm9IeAAEWyTtJSM2Co8i4iQRkugciWGig0=
+ b=fsZ9tyPjguNsUc2+X1eFr5QgUPWPBVzABYeF+VSOoUx8sOk2o9TIpuy6IFgXZUjG9vZWe2oUATvThyog4cB1QGSF+7jMYZN0kw9K4ETfX3PdZ8MffVDq/wZ0EpgjNyprDhV/ILksMWZTFad0oAv+bAEhZnMftm6shmu4Q2uh+DQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739467611;
+ s=zohoarc; t=1739467992;
  h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=M5hWV7zpzfxrkj20JGXs36bIgvWN+f1eZBOfQY7SIjM=; 
- b=H0UaH685Fnf6T5gMeeM3s5UsaIRb+Y9jD6hk4aLgNe8A/HDjoAfNj3RgTEr/Ns0Ic1/pqf25ULiccEHjw+hz1YVZWFRt3ym5UmhNWh9KuCsdH1zQlXoXByMo2ZcWskNHcK8jc1AROJSMHLG/aY76r7gaZ/wj/4twi58HWGWV70s=
+ bh=6ByzMOuDBh5R+FUdNwn2gk3LwiXzk/aPZNyTOpzuZOU=; 
+ b=bta+8ZPQPOcCe9SZHB2yjLV1NS6qrkM+JiDqDJdXEM7/kUS9MuT5tKC+9VCVfIfzD8aCiVovVkZOSqExBy9M8mRQ2Z1mRt6G56DXfOz4tq350B3ZIYmhlv8R4Xu045K9k3bY3npdzZbBAxK2WJU2vsEIWL+tbEYKPRv8yV6terI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
  dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739467611; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739467992; 
  s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
  h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=M5hWV7zpzfxrkj20JGXs36bIgvWN+f1eZBOfQY7SIjM=;
- b=Ws91bnDMeBkWP5IXglfIKxIRozeYMM8MzNL39X6Jq2/pVSfbuX7EarFMbKklR5mw
- dd0tn8C8fZF4DPbhVIEG9+xawrfjR7jTOJWby3nlBp6hy7bDlg7VSU5flovBjG3uei0
- tgMsDOs+DMRcUp6k8/mTn4NIl9WKVT5S3z6qjrNw=
-Received: by mx.zohomail.com with SMTPS id 1739467608754665.7670786696585;
- Thu, 13 Feb 2025 09:26:48 -0800 (PST)
+ bh=6ByzMOuDBh5R+FUdNwn2gk3LwiXzk/aPZNyTOpzuZOU=;
+ b=gHt2sI3u9x/IyIOL7Gz7LHOOPs0dHmzj8DCoJ1j0HswtKdfzbJT6zBFQ67GzwLvu
+ MPP/pAtZ4COd1DYdY5C/SpKgmnR6xnfTJ29gG6h2mt4W0K63gqqZ94CkCqga8aVXh6i
+ twwysP6rbc9WuqaBcE7MNq1IW8GqH8cgBGP/ll5k=
+Received: by mx.zohomail.com with SMTPS id 1739467989609795.4274306368665;
+ Thu, 13 Feb 2025 09:33:09 -0800 (PST)
 Received: by venus (Postfix, from userid 1000)
- id 785651806DE; Thu, 13 Feb 2025 18:26:43 +0100 (CET)
-Date: Thu, 13 Feb 2025 18:26:43 +0100
+ id 858F21806DE; Thu, 13 Feb 2025 18:33:04 +0100 (CET)
+Date: Thu, 13 Feb 2025 18:33:04 +0100
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Cc: Damon Ding <damon.ding@rock-chips.com>, heiko@sntech.de, 
- robh@kernel.org, conor+dt@kernel.org, algea.cao@rock-chips.com,
- rfoss@kernel.org, 
- devicetree@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- hjc@rock-chips.com, kever.yang@rock-chips.com, dmitry.baryshkov@linaro.org, 
- vkoul@kernel.org, andy.yan@rock-chips.com, krzk+dt@kernel.org, 
+To: Diederik de Haas <didi.debian@cknow.org>
+Cc: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, 
+ Damon Ding <damon.ding@rock-chips.com>, heiko@sntech.de, robh@kernel.org,
+ conor+dt@kernel.org, 
+ algea.cao@rock-chips.com, rfoss@kernel.org, devicetree@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com, kever.yang@rock-chips.com,
+ dmitry.baryshkov@linaro.org, vkoul@kernel.org, andy.yan@rock-chips.com,
+ krzk+dt@kernel.org, 
  linux-arm-kernel@lists.infradead.org, l.stach@pengutronix.de
 Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
-Message-ID: <tg6eyew4qahuxqakmmejne7xx2rkouj6htp55acun4ajz2irz2@vlmvqv3zc5vc>
+Message-ID: <m3ovwhg3h2njsjpuj2wdahxex6zq2udmxonublgmnlrdfred4z@zxtyd6xvhram>
 References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
  <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
+ <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jnxis7mvi3ww4bac"
+ protocol="application/pgp-signature"; boundary="6djyuz6okfpd5ae6"
 Content-Disposition: inline
-In-Reply-To: <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
+In-Reply-To: <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
 X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.2/239.417.30
+X-Zoho-AV-Stamp: zmail-av-1.3.1/239.467.69
 X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,125 +81,94 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---jnxis7mvi3ww4bac
+--6djyuz6okfpd5ae6
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
 MIME-Version: 1.0
 
-Hello Piotr,
+Hi,
 
-On Thu, Feb 13, 2025 at 03:54:00PM +0100, Piotr Oniszczuk wrote:
-> > Wiadomo=C5=9B=C4=87 napisana przez Damon Ding <damon.ding@rock-chips.co=
-m> w dniu 23 sty 2025, o godz. 11:07:
-> >=20
-> > Picked from:
-> > https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D9235=
-93
-> >=20
-> > These patchs have been tested with a 1536x2048p60 eDP panel on
-> > RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
-> > on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
-> > on RK3399 sapphire excavator board.
-> >=20
-> > Patch 1~4   are preparations for the RK3588 eDP support on both Analogix
-> >            side and Rockchip side.
-> > Patch 5~8  are to support to get panel from the DP AUX bus.
-> > Patch 9~11 are the RK3588 Analogix DP driver support.
-> > Patch 12    is to add the power sequencing delays for panel model
-> >            LP079QX1-SP0V.
-> > Patch 13    is the addition of RK3588 eDP0 node.
-> > Patch 14    is to enable the eDP0 display on RK3588S EVB1 board.
-> >=20
-> > Damon Ding (14):
-> >  drm/rockchip: analogix_dp: Replace DRM_...() functions with drm_...()
-> >  drm/rockchip: analogix_dp: Use formalized struct definition for grf
-> >    field
-> >  drm/rockchip: analogix_dp: Expand device data to support multiple edp
-> >    display
-> >  drm/bridge: analogix_dp: Add support for phy configuration.
-> >  dt-bindings: display: rockchip: analogix-dp: Add support to get panel
-> >    from the DP AUX bus
-> >  drm/bridge: analogix_dp: support to get &analogix_dp_device.plat_data
-> >    and &analogix_dp_device.aux
-> >  drm/bridge: analogix_dp: Add support to get panel from the DP AUX bus
-> >  drm/rockchip: analogix_dp: Add support to get panel from the DP AUX
-> >    bus
-> >  dt-bindings: display: rockchip: analogix-dp: Add support for RK3588
-> >  drm/bridge: analogix_dp: Add support for RK3588
-> >  drm/rockchip: analogix_dp: Add support for RK3588
-> >  drm/edp-panel: Add LG Display panel model LP079QX1-SP0V
-> >  arm64: dts: rockchip: Add eDP0 node for RK3588
-> >  arm64: dts: rockchip: Enable eDP0 display on RK3588S EVB1 board
-> >=20
-> > .../rockchip/rockchip,analogix-dp.yaml        |  25 +-
-> > arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  28 +++
-> > .../boot/dts/rockchip/rk3588s-evb1-v10.dts    |  54 ++++
-> > .../drm/bridge/analogix/analogix_dp_core.c    |  76 +++---
-> > .../drm/bridge/analogix/analogix_dp_core.h    |   1 +
-> > .../gpu/drm/bridge/analogix/analogix_dp_reg.c |  52 ++++
-> > drivers/gpu/drm/panel/panel-edp.c             |   8 +
-> > .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 238 +++++++++++++-----
-> > include/drm/bridge/analogix_dp.h              |   8 +-
-> > 9 files changed, 401 insertions(+), 89 deletions(-)
-> >=20
-> > --=20
-> > 2.34.1
-> >=20
+On Thu, Feb 13, 2025 at 05:56:55PM +0100, Diederik de Haas wrote:
+> On Thu Feb 13, 2025 at 3:54 PM CET, Piotr Oniszczuk wrote:
+> >
+> >
+> >> Wiadomo=C5=9B=C4=87 napisana przez Damon Ding <damon.ding@rock-chips.c=
+om> w dniu 23 sty 2025, o godz. 11:07:
+> >>=20
+> >> Picked from:
+> >> https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D923=
+593
+> >>=20
+> >> These patchs have been tested with a 1536x2048p60 eDP panel on
+> >> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+> >> on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
+> >> on RK3399 sapphire excavator board.
+> >> ...
+> >> 9 files changed, 401 insertions(+), 89 deletions(-)
+> >>=20
+> >> --=20
+> >> 2.34.1
+> >>=20
+> >
+> > Damon,
+> >
+> > I=E2=80=99m playing with hdmi0 port enablement on radxa rock5 itx board=
+ with 6.14 mainline.
+> >
+> > rock5 itx has 2 hdmi ports: hdmi0 is wired to rk3588 typeC1/eDP1 eDP wi=
+th ra620 eDP->HDMI converter and hdmi1 from hdmi/edp tx1
+> > (see page3 & page29 at https://dl.radxa.com/rock5/5itx/v1110/radxa_rock=
+_5itx_v1110_schematic.pdf)
+> >
+> > I=E2=80=99m on 6.14-rc2 with applied:=20
+> > [1] Cristicc hdmi code (https://gitlab.collabora.com/cristicc/linux-nex=
+t/-/commits/rk3588-hdmi-bridge)
+> > [2] eDP support for RK3588 (https://patchwork.kernel.org/project/linux-=
+rockchip/list/?series=3D927765)
+> > [3] Add eDP mode support for Rockchip Samsung HDPTX PHY (https://patchw=
+ork.kernel.org/project/linux-rockchip/cover/20250205105157.580060-1-damon.d=
+ing@rock-chips.com/)
+> >
+> > Is edp1 supported by yours [2] series?
+> >
+> > If yes - may you pls hint me about required dts additions in https://gi=
+t.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/arm64/boot=
+/dts/rockchip/rk3588-rock-5-itx.dts?h=3Dv6.14-rc2 ?
 >=20
-> Damon,
->=20
-> I=E2=80=99m playing with hdmi0 port enablement on radxa rock5 itx board w=
-ith 6.14 mainline.
->=20
-> rock5 itx has 2 hdmi ports: hdmi0 is wired to rk3588 typeC1/eDP1
-> eDP with ra620 eDP->HDMI converter and hdmi1 from hdmi/edp tx1
-> (see page3 & page29 at
-> https://dl.radxa.com/rock5/5itx/v1110/radxa_rock_5itx_v1110_schematic.pdf)
+> I don't know if it's relevant, but while HDMI0 got enabled for quite a
+> few devices in 6.13, it did NOT get enabled for Rock 5 ITX.
+> I made a local patch (which does the same thing as was done for Rock 5B)
+> but I have no idea if it actually works (I don't have the board).
 
-The RK3588 has two different DP controllers. The one handled in this
-series should get the eDP port running, which is routed to the
-"eDP Panel" in the block diagram on page 3 of the Rock 5 ITX schematics.
-So this series adds support for using "HDMI/eDP TX0" and "HDMI/eDP TX1"
-in DP mode.
-
-The port routed to HDMI0 via RA620 is the other DP controller, which
-also exists twice: "TYPEC0/DP0" and "TYPEC1/DP1". This DP controller
-is not yet supported upstream and there is no pending patchset. As far
-as I know Rockchip plans to work on preparing upstream support for that
-soon.
-
-Note, that the two DisplayPort controllers are completely different.
-The HDMI/eDP controller is a design from Analogix and the TypeC/DP
-controller is a design from Synopsys.
-
-P.S.: Heiko merged support for HDMI1 (RK3588 SoC level) recently. So you
-should be able to get that running by some DT additions to the Rock 5
-ITX board DT with the latest linux-next code :)
+I don't have the board either, but the schematics suggests that your
+patch is not correct. On the Rock 5 ITX the RK3588's first HDMI/eDP
+port should be enabled in eDP mode to be used with an eDP panel via
+connector J11. This series is needed for that.
 
 Greetings,
 
 -- Sebastian
 
---jnxis7mvi3ww4bac
+--6djyuz6okfpd5ae6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmeuK0wACgkQ2O7X88g7
-+prlexAApJeFewv/JsqSV3wCoT23yhvxdlzYKIVVL/yo98r9WQPC4i1qmYmKRBI4
-vzvIr65JV41ReaTQs/q/BoIL0rHdfgn0ZkatJ0H7wbNbH2IztSS2VukNrAz9DwT4
-TvyUoo10hpaHiFTfKKSzDkL5/NI3d9pvi6AmUs+SmWMD7f2eXmyav5L2WHTZ0Nzl
-kLA4FPpSVS/3NQ5qTlhHsyM0kDVsL7R6G7ObMrQ9gAp9qkp6BJ353pHWEWtXgagu
-Dj4iMS5wfJ1VXYyQDJSFgeiibznIzIMlOR83c7AG7IMvowXL7IniG2Q8vUz1nPgC
-syKJOH3btyQzxkc9AYqXYXr7NUldDWhK84iqzsA0E+imxauPhXgfeQxQOR63uTXG
-fvZKtmVjM2gyqGp0ro5rEXSczzcnKj8tSC42AZm0d/ACS/TsCi8CcOKEsgtkCM+L
-7HhI7qlJUNihK6x90i+R9i2k7Ar9STYe+lUqxybSkZnNymp3nZwpkDVYLkuf53Ot
-pwrWkcRYXOhEggDrQNTe6xq3W1C+w/sNPflgnA33KAL2+xFCyt3RQq++BrLN4Aa/
-ECjWYGebnHLh+hFA8FToTF3KG6CjTNiyIvAsFBsjRoF9x/uLrZt+davDhGf1D3fP
-l/jfGWpAOhK6VBdKArybnrr6GEUTvZtb25x6f9eTbsVVTEGORmk=
-=iYP4
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmeuLNAACgkQ2O7X88g7
++pqj/g/+Ko9YwegFYiHHFc2NJHqSn9Er7V2IhdDxANKuYmDWkl238DIkPbx5N++z
+dP6qxCV8/YD123iERKtHSvIikWgw7rRaV8GKkT95xc3AAfYfyt4Zjf3wWwwOrNXH
+w1UK+68lroyq4n+JPwQuZlkRhKclMpv78w5lZJ2fXX/ni8PWf3m8DyBGzES03yDK
+l5e0sp6dEFaxL6plKIDdB7Xw/CYW75UiJStCuBYKka1pr3I5X8IgWMuQ+oK5Lde3
+hzO/3TLG9WKTiRoehs4ocJngsz0sS8o70GWVMXSiSybaMbK0NEf6NonBv1f6hA0J
+RrCYZGZEsKaPnveI+HlwnvXJlTnISIjs2jw7HF35HSVl4ZaYLf9k4HFE6vrl+y7N
+GPplG9bzgVKsZgK5rv1ddxBQbMZ30LlyP1/BxDPqY/78+ZyFg/9vjovfF7rG6DUa
+KIgcrgB/rD/4P1wdOGhz+bwbi2mwsc0yfzAWS6qXxCw70RQ0YNKhE/ha5cM0bfwh
+IyKOUaxLceZBVLXuXXXKo1aeOxLHiVSB+kblT/Dq85b4Vl71n5v81x/jfo47O80Z
+LjNdgoLngofz67wKl+BHJsJAvtRvXP/NI9nNpsSgY1tLzUeKsnllS1mWYh3WE24u
+vPH7IuyON+11TRur6JqaEd5LbafrMcQ2+Fqz0UdscgafmzsTyTw=
+=1OmE
 -----END PGP SIGNATURE-----
 
---jnxis7mvi3ww4bac--
+--6djyuz6okfpd5ae6--
