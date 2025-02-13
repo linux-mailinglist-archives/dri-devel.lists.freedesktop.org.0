@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DC8A34A2D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E250A34A31
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:40:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC7C10EB2E;
-	Thu, 13 Feb 2025 16:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C4B10EB34;
+	Thu, 13 Feb 2025 16:40:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wGI1jMdP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i8jYsZkb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
  [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5C410EB2E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:39:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE7510EB30
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:40:10 +0000 (UTC)
 Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5450abbdce0so1076832e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:39:22 -0800 (PST)
+ 2adb3069b0e04-5450f2959f7so1097278e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:40:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739464761; x=1740069561; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739464809; x=1740069609; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1rM4Bt4PhDhPQUeuMylShfihGVwM3FjCJfHKMCS7m/I=;
- b=wGI1jMdPfaroo3KxQpyZUAHTMP9EHKbRWvOsj4RPIE7MRNqC0aUDQQYSetyuDDULJl
- abF7zWFaGY6AoEzDAvCrFgv67EAo6dKniYHM84XJdATiXK/352DU/LjAVwyeNWZlNCuq
- YzN75ZgKR6uxWfop1PZPbfHT7C9htgioUipqU/IvKYu/tq2tkWt6tljHK6z650TSo3Pe
- OrulPBQB2JcgEUAKmgopXkTQP0kuD7h3ibBpQaQnJtGwQN8pVOf7Lg0MAdWsIN/HPq/A
- yAJvgriMgHsGYbbxsqKoskf+o7zVnTjS+hCfpJk7jr3qkmuD5639+SQXeU3Pzsp+yz9H
- yRZA==
+ bh=jEIQ3K/3iDZAyHTodK3+6OTlBYGjys5mtHQuCkfEBss=;
+ b=i8jYsZkb+jAzWHLQWd0IJsazJBVg+WAQn+maIi8VEuLvqBGJlaj7mWZtk7Zcdl4K3n
+ r4IAo97tSpqOb2ytUvdpe/YUdcaoVXGuAoUgPwPUE/eiLMRD0ZeecAheM7lqVEyv/I5+
+ fRracQYfpLt44azRRx8Ocf05lDos9DNE6/Lj5CXbcFyv3uHWidKSv2kzysTMX75Yz5Fa
+ en8p1V79XdgD2yNhy4mpdoIxWKlwGevqoBvkOpr/CNJvMWOjPsHiN+1D0phD5p437Lkv
+ GleE5jwsKhPdkw00Yf4BLOn8Ok2t5GWQ10ZpgqIeSWN8j81UcYObt0IcEOsCSlbpzDIU
+ YEOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739464761; x=1740069561;
+ d=1e100.net; s=20230601; t=1739464809; x=1740069609;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1rM4Bt4PhDhPQUeuMylShfihGVwM3FjCJfHKMCS7m/I=;
- b=IQYdH27SEus++/jhrRBIx8Ol+DtN+poE+pXzCV00RxyzzoNbWG8E5lE1G82xSzsRRS
- Au/x2LwSX7cHt5jibVROEatKEz6gjTcn4yyZlWqYmFDRPxGkjyx8fngJ7fIYweYz5aDH
- FH4DmKNs+juTGL8ehazqjiaPZM4skV8qqZ6sMUAZ+UpTg6iLLBXuKoRXsQiYr8AJudDg
- LDnJsDFrviEwHiSjZRQ1PJoPfQ4Dg1zfT/JyzDS5UieV67ouSvBv6m2+G9Nwx3RDS1AH
- DSlJ78b1t9kqVCTZKvX/mD2K0Ao1BR5PUsxEpHtkcQDJ4YKGu32eD3u/9XJ2BgYppGw+
- lQ4A==
+ bh=jEIQ3K/3iDZAyHTodK3+6OTlBYGjys5mtHQuCkfEBss=;
+ b=r2VbFU89FK/zRSDIphd7HQnzKk8F58MGkCLzxqs2L4joe1nlJnL0oXD4Wi/ZpPxCit
+ kioE5DRAv3DGYD2Ukw+r0NCQz2cWzmCjs8IFYENZx4xxCW8a8fLP2iJs8aOvpMRZyLzp
+ zAr/wO9Rzr9QzBP1953azyQBtGAk1rfcBjvrspsFrh1CTIyUqI3cWUcQAN8x3jP6Raag
+ pCcS8mCb/2ePAcIg0WCoLZlo2nCTp+BiuKLo6PVsZS8D41vh7jh6w1HPHKbPR2Y4hYeE
+ EkwtvOU+6bjwg+9fzNLVjouD6kYqqh/1cJUOV2U/yPg0a6h+r3gIVf6I1lbsHX4qneDI
+ SMAw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5sf9nD0jGEfJziJw4wCPogl1nstMIdJJmM3B52k7SCAqGZFNhgTgmIaXk1eqlCYiLEojTldHVbFk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnKkuN45rkNG9/73XuA5rd2ERM67cCzTykP6ReKiURkbxnOWn3
- CsJHnologqLDPwFRDzokCa7DWrumeai3gooWns6sROLR+SPt10SZSwsVPTYhuEY=
-X-Gm-Gg: ASbGnctYNSBYwAbmkLmwjGwtYOMmGE2RFuLdxehDlIYPVV2UiuTGP4WoeTkt2gMWiyK
- 6RjucziKxnIpPBfm5nsvNXRSxGbCSNKwPGDzsRu/3iReHtLkiJLrmN0nw6omiA9u9vH+Fj3m6NA
- u3Wbnlsq4XVPlGUy7xOYQv0YfOMkOV/mkAq6fYhIkwKhuiDfpqO2vFETojLlhjc9sTTA9uCChj8
- c8nSPjffMk/jHTzU5FwxcWP6P3UMIPK7Be+NlfpTB0KkxTdgxu2sWeDksVraj5sKIiM1UzMJ92J
- yy21rJ0B7T1V18rY3Rh0Mx2iEDXGxScQivlk0wPERThEEAGelkheTjb7YlVwt922Lym36IQ=
-X-Google-Smtp-Source: AGHT+IGf17bKGu+1DYlb0j/jvgsMwXNXFwObJA13sDP2bt38E796iTxNMVbR5XUvItDk5swObX1lsQ==
-X-Received: by 2002:a05:6512:1586:b0:545:d08:86 with SMTP id
- 2adb3069b0e04-5451826ea05mr2938515e87.5.1739464759138; 
- Thu, 13 Feb 2025 08:39:19 -0800 (PST)
+ AJvYcCXOnC2S9ijRFMITtjKnnuVr8zDORFrcflq0RoWFANGn9ZbdlYIZHMKx0YD4e0iFSHOW9XvHGCjBpQQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQGEiau7s3fNCztZUvOqK8/kkiN1mVFrrIn84Q8g7YFSEepWSN
+ TmInshTt7Aoamh2ZYNyOOMrws2xxxIFC42QBcpksSumD8/K43MZ6/abcumVrOXI=
+X-Gm-Gg: ASbGncvLpvxDzcFCWN1AiEv4E9i+f7nu0XN6VvohzDl4ebP9YrPmUHURhWFYyY38PzF
+ ud/yFhn9zxnTNYOfenut1wQJcSmGSmZ7qlJyF/QQCiL+kAyi0HCALX8zXrC++1K5eL9gOo4zTWv
+ OJFEzBiLHu/gA6OeONd0ne2LBvB00aM5W8oKBgMtKhwZu0AA1bovCgDQR10a5cfgxV5w+OBJx+q
+ h1gXLZ18IG6OmBjJ6sMDq38XjN885/gq/es5QFqosfiYn/ZgDYdaoWILCoMB/SFkrI40p/abfzO
+ IdsZcpy21uz8uWEOJicY7h8AS78qvKuVzRLcvLKF4Wpip7NsDMwGjxNqznPDPYfj/lwplTk=
+X-Google-Smtp-Source: AGHT+IHF6JYg8o9iPAbhowG9brKPw9OQ7bxonNwRfn7MOY4iIar8pyOkUt+TuUgL4bBtZ7bJl/qq3Q==
+X-Received: by 2002:a05:6512:ea6:b0:545:58d:9dda with SMTP id
+ 2adb3069b0e04-5451ddeb4d6mr1608127e87.48.1739464808737; 
+ Thu, 13 Feb 2025 08:40:08 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5451f083266sm215554e87.43.2025.02.13.08.39.17
+ 2adb3069b0e04-5451f09d0d4sm217697e87.100.2025.02.13.08.40.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 08:39:18 -0800 (PST)
-Date: Thu, 13 Feb 2025 18:39:16 +0200
+ Thu, 13 Feb 2025 08:40:08 -0800 (PST)
+Date: Thu, 13 Feb 2025 18:40:05 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,15 +73,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Douglas Anderson <dianders@chromium.org>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 20/37] drm/atomic-helper: Change parameter name of
- drm_atomic_helper_commit_writebacks()
-Message-ID: <ec63ymdlluzsudnv6q4raeihtegezg4mfcbjjufg6xce5ljmjr@5hnpo3dc5hqk>
+Subject: Re: [PATCH v3 21/37] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_fake_vblank()
+Message-ID: <j74s4po655dtjcvsweijgdcfktalceenn2mh5ebkx6wuostaus@st2m5gf2o3cl>
 References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
- <20250213-bridge-connector-v3-20-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-21-e71598f49c8f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213-bridge-connector-v3-20-e71598f49c8f@kernel.org>
+In-Reply-To: <20250213-bridge-connector-v3-21-e71598f49c8f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,9 +97,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 03:43:39PM +0100, Maxime Ripard wrote:
-> drm_atomic_helper_commit_writebacks() updates all writeback connectors
-> affected by a new commit. It takes the drm_atomic_state being committed
+On Thu, Feb 13, 2025 at 03:43:40PM +0100, Maxime Ripard wrote:
+> drm_atomic_helper_fake_vblank() fake a vblank event if needed when a new
+> commit is being applied. It takes the drm_atomic_state being committed
 > as a parameter.
 > 
 > However, that parameter name is called (and documented) as old_state,
@@ -107,8 +107,8 @@ On Thu, Feb 13, 2025 at 03:43:39PM +0100, Maxime Ripard wrote:
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_atomic_helper.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
