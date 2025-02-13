@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56AEA3353A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 03:10:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A67AA3353E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 03:10:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAE1F10E9DA;
-	Thu, 13 Feb 2025 02:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 115B310E9DD;
+	Thu, 13 Feb 2025 02:10:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SsMC725f";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lU2s9hWk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108A410E9CB;
- Thu, 13 Feb 2025 02:10:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 352BA10E9D3;
+ Thu, 13 Feb 2025 02:10:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1739412619; x=1770948619;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pKoUloYrQMotRRRf5cjgNz1Y+vQDEeoXaRaImoe9Lwk=;
- b=SsMC725fSQr4jhE+G9gj3O1Br56ALRAyXfFrg8MSOfK+jHK2xHlSEa3a
- LtYkL6KobnB1RckqsKCp06DtMKqCUYNwCEd2OtjwZ7KADeL8/l2S2U6hm
- /N/LxR7/UahXh8cdk7nSi7Mfq/jezyLgTDnneb3T/Q3kL65u5IJg4wu3m
- HR9x9F7wBye8xTXcsMkOCzB20OD20fj5nNKdFU2GIBeXykvN8UwaMkHIa
- vqG+e7Yg5/yaqszFgiZhi3O+MsUDVGQ6/T/A+PlwnnJKNkMNdglFMK0+F
- 14JE36fm2+LMASsqng9OqWgqynwdonqz8T0Rp/Zp1vnVA7lTzvVn4VOvz Q==;
-X-CSE-ConnectionGUID: b7g1wnPaRdqS41q6gd8uIg==
-X-CSE-MsgGUID: +VGoZeXBSiukvwA1NDafWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65456021"
-X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="65456021"
+ bh=WjqDBJ7xA3pD/UXFejzasuxi4LRrc4cPvfnISQLakJc=;
+ b=lU2s9hWkhrGbDsytc160+R04aUG8KWLxDsRxLZwwyjODFo3Pti0BuMsF
+ N3Gbs8y7VXMLlH6fj09C9jR9ka13usLXKxGDbb42ySQKFpG8V2iS59nYj
+ 3X9a+wy3zEgCEoaAq9KRtOD8/RNH68OeZwTyRW02V9SFQish+Z3fnqkvb
+ vi/QQS60MP6bkJ52WhWEggQ52DbVmWW4Fal6oyyDq8FA3TYabLg7msn50
+ nq/3F2MR/IJvVL3J0XF6IPvBFkTDejSlxztL3yDywkxG/lanO/ccl96LT
+ aOpdKGDFcKqqFgUjHdzZ3rht7xZVnmBxzWYhA7TFDT/bRl+mng+WOW/m+ g==;
+X-CSE-ConnectionGUID: BzqHCW7tTqOa7DL/Obh04A==
+X-CSE-MsgGUID: pKg60qT8SOq5608hbYl8uQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65456025"
+X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="65456025"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Feb 2025 18:10:17 -0800
-X-CSE-ConnectionGUID: K8iXB6HcRvCoHkQw3bdzBg==
-X-CSE-MsgGUID: kuaKtlcjT6WRZKFhR94A1A==
+X-CSE-ConnectionGUID: OLbFZBQTQt2SqB11bCxzJg==
+X-CSE-MsgGUID: v+g+lpBBSpG2+cWVynHQFQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="117945087"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="117945090"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Feb 2025 18:10:15 -0800
@@ -47,9 +47,10 @@ To: intel-xe@lists.freedesktop.org,
 Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
  thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
  felix.kuehling@amd.com, dakr@kernel.org
-Subject: [PATCH v5 18/32] drm/xe: Enable CPU address mirror uAPI
-Date: Wed, 12 Feb 2025 18:10:58 -0800
-Message-Id: <20250213021112.1228481-19-matthew.brost@intel.com>
+Subject: [PATCH v5 19/32] drm/xe/uapi: Add
+ DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR
+Date: Wed, 12 Feb 2025 18:10:59 -0800
+Message-Id: <20250213021112.1228481-20-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250213021112.1228481-1-matthew.brost@intel.com>
 References: <20250213021112.1228481-1-matthew.brost@intel.com>
@@ -71,35 +72,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support for CPU address mirror bindings in SRAM fully in place, enable the
-implementation.
-
-v3:
- - s/system allocator/CPU address mirror (Thomas)
+Add the DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR device query flag,
+which indicates whether the device supports CPU address mirroring. The
+intent is for UMDs to use this query to determine if a VM can be set up
+with CPU address mirroring. This flag is implemented by checking if the
+device supports GPU faults.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
 ---
- drivers/gpu/drm/xe/xe_vm.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/gpu/drm/xe/xe_query.c | 5 ++++-
+ include/uapi/drm/xe_drm.h     | 3 +++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 06b013d1f533..6c9c3f9e307d 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3040,12 +3040,6 @@ static int vm_bind_ioctl_check_args(struct xe_device *xe, struct xe_vm *vm,
- 		u16 pat_index = (*bind_ops)[i].pat_index;
- 		u16 coh_mode;
- 
--		/* FIXME: Disabling CPU address mirror for now */
--		if (XE_IOCTL_DBG(xe, is_cpu_addr_mirror)) {
--			err = -EOPNOTSUPP;
--			goto free_bind_ops;
--		}
--
- 		if (XE_IOCTL_DBG(xe, is_cpu_addr_mirror &&
- 				 !xe_vm_in_fault_mode(vm))) {
- 			err = -EINVAL;
+diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
+index 042f87a688e7..268a180b8ffd 100644
+--- a/drivers/gpu/drm/xe/xe_query.c
++++ b/drivers/gpu/drm/xe/xe_query.c
+@@ -334,8 +334,11 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
+ 	config->info[DRM_XE_QUERY_CONFIG_REV_AND_DEVICE_ID] =
+ 		xe->info.devid | (xe->info.revid << 16);
+ 	if (xe_device_get_root_tile(xe)->mem.vram.usable_size)
+-		config->info[DRM_XE_QUERY_CONFIG_FLAGS] =
++		config->info[DRM_XE_QUERY_CONFIG_FLAGS] |=
+ 			DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM;
++	if (xe->info.has_usm)
++		config->info[DRM_XE_QUERY_CONFIG_FLAGS] |=
++			DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR;
+ 	config->info[DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT] =
+ 		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K;
+ 	config->info[DRM_XE_QUERY_CONFIG_VA_BITS] = xe->info.va_bits;
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index 30276d7c67d1..bb1dc6587e56 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -393,6 +393,8 @@ struct drm_xe_query_mem_regions {
+  *
+  *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM - Flag is set if the device
+  *      has usable VRAM
++ *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR - Flag is set if the
++ *      device has CPU address mirroring support
+  *  - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alignment
+  *    required by this device, typically SZ_4K or SZ_64K
+  *  - %DRM_XE_QUERY_CONFIG_VA_BITS - Maximum bits of a virtual address
+@@ -409,6 +411,7 @@ struct drm_xe_query_config {
+ #define DRM_XE_QUERY_CONFIG_REV_AND_DEVICE_ID	0
+ #define DRM_XE_QUERY_CONFIG_FLAGS			1
+ 	#define DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM	(1 << 0)
++	#define DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR	(1 << 1)
+ #define DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT		2
+ #define DRM_XE_QUERY_CONFIG_VA_BITS			3
+ #define DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY	4
 -- 
 2.34.1
 
