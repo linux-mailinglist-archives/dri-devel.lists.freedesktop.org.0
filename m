@@ -2,65 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283C6A33F51
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 13:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547FFA352F9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:34:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5054C10EA9D;
-	Thu, 13 Feb 2025 12:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE00310EBC8;
+	Fri, 14 Feb 2025 00:33:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bMkTKxxY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fNAuLZg1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E7510EA9E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 12:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739450413;
- bh=1NKid35ms3rwfl1WIWHKmj/E2Et68QQEMclUR1o1Qdg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bMkTKxxYuPtmtWitDL/buUOxZCQPiW370lhrTbobkEtQW5nHiPgc+fUDZCC6Qm8lW
- ocYzeEJeH8O1ho7q+uM7bMJUDmVn+EUelDE/6Iz6b4OIKHvGOwv0eavTa/dwJzV23X
- VpfRMv1hYurl0MsfzzmCBrZuakjiJV+DLpuluiObEgvzY0D6XfMbTGy3q7K5M7k/pP
- xkuPFmo0UFqqvdBVoq/mG/XSRSpLSI1cGB/MOfjyFem9MBoe2eMUdrNl0eVSrRKL2h
- 40Bk5Mfjk2IS5V+s3rwxF60Y3BkgfIDgi1/aAlZ3PEV3xGQ4As0uzLBcmcFgqOUmYz
- dJ1K+AMTtq31g==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CAD417E153C;
- Thu, 13 Feb 2025 13:40:13 +0100 (CET)
-Date: Thu, 13 Feb 2025 13:40:08 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: Jens Wiklander <jens.wiklander@linaro.org>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>, Thierry Reding
- <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com,
- Florent Tomasin <florent.tomasin@arm.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-Message-ID: <20250213134008.4cbef142@collabora.com>
-In-Reply-To: <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20250212205613.4400a888@collabora.com>
- <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
- <20250213093557.278f5d19@collabora.com>
- <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C94CB10EA82
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 12:43:52 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-5de3c29e9b3so1322802a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 04:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739450631; x=1740055431; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2XjKKYlWXb6xupzizzPwV1OMDDEKmqUSqaArwd7zvko=;
+ b=fNAuLZg1F65dmly1J1tsKGR1lzq8D7G4nCNj6UPDAh02d6h69EttkbSpsnbaGZaANM
+ NyWS0Yk7qrBISlQkU8zTgB0FlLs1nTF1JCtG1hZH635TqMQayzdNHsExko/bi+COFBGa
+ cdfnaxs5KwAq+eNdaY/lP1qOV/pnRp9zLwlaEeQsdLUzm2Us7mxaZ5foZesuB+Hv+p/X
+ 1kGA/PSkdqZq3P2j0WkVJX0Iw0xt5sodhjqvxCPhWAU1Cd5QnwYDlOqcnw6F2j1SjR4w
+ v/aGmK+uOGPCKOUQmqATWHTOKv6WiBKNF3C6mfKd2w+jBDyELcgvQvGvJTTugX1PkCjO
+ Qkuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739450631; x=1740055431;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2XjKKYlWXb6xupzizzPwV1OMDDEKmqUSqaArwd7zvko=;
+ b=N3Iky0aWeemly5SvhW2IAfVSEtWrJKjoUReaQoqwAgrfvBJYw2S5iTevpyVmb/egv1
+ MxkNEEQOro3WsUmuavVe5Ff/XgJqpLrIMIWr0Qk2wp/+2/NxIlOgr8bZJ8lhIRhq9aI0
+ ESxrt9jufEI7ZDT2mnpKxsYpceu9Y4M/0D5Jzv5MEr1XNBoSbLIYFruZd9WflWMWKZfC
+ LO2ABdgx0XZoK0J5TLhCiWh2Bhn5TiyX03yo2dV+RI4NNbyjeeQnZj+jnZ+vfhDwz7tW
+ QKhncUHiTAU6ECUW3l6XZ0Q3WetU3SS5tR0rpi/JmE8aHOxK/Mz1N3GBQzbxF3RwRmda
+ rNgg==
+X-Gm-Message-State: AOJu0YxSKytL9WZiCMN6GWOvIQdNbMiF87hpXSDgNizCU+z5HimDcWa+
+ RXFyK6OpPpkGC15DalVCK+y+J1ANoot9rPN2FQsaPEH2Obt/MnlKTgj/Ll8bTj1/Fg815R27EsY
+ Hl4D7cLEPJqg7rE10fR2T59FcnEk=
+X-Gm-Gg: ASbGncsE1iUd+12am4zPagcvpxIpDMBFIV/W64+bScy3bxZggjoOzL2G53/QSo3+pu5
+ RgiXEueXDBez6vz5mJMsLEZ3g5m0PdMAMfhU/psopXq6k7FYL/3caVqb+KlboPNaV372Rkvcr+Z
+ Y=
+X-Google-Smtp-Source: AGHT+IFOw0kNCJFvrzKPyY1j6HibE6TL5bfUxYtzxWEfNrqyHD/MWFpjH/Bqtwv4+uWz3RPHu41mqOu5jSp87zpWBX0=
+X-Received: by 2002:a05:6402:3905:b0:5dc:c9ce:b022 with SMTP id
+ 4fb4d7f45d1cf-5dec9e793c6mr2867061a12.9.1739450630923; Thu, 13 Feb 2025
+ 04:43:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250211152812.54018-1-vignesh.raman@collabora.com>
+ <20250211152812.54018-4-vignesh.raman@collabora.com>
+In-Reply-To: <20250211152812.54018-4-vignesh.raman@collabora.com>
+From: Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
+Date: Thu, 13 Feb 2025 09:43:39 -0300
+X-Gm-Features: AWEUYZluT3Wkd1PZxazm6bk_o2BFn8FJ-1pTiFEGh_ywmnPSgc6YNgpHF_7ceUE
+Message-ID: <CAPW4XYZtj7HRhoeOfYguZBEnbqpbRscKrXTn5821aAxvcqNb0g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/ci: enable lockdep detection
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, airlied@gmail.com, 
+ simona.vetter@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, valentine.burley@collabora.com, 
+ jani.nikula@linux.intel.com, dmitry.baryshkov@linaro.org, mripard@kernel.org, 
+ boqun.feng@gmail.com, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Fri, 14 Feb 2025 00:33:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,169 +86,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Feb 2025 14:46:01 +0530
-Sumit Garg <sumit.garg@linaro.org> wrote:
+Hi Vignesh,
 
-> On Thu, 13 Feb 2025 at 14:06, Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > On Thu, 13 Feb 2025 12:11:52 +0530
-> > Sumit Garg <sumit.garg@linaro.org> wrote:
-> >  
-> > > Hi Boris,
-> > >
-> > > On Thu, 13 Feb 2025 at 01:26, Boris Brezillon
-> > > <boris.brezillon@collabora.com> wrote:  
-> > > >
-> > > > +Florent, who's working on protected-mode support in Panthor.
-> > > >
-> > > > Hi Jens,
-> > > >
-> > > > On Tue, 17 Dec 2024 11:07:36 +0100
-> > > > Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > > >  
-> > > > > Hi,
-> > > > >
-> > > > > This patch set allocates the restricted DMA-bufs via the TEE subsystem.  
-> > > >
-> > > > We're currently working on protected-mode support for Panthor [1] and it
-> > > > looks like your series (and the OP-TEE implementation that goes with
-> > > > it) would allow us to have a fully upstream/open solution for the
-> > > > protected content use case we're trying to support. I need a bit more
-> > > > time to play with the implementation but this looks very promising
-> > > > (especially the lend rstmem feature, which might help us allocate our
-> > > > FW sections that are supposed to execute code accessing protected
-> > > > content).  
-> > >
-> > > Glad to hear that, if you can demonstrate an open source use case
-> > > based on this series then it will help to land it. We really would
-> > > love to see support for restricted DMA-buf consumers be it GPU, crypto
-> > > accelerator, media pipeline etc.
-> > >  
-> > > >  
-> > > > >
-> > > > > The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> > > > > (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QCOMTEE) which sets up the
-> > > > > restrictions for the memory used for the DMA-bufs.
-> > > > >
-> > > > > I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
-> > > > > DMA-bufs. This IOCTL reaches the backend TEE driver, allowing it to choose
-> > > > > how to allocate the restricted physical memory.  
-> > > >
-> > > > I'll probably have more questions soon, but here's one to start: any
-> > > > particular reason you didn't go for a dma-heap to expose restricted
-> > > > buffer allocation to userspace? I see you already have a cdev you can
-> > > > take ioctl()s from, but my understanding was that dma-heap was the
-> > > > standard solution for these device-agnostic/central allocators.  
-> > >
-> > > This series started with the DMA heap approach only here [1] but later
-> > > discussions [2] lead us here. To point out specifically:
-> > >
-> > > - DMA heaps require reliance on DT to discover static restricted
-> > > regions carve-outs whereas via the TEE implementation driver (eg.
-> > > OP-TEE) those can be discovered dynamically.  
-> >
-> > Hm, the system heap [1] doesn't rely on any DT information AFAICT.  
-> 
-> Yeah but all the prior vendor specific secure/restricted DMA heaps
-> relied on DT information.
+thanks for your patch.
 
-Right, but there's nothing in the DMA heap provider API forcing that.
+Em ter., 11 de fev. de 2025 =C3=A0s 12:29, Vignesh Raman
+<vignesh.raman@collabora.com> escreveu:
+>
+> We have enabled PROVE_LOCKING (which enables LOCKDEP) in drm-ci.
+> This will output warnings when kernel locking errors are encountered
+> and will continue executing tests. To detect if lockdep has been
+> triggered, check the debug_locks value in /proc/lockdep_stats after
+> the tests have run. When debug_locks is 0, it indicates that lockdep
+> has detected issues and turned itself off. Check this value, and if
+> lockdep is detected, exit with an error and configure it as a warning
+> in GitLab CI.
+>
+> GitLab CI ignores exit codes other than 1 by default. Pass the correct
+> exit code with variable FF_USE_NEW_BASH_EVAL_STRATEGY set to true or
+> exit on failure.
+>
+> Also update the documentation.
+>
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> ---
+>
+> v2:
+>   - Lockdep failures are reported as pipeline warnings,
+>     and the documentation is updated.
+>
+> ---
+>  Documentation/gpu/automated_testing.rst |  4 ++++
+>  drivers/gpu/drm/ci/igt_runner.sh        | 11 +++++++++++
+>  drivers/gpu/drm/ci/test.yml             | 19 ++++++++++++++++---
+>  3 files changed, 31 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/=
+automated_testing.rst
+> index 6d7c6086034d..62aa3ede02a5 100644
+> --- a/Documentation/gpu/automated_testing.rst
+> +++ b/Documentation/gpu/automated_testing.rst
+> @@ -115,6 +115,10 @@ created (eg. https://gitlab.freedesktop.org/janedoe/=
+linux/-/pipelines)
+>  5. The various jobs will be run and when the pipeline is finished, all j=
+obs
+>  should be green unless a regression has been found.
+>
+> +6. Warnings in the pipeline indicate that lockdep
+> +(see Documentation/locking/lockdep-design.rst) issues have been detected
+> +during the tests.
+> +
+>
+>  How to update test expectations
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_ru=
+nner.sh
+> index 68b042e43b7f..2a0599f12c58 100755
+> --- a/drivers/gpu/drm/ci/igt_runner.sh
+> +++ b/drivers/gpu/drm/ci/igt_runner.sh
+> @@ -85,5 +85,16 @@ deqp-runner junit \
+>     --limit 50 \
+>     --template "See $ARTIFACTS_BASE_URL/results/{{testcase}}.xml"
+>
+> +# Check if /proc/lockdep_stats exists
+> +if [ -f /proc/lockdep_stats ]; then
+> +    # If debug_locks is 0, it indicates lockdep is detected and it turns=
+ itself off.
+> +    debug_locks=3D$(grep 'debug_locks:' /proc/lockdep_stats | awk '{prin=
+t $2}')
+> +    if [ "$debug_locks" -eq 0 ] && [ "$ret" -eq 0 ]; then
+> +        echo "Warning: LOCKDEP issue detected. Please check dmesg logs f=
+or more information."
+> +        cat /proc/lockdep_stats
+> +        ret=3D101
+> +    fi
+> +fi
+> +
+>  cd $oldpath
+>  exit $ret
+> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+> index 0eab020a33b9..3af735dbf6bd 100644
+> --- a/drivers/gpu/drm/ci/test.yml
+> +++ b/drivers/gpu/drm/ci/test.yml
+> @@ -1,6 +1,8 @@
+>  .lava-test:
+>    extends:
+>      - .container+build-rules
+> +  variables:
+> +    FF_USE_NEW_BASH_EVAL_STRATEGY: 'true'
+>    timeout: "1h30m"
+>    rules:
+>      - !reference [.scheduled_pipeline-rules, rules]
+> @@ -13,6 +15,9 @@
+>      - mv -n install/* artifacts/.
+>      # Override it with our lava-submit.sh script
+>      - ./artifacts/lava-submit.sh
+> +  allow_failure:
+> +    exit_codes:
+> +      - 101
 
-> 
-> > The dynamic allocation scheme, where the TEE implementation allocates a
-> > chunk of protected memory for us would have a similar behavior, I guess.  
-> 
-> In a dynamic scheme, the allocation will still be from CMA or system
-> heap depending on TEE implementation capabilities but the restriction
-> will be enforced via interaction with TEE.
+Maybe we could have this rule more generically instead of just in lava,
+so we can re-use it in other jobs as well and we don't need to repeat it.
 
-Sorry, that's a wording issue. By dynamic allocation I meant the mode
-where allocations goes through the TEE, not the lend rstmem thing. BTW,
-calling the lend mode dynamic-allocation is kinda confusing, because in
-a sense, both modes can be considered dynamic allocation from the user
-PoV. I get that when the TEE allocates memory, it's picking from its
-fixed address/size pool, hence the name, but when I first read this, I
-thought the dynamic mode was the other one, and the static mode was the
-one where you reserve a mem range from the DT, query it from the driver
-and pass it to the TEE to restrict access post reservation/static
-allocation.
-
-> 
-> >  
-> > > - Dynamic allocation of buffers and making them restricted requires
-> > > vendor specific driver hooks with DMA heaps whereas the TEE subsystem
-> > > abstracts that out with underlying TEE implementation (eg. OP-TEE)
-> > > managing the dynamic buffer restriction.  
-> >
-> > Yeah, the lend rstmem feature is clearly something tee specific, and I
-> > think that's okay to assume the user knows the protection request
-> > should go through the tee subsystem in that case.  
-> 
-> Yeah but how will the user discover that?
-
-There's nothing to discover here. It would just be explicitly specified:
-
-- for in-kernel users it can be a module parameter (or a DT prop if
-  that's deemed acceptable)
-- for userspace, it can be an envvar, a config file, or whatever the
-  app/lib uses to get config options
-
-> Rather than that it's better
-> for the user to directly ask the TEE device to allocate restricted
-> memory without worrying about how the memory restriction gets
-> enforced.
-
-If the consensus is that restricted/protected memory allocation should
-always be routed to the TEE, sure, but I had the feeling this wasn't as
-clear as that. OTOH, using a dma-heap to expose the TEE-SDP
-implementation provides the same benefits, without making potential
-future non-TEE based implementations a pain for users. The dma-heap
-ioctl being common to all implementations, it just becomes a
-configuration matter if we want to change the heap we rely on for
-protected/restricted buffer allocation. And because heaps have
-unique/well-known names, users can still default to (or rely solely on)
-the TEE-SPD implementation if they want.
-
-> 
-> >  
-> > > - TEE subsystem already has a well defined user-space interface for
-> > > managing shared memory buffers with TEE and restricted DMA buffers
-> > > will be yet another interface managed along similar lines.  
-> >
-> > Okay, so the very reason I'm asking about the dma-buf heap interface is
-> > because there might be cases where the protected/restricted allocation
-> > doesn't go through the TEE (Mediatek has a TEE-free implementation
-> > for instance, but I realize vendor implementations are probably not the
-> > best selling point :-/).  
-> 
-> You can always have a system with memory and peripheral access
-> permissions setup during boot (or even have a pre-configured hardware
-> as a special case) prior to booting up the kernel too. But that even
-> gets somehow configured by a TEE implementation during boot, so
-> calling it a TEE-free implementation seems over-simplified and not a
-> scalable solution. However, this patchset [1] from Mediatek requires
-> runtime TEE interaction too.
-> 
-> [1] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.wu@mediatek.com/
-> 
-> > If we expose things as a dma-heap, we have
-> > a solution where integrators can pick the dma-heap they think is
-> > relevant for protected buffer allocations without the various drivers
-> > (GPU, video codec, ...) having to implement a dispatch function for all
-> > possible implementations. The same goes for userspace allocations,
-> > where passing a dma-heap name, is simpler than supporting different
-> > ioctl()s based on the allocation backend.  
-> 
-> There have been several attempts with DMA heaps in the past which all
-> resulted in a very vendor specific vertically integrated solution. But
-> the solution with TEE subsystem aims to make it generic and vendor
-> agnostic.
-
-Just because all previous protected/restricted dma-heap effort
-failed to make it upstream, doesn't mean dma-heap is the wrong way of
-exposing this feature IMHO.
 
 Regards,
+Helen
 
-Boris
+>
+>  .lava-igt:arm32:
+>    extends:
+> @@ -88,9 +93,14 @@
+>      - igt:arm64
+>    tags:
+>      - $RUNNER_TAG
+> +  allow_failure:
+> +    exit_codes:
+> +      - 101
+>
+>  .software-driver:
+>    stage: software-driver
+> +  variables:
+> +    FF_USE_NEW_BASH_EVAL_STRATEGY: 'true'
+>    timeout: "1h30m"
+>    rules:
+>      - !reference [.scheduled_pipeline-rules, rules]
+> @@ -108,6 +118,9 @@
+>      - debian/x86_64_test-gl
+>      - testing:x86_64
+>      - igt:x86_64
+> +  allow_failure:
+> +    exit_codes:
+> +      - 101
+>
+>  .msm-sc7180:
+>    extends:
+> @@ -153,7 +166,7 @@ msm:apq8016:
+>      BM_KERNEL_EXTRA_ARGS: clk_ignore_unused
+>      RUNNER_TAG: google-freedreno-db410c
+>    script:
+> -    - ./install/bare-metal/fastboot.sh
+> +    - ./install/bare-metal/fastboot.sh || exit $?
+>
+>  msm:apq8096:
+>    extends:
+> @@ -167,7 +180,7 @@ msm:apq8096:
+>      GPU_VERSION: apq8096
+>      RUNNER_TAG: google-freedreno-db820c
+>    script:
+> -    - ./install/bare-metal/fastboot.sh
+> +    - ./install/bare-metal/fastboot.sh || exit $?
+>
+>  msm:sdm845:
+>    extends:
+> @@ -181,7 +194,7 @@ msm:sdm845:
+>      GPU_VERSION: sdm845
+>      RUNNER_TAG: google-freedreno-cheza
+>    script:
+> -    - ./install/bare-metal/cros-servo.sh
+> +    - ./install/bare-metal/cros-servo.sh || exit $?
+>
+>  msm:sm8350-hdk:
+>    extends:
+> --
+> 2.43.0
+>
+
+
+--=20
+Helen Koike
