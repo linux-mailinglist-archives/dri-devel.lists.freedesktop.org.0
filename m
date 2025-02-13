@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA76A34329
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903D8A3432D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:45:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87F5C10EAF1;
-	Thu, 13 Feb 2025 14:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0961210EAED;
+	Thu, 13 Feb 2025 14:45:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J0bbn1aL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CzMJFvu3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2004F10EAEE
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:45:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA16510EAEC
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:45:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 09EE6A41D5E;
- Thu, 13 Feb 2025 14:43:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8524C4CED1;
- Thu, 13 Feb 2025 14:45:11 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B0EE4A41D5E;
+ Thu, 13 Feb 2025 14:43:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE5CC4CEE4;
+ Thu, 13 Feb 2025 14:45:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739457912;
- bh=72Lepx1DN8gQFji9Cjn3zP8xGqZXbIiwFKfACerW6i4=;
+ s=k20201202; t=1739457914;
+ bh=G/dtHGJLltHvyQvOlbZxv0Dbjvb3n4W6Sq3TiFqZN7Q=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=J0bbn1aLsA2ZyNa0O0cxSmj/CWZknrcr+lIZUL+dG4w9+mONgdbhjaLb6WUTOGUko
- Uuv8BjysxNoR01g2q7nk15elHd8XtXUiPQpQlZf+aAcFxEKta5THptt4oYo5uG+4Vd
- GDoao6RtiXCn48TQP5Tqx0HTDvAkjspGIrho+bTe8004IQ1v4wa2GALdH0Lpspg06t
- plO2XIaAuVnaZ5B91Wz41ZhCRwa8b0W7gvEohjyoUipNF/WAWSpc2ccd/9tdpFhSjH
- tEC4o7QKarMpxNxKgHc7XHkAPUzogNXr35kC6YaVzwpYvqsPLIEP4B5w4of4sstNhg
- ZmXqJdvuXoVMQ==
+ b=CzMJFvu3mGQSIUbWRdPNGlktfm9tTcHsneSZ6VGrkosVec/KofGhk0jYwLRfilOkl
+ nx0jVjbgz/BdxLezIhIqNLaJtfCws9wy22NfrId90FitkbhOnzKNA3vHJv4A7R1y5o
+ ZTACp5x/zLXzLWrFA0Nk2XsYdksocrwzgyVvj9O0fwPeXME/9mQgcOv1+pgEwG3gIs
+ Evj78V3wOLgrNcvCS102fLqWfyQ+eYEk6yBIyL5CLsdaN7D3fK9Kh431sVTycHTl2d
+ ifvntnXKBcBi82hkUt5eRRswCboNPFU3XXbut8p1czan2Ssj1QlF8eHJi8T1gxodu0
+ EU+fFaknmMlog==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 13 Feb 2025 15:43:47 +0100
-Subject: [PATCH v3 28/37] drm/bridge: Provide a helper to retrieve current
- bridge state
+Date: Thu, 13 Feb 2025 15:43:48 +0100
+Subject: [PATCH v3 29/37] drm/bridge: Introduce drm_bridge_is_atomic() helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-bridge-connector-v3-28-e71598f49c8f@kernel.org>
+Message-Id: <20250213-bridge-connector-v3-29-e71598f49c8f@kernel.org>
 References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 In-Reply-To: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -48,14 +47,15 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Douglas Anderson <dianders@chromium.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@kernel.org>
+ Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1331; i=mripard@kernel.org;
- h=from:subject:message-id; bh=72Lepx1DN8gQFji9Cjn3zP8xGqZXbIiwFKfACerW6i4=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnrWJWWdfacEcg56NQ9o+t24c8dIcYtLy976wdN3RVVe
- s9u7znTjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRxgTGOlU9/gfpCfaPHDOP
- 1hUbJpauWH657aX739Mucz5prlwsl2zty1kyUTXVWJ7VLZz5U/l3xvqobBUjvUUfllvp7Hny9qK
- 4zY87HwwlDjz12C4XNikyeKNK8hHJzS/PzH/Uby9/7lY5gyYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1899; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=G/dtHGJLltHvyQvOlbZxv0Dbjvb3n4W6Sq3TiFqZN7Q=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnrWJV/vm+4t8Y1e/mDxwuOGM18a7vr0OvNa+LKvm4/9
+ T8nyXuDfcdUFgZhTgZZMUWWJzJhp5e3L65ysF/5A2YOKxPIEAYuTgGYyNV0xnpntr7bD3TyYrdy
+ x1V1FMhbKd4NOJFQmfH754z6eX4iEx2+B9/sPb7j1iZe/R26s0VceRnrTE8mrPky+/KRZZruTiE
+ RXsfPPDOSXbDxx/rGORN9VVgXm2h03pr3ysOBb/YBL8leudsqAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,52 +73,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current bridge state is accessible from the drm_bridge structure,
-but since it's fairly indirect it's not easy to figure out.
+We test for whether the bridge is atomic in several places in the source
+code, so let's consolidate them.
 
-Provide a helper to retrieve it.
-
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_bridge.h | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/gpu/drm/drm_bridge.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 2b65466540306feb0694abdc7cd801369cb9c9f0..4cc12b8bbdfe2b496546607d1ae0b66a903c8f89 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -955,10 +955,31 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- {
- 	return NULL;
- }
- #endif
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 8241c00e4506eceeb9bb4ba74a38d8f360c65d38..d2525d0b1324cc3a63e32f5bf6ca6c4f9034eb4e 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -278,10 +278,15 @@ drm_bridge_atomic_destroy_priv_state(struct drm_private_obj *obj,
+ static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
+ 	.atomic_duplicate_state = drm_bridge_atomic_duplicate_priv_state,
+ 	.atomic_destroy_state = drm_bridge_atomic_destroy_priv_state,
+ };
  
-+/**
-+ * @drm_bridge_get_current_state() - Get the current bridge state
-+ * @bridge: bridge object
-+ *
-+ * This function must be called with the modeset lock held.
-+ *
-+ * RETURNS:
-+ *
-+ * The current bridge state, or NULL if there is none.
-+ */
-+static inline struct drm_bridge_state *
-+drm_bridge_get_current_state(struct drm_bridge *bridge)
++static bool drm_bridge_is_atomic(struct drm_bridge *bridge)
 +{
-+	drm_modeset_lock_assert_held(&bridge->base.lock);
-+
-+	if (!bridge)
-+		return NULL;
-+
-+	return drm_priv_to_bridge_state(bridge->base.state);
++	return bridge->funcs->atomic_reset != NULL;
 +}
 +
  /**
-  * drm_bridge_get_next_bridge() - Get the next bridge in the chain
-  * @bridge: bridge object
+  * drm_bridge_attach - attach the bridge to an encoder's chain
   *
-  * RETURNS:
+  * @encoder: DRM encoder
+  * @bridge: bridge to attach
+@@ -330,11 +335,11 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 		ret = bridge->funcs->attach(bridge, encoder, flags);
+ 		if (ret < 0)
+ 			goto err_reset_bridge;
+ 	}
+ 
+-	if (bridge->funcs->atomic_reset) {
++	if (drm_bridge_is_atomic(bridge)) {
+ 		struct drm_bridge_state *state;
+ 
+ 		state = bridge->funcs->atomic_reset(bridge);
+ 		if (IS_ERR(state)) {
+ 			ret = PTR_ERR(state);
+@@ -375,11 +380,11 @@ void drm_bridge_detach(struct drm_bridge *bridge)
+ 		return;
+ 
+ 	if (WARN_ON(!bridge->dev))
+ 		return;
+ 
+-	if (bridge->funcs->atomic_reset)
++	if (drm_bridge_is_atomic(bridge))
+ 		drm_atomic_private_obj_fini(&bridge->base);
+ 
+ 	if (bridge->funcs->detach)
+ 		bridge->funcs->detach(bridge);
+ 
 
 -- 
 2.48.0
