@@ -2,90 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE8BA34B7E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43CDAA34B92
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:19:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F70910E0DD;
-	Thu, 13 Feb 2025 17:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9929310EB4E;
+	Thu, 13 Feb 2025 17:19:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="n8wGfp1k";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N68kDozZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB97A10E0DD;
- Thu, 13 Feb 2025 17:16:53 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51DGrp5V008337;
- Thu, 13 Feb 2025 17:16:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 9wlBFv7Tbou/aWwuZJOkNHqYSnFsBzD7OpLRH3DjcgI=; b=n8wGfp1kx+Ww46ol
- ltmCjQpJU3aOzBoaDeDY4u+maocy7k2uTi82/nUtkufbwtkHKKLndqXaOi9Y2Yt8
- +pTEg8bDooUoEpskn6yVReNONteybJLKgFXjXVZFSWCxufFQICiSBmvTaCCs/Yej
- OJ+uxVpmr5DWivVF8wbVvJCF0sDIq6/HJ5bVq9WmOyYz4MyIyaixYip2YO3aqXvV
- kuNvAewXOkCqMtQbLkxfvIwMyxESmZKzl887iFr30MO2PE2gVQA+FBJA/ga08qeH
- kikHG9YSuY+Ueef5eSeZI0YvRVshrHGb7NhHKlKG9EuXHT6t5foSc+PmKhlDN6WW
- KolIBQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qewhbm77-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Feb 2025 17:16:48 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51DHGlHA013022
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Feb 2025 17:16:47 GMT
-Received: from [10.216.44.15] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Feb
- 2025 09:16:40 -0800
-Message-ID: <30c91617-8307-4ea5-8a56-4b3b987f2bdc@quicinc.com>
-Date: Thu, 13 Feb 2025 22:46:38 +0530
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
+ [209.85.166.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5B7010EB4D;
+ Thu, 13 Feb 2025 17:19:46 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id
+ e9e14a558f8ab-3cfeff44d94so3470065ab.0; 
+ Thu, 13 Feb 2025 09:19:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739467186; x=1740071986; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Bm4i25adIjcurhFNxqJaA0QU/KW7QorJTeiX3Rr0sNU=;
+ b=N68kDozZib2ZKQpv85NXXXUkIWXj68ARsHEAwNdsCpopVCw3kvCUKnqESxuzzyziw5
+ pzqMpMgIxE4WF85x6FLuBjGzkK1DmBGnJXtzvTiByK35FsybmmV6Je727AeKJ/gZ3j/Q
+ VBK9vdQmeysYB8f0h50q77nATRsijIJapVMJyge21zbADQuoskrhGdexW4uW1z5IUDL+
+ SqklJPrw+9h+tA/oEIvnvLtNMODG6xElCKv+7p1qpaBTU4Vek8G0d9P3Hft7RjOvjgI2
+ CklPGjx9B/IqhaOV1tQKehthVTEp6A3JNP7+pBj/oN0Shic+vbE7hT1rZKxy2fPdBIKE
+ 5+zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739467186; x=1740071986;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Bm4i25adIjcurhFNxqJaA0QU/KW7QorJTeiX3Rr0sNU=;
+ b=MoXphH+FzOBtchqaW1vzo05ZOYPWx/UQ49LrA+1qj1S1CCsfGHe5x+cVxmxMu6GjGN
+ oD5l9YFKqbLGJZWv/bj9kltl176bKCo047bnjMTyJchZlteLyfd8Nyn96im/B4jT1PwK
+ lvEHFfqUlqi46uq8NugKaQJOBsM2P1/KodPfd6yjY7ta3yRgOWAiI6KNUbNl6dy8Llcy
+ oVtlGDx53nEZQT+FZZB4TsUU/eby7iyZBPLxk799B7tq4VBaX5YNWLCQWqGLlE1QI2PG
+ R9OL7kNmsZzxk92cUIKPo5luk+0UM7ByJ1Kt9p/ZDLRlvnYJD3Yzb8Im0W9aAqt7JS8+
+ AAhQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFvNiutzt9oTNtu/JmUNfZmvxjSE9WD8bl16v/XrSZgHVra4b6KM9OEnltpcXsZDCCoiIihM0t6gXf@lists.freedesktop.org,
+ AJvYcCVI2o3FXF5tOAys71Ho/YZ5RL/w+6oxwDwaahSXddiRAM7CS4cOPTlFavuS9OBTFjdVpzCYUzUl33c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyodLLWYAp998bhmiimhgXmUJzRpKvKQm9QfqlEAkJTfoQHtzHh
+ YRbgZfXWsYmOTcYUoVDOyUtEmM/yF3miN9WcWodOMjupahoJey3JnLN8tOhnn/OwpZcIXfocJgi
+ uHGEU63aPCTogEoMZS37zHoXPG9M=
+X-Gm-Gg: ASbGncutylK3nCX00yzvfsNJ1mQ45myUnt/mhzHq8t+8Gq7L4TxKeaIWitsTSOz5sRK
+ O367/qxgH0jLHe/HTmHw93uuKQDhEnt+r8eRCVcEbqeBjIlhmLKnLK8scnTrV9jX4GWqRQ+IW8S
+ +xDg8yYipTV0ulBUWWmU31ovGVQ8Y=
+X-Google-Smtp-Source: AGHT+IGqHQH12TvcCqVq+sp2eFfkb9EhVfx2l+V4o6YoWca7+UnyXerhK5x+zq5ExbjI4QLtlq14D5tMNCuvWBn0ZEY=
+X-Received: by 2002:a05:6e02:1548:b0:3d0:10a6:99be with SMTP id
+ e9e14a558f8ab-3d17bf4afbamr65658425ab.12.1739467185761; Thu, 13 Feb 2025
+ 09:19:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, Jie Zhang <quic_jiezh@quicinc.com>
 References: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
- <20250213-a623-gpu-support-v1-4-993c65c39fd2@quicinc.com>
- <p36nz6p6bbzur7uoitbzc63hv4qf7hhsix3mqa36igarasj67b@evcdfpeybgsh>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <p36nz6p6bbzur7uoitbzc63hv4qf7hhsix3mqa36igarasj67b@evcdfpeybgsh>
+ <20250213-a623-gpu-support-v1-1-993c65c39fd2@quicinc.com>
+ <2bfaa1ce-0233-456d-ba2e-5b14533f3812@oss.qualcomm.com>
+In-Reply-To: <2bfaa1ce-0233-456d-ba2e-5b14533f3812@oss.qualcomm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 13 Feb 2025 09:19:31 -0800
+X-Gm-Features: AWEUYZnDTxYvSDBQbxqoooRBQlXE-HeDdCw08AnRZ1CWeRcQsd7VBQ4oaCG1vUE
+Message-ID: <CAF6AEGv6q59dpktR-zR7+4nuz05HMrY7givk8-E4rwCyJ0zNjQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/msm/a6xx: Fix gpucc register block for A621
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>, 
+ Rob Clark <robdclark@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 5TEdcz_SSSncZOitpVLLRmj3C4D-DxYh
-X-Proofpoint-GUID: 5TEdcz_SSSncZOitpVLLRmj3C4D-DxYh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-13_07,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- impostorscore=0 mlxlogscore=999 phishscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502130123
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,87 +100,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/13/2025 10:26 PM, Dmitry Baryshkov wrote:
-> On Thu, Feb 13, 2025 at 09:40:09PM +0530, Akhil P Oommen wrote:
->> From: Jie Zhang <quic_jiezh@quicinc.com>
->>
->> Add gpu and gmu nodes for qcs8300 chipset.
->>
->> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 93 +++++++++++++++++++++++++++++++++++
->>  1 file changed, 93 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> index f1c90db7b0e6..2dc487dcc584 100644
->> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> @@ -2660,6 +2660,99 @@ serdes0: phy@8909000 {
->>  			status = "disabled";
->>  		};
->>  
->> +		gpu: gpu@3d00000 {
->> +			compatible = "qcom,adreno-623.0", "qcom,adreno";
->> +			reg = <0x0 0x03d00000 0x0 0x40000>,
->> +			      <0x0 0x03d9e000 0x0 0x1000>,
->> +			      <0x0 0x03d61000 0x0 0x800>;
->> +			reg-names = "kgsl_3d0_reg_memory",
->> +				    "cx_mem",
->> +				    "cx_dbgc";
->> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
->> +			iommus = <&adreno_smmu 0 0xc00>,
->> +				 <&adreno_smmu 1 0xc00>;
->> +			operating-points-v2 = <&gpu_opp_table>;
->> +			qcom,gmu = <&gmu>;
->> +			interconnects = <&gem_noc MASTER_GFX3D QCOM_ICC_TAG_ALWAYS
->> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
->> +			interconnect-names = "gfx-mem";
->> +			#cooling-cells = <2>;
->> +
->> +			status = "disabled";
->> +
->> +			gpu_zap_shader: zap-shader {
->> +				memory-region = <&gpu_microcode_mem>;
->> +			};
->> +
->> +			gpu_opp_table: opp-table {
->> +				compatible = "operating-points-v2";
->> +
->> +				opp-877000000 {
->> +					opp-hz = /bits/ 64 <877000000>;
->> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
->> +					opp-peak-kBps = <12484375>;
->> +				};
->> +
->> +				opp-780000000 {
->> +					opp-hz = /bits/ 64 <780000000>;
->> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
->> +					opp-peak-kBps = <10687500>;
->> +				};
->> +
->> +				opp-599000000 {
->> +					opp-hz = /bits/ 64 <599000000>;
->> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
->> +					opp-peak-kBps = <8171875>;
->> +				};
->> +
->> +				opp-479000000 {
->> +					opp-hz = /bits/ 64 <479000000>;
->> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
->> +					opp-peak-kBps = <5285156>;
->> +				};
-> 
-> Does it have no speed bins or are they pending on the nvmem patchset?
+On Thu, Feb 13, 2025 at 8:36=E2=80=AFAM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 13.02.2025 5:10 PM, Akhil P Oommen wrote:
+> > From: Jie Zhang <quic_jiezh@quicinc.com>
+> >
+> > Adreno 621 has a different memory map for GPUCC block. So update
+> > a6xx_gpu_state code to dump the correct set of gpucc registers.
+> >
+> > Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+> > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> > ---
+>
+> So GPU_CC is outside what we consider GPU register region upstream..
+>
+> And I've heard voices (+Caleb) lately that we should get some clock regis=
+ter
+> dumping infrastructure..
+>
+> So while I'm not against this patch fixing a bug, perhaps we can get rid =
+of
+> dumping GPU_CC here in the near future
 
-Product team hasn't shared the details of GPU SKUs or the SKU detection
-mechanism yet. The default assumption is single SKU.
+but we'd still want this to end up in the gpu devcoredump...
 
--Akhil.
-
-> 
->> +			};
->> +		};
->> +
-> 
-
+BR,
+-R
