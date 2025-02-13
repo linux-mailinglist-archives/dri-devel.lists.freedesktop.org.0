@@ -2,69 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18531A34BFA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7285BA352FB
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD2F10E0D7;
-	Thu, 13 Feb 2025 17:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD0F10EBC4;
+	Fri, 14 Feb 2025 00:34:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="gHt2sI3u";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KhU/qJmq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4BC010E0D7
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:33:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739467992; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=fsZ9tyPjguNsUc2+X1eFr5QgUPWPBVzABYeF+VSOoUx8sOk2o9TIpuy6IFgXZUjG9vZWe2oUATvThyog4cB1QGSF+7jMYZN0kw9K4ETfX3PdZ8MffVDq/wZ0EpgjNyprDhV/ILksMWZTFad0oAv+bAEhZnMftm6shmu4Q2uh+DQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739467992;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=6ByzMOuDBh5R+FUdNwn2gk3LwiXzk/aPZNyTOpzuZOU=; 
- b=bta+8ZPQPOcCe9SZHB2yjLV1NS6qrkM+JiDqDJdXEM7/kUS9MuT5tKC+9VCVfIfzD8aCiVovVkZOSqExBy9M8mRQ2Z1mRt6G56DXfOz4tq350B3ZIYmhlv8R4Xu045K9k3bY3npdzZbBAxK2WJU2vsEIWL+tbEYKPRv8yV6terI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739467992; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=6ByzMOuDBh5R+FUdNwn2gk3LwiXzk/aPZNyTOpzuZOU=;
- b=gHt2sI3u9x/IyIOL7Gz7LHOOPs0dHmzj8DCoJ1j0HswtKdfzbJT6zBFQ67GzwLvu
- MPP/pAtZ4COd1DYdY5C/SpKgmnR6xnfTJ29gG6h2mt4W0K63gqqZ94CkCqga8aVXh6i
- twwysP6rbc9WuqaBcE7MNq1IW8GqH8cgBGP/ll5k=
-Received: by mx.zohomail.com with SMTPS id 1739467989609795.4274306368665;
- Thu, 13 Feb 2025 09:33:09 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
- id 858F21806DE; Thu, 13 Feb 2025 18:33:04 +0100 (CET)
-Date: Thu, 13 Feb 2025 18:33:04 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Diederik de Haas <didi.debian@cknow.org>
-Cc: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, 
- Damon Ding <damon.ding@rock-chips.com>, heiko@sntech.de, robh@kernel.org,
- conor+dt@kernel.org, 
- algea.cao@rock-chips.com, rfoss@kernel.org, devicetree@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, hjc@rock-chips.com, kever.yang@rock-chips.com,
- dmitry.baryshkov@linaro.org, vkoul@kernel.org, andy.yan@rock-chips.com,
- krzk+dt@kernel.org, 
- linux-arm-kernel@lists.infradead.org, l.stach@pengutronix.de
-Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
-Message-ID: <m3ovwhg3h2njsjpuj2wdahxex6zq2udmxonublgmnlrdfred4z@zxtyd6xvhram>
-References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
- <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
- <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC78510EB5F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:35:53 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-309191eec90so2828821fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739468152; x=1740072952; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
+ b=KhU/qJmqE7cyBTgFKWrh1bH94M9+pGuAL1p7/TjlL6fxJItWLKkt0TyE5d3OKY4AdQ
+ oJQUTKFsSeQ6MzHlKjg95U6sTlSB3zabJmxtGPLCcdqLDz2TCMFK0YFL+iMjpZykRxDT
+ OD8MqP/vOfJCQVdq3lHIzN39E40yxCgMe3cfRtUzImATPQ48dp0bXjiO6W9vfo8A2IG5
+ gFkg6AqNgrjUv2HUs8WMNwMB9nZYMxZPmgCeYVt0sIpH63PQj766vKpMh0my0dwQQKfo
+ Q6I1rr21/5e1vJNkMaMdwoYxmee3yoq5Ro0lEc06/9Q3WfmAnymXDGFTZfAp8B4gFPqP
+ Kq/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739468152; x=1740072952;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
+ b=i9zcruW+XLUED1c2Ge+Rh9VDyPvFiPjYG1yA/rKuXYYuPTHH9aBnHlY6Co4QQoeNa+
+ 87rbTYCjxux5FR54dzR9Q917RPsqUaCRCQyWmqPkzJM1SANupllSp1j4jn2OeutfmOTu
+ IXZygoocLPM7vrtuBJFf5EurcyDuysNmZcQXWaua1c+6Jvj7NPxO5K7/oMEVV8QSECMu
+ hhxrNH60ygWukJd3lgn1wKX+ynbaTypaXqGy/g7Z14NnCD0OOdxVAUs1e+yBd9/7OJjq
+ wyD+Bib7cGTD0wSfA1/kbCKpNQ8xWJ5sz8Hti7Y9zc6GqMG1hZ2uDFmfsUAtFH+4J4hR
+ D/cg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXOEf8Q75Iekj4rxEYg3hSvEu5OwYJN+brUI9xT/gElKfz2p0BIcK+0sL32/P667nQG36U25EwH1pQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJtXL4XAkP3/znJ4LUso8h//2fbu/rOa1HTvTH38acLDhd/3Y0
+ PQyfcfmgxY5cAt3JcpwtepbhREDukDOhd7kwqTiOeeuS/PmEY2KKGFLlzoMwgQuFxLFVVLWnsH3
+ sp5qpG50cHdjB/UpGGGS9futEgNs=
+X-Gm-Gg: ASbGnctAURuSN0v7U87CNJvN5FPVeFUrlrcKvZuc5kcF1lIex35DSuDIqom/ZhS91rn
+ 4mFPSB6L5MrnnKceIBjrYitVFKRzv5z9xk15566TuV0jSNPrSvcxcS100nJH2olOT4x0xL0n3Mq
+ 84Ebfr3V+ZiPyxzqnF8R9+MKx3517/RQ==
+X-Google-Smtp-Source: AGHT+IGY0srE7wji4W9bLp26kLxH0QGCdWUi5EwnHnmRRB8roSRmEHIwTufI5RAZRQ0k86nA9jKtQdN81/gcY/A+yK8=
+X-Received: by 2002:a2e:a913:0:b0:308:f6cf:3611 with SMTP id
+ 38308e7fff4ca-3090dd06b8cmr17279501fa.10.1739468151884; Thu, 13 Feb 2025
+ 09:35:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6djyuz6okfpd5ae6"
-Content-Disposition: inline
-In-Reply-To: <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/239.467.69
-X-ZohoMailClient: External
+References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+ <Z6bKR9K16-oYMLFl@archie.me>
+ <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
+In-Reply-To: <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Thu, 13 Feb 2025 23:05:39 +0530
+X-Gm-Features: AWEUYZn6qEdgw-FWu9wGm9trUEcco7CIRDetR6lShyMK3GR9NJoIyLrnadYOLAI
+Message-ID: <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
+Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>, 
+ Linux DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-kernel-mentees@lists.linux.dev, 
+ skhan@linuxfoundation.org, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Fri, 14 Feb 2025 00:33:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,95 +93,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---6djyuz6okfpd5ae6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
-MIME-Version: 1.0
-
 Hi,
 
-On Thu, Feb 13, 2025 at 05:56:55PM +0100, Diederik de Haas wrote:
-> On Thu Feb 13, 2025 at 3:54 PM CET, Piotr Oniszczuk wrote:
-> >
-> >
-> >> Wiadomo=C5=9B=C4=87 napisana przez Damon Ding <damon.ding@rock-chips.c=
-om> w dniu 23 sty 2025, o godz. 11:07:
-> >>=20
-> >> Picked from:
-> >> https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D923=
-593
-> >>=20
-> >> These patchs have been tested with a 1536x2048p60 eDP panel on
-> >> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
-> >> on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
-> >> on RK3399 sapphire excavator board.
-> >> ...
-> >> 9 files changed, 401 insertions(+), 89 deletions(-)
-> >>=20
-> >> --=20
-> >> 2.34.1
-> >>=20
-> >
-> > Damon,
-> >
-> > I=E2=80=99m playing with hdmi0 port enablement on radxa rock5 itx board=
- with 6.14 mainline.
-> >
-> > rock5 itx has 2 hdmi ports: hdmi0 is wired to rk3588 typeC1/eDP1 eDP wi=
-th ra620 eDP->HDMI converter and hdmi1 from hdmi/edp tx1
-> > (see page3 & page29 at https://dl.radxa.com/rock5/5itx/v1110/radxa_rock=
-_5itx_v1110_schematic.pdf)
-> >
-> > I=E2=80=99m on 6.14-rc2 with applied:=20
-> > [1] Cristicc hdmi code (https://gitlab.collabora.com/cristicc/linux-nex=
-t/-/commits/rk3588-hdmi-bridge)
-> > [2] eDP support for RK3588 (https://patchwork.kernel.org/project/linux-=
-rockchip/list/?series=3D927765)
-> > [3] Add eDP mode support for Rockchip Samsung HDPTX PHY (https://patchw=
-ork.kernel.org/project/linux-rockchip/cover/20250205105157.580060-1-damon.d=
-ing@rock-chips.com/)
-> >
-> > Is edp1 supported by yours [2] series?
-> >
-> > If yes - may you pls hint me about required dts additions in https://gi=
-t.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/arm64/boot=
-/dts/rockchip/rk3588-rock-5-itx.dts?h=3Dv6.14-rc2 ?
->=20
-> I don't know if it's relevant, but while HDMI0 got enabled for quite a
-> few devices in 6.13, it did NOT get enabled for Rock 5 ITX.
-> I made a local patch (which does the same thing as was done for Rock 5B)
-> but I have no idea if it actually works (I don't have the board).
+Just a gentle follow-up on this patch. It has been reviewed but hasn't
+been applied yet.
 
-I don't have the board either, but the schematics suggests that your
-patch is not correct. On the Rock 5 ITX the RK3588's first HDMI/eDP
-port should be enabled in eDP mode to be used with an eDP panel via
-connector J11. This series is needed for that.
+Regards
+Pranav Tyagi
 
-Greetings,
 
--- Sebastian
-
---6djyuz6okfpd5ae6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmeuLNAACgkQ2O7X88g7
-+pqj/g/+Ko9YwegFYiHHFc2NJHqSn9Er7V2IhdDxANKuYmDWkl238DIkPbx5N++z
-dP6qxCV8/YD123iERKtHSvIikWgw7rRaV8GKkT95xc3AAfYfyt4Zjf3wWwwOrNXH
-w1UK+68lroyq4n+JPwQuZlkRhKclMpv78w5lZJ2fXX/ni8PWf3m8DyBGzES03yDK
-l5e0sp6dEFaxL6plKIDdB7Xw/CYW75UiJStCuBYKka1pr3I5X8IgWMuQ+oK5Lde3
-hzO/3TLG9WKTiRoehs4ocJngsz0sS8o70GWVMXSiSybaMbK0NEf6NonBv1f6hA0J
-RrCYZGZEsKaPnveI+HlwnvXJlTnISIjs2jw7HF35HSVl4ZaYLf9k4HFE6vrl+y7N
-GPplG9bzgVKsZgK5rv1ddxBQbMZ30LlyP1/BxDPqY/78+ZyFg/9vjovfF7rG6DUa
-KIgcrgB/rD/4P1wdOGhz+bwbi2mwsc0yfzAWS6qXxCw70RQ0YNKhE/ha5cM0bfwh
-IyKOUaxLceZBVLXuXXXKo1aeOxLHiVSB+kblT/Dq85b4Vl71n5v81x/jfo47O80Z
-LjNdgoLngofz67wKl+BHJsJAvtRvXP/NI9nNpsSgY1tLzUeKsnllS1mWYh3WE24u
-vPH7IuyON+11TRur6JqaEd5LbafrMcQ2+Fqz0UdscgafmzsTyTw=
-=1OmE
------END PGP SIGNATURE-----
-
---6djyuz6okfpd5ae6--
+On Thu, Feb 13, 2025 at 10:54=E2=80=AFPM Pranav Tyagi <pranav.tyagi03@gmail=
+.com> wrote:
+>
+> Hi,
+>
+> Just a gentle follow-up on this patch. It has been reviewed by Bagas Sanj=
+aya but hasn't been applied yet.
+>
+> Regards,
+>
+> Pranav Tyagi
+>
+>
+> On Sat, Feb 8, 2025 at 8:36=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.co=
+m> wrote:
+>>
+>> On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
+>> > Corrects the following grammatical issues in the VGA Arbiter documenta=
+tion:
+>> > - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
+>> > - Corrects pluralization by changing "server" to "servers"
+>> > - Improves sentence structure for clarity
+>> >
+>>
+>> +Cc: DRM folks.
+>>
+>> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+>> > ---
+>> >  Documentation/gpu/vgaarbiter.rst | 6 +++---
+>> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaa=
+rbiter.rst
+>> > index bde3c0afb059..d1e953712cc2 100644
+>> > --- a/Documentation/gpu/vgaarbiter.rst
+>> > +++ b/Documentation/gpu/vgaarbiter.rst
+>> > @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
+>> >
+>> >  The Resource Access Control (RAC) module inside the X server [0] exis=
+ted for
+>> >  the legacy VGA arbitration task (besides other bus management tasks) =
+when more
+>> > -than one legacy device co-exists on the same machine. But the problem=
+ happens
+>> > +than one legacy device co-exist on the same machine. But the problem =
+happens
+>> >  when these devices are trying to be accessed by different userspace c=
+lients
+>> > -(e.g. two server in parallel). Their address assignments conflict. Mo=
+reover,
+>> > +(e.g. two servers in parallel). Their address assignments conflict. M=
+oreover,
+>> >  ideally, being a userspace application, it is not the role of the X s=
+erver to
+>> >  control bus resources. Therefore an arbitration scheme outside of the=
+ X server
+>> >  is needed to control the sharing of these resources. This document in=
+troduces
+>> > @@ -106,7 +106,7 @@ In-kernel interface
+>> >  libpciaccess
+>> >  ------------
+>> >
+>> > -To use the vga arbiter char device it was implemented an API inside t=
+he
+>> > +To use the vga arbiter char device, an API was implemented inside the
+>> >  libpciaccess library. One field was added to struct pci_device (each =
+device
+>> >  on the system)::
+>> >
+>>
+>> The diff looks OK.
+>>
+>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>
+>> --
+>> An old man doll... just what I always wanted! - Clara
