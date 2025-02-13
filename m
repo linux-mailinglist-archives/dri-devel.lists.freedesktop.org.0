@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E335CA34481
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 16:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179E6A3467D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 16:26:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6138010EB09;
-	Thu, 13 Feb 2025 15:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9188B10EB0D;
+	Thu, 13 Feb 2025 15:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nqwa45+c";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FF+Hzd4B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5845310EB08
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 15:05:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A78FC10EB08
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 15:25:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 45DCA5C537D;
- Thu, 13 Feb 2025 15:05:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F6CC4CED1;
- Thu, 13 Feb 2025 15:05:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 75A365C573B;
+ Thu, 13 Feb 2025 15:25:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DF17C4CEE4;
+ Thu, 13 Feb 2025 15:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739459142;
- bh=g8LzZoJekrd9c5VnX6i59jyXHKXQuXWdgXiDLxgD8fI=;
+ s=korg; t=1739460358;
+ bh=UPQNSC4FlsvKc+geNG7qJyHkiLH4xxuDwqfXERXlWNk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nqwa45+cLVt67yVqUNOI5CDAHc+fpMeyzP4wy7N5TnM+TEX8kqvSmLQjgV0jbi1iE
- XZbKmmV31Bb61pYUhsxQOeVwWg/6I3Pk4XQIb/IS4F4p+wwRZkaRRLo9mlct5vpfdi
- ZQLBmdcbQ+JJx14AKzNci/KqBA8Qr+AW9TwfoqbY=
+ b=FF+Hzd4BgeFkwagLMh/m+kY9UkLq13CNmXj9HAdlUMf0IeCH78MxYsJ24Ny5+RrsS
+ 5urJfuoJZHvwY5YCSa5yM+gV6yT9k7poc44GWZioU4laejEwBLsypEvgJmwg2klKk6
+ f4mznMspxpQ77TY+tvYruG7R6y6wO4IIBU9nLjDo=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.13 181/443] drm/ast: astdp: Fix timeout for enabling video
- signal
-Date: Thu, 13 Feb 2025 15:25:46 +0100
-Message-ID: <20250213142447.600494500@linuxfoundation.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot <lkp@intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Helge Deller <deller@gmx.de>
+Subject: [PATCH 6.6 088/273] m68k: vga: Fix I/O defines
+Date: Thu, 13 Feb 2025 15:27:40 +0100
+Message-ID: <20250213142410.820719014@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250213142440.609878115@linuxfoundation.org>
-References: <20250213142440.609878115@linuxfoundation.org>
+In-Reply-To: <20250213142407.354217048@linuxfoundation.org>
+References: <20250213142407.354217048@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -60,74 +59,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.13-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit fd39c41bcd82d5ebaaebadb944eab5598c668a90 upstream.
+commit 53036937a101b5faeaf98e7438555fa854a1a844 upstream.
 
-The ASTDP transmitter sometimes takes up to 1 second for enabling the
-video signal, while the timeout is only 200 msec. This results in a
-kernel error message. Increase the timeout to 1 second. An example
-of the error message is shown below.
+Including m68k's <asm/raw_io.h> in vga.h on nommu platforms results
+in conflicting defines with io_no.h for various I/O macros from the
+__raw_read and __raw_write families. An example error is
 
-[  697.084433] ------------[ cut here ]------------
-[  697.091115] ast 0000:02:00.0: [drm] drm_WARN_ON(!__ast_dp_wait_enable(ast, enabled))
-[  697.091233] WARNING: CPU: 1 PID: 160 at drivers/gpu/drm/ast/ast_dp.c:232 ast_dp_set_enable+0x123/0x140 [ast]
-[...]
-[  697.272469] RIP: 0010:ast_dp_set_enable+0x123/0x140 [ast]
-[...]
-[  697.415283] Call Trace:
-[  697.420727]  <TASK>
-[  697.425908]  ? show_trace_log_lvl+0x196/0x2c0
-[  697.433304]  ? show_trace_log_lvl+0x196/0x2c0
-[  697.440693]  ? drm_atomic_helper_commit_modeset_enables+0x30a/0x470
-[  697.450115]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.458059]  ? __warn.cold+0xaf/0xca
-[  697.464713]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.472633]  ? report_bug+0x134/0x1d0
-[  697.479544]  ? handle_bug+0x58/0x90
-[  697.486127]  ? exc_invalid_op+0x13/0x40
-[  697.492975]  ? asm_exc_invalid_op+0x16/0x20
-[  697.500224]  ? preempt_count_sub+0x14/0xc0
-[  697.507473]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.515377]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.523227]  drm_atomic_helper_commit_modeset_enables+0x30a/0x470
-[  697.532388]  drm_atomic_helper_commit_tail+0x58/0x90
-[  697.540400]  ast_mode_config_helper_atomic_commit_tail+0x30/0x40 [ast]
-[  697.550009]  commit_tail+0xfe/0x1d0
-[  697.556547]  drm_atomic_helper_commit+0x198/0x1c0
+   In file included from arch/m68k/include/asm/vga.h:12,
+                 from include/video/vga.h:22,
+                 from include/linux/vgaarb.h:34,
+		 from drivers/video/aperture.c:12:
+>> arch/m68k/include/asm/raw_io.h:39: warning: "__raw_readb" redefined
+      39 | #define __raw_readb in_8
+	 |
+   In file included from arch/m68k/include/asm/io.h:6,
+		    from include/linux/io.h:13,
+		    from include/linux/irq.h:20,
+		    from include/asm-generic/hardirq.h:17,
+		    from ./arch/m68k/include/generated/asm/hardirq.h:1,
+		    from include/linux/hardirq.h:11,
+		    from include/linux/interrupt.h:11,
+                    from include/linux/trace_recursion.h:5,
+		    from include/linux/ftrace.h:10,
+		    from include/linux/kprobes.h:28,
+		    from include/linux/kgdb.h:19,
+		    from include/linux/fb.h:6,
+		    from drivers/video/aperture.c:5:
+   arch/m68k/include/asm/io_no.h:16: note: this is the location of the previous definition
+      16 | #define __raw_readb(addr) \
+	 |
 
-This is a cosmetical problem. Enabling the video signal still works
-even with the error message. The problem has always been present, but
-only recent versions of the ast driver warn about missing the timeout.
+Include <asm/io.h>, which avoids raw_io.h on nommu platforms.
+Also change the defined values of some of the read/write symbols in
+vga.h to __raw_read/__raw_write as the raw_in/raw_out symbols are not
+generally available.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 4e29cc7c5c67 ("drm/ast: astdp: Replace ast_dp_set_on_off()")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202501071629.DNEswlm8-lkp@intel.com/
+Fixes: 5c3f968712ce ("m68k/video: Create <asm/vga.h>")
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.13+
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250127134423.84266-1-tzimmermann@suse.de
+Cc: Helge Deller <deller@gmx.de>
+Cc: stable@vger.kernel.org # v3.5+
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Link: https://lore.kernel.org/20250107095912.130530-1-tzimmermann@suse.de
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_dp.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/m68k/include/asm/vga.h |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -195,7 +195,7 @@ static bool __ast_dp_wait_enable(struct
- 	if (enabled)
- 		vgacrdf_test |= AST_IO_VGACRDF_DP_VIDEO_ENABLE;
+--- a/arch/m68k/include/asm/vga.h
++++ b/arch/m68k/include/asm/vga.h
+@@ -9,7 +9,7 @@
+  */
+ #ifndef CONFIG_PCI
  
--	for (i = 0; i < 200; ++i) {
-+	for (i = 0; i < 1000; ++i) {
- 		if (i)
- 			mdelay(1);
- 		vgacrdf = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xdf,
+-#include <asm/raw_io.h>
++#include <asm/io.h>
+ #include <asm/kmap.h>
+ 
+ /*
+@@ -29,9 +29,9 @@
+ #define inw_p(port)		0
+ #define outb_p(port, val)	do { } while (0)
+ #define outw(port, val)		do { } while (0)
+-#define readb			raw_inb
+-#define writeb			raw_outb
+-#define writew			raw_outw
++#define readb			__raw_readb
++#define writeb			__raw_writeb
++#define writew			__raw_writew
+ 
+ #endif /* CONFIG_PCI */
+ #endif /* _ASM_M68K_VGA_H */
 
 
