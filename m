@@ -2,99 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1693BA352F6
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:33:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2976A352F5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:33:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAC0310EBC0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC77710EBC3;
 	Fri, 14 Feb 2025 00:33:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XZUN6iH8";
+	dkim=pass (2048-bit key; secure) header.d=kkx.one header.i=@kkx.one header.b="G46XyWjx";
+	dkim=permerror (0-bit key) header.d=kkx.one header.i=@kkx.one header.b="2pU9IPHf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805F410EB87
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 19:23:15 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-216513f8104so2655475ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 11:23:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1739474595; x=1740079395;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KC+znPA2H1vB7HU6VZGH/VUzzp6EPafRFN/wfL/kwkY=;
- b=XZUN6iH8fUJ+zDVkOYvVsd1M3SxtXO+HyDaIp3mQpGM8ejIJUolk7lHCDpiB1m45zg
- olL/KdT9l8oLg1VAfTGoydmvqDSFYsfmuUVA2pumrD9qYbUvc+bN4GKrGhpLEdVLswhf
- Hsm78Vu9k++BRtJRR8X3xrFcarz3qvocNKx3k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739474595; x=1740079395;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KC+znPA2H1vB7HU6VZGH/VUzzp6EPafRFN/wfL/kwkY=;
- b=QrPo9K0dKmH/K7E1jML54NBmcnHZgX3ypgjQ8lnE199eJAJ9SO7EXuUozuvOPNrk6A
- CCB/MPjvo1eZaFlSHRLzz+33XJHv5xMGGjiXpFI0Zdd5q+ZGd4D4NB9VAfTIeQ75MAuy
- 89AJso1GFw+z7Bordb0ZbeJAtdxa3sD+fPBvmjtXHJYGxsM2HRfuWa1bwyBjdOPXd1jR
- fYcFB/RhKZbwD0FZP9nKQGD2thRe/HYaNOKv7wPSjjcNICGsRYQFMMGqBwHtiqFw3R1S
- KSLGMjQX0nMx5uyIebjKKANvBHk674TE/FFjiSpeHD2+UHxycATCrQwBBi8sDJyYUFHy
- 2a/w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXbI2pvCzhGK7WQfzz+oxcD/qlP+HA+3K2lAXafNNBb9PMy/MRDXyMU1N01xxHENIcA3FdCvAIUl6Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhZhKCoWmBVH1SZTyWJYcgE3NiZA5DNNgDpGUvS5RvBQUA+n5Y
- YNCT9v0ktQJJp6KXTplrFNuPeLDEnE1OHHVZ+xJYMgB/laWndrIdOw5XQDYt66GGjTcCCmYsk55
- MrQ==
-X-Gm-Gg: ASbGnctACq09rTFuforkO4/e09bToZHmTcxK5veFCTEK82+uLcqm5N0CP0p+0tCMP/k
- of1pRxd23C7mqgtXfJWXqvioNqFBPsAWWvTu2qyVUAEMJgu/RhKrv1r3QvNB7Gukg/vQtapXb90
- yMxy7GDV70ie7P3pGKc8oZ/otqxdumc4gIFJLEeEGOA/m88qzFGVhUg52eEqclc9cohC9WlvnUW
- dNMmiErjI9Ry7yqUS30ryVRUNwgP/3+v8s4XWV8Oe3eIaI2y3XmuI/4+Q9JeF5KuHeDcKQ+aXVk
- 8SRlrRluBAP3bB02PONVoS4jBaRi5WYAa7y62zTP448yozNmKQmuEvs=
-X-Google-Smtp-Source: AGHT+IFgI0tWHhdOrTmdFlqpnDALV2YwEeGuG5T5ut2BQqYp7+zX7VAfkGmUm9EJ14nH5bTMm/LisQ==
-X-Received: by 2002:a17:902:d585:b0:220:d71d:4666 with SMTP id
- d9443c01a7336-220ece56b68mr869455ad.13.1739474594736; 
- Thu, 13 Feb 2025 11:23:14 -0800 (PST)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com.
- [209.85.216.46]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-220d5349077sm15926045ad.1.2025.02.13.11.23.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Feb 2025 11:23:13 -0800 (PST)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-2fbf77b2b64so2306621a91.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 11:23:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVjbs0LaOOfClmKBAfHNJx1vRQDp7yC93YxySJCxecajcabann9UK6HsAUW0SLzw2oDlGP/BvMPu8g=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:274e:b0:2fa:17d2:166 with SMTP id
- 98e67ed59e1d1-2fbf5c6f900mr11663838a91.31.1739474591586; Thu, 13 Feb 2025
- 11:23:11 -0800 (PST)
+X-Greylist: delayed 423 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Feb 2025 19:30:19 UTC
+Received: from uwu.kkx.one (uwu.kkx.one [37.221.196.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5665E10E0FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 19:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202411r; d=kkx.one; c=relaxed/relaxed;
+ h=From:Subject:To:Date:Message-ID; t=1739474575; bh=6hNpM1gY/NUR9DUBtbD/GCe
+ +m9x/2JKCR4VhU1/tHK4=; b=G46XyWjxwlQ8I4G1S6YxfnkRuDXFujldu8ee1qMmhDkuVo1MnM
+ hF28P2jsYhSQH5ZaNqbx2Px90fZxymE+OMFPm+00X/9hZhZvbOCCFS7mcVJenvLU9OiLScmwL9F
+ 5um7Fnlt4zQF3G3sWGnfTz/5KwV4vmfG4d7Gz+PjwJLvhQn+uMLAy+em3CslzjspxqqkG8yywtK
+ ZBORYEGrnJ3/12s8eSXVEEFPtGjFcmoe92tWBpjL4/b7gYZl6XAff/rCOSEgl6L5dLuM6WplVn+
+ rf6br9gpDwbpbK1ZkytyfwCTr0hlEdAdFxeUFtuFMW0LT3klCc890QQ4N3jd7dckB3Q==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202411e; d=kkx.one; c=relaxed/relaxed;
+ h=From:Subject:To:Date:Message-ID; t=1739474575; bh=6hNpM1gY/NUR9DUBtbD/GCe
+ +m9x/2JKCR4VhU1/tHK4=; b=2pU9IPHff+Sr3LOXWulgpiggUT8weJcMJ8hCUE+6I62dJp+Z9+
+ sLtwW8u9Yb6O9ubjDlLWfdG2s4LvDDOtzNDA==;
+Message-ID: <6e3e26c7-002a-49c6-a3a8-1cc1b8941f57@kkx.one>
+Date: Thu, 13 Feb 2025 20:22:52 +0100
 MIME-Version: 1.0
-References: <20250213-virtio-shm-page-size-v1-0-5ee1f9984350@redhat.com>
- <20250213-virtio-shm-page-size-v1-3-5ee1f9984350@redhat.com>
-In-Reply-To: <20250213-virtio-shm-page-size-v1-3-5ee1f9984350@redhat.com>
-From: Daniel Verkamp <dverkamp@chromium.org>
-Date: Thu, 13 Feb 2025 11:22:45 -0800
-X-Gmail-Original-Message-ID: <CABVzXA=r=X+GYnSxgeyktKzfKCW2DW+v++c4v_+BHBDHZ_Bzyw@mail.gmail.com>
-X-Gm-Features: AWEUYZnbyEFvCjOaJipQpOfb1MF9Gi7XhI32b8q-z-30QmKnx8ZNHSfRGuJzTvI
-Message-ID: <CABVzXA=r=X+GYnSxgeyktKzfKCW2DW+v++c4v_+BHBDHZ_Bzyw@mail.gmail.com>
-Subject: Re: [PATCH RFC 3/5] virtio-pci: extend virtio_pci_cap to hold
- page_size
-To: Sergio Lopez <slp@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, fnkl.kernel@gmail.com, 
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+To: torvalds@linux-foundation.org
+Cc: a.hindborg@kernel.org, abdiel.janulgue@gmail.com, airlied@gmail.com,
+ airlied@redhat.com, alex.gaynor@gmail.com, aliceryhl@google.com,
+ benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com,
+ dakr@kernel.org, daniel.almeida@collabora.com,
+ dri-devel@lists.freedesktop.org, gary@garyguo.net,
+ gregkh@linuxfoundation.org, hch@lst.de, iommu@lists.linux.dev,
+ jgg@nvidia.com, kernel@valentinobst.de, linux-kernel@vger.kernel.org,
+ m.szyprowski@samsung.com, marcan@marcan.st, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, phasta@kernel.org, robin.murphy@arm.com,
+ rust-for-linux@vger.kernel.org, tmgross@umich.edu
+References: <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+Content-Language: en-US
+From: 33KK <hello@kkx.one>
+In-Reply-To: <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 14 Feb 2025 00:33:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -111,63 +68,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 7:54=E2=80=AFAM Sergio Lopez <slp@redhat.com> wrote=
-:
->
-> Turn the 16 bit padding into a page_size field to allow the device to
-> pass its required page size with format PAGE_SIZE >> 12.
->
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
->  drivers/virtio/virtio_pci_modern.c | 29 +++++++++++++++++++++++++----
->  include/uapi/linux/virtio_pci.h    |  2 +-
->  2 files changed, 26 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/virtio/virtio_pci_modern.c b/drivers/virtio/virtio_p=
-ci_modern.c
-> index 79616ce5057bf3b2b88cae7e8fb7729efa9dd632..26e9cd5148c0f10209c34d12e=
-65d64490a855d75 100644
-> --- a/drivers/virtio/virtio_pci_modern.c
-> +++ b/drivers/virtio/virtio_pci_modern.c
-[...]
-> +               if (__virtio_test_bit(vdev, VIRTIO_F_SHM_PAGE_SIZE)) {
-> +                       pci_read_config_word(dev, pos + offsetof(struct v=
-irtio_pci_cap,
-> +                                                                page_siz=
-e), &res_psize);
-> +                       if (!res_psize) {
-> +                               dev_err(&dev->dev, "%s: shm cap with inva=
-lid page size on "
-> +                                       "a device with VIRTIO_F_SHM_PAGE_=
-SIZE feature\n",
-> +                                       __func__);
+Honestly, how about you accept the fact that maybe the problem is you?
 
-Maybe this should also constrain the page size to be a power of 2?
+You're not doing any good by just scolding Hector for "social media 
+brigading"
+and not addressing the core issue, especially considering that LKML 
+drama always
+ends up on social media and on reaction content farms anyway, without the
+"brigading", and Hector wasn't the one who started the drama.
 
-[...]
-> diff --git a/include/uapi/linux/virtio_pci.h b/include/uapi/linux/virtio_=
-pci.h
-> index 8549d4571257142ac6c9dad5c01369923791a85a..fb0ccb7a125d8178c1f78333c=
-4d2f43540e1764b 100644
-> --- a/include/uapi/linux/virtio_pci.h
-> +++ b/include/uapi/linux/virtio_pci.h
-> @@ -127,7 +127,7 @@ struct virtio_pci_cap {
->         __u8 cfg_type;          /* Identifies the structure. */
->         __u8 bar;               /* Where to find it. */
->         __u8 id;                /* Multiple capabilities of the same type=
- */
-> -       __u8 padding[2];        /* Pad to full dword. */
-> +       __u16 page_size;        /* Device page size (PAGE_SIZE >> 12). */
+You can't expect people to just keep going on and on in circular 
+conversations
+on the mailing list with somebody who isn't even engaging in good faith. 
+These
+conversations are about as technical as high school bullying, with you 
+being the
+teacher who punishes the one who tried to speak out, because they didn't 
+want to
+deal with figuring out who is right or wrong, and the victim is trying their
+best to work out a solution for an unsolvable problem, since there's no 
+solution
+that the other side would accept.
 
-This comment should probably clarify that the page_size field is only
-valid when cfg_type is VIRTIO_PCI_CAP_SHARED_MEMORY_CFG, assuming
-that's the case. Or should the device be expected to provide the
-page_size for all capabilities regardless of type?
+Obviously, the people involved are tired of having this shit show happen 
+again and
+again and of course they will end up going to vent on social media, 
+break down,
+or leave, since they're not heard on the mailing list, and their mental 
+health,
+time and energy is clearly not respected by any of the adults present in the
+room, judging by the complete inaction on the part of Linux's leadership.
 
-It seems like the name should also ideally make it clearer that this
-is page_size/4096 rather than the actual page size to avoid confusing
-device implementers.
+You can't just pretend that multiple people leaving because of this is not a
+problem. You can't just have people burn their time, energy and mental 
+health on
+pointless "discussions" and end up burning out, breaking down or leaving 
+instead
+of getting anything done. You can't just keep having your maintainers 
+break down
+one after another. This is not normal. This is not healthy. The process 
+isn't
+"working".
 
->         __le32 offset;          /* Offset within bar. */
->         __le32 length;          /* Length of the structure, in bytes. */
->  };
+Just letting these "discussions" keep playing out like this is terrible
+leadership, and is clearly not working well for mental health of people 
+trying
+to get involved with Linux.
+
+You either want the R4L project to succeed and have new maintainers want 
+to get
+involved with the project, and you tell the hostile C maintainers to 
+shut up and
+cope with it, or you want the R4L project to fail and constantly have these
+pointless "discussions" which boil down to some out of touch maintainer 
+bullying
+someone about something that should've been resolved long ago.
+
+And as far as the *barely* technical arguments in the thread go:
+
+The code is clearly exactly where it should be, in rust/kernel/dma, 
+where else
+is this supposed to go? Duplicating the bindings in multiple drivers 
+would just
+make the situation much worse, since now you have to worry about breaking
+multiple copies of the bindings. R4L also proposed that they will 
+maintain the
+bindings.
+
+Is the minor inconvenience of another maintainer having to review breaking
+changes to DMA interfaces or some similar process to prevent build breakages
+such a big deal compared to the pretty significant benefits Rust 
+provides? The
+Rust-based drivers were developed very quickly and ended up being way 
+extremely
+stable with relatively little effort compared to writing the same driver 
+in C.
+
+I think the benefits are pretty clear, if you can write a driver without
+spending most of the time barely managing to tracking memory ownership 
+in your
+head, making sure you're not misusing underdocumented kernel APIs, etc.
+obviously you're going to be significantly more productive, and it's 
+also easier
+for a new maintainer to get involved, since it's harder to break something.
+Also, when writing safe bindings you have to double-check the safety of 
+the API,
+which helps to notice unsoundness in the C interface itself.
+
+ > The only reason Linux managed to survive so long is by not having 
+internal
+ > boundaries
+
+The actual reason Linux managed to survive so long is because of people 
+working
+together. Nobody understands the entirety of the kernel source, 
+maintenance of
+subsystems is split between different people that work together. What 
+Christoph
+is doing here, is pretty much opposite of that. He is actively trying to 
+prevent
+R4L from writing bindings to DMA, which are crucial to the project. 
+Effectively
+saying that the project should just go away entirely.
+
+Christoph pretty clearly has no valid argument here.
+
+
+NOTE: I am not affiliated in any way with R4L or Linux maintainers, I'm 
+just a
+Linux user watching this shitshow unfold, and am very disappointed about how
+it's being handled.
