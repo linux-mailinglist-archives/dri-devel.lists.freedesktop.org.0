@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A31A34A1D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7357CA34A22
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:38:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE5B310EB23;
-	Thu, 13 Feb 2025 16:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0C9610EB24;
+	Thu, 13 Feb 2025 16:38:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PIih8J4X";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QQQ8swQL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C72E310EB23
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:38:20 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-3072f8dc069so12041441fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:38:20 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2CFC10EB29
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:38:31 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-308ec50eb3dso11399261fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:38:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739464699; x=1740069499; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739464710; x=1740069510; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=H7oNCp/RNw3t/6zsGfDVg/YzDuWbFw2qOHPXbSLVPyM=;
- b=PIih8J4XIb4T7NkiBHUktYqqzyYnIby+3ZWJfAZo6v879xURZrKfr8jIsayt9UrZwE
- zHbphlPiNP7HyzXZo17DOEmVZb8DbbPvTbFJEsUrRrpgxQECvbeHFh+SteNMs9vaIH0c
- 7k8CXhr2WcqPo12CVIoDwnobB2MuH5HNlXXppnDA/ekWm4TiTn+RZODatAmueMi2SCwf
- 60YYFKZfv6IiTtmPv5W0weHypoo7y09S63Fvx9F1EOJo0kveo9egsCP+q3V+dFZ/vBWP
- EyspZ+IFbT8tQMP611CIwxdrwoX+7qJ+i/La67S3BS1E8ekLTVhD/wAf3fGEI6FWzI6r
- Xh1Q==
+ bh=5zyljHRvLU6CfUIp4JEgLGjq0cbAwicms/vHIYSGJBE=;
+ b=QQQ8swQLaEvzYVDGOc8hSVMPnJWblGauLj28TlMLL5PCQK/8KlaTkfrk7kdAK04Pts
+ w5+ubSQHXeJbJoboVLF15rqHRhXqsXKGk23RWgVjtzGv/z++A7oz2UwLNti/SbCcoyTC
+ eInWAuAhBG7aqF2chXGEb/XggdBryE/eHBejnCnn9QrGJEbXQtYZc2NdlSB8aJsojJhl
+ o8uDX3PHzk+MPCT7ssMCmd5EYCc0T6yoqkqC4A49ged4wI+Mb0RuWAOWQ5MzYp+Z4wlQ
+ RviZgSu5l+xstGQs2GKdqt5dmOsjSQ21ykBEUIPp4UDPGRK0hnzYeevDrHiGg7os1dDZ
+ CxAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739464699; x=1740069499;
+ d=1e100.net; s=20230601; t=1739464710; x=1740069510;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=H7oNCp/RNw3t/6zsGfDVg/YzDuWbFw2qOHPXbSLVPyM=;
- b=lW5UQA4ylyXe1W9Qi/BnL74Yfwc2rw5EU7Er2ypA/E0DbrXADrqWdN99J+s50iK5sL
- +jRD4mVm7oKJdyMDWSpzV54wAYNRtLkZ177VSsX7ppP550MKChIGps3F4wfeSdgHOYIC
- kreyFZT6CQOoAZBT5oPOXe0AiWmXAU1vf3CGax7TR4mqiqCaPPDyaC0KxKbyukNlald4
- 3QLdEydi8hASeHYHUEPrPxYuFdOTHrZewRJu1Y1JGFTfQfXp4JY4rgWvartIrEEJApT9
- 5fzNGWwOBYUCpLY/rEYopmY2iOPJkJax2ibGoPbAC8tjAOn4UtzFmeGVkkuAwDHm9wKU
- wMRA==
+ bh=5zyljHRvLU6CfUIp4JEgLGjq0cbAwicms/vHIYSGJBE=;
+ b=w/VCohtN57pxGKXNPzHzxgaeiL5l74XNuAIvj/LyoJzZP7uPjbYzhrrJ4I921ni9fO
+ q+QoBu76uMdjZixHEcsdy8JuOa95gERSvnqLqqsCslHmX/Tg5JMwH+L+d26IsXb7FztV
+ 6ya/WevR5AwfDNdR3Nt36E5WrBt9hbUM5DzM9qibSnJLsb2W77XvT8feiY9ICdNFuLGg
+ tiwX4U5xuX91Ouqh7BCcSranki7utMPQmR++x6FAC2AZOsXX2qJesNDqpjDF5+LXmTcX
+ x+C4KwrDIzW7QWS5cnGcxX2/+dCg5Z4nwvb6dBcIOCwHpzlh16rCeng21fDZwQjHaywx
+ j3cQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTNYM8AuJvhk3/Xik7ydcV7Jgw8TdsgpXHj8nS4rrOR1cBkLRXoq8Tq3tKgFTrY5s1+fQMMnBEBd0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJSO5DF1FfcnugnDakB7lmc8vLL/rfZsJh45avXzBg0NdZ1Wag
- Ncb+ROeg5hyXbyfKI6aN/39OB0cRByLZJvfRU/eSTFo3rBJU5jhLOlk49cQzlWk=
-X-Gm-Gg: ASbGnctbCIrvHrZWI6O/rBGXwKPifG7Hcve/eqQqTNmQW1jLV5sIK7cHSnb4DhEqotV
- wVNlysFEpZoMKMrOPwufciDsGQxnVaKZjbw9Smcu+CL0nftmjLINnbkWr2RZ+2fk486I7Hsf7Sb
- lAHLP+8kk35+yJNEKAov6ARCxGeE2GpvTlDtj4gsM7UD+2Vcn4WSKOYgXKV52/R7XS+hkNv69JM
- yxJH0yWgzjD1dPPSJiRPRPPc5haj+xi4p6O5lpEKJGXcFe6l8uQfzGCjMksqBSYPvhtRCfliNpm
- FlfJQLhIdviGr/AHIZbxUQIaR+rFbgWRFMXC8Krgy7DcknUgxGKXvLHVxdGLM02ngd/bOZs=
-X-Google-Smtp-Source: AGHT+IGW0S6KCFdTWz+vmS0HhCwPaLiMVHP6qtL5u7XOftiqOSqmrNbkzxLuEikhD4tCSFf2PgGIuA==
-X-Received: by 2002:a05:6512:3e14:b0:544:1093:ee3a with SMTP id
- 2adb3069b0e04-545181165a8mr3170001e87.24.1739464699023; 
- Thu, 13 Feb 2025 08:38:19 -0800 (PST)
+ AJvYcCXkz60alhwOr3Ry0GQ+w9rFPkwHLRp0XWNRPSIMFCKxCUL5pTOnU7Q3/vSiGGrT7Z0IKqPQJ2ZIvug=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDOe+70McIS8yYtKv30/ueZSUXvbRQ10fYf58rJiQ8opd0tB2I
+ IBMm3IdNSZ9GVtOHqtfAoDEy6ek/ERw8nP3bjI+Gi3QQ4TNRsz2vi9vaZ7x9Y+4=
+X-Gm-Gg: ASbGncuXyuZ0L5MI962BHziekvyvCTs8HvqYPVq1xk/B88UBEPR+UhQRC8LndTjemVR
+ NUx7mWyxYug1TvsBSv79AxQdX20Cnt7ZZ3USjZn1jEVbGIO41mjp2cYN6iZsdiHuiO/MEUnKtPz
+ A6Ss/jTd5RluNZhhZtqEHzRSKNOvTw1ysoUSsu8ImZX/dhL8NdhYl769Fc3tGYO3wDJBe3sLp1Z
+ B6fz6YxHTHHleoQETeS7lBa8ljpC+D7zSvMb29JrQIvyOLkVqwBV4vV/W9nnM3OhevGrzoNjP16
+ Fhv3uiP3n7+45PBGA/A0JtWmeSSbFDKV1vugSulw07xYNdR7flxbV1/gMhJgY9NWhe/iMgE=
+X-Google-Smtp-Source: AGHT+IH3xnLzQL6gEDeHl+s2Ja74DCPJbtqw3lrnmuWXPCOb9TRK/IEStkbvlyJyjGyoNdKUiGIk2A==
+X-Received: by 2002:a2e:bc85:0:b0:308:f84b:6b39 with SMTP id
+ 38308e7fff4ca-30903651966mr36959311fa.14.1739464710047; 
+ Thu, 13 Feb 2025 08:38:30 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5451f09aa6csm220892e87.60.2025.02.13.08.38.16
+ 38308e7fff4ca-30910276f11sm2438831fa.74.2025.02.13.08.38.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 08:38:17 -0800 (PST)
-Date: Thu, 13 Feb 2025 18:38:15 +0200
+ Thu, 13 Feb 2025 08:38:28 -0800 (PST)
+Date: Thu, 13 Feb 2025 18:38:26 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,14 +73,14 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Douglas Anderson <dianders@chromium.org>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 34/37] drm/bridge: tc358775: Switch to atomic commit
-Message-ID: <ydee2uig6zpjzmvbprz74z2yhsxrfqh6wvtr573ajzpkx7dfqp@me5npf22nypv>
+Subject: Re: [PATCH v3 33/37] drm/bridge: cdns-csi: Switch to atomic helpers
+Message-ID: <5nf3oizcucrdbaju5nmwxzizcvefvzf7vx2b3rqcra2ltaduvk@c3bvqbm5f42q>
 References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
- <20250213-bridge-connector-v3-34-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-33-e71598f49c8f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213-bridge-connector-v3-34-e71598f49c8f@kernel.org>
+In-Reply-To: <20250213-bridge-connector-v3-33-e71598f49c8f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,8 +96,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 03:43:53PM +0100, Maxime Ripard wrote:
-> The tc358775 driver follows the drm_encoder->crtc pointer that is
+On Thu, Feb 13, 2025 at 03:43:52PM +0100, Maxime Ripard wrote:
+> The Cadence DSI driver follows the drm_encoder->crtc pointer that is
 > deprecated and shouldn't be used by atomic drivers.
 > 
 > This was due to the fact that we did't have any other alternative to
@@ -107,8 +107,8 @@ On Thu, Feb 13, 2025 at 03:43:53PM +0100, Maxime Ripard wrote:
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/bridge/tc358775.c | 41 +++++++++++++++++----------------------
->  1 file changed, 18 insertions(+), 23 deletions(-)
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 29 ++++++++++++++++++--------
+>  1 file changed, 20 insertions(+), 9 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
