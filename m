@@ -2,213 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6413CA3395D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 08:57:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5211AA3395F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 08:57:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9C610EA1D;
-	Thu, 13 Feb 2025 07:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB0A10EA1E;
+	Thu, 13 Feb 2025 07:57:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Pt7G7h6L";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="VCSrLH8v";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="a7mSCrqz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Rnsdqvtq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a7mSCrqz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Rnsdqvtq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7D910EA22
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 07:57:29 +0000 (UTC)
-X-UUID: 1aa220bce9e011efbd192953cf12861f-20250213
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=D/BY3HALRMSWS+xOgkkQPV/nI2sFWn+3NuetlI9eJxU=; 
- b=Pt7G7h6LBt6R3olba6sPRerFKSXgG5Ztvks9OG3tEMq48Xwrm6J1S3OO5ayLuQZ8hNoZORSNVN9oPniynvsIRhlu+8w1uizewHb/wNvmSZXnwrP4DTLr+YaWcdcUZWvYE52kz71VHxVArEliBaAr32hhk1wFcs5tvzI/QA2QILI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46, REQID:818e7837-51db-4a8e-940e-14dc3bafc3e5,
- IP:-32
- 768,URL:-32768,TC:-32768,Content:-32768,EDM:-32768,RT:-32768,SF:-32768,FIL
- E:-32768,BULK:-32768,RULE:Release_Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:60aa074, CLOUDID:nil, BulkID:nil, BulkQuantity:0,
- Recheck:
- 0,SF:nil,TC:nil,Content:nil,EDM:nil,IP:nil,URL:nil,File:nil,RT:nil,Bulk:ni
- l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
- :0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 1aa220bce9e011efbd192953cf12861f-20250213
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 258237809; Thu, 13 Feb 2025 15:57:00 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Thu, 13 Feb 2025 15:56:59 +0800
-Received: from SEYPR02CU001.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1258.28 via Frontend Transport; Thu, 13 Feb 2025 15:56:59 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V2zZv3CDQuAQi+ix41vKZCxeCQFQ5MjojDxn/CbAy33SMh05B8JTbMA8XcWee8rU60kbmZrY1bpqN1VcmaVzewjMSVtf/ZaHJ1v8zxAl4sTOvr58Q1lygC9A2/XrIVG96aNRcyB1UMJtHEDp4BBOd93IDLTQBqAr3zXL4jaFYPbsCSwxPsCUC0SScwbaQSWnVuw90yafgBV0YI+waT/lq4imFNBuyW4vWFGx2jae7l9itZUJN5D220f9WL8v6H/eUFVRhKgFMXE8hdLp3TpdLT0hywKwdkvzXXw9zWV2mW6aEFW86uiuN3kq2uhj3RKnjs/VBqjHEu8gWoZWcjvUpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ldhEua6YVdJZ0CRNeyYuf9R3hXTEHPuRKrB75my5sk=;
- b=xPx17KPzYLYH1XecBbPSMx0YDr/zAktKHwhvEUW7MSUt9rfYnGdgSpLkjkTZ+GaDS2tnlbowTQH21hnKPD1SOAZ9vxA6gmW0haXVJC6HJBEo0SpknplLYfHzjeHkJZQXQutd+oEJImC5BU8pPBxUZaro42nizf7F5eKnZ+H5kYcIWZO3rIq8W+bb2zlw6tOrJPshXQFbtq0R95XKnyBgq479Jvm5aCF2AcKIj5mc7W4z86pnoC/LPM2vpXTQ4wqVOZj6skJUcEa6Gw+QCByGbnBDT649s0yv66xrpbQeVb+iG+w1NJyPqAhJ/gMr4vvcwokeeR1Vt59xNuYDxsFc5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ldhEua6YVdJZ0CRNeyYuf9R3hXTEHPuRKrB75my5sk=;
- b=VCSrLH8v0XUZOWIzcvKlpwbdZA+lc7clr0lkw6n5+ham+Z5XaiAUolBfd2npLvTCy8m3Rw+JgJVGyVIBkydSjeRow6lCB2eEMFNCPzORjw/ab9lQUhF+fn099scVRDaVQCshaQEjmzhmBp5ThetREPZN1Di3aAYXaE1R/4qaxy4=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by TYZPR03MB6979.apcprd03.prod.outlook.com (2603:1096:400:284::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.13; Thu, 13 Feb
- 2025 07:56:55 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54%3]) with mapi id 15.20.8422.015; Thu, 13 Feb 2025
- 07:56:54 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-CC: "robh@kernel.org" <robh@kernel.org>, "jie.qiu@mediatek.com"
- <jie.qiu@mediatek.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>, =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
- <jitao.shi@mediatek.com>, "linux-mediatek@lists.infradead.org"
- <linux-mediatek@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "kernel@collabora.com" <kernel@collabora.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- =?utf-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>, =?utf-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?=
- <TommyYL.Chen@mediatek.com>, =?utf-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?=
- <Ives.Chenjh@mediatek.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?=
- <Jason-JH.Lin@mediatek.com>, "junzhi.zhao@mediatek.com"
- <junzhi.zhao@mediatek.com>
-Subject: Re: [PATCH v6 32/42] drm/mediatek: mtk_hdmi: Cleanup function
- mtk_hdmi_resume()
-Thread-Topic: [PATCH v6 32/42] drm/mediatek: mtk_hdmi: Cleanup function
- mtk_hdmi_resume()
-Thread-Index: AQHbfHkwmrecY8U9bkGH3H8V2qFZybNE4L8A
-Date: Thu, 13 Feb 2025 07:56:54 +0000
-Message-ID: <1f9b973387f57026a74ab6caeaea4f1b8b1e0369.camel@mediatek.com>
-References: <20250211113409.1517534-1-angelogioacchino.delregno@collabora.com>
- <20250211113409.1517534-33-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250211113409.1517534-33-angelogioacchino.delregno@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB6979:EE_
-x-ms-office365-filtering-correlation-id: ca93e700-b0eb-4319-b0b4-08dd4c03fbc6
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?cy8xcXZNRS9LY1kwQXBybzl3VFg2Zm0rN1RUaUpFb3ozZkRXSTZEV3FzR3hH?=
- =?utf-8?B?a1RoT2JXY2ZSQTdnc2NuUlZTRzNYQXJrQTdZTEtyWUlOSFBFeG4wVEk3MHdS?=
- =?utf-8?B?VXVYVnE4T0VqYm1uK2ZaVHR4WkxINWdjUUI0RVhaWnMvMGhXY2ZIaGhRTkMr?=
- =?utf-8?B?M3ZOcnR3MUZJbVRCN25Canl2WDhxNWlmcWVxUGNLS044cHRJMFJIZngyNWFp?=
- =?utf-8?B?RG1rV0l1V2taMTY0WlNQOU5xTkNZM1Fmb0g5aUdscXhaS1d5ZjVBeDM4aFJV?=
- =?utf-8?B?N0xlK0YxaExsbElsbEFSWW4zOEE3ZnptZk9RaGRyOS9HSXRsNUZkUW96eVQ4?=
- =?utf-8?B?SFZmOS9DRisweWtzWE9NbHh2dVRTUjc4ZmtMcTlNQ3ZiREYreWpOUGJqM2lJ?=
- =?utf-8?B?NlFObnRCV3lNSHlOb1FrZjQ3TmhCYTM2akxjRlZxamRObHVDSUpodnA2UUtq?=
- =?utf-8?B?REx1aHhhUmZtNzlwNEhCS3hkOVlYajQvL2ZGekw5dmFBUkJxVUt0NFI0OVFZ?=
- =?utf-8?B?UC9xTzBrUUJEZ0pMNHByQjhyKzZsVm1aeHJ0VkppbnlmMnl0MVZXNm5zazRu?=
- =?utf-8?B?OGxKVFRzQnRZVUlhL0ZZQ00vUEpwNWM2U2tQR2xKUVB0YVFsMDJxeDV4UjFI?=
- =?utf-8?B?OStJT1QwV0o3c3lzV05qT3lLVnNiVVlJWFU4aXBOeXdHa0JUTlpTak5wNTBv?=
- =?utf-8?B?NWJwUDlMcGNnQnFhYWhrdFVINXR0Zmp5WDhCeGVYWU9zVzhRMnNwbHRocFFN?=
- =?utf-8?B?UmVEeTd2eWZJck5WRk9YWklDMnRBalJJWEprNTlmZ3l5Sk9BQmVMRXBBVW0y?=
- =?utf-8?B?VThDMys4bVBFcTVxa1E5VXNiUmtEdGxyNVVrbWc2QWxmZDB2TkhuSmFobFZZ?=
- =?utf-8?B?Q0loUzlSVGd5V1pnQWkwcWRZQVJCVngxcTAyUDVVeUhOUTNpZVVYSW93czFj?=
- =?utf-8?B?Y3N2c2w2bzU1MnJoTXJrOFRsOGhiZWs1cnpQbnRCR0JOR2RDbDRseXlHeUN5?=
- =?utf-8?B?TW5tR010WU5Pd21TVUJJcEQ1dmt2cGlTOGZsWDcycDd3MXptK3BHRmx5UDZY?=
- =?utf-8?B?WE0zSnV6Z3IyWlcwaCtnU3NoZmo4YnJnREJ3MytBbDNQdis4R0lNR2FYS3Ur?=
- =?utf-8?B?MUVxNm05YnlpN2FDeE5aNVZuS2xJQmdJWk9VL1FBZ2tzN0dDWjRqOC9nZERF?=
- =?utf-8?B?ejBWWi9QVjlJTWZmQzQyYVU5aU1oZE1ESjUxdTByS1hNT0phR3hHSGppdzZw?=
- =?utf-8?B?WHFqYU8zNzdNOHlOS0w5aXUyL0pNVHpNa3VVOHB0N0FqMlBVUE1lMmd0aVlP?=
- =?utf-8?B?b0VLelNtMFBPSzBDMjJQQXczbjh2dWdlN1YybEJ0T2ZFRWJ3cmJaS3NpUDR2?=
- =?utf-8?B?WVhqUTJRUElXQ1pMUnpxQncxMW10cEN1WTJLYnh0a2JsZFI5WC9sa21nNDRP?=
- =?utf-8?B?ekxpM1RZdUkzQjJHTythNzBLcVJPU3h0U2lsb05NSWQvRXY1QnA1NDgrdk1M?=
- =?utf-8?B?QWQ0ajlOdnZYSWZTWkpIUXVlTHErZzZXbkFVOGV1YjhqTlVPbE9MeTlCT1J2?=
- =?utf-8?B?NnFQMEhoUzF6emMySEZqQ3NwaWd6N2hJdTM2cFZ6dWdyZWVzS25XcTJWL25M?=
- =?utf-8?B?czFlOHcvaXQ1NlR0S2txUHRpd2tBaW5KUzJZazZaM0QvOU5lemhGeUtzOEZB?=
- =?utf-8?B?dE83aFh6WEhFRm9ycURja3RKK1NiOXZmdGt1TzE2eC9UYWk3blVXbTlkOWJq?=
- =?utf-8?B?Vk1lYys5YlZIRTR2VU5GeXYxNk1oMW05Tndqai84YnJ4dHpCS2tjU1JISHlz?=
- =?utf-8?B?Y28vU1RUSU43RG1LNGtJL2M3cWRiamQ1aDZIQk5CNE9sMU9FVFhQZ285Tjdt?=
- =?utf-8?B?U1V5aE1udExZQmRYWFAxVytqakIxb2thWDFvZ2Fkb20wUDZKaGFFN1NnU1Zi?=
- =?utf-8?Q?T9OEZ7Wt3yMmEWWN9QOcBu5VPRo6Jwf0?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Qzl0d1JuMUlDNmhYK1BEMlhOa1JFVE1mZXZzV2lJVFNYNjBkT0V0dS8rY2Rz?=
- =?utf-8?B?WWNiRHdsdW9Kd2dyZDJKcDdTM2grb1lwZEk3WmtCVmN5WDl5U1U1ZjBjUjY4?=
- =?utf-8?B?dlpabjlKeHEwQnYyTDh1UEgxRzZCelJYamppRGxYV1E3WWZqZ1NHbEJMY0hr?=
- =?utf-8?B?WW9FMnV2OTRVM2JxMlVwQkVWZDJkZXlNQmd0b1lsUnhtRkRCYXVHT1gvVjNT?=
- =?utf-8?B?bWRQVkZMSHhGazVvNTM0aGNFdk9wYzFJTFpSbkJwdkdFam4wWjN4S29qMnpQ?=
- =?utf-8?B?SkVMaGM4L3cvZmpyOEdQTDlRL2tza1JKL3poeGZuQlREZXY5Q1dUcUdSdENG?=
- =?utf-8?B?VnNCMEcyUnRQLzhPVXZrRXJCbVVSWjYzWjVwZ2NXRmcyUnFvQU1HM0pFMjBl?=
- =?utf-8?B?RWFXRnlJTXh1UVhjaStKSjRIc0pSNUZ2eWVYamFZeGY3K2VUcFpoejVQQ0pU?=
- =?utf-8?B?bm5lUVVBY1lKeUh6TGVPVk92WWhtMVJlZzFYNkJ6K0ZZaW05aFdIbENrc2Nu?=
- =?utf-8?B?Q1NNdUs4aUU0ckZWd3JWS0kzRVNBU2VZNmRaM3EyNWtyZkw4VmN4aXh4ZG9R?=
- =?utf-8?B?ZWwvMktRSzA2aXlHRHAyZjhaQlhKZyttcEhNaHhqTlZ2WFdDV1pFb05yRFNs?=
- =?utf-8?B?UTFoLy90QTlKZ2hUL0wwUzU5RmhhYS9rSXM3Z3hISk81ZGdadE5lWCsyV3Jz?=
- =?utf-8?B?ZHF2VGRoSnZ4akkvQ2swL1JKbjhOcGEzcFBYNDVJSW5IYjI0UmtXbXE0NFlQ?=
- =?utf-8?B?aitCNmc1UkkyaUZscDRQdjN4TDRzQUVhcG52VmNWU2QvdVBxQUZDaGYzV0hQ?=
- =?utf-8?B?UGpYMTBaTk1iM01kM0ZkL1BHR2ZNQ08xS2JHTzNTbzFvNjJCbERLOUNWcWhN?=
- =?utf-8?B?NVhKM0MxWkp3SnpsYU81SHo1eDhwaHRVTTBlemJXdVdIRmlhL0dzVVVWMW5D?=
- =?utf-8?B?ajNEQU1QMVFTWi9hMHVkRTd3TFdtZzdnRDJjcnMrNDZhQmxTYmtaRHNvRzVP?=
- =?utf-8?B?WU56RGN0KzE0Z0t5MEtvbnRkbjlDUk1FZUk1b3V5c2o1RHEwVUFmRmJiRjlL?=
- =?utf-8?B?cDQ2bDg5QklNY2ZqSTN3aXl5TzRSL3JTZVRKbmxvaTJGUHlob1RnaHdaT044?=
- =?utf-8?B?ejlNKzZ4UCs4L3orS1l3dXdWTVFsZmJaMXdlZzdVZTBzQ3VWdzJoSkFvMFdH?=
- =?utf-8?B?QWg5OWFyRHJJKzBza0lCbFZjbE5nVk44Tm5iZDlRNTRsTjNBcjBidzNEVjFS?=
- =?utf-8?B?M0QxOGN6ZEhWNkp1MytpcVBpcW5qQWcwcnFpeS9vaVVZdGp5WjVGcjgxRnNu?=
- =?utf-8?B?Kzl3bTB0MW53aUV4RHFucXNBL1hFdkd6WTVNaksyRmMyMTBkY3J6U0dpWDBS?=
- =?utf-8?B?TFl5UVRGdStEck1jV1pxcnhQTEFYQXBrNitGL1l0QlZIOXJIYi9TRFJOckVX?=
- =?utf-8?B?eWpqdm41dG84eCtaQWsyVFl4bkhzSEFJYktqUFFENnBOaVI3QVpneFZtdnIv?=
- =?utf-8?B?L2xqTWlxRmhUU0QvSEFiV0s5NTdUV2JqZnpVMHBwTVpPWGVaUDZFanBpMlhI?=
- =?utf-8?B?bVZxcWtEa3BTd3I1dkJVdkJEVEJveTdMU3VGZVZkOWNhV0Q4YkFYY3RGTUla?=
- =?utf-8?B?TStDWWtVR0crL040K1RFQnB5WjZjUVI0UWlLc2Y1ZXlFV1Z5bW1SNHUwUFM2?=
- =?utf-8?B?N2ZodjdBQzlMY2YwZ2cwYmlsTTdyU1FJRE4wZUFlNkRmUnBiaU04bGFYTzAx?=
- =?utf-8?B?Mnk5UnNZSWoyY1JST1NiRHhTdCtzQnN4K3FFSU1kb3poajQ2KzNoNFhhQWs2?=
- =?utf-8?B?OG5iLysvVjFiRmpKY2Q1cWlhWHoyYTdzZ1lPRGhuNEQ1em9uQW5jaWtycmho?=
- =?utf-8?B?SGluZEdGVFBxVFRjNFZYRXppVVlWdEFYekFVZ0tBN05HVnVtYmpWbTR0TU1K?=
- =?utf-8?B?R2J2U3lpY3FOWnpZMXBnZGkvVlNpdDJnbHF6WHFDaE0zQ09wWlFoRUZzU0NT?=
- =?utf-8?B?amk0RFEzMm5xa2doZUxHaUYxcFB4aUI1Vi9ZTCsxTmZrZHVEY0FQeWxmN24w?=
- =?utf-8?B?NkV4eDN1alZJY3hRc05sM241dWtFb0hYN2pWM2pMMDVhRVd2dmJPQ3VLVVRU?=
- =?utf-8?Q?eyzGhAGaisqogPbYduEhpbvMd?=
-Content-ID: <97C5EB3E13D47D4A831370B9297BE0CA@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6F9B10EA1E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 07:57:35 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4B79D22A46;
+ Thu, 13 Feb 2025 07:57:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739433454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l64wye6SggNBhfX1dIvY42n1nqPIDcrBOBmwvGtFeqA=;
+ b=a7mSCrqzaJJKzwkheiVYHKkIMNuHnG7SZm9H6nNij0+FMIJgQT8WvSKK5L45tprIl4O8q5
+ YgDTqRnGs4/li0YOAN8m5F9W5m3xEw2EUBFEtmtwLmmKi3KtoiB2KmG10c/MQ7aXSwvMps
+ hjH6YT6MIyNtxCRJxccZ5tkP6iGZ0s8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739433454;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l64wye6SggNBhfX1dIvY42n1nqPIDcrBOBmwvGtFeqA=;
+ b=RnsdqvtqooGxfTt3e14Bo12x6x8ikJu7lzJjpAkra7JhVMpZm5taa8iVW48pkqEzKwYNao
+ KZeoI1s6feNh/ECg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=a7mSCrqz;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Rnsdqvtq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739433454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l64wye6SggNBhfX1dIvY42n1nqPIDcrBOBmwvGtFeqA=;
+ b=a7mSCrqzaJJKzwkheiVYHKkIMNuHnG7SZm9H6nNij0+FMIJgQT8WvSKK5L45tprIl4O8q5
+ YgDTqRnGs4/li0YOAN8m5F9W5m3xEw2EUBFEtmtwLmmKi3KtoiB2KmG10c/MQ7aXSwvMps
+ hjH6YT6MIyNtxCRJxccZ5tkP6iGZ0s8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739433454;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l64wye6SggNBhfX1dIvY42n1nqPIDcrBOBmwvGtFeqA=;
+ b=RnsdqvtqooGxfTt3e14Bo12x6x8ikJu7lzJjpAkra7JhVMpZm5taa8iVW48pkqEzKwYNao
+ KZeoI1s6feNh/ECg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0DA1613874;
+ Thu, 13 Feb 2025 07:57:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id o64EAu6lrWc5YwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Feb 2025 07:57:34 +0000
+Message-ID: <b296bfef-1a9c-4452-baeb-09f86758addd@suse.de>
+Date: Thu, 13 Feb 2025 08:57:33 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca93e700-b0eb-4319-b0b4-08dd4c03fbc6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2025 07:56:54.8556 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GbOrU+Ev8FxvV1DHa8VC7//ykW/i96YdI+4FfaC73kRNcXXQMlgCEpdvyc8ZjYhSSmToqA0CsAyxRN9OpaUJKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB6979
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_009_1657265975.519500765"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
+To: Nicolas Baranger <nicolas.baranger@3xo.fr>, dri-devel@lists.freedesktop.org
+Cc: airlied@redhat.com, Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
+References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
+ <194c4656963debcf074d87e89ab1a829@3xo.fr>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <194c4656963debcf074d87e89ab1a829@3xo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4B79D22A46
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,vger.kernel.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -224,104 +151,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_009_1657265975.519500765
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Nicolas
 
-T24gVHVlLCAyMDI1LTAyLTExIGF0IDEyOjMzICswMTAwLCBBbmdlbG9HaW9hY2NoaW5vIERlbCBS
-ZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtz
-IG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRlciBv
-ciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBSZW1vdmUgdGhlIGVycm9yIHByaW50IGluIGNhc2Ug
-b2YgbXRrX2hkbWlfY2xrX2VuYWJsZV9hdWRpbygpDQo+IGZhaWx1cmVzOiBzaW5jZSB0aGUgQVBJ
-cyB3aWxsIGFscmVhZHkgcHJpbnQgb24gdGhlaXIgb3duLCBoYXZpbmcNCj4gb25lIGluIHRoZXJl
-IGlzIHJlZHVuZGFudC4NCg0KUmV2aWV3ZWQtYnk6IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+
-DQoNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEFuZ2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25vIDxhbmdl
-bG9naW9hY2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9yYS5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9n
-cHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMgfCA5ICstLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCA4IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19oZG1pLmMNCj4gaW5kZXggNTNjMjg3MzdhYzJhLi44ZjMxMzYzYzU1MjIgMTAwNjQ0
-DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jDQo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jDQo+IEBAIC0xNzA0LDE1ICsxNzA0LDgg
-QEAgc3RhdGljIF9fbWF5YmVfdW51c2VkIGludCBtdGtfaGRtaV9zdXNwZW5kKHN0cnVjdCBkZXZp
-Y2UgKmRldikNCj4gIHN0YXRpYyBfX21heWJlX3VudXNlZCBpbnQgbXRrX2hkbWlfcmVzdW1lKHN0
-cnVjdCBkZXZpY2UgKmRldikNCj4gIHsNCj4gICAgICAgICBzdHJ1Y3QgbXRrX2hkbWkgKmhkbWkg
-PSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gLSAgICAgICBpbnQgcmV0ID0gMDsNCj4gDQo+IC0g
-ICAgICAgcmV0ID0gbXRrX2hkbWlfY2xrX2VuYWJsZV9hdWRpbyhoZG1pKTsNCj4gLSAgICAgICBp
-ZiAocmV0KSB7DQo+IC0gICAgICAgICAgICAgICBkZXZfZXJyKGRldiwgImhkbWkgcmVzdW1lIGZh
-aWxlZCFcbiIpOw0KPiAtICAgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4gLSAgICAgICB9DQo+
-IC0NCj4gLSAgICAgICByZXR1cm4gMDsNCj4gKyAgICAgICByZXR1cm4gbXRrX2hkbWlfY2xrX2Vu
-YWJsZV9hdWRpbyhoZG1pKTsNCj4gIH0NCj4gDQo+ICBzdGF0aWMgU0lNUExFX0RFVl9QTV9PUFMo
-bXRrX2hkbWlfcG1fb3BzLCBtdGtfaGRtaV9zdXNwZW5kLCBtdGtfaGRtaV9yZXN1bWUpOw0KPiAt
-LQ0KPiAyLjQ4LjENCj4gDQoNCg==
+Am 12.02.25 um 19:58 schrieb Nicolas Baranger:
+> Dear maintener
 
---__=_Part_Boundary_009_1657265975.519500765
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+That's mostly me and Jocelyn.
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1R1ZSwmIzMyOzIwMjUtMDItMTEmIzMyO2F0
-JiMzMjsxMjozMyYjMzI7KzAxMDAsJiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
-Z25vJiMzMjt3cm90ZToNCiZndDsmIzMyO0V4dGVybmFsJiMzMjtlbWFpbCYjMzI7OiYjMzI7UGxl
-YXNlJiMzMjtkbyYjMzI7bm90JiMzMjtjbGljayYjMzI7bGlua3MmIzMyO29yJiMzMjtvcGVuJiMz
-MjthdHRhY2htZW50cyYjMzI7dW50aWwmIzMyO3lvdSYjMzI7aGF2ZSYjMzI7dmVyaWZpZWQmIzMy
-O3RoZSYjMzI7c2VuZGVyJiMzMjtvciYjMzI7dGhlJiMzMjtjb250ZW50Lg0KJmd0OyYjMzI7DQom
-Z3Q7JiMzMjsNCiZndDsmIzMyO1JlbW92ZSYjMzI7dGhlJiMzMjtlcnJvciYjMzI7cHJpbnQmIzMy
-O2luJiMzMjtjYXNlJiMzMjtvZiYjMzI7bXRrX2hkbWlfY2xrX2VuYWJsZV9hdWRpbygpDQomZ3Q7
-JiMzMjtmYWlsdXJlczomIzMyO3NpbmNlJiMzMjt0aGUmIzMyO0FQSXMmIzMyO3dpbGwmIzMyO2Fs
-cmVhZHkmIzMyO3ByaW50JiMzMjtvbiYjMzI7dGhlaXImIzMyO293biwmIzMyO2hhdmluZw0KJmd0
-OyYjMzI7b25lJiMzMjtpbiYjMzI7dGhlcmUmIzMyO2lzJiMzMjtyZWR1bmRhbnQuDQoNClJldmll
-d2VkLWJ5OiYjMzI7Q0smIzMyO0h1JiMzMjsmbHQ7Y2suaHVAbWVkaWF0ZWsuY29tJmd0Ow0KDQom
-Z3Q7JiMzMjsNCiZndDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMz
-MjtEZWwmIzMyO1JlZ25vJiMzMjsmbHQ7YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJv
-cmEuY29tJmd0Ow0KJmd0OyYjMzI7LS0tDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfaGRtaS5jJiMzMjt8JiMzMjs5JiMzMjsrLS0tLS0tLS0NCiZndDsmIzMyOyYj
-MzI7MSYjMzI7ZmlsZSYjMzI7Y2hhbmdlZCwmIzMyOzEmIzMyO2luc2VydGlvbigrKSwmIzMyOzgm
-IzMyO2RlbGV0aW9ucygtKQ0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7
-YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYyYjMzI7Yi9kcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2hkbWkuYw0KJmd0OyYjMzI7aW5kZXgmIzMyOzUzYzI4NzM3YWMyYS4u
-OGYzMTM2M2M1NTIyJiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2hkbWkuYw0KJmd0OyYjMzI7KysrJiMzMjtiL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfaGRtaS5jDQomZ3Q7JiMzMjtAQCYjMzI7LTE3MDQsMTUmIzMyOysxNzA0
-LDgmIzMyO0BAJiMzMjtzdGF0aWMmIzMyO19fbWF5YmVfdW51c2VkJiMzMjtpbnQmIzMyO210a19o
-ZG1pX3N1c3BlbmQoc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYpDQomZ3Q7JiMzMjsmIzMyO3N0
-YXRpYyYjMzI7X19tYXliZV91bnVzZWQmIzMyO2ludCYjMzI7bXRrX2hkbWlfcmVzdW1lKHN0cnVj
-dCYjMzI7ZGV2aWNlJiMzMjsqZGV2KQ0KJmd0OyYjMzI7JiMzMjt7DQomZ3Q7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7c3RydWN0JiMzMjttdGtfaGRtaSYjMzI7
-KmhkbWkmIzMyOz0mIzMyO2Rldl9nZXRfZHJ2ZGF0YShkZXYpOw0KJmd0OyYjMzI7LSYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aW50JiMzMjtyZXQmIzMyOz0mIzMyOzA7DQomZ3Q7
-JiMzMjsNCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldCYj
-MzI7PSYjMzI7bXRrX2hkbWlfY2xrX2VuYWJsZV9hdWRpbyhoZG1pKTsNCiZndDsmIzMyOy0mIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2lmJiMzMjsocmV0KSYjMzI7ew0KJmd0OyYj
-MzI7LSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyO2Rldl9lcnIoZGV2LCYjMzI7JnF1b3Q7aGRtaSYjMzI7cmVz
-dW1lJiMzMjtmYWlsZWQhJiM5MjtuJnF1b3Q7KTsNCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjtyZXR1cm4mIzMyO3JldDsNCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyO30NCiZndDsmIzMyOy0NCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyO3JldHVybiYjMzI7MDsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyO3JldHVybiYjMzI7bXRrX2hkbWlfY2xrX2VuYWJsZV9hdWRpbyhoZG1pKTsN
-CiZndDsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmIzMyO3N0YXRpYyYjMzI7U0lN
-UExFX0RFVl9QTV9PUFMobXRrX2hkbWlfcG1fb3BzLCYjMzI7bXRrX2hkbWlfc3VzcGVuZCwmIzMy
-O210a19oZG1pX3Jlc3VtZSk7DQomZ3Q7JiMzMjstLQ0KJmd0OyYjMzI7Mi40OC4xDQomZ3Q7JiMz
-MjsNCg0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQtLT48IS0tey0t
-PjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioq
-KioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWls
-IG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlh
-bCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlz
-Y2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29u
-dmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3Nl
-bWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcg
-b2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRl
-ZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdm
-dWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwg
-b3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3Is
-IHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0
-aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAo
-aW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0K
-ZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4g
-VGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
+>
+> I did include ast-drm driver version 1.15.1 (in replacement of version 
+> 0.1.0) on the new mainline kernel too (6.14.0-rc2) and I issue a new 
+> dkms patch
+>
+> Last DKMS patch had been sucessfully tested on mainline.
+> And last ast.ko version 1.15.1 included in linux tree had also been 
+> sucessfully tested
+>
+> Online directory is updated with :
+> - new DKMS patch
+> - new DKMS srouces
+> - new DKMS debian package
+> - new tarball of mainline included ast_new ported in kernel tree
+> - new kernel debian package (mainline with ast_new)
+>
+>
+> NB: online directory is here: 
+> https://xba.soartist.net/ast-drm_nba_20250211/
+>
+> Please let me know what I should do to see this change in linux-next
 
---__=_Part_Boundary_009_1657265975.519500765--
+I'm having a little trouble with figuring out which of the many driver 
+sources is the relevant one. Am I correct to assume it's the one at
+
+https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/
+
+
+About that driver: Although the official driver reports an ancient 
+version number, it is an up-to-date driver. It is actually more 
+up-to-date than Aspeed's package. Both drivers share source code and a 
+few years ago there was an effort to bring the kernel's driver up to the 
+same feature set. Since then, the kernel's driver has been updated, 
+reworked and improved.
+
+About the performance: From what I can tell, the only significant 
+difference in these drivers is memory management. Your ast_new driver 
+uses an older algorithm that we replaced quite a few releases ago. The 
+old version was unreliable on systems with little video memory, so we 
+had to replace it.  I don't know why the new code should be slower though.
+
+If I give you a patch against a recent Linux kernel, are you capable of 
+building the patched kernel and testing that change on your system?
+
+Best regards
+Thomas
+
+
+>
+> Thanks for help
+>
+> Kind regards
+> Nicolas Baranger
+>
+>
+> Le 2025-02-11 19:15, Nicolas Baranger a écrit :
+>
+>> Dear maintener
+>>
+>> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video 
+>> driver on mainline kernel (6.13.0 + 6.13.1).
+>>
+>> ASPEED video driver is availiable here:
+>> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
+>>
+>> But it only work for LTS kernel
+>> So I modify the DKMS package and I build a new Debian DKMS package 
+>> with the adapted  source.
+>> My patch can be find here :
+>> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
+>> See the README:
+>> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
+>>
+>> Using this new 'ast 1.15.1' driver, performance are amazing compared 
+>> to the 'ast' driver include in kernel tree, specially when using a 
+>> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card 
+>> as the main video card and as the main and only video output (the 
+>> discrete GPU is used only for offloading 3D or for cuda/opencl)
+>>
+>> So to make things easier, I include the new 'ast 1.15.1' driver in 
+>> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
+>> It's working fine as you can see on this video :
+>> https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm 
+>>
+>>
+>> I upload all the work I've done here :
+>> https://xba.soartist.net/ast-drm_nba_20250211/
+>>
+>> See the global README :
+>> https://xba.soartist.net/ast-drm_nba_20250211/README
+>>
+>> and the README in nba-kernel sub-directory :
+>> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
+>>
+>> I'm not a developer so please let me know if I made the things the 
+>> right way and if this new 'ast 1.15.1' driver can be ported to 
+>> linux-next or linux-? ?
+>> If you need more explanations, do not hesitate to contact me, I would 
+>> be happy to help
+>>
+>> Kind regards
+>> Nicolas Baranger
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
