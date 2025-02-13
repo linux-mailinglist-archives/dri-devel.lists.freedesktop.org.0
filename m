@@ -2,86 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41345A349AD
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:25:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0E2A34A25
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:38:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AED2F10EB1C;
-	Thu, 13 Feb 2025 16:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7C010EB27;
+	Thu, 13 Feb 2025 16:38:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ownb3c1/";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CAgd8Q/k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LpuydLyH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CAgd8Q/k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LpuydLyH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D43210EB1C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:25:22 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-54504f29000so1065503e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739463921; x=1740068721; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=cSOs50TsU4X4YYQxYbnAMJ4ehCd3Gz/LqOB9FsJlXcU=;
- b=Ownb3c1/sSpgs1zmpZL3TPLICYgEaKDIoRVaKynJKO42AKeWDoO25XCwNIurXUV3p8
- ZYHpR7Q+zCKOrbOLB2jXLiJpCtdgpTH4UTH6mdAUulpWjZ/DJyf1ao3JRCVv+ECqBv+z
- hwChqmdgkmTYcrvtxobv8Ms+upjV6kWqBxiwPWugGksJUpofq6egSuYG5Od6sGi73ooG
- ly/Z13QrFLP20hQAoZC5m9Q50RYc/F2m2tnjfitdzPmUJOK1cF91nAVk50w4DKMKv0bS
- xVUzVAMNCBf6/IvqLLGFfK7ju2SwVdxFgD3dh6LwYL0JU38xGctzhY2aPsBNJJpVFBQV
- ieDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739463921; x=1740068721;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cSOs50TsU4X4YYQxYbnAMJ4ehCd3Gz/LqOB9FsJlXcU=;
- b=Nrsr5c3sSV6oiGEATWEhcGN4yPaM8JnOMkFRWAaaRLpYbhWoNkSbEIuD2rnUDL98oH
- xCr0u/DtmM6Fv91yWKKw3HGgviJzJcOr87aoLGBYc4oY+m3Y9NufRWjVjD2C/P1Rhp3b
- Vb6Q0GDYzaRcdzz5a1OoiohFPohtt6EulheJd9ZdncJzYI4MjbZ6zSIFXTxDzt9iLKST
- Mx9yOGynk+7+3+bFrdj8X03RkVq3Ws0N8CzNb9csRKk+v2Bml/dP2SMQfPjh++7E7Beb
- GJA5c79aACOSLwtn+CD0xFqEscdQF50lbRnmN/9lrgvthjkNgk6TnbDj7N6ODyP0tj1k
- H1Lw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW5sVxaPDaEIFd8YExZ9lrgjgxy5wtzyz8JHuR2jY9hlFxNGQ0SzsmyYpeTdRoDXKy9El+GWD1V97c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznNqIyySTsKOXoUYwT3CdvC5N//UYnuY7D+6gwQMl3z1Nho7Xl
- LXKeKS+HPUjFLTImrNIgurlVzqX3YsT96QeMCu8dJRr0P3KQZOan5igu2PGHfhQ=
-X-Gm-Gg: ASbGncu5cdochayKJAUU2w9M1V1WUOfYU1rOJbnDDTtuIZQMZ+clf+Fa8N6Os2GK6ti
- d+n7jq1X6Q6qVquQ3rYso3fK0pV0wY2BpZo1SydFqkXbXux8ZpZSJaQJWzkqzKIbFbjvRHT6K9H
- m9ocpQ2bWFF8JG0OVP2GDzQ7MZr7s2vr63YdoGUd2kBaS0uftP/VyrF+ow7wiAWRLwEQsSByMqD
- /sJaSInG5RDxMcR7qcVoybWfW7ta9Dgn6TfTEeuoGo63CGY0VWHmoi5Yhgewsxf1VBkTRoFNQ2t
- 4geXgQivsBZF/zodgS5W30jjFP5f/lqH4k5TlpBkKjyEuZr3tCEmmsg+90/HvlotW8qNUb8=
-X-Google-Smtp-Source: AGHT+IFChiazqWx/+2a2ZIZUghuFgsnsSdaCX/3eX3urzt33SaYJfC4xuJX7c2QAEv7EGv4JsO+x3A==
-X-Received: by 2002:a05:6512:3f25:b0:545:6ee:8396 with SMTP id
- 2adb3069b0e04-54518282967mr2782235e87.13.1739463920795; 
- Thu, 13 Feb 2025 08:25:20 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5451f11ea5asm211876e87.215.2025.02.13.08.25.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 08:25:19 -0800 (PST)
-Date: Thu, 13 Feb 2025 18:25:18 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 29/37] drm/bridge: Introduce drm_bridge_is_atomic()
- helper
-Message-ID: <5afaezaqggshwmcclrsfgnkd3kgxfhrspimqt2hvan35lsoz74@w4ytuxjgtqrc>
-References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
- <20250213-bridge-connector-v3-29-e71598f49c8f@kernel.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2955510EB26
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:38:52 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E172622114;
+ Thu, 13 Feb 2025 16:38:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739464730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hDyrS870Qoq2DZ7/SBgwl9qdJEBNy6yJnIHujv3GVow=;
+ b=CAgd8Q/k9S0lfsooNeVPDCkMYM8+tEjuwzg/jBL41qxOcJvKKKG00UdnUnVJXRaJ7syCVo
+ 6d5GCTnpXL86i4L0lNQsUwGoAwurp64flRYXuMKnOnZO6FVgLgjGPV/JfDbMRvw9bpSYWx
+ 7MFZUOWyFuR0hRgXwaYw7kqwrrhd/n8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739464730;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hDyrS870Qoq2DZ7/SBgwl9qdJEBNy6yJnIHujv3GVow=;
+ b=LpuydLyHkS9+env1nlNV5TQQSXwwTdrEeb8tqFTMTcZTEOETDs6m18wImDuxGDy3Fcx9Gp
+ DDJoYz37rfuQU/BA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739464730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hDyrS870Qoq2DZ7/SBgwl9qdJEBNy6yJnIHujv3GVow=;
+ b=CAgd8Q/k9S0lfsooNeVPDCkMYM8+tEjuwzg/jBL41qxOcJvKKKG00UdnUnVJXRaJ7syCVo
+ 6d5GCTnpXL86i4L0lNQsUwGoAwurp64flRYXuMKnOnZO6FVgLgjGPV/JfDbMRvw9bpSYWx
+ 7MFZUOWyFuR0hRgXwaYw7kqwrrhd/n8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739464730;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hDyrS870Qoq2DZ7/SBgwl9qdJEBNy6yJnIHujv3GVow=;
+ b=LpuydLyHkS9+env1nlNV5TQQSXwwTdrEeb8tqFTMTcZTEOETDs6m18wImDuxGDy3Fcx9Gp
+ DDJoYz37rfuQU/BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB832137DB;
+ Thu, 13 Feb 2025 16:38:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id NeooKBogrmfpFwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Feb 2025 16:38:50 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com,
+	jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/4] drm/ast: cursor: Improve format handling
+Date: Thu, 13 Feb 2025 17:25:45 +0100
+Message-ID: <20250213163845.118207-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250213-bridge-connector-v3-29-e71598f49c8f@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; MIME_TRACE(0.00)[0:+];
+ TO_DN_SOME(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,19 +103,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 03:43:48PM +0100, Maxime Ripard wrote:
-> We test for whether the bridge is atomic in several places in the source
-> code, so let's consolidate them.
-> 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_bridge.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
+A number of generally useful updates to the cursor code.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+The cursor code performs format conversion to the hardware's ARGB444
+format and calculation of a checksum in a single function. Patch 1
+splits this into two steps. Patch 2 then implements the format
+conversion with DRM's format helpers. Other drivers can now reuse
+the code.
+
+With the format handling separated, patch 3 adds support for
+ARGB4444, which is the hardware's native format.
+
+Patch 4 moves cursor handling into a separate source file.
+
+Tested on AST2600.
+
+Thomas Zimmermann (4):
+  drm/ast: cursor: Calculate checksum in helper
+  drm/ast: cursor: Move format conversion to shared helper
+  drm/ast: cursor: Add support for ARGB4444
+  drm/ast: cursor: Move implementation to separate source file
+
+ drivers/gpu/drm/ast/Makefile        |   1 +
+ drivers/gpu/drm/ast/ast_cursor.c    | 306 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/ast/ast_drv.h       |  41 ++--
+ drivers/gpu/drm/ast/ast_mode.c      | 273 +------------------------
+ drivers/gpu/drm/drm_format_helper.c |  69 +++++++
+ include/drm/drm_format_helper.h     |   3 +
+ 6 files changed, 415 insertions(+), 278 deletions(-)
+ create mode 100644 drivers/gpu/drm/ast/ast_cursor.c
 
 -- 
-With best wishes
-Dmitry
+2.48.1
+
