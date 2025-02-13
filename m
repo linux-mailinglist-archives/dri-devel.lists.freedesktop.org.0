@@ -2,123 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85E2A35177
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 23:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733E5A351AF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 23:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A99A910E07D;
-	Thu, 13 Feb 2025 22:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8553610E139;
+	Thu, 13 Feb 2025 22:55:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="K3hE5+LL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PApAhFl+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE7710E07D
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 22:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1739486866; x=1740091666; i=deller@gmx.de;
- bh=bN/fZeinS1oWSX7ccYvenUFgFc/+Deu0YTPHQLIUWCM=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=K3hE5+LL/pamdeC6UnCc9ppock1L+I5MhId7lIffyMMtx7n2PCZH0+Fu++uFqIde
- 6uzr4ByN3DPVFVbazeW6iIs7TkKfWGaXX0ncRzG3p5O973u5ebmhVWBh2g+nvNCUm
- tB0e/fcWQ8xTQRbIV+yM0mt/bUuwbw9SZKkK7behAe6u4nR/8Um4lbmz/TMKIUwt/
- Ymakoq45bghhMBR3yo4uIvCgF6EG2j5F0lYRXhT22HJg4tRYWJLpSgpwRUVh+15Z6
- pWELna1QieqUra0imzg0+6wmR+5DyqDVcglRAHhK83qpUL7qbHmlQ/rEnoNtLKq5l
- axYYqs8YoVcS9Ws3hA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mg6e4-1tABOJ3Ih4-00aSYX; Thu, 13
- Feb 2025 23:47:46 +0100
-Message-ID: <f075b0f7-3d01-4eb7-b772-825de7a1e001@gmx.de>
-Date: Thu, 13 Feb 2025 23:47:42 +0100
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90B4F10E00F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 22:55:52 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30615661f98so15784091fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:55:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739487350; x=1740092150; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/24JPm7Fd6JZXHQpZIKrpL+icINzVWbUkAHKK0IjNBo=;
+ b=PApAhFl+WAJBbDRiuIMDGfSxZs1NyNlXtLIGaUH9frMFOCKzIrOlqpi5qpjCVAik5H
+ Of5xw4GPIBaxTYtuHe0Hm9UK+6yYE0kfMb9RDZSfGsnKBxRuoO+1nan5hFoMnjnxGhBg
+ tpJcLEJbw2ZZOGM2Pgw/iSU6w6Q3AHX6WP3IGwn+NROLIZ66xCQDQtXTjTAOAYqGnT+O
+ FvGOycb+TcAOhadR+l2tRiZTM423DsYDYByqXF41/5BvCd59fyLGBR4tCnOP/dquGgKT
+ 6dyEuZE6qSjnkz5kGmKYQ6tZ7AWLt5/G/bUgYIAXcsrTbbtebh1tYy7QSMlzL3kc8Tpg
+ LMwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739487350; x=1740092150;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/24JPm7Fd6JZXHQpZIKrpL+icINzVWbUkAHKK0IjNBo=;
+ b=SSIywGBAVOR2VhBFNDzSU5BPDAfw5dNH7pEAqITVeNlGCUSbvn+rD+Sc0PGBCiePMN
+ lR5Njx4Hl3jaR8LDUtgS3fVWh9bMbaS5N0gUXh4sCDsgDnxMzOSf5eT/PBy23a+5eHoS
+ pi3pOgnagXIIYDo5qjjq5K2EDjTBlV/KuUaaMv9JJrKVDO7bcTkCZVXVrHIu6AV3HSUp
+ J2BL5OGdB3ZD5Jvi4BmkdDhNnqSY5iKQL+czmJf05ms+7F/dEskUOgeAR8UfVDJ4e5gL
+ b2IKEenBD8JHjRmB+hd8FihJEcKz++SJNlDryl9i93i451TDh/hxss3shFxBLdWj8ruc
+ 8IWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5ACJQSYY1kwXlUD9QZ2f/1s3ECEMp9xv8n3AuELNoYytEWoeYrVk5cA6oaF1G4YADjjHvBrRFGZk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRPmT43qNoAVAIqnD00lBBhtW5Gamm5LPsZeq+9Z2jW+pDPIQA
+ kr56e4Cp8Ooq2nyNgjybhw53F7fM4AZDph/2DSmV4HtGdu0bnfTcyRy9Zl5k88Y=
+X-Gm-Gg: ASbGncuSt+tHD+QnbvOOr9hmYMI/aHrTRqortgBQcXcuSPG3BLDgdJ/AxJZHJ3Lbimc
+ C/m/1D10LhPq4pSvDVHbZkEwCz3sKHIEdUrib7XyqO8PYxZ5TeHKuUb1NKZfXdMT9OX0+9CipqY
+ FQG1UzMVJ2GPuWll8dcJvr8fmwM7VRMUJmSQ1fwtPI3Q7xz59qa9PHJMZ7Kb3BApzCN+3E9DvPn
+ IHQEmaY/9+SFOak6/+EixUaHMqqIK47lvTBQqThfOxvckftS8lpoDKosqdZ7oTl45erHDgrDwRz
+ fELgl39G62YkalzBtpqW1WOmzO9ISjNHhLgybj7BCPxnussUyVPFstZZLUg=
+X-Google-Smtp-Source: AGHT+IEZ1626++5xMDHpo0WMOzC0N7lgwh+1qvbo5fUuwYvi+B3DfqXZdqPho8NHik66LI3m5T0N+w==
+X-Received: by 2002:a2e:be20:0:b0:308:f6cf:362e with SMTP id
+ 38308e7fff4ca-3090dc65edfmr18377611fa.4.1739487350464; 
+ Thu, 13 Feb 2025 14:55:50 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3091011d566sm3377011fa.46.2025.02.13.14.55.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2025 14:55:49 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, Simon Ser <contact@emersion.fr>,
+ joshua@froggi.es, Xaver Hugl <xaver.hugl@gmail.com>,
+ Daniel Stone <daniel@fooishbar.org>, ville.syrjala@linux.intel.com,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Christopher Snowhill <chris@kode54.net>
+Subject: Re: [PATCH v12 0/2] drm/atomic: Ease async flip restrictions
+Date: Fri, 14 Feb 2025 00:55:45 +0200
+Message-ID: <173948734065.719858.7405160715916126757.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250127-tonyk-async_flip-v12-0-0f7f8a8610d3@igalia.com>
+References: <20250127-tonyk-async_flip-v12-0-0f7f8a8610d3@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] fbcon: Make cursor_blink=0 work when configured
- before fb devices appear
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-2-ville.syrjala@linux.intel.com>
- <92ed9455-b175-46ef-b0c6-7c79e2b78371@gmx.de> <ZvUwCVNPzp1UGY6h@intel.com>
- <34a7d276-ee26-4a8d-b996-87faa5b224c4@gmx.de> <Z64EzooZqdfLg0pM@intel.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <Z64EzooZqdfLg0pM@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:x8W37MfSEpdjxobO3r5viLwiE+AXbLGYul1nSOybPhTynqd7mE9
- E164KFMetH81+EIM6ADGJcOwlNk0G3rOu/Fl7dZPpjMMihxZTNdOr3q8wKzbXv+N3ua9YkT
- RaoHXtwF4smHVoNL2Nyu+imidR9bktfsVkYG++KGiqDigTcQsO1PSrgTfagvLwWuhKYTupk
- nj0h3KC9jaLJQGrncNKLg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jJt1D9bk0HE=;g3atSjZofDPoxTe828J+rzK+lEK
- mHSTP7k7dxk2UzuoU9olH+q6W71O7dDCpCFTw7PtFoejnGz4c9gHkYb+FIFM1im20uqM4gvy1
- Fn7GCmHB85qqAqbOt7UGDETQazjQrMUTw+rZqWP1WIoParVqFyxsOqdXEHqddJ7p4HsHdlgMN
- eG1VQifnxdH4FOX7EZ7fK9KNHE4YcTjfjDzmSLyBqvkszzzhR07vRnm2WGWyCytO8ixkfuUdW
- zubh+Iqv5HPFOWmFK1KTEg/DRf+aNMGkzMPG/es/0viVLHZsPkfZ9YQdkVU9IyDG51sz5REQD
- EGVfVoC5XcbPLvrrbu+4cxgDXLzj8el65g84rQMjXajY8ijWzzL8LMjb768llCplujHRtMXN/
- EeRmezUQuplhnCvYFn6lDdGAYVk4nvuW8iZT3sLlCNg13iBgWKdcckqQddi9btZ3ytUD072Ye
- 5UqHZOiqhgRxvnqHoPpNGyfshISLVY69NkIyU2FVNmnB5MVkQIxGxkK6Q9qJ1S+XfFrKGEIaN
- QCdeD6qqX8qyIw/u33KOQPfsIdRM9w3xB8fjC9aZmdcrL+OYxd0dBDcwhE9plKa4sfqZumVAU
- rZZUg+hQGiUL2h8MgAbedWus0U9F0/IvbHPREwz62OYnEtIUQKMkneHtj8OiV1Af1PVuVVIZk
- 1e15PyraELBZ4rKxqlA01R3u3xdW1i0KO9z4SxslrhrhL54TNSjrHos18CD9L9SPPePMcGZrB
- +WL8ffDWcfNoMDTiCedvxw4KNcxNs66C+C+GmyWLdhAoPhS+sRXVEnk/fYmOfRFGDUl0ozpEc
- iChRnQQzibJWSRg+UnJi/du4k4qGCymDidHE7mSaBSaa3Ui5v3PwX+Lz+0CaBHjpeoEwn7ktw
- 6LTXpE/0G5apwnZpSfUmd95X1Qi1rArnee974YLL8aRNs8kDc1ZRs6p16XT3YE0mH7yQ8Vmo+
- RaF8qzsPRl3bi6bWzg6hLaHls6tzhApCok0wNbKFkyU1WivwVht15e931/vN0g8YhcSETNc+J
- p1cukQO/vAV2H+KAT+wLFtwz4n/W9uTSFfgR318DvqaHMzwlHE1CX30/ZwQSfnM20IRAQ4ZVR
- kHIhxRFhXGzELpaHPB/AzMVetmpd8+qPBdQmXtHuky5MA1OuCtSVZNA4NgD15hUdAmGjxKw9h
- Fn9KnyGVNQ0vWuqWYS0V4ITVqDantssCiHl81WkhlxswuUk7UCyjqONVEyw0j+IGmH5+DdeGX
- 1q1rsWdBBMYNB0DagsfjNWo6c9Zrm6zUTbrpW3WIbDuu/zPHQ04OJ6giWdwb9MY6aDFpK43Qk
- vMrS24alPUI/GVymQJ4pnmhshAPE6NhdlvI/HfDbywExk2TsqaWuKkf8e782CbqzSB3cOmHgi
- NYEaw86ZOzSvQpm7/hAekEXvkv30/mKn+EWSzW5O37AzKme8mNNyj75J6W
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,47 +100,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/13/25 15:42, Ville Syrj=C3=A4l=C3=A4 wrote:
-> On Thu, Sep 26, 2024 at 12:13:04PM +0200, Helge Deller wrote:
->> On 9/26/24 11:57, Ville Syrj=C3=A4l=C3=A4 wrote:
->>> On Thu, Sep 26, 2024 at 08:08:07AM +0200, Helge Deller wrote:
->>>> Hi Ville,
->>>>
->>>> On 9/23/24 17:57, Ville Syrjala wrote:
->>>>> Currently setting cursor_blink attribute to 0 before any fb
->>>>> devices are around does absolutely nothing. When fb devices appear
->>>>> and fbcon becomes active the cursor starts blinking. Fix the problem
->>>>> by recoding the desired state of the attribute even if no fb devices
->>>>> are present at the time.
->>>>>
->>>>> Also adjust the show() method such that it shows the current
->>>>> state of the attribute even when no fb devices are in use.
->>>>>
->>>>> Note that store_cursor_blink() is still a bit dodgy:
->>>>> - seems to be missing some of the other checks that we do
->>>>>      elsewhere when deciding whether the cursor should be
->>>>>      blinking or not
->>>>> - when set to 0 when the cursor is currently invisible due
->>>>>      to blinking, the cursor will remains invisible. We should
->>>>>      either explicitly make it visible here, or wait until the
->>>>>      full blink cycle has finished.
->>>>
->>>> are you planning to send follow-up patches to address those shortcomi=
-ngs?
->>>
->>> Nope. I don't really care about those as I never plan to
->>> turn the cursor blinking back on after turning it off via
->>> udev.
->>
->> Sad, but OK. I will look into this when I find time.
->> I'd hoped to push those patches upstream during this merge window,
->> but then I think I have to delay them at least until kernel 6.13.
->
-> What happened to these? Not seeing them anywhere...
+On Mon, 27 Jan 2025 16:59:38 -0300, André Almeida wrote:
+> The goal of this work is to find a nice way to allow amdgpu to perform
+> async page flips in the overlay plane as well, not only on the primary
+> one. Currently, when using the atomic uAPI, this is the only type of
+> plane allowed to do async flips, and every driver accepts it.
+> 
+> This patchset re-uses the per-plane function atomic_async_check() to
+> this purpose, so drivers can allow different plane types. There's a
+> `bool flip` parameter so the atomic_async_check() can do different
+> decisions if it's a complete page flip or a plane update.
+> 
+> [...]
 
-The issues above are not fixed yet, so they are still parked in my for-nex=
-t-next tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/log=
-/?h=3Dfor-next-next
+Applied to drm-misc-next, thanks!
 
-Helge
+[1/2] drm/atomic: Let drivers decide which planes to async flip
+      commit: fd40a63c63a182aeea1089a343e2f729de7e514d
+[2/2] drm/amdgpu: Enable async flip on overlay planes
+      commit: 41129e236f14c6c54145c722da06f6793e9fd13d
+
+Best regards,
+-- 
+With best wishes
+Dmitry
+
