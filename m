@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1E0A34306
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419BCA34308
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:44:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 026DB10EAD8;
-	Thu, 13 Feb 2025 14:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A96CA10EADE;
+	Thu, 13 Feb 2025 14:44:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fXjv9FlS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lNpC+9Ki";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30DFB10EADE
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:44:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB6010EADE
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:44:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 13B12A425DC;
- Thu, 13 Feb 2025 14:42:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC130C4CEE7;
- Thu, 13 Feb 2025 14:44:25 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id A0FD1A42633;
+ Thu, 13 Feb 2025 14:42:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB6AC4CED1;
+ Thu, 13 Feb 2025 14:44:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739457866;
- bh=Rd1hiJtVfJOPaEEeU3NPRtRC/xxoSHYra9xL4D9iLEw=;
+ s=k20201202; t=1739457868;
+ bh=7JY8ITK80ol69Cjh+s2e0Bg9VnTdWWPoeH70KyOkKy0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=fXjv9FlSZ8uEr+pEA0YYTIo+Y2nFnIAC96FxbUxNWGAZUYuXIJRysi5ISKZ/EXOPZ
- 3JdB5BL2Bn+Z2MVfkfgueoO7ct+gYfXRmWylTwtk0QGzWTJUubpgZ4ZJh9fQqHA0kJ
- zc/prDgI3lULcDOIkFVm6dXjUGBGYGxtEhHAqmMivBBVnFW1hLAVzNAPDjN0TtpGjv
- Z6KuFBqyDNp7rnFZwcwcaiqezgMhVddlOaCiYf+NYYz3/zuKFw2LHQ2RyV7a+lZzPx
- t1BZw0WkKDl177binakt4vxLedq2Yw8oNyu3ZPLHUEReLDU15IykAL6fJkoYUx4E7n
- pa9jnj6A9YggA==
+ b=lNpC+9Kiok/EPtiby6RfXkNDaPk724mQlkiba8EaSo69P7K+1sc9LNVJSGtZfxs42
+ YP6VVxudZAc2UPiUo6rNcOjEA6E3ZfgZ1c5eXTJcaX4TzXUOk10VW8j/CXU+vOJwBv
+ y1SQDFph9CXOviSWWbuR+sAc1bcnJutUPglfmml67JUmkSSt643bPQBTlL9scKfIYU
+ ls6JxZBH1SWw2xOLHraQvRhao4TuaTGOBSRH6EK66VbrA71CcGrbQ7ZDInJ7/wP6WF
+ 7hjDvieK4LRrqi4MPQ8sy41ComZ8MMxTMHFRiSG3rlplhrYChA/jQFcb7vs+cRquhE
+ Enp7Xpqxig+8Q==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 13 Feb 2025 15:43:30 +0100
-Subject: [PATCH v3 11/37] drm/atomic-helper: Change parameter name of
- disable_outputs()
+Date: Thu, 13 Feb 2025 15:43:31 +0100
+Subject: [PATCH v3 12/37] drm/bridge: Change parameter name of
+ drm_atomic_bridge_chain_disable()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-bridge-connector-v3-11-e71598f49c8f@kernel.org>
+Message-Id: <20250213-bridge-connector-v3-12-e71598f49c8f@kernel.org>
 References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 In-Reply-To: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +51,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4077; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Rd1hiJtVfJOPaEEeU3NPRtRC/xxoSHYra9xL4D9iLEw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnrWKXat3ls/zb9Rt+NfwLVT2r5dvoVq60+1PJaY4OGd
- t2zT/dbO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEnNcy1gou2e7Lwil4XOd8
- 3YYuscrgfU4PT1e87mV3UUgLED42w9Bued2tpnc5G5/nnv5+fcvFnYx1RsEfyz7sib3/4ODjX+r
- fZXO85y9covXk/KYPXTcrPn8xr9FSnuJrtiR8mRlvZk61yzVOAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2034; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=7JY8ITK80ol69Cjh+s2e0Bg9VnTdWWPoeH70KyOkKy0=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnrWKVLZ3TURDFyTL4g4psrJWZe/f2ZkIv3H7n/Bzjcv
+ X69rnnTMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACZSGcRYK+G44WLl66+/852k
+ 1F87391u2dK8c+60vamNfneXaOfUuDxoctv094loyPcPdlvWcgZyMTb8e/TtUOhDFb5XZd7rEk8
+ 3zaoWvV+ytW7+4cTytWEOC1S2TjhjqFe4s+Y3457qDar3TSwB
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,108 +74,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-disable_outputs() disables all connectors and CRTCs affected by a
+drm_atomic_bridge_chain_disable() disables all bridges affected by a new
 commit. It takes the drm_atomic_state being committed as a parameter.
 
-However, that parameter name is called as old_state, which is pretty
-confusing. Let's rename that variable as state.
+However, that parameter name is called (and documented) as old_state,
+which is pretty confusing. Let's rename that variable as state.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 3d66626273245c3db42325ab5f5527fb4214e92b..7d83ea99477ae3dee1f828f17946070903b29ba7 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1158,19 +1158,19 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
- 	       (old_state->self_refresh_active && !new_state->active) ||
- 	       new_state->self_refresh_active;
- }
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index cb71ec57c47af889c2028c74d0bbcfa2fed1f88b..b21b43af3d1de69c1aa9a4925922e0b2f522f026 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -548,32 +548,32 @@ void drm_bridge_chain_mode_set(struct drm_bridge *bridge,
+ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
  
- static void
--disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
-+disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
+ /**
+  * drm_atomic_bridge_chain_disable - disables all bridges in the encoder chain
+  * @bridge: bridge control structure
+- * @old_state: old atomic state
++ * @state: atomic state being committed
+  *
+  * Calls &drm_bridge_funcs.atomic_disable (falls back on
+  * &drm_bridge_funcs.disable) op for all the bridges in the encoder chain,
+  * starting from the last bridge to the first. These are called before calling
+  * &drm_encoder_helper_funcs.atomic_disable
+  *
+  * Note: the bridge passed should be the one closest to the encoder
+  */
+ void drm_atomic_bridge_chain_disable(struct drm_bridge *bridge,
+-				     struct drm_atomic_state *old_state)
++				     struct drm_atomic_state *state)
  {
- 	struct drm_connector *connector;
- 	struct drm_connector_state *old_conn_state, *new_conn_state;
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	int i;
+ 	struct drm_encoder *encoder;
+ 	struct drm_bridge *iter;
  
--	for_each_oldnew_connector_in_state(old_state, connector, old_conn_state, new_conn_state, i) {
-+	for_each_oldnew_connector_in_state(state, connector, old_conn_state, new_conn_state, i) {
- 		const struct drm_encoder_helper_funcs *funcs;
- 		struct drm_encoder *encoder;
- 		struct drm_bridge *bridge;
+ 	if (!bridge)
+ 		return;
  
- 		/*
-@@ -1178,15 +1178,15 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
- 		 * still on. So need to check the old, saved state.
- 		 */
- 		if (!old_conn_state->crtc)
- 			continue;
- 
--		old_crtc_state = drm_atomic_get_old_crtc_state(old_state, old_conn_state->crtc);
-+		old_crtc_state = drm_atomic_get_old_crtc_state(state, old_conn_state->crtc);
- 
- 		if (new_conn_state->crtc)
- 			new_crtc_state = drm_atomic_get_new_crtc_state(
--						old_state,
-+						state,
- 						new_conn_state->crtc);
- 		else
- 			new_crtc_state = NULL;
- 
- 		if (!crtc_needs_disable(old_crtc_state, new_crtc_state) ||
-@@ -1209,28 +1209,28 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
- 		/*
- 		 * Each encoder has at most one connector (since we always steal
- 		 * it away), so we won't call disable hooks twice.
- 		 */
- 		bridge = drm_bridge_chain_get_first_bridge(encoder);
--		drm_atomic_bridge_chain_disable(bridge, old_state);
-+		drm_atomic_bridge_chain_disable(bridge, state);
- 
- 		/* Right function depends upon target state. */
- 		if (funcs) {
- 			if (funcs->atomic_disable)
--				funcs->atomic_disable(encoder, old_state);
-+				funcs->atomic_disable(encoder, state);
- 			else if (new_conn_state->crtc && funcs->prepare)
- 				funcs->prepare(encoder);
- 			else if (funcs->disable)
- 				funcs->disable(encoder);
- 			else if (funcs->dpms)
- 				funcs->dpms(encoder, DRM_MODE_DPMS_OFF);
+ 	encoder = bridge->encoder;
+ 	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+ 		if (iter->funcs->atomic_disable) {
+-			iter->funcs->atomic_disable(iter, old_state);
++			iter->funcs->atomic_disable(iter, state);
+ 		} else if (iter->funcs->disable) {
+ 			iter->funcs->disable(iter);
  		}
  
--		drm_atomic_bridge_chain_post_disable(bridge, old_state);
-+		drm_atomic_bridge_chain_post_disable(bridge, state);
- 	}
- 
--	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
-+	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
- 		const struct drm_crtc_helper_funcs *funcs;
- 		int ret;
- 
- 		/* Shut down everything that needs a full modeset. */
- 		if (!drm_atomic_crtc_needs_modeset(new_crtc_state))
-@@ -1247,11 +1247,11 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
- 
- 		/* Right function depends upon target state. */
- 		if (new_crtc_state->enable && funcs->prepare)
- 			funcs->prepare(crtc);
- 		else if (funcs->atomic_disable)
--			funcs->atomic_disable(crtc, old_state);
-+			funcs->atomic_disable(crtc, state);
- 		else if (funcs->disable)
- 			funcs->disable(crtc);
- 		else if (funcs->dpms)
- 			funcs->dpms(crtc, DRM_MODE_DPMS_OFF);
- 
+ 		if (iter == bridge)
 
 -- 
 2.48.0
