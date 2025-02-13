@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7150EA34FC3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 21:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C31A34FF1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 21:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D24CF10EBA2;
-	Thu, 13 Feb 2025 20:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6575510EBA1;
+	Thu, 13 Feb 2025 20:51:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ioaBjtSc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rOQzpPjr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16DA810EBA2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 20:46:02 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06597166A;
- Thu, 13 Feb 2025 21:44:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1739479482;
- bh=OGxeZxl9MlwMBKkNj3NJO7s7b1UlFvhoi6keYgIvf9Q=;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94C3110EBA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 20:51:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3452CA41FE3;
+ Thu, 13 Feb 2025 20:49:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED96C4CED1;
+ Thu, 13 Feb 2025 20:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739479879;
+ bh=512cv4Hj1Kz9k8u6r5KTAHRKubmEdQ2373KIf+8y/nQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ioaBjtSc7MDjGl3dQR4Kx1hSh/TmsnvJdmvkucmS7hSHcLNjqz6y9wJXSQNQp2RWW
- EmEtkCGUsvGEvw8rIONwKz2DREMybjg7g5d/hB+VODfHp8ReodmB1ydGjGLuW/K3l1
- yCpN7crRSLCe7EELvwuZMOAgOK1HLKawU20L2xCo=
-Date: Thu, 13 Feb 2025 22:45:49 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 07/11] drm: xlnx: zynqmp: Use drm helpers when
- calculating buffer sizes
-Message-ID: <20250213204549.GC22998@pendragon.ideasonboard.com>
-References: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
- <20250212-xilinx-formats-v3-7-90d0fe106995@ideasonboard.com>
+ b=rOQzpPjrf+SK50+lfxnvf1j6ydyFhRq+h3/1SS37zqLNdyguRVlBObbP1/wRV0at/
+ +cca9LNWhv8GMr4NpXlWyHwjN2EsM3Zze84WS+MnVfh5DDswhAOygzmSDUKi4RNEMw
+ W9XTcRCyXaqAiS0YlOjJ93ByT9I6kNGLTbYgKNCFtL2uFjH6E3cpzuaQHLZrq5Fh43
+ meI4vmlfv8CvQzjCMKOzSD9/HcXIvAWoRS+Zs0aZLI5YIsWmaBcg8f/mx+LgeXocUJ
+ GwMtsdYdGuWko8E5Vr4XkKGEcj8pddoYRhOHKbgd6vfPEcY5H+KykSlOKqAoh7HEqH
+ nTNI4vN7xs7jQ==
+Date: Thu, 13 Feb 2025 20:51:13 +0000
+From: Daniel Thompson <danielt@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v5 RESEND 2/3] backlight: apple_dwi_bl: Add Apple DWI
+ backlight driver
+Message-ID: <Z65bQeITMp1mpHp8@aspen.lan>
+References: <20250203115156.28174-1-towinchenmi@gmail.com>
+ <20250203115156.28174-3-towinchenmi@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212-xilinx-formats-v3-7-90d0fe106995@ideasonboard.com>
+In-Reply-To: <20250203115156.28174-3-towinchenmi@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,56 +67,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Wed, Feb 12, 2025 at 04:56:11PM +0200, Tomi Valkeinen wrote:
-> Use drm helpers, drm_format_info_plane_width(),
-> drm_format_info_plane_height() and drm_format_info_min_pitch() to
-> calculate sizes for the DMA.
-> 
-> This cleans up the code, but also makes it possible to support more
-> complex formats (like XV15, XV20).
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Mon, Feb 03, 2025 at 07:50:33PM +0800, Nick Chan wrote:
+> Add driver for backlight controllers attached via Apple DWI 2-wire
+> interface, which is found on some Apple iPhones, iPads and iPod touches
+> with a LCD display.
+>
+> Although there is an existing apple_bl driver, it is for backlight
+> controllers on Intel Macs attached via PCI, which is completely different
+> from the Samsung-derived DWI block.
+>
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 > ---
->  drivers/gpu/drm/xlnx/zynqmp_disp.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 80d1e499a18d..3d4ade571f0f 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -1116,16 +1116,18 @@ int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
->  		return 0;
->  
->  	for (i = 0; i < info->num_planes; i++) {
-> -		unsigned int width = state->crtc_w / (i ? info->hsub : 1);
-> -		unsigned int height = state->crtc_h / (i ? info->vsub : 1);
->  		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
->  		struct dma_async_tx_descriptor *desc;
-> +		unsigned int width, height;
+>  drivers/video/backlight/Kconfig        |  12 +++
+>  drivers/video/backlight/Makefile       |   1 +
+>  drivers/video/backlight/apple_dwi_bl.c | 123 +++++++++++++++++++++++++
+>  3 files changed, 136 insertions(+)
+>  create mode 100644 drivers/video/backlight/apple_dwi_bl.c
+>
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 3614a5d29c71..c6168727900a 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -290,6 +290,18 @@ config BACKLIGHT_APPLE
+>  	  If you have an Intel-based Apple say Y to enable a driver for its
+>  	  backlight.
+>
+> +config BACKLIGHT_APPLE_DWI
+> +	tristate "Apple DWI 2-Wire Interface Backlight Driver"
+> +	depends on ARCH_APPLE || COMPILE_TEST
+> +	default y
 
-I'd got with one variable per line.
+Sorry to pick this up late and on a resend but... I can't come up with
+any justification for "default y" in this driver.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Other than that this is a really tidy driver so with that changed please
+add:
+Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
->  		dma_addr_t dma_addr;
->  
-> +		width = drm_format_info_plane_width(info, state->crtc_w, i);
-> +		height = drm_format_info_plane_height(info, state->crtc_h, i);
-> +
->  		dma_addr = drm_fb_dma_get_gem_addr(state->fb, state, i);
->  
->  		dma->xt.numf = height;
-> -		dma->sgl.size = width * info->cpp[i];
-> +		dma->sgl.size = drm_format_info_min_pitch(info, i, width);
->  		dma->sgl.icg = state->fb->pitches[i] - dma->sgl.size;
->  		dma->xt.src_start = dma_addr;
->  		dma->xt.frame_size = 1;
 
--- 
-Regards,
-
-Laurent Pinchart
+Daniel.
