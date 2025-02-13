@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFA4A35131
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 23:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E624A35132
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 23:25:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8287F10E153;
-	Thu, 13 Feb 2025 22:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11EA10E156;
+	Thu, 13 Feb 2025 22:25:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9DD10E153
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 22:25:11 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-3f3dede60b1so400661b6e.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:25:11 -0800 (PST)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+ [209.85.167.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3486E10E156
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 22:25:14 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id
+ 5614622812f47-3f3bac262f9so890836b6e.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:25:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739485510; x=1740090310;
+ d=1e100.net; s=20230601; t=1739485513; x=1740090313;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wOf+oTFhezeZp7A7S6xFlFzN9A3TZcxPi96KVYSkQNw=;
- b=T4wVq834iL/QwhvIUdUd1VHERq84gV4ds9rKvzVxeD6K33RyErHs2V+Kkcm/3DC7k8
- SDFTMZLFqcbCgPtRHXro9wIzwt8/e1L7gBmSQSweRxcqdFqTod9NHxa+76Y3wfEbCbJj
- szOMFgOz+Cs3XQRYdBHi/f5vKKlB0SJL5/pJgiABztXdaU/vLrdCkPW+jxyBw/RnbhSv
- grj405GsSDn2Npk7GPfNPP7JoMYrHt+RUbe2vmEodwrduUyXmINXoxoUnuxulmm2VLyo
- IDuo2wWPVMhEe9dHXL5VMNeBnMm+dqSw27dV1fT0aFpDJtBc0sjMpc3att3J9xgYcoYy
- yzlw==
+ bh=U5Koqqds6/Oa1Ks59aNVsxFB/wqKaebUccbyhlEMaPk=;
+ b=Kt4yp4OT9g3ZaPJc/uBmAc7yw4NJsRKjY1atS4/R1xeV4I4by5f6NUco0T1noAMOgE
+ ZgrdkYg9Qz5PirDqWptB1aN8aeHDFKHKjdgtVjKLrjBqFUf7kCUSZgNmu0W/uWHNywJm
+ RWPC6x8LaO341j3vkpZTh0yL4UhEqH+ph7OvnLoRzUvkiKQulym/9UblSMyT1ltr9MAX
+ KvFnaU66kwkreJHhPDk0X+ggufZGB4z30wGGsswkRIPoWjYcvilyMkmMak85sP/sIOMi
+ 26TNy7C1QXHk1SQvQIYIKfr/EsFqePj+WUHuR8Is3QZqQOnS+8zLI3ymJmfa6V3WTvs9
+ kbDw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3C0Y23HtoQ3PUPTTKAZmj6WoSMOWgyvadqRU+SwLPA/SS146OH2MW493G/NV5F7PduaGS1qsjTM8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZDWaYx2wg0koGEqMinZPzwvXXRHQvrBUffY2zaeATmsREi8HA
- 6T7gSll5PUs+afM9qv4BVXigjg7Kl3EJGVl59e5b9oBsz45lO9uv
-X-Gm-Gg: ASbGncsGAHzYEh5rQ4hrQ6Erd5WGe6lGVMz2Cx1/hZU2w3putUWypw1op2xGRuIiA62
- z4mhoSQUnFto/Qq/j1IVz3hvPXsfcOp7LVuixI1Aydrv0IvQuT/+EpJpQV9NG1mIMit9376SbsM
- Oz6KwGrmkrVuoHmo6Qq/avMzm9sjDX/dBDYxhY2EUwbGGTA26FRT4ygV3A2D9ykn1r9WLDZI1Qd
- YJnfYaPOH4iwt3ESV7nfPw2XYUyMN2kOgRBhL/HgMSIPk6W/ik8FzaJMMEjRpb+pFB0JbOj8nzu
- O8HlNq8+PEXHyAYb
-X-Google-Smtp-Source: AGHT+IHY462naqcxbU+WmujVb19V1k7ZxzD9YMysyY+tEALiFHOLwX8wFNZvcbO20X2XQT1X+YV8mQ==
-X-Received: by 2002:a05:6808:3c88:b0:3f3:ca45:4315 with SMTP id
- 5614622812f47-3f3d8dcbdabmr3557346b6e.9.1739485510556; 
- Thu, 13 Feb 2025 14:25:10 -0800 (PST)
+ AJvYcCVRm/vOSg34F4PVbWK4MV41BD8nEZLnTi8BdvUPF+GmBuW7ATZXx9wHEvPqzxexWdZJQuFfkNjL4T8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YynvDdQ4XUsVBQlbbu6bJlo/DPtsNDN2q1hbdWAM9rZNEFZ/D0o
+ iusG5HziGXAUuMajHabNfZbTRpQMBhs43U7Nv5Pl5ZKXhvVs45rv
+X-Gm-Gg: ASbGncs625+iaXErEAjHGLwdQP4adrjlyRBbHkr+QYXu8EJ6t22/3be+1y5hqUpSRN5
+ HqIEG+LNCM+NNw5uFQHuKoeSoxWc+97yA2Y7oDBGdYqd7FvbPbbjIN9kNtt7Q/bBnWkkuakabjF
+ Mc36d6mugZHma9fyWw2t4R8kLNOdOycEEXSCww27EOo4iRP23hynJJ3aQXgrKbe81j9S6+vicQO
+ WnTnsKkzHn7vGh+qLog38OLLNqkdG+Jb6IKXEmXajhyCWPGA2JhVWDg61kIm8QkZAW8GwNbFIOo
+ sndAVbyZn3hYWXfO
+X-Google-Smtp-Source: AGHT+IGgZGSQ0bjsz7JLGz80TDQRbnkyLOC23cDSniTL9nQuAzEpOrzRjMZqGE4A3Tts2LgXfxfIeA==
+X-Received: by 2002:a05:6808:350b:b0:3f3:e0ea:86f7 with SMTP id
+ 5614622812f47-3f3e0ea8937mr522134b6e.16.1739485513346; 
+ Thu, 13 Feb 2025 14:25:13 -0800 (PST)
 Received: from muster.uejji.net ([47.188.205.107])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-727001cde00sm984184a34.5.2025.02.13.14.25.09
+ 46e09a7af769-727001cde00sm984184a34.5.2025.02.13.14.25.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 14:25:10 -0800 (PST)
+ Thu, 13 Feb 2025 14:25:13 -0800 (PST)
 From: John Edwards <uejji@uejji.net>
 To: Hans de Goede <hdegoede@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -53,12 +53,11 @@ To: Hans de Goede <hdegoede@redhat.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
 Cc: John Edwards <uejji@uejji.net>, Andrew Wyatt <fewtarius@steamfork.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paco Avelar <pacoavelar@hotmail.com>
-Subject: [PATCH v3 2/5] drm: panel-orientation-quirks: Add quirks for AYA NEO
- Flip DS and KB
-Date: Thu, 13 Feb 2025 22:24:50 +0000
-Message-ID: <20250213222455.93533-3-uejji@uejji.net>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 3/5] drm: panel-orientation-quirks: Add quirk for AYA NEO
+ Slide
+Date: Thu, 13 Feb 2025 22:24:51 +0000
+Message-ID: <20250213222455.93533-4-uejji@uejji.net>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250213222455.93533-1-uejji@uejji.net>
 References: <20250213222455.93533-1-uejji@uejji.net>
@@ -81,57 +80,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andrew Wyatt <fewtarius@steamfork.org>
 
-The AYA NEO Flip DS and KB both use a 1080x1920 portrait LCD panel.  The
-Flip DS additionally uses a 640x960 portrait LCD panel as a second display.
+The AYANEO Slide uses a 1080x1920 portrait LCD panel.  This is the same
+panel used on the AYANEO Air Plus, but the DMI data is too different to
+match both with one entry.
 
-Add DMI matches to correctly rotate these panels.
+Add a DMI match to correctly rotate the panel on the AYANEO Slide.
+
+This also covers the Antec Core HS, which is a rebranded AYANEO Slide with
+the exact same hardware and DMI strings.
 
 Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
-Co-developed-by: John Edwards <uejji@uejji.net>
 Signed-off-by: John Edwards <uejji@uejji.net>
-Tested-by: Paco Avelar <pacoavelar@hotmail.com>
+Tested-by: John Edwards <uejji@uejji.net>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index f9c975338..c5acf2628 100644
+index c5acf2628..9e6708cd1 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -93,6 +93,12 @@ static const struct drm_dmi_panel_orientation_data onegx1_pro = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
- };
- 
-+static const struct drm_dmi_panel_orientation_data lcd640x960_leftside_up = {
-+	.width = 640,
-+	.height = 960,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-+};
-+
- static const struct drm_dmi_panel_orientation_data lcd720x1280_rightside_up = {
- 	.width = 720,
- 	.height = 1280,
-@@ -202,6 +208,18 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_MATCH(DMI_PRODUCT_NAME, "AIR"),
+@@ -244,6 +244,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_MATCH(DMI_BOARD_NAME, "KUN"),
  		},
- 		.driver_data = (void *)&lcd1080x1920_leftside_up,
-+	}, {    /* AYA NEO Flip DS Bottom Screen */
+ 		.driver_data = (void *)&lcd1600x2560_rightside_up,
++	}, {	/* AYA NEO SLIDE */
 +		.matches = {
 +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "FLIP DS"),
-+		},
-+		.driver_data = (void *)&lcd640x960_leftside_up,
-+	}, {    /* AYA NEO Flip KB/DS Top Screen */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
-+		  DMI_MATCH(DMI_PRODUCT_NAME, "FLIP"),
++		  DMI_MATCH(DMI_PRODUCT_NAME, "SLIDE"),
 +		},
 +		.driver_data = (void *)&lcd1080x1920_leftside_up,
- 	}, {	/* AYA NEO Founder */
+ 	}, {    /* AYN Loki Max */
  		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYA NEO"),
+ 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
 -- 
 2.43.0
 
