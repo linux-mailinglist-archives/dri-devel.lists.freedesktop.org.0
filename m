@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19EEAA3487B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 16:50:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF83A3487E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 16:50:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F5C510EB14;
-	Thu, 13 Feb 2025 15:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7DEE10E468;
+	Thu, 13 Feb 2025 15:50:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="f+9V9dI0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZmaAZsf3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C192110EB14
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 15:50:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B43910E468
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 15:50:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739461845;
+ s=mimecast20190719; t=1739461851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xk1Yohdv6xG1LIYdCE6weZxWdHnGQzZeQusGiNbS4YE=;
- b=f+9V9dI0nul2b20g6a50ORvMOrETMO7sLgbBFmk8Z2Lqx23JF2Z10ayTogk9uW/PGXIu3g
- nFe86bwuXpzhyQ3phLfBZFWvdwLcnklY6XRcNRVA/305DY8IeLDfgVKp7pepvyodQ1t44s
- 4/JVsvFgFS/S4qWCtE4jh9rJmbG/DOQ=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ bh=CPDMwS7WtZbaodmU1wGmDq5U/O9YW9budAUbZ3K875k=;
+ b=ZmaAZsf3BnyjX42m2BiOBWXd5n4PHSky2DcFBpDSIdEenv6mQ/Je5qiExONI596iVnmXtX
+ 1HSTo8vsWcypGBOHemI3vOOvcHwmhAyYsR8s2xlfIi1kh/7YiJ/lt/mJ7l0SMK/sGJMDCM
+ vxpqWtn5WKZrJZWmk0U+UdoAYtXiUI8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-369-xQRG1M1ZOk2Exaus-VHC1w-1; Thu,
- 13 Feb 2025 10:50:40 -0500
-X-MC-Unique: xQRG1M1ZOk2Exaus-VHC1w-1
-X-Mimecast-MFC-AGG-ID: xQRG1M1ZOk2Exaus-VHC1w
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-687-_FzdwdRkNT2W6LkuU2I1vA-1; Thu,
+ 13 Feb 2025 10:50:47 -0500
+X-MC-Unique: _FzdwdRkNT2W6LkuU2I1vA-1
+X-Mimecast-MFC-AGG-ID: _FzdwdRkNT2W6LkuU2I1vA
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 95E9A1801A1A; Thu, 13 Feb 2025 15:50:38 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 41D03180087A; Thu, 13 Feb 2025 15:50:45 +0000 (UTC)
 Received: from [127.0.1.1] (unknown [10.44.33.58])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id D250E1800365; Thu, 13 Feb 2025 15:50:31 +0000 (UTC)
+ id 399FD1800365; Thu, 13 Feb 2025 15:50:38 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
-Date: Thu, 13 Feb 2025 16:49:17 +0100
-Subject: [PATCH RFC 3/5] virtio-pci: extend virtio_pci_cap to hold
- page_size
+Date: Thu, 13 Feb 2025 16:49:18 +0100
+Subject: [PATCH RFC 4/5] virtio-mmio: read shm region page size
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-virtio-shm-page-size-v1-3-5ee1f9984350@redhat.com>
+Message-Id: <20250213-virtio-shm-page-size-v1-4-5ee1f9984350@redhat.com>
 References: <20250213-virtio-shm-page-size-v1-0-5ee1f9984350@redhat.com>
 In-Reply-To: <20250213-virtio-shm-page-size-v1-0-5ee1f9984350@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
@@ -65,20 +64,20 @@ To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Dmitry Osipenko <dmitry.osipenko@collabora.com>, fnkl.kernel@gmail.com
 Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, Sergio Lopez <slp@redhat.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3726; i=slp@redhat.com;
- h=from:subject:message-id; bh=th8ICZQzwvAj4jti147i6LTZteZNR2JRdjJgrinPxuc=;
- b=kA0DAAgB9GknjS8MAjUByyZiAGeuFK6g0IYF5gNoVdDWEYIgYw+KDGgrgUaUt6Ss3HnaKn8f5
- okCMwQAAQgAHRYhBL7V/PdRLYaAkULoovRpJ40vDAI1BQJnrhSuAAoJEPRpJ40vDAI12zkP/iYs
- PuEmv6T8Yt/q5MJgGj+Z3qujU/ygCd+imitAs8P6jGFZsAI82+UupJ+bTmoQpp9gsV7yR+5sLmT
- ik8o0shqm97DkSwU26UmT4Ny7pHoeo4fOxmMw+7KIxIbIsIUk/zDfT0xGGygXkKKfOy6l9BDL6j
- pyYQ8cG8JUfoCauMj/dwTcAUg+t3S9xq6+artRq85AS38zrlte2kgQqwZwajyjd9Z9+XFZW+cLf
- mbllQF7x8RlU+ibEnds0qwScmLx47kZi6G/K8FlcUpe197W3LlUZkHYmQINMvHeGtN5qUJgDRK+
- Ks8xl0mD2q52Rn0vRnbWElGjQ16fvg/opYjr5uBie3u5W4xbRxovh7xjZbAXM1wyycaNllgLUfv
- JyvrzCpRa2K/R8HNgwySlpZqlf7ybsSHK+Swy6Yl3K3qtqJuS0NhbAh8OhN1xda92SBtflPibBw
- ZlHWC1q89oEjcAORxPJOrHUslXx1NJbuprjTNJntzJwNBmSZmcypQgc0GfYeF0OxLNKUd8X9z+z
- M3F/grb33qsAgdcVRnOhEM5RIQf/LH+DDBYdryYWRgAYK5QHWRuYrhcgDRH7BS1t6SJk8VpSdGV
- 4bzh2p+K0TvpZ39fD1Vjwpij0LncXAWsMEJ54MDZxZUYAhvUL79Y+50S2Zjs4C9SC6hDYIgeeeh
- HcTcN
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2018; i=slp@redhat.com;
+ h=from:subject:message-id; bh=4BHYqTf3/QJ4WE/gAmQswAKbmL+cD4+SAvyJx3zmY/M=;
+ b=owEBbQKS/ZANAwAIAfRpJ40vDAI1AcsmYgBnrhSvDxI+WiTFN3JL/Qzuc2xiWNP3Mq2/qlssR
+ XCntYrlp4eJAjMEAAEIAB0WIQS+1fz3US2GgJFC6KL0aSeNLwwCNQUCZ64UrwAKCRD0aSeNLwwC
+ NcgyEACLL8igsV/fv85sL628B2GV9AZjCunwvzxWR2iisluQIOSnZCHY+0QygQbUzoiTicAsuDm
+ pc1Lt/w68Q2kicl2BPqt00LuLWEJW+dqD6KHg1QL8y81xwyr0o/9TJtcTGMTKpnVKCNUt78FELL
+ 3p57CcqBHqx1XnB4zA6g55eXVRCLgeFcDQTU+To18nWO/TGBA9tqZ7LGwUQ4xoS9QLnfLTdxKDw
+ 4uxV2jlWwcM7aF/b9ppSvaysZmSz7u9CRjE1Yj2a2+fuMuIJ0e23kh7Vswkq5XVYKfpRrxqt5S9
+ K0BiVzJfXX8tnsw03vVv6O1BoNoLtpCmJF/5tk8XklLuLWl/TPX3vMhTgrPwVWfMHp4wDgyOe92
+ ApmaolMa0EFOSkFnBKQChdy8mVndj199Lv6m5VVn84Os8FjryN5U56IxiK1d7BW3spvROFbDSDc
+ JHZEDzzTlDwWvBdXaflKCl91v4TEbM/+DCClnJog/We9b7Lc2IjhZOogQByvtLYzuA7gJilev7/
+ R4upFNDmmJyR/R0s5BCDFtsD84ksi+zIVGSAfAuWsGhMtH+FgX4QM4YYLwR7VzszydWHVWcraSZ
+ wZpZscSrkW3Y58y80OkSFnAEmy1fROyRuNV2eFZJnQsfaWKvEQ7qIYoQgBhEq6K94FZBN13SQkB
+ 3SflZNBJcWr/tvQ==
 X-Developer-Key: i=slp@redhat.com; a=openpgp;
  fpr=BED5FCF7512D86809142E8A2F469278D2F0C0235
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -97,106 +96,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Turn the 16 bit padding into a page_size field to allow the device to
-pass its required page size with format PAGE_SIZE >> 12.
+Use the newly introduced SHM_PAGE_SIZE register to read the page size
+and store it into virtio_shm_region.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- drivers/virtio/virtio_pci_modern.c | 29 +++++++++++++++++++++++++----
- include/uapi/linux/virtio_pci.h    |  2 +-
- 2 files changed, 26 insertions(+), 5 deletions(-)
+ drivers/virtio/virtio_mmio.c     | 13 ++++++++++++-
+ include/uapi/linux/virtio_mmio.h |  3 +++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/virtio/virtio_pci_modern.c b/drivers/virtio/virtio_pci_modern.c
-index 79616ce5057bf3b2b88cae7e8fb7729efa9dd632..26e9cd5148c0f10209c34d12e65d64490a855d75 100644
---- a/drivers/virtio/virtio_pci_modern.c
-+++ b/drivers/virtio/virtio_pci_modern.c
-@@ -770,14 +770,16 @@ static void del_vq(struct virtio_pci_vq_info *info)
- 	vring_del_virtqueue(vq);
- }
- 
--static int virtio_pci_find_shm_cap(struct pci_dev *dev, u8 required_id,
--				   u8 *bar, u64 *offset, u64 *len)
-+static int virtio_pci_find_shm_cap(struct virtio_device *vdev, struct pci_dev *dev,
-+				   u8 required_id, u8 *bar, u64 *offset, u64 *len,
-+				   u16 *page_size)
+diff --git a/drivers/virtio/virtio_mmio.c b/drivers/virtio/virtio_mmio.c
+index cd0a0407659517e6a318b117ba67258c59f1f983..92590c77901bee453d8c1a1ac60ad9cca90d1b59 100644
+--- a/drivers/virtio/virtio_mmio.c
++++ b/drivers/virtio/virtio_mmio.c
+@@ -537,6 +537,7 @@ static bool vm_get_shm_region(struct virtio_device *vdev,
+ 			      struct virtio_shm_region *region, u8 id)
  {
- 	int pos;
+ 	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
++	u16 page_size = 0;
+ 	u64 len, addr;
  
- 	for (pos = pci_find_capability(dev, PCI_CAP_ID_VNDR); pos > 0;
- 	     pos = pci_find_next_capability(dev, pos, PCI_CAP_ID_VNDR)) {
- 		u8 type, cap_len, id, res_bar;
-+		u16 res_psize = 0;
- 		u32 tmp32;
- 		u64 res_offset, res_length;
+ 	/* Select the region we're interested in */
+@@ -560,7 +561,17 @@ static bool vm_get_shm_region(struct virtio_device *vdev,
  
-@@ -808,6 +810,23 @@ static int virtio_pci_find_shm_cap(struct pci_dev *dev, u8 required_id,
- 		 * Looks good.
- 		 */
+ 	region->addr = addr;
  
-+		if (__virtio_test_bit(vdev, VIRTIO_F_SHM_PAGE_SIZE)) {
-+			pci_read_config_word(dev, pos + offsetof(struct virtio_pci_cap,
-+								 page_size), &res_psize);
-+			if (!res_psize) {
-+				dev_err(&dev->dev, "%s: shm cap with invalid page size on "
-+					"a device with VIRTIO_F_SHM_PAGE_SIZE feature\n",
-+					__func__);
-+				res_psize = 4096 >> 12;
-+			}
-+		}
-+
-+		/* For backwards compatibility, if the device didn't specify a
-+		 * page size, assume it to be 4096.
-+		 */
-+		if (!res_psize)
-+			res_psize = 4096 >> 12;
-+
- 		/* Read the lower 32bit of length and offset */
- 		pci_read_config_dword(dev, pos + offsetof(struct virtio_pci_cap,
- 							  offset), &tmp32);
-@@ -829,6 +848,7 @@ static int virtio_pci_find_shm_cap(struct pci_dev *dev, u8 required_id,
- 		*bar = res_bar;
- 		*offset = res_offset;
- 		*len = res_length;
-+		*page_size = res_psize;
- 
- 		return pos;
- 	}
-@@ -841,11 +861,12 @@ static bool vp_get_shm_region(struct virtio_device *vdev,
- 	struct virtio_pci_device *vp_dev = to_vp_device(vdev);
- 	struct pci_dev *pci_dev = vp_dev->pci_dev;
- 	u8 bar;
-+	u16 page_size;
- 	u64 offset, len;
- 	phys_addr_t phys_addr;
- 	size_t bar_len;
- 
--	if (!virtio_pci_find_shm_cap(pci_dev, id, &bar, &offset, &len))
-+	if (!virtio_pci_find_shm_cap(vdev, pci_dev, id, &bar, &offset, &len, &page_size))
- 		return false;
- 
- 	phys_addr = pci_resource_start(pci_dev, bar);
-@@ -865,7 +886,7 @@ static bool vp_get_shm_region(struct virtio_device *vdev,
- 
- 	region->len = len;
- 	region->addr = (u64) phys_addr + offset;
 -	region->page_size = 4096 >> 12;
++	/* If supported by the device transport, read the region page size */
++	if (__virtio_test_bit(vdev, VIRTIO_F_SHM_PAGE_SIZE))
++		page_size = (u16) readl(vm_dev->base + VIRTIO_MMIO_SHM_PAGE_SIZE);
++
++	/* For backwards compatibility, if the device didn't specify a
++	 * page size, assume it to be 4096.
++	 */
++	if (page_size == 0)
++		page_size = 4096 >> 12;
++
 +	region->page_size = page_size;
  
  	return true;
  }
-diff --git a/include/uapi/linux/virtio_pci.h b/include/uapi/linux/virtio_pci.h
-index 8549d4571257142ac6c9dad5c01369923791a85a..fb0ccb7a125d8178c1f78333c4d2f43540e1764b 100644
---- a/include/uapi/linux/virtio_pci.h
-+++ b/include/uapi/linux/virtio_pci.h
-@@ -127,7 +127,7 @@ struct virtio_pci_cap {
- 	__u8 cfg_type;		/* Identifies the structure. */
- 	__u8 bar;		/* Where to find it. */
- 	__u8 id;		/* Multiple capabilities of the same type */
--	__u8 padding[2];	/* Pad to full dword. */
-+	__u16 page_size;	/* Device page size (PAGE_SIZE >> 12). */
- 	__le32 offset;		/* Offset within bar. */
- 	__le32 length;		/* Length of the structure, in bytes. */
- };
+diff --git a/include/uapi/linux/virtio_mmio.h b/include/uapi/linux/virtio_mmio.h
+index 0650f91bea6c70f935764070d825d181a2379afb..c5a1cdad5a1c9bc954d7facfd8c05e2acbb28e96 100644
+--- a/include/uapi/linux/virtio_mmio.h
++++ b/include/uapi/linux/virtio_mmio.h
+@@ -133,6 +133,9 @@
+ #define VIRTIO_MMIO_SHM_BASE_LOW        0x0b8
+ #define VIRTIO_MMIO_SHM_BASE_HIGH       0x0bc
+ 
++/* Shared memory region page size, in format PAGE_SIZE >> 12 */
++#define VIRTIO_MMIO_SHM_PAGE_SIZE       0x0c4
++
+ /* Configuration atomicity value */
+ #define VIRTIO_MMIO_CONFIG_GENERATION	0x0fc
+ 
 
 -- 
 2.48.1
