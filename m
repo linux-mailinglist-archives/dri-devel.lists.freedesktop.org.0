@@ -2,60 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74D7A34A28
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:38:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14524A349C8
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:28:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4294910EB29;
-	Thu, 13 Feb 2025 16:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF37610EB25;
+	Thu, 13 Feb 2025 16:28:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VaMWrPt/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F3810EB26
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:38:52 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A284421EA0;
- Thu, 13 Feb 2025 16:38:51 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 757E4137DB;
- Thu, 13 Feb 2025 16:38:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id WLp8GxsgrmfpFwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 13 Feb 2025 16:38:51 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com,
-	jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 4/4] drm/ast: cursor: Move implementation to separate source
- file
-Date: Thu, 13 Feb 2025 17:25:49 +0100
-Message-ID: <20250213163845.118207-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250213163845.118207-1-tzimmermann@suse.de>
-References: <20250213163845.118207-1-tzimmermann@suse.de>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 145F510EB20
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:28:04 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-439350f1a0bso7124755e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:28:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739464082; x=1740068882; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1ZgcTL04UsGlOqXOt4Yj1EXMw6sYk8iPbvcFY4qxB5g=;
+ b=VaMWrPt/VgN7Q4Y0AN6CIRR8uXVmkNeosboM3fBAs4ap8a4Ql4Jf4QIzdZ9C+tksNv
+ vzBYf/ZkXyfis6VROEUtk2TIp0NvAMFZy9eUSjHlR2CeLjIYnkVLKHvZO2BrQLm1DHY3
+ 2rpxYQs6GyCUPA/bcWoG3xjD2cZaQcbr0BBifi51viZtc/3lyJV+XloZvSKVit6ha2jk
+ ggte43Ysu1T1DkrOYQmvRSj21GqXaV0j2yVDpFHPRBgK97CyvsRQV0NuRBFje3VDBU06
+ PCP4lzcOCiJ5U1QVh8nzZhXqZU3INQotynEnDO90zA+oi7darQGFRaAqmPnLq0RkEFsg
+ rVhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739464082; x=1740068882;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1ZgcTL04UsGlOqXOt4Yj1EXMw6sYk8iPbvcFY4qxB5g=;
+ b=lw5KF8yzrKqb0olH4wPaq7o4Sp+vL7MA/h7njUxghiaTdxfeHWaCbhhoR+HmMbQ24d
+ 6dazcYMd8D+IkX2ZM6d91x6RM7FoJUY75mBMymjRo2mD0MUpIRoMx82EZ1d8nNESuAFN
+ hxhmYeG09/8AInc+sRpxPVTI8MYHsH8g40mF7zQqX6fwDKhghuZ75SWT7CVShXPMEDT5
+ 31T+FpeeRLDk4Aem2s2TaHtlwQhrSbxm1QU1PSkcaudUFoJcRqm9nDLJRwao+2GxPruP
+ zcQtVOpwySNRtQpG8tYycEJ3FgqUWHNOHphLQquTMtH15/XwzpsvdyNA2y9v+wFQnCLm
+ ms2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW16wzRY3U03zFzqK5BFID4a2HpXKvGkmzOcXiK33frWdV5aoPeDP5cpTAxj2Lf6XhFySdKxauDn0s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTb1B3d1o+StcplB4KpGJTu2sTNqa2mbgQ0eUFNDHHLQwbudcN
+ a+EwpoAtLLXMcLlbbilhy2PqwXigC4Z6sbkMnweSqu0faAlvWgraxrhcbnPKZaTBED+e6dOYL9E
+ i
+X-Gm-Gg: ASbGncvNVBoHoO4gpzloJzKr9VaQCRACB0cAXuSpcH6rsbgUy7W01G4h6Kmvs11p09l
+ mPXr+o3KL4aa4qogA7WjI6mxuiEUtOROy7AkRb7jTFnYSz3i6d9i+CoMjg7n3BL3l73r1Lg99/F
+ P7PItwPwHsmWzJpseygXQfAflUm7qMvMBgQIVWPoZ3OGa/gB+zp9NSmwwRKyQxYPmZRqk8hiv9h
+ rHmQ65abg6lnu3ICRjCARU+yqC9M5sWhA7TZ6jgOf68JbjEbCAJTgYyizdzUxmg5cgdOslKQF68
+ E+cy8+zzqr31AjNP/5jasI/8ML3IGNuzfQax
+X-Google-Smtp-Source: AGHT+IFOtFbDuuT0dXtvs2HjX0F6ZZv8xueD/rK6AvPuNnLvj7eMkl7RAS5ZXsjZpe5AKtriTmXMJg==
+X-Received: by 2002:a05:600c:2943:b0:439:33ac:ba49 with SMTP id
+ 5b1f17b1804b1-43960bc0035mr39735875e9.1.1739464082420; 
+ Thu, 13 Feb 2025 08:28:02 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38f258b412esm2274382f8f.1.2025.02.13.08.28.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2025 08:28:02 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v4 0/4] dt-bindings: display: qcom,sm8[56]50-mdss: properly
+ document the interconnect paths
+Date: Thu, 13 Feb 2025 17:27:55 +0100
+Message-Id: <20250213-topic-sm8x50-mdss-interconnect-bindings-fix-v4-0-3fa0bc42dd38@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Score: -4.00
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: A284421EA0
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIsdrmcC/6WRwW6DMBBEfwX53I1sg4Ggqup/VD0YeyErFZvaD
+ koV5d9r4JKop7bHWWnfjGauLGIgjKwrrizgQpG8y6J6Kpg5aTcikM2aSS4Vl7yB5GcyEKf2ojh
+ MNkYglzAY7xyaBD05S26MMNAFrD02apCytFyxTJwD5vPm9vae9Yli8uFrM1/Eev2bzyKAQ6tkL
+ 2ytEav69YOcDv7gw8hWo0X+Ay4zfGiE7Fs71Pn9B7y8gwv+O3iZ4aoyx1ofreyb4QF+2zsL+Hn
+ Ow6S9ONbriGD8NFHqiqU+iAqCEWu/E8aot8m64nnLI4R6zHOeYwqoJ7AJyJisrU64N4hat73gK
+ PXQ3OV4yUFu342VboopAgAA
+X-Change-ID: 20250207-topic-sm8x50-mdss-interconnect-bindings-fix-dd975f223d05
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3087;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=gMZo41txLQ2LRSXK3xEGNTFi8pIy6bB83Mk20Dl9K7Y=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnrh2Pu6dtWaNqc1Rn1LUsSidCEO7sl84kQMbrvVp1
+ z4BvaRyJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ64djwAKCRB33NvayMhJ0W0HEA
+ DJcyryE1hO7AAcCT5VctwGT1ZLpnKponVGiNjale2zYMJSA4JJLFt4SmNC9DDugfp752PmzhjzbzsS
+ E/fDbawiRvo95ndSPBEYAaQUqrlMz6+/7G+BpLvWLc9CsxJr5vt6xqklzoaJUTCrcyxHHb8u2gsvQi
+ zit4IE96TBpYaBMbeso69y5FexeOcFFAw4YVEQPxYypmBFSTO3zlWwVXUqiaT7oL7+75aT3sp6RbWF
+ zn8VqPnjV/yLfK1GvJtLmM299eQrtNBkr//b4281UOfRtlg98D+kpMVsI6mvRymY3S8VNrUB3ofV0y
+ M7Z1Ff+y/OKQMR2UDz7bu/eqBuD/yY/aGUJM8z8xbFrDpWf04brpfWwT/lftXE6vt54qiYoSYkh133
+ ELKcjJVvh0gl8kLoF6vRRzH+HAK4Kx2Rv8U0xw9CahYg14iJ9P5LUxAK9XAIl21cBmaabveTn/JNZM
+ 3HCn7LCcCRPL6DdgtxUSH70GXDQQ40evIrjoKKsr06waQAL6ZaATw2zghffbggQP4asSHAe+/3fMzC
+ 4D23YvYv/Om3hBNk2uQj1nEVSQLZgwL9OECmqoXARrJ4C+0J85VMO6gfEbPf2+nAtYc+WYRUwUMH6f
+ PcG7QoLkzO6aYT5slm+OFPGAnw6+tuE8/dTBpUYEpv1m2TVuJwRlF1OWe9Qg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,689 +124,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the cursor code into a separate source file for readability. No
-functional changes.
+The mdp1-mem is not supported on the SM8550 & SM8650 SoCs, so properly document
+the mdp0-mem and cpu-cfg interconnect entries.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+This fixes the following errors:
+display-subsystem@ae00000: interconnects: [[200, 3, 7, 32, 1, 7]] is too short
+        from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
+        from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+
+Depends on:
+- https://lore.kernel.org/all/20250115-topic-sm8x50-upstream-dt-icc-update-v1-0-eaa8b10e2af7@linaro.org/#t
+
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/gpu/drm/ast/Makefile     |   1 +
- drivers/gpu/drm/ast/ast_cursor.c | 306 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/ast/ast_drv.h    |  24 +--
- drivers/gpu/drm/ast/ast_mode.c   | 275 +--------------------------
- 4 files changed, 327 insertions(+), 279 deletions(-)
- create mode 100644 drivers/gpu/drm/ast/ast_cursor.c
+Changes in v4:
+- Add review tags
+- Rebased on top of https://lore.kernel.org/all/20250115-topic-sm8x50-upstream-dt-icc-update-v1-0-eaa8b10e2af7@linaro.org/#t
+- Use ICC tags
+- Link to v3: https://lore.kernel.org/r/20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-0-54c96a9d2b7f@linaro.org
 
-diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
-index 3107ea9c7bf5..8d09ba5d5889 100644
---- a/drivers/gpu/drm/ast/Makefile
-+++ b/drivers/gpu/drm/ast/Makefile
-@@ -4,6 +4,7 @@
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
- 
- ast-y := \
-+	ast_cursor.o \
- 	ast_ddc.o \
- 	ast_dp501.o \
- 	ast_dp.o \
-diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-new file mode 100644
-index 000000000000..aeb1c86bd1ab
---- /dev/null
-+++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -0,0 +1,306 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, sub license, and/or sell copies of the Software, and to
-+ * permit persons to whom the Software is furnished to do so, subject to
-+ * the following conditions:
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-+ * USE OR OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portions
-+ * of the Software.
-+ */
-+
-+#include <linux/sizes.h>
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_format_helper.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_print.h>
-+
-+#include "ast_drv.h"
-+
-+/*
-+ * Hardware cursor
-+ */
-+
-+/* define for signature structure */
-+#define AST_HWC_SIGNATURE_CHECKSUM	0x00
-+#define AST_HWC_SIGNATURE_SizeX		0x04
-+#define AST_HWC_SIGNATURE_SizeY		0x08
-+#define AST_HWC_SIGNATURE_X		0x0C
-+#define AST_HWC_SIGNATURE_Y		0x10
-+#define AST_HWC_SIGNATURE_HOTSPOTX	0x14
-+#define AST_HWC_SIGNATURE_HOTSPOTY	0x18
-+
-+static u32 ast_cursor_calculate_checksum(const u8 *src, unsigned int width, unsigned int height)
-+{
-+	u32 csum = 0;
-+	unsigned int i, j;
-+	unsigned int one_pixel_copy = width & BIT(0);
-+	unsigned int two_pixel_copy = width - one_pixel_copy;
-+	unsigned int trailing_bytes = (AST_MAX_HWC_WIDTH - width) * sizeof(u16);
-+
-+	for (j = 0; j < height; j++) {
-+		for (i = 0; i < two_pixel_copy; i += 2, src += SZ_4) {
-+			const u32 *src32 = (const u32 *)src;
-+
-+			csum += *src32;
-+		}
-+		for (i = 0; i < one_pixel_copy; i++, src += SZ_2) {
-+			const u16 *src16 = (const u16 *)src;
-+
-+			csum += *src16;
-+		}
-+		src += trailing_bytes;
-+	}
-+
-+	return csum;
-+}
-+
-+static void ast_set_cursor_image(struct ast_device *ast, const u8 *src,
-+				 unsigned int width, unsigned int height)
-+{
-+	u8 __iomem *dst = ast->cursor_plane.base.vaddr;
-+	u32 csum = 0;
-+
-+	csum = ast_cursor_calculate_checksum(src, width, height);
-+
-+	/* write pixel data */
-+	memcpy_toio(dst, src, AST_HWC_SIZE);
-+
-+	/* write checksum + signature */
-+	dst += AST_HWC_SIZE;
-+	writel(csum, dst);
-+	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
-+	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
-+	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
-+	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
-+}
-+
-+static void ast_set_cursor_base(struct ast_device *ast, u64 address)
-+{
-+	u8 addr0 = (address >> 3) & 0xff;
-+	u8 addr1 = (address >> 11) & 0xff;
-+	u8 addr2 = (address >> 19) & 0xff;
-+
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc8, addr0);
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc9, addr1);
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xca, addr2);
-+}
-+
-+static void ast_set_cursor_location(struct ast_device *ast, u16 x, u16 y,
-+				    u8 x_offset, u8 y_offset)
-+{
-+	u8 x0 = (x & 0x00ff);
-+	u8 x1 = (x & 0x0f00) >> 8;
-+	u8 y0 = (y & 0x00ff);
-+	u8 y1 = (y & 0x0700) >> 8;
-+
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc2, x_offset);
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc3, y_offset);
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc4, x0);
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc5, x1);
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc6, y0);
-+	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc7, y1);
-+}
-+
-+static void ast_set_cursor_enabled(struct ast_device *ast, bool enabled)
-+{
-+	static const u8 mask = (u8)~(AST_IO_VGACRCB_HWC_16BPP |
-+				     AST_IO_VGACRCB_HWC_ENABLED);
-+
-+	u8 vgacrcb = AST_IO_VGACRCB_HWC_16BPP;
-+
-+	if (enabled)
-+		vgacrcb |= AST_IO_VGACRCB_HWC_ENABLED;
-+
-+	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xcb, mask, vgacrcb);
-+}
-+
-+/*
-+ * Cursor plane
-+ */
-+
-+static const uint32_t ast_cursor_plane_formats[] = {
-+	DRM_FORMAT_ARGB4444,
-+	DRM_FORMAT_ARGB8888,
-+};
-+
-+static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
-+						struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_framebuffer *new_fb = new_plane_state->fb;
-+	struct drm_crtc_state *new_crtc_state = NULL;
-+	int ret;
-+
-+	if (new_plane_state->crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
-+
-+	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  true, true);
-+	if (ret || !new_plane_state->visible)
-+		return ret;
-+
-+	if (new_fb->width > AST_MAX_HWC_WIDTH || new_fb->height > AST_MAX_HWC_HEIGHT)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
-+						  struct drm_atomic_state *state)
-+{
-+	struct ast_cursor_plane *ast_cursor_plane = to_ast_cursor_plane(plane);
-+	struct ast_plane *ast_plane = to_ast_plane(plane);
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-+	struct ast_device *ast = to_ast_device(plane->dev);
-+	struct drm_rect damage;
-+	u64 dst_off = ast_plane->offset;
-+	u8 __iomem *dst = ast_plane->vaddr; /* TODO: Use mapping abstraction properly */
-+	u8 __iomem *sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
-+	unsigned int offset_x, offset_y;
-+	u16 x, y;
-+	u8 x_offset, y_offset;
-+
-+	/*
-+	 * Do data transfer to hardware buffer and point the scanout
-+	 * engine to the offset.
-+	 */
-+
-+	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage)) {
-+		u8 *argb4444;
-+
-+		switch (fb->format->format) {
-+		case DRM_FORMAT_ARGB4444:
-+			argb4444 = shadow_plane_state->data[0].vaddr;
-+			break;
-+		default:
-+			argb4444 = ast_cursor_plane->argb4444;
-+			{
-+				struct iosys_map argb4444_dst[DRM_FORMAT_MAX_PLANES] = {
-+					IOSYS_MAP_INIT_VADDR(argb4444),
-+				};
-+				unsigned int argb4444_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
-+					AST_HWC_PITCH,
-+				};
-+
-+				drm_fb_argb8888_to_argb4444(argb4444_dst, argb4444_dst_pitch,
-+							    shadow_plane_state->data, fb, &damage,
-+							    &shadow_plane_state->fmtcnv_state);
-+			}
-+			break;
-+		}
-+		ast_set_cursor_image(ast, argb4444, fb->width, fb->height);
-+		ast_set_cursor_base(ast, dst_off);
-+	}
-+
-+	/*
-+	 * Update location in HWC signature and registers.
-+	 */
-+
-+	writel(plane_state->crtc_x, sig + AST_HWC_SIGNATURE_X);
-+	writel(plane_state->crtc_y, sig + AST_HWC_SIGNATURE_Y);
-+
-+	offset_x = AST_MAX_HWC_WIDTH - fb->width;
-+	offset_y = AST_MAX_HWC_HEIGHT - fb->height;
-+
-+	if (plane_state->crtc_x < 0) {
-+		x_offset = (-plane_state->crtc_x) + offset_x;
-+		x = 0;
-+	} else {
-+		x_offset = offset_x;
-+		x = plane_state->crtc_x;
-+	}
-+	if (plane_state->crtc_y < 0) {
-+		y_offset = (-plane_state->crtc_y) + offset_y;
-+		y = 0;
-+	} else {
-+		y_offset = offset_y;
-+		y = plane_state->crtc_y;
-+	}
-+
-+	ast_set_cursor_location(ast, x, y, x_offset, y_offset);
-+
-+	/* Dummy write to enable HWC and make the HW pick-up the changes. */
-+	ast_set_cursor_enabled(ast, true);
-+}
-+
-+static void ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
-+						   struct drm_atomic_state *state)
-+{
-+	struct ast_device *ast = to_ast_device(plane->dev);
-+
-+	ast_set_cursor_enabled(ast, false);
-+}
-+
-+static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.atomic_check = ast_cursor_plane_helper_atomic_check,
-+	.atomic_update = ast_cursor_plane_helper_atomic_update,
-+	.atomic_disable = ast_cursor_plane_helper_atomic_disable,
-+};
-+
-+static const struct drm_plane_funcs ast_cursor_plane_funcs = {
-+	.update_plane = drm_atomic_helper_update_plane,
-+	.disable_plane = drm_atomic_helper_disable_plane,
-+	.destroy = drm_plane_cleanup,
-+	DRM_GEM_SHADOW_PLANE_FUNCS,
-+};
-+
-+int ast_cursor_plane_init(struct ast_device *ast)
-+{
-+	struct drm_device *dev = &ast->base;
-+	struct ast_cursor_plane *ast_cursor_plane = &ast->cursor_plane;
-+	struct ast_plane *ast_plane = &ast_cursor_plane->base;
-+	struct drm_plane *cursor_plane = &ast_plane->base;
-+	size_t size;
-+	void __iomem *vaddr;
-+	u64 offset;
-+	int ret;
-+
-+	/*
-+	 * Allocate backing storage for cursors. The BOs are permanently
-+	 * pinned to the top end of the VRAM.
-+	 */
-+
-+	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
-+
-+	if (ast->vram_fb_available < size)
-+		return -ENOMEM;
-+
-+	vaddr = ast->vram + ast->vram_fb_available - size;
-+	offset = ast->vram_fb_available - size;
-+
-+	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
-+			     0x01, &ast_cursor_plane_funcs,
-+			     ast_cursor_plane_formats, ARRAY_SIZE(ast_cursor_plane_formats),
-+			     NULL, DRM_PLANE_TYPE_CURSOR);
-+	if (ret) {
-+		drm_err(dev, "ast_plane_init() failed: %d\n", ret);
-+		return ret;
-+	}
-+	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
-+	drm_plane_enable_fb_damage_clips(cursor_plane);
-+
-+	ast->vram_fb_available -= size;
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 973abd0cbd42..d2c2605d2728 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -118,15 +118,6 @@ enum ast_config_mode {
- 
- #define AST_HWC_SIGNATURE_SIZE	32
- 
--/* define for signature structure */
--#define AST_HWC_SIGNATURE_CHECKSUM	0x00
--#define AST_HWC_SIGNATURE_SizeX		0x04
--#define AST_HWC_SIGNATURE_SizeY		0x08
--#define AST_HWC_SIGNATURE_X		0x0C
--#define AST_HWC_SIGNATURE_Y		0x10
--#define AST_HWC_SIGNATURE_HOTSPOTX	0x14
--#define AST_HWC_SIGNATURE_HOTSPOTY	0x18
--
- /*
-  * Planes
-  */
-@@ -383,8 +374,6 @@ struct ast_crtc_state {
- 
- #define to_ast_crtc_state(state) container_of(state, struct ast_crtc_state, base)
- 
--int ast_mode_config_init(struct ast_device *ast);
--
- #define AST_MM_ALIGN_SHIFT 4
- #define AST_MM_ALIGN_MASK ((1 << AST_MM_ALIGN_SHIFT) - 1)
- 
-@@ -450,6 +439,9 @@ void ast_patch_ahb_2500(void __iomem *regs);
- int ast_vga_output_init(struct ast_device *ast);
- int ast_sil164_output_init(struct ast_device *ast);
- 
-+/* ast_cursor.c */
-+int ast_cursor_plane_init(struct ast_device *ast);
-+
- /* ast dp501 */
- bool ast_backup_fw(struct ast_device *ast, u8 *addr, u32 size);
- void ast_init_3rdtx(struct ast_device *ast);
-@@ -459,4 +451,14 @@ int ast_dp501_output_init(struct ast_device *ast);
- int ast_dp_launch(struct ast_device *ast);
- int ast_astdp_output_init(struct ast_device *ast);
- 
-+/* ast_mode.c */
-+int ast_mode_config_init(struct ast_device *ast);
-+int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
-+		   void __iomem *vaddr, u64 offset, unsigned long size,
-+		   uint32_t possible_crtcs,
-+		   const struct drm_plane_funcs *funcs,
-+		   const uint32_t *formats, unsigned int format_count,
-+		   const uint64_t *format_modifiers,
-+		   enum drm_plane_type type);
-+
- #endif
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 4beac9cdfe83..c3b950675485 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -438,13 +438,13 @@ static void ast_wait_for_vretrace(struct ast_device *ast)
-  * Planes
-  */
- 
--static int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
--			  void __iomem *vaddr, u64 offset, unsigned long size,
--			  uint32_t possible_crtcs,
--			  const struct drm_plane_funcs *funcs,
--			  const uint32_t *formats, unsigned int format_count,
--			  const uint64_t *format_modifiers,
--			  enum drm_plane_type type)
-+int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
-+		   void __iomem *vaddr, u64 offset, unsigned long size,
-+		   uint32_t possible_crtcs,
-+		   const struct drm_plane_funcs *funcs,
-+		   const uint32_t *formats, unsigned int format_count,
-+		   const uint64_t *format_modifiers,
-+		   enum drm_plane_type type)
- {
- 	struct drm_plane *plane = &ast_plane->base;
- 
-@@ -628,267 +628,6 @@ static int ast_primary_plane_init(struct ast_device *ast)
- 	return 0;
- }
- 
--/*
-- * Cursor plane
-- */
--
--static u32 ast_cursor_calculate_checksum(const u8 *src, unsigned int width, unsigned int height)
--{
--	u32 csum = 0;
--	unsigned int i, j;
--	unsigned int one_pixel_copy = width & BIT(0);
--	unsigned int two_pixel_copy = width - one_pixel_copy;
--	unsigned int trailing_bytes = (AST_MAX_HWC_WIDTH - width) * sizeof(u16);
--
--	for (j = 0; j < height; j++) {
--		for (i = 0; i < two_pixel_copy; i += 2, src += SZ_4) {
--			const u32 *src32 = (const u32 *)src;
--
--			csum += *src32;
--		}
--		for (i = 0; i < one_pixel_copy; i++, src += SZ_2) {
--			const u16 *src16 = (const u16 *)src;
--
--			csum += *src16;
--		}
--		src += trailing_bytes;
--	}
--
--	return csum;
--}
--
--static void ast_set_cursor_image(struct ast_device *ast, const u8 *src,
--				 unsigned int width, unsigned int height)
--{
--	u8 __iomem *dst = ast->cursor_plane.base.vaddr;
--	u32 csum = 0;
--
--	csum = ast_cursor_calculate_checksum(src, width, height);
--
--	/* write pixel data */
--	memcpy_toio(dst, src, AST_HWC_SIZE);
--
--	/* write checksum + signature */
--	dst += AST_HWC_SIZE;
--	writel(csum, dst);
--	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
--	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
--	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
--	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
--}
--
--static void ast_set_cursor_base(struct ast_device *ast, u64 address)
--{
--	u8 addr0 = (address >> 3) & 0xff;
--	u8 addr1 = (address >> 11) & 0xff;
--	u8 addr2 = (address >> 19) & 0xff;
--
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc8, addr0);
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc9, addr1);
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xca, addr2);
--}
--
--static void ast_set_cursor_location(struct ast_device *ast, u16 x, u16 y,
--				    u8 x_offset, u8 y_offset)
--{
--	u8 x0 = (x & 0x00ff);
--	u8 x1 = (x & 0x0f00) >> 8;
--	u8 y0 = (y & 0x00ff);
--	u8 y1 = (y & 0x0700) >> 8;
--
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc2, x_offset);
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc3, y_offset);
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc4, x0);
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc5, x1);
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc6, y0);
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc7, y1);
--}
--
--static void ast_set_cursor_enabled(struct ast_device *ast, bool enabled)
--{
--	static const u8 mask = (u8)~(AST_IO_VGACRCB_HWC_16BPP |
--				     AST_IO_VGACRCB_HWC_ENABLED);
--
--	u8 vgacrcb = AST_IO_VGACRCB_HWC_16BPP;
--
--	if (enabled)
--		vgacrcb |= AST_IO_VGACRCB_HWC_ENABLED;
--
--	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xcb, mask, vgacrcb);
--}
--
--static const uint32_t ast_cursor_plane_formats[] = {
--	DRM_FORMAT_ARGB4444,
--	DRM_FORMAT_ARGB8888,
--};
--
--static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
--						struct drm_atomic_state *state)
--{
--	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
--	struct drm_framebuffer *new_fb = new_plane_state->fb;
--	struct drm_crtc_state *new_crtc_state = NULL;
--	int ret;
--
--	if (new_plane_state->crtc)
--		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
--
--	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
--						  DRM_PLANE_NO_SCALING,
--						  DRM_PLANE_NO_SCALING,
--						  true, true);
--	if (ret || !new_plane_state->visible)
--		return ret;
--
--	if (new_fb->width > AST_MAX_HWC_WIDTH || new_fb->height > AST_MAX_HWC_HEIGHT)
--		return -EINVAL;
--
--	return 0;
--}
--
--static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
--						  struct drm_atomic_state *state)
--{
--	struct ast_cursor_plane *ast_cursor_plane = to_ast_cursor_plane(plane);
--	struct ast_plane *ast_plane = to_ast_plane(plane);
--	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
--	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
--	struct drm_framebuffer *fb = plane_state->fb;
--	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
--	struct ast_device *ast = to_ast_device(plane->dev);
--	struct drm_rect damage;
--	u64 dst_off = ast_plane->offset;
--	u8 __iomem *dst = ast_plane->vaddr; /* TODO: Use mapping abstraction properly */
--	u8 __iomem *sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
--	unsigned int offset_x, offset_y;
--	u16 x, y;
--	u8 x_offset, y_offset;
--
--	/*
--	 * Do data transfer to hardware buffer and point the scanout
--	 * engine to the offset.
--	 */
--
--	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage)) {
--		u8 *argb4444;
--
--		switch (fb->format->format) {
--		case DRM_FORMAT_ARGB4444:
--			argb4444 = shadow_plane_state->data[0].vaddr;
--			break;
--		default:
--			argb4444 = ast_cursor_plane->argb4444;
--			{
--				struct iosys_map argb4444_dst[DRM_FORMAT_MAX_PLANES] = {
--					IOSYS_MAP_INIT_VADDR(argb4444),
--				};
--				unsigned int argb4444_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
--					AST_HWC_PITCH,
--				};
--
--				drm_fb_argb8888_to_argb4444(argb4444_dst, argb4444_dst_pitch,
--							    shadow_plane_state->data, fb, &damage,
--							    &shadow_plane_state->fmtcnv_state);
--			}
--			break;
--		}
--		ast_set_cursor_image(ast, argb4444, fb->width, fb->height);
--		ast_set_cursor_base(ast, dst_off);
--	}
--
--	/*
--	 * Update location in HWC signature and registers.
--	 */
--
--	writel(plane_state->crtc_x, sig + AST_HWC_SIGNATURE_X);
--	writel(plane_state->crtc_y, sig + AST_HWC_SIGNATURE_Y);
--
--	offset_x = AST_MAX_HWC_WIDTH - fb->width;
--	offset_y = AST_MAX_HWC_HEIGHT - fb->height;
--
--	if (plane_state->crtc_x < 0) {
--		x_offset = (-plane_state->crtc_x) + offset_x;
--		x = 0;
--	} else {
--		x_offset = offset_x;
--		x = plane_state->crtc_x;
--	}
--	if (plane_state->crtc_y < 0) {
--		y_offset = (-plane_state->crtc_y) + offset_y;
--		y = 0;
--	} else {
--		y_offset = offset_y;
--		y = plane_state->crtc_y;
--	}
--
--	ast_set_cursor_location(ast, x, y, x_offset, y_offset);
--
--	/* Dummy write to enable HWC and make the HW pick-up the changes. */
--	ast_set_cursor_enabled(ast, true);
--}
--
--static void ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
--						   struct drm_atomic_state *state)
--{
--	struct ast_device *ast = to_ast_device(plane->dev);
--
--	ast_set_cursor_enabled(ast, false);
--}
--
--static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
--	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = ast_cursor_plane_helper_atomic_check,
--	.atomic_update = ast_cursor_plane_helper_atomic_update,
--	.atomic_disable = ast_cursor_plane_helper_atomic_disable,
--};
--
--static const struct drm_plane_funcs ast_cursor_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = drm_plane_cleanup,
--	DRM_GEM_SHADOW_PLANE_FUNCS,
--};
--
--static int ast_cursor_plane_init(struct ast_device *ast)
--{
--	struct drm_device *dev = &ast->base;
--	struct ast_cursor_plane *ast_cursor_plane = &ast->cursor_plane;
--	struct ast_plane *ast_plane = &ast_cursor_plane->base;
--	struct drm_plane *cursor_plane = &ast_plane->base;
--	size_t size;
--	void __iomem *vaddr;
--	u64 offset;
--	int ret;
--
--	/*
--	 * Allocate backing storage for cursors. The BOs are permanently
--	 * pinned to the top end of the VRAM.
--	 */
--
--	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
--
--	if (ast->vram_fb_available < size)
--		return -ENOMEM;
--
--	vaddr = ast->vram + ast->vram_fb_available - size;
--	offset = ast->vram_fb_available - size;
--
--	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
--			     0x01, &ast_cursor_plane_funcs,
--			     ast_cursor_plane_formats, ARRAY_SIZE(ast_cursor_plane_formats),
--			     NULL, DRM_PLANE_TYPE_CURSOR);
--	if (ret) {
--		drm_err(dev, "ast_plane_init() failed: %d\n", ret);
--		return ret;
--	}
--	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
--	drm_plane_enable_fb_damage_clips(cursor_plane);
--
--	ast->vram_fb_available -= size;
--
--	return 0;
--}
--
- /*
-  * CRTC
-  */
+Changes in v3:
+- make sure we use cpu-cfg instead
+- Link to v2: https://lore.kernel.org/r/20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v2-0-f712b8df6020@linaro.org
+
+Changes in v2:
+- fixed example in qcom,sm8550-mdss.yaml
+- Link to v1: https://lore.kernel.org/r/20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-0-852b1d6aee46@linaro.org
+
+---
+Neil Armstrong (4):
+      dt-bindings: display: qcom,sm8550-mdss: explicitly document mdp0-mem and cpu-cfg interconnect paths
+      dt-bindings: display: qcom,sm8650-mdss: explicitly document mdp0-mem and cpu-cfg interconnect paths
+      arm64: dts: qcom: sm8550: add missing cpu-cfg interconnect path in the mdss node
+      arm64: dts: qcom: sm8650: add missing cpu-cfg interconnect path in the mdss node
+
+ .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml  | 14 +++++++++-----
+ .../devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml  | 13 +++++++++++--
+ arch/arm64/boot/dts/qcom/sm8550.dtsi                       |  6 ++++--
+ arch/arm64/boot/dts/qcom/sm8650.dtsi                       |  7 +++++--
+ 4 files changed, 29 insertions(+), 11 deletions(-)
+---
+base-commit: 379487e17ca406b47392e7ab6cf35d1c3bacb371
+change-id: 20250207-topic-sm8x50-mdss-interconnect-bindings-fix-dd975f223d05
+prerequisite-message-id: <20250115-topic-sm8x50-upstream-dt-icc-update-v1-0-eaa8b10e2af7@linaro.org>
+prerequisite-patch-id: b2052194cecb6796ba6f1e58e0aaa9a7267f3d0b
+prerequisite-patch-id: a3def6c1e27e43153ae1f63343a092021926af8f
+prerequisite-patch-id: 7daf103007dc6f7ed97ce26c67799766197e0cfd
+prerequisite-patch-id: 68b4f5c2bce33ce6034716cfe4f7b9e2cd2d0f98
+prerequisite-patch-id: 8b4cfaa99eb145b533a6ca63f4813e38649d6c8f
+prerequisite-patch-id: a0d5112490c42e1c7752371d6b3818fda5c06bbf
+prerequisite-patch-id: 7b72193dd00f7a2e8fef3f36e6e53fab4691a65b
+prerequisite-patch-id: 8e3be7c0aae177f77e42570c28a1ad22aef25768
+prerequisite-patch-id: 8a641540de8fd86787102b3e682fa8baca295d66
+prerequisite-patch-id: 8b31e6775ccb7811557ece74172dda96f368f0c5
+
+Best regards,
 -- 
-2.48.1
+Neil Armstrong <neil.armstrong@linaro.org>
 
