@@ -2,89 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D476A34AF5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A62A34B23
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A31D810EB45;
-	Thu, 13 Feb 2025 16:56:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1576410EB42;
+	Thu, 13 Feb 2025 17:02:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Wpp54qjC";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="hYjjCvIT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F16D10EB41
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:56:51 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-5450475df18so1169624e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739465810; x=1740070610; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YyQ7iBPn2LLvOrCnmEhJGLbqAv4rLkRdUEyL8CZvRP4=;
- b=Wpp54qjC2WHFyegnqVkaE4vRlmeTdKgKJk0A3C/qfOwPR64ir51vpInQBKYZXvrHbk
- 1eV2MSphLy1F1DOgTckPooH3zezSincYHfKFZNKA2Rg2oObkb4EwJTzTUbVu1gfg0B+v
- PfQ8/2bOewGOwMh4KVo1aY0T5TYTcUdTyu0Y/PS3dpn8L+OQefGGuXNMXjIwTk3lwNmH
- IjgNduV661H8hA6SJ5GDM9vOzuLur6Mr77v5u/C8Tb04jlbZN4opmxo7IjBNqrdO24Rc
- 2WrLCYCJ5rY7jBX4MnLJYWGriLRnsOnitLBv5PXcCXTLij4Hycyk5UWUsSZamaGVorbb
- BK1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739465810; x=1740070610;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YyQ7iBPn2LLvOrCnmEhJGLbqAv4rLkRdUEyL8CZvRP4=;
- b=jxBvK6FCt3117Wv0mUCFgcs2ZyTVQQLHmE+X3Q0xTGA+nok6uAN10ZpApFP6EkJQaC
- di0BVVkKxKHWSP9RHoYnd1IDdxj7MRSU3WQjQvnMYsL7aOXpFrSIcco2gKo3gYAq2auO
- 9XwREwr00iE4lXCwIqHJLxUVe85fswbTmeOyIhO8tsZW+btSyQZRnn6+SFCB6HI6VfIJ
- F2LaimYK2nwM26Zi2omRB0dCjWlEvVgTu4fkzQSGf4ACNHd9ghEqyuARMeB4eNpRwEfO
- hvVEdeWiH+1azH6rFifxXjKhhBueeBk8c77QL9B7Cr7U9UrEnM03NLD0iE85HKtXdohI
- dZZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUhMD4EZ+RatYpv7NOqtp1aTzurtpv7sICmjOcQZMqfMeAQJjPuGAkvFkrQFE6X51cxoMX+Sm6F/jE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxLzDmfX0j5G7kuxnxuvWdptsx/7hu5Y8yqgWBVt3s/xQFSM9AM
- Sg+r2mkvqrUOMRaQnkMxlE7JRgh+1rysp7+JuzagzkPnQq16Htyo7XEa6uz35BA=
-X-Gm-Gg: ASbGnctQwuy4o0P5/aASnaVrTf0FJX5jR4ctLpQXEh7Bi3FRwWthok1oIkwlWYPk/w8
- 5Yp2BIXH+9MnES0zPJy/cc5lu9AdfoFRYbT3Tmq5WIVTPWGx3udq9yPqcrCTDu1vxX+XdlsAPCW
- 62FvjmenOXSCjOIlZazkImS0R4NDf5JKswPPKMyuc005Smrpm4zfyPNo0j66l3llznM3Iza0Omm
- iCAl3V7+JJpBT17ym4MFS+WAIDpcSZNclU06iobSWDcB0tuONi9OeLV6RONJH5zCJPTpFpQIhNE
- HdEW//gbY5JpDC6IAi52+QZ1ib0bpfAnYzWeBh0FtD/giQcHbeit3kh4TL/CKA4Srt/BbkU=
-X-Google-Smtp-Source: AGHT+IHPp7z9mHrglxs4Ys3IyXNLHHY1OQEK7JqWZvEuKQ6rWpt9p/SBEJZ/ltRNQXoWyTRbRwY6vQ==
-X-Received: by 2002:a05:6512:128a:b0:53e:3a7c:c0b5 with SMTP id
- 2adb3069b0e04-545180e5df1mr2549482e87.10.1739465809683; 
- Thu, 13 Feb 2025 08:56:49 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5451f10cc28sm221256e87.201.2025.02.13.08.56.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 08:56:48 -0800 (PST)
-Date: Thu, 13 Feb 2025 18:56:46 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jie Zhang <quic_jiezh@quicinc.com>
-Subject: Re: [PATCH 4/5] arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
-Message-ID: <p36nz6p6bbzur7uoitbzc63hv4qf7hhsix3mqa36igarasj67b@evcdfpeybgsh>
-References: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
- <20250213-a623-gpu-support-v1-4-993c65c39fd2@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250213-a623-gpu-support-v1-4-993c65c39fd2@quicinc.com>
+X-Greylist: delayed 334 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Feb 2025 17:02:47 UTC
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
+ [91.218.175.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7EC10EB3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:02:47 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1739465830;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=L++p9P6H0H85fsOAuxOaGzI1uI8Kb5FvZzV7efNg+tI=;
+ b=hYjjCvITlZ28O1xd1vUpc7elFGlXQfnzJ3vIfmsICpCXKbgVckh14+zBLyzqoRp6qU2IDQ
+ rs52xiZ7OAy0RUUkY0iC6A/0CH+iaAqbs64PhqrGO3h42tlLfT+qE+IvbeyStxvRMtTSck
+ eThKUtFvzlvcHetCibLaj4tjRrt5WrY/RMlGOwrITp675lE/OTjjtg/iRVNgbWRrG9liVz
+ dvglClMLYFOBk2WNpEwYyioYOrxzHQVjkrS7oHIFLGXypi47JM/GPlixZirEgnzOjw2Vl9
+ V54+vFWLrxau3cjs8ib2LBe+OqzZxvJCCjPmAPEv9fD+Fe0Qao00n7+dv3gmxA==
+Content-Type: multipart/signed;
+ boundary=ede7125ba3a934ac4b1724170fabaab396479d002c71632be934a2e0a78e;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Thu, 13 Feb 2025 17:56:55 +0100
+Message-Id: <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
+Cc: <heiko@sntech.de>, <robh@kernel.org>, <conor+dt@kernel.org>,
+ <algea.cao@rock-chips.com>, <rfoss@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <sebastian.reichel@collabora.com>, <dri-devel@lists.freedesktop.org>,
+ <hjc@rock-chips.com>, <kever.yang@rock-chips.com>,
+ <dmitry.baryshkov@linaro.org>, <vkoul@kernel.org>,
+ <andy.yan@rock-chips.com>, <krzk+dt@kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <l.stach@pengutronix.de>
+Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Piotr Oniszczuk" <piotr.oniszczuk@gmail.com>, "Damon Ding"
+ <damon.ding@rock-chips.com>
+References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+ <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
+In-Reply-To: <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,82 +69,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 09:40:09PM +0530, Akhil P Oommen wrote:
-> From: Jie Zhang <quic_jiezh@quicinc.com>
-> 
-> Add gpu and gmu nodes for qcs8300 chipset.
-> 
-> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
->  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 93 +++++++++++++++++++++++++++++++++++
->  1 file changed, 93 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-> index f1c90db7b0e6..2dc487dcc584 100644
-> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-> @@ -2660,6 +2660,99 @@ serdes0: phy@8909000 {
->  			status = "disabled";
->  		};
->  
-> +		gpu: gpu@3d00000 {
-> +			compatible = "qcom,adreno-623.0", "qcom,adreno";
-> +			reg = <0x0 0x03d00000 0x0 0x40000>,
-> +			      <0x0 0x03d9e000 0x0 0x1000>,
-> +			      <0x0 0x03d61000 0x0 0x800>;
-> +			reg-names = "kgsl_3d0_reg_memory",
-> +				    "cx_mem",
-> +				    "cx_dbgc";
-> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> +			iommus = <&adreno_smmu 0 0xc00>,
-> +				 <&adreno_smmu 1 0xc00>;
-> +			operating-points-v2 = <&gpu_opp_table>;
-> +			qcom,gmu = <&gmu>;
-> +			interconnects = <&gem_noc MASTER_GFX3D QCOM_ICC_TAG_ALWAYS
-> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-> +			interconnect-names = "gfx-mem";
-> +			#cooling-cells = <2>;
-> +
-> +			status = "disabled";
-> +
-> +			gpu_zap_shader: zap-shader {
-> +				memory-region = <&gpu_microcode_mem>;
-> +			};
-> +
-> +			gpu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-877000000 {
-> +					opp-hz = /bits/ 64 <877000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
-> +					opp-peak-kBps = <12484375>;
-> +				};
-> +
-> +				opp-780000000 {
-> +					opp-hz = /bits/ 64 <780000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-> +					opp-peak-kBps = <10687500>;
-> +				};
-> +
-> +				opp-599000000 {
-> +					opp-hz = /bits/ 64 <599000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-> +					opp-peak-kBps = <8171875>;
-> +				};
-> +
-> +				opp-479000000 {
-> +					opp-hz = /bits/ 64 <479000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> +					opp-peak-kBps = <5285156>;
-> +				};
+--ede7125ba3a934ac4b1724170fabaab396479d002c71632be934a2e0a78e
+Content-Type: multipart/mixed;
+ boundary=9dfe29099e37a1b2b487595ef7d4673e8f8e1d59e40fa10a10ca64d80ff5
 
-Does it have no speed bins or are they pending on the nvmem patchset?
+--9dfe29099e37a1b2b487595ef7d4673e8f8e1d59e40fa10a10ca64d80ff5
+Content-Type: multipart/alternative;
+ boundary=721bdcc7e7d042a75e209bad099eca2b978b656aea2b608710a95dac840b
 
-> +			};
-> +		};
-> +
+--721bdcc7e7d042a75e209bad099eca2b978b656aea2b608710a95dac840b
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 
--- 
-With best wishes
-Dmitry
+On Thu Feb 13, 2025 at 3:54 PM CET, Piotr Oniszczuk wrote:
+>
+>
+>> Wiadomo=C5=9B=C4=87 napisana przez Damon Ding <damon.ding@rock-chips.com=
+> w dniu 23 sty 2025, o godz. 11:07:
+>>=20
+>> Picked from:
+>> https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D92359=
+3
+>>=20
+>> These patchs have been tested with a 1536x2048p60 eDP panel on
+>> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+>> on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
+>> on RK3399 sapphire excavator board.
+>> ...
+>> 9 files changed, 401 insertions(+), 89 deletions(-)
+>>=20
+>> --=20
+>> 2.34.1
+>>=20
+>
+> Damon,
+>
+> I=E2=80=99m playing with hdmi0 port enablement on radxa rock5 itx board w=
+ith 6.14 mainline.
+>
+> rock5 itx has 2 hdmi ports: hdmi0 is wired to rk3588 typeC1/eDP1 eDP with=
+ ra620 eDP->HDMI converter and hdmi1 from hdmi/edp tx1
+> (see page3 & page29 at https://dl.radxa.com/rock5/5itx/v1110/radxa_rock_5=
+itx_v1110_schematic.pdf)
+>
+> I=E2=80=99m on 6.14-rc2 with applied:=20
+> [1] Cristicc hdmi code (https://gitlab.collabora.com/cristicc/linux-next/=
+-/commits/rk3588-hdmi-bridge)
+> [2] eDP support for RK3588 (https://patchwork.kernel.org/project/linux-ro=
+ckchip/list/?series=3D927765)
+> [3] Add eDP mode support for Rockchip Samsung HDPTX PHY (https://patchwor=
+k.kernel.org/project/linux-rockchip/cover/20250205105157.580060-1-damon.din=
+g@rock-chips.com/)
+>
+> Is edp1 supported by yours [2] series?
+>
+> If yes - may you pls hint me about required dts additions in https://git.=
+kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/arm64/boot/d=
+ts/rockchip/rk3588-rock-5-itx.dts?h=3Dv6.14-rc2 ?
+
+I don't know if it's relevant, but while HDMI0 got enabled for quite a
+few devices in 6.13, it did NOT get enabled for Rock 5 ITX.
+I made a local patch (which does the same thing as was done for Rock 5B)
+but I have no idea if it actually works (I don't have the board).
+
+Maybe you need that for eDP to work?
+
+Cheers,
+  Diederik
+
+--721bdcc7e7d042a75e209bad099eca2b978b656aea2b608710a95dac840b--
+
+--9dfe29099e37a1b2b487595ef7d4673e8f8e1d59e40fa10a10ca64d80ff5
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=0001-arm64-dts-rockchip-Enable-HDMI0-on-ROCK-5-ITX.patch
+Content-Type: text/x-patch; charset=utf-8;
+ name=0001-arm64-dts-rockchip-Enable-HDMI0-on-ROCK-5-ITX.patch
+
+RnJvbSA1MTU2Y2ZiNTNhYzIwODg3Y2YzY2ViODU5OGIzZjM1ZWU3NDE2MWU5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBEaWVkZXJpayBkZSBIYWFzIDxkaWRpLmRlYmlhbkBja25vdy5v
+cmc+CkRhdGU6IFNhdCwgMiBOb3YgMjAyNCAwMDoxMDoyMCArMDEwMApTdWJqZWN0OiBbUEFUQ0hd
+IGFybTY0OiBkdHM6IHJvY2tjaGlwOiBFbmFibGUgSERNSTAgb24gUk9DSyA1IElUWAoKQWRkIHRo
+ZSBuZWNlc3NhcnkgRFQgY2hhbmdlcyB0byBlbmFibGUgSERNSTAgb24gUmFkeGEgUk9DSyA1IElU
+WC4KClRoaXMgaXMgdGhlIHNhbWUgcGF0Y2ggYXMgZm9yIHRoZSBST0NLIDVCLCBidXQgdGhlbiBh
+ZGp1c3RlZCBmb3IgdGhlClJPQ0sgNSBJVFgncyBjb250ZXh0LCBidXQgdGhlIG5ldyBzdGF0ZW1l
+bnRzIGFyZSBleGFjdGx5IHRoZSBzYW1lLgoKU2lnbmVkLW9mZi1ieTogRGllZGVyaWsgZGUgSGFh
+cyA8ZGlkaS5kZWJpYW5AY2tub3cub3JnPgpMaW5rOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9h
+bGwvMjAyNDEwMTktcmszNTg4LWhkbWkwLWR0LXYyLTAtNDY2Y2Q4MGU4ZmY5QGNvbGxhYm9yYS5j
+b20vCi0tLQogLi4uL2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OC1yb2NrLTUtaXR4LmR0cyAgIHwg
+NDcgKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDQ3IGluc2VydGlvbnMoKykK
+CmRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OC1yb2NrLTUt
+aXR4LmR0cyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcm9ja2NoaXAvcmszNTg4LXJvY2stNS1pdHgu
+ZHRzCmluZGV4IDZkNjhmNzAyODRlNC4uYTFiODlhYmE5NzdkIDEwMDY0NAotLS0gYS9hcmNoL2Fy
+bTY0L2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OC1yb2NrLTUtaXR4LmR0cworKysgYi9hcmNoL2Fy
+bTY0L2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OC1yb2NrLTUtaXR4LmR0cwpAQCAtMTEsNiArMTEs
+NyBAQAogI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2xlZHMvY29tbW9uLmg+CiAjaW5jbHVkZSA8ZHQt
+YmluZGluZ3MvcGluY3RybC9yb2NrY2hpcC5oPgogI2luY2x1ZGUgPGR0LWJpbmRpbmdzL3B3bS9w
+d20uaD4KKyNpbmNsdWRlIDxkdC1iaW5kaW5ncy9zb2Mvcm9ja2NoaXAsdm9wMi5oPgogI2luY2x1
+ZGUgImR0LWJpbmRpbmdzL3VzYi9wZC5oIgogI2luY2x1ZGUgInJrMzU4OC5kdHNpIgogCkBAIC03
+Miw2ICs3MywxNyBAQCBoZGQtbGVkMiB7CiAJCX07CiAJfTsKIAorCWhkbWkwLWNvbiB7CisJCWNv
+bXBhdGlibGUgPSAiaGRtaS1jb25uZWN0b3IiOworCQl0eXBlID0gImEiOworCisJCXBvcnQgewor
+CQkJaGRtaTBfY29uX2luOiBlbmRwb2ludCB7CisJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZoZG1p
+MF9vdXRfY29uPjsKKwkJCX07CisJCX07CisJfTsKKwogCS8qIFVubmFtZWQgZ2F0ZWQgb3NjaWxs
+YXRvcjogMTAwTUh6LDMuM1YsMzIyNSAqLwogCXBjaWUzMF9wb3J0MF9yZWZjbGs6IHBjaWUzMF9w
+b3J0MV9yZWZjbGs6IHBjaWUtb3NjaWxsYXRvciB7CiAJCWNvbXBhdGlibGUgPSAiZ2F0ZWQtZml4
+ZWQtY2xvY2siOwpAQCAtMjYxLDYgKzI3MywyNiBAQCAmZ3B1IHsKIAlzdGF0dXMgPSAib2theSI7
+CiB9OwogCismaGRtaTAgeworCXN0YXR1cyA9ICJva2F5IjsKK307CisKKyZoZG1pMF9pbiB7CisJ
+aGRtaTBfaW5fdnAwOiBlbmRwb2ludCB7CisJCXJlbW90ZS1lbmRwb2ludCA9IDwmdnAwX291dF9o
+ZG1pMD47CisJfTsKK307CisKKyZoZG1pMF9vdXQgeworCWhkbWkwX291dF9jb246IGVuZHBvaW50
+IHsKKwkJcmVtb3RlLWVuZHBvaW50ID0gPCZoZG1pMF9jb25faW4+OworCX07Cit9OworCismaGRw
+dHhwaHlfaGRtaTAgeworCXN0YXR1cyA9ICJva2F5IjsKK307CisKICZpMmMwIHsKIAlwaW5jdHJs
+LW5hbWVzID0gImRlZmF1bHQiOwogCXBpbmN0cmwtMCA9IDwmaTJjMG0yX3hmZXI+OwpAQCAtMTIw
+OSwzICsxMjQxLDE4IEBAICZ1c2JkcF9waHkxIHsKIAlyb2NrY2hpcCxkcC1sYW5lLW11eCA9IDwy
+IDM+OwogCXN0YXR1cyA9ICJva2F5IjsKIH07CisKKyZ2b3BfbW11IHsKKwlzdGF0dXMgPSAib2th
+eSI7Cit9OworCismdm9wIHsKKwlzdGF0dXMgPSAib2theSI7Cit9OworCismdnAwIHsKKwl2cDBf
+b3V0X2hkbWkwOiBlbmRwb2ludEBST0NLQ0hJUF9WT1AyX0VQX0hETUkwIHsKKwkJcmVnID0gPFJP
+Q0tDSElQX1ZPUDJfRVBfSERNSTA+OworCQlyZW1vdGUtZW5kcG9pbnQgPSA8JmhkbWkwX2luX3Zw
+MD47CisJfTsKK307Ci0tIAoyLjQ3LjIKCg==
+--9dfe29099e37a1b2b487595ef7d4673e8f8e1d59e40fa10a10ca64d80ff5--
+
+--ede7125ba3a934ac4b1724170fabaab396479d002c71632be934a2e0a78e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ64kXwAKCRDXblvOeH7b
+bo6YAQD3ybKDWbpRpMMdrHd5h15H7Ri0SJHdZTxVs3Z281VrlwD/fV2G8wNX74/r
+fM0km2y4v3qMDEQzjYUmaigHppNGKw4=
+=sv1C
+-----END PGP SIGNATURE-----
+
+--ede7125ba3a934ac4b1724170fabaab396479d002c71632be934a2e0a78e--
