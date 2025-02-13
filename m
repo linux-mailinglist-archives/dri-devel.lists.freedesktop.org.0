@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310D3A34051
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B37A34054
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:26:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C6110EAAA;
-	Thu, 13 Feb 2025 13:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A952F10EAA3;
+	Thu, 13 Feb 2025 13:26:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ctWlLZPz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fL+MidDZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEFD10EA9C;
- Thu, 13 Feb 2025 13:26:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3399110EAA3;
+ Thu, 13 Feb 2025 13:26:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739453201; x=1770989201;
+ t=1739453207; x=1770989207;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vgkaz8SQZSCMAvUiKVVsXSwIY5jOv13S2nsfhXRekgM=;
- b=ctWlLZPzCECiGTd4UkwSNrOFjBCVBIL0YbKoJhPJx+DShI8zttooDhvC
- xqkmShWsEJuXw8MWKtvJP2aMJ9E7xL9iYOVQReIi+RjbzDMyxKlkDCC+U
- t1ixNo7Ogg/oRruyEYXtDBpqPa1yzuJZGC/MVW61DPP5Q7V+U/FQHb3/V
- JPsNfF06L0sm9FSyhX+IZGfObhweqlqWExgxlmtBM+g1j7aH3SgYL7XAn
- bqMYSzmnTDkQvalY3tU9J5beXBgY7v8FYAWyl+98G6efyV8XMn+v1gVHs
- gxeh4VO06uFqyCeajSf8pXz73LrzoOnsXzL0raIkYsh633QGHC9E3GCFk Q==;
-X-CSE-ConnectionGUID: qUxogK3/TT+aTsKM91Xgsg==
-X-CSE-MsgGUID: T3A2hpSGThqLQ6PEfkeviA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40025386"
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="40025386"
+ bh=Xdx0CT07y1wYRHVQedmpi42q4XkY1UU42Uu+Mj0oY3Q=;
+ b=fL+MidDZqwuay81RSZu3O5ytP2aWfDm2b6nIff1NO5+whGoxaNQfRJiz
+ VyXwAGGdEM85XZbckwavfCl0qKkkU9hdAe3L1JFPTLV5942ecD0/aI6Eu
+ 7IgvFBs8wLZIPOsYxc6MBPIlEsdXiFw23qhR1SjXpWWZWYoyhZaCRwLs2
+ I8xCuB2Sj9nyOvYwEjeBrajKN7xYR72XtPq4i7K4SdqnNs/G2ijt6mmEs
+ l/Xp4MbNqRClfX7P7JMJPIp/Wu93LtkJN8KSolPlnnij0KfbAchsRY59K
+ gzlk9RillJng0PEJxEioJQxXPqOkE3LlJ6qhvJ62nd9YNWWYWEt2Ca6N4 w==;
+X-CSE-ConnectionGUID: VHsNIbFkTdiIKFkS7bqBPA==
+X-CSE-MsgGUID: 4Ac9VWbjSgqCXxthGEdPXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40025429"
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="40025429"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2025 05:26:40 -0800
-X-CSE-ConnectionGUID: U+wGAQ2tRCaTSMiCOALoaw==
-X-CSE-MsgGUID: b07jkHRmSDejqELzsVP76A==
+ 13 Feb 2025 05:26:47 -0800
+X-CSE-ConnectionGUID: 8RfigxAPQaO4qa8ab7NjnQ==
+X-CSE-MsgGUID: a1tg2zP5Ssevm51yrCFe/Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="113014318"
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="113014347"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
  vgovind2-mobl3.intel.com) ([10.245.246.251])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2025 05:26:37 -0800
+ 13 Feb 2025 05:26:41 -0800
 From: Vinod Govindapillai <vinod.govindapillai@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, vinod.govindapillai@intel.com,
  ville.syrjala@intel.com, santhosh.reddy.guddati@intel.com,
  jani.saarinen@intel.com
-Subject: [PATCH v8 5/7] drm/i915/fbc: avoid calling fbc activate if fbc is
- active
-Date: Thu, 13 Feb 2025 15:25:56 +0200
-Message-ID: <20250213132559.136815-6-vinod.govindapillai@intel.com>
+Subject: [PATCH v8 6/7] drm/i915/fbc: dirty rect support for FBC
+Date: Thu, 13 Feb 2025 15:25:57 +0200
+Message-ID: <20250213132559.136815-7-vinod.govindapillai@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250213132559.136815-1-vinod.govindapillai@intel.com>
 References: <20250213132559.136815-1-vinod.govindapillai@intel.com>
@@ -73,53 +72,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If FBC is already active, we don't need to call FBC activate
-routine again unless there are changes to the fences. So skip
-this on all platforms that don't have fences. Any FBC register
-updates done after enabling the dirty rect support in xe3 will
-trigger nuke by FBC which is counter productive to the fbc
-dirty rect feature.
+Dirty rectangle feature allows FBC to recompress a subsection
+of a frame. When this feature is enabled, display will read
+the scan lines between dirty rectangle start line and dirty
+rectangle end line in subsequent frames.
 
-The front buffer rendering sequence will call intel_fbc_flush()
-and which will call intel_fbc_nuke() or intel_fbc_activate()
-based on FBC status explicitly and won't get impacted by this
-change.
+Use the merged damage clip stored in the plane state to
+configure the FBC dirty rect areas.
 
-v2: use HAS_FBC_DIRTY_RECT()
-    move this functionality within intel_fbc_activate()
+v2: - Move dirty rect handling to fbc state (Ville)
 
-v3: update to intel_fbc_activate logic (Ville)
-    update to the patch description
+v3: - Use intel_fbc_dirty_rect_update_noarm (Ville)
+    - Split plane damage collection and dirty rect preparation
+    - Handle case where dirty rect fall outside the visible region
 
+v4: - A state variable to check if we need to update dirty rect
+    registers in case intel_fbc_can_flip_nuke() (Ville)
+
+v5: - No need to use a separate valid flag, updates to the
+      conditions for prepare damage rect (Ville)
+    - Usage of locks in fbc dirty rect related functions (Ville)
+
+v6: - updates dirty rect handling (Ville)
+
+Bspec: 68881, 71675, 73424
 Signed-off-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fbc.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../gpu/drm/i915/display/intel_atomic_plane.c |  3 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  3 +
+ drivers/gpu/drm/i915/display/intel_fbc.c      | 85 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_fbc.h      |  5 ++
+ 4 files changed, 96 insertions(+)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+index 2278412200fd..041e1d9ef621 100644
+--- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
++++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+@@ -803,6 +803,9 @@ void intel_plane_update_noarm(struct intel_dsb *dsb,
+ 
+ 	trace_intel_plane_update_noarm(plane_state, crtc);
+ 
++	if (plane->fbc)
++		intel_fbc_dirty_rect_update_noarm(dsb, plane);
++
+ 	if (plane->update_noarm)
+ 		plane->update_noarm(dsb, plane, crtc_state, plane_state);
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index cc51576353fe..dd801b9d9a52 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -7783,6 +7783,9 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
+ 
+ 	intel_atomic_prepare_plane_clear_colors(state);
+ 
++	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i)
++		intel_fbc_prepare_dirty_rect(state, crtc);
++
+ 	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i)
+ 		intel_atomic_dsb_finish(state, crtc);
+ 
 diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index df05904bac8a..d2917e017e7b 100644
+index d2917e017e7b..66a5ee10a649 100644
 --- a/drivers/gpu/drm/i915/display/intel_fbc.c
 +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -739,8 +739,19 @@ static void intel_fbc_nuke(struct intel_fbc *fbc)
+@@ -88,6 +88,7 @@ struct intel_fbc_state {
+ 	u16 override_cfb_stride;
+ 	u16 interval;
+ 	s8 fence_id;
++	struct drm_rect dirty_rect;
+ };
  
- static void intel_fbc_activate(struct intel_fbc *fbc)
- {
+ struct intel_fbc {
+@@ -527,6 +528,9 @@ static void ilk_fbc_deactivate(struct intel_fbc *fbc)
+ 	struct intel_display *display = fbc->display;
+ 	u32 dpfc_ctl;
+ 
++	if (HAS_FBC_DIRTY_RECT(display))
++		intel_de_write(display, XE3_FBC_DIRTY_CTL(fbc->id), 0);
++
+ 	/* Disable compression */
+ 	dpfc_ctl = intel_de_read(display, ILK_DPFC_CONTROL(fbc->id));
+ 	if (dpfc_ctl & DPFC_CTL_EN) {
+@@ -670,6 +674,10 @@ static void ivb_fbc_activate(struct intel_fbc *fbc)
+ 	if (DISPLAY_VER(display) >= 20)
+ 		intel_de_write(display, ILK_DPFC_CONTROL(fbc->id), dpfc_ctl);
+ 
++	if (HAS_FBC_DIRTY_RECT(display))
++		intel_de_write(display, XE3_FBC_DIRTY_CTL(fbc->id),
++			       FBC_DIRTY_RECT_EN);
++
+ 	intel_de_write(display, ILK_DPFC_CONTROL(fbc->id),
+ 		       DPFC_CTL_EN | dpfc_ctl);
+ }
+@@ -1214,6 +1222,83 @@ static bool tiling_is_valid(const struct intel_plane_state *plane_state)
+ 		return i8xx_fbc_tiling_valid(plane_state);
+ }
+ 
++static void
++intel_fbc_dirty_rect_update(struct intel_dsb *dsb, struct intel_fbc *fbc)
++{
 +	struct intel_display *display = fbc->display;
++	struct drm_rect *fbc_dirty_rect = &fbc->state.dirty_rect;
 +
- 	lockdep_assert_held(&fbc->lock);
- 
-+	/* only the fence can change for a flip nuke */
-+	if (fbc->active && !intel_fbc_has_fences(display))
++	lockdep_assert_held(&fbc->lock);
++
++	intel_de_write_dsb(display, dsb, XE3_FBC_DIRTY_RECT(fbc->id),
++			   FBC_DIRTY_RECT_START_LINE(fbc_dirty_rect->y1) |
++			   FBC_DIRTY_RECT_END_LINE(fbc_dirty_rect->y2 - 1));
++}
++
++void
++intel_fbc_dirty_rect_update_noarm(struct intel_dsb *dsb,
++				  struct intel_plane *plane)
++{
++	struct intel_display *display = to_intel_display(plane);
++	struct intel_fbc *fbc = plane->fbc;
++
++	if (!HAS_FBC_DIRTY_RECT(display))
 +		return;
-+	/*
-+	 * In case of FBC dirt rect, any updates to the FBC registers will
-+	 * trigger the nuke.
-+	 */
-+	drm_WARN_ON(display->drm, fbc->active && HAS_FBC_DIRTY_RECT(display));
 +
- 	intel_fbc_hw_activate(fbc);
- 	intel_fbc_nuke(fbc);
++	mutex_lock(&fbc->lock);
++
++	if (fbc->state.plane == plane)
++		intel_fbc_dirty_rect_update(dsb, fbc);
++
++	mutex_unlock(&fbc->lock);
++}
++
++static void
++__intel_fbc_prepare_dirty_rect(struct intel_plane *plane,
++			       struct intel_plane_state *plane_state)
++{
++	struct intel_fbc *fbc = plane->fbc;
++	struct drm_rect *fbc_dirty_rect = &fbc->state.dirty_rect;
++	int width = drm_rect_width(&plane_state->uapi.src) >> 16;
++	const struct drm_rect *damage = &plane_state->damage;
++	int y_offset = plane_state->view.color_plane[0].y;
++
++	lockdep_assert_held(&fbc->lock);
++
++	if (drm_rect_visible(damage))
++		*fbc_dirty_rect = *damage;
++	else
++		/* dirty rect must cover at least one line */
++		*fbc_dirty_rect = DRM_RECT_INIT(0, y_offset, width, 1);
++}
++
++void
++intel_fbc_prepare_dirty_rect(struct intel_atomic_state *state,
++			     struct intel_crtc *crtc)
++{
++	struct intel_display *display = to_intel_display(state);
++	struct intel_plane_state *plane_state;
++	struct intel_plane *plane;
++	int i;
++
++	if (!HAS_FBC_DIRTY_RECT(display))
++		return;
++
++	for_each_new_intel_plane_in_state(state, plane, plane_state, i) {
++		struct intel_fbc *fbc = plane->fbc;
++
++		if (!fbc || plane->pipe != crtc->pipe)
++			continue;
++
++		mutex_lock(&fbc->lock);
++
++		if (fbc->state.plane == plane)
++			__intel_fbc_prepare_dirty_rect(plane, plane_state);
++
++		mutex_unlock(&fbc->lock);
++	}
++}
++
+ static void intel_fbc_update_state(struct intel_atomic_state *state,
+ 				   struct intel_crtc *crtc,
+ 				   struct intel_plane *plane)
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.h b/drivers/gpu/drm/i915/display/intel_fbc.h
+index ceae55458e14..fe48d0276eec 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.h
++++ b/drivers/gpu/drm/i915/display/intel_fbc.h
+@@ -14,6 +14,7 @@ struct intel_atomic_state;
+ struct intel_crtc;
+ struct intel_crtc_state;
+ struct intel_display;
++struct intel_dsb;
+ struct intel_fbc;
+ struct intel_plane;
+ struct intel_plane_state;
+@@ -48,5 +49,9 @@ void intel_fbc_handle_fifo_underrun_irq(struct intel_display *display);
+ void intel_fbc_reset_underrun(struct intel_display *display);
+ void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc);
+ void intel_fbc_debugfs_register(struct intel_display *display);
++void intel_fbc_prepare_dirty_rect(struct intel_atomic_state *state,
++				  struct intel_crtc *crtc);
++void intel_fbc_dirty_rect_update_noarm(struct intel_dsb *dsb,
++				       struct intel_plane *plane);
  
+ #endif /* __INTEL_FBC_H__ */
 -- 
 2.43.0
 
