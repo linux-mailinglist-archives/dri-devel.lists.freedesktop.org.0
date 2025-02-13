@@ -2,110 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FBEA34074
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:36:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC41FA3407A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:36:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C2310E071;
-	Thu, 13 Feb 2025 13:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20AA910E07C;
+	Thu, 13 Feb 2025 13:36:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="iNkaH1uv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="B84terP9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517CB10E071
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:36:00 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4395f81db4dso5337225e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 05:36:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739453759; x=1740058559;
- darn=lists.freedesktop.org; 
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4lyrHtSipeKghn9xCx+8COWh0BWty29N6DnBPAUwOek=;
- b=iNkaH1uvcNuGtTZJO+sbYXfy5VkpyEyv0t54nS9LVoafVc8RCjjFF4Id5DFlNTLinQ
- QANQnYkqAI7gOtOLkm+5ZpNWdDHVg6tKUpdttkDIEUWQSBJtnWk9MRD98qWxN7q/yTbS
- afTeTd/FZBRCEvFOZF+Ei6WWirgMluu0zQ//+x9iuIspYbn0NWzcyt+d6MZ4z3X6MrNB
- 6yVghTpzWYjFS5ftE37uOYXd6hzu+V2E4HaRI2owtz1tb7iefivC9XqzGBNvJkXlnSvT
- GtrbkP2AkhPkf6eA8qaKg95GIpK6aeRuxe+/Y/QMAzRkaZOZBtZwreVpHJDdEUuK/vNO
- 38Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739453759; x=1740058559;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4lyrHtSipeKghn9xCx+8COWh0BWty29N6DnBPAUwOek=;
- b=vIl5KL/nc0ZXZz+tFZIOSOXBlli3m0cdx7i1AZWn/2OA0p7f6sFb8se+WnH502OwyS
- 0SKAwEA3jH2uJxv1rqCM1BqDwbwt3RQ7/A3fNuqDhjwOozUMiJ/qaydHmdJXGVwi/kMx
- yyPymRg89yfHJhJMgHtQU1wXFyldw6gWRGrcUVMv2w/yRefVvKRvU2jjUTGZlAaYIJA+
- Ifyync8hBFqXc92Pu7yrGOTsaJRLY3YNUJrVPqumbKcb2m2NL5Kx+b/2VcK/e3AFafQv
- ZNwr6j2HrR57OsH2IIk2SGZUWVQ008zLYu9ZFjUZYJIv5MvzsV9g/j7gos4BvAhUmIzk
- K23A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWk6UQsm5OAktV+udXk4plSWtqdEJa/62hRHhDS8HOOJMcvgjm3Gp7BNE9smftxGZ7qoxAw0vGnzn0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjRg1xP22D4Xxk+nienUdM67WgSSnDjJqdKWLODr7z/vG6USZX
- kOWIKm3tOg+2X7LDacd7GfmOB7/AztHi89cvlQsTPS+S7hivnF1z8tOT0NJd2zs=
-X-Gm-Gg: ASbGncv6gcXdag5CKdm84ofGD/0lCiPhJ2taHx26eP1S8vRgpV/8Rrb1kb9ADBm+1xg
- BAUDEXdaGoNn66cR/izK49H/FtH0RvYSSl2/PHg2/fFNvqQFCNQlV1U76LQB6v/peZscOfgh/mm
- NkbBkPuTOLr4Y4FJXiiMI/fgSpBj9Um/NN+D8Uf6C1KVVKz1AO7YMi7baQrD/ynwqT+inkquQQa
- GMfM5JqlTvs3U1q9GyIfsHNFv5/hUkPMov8TmOExTSRYhPlE20Zn3nWb9I7g9SzZ4IIs5/Hj4kq
- Mi6NY4eJFHUndg==
-X-Google-Smtp-Source: AGHT+IFlyyROQN/jp5N25OPHAwGGncnJ/FLwqH6qkR/P/8dmal2Zk5G/l0wZieziiMnBJNT5H1Y22g==
-X-Received: by 2002:a05:600c:a0c:b0:434:f1bd:1e40 with SMTP id
- 5b1f17b1804b1-43960e81b92mr29235125e9.6.1739453758160; 
- Thu, 13 Feb 2025 05:35:58 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:b617:2c1:fc8c:2705])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4395a056151sm49618825e9.16.2025.02.13.05.35.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 05:35:57 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,  "Dave Ertman"
- <david.m.ertman@intel.com>,  "Ira Weiny" <ira.weiny@intel.com>,  "Rafael J
- . Wysocki" <rafael@kernel.org>,  "Stephen Boyd" <sboyd@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>,  "Conor.Dooley"
- <conor.dooley@microchip.com>,  "Daire McNamara"
- <daire.mcnamara@microchip.com>,  "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Doug Anderson" <dianders@chromium.org>,  "Andrzej Hajda"
- <andrzej.hajda@intel.com>,  "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,  "laurent.pinchart"
- <Laurent.pinchart@ideasonboard.com>,  "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,  "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>,  "Maxime Ripard"
- <mripard@kernel.org>,  "Thomas Zimmermann" <tzimmermann@suse.de>,  "Dave
- Airlie" <airlied@gmail.com>,  "Simona Vetter" <simona@ffwll.ch>,  "Hans de
- Goede" <hdegoede@redhat.com>,  Ilpo =?utf-8?Q?J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,  "Bryan O'Donoghue"
- <bryan.odonoghue@linaro.org>,  "Vladimir Kondratiev"
- <vladimir.kondratiev@mobileye.com>,  "Gregory Clement"
- <gregory.clement@bootlin.com>,  =?utf-8?Q?Th=C3=A9o?= Lebrun
- <theo.lebrun@bootlin.com>,
- "Michael Turquette" <mturquette@baylibre.com>,  "Abel Vesa"
- <abelvesa@kernel.org>,  "Peng Fan" <peng.fan@nxp.com>,  "Shawn Guo"
- <shawnguo@kernel.org>,  "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>,  "Fabio Estevam"
- <festevam@gmail.com>,  "Kevin Hilman" <khilman@baylibre.com>,  "Martin
- Blumenstingl" <martin.blumenstingl@googlemail.com>,
- linux-kernel@vger.kernel.org,  linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org,  platform-driver-x86@vger.kernel.org,
- linux-mips@vger.kernel.org,  linux-clk@vger.kernel.org,
- imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH v3 7/7] clk: amlogic: axg-audio: use the auxiliary reset
- driver - take 2
-In-Reply-To: <73c1ab6b-fd5e-47e3-8815-8f74758535f1@app.fastmail.com> (Arnd
- Bergmann's message of "Thu, 13 Feb 2025 13:26:12 +0100")
-References: <20250211-aux-device-create-helper-v3-0-7edb50524909@baylibre.com>
- <20250211-aux-device-create-helper-v3-7-7edb50524909@baylibre.com>
- <73c1ab6b-fd5e-47e3-8815-8f74758535f1@app.fastmail.com>
-User-Agent: mu4e 1.12.8; emacs 29.4
-Date: Thu, 13 Feb 2025 14:35:56 +0100
-Message-ID: <1j1pw20xxf.fsf@starbuckisacylon.baylibre.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB8ED10E07C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fL2N85tP78JDzZgsCZWoTPud0wAjilrahySa0+eaYdo=; b=B84terP9/sdvMj8ht16+iSkLYQ
+ xGjEA22Lu5nXIwV7d+UT1yYxyJkprIDMvatPeENztaRR1nHQFVKuIyOgTCdeetMduJIBGTjh4NHaP
+ auotEFdFl+E1IhdmAuXWccljbvz5jGJqyRFNDpCAdfekRNS1OKfvkQCCfLxedyIv+wF0oKaTmGsiR
+ A0ia9RZNlVTKLpffQqDmk8TPGJU9zMPxv3SskJOSYoGlO2A701pPo90c/W7QnW7yGqgDD5EEdyVgv
+ R/Y7h63TDn9laKv8pDO0o+fmlEK6Z5xhzi98i04KycJ1nJ4oyBG3Z8PCgVB1qftfjOqhhb3VwTn6p
+ Ijl6LzNA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tiZOJ-00ADcc-Ck; Thu, 13 Feb 2025 14:36:37 +0100
+Message-ID: <eff7e19e-c507-4fc9-8493-5d057754c8ba@igalia.com>
+Date: Thu, 13 Feb 2025 13:36:36 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 5/5] drm/scheduler: Add a basic test for modifying entities
+ scheduler list
+To: phasta@kernel.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20250207143337.60154-1-tvrtko.ursulin@igalia.com>
+ <20250207143337.60154-6-tvrtko.ursulin@igalia.com>
+ <1abfcdf350e15d622603ed06937e16c36e5050e9.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <1abfcdf350e15d622603ed06937e16c36e5050e9.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,47 +65,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 13 Feb 2025 at 13:26, "Arnd Bergmann" <arnd@arndb.de> wrote:
 
-> On Tue, Feb 11, 2025, at 18:28, Jerome Brunet wrote:
+On 13/02/2025 13:12, Philipp Stanner wrote:
+> On Fri, 2025-02-07 at 14:33 +0000, Tvrtko Ursulin wrote:
+>> Add a basic test for exercising modifying the entities scheduler list
+>> at
+>> runtime.
 >>
->>  I also think this is more readeable and maintainable than a bunch of
->>  'default CONFIG_FOO if CONFIG_FOO' for CONFIG_RESET_MESON_AUX. This approach
->>  also would have several pitfall, such as picking the value of the first config
->>  set or the config of RESET_MESON_AUX staying to 'n' if CONFIG_FOO is turned on
->>  with menuconfig.
->
-> I still think you should just drop the 'imply' line, all it does it
-> force reviewers to double-check that you didn't make a mistake
-> here, so it's a waste of time.
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> ---
+>>   .../scheduler/tests/drm_sched_tests_basic.c   | 73
+>> ++++++++++++++++++-
+>>   1 file changed, 72 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>> index 9b6bb8b6b98e..af91e4ebd397 100644
+>> --- a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>> @@ -340,6 +340,77 @@ static struct kunit_suite drm_sched_priority = {
+>>   	.test_cases = drm_sched_priority_tests,
+>>   };
+>>   
+>> +static void drm_sched_test_modify_sched(struct kunit *test)
+> 
+> I'm still confused about the naming convention tbh.
+> 
+> Some things are called drm_mock_*, and this is called drm_sched_test_*
 
-Arnd, you've made you preference clear and this note has been added
-specifically for this reason, and transparency. 
+They are two separate things.
 
-I've exposed a technical reason for my choice. Going with the 'default'
-approach makes things more difficult in the long run for those
-maintaining this platform, me included.
+We need a scheduler tests cases and a mock GPU so we can test the scheduler.
 
-The trouble of having to coordinate changes in 2 different subsystems to
-have an appropriate configuration and the pitfalls of using 'default'
-outweigh the extra review trouble of using 'imply' ... especially when
-the pitfall mentioned in documentation is explicitly addressed in the
-description.
+drm_mock_ implement the mock GPU.
 
-If there something wrong with 'imply' existing and being used, maybe the
-Documentation should be updated to reflect this, or the support be
-removed entirely.
+Others are test cases, or kunit test suites, or arrays needed to 
+implement the suites.
 
-ATM, it exists and it makes things a lot easier for me to support and
-maintain this device.
+Regards,
 
-This all started with a maintainer request to move some resets away
-from clock. More requests have been added along the way, making things
-more generic. I'm more than happy to have contributed my effort and
-time on this and I don't think anybody's time has been wasted so far.
+Tvrtko
 
->
->     Arnd
+> What's the naming system / background?
+> 
+> P.
+> 
+>> +{
+>> +	unsigned int i, cur_ent = 0, cur_sched = 0;
+>> +	struct drm_mock_sched_entity *entity[13];
+>> +	struct drm_mock_scheduler *sched[3];
+>> +	struct drm_mock_sched_job *job;
+>> +	const unsigned int qd = 1000;
+>> +	bool done;
+>> +
+>> +	/*
+>> +	 * Submit a bunch of jobs against entities configured with
+>> different
+>> +	 * schedulers and while waiting for them to complete,
+>> periodically keep
+>> +	 * changing schedulers associated with each entity.
+>> +	 *
+>> +	 * We set up the queue-depth (qd) and job duration so the
+>> sched modify
+>> +	 * loop has some time to interact with submissions to the
+>> backend and
+>> +	 * job completions as they progress.
+>> +	 *
+>> +	 * For the number of schedulers and entities we use primes
+>> in order to
+>> +	 * perturb the entity->sched assignments with less of a
+>> regular pattern.
+>> +	 */
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(sched); i++)
+>> +		sched[i] = drm_mock_new_scheduler(test,
+>> MAX_SCHEDULE_TIMEOUT);
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
+>> +		entity[i] = drm_mock_new_sched_entity(test,
+>> +						
+>> DRM_SCHED_PRIORITY_NORMAL,
+>> +						      sched[i %
+>> ARRAY_SIZE(sched)]);
+>> +
+>> +	for (i = 0; i < qd; i++) {
+>> +		job = drm_mock_new_sched_job(test,
+>> entity[cur_ent++]);
+>> +		cur_ent %= ARRAY_SIZE(entity);
+>> +		drm_mock_sched_job_set_duration_us(job, 1000);
+>> +		drm_mock_sched_job_submit(job);
+>> +	}
+>> +
+>> +	do {
+>> +		struct drm_gpu_scheduler *modify;
+>> +
+>> +		usleep_range(200, 500);
+>> +		cur_ent++;
+>> +		cur_ent %= ARRAY_SIZE(entity);
+>> +		cur_sched++;
+>> +		cur_sched %= ARRAY_SIZE(sched);
+>> +		modify = &sched[cur_sched]->base;
+>> +		drm_sched_entity_modify_sched(&entity[cur_ent]-
+>>> base, &modify,
+>> +					      1);
+>> +	} while (!drm_mock_sched_job_is_finished(job));
+>> +
+>> +	done = drm_mock_sched_job_wait_finished(job, HZ);
+>> +	KUNIT_ASSERT_EQ(test, done, true);
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
+>> +		drm_mock_sched_entity_free(entity[i]);
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(sched); i++)
+>> +		drm_mock_scheduler_fini(sched[i]);
+>> +}
+>> +
+>> +static struct kunit_case drm_sched_modify_sched_tests[] = {
+>> +	KUNIT_CASE(drm_sched_test_modify_sched),
+>> +	{}
+>> +};
+>> +
+>> +static struct kunit_suite drm_sched_modify_sched = {
+>> +	.name = "drm_sched_basic_modify_sched_tests",
+>> +	.test_cases = drm_sched_modify_sched_tests,
+>> +};
+>> +
+>>   kunit_test_suites(&drm_sched_basic,
+>>   		  &drm_sched_timeout,
+>> -		  &drm_sched_priority);
+>> +		  &drm_sched_priority,
+>> +		  &drm_sched_modify_sched);
+> 
 
--- 
-Jerome
