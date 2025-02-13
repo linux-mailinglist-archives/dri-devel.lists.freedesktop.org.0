@@ -2,96 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B79A3488F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 16:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA13DA348AE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 16:58:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5736510EB2B;
-	Thu, 13 Feb 2025 15:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE7110E458;
+	Thu, 13 Feb 2025 15:58:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xvd8jUfW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cHT76zIy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E024110EB23
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 15:53:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739461995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wm65mUYAEbhhNi250l1nY6B0IiEBXXQj82KeWsM7Zn0=;
- b=Xvd8jUfW71PjHtuma3sYKMUcHlsvTz8gHw5d5CnOrezvv/bIdqfe33AKPj/xQcQFMJGQ20
- pNABMEjgODXPapdNuJxaIPOYlutjeaSX+S/XVG3YNFh/WqsKiV4cxCeyjrKfub0RBjIKk5
- 5GSUOYc2+7VknwzXI2Qtf91bcfRrdHo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-64-JfosgV82MaCsajaxcjpUPA-1; Thu, 13 Feb 2025 10:53:13 -0500
-X-MC-Unique: JfosgV82MaCsajaxcjpUPA-1
-X-Mimecast-MFC-AGG-ID: JfosgV82MaCsajaxcjpUPA_1739461992
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-ab7bb1b91fdso103486266b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 07:53:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739461992; x=1740066792;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
+ [209.85.160.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA4A310E457
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 15:57:58 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id
+ 586e51a60fabf-2b85d1a9091so521149fac.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 07:57:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739462278; x=1740067078; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Wm65mUYAEbhhNi250l1nY6B0IiEBXXQj82KeWsM7Zn0=;
- b=pzVsRVzQcZdtRXO0WW7WDC7QLbwx9FMxHl7Otof/IWSv7GMA+d2GHqalk/EjZ8uhhs
- Rl6H4PVqsHE8ogUXKL7tNt7tCSuX9WFmlVp8ttGXB+pGddzmJ5WX2ABJXSUg+5L3Y/7P
- /d2EsgAcBB2D4G474nih5sWFrvJr2oLj6IftJnD5KxSHSg3jTbzUKWZRvY5a4hNPUwNW
- mIpkuoc6uOnHZIS9N+cTXLgtjwgozIDkx7q5FnZ62Rby854hh0APWZJsYin5DAKrp3uN
- nMLeYZv5kMCxxaMxrFn3E7sr8Zc9MGvraIMifbFM5WF2hKzbzFigZjCcsKh3coha2LK/
- AqUg==
+ bh=NHtO1l0Sm3xnCkozanEaDdmWEvTg249bwN+Pta/EflE=;
+ b=cHT76zIyF1ALUZ3azOKI3kXu12gXTzfKk1ifaes56u6baCfNi9xWDUC8+lGE7ww92Q
+ bxB6E62L+3fGjOBXSoKoTpRj5IzjFTuyz76hEWLjRTRALwsWhiBtPdayMDvZDggtuaGi
+ LC1KMf69LAe5MV/XOtxQRNJfVU9GCkCjP226p7kL3Bd+xyROdqrZo4+v+Uv6MyN4NZoo
+ GqXkSJfESNF23AVREqbd3+dabKx/n/lOgUs8RJ/sjLfRDs//rpVQbiWWTIAClI3qwMIs
+ HLDhFpfOvfdsfpfCmEnnynKZs+YqtDyaS908KQ/c4jEtK0d36zctmBTc4NzZPXrAO45V
+ iVuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739462278; x=1740067078;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NHtO1l0Sm3xnCkozanEaDdmWEvTg249bwN+Pta/EflE=;
+ b=vbxwPd8bUzK1cXt9l1eeQPoqLqyZXItpzzGSOLnZbfmcsqq8nPuB0+D5F4k+sgiQMD
+ c2FunmIxBd65ZXPkF9NGLVuv6WzRUzIHwtiNlPbTRjZYdqgx0hmliqZ7m5Ga6ywUZ1z0
+ 3G3edBmM1HEfhKMet8weMWB1xYICIni6Xw4V4u3YHt9I6GdzBMbpY2Q4cmmRidUs8NJt
+ JROc6U6vCXVv1F8z9WCJswr67yI7XH3r+2+NOLQf4ASa0XSMp6P6W33zKs+O3w2Tc7VS
+ SHtohHKtbWXs5Bc5soOcWkqjiYpCIwzb/rkzSdvA3EXPhS/jP4GAmdIWQBeZ5N4eSAQw
+ eV/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMNof5BDZRY7PCXvQJvRb9BAAetLZrb3qaElos1va5SnaZ3D2cv/U2sQJiwCkq7EWeWPa6bjUDM6A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZb3sgXOsW27pA7hXATIgYMkBec6mMkWdw+yAdqDWXRnR7T17o
- wrQW0eERWRrBgQJY4WJuSlf7q/R4QYpTlhD6HWe6eLNkCD6wFyAx7yad2gL8+oC3DGbcWFbGIvJ
- XL9TFw7qeM9wbXvPuXhQu2kLm8+k5ZI44CecC9lIMYb3gJcDwLe405nM8vh214XPDQg==
-X-Gm-Gg: ASbGnctaFsTwl7x08XJ+yh/x5a98c7btThcWoO25AmvQTI7p3C6xsl8EouRUpMLwWn9
- zHSPNmChGLgajJ7B23pDLaG19K10csDYX0LhJZxH1Gkl1Xh15EIJ8h/WXWgCNqfhwCj3lxs0Myp
- FNuovD9yikQaisan5d62iFBQEZb16FHuPvlH+uSwce++mXsyxXKs1VRROYVpwiXTbUD3HoaQ2pL
- zeHebTXgWN6KpcMDLlgswWsIsJ2JjcLjlARdF5mJngtUiA62riEAgzRSIqGFnjVcG9veXsS3A==
-X-Received: by 2002:a17:907:9710:b0:ab2:c1da:b725 with SMTP id
- a640c23a62f3a-ab7f33f5f15mr585698866b.30.1739461992361; 
- Thu, 13 Feb 2025 07:53:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGPYyt4663087uMZIIKURYrG8Pp4HqyogPBtf0brGd9uzETM6Wmccz2T6+v992nLi1pX3fRsA==
-X-Received: by 2002:a17:907:9710:b0:ab2:c1da:b725 with SMTP id
- a640c23a62f3a-ab7f33f5f15mr585695966b.30.1739461991960; 
- Thu, 13 Feb 2025 07:53:11 -0800 (PST)
-Received: from redhat.com ([2a02:14f:171:92b6:64de:62a8:325e:4f1d])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aba532581acsm156316266b.50.2025.02.13.07.53.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 07:53:11 -0800 (PST)
-Date: Thu, 13 Feb 2025 10:53:07 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- fnkl.kernel@gmail.com, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 0/5] virtio: obtain SHM page size from device
-Message-ID: <20250213105231-mutt-send-email-mst@kernel.org>
-References: <20250213-virtio-shm-page-size-v1-0-5ee1f9984350@redhat.com>
+ AJvYcCWNXotHMWDVU02ixxJY73BOB1UxBGA/BO8GtygeCThSVUNakzX76RGLO6EALAXfZDy7WikdIqEP4/o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdqV7wo2EA7zbQs2v04gBQfamY7SuHzaPjT/7c11C3Zq+nqQnu
+ 7hxPh82bqIf7qKCVdh4cyUre/XKkKSBoe1YWh06NQdh9oFk+48Hhtv4EneHtCzAiwgybwCGQ0t6
+ BHbUchSO0NYZbTk7A7S/9EwYRaIjz83hx8y+HKg==
+X-Gm-Gg: ASbGncsQ43sETAdcm9PjVEeW5RQXq+aZ7q8CEuvWTqsKEsgy2+iYUpVDIr1Kr9Ty8Pb
+ 8HvZEd0QP1U2vUiXgthUCGuAeSodHT9wzarhp4GxOJrgfN843Mo29JXVgz3sSxXXdFLdPHcaZjw
+ ==
+X-Google-Smtp-Source: AGHT+IFP5g43bicIDLt/S4uI2Sk6WesrFKEkZAgRcsR6UVnbplWcWySy+Pe58g7cxxxYF2yjdv9hpHSaFgfwFOWE+Ow=
+X-Received: by 2002:a05:6870:f112:b0:2b8:84d7:ddd5 with SMTP id
+ 586e51a60fabf-2b8d68c6af2mr4406581fac.39.1739462278059; Thu, 13 Feb 2025
+ 07:57:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20250213-virtio-shm-page-size-v1-0-5ee1f9984350@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -e_xFZyH07CZdMvATZwkuJjXNYVSNGtfzs0KKFEKtFg_1739461992
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
+ <20250212205613.4400a888@collabora.com>
+ <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
+ <20250213093557.278f5d19@collabora.com>
+ <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
+ <20250213134008.4cbef142@collabora.com>
+ <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
+In-Reply-To: <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 13 Feb 2025 16:57:42 +0100
+X-Gm-Features: AWEUYZmgVASDSvu5hsJWJHBSSPIof2Z6xxr-T5u2MSp4prWGrnjV2aHs43vhfXo
+Message-ID: <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Sumit Garg <sumit.garg@linaro.org>, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,68 +102,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 04:49:14PM +0100, Sergio Lopez wrote:
-> There's an incresing number of machines supporting multiple page sizes
-> and, on these machines, the host and a guest can be running with
-> different pages sizes.
-> 
-> In addition to this, there might be devices that have a required and/or
-> preferred page size for mapping memory.
-> 
-> In this series, we extend virtio_shm_region with a field to hold the
-> page size. This field has a 16-bit size to accommodate into the existing
-> padding virtio_pci_cap, simplifying the introduction of this additional
-> data into the structure. The device will provide the page size in format
-> PAGE_SIZE >> 12.
-> 
-> The series also extends the PCI and MMIO transports to obtain the
-> corresponding value from the device. For the PCI one, it should be safe
-> since we're using an existing 16-bit padding in the virtio_pci_cap
-> struct. For MMIO, we need to access a new register, so there's a risk
-> the VMM may overreact and crash the VM. I've checked libkrun,
-> firecracker, cloud-hypervisor and crosvm, and all of them should deal
-> with the unexpected MMIO read gracefully. QEMU doesn't support SHM for
-> the MMIO transport, so that isn't a concern either.
-> 
-> How the SHM page size information is used depends on each device. Some
-> may silently round up allocations, some may expose this information to
-> userspace. This series includes a patch that extends virtio-gpu to
-> expose the information via the VIRTGPU_GETPARAM ioctl, as an example of
-> the second approach.
-> 
-> This patch series is an RFC because it requires changes to the VIRTIO
-> specifications. This patch series will be used as a reference to
-> propose such changes.
-> 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
+Hi,
 
+On Thu, Feb 13, 2025 at 3:05=E2=80=AFPM Daniel Stone <daniel@fooishbar.org>=
+ wrote:
+>
+> Hi,
+>
+> On Thu, 13 Feb 2025 at 12:40, Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> > On Thu, 13 Feb 2025 14:46:01 +0530 Sumit Garg <sumit.garg@linaro.org> w=
+rote:
+> > > Yeah but all the prior vendor specific secure/restricted DMA heaps
+> > > relied on DT information.
+> >
+> > Right, but there's nothing in the DMA heap provider API forcing that.
+>
+> Yeah. DMA heaps are just a way to allocate memory from a specific
+> place. It allows people to settle on having a single way to do
+> allocations from weird platform-specific places; the only weird
+> platform-specific part userspace needs to deal with is figuring out
+> the name to use. The rest is at least a unified API: the point of
+> dma-heaps was exactly to have a single coherent API for userspace, not
+> to create one API for ZONE_CMA and DT ranges and everyone else doing
+> their own thing.
+>
+> > > Rather than that it's better
+> > > for the user to directly ask the TEE device to allocate restricted
+> > > memory without worrying about how the memory restriction gets
+> > > enforced.
+> >
+> > If the consensus is that restricted/protected memory allocation should
+> > always be routed to the TEE, sure, but I had the feeling this wasn't as
+> > clear as that. OTOH, using a dma-heap to expose the TEE-SDP
+> > implementation provides the same benefits, without making potential
+> > future non-TEE based implementations a pain for users. The dma-heap
+> > ioctl being common to all implementations, it just becomes a
+> > configuration matter if we want to change the heap we rely on for
+> > protected/restricted buffer allocation. And because heaps have
+> > unique/well-known names, users can still default to (or rely solely on)
+> > the TEE-SPD implementation if they want.
+> >
+> > > There have been several attempts with DMA heaps in the past which all
+> > > resulted in a very vendor specific vertically integrated solution. Bu=
+t
+> > > the solution with TEE subsystem aims to make it generic and vendor
+> > > agnostic.
+> >
+> > Just because all previous protected/restricted dma-heap effort
+> > failed to make it upstream, doesn't mean dma-heap is the wrong way of
+> > exposing this feature IMHO.
+>
+> To be fair, having a TEE implementation does give us a much better
+> chance of having a sensible cross-vendor plan. And the fact it's
+> already (sort of accidentally and only on one platform AFAICT) ready
+> for a 'test' interface, where we can still exercise protected
+> allocation paths but without having to go through all the
+> platform-specific setup that is inaccessible to most people, is also
+> really great! That's probably been the biggest barrier to having this
+> tested outside of IHVs and OEMs.
+>
+> But just because TEE is one good backend implementation, doesn't mean
+> it should be the userspace ABI. Why should userspace care that TEE has
+> mediated the allocation instead of it being a predefined range within
+> DT?
 
-don't you want to negotiate the page size with the
-driver then?
+The TEE may very well use a predefined range that part is abstracted
+with the interface.
 
-> ---
-> Sergio Lopez (5):
->       virtio_config: add page_size field to virtio_shm_region
->       virtio: introduce VIRTIO_F_SHM_PAGE_SIZE
->       virtio-pci: extend virtio_pci_cap to hold page_size
->       virtio-mmio: read shm region page size
->       drm/virtio: add VIRTGPU_PARAM_HOST_SHM_PAGE_SIZE to params
-> 
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c |  5 +++++
->  drivers/virtio/virtio_mmio.c           | 13 +++++++++++++
->  drivers/virtio/virtio_pci_modern.c     | 31 ++++++++++++++++++++++++++++---
->  drivers/virtio/virtio_ring.c           |  2 ++
->  include/linux/virtio_config.h          |  1 +
->  include/uapi/drm/virtgpu_drm.h         |  1 +
->  include/uapi/linux/virtio_config.h     |  7 ++++++-
->  include/uapi/linux/virtio_mmio.h       |  3 +++
->  include/uapi/linux/virtio_pci.h        |  2 +-
->  9 files changed, 60 insertions(+), 5 deletions(-)
-> ---
-> base-commit: 4dc1d1bec89864d8076e5ab314f86f46442bfb02
-> change-id: 20250213-virtio-shm-page-size-6e9a08c7ded1
-> 
-> Best regards,
-> -- 
-> Sergio Lopez <slp@redhat.com>
+> How does userspace pick which TEE device to use?
 
+There's normally only one and even if there is more than one it should
+be safe to assume that only one of them should be used when allocating
+restricted memory (TEE_GEN_CAP_RSTMEM from TEE_IOC_VERSION).
+
+>  What advantage
+> does userspace get from having to have a different codepath to get a
+> different handle to memory? What about x86?
+>
+> I think this proposal is looking at it from the wrong direction.
+> Instead of working upwards from the implementation to userspace, start
+> with userspace and work downwards. The interesting property to focus
+> on is allocating memory, not that EL1 is involved behind the scenes.
+
+From what I've gathered from earlier discussions, it wasn't much of a
+problem for userspace to handle this. If the kernel were to provide it
+via a different ABI, how would it be easier to implement in the
+kernel? I think we need an example to understand your suggestion.
+
+Cheers,
+Jens
