@@ -2,83 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE69A34B3B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC430A34B48
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:08:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5788310EB44;
-	Thu, 13 Feb 2025 17:07:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39D9C10E021;
+	Thu, 13 Feb 2025 17:08:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FZKUh4aA";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="y0MOSX0N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0407D10EB44
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:07:04 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-43957634473so12378715e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:07:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739466422; x=1740071222; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DtQn4wgBm9cE7XQgLWrBO7BTmTZKoY45YwSnDy4FO4w=;
- b=FZKUh4aA+DaTBzZvbi1BU2okxdPyGh8RjEgkWkL0sgQ7Js0bct14cQ05QN2im+q7IZ
- n4ohfBrBjbtAymSZDvRO58oLWj4VNWyjbEpgrkJSUygSdrPCxc69j8kDahsTD+t/NGXz
- vOdsULblBB6E0RWnyxGHxJhQyliryxgxhjnCPRzz7QZuFId9mr81bpTriPRjKpDLqHGB
- P0uO8iv+/jkaAB5xFSrlpfNsRW27ZSKCkebrdEYL0oAxIojfkKhqy4SxSZM3zEwXOot5
- chILh0kb8rimNonqVF6yaQ9whchoJE3aQ07QhvdCbpWrVQYxoigOqHOHfSZyCy215nFT
- sgKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739466422; x=1740071222;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DtQn4wgBm9cE7XQgLWrBO7BTmTZKoY45YwSnDy4FO4w=;
- b=g/JBhe6EQHc0tzGAJi2Co3A6D5sgLYGBVs/kOYeyAE0hoePtH9WuaVUl65IdPaVMvA
- bU9hRcZtMkZG6ecj2o2Y7cIRJTx+/E0zbF/PPU0M9Id2qg/Dd37lDut5E75ttKR8d4nR
- f0ONC+DInPb/HX68PMLr18YLNIn4zBQJnotJPeceMkl5e8y2G2nHKUX2Oqm345pNsrU+
- Fb0iCAjIKUWvVoOrQWjCDbnSR4d0F9gY3LUpUHKmDDHgtyqL+uA5Y5WSRg0Yf2QCS8xK
- CBgTZS3t4hxwlkT6ga6xxOFpsx8XxYURFUlCgoSModFgkTGK960BwIw78vFu9pEL+Ofz
- U1Vw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUM/FyT/DynS2E7yKxW20VM/sSaBTZ1q+KDcPM2kbZfqesKuCBaUN3pkWbXt3w+/rO2wQMJKomahm0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxUdyyYchsIFPdtV5VdMleFGQFxdva16scE8dPLyVk/bDvaBGNL
- 8vKPhDI9anXciKem4I1RN18Cza79d9MEywfPiZAnfSxN7j4q5hefPcFwheUpU7c=
-X-Gm-Gg: ASbGncuYGpMyHBtqpvjYyqes0iIEVFERhfS/wFhP8OAYWGdZNigF83d0zFW5cPGgkZ8
- PExC0vlR7UDnCN4Ka7zwR3G5+a49GRx7bkz3uuFttnU49HBR8YKmf/PIzpZDqsLntoDief0IhjT
- qxW+JfKaylkHbvzG8lZoA/tKwvhEGh119MXgbfmyy1i097Disb/5ZccsIMOISy8WSOzN1foHKeE
- rPUWmhjgWgagLGtk8QGL+uRHQFWDCDK2TiLf2+UiL46WcjU5rc+3q+NA9+JyY42779YZRjylYXG
- ZzKr9tpEvVSTn4v8G/eoEPXudEquaBIi045Y
-X-Google-Smtp-Source: AGHT+IF8nhcp5YQz9TPZ6YIGpltlu/q9k8/XW67n8eICArykliM83NQmUsrzxgy/G3HVl38kAJ69vw==
-X-Received: by 2002:a05:600c:1c91:b0:438:c18c:5ad8 with SMTP id
- 5b1f17b1804b1-439581cab45mr88901955e9.31.1739466422435; 
- Thu, 13 Feb 2025 09:07:02 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4395a04f8a2sm53525245e9.2.2025.02.13.09.07.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 09:07:02 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jagan Teki <jagan@edgeble.ai>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Hugo Villeneuve <hugo@hugovil.com>
-Cc: Hugo Villeneuve <hvilleneuve@dimonoff.com>, stable@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240927135306.857617-1-hugo@hugovil.com>
-References: <20240927135306.857617-1-hugo@hugovil.com>
-Subject: Re: [PATCH] drm: panel: jd9365da-h3: fix reset signal polarity
-Message-Id: <173946642174.322382.4123111314998976761.b4-ty@linaro.org>
-Date: Thu, 13 Feb 2025 18:07:01 +0100
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33B2E10E021
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202412;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:
+ Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+ References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+ List-Owner:List-Archive; bh=Fj9cPXNBzdjUMe00oNdIkZqBOoISrAcz9RO9oXC9vBs=; b=y
+ 0MOSX0NHaQu3BNw4/MIOQ5IZ9IVsCl9Xjl04n0YQa617awB+Dl8JfdEjYwzTApevlJu+yAbE4+mDk
+ MVgzxaC1PVhUm5y3z7fs0p8gUOPIDWybc8rf6b+vCMRntcmqkQwlft3ZqTbjpOm4bdLiPR7A+inCg
+ /eVb5UQSSIXCF/Kmm6ATxX9IuIcnkXRDr0reoTnGNIK1T92ip6gXWCb/vX6huj49xDO3H04MXTp2K
+ NutoW7906oUcBuofabSvTSa5uKBa7ytjiEsTxolQqlUgu4NsaVld5jkI0bHZ/djhhT3XJSjZk9fj1
+ QM6HD+F39/MD2iNT+tcKQcy0uImqOQf+Q==;
+Received: from smtp by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ id 1tichY-0016gn-5f; Thu, 13 Feb 2025 18:08:36 +0100
+Message-ID: <cac5924e-5653-4385-b18f-6c7f1f8d6e8b@tronnes.org>
+Date: Thu, 13 Feb 2025 18:08:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/repaper: fix integer overflows in repeat functions
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Lanzano <lanzano.alex@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+References: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
+ <d9e1c3a9-0a82-4908-b455-99227c5a2bd5@fintech.ru>
+Content-Language: en-US
+From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+In-Reply-To: <d9e1c3a9-0a82-4908-b455-99227c5a2bd5@fintech.ru>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,23 +66,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Adding Alex who is now the driver maintainer.
 
-On Fri, 27 Sep 2024 09:53:05 -0400, Hugo Villeneuve wrote:
-> In jadard_prepare() a reset pulse is generated with the following
-> statements (delays ommited for clarity):
+
+On 13.02.2025 17:57, Nikita Zhandarovich wrote:
+> Gentle ping :)
 > 
->     gpiod_set_value(jadard->reset, 1); --> Deassert reset
->     gpiod_set_value(jadard->reset, 0); --> Assert reset for 10ms
->     gpiod_set_value(jadard->reset, 1); --> Deassert reset
+> On 1/16/25 16:48, Nikita Zhandarovich wrote:
+>> There are conditions, albeit somewhat unlikely, under which right hand
+>> expressions, calculating the end of time period in functions like
+>> repaper_frame_fixed_repeat(), may overflow.
+>>
+>> For instance, if 'factor10x' in repaper_get_temperature() is high
+>> enough (170), as is 'epd->stage_time' in repaper_probe(), then the
+>> resulting value of 'end' will not fit in unsigned int expression.
+>>
+>> Mitigate this by casting 'epd->factored_stage_time' to wider type before
+>> any multiplication is done.
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with static
+>> analysis tool SVACE.
+>>
+>> Fixes: 3589211e9b03 ("drm/tinydrm: Add RePaper e-ink driver")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>> ---
+>>  drivers/gpu/drm/tiny/repaper.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+>> index 77944eb17b3c..d76c0e8e05f5 100644
+>> --- a/drivers/gpu/drm/tiny/repaper.c
+>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>> @@ -456,7 +456,7 @@ static void repaper_frame_fixed_repeat(struct repaper_epd *epd, u8 fixed_value,
+>>  				       enum repaper_stage stage)
+>>  {
+>>  	u64 start = local_clock();
+>> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+>> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+>>  
+>>  	do {
+>>  		repaper_frame_fixed(epd, fixed_value, stage);
+>> @@ -467,7 +467,7 @@ static void repaper_frame_data_repeat(struct repaper_epd *epd, const u8 *image,
+>>  				      const u8 *mask, enum repaper_stage stage)
+>>  {
+>>  	u64 start = local_clock();
+>> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+>> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+>>  
+>>  	do {
+>>  		repaper_frame_data(epd, image, mask, stage);
 > 
-> [...]
-
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
-
-[1/1] drm: panel: jd9365da-h3: fix reset signal polarity
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a8972d5a49b408248294b5ecbdd0a085e4726349
-
--- 
-Neil
 
