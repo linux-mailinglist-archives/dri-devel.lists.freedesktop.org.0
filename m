@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638F9A33533
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 03:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928AEA33531
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 03:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8F410E9C4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D9810E9C1;
 	Thu, 13 Feb 2025 02:10:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UCACSFzA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Um6h1AcV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0F610E1C0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9063010E397;
  Thu, 13 Feb 2025 02:10:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739412616; x=1770948616;
+ t=1739412617; x=1770948617;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=//pFGnW2JbfOO11PNPfQmDjWtuU252mXc8ZD/fg41QM=;
- b=UCACSFzAqIO8bGhhKSGAfZiPsMv2U3XVulbt/npuAeHz3ymGIs2Xvqtt
- Bdrl2CWFE29Q5oUspip5SnczyIhg67SSCHjsja2AoSRfSYkAFoIE6GK8w
- L5MMISwaEDsfS+OKVs+hZzWPA3UyS6Swz/BrGFJ8t1Oyk+hXlQUcILR5P
- ZqHAJFjxwMVUOMCI/PVi3wxEPemgQX/CIRam7R5OPZY8TUnx2UNDkr5ks
- nbfXPa/kdfzI/8/CxouE5WoIVtzlMMX3N4d1W7nTcQw0ojqJD3udPofl/
- baocCLCnuh/Vm2gfz+tz33tRA6Pwag+OuPl7cM5j9NhqEdtC5i6HKjJ1z g==;
-X-CSE-ConnectionGUID: Sl0AJaPJQF2EoL7co+yx3Q==
-X-CSE-MsgGUID: aP7NEOfhQXS+tOHeK0uceg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65455915"
-X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="65455915"
+ bh=QWns/RGjTBirmlxxcOcV3vqnZNco/m2w5GKrYU/v8Ns=;
+ b=Um6h1AcVIb0XzDO2MAxXWTZQ4e7ImG/vLGAgrmDQRt6Uxk/O/yEoYPm6
+ 7+A77fBzt1cZbYtD4ua0ACjCKQvEAkxXYWRJjPMIdnJOygourAZYN/OCc
+ qkgvCDqqsZec+8bKfRXB8mz2FRsI87GXHtVm2PXMnkdQWmpX07sawDdwa
+ ALQZHWSpqaJmt4AQs8Cd2D4o1kxAUU7wZGFPZ7x7qGIZV36Kk0YbvZhLX
+ HoYDhBcPyUPJ4UtLy/swK8Kzw2aHmK1NgG+P7bhsstUF3ct9gaF4TmWfq
+ iDEgQq/3eK8kW3MR+r39HuJvbQVuuGANOQVDeDXgnLnwn84yUL468KnoK w==;
+X-CSE-ConnectionGUID: kFZw7PJeRz6r77K/gsxIlg==
+X-CSE-MsgGUID: OAX9/ww3QQi5Yh2ZusL+oQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65455937"
+X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="65455937"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Feb 2025 18:10:15 -0800
-X-CSE-ConnectionGUID: e2hqOi+RSM6zq5NfmmJKJA==
-X-CSE-MsgGUID: 4xzAI+A8TQO/eIMhZEZWHA==
+X-CSE-ConnectionGUID: LPMivRqHQBeHIwhnw7/OsQ==
+X-CSE-MsgGUID: GiXPiVBlSTa+l8ikz/YsZQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="117945045"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="117945048"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Feb 2025 18:10:15 -0800
@@ -47,9 +47,9 @@ To: intel-xe@lists.freedesktop.org,
 Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
  thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
  felix.kuehling@amd.com, dakr@kernel.org
-Subject: [PATCH v5 04/32] drm/pagemap: Add DRM pagemap
-Date: Wed, 12 Feb 2025 18:10:44 -0800
-Message-Id: <20250213021112.1228481-5-matthew.brost@intel.com>
+Subject: [PATCH v5 05/32] drm/xe/bo: Introduce xe_bo_put_async
+Date: Wed, 12 Feb 2025 18:10:45 -0800
+Message-Id: <20250213021112.1228481-6-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250213021112.1228481-1-matthew.brost@intel.com>
 References: <20250213021112.1228481-1-matthew.brost@intel.com>
@@ -73,141 +73,130 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Introduce drm_pagemap ops to map and unmap dma to VRAM resources. In the
-local memory case it's a matter of merely providing an offset into the
-device's physical address. For future p2p the map and unmap functions may
-encode as needed.
+Introduce xe_bo_put_async to put a bo where the context is such that
+the bo destructor can't run due to lockdep problems or atomic context.
 
-Similar to how dma-buf works, let the memory provider (drm_pagemap) provide
-the mapping functionality.
+If the put is the final put, freeing will be done from a work item.
 
-v3:
- - Move to drm level include
-v4:
- - Fix kernel doc (G.G.)
 v5:
- - s/map_dma/device_map (Thomas)
- - s/unmap_dma/device_unmap (Thomas)
+ - Kerenl doc for xe_bo_put_async (Thomas)
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- include/drm/drm_pagemap.h | 105 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 105 insertions(+)
- create mode 100644 include/drm/drm_pagemap.h
+ drivers/gpu/drm/xe/xe_bo.c           | 25 +++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_bo.h           | 19 +++++++++++++++++++
+ drivers/gpu/drm/xe/xe_device.c       |  3 +++
+ drivers/gpu/drm/xe/xe_device_types.h |  8 ++++++++
+ 4 files changed, 55 insertions(+)
 
-diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-new file mode 100644
-index 000000000000..2634abb1e8bf
---- /dev/null
-+++ b/include/drm/drm_pagemap.h
-@@ -0,0 +1,105 @@
-+/* SPDX-License-Identifier: MIT */
-+#ifndef _DRM_PAGEMAP_H_
-+#define _DRM_PAGEMAP_H_
-+
-+#include <linux/dma-direction.h>
-+#include <linux/hmm.h>
-+#include <linux/types.h>
-+
-+struct drm_pagemap;
-+struct device;
-+
-+/**
-+ * enum drm_interconnect_protocol - Used to identify an interconnect protocol.
-+ */
-+enum drm_interconnect_protocol {
-+	DRM_INTERCONNECT_SYSTEM,    /* DMA map is system pages. */
-+	DRM_INTERCONNECT_PCIE_P2P,  /* DMA map is PCIE P2P */
-+	DRM_INTERCONNECT_DRIVER,    /* DMA map is driver defined */
-+	/* A driver can add private values beyond DRM_INTERCONNECT_DRIVER */
-+};
-+
-+/**
-+ * struct drm_pagemap_device_addr - Device address representation.
-+ * @addr: The dma address or driver-defined address for driver private interconnects.
-+ * @proto: The interconnect protocol.
-+ * @order: The page order of the device mapping. (Size is PAGE_SIZE << order).
-+ * @dir: The DMA direction.
-+ *
-+ * Note: There is room for improvement here. We should be able to pack into
-+ * 64 bits.
-+ */
-+struct drm_pagemap_device_addr {
-+	dma_addr_t addr;
-+	u64 proto : 54;
-+	u64 order : 8;
-+	u64 dir : 2;
-+};
-+
-+/**
-+ * drm_pagemap_device_addr_encode() - Encode a dma address with metadata
-+ * @addr: The dma address or driver-defined address for driver private interconnects.
-+ * @proto: The interconnect protocol.
-+ * @order: The page order of the dma mapping. (Size is PAGE_SIZE << order).
-+ * @dir: The DMA direction.
-+ *
-+ * Return: A struct drm_pagemap_device_addr encoding the above information.
-+ */
-+static inline struct drm_pagemap_device_addr
-+drm_pagemap_device_addr_encode(dma_addr_t addr,
-+			       enum drm_interconnect_protocol proto,
-+			       unsigned int order,
-+			       enum dma_data_direction dir)
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index cd1c693c0b62..a2a924b531e5 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -2644,6 +2644,31 @@ void xe_bo_put_commit(struct llist_head *deferred)
+ 		drm_gem_object_free(&bo->ttm.base.refcount);
+ }
+ 
++static void xe_bo_dev_work_func(struct work_struct *work)
 +{
-+	return (struct drm_pagemap_device_addr) {
-+		.addr = addr,
-+		.proto = proto,
-+		.order = order,
-+		.dir = dir,
-+	};
++	struct xe_bo_dev *bo_dev = container_of(work, typeof(*bo_dev), async_free);
++
++	xe_bo_put_commit(&bo_dev->async_list);
 +}
 +
 +/**
-+ * struct drm_pagemap_ops: Ops for a drm-pagemap.
++ * xe_bo_dev_init() - Initialize BO dev to manage async BO freeing
++ * @bo_dev: The BO dev structure
 + */
-+struct drm_pagemap_ops {
-+	/**
-+	 * @device_map: Map for device access or provide a virtual address suitable for
-+	 *
-+	 * @dpagemap: The struct drm_pagemap for the page.
-+	 * @dev: The device mapper.
-+	 * @page: The page to map.
-+	 * @order: The page order of the device mapping. (Size is PAGE_SIZE << order).
-+	 * @dir: The transfer direction.
-+	 */
-+	struct drm_pagemap_device_addr (*device_map)(struct drm_pagemap *dpagemap,
-+						     struct device *dev,
-+						     struct page *page,
-+						     unsigned int order,
-+						     enum dma_data_direction dir);
-+
-+	/**
-+	 * @device_unmap: Unmap a device address previously obtained using @device_map.
-+	 *
-+	 * @dpagemap: The struct drm_pagemap for the mapping.
-+	 * @dev: The device unmapper.
-+	 * @addr: The device address obtained when mapping.
-+	 */
-+	void (*device_unmap)(struct drm_pagemap *dpagemap,
-+			     struct device *dev,
-+			     struct drm_pagemap_device_addr addr);
-+
-+};
++void xe_bo_dev_init(struct xe_bo_dev *bo_dev)
++{
++	INIT_WORK(&bo_dev->async_free, xe_bo_dev_work_func);
++}
 +
 +/**
-+ * struct drm_pagemap: Additional information for a struct dev_pagemap
-+ * used for device p2p handshaking.
-+ * @ops: The struct drm_pagemap_ops.
-+ * @dev: The struct drevice owning the device-private memory.
++ * xe_bo_dev_fini() - Finalize BO dev managing async BO freeing
++ * @bo_dev: The BO dev structure
 + */
-+struct drm_pagemap {
-+	const struct drm_pagemap_ops *ops;
-+	struct device *dev;
-+};
++void xe_bo_dev_fini(struct xe_bo_dev *bo_dev)
++{
++	flush_work(&bo_dev->async_free);
++}
 +
-+#endif
+ void xe_bo_put(struct xe_bo *bo)
+ {
+ 	struct xe_tile *tile;
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index f09b9315721b..9dfec438d1c7 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -322,6 +322,25 @@ xe_bo_put_deferred(struct xe_bo *bo, struct llist_head *deferred)
+ 
+ void xe_bo_put_commit(struct llist_head *deferred);
+ 
++/**
++ * xe_bo_put_async() - Put BO async
++ * @bo: The bo to put.
++ *
++ * Put BO async, the final put is deferred to a worker to exit an IRQ context.
++ */
++static inline void
++xe_bo_put_async(struct xe_bo *bo)
++{
++	struct xe_bo_dev *bo_device = &xe_bo_device(bo)->bo_device;
++
++	if (xe_bo_put_deferred(bo, &bo_device->async_list))
++		schedule_work(&bo_device->async_free);
++}
++
++void xe_bo_dev_init(struct xe_bo_dev *bo_device);
++
++void xe_bo_dev_fini(struct xe_bo_dev *bo_device);
++
+ struct sg_table *xe_bo_sg(struct xe_bo *bo);
+ 
+ /*
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 36d7ffb3b4d9..756099e870cd 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -388,6 +388,8 @@ static void xe_device_destroy(struct drm_device *dev, void *dummy)
+ {
+ 	struct xe_device *xe = to_xe_device(dev);
+ 
++	xe_bo_dev_fini(&xe->bo_device);
++
+ 	if (xe->preempt_fence_wq)
+ 		destroy_workqueue(xe->preempt_fence_wq);
+ 
+@@ -425,6 +427,7 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
+ 	if (WARN_ON(err))
+ 		goto err;
+ 
++	xe_bo_dev_init(&xe->bo_device);
+ 	err = drmm_add_action_or_reset(&xe->drm, xe_device_destroy, NULL);
+ 	if (err)
+ 		goto err;
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index 833c29fed3a3..6a41f608a7a1 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -525,6 +525,14 @@ struct xe_device {
+ 		int mode;
+ 	} wedged;
+ 
++	/** @bo_device: Struct to control async free of BOs */
++	struct xe_bo_dev {
++		/** @async_free: Free worker */
++		struct work_struct async_free;
++		/** @async_list: List of BOs to be freed */
++		struct llist_head async_list;
++	} bo_device;
++
+ 	/** @pmu: performance monitoring unit */
+ 	struct xe_pmu pmu;
+ 
 -- 
 2.34.1
 
