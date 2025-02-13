@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0E9A342CA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1CCA342EC
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:43:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC13E10EACD;
-	Thu, 13 Feb 2025 14:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3E810EACF;
+	Thu, 13 Feb 2025 14:43:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M3sivphM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JCT9IpWm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A19B310EACD
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739457745; x=1770993745;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=er1o0eyyYo2P9RGTb3I/Gv5RkqmtO3GI17fKDgB+d10=;
- b=M3sivphM7rdT/qPgbNsXlFnrcA04xS2dOJ0gMK19TW2/UWJuUhMUtxy1
- ajt1/j02LNQcAXqlvxCV7cexEbfnwaFGoQzodTIOh0Y1dtsMyEXnlExmF
- 3VuE2EILeEuFTgHsH1a7gTuE6xJc2ii13K3Lfk6haA+DqjkM14g+D5xl4
- D6NzQfCWjH7HwJllE4AvAFbI1V9456XxvX8u8yW/NQWoCMCIIW6GPj3LI
- joukvUPZwx7guyLWSr9nxGWB8G7VRG+aw3M8Hg21Lb+yA/UWFZy+EcGxv
- /BK4weKZXSLMbDHopEOroYx3gkoW0NAFSfJK5wHSzwC+IK9p0Lxgs/uFK Q==;
-X-CSE-ConnectionGUID: C///lEF8Q0+K5IGyTXRy5g==
-X-CSE-MsgGUID: YC0F/4HVRhed23bvvdWlgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40423241"
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="40423241"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2025 06:42:25 -0800
-X-CSE-ConnectionGUID: BujpYyyvTcC3zLfRCGS0kw==
-X-CSE-MsgGUID: 3AO13tUqT5WfVIzwdNn1vg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="113346818"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 13 Feb 2025 06:42:23 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 13 Feb 2025 16:42:22 +0200
-Date: Thu, 13 Feb 2025 16:42:22 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/6] fbcon: Make cursor_blink=0 work when configured
- before fb devices appear
-Message-ID: <Z64EzooZqdfLg0pM@intel.com>
-References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-2-ville.syrjala@linux.intel.com>
- <92ed9455-b175-46ef-b0c6-7c79e2b78371@gmx.de>
- <ZvUwCVNPzp1UGY6h@intel.com>
- <34a7d276-ee26-4a8d-b996-87faa5b224c4@gmx.de>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5191810EACF
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:43:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 167C0A42101;
+ Thu, 13 Feb 2025 14:42:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B372DC4CED1;
+ Thu, 13 Feb 2025 14:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739457834;
+ bh=RFUjqIK5BTuHTMe+2enHP3knyLi43L1mjEOwAYCvg4c=;
+ h=From:Subject:Date:To:Cc:From;
+ b=JCT9IpWm8xAFtsxGKyhaxU0933ViL/+cEtxs57J+fpA5FXEoEaM4wHGmzctNz+EFX
+ i9Jfj3JJFkb7VHBVINJTkrQwrifJHWJHKosM0FySDEePMRAi5zZTLouhxJeCZ8x/6m
+ hZXccifd7cX8yoDsDm7MYmReuwtCSdoCCPMzNCRRLDYDn+TnISTQdwrMKHCsXkk85U
+ a+rjkjw07kbl3vfMRauoCoGTI1/BgM3uIZKE6OcLK0gZ/rUHxNkxW2WYSrTgt0zmxd
+ FcNwtaFSKsyluhX4jB8icvmC29TAuvJkc70hhcCUoy+yD/bO3JwKsvvXnxVFARJ0tY
+ TpaaQG1f0Pr7w==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v3 00/37] drm/bridge: Various quality of life improvements
+Date: Thu, 13 Feb 2025 15:43:19 +0100
+Message-Id: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <34a7d276-ee26-4a8d-b996-87faa5b224c4@gmx.de>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAcFrmcC/33NQQ7CIBAF0KsY1mJgaJG68h7GRYWhJRowYIim6
+ d2ddmNMjMv/M//NxArmgIUdNhPLWEMJKVJQ2w2zYx8H5MFRZiCgFVK2/JKDo9amGNE+Uua+U7J
+ rEPTee0aze0Yfnit5OlMeQ6Gz1/qhyqX9g1XJBe968GidMbrXxyvmiLddygNbtAofAUTzQwASV
+ OuctkY1KMyXMM/zG6XjqwLzAAAA
+X-Change-ID: 20250115-bridge-connector-f93194e267ff
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9772; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=RFUjqIK5BTuHTMe+2enHP3knyLi43L1mjEOwAYCvg4c=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnrWPn27k+UVzDzXaxz9N7/vDeft1is5dFQ+q5yX54nZ
+ r1f4C6ujqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRkpeMdYrcMyyTzHw1jVab
+ fb554OMsVoltHicunLKO3/by0WfBeWKHZn5k2zHtmp5p7L/JMcXcvoz1wVuvdS00at101PLGlJz
+ Hc5svbjpv+8h0Suoq/5jpc1duMnm280XKC4NZCjMWzku8ef7DBAA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,42 +76,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 26, 2024 at 12:13:04PM +0200, Helge Deller wrote:
-> On 9/26/24 11:57, Ville Syrjälä wrote:
-> > On Thu, Sep 26, 2024 at 08:08:07AM +0200, Helge Deller wrote:
-> >> Hi Ville,
-> >>
-> >> On 9/23/24 17:57, Ville Syrjala wrote:
-> >>> Currently setting cursor_blink attribute to 0 before any fb
-> >>> devices are around does absolutely nothing. When fb devices appear
-> >>> and fbcon becomes active the cursor starts blinking. Fix the problem
-> >>> by recoding the desired state of the attribute even if no fb devices
-> >>> are present at the time.
-> >>>
-> >>> Also adjust the show() method such that it shows the current
-> >>> state of the attribute even when no fb devices are in use.
-> >>>
-> >>> Note that store_cursor_blink() is still a bit dodgy:
-> >>> - seems to be missing some of the other checks that we do
-> >>>     elsewhere when deciding whether the cursor should be
-> >>>     blinking or not
-> >>> - when set to 0 when the cursor is currently invisible due
-> >>>     to blinking, the cursor will remains invisible. We should
-> >>>     either explicitly make it visible here, or wait until the
-> >>>     full blink cycle has finished.
-> >>
-> >> are you planning to send follow-up patches to address those shortcomings?
-> >
-> > Nope. I don't really care about those as I never plan to
-> > turn the cursor blinking back on after turning it off via
-> > udev.
-> 
-> Sad, but OK. I will look into this when I find time.
-> I'd hoped to push those patches upstream during this merge window,
-> but then I think I have to delay them at least until kernel 6.13.
+Hi,
 
-What happened to these? Not seeing them anywhere...
+Here's a series of changes after to the KMS helpers and bridge API
+following a bunch of reviews I did.
 
+It's mostly centered across providing an easier time to deal with bridge
+states, and a somewhat consistent with the other entities API.
+
+It's build tested only, with arm64 allmodconfig.
+
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v3:
+- Add tags
+- Fix compilation breakages
+- Reword some commit messages
+- Create drm_bridge_is_atomic() helper
+- Retrieve the CRTC state through drm_atomic_get_new_crtc_state()
+  instead of crtc->state in bridges
+- Fix ti-sn65dsi86
+- Link to v2: https://lore.kernel.org/r/20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org
+
+Changes in v2:
+- Pass the full atomic state to bridge atomic hooks
+- Make attach take the encoder as a parameter
+- Mark bridge->encoder as deprecated
+- Rework the logic to detect if a bridge uses a state or not at
+  atomic_check time
+- Add lockdep assertion to drm_bridge_get_current_state()
+- Link to v1: https://lore.kernel.org/r/20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org
+
+---
+Maxime Ripard (37):
+      drm/atomic: Document history of drm_atomic_state
+      drm/bridge: Pass full state to atomic_pre_enable
+      drm/bridge: Pass full state to atomic_enable
+      drm/bridge: Pass full state to atomic_disable
+      drm/bridge: Pass full state to atomic_post_disable
+      drm/atomic-helper: Fix commit_tail state variable name
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_wait_for_dependencies()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_tail()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_tail_rpm()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_modeset_disables()
+      drm/atomic-helper: Change parameter name of disable_outputs()
+      drm/bridge: Change parameter name of drm_atomic_bridge_chain_disable()
+      drm/bridge: Change parameter name of drm_atomic_bridge_chain_post_disable()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_update_legacy_modeset_state()
+      drm/atomic-helper: Change parameter name of crtc_set_mode()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_planes()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_modeset_enables()
+      drm/bridge: Change parameter name of drm_atomic_bridge_chain_pre_enable()
+      drm/bridge: Change parameter name of drm_atomic_bridge_chain_enable()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_writebacks()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_fake_vblank()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_hw_done()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_wait_for_vblanks()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_cleanup_planes()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_cleanup_done()
+      drm/atomic-helper: Change parameter name of drm_atomic_helper_wait_for_flip_done()
+      drm/bridge: Add encoder parameter to drm_bridge_funcs.attach
+      drm/bridge: Provide a helper to retrieve current bridge state
+      drm/bridge: Introduce drm_bridge_is_atomic() helper
+      drm/bridge: Assume that a bridge is atomic if it has atomic_reset
+      drm/bridge: Provide pointers to the connector and crtc in bridge state
+      drm/bridge: Make encoder pointer deprecated
+      drm/bridge: cdns-csi: Switch to atomic helpers
+      drm/bridge: tc358775: Switch to atomic commit
+      drm/bridge: tc358768: Stop disabling when failing to enable
+      drm/bridge: tc358768: Convert to atomic helpers
+      drm/bridge: ti-sn65dsi86: Use bridge_state crtc pointer
+
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   7 +-
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |   3 +-
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |   3 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  26 +--
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |  11 +-
+ drivers/gpu/drm/bridge/aux-bridge.c                |   3 +-
+ drivers/gpu/drm/bridge/aux-hpd-bridge.c            |   1 +
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c     |  32 ++-
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   6 +-
+ drivers/gpu/drm/bridge/chipone-icn6211.c           |  13 +-
+ drivers/gpu/drm/bridge/chrontel-ch7033.c           |   5 +-
+ drivers/gpu/drm/bridge/display-connector.c         |   1 +
+ drivers/gpu/drm/bridge/fsl-ldb.c                   |   8 +-
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.c        |   7 +-
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.h        |   2 +-
+ drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c     |   3 +-
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c       |  10 +-
+ drivers/gpu/drm/bridge/imx/imx8qm-ldb.c            |  10 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |  21 +-
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    |   8 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    |  13 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c       |  11 +-
+ drivers/gpu/drm/bridge/ite-it6263.c                |  18 +-
+ drivers/gpu/drm/bridge/ite-it6505.c                |  10 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |   8 +-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c           |   3 +-
+ drivers/gpu/drm/bridge/lontium-lt9211.c            |   8 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |  21 +-
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c         |   3 +-
+ drivers/gpu/drm/bridge/lvds-codec.c                |   3 +-
+ .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |   1 +
+ drivers/gpu/drm/bridge/microchip-lvds.c            |   3 +-
+ drivers/gpu/drm/bridge/nwl-dsi.c                   |  13 +-
+ drivers/gpu/drm/bridge/nxp-ptn3460.c               |   5 +-
+ drivers/gpu/drm/bridge/panel.c                     |  15 +-
+ drivers/gpu/drm/bridge/parade-ps8622.c             |   1 +
+ drivers/gpu/drm/bridge/parade-ps8640.c             |   7 +-
+ drivers/gpu/drm/bridge/samsung-dsim.c              |  11 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |   9 +-
+ drivers/gpu/drm/bridge/sil-sii8620.c               |   1 +
+ drivers/gpu/drm/bridge/simple-bridge.c             |   5 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |   5 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   8 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |  11 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c     |  11 +-
+ drivers/gpu/drm/bridge/tc358762.c                  |  12 +-
+ drivers/gpu/drm/bridge/tc358764.c                  |   3 +-
+ drivers/gpu/drm/bridge/tc358767.c                  |  22 +-
+ drivers/gpu/drm/bridge/tc358768.c                  |  39 ++--
+ drivers/gpu/drm/bridge/tc358775.c                  |  44 ++--
+ drivers/gpu/drm/bridge/thc63lvd1024.c              |   3 +-
+ drivers/gpu/drm/bridge/ti-dlpc3433.c               |  10 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  10 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  69 ++++--
+ drivers/gpu/drm/bridge/ti-tdp158.c                 |  12 +-
+ drivers/gpu/drm/bridge/ti-tfp410.c                 |   5 +-
+ drivers/gpu/drm/bridge/ti-tpd12s015.c              |   3 +-
+ drivers/gpu/drm/drm_atomic_helper.c                | 242 ++++++++++-----------
+ drivers/gpu/drm/drm_atomic_state_helper.c          |   5 +
+ drivers/gpu/drm/drm_bridge.c                       | 107 ++++-----
+ drivers/gpu/drm/i2c/tda998x_drv.c                  |   1 +
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c       |   3 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |   9 +-
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |   3 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   9 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |   3 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |  11 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  12 +-
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |   8 +-
+ drivers/gpu/drm/meson/meson_encoder_dsi.c          |   8 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |   8 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  28 +--
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |  19 +-
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   6 +-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |   3 +-
+ drivers/gpu/drm/omapdrm/dss/dpi.c                  |   3 +-
+ drivers/gpu/drm/omapdrm/dss/dsi.c                  |   3 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c                |   8 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c                |   8 +-
+ drivers/gpu/drm/omapdrm/dss/sdi.c                  |   3 +-
+ drivers/gpu/drm/omapdrm/dss/venc.c                 |   3 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |   8 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |   7 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c     |   8 +-
+ drivers/gpu/drm/stm/lvds.c                         |  16 +-
+ drivers/gpu/drm/tidss/tidss_encoder.c              |   3 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c                      |  12 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  17 +-
+ drivers/platform/arm64/acer-aspire1-ec.c           |   3 +-
+ include/drm/drm_atomic.h                           |  45 ++++
+ include/drm/drm_bridge.h                           |  39 +++-
+ 91 files changed, 697 insertions(+), 590 deletions(-)
+---
+base-commit: 50625eab3972e5d37dcf3a250d9e3cdecbd6c13b
+change-id: 20250115-bridge-connector-f93194e267ff
+
+Best regards,
 -- 
-Ville Syrjälä
-Intel
+Maxime Ripard <mripard@kernel.org>
+
