@@ -2,88 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B59A34BA5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB63AA34BAC
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:21:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72D8D10EB4F;
-	Thu, 13 Feb 2025 17:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DED410EB52;
+	Thu, 13 Feb 2025 17:21:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P+y5s2Bn";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HCfTb9B8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFB610EB4F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:21:11 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5ded69e6134so969671a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:21:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739467270; x=1740072070; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/L8X4e7idHOInm1E1NvmDqFmI3f3xIs3AaNrbgOvVqo=;
- b=P+y5s2BnHMtCWPSUfNQXD6LeBuQA6IELSxXRHdZs9A+CPVMc7vagkHTpq/RR6ERC4u
- M/utnY3c0y/+Dv/lv7QCeFw80ojWo6Gakdv2Xot424Q/BPEMnK5kRSVwFQ0ZKmFmVg8x
- mIeHAXpJw6R22WmikTqC31+GnsaDAsqaWNQqTHuomG2j+MuZx7v1sCmAvG+p4QKN28Nw
- BZnEBCP81XqvzqBbcMYS3+OHOsnYud9nlK9YX+AFGHU223lrFH9/ldFocHmUyelN7eLC
- 4AV7oA09ht+orV2g0voY+PD0kbJ2VFyWnupniPcVHes4eNnviUNlsY/Smrb2qZUgdmde
- xK9A==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A30310EB56
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:21:50 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51DA2835001831
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:21:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ FbuXiVVzDaeS+xX9GP61rxfDPpXPI4a6eC/HT3/7Z38=; b=HCfTb9B8m92OhwOh
+ Ei0ZTfJLaAOyjhyN6pPVNira3u0j926HVdpNTjKhl/yAD1kcwiWzoXjhLgTim1NT
+ 4AI095az/Iv+rYBN+ZReunWCBCdp0qau/cNWeh+NM41OmuiROarHp+dEhX5Lw2pp
+ 2iid9candxGUYXg+9Ylfv/8QgCqcRhaR8z8F88UBq8KNsy6Nh7z3YgX8KsbPEMUx
+ KkIHx5AjbYHjT8zNJCxAQb3Y/xjcwJa/5Xb+avxKdfcM+/EVB4irAnH1lTtyTwQs
+ N27ECfOaMW8JzprSX1+wCUzGdYwKimnbLbzbxqk3iI+4CzMXmAYu/MjMHGFwFEfG
+ Fo5uZA==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44semp94ky-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:21:50 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6e19bfc2025so3110576d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:21:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739467270; x=1740072070;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/L8X4e7idHOInm1E1NvmDqFmI3f3xIs3AaNrbgOvVqo=;
- b=luFBa55CjAHfGCw4BQhYj+zw4pjna2dBCYHemypSzArRvGUfgnINjLY2X9kqv1Ip92
- ZEWhih5cFHuuO1jDJVs15RfWEHk/LLODMkWJkxdri2tvhXmVaaiMN7T4Q0y/GYSprSqp
- SNXNoyHDU45eA57EhydWPv7lxBtY2rA0/mPiE52+G0qvps60WyPDegUKeS4QKiti581k
- UR7mkYFvaee6MTh0fL65Ya6beJv3wO6kYWOvvqEMZ8uTDNPm9GTthMLokw8ek8RY8DGZ
- 6zNtdhbXMtsHQuXvBRluc2P65yPBuChDF5+sLv2puvVHilkH4ugqNUmcE7gf8D8LfMYN
- mqKw==
+ d=1e100.net; s=20230601; t=1739467309; x=1740072109;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FbuXiVVzDaeS+xX9GP61rxfDPpXPI4a6eC/HT3/7Z38=;
+ b=EV2g9AzBg1xRamxfwq9FK8ONKGys0v2sb5cZN3hoftdabjxS8jwRT13dPeCM6K5OZO
+ 68cIMy9S6K72S+oQ4aHrRTE26v20cjAF2uo6hf/pNDkiqW74LJz0F6fPtULkQYeE8xRT
+ wMBXB4UGhKs/Ax1Vf3BYbgsdOXhsIm8fVnd9CXHhrAxMk6iTb1183IEdliIovNDlYvG8
+ aVyRK/FaNNlZIgAM/6nL32LPJ/zrzbynISlikr7P3BrZTdEB259VxC0Kls8US900Weru
+ 0iSJNFKDpGO+0jwbi1iSW52TNSmc4wFZ7mr3lkQ069L3AYm2xI8XODwth2nzxxdgefL1
+ TfCw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVz6HAHjHiGQUkzGo3bcCZwIQPjyrFQc3tWPAgUc83nbcR+IjFOIMkS0o442qQjGZccUbsN8Lk0MFg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFJ0TXZH/IM4eo73RvG3bwKBpPzdxyTrIGpUchShiH+x3XuwH2
- Qu18l8B6348PaTI75S3MReiky8lpbN+1wQignyNMUjzThpvJK9i5
-X-Gm-Gg: ASbGncvxywkyAJYUtnkUkkXFyqYOVdf2QO6IZuC+IsnxPUr4ng+Lvz1BSnobzgHEYDt
- P3P7zPxrqHzCwULn4kz0zHErCl/L1obBmA7HnxcPHToB+6JQT/cD/18L3bUfuL2YetkbJO6tL0Q
- VbnhXXjO0UgU1EDnd25AuFc5y4q7Ck6RLLUNXktdFfILCyNARSvAtiocC7Ytbpcxx8UlxxvV4ox
- uwIy5fWp5V+dKTjGKCHO3f4KhA8qR0yFG7hZgTdYOf0aKMbIilpMTftpBAbyJLA89g5e9JhDXGU
- RcXVx0WGjLZZSLM8+2U7PfwhrD5+jJcj+bDlqE17sXP4EunenM5DHjx34WPw6+/kcS6N6RJP
-X-Google-Smtp-Source: AGHT+IErHbsUtfgzkzhuHG33dvhjaZL2J0Jo8G6oOoESna+1j7QGmuOo4G7y0Y6m+8a3iiqQL9uH6g==
-X-Received: by 2002:a05:6402:3553:b0:5d9:82bc:ad06 with SMTP id
- 4fb4d7f45d1cf-5deadd7b8b8mr7475158a12.3.1739467269631; 
- Thu, 13 Feb 2025 09:21:09 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl.
- [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dece1d349esm1490025a12.33.2025.02.13.09.21.08
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Feb 2025 09:21:09 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
-Date: Thu, 13 Feb 2025 18:20:57 +0100
-Cc: Damon Ding <damon.ding@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Algea Cao <algea.cao@rock-chips.com>, Robert Foss <rfoss@kernel.org>,
- devicetree@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- sebastian.reichel@collabora.com, dri-devel@lists.freedesktop.org,
- hjc@rock-chips.com, kever.yang@rock-chips.com, dmitry.baryshkov@linaro.org,
- vkoul@kernel.org, andy.yan@rock-chips.com, krzk+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, l.stach@pengutronix.de
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <59278550-BD6E-454C-AB31-084E13C19409@gmail.com>
-References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
- <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
- <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
-To: Diederik de Haas <didi.debian@cknow.org>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+ AJvYcCUQYT9z6gve652QmiqMXUMVKTuSdM1aiPGu42FBVr8A9r1gD/6CbCNmWRKGdn89MajioQM0XDWiwu4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzPeZtYfpCafIhPP8+o+5Hdor8wgydiqafGH/jvY47K244kM094
+ sEwVwUi//6ZMGGwTS0NwdBIw7ig5pvr4tvlXq48IZg87sTBEkmhfeDkaEUm56GRxWB/JEOp+ZDp
+ VbpqeeW+6fZmo9yo2UXpVnXEMY+6Ef5yw2RPISGTN5VXBWViT4wNdLLW8NT6T7Xu2QZU=
+X-Gm-Gg: ASbGncslN4mIKS1uCuHn9we4JIzuQ3Y/Ymums4A/5iyW9I6eYuoTqQEBXfsRF0o3YGs
+ uAWqiSrrt8LOBpnHpszN/XkpV01AijXamrUxQZvKfqiPsbyXlK4RA0AS2UHYffhiqxBZUShlYZy
+ vabgQRJrN1SmjLlHNms5UKcmszbPvCfuphXDWZU+Hwr8OgBs3E+ej+yEL5TMzSUie88qhH8yeAl
+ qIuO3NMJM9q+LUgBVe6otNyFrIV1lpjRS98SwjLGWbb8KWmMgDeRfnl1hRLkabMhi9foJtLqVZu
+ SDYMnAo/rO2W//8OIEfUs/QGh8End2FB2gK2laA3/LeXUYhvI05vYB8gfhY=
+X-Received: by 2002:a05:6214:48c:b0:6da:dbf0:9645 with SMTP id
+ 6a1803df08f44-6e46f886c88mr43339076d6.3.1739467308698; 
+ Thu, 13 Feb 2025 09:21:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFFY/XCimTxvjm84xoncA2p+VwjKdnzksODuhc+qDaYGL+fpJgnRW7IaJN9QBFnX0LV+tfedg==
+X-Received: by 2002:a05:6214:48c:b0:6da:dbf0:9645 with SMTP id
+ 6a1803df08f44-6e46f886c88mr43338756d6.3.1739467308127; 
+ Thu, 13 Feb 2025 09:21:48 -0800 (PST)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5dece1c4687sm1498611a12.22.2025.02.13.09.21.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Feb 2025 09:21:46 -0800 (PST)
+Message-ID: <4a3eec8a-4f71-4ac7-a6e6-0e8490c020bc@oss.qualcomm.com>
+Date: Thu, 13 Feb 2025 18:21:42 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] drm/msm/a6xx: Add support for Adreno 623
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
+ <20250213-a623-gpu-support-v1-2-993c65c39fd2@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250213-a623-gpu-support-v1-2-993c65c39fd2@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: Hcy9CGAhDFkBe1sibCGdKPnU5ZjgP3Dy
+X-Proofpoint-GUID: Hcy9CGAhDFkBe1sibCGdKPnU5ZjgP3Dy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-13_07,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ mlxscore=0 bulkscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
+ definitions=main-2502130124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,50 +124,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 13.02.2025 5:10 PM, Akhil P Oommen wrote:
+> From: Jie Zhang <quic_jiezh@quicinc.com>
+> 
+> Add support for Adreno 623 GPU found in QCS8300 chipsets.
+> 
+> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c   | 29 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |  8 ++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  2 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  5 +++++
+>  4 files changed, 43 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> index edffb7737a97..ac156c8b5af9 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -879,6 +879,35 @@ static const struct adreno_info a6xx_gpus[] = {
+>  			{ 0, 0 },
+>  			{ 137, 1 },
+>  		),
+> +	}, {
+> +		.chip_ids = ADRENO_CHIP_IDS(0x06020300),
+> +		.family = ADRENO_6XX_GEN3,
+> +		.fw = {
+> +			[ADRENO_FW_SQE] = "a650_sqe.fw",
+> +			[ADRENO_FW_GMU] = "a623_gmu.bin",
+> +		},
+> +		.gmem = SZ_512K,
+> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> +			ADRENO_QUIRK_HAS_HW_APRIV,
+> +		.init = a6xx_gpu_init,
+> +		.a6xx = &(const struct a6xx_info) {
+> +			.hwcg = a620_hwcg,
 
+On downstream a663 hwcg table is used, with the following differences:
 
-> Wiadomo=C5=9B=C4=87 napisana przez Diederik de Haas =
-<didi.debian@cknow.org> w dniu 13 lut 2025, o godz. 17:56:
->=20
-> On Thu Feb 13, 2025 at 3:54 PM CET, Piotr Oniszczuk wrote:
->>=20
->>=20
->=20
-> I don't know if it's relevant, but while HDMI0 got enabled for quite a
-> few devices in 6.13, it did NOT get enabled for Rock 5 ITX.
-> I made a local patch (which does the same thing as was done for Rock =
-5B)
-> but I have no idea if it actually works (I don't have the board).
->=20
-> Maybe you need that for eDP to work?
->=20
-> Cheers,
->  Diederik
-> <0001-arm64-dts-rockchip-Enable-HDMI0-on-ROCK-5-ITX.patch>
+< A620
+> A663
 
-Diederik,
-Thx for looking on this.
+< {REG_A6XX_RBBM_CLOCK_CNTL_TP0, 0x02222222},
+> {REG_A6XX_RBBM_CLOCK_CNTL_TP0, 0x22222222},
 
-Im afraid patch will not make hdmi0 working as rock5 itx board has hdmi0 =
-designed to use 3588 eDP1 + eDP->HDMI converter (in-house developed =
-rk620 chip).
+< {REG_A6XX_RBBM_CLOCK_HYST_TEX_FCHE, 0x00000777},
+> {REG_A6XX_RBBM_CLOCK_HYST_TEX_FCHE, 0x00000000}
 
-I suspect we need:=20
--enable eDP1 support (hope Damon code can do this easily)
--map eDP to port0 in vop2 (port1 should be mapped to eDP/HDMI tx1)
--set typeC1/eDP1 mux to eDP1
-Then maybe we should have hdmi0 working?
-
-Im curious a bit about vop port mappings: maybe we can go with generic =
-approach like:
-
-eDP/HDMI tx0 -> port0  =20
-eDP/HDMI tx1 -> port1  =20
-typeC0/eDP0 -> port2 (+ exception for for rock5 itx: typeC1/eDP1 -> =
-port2)
-
-
-
-   =20
-
-=20=
+Konrad
