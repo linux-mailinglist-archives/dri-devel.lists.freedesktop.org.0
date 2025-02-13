@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CDAA3410D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D5EA34114
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:59:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01DEB10EABE;
-	Thu, 13 Feb 2025 13:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCA610EABA;
+	Thu, 13 Feb 2025 13:59:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lCtZm2Sl";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PgSiSUqW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C484310EABA
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:59:31 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 74FE3443E7;
- Thu, 13 Feb 2025 13:59:29 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE29510EAC4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:59:52 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EB6BC442EA;
+ Thu, 13 Feb 2025 13:59:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739455170;
+ t=1739455191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3gbl4cY/7gLACyGW9i606quz6FiwCgJvRxlFwgVSy/A=;
- b=lCtZm2SlomQyoe7lCXT2L40f0ph6LkvAJ4TPZPY2vAOzi0jL9w8cDkph+1YLzS2ek7IoQk
- r/CnAiMv7LX8dd3Ls0tHduIQUNa6xS/x27naIdFasiRfYxA1B5RDNxAuN5DNBHFH25IejN
- MdxyS8227YZTfoEgYgJsj/3fz6pfqdvFV7ewvfU1oBaX/rKQbEHqy+aFyL60FaJMTdIJg9
- Lvb8vekA10iD7UTIcZhyajtYth2/+FZCbM19unBUzv9S1ymQ2Keq5sqPUVUUudUO0SuLoh
- sItkKGwR8x1HeIiWb67gLkA9Ojc6yecACxj5xTSyZk9Rky4iuSvOsSNuUMwEXA==
-Date: Thu, 13 Feb 2025 14:59:28 +0100
+ bh=XZQZsiaxrcI9Vx1C2CdJQT1aJzmYPDK4yU1imNL3BwY=;
+ b=PgSiSUqWb3z2PZOTzptk54eeDfZKqS0Yagm07xeLkVnLzhM80SSA7GE116kGyV/WphcuO5
+ MTizD6xeckyz94JmESdf/cO1AzaABnjpZMR63VL+H0nUfxc/tsY0CghYuPpgngUBiPcHqi
+ v+Nq9ZbqFg0KEHjh2/eHZlB0jID5VDJ3jyvuxq9BJgyzZnoU3falu9ySGNwT3OBzCf4i9m
+ joavIdeDyLeLG1DS+nyW+6Dx3RDTkNWizjGoha074PhVHVXKQNuJrIQ5EE5eFgn5sIiChv
+ QLGQfZZDdvCNBB11m4tXLXA1Ng2rgOKGXBIywAo0Fd4qFkn4fhR/poOJIJV/5Q==
+Date: Thu, 13 Feb 2025 14:59:49 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 09/15] drm/vkms: Allow to configure multiple planes
-Message-ID: <Z636wK8gA_ktfV37@louis-chauvet-laptop>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH v2 04/15] drm/vkms: Add KUnit test scaffolding
+Message-ID: <Z6361TEh9vNrBu7j@louis-chauvet-laptop>
 Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  <jose.exposito89@gmail.com>, 
  hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Arthur Grillo <arthurgrillo@riseup.net>
 References: <20250211110912.15409-1-jose.exposito89@gmail.com>
- <20250211110912.15409-10-jose.exposito89@gmail.com>
+ <20250211110912.15409-5-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250211110912.15409-10-jose.exposito89@gmail.com>
+In-Reply-To: <20250211110912.15409-5-jose.exposito89@gmail.com>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegieelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfejveetkedvleetudeuudegfeejheeujeefkefgtdeugfetfeeutdevieekvdeknecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrs
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegieelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfejveetkedvleetudeuudegfeejheeujeefkefgtdeugfetfeeutdevieekvdeknecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduuddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrs
  hhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,590 +75,46 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/02/25 - 12:09, José Expósito wrote:
-> Add a list of planes to vkms_config and create as many planes as
-> configured during output initialization.
+> Add the required boilerplate to start creating KUnit test.
 > 
-> For backwards compatibility, add one primary plane and, if configured,
-> one cursor plane and NUM_OVERLAY_PLANES planes to the default
-> configuration.
+> To run the tests:
 > 
+>     $ ./tools/testing/kunit/kunit.py run \
+>       --kunitconfig=drivers/gpu/drm/vkms/tests
+> 
+> Co-developed-by: Arthur Grillo <arthurgrillo@riseup.net>
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-
-Build is broken as module:
-
-diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 4a0205685a31..b8a4e86b7cd1 100644
---- a/drivers/gpu/drm/vkms/vkms_config.c
-+++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -192,9 +192,11 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
-
-        return plane_cfg;
- }
-+EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_plane);
-
- void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg)
- {
-        list_del(&plane_cfg->link);
-        kfree(plane_cfg);
- }
-+EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_plane);
-
-
 > ---
->  .clang-format                                 |   1 +
->  drivers/gpu/drm/vkms/tests/vkms_config_test.c | 140 +++++++++++++++++-
->  drivers/gpu/drm/vkms/vkms_config.c            | 124 +++++++++++++++-
->  drivers/gpu/drm/vkms/vkms_config.h            |  73 ++++++++-
->  drivers/gpu/drm/vkms/vkms_output.c            |  42 ++----
->  5 files changed, 344 insertions(+), 36 deletions(-)
+>  drivers/gpu/drm/vkms/Kconfig                  | 15 +++++++++++++++
+>  drivers/gpu/drm/vkms/Makefile                 |  1 +
+>  drivers/gpu/drm/vkms/tests/.kunitconfig       |  4 ++++
+>  drivers/gpu/drm/vkms/tests/Makefile           |  3 +++
+>  drivers/gpu/drm/vkms/tests/vkms_config_test.c | 19 +++++++++++++++++++
+>  5 files changed, 42 insertions(+)
+>  create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
+>  create mode 100644 drivers/gpu/drm/vkms/tests/Makefile
+>  create mode 100644 drivers/gpu/drm/vkms/tests/vkms_config_test.c
 > 
-> diff --git a/.clang-format b/.clang-format
-> index fe1aa1a30d40..c585d2a5b395 100644
-> --- a/.clang-format
-> +++ b/.clang-format
-> @@ -690,6 +690,7 @@ ForEachMacros:
->    - 'v4l2_m2m_for_each_src_buf'
->    - 'v4l2_m2m_for_each_src_buf_safe'
->    - 'virtio_device_for_each_vq'
-> +  - 'vkms_config_for_each_plane'
->    - 'while_for_each_ftrace_op'
->    - 'xa_for_each'
->    - 'xa_for_each_marked'
+> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
+> index 9def079f685b..d4665e913de7 100644
+> --- a/drivers/gpu/drm/vkms/Kconfig
+> +++ b/drivers/gpu/drm/vkms/Kconfig
+> @@ -14,3 +14,18 @@ config DRM_VKMS
+>  	  a VKMS.
+>  
+>  	  If M is selected the module will be called vkms.
+> +
+> +config DRM_VKMS_KUNIT_TESTS
+> +	tristate "KUnit tests for VKMS." if !KUNIT_ALL_TESTS
 
-I did not know about this, perfect!
+If there is a v3, can you remove the dot?
 
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> index 6e07139d261c..38ec456d9610 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> @@ -24,6 +24,10 @@ static void vkms_config_test_empty_config(struct kunit *test)
->  	dev_name = NULL;
->  	KUNIT_EXPECT_STREQ(test, vkms_config_get_device_name(config), "test");
->  
-> +	KUNIT_EXPECT_TRUE(test, list_empty(&config->planes));
-> +
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
->  	vkms_config_destroy(config);
->  }
->  
-> @@ -44,16 +48,145 @@ static void vkms_config_test_default_config(struct kunit *test)
->  {
->  	const struct default_config_case *params = test->param_value;
->  	struct vkms_config *config;
-> +	struct vkms_config_plane *plane_cfg;
-> +	int n_primaries = 0;
-> +	int n_cursors = 0;
-> +	int n_overlays = 0;
->  
->  	config = vkms_config_default_create(params->enable_cursor,
->  					    params->enable_writeback,
->  					    params->enable_overlay);
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
->  
-> -	KUNIT_EXPECT_EQ(test, config->cursor, params->enable_cursor);
->  	KUNIT_EXPECT_EQ(test, config->writeback, params->enable_writeback);
-> -	KUNIT_EXPECT_EQ(test, config->overlay, params->enable_overlay);
->  
-> +	/* Planes */
-> +	list_for_each_entry(plane_cfg, &config->planes, link) {
+With or without this:
 
-Why you don't use vkms_config_for_each_plane here?
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> +		switch (vkms_config_plane_get_type(plane_cfg)) {
-> +		case DRM_PLANE_TYPE_PRIMARY:
-> +			n_primaries++;
-> +			break;
-> +		case DRM_PLANE_TYPE_CURSOR:
-> +			n_cursors++;
-> +			break;
-> +		case DRM_PLANE_TYPE_OVERLAY:
-> +			n_overlays++;
-> +			break;
-> +		default:
-> +			KUNIT_FAIL_AND_ABORT(test, "Unknown plane type");
-> +		}
-> +	}
-> +	KUNIT_EXPECT_EQ(test, n_primaries, 1);
-> +	KUNIT_EXPECT_EQ(test, n_cursors, params->enable_cursor ? 1 : 0);
-> +	KUNIT_EXPECT_EQ(test, n_overlays, params->enable_overlay ? 8 : 0);
-> +
-> +	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
-> +
-> +	vkms_config_destroy(config);
-> +}
-> +
-> +static void vkms_config_test_get_planes(struct kunit *test)
-> +{
-> +	struct vkms_config *config;
-> +	struct vkms_config_plane *plane_cfg;
-> +	struct vkms_config_plane *plane_cfg1, *plane_cfg2;
-> +	int n_planes = 0;
-> +
-> +	config = vkms_config_create("test");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-> +
-> +	vkms_config_for_each_plane(config, plane_cfg)
-> +		n_planes++;
-> +	KUNIT_ASSERT_EQ(test, n_planes, 0);
-> +
-> +	plane_cfg1 = vkms_config_create_plane(config);
-> +	vkms_config_for_each_plane(config, plane_cfg) {
-> +		n_planes++;
-> +		if (plane_cfg != plane_cfg1)
-> +			KUNIT_FAIL(test, "Unexpected plane");
-> +	}
-> +	KUNIT_ASSERT_EQ(test, n_planes, 1);
-> +	n_planes = 0;
-> +
-> +	plane_cfg2 = vkms_config_create_plane(config);
-> +	vkms_config_for_each_plane(config, plane_cfg) {
-> +		n_planes++;
-> +		if (plane_cfg != plane_cfg1 && plane_cfg != plane_cfg2)
-> +			KUNIT_FAIL(test, "Unexpected plane");
-> +	}
-> +	KUNIT_ASSERT_EQ(test, n_planes, 2);
-> +	n_planes = 0;
-> +
-> +	vkms_config_destroy_plane(plane_cfg1);
-> +	vkms_config_for_each_plane(config, plane_cfg) {
-> +		n_planes++;
-> +		if (plane_cfg != plane_cfg2)
-> +			KUNIT_FAIL(test, "Unexpected plane");
-> +	}
-> +	KUNIT_ASSERT_EQ(test, n_planes, 1);
-> +
-> +	vkms_config_destroy(config);
-> +}
-> +
-> +static void vkms_config_test_invalid_plane_number(struct kunit *test)
-> +{
-> +	struct vkms_config *config;
-> +	struct vkms_config_plane *plane_cfg;
-> +	int n;
-> +
-> +	config = vkms_config_default_create(false, false, false);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-> +
-> +	/* Invalid: No planes */
-> +	plane_cfg = list_first_entry(&config->planes, typeof(*plane_cfg), link);
-> +	vkms_config_destroy_plane(plane_cfg);
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
-> +	/* Invalid: Too many planes */
-> +	for (n = 0; n <= 32; n++)
-> +		vkms_config_create_plane(config);
-> +
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
-> +	vkms_config_destroy(config);
-> +}
-> +
-> +static void vkms_config_test_valid_plane_type(struct kunit *test)
-> +{
-> +	struct vkms_config *config;
-> +	struct vkms_config_plane *plane_cfg;
-> +
-> +	config = vkms_config_default_create(false, false, false);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-> +
-> +	plane_cfg = list_first_entry(&config->planes, typeof(*plane_cfg), link);
-> +	vkms_config_destroy_plane(plane_cfg);
-> +
-> +	/* Invalid: No primary plane */
-> +	plane_cfg = vkms_config_create_plane(config);
-> +	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
-> +	/* Invalid: Multiple primary planes */
-> +	plane_cfg = vkms_config_create_plane(config);
-> +	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
-> +	plane_cfg = vkms_config_create_plane(config);
-> +	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
-> +	/* Valid: One primary plane */
-> +	vkms_config_destroy_plane(plane_cfg);
-> +	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
-> +
-> +	/* Invalid: Multiple cursor planes */
-> +	plane_cfg = vkms_config_create_plane(config);
-> +	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
-> +	plane_cfg = vkms_config_create_plane(config);
-> +	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
-> +	/* Valid: One primary and one cursor plane */
-> +	vkms_config_destroy_plane(plane_cfg);
->  	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
->  
->  	vkms_config_destroy(config);
-> @@ -63,6 +196,9 @@ static struct kunit_case vkms_config_test_cases[] = {
->  	KUNIT_CASE(vkms_config_test_empty_config),
->  	KUNIT_CASE_PARAM(vkms_config_test_default_config,
->  			 default_config_gen_params),
-> +	KUNIT_CASE(vkms_config_test_get_planes),
-> +	KUNIT_CASE(vkms_config_test_invalid_plane_number),
-> +	KUNIT_CASE(vkms_config_test_valid_plane_type),
->  	{}
->  };
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index 67f71d29596e..8feacfc155be 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -21,6 +21,8 @@ struct vkms_config *vkms_config_create(const char *dev_name)
->  		return ERR_PTR(-ENOMEM);
->  	}
->  
-> +	INIT_LIST_HEAD(&config->planes);
-> +
->  	return config;
->  }
->  
-> @@ -29,26 +31,114 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
->  					       bool enable_overlay)
->  {
->  	struct vkms_config *config;
-> +	struct vkms_config_plane *plane_cfg;
-> +	int n;
->  
->  	config = vkms_config_create(DEFAULT_DEVICE_NAME);
->  	if (IS_ERR(config))
->  		return config;
->  
-> -	config->cursor = enable_cursor;
->  	config->writeback = enable_writeback;
-> -	config->overlay = enable_overlay;
-> +
-> +	plane_cfg = vkms_config_create_plane(config);
-> +	if (IS_ERR(plane_cfg))
-> +		goto err_alloc;
-> +	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
-> +
-> +	if (enable_overlay) {
-> +		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> +			plane_cfg = vkms_config_create_plane(config);
-> +			if (IS_ERR(plane_cfg))
-> +				goto err_alloc;
-> +			vkms_config_plane_set_type(plane_cfg,
-> +						   DRM_PLANE_TYPE_OVERLAY);
-> +		}
-> +	}
-> +
-> +	if (enable_cursor) {
-> +		plane_cfg = vkms_config_create_plane(config);
-> +		if (IS_ERR(plane_cfg))
-> +			goto err_alloc;
-> +		vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
-> +	}
->  
->  	return config;
-> +
-> +err_alloc:
-> +	vkms_config_destroy(config);
-> +	return ERR_PTR(-ENOMEM);
->  }
->  
->  void vkms_config_destroy(struct vkms_config *config)
->  {
-> +	struct vkms_config_plane *plane_cfg, *plane_tmp;
-> +
-> +	list_for_each_entry_safe(plane_cfg, plane_tmp, &config->planes, link)
-> +		vkms_config_destroy_plane(plane_cfg);
-> +
->  	kfree_const(config->dev_name);
->  	kfree(config);
->  }
->  
-> +static bool valid_plane_number(struct vkms_config *config)
-> +{
-> +	struct drm_device *dev = &config->dev->drm;
-
-I think config->dev is not always set at this point. Can you change to 
-
-	config->dev ? config->dev->drm : NULL
-
-> +	size_t n_planes;
-> +
-> +	n_planes = list_count_nodes(&config->planes);
-> +	if (n_planes <= 0 || n_planes >= 32) {
-> +		drm_info(dev, "The number of planes must be between 1 and 31\n");
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static bool valid_plane_type(struct vkms_config *config)
-> +{
-> +	struct drm_device *dev = &config->dev->drm;
-
-ditto
-
-> +	struct vkms_config_plane *plane_cfg;
-> +	bool has_primary_plane = false;
-> +	bool has_cursor_plane = false;
-> +
-> +	vkms_config_for_each_plane(config, plane_cfg) {
-> +		enum drm_plane_type type;
-> +
-> +		type = vkms_config_plane_get_type(plane_cfg);
-> +
-> +		if (type == DRM_PLANE_TYPE_PRIMARY) {
-> +			if (has_primary_plane) {
-> +				drm_info(dev, "Multiple primary planes\n");
-> +				return false;
-> +			}
-> +
-> +			has_primary_plane = true;
-> +		} else if (type == DRM_PLANE_TYPE_CURSOR) {
-> +			if (has_cursor_plane) {
-> +				drm_info(dev, "Multiple cursor planes\n");
-> +				return false;
-> +			}
-> +
-> +			has_cursor_plane = true;
-> +		}
-> +	}
-> +
-> +	if (!has_primary_plane) {
-> +		drm_info(dev, "Primary plane not found\n");
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  bool vkms_config_is_valid(struct vkms_config *config)
->  {
-> +	if (!valid_plane_number(config))
-> +		return false;
-> +
-> +	if (!valid_plane_type(config))
-> +		return false;
-> +
->  	return true;
->  }
->  
-> @@ -58,12 +148,17 @@ static int vkms_config_show(struct seq_file *m, void *data)
->  	struct drm_device *dev = entry->dev;
->  	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
->  	const char *dev_name;
-> +	struct vkms_config_plane *plane_cfg;
->  
->  	dev_name = vkms_config_get_device_name((struct vkms_config *)vkmsdev->config);
->  	seq_printf(m, "dev_name=%s\n", dev_name);
->  	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
-> -	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
-> -	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-> +
-> +	vkms_config_for_each_plane(vkmsdev->config, plane_cfg) {
-> +		seq_puts(m, "plane:\n");
-> +		seq_printf(m, "\ttype=%d\n",
-> +			   vkms_config_plane_get_type(plane_cfg));
-> +	}
->  
->  	return 0;
->  }
-> @@ -77,3 +172,24 @@ void vkms_config_register_debugfs(struct vkms_device *vkms_device)
->  	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
->  			      ARRAY_SIZE(vkms_config_debugfs_list));
->  }
-> +
-> +struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
-> +{
-> +	struct vkms_config_plane *plane_cfg;
-> +
-> +	plane_cfg = kzalloc(sizeof(*plane_cfg), GFP_KERNEL);
-> +	if (!plane_cfg)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
-> +
-> +	list_add_tail(&plane_cfg->link, &config->planes);
-> +
-> +	return plane_cfg;
-> +}
-> +
-> +void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg)
-> +{
-> +	list_del(&plane_cfg->link);
-> +	kfree(plane_cfg);
-> +}
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> index 0376dceaf6be..1c7ffc27f2a8 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -3,6 +3,7 @@
->  #ifndef _VKMS_CONFIG_H_
->  #define _VKMS_CONFIG_H_
->  
-> +#include <linux/list.h>
->  #include <linux/types.h>
->  
->  #include "vkms_drv.h"
-> @@ -12,18 +13,44 @@
->   *
->   * @dev_name: Name of the device
->   * @writeback: If true, a writeback buffer can be attached to the CRTC
-> - * @cursor: If true, a cursor plane is created in the VKMS device
-> - * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
-> + * @planes: List of planes configured for the device
->   * @dev: Used to store the current VKMS device. Only set when the device is instantiated.
->   */
->  struct vkms_config {
->  	const char *dev_name;
->  	bool writeback;
-> -	bool cursor;
-> -	bool overlay;
-> +	struct list_head planes;
->  	struct vkms_device *dev;
->  };
->  
-> +/**
-> + * struct vkms_config_plane
-> + *
-> + * @link: Link to the others planes in vkms_config
-> + * @type: Type of the plane. The creator of configuration needs to ensures that
-> + *        at least one primary plane is present.
-> + * @plane: Internal usage. This pointer should never be considered as valid.
-> + *         It can be used to store a temporary reference to a VKMS plane during
-> + *         device creation. This pointer is not managed by the configuration and
-> + *         must be managed by other means.
-> + */
-> +struct vkms_config_plane {
-> +	struct list_head link;
-> +
-> +	enum drm_plane_type type;
-> +
-> +	/* Internal usage */
-> +	struct vkms_plane *plane;
-> +};
-> +
-> +/**
-> + * vkms_config_for_each_plane - Iterate over the vkms_config planes
-> + * @config: &struct vkms_config pointer
-> + * @plane_cfg: &struct vkms_config_plane pointer used as cursor
-> + */
-> +#define vkms_config_for_each_plane(config, plane_cfg) \
-> +	list_for_each_entry((plane_cfg), &(config)->planes, link)
-> +
->  /**
->   * vkms_config_create() - Create a new VKMS configuration
->   * @dev_name: Name of the device
-> @@ -84,4 +111,42 @@ bool vkms_config_is_valid(struct vkms_config *config);
->   */
->  void vkms_config_register_debugfs(struct vkms_device *vkms_device);
->  
-> +/**
-> + * vkms_config_create_plane() - Add a new plane configuration
-> + * @config: Configuration to add the plane to
-> + *
-> + * Returns:
-> + * The new plane configuration or an error. Call vkms_config_destroy_plane() to
-> + * free the returned plane configuration.
-> + */
-> +struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config);
-> +
-> +/**
-> + * vkms_config_destroy_plane() - Remove and free a plane configuration
-> + * @plane_cfg: Plane configuration to destroy
-> + */
-> +void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg);
-> +
-> +/**
-> + * vkms_config_plane_type() - Return the plane type
-> + * @plane_cfg: Plane to get the type from
-> + */
-> +static inline enum drm_plane_type
-> +vkms_config_plane_get_type(struct vkms_config_plane *plane_cfg)
-> +{
-> +	return plane_cfg->type;
-> +}
-> +
-> +/**
-> + * vkms_config_plane_set_type() - Set the plane type
-> + * @plane_cfg: Plane to set the type to
-> + * @type: New plane type
-> + */
-> +static inline void
-> +vkms_config_plane_set_type(struct vkms_config_plane *plane_cfg,
-> +			   enum drm_plane_type type)
-> +{
-> +	plane_cfg->type = type;
-> +}
-> +
->  #endif /* _VKMS_CONFIG_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 414cc933af41..08ea691db299 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -11,28 +11,29 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->  	struct vkms_connector *connector;
->  	struct drm_encoder *encoder;
->  	struct vkms_output *output;
-> -	struct vkms_plane *primary, *overlay, *cursor = NULL;
-> +	struct vkms_plane *primary = NULL, *cursor = NULL;
-> +	struct vkms_config_plane *plane_cfg;
->  	int ret;
->  	int writeback;
-> -	unsigned int n;
->  
->  	if (!vkms_config_is_valid(vkmsdev->config))
->  		return -EINVAL;
->  
-> -	/*
-> -	 * Initialize used plane. One primary plane is required to perform the composition.
-> -	 *
-> -	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
-> -	 * composition.
-> -	 */
-> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
-> -	if (IS_ERR(primary))
-> -		return PTR_ERR(primary);
-> +	vkms_config_for_each_plane(vkmsdev->config, plane_cfg) {
-> +		enum drm_plane_type type;
->  
-> -	if (vkmsdev->config->cursor) {
-> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
-> -		if (IS_ERR(cursor))
-> -			return PTR_ERR(cursor);
-> +		type = vkms_config_plane_get_type(plane_cfg);
-> +
-> +		plane_cfg->plane = vkms_plane_init(vkmsdev, type);
-> +		if (IS_ERR(plane_cfg->plane)) {
-> +			DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
-> +			return PTR_ERR(plane_cfg->plane);
-> +		}
-> +
-> +		if (type == DRM_PLANE_TYPE_PRIMARY)
-> +			primary = plane_cfg->plane;
-> +		else if (type == DRM_PLANE_TYPE_CURSOR)
-> +			cursor = plane_cfg->plane;
->  	}
->  
->  	output = vkms_crtc_init(dev, &primary->base,
-> @@ -42,17 +43,6 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->  		return PTR_ERR(output);
->  	}
->  
-> -	if (vkmsdev->config->overlay) {
-> -		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> -			overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY);
-> -			if (IS_ERR(overlay)) {
-> -				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
-> -				return PTR_ERR(overlay);
-> -			}
-> -			overlay->base.possible_crtcs = drm_crtc_mask(&output->crtc);
-> -		}
-> -	}
-> -
->  	connector = vkms_connector_init(vkmsdev);
->  	if (IS_ERR(connector)) {
->  		DRM_ERROR("Failed to init connector\n");
-> -- 
-> 2.48.1
-> 
+Thanks,
+Louis Chauvet
