@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB44A34F6C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 21:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140B9A34F99
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 21:41:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 859F510E010;
-	Thu, 13 Feb 2025 20:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17BBD10E11D;
+	Thu, 13 Feb 2025 20:41:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LWItHsxi";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QyWOl391";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DED310E010
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 20:34:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8DF655C5944;
- Thu, 13 Feb 2025 20:33:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72629C4CED1;
- Thu, 13 Feb 2025 20:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739478852;
- bh=wACtKrlGkDFD2CehLloQxCXfN3BfTmIwySgtfSfnCcs=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7F710E11D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 20:41:53 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BD1D594;
+ Thu, 13 Feb 2025 21:40:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1739479233;
+ bh=1+AAiHUmcZ0YGwlI7FBzyZhAxpsavKtjHcxXh5On9+k=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LWItHsxi2rqu7ohlJKkIQKfqw+yGev52gT6jsP2BLwJqFvXvxkoFifcYjfKZxQtpD
- BL45PkBFLAlTB/WlhW0U3oTEgmsrYey3t32btr2V3EYPbSH7OvGsalOKR7ymiYznd7
- K4lH/kLmKkdvZvK3yGesowGXIHMDlGhD9l4xuYvNYHJWS9agDBhM8uwjO/+Fp3hhKs
- u4yu9wtTvfLvZx5+kdG+N6Y3Kq8aAy/S/TUOdVooKtrWsEugA7fJ5r7e54/5M/XZnt
- i/dchSkEHhBbjWSaS03Y0goBDGUf5Aaxpr2XEpWeecZfD9znUtkxqJLi4AYkzaUHKK
- VUuD2Fr1uFYqA==
-Date: Thu, 13 Feb 2025 20:34:07 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ b=QyWOl391hTdGPhY0sOHjjkxZJUII2e32RnweKlJ7bD982MVv7Jag0MK+xPA0TcNdX
+ nYmLLvIKzU8DsUDWShycDP9fl95yasHYCYrDDQjBslXrzxiMakxcHHieAHvaepkzsJ
+ QkgfYV4eozq+sO01qewcctSkp5NOXqnD65uUBslQ=
+Date: Thu, 13 Feb 2025 22:41:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: Document Solomon
- SSD2825
-Message-ID: <20250213-pumice-overcrowd-6c22b0d5d66c@spud>
-References: <20250213135605.157650-1-clamor95@gmail.com>
- <20250213135605.157650-2-clamor95@gmail.com>
+ Michal Simek <michal.simek@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 01/11] drm/fourcc: Add warning for bad bpp
+Message-ID: <20250213204140.GB22998@pendragon.ideasonboard.com>
+References: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
+ <20250212-xilinx-formats-v3-1-90d0fe106995@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RYX6hg1Zf+RyCNrz"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250213135605.157650-2-clamor95@gmail.com>
+In-Reply-To: <20250212-xilinx-formats-v3-1-90d0fe106995@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,199 +63,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomi,
 
---RYX6hg1Zf+RyCNrz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-On Thu, Feb 13, 2025 at 03:56:04PM +0200, Svyatoslav Ryhel wrote:
-> Add bindings for Solomon SSD2825 MIPI master bridge chip that connects an
-> application processor with traditional parallel LCD interface and an LCD
-> driver with MIPI slave interface. The SSD2825 supports both parallel RGB
-> interface and serial SPI interface.
->=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+On Wed, Feb 12, 2025 at 04:56:05PM +0200, Tomi Valkeinen wrote:
+> drm_format_info_bpp() cannot be used for formats which do not have an
+> integer bits-per-pixel in a pixel block.
+> 
+> E.g. DRM_FORMAT_XV15's (not yet in upstream) plane 0 has three 10-bit
+> pixels (Y components), and two padding bits, in a 4 byte block. That is
+> 10.666... bits per pixel when considering the whole 4 byte block, which
+> is what drm_format_info_bpp() does. Thus a driver that supports such
+> formats cannot use drm_format_info_bpp(),
+> 
+> It is a driver bug if this happens, but so handle wrong calls by
+> printing a warning and returning 0.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  .../display/bridge/solomon,ssd2825.yaml       | 140 ++++++++++++++++++
->  1 file changed, 140 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/solo=
-mon,ssd2825.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/bridge/solomon,ssd=
-2825.yaml b/Documentation/devicetree/bindings/display/bridge/solomon,ssd282=
-5.yaml
-> new file mode 100644
-> index 000000000000..cd7ff971495c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/solomon,ssd2825.ya=
-ml
-> @@ -0,0 +1,140 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/solomon,ssd2825.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Solomon SSD2825 RGB to MIPI-DSI bridge
-> +
-> +maintainers:
-> +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: solomon,ssd2825
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios: true
-> +
-> +  dvdd-supply:
-> +    description: Regulator for 1.2V digital power supply.
-> +
-> +  avdd-supply:
-> +    description: Regulator for 1.2V analog power supply.
-> +
-> +  vddio-supply:
-> +    description: Regulator for 1.8V IO power supply.
-> +
-> +  spi-max-frequency:
-> +    maximum: 1000000
-> +
-> +  spi-cpha: true
-> +  spi-cpol: true
+>  drivers/gpu/drm/drm_fourcc.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 3a94ca211f9c..1e9afbf6ef99 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -457,6 +457,13 @@ unsigned int drm_format_info_bpp(const struct drm_format_info *info, int plane)
+>  	if (!info || plane < 0 || plane >= info->num_planes)
+>  		return 0;
+>  
+> +	if (info->char_per_block[plane] * 8 %
+> +	    (drm_format_info_block_width(info, plane) *
+> +	     drm_format_info_block_height(info, plane))) {
 
-Should these be required? Supplies should really be required too, since
-the device probably cannot function without them?
+Can you cache 
 
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: tx_clk
+	    drm_format_info_block_width(info, plane) *
+	    drm_format_info_block_height(info, plane)
 
-Drop the _clk, since this cannot be anything else! clock-names isn't
-really useful when you have just one, so I'd be inclined to say remove
-it entirely...
+in a local variable to avoid computing it twice ?
 
-> +  solomon,hs-zero-delay-ns:
-> +    description:
-> +      HS zero delay period
-> +    default: 133
-> +
-> +  solomon,hs-prep-delay-ns:
-> +    description:
-> +      HS prep delay period
-> +    default: 40
+> +		pr_warn("unable to return an integer bpp\n");
 
-Do these two have limits? Use maximum/minimum to set them if so.
-Cheers,
-Conor.
+It would be nice to print the warning in the context of the drm device,
+but we don't have the required structure here.
 
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Video port for RGB input
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-width:
-> +                enum: [ 16, 18, 24 ]
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for DSI output (panel or connector)
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        dsi@2 {
-> +            compatible =3D "solomon,ssd2825";
-> +            reg =3D <2>;
-> +
-> +            spi-max-frequency =3D <1000000>;
-> +
-> +            spi-cpha;
-> +            spi-cpol;
-> +
-> +            reset-gpios =3D <&gpio 114 GPIO_ACTIVE_LOW>;
-> +
-> +            dvdd-supply =3D <&vdd_1v2>;
-> +            avdd-supply =3D <&vdd_1v2>;
-> +            vddio-supply =3D <&vdd_1v8_io>;
-> +
-> +            solomon,hs-zero-delay-ns =3D <300>;
-> +            solomon,hs-prep-delay-ns =3D <65>;
-> +
-> +            clocks =3D <&ssd2825_tx_clk>;
-> +            clock-names =3D "tx_clk";
-> +
-> +            ports {
-> +                #address-cells =3D <1>;
-> +                #size-cells =3D <0>;
-> +
-> +                port@0 {
-> +                    reg =3D <0>;
-> +
-> +                    bridge_input: endpoint {
-> +                        remote-endpoint =3D <&dpi_output>;
-> +                        bus-width =3D <24>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg =3D <1>;
-> +
-> +                    bridge_output: endpoint {
-> +                        remote-endpoint =3D <&panel_input>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> --=20
-> 2.43.0
->=20
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
---RYX6hg1Zf+RyCNrz
-Content-Type: application/pgp-signature; name="signature.asc"
+> +		return 0;
+> +	}
+> +
+>  	return info->char_per_block[plane] * 8 /
+>  	       (drm_format_info_block_width(info, plane) *
+>  		drm_format_info_block_height(info, plane));
 
------BEGIN PGP SIGNATURE-----
+-- 
+Regards,
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ65XPwAKCRB4tDGHoIJi
-0hzAAQDseKFgxGQUbrlzreleTOKNbwf6GnuQRkI2MsAuMMiLiwD+LafI+AN+rbRA
-1Z3fYDtF78dkCTgVHJYUBJPwzQ7DQwI=
-=jDhJ
------END PGP SIGNATURE-----
-
---RYX6hg1Zf+RyCNrz--
+Laurent Pinchart
