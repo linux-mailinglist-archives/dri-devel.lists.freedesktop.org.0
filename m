@@ -2,116 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B950A34A4F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E37FA34A70
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:45:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B8C710EB3A;
-	Thu, 13 Feb 2025 16:42:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6811E10EB1F;
+	Thu, 13 Feb 2025 16:45:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OVq9T8Vh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gzuUXITn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D6310EB3B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:42:19 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4395578be70so11766015e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:42:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739464938; x=1740069738; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=3B83uWsYDmuTqDgqBDbXT/Rsks8AW0n9FN3+nFDl7Zg=;
- b=OVq9T8Vhq28vK1b7lJdFwnoByvUAmRJD/YuFWb3T1+aG9ITlquTEmOnUd4IuEnsVYe
- oWIgkpLjBhk47jtvJhqpcLSX/ZdPF+HD57Ov2rYxicjMGeT+FZ9tt7I7BSi2lOcqmvM5
- io7yXNs47QlwnIQKOdsP1OT4AK/Q6jIs/KMDuuyZXhclUAlgt5eZw1bOSXJoj+EF8w95
- s+VmUrcB1OmQJDmxxwVC8dj1OD7juJ7AAfQip70zpgGo649hcJ8iFkyovI8LJmvl1Z8b
- +4jKjM9YvK1135QxtEzht0zoWXVN2L1g11H6PxxQh4jfRvRzFMjCaYFfbOHHnAIvGKTl
- k+Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739464938; x=1740069738;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=3B83uWsYDmuTqDgqBDbXT/Rsks8AW0n9FN3+nFDl7Zg=;
- b=GyTOi4wBtVivmOkzKeWQtD1vskHQRrOtZrUtIFTywjhwejgRXyCpXe7yC0hHCToB83
- d/tcOMioSRaeZFxTzeYgWTPWQPMQwOEpM+m/vAQhBlouylr3XhY9P1JbKUObL0Wl36zs
- lAn8RjERoYpBllE+Nrx1c+1rkS/f2iUhl5lXRKjnXQpeKUvvhfnQYlS5EAf/o/kYveJx
- dJXWOmOOQ/b1igZ57hT9B/Nw22rOj1DwDbJlpTQgShWohp70MqmuqD+HGkDPgtW9q98R
- 73emXAI+40916cn95PJLzJgQvppRZLiwC/jlGDcGgDJ3s3xaBePETG6B0LlzDH8t7Fyx
- pdVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUrzjTmGsLPuGvsh+g/RinrZSBijcm0SvWvocA53426k5SQ7385+0pnjNYvMaTmGYak5KRYwsM57bs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzqbhzqgfJJSJ+4E0iY2KRfSZBrCqdl8K1LxPuRVHeTLfHdqPBs
- MGwfFV4d+u4mO8iI03WX73KJQNaGzI0ELxsJftdQtFhg0V7BCH0EouuNQpArJ2E=
-X-Gm-Gg: ASbGncuvVBFULe20B0kQRt0Z1X+TmN89xVT4FACkd/cHjyn7O65Hv++x6Mps7i/CZXT
- 3RFwQrSywq/f7tAFFrL+RrvW34sM85VCXFtiS1LTNKZGYmEjU8cCEYlguv8G5KL5O5yJQQbPJQ3
- SXgcsUeovePmK1WYzsEmrGQjxlO+dWMVuvQSzqB+jBOjceOgq2PRBh/UpttU+BLnUeieWr6PyVB
- rFHQ4cQs9n5JkhrFWAOXxVyel8SfThsHok5JJd8sZlMxYZwx6lgph9zkP68RvjM+/82r+hiT0QN
- PCStWamOHHmFMO1TsiYZ+EScn6p221J15dJyl5IqoEuRPInQ3c9eT60DyEuLQL3ONHsN
-X-Google-Smtp-Source: AGHT+IGy49IVyutPXQwSKvUdWc6ERgob1wg64K135om5hnsDIAMQ2/W3BtPEa3E3wnb4zSvKvNly1A==
-X-Received: by 2002:a05:600c:2d54:b0:439:608b:c4ad with SMTP id
- 5b1f17b1804b1-439608bc717mr43429795e9.3.1739464937620; 
- Thu, 13 Feb 2025 08:42:17 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:b065:478c:3f8f:ac1b?
- ([2a01:e0a:982:cbb0:b065:478c:3f8f:ac1b])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439617ffa28sm22112085e9.14.2025.02.13.08.42.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Feb 2025 08:42:17 -0800 (PST)
-Message-ID: <f2ab3542-3463-4df0-96f0-cad41c1fcf3d@linaro.org>
-Date: Thu, 13 Feb 2025 17:42:16 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F180D10EB1F;
+ Thu, 13 Feb 2025 16:45:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 82E315C53FA;
+ Thu, 13 Feb 2025 16:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2D3EC4CED1;
+ Thu, 13 Feb 2025 16:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739465102;
+ bh=wS6QvXcMhwE4DWtt5Jqf+sbLLz2q6PyWoErAL8pV51Q=;
+ h=From:Date:Subject:To:Cc:From;
+ b=gzuUXITncKYYEdOxAs/G1DWbhDBn8K0kJWkWUxKB9xPygLVOJmWldv/6l+4qGtv88
+ xxdv/uYYU8jHOFmd2S4ZF3hdqJEDNaWBl2CSNN6njyQMDioocYHD/f8UMImSK53L3Q
+ kQ7LLqy24xvUd//Y6E3pH4ue32SrznhBjdr3jc+WOQ8zzLOOKPtQkfsvSBh/01hJyt
+ KB3fbuT4rggpc/tIbfcw4l6eJfR/hHqGqAsDs/geMXmD4K7m19xmSZkrltKyzgr7gF
+ fqZluUt4Z00lRhc9a3oVryJeqdf7mFZVsxXaYwkMNSCTq/a/9VlJGwr8GIHjuYxL3r
+ /rw7mhLmwn8bA==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Date: Thu, 13 Feb 2025 17:44:43 +0100
+Subject: [PATCH] drm/msm/a6xx: Only print the GMU firmware version once
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm: panel: jd9365da-h3: fix reset signal polarity
-To: Linus Walleij <linus.walleij@linaro.org>,
- Hugo Villeneuve <hugo@hugovil.com>
-Cc: Jagan Teki <jagan@edgeble.ai>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240927135306.857617-1-hugo@hugovil.com>
- <f9b0cc53-00ae-4390-9ff9-1dac0c0804ba@linaro.org>
- <20240930110537.dbbd51824c2bb68506e2f678@hugovil.com>
- <16bd6bc2-8f10-4b99-9903-6e9f0f8778d8@linaro.org>
- <20250204124615.4d7a308633a15fc17b2215cb@hugovil.com>
- <CACRpkda+jac_7KKQDs3UcfODP6kK3W03Q3KtVOCjRV+wo=M8=g@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CACRpkda+jac_7KKQDs3UcfODP6kK3W03Q3KtVOCjRV+wo=M8=g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250213-topic-gmu_no_spam-v1-1-1e4afdd898b6@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAHohrmcC/x3MQQqAIBBA0avErBPKlKirREjoaLNIRSuC8O5Jy
+ 7f4/4WMiTDD3LyQ8KZMwVf0bQN637xDRqYaeMdlx/uBnSGSZu64lA8qx+1gwmqhhZxGKQ3ULia
+ 09PzPZS3lAxDyuWBjAAAA
+X-Change-ID: 20250213-topic-gmu_no_spam-4fc4c459755d
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Jens Glathe <jens.glathe@oldschoolsolutions.biz>, 
+ Abel Vesa <abel.vesa@linaro.org>, Rob Clark <robdclark@chromium.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739465097; l=1615;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=rviqRqqnKwEysjKAw+EBRbtmuL1NqJ2+/UqeC8Tajzg=;
+ b=UsgAMcHRTZSaBEBYLKKtu4FbqbYob0qDF9JDQfaySiUiCius4FDEb3ZnBpefhpdxw+YbegUIP
+ XbZhoE2tGW+AxqEo35/fegDk7OUpXW+Dh9r7OHzFV4sTFLlsJidsF2L
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,34 +72,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2025 12:42, Linus Walleij wrote:
-> On Tue, Feb 4, 2025 at 6:46 PM Hugo Villeneuve <hugo@hugovil.com> wrote:
->> On Mon, 30 Sep 2024 18:24:44 +0200
->> neil.armstrong@linaro.org wrote:
-> 
->>> OK then:
->>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
->>
->> Hi Neil,
->> it seems this patch was never applied/picked-up?
-> 
-> We have some soft rule that the reviewer and committer should be
-> two different people. So if I do this:
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> I think Neil will apply it.
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Yeah sorry I got very busy recently and forgot about it.
+We only fetch it once from userland, so let's also only notify the
+user once and not on every runtime resume.
 
-Sorry about that, applying it now to fixes.
+As you can notice by the tags chain, more than one user found this
+annoying.
 
-Neil
+Reported-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+Suggested-by: Abel Vesa <abel.vesa@linaro.org>
+Suggested-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> 
-> Yours,
-> Linus Walleij
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 65d38b25c0707a3c7fff08d110b4ac2b9d410473..699b0dd34b18f0ec811e975779ba95991d485098 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -813,10 +813,10 @@ static int a6xx_gmu_fw_load(struct a6xx_gmu *gmu)
+ 	}
+ 
+ 	ver = gmu_read(gmu, REG_A6XX_GMU_CORE_FW_VERSION);
+-	DRM_INFO("Loaded GMU firmware v%u.%u.%u\n",
+-		 FIELD_GET(A6XX_GMU_CORE_FW_VERSION_MAJOR__MASK, ver),
+-		 FIELD_GET(A6XX_GMU_CORE_FW_VERSION_MINOR__MASK, ver),
+-		 FIELD_GET(A6XX_GMU_CORE_FW_VERSION_STEP__MASK, ver));
++	DRM_INFO_ONCE("Loaded GMU firmware v%u.%u.%u\n",
++		      FIELD_GET(A6XX_GMU_CORE_FW_VERSION_MAJOR__MASK, ver),
++		      FIELD_GET(A6XX_GMU_CORE_FW_VERSION_MINOR__MASK, ver),
++		      FIELD_GET(A6XX_GMU_CORE_FW_VERSION_STEP__MASK, ver));
+ 
+ 	return 0;
+ }
+
+---
+base-commit: df5d6180169ae06a2eac57e33b077ad6f6252440
+change-id: 20250213-topic-gmu_no_spam-4fc4c459755d
+
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
