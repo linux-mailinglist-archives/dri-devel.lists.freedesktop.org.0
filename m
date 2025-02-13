@@ -2,61 +2,214 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C74A33A37
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 09:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39573A33A40
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 09:49:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D2B10EA21;
-	Thu, 13 Feb 2025 08:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 844B110E06E;
+	Thu, 13 Feb 2025 08:49:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OU+IuZaz";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Vuv+om0k";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="Zm9RTe4q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B24E710EA21
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:44:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739436249;
- bh=MiPm83XrOlV2C4QhN33zvaPZxlk+BGQdTp3YoAYrx7Q=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=OU+IuZazsMchm72Ovs6Ex8sepwj0MtB8JbktZRSn1x0tE1Dl8/D6eixhHpG4auMq4
- BBxZPOcBiJAVtY+nonUlEFsn5SkfFunSZBI9bYq15Mv72Jgt7UfssYEIhufvShAbiS
- HriZa4hN0iMEG4OxXOvKYdh+EJ8Jv7kanxDJax1AFkxTZMqEaTGWnQXIwJLEbq4aBP
- rClqfOcfyh2P1+FEBgNrs4Rr2ltVGIIi+8TgcqZU5MxaF/qFqEE0LNANPhT9DQ2MrL
- rwzit8Af0mjUmh5j3vfy/j2hhwC6K96MHMWFaJYtNPjzem7xk86DrVxWzBVKgDQB6u
- nURghi5A2hDRA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A341A17E0F44;
- Thu, 13 Feb 2025 09:44:08 +0100 (CET)
-Date: Thu, 13 Feb 2025 09:44:03 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>, Thierry Reding
- <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Sumit Garg
- <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com
-Subject: Re: [PATCH v4 1/6] tee: add restricted memory allocation
-Message-ID: <20250213094403.42d8b00d@collabora.com>
-In-Reply-To: <20241217100809.3962439-2-jens.wiklander@linaro.org>
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20241217100809.3962439-2-jens.wiklander@linaro.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30D6310E06E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:49:05 +0000 (UTC)
+X-UUID: 5f12795ce9e711efb8f9918b5fc74e19-20250213
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=7Jd3huHanP1CPTedjX5sLPzd8G+2mSRgNSl1rUIWjpE=; 
+ b=Vuv+om0ktffK1ls3T95jTbXkVUE0vgXmlWtuo2+t0NY0ScakLoFu3zLQ8M4OQ8oLiG8fPMzkC+weHhBkYDH57WIJakkmSuOVv9AscqSgrFQyQRVwBTXmgx9LyLsp88jh99ptc2adXwj9LbJd+3RpWwQ2v/iDGtfw6nKpkue5Kv4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.46, REQID:91891940-cfbb-48f3-99d6-244103691698, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:60aa074, CLOUDID:40c968a1-97df-4c26-9c83-d31de0c9db26,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
+ EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+ A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 5f12795ce9e711efb8f9918b5fc74e19-20250213
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 466353330; Thu, 13 Feb 2025 16:49:01 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Thu, 13 Feb 2025 16:49:00 +0800
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1258.28 via Frontend Transport; Thu, 13 Feb 2025 16:49:00 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YmdiI84dS5uokW8cxSJR/28Bexg4CTvOVPuFqrXgqsoFRSQ9uMtTGXLSxIPVC9xKHhtanA880/bLI8YlHZV75mcq5H1GEsyFgzB84VSZ4mkIW/+8W20T06QIX4tYl7vlA/73tKGb+kKyQjJysE7SJ9+SEK0i4wif8SyoIbPdyOY6x0GY//MsWPpELUsQTGMwegQWf+lpMWcqfrcRLSXpZp2Grz/rqDI0IBAIaHPRYTazvK3tKQvHowoF0SYHcPVTUWNlEWiyOBPo6t906OboBqopncqv0ELkn81m6IIp9aDZi58uB7Vonq/t3OlwBsFbLoPf32CWaxlKOsbpk7wkug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dqs4uU39HRrvXkH+p/+XXSwujw14E5MgB5fTCckFQyY=;
+ b=GSXuGL+YjVQOT2oWLor0se1Gww+yOeIOnnToOLDV7SWHhvet3vBbE6AMkzpVsXtjJEBI2z2BLCbZhCQYJZTGrfHKNI4/+gGEMoJBAyV437zjIKnppA4rT4Rlp9ZJHLzu8V3SCvHdZyjB8/S8DGyxC6AJ2THVyuuzXf2RbitdHQn9Q60uGV81SIjZ6IkNEy1OkPYJ2HZw1OOsWNfuRzV8W+sJ/npWNYMwuQpisQlji4dClWjIbl/yuX7CSrdm63qMLoT4jCUxKE2gd8svxczg6ol52b1r87HH6Sls2hlrdsNF5cHjp1SigrWStWOCTpNZCeCszCt1olKZKn19CiuHLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dqs4uU39HRrvXkH+p/+XXSwujw14E5MgB5fTCckFQyY=;
+ b=Zm9RTe4qZ57Ko9xgnTik0UydTL1YCa7j1q18jh/QhoV6fzUXS8PHN9O88U+WOPag27m9ub+x75/YIcIwXu3p3ZFBnp28nRvh+W0aNuowfBxLieGaH8SEtNtzmyDtmRE5sr4Xik6GlP8rKN2Kq29ea6oGjgqdkgPNs4kTM+LWOl8=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYZPR03MB6847.apcprd03.prod.outlook.com (2603:1096:400:25b::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.16; Thu, 13 Feb
+ 2025 08:48:53 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%3]) with mapi id 15.20.8422.015; Thu, 13 Feb 2025
+ 08:48:53 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+CC: "robh@kernel.org" <robh@kernel.org>, "jie.qiu@mediatek.com"
+ <jie.qiu@mediatek.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>, =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
+ <jitao.shi@mediatek.com>, "linux-mediatek@lists.infradead.org"
+ <linux-mediatek@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "kernel@collabora.com" <kernel@collabora.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ =?utf-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "conor+dt@kernel.org"
+ <conor+dt@kernel.org>, =?utf-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?=
+ <TommyYL.Chen@mediatek.com>, =?utf-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?=
+ <Ives.Chenjh@mediatek.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?=
+ <Jason-JH.Lin@mediatek.com>, "junzhi.zhao@mediatek.com"
+ <junzhi.zhao@mediatek.com>
+Subject: Re: [PATCH v6 35/42] drm/mediatek: mtk_hdmi: Split driver and add
+ common probe function
+Thread-Topic: [PATCH v6 35/42] drm/mediatek: mtk_hdmi: Split driver and add
+ common probe function
+Thread-Index: AQHbfHkwf9M1/bSxc02IusbCr2Q6qbNE70QA
+Date: Thu, 13 Feb 2025 08:48:52 +0000
+Message-ID: <d013192eb4eb88716407d0e0f3916fb2591766c4.camel@mediatek.com>
+References: <20250211113409.1517534-1-angelogioacchino.delregno@collabora.com>
+ <20250211113409.1517534-36-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250211113409.1517534-36-angelogioacchino.delregno@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB6847:EE_
+x-ms-office365-filtering-correlation-id: d8d56c6c-a9bd-40ee-9b00-08dd4c0b3e4a
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?bE9lZ0xXVi80QkRVK3pLVjdQTVN4WkszK1E1RkcvcExlTnh2Q3V1L0xCR3hL?=
+ =?utf-8?B?VUh5aUMxTEJtNHlEZFNmSHAxZWtvMTFtWm9LVEhwK2tEMW9vM2pEWTRlRzM4?=
+ =?utf-8?B?bjhkZmN3cGVaZVFzMDhZQmtQN1FYdVlLeEYxeVZoZE4wQXVIdS93SGNxSXNs?=
+ =?utf-8?B?VzYyZG9ZRDAwN1IwZ3F3Kzl1NGp0WVlEUFB6dHhjRGU5ZERGWWNHcDdLMFQ4?=
+ =?utf-8?B?YW45SCtzYnArbUVNYTQxNkVQcjJQTTBQelhpa2laVUJoZnI3L1V6am9Sc1Js?=
+ =?utf-8?B?RGx6RklCYkxFOU1tUVFJaTl1R2cvUG1iNmdzTmMrcnJIdEJ3c01uWENMclA2?=
+ =?utf-8?B?blpyelFTWlJLd0w3TWZrcmtRS0FkRHIyVlNzUVhnWmgwaVhxTUJaMTI5RXBx?=
+ =?utf-8?B?SVZkM1BYTHZYZWhacnFsWFc2NHY0RGZPQTNrSFFkYzllZW82RlFKaktJcEV0?=
+ =?utf-8?B?SXFsaW1OSUhwZ2tKYkM5Y1Z2UWQrRXNxVmVOa0JpcFA0a051SGhFdjZQZmRL?=
+ =?utf-8?B?N01CUUY2aGJZUjZzblkyMG1wUmxYUnRmbTVJckk0aVZKZi9WQ0VBYWUrSVQ2?=
+ =?utf-8?B?Y2tNb1VrNWhlVFc5aUpXV1pjVlFrd3JkM0RBbDk5MG1TS2ticjYzcEZKWmZq?=
+ =?utf-8?B?ZUhhQzJSQ2tVaEpqdHVhSmVxSGpkTnVFVUlyK25RVzNVZXF4UFBPWWRaOFFh?=
+ =?utf-8?B?QktOeGRwTVdnbWxXdTc5MEJOUlJMSkcrYjNTRjlMM054MlZUVDFVUkhnUEV1?=
+ =?utf-8?B?TVNrUnozbkM0SHFoRHc5MFl4NWFVdzZhSk8yV3c3dW50dCtFN3NlUVEzOS9D?=
+ =?utf-8?B?MTViUi8wc1ZoV1paL2pRaWdjNWtQNFU3c2VGWVZzMGZQVlFsNUREOFNYaGR5?=
+ =?utf-8?B?SWVYQ21zWUI5SjdiZmRuYnFFOURTa2N6cGQ5c0phZXlyRHRISEp5V243MEhW?=
+ =?utf-8?B?WlBNaitxdndIcGthdzdUd3VvZDBBSWJFeU9Rd2loZ1JnNElSOCszb1VFZFM4?=
+ =?utf-8?B?UDBJZW10dzBrUnVvV09IS00rQ0g5aG1Va0o3Z3NaQ2xZRi9XRk5lVEE3MkZP?=
+ =?utf-8?B?aDE2UEFVU0JrRFN1ZENtZG5xU00xRVVYZDEvenJOWEtVL3VsYVp5T1MyK09u?=
+ =?utf-8?B?YkFERmhndDdhdDYwcHo0TThIN3dpNGgyR1N0bU84QWt3UVlGMG5RYTlIUnBI?=
+ =?utf-8?B?dUpmUjhUSFBxOFkvRExPZ3B4b3RZamhwNXhEWjNUc25HeFRwZnNVa2FvcGo5?=
+ =?utf-8?B?V21jOVdGcGpvMVRQak5ieXM3ZmJvTUU5QXpuWGV0bTRCV2xzc0RUWWdJcXBP?=
+ =?utf-8?B?d2VuUXpoUThTd2RPNmtoaVVBaWZYQStOREk2WUEvNU5XZkV2enVMV3Z6NTdC?=
+ =?utf-8?B?bEsrY0xmQUF4NnFPUFNlTWZHOXlqMkVjY1N6YWo5d2QxeHdScmV5R3NkWnFm?=
+ =?utf-8?B?K3RrQVcrWXluckxSRU5MdDYvbWU2Mk1qZEoxcU84RjNLNU1rNGcrWEVmWTdk?=
+ =?utf-8?B?TDlvRDR0Sm4xL1Y4aGRQamdmdm9na0F4T1kyNGFUMEVsYlJlcmNlcStIeGJi?=
+ =?utf-8?B?MUZBZ2VENWVzdG9ydHVyVjZBTkJETW9PSm5CNHN3YllxZWVnUTBqMmZoWGQ1?=
+ =?utf-8?B?aU12SjVwSkdwM09nMVpDZ29pc29wbUVPbEh0b3lkN0ZOWWF1RitoVUxvYnZR?=
+ =?utf-8?B?dFRZNThmbUVGTXFaMzFWMWZjT0VLbFBmWUpzZmRwY1MybkFGN2gxUU9CY2du?=
+ =?utf-8?B?Z3cyOGFEQjZFalViUXRoem9ZMnJGTjhQRXNDeHVpVE4rdlBYclpLS0ltQXhk?=
+ =?utf-8?B?ZjM2MGhhbFdZTDREU1ZuMzJwZUxkejd0R3pPYzljY1ZhcW1UNFBxTVlrRlQ3?=
+ =?utf-8?B?S3BwRzR0VnRPUU8xOTZ3UXl2ZmttZjhrUjZKWUdMWk5ZZWpHV3B0ZWZ6REIr?=
+ =?utf-8?Q?r8ltQ/6rUrurfKN5f3gKyTWH2vMHyMhp?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YUpCNXAvcDQvUk8yVFJjWTc5dDBYRkdSV2pOeXVQSmpiY1ZTNWROcVpNZmU2?=
+ =?utf-8?B?ckdZbEFHOWpHK01qa0ZpSG5LL1I2ZkRDaUdZRldaRDVlcDcyN1VSMkJGVjdy?=
+ =?utf-8?B?c1AwOXVDa0JXcXM5YkpBZVNEOW0wVWVRdm1qUzI4dFRJeUU5eHVmSE9qWG90?=
+ =?utf-8?B?Qzgrc285cURrRWt2T0I3R1BJbHJxOXpFblRlalBvT1RQOS9YSkZ0NWpKR2Y2?=
+ =?utf-8?B?SHl2ak9RcmFYUFNsRVkxU3JzNVBEQXZOR1FuMEd6UTdLWDZHZ3FpKzFWRk1T?=
+ =?utf-8?B?ZVVMdThwbzJTZk5XOGpJdzBuOGxoVnVESEZOQm9OQzdkRE1WVlJSZEVSQU12?=
+ =?utf-8?B?cDViQWNRckJUbG5kVUJ4TGhtVXVHVTJOMGFxYURtbHN6R3Y1b3licWtSOERV?=
+ =?utf-8?B?RnBmQUdzMytjSVcwM00vSzJsbGlHaC8zSmF0WkZHNjRBVlcyeVFXa2oyL0px?=
+ =?utf-8?B?N3NtbjkyNWVPbWxTWk1WZkdiQWlXMStYbmpTUGZPWlByYVlHUDVFYy9yOXYz?=
+ =?utf-8?B?TWUxcGVRbEJmZmU4S3lDQWZRZ1I0MG5uNFNrTkRiSzJ6T3FmRWlQa1M2OWI5?=
+ =?utf-8?B?QWt4b3R4S2F5ZmltRUVXN3VOb2dHRmFlaU40V3F5NUhDOGNQOXpzSkVBTTA5?=
+ =?utf-8?B?T20xdnd3ZDZSVnIvSkNtUmkwNXk2Wm9JaTJFSzJ6b211dUdJdU9YR1YxaThh?=
+ =?utf-8?B?ODVrQllhczN0RE1ZMkxKenJjODZOSTJoK1c3UjZDcG80QVJ4RHZoYUhHMWZI?=
+ =?utf-8?B?a3ByWjRpWUUzUVV0Tmd1eWlzb0tjQVhYUTlzT0pIa09jQU54RE9Kb0xHQXZR?=
+ =?utf-8?B?T3htVnEzcmUyUlpnc0cyZDFyVDNnRzlxdEJDSFhweE8vdkY4VlkwdkM1UTRt?=
+ =?utf-8?B?aTVRMXJLTFNOY1dJQW1weVNrTTA1L1g2SElNaDV0bkNHVVN4UFVpUFBhZDQx?=
+ =?utf-8?B?bWc1YmtmOXNvdGdOMTJweklGK3IwM1dHYzZ6Yng1clowc1pCem9XZmRiaGlJ?=
+ =?utf-8?B?c2hKd1NGMUpyaHZPUHAvNkl1OW1HMnJtcnU5SGdNL1habW5tRVBzZFNPdTNm?=
+ =?utf-8?B?cE5wRnJkUE1KbG9YQVkyb01lTFhsL1RzS3FTTGh1eDRIdE9Ea0RDTHRZcWVF?=
+ =?utf-8?B?Q2I0M2l3SXU5S2c2a3g3dnBUc0JHSXhKU21vWTljL2poUEorMDlXVDJZT1VZ?=
+ =?utf-8?B?Wmp3UVpTbm8vOFZuYWMwV3p5NjhKdlVjUVBZdFl3Vk5CV0prN2QvVW5XTFdG?=
+ =?utf-8?B?TmZaNE9LOVptamgyTFNwNjEraWVTM01QbkFiS2tGM2huUTRJRHNOSWpMUGZU?=
+ =?utf-8?B?SUQ0TTRRU2ZVT2Z1THJPOWlDT2ZMWHlDRE1rWEtQRC9SMmJ4d29HK240VWkw?=
+ =?utf-8?B?aVhJL2U4NlNod3NISXJTTm1zZXU4VnNKTEExd1AwMTV6eUEvbDNVdTV4cHMz?=
+ =?utf-8?B?OWEyUkNudlpwenJBdHlQb0RobEk0TXphSlZhdlVGdEFvbHZVdDh1RjFNWlFY?=
+ =?utf-8?B?cWxJdGRpNGc5dENxUHJ0ZlZDZkxmRjFCOGN5MXd3ZEpJNFBobWRTUHhGaEg5?=
+ =?utf-8?B?eW0wODA0RDNOWWhpem02Qzl1U0VjNDZQYmFsYXQ2UndqS0VNbUNxNitZSktD?=
+ =?utf-8?B?cnYrank2OXFrbXptY1FSaWNrSSswdXZVREhDb0EyZHNPeW5CMnlGREU4WXJr?=
+ =?utf-8?B?dzV4M0lsMERldis4eU9TK0RMM1o4ZnBPSFppOXVabkIzM0NiT1VaUHdOaUl1?=
+ =?utf-8?B?eGZoUHpYaEhZbjF1ek0zRGRoVVF1aXZ6bzFpc05HQmdmQU85OTgzNEFMckQ3?=
+ =?utf-8?B?T0thWTA3UDdVK0xOKzFGUWlKMDlmOElQMmlqVmtwSTdQS3RhS0ErNzlidVR0?=
+ =?utf-8?B?VFMwUjYzbU9SUjV5VHBTd2VlL1U5TGYzYkxtUFd5ZUs1K3IwU2ZDQW9naURu?=
+ =?utf-8?B?SC9WZC9FU0RaUnBlYXBvdmE5enJaUVkrc2VaVUJ1ZVRxUDdYYkZuRTN0eWUy?=
+ =?utf-8?B?ZEc1YTZFd0tXRldzRjdvd2tJRTZOVGllOGkvVHlmN1g5dUJGZTBSckpBcmU0?=
+ =?utf-8?B?Uk9EOXhRWWZsVWsrTFVFWmtYdkl2ZnBvRmdNVXQxM203cDl5eFBqc2lhNEhZ?=
+ =?utf-8?Q?U+bGTuAs7u2w32gewhCNJEEbK?=
+Content-ID: <DEFB074AC56E614799E78B0E5F697A95@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8d56c6c-a9bd-40ee-9b00-08dd4c0b3e4a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2025 08:48:52.9502 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xK3EqF3NYk8gNTQrpXyCUev66ySGBeo2T+yf4cPzO2NyTJf9P2Wy/ONM7aXZFAW2imvmfJbNlT2t7izFXQ8VnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB6847
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_006_1534812634.1427942994"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,577 +225,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jens,
+--__=_Part_Boundary_006_1534812634.1427942994
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 17 Dec 2024 11:07:37 +0100
-Jens Wiklander <jens.wiklander@linaro.org> wrote:
+T24gVHVlLCAyMDI1LTAyLTExIGF0IDEyOjM0ICswMTAwLCBBbmdlbG9HaW9hY2NoaW5vIERlbCBS
+ZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtz
+IG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRlciBv
+ciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBJbiBwcmVwYXJhdGlvbiBmb3IgYWRkaW5nIGEgbmV3
+IGRyaXZlciBmb3IgdGhlIEhETUkgVFggdjIgSVAsDQo+IHNwbGl0IG91dCB0aGUgZnVuY3Rpb25z
+IHRoYXQgd2lsbCBiZSBjb21tb24gYmV0d2VlbiB0aGUgYWxyZWFkeQ0KPiBwcmVzZW50IG10a19o
+ZG1pICh2MSkgZHJpdmVyIGFuZCB0aGUgbmV3IG9uZS4NCj4gDQo+IFNpbmNlIHRoZSBwcm9iZSBm
+bG93IGZvciBib3RoIGRyaXZlcnMgaXMgOTAlIHNpbWlsYXIsIGFkZCBhIGNvbW1vbg0KPiBwcm9i
+ZSBmdW5jdGlvbiB0aGF0IHdpbGwgYmUgY2FsbGVkIGZyb20gZWFjaCBkcml2ZXIncyAucHJvYmUo
+KQ0KPiBjYWxsYmFjaywgYXZvaWRpbmcgbG90cyBvZiBjb2RlIGR1cGxpY2F0aW9uLg0KPiANCj4g
+U2lnbmVkLW9mZi1ieTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPGFuZ2Vsb2dpb2FjY2hp
+bm8uZGVscmVnbm9AY29sbGFib3JhLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvS2NvbmZpZyAgICAgICAgICAgfCAgMTEgKy0NCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRp
+YXRlay9NYWtlZmlsZSAgICAgICAgICB8ICAgMSArDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2hkbWkuYyAgICAgICAgfCA1NDIgKy0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICBkcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWlfY29tbW9uLmMgfCA0MjYgKysrKysrKysrKysr
+KysrKw0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pX2NvbW1vbi5oIHwgMTg4
+ICsrKysrKysNCj4gIDUgZmlsZXMgY2hhbmdlZCwgNjMzIGluc2VydGlvbnMoKyksIDUzNSBkZWxl
+dGlvbnMoLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX2hkbWlfY29tbW9uLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2hkbWlfY29tbW9uLmgNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9LY29uZmln
+DQo+IGluZGV4IGU0N2RlYmQ2MDYxOS4uOTk0YjQ4YjgyZDQ0IDEwMDY0NA0KPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvS2NvbmZpZw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvS2NvbmZpZw0KPiBAQCAtMzAsOSArMzAsMTggQEAgY29uZmlnIERSTV9NRURJQVRFS19E
+UA0KPiAgICAgICAgIGhlbHANCj4gICAgICAgICAgIERSTS9LTVMgRGlzcGxheSBQb3J0IGRyaXZl
+ciBmb3IgTWVkaWFUZWsgU29Dcy4NCj4gDQo+ICtjb25maWcgRFJNX01FRElBVEVLX0hETUlfQ09N
+TU9ODQo+ICsgICAgICAgdHJpc3RhdGUNCj4gKyAgICAgICBkZXBlbmRzIG9uIERSTV9NRURJQVRF
+Sw0KPiArICAgICAgIHNlbGVjdCBEUk1fRElTUExBWV9IRE1JX0hFTFBFUg0KPiArICAgICAgIHNl
+bGVjdCBEUk1fRElTUExBWV9IRUxQRVINCj4gKyAgICAgICBzZWxlY3QgU05EX1NPQ19IRE1JX0NP
+REVDIGlmIFNORF9TT0MNCj4gKyAgICAgICBoZWxwDQo+ICsgICAgICAgICBNZWRpYVRlayBTb0Mg
+SERNSSBjb21tb24gbGlicmFyeQ0KPiArDQo+ICBjb25maWcgRFJNX01FRElBVEVLX0hETUkNCj4g
+ICAgICAgICB0cmlzdGF0ZSAiRFJNIEhETUkgU3VwcG9ydCBmb3IgTWVkaWF0ZWsgU29DcyINCj4g
+ICAgICAgICBkZXBlbmRzIG9uIERSTV9NRURJQVRFSw0KPiAtICAgICAgIHNlbGVjdCBTTkRfU09D
+X0hETUlfQ09ERUMgaWYgU05EX1NPQw0KPiArICAgICAgIHNlbGVjdCBEUk1fTUVESUFURUtfSERN
+SV9DT01NT04NCj4gICAgICAgICBoZWxwDQo+ICAgICAgICAgICBEUk0vS01TIEhETUkgZHJpdmVy
+IGZvciBNZWRpYXRlayBTb0NzDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvTWFrZWZpbGUNCj4gaW5kZXgg
+NDNhZmQwYTI2ZDE0Li43OGNmMmQ0ZmM4NWYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9NYWtlZmlsZQ0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvTWFr
+ZWZpbGUNCj4gQEAgLTIxLDYgKzIxLDcgQEAgbWVkaWF0ZWstZHJtLXkgOj0gbXRrX2NydGMubyBc
+DQo+IA0KPiAgb2JqLSQoQ09ORklHX0RSTV9NRURJQVRFSykgKz0gbWVkaWF0ZWstZHJtLm8NCj4g
+DQo+ICtvYmotJChDT05GSUdfRFJNX01FRElBVEVLX0hETUlfQ09NTU9OKSArPSBtdGtfaGRtaV9j
+b21tb24ubw0KDQpUaGUgd2hvbGUgcGF0Y2ggbG9va3MgZ29vZCB0byBtZS4NCkJ1dCBtYWtlIGNv
+bW1vbiBwYXJ0IHRvIGEgbW9kdWxlIGxvb2tzIGEgbGl0dGxlIGJpdCBtb3JlIG1vZHVsYXJpemVk
+Lg0KTGV0IHRoaW5ncyB0byBiZSBzaW1wbGUsIEkgd291bGQgbGlrZSB0aGUgd2hvbGUgTWVkaWFU
+ZWsgaGRtaSBkcml2ZXIgYmUgYSBzaW5nbGUgbW9kdWxlLg0KRm9yIE1lZGlhVGVrIGRybSBkcml2
+ZXIsIGl0IGlzIGFscmVhZHkgYnJva2VuIHRvIG1lZGlhdGVrLWRybSwgaGRtaSwgZHAgbW9kdWxl
+cy4NCk1heWJlIHNvbWVkYXkgZHNpIG9yIGRwaSB3b3VsZCBiZSBicm9rZW4gdG8gbW9kdWxlcy4N
+ClNvIEkgd291bGQgbGlrZSBoZG1pIHRvIGJlIGEgc2luZ2xlIG1vZHVsZSB3aGljaCBpbmNsdWRl
+IHYxLCB2MiBhbmQgY29tbW9uIHBhcnQuDQpJZiBzb21lZGF5IHdlIG5lZWQgdG8gb3B0aW1pemUg
+Y29kZSBzaXplLCB0aGVuIHNlbmQgcGF0Y2ggdG8gYnJlYWsgaGRtaSBtb2R1bGUuDQoNClJlZ2Fy
+ZHMsDQpDSw0KDQo+ICBvYmotJChDT05GSUdfRFJNX01FRElBVEVLX0hETUkpICs9IG10a19jZWMu
+bw0KPiAgb2JqLSQoQ09ORklHX0RSTV9NRURJQVRFS19IRE1JKSArPSBtdGtfaGRtaS5vDQo+ICBv
+YmotJChDT05GSUdfRFJNX01FRElBVEVLX0hETUkpICs9IG10a19oZG1pX2RkYy5vDQo+IA0KDQo=
 
-> Add restricted memory allocation to the TEE subsystem.
-> 
-> Restricted memory refers to memory buffers behind a hardware enforced
-> firewall. It is not accessible to the kernel during normal circumstances
-> but rather only accessible to certain hardware IPs or CPUs executing in
-> higher privileged mode than the kernel itself. This interface allows to
-> allocate and manage such restricted memory buffers via interaction with
-> a TEE implementation.
-> 
-> A new ioctl TEE_IOC_RSTMEM_ALLOC is added to allocate these restricted
-> memory buffers.
-> 
-> The restricted memory is allocated for a specific use-case, like Secure
-> Video Playback, Trusted UI, or Secure Video Recording where certain
-> hardware devices can access the memory.
-> 
-> More use-cases can be added in userspace ABI, but it's up to the backend
-> drivers to provide the implementation.
-> 
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/Makefile       |   1 +
->  drivers/tee/tee_core.c     |  38 ++++++-
->  drivers/tee/tee_private.h  |   2 +
->  drivers/tee/tee_rstmem.c   | 201 +++++++++++++++++++++++++++++++++++++
->  drivers/tee/tee_shm.c      |   2 +
->  drivers/tee/tee_shm_pool.c |  69 ++++++++++++-
->  include/linux/tee_core.h   |  15 +++
->  include/linux/tee_drv.h    |   2 +
->  include/uapi/linux/tee.h   |  44 +++++++-
->  9 files changed, 370 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/tee/tee_rstmem.c
-> 
-> diff --git a/drivers/tee/Makefile b/drivers/tee/Makefile
-> index 5488cba30bd2..a4c6b55444b9 100644
-> --- a/drivers/tee/Makefile
-> +++ b/drivers/tee/Makefile
-> @@ -3,6 +3,7 @@ obj-$(CONFIG_TEE) += tee.o
->  tee-objs += tee_core.o
->  tee-objs += tee_shm.o
->  tee-objs += tee_shm_pool.o
-> +tee-objs += tee_rstmem.o
->  obj-$(CONFIG_OPTEE) += optee/
->  obj-$(CONFIG_AMDTEE) += amdtee/
->  obj-$(CONFIG_ARM_TSTEE) += tstee/
-> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> index d113679b1e2d..f4a45b77753b 100644
-> --- a/drivers/tee/tee_core.c
-> +++ b/drivers/tee/tee_core.c
-> @@ -1,12 +1,13 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * Copyright (c) 2015-2016, Linaro Limited
-> + * Copyright (c) 2015-2022, 2024, Linaro Limited
->   */
->  
->  #define pr_fmt(fmt) "%s: " fmt, __func__
->  
->  #include <linux/cdev.h>
->  #include <linux/cred.h>
-> +#include <linux/dma-buf.h>
->  #include <linux/fs.h>
->  #include <linux/idr.h>
->  #include <linux/module.h>
-> @@ -815,6 +816,38 @@ static int tee_ioctl_supp_send(struct tee_context *ctx,
->  	return rc;
->  }
->  
-> +static int
-> +tee_ioctl_rstmem_alloc(struct tee_context *ctx,
-> +		       struct tee_ioctl_rstmem_alloc_data __user *udata)
-> +{
-> +	struct tee_ioctl_rstmem_alloc_data data;
-> +	struct dma_buf *dmabuf;
-> +	int id;
-> +	int fd;
-> +
-> +	if (copy_from_user(&data, udata, sizeof(data)))
-> +		return -EFAULT;
-> +
-> +	if (data.use_case == TEE_IOC_UC_RESERVED)
-> +		return -EINVAL;
-> +
-> +	dmabuf = tee_rstmem_alloc(ctx, data.flags, data.use_case, data.size,
-> +				  &id);
-> +	if (IS_ERR(dmabuf))
-> +		return PTR_ERR(dmabuf);
-> +	if (put_user(id, &udata->id)) {
-> +		fd = -EFAULT;
-> +		goto err;
-> +	}
-> +	fd = dma_buf_fd(dmabuf, O_CLOEXEC);
-> +	if (fd < 0)
-> +		goto err;
-> +	return fd;
-> +err:
-> +	dma_buf_put(dmabuf);
-> +	return fd;
-> +}
-> +
->  static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  {
->  	struct tee_context *ctx = filp->private_data;
-> @@ -839,6 +872,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  		return tee_ioctl_supp_recv(ctx, uarg);
->  	case TEE_IOC_SUPPL_SEND:
->  		return tee_ioctl_supp_send(ctx, uarg);
-> +	case TEE_IOC_RSTMEM_ALLOC:
-> +		return tee_ioctl_rstmem_alloc(ctx, uarg);
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -1286,3 +1321,4 @@ MODULE_AUTHOR("Linaro");
->  MODULE_DESCRIPTION("TEE Driver");
->  MODULE_VERSION("1.0");
->  MODULE_LICENSE("GPL v2");
-> +MODULE_IMPORT_NS("DMA_BUF");
-> diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
-> index 9bc50605227c..bf97796909c0 100644
-> --- a/drivers/tee/tee_private.h
-> +++ b/drivers/tee/tee_private.h
-> @@ -23,5 +23,7 @@ void teedev_ctx_put(struct tee_context *ctx);
->  struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t size);
->  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
->  					  unsigned long addr, size_t length);
-> +struct dma_buf *tee_rstmem_alloc(struct tee_context *ctx, u32 flags,
-> +				 u32 use_case, size_t size, int *shm_id);
->  
->  #endif /*TEE_PRIVATE_H*/
-> diff --git a/drivers/tee/tee_rstmem.c b/drivers/tee/tee_rstmem.c
-> new file mode 100644
-> index 000000000000..536bca2901e2
-> --- /dev/null
-> +++ b/drivers/tee/tee_rstmem.c
-> @@ -0,0 +1,201 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2024 Linaro Limited
-> + */
-> +#include <linux/device.h>
-> +#include <linux/dma-buf.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/scatterlist.h>
-> +#include <linux/slab.h>
-> +#include <linux/tee_core.h>
-> +#include "tee_private.h"
-> +
-> +struct tee_rstmem_attachment {
-> +	struct sg_table table;
-> +	struct device *dev;
-> +};
-> +
-> +static int rstmem_dma_attach(struct dma_buf *dmabuf,
-> +			     struct dma_buf_attachment *attachment)
-> +{
-> +	struct tee_shm *shm = dmabuf->priv;
-> +	struct tee_rstmem_attachment *a;
-> +	int rc;
-> +
-> +	a = kzalloc(sizeof(*a), GFP_KERNEL);
-> +	if (!a)
-> +		return -ENOMEM;
-> +
-> +	if (shm->pages) {
-> +		rc = sg_alloc_table_from_pages(&a->table, shm->pages,
-> +					       shm->num_pages, 0,
-> +					       shm->num_pages * PAGE_SIZE,
-> +					       GFP_KERNEL);
-> +		if (rc)
-> +			goto err;
-> +	} else {
-> +		rc = sg_alloc_table(&a->table, 1, GFP_KERNEL);
-> +		if (rc)
-> +			goto err;
-> +		sg_set_page(a->table.sgl, phys_to_page(shm->paddr), shm->size,
-> +			    0);
-> +	}
-> +
-> +	a->dev = attachment->dev;
-> +	attachment->priv = a;
-> +
-> +	return 0;
-> +err:
-> +	kfree(a);
-> +	return rc;
-> +}
-> +
-> +static void rstmem_dma_detach(struct dma_buf *dmabuf,
-> +			      struct dma_buf_attachment *attachment)
-> +{
-> +	struct tee_rstmem_attachment *a = attachment->priv;
-> +
-> +	sg_free_table(&a->table);
-> +	kfree(a);
-> +}
-> +
-> +static struct sg_table *
-> +rstmem_dma_map_dma_buf(struct dma_buf_attachment *attachment,
-> +		       enum dma_data_direction direction)
-> +{
-> +	struct tee_rstmem_attachment *a = attachment->priv;
-> +	int ret;
-> +
-> +	ret = dma_map_sgtable(attachment->dev, &a->table, direction,
-> +			      DMA_ATTR_SKIP_CPU_SYNC);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return &a->table;
-> +}
-> +
-> +static void rstmem_dma_unmap_dma_buf(struct dma_buf_attachment *attachment,
-> +				     struct sg_table *table,
-> +				     enum dma_data_direction direction)
-> +{
-> +	struct tee_rstmem_attachment *a = attachment->priv;
-> +
-> +	WARN_ON(&a->table != table);
-> +
-> +	dma_unmap_sgtable(attachment->dev, table, direction,
-> +			  DMA_ATTR_SKIP_CPU_SYNC);
-> +}
-> +
-> +static int rstmem_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-> +					   enum dma_data_direction direction)
-> +{
-> +	return -EPERM;
-> +}
-> +
-> +static int rstmem_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-> +					 enum dma_data_direction direction)
-> +{
-> +	return -EPERM;
-> +}
-> +
-> +static int rstmem_dma_buf_mmap(struct dma_buf *dmabuf,
-> +			       struct vm_area_struct *vma)
-> +{
-> +	return -EPERM;
-> +}
-> +
-> +static void rstmem_dma_buf_free(struct dma_buf *dmabuf)
-> +{
-> +	struct tee_shm *shm = dmabuf->priv;
-> +
-> +	tee_shm_put(shm);
-> +}
-> +
-> +static const struct dma_buf_ops rstmem_generic_buf_ops = {
-> +	.attach = rstmem_dma_attach,
-> +	.detach = rstmem_dma_detach,
-> +	.map_dma_buf = rstmem_dma_map_dma_buf,
-> +	.unmap_dma_buf = rstmem_dma_unmap_dma_buf,
-> +	.begin_cpu_access = rstmem_dma_buf_begin_cpu_access,
-> +	.end_cpu_access = rstmem_dma_buf_end_cpu_access,
-> +	.mmap = rstmem_dma_buf_mmap,
-> +	.release = rstmem_dma_buf_free,
-> +};
-> +
-> +struct dma_buf *tee_rstmem_alloc(struct tee_context *ctx, u32 flags,
-> +				 u32 use_case, size_t size, int *shm_id)
-> +{
-> +	struct tee_device *teedev = ctx->teedev;
-> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> +	struct dma_buf *dmabuf;
-> +	struct tee_shm *shm;
-> +	void *ret;
-> +	int rc;
-> +
-> +	if (!tee_device_get(teedev))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (!teedev->desc->ops->rstmem_alloc ||
-> +	    !teedev->desc->ops->rstmem_free) {
-> +		dmabuf = ERR_PTR(-EINVAL);
-> +		goto err;
-> +	}
-> +
-> +	shm = kzalloc(sizeof(*shm), GFP_KERNEL);
-> +	if (!shm) {
-> +		dmabuf = ERR_PTR(-ENOMEM);
-> +		goto err;
-> +	}
-> +
-> +	refcount_set(&shm->refcount, 1);
-> +	shm->flags = TEE_SHM_RESTRICTED;
-> +	shm->use_case = use_case;
-> +	shm->ctx = ctx;
-> +
-> +	mutex_lock(&teedev->mutex);
-> +	shm->id = idr_alloc(&teedev->idr, NULL, 1, 0, GFP_KERNEL);
-> +	mutex_unlock(&teedev->mutex);
-> +	if (shm->id < 0) {
-> +		dmabuf = ERR_PTR(shm->id);
-> +		goto err_kfree;
-> +	}
-> +
-> +	rc = teedev->desc->ops->rstmem_alloc(ctx, shm, flags, use_case, size);
-> +	if (rc) {
-> +		dmabuf = ERR_PTR(rc);
-> +		goto err_idr_remove;
-> +	}
-> +
-> +	mutex_lock(&teedev->mutex);
-> +	ret = idr_replace(&teedev->idr, shm, shm->id);
-> +	mutex_unlock(&teedev->mutex);
-> +	if (IS_ERR(ret)) {
-> +		dmabuf = ret;
-> +		goto err_rstmem_free;
-> +	}
-> +	teedev_ctx_get(ctx);
-> +
-> +	exp_info.ops = &rstmem_generic_buf_ops;
-> +	exp_info.size = shm->size;
-> +	exp_info.priv = shm;
-> +	dmabuf = dma_buf_export(&exp_info);
-> +	if (IS_ERR(dmabuf)) {
-> +		tee_shm_put(shm);
-> +		return dmabuf;
-> +	}
-> +
-> +	*shm_id = shm->id;
-> +	return dmabuf;
-> +
-> +err_rstmem_free:
-> +	teedev->desc->ops->rstmem_free(ctx, shm);
-> +err_idr_remove:
-> +	mutex_lock(&teedev->mutex);
-> +	idr_remove(&teedev->idr, shm->id);
-> +	mutex_unlock(&teedev->mutex);
-> +err_kfree:
-> +	kfree(shm);
-> +err:
-> +	tee_device_put(teedev);
-> +	return dmabuf;
-> +}
-> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> index daf6e5cfd59a..416f7f25d885 100644
-> --- a/drivers/tee/tee_shm.c
-> +++ b/drivers/tee/tee_shm.c
-> @@ -55,6 +55,8 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
->  				"unregister shm %p failed: %d", shm, rc);
->  
->  		release_registered_pages(shm);
-> +	} else if (shm->flags & TEE_SHM_RESTRICTED) {
-> +		teedev->desc->ops->rstmem_free(shm->ctx, shm);
->  	}
->  
->  	teedev_ctx_put(shm->ctx);
-> diff --git a/drivers/tee/tee_shm_pool.c b/drivers/tee/tee_shm_pool.c
-> index 80004b55628d..ee57ef157a77 100644
-> --- a/drivers/tee/tee_shm_pool.c
-> +++ b/drivers/tee/tee_shm_pool.c
-> @@ -1,9 +1,8 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * Copyright (c) 2015, 2017, 2022 Linaro Limited
-> + * Copyright (c) 2015, 2017, 2022, 2024 Linaro Limited
->   */
->  #include <linux/device.h>
-> -#include <linux/dma-buf.h>
->  #include <linux/genalloc.h>
->  #include <linux/slab.h>
->  #include <linux/tee_core.h>
-> @@ -90,3 +89,69 @@ struct tee_shm_pool *tee_shm_pool_alloc_res_mem(unsigned long vaddr,
->  	return ERR_PTR(rc);
->  }
->  EXPORT_SYMBOL_GPL(tee_shm_pool_alloc_res_mem);
-> +
-> +static int rstmem_pool_op_gen_alloc(struct tee_shm_pool *pool,
-> +				    struct tee_shm *shm, size_t size,
-> +				    size_t align)
-> +{
-> +	size_t sz = ALIGN(size, PAGE_SIZE);
-> +	phys_addr_t pa;
-> +
-> +	pa = gen_pool_alloc(pool->private_data, sz);
-> +	if (!pa)
-> +		return -ENOMEM;
-> +
-> +	shm->size = sz;
-> +	shm->paddr = pa;
-> +
-> +	return 0;
-> +}
-> +
-> +static void rstmem_pool_op_gen_free(struct tee_shm_pool *pool,
-> +				    struct tee_shm *shm)
-> +{
-> +	gen_pool_free(pool->private_data, shm->paddr, shm->size);
-> +	shm->paddr = 0;
-> +}
-> +
-> +static struct tee_shm_pool_ops rstmem_pool_ops_generic = {
-> +	.alloc = rstmem_pool_op_gen_alloc,
-> +	.free = rstmem_pool_op_gen_free,
-> +	.destroy_pool = pool_op_gen_destroy_pool,
-> +};
-> +
-> +struct tee_shm_pool *tee_rstmem_gen_pool_alloc(phys_addr_t paddr, size_t size)
-> +{
-> +	const size_t page_mask = PAGE_SIZE - 1;
-> +	struct tee_shm_pool *pool;
-> +	int rc;
-> +
-> +	/* Check it's page aligned */
-> +	if ((paddr | size) & page_mask)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	pool = kzalloc(sizeof(*pool), GFP_KERNEL);
-> +	if (!pool)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	pool->private_data = gen_pool_create(PAGE_SHIFT, -1);
-> +	if (!pool->private_data) {
-> +		rc = -ENOMEM;
-> +		goto err_free;
-> +	}
-> +
-> +	rc = gen_pool_add(pool->private_data, paddr, size, -1);
-> +	if (rc)
-> +		goto err_free_pool;
-> +
-> +	pool->ops = &rstmem_pool_ops_generic;
-> +	return pool;
-> +
-> +err_free_pool:
-> +	gen_pool_destroy(pool->private_data);
-> +err_free:
-> +	kfree(pool);
-> +
-> +	return ERR_PTR(rc);
-> +}
-> +EXPORT_SYMBOL_GPL(tee_rstmem_gen_pool_alloc);
-> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> index a38494d6b5f4..608302f494fe 100644
-> --- a/include/linux/tee_core.h
-> +++ b/include/linux/tee_core.h
-> @@ -26,6 +26,7 @@
->  #define TEE_SHM_USER_MAPPED	BIT(1)  /* Memory mapped in user space */
->  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
->  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
-> +#define TEE_SHM_RESTRICTED	BIT(4)  /* Restricted memory */
->  
->  #define TEE_DEVICE_FLAG_REGISTERED	0x1
->  #define TEE_MAX_DEV_NAME_LEN		32
-> @@ -76,6 +77,8 @@ struct tee_device {
->   * @supp_send:		called for supplicant to send a response
->   * @shm_register:	register shared memory buffer in TEE
->   * @shm_unregister:	unregister shared memory buffer in TEE
-> + * @rstmem_alloc:	allocate restricted memory
-> + * @rstmem_free:	free restricted memory
->   */
->  struct tee_driver_ops {
->  	void (*get_version)(struct tee_device *teedev,
-> @@ -99,6 +102,9 @@ struct tee_driver_ops {
->  			    struct page **pages, size_t num_pages,
->  			    unsigned long start);
->  	int (*shm_unregister)(struct tee_context *ctx, struct tee_shm *shm);
-> +	int (*rstmem_alloc)(struct tee_context *ctx, struct tee_shm *shm,
-> +			    u32 flags, u32 use_case, size_t size);
-> +	void (*rstmem_free)(struct tee_context *ctx, struct tee_shm *shm);
->  };
->  
->  /**
-> @@ -229,6 +235,15 @@ static inline void tee_shm_pool_free(struct tee_shm_pool *pool)
->  	pool->ops->destroy_pool(pool);
->  }
->  
-> +/**
-> + * tee_rstmem_gen_pool_alloc() - Create a restricted memory manager
-> + * @paddr:	Physical address of start of pool
-> + * @size:	Size in bytes of the pool
-> + *
-> + * @returns pointer to a 'struct tee_shm_pool' or an ERR_PTR on failure.
-> + */
-> +struct tee_shm_pool *tee_rstmem_gen_pool_alloc(phys_addr_t paddr, size_t size);
-> +
->  /**
->   * tee_get_drvdata() - Return driver_data pointer
->   * @returns the driver_data pointer supplied to tee_register().
-> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> index a54c203000ed..cba067715d14 100644
-> --- a/include/linux/tee_drv.h
-> +++ b/include/linux/tee_drv.h
-> @@ -55,6 +55,7 @@ struct tee_context {
->   * @pages:	locked pages from userspace
->   * @num_pages:	number of locked pages
->   * @refcount:	reference counter
-> + * @use_case:	defined by TEE_IOC_UC_* in tee.h
->   * @flags:	defined by TEE_SHM_* in tee_core.h
->   * @id:		unique id of a shared memory object on this device, shared
->   *		with user space
-> @@ -71,6 +72,7 @@ struct tee_shm {
->  	struct page **pages;
->  	size_t num_pages;
->  	refcount_t refcount;
-> +	u32 use_case;
->  	u32 flags;
->  	int id;
->  	u64 sec_world_id;
-> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> index d0430bee8292..88834448debb 100644
-> --- a/include/uapi/linux/tee.h
-> +++ b/include/uapi/linux/tee.h
-> @@ -1,5 +1,5 @@
->  /*
-> - * Copyright (c) 2015-2016, Linaro Limited
-> + * Copyright (c) 2015-2017, 2020, 2024, Linaro Limited
->   * All rights reserved.
->   *
->   * Redistribution and use in source and binary forms, with or without
-> @@ -48,6 +48,7 @@
->  #define TEE_GEN_CAP_PRIVILEGED	(1 << 1)/* Privileged device (for supplicant) */
->  #define TEE_GEN_CAP_REG_MEM	(1 << 2)/* Supports registering shared memory */
->  #define TEE_GEN_CAP_MEMREF_NULL	(1 << 3)/* NULL MemRef support */
-> +#define TEE_GEN_CAP_RSTMEM	(1 << 4)/* Supports restricted memory */
->  
->  #define TEE_MEMREF_NULL		(__u64)(-1) /* NULL MemRef Buffer */
->  
-> @@ -389,6 +390,47 @@ struct tee_ioctl_shm_register_data {
->   */
->  #define TEE_IOC_SHM_REGISTER   _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 9, \
->  				     struct tee_ioctl_shm_register_data)
-> +
-> +#define TEE_IOC_UC_RESERVED		0
-> +#define TEE_IOC_UC_SECURE_VIDEO_PLAY	1
-> +#define TEE_IOC_UC_TRUSTED_UI		2
-> +#define TEE_IOC_UC_SECURE_VIDEO_RECORD	3
-> +
-> +/**
-> + * struct tee_ioctl_rstmem_alloc_data - Restricted memory allocate argument
-> + * @size:	[in/out] Size of restricted memory to allocate
-> + * @flags:	[in/out] Flags to/from allocate
-> + * @use_case	[in] Restricted memory use case, TEE_IOC_UC_*
-> + * @id:		[out] Identifier of the restricted memory
-> + */
-> +struct tee_ioctl_rstmem_alloc_data {
-> +	__u64 size;
-> +	__u32 flags;
-> +	__u32 use_case;
-> +	__s32 id;
-> +};
-> +
-> +/**
-> + * TEE_IOC_RSTMEM_ALLOC - allocate restricted memory
-> + *
-> + * Allocates restricted physically memory normally not accessible by the
-> + * kernel.
-> + *
-> + * Restricted memory refers to memory buffers behind a hardware enforced
-> + * firewall. It is not accessible to the kernel during normal circumstances
-> + * but rather only accessible to certain hardware IPs or CPUs executing in
-> + * higher privileged mode than the kernel itself. This interface allows to
-> + * allocate and manage such restricted memory buffers via interaction with
-> + * a TEE implementation.
-> + *
-> + * Returns a file descriptor on success or < 0 on failure
-> + *
-> + * The returned file descriptor is a dma-buf that can be attached and
-> + * mapped for device with permission to access the physical memory.
-> + */
-> +#define TEE_IOC_RSTMEM_ALLOC     _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 10, \
-> +				       struct tee_ioctl_rstmem_alloc_data)
-> +
->  /*
->   * Five syscalls are used when communicating with the TEE driver.
->   * open(): opens the device associated with the driver
+--__=_Part_Boundary_006_1534812634.1427942994
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1R1ZSwmIzMyOzIwMjUtMDItMTEmIzMyO2F0
+JiMzMjsxMjozNCYjMzI7KzAxMDAsJiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
+Z25vJiMzMjt3cm90ZToNCiZndDsmIzMyO0V4dGVybmFsJiMzMjtlbWFpbCYjMzI7OiYjMzI7UGxl
+YXNlJiMzMjtkbyYjMzI7bm90JiMzMjtjbGljayYjMzI7bGlua3MmIzMyO29yJiMzMjtvcGVuJiMz
+MjthdHRhY2htZW50cyYjMzI7dW50aWwmIzMyO3lvdSYjMzI7aGF2ZSYjMzI7dmVyaWZpZWQmIzMy
+O3RoZSYjMzI7c2VuZGVyJiMzMjtvciYjMzI7dGhlJiMzMjtjb250ZW50Lg0KJmd0OyYjMzI7DQom
+Z3Q7JiMzMjsNCiZndDsmIzMyO0luJiMzMjtwcmVwYXJhdGlvbiYjMzI7Zm9yJiMzMjthZGRpbmcm
+IzMyO2EmIzMyO25ldyYjMzI7ZHJpdmVyJiMzMjtmb3ImIzMyO3RoZSYjMzI7SERNSSYjMzI7VFgm
+IzMyO3YyJiMzMjtJUCwNCiZndDsmIzMyO3NwbGl0JiMzMjtvdXQmIzMyO3RoZSYjMzI7ZnVuY3Rp
+b25zJiMzMjt0aGF0JiMzMjt3aWxsJiMzMjtiZSYjMzI7Y29tbW9uJiMzMjtiZXR3ZWVuJiMzMjt0
+aGUmIzMyO2FscmVhZHkNCiZndDsmIzMyO3ByZXNlbnQmIzMyO210a19oZG1pJiMzMjsodjEpJiMz
+Mjtkcml2ZXImIzMyO2FuZCYjMzI7dGhlJiMzMjtuZXcmIzMyO29uZS4NCiZndDsmIzMyOw0KJmd0
+OyYjMzI7U2luY2UmIzMyO3RoZSYjMzI7cHJvYmUmIzMyO2Zsb3cmIzMyO2ZvciYjMzI7Ym90aCYj
+MzI7ZHJpdmVycyYjMzI7aXMmIzMyOzkwJSYjMzI7c2ltaWxhciwmIzMyO2FkZCYjMzI7YSYjMzI7
+Y29tbW9uDQomZ3Q7JiMzMjtwcm9iZSYjMzI7ZnVuY3Rpb24mIzMyO3RoYXQmIzMyO3dpbGwmIzMy
+O2JlJiMzMjtjYWxsZWQmIzMyO2Zyb20mIzMyO2VhY2gmIzMyO2RyaXZlciYjMzk7cyYjMzI7LnBy
+b2JlKCkNCiZndDsmIzMyO2NhbGxiYWNrLCYjMzI7YXZvaWRpbmcmIzMyO2xvdHMmIzMyO29mJiMz
+Mjtjb2RlJiMzMjtkdXBsaWNhdGlvbi4NCiZndDsmIzMyOw0KJmd0OyYjMzI7U2lnbmVkLW9mZi1i
+eTomIzMyO0FuZ2Vsb0dpb2FjY2hpbm8mIzMyO0RlbCYjMzI7UmVnbm8mIzMyOyZsdDthbmdlbG9n
+aW9hY2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9yYS5jb20mZ3Q7DQomZ3Q7JiMzMjstLS0NCiZndDsm
+IzMyOyYjMzI7ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL0tjb25maWcmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7fCYjMzI7JiMzMjsxMSYjMzI7
+Ky0NCiZndDsmIzMyOyYjMzI7ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL01ha2VmaWxlJiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt8JiMzMjsmIzMyOyYj
+MzI7MSYjMzI7Kw0KJmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hk
+bWkuYyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt8JiMzMjs1NDImIzMy
+OystLS0tLS0tLS0tLS0tLS0tLS0tLQ0KJmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2hkbWlfY29tbW9uLmMmIzMyO3wmIzMyOzQyNiYjMzI7KysrKysrKysrKysrKysr
+Kw0KJmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWlfY29tbW9u
+LmgmIzMyO3wmIzMyOzE4OCYjMzI7KysrKysrKw0KJmd0OyYjMzI7JiMzMjs1JiMzMjtmaWxlcyYj
+MzI7Y2hhbmdlZCwmIzMyOzYzMyYjMzI7aW5zZXJ0aW9ucygrKSwmIzMyOzUzNSYjMzI7ZGVsZXRp
+b25zKC0pDQomZ3Q7JiMzMjsmIzMyO2NyZWF0ZSYjMzI7bW9kZSYjMzI7MTAwNjQ0JiMzMjtkcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWlfY29tbW9uLmMNCiZndDsmIzMyOyYjMzI7Y3Jl
+YXRlJiMzMjttb2RlJiMzMjsxMDA2NDQmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+aGRtaV9jb21tb24uaA0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9k
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvS2NvbmZpZyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvS2NvbmZpZw0KJmd0OyYjMzI7aW5kZXgmIzMyO2U0N2RlYmQ2MDYxOS4uOTk0YjQ4Yjgy
+ZDQ0JiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvS2NvbmZpZw0KJmd0OyYjMzI7KysrJiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9L
+Y29uZmlnDQomZ3Q7JiMzMjtAQCYjMzI7LTMwLDkmIzMyOyszMCwxOCYjMzI7QEAmIzMyO2NvbmZp
+ZyYjMzI7RFJNX01FRElBVEVLX0RQDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7aGVscA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtEUk0vS01TJiMzMjtEaXNwbGF5JiMzMjtQb3J0JiMzMjtk
+cml2ZXImIzMyO2ZvciYjMzI7TWVkaWFUZWsmIzMyO1NvQ3MuDQomZ3Q7JiMzMjsNCiZndDsmIzMy
+Oytjb25maWcmIzMyO0RSTV9NRURJQVRFS19IRE1JX0NPTU1PTg0KJmd0OyYjMzI7KyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7dHJpc3RhdGUNCiZndDsmIzMyOysmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2RlcGVuZHMmIzMyO29uJiMzMjtEUk1fTUVESUFURUsN
+CiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3NlbGVjdCYjMzI7
+RFJNX0RJU1BMQVlfSERNSV9IRUxQRVINCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyO3NlbGVjdCYjMzI7RFJNX0RJU1BMQVlfSEVMUEVSDQomZ3Q7JiMzMjsrJiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzZWxlY3QmIzMyO1NORF9TT0NfSERNSV9D
+T0RFQyYjMzI7aWYmIzMyO1NORF9TT0MNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyO2hlbHANCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjtNZWRpYVRlayYjMzI7U29DJiMzMjtIRE1JJiMzMjtjb21tb24mIzMy
+O2xpYnJhcnkNCiZndDsmIzMyOysNCiZndDsmIzMyOyYjMzI7Y29uZmlnJiMzMjtEUk1fTUVESUFU
+RUtfSERNSQ0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+O3RyaXN0YXRlJiMzMjsmcXVvdDtEUk0mIzMyO0hETUkmIzMyO1N1cHBvcnQmIzMyO2ZvciYjMzI7
+TWVkaWF0ZWsmIzMyO1NvQ3MmcXVvdDsNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjtkZXBlbmRzJiMzMjtvbiYjMzI7RFJNX01FRElBVEVLDQomZ3Q7JiMz
+MjstJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzZWxlY3QmIzMyO1NORF9TT0Nf
+SERNSV9DT0RFQyYjMzI7aWYmIzMyO1NORF9TT0MNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyO3NlbGVjdCYjMzI7RFJNX01FRElBVEVLX0hETUlfQ09NTU9ODQom
+Z3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aGVscA0KJmd0
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtE
+Uk0vS01TJiMzMjtIRE1JJiMzMjtkcml2ZXImIzMyO2ZvciYjMzI7TWVkaWF0ZWsmIzMyO1NvQ3MN
+CiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9N
+YWtlZmlsZSYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvTWFrZWZpbGUNCiZndDsmIzMy
+O2luZGV4JiMzMjs0M2FmZDBhMjZkMTQuLjc4Y2YyZDRmYzg1ZiYjMzI7MTAwNjQ0DQomZ3Q7JiMz
+MjstLS0mIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL01ha2VmaWxlDQomZ3Q7JiMzMjsr
+KysmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL01ha2VmaWxlDQomZ3Q7JiMzMjtAQCYj
+MzI7LTIxLDYmIzMyOysyMSw3JiMzMjtAQCYjMzI7bWVkaWF0ZWstZHJtLXkmIzMyOzo9JiMzMjtt
+dGtfY3J0Yy5vJiMzMjsmIzkyOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmIzMyO29iai0mIzM2OyhD
+T05GSUdfRFJNX01FRElBVEVLKSYjMzI7Kz0mIzMyO21lZGlhdGVrLWRybS5vDQomZ3Q7JiMzMjsN
+CiZndDsmIzMyOytvYmotJiMzNjsoQ09ORklHX0RSTV9NRURJQVRFS19IRE1JX0NPTU1PTikmIzMy
+Oys9JiMzMjttdGtfaGRtaV9jb21tb24ubw0KDQpUaGUmIzMyO3dob2xlJiMzMjtwYXRjaCYjMzI7
+bG9va3MmIzMyO2dvb2QmIzMyO3RvJiMzMjttZS4NCkJ1dCYjMzI7bWFrZSYjMzI7Y29tbW9uJiMz
+MjtwYXJ0JiMzMjt0byYjMzI7YSYjMzI7bW9kdWxlJiMzMjtsb29rcyYjMzI7YSYjMzI7bGl0dGxl
+JiMzMjtiaXQmIzMyO21vcmUmIzMyO21vZHVsYXJpemVkLg0KTGV0JiMzMjt0aGluZ3MmIzMyO3Rv
+JiMzMjtiZSYjMzI7c2ltcGxlLCYjMzI7SSYjMzI7d291bGQmIzMyO2xpa2UmIzMyO3RoZSYjMzI7
+d2hvbGUmIzMyO01lZGlhVGVrJiMzMjtoZG1pJiMzMjtkcml2ZXImIzMyO2JlJiMzMjthJiMzMjtz
+aW5nbGUmIzMyO21vZHVsZS4NCkZvciYjMzI7TWVkaWFUZWsmIzMyO2RybSYjMzI7ZHJpdmVyLCYj
+MzI7aXQmIzMyO2lzJiMzMjthbHJlYWR5JiMzMjticm9rZW4mIzMyO3RvJiMzMjttZWRpYXRlay1k
+cm0sJiMzMjtoZG1pLCYjMzI7ZHAmIzMyO21vZHVsZXMuDQpNYXliZSYjMzI7c29tZWRheSYjMzI7
+ZHNpJiMzMjtvciYjMzI7ZHBpJiMzMjt3b3VsZCYjMzI7YmUmIzMyO2Jyb2tlbiYjMzI7dG8mIzMy
+O21vZHVsZXMuDQpTbyYjMzI7SSYjMzI7d291bGQmIzMyO2xpa2UmIzMyO2hkbWkmIzMyO3RvJiMz
+MjtiZSYjMzI7YSYjMzI7c2luZ2xlJiMzMjttb2R1bGUmIzMyO3doaWNoJiMzMjtpbmNsdWRlJiMz
+Mjt2MSwmIzMyO3YyJiMzMjthbmQmIzMyO2NvbW1vbiYjMzI7cGFydC4NCklmJiMzMjtzb21lZGF5
+JiMzMjt3ZSYjMzI7bmVlZCYjMzI7dG8mIzMyO29wdGltaXplJiMzMjtjb2RlJiMzMjtzaXplLCYj
+MzI7dGhlbiYjMzI7c2VuZCYjMzI7cGF0Y2gmIzMyO3RvJiMzMjticmVhayYjMzI7aGRtaSYjMzI7
+bW9kdWxlLg0KDQpSZWdhcmRzLA0KQ0sNCg0KJmd0OyYjMzI7JiMzMjtvYmotJiMzNjsoQ09ORklH
+X0RSTV9NRURJQVRFS19IRE1JKSYjMzI7Kz0mIzMyO210a19jZWMubw0KJmd0OyYjMzI7JiMzMjtv
+YmotJiMzNjsoQ09ORklHX0RSTV9NRURJQVRFS19IRE1JKSYjMzI7Kz0mIzMyO210a19oZG1pLm8N
+CiZndDsmIzMyOyYjMzI7b2JqLSYjMzY7KENPTkZJR19EUk1fTUVESUFURUtfSERNSSkmIzMyOys9
+JiMzMjttdGtfaGRtaV9kZGMubw0KJmd0OyYjMzI7DQoNCg0KPC9wcmU+DQo8L3A+PC9ib2R5Pjwv
+aHRtbD48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsg
+Q29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0
+aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0
+YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBv
+ciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdz
+LiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQg
+cmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJp
+bnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRz
+IA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHBy
+b2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRl
+ZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUgDQp0aGF0IHlvdSBoYXZlIHJl
+Y2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQpp
+bW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBh
+bGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZy
+b20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMg
+ZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
+
+--__=_Part_Boundary_006_1534812634.1427942994--
 
