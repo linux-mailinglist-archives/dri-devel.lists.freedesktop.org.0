@@ -2,80 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C45A34DCA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 19:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91ED6A34DFB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 19:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE3610E109;
-	Thu, 13 Feb 2025 18:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C4410EB77;
+	Thu, 13 Feb 2025 18:48:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="g+eBORRU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R8SYI67B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A65110E109
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 18:36:51 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5450f38393aso1128087e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 10:36:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1739471810; x=1740076610;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6MXgt8K1fqxe7oAyzFvQ5u+fTJ1UmsA6LGu4qS+I3xQ=;
- b=g+eBORRUgBis5qlhlUeRYHWffb/HSnimZJb+iOveH9xix8ZZ2xZrwViiYCgUPKl3nU
- flwyU7Od1Ix+6FVQ8oLrOf1n6elxdYPxjzjznn/fjB7EyPMY29qu4qnJCShiRd2hz9M6
- I/PY2PwVKgVRmkczQIXMCdgBVajEWfBz7la4r/M2oqVi7fTblGpXVxQ685nsT6TKGXSx
- 3ctOkdr7jDJfO2lXARwxMsWV7vqJbBBJ6OMsCc0MEXoM4Qhwy7rVkxVQvBYcA8zzOofa
- 5ylNxQaMcxhxfXjAdtd0a4ixvC/5055F+Jic9yHndvAvYJILfKQsQDHC6s8Koj730NUt
- e1BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739471810; x=1740076610;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6MXgt8K1fqxe7oAyzFvQ5u+fTJ1UmsA6LGu4qS+I3xQ=;
- b=nfEx/+2d58e8ImhjhWLVE/BDb1lbeX7ywI0Big0pwa3Ro5QdgM4GU3hdz6R67OVf1i
- JVV+mG9LD3+xirg0IHsY41xiKxoHOEPyUKzTJD4BL60INOaDJNmWhfO2IksxqJaYS7Cn
- THHoaNTa2LEOC9hmRiojJfEkNlSvJHdsLV3nC2DAvwzqBBv+Hdz7vE5MNXUpb4mJe9wA
- /N5aJskroDskX/AZIN1w8WS1p+Rckr9D3rAKX44kghC7XFHXXgqXqMm3USLrwZHuVnjF
- 4yMoRqc3rggNCZqf6SQKSOLUU6W9nodjgay31GGESfrhxl4UM06dZtpgTQlNIiF+mVY8
- UCZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXR3jCqKTTr0hE//4VQWgpBlLIaVJzjCPD+JVxHY/W6B63NlF+yVx+ub4pxg4sZTWr9oHX8gPdlAYI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3KWCiXn9g+WAT+qgHpFRapOf7XK6VkZvtf45RGqlfAW8Hi+wm
- ScYMsd2/ntk2osi9Th2qav3QOt5RwVrKpQqSKQ0FnxmxJz0nbVmlzAHnOe138q4lyNZH6kevIC9
- 7COaz0ihroTSU0CvlhLpQTA97jna8hrI1Dx5aVw==
-X-Gm-Gg: ASbGncv7CZBZus8BRK8tFzLNGP3PHZT2awGuG7XqZ+poEvKLaQe+MS760BNKHrjvDLR
- hJ6xBiZX+LAWOb8LVPOJSocCrvI40TaAzAv2GxPaDW88sSdVAtVIteuSfbKjjvaguYeH7arq+rN
- eojz3lenRFSwfOrHfnMbDp0PwVibRX
-X-Google-Smtp-Source: AGHT+IGS6rZ5QoysfkI0qHoJmFvWRDPx9d8qV86s8a9//PI16K2BiXEPn/UKdP9YO5UDgyQ2advyGUV8KL3E064dBuY=
-X-Received: by 2002:a05:6512:1195:b0:545:9e1:e824 with SMTP id
- 2adb3069b0e04-545184bc12fmr3451856e87.48.1739471809751; Thu, 13 Feb 2025
- 10:36:49 -0800 (PST)
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A786410EB77
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 18:48:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739472492; x=1771008492;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=t2j9sCGbQIRyHgbP76ZlMlLU9OQTCcx8w8sYQUuOJXo=;
+ b=R8SYI67BWp1pzINSTfty6pvgiUwv0DY1P3njPTiHYvg4eUP0g1M4yN8n
+ 26ykSy5gygR0E7DWcvFgLeIAR41EGaNwUIDMKxjNYwSvpYPaLp6BvMWKC
+ BizqG67hBeMkw23ibqHwqeARQ3juYexUBdo3ylE2pt9r7e+1TJcWHUeu6
+ ATDZbiH7gYOShnT7QNoWtMm2BLNnclDrnwI18v6BUs220h5lQocGcxD14
+ 0p/XR85Ra7QpHRtvWOwDWx55rn4GCRvM88IgsM/MEGTpLOYYvmhDrYILT
+ DY30UZ6uGJZnvrr5br7V9z5Wvv2IuS9Dfk6AwLjxgJZITRejzTFR/pye9 A==;
+X-CSE-ConnectionGUID: DjmbSVOgSmC2rmVcmf4ifQ==
+X-CSE-MsgGUID: 4zFNcr63S16ETRp0QM6xKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="43964350"
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="43964350"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2025 10:48:12 -0800
+X-CSE-ConnectionGUID: QEsi/t42T6GRXflvKDGtTw==
+X-CSE-MsgGUID: 1qeSg+lTToahOc2h8flgSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="112974156"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.30])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2025 10:48:07 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, Alexandru Ardelean
+ <aardelean@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v2 1/2] drm: Move for_each_if() to util_macros.h for
+ wider use
+In-Reply-To: <20250213182527.3092371-2-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20250213182527.3092371-1-andriy.shevchenko@linux.intel.com>
  <20250213182527.3092371-2-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20250213182527.3092371-2-andriy.shevchenko@linux.intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 13 Feb 2025 19:36:38 +0100
-X-Gm-Features: AWEUYZkqCv_yLp89wB5ocJkqXxJ0d_HsrRMQvT3Q1hOD30OWbUeTKkdx_i3cu5E
-Message-ID: <CAMRc=Mf0MMKB40gC1hJLwY1i1Bjj+aKKDfFN9sYUzG_Z5Hu1iQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Move for_each_if() to util_macros.h for wider
- use
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Alexandru Ardelean <aardelean@baylibre.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Feb 2025 20:48:02 +0200
+Message-ID: <87msepy93x.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +77,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 7:25=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
+On Thu, 13 Feb 2025, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 > Other subsystem(s) may want to reuse the for_each_if() macro.
 > Move it to util_macros.h to make it globally available.
 >
 > Suggested-by: Bartosz Golaszewski <brgl@bgdev.pl>
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Yay!
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+If you want to go down the memory lane, see [1]. ;)
+
+
+[1] https://lore.kernel.org/r/20180709083650.23549-1-daniel.vetter@ffwll.ch
+
 > ---
+>  include/drm/drm_util.h      | 16 +---------------
+>  include/linux/util_macros.h | 15 +++++++++++++++
+>  2 files changed, 16 insertions(+), 15 deletions(-)
+>
+> diff --git a/include/drm/drm_util.h b/include/drm/drm_util.h
+> index 79952d8c4bba..440199618620 100644
+> --- a/include/drm/drm_util.h
+> +++ b/include/drm/drm_util.h
+> @@ -36,6 +36,7 @@
+>  #include <linux/kgdb.h>
+>  #include <linux/preempt.h>
+>  #include <linux/smp.h>
+> +#include <linux/util_macros.h>
+>  
+>  /*
+>   * Use EXPORT_SYMBOL_FOR_TESTS_ONLY() for functions that shall
+> @@ -47,21 +48,6 @@
+>  #define EXPORT_SYMBOL_FOR_TESTS_ONLY(x)
+>  #endif
+>  
+> -/**
+> - * for_each_if - helper for handling conditionals in various for_each macros
+> - * @condition: The condition to check
+> - *
+> - * Typical use::
+> - *
+> - *	#define for_each_foo_bar(x, y) \'
+> - *		list_for_each_entry(x, y->list, head) \'
+> - *			for_each_if(x->something == SOMETHING)
+> - *
+> - * The for_each_if() macro makes the use of for_each_foo_bar() less error
+> - * prone.
+> - */
+> -#define for_each_if(condition) if (!(condition)) {} else
+> -
+>  /**
+>   * drm_can_sleep - returns true if currently okay to sleep
+>   *
+> diff --git a/include/linux/util_macros.h b/include/linux/util_macros.h
+> index 825487fb66fa..3b570b765b75 100644
+> --- a/include/linux/util_macros.h
+> +++ b/include/linux/util_macros.h
+> @@ -4,6 +4,21 @@
+>  
+>  #include <linux/math.h>
+>  
+> +/**
+> + * for_each_if - helper for handling conditionals in various for_each macros
+> + * @condition: The condition to check
+> + *
+> + * Typical use::
+> + *
+> + *	#define for_each_foo_bar(x, y) \'
+> + *		list_for_each_entry(x, y->list, head) \'
+> + *			for_each_if(x->something == SOMETHING)
+> + *
+> + * The for_each_if() macro makes the use of for_each_foo_bar() less error
+> + * prone.
+> + */
+> +#define for_each_if(condition) if (!(condition)) {} else
+> +
+>  /**
+>   * find_closest - locate the closest element in a sorted array
+>   * @x: The reference value.
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-Who would pick it up? Should I take it via the GPIO tree and provide
-an immutable branch for the DRM tree?
-
-Bart
+-- 
+Jani Nikula, Intel
