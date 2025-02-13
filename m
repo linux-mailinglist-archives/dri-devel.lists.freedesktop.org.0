@@ -2,54 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5956A335F0
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 04:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01B1A3360B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 04:24:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2309810E9CF;
-	Thu, 13 Feb 2025 03:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 846C810E9DC;
+	Thu, 13 Feb 2025 03:24:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="M82ODiF9";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="e/FAwqdX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3874210E9CF
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 03:06:52 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
- id EC17A203F3CE; Wed, 12 Feb 2025 19:06:50 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EC17A203F3CE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1739416010;
- bh=ildVpwYVvhezs9I8BAi45vYVgvdz4RusC9W0T4n7tYM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M82ODiF9MEKCEK3Udr0lBzPDkB5D8YITWC5xTs/2eDqu2oaIdA5nZlWXCLAb28fd7
- goZD8RNvMFKG8ghFK5p/QomP+KYlTeyAcKUuNcWLJPM+P7qkPPBpFLdOKITywWR1TV
- wb9qyCfwapQvMvYRJLBq7PXC76e8TuBQtPqDgdK4=
-Date: Wed, 12 Feb 2025 19:06:50 -0800
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "deller@gmx.de" <deller@gmx.de>, "weh@microsoft.com" <weh@microsoft.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: Re: [PATCH 1/1] fbdev: hyperv_fb: iounmap() the correct memory when
- removing a device
-Message-ID: <20250213030650.GA24166@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20250209235252.2987-1-mhklinux@outlook.com>
- <20250210124043.GA17819@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <SN6PR02MB4157B0F36D7B99A5BF01471CD4F22@SN6PR02MB4157.namprd02.prod.outlook.com>
- <20250210145825.GA12377@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <20250210165221.GA3465@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <SN6PR02MB4157C1DF0A0101EEF4CA79E2D4FF2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3ED10E9D8;
+ Thu, 13 Feb 2025 03:24:35 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51CLSU3A030642;
+ Thu, 13 Feb 2025 03:23:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ IoDBnBveHbXkdQl+RWjF5XUN6mrpWr/oxCaro/fZcyo=; b=e/FAwqdX9scNW8E9
+ R4TuKr7zRLysaMRb34aAPm2WRXFtZp/AkNLzr2WZF+fEb2hxO+g3Eux1uVjTx9DP
+ q0SC0SuXMTQhLI8b1owlp8+mJhxP6M5Tic6KaKnUTGxhLOcMMwtYTsJzGwytHKkJ
+ TnUocT/V7zhMIwYbl4cJspMw+Oe6c32Hd8nLr5xoFfIvp0U12BAz1W4GuEWnjEjg
+ GoL0YGWO7+FWgep1AMJVcDWDQjQx9vKf5uUlCaUa6+SrjSAn1memrO2pVC+sAP9/
+ I5BSxGHOm+SqWWe1a0r9MXlFzkPBVYhK0NUDlzk6Xj/w12HNDUoXbLktYtyj8ZqY
+ WFkglg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qxg9pvpc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Feb 2025 03:23:59 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51D3NwZP025988
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Feb 2025 03:23:58 GMT
+Received: from [10.71.110.136] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Feb
+ 2025 19:23:56 -0800
+Message-ID: <244931ee-acaa-4973-bb8e-aa4c6c1609f0@quicinc.com>
+Date: Wed, 12 Feb 2025 19:23:55 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SN6PR02MB4157C1DF0A0101EEF4CA79E2D4FF2@SN6PR02MB4157.namprd02.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/msm/disp: Correct porch timing for SDM845
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "James A. MacInnes"
+ <james.a.macinnes@gmail.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>, Vara Reddy <quic_varar@quicinc.com>,
+ Tanmay Shah <tanmay@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Guenter Roeck <groeck@chromium.org>, "Rob
+ Clark" <robdclark@chromium.org>
+References: <20250212-sdm845_dp-v2-0-4954e51458f4@gmail.com>
+ <20250212-sdm845_dp-v2-2-4954e51458f4@gmail.com>
+ <5yli2sqw5hxoinlaguxjq2lleez7p4qjkwvexrgn7uphnu44ws@trlvdrpep5uv>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <5yli2sqw5hxoinlaguxjq2lleez7p4qjkwvexrgn7uphnu44ws@trlvdrpep5uv>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: m_fdmR81NqWzdNyDNF_pmVfEUnjxa9is
+X-Proofpoint-GUID: m_fdmR81NqWzdNyDNF_pmVfEUnjxa9is
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-13_01,2025-02-11_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ mlxscore=0 priorityscore=1501 malwarescore=0 spamscore=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502130025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,112 +99,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 01:35:22AM +0000, Michael Kelley wrote:
-> From: Saurabh Singh Sengar <ssengar@linux.microsoft.com> Sent: Monday, February 10, 2025 8:52 AM
-> > 
-> [snip]
-> > > > >
-> > > > > While we are at it, I want to mention that I also observed below WARN
-> > > > > while removing the hyperv_fb, but that needs a separate fix.
-> > > > >
-> > > > >
-> > > > > [   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
-> > > > > < snip >
-> > > > > [   44.111289] Call Trace:
-> > > > > [   44.111290]  <TASK>
-> > > > > [   44.111291]  ? show_regs+0x6c/0x80
-> > > > > [   44.111295]  ? __warn+0x8d/0x150
-> > > > > [   44.111298]  ? framebuffer_release+0x2c/0x40
-> > > > > [   44.111300]  ? report_bug+0x182/0x1b0
-> > > > > [   44.111303]  ? handle_bug+0x6e/0xb0
-> > > > > [   44.111306]  ? exc_invalid_op+0x18/0x80
-> > > > > [   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
-> > > > > [   44.111311]  ? framebuffer_release+0x2c/0x40
-> > > > > [   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
-> > > > > [   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
-> > > > > [   44.111323]  device_remove+0x40/0x80
-> > > > > [   44.111325]  device_release_driver_internal+0x20b/0x270
-> > > > > [   44.111327]  ? bus_find_device+0xb3/0xf0
-> > > > >
-> > > >
-> > > > Thanks for pointing this out. Interestingly, I'm not seeing this WARN
-> > > > in my experiments. What base kernel are you testing with? Are you
-> > > > testing on a local VM or in Azure? What exactly are you doing
-> > > > to create the problem? I've been doing unbind of the driver,
-> > > > but maybe you are doing something different.
-> > > >
-> > > > FWIW, there is yet another issue where after doing two unbind/bind
-> > > > cycles of the hyperv_fb driver, there's an error about freeing a
-> > > > non-existent resource. I know what that problem is, and it's in
-> > > > vmbus_drv.c. I'll be submitting a patch for that as soon as I figure out
-> > > > a clean fix.
-> > > >
-> > > > Michael
-> > >
-> > > This is on local Hyper-V. Kernel: 6.14.0-rc1-next-20250205+
-> > > I run below command to reproduce the above error:
-> > > echo "5620e0c7-8062-4dce-aeb7-520c7ef76171" >
-> > /sys/bus/vmbus/devices/5620e0c7-8062-4dce-aeb7-520c7ef76171/driver/unbind
-> > >
-> > > When hvfb_remove is called I can see the refcount for framebuffer is 2 when ,
-> > > I expect it to be 1. After unregistering this framebuffer there is still 1 refcount
-> > > remains, which is the reason for this WARN at the time of framebuffer_release.
-> > >
-> > > I wonder who is registering/using this extra framebuffer. Its not hyperv_drm or
-> > > hyperv_fb IIUC.
-> > >
-> > > - Saurabh
-> > 
-> > Here are more details about this WARN:
-> > 
-> > Xorg opens `/dev/fb0`, which increases the framebuffer's reference
-> > count, as mentioned above.  As a result, when unbinding the driver,
-> > this WARN is expected, indicating that the framebuffer is still in use.
-> > 
-> > I am open to suggestion what could be the correct behavior in this case.
-> > There acan be two possible options:
-> > 
-> >  1. Check the framebuffer reference count and prevent the driver from
-> >     unbinding/removal.
-> > OR
-> > 
-> >  2. Allow the driver to unbind while issuing this WARN. (Current scenario)
-> > 
-> 
-> >From looking at things and doing an experiment, I think there's a 3rd
-> option, which gets rid of the of the WARN while still allowing the unbind.
-> 
-> The experiment is to boot Linux in a Gen2 Hyper-V guest with both the
-> Hyper-V FB and Hyper-V DRM modules removed. In this case, the
-> generic EFI framebuffer driver (efifb) should get used. With this driver,
-> a program can open /dev/fb0, and while it is open, unbind the efifb
-> driver (which is in /sys/bus/platform/drivers/efi-framebuffer).
-> Interestingly, there's no WARN generated. But when the hyperv_fb
-> driver is loaded and used, the WARN *is* generated, as you observed.
-> 
-> So I looked at the code for efifb.  It does the framebuffer_release()
-> call in a function that hyperv_fb doesn't have. Based on the comments
-> in efifb.c, we need a similar function to handle the call to
-> framebuffer_release().  And the efifb driver also does the iounmap()
-> in that same function, which makes we wonder if the hyperv_fb
-> driver should do similarly. It will need a little more analysis to
-> figure that out.
-> 
-> You found the bug.  Do you want to work on fixing the hyperv_fb
-> driver? And maybe the Hyper-V DRM driver needs the same fix.
-> I haven't looked. Alternatively, if you are busy, I can work on the fix.
-> Let me know your preference.
-> 
-> Michael
 
-Thanks for your analysis, its a good to know about fbib driver is not having
-this issue. We can take it as a reference.
 
-At the first look I see efib driver is having a fb_ops.fb_destroy function
-which gets called after put_fb_info (responsible for decrementing the
-ref count). Also it uses devm_register_framebuffer which handles the registration
-and unregister of framebuffer more gracefully.
+On 2/12/2025 4:04 PM, Dmitry Baryshkov wrote:
+> On Wed, Feb 12, 2025 at 03:03:47PM -0800, James A. MacInnes wrote:
+>> Type-C DisplayPort inoperable due to incorrect porch settings.
+>> - Re-used wide_bus_en as flag to prevent porch shifting
+> 
+> Unfortunately I don't know enough details to comment on this change.
+> Maybe Abhinav can check it. I can only notice that msm-4.14 disables
+> programmable_fetch_config for non-DSI calls. Would disabling that call
+> for DP interface fix your issue?
+> 
 
-I will work on this.
+Yes, this piece of timing adjustment matches what we have even without 
+widebus.
 
-- Saurabh
+I do agree about the programmable fetch that it is enabled only on DSI 
+even on the latest kernels.
+
+698 	if (phys_enc->hw_intf->cap->type == INTF_DSI)
+699 		programmable_fetch_config(phys_enc, &timing_params);
+
+We can try if that works.
+
+>>
+>> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+>> Signed-off-by: James A. MacInnes <james.a.macinnes@gmail.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 14 +++++++++-----
+>>   1 file changed, 9 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> index abd6600046cb..a21addc4794f 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> @@ -94,17 +94,21 @@ static void drm_mode_to_intf_timing_params(
+>>   		timing->vsync_polarity = 0;
+>>   	}
+>>   
+>> -	/* for DP/EDP, Shift timings to align it to bottom right */
+>> -	if (phys_enc->hw_intf->cap->type == INTF_DP) {
+>> +	timing->wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
+>> +	timing->compression_en = dpu_encoder_is_dsc_enabled(phys_enc->parent);
+>> +
+>> +	/*
+>> +	 *  For DP/EDP, Shift timings to align it to bottom right.
+>> +	 *  wide_bus_en is set for everything excluding SDM845 &
+>> +	 *  porch changes cause DisplayPort failure and HDMI tearing.
+>> +	 */
+>> +	if (phys_enc->hw_intf->cap->type == INTF_DP && timing->wide_bus_en) {
+>>   		timing->h_back_porch += timing->h_front_porch;
+>>   		timing->h_front_porch = 0;
+>>   		timing->v_back_porch += timing->v_front_porch;
+>>   		timing->v_front_porch = 0;
+>>   	}
+>>   
+>> -	timing->wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
+>> -	timing->compression_en = dpu_encoder_is_dsc_enabled(phys_enc->parent);
+>> -
+>>   	/*
+>>   	 * for DP, divide the horizonal parameters by 2 when
+>>   	 * widebus is enabled
+>>
+>> -- 
+>> 2.43.0
+>>
+> 
+
