@@ -2,61 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD41A34EAF
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 20:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6E2A352FA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:34:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFCE10EB94;
-	Thu, 13 Feb 2025 19:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B53C10EBC5;
+	Fri, 14 Feb 2025 00:33:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VBEBgSHL";
+	dkim=pass (2048-bit key; unprotected) header.d=ronja.re header.i=@ronja.re header.b="EcmWx9yo";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="x3JF1fTt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE9310EB8C;
- Thu, 13 Feb 2025 19:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739476301; x=1771012301;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=j1b48mZQZrOwtZCbIamUNkWKk66t9YWs8MImyttoz7Q=;
- b=VBEBgSHLTHWnIFhGyhIsYusa5JCftLhQugWKb1L+qLIMvCp20JMw+oCa
- rtuYVIGeBM2aDloQru2v/OfAptkqXpPmFV9T7xgg12Aknl3MAkL5RKkqb
- 7m/6FAhqjF3NQ6DvqTmSKhzzt5FsVgOZkcaefzX+0WgeV08zz467vjmgA
- 0S89xRruLusnGeEgOpU+YoGLiMhp35uN2LO/vp9+h/W47Beq9AyD3SGiz
- vU7gzi/HCYMmyGZkhmNuyvUsRO9tt/9ggGmWs5qD7tTltq23y1H+SufHJ
- s3fLEFugWDzlBb14XuvaUpnSfNJKQyCPF5C1s3kWfm8XRsZNc58UezvBI A==;
-X-CSE-ConnectionGUID: 9s2tiR08RvyaKzcd1vuGCg==
-X-CSE-MsgGUID: jJpRqJYyQw21hpNNH6AECw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40354751"
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; d="scan'208";a="40354751"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2025 11:51:41 -0800
-X-CSE-ConnectionGUID: NpLOmgLFQ2WfUKscLqEkfw==
-X-CSE-MsgGUID: BbkqywndR9yDcbfkWmF7cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="117372227"
-Received: from aalteres-desk1.fm.intel.com ([10.1.39.140])
- by fmviesa003.fm.intel.com with ESMTP; 13 Feb 2025 11:51:41 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
- dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <john.c.harrison@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Zhanjun Dong <zhanjun.dong@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH v8 6/6] drm/xe/guc: Update comments on GuC-Err-Capture flows
-Date: Thu, 13 Feb 2025 11:51:39 -0800
-Message-Id: <20250213195139.3396082-7-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250213195139.3396082-1-alan.previn.teres.alexis@intel.com>
-References: <20250213195139.3396082-1-alan.previn.teres.alexis@intel.com>
+X-Greylist: delayed 539 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Feb 2025 20:01:16 UTC
+Received: from fout-a5-smtp.messagingengine.com
+ (fout-a5-smtp.messagingengine.com [103.168.172.148])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEC8E10E087
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 20:01:16 +0000 (UTC)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal
+ [10.202.2.43])
+ by mailfout.phl.internal (Postfix) with ESMTP id C47861380229;
+ Thu, 13 Feb 2025 14:52:16 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-03.internal (MEProxy); Thu, 13 Feb 2025 14:52:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ronja.re; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1739476336;
+ x=1739562736; bh=hBZh1E50TYghnLz92VGxm4YsBz6I+nkTA9ZWWpxdAFo=; b=
+ EcmWx9yoB+WoclcvN67Mzc6cR5blzOdOYUNgHc3OZrnCgLgaUFrHMAxClgaub/hp
+ E6yf54OkLfQF6ijEdk+6R4aSHzjh9qkfmrwJp/s3ZcQTEtQgr9dvI7qqlDjsqGmi
+ 7Miw9RQg37PprFPKYH5ukBxt0Z8jcXjudMmIH/ngBAaVwlTpxAfGcDtOduNSRS+B
+ vT9oeCARRxdktY7BK+EP/hhTHzKni/BGfBxUyN6CE55BnuxhJE7T4Q6qBI/xQjgS
+ EuZe9Cox9Jkgt6HOqOc01cuSrLzV4DKCntATyiA8v95OwvpMmE3b8XqsGLAO8duF
+ 8NGxRaKT1EAnEysjXn26bA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739476336; x=
+ 1739562736; bh=hBZh1E50TYghnLz92VGxm4YsBz6I+nkTA9ZWWpxdAFo=; b=x
+ 3JF1fTtnXYpNGJeilnYQzOMEyDaj5Zx4BAHRwNt/LHF2E7hCyWqNIrT5TZQU0Zrf
+ VHUukhpWroCnJfIlbrJUk21WzeVUdKiOcYIatom+WWKqeSNzXkVZCHw2ONC2aaPw
+ FtWwYQv+GIhZP/9A7gqFWO6OfBrcZQLiYt8boNPv3KIM3f8TuMn1GtW85iwYphp5
+ eYKhGLhVfi6s4e1n8brESrlk7J3P7y8v+Nu14IXLZGoG/lP7Lk3fzCoggaO+07SO
+ Y2o1biSM07VCcHB4vXMUww88afAA1350mAjP624qPwaR31P3lS+ftp2SQUt6mJZA
+ sAvLPpC54STzlwaTcor3A==
+X-ME-Sender: <xms:b02uZ9D0nZ1gfJXueusuJOgbJVxEWLjAlcdzlHt7aAix4ENurzPUHQ>
+ <xme:b02uZ7g46l1goqI6B1WEz0pDMLDBUQCmDZvM6ELpC40jgYdEoZB-beUnJA0iD_D47
+ xrv-TP5DOG_nDm1yA>
+X-ME-Received: <xmr:b02uZ4nOrzzHw6M2DkzVlg1Thlcz8nzELAdg915666Zfw5ctJcoIfR9o8byiaNgwR0xUFAXEs5Mlr1svROveWbKX2k-xH-goSItl>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegjeeiiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddv
+ jeenucfhrhhomheptfhonhhjrgcuofgvhigvrhcuoehmvgdolhhkmhhlsehrohhnjhgrrd
+ hrvgeqnecuggftrfgrthhtvghrnhepffefjeehuddthfettedvueeuieefkefhheehteej
+ jeduleevtefhgeehteeviefhnecuffhomhgrihhnpehjohhfrhgvvghmrghnrdgtohhmne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgvodhl
+ khhmlhesrhhonhhjrgdrrhgvpdhnsggprhgtphhtthhopeeftddpmhhouggvpehsmhhtph
+ houhhtpdhrtghpthhtohepthihthhsohesmhhithdrvgguuhdprhgtphhtthhopehgrhgv
+ ghesvghnjhgvlhhlihgtrdgtohhmpdhrtghpthhtohepthhorhhvrghlughssehlihhnuh
+ igqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgt
+ rghnrdhsthdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpth
+ htohepjhhgghesnhhvihguihgrrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhn
+ uhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepphhhrghsthgrsehkvghrnh
+ gvlhdrohhrghdprhgtphhtthhopehhtghhsehlshhtrdguvg
+X-ME-Proxy: <xmx:b02uZ3xymUNtpFWWa5H7dLBbaepfiVImJa4aFJM_5ahv-iFGYEi0cQ>
+ <xmx:b02uZyTrxPNSashoUbV3FYxFqV5xrPv2zK6z7pB6t_xTvqUcT3Tc2g>
+ <xmx:b02uZ6YSMTS0ZehgNykR8IWIRT1QyYJQBO0sBSgHaBxLOueBFLJ8mA>
+ <xmx:b02uZzSmS-cfjxzK556kNfgEuElIaOpqI1hAzrArNhf05EWr9rWi4A>
+ <xmx:cE2uZzeECUh2NoEmbRxxGyDeSp560rCRqPg5fwmkQJKJ4iP2ogD8EkvV>
+Feedback-ID: i2f914587:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Feb 2025 14:52:11 -0500 (EST)
+Message-ID: <93fe2066-f181-420c-a3e3-016c98c54035@ronja.re>
+Date: Thu, 13 Feb 2025 20:52:11 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+To: Theodore Ts'o <tytso@mit.edu>, "Dr. Greg" <greg@enjellic.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Hector Martin <marcan@marcan.st>, Dave Airlie <airlied@gmail.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ phasta@kernel.org, Christoph Hellwig <hch@lst.de>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ daniel.almeida@collabora.com, aliceryhl@google.com, robin.murphy@arm.com,
+ rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, Bj??rn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Valentin Obst <kernel@valentinobst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <2025013030-gummy-cosmic-7927@gregkh>
+ <20250130172437.GN5556@nvidia.com>
+ <2025013148-reversal-pessimism-1515@gregkh>
+ <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+ <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
+ <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
+ <20250207121638.GA7356@wind.enjellic.com> <20250208204416.GL1130956@mit.edu>
+Content-Language: en-US
+From: Ronja Meyer <me+lkml@ronja.re>
+In-Reply-To: <20250208204416.GL1130956@mit.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 14 Feb 2025 00:33:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,71 +133,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the comments on GuC-Err-Capture flows with the
-updated function names.
+On 08.02.2025 21:44, Theodore Ts'o wrote:
+> I'll let you in a secret.  The maintainers are not "all-powerfui".  We
+> are the "thin blue line" that is trying to keep the code to be
+> maintainable and high quality.  Like most leaders of volunteer
+> organization, whether it is the Internet Engineerint Task Force (the
+> standards body for the Internet), we actually have very little power.
+ > […] structurelessness becomes a way of masking power, and […] is 
+usually most strongly advocated by those who are the most powerful 
+(whether they are conscious of their power or not). As long as the 
+structure of the group is informal, the rules of how decisions are made 
+are known only to a few and awareness of power is limited to those who 
+know the rules. Those who do not know the rules and are not chosen for 
+initiation must remain in confusion, or suffer from paranoid delusions 
+that something is happening of which they are not quite aware. […]
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-Reviewed-by: Zhanjun Dong <zhanjun.dong@intel.com>
----
- drivers/gpu/drm/xe/xe_guc_capture.c | 42 ++++++++++++++++++++---------
- 1 file changed, 29 insertions(+), 13 deletions(-)
+ From "The Tyranny of Structurelessness", written by Jo Freeman in 1970. 
+https://www.jofreeman.com/joreen/tyranny.htm
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_capture.c b/drivers/gpu/drm/xe/xe_guc_capture.c
-index 4ab71dfa7a20..0996b32fcee7 100644
---- a/drivers/gpu/drm/xe/xe_guc_capture.c
-+++ b/drivers/gpu/drm/xe/xe_guc_capture.c
-@@ -905,22 +905,38 @@ guc_capture_init_node(struct xe_guc *guc, struct xe_guc_capture_snapshot *node)
-  *                   list. This list is used for matchup and printout by xe_devcoredump_read
-  *                   and xe_engine_snapshot_print, (when user invokes the devcoredump sysfs).
-  *
-- * GUC --> notify context reset:
-- * -----------------------------
-+ * DRM Scheduler job-timeout OR GuC-notify guc-id reset:
-+ * -----------------------------------------------------
-  *     --> guc_exec_queue_timedout_job
-- *                   L--> xe_devcoredump
-+ *               L--> xe_guc_capture_snapshot_store_manual_job (if GuC didn't report an
-+ *                    error capture node for this job)
-+ *               L--> xe_devcoredump
-  *                          L--> devcoredump_snapshot
-- *                               --> xe_hw_engine_snapshot_capture
-- *                               --> xe_engine_manual_capture(For manual capture)
-+ *                               --> xe_engine_snapshot_capture_for_queue
-  *
-- * User Sysfs / Debugfs
-- * --------------------
-- *      --> xe_devcoredump_read->
-- *             L--> xxx_snapshot_print
-- *                    L--> xe_hw_engine_print --> xe_hw_engine_snapshot_print
-- *                          L--> xe_guc_capture_snapshot_print
-- *                               Print register lists values saved in matching
-- *                               node from guc->capture->outlist
-+ * (Printing) User Devcoredump Sysfs
-+ * ---------------------------------
-+ *      --> xe_devcoredump_read-> (user cats devcoredump)
-+ *              L--> xe_devcoredump_deferred_snap_work -> xe_devcoredump_deferred_snap_work
-+ *                   L --> __xe_devcoredump_read -> xe_hw_engine_snapshot_print
-+ *                         L--> xe_hw_engine_print -> xe_guc_capture_snapshot_print:
-+ *                              Prints register list values saved in the matching node that
-+ *                              was previously stored in guc->capture->outlist. However if
-+ *                              devcoredump was triggered in response to a gt_reset, then it's
-+ *                              possible job queues maybe lost or unavailable at the time of
-+ *                              printing and a jobless capture would be taken.
-+ *
-+ *      --> xe_devcoredump_free (when user clears the dump)
-+ *             L--> xe_devcoredump_snapshot_free --> xe_hw_engine_snapshot_free ->
-+ *                  L--> xe_guc_capture_put_matched_nodes -> xe_guc_capture_put_matched_nodes
-+ *
-+ * (Printing) User Engine Dump via Debugfs
-+ * ---------------------------------------
-+ *      --> xe_gt_debugfs_simple_show -> hw_engines -> xe_hw_engine_print
-+ *             L--> hw_engine_snapshot_capture -> xe_guc_capture_snapshot_manual_hwe
-+ *             L--> xe_guc_capture_snapshot_print (no valid queue provided)
-+ *                  (unlike sysfs path above, fallback to jobless immediate dump)
-+ *             L--> xe_hw_engine_snapshot_free -> xe_guc_capture_put_matched_nodes
-  *
-  */
- 
--- 
-2.34.1
+- Ronja
 
