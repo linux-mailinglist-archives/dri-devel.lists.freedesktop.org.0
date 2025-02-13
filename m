@@ -2,78 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCC6A34BD6
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B732A34BE0
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:27:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6324110EB57;
-	Thu, 13 Feb 2025 17:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83AF910EB5E;
+	Thu, 13 Feb 2025 17:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BEmKoyhw";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Ws91bnDM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7207E10EB57;
- Thu, 13 Feb 2025 17:25:47 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-2f9f90103bbso254203a91.3; 
- Thu, 13 Feb 2025 09:25:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739467547; x=1740072347; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zQt2nM6cOaVW5Z1WMLvj5xiaDRt1BJCGxPQlYjDOz6o=;
- b=BEmKoyhwTAKritQfkIJJHnsMWw/RjQRQf/OVdEY+ART/xnG0o9ECqSFFk9q+gRJ3D9
- swMJzBojqjpTrZAarjgXp+t4DyCSorKruhi6k3iCkBozu5Vr9o3DrfLbd83I3EUvquFx
- 4g061PjfgjgGEgo2mud04YCAqYLC9LXcNCHIdAPs+70/sepHuZb879sDeX5LBwasrdsR
- lYnCgvSDztUBhzrFAN/eQANJvGSSUkkROpxZiGdRjENacG/IP6fr3g3snVxQOIHAKpV+
- QBgS6mNxTWgREA/gbzGlipGgSHLwZoJJsRleRDbsAhs16Rq0dYt1f1zmIjgzO3og2oNb
- C79Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739467547; x=1740072347;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zQt2nM6cOaVW5Z1WMLvj5xiaDRt1BJCGxPQlYjDOz6o=;
- b=jR8G1Ru4IHYivVAYMqIAP9CMc+K2rWCS6qtcyArAJUuRv/H3qurzl1lcPYsRkAfJ1j
- UkG+/shD9WroVySsTclNLVAjNZnssVXUKeIuhpREkJmaNUDSMk68xHF6J1l+q4E6sh+H
- EJwK3m3l63We/ty1cLGVO3afKaTW6On6yFMYvjt/L4Gw1Z2Tirvjzv2+5A4uZlJRRnCU
- Bo4fBUWLu0ryjjS3H4cpiIQmjIJRbWlntNy94654h8/yDmL+1KVqg+Cts2TyNuPogI1P
- tbzXZ9ZxFRlgtjr6MGSMCDYhneBRgR82SNtT1bxdaZF2PanL5NGWazq7F2Fcxi9cfprR
- r0xA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUR1Vw4GpY62C4tX0eWnc7t8oZynpPWQw/EzvVxLvptJFuCIU+jCcdWwxGi2mS2/q25UOo7cd2UvPTW@lists.freedesktop.org,
- AJvYcCXnXtx3YCEIBDfuWhMYz/UYQqJ4qbb54DKF+iWKU5cptwZdr8O/56xW0h/LLKm2TNiFkcHe6Uo1@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNCAFRBtqn0IsmbBbpNklklOddo7cHUDFSC1EbgC+gQQz66+0K
- f2rfmiJbcGloa0kzipWMbcpayGUYNag2aT1G2UoAgQyPeD9eNzBHu2wUtqDW2+MwoZbA5vU7T9E
- kimLOSgPZO7eCZW2+MZ6n6DjCNuA=
-X-Gm-Gg: ASbGnctvbC9+KirrVtFJOhWkLnUxKzXP7ZIGAdjN2Alv6eOc05NmP1H+1QGpvzckVKw
- 2kiT1Bhqg50eJH5DTVmflw3HBj6TbNttVoqWBcR5CDxWu4LWG5vzGndEsMMLhLXuDtQ81KJiV
-X-Google-Smtp-Source: AGHT+IFXvWUZJ8ux/coB6+6DORYP4GiTvYPhLeJSRObBqnhsCZxy4H5ck45V/JMFjHvHlduZEgQYUM/9+4w6ZhsfRxc=
-X-Received: by 2002:a17:90b:3b52:b0:2ee:acea:9ec4 with SMTP id
- 98e67ed59e1d1-2fbf5c8b19amr4557826a91.3.1739467546858; Thu, 13 Feb 2025
- 09:25:46 -0800 (PST)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC62110EB5E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:26:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1739467611; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=DBi2zEpYnKy4XuIgWkaFTscHZ7nB/Yg9TWfeiuiqUtEh568pSlCHcprWV131jLiyNkPrV0PgXxkXOJF+7/joCDKC38TqYAzrCGxvzkMLV61uE0Cy2Cwlt0NXSVaWUu1C8LJGg9BVDEm9IeAAEWyTtJSM2Co8i4iQRkugciWGig0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1739467611;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=M5hWV7zpzfxrkj20JGXs36bIgvWN+f1eZBOfQY7SIjM=; 
+ b=H0UaH685Fnf6T5gMeeM3s5UsaIRb+Y9jD6hk4aLgNe8A/HDjoAfNj3RgTEr/Ns0Ic1/pqf25ULiccEHjw+hz1YVZWFRt3ym5UmhNWh9KuCsdH1zQlXoXByMo2ZcWskNHcK8jc1AROJSMHLG/aY76r7gaZ/wj/4twi58HWGWV70s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739467611; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=M5hWV7zpzfxrkj20JGXs36bIgvWN+f1eZBOfQY7SIjM=;
+ b=Ws91bnDMeBkWP5IXglfIKxIRozeYMM8MzNL39X6Jq2/pVSfbuX7EarFMbKklR5mw
+ dd0tn8C8fZF4DPbhVIEG9+xawrfjR7jTOJWby3nlBp6hy7bDlg7VSU5flovBjG3uei0
+ tgMsDOs+DMRcUp6k8/mTn4NIl9WKVT5S3z6qjrNw=
+Received: by mx.zohomail.com with SMTPS id 1739467608754665.7670786696585;
+ Thu, 13 Feb 2025 09:26:48 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+ id 785651806DE; Thu, 13 Feb 2025 18:26:43 +0100 (CET)
+Date: Thu, 13 Feb 2025 18:26:43 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Cc: Damon Ding <damon.ding@rock-chips.com>, heiko@sntech.de, 
+ robh@kernel.org, conor+dt@kernel.org, algea.cao@rock-chips.com,
+ rfoss@kernel.org, 
+ devicetree@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ hjc@rock-chips.com, kever.yang@rock-chips.com, dmitry.baryshkov@linaro.org, 
+ vkoul@kernel.org, andy.yan@rock-chips.com, krzk+dt@kernel.org, 
+ linux-arm-kernel@lists.infradead.org, l.stach@pengutronix.de
+Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
+Message-ID: <tg6eyew4qahuxqakmmejne7xx2rkouj6htp55acun4ajz2irz2@vlmvqv3zc5vc>
+References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+ <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
 MIME-Version: 1.0
-References: <20250114135856.16192-1-n.zhandarovich@fintech.ru>
- <6a817784-f3d4-43c2-bd94-ac40c73e8583@fintech.ru>
-In-Reply-To: <6a817784-f3d4-43c2-bd94-ac40c73e8583@fintech.ru>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 13 Feb 2025 12:25:35 -0500
-X-Gm-Features: AWEUYZmJttkq0mujfO9Y3969oXZ6mahn5TvBiRDP8qiOPEi38mhs4JlPLzJtklE
-Message-ID: <CADnq5_Pnj5t=1vyOfmJ6bMoeAqFQM1YyDpQn9GPEfxokjz-Vhw@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/ci_dpm: Remove needless NULL checks of dpm
- tables
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jnxis7mvi3ww4bac"
+Content-Disposition: inline
+In-Reply-To: <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.2/239.417.30
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,120 +78,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 12:03=E2=80=AFPM Nikita Zhandarovich
-<n.zhandarovich@fintech.ru> wrote:
->
-> Gentle ping :)
 
-Was already applied:
-https://gitlab.freedesktop.org/agd5f/linux/-/commit/189abca05a89fc7b422811e=
-497a7116b3e4f4dca
+--jnxis7mvi3ww4bac
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
+MIME-Version: 1.0
 
-Thanks,
+Hello Piotr,
 
-Alex
+On Thu, Feb 13, 2025 at 03:54:00PM +0100, Piotr Oniszczuk wrote:
+> > Wiadomo=C5=9B=C4=87 napisana przez Damon Ding <damon.ding@rock-chips.co=
+m> w dniu 23 sty 2025, o godz. 11:07:
+> >=20
+> > Picked from:
+> > https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D9235=
+93
+> >=20
+> > These patchs have been tested with a 1536x2048p60 eDP panel on
+> > RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+> > on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
+> > on RK3399 sapphire excavator board.
+> >=20
+> > Patch 1~4   are preparations for the RK3588 eDP support on both Analogix
+> >            side and Rockchip side.
+> > Patch 5~8  are to support to get panel from the DP AUX bus.
+> > Patch 9~11 are the RK3588 Analogix DP driver support.
+> > Patch 12    is to add the power sequencing delays for panel model
+> >            LP079QX1-SP0V.
+> > Patch 13    is the addition of RK3588 eDP0 node.
+> > Patch 14    is to enable the eDP0 display on RK3588S EVB1 board.
+> >=20
+> > Damon Ding (14):
+> >  drm/rockchip: analogix_dp: Replace DRM_...() functions with drm_...()
+> >  drm/rockchip: analogix_dp: Use formalized struct definition for grf
+> >    field
+> >  drm/rockchip: analogix_dp: Expand device data to support multiple edp
+> >    display
+> >  drm/bridge: analogix_dp: Add support for phy configuration.
+> >  dt-bindings: display: rockchip: analogix-dp: Add support to get panel
+> >    from the DP AUX bus
+> >  drm/bridge: analogix_dp: support to get &analogix_dp_device.plat_data
+> >    and &analogix_dp_device.aux
+> >  drm/bridge: analogix_dp: Add support to get panel from the DP AUX bus
+> >  drm/rockchip: analogix_dp: Add support to get panel from the DP AUX
+> >    bus
+> >  dt-bindings: display: rockchip: analogix-dp: Add support for RK3588
+> >  drm/bridge: analogix_dp: Add support for RK3588
+> >  drm/rockchip: analogix_dp: Add support for RK3588
+> >  drm/edp-panel: Add LG Display panel model LP079QX1-SP0V
+> >  arm64: dts: rockchip: Add eDP0 node for RK3588
+> >  arm64: dts: rockchip: Enable eDP0 display on RK3588S EVB1 board
+> >=20
+> > .../rockchip/rockchip,analogix-dp.yaml        |  25 +-
+> > arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  28 +++
+> > .../boot/dts/rockchip/rk3588s-evb1-v10.dts    |  54 ++++
+> > .../drm/bridge/analogix/analogix_dp_core.c    |  76 +++---
+> > .../drm/bridge/analogix/analogix_dp_core.h    |   1 +
+> > .../gpu/drm/bridge/analogix/analogix_dp_reg.c |  52 ++++
+> > drivers/gpu/drm/panel/panel-edp.c             |   8 +
+> > .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 238 +++++++++++++-----
+> > include/drm/bridge/analogix_dp.h              |   8 +-
+> > 9 files changed, 401 insertions(+), 89 deletions(-)
+> >=20
+> > --=20
+> > 2.34.1
+> >=20
+>=20
+> Damon,
+>=20
+> I=E2=80=99m playing with hdmi0 port enablement on radxa rock5 itx board w=
+ith 6.14 mainline.
+>=20
+> rock5 itx has 2 hdmi ports: hdmi0 is wired to rk3588 typeC1/eDP1
+> eDP with ra620 eDP->HDMI converter and hdmi1 from hdmi/edp tx1
+> (see page3 & page29 at
+> https://dl.radxa.com/rock5/5itx/v1110/radxa_rock_5itx_v1110_schematic.pdf)
 
->
-> On 1/14/25 16:58, Nikita Zhandarovich wrote:
-> > This patch removes useless NULL pointer checks in functions like
-> > ci_set_private_data_variables_based_on_pptable() and
-> > ci_setup_default_dpm_tables().
-> >
-> > The pointers in question are initialized as addresses to existing
-> > structures such as rdev->pm.dpm.dyn_state.vddc_dependency_on_sclk by
-> > utilizing & operator and therefore are not in danger of being NULL.
-> >
-> > Fix this by removing extra checks thus cleaning the code a tiny bit.
-> >
-> > Found by Linux Verification Center (linuxtesting.org) with static
-> > analysis tool SVACE.
-> >
-> > Fixes: cc8dbbb4f62a ("drm/radeon: add dpm support for CI dGPUs (v2)")
-> > Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> > ---
-> >  drivers/gpu/drm/radeon/ci_dpm.c | 34 ++++++++++-----------------------=
--
-> >  1 file changed, 10 insertions(+), 24 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/c=
-i_dpm.c
-> > index abe9d65cc460..7c3a960f486a 100644
-> > --- a/drivers/gpu/drm/radeon/ci_dpm.c
-> > +++ b/drivers/gpu/drm/radeon/ci_dpm.c
-> > @@ -3405,12 +3405,8 @@ static int ci_setup_default_dpm_tables(struct ra=
-deon_device *rdev)
-> >               &rdev->pm.dpm.dyn_state.cac_leakage_table;
-> >       u32 i;
-> >
-> > -     if (allowed_sclk_vddc_table =3D=3D NULL)
-> > -             return -EINVAL;
-> >       if (allowed_sclk_vddc_table->count < 1)
-> >               return -EINVAL;
-> > -     if (allowed_mclk_table =3D=3D NULL)
-> > -             return -EINVAL;
-> >       if (allowed_mclk_table->count < 1)
-> >               return -EINVAL;
-> >
-> > @@ -3468,24 +3464,20 @@ static int ci_setup_default_dpm_tables(struct r=
-adeon_device *rdev)
-> >       pi->dpm_table.vddc_table.count =3D allowed_sclk_vddc_table->count=
-;
-> >
-> >       allowed_mclk_table =3D &rdev->pm.dpm.dyn_state.vddci_dependency_o=
-n_mclk;
-> > -     if (allowed_mclk_table) {
-> > -             for (i =3D 0; i < allowed_mclk_table->count; i++) {
-> > -                     pi->dpm_table.vddci_table.dpm_levels[i].value =3D
-> > -                             allowed_mclk_table->entries[i].v;
-> > -                     pi->dpm_table.vddci_table.dpm_levels[i].enabled =
-=3D true;
-> > -             }
-> > -             pi->dpm_table.vddci_table.count =3D allowed_mclk_table->c=
-ount;
-> > +     for (i =3D 0; i < allowed_mclk_table->count; i++) {
-> > +             pi->dpm_table.vddci_table.dpm_levels[i].value =3D
-> > +                     allowed_mclk_table->entries[i].v;
-> > +             pi->dpm_table.vddci_table.dpm_levels[i].enabled =3D true;
-> >       }
-> > +     pi->dpm_table.vddci_table.count =3D allowed_mclk_table->count;
-> >
-> >       allowed_mclk_table =3D &rdev->pm.dpm.dyn_state.mvdd_dependency_on=
-_mclk;
-> > -     if (allowed_mclk_table) {
-> > -             for (i =3D 0; i < allowed_mclk_table->count; i++) {
-> > -                     pi->dpm_table.mvdd_table.dpm_levels[i].value =3D
-> > -                             allowed_mclk_table->entries[i].v;
-> > -                     pi->dpm_table.mvdd_table.dpm_levels[i].enabled =
-=3D true;
-> > -             }
-> > -             pi->dpm_table.mvdd_table.count =3D allowed_mclk_table->co=
-unt;
-> > +     for (i =3D 0; i < allowed_mclk_table->count; i++) {
-> > +             pi->dpm_table.mvdd_table.dpm_levels[i].value =3D
-> > +                     allowed_mclk_table->entries[i].v;
-> > +             pi->dpm_table.mvdd_table.dpm_levels[i].enabled =3D true;
-> >       }
-> > +     pi->dpm_table.mvdd_table.count =3D allowed_mclk_table->count;
-> >
-> >       ci_setup_default_pcie_tables(rdev);
-> >
-> > @@ -4880,16 +4872,10 @@ static int ci_set_private_data_variables_based_=
-on_pptable(struct radeon_device *
-> >       struct radeon_clock_voltage_dependency_table *allowed_mclk_vddci_=
-table =3D
-> >               &rdev->pm.dpm.dyn_state.vddci_dependency_on_mclk;
-> >
-> > -     if (allowed_sclk_vddc_table =3D=3D NULL)
-> > -             return -EINVAL;
-> >       if (allowed_sclk_vddc_table->count < 1)
-> >               return -EINVAL;
-> > -     if (allowed_mclk_vddc_table =3D=3D NULL)
-> > -             return -EINVAL;
-> >       if (allowed_mclk_vddc_table->count < 1)
-> >               return -EINVAL;
-> > -     if (allowed_mclk_vddci_table =3D=3D NULL)
-> > -             return -EINVAL;
-> >       if (allowed_mclk_vddci_table->count < 1)
-> >               return -EINVAL;
-> >
->
+The RK3588 has two different DP controllers. The one handled in this
+series should get the eDP port running, which is routed to the
+"eDP Panel" in the block diagram on page 3 of the Rock 5 ITX schematics.
+So this series adds support for using "HDMI/eDP TX0" and "HDMI/eDP TX1"
+in DP mode.
+
+The port routed to HDMI0 via RA620 is the other DP controller, which
+also exists twice: "TYPEC0/DP0" and "TYPEC1/DP1". This DP controller
+is not yet supported upstream and there is no pending patchset. As far
+as I know Rockchip plans to work on preparing upstream support for that
+soon.
+
+Note, that the two DisplayPort controllers are completely different.
+The HDMI/eDP controller is a design from Analogix and the TypeC/DP
+controller is a design from Synopsys.
+
+P.S.: Heiko merged support for HDMI1 (RK3588 SoC level) recently. So you
+should be able to get that running by some DT additions to the Rock 5
+ITX board DT with the latest linux-next code :)
+
+Greetings,
+
+-- Sebastian
+
+--jnxis7mvi3ww4bac
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmeuK0wACgkQ2O7X88g7
++prlexAApJeFewv/JsqSV3wCoT23yhvxdlzYKIVVL/yo98r9WQPC4i1qmYmKRBI4
+vzvIr65JV41ReaTQs/q/BoIL0rHdfgn0ZkatJ0H7wbNbH2IztSS2VukNrAz9DwT4
+TvyUoo10hpaHiFTfKKSzDkL5/NI3d9pvi6AmUs+SmWMD7f2eXmyav5L2WHTZ0Nzl
+kLA4FPpSVS/3NQ5qTlhHsyM0kDVsL7R6G7ObMrQ9gAp9qkp6BJ353pHWEWtXgagu
+Dj4iMS5wfJ1VXYyQDJSFgeiibznIzIMlOR83c7AG7IMvowXL7IniG2Q8vUz1nPgC
+syKJOH3btyQzxkc9AYqXYXr7NUldDWhK84iqzsA0E+imxauPhXgfeQxQOR63uTXG
+fvZKtmVjM2gyqGp0ro5rEXSczzcnKj8tSC42AZm0d/ACS/TsCi8CcOKEsgtkCM+L
+7HhI7qlJUNihK6x90i+R9i2k7Ar9STYe+lUqxybSkZnNymp3nZwpkDVYLkuf53Ot
+pwrWkcRYXOhEggDrQNTe6xq3W1C+w/sNPflgnA33KAL2+xFCyt3RQq++BrLN4Aa/
+ECjWYGebnHLh+hFA8FToTF3KG6CjTNiyIvAsFBsjRoF9x/uLrZt+davDhGf1D3fP
+l/jfGWpAOhK6VBdKArybnrr6GEUTvZtb25x6f9eTbsVVTEGORmk=
+=iYP4
+-----END PGP SIGNATURE-----
+
+--jnxis7mvi3ww4bac--
