@@ -2,57 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B27A33FFB
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC16A3402E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:20:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C4C010E027;
-	Thu, 13 Feb 2025 13:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C63D10EA90;
+	Thu, 13 Feb 2025 13:20:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="kjLBkOy+";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qMV67kT/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DCB810EA92
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:12:50 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Ytwb30G6Pz9tcN;
- Thu, 13 Feb 2025 14:12:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1739452367; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XT0n87374l13x39N+939smZHXeqmff21otJuuw4uCR8=;
- b=kjLBkOy+q5b6cO0dEpEda4TR5Ycy2UOzoJMqVSYT2oZPPTRx7Oh91JFEzCLDuzRH8pukJi
- XP6eJ/u3mtXm7KEvnNcIHRwZd2Gog3U1KovyKoK/CIkcX/s7IKg+HVP8TViG63aCF8mYkJ
- nzVGFINFTpZ3gZtDgiKc+wiS7J1ddOe00vHKWsLf1ZHUUUUOHpqMxwGMxDH+lWDQ7ytM2P
- YA4WPICAx1wln6/buxNaguO0b2ZJCZNtpftKdb2eKXKcmCFQsIfSP65ZvJp6s4ZcGBMxN3
- SQpkutzIYOw9k8UHD4Sn2cHjKsqZfJkLXH+JXbaInWzoJzRxdm66QzykAoHSiQ==
-Message-ID: <1abfcdf350e15d622603ed06937e16c36e5050e9.camel@mailbox.org>
-Subject: Re: [RFC 5/5] drm/scheduler: Add a basic test for modifying
- entities scheduler list
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-Date: Thu, 13 Feb 2025 14:12:44 +0100
-In-Reply-To: <20250207143337.60154-6-tvrtko.ursulin@igalia.com>
-References: <20250207143337.60154-1-tvrtko.ursulin@igalia.com>
- <20250207143337.60154-6-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B03F310EA90
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:20:54 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DA98594;
+ Thu, 13 Feb 2025 14:19:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1739452774;
+ bh=OpqpLt6cXz6bNc4+IHQhnP78DOqIMnCQS+vmvfHWmLQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=qMV67kT/liUDKgiWJhJRWhzgXMZmCxOgPBgdwGR60WwnITnFs2DeBzvaSRBc/x/+1
+ Kj/paA3JvCuuHCit3peihAACdmWNObUV4gFhqWGhcyttjozIqJmQrELipUa5UfVzX2
+ aW+guEiJT+Y0Wu88CdcWlZff2414ZIed4FIelDrE=
+Message-ID: <cd62bf21-adad-4422-8fac-ebd20e8b39a5@ideasonboard.com>
+Date: Thu, 13 Feb 2025 15:20:48 +0200
 MIME-Version: 1.0
-X-MBO-RS-META: xu4dspaizojgydc68yi4iuaxxntr1opb
-X-MBO-RS-ID: b2e7742de3544740e68
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] dt-bindings: display: ti: Add schema for AM625
+ OLDI Transmitter
+To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simona Vetter <simona@ffwll.ch>, Nishanth Menon <nm@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>
+References: <20250209160925.380348-1-aradhya.bhatia@linux.dev>
+ <20250209160925.380348-3-aradhya.bhatia@linux.dev>
+ <16db8f3d-04a2-408a-964f-4cf9478229b4@ideasonboard.com>
+ <8c6e790e-f1b6-46ab-9acf-bdea8076405b@linux.dev>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <8c6e790e-f1b6-46ab-9acf-bdea8076405b@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,127 +112,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-02-07 at 14:33 +0000, Tvrtko Ursulin wrote:
-> Add a basic test for exercising modifying the entities scheduler list
-> at
-> runtime.
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> ---
-> =C2=A0.../scheduler/tests/drm_sched_tests_basic.c=C2=A0=C2=A0 | 73
-> ++++++++++++++++++-
-> =C2=A01 file changed, 72 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-> index 9b6bb8b6b98e..af91e4ebd397 100644
-> --- a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-> @@ -340,6 +340,77 @@ static struct kunit_suite drm_sched_priority =3D {
-> =C2=A0	.test_cases =3D drm_sched_priority_tests,
-> =C2=A0};
-> =C2=A0
-> +static void drm_sched_test_modify_sched(struct kunit *test)
+Hi,
 
-I'm still confused about the naming convention tbh.
+On 13/02/2025 14:33, Aradhya Bhatia wrote:
 
-Some things are called drm_mock_*, and this is called drm_sched_test_*
+>>> +  ti,companion-oldi:
+>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>> +    description:
+>>> +      phandle to companion OLDI transmitter. This property is
+>>> mandatory for the
+>>> +      primarty OLDI TX if the OLDI TXes are expected to work either
+>>> in dual-lvds
+>>> +      mode or in clone mode. This property should point to the
+>>> secondary OLDI
+>>> +      TX.
+>>> +
+>>> +  ti,secondary-oldi:
+>>> +    type: boolean
+>>> +    description:
+>>> +      Boolean property to mark the OLDI transmitter as the secondary
+>>> one, when the
+>>> +      OLDI hardware is expected to run as a companion HW, in cases of
+>>> dual-lvds
+>>> +      mode or clone mode. The primary OLDI hardware is responsible
+>>> for all the
+>>> +      hardware configuration.
+>>
+>> I think these work, but I'm wondering if we would ever need to check
+>> something from the main oldi from the secondary oldi. In that case
+>> "crossed phandles" would be better, i.e. something like:
+>>
+>> (in the first oldi:)
+>> ti,slave-oldi = <phandle-to-second-oldi>
+>>
+>> (in the second oldi:)
+>> ti,master-oldi = <phandle-to-first-oldi>
+> 
+> When I had first designed the code and the devicetree for OLDI, it was
+> done so with the belief that we wouldn't reqiure a bridge instance for
+> the secondary OLDI, at all.
+> 
+> While that idea holds true for dual-lvds configuration, it doesn't so
+> for the clone mode configuration. For clone mode, as you pointed out, we
+> will require a 2nd bridge instance to configure any of the bridges and
+> panels that come after the 2nd OLDI.
+> 
+> 
+>>
+>> Then again, if we ever need that, even with these bindings the driver
+>> could find the first oldi, but needs to go via the dss's node.
+> 
+> While it is possible to do it this way, it might not be the cleanest
+> one. And _if_ there is a ever a DSS in future with more than 2 OLDI
+> TXes, say 4, then the decipher logic may get too complicated.
+> 
+> While I cannot think of any case where the secondary OLDI bridge DT
+> might need to access the primary OLDI bridge at the moment, I wonder if
+> we should play it safer and have this option anyway.
+> 
+> Maybe something like this?
+> 
+> (primary OLDI)
+> ti,primary-oldi;
+> ti,companion-oldi = <phandle-to-secondary-oldi>;
+> 
+> (secondary OLDI)
+> ti,secondary-oldi;
+> ti,companion-oldi = <phandle-to-primary-oldi>;
 
-What's the naming system / background?
+How is this different than my proposal, except a bit more verbose?
 
-P.
+If you're thinking about a 4-OLDI hardware, how would this work there? 
+(but I want to say that even if it's good to plan for the future, we 
+shouldn't plan too much based on imaginary hardware =).
 
-> +{
-> +	unsigned int i, cur_ent =3D 0, cur_sched =3D 0;
-> +	struct drm_mock_sched_entity *entity[13];
-> +	struct drm_mock_scheduler *sched[3];
-> +	struct drm_mock_sched_job *job;
-> +	const unsigned int qd =3D 1000;
-> +	bool done;
-> +
-> +	/*
-> +	 * Submit a bunch of jobs against entities configured with
-> different
-> +	 * schedulers and while waiting for them to complete,
-> periodically keep
-> +	 * changing schedulers associated with each entity.
-> +	 *
-> +	 * We set up the queue-depth (qd) and job duration so the
-> sched modify
-> +	 * loop has some time to interact with submissions to the
-> backend and
-> +	 * job completions as they progress.
-> +	 *
-> +	 * For the number of schedulers and entities we use primes
-> in order to
-> +	 * perturb the entity->sched assignments with less of a
-> regular pattern.
-> +	 */
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(sched); i++)
-> +		sched[i] =3D drm_mock_new_scheduler(test,
-> MAX_SCHEDULE_TIMEOUT);
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
-> +		entity[i] =3D drm_mock_new_sched_entity(test,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> DRM_SCHED_PRIORITY_NORMAL,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched[i %
-> ARRAY_SIZE(sched)]);
-> +
-> +	for (i =3D 0; i < qd; i++) {
-> +		job =3D drm_mock_new_sched_job(test,
-> entity[cur_ent++]);
-> +		cur_ent %=3D ARRAY_SIZE(entity);
-> +		drm_mock_sched_job_set_duration_us(job, 1000);
-> +		drm_mock_sched_job_submit(job);
-> +	}
-> +
-> +	do {
-> +		struct drm_gpu_scheduler *modify;
-> +
-> +		usleep_range(200, 500);
-> +		cur_ent++;
-> +		cur_ent %=3D ARRAY_SIZE(entity);
-> +		cur_sched++;
-> +		cur_sched %=3D ARRAY_SIZE(sched);
-> +		modify =3D &sched[cur_sched]->base;
-> +		drm_sched_entity_modify_sched(&entity[cur_ent]-
-> >base, &modify,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1);
-> +	} while (!drm_mock_sched_job_is_finished(job));
-> +
-> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
-> +	KUNIT_ASSERT_EQ(test, done, true);
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
-> +		drm_mock_sched_entity_free(entity[i]);
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(sched); i++)
-> +		drm_mock_scheduler_fini(sched[i]);
-> +}
-> +
-> +static struct kunit_case drm_sched_modify_sched_tests[] =3D {
-> +	KUNIT_CASE(drm_sched_test_modify_sched),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite drm_sched_modify_sched =3D {
-> +	.name =3D "drm_sched_basic_modify_sched_tests",
-> +	.test_cases =3D drm_sched_modify_sched_tests,
-> +};
-> +
-> =C2=A0kunit_test_suites(&drm_sched_basic,
-> =C2=A0		=C2=A0 &drm_sched_timeout,
-> -		=C2=A0 &drm_sched_priority);
-> +		=C2=A0 &drm_sched_priority,
-> +		=C2=A0 &drm_sched_modify_sched);
+  Tomi
 
