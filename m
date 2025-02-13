@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B98A34CA2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D31A34DBB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 19:30:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0A510EB64;
-	Thu, 13 Feb 2025 17:59:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D785310E0E2;
+	Thu, 13 Feb 2025 18:30:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R52iamQn";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="eXD6QVlY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1812F10EB64
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:59:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3CED05C58EA;
- Thu, 13 Feb 2025 17:58:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537F5C4CEE5;
- Thu, 13 Feb 2025 17:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739469558;
- bh=Pgn2vbpHZGhCOn5YhZz8fN0a5lPUgj2hH+tawYr3GvI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R52iamQnStdvdjPzrUWP5m3f6dlxeAVUJqqh2Zat/hZmMmlZ3FHIP25gpThz11R/D
- vg96qHC/2qAMYIMR6wmNuF/4329RLihz4GzMSQUEt68g3bpYzwf1dJzrZl3Rg7/t1p
- jvOBSQiBorqQZPb3p1svf5VOM8/TFStUBnvqPVCIw4pO27r3Z6Qnyi3pk4mD0z74yO
- B66OYoxbo/tqlkGISaWYvy3fvp2dC5W/XgM4ye3k/MUixPd3wsUdolVYLoaiZk9TAl
- 7no88D98e6379shrdeW11gVSPGGHH/QAm4ezRmpsgWS00PbSjF8oG67spsPDlwYQfa
- cFQyhc2+LYypQ==
-Date: Thu, 13 Feb 2025 17:59:07 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Danilo Krummrich <dakr@kernel.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
- Gregory CLEMENT <gregory.clement@bootlin.com>,
- =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-clk@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH v3 2/7] reset: mpfs: use the auxiliary device creation
- helper
-Message-ID: <20250213-crown-clustered-81c6434c892b@spud>
-References: <20250211-aux-device-create-helper-v3-0-7edb50524909@baylibre.com>
- <20250211-aux-device-create-helper-v3-2-7edb50524909@baylibre.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hayvwxyUW11W/dJv"
-Content-Disposition: inline
-In-Reply-To: <20250211-aux-device-create-helper-v3-2-7edb50524909@baylibre.com>
+X-Greylist: delayed 571 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Feb 2025 18:30:33 UTC
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [95.215.58.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2171910E0E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 18:30:33 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1739470860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XESgz9twUHyVSNhT10Q8A1sgdFSZwNrxK44V9F1wSyY=;
+ b=eXD6QVlYZCbI39CJiNBmZxKbgLZ2ZCMbIqo5aN5UQVanZSN4yEzDI1esH2bv+uVa38TxLZ
+ mmrKt8pr/HZCYCbXLhpBKn24BB+oY9Vb/AReXJTnvu/Q5vtlplefGmm/MPSUIRaDucFEk9
+ Jx/cDOnq1am34NKE+8zffc3EXqCMrxA1zXL/57UTcAYDeMhx0+f5G6NPbXrMf97jbzn2Mn
+ vpBj9GNNzVZtO+lYy0EA6kzgYd02oxDqyBvuATvINC69xS4Jf6PvSIo5+W9cfGni0p4xu2
+ 5PkqQJomY2vFcVhw7OEItbHb8jPP9PgRje7X2FhhzxSmQR7BxA0dSfUw4SvHPg==
+Content-Type: multipart/signed;
+ boundary=d6b2ac2338a7d3d651a174d59cac49ab75295950d69be1697baac74a02d3;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Thu, 13 Feb 2025 19:20:49 +0100
+Message-Id: <D7RIYCL3ZCLT.2NAZXUAH4EQC9@cknow.org>
+Cc: "Piotr Oniszczuk" <piotr.oniszczuk@gmail.com>, "Damon Ding"
+ <damon.ding@rock-chips.com>, <heiko@sntech.de>, <robh@kernel.org>,
+ <conor+dt@kernel.org>, <algea.cao@rock-chips.com>, <rfoss@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <hjc@rock-chips.com>,
+ <kever.yang@rock-chips.com>, <dmitry.baryshkov@linaro.org>,
+ <vkoul@kernel.org>, <andy.yan@rock-chips.com>, <krzk+dt@kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <l.stach@pengutronix.de>
+Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
+References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+ <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
+ <D7RH63Z1VBBD.1AIOQJIWPZIXS@cknow.org>
+ <m3ovwhg3h2njsjpuj2wdahxex6zq2udmxonublgmnlrdfred4z@zxtyd6xvhram>
+In-Reply-To: <m3ovwhg3h2njsjpuj2wdahxex6zq2udmxonublgmnlrdfred4z@zxtyd6xvhram>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,122 +70,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---hayvwxyUW11W/dJv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--d6b2ac2338a7d3d651a174d59cac49ab75295950d69be1697baac74a02d3
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Feb 11, 2025 at 06:27:59PM +0100, Jerome Brunet wrote:
-> The auxiliary device creation of this driver is simple enough to
-> use the available auxiliary device creation helper.
->=20
-> Use it and remove some boilerplate code.
->=20
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
->  drivers/reset/reset-mpfs.c | 52 +++-------------------------------------=
-------
->  1 file changed, 3 insertions(+), 49 deletions(-)
->=20
-> diff --git a/drivers/reset/reset-mpfs.c b/drivers/reset/reset-mpfs.c
-> index 574e59db83a4fcf30b60cb5f638607a2ec7b0580..bbea64862181877eb7ae51fda=
-a9e50ffac17c908 100644
-> --- a/drivers/reset/reset-mpfs.c
-> +++ b/drivers/reset/reset-mpfs.c
-> @@ -155,62 +155,16 @@ static int mpfs_reset_probe(struct auxiliary_device=
- *adev,
->  	return devm_reset_controller_register(dev, rcdev);
->  }
-> =20
-> -static void mpfs_reset_unregister_adev(void *_adev)
-> -{
-> -	struct auxiliary_device *adev =3D _adev;
-> -
-> -	auxiliary_device_delete(adev);
-> -	auxiliary_device_uninit(adev);
-> -}
-> -
-> -static void mpfs_reset_adev_release(struct device *dev)
-> -{
-> -	struct auxiliary_device *adev =3D to_auxiliary_dev(dev);
-> -
-> -	kfree(adev);
-> -}
-> -
-> -static struct auxiliary_device *mpfs_reset_adev_alloc(struct device *clk=
-_dev)
-> -{
-> -	struct auxiliary_device *adev;
-> -	int ret;
-> -
-> -	adev =3D kzalloc(sizeof(*adev), GFP_KERNEL);
-> -	if (!adev)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	adev->name =3D "reset-mpfs";
-> -	adev->dev.parent =3D clk_dev;
-> -	adev->dev.release =3D mpfs_reset_adev_release;
-> -	adev->id =3D 666u;
-> -
-> -	ret =3D auxiliary_device_init(adev);
-> -	if (ret) {
-> -		kfree(adev);
-> -		return ERR_PTR(ret);
-> -	}
-> -
-> -	return adev;
-> -}
-> -
->  int mpfs_reset_controller_register(struct device *clk_dev, void __iomem =
-*base)
->  {
->  	struct auxiliary_device *adev;
-> -	int ret;
-> =20
-> -	adev =3D mpfs_reset_adev_alloc(clk_dev);
-> +	adev =3D devm_auxiliary_device_create(clk_dev, "reset-mpfs",
-> +					    (__force void *)base, 666u);
+Hi,
 
-Moving the boilerplate into a helper makes sense:
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+On Thu Feb 13, 2025 at 6:33 PM CET, Sebastian Reichel wrote:
+> On Thu, Feb 13, 2025 at 05:56:55PM +0100, Diederik de Haas wrote:
+>> On Thu Feb 13, 2025 at 3:54 PM CET, Piotr Oniszczuk wrote:
+>> > I=E2=80=99m playing with hdmi0 port enablement on radxa rock5 itx boar=
+d with 6.14 mainline.
+>> >
+>> > rock5 itx has 2 hdmi ports: hdmi0 is wired to rk3588 typeC1/eDP1 eDP w=
+ith ra620 eDP->HDMI converter and hdmi1 from hdmi/edp tx1
+>> > (see page3 & page29 at https://dl.radxa.com/rock5/5itx/v1110/radxa_roc=
+k_5itx_v1110_schematic.pdf)
+>> >
+>> > I=E2=80=99m on 6.14-rc2 with applied:=20
+>> > [1] Cristicc hdmi code (https://gitlab.collabora.com/cristicc/linux-ne=
+xt/-/commits/rk3588-hdmi-bridge)
+>> > [2] eDP support for RK3588 (https://patchwork.kernel.org/project/linux=
+-rockchip/list/?series=3D927765)
+>> > [3] Add eDP mode support for Rockchip Samsung HDPTX PHY (https://patch=
+work.kernel.org/project/linux-rockchip/cover/20250205105157.580060-1-damon.=
+ding@rock-chips.com/)
+>> >
+>>=20
+>> I don't know if it's relevant, but while HDMI0 got enabled for quite a
+>> few devices in 6.13, it did NOT get enabled for Rock 5 ITX.
+>> I made a local patch (which does the same thing as was done for Rock 5B)
+>> but I have no idea if it actually works (I don't have the board).
+>
+> I don't have the board either, but the schematics suggests that your
+> patch is not correct. On the Rock 5 ITX the RK3588's first HDMI/eDP
+> port should be enabled in eDP mode to be used with an eDP panel via
+> connector J11. This series is needed for that.
 
-One think that's always felt a bit meh to me is this id number stuff,
-I just threw in 666 for meme value. The whole thing seems super
-arbitrary, do any of the users of this helper actually put meaningful
-values into the id parameter?
+Ah, then there was more to it then simply being overlooked/forgotten.
+Thanks for the clarification :-)
 
->  	if (IS_ERR(adev))
->  		return PTR_ERR(adev);
-> =20
-> -	ret =3D auxiliary_device_add(adev);
-> -	if (ret) {
-> -		auxiliary_device_uninit(adev);
-> -		return ret;
-> -	}
-> -
-> -	adev->dev.platform_data =3D (__force void *)base;
-> -
-> -	return devm_add_action_or_reset(clk_dev, mpfs_reset_unregister_adev, ad=
-ev);
-> +	return 0;
->  }
->  EXPORT_SYMBOL_NS_GPL(mpfs_reset_controller_register, "MCHP_CLK_MPFS");
-> =20
->=20
-> --=20
-> 2.45.2
->=20
+Cheers,
+  Diederik
 
---hayvwxyUW11W/dJv
+--d6b2ac2338a7d3d651a174d59cac49ab75295950d69be1697baac74a02d3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ64y1gAKCRB4tDGHoIJi
-0tpDAQDNGTJm0hUvHu9/lgcEwur44fxS2Qlcl7n70eboDVTC6gD/VBr9uDAEKvks
-C7yxajoK6tXd6NFsVd0104wfqGk41QU=
-=kI4Q
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ644BQAKCRDXblvOeH7b
+btWkAQD7Rnz8K732UfDax3W2h4oUDuihiz5E2yvEznxKy0T19AD/Y9CH2/9L+kd9
+PlmYF17ranxTt4f2UCjh5/ZVNS9Mdgw=
+=MIH8
 -----END PGP SIGNATURE-----
 
---hayvwxyUW11W/dJv--
+--d6b2ac2338a7d3d651a174d59cac49ab75295950d69be1697baac74a02d3--
