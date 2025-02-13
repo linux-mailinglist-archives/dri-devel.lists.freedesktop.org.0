@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA1FA34FAC
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 21:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D883A34FAE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 21:45:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD0810EB8F;
-	Thu, 13 Feb 2025 20:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE22B10E121;
+	Thu, 13 Feb 2025 20:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="A+Q0hWJZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="evDnn8e8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21AC10EB8F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 20:45:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D44510EB93
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 20:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739479506;
+ s=mimecast20190719; t=1739479509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hqLmvup2Sea4jhYwCSUfiXHD+FvkO6EEqLzTP6+H1yA=;
- b=A+Q0hWJZ13Vn7Q8JdbAviVXCJwkorf9QhMxj8qcEXKMxTMle4zIvb3iutgjUwAu4p9uotJ
- U1Ff0uOvzoETIgRlCapR4HkWC1ywYgHVmcQ6sue2IBSIXLOnORUDpfAFxe7qC+CDbuy9JK
- e+kPwmm7x2DwzQ/6Ev9ENxZbIS1Y3/8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=GTmB/dfMlzAgl1U49z+Y0Y51wk1y8f5umbl38jx8Z08=;
+ b=evDnn8e8vqVVY9q1RCaqXqOdDez/xbyjYusitjGLxiMI+wDpVnxIAPRp+BpASOsm7boJIQ
+ MPZJElpv2GoSOcu+KnDZMxwAQXa+zb9jQ6aHljHfLuqJFACRBFHyJMVwThQnBcnPmi5uaK
+ 5290QM1n3Z0KzjWbCJH9W4tFg3LEhAI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-252-mbXvAAEqP_aFq8s6HZs-6A-1; Thu,
- 13 Feb 2025 15:45:01 -0500
-X-MC-Unique: mbXvAAEqP_aFq8s6HZs-6A-1
-X-Mimecast-MFC-AGG-ID: mbXvAAEqP_aFq8s6HZs-6A_1739479499
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-308-hhO3B1rtO-yklqqekuKyVQ-1; Thu,
+ 13 Feb 2025 15:45:05 -0500
+X-MC-Unique: hhO3B1rtO-yklqqekuKyVQ-1
+X-Mimecast-MFC-AGG-ID: hhO3B1rtO-yklqqekuKyVQ_1739479503
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DBA7D1800264; Thu, 13 Feb 2025 20:44:58 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id E27CB19783B7; Thu, 13 Feb 2025 20:45:02 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.199])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 60E2519373D9; Thu, 13 Feb 2025 20:44:54 +0000 (UTC)
+ id 33F96190C541; Thu, 13 Feb 2025 20:44:59 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 13 Feb 2025 15:44:21 -0500
-Subject: [PATCH 04/20] drm/panel/boe-bf060y8m-aj0: Move to using
- mipi_dsi_*_multi() variants
+Date: Thu, 13 Feb 2025 15:44:22 -0500
+Subject: [PATCH 05/20] drm/panel/dsi-cm: Move to using mipi_dsi_*_multi()
+ variants
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-mipi_cocci_multi-v1-4-67d94ff319cc@redhat.com>
+Message-Id: <20250213-mipi_cocci_multi-v1-5-67d94ff319cc@redhat.com>
 References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
 In-Reply-To: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -64,11 +64,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Artur Weber <aweber.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739479476; l=5700;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739479476; l=4345;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=P6MfJCrjan4Mpobi9cgpSSc8GRm8lqpmywVPdHfP/k4=;
- b=jfsWVg+meYNnRXC6Q5l0AYbwxuYDFhSrg5Pg7GcD8A4Mq7EKVgCzoLzZ2jVAlNkoQNq9WZM1P
- CH9a+z3f5sWCr+fNN1PRR934zhidcP51S9AXiurl/TKXvJQtcp9CzAJ
+ bh=aA7Krnx3RiN3avBA3Jg0kKYn1dXJln9r4d3VrVV6xLc=;
+ b=1tq4wKhGy1R2eFNZiMlpZdHVpuQ2ABeZo2e3T3EDUMqzNMvN8GJbSL82pk94WYz6XZZEO+p71
+ 826wO5WgYb1BMtMZgmdVE0b6PJ7ANAShVVOfXs11Krm6od6MAS963gr
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -128,130 +128,117 @@ struct mipi_dsi_device *dsi_var = dsi_device;
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c | 75 +++++++++++---------------
- 1 file changed, 30 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/panel/panel-dsi-cm.c | 44 +++++++++++++++---------------------
+ 1 file changed, 18 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-index 7e66db4a88bbed27920107458d01efd9cf4986df..8903a6c889794330fa1f54a30e779c7d5fbc4b14 100644
---- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-+++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-@@ -55,42 +55,34 @@ static void boe_bf060y8m_aj0_reset(struct boe_bf060y8m_aj0 *boe)
- static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
+diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
+index 6b3f4d664d2ade668525660394cf81924436492e..420a2c017354584ae75ce43fe5c5def528f1883e 100644
+--- a/drivers/gpu/drm/panel/panel-dsi-cm.c
++++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
+@@ -115,18 +115,18 @@ static int dsicm_dcs_read_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 *data)
+ static int dsicm_dcs_write_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 param)
  {
- 	struct mipi_dsi_device *dsi = boe->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0x4c);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x10);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
--	mipi_dsi_dcs_write_seq(dsi, 0xf8,
--			       0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x00, 0x4c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_3D_CONTROL, 0x10);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,
-+				     DCS_ALLOW_HBM_RANGE);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf8, 0x00, 0x08, 0x10, 0x00,
-+				     0x22, 0x00, 0x00, 0x2d);
- 
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
- 	msleep(30);
- 
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xc0,
--			       0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
--			       0x2a, 0x31, 0x39, 0x20, 0x09);
--	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
--			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
--			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
--	mipi_dsi_dcs_write_seq(dsi, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
--			       0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
--			       0x5c, 0x5c, 0x5c);
--	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0x08, 0x48, 0x65, 0x33,
-+				     0x33, 0x33, 0x2a, 0x31, 0x39, 0x20, 0x09);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x00, 0x00, 0x00, 0x1f,
-+				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x20, 0x04, 0x10, 0x12,
-+				     0x92, 0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83,
-+				     0x83, 0x5c, 0x5c, 0x5c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xde, 0x01, 0x2c, 0x00, 0x77,
-+				     0x3e);
- 
- 	msleep(30);
- 
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
- 	msleep(50);
- 
- 	return 0;
-@@ -99,24 +91,18 @@ static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
- static int boe_bf060y8m_aj0_off(struct boe_bf060y8m_aj0 *boe)
- {
- 	struct mipi_dsi_device *dsi = boe->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	/* OFF commands sent in HS mode */
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+ 	return mipi_dsi_dcs_write(ddata->dsi, dcs_cmd, &param, 1);
 +
- 	msleep(20);
+ }
  
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
+ static int dsicm_sleep_in(struct panel_drv_data *ddata)
+ 
+ {
+-	int r;
++	struct mipi_dsi_device *dsi = ddata->dsi;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	hw_guard_wait(ddata);
+ 
+-	r = mipi_dsi_dcs_enter_sleep_mode(ddata->dsi);
+-	if (r)
+-		return r;
 +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+
- 	usleep_range(1000, 2000);
-+
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
  
- 	return 0;
-@@ -233,12 +219,10 @@ static const struct drm_panel_funcs boe_bf060y8m_aj0_panel_funcs = {
- static int boe_bf060y8m_aj0_bl_update_status(struct backlight_device *bl)
+ 	hw_guard_start(ddata, 120);
+ 
+@@ -137,13 +137,12 @@ static int dsicm_sleep_in(struct panel_drv_data *ddata)
+ 
+ static int dsicm_sleep_out(struct panel_drv_data *ddata)
  {
- 	struct mipi_dsi_device *dsi = bl_get_data(bl);
+-	int r;
++	struct mipi_dsi_device *dsi = ddata->dsi;
 +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 	u16 brightness = backlight_get_brightness(bl);
--	int ret;
  
--	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
--	if (ret < 0)
--		return ret;
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, brightness);
+ 	hw_guard_wait(ddata);
+ 
+-	r = mipi_dsi_dcs_exit_sleep_mode(ddata->dsi);
+-	if (r)
+-		return r;
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+ 
+ 	hw_guard_start(ddata, 120);
+ 
+@@ -172,15 +171,12 @@ static int dsicm_get_id(struct panel_drv_data *ddata, u8 *id1, u8 *id2, u8 *id3)
+ static int dsicm_set_update_window(struct panel_drv_data *ddata)
+ {
+ 	struct mipi_dsi_device *dsi = ddata->dsi;
+-	int r;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+-	r = mipi_dsi_dcs_set_column_address(dsi, 0, ddata->mode.hdisplay - 1);
+-	if (r < 0)
+-		return r;
++	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0,
++					      ddata->mode.hdisplay - 1);
+ 
+-	r = mipi_dsi_dcs_set_page_address(dsi, 0, ddata->mode.vdisplay - 1);
+-	if (r < 0)
+-		return r;
++	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, ddata->mode.vdisplay - 1);
  
  	return 0;
  }
-@@ -246,6 +230,7 @@ static int boe_bf060y8m_aj0_bl_update_status(struct backlight_device *bl)
- static int boe_bf060y8m_aj0_bl_get_brightness(struct backlight_device *bl)
+@@ -282,6 +278,8 @@ static void dsicm_hw_reset(struct panel_drv_data *ddata)
+ 
+ static int dsicm_power_on(struct panel_drv_data *ddata)
  {
- 	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	struct mipi_dsi_device *dsi = ddata->dsi;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 	u8 id1, id2, id3;
+ 	int r;
+ 
+@@ -306,23 +304,16 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+ 	if (r)
+ 		goto err;
+ 
+-	r = mipi_dsi_dcs_set_pixel_format(ddata->dsi, MIPI_DCS_PIXEL_FMT_24BIT);
+-	if (r)
+-		goto err;
++	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, MIPI_DCS_PIXEL_FMT_24BIT);
+ 
+ 	r = dsicm_set_update_window(ddata);
+ 	if (r)
+ 		goto err;
+ 
+-	r = mipi_dsi_dcs_set_display_on(ddata->dsi);
+-	if (r)
+-		goto err;
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+ 
+-	if (ddata->panel_data->te_support) {
+-		r = mipi_dsi_dcs_set_tear_on(ddata->dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+-		if (r)
+-			goto err;
+-	}
++	if (ddata->panel_data->te_support)
++		mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+ 
+ 	/* possible panel bug */
+ 	msleep(100);
+@@ -353,6 +344,7 @@ static int dsicm_power_off(struct panel_drv_data *ddata)
+ 	ddata->enabled = false;
+ 
+ 	r = mipi_dsi_dcs_set_display_off(ddata->dsi);
 +
- 	u16 brightness;
- 	int ret;
+ 	if (!r)
+ 		r = dsicm_sleep_in(ddata);
  
 
 -- 
