@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09327A342F7
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E974A342FB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 15:44:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4B410EAD7;
-	Thu, 13 Feb 2025 14:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C936310EAD1;
+	Thu, 13 Feb 2025 14:44:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Uu/+2J6+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W9TXMung";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8010110EAD6
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:44:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA1510EAD8
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 14:44:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4267DA42633;
- Thu, 13 Feb 2025 14:42:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8BB9C4CED1;
- Thu, 13 Feb 2025 14:44:05 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6CC43A42633;
+ Thu, 13 Feb 2025 14:42:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B89C4CEE4;
+ Thu, 13 Feb 2025 14:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739457846;
- bh=ye8slN0BE7WonTxnqLlOcrzizy/dbbJIwfjvRCxYa/I=;
+ s=k20201202; t=1739457849;
+ bh=2xfZrbgKwikKjZhrmr2KHwjOjjS2JcCwpBgKdzYX6EM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Uu/+2J6+nn61QuIhdr8Irh+JWXPX0R2RovoHi8svkmAFjd3EeQZgnhO6omdNHutvq
- Gzk33wJUeLbhpxT5LaIxY7unwZCeCx6sNq5+JKf0uogz1urUlmPKA1tCVWmhRJ1Y+W
- oflf4BVFq7BsRYTEh7yIZasCT2c65gQxuJCHKEDf/gRh0CcvPLWIBVncr2dtIIKL1B
- hdEovOvw+Iubm9TYgyZiGFUjk4d+/J7eholQfkrQjYeeKX5JuczCc0CFvw9HVLdhjY
- 8+ND4HHLMg75lpTdV4C7LomTkUqRFvCPrB9uZZhqts6qV2+RbDRwLfJYZpHYCfQrSf
- Kz4lkIakZCwwQ==
+ b=W9TXMung3NnULbNVGDLDBiKEuGCecOmzO6C7mY+0FIsBMJC2UFU7nV8VULXr1gBNH
+ V8lJMpSkvd/wEt5/5EgkKNxJVtA5BrwDpRnOKxmOLXpvRpQnebp8l19yPcQ6E3LtdO
+ NcWa9raddijsHYnMbko0S1ZSSPFAmY53WpDLtU3WW9FZ8bGFn6avbWTTW08heYvYm2
+ 5arLYFu8xcskrvtVWTJ5vMNq+XA2ZIf1P+GSipap3UnevbBJujVIW6VD8/1/PQk1Es
+ KmeokO6uox3gakILYDrOz1n5NEqwZ1JVE4CWOVdgvo1ZG7lJ3xFwHKJwgbLmOBRxpK
+ awrfhYbn321qQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 13 Feb 2025 15:43:23 +0100
-Subject: [PATCH v3 04/37] drm/bridge: Pass full state to atomic_disable
+Date: Thu, 13 Feb 2025 15:43:24 +0100
+Subject: [PATCH v3 05/37] drm/bridge: Pass full state to
+ atomic_post_disable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-bridge-connector-v3-4-e71598f49c8f@kernel.org>
+Message-Id: <20250213-bridge-connector-v3-5-e71598f49c8f@kernel.org>
 References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 In-Reply-To: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,12 +51,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=40432; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ye8slN0BE7WonTxnqLlOcrzizy/dbbJIwfjvRCxYa/I=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnrWMVPaYZZpcU89fO81SY1+a1z3/uTPdeufpqlpfT5/
- 5GlfgePdUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJbLZkbJh+R7qmsvhhV/xG
- ze33vM8YF/ju864I1eHwe7eelz9uDotT+byXkz89bD8/2fyeZOmKZYwNi05b6qcUiLt/TPDezZf
- /dfc58d3Pt56YEbE7KL1PkXNp6a47t4S1HoieuS3ddzEqN9oYAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=18873; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=2xfZrbgKwikKjZhrmr2KHwjOjjS2JcCwpBgKdzYX6EM=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnrWCXa4i/vze1Y86SyU73D8c+1d4GBC478Trv8ZNLaM
+ 8y29w0UO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBERJwYa0X3P4vj/rxqab2t
+ zZe29iV6VmUmb5dEz2rh05+78N+dT5UvlHO/RrP6lH85LyN6JWT+dcb6+k/G8T/uHNdMOirLHaB
+ vElp181IU4yqL8q38LsLGO9drf9gUefSHudatlhDOM/XXK8sB
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,415 +75,122 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 It's pretty inconvenient to access the full atomic state from
-drm_bridges, so let's change the atomic_disable hook prototype to pass
-it directly.
+drm_bridges, so let's change the atomic_post_disable hook prototype to
+pass it directly.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c        |  2 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |  6 ++----
- drivers/gpu/drm/bridge/analogix/anx7625.c           |  2 +-
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c |  2 +-
- drivers/gpu/drm/bridge/fsl-ldb.c                    |  2 +-
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c        |  2 +-
- drivers/gpu/drm/bridge/imx/imx8qm-ldb.c             |  5 ++---
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c            |  7 +++----
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c |  5 ++---
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     |  5 ++---
- drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        |  8 +++-----
- drivers/gpu/drm/bridge/ite-it6263.c                 |  5 ++---
- drivers/gpu/drm/bridge/ite-it6505.c                 |  2 +-
- drivers/gpu/drm/bridge/ite-it66121.c                |  2 +-
- drivers/gpu/drm/bridge/lontium-lt9211.c             |  2 +-
- drivers/gpu/drm/bridge/lontium-lt9611.c             |  5 ++---
- drivers/gpu/drm/bridge/nwl-dsi.c                    |  5 ++---
- drivers/gpu/drm/bridge/panel.c                      |  3 +--
- drivers/gpu/drm/bridge/samsung-dsim.c               |  2 +-
- drivers/gpu/drm/bridge/sii902x.c                    |  2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c        |  2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           |  2 +-
- drivers/gpu/drm/bridge/tc358767.c                   | 10 ++++------
- drivers/gpu/drm/bridge/ti-sn65dsi83.c               |  2 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c               |  2 +-
- drivers/gpu/drm/bridge/ti-tdp158.c                  |  3 ++-
- drivers/gpu/drm/drm_bridge.c                        | 10 +---------
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c           |  2 +-
- drivers/gpu/drm/mediatek/mtk_dp.c                   |  2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c                  |  2 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.c                 |  2 +-
- drivers/gpu/drm/meson/meson_encoder_cvbs.c          |  2 +-
- drivers/gpu/drm/meson/meson_encoder_dsi.c           |  2 +-
- drivers/gpu/drm/meson/meson_encoder_hdmi.c          |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c                 |  2 +-
- drivers/gpu/drm/msm/dp/dp_drm.c                     |  5 ++---
- drivers/gpu/drm/msm/dp/dp_drm.h                     |  2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi4.c                 |  2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi5.c                 |  2 +-
- drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c         |  2 +-
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c     |  2 +-
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c      |  2 +-
- drivers/gpu/drm/stm/lvds.c                          |  2 +-
- drivers/gpu/drm/vc4/vc4_dsi.c                       |  2 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c                    |  4 +++-
- include/drm/drm_bridge.h                            |  2 +-
- 46 files changed, 64 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  6 ++----
+ drivers/gpu/drm/bridge/chipone-icn6211.c           |  2 +-
+ drivers/gpu/drm/bridge/ite-it6505.c                |  2 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |  5 ++---
+ drivers/gpu/drm/bridge/panel.c                     |  3 +--
+ drivers/gpu/drm/bridge/parade-ps8640.c             |  2 +-
+ drivers/gpu/drm/bridge/samsung-dsim.c              |  2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |  2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c     |  2 +-
+ drivers/gpu/drm/bridge/tc358762.c                  |  3 ++-
+ drivers/gpu/drm/bridge/ti-dlpc3433.c               |  2 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  2 +-
+ drivers/gpu/drm/drm_bridge.c                       | 16 +++-------------
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |  2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                | 14 +++++++-------
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |  5 ++---
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |  2 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c                      |  2 +-
+ include/drm/drm_bridge.h                           |  2 +-
+ 20 files changed, 32 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 3d22685d33b51f59115b289b70c990d585aa5230..050dae338ffee36a8d6ee6fcce69f51486a957fe 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -917,11 +917,11 @@ static void adv7511_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	adv7511_power_on(adv);
- }
- 
- static void adv7511_bridge_atomic_disable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *bridge_state)
-+					  struct drm_atomic_state *state)
- {
- 	struct adv7511 *adv = bridge_to_adv7511(bridge);
- 
- 	adv7511_power_off(adv);
- }
 diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 7939d622d6a24657092d0cd9ebdf835e092c51ee..5ebda1ca880439db8fbfa048be7274f763b82f51 100644
+index 5ebda1ca880439db8fbfa048be7274f763b82f51..60ce33eadd97548c39201332e26b56e71245253a 100644
 --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
 +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1321,15 +1321,13 @@ static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
- 	dp->fast_train_enable = false;
- 	dp->psr_supported = false;
- 	dp->dpms_mode = DRM_MODE_DPMS_OFF;
+@@ -1359,15 +1359,13 @@ static void analogix_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+ 	}
+ 
+ 	analogix_dp_bridge_disable(bridge);
  }
  
 -static void
--analogix_dp_bridge_atomic_disable(struct drm_bridge *bridge,
--				  struct drm_bridge_state *old_bridge_state)
-+static void analogix_dp_bridge_atomic_disable(struct drm_bridge *bridge,
-+					      struct drm_atomic_state *old_state)
+-analogix_dp_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-				struct drm_bridge_state *old_bridge_state)
++static void analogix_dp_bridge_atomic_post_disable(struct drm_bridge *bridge,
++						   struct drm_atomic_state *old_state)
  {
 -	struct drm_atomic_state *old_state = old_bridge_state->base.state;
  	struct analogix_dp_device *dp = bridge->driver_private;
- 	struct drm_crtc *old_crtc, *new_crtc;
- 	struct drm_crtc_state *old_crtc_state = NULL;
- 	struct drm_crtc_state *new_crtc_state = NULL;
- 	int ret;
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 79f78dbe96351ef5fb746dc6731176a8d2989376..0b97b66de577421b0e68e748d0075f674c71fbf1 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2417,11 +2417,11 @@ static void anx7625_bridge_atomic_enable(struct drm_bridge *bridge,
- 		}
- 	}
- }
- 
- static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old)
-+					  struct drm_atomic_state *state)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
- 	struct device *dev = ctx->dev;
- 
- 	dev_dbg(dev, "drm atomic disable\n");
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index d3cebc79aaef75bd745892b7987f0a64bdc327f4..ef586e7df83b96f39ab552171d2ef665971a81ef 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2067,11 +2067,11 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
- 	if (ret < 0)
- 		schedule_work(&mhdp->modeset_retry_work);
- }
- 
- static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
--				     struct drm_bridge_state *bridge_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
- 	u32 resp;
- 
- 	dev_dbg(mhdp->dev, "%s\n", __func__);
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 0ba8bbc1afaec9cd7ae420568f98d21a31759614..26ae1ab5237f81ebd6c56075a18136f4a5b56ec9 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -221,11 +221,11 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 
- 	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
- }
- 
- static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
--				   struct drm_bridge_state *old_bridge_state)
-+				   struct drm_atomic_state *state)
- {
- 	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
- 
- 	/* Stop channel(s). */
- 	if (fsl_ldb->devdata->lvds_en_bit)
-diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-index 9ee645489ea30a0478b114457aa0768dd7f2952e..a17433a7c75530668662ed8dd1526b44f9a32f32 100644
---- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-@@ -87,11 +87,11 @@ static void imx8mp_hdmi_pvi_bridge_enable(struct drm_bridge *bridge,
- 
- 	writel(val, pvi->regs + HTX_PVI_CTRL);
- }
- 
- static void imx8mp_hdmi_pvi_bridge_disable(struct drm_bridge *bridge,
--					   struct drm_bridge_state *bridge_state)
-+					   struct drm_atomic_state *state)
- {
- 	struct imx8mp_hdmi_pvi *pvi = to_imx8mp_hdmi_pvi(bridge);
- 
- 	writel(0x0, pvi->regs + HTX_PVI_CTRL);
- 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-index fe2313aa2051c9d36ec0edbbd27d103229da6a9b..524aac751359f5cd377807508cbeeb6a597529e1 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-@@ -244,13 +244,12 @@ static void imx8qm_ldb_bridge_atomic_enable(struct drm_bridge *bridge,
- 	}
- 
- 	ldb_bridge_enable_helper(bridge);
- }
- 
--static void
--imx8qm_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
--				 struct drm_bridge_state *old_bridge_state)
-+static void imx8qm_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
-+					     struct drm_atomic_state *state)
- {
- 	struct ldb_channel *ldb_ch = bridge->driver_private;
- 	struct ldb *ldb = ldb_ch->ldb;
- 	struct imx8qm_ldb_channel *imx8qm_ldb_ch =
- 					base_to_imx8qm_ldb_channel(ldb_ch);
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-index f3f5b7b810f682f9973413ad1d65c9764437e94a..3cb484773ddf95695111d4d64c1eba4fbb363dc3 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-@@ -251,13 +251,12 @@ static void imx8qxp_ldb_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	if (is_split && companion)
- 		companion->funcs->atomic_enable(companion, state);
- }
- 
--static void
--imx8qxp_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
--				  struct drm_bridge_state *old_bridge_state)
-+static void imx8qxp_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
-+					      struct drm_atomic_state *state)
- {
- 	struct ldb_channel *ldb_ch = bridge->driver_private;
- 	struct ldb *ldb = ldb_ch->ldb;
- 	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
- 					base_to_imx8qxp_ldb_channel(ldb_ch);
-@@ -279,11 +278,11 @@ imx8qxp_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
- 
- 	clk_disable_unprepare(imx8qxp_ldb->clk_bypass);
- 	clk_disable_unprepare(imx8qxp_ldb->clk_pixel);
- 
- 	if (is_split && companion)
--		companion->funcs->atomic_disable(companion, old_bridge_state);
-+		companion->funcs->atomic_disable(companion, state);
- 
- 	ret = pm_runtime_put(dev);
- 	if (ret < 0)
- 		DRM_DEV_ERROR(dev, "failed to put runtime PM: %d\n", ret);
- }
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
-index 1812bd106261b802658dfbd9d52ecab7de1036e2..1d9529dc7f2a93e7547ae1f4c6193598a5574135 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
-@@ -174,13 +174,12 @@ imx8qxp_pc_bridge_mode_set(struct drm_bridge *bridge,
- 	imx8qxp_pc_write_set(pc, PC_CTRL_REG, PC_DISP_BYPASS(ch->stream_id));
- 
- 	clk_disable_unprepare(pc->clk_apb);
- }
- 
--static void
--imx8qxp_pc_bridge_atomic_disable(struct drm_bridge *bridge,
--				 struct drm_bridge_state *old_bridge_state)
-+static void imx8qxp_pc_bridge_atomic_disable(struct drm_bridge *bridge,
-+					     struct drm_atomic_state *state)
- {
- 	struct imx8qxp_pc_channel *ch = bridge->driver_private;
- 	struct imx8qxp_pc *pc = ch->pc;
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *new_crtc_state;
  	int ret;
  
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index 9b79e5dbcaca7f2b24a4183bcea4d6aac4464165..cd6818db0fd332cac03241917bbb107b7261097c 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -161,13 +161,12 @@ static void imx8qxp_pixel_link_bridge_atomic_enable(struct drm_bridge *bridge,
- 	imx8qxp_pixel_link_enable_mst_en(pl);
- 	imx8qxp_pixel_link_enable_mst_vld(pl);
- 	imx8qxp_pixel_link_enable_sync(pl);
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index 2d9e3add135c45f63966ee9df8d4cbe3b215aa1f..81f7c701961fddadbced6e4ad1bf9f12d3325fa7 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -479,11 +479,11 @@ static void chipone_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	usleep_range(10000, 11000);
  }
  
--static void
--imx8qxp_pixel_link_bridge_atomic_disable(struct drm_bridge *bridge,
--					 struct drm_bridge_state *old_bridge_state)
-+static void imx8qxp_pixel_link_bridge_atomic_disable(struct drm_bridge *bridge,
-+						     struct drm_atomic_state *state)
+ static void chipone_atomic_post_disable(struct drm_bridge *bridge,
+-					struct drm_bridge_state *old_bridge_state)
++					struct drm_atomic_state *state)
  {
- 	struct imx8qxp_pixel_link *pl = bridge->driver_private;
+ 	struct chipone *icn = bridge_to_chipone(bridge);
  
- 	imx8qxp_pixel_link_disable_mst_en(pl);
- 	imx8qxp_pixel_link_disable_mst_vld(pl);
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-index 65cf3a6c8ec692488aaf421946c6b2180fcebcc1..49dd4f96d52c966d9a038b0b04007631d0837f4d 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-@@ -120,24 +120,22 @@ imx8qxp_pxl2dpi_bridge_mode_set(struct drm_bridge *bridge,
- 		p2d->companion->funcs->mode_set(p2d->companion, mode,
- 							adjusted_mode);
- 	}
- }
+ 	clk_disable_unprepare(icn->refclk);
  
--static void
--imx8qxp_pxl2dpi_bridge_atomic_disable(struct drm_bridge *bridge,
--				      struct drm_bridge_state *old_bridge_state)
-+static void imx8qxp_pxl2dpi_bridge_atomic_disable(struct drm_bridge *bridge,
-+						  struct drm_atomic_state *state)
- {
- 	struct imx8qxp_pxl2dpi *p2d = bridge->driver_private;
- 	int ret;
- 
- 	ret = pm_runtime_put(p2d->dev);
- 	if (ret < 0)
- 		DRM_DEV_ERROR(p2d->dev, "failed to put runtime PM: %d\n", ret);
- 
- 	if (p2d->companion)
--		p2d->companion->funcs->atomic_disable(p2d->companion,
--							old_bridge_state);
-+		p2d->companion->funcs->atomic_disable(p2d->companion, state);
- }
- 
- static const u32 imx8qxp_pxl2dpi_bus_output_fmts[] = {
- 	MEDIA_BUS_FMT_RGB888_1X24,
- 	MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
-diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-index 0cf624a8495c00c15158aed6e0ec7227bcad529d..21152a1c28f7f5e326794488f473b030219a2f65 100644
---- a/drivers/gpu/drm/bridge/ite-it6263.c
-+++ b/drivers/gpu/drm/bridge/ite-it6263.c
-@@ -567,13 +567,12 @@ static int it6263_read_edid(void *data, u8 *buf, unsigned int block, size_t len)
- 	}
- 
- 	return 0;
- }
- 
--static void
--it6263_bridge_atomic_disable(struct drm_bridge *bridge,
--			     struct drm_bridge_state *old_bridge_state)
-+static void it6263_bridge_atomic_disable(struct drm_bridge *bridge,
-+					 struct drm_atomic_state *state)
- {
- 	struct it6263 *it = bridge_to_it6263(bridge);
- 
- 	regmap_write_bits(it->hdmi_regmap, HDMI_REG_GCP, AVMUTE, AVMUTE);
- 	regmap_write(it->hdmi_regmap, HDMI_REG_PKT_GENERAL_CTRL, 0);
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 159fdce3512978daae28d652d3d91e4968d4a729..d8265a205c0dc17e38c426e225e33c361a41a256 100644
+index d8265a205c0dc17e38c426e225e33c361a41a256..8a607558ac89ed2961d13515d987c141f2b6e116 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -3236,11 +3236,11 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
- 	it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
- 				     DP_SET_POWER_D0);
+@@ -3262,11 +3262,11 @@ static void it6505_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	pm_runtime_get_sync(dev);
  }
  
- static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
--					 struct drm_bridge_state *old_state)
-+					 struct drm_atomic_state *state)
+ static void it6505_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-					      struct drm_bridge_state *old_state)
++					      struct drm_atomic_state *state)
  {
  	struct it6505 *it6505 = bridge_to_it6505(bridge);
  	struct device *dev = it6505->dev;
  
  	DRM_DEV_DEBUG_DRIVER(dev, "start");
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 4b784ac04b3a0284c4ff4b62a390ade75d686c21..b9f90f32145de0f17eadfdf0efbe95a2b5ca026d 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -729,11 +729,11 @@ static void it66121_bridge_enable(struct drm_bridge *bridge,
- 
- 	it66121_set_mute(ctx, false);
- }
- 
- static void it66121_bridge_disable(struct drm_bridge *bridge,
--				   struct drm_bridge_state *bridge_state)
-+				   struct drm_atomic_state *state)
- {
- 	struct it66121_ctx *ctx = container_of(bridge, struct it66121_ctx, bridge);
- 
- 	it66121_set_mute(ctx, true);
- 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9211.c b/drivers/gpu/drm/bridge/lontium-lt9211.c
-index 65d5cdfe0d32cf9dca6582a60225db335c80172c..0fc5ea18fe6a8d0c1578dcae960d78cc33f4fb6d 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9211.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9211.c
-@@ -550,11 +550,11 @@ static void lt9211_atomic_enable(struct drm_bridge *bridge,
- 
- 	dev_dbg(ctx->dev, "LT9211 enabled.\n");
- }
- 
- static void lt9211_atomic_disable(struct drm_bridge *bridge,
--				  struct drm_bridge_state *old_bridge_state)
-+				  struct drm_atomic_state *state)
- {
- 	struct lt9211 *ctx = bridge_to_lt9211(bridge);
- 	int ret;
- 
- 	/*
 diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 521cce42d0332564dfa1bb1cb06012711198022e..bacc8d373fe7c8af1370afef2588d9c41fd7f5f3 100644
+index bacc8d373fe7c8af1370afef2588d9c41fd7f5f3..026803034231f78c17f619dc04119bdd9b2b6679 100644
 --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
 +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -685,13 +685,12 @@ static void lt9611_bridge_atomic_enable(struct drm_bridge *bridge,
+@@ -781,13 +781,12 @@ static void lt9611_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 			       reg_cfg, ARRAY_SIZE(reg_cfg));
  
- 	/* Enable HDMI output */
- 	regmap_write(lt9611->regmap, 0x8130, 0xea);
+ 	lt9611->sleep = false;
  }
  
 -static void
--lt9611_bridge_atomic_disable(struct drm_bridge *bridge,
--			     struct drm_bridge_state *old_bridge_state)
-+static void lt9611_bridge_atomic_disable(struct drm_bridge *bridge,
-+					 struct drm_atomic_state *state)
+-lt9611_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-				  struct drm_bridge_state *old_bridge_state)
++static void lt9611_bridge_atomic_post_disable(struct drm_bridge *bridge,
++					      struct drm_atomic_state *state)
  {
  	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
- 	int ret;
  
- 	/* Disable HDMI output */
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index 00a2ffb3dc7d93be70496de53a9de1195a4d2b18..09b8b2e7d9fb358b5fb11d9646cf9c2f13221f3c 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -734,13 +734,12 @@ static int nwl_dsi_disable(struct nwl_dsi *dsi)
- 	clk_disable_unprepare(dsi->tx_esc_clk);
- 
- 	return 0;
+ 	lt9611_sleep_setup(lt9611);
  }
- 
--static void
--nwl_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
--			      struct drm_bridge_state *old_bridge_state)
-+static void nwl_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
-+					  struct drm_atomic_state *state)
- {
- 	struct nwl_dsi *dsi = bridge_to_dsi(bridge);
- 	int ret;
- 
- 	nwl_dsi_disable(dsi);
 diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index c8988de36ba3b5a76f221a61cb3007a815b8c58a..4ac9d32c701eb84df1fdff7d4ef06106bfd2e51d 100644
+index 4ac9d32c701eb84df1fdff7d4ef06106bfd2e51d..890bd45c46eda8366e44974e3ec5891aa473fd00 100644
 --- a/drivers/gpu/drm/bridge/panel.c
 +++ b/drivers/gpu/drm/bridge/panel.c
-@@ -145,14 +145,13 @@ static void panel_bridge_atomic_enable(struct drm_bridge *bridge,
+@@ -164,14 +164,13 @@ static void panel_bridge_atomic_disable(struct drm_bridge *bridge,
  
- 	drm_panel_enable(panel_bridge->panel);
+ 	drm_panel_disable(panel_bridge->panel);
  }
  
- static void panel_bridge_atomic_disable(struct drm_bridge *bridge,
+ static void panel_bridge_atomic_post_disable(struct drm_bridge *bridge,
 -				struct drm_bridge_state *old_bridge_state)
-+					struct drm_atomic_state *atomic_state)
++					     struct drm_atomic_state *atomic_state)
  {
  	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
 -	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
@@ -491,528 +199,320 @@ index c8988de36ba3b5a76f221a61cb3007a815b8c58a..4ac9d32c701eb84df1fdff7d4ef06106
  	struct drm_crtc_state *new_crtc_state;
  
  	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, encoder);
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index ddf55fad2815125e70c2c7029d26e7ba036eb9ad..4a75a49110bca0e4ce71fbb81081fbffd7d72465 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1494,11 +1494,11 @@ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 7ec674bffa81327ebeacecce091364e0f3e9a4f9..a42138b33258a48a303a97fbb07504893aeafaf7 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -470,11 +470,11 @@ static void ps8640_atomic_pre_enable(struct drm_bridge *bridge,
  
- 	dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
+ 	ps_bridge->pre_enabled = true;
  }
  
- static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
--					struct drm_bridge_state *old_bridge_state)
-+					struct drm_atomic_state *state)
+ static void ps8640_atomic_post_disable(struct drm_bridge *bridge,
+-				       struct drm_bridge_state *old_bridge_state)
++				       struct drm_atomic_state *state)
+ {
+ 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+ 
+ 	ps_bridge->pre_enabled = false;
+ 
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 4a75a49110bca0e4ce71fbb81081fbffd7d72465..54de6ed2fae81bc13301a6b1ee8f38183a3118b6 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1506,11 +1506,11 @@ static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
+ 	samsung_dsim_set_display_enable(dsi, false);
+ 	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+ }
+ 
+ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+-					     struct drm_bridge_state *old_bridge_state)
++					     struct drm_atomic_state *state)
  {
  	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
  
- 	if (!(dsi->state & DSIM_STATE_ENABLED))
- 		return;
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index ae53d94a39317b4f753d4d59184f7ee5858e44d9..2100a687096e50c83a7c554e6d21b3c638ef713b 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -323,11 +323,11 @@ static int sii902x_get_modes(struct drm_connector *connector)
- static const struct drm_connector_helper_funcs sii902x_connector_helper_funcs = {
- 	.get_modes = sii902x_get_modes,
- };
- 
- static void sii902x_bridge_atomic_disable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old_bridge_state)
-+					  struct drm_atomic_state *state)
- {
- 	struct sii902x *sii902x = bridge_to_sii902x(bridge);
- 
- 	mutex_lock(&sii902x->mutex);
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index e480842016232d36014a849d6b1cc0f29b409cc7..1d39015f1533e7957fb8bcc57995125dddbd4fd3 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -393,11 +393,11 @@ static void dw_hdmi_qp_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
+ 	dsi->state &= ~DSIM_STATE_ENABLED;
+ 	pm_runtime_put_sync(dsi->dev);
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index f9371b19a476bbba17165632e4f2230ac9d48e9d..2b6e70a49f438c475bc60d9595bf246a9e54995b 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -932,11 +932,11 @@ static void dw_mipi_dsi_clear_err(struct dw_mipi_dsi *dsi)
+ 	dsi_write(dsi, DSI_INT_MSK0, 0);
+ 	dsi_write(dsi, DSI_INT_MSK1, 0);
  }
  
- static void dw_hdmi_qp_bridge_atomic_disable(struct drm_bridge *bridge,
--					     struct drm_bridge_state *old_state)
-+					     struct drm_atomic_state *state)
+ static void dw_mipi_dsi_bridge_post_atomic_disable(struct drm_bridge *bridge,
+-						   struct drm_bridge_state *old_bridge_state)
++						   struct drm_atomic_state *state)
  {
- 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
+ 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
+ 	const struct dw_mipi_dsi_phy_ops *phy_ops = dsi->plat_data->phy_ops;
  
- 	hdmi->phy.ops->disable(hdmi, hdmi->phy.data);
- }
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index b92e1fa9f3526c3d81b50cf95f4fc4d447907975..0890add5f7070f13fefad923526e92f516f06764 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2943,11 +2943,11 @@ static void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
+ 	/*
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+index 1d9d16fbcc7f2231fa71cc6a22a34be6f2ba46fd..5fd7a459efdd4fc4884cdf77ffedc19c36d1ca13 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+@@ -743,11 +743,11 @@ static int dw_mipi_dsi2_bridge_atomic_check(struct drm_bridge *bridge,
  
- 	mutex_unlock(&hdmi->mutex);
- }
- 
- static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old_state)
-+					  struct drm_atomic_state *state)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->disabled = true;
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index a1f72e61b9444cc79bf1bb7bed552c302bc30873..39e2d3a7a27d2603bb847d55c4812fb170389ba0 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1561,13 +1561,12 @@ static void tc_dpi_bridge_atomic_enable(struct drm_bridge *bridge,
- 		tc_main_link_disable(tc);
- 		return;
- 	}
+ 	return 0;
  }
  
--static void
--tc_dpi_bridge_atomic_disable(struct drm_bridge *bridge,
--			     struct drm_bridge_state *old_bridge_state)
-+static void tc_dpi_bridge_atomic_disable(struct drm_bridge *bridge,
-+					 struct drm_atomic_state *state)
+ static void dw_mipi_dsi2_bridge_post_atomic_disable(struct drm_bridge *bridge,
+-						    struct drm_bridge_state *old_bridge_state)
++						    struct drm_atomic_state *state)
  {
- 	struct tc_data *tc = bridge_to_tc(bridge);
+ 	struct dw_mipi_dsi2 *dsi2 = bridge_to_dsi2(bridge);
+ 	const struct dw_mipi_dsi2_phy_ops *phy_ops = dsi2->plat_data->phy_ops;
+ 
+ 	regmap_write(dsi2->regmap, DSI2_IPI_PIX_PKT_CFG, 0);
+diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
+index 6ed8ae6ffc3defa9857397a7f47d44195ac0f774..49c76027f8316967ea4f7d7dfb85920a025b6df9 100644
+--- a/drivers/gpu/drm/bridge/tc358762.c
++++ b/drivers/gpu/drm/bridge/tc358762.c
+@@ -147,11 +147,12 @@ static int tc358762_init(struct tc358762 *ctx)
+ 	msleep(100);
+ 
+ 	return tc358762_clear_error(ctx);
+ }
+ 
+-static void tc358762_post_disable(struct drm_bridge *bridge, struct drm_bridge_state *state)
++static void tc358762_post_disable(struct drm_bridge *bridge,
++				  struct drm_atomic_state *state)
+ {
+ 	struct tc358762 *ctx = bridge_to_tc358762(bridge);
  	int ret;
  
- 	ret = tc_dpi_stream_disable(tc);
-@@ -1599,13 +1598,12 @@ static void tc_edp_bridge_atomic_enable(struct drm_bridge *bridge,
- 		tc_main_link_disable(tc);
- 		return;
- 	}
+ 	/*
+diff --git a/drivers/gpu/drm/bridge/ti-dlpc3433.c b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+index 963af4fc28a88f7ed0b0f01933d96dd8077c6602..85f2a0e74a1c8aaa272ce828ad1c82660503b7a8 100644
+--- a/drivers/gpu/drm/bridge/ti-dlpc3433.c
++++ b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+@@ -191,11 +191,11 @@ static void dlpc_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	msleep(10);
  }
  
--static void
--tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
--			     struct drm_bridge_state *old_bridge_state)
-+static void tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
-+					 struct drm_atomic_state *state)
- {
- 	struct tc_data *tc = bridge_to_tc(bridge);
- 	int ret;
- 
- 	ret = tc_edp_stream_disable(tc);
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index b2ff5cdb7fd26bfeb75af741abad06b21a765316..ab77dff65607f5eec4b36519dccb2465274d2df9 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -548,11 +548,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	if (pval)
- 		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
- }
- 
- static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+ static void dlpc_atomic_post_disable(struct drm_bridge *bridge,
 -				     struct drm_bridge_state *old_bridge_state)
 +				     struct drm_atomic_state *state)
  {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
- 	int ret;
+ 	struct dlpc *dlpc = bridge_to_dlpc(bridge);
  
- 	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
+ 	regulator_disable(dlpc->vcc_flsh);
+ 	regulator_disable(dlpc->vcc_intf);
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index c3ad7e326ae809eda8e61c905d37a85ff2137487..38f30aad7d9b72083272702c8bda73e61dbe0267 100644
+index 38f30aad7d9b72083272702c8bda73e61dbe0267..ae34585e05b307934d9fbf0dfd7ad159a99d4c17 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -811,11 +811,11 @@ ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
- 
- 	return MODE_OK;
+@@ -1176,11 +1176,11 @@ static void ti_sn_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 	/* td7: min 100 us after enable before DSI data */
+ 	usleep_range(100, 110);
  }
  
- static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
--					struct drm_bridge_state *old_bridge_state)
-+					struct drm_atomic_state *state)
+ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-					     struct drm_bridge_state *old_bridge_state)
++					     struct drm_atomic_state *state)
  {
  	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
  
- 	/* disable video stream */
- 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
-diff --git a/drivers/gpu/drm/bridge/ti-tdp158.c b/drivers/gpu/drm/bridge/ti-tdp158.c
-index c0308f997445f52f7f9c680eb67dde55edcb1049..22316382451fa3a55e1b3977982bd306b52b5888 100644
---- a/drivers/gpu/drm/bridge/ti-tdp158.c
-+++ b/drivers/gpu/drm/bridge/ti-tdp158.c
-@@ -33,11 +33,12 @@ static void tdp158_enable(struct drm_bridge *bridge,
- 		dev_err(tdp158->dev, "failed to enable vdd: %d", err);
- 
- 	gpiod_set_value_cansleep(tdp158->enable, 1);
- }
- 
--static void tdp158_disable(struct drm_bridge *bridge, struct drm_bridge_state *prev)
-+static void tdp158_disable(struct drm_bridge *bridge,
-+			   struct drm_atomic_state *state)
- {
- 	struct tdp158 *tdp158 = bridge->driver_private;
- 
- 	gpiod_set_value_cansleep(tdp158->enable, 0);
- 	regulator_disable(tdp158->vdd);
+ 	/* semi auto link training mode OFF */
+ 	regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0);
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 7d9d176347f37569dddeb8fc0dbdcdebe4445a60..198083cacfc0924f1fd3bcf7a6a690f4e5779de0 100644
+index 198083cacfc0924f1fd3bcf7a6a690f4e5779de0..cb71ec57c47af889c2028c74d0bbcfa2fed1f88b 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -569,19 +569,11 @@ void drm_atomic_bridge_chain_disable(struct drm_bridge *bridge,
- 		return;
+@@ -583,24 +583,14 @@ void drm_atomic_bridge_chain_disable(struct drm_bridge *bridge,
+ EXPORT_SYMBOL(drm_atomic_bridge_chain_disable);
  
- 	encoder = bridge->encoder;
- 	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
- 		if (iter->funcs->atomic_disable) {
--			struct drm_bridge_state *old_bridge_state;
+ static void drm_atomic_bridge_call_post_disable(struct drm_bridge *bridge,
+ 						struct drm_atomic_state *old_state)
+ {
+-	if (old_state && bridge->funcs->atomic_post_disable) {
+-		struct drm_bridge_state *old_bridge_state;
 -
--			old_bridge_state =
--				drm_atomic_get_old_bridge_state(old_state,
--								iter);
--			if (WARN_ON(!old_bridge_state))
--				return;
+-		old_bridge_state =
+-			drm_atomic_get_old_bridge_state(old_state,
+-							bridge);
+-		if (WARN_ON(!old_bridge_state))
+-			return;
 -
--			iter->funcs->atomic_disable(iter, old_bridge_state);
-+			iter->funcs->atomic_disable(iter, old_state);
- 		} else if (iter->funcs->disable) {
- 			iter->funcs->disable(iter);
- 		}
- 
- 		if (iter == bridge)
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index e52d8c4f0b7e93d6be88e3b3897e711a12bc70c1..20b93fff023995062096941ae571756185688387 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -258,11 +258,11 @@ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
- 
- 	drm_crtc_vblank_on(crtc);
+-		bridge->funcs->atomic_post_disable(bridge,
+-						   old_bridge_state);
+-	} else if (bridge->funcs->post_disable) {
++	if (old_state && bridge->funcs->atomic_post_disable)
++		bridge->funcs->atomic_post_disable(bridge, old_state);
++	else if (bridge->funcs->post_disable)
+ 		bridge->funcs->post_disable(bridge);
+-	}
  }
  
- static void ingenic_drm_bridge_atomic_disable(struct drm_bridge *bridge,
--					      struct drm_bridge_state *old_bridge_state)
-+					      struct drm_atomic_state *state)
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(bridge->dev);
- 	unsigned int var;
- 
- 	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index bd67423556b789be74fe648fd5ca6141a8ab9fb8..3d4648d2e15f1a1a3c6ae596e1a35cd654fcc35c 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2398,11 +2398,11 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 			   DP_PWR_STATE_BANDGAP_TPLL,
- 			   DP_PWR_STATE_MASK);
- }
- 
- static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
--					 struct drm_bridge_state *old_state)
-+					 struct drm_atomic_state *state)
- {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 
- 	mtk_dp->enabled = false;
- 	mtk_dp_update_plugged_status(mtk_dp);
+ /**
+  * drm_atomic_bridge_chain_post_disable - cleans up after disabling all bridges
+  *					  in the encoder chain
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index be21f8e643172b5fe07ce640af2c33f060a3bb24..661db80b2377fce4ea09a46c4ad19a58fab3fe7d 100644
+index 661db80b2377fce4ea09a46c4ad19a58fab3fe7d..b50dc9a013ac5a50e464134f548fa773a5662138 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -824,11 +824,11 @@ static void mtk_dsi_bridge_mode_set(struct drm_bridge *bridge,
- 
- 	drm_display_mode_to_videomode(adjusted, &dsi->vm);
+@@ -854,11 +854,11 @@ static void mtk_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 	if (ret < 0)
+ 		DRM_ERROR("failed to power on dsi\n");
  }
  
- static void mtk_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old_bridge_state)
-+					  struct drm_atomic_state *state)
+ static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-					       struct drm_bridge_state *old_bridge_state)
++					       struct drm_atomic_state *state)
  {
  	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
  
- 	mtk_output_dsi_disable(dsi);
+ 	mtk_dsi_poweroff(dsi);
  }
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index a1904480fff8dcc0b4f3da883b9abe3238653253..602c9d348a7d3ec4f0ba13386508c531772b6e14 100644
+index 602c9d348a7d3ec4f0ba13386508c531772b6e14..ac5e40c2761710dfbe722e1ba569d76e4cd5b8fb 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1307,11 +1307,11 @@ static bool mtk_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
- {
- 	return true;
+@@ -1324,11 +1324,11 @@ static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
+ 
+ 	hdmi->enabled = false;
  }
  
- static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
--					   struct drm_bridge_state *old_bridge_state)
-+					   struct drm_atomic_state *state)
+ static void mtk_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-						struct drm_bridge_state *old_state)
++						struct drm_atomic_state *state)
  {
  	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
  
- 	if (!hdmi->enabled)
+ 	if (!hdmi->powered)
  		return;
-diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-index b535e74345f02079e22a18c8d991adeb03c5e41a..e79f7c3ce32efa8e5fe7afe274fe991ac363b734 100644
---- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-@@ -188,11 +188,11 @@ static void meson_encoder_cvbs_atomic_enable(struct drm_bridge *bridge,
- 		regmap_write(priv->hhi, HHI_VDAC_CNTL1_G12A, 0);
- 	}
- }
- 
- static void meson_encoder_cvbs_atomic_disable(struct drm_bridge *bridge,
--					      struct drm_bridge_state *bridge_state)
-+					      struct drm_atomic_state *state)
- {
- 	struct meson_encoder_cvbs *meson_encoder_cvbs =
- 					bridge_to_meson_encoder_cvbs(bridge);
- 	struct meson_drm *priv = meson_encoder_cvbs->priv;
- 
-diff --git a/drivers/gpu/drm/meson/meson_encoder_dsi.c b/drivers/gpu/drm/meson/meson_encoder_dsi.c
-index 140b3604dba10ac2aabadae065c2d9de8169ed03..fe204437bd6576a258dc11319e2b905f170a24a1 100644
---- a/drivers/gpu/drm/meson/meson_encoder_dsi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_dsi.c
-@@ -77,11 +77,11 @@ static void meson_encoder_dsi_atomic_enable(struct drm_bridge *bridge,
- 
- 	writel_relaxed(1, priv->io_base + _REG(ENCL_VIDEO_EN));
- }
- 
- static void meson_encoder_dsi_atomic_disable(struct drm_bridge *bridge,
--					     struct drm_bridge_state *bridge_state)
-+					     struct drm_atomic_state *state)
- {
- 	struct meson_encoder_dsi *meson_encoder_dsi =
- 					bridge_to_meson_encoder_dsi(bridge);
- 	struct meson_drm *priv = meson_encoder_dsi->priv;
- 
-diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-index 7544c4e6af635b7e612a1a970987e0e15e054cf1..6d1c9262a2cfb7b08a68efb86821bf5ecf8c0941 100644
---- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-@@ -247,11 +247,11 @@ static void meson_encoder_hdmi_atomic_enable(struct drm_bridge *bridge,
- 	else
- 		writel_relaxed(1, priv->io_base + _REG(ENCP_VIDEO_EN));
- }
- 
- static void meson_encoder_hdmi_atomic_disable(struct drm_bridge *bridge,
--					     struct drm_bridge_state *bridge_state)
-+					      struct drm_atomic_state *state)
- {
- 	struct meson_encoder_hdmi *encoder_hdmi = bridge_to_meson_encoder_hdmi(bridge);
- 	struct meson_drm *priv = encoder_hdmi->priv;
- 
- 	writel_bits_relaxed(0x3, 0,
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index ffb9c80543ad2306b2148b6f05a803d7634334d5..77948f0514de572caa9bc776a3d0fc178bf3bd51 100644
+index 77948f0514de572caa9bc776a3d0fc178bf3bd51..8b1cc8f166b86678ac348eea98754e9b75fc7436 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1550,11 +1550,11 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
- 	drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
- 	mutex_unlock(&msm_dp_display->event_mutex);
+@@ -1562,33 +1562,33 @@ void msm_dp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
+ 
+ 	msm_dp_ctrl_push_idle(msm_dp_display->ctrl);
  }
  
- void msm_dp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
--			      struct drm_bridge_state *old_bridge_state)
-+				  struct drm_atomic_state *state)
+ void msm_dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+-				   struct drm_bridge_state *old_bridge_state)
++				       struct drm_atomic_state *state)
  {
  	struct msm_dp_bridge *msm_dp_bridge = to_dp_bridge(drm_bridge);
  	struct msm_dp *dp = msm_dp_bridge->msm_dp_display;
+-	u32 state;
++	u32 hpd_state;
  	struct msm_dp_display_private *msm_dp_display;
  
+ 	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
+ 
+ 	if (dp->is_edp)
+ 		msm_dp_hpd_unplug_handle(msm_dp_display, 0);
+ 
+ 	mutex_lock(&msm_dp_display->event_mutex);
+ 
+-	state = msm_dp_display->hpd_state;
+-	if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED)
++	hpd_state = msm_dp_display->hpd_state;
++	if (hpd_state != ST_DISCONNECT_PENDING && hpd_state != ST_CONNECTED)
+ 		drm_dbg_dp(dp->drm_dev, "type=%d wrong hpd_state=%d\n",
+-			   dp->connector_type, state);
++			   dp->connector_type, hpd_state);
+ 
+ 	msm_dp_display_disable(msm_dp_display);
+ 
+-	state =  msm_dp_display->hpd_state;
+-	if (state == ST_DISCONNECT_PENDING) {
++	hpd_state =  msm_dp_display->hpd_state;
++	if (hpd_state == ST_DISCONNECT_PENDING) {
+ 		/* completed disconnection */
+ 		msm_dp_display->hpd_state = ST_DISCONNECTED;
+ 	} else {
+ 		msm_dp_display->hpd_state = ST_DISPLAY_OFF;
+ 	}
 diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index eae8e849edc54da1faa9c557757873561fa223a1..84ecec79467dcb1d3c35abf422b1d6b7caf8d0ee 100644
+index 84ecec79467dcb1d3c35abf422b1d6b7caf8d0ee..dc888f8269d698daa046d5a861a2a8bd80aa76d3 100644
 --- a/drivers/gpu/drm/msm/dp/dp_drm.c
 +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -164,13 +164,12 @@ static void msm_edp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
- 
- 	msm_dp_bridge_atomic_enable(drm_bridge, state);
- }
- 
- static void msm_edp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
--				      struct drm_bridge_state *old_bridge_state)
-+					  struct drm_atomic_state *atomic_state)
- {
--	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *new_crtc_state = NULL, *old_crtc_state = NULL;
- 	struct msm_dp_bridge *msm_dp_bridge = to_dp_bridge(drm_bridge);
- 	struct msm_dp *dp = msm_dp_bridge->msm_dp_display;
- 
-@@ -205,11 +204,11 @@ static void msm_edp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
- 		msm_dp_display_set_psr(dp, false);
- 		return;
- 	}
- 
+@@ -208,13 +208,12 @@ static void msm_edp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
  out:
--	msm_dp_bridge_atomic_disable(drm_bridge, old_bridge_state);
-+	msm_dp_bridge_atomic_disable(drm_bridge, atomic_state);
+ 	msm_dp_bridge_atomic_disable(drm_bridge, atomic_state);
  }
  
  static void msm_edp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
- 				struct drm_bridge_state *old_bridge_state)
+-				struct drm_bridge_state *old_bridge_state)
++					       struct drm_atomic_state *atomic_state)
  {
+-	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *new_crtc_state = NULL;
+ 
+ 	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state,
+ 						   drm_bridge->encoder);
+@@ -229,11 +228,11 @@ static void msm_edp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+ 	 * Self refresh mode is already set in msm_edp_bridge_atomic_disable.
+ 	 */
+ 	if (new_crtc_state->self_refresh_active)
+ 		return;
+ 
+-	msm_dp_bridge_atomic_post_disable(drm_bridge, old_bridge_state);
++	msm_dp_bridge_atomic_post_disable(drm_bridge, atomic_state);
+ }
+ 
+ /**
+  * msm_edp_bridge_mode_valid - callback to determine if specified mode is valid
+  * @bridge: Pointer to drm bridge structure
 diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-index d54253ecbbff85f06112a1f62981c724774c237a..faf31a9da752c9ea65e80c8c95896fef39ffa8a8 100644
+index faf31a9da752c9ea65e80c8c95896fef39ffa8a8..d8c9b905f8bfb5abe47c1cb26d17bc605e3e1ba6 100644
 --- a/drivers/gpu/drm/msm/dp/dp_drm.h
 +++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-@@ -26,11 +26,11 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
- 		   bool yuv_supported);
- 
+@@ -28,11 +28,11 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
  void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
  				 struct drm_atomic_state *state);
  void msm_dp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
--			      struct drm_bridge_state *old_bridge_state);
-+				  struct drm_atomic_state *state);
+ 				  struct drm_atomic_state *state);
  void msm_dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
- 				   struct drm_bridge_state *old_bridge_state);
+-				   struct drm_bridge_state *old_bridge_state);
++				       struct drm_atomic_state *state);
  enum drm_mode_status msm_dp_bridge_mode_valid(struct drm_bridge *bridge,
  					  const struct drm_display_info *info,
  					  const struct drm_display_mode *mode);
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index c43f4a5218d1227a7431cccb015530e1b1543329..e1ac447221ee5ae5ee50637acfc8a30a8f111850 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -407,11 +407,11 @@ static void hdmi4_bridge_enable(struct drm_bridge *bridge,
- done:
- 	mutex_unlock(&hdmi->lock);
- }
- 
- static void hdmi4_bridge_disable(struct drm_bridge *bridge,
--				 struct drm_bridge_state *bridge_state)
-+				 struct drm_atomic_state *state)
- {
- 	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
- 	unsigned long flags;
- 
- 	mutex_lock(&hdmi->lock);
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index 49a4d31243e7dbb4ad6a9136e16032fd15dbe607..fa9904e4c218235bafa87be600680b3e5d5e2ea5 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -405,11 +405,11 @@ static void hdmi5_bridge_enable(struct drm_bridge *bridge,
- done:
- 	mutex_unlock(&hdmi->lock);
- }
- 
- static void hdmi5_bridge_disable(struct drm_bridge *bridge,
--				 struct drm_bridge_state *bridge_state)
-+				 struct drm_atomic_state *state)
- {
- 	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
- 	unsigned long flags;
- 
- 	mutex_lock(&hdmi->lock);
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-index 86e112fe1fc44603585d916fc70c0a3bd7ab1313..380a855b832af9c09652ce39a78f974b63d949bb 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-@@ -593,11 +593,11 @@ static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
- 
- 	rcar_lvds_enable(bridge, state, crtc, connector);
- }
- 
- static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
--				     struct drm_bridge_state *old_bridge_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 
- 	/*
- 	 * For D3 and E3, disabling the LVDS encoder before the DU would stall
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index 4c8f63bd106e12b62e6c5006a439305f979beb64..d1e626068065c559a708772d3bbf16efe166ff59 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -814,11 +814,11 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 
- 	rcar_mipi_dsi_start_video(dsi);
- }
- 
- static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
--					 struct drm_bridge_state *old_bridge_state)
-+					 struct drm_atomic_state *state)
- {
- 	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
- 
- 	rcar_mipi_dsi_stop_video(dsi);
- }
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index 1eafb637092b1731a606ed50d7cc8f89a7964606..4550c6d847962f06886f2b7645bae73646f1ffb6 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -565,11 +565,11 @@ static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- err_stop:
- 	rzg2l_mipi_dsi_stop(dsi);
- }
- 
- static void rzg2l_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old_bridge_state)
-+					  struct drm_atomic_state *state)
- {
- 	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
- 
- 	rzg2l_mipi_dsi_stop_video(dsi);
- 	rzg2l_mipi_dsi_stop_hs_clock(dsi);
-diff --git a/drivers/gpu/drm/stm/lvds.c b/drivers/gpu/drm/stm/lvds.c
-index 7ec44f2264038c3642c40202bc014c438ecee104..4613e8e3b8fddc4455be0e3f81e0e811418746a0 100644
---- a/drivers/gpu/drm/stm/lvds.c
-+++ b/drivers/gpu/drm/stm/lvds.c
-@@ -1014,11 +1014,11 @@ static void lvds_atomic_enable(struct drm_bridge *bridge,
- 		drm_panel_enable(lvds->panel);
- 	}
- }
- 
- static void lvds_atomic_disable(struct drm_bridge *bridge,
--				struct drm_bridge_state *old_bridge_state)
-+				struct drm_atomic_state *state)
- {
- 	struct stm_lvds *lvds = bridge_to_stm_lvds(bridge);
- 
- 	if (lvds->panel) {
- 		drm_panel_disable(lvds->panel);
+ void msm_dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+ 			const struct drm_display_mode *mode,
 diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 59d881ddf0eebf1265875c3cad7cce45990cde4d..60b300db52d24af6a04131c99cfdc05b6e9509aa 100644
+index 60b300db52d24af6a04131c99cfdc05b6e9509aa..779b22efe27bffc586a760fdc49012e02ac23d0d 100644
 --- a/drivers/gpu/drm/vc4/vc4_dsi.c
 +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -798,11 +798,11 @@ dsi_esc_timing(u32 ns)
- {
- 	return DIV_ROUND_UP(ns, ESC_TIME_NS);
+@@ -809,11 +809,11 @@ static void vc4_dsi_bridge_disable(struct drm_bridge *bridge,
+ 	disp0_ctrl &= ~DSI_DISP0_ENABLE;
+ 	DSI_PORT_WRITE(DISP0_CTRL, disp0_ctrl);
  }
  
- static void vc4_dsi_bridge_disable(struct drm_bridge *bridge,
--				   struct drm_bridge_state *state)
-+				   struct drm_atomic_state *state)
+ static void vc4_dsi_bridge_post_disable(struct drm_bridge *bridge,
+-					struct drm_bridge_state *state)
++					struct drm_atomic_state *state)
  {
  	struct vc4_dsi *dsi = bridge_to_vc4_dsi(bridge);
- 	u32 disp0_ctrl;
+ 	struct device *dev = &dsi->pdev->dev;
  
- 	disp0_ctrl = DSI_PORT_READ(DISP0_CTRL);
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 1715e42d0b70cb23cfb4eeeefd851299cf6d46a4..1f57935478d395b75842afccf6770ccb8d76c0d9 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -1623,12 +1623,14 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 			ZYNQMP_DP_SOFTWARE_RESET_ALL);
- 	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 1);
- }
- 
- static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
--					    struct drm_bridge_state *old_bridge_state)
-+					    struct drm_atomic_state *state)
- {
-+	struct drm_bridge_state *old_bridge_state = drm_atomic_get_old_bridge_state(state,
-+										    bridge);
- 	struct zynqmp_dp *dp = bridge_to_dp(bridge);
- 
- 	mutex_lock(&dp->lock);
- 	dp->enabled = false;
- 	cancel_work(&dp->hpd_work);
+ 	clk_disable_unprepare(dsi->pll_phy_clock);
 diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 4c5e231230301f08ed568edbb4b6b2020234c012..087752226bf9c25b47838be265ad2e4c3070bc7e 100644
+index 087752226bf9c25b47838be265ad2e4c3070bc7e..d4c75d59fa12be1bd7375ce3ea56415235781b28 100644
 --- a/include/drm/drm_bridge.h
 +++ b/include/drm/drm_bridge.h
-@@ -340,11 +340,11 @@ struct drm_bridge_funcs {
- 	 * signals) feeding it is still running when this callback is called.
+@@ -359,11 +359,11 @@ struct drm_bridge_funcs {
+ 	 * called.
  	 *
- 	 * The @atomic_disable callback is optional.
+ 	 * The @atomic_post_disable callback is optional.
  	 */
- 	void (*atomic_disable)(struct drm_bridge *bridge,
--			       struct drm_bridge_state *old_bridge_state);
-+			       struct drm_atomic_state *state);
+ 	void (*atomic_post_disable)(struct drm_bridge *bridge,
+-				    struct drm_bridge_state *old_bridge_state);
++				    struct drm_atomic_state *state);
  
  	/**
- 	 * @atomic_post_disable:
+ 	 * @atomic_duplicate_state:
  	 *
- 	 * This callback should disable the bridge. It is called right after the
+ 	 * Duplicate the current bridge state object (which is guaranteed to be
 
 -- 
 2.48.0
