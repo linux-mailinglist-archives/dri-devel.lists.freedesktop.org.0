@@ -2,68 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826E5A36788
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 22:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C14EA3679E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 22:38:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D7F10E08A;
-	Fri, 14 Feb 2025 21:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356F410E077;
+	Fri, 14 Feb 2025 21:38:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OzIzziYr";
+	dkim=pass (2048-bit key; unprotected) header.d=fireburn-co-uk.20230601.gappssmtp.com header.i=@fireburn-co-uk.20230601.gappssmtp.com header.b="3dU1jbHY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB5C210E08A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 21:29:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739568562; x=1771104562;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TpZ5BcIn4SbzC6/X1Y2evpTO0RYHCL8ZdezckaFFpW0=;
- b=OzIzziYrBESWKBoDJer8m0Ua6v0HL2ytNMK8EZVFtlj1Qrhb29UKKtGx
- CMafXBoZFAkR0ELt6Vtb/RJOahQr2slAsrUGysxbMTgCti64R+9A52kGS
- xh7NfXpE5cJZMojKekzXTP8qtbEAMZeMzTMtqdeyjyKyrmmlpvvq7Z+43
- H6zxTSZiidxcghmM/kmGq+ysUEg1TKmH4IR8U6F5UfDBOD1pNMEArQ2Hq
- QGvRVMp4chsJXC7TtRlBddnLPInkS69Aw9WrfXQy/eBYFnDJ3s1uuWldj
- 3QvnJldhuXK/bsdVasWyBam0hm4H+2Sx19UZJEqvN3rk+m9ruJ1UKnKq6 Q==;
-X-CSE-ConnectionGUID: 45BAp0wrRVWR0fmud6PGtA==
-X-CSE-MsgGUID: 6ugprjSTQc+wQkl7JsyKDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40599597"
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="40599597"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2025 13:29:22 -0800
-X-CSE-ConnectionGUID: J8qkXJLGTmCQjbjvrG1+qg==
-X-CSE-MsgGUID: UovYy1mBQ0GlO5csthlfeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="113290900"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 14 Feb 2025 13:29:18 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tj3FL-001ABb-1q;
- Fri, 14 Feb 2025 21:29:15 +0000
-Date: Sat, 15 Feb 2025 05:28:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, bliang@analogixsemi.com,
- qwen@analogixsemi.com, treapking@google.com,
- Xin Ji <xji@analogixsemi.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge:anx7625: Enable DSC feature
-Message-ID: <202502150516.xZBLDIlz-lkp@intel.com>
-References: <20250213123331.3016824-1-xji@analogixsemi.com>
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBA110E077
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 21:38:27 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-2fbf77b2b64so4627663a91.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 13:38:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fireburn-co-uk.20230601.gappssmtp.com; s=20230601; t=1739569107; x=1740173907;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7yTRDZMrkOhvbJQIYtlRQpYDM+YNIVDprdd7Qg6LazQ=;
+ b=3dU1jbHYXQ/XAmqPZOKHYz6DDIaRsDa4jQua1ALrJAvyl9ekzWxraIipb1NaGw51qe
+ wY6wmIXUfL3pgbZiJOlITRlyshmX2nmpqpk5E44f7i6Wzr/fWGPGbbnQQJfw/XKnkuNE
+ iAx9rS3PQQGJnDi8wFYDOk6dPgX6qGVyQgtnJn+o+MOHtnZB5rPU1ORtuvnHUAgny524
+ GhQA4841NpJJwyb4j6jic6ur9hefaCvFToc1AY6Uz5e6VmNYQlRQvnjWm+LDaS8itGEo
+ wu6SwoskX6wUMrSdrWtPd5/RwMBjdGD66PH2nlM1BuO3JtO4+RHZxHfMYGwKQsvOSVrE
+ IAAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739569107; x=1740173907;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7yTRDZMrkOhvbJQIYtlRQpYDM+YNIVDprdd7Qg6LazQ=;
+ b=bBJBdpY69KIY4jVZVNxy9YcwDxzBK+5+tpwZRwttjZjvRp5LZdFCFMGKJsnqxybfrr
+ 3gD2sljMWlyo4w6l47WZbSAXoSnBglgv6wt/gJFJ+qzZIAwj1x2iwPehgMGQ2GMsHeJb
+ Ic/rxEKyc1igVe+ZY5r/yr1Z2p9kVOm7YHiqB1tHBGb6tHCkBUI+/xtoL5piJf6xh4N4
+ Wqh6veG435kj1mRjl+4dcsHeZcBKSRHwlXkSvKBpZwQ6hsV8I6uJda9j5dvbH0y1U8CN
+ AnePnXTpbtMsckQzCwTE5e7ynjSLgLQiU9vLflbXVs2ey7mhza5rMeZ5INOrjZt48hLo
+ 1sig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVoe9KqAim53AVAnlgvih5SYdC4J8D3yVRxTo0/MbVdLMJELWZCOqXHH7TZt0hK5JOTIB+o4CVA2WA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNSBLsYvMroLg8R2FBWEIVNvzsbwCzxncKTvDgcknGY3/byNkF
+ Su6Jeher0nsoutWdFBbOS+TM4kqWhEogIG2CfsaUG8tso1yBShZ2YRAikhL6GlI9Z9jkzpKJ5Gx
+ zyBGdrfYZHbqlqlw7/QzNXLx0x+3JLeWv6FCO
+X-Gm-Gg: ASbGncuu2AFD4BZL3hkoECxueIoBNH8hyw4lTgy9EuqrCm00G/GgIUp12ovDLoAX2Lg
+ dEXXCikUT3MV8+NC9xOhDe9LmJnXouatgu5akP08M1asxQkcuNBIotmpPDYl3hAf/B0ybw2OB1P
+ 4QGvb5F1LIqxhttAC70J+ijwXp1OqQquY=
+X-Google-Smtp-Source: AGHT+IENui0GJMCBzQWaOkk4fCDqan7NKf/uayJ69zcUei4avNx+b62mUVqQFaFt7FdH8dZ2nGXIpkzPY2KqS39HV6Q=
+X-Received: by 2002:a17:90b:3847:b0:2fa:1029:f169 with SMTP id
+ 98e67ed59e1d1-2fc4116bcc1mr1063380a91.33.1739569107014; Fri, 14 Feb 2025
+ 13:38:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250213123331.3016824-1-xji@analogixsemi.com>
+References: <20250214122759.2629-2-mike@fireburn.co.uk>
+ <2025021456-easiness-facebook-636e@gregkh>
+ <1911589.tdWV9SEqCh@camazotz> <20250214184539.GC21799@frogsfrogsfrogs>
+In-Reply-To: <20250214184539.GC21799@frogsfrogsfrogs>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Fri, 14 Feb 2025 21:38:16 +0000
+X-Gm-Features: AWEUYZnQsZuH4SEs06ouAHFBm21FsnizJMKtJPJOoJuOa3R3JVfBQJ_vJ6pPPjI
+Message-ID: <CAHbf0-H9j0-wx2RAXBQzTH9oB0XJn+0+8tz5kHqwaoQNA+We-w@mail.gmail.com>
+Subject: Re: [PATCH] ntsync: Set the permissions to be 0666
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Elizabeth Figura <zfigura@codeweavers.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-api@vger.kernel.org, 
+ wine-devel@winehq.org, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, 
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000afbad0062e20fedc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,169 +95,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xin,
+--000000000000afbad0062e20fedc
+Content-Type: text/plain; charset="UTF-8"
 
-kernel test robot noticed the following build errors:
+On Fri, 14 Feb 2025, 18:45 Darrick J. Wong, <djwong@kernel.org> wrote:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on drm-misc/drm-misc-next v6.14-rc2 next-20250214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> On Fri, Feb 14, 2025 at 12:13:03PM -0600, Elizabeth Figura wrote:
+> > On Friday, 14 February 2025 07:06:20 CST Greg Kroah-Hartman wrote:
+> > > On Fri, Feb 14, 2025 at 12:28:00PM +0000, Mike Lothian wrote:
+> > > > This allows ntsync to be usuable by non-root processes out of the box
+> > >
+> > > Are you sure you need/want that?  If so, why?  How did existing testing
+> > > not ever catch this?
+> >
+> > Hi, sorry, this is of course my fault.
+> >
+> > We do need /dev/ntsync to be openable from user space for it to be
+> > useful. I'm not sure what the most "correct" permissions are to have
+> > in this case (when we don't specifically need read or write), but I
+> > don't think I see a reason not to just set to 666 or 444.
+> >
+> > I originally assumed that the right way to do this was not to set the
+> > mode on the kernel file but rather through udev; I believe I was using
+> > the code for /dev/loop-control or /dev/fuse as an example, which both
+> > do that. So I (and others who tested) had just manually set up udev
+> > rules for this, with the eventual intent of adding a default rule to
+> > systemd like the others. I only recently realized that doing something
+> > like this patch is possible and precedented.
+> >
+> > I don't know what the best way to address this is, but this is
+> > certainly the simplest.
+>
+> Paranoid defaults in the kernel, and then a udev rule to relax the mode
+> at runtime.  You could also have logind scripts to add add per-user
+> allow acls to the device file at user session set up time... or however
+> it is that /dev/sr0 has me on the allow list.  I'm not sure how that
+> happens exactly, but it works smoothly.
+>
+> I get far less complaining about relaxing posture than tightening it
+> (==breaking things) after the fact.
+>
+> --D
+>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Ji/drm-bridge-anx7625-Enable-DSC-feature/20250213-203558
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250213123331.3016824-1-xji%40analogixsemi.com
-patch subject: [PATCH] drm/bridge:anx7625: Enable DSC feature
-config: arm-randconfig-003-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150516.xZBLDIlz-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150516.xZBLDIlz-lkp@intel.com/reproduce)
+I did create a MR for systemd first
+https://github.com/systemd/systemd/pull/36384
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502150516.xZBLDIlz-lkp@intel.com/
+>
 
-All errors (new ones prefixed by >>):
+--000000000000afbad0062e20fedc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/anx7625.o: in function `anx7625_bridge_mode_fixup':
->> drivers/gpu/drm/bridge/analogix/anx7625.c:2472:(.text.anx7625_bridge_mode_fixup+0x9e): undefined reference to `__aeabi_uldivmod'
->> arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/anx7625.c:2562:(.text.anx7625_bridge_mode_fixup+0x10e): undefined reference to `__aeabi_uldivmod'
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote gmail_quote_contai=
+ner"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 14 Feb 2025, 18:45 Darri=
+ck J. Wong, &lt;<a href=3D"mailto:djwong@kernel.org">djwong@kernel.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, Feb 14, 2025 at =
+12:13:03PM -0600, Elizabeth Figura wrote:<br>
+&gt; On Friday, 14 February 2025 07:06:20 CST Greg Kroah-Hartman wrote:<br>
+&gt; &gt; On Fri, Feb 14, 2025 at 12:28:00PM +0000, Mike Lothian wrote:<br>
+&gt; &gt; &gt; This allows ntsync to be usuable by non-root processes out o=
+f the box<br>
+&gt; &gt; <br>
+&gt; &gt; Are you sure you need/want that?=C2=A0 If so, why?=C2=A0 How did =
+existing testing<br>
+&gt; &gt; not ever catch this?<br>
+&gt; <br>
+&gt; Hi, sorry, this is of course my fault.<br>
+&gt; <br>
+&gt; We do need /dev/ntsync to be openable from user space for it to be<br>
+&gt; useful. I&#39;m not sure what the most &quot;correct&quot; permissions=
+ are to have<br>
+&gt; in this case (when we don&#39;t specifically need read or write), but =
+I<br>
+&gt; don&#39;t think I see a reason not to just set to 666 or 444.<br>
+&gt; <br>
+&gt; I originally assumed that the right way to do this was not to set the<=
+br>
+&gt; mode on the kernel file but rather through udev; I believe I was using=
+<br>
+&gt; the code for /dev/loop-control or /dev/fuse as an example, which both<=
+br>
+&gt; do that. So I (and others who tested) had just manually set up udev<br=
+>
+&gt; rules for this, with the eventual intent of adding a default rule to<b=
+r>
+&gt; systemd like the others. I only recently realized that doing something=
+<br>
+&gt; like this patch is possible and precedented.<br>
+&gt; <br>
+&gt; I don&#39;t know what the best way to address this is, but this is<br>
+&gt; certainly the simplest.<br>
+<br>
+Paranoid defaults in the kernel, and then a udev rule to relax the mode<br>
+at runtime.=C2=A0 You could also have logind scripts to add add per-user<br=
+>
+allow acls to the device file at user session set up time... or however<br>
+it is that /dev/sr0 has me on the allow list.=C2=A0 I&#39;m not sure how th=
+at<br>
+happens exactly, but it works smoothly.<br>
+<br>
+I get far less complaining about relaxing posture than tightening it<br>
+(=3D=3Dbreaking things) after the fact.<br>
+<br>
+--D<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">I did create a MR for systemd first=C2=A0<a href=3D"https://github.com/s=
+ystemd/systemd/pull/36384">https://github.com/systemd/systemd/pull/36384</a=
+></div><div dir=3D"auto"><div class=3D"gmail_quote gmail_quote_container"><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
 
-
-vim +2472 drivers/gpu/drm/bridge/analogix/anx7625.c
-
-  2440	
-  2441	static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
-  2442					      const struct drm_display_mode *mode,
-  2443					      struct drm_display_mode *adj)
-  2444	{
-  2445		struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-  2446		struct device *dev = ctx->dev;
-  2447		u32 hsync, hfp, hbp, hblanking;
-  2448		u32 adj_hsync, adj_hfp, adj_hbp, adj_hblanking, delta_adj;
-  2449		u32 vref, adj_clock;
-  2450	
-  2451		DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
-  2452	
-  2453		hsync = mode->hsync_end - mode->hsync_start;
-  2454		hfp = mode->hsync_start - mode->hdisplay;
-  2455		hbp = mode->htotal - mode->hsync_end;
-  2456		hblanking = mode->htotal - mode->hdisplay;
-  2457	
-  2458		dev_dbg(dev, "before mode fixup\n");
-  2459		dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-  2460			hsync, hfp, hbp, adj->clock);
-  2461		dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d)\n",
-  2462			adj->hsync_start, adj->hsync_end, adj->htotal);
-  2463		adj_hfp = hfp;
-  2464		adj_hsync = hsync;
-  2465		adj_hbp = hbp;
-  2466		adj_hblanking = hblanking;
-  2467	
-  2468		if (mode->clock > DSC_PIXEL_CLOCK) {
-  2469			adj_hsync = DSC_HSYNC_LEN;
-  2470			adj_hfp = DSC_HFP_LEN;
-  2471			adj_hbp = DSC_HBP_LEN;
-> 2472			vref = (u64)adj->clock * 1000 * 1000 / (adj->htotal * adj->vtotal);
-  2473			goto calculate_timing;
-  2474		}
-  2475	
-  2476		/* No need fixup for external monitor */
-  2477		if (!ctx->pdata.panel_bridge)
-  2478			return true;
-  2479	
-  2480		/* HFP needs to be even */
-  2481		if (hfp & 0x1) {
-  2482			adj_hfp += 1;
-  2483			adj_hblanking += 1;
-  2484		}
-  2485	
-  2486		/* HBP needs to be even */
-  2487		if (hbp & 0x1) {
-  2488			adj_hbp -= 1;
-  2489			adj_hblanking -= 1;
-  2490		}
-  2491	
-  2492		/* HSYNC needs to be even */
-  2493		if (hsync & 0x1) {
-  2494			if (adj_hblanking < hblanking)
-  2495				adj_hsync += 1;
-  2496			else
-  2497				adj_hsync -= 1;
-  2498		}
-  2499	
-  2500		/*
-  2501		 * Once illegal timing detected, use default HFP, HSYNC, HBP
-  2502		 * This adjusting made for built-in eDP panel, for the externel
-  2503		 * DP monitor, may need return false.
-  2504		 */
-  2505		if (hblanking < HBLANKING_MIN || (hfp < HP_MIN && hbp < HP_MIN)) {
-  2506			adj_hsync = SYNC_LEN_DEF;
-  2507			adj_hfp = HFP_HBP_DEF;
-  2508			adj_hbp = HFP_HBP_DEF;
-  2509			vref = adj->clock * 1000 / (adj->htotal * adj->vtotal);
-  2510			if (hblanking < HBLANKING_MIN) {
-  2511				delta_adj = HBLANKING_MIN - hblanking;
-  2512				adj_clock = vref * delta_adj * adj->vtotal;
-  2513				adj->clock += DIV_ROUND_UP(adj_clock, 1000);
-  2514			} else {
-  2515				delta_adj = hblanking - HBLANKING_MIN;
-  2516				adj_clock = vref * delta_adj * adj->vtotal;
-  2517				adj->clock -= DIV_ROUND_UP(adj_clock, 1000);
-  2518			}
-  2519	
-  2520			DRM_WARN("illegal hblanking timing, use default.\n");
-  2521			DRM_WARN("hfp(%d), hbp(%d), hsync(%d).\n", hfp, hbp, hsync);
-  2522		} else if (adj_hfp < HP_MIN) {
-  2523			/* Adjust hfp if hfp less than HP_MIN */
-  2524			delta_adj = HP_MIN - adj_hfp;
-  2525			adj_hfp = HP_MIN;
-  2526	
-  2527			/*
-  2528			 * Balance total HBlanking pixel, if HBP does not have enough
-  2529			 * space, adjust HSYNC length, otherwise adjust HBP
-  2530			 */
-  2531			if ((adj_hbp - delta_adj) < HP_MIN)
-  2532				/* HBP not enough space */
-  2533				adj_hsync -= delta_adj;
-  2534			else
-  2535				adj_hbp -= delta_adj;
-  2536		} else if (adj_hbp < HP_MIN) {
-  2537			delta_adj = HP_MIN - adj_hbp;
-  2538			adj_hbp = HP_MIN;
-  2539	
-  2540			/*
-  2541			 * Balance total HBlanking pixel, if HBP hasn't enough space,
-  2542			 * adjust HSYNC length, otherwize adjust HBP
-  2543			 */
-  2544			if ((adj_hfp - delta_adj) < HP_MIN)
-  2545				/* HFP not enough space */
-  2546				adj_hsync -= delta_adj;
-  2547			else
-  2548				adj_hfp -= delta_adj;
-  2549		}
-  2550	
-  2551	calculate_timing:
-  2552	
-  2553		dev_dbg(dev, "after mode fixup\n");
-  2554		dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-  2555			adj_hsync, adj_hfp, adj_hbp, adj->clock);
-  2556	
-  2557		/* Reconstruct timing */
-  2558		adj->hsync_start = adj->hdisplay + adj_hfp;
-  2559		adj->hsync_end = adj->hsync_start + adj_hsync;
-  2560		adj->htotal = adj->hsync_end + adj_hbp;
-  2561		if (mode->clock > DSC_PIXEL_CLOCK)
-> 2562			adj->clock = (u64)vref * adj->htotal * adj->vtotal / 1000 / 1000;
-  2563	
-  2564		dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d), clock(%d)\n",
-  2565			adj->hsync_start, adj->hsync_end, adj->htotal, adj->clock);
-  2566	
-  2567		return true;
-  2568	}
-  2569	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--000000000000afbad0062e20fedc--
