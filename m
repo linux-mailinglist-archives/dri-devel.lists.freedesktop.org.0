@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E008DA35E0C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48F4A35E19
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:59:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B086D10E2CA;
-	Fri, 14 Feb 2025 12:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C26A10E2C7;
+	Fri, 14 Feb 2025 12:59:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KbJJsf6L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PDnSVwqf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95BC210E2CA
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:58:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2EE2B43284;
- Fri, 14 Feb 2025 12:58:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739537882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KyQCgUS1MybpUVXVT/LSuOicMg7kvzuy+1Qn1HR86tw=;
- b=KbJJsf6L5oLSV9Vz/SXni44dNvYnXEGy03t7/xaOilguPYL+21tta7fztXLjzRm7pG4S0I
- Eq0S2tYJEBNZNsF87NKFzMR4dFJxu7xUfnVwwVDuUaIugGa3jGPGT9/rFUfVV0QIRbOQNd
- KD1AkeA93VTAzZwuJBjrcXhuuu7PmnaCpo381z/5P/2uxAWOOsWNVdZCO9zEblsSVAv3RL
- BlJLqONzx1v6o2VsMjOWby6m8jRbvnDOK389L24h9GWEXV9AUgPNkVs/1KGnk30+hBQGnt
- Ftg7aZ76WPAB+DzmoP4yQ1bPUkcnYxQ4OU+fZFyD53d8nnsaPoHoBcJ7SPRILw==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 14 Feb 2025 13:57:44 +0100
-Subject: [PATCH v7 5/5] drm/bridge: panel: forbid initializing a panel with
- unknown connector type
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250214-drm-assorted-cleanups-v7-5-88ca5827d7af@bootlin.com>
-References: <20250214-drm-assorted-cleanups-v7-0-88ca5827d7af@bootlin.com>
-In-Reply-To: <20250214-drm-assorted-cleanups-v7-0-88ca5827d7af@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC17110E2C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:59:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A50F5A42A6D;
+ Fri, 14 Feb 2025 12:57:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5DAC4CEE6;
+ Fri, 14 Feb 2025 12:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739537944;
+ bh=xnL5roeRyaUK5/UTEapgfClZfOGKu54LwE3xY8RZjwg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PDnSVwqf2bT+JVes18OBSs9+X8bW4sk1MXFracTGyBEM0W+6qGxyYOp+T+LHlNaQg
+ gGZge+yKfKwnRnFlbe61b80MzImGqkwgvZLtCfQ+p7+k10cjx+OGH+QfeakGjK8ruI
+ WEjKrV/fYOAvsdBaNX0gvJJYa1fsopROQT0bwpmJ3rxoCdrrXZhOYkKe0cQTEnT/Wr
+ EF6lgMDDwO2wHDlwI4Kx4iZ2K0OG1dIES0KGGhiBoaq+GHrRI0Hl85lFQIiDvNBBnJ
+ 7Ms9IIs5WMa4IsOxmupgNGJZZQ/HeTY1EhjLdMoXqNW8mr3wY3AeQVqFalChpMWnt0
+ H2yOlhoYzBFCA==
+Date: Fri, 14 Feb 2025 13:59:01 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegleejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvv
- gguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
-X-GND-Sasl: luca.ceresoli@bootlin.com
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 30/37] drm/bridge: Assume that a bridge is atomic if
+ it has atomic_reset
+Message-ID: <20250214-icy-earthworm-of-happiness-6bca70@houat>
+References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-30-e71598f49c8f@kernel.org>
+ <vjdpctck2afcjrt2rlgjtzmrkf4a5bg5ihymc53vuw6md576wd@kbb5y27a5woi>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="7xu255utmz4lugjt"
+Content-Disposition: inline
+In-Reply-To: <vjdpctck2afcjrt2rlgjtzmrkf4a5bg5ihymc53vuw6md576wd@kbb5y27a5woi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,55 +68,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having an DRM_MODE_CONNECTOR_Unknown connector type is considered bad, and
-drm_panel_bridge_add_typed() and derivatives are deprecated for this.
 
-drm_panel_init() won't prevent initializing a panel with a
-DRM_MODE_CONNECTOR_Unknown connector type. Luckily there are no in-tree
-users doing it, so take this as an opportinuty to document a valid
-connector type must be passed.
+--7xu255utmz4lugjt
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 30/37] drm/bridge: Assume that a bridge is atomic if
+ it has atomic_reset
+MIME-Version: 1.0
 
-Returning an error if this rule is violated is not possible because
-drm_panel_init() is a void function. Add at least a warning to make any
-violations noticeable, especially to non-upstream drivers.
+On Thu, Feb 13, 2025 at 06:29:46PM +0200, Dmitry Baryshkov wrote:
+> On Thu, Feb 13, 2025 at 03:43:49PM +0100, Maxime Ripard wrote:
+> > The drm_atomic_bridge_check() runs the atomic_check callback if needed,
+> > or falls back to mode_fixup if it's not there.
+> >=20
+> > Going forward, we'll need to setup the bridge atomic state even though
+> > drivers might not be implementing atomic_check at all.
+> >=20
+> > We can thus switch to using drm_bridge_is_atomic() to take the atomic
+> > path, and do additional things there in the future, or go the mode_fixup
+> > route.
+>=20
+> This will break bridges like tc358768, rcar_lvds and mtk_hdmi: they
+> implement atomic_reset() and mode_fixup().
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
+What is your suggestion then? I kind of did what you were suggesting on
+patch 1, but it wasn't working. Then you want me to roll back to that,
+or something else?
 
-Changed in v7:
-- fix typo in commit message
-- rebased on v6 (applies to drm_panel, not bridge/panel.c)
+Maxime
 
-This patch was added in v6.
----
- drivers/gpu/drm/drm_panel.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+--7xu255utmz4lugjt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index 9940e96d35e302080c32b49154bbf19a51c0665e..c627e42a7ce70459f50eb5095fffc806ca45dabf 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -50,7 +50,7 @@ static LIST_HEAD(panel_list);
-  * @dev: parent device of the panel
-  * @funcs: panel operations
-  * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) corresponding to
-- *	the panel interface
-+ *	the panel interface (must NOT be DRM_MODE_CONNECTOR_Unknown)
-  *
-  * Initialize the panel structure for subsequent registration with
-  * drm_panel_add().
-@@ -58,6 +58,9 @@ static LIST_HEAD(panel_list);
- void drm_panel_init(struct drm_panel *panel, struct device *dev,
- 		    const struct drm_panel_funcs *funcs, int connector_type)
- {
-+	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
-+		DRM_WARN("%s: %s: a valid connector type is required!\n", __func__, dev_name(dev));
-+
- 	INIT_LIST_HEAD(&panel->list);
- 	INIT_LIST_HEAD(&panel->followers);
- 	mutex_init(&panel->follower_lock);
+-----BEGIN PGP SIGNATURE-----
 
--- 
-2.48.1
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ68+EAAKCRAnX84Zoj2+
+duVPAX9RWiQ9+jWgdM6ESAMNwaYpcNcURXyxAsSygsXExJ5yfs3sA+eRSXUdufcw
+tyFdbfEBgKNPYZt3cWfztBz3p4+/y2bAl+25qcUw/nZaffsxmlGDMoiHBqq5jsff
+sba18eOz8Q==
+=CRpZ
+-----END PGP SIGNATURE-----
 
+--7xu255utmz4lugjt--
