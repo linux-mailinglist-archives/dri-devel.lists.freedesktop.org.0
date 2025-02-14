@@ -2,83 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65427A360F6
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 16:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AACDA36100
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 16:09:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5275C10E15A;
-	Fri, 14 Feb 2025 15:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9C1F10E056;
+	Fri, 14 Feb 2025 15:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="a99HlAHW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GqtYIHea";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21D0810E15A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 15:05:41 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5dee07e51aaso1589952a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:05:40 -0800 (PST)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B596E10E497
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 15:09:05 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-ab7e08f56a0so38373566b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:09:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1739545539; x=1740150339;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jC9QV0bJcgZgqHHH3SUMbf/vptPD4PQ0vRL1kkv5HIw=;
- b=a99HlAHWr2EfkDJu8e+3+vUeiOgfRgxHRO3lpi+X7E3gM1Ty1e9ZCCpy4Zc6xl+8HP
- LqQBC1ZEIFvDGwItclMu4WJ6qUGTnYQLPNYkVXCDVziakmGDUI0dtvpZx7GFd5EvMcY9
- g5yCWt6Ep6H29PqFOYLCKAgL60As6nF7s4b3M=
+ d=linaro.org; s=google; t=1739545744; x=1740150544; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yTE3gACjDkJBHSXQFkTCbxcnRZQf61xIHWSy/iDp6UQ=;
+ b=GqtYIHeaiQpAVXI1sLEvBAOihvsXZs3mbTXYcChf/pksZ2q3d8sO2A35kf8tSfEI/Y
+ ZcF4PoN/2XkUzziusJ5cHOM7ekHkNxo31HcvfNxPtICRw8O2QxNuvADMgVIHOAThObcO
+ 2o0m8cLNzD9B/n9zd1UhAIxbkjKCF+udp5G9YPWGWky7TXmMQJSOe2O6x2p7bnBxIAdu
+ y/fRR857dlOPOVpwHF807LylxjLLCDeF/KOGgvjHTogpJu5QkdSl0GFnmg6r9/0uIl7r
+ V/5JTee3gnKnTPd+FsO7yT2HQeVC9KDqojl9nFIxbpagsT2Ydea7Tjz9uK/Wh9RTc+tC
+ JWUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739545539; x=1740150339;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1739545744; x=1740150544;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=jC9QV0bJcgZgqHHH3SUMbf/vptPD4PQ0vRL1kkv5HIw=;
- b=GBBUvu8Fnl89kO3pNbtAVbVqi18rRl3iJ9Wa+EyUqHgyZUmy4MeiQR8PPD7fS1nI6a
- I3UdYSi/XYePLVpixw1smzkHI2N/n6H7J7Ac+vXBrmIJ6nxWQ1hGD+A3Q7fijBsDxxRm
- w0sywCZfM5XqiE3BJHJj2L+chLVuHx0KzloExttrMrAZGjDvDVpdmMlY6vQwW+tEISOy
- p3MfBeS0GGrArA7BEVkaAyfUGb12pq8hI85VsHnhYGD39PFhdU2fhHTVaU8k8tyOJJG3
- nvnTHhj/3nS0AbQnXlegrVrEK7uAaIExaZIaMf5agTQEgsX1quuCyAG4tY+0tBAe1sgI
- /jEw==
+ bh=yTE3gACjDkJBHSXQFkTCbxcnRZQf61xIHWSy/iDp6UQ=;
+ b=pjx6hAhEJEmDCVnS2rvd0IH271uBQrsAYFh7ePsv+FTV81l0/OKGC7+c33+qdT+cqb
+ P5GORP6/CVvNjMa4qbnLfXQ6p7TOrGZd+DYqhu9iymSf+p2j92zQ+zA1AdpQn3iSyQSz
+ olLxSzdt/TipBP9ZH56pIHm9H0MYjL26kHzcjAqQaoSx2mhFaClUmVeX11CIeJaBDwkQ
+ aQVQWmnCjQP64zAnBKdFOKj28EgBImHDDzSxA15t/LxDtsI8oNf2nQ6IK8qyACE5hWkQ
+ O+uB7OGspRYIksQFUTS4bm+n/1KwL5y+KKxAt1imDoHx8ff5VWy/gFhiVk/UkaLgK3Qk
+ xgbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWX9QnRg+Zn9gaVNb0b4z38t9g/ZyL5Q6Sih5EQHXK+xdnfm6iaTZNDxjne07UJIrJ3QI5RTeJPYbw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxw0OqoDcvitm2tnctVkoZpDhhBhyqGok50S4UGBU+0jU5ezahQ
- ai2GNX8882uJ3q5LYNzGH7Nr+dymVWb+PI7aU3CTXDEHfOjNQz6ydycxHBw6Iw8=
-X-Gm-Gg: ASbGncsTKGz7tLlK9QnsXxa3UPlcNLXo1eEkZTFj8xjQLzi6ZxTlS9wgLFjhdVo0Dgw
- bUaramaMYAY7TI3Ayhpj24kULylicvhkk2xKxi5aB5LX3PoomzDuja0V00vQl6BrGmw0WoS9pFD
- IqoV5KY+90veT+8lxqM9PzNu/ZzaQPNIXvWnX3fbyMAZJUbwphbDdYmspKFtkQkSk0YdFRwx8TS
- SNk6oworzmQ7yzzP5UZ7oGViVEOurinrDMwxuTbbObeQLcqiVjDzrXgv2sPC91m84VLd+nyPOZE
- zjLesK6zLZFqZhBX1YMSAXPBJTkKprRXW23Q9BwbijhOt5QhufXc3lR1
-X-Google-Smtp-Source: AGHT+IFZ+c7+go5Wo3r0b5Kv+36ob4O06Y3nn1YLZvsFSFjUvUi9yBoXLR53Qg4HfytiBB896uYB9A==
-X-Received: by 2002:a17:907:2cc5:b0:ab7:d179:24a2 with SMTP id
- a640c23a62f3a-ab7f37149dbmr1273515166b.1.1739545530075; 
- Fri, 14 Feb 2025 07:05:30 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.. ([176.201.8.20])
+ AJvYcCUnMQKwuepTF3LnzV7BDCvuS1aDOpDCQ96f/oPdBuYIWWk+3y+pEtsBIm4uTq3tdFIfaH0KF3u7Tbg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+wN5NwJI8K8srAFFHACh80iWWogflNRXWJsDXgAlk622v7KS7
+ dfXU2Rcz0Z7J7/5tjiY4UMT6c1HMEe6BOajOHBAkOjHSlf9Hk7U4n7pnOSnP7FcoYlxspAcvFEZ
+ /
+X-Gm-Gg: ASbGncsN2vKUDArg7tuMvoJtjBxGw6Jw9qLTgljR9Rjyfc2X6YN4WeaW5KzYoYUf8YX
+ y6fuCIVjiIkkblsIk8ACUsFpFKAAMypAq12do7mOEsL++XwP2iKJrmmyjRIIeQieYofv5Opqt0w
+ PZm4R2CMSo2gTKOyZOjoYZCw8yuQFRsj9VU7HaOtNXots+XJuuEMFAD5xbwdcSt62NF0nnFPdRG
+ AGEiHmTthnY8nHphwDjQlQtWimOxtbQSZIHJyOrWIbfDjmaEaP43m+yvoqlrO5BiKZ2SeTuxqFf
+ onZXyBbkOv6dJbn40kUqTN8tVCsFjnU=
+X-Google-Smtp-Source: AGHT+IHzgKaRbHiTLvYxrSndh1cA0zCykbFaeMqxfMqSMgTgRMaXFYxANRLGE/AUS2gP7blBaOGXAg==
+X-Received: by 2002:a17:907:8686:b0:ab7:cd83:98bb with SMTP id
+ a640c23a62f3a-aba6939dff4mr107008966b.5.1739545744014; 
+ Fri, 14 Feb 2025 07:09:04 -0800 (PST)
+Received: from [127.0.1.1] ([178.197.218.144])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dedddd5b82sm1421906a12.30.2025.02.14.07.05.28
+ a640c23a62f3a-aba533bf70asm356266766b.180.2025.02.14.07.09.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2025 07:05:29 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Vasut <marex@denx.de>, Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Stefan Agner <stefan@agner.ch>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: [RESEND PATCH v3] drm/mxsfb: Remove generic DRM drivers in probe
- function
-Date: Fri, 14 Feb 2025 16:05:19 +0100
-Message-ID: <20250214150525.1505210-1-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
+ Fri, 14 Feb 2025 07:09:03 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 0/4] drm/msm/dsi/phy: Improvements around concurrent
+ PHY_CMN_CLK_CFG[01]
+Date: Fri, 14 Feb 2025 16:08:40 +0100
+Message-Id: <20250214-drm-msm-phy-pll-cfg-reg-v3-0-0943b850722c@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHhcr2cC/4XNQQqDMBCF4atI1p2STIjVrnqP0kU0Ew2okaSEi
+ nj3Rjeli9Ll/2C+WVmk4Ciya7GyQMlF56cc8lSwttdTR+BMboYcFRdSgAkjjHGEuV9gHgZobQe
+ BOriQaqzSuja2ZPl6DmTd65Dvj9y9i08fluNREvv630wCOMimrslSg1SZ2+AmHfzZh47taMIPh
+ Fz+hjBDVYmNkGWrDOIXtG3bG7tTcx4IAQAA
+X-Change-ID: 20250131-drm-msm-phy-pll-cfg-reg-7e5bf5aa9df6
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Marek <jonathan@marek.ca>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Rob Clark <robdclark@chromium.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1419;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=u4YT2mRDI9vOEz0E0V9HN6GrYA7SOM0GmXxkYSP3BpE=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnr1yHLLYyDJehS+Lyl5tVRCFBKAPeBmUjWYfvx
+ 4mbFH7/R6SJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ69chwAKCRDBN2bmhouD
+ 16LiEACVvDtCLRMfuiT8VpQkuEZNPQh4VQo2O3u0UY/cT0x4qq2KF8l36vj4gL5Dt+BVNgdw0S5
+ h3f3cq22DDVS1SqE7I4jIq25kHBHC7so1BPzOGChBxRbhjshsWDVwsTMDdURwLcPYFpZ+I4J7RP
+ 7HfNUR5lBUz+DRnITEtsfrEnG2xo6+GQZFxD0OynwUUyv3+TvK4maJGI7IEHYDOY5oRgYMRESkm
+ UTOchy/Pt7bbmzXCKyO7/9VToAh07H31wz/OCkkyYiUveXSH7jPrIoD5vwhCMAf2k/dHHTa8tec
+ xAOuSD6Di44KoxAQgEl4hbAW6GCCC39rXAEVEiJj45iw1KfjiR8q8d9luZhFjEOjLskntN/YiZE
+ HB1/hNkErm3URpdzohJfncZWf+KGeGQXg70GpsFj3HPQiDqAsHxWwWN0Lz7z7/8UDY91R3X3Q3e
+ Xq/gydE4d2uJGTr5XDo83fmWKKtLTlFarHqH+g9yErvskpQ3kKuSO783sqabF0pBxs61NcPbvAg
+ cBHZMYvA3BPSSXOutPYBvWXvh3iN62uQbguq8NzNNzpyjMQ52TeZqsW3h/8udSQf08yQNH/dByj
+ fZUBLRk2bbtR/vyDTT8241tFnwQ9BKBPo0kaebPofsmWzm8SL7pHQADR5zRzLg4WMQNqbjG48Yq
+ N8x4UNYoVNrekKA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,54 +117,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use aperture helpers to remove all generic graphics drivers before
-loading mxsfb. Makes mxsfb compatible with simpledrm.
-
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
----
-
 Changes in v3:
-- Add 'Reviewed-by' of  Thomas Zimmermann
+- Define bitfields in patches 1-3, so move there parts from patch #4
+- Use FIELD_GET
+- Keep separate cached->bit_clk_div and pix_clk_div
+- I think this implements entire feedback from Dmitry
+- Link to v2: https://lore.kernel.org/r/20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org
 
 Changes in v2:
-- Use aperture_remove_all_conflicting_devices() instead of
-  drm_aperture_remove_framebuffers().
+- Add Fixes tag
+- New patch #4
+- Link to v1: https://lore.kernel.org/r/20250131-drm-msm-phy-pll-cfg-reg-v1-0-3b99efeb2e8d@linaro.org
 
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Calling these improvements, not fixes, because I don't think we ever hit
+actual concurrency issue.  Although if we ever hit it, it would be very
+tricky to debug and find the cause.
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 59020862cf65..e5eb644b54ae 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -8,6 +8,7 @@
-  * Copyright (C) 2008 Embedded Alley Solutions, Inc All Rights Reserved.
-  */
- 
-+#include <linux/aperture.h>
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
-@@ -361,6 +362,15 @@ static int mxsfb_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_free;
- 
-+	/*
-+	 * Remove early framebuffers (ie. simplefb). The framebuffer can be
-+	 * located anywhere in RAM
-+	 */
-+	ret = aperture_remove_all_conflicting_devices(mxsfb_driver.name);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "can't kick out existing framebuffers\n");
-+
- 	ret = drm_dev_register(drm, 0);
- 	if (ret)
- 		goto err_unload;
+Best regards,
+Krzysztof
+
+---
+Krzysztof Kozlowski (4):
+      drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG0 updated from driver side
+      drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG1 against clock driver
+      drm/msm/dsi/phy: Do not overwite PHY_CMN_CLK_CFG1 when choosing bitclk source
+      drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01] bitfields and simplify saving
+
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 63 ++++++++++++++--------
+ .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  | 12 ++++-
+ 2 files changed, 52 insertions(+), 23 deletions(-)
+---
+base-commit: 883d3876ff4bb50d1b9431f525b4d3b257ead6f5
+change-id: 20250131-drm-msm-phy-pll-cfg-reg-7e5bf5aa9df6
+
+Best regards,
 -- 
-2.43.0
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
