@@ -2,129 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90831A35DD7
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DE2A35E06
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:58:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF9510E2C8;
-	Fri, 14 Feb 2025 12:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D208B10E03D;
+	Fri, 14 Feb 2025 12:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dnOXtGHe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wa3taWnY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="niok0xPI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q5HmMtJR";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MGob5DAY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E4B10E2C8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:46:48 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 42F6E1F381;
- Fri, 14 Feb 2025 12:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739537207; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
- bh=Jn2mPKCm9t9GQoSRnqk10Bz+EalfPLwkYECZC3h5YQQ=;
- b=dnOXtGHei7QBaQ0lP4gtB/kawJagm5SfvA7nqCFDfTPxcUD/GkxsVNkuE1NxrZJCR6x7UH
- 5D+qG+x0lILRoF8IEbwq1L/0t33udOcwqEhqCLsxxkuHAUKS4IaFXOkgX35Na55PqKgwnw
- blf1JJGpYrFxOF36bOSpQRIna0uVsq4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739537207;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
- bh=Jn2mPKCm9t9GQoSRnqk10Bz+EalfPLwkYECZC3h5YQQ=;
- b=wa3taWnYtZ7B/T9Mj7PgPAN0f3tD0FkkUIHI3V8wxwpixHYgsbJOrB/nVwjfF6zgjAGSoK
- 1XoeMhw0WB2/rxCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739537205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
- bh=Jn2mPKCm9t9GQoSRnqk10Bz+EalfPLwkYECZC3h5YQQ=;
- b=niok0xPI4Eglb0kYQ5k2whOsopeenrdpEBGEtNofFxGimZskHxk1CCny5sN00YoRTAJuTl
- AuduNQ2j302heCLQAy/CQYIKKdo2ALrJ4PJaBTXtdKB8j4E8JCccR5lt8plWIb0S4xBdRs
- ahXKLkl5YzW8HThCtFW+FfaYz6CoRa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739537205;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
- bh=Jn2mPKCm9t9GQoSRnqk10Bz+EalfPLwkYECZC3h5YQQ=;
- b=q5HmMtJRQuLK0ynIIEfALD63G0Tx4hID7fEKEnVfDA6NpAXSQ5BSJS37M4KYaopq6eAww2
- CK3CDIxr5zsDbsCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0204A137DB;
- Fri, 14 Feb 2025 12:46:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id APXLOjQ7r2eufAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 14 Feb 2025 12:46:44 +0000
-Message-ID: <81e4867d-cc0c-4f37-8fb8-1c7c1fc348e2@suse.de>
-Date: Fri, 14 Feb 2025 13:46:44 +0100
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D71010E03D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:57:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E066944202;
+ Fri, 14 Feb 2025 12:57:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1739537875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ze9+bc3E0f1wMT/AFQmpj05iI6Vym9TYkA30cm3okpc=;
+ b=MGob5DAYjn9kmQfSTza6aFopPVe1JLQduVKyj95rg5VxF2ULFGvfOmAuoBDNPgg/Q96KBX
+ bosCbojwpnCDMQ8xbHmsza5ybVSPCxtJdsVcHt+ZzlGgLGKucT1TX/SrzYEg6sEDx9fJO6
+ TRCG3e2CFWz25Az9C8nPPoZZcxMrPtec75YI22Ozd7Clhlrk/BPF/EFEsIryf7zoEKOu6p
+ gGv0yokHGDDZIrqsZf5e1HXQxmrqBmlHUN3feaHrwPmyOLfsh3qyg4IlEJsPl1eBJBDn9E
+ AESmuf7KgHBIzOELnwiYgqHOyvjkgCOUbuI/lcrQkLi+Mp2BqQq0kI9fyDCyzQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v7 0/5] drm: small cleanups and improvements
+Date: Fri, 14 Feb 2025 13:57:39 +0100
+Message-Id: <20250214-drm-assorted-cleanups-v7-0-88ca5827d7af@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
-To: Nicolas Baranger <nicolas.baranger@3xo.fr>,
- Jocelyn Falempe <jfalempe@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- FAKE_REPLY(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_SEVEN(0.00)[9];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,vger.kernel.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email, ffwll.ch:email,
- intel.com:email, lists.freedesktop.org:email, aspeedtech.com:url, 3xo.fr:email,
- bootlin.com:url, soartist.net:url, imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMM9r2cC/x3MQQqDQAxA0atI1gZ0sFa8irhIJ6kN6CiJSkG8e
+ 4cu3+L/C1xMxaEvLjA51XVNGc+ygPihNAkqZ0OowqMKdYNsC5L7arswxlkoHZsjc8ud1K+GOoL
+ cbiZv/f6/w3jfPxP60gZnAAAA
+X-Change-ID: 20250214-drm-assorted-cleanups-dd6d8e1b4a8a
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegleejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfeiteekkefgtdduveeuffeuffevkeehieduhfefvdfhueekuefhhfdttddvkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedujedprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughri
+ hdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,292 +73,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+This series collects some minor improvements and fixes previously part of
+[0], hence the "v7" version number.
 
-Am 14.02.25 um 13:09 schrieb Nicolas Baranger:
-> Dear Jocelyn
->
-> Thanks for answer and help
->
-> Ok, I will try linux 6.1 (could you confirm that every commit in 6.1 
-> before 965361 should be relevant ?)
->
-> If I need to have "~correct or better to say 'acceptable' year 2025 
-> performances~" on AST2400 VGA card it's because at the hardware level 
-> if I select the NVIDIA discrete GPU as the main server video output, I 
-> lost all the server management benefits and capabilities of the 
-> AST2400 BMC (except PSU management) as I get a black screen... And 
-> it's dangerous as keyboard and mouse keep working on the black screen 
-> and so, can launch destructive actions without knowing it !
->
-> Also I'm still surprise by Thomas answer as the aspeed drm drivers 
-> 1.15.1 is dated of December 2024...
+All of these patches already have some Review/Ack tags.
 
-Well, I cannot find a difference except for the old memory management. 
-Aspeed has meanwhile also contributed patches to the upstream kernel. 
-They might cover some of the differences. I also noticed that the Aspeed 
-driver for v6.6 seems to use the newer memory management.
+[0] https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
 
-> And Jammy Huang from AspeedTech teold me to contact here to upstream 
-> the ast_new adaptation I've made after he knows that I did version 
-> 1.15.1 work on mainline (Aspeed only support LTS kernel and their dkms 
-> package were not usable out-of-the-box on mainline)
->
-> I may surely be wrong and some explanations could help me to 
-> understand which is the actual situation of ast driver in kernel tree.
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (5):
+      drm/debugfs: fix printk format for bridge index
+      drm: of: drm_of_find_panel_or_bridge: move misplaced comment
+      drm/bridge: panel: use drm_bridge_is_panel() instead of open code
+      drm/bridge: panel: drm_panel_bridge_remove: warn when called on non-panel bridge
+      drm/bridge: panel: forbid initializing a panel with unknown connector type
 
-We're not going to merge a second driver for hardware we already 
-support. The upstream kernel's driver is the one we should improve. I'm 
-glad for the bug report and information you already provided. If you 
-want to help with further testing and, you're welcome to do so.
+ drivers/gpu/drm/bridge/panel.c | 4 +++-
+ drivers/gpu/drm/drm_debugfs.c  | 2 +-
+ drivers/gpu/drm/drm_of.c       | 2 +-
+ drivers/gpu/drm/drm_panel.c    | 5 ++++-
+ 4 files changed, 9 insertions(+), 4 deletions(-)
+---
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
+change-id: 20250214-drm-assorted-cleanups-dd6d8e1b4a8a
 
-Best regards
-Thomas
-
->
-> I would let you know the results in 6.1
->
-> Again thanks a lot for help !
->
-> Kind regards,
-> Nicolas Baranger
->
->
-> -------- Message d'origine --------
-> De : Jocelyn Falempe <jfalempe@redhat.com>
-> Date : 14/02/2025 10:11 (GMT+01:00)
-> À : Nicolas Baranger <nicolas.baranger@3xo.fr>, Thomas Zimmermann 
-> <tzimmermann@suse.de>
-> Cc : dri-devel@lists.freedesktop.org, airlied@redhat.com, Maarten 
-> Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard 
-> <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter 
-> <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-> Objet : Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
->
-> On 13/02/2025 10:27, Nicolas Baranger wrote:
-> > Dear Thomas
-> >
-> > Thanks for answer and help.
-> >
-> > Yes, due to .date total removal in linux 6.14 (https://github.com/
-> > torvalds/linux/commit/cb2e1c2136f71618142557ceca3a8802e87a44cd 
-> <https://
-> > github.com/torvalds/linux/commit/
-> > cb2e1c2136f71618142557ceca3a8802e87a44cd>) the last DKMS sources are :
-> > https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/
-> > nba_last_src_20250212/src/ <https://xba.soartist.net/ast-
-> > drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/>
-> >
-> > You can also find this sources in directory drivers/gpu/drm/ast_new of
-> > the tarball https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/
-> > linux-6.14.0.1-ast1.15.1-rc2_nba0_20250212.tar.gz <https://
-> > xba.soartist.net/ast-drm_nba_20250211/nba-kernel/linux-6.14.0.1-
-> > ast1.15.1-rc2_nba0_20250212.tar.gz>
-> >
-> > I'm surprised by the fact the in-kernel driver 0.1.0 is more advanced
-> > than Aspeed version 1.15.1 because on my system it has very poor
-> > rendering and is very slow, twinkle is high and had poor colors.
-> > The screen flickering is high and it's like if I was using a very old
-> > cathode ray tube monitor (In fact I'm using a SAMSUNG LCD monitor which
-> > is perfectly functionnal and which display a nice and eyes confortable
-> > picture when using ast 1.15.1 driver or the video output of the Nvidia
-> > GPU ).
-> >
-> >
-> > My testing system is a test Xeon server with an AST2400 BMC with its 
-> AST
-> > VGA card as the main video output (to be able to have a screen on the
-> > BMC KVM) +a discrete NVIDIA GPU I'm using for GPGPU and 3D rendering
-> > with Nvidia prime render offload.
-> > What I constat with embed kernel driver 0.1.0 is that the Xeon 
-> processor
-> > is doing the video job for example when watching a video, and it's not
-> > the case with version 1.15.1 even when displaying on the AST VGA card a
-> > vulkan rotating cube (compute by nvidia GPU with nvidia prime but
-> > display by the AST VGA card of the AST2400).
-> > Note that with in-kernel version 0.1.0 it's nearly impossible to make
-> > round the vulkan cube at more than half a round by  second where it's
-> > working (very) fine for a 32MB video memory card with version 1.15.1 as
-> > you can see in the video present in the online directory
-> >
-> > I'm not developer or kernel developer so be sure that I wouldn't have
-> > done all this work if the in-kernel ast version 0.1.0 was usable 
-> out-of-
-> > the-box
-> >
-> > Sure you can give me a patch I will test on this server (building
-> > mainline+ast_new yesterday tooks 19 minutes on this server)
-> >
-> > PS:
-> > here is a 'git diff linux-6.14.0.1-ast-rc2/drivers/gpu/drm/ast
-> > linux-6.14.0.1-ast-rc2/drivers/gpu/drm/ast_new'
-> > https://xba.soartist.net/ast-drm_nba_20250211/nba-dump/ast-
-> > fullpatch.patch 
-> <https://xba.soartist.net/ast-drm_nba_20250211/nba-dump/
-> > ast-fullpatch.patch>
-> > Diff is about 250+ kb so the 2 drivers seems to have nothing to do with
-> > each others...
-> >
-> > Thanks again for help
-> >
-> > Kind regards
-> > Nicolas
-> >
-> >
-> > Le 2025-02-13 08:57, Thomas Zimmermann a écrit :
-> >
-> >> Hi Nicolas
-> >>
-> >> Am 12.02.25 um 19:58 schrieb Nicolas Baranger:
-> >>> Dear maintener
-> >>
-> >> That's mostly me and Jocelyn.
-> >>
-> >>>
-> >>> I did include ast-drm driver version 1.15.1 (in replacement of
-> >>> version 0.1.0) on the new mainline kernel too (6.14.0-rc2) and I
-> >>> issue a new dkms patch
-> >>>
-> >>> Last DKMS patch had been sucessfully tested on mainline.
-> >>> And last ast.ko version 1.15.1 included in linux tree had also been
-> >>> sucessfully tested
-> >>>
-> >>> Online directory is updated with :
-> >>> - new DKMS patch
-> >>> - new DKMS srouces
-> >>> - new DKMS debian package
-> >>> - new tarball of mainline included ast_new ported in kernel tree
-> >>> - new kernel debian package (mainline with ast_new)
-> >>>
-> >>>
-> >>> NB: online directory is here: https://xba.soartist.net/ast-
-> >>> drm_nba_20250211/ <https://xba.soartist.net/ast-drm_nba_20250211/>
-> >>>
-> >>> Please let me know what I should do to see this change in linux-next
-> >>
-> >> I'm having a little trouble with figuring out which of the many driver
-> >> sources is the relevant one. Am I correct to assume it's the one at
-> >>
-> >> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/
-> >> nba_last_src_20250212/src/ <https://xba.soartist.net/ast-
-> >> drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/>
-> >>
-> >>
-> >> About that driver: Although the official driver reports an ancient
-> >> version number, it is an up-to-date driver. It is actually more up-to-
-> >> date than Aspeed's package. Both drivers share source code and a few
-> >> years ago there was an effort to bring the kernel's driver up to the
-> >> same feature set. Since then, the kernel's driver has been updated,
-> >> reworked and improved.
-> >>
-> >> About the performance: From what I can tell, the only significant
-> >> difference in these drivers is memory management. Your ast_new driver
-> >> uses an older algorithm that we replaced quite a few releases ago. The
-> >> old version was unreliable on systems with little video memory, so we
-> >> had to replace it.  I don't know why the new code should be slower 
-> though.
->
-> Regarding the performances of ast driver, I remember doing profiling
-> some times ago, and when running glxgears (with llvmpipe), 65% of the
-> CPU time was wasted in page fault
-> (https://elixir.bootlin.com/linux/v6.13.2/source/drivers/gpu/drm/drm_gem_shmem_helper.c#L534)
-> But as this driver is mostly used for console/basic desktop usage, I
-> didn't investigate more.
->
-> If I remember correctly, the switch to shmem, is because some devices
-> have only 16MB of memory, and 1920x1200x32bits takes ~9MB, so it's not
-> possible to have double buffering in this case. (And this is required by
-> most desktop environment).
->
-> The switch to shmem was done with "f2fa5a99ca81c drm/ast: Convert ast to
-> SHMEM", and introduced in v6.2. So maybe if you can try with a v6.1
-> kernel, using the built-in ast driver and report if it has better
-> performances.
->
-> Best regards,
->
-> -- 
->
-> Jocelyn
->
-> >>
-> >> If I give you a patch against a recent Linux kernel, are you capable
-> >> of building the patched kernel and testing that change on your system?
-> >>
-> >> Best regards
-> >> Thomas
-> >>
-> >>
-> >>>
-> >>> Thanks for help
-> >>>
-> >>> Kind regards
-> >>> Nicolas Baranger
-> >>>
-> >>>
-> >>> Le 2025-02-11 19:15, Nicolas Baranger a écrit :
-> >>>
-> >>>> Dear maintener
-> >>>>
-> >>>> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video
-> >>>> driver on mainline kernel (6.13.0 + 6.13.1).
-> >>>>
-> >>>> ASPEED video driver is availiable here:
-> >>>> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
-> >>>> <https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz>
-> >>>>
-> >>>> But it only work for LTS kernel
-> >>>> So I modify the DKMS package and I build a new Debian DKMS package
-> >>>> with the adapted  source.
-> >>>> My patch can be find here :
-> >>>> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
-> >>>> 
-> <https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch>
-> >>>> See the README:
-> >>>> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
-> >>>> <https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README>
-> >>>>
-> >>>> Using this new 'ast 1.15.1' driver, performance are amazing compared
-> >>>> to the 'ast' driver include in kernel tree, specially when using a
-> >>>> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card
-> >>>> as the main video card and as the main and only video output (the
-> >>>> discrete GPU is used only for offloading 3D or for cuda/opencl)
-> >>>>
-> >>>> So to make things easier, I include the new 'ast 1.15.1' driver in
-> >>>> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
-> >>>> It's working fine as you can see on this video :
-> >>>> https://xba.soartist.net/ast-drm_nba_20250211/
-> >>>> vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm <https://
-> >>>> xba.soartist.net/ast-drm_nba_20250211/
-> >>>> vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm> I upload
-> >>>> all the work I've done here :
-> >>>> https://xba.soartist.net/ast-drm_nba_20250211/ <https://
-> >>>> xba.soartist.net/ast-drm_nba_20250211/>
-> >>>>
-> >>>> See the global README :
-> >>>> https://xba.soartist.net/ast-drm_nba_20250211/README <https://
-> >>>> xba.soartist.net/ast-drm_nba_20250211/README>
-> >>>>
-> >>>> and the README in nba-kernel sub-directory :
-> >>>> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
-> >>>> <https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README>
-> >>>>
-> >>>> I'm not a developer so please let me know if I made the things the
-> >>>> right way and if this new 'ast 1.15.1' driver can be ported to
-> >>>> linux-next or linux-? ?
-> >>>> If you need more explanations, do not hesitate to contact me, I
-> >>>> would be happy to help
-> >>>>
-> >>>> Kind regards
-> >>>> Nicolas Baranger
->
-
+Best regards,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
