@@ -2,86 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04ACA35BCC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 11:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35934A35BD7
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 11:51:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5C1710EC4B;
-	Fri, 14 Feb 2025 10:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A469D10EC3A;
+	Fri, 14 Feb 2025 10:51:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Vfs9k5iO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qaT13MQA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C2010EC4B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 10:50:19 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4395f645200so1857865e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 02:50:19 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3640F10EC3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 10:51:30 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-43937d315abso2881735e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 02:51:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739530217; x=1740135017; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739530289; x=1740135089; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6sYxYNeRuSFgtKr3MlQuuwdiHzGcDfeGaI3wbL87Ybo=;
- b=Vfs9k5iOeEQqpYb2BAoqeHFMnJfwybasSS8IluKFbBzaaYpgaaq3yeENhplHBd2gYB
- ktIrB24OSfEXE7Gkn+yQ7mUBLrYsu7SuNlBHstkGHxbPBEaNB1JOqncD/r/mSxWToGts
- BsXFeI7vGRNgF+0DnhJEvFQZhVhpjggAQQikC/elwP/nuJUeRk2Hcb0uu7UGo2UcbPSQ
- vfcTTwVYxK/eMYkhWnSONaTa4thXaInBj+Kiz699KqAPgLdn6eUtx/XS6UTo9026HMuT
- hxxaM9b9wD3eVA/eI55SZsXgJy4QwrQBPt01cfAaejmwNOoSEC0G5dczSHAqFbT0pMRh
- FJZQ==
+ bh=MiMW0QhMGWxPdrht6/cv/0ycp5QHgV+RbmVMJuGgUZw=;
+ b=qaT13MQACR2ae9cRoHZuHVcfIv93VrOrchK0HYsF4Pir7z9axgeQpPy/U+9A1zKw9b
+ f7RPJa3alKivAZe2L0zDUveZn6oA2MMH9jrMGBCZnzdMuOEfX+Eu01oBNBlYg0HT7XEV
+ 9Mo733tW+OBAE2emXKpWsinUiWRU0XhhEEAmtgUL9GJyjwoy9qlWaEFyLzV+h0Y3DgUn
+ LfbFN3eSQD78qvkqeQox3kIGCFb/83JyC0LWIzKnhLljw0YGDGILGPwhzwy5fdVGefLi
+ 38iSHoCiyhCyA1vGTv97kOGUNegtPYKL72lh4/Niz0dBUAVWeUrtm57AxJ+dXfJ9zPsK
+ japw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739530217; x=1740135017;
+ d=1e100.net; s=20230601; t=1739530289; x=1740135089;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6sYxYNeRuSFgtKr3MlQuuwdiHzGcDfeGaI3wbL87Ybo=;
- b=wMS7lTOtWch8maZJr/+NBw4ajE2v1+hM+ZQrQtsrTZ0lPr25h/7bir+6D1U3gwegmd
- aFDvLxPNFZq3ArfN2FQI2JxurNooUzA6Q59bLS8mwGvqQLcHqq+kF+wA2ZC2MesuUYnO
- kblEzTn944A5EN94BB2kGk1Xel8n/gF1r7Ce0y69p+1kfqXlr/x7AKdWbiXvb1/1X2Hx
- p43YiA71Cuqlq7NJHdL4ILDsS8+a3s1zSVt3d+Adja7QQNibunir1/HozGQSZBIj02jT
- 7aUBWToKJ1nISu9DZVTcodq74XNsZGORdba68CTrg/fb9JJBInBKrR8dcwiKjsWgqPer
- GKkQ==
+ bh=MiMW0QhMGWxPdrht6/cv/0ycp5QHgV+RbmVMJuGgUZw=;
+ b=ZzRWoNwL2DC6b+ZKxeeQ/BtuPcFrb53pLMzF8RCjI9WQjgPA7mXbv4sLQUK4AcfP7q
+ PgYUpxpg6zqBrhsgOrSh3cOoCUGHM5JxLcO0G0W8EssP7nVSdCe6iTrE/DLNoMvscQmp
+ K4f0bO9wo9qzdkyFJofOTdAkoqEl5XTDnvJ0sknipsuI1Nmzr7RS27BVDY9MX1wMagKz
+ JBXG4/D7sm6Uz9T2CACbdP/Mj9wjrz2V9+oikCzQCH166fHXb4VHk0f4i8Ga1efSDn/j
+ g65fgqPQ8EE9hut49zEQWg1vu+NDS7idDUPzlpivKdDOAyELaHLGiODq6ktRjikoO93n
+ aA6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUad2LwJTkWVP1BaaOnqWYEB0p1OuqhiFXkdgAo0NtM83Fan97cj158S4AF6hOangJ6QW/5ujg9CT0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjAlzzuNhJc9S6V4bTLTLZHVinOxGFmpaSP/8xeorICEADQZNJ
- jmleTKVeHYePXFIn1rCm99a2gnkqNXis8n2bc2kmk9WR9/WgJ8FbPrDE73s5EHM2aKEro+bB+SY
- e
-X-Gm-Gg: ASbGncvYu+KNW9n+hquXAuephC2TJd93txYtF8nK82uBo34FHDex9olHjOdj6i0nhsG
- 42YVJkJ8gdiMb3vaVawZMMBDaQJ3l4M6eotdt/zEBnd/9EgE1lkghIcDFNj4FsL7PIqBL1A5jIU
- LLz2IHz6cFuWTSmggd/iFqeardoxQboE08dNuOVHOggC7v5hFV4HPyYhI866DO/iJN4wyBPStfW
- mpsJ65CnEQlqXpdTsrAWP61DOT3NXJqCDVzZWEL/hPOdX0iZGRpTdN7EAwHyiTAhz6tbDOTxpqQ
- BcePR/6m5gZcZY+VQqB02bpcqnOMYitgEyI=
-X-Google-Smtp-Source: AGHT+IEJqKSq5MLrsi8jITgtcen2XEnQ0VB0ofHnyXwtJ5/QaahdvMLVSI05YHIVjGabQtamovKmQw==
-X-Received: by 2002:a5d:648d:0:b0:38d:cab2:91dd with SMTP id
- ffacd0b85a97d-38f2c77299fmr1182952f8f.6.1739530217416; 
- Fri, 14 Feb 2025 02:50:17 -0800 (PST)
+ AJvYcCXHC528t85bggOGcUoXfMAD8XHGyJ8Id63cQrgxVi3AKRjoWwTE7DxF4mrY2PUlRpr5MHCodeUzy2s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYNapuBtlkcHGxRIgoDs9b+WSjpJCyFwEVjpXjBOabPiyNqxed
+ NkUvdMBPSV9Pmx0gl/4umazYE0cdzMsJiGFCjvOkNmZLvOX/jkO+DH+C3jVkZtE=
+X-Gm-Gg: ASbGncuMbevxjszltYu6PA6Djzw5Twnduks/oVkmj6ybiN965z/BlgC80UjzN81gd+b
+ ymC3xX0E0KbpaMjQRf84oO5VfiT7kwPpGfFtRlRaooxhddhUS8GRXTabIrrav50MlYpXPs6LmJD
+ yDtaWS7CBTRPoSHWO4Sd9/HgzY93zFFs/7muLw61xQ3ivMqGCiXRm70SMsHHfw0lzQ8NMljJhhb
+ nGIxX0L6HU0y93fw6FcWgU/0xFRVOR7pJsKGYrL/07HzfA86Rkvpc85BPUGv+OhFdKASK/M8oWX
+ fTLcdwBADog2FFUUApaFl7tOfZwbbuHBwTM=
+X-Google-Smtp-Source: AGHT+IGj3lp30mMQmhn2Nwm2xrXwZKp+DSJuAZImDZifrTofRvZy/ByzLpQZCA/s6uO45lAm9nj4qA==
+X-Received: by 2002:a05:600c:3556:b0:434:f1d5:144a with SMTP id
+ 5b1f17b1804b1-43966fe1dcamr13597475e9.0.1739530288682; 
+ Fri, 14 Feb 2025 02:51:28 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.144])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259f85c2sm4413493f8f.91.2025.02.14.02.50.15
+ 5b1f17b1804b1-439618ab352sm41162525e9.40.2025.02.14.02.51.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Feb 2025 02:50:16 -0800 (PST)
-Message-ID: <b4d07c0a-5b09-4a89-84b0-e8508ae12ba5@linaro.org>
-Date: Fri, 14 Feb 2025 11:50:14 +0100
+ Fri, 14 Feb 2025 02:51:28 -0800 (PST)
+Message-ID: <19d422de-d2da-481c-a5b7-529f6aa49242@linaro.org>
+Date: Fri, 14 Feb 2025 11:51:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display/msm/dsi-phy: Add header with
- exposed clock IDs
+Subject: Re: [PATCH] drm/msm/dpu: Simplify using local 'ctl' variable
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
  <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20250127132105.107138-1-krzysztof.kozlowski@linaro.org>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250114155959.583889-1-krzysztof.kozlowski@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -128,7 +119,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20250127132105.107138-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250114155959.583889-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -146,17 +137,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/01/2025 14:21, Krzysztof Kozlowski wrote:
-> DSI phys, from earliest (28 nm) up to newest (3 nm) generation, provide
-> two clocks.  The respective clock ID is used by drivers and DTS, so it
-> should be documented as explicit ABI.
+On 14/01/2025 16:59, Krzysztof Kozlowski wrote:
+> In few places we store 'phys_enc->hw_ctl' to local 'ctl' variable so use
+> it everywhere.  No functional change.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
 > ---
-> 
-> Patch for Display tree, although with Ack from clock.
-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 ++++++++++-----------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
 
 Any more comments from DRM side? Can it be merged?
 
