@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE9DA363C3
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF325A363C5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:00:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362B710E05F;
-	Fri, 14 Feb 2025 17:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E7710E35C;
+	Fri, 14 Feb 2025 17:00:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gVVOlnVI";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="c6y2ok8x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B8910E05F
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:00:32 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-54506b54268so2238317e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:00:32 -0800 (PST)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1659710E35C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:00:40 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-545097ff67cso2271520e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:00:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1739552429; x=1740157229;
+ d=chromium.org; s=google; t=1739552436; x=1740157236;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c2tb/suTl1nSS8YywUwSH5Dc0llHnUO+gUroKzzSxGM=;
- b=gVVOlnVIGtCBxrYq8WFFL6NQnbcovInpVVrUHsg8D9aySGRWtyxPxMR0c+UKF9QyTF
- anFIHvRP75LhCKQlnLJya1BWgVjIiXI1M0h2T0BXDT7eT6vkknqWLRJnsqKLYb0FHw9O
- oO292XHvufe62trZMqwph8WiA5Cpk2t3AXi3Q=
+ bh=MiFR3quRFEg087vBzbccqqMF50xWoSlOV/fK1lFI+w4=;
+ b=c6y2ok8xJaOSdCq+/xnGEdrB3Dk7d294eZSUnHF01Vumu0mII+ffufDPHbrpQVQVXn
+ t14UHre+s5NOhaiZCSMbH/eo+DXS6HoJrsn7A32KfLbjdifwuzS7Hm+EWf1qcy/52lDw
+ NadVSMDm06czmt1uE1IUouHKrB17ehjuBtjx8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739552429; x=1740157229;
+ d=1e100.net; s=20230601; t=1739552436; x=1740157236;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=c2tb/suTl1nSS8YywUwSH5Dc0llHnUO+gUroKzzSxGM=;
- b=eXA48jGQAHlkIzj5C5ckqjUrQ/uTHULlhuIPNIuEPCzJdq2ETUwpWIEXKCIO212k2B
- hEisltGnyaRy9A9O4cVCWSmEIqiTqKkM0Kh+csbwf7lllPRVs7ZAUHjoenXBd7aOP3sd
- pLO9FN9tuIp6usRaIELLP7hOarWyr0iyy1iu9/5ZWsAGB1iS7lM0ZgU7raJ0Z4V8ZINT
- 0JNYynEwy7hSy19kO4ZX+Q39rOVz86+LDyT1122FYiUTiDWqBNjKg9ASbiezYLc3Ynud
- E/2tIJlfQWB6nXqIA7kLvfx6OiWfjZEtm0lIlR2Gzg/81/nfx8rW25OQAdDtp/Ec8OUN
- 4YKg==
+ bh=MiFR3quRFEg087vBzbccqqMF50xWoSlOV/fK1lFI+w4=;
+ b=FSJNp4qcc8XPhvRnTXORZFegouuAQ6jHyxQso8Hw1wizy9YdVECSFRMD8Ph/PL8Tbb
+ h1ORZGl0fe1W7osPjxY9MR7CZVH39AA8/WNXqF2j1FBMK7ORqaLURzsdF6m3eKL37DRx
+ AdlYg+64P2quCFwhycqOlNUPBqmualkQtG1XLXzg4ufctKF93IGTgDMpToH9f9Ea/I80
+ qwdBo//yDPdcTTn/62T5GSExfNlk0qKHkT6mkyBBK6IGFzcJYQdlD5AclV4hl5K35BRa
+ ZlFoBZMHIUgDPaYJIN5nicncHEuhf0/LazFbiggQLvKnuaVORWgqsqhjXAiQfgnpF8kR
+ ndOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8j1KtJu9DPfBKl32qzUqw/B5DG7BgYAKxD1KndX4qZd3EP5THzOnDibInTQP1Q/o5xz4Fn8Mblxo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsGrUO2gj7VYWpUwNU7jvWIfKJM+rCfwjhuIquMj5BVNG7yk5g
- JKx2EM1I82XgcsfnhRp0uyUltwxp0Psk9g1ic1Z1SgW6hsEUPdqfoPv8rBIY2uI5P1EHlwLGLqP
- KDHFb
-X-Gm-Gg: ASbGncuJaRlcgXOmnBDVw8q68h9lFtDFTYZX68l+xoxKxoCJE+BjJZQOQ6GEaQc2IqC
- umCm1CqKrToAq2tg/kz9zhkK9zkr7DcWxMKNhqmvymPhTIELnpm0p4hnckrWGJ4c8rFjBD24kpr
- auZ6BKaQokLNQipZTts1ZRGhKMkQz1xVgBBwz3HQGI+IlsETAOIFMabr5W0wopiBlHad6ZCXK4t
- 6H01QUXfIvikgtpa2+5iRKVuCAau9KZFZPmaFC4z0FqxNMmVkesZUmcihtv1pzlD34vnWb9gm+v
- KFUvIni9+bTrJ5TATwIsCvjW+QnTq2ypAmRGwtqHc0s2FekXuuE9oOE=
-X-Google-Smtp-Source: AGHT+IFLCchvmcnW+Dx6OU/7Ok25UxP68DUBB/aWjADmPYeM2xInHu+pUR9sd+bVAWE+EKj4rAc7kg==
-X-Received: by 2002:a05:6512:a91:b0:545:617:6f07 with SMTP id
- 2adb3069b0e04-5452fe2e0dbmr17775e87.6.1739552428579; 
- Fri, 14 Feb 2025 09:00:28 -0800 (PST)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
- [209.85.167.54]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5451f10ca5esm589473e87.161.2025.02.14.09.00.27
+ AJvYcCWm2ZpsXivHVfjTbG6qVUTM2FiEN9vOGXGA4rT1DGgUG2AZVhQGYtFIUBVFa2E0Ws2ulHgZIlo3Yh8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxb8ID33IJE10zF2ws3YTY9C4zduZBAqpmSP/3/ImZOQGe71l5x
+ I/5eQY14RJUukHmyS2wUmETXCYLY+7ZVudntWQ+8ygy+GgcknBt5EU9zbqj9bSlRbdKiSDElhmC
+ T2JEF
+X-Gm-Gg: ASbGncvy9sD5kgnt7Vh/Fmce3K1Ctq8NEEoFmiE/ElFOExpCvB1s31hRX57TPbt9Hzp
+ Sx4c0LZkWabTC4XfDFDMU2JSktDM+zjvs+O8fHVE+WZDwd9aXT7uVllEQjVSA4X48PJI1sM5GIS
+ pMK2+yWhLJBm+DWLr4gRV49zXeZZf1MfQY8FF1nKaOVszOGibdlqhFOmKZv9M4ciY6lVBq6eE8f
+ bGKkejOz640IO6PUXUYOHfiuzaOTHuYUuyyUsJ+XyyO6G0sKBauFCbcXvGzc1j+MVYsmMXb//7L
+ +bRFq0hmawqdv2gIOTIhZkeB5XOevknV3M+WAa/vLWOQBDvhqyHjBJXHtzk=
+X-Google-Smtp-Source: AGHT+IEhiwJl0AikRY0e5HjA8F0hNQ+llwGgpdQ1qfxAAzW1diXvGZuQmcAvE1iSYWYmOPXTguk5BA==
+X-Received: by 2002:a05:6512:308b:b0:545:25c6:d6f5 with SMTP id
+ 2adb3069b0e04-5452fe96673mr7289e87.53.1739552434533; 
+ Fri, 14 Feb 2025 09:00:34 -0800 (PST)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
+ [209.85.208.179]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5452e90496csm122948e87.22.2025.02.14.09.00.33
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Feb 2025 09:00:27 -0800 (PST)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-543cc81ddebso2405584e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:00:27 -0800 (PST)
+ Fri, 14 Feb 2025 09:00:34 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-308f141518cso24660091fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:00:33 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/8NF9YGhjZO6TNrEF390s5Y1dPv3mopKBogD/CU7H9JPUSu34WwVySqYdEK88WlsdFwKKCxHmbso=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3b0b:b0:545:17b:3cf5 with SMTP id
- 2adb3069b0e04-5452fea5f11mr5412e87.47.1739552425610; Fri, 14 Feb 2025
- 09:00:25 -0800 (PST)
+ AJvYcCVSKg/67hnDfPvNbFWahMS6ORKrSX7SoVy0EEt6MVXIY+8sSL3nwhVUm0xZqayxD3AucKCBfKYD4jo=@lists.freedesktop.org
+X-Received: by 2002:a2e:9cd1:0:b0:308:eabd:2991 with SMTP id
+ 38308e7fff4ca-30927a3a12fmr938761fa.1.1739552432081; Fri, 14 Feb 2025
+ 09:00:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
- <20250213-bridge-connector-v3-2-e71598f49c8f@kernel.org>
-In-Reply-To: <20250213-bridge-connector-v3-2-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-3-e71598f49c8f@kernel.org>
+In-Reply-To: <20250213-bridge-connector-v3-3-e71598f49c8f@kernel.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 14 Feb 2025 09:00:14 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WvmWCgEDOF7Wxw5UGjnmy2_b3CzFuZNH2+t4JLc6JEuA@mail.gmail.com>
-X-Gm-Features: AWEUYZlwb8rAgYDd-6FmyrJKUl5kYa0lEXcUU7k0RahjDPdc1oQN7hzxIRS7TgA
-Message-ID: <CAD=FV=WvmWCgEDOF7Wxw5UGjnmy2_b3CzFuZNH2+t4JLc6JEuA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/37] drm/bridge: Pass full state to atomic_pre_enable
+Date: Fri, 14 Feb 2025 09:00:20 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XE4kFwJcTd_zJ3g5eMw4w2D6dZh_imr9K1p+s=K9DS-w@mail.gmail.com>
+X-Gm-Features: AWEUYZnF4y9fC-8_sEsNYrB6_o2BfDQWhIPmNhTZZs2O4VRlvUgwtwaAGfHPT9E
+Message-ID: <CAD=FV=XE4kFwJcTd_zJ3g5eMw4w2D6dZh_imr9K1p+s=K9DS-w@mail.gmail.com>
+Subject: Re: [PATCH v3 03/37] drm/bridge: Pass full state to atomic_enable
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -112,13 +112,13 @@ On Thu, Feb 13, 2025 at 6:44=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
 wrote:
 >
 > It's pretty inconvenient to access the full atomic state from
-> drm_bridges, so let's change the atomic_pre_enable hook prototype to
-> pass it directly.
+> drm_bridges, so let's change the atomic_enable hook prototype to pass it
+> directly.
 >
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-From the point of view of ti-sn65dsi86 and parade-ps8640:
+From the point of view of ti-sn65dsi86:
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Tested-by: Douglas Anderson <dianders@chromium.org>
