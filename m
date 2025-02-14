@@ -2,112 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E77A363D1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:02:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9700A363D2
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:03:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3DA410ED1B;
-	Fri, 14 Feb 2025 17:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2F910ED19;
+	Fri, 14 Feb 2025 17:03:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MxNrzmnB";
+	dkim=pass (2048-bit key; unprotected) header.d=3xo.fr header.i=@3xo.fr header.b="ARqXgEN/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E6D10ED1B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:02:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 053021F764;
- Fri, 14 Feb 2025 17:02:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739552533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Jm0uZes8EZSwojK+r2xrbSvKNumw5jjp2yfr4rrKcm8=;
- b=MxNrzmnBwo9ULjdRrqCH1KabuQqNZMD/3spYeNZBjvnerpVNi311CxMFUNqdwFJZbj8rCN
- KDRIkLRaQpWdGZpNSVxP0ulTBZygFeen3Eiq0EiA2HTGi48SG7GBFhqtzL+HMRVSLhyxRx
- 2OhFgzs4R/vzrntfaEKBoYphLxWagAL1SLF0xn7q/zHdFVVIOtcGQrg9f7dH6nYMZsHtGt
- poxfikl+5oIirs+/kpbtyzZdgA0jHlm9DS2k96yUmQ15hOfcmPDvSBm+pdSgfxzMdRPjjY
- 26tFOjnwWrOM5oxiK0qPN5cGzrEZS4woR+IPHdg9Y+/Fx+rwbz5l1iZB1h4A+Q==
-Message-ID: <df1a9d34-a552-4450-999f-a13bea6005b1@bootlin.com>
-Date: Fri, 14 Feb 2025 18:02:11 +0100
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C72110ED19
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:03:33 +0000 (UTC)
+Received: from localhost (mail.3xo.fr [212.129.21.66])
+ by mail.3xo.fr (Postfix) with ESMTP id EBCB88D;
+ Fri, 14 Feb 2025 18:03:31 +0100 (CET)
+X-Virus-Scanned: Debian amavis at nxo2.3xo.fr
+Received: from mail.3xo.fr ([212.129.21.66])
+ by localhost (mail.3xo.fr [212.129.21.66]) (amavis, port 10024) with ESMTP
+ id 717bCuYKIR83; Fri, 14 Feb 2025 18:03:27 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.3xo.fr C8E1D8C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xo.fr; s=3xo;
+ t=1739552607; bh=JcaFAcREgabyVgzk4u5P968OyE7G091H0ZI9uTQiv1Y=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ARqXgEN/iKZT5SfNJLnzYpmksbOWVYYiRLexwYIWS6cjRYSlQv6uUzcl5o2ZkW13D
+ kQRUfVA1/8/T6GhxlEXzehx9P3DI430weYb6Rpdwt2AJYpiw1CnRcW97/WjumPZdik
+ iP6aZXD3IqnJsD1DhdFmiuR/5bEyRIOQ9PyJLZSKR53qgrT/GGgGzr0hVRbCxAyC+l
+ WkDOsPQE/Lpjh9DOMDhpCltbFHLnBvyLQhVMJ2nYjKXmGbvKSP5cuq+vi4Cw/J7Tgp
+ pl6pooEa/GuiEKj1K4NOpnrb4+7pFUyqCLysJZ3AAHSliDAkrlQHahHcuRDap8XfKo
+ X+MT9XhoGnj+A==
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3xo.fr (Postfix) with ESMTPSA id C8E1D8C;
+ Fri, 14 Feb 2025 18:03:26 +0100 (CET)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vkms: Fix use after free and double free on init error
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, hamohammed.sa@gmail.com,
- simona@ffwll.ch, melissa.srw@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, sylphrenadin@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250212084912.3196-1-jose.exposito89@gmail.com>
- <bfc71d72-2f23-4c8c-b278-7e9aad3bf72d@suse.de>
- <3af06a6e-adb9-4e72-ab4d-23dbf37258b4@bootlin.com>
- <Z64LmAJlf-B6wQkL@louis-chauvet-laptop> <Z69k0MLER7CYN5fx@fedora>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <Z69k0MLER7CYN5fx@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Fri, 14 Feb 2025 18:03:26 +0100
+From: Nicolas Baranger <nicolas.baranger@3xo.fr>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
+Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
+In-Reply-To: <963e8bf72515f68e1b788383361dbe74@3xo.fr>
+References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
+ <194c4656963debcf074d87e89ab1a829@3xo.fr>
+ <b296bfef-1a9c-4452-baeb-09f86758addd@suse.de>
+ <984c317de1027f5886390a65f1f66126@3xo.fr>
+ <cd7a9908-d4ba-45ca-a5cb-de8ac7ef72d0@redhat.com>
+ <7c378bfb-96e4-435d-8e6c-581d6851835f@suse.de>
+ <963e8bf72515f68e1b788383361dbe74@3xo.fr>
+Message-ID: <95e8b6edb00f48776d9153555d05270a@3xo.fr>
+X-Sender: nicolas.baranger@3xo.fr
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehtddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdegueetvefgudehfeffveehueffgeefkefhleffteffvdehleelhfdtgeekgeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpfhhrvggvuggvshhkthhophdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehpdhhvghloheplgfkrfggieemvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduuddprhgtphhtthhopehjohhsvgdrvgigphhos
- hhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,153 +75,383 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas, Jocelyn
+
+Starting with 6.1.128 longterm kernel failed and it seems to be a 'drm 
+error'
+
+Xorg error :
+
+(==) Log file: "/var/log/Xorg.0.log", Time: Fri Feb 14 17:32:59 2025
+(==) Using system config directory "/usr/share/X11/xorg.conf.d"
+(==) No Layout section.  Using the first Screen section.
+(==) No screen section available. Using defaults.
+(**) |-->Screen "Default Screen Section" (0)
+(**) |   |-->Monitor "<default monitor>"
+(==) No monitor specified for screen "Default Screen Section".
+a default monitor configuration.
+(==) Automatically adding devices
+(==) Automatically enabling devices
+(==) Automatically adding GPU devices
+(==) Automatically binding GPU devices
+(==) Max clients allowed: 256, resource mask: 0x1fffff
+(WW) The directory "/usr/share/fonts/X11/cyrillic" does not exist.
+	Entry deleted from font path.
+(==) FontPath set to:
+	/usr/share/fonts/X11/misc,
+	/usr/share/fonts/X11/100dpi/:unscaled,
+	/usr/share/fonts/X11/75dpi/:unscaled,
+	/usr/share/fonts/X11/Type1,
+	/usr/share/fonts/X11/100dpi,
+	/usr/share/fonts/X11/75dpi,
+	built-ins
+(==) ModulePath set to "/usr/lib/xorg/modules"
+(II) The server relies on udev to provide the list of input devices.
+no devices become available, reconfigure udev or disable AutoAddDevices.
+(II) Loader magic: 0x561372a83f00
+(II) Module ABI versions:
+	X.Org ANSI C Emulation: 0.4
+	X.Org Video Driver: 25.2
+	X.Org XInput driver : 24.4
+	X.Org Server Extension : 10.0
+(++) using VT number 1
+
+(II) systemd-logind: took control of session 
+/org/freedesktop/login1/session/c13
+(II) xfree86: Adding drm device (/dev/dri/card1)
+(II) Platform probe for 
+/sys/devices/pci0000:00/0000:00:03.0/0000:01:00.0/drm/card1
+(II) systemd-logind: got fd for /dev/dri/card1 226:1 fd 14 paused 0
+(EE)
+(EE) Backtrace:
+(EE) 0: /usr/lib/xorg/Xorg (OsLookupColor+0x139) [0x5613729f7f79]
+(EE) 1: /lib/x86_64-linux-gnu/libc.so.6 (__sigaction+0x40) 
+[0x7f0dad05b050]
+(EE) 2: /lib/x86_64-linux-gnu/libc.so.6 (__nss_database_lookup+0xcd19) 
+[0x7f0dad17m.so.2 (drmGetVe728e67a4]
+(EE) 6: /usr/lib/xorg/Xorg (xf86PlatformDeviceCheckBusID+0x1bb) 
+[0x5613728e6aab]
+(EE) 7: /usr/lib/xorg/Xorg (config_fini+0x19b7) [0x5613728e3a97]
+(EE) 8: /usr/lib/xorg/Xorg (xf86PlatformMatchDriver+0x1b5) 
+[0x5613728e0615]
+(EE) 9: /usr/lib/xorg/Xorg (xf86BusProbe+0x9) [0x5613728b9329]
+(EE) 10: /usr/lib/xorg/Xorg (InitOutput+0x69a) [0x5613728c72ca]
+(EE) 11: /usr/lib/xorg/Xorg (InitFonts+0x1ce) [0x56137288866e]
+(EE) 12: /lib/x86_64-linux-gnu/libc.so.6 (__libc_init_first+0x8a) 
+[0x7f0dad04624a]
+(EE) 13: /lib/x86_64-linux-gnu/libc.so.6 (__libc_start_main+0x85) 
+[0x7f0dad046305]
+(EE) 14: /usr/lib/xorg/Xorg (_start+0x21) [0x561372871b71]
+(EE)
+(EE) Segmentation fault at address 0x0
+(EE)
+server error:
+(EE) Caught signal 11 (Segmentation fault). Server aborting
+(EE)
+(EE)
+consult the The X.Org Foundation support
+at http://wiki.x.org
+for help.
+(EE) Please also check the log file at "/var/log/Xorg.0.log" for 
+additional information.
+(EE)
+(EE) Server terminated with error (1). Closing log file.
 
 
-Le 14/02/2025 à 16:44, José Expósito a écrit :
-> On Thu, Feb 13, 2025 at 04:11:20PM +0100, Louis Chauvet wrote:
->> On 12/02/25 - 15:06, Louis Chauvet wrote:
->>>
->>>
->>> Le 12/02/2025 à 09:53, Thomas Zimmermann a écrit :
->>>>
->>>>
->>>> Am 12.02.25 um 09:49 schrieb José Expósito:
->>>>> If the driver initialization fails, the vkms_exit() function might
->>>>> access an uninitialized or freed default_config pointer and it might
->>>>> double free it.
->>>>>
->>>>> Fix both possible errors by initializing default_config only when the
->>>>> driver initialization succeeded.
->>>>>
->>>>> Reported-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>> Link: https://lore.kernel.org/all/Z5uDHcCmAwiTsGte@louis-chauvet-laptop/
->>>>> Fixes: 2df7af93fdad ("drm/vkms: Add vkms_config type")
->>>>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
->>>>
->>>> Reviewed-by: Thomas Zimmermann <tzimmremann@suse.de>
->>>
->>> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>
->>> lore.kernel.org is broken currently, to avoid doing mistakes, I will wait
->>> for it to be working again so I can apply your patch using dim+b4.
->>>
->>> (I removed danvet.vetter@ffwl.ch from CC, the mail server rejected the mail)
->>>
->>> Thanks!
->>> Louis Chauvet
->>
->> Hello,
->>
->> I tried to apply the commit, but I have a strange issue:
->>
->> 	$ dim push
->> 	Enumerating objects: 13, done.
->> 	Counting objects: 100% (13/13), done.
->> 	Delta compression using up to 20 threads
->> 	Compressing objects: 100% (7/7), done.
->> 	Writing objects: 100% (7/7), 1.67 KiB | 113.00 KiB/s, done.
->> 	Total 7 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
->> 	remote:
->> 	remote: ========================================================================
->> 	remote:
->> 	remote:    Equinix is shutting down its operations with us on April 30, 2025.
->> 	remote:    They have graciously supported us for almost 5 years, but all good
->> 	remote:    things come to an end. Given the time frame, it's going to be hard
->> 	remote:       to make a smooth transition of the cluster to somewhere else
->> 	remote: ([TBD](https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/2011)).
->> 	remote:     Please expect in the next months some hiccups in the service and
->> 	remote:    probably at least a full week of downtime to transfer gitlab to a
->> 	remote:                different place. All help is appreciated.
->> 	remote:
->> 	remote: ========================================================================
->> 	remote:
->> 	To gitlab.freedesktop.org:drm/misc/kernel.git
->> 	   ff3881cc6a58..ed15511a773d  drm-misc-next -> drm-misc-next
->> 	Pushing drm-misc-fixes to for-linux-next-fixes... Everything up-to-date
->> 	Done.
->> 	Out of merge window. Pushing drm-misc-next to for-linux-next...
->> 	remote:
->> 	remote: ========================================================================
->> 	remote:
->> 	remote: ERROR: Internal API unreachable
->> 	
->> 	remote:
->> 	remote: ========================================================================
->> 	remote:
->> 	fatal: Could not read from remote repository.
->> 	
->> 	Please make sure you have the correct access rights
->> 	and the repository exists.
->>
->> Is this expected?
+Kernel trace :
+
+------------[ cut here ]------------
+BUG: the value to copy was not set!
+WARNING: CPU: 10 PID: 6240 at drivers/gpu/drm/drm_ioctl.c:478 
+drm_copy_field+0xa2/0xb0 [drm]
+Modules linked in: xt_CHECKSUM(E) xt_MASQUERADE(E) xt_conntrack(E) 
+ipt_REJECT(E) nf_reject_ipv4(E) xt_tcpudp(E) nft_compat(E) 
+nft_chain_nat(E) nf_tables(E) nls_utf8(E) nfnetlink(E) 
+cpufreq_userspace(E) cifs(E) l2tp_ppp(E) cifs_arc4(E) l2tp_netlink(E) 
+cpufreq_ondemand(E) rdma_cm(E) l2tp_core(E) iw_cm(E) ip6_udp_tunnel(E) 
+udp_tunnel(E) cpufreq_conservative(E) ib_cm(E) pppox(E) ppp_generic(E) 
+slhc(E) ib_core(E) cifs_md4(E) dns_resolver(E) cpufreq_powersave(E) 
+xfrm_user(E) xfrm_algo(E) scsi_transport_iscsi(E) nvme_fabrics(E) 
+team_mode_loadbalance(E) 8021q(E) garp(E) mrp(E) team(E) bridge(E) 
+stp(E) llc(E) qrtr(E) openvswitch(E) nsh(E) nf_conncount(E) nf_nat(E) 
+nf_conntrack(E) nf_defrag_ipv6(E) nf_defrag_ipv4(E) cmac(E) 
+algif_hash(E) algif_skcipher(E) af_alg(E) bnep(E) binfmt_misc(E) 
+nls_ascii(E) nls_cp437(E) vfat(E) fat(E) ext4(E) mbcache(E) jbd2(E) 
+intel_rapl_msr(E) intel_rapl_common(E) nvidia_drm(POE) 
+snd_hda_codec_hdmi(E) snd_hda_codec_realtek(E) snd_hda_codec_generic(E)
+  nvidia_modeset(POE) intel_uncore_frequency(E) 
+intel_uncore_frequency_common(E) sb_edac(E) btusb(E) snd_hda_intel(E) 
+btrtl(E) snd_usb_audio(E) x86_pkg_temp_thermal(E) btbcm(E) 
+snd_intel_dspcfg(E) snd_intel_sdw_acpi(E) intel_powerclamp(E) 
+snd_usbmidi_lib(E) btintel(E) snd_rawmidi(E) coretemp(E) btmtk(E) 
+snd_seq_device(E) snd_hda_codec(E) nvidia(POE) eeepc_wmi(E) 
+snd_hda_core(E) mc(E) snd_pcsp(E) snd_hwdep(E) rapl(E) asus_wmi(E) 
+ipmi_ssif(E) battery(E) iTCO_wdt(E) bluetooth(E) intel_cstate(E) 
+snd_pcm(E) sparse_keymap(E) ledtrig_audio(E) snd_timer(E) 
+intel_pmc_bxt(E) acpi_ipmi(E) platform_profile(E) intel_uncore(E) 
+crc16(E) wmi_bmof(E) rfkill(E) mei_me(E) iTCO_vendor_support(E) 
+ipmi_si(E) snd(E) watchdog(E) mei(E) video(E) soundcore(E) 
+ipmi_devintf(E) ipmi_msghandler(E) joydev(E) evdev(E) sg(E) msr(E) 
+parport_pc(E) ppdev(E) nfsd(E) lp(E) parport(E) auth_rpcgss(E) 
+nfs_acl(E) lockd(E) grace(E) loop(E) efi_pstore(E) configfs(E) sunrpc(E) 
+ip_tables(E) x_tables(E) autofs4(E)
+  btrfs(E) blake2b_generic(E) zstd_compress(E) efivarfs(E) raid10(E) 
+sr_mod(E) cdrom(E) hid_logitech_hidpp(E) hid_plantronics(E) 
+hid_logitech_dj(E) hid_generic(E) uas(E) usbhid(E) hid(E) usb_storage(E) 
+raid456(E) async_raid6_recov(E) async_memcpy(E) async_pq(E) async_xor(E) 
+async_tx(E) xor(E) raid1(E) raid0(E) raid6_pq(E) dm_mod(E) 
+crc32c_intel(E) md_mod(E) sd_mod(E) ast(E) drm_vram_helper(E) 
+drm_ttm_helper(E) ghash_clmulni_intel(E) ttm(E) sha512_ssse3(E) 
+sha256_ssse3(E) drm_kms_helper(E) sha1_ssse3(E) ahci(E) libahci(E) 
+xhci_pci(E) ehci_pci(E) xhci_hcd(E) ehci_hcd(E) aesni_intel(E) nvme(E) 
+mxm_wmi(E) igb(E) libata(E) crypto_simd(E) i2c_i801(E) cryptd(E) drm(E) 
+dca(E) i2c_smbus(E) lpc_ich(E) usbcore(E) scsi_mod(E) i2c_algo_bit(E) 
+nvme_core(E) t10_pi(E) usb_common(E) scsi_common(E) i40e(E) wmi(E) 
+button(E)
+CPU: 10 PID: 6240 Comm: Xorg Tainted: P           OE      6.1.128-amd64 
+#0
+Hardware name: ASUS All Series/X99-WS/IPMI, BIOS 4001 05/28/2019
+RIP: 0010:drm_copy_field+0xa2/0xb0 [drm]
+Code: 00 00 74 13 49 c7 45 00 00 00 00 00 eb e0 0f 0b b8 f2 ff ff ff eb 
+d9 48 c7 c7 70 cb 17 c1 c6 05 43 17 07 00 01 e8 2e 09 57 dd <0f> 0b eb 
+d6 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 0f 1f 44 00
+RSP: 0018:ffffbd9941b0fba8 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffffbd9941b0fc60 RCX: 0000000000000027
+RDX: ffff9ec3bf6a13a8 RSI: 0000000000000001 RDI: ffff9ec3bf6a13a0
+RBP: ffff9e8487476800 R08: 0000000000000000 R09: ffffbd9941b0fa20
+R10: 0000000000000003 R11: ffff9ec3bff15ee8 R12: ffffffffc1132570
+R13: ffffbd9941b0fc80 R14: ffff9e85881d7200 R15: 0000000000000040
+FS:  00007f59dd209ac0(0000) GS:ffff9ec3bf680000(0000) 
+knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000056272a2123d0 CR3: 000000010c396005 CR4: 00000000003706e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+  <TASK>
+  ? __warn+0x81/0xd0
+  ? drm_copy_field+0xa2/0xb0 [drm]
+  ? report_bug+0xe6/0x150
+  ? handle_bug+0x41/0x70
+  ? exc_invalid_op+0x17/0x70
+  ? asm_exc_invalid_op+0x1a/0x20
+  ? drm_ioctl_flags+0x50/0x50 [drm]
+  ? drm_copy_field+0xa2/0xb0 [drm]
+  ? drm_copy_field+0xa2/0xb0 [drm]
+  ? drm_ioctl_flags+0x50/0x50 [drm]
+  drm_version+0x73/0xa0 [drm]
+  drm_ioctl_kernel+0xcd/0x170 [drm]
+  drm_ioctl+0x233/0x410 [drm]
+  ? drm_ioctl_flags+0x50/0x50 [drm]
+  __x64_sys_ioctl+0x94/0xd0
+  do_syscall_64+0x59/0xb0
+  ? vfs_write+0x2b1/0x3f0
+  ? vfs_write+0x2b1/0x3f0
+  ? ksys_write+0x6f/0xf0
+  ? exit_to_user_mode_prepare+0x40/0x1e0
+  ? syscall_exit_to_user_mode+0x22/0x40
+  ? do_syscall_64+0x65/0xb0
+  ? __x64_sys_fcntl+0x94/0xc0
+  ? exit_to_user_mode_prepare+0x40/0x1e0
+  ? syscall_exit_to_user_mode+0x22/0x40
+  ? do_syscall_64+0x65/0xb0
+  ? syscall_exit_to_user_mode+0x22/0x40
+  ? do_syscall_64+0x65/0xb0
+  ? exit_to_user_mode_prepare+0x40/0x1e0
+  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+RIP: 0033:0x7f59dd31ccdb
+Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 
+44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 
+00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+RSP: 002b:00007fff22f5d440 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 000056272a211f10 RCX: 00007f59dd31ccdb
+RDX: 000056272a211f10 RSI: 00000000c0406400 RDI: 000000000000000e
+RBP: 000056272a211f10 R08: 00007f59dd3f1cc0 R09: 0000000000000070
+R10: 00007f59dd236378 R11: 0000000000000246 R12: 00000000c0406400
+R13: 000000000000000e R14: 000000000000000e R15: 000056272a211510
+  </TASK>
+---[ end trace 0000000000000000 ]---
+
+Maybe my Xorg is too recent (but I hope not) as I don't want to 
+downgrade Xorg (nor reinstall an older debian version) so I will try 
+another kernel version...
+6.1.128 was build by me and maybe the 'make olddefconfig' from mainline 
+to 6.1.128 lost too many options (for ex 
+device-drivers/graphic-support>drm does not exist in menuconfig and I 
+found AST module directly in device-drivers/graphic-support ...)
+6.1.124 exist prepackaged by Debian so it .config should be more generic 
+so I will test it
+
+Thanks again for help,
+
+Kind regards
+Nicolas Baranger
+
+Le 2025-02-14 16:01, Nicolas Baranger a écrit :
+
+> Hi Thomas
 > 
-> I guess you managed to fix the issue. I git pull-ed this morning and
-> the patch was applied.
-
-It is applied to drm-misc/drm-misc-next, but not on drm-misc/for-linux-next.
-
-I don't know if this is important and how to fix the issue if yes.
-
-Louis Chauvet
-
-> Jose
->   
->> Thanks,
->> Louis Chauvet
->>
->>>> Thanks for posting this patch separately.
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> ---
->>>>>     drivers/gpu/drm/vkms/vkms_drv.c | 15 +++++++++------
->>>>>     1 file changed, 9 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
->>>>> index 7c142bfc3bd9..b6de91134a22 100644
->>>>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
->>>>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
->>>>> @@ -235,17 +235,19 @@ static int __init vkms_init(void)
->>>>>     	if (!config)
->>>>>     		return -ENOMEM;
->>>>> -	default_config = config;
->>>>> -
->>>>>     	config->cursor = enable_cursor;
->>>>>     	config->writeback = enable_writeback;
->>>>>     	config->overlay = enable_overlay;
->>>>>     	ret = vkms_create(config);
->>>>> -	if (ret)
->>>>> +	if (ret) {
->>>>>     		kfree(config);
->>>>> +		return ret;
->>>>> +	}
->>>>> -	return ret;
->>>>> +	default_config = config;
->>>>> +
->>>>> +	return 0;
->>>>>     }
->>>>>     static void vkms_destroy(struct vkms_config *config)
->>>>> @@ -269,9 +271,10 @@ static void vkms_destroy(struct vkms_config *config)
->>>>>     static void __exit vkms_exit(void)
->>>>>     {
->>>>> -	if (default_config->dev)
->>>>> -		vkms_destroy(default_config);
->>>>> +	if (!default_config)
->>>>> +		return;
->>>>> +	vkms_destroy(default_config);
->>>>>     	kfree(default_config);
->>>>>     }
->>>>
->>>
->>> -- 
->>> Louis Chauvet, Bootlin
->>> Embedded Linux and Kernel engineering
->>> https://bootlin.com
->>>
-
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+> Thanks again for help
+> 
+>> Nicolas, if you find an old kernel version that works correctly, and 
+>> if you know how to git-bisect the kernel, it would be helpful if you 
+>> could bisect to the commit that introduced the problem.
+> 
+> Ok, I will try to find a working kernel and to git bisect to find the 
+> commit which introduce the problem.
+> I will start with longterm 6.1.128
+> 
+> Kind regards
+> Nicolas
+> 
+> Le 2025-02-14 13:36, Thomas Zimmermann a écrit :
+> 
+> Hi Jocelyn
+> 
+> Am 14.02.25 um 10:11 schrieb Jocelyn Falempe: On 13/02/2025 10:27, 
+> Nicolas Baranger wrote: Dear Thomas
+> 
+> Thanks for answer and help.
+> 
+> Yes, due to .date total removal in linux 6.14 (https://github.com/ 
+> torvalds/linux/commit/cb2e1c2136f71618142557ceca3a8802e87a44cd 
+> <https:// github.com/torvalds/linux/commit/ 
+> cb2e1c2136f71618142557ceca3a8802e87a44cd>) the last DKMS sources are :
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/ 
+> nba_last_src_20250212/src/ <https://xba.soartist.net/ast- 
+> drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/>
+> 
+> You can also find this sources in directory drivers/gpu/drm/ast_new of 
+> the tarball https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/ 
+> linux-6.14.0.1-ast1.15.1-rc2_nba0_20250212.tar.gz <https:// 
+> xba.soartist.net/ast-drm_nba_20250211/nba-kernel/linux-6.14.0.1- 
+> ast1.15.1-rc2_nba0_20250212.tar.gz>
+> 
+> I'm surprised by the fact the in-kernel driver 0.1.0 is more advanced 
+> than Aspeed version 1.15.1 because on my system it has very poor 
+> rendering and is very slow, twinkle is high and had poor colors.
+> The screen flickering is high and it's like if I was using a very old 
+> cathode ray tube monitor (In fact I'm using a SAMSUNG LCD monitor which 
+> is perfectly functionnal and which display a nice and eyes confortable 
+> picture when using ast 1.15.1 driver or the video output of the Nvidia 
+> GPU ).
+> 
+> My testing system is a test Xeon server with an AST2400 BMC with its 
+> AST VGA card as the main video output (to be able to have a screen on 
+> the BMC KVM) +a discrete NVIDIA GPU I'm using for GPGPU and 3D 
+> rendering with Nvidia prime render offload.
+> What I constat with embed kernel driver 0.1.0 is that the Xeon 
+> processor is doing the video job for example when watching a video, and 
+> it's not the case with version 1.15.1 even when displaying on the AST 
+> VGA card a vulkan rotating cube (compute by nvidia GPU with nvidia 
+> prime but display by the AST VGA card of the AST2400).
+> Note that with in-kernel version 0.1.0 it's nearly impossible to make 
+> round the vulkan cube at more than half a round by  second where it's 
+> working (very) fine for a 32MB video memory card with version 1.15.1 as 
+> you can see in the video present in the online directory
+> 
+> I'm not developer or kernel developer so be sure that I wouldn't have 
+> done all this work if the in-kernel ast version 0.1.0 was usable 
+> out-of- the-box
+> 
+> Sure you can give me a patch I will test on this server (building 
+> mainline+ast_new yesterday tooks 19 minutes on this server)
+> 
+> PS:
+> here is a 'git diff linux-6.14.0.1-ast-rc2/drivers/gpu/drm/ast 
+> linux-6.14.0.1-ast-rc2/drivers/gpu/drm/ast_new'
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dump/ast- 
+> fullpatch.patch 
+> <https://xba.soartist.net/ast-drm_nba_20250211/nba-dump/ 
+> ast-fullpatch.patch>
+> Diff is about 250+ kb so the 2 drivers seems to have nothing to do with 
+> each others...
+> 
+> Thanks again for help
+> 
+> Kind regards
+> Nicolas
+> 
+> Le 2025-02-13 08:57, Thomas Zimmermann a écrit :
+> 
+> Hi Nicolas
+> 
+> Am 12.02.25 um 19:58 schrieb Nicolas Baranger: Dear maintener
+> That's mostly me and Jocelyn.
+> 
+> I did include ast-drm driver version 1.15.1 (in replacement of version 
+> 0.1.0) on the new mainline kernel too (6.14.0-rc2) and I issue a new 
+> dkms patch
+> 
+> Last DKMS patch had been sucessfully tested on mainline.
+> And last ast.ko version 1.15.1 included in linux tree had also been 
+> sucessfully tested
+> 
+> Online directory is updated with :
+> - new DKMS patch
+> - new DKMS srouces
+> - new DKMS debian package
+> - new tarball of mainline included ast_new ported in kernel tree
+> - new kernel debian package (mainline with ast_new)
+> 
+> NB: online directory is here: https://xba.soartist.net/ast- 
+> drm_nba_20250211/ <https://xba.soartist.net/ast-drm_nba_20250211/>
+> 
+> Please let me know what I should do to see this change in linux-next
+> I'm having a little trouble with figuring out which of the many driver 
+> sources is the relevant one. Am I correct to assume it's the one at
+> 
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/ 
+> nba_last_src_20250212/src/ <https://xba.soartist.net/ast- 
+> drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/>
+> 
+> About that driver: Although the official driver reports an ancient 
+> version number, it is an up-to-date driver. It is actually more up-to- 
+> date than Aspeed's package. Both drivers share source code and a few 
+> years ago there was an effort to bring the kernel's driver up to the 
+> same feature set. Since then, the kernel's driver has been updated, 
+> reworked and improved.
+> 
+> About the performance: From what I can tell, the only significant 
+> difference in these drivers is memory management. Your ast_new driver 
+> uses an older algorithm that we replaced quite a few releases ago. The 
+> old version was unreliable on systems with little video memory, so we 
+> had to replace it.  I don't know why the new code should be slower 
+> though.
+> Regarding the performances of ast driver, I remember doing profiling 
+> some times ago, and when running glxgears (with llvmpipe), 65% of the 
+> CPU time was wasted in page fault 
+> (https://elixir.bootlin.com/linux/v6.13.2/source/drivers/gpu/drm/drm_gem_shmem_helper.c#L534)
+> But as this driver is mostly used for console/basic desktop usage, I 
+> didn't investigate more.
+> Now that's an interesting find. The GEM shmem helpers vunmap ASAP to 
+> make pages swappable, I think. IIRC there was a patchset circulating 
+> that implements a shrinker [1] for shmem helpers. With that in place, 
+> we'd only update the page tables if necessary. If it's really that 
+> easy, we should try to merge that.
+> 
+> [1] 
+> https://elixir.bootlin.com/linux/v6.13.2/source/include/linux/shrinker.h#L82
+> 
+> If I remember correctly, the switch to shmem, is because some devices 
+> have only 16MB of memory, and 1920x1200x32bits takes ~9MB, so it's not 
+> possible to have double buffering in this case. (And this is required 
+> by most desktop environment).
+> Exactly. There are ast devices with as little as 8 MiB of video memory. 
+> But FullHD@32bit already requires ~8 MiB. Atomic modesetting with the 
+> old memory manager requires overcommitting by a factor of 3 (to ~24 
+> MiB) to account for all corner cases. Hence we sometimes had failed 
+> display updates with lower-end devices.
+> 
+> The switch to shmem was done with "f2fa5a99ca81c drm/ast: Convert ast 
+> to SHMEM", and introduced in v6.2. So maybe if you can try with a v6.1 
+> kernel, using the built-in ast driver and report if it has better 
+> performances.
+> Nicolas, if you find an old kernel version that works correctly, and if 
+> you know how to git-bisect the kernel, it would be helpful if you could 
+> bisect to the commit that introduced the problem.
+> 
+> Best regards
+> Thomas
+> 
+> Best regards,
