@@ -2,66 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E53A364D4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A3AA364DA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:42:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B54210ED25;
-	Fri, 14 Feb 2025 17:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A712A10ED26;
+	Fri, 14 Feb 2025 17:41:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MRPJGjpx";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Pv+deL1i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 323C110ED25
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:41:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739554894; x=1771090894;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=FLlT1lmIZZAzOsgsCw15DJ9e4diOdJyzbKQsrWxvO5o=;
- b=MRPJGjpxkL6LOnTtleKeIBPbwu3Q2qIK3RCuncZqqHKowMYvOvf3nr3q
- xhMuAPslwSI8BdDjLV9Cj3BDV5eSgk4CRwXHVYJngKgP231vhXGGl94nM
- PTWeW5OH03fnJHqqNgwEmQ2qhVi40/AK4wt04fucaapI/HcuYy7nkJb9+
- 714G0pHtaBrnjQaOdYR+y1yRFfVCED+rDN6Hzx/Ph6zfFKniXL3sYO03X
- 7sy5C9KuSqhdc9SSRAnMJh1kHDqAcr7laeGofvFDqq3MiJYHIXI5boezd
- NP2n4GMGAn4BAG4eW3rW2HNYAN3DCVha/FtuaRSwztZUxGJ3TmiGSM69j w==;
-X-CSE-ConnectionGUID: 8mLYmlauTlCZW3JeuTn8/w==
-X-CSE-MsgGUID: iJ0WymRgRSefl4H7IYF2wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="44077376"
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; d="scan'208";a="44077376"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2025 09:41:34 -0800
-X-CSE-ConnectionGUID: ZJ+8fGyZRTKD+reQCLHTqA==
-X-CSE-MsgGUID: n5OIn65zTqyYbBUfXUqvQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; d="scan'208";a="113713816"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 14 Feb 2025 09:41:31 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 14 Feb 2025 19:41:30 +0200
-Date: Fri, 14 Feb 2025 19:41:30 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/6] fbcon: Make cursor_blink=0 work when configured
- before fb devices appear
-Message-ID: <Z6-ASitAVCBD4QP-@intel.com>
-References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-2-ville.syrjala@linux.intel.com>
- <92ed9455-b175-46ef-b0c6-7c79e2b78371@gmx.de>
- <ZvUwCVNPzp1UGY6h@intel.com>
- <34a7d276-ee26-4a8d-b996-87faa5b224c4@gmx.de>
- <Z64EzooZqdfLg0pM@intel.com>
- <f075b0f7-3d01-4eb7-b772-825de7a1e001@gmx.de>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6272D10ED26
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:41:50 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51E9JNUP032747;
+ Fri, 14 Feb 2025 17:41:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ hZSLNz22LKvLiQ/OADVV5inCh0xMUwKjcIOfDJ08xJE=; b=Pv+deL1iwy3DDyD+
+ mBTx2edjVYd3sYK/5qlqYAugqt/xCbq+0iwxmwLrHPBLfsrOadlsmyJDEto0l/pV
+ Ncy4l4gG2QqVMJ9qof+NvSEJHNuppRV1waMf1cGwkrTsYhOFpx3pYKvVmbaegorr
+ /K5V1yMGzQk1wtrsH2hvqqwu7uGLTKRyBjj5H/xsBOJwS86DavVKs3RQPdtnFI+V
+ odReU7ERqrl0xoHjv4wuJmsYYETjBQ2+EOa8ic4xqPVRMI+nXBBaWy+eg4LvjdIC
+ Kj9bLl9HOQ6YClQWDXGnFuuX5Cvb7qjjW0CfxrX/ZNPPBILXI/MoljXJE858T+tW
+ 3tHbEw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44seq049wv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Feb 2025 17:41:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51EHfgdJ024816
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Feb 2025 17:41:42 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Feb
+ 2025 09:41:41 -0800
+Message-ID: <c45d8a41-72a9-3685-384b-bd8c2c2766f7@quicinc.com>
+Date: Fri, 14 Feb 2025 10:41:41 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f075b0f7-3d01-4eb7-b772-825de7a1e001@gmx.de>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] bus: mhi: host: Avoid possible uninitialized fw_load_type
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: <quic_carlv@quicinc.com>, <quic_yabdulra@quicinc.com>,
+ <quic_mattleun@quicinc.com>, <quic_thanson@quicinc.com>,
+ <dan.carpenter@linaro.org>, <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
+ <mhi@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
+References: <20250214162109.3555300-1-quic_jhugo@quicinc.com>
+ <20250214173416.b6y7o6tqsnkuzkbh@thinkpad>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20250214173416.b6y7o6tqsnkuzkbh@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: FA-E0WTdUlx1y-qstC6TxP-VMKNHdPVx
+X-Proofpoint-ORIG-GUID: FA-E0WTdUlx1y-qstC6TxP-VMKNHdPVx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-14_07,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502140122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,50 +94,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 11:47:42PM +0100, Helge Deller wrote:
-> On 2/13/25 15:42, Ville Syrjälä wrote:
-> > On Thu, Sep 26, 2024 at 12:13:04PM +0200, Helge Deller wrote:
-> >> On 9/26/24 11:57, Ville Syrjälä wrote:
-> >>> On Thu, Sep 26, 2024 at 08:08:07AM +0200, Helge Deller wrote:
-> >>>> Hi Ville,
-> >>>>
-> >>>> On 9/23/24 17:57, Ville Syrjala wrote:
-> >>>>> Currently setting cursor_blink attribute to 0 before any fb
-> >>>>> devices are around does absolutely nothing. When fb devices appear
-> >>>>> and fbcon becomes active the cursor starts blinking. Fix the problem
-> >>>>> by recoding the desired state of the attribute even if no fb devices
-> >>>>> are present at the time.
-> >>>>>
-> >>>>> Also adjust the show() method such that it shows the current
-> >>>>> state of the attribute even when no fb devices are in use.
-> >>>>>
-> >>>>> Note that store_cursor_blink() is still a bit dodgy:
-> >>>>> - seems to be missing some of the other checks that we do
-> >>>>>      elsewhere when deciding whether the cursor should be
-> >>>>>      blinking or not
-> >>>>> - when set to 0 when the cursor is currently invisible due
-> >>>>>      to blinking, the cursor will remains invisible. We should
-> >>>>>      either explicitly make it visible here, or wait until the
-> >>>>>      full blink cycle has finished.
-> >>>>
-> >>>> are you planning to send follow-up patches to address those shortcomings?
-> >>>
-> >>> Nope. I don't really care about those as I never plan to
-> >>> turn the cursor blinking back on after turning it off via
-> >>> udev.
-> >>
-> >> Sad, but OK. I will look into this when I find time.
-> >> I'd hoped to push those patches upstream during this merge window,
-> >> but then I think I have to delay them at least until kernel 6.13.
-> >
-> > What happened to these? Not seeing them anywhere...
+On 2/14/2025 10:34 AM, Manivannan Sadhasivam wrote:
+> On Fri, Feb 14, 2025 at 09:21:09AM -0700, Jeffrey Hugo wrote:
+>> If mhi_fw_load_handler() bails out early because the EE is not capable
+>> of loading firmware, we may reference fw_load_type in cleanup which is
+>> uninitialized at this point. The cleanup code checks fw_load_type as a
+>> proxy for knowing if fbc_image was allocated and needs to be freed, but
+>> we can directly test for that. This avoids the possible uninitialized
+>> access and appears to be clearer code.
+>>
+>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> Closes: https://lore.kernel.org/all/e3148ac4-7bb8-422d-ae0f-18a8eb15e269@stanley.mountain/
+>> Fixes: f88f1d0998ea ("bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL")
 > 
-> The issues above are not fixed yet, so they are still parked in my for-next-next tree:
-> https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/log/?h=for-next-next
+> The best thing would be to squash this fix into the offending commit as the
+> fixes tag would become meaningless once merged upstream.
 
-Those issues are already present in the current code, so
-I'm sure what's the point of holding this up due to them.
+I see your point, however the offending commit is already part of a pull 
+request. I think we've missed the window for squashing.
 
--- 
-Ville Syrjälä
-Intel
+Thank you for the very quick review.
+
+-Jeff
