@@ -2,57 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8ECA352FF
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:35:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BC1A3538F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 02:14:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5043210EBD7;
-	Fri, 14 Feb 2025 00:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD3B10E078;
+	Fri, 14 Feb 2025 01:14:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cxWiQ9+m";
+	dkim=pass (1024-bit key; unprotected) header.d=sdore.me header.i=@sdore.me header.b="aneva66j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1872D10EBC9;
- Fri, 14 Feb 2025 00:35:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739493323; x=1771029323;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=L2anDb97ff129elz/wHsOxHshFjvmYhOhlX70PmEuKI=;
- b=cxWiQ9+mAH818b8buJ5PVPfgTgyLQaSvxn+z0OAC0ZRL7s5CZ1ppgFi7
- 6bNwLrLNePRuaNeqtcKcpk7Iwwoj+2rqTyrYEWgr/A+8qVw9OoflGeKcS
- Q/TWlckk++g2gpWrVLqmJnLkqv3ar/IKSMZnCSab4SoXKs2ocrhMjNsC4
- wMx8Xm72y8CmZcvv25AawGEjNTJCRUSy/4UEd62dkEIv2gy4d/0rIBAIE
- IUKVA6ChzhLuAb3UdTYvGRqZw3Yhn2WCi36Or9YRKQD1EPX5vHkDs0Aqq
- 8usEwaxYuPSPYeq+K1YikGZFuxo//IRy7no+tHxk4zwlq4hSWqFn6XSfe A==;
-X-CSE-ConnectionGUID: oC39AcWHSAy9ZY9XtcFjVQ==
-X-CSE-MsgGUID: BDw7UEtKR7+en0uBPhQQ9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="39454578"
-X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; d="scan'208";a="39454578"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2025 16:35:22 -0800
-X-CSE-ConnectionGUID: FTdhENm5SC2K7VAm5InCfQ==
-X-CSE-MsgGUID: /F0TtGB3TyGN0kRJWrpsOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; d="scan'208";a="113043426"
-Received: from dprybysh-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.5])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2025 16:35:20 -0800
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Nitin Gote <nitin.r.gote@intel.com>
-Subject: [PATCH v2] drm/i915/gt: Replace kmap with its safer kmap_local_page
- counterpart
-Date: Fri, 14 Feb 2025 01:34:37 +0100
-Message-ID: <20250214003437.1311476-1-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+X-Greylist: delayed 468 seconds by postgrey-1.36 at gabe;
+ Fri, 14 Feb 2025 01:14:39 UTC
+Received: from sdore.me (unknown [95.165.1.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E81410E078
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 01:14:39 +0000 (UTC)
+Received: by sdore.me (Postfix, from userid 1000)
+ id 07ED8EE8796B7; Fri, 14 Feb 2025 04:06:46 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sdore.me; s=SERV;
+ t=1739495206; bh=oZ8NyCjs7z+25+3ZAPDoEXaqLtn+ZFW9ddncRWyxRQw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=aneva66j9xj4E1eEGIqoEZzyLw1Ylx0+fVPECiK/hqyJ9EHvVJSkzjRXRbn4rT8Vp
+ R0/qcHitIWllWMtFbb4C0Sq+Wdmmd1wDTkA3V7//INUPKZXuLdypPDbw6sXX+OiDcD
+ OTX/b73AJIzDDeFks5irfVt9KU7oJaOSmBDdwieU=
+From: Egor Vorontsov <sdoregor@sdore.me>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Egor Vorontsov <sdoregor@sdore.me>
+Subject: [PATCH v2 2/2] drm/edid: Refactor DisplayID timing block structs
+Date: Fri, 14 Feb 2025 04:05:45 +0300
+Message-ID: <20250214010545.3793736-1-sdoregor@sdore.me>
+X-Mailer: git-send-email 2.48.0
+In-Reply-To: <7cab8349bc8bb6fa08d2a7127a724efea155f154.camel@sdore.me>
+References: <7cab8349bc8bb6fa08d2a7127a724efea155f154.camel@sdore.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,85 +56,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kmap_local_page(), unlike kmap(), performs a contextualized
-mapping of pages. This means the pages are mapped locally to the
-thread that created them, making them invisible outside the
-thread and safer to use.
+Using le16 instead of u8[2].
+Replaced an error with a printed warning as well.
 
-Replace kmap() and kunmap() with kmap_local_page() and
-kunmap_local() counterparts for improved safety.
-
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Egor Vorontsov <sdoregor@sdore.me>
 ---
-Cc: Nitin Gote <nitin.r.gote@intel.com>
+ drivers/gpu/drm/drm_displayid_internal.h | 22 ++++++++--------
+ drivers/gpu/drm/drm_edid.c               | 32 ++++++++++++------------
+ 2 files changed, 27 insertions(+), 27 deletions(-)
 
-v1 -> v2:
- - replaced kmap with the _local version also in the
-   intel_ggtt_fencing.c file. (Thanks Nitin)
-
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 4 ++--
- drivers/gpu/drm/i915/gt/shmem_utils.c        | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-index 0ffba50981e3..00f7cd6debf3 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-@@ -749,7 +749,7 @@ static void swizzle_page(struct page *page)
- 	char *vaddr;
- 	int i;
+diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
+index 88220c107822..957dd0619f5c 100644
+--- a/drivers/gpu/drm/drm_displayid_internal.h
++++ b/drivers/gpu/drm/drm_displayid_internal.h
+@@ -115,25 +115,25 @@ struct displayid_tiled_block {
+ struct displayid_detailed_timings_1 {
+ 	u8 pixel_clock[3];
+ 	u8 flags;
+-	u8 hactive[2];
+-	u8 hblank[2];
+-	u8 hsync[2];
+-	u8 hsw[2];
+-	u8 vactive[2];
+-	u8 vblank[2];
+-	u8 vsync[2];
+-	u8 vsw[2];
++	__le16 hactive;
++	__le16 hblank;
++	__le16 hsync;
++	__le16 hsw;
++	__le16 vactive;
++	__le16 vblank;
++	__le16 vsync;
++	__le16 vsw;
+ } __packed;
  
--	vaddr = kmap(page);
-+	vaddr = kmap_local_page(page);
+ struct displayid_detailed_timing_block {
+ 	struct displayid_block base;
+ 	struct displayid_detailed_timings_1 timings[];
+-};
++} __packed;
  
- 	for (i = 0; i < PAGE_SIZE; i += 128) {
- 		memcpy(temp, &vaddr[i], 64);
-@@ -757,7 +757,7 @@ static void swizzle_page(struct page *page)
- 		memcpy(&vaddr[i + 64], temp, 64);
- 	}
+ struct displayid_formula_timings_9 {
+ 	u8 flags;
+-	__be16 hactive;
+-	__be16 vactive;
++	__le16 hactive;
++	__le16 vactive;
+ 	u8 vrefresh;
+ } __packed;
  
--	kunmap(page);
-+	kunmap_local(vaddr);
- }
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 9c363df5af9a..54122a12a24f 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -6764,19 +6764,19 @@ static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *d
+ 							    bool type_7)
+ {
+ 	struct drm_display_mode *mode;
+-	unsigned pixel_clock = (timings->pixel_clock[0] |
+-				(timings->pixel_clock[1] << 8) |
+-				(timings->pixel_clock[2] << 16)) + 1;
+-	unsigned hactive = (timings->hactive[0] | timings->hactive[1] << 8) + 1;
+-	unsigned hblank = (timings->hblank[0] | timings->hblank[1] << 8) + 1;
+-	unsigned hsync = (timings->hsync[0] | (timings->hsync[1] & 0x7f) << 8) + 1;
+-	unsigned hsync_width = (timings->hsw[0] | timings->hsw[1] << 8) + 1;
+-	unsigned vactive = (timings->vactive[0] | timings->vactive[1] << 8) + 1;
+-	unsigned vblank = (timings->vblank[0] | timings->vblank[1] << 8) + 1;
+-	unsigned vsync = (timings->vsync[0] | (timings->vsync[1] & 0x7f) << 8) + 1;
+-	unsigned vsync_width = (timings->vsw[0] | timings->vsw[1] << 8) + 1;
+-	bool hsync_positive = (timings->hsync[1] >> 7) & 0x1;
+-	bool vsync_positive = (timings->vsync[1] >> 7) & 0x1;
++	unsigned int pixel_clock = (timings->pixel_clock[0] |
++				    (timings->pixel_clock[1] << 8) |
++				    (timings->pixel_clock[2] << 16)) + 1;
++	unsigned int hactive = le16_to_cpu(timings->hactive) + 1;
++	unsigned int hblank = le16_to_cpu(timings->hblank) + 1;
++	unsigned int hsync = (le16_to_cpu(timings->hsync) & 0x7fff) + 1;
++	unsigned int hsync_width = le16_to_cpu(timings->hsw) + 1;
++	unsigned int vactive = le16_to_cpu(timings->vactive) + 1;
++	unsigned int vblank = le16_to_cpu(timings->vblank) + 1;
++	unsigned int vsync = (le16_to_cpu(timings->vsync) & 0x7fff) + 1;
++	unsigned int vsync_width = le16_to_cpu(timings->vsw) + 1;
++	bool hsync_positive = le16_to_cpu(timings->hsync) & (1 << 15);
++	bool vsync_positive = le16_to_cpu(timings->vsync) & (1 << 15);
  
- /**
-diff --git a/drivers/gpu/drm/i915/gt/shmem_utils.c b/drivers/gpu/drm/i915/gt/shmem_utils.c
-index bb696b29ee2c..365c4b8b04f4 100644
---- a/drivers/gpu/drm/i915/gt/shmem_utils.c
-+++ b/drivers/gpu/drm/i915/gt/shmem_utils.c
-@@ -108,7 +108,7 @@ static int __shmem_rw(struct file *file, loff_t off,
- 		if (IS_ERR(page))
- 			return PTR_ERR(page);
+ 	mode = drm_mode_create(dev);
+ 	if (!mode)
+@@ -6838,8 +6838,8 @@ static struct drm_display_mode *drm_mode_displayid_formula(struct drm_device *de
+ 							   bool type_10)
+ {
+ 	struct drm_display_mode *mode;
+-	u16 hactive = be16_to_cpu(timings->hactive) + 1;
+-	u16 vactive = be16_to_cpu(timings->vactive) + 1;
++	u16 hactive = le16_to_cpu(timings->hactive) + 1;
++	u16 vactive = le16_to_cpu(timings->vactive) + 1;
+ 	u8 timing_formula = timings->flags & 0x7;
  
--		vaddr = kmap(page);
-+		vaddr = kmap_local_page(page);
- 		if (write) {
- 			memcpy(vaddr + offset_in_page(off), ptr, this);
- 			set_page_dirty(page);
-@@ -116,7 +116,7 @@ static int __shmem_rw(struct file *file, loff_t off,
- 			memcpy(ptr, vaddr + offset_in_page(off), this);
- 		}
- 		mark_page_accessed(page);
--		kunmap(page);
-+		kunmap_local(vaddr);
- 		put_page(page);
+ 	/* TODO: support RB-v2 & RB-v3 */
+@@ -6848,7 +6848,7 @@ static struct drm_display_mode *drm_mode_displayid_formula(struct drm_device *de
  
- 		len -= this;
-@@ -143,11 +143,11 @@ int shmem_read_to_iosys_map(struct file *file, loff_t off,
- 		if (IS_ERR(page))
- 			return PTR_ERR(page);
+ 	/* TODO: support video-optimized refresh rate */
+ 	if (timings->flags & (1 << 4))
+-		return NULL;
++		drm_dbg_kms(dev, "Fractional vrefresh is not implemented, proceeding with non-video-optimized refresh rate");
  
--		vaddr = kmap(page);
-+		vaddr = kmap_local_page(page);
- 		iosys_map_memcpy_to(map, map_off, vaddr + offset_in_page(off),
- 				    this);
- 		mark_page_accessed(page);
--		kunmap(page);
-+		kunmap_local(vaddr);
- 		put_page(page);
- 
- 		len -= this;
+ 	mode = drm_cvt_mode(dev, hactive, vactive, timings->vrefresh + 1, timing_formula == 1, false, false);
+ 	if (!mode)
 -- 
-2.47.2
+2.48.0
 
