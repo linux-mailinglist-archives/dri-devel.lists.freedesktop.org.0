@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EB0A35A4D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 10:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7840A35AC7
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 10:49:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E4210EC2C;
-	Fri, 14 Feb 2025 09:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6753110EC30;
+	Fri, 14 Feb 2025 09:49:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Cpve7cii";
+	dkim=pass (2048-bit key; secure) header.d=braiins.cz header.i=@braiins.cz header.b="HjSqG/+M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C5010EC2B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739525221;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8gnYcHx8du+Hw1GvMIJpqwsVQPG+9zeooKptV8KqTFM=;
- b=Cpve7ciip9iTSyywQt2pmGvw9sXlMQQlPZ8WYNEQKRIRW/QuiZ/J3QrPRJzDN2I5s8Wr5k
- UYbJBeVts2VMsvXQ3ot4NKj/AB5A38n9tLIOsM14nfWIo/CoBSQg7DBTm2URM6rOGMPUYK
- ale7b0dnocuCebO4IAHGVqJ6C0k8Qzg=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-578-nM1hhWhROmW1GiMymFciwA-1; Fri,
- 14 Feb 2025 04:26:56 -0500
-X-MC-Unique: nM1hhWhROmW1GiMymFciwA-1
-X-Mimecast-MFC-AGG-ID: nM1hhWhROmW1GiMymFciwA_1739525215
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 1CF011800373; Fri, 14 Feb 2025 09:26:55 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.225.79])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 9D362180035E; Fri, 14 Feb 2025 09:26:51 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v5 8/8] drm/i915/display: Add drm_panic support for 4-tiling
- with DPT
-Date: Fri, 14 Feb 2025 10:21:43 +0100
-Message-ID: <20250214092608.2555218-9-jfalempe@redhat.com>
-In-Reply-To: <20250214092608.2555218-1-jfalempe@redhat.com>
-References: <20250214092608.2555218-1-jfalempe@redhat.com>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A8F10E48C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:29:40 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-21f818a980cso27893615ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 01:29:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braiins.cz; s=google; t=1739525380; x=1740130180; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=WouWPceWJIfpsOVdhcRUS2Lf4QwDD30xMzMCVCUGUMo=;
+ b=HjSqG/+MEfxAbSDYBVNAMKxVTpJjnWcqqLaQ5RfJznLsBEm+pkKzlC+PikIcwGyLyG
+ ToWVbHl4Mi+7C+wWu/Xp/qdjJcaXnv9pGbxGG2VgETdqTR4HcMJMmVWANIi+y87DKKPx
+ NG9g6OXnCasv0K54kmJbpwKV6txrmh0JXJ3Aw1SYulhaSuW+Smf2CjKDEx9AIX9GxJOq
+ kXqbkr4ff9alq8Cel2IrCTDowM09wHtZImOM2kHx5eVqGBLmasClIgJCkRT/J/rj5a8t
+ PrILZpwoLsY/hcdqLpflOeqRcF2JwPHPmSNdvKuxpNSG9h81N8JQDHB0pC97484v/Nyd
+ 3avA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739525380; x=1740130180;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WouWPceWJIfpsOVdhcRUS2Lf4QwDD30xMzMCVCUGUMo=;
+ b=rDNWLW7Z+u90uHVCbeBgapccNzN++JR+wsVATqdslOmmiGgWE4xTpHAI1qLcVq3Ub3
+ +IB8s85k8eK2SjllNn8EOZjK98QbL0uQfCtv809BufimHPm8kxusG3+HKT1naii0VOTB
+ yo7yEmGGWHVgye09HCHZBPFX9lSFw25Wxu3fjmQfYVp1gW166QI9lQ0g+KEd118nG5ng
+ DiS5T48oh71888pgNz4lNBHQGhLcL+wTrDPxhYO42GDscjiYmIED75vdcRZs4E5qniKs
+ Oc0QxKdMEShnNcItcllHBRsOpwPNRFzbixZeoJvew1lx5pGO3H8Nsf70g8K/lTbIwPgU
+ mF5A==
+X-Gm-Message-State: AOJu0YyLLk5j/gjtF0Vh+c1Y4pkIemhflaZGhvAfQJ9/36lQkYAx5uJz
+ ypaWjBRcO0YCG3DbC+xDovrER6thMd7LnqS9beNpT4yvlb3SgPXCrRMzQtTyQiRY+LYYv3x/49X
+ ReAA2rzkrC14gcaA70CpMjwiIyUtNWcGih9+FdQ==
+X-Gm-Gg: ASbGncvRciBLm/i8aW+BlO5bLvDor3ySHCAQ1piWWf9kmJ/TDwq/JHV1xDbQmEX8eBq
+ CxXsW1qRBgQzFDr0azbVyFOwas1ftqNW0Lui6q39sy3SfEc5OsPtYR+mLvIgg8usIpqWofFE=
+X-Google-Smtp-Source: AGHT+IFDjPz+bF07xBwC2+apIyVrIe7XWFiAe+UIGvoVnEKUDHIruaw2RkgWypdP693CqdEYFySIwR/D178A3ZNcz8Y=
+X-Received: by 2002:a17:902:c94c:b0:216:2bd7:1c2f with SMTP id
+ d9443c01a7336-220bbad0fd6mr141195545ad.18.1739525380051; Fri, 14 Feb 2025
+ 01:29:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+From: =?UTF-8?B?Sm9zZWYgTHXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
+Date: Fri, 14 Feb 2025 10:29:29 +0100
+X-Gm-Features: AWEUYZlmqXZkhmBHNnMkx7qIcBwgPBhhJmZsfgrua1LO1SbSyaf3AR7xaMducko
+Message-ID: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
+Subject: drm: mipi_dbi_hw_reset() keeps display in reset
+To: lanzano.alex@gmail.com
+Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
+Content-Type: multipart/alternative; boundary="0000000000005b38ed062e16d086"
+X-Mailman-Approved-At: Fri, 14 Feb 2025 09:49:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +75,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Alder Lake and later, it's not possible to disable tiling when DPT
-is enabled.
-So this commit implements 4-Tiling support, to still be able to draw
-the panic screen.
+--0000000000005b38ed062e16d086
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- .../gpu/drm/i915/display/intel_atomic_plane.c | 22 ++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+Hello Alex,
+there is a bug in mipi_dbi_hw_reset() function that implements the logic of
+display reset contrary.
+It keeps the reset line activated which keeps displays in reset state.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index 4cb12fdc21fe4..2a319cd319566 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -1241,6 +1241,25 @@ static void intel_ytile_set_pixel(struct drm_scanout_buffer *sb, unsigned int x,
- 	iosys_map_wr(&sb->map[0], offset, u32, color);
- }
- 
-+static void intel_4tile_set_pixel(struct drm_scanout_buffer *sb, unsigned int x, unsigned int y,
-+				  u32 color)
-+{
-+	u32 offset;
-+	unsigned int swizzle;
-+	unsigned int width_in_blocks = DIV_ROUND_UP(sb->width, 32);
-+
-+	/* Block offset */
-+	offset = ((y / YTILE_HEIGHT) * width_in_blocks + (x / YTILE_WIDTH)) * YTILE_SIZE;
-+
-+	x = x % YTILE_WIDTH;
-+	y = y % YTILE_HEIGHT;
-+
-+	/* bit order inside a block is y4 y3 x4 y2 x3 x2 y1 y0 x1 x0 */
-+	swizzle = (x & 3) | ((y & 3) << 2) | ((x & 0xc) << 2) | (y & 4) << 4 | ((x & 0x10) << 3) | ((y & 0x18) << 5);
-+	offset += swizzle * 4;
-+	iosys_map_wr(&sb->map[0], offset, u32, color);
-+}
-+
- static void intel_panic_flush(struct drm_plane *plane)
- {
- 	struct intel_plane_state *plane_state = to_intel_plane_state(plane->state);
-@@ -1275,7 +1294,6 @@ static void (*intel_get_tiling_func(u64 fb_modifier))(struct drm_scanout_buffer
- 	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS:
- 	case I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS:
- 		return intel_ytile_set_pixel;
--	case I915_FORMAT_MOD_X_TILED:
- 	case I915_FORMAT_MOD_4_TILED:
- 	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
- 	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-@@ -1285,6 +1303,8 @@ static void (*intel_get_tiling_func(u64 fb_modifier))(struct drm_scanout_buffer
- 	case I915_FORMAT_MOD_4_TILED_MTL_MC_CCS:
- 	case I915_FORMAT_MOD_4_TILED_BMG_CCS:
- 	case I915_FORMAT_MOD_4_TILED_LNL_CCS:
-+		return intel_4tile_set_pixel;
-+	case I915_FORMAT_MOD_X_TILED:
- 	case I915_FORMAT_MOD_Yf_TILED:
- 	case I915_FORMAT_MOD_Yf_TILED_CCS:
- 	default:
--- 
-2.47.1
+I reported the bug to
+https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
 
+Unfortunately, fixing the bug would mean current DTB-ABI breakage and
+device-trees modification would be needed.
+I mainly write this email to let you and other people know about it, so
+hopefully it can be found easier.
+What are your thoughts?
+
+Regards,
+Josef Lusticky
+
+--0000000000005b38ed062e16d086
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello Alex,</div><div>there is a bug in mipi_dbi_hw_r=
+eset() function that implements the logic of display reset contrary.</div><=
+div>It keeps the reset line activated which keeps displays in reset state.<=
+/div><div><br></div><div>I reported the bug to <a href=3D"https://gitlab.fr=
+eedesktop.org/drm/misc/kernel/-/issues/63">https://gitlab.freedesktop.org/d=
+rm/misc/kernel/-/issues/63</a></div><div><br></div><div>Unfortunately, fixi=
+ng the bug would mean current DTB-ABI breakage and device-trees modificatio=
+n would be needed.<br></div><div>I mainly write this email to let you and o=
+ther=C2=A0people know about it,=C2=A0so hopefully it can be found easier.</=
+div><div>What are=C2=A0your thoughts?</div><div><br></div><div>Regards,</di=
+v><div>Josef Lusticky</div></div>
+
+--0000000000005b38ed062e16d086--
