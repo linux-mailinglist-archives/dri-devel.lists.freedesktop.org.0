@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBB5A35E08
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1210AA35E0F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:58:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FDDB10E09C;
-	Fri, 14 Feb 2025 12:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 541A810E2D2;
+	Fri, 14 Feb 2025 12:58:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="BbTyiLUj";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LuZY1O57";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 892D110E09A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:57:59 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EDC1E4429A;
- Fri, 14 Feb 2025 12:57:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0932810E09A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:58:00 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 64585442C8;
+ Fri, 14 Feb 2025 12:57:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739537878;
+ t=1739537879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0IanyTrBjepRErJlkuSDGkmybOW22CjOKomKYv0f60o=;
- b=BbTyiLUjgh0wcwVZAGmPTmiqj4H279U01KSTNv+VADvmmelxEDjNfM18+zE+d3sIUvLIXp
- Dhe52YFVAvgF+TDaGp00J7tbK/x3VwDwCy3AvuiaAmFeeyZk5OECr69Y1e7tmkeeyvcsCt
- QkfwG5x8W7HVeQm08y7YvjV6Xhw3SSqDkIK7NEScFDsvlZb7f8InmLvdarvfvt8eqXh18J
- B2QrcrQkgjcqdLdX7nJqHOLMgEif+tML6jbo00MKbVJ+HlP2FFMfoB2BAoKNqHe0q2mZBK
- 5EO4I38hyQPsjsOqDfLUcfvZQlIbggHum9+eCD37RNhHcVhrst37Adt5OISL0w==
+ bh=fvFtQ6eMkKk31j/JTEnaxnTgY1midQeupncU65iYJA4=;
+ b=LuZY1O57kIuNkNYkMUKfEuL/M5rckzp4PlW3e4xM4QOCxJkxKNvXP4zcqlXNmuCa0ZzAd9
+ SFay9G63qJCynQbzUsd/Y9TZ+9UsGINi/FuNnO6d1c3YTohKLMwN7FGf5gY+pS9NlnD/5u
+ U5FRoDzv7um9agotm0NPB1IYzcYjYzz044V/fbeVxXIdvaxDH9SNwYCFl/Fxiw3IsGUdOK
+ mofDRsBV7urN9mKSMPtCRvpVlmwCZ2E+MwCW+h83Q2ga042pUK67E9VdsMjVzh6G0jyBzd
+ xdg1bzOh6duz/J020fvGbwS6pEMEsvVAupziN6tFIz0Sh/yW/ZrydQyopinR7g==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 14 Feb 2025 13:57:41 +0100
-Subject: [PATCH v7 2/5] drm: of: drm_of_find_panel_or_bridge: move
- misplaced comment
+Date: Fri, 14 Feb 2025 13:57:42 +0100
+Subject: [PATCH v7 3/5] drm/bridge: panel: use drm_bridge_is_panel()
+ instead of open code
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250214-drm-assorted-cleanups-v7-2-88ca5827d7af@bootlin.com>
+Message-Id: <20250214-drm-assorted-cleanups-v7-3-88ca5827d7af@bootlin.com>
 References: <20250214-drm-assorted-cleanups-v7-0-88ca5827d7af@bootlin.com>
 In-Reply-To: <20250214-drm-assorted-cleanups-v7-0-88ca5827d7af@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,8 +73,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This comment is misleading as it refers to one of the inner if() branches
-only, not the whole outer if(). Move it to the branch it refers to.
+drm_panel_bridge_remove() reads bridge->funcs to find out whether this is a
+panel bridge or another kind of bridge. drm_bridge_is_panel() is made
+exactly for that, so use it.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
@@ -84,24 +85,22 @@ Changes in v7: none
 
 This patch was added in v6.
 ---
- drivers/gpu/drm/drm_of.c | 2 +-
+ drivers/gpu/drm/bridge/panel.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 5530919e0ba05f7ce1806730b292319f36e905ed..d0183dea770308e77f05da364ffe087d53f3be36 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -268,9 +268,9 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 			*panel = NULL;
- 	}
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 6e88339dec0f5faee690b7c53e8dcd0f1ee2281c..0c5db13b11dcb90ee88b9932b91aa05fc48d59bd 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -322,7 +322,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
+ 	if (!bridge)
+ 		return;
  
--	/* No panel found yet, check for a bridge next. */
- 	if (bridge) {
- 		if (ret) {
-+			/* No panel found yet, check for a bridge next. */
- 			*bridge = of_drm_find_bridge(remote);
- 			if (*bridge)
- 				ret = 0;
+-	if (bridge->funcs != &panel_bridge_bridge_funcs)
++	if (!drm_bridge_is_panel(bridge))
+ 		return;
+ 
+ 	panel_bridge = drm_bridge_to_panel_bridge(bridge);
 
 -- 
 2.48.1
