@@ -2,81 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC30FA363DB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:04:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AD5A36427
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 18:13:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6651110ED1C;
-	Fri, 14 Feb 2025 17:04:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5023210E354;
+	Fri, 14 Feb 2025 17:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PhX/RBRs";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="I7XGqFdW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13FB810ED1C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:04:18 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51EBXGPF011938;
- Fri, 14 Feb 2025 17:04:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- WVh8C1XdQKbuPGslHvYwILu4Oo0lcqoZT4lNHUEx468=; b=PhX/RBRs8eSbv7uR
- VLjesZG94YjQqyg9dGVJtOxq+xHCGGVOX5Mld3Ia88nfbOi6qPOXnbmzJtFpGEYo
- 8aHIvcxIRqX+L2JuvUMGm1Wi0Ldz/kIOdqxp5nQr8eu+F8Vlqgf0jn+c4d3eNrIQ
- 3sCMAJnH/URO6oMS5GsW2bBSU6cHnEsJU5M0LkzMUkJKyVWlMTJLdJA2vMrp9GCi
- Qoar9d7D2Rz/psBIf+G4XfqTBJVJGZUiiRoqAQZwL9GueZBNluJCGJCkBz8Nx8de
- BhiRhitQAtjTSW9JbBc+AH6N+zZBbPQWWcpedN0uVpEN9xVpwfW0Ajsal1OPaaeN
- Jo3A/w==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44sfxwbxea-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Feb 2025 17:04:14 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51EH4DGi032475
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Feb 2025 17:04:13 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Feb
- 2025 09:04:12 -0800
-Message-ID: <a89af8ab-db02-84fa-2ed5-9f1addfdc241@quicinc.com>
-Date: Fri, 14 Feb 2025 10:04:11 -0700
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC87010E354
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:13:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1739553200; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gjXqQx0PN9fIBRAdPXvG2V1D2iMEDJwYwHKwJ9gnYH6Zvmsgnw0M0i4WLydKUT9HumwYlmmRQb2DyEZUL+LPw+rGqlAI5nJNxPY5VrGTOy/vN6ZHWUDTGOR6EJJuJPf4eVWNHIuCyJabAgB2vei3ZJkPpJ0GityFpHocL0Hcx1g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1739553200;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=rx4zOK0jMB+T5gcNOQuTYR78srSh2K1r/cPK3FfxCyk=; 
+ b=Sa+a6c5dqeuoHvB8lEbCj6yju8t8zBDSkaz4QRXOzKXJP4kQsg5VKvnkRVZfOkstICpfTo7iRasOCNy30lpVSsnZOmVwLp/LKlQpFQK8dOuMRNrF9aTeqpT+PHaOTZho3n5LJWblxKBXo/sCutwf9bEa23xeSnJb1qLGl1cJ4zs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739553200; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=rx4zOK0jMB+T5gcNOQuTYR78srSh2K1r/cPK3FfxCyk=;
+ b=I7XGqFdWjPA5IMCXORPkrrCfozZDdiB7wzF+9HUPf4nwda+xcdRyfF8zWAoIK6ed
+ M/vLUcZ+VWgyUpW/HMpb+KMp2jj+3Wr9A3gmPR9WgzBDAmQye41+0D14jcXC92T2NZJ
+ msJE1Z8V1FmP0FiPFYRdxBGMi73pHhoyWEqd5OW4=
+Received: by mx.zohomail.com with SMTPS id 1739553198330678.3612859142831;
+ Fri, 14 Feb 2025 09:13:18 -0800 (PST)
+Message-ID: <f6d6de4d-1b87-4a53-a2eb-0d9ddfbc4311@collabora.com>
+Date: Fri, 14 Feb 2025 20:13:12 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 6/6] accel/ivpu: Implement D0i2 disable test mode
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 5/5] drm/virtio: add
+ VIRTGPU_PARAM_HOST_SHM_PAGE_SIZE to params
+To: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel Verkamp <dverkamp@chromium.org>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ fnkl.kernel@gmail.com
+Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250214-virtio-shm-page-size-v2-0-aa1619e6908b@redhat.com>
+ <20250214-virtio-shm-page-size-v2-5-aa1619e6908b@redhat.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, <maciej.falkowski@linux.intel.com>, Karol
- Wachowski <karol.wachowski@intel.com>
-References: <20250204084622.2422544-1-jacek.lawrynowicz@linux.intel.com>
- <20250204084622.2422544-7-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20250204084622.2422544-7-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <20250214-virtio-shm-page-size-v2-5-aa1619e6908b@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: bRswPECobBXyb0_-kOI2Dk9Rj5UvcAng
-X-Proofpoint-GUID: bRswPECobBXyb0_-kOI2Dk9Rj5UvcAng
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-14_07,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 adultscore=0 mlxlogscore=642 mlxscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502140119
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,13 +78,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/4/2025 1:46 AM, Jacek Lawrynowicz wrote:
-> From: Karol Wachowski <karol.wachowski@intel.com>
-> 
-> Add power_profile firmware boot param and set it to 0 by default
-> which is default FW power profile.
+On 2/14/25 18:16, Sergio Lopez wrote:
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> index c33c057365f85a2ace536f91655c903036827312..4b49635b4fe1d4256f219823341cef8e5fa8f029 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -117,6 +117,11 @@ static int virtio_gpu_getparam_ioctl(struct drm_device *dev, void *data,
+>  	case VIRTGPU_PARAM_EXPLICIT_DEBUG_NAME:
+>  		value = vgdev->has_context_init ? 1 : 0;
+>  		break;
+> +	case VIRTGPU_PARAM_HOST_SHM_PAGE_SIZE:
+> +		if (!vgdev->has_host_visible)
+> +			return -EINVAL;
 
-I don't think that patch does this. It looks like 
-boot_params->power_profile is already defined. What am I missing?
+Nit: virtio_gpu_getparam_ioctl() returns EINVAL for unsupported params.
+While this is a supported param, but there is no hostmem available.
+Hence, should a different error code, maybe ENOENT or ENXIO.
 
--Jeff
+-- 
+Best regards,
+Dmitry
