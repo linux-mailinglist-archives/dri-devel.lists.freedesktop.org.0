@@ -2,97 +2,196 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81356A362C6
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C63AA362CA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53ACB10E050;
-	Fri, 14 Feb 2025 16:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE9110E34A;
+	Fri, 14 Feb 2025 16:16:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="b1HVB7ni";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="w/+1W1HZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZsjKg8Fn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a5-smtp.messagingengine.com
- (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755D310E34A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:14:27 +0000 (UTC)
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal
- [10.202.2.47])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 8D6CF1140105;
- Fri, 14 Feb 2025 11:14:26 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-07.internal (MEProxy); Fri, 14 Feb 2025 11:14:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1739549666;
- x=1739636066; bh=PnGApNhid7Ud6Ofq1uk6X53en3KIGAExFrctRTMlloc=; b=
- b1HVB7niaKbnXK2Db727kt/TgERHywWkl3wwW1cIK+DmhVYwE9aR9bBX/4E6X8ks
- vPPa1nD5ShiQJ3tb3bfykaResSgBLMwaODIMNb4GNwrg9cmr5nTjtYgY8E5spCpI
- 7BwUmLc2aLnrB4F6xWEtp7c8fT6xy4b8ja6HCVEvVEaoxY3B0YqqO+jLiXfx2Hey
- +1pdXD14U1H4jxyQymS2MIWXRjP2wXrYV4nKjsfnTvACuoCPFtJiOQEAx8p4mmPY
- mqL4oUP2z+2KDMLxJRSQgNqsgfrWoU/KhgGoOE19HjCBuncQ/hKltATtZJItDMZ4
- 604ogf4pnMuf+SilxYdtYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1739549666; x=1739636066; bh=PnGApNhid7Ud6Ofq1uk6X53en3KIGAExFrc
- tRTMlloc=; b=w/+1W1HZYUUblRpX8ZUl3hKAIlSxyv7Ogypk2iZ+zxY1z3azWY0
- wOhiLt7d/dcr8dTsWHB50GMsiNJpEs44mfBrer/mdH6/3MzIlLwsK1BR6nDW/DJc
- 8VrzkBU03an9AZnEsiEyWWy6wepuAFZhnKSWeXTARX5yTGrDsbha2twCwXijOHpj
- 6sy9WXh6rOnCwrXRNEDcezSi6iN2HGXqapBNU84ZR7Rz4nx+cCcWf+JW6/1hql2Y
- DMXznNkh6VVedyaH6gvKSgcIYkJcKpuY01VXrkbE+GNz8W8TynQ52gVV5LPbXOSx
- CfvaVbvkn6TIQ1DEF8Fwd6AjkBQCpS7y/iw==
-X-ME-Sender: <xms:4muvZ1Lilx1cho2ISvSJmSYKH7iQIQiXhaXgiROa3-cSokUTJeOh8Q>
- <xme:4muvZxIljxYjfpx6Kxh_CydX0K7PIjqaS5EXVOxWUpxxI6T62-tVbdZMMmWYfd-B4
- AmBB4_T8zhG7fU>
-X-ME-Received: <xmr:4muvZ9tMOfaRDS1juHZKVezjjkiU6Q1j5YnmCDRV6mwQ_uiCgaV8Y4UMZ7I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehtddutdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdej
- necuhfhrohhmpeffvghmihcuofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvh
- hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpedvjeet
- geekhfetudfhgfetffegfffguddvgffhffeifeeikeektdehgeetheffleenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeguvghmihesihhnvhhi
- shhisghlvghthhhinhhgshhlrggsrdgtohhmpdhnsggprhgtphhtthhopedutddpmhhoug
- gvpehsmhhtphhouhhtpdhrtghpthhtohepthhhohhmrghsrdhhvghllhhsthhrohhmsehl
- ihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgrthhthhgvfidrsghrohhsth
- esihhnthgvlhdrtghomhdprhgtphhtthhopehinhhtvghlqdigvgeslhhishhtshdrfhhr
- vggvuggvshhkthhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsth
- hsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhhimhgrlhdrphhrrghs
- rggurdhghhhimhhirhgrhiesihhnthgvlhdrtghomhdprhgtphhtthhopegrphhophhplh
- gvsehnvhhiughirgdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgt
- ohhmpdhrtghpthhtohepshhimhhonhgrrdhvvghtthgvrhesfhhffihllhdrtghhpdhrtg
- hpthhtohepfhgvlhhigidrkhhuvghhlhhinhhgsegrmhgurdgtohhm
-X-ME-Proxy: <xmx:4muvZ2bnOVqWUjQaNO5Ui7XLYgpDEeHM5jvL0m2UFOk6k--Xi8i7gQ>
- <xmx:4muvZ8bu2HLOmyqgV9xDsQz6d6k8U2gClXuE2ncWHcE0AkNTfi3vGA>
- <xmx:4muvZ6AqUiCKPwacFoWO8nWIbdxyt5DnBPouRqiEYe5HvniYZxNvKA>
- <xmx:4muvZ6Z3ZRPyWFIEPJqEK8AdHtxdDmvHhTnVb31TiPIeGYucf1T1ow>
- <xmx:4muvZ5S-EN0VlCl0SDmZPdHg0kcmVDC3NIWtynWAzZ26yxuDIq9Wo-up>
-Feedback-ID: iac594737:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Feb 2025 11:14:25 -0500 (EST)
-Date: Fri, 14 Feb 2025 11:14:10 -0500
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Subject: Re: [PATCH v5 00/32] Introduce GPU SVM and Xe SVM implementation
-Message-ID: <Z69r3reWGZq5W7iw@itl-email>
-References: <20250213021112.1228481-1-matthew.brost@intel.com>
- <Z65ix566lLCPOsob@itl-email>
- <433228556ac6ad42b21c942dc6c070069107660e.camel@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lLJ6w5bkTZhj0wAx"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0950410ED02
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:16:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739549786; x=1771085786;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=3+W77FPa4qYi/p6jHkS5N5D1r20bLrH3MqSoHPLJ/Sg=;
+ b=ZsjKg8Fn+NjzOtzezLtAHputkXUCogOHU7jTCpqGFsBJbBTSU8hxk+0d
+ qWXfHBBbtJWSQVKGp/Skl/ujDmgEnh+2ckWat5l5k57T2rfwoUOcEifHt
+ S1aFPKCCEUP7Gf3DdIuAshy8eWEczQK15AmgwlIDEuUTe6zyyWf7Ii47O
+ t7QXCxzRRbr6hkhRhu7gFMOVfqQYTnmBozYZVT5Xjq0NCiByOf3Ifxoei
+ hWwboHd+B6abIIct/puzAWF4YzAXhh2MXmdcSx//iP66MKFQKzi+iXqrb
+ HBEpF93A+EwSuoVpFoNz86Nt3mH563N/bCbHHrgfxQHeYwc/insSnhiyM Q==;
+X-CSE-ConnectionGUID: DoXxH2rOTIypFS4ThOUCPQ==
+X-CSE-MsgGUID: AiiLNxcLSuyZrWRD2BQTzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40165450"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; d="scan'208";a="40165450"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2025 08:16:25 -0800
+X-CSE-ConnectionGUID: 7qmMv8xtTFWkAPFj2yX80Q==
+X-CSE-MsgGUID: PNuie8B+Q46bwQCuQ+GVVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; d="scan'208";a="113471618"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 14 Feb 2025 08:16:22 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 14 Feb 2025 08:16:21 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Fri, 14 Feb 2025 08:16:21 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 14 Feb 2025 08:16:20 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E6QomcEqmbb/BfP0RwJ1Ifh3BHhWZWFbcJN90pdm2+ocB/4czXowD5kd11pIU6comzMovnaI2yU6qifpevw4m8rWY2WAip2qaaDHVh3QX1tMAX+WYUDnsKuR71dV6owqjh0Ixg6sxaU22ljgEGSmQoRSfDRuOAX/+V8sDNei6/YW3YyepgyQvOw1Kf2LXWn8IV4YfT199NxS6ssXcdmeGsqGwCA11HlxcH+HYkCaGkJx/rYA+4af7OGuSPmKSK5GgWWpZR9d1FviJWVfUI1ICLC5GPPqvdB7nsFyCDPQdLnNdbO4yZDZ9Ix8/ZIovXEalQ4CpgnOk6dVtM54drShNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hT+R+9FVXkyT/l4dyUBzdD2xUY0sPG1U/xKrzpzmj8I=;
+ b=n1Tngb7dQbzn6QuT8BzAesTgXwy7oOl/Jl9E4UzLLmRbAlNwyqRafPJROzrZ4iFf8RDWElg47cZTGYpZizMmg2YGbIlKyANpurfSXmb0GxEf7PtXco7n1NVTWuHxBiuVNIhFn109odQ04NVbA3iJPZo7FujojSAcMBhyEq3KxwiOQxcPz2pzUY1fRkoamXi9T/a2N126iyZe8f4+sAVTXWhezcON22tWepHYD+piDcquHwgU/ZbXvFaeBEaajuNc/NNiKTbMlT8kujfnuK2QS7yjsjlxS/UkPvSJDvjpQfJRnTpfh6H0SMcEFmDyvzp4qmAlJoQe6+pStq7go5gmXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by CY5PR11MB6138.namprd11.prod.outlook.com (2603:10b6:930:2a::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.14; Fri, 14 Feb
+ 2025 16:15:50 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57%5]) with mapi id 15.20.8445.013; Fri, 14 Feb 2025
+ 16:15:50 +0000
+Date: Fri, 14 Feb 2025 10:15:36 -0600
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jerome Brunet <jbrunet@baylibre.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, "Ira
+ Weiny" <ira.weiny@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Stephen Boyd" <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Danilo
+ Krummrich <dakr@kernel.org>, Conor Dooley <conor.dooley@microchip.com>, Daire
+ McNamara <daire.mcnamara@microchip.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Douglas Anderson <dianders@chromium.org>, Andrzej
+ Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>, Ilpo
+ =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Vladimir Kondratiev
+ <vladimir.kondratiev@mobileye.com>, Gregory CLEMENT
+ <gregory.clement@bootlin.com>, =?iso-8859-1?Q?Th=E9o?= Lebrun
+ <theo.lebrun@bootlin.com>, Michael Turquette <mturquette@baylibre.com>, "Abel
+ Vesa" <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>
+CC: Jerome Brunet <jbrunet@baylibre.com>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <dri-devel@lists.freedesktop.org>,
+ <platform-driver-x86@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+ <linux-clk@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>
+Subject: Re: [PATCH v3 6/7] clk: clk-imx8mp-audiomix: use the auxiliary
+ device creation helper
+Message-ID: <67af6c284c349_1614f3294dd@iweiny-mobl.notmuch>
+References: <20250211-aux-device-create-helper-v3-0-7edb50524909@baylibre.com>
+ <20250211-aux-device-create-helper-v3-6-7edb50524909@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <433228556ac6ad42b21c942dc6c070069107660e.camel@linux.intel.com>
+In-Reply-To: <20250211-aux-device-create-helper-v3-6-7edb50524909@baylibre.com>
+X-ClientProxiedBy: MW4PR03CA0343.namprd03.prod.outlook.com
+ (2603:10b6:303:dc::18) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|CY5PR11MB6138:EE_
+X-MS-Office365-Filtering-Correlation-Id: 085784fe-299f-4d7f-4a20-08dd4d12d940
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?WDq0UZPwEJiXbsJOv7ccnrPWbO0EvkG8FJtIemmabvlVsnJ+jZSrAQw8XWZf?=
+ =?us-ascii?Q?aX14bSRSU/SUhIu1grRFiV0S3JRyZnzhz1PgXLNhaIv07srvcXpJyzYwgtFy?=
+ =?us-ascii?Q?jNQP6i+/5FnXl+W1hRqjui7ySJ8atD9on0vlfWmjiUFjGIiWtDwMZdZCzHzs?=
+ =?us-ascii?Q?njgd4ECbVlPkkdfuaSZAcb6AUbKEMDnwA6MOlTyYcgbPQu5SV1LOOu2vWI+A?=
+ =?us-ascii?Q?aUgoAfW2APZeviRAehV/WB7FnMRbyvlGCSSc5W7hY/o19KqHrNXP/8g6LvoW?=
+ =?us-ascii?Q?d6tgx8ki/6OB/yELHPfGwvjWxb6j1oWxfIex0JLXEeZKiBweZdaDW2vzXYml?=
+ =?us-ascii?Q?yV5UJIpuMH77MbDkBNzvaFMShxqPhgryOVD6PIC1nTj4M1csHamJFa9lhLzb?=
+ =?us-ascii?Q?asXSf76MPILlxTszXsiJ0CNCJOxEWA4KTASyU1FA6zqKjsoJduWfwD6I3XnC?=
+ =?us-ascii?Q?veSU8HfZSW3EXY1rEvy69ziXJfyDoP0jHDuJEADTP4iKMWPQFHK7bvUyf+3R?=
+ =?us-ascii?Q?gZll7cm9oNkmCKWS0Y20fbaL0P9JxlFJXpbhZ1jgfDqEWckbnPkHBjqG0PGP?=
+ =?us-ascii?Q?fFfl4IXWdyfph046JYiWed2yAGfnIw6uHwEY4wJ0oaY+kx6IxKNoKVszNXth?=
+ =?us-ascii?Q?Ef/tzuH3+iYF9HfOIun7Ry0FzRNxx8Y4mjH8BQ+ZhAQKmrYIUfPImBDuPQY3?=
+ =?us-ascii?Q?uOJVZxR5AhoFfHs6eCwkdS9gjDH5aF/s4MaeVDYQQpjdLrxcsyU6yZKdd9aF?=
+ =?us-ascii?Q?JwSYetlfg8CQK4qOAkuAljkpNyKiLE4vV8kjdBMe5aKis8pVI4qHzOsUHvxw?=
+ =?us-ascii?Q?6JCTcelbh5zo0qh2WbgwYGCpORRUYcBeqwgwn40jBsFrCRwJ7/EYDFIQ45JG?=
+ =?us-ascii?Q?GVYdFCY27nSG3BXMlHrQY2j/QUyiyyocN4wNi5HV9kqGoayYGLm1QFmqngir?=
+ =?us-ascii?Q?/re3coRWFWABrFW6eoYoFhSkUcwfZXAjr9UWQxCzyfqXEWzqprlHbWjPsW1p?=
+ =?us-ascii?Q?fldWcCVRrwF2NMGvvVwBgxxnfwAf98H2wD/cH62h5zXR+k5XnweigkYRlVSx?=
+ =?us-ascii?Q?Ifh2jCUhcz+8cMJiLyE4hIjX/ODvvCFRJmrSZU5CA5TdYPi13ovYj8wI7Hqi?=
+ =?us-ascii?Q?LN6no32iIpFtfgLYB3J0Iq8XDmgzRSuKUa33YkcLPxn51x0Uj0Kvh3lTCLC3?=
+ =?us-ascii?Q?mILg8opLr0o+ovZqBelQ8eODNS4UFu5HAP7m9YfpsGWb9jIQwby24dKKih/a?=
+ =?us-ascii?Q?YhtlKV1wcywZalwJWWLYL5Hqc8k/fXiHNq3u9dih/DoXAW/98LZLQJmXzPkN?=
+ =?us-ascii?Q?mIvz7uf3o7cblYIIk21/NipZnd/VU5q+vuZc5QFlwSt8qGHM3tvaLPQOcRWa?=
+ =?us-ascii?Q?XqBPWu4tbKb6WuWA9aQt5D0tkFG+vEitqfltu6uTsINbyB9oaggHakp8Dyq5?=
+ =?us-ascii?Q?kjdr/qPHnQY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1k3Affq2l9akXSjbiEChWZzpkpmkykXrhmm3D7a3VmzIdwqmFvctan4I9N+0?=
+ =?us-ascii?Q?Dnrhq03pyX4pz0rWdTxkJerE6N8SLpDdxOWDqFFXuS2WYwiB0BAn1cooQwFu?=
+ =?us-ascii?Q?I7Du791V02dzbnoYQ4lYZzqY1u7P68HwDQ1pp+0AI/oLAoBnmzvLIfyQtXV8?=
+ =?us-ascii?Q?qhAzTGVYQdYVg/efqUv43cXJKBuJr0KqIC4B827MIh+2/3yXt51hZlyLZKam?=
+ =?us-ascii?Q?cLeb1rpMpwvPHs5UKO9lr/vP1w3SZCtsbExUnrfazvznIOrvb0eFUBQ33dD/?=
+ =?us-ascii?Q?2Rp+aZ8JIXa75kcwWrSCfFWZm3HQ1N74EoDQH9Qm8UjldX+bkiEmVSLbNkIz?=
+ =?us-ascii?Q?qs71GKdZTxbPPcqbLKkAefP8w56uIyUXwOK+2IO+c22xhZUwOfnHkA/Uv+pZ?=
+ =?us-ascii?Q?bUodu6nZH3GbryO0N7zsDF6WLLy8EvRkBUJH/oXLKLAVETqELBu1e3m23cCo?=
+ =?us-ascii?Q?sbPeA3Q4e+2QnrSF4s3KbfiL4CCBd9yu6a83lp7Ps4c6IuQUT48FxvSNHMaE?=
+ =?us-ascii?Q?9rvxz7C9cpJz8NroHHvWDIsKi021cyvLw3KGPDflxHeNNPRD+RIh6KUhX6El?=
+ =?us-ascii?Q?uoLMphxp31Ig6YeVW7mI19r9p5MrznDbWjrisfQriZ8Nvog9dvd+Wx1CyA6c?=
+ =?us-ascii?Q?yeaMuy36hw8TVcJJNiJvm/xy2B1CLYurNedAQx8zswpHfZNupzQgWyB4m+JC?=
+ =?us-ascii?Q?pHSOOLROfRj+qde26q6O09eDU4D16Xq9j/X2a+j+N2g1ZrKia57nNzuqreu9?=
+ =?us-ascii?Q?VrlZS++2hAj1796xezFw0pZ8nBFnNqjKrFyjrUW3u18AlcyXaZlePr8ZRFJP?=
+ =?us-ascii?Q?Pf5N+8p1fMsUoY2J4bLr6yus/f0vRtA5xcd2ly+9W0Mvi5qRoz/q+D1NejO8?=
+ =?us-ascii?Q?3yd4Cva0zQjdDDL0Z7yXmk5KVdUMiJ6dalyWIWxpo4fk2ZVzGcDcc8Zrr9TR?=
+ =?us-ascii?Q?ez83nB7buYTGl838hVeCwSZMEZ3h1hZV2fEfJ3FZHe//fvficARxXC/Gs5lZ?=
+ =?us-ascii?Q?IKkFjIQ5tofLbApGPTbFMupmYMcRGCgbnbhHN1onELEOy846wgoLSOMr4N0P?=
+ =?us-ascii?Q?QDJ9QUZCuMWOzLASGOK/I3tWnZrRdBrk92yvHdV+CObZwrJWZNDYZ7+bFVBc?=
+ =?us-ascii?Q?iPzLvk3MvN21RdQtKvKco5ldY/1WU9+cSiUEAyR05PXgMm652jvUwyv6ATha?=
+ =?us-ascii?Q?tbYiaFJ1MfTuOXfT+mLnEGHiPWTcQeF1qal5XE1jMIHcre1Q28YhvvB0OVJi?=
+ =?us-ascii?Q?BpP+Y5D5+OH06VRMXFbkmVHmlhEb288byZJriLFpV1GDkM6CWpbRQ1BZzAvw?=
+ =?us-ascii?Q?TTtx0Jrn2FZ0foijeLC9e6GD+Tb0OdNkkR+F3Ufsld+AzzmQJFGpfDEhMDEK?=
+ =?us-ascii?Q?51yjlUVXcd+8OlpIQlvumR6PytQU6FwNVr6EkAVPJ8t6kw1Xg6DcSLpUc1E8?=
+ =?us-ascii?Q?76pQHIDWz0P7GgAy/XeqNLdQBluRXbsRQh7pTooJCCuykJTvFvRH95s0zl+z?=
+ =?us-ascii?Q?Kgc/o7OxIY5StQHrS68FXm5AUy5gTMN7AdQ+mDfuYf4Am0ufd5EdVHouFKIB?=
+ =?us-ascii?Q?/G6bYLPKdo1hvSU/zxVpRjwRU5c7H5nm6Vdkgl83?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 085784fe-299f-4d7f-4a20-08dd4d12d940
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2025 16:15:50.7545 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /dc2AQ22RE1hFaoyRwWWpHXWNqChlSkEk+yf4qeuDx3KluUNZJ5PuGXHBvad4xcmM+WJWc2KoeNrTMW9emCxfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6138
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,123 +207,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Jerome Brunet wrote:
+> The auxiliary device creation of this driver is simple enough to
+> use the available auxiliary device creation helper.
+> 
+> Use it and remove some boilerplate code.
+> 
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+>  drivers/clk/imx/clk-imx8mp-audiomix.c | 56 ++++-------------------------------
+>  1 file changed, 6 insertions(+), 50 deletions(-)
+> 
+> diff --git a/drivers/clk/imx/clk-imx8mp-audiomix.c b/drivers/clk/imx/clk-imx8mp-audiomix.c
+> index c409fc7e061869988f83c7df3ef7860500426323..988a5fffeb4e0e481ec57038d9d1f1b43432fc98 100644
+> --- a/drivers/clk/imx/clk-imx8mp-audiomix.c
+> +++ b/drivers/clk/imx/clk-imx8mp-audiomix.c
+> @@ -228,64 +228,20 @@ struct clk_imx8mp_audiomix_priv {
+>  	struct clk_hw_onecell_data clk_data;
+>  };
+>  
+> -#if IS_ENABLED(CONFIG_RESET_CONTROLLER)
 
---lLJ6w5bkTZhj0wAx
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Feb 2025 11:14:10 -0500
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
-	simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Subject: Re: [PATCH v5 00/32] Introduce GPU SVM and Xe SVM implementation
+I see the Kconfig ...
 
-On Fri, Feb 14, 2025 at 09:47:13AM +0100, Thomas Hellstr=C3=B6m wrote:
-> Hi
->=20
-> On Thu, 2025-02-13 at 16:23 -0500, Demi Marie Obenour wrote:
-> > On Wed, Feb 12, 2025 at 06:10:40PM -0800, Matthew Brost wrote:
-> > > Version 5 of GPU SVM. Thanks to everyone (especially Sima, Thomas,
-> > > Alistair, Himal) for their numerous reviews on revision 1, 2, 3=C2=A0
-> > > and for
-> > > helping to address many design issues.
-> > >=20
-> > > This version has been tested with IGT [1] on PVC, BMG, and LNL.
-> > > Also
-> > > tested with level0 (UMD) PR [2].
-> >=20
-> > What is the plan to deal with not being able to preempt while a page
-> > fault is pending?=C2=A0 This seems like an easy DoS vector.=C2=A0 My
-> > understanding
-> > is that SVM is mostly used by compute workloads on headless systems.
-> > Recent AMD client GPUs don't support SVM, so programs that want to
-> > run
-> > on client systems should not require SVM if they wish to be portable.
-> >=20
-> > Given the potential for abuse, I think it would be best to require
-> > explicit administrator opt-in to enable SVM, along with possibly
-> > having
-> > a timeout to resolve a page fault (after which the context is
-> > killed).
-> > Since I expect most uses of SVM to be in the datacenter space (for
-> > the
-> > reasons mentioned above), I don't believe this will be a major
-> > limitation in practice.=C2=A0 Programs that wish to run on client syste=
-ms
-> > already need to use explicit memory transfer or pinned userptr, and
-> > administrators of compute clusters should be willing to enable this
-> > feature because only one workload will be using a GPU at a time.
->=20
-> While not directly having addressed the potential DoS issue you
-> mention, there is an associated deadlock possibility that may happen
-> due to not being able to preempt a pending pagefault. That is if a dma-
-> fence job is requiring the same resources held up by the pending page-
-> fault, and then the pagefault servicing is dependent on that dma-fence
-> to be signaled in one way or another.
->=20
-> That deadlock is handled by only allowing either page-faulting jobs or
-> dma-fence jobs on a resource (hw engine or hw engine group) that can be
-> used by both at a time, blocking synchronously in the exec IOCTL until
-> the resource is available for the job type. That means LR jobs waits
-> for all dma-fence jobs to complete, and dma-fence jobs wait for all LR
-> jobs to preempt. So a dma-fence job wait could easily mean "wait for
-> all outstanding pagefaults to be serviced".
->=20
-> Whether, on the other hand, that is a real DoS we need to care about,
-> is probably a topic for debate. The directions we've had so far are
-> that it's not. Nothing is held up indefinitely, what's held up can be
-> Ctrl-C'd by the user and core mm memory management is not blocked since
-> mmu_notifiers can execute to completion and shrinkers / eviction can
-> execute while a page-fault is pending.
+        select AUXILIARY_BUS if RESET_CONTROLLER
 
-The problem is that a program that uses a page-faulting job can lock out
-all other programs on the system from using the GPU for an indefinite
-period of time.  In a GUI session, this means a frozen UI, which makes
-recovery basically impossible without drastic measures (like rebooting
-or logging in over SSH).  That counts as a quite effective denial of
-service from an end-user perspective, and unless I am mistaken it would
-be very easy to trigger by accident: just start a page-faulting job that
-loops forever.
+But I don't see how this code is omitted without AUXILIARY_BUS.  Is this
+kconfig check safe to remove?
 
-The simplest way to prevent this would be to require DRM master
-privileges to spawn page-faulting jobs.  Only the Wayland compositor or
-X server will normally have these, and they will never submit a
-page-faulting job.  My understanding is that other IOCTLs that can mess
-up a compositor also require DRM master privileges, and submitting a
-page-faulting job seems to qualify.
+Ira
 
-There is still a legitimate use-case for running long-running workloads
-on a GPU used for an interactive session.  However, DMA fencing compute
-jobs can long running as long as they are preemptable, and they are
-preemptable as long as they don't need page faults.  Sima, Faith, and
-Christian have already come up with a solution for long-running Vulkan
-compute.
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-Invisible Things Lab
+> -
+> -static void clk_imx8mp_audiomix_reset_unregister_adev(void *_adev)
+> -{
+> -	struct auxiliary_device *adev = _adev;
+> -
+> -	auxiliary_device_delete(adev);
+> -	auxiliary_device_uninit(adev);
+> -}
+> -
+> -static void clk_imx8mp_audiomix_reset_adev_release(struct device *dev)
+> +static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
+>  {
+> -	struct auxiliary_device *adev = to_auxiliary_dev(dev);
+> -
+> -	kfree(adev);
+> -}
+> -
+> -static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev,
+> -							 struct clk_imx8mp_audiomix_priv *priv)
+> -{
+> -	struct auxiliary_device *adev __free(kfree) = NULL;
+> -	int ret;
+> +	struct auxiliary_device *adev;
+>  
+>  	if (!of_property_present(dev->of_node, "#reset-cells"))
+>  		return 0;
+>  
+> -	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+> -	if (!adev)
+> -		return -ENOMEM;
+> -
+> -	adev->name = "reset";
+> -	adev->dev.parent = dev;
+> -	adev->dev.release = clk_imx8mp_audiomix_reset_adev_release;
+> -
+> -	ret = auxiliary_device_init(adev);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = auxiliary_device_add(adev);
+> -	if (ret) {
+> -		auxiliary_device_uninit(adev);
+> -		return ret;
+> -	}
+> -
+> -	return devm_add_action_or_reset(dev, clk_imx8mp_audiomix_reset_unregister_adev,
+> -					no_free_ptr(adev));
+> -}
+> -
+> -#else /* !CONFIG_RESET_CONTROLLER */
+> +	adev = devm_auxiliary_device_create(dev, "reset", NULL, 0);
+> +	if (IS_ERR_OR_NULL(adev))
+> +		return PTR_ERR(adev);
+>  
+> -static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev,
+> -							 struct clk_imx8mp_audiomix_priv *priv)
+> -{
+>  	return 0;
+>  }
+>  
+> -#endif /* !CONFIG_RESET_CONTROLLER */
+> -
+>  static void clk_imx8mp_audiomix_save_restore(struct device *dev, bool save)
+>  {
+>  	struct clk_imx8mp_audiomix_priv *priv = dev_get_drvdata(dev);
+> @@ -408,7 +364,7 @@ static int clk_imx8mp_audiomix_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_clk_register;
+>  
+> -	ret = clk_imx8mp_audiomix_reset_controller_register(dev, priv);
+> +	ret = clk_imx8mp_audiomix_reset_controller_register(dev);
+>  	if (ret)
+>  		goto err_clk_register;
+>  
+> 
+> -- 
+> 2.45.2
+> 
 
---lLJ6w5bkTZhj0wAx
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmeva9oACgkQszaHOrMp
-8lNsQhAAkz1ou+XsklZj28NJgvNx2Vwlc+izNtslBzlB84i/rcNmMkvxcS1jZFv8
-paZKHZFXcEzniG8dlTAdIbICifc6FiyqCgA5V3WjuvIDk4gqg6mVM4WugGh+uJYr
-nvWNHzgbIb3sgiRS1OEurEV5bkd+xCh6YFZRY+PC9t5qt7zsw3mNNxaL3Yxu7izX
-1KBoo+cr0xOHYof+RIp0JJhoyp+0txjCSjrGq23rbvvZF3cFBai7dKfZy2yIcr7l
-5e83clAUapeSGowlyDtkWbR91bAsMRGjNt2u1eSInwD0e4nPeBFCR3eYfliULCNY
-rJ3m1obj17ReiGhd9qOepa9eIl/zkjXO/eeigUObG8POPLm67WgZc+MeYuhQ1imz
-hp8efrNNy3lpXCMpGbxAPdf3NLE35aB5F0dzm085KW3tBhX121shinE+Q4jiUHfd
-aQ+PEHrGnO2NxiLwC44yBfNtBSapq8uSW+vvjtCviQPFUSh+LynWW2bvtIWl0rjf
-Hmi7SAjegTRiThBsbowxluKdHObjUZZ8tHlQnuQJRqLKvKRASie5DND4MrCtHHcP
-wODIv5EAYr5p7h8OjAli8pvzQNZW0klTDive7zvbiem6t+66iTC3zVpWpxOjSFOX
-SHdQvZ9SIX1jCBI+G80d2tOvvdrij0lZMqATYtlA8s/L5+Lq2Yw=
-=mbAl
------END PGP SIGNATURE-----
-
---lLJ6w5bkTZhj0wAx--
