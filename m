@@ -2,132 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7119AA35842
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 08:55:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F708A358AB
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 09:18:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4252110EBE0;
-	Fri, 14 Feb 2025 07:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61CDC10EBF9;
+	Fri, 14 Feb 2025 08:18:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IFFwaYxe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7S2rrWQE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IFFwaYxe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7S2rrWQE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QkW5UjGN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F13F10EBE0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:55:29 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AE97821D9C;
- Fri, 14 Feb 2025 07:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739519727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fyDttw15PU0HUrcTKbIAMTy/BqbOtIX3AmP1wbwDKnw=;
- b=IFFwaYxeSue9uPD2yvJvmO0M7vdRFJSliRTXgGYhd81AZUYsvEYioIoOSLMC1e9xo8sbcc
- TdyS3yP+I042weOA1lBcxr+VpQNyQTMrBFNwitT4zs4mztu7Yt9h8E2LDLcLHcvoZ+Midp
- k6yJC84YEOsvc8IQf+7KQNZIEbxQ1OA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739519727;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fyDttw15PU0HUrcTKbIAMTy/BqbOtIX3AmP1wbwDKnw=;
- b=7S2rrWQE8apvHTij4BuTtcMF2GzNLesUMksFs47Ke+gabqJLtUdhCgML3ihreYNljOui6C
- mphvag5Zz99qISCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739519727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fyDttw15PU0HUrcTKbIAMTy/BqbOtIX3AmP1wbwDKnw=;
- b=IFFwaYxeSue9uPD2yvJvmO0M7vdRFJSliRTXgGYhd81AZUYsvEYioIoOSLMC1e9xo8sbcc
- TdyS3yP+I042weOA1lBcxr+VpQNyQTMrBFNwitT4zs4mztu7Yt9h8E2LDLcLHcvoZ+Midp
- k6yJC84YEOsvc8IQf+7KQNZIEbxQ1OA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739519727;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fyDttw15PU0HUrcTKbIAMTy/BqbOtIX3AmP1wbwDKnw=;
- b=7S2rrWQE8apvHTij4BuTtcMF2GzNLesUMksFs47Ke+gabqJLtUdhCgML3ihreYNljOui6C
- mphvag5Zz99qISCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 70B3F13285;
- Fri, 14 Feb 2025 07:55:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id L5hCGu/2rme+GgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 14 Feb 2025 07:55:27 +0000
-Message-ID: <59811676-52d1-4432-b6ae-2f519dc95f83@suse.de>
-Date: Fri, 14 Feb 2025 08:55:27 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Handheld gaming PC panel orientation quirks
-To: John Edwards <uejji@uejji.net>, Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCC610EBF9;
+ Fri, 14 Feb 2025 08:18:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 052765C55C5;
+ Fri, 14 Feb 2025 08:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D16CC4CEE2;
+ Fri, 14 Feb 2025 08:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739521116;
+ bh=xl1RxIPlL8WV/QUkGzOzNrCPqAGUw2t+vphKlojUgdE=;
+ h=Date:From:To:Cc:Subject:From;
+ b=QkW5UjGNu6QsrKnL+dkqcKsg61pKX5DaCoV2sCMWkHssVlGqsFp/Jk9utxirp4rOR
+ tIL8V0DLTPQIa+OMH6eFSpXCaL4KRcSv3OQ6KvXgx+F7GD4DfzrkYi5SZzCgj8srNq
+ K4SX10MjQLNPT6FvBvLWip0sNHr/MnTTLdT3q4COjqgO2Lp7JhY40LAnCkxePZaTgz
+ UOvtqOQ8EFMMF5eCG2+yyF76tiexYgHuwlShKArDwjEgq9QPVsYHcYskZVUm3p9VkW
+ XesTAaglJ7J7yK0lqk+RYJAyHr5lEo9RkLh2khShk8UW4qucl8OwpLACN2kKVfNZK6
+ CezKxhufqBZ4g==
+Date: Fri, 14 Feb 2025 18:48:20 +1030
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Kenneth Feng <kenneth.feng@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Cc: Andrew Wyatt <fewtarius@steamfork.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250213222455.93533-1-uejji@uejji.net>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250213222455.93533-1-uejji@uejji.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[uejji.net,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[9]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+Subject: [PATCH][next] drm/amd/pm: Avoid multiple
+ -Wflex-array-member-not-at-end warnings
+Message-ID: <Z678TNhCbTk363Tw@kspp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,64 +62,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-Am 13.02.25 um 23:24 schrieb John Edwards:
-> Hello.
->
-> I am submitting a small number of patches to add panel rotation quirks for
-> a few handheld gaming PCs.  These patches were created by the SteamFork
-> team and are in daily use by us and/or members of our community.
->
-> The following devices are covered by these patches:
-> 1: AYANEO 2S
-> 2: AYANEO Flip DS, AYANEO Flip KB
-> 3: AYANEO Slide, Antec Core HS
-> 4: GPD Win 2 (with correct DMI strings)
-> 5: OneXPlayer Mini (Intel)
->
-> Thank you for your consideration and for taking the time to review these
-> patches.
->
-> John Edwards
->
-> v3:
-> - Correct indentation errors in Flip DS/KB and Slide patches
-> - Include Reviewed-by tags for Thomas Zimmermann and Hans de Goede
+So, in order to avoid ending up with a flexible-array member in the
+middle of other structs, we use the `struct_group_tagged()` helper
+to create a new tagged `struct NISLANDS_SMC_SWSTATE_HDR` (and `struct
+SISLANDS_SMC_SWSTATE_HDR`). This structures group together all the
+members of the flexible `struct NISLANDS_SMC_SWSTATE` (and `struct
+SISLANDS_SMC_SWSTATE`) except the flexible array.
 
-Thanks a lot for the patches. If no further comments come in, I'll merge 
-the series next week.
+As a result, the array is effectively separated from the rest of the
+members without modifying the memory layout of the flexible structure.
+We then change the type of the middle struct members currently causing
+trouble from `struct NISLANDS_SMC_SWSTATE` to `struct
+NISLANDS_SMC_SWSTATE_HDR` (and from `struct SISLANDS_SMC_SWSTATE` to
+`struct SISLANDS_SMC_SWSTATE_HDR`).
 
-Best regards
-Thomas
+We also want to ensure that when new members need to be added to the
+flexible structure, they are always included within the newly created
+tagged struct. For this, we use `static_assert()`. This ensures that
+the memory layout for both the flexible structure and the new tagged
+struct is the same after any changes.
 
->
-> v2:
-> - Minor rewording of commit messages
-> - Include Tested-by tag for Paco Avelar in AYANEO Flip DS/KB patch
-> - Add OneXPlayer Mini (Intel) patch
-> https://lore.kernel.org/dri-devel/20250124204648.56989-2-uejji@uejji.net/
->
-> v1:
-> https://lore.kernel.org/dri-devel/20250116155049.39647-2-uejji@uejji.net/
->
-> Andrew Wyatt (5):
->    drm: panel-orientation-quirks: Add support for AYANEO 2S
->    drm: panel-orientation-quirks: Add quirks for AYA NEO Flip DS and KB
->    drm: panel-orientation-quirks: Add quirk for AYA NEO Slide
->    drm: panel-orientation-quirks: Add new quirk for GPD Win 2
->    drm: panel-orientation-quirks: Add quirk for OneXPlayer Mini (Intel)
->
->   .../gpu/drm/drm_panel_orientation_quirks.c    | 40 ++++++++++++++++++-
->   1 file changed, 38 insertions(+), 2 deletions(-)
->
+This approach avoids having to implement `struct NISLANDS_SMC_SWSTATE_HDR`
+(and `struct SISLANDS_SMC_SWSTATE_HDR`) as a completely separate structure,
+thus preventing having to maintain two independent but basically identical
+structures, closing the door to potential bugs in the future.
 
+We also use `container_of()` whenever we need to retrieve a pointer to
+the flexible structure, through which we can access the flexible-array
+member, if necessary.
+
+So, with this changes, fix the following warnings:
+
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/sislands_smc.h:218:49: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:819:41: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:818:41: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:817:41: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:816:41: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c    |  7 ++++--
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h    | 23 +++++++++++--------
+ .../gpu/drm/amd/pm/legacy-dpm/sislands_smc.h  | 15 ++++++++----
+ 3 files changed, 29 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+index a87dcf0974bc..2c9d473d122f 100644
+--- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
++++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+@@ -5234,7 +5234,8 @@ static int si_init_smc_table(struct amdgpu_device *adev)
+ 
+ 	table->driverState.flags = table->initialState.flags;
+ 	table->driverState.levelCount = table->initialState.levelCount;
+-	table->driverState.levels[0] = table->initialState.level;
++	container_of(&table->driverState, SISLANDS_SMC_SWSTATE, __hdr)->levels[0] =
++								table->initialState.level;
+ 
+ 	ret = si_do_program_memory_timing_parameters(adev, amdgpu_boot_state,
+ 						     SISLANDS_INITIAL_STATE_ARB_INDEX);
+@@ -5755,7 +5756,9 @@ static int si_upload_sw_state(struct amdgpu_device *adev,
+ 	int ret;
+ 	u32 address = si_pi->state_table_start +
+ 		offsetof(SISLANDS_SMC_STATETABLE, driverState);
+-	SISLANDS_SMC_SWSTATE *smc_state = &si_pi->smc_statetable.driverState;
++	SISLANDS_SMC_SWSTATE *smc_state =
++		container_of(&si_pi->smc_statetable.driverState,
++			     SISLANDS_SMC_SWSTATE, __hdr);
+ 	size_t state_size = struct_size(smc_state, levels,
+ 					new_state->performance_level_count);
+ 	memset(smc_state, 0, state_size);
+diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
+index 11cb7874a6bb..62530f89ebdf 100644
+--- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
++++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
+@@ -784,12 +784,17 @@ typedef struct NISLANDS_SMC_HW_PERFORMANCE_LEVEL NISLANDS_SMC_HW_PERFORMANCE_LEV
+ 
+ struct NISLANDS_SMC_SWSTATE
+ {
+-    uint8_t                             flags;
+-    uint8_t                             levelCount;
+-    uint8_t                             padding2;
+-    uint8_t                             padding3;
+-    NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
++	/* New members MUST be added within the struct_group() macro below. */
++	struct_group_tagged(NISLANDS_SMC_SWSTATE_HDR, __hdr,
++		uint8_t                             flags;
++		uint8_t                             levelCount;
++		uint8_t                             padding2;
++		uint8_t                             padding3;
++	);
++	NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+ };
++static_assert(offsetof(struct NISLANDS_SMC_SWSTATE, levels) == sizeof(struct NISLANDS_SMC_SWSTATE_HDR),
++	      "struct member likely outside of struct_group_tagged()");
+ 
+ typedef struct NISLANDS_SMC_SWSTATE NISLANDS_SMC_SWSTATE;
+ 
+@@ -813,10 +818,10 @@ struct NISLANDS_SMC_STATETABLE
+     uint32_t                            lowSMIO[NISLANDS_MAX_NO_VREG_STEPS];
+     NISLANDS_SMC_VOLTAGEMASKTABLE       voltageMaskTable;
+     PP_NIslands_DPM2Parameters          dpm2Params;
+-    NISLANDS_SMC_SWSTATE                initialState;
+-    NISLANDS_SMC_SWSTATE                ACPIState;
+-    NISLANDS_SMC_SWSTATE                ULVState;
+-    NISLANDS_SMC_SWSTATE                driverState;
++    struct NISLANDS_SMC_SWSTATE_HDR		initialState;
++    struct NISLANDS_SMC_SWSTATE_HDR		ACPIState;
++    struct NISLANDS_SMC_SWSTATE_HDR		ULVState;
++    struct NISLANDS_SMC_SWSTATE_HDR		driverState;
+     NISLANDS_SMC_HW_PERFORMANCE_LEVEL   dpmLevels[NISLANDS_MAX_SMC_PERFORMANCE_LEVELS_PER_SWSTATE - 1];
+ };
+ 
+diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h b/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+index 90ec411c5029..1711e3e35e80 100644
+--- a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
++++ b/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+@@ -172,12 +172,17 @@ struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL {
+ typedef struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL SISLANDS_SMC_HW_PERFORMANCE_LEVEL;
+ 
+ struct SISLANDS_SMC_SWSTATE {
+-	uint8_t                             flags;
+-	uint8_t                             levelCount;
+-	uint8_t                             padding2;
+-	uint8_t                             padding3;
++	/* New members MUST be added within the struct_group() macro below. */
++	struct_group_tagged(SISLANDS_SMC_SWSTATE_HDR, __hdr,
++		uint8_t                             flags;
++		uint8_t                             levelCount;
++		uint8_t                             padding2;
++		uint8_t                             padding3;
++	);
+ 	SISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+ };
++static_assert(offsetof(struct SISLANDS_SMC_SWSTATE, levels) == sizeof(struct SISLANDS_SMC_SWSTATE_HDR),
++	      "struct member likely outside of struct_group_tagged()");
+ 
+ typedef struct SISLANDS_SMC_SWSTATE SISLANDS_SMC_SWSTATE;
+ 
+@@ -215,7 +220,7 @@ struct SISLANDS_SMC_STATETABLE {
+ 	struct SISLANDS_SMC_SWSTATE_SINGLE	initialState;
+ 	struct SISLANDS_SMC_SWSTATE_SINGLE	ACPIState;
+ 	struct SISLANDS_SMC_SWSTATE_SINGLE	ULVState;
+-	SISLANDS_SMC_SWSTATE			driverState;
++	struct SISLANDS_SMC_SWSTATE_HDR		driverState;
+ 	SISLANDS_SMC_HW_PERFORMANCE_LEVEL	dpmLevels[SISLANDS_MAX_SMC_PERFORMANCE_LEVELS_PER_SWSTATE];
+ };
+ 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.43.0
 
