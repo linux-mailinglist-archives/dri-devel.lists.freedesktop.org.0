@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5941A35A44
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 10:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF99BA35A41
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 10:26:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 134A810EC1C;
-	Fri, 14 Feb 2025 09:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7CFC10EC1F;
+	Fri, 14 Feb 2025 09:26:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Tp+9/aRN";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fnXznk8E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C13410EC1E
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:26:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A38410EC20
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 09:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739525203;
+ s=mimecast20190719; t=1739525199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JK04INHG5UyOm3qCRe/HTI+C1zqotKR2ndPyjDYxCQQ=;
- b=Tp+9/aRNf0xvtdcl5CSwIc/2z2sMj2VJfSQhqFC8lMysHXXPzaMoTmvyV5Md0MT4vhIdzl
- 6zroNV4bIAKNe4oD7nJJFT81LhVtVskrgbELBzsfbw2bm/ZZAM9pG4ZAM3CishVI/lD/WA
- OZf+XcxFteQqYqkyszGYFMD0Ay6hNBE=
+ bh=tfKE1kNNaqYoc1NBMaOS+ggx5uGIG296IykfzUyaXYE=;
+ b=fnXznk8E4m/resQrAFcdT/WYMEni0VerDwTSBbivXn3RJah/xx5qugSBhmtk0Tc2DD/JV/
+ fBEV1S4Arq1ZRmw0lCXhHGOdQfe9fdB1ZGsMwd8/miJzgIqrXijF79v4vmDEaKzFopG4n4
+ 8kzeffH4A7qpxHFVFS+638OSmhCU2Vk=
 Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-45-_QOfwnhAOJ2q1aR2jhJgAg-1; Fri,
- 14 Feb 2025 04:26:34 -0500
-X-MC-Unique: _QOfwnhAOJ2q1aR2jhJgAg-1
-X-Mimecast-MFC-AGG-ID: _QOfwnhAOJ2q1aR2jhJgAg_1739525191
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-191-HVKhkX9COyOcrUJJuCl4gA-1; Fri,
+ 14 Feb 2025 04:26:36 -0500
+X-MC-Unique: HVKhkX9COyOcrUJJuCl4gA-1
+X-Mimecast-MFC-AGG-ID: HVKhkX9COyOcrUJJuCl4gA_1739525195
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id E405918EB2CB; Fri, 14 Feb 2025 09:26:30 +0000 (UTC)
+ id 11E8519373D9; Fri, 14 Feb 2025 09:26:35 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.45.225.79])
  by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 1A13B180035E; Fri, 14 Feb 2025 09:26:26 +0000 (UTC)
+ id 6B0B0180035E; Fri, 14 Feb 2025 09:26:31 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
@@ -52,10 +52,9 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v5 2/8] drm/i915/display/i9xx: Add a disable_tiling() for i9xx
- planes
-Date: Fri, 14 Feb 2025 10:21:37 +0100
-Message-ID: <20250214092608.2555218-3-jfalempe@redhat.com>
+Subject: [PATCH v5 3/8] drm/i915/display: Add a disable_tiling() for skl planes
+Date: Fri, 14 Feb 2025 10:21:38 +0100
+Message-ID: <20250214092608.2555218-4-jfalempe@redhat.com>
 In-Reply-To: <20250214092608.2555218-1-jfalempe@redhat.com>
 References: <20250214092608.2555218-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -82,64 +81,47 @@ the panic screen.
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/i915/display/i9xx_plane.c     | 23 +++++++++++++++++++
- .../drm/i915/display/intel_display_types.h    |  2 ++
- 2 files changed, 25 insertions(+)
+ .../drm/i915/display/skl_universal_plane.c    | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
-index aef8d8b7ea85f..d5538adbb3624 100644
---- a/drivers/gpu/drm/i915/display/i9xx_plane.c
-+++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
-@@ -866,6 +866,27 @@ static const struct drm_plane_funcs i8xx_plane_funcs = {
- 	.format_mod_supported = i8xx_plane_format_mod_supported,
- };
+diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+index eb85d3d6cdc3c..3eef0f9f4241b 100644
+--- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
++++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+@@ -2703,6 +2703,25 @@ static u8 tgl_plane_caps(struct intel_display *display,
+ 	return caps;
+ }
  
-+static void i9xx_disable_tiling(struct intel_plane *plane)
++static void skl_disable_tiling(struct intel_plane *plane)
 +{
++	struct intel_plane_state *state = to_intel_plane_state(plane->base.state);
 +	struct intel_display *display = to_intel_display(plane);
-+	enum i9xx_plane_id i9xx_plane = plane->i9xx_plane;
-+	u32 dspcntr;
-+	u32 reg;
++	u32 stride = state->view.color_plane[0].scanout_stride / 64;
++	u32 plane_ctl;
 +
-+	dspcntr = intel_de_read_fw(display, DSPCNTR(display, i9xx_plane));
-+	dspcntr &= ~DISP_TILED;
-+	intel_de_write_fw(display, DSPCNTR(display, i9xx_plane), dspcntr);
++	plane_ctl = intel_de_read(display, PLANE_CTL(plane->pipe, plane->id));
++	plane_ctl &= ~PLANE_CTL_TILED_MASK;
 +
-+	if (DISPLAY_VER(display) >= 4) {
-+		reg = intel_de_read_fw(display, DSPSURF(display, i9xx_plane));
-+		intel_de_write_fw(display, DSPSURF(display, i9xx_plane), reg);
++	intel_de_write_fw(display, PLANE_STRIDE(plane->pipe, plane->id),
++			  PLANE_STRIDE_(stride));
 +
-+	} else {
-+		reg = intel_de_read_fw(display, DSPADDR(display, i9xx_plane));
-+		intel_de_write_fw(display, DSPADDR(display, i9xx_plane), reg);
-+	}
++	intel_de_write_fw(display, PLANE_CTL(plane->pipe, plane->id), plane_ctl);
++
++	intel_de_write_fw(display, PLANE_SURF(plane->pipe, plane->id),
++			  skl_plane_surf(state, 0));
 +}
 +
  struct intel_plane *
- intel_primary_plane_create(struct intel_display *display, enum pipe pipe)
- {
-@@ -1001,6 +1022,8 @@ intel_primary_plane_create(struct intel_display *display, enum pipe pipe)
- 		}
+ skl_universal_plane_create(struct intel_display *display,
+ 			   enum pipe pipe, enum plane_id plane_id)
+@@ -2749,6 +2768,7 @@ skl_universal_plane_create(struct intel_display *display,
+ 		plane->max_height = skl_plane_max_height;
+ 		plane->min_cdclk = skl_plane_min_cdclk;
  	}
++	plane->disable_tiling = skl_disable_tiling;
  
-+	plane->disable_tiling = i9xx_disable_tiling;
-+
- 	modifiers = intel_fb_plane_get_modifiers(display, INTEL_PLANE_CAP_TILING_X);
- 
- 	if (DISPLAY_VER(display) >= 5 || display->platform.g4x)
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 6a82c6ade549b..38e2108b01ff6 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1507,6 +1507,8 @@ struct intel_plane {
- 			   bool async_flip);
- 	void (*enable_flip_done)(struct intel_plane *plane);
- 	void (*disable_flip_done)(struct intel_plane *plane);
-+	/* For drm_panic */
-+	void (*disable_tiling)(struct intel_plane *plane);
- };
- 
- #define to_intel_atomic_state(x) container_of(x, struct intel_atomic_state, base)
+ 	if (DISPLAY_VER(display) >= 13)
+ 		plane->max_stride = adl_plane_max_stride;
 -- 
 2.47.1
 
