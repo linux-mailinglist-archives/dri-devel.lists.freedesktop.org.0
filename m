@@ -2,71 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E436A36234
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 16:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9086A3624D
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 16:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F60210ECF6;
-	Fri, 14 Feb 2025 15:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 565A710E347;
+	Fri, 14 Feb 2025 15:53:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AeNKlk6K";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GYujDMaR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C53310ECF6
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 15:49:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739548142;
- bh=r7iHmY+on8D66t7zNqiSl/lx5SQ1muJfxYiuvuOyezg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=AeNKlk6K5SOAeptmDJ2rIyAViKtZSHR6RcOxXRpQkjiKGTa7UtWXj+nOrb97yIFGs
- RnCwJUBxlfroe8OXXVmYQLSCCrddUAzTFMUb22u5xXxvbuXYVpW67P291d2JJbzG1n
- so3ZLvwhD3dWUoNLXSlek6ITZkGHcSL3LBNboSQrYslgyMU1E3nWvczT68tSEFGx7M
- YXFw5rmjfhQRjxcUPp01idyy5lf4Y5T/Br2Xm/fKcf6AM4dvdhs1BhgLiRoeHhcgtx
- WmxD37bkQK6tW10iU4c4QJckIK//9HZqb7bxMR6Ol/zmIabMU9BVcWvhORKGG1RHap
- nH+tDx3Bi10YQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6064717E0E95;
- Fri, 14 Feb 2025 16:49:01 +0100 (CET)
-Date: Fri, 14 Feb 2025 16:48:56 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: Jens Wiklander <jens.wiklander@linaro.org>, Daniel Stone
- <daniel@fooishbar.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
- linux-arm-kernel@lists.infradead.org, Olivier Masse
- <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, Yong Wu
- <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
- Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
- <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
- Mercier" <tjmercier@google.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-Message-ID: <20250214164856.0d2ead8a@collabora.com>
-In-Reply-To: <CAFA6WYOuTwRPEh3L7+hMyARB_E73xmp+OwhKyS-r4+ryS7=9sw@mail.gmail.com>
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20250212205613.4400a888@collabora.com>
- <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
- <20250213093557.278f5d19@collabora.com>
- <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
- <20250213134008.4cbef142@collabora.com>
- <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
- <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
- <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
- <CAHUa44Gs0D1fBD0=+EDgcQUMeDv4knci9trUkYEc1J98qFV7HQ@mail.gmail.com>
- <CAFA6WYOuTwRPEh3L7+hMyARB_E73xmp+OwhKyS-r4+ryS7=9sw@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C99E210E347
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 15:53:15 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-4396740abe9so6372705e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:53:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739548394; x=1740153194; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=LUeXql4TWDHCjVh3ewbV3baFX6FxknoLfQ1URmQIH8w=;
+ b=GYujDMaRKD7Ozv39fes/39ctl4AM8yxxW7laIeRA7NjbgiHTWSqCCcLv+GzCnJhWfF
+ pvHPc90gqusNtDvEsFI2rRiGys3mx2Vu3tu+54d9enj19KsExH2QirP6mT/388k39sVY
+ WFnCKFgaJ9eSnb1e6ww/HKaOpWxVE++Y4Wv+Aj1/l5aC6+l9NKOfmVamAUA0yflGhOIl
+ zBO9OvueBrxLRpg/84k90ZEYQanbLUHIRiXY8erab3j3LV1AzaSnQbSsOUbs2+f2CivL
+ xbD0Pl9zUM16ItkkX2VqNobboacitJqW7RsDbJ+az2mbC7Bvgp3PgF3T/0V2hUU7Zfqp
+ 6g6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739548394; x=1740153194;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LUeXql4TWDHCjVh3ewbV3baFX6FxknoLfQ1URmQIH8w=;
+ b=Hb21T5WKMfnyGFNevOt6LKLAVWn9dUjoq5rEy6vhMDgOPtZKNCukQ43ciK6YewM6o7
+ em+8EdfRCr7/KGl7qjpHg/vcwfAHUpev1teKbkzl2lKlOwqhzXL7B5b1d2KQ0bftSSEN
+ DQ19aF+F2oW4kDvrk+a43GNVa0dq3P2bLGwn+jZHkoVQu/L2zDVKvxkOAoxmug7QG6sP
+ bEEdHqR/2HIKdXITs/4thBPmyh8QLJHLMdBR+DZvuun8Ytu/gtfw6chd0aaihLC3bUvv
+ Ue0oeQbAmvTqgzjRLjn8WcfVPXujnYS/PjCiefrlmKn5lO3DNXjPLztBp3WbZeaH2DN2
+ BEIw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVKapW3XitWhnomD2zLSHU4Klq5DQxlGF+j4NfzYCznTc+9O+TgO4fWcGUb6y9io1WcVQeK4Bn3SYE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzIZKKZOaJfJ0qUGcP92kMCE4pcME6GnjJks38Rz1HQfvey8phJ
+ oZa9pTFpQqYx7UxqFG/Agt6V98MaGijMXbQlPOI/U1Hu2Tn3HpN6
+X-Gm-Gg: ASbGncv7OOneSSjQKYvLbRwOQBE5qVn/gcvDTqOAN1M05InW5ACC5cNFNrYJxj9r3El
+ 3midc8pFdSQ9TUGIyDUpfxC7slp6jqEAl5JA3KmSxxZOMNPPWiQcwn4F+IDXxYMXV1EoGOhUoQG
+ 7yxWXuvFFCjWfdzR0dmi59Uiq6sthXN2Mae0hr3PvzyNzzWNQlUxHzDO1NArOcvURLMBTt3MGgT
+ 8XAKb6dDjd29oox/jDI1STcAz9lGv5/+6TnYfIyB1r3A80pbPY9RWTV8WuAdktBOTALbVvqn61Q
+ Sc01uV40u9XRnvA=
+X-Google-Smtp-Source: AGHT+IG0lJQY6xjpwwK0gCbW2yA9JBNFByk5LNr2enf7zbh05eh9v7dpT+s+DVjyajrRMWDBxnwtyQ==
+X-Received: by 2002:a05:600c:501f:b0:439:5560:c9a3 with SMTP id
+ 5b1f17b1804b1-43960169713mr107862715e9.6.1739548393929; 
+ Fri, 14 Feb 2025 07:53:13 -0800 (PST)
+Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4395a06c95bsm77848905e9.17.2025.02.14.07.53.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2025 07:53:13 -0800 (PST)
+Date: Fri, 14 Feb 2025 16:53:11 +0100
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/15] drm/vkms: Add a validation function for VKMS
+ configuration
+Message-ID: <Z69m50L8NzcYt45j@fedora>
+References: <20250211110912.15409-1-jose.exposito89@gmail.com>
+ <20250211110912.15409-9-jose.exposito89@gmail.com>
+ <Z6362KrzjLUL6Mj6@louis-chauvet-laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z6362KrzjLUL6Mj6@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,138 +93,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Feb 2025 18:37:14 +0530
-Sumit Garg <sumit.garg@linaro.org> wrote:
+On Thu, Feb 13, 2025 at 02:59:52PM +0100, Louis Chauvet wrote:
+> On 11/02/25 - 12:09, José Expósito wrote:
+> > From: Louis Chauvet <louis.chauvet@bootlin.com>
+> > 
+> > As the configuration will be used by userspace, add a validator to avoid
+> > creating a broken DRM device.
+> > 
+> > For the moment, the function always returns true, but rules will be
+> > added in future patches.
+> > 
+> > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Co-developed-by: José Expósito <jose.exposito89@gmail.com>
+> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> 
+> The compilation is broken when building as module:
+> 
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index b9267aef4804..82335006c94a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -55,6 +55,7 @@ bool vkms_config_is_valid(struct vkms_config *config)
+>  {
+>         return true;
+>  }
+> +EXPORT_SYMBOL_IF_KUNIT(vkms_config_is_valid);
 
-> On Fri, 14 Feb 2025 at 15:37, Jens Wiklander <jens.wiklander@linaro.org> =
-wrote:
-> >
-> > Hi,
-> >
-> > On Thu, Feb 13, 2025 at 6:39=E2=80=AFPM Daniel Stone <daniel@fooishbar.=
-org> wrote: =20
-> > >
-> > > Hi,
-> > >
-> > > On Thu, 13 Feb 2025 at 15:57, Jens Wiklander <jens.wiklander@linaro.o=
-rg> wrote: =20
-> > > > On Thu, Feb 13, 2025 at 3:05=E2=80=AFPM Daniel Stone <daniel@fooish=
-bar.org> wrote: =20
-> > > > > But just because TEE is one good backend implementation, doesn't =
-mean
-> > > > > it should be the userspace ABI. Why should userspace care that TE=
-E has
-> > > > > mediated the allocation instead of it being a predefined range wi=
-thin
-> > > > > DT? =20
-> > > >
-> > > > The TEE may very well use a predefined range that part is abstracted
-> > > > with the interface. =20
-> > >
-> > > Of course. But you can also (and this has been shipped on real
-> > > devices) handle this without any per-allocation TEE needs by simply
-> > > allocating from a memory range which is predefined within DT.
-> > >
-> > > From the userspace point of view, why should there be one ABI to
-> > > allocate memory from a predefined range which is delivered by DT to
-> > > the kernel, and one ABI to allocate memory from a predefined range
-> > > which is mediated by TEE? =20
-> >
-> > We need some way to specify the protection profile (or use case as
-> > I've called it in the ABI) required for the buffer. Whether it's
-> > defined in DT seems irrelevant.
-> > =20
-> > > =20
-> > > > >  What advantage
-> > > > > does userspace get from having to have a different codepath to ge=
-t a
-> > > > > different handle to memory? What about x86?
-> > > > >
-> > > > > I think this proposal is looking at it from the wrong direction.
-> > > > > Instead of working upwards from the implementation to userspace, =
-start
-> > > > > with userspace and work downwards. The interesting property to fo=
-cus
-> > > > > on is allocating memory, not that EL1 is involved behind the scen=
-es. =20
-> > > >
-> > > > From what I've gathered from earlier discussions, it wasn't much of=
- a
-> > > > problem for userspace to handle this. If the kernel were to provide=
- it
-> > > > via a different ABI, how would it be easier to implement in the
-> > > > kernel? I think we need an example to understand your suggestion. =
-=20
-> > >
-> > > It is a problem for userspace, because we need to expose acceptable
-> > > parameters for allocation through the entire stack. If you look at the
-> > > dmabuf documentation in the kernel for how buffers should be allocated
-> > > and exchanged, you can see the negotiation flow for modifiers. This
-> > > permeates through KMS, EGL, Vulkan, Wayland, GStreamer, and more. =20
-> >
-> > What dma-buf properties are you referring to?
-> > dma_heap_ioctl_allocate() accepts a few flags for the resulting file
-> > descriptor and no flags for the heap itself.
-> > =20
-> > >
-> > > Standardising on heaps allows us to add those in a similar way. =20
-> >
-> > How would you solve this with heaps? Would you use one heap for each
-> > protection profile (use case), add heap_flags, or do a bit of both?
+Fixed the issue in all patches, thanks!
+ 
+> > [...]
+> > 
+> > diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> > index fcaa909fb2e0..0376dceaf6be 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_config.h
+> > +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> > @@ -67,6 +67,16 @@ vkms_config_get_device_name(struct vkms_config *config)
+> >  	return config->dev_name;
+> >  }
+> >  
+> > +/**
+> > + * vkms_config_is_valid() - Validate a configuration
+> > + * @config: Configuration to validate
+> > + *
+> > + * Returns:
+> > + * Whether the configuration is valid or not.
+> > + * For example, a configuration without primary planes is not valid.
+> > + */
+> > +bool vkms_config_is_valid(struct vkms_config *config);
+> > +
+> 
+> I think here we can take a const pointer.
+> 
+> >  /**
+> >   * vkms_config_register_debugfs() - Register a debugfs file to show the device's
+> >   * configuration
+> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> > index a74a7fc3a056..95afc39ce985 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> > @@ -204,7 +204,7 @@ struct vkms_config;
+> >  struct vkms_device {
+> >  	struct drm_device drm;
+> >  	struct platform_device *platform;
+> > -	const struct vkms_config *config;
+> > +	struct vkms_config *config;
+> 
+> So we can keep a const pointer here (for me the device should never modify 
+> vkms_config)
 
-I would say one heap per-profile.
+I tryed keeping the const pointer, but, since list_count_nodes() is used in
+several valid_* functions and it takes a non-const pointer, it causes
+warnings.
 
->=20
-> Christian gave an historical background here [1] as to why that hasn't
-> worked in the past with DMA heaps given the scalability issues.
->=20
-> [1] https://lore.kernel.org/dri-devel/e967e382-6cca-4dee-8333-39892d532f7=
-1@gmail.com/
+We can fix them with a cast:
 
-Hm, I fail to see where Christian dismiss the dma-heaps solution in
-this email. He even says:
+  n_planes = list_count_nodes((struct list_head *)&config->planes);
 
-> If the memory is not physically attached to any device, but rather just=20
-memory attached to the CPU or a system wide memory controller then=20
-expose the memory as DMA-heap with specific requirements (e.g. certain=20
-sized pages, contiguous, restricted, encrypted, ...).
+But I feel that keeping the "const" creates more issues than it solves.
 
->=20
-> > =20
-> > > If we
-> > > have to add different allocation mechanisms, then the complexity
-> > > increases, permeating not only into all the different userspace APIs,
-> > > but also into the drivers which need to support every different
-> > > allocation mechanism even if they have no opinion on it - e.g. Mali
-> > > doesn't care in any way whether the allocation comes from a heap or
-> > > TEE or ACPI or whatever, it cares only that the memory is protected.
-> > >
-> > > Does that help? =20
-> >
-> > I think you're missing the stage where an unprotected buffer is
-> > received and decrypted into a protected buffer. If you use the TEE for
-> > decryption or to configure the involved devices for the use case, it
-> > makes sense to let the TEE allocate the buffers, too. A TEE doesn't
-> > have to be an OS in the secure world, it can be an abstraction to
-> > support the use case depending on the design. So the restricted buffer
-> > is already allocated before we reach Mali in your example.
-> >
-> > Allocating restricted buffers from the TEE subsystem saves us from
-> > maintaining proxy dma-buf heaps. =20
+Anyway, if you prefer this pointer to be const, I will change it in v3.
 
-Honestly, when I look at dma-heap implementations, they seem
-to be trivial shells around existing (more complex) allocators, and the
-boiler plate [1] to expose a dma-heap is relatively small. The dma-buf
-implementation, you already have, so we're talking about a hundred
-lines of code to maintain, which shouldn't be significantly more than
-what you have for the new ioctl() to be honest. And I'll insist on what
-Daniel said, it's a small price to pay to have a standard interface to
-expose to userspace. If dma-heaps are not used for this kind things, I
-honestly wonder what they will be used for...
-
-Regards,
-
-Boris
-
-[1]https://elixir.bootlin.com/linux/v6.13.2/source/drivers/dma-buf/heaps/sy=
-stem_heap.c#L314
+Jose
+ 
+> >  };
+> >  
+> >  /*
+> > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> > index 068a7f87ecec..414cc933af41 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_output.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> > @@ -16,6 +16,9 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+> >  	int writeback;
+> >  	unsigned int n;
+> >  
+> > +	if (!vkms_config_is_valid(vkmsdev->config))
+> > +		return -EINVAL;
+> > +
+> >  	/*
+> >  	 * Initialize used plane. One primary plane is required to perform the composition.
+> >  	 *
+> > -- 
+> > 2.48.1
+> > 
