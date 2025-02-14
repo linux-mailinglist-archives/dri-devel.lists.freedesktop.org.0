@@ -2,82 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9086A3624D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 16:53:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A96A3624F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 16:54:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 565A710E347;
-	Fri, 14 Feb 2025 15:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE72710ECFB;
+	Fri, 14 Feb 2025 15:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GYujDMaR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Gu/r7Zts";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C99E210E347
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 15:53:15 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4396740abe9so6372705e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:53:15 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7899310ECFC
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 15:53:58 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-543e4bbcd86so2260320e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:53:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739548394; x=1740153194; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LUeXql4TWDHCjVh3ewbV3baFX6FxknoLfQ1URmQIH8w=;
- b=GYujDMaRKD7Ozv39fes/39ctl4AM8yxxW7laIeRA7NjbgiHTWSqCCcLv+GzCnJhWfF
- pvHPc90gqusNtDvEsFI2rRiGys3mx2Vu3tu+54d9enj19KsExH2QirP6mT/388k39sVY
- WFnCKFgaJ9eSnb1e6ww/HKaOpWxVE++Y4Wv+Aj1/l5aC6+l9NKOfmVamAUA0yflGhOIl
- zBO9OvueBrxLRpg/84k90ZEYQanbLUHIRiXY8erab3j3LV1AzaSnQbSsOUbs2+f2CivL
- xbD0Pl9zUM16ItkkX2VqNobboacitJqW7RsDbJ+az2mbC7Bvgp3PgF3T/0V2hUU7Zfqp
- 6g6g==
+ d=linaro.org; s=google; t=1739548437; x=1740153237; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=HS3uecu9TMJRaOEOUKVJiydyZFBfgEQCXWB2WvE0/0A=;
+ b=Gu/r7ZtsLDI/dWxVqUBAd7L3oEquvQXuPA1hULXUw4Qvqul/gTQATeGqNUBF9KvxXp
+ Fv55mrskM0zs64djQH8o4BsWvfKPYuzGidxpb/Wi4O9POiuXtla43CYx/XPw978yGVim
+ LXuyH3mRFApUwaeaAbYq5HbA7cxNegm6Bg/1HGEOsRReg+M+NYvqZJaA+DgLUR+5fH6q
+ z0mGM2Xb1uuRBeQ572VuNVlVqLyEPt0D9VnM/+nvipMjeGn5pVQGrRGCB7KOll8aNWEm
+ BHL5bQkZtUUA9eJzAhPxciwohR5jDNQzPgYr2K8J/JlCfUi5bTg5zpnA8VBTKex113/K
+ fx1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739548394; x=1740153194;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LUeXql4TWDHCjVh3ewbV3baFX6FxknoLfQ1URmQIH8w=;
- b=Hb21T5WKMfnyGFNevOt6LKLAVWn9dUjoq5rEy6vhMDgOPtZKNCukQ43ciK6YewM6o7
- em+8EdfRCr7/KGl7qjpHg/vcwfAHUpev1teKbkzl2lKlOwqhzXL7B5b1d2KQ0bftSSEN
- DQ19aF+F2oW4kDvrk+a43GNVa0dq3P2bLGwn+jZHkoVQu/L2zDVKvxkOAoxmug7QG6sP
- bEEdHqR/2HIKdXITs/4thBPmyh8QLJHLMdBR+DZvuun8Ytu/gtfw6chd0aaihLC3bUvv
- Ue0oeQbAmvTqgzjRLjn8WcfVPXujnYS/PjCiefrlmKn5lO3DNXjPLztBp3WbZeaH2DN2
- BEIw==
+ d=1e100.net; s=20230601; t=1739548437; x=1740153237;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HS3uecu9TMJRaOEOUKVJiydyZFBfgEQCXWB2WvE0/0A=;
+ b=G8noWH0FFKWErPQBNbaCMK+41Hbax5o/tOGxAsmwoyvSoV26eypIQls8LWQZdaQ8yP
+ fYc2kKiu9kUCm2Ksnnw5Z49CQa2CEX7tuaQsPaPVeYkNMOVYTjw3qq/89jULNXpF/meC
+ TonUDGrs+LDT7E+3ALAOY3JbjeZHbLD72LFav3OL37hmDIbdDpQkLSq0TSZLgBMtbSb0
+ rdteu/CoOqqk9nrrwCxrSysmL8p+aynTT4EWvoP297eF6wQ5/CfqbvWN0r4MhAWYYl4m
+ B+OFaJN1hEGUxVFzmdiDd5fwnQYt3+C1HCyixW70yJaqFIYgCdR11cFf8ZYEWzb0qnR8
+ z1zw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVKapW3XitWhnomD2zLSHU4Klq5DQxlGF+j4NfzYCznTc+9O+TgO4fWcGUb6y9io1WcVQeK4Bn3SYE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIZKKZOaJfJ0qUGcP92kMCE4pcME6GnjJks38Rz1HQfvey8phJ
- oZa9pTFpQqYx7UxqFG/Agt6V98MaGijMXbQlPOI/U1Hu2Tn3HpN6
-X-Gm-Gg: ASbGncv7OOneSSjQKYvLbRwOQBE5qVn/gcvDTqOAN1M05InW5ACC5cNFNrYJxj9r3El
- 3midc8pFdSQ9TUGIyDUpfxC7slp6jqEAl5JA3KmSxxZOMNPPWiQcwn4F+IDXxYMXV1EoGOhUoQG
- 7yxWXuvFFCjWfdzR0dmi59Uiq6sthXN2Mae0hr3PvzyNzzWNQlUxHzDO1NArOcvURLMBTt3MGgT
- 8XAKb6dDjd29oox/jDI1STcAz9lGv5/+6TnYfIyB1r3A80pbPY9RWTV8WuAdktBOTALbVvqn61Q
- Sc01uV40u9XRnvA=
-X-Google-Smtp-Source: AGHT+IG0lJQY6xjpwwK0gCbW2yA9JBNFByk5LNr2enf7zbh05eh9v7dpT+s+DVjyajrRMWDBxnwtyQ==
-X-Received: by 2002:a05:600c:501f:b0:439:5560:c9a3 with SMTP id
- 5b1f17b1804b1-43960169713mr107862715e9.6.1739548393929; 
- Fri, 14 Feb 2025 07:53:13 -0800 (PST)
-Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4395a06c95bsm77848905e9.17.2025.02.14.07.53.13
+ AJvYcCUmNhdCd3gkcHnXXtM8eNmkviSCzlM7kE1WJPlaP/6DyHr3LCDizt/dgeGYOmPekIvxbJFO5DcDAMU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxAkZCOrR1tpOIs796xsPvFJ4cjj0wCPbhrg/p9gs9k3STqbSH5
+ YJAugeboiMeMzfeQMLt15b+Pgacry3Gjayvb5+zGPmGtzItctxUgFkEMToiob7A=
+X-Gm-Gg: ASbGncsxqnqyALQztliBrh8sPmadzUuavFm2e9G2wwyGSXBjP7WFjaSC22e4TFaFlN+
+ M+jjYfrWFXUuA6Q6FUqXhmNGSkG0FZBNpx2mfwzABlI1vO827QXUU95rjipU1E47XIbhU2xEPLa
+ /QC1FzvnvkYQqQacntkYnmXrTEq1zXN9mcQ92/ytJW0Rhe7LVyBaW9DPSVxClExOFdUWUynxNdZ
+ SXRL4tYXsw2RJg6XrGOQvhdSwXm3g793hawWqO7S9lwpsevDzizMJ2nzq6zCIUtV4iyfHUvsmMu
+ NOlOjVbFPc6MpfW+chVfS1bV3UaQIKxfAifUAtoe2bislaZx6qL720ussyre8/Ai6s0r3nk=
+X-Google-Smtp-Source: AGHT+IFktQPbauJ0wmVAOA4Ond5xWCTpVxR1gtGYr0ljgsIR7j0dZM8PNLyip+zKlVCTBnd9Mquj6w==
+X-Received: by 2002:a05:6512:230d:b0:543:e406:6363 with SMTP id
+ 2adb3069b0e04-545180e5dd9mr4710520e87.3.1739548436771; 
+ Fri, 14 Feb 2025 07:53:56 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5451f0834desm566000e87.37.2025.02.14.07.53.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2025 07:53:13 -0800 (PST)
-Date: Fri, 14 Feb 2025 16:53:11 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/15] drm/vkms: Add a validation function for VKMS
- configuration
-Message-ID: <Z69m50L8NzcYt45j@fedora>
-References: <20250211110912.15409-1-jose.exposito89@gmail.com>
- <20250211110912.15409-9-jose.exposito89@gmail.com>
- <Z6362KrzjLUL6Mj6@louis-chauvet-laptop>
+ Fri, 14 Feb 2025 07:53:55 -0800 (PST)
+Date: Fri, 14 Feb 2025 17:53:53 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] drm/msm/dsi: Drop redundant NULL-ifying of clocks
+ on error paths
+Message-ID: <e4u52y7mvalcqncjwpwavmw3xevp7pgdshp75rjmk7sddmhg4z@5m2fmm4qzuaz>
+References: <20250214-drm-msm-cleanups-v2-0-1bec50f37dc1@linaro.org>
+ <20250214-drm-msm-cleanups-v2-1-1bec50f37dc1@linaro.org>
+ <aarbydttw4zexzkorcr4yb4swscw3crn65u6eactutpfgpnt4y@fg4zyd45xwln>
+ <a0391156-8d37-4595-a490-2b828170ab65@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z6362KrzjLUL6Mj6@louis-chauvet-laptop>
+In-Reply-To: <a0391156-8d37-4595-a490-2b828170ab65@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,107 +97,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 02:59:52PM +0100, Louis Chauvet wrote:
-> On 11/02/25 - 12:09, José Expósito wrote:
-> > From: Louis Chauvet <louis.chauvet@bootlin.com>
+On Fri, Feb 14, 2025 at 04:28:45PM +0100, Krzysztof Kozlowski wrote:
+> On 14/02/2025 16:22, Dmitry Baryshkov wrote:
+> > On Fri, Feb 14, 2025 at 02:17:44PM +0100, Krzysztof Kozlowski wrote:
+> >> dsi_clk_init(), which gets the clocks, is called only through platform
+> >> driver probe and its failure is a failure of the probe.  Therefore
+> >> NULL-ifying specific clocks is pointless and redundant - the PTR_ERR
+> >> value stored there won't be used/dereferenced afterwards.  What's more,
+> >> variant-specific clock init calls like dsi_clk_init_6g_v2() are not
+> >> doing this cleanup.  Dropping redundant code allows later to make this a
+> >> bit simpler.
+> >>
+> >> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> ---
+> >>  drivers/gpu/drm/msm/dsi/dsi_host.c | 3 ---
+> >>  1 file changed, 3 deletions(-)
+> >>
 > > 
-> > As the configuration will be used by userspace, add a validator to avoid
-> > creating a broken DRM device.
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > 
-> > For the moment, the function always returns true, but rules will be
-> > added in future patches.
-> > 
-> > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Co-developed-by: José Expósito <jose.exposito89@gmail.com>
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> The compilation is broken when building as module:
 > 
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index b9267aef4804..82335006c94a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -55,6 +55,7 @@ bool vkms_config_is_valid(struct vkms_config *config)
->  {
->         return true;
->  }
-> +EXPORT_SYMBOL_IF_KUNIT(vkms_config_is_valid);
+> Thanks for reviews. Both you and Abhinav reviewed, so I assume this will
+> be applied by Rob?
 
-Fixed the issue in all patches, thanks!
- 
-> > [...]
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> > index fcaa909fb2e0..0376dceaf6be 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_config.h
-> > +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> > @@ -67,6 +67,16 @@ vkms_config_get_device_name(struct vkms_config *config)
-> >  	return config->dev_name;
-> >  }
-> >  
-> > +/**
-> > + * vkms_config_is_valid() - Validate a configuration
-> > + * @config: Configuration to validate
-> > + *
-> > + * Returns:
-> > + * Whether the configuration is valid or not.
-> > + * For example, a configuration without primary planes is not valid.
-> > + */
-> > +bool vkms_config_is_valid(struct vkms_config *config);
-> > +
-> 
-> I think here we can take a const pointer.
-> 
-> >  /**
-> >   * vkms_config_register_debugfs() - Register a debugfs file to show the device's
-> >   * configuration
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> > index a74a7fc3a056..95afc39ce985 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> > @@ -204,7 +204,7 @@ struct vkms_config;
-> >  struct vkms_device {
-> >  	struct drm_device drm;
-> >  	struct platform_device *platform;
-> > -	const struct vkms_config *config;
-> > +	struct vkms_config *config;
-> 
-> So we can keep a const pointer here (for me the device should never modify 
-> vkms_config)
+I will pick it up once Abhinav posts msm-fixes
 
-I tryed keeping the const pointer, but, since list_count_nodes() is used in
-several valid_* functions and it takes a non-const pointer, it causes
-warnings.
-
-We can fix them with a cast:
-
-  n_planes = list_count_nodes((struct list_head *)&config->planes);
-
-But I feel that keeping the "const" creates more issues than it solves.
-
-Anyway, if you prefer this pointer to be const, I will change it in v3.
-
-Jose
- 
-> >  };
-> >  
-> >  /*
-> > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> > index 068a7f87ecec..414cc933af41 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_output.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> > @@ -16,6 +16,9 @@ int vkms_output_init(struct vkms_device *vkmsdev)
-> >  	int writeback;
-> >  	unsigned int n;
-> >  
-> > +	if (!vkms_config_is_valid(vkmsdev->config))
-> > +		return -EINVAL;
-> > +
-> >  	/*
-> >  	 * Initialize used plane. One primary plane is required to perform the composition.
-> >  	 *
-> > -- 
-> > 2.48.1
-> > 
+-- 
+With best wishes
+Dmitry
