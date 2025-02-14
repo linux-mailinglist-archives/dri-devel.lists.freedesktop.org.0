@@ -2,70 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190DBA36378
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:47:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008B9A36388
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:49:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE2510ED17;
-	Fri, 14 Feb 2025 16:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 763FC10E359;
+	Fri, 14 Feb 2025 16:49:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bnWnExxM";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MUeLfzWy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E61C10ED20
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739551639;
- bh=Ul8bJcoa1UeRoq+WHpkzGXrCHhO6mwX+QQKOAmstXYE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bnWnExxMRlY8WBeMoWVE9HFeXHHiITdgfr4YGf5kE8U/s4Q7NUuT1tR2upLnzkpNe
- KYo2UHQwYKpDq1SPQy0Dx7+slz8mQhkb6BRbCPGSO6oLGIFSbU5M95Liq5WtllmSoL
- +kD9QZes8d4zjWGp4QrWTNOapeU1rFr5YxEhVcyiLJXNvkDkwYEYNtJjGWTlIUBYHN
- cfuyWStd3ujy9KLNr70yKimu4EqNgZxIXldRwlHDTuyLBFf7FjXE1041ahsjYQpS1I
- DEIStI+3QdqCzFURAc3U20Ix6CNXVw2zJoPCT9dqmctGoE68fKe9K+qqd5KE/jECzE
- Cvgk3EfgtzU2A==
-Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 25AE617E0FBA;
- Fri, 14 Feb 2025 17:47:16 +0100 (CET)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Niklas Cassel <cassel@kernel.org>, Dragan Simic <dsimic@manjaro.org>,
- FUKAUMI Naoki <naoki@radxa.com>, Johan Jonker <jbx6244@gmail.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Algea Cao <algea.cao@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Quentin Schulz <quentin.schulz@cherry.de>
-Subject: [PATCH RESEND v6 3/3] arm64: dts: rockchip: Enable HDMI0 audio output
- for Rock 5B
-Date: Fri, 14 Feb 2025 11:44:02 -0500
-Message-ID: <20250214164528.534278-4-detlev.casanova@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250214164528.534278-1-detlev.casanova@collabora.com>
-References: <20250214164528.534278-1-detlev.casanova@collabora.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12F0610E359
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:49:06 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51EAGEQ9015721;
+ Fri, 14 Feb 2025 16:49:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ uPmQZ9PjSGkdx588ScYw+GYTKxOUKKzMW66/jsuSfbw=; b=MUeLfzWytOZ+W1Ix
+ 2WwZPyXDTXU3yQQmUPbrKLr3wehX+QxJf/J9juNdj/sSHsSvbumiiFpR82HlC41R
+ tMjceC5UtMUMsSuj4aTRx3PIhTJ8kb/+FL8wytG7wZHOJgydtywBW1fjlZwaVhTf
+ 7kiIH5zuL9qhStKURIMFr72+nC6p0Qhl2db75+xFkcEskWPIYCaBlAKtqzII1Fzp
+ kspBpmaZY0lDwwAob57Mg/NcBkOGeAs5RJjjsJXmnILru3qBT1GSMzqnSnTNyoV9
+ 0Mscrp4jxph71eC9Bd4zT4Hxwi7pXpO7/zbQi/+KYUj11/5bTBLvKsghyRc6WGDG
+ uug1Qw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44rgpgrvsd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Feb 2025 16:49:02 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51EGn2s3001967
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Feb 2025 16:49:02 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Feb
+ 2025 08:49:01 -0800
+Message-ID: <794746b9-6b17-df7c-24a4-abde7701d041@quicinc.com>
+Date: Fri, 14 Feb 2025 09:49:01 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 2/6] accel/ivpu: Prevent runtime suspend during context
+ abort work
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <oded.gabbay@gmail.com>, <maciej.falkowski@linux.intel.com>, Andrzej
+ Kacprowski <Andrzej.Kacprowski@intel.com>
+References: <20250204084622.2422544-1-jacek.lawrynowicz@linux.intel.com>
+ <20250204084622.2422544-3-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20250204084622.2422544-3-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: WLUnaaBYD9XCKGjEwea33an6-mESGMPi
+X-Proofpoint-GUID: WLUnaaBYD9XCKGjEwea33an6-mESGMPi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-14_07,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=680
+ priorityscore=1501 mlxscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 phishscore=0 malwarescore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
+ definitions=main-2502140118
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,41 +93,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI audio is available on the Rock 5B HDMI TX port.
-Enable it.
+On 2/4/2025 1:46 AM, Jacek Lawrynowicz wrote:
+> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+> 
+> Increment the runtime PM counter when entering
+> ivpu_context_abort_work_fn() to prevent the device
+> from suspending while the function is executing.
 
-Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Why should suspend be prevented during the abort fn?
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d597112f1d5b8..88ff5d9db2817 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -204,6 +204,10 @@ &gpu {
- 	status = "okay";
- };
- 
-+&hdmi0_sound {
-+	status = "okay";
-+};
-+
- &hdmi0 {
- 	status = "okay";
- };
-@@ -318,6 +322,10 @@ i2s0_8ch_p0_0: endpoint {
- 	};
- };
- 
-+&i2s5_8ch {
-+	status = "okay";
-+};
-+
- &package_thermal {
- 	polling-delay = <1000>;
- 
--- 
-2.48.1
-
+-Jeff
