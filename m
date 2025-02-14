@@ -2,83 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D317EA35F12
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 14:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F23A35F13
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 14:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5608110EC8B;
-	Fri, 14 Feb 2025 13:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083E110EC8E;
+	Fri, 14 Feb 2025 13:29:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xwhk3H+4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lYhXLXeC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4957510EC8B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 13:29:13 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-38de17a5fc9so1096495f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 05:29:13 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A889910EC8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 13:29:17 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-308f4436cb1so31397761fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 05:29:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739539752; x=1740144552; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IWvbnHy+eruaNnpFjCJCWrVsj6FgpclpeKV+qjRmKSY=;
- b=Xwhk3H+4o4JeZgcKSmqdcRDQnRIkwtoM5Illy6O8TQGPHRwDM2JYLwKZf3HHxYImR8
- MuOOfNg8E0ZzXohPhIWCKmNInlphVR+Xl0zEelCFGE95g+NqAlQ+a/VTp+0kRHr2vY8W
- YLw+A4pO+Tdm7K0xI8JvxSGJVIj8UPNrup3pSL+CMe57V+DqN/sGXYHrOUEfDGQow64S
- mPqCIkMZo0bBH9k46IFtvKWNIxp3lrdbHgqShtOe5XXOsxA8T5RUNRqpsAAUPLna3a+x
- 4IekmHNBqJRWmRSYAfDe5Gcd30sITG7TYK0WHrxafKh9644O6Iyi3YChtp7tJivqXdd+
- nl+A==
+ d=linaro.org; s=google; t=1739539756; x=1740144556; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=GckW9SgjVb4uOUm4nzkhOEDjrIncX3PrBzD3QPYjQIA=;
+ b=lYhXLXeC5gt1coyRXyOxqmJqVFFdIzUVIYsZUIje7KLMxLJW5iRCyYkV2DljHA3xdS
+ sEJSTlZVww+5hACsN6LYOy0Z0TYNJ7tC+44u3vCzE33fLZ/XuOgbKsXmbAfxueIIWSuj
+ eBChGf9523fDNaE4OUq4MoMEQZD+WppbwjH9fMFn3COSCDacyUJpdA+MOMBKaUuVDp5A
+ 9FTULdRd0RUXi/+yIkc3Pub4/9/AkU2Mc8Ohl3+ayZmXefe1HCeW9CrQElp4V+BeH5bX
+ NuSAbaU5NP2yzyR3wX7f96NzOBF4deCCAhUCRxa3gIbRc5VEb/fGdKCRzM84MvtDlQ7x
+ XpEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739539752; x=1740144552;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IWvbnHy+eruaNnpFjCJCWrVsj6FgpclpeKV+qjRmKSY=;
- b=dt6yTOx8dYtTO5niB4ijy+YDhPAYrAHaEjZdCBKl3xI8Z/ZCwrJy/urAeLIg8Ssww1
- QnmpUV3DQr9W5z+3OSsEebVbeEYfaGGwDaYBzXRL2O1AGAAap2Rv5etrv+dhyVmMFy3B
- Wce6KPfTBk3MtdxJNLYDB0XDW2LvrCTWg9lilsDxNqzUC1oSlruQ8qEaIaHKC7DG17ci
- k5Gv21pcww7bRmF2wkBQn0XDhW/Npd/6H3N+5IOTv14w4p1+nP8VBftTImzE81hrRBOW
- 6dloU/Y5dVWT29kkb4Ay0a2t6tjMZsNx3gpZkpSkIFQc1eneAvwyJ0LKmsFvJO9SM5tm
- q3cw==
+ d=1e100.net; s=20230601; t=1739539756; x=1740144556;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GckW9SgjVb4uOUm4nzkhOEDjrIncX3PrBzD3QPYjQIA=;
+ b=Bl/E7qP/dBOSKq93jy3FZrlkh4z5nfBw20WlHgxPPtFISWY4tpL8RldULNJViIzgDJ
+ Kp4DgtWCe8TMHFOb3MBFmXbZZ0BgfBL+AHYX9jd8aXkl6r3QdVHXasZv5xhunrvjrGnW
+ 5A63I0m+hZppX5W4dCJlyAyuuYf0imoWb/zP40K/yrVK5Xl4mwd7B4zivSowp5Iv9RtC
+ NMUQRIJAyQlHYYaBXTB4z90keAKC6oWS/nt0FTSTAHTittTBGERM3R/aurX6L6EiiJ5T
+ g32eEfG7aBnk8AQBc5YmVbOJanUfPVPuNw0Ohahz89gk8iWivrw7VZvEYRX5EWwbEOzf
+ /MNA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWZ+Mki37/A+22417NmQHAWX/fdfd/DyldfNvyWjgTrFJkb0VOsqBn/KZO9eJjSDofhOXqtJPK8Rlw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxT2PkTbhMWG+CjcsT6P+EezbxBhfd6yv38O8NUWYAuIxL4wOMo
- mD8zulm2CIHK78XGzOjxQBnJbiH4SspOkiY2pGomBFj+dlzkZ03S
-X-Gm-Gg: ASbGncslqd5RyCypj3MVttotdSBDtMiUAzp6c5wJf1JmHi60/DcwU1xBraxNPkIHUOd
- q+p37CNOBfPcBmT8HpuHCb6HFok+ENPmUGpGNUQpXm4St9Xt9XlaWoTXq8Dws02Ixw00kprSlHZ
- re8JWRLJCFcfx2WaAItVzR17GgJGlXcbNvNJ9xkEpd3LqbpNXUr3CDz+uWAAPPinegU6xe8WcIy
- Z0DZJOT7qMX7aYEyhn0mk/jJkBX2NIBqZX6RueuxpQwVm93AQfgAcXUmh/Lce6NssBB+qlkXLVV
- iKw0edIaFtQJXnNyAfc870EX8SXetJDIcf9dntmActuKpToQ7dxtvA==
-X-Google-Smtp-Source: AGHT+IE/R0eXpSQdfNv8gz8NRaW1uh9+V+AeTS/4r/DrR2DWuIssTfwwnBlOlf91MqFEjlffVrFhSw==
-X-Received: by 2002:a5d:6382:0:b0:38d:d18e:8811 with SMTP id
- ffacd0b85a97d-38f244e960amr7186462f8f.25.1739539751489; 
- Fri, 14 Feb 2025 05:29:11 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+ AJvYcCVrhiTuNYI0je5ZyVgIlXApj1q1h+dTqr57Xw33bnFe/DxBfr6gdt2PiO/FcP2R/rlzja3RYdr+qUw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxuM9YT4u5DzSg4vA0WbOasXtqmcqr/+Yrbbo4m65VUogDqhbFQ
+ q/KKS4YVH9XWW9ytZvNH4afHpXOB9i30IR83qqqQT4ttfTtoP2ivzpfPrHP0RBA=
+X-Gm-Gg: ASbGnct4GzM4MKfLdo1461DAe/92POWJrhem0YZPWzNmcj7lkNtyZpa1rD3iLSiDf8I
+ s2jQMLFzVrQaBYM3t5x6bI+qc5I8k+mzB1WKczozmoXkNJOmzpZXAsdqikgh8Ckmg0mRXDtT7/q
+ 6qLXKJ9pb6W1wUP/J1wt7dr8qMJySr9F2gySYIEju/fmVZ00UQecJ54ma+cEGd+pW8m2qzqBZbi
+ tuTFBz27F6sN1OHbYYJbDi5lUDOy9CWkiaIoN+DBKnd1Ji1YLGRZyXuRubbjR/KiZGR0bk8t7RF
+ jwUdRQ+KVPt5td47Ae23ebxTLrTdLq/knQ6gTQd2OP1NWI4wyZMlVuLozhAdxPefY8EIgzM=
+X-Google-Smtp-Source: AGHT+IFKrTe1qOLXvbGIJXg+EWgQKwS3o7giu2lqYZTaorNRk1NGxn7QVCdOwKf+9Z3tm3rgrJjXzw==
+X-Received: by 2002:a2e:91d2:0:b0:308:e9d4:7ccf with SMTP id
+ 38308e7fff4ca-3090f11c8cfmr22400311fa.4.1739539755893; 
+ Fri, 14 Feb 2025 05:29:15 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4396180f199sm44329255e9.15.2025.02.14.05.29.10
+ 38308e7fff4ca-309221d7074sm1604541fa.102.2025.02.14.05.29.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2025 05:29:11 -0800 (PST)
-Date: Fri, 14 Feb 2025 13:29:10 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Alex Lanzano <lanzano.alex@gmail.com>
-Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Noralf =?UTF-8?B?VHI=?=
- =?UTF-8?B?w7hubmVz?= <noralf@tronnes.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] drm/repaper: fix integer overflows in repeat functions
-Message-ID: <20250214132910.2611f9cd@pumpkin>
-In-Reply-To: <ejsf4dwcyg7j4wdpdtbs56lbwokzlq65fxn2gxio4l5xg6di2r@pmnpafv3nwxz>
-References: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
- <ejsf4dwcyg7j4wdpdtbs56lbwokzlq65fxn2gxio4l5xg6di2r@pmnpafv3nwxz>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+ Fri, 14 Feb 2025 05:29:14 -0800 (PST)
+Date: Fri, 14 Feb 2025 15:29:12 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 32/37] drm/bridge: Make encoder pointer deprecated
+Message-ID: <yy37e4kne7i2hl7coix6v7vajb5bm4zohod4fdzayvxr52l57u@cxturs2uxgcm>
+References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-32-e71598f49c8f@kernel.org>
+ <nfb4fb6lzjw4j5brsh242htgw3au2moklqjalfa3zzxjsi2qn5@l3censelmgbz>
+ <20250214-arrogant-strong-hoatzin-efdcd8@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250214-arrogant-strong-hoatzin-efdcd8@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,70 +98,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Feb 2025 20:54:59 -0500
-Alex Lanzano <lanzano.alex@gmail.com> wrote:
-
-> On Thu, Jan 16, 2025 at 05:48:01AM -0800, Nikita Zhandarovich wrote:
-> > There are conditions, albeit somewhat unlikely, under which right hand
-> > expressions, calculating the end of time period in functions like
-> > repaper_frame_fixed_repeat(), may overflow.
+On Fri, Feb 14, 2025 at 02:07:18PM +0100, Maxime Ripard wrote:
+> On Thu, Feb 13, 2025 at 06:35:15PM +0200, Dmitry Baryshkov wrote:
+> > On Thu, Feb 13, 2025 at 03:43:51PM +0100, Maxime Ripard wrote:
+> > > Other entities (drm_connector.crtc, drm_encoder.crtc, etc.) have
+> > > pointer to other currently bound entities. They are all considered
+> > > relevant only for non-atomic drivers, and generally perceived as
+> > > deprecated in favour of the equivalent pointers in the atomic states.
 > > 
-> > For instance, if 'factor10x' in repaper_get_temperature() is high
-> > enough (170), as is 'epd->stage_time' in repaper_probe(), then the
-> > resulting value of 'end' will not fit in unsigned int expression.
-> > 
-> > Mitigate this by casting 'epd->factored_stage_time' to wider type before
-> > any multiplication is done.
-> > 
-> > Found by Linux Verification Center (linuxtesting.org) with static
-> > analysis tool SVACE.
-> > 
-> > Fixes: 3589211e9b03 ("drm/tinydrm: Add RePaper e-ink driver")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> > ---
-> >  drivers/gpu/drm/tiny/repaper.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-> > index 77944eb17b3c..d76c0e8e05f5 100644
-> > --- a/drivers/gpu/drm/tiny/repaper.c
-> > +++ b/drivers/gpu/drm/tiny/repaper.c
-> > @@ -456,7 +456,7 @@ static void repaper_frame_fixed_repeat(struct repaper_epd *epd, u8 fixed_value,
-> >  				       enum repaper_stage stage)
-> >  {
-> >  	u64 start = local_clock();
-> > -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
-> > +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
-> >  
-> >  	do {
-> >  		repaper_frame_fixed(epd, fixed_value, stage);
-> > @@ -467,7 +467,7 @@ static void repaper_frame_data_repeat(struct repaper_epd *epd, const u8 *image,
-> >  				      const u8 *mask, enum repaper_stage stage)
-> >  {
-> >  	u64 start = local_clock();
-> > -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
-> > +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
-> >  
-> >  	do {
-> >  		repaper_frame_data(epd, image, mask, stage);  
+> > I think there is a significant difference between mentioned fields and
+> > drm_bridge.encoder: the former fields are variable and can change. The
+> > latter one is static and set at the bridge attachment time. Nevertheless
+> > I think it is a good idea to deprecate it.
 > 
-> It might be best to change the underlying type in the struct instead of
-> type casting
+> I'm sorry, it's not clear to me here what you want here either. Do you
+> want me to change anything to that patch?
 
-That'll just make people think there is a different overflow.
-It'd also force the compiler to use a wider multiply.
+Well... I was thinking if we should expand the commit message. Most
+likely it's fine though. In the end, I've r-b'ed the patch.
 
-A more subtle approach is to change the type of the first 1000 to 1000ull.
-
-Personally I like to see the units on variables containing times (x_s, _ms, _ns)
-since it makes off-by-1000 errors less likely and you can more easily tell
-whether overflow if likely.
-
-	David 
-
-> 
-> Best regards,
-> Alex
-> 
-
+-- 
+With best wishes
+Dmitry
