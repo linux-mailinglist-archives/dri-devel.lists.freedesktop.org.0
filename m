@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E24AA35E0E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E008DA35E0C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 13:58:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C552C10E2FF;
-	Fri, 14 Feb 2025 12:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B086D10E2CA;
+	Fri, 14 Feb 2025 12:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cggVE+dV";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KbJJsf6L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8EE10E2C7
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:58:02 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C7174442C7;
- Fri, 14 Feb 2025 12:57:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95BC210E2CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 12:58:03 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2EE2B43284;
+ Fri, 14 Feb 2025 12:58:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739537881;
+ t=1739537882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UNMZyvxc0bPEyxcdIF6y2HJTi0rTSYjc0h8tGgTXeJE=;
- b=cggVE+dVkwbD1Q8sKobxPiPdRs7uck+1/EhI1hU6SPIA8k6odXJddHewbiA3kxz/f9n/w7
- 9OKuxkVRMidnMNIIMrXcIjlqdGbqcaAHSLkYaaAaNVTZG/hAe2dVChgbn+bs2zvi+uG+fP
- WPHhtiOc43zLqr9qZUtoPToRaYKHXK5u6MaXNUwLCxqKJ7flP5FbK6qgqi1qNrhX/DfGjN
- fQa+qkicOTW+VM6OpdX+eV6nYEBbPaPZGvKUu9Fq52DOVnUeVLYHOhUEkiFbRSVI6F1ebX
- huH2vvxQCImET9xedx3gg7szZShHaJ/qvrIYTGDzH6QVg40iFZv9RjNncHR16Q==
+ bh=KyQCgUS1MybpUVXVT/LSuOicMg7kvzuy+1Qn1HR86tw=;
+ b=KbJJsf6L5oLSV9Vz/SXni44dNvYnXEGy03t7/xaOilguPYL+21tta7fztXLjzRm7pG4S0I
+ Eq0S2tYJEBNZNsF87NKFzMR4dFJxu7xUfnVwwVDuUaIugGa3jGPGT9/rFUfVV0QIRbOQNd
+ KD1AkeA93VTAzZwuJBjrcXhuuu7PmnaCpo381z/5P/2uxAWOOsWNVdZCO9zEblsSVAv3RL
+ BlJLqONzx1v6o2VsMjOWby6m8jRbvnDOK389L24h9GWEXV9AUgPNkVs/1KGnk30+hBQGnt
+ Ftg7aZ76WPAB+DzmoP4yQ1bPUkcnYxQ4OU+fZFyD53d8nnsaPoHoBcJ7SPRILw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 14 Feb 2025 13:57:43 +0100
-Subject: [PATCH v7 4/5] drm/bridge: panel: drm_panel_bridge_remove: warn
- when called on non-panel bridge
+Date: Fri, 14 Feb 2025 13:57:44 +0100
+Subject: [PATCH v7 5/5] drm/bridge: panel: forbid initializing a panel with
+ unknown connector type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250214-drm-assorted-cleanups-v7-4-88ca5827d7af@bootlin.com>
+Message-Id: <20250214-drm-assorted-cleanups-v7-5-88ca5827d7af@bootlin.com>
 References: <20250214-drm-assorted-cleanups-v7-0-88ca5827d7af@bootlin.com>
 In-Reply-To: <20250214-drm-assorted-cleanups-v7-0-88ca5827d7af@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,37 +73,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This function is for panel_bridge instances only. The silent return when
-invoked on other bridges might hide actual errors, so avoid them to go
-unnoticed.
+Having an DRM_MODE_CONNECTOR_Unknown connector type is considered bad, and
+drm_panel_bridge_add_typed() and derivatives are deprecated for this.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+drm_panel_init() won't prevent initializing a panel with a
+DRM_MODE_CONNECTOR_Unknown connector type. Luckily there are no in-tree
+users doing it, so take this as an opportinuty to document a valid
+connector type must be passed.
+
+Returning an error if this rule is violated is not possible because
+drm_panel_init() is a void function. Add at least a warning to make any
+violations noticeable, especially to non-upstream drivers.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
 
-Changes in v7: none
+Changed in v7:
+- fix typo in commit message
+- rebased on v6 (applies to drm_panel, not bridge/panel.c)
 
 This patch was added in v6.
 ---
- drivers/gpu/drm/bridge/panel.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 0c5db13b11dcb90ee88b9932b91aa05fc48d59bd..c57036b06493a6922e2cae38bcd1733930ff0073 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -322,8 +322,10 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
- 	if (!bridge)
- 		return;
- 
--	if (!drm_bridge_is_panel(bridge))
-+	if (!drm_bridge_is_panel(bridge)) {
-+		drm_warn(bridge->dev, "%s: called on non-panel bridge!\n", __func__);
- 		return;
-+	}
- 
- 	panel_bridge = drm_bridge_to_panel_bridge(bridge);
- 
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index 9940e96d35e302080c32b49154bbf19a51c0665e..c627e42a7ce70459f50eb5095fffc806ca45dabf 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -50,7 +50,7 @@ static LIST_HEAD(panel_list);
+  * @dev: parent device of the panel
+  * @funcs: panel operations
+  * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) corresponding to
+- *	the panel interface
++ *	the panel interface (must NOT be DRM_MODE_CONNECTOR_Unknown)
+  *
+  * Initialize the panel structure for subsequent registration with
+  * drm_panel_add().
+@@ -58,6 +58,9 @@ static LIST_HEAD(panel_list);
+ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+ 		    const struct drm_panel_funcs *funcs, int connector_type)
+ {
++	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
++		DRM_WARN("%s: %s: a valid connector type is required!\n", __func__, dev_name(dev));
++
+ 	INIT_LIST_HEAD(&panel->list);
+ 	INIT_LIST_HEAD(&panel->followers);
+ 	mutex_init(&panel->follower_lock);
 
 -- 
 2.48.1
