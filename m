@@ -2,91 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96917A36292
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:02:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39660A362A1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:05:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14D3410E34F;
-	Fri, 14 Feb 2025 16:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77C9F10ECFC;
+	Fri, 14 Feb 2025 16:05:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kTiq+mWH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R5F0m4TH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B3310ECFE
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:02:41 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-30737db1aa9so21793941fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 08:02:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739548960; x=1740153760; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Ni8M+7fnHjZEMfJNA97DV1PZ1vn01NK3p1wwHVgLyMQ=;
- b=kTiq+mWHL9r30+gv4kdT1eAYbflqvN0nc5wEdhXn5HD2UsLSaD12rH543hgHBcbJLL
- QRvwrex4IpcRICEzD5CQcoqItgzAZZtVk97ILdcXjYv7ln6Ru61+IESOf5lottIOlgsb
- kmfA8/s0NyAEYroMZmkNH8QPJjMrZqcFO3iFFJ+hd7K1k+g/HfXWlURz8I6d5wWLT53g
- Ynx8tLlcIClVmwNtkTOFSxjx56nVOcUT0JhvGqMI4TEd/Nue67vIgHgwLGT4xooaOKMR
- OrPekHoEAzbtHRboJFNcFq8AwAbEvc5iSDAY1XXYzPSonNL0IYQzU1Ygq5bj8JeqL22+
- gPNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739548960; x=1740153760;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ni8M+7fnHjZEMfJNA97DV1PZ1vn01NK3p1wwHVgLyMQ=;
- b=PbbSX6hIQ4hsCVsSUxgyWPNNcNw2PskKF/lAIXqG42DsO85239SWsjyOuQWQuJKC4j
- o+Do8t42hxxJbxqwUrZPL7sHMHE4963IjBDAFUYQvfXVJIEAkQ/RzR+Y8imhku93y9zF
- vZUuPduX/cdEaifBnX7rnY4jNRWOxSp98cEauFW0mBdcz7BgBX7KNB0Rt2YcK7ouKKVa
- YtkvcY9PTaDSH+qRu3NteAowQup5lFRnqGlyHVJtZanP3hE4xycl3nPnlJmHvtZS6Kll
- ouAEivR16kd80eEtca6iuY43oVrZmMn+O7k/yHehIZc4UYUQtP1tc5vCW606drUYg5vY
- yGRA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkmo2YUCbB3nKL2cglmzYahktnQby+93lgJ3tsMn+mzL7gjujP8Z//LhDBcuhDM8DOpZRorkviktk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqEMKC9iAh0JUNWBWTpGmuochAWRHAOmUCrTJg+rM9qVqdY7rB
- hPdwg4cNJDunz1gF21uVMKRcl35kIAcoFvV0IRlRRR9/YCEsLIFnjhvxPWgx2QA=
-X-Gm-Gg: ASbGncvWsCOXRaTqlfmJks8+wpeTPM1UsQ4IALj3Hb7eqMcOFrJGgJnXCvZqCaJw586
- aEFgKqakch3k3lKzKJIxp7xtpvdcH82LmapxR+tEh8p4Ub8h6dgAmVp1l5jdD+fElOLo35ZQQTw
- +97uBzXhx03M24HneRGHuvpCTJuksMBBJc0p22yalaHHPH0L5aJ/rmaWni9dcWD4oS3qVyBOSC0
- ZHtCZPbnl4dXa9GRAUCgZaIqcTQHKLVDpWm0QyzuAQjSe3E5NT6XPBxvcwi6KvEm7v8OCPrjQG0
- 2wUA50lssWrcMbTHkiOpvFmAd1SoO7JVyDZbk3pbTvV7sHc3vDeG9x4NmlNC0rHwSYHAl9U=
-X-Google-Smtp-Source: AGHT+IGn28EmgkCJxbojbPnsNpKARzTvTVEWepxmZw6Bez7lrsTqmABZYK92VlugVR6Dz8Cxy1cCRw==
-X-Received: by 2002:a2e:bc18:0:b0:308:f4cc:951b with SMTP id
- 38308e7fff4ca-3090373a8f8mr40478541fa.23.1739548958674; 
- Fri, 14 Feb 2025 08:02:38 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-309100eabcbsm6136591fa.24.2025.02.14.08.02.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2025 08:02:37 -0800 (PST)
-Date: Fri, 14 Feb 2025 18:02:35 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vitalii Mordan <mordan@ispras.ru>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>, Aleksandr Mishin <amishin@t-argos.ru>, 
- Al Viro <viro@zeniv.linux.org.uk>, Tomi Valkeinen <tomi.valkeinen@ti.com>, 
- Jyri Sarha <jsarha@ti.com>, Quentin Schulz <quentin.schulz@free-electrons.com>,
- Swapnil Jakhade <sjakhade@cadence.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- Fedor Pchelkin <pchelkin@ispras.ru>, Alexey Khoroshilov <khoroshilov@ispras.ru>,
- Vadim Mutilin <mutilin@ispras.ru>, lvc-project@linuxtesting.org
-Subject: Re: [PATCH v3] gpu: cdns-mhdp8546: fix call balance of mhdp->clk
- handling routines
-Message-ID: <kwrxxcjgjqvkwapfb7hrytf32ike3wqptjkr7mm3m4rz56xifi@ahbrdjt4cytk>
-References: <20250214154632.1907425-1-mordan@ispras.ru>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B85210ECFC
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:05:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739549102; x=1771085102;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=tPGnKsTSsJ9kM1YYt80WEh9vN2E3msPM20nio3hN6pg=;
+ b=R5F0m4TH1rWGxw2riVqBU5Ig4izd6n3yX1+MAI6s/0WckhfLeIqyuBXR
+ N2utMQ8OGATAd0MM/y6m6oeENT5eHFRO5n92963K6b8G+91Kv0IQdgPHm
+ moTVnLXuhSDqpA/gooB6mSfXnryQV6GnNfZEYi1nWyFgJzY47DFefkGmi
+ cZ6SoB+Oc9IW4JgaG14g9G4YFVnaQV6tOoejamfJRJYlIY5VvlfvpBznQ
+ GDr9fkJUEDxHjMXc6ubAX46CRAUPzq+zg/U2ITvGoNntmaZHVb4U/3TlE
+ gJFLXJ7ETyoERyGcWwpVgw8CAQbTAqmMO9a5f1LpCBU2xisie+xwclIpH A==;
+X-CSE-ConnectionGUID: UOLMs/KjSuqV2Pym+CLxZA==
+X-CSE-MsgGUID: X3TXwYy5SHGiy+0lst8FVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40337213"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; d="scan'208";a="40337213"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2025 08:05:01 -0800
+X-CSE-ConnectionGUID: BgH7hRJcSu6uLekeFBYs8w==
+X-CSE-MsgGUID: TDrZw5o1Q/qmDokW3HNLVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="118113217"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.110])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2025 08:04:57 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Egor Vorontsov <sdoregor@sdore.me>, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Egor Vorontsov
+ <sdoregor@sdore.me>, Maximilian =?utf-8?Q?Bo=C3=9Fe?= <max@bosse.io>
+Subject: Re: [PATCH v3 1/2] drm/edid: Implement DisplayID Type IX & X timing
+ blocks parsing
+In-Reply-To: <20250214110643.506740-1-sdoregor@sdore.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250214110643.506740-1-sdoregor@sdore.me>
+Date: Fri, 14 Feb 2025 18:04:50 +0200
+Message-ID: <87y0y8v7fh.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250214154632.1907425-1-mordan@ispras.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,34 +73,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2025 at 06:46:32PM +0300, Vitalii Mordan wrote:
-> If the clock mhdp->clk was not enabled in cdns_mhdp_probe(), it should not
-> be disabled in any path.
-> 
-> The return value of clk_prepare_enable() is not checked. If mhdp->clk was
-> not enabled, it may be disabled in the error path of cdns_mhdp_probe()
-> (e.g., if cdns_mhdp_load_firmware() fails) or in cdns_mhdp_remove() after
-> a successful cdns_mhdp_probe() call.
-> 
-> Use the devm_clk_get_enabled() helper function to ensure proper call
-> balance for mhdp->clk.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with Klever.
-> 
-> Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
-> Signed-off-by: Vitalii Mordan <mordan@ispras.ru>
+On Fri, 14 Feb 2025, Egor Vorontsov <sdoregor@sdore.me> wrote:
+> Some newer high refresh rate consumer monitors (including those by Samsun=
+g)
+> make use of DisplayID 2.1 timing blocks in their EDID data, notably for
+> their highest refresh rate modes. Such modes won't be available as of now.
+>
+> Implement partial support for such blocks in order to enable native
+> support of HRR modes of most such monitors for users without having to re=
+ly
+> on EDID patching/override (or need thereof).
+>
+> Closes: https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/55
+> Suggested-by: Maximilian Bo=C3=9Fe <max@bosse.io>
+> Signed-off-by: Egor Vorontsov <sdoregor@sdore.me>
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
 > ---
-> v2: Use devm_clk_get_enabled() helper function, as per Dmitry Baryshkov's
-> request.
-> v3: Describe the paths that lead to unbalanced clock handling routines,
-> as requested by Dmitry Baryshkov
-> 
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
-> 
+>  drivers/gpu/drm/drm_displayid_internal.h | 13 +++++
+>  drivers/gpu/drm/drm_edid.c               | 63 ++++++++++++++++++++++++
+>  2 files changed, 76 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/d=
+rm_displayid_internal.h
+> index aee1b86a73c1..84831ecfdb6e 100644
+> --- a/drivers/gpu/drm/drm_displayid_internal.h
+> +++ b/drivers/gpu/drm/drm_displayid_internal.h
+> @@ -66,6 +66,7 @@ struct drm_edid;
+>  #define DATA_BLOCK_2_STEREO_DISPLAY_INTERFACE	0x27
+>  #define DATA_BLOCK_2_TILED_DISPLAY_TOPOLOGY	0x28
+>  #define DATA_BLOCK_2_CONTAINER_ID		0x29
+> +#define DATA_BLOCK_2_TYPE_10_FORMULA_TIMING	0x2a
+>  #define DATA_BLOCK_2_VENDOR_SPECIFIC		0x7e
+>  #define DATA_BLOCK_2_CTA_DISPLAY_ID		0x81
+>=20=20
+> @@ -129,6 +130,18 @@ struct displayid_detailed_timing_block {
+>  	struct displayid_detailed_timings_1 timings[];
+>  };
+>=20=20
+> +struct displayid_formula_timings_9 {
+> +	u8 flags;
+> +	__le16 hactive;
+> +	__le16 vactive;
+> +	u8 vrefresh;
+> +} __packed;
+> +
+> +struct displayid_formula_timing_block {
+> +	struct displayid_block base;
+> +	struct displayid_formula_timings_9 timings[];
+> +} __packed;
+> +
+>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+>=20=20
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 13bc4c290b17..03edf0e1598e 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -6833,6 +6833,66 @@ static int add_displayid_detailed_1_modes(struct d=
+rm_connector *connector,
+>  	return num_modes;
+>  }
+>=20=20
+> +static struct drm_display_mode *drm_mode_displayid_formula(struct drm_de=
+vice *dev,
+> +							   const struct displayid_formula_timings_9 *timings,
+> +							   bool type_10)
+> +{
+> +	struct drm_display_mode *mode;
+> +	u16 hactive =3D le16_to_cpu(timings->hactive) + 1;
+> +	u16 vactive =3D le16_to_cpu(timings->vactive) + 1;
+> +	u8 timing_formula =3D timings->flags & 0x7;
+> +
+> +	/* TODO: support RB-v2 & RB-v3 */
+> +	if (timing_formula > 1)
+> +		return NULL;
+> +
+> +	/* TODO: support video-optimized refresh rate */
+> +	if (timings->flags & (1 << 4))
+> +		drm_dbg_kms(dev, "Fractional vrefresh is not implemented, proceeding w=
+ith non-video-optimized refresh rate");
+> +
+> +	mode =3D drm_cvt_mode(dev, hactive, vactive, timings->vrefresh + 1, tim=
+ing_formula =3D=3D 1, false, false);
+> +	if (!mode)
+> +		return NULL;
+> +
+> +	/* TODO: interpret S3D flags */
+> +
+> +	mode->type =3D DRM_MODE_TYPE_DRIVER;
+> +	drm_mode_set_name(mode);
+> +
+> +	return mode;
+> +}
+> +
+> +static int add_displayid_formula_modes(struct drm_connector *connector,
+> +				       const struct displayid_block *block)
+> +{
+> +	const struct displayid_formula_timing_block *formula_block =3D (struct =
+displayid_formula_timing_block *)block;
+> +	int num_timings;
+> +	struct drm_display_mode *newmode;
+> +	int num_modes =3D 0;
+> +	bool type_10 =3D block->tag =3D=3D DATA_BLOCK_2_TYPE_10_FORMULA_TIMING;
+> +	int timing_size =3D 6 + ((formula_block->base.rev & 0x70) >> 4);
+> +
+> +	/* extended blocks are not supported yet */
+> +	if (timing_size !=3D 6)
+> +		return 0;
+> +
+> +	if (block->num_bytes % timing_size)
+> +		return 0;
+> +
+> +	num_timings =3D block->num_bytes / timing_size;
+> +	for (int i =3D 0; i < num_timings; i++) {
+> +		const struct displayid_formula_timings_9 *timings =3D &formula_block->=
+timings[i];
+> +
+> +		newmode =3D drm_mode_displayid_formula(connector->dev, timings, type_1=
+0);
+> +		if (!newmode)
+> +			continue;
+> +
+> +		drm_mode_probed_add(connector, newmode);
+> +		num_modes++;
+> +	}
+> +	return num_modes;
+> +}
+> +
+>  static int add_displayid_detailed_modes(struct drm_connector *connector,
+>  					const struct drm_edid *drm_edid)
+>  {
+> @@ -6845,6 +6905,9 @@ static int add_displayid_detailed_modes(struct drm_=
+connector *connector,
+>  		if (block->tag =3D=3D DATA_BLOCK_TYPE_1_DETAILED_TIMING ||
+>  		    block->tag =3D=3D DATA_BLOCK_2_TYPE_7_DETAILED_TIMING)
+>  			num_modes +=3D add_displayid_detailed_1_modes(connector, block);
+> +		else if (block->tag =3D=3D DATA_BLOCK_2_TYPE_9_FORMULA_TIMING ||
+> +			 block->tag =3D=3D DATA_BLOCK_2_TYPE_10_FORMULA_TIMING)
+> +			num_modes +=3D add_displayid_formula_modes(connector, block);
+>  	}
+>  	displayid_iter_end(&iter);
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
+--=20
+Jani Nikula, Intel
