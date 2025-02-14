@@ -2,80 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDF4A36334
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:35:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4279CA36345
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:38:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227BD10ED08;
-	Fri, 14 Feb 2025 16:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22BC810ED0A;
+	Fri, 14 Feb 2025 16:38:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jdKTYfMr";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cOt4fm0Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F4610ED08;
- Fri, 14 Feb 2025 16:35:18 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-2fc288da33eso280412a91.0; 
- Fri, 14 Feb 2025 08:35:18 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4577B10ED0A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:38:36 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-308f71d5efcso22338871fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 08:38:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739550918; x=1740155718; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1739551113; x=1740155913;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GBW9iWXTPjCNPPFKZqtUELqSmwKsFRdC2nvcBo4TH2E=;
- b=jdKTYfMrrNZNbT+o8q9iFB0cWP77yF3hqt8W+hLIe+Iw5I+VLNgPYWaT9HGxapiRnG
- JfvUaERYXZIfOzu8DIpAmWae62N+BX9lgObuPTMViHj9Vik/T29iZ9+e0RRIGixkbdZk
- 0kxya7EK2iFiNIWAPT/Uhze9iftqyhwMu1iTk/srLAYmPwEmVUQEjB8iofrv7yc3WcXb
- uu7qNvSM8VE4gGVDtPcKUalWBSpWppscF49cYiEzFxuHE/IHMAkglviEGzop3zND8c//
- OsvXJ6lgG8MLz1XmaA0a8g8KX9OhGMmvTQvcq5f2V2egc/Gss7y20YxD5E5+jrJnOn98
- g+kw==
+ bh=oiENR5Ei6ZKv4VQ0yGfBeOiN7n/8XjskxjvRSd0fnk0=;
+ b=cOt4fm0Q2pZ44tFrclmdzvJP83HM/IQWoUyX7/ilL+1mT8jm/Eirw2YMa7DZ4pjfr8
+ IGCr9yomUSbN2IabQCh7n+SP2B2h1GtIqVmDYusYQRBmI9WACkDxzlyMyCrL4HjB+ixn
+ AsVmKjVeZP0xKu9QobsfZX4yZI7ucO1F+iMHc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739550918; x=1740155718;
+ d=1e100.net; s=20230601; t=1739551113; x=1740155913;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GBW9iWXTPjCNPPFKZqtUELqSmwKsFRdC2nvcBo4TH2E=;
- b=soJeaaXBZ8p4M4s+DoY+FJe5hKka2LuzcHKYEWPKPnljhJdxwnSPvAk6oA5AvT+Z4K
- q4sIp+fd73J3wDOKVkc+gWxqwKlpOD/ZlfKNpBZun1QN+Ln+OAc76nZnssM+/Y9GtDe4
- aWKxFJ0vqOLG/L3dwd91lAHbRA0lHo7mrRuboAPxxUkFOb98ETYiqLoLgPDapRzIBAjU
- UViLJid9AH1HUdr32SWOPzn85iOra7oLX1D7PHQFGUCk0XG4QtGLp7UHqnwaVJPF00+x
- 0qtnPx0CouXsdiIL8PA5jaGcYimh1CDNQTwuH//Ei992nmtVOsj7bQo8HvS1gR8B4hl6
- Z2Fw==
+ bh=oiENR5Ei6ZKv4VQ0yGfBeOiN7n/8XjskxjvRSd0fnk0=;
+ b=nPwHUdi98X5IHW1JIACL6VhiBVYisizE3s8wruDgv/4Pxe0gZ0seeBMYodks8oYmjj
+ pzig4mdRwXmEm5LOWmxUZphBf534aYW+TMAx4Bz4tKN6lRe/XKs/dEOp4EQdiSgrpH+c
+ /YLLG4/wqlWP8Cilqvmbb4tHpXhr8NXkYUhIyOJZu9VUQjt6ud/sAOYMyXHTq20al0ap
+ 72F6cUON5CWVGpMhshejJaCD7wzsBw/T8zJHR8MocmMHAY7xQb+yUDCgAxuDDbz0wHDt
+ T3W5oxeezTGa74goa4iYPVJXdw8NL9Jcp0ZO+K0FFbNvyaMELLNjbS+uWqV6WAiKJaXp
+ 7snQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUV39tVFBx5NDbnaekWIkpWLQKfv/OYBPSMfojrRg9vDU1f72O8tsSsIWxdNtv6cPyLCGHJqcRd@lists.freedesktop.org,
- AJvYcCWkulo3wXA2vPqg20nmgS94+Q09WnBMgTGVhgpfavcVeIqdXl5tmAqkpKPJXKtsHxlKp/vDDyiSV01d@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzcQr7YwaqRQ1baCpiOGwaGfOz/vC5hEQklH8Mx7VkXk8/ZGxMm
- 9WlOAhW10dxSr8ybNbDDn5x26tbPWmfj+jYKYvUHKca2ZiuxRKrOYUNIHMm15QC3UKfbHTPual0
- fVdq8tmmmlGcO1va+LTdWhyXsvSg=
-X-Gm-Gg: ASbGncudmthRwkdwdV3SMZjkApzDs/9C5ohET0mB07clounL8yoZ2m+Lf0cRRBKI2RP
- 9pGDu0PPQySXiuDNwhMUj+8KKmRaS4eSjuTynOyLKB7mo3wtHT5H6YyMHlc2SXr4Ar3LtEXAN
-X-Google-Smtp-Source: AGHT+IFAg9ohgjgbuT0seCKh4CYhM69eIUuttE9yM1Ug2c4COFaR3gXGRNbaouKY5oxT95jalAAWCU/oCmaDR+/btRg=
-X-Received: by 2002:a17:90b:2f85:b0:2fa:2011:c85d with SMTP id
- 98e67ed59e1d1-2fc2d04fe0fmr2165699a91.7.1739550918086; Fri, 14 Feb 2025
- 08:35:18 -0800 (PST)
+ AJvYcCVaqtVJKHndcb0eyPhpIbC1wL+bBgst1n3febbjvjPUBVOG49zkKLpRFxnOVLsiHxLR5hGr0hER05c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyykJFVGli1nhBx4uHxBrAATGprgamTwx2Zn2bhUEQUx5OybI+I
+ 247vzJQmlsx/qUPp+qnYn5Uh971dFNlKhwj+cawGgJyhXZHIFZjA6yn5SBxAx0Z2MFPmGujVvdi
+ mJg==
+X-Gm-Gg: ASbGncvXlvkN6Q9cKtOkws7E0urcJYScwTZllQtWztStNWHv1/1JLKnG0YxeQYzy+1p
+ Jun985zhej/jRZkBZg+nerNMlkLb3Y8s4rRcIpI/fSOSQjHplAjFgUo1p3s/6wrIUGyATd9/ooq
+ tS48LNIPndApPlMQVp0FzstD2/KX2aqSBIHCLKIRpTonqUvIcli3xZCFu4pmKTwhuuX/S+3oCBc
+ EVy0wfjXWpGcPh4vllRT14OUB2vITDdvGGB+oSctikTPQFuyIw1fqg30L6coddUcCdL4p19mJY7
+ W5iBLc6/zWN59Qq8Mw8KDVxC+zodJbdOebq+BIC2GyiNAHwTX+QNjo8CHAg=
+X-Google-Smtp-Source: AGHT+IGVF98AyQ8SFNf2jLwh9t+GrKed8oCqVOh5bbNcaK41k47xoINssGjQVwm0LWjV2BjRrO20+A==
+X-Received: by 2002:a2e:a296:0:b0:308:f6cf:3602 with SMTP id
+ 38308e7fff4ca-30927ad5602mr409651fa.25.1739551112701; 
+ Fri, 14 Feb 2025 08:38:32 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com.
+ [209.85.208.175]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3091011ed74sm6016241fa.55.2025.02.14.08.38.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Feb 2025 08:38:29 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-308ee953553so23526921fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 08:38:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW36mbhD1dxhdGwJo3If+gQEmnJZFQGbijdzSWv4AbYTjp+1AU1cuRtBp7lyoDg+Toz1zRtJt9zi+U=@lists.freedesktop.org
+X-Received: by 2002:a2e:9246:0:b0:300:330d:a5c4 with SMTP id
+ 38308e7fff4ca-30927a49b85mr626221fa.10.1739551108840; Fri, 14 Feb 2025
+ 08:38:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20241219-amdgpu-fix-enum-float-conversion-again-again-v1-1-ef2c619724b1@kernel.org>
- <CADnq5_NKWH7UC_ow825aAtF1tZXJTVOwDWaqDR8_4Y6EmPXUiA@mail.gmail.com>
- <20250214162813.GA3221808@ax162>
-In-Reply-To: <20250214162813.GA3221808@ax162>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 14 Feb 2025 11:35:06 -0500
-X-Gm-Features: AWEUYZl0Bz3gbkMM-U-AbQ0SraEE3UTPUbx05TeMQKPklIWTUPqv6fEy5wiUN_o
-Message-ID: <CADnq5_M6cHLmrKevSFtzwBh4quekM6hcHnAvc+x=c-N4=Ydeqg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Disable -Wenum-float-conversion for
- dml2_dpmm_dcn4.c
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, Austin Zheng <Austin.Zheng@amd.com>, 
- Dillon Varone <dillon.varone@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev
+References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-37-e71598f49c8f@kernel.org>
+In-Reply-To: <20250213-bridge-connector-v3-37-e71598f49c8f@kernel.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 14 Feb 2025 08:38:17 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Uwq3BZNmESmB0Ra5y-jJCb5bi-UTLknrRhVsUbuVbvCA@mail.gmail.com>
+X-Gm-Features: AWEUYZkDTyh9KPW7vj9obdMVUza9a_l0OTDPgjC_IVV9XEkSBuB7Tzn1y-D7bMw
+Message-ID: <CAD=FV=Uwq3BZNmESmB0Ra5y-jJCb5bi-UTLknrRhVsUbuVbvCA@mail.gmail.com>
+Subject: Re: [PATCH v3 37/37] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
+ pointer
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,54 +106,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2025 at 11:28=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
-rg> wrote:
+Hi,
+
+On Thu, Feb 13, 2025 at 6:45=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
 >
-> On Thu, Dec 19, 2024 at 05:21:41PM -0500, Alex Deucher wrote:
-> > On Thu, Dec 19, 2024 at 12:23=E2=80=AFPM Nathan Chancellor <nathan@kern=
-el.org> wrote:
-> > >
-> > > Commit be4e3509314a ("drm/amd/display: DML21 Reintegration For Variou=
-s
-> > > Fixes") blew away commit fdedd77b0eb3 ("drm/amd/display: Reapply
-> > > 2fde4fdddc1f"), which itself was a reapplication for the same reason,
-> > > which results in that compiler warning returning:
-> > >
-> > >   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/d=
-ml2_dpmm_dcn4.c:215:58: error: arithmetic between enumeration type 'enum de=
-ntist_divider_range' and floating-point type 'double' [-Werror,-Wenum-float=
--conversion]
-> > >     215 |         divider =3D (unsigned int)(DFS_DIVIDER_RANGE_SCALE_=
-FACTOR * (vco_freq_khz / clock_khz));
-> > >         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >
-> > > Just disable the warning for the whole file via Makefile to avoid hav=
-ing
-> > > to reapply the same fix every time the code syncs from wherever it is
-> > > actually maintained.
-> > >
-> > > Fixes: be4e3509314a ("drm/amd/display: DML21 Reintegration For Variou=
-s Fixes")
-> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > > ---
-> > > If you would prefer reapplying the local fix, feel free to do so, but=
- I
-> > > would like for it to be in the upstream source so it does not have to
-> > > keep being applied.
-> >
-> > I've reapplied the original fix and I've confirmed that the fix will
-> > be pushed to the DML tree as well this time.
+> The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
+> deprecated and shouldn't be used by atomic drivers.
 >
-> Did that actually end up happening? Commit 1b30456150e5
-> ("drm/amd/display: DML21 Reintegration") in next-20250214 reintroduces
-> this warning... I guess it may be a timing thing because the author date
-> is three weeks ago or so. Should I send my "Reapply" patch or will you
-> take care of it?
+> This was due to the fact that we did't have any other alternative to
+> retrieve the CRTC pointer. Fortunately, the crtc pointer is now provided
+> in the bridge state, so we can move to atomic callbacks and drop that
+> deprecated pointer usage.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 58 +++++++++++++++++++++++------=
+------
+>  1 file changed, 39 insertions(+), 19 deletions(-)
 
-<sigh>  I'll reapply.  Come on guys.  Please make sure this makes it's
-way into the DML code this time if it hasn't already.
+While I'm not an expert on all the concepts addressed in this series,
+the patch does look reasonable to me from the point of view of
+ti-sn65dsi86. Thus:
 
-Thanks,
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Alex
+I can confirm that on sc7180-trogdor-coachz that the display still
+comes up after this patch:
+
+Tested-by: Douglas Anderson <dianders@chromium.org>
