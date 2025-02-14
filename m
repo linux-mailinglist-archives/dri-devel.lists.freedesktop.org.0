@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BA9A35555
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 04:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 349C2A35573
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 04:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E60CA10E1FD;
-	Fri, 14 Feb 2025 03:34:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lCtcvDlI";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E4B010E229;
+	Fri, 14 Feb 2025 03:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF59610E1FD
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 03:34:17 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-ab7c501bbecso234764266b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 19:34:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739504056; x=1740108856; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Ef52lVD5tbaEZhkFJicIhClRxVWfvA0fP+kz/Eg8/ZY=;
- b=lCtcvDlI6pC6JCEvkzSlocohK29kT6NbV3ZrOJxWF0WmwQoYgdp598itqMCpr55kmY
- DpefEKzcyWzFeWuF3tOEcp9nrKcQK4VHfvJxpjQ4Ot6qBpKpCj4ar9wCQ7JSLHEBErGy
- 3046U87tb+vuwzh4wpFUI9BWn85g9HemfTVB0DSBzCWhfliXrNk70WDXWQlqY/F2eaNI
- 8+Xo8ZKGQxrv0jjEk95u5vwoRDUYLLykHa4w6a3ehD18hOvEhtRWPdP2oYlm2FOyFRQG
- 0OlHNIz6VwttG5j2c5ywADNPdQ/+htcvE8YzEWewi3Fd0EAXj3bB6GN6msfagZL974XK
- yivw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739504056; x=1740108856;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ef52lVD5tbaEZhkFJicIhClRxVWfvA0fP+kz/Eg8/ZY=;
- b=hsb2XmB8eF/4mjS3uck1Xnb7nCbuEx0SaCLo0EMnY+Yq83eMC4lOxr39gPap7vPjz5
- BK3Tjb+Ug1vkk9cEqy5SSKnY4EM7f2IE4hyla/qGmL7Zoe0auVbQ+pOp1O3xq/atdRVO
- vVAbl/F1cCiRhbpTOLBOFdTEklaxOzb/UOn6X+NGeI3nwbOeOWLceB8QryPYeGqqnvPV
- p0oQPZ+7+oycQxSVzevGqe9SLvYyIi9BWL1L0r+bp0sXS2efri0aI99Id6MDEO8n6Ogs
- IberMmkFwHe9ayOM+o9jWe2QW0lRQ3BWPT244pyqfp+A7vqUOFu25SEWwNj+RZsUk5Vs
- wgqA==
-X-Gm-Message-State: AOJu0YxXBzpx7lKNKjjAMSTgsAdsIn0GXnzt6+g0ciPlkx1BArFBsixm
- zQCTHcBvUUhzGUHrsRShrrGUXlUDXBObiB2thg4k3Vb0pgXyRYd+ZTssgNumU/vn5KInT3Y8DGk
- U9CdHx5oBJQLbyvW5MSz8l8ubzx0=
-X-Gm-Gg: ASbGncs8rioPsi6J8Bg9xsCbwR4bb+IRZ5e5+s0JhF7ilJsB6tEESN5ZC67auTxpDE/
- TGZPFR5eA0oxP6gkbayTnvTPtXMmLCn0N/gWnQQQuYj8EpE+PGxDM3uvRiEIWa6jtYVNXwuM=
-X-Google-Smtp-Source: AGHT+IFlURw+eXoPbSOgy1n/F/niJ/VuJ7bAChakLddym2av0Es1RzARThj+8CTS1YydSLt34l2lerM4R2qZjwFFKdQ=
-X-Received: by 2002:a17:907:1909:b0:ab7:8e0d:3d3c with SMTP id
- a640c23a62f3a-ab7f3473720mr1011985966b.42.1739504055920; Thu, 13 Feb 2025
- 19:34:15 -0800 (PST)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B6D10E229
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 03:59:48 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4YvJB40Nv7z1ltY9;
+ Fri, 14 Feb 2025 11:55:56 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id E317F1401E9;
+ Fri, 14 Feb 2025 11:59:43 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Fri, 14 Feb 2025 11:59:42 +0800
+Message-ID: <c58be715-a93e-4cda-9473-c2e862fc4537@huawei.com>
+Date: Fri, 14 Feb 2025 11:59:41 +0800
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 14 Feb 2025 13:34:04 +1000
-X-Gm-Features: AWEUYZl_qKYZfWnQCqMRQwD-8nIedPayc98_RI7-SUbGemV0yuUiFb-cZEKyM2Y
-Message-ID: <CAPM=9txeA4G80xej2orc-_y1=cEBaxY2Hw-48v0sw485UjuWyQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.14-rc3
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 drm-dp 6/7] drm/hisilicon/hibmc: Add drm debugfs
+ functions
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250210144959.100551-1-shiyongbang@huawei.com>
+ <20250210144959.100551-7-shiyongbang@huawei.com>
+ <afi5npgvnrp56oufhc7576auya26lbwgu377dprddode2kp3sb@u5ctx4o22w4v>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <afi5npgvnrp56oufhc7576auya26lbwgu377dprddode2kp3sb@u5ctx4o22w4v>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,161 +62,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
 
-Weekly drm fixes pull request, nothing too unusual, the hdmi tests
-needs a bit of refactoring after lockdep shouted at them, otherwise
-amdgpu and xe lead and a few misc otherwise.
+> On Mon, Feb 10, 2025 at 10:49:58PM +0800, Yongbang Shi wrote:
+>> From: Baihan Li <libaihan@huawei.com>
+>>
+>> We use the previous two patches as our debug functions and
+>> generate two files. "hibmc-dp" and "color-bar".
+>> hibmc-dp: read only, print the dp link status and dpcd version
+> Please define a generic DP attribute for this, handle it in
+> drm_dp_helper.c. Other drivers then can reuse this debugfs file.
+> Also note drm_dp_downstream_debug(), it might also be helpful.
+> Also see msm_dp_debug_show() for inspiration
 
-Thanks,
-Dave.
+Hi Dmitry,
 
-drm-fixes-2025-02-14:
-drm fixes for 6.14-rc3
+Thanks for your much advising! I will consider all of them and fix them with detailed explanations.
+And I will try to make it in drm_dp_helper.c for here.
 
-amdgpu:
-- Fix shutdown regression on old APUs
-- Fix compute queue hang on gfx9 APUs
-- Fix possible invalid access in PSP failure path
-- Avoid possible buffer overflow in pptable override
+Sincerely,
+Baihan Li
 
-amdkfd:
-- Properly free gang bo in failure path
-- GFX12 trap handler fix
 
-i915:
-- selftest fix: avoid using uninitialized context
+>> color-bar: read/write
+>>             write: cfg color bar and enable/disable it by your input
+>>             read: print your current cfg info of color-bar
+> This really should go into your color-bar patch.
 
-xe:
-- Remove bo->clients out of bos_lock area
-- Carve out wopcm portion from the stolen memory
+Ok.
 
-tests:
-- fix lockdep with hdmi infrastructure tests
 
-host1x:
-- fix uninitialised mutex usage
-
-panthor:
-- fix uninit variable
-
-hibmc:
-- fix missing Kconfig select
-The following changes since commit a64dcfb451e254085a7daee5fe51bf22959d52d3:
-
-  Linux 6.14-rc2 (2025-02-09 12:45:03 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-02-14
-
-for you to fetch changes up to 04485cc34868892a823b909c6d5468ba21b63569:
-
-  Merge tag 'drm-xe-fixes-2025-02-13' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2025-02-14 12:15:59 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.14-rc3
-
-amdgpu:
-- Fix shutdown regression on old APUs
-- Fix compute queue hang on gfx9 APUs
-- Fix possible invalid access in PSP failure path
-- Avoid possible buffer overflow in pptable override
-
-amdkfd:
-- Properly free gang bo in failure path
-- GFX12 trap handler fix
-
-i915:
-- selftest fix: avoid using uninitialized context
-
-xe:
-- Remove bo->clients out of bos_lock area
-- Carve out wopcm portion from the stolen memory
-
-tests:
-- fix lockdep with hdmi infrastructure tests
-
-host1x:
-- fix uninitialised mutex usage
-
-panthor:
-- fix uninit variable
-
-hibmc:
-- fix missing Kconfig select
-
-----------------------------------------------------------------
-Alex Deucher (3):
-      drm/amdgpu/pm: fix UVD handing in amdgpu_dpm_set_powergating_by_smu()
-      drm/amdgpu/gfx9: manually control gfxoff for CS on RV
-      drm/amdgpu: bump version for RV/PCO compute fix
-
-Arnd Bergmann (1):
-      drm/hisilicon/hibmc: select CONFIG_DRM_DISPLAY_DP_HELPER
-
-Dave Airlie (4):
-      Merge tag 'drm-misc-fixes-2025-02-13' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.14-2025-02-13' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2025-02-13' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-02-13' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Imre Deak (1):
-      drm: Fix DSC BPP increment decoding
-
-Jiang Liu (2):
-      drm/amdgpu: bail out when failed to load fw in psp_init_cap_microcode()
-      drm/amdgpu: avoid buffer overflow attach in smu_sys_set_pp_table()
-
-Krzysztof Karas (1):
-      drm/i915/selftests: avoid using uninitialized context
-
-Lancelot SIX (1):
-      drm/amdkfd: Ensure consistent barrier state saved in gfx12 trap handler
-
-Maxime Ripard (4):
-      drm/tests: hdmi: Fix WW_MUTEX_SLOWPATH failures
-      drm/tests: hdmi: Remove redundant assignments
-      drm/tests: hdmi: Reorder DRM entities variables assignment
-      drm/tests: hdmi: Fix recursive locking
-
-Nirmoy Das (1):
-      drm/xe: Carve out wopcm portion from the stolen memory
-
-Rupinderjit Singh (1):
-      gpu: host1x: Fix a use of uninitialized mutex
-
-Su Hui (1):
-      drm/panthor: avoid garbage value in panthor_ioctl_dev_query()
-
-Tejas Upadhyay (1):
-      drm/xe/client: bo->client does not need bos_lock
-
-Zhu Lingshan (1):
-      amdkfd: properly free gang_ctx_bo when failed to init user queue
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   5 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  36 +++-
- drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     |   3 +-
- .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm |   4 +
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |   2 +-
- drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |   2 +-
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   3 +-
- drivers/gpu/drm/display/drm_dp_helper.c            |   2 +-
- drivers/gpu/drm/hisilicon/hibmc/Kconfig            |   2 +
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   4 +-
- drivers/gpu/drm/panthor/panthor_drv.c              |   1 +
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 200 +++++++++++----------
- drivers/gpu/drm/xe/xe_drm_client.c                 |   2 +-
- drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c             |  70 ++++----
- drivers/gpu/host1x/dev.c                           |   2 +
- drivers/gpu/host1x/intr.c                          |   2 -
- include/drm/display/drm_dp.h                       |   1 +
- 18 files changed, 200 insertions(+), 144 deletions(-)
+>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+>> ---
+>> ChangeLog:
+>> v1 -> v2:
+>>    - deleting edid decoder and its debugfs, suggested by Dmitry Baryshkov.
+>>    - using debugfs_init() callback, suggested by Dmitry Baryshkov.
+>> ---
+>>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+>>   .../drm/hisilicon/hibmc/hibmc_drm_debugfs.c   | 124 ++++++++++++++++++
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    |   1 +
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   2 +
+>>   4 files changed, 129 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
+>>
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> index 43de077d6769..1f65c683282f 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> @@ -1,5 +1,6 @@
+>>   # SPDX-License-Identifier: GPL-2.0-only
+>>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+>> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_serdes.o hibmc_drm_dp.o
+>> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_serdes.o hibmc_drm_dp.o \
+>> +	       hibmc_drm_debugfs.o
+>>   
+>>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
+>> new file mode 100644
+>> index 000000000000..af2efb70d6ea
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
+>> @@ -0,0 +1,124 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +// Copyright (c) 2024 Hisilicon Limited.
+>> +
+>> +#include <linux/debugfs.h>
+>> +#include <linux/device.h>
+>> +#include <linux/seq_file.h>
+>> +#include <linux/pci.h>
+>> +
+>> +#include <drm/drm_drv.h>
+>> +#include <drm/drm_file.h>
+>> +#include <drm/drm_debugfs.h>
+>> +#include <drm/drm_edid.h>
+>> +
+>> +#include "hibmc_drm_drv.h"
+>> +
+>> +static int hibmc_dp_show(struct seq_file *m, void *arg)
+>> +{
+>> +	struct drm_info_node *node = m->private;
+>> +	struct drm_device *dev = node->minor->dev;
+>> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+>> +	int idx;
+>> +
+>> +	if (!drm_dev_enter(dev, &idx))
+>> +		return -ENODEV;
+>> +
+>> +	seq_printf(m, "enable lanes: %u\n", hibmc_dp_get_lanes(&priv->dp));
+>> +	seq_printf(m, "link rate: %d\n", hibmc_dp_get_link_rate(&priv->dp) * 27);
+>> +	seq_printf(m, "dpcd version: 0x%x\n", hibmc_dp_get_dpcd(&priv->dp));
+>> +
+>> +	drm_dev_exit(idx);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static ssize_t hibmc_control_write(struct file *file, const char __user *user_buf,
+>> +				   size_t size, loff_t *ppos)
+>> +{
+>> +	struct hibmc_drm_private *priv = file_inode(file)->i_private;
+>> +	struct hibmc_dp_cbar_cfg *cfg = &priv->dp.cfg;
+>> +	u32 input = 0;
+>> +	int ret, idx;
+>> +	u8 val;
+>> +
+>> +	ret = kstrtou32_from_user(user_buf, size, 0, &input);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	val = FIELD_GET(GENMASK(13, 10), input);
+>> +	if (val > 9)
+>> +		return -EINVAL;
+>> +	cfg->pattern = val;
+>> +	cfg->enable = FIELD_GET(BIT(0), input);
+>> +	cfg->self_timing = FIELD_GET(BIT(1), input);
+>> +	cfg->dynamic_rate = FIELD_GET(GENMASK(9, 2), input);
+> Having a binary file format is really a sad idea. Can it be a text file
+> instead?
+>
+>> +
+>> +	ret = drm_dev_enter(&priv->dev, &idx);
+>> +	if (!ret)
+>> +		return -ENODEV;
+>> +
+>> +	hibmc_dp_set_cbar(&priv->dp, cfg);
+>> +
+>> +	drm_dev_exit(idx);
+>> +
+>> +	return size;
+>> +}
+>> +
