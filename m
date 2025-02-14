@@ -2,93 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF6FA358A7
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 09:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE1DA358A9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 09:18:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4DAF10E282;
-	Fri, 14 Feb 2025 08:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAE210E4A4;
+	Fri, 14 Feb 2025 08:18:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5B3010E25A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:11:37 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-5deb0d6787cso2494907a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 23:11:37 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDAA210E486
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 07:25:13 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-ab7483b9bf7so221529566b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 23:25:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739517096; x=1740121896;
+ d=1e100.net; s=20230601; t=1739517912; x=1740122712;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YBZbTGwwpOGkfmC2S2B/ns3VS+A0GE9103R09GlmDb0=;
- b=UgGdOej6F7KK5FY0Sao+a5y2pCDZYPLbmdn00z5Oi7V1fZQMWLQUK7vW++8HC0/JUm
- pt5onQTO9Ue2dFG3sC6etPhyKN0LRthc86fJ2Lbk63FbkgQNRFsnqitjm+dne9ElKYh4
- wKuafBRX0vqj3awcqyOS17EK2DB9Jo4pq95AktZ/rEFhlA4uPC8Rxogm+Bdo5tWqA7bS
- /DwfxTistVw0F1T5XsetQWZpXJoCgnoZ+P9Vg2NYu1iLZaAu+ppp5BdFsQiZ44W8o9Kq
- uN1MbYrpDID83Rnc+2ZiOon6fMc6gCSz/E41Pb8Od4pYeEhsG7c0fhN+ta29YIT1WbOC
- bVEw==
+ bh=l+sv0U2cyjukGfA/ZIjsFBOYnHcPPEH2EG7bSm4QAFU=;
+ b=YJIrlQAID4Ma2VqIJnDjq4/i144mc5h4tBJ10F7dWYlm3NSnwPOaeoTsyJOMBf3dpJ
+ 0mEi1FsbQHYVO31TiZe5rlCv8u5QTOu+sCBdagXh1b2t3+mqgzKqs/oajDQ+8XSLuV4a
+ Xd4Z4IzmLRMCozTpLFcRRHyrKBjazfpQOUu17A/VLsE7xfCCdDYbzZaIN3JrU6sWoL3Q
+ B6SorQGpDPJ5ZnuLVDUvPUf0tSp0+y21n8Zt/lnMRw/JScuKDlWbMR+t+hueZNCVZBog
+ 1NidgFnE3TMJ1ASRg48lyANYs4E14YqUyLi5j7CWus2oT+m5Ibjjs8Ana4BirPXflrfO
+ LAcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWVBdxVvKAnevtNgU41jWLGZFfAYMOrlSYP1vhkI8z06lvxHy3iF2tuLDEY4tMS8pNXiRtjY+o1DAY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyj6TTh0y+YR5xEWzqkTDcP+YxI6kBTpmpRRawJuAesRPJ146Vt
- UhEYBg1+Ahl/8kkKkL61LTBjZYBEAXAYO1pxcN0wCQAX9kLeyP+vvTxUZLLDl9Y=
-X-Gm-Gg: ASbGnctI0/7zDnzHUjwQjbKLE6ECsFr7QFEhY1/k+cdP8MnZEd7+5uVEQVCqj7V8+K9
- pWO2gmJhNhoh4WbqrB4nBP2kQP3EFHvSiHiXPZvk7hLCqUIZeWoi8PQIemIMsLGEErqjsl1/dWU
- HkWq1Fqd2KRHDNU1wagcTzX/OgDCMHalML6Ex/zHjddWJPg61HJJA7NLExnvpF0bTGuwiNH1Q/S
- f1I+g0itBKzv3v987S3zKHMCHLm/+zEYwvql0j0ps0nGO2YufumzfoyBJmfJkyF5gXoM7bCVh3j
- zaEyg9Eh0twMSRBfOqj2AvrBgvmHQR+GXMyQbM+iyQEeww==
-X-Google-Smtp-Source: AGHT+IHV24K6jmyJwehjheihVNqs/S6Qg1NnGSfYVYac+OhE0uxCqSGDQyG/kzKqHJt3mY6KiALcLg==
-X-Received: by 2002:a05:6402:1e94:b0:5dc:72e1:63f5 with SMTP id
- 4fb4d7f45d1cf-5deaddaa9f1mr9349699a12.12.1739517095767; 
- Thu, 13 Feb 2025 23:11:35 -0800 (PST)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com.
- [209.85.218.41]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dece2709a9sm2417349a12.53.2025.02.13.23.11.34
+ AJvYcCXfHFoAE8l+8LT96T4XrLE9ZfY25faWCUyyNTCd8R4bKgEEbO72jSZ6WMRRq5LJpipFQfyDpTGrCoo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YySKM/V9vtCC+G7oyiVpuIkHQgBjaKMd+mPXpYOdWPyuAlTCV2s
+ t5QyWZulW22C8snUy8qsHlUmqtBgAxQcbskBpFTeLcAt3rtPt/Et0a+QHxirsRE=
+X-Gm-Gg: ASbGncuNbbH9FJ8u85mNbRIc/4jmeIlcv/6QXT0HEjabfJHVot0oLRC9jTcdMIKQeOS
+ gNBI3KqWyapEkxn5JJYbXGzM9lTHRspydqMFGpPOaLumXo88w0gwbnnP5rT2/Qoa6sB5mE/M5F7
+ 2gz717wQNtNAfm15Q9JBicmHZx27C2Goi3VPbirC/7sVyDqHUy4wpgFZieAu0HuryKBlQQMMEPQ
+ jwfo/dMuPY7ZdPN1RqqPSjMu5bwxdRsezXxYCvpHvrh0Rze6q+Ph+cDKXZdtCJJQG9GqupG4eI9
+ v2JI0jGA7En/9eR13PQFT0lPu0f+74+MiDB+wpwyn+oHHQ==
+X-Google-Smtp-Source: AGHT+IH9K2wg/rPq/wJoC9pvZJtO6aRQK6462TN11bEDNv9b4YIPZ8AWbP5M+zg6NfgtXnoRnTEYjQ==
+X-Received: by 2002:a17:907:1909:b0:ab3:ed0:8d7 with SMTP id
+ a640c23a62f3a-ab7f339d423mr1045805666b.23.1739517911963; 
+ Thu, 13 Feb 2025 23:25:11 -0800 (PST)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com.
+ [209.85.208.54]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aba5339d9cfsm284943666b.139.2025.02.13.23.25.11
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Feb 2025 23:11:34 -0800 (PST)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-ab78e6edb99so266051266b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 23:11:34 -0800 (PST)
+ Thu, 13 Feb 2025 23:25:11 -0800 (PST)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-5de4d3bbc76so2777276a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 23:25:11 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfJhPPtPlegU97Y4Zlim2JnqoiJfXXkvdODFQ4e5n+FckgZaoYJ3iRtmtkZmdpF9cEzPNEjE+4Tlw=@lists.freedesktop.org
-X-Received: by 2002:a17:907:c22:b0:ab7:c94f:af87 with SMTP id
- a640c23a62f3a-ab7f33c0897mr1109151066b.16.1739517094400; Thu, 13 Feb 2025
- 23:11:34 -0800 (PST)
+ AJvYcCVeqHeWGbaCZR5e0sOx9GgyP2Els7kdLlAsQJk4v7VeERvj69yFNCdacKMzQDc27b1BgCvLghrkEj4=@lists.freedesktop.org
+X-Received: by 2002:a17:907:1909:b0:ab7:8e0d:3d3c with SMTP id
+ a640c23a62f3a-ab7f3473720mr1066973166b.42.1739517910868; Thu, 13 Feb 2025
+ 23:25:10 -0800 (PST)
 MIME-Version: 1.0
-References: <2025013148-reversal-pessimism-1515@gregkh>
- <1bbdf8b7-a70b-4994-865e-7fcb8d53ebef@marcan.st>
- <20250207-prehistoric-married-dormouse-3e1aa7@lemur>
- <7742420.9J7NaK4W3v@skuld-framework>
- <d6cae188-28e5-409f-86ed-7ddf374fd354@sirena.org.uk>
-In-Reply-To: <d6cae188-28e5-409f-86ed-7ddf374fd354@sirena.org.uk>
+References: <20250214040306.16312-1-towinchenmi@gmail.com>
+In-Reply-To: <20250214040306.16312-1-towinchenmi@gmail.com>
 From: Neal Gompa <neal@gompa.dev>
-Date: Fri, 14 Feb 2025 02:10:57 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je9BiTsTmaadVz7S0=Mj3PgKZSu4EnFixf+65bcbuu7+WA@mail.gmail.com>
-X-Gm-Features: AWEUYZkDpaaCrtdHfh-vNgOgzQjACZNx_DnEFz8ZiojUP1KiLrlWIyNShKVYrqs
-Message-ID: <CAEg-Je9BiTsTmaadVz7S0=Mj3PgKZSu4EnFixf+65bcbuu7+WA@mail.gmail.com>
-Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
- coherent allocator abstraction.)
-To: Mark Brown <broonie@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@gmail.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, 
- phasta@kernel.org, Christoph Hellwig <hch@lst.de>, 
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, daniel.almeida@collabora.com, 
- aliceryhl@google.com, robin.murphy@arm.com, rust-for-linux@vger.kernel.org, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Valentin Obst <kernel@valentinobst.de>, 
- open list <linux-kernel@vger.kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- David Airlie <airlied@redhat.com>, 
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Date: Fri, 14 Feb 2025 02:24:34 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je88-zfnD+Yx7GdxMaG8NZBBjDGZJJ33D0kUyYnAhMhrDA@mail.gmail.com>
+X-Gm-Features: AWEUYZmee1G4NO9TTRkSGcwt1I0mLzwp9RPxwW1Z78u96Fa7SXff07gmHN3DsJ8
+Message-ID: <CAEg-Je88-zfnD+Yx7GdxMaG8NZBBjDGZJJ33D0kUyYnAhMhrDA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] Apple DWI backlight driver
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Helge Deller <deller@gmx.de>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Fri, 14 Feb 2025 08:18:25 +0000
@@ -107,43 +94,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2025 at 12:28=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
+On Thu, Feb 13, 2025 at 11:04=E2=80=AFPM Nick Chan <towinchenmi@gmail.com> =
+wrote:
 >
-> On Sun, Feb 09, 2025 at 03:25:26AM -0500, Neal Gompa wrote:
-> > On Friday, February 7, 2025 1:16:11=E2=80=AFPM Eastern Standard Time Ko=
-nstantin
-> > Ryabitsev wrote:
+> Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
+> and iPod touches the backlight controller is connected via this interface=
+.
+> This series adds a backlight driver for backlight controllers connected
+> this way.
 >
-> > > It is my goal to be able to give subsystems a way to use forges witho=
-ut it
-> > > impacting how they interact with upstream or handle tree-wide changes=
-. That
-> > > is, once I'm done moving things from one Benevolent Company to anothe=
-r.
+> Changes since v5:
+> - Remove default y from drivers/video/backlight/Kconfig
 >
-> > Honestly, this is probably not possible. If a subsystem moves to a forg=
-e
-> > workflow, it pretty much means tree-wide changes need to work partially=
- that
-> > way too.
+> v5: https://lore.kernel.org/asahi/20250203115156.28174-1-towinchenmi@gmai=
+l.com/T
 >
-> We do actually have some people using forges already, for example the
-> SOF people do a bunch of their review on github and then turn that into
-> patch serieses which they send via the normal email route when they're
-> happy with them.  I think tree wide stuff flows in via back merges or
-> rebases, one of the benefits of delegation is that it's not my problem.
-> This all works perfectly well from my side, as far as I know it's fine
-> for the SOF people too.  It certainly doesn't seem insurmountable.
+> Changes since v4:
+> - Change type to BACKLIGHT_PLATFORM since the driver does not directly
+> interface with the backlight controller. The actual backlight controller
+> can be directly controlled via i2c and is not the same on all hardware
+> that supports the dwi interface.
+> - Rename file to apple_dwi_bl.c to better match config option.
+> - Rename driver to apple-dwi-bl to better match config option
+> - Indicate that the backlight scales linearly
+>
+> v4: https://lore.kernel.org/asahi/20241211113512.19009-1-towinchenmi@gmai=
+l.com/T
+>
+> Changes since v3:
+> - $ref to common.yaml in bindings
+> - (and then additionalProperties is changed to unevaluatedProperties)
+> - Use hex everywhere in bindings example
+> - Use sizeof(*dwi_bl) instead of the type of the struct when doing
+> devm_kzalloc()
+> - Use devm_platform_get_and_ioremap_resource() in driver
+> - Fix sorting in drivers/video/backlight/Makefile
+> - In drivers/video/backlight/Kconfig, move config to right after
+> BACKLIGHT_APPLE
+> - Explain this driver being completely different from apple_bl
+>
+> v3: https://lore.kernel.org/asahi/20241209075908.140014-1-towinchenmi@gma=
+il.com/T
+>
+> Changes since v2:
+> - Add missing includes in driver
+> - Fix file path in MAINTAINERS
+>
+> v2: https://lore.kernel.org/asahi/20241207130433.30351-1-towinchenmi@gmai=
+l.com/T
+>
+> Changes since v1:
+> - Fixed dt-bindings $id.
+> - Make power-domains an optional property in dt-bindings.
+> - Added missing error checking after devm_ioremap_resource() in
+> dwi_bl_probe().
+>
+> v1: https://lore.kernel.org/asahi/20241206172735.4310-1-towinchenmi@gmail=
+.com/T
+>
+> Nick Chan
+>
+> ---
+> Nick Chan (3):
+>   dt-bindings: leds: backlight: apple,dwi-bl: Add Apple DWI backlight
+>   backlight: apple_dwi_bl: Add Apple DWI backlight driver
+>   MAINTAINERS: Add entries for Apple DWI backlight controller
+>
+>  .../bindings/leds/backlight/apple,dwi-bl.yaml |  57 ++++++++
+>  MAINTAINERS                                   |   2 +
+>  drivers/video/backlight/Kconfig               |  11 ++
+>  drivers/video/backlight/Makefile              |   1 +
+>  drivers/video/backlight/apple_dwi_bl.c        | 123 ++++++++++++++++++
+>  5 files changed, 194 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/appl=
+e,dwi-bl.yaml
+>  create mode 100644 drivers/video/backlight/apple_dwi_bl.c
+>
+>
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> --
+> 2.48.1
+>
+>
 
-It might be working as long as a subsystem continues to allow
-receiving patches via email. As soon as a subsystem decides to stop
-doing that (which is absolutely their right given the model of
-subsystem maintenance that the Linux project has), I think this will
-break down very quickly.
+Series LGTM.
 
-I wonder which team will be the first one to do it. It's not a
-question of if, but when.
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
 
 --=20
