@@ -2,99 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E960FA36307
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29F8A36309
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 17:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898E810ED03;
-	Fri, 14 Feb 2025 16:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E99A410E498;
+	Fri, 14 Feb 2025 16:26:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VXtbznP9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WoB5yoY4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51D3510ED03
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:26:18 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-308f71d5efcso22209241fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 08:26:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1739550376; x=1740155176;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IRwOfh6tgHaZL3+E0zLATKEm7zWEPnAJi4nv5EHJNOA=;
- b=VXtbznP9Ag7F0qdxyhSUlP53svvOgTkXGARHqhtO8t1xn57H9j8P2dKUdCwM45092i
- Rc5sZexw6iv9KjasNJBDm92wSZTBh0kRZAjRMhLlYNldR89BlUfhwUEJZLDdgdiyOmTt
- YaJjM0iyt2Hjjr/buraPJO/J0MQTl7jl551YQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739550376; x=1740155176;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IRwOfh6tgHaZL3+E0zLATKEm7zWEPnAJi4nv5EHJNOA=;
- b=VQ3dIQO6Jcu8Rur6fE9vXqYKbM2mvF6YGpHg+77mXAjnfR91p1DQXqo+pMjobXMNM6
- A5x2c+uKBInjWBOFiFwXKQy3N9YFDh4/BB6bLkbonefZmCwAfd/JjpIJRpMCfx9LVIRp
- GmDEIP4dfUICsrdh/N+qSgOHYiyJTABc7V2ixIowoaJR/HLjehfEQRWVX70IfORHdeta
- GpXUviZWzfb78j2Kn0/oFeLod7opMNAOgDfwe2Nir6dJV1RjJ/3MO5cjrdQ7F46GeYtC
- reLCB3frFlvIlLam4mCvy730Q1rzJECO4rNRjIVnrJHJ61uK48hI79pV5vud/l5rsyAm
- 9zUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWXVR5ZescvIo5bJplkiBS33VQhl11IheblfisbpaECtW1+ZzP96y/JAXClhZQOBZP9XFGKdqQXZ0s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVRXuAGRs91Ggff6IPgOorYs9371a/49jHp6YkiUWJPZB4RIIS
- vkZDEh9Liu7q6VtDc9oKNYxh+tY2GG4uistp5iX2hD5HMGZp+qiq1VNCK8RaDXQEmLzM1li+b0g
- PnA==
-X-Gm-Gg: ASbGncsIgWLx2SGPwoPalcPX8nbEVagQkVmN85160ae+2SN6HGSbkwEqtQyixF5x0VT
- 4IA5xk5nf7zUEa64gajcEjXTVT782Izri8M0GcFiGjL7OCrtyAoTi5gmDTxRWYFjd0gCYN6WnT9
- 52XxBhNkxd5fOXg4sRlFtvM48YyZgDdTILLPjFOJCjaOwu1+YrDfbG51Ggpzr+rtwR5hOwFRGjL
- zRQwHujsd+7ZWTWSCQLCJ3gPTB3g5K3RhAt4hLh2h31VzQUjKZxNpSJhDynTd1wDv1mmfUAYtS2
- /AfTvJds+lvtnks7CA5e1KKiH6tDhHNgq5f3dJGUIf6QZm+8kJfwejyBty0=
-X-Google-Smtp-Source: AGHT+IE/KyLBM9qjS1REcaPR1sQ7gCwe4wGf1NgS1WyqCQRiEyaFME42d/c3hSNibOijeHdvbWDtQw==
-X-Received: by 2002:a2e:805a:0:b0:308:fec4:5a5f with SMTP id
- 38308e7fff4ca-30927a2df42mr680921fa.4.1739550375728; 
- Fri, 14 Feb 2025 08:26:15 -0800 (PST)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com.
- [209.85.208.175]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-309102bb8b1sm6022391fa.108.2025.02.14.08.26.14
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Feb 2025 08:26:14 -0800 (PST)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-30613802a04so23090281fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 08:26:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9w/TTuplhguPAQQr4lKdEbA1C0E1fnW1PI9UTb2xdo8VWz7hkQjdqFZ1a9JQpN8iIDqMFu1XfeA0=@lists.freedesktop.org
-X-Received: by 2002:a2e:a163:0:b0:2ff:a89b:4210 with SMTP id
- 38308e7fff4ca-30927a2e355mr545351fa.8.1739550374272; Fri, 14 Feb 2025
- 08:26:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
-In-Reply-To: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 14 Feb 2025 08:26:02 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
-X-Gm-Features: AWEUYZl2UQnH588l_o4dR5jYVzX-zOJ9t0dVCpEUG6Ly_Dd5CIEQRbUnuFK0DTE
-Message-ID: <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
-Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
- variants when available
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Joel Selvaraj <jo@jsfamily.in>, Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Jianhua Lu <lujianhua000@gmail.com>, 
- Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Tejas Vipin <tejasvipin76@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B15DA10E498;
+ Fri, 14 Feb 2025 16:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739550415; x=1771086415;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=gmmfdkKx3I1O9XEuA7a4fj11IZleZQQwTDgJ9bjGGpw=;
+ b=WoB5yoY4geo3z/gZZ/+KLsyEe1qZLbvi8P0B37E+LE/jVu4TcBNGcUJd
+ GM6YBwC96txNIs3sPUhm/cFQiSFyh/8L3VAt3TGZ0oI8UPSwP6sIXEvKP
+ ketVe6vueB4c808gRFE9GZO4h/u/975UKhkd51oTrXwUQfXkDuYdv8ico
+ c9UxHIrOpiJJ2rl7pQWbhzrhxzn6mPB7CVQNjHM2UZvYWk3XI54WZTjo4
+ pkvGIv1+uQJcFbmwaEtGfOWgVizxmNZ0PfOdOWy8DtYdkMcNlQRePJ3vK
+ QHH1pOjqaLnFauF18kMx3sex6rWAXImPQQ7Uv/P6tpR/q3q9GA6+RFG3t Q==;
+X-CSE-ConnectionGUID: eS+pxW1KQKmxUEFN+JNZXQ==
+X-CSE-MsgGUID: 4Y39DLNDT3WSm6AAoL90cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="62771329"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; d="scan'208";a="62771329"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2025 08:26:55 -0800
+X-CSE-ConnectionGUID: 1FrV0G+1TPqWOfb+vF0MqQ==
+X-CSE-MsgGUID: sFWFXmRrQXWbUZSwCV70VA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; d="scan'208";a="113451973"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO [10.245.246.74])
+ ([10.245.246.74])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2025 08:26:52 -0800
+Message-ID: <ae45297e3132f13c6d5113aefeaed2c91ed7010c.camel@linux.intel.com>
+Subject: Re: [PATCH v5 00/32] Introduce GPU SVM and Xe SVM implementation
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Demi Marie Obenour <demi@invisiblethingslab.com>, Matthew Brost
+ <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Fri, 14 Feb 2025 17:26:48 +0100
+In-Reply-To: <Z69r3reWGZq5W7iw@itl-email>
+References: <20250213021112.1228481-1-matthew.brost@intel.com>
+ <Z65ix566lLCPOsob@itl-email>
+ <433228556ac6ad42b21c942dc6c070069107660e.camel@linux.intel.com>
+ <Z69r3reWGZq5W7iw@itl-email>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,52 +76,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi!
 
-On Thu, Feb 13, 2025 at 12:44=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.c=
-om> wrote:
->
-> A lot of mipi API are deprecated and have a _multi() variant
-> which is the preferred way forward. This covers  TODO in the
-> gpu Documentation:[1]
->
-> An incomplete effort was made in the previous version
-> to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
-> and mipi_dsi_generic_write_seq_multi() with the respective
-> replacemts and not the rest of the API.
+On Fri, 2025-02-14 at 11:14 -0500, Demi Marie Obenour wrote:
+> On Fri, Feb 14, 2025 at 09:47:13AM +0100, Thomas Hellstr=C3=B6m wrote:
+> > Hi
+> >=20
+> > On Thu, 2025-02-13 at 16:23 -0500, Demi Marie Obenour wrote:
+> > > On Wed, Feb 12, 2025 at 06:10:40PM -0800, Matthew Brost wrote:
+> > > > Version 5 of GPU SVM. Thanks to everyone (especially Sima,
+> > > > Thomas,
+> > > > Alistair, Himal) for their numerous reviews on revision 1, 2,
+> > > > 3=C2=A0
+> > > > and for
+> > > > helping to address many design issues.
+> > > >=20
+> > > > This version has been tested with IGT [1] on PVC, BMG, and LNL.
+> > > > Also
+> > > > tested with level0 (UMD) PR [2].
+> > >=20
+> > > What is the plan to deal with not being able to preempt while a
+> > > page
+> > > fault is pending?=C2=A0 This seems like an easy DoS vector.=C2=A0 My
+> > > understanding
+> > > is that SVM is mostly used by compute workloads on headless
+> > > systems.
+> > > Recent AMD client GPUs don't support SVM, so programs that want
+> > > to
+> > > run
+> > > on client systems should not require SVM if they wish to be
+> > > portable.
+> > >=20
+> > > Given the potential for abuse, I think it would be best to
+> > > require
+> > > explicit administrator opt-in to enable SVM, along with possibly
+> > > having
+> > > a timeout to resolve a page fault (after which the context is
+> > > killed).
+> > > Since I expect most uses of SVM to be in the datacenter space
+> > > (for
+> > > the
+> > > reasons mentioned above), I don't believe this will be a major
+> > > limitation in practice.=C2=A0 Programs that wish to run on client
+> > > systems
+> > > already need to use explicit memory transfer or pinned userptr,
+> > > and
+> > > administrators of compute clusters should be willing to enable
+> > > this
+> > > feature because only one workload will be using a GPU at a time.
+> >=20
+> > While not directly having addressed the potential DoS issue you
+> > mention, there is an associated deadlock possibility that may
+> > happen
+> > due to not being able to preempt a pending pagefault. That is if a
+> > dma-
+> > fence job is requiring the same resources held up by the pending
+> > page-
+> > fault, and then the pagefault servicing is dependent on that dma-
+> > fence
+> > to be signaled in one way or another.
+> >=20
+> > That deadlock is handled by only allowing either page-faulting jobs
+> > or
+> > dma-fence jobs on a resource (hw engine or hw engine group) that
+> > can be
+> > used by both at a time, blocking synchronously in the exec IOCTL
+> > until
+> > the resource is available for the job type. That means LR jobs
+> > waits
+> > for all dma-fence jobs to complete, and dma-fence jobs wait for all
+> > LR
+> > jobs to preempt. So a dma-fence job wait could easily mean "wait
+> > for
+> > all outstanding pagefaults to be serviced".
+> >=20
+> > Whether, on the other hand, that is a real DoS we need to care
+> > about,
+> > is probably a topic for debate. The directions we've had so far are
+> > that it's not. Nothing is held up indefinitely, what's held up can
+> > be
+> > Ctrl-C'd by the user and core mm memory management is not blocked
+> > since
+> > mmu_notifiers can execute to completion and shrinkers / eviction
+> > can
+> > execute while a page-fault is pending.
+>=20
+> The problem is that a program that uses a page-faulting job can lock
+> out
+> all other programs on the system from using the GPU for an indefinite
+> period of time.=C2=A0 In a GUI session, this means a frozen UI, which
+> makes
+> recovery basically impossible without drastic measures (like
+> rebooting
+> or logging in over SSH).=C2=A0 That counts as a quite effective denial of
+> service from an end-user perspective, and unless I am mistaken it
+> would
+> be very easy to trigger by accident: just start a page-faulting job
+> that
+> loops forever.
 
-You didn't seem to take most of the suggestions I gave in response to
-your v1 [3]. Specifically:
+I think the easiest remedy for this is that if a page-faulting job is
+either by purpose or mistake crafted in such a way that it holds up
+preemption when preemption is needed (like in the case I described, a
+dma-fence job is submitted) the driver will hit a preemption timeout
+and kill the pagefaulting job. (I think that is already handled in all
+cases in the xe driver but I would need to double check). So this would
+then boil down to the system administrator configuring the preemption
+timeout.
 
-a) I asked that you CC Tejas. I've added him again.
 
-b) I asked that you CC me on the whole patch series, which you didn't
-do. I can find them, but I'd find it convenient in this case for them
-to be in my Inbox.
+Thanks,
+Thomas
 
-The first patch conflicts with what Tejas already landed in
-drm-misc-next. See commit 8025f23728e9 ("drm/panel:
-xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
-second patch _also_ conflicts with what Tejas already landed. See
-commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
-mipi_dsi wrapped functions"). Later patches also also conflict. See
-commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
-wrapped functions"), commit ce8c69ec90ca ("drm/panel:
-samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
-functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
-transition to mipi_dsi wrapped functions"). Maybe you should sync up
-with drm-misc-next before submitting.
-
-I also questioned whether this really made sense to try to do with a
-Coccinelle script and I still don't think so. It looks like Dmitry has
-already reviewed the first few of your patches and has repeated my
-advice. If you want to help with the effort of addressing this TODO
-item then that's great, but I'll stop reviewing (and start silently
-deleting) any future submissions of yours that say that they're done
-entirely with a Coccinelle script unless you address this point and
-convince me that your Coccinelle script is really smart enough to
-handle all the corner cases. I'll also assert that you should review
-Tejas's submissions to see how these conversions are expected to go.
-
-[3] https://lore.kernel.org/r/CAD=3DFV=3DWkPefg00R_TAQQA6waRqGdD+3e84JXfPLk=
-2i9BRzW6Yg@mail.gmail.com
