@@ -2,62 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F2CA36730
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 22:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826E5A36788
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 22:29:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE4810E0B4;
-	Fri, 14 Feb 2025 21:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D7F10E08A;
+	Fri, 14 Feb 2025 21:29:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="V4+/2yiH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OzIzziYr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9384110E0B4
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 21:01:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739566824; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WsX1oLnhjvUPVAMV6CPsMZWwHXSzCRoPUlcCbFkX1iVgiZFKaiYoGjNyqWGpS1XFF1pJCHRHPhNtI5Q2ZvQhua9YHfbbXKtsOIslON4VlGv63FKEn7ziLw5yF+nXEVeSfZq/KBU+vyUAHQP+hZtiCbxqeK8R80NZD6siO0NwH8k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739566824;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=JWDjD2ykSNfdny1OGAbJaEOdyCiHP6cpZeQw+/uPvDY=; 
- b=d7LxqseOVrrK5RJLWM4p15VVnw4/v+rW1z7ZoleA6q/pueCQ0SAlJMjRv8sbJapO9JslNl+U5owmn9a+llQGR7sHnm94mT2+sJOj2lXM5BgrEnp8zb2U67hMwL9m6X3keVLJAbj6ku1C1UWga63MJO0JU5Bp39/pRkOu8OflK/s=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739566824; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=JWDjD2ykSNfdny1OGAbJaEOdyCiHP6cpZeQw+/uPvDY=;
- b=V4+/2yiHXhSbtD3VXmryGatcLN4KjCtkZ0yOlgVp/g1Gpx+NvsCvGU/Ot5R0/qWE
- sBRYvlX7oiO5n90EAF10aOWwcT4eYoMMt8c2BzHWIHYNb+eX9vDS8DoNwHo9l34yb0W
- ZTQvq1eJJRPrNh9LrbtGw89LQe2YTiy7bmYB05vw=
-Received: by mx.zohomail.com with SMTPS id 1739566822837654.3062409366959;
- Fri, 14 Feb 2025 13:00:22 -0800 (PST)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB5C210E08A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 21:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739568562; x=1771104562;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=TpZ5BcIn4SbzC6/X1Y2evpTO0RYHCL8ZdezckaFFpW0=;
+ b=OzIzziYrBESWKBoDJer8m0Ua6v0HL2ytNMK8EZVFtlj1Qrhb29UKKtGx
+ CMafXBoZFAkR0ELt6Vtb/RJOahQr2slAsrUGysxbMTgCti64R+9A52kGS
+ xh7NfXpE5cJZMojKekzXTP8qtbEAMZeMzTMtqdeyjyKyrmmlpvvq7Z+43
+ H6zxTSZiidxcghmM/kmGq+ysUEg1TKmH4IR8U6F5UfDBOD1pNMEArQ2Hq
+ QGvRVMp4chsJXC7TtRlBddnLPInkS69Aw9WrfXQy/eBYFnDJ3s1uuWldj
+ 3QvnJldhuXK/bsdVasWyBam0hm4H+2Sx19UZJEqvN3rk+m9ruJ1UKnKq6 Q==;
+X-CSE-ConnectionGUID: 45BAp0wrRVWR0fmud6PGtA==
+X-CSE-MsgGUID: 6ugprjSTQc+wQkl7JsyKDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40599597"
+X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="40599597"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2025 13:29:22 -0800
+X-CSE-ConnectionGUID: J8qkXJLGTmCQjbjvrG1+qg==
+X-CSE-MsgGUID: UovYy1mBQ0GlO5csthlfeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="113290900"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by orviesa009.jf.intel.com with ESMTP; 14 Feb 2025 13:29:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tj3FL-001ABb-1q;
+ Fri, 14 Feb 2025 21:29:15 +0000
+Date: Sat, 15 Feb 2025 05:28:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, bliang@analogixsemi.com,
+ qwen@analogixsemi.com, treapking@google.com,
+ Xin Ji <xji@analogixsemi.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drm/panthor: Avoid sleep locking in the internal BO
- size path
-Date: Fri, 14 Feb 2025 20:55:21 +0000
-Message-ID: <20250214210009.1994543-2-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250214210009.1994543-1-adrian.larumbe@collabora.com>
-References: <20250214210009.1994543-1-adrian.larumbe@collabora.com>
+Subject: Re: [PATCH] drm/bridge:anx7625: Enable DSC feature
+Message-ID: <202502150516.xZBLDIlz-lkp@intel.com>
+References: <20250213123331.3016824-1-xji@analogixsemi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213123331.3016824-1-xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,189 +79,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 434e5ca5b5d7 ("drm/panthor: Expose size of driver internal BO's over
-fdinfo") locks the VMS xarray, to avoid UAF errors when the same VM is
-being concurrently destroyed by another thread. However, that puts the
-current thread in atomic context, which means taking the VMS' heap locks
-will trigger a warning as the thread is no longer allowed to sleep.
+Hi Xin,
 
-Because in this case replacing the heap mutex with a spinlock isn't
-feasible, the fdinfo handler no longer traverses the list of heaps for
-every single VM associated with an open DRM file. Instead, when a new heap
-chunk is allocated, its size is accumulated into a VM-wide tally, which
-also makes the atomic context code path somewhat faster.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-Fixes: 3e2c8c718567 ("drm/panthor: Expose size of driver internal BO's over fdinfo")
----
- drivers/gpu/drm/panthor/panthor_heap.c | 38 ++++++++------------------
- drivers/gpu/drm/panthor/panthor_heap.h |  2 --
- drivers/gpu/drm/panthor/panthor_mmu.c  | 23 +++++++++++-----
- drivers/gpu/drm/panthor/panthor_mmu.h  |  1 +
- 4 files changed, 28 insertions(+), 36 deletions(-)
+[auto build test ERROR on linus/master]
+[also build test ERROR on drm-misc/drm-misc-next v6.14-rc2 next-20250214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-index db0285ce5812..e5e5953e4f87 100644
---- a/drivers/gpu/drm/panthor/panthor_heap.c
-+++ b/drivers/gpu/drm/panthor/panthor_heap.c
-@@ -127,6 +127,8 @@ static void panthor_free_heap_chunk(struct panthor_vm *vm,
- 	heap->chunk_count--;
- 	mutex_unlock(&heap->lock);
- 
-+	panthor_vm_heaps_size_accumulate(vm, -heap->chunk_size);
-+
- 	panthor_kernel_bo_destroy(chunk->bo);
- 	kfree(chunk);
- }
-@@ -180,6 +182,8 @@ static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
- 	heap->chunk_count++;
- 	mutex_unlock(&heap->lock);
- 
-+	panthor_vm_heaps_size_accumulate(vm, heap->chunk_size);
-+
- 	return 0;
- 
- err_destroy_bo:
-@@ -389,6 +393,7 @@ int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
- 			removed = chunk;
- 			list_del(&chunk->node);
- 			heap->chunk_count--;
-+			panthor_vm_heaps_size_accumulate(chunk->bo->vm, -heap->chunk_size);
- 			break;
- 		}
- 	}
-@@ -560,6 +565,8 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
- 	if (ret)
- 		goto err_destroy_pool;
- 
-+	panthor_vm_heaps_size_accumulate(vm, pool->gpu_contexts->obj->size);
-+
- 	return pool;
- 
- err_destroy_pool:
-@@ -594,8 +601,11 @@ void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
- 	xa_for_each(&pool->xa, i, heap)
- 		drm_WARN_ON(&pool->ptdev->base, panthor_heap_destroy_locked(pool, i));
- 
--	if (!IS_ERR_OR_NULL(pool->gpu_contexts))
-+	if (!IS_ERR_OR_NULL(pool->gpu_contexts)) {
-+		panthor_vm_heaps_size_accumulate(pool->gpu_contexts->vm,
-+					    -pool->gpu_contexts->obj->size);
- 		panthor_kernel_bo_destroy(pool->gpu_contexts);
-+	}
- 
- 	/* Reflects the fact the pool has been destroyed. */
- 	pool->vm = NULL;
-@@ -603,29 +613,3 @@ void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
- 
- 	panthor_heap_pool_put(pool);
- }
--
--/**
-- * panthor_heap_pool_size() - Calculate size of all chunks across all heaps in a pool
-- * @pool: Pool whose total chunk size to calculate.
-- *
-- * This function adds the size of all heap chunks across all heaps in the
-- * argument pool. It also adds the size of the gpu contexts kernel bo.
-- * It is meant to be used by fdinfo for displaying the size of internal
-- * driver BO's that aren't exposed to userspace through a GEM handle.
-- *
-- */
--size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
--{
--	struct panthor_heap *heap;
--	unsigned long i;
--	size_t size = 0;
--
--	down_read(&pool->lock);
--	xa_for_each(&pool->xa, i, heap)
--		size += heap->chunk_size * heap->chunk_count;
--	up_read(&pool->lock);
--
--	size += pool->gpu_contexts->obj->size;
--
--	return size;
--}
-diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/panthor/panthor_heap.h
-index e3358d4e8edb..25a5f2bba445 100644
---- a/drivers/gpu/drm/panthor/panthor_heap.h
-+++ b/drivers/gpu/drm/panthor/panthor_heap.h
-@@ -27,8 +27,6 @@ struct panthor_heap_pool *
- panthor_heap_pool_get(struct panthor_heap_pool *pool);
- void panthor_heap_pool_put(struct panthor_heap_pool *pool);
- 
--size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
--
- int panthor_heap_grow(struct panthor_heap_pool *pool,
- 		      u64 heap_gpu_va,
- 		      u32 renderpasses_in_flight,
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 8c6fc587ddc3..9e48b34fcf80 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -347,6 +347,14 @@ struct panthor_vm {
- 		struct mutex lock;
- 	} heaps;
- 
-+	/**
-+	 * @fdinfo: VM-wide fdinfo fields.
-+	 */
-+	struct {
-+		/** @fdinfo.heaps_size: Size of all chunks across all heaps in the pool. */
-+		atomic_t heaps_size;
-+	} fdinfo;
-+
- 	/** @node: Used to insert the VM in the panthor_mmu::vm::list. */
- 	struct list_head node;
- 
-@@ -1541,6 +1549,8 @@ static void panthor_vm_destroy(struct panthor_vm *vm)
- 	vm->heaps.pool = NULL;
- 	mutex_unlock(&vm->heaps.lock);
- 
-+	atomic_set(&vm->fdinfo.heaps_size, 0);
-+
- 	drm_WARN_ON(&vm->ptdev->base,
- 		    panthor_vm_unmap_range(vm, vm->base.mm_start, vm->base.mm_range));
- 	panthor_vm_put(vm);
-@@ -1963,13 +1973,7 @@ void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats
- 
- 	xa_lock(&pfile->vms->xa);
- 	xa_for_each(&pfile->vms->xa, i, vm) {
--		size_t size = 0;
--
--		mutex_lock(&vm->heaps.lock);
--		if (vm->heaps.pool)
--			size = panthor_heap_pool_size(vm->heaps.pool);
--		mutex_unlock(&vm->heaps.lock);
--
-+		size_t size = atomic_read(&vm->fdinfo.heaps_size);
- 		stats->resident += size;
- 		if (vm->as.id >= 0)
- 			stats->active += size;
-@@ -1977,6 +1981,11 @@ void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats
- 	xa_unlock(&pfile->vms->xa);
- }
- 
-+void panthor_vm_heaps_size_accumulate(struct panthor_vm *vm, ssize_t acc)
-+{
-+	atomic_add(acc, &vm->fdinfo.heaps_size);
-+}
-+
- static u64 mair_to_memattr(u64 mair, bool coherent)
- {
- 	u64 memattr = 0;
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-index fc274637114e..29030384eafe 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.h
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-@@ -39,6 +39,7 @@ struct panthor_heap_pool *
- panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
- 
- void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats *stats);
-+void panthor_vm_heaps_size_accumulate(struct panthor_vm *vm, ssize_t acc);
- 
- struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
- void panthor_vm_put(struct panthor_vm *vm);
+url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Ji/drm-bridge-anx7625-Enable-DSC-feature/20250213-203558
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250213123331.3016824-1-xji%40analogixsemi.com
+patch subject: [PATCH] drm/bridge:anx7625: Enable DSC feature
+config: arm-randconfig-003-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150516.xZBLDIlz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150516.xZBLDIlz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502150516.xZBLDIlz-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/anx7625.o: in function `anx7625_bridge_mode_fixup':
+>> drivers/gpu/drm/bridge/analogix/anx7625.c:2472:(.text.anx7625_bridge_mode_fixup+0x9e): undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/anx7625.c:2562:(.text.anx7625_bridge_mode_fixup+0x10e): undefined reference to `__aeabi_uldivmod'
+
+
+vim +2472 drivers/gpu/drm/bridge/analogix/anx7625.c
+
+  2440	
+  2441	static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
+  2442					      const struct drm_display_mode *mode,
+  2443					      struct drm_display_mode *adj)
+  2444	{
+  2445		struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+  2446		struct device *dev = ctx->dev;
+  2447		u32 hsync, hfp, hbp, hblanking;
+  2448		u32 adj_hsync, adj_hfp, adj_hbp, adj_hblanking, delta_adj;
+  2449		u32 vref, adj_clock;
+  2450	
+  2451		DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
+  2452	
+  2453		hsync = mode->hsync_end - mode->hsync_start;
+  2454		hfp = mode->hsync_start - mode->hdisplay;
+  2455		hbp = mode->htotal - mode->hsync_end;
+  2456		hblanking = mode->htotal - mode->hdisplay;
+  2457	
+  2458		dev_dbg(dev, "before mode fixup\n");
+  2459		dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
+  2460			hsync, hfp, hbp, adj->clock);
+  2461		dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d)\n",
+  2462			adj->hsync_start, adj->hsync_end, adj->htotal);
+  2463		adj_hfp = hfp;
+  2464		adj_hsync = hsync;
+  2465		adj_hbp = hbp;
+  2466		adj_hblanking = hblanking;
+  2467	
+  2468		if (mode->clock > DSC_PIXEL_CLOCK) {
+  2469			adj_hsync = DSC_HSYNC_LEN;
+  2470			adj_hfp = DSC_HFP_LEN;
+  2471			adj_hbp = DSC_HBP_LEN;
+> 2472			vref = (u64)adj->clock * 1000 * 1000 / (adj->htotal * adj->vtotal);
+  2473			goto calculate_timing;
+  2474		}
+  2475	
+  2476		/* No need fixup for external monitor */
+  2477		if (!ctx->pdata.panel_bridge)
+  2478			return true;
+  2479	
+  2480		/* HFP needs to be even */
+  2481		if (hfp & 0x1) {
+  2482			adj_hfp += 1;
+  2483			adj_hblanking += 1;
+  2484		}
+  2485	
+  2486		/* HBP needs to be even */
+  2487		if (hbp & 0x1) {
+  2488			adj_hbp -= 1;
+  2489			adj_hblanking -= 1;
+  2490		}
+  2491	
+  2492		/* HSYNC needs to be even */
+  2493		if (hsync & 0x1) {
+  2494			if (adj_hblanking < hblanking)
+  2495				adj_hsync += 1;
+  2496			else
+  2497				adj_hsync -= 1;
+  2498		}
+  2499	
+  2500		/*
+  2501		 * Once illegal timing detected, use default HFP, HSYNC, HBP
+  2502		 * This adjusting made for built-in eDP panel, for the externel
+  2503		 * DP monitor, may need return false.
+  2504		 */
+  2505		if (hblanking < HBLANKING_MIN || (hfp < HP_MIN && hbp < HP_MIN)) {
+  2506			adj_hsync = SYNC_LEN_DEF;
+  2507			adj_hfp = HFP_HBP_DEF;
+  2508			adj_hbp = HFP_HBP_DEF;
+  2509			vref = adj->clock * 1000 / (adj->htotal * adj->vtotal);
+  2510			if (hblanking < HBLANKING_MIN) {
+  2511				delta_adj = HBLANKING_MIN - hblanking;
+  2512				adj_clock = vref * delta_adj * adj->vtotal;
+  2513				adj->clock += DIV_ROUND_UP(adj_clock, 1000);
+  2514			} else {
+  2515				delta_adj = hblanking - HBLANKING_MIN;
+  2516				adj_clock = vref * delta_adj * adj->vtotal;
+  2517				adj->clock -= DIV_ROUND_UP(adj_clock, 1000);
+  2518			}
+  2519	
+  2520			DRM_WARN("illegal hblanking timing, use default.\n");
+  2521			DRM_WARN("hfp(%d), hbp(%d), hsync(%d).\n", hfp, hbp, hsync);
+  2522		} else if (adj_hfp < HP_MIN) {
+  2523			/* Adjust hfp if hfp less than HP_MIN */
+  2524			delta_adj = HP_MIN - adj_hfp;
+  2525			adj_hfp = HP_MIN;
+  2526	
+  2527			/*
+  2528			 * Balance total HBlanking pixel, if HBP does not have enough
+  2529			 * space, adjust HSYNC length, otherwise adjust HBP
+  2530			 */
+  2531			if ((adj_hbp - delta_adj) < HP_MIN)
+  2532				/* HBP not enough space */
+  2533				adj_hsync -= delta_adj;
+  2534			else
+  2535				adj_hbp -= delta_adj;
+  2536		} else if (adj_hbp < HP_MIN) {
+  2537			delta_adj = HP_MIN - adj_hbp;
+  2538			adj_hbp = HP_MIN;
+  2539	
+  2540			/*
+  2541			 * Balance total HBlanking pixel, if HBP hasn't enough space,
+  2542			 * adjust HSYNC length, otherwize adjust HBP
+  2543			 */
+  2544			if ((adj_hfp - delta_adj) < HP_MIN)
+  2545				/* HFP not enough space */
+  2546				adj_hsync -= delta_adj;
+  2547			else
+  2548				adj_hfp -= delta_adj;
+  2549		}
+  2550	
+  2551	calculate_timing:
+  2552	
+  2553		dev_dbg(dev, "after mode fixup\n");
+  2554		dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
+  2555			adj_hsync, adj_hfp, adj_hbp, adj->clock);
+  2556	
+  2557		/* Reconstruct timing */
+  2558		adj->hsync_start = adj->hdisplay + adj_hfp;
+  2559		adj->hsync_end = adj->hsync_start + adj_hsync;
+  2560		adj->htotal = adj->hsync_end + adj_hbp;
+  2561		if (mode->clock > DSC_PIXEL_CLOCK)
+> 2562			adj->clock = (u64)vref * adj->htotal * adj->vtotal / 1000 / 1000;
+  2563	
+  2564		dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d), clock(%d)\n",
+  2565			adj->hsync_start, adj->hsync_end, adj->htotal, adj->clock);
+  2566	
+  2567		return true;
+  2568	}
+  2569	
+
 -- 
-2.47.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
