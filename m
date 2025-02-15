@@ -2,61 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70E8A36E18
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 13:34:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B390AA36BBF
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 04:49:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E933310E176;
-	Sat, 15 Feb 2025 12:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 772DF10E49C;
+	Sat, 15 Feb 2025 03:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=codeweavers.com header.i=@codeweavers.com header.b="Xg851AJR";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="f2mN4FYA";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="h5kGlGKe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB6910E4AF
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=codeweavers.com; s=s1; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jw3SBcHfeO9xQcGCOZ7HTEtBaz2w2sb/NeaKrxms458=; b=Xg851AJRGjCCqkRvuy7GRRgRfX
- H5E1t1Tj34t9hcjE+oxOrjHfSsrW9ObUB8wJCcMYybXtVeHFM5lX2wzn/VN/gjdduvPYx1Bs0pr96
- UDjNDXenZimieCUy0+TSI0ioR41jlkJCOVfYbrRzIL38ZAZSXMLFKHxaYOHH7QxO1UiISo/pOJ44Y
- MBTqnzjs0TiGhW9x758kJc6QxRDBfpCB32GB7A/rCk21kHUZwTjNPzt3LNiZwYKA/+M7mEifytO4U
- txWBv4aOZDsqZE/C8+o/jPlw/vflDDCzAiU/9ysdRQjZ6XQKG656jftEGvyBKLVQNgULZ6iUNy6hC
- tC2BYddg==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160]
- helo=camazotz.localnet)
- by mail.codeweavers.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <zfigura@codeweavers.com>) id 1tj6uW-00FC1C-2T;
- Fri, 14 Feb 2025 19:24:00 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Mike Lothian <mike@fireburn.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org, =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, 
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH] ntsync: Set the permissions to be 0666
-Date: Fri, 14 Feb 2025 19:24:00 -0600
-Message-ID: <3611179.iIbC2pHGDl@camazotz>
-In-Reply-To: <20250215010333.GO3028674@frogsfrogsfrogs>
-References: <20250214122759.2629-2-mike@fireburn.co.uk>
- <8487800.T7Z3S40VBb@camazotz>
- <20250215010333.GO3028674@frogsfrogsfrogs>
+Received: from fhigh-a5-smtp.messagingengine.com
+ (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A118210E49C
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 03:49:02 +0000 (UTC)
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal
+ [10.202.2.53])
+ by mailfhigh.phl.internal (Postfix) with ESMTP id C4F5C11401A1;
+ Fri, 14 Feb 2025 22:49:01 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+ by phl-compute-13.internal (MEProxy); Fri, 14 Feb 2025 22:49:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:content-type
+ :date:date:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+ t=1739591341; x=1739677741; bh=myPH6l0fPDFrYP8tIa5SQdEq5I1Vnw5X
+ 3g3YUMM3Fvo=; b=f2mN4FYAsZWTmcoXQzLdOm6nhCSQVsklPCaxxA3I0gRl6Llb
+ r7XnsUtluxKlfvd0CvNdhDXW5oqw0eXUTxWXGPRwEAe8/48OmMyUZ5DaRga+/+om
+ T49CWoIlw6YUesuxbcrecerkGSFutscBq4RLnY1K+DaTvzDIhbaEHI6ax33FgLgC
+ zk486z37on20gABwb27Uludiseema+Zywyshlxfjg23XHb1u1FqUPP0o0wbSLfOE
+ PgFdntSbZxXBHsucZTX6a1r2UgZiaumeoVzSaJENkC5DisSWrs2ueAAoxpCG8CvJ
+ 9O+DVifnxQo1Up2Tm7ZUi4DsqFT7BLF9FICa+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739591341; x=
+ 1739677741; bh=myPH6l0fPDFrYP8tIa5SQdEq5I1Vnw5X3g3YUMM3Fvo=; b=h
+ 5kGlGKe8nmS4hPtg4pyM/dztqaM1EI/EUXKsufWrss4oipO4lSS9bFUucVo4SNp1
+ +JXOOypne61enHqc5tB5kn88ixbz/gd5CDUao5NaeDAq8x7/E6tuc27d16u48QfS
+ J9Iu9d8r0Dl+brQaLUprh0KktWb+CYPA0S6JztTAyEdR3yRcZ1ez0ZrzBHN3qU95
+ QNhuPw65PjxSjtqcrzSwynVyKoB6pffHN8Nz8U8XLUutkCAHeKFLjQuiswM4xVPu
+ QL42I5S4zEcIODBJ8U5WQRaJkgPEV5TgHhhHgq7bDfN5W26/5to+X4KAtzajydcc
+ WBVM+Q5TSBs0pR5iPkRcQ==
+X-ME-Sender: <xms:qw6wZ3Nc5rAOzMC_OTcN0l0edsxhS-uHEt9Sa7PrG6D6mwUQAtKocA>
+ <xme:qw6wZx_LHoVEOB_G13QugvaiTAkZRDFj1YEa9aHqHFd8i9vQqGs7dbXxGCPuXrDmp
+ 0CcVTkoHx1_LLGRgA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehudeglecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+ tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
+ grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
+ tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
+ pghrtghpthhtohepvddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurh
+ gvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthht
+ vgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrgh
+ dprhgtphhtthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhl
+ ihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtg
+ esghhmrghilhdrtghomhdprhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghi
+ lhdrtghomhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+ hpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:qw6wZ2SujnKu_6uipJMxuvzHBwznXkOUFi4IQc6DAf04ouMRp0sR3Q>
+ <xmx:qw6wZ7uEgbjmfrGBLm1FIJath51BFS5DtwamInX0oUUVWq--KZOe0Q>
+ <xmx:qw6wZ_dJDa88Ul43SQZRdrfFvtanu8cSuRQkj_uri896EP7RTUWTjw>
+ <xmx:qw6wZ30Et1uGUl--L6okTQMkGs0qI1C2w6hwzu_tR1UxvxTfY84y7A>
+ <xmx:rQ6wZ18oljfrxqA20zSQwEBuF_J-YT7KozvLnYThvbAI55hTEkpjvDsM>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 981AEBA006F; Fri, 14 Feb 2025 22:48:59 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Mailman-Approved-At: Sat, 15 Feb 2025 12:34:12 +0000
+Date: Sat, 15 Feb 2025 16:48:39 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>, 
+ "Chris Morgan" <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Message-Id: <6f14b319-fbb8-413d-a88d-edebf624c7fb@app.fastmail.com>
+In-Reply-To: <4c31826f-0ffa-4ada-bcf9-199fcbe6db07@app.fastmail.com>
+References: <20240929091107.838023-1-ryan@testtoast.com>
+ <20240929091107.838023-9-ryan@testtoast.com>
+ <4cumvwkhmbi7fecjeq6r7elon63u3ytootqcvavjg5vfnargy3@wrjpy6pnphmb>
+ <4c31826f-0ffa-4ada-bcf9-199fcbe6db07@app.fastmail.com>
+Subject: Re: [PATCH v5 08/26] drm: sun4i: de3: add YUV support to the DE3 mixer
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,75 +116,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, 14 February 2025 19:03:33 CST Darrick J. Wong wrote:
-> On Fri, Feb 14, 2025 at 04:15:25PM -0600, Elizabeth Figura wrote:
-> > On Friday, 14 February 2025 12:45:39 CST Darrick J. Wong wrote:
-> > > On Fri, Feb 14, 2025 at 12:13:03PM -0600, Elizabeth Figura wrote:
-> > > > On Friday, 14 February 2025 07:06:20 CST Greg Kroah-Hartman wrote:
-> > > > > On Fri, Feb 14, 2025 at 12:28:00PM +0000, Mike Lothian wrote:
-> > > > > > This allows ntsync to be usuable by non-root processes out of t=
-he box
-> > > > >=20
-> > > > > Are you sure you need/want that?  If so, why?  How did existing t=
-esting
-> > > > > not ever catch this?
-> > > >=20
-> > > > Hi, sorry, this is of course my fault.
-> > > >=20
-> > > > We do need /dev/ntsync to be openable from user space for it to be
-> > > > useful. I'm not sure what the most "correct" permissions are to have
-> > > > in this case (when we don't specifically need read or write), but I
-> > > > don't think I see a reason not to just set to 666 or 444.
-> > > >=20
-> > > > I originally assumed that the right way to do this was not to set t=
-he
-> > > > mode on the kernel file but rather through udev; I believe I was us=
-ing
-> > > > the code for /dev/loop-control or /dev/fuse as an example, which bo=
-th
-> > > > do that. So I (and others who tested) had just manually set up udev
-> > > > rules for this, with the eventual intent of adding a default rule to
-> > > > systemd like the others. I only recently realized that doing someth=
-ing
-> > > > like this patch is possible and precedented.
-> > > >=20
-> > > > I don't know what the best way to address this is, but this is
-> > > > certainly the simplest.
-> > >=20
-> > > Paranoid defaults in the kernel, and then a udev rule to relax the mo=
-de
-> > > at runtime.  You could also have logind scripts to add add per-user
-> > > allow acls to the device file at user session set up time... or howev=
-er
-> > > it is that /dev/sr0 has me on the allow list.  I'm not sure how that
-> > > happens exactly, but it works smoothly.
-> > >=20
-> > > I get far less complaining about relaxing posture than tightening it
-> > > (=3D=3Dbreaking things) after the fact.
-> >=20
-> > FWIW, it may be worth stressing that this is not a hardware device in
-> > any sense, it's a software driver that only lives in a char device
-> > (and dedicated module) for the sake of isolating the code. I can't
-> > imagine any reason to control access per-user, although my experience
-> > may not be enough to grant such imagination.
->=20
-> Oh, I'm aware that ntsync is a driver for a software "device" that
-> implements various Windows APIs and isn't real hardware. :)
->=20
-> But, you might want prevent non-root systemd services (e.g. avahi) from
-> being able to access /dev/ntsync if, say, someone breaches that, while
-> at the same time allowing access to (say) logged-in users who can run
-> Wine.
+On Sat, 15 Feb 2025, at 2:18 PM, Ryan Walklin wrote:
+> On Sun, 20 Oct 2024, at 3:14 AM, Dmitry Baryshkov wrote:
+>> On Sun, Sep 29, 2024 at 10:04:40PM +1300, Ryan Walklin wrote:
+>
+>>> diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
+>>> index c48cbc1aceb80..ffafc29b3a0c3 100644
+>>> --- a/drivers/gpu/drm/sun4i/sunxi_engine.h
+>>> +++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
+>
+>>> @@ -151,6 +153,9 @@ struct sunxi_engine {
+>>>  
+>>>  	int id;
+>>>  
+>>> +	u32				format;
+>>> +	enum drm_color_encoding		encoding;
+>>
+>> Should these be a part of the state instead of being a part of the
+>> sunxi_engine?
+>
+> Sure, would you suggest in sun8i_mixer_cfg?
 
-I see the idea, though I don't know if it's applicable in this case=E2=80=
-=94the individual ntsync file descriptions are also supposed to be isolated=
- from one another, so even a rogue avahi would still have another barrier t=
-owards compromising a Wine process. Of course you may be aware of that and =
-be advocating for the more barriers the better.
+Hmm, on second thought the mixer config is a const struct, presumably because it is defined per engine variant in sun8i_mixer.c. Is there a better place to store state like this? Otherwise the engine may not be the worst choice, as the color format and encoding apply to the entire pipeline, at least in the case of a single display?
 
-I can't say what systemd will actually prefer in this case, but they do see=
-m to have requested that the kernel change it... [1]
+Regards,
 
-[1] https://github.com/systemd/systemd/pull/36384
-
-
+Ryan
