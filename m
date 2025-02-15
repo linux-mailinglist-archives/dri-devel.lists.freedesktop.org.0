@@ -2,55 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9ACA36C73
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 08:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B143A36C78
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 08:38:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9577891D1;
-	Sat, 15 Feb 2025 07:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D80810E183;
+	Sat, 15 Feb 2025 07:38:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="YG5i1RGl";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YTN/HZ2J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 081FA891D1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 07:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=1EL9bFgToVEuBS6aPe0qceOXgXPkbk9N2MGTIJk/rp0=; b=Y
- G5i1RGlF0yT2MC1JsIaESD5w0SrbSLiQFYc6VR1TkOYBgxezgzEKdo01jUbZsTIt
- rFvOyiKL9BdAK8kLpCr5rkOt4sLj1Y+FbiJ+ZAakrQ3aGiKbigXa4qAFtuqT+sMZ
- pz8OfHGFndM7ghj+qIwpGGP6rTLmSJurgzwLsm5QE8=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-141 (Coremail) ; Sat, 15 Feb 2025 15:34:31 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Sat, 15 Feb 2025 15:34:31 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
- detlev.casanova@collabora.com, daniel@fooishbar.org, robh@kernel.org,
- sebastian.reichel@collabora.com, "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:Re: [PATCH v14 04/13] drm/rockchip: vop2: Merge
- vop2_cluster/esmart_init function
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <8686639.gsGJI6kyIV@diego>
-References: <20250212093530.52961-1-andyshrk@163.com>
- <20250212093530.52961-5-andyshrk@163.com> <8686639.gsGJI6kyIV@diego>
-X-NTES-SC: AL_Qu2YC/qbu0As5yKeZukfmkcVgOw9UcO5v/Qk3oZXOJF8jCrr9gYOYUFMLFHZ4OeODhqPrheYUAFq0M9dZ69DWLMb8aThq5gl6h0v6I3OmQHGpg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A917010E181
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 07:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1739605097;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9SPJu0ZBIiiVkYEwkjayrxT/oy/c7Iuvd5fIj5BIhro=;
+ b=YTN/HZ2JRUgoiwan/uolT3/axdZHXZScuBGo4TWI+q+CILKvGQWrDqcmpSjKFyoCbCpJUE
+ bMAWOLYEqY82EorVagm5oz9KVGYcLVn5CJMuhEEgFwZOh9RtgXwReb828onOP4mXwI8t9i
+ Cy/Gex0tniysI4tQsLgy/tbKJcfAsAo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-245-suv893FhNcGxlNmL24lZfQ-1; Sat, 15 Feb 2025 02:38:15 -0500
+X-MC-Unique: suv893FhNcGxlNmL24lZfQ-1
+X-Mimecast-MFC-AGG-ID: suv893FhNcGxlNmL24lZfQ_1739605095
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-5dece867fe2so3003578a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 23:38:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739605094; x=1740209894;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9SPJu0ZBIiiVkYEwkjayrxT/oy/c7Iuvd5fIj5BIhro=;
+ b=m0n6x5gFIBMeURL9S9kNLpFJ/wgr7AIkAZE5dh4piKPxPZ7GSjDtqgmiA+go8aIXJ+
+ HwJOdMrijpfp7fkmXmgcNWHn7VFV87MsODzKqaDhu8/p4SWbcjdI/gF9uM2/E//PayKo
+ K1Ovw8d26f/fW8biBXTN4MY4Ct5pk3LddWYmcixvV8FDWOQZYcIjdyJ7qnuC4VtkEOSu
+ ro3fm2P7K1eK/Umw/bOvxvHzYF8YOpdVtaR6mFuHqZWFN9y4Y3J7d1eHlodIX3zD+KnT
+ p62xuqMNUlIHd2KNqS/6mgJYbHEyUVxACz2wFBYdYA7EcPaXvi+30inkni5dRHOp69U8
+ pk8Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWz8xZEaYFRJWyIEYFc9PmyL4JD2sk8u0ee/J1aRMwVxRyw9E2GRlCeBaO+Mp+4rntNJA6dUqOsosU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNDFog3FzdQ0x9Vnz1GC0eLR4LLS4kJKhUgen0fpir0OQGTmVa
+ HnKYH2ohXLT+geMq1o8bNh1GUra3Muz4K7cFUd201pTkTcPI+0M0hd04yX3HmchoqsEkJiV+8h6
+ U8IduYRTzBkcBpK9riFeLLku97Pt8sklvbFcm32FreMFM7dpcfNImDaddg+kIfGh8gA==
+X-Gm-Gg: ASbGncvG3MQZ4rw45HHc2HDU5CN5taSdOmDgRFCch9KO9BuXhq3MiiYVJwFvmbSL/Ck
+ RQlgRl7phnv8Y8kw8tcr2dugvDZBVCGU2/98gcWLsd/vsg7j845mKpsQk41a0e+buZEe1EpyD0G
+ kNOUpzy0nIkLkilZxF79mkMIG0/p4uGjYmQfthrP/BaoICAMnKk/9GumZb4GqFdEUh/2/MwoSpw
+ K/1+W8KBE1ci3OXq0e310e7q9lrLjPfmY2DG6EQ6rBIviLGRwJWnBDp+mxclKkCFkaqJ+wqyav6
+ TzA=
+X-Received: by 2002:a05:6402:1ece:b0:5de:aa54:dc30 with SMTP id
+ 4fb4d7f45d1cf-5e0360441bbmr1752476a12.5.1739605094578; 
+ Fri, 14 Feb 2025 23:38:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHFHAhvVe5Py0hdiB94bUaSN07AMDxg4HYAot7e2ntkAqpIGaEmu0Phl9/Q2zVhnBH9f47G6g==
+X-Received: by 2002:a05:6402:1ece:b0:5de:aa54:dc30 with SMTP id
+ 4fb4d7f45d1cf-5e0360441bbmr1752458a12.5.1739605094200; 
+ Fri, 14 Feb 2025 23:38:14 -0800 (PST)
+Received: from kherbst.lan ([188.192.20.101]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5ded69e7c33sm3195322a12.61.2025.02.14.23.38.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2025 23:38:13 -0800 (PST)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Karol Herbst <kherbst@redhat.com>
+Subject: [PATCH 0/1] Me stepping down as a nouveau kernel maintainer
+Date: Sat, 15 Feb 2025 08:37:52 +0100
+Message-ID: <20250215073753.1217002-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Message-ID: <44c247c5.1dcc.1950887c866.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: jSgvCgCX3+aHQ7BnKltpAA--.20851W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBv0XmewMliNfQABsV
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: i7LN3XHnLelMrGk_IJG56qUYTNheK2kp4ouw6YwWcOI_1739605095
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,58 +98,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSBIZWlrbywKCkF0IDIwMjUtMDItMTUgMDY6MjQ6MTcsICJIZWlrbyBTdMO8Ym5lciIgPGhl
-aWtvQHNudGVjaC5kZT4gd3JvdGU6Cj5BbSBNaXR0d29jaCwgMTIuIEZlYnJ1YXIgMjAyNSwgMTA6
-MzQ6NTkgTUVaIHNjaHJpZWIgQW5keSBZYW46Cj4+IEZyb206IEFuZHkgWWFuIDxhbmR5LnlhbkBy
-b2NrLWNoaXBzLmNvbT4KPj4gCj4+IE5vdyB0aGVzZSB0d28gZnVuY3Rpb24gc2hhcmUgdGhlIHNh
-bWUgbG9naWMsIHRoZSBjYW4KPj4gYmUgbWVyZ2VkIGFzIG9uZS4KPj4gCj4+IFNpZ25lZC1vZmYt
-Ynk6IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4gLS0tCj4+IAo+PiAobm8g
-Y2hhbmdlcyBzaW5jZSB2MSkKPj4gCj4+ICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2No
-aXBfZHJtX3ZvcDIuYyB8IDQyICsrKysrLS0tLS0tLS0tLS0tLS0tCj4+ICAxIGZpbGUgY2hhbmdl
-ZCwgMTEgaW5zZXJ0aW9ucygrKSwgMzEgZGVsZXRpb25zKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYwo+PiBpbmRleCBhMGQ5NjFjYjVkMjEu
-Ljg0NGRmNDAwMTE1OSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3Jv
-Y2tjaGlwX2RybV92b3AyLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tj
-aGlwX2RybV92b3AyLmMKPj4gQEAgLTI0MjQsMTggKzI0MjQsMTggQEAgc3RhdGljIGludCB2b3Ay
-X2ZpbmRfcmdiX2VuY29kZXIoc3RydWN0IHZvcDIgKnZvcDIpCj4+ICAJcmV0dXJuIC1FTk9FTlQ7
-Cj4+ICB9Cj4+ICAKPj4gLXN0YXRpYyBpbnQgdm9wMl9jbHVzdGVyX2luaXQoc3RydWN0IHZvcDJf
-d2luICp3aW4pCj4+ICtzdGF0aWMgaW50IHZvcDJfcmVnbWFwX2luaXQoc3RydWN0IHZvcDJfd2lu
-ICp3aW4sIGNvbnN0IHN0cnVjdCByZWdfZmllbGQgKnJlZ3MsCj4+ICsJCQkgICAgaW50IG5yX3Jl
-Z3MpCj4+ICB7Cj4+ICAJc3RydWN0IHZvcDIgKnZvcDIgPSB3aW4tPnZvcDI7Cj4+ICAJaW50IGk7
-Cj4+ICAKPj4gLQlmb3IgKGkgPSAwOyBpIDwgdm9wMi0+ZGF0YS0+bnJfY2x1c3Rlcl9yZWdzOyBp
-KyspIHsKPj4gKwlmb3IgKGkgPSAwOyBpIDwgbnJfcmVnczsgaSsrKSB7Cj4+ICAJCWNvbnN0IHN0
-cnVjdCByZWdfZmllbGQgZmllbGQgPSB7Cj4+IC0JCQkucmVnID0gKHZvcDItPmRhdGEtPmNsdXN0
-ZXJfcmVnW2ldLnJlZyAhPSAweGZmZmZmZmZmKSA/Cj4+IC0JCQkJdm9wMi0+ZGF0YS0+Y2x1c3Rl
-cl9yZWdbaV0ucmVnICsgd2luLT5vZmZzZXQgOgo+PiAtCQkJCXZvcDItPmRhdGEtPmNsdXN0ZXJf
-cmVnW2ldLnJlZywKPj4gLQkJCS5sc2IgPSB2b3AyLT5kYXRhLT5jbHVzdGVyX3JlZ1tpXS5sc2Is
-Cj4+IC0JCQkubXNiID0gdm9wMi0+ZGF0YS0+Y2x1c3Rlcl9yZWdbaV0ubXNiCj4+ICsJCQkucmVn
-ID0gKHJlZ3NbaV0ucmVnICE9IDB4ZmZmZmZmZmYpID8KPj4gKwkJCQlyZWdzW2ldLnJlZyArIHdp
-bi0+b2Zmc2V0IDogcmVnc1tpXS5yZWcsCj4+ICsJCQkubHNiID0gcmVnc1tpXS5sc2IsCj4+ICsJ
-CQkubXNiID0gcmVnc1tpXS5tc2IKPj4gIAkJfTsKPj4gIAo+PiAgCQl3aW4tPnJlZ1tpXSA9IGRl
-dm1fcmVnbWFwX2ZpZWxkX2FsbG9jKHZvcDItPmRldiwgdm9wMi0+bWFwLCBmaWVsZCk7Cj4+IEBA
-IC0yNDQ2LDI4ICsyNDQ2LDYgQEAgc3RhdGljIGludCB2b3AyX2NsdXN0ZXJfaW5pdChzdHJ1Y3Qg
-dm9wMl93aW4gKndpbikKPj4gIAlyZXR1cm4gMDsKPj4gIH07Cj4+ICAKPj4gLXN0YXRpYyBpbnQg
-dm9wMl9lc21hcnRfaW5pdChzdHJ1Y3Qgdm9wMl93aW4gKndpbikKPj4gLXsKPj4gLQlzdHJ1Y3Qg
-dm9wMiAqdm9wMiA9IHdpbi0+dm9wMjsKPj4gLQlpbnQgaTsKPj4gLQo+PiAtCWZvciAoaSA9IDA7
-IGkgPCB2b3AyLT5kYXRhLT5ucl9zbWFydF9yZWdzOyBpKyspIHsKPj4gLQkJY29uc3Qgc3RydWN0
-IHJlZ19maWVsZCBmaWVsZCA9IHsKPj4gLQkJCS5yZWcgPSAodm9wMi0+ZGF0YS0+c21hcnRfcmVn
-W2ldLnJlZyAhPSAweGZmZmZmZmZmKSA/Cj4+IC0JCQkJdm9wMi0+ZGF0YS0+c21hcnRfcmVnW2ld
-LnJlZyArIHdpbi0+b2Zmc2V0IDoKPj4gLQkJCQl2b3AyLT5kYXRhLT5zbWFydF9yZWdbaV0ucmVn
-LAo+PiAtCQkJLmxzYiA9IHZvcDItPmRhdGEtPnNtYXJ0X3JlZ1tpXS5sc2IsCj4+IC0JCQkubXNi
-ID0gdm9wMi0+ZGF0YS0+c21hcnRfcmVnW2ldLm1zYgo+PiAtCQl9Owo+PiAtCj4+IC0JCXdpbi0+
-cmVnW2ldID0gZGV2bV9yZWdtYXBfZmllbGRfYWxsb2Modm9wMi0+ZGV2LCB2b3AyLT5tYXAsIGZp
-ZWxkKTsKPj4gLQkJaWYgKElTX0VSUih3aW4tPnJlZ1tpXSkpCj4+IC0JCQlyZXR1cm4gUFRSX0VS
-Uih3aW4tPnJlZ1tpXSk7Cj4+IC0JfQo+PiAtCj4+IC0JcmV0dXJuIDA7Cj4+IC19Cj4+IC0KPj4g
-IHN0YXRpYyBpbnQgdm9wMl93aW5faW5pdChzdHJ1Y3Qgdm9wMiAqdm9wMikKPj4gIHsKPj4gIAlj
-b25zdCBzdHJ1Y3Qgdm9wMl9kYXRhICp2b3AyX2RhdGEgPSB2b3AyLT5kYXRhOwo+PiBAQCAtMjQ4
-NCw5ICsyNDYyLDExIEBAIHN0YXRpYyBpbnQgdm9wMl93aW5faW5pdChzdHJ1Y3Qgdm9wMiAqdm9w
-MikKPj4gIAkJd2luLT53aW5faWQgPSBpOwo+PiAgCQl3aW4tPnZvcDIgPSB2b3AyOwo+PiAgCQlp
-ZiAodm9wMl9jbHVzdGVyX3dpbmRvdyh3aW4pKQo+PiAtCQkJcmV0ID0gdm9wMl9jbHVzdGVyX2lu
-aXQod2luKTsKPj4gKwkJCXJldCA9IHZvcDJfcmVnbWFwX2luaXQod2luLCB2b3AyLT5kYXRhLT5j
-bHVzdGVyX3JlZywKPj4gKwkJCQkJICAgICAgIHZvcDItPmRhdGEtPm5yX2NsdXN0ZXJfcmVncyk7
-Cj4+ICAJCWVsc2UKPj4gLQkJCXJldCA9IHZvcDJfZXNtYXJ0X2luaXQod2luKTsKPj4gKwkJCXJl
-dCA9IHZvcDJfcmVnbWFwX2luaXQod2luLCB2b3AyLT5kYXRhLT5zbWFydF9yZWcsCj4+ICsJCQkJ
-CSAgICAgICB2b3AyLT5kYXRhLT5ucl9jbHVzdGVyX3JlZ3MpOwo+Cj4JCQkJCQleXiBucl9zbWFy
-dF9yZWdzCj5JIHRoaW5rCgpZZXMsIHRoYW5rcyBmb3IgY2F0Y2hpbmcgaXQsICB3aWxsIGJlIGZp
-eGVkIGluIFYxNS4KCj4KPgo+Cj4K
+I was writing this up on Wednesday night, chatted with a few folks about
+it. A lot of things have happened. I often thought about at least
+contributing some patches again once I find the time, but...
+
+Anyway, you'll find a full and proper statement in the patch itself. And I
+wish everybody the best of luck and all the strength needed.
+
+Karol Herbst (1):
+  MAINTAINERS: Remove myself
+
+ MAINTAINERS | 2 --
+ 1 file changed, 2 deletions(-)
+
+-- 
+2.48.1
+
