@@ -2,91 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8AFA36A0B
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01DAA36A12
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:48:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8F510E107;
-	Sat, 15 Feb 2025 00:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67B0A10E367;
+	Sat, 15 Feb 2025 00:48:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LplQ07Ac";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hVB9BsLv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E96CC10ED44
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 00:42:35 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30920855d5bso12312501fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:42:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1739580153; x=1740184953;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=knE8v9zYVGyQDQfSdvTMBCc1TTHDqVX+HxXJrV1G9rs=;
- b=LplQ07Ac5B/B3BpQPSdSItQGp3fTXmV9rAisWG4D16cLaYD0aT+trN6IUnS50l6JpU
- GdgNIWr8zPc2OEvg2NK23DrW7Du1+zKz1lna2K3kAIXOixBelKcNC8DrQRRpGzdxepMT
- eOPSychbPIewLxWev4fI3ybwva/x/mbq9Z3Hw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739580153; x=1740184953;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=knE8v9zYVGyQDQfSdvTMBCc1TTHDqVX+HxXJrV1G9rs=;
- b=g2G3aqNQcaHn6c0RazymPy/U++b+PH+ge04xQA4W/sqG0BtnBbJ3g+JCJqXt8VdSzU
- IQFiuv1VWMjB0OuTot7opD74b+bZxoGWm8aHAB6+hQ8ns6QVAOCKk52/TnfsjX6iEOi8
- gBUdLq75y3HnHDFAAldaZ8ofmgAy56E6GMyiFm1cLYj5rcU8cz83X4eLyhHzBQhe39TM
- R7pbw+sXFKkIN5SquNMHftLpqsr4Xd+Y40D0z/12ws4LipCY2qN6p1wcfVveMaDWf86c
- su6Wv6wVuVrr7rOiCo+gkbGCh5Ihz1jA0MHT7dXTEPQ7MnUp74HH/MvkyCeYvWSNv/n1
- iluw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXO3DIjgorsM/oKYHFShHOwUhhgiiMsPZXJVF9a16LPU62BzPyfU53OfUOIDNadxPxEk0kCgwBEdmE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8pfv50/i/WQ2Og0xf3XX/4J8N/8R2Cdf5zaEfTG/eBzPjr1zT
- 4SPrpmhE95gwYkh6hs75qGoepORLBmBFETJn67loBsFloENEWONp05pbr+jmkwS9YmxjH/aYdhi
- UUTO9
-X-Gm-Gg: ASbGncuhlccjjpkGO+RYurlGDBZCcF8Z78H9H++K9B+K2xKXehNAzc23XXS7qv1rK14
- SFXCm+4DGRo+jyPMc/O2+q0Y4ra1TYFM+bAfDNShnOW44KU0+T2J0AIxyp560av4BKLdw73ShQJ
- 9sqZfLGwKQPaHxC8KbqPEmRHtLDRJUJvmRMWltNG0ehxY8s6P80mgkM0+SGhk8KCcqhYxTlSun8
- Dv2Vv9rFXHypJNA/C096JNhJLJ+9WnIQzOUhfP5pMZkhoQYqjtoStNgrv42nrvMPP5Z5I1esuIc
- AzUmAxhBVS4PnhMniXf+eMri3/rLlQSjvyW7MI4q5VCJ7T0G29tVIhuIuh4=
-X-Google-Smtp-Source: AGHT+IHx1HRH3cXkCWuRPa4IHsHiXwR4YbpyuL+C7UrHMc+hmVGR17ZOebgHflO3Ht/zTGnyaabU4A==
-X-Received: by 2002:a2e:9bd4:0:b0:2ff:b8f5:5a17 with SMTP id
- 38308e7fff4ca-309288c09e5mr2930201fa.5.1739580152907; 
- Fri, 14 Feb 2025 16:42:32 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
- [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-309100c536bsm7506891fa.21.2025.02.14.16.42.30
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Feb 2025 16:42:30 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-30920855d5bso12312211fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 16:42:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX6Cz4Dv6ATzCMoI7etxgcNe4jpg1u6wGsxpPrfqyHDvuUwcF8P0XZp68P1ltHXZlj1qcnuA1nG4Ug=@lists.freedesktop.org
-X-Received: by 2002:a2e:910e:0:b0:309:28c9:54c3 with SMTP id
- 38308e7fff4ca-30928c955aamr2870491fa.12.1739580150226; Fri, 14 Feb 2025
- 16:42:30 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E4D10E0EF;
+ Sat, 15 Feb 2025 00:48:51 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51EEDtsJ022230;
+ Sat, 15 Feb 2025 00:48:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7lwpThfECIvAZjnVcZ1dcc9HeoXUXItIFQ6CI74TL78=; b=hVB9BsLvuVPlgnxn
+ 1JvhaNfAA1HfKOV7LorOaTyGhUTpdjb0bKmCdHhiMpoZJ9RlxdPpyhTR+5UUJb8O
+ 6zGdPvX7YC5QgCJ16wHWfZtJquE+ScBrpLjj/N4yJZhXpEEHb2UJRXNEgFiUBWXt
+ e+gLeLOupawBnaOIGFGmFMFcIvHHYu+IfQCxXU3evOY19qhvn0wRdQt1dwsNaO8+
+ BF4q0IkO8v1XXplonlYYGXozVhzD+RVdDc8T6yoEH428s/jSndLMZDGyAM5BjMu/
+ BD9yMw3vucl3fMdxB6i5UflM9NVx3rK16kPN41YwFJGmo6tiARPZMQZblJUeIkgt
+ h/FEog==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44t7d899v5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 15 Feb 2025 00:48:49 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51F0mmql006478
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 15 Feb 2025 00:48:48 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Feb
+ 2025 16:48:48 -0800
+Message-ID: <18840118-243c-40e2-9b74-226e515ae111@quicinc.com>
+Date: Fri, 14 Feb 2025 16:48:47 -0800
 MIME-Version: 1.0
-References: <20250214172958.81258-1-tejasvipin76@gmail.com>
- <20250214172958.81258-3-tejasvipin76@gmail.com>
-In-Reply-To: <20250214172958.81258-3-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 14 Feb 2025 16:42:18 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U22kToVeyCBy_TV5hNKuMZv-QBUg0WTyXsMSu=bHLd3g@mail.gmail.com>
-X-Gm-Features: AWEUYZl9RMNhOlvjGnk24tr1lRpcTUKmNyE4ytjlZLYxfkgep28FyUJ3Tv8BSeI
-Message-ID: <CAD=FV=U22kToVeyCBy_TV5hNKuMZv-QBUg0WTyXsMSu=bHLd3g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panel: sony-td4353-jdi: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/15] drm/msm/dpu: fix mixer number counter on
+ allocation
+Content-Language: en-US
+To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-0-9701a16340da@linaro.org>
+ <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-6-9701a16340da@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-6-9701a16340da@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 2sMJ_qwPjn0YgeNhaTKkW8V_hKteTUhg
+X-Proofpoint-ORIG-GUID: 2sMJ_qwPjn0YgeNhaTKkW8V_hKteTUhg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-14_10,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 adultscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1015 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502150004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,27 +95,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Fri, Feb 14, 2025 at 9:30=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
-> wrote:
->
-> Change the sony-td4353-jdi panel to use multi style functions for
-> improved error handling.
->
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+
+On 1/17/2025 8:00 AM, Jun Nie wrote:
+> Current code only supports usage cases with one pair of mixers at
+> most. To support quad-pipe usage case, two pairs of mixers need to
+> be reserved. The lm_count for all pairs is cleared if a peer
+> allocation fails in current implementation. Reset the current lm_count
+> to an even number instead of completely clearing it. This prevents all
+> pairs from being cleared in cases where multiple LM pairs are needed.
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
 > ---
->  drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 107 ++++--------------
->  1 file changed, 23 insertions(+), 84 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 24e085437039e..3b3660d0b166d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -321,7 +321,11 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>   		if (!rm->mixer_blks[i])
+>   			continue;
+>   
+> -		lm_count = 0;
+> +		/*
+> +		 * Reset lm_count to an even index. This will drop the previous
+> +		 * primary mixer if failed to find its peer.
+> +		 */
+> +		lm_count &= ~1;
+>   		lm_idx[lm_count] = i;
+>   
+>   		if (!_dpu_rm_check_lm_and_get_connected_blks(rm, global_state,
+> 
+> -- 
+> 2.34.1
+> 
 
-Nice diffstat and so much boilerplate error code removed. :-)
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-Note that I'm on vacation next week and it might take me a while to
-dig out of email when I get back. More than happy if someone else
-wants to land if the bisectability problems I talk about in patch #1
-are resolved. Otherwise I'll get back to this eventually.
-
-
--Doug
