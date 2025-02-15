@@ -2,105 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B390AA36BBF
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 04:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F489A36BC2
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 04:50:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772DF10E49C;
-	Sat, 15 Feb 2025 03:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1120F10E133;
+	Sat, 15 Feb 2025 03:49:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="f2mN4FYA";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="h5kGlGKe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q+K0yiMY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a5-smtp.messagingengine.com
- (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A118210E49C
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 03:49:02 +0000 (UTC)
-Received: from phl-compute-13.internal (phl-compute-13.phl.internal
- [10.202.2.53])
- by mailfhigh.phl.internal (Postfix) with ESMTP id C4F5C11401A1;
- Fri, 14 Feb 2025 22:49:01 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
- by phl-compute-13.internal (MEProxy); Fri, 14 Feb 2025 22:49:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:content-type
- :date:date:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:subject:subject:to:to; s=fm3;
- t=1739591341; x=1739677741; bh=myPH6l0fPDFrYP8tIa5SQdEq5I1Vnw5X
- 3g3YUMM3Fvo=; b=f2mN4FYAsZWTmcoXQzLdOm6nhCSQVsklPCaxxA3I0gRl6Llb
- r7XnsUtluxKlfvd0CvNdhDXW5oqw0eXUTxWXGPRwEAe8/48OmMyUZ5DaRga+/+om
- T49CWoIlw6YUesuxbcrecerkGSFutscBq4RLnY1K+DaTvzDIhbaEHI6ax33FgLgC
- zk486z37on20gABwb27Uludiseema+Zywyshlxfjg23XHb1u1FqUPP0o0wbSLfOE
- PgFdntSbZxXBHsucZTX6a1r2UgZiaumeoVzSaJENkC5DisSWrs2ueAAoxpCG8CvJ
- 9O+DVifnxQo1Up2Tm7ZUi4DsqFT7BLF9FICa+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739591341; x=
- 1739677741; bh=myPH6l0fPDFrYP8tIa5SQdEq5I1Vnw5X3g3YUMM3Fvo=; b=h
- 5kGlGKe8nmS4hPtg4pyM/dztqaM1EI/EUXKsufWrss4oipO4lSS9bFUucVo4SNp1
- +JXOOypne61enHqc5tB5kn88ixbz/gd5CDUao5NaeDAq8x7/E6tuc27d16u48QfS
- J9Iu9d8r0Dl+brQaLUprh0KktWb+CYPA0S6JztTAyEdR3yRcZ1ez0ZrzBHN3qU95
- QNhuPw65PjxSjtqcrzSwynVyKoB6pffHN8Nz8U8XLUutkCAHeKFLjQuiswM4xVPu
- QL42I5S4zEcIODBJ8U5WQRaJkgPEV5TgHhhHgq7bDfN5W26/5to+X4KAtzajydcc
- WBVM+Q5TSBs0pR5iPkRcQ==
-X-ME-Sender: <xms:qw6wZ3Nc5rAOzMC_OTcN0l0edsxhS-uHEt9Sa7PrG6D6mwUQAtKocA>
- <xme:qw6wZx_LHoVEOB_G13QugvaiTAkZRDFj1YEa9aHqHFd8i9vQqGs7dbXxGCPuXrDmp
- 0CcVTkoHx1_LLGRgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehudeglecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
- tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
- grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
- tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
- pghrtghpthhtohepvddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurh
- gvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthht
- vgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrgh
- dprhgtphhtthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhl
- ihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtg
- esghhmrghilhdrtghomhdprhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghi
- lhdrtghomhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
- hpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:qw6wZ2SujnKu_6uipJMxuvzHBwznXkOUFi4IQc6DAf04ouMRp0sR3Q>
- <xmx:qw6wZ7uEgbjmfrGBLm1FIJath51BFS5DtwamInX0oUUVWq--KZOe0Q>
- <xmx:qw6wZ_dJDa88Ul43SQZRdrfFvtanu8cSuRQkj_uri896EP7RTUWTjw>
- <xmx:qw6wZ30Et1uGUl--L6okTQMkGs0qI1C2w6hwzu_tR1UxvxTfY84y7A>
- <xmx:rQ6wZ18oljfrxqA20zSQwEBuF_J-YT7KozvLnYThvbAI55hTEkpjvDsM>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 981AEBA006F; Fri, 14 Feb 2025 22:48:59 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6A210E133
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 03:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739591398; x=1771127398;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=s83hpw53e7PRszxOc+ixp9OsM9uMRKfBu36IBL06Ix8=;
+ b=Q+K0yiMYkIp0KHUG7zqeWHJ6oZ/rI2fofNxi8WTijHrnWvmOVQvER+QY
+ mYqc76NNFJ8BCz4UGVvL9wAbhmo/iaDeNVH0SpVROKdIc7+exZAbwYfHF
+ F7UtD5vXi//W+zoNEK20KF/79Ea9lWoGhxLHbSaVvOruah0Dudl+j8tDj
+ 0GupLfm4tAlp7ZZs4Hi7t0oeFxU44zYgJyioR2R5pQxV6Rcc4qsO4hjZh
+ ZSdwZYtE9LFVY5iiQ3XzRBpCsi/i7TnM6Gj7IFcvfBxui6ZhIBiPqZIZg
+ cRhP9tXHpu4AKSLWQlFL5ohAh1b2GYXH/p8nss9/QQOeug4h1W2rnAkKw A==;
+X-CSE-ConnectionGUID: djswjv/STIydsKkjQwQPUw==
+X-CSE-MsgGUID: oS+eVtHSRRmV/3Ba+Q4zVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40381596"
+X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="40381596"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2025 19:49:57 -0800
+X-CSE-ConnectionGUID: vY93E0+lRGamjAkQEenMTg==
+X-CSE-MsgGUID: bwhLBPaWR+O8r3RpvRetIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="113818341"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2025 19:49:53 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tj9Be-001ATX-1u;
+ Sat, 15 Feb 2025 03:49:50 +0000
+Date: Sat, 15 Feb 2025 11:48:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] drm: bridge: Add support for Solomon SSD2825
+ RGB/DSI bridge
+Message-ID: <202502151123.DwXjsR05-lkp@intel.com>
+References: <20250213135605.157650-3-clamor95@gmail.com>
 MIME-Version: 1.0
-Date: Sat, 15 Feb 2025 16:48:39 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>, 
- "Chris Morgan" <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Message-Id: <6f14b319-fbb8-413d-a88d-edebf624c7fb@app.fastmail.com>
-In-Reply-To: <4c31826f-0ffa-4ada-bcf9-199fcbe6db07@app.fastmail.com>
-References: <20240929091107.838023-1-ryan@testtoast.com>
- <20240929091107.838023-9-ryan@testtoast.com>
- <4cumvwkhmbi7fecjeq6r7elon63u3ytootqcvavjg5vfnargy3@wrjpy6pnphmb>
- <4c31826f-0ffa-4ada-bcf9-199fcbe6db07@app.fastmail.com>
-Subject: Re: [PATCH v5 08/26] drm: sun4i: de3: add YUV support to the DE3 mixer
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213135605.157650-3-clamor95@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,29 +81,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 15 Feb 2025, at 2:18 PM, Ryan Walklin wrote:
-> On Sun, 20 Oct 2024, at 3:14 AM, Dmitry Baryshkov wrote:
->> On Sun, Sep 29, 2024 at 10:04:40PM +1300, Ryan Walklin wrote:
->
->>> diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
->>> index c48cbc1aceb80..ffafc29b3a0c3 100644
->>> --- a/drivers/gpu/drm/sun4i/sunxi_engine.h
->>> +++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
->
->>> @@ -151,6 +153,9 @@ struct sunxi_engine {
->>>  
->>>  	int id;
->>>  
->>> +	u32				format;
->>> +	enum drm_color_encoding		encoding;
->>
->> Should these be a part of the state instead of being a part of the
->> sunxi_engine?
->
-> Sure, would you suggest in sun8i_mixer_cfg?
+Hi Svyatoslav,
 
-Hmm, on second thought the mixer config is a const struct, presumably because it is defined per engine variant in sun8i_mixer.c. Is there a better place to store state like this? Otherwise the engine may not be the worst choice, as the color format and encoding apply to the entire pipeline, at least in the case of a single display?
+kernel test robot noticed the following build errors:
 
-Regards,
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.14-rc2 next-20250214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Ryan
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-display-bridge-Document-Solomon-SSD2825/20250213-215821
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250213135605.157650-3-clamor95%40gmail.com
+patch subject: [PATCH v1 2/2] drm: bridge: Add support for Solomon SSD2825 RGB/DSI bridge
+config: x86_64-randconfig-077-20250215 (https://download.01.org/0day-ci/archive/20250215/202502151123.DwXjsR05-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502151123.DwXjsR05-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502151123.DwXjsR05-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `spi_sync_transfer':
+>> include/linux/spi/spi.h:1404: undefined reference to `spi_sync'
+   ld: vmlinux.o: in function `ssd2825_read_raw':
+>> drivers/gpu/drm/bridge/ssd2825.c:241: undefined reference to `spi_sync'
+   ld: vmlinux.o: in function `ssd2825_probe':
+>> drivers/gpu/drm/bridge/ssd2825.c:664: undefined reference to `spi_setup'
+   ld: vmlinux.o: in function `ssd2825_driver_init':
+>> drivers/gpu/drm/bridge/ssd2825.c:737: undefined reference to `__spi_register_driver'
+
+
+vim +1404 include/linux/spi/spi.h
+
+8ae12a0d85987d David Brownell     2006-01-08  1382  
+323117ab60156d Geert Uytterhoeven 2016-09-13  1383  /**
+323117ab60156d Geert Uytterhoeven 2016-09-13  1384   * spi_sync_transfer - synchronous SPI data transfer
+323117ab60156d Geert Uytterhoeven 2016-09-13  1385   * @spi: device with which data will be exchanged
+323117ab60156d Geert Uytterhoeven 2016-09-13  1386   * @xfers: An array of spi_transfers
+323117ab60156d Geert Uytterhoeven 2016-09-13  1387   * @num_xfers: Number of items in the xfer array
+323117ab60156d Geert Uytterhoeven 2016-09-13  1388   * Context: can sleep
+323117ab60156d Geert Uytterhoeven 2016-09-13  1389   *
+323117ab60156d Geert Uytterhoeven 2016-09-13  1390   * Does a synchronous SPI data transfer of the given spi_transfer array.
+323117ab60156d Geert Uytterhoeven 2016-09-13  1391   *
+323117ab60156d Geert Uytterhoeven 2016-09-13  1392   * For more specific semantics see spi_sync().
+323117ab60156d Geert Uytterhoeven 2016-09-13  1393   *
+2ae3de10abfe0b Randy Dunlap       2020-07-15  1394   * Return: zero on success, else a negative error code.
+323117ab60156d Geert Uytterhoeven 2016-09-13  1395   */
+323117ab60156d Geert Uytterhoeven 2016-09-13  1396  static inline int
+323117ab60156d Geert Uytterhoeven 2016-09-13  1397  spi_sync_transfer(struct spi_device *spi, struct spi_transfer *xfers,
+323117ab60156d Geert Uytterhoeven 2016-09-13  1398  	unsigned int num_xfers)
+323117ab60156d Geert Uytterhoeven 2016-09-13  1399  {
+323117ab60156d Geert Uytterhoeven 2016-09-13  1400  	struct spi_message msg;
+323117ab60156d Geert Uytterhoeven 2016-09-13  1401  
+323117ab60156d Geert Uytterhoeven 2016-09-13  1402  	spi_message_init_with_transfers(&msg, xfers, num_xfers);
+323117ab60156d Geert Uytterhoeven 2016-09-13  1403  
+323117ab60156d Geert Uytterhoeven 2016-09-13 @1404  	return spi_sync(spi, &msg);
+323117ab60156d Geert Uytterhoeven 2016-09-13  1405  }
+323117ab60156d Geert Uytterhoeven 2016-09-13  1406  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
