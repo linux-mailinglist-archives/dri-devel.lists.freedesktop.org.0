@@ -2,75 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03282A36A84
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 02:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315C9A36ACF
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 02:23:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78AD410E4A1;
-	Sat, 15 Feb 2025 01:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 780AA10E0DA;
+	Sat, 15 Feb 2025 01:22:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C70GVRxL";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="Hxhx1nky";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ON1iSdRX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
- [209.85.219.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD82210E4A1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:04:46 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id
- 6a1803df08f44-6e66d4f3be2so4014376d6.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:04:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739581486; x=1740186286; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=H0rdqHP/xy8Y48PASntQbtLjxTNmbd/zBO/7fvkhPws=;
- b=C70GVRxLRq++EM2S4XW6OYvGK7xlwhV69AxKBAweCMVxzbACpVSgGvBdnlMXRencH0
- 7ztTQiU+BZALVb06GpDktsIiW+jTd38lU/kefvLbiiRT04K89vWVx2QpG27KSnhasSJG
- oeu+LlbRiIvLRkUtg3sIq9EhmfKgVN66zmgcnH9gFs2LPQRkk4AuQRY5MZek5VM4ZaD5
- cWrBxtFQcW9YFz7sZj/yByyRldRzBmTzZh1VWlMhjyBekvVOSaxgyc3MHLbbE8tSFlx6
- c928R7mXrGbJSD8ymD/EUIbsIERciXGUZuPC6qAwbsFJK+p/pe3fqpwIKd1ow8RQ+h+N
- qj8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739581486; x=1740186286;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H0rdqHP/xy8Y48PASntQbtLjxTNmbd/zBO/7fvkhPws=;
- b=s4q66dqh35OPjrQ/k0sT+Y1UOT7HM1J6DxWUjNH25UwfUxfrBCjLZsrmyLKEBnNa5s
- IQYRIz+9F9q8OIU04P2JQqJEOLNZhkWR9ECPzJjTB2WkVDoxntjJcIvBUiXERFJMiOrG
- p/m9IQT3BENHMRb/Or3lqwHZOtZvvbz7qLDmk5VyWooN3FPd8UHo4FUHWPd+LgDT1VSI
- 0aRbKYCOVNRtrTqKogoYDZHbRgmer+gJHpOeVA8hMylFqMvrQBVUsEsCWw6VfZmmVVpS
- sqyRpQHA80teeS+ShODnLjXkMlRSALdU2w6Gm7H4Z/gxzfzeKv6tk/0eY5yySKuKnqaj
- pZFA==
-X-Gm-Message-State: AOJu0YwGEgFsXPHDhoGQmNow54MmoDlYIRnp2agYHCyD9XrJjtqriUId
- IYXi0wQCyJJvpG+AEXdxEh6DCBXEaMLdrAjenxuVvVog496AgtVr1UFiqg==
-X-Gm-Gg: ASbGncsVwPylbV4DljeBB+2ODQr4Y4u6o7O6vSbQfCE+HNjXWkDNd4usGIslcDVGuIG
- VRkmrwB8TvD3pD6/yT6vzl1MAjBgOAVDm/QIzD/dmzmyDt+gLsWGHaNNvvTI9BDZFdvxwLHINeA
- Ppi2Cb82lnX1pk3vLHf1vvQxFizwihjlzLK+OEHTwtt9KHR/B+C2idwxSPyRdwl8m2Wdjn37cGy
- WTfPfs1BeNSN1nm6UlC/uWGff/EIJMq09+esC7iazn9oP8sKvXF7T2PehU/pXlzSteY56NzLp4T
- XIHGiMS/PxhAIoJ90JOdjfAsrjCSAphWyJNuROYFQ8sCTvTij4qU
-X-Google-Smtp-Source: AGHT+IE4kubTuRAtJxEGW7wOox/awPLdq7wUqN1GZDgexa6BQu2kzJ/5uk4tGL6MYnbZSoFe0NxuuQ==
-X-Received: by 2002:a05:6214:f29:b0:6e4:2e88:c0e3 with SMTP id
- 6a1803df08f44-6e66ccabef4mr25154026d6.13.1739581485949; 
- Fri, 14 Feb 2025 17:04:45 -0800 (PST)
-Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6e65d779201sm27325866d6.2.2025.02.14.17.04.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2025 17:04:45 -0800 (PST)
-Date: Fri, 14 Feb 2025 20:04:41 -0500
-From: Alex Lanzano <lanzano.alex@gmail.com>
-To: Josef =?utf-8?B?THXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
-Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
-Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
-Message-ID: <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
-References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
+X-Greylist: delayed 312 seconds by postgrey-1.36 at gabe;
+ Sat, 15 Feb 2025 01:22:54 UTC
+Received: from fout-a7-smtp.messagingengine.com
+ (fout-a7-smtp.messagingengine.com [103.168.172.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF2110E0DA
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:22:54 +0000 (UTC)
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal
+ [10.202.2.53])
+ by mailfout.phl.internal (Postfix) with ESMTP id DB3D21380105;
+ Fri, 14 Feb 2025 20:17:41 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+ by phl-compute-13.internal (MEProxy); Fri, 14 Feb 2025 20:17:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:content-type
+ :date:date:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+ t=1739582261; x=1739668661; bh=hPBYFiAweKzLygU/co8iY53bvVtiA5up
+ X/HaNd3eSYM=; b=Hxhx1nkyQ5uF4Ow8rzokIProVSGAzqzyB2NygjkCRpoCVBhZ
+ 1zVzXpaNJf7Y8ZTxXigS6XFKUUzjC3GfH3xek/2PfeWnL7TDRV5Q6ayGkMs9gtA9
+ wVINimPihowRNxpNm8jRSxPDMpmC430ynzD72FUnIY79Ojtea7oev5d9Qf62cgR9
+ hW/VOW+R+aRnw3xYNx2NM62SpU337D2BHyIoLkiUAVYSWRvH4hqoTOIaaqdHj1Ts
+ k7WPX6ee6sYAaSzCnwMMupQjtuiioY6gSKrQssEdbjNafCz0qf1Tr/pXJsvUEpfX
+ 9LMabGfXlLZbZ3lRgpPFaDX8TBa+mex1AyaBjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739582261; x=
+ 1739668661; bh=hPBYFiAweKzLygU/co8iY53bvVtiA5upX/HaNd3eSYM=; b=O
+ N1iSdRXvdS33leQGOQaUeO0XVj2m2kBDw5uabBTwFOk0CBX3nzgnDiOWswKEkRXY
+ GBzkrLObdjw2LipUuAlOMn92f8sUGL2acPODzuIpboZCtKVfLDXkokgDB/LAoRn2
+ GMXDiUaWdrPlPBWKBvrQA46CFdNxW+AeeawKUNQ94H/GzfQVyG7cSDn8ns9TwQW+
+ l7QfysoX1fBvNeQ0qUlBNJ0OpeYDuJ0iNf59xzfvbn9z2Kv42cxhxpighdw4/tJl
+ EIwqeTjqN7KSqFqr/ACxJySbDIazfilzTREqQtWHELED7ksCcLPbWMCTI+1xQmkW
+ bnkIlJeD8L+95EXKXr9QQ==
+X-ME-Sender: <xms:NOuvZ2m1JWa_dM05Egspp3NUZb-EucncXLW-5xIUpVeFRacklHev6g>
+ <xme:NOuvZ92vzPEfdL9w4jp4iBIbxu7O0f72N6FJjzUF2BlFR0M9laStv5yD7TDPn5TH4
+ EAXfmXZX6RV4VheuA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehuddulecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+ tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
+ grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
+ tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
+ pghrtghpthhtohepvddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurh
+ gvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthht
+ vgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrgh
+ dprhgtphhtthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhl
+ ihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtg
+ esghhmrghilhdrtghomhdprhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghi
+ lhdrtghomhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+ hpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:NOuvZ0rHQ5e6sbUBcy5t76b_C0Oh9jpZPxrjuqVep3FaomZk9Sf25Q>
+ <xmx:NOuvZ6nCA3aM90ZVzT1kDiyuXOAwB2Dh-IrQIUGwUepb2rLDvgY9QA>
+ <xmx:NOuvZ018jd52c-TNbNxRaEwu8LWYEJM2NyqATFz_jKlk4Co6Yg7wOQ>
+ <xmx:NOuvZxu3zb1RggKnd4ZY63bH8xdgKWrhQb0bBhkE0prbt8LYZOnO0w>
+ <xmx:NeuvZ-XZ820qASIJ3wVhpgyixDut7xHJznx1iHQ5tg7f7AoKOECLuVEd>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id BF98FBA006F; Fri, 14 Feb 2025 20:17:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
+Date: Sat, 15 Feb 2025 14:17:19 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>, 
+ "Chris Morgan" <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Message-Id: <40fdbece-009e-4c7d-85e9-2d2488dfd91e@app.fastmail.com>
+In-Reply-To: <635hn2vkmoyna7fxzgrzp7q3tlk76aoggssjbt2mpkhpvvo4fx@2pmvvxgvmfpq>
+References: <20240929091107.838023-1-ryan@testtoast.com>
+ <20240929091107.838023-2-ryan@testtoast.com>
+ <635hn2vkmoyna7fxzgrzp7q3tlk76aoggssjbt2mpkhpvvo4fx@2pmvvxgvmfpq>
+Subject: Re: [PATCH v5 01/26] drm: sun4i: de2/de3: Change CSC argument
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,22 +117,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Luštický wrote:
-> Hello Alex,
-> there is a bug in mipi_dbi_hw_reset() function that implements the logic of
-> display reset contrary.
-> It keeps the reset line activated which keeps displays in reset state.
-> 
-> I reported the bug to
-> https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
-> 
-> Unfortunately, fixing the bug would mean current DTB-ABI breakage and
-> device-trees modification would be needed.
-> I mainly write this email to let you and other people know about it, so
-> hopefully it can be found easier.
-> What are your thoughts?
-Thanks for making me aware. I'll dig into over the weekend and get back
-to you
+On Sun, 20 Oct 2024, at 3:11 AM, Dmitry Baryshkov wrote:
+> On Sun, Sep 29, 2024 at 10:04:33PM +1300, Ryan Walklin wrote:
 
-Best regards,
-Alex
+Hi Dmitry, thanks for reviewing, and apologies for the delay in replying.
+
+>> -enum sun8i_csc_mode {
+>> -	SUN8I_CSC_MODE_OFF,
+>> -	SUN8I_CSC_MODE_YUV2RGB,
+>> -	SUN8I_CSC_MODE_YVU2RGB,
+>> +enum format_type {
+>
+> enum sun8i_format_type, unless there is a strong reason to name it
+> otherwise.
+
+No problem, will make that change.
+
+Regards,
+
+Ryan
