@@ -2,68 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203B6A3684E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 23:32:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7742A369A9
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:15:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB35A10E097;
-	Fri, 14 Feb 2025 22:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E161210E0F2;
+	Sat, 15 Feb 2025 00:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="igq5h3lv";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MZKnr01m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F77510E097
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 22:32:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739572349; x=1771108349;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=nk7bnEGZRwy+ff89/jX3lLPn8RDrWyr/DAhAweHKzRM=;
- b=igq5h3lvQ9HJQKTjohymNFX3gtpmasxjICq2X3ZZXnrmRTqUCKJCBku7
- brWNoMQYpoc40FMBuWmlpiiXqqX3SGbiz3NMuDIBUwHHKKNXw6c/P0r+M
- 8Vjy12QJjeraO/hRmWF7IT1bTlkAzHy/JLZ7AMLRFHwZ9ZCLUm0iL9dIV
- 9zD4Ijj/ruL0iIKaFPbQUHEPK0NoYoUYjO4O9waej4UNrzqe9dCeRx3K3
- hkA2nVRPmmG/tcrvyq5AU+QopMeUrqwQ0U9b+28JmwW4QxKznKNGp9z9O
- 4sK+Pv762kCPN5B/YP5zXNw36cfLZmxe5WgJB3dsd9STwIq1MidmUAzMw Q==;
-X-CSE-ConnectionGUID: ZJ35kZkvTFOROEqTjEb3Eg==
-X-CSE-MsgGUID: KYuxsY8NQVWZ1zTGhC7yvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="39520371"
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="39520371"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2025 14:32:29 -0800
-X-CSE-ConnectionGUID: Kl3HGhmZSrKQXer/YnofoA==
-X-CSE-MsgGUID: dNftY3G2T026zXlJjOpmmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; d="scan'208";a="118599209"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
- by orviesa004.jf.intel.com with ESMTP; 14 Feb 2025 14:32:24 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tj4EQ-001AEp-0I;
- Fri, 14 Feb 2025 22:32:22 +0000
-Date: Sat, 15 Feb 2025 06:31:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, bliang@analogixsemi.com,
- qwen@analogixsemi.com, treapking@google.com,
- Xin Ji <xji@analogixsemi.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge:anx7625: Enable DSC feature
-Message-ID: <202502150643.fDWGayDK-lkp@intel.com>
-References: <20250213123331.3016824-1-xji@analogixsemi.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07D3A10E0F2;
+ Sat, 15 Feb 2025 00:15:33 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51EBh6N8018566;
+ Sat, 15 Feb 2025 00:15:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=mupee+uanTAEHfj/LNfoiv
+ opOeXJI+XkEy8HnDLaFho=; b=MZKnr01mldyu1lCmGUeA0UukFRy4u2x9mptkDv
+ QPxwqFxEEQ8TitByqRHnu9WZ2g6aQdbWwjI5L4WKToe69r6NRRC1bvackQAetjd5
+ Ha2tM/hOVVmYoNNZXsLaWTXBheerKfdx2LxBvgyrDBuujXMPGtOm7mnuKX73Mc0+
+ zW1RBvhJScU8r9yx9bB1N4pN77jqaRvHoH+q/LFAI8lF/eG6dZjF0zWjVSeoxEwh
+ 8tuQZbTvOgaobUOOT3JRDe0DAC9WDH4zKNQg9W7DZeZgFOWrXcqoWbmrK9A4dmY0
+ NCYqPtX3KfGftBDilaZ1wnSWya2Jqz6J7yuJTrrnFawo9eCA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44t56vhm7y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 15 Feb 2025 00:15:25 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51F0FOcH025739
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 15 Feb 2025 00:15:24 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 14 Feb 2025 16:15:24 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v6 00/14] drm/msm/dpu: Add Concurrent Writeback Support for
+ DPU 10.x+
+Date: Fri, 14 Feb 2025 16:14:23 -0800
+Message-ID: <20250214-concurrent-wb-v6-0-a44c293cf422@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250213123331.3016824-1-xji@analogixsemi.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGDcr2cC/23STU7DMBAF4KtUWWNkj/+z4h6Ihe2MiSWSFCcNV
+ FXvzrQFKlpW0Tj+XqznHJoZa8G5aTeHpuJa5jKNNJiHTZP6ML4iKx3NDXBQ3AjH0jSmXa04Luw
+ jMm87A9LZ7DU0ZLYVc/k85z2/0NyXeZnq/hy/itPqJcmBv0laBeNMc4jCBASM8el9V1IZ02Oah
+ uaUtcLVe1C3Hshbp3z2nKMz8t7LXy+4MLdekg9Spuyjl07qe6+uHu69Ip8R6LW3wWZ+7/WP11z
+ AbZOrJm+UUSloaXiX//rjpdyKtDqX5dLw9YrazeVYAKyrA+tKXfZsmDqccWHOcetjBzagadfzP
+ f2FVDv3rNvuWJI5JOtyMsJ+b92GJfXnnTk6DDZ6tMnpHE6J2vlktBaCO+kggNSc//8BIehUS4+
+ VHnOIb8iitVGgFN7a3NLPQSqGGamXYShLu3HGoJLRKx0zFXD8Ak57uFysAgAA
+X-Change-ID: 20240618-concurrent-wb-97d62387f952
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ "Jessica Zhang" <quic_jesszhan@quicinc.com>
+X-Mailer: b4 0.15-dev-f0f05
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739578524; l=8544;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=yrox517d2kKb02JMPVJ/dy4HnLL670ZkdSU2kV+q0Hs=;
+ b=YDz6+JylNkQ2KvJZk5J08dkg3x1Pl7wnPXjg0AaU89N9GJQ+DJEMEtvw1WlhuNE2BAbj3Ix3w
+ +C8uh1IJZlFB2X2Jd1NKsvLfXfSB5EiqoEkuU5m13mGsJ1cfg/gV2Ty
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: RGW1xVfJoEmwSw6TI3oXND3F22NWsJOP
+X-Proofpoint-GUID: RGW1xVfJoEmwSw6TI3oXND3F22NWsJOP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-14_10,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 phishscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
+ definitions=main-2502150000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,169 +110,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xin,
+DPU supports a single writeback session running concurrently with primary
+display when the CWB mux is configured properly. This series enables
+clone mode for DPU driver and adds support for programming the CWB mux
+in cases where the hardware has dedicated CWB pingpong blocks. Currently,
+the CWB hardware blocks have only been added to the SM8650
+hardware catalog and only DSI has been exposed as a possible_clone of WB.
 
-kernel test robot noticed the following build errors:
+This changes are split into two parts:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on drm-misc/drm-misc-next v6.14-rc2 next-20250214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The first part of the series will pull in Dmitry's patches to refactor
+the DPU resource manager to be based off of CRTC instead of encoder.
+This includes some changes (noted in the relevant commits) by me and
+Abhinav to fix some issues with getting the global state and refactoring
+the CDM allocation to work with Dmitry's changes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Ji/drm-bridge-anx7625-Enable-DSC-feature/20250213-203558
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250213123331.3016824-1-xji%40analogixsemi.com
-patch subject: [PATCH] drm/bridge:anx7625: Enable DSC feature
-config: i386-buildonly-randconfig-004-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150643.fDWGayDK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150643.fDWGayDK-lkp@intel.com/reproduce)
+The second part of the series will add support for CWB by doing the
+following:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502150643.fDWGayDK-lkp@intel.com/
+1) Add the CWB mux to the hardware catalog and clarify the pingpong
+   block index enum to specifiy which pingpong blocks are dedicated to
+   CWB only and which ones are general use pingpong blocks
+2) Add support for configuring the CWB mux via dpu_hw_cwb ops
+3) Add pending flush support for CWB
+4) Add support for validating clone mode in the DPU CRTC and setting up
+   CWB within the encoder
+5) Adjust the encoder trigger flush, trigger start, and kickoff order to
+   accomodate clone mode
+6) Adjust when the frame done timer is started for clone mode
+7) Define the possible clones for DPU encoders so that WB encoders can
+   be cloned by non-WB encoders
 
-All errors (new ones prefixed by >>):
+The feature was tested on SM8650 using IGT's kms_writeback test with the
+following change [1] and dumping the writeback framebuffer when in clone
+mode. I haven't gotten the chance to test it on DP yet, but I've
+validated both single and dual LM on DSI.
 
-   ld: drivers/gpu/drm/bridge/analogix/anx7625.o: in function `anx7625_bridge_mode_fixup':
->> drivers/gpu/drm/bridge/analogix/anx7625.c:2562: undefined reference to `__udivdi3'
->> ld: drivers/gpu/drm/bridge/analogix/anx7625.c:2472: undefined reference to `__udivdi3'
+To test CWB with IGT, you'll need to apply this series [1] and run the
+following command to dump the writeback buffer:
 
+IGT_FRAME_DUMP_PATH=<dump path> FRAME_PNG_FILE_NAME=<file name> \
+./build/tests/kms_writeback -d [--run-subtest dump-valid-clones] \
 
-vim +2562 drivers/gpu/drm/bridge/analogix/anx7625.c
+You can also do CRC validation by running this command:
 
-  2440	
-  2441	static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
-  2442					      const struct drm_display_mode *mode,
-  2443					      struct drm_display_mode *adj)
-  2444	{
-  2445		struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-  2446		struct device *dev = ctx->dev;
-  2447		u32 hsync, hfp, hbp, hblanking;
-  2448		u32 adj_hsync, adj_hfp, adj_hbp, adj_hblanking, delta_adj;
-  2449		u32 vref, adj_clock;
-  2450	
-  2451		DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
-  2452	
-  2453		hsync = mode->hsync_end - mode->hsync_start;
-  2454		hfp = mode->hsync_start - mode->hdisplay;
-  2455		hbp = mode->htotal - mode->hsync_end;
-  2456		hblanking = mode->htotal - mode->hdisplay;
-  2457	
-  2458		dev_dbg(dev, "before mode fixup\n");
-  2459		dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-  2460			hsync, hfp, hbp, adj->clock);
-  2461		dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d)\n",
-  2462			adj->hsync_start, adj->hsync_end, adj->htotal);
-  2463		adj_hfp = hfp;
-  2464		adj_hsync = hsync;
-  2465		adj_hbp = hbp;
-  2466		adj_hblanking = hblanking;
-  2467	
-  2468		if (mode->clock > DSC_PIXEL_CLOCK) {
-  2469			adj_hsync = DSC_HSYNC_LEN;
-  2470			adj_hfp = DSC_HFP_LEN;
-  2471			adj_hbp = DSC_HBP_LEN;
-> 2472			vref = (u64)adj->clock * 1000 * 1000 / (adj->htotal * adj->vtotal);
-  2473			goto calculate_timing;
-  2474		}
-  2475	
-  2476		/* No need fixup for external monitor */
-  2477		if (!ctx->pdata.panel_bridge)
-  2478			return true;
-  2479	
-  2480		/* HFP needs to be even */
-  2481		if (hfp & 0x1) {
-  2482			adj_hfp += 1;
-  2483			adj_hblanking += 1;
-  2484		}
-  2485	
-  2486		/* HBP needs to be even */
-  2487		if (hbp & 0x1) {
-  2488			adj_hbp -= 1;
-  2489			adj_hblanking -= 1;
-  2490		}
-  2491	
-  2492		/* HSYNC needs to be even */
-  2493		if (hsync & 0x1) {
-  2494			if (adj_hblanking < hblanking)
-  2495				adj_hsync += 1;
-  2496			else
-  2497				adj_hsync -= 1;
-  2498		}
-  2499	
-  2500		/*
-  2501		 * Once illegal timing detected, use default HFP, HSYNC, HBP
-  2502		 * This adjusting made for built-in eDP panel, for the externel
-  2503		 * DP monitor, may need return false.
-  2504		 */
-  2505		if (hblanking < HBLANKING_MIN || (hfp < HP_MIN && hbp < HP_MIN)) {
-  2506			adj_hsync = SYNC_LEN_DEF;
-  2507			adj_hfp = HFP_HBP_DEF;
-  2508			adj_hbp = HFP_HBP_DEF;
-  2509			vref = adj->clock * 1000 / (adj->htotal * adj->vtotal);
-  2510			if (hblanking < HBLANKING_MIN) {
-  2511				delta_adj = HBLANKING_MIN - hblanking;
-  2512				adj_clock = vref * delta_adj * adj->vtotal;
-  2513				adj->clock += DIV_ROUND_UP(adj_clock, 1000);
-  2514			} else {
-  2515				delta_adj = hblanking - HBLANKING_MIN;
-  2516				adj_clock = vref * delta_adj * adj->vtotal;
-  2517				adj->clock -= DIV_ROUND_UP(adj_clock, 1000);
-  2518			}
-  2519	
-  2520			DRM_WARN("illegal hblanking timing, use default.\n");
-  2521			DRM_WARN("hfp(%d), hbp(%d), hsync(%d).\n", hfp, hbp, hsync);
-  2522		} else if (adj_hfp < HP_MIN) {
-  2523			/* Adjust hfp if hfp less than HP_MIN */
-  2524			delta_adj = HP_MIN - adj_hfp;
-  2525			adj_hfp = HP_MIN;
-  2526	
-  2527			/*
-  2528			 * Balance total HBlanking pixel, if HBP does not have enough
-  2529			 * space, adjust HSYNC length, otherwise adjust HBP
-  2530			 */
-  2531			if ((adj_hbp - delta_adj) < HP_MIN)
-  2532				/* HBP not enough space */
-  2533				adj_hsync -= delta_adj;
-  2534			else
-  2535				adj_hbp -= delta_adj;
-  2536		} else if (adj_hbp < HP_MIN) {
-  2537			delta_adj = HP_MIN - adj_hbp;
-  2538			adj_hbp = HP_MIN;
-  2539	
-  2540			/*
-  2541			 * Balance total HBlanking pixel, if HBP hasn't enough space,
-  2542			 * adjust HSYNC length, otherwize adjust HBP
-  2543			 */
-  2544			if ((adj_hfp - delta_adj) < HP_MIN)
-  2545				/* HFP not enough space */
-  2546				adj_hsync -= delta_adj;
-  2547			else
-  2548				adj_hfp -= delta_adj;
-  2549		}
-  2550	
-  2551	calculate_timing:
-  2552	
-  2553		dev_dbg(dev, "after mode fixup\n");
-  2554		dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-  2555			adj_hsync, adj_hfp, adj_hbp, adj->clock);
-  2556	
-  2557		/* Reconstruct timing */
-  2558		adj->hsync_start = adj->hdisplay + adj_hfp;
-  2559		adj->hsync_end = adj->hsync_start + adj_hsync;
-  2560		adj->htotal = adj->hsync_end + adj_hbp;
-  2561		if (mode->clock > DSC_PIXEL_CLOCK)
-> 2562			adj->clock = (u64)vref * adj->htotal * adj->vtotal / 1000 / 1000;
-  2563	
-  2564		dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d), clock(%d)\n",
-  2565			adj->hsync_start, adj->hsync_end, adj->htotal, adj->clock);
-  2566	
-  2567		return true;
-  2568	}
-  2569	
+./build/tests/kms_writeback [--run-subtest dump-valid-clones]
 
+Note: When running IGT on SC7180, you will also need this IGT fix [2] to
+prevent IGT tests from failing after runningt kms_color@ctm-* tests.
+
+[1] https://patchwork.freedesktop.org/series/137933/
+[2] https://patchwork.freedesktop.org/series/144911/
+
+---
+Changes in v6:
+- Don't return early from dpu_crtc_assign_resources() if encoder mask is
+  0
+- Dropped duplicate initialization and unnecessary clearing of the crtc
+  state
+- Fixed b4 dependencies list (Dmitry)
+- cdm_requested -> num_cdm (Dmitry)
+- Added comment doc on why we can use the RM array index to enforce the
+  CWB odd/even rule (Dmitry)
+- Link to v5: https://lore.kernel.org/r/20250128-concurrent-wb-v5-0-6464ca5360df@quicinc.com
+
+Changes in v5:
+- Rebased onto MSM modeset fixes series (Dmitry)
+- Reordered RM refactor patches to prevent breaking CI and to avoid
+  breaking when partially applied (Dmitry)
+- Switch CWB resource reservation to reserve CWB mux first (Dmitry)
+- Reworded commit messages to be clearer (Dmitry)
+- Change CDM check to fail only if both DP and WB outputs are
+  requesting the CDM block simultaneously (Dmitry)
+- Use helper to grab dsc config in dpu_encoder_update_topology
+- Link to v4: https://lore.kernel.org/r/20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com
+
+Changes in v4:
+- Rebased onto latest msm-next
+- Added kunit tests for framework changes
+- Skip valid clone check for encoders that don't have any possible clones set
+  (this is to avoid failing kunit tests, specifically the HDMI state helper tests)
+- Link to v3: https://lore.kernel.org/r/20241016-concurrent-wb-v3-0-a33cf9b93835@quicinc.com
+
+Changes in v3:
+- Dropped support for CWB on DP connectors for now
+- Dropped unnecessary PINGPONG array in *_setup_cwb()
+- Add a check to make sure CWB and CDM aren't supported simultaneously
+  (Dmitry)
+- Document cwb_enabled checks in dpu_crtc_get_topology() (Dmitry)
+- Moved implementation of drm_crtc_in_clone_mode() to drm_crtc.c (Jani)
+- Dropped duplicate error message for reserving CWB resources (Dmitry)
+- Added notes in framework changes about posting a separate series to
+  add proper KUnit tests (Maxime)
+- Added commit message note addressing Sima's comment on handling
+  mode_changed (Dmitry)
+- Formatting fixes (Dmitry)
+- Added proper kerneldocs (Dmitry)
+- Renamed dpu_encoder_helper_get_cwb() -> *_get_cwb_mask() (Dmitry)
+- Capitalize all instances of "pingpong" in comments (Dmitry)
+- Link to v2: https://lore.kernel.org/r/20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com
+
+Changes in v2:
+- Moved CWB hardware programming to its own dpu_hw_cwb abstraction
+  (Dmitry)
+- Reserve and get assigned CWB muxes using RM API and KMS global state
+  (Dmitry)
+- Dropped requirement to have only one CWB session at a time
+- Moved valid clone mode check to DRM framework (Dmitry and Ville)
+- Switch to default CWB tap point to LM as the DSPP
+- Dropped printing clone mode status in atomic state (Dmitry)
+- Call dpu_vbif_clear_errors() before dpu_encoder_kickoff() (Dmitry)
+- Squashed setup_input_ctrl() and setup_input_mode() into a single
+  dpu_hw_cwb op (Dmitry)
+- Moved function comment docs to correct place and fixed wording of
+  comments/commit messages (Dmitry)
+- Grabbed old CRTC state using proper drm_atomic_state API in
+  dpu_crtc_atomic_check() (Dmitry)
+- Split HW catalog changes of adding the CWB mux block and changing the
+  dedicated CWB pingpong indices into 2 separate commits (Dmitry)
+- Moved clearing the dpu_crtc_state.num_mixers to "drm/msm/dpu: fill
+  CRTC resources in dpu_crtc.c" (Dmitry)
+- Fixed alignment and other formatting issues (Dmitry)
+- Link to v1: https://lore.kernel.org/r/20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com
+
+---
+Dmitry Baryshkov (3):
+      drm/msm/dpu: fill CRTC resources in dpu_crtc.c
+      drm/msm/dpu: move resource allocation to CRTC
+      drm/msm/dpu: switch RM to use crtc_id rather than enc_id for allocation
+
+Jessica Zhang (11):
+      drm/msm/dpu: Add CWB to msm_display_topology
+      drm/msm/dpu: Require modeset if clone mode status changes
+      drm/msm/dpu: Fail atomic_check if multiple outputs request CDM block
+      drm/msm/dpu: Reserve resources for CWB
+      drm/msm/dpu: Configure CWB in writeback encoder
+      drm/msm/dpu: Support CWB in dpu_hw_ctl
+      drm/msm/dpu: Adjust writeback phys encoder setup for CWB
+      drm/msm/dpu: Start frame done timer after encoder kickoff
+      drm/msm/dpu: Skip trigger flush and start for CWB
+      drm/msm/dpu: Reorder encoder kickoff for CWB
+      drm/msm/dpu: Set possible clones for all encoders
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 222 ++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h           |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 418 ++++++++++++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  16 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   7 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  16 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  30 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  15 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  27 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |  13 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             | 298 ++++++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  14 +-
+ 13 files changed, 753 insertions(+), 328 deletions(-)
+---
+base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
+change-id: 20240618-concurrent-wb-97d62387f952
+prerequisite-change-id: 20241222-drm-dirty-modeset-88079bd27ae6:v2
+prerequisite-patch-id: 0c61aabfcd13651203f476985380cbf4d3c299e6
+prerequisite-patch-id: c6026f08011c288fd301676e9fa6f46d0cc1dab7
+prerequisite-patch-id: b0cb06d5c88791d6e4755d879ced0d5050aa3cbf
+prerequisite-patch-id: fd72ddde9dba0df053113bc505c213961a9760da
+prerequisite-change-id: 20250209-dpu-c3fac78fc617:v2
+prerequisite-patch-id: c84d2b4b06be06384968429085d1e8ebae23a583
+prerequisite-patch-id: fb8ea7b9e7c85fabd27589c6551108382a235002
+prerequisite-change-id: 20250211-dither-disable-b77b1e31977f:v1
+prerequisite-patch-id: 079e04296212b4b83d51394b5a9b5eea6870d98a
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jessica Zhang <quic_jesszhan@quicinc.com>
+
