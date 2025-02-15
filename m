@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524D0A36FE8
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 18:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6709A37017
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 19:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA9A10E01F;
-	Sat, 15 Feb 2025 17:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6268D10E0FE;
+	Sat, 15 Feb 2025 18:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fNog5Toi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AwNlca+Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDAA10E01F;
- Sat, 15 Feb 2025 17:41:54 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51FFtKbE013257;
- Sat, 15 Feb 2025 17:41:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- M2ElzJt/I17QdLPM7eFrO0SLqYDxKpTo4yjjWUwjiw8=; b=fNog5ToiGxuWTxH+
- MfAMzepVFsR2s1VYRHfhFn8zh/C7GbEs9MqnvanyMYW1CgP20mkp7sQp848H/Ljr
- ORUJAk+8OZq40M2DXwLBatmUij/Y+XoqDehfK/WVgbed4rUByWWW9O3cuotL/vpV
- 7X/lbAiD4Q8SrRNjKrQZ15UB6KHZJPFJD3sF1Kl/Jv2zocTF/tVb4lpvXhWVx8CA
- wyPhrzFHlWvyIBx88JmefetrhHzcFiRZkkmvVXaL5L/1CAbIXcmxYu1cXnsdd5c6
- utn8rKlJAIYE+cUxc9KiMa33VKa01BIRMmSkejm+Bp4qvfWTo5FImpr6EB0vXhea
- xE8J5A==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44tkqh0uvh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 17:41:51 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51FHfo9I005965
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 17:41:50 GMT
-Received: from [10.110.17.177] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 15 Feb
- 2025 09:41:49 -0800
-Message-ID: <5a5ad8f0-180f-4577-955c-7e26ebac129b@quicinc.com>
-Date: Sat, 15 Feb 2025 09:41:48 -0800
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727A610E0FE
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 18:09:15 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id
+ af79cd13be357-7c08621f6a2so147837685a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 10:09:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739642954; x=1740247754; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NPF/Alw+//gUVq8mrgRf1sA3HpgcZBGZ+ed5dpOL9uU=;
+ b=AwNlca+ZzFeERi81BdWtNSU0mXVNro3uEsmv2WvOt3BUbpml6BfLU2gOZBKsJZhUNj
+ RVoeWiwXFo3M5DAp4lQ8wiF5i9jykuDp3v2dcMJwlBb4/alLImRs+FAY4Q4PZosU258d
+ NfzB4VMQkZT72O0+8thakeZJ/5V0yoe0AHKXV4sUF19NQSdxJLkOabjNmHkQXHLfxJTg
+ vCCePbDB9t2Q0r2Ssupud9KF596CpvHf82oRpmfOtmUEebHUpMaomc3dVdAM6xrWKz/h
+ mfwR1GEbQuzoVJflhQuJ5S+KSG8fnkCAD8f8EGEhRWg4G4cB8ZF0ZqudmCS65+VPNi1Z
+ IYqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739642954; x=1740247754;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NPF/Alw+//gUVq8mrgRf1sA3HpgcZBGZ+ed5dpOL9uU=;
+ b=vgHSQgI3+1f7WhZOsEqdZAikqPF+PBpo1XpzTbAIRy+Uw1JHjlA/nVCQWMvf0C9Tw/
+ 2yotbpIqEFmu/FPlbcbHt4jlO+YdJeTMu4ZePH4U42/CMOdeexhuqP3s1qoYfKHHG7P5
+ R1qPplzsFkeN4gdrEGin8q+51AszmBXKcq0enBGHKLR9AjYlc4UAsX8RQ0fhqB6Ia2b3
+ TktM2/I3t+CfuUbf/1su6CevFyY44RDm43Y4Sb6i1ie7R8UHiDgBNo2fqHm4OsI63p/y
+ IC+P7Z/ajQKz42SChlu6TPLRE6g+AC3r0lnr3+0p1+ZYU3bfVEr1RocKab145aME9bM2
+ P19Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVPyLA9zZ4BkMJW1EPxZ3NFvwAv1G/1rl92mJ1w9DNgL0Na04ck/BeBT0Pjc+glTct/yfcQPgfQJMA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/hBWj5e9+aafMteD7k2L0XowT7pDmm/C2BHELUnvaQp1Fp2y6
+ r2PtwPyyXx81YpUkmlEI4RNEYKPdZgV/uo+PBsWnb0MzpmsPbdMh
+X-Gm-Gg: ASbGnctBK4+gn/fKe/doLGE1EPZ4Ma32DFEeS6GFf11CW7iTxJsmj2a/H/sMrKyFPDZ
+ jsgiPxIRT66AJ3v7RLEt4OmrtAJY/YrLsw8+Qv9A56chlay09JqcGOaCjH1L3i4Tay69nMRlelB
+ Ra/yyjrM2oM39zgDEvfq9vdtiOZFgLxO3HQHS7XAsfMn0C0xba7B7RWqQtBycSI8soFcZMKXusp
+ E9Tf8W6RZ9ifpfjnPb+bL+lNj2fj6yYjzk1HSxaOwDtKLzZdwU6Tk0bzSdTFClPZ0PVNz4VzXBH
+ n98t2ylxtKrZ2JLivLSfRawNotSd7LhZf0e3gs2C22qFdzGl4XCz
+X-Google-Smtp-Source: AGHT+IEl9KdRZhqzx5Xxn8OZkjroz7UixGi1SO9rhPskdpCEoIBJLhf+0gV/LBbwxGIzrqNyLlXW+Q==
+X-Received: by 2002:a05:620a:4441:b0:7c0:7f07:a635 with SMTP id
+ af79cd13be357-7c08aac61c6mr588315685a.53.1739642954075; 
+ Sat, 15 Feb 2025 10:09:14 -0800 (PST)
+Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6e65d77927csm34123606d6.10.2025.02.15.10.09.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Feb 2025 10:09:13 -0800 (PST)
+Date: Sat, 15 Feb 2025 13:09:11 -0500
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, David Laight <david.laight.linux@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: Re: [PATCH] drm/repaper: fix integer overflows in repeat functions
+Message-ID: <xn7ikpjzqddnrna72ojiitufruemineonyhh5cmwizrrnt4txp@gh2sy6ixddx7>
+References: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] drm/msm/dsi/phy: Do not overwite PHY_CMN_CLK_CFG1
- when choosing bitclk source
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean
- Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>
-References: <20250214-drm-msm-phy-pll-cfg-reg-v3-0-0943b850722c@linaro.org>
- <20250214-drm-msm-phy-pll-cfg-reg-v3-3-0943b850722c@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250214-drm-msm-phy-pll-cfg-reg-v3-3-0943b850722c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: NaI3AVQre0LnVjbNlAmGwae4njtURylH
-X-Proofpoint-ORIG-GUID: NaI3AVQre0LnVjbNlAmGwae4njtURylH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-15_07,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- mlxlogscore=518 clxscore=1015 impostorscore=0 lowpriorityscore=0
- adultscore=0 phishscore=0 spamscore=0 mlxscore=0 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502150156
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,32 +92,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 16, 2025 at 05:48:01AM -0800, Nikita Zhandarovich wrote:
+> There are conditions, albeit somewhat unlikely, under which right hand
+> expressions, calculating the end of time period in functions like
+> repaper_frame_fixed_repeat(), may overflow.
+> 
+> For instance, if 'factor10x' in repaper_get_temperature() is high
+> enough (170), as is 'epd->stage_time' in repaper_probe(), then the
+> resulting value of 'end' will not fit in unsigned int expression.
+> 
+> Mitigate this by casting 'epd->factored_stage_time' to wider type before
+> any multiplication is done.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+> 
+> Fixes: 3589211e9b03 ("drm/tinydrm: Add RePaper e-ink driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 
+After discussing with David Laight I cleared up my concerns.
 
-On 2/14/2025 7:08 AM, Krzysztof Kozlowski wrote:
-> PHY_CMN_CLK_CFG1 register has four fields being used in the driver: DSI
-> clock divider, source of bitclk and two for enabling the DSI PHY PLL
-> clocks.
-> 
-> dsi_7nm_set_usecase() sets only the source of bitclk, so should leave
-> all other bits untouched.  Use newly introduced
-> dsi_pll_cmn_clk_cfg1_update() to update respective bits without
-> overwriting the rest.
-> 
-> While shuffling the code, define and use PHY_CMN_CLK_CFG1 bitfields to
-> make the code more readable and obvious.
-> 
-> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+Reviewed-by: Alex Lanzano <lanzano.alex@gmail.com>
+
 > ---
+>  drivers/gpu/drm/tiny/repaper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Changes in v3:
-> 1. Define bitfields (move here parts from patch #4)
-> ---
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c             | 4 ++--
->   drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml | 1 +
->   2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+> index 77944eb17b3c..d76c0e8e05f5 100644
+> --- a/drivers/gpu/drm/tiny/repaper.c
+> +++ b/drivers/gpu/drm/tiny/repaper.c
+> @@ -456,7 +456,7 @@ static void repaper_frame_fixed_repeat(struct repaper_epd *epd, u8 fixed_value,
+>  				       enum repaper_stage stage)
+>  {
+>  	u64 start = local_clock();
+> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+>  
+>  	do {
+>  		repaper_frame_fixed(epd, fixed_value, stage);
+> @@ -467,7 +467,7 @@ static void repaper_frame_data_repeat(struct repaper_epd *epd, const u8 *image,
+>  				      const u8 *mask, enum repaper_stage stage)
+>  {
+>  	u64 start = local_clock();
+> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+>  
+>  	do {
+>  		repaper_frame_data(epd, image, mask, stage);
