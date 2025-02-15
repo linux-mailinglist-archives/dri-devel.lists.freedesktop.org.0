@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F9CA36F18
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 16:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF8DA36F1B
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 16:28:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9597210E191;
-	Sat, 15 Feb 2025 15:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98B2510E0AC;
+	Sat, 15 Feb 2025 15:28:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HztlpRaL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D3NqMrHW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8C4C10E191
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 15:26:21 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-307c13298eeso30300361fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 07:26:21 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD1E310E1AB
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 15:28:00 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-54527a7270eso1793234e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 07:28:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739633180; x=1740237980; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739633279; x=1740238079; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=lyhHNrVNorAeI2lBG6ZlhdNRJfwPg8zvhZHfhDTm/Fo=;
- b=HztlpRaLEAYt39uaBGb5J5wpoo16vCyK26i8Keon2KmUtgFXNxC9NzOsqQ1figEZ9r
- Y5JPRZ0mwzAmtFxhO3lktGPL3aQExHeV2FZp3xmOuTHHWy1jdr7Yt5wyB6WIWWJF61/f
- MnK6Z2UJa5+ZIehR4sB5Rb6DAlXf+OlUM1RMrMg9Ub7VKkzjIYzTi5Dj34jXOP5tTsfd
- ncLjcQuJEg9/WDtwbZimYxIlAIuLMMuaJZ7QRo4NVZYRfDzBoCPdxvSQfTSmlrAqUT00
- 81sUj2aOQ43p6gr5Tff7ZQidaWLjq2mkycTC8DgidoCCwY/LNsGBdbE8nu3I1+rSY+mh
- cVuw==
+ bh=AGf5rmg49p6MaNgIwMB/5odZQ50Ill9b6G6pRafnfic=;
+ b=D3NqMrHWeUaFWpbjwWN2mxABuxBz+qM5u7NJyE27AP4Xf+4Tn8BahCg2JTYZHcNOvG
+ bALk+3z60fdDle2E/C3mQ9CljjrmTgyzhVPSyElbHCgdDSzsQ4uapDoveRUkozo0XUFV
+ fqPf5LoX3g1LgI7vu8RIX4mRnOIGLpqjqmOacTEFCNfrnasCjKbq5aWNdCAyqtcp9wg1
+ +yu6CtIOYKeLDSa1R1X3SBC9vYk+faBN7h2OkbGOEwGVHeru9cLfY1jKm3DS+F4pFJ90
+ rpVLGkiL9Ri1seO9kWf0AbXov1Ox9o/Cyn2jWgX6kfKg+le0jA732NX/aLJwPeLS5Zg/
+ +fbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739633180; x=1740237980;
+ d=1e100.net; s=20230601; t=1739633279; x=1740238079;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lyhHNrVNorAeI2lBG6ZlhdNRJfwPg8zvhZHfhDTm/Fo=;
- b=F1jY04rYI6yo8NxakkCvFIxVjwzx0Ogr9TW35ljJqhNeD3vKefFmg271ZVgHUQ26Um
- VP9/3Zr9DPT4zvYOZYCXbwT7kIgRq4EB1JWigWVaZUHXASyAd83G5ZlOJ33pY9aAawJr
- 4XcuZvYKuk8hNsDkOOPFdeDnAjqtwssVwXnV3mN+08eB6ef04qRDxTU7HJCtkMC3NwKK
- u6HHuoEursClIUq+deHCnbcrwKti9Qm7ZacnaTgbCySbw6bnLTMdwBfGir7alipbdaxs
- i6xnrx4RDineWQ3mFaJgOO7thaPfbOWiptAzNN76Z8kUyk3J57Sree1sY8DpyWrfUYYe
- 9oVw==
+ bh=AGf5rmg49p6MaNgIwMB/5odZQ50Ill9b6G6pRafnfic=;
+ b=V1hN1zIjDovu83i1vSQJ1mCDtYE7uyJhbu6J2Fvud7E9Sigd/eb8vqfWtVKMam7bht
+ eo4P6IWYCc1aY7dEdjpdnAXEiIFDa6VMPwy2FgkfM4rRWqPD/kIzlRa78lEWuhpu/NrL
+ I+xzgTzzwre2kK1OJScmWrUbU7XVft+76e1Y63tIEKYPJ5hxjUjCY8kxOoV3dMSxa7TX
+ UGLv3rWKejFo5zxEcd8ZuYTn1py4zpr3r4fRSOuNVRkLjOFDTCkHBqNbAHTmPGYKWeVj
+ BDHI36GLoYNqmbOW0gtVjyTkPyW3ZKivioWh4+mHHfo9AQqhKWP1CsI7TvL/lD882jAr
+ bL+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWVVjUjFbErRh+vAnoMl3eRELlhPMbGHJpBee/TJ8Dq1dOx6trpMHRBp0L0RN7Zx8zIyGSXum1J7ZA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGXdmXrfxhIkR+BnMwJZ8uVq4SPSvqo1YcL/NI+5erY7TdRePb
- Dk5S+evZnWngJ41ryHx8NQisx6XQyH0Wy3HMvpjl2k133lSk8VuMEXDaIXUaB5A=
-X-Gm-Gg: ASbGncuh8M22pil7zntQrjrFIPD9NS72Coxi2XOqbGvsw6rGOHw8jVvUx1qpJxMSh6A
- wMDXNrymAH9envuFgk/Pn6I3lRjiR7AD7PCIDvKcziNNd1ZD8NXhdzbMuRioAR/SlD3zksx4cgL
- 0pKW/9N2Y0aOUVYHgmg1mlU86/yhu7xjM6Lm4sSQX3sSPV0NIFtpFDYYENDlY3xpKRRus5ohCKz
- WQ+vvCW6xOYDtwZLvgS1pMbp1hl2KvrTUbcJZLthBbbjLHzi8IUNm8b22mtPtp1jBIzGgIvx3UZ
- NZux3Sd9u5wQyLrr4c5GufPVQEut6/QxvQWkxBr+NcF4iPh1dBxu1ItdotRTjUD6KkP7TpY=
-X-Google-Smtp-Source: AGHT+IHt5pLz1i1krdr/WS2YKInJnYFY0Hb8ZilJLpstOl1Z5M61lz+xkuBcGZbV8SgcJDj6fbYbgw==
-X-Received: by 2002:a2e:910e:0:b0:309:2187:2cd9 with SMTP id
- 38308e7fff4ca-309288c9a73mr10705571fa.7.1739633179478; 
- Sat, 15 Feb 2025 07:26:19 -0800 (PST)
+ AJvYcCWXH0GH8o/VP+BXBi0Maw0ZJfTWw4x7caTC5+2ExNC07NgTzP3ifX1uBKQYK8adrh0yRYfFr5bK6gs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6gy+PUB5TvJo3xkpFjBzF/EDghh6kEIqs/Yx3N9Y4u2Vva8qk
+ w14HMMS+lRqET1k+23PgTE8EDEmTdyW7MFot+6x1AFoU/tVKAxOysPOdx4Km0Ks=
+X-Gm-Gg: ASbGncsgcStgcg6CgX+iKAmZP3ywEBFgo2sCb8iCe3LKeQuLmmC5rhLyRh//ggWLNce
+ pwKY79lnvW7lmYRPzLhTgoXyUA7rKXFKW0/edOBSWLeP5jiNDpdRTidJ7PUFsssgD/AUN3lMUg6
+ Mwwt2+TknnW2LIIy28r4fVK5DBW6klr9jo9Op2FqHA83AgMQ1HhLLZ5T/MF7V/Epgm1YQLQHyF4
+ XNrIdcBFvx2uIrJdRy1Fh3lG/hKkru7EHmiUstf1rPbK7lvlrnB13eQsscs2Z7rB67EKzEAgWP2
+ pkISEut5dSCn3z+P946aFQpXvivcW/imz3AjAbk+EncjFWxBv5HZQpzHtNQV+ZhY+JVTI70=
+X-Google-Smtp-Source: AGHT+IGM2zzla/sAtpjhHsDca+TA2fL77Ecg4EGheoA5N95v+ACAAM7LoIlZRAUhg5mZDNj9h6xYJw==
+X-Received: by 2002:a05:6512:401b:b0:545:fc8:e155 with SMTP id
+ 2adb3069b0e04-5452fe4dc30mr1064901e87.20.1739633278874; 
+ Sat, 15 Feb 2025 07:27:58 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-309cec7e45asm914511fa.105.2025.02.15.07.26.17
+ 2adb3069b0e04-5453197f3f9sm162596e87.53.2025.02.15.07.27.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2025 07:26:18 -0800 (PST)
-Date: Sat, 15 Feb 2025 17:26:15 +0200
+ Sat, 15 Feb 2025 07:27:57 -0800 (PST)
+Date: Sat, 15 Feb 2025 17:27:54 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
@@ -75,15 +75,14 @@ Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Rob Clark <robdclark@chromium.org>, 
  Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v6 06/14] drm/msm/dpu: Fail atomic_check if multiple
- outputs request CDM block
-Message-ID: <wfhusui6qv6c4knns7ux6z7qnehzokoa6bj2ufanlnlkqpnvkj@qykctcbwizdn>
+Subject: Re: [PATCH v6 07/14] drm/msm/dpu: Reserve resources for CWB
+Message-ID: <55njf2p4cg24bihrp7n4laaize7onslfgke6bwqw4jfofsaxq2@epwug3zfs2ow>
 References: <20250214-concurrent-wb-v6-0-a44c293cf422@quicinc.com>
- <20250214-concurrent-wb-v6-6-a44c293cf422@quicinc.com>
+ <20250214-concurrent-wb-v6-7-a44c293cf422@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250214-concurrent-wb-v6-6-a44c293cf422@quicinc.com>
+In-Reply-To: <20250214-concurrent-wb-v6-7-a44c293cf422@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,82 +98,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2025 at 04:14:29PM -0800, Jessica Zhang wrote:
-> Currently, our hardware only supports a single output using CDM block at
-> most. Because of this, we cannot support cases where both writeback and DP
-> output request CDM simultaneously
+On Fri, Feb 14, 2025 at 04:14:30PM -0800, Jessica Zhang wrote:
+> Add support for RM to reserve dedicated CWB PINGPONGs and CWB muxes
 > 
-> To avoid this happening when CWB is enabled, change
-> msm_display_topoloy.needs_cdm into a num_cdm counter to track how many
-> outputs are requesting CDM block. Return EINVAL if multiple outputs are
-> trying to reserve CDM.
+> For concurrent writeback, even-indexed CWB muxes must be assigned to
+> even-indexed LMs and odd-indexed CWB muxes for odd-indexed LMs. The same
+> even/odd rule applies for dedicated CWB PINGPONGs.
+> 
+> Track the CWB muxes in the global state and add a CWB-specific helper to
+> reserve the correct CWB muxes and dedicated PINGPONGs following the
+> even/odd rule.
 > 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
-> Changes in v6:
-> - cdm_requested -> num_cdm
 > 
-> Changes in v5:
-> - Changed check to fail only if multiple outputs are requesting CDM
->   simultaneously
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 12 +++++++++---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  5 +++--
->  3 files changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index ad969a5b9434..0e4f27da9534 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -692,10 +692,10 @@ void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
->  		fb = conn_state->writeback_job->fb;
->  
->  		if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb)))
-> -			topology->needs_cdm = true;
-> +			topology->num_cdm++;
->  	} else if (disp_info->intf_type == INTF_DP) {
->  		if (msm_dp_is_yuv_420_enabled(priv->dp[disp_info->h_tile_instance[0]], adj_mode))
-> -			topology->needs_cdm = true;
-> +			topology->num_cdm++;
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index 0fbb92021b18..4da2e47265d4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -585,7 +585,8 @@ static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
->  
->  static int _dpu_rm_reserve_cdm(struct dpu_rm *rm,
->  			       struct dpu_global_state *global_state,
-> -			       uint32_t crtc_id)
-> +			       uint32_t crtc_id,
-> +			       int num_cdm)
->  {
->  	/* try allocating only one CDM block */
->  	if (!rm->cdm_blk) {
-> @@ -593,6 +594,11 @@ static int _dpu_rm_reserve_cdm(struct dpu_rm *rm,
->  		return -EIO;
->  	}
->  
-> +	if (num_cdm > 1) {
-> +		DPU_ERROR("More than 1 INTF requesting CDM\n");
-
-I think we should downgrade those to DPU_DEBUG or something like that,
-but that can go separately, or when picking the patch up.
-
-Nevertheless:
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-
-> +		return -EINVAL;
-> +	}
-> +
->  	if (global_state->cdm_to_crtc_id) {
->  		DPU_ERROR("CDM_0 is already allocated\n");
->  		return -EIO;
 -- 
 With best wishes
 Dmitry
