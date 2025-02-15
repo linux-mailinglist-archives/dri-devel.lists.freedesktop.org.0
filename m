@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05EA9A36A7B
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 02:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03282A36A84
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 02:04:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7867610E36B;
-	Sat, 15 Feb 2025 01:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78AD410E4A1;
+	Sat, 15 Feb 2025 01:04:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ECmTK2nA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C70GVRxL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D3410E36B
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:03:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D39EFA44CE4;
- Sat, 15 Feb 2025 01:01:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A74B7C4CED1;
- Sat, 15 Feb 2025 01:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739581413;
- bh=1jWwksNfcXOTbsI5skvdkT/hHXIEc071tYG5CLbIBtw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ECmTK2nAMK7Kk2OVfwgOZdKLnU3lPIs+tPrJ5fa6ZhQ86dfjK8A/OTTJyFmyg7H1u
- 4ouJeWzjNd9iKQeRaCGmSktD9FXv6zmhzxCPkVivsKpehr9bbRVgDIidTSnIK2/Lor
- Lg7fnt8yWQOFreYKdEIvXvVktfViPuOWtS1/0iuRZTn/5TtZywQxGmwyTkAgAvuNrx
- iuAyHIAn8zrEzYFG7bNqvKh4LM+kdWfzZS50RT4x6l4JbO+dt+ymxoua5X662iEYYT
- OtZlbUie1SriiRaFtbrXbXZTmqTT0eXqVf1b+hjJ7ywBJ2rWcJjgewLfnsLEEfbFi4
- Xb8YL4rbG6gTA==
-Date: Fri, 14 Feb 2025 17:03:33 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Mike Lothian <mike@fireburn.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH] ntsync: Set the permissions to be 0666
-Message-ID: <20250215010333.GO3028674@frogsfrogsfrogs>
-References: <20250214122759.2629-2-mike@fireburn.co.uk>
- <1911589.tdWV9SEqCh@camazotz>
- <20250214184539.GC21799@frogsfrogsfrogs>
- <8487800.T7Z3S40VBb@camazotz>
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD82210E4A1
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:04:46 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id
+ 6a1803df08f44-6e66d4f3be2so4014376d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:04:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739581486; x=1740186286; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=H0rdqHP/xy8Y48PASntQbtLjxTNmbd/zBO/7fvkhPws=;
+ b=C70GVRxLRq++EM2S4XW6OYvGK7xlwhV69AxKBAweCMVxzbACpVSgGvBdnlMXRencH0
+ 7ztTQiU+BZALVb06GpDktsIiW+jTd38lU/kefvLbiiRT04K89vWVx2QpG27KSnhasSJG
+ oeu+LlbRiIvLRkUtg3sIq9EhmfKgVN66zmgcnH9gFs2LPQRkk4AuQRY5MZek5VM4ZaD5
+ cWrBxtFQcW9YFz7sZj/yByyRldRzBmTzZh1VWlMhjyBekvVOSaxgyc3MHLbbE8tSFlx6
+ c928R7mXrGbJSD8ymD/EUIbsIERciXGUZuPC6qAwbsFJK+p/pe3fqpwIKd1ow8RQ+h+N
+ qj8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739581486; x=1740186286;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=H0rdqHP/xy8Y48PASntQbtLjxTNmbd/zBO/7fvkhPws=;
+ b=s4q66dqh35OPjrQ/k0sT+Y1UOT7HM1J6DxWUjNH25UwfUxfrBCjLZsrmyLKEBnNa5s
+ IQYRIz+9F9q8OIU04P2JQqJEOLNZhkWR9ECPzJjTB2WkVDoxntjJcIvBUiXERFJMiOrG
+ p/m9IQT3BENHMRb/Or3lqwHZOtZvvbz7qLDmk5VyWooN3FPd8UHo4FUHWPd+LgDT1VSI
+ 0aRbKYCOVNRtrTqKogoYDZHbRgmer+gJHpOeVA8hMylFqMvrQBVUsEsCWw6VfZmmVVpS
+ sqyRpQHA80teeS+ShODnLjXkMlRSALdU2w6Gm7H4Z/gxzfzeKv6tk/0eY5yySKuKnqaj
+ pZFA==
+X-Gm-Message-State: AOJu0YwGEgFsXPHDhoGQmNow54MmoDlYIRnp2agYHCyD9XrJjtqriUId
+ IYXi0wQCyJJvpG+AEXdxEh6DCBXEaMLdrAjenxuVvVog496AgtVr1UFiqg==
+X-Gm-Gg: ASbGncsVwPylbV4DljeBB+2ODQr4Y4u6o7O6vSbQfCE+HNjXWkDNd4usGIslcDVGuIG
+ VRkmrwB8TvD3pD6/yT6vzl1MAjBgOAVDm/QIzD/dmzmyDt+gLsWGHaNNvvTI9BDZFdvxwLHINeA
+ Ppi2Cb82lnX1pk3vLHf1vvQxFizwihjlzLK+OEHTwtt9KHR/B+C2idwxSPyRdwl8m2Wdjn37cGy
+ WTfPfs1BeNSN1nm6UlC/uWGff/EIJMq09+esC7iazn9oP8sKvXF7T2PehU/pXlzSteY56NzLp4T
+ XIHGiMS/PxhAIoJ90JOdjfAsrjCSAphWyJNuROYFQ8sCTvTij4qU
+X-Google-Smtp-Source: AGHT+IE4kubTuRAtJxEGW7wOox/awPLdq7wUqN1GZDgexa6BQu2kzJ/5uk4tGL6MYnbZSoFe0NxuuQ==
+X-Received: by 2002:a05:6214:f29:b0:6e4:2e88:c0e3 with SMTP id
+ 6a1803df08f44-6e66ccabef4mr25154026d6.13.1739581485949; 
+ Fri, 14 Feb 2025 17:04:45 -0800 (PST)
+Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6e65d779201sm27325866d6.2.2025.02.14.17.04.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2025 17:04:45 -0800 (PST)
+Date: Fri, 14 Feb 2025 20:04:41 -0500
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Josef =?utf-8?B?THXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
+Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
+Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
+Message-ID: <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
+References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8487800.T7Z3S40VBb@camazotz>
+In-Reply-To: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,63 +86,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2025 at 04:15:25PM -0600, Elizabeth Figura wrote:
-> On Friday, 14 February 2025 12:45:39 CST Darrick J. Wong wrote:
-> > On Fri, Feb 14, 2025 at 12:13:03PM -0600, Elizabeth Figura wrote:
-> > > On Friday, 14 February 2025 07:06:20 CST Greg Kroah-Hartman wrote:
-> > > > On Fri, Feb 14, 2025 at 12:28:00PM +0000, Mike Lothian wrote:
-> > > > > This allows ntsync to be usuable by non-root processes out of the box
-> > > > 
-> > > > Are you sure you need/want that?  If so, why?  How did existing testing
-> > > > not ever catch this?
-> > > 
-> > > Hi, sorry, this is of course my fault.
-> > > 
-> > > We do need /dev/ntsync to be openable from user space for it to be
-> > > useful. I'm not sure what the most "correct" permissions are to have
-> > > in this case (when we don't specifically need read or write), but I
-> > > don't think I see a reason not to just set to 666 or 444.
-> > > 
-> > > I originally assumed that the right way to do this was not to set the
-> > > mode on the kernel file but rather through udev; I believe I was using
-> > > the code for /dev/loop-control or /dev/fuse as an example, which both
-> > > do that. So I (and others who tested) had just manually set up udev
-> > > rules for this, with the eventual intent of adding a default rule to
-> > > systemd like the others. I only recently realized that doing something
-> > > like this patch is possible and precedented.
-> > > 
-> > > I don't know what the best way to address this is, but this is
-> > > certainly the simplest.
-> > 
-> > Paranoid defaults in the kernel, and then a udev rule to relax the mode
-> > at runtime.  You could also have logind scripts to add add per-user
-> > allow acls to the device file at user session set up time... or however
-> > it is that /dev/sr0 has me on the allow list.  I'm not sure how that
-> > happens exactly, but it works smoothly.
-> > 
-> > I get far less complaining about relaxing posture than tightening it
-> > (==breaking things) after the fact.
+On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Luštický wrote:
+> Hello Alex,
+> there is a bug in mipi_dbi_hw_reset() function that implements the logic of
+> display reset contrary.
+> It keeps the reset line activated which keeps displays in reset state.
 > 
-> FWIW, it may be worth stressing that this is not a hardware device in
-> any sense, it's a software driver that only lives in a char device
-> (and dedicated module) for the sake of isolating the code. I can't
-> imagine any reason to control access per-user, although my experience
-> may not be enough to grant such imagination.
+> I reported the bug to
+> https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
+> 
+> Unfortunately, fixing the bug would mean current DTB-ABI breakage and
+> device-trees modification would be needed.
+> I mainly write this email to let you and other people know about it, so
+> hopefully it can be found easier.
+> What are your thoughts?
+Thanks for making me aware. I'll dig into over the weekend and get back
+to you
 
-Oh, I'm aware that ntsync is a driver for a software "device" that
-implements various Windows APIs and isn't real hardware. :)
-
-But, you might want prevent non-root systemd services (e.g. avahi) from
-being able to access /dev/ntsync if, say, someone breaches that, while
-at the same time allowing access to (say) logged-in users who can run
-Wine.
-
-> The only actual risk is a bug in the code itself—which is always
-> possible—but at that point you'd presumably just want to disable it at
-> build time or something similar.
-
-<shrug> Well yes, I could turn it off in my bespoke kernels, but most
-distributors turn on a lot of modules to minimize friction for users.
-Chances are that'll be most of them if this enables better Steam gaming.
-
---D
+Best regards,
+Alex
