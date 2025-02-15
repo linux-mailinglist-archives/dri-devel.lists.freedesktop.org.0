@@ -2,83 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9523A36A70
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 02:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EA9A36A7B
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 02:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8E5510E368;
-	Sat, 15 Feb 2025 01:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7867610E36B;
+	Sat, 15 Feb 2025 01:03:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GoMNQvyK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ECmTK2nA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 514A310E368
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:02:08 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id
- 6a1803df08f44-6dd049b5428so22393666d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739581327; x=1740186127; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Nqj7o49OtvRT5iEEonYD4OZw5LtydwFI4sGb/0Fu3BU=;
- b=GoMNQvyKibcVRzOMo/C5sYuawKOqv1zKmZtKrDpogBCuGDAsSp6+XijKk6EEAkLXzk
- vrEX3DE29fhyReljdo0ksqwbwxHCgMkYxyarouwKzX6BO6nqhTb1aBESbiKHmg2f69F6
- HgT2NVw8lfTIVCXriCXzDPrsK/PHyocspqHuPqFIiedP+QxENz7HcnWF5yXaRWKDAeTj
- XUftYkR9x+omsPzKXnEoWul4njtezowmv5auOEJvlgBxAbAgqIJMwWN4Je5BnIsusJXw
- LT2cCvGIL9j8HTJEWVHvrQLCiwSoZJv4mvgHKcZbB1JqHe2XQZZFg4koqPLrJjs3VFz3
- j3bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739581327; x=1740186127;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Nqj7o49OtvRT5iEEonYD4OZw5LtydwFI4sGb/0Fu3BU=;
- b=a6RV3hhHgns5aZUKJzhiV4QNOfWLgSEU92S78gLih/+2PmZlKpxcGItfYw8FzZKJ2u
- qEheeY3erjoKg2jB7dLnZZ/CrMmBi3aX7GYG01A/hp3QFo7TvXEPQl/Vp9yN1J/zNkM6
- 10vNWr403bm8SAKxVh04kqSIVuAmyH0P9loojUFLKpvYTLVanYtFRBdjXil5v5oxXKvT
- +irtZDoKXrov/HsX34YcEy/tb9OwNjkzQtVSENG69jmIrvQIfFHl/47fpOTdaipad4wc
- xgSUZnNmfJWYTjOZi1/f7h95Tz+k4+AGwByZgz3fW9wavzGKPT1a9QvdtMTLeiPHq33e
- Te2w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLg+Gtt7s25fYmJeo7U3j18fomq3WSkHnXVK9SetMIyR+7ZrtgOsVmSLJ3mXSIPsxI/ldBuNTPwG4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzntlejO9izNzerCplH1aYyP0ue+hO9HloM2oEj/kgDQLKHqLAL
- bqEcZnsB/JoluH5hyNI7FOfwSETjib3qHO4rDsDhxw/kruTj7RDoCLk7iKUa
-X-Gm-Gg: ASbGncv6iGhJhoJUI4kFE7N545ecdTgpX7WPrsLZ9XW8FjIP/5KB53vj2TqVb4B8DSZ
- CrEsSodsrlYK59ZS1fnjOfV93OQjHGf4AGPti7aaCviH59dTLBKPRhxvKIWOtmyO+Hqvpwtoj2s
- QPy4Sp7898fP4W8EgpukddU5Fi6Zc/r1weNdXB3U2Ph6K4vHn0QJeEZukFRUvhjQob+QCBKb3Ru
- KmEthyR5uRIN3OUtqK9NvvR+sJgRQrPXDZUsL2WOWIGiV0CKqj0A/TF7AX5UInC14oiLLNedrnH
- f0bf7ZYjRWcWtsVxm3LJPQ2A2jzFsqg5qCuRoLvzomNshdeEXI1W
-X-Google-Smtp-Source: AGHT+IH7l3+IZX/ugOgcY6A74TGp0xIfa8Wyi4jjlu0EfUXnGzlNsMg/wysPtqN1cyANXGt8N8uQlg==
-X-Received: by 2002:a05:6214:d07:b0:6e6:62fb:3503 with SMTP id
- 6a1803df08f44-6e66ccbcb4cmr17810096d6.12.1739581327183; 
- Fri, 14 Feb 2025 17:02:07 -0800 (PST)
-Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-471c2b048e7sm23215831cf.74.2025.02.14.17.02.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2025 17:02:06 -0800 (PST)
-Date: Fri, 14 Feb 2025 20:02:01 -0500
-From: Alex Lanzano <lanzano.alex@gmail.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, 
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] drm/repaper: fix integer overflows in repeat functions
-Message-ID: <cx4efp5kx3hahymdtgrjwu64373du4vg2v7errm3t34exrgezn@weo6exjuq2fu>
-References: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
- <ejsf4dwcyg7j4wdpdtbs56lbwokzlq65fxn2gxio4l5xg6di2r@pmnpafv3nwxz>
- <20250214132910.2611f9cd@pumpkin>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52D3410E36B
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:03:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D39EFA44CE4;
+ Sat, 15 Feb 2025 01:01:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A74B7C4CED1;
+ Sat, 15 Feb 2025 01:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739581413;
+ bh=1jWwksNfcXOTbsI5skvdkT/hHXIEc071tYG5CLbIBtw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ECmTK2nAMK7Kk2OVfwgOZdKLnU3lPIs+tPrJ5fa6ZhQ86dfjK8A/OTTJyFmyg7H1u
+ 4ouJeWzjNd9iKQeRaCGmSktD9FXv6zmhzxCPkVivsKpehr9bbRVgDIidTSnIK2/Lor
+ Lg7fnt8yWQOFreYKdEIvXvVktfViPuOWtS1/0iuRZTn/5TtZywQxGmwyTkAgAvuNrx
+ iuAyHIAn8zrEzYFG7bNqvKh4LM+kdWfzZS50RT4x6l4JbO+dt+ymxoua5X662iEYYT
+ OtZlbUie1SriiRaFtbrXbXZTmqTT0eXqVf1b+hjJ7ywBJ2rWcJjgewLfnsLEEfbFi4
+ Xb8YL4rbG6gTA==
+Date: Fri, 14 Feb 2025 17:03:33 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Mike Lothian <mike@fireburn.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH] ntsync: Set the permissions to be 0666
+Message-ID: <20250215010333.GO3028674@frogsfrogsfrogs>
+References: <20250214122759.2629-2-mike@fireburn.co.uk>
+ <1911589.tdWV9SEqCh@camazotz>
+ <20250214184539.GC21799@frogsfrogsfrogs>
+ <8487800.T7Z3S40VBb@camazotz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250214132910.2611f9cd@pumpkin>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8487800.T7Z3S40VBb@camazotz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,78 +71,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2025 at 01:29:10PM +0000, David Laight wrote:
-> On Thu, 13 Feb 2025 20:54:59 -0500
-> Alex Lanzano <lanzano.alex@gmail.com> wrote:
-> 
-> > On Thu, Jan 16, 2025 at 05:48:01AM -0800, Nikita Zhandarovich wrote:
-> > > There are conditions, albeit somewhat unlikely, under which right hand
-> > > expressions, calculating the end of time period in functions like
-> > > repaper_frame_fixed_repeat(), may overflow.
+On Fri, Feb 14, 2025 at 04:15:25PM -0600, Elizabeth Figura wrote:
+> On Friday, 14 February 2025 12:45:39 CST Darrick J. Wong wrote:
+> > On Fri, Feb 14, 2025 at 12:13:03PM -0600, Elizabeth Figura wrote:
+> > > On Friday, 14 February 2025 07:06:20 CST Greg Kroah-Hartman wrote:
+> > > > On Fri, Feb 14, 2025 at 12:28:00PM +0000, Mike Lothian wrote:
+> > > > > This allows ntsync to be usuable by non-root processes out of the box
+> > > > 
+> > > > Are you sure you need/want that?  If so, why?  How did existing testing
+> > > > not ever catch this?
 > > > 
-> > > For instance, if 'factor10x' in repaper_get_temperature() is high
-> > > enough (170), as is 'epd->stage_time' in repaper_probe(), then the
-> > > resulting value of 'end' will not fit in unsigned int expression.
+> > > Hi, sorry, this is of course my fault.
 > > > 
-> > > Mitigate this by casting 'epd->factored_stage_time' to wider type before
-> > > any multiplication is done.
+> > > We do need /dev/ntsync to be openable from user space for it to be
+> > > useful. I'm not sure what the most "correct" permissions are to have
+> > > in this case (when we don't specifically need read or write), but I
+> > > don't think I see a reason not to just set to 666 or 444.
 > > > 
-> > > Found by Linux Verification Center (linuxtesting.org) with static
-> > > analysis tool SVACE.
+> > > I originally assumed that the right way to do this was not to set the
+> > > mode on the kernel file but rather through udev; I believe I was using
+> > > the code for /dev/loop-control or /dev/fuse as an example, which both
+> > > do that. So I (and others who tested) had just manually set up udev
+> > > rules for this, with the eventual intent of adding a default rule to
+> > > systemd like the others. I only recently realized that doing something
+> > > like this patch is possible and precedented.
 > > > 
-> > > Fixes: 3589211e9b03 ("drm/tinydrm: Add RePaper e-ink driver")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> > > ---
-> > >  drivers/gpu/drm/tiny/repaper.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-> > > index 77944eb17b3c..d76c0e8e05f5 100644
-> > > --- a/drivers/gpu/drm/tiny/repaper.c
-> > > +++ b/drivers/gpu/drm/tiny/repaper.c
-> > > @@ -456,7 +456,7 @@ static void repaper_frame_fixed_repeat(struct repaper_epd *epd, u8 fixed_value,
-> > >  				       enum repaper_stage stage)
-> > >  {
-> > >  	u64 start = local_clock();
-> > > -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
-> > > +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
-> > >  
-> > >  	do {
-> > >  		repaper_frame_fixed(epd, fixed_value, stage);
-> > > @@ -467,7 +467,7 @@ static void repaper_frame_data_repeat(struct repaper_epd *epd, const u8 *image,
-> > >  				      const u8 *mask, enum repaper_stage stage)
-> > >  {
-> > >  	u64 start = local_clock();
-> > > -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
-> > > +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
-> > >  
-> > >  	do {
-> > >  		repaper_frame_data(epd, image, mask, stage);  
+> > > I don't know what the best way to address this is, but this is
+> > > certainly the simplest.
 > > 
-> > It might be best to change the underlying type in the struct instead of
-> > type casting
+> > Paranoid defaults in the kernel, and then a udev rule to relax the mode
+> > at runtime.  You could also have logind scripts to add add per-user
+> > allow acls to the device file at user session set up time... or however
+> > it is that /dev/sr0 has me on the allow list.  I'm not sure how that
+> > happens exactly, but it works smoothly.
+> > 
+> > I get far less complaining about relaxing posture than tightening it
+> > (==breaking things) after the fact.
 > 
-> That'll just make people think there is a different overflow.
-The commit message should describe which overflow this applies to regardless.
+> FWIW, it may be worth stressing that this is not a hardware device in
+> any sense, it's a software driver that only lives in a char device
+> (and dedicated module) for the sake of isolating the code. I can't
+> imagine any reason to control access per-user, although my experience
+> may not be enough to grant such imagination.
 
-> It'd also force the compiler to use a wider multiply.
-> 
-> A more subtle approach is to change the type of the first 1000 to 1000ull.
-> 
-My reasoning for favoring the type change route is as follows:
+Oh, I'm aware that ntsync is a driver for a software "device" that
+implements various Windows APIs and isn't real hardware. :)
 
-1. I'm not a big fan of using the standard C integer types especially
-mixing them with the fixed sized kernel integer types for these kinds of
-overflow scenarios
+But, you might want prevent non-root systemd services (e.g. avahi) from
+being able to access /dev/ntsync if, say, someone breaches that, while
+at the same time allowing access to (say) logged-in users who can run
+Wine.
 
-2. It would remove the chances of this field causing the same overflow
-issues in future development
+> The only actual risk is a bug in the code itself—which is always
+> possible—but at that point you'd presumably just want to disable it at
+> build time or something similar.
 
-> Personally I like to see the units on variables containing times (x_s, _ms, _ns)
-> since it makes off-by-1000 errors less likely and you can more easily tell
-> whether overflow if likely.
-Agreed but this is out of scope of this patch
+<shrug> Well yes, I could turn it off in my bespoke kernels, but most
+distributors turn on a lot of modules to minimize friction for users.
+Chances are that'll be most of them if this enables better Steam gaming.
 
-Best regards,
-Alex
+--D
