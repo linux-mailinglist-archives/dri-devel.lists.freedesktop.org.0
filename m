@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6590A36CCF
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 10:20:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18375A36CEE
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 10:28:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5125E10E4BE;
-	Sat, 15 Feb 2025 09:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1D110E06D;
+	Sat, 15 Feb 2025 09:28:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TqMD57lj";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YYpbbd6b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4116D10E4CB
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 09:20:45 +0000 (UTC)
-Received: from
- linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
- (linux.microsoft.com [13.77.154.182])
- by linux.microsoft.com (Postfix) with ESMTPSA id 36D332107AA1;
- Sat, 15 Feb 2025 01:20:45 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 36D332107AA1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1739611245;
- bh=X4BZo2FoCtZKftMiZVna+dhZsaZWDkhj/UsiastHJkE=;
- h=From:To:Cc:Subject:Date:From;
- b=TqMD57ljKGise/ffyryS+Wk18XxesOCMs3BLBm2eoryGDbIlhiMHAjm823Oy9Pl3V
- pDLzx9NSIT/EHyBJcpPXwTXIYbjyGR35vH94cuyIOxErfFl0ZuWFvJYE8UOOEECzg9
- GBcQXoMzWjSaRie5AGtJoS6cmR+OP88+cPEJOIF4=
-From: Saurabh Sengar <ssengar@linux.microsoft.com>
-To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, deller@gmx.de, akpm@linux-foundation.org,
- linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1352A10E06D
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 09:28:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739611692;
+ bh=QQjpX9+xUBD8RzBv+J9lE4D/BHtPWo4D4U8SL3B1WUg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YYpbbd6bVioKUx+jdEIEHKG2/pqedC6pc8dAI1ibk0/aiqRuRXMZt5OWqr5H1O5FH
+ 7mq+55uDiBl2KRSVka2ppRWu5U58/p14rPbcevbABW9wOvI0/5l/VeoxBhCu1bL9vK
+ kmwTwau8B1ucAguF/sBuluzmyPLKkmc5TUv0IYK1uuP3RizFmV5yumkXHBp8nCPNtI
+ hPivHIQXtkRKgHZIIlvvD0bW9kJ6tzu7hmNtO8Y7dwIVjSpPJvCny5yZMARiWPQKTi
+ Nf9uPBvyr/I467IE7szIWvK6OYsr8jCqlKaeVMGnOASLMB7gqYWJOG/5df2MI4VXEG
+ XCbTiQjbegelw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 38ECA17E0657;
+ Sat, 15 Feb 2025 10:28:12 +0100 (CET)
+Date: Sat, 15 Feb 2025 10:28:07 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: ssengar@microsoft.com,
-	mhklinux@outlook.com
-Subject: [PATCH] fbdev: hyperv_fb: Allow graceful removal of framebuffer
-Date: Sat, 15 Feb 2025 01:20:40 -0800
-Message-Id: <1739611240-9512-1-git-send-email-ssengar@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+Subject: Re: [PATCH v2 1/2] drm/panthor: Replace sleep locks with spinlocks
+ in fdinfo path
+Message-ID: <20250215102807.7502e7ba@collabora.com>
+In-Reply-To: <20250214210009.1994543-1-adrian.larumbe@collabora.com>
+References: <20250214210009.1994543-1-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,93 +65,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a Hyper-V framebuffer device is unbind, hyperv_fb driver tries to
-release the framebuffer forcefully. If this framebuffer is in use it
-produce the following WARN and hence this framebuffer is never released.
+On Fri, 14 Feb 2025 20:55:20 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-[   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
-< snip >
-[   44.111289] Call Trace:
-[   44.111290]  <TASK>
-[   44.111291]  ? show_regs+0x6c/0x80
-[   44.111295]  ? __warn+0x8d/0x150
-[   44.111298]  ? framebuffer_release+0x2c/0x40
-[   44.111300]  ? report_bug+0x182/0x1b0
-[   44.111303]  ? handle_bug+0x6e/0xb0
-[   44.111306]  ? exc_invalid_op+0x18/0x80
-[   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
-[   44.111311]  ? framebuffer_release+0x2c/0x40
-[   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
-[   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
-[   44.111323]  device_remove+0x40/0x80
-[   44.111325]  device_release_driver_internal+0x20b/0x270
-[   44.111327]  ? bus_find_device+0xb3/0xf0
+> Commit 0590c94c3596 ("drm/panthor: Fix race condition when gathering fdin=
+fo
+> group samples") introduced an xarray lock to deal with potential
+> use-after-free errors when accessing groups fdinfo figures. However, this
+> toggles the kernel's atomic context status, so the next nested mutex lock
+> will raise a warning when the kernel is compiled with mutex debug options:
+>=20
+> CONFIG_DEBUG_RT_MUTEXES=3Dy
+> CONFIG_DEBUG_MUTEXES=3Dy
+>=20
+> Replace Panthor's group fdinfo data mutex with a guarded spinlock.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> 0590c94c3596 ("drm/panthor: Fix race condition when gathering fdinfo grou=
+p samples")
 
-Fix this by moving the release of framebuffer to fb_ops.fb_destroy function
-so that framebuffer framework handles it gracefully
+My previous
 
-While we fix this, also replace manual registrations/unregistration of
-framebuffer with devm_register_framebuffer.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Fixes: 68a2d20b79b1 ("drivers/video: add Hyper-V Synthetic Video Frame Buffer Driver")
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
----
- drivers/video/fbdev/hyperv_fb.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+stands.
 
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 363e4ccfcdb7..83b1ab4da984 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -862,6 +862,16 @@ static void hvfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width,
- 		hvfb_ondemand_refresh_throttle(par, x, y, width, height);
- }
- 
-+/*
-+ * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
-+ * of unregister_framebuffer() or fb_release(). Do any cleanup related to
-+ * framebuffer here.
-+ */
-+static void hvfb_destroy(struct fb_info *info)
-+{
-+	framebuffer_release(info);
-+}
-+
- /*
-  * TODO: GEN1 codepaths allocate from system or DMA-able memory. Fix the
-  *       driver to use the _SYSMEM_ or _DMAMEM_ helpers in these cases.
-@@ -877,6 +887,7 @@ static const struct fb_ops hvfb_ops = {
- 	.fb_set_par = hvfb_set_par,
- 	.fb_setcolreg = hvfb_setcolreg,
- 	.fb_blank = hvfb_blank,
-+	.fb_destroy	= hvfb_destroy,
- };
- 
- /* Get options from kernel paramenter "video=" */
-@@ -1172,7 +1183,7 @@ static int hvfb_probe(struct hv_device *hdev,
- 	if (ret)
- 		goto error;
- 
--	ret = register_framebuffer(info);
-+	ret = devm_register_framebuffer(&hdev->device, info);
- 	if (ret) {
- 		pr_err("Unable to register framebuffer\n");
- 		goto error;
-@@ -1220,14 +1231,11 @@ static void hvfb_remove(struct hv_device *hdev)
- 
- 	fb_deferred_io_cleanup(info);
- 
--	unregister_framebuffer(info);
- 	cancel_delayed_work_sync(&par->dwork);
- 
- 	vmbus_close(hdev->channel);
--	hv_set_drvdata(hdev, NULL);
- 
- 	hvfb_putmem(hdev, info);
--	framebuffer_release(info);
- }
- 
- static int hvfb_suspend(struct hv_device *hdev)
--- 
-2.43.0
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 26 ++++++++++++-------------
+>  1 file changed, 12 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
+nthor/panthor_sched.c
+> index 1a276db095ff..4d31d1967716 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -9,6 +9,7 @@
+>  #include <drm/panthor_drm.h>
+> =20
+>  #include <linux/build_bug.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/dma-mapping.h>
+> @@ -631,10 +632,10 @@ struct panthor_group {
+>  		struct panthor_gpu_usage data;
+> =20
+>  		/**
+> -		 * @lock: Mutex to govern concurrent access from drm file's fdinfo cal=
+lback
+> -		 * and job post-completion processing function
+> +		 * @fdinfo.lock: Spinlock to govern concurrent access from drm file's =
+fdinfo
+> +		 * callback and job post-completion processing function
+>  		 */
+> -		struct mutex lock;
+> +		spinlock_t lock;
+> =20
+>  		/** @fdinfo.kbo_sizes: Aggregate size of private kernel BO's held by t=
+he group. */
+>  		size_t kbo_sizes;
+> @@ -910,8 +911,6 @@ static void group_release_work(struct work_struct *wo=
+rk)
+>  						   release_work);
+>  	u32 i;
+> =20
+> -	mutex_destroy(&group->fdinfo.lock);
+> -
+>  	for (i =3D 0; i < group->queue_count; i++)
+>  		group_free_queue(group, group->queues[i]);
+> =20
+> @@ -2861,12 +2860,12 @@ static void update_fdinfo_stats(struct panthor_jo=
+b *job)
+>  	struct panthor_job_profiling_data *slots =3D queue->profiling.slots->km=
+ap;
+>  	struct panthor_job_profiling_data *data =3D &slots[job->profiling.slot];
+> =20
+> -	mutex_lock(&group->fdinfo.lock);
+> -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+> -		fdinfo->cycles +=3D data->cycles.after - data->cycles.before;
+> -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+> -		fdinfo->time +=3D data->time.after - data->time.before;
+> -	mutex_unlock(&group->fdinfo.lock);
+> +	scoped_guard(spinlock, &group->fdinfo.lock) {
+> +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+> +			fdinfo->cycles +=3D data->cycles.after - data->cycles.before;
+> +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+> +			fdinfo->time +=3D data->time.after - data->time.before;
+> +	}
+>  }
+> =20
+>  void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+> @@ -2880,12 +2879,11 @@ void panthor_fdinfo_gather_group_samples(struct p=
+anthor_file *pfile)
+> =20
+>  	xa_lock(&gpool->xa);
+>  	xa_for_each(&gpool->xa, i, group) {
+> -		mutex_lock(&group->fdinfo.lock);
+> +		guard(spinlock)(&group->fdinfo.lock);
+>  		pfile->stats.cycles +=3D group->fdinfo.data.cycles;
+>  		pfile->stats.time +=3D group->fdinfo.data.time;
+>  		group->fdinfo.data.cycles =3D 0;
+>  		group->fdinfo.data.time =3D 0;
+> -		mutex_unlock(&group->fdinfo.lock);
+>  	}
+>  	xa_unlock(&gpool->xa);
+>  }
+> @@ -3537,7 +3535,7 @@ int panthor_group_create(struct panthor_file *pfile,
+>  	mutex_unlock(&sched->reset.lock);
+> =20
+>  	add_group_kbo_sizes(group->ptdev, group);
+> -	mutex_init(&group->fdinfo.lock);
+> +	spin_lock_init(&group->fdinfo.lock);
+> =20
+>  	return gid;
+> =20
 
