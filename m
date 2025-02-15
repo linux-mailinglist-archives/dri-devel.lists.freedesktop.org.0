@@ -2,81 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6709A37017
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 19:09:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD077A3705F
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 20:15:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6268D10E0FE;
-	Sat, 15 Feb 2025 18:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A59B110E05D;
+	Sat, 15 Feb 2025 19:14:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AwNlca+Z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ab5ij2jc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 727A610E0FE
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 18:09:15 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-7c08621f6a2so147837685a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 10:09:15 -0800 (PST)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00FC410E05D
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 19:14:57 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-7c08b14baa9so77707885a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 11:14:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739642954; x=1740247754; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NPF/Alw+//gUVq8mrgRf1sA3HpgcZBGZ+ed5dpOL9uU=;
- b=AwNlca+ZzFeERi81BdWtNSU0mXVNro3uEsmv2WvOt3BUbpml6BfLU2gOZBKsJZhUNj
- RVoeWiwXFo3M5DAp4lQ8wiF5i9jykuDp3v2dcMJwlBb4/alLImRs+FAY4Q4PZosU258d
- NfzB4VMQkZT72O0+8thakeZJ/5V0yoe0AHKXV4sUF19NQSdxJLkOabjNmHkQXHLfxJTg
- vCCePbDB9t2Q0r2Ssupud9KF596CpvHf82oRpmfOtmUEebHUpMaomc3dVdAM6xrWKz/h
- mfwR1GEbQuzoVJflhQuJ5S+KSG8fnkCAD8f8EGEhRWg4G4cB8ZF0ZqudmCS65+VPNi1Z
- IYqQ==
+ d=gmail.com; s=20230601; t=1739646897; x=1740251697; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=+YytOa4khy5sDm6tCChCQvfuYqhq+k0xxbkiRdAgWbw=;
+ b=Ab5ij2jc3+JnFICkEYq8EHmRiMd1Sphb4I39dTBlOWs45bs6dn09vnerLnA+Um6fm8
+ AOm4USTlZEfqu7VoMTFdpFc8QyHQBQ17PY4lmOKBT09I/Ewzh7L5s9ClfED+gafLP4QT
+ N9ShE8QD/hlxUm/oP8qFWX5clRWxPQgCsYz+TLJUAWMm084aSZWcb2RueT2z3gfIevbk
+ SgbkYZBeWMFOFIOimBfoN+oG07pv0mZeB9KaGIGLq3nX1bZNzMxdLygqwojO/dkiypLc
+ vTPtL30Rq+s2zBmn7ugye9wd/+Y1NGC6uL22naFTma01OIRqLO1BJCyQg1seGvinrGPQ
+ +qsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739642954; x=1740247754;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NPF/Alw+//gUVq8mrgRf1sA3HpgcZBGZ+ed5dpOL9uU=;
- b=vgHSQgI3+1f7WhZOsEqdZAikqPF+PBpo1XpzTbAIRy+Uw1JHjlA/nVCQWMvf0C9Tw/
- 2yotbpIqEFmu/FPlbcbHt4jlO+YdJeTMu4ZePH4U42/CMOdeexhuqP3s1qoYfKHHG7P5
- R1qPplzsFkeN4gdrEGin8q+51AszmBXKcq0enBGHKLR9AjYlc4UAsX8RQ0fhqB6Ia2b3
- TktM2/I3t+CfuUbf/1su6CevFyY44RDm43Y4Sb6i1ie7R8UHiDgBNo2fqHm4OsI63p/y
- IC+P7Z/ajQKz42SChlu6TPLRE6g+AC3r0lnr3+0p1+ZYU3bfVEr1RocKab145aME9bM2
- P19Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPyLA9zZ4BkMJW1EPxZ3NFvwAv1G/1rl92mJ1w9DNgL0Na04ck/BeBT0Pjc+glTct/yfcQPgfQJMA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx/hBWj5e9+aafMteD7k2L0XowT7pDmm/C2BHELUnvaQp1Fp2y6
- r2PtwPyyXx81YpUkmlEI4RNEYKPdZgV/uo+PBsWnb0MzpmsPbdMh
-X-Gm-Gg: ASbGnctBK4+gn/fKe/doLGE1EPZ4Ma32DFEeS6GFf11CW7iTxJsmj2a/H/sMrKyFPDZ
- jsgiPxIRT66AJ3v7RLEt4OmrtAJY/YrLsw8+Qv9A56chlay09JqcGOaCjH1L3i4Tay69nMRlelB
- Ra/yyjrM2oM39zgDEvfq9vdtiOZFgLxO3HQHS7XAsfMn0C0xba7B7RWqQtBycSI8soFcZMKXusp
- E9Tf8W6RZ9ifpfjnPb+bL+lNj2fj6yYjzk1HSxaOwDtKLzZdwU6Tk0bzSdTFClPZ0PVNz4VzXBH
- n98t2ylxtKrZ2JLivLSfRawNotSd7LhZf0e3gs2C22qFdzGl4XCz
-X-Google-Smtp-Source: AGHT+IEl9KdRZhqzx5Xxn8OZkjroz7UixGi1SO9rhPskdpCEoIBJLhf+0gV/LBbwxGIzrqNyLlXW+Q==
-X-Received: by 2002:a05:620a:4441:b0:7c0:7f07:a635 with SMTP id
- af79cd13be357-7c08aac61c6mr588315685a.53.1739642954075; 
- Sat, 15 Feb 2025 10:09:14 -0800 (PST)
+ d=1e100.net; s=20230601; t=1739646897; x=1740251697;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+YytOa4khy5sDm6tCChCQvfuYqhq+k0xxbkiRdAgWbw=;
+ b=fKgyduyNpZJQe1BhqMNFFtNsmM++Tpjglzc96F4C1D7IpeDtfT4oszPFnfsnRrkaTC
+ 15nzUOaj6ZeOJdgyxiyPZ6ZRwmTqVKuxyOmXACS09tVQLSbUpldvNugF6ue5yOi/C3Z2
+ 9gKRMHqU0/eemC36PKrIBEUa99ZIWbn1n08YgEw5bVYPCkueij8N6r9+kFBX8pPYUBOK
+ 4zPNb2JIKhnSQT5jRicrurajIX1ZgTfpRseQH07oDKjOAFrxiHd4o0sv59Tyls+7eaRS
+ 5qOOyg/XIxj9jfCID4xpcCog4llhxNCT5qYhxgqXk7shh6gedZ7rnZn0bR4skwZlgrla
+ 7/Hg==
+X-Gm-Message-State: AOJu0YyMJgUZtHKcS//FhiXklQA/mI8WmOtMIj4ysqgVCMPXiCstsZpI
+ jA0AG4LVI+SPXP5LUF3N4LH2lPtaiVdo4M/4lMfEtlvF3AJw7b/p
+X-Gm-Gg: ASbGnctcINm/+m78mFuNrp+TTlqb9F2c8wDoNJQaP0tROHH+Q7s+rML7dD54uybOrPt
+ oW7I3hFon2BUJK6+mP3HMBJLKa2y0doaUfiRMqp+E+JVUrFbOI4cVCUUxMjjsyfxBhWz4BdCf58
+ nY5SaBBaS8yIWXAzqqhZZtEyD/8SGbFifbcCMxkzAerWwQ7WSkFzFevO8yGfeFJgWgaXgoD5NdY
+ crb/HSWUxSpTHkn49b7rT7H6zTbljgo8vYDc05chSFXwC6QwXva/ViFPVUhKuGNk5e52WE+a4cC
+ YAoVtazFEf+xZ8Blf7J9E7iABqtoJcpt1SNw74o4tKqcAhnmnvMQ
+X-Google-Smtp-Source: AGHT+IE4xdhyhIoRQltqa7dyL6Z6hWkk9cDjQMnq19CQ6WbkY1salhHTZYym7H5f+QXW7xJT7BohOw==
+X-Received: by 2002:a05:620a:4148:b0:7b7:106a:19b7 with SMTP id
+ af79cd13be357-7c08a99e7f8mr588732785a.18.1739646896827; 
+ Sat, 15 Feb 2025 11:14:56 -0800 (PST)
 Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6e65d77927csm34123606d6.10.2025.02.15.10.09.12
+ af79cd13be357-7c07c86e650sm346357785a.97.2025.02.15.11.14.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2025 10:09:13 -0800 (PST)
-Date: Sat, 15 Feb 2025 13:09:11 -0500
+ Sat, 15 Feb 2025 11:14:56 -0800 (PST)
+Date: Sat, 15 Feb 2025 14:14:54 -0500
 From: Alex Lanzano <lanzano.alex@gmail.com>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, David Laight <david.laight.linux@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: Re: [PATCH] drm/repaper: fix integer overflows in repeat functions
-Message-ID: <xn7ikpjzqddnrna72ojiitufruemineonyhh5cmwizrrnt4txp@gh2sy6ixddx7>
-References: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
+To: Josef =?utf-8?B?THXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
+Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
+Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
+Message-ID: <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
+References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
+ <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,52 +87,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2025 at 05:48:01AM -0800, Nikita Zhandarovich wrote:
-> There are conditions, albeit somewhat unlikely, under which right hand
-> expressions, calculating the end of time period in functions like
-> repaper_frame_fixed_repeat(), may overflow.
-> 
-> For instance, if 'factor10x' in repaper_get_temperature() is high
-> enough (170), as is 'epd->stage_time' in repaper_probe(), then the
-> resulting value of 'end' will not fit in unsigned int expression.
-> 
-> Mitigate this by casting 'epd->factored_stage_time' to wider type before
-> any multiplication is done.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with static
-> analysis tool SVACE.
-> 
-> Fixes: 3589211e9b03 ("drm/tinydrm: Add RePaper e-ink driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+On Fri, Feb 14, 2025 at 08:04:41PM -0500, Alex Lanzano wrote:
+> On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Luštický wrote:
+> > Hello Alex,
+> > there is a bug in mipi_dbi_hw_reset() function that implements the logic of
+> > display reset contrary.
+> > It keeps the reset line activated which keeps displays in reset state.
+> > 
+> > I reported the bug to
+> > https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
+> > 
+> > Unfortunately, fixing the bug would mean current DTB-ABI breakage and
+> > device-trees modification would be needed.
+> > I mainly write this email to let you and other people know about it, so
+> > hopefully it can be found easier.
+> > What are your thoughts?
+> Thanks for making me aware. I'll dig into over the weekend and get back
+> to you
 
-After discussing with David Laight I cleared up my concerns.
+Alright so I looked into a bit more. Looks like the MIPI Specification
+says that the reset line is active low. So, if we want dt entries to be
+correct the logic for setting the reset line in mipi_dbi_hw_reset()
+should be flipped. However, like you said, this is going to cause a some
+confused developers to break out their oscilloscopes to figure out
+why their display isn't working.
 
-Reviewed-by: Alex Lanzano <lanzano.alex@gmail.com>
-
-> ---
->  drivers/gpu/drm/tiny/repaper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-> index 77944eb17b3c..d76c0e8e05f5 100644
-> --- a/drivers/gpu/drm/tiny/repaper.c
-> +++ b/drivers/gpu/drm/tiny/repaper.c
-> @@ -456,7 +456,7 @@ static void repaper_frame_fixed_repeat(struct repaper_epd *epd, u8 fixed_value,
->  				       enum repaper_stage stage)
->  {
->  	u64 start = local_clock();
-> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
-> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
->  
->  	do {
->  		repaper_frame_fixed(epd, fixed_value, stage);
-> @@ -467,7 +467,7 @@ static void repaper_frame_data_repeat(struct repaper_epd *epd, const u8 *image,
->  				      const u8 *mask, enum repaper_stage stage)
->  {
->  	u64 start = local_clock();
-> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
-> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
->  
->  	do {
->  		repaper_frame_data(epd, image, mask, stage);
+Best regards,
+Alex
