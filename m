@@ -2,58 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FFFA36A39
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:56:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9523A36A70
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 02:02:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03BE810ED44;
-	Sat, 15 Feb 2025 00:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E5510E368;
+	Sat, 15 Feb 2025 01:02:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YHX+RxPr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GoMNQvyK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9EFE10E4A1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 00:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739580959;
- bh=SamXBzmLvsEp0Jz0d1kldxkjLOu7b/3p5uRtusyt+UA=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=YHX+RxPrOuFbD+K59CXEFQAKW0HgHAw+8zomFsb8XCMPAUAIK9LnBBkYXUAGtoZot
- Yr2h1HVHvWsManylI0wE8R54lIaqsvDqPHcw2vs5q2C6BjA9mcWMZDMEI7WfPSwrVW
- DMCHpLcI+jjq/fMurpyrvcxTsp4n55fXyCVl6MyrGYPweNpty1qeQjUbQEKlNGKfcr
- Y+tcnqZb2JHSTgh1M21nkOsTONZ6mpTln9Y42PVtMw/n/tA4FZaf7RcQExzH+9ILnT
- 3ZxLNvamZHzLkAetsNE+EJAwVrql4HGXdF7lf0OzPagELxU4A4tkAuIX3V4CmPnWx7
- wox9izcsH8Ifw==
-Received: from localhost (144.232.221.87.dynamic.jazztel.es [87.221.232.144])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 3229D17E1553;
- Sat, 15 Feb 2025 01:55:59 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 15 Feb 2025 02:55:40 +0200
-Subject: [PATCH 4/4] arm64: dts: rockchip: Enable HDMI1 on rk3588-evb1
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250215-vop2-hdmi1-disp-modes-v1-4-81962a7151d6@collabora.com>
-References: <20250215-vop2-hdmi1-disp-modes-v1-0-81962a7151d6@collabora.com>
-In-Reply-To: <20250215-vop2-hdmi1-disp-modes-v1-0-81962a7151d6@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514A310E368
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 01:02:08 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id
+ 6a1803df08f44-6dd049b5428so22393666d6.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2025 17:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739581327; x=1740186127; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nqj7o49OtvRT5iEEonYD4OZw5LtydwFI4sGb/0Fu3BU=;
+ b=GoMNQvyKibcVRzOMo/C5sYuawKOqv1zKmZtKrDpogBCuGDAsSp6+XijKk6EEAkLXzk
+ vrEX3DE29fhyReljdo0ksqwbwxHCgMkYxyarouwKzX6BO6nqhTb1aBESbiKHmg2f69F6
+ HgT2NVw8lfTIVCXriCXzDPrsK/PHyocspqHuPqFIiedP+QxENz7HcnWF5yXaRWKDAeTj
+ XUftYkR9x+omsPzKXnEoWul4njtezowmv5auOEJvlgBxAbAgqIJMwWN4Je5BnIsusJXw
+ LT2cCvGIL9j8HTJEWVHvrQLCiwSoZJv4mvgHKcZbB1JqHe2XQZZFg4koqPLrJjs3VFz3
+ j3bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739581327; x=1740186127;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Nqj7o49OtvRT5iEEonYD4OZw5LtydwFI4sGb/0Fu3BU=;
+ b=a6RV3hhHgns5aZUKJzhiV4QNOfWLgSEU92S78gLih/+2PmZlKpxcGItfYw8FzZKJ2u
+ qEheeY3erjoKg2jB7dLnZZ/CrMmBi3aX7GYG01A/hp3QFo7TvXEPQl/Vp9yN1J/zNkM6
+ 10vNWr403bm8SAKxVh04kqSIVuAmyH0P9loojUFLKpvYTLVanYtFRBdjXil5v5oxXKvT
+ +irtZDoKXrov/HsX34YcEy/tb9OwNjkzQtVSENG69jmIrvQIfFHl/47fpOTdaipad4wc
+ xgSUZnNmfJWYTjOZi1/f7h95Tz+k4+AGwByZgz3fW9wavzGKPT1a9QvdtMTLeiPHq33e
+ Te2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLg+Gtt7s25fYmJeo7U3j18fomq3WSkHnXVK9SetMIyR+7ZrtgOsVmSLJ3mXSIPsxI/ldBuNTPwG4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzntlejO9izNzerCplH1aYyP0ue+hO9HloM2oEj/kgDQLKHqLAL
+ bqEcZnsB/JoluH5hyNI7FOfwSETjib3qHO4rDsDhxw/kruTj7RDoCLk7iKUa
+X-Gm-Gg: ASbGncv6iGhJhoJUI4kFE7N545ecdTgpX7WPrsLZ9XW8FjIP/5KB53vj2TqVb4B8DSZ
+ CrEsSodsrlYK59ZS1fnjOfV93OQjHGf4AGPti7aaCviH59dTLBKPRhxvKIWOtmyO+Hqvpwtoj2s
+ QPy4Sp7898fP4W8EgpukddU5Fi6Zc/r1weNdXB3U2Ph6K4vHn0QJeEZukFRUvhjQob+QCBKb3Ru
+ KmEthyR5uRIN3OUtqK9NvvR+sJgRQrPXDZUsL2WOWIGiV0CKqj0A/TF7AX5UInC14oiLLNedrnH
+ f0bf7ZYjRWcWtsVxm3LJPQ2A2jzFsqg5qCuRoLvzomNshdeEXI1W
+X-Google-Smtp-Source: AGHT+IH7l3+IZX/ugOgcY6A74TGp0xIfa8Wyi4jjlu0EfUXnGzlNsMg/wysPtqN1cyANXGt8N8uQlg==
+X-Received: by 2002:a05:6214:d07:b0:6e6:62fb:3503 with SMTP id
+ 6a1803df08f44-6e66ccbcb4cmr17810096d6.12.1739581327183; 
+ Fri, 14 Feb 2025 17:02:07 -0800 (PST)
+Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-471c2b048e7sm23215831cf.74.2025.02.14.17.02.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2025 17:02:06 -0800 (PST)
+Date: Fri, 14 Feb 2025 20:02:01 -0500
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, 
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-X-Mailer: b4 0.14.2
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH] drm/repaper: fix integer overflows in repeat functions
+Message-ID: <cx4efp5kx3hahymdtgrjwu64373du4vg2v7errm3t34exrgezn@weo6exjuq2fu>
+References: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
+ <ejsf4dwcyg7j4wdpdtbs56lbwokzlq65fxn2gxio4l5xg6di2r@pmnpafv3nwxz>
+ <20250214132910.2611f9cd@pumpkin>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250214132910.2611f9cd@pumpkin>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,96 +94,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the necessary DT changes to enable the second HDMI output port on
-Rockchip RK3588 EVB1.
+On Fri, Feb 14, 2025 at 01:29:10PM +0000, David Laight wrote:
+> On Thu, 13 Feb 2025 20:54:59 -0500
+> Alex Lanzano <lanzano.alex@gmail.com> wrote:
+> 
+> > On Thu, Jan 16, 2025 at 05:48:01AM -0800, Nikita Zhandarovich wrote:
+> > > There are conditions, albeit somewhat unlikely, under which right hand
+> > > expressions, calculating the end of time period in functions like
+> > > repaper_frame_fixed_repeat(), may overflow.
+> > > 
+> > > For instance, if 'factor10x' in repaper_get_temperature() is high
+> > > enough (170), as is 'epd->stage_time' in repaper_probe(), then the
+> > > resulting value of 'end' will not fit in unsigned int expression.
+> > > 
+> > > Mitigate this by casting 'epd->factored_stage_time' to wider type before
+> > > any multiplication is done.
+> > > 
+> > > Found by Linux Verification Center (linuxtesting.org) with static
+> > > analysis tool SVACE.
+> > > 
+> > > Fixes: 3589211e9b03 ("drm/tinydrm: Add RePaper e-ink driver")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> > > ---
+> > >  drivers/gpu/drm/tiny/repaper.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+> > > index 77944eb17b3c..d76c0e8e05f5 100644
+> > > --- a/drivers/gpu/drm/tiny/repaper.c
+> > > +++ b/drivers/gpu/drm/tiny/repaper.c
+> > > @@ -456,7 +456,7 @@ static void repaper_frame_fixed_repeat(struct repaper_epd *epd, u8 fixed_value,
+> > >  				       enum repaper_stage stage)
+> > >  {
+> > >  	u64 start = local_clock();
+> > > -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+> > > +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+> > >  
+> > >  	do {
+> > >  		repaper_frame_fixed(epd, fixed_value, stage);
+> > > @@ -467,7 +467,7 @@ static void repaper_frame_data_repeat(struct repaper_epd *epd, const u8 *image,
+> > >  				      const u8 *mask, enum repaper_stage stage)
+> > >  {
+> > >  	u64 start = local_clock();
+> > > -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+> > > +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+> > >  
+> > >  	do {
+> > >  		repaper_frame_data(epd, image, mask, stage);  
+> > 
+> > It might be best to change the underlying type in the struct instead of
+> > type casting
+> 
+> That'll just make people think there is a different overflow.
+The commit message should describe which overflow this applies to regardless.
 
-While at it, switch the position of &vop_mmu and @vop to maintain the
-alphabetical order.
+> It'd also force the compiler to use a wider multiply.
+> 
+> A more subtle approach is to change the type of the first 1000 to 1000ull.
+> 
+My reasoning for favoring the type change route is as follows:
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts | 42 ++++++++++++++++++++++--
- 1 file changed, 40 insertions(+), 2 deletions(-)
+1. I'm not a big fan of using the standard C integer types especially
+mixing them with the fixed sized kernel integer types for these kinds of
+overflow scenarios
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
-index 3fd0665cde2ca15cd309919ff751b00e0f53a400..27a7895595ee9fa2f5d5f3096cbe334c1d3792cf 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
-@@ -132,6 +132,17 @@ hdmi0_con_in: endpoint {
- 		};
- 	};
- 
-+	hdmi1-con {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi1_con_in: endpoint {
-+				remote-endpoint = <&hdmi1_out_con>;
-+			};
-+		};
-+	};
-+
- 	pcie20_avdd0v85: regulator-pcie20-avdd0v85 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "pcie20_avdd0v85";
-@@ -364,10 +375,30 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
-+&hdmi1 {
-+	status = "okay";
-+};
-+
-+&hdmi1_in {
-+	hdmi1_in_vp1: endpoint {
-+		remote-endpoint = <&vp1_out_hdmi1>;
-+	};
-+};
-+
-+&hdmi1_out {
-+	hdmi1_out_con: endpoint {
-+		remote-endpoint = <&hdmi1_con_in>;
-+	};
-+};
-+
- &hdptxphy0 {
- 	status = "okay";
- };
- 
-+&hdptxphy1 {
-+	status = "okay";
-+};
-+
- &i2c2 {
- 	status = "okay";
- 
-@@ -1371,11 +1402,11 @@ &usb_host1_xhci {
- 	status = "okay";
- };
- 
--&vop_mmu {
-+&vop {
- 	status = "okay";
- };
- 
--&vop {
-+&vop_mmu {
- 	status = "okay";
- };
- 
-@@ -1385,3 +1416,10 @@ vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
- 		remote-endpoint = <&hdmi0_in_vp0>;
- 	};
- };
-+
-+&vp1 {
-+	vp1_out_hdmi1: endpoint@ROCKCHIP_VOP2_EP_HDMI1 {
-+		reg = <ROCKCHIP_VOP2_EP_HDMI1>;
-+		remote-endpoint = <&hdmi1_in_vp1>;
-+	};
-+};
+2. It would remove the chances of this field causing the same overflow
+issues in future development
 
--- 
-2.48.1
+> Personally I like to see the units on variables containing times (x_s, _ms, _ns)
+> since it makes off-by-1000 errors less likely and you can more easily tell
+> whether overflow if likely.
+Agreed but this is out of scope of this patch
 
+Best regards,
+Alex
