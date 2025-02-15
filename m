@@ -2,84 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01DAA36A12
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF84A36A33
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B0A10E367;
-	Sat, 15 Feb 2025 00:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E2E10E0EF;
+	Sat, 15 Feb 2025 00:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hVB9BsLv";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QWYreGa/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E4D10E0EF;
- Sat, 15 Feb 2025 00:48:51 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51EEDtsJ022230;
- Sat, 15 Feb 2025 00:48:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7lwpThfECIvAZjnVcZ1dcc9HeoXUXItIFQ6CI74TL78=; b=hVB9BsLvuVPlgnxn
- 1JvhaNfAA1HfKOV7LorOaTyGhUTpdjb0bKmCdHhiMpoZJ9RlxdPpyhTR+5UUJb8O
- 6zGdPvX7YC5QgCJ16wHWfZtJquE+ScBrpLjj/N4yJZhXpEEHb2UJRXNEgFiUBWXt
- e+gLeLOupawBnaOIGFGmFMFcIvHHYu+IfQCxXU3evOY19qhvn0wRdQt1dwsNaO8+
- BF4q0IkO8v1XXplonlYYGXozVhzD+RVdDc8T6yoEH428s/jSndLMZDGyAM5BjMu/
- BD9yMw3vucl3fMdxB6i5UflM9NVx3rK16kPN41YwFJGmo6tiARPZMQZblJUeIkgt
- h/FEog==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44t7d899v5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 00:48:49 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51F0mmql006478
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 00:48:48 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Feb
- 2025 16:48:48 -0800
-Message-ID: <18840118-243c-40e2-9b74-226e515ae111@quicinc.com>
-Date: Fri, 14 Feb 2025 16:48:47 -0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 099B310E119
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 00:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739580953;
+ bh=nIXcpxIUSKHDj4yKjrFu8Z6Y37bAcj6b8+fVzwIrLgY=;
+ h=From:Subject:Date:To:Cc:From;
+ b=QWYreGa/6yH2TXVLCawRPa35+LxXk1hZym5F2VlQ/OyTS+GV8svkU/rjrS39UK8Mk
+ 4Sq7DqMdekxG1Cthb89kmnzRgRt3PJ6CHaVPKm3sQ1+gI/0/svXob35j6BFjADRuEx
+ 1B5+KfOda3u2ens8t/F5O7sxoeq/ZPrmGk7cCLon8fhAOjx9jHqgse+d9EWZWs6kuw
+ GYymbHStNxvxdHakffxSE3+dSlIkI4iyEaks1mH6x7GBI7BcFopC/Qx4oRXZuCtDKa
+ Hbj8/d+5Q2XxFvx7kMX9sRLCN9B+9J46DlleRinvN1d7u5/DEUUXi+KcqGhkmnSUWk
+ PlqX7CTWZxZ/g==
+Received: from localhost (144.232.221.87.dynamic.jazztel.es [87.221.232.144])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 613E817E0239;
+ Sat, 15 Feb 2025 01:55:53 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH 0/4] Improve Rockchip VOP2 display modes handling on RK3588
+ HDMI1
+Date: Sat, 15 Feb 2025 02:55:36 +0200
+Message-Id: <20250215-vop2-hdmi1-disp-modes-v1-0-81962a7151d6@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/15] drm/msm/dpu: fix mixer number counter on
- allocation
-Content-Language: en-US
-To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-0-9701a16340da@linaro.org>
- <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-6-9701a16340da@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-6-9701a16340da@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 2sMJ_qwPjn0YgeNhaTKkW8V_hKteTUhg
-X-Proofpoint-ORIG-GUID: 2sMJ_qwPjn0YgeNhaTKkW8V_hKteTUhg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-14_10,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 adultscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502150004
+X-B4-Tracking: v=1; b=H4sIAAjmr2cC/x3MMQqAMAxA0atIZgM2KBSvIg7VRM2gLQ2IIL27x
+ fEN/79gklUMxuaFLLeaxqvCtQ2sR7h2QeVqoI6GjtyAd0yEB5/qkNUSnpHFUILn0JNfVi9Q25R
+ l0+f/TnMpH1L0CLVnAAAA
+X-Change-ID: 20250215-vop2-hdmi1-disp-modes-ea8da428bc8e
+To: Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,43 +72,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As a followup to getting basic HDMI1 output support [1] merged upstream,
+make use of the HDMI1 PHY PLL to provide better VOP2 display modes
+handling for the second HDMI output port on RK3588 SoC, similarly to
+what has been achieved recently for HDMI0 [2].
 
+Additionally, enable HDMI1 output on Rockchip RK3588 EVB1.
 
-On 1/17/2025 8:00 AM, Jun Nie wrote:
-> Current code only supports usage cases with one pair of mixers at
-> most. To support quad-pipe usage case, two pairs of mixers need to
-> be reserved. The lm_count for all pairs is cleared if a peer
-> allocation fails in current implementation. Reset the current lm_count
-> to an even number instead of completely clearing it. This prevents all
-> pairs from being cleared in cases where multiple LM pairs are needed.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+[1] https://lore.kernel.org/lkml/20241211-rk3588-hdmi1-v2-0-02cdca22ff68@collabora.com/
+[2] https://lore.kernel.org/lkml/20250204-vop2-hdmi0-disp-modes-v3-0-d71c6a196e58@collabora.com/
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Cristian Ciocaltea (4):
+      drm/rockchip: vop2: Improve display modes handling on RK3588 HDMI1
+      arm64: dts: rockchip: Enable HDMI1 PHY clk provider on RK3588
+      arm64: dts: rockchip: Add HDMI1 PHY PLL clock source to VOP2 on RK3588
+      arm64: dts: rockchip: Enable HDMI1 on rk3588-evb1
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index 24e085437039e..3b3660d0b166d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -321,7 +321,11 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
->   		if (!rm->mixer_blks[i])
->   			continue;
->   
-> -		lm_count = 0;
-> +		/*
-> +		 * Reset lm_count to an even index. This will drop the previous
-> +		 * primary mixer if failed to find its peer.
-> +		 */
-> +		lm_count &= ~1;
->   		lm_idx[lm_count] = i;
->   
->   		if (!_dpu_rm_check_lm_and_get_connected_blks(rm, global_state,
-> 
-> -- 
-> 2.34.1
-> 
+ arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts | 42 ++++++++++++++++++++++--
+ arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi   | 22 +++++++++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c     | 26 ++++++++++++++-
+ 3 files changed, 87 insertions(+), 3 deletions(-)
+---
+base-commit: 0ae0fa3bf0b44c8611d114a9f69985bf451010c3
+change-id: 20250215-vop2-hdmi1-disp-modes-ea8da428bc8e
 
