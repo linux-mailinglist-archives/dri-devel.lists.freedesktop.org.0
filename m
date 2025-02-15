@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6FEA369BC
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:15:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC261A369C2
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 01:15:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6757510ED4F;
-	Sat, 15 Feb 2025 00:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0315F10ED5F;
+	Sat, 15 Feb 2025 00:15:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gCuE5a7j";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="B53DhqaJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA8E110E454;
- Sat, 15 Feb 2025 00:15:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9751D10E454;
+ Sat, 15 Feb 2025 00:15:36 +0000 (UTC)
 Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51EH4uBh012386;
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51F00SII023270;
  Sat, 15 Feb 2025 00:15:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- hqNqoJznMPR3WwleOQ8gsi0rjmnTyQTZFXfc0J7qIt4=; b=gCuE5a7jB917T/vV
- Hr01eavY7xHYVorwvNV++hP+gU3nWqwq5RGPgnpcv7lI9UHnTSY1RlFwxCdnXTC+
- gznT5DWOpbC87E8ueva6qHoIdOqQYYAU2xUESsyrJsTL7lVScA1+O5gxMBV69q60
- LTV6G+xC0HSDVYLK+diUha3EaP1CKbEOfpHwD1DhLWGYNgf4LQLXuqtS9PBgkkaV
- pGGx0HKuJIagnKJ9Yn2MYDlKjFZmyZxUrzCgqweKk3BxNvmC83HDMWImagHXbjBe
- ch+J2/65SP5pEACfYfBlGDjUiLD1X6E8mmEvgpnQ8l/xg1J55DdySTIaWbxW7xdM
- OIqfAQ==
+ UBSXBxADo0RU8LD+9yNUygZ3xMbNnqDsIOHDixCNL1k=; b=B53DhqaJT6lGoG1J
+ TmQXUBdZdg0oQDCE4qKS9rmBtveDP5TmbxaWR/eiq4kfALxxeJs1zOIoQP24RS/A
+ 8fkkGKhaYPiDImXMgmyJxN6L7Rti7DfSCQTud30DSnOB7je0O64OmdZy2cr7RNw4
+ zxBXaakqhH55o2/ADXfliZjN3g5RP8sdSbBL6pf/1WTBsCo5CyLP2Z28g1rN4sbz
+ S+3fSVt86dxP26Hnsh6dbphdLxMGKJcIE8DXuwSiWEn2BzeDfLMYPTx6J+Ig6VlM
+ NCWyRrRY/0t5JQ2h7aJgCPksdHB6MRr459RmckeeJp+magFzDqMQ6bn3Dr7nEpvn
+ 8ylPXA==
 Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44sc5udj74-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44sc5udj75-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 00:15:27 +0000 (GMT)
+ Sat, 15 Feb 2025 00:15:28 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51F0FQKo028158
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51F0FRT4028161
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 00:15:26 GMT
+ Sat, 15 Feb 2025 00:15:27 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1544.9; Fri, 14 Feb 2025 16:15:26 -0800
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Fri, 14 Feb 2025 16:14:30 -0800
-Subject: [PATCH v6 07/14] drm/msm/dpu: Reserve resources for CWB
+Date: Fri, 14 Feb 2025 16:14:31 -0800
+Subject: [PATCH v6 08/14] drm/msm/dpu: Configure CWB in writeback encoder
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250214-concurrent-wb-v6-7-a44c293cf422@quicinc.com>
+Message-ID: <20250214-concurrent-wb-v6-8-a44c293cf422@quicinc.com>
 References: <20250214-concurrent-wb-v6-0-a44c293cf422@quicinc.com>
 In-Reply-To: <20250214-concurrent-wb-v6-0-a44c293cf422@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
@@ -65,11 +65,11 @@ CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  "Jessica Zhang" <quic_jesszhan@quicinc.com>
 X-Mailer: b4 0.15-dev-f0f05
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739578524; l=10277;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739578524; l=7389;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=pHmpWq997UkN4mXaycvCRWIiGyMXXH+YD2kh3yfTP0o=;
- b=qHRaoAik2oLHBbupbB9sOd0QWkaOUQEuw7uR4b7b6vsIgnoBqG3h4orwcpS93Xr3BNou5mISm
- NITJqOUTByBDJL0DkyLa8pRcw/4R5O9SaoULL1elo4wyBTDhP3x1vxC
+ bh=EHhiT+0dWBVudJepaAMBdhiYZEq4yAFmUsUSqMmZ9kM=;
+ b=EDKcBveoTwC+X2Rl9GknSfYZyYR9Y+M6JljfHSFBlHhEBgHMW294UXekBLoEpQB+yDsPZp+nI
+ 73rdrMd5PgCCLMiNRayuoabvmXX5QAYtd5z7dC8H467G3XrTCkmi/v8
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -78,8 +78,8 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 0vuXWOu3wzAU-SdOdE5EjJfgrv7sskof
-X-Proofpoint-ORIG-GUID: 0vuXWOu3wzAU-SdOdE5EjJfgrv7sskof
+X-Proofpoint-GUID: 3xgDBdeK0mb5TiP-aleVG5VkOPk7_pE3
+X-Proofpoint-ORIG-GUID: 3xgDBdeK0mb5TiP-aleVG5VkOPk7_pE3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-14_10,2025-02-13_01,2024-11-22_01
@@ -104,291 +104,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for RM to reserve dedicated CWB PINGPONGs and CWB muxes
+Cache the CWB block mask in the DPU virtual encoder and configure CWB
+according to the CWB block mask within the writeback phys encoder
 
-For concurrent writeback, even-indexed CWB muxes must be assigned to
-even-indexed LMs and odd-indexed CWB muxes for odd-indexed LMs. The same
-even/odd rule applies for dedicated CWB PINGPONGs.
-
-Track the CWB muxes in the global state and add a CWB-specific helper to
-reserve the correct CWB muxes and dedicated PINGPONGs following the
-even/odd rule.
-
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
 ---
-Changes in v6:
-- Add a comment on using the RM HW block array index to enforce the CWB
-  odd/even rule (Dmitry)
-
-Changes in v5:
-- Allocate CWB muxes first then allocate PINGPONG block based on CWB mux
-  index
-- Corrected comment doc on odd/even rule
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 34 +++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 87 +++++++++++++++++++++++++++++
- 4 files changed, 120 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 75 +++++++++++++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  7 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  4 +-
+ 3 files changed, 83 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 0e4f27da9534..b7d10855e6bf 100644
+index b7d10855e6bf..2cd1de88448d 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2,7 +2,7 @@
- /*
-  * Copyright (C) 2013 Red Hat
-  * Copyright (c) 2014-2018, 2020-2021 The Linux Foundation. All rights reserved.
-- * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-  *
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
-@@ -28,6 +28,7 @@
+@@ -24,6 +24,7 @@
+ #include "dpu_hw_catalog.h"
+ #include "dpu_hw_intf.h"
+ #include "dpu_hw_ctl.h"
++#include "dpu_hw_cwb.h"
+ #include "dpu_hw_dspp.h"
  #include "dpu_hw_dsc.h"
  #include "dpu_hw_merge3d.h"
- #include "dpu_hw_cdm.h"
-+#include "dpu_hw_cwb.h"
- #include "dpu_formats.h"
- #include "dpu_encoder_phys.h"
- #include "dpu_crtc.h"
-@@ -133,6 +134,9 @@ enum dpu_enc_rc_states {
-  * @cur_slave:		As above but for the slave encoder.
-  * @hw_pp:		Handle to the pingpong blocks used for the display. No.
-  *			pingpong blocks can be different than num_phys_encs.
-+ * @hw_cwb:		Handle to the CWB muxes used for concurrent writeback
-+ *			display. Number of CWB muxes can be different than
-+ *			num_phys_encs.
+@@ -139,6 +140,7 @@ enum dpu_enc_rc_states {
+  *			num_phys_encs.
   * @hw_dsc:		Handle to the DSC blocks used for the display.
   * @dsc_mask:		Bitmask of used DSC blocks.
++ * @cwb_mask		Bitmask of used CWB muxes
   * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
-@@ -177,6 +181,7 @@ struct dpu_encoder_virt {
- 	struct dpu_encoder_phys *cur_master;
- 	struct dpu_encoder_phys *cur_slave;
- 	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_cwb *hw_cwb[MAX_CHANNELS_PER_ENC];
+  *			for partial update right-only cases, such as pingpong
+  *			split where virtual pingpong does not generate IRQs
+@@ -185,6 +187,7 @@ struct dpu_encoder_virt {
  	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
  
  	unsigned int dsc_mask;
-@@ -1141,7 +1146,10 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_blk *hw_cwb[MAX_CHANNELS_PER_ENC];
- 	int num_ctl, num_pp, num_dsc;
-+	int num_cwb = 0;
-+	bool is_cwb_encoder;
++	unsigned int cwb_mask;
+ 
+ 	bool intfs_swapped;
+ 
+@@ -1151,6 +1154,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 	int num_cwb = 0;
+ 	bool is_cwb_encoder;
  	unsigned int dsc_mask = 0;
++	unsigned int cwb_mask = 0;
  	int i;
  
-@@ -1155,6 +1163,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 	if (!drm_enc) {
+@@ -1191,8 +1195,12 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 						       ARRAY_SIZE(hw_pp));
+ 	}
  
- 	priv = drm_enc->dev->dev_private;
- 	dpu_kms = to_dpu_kms(priv->kms);
-+	is_cwb_encoder = drm_crtc_in_clone_mode(crtc_state) &&
-+			dpu_enc->disp_info.intf_type == INTF_WB;
- 
- 	global_state = dpu_kms_get_existing_global_state(dpu_kms);
- 	if (IS_ERR_OR_NULL(global_state)) {
-@@ -1165,9 +1175,25 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 	trace_dpu_enc_mode_set(DRMID(drm_enc));
- 
- 	/* Query resource that have been reserved in atomic check step. */
--	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
--		drm_enc->crtc, DPU_HW_BLK_PINGPONG, hw_pp,
--		ARRAY_SIZE(hw_pp));
-+	if (is_cwb_encoder) {
-+		num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-+						       drm_enc->crtc,
-+						       DPU_HW_BLK_DCWB_PINGPONG,
-+						       hw_pp, ARRAY_SIZE(hw_pp));
-+		num_cwb = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-+						       drm_enc->crtc,
-+						       DPU_HW_BLK_CWB,
-+						       hw_cwb, ARRAY_SIZE(hw_cwb));
-+	} else {
-+		num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-+						       drm_enc->crtc,
-+						       DPU_HW_BLK_PINGPONG, hw_pp,
-+						       ARRAY_SIZE(hw_pp));
+-	for (i = 0; i < num_cwb; i++)
++	for (i = 0; i < num_cwb; i++) {
+ 		dpu_enc->hw_cwb[i] = to_dpu_hw_cwb(hw_cwb[i]);
++		cwb_mask |= BIT(dpu_enc->hw_cwb[i]->idx - CWB_0);
 +	}
 +
-+	for (i = 0; i < num_cwb; i++)
-+		dpu_enc->hw_cwb[i] = to_dpu_hw_cwb(hw_cwb[i]);
-+
++	dpu_enc->cwb_mask = cwb_mask;
+ 
  	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
  		drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
+@@ -2232,6 +2240,9 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+ 	if (phys_enc->hw_pp && phys_enc->hw_pp->ops.setup_dither)
+ 		phys_enc->hw_pp->ops.setup_dither(phys_enc->hw_pp, NULL);
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index ba7bb05efe9b..8d820cd1b554 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -77,12 +77,14 @@ enum dpu_hw_blk_type {
- 	DPU_HW_BLK_LM,
- 	DPU_HW_BLK_CTL,
- 	DPU_HW_BLK_PINGPONG,
-+	DPU_HW_BLK_DCWB_PINGPONG,
- 	DPU_HW_BLK_INTF,
- 	DPU_HW_BLK_WB,
- 	DPU_HW_BLK_DSPP,
- 	DPU_HW_BLK_MERGE_3D,
- 	DPU_HW_BLK_DSC,
- 	DPU_HW_BLK_CDM,
-+	DPU_HW_BLK_CWB,
- 	DPU_HW_BLK_MAX,
- };
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index 54ef6cfa2485..a57ec2ec1060 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -132,6 +132,7 @@ struct dpu_global_state {
- 	uint32_t cdm_to_crtc_id;
- 
- 	uint32_t sspp_to_crtc_id[SSPP_MAX - SSPP_NONE];
-+	uint32_t cwb_to_crtc_id[CWB_MAX - CWB_0];
- };
- 
- struct dpu_global_state
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 4da2e47265d4..3efbba425ca6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -233,6 +233,59 @@ static int _dpu_rm_get_lm_peer(struct dpu_rm *rm, int primary_idx)
- 	return -EINVAL;
++	if (dpu_enc->cwb_mask)
++		dpu_encoder_helper_phys_setup_cwb(phys_enc, false);
++
+ 	/* reset the merge 3D HW block */
+ 	if (phys_enc->hw_pp && phys_enc->hw_pp->merge_3d) {
+ 		phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc->hw_pp->merge_3d,
+@@ -2275,6 +2286,56 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+ 	ctl->ops.clear_pending_flush(ctl);
  }
  
-+static int _dpu_rm_reserve_cwb_mux_and_pingpongs(struct dpu_rm *rm,
-+						 struct dpu_global_state *global_state,
-+						 uint32_t crtc_id,
-+						 struct msm_display_topology *topology)
++void dpu_encoder_helper_phys_setup_cwb(struct dpu_encoder_phys *phys_enc,
++				       bool enable)
 +{
-+	int num_cwb_mux = topology->num_lm, cwb_mux_count = 0;
-+	int cwb_pp_start_idx = PINGPONG_CWB_0 - PINGPONG_0;
-+	int cwb_pp_idx[MAX_BLOCKS];
-+	int cwb_mux_idx[MAX_BLOCKS];
++	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(phys_enc->parent);
++	struct dpu_hw_cwb *hw_cwb;
++	struct dpu_hw_cwb_setup_cfg cwb_cfg;
++
++	struct dpu_kms *dpu_kms;
++	struct dpu_global_state *global_state;
++	struct dpu_hw_blk *rt_pp_list[MAX_CHANNELS_PER_ENC];
++	int num_pp;
++
++	if (!phys_enc->hw_wb)
++		return;
++
++	dpu_kms = phys_enc->dpu_kms;
++	global_state = dpu_kms_get_existing_global_state(dpu_kms);
++	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
++					       phys_enc->parent->crtc,
++					       DPU_HW_BLK_PINGPONG, rt_pp_list,
++					       ARRAY_SIZE(rt_pp_list));
++
++	if (num_pp == 0 || num_pp > MAX_CHANNELS_PER_ENC) {
++		DPU_DEBUG_ENC(dpu_enc, "invalid num_pp %d\n", num_pp);
++		return;
++	}
 +
 +	/*
-+	 * Reserve additional dedicated CWB PINGPONG blocks and muxes for each
-+	 * mixer
-+	 *
-+	 * TODO: add support reserving resources for platforms with no
-+	 *       PINGPONG_CWB
++	 * The CWB mux supports using LM or DSPP as tap points. For now,
++	 * always use LM tap point
 +	 */
-+	for (int i = 0; i < ARRAY_SIZE(rm->mixer_blks) &&
-+	     cwb_mux_count < num_cwb_mux; i++) {
-+		for (int j = 0; j < ARRAY_SIZE(rm->cwb_blks); j++) {
-+			/*
-+			 * Odd LMs must be assigned to odd CWB muxes and even
-+			 * LMs with even CWB muxes.
-+			 *
-+			 * Since the RM HW block array index is based on the HW
-+			 * block ids, we can also use the array index to enforce
-+			 * the odd/even rule. See dpu_rm_init() for more
-+			 * information
-+			 */
-+			if (reserved_by_other(global_state->cwb_to_crtc_id, j, crtc_id) ||
-+			    i % 2 != j % 2)
-+				continue;
++	cwb_cfg.input = INPUT_MODE_LM_OUT;
 +
-+			cwb_mux_idx[cwb_mux_count] = j;
-+			cwb_pp_idx[cwb_mux_count] = j + cwb_pp_start_idx;
-+			cwb_mux_count++;
-+			break;
++	for (int i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
++		hw_cwb = dpu_enc->hw_cwb[i];
++		if (!hw_cwb)
++			continue;
++
++		if (enable) {
++			struct dpu_hw_pingpong *hw_pp =
++					to_dpu_hw_pingpong(rt_pp_list[i]);
++			cwb_cfg.pp_idx = hw_pp->idx;
++		} else {
++			cwb_cfg.pp_idx = PINGPONG_NONE;
 +		}
-+	}
 +
-+	if (cwb_mux_count != num_cwb_mux) {
-+		DPU_ERROR("Unable to reserve all CWB PINGPONGs\n");
-+		return -ENAVAIL;
++		hw_cwb->ops.config_cwb(hw_cwb, &cwb_cfg);
 +	}
-+
-+	for (int i = 0; i < cwb_mux_count; i++) {
-+		global_state->pingpong_to_crtc_id[cwb_pp_idx[i]] = crtc_id;
-+		global_state->cwb_to_crtc_id[cwb_mux_idx[i]] = crtc_id;
-+	}
-+
-+	return 0;
 +}
 +
  /**
-  * _dpu_rm_check_lm_and_get_connected_blks - check if proposed layer mixer meets
-  *	proposed use case requirements, incl. hardwired dependent blocks like
-@@ -623,6 +676,12 @@ static int _dpu_rm_make_reservation(
- 		return ret;
- 	}
- 
-+	if (topology->cwb_enabled) {
-+		ret = _dpu_rm_reserve_cwb_mux_and_pingpongs(rm, global_state,
-+							    crtc_id, topology);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	ret = _dpu_rm_reserve_ctls(rm, global_state, crtc_id,
- 			topology);
-@@ -680,6 +739,8 @@ void dpu_rm_release(struct dpu_global_state *global_state,
- 	_dpu_rm_clear_mapping(global_state->dspp_to_crtc_id,
- 			ARRAY_SIZE(global_state->dspp_to_crtc_id), crtc_id);
- 	_dpu_rm_clear_mapping(&global_state->cdm_to_crtc_id, 1, crtc_id);
-+	_dpu_rm_clear_mapping(global_state->cwb_to_crtc_id,
-+			ARRAY_SIZE(global_state->cwb_to_crtc_id), crtc_id);
+  * dpu_encoder_helper_phys_setup_cdm - setup chroma down sampling block
+  * @phys_enc: Pointer to physical encoder
+@@ -2735,6 +2796,18 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+ 	return INTF_MODE_NONE;
  }
  
++/**
++ * dpu_encoder_helper_get_cwb_mask - get CWB blocks mask for the DPU encoder
++ * @phys_enc: Pointer to physical encoder structure
++ */
++unsigned int dpu_encoder_helper_get_cwb_mask(struct dpu_encoder_phys *phys_enc)
++{
++	struct drm_encoder *encoder = phys_enc->parent;
++	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
++
++	return dpu_enc->cwb_mask;
++}
++
  /**
-@@ -824,6 +885,7 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+  * dpu_encoder_helper_get_dsc - get DSC blocks mask for the DPU encoder
+  *   This helper function is used by physical encoder to get DSC blocks mask
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index 63f09857025c..61b22d949454 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+  * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
+  */
  
- 	switch (type) {
- 	case DPU_HW_BLK_PINGPONG:
-+	case DPU_HW_BLK_DCWB_PINGPONG:
- 		hw_blks = rm->pingpong_blks;
- 		hw_to_crtc_id = global_state->pingpong_to_crtc_id;
- 		max_blks = ARRAY_SIZE(rm->pingpong_blks);
-@@ -853,6 +915,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 		hw_to_crtc_id = &global_state->cdm_to_crtc_id;
- 		max_blks = 1;
- 		break;
-+	case DPU_HW_BLK_CWB:
-+		hw_blks = rm->cwb_blks;
-+		hw_to_crtc_id = global_state->cwb_to_crtc_id;
-+		max_blks = ARRAY_SIZE(rm->cwb_blks);
-+		break;
- 	default:
- 		DPU_ERROR("blk type %d not managed by rm\n", type);
- 		return 0;
-@@ -863,6 +930,20 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 		if (hw_to_crtc_id[i] != crtc_id)
- 			continue;
- 
-+		if (type == DPU_HW_BLK_PINGPONG) {
-+			struct dpu_hw_pingpong *pp = to_dpu_hw_pingpong(hw_blks[i]);
-+
-+			if (pp->idx >= PINGPONG_CWB_0)
-+				continue;
-+		}
-+
-+		if (type == DPU_HW_BLK_DCWB_PINGPONG) {
-+			struct dpu_hw_pingpong *pp = to_dpu_hw_pingpong(hw_blks[i]);
-+
-+			if (pp->idx < PINGPONG_CWB_0)
-+				continue;
-+		}
-+
- 		if (num_blks == blks_size) {
- 			DPU_ERROR("More than %d resources assigned to crtc %d\n",
- 				  blks_size, crtc_id);
-@@ -945,4 +1026,10 @@ void dpu_rm_print_state(struct drm_printer *p,
- 		dpu_rm_print_state_helper(p, rm->hw_sspp[i] ? &rm->hw_sspp[i]->base : NULL,
- 					  global_state->sspp_to_crtc_id[i]);
- 	drm_puts(p, "\n");
-+
-+	drm_puts(p, "\tcwb=");
-+	for (i = 0; i < ARRAY_SIZE(global_state->cwb_to_crtc_id); i++)
-+		dpu_rm_print_state_helper(p, rm->cwb_blks[i],
-+					  global_state->cwb_to_crtc_id[i]);
-+	drm_puts(p, "\n");
+@@ -309,6 +309,8 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+ 	return BLEND_3D_NONE;
  }
+ 
++unsigned int dpu_encoder_helper_get_cwb_mask(struct dpu_encoder_phys *phys_enc);
++
+ unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
+ 
+ struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc);
+@@ -331,6 +333,9 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
+ 
+ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc);
+ 
++void dpu_encoder_helper_phys_setup_cwb(struct dpu_encoder_phys *phys_enc,
++				       bool enable);
++
+ void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
+ 				       const struct msm_format *dpu_fmt,
+ 				       u32 output_type);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+index 4c006ec74575..f2cbc9335e54 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+  */
+ 
+ #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+@@ -340,6 +340,8 @@ static void dpu_encoder_phys_wb_setup(
+ 
+ 	dpu_encoder_helper_phys_setup_cdm(phys_enc, format, CDM_CDWN_OUTPUT_WB);
+ 
++	dpu_encoder_helper_phys_setup_cwb(phys_enc, true);
++
+ 	dpu_encoder_phys_wb_setup_ctl(phys_enc);
+ }
+ 
 
 -- 
 2.48.1
