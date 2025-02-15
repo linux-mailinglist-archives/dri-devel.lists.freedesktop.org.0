@@ -2,90 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEC1A36DD9
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 12:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5C0A36E39
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 13:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9561C10E169;
-	Sat, 15 Feb 2025 11:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A71810E0F0;
+	Sat, 15 Feb 2025 12:50:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="SY1DdM/L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TI7OwbBe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B1E210E166;
- Sat, 15 Feb 2025 11:49:53 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51FAidhu008563;
- Sat, 15 Feb 2025 11:49:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- haO7wmDHIMtM6c5v1RgC2Q4mqukTFfgaoIqbl8FyAWE=; b=SY1DdM/LVFdmsMDH
- 5uZkNfJNHsknObXhDTx3+JYd9sZUiBivUGEZdK8vaFNYb1YMkY3FcgxIwJjm9jHk
- o1/ZgDzoRx2ewysCdnghioiDMKZHPUxZs2dYLqtelpkWCuTAbrcDo7B+rEl5sbOr
- qXcD+pPHx7XhVz5qGjb4uXVXAEPAZcf+5kBewLUy3DLCJSWXI6FUidAJE4AW9vwF
- ge6B71P88P1qAwcVR5HPTmqjMHB20S5KBrh0b6nYDOiWMJAdq3IAI6IHZYBg8xPB
- rvEY2RmlgcaAWsvUvMrvBcg9Kxl5QyjVFtRb7q7uL4jvZZbn20LxZRBX0G7oHaWm
- 10uz+g==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44tm3gres7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 11:49:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51FBnjgM014817
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 Feb 2025 11:49:45 GMT
-Received: from [10.216.9.140] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 15 Feb
- 2025 03:49:38 -0800
-Message-ID: <182b7896-9cfc-4f94-b9d4-759fd85fd997@quicinc.com>
-Date: Sat, 15 Feb 2025 17:19:35 +0530
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5E2910E0F0
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 12:50:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id C8520A40362;
+ Sat, 15 Feb 2025 12:48:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84BD0C4CEE9;
+ Sat, 15 Feb 2025 12:50:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739623822;
+ bh=drN/Xok8UudjMurUXacPKQ2++MI+GHNgJsb1gQKHxmw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TI7OwbBejVq+s0MNcjVR0OO68WWGeU3nLMSFjv/iooPZQkFgekvtYlJVZMHL4yhGu
+ X+NvMH38mriKk1PDUcyHjwbzECOAXrRCBNn9U36VXx/c8m+LhK9r+9CyTE6RYI4i18
+ r1pLW7R4TInPKnEeFX9WUG5PqtfWIPuLmmuUoi3E8A0A0/4ZupRtFx5ykSkJfxoWU1
+ JSSIsK/AtdQvdtCF3n/UYl3JTA4Hs4cA70QyCuK0IzY+i8/ZvMd1HSVZ2fGkRVyFmc
+ 3KBpadsxw7ag6TDN+7Q0Rn0JRDwxVXa6Ic4DnHHR5HSm4OAwa2yr2Q1DySe1dJlh9Y
+ F8vI+B2Os2Bpg==
+Date: Sat, 15 Feb 2025 12:50:12 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Jerome Brunet <jbrunet@baylibre.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+ Gregory CLEMENT <gregory.clement@bootlin.com>,
+ =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-clk@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v3 2/7] reset: mpfs: use the auxiliary device creation
+ helper
+Message-ID: <20250215-scared-clothing-942f9bf3d039@spud>
+References: <20250211-aux-device-create-helper-v3-0-7edb50524909@baylibre.com>
+ <20250211-aux-device-create-helper-v3-2-7edb50524909@baylibre.com>
+ <20250213-crown-clustered-81c6434c892b@spud>
+ <1jv7tczytk.fsf@starbuckisacylon.baylibre.com>
+ <CAD=FV=VeSrZktEbxNXXTgD80QGTpW5b-WiXUFko+a8FUzmN+fQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] drm/msm/a6xx: Add support for Adreno 623
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, Jie Zhang <quic_jiezh@quicinc.com>
-References: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
- <20250213-a623-gpu-support-v1-2-993c65c39fd2@quicinc.com>
- <ttipuo56z76svx3womcrrqurglvovkqehsx2orgnegjj2z7uxn@d3cov6qmmalm>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <ttipuo56z76svx3womcrrqurglvovkqehsx2orgnegjj2z7uxn@d3cov6qmmalm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: F0rhQWccDnNCDqMUeNMOUdFqwH-YEh4e
-X-Proofpoint-GUID: F0rhQWccDnNCDqMUeNMOUdFqwH-YEh4e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-15_05,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- suspectscore=0 spamscore=0 priorityscore=1501 clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502150105
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2DqldZNjQ+dLYWFk"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=VeSrZktEbxNXXTgD80QGTpW5b-WiXUFko+a8FUzmN+fQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,123 +95,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/13/2025 10:24 PM, Dmitry Baryshkov wrote:
-> On Thu, Feb 13, 2025 at 09:40:07PM +0530, Akhil P Oommen wrote:
->> From: Jie Zhang <quic_jiezh@quicinc.com>
->>
->> Add support for Adreno 623 GPU found in QCS8300 chipsets.
->>
->> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c   | 29 +++++++++++++++++++++++++++++
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |  8 ++++++++
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  2 +-
->>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  5 +++++
->>  4 files changed, 43 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> index edffb7737a97..ac156c8b5af9 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> @@ -879,6 +879,35 @@ static const struct adreno_info a6xx_gpus[] = {
->>  			{ 0, 0 },
->>  			{ 137, 1 },
->>  		),
->> +	}, {
->> +		.chip_ids = ADRENO_CHIP_IDS(0x06020300),
->> +		.family = ADRENO_6XX_GEN3,
->> +		.fw = {
->> +			[ADRENO_FW_SQE] = "a650_sqe.fw",
->> +			[ADRENO_FW_GMU] = "a623_gmu.bin",
->> +		},
->> +		.gmem = SZ_512K,
->> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
->> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
->> +			ADRENO_QUIRK_HAS_HW_APRIV,
->> +		.init = a6xx_gpu_init,
->> +		.a6xx = &(const struct a6xx_info) {
->> +			.hwcg = a620_hwcg,
->> +			.protect = &a650_protect,
->> +			.gmu_cgc_mode = 0x00020200,
->> +			.prim_fifo_threshold = 0x00010000,
->> +			.bcms = (const struct a6xx_bcm[]) {
->> +				{ .name = "SH0", .buswidth = 16 },
->> +				{ .name = "MC0", .buswidth = 4 },
->> +				{
->> +					.name = "ACV",
->> +					.fixed = true,
->> +					.perfmode = BIT(3),
->> +				},
->> +				{ /* sentinel */ },
->> +			},
->> +		},
->> +		.address_space_size = SZ_16G,
->>  	}, {
->>  		.chip_ids = ADRENO_CHIP_IDS(
->>  			0x06030001,
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> index 0ae29a7c8a4d..1820c167fcee 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> @@ -616,6 +616,14 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->>  		gpu->ubwc_config.uavflagprd_inv = 2;
->>  	}
->>  
->> +	if (adreno_is_a623(gpu)) {
->> +		gpu->ubwc_config.highest_bank_bit = 16;
->> +		gpu->ubwc_config.amsbc = 1;
-> 
-> This bit causes my question: the patch for msm_mdss states that on the
-> display side both UBWC encoder and decoder are 4.0, which means that the
-> UBWC_AMSBC bit won't be set in the UBWC_STATIC register.
 
-Not sure, but my guess is that AMSBC encoding is probably implicitly
-enabled by MDSS HW when UBWC v4 is configured.
+--2DqldZNjQ+dLYWFk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Akhil
+On Fri, Feb 14, 2025 at 07:25:59AM -0800, Doug Anderson wrote:
+> Hi,
+>=20
+> On Fri, Feb 14, 2025 at 12:59=E2=80=AFAM Jerome Brunet <jbrunet@baylibre.=
+com> wrote:
+> >
+> > > One think that's always felt a bit meh to me is this id number stuff,
+> > > I just threw in 666 for meme value.
+> >
+> > :)
+> >
+> > > The whole thing seems super
+> > > arbitrary, do any of the users of this helper actually put meaningful
+> > > values into the id parameter?
+> >
+> > In example changes I've sent, no.
+> >
+> > In other simple usages (those using container_of()) of the auxiliary
+> > bus, I think there are a few that uses 0 and 1 for 2 instances.
+> >
+> > I guess your question is "do we really need this parameter here ?"
+> >
+> > We could remove it and still address 90% of the original target.
+> >
+> > Keeping it leaves the door open in case the figure above does not hold
+> > and it is pretty cheap to do. It could also enable drivers requiring an
+> > IDA to use the helper, possibly.
+>=20
+> FWIW, once you resolve the conflicts in drm-misc with ti-sn65dsi86
+> you'll need the ID value. ;-)
+>=20
+> There was a big-ol' discussion here:
+>=20
+> https://lore.kernel.org/r/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.172918=
+0470.git.geert+renesas@glider.be
+>=20
+> I eventually pushed v2 of the patch:
+>=20
+> https://lore.kernel.org/r/7a68a0e3f927e26edca6040067fb653eb06efb79.173384=
+0089.git.geert+renesas@glider.be
 
-> 
->> +		gpu->ubwc_config.rgb565_predicator = 1;
->> +		gpu->ubwc_config.uavflagprd_inv = 2;
->> +		gpu->ubwc_config.macrotile_mode = 1;
->> +	}
->> +
->>  	if (adreno_is_a640_family(gpu))
->>  		gpu->ubwc_config.amsbc = 1;
->>  
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> index 2c10474ccc95..3222a406d089 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> @@ -1227,7 +1227,7 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
->>  	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[1],
->>  		&a6xx_state->gmu_registers[1], true);
->>  
->> -	if (adreno_is_a621(adreno_gpu))
->> +	if (adreno_is_a621(adreno_gpu) || adreno_is_a623(adreno_gpu))
->>  		_a6xx_get_gmu_registers(gpu, a6xx_state, &a621_gpucc_reg,
->>  			&a6xx_state->gmu_registers[2], false);
->>  	else
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> index dcf454629ce0..92caba3584da 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> @@ -442,6 +442,11 @@ static inline int adreno_is_a621(const struct adreno_gpu *gpu)
->>  	return gpu->info->chip_ids[0] == 0x06020100;
->>  }
->>  
->> +static inline int adreno_is_a623(const struct adreno_gpu *gpu)
->> +{
->> +	return gpu->info->chip_ids[0] == 0x06020300;
->> +}
->> +
->>  static inline int adreno_is_a630(const struct adreno_gpu *gpu)
->>  {
->>  	return adreno_is_revn(gpu, 630);
->>
->> -- 
->> 2.45.2
->>
-> 
+Think it makes sense to have a "simplified" wrapper for the cases where
+the id has no meaning then? Not really a fan of the drivers coming up with
+magic numbers.
 
+--2DqldZNjQ+dLYWFk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ7CNhAAKCRB4tDGHoIJi
+0tAUAQCqnRPkOySGXu//3wT8OcQkfE+e51feUW6fi3X49on2qQD9FeMpjQKlnQ9Q
+UjJ/Rxce6BMBO5o9ndbm21Ie8SKdSAY=
+=owAZ
+-----END PGP SIGNATURE-----
+
+--2DqldZNjQ+dLYWFk--
