@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526E4A36CB4
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 09:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6590A36CCF
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2025 10:20:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57AD10E138;
-	Sat, 15 Feb 2025 08:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5125E10E4BE;
+	Sat, 15 Feb 2025 09:20:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="PrdAUH+o";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TqMD57lj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id C658910E138
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 08:59:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=5J1Sst2+aMPYS8h0S1gTRxRUxZMbWQjsnN8FG+mKDvk=; b=P
- rdAUH+o/ttzcg1GE2TwDHN3bzXM8L2CDtiVYcnt1k0c7bpmv7g610b0awB1pDrb9
- HoV/Lvb2ISOFO0fOTdXmcHH7nV7g3gkotqPauUhCGx2d5o1GjORFqZ860mTOsoP5
- pPiAjpdKR/4TBCrv6bzcHUQGqqsWbfjjmDBg8Gom9s=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-141 (Coremail) ; Sat, 15 Feb 2025 16:59:18 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Sat, 15 Feb 2025 16:59:18 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Lucas Stach" <l.stach@pengutronix.de>
-Cc: "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>,
- "Damon Ding" <damon.ding@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-Subject: Re:[PATCH 2/2] drm/rockchip: analogix_dp: move PSR entry wait to
- VOP CRTC handling
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250207182247.215537-2-l.stach@pengutronix.de>
-References: <20250207182247.215537-1-l.stach@pengutronix.de>
- <20250207182247.215537-2-l.stach@pengutronix.de>
-X-NTES-SC: AL_Qu2YC/qbtkEu7iWYbOkfmkcVgOw9UcO5v/Qk3oZXOJF8jCrr9gYOYUFMLFHZ4OeODhqPrheYUAFq0M9dZ69DWLMbnBQVdnbY055ooXJogd5XQw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <541b33d2.2423.19508d56876.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: jSgvCgD3X9BmV7BnVmNpAA--.20832W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0g30XmewSqmsggACst
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4116D10E4CB
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2025 09:20:45 +0000 (UTC)
+Received: from
+ linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
+ (linux.microsoft.com [13.77.154.182])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 36D332107AA1;
+ Sat, 15 Feb 2025 01:20:45 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 36D332107AA1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1739611245;
+ bh=X4BZo2FoCtZKftMiZVna+dhZsaZWDkhj/UsiastHJkE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=TqMD57ljKGise/ffyryS+Wk18XxesOCMs3BLBm2eoryGDbIlhiMHAjm823Oy9Pl3V
+ pDLzx9NSIT/EHyBJcpPXwTXIYbjyGR35vH94cuyIOxErfFl0ZuWFvJYE8UOOEECzg9
+ GBcQXoMzWjSaRie5AGtJoS6cmR+OP88+cPEJOIF4=
+From: Saurabh Sengar <ssengar@linux.microsoft.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, deller@gmx.de, akpm@linux-foundation.org,
+ linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: ssengar@microsoft.com,
+	mhklinux@outlook.com
+Subject: [PATCH] fbdev: hyperv_fb: Allow graceful removal of framebuffer
+Date: Sat, 15 Feb 2025 01:20:40 -0800
+Message-Id: <1739611240-9512-1-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,130 +54,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIEx1Y2Fz77yMCgpBdCAyMDI1LTAyLTA4IDAyOjIyOjQ3LCAiTHVjYXMgU3RhY2giIDxsLnN0
-YWNoQHBlbmd1dHJvbml4LmRlPiB3cm90ZToKPkluc3RlYWQgb2YgY2FsbGluZyBmcm9tIHRoZSBB
-bmFsb2dpeCBEUCBlbmNvZGVyIGludG8gdGhlIFZPUCBjcnRjCj5oYW5kbGluZywgbW92ZSB0aGUg
-d2FpdCBmb3IgUFNSIGVudHJ5IHRvIHZvcF9jcnRjX2F0b21pY19kaXNhYmxlKCkuCj4KPlRoaXMg
-dW50YW5nbGVzIHRoZSBBbmFsb2dpeCBEUCBjb2RlIGZyb20gdGhlIFZPUCwgc28gaXQgY2FuIHNh
-ZmVseQo+YmUgdXNlZCB3aXRoIFZPUDIuCj4KPlNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNoIDxs
-LnN0YWNoQHBlbmd1dHJvbml4LmRlPgo+LS0tCj5Ob3RlOiBJIGRvbid0IGhhdmUgYW55IFJvY2tj
-aGlwIHN5c3RlbSB3aXRoIGEgcGFuZWwgY2FwYWJsZSBvZiBQU1IsCj5zbyB3aGlsZSBJIGFtIHBy
-ZXR0eSBzdXJlIHRoYXQgdGhpcyBkb2Vzbid0IGNoYW5nZSB0aGUgZmxvdyBvZgo+b3BlcmF0aW9u
-cyBhdCBhbGwsIGl0IHNob3VsZCBiZSB0ZXN0ZWQgYnkgc29tZW9uZSB3aG8gaGFzIHRoZQo+bmVj
-ZXNzYXJ5IGhhcmR3YXJlIGJlZm9yZSBhcHBseWluZy4KPi0tLQo+IC4uLi9ncHUvZHJtL3JvY2tj
-aGlwL2FuYWxvZ2l4X2RwLXJvY2tjaGlwLmMgICB8ICAyNiAtLS0tLQo+IGRyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZHJ2LmggICB8ICAgMSAtCj4gZHJpdmVycy9ncHUvZHJt
-L3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYyAgIHwgMTAyICsrKysrKysrKy0tLS0tLS0tLQo+
-IDMgZmlsZXMgY2hhbmdlZCwgNTMgaW5zZXJ0aW9ucygrKSwgNzYgZGVsZXRpb25zKC0pCj4KPmRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvYW5hbG9naXhfZHAtcm9ja2NoaXAu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9hbmFsb2dpeF9kcC1yb2NrY2hpcC5jCj5pbmRl
-eCAwODQ0MTc1YzM3YzUuLjZmZWM2ODdkN2RiMSAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9hbmFsb2dpeF9kcC1yb2NrY2hpcC5jCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0v
-cm9ja2NoaXAvYW5hbG9naXhfZHAtcm9ja2NoaXAuYwo+QEAgLTM5LDggKzM5LDYgQEAKPiAKPiAj
-ZGVmaW5lIEhJV09SRF9VUERBVEUodmFsLCBtYXNrKQkodmFsIHwgKG1hc2spIDw8IDE2KQo+IAo+
-LSNkZWZpbmUgUFNSX1dBSVRfTElORV9GTEFHX1RJTUVPVVRfTVMJMTAwCj4tCj4gLyoqCj4gICog
-c3RydWN0IHJvY2tjaGlwX2RwX2NoaXBfZGF0YSAtIHNwbGl0ZSB0aGUgZ3JmIHNldHRpbmcgb2Yg
-a2luZCBvZiBjaGlwcwo+ICAqIEBsY2RzZWxfZ3JmX3JlZzogZ3JmIHJlZ2lzdGVyIG9mZnNldCBv
-ZiBsY2RjIHNlbGVjdAo+QEAgLTIxNiwyOSArMjE0LDYgQEAgc3RhdGljIHZvaWQgcm9ja2NoaXBf
-ZHBfZHJtX2VuY29kZXJfZW5hYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwKPiAJY2xr
-X2Rpc2FibGVfdW5wcmVwYXJlKGRwLT5ncmZjbGspOwo+IH0KPiAKPi1zdGF0aWMgdm9pZCByb2Nr
-Y2hpcF9kcF9kcm1fZW5jb2Rlcl9kaXNhYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwK
-Pi0JCQkJCSAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCj4tewo+LQlzdHJ1Y3Qg
-cm9ja2NoaXBfZHBfZGV2aWNlICpkcCA9IGVuY29kZXJfdG9fZHAoZW5jb2Rlcik7Cj4tCXN0cnVj
-dCBkcm1fY3J0YyAqY3J0YzsKPi0Jc3RydWN0IGRybV9jcnRjX3N0YXRlICpuZXdfY3J0Y19zdGF0
-ZSA9IE5VTEw7Cj4tCWludCByZXQ7Cj4tCj4tCWNydGMgPSByb2NrY2hpcF9kcF9kcm1fZ2V0X25l
-d19jcnRjKGVuY29kZXIsIHN0YXRlKTsKPi0JLyogTm8gY3J0YyBtZWFucyB3ZSdyZSBkb2luZyBh
-IGZ1bGwgc2h1dGRvd24gKi8KPi0JaWYgKCFjcnRjKQo+LQkJcmV0dXJuOwo+LQo+LQluZXdfY3J0
-Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19jcnRjX3N0YXRlKHN0YXRlLCBjcnRjKTsKPi0J
-LyogSWYgd2UncmUgbm90IGVudGVyaW5nIHNlbGYtcmVmcmVzaCwgbm8gbmVlZCB0byB3YWl0IGZv
-ciB2YWN0ICovCj4tCWlmICghbmV3X2NydGNfc3RhdGUgfHwgIW5ld19jcnRjX3N0YXRlLT5zZWxm
-X3JlZnJlc2hfYWN0aXZlKQo+LQkJcmV0dXJuOwo+LQo+LQlyZXQgPSByb2NrY2hpcF9kcm1fd2Fp
-dF92YWN0X2VuZChjcnRjLCBQU1JfV0FJVF9MSU5FX0ZMQUdfVElNRU9VVF9NUyk7Cj4tCWlmIChy
-ZXQpCj4tCQlEUk1fREVWX0VSUk9SKGRwLT5kZXYsICJsaW5lIGZsYWcgaXJxIHRpbWVkIG91dFxu
-Iik7Cj4tfQo+LQo+IHN0YXRpYyBpbnQKPiByb2NrY2hpcF9kcF9kcm1fZW5jb2Rlcl9hdG9taWNf
-Y2hlY2soc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLAo+IAkJCQkgICAgICBzdHJ1Y3QgZHJt
-X2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCj5AQCAtMjY2LDcgKzI0MSw2IEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgZHJtX2VuY29kZXJfaGVscGVyX2Z1bmNzIHJvY2tjaGlwX2RwX2VuY29kZXJfaGVs
-cGVyX2Z1bmNzID0KPiAJLm1vZGVfZml4dXAgPSByb2NrY2hpcF9kcF9kcm1fZW5jb2Rlcl9tb2Rl
-X2ZpeHVwLAo+IAkubW9kZV9zZXQgPSByb2NrY2hpcF9kcF9kcm1fZW5jb2Rlcl9tb2RlX3NldCwK
-PiAJLmF0b21pY19lbmFibGUgPSByb2NrY2hpcF9kcF9kcm1fZW5jb2Rlcl9lbmFibGUsCj4tCS5h
-dG9taWNfZGlzYWJsZSA9IHJvY2tjaGlwX2RwX2RybV9lbmNvZGVyX2Rpc2FibGUsCj4gCS5hdG9t
-aWNfY2hlY2sgPSByb2NrY2hpcF9kcF9kcm1fZW5jb2Rlcl9hdG9taWNfY2hlY2ssCj4gfTsKPiAK
-PmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5o
-IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9kcnYuaAo+aW5kZXggYzE4
-M2U4MmE0MmE1Li5kMTMzM2Y0MzJiNGUgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9j
-a2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5oCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
-cm9ja2NoaXBfZHJtX2Rydi5oCj5AQCAtODIsNyArODIsNiBAQCB2b2lkIHJvY2tjaGlwX2RybV9k
-bWFfZGV0YWNoX2RldmljZShzdHJ1Y3QgZHJtX2RldmljZSAqZHJtX2RldiwKPiAJCQkJICAgIHN0
-cnVjdCBkZXZpY2UgKmRldik7Cj4gdm9pZCByb2NrY2hpcF9kcm1fZG1hX2luaXRfZGV2aWNlKHN0
-cnVjdCBkcm1fZGV2aWNlICpkcm1fZGV2LAo+IAkJCQkgIHN0cnVjdCBkZXZpY2UgKmRldik7Cj4t
-aW50IHJvY2tjaGlwX2RybV93YWl0X3ZhY3RfZW5kKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywgdW5z
-aWduZWQgaW50IG1zdGltZW91dCk7Cj4gaW50IHJvY2tjaGlwX2RybV9lbmNvZGVyX3NldF9jcnRj
-X2VuZHBvaW50X2lkKHN0cnVjdCByb2NrY2hpcF9lbmNvZGVyICpyZW5jb2RlciwKPiAJCQkJCSAg
-ICAgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAsIGludCBwb3J0LCBpbnQgcmVnKTsKPiBpbnQgcm9j
-a2NoaXBfZHJtX2VuZHBvaW50X2lzX3N1YmRyaXZlcihzdHJ1Y3QgZGV2aWNlX25vZGUgKmVwKTsK
-PmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5j
-IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYwo+aW5kZXggN2Y1
-ZmJlYTM0OTUxLi43Nzc3OGRmM2MyMjUgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9j
-a2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
-cm9ja2NoaXBfZHJtX3ZvcC5jCj5AQCAtNzI2LDE0ICs3MjYsNjcgQEAgc3RhdGljIHZvaWQgcm9j
-a2NoaXBfZHJtX3NldF93aW5fZW5hYmxlZChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIGJvb2wgZW5h
-YmxlZCkKPiAgICAgICAgIHNwaW5fdW5sb2NrKCZ2b3AtPnJlZ19sb2NrKTsKPiB9Cj4gCj4rLyoq
-Cj4rICogcm9ja2NoaXBfZHJtX3dhaXRfdmFjdF9lbmQKPisgKiBAY3J0YzogQ1JUQyB0byBlbmFi
-bGUgbGluZSBmbGFnCj4rICogQG1zdGltZW91dDogbWlsbGlzZWNvbmQgZm9yIHRpbWVvdXQKPisg
-Kgo+KyAqIFdhaXQgZm9yIHZhY3RfZW5kIGxpbmUgZmxhZyBpcnEgb3IgdGltZW91dC4KPisgKgo+
-KyAqIFJldHVybnM6Cj4rICogWmVybyBvbiBzdWNjZXNzLCBuZWdhdGl2ZSBlcnJubyBvbiBmYWls
-dXJlLgo+KyAqLwo+K3N0YXRpYyBpbnQKPityb2NrY2hpcF9kcm1fd2FpdF92YWN0X2VuZChzdHJ1
-Y3QgZHJtX2NydGMgKmNydGMsIHVuc2lnbmVkIGludCBtc3RpbWVvdXQpCgoKQXMgbm93IHRoaXMg
-aXMgYSBmdW5jdGlvbiB1c2VkIGludGVybmFsbHkgd2l0aGluIHRoZSB2b3AgZHJpdmVyLiBJIHN1
-Z2dlc3QgcmVuYW1lIGl0CnRvIHZvcDJfd2FpdF92YWN0X2VuZCwgIFRoaXMgd2lsbCBtYWludGFp
-biBjb25zaXN0ZW5jeSB3aXRoIG90aGVyIGZ1bmN0aW9ucy4KCkFuZCBhbHNvIG1ha2UgdGhlIGZp
-cnN0IGFyZ3VtZW50IGFzICJzdHJ1Y3Qgdm9wICp2b3AiCgo+K3sKPisJc3RydWN0IHZvcCAqdm9w
-ID0gdG9fdm9wKGNydGMpOwo+Kwl1bnNpZ25lZCBsb25nIGppZmZpZXNfbGVmdDsKPisJaW50IHJl
-dCA9IDA7Cj4rCj4rCWlmICghY3J0YyB8fCAhdm9wLT5pc19lbmFibGVkKQo+KwkJcmV0dXJuIC1F
-Tk9ERVY7Cj4rCj4rCW11dGV4X2xvY2soJnZvcC0+dm9wX2xvY2spOwo+KwlpZiAobXN0aW1lb3V0
-IDw9IDApIHsKPisJCXJldCA9IC1FSU5WQUw7Cj4rCQlnb3RvIG91dDsKPisJfQo+Kwo+KwlpZiAo
-dm9wX2xpbmVfZmxhZ19pcnFfaXNfZW5hYmxlZCh2b3ApKSB7Cj4rCQlyZXQgPSAtRUJVU1k7Cj4r
-CQlnb3RvIG91dDsKPisJfQo+Kwo+KwlyZWluaXRfY29tcGxldGlvbigmdm9wLT5saW5lX2ZsYWdf
-Y29tcGxldGlvbik7Cj4rCXZvcF9saW5lX2ZsYWdfaXJxX2VuYWJsZSh2b3ApOwo+Kwo+KwlqaWZm
-aWVzX2xlZnQgPSB3YWl0X2Zvcl9jb21wbGV0aW9uX3RpbWVvdXQoJnZvcC0+bGluZV9mbGFnX2Nv
-bXBsZXRpb24sCj4rCQkJCQkJICAgbXNlY3NfdG9famlmZmllcyhtc3RpbWVvdXQpKTsKPisJdm9w
-X2xpbmVfZmxhZ19pcnFfZGlzYWJsZSh2b3ApOwo+Kwo+KwlpZiAoamlmZmllc19sZWZ0ID09IDAp
-IHsKPisJCURSTV9ERVZfRVJST1Iodm9wLT5kZXYsICJUaW1lb3V0IHdhaXRpbmcgZm9yIElSUVxu
-Iik7Cj4rCQlyZXQgPSAtRVRJTUVET1VUOwo+KwkJZ290byBvdXQ7Cj4rCX0KPisKPitvdXQ6Cj4r
-CW11dGV4X3VubG9jaygmdm9wLT52b3BfbG9jayk7Cj4rCXJldHVybiByZXQ7Cj4rfQo+Kwo+IHN0
-YXRpYyB2b2lkIHZvcF9jcnRjX2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywK
-PiAJCQkJICAgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKPiB7Cj4gCXN0cnVjdCB2
-b3AgKnZvcCA9IHRvX3ZvcChjcnRjKTsKPisJaW50IHJldDsKPiAKPiAJV0FSTl9PTih2b3AtPmV2
-ZW50KTsKPiAKPiAJaWYgKGNydGMtPnN0YXRlLT5zZWxmX3JlZnJlc2hfYWN0aXZlKSB7Cj4rCQly
-ZXQgPSByb2NrY2hpcF9kcm1fd2FpdF92YWN0X2VuZChjcnRjLCAxMDApOwo+KwkJaWYgKHJldCkK
-PisJCQlEUk1fREVWX0VSUk9SKHZvcC0+ZGV2LCAibGluZSBmbGFnIGlycSB0aW1lZCBvdXRcbiIp
-Owo+IAkJcm9ja2NoaXBfZHJtX3NldF93aW5fZW5hYmxlZChjcnRjLCBmYWxzZSk7Cj4gCQlnb3Rv
-IG91dDsKPiAJfQo+QEAgLTIxMzEsNTUgKzIxODQsNiBAQCBzdGF0aWMgdm9pZCB2b3Bfd2luX2lu
-aXQoc3RydWN0IHZvcCAqdm9wKQo+IAl9Cj4gfQo+IAo+LS8qKgo+LSAqIHJvY2tjaGlwX2RybV93
-YWl0X3ZhY3RfZW5kCj4tICogQGNydGM6IENSVEMgdG8gZW5hYmxlIGxpbmUgZmxhZwo+LSAqIEBt
-c3RpbWVvdXQ6IG1pbGxpc2Vjb25kIGZvciB0aW1lb3V0Cj4tICoKPi0gKiBXYWl0IGZvciB2YWN0
-X2VuZCBsaW5lIGZsYWcgaXJxIG9yIHRpbWVvdXQuCj4tICoKPi0gKiBSZXR1cm5zOgo+LSAqIFpl
-cm8gb24gc3VjY2VzcywgbmVnYXRpdmUgZXJybm8gb24gZmFpbHVyZS4KPi0gKi8KPi1pbnQgcm9j
-a2NoaXBfZHJtX3dhaXRfdmFjdF9lbmQoc3RydWN0IGRybV9jcnRjICpjcnRjLCB1bnNpZ25lZCBp
-bnQgbXN0aW1lb3V0KQo+LXsKPi0Jc3RydWN0IHZvcCAqdm9wID0gdG9fdm9wKGNydGMpOwo+LQl1
-bnNpZ25lZCBsb25nIGppZmZpZXNfbGVmdDsKPi0JaW50IHJldCA9IDA7Cj4tCj4tCWlmICghY3J0
-YyB8fCAhdm9wLT5pc19lbmFibGVkKQo+LQkJcmV0dXJuIC1FTk9ERVY7Cj4tCj4tCW11dGV4X2xv
-Y2soJnZvcC0+dm9wX2xvY2spOwo+LQlpZiAobXN0aW1lb3V0IDw9IDApIHsKPi0JCXJldCA9IC1F
-SU5WQUw7Cj4tCQlnb3RvIG91dDsKPi0JfQo+LQo+LQlpZiAodm9wX2xpbmVfZmxhZ19pcnFfaXNf
-ZW5hYmxlZCh2b3ApKSB7Cj4tCQlyZXQgPSAtRUJVU1k7Cj4tCQlnb3RvIG91dDsKPi0JfQo+LQo+
-LQlyZWluaXRfY29tcGxldGlvbigmdm9wLT5saW5lX2ZsYWdfY29tcGxldGlvbik7Cj4tCXZvcF9s
-aW5lX2ZsYWdfaXJxX2VuYWJsZSh2b3ApOwo+LQo+LQlqaWZmaWVzX2xlZnQgPSB3YWl0X2Zvcl9j
-b21wbGV0aW9uX3RpbWVvdXQoJnZvcC0+bGluZV9mbGFnX2NvbXBsZXRpb24sCj4tCQkJCQkJICAg
-bXNlY3NfdG9famlmZmllcyhtc3RpbWVvdXQpKTsKPi0Jdm9wX2xpbmVfZmxhZ19pcnFfZGlzYWJs
-ZSh2b3ApOwo+LQo+LQlpZiAoamlmZmllc19sZWZ0ID09IDApIHsKPi0JCURSTV9ERVZfRVJST1Io
-dm9wLT5kZXYsICJUaW1lb3V0IHdhaXRpbmcgZm9yIElSUVxuIik7Cj4tCQlyZXQgPSAtRVRJTUVE
-T1VUOwo+LQkJZ290byBvdXQ7Cj4tCX0KPi0KPi1vdXQ6Cj4tCW11dGV4X3VubG9jaygmdm9wLT52
-b3BfbG9jayk7Cj4tCXJldHVybiByZXQ7Cj4tfQo+LUVYUE9SVF9TWU1CT0wocm9ja2NoaXBfZHJt
-X3dhaXRfdmFjdF9lbmQpOwo+LQo+IHN0YXRpYyBpbnQgdm9wX2JpbmQoc3RydWN0IGRldmljZSAq
-ZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsIHZvaWQgKmRhdGEpCj4gewo+IAlzdHJ1Y3QgcGxh
-dGZvcm1fZGV2aWNlICpwZGV2ID0gdG9fcGxhdGZvcm1fZGV2aWNlKGRldik7Cj4tLSAKPjIuNDgu
-MQo+Cj4KPl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj5M
-aW51eC1yb2NrY2hpcCBtYWlsaW5nIGxpc3QKPkxpbnV4LXJvY2tjaGlwQGxpc3RzLmluZnJhZGVh
-ZC5vcmcKPmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-cm9ja2NoaXAK
+When a Hyper-V framebuffer device is unbind, hyperv_fb driver tries to
+release the framebuffer forcefully. If this framebuffer is in use it
+produce the following WARN and hence this framebuffer is never released.
+
+[   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
+< snip >
+[   44.111289] Call Trace:
+[   44.111290]  <TASK>
+[   44.111291]  ? show_regs+0x6c/0x80
+[   44.111295]  ? __warn+0x8d/0x150
+[   44.111298]  ? framebuffer_release+0x2c/0x40
+[   44.111300]  ? report_bug+0x182/0x1b0
+[   44.111303]  ? handle_bug+0x6e/0xb0
+[   44.111306]  ? exc_invalid_op+0x18/0x80
+[   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
+[   44.111311]  ? framebuffer_release+0x2c/0x40
+[   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
+[   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
+[   44.111323]  device_remove+0x40/0x80
+[   44.111325]  device_release_driver_internal+0x20b/0x270
+[   44.111327]  ? bus_find_device+0xb3/0xf0
+
+Fix this by moving the release of framebuffer to fb_ops.fb_destroy function
+so that framebuffer framework handles it gracefully
+
+While we fix this, also replace manual registrations/unregistration of
+framebuffer with devm_register_framebuffer.
+
+Fixes: 68a2d20b79b1 ("drivers/video: add Hyper-V Synthetic Video Frame Buffer Driver")
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+---
+ drivers/video/fbdev/hyperv_fb.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index 363e4ccfcdb7..83b1ab4da984 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -862,6 +862,16 @@ static void hvfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width,
+ 		hvfb_ondemand_refresh_throttle(par, x, y, width, height);
+ }
+ 
++/*
++ * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
++ * of unregister_framebuffer() or fb_release(). Do any cleanup related to
++ * framebuffer here.
++ */
++static void hvfb_destroy(struct fb_info *info)
++{
++	framebuffer_release(info);
++}
++
+ /*
+  * TODO: GEN1 codepaths allocate from system or DMA-able memory. Fix the
+  *       driver to use the _SYSMEM_ or _DMAMEM_ helpers in these cases.
+@@ -877,6 +887,7 @@ static const struct fb_ops hvfb_ops = {
+ 	.fb_set_par = hvfb_set_par,
+ 	.fb_setcolreg = hvfb_setcolreg,
+ 	.fb_blank = hvfb_blank,
++	.fb_destroy	= hvfb_destroy,
+ };
+ 
+ /* Get options from kernel paramenter "video=" */
+@@ -1172,7 +1183,7 @@ static int hvfb_probe(struct hv_device *hdev,
+ 	if (ret)
+ 		goto error;
+ 
+-	ret = register_framebuffer(info);
++	ret = devm_register_framebuffer(&hdev->device, info);
+ 	if (ret) {
+ 		pr_err("Unable to register framebuffer\n");
+ 		goto error;
+@@ -1220,14 +1231,11 @@ static void hvfb_remove(struct hv_device *hdev)
+ 
+ 	fb_deferred_io_cleanup(info);
+ 
+-	unregister_framebuffer(info);
+ 	cancel_delayed_work_sync(&par->dwork);
+ 
+ 	vmbus_close(hdev->channel);
+-	hv_set_drvdata(hdev, NULL);
+ 
+ 	hvfb_putmem(hdev, info);
+-	framebuffer_release(info);
+ }
+ 
+ static int hvfb_suspend(struct hv_device *hdev)
+-- 
+2.43.0
+
