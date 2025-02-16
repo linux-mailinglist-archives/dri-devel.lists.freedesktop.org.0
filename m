@@ -2,75 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C50A377D8
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 22:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40BCA377E2
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 22:53:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B80B510E00E;
-	Sun, 16 Feb 2025 21:38:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gKf8aw6y";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBA610E0B1;
+	Sun, 16 Feb 2025 21:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F397710E00E
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 21:38:36 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-aaec61d0f65so784017666b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 13:38:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739741915; x=1740346715; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vVbH69yDeg9/tEjJ1Ds5nMreKYg1QcxJLlekRGssc1s=;
- b=gKf8aw6yJo19umTvW9T8RNxXcUV59VlkhCjcUAqrT6Kpg4oeP+XZDSHH+5o9pyorOG
- R1l9bUPCkt4y5mvq37fFatDwH2yQHMwbN38axYyuob9IPZ1LAUxLBvCF572XV7ngLNAE
- 2CdiX2WhNqip8LPrVRjx77uiOM7NAF+OJScbdk6ZftwEmr+jRGyDgE2v3CSkS31hoytH
- tdEn4FHmc2nk6Eug43GGCxPDnQK3nlk4c3Cd4dD8/copFebDG3HtIawracbwMTzWNu91
- Gak2qCZ6W5JBq202UsH9ih2VnDNWxbRw/SOkyyWIDgJiLxgSQDmbt2yKqu4gJW+lDvfN
- BWIg==
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5BF910E0B1
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 21:53:19 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id
+ e9e14a558f8ab-3ce81a40f5cso67032795ab.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 13:53:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739741915; x=1740346715;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vVbH69yDeg9/tEjJ1Ds5nMreKYg1QcxJLlekRGssc1s=;
- b=VOJDkb9NkJKRXa1NolOeYMQzQbC0hL6MoJLuNYWF8ntdFUmdDmqpE+C3pJQXxWJ5tS
- RPRUbaCtyVGy5ngO8IISPQiMpa0mWuiwmIet7BkhHuNDsdwTKaZzp7xqgLsZEi99Wj7k
- ln8hj6lj6fTYlcz0+S+WSybdiHpTFBdPp6/4GUQ81vL++PUXuyLMpWwR4Eg78pPmws1N
- lQALhw0j85yuvFjypOfgmegW14C0mRTPzvikoX0mJcUBZc9q6A+fxHZRtjTV0jtsm85V
- DptxU7cZnIqAhE0FIFXX5tHvFISoddNViAeXvcA6hDUziPM2Z7aO3K42i3oSVQzP88wd
- 1YfQ==
-X-Gm-Message-State: AOJu0YwoSOQvO+pIrDoylQmGPKPWbOqf3YeNI/WgJliZoZV5aPqstmRB
- LywaJXCvykNRjB8UAeo2CuxDruRU70il6Mo/8s3kbTI1UcgpOeN1KuesqGTWxH5u3zE1HucdgP9
- 9Qqw=
-X-Gm-Gg: ASbGnctmZCR/PVOMthadiZDfTwSBV34Qtx6vm8sdkzzj7ZCq8UqXZx84YzeMKigxdDV
- kpxagySmXKEQlo8qZSGNhNXVOqrN31bnxX0i7EEJTD/4Dr2/cP7JUqT3pSheyOo//8tVgvcbmX2
- iH6P48wV+KRhjC2q7v1nAo7rUIgFzqU4CmMWoWKobVFRgJDfNkjNY2ccqLDOYgupA4WVAwsQBa3
- G5AhwlePH5xFHY990vtVsLI6G7ecIdu6ZTsnTgglwD6fvwZeJnzbJFds0IoyB2aZ95YiAM6oH9z
- hlvLJ6IMpTBY7OjmBfr8
-X-Google-Smtp-Source: AGHT+IGz27CTh6DFn5k3ZjFdIXyGvCJoS8aEYNH8+RxiwcvAn4ulUvJ8euuGm21A7g2f2KelDJg3mA==
-X-Received: by 2002:a17:907:7f28:b0:ab7:d10b:e1e6 with SMTP id
- a640c23a62f3a-abb70cc193cmr599235566b.15.1739741915445; 
- Sun, 16 Feb 2025 13:38:35 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- a640c23a62f3a-abb9bc1c667sm78497966b.131.2025.02.16.13.38.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Feb 2025 13:38:34 -0800 (PST)
-Date: Mon, 17 Feb 2025 00:38:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [bug report] drm/panthor: Expose size of driver internal BO's
- over fdinfo
-Message-ID: <69f90da4-a0f8-4df9-bc38-c19f5aa49cfc@stanley.mountain>
-References: <083ef44a-ea8a-4291-b345-c570cc1078f4@stanley.mountain>
+ d=1e100.net; s=20230601; t=1739742799; x=1740347599;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XOfBMxwpE5LCQL4hdjYMcZ0d/YSDtMX/y7FtHuOSaHA=;
+ b=W1cZiqL3AIkIP832uz2cmoWaAr0bHWreKXBRM6bq07sEQBPKavg068KMwB4V/RoyxZ
+ 6N86i1uiVg8kSQ0dY7/3buxsH3lU/DD8gdg5EpsGSazCDzgJsBSOsKk2jkCPkCG8HVwP
+ n09oZ8CIxkWuT255zVz0JdaM30K+lN9rRbpiP3JLaPiQRoHwFvlaWTmbXJH0z3DzM8BC
+ GKCz9sS2DKuXSwyVkGl+/c7o1cGrZtdQWBr+bahEmTARUmB6PzCotJaMm75JEzXnNO7+
+ wnM/IpLG2Cm2zfvtwaY0a1hGMwNPdiXW9/L95Z1yLfIKyrJerdUCrbmNH8zHZGZWxa/n
+ v2OA==
+X-Gm-Message-State: AOJu0YzHxfAllvdVSVdnbwYQjUZkisRt0ckzQLvYFaxMKiXfMHi82Qdx
+ U4KEjGZVe9+XgKF8HXi3qyvNc7f6nPh9x2EwguoZMN+YoChZ7AryHUxn5KVFUrfpiqEtJSPAYMp
+ xbZHsRhXPbEYqXJERrdfdkhasn1PE9XC1oD1Hf1ITS67fvgKuFQo+dCo=
+X-Google-Smtp-Source: AGHT+IH3BfTFF/ArCvplVT1gvTbDIQfeVlZ3B5/V/3F9ZRpWsDy/1yNTT46CYSfuz9HhIHoXr0Fe71teUfh9QNGJWoaRu5SY72CE
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <083ef44a-ea8a-4291-b345-c570cc1078f4@stanley.mountain>
+X-Received: by 2002:a05:6e02:3981:b0:3cf:b26f:ff7c with SMTP id
+ e9e14a558f8ab-3d28076cc24mr64456395ab.5.1739742799164; Sun, 16 Feb 2025
+ 13:53:19 -0800 (PST)
+Date: Sun, 16 Feb 2025 13:53:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67b25e4f.050a0220.173698.0014.GAE@google.com>
+Subject: [syzbot] Monthly dri report (Feb 2025)
+From: syzbot <syzbot+listd06d93ded4741f6db52a@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,10 +59,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Similar issue in panthor_fdinfo_gather_group_samples()
+Hello dri maintainers/developers,
 
-drivers/gpu/drm/panthor/panthor_sched.c:2883 panthor_fdinfo_gather_group_samples() warn: sleeping in atomic context
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-regards,
-dan carpenter
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 21 issues are still open and 32 have already been fixed.
 
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 361     Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<2> 72      Yes   WARNING in drm_mode_create_lease_ioctl
+                  https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
+<3> 71      Yes   WARNING in drm_wait_one_vblank (2)
+                  https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+<4> 21      Yes   WARNING in drm_gem_prime_fd_to_handle
+                  https://syzkaller.appspot.com/bug?extid=268d319a7bfd92f4ae01
+<5> 5       Yes   KASAN: slab-use-after-free Read in drm_atomic_helper_wait_for_vblanks (2)
+                  https://syzkaller.appspot.com/bug?extid=0f999d26a4fd79c3a23b
+<6> 4       Yes   WARNING in drm_prime_destroy_file_private (2)
+                  https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
+<7> 2       No    possible deadlock in drm_mode_obj_get_properties_ioctl
+                  https://syzkaller.appspot.com/bug?extid=43b8370f38144ca1e467
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
