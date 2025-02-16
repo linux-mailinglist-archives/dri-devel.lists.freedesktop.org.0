@@ -2,55 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A95A374BE
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 15:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C587A37696
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:30:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2224410E251;
-	Sun, 16 Feb 2025 14:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46DE10E113;
+	Sun, 16 Feb 2025 18:30:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FmLrW4fj";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="N96rZAMe";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="MsEAHXpU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F1C10E251
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 14:40:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CBF885C55FC;
- Sun, 16 Feb 2025 14:40:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1413C4CEDD;
- Sun, 16 Feb 2025 14:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739716844;
- bh=x3aFXyhGS+U6X3HUjZO8xlvr8jPhcUkEQ3Hk37j9GNc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FmLrW4fjCmyZFZr1YzTzhQQn46h4frr/4RKLRlUYWYOEjHvSwmJUlZp2CgHJ8YZ+8
- 8oTMm3l/zAHH4nQ0+vsGOlZdjgR7lgUpAAsyJVuysP1iLBY+Srk3/9megO+4YW3l0v
- kuL5kqYjYjBjeLH1jrR+K43/suqFQ3FxcF80vF7d/4tztaMOntanyuqSQFSk5fU6x4
- qkuBgqLAKcsD5y/VD1dBENmjbMaJasuWPY9rQiuxdceU0/1f0YjlYVdBdtuDA0lSCo
- Zxbh5G9/BWuQeRtCfEaoZFVLFDSemCavP8Pt1VA51S1JVv66krp/SZ5EtXq5ORG/jF
- VvgqcSInyKysA==
-Date: Sun, 16 Feb 2025 14:40:33 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, Daniel
- Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
- Deller <deller@gmx.de>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] mfd: lm3533: convert to use OF
-Message-ID: <20250216144033.47852a60@jic23-huawei>
-In-Reply-To: <20250212075845.11338-3-clamor95@gmail.com>
-References: <20250212075845.11338-1-clamor95@gmail.com>
- <20250212075845.11338-3-clamor95@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+Received: from fhigh-b4-smtp.messagingengine.com
+ (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB98710E16C
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:30:06 +0000 (UTC)
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal
+ [10.202.2.53])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 8626925400FA;
+ Sun, 16 Feb 2025 13:30:05 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+ by phl-compute-13.internal (MEProxy); Sun, 16 Feb 2025 13:30:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:content-type
+ :date:date:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+ t=1739730605; x=1739817005; bh=8Qu0rvygyD7TSAHMaq+SdbD+dcR7mrAJ
+ iw3aqC4IqVc=; b=N96rZAMeR/tUe1AL5usu2jp9nGe3Hyfkkmq2eCGoZ+QLg6+h
+ UzflLhFdaWXIo9en9Uh6fJCfEQSFkZrBwjJDCV74sP88H3HDnAK8+JR+WhysOkSx
+ 2sOET0FDZBJYqGyrH64XOlYiZVgCiitOeXnyJU0qZ1p758FRu6BiZ158Ss370JWh
+ mKszyRDylBeSVqEt/+QpxNUw9TtC0tDIdU1rLKSd6Ln7qKjalkJY0ImXyPeI2rQ1
+ PXxfWVANvrPl/JEtLYRKHXwFq0/mvxyJTIMDUj07gczRW6E1UJpjLid+XkC2j4Ue
+ qPQyqOt83d9/j44XgfZmEgFCxrfwi4n0lXnaDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739730605; x=
+ 1739817005; bh=8Qu0rvygyD7TSAHMaq+SdbD+dcR7mrAJiw3aqC4IqVc=; b=M
+ sEAHXpUU72PiET0Jr777/O6d8vZatx5/QLX5qDqIHuCwYZGGrRVA04SK3Si1ZlP5
+ Exb2EdCQSZHP7yi1M54C54w5a3+W7qi7YZ6QnbnamcfgydNnn4oAeUrjYW+RSz1Y
+ WIZ1KmzDVBURD8zGzSNwHbPTsABCO01J2lLsDGn/ThskhUbRVsC4a6XezRqtLfkW
+ ewdbsff8/74+92c3K7LHZkeYrGlTlqdk65xE+tQGBjJSp/czF8gVxQRn3yLNFH9d
+ opTIhG9Xy00/ixR22sQ403ct8v70+YupNzFznNhB9UdjTrRL02oiSwBX9fPKvWds
+ WCSdut4RaBpLj/uRJWNvA==
+X-ME-Sender: <xms:qy6yZ7GnieHTpuii2ZvseofaO8cOaXH9sCXG_09uEr1uTbOQ9r7jXg>
+ <xme:qy6yZ4WIZxFsjqipW8-m7u1kSE_9HtFMSEgYk1NuAIQw08YKd6zX8dkbB1JLAw8o6
+ -aEMAC4pFdHrRDfHA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedukecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+ tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
+ grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
+ tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
+ pghrtghpthhtohepvdefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurh
+ gvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthht
+ vgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrgh
+ dprhgtphhtthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhl
+ ihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtg
+ esghhmrghilhdrtghomhdprhgtphhtthhopehkihhkuhgthhgrnhelkeesghhmrghilhdr
+ tghomhdprhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghilhdrtghomhdprh
+ gtphhtthhopehsihhmohhnshdrphhhihhlihhpphgvsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:qy6yZ9L2uJVrlNNxyA26MmkE_CckIKK8KW3gsJR_gOurr6rPJd5p-w>
+ <xmx:qy6yZ5Ev_dfVnN6se7DIqZk41wHkglkiTy19z1m1REKfSwHfZcqMQA>
+ <xmx:qy6yZxVLeUOyv3pb7foJV63NVFMaZ0JT_sG9JhmSKr80BOdk5gnh9A>
+ <xmx:qy6yZ0NyXKLBPTt7UscFwnUZUUQHACsICPODfhUJnJ38QpFEKtolcA>
+ <xmx:rS6yZ3FuSdzvqzLJIcLw1zYQqYjGvmzBbnuYocMCl2AiaCigntDLEMGo>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 7CE4DBA006F; Sun, 16 Feb 2025 13:30:03 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 17 Feb 2025 07:29:42 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>
+Cc: "Andre Przywara" <andre.przywara@arm.com>,
+ "Chris Morgan" <macroalpha82@gmail.com>,
+ "Hironori KIKUCHI" <kikuchan98@gmail.com>,
+ "Philippe Simons" <simons.philippe@gmail.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Message-Id: <7897968c-da47-4dd0-8a79-cb8b2c3325e1@app.fastmail.com>
+In-Reply-To: <20250216085432.6373-13-ryan@testtoast.com>
+References: <20250216085432.6373-2-ryan@testtoast.com>
+ <20250216085432.6373-13-ryan@testtoast.com>
+Subject: Re: [PATCH v6 11/27] drm: sun4i: de3: add YUV support to the color
+ space correction module
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,127 +119,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Feb 2025 09:58:42 +0200
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
-
-> Add ability to fill pdata from device tree. Common stuff is
-> filled from core driver and then pdata is filled per-device
-> since all cells are optional.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-
-Focusing on just the IIO bit. (backlog of review is a bit high
-for me this weekend!)
-
+On Sun, 16 Feb 2025, at 9:50 PM, Ryan Walklin wrote:
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Add coefficients and support for YUV formats to the display engine
+> colorspace and dynamic range correction submodule.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > ---
->  drivers/iio/light/lm3533-als.c      | 58 ++++++++++++++++++++-
->  drivers/leds/leds-lm3533.c          | 69 +++++++++++++++++++++++--
->  drivers/mfd/lm3533-core.c           | 79 ++++++++++++++++++++++++-----
->  drivers/video/backlight/lm3533_bl.c | 72 ++++++++++++++++++++++++--
->  include/linux/mfd/lm3533.h          |  1 +
->  5 files changed, 256 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/iio/light/lm3533-als.c b/drivers/iio/light/lm3533-als.c
-> index 99f0b903018c..21fc5f215c80 100644
-> --- a/drivers/iio/light/lm3533-als.c
-> +++ b/drivers/iio/light/lm3533-als.c
-> @@ -16,7 +16,9 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/mfd/core.h>
-> +#include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/property.h>
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  
-> @@ -826,6 +828,50 @@ static const struct iio_info lm3533_als_info = {
->  	.read_raw	= &lm3533_als_read_raw,
->  };
->  
-> +static void lm3533_parse_als(struct platform_device *pdev,
-> +			     struct lm3533_als_platform_data *pdata)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	int val, ret;
-> +
-> +	/* 1 - 127 (ignored in PWM-mode) */
-> +	ret = device_property_read_u32(dev, "resistor-value", &val);
-> +	if (ret)
-> +		val = 1;
-For defaults that apply on any error, the pattern
 
-	val = 1;
-	device_property_read_u32(dev, "resistor-value", &val);
-is cleaner.
+Apologies this patch inadvertently omits a helper function (sun8i_csc_get_de3_yuv_table). Please disregard and I will send a v7 shortly. Thanks Philippe for reviewing and letting me know.
 
-What are the units? If it's a resistor then they should be ohms
-or similar and that should be part of the naming.
+Regards,
 
-You should be taking whatever the value is in ohms and mapping
-it to appropriate r_select in this function.
-
-> +	pdata->r_select = val;
-> +
-> +	pdata->pwm_mode = device_property_read_bool(dev, "pwm-mode");
-> +}
-> +
-> +static int lm3533_pass_of_node(struct platform_device *pdev,
-> +			       struct lm3533_als_platform_data *pdata)
-> +{
-> +	struct device *parent_dev = pdev->dev.parent;
-> +	struct device *dev = &pdev->dev;
-> +	struct fwnode_handle *node;
-> +	const char *label;
-> +	int val, ret;
-> +
-> +	device_for_each_child_node(parent_dev, node) {
-
-This devices should have direct access to the correct child node.
-Otherwise something odd is going on...
-
-> +		fwnode_property_read_string(node, "compatible", &label);
-> +
-> +		if (!strcmp(label, pdev->name)) {
-> +			ret = fwnode_property_read_u32(node, "reg", &val);
-> +			if (ret) {
-> +				dev_err(dev, "reg property is missing: ret %d\n", ret);
-
-use return dev_err_probe() for these.
-
-> +				return ret;
-> +			}
-> +
-> +			if (val == pdev->id) {
-> +				dev->fwnode = node;
-> +				dev->of_node = to_of_node(node);
-> +			}
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int lm3533_als_probe(struct platform_device *pdev)
->  {
->  	const struct lm3533_als_platform_data *pdata;
-> @@ -840,8 +886,16 @@ static int lm3533_als_probe(struct platform_device *pdev)
->  
->  	pdata = dev_get_platdata(&pdev->dev);
->  	if (!pdata) {
-> -		dev_err(&pdev->dev, "no platform data\n");
-> -		return -EINVAL;
-> +		pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
-> +		if (!pdata)
-> +			return -ENOMEM;
-> +
-> +		ret = lm3533_pass_of_node(pdev, pdata);
-> +		if (ret)
-> +			return dev_err_probe(&pdev->dev, ret,
-> +					     "failed to get als device node\n");
-> +
-> +		lm3533_parse_als(pdev, pdata);
->  	}
->  
->  	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*als));
-
+Ryan
