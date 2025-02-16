@@ -2,62 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A119A371FF
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 05:05:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE61AA37BD1
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 08:06:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8521010E21B;
-	Sun, 16 Feb 2025 04:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E97B10E073;
+	Mon, 17 Feb 2025 07:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JS0qWE6j";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NvNY01On";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B204610E0A4;
- Sun, 16 Feb 2025 04:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739678719; x=1771214719;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=MitFostZ17U+RCr5KrEZh7zn5g9fU/ze8H4EG6qBnpI=;
- b=JS0qWE6jkl+iGFDSUM47UvxLC9ZcKtQxA+gdXfqKGZD6EM8wlgVZmXFM
- bQbx1lvBrFfBQvFthNHtrQr1/2bDa/o1NMM8SYW6s36e+4N9aPORnmM8X
- +1MQ91Kin6rhhHLICcB4zRaEUynXV1ibGimvyKhEXw4lwOs1rD3YzPwb5
- pFXizdJ+yfJUMxQBNNNrb5aNvg8DVH1L2uqh+wtpzctMoPdZhJJRiUSH/
- yeKLWrfpf+AVV7o95LhZR8OpE/TBekxNwoZ2HooIvFvDSW7MN24fspiyC
- YUkyUc292wayeRGmhKibJfxdNI0taeJy5GUNH+gTAu4brY1cU0O4ev139 w==;
-X-CSE-ConnectionGUID: OsRsWC0+REO3/B4Bylq/Dw==
-X-CSE-MsgGUID: pU2UUdGqSpKGyPPOxhK/rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="40248155"
-X-IronPort-AV: E=Sophos;i="6.13,290,1732608000"; d="scan'208";a="40248155"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2025 20:05:18 -0800
-X-CSE-ConnectionGUID: VqXrDgtxTMCJXfftZyAToQ==
-X-CSE-MsgGUID: XVzuNlpFRkC/9ViMMlQpGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="150978133"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 15 Feb 2025 20:05:15 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tjVu5-001BYh-0L;
- Sun, 16 Feb 2025 04:05:13 +0000
-Date: Sun, 16 Feb 2025 12:04:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>, intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- jonathan.cavitt@intel.com, saurabhg.gupta@intel.com,
- alex.zuo@intel.com, joonas.lahtinen@intel.com,
- lucas.demarchi@intel.com, matthew.brost@intel.com
-Subject: Re: [PATCH 3/4] FIXME: drm/xe/xe_drm_client: Add per drm client
- pagefault info
-Message-ID: <202502161130.qHItt8dh-lkp@intel.com>
-References: <20250214203757.27895-4-jonathan.cavitt@intel.com>
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C42BB10E048;
+ Sun, 16 Feb 2025 07:25:51 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ 46e09a7af769-727118c4f9aso339503a34.1; 
+ Sat, 15 Feb 2025 23:25:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739690751; x=1740295551; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=X2MtFzYyeGI+w53HFhz70blX7wSMVkW9RRqxmsCmG4c=;
+ b=NvNY01Ond9T13ILcdwN15NNExZHX0Fd/etfACbGD1ZKE3gqA8ig2bvw+LWrzPj4QvQ
+ F1aVA7rfsiZ4zVmrztaxW6+d9hM7L8+y7tlI6Y9oxsAxAVgfbtjnuJ1SN/evuD8w37ci
+ lbKkHEHVGfTKpZVGUjmYhN1A8d/bq10FVBc9py5xh+UsFEX80rXz6f8UyumM4xM0vZ8J
+ aAJyteEDC54iiT87uTte8vx8fSeM6X63vbNKe2moleAqvtaED3Vk5Bqm430OO3yTXoM1
+ uWjjPh470vPqb2SZZ7znsSYx5s++ItUnfkVmXDmb8lXxWFP/kBdNvxJpgFOquL9pPm6G
+ IX+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739690751; x=1740295551;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=X2MtFzYyeGI+w53HFhz70blX7wSMVkW9RRqxmsCmG4c=;
+ b=DIkKGrQmkW2V+0dMoQXyMh0WIgKo2FRn9skFjvFjp4dmnhUBnKP6baLdGXinwuy0AA
+ aO3yoYS//4TSckKT8pj58hkgaHuyJWrPZWIKT5ykGFBFD8PXJPqnTvNgSe81J7QvUILv
+ /DAmcyh/FM3H5L0fm3sLm005WMK3tn6qV22hT7eu9fS13jZA+3PYzG0P5HHOU1pU/KxU
+ M+3Z4gmK3fV4FapFG21yOyv2O5xZ44s6/J3nhMjkEEWCos5N54VtH1xk4l9kpwOIF/uq
+ AQSCB+WvN8ijsEB78iBN90H38D4fKEnf1FhcbGoVFLEDRSkWNgo4KQt3xXY470dTnJTj
+ BXPA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUVf9cUe55Rn/x74kKoPDQ4Lhk3KeHwoETOeGSVS+c5jSTSGjwj7H7Em08A0DNJteqXu7KyN2XD@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyr6WM2e1tCWbIxtfzWAK6Uu/QpvlZ1hEOoA45bYqWXN1LMceP9
+ l5ADjnbkv4DPfzsmyxqfxZGcGj2xItugRhCqpxXpQZp3j52l6QCs
+X-Gm-Gg: ASbGncvM30NrXtratXJ88UOhfS32mLtCnBFY2u6aFGEv8Zat24obgVveTCo3cpVeXQe
+ PlTcikEovF2LA+Ih+nOdmVrqv5ey3Ises5hLo42iWQgd7z1AvuFBt2xWbvsSTGugZkCpw6TD2/d
+ 43rPvn+cGLc2f1e79AimWWavzcY3Q+8N6BxVOI7IrP3y+gWXjn0nPagQ1iNoZVAUbMnUUvdcP12
+ MRlbMQWAs13SNRyRNj29D7qlrBA8u/jliveQfGX1NIZdob/DXgnVAVglfiNQqZE/xCvrsNzEmLa
+ UUBjzNPJZovFQv8BMripRDdXvA==
+X-Google-Smtp-Source: AGHT+IEldSYRhKKvL+bF0zUKZ2HmbKXzdMRqJSuAGcuPjdAPT3c5bZVwGqGNztiB1tyFq27lo9WP7w==
+X-Received: by 2002:a05:6808:2107:b0:3f3:1ca8:97b with SMTP id
+ 5614622812f47-3f3eb122105mr3150386b6e.28.1739690750791; 
+ Sat, 15 Feb 2025 23:25:50 -0800 (PST)
+Received: from vengeance.tcpc.lan ([97.75.251.196])
+ by smtp.gmail.com with ESMTPSA id
+ 5614622812f47-3f3daa19849sm2467306b6e.44.2025.02.15.23.25.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Feb 2025 23:25:50 -0800 (PST)
+From: Aaron Kling <luceoscutum@gmail.com>
+X-Google-Original-From: Aaron Kling <webgeek1234@gmail.com>
+To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Aaron Kling <webgeek1234@gmail.com>,
+ Ben Skeggs <bskeggs@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] drm/nouveau/pmu: Fix gp10b firmware guard
+Date: Sun, 16 Feb 2025 01:25:37 -0600
+Message-ID: <20250216072541.317954-1-webgeek1234@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250214203757.27895-4-jonathan.cavitt@intel.com>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 17 Feb 2025 07:06:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+Most kernel configs enable multiple Tegra SoC generations, causing this
+typo to go unnoticed. But in the case where a kernel config is strictly
+for Tegra186, this is a problem.
 
-kernel test robot noticed the following build warnings:
+Fixes: 989863d7cbe5 ("drm/nouveau/pmu: select implementation based on available firmware")
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on drm-exynos/exynos-drm-next linus/master v6.14-rc2 next-20250214]
-[cannot apply to drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-xe-xe_exec_queue-Add-ID-param-to-exec-queue-struct/20250215-043933
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250214203757.27895-4-jonathan.cavitt%40intel.com
-patch subject: [PATCH 3/4] FIXME: drm/xe/xe_drm_client: Add per drm client pagefault info
-config: alpha-randconfig-r051-20250216 (https://download.01.org/0day-ci/archive/20250216/202502161130.qHItt8dh-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502161130.qHItt8dh-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xe/xe_gt_pagefault.c:342:3-8: WARNING: NULL check before some freeing functions is not needed.
-
-vim +342 drivers/gpu/drm/xe/xe_gt_pagefault.c
-
-   332	
-   333	static void save_pagefault_to_engine(struct xe_gt *gt, struct pagefault *pf)
-   334	{
-   335		struct xe_hw_engine *hwe;
-   336	
-   337		hwe = xe_gt_hw_engine(gt, pf->engine_class, pf->engine_instance, false);
-   338		if (hwe) {
-   339			spin_lock(&hwe->pf.lock);
-   340			/** The latest pagefault is pf, so remove old pf info from engine */
-   341			if (hwe->pf.info)
- > 342				kfree(hwe->pf.info);
-   343			hwe->pf.info = kzalloc(sizeof(struct pagefault), GFP_KERNEL);
-   344			if (hwe->pf.info)
-   345				memcpy(hwe->pf.info, pf, sizeof(struct pagefault));
-   346			spin_unlock(&hwe->pf.lock);
-   347		}
-   348	}
-   349	
-
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
+index a6f410ba60bc9..d393bc540f862 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
+@@ -75,7 +75,7 @@ gp10b_pmu_acr = {
+ 	.bootstrap_multiple_falcons = gp10b_pmu_acr_bootstrap_multiple_falcons,
+ };
+ 
+-#if IS_ENABLED(CONFIG_ARCH_TEGRA_210_SOC)
++#if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC)
+ MODULE_FIRMWARE("nvidia/gp10b/pmu/desc.bin");
+ MODULE_FIRMWARE("nvidia/gp10b/pmu/image.bin");
+ MODULE_FIRMWARE("nvidia/gp10b/pmu/sig.bin");
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.48.1
+
