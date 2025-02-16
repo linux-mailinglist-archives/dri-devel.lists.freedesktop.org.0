@@ -2,107 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C0CA376EE
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A56A37BD0
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 08:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3EA10E2FA;
-	Sun, 16 Feb 2025 18:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18B1410E382;
+	Mon, 17 Feb 2025 07:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="KrTVil1P";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="MR2e+PAs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b+jMNF1W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b4-smtp.messagingengine.com
- (fout-b4-smtp.messagingengine.com [202.12.124.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE8310E2FB
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:41:14 +0000 (UTC)
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal
- [10.202.2.44])
- by mailfout.stl.internal (Postfix) with ESMTP id 66EA61140114;
- Sun, 16 Feb 2025 13:41:13 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-04.internal (MEProxy); Sun, 16 Feb 2025 13:41:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm3; t=1739731273; x=
- 1739817673; bh=yn06nNMTN3kxcpZkZJtZKmYTN2rUWD3mBgjPfdEVi54=; b=K
- rTVil1P8qkkoDMJY6hJSN7BPViuIMzoPyWQTydIpHUANaNPX1UzbXIdV+GZpymOi
- DrcQ5nO9KKkqfntjmcHq2TNxrdRlcYWuFUocSl7ztcHny1M6OetrKbFbl/VgBqOr
- YKZhnrqptYCAmJhP2gv5gOiWfFzj0MTKn/Y6FSn91ow4MtqUIOpsi5pP4FjnJtCR
- PTBdGi7HxcikZ8HgP4eZY4ESGjsatJUJPB8DVjf1Jwp3+y6kUEluMLDs2BNjKRnF
- YmNFyBDu9eXMgp6MyQbG2HBk9TmN0KNYs+kaCpRqIDUeukf4TEXvQEldcb3IRz3h
- gXWSVAfzqvrdWL+0L4PwA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1739731273; x=1739817673; bh=y
- n06nNMTN3kxcpZkZJtZKmYTN2rUWD3mBgjPfdEVi54=; b=MR2e+PAs5SYel3vaQ
- fBcQNiEpZIhNVdDFIj7EXkledti4o6MG1Vq/doWT/lwGXrnIExyevNfEMLS06NOk
- uGWiNwd5By/B3x1f2363tYmJZ8LthJOgEsfXnN/sc+xrQY6vEtDMz9ZtekgWUIWC
- rwBheGs3jxu7FmxZiUKp4y+CC6lIDMKZ9BibP/YAle4C8DjBeVH7dD1N7S/sz6II
- 1Axi+8JYelF3vMLq/HgRS5USMhE34qfFUEH31mhQ5iOYethY7R+DKoob5stuQmJ9
- bk8CIVUCJSgSBr77CfRmrKainxReC365Z6X+Mh61HnyepeuswCH1/UFtajiIyPjn
- PoV4Q==
-X-ME-Sender: <xms:STGyZzEi4Eo9MocwZJRxVDveCrCTXarcfKd_mbqHD2R6MTrORDGXmg>
- <xme:STGyZwWxSIs_iBPuBao3J70VojZxBrIfYp89S8ZzX3bKzCEC7kAK386_nbg343jKB
- d4Hi3sP61dFvvAVsw>
-X-ME-Received: <xmr:STGyZ1I1-hrOHj7gxoqzbWQfNdr34IpRznrj9CS78PwXmkwGtwbAMmDS0mzimHAz1Qh7GX31YOjiWODfbCWaWdE-a3cZuWT7YXD_d9snAlW6>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
- necuhfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhigrnhesthgvshhtthhorghsth
- drtghomheqnecuggftrfgrthhtvghrnhepffehieffgedtgfffjeetveegfeekleeileek
- veeuteffteetudffveegieeiheetnecuvehluhhsthgvrhfuihiivgepjeenucfrrghrrg
- hmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgt
- phhtthhopedvhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhrihhprghrug
- eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgt
- phhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrd
- gtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphht
- thhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepuggrnhhivghlse
- hffhiflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghi
- lhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtg
- hpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:STGyZxHM69Aet00ps82H0t8Y3QXokFhvvbKS8gnJDi8Yq8Cw8VyMtA>
- <xmx:STGyZ5XtrOfXDD5M7j6yCIX15YWPhVNQzAetgsI0Y939kfBAPCqA6Q>
- <xmx:STGyZ8OiV77nOaBf5SCN5JDBLiTbsxN-62Z9CO6te7dCIwTlt47zrA>
- <xmx:STGyZ40Q7V_ZzYUCh-V-X_CzMBT4w0VeAU8d1NFO4pQdndxcq3ZsyQ>
- <xmx:STGyZ8q_E1dHZNz2CrOB1te7v5jYcnMxnZLHozQw1odHOq2lD6FTFAiE>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Feb 2025 13:41:05 -0500 (EST)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>,
- Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH v7 27/27] drm: sun4i: de33: csc: add Display Engine 3.3 (DE33)
- support
-Date: Mon, 17 Feb 2025 07:36:27 +1300
-Message-ID: <20250216183710.8443-28-ryan@testtoast.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250216183710.8443-3-ryan@testtoast.com>
-References: <20250216183710.8443-3-ryan@testtoast.com>
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15B6B10E0C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 20:06:08 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-471e35c9fbfso2711581cf.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 12:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739736367; x=1740341167; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EAP1KD1zZ0LDFgrnzNE0CA0YlB1kpZiKhEpfx68P448=;
+ b=b+jMNF1WeSLq+9vCCjuO/Cg9TaDWfOt55hPy0/SkB2HzYEoJ4CTBmNcTZV4Wze4ox2
+ ku20BaPQL1skF0qMUMtd8NNUJhlOj1xdoDsIDcapwJ5zaUotWn18Ossh6C4ivmYT+J+E
+ ztcnC7x1ECAgJff2hgeWY/JVHHL/UjKmSij+VoIGpeWqTI3BoVTQMUdoR8vxcIX8DRjA
+ bhFLNMiuTFF/HBVUNcctAnBJJ/4qWo+Lmp2/OEdGaIi/G4Y+IwNfn/IEnm97DIOV11Vo
+ qe0eCrJp0toPEjzqT0uNOL4EQZXjm3BUxYwMYf/D39OE3qH9cRRQpuoQnSJHT2v1M4Vj
+ QssQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739736367; x=1740341167;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EAP1KD1zZ0LDFgrnzNE0CA0YlB1kpZiKhEpfx68P448=;
+ b=CXM3FdjOazBMd74z8eC5XzhBhp7NeGJR3vE0E1JDFb9vKUyouNEFNK9EXoZoVPcm9M
+ SR8AY/t77szcLma4aOzETRN0inQfjRfItOkuCGMPsbmlq5wDXlqg5VPkMN86+srXfMbK
+ /iqj8Sijz0tmGmCtSRtzSuixYBLtkSMiCXBWJtnrHc2GKzfif27diiCA2PoFsDiPYcst
+ E25JyCQfqZoZ5nrUrP+DPqF4C5KLLd9Uvoi+9RMCldQLTQ1I6pRJZdRQcWzsF53fQsHW
+ 5Z/h0OCEXVhFHmthVFtsa7+5QBtE62H2ppIP2SwXYhJFHcFjVAivuIucjW+TL15XOG6J
+ ASAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWj9iSMJhIVwJV2ENDWA/0mDCGHLU9VBg6sBuc7t2zpYIngqDb+oBZvMgj09v2N4Ju3m0NhsNGGTKc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz59syrD3TWkAPBUxXMcdxwGPQRZuGqpj+ZrjcLz6MSQwDM5UDx
+ gc7S6zu/qucMNlNGC4/BQdJEa4yxWN0BZQMEmUryXbHmcAB5zw/2lmdzvFaaJ/NhcLaguemZ16H
+ WIqs+r7c9TLKFJhxEfxz3RRcSios=
+X-Gm-Gg: ASbGnctrsaBPe76YsCHKQi1vMUcusVUjeC5+dAweQ40IK1ohG0bcGGywFiw6cReelDu
+ +uitYEN0QXXtvAiA5wsW3cLWToYkHBUj9+HWv9uzFBHC11oKwiJtlraLa5WVslBYdNt+CmeYSKr
+ 8=
+X-Google-Smtp-Source: AGHT+IGMJnTzbXTh9ELT1cBFq6Q+uf6saBfPcbkuFGKb+pRYe6Suqup61hJzj18QOo4GbFyv7cGrTTg73jw91ibrb4E=
+X-Received: by 2002:ac8:590a:0:b0:471:ba98:a1d3 with SMTP id
+ d75a77b69052e-471dbcc8a65mr96701251cf.11.1739736366922; Sun, 16 Feb 2025
+ 12:06:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250216160644.18924-1-andres.emb.sys@gmail.com>
+ <874j0tvm43.fsf@trenco.lwn.net>
+In-Reply-To: <874j0tvm43.fsf@trenco.lwn.net>
+From: Andres Urian <andres.emb.sys@gmail.com>
+Date: Sun, 16 Feb 2025 15:05:56 -0500
+X-Gm-Features: AWEUYZmokXvRusmiPvx8MGUmZQXRVUqlYmqkeNqcXe7mK7iCJHEMh-ENyudH4L8
+Message-ID: <CAMihqu_uw-51wXMTxo9YLHF8VGcdywzMZukePvbL5m=C37jfBQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation:gpu: fixed spelling mistake
+To: Jonathan Corbet <corbet@lwn.net>, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Mon, 17 Feb 2025 07:06:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,163 +86,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Like earlier DE versions, the DE33 has a CSC (Color Space Correction)
-module. which provides color space conversion between BT2020/BT709, and
-dynamic range conversion between SDR/ST2084/HLG.
+On Sun, Feb 16, 2025 at 12:24=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
+rote:
+>
+> Andres Urian Florez <andres.emb.sys@gmail.com> writes:
+>
+> > Fixed spelling mistake identified by codespell in the drm-uapi
+> > documentation
+> >
+> > Signed-off-by: Andres Urian Florez <andres.emb.sys@gmail.com>
+> > ---
+> >  Documentation/gpu/drm-uapi.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uap=
+i.rst
+> > index 69f72e71a96e..64e002c6383c 100644
+> > --- a/Documentation/gpu/drm-uapi.rst
+> > +++ b/Documentation/gpu/drm-uapi.rst
+> > @@ -518,7 +518,7 @@ ENOSPC:
+> >  EPERM/EACCES:
+> >          Returned for an operation that is valid, but needs more privil=
+eges.
+> >          E.g. root-only or much more common, DRM master-only operations=
+ return
+> > -        this when called by unpriviledged clients. There's no clear
+> > +        this when called by unprivileged clients. There's no clear
+> >          difference between EACCES and EPERM.
+>
+> This is a fine patch, but it should really have been copied to the DRM
+> maintainers; I think scripts/get_maintainer.pl should have told you
+> that?
+>
+> Thanks,
+>
+> jon
 
-Add support for the DE33.
+Sorry, including missing maintainers.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Tested-by: Philippe Simons <simons.philippe@gmail.com>
-Tested-by: Chris Morgan <macromorgan@hotmail.com>
-
---
-Changelog v5..v6:
-- Amend format_type to sun8i_format_type
-- Add Tested-by: tags
----
- drivers/gpu/drm/sun4i/sun8i_csc.c | 98 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/sun4i/sun8i_csc.h |  3 +
- 2 files changed, 101 insertions(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
-index 66c9ee29842cd..2274a82223164 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
-@@ -238,6 +238,14 @@ static const u32 yuv2yuv_de3[2][3][3][12] = {
- 	},
- };
- 
-+static u32 sun8i_csc_base(struct sun8i_mixer *mixer, int layer)
-+{
-+	if (mixer->cfg->de_type == sun8i_mixer_de33)
-+		return sun8i_channel_base(mixer, layer) - 0x800;
-+	else
-+		return ccsc_base[mixer->cfg->ccsc][layer];
-+}
-+
- static void sun8i_csc_setup(struct regmap *map, u32 base,
- 			    enum sun8i_format_type fmt_type,
- 			    enum drm_color_encoding encoding,
-@@ -360,6 +368,92 @@ static void sun8i_de3_ccsc_setup(struct sun8i_mixer *mixer, int layer,
- 			   mask, val);
- }
- 
-+/* extract constant from high word and invert sign if necessary */
-+static u32 sun8i_de33_ccsc_get_constant(u32 value)
-+{
-+	value >>= 16;
-+
-+	if (value & BIT(15))
-+		return 0x400 - (value & 0x3ff);
-+
-+	return value;
-+}
-+
-+static void sun8i_de33_convert_table(const u32 *src, u32 *dst)
-+{
-+	dst[0] = sun8i_de33_ccsc_get_constant(src[3]);
-+	dst[1] = sun8i_de33_ccsc_get_constant(src[7]);
-+	dst[2] = sun8i_de33_ccsc_get_constant(src[11]);
-+	memcpy(&dst[3], src, sizeof(u32) * 12);
-+	dst[6] &= 0xffff;
-+	dst[10] &= 0xffff;
-+	dst[14] &= 0xffff;
-+}
-+
-+static void sun8i_de33_ccsc_setup(struct sun8i_mixer *mixer, int layer,
-+				  enum sun8i_format_type fmt_type,
-+				  enum drm_color_encoding encoding,
-+				  enum drm_color_range range)
-+{
-+	u32 addr, val = 0, base, csc[15];
-+	struct sunxi_engine *engine;
-+	struct regmap *map;
-+	const u32 *table;
-+	int i;
-+	struct sun8i_color_model model;
-+
-+	table = yuv2rgb_de3[range][encoding];
-+	base = sun8i_csc_base(mixer, layer);
-+	model = mixer->color_model;
-+	engine = &mixer->engine;
-+	map = engine->regs;
-+
-+	switch (fmt_type) {
-+	case FORMAT_TYPE_RGB:
-+		if (mixer->color_model.format == MEDIA_BUS_FMT_RGB888_1X24)
-+			break;
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(rgb2yuv_de3[mixer->color_model.encoding], csc);
-+		regmap_bulk_write(map, SUN50I_CSC_COEFF(base, 0), csc, 15);
-+		break;
-+	case FORMAT_TYPE_YUV:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    model.format,
-+						    model.encoding);
-+		if (!table)
-+			break;
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(table, csc);
-+		regmap_bulk_write(map, SUN50I_CSC_COEFF(base, 0), csc, 15);
-+		break;
-+	case FORMAT_TYPE_YVU:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    model.format,
-+						    model.encoding);
-+		if (!table)
-+			table = yuv2yuv_de3[range][encoding][encoding];
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(table, csc);
-+		for (i = 0; i < 15; i++) {
-+			addr = SUN50I_CSC_COEFF(base, i);
-+			if (i > 3) {
-+				if (((i - 3) & 3) == 1)
-+					addr = SUN50I_CSC_COEFF(base, i + 1);
-+				else if (((i - 3) & 3) == 2)
-+					addr = SUN50I_CSC_COEFF(base, i - 1);
-+			}
-+			regmap_write(map, addr, csc[i]);
-+		}
-+		break;
-+	default:
-+		val = 0;
-+		DRM_WARN("Wrong CSC mode specified.\n");
-+		return;
-+	}
-+
-+	regmap_write(map, SUN8I_CSC_CTRL(base), val);
-+}
-+
- void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 			enum sun8i_format_type fmt_type,
- 			enum drm_color_encoding encoding,
-@@ -371,6 +465,10 @@ void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 		sun8i_de3_ccsc_setup(mixer, layer,
- 				     fmt_type, encoding, range);
- 		return;
-+	} else if (mixer->cfg->de_type == sun8i_mixer_de33) {
-+		sun8i_de33_ccsc_setup(mixer, layer, fmt_type,
-+				      encoding, range);
-+		return;
- 	}
- 
- 	if (layer < mixer->cfg->vi_num) {
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
-index 9b63c92782f56..4a06fc43de2d0 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
-@@ -20,6 +20,9 @@ struct sun8i_mixer;
- #define SUN8I_CSC_CTRL(base)		((base) + 0x0)
- #define SUN8I_CSC_COEFF(base, i)	((base) + 0x10 + 4 * (i))
- 
-+#define SUN50I_CSC_COEFF(base, i)	((base) + 0x04 + 4 * (i))
-+#define SUN50I_CSC_ALPHA(base)		((base) + 0x40)
-+
- #define SUN8I_CSC_CTRL_EN		BIT(0)
- 
- enum sun8i_format_type {
--- 
-2.48.1
-
+Thanks,
+Andres
