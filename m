@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3E9A376E4
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C15A376E8
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D8410E2F8;
-	Sun, 16 Feb 2025 18:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B01C10E2F5;
+	Sun, 16 Feb 2025 18:40:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="AkWSHZxp";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="zBu/lWnH";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="c++VGV0m";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Hszy5to4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fhigh-b4-smtp.messagingengine.com
  (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880B310E2F8
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:40:48 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 49CF825400C3;
- Sun, 16 Feb 2025 13:40:47 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EF1B10E2F5
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:40:57 +0000 (UTC)
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal
+ [10.202.2.48])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 224BF25400EC;
+ Sun, 16 Feb 2025 13:40:56 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-10.internal (MEProxy); Sun, 16 Feb 2025 13:40:47 -0500
+ by phl-compute-08.internal (MEProxy); Sun, 16 Feb 2025 13:40:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm3; t=1739731247; x=
- 1739817647; bh=qTrgI4pTmO4u0Lv+OA3OrVhIhys5fJYhQ/UKTPXJAw4=; b=A
- kWSHZxpizbPd8pOJBT5s8IR6LiXnoYRayRS1aT8ukFqUDLvU6v4dqMWYW5T+3eVf
- Kta/BMJ1r7x2Mc0J3sUfzzORVG7O3ERod79A0NTfB4MwfWbUEN6fUqVcHlVEpAcf
- ORG++ZdC0Fm8+kyiUK+kbwUuMO6KKLM9ADtZKiobw4qYlAw1fzfFPA3IGp5+F5d5
- 3p/XMBUVsS1dzxjnaeN/MYMbfzdvJ7VCxD4c34yIUp7uim4AeyzBxz7zWzW2Qd1Y
- /RA/7n9YKYO4+xAYLsnQWNqr45ThEIneE3QOm+PQTup3+veBIIp8imb3doWMO1So
- d8Hsm12EwCF+QWeXywkEw==
+ :reply-to:subject:subject:to:to; s=fm3; t=1739731255; x=
+ 1739817655; bh=QjD1ZDjTlOdhXrU8c38PMPCZ6hMJn574nV8c+MDBJsM=; b=c
+ ++VGV0meB3oaRXQCdYncFUZgwKI48SzRnwGdc34rKclBmgPDNGwOB/dQBVhQdVTE
+ cTejqNu/ld2m64eSvbEcBJffDFjejADdDSgWP3BWbO5Y6AAh2tivsY/4XPuLeKZb
+ UhXkIgYhwuQdgoXb3ilT7KS40VV3VoIXbjejgePdXVGWzvUeYHmf53bpYV/27Yh1
+ 1MxUb9FQvdptEvUvy9fy3aCX/p1BhZRB4w2zY+iJGIUaTSLg5Bvcpp6VmfIOEdtH
+ D6hzPuUxmkjGIXItFbnahXZnmIX43vAScdtrYVXD2JyXkwcKdFU6M9iY65jEI0lW
+ iiBRHl/UJH9ei28OOGOMg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1739731247; x=1739817647; bh=q
- TrgI4pTmO4u0Lv+OA3OrVhIhys5fJYhQ/UKTPXJAw4=; b=zBu/lWnHCoE6Z0YGh
- uHH+rq548qsbllLqdm6blbmbiGsyGRJV4mFznbT3jz7E2k8EV8wBsXSTvNTfSjn9
- VFHI7V/XSwN7nXSwqa09IZOx5BxyW/0Yn89+SQTuhyN4CHokQFIduTIhdgnTM9T1
- +jt+xUloeRNQdyvgDQbca4Xib82FhT8OQ5ewaDKYrXDkXJqHoeyan8nHdJnvxAYW
- DtVS6PoaBMEmtQyucYql7XhbhWCVDSwSkr3YyFboA+7ghJZ8vxbpNtZXlNirA8xB
- tZK5+GNqXw1AFO8tIfBqzp/rY7XBDRWBEv7FtXi4NP5FLbhUA0DlH91hhvi7yNk4
- CnpgQ==
-X-ME-Sender: <xms:LjGyZ1UwLqIIctFo6fF5MWTVuV2tobV_EAGfQTU_V3qNj2tf1mpGsg>
- <xme:LjGyZ1kOaRlz5PgpdPljrlONkkcADWpTaIfG7o3h2dHoJOcll5gmoSyHeRY33tGtr
- qiwkOJDf62udGXaDQ>
-X-ME-Received: <xmr:LjGyZxZqC5Tl65hXh_WlZqIdYGy6KL0IlbGDOT-AJf0hlsrxQXWnltHgbiUsUovy279hhHHjreLQ6pkskzFauYqf2YhOGRUMmOJk_L-yCsvH>
+ :x-me-sender:x-sasl-enc; s=fm3; t=1739731255; x=1739817655; bh=Q
+ jD1ZDjTlOdhXrU8c38PMPCZ6hMJn574nV8c+MDBJsM=; b=Hszy5to4jGFtfMzu8
+ WwpSp2PFaqtb85i/CWRaCS2kLUuA7qYc0Spl2WkHNrnut6voD82rsXv7xCy8FQ7/
+ fc6Vx0XME5g3EpBha7MFzAp/cYm4lASTN7Sv+2I2aWDVYfQEnTIKeaGXQ3pGTqAK
+ 1rwdilxlP35yxaG/eP3gnayjQcthLzw7759LZkqfm5QVE9ATBPLg0xr8Ys+Wm5e1
+ XeBymzdYU4loW9rajUYhLU0VXi8P9XcyBWUsbnXXb9vfYunJjYo2K52v92d0X+UP
+ hsGdDVfijF0CGgeKDdUU4YKdnt91qxokvCXpjTCTIodmdsop+qbybuUZdHtclEW6
+ /cOQA==
+X-ME-Sender: <xms:NzGyZy8v6OQ7RW5e3ig79zTjaqjOTXrAncwjYz1ssiUMnvWuXYU1ew>
+ <xme:NzGyZyttipp68XA17ixEwTjxZLAqTYYmOEGG-LuwYxiB6xbrfPrzhr422L2hcv_zx
+ M2Rzxyx0C5i752ZYg>
+X-ME-Received: <xmr:NzGyZ4B1CRBJU_gI4jxcR62b2HjROAHillnqH1ylI2XBCTnr-imu1RAEhr0bqhrPJgLpw2PQRP3sgTnrcSnJiJnp6M7fHHKS38KzHuV-RzCe>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvtdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
  uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -67,14 +67,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvtdcutefuodetgg
  hffhiflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghi
  lhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtg
  hpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:LzGyZ4VbV29o6rGGAW1u5-qt0g2scfOl5K5OxYKo1BW2sx2WMb5HAw>
- <xmx:LzGyZ_k5S9U6teHw28QnA43dZ9dmEfp1uINU3LKodNVW8an_6TWZ2w>
- <xmx:LzGyZ1cBkEdOqpmKCjSj8ugOExbdX8r69LGyvs0W_7eFjRMRQwOtnA>
- <xmx:LzGyZ5FNVvr9ok8-DdQ7JvAYOJegP0BQkNgacUrQ_ikhg-rRk7E9_Q>
- <xmx:LzGyZz0PT1h4uzRppneMewDVvrfNgTKJDk1cQX178-528fUsLcP7K0sQ>
+X-ME-Proxy: <xmx:NzGyZ6dze-pVrqFWlrhN5y0JXrTgjRRGvdxuc1ELp5MGCsDhst3YTw>
+ <xmx:NzGyZ3MMsGyzchVjBb63jCjVzKe8X8DmY1lBxzqEuwVayUKjP7J3gA>
+ <xmx:NzGyZ0k7DydWSNs3t9CQuTxWpLa4z4QBPKMSAjdsCjPNPz-IMu8g7Q>
+ <xmx:NzGyZ5tlqbgOqgYyglp-s1gRuf4BWQUw602DOQtg2kdhWJujh6s_JQ>
+ <xmx:NzGyZ6cXWeHP5XJ126oIKzBcENycnL0Sc0Oiyx38AzJ4VccplsYephIh>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Feb 2025 13:40:39 -0500 (EST)
+ 16 Feb 2025 13:40:48 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -93,10 +93,10 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v7 24/27] drm: sun4i: de33: mixer: add Display Engine 3.3
+Subject: [PATCH v7 25/27] drm: sun4i: de33: vi_scaler: add Display Engine 3.3
  (DE33) support
-Date: Mon, 17 Feb 2025 07:36:24 +1300
-Message-ID: <20250216183710.8443-25-ryan@testtoast.com>
+Date: Mon, 17 Feb 2025 07:36:25 +1300
+Message-ID: <20250216183710.8443-26-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250216183710.8443-3-ryan@testtoast.com>
 References: <20250216183710.8443-3-ryan@testtoast.com>
@@ -119,295 +119,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-The DE33 is a newer version of the Allwinner Display Engine IP block,
-found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
-supported by the mainline driver.
+The vi_scaler appears to be used in preference to the ui_scaler module
+for hardware video scaling in the DE33.
 
-Notable features (from the H616 datasheet and implemented):
-- 4096 x 2048 (4K) output support
-- AFBC ARM Frame Buffer Compression support
-- YUV420 input support
-
-The DE2 and DE3 engines have a blender register range within the
-mixer engine register map, whereas the DE33 separates this out into
-a separate display group, and adds a top register map.
-
-Extend the mixer to support the DE33.
+Enable support for this scaler.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-
 ---
-Changelog v4..v5:
-- Whitespace fixes
-- Correct strict mode warnings from checkpatch.pl
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 109 ++++++++++++++++++++++++----
- drivers/gpu/drm/sun4i/sun8i_mixer.h |  13 +++-
- 2 files changed, 105 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c  | 19 +++++++++++++++----
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c |  7 ++++++-
+ 2 files changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index f0d48796d651f..3584b496c5d58 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -321,8 +321,12 @@ static void sun8i_mixer_commit(struct sunxi_engine *engine,
- 	regmap_write(bld_regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
- 		     pipe_en | SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index 7f1231cf0f012..180be9d67d9c3 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -95,12 +95,23 @@ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 		hscale = state->src_w / state->crtc_w;
+ 		vscale = state->src_h / state->crtc_h;
  
--	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
--		     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
-+	if (mixer->cfg->de_type == sun8i_mixer_de33)
-+		regmap_write(mixer->top_regs, SUN50I_MIXER_GLOBAL_DBUFF,
-+			     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
-+	else
-+		regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
-+			     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
- }
- 
- static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
-@@ -371,25 +375,33 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
- 				 const struct drm_display_mode *mode)
- {
- 	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
-+	struct regmap *bld_regs, *disp_regs;
- 	u32 bld_base, size, val;
- 	bool interlaced;
- 
- 	bld_base = sun8i_blender_base(mixer);
-+	bld_regs = sun8i_blender_regmap(mixer);
- 	interlaced = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
- 	size = SUN8I_MIXER_SIZE(mode->hdisplay, mode->vdisplay);
- 
- 	DRM_DEBUG_DRIVER("Updating global size W: %u H: %u\n",
- 			 mode->hdisplay, mode->vdisplay);
- 
--	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_SIZE, size);
--	regmap_write(engine->regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base), size);
-+	if (mixer->cfg->de_type == sun8i_mixer_de33) {
-+		disp_regs = mixer->disp_regs;
-+		regmap_write(mixer->top_regs, SUN50I_MIXER_GLOBAL_SIZE, size);
-+	} else {
-+		disp_regs = mixer->engine.regs;
-+		regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_SIZE, size);
-+	}
-+	regmap_write(bld_regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base), size);
- 
- 	if (interlaced)
- 		val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
- 	else
- 		val = 0;
- 
--	regmap_update_bits(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-+	regmap_update_bits(bld_regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
- 			   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED, val);
- 
- 	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
-@@ -400,10 +412,8 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
- 	else
- 		val = 0xff108080;
- 
--	regmap_write(mixer->engine.regs,
--		     SUN8I_MIXER_BLEND_BKCOLOR(bld_base), val);
--	regmap_write(mixer->engine.regs,
--		     SUN8I_MIXER_BLEND_ATTR_FCOLOR(bld_base, 0), val);
-+	regmap_write(disp_regs, SUN8I_MIXER_BLEND_BKCOLOR(bld_base), val);
-+	regmap_write(disp_regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(bld_base, 0), val);
- 
- 	if (mixer->cfg->has_formatter)
- 		sun50i_fmt_setup(mixer, mode->hdisplay, mode->vdisplay);
-@@ -442,12 +452,29 @@ static const struct sunxi_engine_ops sun8i_engine_ops = {
- };
- 
- static const struct regmap_config sun8i_mixer_regmap_config = {
-+	.name		= "layers",
- 	.reg_bits	= 32,
- 	.val_bits	= 32,
- 	.reg_stride	= 4,
- 	.max_register	= 0xffffc, /* guessed */
- };
- 
-+static const struct regmap_config sun8i_top_regmap_config = {
-+	.name		= "top",
-+	.reg_bits	= 32,
-+	.val_bits	= 32,
-+	.reg_stride	= 4,
-+	.max_register	= 0x3c,
-+};
-+
-+static const struct regmap_config sun8i_disp_regmap_config = {
-+	.name		= "display",
-+	.reg_bits	= 32,
-+	.val_bits	= 32,
-+	.reg_stride	= 4,
-+	.max_register	= 0x20000,
-+};
-+
- static int sun8i_mixer_of_get_id(struct device_node *node)
- {
- 	struct device_node *ep, *remote;
-@@ -470,33 +497,45 @@ static int sun8i_mixer_of_get_id(struct device_node *node)
- 
- static void sun8i_mixer_init(struct sun8i_mixer *mixer)
- {
-+	struct regmap *top_regs, *disp_regs;
- 	unsigned int base = sun8i_blender_base(mixer);
- 	int plane_cnt, i;
- 
-+	if (mixer->cfg->de_type == sun8i_mixer_de33) {
-+		top_regs = mixer->top_regs;
-+		disp_regs = mixer->disp_regs;
-+	} else {
-+		top_regs = mixer->engine.regs;
-+		disp_regs = mixer->engine.regs;
-+	}
-+
- 	/* Enable the mixer */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_CTL,
-+	regmap_write(top_regs, SUN8I_MIXER_GLOBAL_CTL,
- 		     SUN8I_MIXER_GLOBAL_CTL_RT_EN);
- 
-+	if (mixer->cfg->de_type == sun8i_mixer_de33)
-+		regmap_write(top_regs, SUN50I_MIXER_GLOBAL_CLK, 1);
-+
- 	/* Set background color to black */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
-+	regmap_write(disp_regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
- 		     SUN8I_MIXER_BLEND_COLOR_BLACK);
- 
- 	/*
- 	 * Set fill color of bottom plane to black. Generally not needed
- 	 * except when VI plane is at bottom (zpos = 0) and enabled.
- 	 */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-+	regmap_write(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
- 		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
-+	regmap_write(disp_regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
- 		     SUN8I_MIXER_BLEND_COLOR_BLACK);
- 
- 	plane_cnt = mixer->cfg->vi_num + mixer->cfg->ui_num;
- 	for (i = 0; i < plane_cnt; i++)
--		regmap_write(mixer->engine.regs,
-+		regmap_write(disp_regs,
- 			     SUN8I_MIXER_BLEND_MODE(base, i),
- 			     SUN8I_MIXER_BLEND_MODE_DEF);
- 
--	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-+	regmap_update_bits(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
- 			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
- }
- 
-@@ -573,6 +612,30 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 		return PTR_ERR(mixer->engine.regs);
+-		sun8i_ui_scaler_setup(mixer, channel, src_w, src_h, dst_w,
+-				      dst_h, hscale, vscale, hphase, vphase);
+-		sun8i_ui_scaler_enable(mixer, channel, true);
++		if (mixer->cfg->de_type == sun8i_mixer_de33) {
++			sun8i_vi_scaler_setup(mixer, channel, src_w, src_h,
++					      dst_w, dst_h, hscale, vscale,
++					      hphase, vphase,
++					      state->fb->format);
++		} else {
++			sun8i_ui_scaler_setup(mixer, channel, src_w, src_h,
++					      dst_w, dst_h, hscale, vscale,
++					      hphase, vphase);
++			sun8i_ui_scaler_enable(mixer, channel, true);
++		}
+ 	} else {
+ 		DRM_DEBUG_DRIVER("HW scaling is not needed\n");
+-		sun8i_ui_scaler_enable(mixer, channel, false);
++		if (mixer->cfg->de_type == sun8i_mixer_de33)
++			sun8i_vi_scaler_disable(mixer, channel);
++		else
++			sun8i_ui_scaler_enable(mixer, channel, false);
  	}
  
-+	if (mixer->cfg->de_type == sun8i_mixer_de33) {
-+		regs = devm_platform_ioremap_resource(pdev, 1);
-+		if (IS_ERR(regs))
-+			return PTR_ERR(regs);
-+
-+		mixer->top_regs = devm_regmap_init_mmio(dev, regs,
-+							&sun8i_top_regmap_config);
-+		if (IS_ERR(mixer->top_regs)) {
-+			dev_err(dev, "Couldn't create the top regmap\n");
-+			return PTR_ERR(mixer->top_regs);
-+		}
-+
-+		regs = devm_platform_ioremap_resource(pdev, 2);
-+		if (IS_ERR(regs))
-+			return PTR_ERR(regs);
-+
-+		mixer->disp_regs = devm_regmap_init_mmio(dev, regs,
-+							 &sun8i_disp_regmap_config);
-+		if (IS_ERR(mixer->disp_regs)) {
-+			dev_err(dev, "Couldn't create the disp regmap\n");
-+			return PTR_ERR(mixer->disp_regs);
-+		}
-+	}
-+
- 	mixer->reset = devm_reset_control_get(dev, NULL);
- 	if (IS_ERR(mixer->reset)) {
- 		dev_err(dev, "Couldn't get our reset line\n");
-@@ -787,6 +850,18 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- 	.vi_num		= 1,
- };
+ 	/* Set base coordinates */
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+index e7242301b312c..9c7f6e7d71d50 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+@@ -835,7 +835,9 @@ static const u32 bicubic4coefftab32[480] = {
  
-+static const struct sun8i_mixer_cfg sun50i_h616_mixer0_cfg = {
-+	.ccsc		= CCSC_MIXER0_LAYOUT,
-+	.de_type	= sun8i_mixer_de33,
-+	.has_formatter	= 1,
-+	.mod_rate	= 600000000,
-+	.scaler_mask	= 0xf,
-+	.scanline_yuv	= 4096,
-+	.ui_num		= 3,
-+	.vi_num		= 1,
-+	.map		= {0, 6, 7, 8},
-+};
-+
- static const struct of_device_id sun8i_mixer_of_table[] = {
- 	{
- 		.compatible = "allwinner,sun8i-a83t-de2-mixer-0",
-@@ -832,6 +907,10 @@ static const struct of_device_id sun8i_mixer_of_table[] = {
- 		.compatible = "allwinner,sun50i-h6-de3-mixer-0",
- 		.data = &sun50i_h6_mixer0_cfg,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-de33-mixer-0",
-+		.data = &sun50i_h616_mixer0_cfg,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_mixer_of_table);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index db962ccd66964..a8afc37dc80d5 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -22,6 +22,10 @@
- #define SUN8I_MIXER_GLOBAL_DBUFF		0x8
- #define SUN8I_MIXER_GLOBAL_SIZE			0xc
- 
-+#define SUN50I_MIXER_GLOBAL_SIZE		0x8
-+#define SUN50I_MIXER_GLOBAL_CLK			0xc
-+#define SUN50I_MIXER_GLOBAL_DBUFF		0x10
-+
- #define SUN8I_MIXER_GLOBAL_CTL_RT_EN		BIT(0)
- 
- #define SUN8I_MIXER_GLOBAL_DBUFF_ENABLE		BIT(0)
-@@ -155,6 +159,7 @@ enum {
- enum sun8i_mixer_type {
- 	sun8i_mixer_de2,
- 	sun8i_mixer_de3,
-+	sun8i_mixer_de33,
- };
- 
- /**
-@@ -181,6 +186,7 @@ struct sun8i_mixer_cfg {
- 	unsigned int		de_type;
- 	unsigned int		has_formatter : 1;
- 	unsigned int		scanline_yuv;
-+	unsigned int		map[6];
- };
- 
- struct sun8i_color_model {
-@@ -238,13 +244,16 @@ sun8i_blender_base(struct sun8i_mixer *mixer)
- static inline struct regmap *
- sun8i_blender_regmap(struct sun8i_mixer *mixer)
- {
--	return mixer->engine.regs;
-+	return mixer->cfg->de_type == sun8i_mixer_de33 ?
-+		mixer->disp_regs : mixer->engine.regs;
- }
- 
- static inline u32
- sun8i_channel_base(struct sun8i_mixer *mixer, int channel)
+ static u32 sun8i_vi_scaler_base(struct sun8i_mixer *mixer, int channel)
  {
 -	if (mixer->cfg->de_type == sun8i_mixer_de3)
 +	if (mixer->cfg->de_type == sun8i_mixer_de33)
-+		return mixer->cfg->map[channel] * 0x20000 + DE2_CH_SIZE;
++		return sun8i_channel_base(mixer, channel) + 0x3000;
 +	else if (mixer->cfg->de_type == sun8i_mixer_de3)
- 		return DE3_CH_BASE + channel * DE3_CH_SIZE;
+ 		return DE3_VI_SCALER_UNIT_BASE +
+ 		       DE3_VI_SCALER_UNIT_SIZE * channel;
  	else
- 		return DE2_CH_BASE + channel * DE2_CH_SIZE;
+@@ -845,6 +847,9 @@ static u32 sun8i_vi_scaler_base(struct sun8i_mixer *mixer, int channel)
+ 
+ static bool sun8i_vi_scaler_is_vi_plane(struct sun8i_mixer *mixer, int channel)
+ {
++	if (mixer->cfg->de_type == sun8i_mixer_de33)
++		return mixer->cfg->map[channel] < mixer->cfg->vi_num;
++
+ 	return true;
+ }
+ 
 -- 
 2.48.1
 
