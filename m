@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D80A376AE
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:38:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22135A376B1
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6F210E24B;
-	Sun, 16 Feb 2025 18:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E62010E24F;
+	Sun, 16 Feb 2025 18:38:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="bTXqBcCJ";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Mn2m0Z/K";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="IZH4Cvbk";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="pyo8Pddj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fhigh-b4-smtp.messagingengine.com
  (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA9710E24B
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:38:10 +0000 (UTC)
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal
- [10.202.2.46])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 10D4F25400EC;
- Sun, 16 Feb 2025 13:38:09 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 438FE10E24F
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:38:31 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal
+ [10.202.2.44])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 05F4725400C3;
+ Sun, 16 Feb 2025 13:38:29 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-06.internal (MEProxy); Sun, 16 Feb 2025 13:38:09 -0500
+ by phl-compute-04.internal (MEProxy); Sun, 16 Feb 2025 13:38:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm3; t=1739731088; x=
- 1739817488; bh=cv3R3GZ5j7ybxKWdldciH+Bemda5Bt/xlY41lt6XoL4=; b=b
- TXqBcCJINbGidMsK6oHft3CvlyHLJdeey8Q1WUNNRhfoD81RYvsAH35BgSSEa23H
- zMDgXLsmUGx85G9oFcC/BO8gsfd83aBIAdSxID+S06+NYMilj0NCMgmRgbV9svDl
- Q8l8TKc2Qu1w1lRwk3dIDA1w7hiEg3Uak7C+eE5/sRjDkRU3eWwGL9SV03Lo+dwj
- 8z4NBWpreR3zCUyMsiYE6mvJZDaXD3ZySYaSSDvGaRG0N4oAKgEpf1Go43APLZb3
- y2xTrOw6RPzoUJedAAklJLCc13E0hBJN8EH7pS/eFWUHusumqBNCNMDmjQ7u1dOx
- PX1t+tOYNGVxRtyr+G8DA==
+ :reply-to:subject:subject:to:to; s=fm3; t=1739731109; x=
+ 1739817509; bh=z3pfBs7YzSNuzdyOnOJTsOCqr/BPrhVKuBEh6b67oZY=; b=I
+ ZH4CvbkibLwqgw7A5KLd3ZquJ04+SnVZgYztHX59QwAJK5F3Sjx3yoVn6cG1cQ62
+ 9UbXUsJTHUJc2K8U0s8JbW2mJKOrSk8uVEz+SRFtArYKJ2x4Tw6e5+K3pNOOpou+
+ EUOeZLEycPtbZDzqnPdHSWJRD+p/ovN6gQLkD5Wa2tONN9mzENOdcmfS/QyI0JcS
+ TtL8CrfxUNSNYfh+mCxuoRsEwnS9sEnSpPtnS+OXkU0Iz/uJmn1ncemVMxln+5Az
+ eHy1QOjMhNhcmOxYUlnbl6lqBqoI6TCos7wmG+fGHH78wpuoyzjkey3wAB4c1aVk
+ jTTSMe/wYk+NWkxRIilKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1739731088; x=1739817488; bh=c
- v3R3GZ5j7ybxKWdldciH+Bemda5Bt/xlY41lt6XoL4=; b=Mn2m0Z/KmuXjIoULf
- mZmNCZW5ckIUXMsMucCyBa0z3uuhSSCoD4U9AFrCS3X40GRTw5iljVNGnhBn2wdv
- zLdjlJC57RU1Ev/5irIFX/gHg20tqa/UbSAMhAaMTO1oIe+1qFVP7v2aw/7AyiQz
- Jk+ZsFFq3fzdwhQ/Cgv/7QOwd+nhtec0UB37gPN0Wk3oGFN6rC31xrCvXbQ7vpD8
- JDTAmLLxUy5+yIXQmC6p7t+mgQqrqnkHtumfbYIXRAaQMCVm1qczE1fvkb8fqLnr
- Yz3HjVfLdD6cLgj21KE6WbLci65mYtwJwhM4vTODyaUmT64RrAIlnGHKc0VXabtG
- fJpug==
-X-ME-Sender: <xms:kDCyZ44fGA7AhWsoj_3XR3PuUIZI8oZZ9LYUgCB2x6zzoawo1vinRA>
- <xme:kDCyZ54ffS-nI3EQOXmA76EEVp3rI3eIqPGM6Fuh49vG5-8vO_GSNZtGFTPNXB5Vm
- pXwlUaGwoR64xmQWw>
-X-ME-Received: <xmr:kDCyZ3fCtsNAuvIzBZoLvXsa4t480BqDTYzVblyeBVZSvaPuapj6LeS25vB3uutt76NjicBaG288xsBEty4f3OkLCYV9dKRjwK6kVIujtlrf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvtdcutefuodetggdotefrod
+ :x-me-sender:x-sasl-enc; s=fm3; t=1739731109; x=1739817509; bh=z
+ 3pfBs7YzSNuzdyOnOJTsOCqr/BPrhVKuBEh6b67oZY=; b=pyo8PddjzwwHFbn2/
+ jdFx/a7bfmpTo11nuEqnjDcxnTouexN8Ie+KxuRcsTuY/ZKGhmGeJN0+t5sHdrwk
+ a1njifVVaZ5wu4ztZcWxHp3BuW9h4dDKQogpV9wH8+b/2ROGxp9qIthCVJ+Y9mlu
+ aV16V5K6BKLn8wSzV26OSxUAUOqgJa1/T9wYsa658Jij+3zWhYC6IUjGQIdUttLF
+ K/Jpz9oZeO+u/i5ITDJD40wZ48nb56gy0RfhO6dmxkmVps8Nwhd1lOvLUeLAf/IY
+ J/UyVAc1+Tw7D44GFoWeGXvVKyZV3dQCDrlBLCx0QlOmwDzoe8Ag25fkIPe5Aixf
+ mzVZA==
+X-ME-Sender: <xms:pTCyZ1ybYtHmVQZCKaZkSlsPHUUy-U_ggDVsiJd7ttnfFdPAlW8p6Q>
+ <xme:pTCyZ1TqVgfmo80AZIKPVBxb1YPjAqHlIzyHpqvuULGMi7IQsUJIQZwWgu3VGQ6s6
+ jaX1WzWk_AqWP_lhQ>
+X-ME-Received: <xmr:pTCyZ_WVWQtZrVfpiU7W6DNJv7HXD9eP9HCKdaNcjWfMgCQElv114Lh9ZI5ruh3cSZUndVx7FW8j1rY3ZxO-voTQDz-G41s0X02ESLpG6lqs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
  uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
  hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
  necuhfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhigrnhesthgvshhtthhorghsth
  drtghomheqnecuggftrfgrthhtvghrnhepffehieffgedtgfffjeetveegfeekleeileek
- veeuteffteetudffveegieeiheetnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrg
+ veeuteffteetudffveegieeiheetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
  hmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgt
  phhtthhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhrihhprghrug
  eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgt
@@ -67,14 +67,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvtdcutefuodetgg
  hffhiflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghi
  lhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtg
  hpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:kDCyZ9IiH0QBfZN6-_Tscft_lzPAB0jJzJFcMtU9xWX02_bkWTAp5A>
- <xmx:kDCyZ8JDZmyOkIDdtVArAUhSOblAz2xSJJOMwJ-qUiUAH8ZgjY4saw>
- <xmx:kDCyZ-zBKTwniVHk_zPn4XWnQXAAe4NIrrzpBR9t13PTwQ0xna-H7g>
- <xmx:kDCyZwIrLwL0MpvLO-agE9rEAY74gYcbs2aVtsVf-0aK-m8Ny4hkwA>
- <xmx:kDCyZx4sWxz21sw0whzOYYWlcwyt7pdq9wAGHEylUTUYv1DoRtj5pTth>
+X-ME-Proxy: <xmx:pTCyZ3hjnkphMLf3Wo15SqnPww0qqhjuJFjKCAWakrmGxTdLEIsZwA>
+ <xmx:pTCyZ3DusRHChQKKbrKMdhUMWS50wOVhU1Df-7seLwcvAx8e-oVsMw>
+ <xmx:pTCyZwLCIdW-wap7mJ8CmYIyJ5yg1W2FmowGA5rII2oB80qTWKsOQA>
+ <xmx:pTCyZ2D4IhxgITE54EwkMMV_fdHHR5-nYfLG_B99pU93xaJhLZTrgw>
+ <xmx:pTCyZ5yWkyXLFuPrRlzuR0LY0SnuA23kAAsvNctp7Oj3VRzPbtUmnuIJ>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Feb 2025 13:38:02 -0500 (EST)
+ 16 Feb 2025 13:38:23 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -93,10 +93,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v7 06/27] drm: sun4i: de3: add format enumeration function to
- engine
-Date: Mon, 17 Feb 2025 07:36:06 +1300
-Message-ID: <20250216183710.8443-7-ryan@testtoast.com>
+Subject: [PATCH v7 07/27] drm: sun4i: de3: add formatter flag to mixer config
+Date: Mon, 17 Feb 2025 07:36:07 +1300
+Message-ID: <20250216183710.8443-8-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250216183710.8443-3-ryan@testtoast.com>
 References: <20250216183710.8443-3-ryan@testtoast.com>
@@ -119,61 +118,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-The DE3 display engine supports YUV formats in addition to RGB.
+Only the DE3 (and newer) display engines have a formatter module. This
+could be inferred from the is_de3 flag alone, however this will not
+scale with addition of future DE versions in subsequent patches.
 
-Add an optional format enumeration function to the engine.
+Add a separate flag to signal this in the mixer configuration.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 ---
- drivers/gpu/drm/sun4i/sunxi_engine.h | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 1 +
+ drivers/gpu/drm/sun4i/sun8i_mixer.h | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
-index ec0c4932f15cf..c48cbc1aceb80 100644
---- a/drivers/gpu/drm/sun4i/sunxi_engine.h
-+++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
-@@ -123,6 +123,17 @@ struct sunxi_engine_ops {
- 	 */
- 	void (*mode_set)(struct sunxi_engine *engine,
- 			 const struct drm_display_mode *mode);
-+
-+	/**
-+	 * @get_supported_fmts
-+	 *
-+	 * This callback is used to enumerate all supported output
-+	 * formats by the engine. They are used for bridge format
-+	 * negotiation.
-+	 *
-+	 * This function is optional.
-+	 */
-+	u32 *(*get_supported_fmts)(struct sunxi_engine *engine, u32 *num);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 8b41d33baa309..a170f68708b1f 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -717,6 +717,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1_cfg = {
+ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
+ 	.ccsc		= CCSC_MIXER0_LAYOUT,
+ 	.is_de3		= true,
++	.has_formatter	= 1,
+ 	.mod_rate	= 600000000,
+ 	.scaler_mask	= 0xf,
+ 	.scanline_yuv	= 4096,
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index d7898c9c9cc0c..8417b8fef2e1f 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -163,6 +163,7 @@ enum {
+  * @mod_rate: module clock rate that needs to be set in order to have
+  *	a functional block.
+  * @is_de3: true, if this is next gen display engine 3.0, false otherwise.
++ * @has_formatter: true, if mixer has formatter core, for 10-bit and YUV handling
+  * @scaline_yuv: size of a scanline for VI scaler for YUV formats.
+  */
+ struct sun8i_mixer_cfg {
+@@ -172,6 +173,7 @@ struct sun8i_mixer_cfg {
+ 	int		ccsc;
+ 	unsigned long	mod_rate;
+ 	unsigned int	is_de3 : 1;
++	unsigned int    has_formatter : 1;
+ 	unsigned int	scanline_yuv;
  };
  
- /**
-@@ -215,4 +226,22 @@ sunxi_engine_mode_set(struct sunxi_engine *engine,
- 	if (engine->ops && engine->ops->mode_set)
- 		engine->ops->mode_set(engine, mode);
- }
-+
-+/**
-+ * sunxi_engine_get_supported_formats - Provide array of supported formats
-+ * @engine:	pointer to the engine
-+ * @num:	pointer to variable, which will hold number of formats
-+ *
-+ * This list can be used for format negotiation by bridge.
-+ */
-+static inline u32 *
-+sunxi_engine_get_supported_formats(struct sunxi_engine *engine, u32 *num)
-+{
-+	if (engine->ops && engine->ops->get_supported_fmts)
-+		return engine->ops->get_supported_fmts(engine, num);
-+
-+	*num = 0;
-+
-+	return NULL;
-+}
- #endif /* _SUNXI_ENGINE_H_ */
 -- 
 2.48.1
 
