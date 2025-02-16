@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EE3A372EF
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 10:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3E8A372EB
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 10:03:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CEB210E265;
-	Sun, 16 Feb 2025 09:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52AC310E233;
+	Sun, 16 Feb 2025 09:02:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="TZPu83PG";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="gdpypljT";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="ZzJUdmS+";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rk7Bwwjq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fout-b6-smtp.messagingengine.com
  (fout-b6-smtp.messagingengine.com [202.12.124.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA2610E245
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F9310E22D
  for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 09:02:44 +0000 (UTC)
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal
- [10.202.2.43])
- by mailfout.stl.internal (Postfix) with ESMTP id 30B15114010C;
- Sun, 16 Feb 2025 03:56:40 -0500 (EST)
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal
+ [10.202.2.45])
+ by mailfout.stl.internal (Postfix) with ESMTP id D21611140114;
+ Sun, 16 Feb 2025 03:56:47 -0500 (EST)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-03.internal (MEProxy); Sun, 16 Feb 2025 03:56:40 -0500
+ by phl-compute-05.internal (MEProxy); Sun, 16 Feb 2025 03:56:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm3; t=1739696200; x=
- 1739782600; bh=aoEvA/CFJ1os4TjOsG26WNhs1piY3FD4LMZ7JtNG/qw=; b=T
- ZPu83PGnzt8vQ0A+YNtDAY+kvqNpg9408A+SRQjEFES9IuQQi2pXm5FiY82SXmLZ
- ua/9Kfjf9nBXD3cmJf/1q0jt3OAlggPWSWQNDEX89HKKsAjVhzdPL6vyDaX0msh5
- OShdezM+Pa9rPBgrWGpQMEQyOTzrXgTeD9uZU5snuwAyc12MY6zfEe5kg3leoth2
- wfwRC158kKyYFwz2U9/iBorjNxxTKZIg7tAesqrKLKWMRMowwp9m/PsBnFVaZbZ/
- ZVQQWmKqtPhOxqQfWuFT6Vvxh8BD5kADtQ1oI9BSltHW9mrSyg5SBuTIKgef5mot
- jozF8w6izWo7mwJFJunXA==
+ :reply-to:subject:subject:to:to; s=fm3; t=1739696207; x=
+ 1739782607; bh=aSpdqmQhmaEaEyQnbvHD5WvuW8sxRaHfdBO7i1cX1dg=; b=Z
+ zJUdmS+TrTqhb3NhpyIK2vqBLiyQXf+pvykUO6x//LqY8dbREFjIq8cmZ380t4yg
+ rgrS665Xj2F6Ckm6aIEK52DPi6uIvAnvFGkgIqUXspxHNSnYyTJz1kyZbIS0Z7tE
+ bFZxvuBbJmbmHNsifnLp5hm9c87yb01o8HmiYbO34+u4tgLn4keUbSG845l5MUUM
+ lVrjRALRcY345CtdXqeTxkxnote30vhpXeuF7VaQhr4u/0eM7QzytB+DoYw9fJd6
+ obHH+Z6sfxAotD2aT71WMriVLMTiHBJwR9KpYhNX0sIzAYIQslT/3BOZKi8aQa+1
+ ue5lShXWUU76+Kd7JDEMA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1739696200; x=1739782600; bh=a
- oEvA/CFJ1os4TjOsG26WNhs1piY3FD4LMZ7JtNG/qw=; b=gdpypljTIAmqOCyKQ
- rM7LpPshO9v6FgKZpMrOLIpfYOFusAvH3YtaDL6mfNpiOSGZVn7Xpm9ELxQ7jVTu
- 7X7rOKSTZf+EQmvHywu0xcvMXtmNjDk1MfxcxLF1LeFluNOdimFhrZ5tYOg+uQpI
- RXmWRYEQxtxtiQsrCjEYt0+PhydmqP/QVoMiUDK+TB6tqjb58ntTOv/hhqXVFXqd
- LOYe4rTwMmNh0aYUCEdI0KbbUF9gnuhs7LvPXnVCl/GwlfR2lG9huVqPG7SE8i8h
- cfnvcdLMNYtqKrmNmxZIJqndTckbwgPqPT6KFKu6bHVZXNOjLVbsFfokd/tnVBXO
- lFvzA==
-X-ME-Sender: <xms:R6ixZzryH_Jp1YcjYeYGEgfiQyvDfeKzXtl-wcxgckW3kE-tljjPXg>
- <xme:R6ixZ9paqKxg3CxHORivVaTey2OLXt_UUEDppzD732vA9cFm9xhOSiTGEJHzoNUuX
- WpD_R9Upo3W1g_6Dw>
-X-ME-Received: <xmr:R6ixZwPjpomNRErIEe8iDfl0HwjmC-tqM5tKgryvksog675yZ26HFFlnSjP4b_t1ey8Mswb2b95isi3D8TtaXry6E6sPyjBKxNwkHCprDl2M>
+ :x-me-sender:x-sasl-enc; s=fm3; t=1739696207; x=1739782607; bh=a
+ SpdqmQhmaEaEyQnbvHD5WvuW8sxRaHfdBO7i1cX1dg=; b=Rk7BwwjqvKj5f3del
+ hwB56ktS3m5s6nrucyxaZHPF+OazdjJTiy8jQB5DELMNMLEYA8//y3FHRXk4jiMq
+ tmZeZ4HNYq+ygN6vuA076nb2/hjR6uCPscJ4v8NWqBCu+PXhPjVXeo3lSWx59Tv4
+ 602gf0rUX9ZPfY2MGnSA/cCTXuW12YG14ZQDE9J95eMw88bvTlNPnrT7xckpV+0c
+ dLOttJ3PXg40uuYUtC/esy5YrShJOKVpbm21y6YAwMmNfWhdZuYTIb/+T7SV/vES
+ A5HSHgMfyMFTuG4Gu1LymmAGMX6rKkS9NNz2ML1coM1un6Kmm207poa1anq09doh
+ 8l78w==
+X-ME-Sender: <xms:T6ixZ6TMU3xLv_IrJaBl9TAa1Dc3p2fDtDPKdblYO1PDh4e-659hWA>
+ <xme:T6ixZ_yVr2CKUkft7X_nvC7melgvFGS7yrICAr9WwU6lXU4Jy-7_btQHkp0ShtuVV
+ xPGy2Hiay6DBQSpTQ>
+X-ME-Received: <xmr:T6ixZ32cM6-P8FBASVSlYVJS36kdqZTeY_PLMU_7PgItSqaNYiVMEthIZwUHm_gtBkMYWbtZEdcBurdVEc5SJ0LPa0kj0pxV7cRRXRtmjdl8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehhedtgecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
  uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -67,14 +67,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehhedtgecutefuodetgg
  hffhiflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghi
  lhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtg
  hpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:R6ixZ27GqrHAFjAoThjTswovUgHtnbuIthiEIvblurW95uQTJfRhsA>
- <xmx:R6ixZy4VqaHUIDDtkpTguPcqVwFyAIRJnrHaR-bmmhjok7K4jFgpCw>
- <xmx:R6ixZ-j0U6nisYrqpM7z-zftBnj5q8RmpFuaLsuWMYkoyPGJGirFuQ>
- <xmx:R6ixZ05IRe_OdrT_xaobAPfAPhhfWOiXFyS7-gnDAcjedkBr-1DUXw>
- <xmx:SKixZ6qCgjbIbNEnmRWmdWqbKm9_7aMh8ZT_pinOAeuqMHW0QEhm7nYW>
+X-ME-Proxy: <xmx:T6ixZ2BbseXATJVcq3ahMReke1vaPySnO93oN9QAtk8jIJAPyD80Ww>
+ <xmx:T6ixZzjsX92nP6oV2tnx5yeAG1psUVGxigmXIA1g2jjuDwSiWemaAg>
+ <xmx:T6ixZyqAmERG1n_xyO5GpZECf33Hfnj5IeWP8St7W0u_w9m8NDm8jg>
+ <xmx:T6ixZ2jfaT26lxu7uSsnbyMtvoDWApvhpz_qN7ZqUmfmwid9oba88g>
+ <xmx:T6ixZySB2xqSV08ke-5ApWsYszDtgnQ5A8g5BnoxAyqahIq3xUFTpCrT>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Feb 2025 03:56:33 -0500 (EST)
+ 16 Feb 2025 03:56:41 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -93,9 +93,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v6 08/27] drm: sun4i: de3: add YUV support to the DE3 mixer
-Date: Sun, 16 Feb 2025 21:50:39 +1300
-Message-ID: <20250216085432.6373-10-ryan@testtoast.com>
+Subject: [PATCH v6 09/27] drm: sun4i: de3: refactor YUV formatter module setup
+Date: Sun, 16 Feb 2025 21:50:40 +1300
+Message-ID: <20250216085432.6373-11-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250216085432.6373-2-ryan@testtoast.com>
 References: <20250216085432.6373-2-ryan@testtoast.com>
@@ -116,147 +116,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+Because the format is stored in the mixer configuration, the formatter
+module setup function no longer requires the color format to be passed
+separately.
 
-The mixer in the DE3 display engine supports YUV 8 and 10 bit
-formats in addition to 8-bit RGB. Add the required register
-configuration and format enumeration callback functions to the mixer,
-and store the in-use output format (defaulting to RGB) and color
-encoding in the mixer configuration.
+Remove this from the setup function declaration and access the format
+via the mixer object.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 
----
-Changelog v4..v5:
-- Remove trailing whitespace
-
+--
 Changelog v5..v6:
-- Move color format and encoding flags to mixer and add struct.
+- Add this commit updating the sun50i_fmt_setup function
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 54 +++++++++++++++++++++++++++--
- drivers/gpu/drm/sun4i/sun8i_mixer.h | 11 ++++++
- 2 files changed, 62 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/sun4i/sun50i_fmt.c  | 5 +++--
+ drivers/gpu/drm/sun4i/sun50i_fmt.h  | 3 +--
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 3 +--
+ 3 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index a170f68708b1f..bc934186bfd6f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -23,7 +23,10 @@
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_probe_helper.h>
- 
-+#include <uapi/linux/media-bus-format.h>
-+
- #include "sun4i_drv.h"
-+#include "sun50i_fmt.h"
- #include "sun8i_mixer.h"
- #include "sun8i_ui_layer.h"
- #include "sun8i_vi_layer.h"
-@@ -390,12 +393,52 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
- 
- 	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
- 			 interlaced ? "on" : "off");
-+
-+	if (mixer->color_model.format == MEDIA_BUS_FMT_RGB888_1X24)
-+		val = SUN8I_MIXER_BLEND_COLOR_BLACK;
-+	else
-+		val = 0xff108080;
-+
-+	regmap_write(mixer->engine.regs,
-+		     SUN8I_MIXER_BLEND_BKCOLOR(bld_base), val);
-+	regmap_write(mixer->engine.regs,
-+		     SUN8I_MIXER_BLEND_ATTR_FCOLOR(bld_base, 0), val);
-+
-+	if (mixer->cfg->has_formatter)
-+		sun50i_fmt_setup(mixer, mode->hdisplay,
-+				 mode->vdisplay, mixer->color_model.format);
-+}
-+
-+static u32 *sun8i_mixer_get_supported_fmts(struct sunxi_engine *engine, u32 *num)
-+{
-+	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
-+	u32 *formats, count;
-+
-+	count = 0;
-+
-+	formats = kcalloc(5, sizeof(*formats), GFP_KERNEL);
-+	if (!formats)
-+		return NULL;
-+
-+	if (mixer->cfg->has_formatter) {
-+		formats[count++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
-+		formats[count++] = MEDIA_BUS_FMT_YUV8_1X24;
-+		formats[count++] = MEDIA_BUS_FMT_UYVY8_1X16;
-+		formats[count++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
-+	}
-+
-+	formats[count++] = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	*num = count;
-+
-+	return formats;
+diff --git a/drivers/gpu/drm/sun4i/sun50i_fmt.c b/drivers/gpu/drm/sun4i/sun50i_fmt.c
+index 050a8716ae862..376a3c9b993f4 100644
+--- a/drivers/gpu/drm/sun4i/sun50i_fmt.c
++++ b/drivers/gpu/drm/sun4i/sun50i_fmt.c
+@@ -51,13 +51,14 @@ static void sun50i_fmt_de3_limits(u32 *limits, u32 colorspace, bool bit10)
+ 	}
  }
  
- static const struct sunxi_engine_ops sun8i_engine_ops = {
--	.commit		= sun8i_mixer_commit,
--	.layers_init	= sun8i_layers_init,
--	.mode_set	= sun8i_mixer_mode_set,
-+	.commit			= sun8i_mixer_commit,
-+	.layers_init		= sun8i_layers_init,
-+	.mode_set		= sun8i_mixer_mode_set,
-+	.get_supported_fmts	= sun8i_mixer_get_supported_fmts,
- };
+-void sun50i_fmt_setup(struct sun8i_mixer *mixer, u16 width,
+-		      u16 height, u32 format)
++void sun50i_fmt_setup(struct sun8i_mixer *mixer, u16 width, u16 height)
+ {
+ 	u32 colorspace, limit[3], base;
+ 	struct regmap *regs;
+ 	bool bit10;
++	u32 format;
  
- static const struct regmap_config sun8i_mixer_regmap_config = {
-@@ -484,6 +527,11 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	if (!mixer->cfg)
- 		return -EINVAL;
++	format = mixer->color_model.format;
+ 	colorspace = sun50i_fmt_get_colorspace(format);
+ 	bit10 = sun50i_fmt_is_10bit(format);
+ 	base = SUN50I_FMT_DE3;
+diff --git a/drivers/gpu/drm/sun4i/sun50i_fmt.h b/drivers/gpu/drm/sun4i/sun50i_fmt.h
+index 4127f7206aade..dd6816c90dfcd 100644
+--- a/drivers/gpu/drm/sun4i/sun50i_fmt.h
++++ b/drivers/gpu/drm/sun4i/sun50i_fmt.h
+@@ -26,7 +26,6 @@
+ #define SUN50I_FMT_CS_YUV422    1
+ #define SUN50I_FMT_CS_YUV420    2
  
-+	/* default output format, supported by all mixers */
-+	mixer->color_model.format = MEDIA_BUS_FMT_RGB888_1X24;
-+	/* default color encoding, ignored with RGB I/O */
-+	mixer->color_model.encoding = DRM_COLOR_YCBCR_BT601;
-+
- 	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index 8417b8fef2e1f..5f465a974fbdf 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -9,6 +9,7 @@
- #include <linux/clk.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-+#include <drm/drm_color_mgmt.h>
- #include <drm/drm_plane.h>
+-void sun50i_fmt_setup(struct sun8i_mixer *mixer, u16 width,
+-		      u16 height, u32 format);
++void sun50i_fmt_setup(struct sun8i_mixer *mixer, u16 width, u16 height);
  
- #include "sunxi_engine.h"
-@@ -177,6 +178,11 @@ struct sun8i_mixer_cfg {
- 	unsigned int	scanline_yuv;
- };
+ #endif
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index bc934186bfd6f..3069329210085 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -405,8 +405,7 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
+ 		     SUN8I_MIXER_BLEND_ATTR_FCOLOR(bld_base, 0), val);
  
-+struct sun8i_color_model {
-+	u32			format;
-+	enum drm_color_encoding	encoding;
-+};
-+
- struct sun8i_mixer {
- 	struct sunxi_engine		engine;
+ 	if (mixer->cfg->has_formatter)
+-		sun50i_fmt_setup(mixer, mode->hdisplay,
+-				 mode->vdisplay, mixer->color_model.format);
++		sun50i_fmt_setup(mixer, mode->hdisplay, mode->vdisplay);
+ }
  
-@@ -186,6 +192,11 @@ struct sun8i_mixer {
- 
- 	struct clk			*bus_clk;
- 	struct clk			*mod_clk;
-+
-+	struct regmap			*top_regs;
-+	struct regmap			*disp_regs;
-+
-+	struct sun8i_color_model	color_model;
- };
- 
- enum {
+ static u32 *sun8i_mixer_get_supported_fmts(struct sunxi_engine *engine, u32 *num)
 -- 
 2.48.1
 
