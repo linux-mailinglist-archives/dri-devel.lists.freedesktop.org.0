@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE336A376A5
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78B6A376A8
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2025 19:37:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 149E010E241;
-	Sun, 16 Feb 2025 18:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAE110E23A;
+	Sun, 16 Feb 2025 18:37:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="JohbovOm";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="j3bkwhz1";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="FS6rbJyv";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="02wnCxUh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b4-smtp.messagingengine.com
- (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 305A7891A3
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:37:44 +0000 (UTC)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal
- [10.202.2.51])
- by mailfhigh.stl.internal (Postfix) with ESMTP id E488A2540111;
- Sun, 16 Feb 2025 13:37:42 -0500 (EST)
+Received: from fout-b4-smtp.messagingengine.com
+ (fout-b4-smtp.messagingengine.com [202.12.124.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C77F810E23A
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 18:37:52 +0000 (UTC)
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal
+ [10.202.2.46])
+ by mailfout.stl.internal (Postfix) with ESMTP id 7B45211400B1;
+ Sun, 16 Feb 2025 13:37:51 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-11.internal (MEProxy); Sun, 16 Feb 2025 13:37:43 -0500
+ by phl-compute-06.internal (MEProxy); Sun, 16 Feb 2025 13:37:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm3; t=1739731062; x=
- 1739817462; bh=FL9di+CvqAZswVCEURGPLsHq/4BTefiQImdfVOi0kBA=; b=J
- ohbovOmKR0JJodXr3o6ARQcZu5yOWm/UW/1n0Mbg1ZiHt8e3sAt3mxG4rOKH/Upq
- PcoahRtKbN9BOKSurVvzB64tlfpr8f5NuYGHDT+QKfZFE7h2CysFlGisBtCvRrZu
- aljiM3nAR3VK3kspvmwdvxQ2AyeP2lNg7pLNPuGs/O74je1uRUaUEvcghrFabdfv
- zpSNmP1exrH4wOztup8CVAi8lg8quXMhgAgOr3bVGfczJYEFJcy0e6xxP5bVMW0v
- xCr4/R4WbK4lu+kh7FT00HeSuhAyjrXruvJBBOYBfP1Ic2uMq4UV3SD9qIbhr9Tp
- w12dETHlzfJQLSa+voNkA==
+ :reply-to:subject:subject:to:to; s=fm3; t=1739731071; x=
+ 1739817471; bh=LJb12UNrcw1b4CXj7oJwE7645Xi4wHyCdBE0N2smQ2w=; b=F
+ S6rbJyvmg3Mar38c8UzOgy2/RP9Oc25mB3bZx+jBBR+OjoayovdG7kfo3rlQcsu4
+ Yk22xkXha7/bBJFrQmDv3pCrYZf8+bKPUUodb+I2JvLNsHiEL/8Y2CBVYOUMqWDK
+ fQkLo9+GVSaxi6jPLwOrbw00ewXRx7Juv01WQVw0x7+o/aa7JkEFlcDs6ObQ1qB7
+ nLFnBkfwpiwgEkhDqfGqaxPbRw0XHr+oxyYOVlXA/I80r5Sl32LeR7dnS9Bun+4S
+ Z3c7V2uWNZZzhkiq1brDhxC1CXrHgVK3+DeVWN52UvV0jkdualWf9XJUCfCP/UX6
+ kP3TblMOxqJX/fPFVjG/g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1739731062; x=1739817462; bh=F
- L9di+CvqAZswVCEURGPLsHq/4BTefiQImdfVOi0kBA=; b=j3bkwhz1oLMQEbobB
- 7KRPgxJWS0aIQ2oW1mGlUl8Q/c61yIUtYt0RyZjPWL4pMAarCeHeJNJ/RGpOBM+Z
- 77+AlvINA7Zia2yjbaryP4FXdKPjKZhiSFMKWdZaTptWURx6nnXes+fwK84KLGMi
- 8nAhmO8yLv1RNuus91S7AZgbq7JSffjTuFYVWl8WjqJDxVZZHmeysPOWmJ6awkes
- sOdV7p4IhHb7YKnFQ+OsDlw56rjQ23bu9IJBOxSBwHMcZgRmya+NBGgNNJQdvvQI
- j4phHJzIxh+aWnUWoecN6O6pAXyF/VzuxwAViQK5jZurFPYr9XNKtcAD3MFknXLZ
- YpEvA==
-X-ME-Sender: <xms:djCyZ_KSJXFnCdqF_Zjer6s90zGOZNfspdoobxxODJBDIsju9F4yaQ>
- <xme:djCyZzIZE4pc6kDa_Hu3Hqc8rR9wicGEok8r4-aFMO09rsYPkUNO_GV3RIGHohJ7J
- fIXlZBZi1KFUC81wA>
-X-ME-Received: <xmr:djCyZ3v-PIBEwF3-uQX9enzJDzHjTCkSrsYSHZK-MnpX5EtpOhPxquO1pZUCVuwMrLfSKcg5B-eTxDEE1eyQ2MHioAgnDwMmTqtvL3c_N85p>
+ :x-me-sender:x-sasl-enc; s=fm3; t=1739731071; x=1739817471; bh=L
+ Jb12UNrcw1b4CXj7oJwE7645Xi4wHyCdBE0N2smQ2w=; b=02wnCxUhwzjbdfSvp
+ 7vNh0e6PJ9KE4RJTNUeSNggEsSPdljL9bh1ggXKQUaNupyXlJOTdf0FnSCxqy6HX
+ xuy6AY9zaRHeVfdB22RiUunIaya1s0nO/RvnyvDK0QidyH8NnvIS59mVk6DG4F1s
+ X8eDNgI586G7Ixuk4Ph4OqdaxHr95kmw5TLm+5hQGtB7yr8eLJ15s1lnIFH3M8cU
+ YAtSgmX/b8Wx/Nz42inWYQVqOqPqLdSX7R2K5gX/kxZDf+/svqFKLyXaEi4LUQw5
+ EceaHPb1Gd/7m0BhGTMgRx16FZzAip/dRUvQi9HeggXIuS4Y2ZZdbI0hH93L7kdg
+ CgAQA==
+X-ME-Sender: <xms:fzCyZzKOCvGwHBcKkheJFGL9E1SKH-loCMhFiSwgsPq7EGalhrSRyA>
+ <xme:fzCyZ3KTTddNzmkUhhetcX7zRNI9e3JMKjrzwDDC75Fz4qnk9mvj0gMwSEw2TXboZ
+ kUrkLChXauDIN1DgA>
+X-ME-Received: <xmr:fzCyZ7uL-B6nhvsXMZohCyyFKwWXKtx8ktb5s4F1Qpw2uTu8C6F0s38RBIn20k10SPW4qsThQp0FpCXlzeAiIVucCCo0Th2AjEq4BoFkz1pa>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvtdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
  uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -67,14 +67,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehiedvtdcutefuodetgg
  hffhiflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghi
  lhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtg
  hpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:djCyZ4ZI4u5GkKNLZowuGoF5MFarkX57G3YCRU3GTnpdEh1wISo0TA>
- <xmx:djCyZ2YJTU9JwcdVonfyRL8iw0mEkpSPp16dMa9YBa6jvAIS1UsHpA>
- <xmx:djCyZ8BALZmr9XGCCZ1HoCKOHZPUTR9Uwj5im5aoNPfyqGmAWPpPOw>
- <xmx:djCyZ0ajDoSROdM4QOgmlTscZ0VDvXdPw7BjBCTtL4MnLWkOzaseXg>
- <xmx:djCyZyK6Y1AKYClETKj_GPpm0GB8I_e2Dm5FZqkSDE-MPHXV1iFaVKTd>
+X-ME-Proxy: <xmx:fzCyZ8bspLzcTTI8EgAW2CPRn8vwC4rNL3DdlYob1rozfjRNGYo6RA>
+ <xmx:fzCyZ6Z4vrW_3Viec7dP6K7TCKZonoy0GX1nwxpmaKeqNTP04crSjw>
+ <xmx:fzCyZwAfbTDyrTUPy2C3GlBiZmhhMzTHD_IXqBZfvUfeIQAjy9QQSw>
+ <xmx:fzCyZ4bE7a7ZWOCtvQKv_0JF5vpzlyh5zNTWy91O4fIU1y3fNvlOhQ>
+ <xmx:fzCyZ2LnLjg8EUjI6KCvn016dDn8jfQuH9O2YlKyDOiyrVOtKquxmUjP>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Feb 2025 13:37:36 -0500 (EST)
+ 16 Feb 2025 13:37:44 -0500 (EST)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -93,9 +93,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v7 03/27] drm: sun4i: de2/de3: call csc setup also for UI layer
-Date: Mon, 17 Feb 2025 07:36:03 +1300
-Message-ID: <20250216183710.8443-4-ryan@testtoast.com>
+Subject: [PATCH v7 04/27] drm: sun4i: de2: Initialize layer fields earlier
+Date: Mon, 17 Feb 2025 07:36:04 +1300
+Message-ID: <20250216183710.8443-5-ryan@testtoast.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250216183710.8443-3-ryan@testtoast.com>
 References: <20250216183710.8443-3-ryan@testtoast.com>
@@ -118,62 +118,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Currently, only VI layer calls CSC setup function. This comes from DE2
-limitation, which doesn't have CSC unit for UI layers. However, DE3 has
-separate CSC units for each layer. This allows display pipeline to make
-output signal in different color spaces. To support both use cases, add
-a call to CSC setup function also in UI layer code. For DE2, this will
-be a no-op, but it will allow DE3 to output signal in multiple formats.
+drm_universal_plane_init() can already call some callbacks, like
+format_mod_supported, during initialization. Because of that, fields
+should be initialized beforehand.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Co-developed-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 ---
- drivers/gpu/drm/sun4i/sun8i_csc.c      | 8 +++++---
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 6 ++++++
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 9 +++++----
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 9 +++++----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
-index 5606912f92de5..558f7a4c1354e 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
-@@ -209,8 +209,10 @@ void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 		return;
- 	}
- 
--	base = ccsc_base[mixer->cfg->ccsc][layer];
-+	if (layer < mixer->cfg->vi_num) {
-+		base = ccsc_base[mixer->cfg->ccsc][layer];
- 
--	sun8i_csc_setup(mixer->engine.regs, base,
--			fmt_type, encoding, range);
-+		sun8i_csc_setup(mixer->engine.regs, base,
-+				fmt_type, encoding, range);
-+	}
- }
 diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index b90e5edef4e88..aa987bca1dbb9 100644
+index aa987bca1dbb9..cb9b694fef101 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_probe_helper.h>
+@@ -295,6 +295,11 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+ 	if (!layer)
+ 		return ERR_PTR(-ENOMEM);
  
-+#include "sun8i_csc.h"
- #include "sun8i_mixer.h"
- #include "sun8i_ui_layer.h"
- #include "sun8i_ui_scaler.h"
-@@ -135,6 +136,11 @@ static int sun8i_ui_layer_update_formats(struct sun8i_mixer *mixer, int channel,
- 			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay),
- 			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_MASK, val);
- 
-+	/* Note: encoding and range arguments are ignored for RGB */
-+	sun8i_csc_set_ccsc(mixer, channel, FORMAT_TYPE_RGB,
-+			   DRM_COLOR_YCBCR_BT601,
-+			   DRM_COLOR_YCBCR_FULL_RANGE);
++	layer->mixer = mixer;
++	layer->type = SUN8I_LAYER_TYPE_UI;
++	layer->channel = channel;
++	layer->overlay = 0;
 +
- 	return 0;
- }
+ 	if (index == 0)
+ 		type = DRM_PLANE_TYPE_PRIMARY;
  
+@@ -325,10 +330,6 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&layer->plane, &sun8i_ui_layer_helper_funcs);
+-	layer->mixer = mixer;
+-	layer->type = SUN8I_LAYER_TYPE_UI;
+-	layer->channel = channel;
+-	layer->overlay = 0;
+ 
+ 	return layer;
+ }
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index f3a5329351caa..3c657b069d1f4 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -478,6 +478,11 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 	if (!layer)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	layer->mixer = mixer;
++	layer->type = SUN8I_LAYER_TYPE_VI;
++	layer->channel = index;
++	layer->overlay = 0;
++
+ 	if (mixer->cfg->is_de3) {
+ 		formats = sun8i_vi_layer_de3_formats;
+ 		format_count = ARRAY_SIZE(sun8i_vi_layer_de3_formats);
+@@ -536,10 +541,6 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&layer->plane, &sun8i_vi_layer_helper_funcs);
+-	layer->mixer = mixer;
+-	layer->type = SUN8I_LAYER_TYPE_VI;
+-	layer->channel = index;
+-	layer->overlay = 0;
+ 
+ 	return layer;
+ }
 -- 
 2.48.1
 
