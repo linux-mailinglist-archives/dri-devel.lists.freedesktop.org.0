@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CCCA387F6
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 16:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A52AA387F9
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 16:46:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E47210E506;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B79110E50B;
 	Mon, 17 Feb 2025 15:46:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Rb8ndbKK";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MdYbj0ok";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDB8110E4FF
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 15:46:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DFB7744339;
- Mon, 17 Feb 2025 15:46:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8048810E4FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 15:46:04 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AA1F344338;
+ Mon, 17 Feb 2025 15:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739807162;
+ t=1739807163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=s3yUAotaIJfeVwD8zWHiueTUD05e9jcuB1jgWdvIKew=;
- b=Rb8ndbKKE/ceqgKHcXmOm+XWT8Ka8La+njCQO2xceNovIyS3+pNX62JbqrQOg11oqXn+vE
- FQVvsrMr4U0gDWIRX/v3l0ZMpjpLbrho0zwjQQVjEJxiFtClSW/lW9N7GSVa1NHAQ+bRFz
- oNqgi/nqm8jUWuhJ5pZ+ZiNe9tnCv7S7PexxKfNOf82aNZiUecPwl0koiNh2ux1X9ry2Pa
- HOrRrefwiU8Oy7FUavxZv46CK0ZgejyaVtjJdc1iAgWlUByMC3ButRyCrfSvlS4rSYrRqd
- 2008liNTRcBWfpjVgoymoWo553sX6YclOYdLcLQlgpjZaukxl182Ab1B3N76Pw==
-Message-ID: <09d7235e-d81d-4f40-9ad5-1f414fbb0c54@bootlin.com>
+ bh=l9CoQvORRYZLezJ5J4PopyRMoTT12IEknUrc1Av8/h8=;
+ b=MdYbj0okruU3FNw76sNdmHoIa0k+R5E2ndADdHS1ok8H3yQ96DZYS8Fc6mTpPRo/Eg7IB1
+ vh7QUt5hNlqXVM3AJnV7Gim1HzbT6s9qSmlssKLkLAPg6nsHnsuDqJ9nnqF9g8UzIEA4ET
+ B/Sf3aZKjBAOcCbIemZJC+tyf86vBTEE+6o8+6k5jY/6ikH28mcvCjrG3IpK/frCCUat4a
+ Gxtscj98YOUbWIoqRCZU41NVQrqoj8TppowUUiKDjf/Ipi0sZuAnONYzlqLX75rs5FEpiw
+ thkJyl/YdqIj5yrbApTCzstFu6WcQau4rY6E9X95O0VE6x8Y3f6icfZhFK0UPQ==
+Message-ID: <255c225c-04c8-4c62-b170-eada737e8a0d@bootlin.com>
 Date: Mon, 17 Feb 2025 16:45:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/14] drm/vkms: Allow to configure multiple CRTCs
+Subject: Re: [PATCH v3 10/14] drm/vkms: Allow to attach planes and CRTCs
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250217100120.7620-1-jose.exposito89@gmail.com>
- <20250217100120.7620-10-jose.exposito89@gmail.com>
+ <20250217100120.7620-11-jose.exposito89@gmail.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -98,7 +98,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250217100120.7620-10-jose.exposito89@gmail.com>
+In-Reply-To: <20250217100120.7620-11-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
@@ -124,47 +124,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 17/02/2025 à 11:01, José Expósito a écrit :
-> Add a list of CRTCs to vkms_config and helper functions to add and
-> remove as many CRTCs as wanted.
+> Add a list of possible CRTCs to the plane configuration and helpers to
+> attach, detach and get the primary and cursor planes attached to a CRTC.
 > 
-> For backwards compatibility, add one CRTC to the default configuration.
-> 
-> A future patch will allow to attach planes and CRTCs, but for the
-> moment there are no changes in the way the output is configured.
+> Now that the default configuration has its planes and CRTC correctly
+> attached, configure the output following the configuration.
 > 
 > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> ---
->   .clang-format                                 |  1 +
->   drivers/gpu/drm/vkms/tests/vkms_config_test.c | 73 ++++++++++++++++-
->   drivers/gpu/drm/vkms/vkms_config.c            | 63 ++++++++++++++-
->   drivers/gpu/drm/vkms/vkms_config.h            | 80 +++++++++++++++++++
->   4 files changed, 212 insertions(+), 5 deletions(-)
-> 
-> diff --git a/.clang-format b/.clang-format
-> index c585d2a5b395..e7a901c3617d 100644
-> --- a/.clang-format
-> +++ b/.clang-format
-> @@ -690,6 +690,7 @@ ForEachMacros:
->     - 'v4l2_m2m_for_each_src_buf'
->     - 'v4l2_m2m_for_each_src_buf_safe'
->     - 'virtio_device_for_each_vq'
-> +  - 'vkms_config_for_each_crtc'
->     - 'vkms_config_for_each_plane'
->     - 'while_for_each_ftrace_op'
->     - 'xa_for_each'
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> index fe6f079902fd..6a89361601a0 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> @@ -25,6 +25,7 @@ static void vkms_config_test_empty_config(struct kunit *test)
->   	KUNIT_EXPECT_STREQ(test, vkms_config_get_device_name(config), "test");
->   
->   	KUNIT_EXPECT_TRUE(test, list_empty(&config->planes));
-> +	KUNIT_EXPECT_TRUE(test, list_empty(&config->crtcs));
 
-Ditto, with this modification:
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 -- 
