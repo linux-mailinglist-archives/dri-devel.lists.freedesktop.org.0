@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB3FA388CD
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B43A38909
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC80D10E53B;
-	Mon, 17 Feb 2025 16:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE4610E327;
+	Mon, 17 Feb 2025 16:24:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jieILGkz";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="a7yUMRNm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92EC910E53B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:08:55 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43932b9b09aso49748945e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:08:55 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B4110E327
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:24:34 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-38f22fe8762so2290083f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:24:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1739808534; x=1740413334; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1739809472; x=1740414272; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=GTyX/n7RsOt5tb8xr9K3LdJvUk6okpjAk1qMtkdAS2I=;
- b=jieILGkzvgQuZens2MdbBZE6GciVbBFcqXBn1FraVOzymz1qypTRlEwmoPax/5a1FZ
- FUDv/dpKE0HZfRSlSc2Kb9VGiAiMNW0/O92UhFZcSQe0mX7julLdTT3FjhrrKT4ltS9+
- hyWQ2lt6Md/ToQfgcrgqgGcnt+VnHSsaEPKik=
+ bh=cVpiBEwmTZ+hIf3rfr0Tri2GW3LedUj1k1zkfGPuiS8=;
+ b=a7yUMRNmrc97nev9YqcDqsMoW1IroBp9x+rOZLR07Z5ekXAYpBaUUqDSWeGfKYTL2/
+ ZvD7KGWa+zFJim11H8ZAAQ8UibnOnAYOUocA9FHt1f76aN0Qnxc67SthXJPJuBbUSDAk
+ P2Wh2PUlJ6ZGwrTxqWvTE3xfDWukWDgzeE/oQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739808534; x=1740413334;
+ d=1e100.net; s=20230601; t=1739809472; x=1740414272;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GTyX/n7RsOt5tb8xr9K3LdJvUk6okpjAk1qMtkdAS2I=;
- b=YqEZZIte6TPADU6tx4gx/b3mv2seAYomNLrCEdSYdWd/JlrTtm2x6q50KnRQZhalTx
- yjV8y6/+A2TQjd3m97RfeUquVaP5qmJo2NoTuAf5WQjlAyIfALMMIVG00I328jpYV3Ix
- zTu/t0BOZp2Np52MO2/4pxr/x+aKKuawrB/EgPTfvjR6ePZftXDbJVSauSnQKbrMXUBv
- ThKJs+XZgOxrkJj6j3vUzen0c4B4c3FXS39MVnqlFlFip9AVTZxSVvGkkb0XPlqDX1cb
- 41fGg/KR8OGoYOoYgundchFsTcPoyYu3LSLe9VimCDwtXQ1MVLPS1X2f7kpWsUGBoUIn
- sjkw==
+ bh=cVpiBEwmTZ+hIf3rfr0Tri2GW3LedUj1k1zkfGPuiS8=;
+ b=CJhlcLMoqaf31Lszcc/uKaB1NDRT+Vicr5/kj1ClYpbz8Ms2SL+8JQxw+YEMq/ncea
+ NpnzOYcSxDqRq+WSLzkVdLfQSvpV6BiJ4zW06tZy461YCwAkz8j+EaPHW7LseZULtbjS
+ R72jGj5oRHi0lT4OwahdI/w/q3HLZuDknX1Fpm8uowmA1pMzNITRdqNtEQlSQQ643HoD
+ JJ6k5S+h8KsVrlwXBziVb+Fu0/AS9UAtBhyuyL+pLorBSWuSMDipf+3ZjqHIWGFmH5VL
+ smsFpbbcwxm4/pMYAXzsl6+4dUr8xHQH+sUWqJJ8QiunQmYTHNS5k7XOrkHsKGuiz+8k
+ 1nSQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBzTNGvrCwfnRbWfLVfn8SdKqShvqzHGBv/2Sdj30UBfMakIp+oOCeDNmciJCQ15JxAFhjFGo8BRU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzO+c6W+9Dk+8GNadIFN+SLlhTmG1rayh9kH3ox14Mc6JwbestL
- SWJRxZPx+yKNP9VmUT7dO9asGQQTAHaXajO857HAsqNnagswuFGW89QA32hADA8=
-X-Gm-Gg: ASbGncuaIk183ZeOuFzh16BZ44fRBk0CydbZ+roaM3pmuOxfOiVd2xoYukfs5nqbSaj
- bzwdAQZS9daCx3fNmJ3/0Mwrgmb5rSTrsK+Sd3wkBASymdOTcqsi1Yk1kDfRK4/69vCpIwKiNjV
- pUJYDfERJ6XAS5+VjB6zajYRN9T7ae0KEreliy4oEfl04ePBmbIqaBc/d+k/jpjt3M5Tl24BUOV
- /iNOqlcwPA+i4hPvTVKjf4Bd7VbrjIwhPIrruaZB/jcQq+51K0yoUkhH83IUhKV1QjJLosxyG9T
- VaCn/PP7L0umzWKGiywxUP0m4Nk=
-X-Google-Smtp-Source: AGHT+IHHWRJ59zvQG+4eZoc+8l1InJA6uGE93rXsYApIwLbabBqPxJcso2ZsQ64zsKfbIzCOQb2HOA==
-X-Received: by 2002:a05:600c:4450:b0:439:916a:b3db with SMTP id
- 5b1f17b1804b1-439916ab5bdmr8896785e9.6.1739808533777; 
- Mon, 17 Feb 2025 08:08:53 -0800 (PST)
+ AJvYcCWcBDekeVXeM6pQoHHWIXYjfYaiwPZOpi/LdZTgB9qbMlt5IiBke7ytUNUwCyVhCmhOAmxrWMLpbFw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzaBSsGM2PT272ToOAQAvVOl/S1YLch9ipZcHsqLw+Qc2Q5AmZW
+ hBCb8D6b+PS2XwdgzMpLkJCLWVl3SPIS9HyGzAbC5zLa6tQm3Ena7aKz7yntg7U=
+X-Gm-Gg: ASbGncs8XADkLLmFeACIixvh7l39K2p6tPPRfy3BP9TaMJXsRCZrxjEkB3yCt+sQwbA
+ jYrU1Q5gTSiPcliAG8aJQvJc7d3QdWwUAHiNjz8sgdNiKCTC3KhOdL5A4G0DOac4N3tu+K7fyH+
+ FMKBK+bS6T9SmQrWH7UN5mE642okBwRAfA0cqIeIOviYnLudJBj3NFznb290fQWcWQ/fsDHO3q+
+ jBKM58MI9/gcFpuFwwhGpQ2ssxsOHDY5hBeW+D5phh7JbqdcpBoSy9+XD1+HCajhritOkEu3Sbs
+ HqQxRt7a441kRsJ6nSiRB9YzS+A=
+X-Google-Smtp-Source: AGHT+IFX0aTtATY/VLNjmT4pi2siZ81mv7Hi+dm14O+B6Sur7KDWc6qse8YbKRPTU1RFieIuBpqeNA==
+X-Received: by 2002:a05:6000:154f:b0:38f:2093:6e75 with SMTP id
+ ffacd0b85a97d-38f33f3599fmr10217014f8f.33.1739809472473; 
+ Mon, 17 Feb 2025 08:24:32 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f258ccef7sm12871986f8f.31.2025.02.17.08.08.52
+ ffacd0b85a97d-38f258b4158sm12553149f8f.3.2025.02.17.08.24.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 08:08:53 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:08:51 +0100
+ Mon, 17 Feb 2025 08:24:31 -0800 (PST)
+Date: Mon, 17 Feb 2025 17:24:30 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
 Cc: sumit.semwal@linaro.org, tzimmermann@suse.de, simona@ffwll.ch,
  dmitry.osipenko@collabora.com, tvrtko.ursulin@igalia.com,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 2/4] dma-buf/dma-fence: remove unnecessary callbacks
-Message-ID: <Z7NfExCVMagNI5Z3@phenom.ffwll.local>
+Subject: Re: [PATCH 3/4] dma-buf: dma-buf: stop mapping sg_tables on attach
+Message-ID: <Z7NivTrXl5NiGw-k@phenom.ffwll.local>
 References: <20250211163109.12200-1-christian.koenig@amd.com>
- <20250211163109.12200-3-christian.koenig@amd.com>
+ <20250211163109.12200-4-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250211163109.12200-3-christian.koenig@amd.com>
+In-Reply-To: <20250211163109.12200-4-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,190 +90,329 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2025 at 05:31:07PM +0100, Christian König wrote:
-> The fence_value_str and timeline_value_str callbacks were just an
-> unnecessary abstraction in the SW sync implementation.
+On Tue, Feb 11, 2025 at 05:31:08PM +0100, Christian König wrote:
+> As a workaround to smoothly transit from static to dynamic DMA-buf
+> handling we cached the sg_table on attach if dynamic handling mismatched
+> between exporter and importer.
 > 
-> The only caller of those callbacks already knew that the fence in
-> questions is a timeline_fence. So print the values directly instead
-> of using a redirection.
-> 
-> Additional to that remove the implementations from virtgpu and vgem.
-> As far as I can see those were never used in the first place.
+> Since Dmitry and Thomas cleaned that up and also documented the lock
+> handling we can drop this workaround now.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 149 ++++++++++++++------------------------
+>  include/linux/dma-buf.h   |  14 ----
+>  2 files changed, 56 insertions(+), 107 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 5baa83b85515..357b94a3dbaa 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -782,7 +782,7 @@ static void mangle_sg_table(struct sg_table *sg_table)
+>  
+>  	/* To catch abuse of the underlying struct page by importers mix
+>  	 * up the bits, but take care to preserve the low SG_ bits to
+> -	 * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
+> +	 * not corrupt the sgt. The mixing is undone on unmap
+>  	 * before passing the sgt back to the exporter.
+>  	 */
+>  	for_each_sgtable_sg(sg_table, sg, i)
+> @@ -790,29 +790,20 @@ static void mangle_sg_table(struct sg_table *sg_table)
+>  #endif
+>  
+>  }
+> -static struct sg_table *__map_dma_buf(struct dma_buf_attachment *attach,
+> -				       enum dma_data_direction direction)
+> -{
+> -	struct sg_table *sg_table;
+> -	signed long ret;
+> -
+> -	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
+> -	if (IS_ERR_OR_NULL(sg_table))
+> -		return sg_table;
+> -
+> -	if (!dma_buf_attachment_is_dynamic(attach)) {
+> -		ret = dma_resv_wait_timeout(attach->dmabuf->resv,
+> -					    DMA_RESV_USAGE_KERNEL, true,
+> -					    MAX_SCHEDULE_TIMEOUT);
+> -		if (ret < 0) {
+> -			attach->dmabuf->ops->unmap_dma_buf(attach, sg_table,
+> -							   direction);
+> -			return ERR_PTR(ret);
+> -		}
+> -	}
+>  
+> -	mangle_sg_table(sg_table);
+> -	return sg_table;
+> +/**
+> + * dma_buf_pin_on_map - check if a DMA-buf should be pinned when mapped
+> + * @attach: the DMA-buf attachment to check
 
-Ok I got really confused here for a moment, but checks all out.
+Generally we don't do kerneldoc for static helper functions, the function
+name should be clear enough here. I think you can just delete this.
+
+> + *
+> + * Returns: True if a DMA-buf export provided pin/unpin callbacks and we can't
+> + * use the importers move notify for some reason.
+> + */
+> +static bool
+> +dma_buf_pin_on_map(struct dma_buf_attachment *attach)
+> +{
+> +	return attach->dmabuf->ops->pin &&
+> +		(!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) ||
+> +		 !attach->importer_ops);
+
+I think moving the dma_buf_attachment_is_dynamic helper into this file
+right above as a static inline helper without kerneldoc would be good,
+just as a piece of self-documentation of what this check here means. It's
+a bit opaque otherwise, and if we add more importer_ops we might screw
+this up otherwise.
+
+>  }
+>  
+>  /**
+> @@ -935,48 +926,11 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+>  	list_add(&attach->node, &dmabuf->attachments);
+>  	dma_resv_unlock(dmabuf->resv);
+>  
+> -	/* When either the importer or the exporter can't handle dynamic
+> -	 * mappings we cache the mapping here to avoid issues with the
+> -	 * reservation object lock.
+> -	 */
+> -	if (dma_buf_attachment_is_dynamic(attach) !=
+> -	    dma_buf_is_dynamic(dmabuf)) {
+> -		struct sg_table *sgt;
+> -
+> -		dma_resv_lock(attach->dmabuf->resv, NULL);
+> -		if (dma_buf_is_dynamic(attach->dmabuf)) {
+> -			ret = dmabuf->ops->pin(attach);
+> -			if (ret)
+> -				goto err_unlock;
+> -		}
+> -
+> -		sgt = __map_dma_buf(attach, DMA_BIDIRECTIONAL);
+> -		if (!sgt)
+> -			sgt = ERR_PTR(-ENOMEM);
+> -		if (IS_ERR(sgt)) {
+> -			ret = PTR_ERR(sgt);
+> -			goto err_unpin;
+> -		}
+> -		dma_resv_unlock(attach->dmabuf->resv);
+> -		attach->sgt = sgt;
+> -		attach->dir = DMA_BIDIRECTIONAL;
+> -	}
+> -
+>  	return attach;
+>  
+>  err_attach:
+>  	kfree(attach);
+>  	return ERR_PTR(ret);
+> -
+> -err_unpin:
+> -	if (dma_buf_is_dynamic(attach->dmabuf))
+> -		dmabuf->ops->unpin(attach);
+> -
+> -err_unlock:
+> -	dma_resv_unlock(attach->dmabuf->resv);
+> -
+> -	dma_buf_detach(dmabuf, attach);
+> -	return ERR_PTR(ret);
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_dynamic_attach, "DMA_BUF");
+>  
+> @@ -995,16 +949,6 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_attach, "DMA_BUF");
+>  
+> -static void __unmap_dma_buf(struct dma_buf_attachment *attach,
+> -			    struct sg_table *sg_table,
+> -			    enum dma_data_direction direction)
+> -{
+> -	/* uses XOR, hence this unmangles */
+> -	mangle_sg_table(sg_table);
+> -
+> -	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+> -}
+> -
+>  /**
+>   * dma_buf_detach - Remove the given attachment from dmabuf's attachments list
+>   * @dmabuf:	[in]	buffer to detach from.
+> @@ -1022,11 +966,12 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+>  	dma_resv_lock(dmabuf->resv, NULL);
+>  
+>  	if (attach->sgt) {
+> +		mangle_sg_table(attach->sgt);
+> +		attach->dmabuf->ops->unmap_dma_buf(attach, attach->sgt,
+> +						   attach->dir);
+>  
+> -		__unmap_dma_buf(attach, attach->sgt, attach->dir);
+> -
+> -		if (dma_buf_is_dynamic(attach->dmabuf))
+> -			dmabuf->ops->unpin(attach);
+> +		if (dma_buf_pin_on_map(attach))
+> +			dma_buf_unpin(attach);
+>  	}
+>  	list_del(&attach->node);
+>  
+> @@ -1058,7 +1003,7 @@ int dma_buf_pin(struct dma_buf_attachment *attach)
+>  	struct dma_buf *dmabuf = attach->dmabuf;
+>  	int ret = 0;
+>  
+> -	WARN_ON(!dma_buf_attachment_is_dynamic(attach));
+> +	WARN_ON(!attach->importer_ops);
+>  
+>  	dma_resv_assert_held(dmabuf->resv);
+>  
+> @@ -1081,7 +1026,7 @@ void dma_buf_unpin(struct dma_buf_attachment *attach)
+>  {
+>  	struct dma_buf *dmabuf = attach->dmabuf;
+>  
+> -	WARN_ON(!dma_buf_attachment_is_dynamic(attach));
+> +	WARN_ON(!attach->importer_ops);
+>  
+>  	dma_resv_assert_held(dmabuf->resv);
+>  
+> @@ -1115,7 +1060,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>  					enum dma_data_direction direction)
+>  {
+>  	struct sg_table *sg_table;
+> -	int r;
+> +	signed long ret;
+>  
+>  	might_sleep();
+>  
+> @@ -1136,29 +1081,37 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>  		return attach->sgt;
+>  	}
+>  
+> -	if (dma_buf_is_dynamic(attach->dmabuf)) {
+> -		if (!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY)) {
+> -			r = attach->dmabuf->ops->pin(attach);
+> -			if (r)
+> -				return ERR_PTR(r);
+> -		}
+> +	if (dma_buf_pin_on_map(attach)) {
+> +		ret = attach->dmabuf->ops->pin(attach);
+> +		if (ret)
+
+I do wonder whether we should have a WARN_ON(ret = -EBUSY) or similar, to
+catch drivers who've moved the memory to an unsuitable place despite
+attachments existing?
+
+> +			return ERR_PTR(ret);
+>  	}
+>  
+> -	sg_table = __map_dma_buf(attach, direction);
+
+> +	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
+>  	if (!sg_table)
+>  		sg_table = ERR_PTR(-ENOMEM);
+> +	if (IS_ERR(sg_table))
+> +		goto error_unpin;
+>  
+> -	if (IS_ERR(sg_table) && dma_buf_is_dynamic(attach->dmabuf) &&
+> -	     !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+> -		attach->dmabuf->ops->unpin(attach);
+> +	/*
+> +	 * When not providing ops the importer doesn't wait for fences either.
+> +	 */
+> +	if (!attach->importer_ops) {
+
+Yeah we definitely want to keep this static helper function to make this
+check less opaque. Also I think this is strictly speaking only needed for
+the dma_buf_pin_on_map case and not for everyone, plus there shouldn't be
+any harm to do this after pinning, but before calling map_dma_buf. But
+maybe better to leave as-is.
+
+> +		ret = dma_resv_wait_timeout(attach->dmabuf->resv,
+> +					    DMA_RESV_USAGE_KERNEL, true,
+> +					    MAX_SCHEDULE_TIMEOUT);
+> +		if (ret < 0)
+> +			goto error_unmap;
+> +	}
+> +	mangle_sg_table(sg_table);
+>  
+> -	if (!IS_ERR(sg_table) && attach->dmabuf->ops->cache_sgt_mapping) {
+> +	if (attach->dmabuf->ops->cache_sgt_mapping) {
+>  		attach->sgt = sg_table;
+>  		attach->dir = direction;
+>  	}
+>  
+>  #ifdef CONFIG_DMA_API_DEBUG
+> -	if (!IS_ERR(sg_table)) {
+> +	{
+>  		struct scatterlist *sg;
+>  		u64 addr;
+>  		int len;
+> @@ -1175,6 +1128,16 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>  	}
+>  #endif /* CONFIG_DMA_API_DEBUG */
+>  	return sg_table;
+> +
+> +error_unmap:
+> +	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+> +	sg_table = ERR_PTR(ret);
+> +
+> +error_unpin:
+> +	if (dma_buf_pin_on_map(attach))
+> +		attach->dmabuf->ops->unpin(attach);
+> +
+> +	return sg_table;
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_map_attachment, "DMA_BUF");
+>  
+> @@ -1230,11 +1193,11 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+>  	if (attach->sgt == sg_table)
+>  		return;
+>  
+> -	__unmap_dma_buf(attach, sg_table, direction);
+> +	mangle_sg_table(sg_table);
+> +	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+>  
+> -	if (dma_buf_is_dynamic(attach->dmabuf) &&
+> -	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+> -		dma_buf_unpin(attach);
+> +	if (dma_buf_pin_on_map(attach))
+> +		attach->dmabuf->ops->unpin(attach);
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment, "DMA_BUF");
+>  
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 36216d28d8bd..c54ff2dda8cb 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -583,20 +583,6 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
+>  	return !!dmabuf->ops->pin;
+>  }
+>  
+> -/**
+> - * dma_buf_attachment_is_dynamic - check if a DMA-buf attachment uses dynamic
+> - * mappings
+> - * @attach: the DMA-buf attachment to check
+> - *
+> - * Returns true if a DMA-buf importer wants to call the map/unmap functions with
+> - * the dma_resv lock held.
+
+Yeah this kerneldoc is a bit much outdated :-)
+
+> - */
+> -static inline bool
+> -dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
+> -{
+> -	return !!attach->importer_ops;
+> -}
+
+With the nits addressed:
 
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-> ---
->  drivers/dma-buf/sw_sync.c              | 16 ----------------
->  drivers/dma-buf/sync_debug.c           | 21 ++-------------------
->  drivers/gpu/drm/vgem/vgem_fence.c      | 15 ---------------
->  drivers/gpu/drm/virtio/virtgpu_fence.c | 16 ----------------
->  include/linux/dma-fence.h              | 21 ---------------------
->  5 files changed, 2 insertions(+), 87 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index f5905d67dedb..849280ae79a9 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -173,20 +173,6 @@ static bool timeline_fence_signaled(struct dma_fence *fence)
->  	return !__dma_fence_is_later(fence->seqno, parent->value, fence->ops);
->  }
->  
-> -static void timeline_fence_value_str(struct dma_fence *fence,
-> -				    char *str, int size)
-> -{
-> -	snprintf(str, size, "%lld", fence->seqno);
-> -}
+Cheers, Sima
+
+
 > -
-> -static void timeline_fence_timeline_value_str(struct dma_fence *fence,
-> -					     char *str, int size)
-> -{
-> -	struct sync_timeline *parent = dma_fence_parent(fence);
-> -
-> -	snprintf(str, size, "%d", parent->value);
-> -}
-> -
->  static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
->  {
->  	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
-> @@ -208,8 +194,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
->  	.get_timeline_name = timeline_fence_get_timeline_name,
->  	.signaled = timeline_fence_signaled,
->  	.release = timeline_fence_release,
-> -	.fence_value_str = timeline_fence_value_str,
-> -	.timeline_value_str = timeline_fence_timeline_value_str,
->  	.set_deadline = timeline_fence_set_deadline,
->  };
->  
-> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
-> index 237bce21d1e7..270daae7d89a 100644
-> --- a/drivers/dma-buf/sync_debug.c
-> +++ b/drivers/dma-buf/sync_debug.c
-> @@ -82,25 +82,8 @@ static void sync_print_fence(struct seq_file *s,
->  		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
->  	}
->  
-> -	if (fence->ops->timeline_value_str &&
-> -		fence->ops->fence_value_str) {
-> -		char value[64];
-> -		bool success;
-> -
-> -		fence->ops->fence_value_str(fence, value, sizeof(value));
-> -		success = strlen(value);
-> -
-> -		if (success) {
-> -			seq_printf(s, ": %s", value);
-> -
-> -			fence->ops->timeline_value_str(fence, value,
-> -						       sizeof(value));
-> -
-> -			if (strlen(value))
-> -				seq_printf(s, " / %s", value);
-> -		}
-> -	}
-> -
-> +	seq_printf(s, ": %lld", fence->seqno);
-> +	seq_printf(s, " / %d", parent->value);
->  	seq_putc(s, '\n');
->  }
->  
-> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
-> index e15754178395..5298d995faa7 100644
-> --- a/drivers/gpu/drm/vgem/vgem_fence.c
-> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
-> @@ -53,25 +53,10 @@ static void vgem_fence_release(struct dma_fence *base)
->  	dma_fence_free(&fence->base);
->  }
->  
-> -static void vgem_fence_value_str(struct dma_fence *fence, char *str, int size)
-> -{
-> -	snprintf(str, size, "%llu", fence->seqno);
-> -}
-> -
-> -static void vgem_fence_timeline_value_str(struct dma_fence *fence, char *str,
-> -					  int size)
-> -{
-> -	snprintf(str, size, "%llu",
-> -		 dma_fence_is_signaled(fence) ? fence->seqno : 0);
-> -}
-> -
->  static const struct dma_fence_ops vgem_fence_ops = {
->  	.get_driver_name = vgem_fence_get_driver_name,
->  	.get_timeline_name = vgem_fence_get_timeline_name,
->  	.release = vgem_fence_release,
-> -
-> -	.fence_value_str = vgem_fence_value_str,
-> -	.timeline_value_str = vgem_fence_timeline_value_str,
->  };
->  
->  static void vgem_fence_timeout(struct timer_list *t)
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
-> index f28357dbde35..44c1d8ef3c4d 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_fence.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
-> @@ -49,26 +49,10 @@ static bool virtio_gpu_fence_signaled(struct dma_fence *f)
->  	return false;
->  }
->  
-> -static void virtio_gpu_fence_value_str(struct dma_fence *f, char *str, int size)
-> -{
-> -	snprintf(str, size, "[%llu, %llu]", f->context, f->seqno);
-> -}
-> -
-> -static void virtio_gpu_timeline_value_str(struct dma_fence *f, char *str,
-> -					  int size)
-> -{
-> -	struct virtio_gpu_fence *fence = to_virtio_gpu_fence(f);
-> -
-> -	snprintf(str, size, "%llu",
-> -		 (u64)atomic64_read(&fence->drv->last_fence_id));
-> -}
-> -
->  static const struct dma_fence_ops virtio_gpu_fence_ops = {
->  	.get_driver_name     = virtio_gpu_get_driver_name,
->  	.get_timeline_name   = virtio_gpu_get_timeline_name,
->  	.signaled            = virtio_gpu_fence_signaled,
-> -	.fence_value_str     = virtio_gpu_fence_value_str,
-> -	.timeline_value_str  = virtio_gpu_timeline_value_str,
->  };
->  
->  struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index e230af0d123f..8778e2d758da 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -238,27 +238,6 @@ struct dma_fence_ops {
->  	 */
->  	void (*release)(struct dma_fence *fence);
->  
-> -	/**
-> -	 * @fence_value_str:
-> -	 *
-> -	 * Callback to fill in free-form debug info specific to this fence, like
-> -	 * the sequence number.
-> -	 *
-> -	 * This callback is optional.
-> -	 */
-> -	void (*fence_value_str)(struct dma_fence *fence, char *str, int size);
-> -
-> -	/**
-> -	 * @timeline_value_str:
-> -	 *
-> -	 * Fills in the current value of the timeline as a string, like the
-> -	 * sequence number. Note that the specific fence passed to this function
-> -	 * should not matter, drivers should only use it to look up the
-> -	 * corresponding timeline structures.
-> -	 */
-> -	void (*timeline_value_str)(struct dma_fence *fence,
-> -				   char *str, int size);
-> -
->  	/**
->  	 * @set_deadline:
->  	 *
+>  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>  					  struct device *dev);
+>  struct dma_buf_attachment *
 > -- 
 > 2.34.1
 > 
