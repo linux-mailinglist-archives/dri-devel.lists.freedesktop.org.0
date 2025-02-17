@@ -2,96 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB58A3892F
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:33:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC49EA38939
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:34:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4F2610E052;
-	Mon, 17 Feb 2025 16:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6204210E0E5;
+	Mon, 17 Feb 2025 16:34:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OI3WTMQ4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OAssSBwF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D179E10E052
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:33:14 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-38f26a82d1dso2099644f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:33:14 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C552410E0E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:34:27 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4394a0c65fcso50211575e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:34:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1739809993; x=1740414793; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Czo+abDjGEXjXRngmG8KE7G58bH+0TPX+ShC6kAE364=;
- b=OI3WTMQ4W/7c5dPBTMd4W8UwwemJbVdieT2zrU5mfflgHn5QYoYhK/tzSj29D1PuMM
- ok/NoK8SEy3ZKSkf2i47KkaaEsB/11CIE4qA1uD3ompOA5tymqVGna9xjMDHc6YYnUMt
- d0SqKA4Mwg8WGRmmpLAxmjCE71NgfzmhYyNk8=
+ d=gmail.com; s=20230601; t=1739810066; x=1740414866; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=LlEc/1DhhuQ6PXgaEU0RmiNtz94/GUUPYpvE7Dfmipg=;
+ b=OAssSBwFmpW45yyWkmVhM6+lTDw+NFOQx93JogaHyw1OqVa2sV/Rpu5Kd5lWmJa9RZ
+ XlvcvMuFd5FZIn5N7woMn7PBGhoC8PUgWtQG6yfH/vhdf80WIYOefLWQKe/HTzMubK6L
+ KT6Ls8qmQS6pVn2hUXowaUkfS5sBliNXDumJ2maG73yUbHmo3q8JhgZUoB4ZlDvDjXBv
+ Yy1/OlwSdFD9jM3bq/TrMgwPIAQEtPs7pW1MzUj1esZ6s9Vj1AB1u2HwoOMO0OzLWtWE
+ u8mwXD60nLZQXRXRsbQf2NNP77/SHv9l6QARLrpGdNhJ/z2zBvA2InlWjaufW/Y1Seu9
+ ZqWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739809993; x=1740414793;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1739810066; x=1740414866;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Czo+abDjGEXjXRngmG8KE7G58bH+0TPX+ShC6kAE364=;
- b=uWPcqZvZA5soZUd2NjKZs5/k6KI3EisqQiKFzK9WQfEdNnFuh1C88xETzyEbXWUKay
- klmOZTvg6sn22YDOhJgE3ddozlDIFJTQmK8SYBY5q3/TJAuN/KLTN1Lph/wd1/uNRGXi
- pByfW+kBW43xRa1KRdGgfJemeCUTHNVBLNOj/28tnxUD8TT/PcAa+BmdhwZrWJhUC6X+
- XnyX9f2xCeIso2CvCU4O9uZXs4TJHI4F3dvC+RZ6oakpVlNzklMB3/Z0YE4R2VDqKoWx
- sGnMfmT2e4w5LQuV9T864iKMzUDtOdpgVDt1NZ/eAjX2o5qToDUYQHBQEfXXEbkUleYU
- f2lw==
+ bh=LlEc/1DhhuQ6PXgaEU0RmiNtz94/GUUPYpvE7Dfmipg=;
+ b=wI4oKohNsZ1vQML3sRQbFvVLnKCqNr3d/y/5AZGo3bcrJCG/web7aYJRNsDWFeZAtS
+ K5Vnx6lPKQlRzG+A6QyoPzbd81o/e4nt3S/ZBjgd54h4kZcWF21nS9q1oB9uUf2phdKL
+ QI2IZY3yEqDZnBuyaYwuT3M1J9LwWOiUrX1tFSG95vbJP0PCISxpya5ug0oCNQOKwjaA
+ FNooLd/sq3nvaz8ec83Ei3a5MyScP10d9NqSWRT2Rfuto03zAILbijfc0bhO2UL72My/
+ 9FV+QOrjo1Gt8dGO7y/M54Zf+jPfyWB2Y5TNCWlsXN9eFjy0+dIbjEIqqptuxLz34Hyl
+ FI2Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4byfEmwukv6G+FPYPHRcrOUMyoXwafgwnplY233+cfbaDDi3t7WGZNyZY6JSnW1KtPIWY/RMwnuY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytUw7jIU/dCOBO3QHrm2npUrfYH4LOtqx1VxIN/ASDGNd04zrB
- 2wy8W+RdqNOnyw4ksqMrBlTHQ8J7OLQ+Zi1s6iV0gFWK6/hDxyayZHvpexRigRg=
-X-Gm-Gg: ASbGncs9qNvwYQP94FMCTdqSXrpR6N88R1g/iNRsox15bnQYswRJSxyDxXwVfnAUnJw
- nqaspaQUyMCuYsvcZ+0duhQX8uX+mCrAvBkFqYbR3xS2os6tywYYrVyJAf5c/VfOkPwU/T5ioOG
- nFG5aZ5eNuXlPw8fAqXiUTeYNYH6LnO4ZImTfspgoICCXKWlWXXtL2TdZkE7QdjfBrW2i+xV5Tl
- aI/0cGkAjDM/FoGHIpy6UkSgveepYYmN+qKLC8Is8O/cKJj/SHC7QsksDZSnftHFq9MkRBcsXgv
- njV3TXkX/rBnWtIctev5HQd5tPM=
-X-Google-Smtp-Source: AGHT+IF/zPnB9i/djSQzx6Nft2LwuPmMRw3hmVUFnih+2dJwvP4POCL/t/vyntRmA+wiKTPgwSfABw==
-X-Received: by 2002:a5d:452e:0:b0:385:e1eb:a7af with SMTP id
- ffacd0b85a97d-38f33f57dc0mr7697565f8f.48.1739809993189; 
- Mon, 17 Feb 2025 08:33:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439858ec5fasm30572795e9.29.2025.02.17.08.33.10
+ AJvYcCXI8kcUJNUiSlnOAZIy/fs5ZIRGgVvp+9KXOGQ7AnOl24rvXHiiN5gdYSSvOtKvueUBdjOmmwz8PGw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOCAiiZdvii1E8xubbBAO9uEXMDDso/nKl38a3JBXNM1NOkilQ
+ dEc3t6Qic+SCjKaVDzmVFXILMp6WkKhLtF3nLkO17WCh3CuVjcZC
+X-Gm-Gg: ASbGncum5kxsgS6N/+tI2z/hdBnK9Vw/uH+xqzzioY49JiBusLFq3+fbhllk/QuSaeL
+ N9pKP3tBuixOzY9ytU/y2+CiOFyt+W+UVgXj9KIt4y8rAeO5Bdhs+wh2dbK6Upd0GI1hTEB1PXM
+ zSjQo5KiF2uxJBPYfJgb5LW3RZDLxek5S5q5lssNIXNgMJA9QSoczLJXM6JSem6A1FhUjL2E7C5
+ vetWduZRdOXdYGQzpRBTI5JfaR1hmU+lgt/TBAy8OYc5uHKPi2OKIelHckYPNLwkCIMkUnIv1q2
+ ty2MKOMyoDESFjY=
+X-Google-Smtp-Source: AGHT+IFMADmMY55Rroim8nNi4dr7lMdcl4XT7qcZvO7BoawuPszaqx+VZtHAReeiQxnTw3eLfeBMEA==
+X-Received: by 2002:a05:600c:3b8c:b0:431:5c3d:1700 with SMTP id
+ 5b1f17b1804b1-4396e716f3dmr90733195e9.21.1739810065996; 
+ Mon, 17 Feb 2025 08:34:25 -0800 (PST)
+Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-439617fccfesm124645735e9.11.2025.02.17.08.34.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 08:33:11 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:33:09 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v3 01/37] drm/atomic: Document history of drm_atomic_state
-Message-ID: <Z7NkxTHVQzzSHv1B@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
+ Mon, 17 Feb 2025 08:34:25 -0800 (PST)
+Date: Mon, 17 Feb 2025 17:34:23 +0100
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
- <20250213-bridge-connector-v3-1-e71598f49c8f@kernel.org>
+Subject: Re: [PATCH v3 08/14] drm/vkms: Allow to configure multiple planes
+Message-ID: <Z7NlD8kWkUxojYWy@fedora>
+References: <20250217100120.7620-1-jose.exposito89@gmail.com>
+ <20250217100120.7620-9-jose.exposito89@gmail.com>
+ <6b29064f-104a-4f9c-a9f6-8f4a862dbcd7@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250213-bridge-connector-v3-1-e71598f49c8f@kernel.org>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6b29064f-104a-4f9c-a9f6-8f4a862dbcd7@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,78 +92,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 03:43:20PM +0100, Maxime Ripard wrote:
-> After some discussions on the mailing-list for an earlier revision of
-> the series, it was suggested to document the evolution of
-> drm_atomic_state and its use by drivers to explain some of the confusion
-> one might still encounter when reading the framework code.
+Hi Louis,
+
+Thanks for the quick review.
+
+On Mon, Feb 17, 2025 at 04:45:37PM +0100, Louis Chauvet wrote:
+> Hi José,
 > 
-> Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Link: https://lore.kernel.org/dri-devel/Z4jtKHY4qN3RNZNG@phenom.ffwll.local/
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-Thanks for documenting that little bit of lore!
-
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-Cheers, Sima
-
-> ---
->  include/drm/drm_atomic.h | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+> Thanks for this new iteration!
 > 
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 1ded9a8d4e84d7d9879d7f60a876ba9d69785766..4c673f0698fef6b60f77db980378d5e88e0e250e 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -355,10 +355,41 @@ struct __drm_private_objs_state {
->   * these.
->   *
->   * States are added to an atomic update by calling drm_atomic_get_crtc_state(),
->   * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(), or for
->   * private state structures, drm_atomic_get_private_obj_state().
-> + *
-> + * NOTE: struct drm_atomic_state first started as a single collection of
-> + * entities state pointers (drm_plane_state, drm_crtc_state, etc.).
-> + *
-> + * At atomic_check time, you could get the state about to be committed
-> + * from drm_atomic_state, and the one currently running from the
-> + * entities state pointer (drm_crtc.state, for example). After the call
-> + * to drm_atomic_helper_swap_state(), the entities state pointer would
-> + * contain the state previously checked, and the drm_atomic_state
-> + * structure the old state.
-> + *
-> + * Over time, and in order to avoid confusion, drm_atomic_state has
-> + * grown to have both the old state (ie, the state we replace) and the
-> + * new state (ie, the state we want to apply). Those names are stable
-> + * during the commit process, which makes it easier to reason about.
-> + *
-> + * You can still find some traces of that evolution through some hooks
-> + * or callbacks taking a drm_atomic_state parameter called names like
-> + * "old_state". This doesn't necessarily mean that the previous
-> + * drm_atomic_state is passed, but rather that this used to be the state
-> + * collection we were replacing after drm_atomic_helper_swap_state(),
-> + * but the variable name was never updated.
-> + *
-> + * Some atomic operations implementations followed a similar process. We
-> + * first started to pass the entity state only. However, it was pretty
-> + * cumbersome for drivers, and especially CRTCs, to retrieve the states
-> + * of other components. Thus, we switched to passing the whole
-> + * drm_atomic_state as a parameter to those operations. Similarly, the
-> + * transition isn't complete yet, and one might still find atomic
-> + * operations taking a drm_atomic_state pointer, or a component state
-> + * pointer. The former is the preferred form.
->   */
->  struct drm_atomic_state {
->  	/**
->  	 * @ref:
->  	 *
+> Le 17/02/2025 à 11:01, José Expósito a écrit :
+> > Add a list of planes to vkms_config and create as many planes as
+> > configured during output initialization.
+> > 
+> > For backwards compatibility, add one primary plane and, if configured,
+> > one cursor plane and NUM_OVERLAY_PLANES planes to the default
+> > configuration.
+> > 
+> > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> > ---
+> >   .clang-format                                 |   1 +
+> >   drivers/gpu/drm/vkms/tests/vkms_config_test.c | 140 +++++++++++++++++-
+> >   drivers/gpu/drm/vkms/vkms_config.c            | 127 +++++++++++++++-
+> >   drivers/gpu/drm/vkms/vkms_config.h            |  75 +++++++++-
+> >   drivers/gpu/drm/vkms/vkms_output.c            |  42 ++----
+> >   5 files changed, 349 insertions(+), 36 deletions(-)
+> > 
+> > diff --git a/.clang-format b/.clang-format
+> > index fe1aa1a30d40..c585d2a5b395 100644
+> > --- a/.clang-format
+> > +++ b/.clang-format
+> > @@ -690,6 +690,7 @@ ForEachMacros:
+> >     - 'v4l2_m2m_for_each_src_buf'
+> >     - 'v4l2_m2m_for_each_src_buf_safe'
+> >     - 'virtio_device_for_each_vq'
+> > +  - 'vkms_config_for_each_plane'
+> >     - 'while_for_each_ftrace_op'
+> >     - 'xa_for_each'
+> >     - 'xa_for_each_marked'
+> > diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> > index 6e07139d261c..fe6f079902fd 100644
+> > --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> > +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> > @@ -24,6 +24,10 @@ static void vkms_config_test_empty_config(struct kunit *test)
+> >   	dev_name = NULL;
+> >   	KUNIT_EXPECT_STREQ(test, vkms_config_get_device_name(config), "test");
+> > +	KUNIT_EXPECT_TRUE(test, list_empty(&config->planes));
+> 
+> Instead of testing directly a "private" field (planes), can we use something
+> like:
+> 
+> int count;
+> vkms_config_for_each_plane(config, plane_cfg)
+> 	count++;
+> ASSERT_EQ(count, 0);
+> 
+> So we don't make config->plane "public".
+> 
+> Same comment for connectors, crtc and encoders.
+
+On other calls to list_empty() and also list_count_nodes() and
+list_first_entry() we are also accessing "private" fields.
+
+I'll create helpers in vkms_config_test.c replacing the list_* APIs with
+iterators and send v4.
+
+Thanks!
+Jose
+ 
+> With this:
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> (sorry, I did not notice this on your v2)
+> 
+> Thanks,
+> Louis Chauvet
 > 
 > -- 
-> 2.48.0
+> Louis Chauvet, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 > 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
