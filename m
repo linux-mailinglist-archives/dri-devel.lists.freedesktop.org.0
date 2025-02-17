@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61622A37AF2
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 06:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84472A37AF3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 06:37:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33ACB10E250;
-	Mon, 17 Feb 2025 05:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2BDF10E306;
+	Mon, 17 Feb 2025 05:37:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="U+eItVWL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EYfwkZ7T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E16410E250
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 05:37:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65FF910E306
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 05:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739770658;
- bh=C+lXutHoUJOEM2UwycToDgt8SFL77v+z6PrK5qLhE+Y=;
- h=From:To:Cc:Subject:Date:From;
- b=U+eItVWL+xqAGl88T9GzqSxXC0gqMLP74yXQalTui+meCI9IfIEWw9Be6dlCB3Vym
- w8lXlBFZJmJa6F1sQNtDZibTn/2pwU5X63GJGaf49gl15e7lVxCjg6QH/NihgqBkC3
- K06QlFYWA1lZh4Om0BEykkcHOvFKKBnu1Ed7l0SHbHmiZqsPwxEEy/kzdT7biEQwUa
- UkoEuoLwZqKQUR0rZjgpm6P092JQMuviJmx6xbNJamwUHl0tbajoT0pWdtfe8hH5Rs
- hY/YpvmvGW+neaqOxg1nZD68ncSb6r3YYbjrxuPoA1gzJLamREJoCasemRNWzfKmU5
- 3VLFVxMAeFqWg==
+ s=mail; t=1739770664;
+ bh=iG4R8KXF/3Kpb+nBroyLd+zG/D7FL/wGqoOUVHGAz0o=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=EYfwkZ7Ts9/ctEYoWsHYCxLQ5v1b0T7m3h+nXecOzPwnI1AGZyWecCseAZOjf1WI3
+ qQC0IkPrIXY32kAZO5eVg5xpHv6ehiJ2TIIiIQZcTWSe3h0djNwEGQSefVPTR3b/Ge
+ Rea+bmVzCqc16lCfWH8Uztz9Ka4BqbzXZi4LANhZ3UKl/kYsTRN+IBLnFqZTl6uXnD
+ 7PXv+wf5m5j2wd92dlqFHw+j9uPo8nBxw0Ru4Ub7SSR1fdf/ubmGHa4PvAXN0Zd/vr
+ V7x/djSgBMWCgPg9e6pAIZW8cRHdSg6p5BXaIDc6Hl5LzNr3KiDmAKRytvQxDL99O/
+ L3W44TBnHeJjg==
 Received: from localhost.localdomain (unknown [171.76.83.32])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2B49D17E0B59;
- Mon, 17 Feb 2025 06:37:32 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 65BD817E14E7;
+ Mon, 17 Feb 2025 06:37:39 +0100 (CET)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
@@ -39,10 +39,12 @@ Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
  sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
  jani.nikula@linux.intel.com, dmitry.baryshkov@linaro.org,
  mripard@kernel.org, boqun.feng@gmail.com, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] drm/ci: enable lockdep detection
-Date: Mon, 17 Feb 2025 11:07:09 +0530
-Message-ID: <20250217053719.442644-1-vignesh.raman@collabora.com>
+Subject: [PATCH v3 1/3] drm/ci: refactor software-driver stage jobs
+Date: Mon, 17 Feb 2025 11:07:10 +0530
+Message-ID: <20250217053719.442644-2-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250217053719.442644-1-vignesh.raman@collabora.com>
+References: <20250217053719.442644-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,31 +62,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series enables lockdep detection in drm-ci. Any lockdep
-failures will be shown as warnings in the pipeline. This series
-also enables CONFIG_DEBUG_WW_MUTEX_SLOWPATH for mutex slowpath
-debugging and refactors software-driver stage jobs.
+Move common job configuration for software-driver
+stage jobs to separate job.
 
-Test run with this series,
-https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1366054
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
 
-Link to v1:
-https://lore.kernel.org/all/20240812112030.81774-1-vignesh.raman@collabora.com/
+v2:
+  - New patch in the series.
 
-Link to v2:
-https://lore.kernel.org/all/20250211152812.54018-1-vignesh.raman@collabora.com/
+v3:
+  - No changes.
 
-Vignesh Raman (3):
-  drm/ci: refactor software-driver stage jobs
-  drm/ci: enable CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-  drm/ci: enable lockdep detection
+---
+ drivers/gpu/drm/ci/test.yml | 59 +++++++++++++++----------------------
+ 1 file changed, 24 insertions(+), 35 deletions(-)
 
- Documentation/gpu/automated_testing.rst |  4 ++
- drivers/gpu/drm/ci/build.yml            |  6 +-
- drivers/gpu/drm/ci/igt_runner.sh        | 11 ++++
- drivers/gpu/drm/ci/test.yml             | 76 ++++++++++++-------------
- 4 files changed, 56 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+index 6a1e059858e5..0eab020a33b9 100644
+--- a/drivers/gpu/drm/ci/test.yml
++++ b/drivers/gpu/drm/ci/test.yml
+@@ -89,6 +89,26 @@
+   tags:
+     - $RUNNER_TAG
+ 
++.software-driver:
++  stage: software-driver
++  timeout: "1h30m"
++  rules:
++    - !reference [.scheduled_pipeline-rules, rules]
++    - when: on_success
++  extends:
++    - .test-gl
++  tags:
++    - kvm
++  script:
++    - ln -sf $CI_PROJECT_DIR/install /install
++    - mv install/bzImage /lava-files/bzImage
++    - mkdir -p /lib/modules
++    - install/crosvm-runner.sh install/igt_runner.sh
++  needs:
++    - debian/x86_64_test-gl
++    - testing:x86_64
++    - igt:x86_64
++
+ .msm-sc7180:
+   extends:
+     - .lava-igt:arm64
+@@ -440,47 +460,16 @@ panfrost:g12b:
+     - .panfrost-gpu
+ 
+ virtio_gpu:none:
+-  stage: software-driver
+-  timeout: "1h30m"
+-  rules:
+-    - !reference [.scheduled_pipeline-rules, rules]
+-    - when: on_success
++  extends:
++    - .software-driver
+   variables:
+     CROSVM_GALLIUM_DRIVER: llvmpipe
+     DRIVER_NAME: virtio_gpu
+     GPU_VERSION: none
+-  extends:
+-    - .test-gl
+-  tags:
+-    - kvm
+-  script:
+-    - ln -sf $CI_PROJECT_DIR/install /install
+-    - mv install/bzImage /lava-files/bzImage
+-    - install/crosvm-runner.sh install/igt_runner.sh
+-  needs:
+-    - debian/x86_64_test-gl
+-    - testing:x86_64
+-    - igt:x86_64
+ 
+ vkms:none:
+-  stage: software-driver
+-  timeout: "1h30m"
+-  rules:
+-    - !reference [.scheduled_pipeline-rules, rules]
+-    - when: on_success
++  extends:
++    - .software-driver
+   variables:
+     DRIVER_NAME: vkms
+     GPU_VERSION: none
+-  extends:
+-    - .test-gl
+-  tags:
+-    - kvm
+-  script:
+-    - ln -sf $CI_PROJECT_DIR/install /install
+-    - mv install/bzImage /lava-files/bzImage
+-    - mkdir -p /lib/modules
+-    - ./install/crosvm-runner.sh ./install/igt_runner.sh
+-  needs:
+-    - debian/x86_64_test-gl
+-    - testing:x86_64
+-    - igt:x86_64
 -- 
 2.43.0
 
