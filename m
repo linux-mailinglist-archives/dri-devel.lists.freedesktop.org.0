@@ -2,70 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22339A38E5D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 22:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AE4A38EBF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 23:10:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF0110E5E8;
-	Mon, 17 Feb 2025 21:57:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA6110E043;
+	Mon, 17 Feb 2025 22:10:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FrTGaWmW";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="L/otBlqE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39F9C10E5E8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 21:57:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739829433;
- bh=HqD/otvQ6CB/wALHb0KdTDbQw39m8H0tlEIqNzso+MM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FrTGaWmWZk7taRw20lsQ0wHef9+y9vUd8rxtGJSS2XOgvbq+FVHdXKd/2k+AqM/7X
- OGGhSL/cyyrUgIrTpt8JY0z12EITFpcXrZTueXVNedHjbtjsL/xyG4kJsX266qFbQt
- tRCJURjwzZoD1KR9+sGFu3k7XSTucHKSr7XYazqyd6q9PCtUGKQayebPTSCJmGOxk1
- J87UUbiUFqfvh9gat1f4JtjYuxtpwIP1CJE9INjk2DmAKO1brjtYItY5flZrR9H+8x
- OGt43Dubjo/ZiGYc8IxE7asXbA8diwdrFvUsw0m6oPS0GMJJr5/BT1/j0b7PCxQZED
- QmfbCDp3iRqjQ==
-Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5179C17E0391;
- Mon, 17 Feb 2025 22:57:07 +0100 (CET)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Niklas Cassel <cassel@kernel.org>, Dragan Simic <dsimic@manjaro.org>,
- FUKAUMI Naoki <naoki@radxa.com>, Johan Jonker <jbx6244@gmail.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Algea Cao <algea.cao@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Quentin Schulz <quentin.schulz@cherry.de>
-Subject: [PATCH v7 3/3] arm64: dts: rockchip: Enable HDMI audio outputs for
- Rock 5B
-Date: Mon, 17 Feb 2025 16:47:42 -0500
-Message-ID: <20250217215641.372723-4-detlev.casanova@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250217215641.372723-1-detlev.casanova@collabora.com>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A5D10E02F;
+ Mon, 17 Feb 2025 22:10:52 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51HAisBn004459;
+ Mon, 17 Feb 2025 22:10:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ LZO4RmAwdWvHhYb8qMLxm/nSTg9V+VwwT6x0u1skeEc=; b=L/otBlqE+gbq85BM
+ WgeeUrcJCMrF36W4W3MNERaOVQUehpx5Uka7cr1KpRacic2xBhZCLac+K2MC3P1i
+ zju9KIh6k3FjaOpD8g95dSrdM9xr7azTUYO/BX4p//ucL1OdfA7vsFrlLQ0Ck7zj
+ kWyBiVr5YLWj1JRZJ4R9qfaiQ59n67iQlnobHQDb4yyBsYpUcxLeSrzh9Zxwtfxy
+ SLV/kg0Gdt8DC+avPjcLhz27hFMyIw5G145d7c25KSoNuqBNViKe/zCcn/zHO/+R
+ 4wvVPdaQkBCZay5MNZDpye56Na/9LK1sDj2HXIsXEg/YZj1W7jN/SHyan2uu/5pm
+ 5Wglfw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44v3mg1duj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Feb 2025 22:10:46 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51HMAiIR004908
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Feb 2025 22:10:44 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 17 Feb 2025 14:10:44 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: (subset) [PATCH 00/35] drm/msm/dpu: rework HW block feature
+ handling
+Date: Mon, 17 Feb 2025 14:10:26 -0800
+Message-ID: <173982978188.1706705.18136509869048284263.b4-ty@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org>
+References: <20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: rlyp48cn0jiv6PkP1lfCgzG4n7DNNeOI
+X-Proofpoint-ORIG-GUID: rlyp48cn0jiv6PkP1lfCgzG4n7DNNeOI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-17_08,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 clxscore=1015 adultscore=0 priorityscore=1501 mlxscore=0
+ phishscore=0 spamscore=0 mlxlogscore=927 impostorscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502170173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,56 +94,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI audio is available on the Rock 5B HDMI TX ports.
-Enable it for both ports.
 
-Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+On Sat, 14 Dec 2024 00:14:16 +0200, Dmitry Baryshkov wrote:
+> Some time ago we started the process of converting HW blocks to use
+> revision-based checks instead of having feature bits (which are easy to
+> miss or to set incorrectly). Then the process of such a conversion was
+> postponed. (Mostly) finish the conversion. The only blocks which still
+> have feature bits are SSPP, WB and VBIF. In the rare cases where
+> behaviour actually differs from platform to platform (or from block to
+> block) use unsigned long bitfields, they have simpler syntax to be
+> checked and don't involve test_bit() invocation.
+> 
+> [...]
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index 27128c6a05a2f..8f42cd0427701 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -231,6 +231,10 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
-+&hdmi0_sound {
-+	status = "okay";
-+};
-+
- &hdmi1 {
- 	pinctrl-0 = <&hdmim0_tx1_cec &hdmim0_tx1_hpd
- 		     &hdmim1_tx1_scl &hdmim1_tx1_sda>;
-@@ -249,6 +253,10 @@ hdmi1_out_con: endpoint {
- 	};
- };
- 
-+&hdmi1_sound {
-+	status = "okay";
-+};
-+
- &hdptxphy_hdmi0 {
- 	status = "okay";
- };
-@@ -351,6 +359,14 @@ i2s0_8ch_p0_0: endpoint {
- 	};
- };
- 
-+&i2s5_8ch {
-+	status = "okay";
-+};
-+
-+&i2s6_8ch {
-+	status = "okay";
-+};
-+
- &package_thermal {
- 	polling-delay = <1000>;
- 
+Applied to msm-fixes, thanks!
+
+[01/35] drm/msm/dpu: skip watchdog timer programming through TOP on >= SM8450
+        https://gitlab.freedesktop.org/drm/msm/-/commit/2f69e5458447
+[02/35] drm/msm/dpu: enable DPU_WB_INPUT_CTRL for DPU 5.x
+        https://gitlab.freedesktop.org/drm/msm/-/commit/af0a4a2090cc
+
+Best regards,
 -- 
-2.48.1
-
+Abhinav Kumar <quic_abhinavk@quicinc.com>
