@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E40A37F2F
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 11:01:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B879FA37F30
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 11:01:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 060B810E3E8;
-	Mon, 17 Feb 2025 10:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046BA10E3FC;
+	Mon, 17 Feb 2025 10:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kfBiTJ2u";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H62TYoIZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A920410E3D6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 10:01:32 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-38f1e8efe82so4545441f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 02:01:32 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 026F510E3D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 10:01:34 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-38f378498c9so1388608f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 02:01:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739786491; x=1740391291; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1739786493; x=1740391293; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TJKka9BGXo5aWskaWZaSFDrSIvgDMiHYo6XxF9H8dkw=;
- b=kfBiTJ2uGQpFtxe7AmAGOdn/JBWNBB97QNwDN0lGr4xRvj1cAR2pPMp4phazCDd6CC
- s7hiWNGQ1QxhQhTs8cE4Wa2vSttLfrCNEpFNEp3doEjKnlvUQhNy15JoVcEkfMADG5Qt
- mG395B75oVfUwiiH4N2oAjECSiFXWB4cxRD75yo/coiGfoLPCnZ5l4FGLDwxvbE0Loj+
- XslttuaHeLmg2FVes7MSEIHUIRFVu75YxaM0kHwPOgvxJrcJRBylE/8lsEynhiEp4e1L
- ypItkpdXwnlY2LNemHmq1jp5iR4x4yyTgb5px8RQoSmQXzcNX6Y+JW+JlsxnCfwh48RU
- dRUA==
+ bh=vG84qkV7BJECjcnd+fwOr4EF0zkS6sxDafqd+tmcLZs=;
+ b=H62TYoIZUkmBms4xjplWgx75yXKFLlQLCjr+7m5Fiv2McYnhsIw7/Jc/xvW1QUx9Xq
+ 8VPVZsJGp5tR74tQ1iAjwl6XpdZMno7n7Nzm99lppeBPe+DB9uPFBH+zgBmJvRZNomRW
+ jH8BO14S9YYJe0aDJwa5v1OxJfmAYljKdta8ZBkG6h2kJRb0Q4A58v4F7htXrL+ARSgv
+ E3AYbzkkPEdGG2sZDETcQfyElNdrxPvFeZUX1XrUU3vSTGVCdR9JSAUQlwOzTr8s8Dca
+ IcH2xhiEJFhIxD21knisFI59f5PIuvOZZhwTAJBINam4YTW/hO3LpT/wrg9DTOw/XrL7
+ 37wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739786491; x=1740391291;
+ d=1e100.net; s=20230601; t=1739786493; x=1740391293;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TJKka9BGXo5aWskaWZaSFDrSIvgDMiHYo6XxF9H8dkw=;
- b=sXvsGPQpZs7v803booTe9q7KtFU2smM18PdnnjrnxE/4AzF027H9v6U+VxjM9KxKae
- d5gzM9xw8VsfH4jEaEpS2bpUXbrUXFYivwMigKE+33VqpQGqdx8nbYJ5drhiMuXw4I/X
- U15ufIYmmSmww0V1LwD0EhdoAg4iKrsq9I53INJWAYi2HCkuZXdGSevA9UiqLzqEdvlZ
- UEmgM1ic9Dtt5LxhT5zyK8foJz2MyvPOsN42OqQvHwRdty671M9xPTP1DdrELJmiz0nP
- CdHcA1i+UWaNEUY+cTCYC8gz82OSk26KKPy8VLIHWUB9mrl4/5bIkWXSXCkuopd/lpsY
- aeEg==
+ bh=vG84qkV7BJECjcnd+fwOr4EF0zkS6sxDafqd+tmcLZs=;
+ b=EXrcQFfu3tSDBvc9inuOamYXU+uHh6EtP5+Y+nM3NUjf9ZWyQ5xDs99+eRB/BFKpNl
+ sX4A9qbb/Kwg6z9d8kl4btei8QEu4Dc8tLfHmuLvn2aF3KDmkX13wjp/ODTjOz3CSwgV
+ 8xFCskcLV0ldNbzBK0rJ9qWfRphOodVviB5DQRLDfW6f2VKsVn/Bz8mrxVrdor62CeiC
+ 5xihEFh5m+bzhHJyG6OelK/vXJ1ThWrNlgGjd5pUwl/GjfeXSGtasCUCP6O9CG7RyEgU
+ fBa4SFd493sq8C3wRrHgFCM22uV1c9ShN8pBsnocSE3u15fC577YNU+dFS4nMWOD4Qp8
+ gYDA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUZt2s/inGAvLBEttOKP/NI9HGjbpOl03doPYlW//Bg8kZ9Fx29tYn0MouJ5LVMQ6KxrAwHUfpXDIQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRrfPnY7NEE8U2+sjYNx3Y4+Vxc2LgVxR/WfRlC5fWFZQtouiE
- 1hdvVoNW28HNjxxlt2J1mYk15C6I6MB2niBpQnw7tvdluyYvipNE
-X-Gm-Gg: ASbGncv9rnlGlloWOZqVqV+2QvuTqBn3UGFF/78ABbuAJNEJ6/spJWUA/mOK391JOKk
- SExuc7Nc8AXpFH7Q22d+QjsXyWNgSH3sR/cSgyaLUSdTZnLkusV9e3gq7brTnU/MH+rh2zND5db
- Skfib/XjsAfkAUpYTI3Y2bBbfwHl4R8qjC5gk3Bu3o4uScK35+6I5LnvjESh77NqW+DHI6CxoVR
- 9bHHxsc//aP3OobPCJKgcRrEs/pqYYIJrdgSxyOnvWDEa8kM3JfGVvmDDHMovjciRheTQmEq1Us
- R2w3d5VBnEimqUgoyA==
-X-Google-Smtp-Source: AGHT+IEvXRu7nQr9abk46p9Flqt3U0L5kaXWVWty1aavdlHs6R4PCjETBRhWfdtHHenUEDLZusXffQ==
-X-Received: by 2002:a5d:438c:0:b0:38f:2856:7dc4 with SMTP id
- ffacd0b85a97d-38f33f62c72mr7168453f8f.55.1739786491049; 
- Mon, 17 Feb 2025 02:01:31 -0800 (PST)
+ AJvYcCW75XIAi4mamwwxRIV1L+1L9LsUHgoaHrNG68y8l7bECFw3X8B9B2a107ocEl5PUGe5X9NKNBDGd80=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGgKIs8bOGPfqzScssIMw6T5ZzBeMR4nYx1zCNydJF3wWCVTKV
+ 7r8NsWBTc0mUm4ZLPwH5/bqamNO2wXl6PGz/C0ldVHhUClzU1E+V
+X-Gm-Gg: ASbGncucNVeEDQeGoFxfYHPelIMdDdOMrUFnCn6CsBaay8zNtDeYNTGHDw5U31N3Cuz
+ DgDosppBRnD5EJaGXKPHEqrxFFo5lFpLL03AIkOw1Vp02ht7SjRSUd5XYKEPExsybq3cpvsK3/B
+ tQJ4HocEcu/+Xif9VVXPFqx0WDPT/feceqhBla5M1feGOpAFx/0UbX4zlEHNHCmebu238wjVSF2
+ KfBCMIa07IxpQfgqOSn5Xja/27Z7E24J76qnLEi0DEJKuLwaDZJtzI3lDF7Dn5BJgIW+UHuRavO
+ 8xYdbkSCsf2W6Ou6eg==
+X-Google-Smtp-Source: AGHT+IFGNiAYm97F/rvajIu8CyZRnvNveqnN8T22WAtQI5gMJGrMZ9dUcF45LtAZOYQGxLfI+woL/w==
+X-Received: by 2002:a05:6000:1f87:b0:38d:d8fb:e91a with SMTP id
+ ffacd0b85a97d-38f33f35862mr8662918f8f.27.1739786492575; 
+ Mon, 17 Feb 2025 02:01:32 -0800 (PST)
 Received: from fedora.. ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259f7fe6sm11591901f8f.86.2025.02.17.02.01.29
+ ffacd0b85a97d-38f259f7fe6sm11591901f8f.86.2025.02.17.02.01.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 02:01:30 -0800 (PST)
+ Mon, 17 Feb 2025 02:01:31 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -67,9 +67,10 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v3 06/14] drm/vkms: Set device name from vkms_config
-Date: Mon, 17 Feb 2025 11:01:12 +0100
-Message-ID: <20250217100120.7620-7-jose.exposito89@gmail.com>
+Subject: [PATCH v3 07/14] drm/vkms: Add a validation function for VKMS
+ configuration
+Date: Mon, 17 Feb 2025 11:01:13 +0100
+Message-ID: <20250217100120.7620-8-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250217100120.7620-1-jose.exposito89@gmail.com>
 References: <20250217100120.7620-1-jose.exposito89@gmail.com>
@@ -91,179 +92,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to be able to create multiple devices, the device name needs to
-be unique.
+From: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Allow to set it in the VKMS configuration.
+As the configuration will be used by userspace, add a validator to avoid
+creating a broken DRM device.
+
+For the moment, the function always returns true, but rules will be
+added in future patches.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/vkms/tests/vkms_config_test.c |  7 ++++++-
- drivers/gpu/drm/vkms/vkms_config.c            | 14 ++++++++++++--
- drivers/gpu/drm/vkms/vkms_config.h            | 18 +++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_drv.c               |  4 +++-
- drivers/gpu/drm/vkms/vkms_drv.h               |  2 ++
- 5 files changed, 40 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c |  2 ++
+ drivers/gpu/drm/vkms/vkms_config.c            |  6 ++++++
+ drivers/gpu/drm/vkms/vkms_config.h            | 10 ++++++++++
+ drivers/gpu/drm/vkms/vkms_output.c            |  3 +++
+ 4 files changed, 21 insertions(+)
 
 diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-index d8644a1e3e18..92798590051b 100644
+index 92798590051b..6e07139d261c 100644
 --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
 +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-@@ -15,10 +15,15 @@ struct default_config_case {
- static void vkms_config_test_empty_config(struct kunit *test)
- {
- 	struct vkms_config *config;
-+	const char *dev_name = "test";
+@@ -54,6 +54,8 @@ static void vkms_config_test_default_config(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, config->writeback, params->enable_writeback);
+ 	KUNIT_EXPECT_EQ(test, config->overlay, params->enable_overlay);
  
--	config = vkms_config_create();
-+	config = vkms_config_create(dev_name);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
- 
-+	/* The dev_name string and the config have different lifetimes */
-+	dev_name = NULL;
-+	KUNIT_EXPECT_STREQ(test, vkms_config_get_device_name(config), "test");
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
 +
  	vkms_config_destroy(config);
  }
  
 diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 0af8e6dc0a01..9fb08d94a351 100644
+index 9fb08d94a351..d1947537834c 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.c
 +++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -8,7 +8,7 @@
- 
- #include "vkms_config.h"
- 
--struct vkms_config *vkms_config_create(void)
-+struct vkms_config *vkms_config_create(const char *dev_name)
- {
- 	struct vkms_config *config;
- 
-@@ -16,6 +16,12 @@ struct vkms_config *vkms_config_create(void)
- 	if (!config)
- 		return ERR_PTR(-ENOMEM);
- 
-+	config->dev_name = kstrdup_const(dev_name, GFP_KERNEL);
-+	if (!config->dev_name) {
-+		kfree(config);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
- 	return config;
- }
- EXPORT_SYMBOL_IF_KUNIT(vkms_config_create);
-@@ -26,7 +32,7 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
- {
- 	struct vkms_config *config;
- 
--	config = vkms_config_create();
-+	config = vkms_config_create(DEFAULT_DEVICE_NAME);
- 	if (IS_ERR(config))
- 		return config;
- 
-@@ -40,6 +46,7 @@ EXPORT_SYMBOL_IF_KUNIT(vkms_config_default_create);
- 
- void vkms_config_destroy(struct vkms_config *config)
- {
-+	kfree_const(config->dev_name);
- 	kfree(config);
+@@ -51,6 +51,12 @@ void vkms_config_destroy(struct vkms_config *config)
  }
  EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy);
-@@ -49,7 +56,10 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	struct drm_debugfs_entry *entry = m->private;
- 	struct drm_device *dev = entry->dev;
- 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
-+	const char *dev_name;
  
-+	dev_name = vkms_config_get_device_name((struct vkms_config *)vkmsdev->config);
-+	seq_printf(m, "dev_name=%s\n", dev_name);
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
- 	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
- 	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
++bool vkms_config_is_valid(const struct vkms_config *config)
++{
++	return true;
++}
++EXPORT_SYMBOL_IF_KUNIT(vkms_config_is_valid);
++
+ static int vkms_config_show(struct seq_file *m, void *data)
+ {
+ 	struct drm_debugfs_entry *entry = m->private;
 diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index d0868750826a..fcaa909fb2e0 100644
+index fcaa909fb2e0..31c758631c37 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.h
 +++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -10,12 +10,14 @@
- /**
-  * struct vkms_config - General configuration for VKMS driver
-  *
-+ * @dev_name: Name of the device
-  * @writeback: If true, a writeback buffer can be attached to the CRTC
-  * @cursor: If true, a cursor plane is created in the VKMS device
-  * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
-  * @dev: Used to store the current VKMS device. Only set when the device is instantiated.
-  */
- struct vkms_config {
-+	const char *dev_name;
- 	bool writeback;
- 	bool cursor;
- 	bool overlay;
-@@ -24,12 +26,13 @@ struct vkms_config {
- 
- /**
-  * vkms_config_create() - Create a new VKMS configuration
-+ * @dev_name: Name of the device
-  *
-  * Returns:
-  * The new vkms_config or an error. Call vkms_config_destroy() to free the
-  * returned configuration.
-  */
--struct vkms_config *vkms_config_create(void);
-+struct vkms_config *vkms_config_create(const char *dev_name);
- 
- /**
-  * vkms_config_default_create() - Create the configuration for the default device
-@@ -51,6 +54,19 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
-  */
- void vkms_config_destroy(struct vkms_config *config);
+@@ -67,6 +67,16 @@ vkms_config_get_device_name(struct vkms_config *config)
+ 	return config->dev_name;
+ }
  
 +/**
-+ * vkms_config_get_device_name() - Return the name of the device
-+ * @config: Configuration to get the device name from
++ * vkms_config_is_valid() - Validate a configuration
++ * @config: Configuration to validate
 + *
 + * Returns:
-+ * The device name. Only valid while @config is valid.
++ * Whether the configuration is valid or not.
++ * For example, a configuration without primary planes is not valid.
 + */
-+static inline const char *
-+vkms_config_get_device_name(struct vkms_config *config)
-+{
-+	return config->dev_name;
-+}
++bool vkms_config_is_valid(const struct vkms_config *config);
 +
  /**
   * vkms_config_register_debugfs() - Register a debugfs file to show the device's
   * configuration
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 582d5825f42b..ba977ef09b2b 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -151,8 +151,10 @@ static int vkms_create(struct vkms_config *config)
- 	int ret;
- 	struct platform_device *pdev;
- 	struct vkms_device *vkms_device;
-+	const char *dev_name;
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 068a7f87ecec..414cc933af41 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -16,6 +16,9 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 	int writeback;
+ 	unsigned int n;
  
--	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
-+	dev_name = vkms_config_get_device_name(config);
-+	pdev = platform_device_register_simple(dev_name, -1, NULL, 0);
- 	if (IS_ERR(pdev))
- 		return PTR_ERR(pdev);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index af7081c940d6..a74a7fc3a056 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -12,6 +12,8 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_writeback.h>
- 
-+#define DEFAULT_DEVICE_NAME "vkms"
++	if (!vkms_config_is_valid(vkmsdev->config))
++		return -EINVAL;
 +
- #define XRES_MIN    10
- #define YRES_MIN    10
- 
+ 	/*
+ 	 * Initialize used plane. One primary plane is required to perform the composition.
+ 	 *
 -- 
 2.48.1
 
