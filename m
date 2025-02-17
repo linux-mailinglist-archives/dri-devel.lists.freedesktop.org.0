@@ -2,70 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C159BA381EF
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 12:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310AFA381F3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 12:39:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E83510E1C6;
-	Mon, 17 Feb 2025 11:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7779C10E41E;
+	Mon, 17 Feb 2025 11:39:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=braiins.cz header.i=@braiins.cz header.b="Zm3IZF5E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DRdmqC7k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5B910E1C6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 11:39:13 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-2fbfa8c73a6so8006011a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 03:39:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=braiins.cz; s=google; t=1739792353; x=1740397153; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9zz5DKFZ6uuYN8PSXSGgIORH7WCajmIYoaxWCWLM7L0=;
- b=Zm3IZF5EdNa/dpr3xLkrgOxXVh8DePBWydeQpltikQSvv6a5fBEOBfqj7eMLJ4o6Ho
- nSS+OFGs1Az47zfzHnyiVO4B1wwFk0EfIGXHTpcHc+QqDyK1hb6WrgD2U5SpRkS6Xjoe
- bwqAcd0SYg1KK4sD9YaTp7we2zh3cuhh9mf/Y6fwpTB5EoCTL6/vOmSLfbTo+VDQuCbC
- G2ReA3jSU6HL56YOhU9KbF1IcPZg1K28cmvEnTUKAWDQHDWJYneIzrUJAfGvK3/vsbMl
- fzPCBycXfZs9L5xJWYewZpr4SSBLXopVya1uVvrjLpARljcn4o/VoHy6vCcHArQK0D4u
- P8iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739792353; x=1740397153;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9zz5DKFZ6uuYN8PSXSGgIORH7WCajmIYoaxWCWLM7L0=;
- b=dgyyZTULnvsr960qafDGrKJRMw5otj76rUBVZwlt6GG26NWinamq/V0OK4QyZiaJEC
- 0R4Z8cI/eK9TMNrrr7FiiiQtYOox1mlTmRhhsH/j2X8gxzuA8jf8akMMSS9EV317Vyh8
- xhse93HAMGA5VizvFlTotnqjAy0nfMz0I6L3ENYwfkj5LZwMbR6q6yqXXXeIyPQq/pb6
- /xueyNA5puTkbg0/R/jOdAH6tOzgELM1W/gmSuCYxY/Xn/g8yUSK7zkWalx5TN9PDMyA
- 3yooaiRXpqLPZQLINKw8X4oQLLJHmERgg+neilZ+miZ6fb5pwOQZPedRlikt9CoY62gM
- cNkg==
-X-Gm-Message-State: AOJu0YyA5Qm/dms5YuKqdLhpnPCKkdfKTGrDeYGrkH7Uq56Viru9kIbE
- VVDFR2pPbyiGzxBNPzSxo3Oo8mPRAzcH/AxpiL1ejFYSeIHmIotlt51hSWtG7g5HBfEPV+/ftRH
- 2iCadKi5YYoSfQJXVJdBuqVRzVjbJVRNpZkUu+CZ+NulrioiH
-X-Gm-Gg: ASbGnctj3bQV2PSzwbf4dVjotmPctgB29isBEAfv+ZZ3klstrTGHc3lb/a9M7hLQePN
- /mgUN3c2kXh12RoB5mwMqFQARrnevMI/i5Be3f5KNhNYu1f2fEASQu7fNWTMYmWHxkpCXPpI=
-X-Google-Smtp-Source: AGHT+IH57zypZBYdFu9rNQ56w86cSfnL2oJDZTpOS138yAq0Kv6l0YTxTwlxEJG3pvzqTNPwNqIagtuL3NZcYtgXCDg=
-X-Received: by 2002:a17:90b:2d83:b0:2f9:c56b:6ec8 with SMTP id
- 98e67ed59e1d1-2fc40f0e646mr15164079a91.10.1739792352714; Mon, 17 Feb 2025
- 03:39:12 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 593F110E41E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 11:39:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CB5065C483E;
+ Mon, 17 Feb 2025 11:38:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C81CDC4CEE4;
+ Mon, 17 Feb 2025 11:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739792376;
+ bh=eRJtlx+TXRz4sj1yjZeqRnBx9fEKd9tRMuECk2LsGb0=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=DRdmqC7kFX+YX7FOorXzZDbEwEujI1ib5++hgeOGoBD7fMIKi1U6wsdKdNMTTxRrn
+ M/6pT5GNlnaLpPJPuZhY4PsshcA3kWyKOO9cwGU1Rw6gSf3cvTO8tACJ5vbz9VkTgI
+ UlnYyhFrPaZaUDdMqihQ2DOxPQ1OqC/o6DgarK22kJYX5cr+rGltBGPqy0cTiK4wNi
+ MQ3yE+3C1bnG7FnWFhI0MaTWPkxdCXis8StJua+xVw+BAdxWtrx40/5dRbsQlqzbEZ
+ hVjGr5xHiGfzjYo7mvveRmN0StSfl5Na0rPOCQnYqQNzO6qjkWSCdGI7+OVvhqxzaO
+ nXH1Tsi6h4w3Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id BD1A8C021A9;
+ Mon, 17 Feb 2025 11:39:36 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v7 0/5] Driver for pre-DCP apple display controller.
+Date: Mon, 17 Feb 2025 12:39:30 +0100
+Message-Id: <20250217-adpdrm-v7-0-ca2e44b3c7d8@gmail.com>
 MIME-Version: 1.0
-References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
- <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
- <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
-In-Reply-To: <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
-From: =?UTF-8?B?Sm9zZWYgTHXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
-Date: Mon, 17 Feb 2025 12:39:01 +0100
-X-Gm-Features: AWEUYZkJq_k42m7A8gGM7qtW2LxH9WttgEpJlZn59VK8COWic8d2-9gJfUdWrlg
-Message-ID: <CACnTymYBYmGMk8z5Xp=OGBHvsA-hwJtGAi6MSHfpTGJBHMQqSw@mail.gmail.com>
-Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
-To: Alex Lanzano <lanzano.alex@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPIfs2cC/2XPy2rDMBAF0F8JWldFj5Hkyar/UbrQY5QI6jjIx
+ bQE/3vlQG3jLu8w5zLzYCPVQiM7nx6s0lTGMtxacC8nFq/+diFeUstMCQVSKuA+3VPtuTI5kk6
+ p806ytnyvlMv3s+j9o+VrGb+G+vPsneQy/VcxSS64lihTR5YA/dul9+XzNQ49WyomtWd2Zaqxi
+ AI6o7WNAo9M/zEjmluZXph1kKLE7F0+Mtiz7UhojDAYZYXXmOWRmY0pYVZmGgMCiugwhKyOzO7
+ Z9ptdjux8QA1daA/u2TzPvyoNbD+vAQAA
+X-Change-ID: 20241124-adpdrm-25fce3dd8a71
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
+ Janne Grunau <j@jannau.net>
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Alyssa Ross <hi@alyssa.is>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Nick Chan <towinchenmi@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739792375; l=2867;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=eRJtlx+TXRz4sj1yjZeqRnBx9fEKd9tRMuECk2LsGb0=;
+ b=RMk5Ud/lR7LohTZmy9UXcBvRVStjq2rym8WI1uCB7NGENaBDElVWONJTm0BSFwHXh7TPamH+2
+ 9jlTs2MhNBVBO5XIig2VNo5M79PSAX6EfUmfQHIje6w4udnL07lurUj
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,63 +86,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: fnkl.kernel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 15, 2025 at 8:14=E2=80=AFPM Alex Lanzano <lanzano.alex@gmail.co=
-m> wrote:
->
-> On Fri, Feb 14, 2025 at 08:04:41PM -0500, Alex Lanzano wrote:
-> > On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Lu=C5=A1tick=C3=BD wrot=
-e:
-> > > Hello Alex,
-> > > there is a bug in mipi_dbi_hw_reset() function that implements the lo=
-gic of
-> > > display reset contrary.
-> > > It keeps the reset line activated which keeps displays in reset state=
-.
-> > >
-> > > I reported the bug to
-> > > https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
-> > >
-> > > Unfortunately, fixing the bug would mean current DTB-ABI breakage and
-> > > device-trees modification would be needed.
-> > > I mainly write this email to let you and other people know about it, =
-so
-> > > hopefully it can be found easier.
-> > > What are your thoughts?
-> > Thanks for making me aware. I'll dig into over the weekend and get back
-> > to you
->
-> Alright so I looked into a bit more. Looks like the MIPI Specification
-> says that the reset line is active low. So, if we want dt entries to be
-> correct the logic for setting the reset line in mipi_dbi_hw_reset()
-> should be flipped. However, like you said, this is going to cause a some
-> confused developers to break out their oscilloscopes to figure out
-> why their display isn't working.
->
-> Best regards,
-> Alex
+Hi.
 
-Thank you Alex for looking into this.
-I think all the supported dts can be changed together with
-mipi_dbi_hw_reset(), however the fix would break existing DTBs and
-third party DTSs.
-So I think it shall be either noted somewhere that due to this bug,
-the reset line needs to be "wrongly" ACTIVE_HIGH in DTS
-or the mipi_dbi_hw_reset() is changed and the compatibility is broken,
-which needs to be announced.
+This patch series adds support for a secondary display controller
+present on Apple M1/M2 chips and used to drive the display of the
+"touchbar" touch panel present on those. 
 
-BTW Zephyr fixed the code [1], but they introduced the MIPI DBI
-support just a couple of weeks before the fix, so they avoided the
-compatibility issue.
-I was not able to find users mentioning issues related to the display
-not functioning properly, so I had to dig into the code.
-But afterwards I found a thread on Raspberry PI forums, where one of
-the moderators mentions it [2].
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v7:
+- No changes aside from adding r-b trailers, effectively a resend.
+- Link to v6: https://lore.kernel.org/r/20250206-adpdrm-v6-0-c8ab9348b853@gmail.com
 
-[1] https://github.com/zephyrproject-rtos/zephyr/issues/68562
-[2] https://forums.raspberrypi.com/viewtopic.php?p=3D2165720#p2165720
+Changes in v6:
+- Use the drm_connector_helper_get_modes_fixed helper.
+- Split out into a separate MAINTAINERS entry
+- Link to v5: https://lore.kernel.org/r/20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com
 
-Best regards,
-Josef
+Changes in v5:
+- Moved to using the component framework.
+- Other lifetime fixes
+- Link to v4: https://lore.kernel.org/r/20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com
+
+Changes in v4:
+- Fixed dt bindings.
+- Link to v3: https://lore.kernel.org/r/20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com
+
+Changes in v3:
+- Fixed building as module after splitting out mipi block
+- Addressing the review feedback.
+- Link to v2: https://lore.kernel.org/r/20241126-adpdrm-v2-0-c90485336c09@gmail.com
+
+Changes in v2:
+- Addressing the review feedback.
+- Split out the mipi part of the display controller into a separate device
+- Link to v1: https://lore.kernel.org/r/20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com
+
+---
+Sasha Finkelstein (5):
+      dt-bindings: display: Add Apple pre-DCP display controller
+      drm: adp: Add Apple Display Pipe driver
+      drm: panel: Add a panel driver for the Summit display
+      arm64: dts: apple: Add touchbar screen nodes
+      MAINTAINERS: Add entries for touchbar display driver
+
+ .../display/apple,h7-display-pipe-mipi.yaml        |  83 +++
+ .../bindings/display/apple,h7-display-pipe.yaml    |  88 +++
+ .../bindings/display/panel/apple,summit.yaml       |  58 ++
+ MAINTAINERS                                        |  16 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  61 ++
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  61 ++
+ drivers/gpu/drm/Kconfig                            |   2 +
+ drivers/gpu/drm/Makefile                           |   1 +
+ drivers/gpu/drm/adp/Kconfig                        |  17 +
+ drivers/gpu/drm/adp/Makefile                       |   5 +
+ drivers/gpu/drm/adp/adp-mipi.c                     | 276 +++++++++
+ drivers/gpu/drm/adp/adp_drv.c                      | 617 +++++++++++++++++++++
+ drivers/gpu/drm/panel/Kconfig                      |   9 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-summit.c               | 132 +++++
+ 17 files changed, 1489 insertions(+)
+---
+base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+change-id: 20241124-adpdrm-25fce3dd8a71
+
+
