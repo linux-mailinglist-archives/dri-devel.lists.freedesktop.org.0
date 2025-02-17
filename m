@@ -2,154 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5425AA37918
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 01:02:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7137FA37943
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 01:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A51DA10E1A0;
-	Mon, 17 Feb 2025 00:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F0E10E1B6;
+	Mon, 17 Feb 2025 00:48:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Zo8JhxXz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WQglZoTd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2073.outbound.protection.outlook.com [40.107.100.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C8910E193;
- Mon, 17 Feb 2025 00:01:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JCFDQj2PoqHbuq7gYFQiW2xBopsbz5VuoBZYGL4K5bSam2DWXYub0Kbyjp6gOQWHzj7da1nHPAZVneCsxozah9SwoEOtGO+ezUZCY6Ph5c4ADwNJX4JyfgxxRRVSS2XPTDN+k9KI17xbqztHWFauRpsoKXY1O1cUpqmo5IsOG5eODQsH0BKtBZu5Xj3H/4sJ6or60TxcJaMA/ouo3p4nGFx7fLO5BEhTx0nxrcPoQ9fXjfeP2ArhLykxFGKTmkRUZ1RttnJdCTsGcpZE7ukxK71cXWZX4FwvyQARZBAaoA3A8DyEtMLHk0mEKIwdA3K4sIUdvz50kcjPfPDDUYqsxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eDK0+wxFsGa0EJGThWLTJe9YyKta5PufmyN0g9Qklfw=;
- b=YLgyJYlQKNcA2SuVmumhqz6h2l0br4gtjxR7Fnt7VCjZTZePRS7PQOwKP4eSfXV3zlyOvIgKoZmuzUu/QwsttL1u/1NUyph1KgB2Y+SLO3i1T4R5xyhH1A1wM3Ruy/QLcrds+8gFeO52jl+1rbfOVmMBWyiMdTcm0D/kypy/WOpFlK8Jmla0qw4FxbIUN9ZVqHscWqBtOSgm/jmeAPUOaiRaHuPvu1ERFSjSqGFKQIlJfTrgwcaNolhQs79yZSIrbiHJPJlCMw3Dyw8O1kqzuXErAhXlJKG25tA+UW1rRjj9FXwGqYaA8+k4R1aPrhYfJN+WftfB0cqA8I/Nah48Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eDK0+wxFsGa0EJGThWLTJe9YyKta5PufmyN0g9Qklfw=;
- b=Zo8JhxXzR5HqCrQG2oTZT0KuGU59iidfsHFzLDowr26PV6hUaoPUqjAI6iuNU4hsfbson8fWwKTq1tnIfUCgkz3dw8xMjP6ZFchNHsM6XPFb8M/py9cdVr1UwAQYjWICgJ53ZN9mOcFJj/edH55C5VzpzXpkF/iL+IIUSWGZ3wE+9vaKi42ecKFM8Dsz2wnocXQw8DLJaOWa+YfBYMcjdm+NrDIixPfJ/A+t2vdtps/qDUqSXUbQhkG3LaNUdLsTzGMGN0ofLfqRl91bQe52QxwIonDMp0uFigNH3MIX0PaUIfcW6W5n1063JGdD6I9uPtUP5gf1zJ9+VEYVq7UGXQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- MW4PR12MB5604.namprd12.prod.outlook.com (2603:10b6:303:18d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.16; Mon, 17 Feb
- 2025 00:01:52 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8445.017; Mon, 17 Feb 2025
- 00:01:52 +0000
-Date: Mon, 17 Feb 2025 11:01:47 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-mm@kvack.org, nouveau@lists.freedesktop.org, 
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- damon@lists.linux.dev, 
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- SeongJae Park <sj@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>,
- Jann Horn <jannh@google.com>, 
- Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 03/17] mm/rmap: convert make_device_exclusive_range()
- to make_device_exclusive()
-Message-ID: <vclmxoorivzhamd4smaaeyamdeangj3aqlbl27muzxuljasdrg@t4jj77rmiozu>
-References: <20250210193801.781278-1-david@redhat.com>
- <20250210193801.781278-4-david@redhat.com>
- <20250210210001.5dc68b38eb1bfa44d0fd78f6@linux-foundation.org>
- <48fd75b9-696e-402c-95bd-55f2f0e24dfc@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48fd75b9-696e-402c-95bd-55f2f0e24dfc@redhat.com>
-X-ClientProxiedBy: SY0PR01CA0009.ausprd01.prod.outlook.com
- (2603:10c6:10:1bb::10) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 078F210E0B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 00:48:11 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-6f666c94285so31857817b3.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2025 16:48:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739753291; x=1740358091; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jiE7dDyQpEcuMgGEFZxqBiwxreB1F7LNocjU7g22r7Y=;
+ b=WQglZoTduze7YLbJHQx37FO85PAZGW/KxFwGxo3QC+E6Ufsmtc3BqYNfFI0XlsrfvT
+ b+9eCvoKg4wRBUCdo9eUJt8xrpakLQ/6NEi+zQfkgjGOQECb1jtzpAsZnMqhUWfSjF8k
+ 3rASrjxAboFc1ohXkZu6ai497Q7JYeV805w3taP0pTYE5xEeaTLmsWc/K3FVcrxezbxT
+ 07+6VXSQYx+DnT+weURXBu62Jx0h+V2NypbU2hEuVLoIdbiuxfcuYwgQyBNv7Xq7zklf
+ e3cN0YGXEg6TzYM0KfBsAj/vC9HaQXgc0brbqrB51aDXB/ojfEN4cPgvNAkiJ7aql14p
+ wWsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739753291; x=1740358091;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jiE7dDyQpEcuMgGEFZxqBiwxreB1F7LNocjU7g22r7Y=;
+ b=UROwdDsw3XaQI4Ym/J5QKD6Ti/RV/eLpT1l8VVsMa1J/kfHBll6OONXc82/1raGfUf
+ 27uSppXeWrctrt1L9bvggNNBWqSBwwUqOi5dh5dxZqS9d1g510YskK4uAtVVDyUI5KiK
+ oWEDwnH99IhALNEFFJRotl6ybOzcPt5HzdW74y0xf8tluaIaR3ThL8XQB4ekGgof63fH
+ CO2npo4tKbWOPPvWtONtwoIM7afAhG1UvNW8lAXejiPnGbGX89vUwAHRX2flnf2AQpoV
+ yEiNHX3qHGMLVRyfYt2moIhRSWR0YB3/shOk/9t4JDzCLz5lQmuwCAAHZhPiq9H40dJe
+ laVQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEUrw6l7PB3I3eJthcwv+RrRcUwmrmM1HLnGDl9ivMRD+ftplpOAWoJzCf9Yzd+Oo0YbqPW/LpUPM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9y5SF/Jxw0CvFLYW3VPOGlK4nXmSR7Gu/ksvCWxezmLWDvnhy
+ UTVOzrmoXTDG8bmF/2bVqLWrTLFE4UH8Eql+vVapcVbs5leF+XB9l6Anyhwo0/yAMe7/9+SXgGW
+ EuudMlz6djTSSW+kEfJbi8gqoLA2NFKEAm8ZZxg==
+X-Gm-Gg: ASbGncuzWFV+uVAZZROhAT8OLbD71sGAeE3Ua7ecphDsTvPygsn8JTJ14z6zbWV9GOX
+ eQenSX99xGWW/zrwicgU8JpYkQzxDN43FEy19sv0peJXybMiBFJdrjEm0VF4NP48DPsNCAA1cRC
+ j9nRxQ/84qMlkpZ05+CrivzbgWRHbZ
+X-Google-Smtp-Source: AGHT+IEMhSRFHPDYkw5GeVrG2kqJaVOkuZfxzT78iT6QhZXjbf5bNidkqWZ4fujnyRRGkAao4NrfMknk7hZDlpY2vkc=
+X-Received: by 2002:a05:690c:6e0a:b0:6ef:5097:5daa with SMTP id
+ 00721157ae682-6fb5835b290mr64408277b3.34.1739753290871; Sun, 16 Feb 2025
+ 16:48:10 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MW4PR12MB5604:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e876eab-77e5-47b4-6f89-08dd4ee64863
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Z61QbeB29V4CFrLt5RxkgBOFYdgujTqOdtLAmTxbDmxQUOqDvnx7wj8yPISQ?=
- =?us-ascii?Q?zcz/bE4XjP8fZSFKi/+6wFY9DXTviz/q/qRKhQicXRlhEXB8CZKK66/eclJX?=
- =?us-ascii?Q?LkwAyWNbwHIWLpf37I8gd9IvDBwbf7kir6ljIZhGWuz4PrG7xoehE+X2QTPu?=
- =?us-ascii?Q?2CfB8UDcBzTVh3TRzGfLSUzx8TuGNT8WMEtgt1j19+04wOQawuQOm+BAmxpn?=
- =?us-ascii?Q?Yr31loZ8Stwfz8T1gsExx8BvUrp5bRszsQQF1ANkb0+UFZzeF655aR5i97Q/?=
- =?us-ascii?Q?UsZauI4wUTze39WM6RkVX7sAYdfY2s1BbDXwOBPERCEe+qk70CqgzPutVpMp?=
- =?us-ascii?Q?QHaeSzrrAf6c+OYfnQ452BMSbv6wLH4MxamdETFFutYtOQNnMQ8oNfOU5QGh?=
- =?us-ascii?Q?POM2o3MeUe5NglGprrlZ+P3+adfV8jnFYTiaVqCHkIlO/aevlh2zSqFXJfcr?=
- =?us-ascii?Q?2P8ghYDTARAGrRaSTZShes5vv6twJ33QcKPLBjqlIwFllIkkT28FOBjug4H8?=
- =?us-ascii?Q?N46d1BimcsxwU/b/0/nT0kz6kCc/k9ImIHxN2/gc+1H2bI9/GCTa3UxaF03E?=
- =?us-ascii?Q?cYdVFgNgZ2KA7F2k6f8K4VfU44kLWsTIMaj3/oQznMi57atl4RRMoYOk5W+r?=
- =?us-ascii?Q?LkH4T+2IDQkas4Dw1QChaXdPFnWWJPE2vStPmejKmtAwgGuT7oRrukbes6je?=
- =?us-ascii?Q?Wux6Ep0gahyS3K7RWNl6jmlkLcKokbQ07GpRlPnpeeIHupz7vGHTTv2bDA1b?=
- =?us-ascii?Q?oQgtHQx7eD09aKhDupHxvMP8sDJP7VMkIknkT4Hhx77GU4UfsRrOvvjPQc0E?=
- =?us-ascii?Q?fdsFR/B2lUUOOaxya3ueLEfAObmq9Z+uuME8xWz0j3fXWVbqFKtwWtJgR2Cy?=
- =?us-ascii?Q?9RgN6qh3mYUaztlBbFZCZKUqd7FEEIZEunJG3lFtsMSaIEwCKSQ+V1B0NaZc?=
- =?us-ascii?Q?2j0dsmzomW+I12r3DJ3xDdYdSEtxf3MedZUyet3uY/xnAACkXTFZcSYh0/IK?=
- =?us-ascii?Q?M2dXuGiX31eQXP7tI5EvCWz9aSp7VyZlDvqPUyx5f1CZ8VvLSPVsuFJoN7oU?=
- =?us-ascii?Q?NL7lC4q1z7k5AJ4d8EQi+9EC8AQQPL9y9Vdj2ywYtmQZT2CuKWTjlOSetHFC?=
- =?us-ascii?Q?sWBfzHG6jhQ7X+G0BqTj7yT+U5YiMDGesfZaX+Uh0JMtn0VWBQO1Oy5XdfWs?=
- =?us-ascii?Q?PUHpFb8V+lifodHiUiHbM6Oej2bw7r/P8qsJNj84ABCuO+uXLOCRigyhgL2W?=
- =?us-ascii?Q?OYh4ubVkBLwAO6BCiZeMeuKaOM8XyCEB9iNPOekK3mJFquMD2WTsBECInsv+?=
- =?us-ascii?Q?llCVVYgBfxkxX1C+zCcKGREJpW6jnBEAf1wLG1zaZ95Ug28eOSOGD3kPmZTR?=
- =?us-ascii?Q?FPA/Fzm0tMqSa+ZdMhlDYayjYN1Y?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ezYWmCw6oJO78Vnd42KLeFwf8g+ju3tSFJOOsXmU5xuZXYxdf8DvMD2pA3vf?=
- =?us-ascii?Q?bP+fM8KypRK19jO2IkWnfRYaZzUIXKGyw6MpFCdCSxXxBW0ymfuZouQf27B4?=
- =?us-ascii?Q?2a1EXJHksSlvVlqHBPzq6uKRyRMaV9GAj9+an/PlC63gRfoTUqljquVD/DHL?=
- =?us-ascii?Q?GqX9U5szGUw9RA3htwxcb+UmngT1bmHPYUJTAb4JmPhIPxw1VONLNv/SnVmZ?=
- =?us-ascii?Q?2mbgs5Ll8o5RYriPALxHIRA0WLryyRK2uv/ruv09tSdVLUXx05HgYpeoTrv2?=
- =?us-ascii?Q?GIAoVyRRI5p5dGgm46lbOz8usD7tj8SuHVFyMtjldnTNkeILHNZfI7Xs9oK2?=
- =?us-ascii?Q?5V8OogBuni95M+XQc+jUGEHmcEoSTd6ndC31mYTgwdWfQSFV5rmIDhErua0q?=
- =?us-ascii?Q?wSTE2VAQSsX/LcpIQ6aw2T0Y+xLJxDw1cjzOR+pauFwNvYR8CKYbY2bZ/pUM?=
- =?us-ascii?Q?xdD6FDg/LVLvfXMm7xgTOyHANVOvIpSloKenD2Q8WbPh3S6Gow0xVa99k0Eo?=
- =?us-ascii?Q?gm4ryx6ESjIKzR4ZmVKiR17L8Tuqwo5qJz1n6RjWSUtS6JGZxvMHXIMuxeED?=
- =?us-ascii?Q?ha2ni6SPUMCq7WMTI+rkwgpIWmZdgOEXWgKB9L+T66NrLXg2yAm8nWKamRRP?=
- =?us-ascii?Q?4fSKUN9mGXB0h3gubFcYfVqjB6+vigtzwrhc8s98r5Mlsu/EqIrt//CJ/Ftl?=
- =?us-ascii?Q?iyRGx8AqPcqXCu9rvNdjtSbhomGwT7KbIv3Hym2HftsKdocuixLb+SOiGCQK?=
- =?us-ascii?Q?0WegO8cYy9Z+5aAag3aiBjvFo3vLJPr1heXfGAr6BtVEkn8DGh7JA3asszbI?=
- =?us-ascii?Q?JtoHZlv+TgI75mv3Bk28dZzdBqdNuzYaipbO/bNQZvqC5qTWLxtHh0edQ6Kk?=
- =?us-ascii?Q?SU63/XNYYrKsFEEdwJbEwNDE32/ob797lLLfpb9C/9wybmIcp7Czg2AQrH4+?=
- =?us-ascii?Q?1JQV/WcgVcK6QbKQWpAF7mwGtY3c3JsvJ1w6DDCL0Bfxcfi5UlYmgnELI/kx?=
- =?us-ascii?Q?88z6PtOWfAkKRv9BiMLWNBGzworAxwrfwaBSnsR5Wr8c+AjJMGffgz78yG8l?=
- =?us-ascii?Q?NTQwCfjJuBFXFNgiP/adm6HYgpe8rq9scZuExs9I1xShgD0mbuTf43d06nMF?=
- =?us-ascii?Q?fabwwDg1tbuIC99xzLH60tHI8D0Zp6pbQH1ZtRZN8a8lU83XH6cRC9Cjp4Ol?=
- =?us-ascii?Q?uolHwyO1pe+r1QTka4Ko8UcKYpnK4hbtMAcO1cmqwdNEyleQFDFq/sUh8vKz?=
- =?us-ascii?Q?zspOFPHlzIoN8S3rI7gjVRr1Fu++0BOsV55R3XiQLA+q+3VEFmdkBH4q/CMq?=
- =?us-ascii?Q?3ia/okC2Q+zaPr67ooX8Nih0xzO8j9IWk5H2fWviIuHzulsNSS4dCCJpI1u8?=
- =?us-ascii?Q?QukG+0NgSCsbNKt0KFGn1KaLq2o7aztOQGm6MrPDGSAZ4Lk8m8/KiX58oFZ/?=
- =?us-ascii?Q?aH/KSEWeSmmzttl08Omb/s3Izxa1kBZC3+7JKJRvnOCw4viYlRBMbPr8tKaQ?=
- =?us-ascii?Q?h27Gl0KcBxknMLH4TnsLrRZYJXmTyKsTivG9BKoKD6gPtQJinXK1O4zGyPKA?=
- =?us-ascii?Q?Gm/A0OVM+i4gErkHQpEyuIxsrgy9+GswvQg1cppq?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e876eab-77e5-47b4-6f89-08dd4ee64863
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2025 00:01:52.3731 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ET7Vdfw3oHU4t19ek+CEXdMKA8blov1w6MzvNuXuCGyAKTzqaOcFP95y7cnYRBgjyt/Jaa09QoTb2ZVWW57keA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5604
+References: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-0-9a60184fdc36@somainline.org>
+ <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-2-9a60184fdc36@somainline.org>
+ <nzm3tokbvho3hxz3e5vblp5ndagfcv5ah3j7gtkqjmt7ynr6f3@v36juvu73i5v>
+ <vsxfi43d7rxh5xxc7ctivjslf6w4yy5iprqpqid3u3diylrtwd@wayafjlgzz7v>
+ <x4jced57uhdfnq4d7tdqsozxbdosu2fcmsjlqtuuvh25ltx2rc@2eqsa7e4vcdv>
+ <c5503020-0224-428a-9452-f8d668b47caf@quicinc.com>
+ <ca80bd37-3b3f-48d3-a57d-2440d20d0c6c@quicinc.com>
+ <hvwpqzvdoeosz34ptbksc44ad7ohi6uwioy6o7qc4ewwcvx4d4@g3kksn3rwk6j>
+ <xtcwuscf3nz6o6qhv4lerpeoxep34iloj6kvxxuad7yoqsus22@tmuv2jqvfpo7>
+In-Reply-To: <xtcwuscf3nz6o6qhv4lerpeoxep34iloj6kvxxuad7yoqsus22@tmuv2jqvfpo7>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 17 Feb 2025 02:48:00 +0200
+X-Gm-Features: AWEUYZnr5JEM_NzM6_fTTLE79Hxcuewl699FSlC_aTSNnkIVaJZXXU_BNMa4HAc
+Message-ID: <CAA8EJppoeuO-JWPzG=OB_HQXKokf_aj-JOW4GDfgGF1r3n+u=g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/msm/dsi: Set PHY usescase (and mode) before
+ registering DSI host
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Jordan Crouse <jordan@cosmicpenguin.net>, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,78 +99,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2025 at 09:33:54AM +0100, David Hildenbrand wrote:
-> On 11.02.25 06:00, Andrew Morton wrote:
-> > On Mon, 10 Feb 2025 20:37:45 +0100 David Hildenbrand <david@redhat.com> wrote:
-> > 
-> > > The single "real" user in the tree of make_device_exclusive_range() always
-> > > requests making only a single address exclusive. The current implementation
-> > > is hard to fix for properly supporting anonymous THP / large folios and
-> > > for avoiding messing with rmap walks in weird ways.
-> > > 
-> > > So let's always process a single address/page and return folio + page to
-> > > minimize page -> folio lookups. This is a preparation for further
-> > > changes.
-> > > 
-> > > Reject any non-anonymous or hugetlb folios early, directly after GUP.
-> > > 
-> > > While at it, extend the documentation of make_device_exclusive() to
-> > > clarify some things.
-> > 
-> > x86_64 allmodconfig:
-> > 
-> > drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_atomic_range_fault':
-> > drivers/gpu/drm/nouveau/nouveau_svm.c:612:68: error: 'folio' undeclared (first use in this function)
-> >    612 |                 page = make_device_exclusive(mm, start, drm->dev, &folio);
-> >        |                                                                    ^~~~~
-> > drivers/gpu/drm/nouveau/nouveau_svm.c:612:68: note: each undeclared identifier is reported only once for each function it appears in
-> 
-> Ah! Because I was carrying on the same branch SVM fixes [1] that are
-> getting surprisingly little attention so far.
+On Mon, 17 Feb 2025 at 01:06, Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
+>
+> On 2025-02-13 04:13:06, Dmitry Baryshkov wrote:
+> > On Wed, Feb 12, 2025 at 05:13:08PM -0800, Abhinav Kumar wrote:
+> > > Hi Marijn
+> > >
+> > > On 2/10/2025 2:17 PM, Abhinav Kumar wrote:
+> > > >
+> > > >
+> > > > On 2/10/2025 6:24 AM, Dmitry Baryshkov wrote:
+> > > > > On Mon, Feb 10, 2025 at 01:54:29PM +0100, Marijn Suijten wrote:
+> > > > > > On 2025-02-10 01:11:59, Dmitry Baryshkov wrote:
+> > > > > > > On Sun, Feb 09, 2025 at 10:42:53PM +0100, Marijn Suijten wrote:
+> > > > > > > > Ordering issues here cause an uninitialized (default STANDALONE)
+> > > > > > > > usecase to be programmed (which appears to be a MUX) in some cases
+> > > > > > > > when msm_dsi_host_register() is called, leading to the slave PLL in
+> > > > > > > > bonded-DSI mode to source from a clock parent (dsi1vco) that is off.
+> > > > > > > >
+> > > > > > > > This should seemingly not be a problem as the actual
+> > > > > > > > dispcc clocks from
+> > > > > > > > DSI1 that are muxed in the clock tree of DSI0 are way
+> > > > > > > > further down, this
+> > > > > > > > bit still seems to have an effect on them somehow and causes the right
+> > > > > > > > side of the panel controlled by DSI1 to not function.
+> > > > > > > >
+> > > > > > > > In an ideal world this code is refactored to no longer have such
+> > > > > > > > error-prone calls "across subsystems", and instead model the "PLL src"
+> > > > > > > > register field as a regular mux so that changing the clock parents
+> > > > > > > > programmatically or in DTS via `assigned-clock-parents` has the
+> > > > > > > > desired effect.
+> > > > > > > > But for the avid reader, the clocks that we *are* muxing into DSI0's
+> > > > > > > > tree are way further down, so if this bit turns out to be a simple mux
+> > > > > > > > between dsiXvco and out_div, that shouldn't have any effect as this
+> > > > > > > > whole tree is off anyway.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > > > > > > ---
+> > > > > > > >   drivers/gpu/drm/msm/dsi/dsi_manager.c | 30
+> > > > > > > > ++++++++++++++++++ +-----------
+> > > > > > > >   1 file changed, 19 insertions(+), 11 deletions(-)
+> > > > > > >
+> > > > > > >
+> > > > > > > Fixes: 57bf43389337 ("drm/msm/dsi: Pass down use case to PHY")
+> > > > > >
+> > > > > > I'm not exactly confident about that.  Abhinav pointed out in
+> > > > > > https://gitlab.freedesktop.org/drm/msm/-/issues/41#note_2375646 that
+> > > > > > msm_dsi_host_register() was not supposed to be enabling the PHY, which I
+> > > > > > provided a counter-stacktrace for to show that is indeed the case.
+> > > > > >
+> > > > > > Either this was always a problem that's only become visible now
+> > > > > > (and it's an
+> > > > > > issue with that patch), or a different change causes
+> > > > > > msm_dsi_host_register()
+> > > > > > to enable the PHY and program the usecase too early?
+> > > > >
+> > > > > As currently usecase is being programmed after the DSI host being
+> > > > > registered, there might be a race condition between panel driver probe
+> > > > > _and_ usecase programming.
+> > > > >
+> > > > > >
+> > > > > > What do you think?
+> > > > > >
+> > > > > > - Marijn
+> > > > > >
+> > > >
+> > > > Yes I agree with Dmitry's explanation. The race condition between the
+> > > > two can cause this. Hence I am also fine with this change.
+> > > >
+> > > > > > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > > >
+> > > > > > > >
+> > > > > > > > diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > > > > > > > b/drivers/gpu/ drm/msm/dsi/dsi_manager.c
+> > > > > > > > index a210b7c9e5ca281a46fbdb226e25832719a684ea..b93205c034e4acc73d536deeddce6ebd694b4a80
+> > > > > > > > 100644
+> > > > > > > > --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > > > > > > > +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > > > > > > > @@ -74,17 +74,33 @@ static int dsi_mgr_setup_components(int id)
+> > > > > > > >       int ret;
+> > > > > > > >       if (!IS_BONDED_DSI()) {
+> > > > > > > > +        /* Set the usecase before calling
+> > > > > > > > msm_dsi_host_register(), which would
+> > > > > > > > +         * already program the PLL source mux based on
+> > > > > > > > a default usecase.
+> > > > > > > > +         */
+> > > > > > > > +        msm_dsi_phy_set_usecase(msm_dsi->phy,
+> > > > > > > > MSM_DSI_PHY_STANDALONE);
+> > > > > > > > +        msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
+> > > > > > > > +
+> > > > > > > >           ret = msm_dsi_host_register(msm_dsi->host);
+> > > > > > > >           if (ret)
+> > > > > > > >               return ret;
+> > > > > > > > -
+> > > > > > > > -        msm_dsi_phy_set_usecase(msm_dsi->phy,
+> > > > > > > > MSM_DSI_PHY_STANDALONE);
+> > > > > > > > -        msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
+> > > > > > > >       } else if (other_dsi) {
+> > > > > > > >           struct msm_dsi *master_link_dsi = IS_MASTER_DSI_LINK(id) ?
+> > > > > > > >                               msm_dsi : other_dsi;
+> > > > > > > >           struct msm_dsi *slave_link_dsi = IS_MASTER_DSI_LINK(id) ?
+> > > > > > > >                               other_dsi : msm_dsi;
+> > > > > > > > +
+> > > > > > > > +        /* PLL0 is to drive both DSI link clocks in bonded DSI mode.
+> > > > > > > > +         *
+> > > > > > > > +        /* Set the usecase before calling
+> > > > > > > > msm_dsi_host_register(), which would
+> > > > > > > > +         * already program the PLL source mux based on
+> > > > > > > > a default usecase.
+> > > > > > > > +         */
+> > >
+> > > My compiler is throwing a warning here
+> > >
+> > > drivers/gpu/drm/msm/dsi/dsi_manager.c: In function
+> > > 'dsi_mgr_setup_components':
+> > > drivers/gpu/drm/msm/dsi/dsi_manager.c:94:3: warning: "/*" within comment
+> > > [-Wcomment]
+> > >    /* Set the usecase before calling msm_dsi_host_register(), which would
+> > >    ^
+> > > drivers/gpu/drm/msm/dsi/dsi_manager.c: At top level:
+> > >
+> > > Can you pls address this one so that I can pick this one up?
+>
+> Whoops, that looks like copy-paste mistake when copying the comment from
+> !IS_BONDED_DSI() and merging it with the original comment about PLL0.
+> Will resend when I understand Dmitry's question below;
+>
+> >
+> > While you are at it, Marijn, could you please also fix the first comment
+> > to be properly formatted?
+>
+> What exactly do you need to be reformatted about the first comment?  It's
+> exactly the same in both branches.  No multiline comments in dsi_manager.c
+> start with a newline after the first /*.  Anything I'm missing?
 
-I believe this has been picked up in drm-misc-fixes now:
+Yes. But those, I think, are older comments. Please use proper
+formatting for new comments.
 
-https://lore.kernel.org/dri-devel/Z69eloo_7LM6NneO@cassiopeiae/
+>
+> - Marijn
+>
+> > --
+> > With best wishes
+> > Dmitry
 
-> 
-> 
-> The following sorts it out for now:
-> 
-> From 337c68bf24af59f36477be11ea6ef7c7ce9aa8ae Mon Sep 17 00:00:00 2001
-> From: David Hildenbrand <david@redhat.com>
-> Date: Tue, 11 Feb 2025 09:33:04 +0100
-> Subject: [PATCH] merge
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_svm.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> index 39e3740980bb7..1fed638b9eba8 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> @@ -590,6 +590,7 @@ static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
->  	unsigned long timeout =
->  		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
->  	struct mm_struct *mm = svmm->notifier.mm;
-> +	struct folio *folio;
->  	struct page *page;
->  	unsigned long start = args->p.addr;
->  	unsigned long notifier_seq;
-> -- 
-> 2.48.1
-> 
-> 
-> I'll resend [1] once this stuff here landed.
-> 
-> Let me know if you want a full resend of this series, thanks.
-> 
-> 
-> [1] https://lkml.kernel.org/r/20250124181524.3584236-1-david@redhat.com
-> 
-> -- 
-> Cheers,
-> 
-> David / dhildenb
-> 
+
+
+-- 
+With best wishes
+Dmitry
