@@ -2,80 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE3FA37F34
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 11:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EFFA37F5F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 11:08:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC74310E401;
-	Mon, 17 Feb 2025 10:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE3310E40B;
+	Mon, 17 Feb 2025 10:08:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UoecvJ2T";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="1KIr6EJW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 276F010E3ED
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 10:01:42 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4398c8c8b2cso2332975e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 02:01:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739786501; x=1740391301; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V2z90w2fCLpTI8+G020nwpC9EGaGHD873RtNRgO7sTs=;
- b=UoecvJ2TrlOvav3PwqhKGQ53aHGLHZVzQxDrdfhBwT4htR3+zymLf5zm2GuHFx+/Dr
- XZmrSDb0+otJzzOEKIoDvQ6mdkl+tCvmeNG17lkjH2DJbvWRg10COMddeAqf7YEbZyO+
- t2HxBGurp/1PNTGd8V2fhq5jw5waft+Go0qy2GrOLGoF/JRwe26n1HsYAHgIwIpjpFB8
- nk+uNa7U7W8GxYhvE9SR/CwlAq82zEO7hlTEi56TqnMEvQ03/YMDNDHjYMkAbUPhBM5B
- wKonefAYu4hnmyOWSutpKQg5D6kHoenrPuQo+5l0L+1nnkiZ1oTnnTM/hVUxq1qVUcCx
- wsNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739786501; x=1740391301;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V2z90w2fCLpTI8+G020nwpC9EGaGHD873RtNRgO7sTs=;
- b=m45G+CvEfNHOlzLGzUOBQTRuThPvKwnXNMDp5BaqP4iwhMQacK7bXcUW8/LpZGZHe2
- NGYpP88N2PFCeH5CEn7tO320E8TvTOmG/VQvg9PH9ZFJT+K9HTq5U2Dl7B21Jha4Zr4i
- PKCVmpDmX2naHc7wLakQBU0559jmWQztaJLcy+PeNXLJyEDi2otaaIQnG779A6Lf6BbX
- C1/hok4glJPCQ64vwZ2HSlrI+PvL5qJMMBnAxWyV+kLblT7DSu/HrMUWb50zH0k29/I3
- LZLMNBJboYiFp1qLkCJkZ+dd1g5ykRjG9HKG675g5YKYFnUscuz2t0gl5wLXKWU7CvQt
- pqOQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWkOyyANTzw1qJSNoSqAjRH7yo+c0LgY2TTP3b/5lVdT1vzmu9EFqJ8RuqVDKlY7kH9rOfUByzkVg8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQ4Y58GTNebqXxsgqPWD+9LGpuGo5BITYVO4ICVtcYQYOeJzjX
- yHoT/SBzSgX5qSuJ1CKh+nFCra83ybl54INpeLqJ1ICxhfdaF4Gv
-X-Gm-Gg: ASbGnctzcS+uweCHsCmotrrMiwkT9vLLj2qxSaKCl6Y9I7gAj7WsyCKrwxvgpq8KcUA
- +nDlcEiXGrPX37GajOGN1xRJxaGMgDZcGAwjm272VhaPncuZcPxQWaILj7tNriEkF+y1nREgLUN
- W/nCxCesUZJIJEtUwIEgmrqvtsjW3TyewP45hi3IzkDt0ShOda0Xe5O1AntjshpLeNmvHJl5hta
- UzjJzlAkzfE4hdePkBcGwS7Up3/H/Jf0MKiA/L9fym5kdNNG2KB8gMnzZIFhNZ5QrzoKbfYVGYr
- fZhPiYNV+TnBuZ5nrg==
-X-Google-Smtp-Source: AGHT+IF+Qm5zq9bzDlKVIp6rJDOjwCR2Kk0QNvXvDTzENRvNaSBvN02UJtyivFoTKFswNi0sfHXdtg==
-X-Received: by 2002:a05:600c:19c7:b0:439:4c86:9c32 with SMTP id
- 5b1f17b1804b1-4396e6aa021mr81717905e9.8.1739786500440; 
- Mon, 17 Feb 2025 02:01:40 -0800 (PST)
-Received: from fedora.. ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259f7fe6sm11591901f8f.86.2025.02.17.02.01.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 02:01:40 -0800 (PST)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: louis.chauvet@bootlin.com
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v3 14/14] drm/vkms: Allow to attach connectors and encoders
-Date: Mon, 17 Feb 2025 11:01:20 +0100
-Message-ID: <20250217100120.7620-15-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250217100120.7620-1-jose.exposito89@gmail.com>
-References: <20250217100120.7620-1-jose.exposito89@gmail.com>
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7651310E409;
+ Mon, 17 Feb 2025 10:08:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=J3HgEZS9xjoZwWsAzMFMsdKTmMlRwp8+r5kkhG2NhQo=; b=1KIr6EJWy+C1JI9n2eMlapwNni
+ +i7xoXso4iCJtJZmNKZxsR5EKpLD5L6dfZjbobfF7m/E9VMFXMa15JLpsCv1b7x1frzhmitpEZYxy
+ Ekm8HqR6Oh8gSzdzlpvn3pfVsSBGY9tUfHHTgZfuSUdQiVZbvZCesfY4KMVpWTom+pnZVeIidjk7z
+ e0n7sZYAJsFA+hP8xjKUpPk9xZRHJS52JvovEQxwvzuJoehbWLD3afW565/ui9ygreTRe6ZRUKu/w
+ I5PchFTjQjQ8pHYZPszHa+s37uNWGT7Ykgz+IJhLVGELPjxuMWyVI2YzmpC5PI7UxYe6iYi4hrv6l
+ 8kaZzocA==;
+Received: from [194.136.85.206] (port=60892 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tjy2x-00072J-2C;
+ Mon, 17 Feb 2025 12:08:15 +0200
+Date: Mon, 17 Feb 2025 12:08:08 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, suraj.kandpal@intel.com,
+ dmitry.baryshkov@linaro.org
+Subject: Re: [PATCH v8 01/14] drm: Define histogram structures exposed to user
+Message-ID: <20250217120808.708b9b4d@eldfell>
+In-Reply-To: <20250128-dpst-v8-1-871b94d777f8@intel.com>
+References: <20250128-dpst-v8-0-871b94d777f8@intel.com>
+ <20250128-dpst-v8-1-871b94d777f8@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/AsDrxAXWUO.oa+H_.Qbn_6a";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,427 +74,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a list of possible encoders to the connector configuration and
-helpers to attach and detach them.
+--Sig_/AsDrxAXWUO.oa+H_.Qbn_6a
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Now that the default configuration has its connector and encoder
-correctly, configure the output following the configuration.
+Hi Arun,
 
-Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- .clang-format                                 |   1 +
- drivers/gpu/drm/vkms/tests/vkms_config_test.c | 104 ++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_config.c            |  64 +++++++++++
- drivers/gpu/drm/vkms/vkms_config.h            |  29 +++++
- drivers/gpu/drm/vkms/vkms_output.c            |  33 +++---
- 5 files changed, 218 insertions(+), 13 deletions(-)
+this whole series seems to be missing all the UAPI docs for the DRM
+ReST files, e.g. drm-kms.rst. The UAPI header doc comments are not a
+replacement for them, I would assume both are a requirement.
 
-diff --git a/.clang-format b/.clang-format
-index ca49832993c5..7630990aa07a 100644
---- a/.clang-format
-+++ b/.clang-format
-@@ -694,6 +694,7 @@ ForEachMacros:
-   - 'vkms_config_for_each_crtc'
-   - 'vkms_config_for_each_encoder'
-   - 'vkms_config_for_each_plane'
-+  - 'vkms_config_connector_for_each_possible_encoder'
-   - 'vkms_config_encoder_for_each_possible_crtc'
-   - 'vkms_config_plane_for_each_possible_crtc'
-   - 'while_for_each_ftrace_op'
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-index 0034f922713e..a5d63e00cc1f 100644
---- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-+++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-@@ -511,12 +511,34 @@ static void vkms_config_test_invalid_connector_number(struct kunit *test)
- 	vkms_config_destroy(config);
- }
- 
-+static void vkms_config_test_valid_connector_possible_encoders(struct kunit *test)
-+{
-+	struct vkms_config *config;
-+	struct vkms_config_encoder *encoder_cfg;
-+	struct vkms_config_connector *connector_cfg;
-+
-+	config = vkms_config_default_create(false, false, false);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-+
-+	encoder_cfg = list_first_entry(&config->encoders,
-+				       typeof(*encoder_cfg), link);
-+	connector_cfg = list_first_entry(&config->connectors,
-+					 typeof(*connector_cfg), link);
-+
-+	/* Invalid: Connector without a possible encoder */
-+	vkms_config_connector_detach_encoder(connector_cfg, encoder_cfg);
-+	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-+
-+	vkms_config_destroy(config);
-+}
-+
- static void vkms_config_test_attach_different_configs(struct kunit *test)
- {
- 	struct vkms_config *config1, *config2;
- 	struct vkms_config_plane *plane_cfg1, *plane_cfg2;
- 	struct vkms_config_crtc *crtc_cfg1, *crtc_cfg2;
- 	struct vkms_config_encoder *encoder_cfg1, *encoder_cfg2;
-+	struct vkms_config_connector *connector_cfg1, *connector_cfg2;
- 	int err;
- 
- 	config1 = vkms_config_create("test1");
-@@ -528,10 +550,12 @@ static void vkms_config_test_attach_different_configs(struct kunit *test)
- 	plane_cfg1 = vkms_config_create_plane(config1);
- 	crtc_cfg1 = vkms_config_create_crtc(config1);
- 	encoder_cfg1 = vkms_config_create_encoder(config1);
-+	connector_cfg1 = vkms_config_create_connector(config1);
- 
- 	plane_cfg2 = vkms_config_create_plane(config2);
- 	crtc_cfg2 = vkms_config_create_crtc(config2);
- 	encoder_cfg2 = vkms_config_create_encoder(config2);
-+	connector_cfg2 = vkms_config_create_connector(config2);
- 
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg1);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg2);
-@@ -539,6 +563,8 @@ static void vkms_config_test_attach_different_configs(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg1);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg2);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg1);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg2);
- 
- 	err = vkms_config_plane_attach_crtc(plane_cfg1, crtc_cfg2);
- 	KUNIT_EXPECT_NE(test, err, 0);
-@@ -550,6 +576,11 @@ static void vkms_config_test_attach_different_configs(struct kunit *test)
- 	err = vkms_config_encoder_attach_crtc(encoder_cfg2, crtc_cfg1);
- 	KUNIT_EXPECT_NE(test, err, 0);
- 
-+	err = vkms_config_connector_attach_encoder(connector_cfg1, encoder_cfg2);
-+	KUNIT_EXPECT_NE(test, err, 0);
-+	err = vkms_config_connector_attach_encoder(connector_cfg2, encoder_cfg1);
-+	KUNIT_EXPECT_NE(test, err, 0);
-+
- 	vkms_config_destroy(config1);
- 	vkms_config_destroy(config2);
- }
-@@ -743,6 +774,77 @@ static void vkms_config_test_encoder_get_possible_crtcs(struct kunit *test)
- 	vkms_config_destroy(config);
- }
- 
-+static void vkms_config_test_connector_get_possible_encoders(struct kunit *test)
-+{
-+	struct vkms_config *config;
-+	struct vkms_config_connector *connector_cfg1, *connector_cfg2;
-+	struct vkms_config_encoder *encoder_cfg1, *encoder_cfg2;
-+	struct vkms_config_encoder *possible_encoder;
-+	unsigned long idx = 0;
-+	int n_encoders = 0;
-+	int err;
-+
-+	config = vkms_config_create("test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-+
-+	connector_cfg1 = vkms_config_create_connector(config);
-+	connector_cfg2 = vkms_config_create_connector(config);
-+	encoder_cfg1 = vkms_config_create_encoder(config);
-+	encoder_cfg2 = vkms_config_create_encoder(config);
-+
-+	/* No possible encoders */
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg1, idx,
-+							possible_encoder)
-+		KUNIT_FAIL(test, "Unexpected possible encoder");
-+
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg2, idx,
-+							possible_encoder)
-+		KUNIT_FAIL(test, "Unexpected possible encoder");
-+
-+	/* Connector 1 attached to encoders 1 and 2 */
-+	err = vkms_config_connector_attach_encoder(connector_cfg1, encoder_cfg1);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	err = vkms_config_connector_attach_encoder(connector_cfg1, encoder_cfg2);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg1, idx,
-+							possible_encoder) {
-+		n_encoders++;
-+		if (possible_encoder != encoder_cfg1 &&
-+		    possible_encoder != encoder_cfg2)
-+			KUNIT_FAIL(test, "Unexpected possible encoder");
-+	}
-+	KUNIT_ASSERT_EQ(test, n_encoders, 2);
-+	n_encoders = 0;
-+
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg2, idx,
-+							possible_encoder)
-+		KUNIT_FAIL(test, "Unexpected possible encoder");
-+
-+	/* Connector 1 attached to encoder 1 and connector 2 to encoder 2 */
-+	vkms_config_connector_detach_encoder(connector_cfg1, encoder_cfg2);
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg1, idx,
-+							possible_encoder) {
-+		n_encoders++;
-+		if (possible_encoder != encoder_cfg1)
-+			KUNIT_FAIL(test, "Unexpected possible encoder");
-+	}
-+	KUNIT_ASSERT_EQ(test, n_encoders, 1);
-+	n_encoders = 0;
-+
-+	err = vkms_config_connector_attach_encoder(connector_cfg2, encoder_cfg2);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg2, idx,
-+							possible_encoder) {
-+		n_encoders++;
-+		if (possible_encoder != encoder_cfg2)
-+			KUNIT_FAIL(test, "Unexpected possible encoder");
-+	}
-+	KUNIT_ASSERT_EQ(test, n_encoders, 1);
-+
-+	vkms_config_destroy(config);
-+}
-+
- static struct kunit_case vkms_config_test_cases[] = {
- 	KUNIT_CASE(vkms_config_test_empty_config),
- 	KUNIT_CASE_PARAM(vkms_config_test_default_config,
-@@ -758,10 +860,12 @@ static struct kunit_case vkms_config_test_cases[] = {
- 	KUNIT_CASE(vkms_config_test_invalid_encoder_number),
- 	KUNIT_CASE(vkms_config_test_valid_encoder_possible_crtcs),
- 	KUNIT_CASE(vkms_config_test_invalid_connector_number),
-+	KUNIT_CASE(vkms_config_test_valid_connector_possible_encoders),
- 	KUNIT_CASE(vkms_config_test_attach_different_configs),
- 	KUNIT_CASE(vkms_config_test_plane_attach_crtc),
- 	KUNIT_CASE(vkms_config_test_plane_get_possible_crtcs),
- 	KUNIT_CASE(vkms_config_test_encoder_get_possible_crtcs),
-+	KUNIT_CASE(vkms_config_test_connector_get_possible_encoders),
- 	{}
- };
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index fbbdee6068ce..a1df5659b0fb 100644
---- a/drivers/gpu/drm/vkms/vkms_config.c
-+++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -95,6 +95,9 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
- 	if (IS_ERR(connector_cfg))
- 		goto err_alloc;
- 
-+	if (vkms_config_connector_attach_encoder(connector_cfg, encoder_cfg))
-+		goto err_alloc;
-+
- 	return config;
- 
- err_alloc:
-@@ -279,6 +282,22 @@ static bool valid_connector_number(const struct vkms_config *config)
- 	return true;
- }
- 
-+static bool valid_connector_possible_encoders(const struct vkms_config *config)
-+{
-+	struct drm_device *dev = config->dev ? &config->dev->drm : NULL;
-+	struct vkms_config_connector *connector_cfg;
-+
-+	vkms_config_for_each_connector(config, connector_cfg) {
-+		if (xa_empty(&connector_cfg->possible_encoders)) {
-+			drm_info(dev,
-+				 "All connectors must have at least one possible encoder\n");
-+			return false;
-+		}
-+	}
-+
-+	return true;
-+}
-+
- bool vkms_config_is_valid(const struct vkms_config *config)
- {
- 	struct vkms_config_crtc *crtc_cfg;
-@@ -306,6 +325,9 @@ bool vkms_config_is_valid(const struct vkms_config *config)
- 	if (!valid_encoder_possible_crtcs(config))
- 		return false;
- 
-+	if (!valid_connector_possible_encoders(config))
-+		return false;
-+
- 	return true;
- }
- EXPORT_SYMBOL_IF_KUNIT(vkms_config_is_valid);
-@@ -513,6 +535,11 @@ EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_encoder);
- void vkms_config_destroy_encoder(struct vkms_config *config,
- 				 struct vkms_config_encoder *encoder_cfg)
- {
-+	struct vkms_config_connector *connector_cfg;
-+
-+	vkms_config_for_each_connector(config, connector_cfg)
-+		vkms_config_connector_detach_encoder(connector_cfg, encoder_cfg);
-+
- 	xa_destroy(&encoder_cfg->possible_crtcs);
- 	list_del(&encoder_cfg->link);
- 	kfree(encoder_cfg);
-@@ -561,6 +588,7 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
- 		return ERR_PTR(-ENOMEM);
- 
- 	connector_cfg->config = config;
-+	xa_init_flags(&connector_cfg->possible_encoders, XA_FLAGS_ALLOC);
- 
- 	list_add_tail(&connector_cfg->link, &config->connectors);
- 
-@@ -570,7 +598,43 @@ EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_connector);
- 
- void vkms_config_destroy_connector(struct vkms_config_connector *connector_cfg)
- {
-+	xa_destroy(&connector_cfg->possible_encoders);
- 	list_del(&connector_cfg->link);
- 	kfree(connector_cfg);
- }
- EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
-+
-+int __must_check vkms_config_connector_attach_encoder(struct vkms_config_connector *connector_cfg,
-+						      struct vkms_config_encoder *encoder_cfg)
-+{
-+	struct vkms_config_encoder *possible_encoder;
-+	unsigned long idx = 0;
-+	u32 encoder_idx = 0;
-+
-+	if (connector_cfg->config != encoder_cfg->config)
-+		return -EINVAL;
-+
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg, idx,
-+							possible_encoder) {
-+		if (possible_encoder == encoder_cfg)
-+			return -EEXIST;
-+	}
-+
-+	return xa_alloc(&connector_cfg->possible_encoders, &encoder_idx,
-+			encoder_cfg, xa_limit_32b, GFP_KERNEL);
-+}
-+EXPORT_SYMBOL_IF_KUNIT(vkms_config_connector_attach_encoder);
-+
-+void vkms_config_connector_detach_encoder(struct vkms_config_connector *connector_cfg,
-+					  struct vkms_config_encoder *encoder_cfg)
-+{
-+	struct vkms_config_encoder *possible_encoder;
-+	unsigned long idx = 0;
-+
-+	vkms_config_connector_for_each_possible_encoder(connector_cfg, idx,
-+							possible_encoder) {
-+		if (possible_encoder == encoder_cfg)
-+			xa_erase(&connector_cfg->possible_encoders, idx);
-+	}
-+}
-+EXPORT_SYMBOL_IF_KUNIT(vkms_config_connector_detach_encoder);
-diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index 73562c894102..0118e3f99706 100644
---- a/drivers/gpu/drm/vkms/vkms_config.h
-+++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -99,6 +99,7 @@ struct vkms_config_encoder {
-  *
-  * @link: Link to the others connector in vkms_config
-  * @config: The vkms_config this connector belongs to
-+ * @possible_encoders: Array of encoders that can be used with this connector
-  * @connector: Internal usage. This pointer should never be considered as valid.
-  *             It can be used to store a temporary reference to a VKMS connector
-  *             during device creation. This pointer is not managed by the
-@@ -108,6 +109,8 @@ struct vkms_config_connector {
- 	struct list_head link;
- 	struct vkms_config *config;
- 
-+	struct xarray possible_encoders;
-+
- 	/* Internal usage */
- 	struct vkms_connector *connector;
- };
-@@ -164,6 +167,16 @@ struct vkms_config_connector {
- #define vkms_config_encoder_for_each_possible_crtc(encoder_cfg, idx, possible_crtc) \
- 	xa_for_each(&(encoder_cfg)->possible_crtcs, idx, (possible_crtc))
- 
-+/**
-+ * vkms_config_connector_for_each_possible_encoder - Iterate over the
-+ * vkms_config_connector possible encoders
-+ * @connector_cfg: &struct vkms_config_connector pointer
-+ * @idx: Index of the cursor
-+ * @possible_encoder: &struct vkms_config_encoder pointer used as cursor
-+ */
-+#define vkms_config_connector_for_each_possible_encoder(connector_cfg, idx, possible_encoder) \
-+	xa_for_each(&(connector_cfg)->possible_encoders, idx, (possible_encoder))
-+
- /**
-  * vkms_config_create() - Create a new VKMS configuration
-  * @dev_name: Name of the device
-@@ -405,4 +418,20 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
-  */
- void vkms_config_destroy_connector(struct vkms_config_connector *connector_cfg);
- 
-+/**
-+ * vkms_config_connector_attach_encoder - Attach a connector to an encoder
-+ * @connector_cfg: Connector to attach
-+ * @encoder_cfg: Encoder to attach @connector_cfg to
-+ */
-+int __must_check vkms_config_connector_attach_encoder(struct vkms_config_connector *connector_cfg,
-+						      struct vkms_config_encoder *encoder_cfg);
-+
-+/**
-+ * vkms_config_connector_detach_encoder - Detach a connector from an encoder
-+ * @connector_cfg: Connector to detach
-+ * @encoder_cfg: Encoder to detach @connector_cfg from
-+ */
-+void vkms_config_connector_detach_encoder(struct vkms_config_connector *connector_cfg,
-+					  struct vkms_config_encoder *encoder_cfg);
-+
- #endif /* _VKMS_CONFIG_H_ */
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 8920d6b5d105..8d7ca0cdd79f 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -8,10 +8,10 @@
- int vkms_output_init(struct vkms_device *vkmsdev)
- {
- 	struct drm_device *dev = &vkmsdev->drm;
--	struct vkms_connector *connector;
- 	struct vkms_config_plane *plane_cfg;
- 	struct vkms_config_crtc *crtc_cfg;
- 	struct vkms_config_encoder *encoder_cfg;
-+	struct vkms_config_connector *connector_cfg;
- 	int ret;
- 	int writeback;
- 
-@@ -83,22 +83,29 @@ int vkms_output_init(struct vkms_device *vkmsdev)
- 		}
- 	}
- 
--	connector = vkms_connector_init(vkmsdev);
--	if (IS_ERR(connector)) {
--		DRM_ERROR("Failed to init connector\n");
--		return PTR_ERR(connector);
--	}
-+	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
-+		struct vkms_config_encoder *possible_encoder;
-+		unsigned long idx = 0;
- 
--	/* Attach the encoder and the connector */
--	vkms_config_for_each_encoder(vkmsdev->config, encoder_cfg) {
--		ret = drm_connector_attach_encoder(&connector->base, encoder_cfg->encoder);
--		if (ret) {
--			DRM_ERROR("Failed to attach connector to encoder\n");
--			return ret;
-+		connector_cfg->connector = vkms_connector_init(vkmsdev);
-+		if (IS_ERR(connector_cfg->connector)) {
-+			DRM_ERROR("Failed to init connector\n");
-+			return PTR_ERR(connector_cfg->connector);
-+		}
-+
-+		vkms_config_connector_for_each_possible_encoder(connector_cfg,
-+								idx,
-+								possible_encoder) {
-+			ret = drm_connector_attach_encoder(&connector_cfg->connector->base,
-+							   possible_encoder->encoder);
-+			if (ret) {
-+				DRM_ERROR("Failed to attach connector to encoder\n");
-+				return ret;
-+			}
- 		}
- 	}
- 
- 	drm_mode_config_reset(dev);
- 
--	return ret;
-+	return 0;
- }
--- 
-2.48.1
+Without the ReST docs it is really difficult to see how this new UAPI
+should be used.
 
+
+On Tue, 28 Jan 2025 21:21:07 +0530
+Arun R Murthy <arun.r.murthy@intel.com> wrote:
+
+> Display Histogram is an array of bins and can be generated in many ways
+> referred to as modes.
+> Ex: HSV max(RGB), Wighted RGB etc.
+>=20
+> Understanding the histogram data format(Ex: HSV max(RGB))
+> Histogram is just the pixel count.
+> For a maximum resolution of 10k (10240 x 4320 =3D 44236800)
+> 25 bits should be sufficient to represent this along with a buffer of 7
+> bits(future use) u32 is being considered.
+> max(RGB) can be 255 i.e 0xFF 8 bit, considering the most significant 5
+> bits, hence 32 bins.
+> Below mentioned algorithm illustrates the histogram generation in
+> hardware.
+>=20
+> hist[32] =3D {0};
+> for (i =3D 0; i < resolution; i++) {
+> 	bin =3D max(RGB[i]);
+> 	bin =3D bin >> 3;	/* consider the most significant bits */
+> 	hist[bin]++;
+> }
+> If the entire image is Red color then max(255,0,0) is 255 so the pixel
+> count of each pixels will be placed in the last bin. Hence except
+> hist[31] all other bins will have a value zero.
+> Generated histogram in this case would be hist[32] =3D {0,0,....44236800}
+>=20
+> Description of the structures, properties defined are documented in the
+> header file include/uapi/drm/drm_mode.h
+>=20
+> v8: Added doc for HDR planes, removed reserved variables (Dmitry)
+>=20
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> ---
+>  include/uapi/drm/drm_mode.h | 65 +++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 65 insertions(+)
+>=20
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index c082810c08a8b234ef2672ecf54fc8c05ddc2bd3..b8b7b18843ae7224263a9c61b=
+20ac6cbf5df69e9 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1355,6 +1355,71 @@ struct drm_mode_closefb {
+>  	__u32 pad;
+>  };
+> =20
+> +/**
+> + * enum drm_mode_histogram
+> + *
+> + * @DRM_MODE_HISTOGRAM_HSV_MAX_RGB:
+> + * Maximum resolution at present 10k, 10240x4320 =3D 44236800
+> + * can be denoted in 25bits. With an additional 7 bits in buffer each bin
+> + * can be a u32 value.
+> + * For SDL, Maximum value of max(RGB) is 255, so max 255 bins.
+
+I assume s/SDL/SDR/.
+
+This assumption seems false. SDR can be also 10-bit and probably even
+more.
+
+> + * If the most significant 5 bits are considered, then bins =3D 2^5
+> + * will be 32 bins.
+> + * For HDR, maximum value of max(RGB) is 65535, so max 65535 bins.
+
+Does this mean that the histogram is computed on the pixel values
+emitted to the cable? What if the cable format is YUV?
+
+> + * For illustration consider a full RED image of 10k resolution consider=
+ing all
+> + * 8 bits histogram would look like hist[255] =3D {0,0,....44236800} wit=
+h SDR
+> + * plane similarly with HDR the same would look like hist[65535] =3D
+> + * {0,0,0,....44236800}
+
+This SDR vs. HDR is a false dichotomy. I presume the meaningful
+difference is bits-per-channel, not the dynamic range.
+
+It would be good to have the pseudocode snippet here instead of the
+commit message. The commit message should not contain any UAPI notes
+that are not in the UAPI docs. OTOH, repeating UAPI docs in the commit
+message is probably not very useful, as the more interesting questions
+are why this exists and what it can be used for.
+
+> + */
+> +enum drm_mode_histogram {
+> +	DRM_MODE_HISTOGRAM_HSV_MAX_RGB =3D 0x01,
+
+What does the HSV stand for?
+
+When talking about pixel values, my first impression is
+hue-saturation-value. But there are no hue-saturation-value
+computations at all?
+
+> +};
+> +
+> +/**
+> + * struct drm_histogram_caps
+> + *
+> + * @histogram_mode: histogram generation modes, defined in the
+> + *		    enum drm_mode_histogram
+> + * @bins_count: number of bins for a chosen histogram mode. For illustra=
+tion
+> + *		refer the above defined histogram mode.
+> + */
+> +struct drm_histogram_caps {
+> +	__u32 histogram_mode;
+> +	__u32 bins_count;
+> +};
+
+Patch 3 says:
+
++ * Property HISTOGRAM_CAPS is a blob pointing to the struct drm_histogram_=
+caps
++ * Description of the structure is in include/uapi/drm/drm_mode.h
+
+This is a read-only property, right?
+
+The blob contains one struct drm_histogram_caps. What if more than one
+mode is supported?
+
+If the bin count depends on the bits-per-channel of something which
+depends on set video mode or other things, how does updating work?
+What if userspace uses a stale count? How does userspace ensure it uses
+the current count?
+
+> +
+> +/**
+> + * struct drm_histogram_config
+> + *
+> + * @hist_mode_data: address to the histogram mode specific data if any
+
+Do I understand correctly that the KMS blob will contain a userspace
+virtual memory address (a user pointer)? How does that work? What are
+the lifetime requirements for that memory?
+
+I do not remember any precedent of this, and I suspect it's not a good
+design. I believe all the data should be contained in the blobs, e.g.
+how IN_FORMATS does it. I'm not sure what would be the best UAPI here
+for returning histogram data to userspace, but at least all the data
+sent to the kernel should be contained in the blob itself since it
+seems to be quite small. Variable length is ok for blobs.
+
+> + * @nr_hist_mode_data: number of elements pointed by the address in
+> + *		       hist_mode_data
+> + * @hist_mode: histogram mode(HSV max(RGB), RGB, LUMA etc)
+> + * @enable: flag to enable/disable histogram
+> + */
+> +struct drm_histogram_config {
+> +	__u64 hist_mode_data;
+> +	__u32 nr_hist_mode_data;
+> +	enum drm_mode_histogram hist_mode;
+> +	bool enable;
+
+Don't enum and bool have non-fixed sizes? Hence inappropriate as UABI,
+if architecture, build options, or the contents of the enum change the
+ABI.
+
+> +};
+> +
+> +/**
+> + * struct drm_histogram
+> + *
+> + * @config: histogram configuration data pointed by struct drm_histogram=
+_config
+
+s/pointed by/defined by/ I presume? That much is obvious from the field
+type. What does it mean? Why is struct drm_histogram_config a separate
+struct?
+
+> + * @data_ptr: pointer to the array of histogram.
+> + *	      Histogram is an array of bins. Data format for each bin depends
+> + *	      on the histogram mode. Refer to the above histogram modes for
+> + *	      more information.
+
+Another userspace virtual address stored in a KMS blob?
+
+> + * @nr_elements: number of bins in the histogram.
+> + */
+> +struct drm_histogram {
+> +	struct drm_histogram_config config;
+> +	__u64 data_ptr;
+> +	__u32 nr_elements;
+> +};
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+>=20
+
+Thanks,
+pq
+
+--Sig_/AsDrxAXWUO.oa+H_.Qbn_6a
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmezCogACgkQI1/ltBGq
+qqeVwxAAgOi7rT+0GFCOar6gflXlmT+cUraLzwYWlHZwlCcjFblOslXU1sJ6MlCP
+aD7H9NsEXBOPq62GyHEcbT4Nux0Z0zrscR+7FAvf7HPRG/A6XjbfFm2Qs+ECOj++
+9FYrfPBrrd0fWNhUoHl6ARO+nR2Vcsqb0uZ4ssywTmY6PDP1hGqplws2BT1KaOoa
+rXVlJJytRcBIsEHuyLMYABcD5fnqb+Ymv8wJ9bHZXN5V5QqmQ9KwhyVdQIf76/fV
+9t8SqBqbJuAaoCBSNgdkntjiCp56wu3vCA6MgHU2d3aes4EitOkOIJLhzEUS0yTk
+TWWGpoZexc3GVmOu2iuFrayQYFTrlkyE5SEhKvHHiPJlEkX2qsXow+kT++8liAGa
+Ni4qHq0Pe+lULyUQjyVbSQ6eF8m3icopqJY6gD2g94g56vUTJuoUfMQZ/jFNsDTJ
+wkYriDvXZss1HBjzz2Vjl78JWnhglOYj0M9CDS3xU1dC6/LSHRSmh5QPDkZglBzU
+gQ389osfFvjVrE+BHWvGj6IuETeUrMsVp9xlA/GgIF3dywZhW7zxL08qwNVQO0pK
+E3HECVw4KTvHwqlJJvVtimN+scfynMKcaoAImAoP5YAYy3sqxf46y5gWPzdlsGfu
+jBvONI+ktE2Kz96f4UCV9Ry9yYc98uO/iOxFRlle4t+w/KtZTLY=
+=Nfrn
+-----END PGP SIGNATURE-----
+
+--Sig_/AsDrxAXWUO.oa+H_.Qbn_6a--
