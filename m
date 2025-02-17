@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3797AA38179
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 12:18:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C159BA381EF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 12:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8353010E41C;
-	Mon, 17 Feb 2025 11:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E83510E1C6;
+	Mon, 17 Feb 2025 11:39:14 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=braiins.cz header.i=@braiins.cz header.b="Zm3IZF5E";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F09D010E32C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 11:17:57 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 7C5931F8F2;
- Mon, 17 Feb 2025 12:17:55 +0100 (CET)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Mon, 17 Feb 2025 12:17:43 +0100
-Subject: [PATCH v3 3/3] drm/msm/dpu: Remove arbitrary limit of 1 interface
- in DSC topology
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5B910E1C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 11:39:13 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2fbfa8c73a6so8006011a91.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 03:39:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braiins.cz; s=google; t=1739792353; x=1740397153; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9zz5DKFZ6uuYN8PSXSGgIORH7WCajmIYoaxWCWLM7L0=;
+ b=Zm3IZF5EdNa/dpr3xLkrgOxXVh8DePBWydeQpltikQSvv6a5fBEOBfqj7eMLJ4o6Ho
+ nSS+OFGs1Az47zfzHnyiVO4B1wwFk0EfIGXHTpcHc+QqDyK1hb6WrgD2U5SpRkS6Xjoe
+ bwqAcd0SYg1KK4sD9YaTp7we2zh3cuhh9mf/Y6fwpTB5EoCTL6/vOmSLfbTo+VDQuCbC
+ G2ReA3jSU6HL56YOhU9KbF1IcPZg1K28cmvEnTUKAWDQHDWJYneIzrUJAfGvK3/vsbMl
+ fzPCBycXfZs9L5xJWYewZpr4SSBLXopVya1uVvrjLpARljcn4o/VoHy6vCcHArQK0D4u
+ P8iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739792353; x=1740397153;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9zz5DKFZ6uuYN8PSXSGgIORH7WCajmIYoaxWCWLM7L0=;
+ b=dgyyZTULnvsr960qafDGrKJRMw5otj76rUBVZwlt6GG26NWinamq/V0OK4QyZiaJEC
+ 0R4Z8cI/eK9TMNrrr7FiiiQtYOox1mlTmRhhsH/j2X8gxzuA8jf8akMMSS9EV317Vyh8
+ xhse93HAMGA5VizvFlTotnqjAy0nfMz0I6L3ENYwfkj5LZwMbR6q6yqXXXeIyPQq/pb6
+ /xueyNA5puTkbg0/R/jOdAH6tOzgELM1W/gmSuCYxY/Xn/g8yUSK7zkWalx5TN9PDMyA
+ 3yooaiRXpqLPZQLINKw8X4oQLLJHmERgg+neilZ+miZ6fb5pwOQZPedRlikt9CoY62gM
+ cNkg==
+X-Gm-Message-State: AOJu0YyA5Qm/dms5YuKqdLhpnPCKkdfKTGrDeYGrkH7Uq56Viru9kIbE
+ VVDFR2pPbyiGzxBNPzSxo3Oo8mPRAzcH/AxpiL1ejFYSeIHmIotlt51hSWtG7g5HBfEPV+/ftRH
+ 2iCadKi5YYoSfQJXVJdBuqVRzVjbJVRNpZkUu+CZ+NulrioiH
+X-Gm-Gg: ASbGnctj3bQV2PSzwbf4dVjotmPctgB29isBEAfv+ZZ3klstrTGHc3lb/a9M7hLQePN
+ /mgUN3c2kXh12RoB5mwMqFQARrnevMI/i5Be3f5KNhNYu1f2fEASQu7fNWTMYmWHxkpCXPpI=
+X-Google-Smtp-Source: AGHT+IH57zypZBYdFu9rNQ56w86cSfnL2oJDZTpOS138yAq0Kv6l0YTxTwlxEJG3pvzqTNPwNqIagtuL3NZcYtgXCDg=
+X-Received: by 2002:a17:90b:2d83:b0:2f9:c56b:6ec8 with SMTP id
+ 98e67ed59e1d1-2fc40f0e646mr15164079a91.10.1739792352714; Mon, 17 Feb 2025
+ 03:39:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250217-drm-msm-initial-dualpipe-dsc-fixes-v3-3-913100d6103f@somainline.org>
-References: <20250217-drm-msm-initial-dualpipe-dsc-fixes-v3-0-913100d6103f@somainline.org>
-In-Reply-To: <20250217-drm-msm-initial-dualpipe-dsc-fixes-v3-0-913100d6103f@somainline.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, Archit Taneja <architt@codeaurora.org>, 
- Hai Li <hali@codeaurora.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jordan Crouse <jordan@cosmicpenguin.net>, 
- ~postmarketos/upstreaming@lists.sr.ht, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Martin Botka <martin.botka@somainline.org>, 
- Jami Kettunen <jami.kettunen@somainline.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2058;
- i=marijn.suijten@somainline.org; h=from:subject:message-id;
- bh=MgMGnmZBZiiXwg/TOFHX7DTi1si89IdnuyFW3h892yg=;
- b=owEBbQKS/ZANAwAIAfFi0jHH5IZ2AcsmYgBnsxrgGM6TmLIP+Y8pCQpDj7IdZUB4VzZ8riqFj
- a30QyrxqXOJAjMEAAEIAB0WIQROiwG5pb6la1/WZxbxYtIxx+SGdgUCZ7Ma4AAKCRDxYtIxx+SG
- dtN8EACFtQBw8cwzIfeyB/OhAWSC/pSEkfkYf0pCMHdtroktRTzvlw52AvGnd0yLBCTEBdnCPDt
- Et09anMQ9iA/Qi0jsDMDNnhXvANL6WuG8DDXlDzX6QyVWSKJWIFR3Kh8xBeLs8IQpZMAMjFVwzz
- 10nFpVjFuedGsh8hVVD7Qg6DPqtbzagtRcg1AIJqwuynUJawrA9yrlW9GzdtYV4p5dZYdTiBHS5
- 4eCHQn5l6q4XA+1WmfJVR+z5+4IA0fZB+IUmbocm1R9no8/X5l11eey6SDDNn+wW4ov5D0SLR3A
- 9IQdf6Ma2bG8RgmJLwFYPOGHsk9zmR6BPzUO6VX1gQ/O9cxillPLO8/Uw6UVplCdFTiO1WcoJ84
- sllqEh1oNh9aerRb8iLUhPnr3bYl2XYmb2eHECTQLTBTuRol1126PIkFLUbSUXh48wzuSlXaz0S
- 7r/JP5zWgHYPf+yY+Y8CNCf0+b8CXwpb6cEg+XCkHD9XnWycsbaLqFvbTsltis8FzAoPvEFe+9m
- FRmydy7vYSeR9DqBhmvpMKjMidKc2ZiMfI/UWKzuO/EBAt97vOJVt/ypptZjfsfd5gLbWXMvz4g
- 17+cFQW/oYBfFth0DJMdJUTUb+oC/aKAK4rWqpTHASATUakVY8s4DlsZ26PxNqkQxjmdDG6pbDP
- MZoMDLeTEgEPqEg==
-X-Developer-Key: i=marijn.suijten@somainline.org; a=openpgp;
- fpr=4E8B01B9A5BEA56B5FD66716F162D231C7E48676
+References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
+ <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
+ <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
+In-Reply-To: <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
+From: =?UTF-8?B?Sm9zZWYgTHXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
+Date: Mon, 17 Feb 2025 12:39:01 +0100
+X-Gm-Features: AWEUYZkJq_k42m7A8gGM7qtW2LxH9WttgEpJlZn59VK8COWic8d2-9gJfUdWrlg
+Message-ID: <CACnTymYBYmGMk8z5Xp=OGBHvsA-hwJtGAi6MSHfpTGJBHMQqSw@mail.gmail.com>
+Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
+To: Alex Lanzano <lanzano.alex@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,53 +81,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When DSC is enabled the number of interfaces is forced to be 1, and
-documented that it is a "power-optimal" layout to use two DSC encoders
-together with two Layer Mixers.  However, the same layout (two DSC
-hard-slice encoders with two LMs) is also used when the display is
-fed with data over two instead of one interface (common on 4k@120Hz
-smartphone panels with Dual-DSI).  Solve this by simply removing the
-num_intf = 1 assignment as the count is already calculated by computing
-the number of physical encoders within the virtual encoder.
+On Sat, Feb 15, 2025 at 8:14=E2=80=AFPM Alex Lanzano <lanzano.alex@gmail.co=
+m> wrote:
+>
+> On Fri, Feb 14, 2025 at 08:04:41PM -0500, Alex Lanzano wrote:
+> > On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Lu=C5=A1tick=C3=BD wrot=
+e:
+> > > Hello Alex,
+> > > there is a bug in mipi_dbi_hw_reset() function that implements the lo=
+gic of
+> > > display reset contrary.
+> > > It keeps the reset line activated which keeps displays in reset state=
+.
+> > >
+> > > I reported the bug to
+> > > https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
+> > >
+> > > Unfortunately, fixing the bug would mean current DTB-ABI breakage and
+> > > device-trees modification would be needed.
+> > > I mainly write this email to let you and other people know about it, =
+so
+> > > hopefully it can be found easier.
+> > > What are your thoughts?
+> > Thanks for making me aware. I'll dig into over the weekend and get back
+> > to you
+>
+> Alright so I looked into a bit more. Looks like the MIPI Specification
+> says that the reset line is active low. So, if we want dt entries to be
+> correct the logic for setting the reset line in mipi_dbi_hw_reset()
+> should be flipped. However, like you said, this is going to cause a some
+> confused developers to break out their oscilloscopes to figure out
+> why their display isn't working.
+>
+> Best regards,
+> Alex
 
-Fixes: 7e9cc175b159 ("drm/msm/disp/dpu1: Add support for DSC in topology")
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Thank you Alex for looking into this.
+I think all the supported dts can be changed together with
+mipi_dbi_hw_reset(), however the fix would break existing DTBs and
+third party DTSs.
+So I think it shall be either noted somewhere that due to this bug,
+the reset line needs to be "wrongly" ACTIVE_HIGH in DTS
+or the mipi_dbi_hw_reset() is changed and the compatibility is broken,
+which needs to be announced.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index d67127f67a4492f30329ee15267369ca7540288a..1b092fa45b1dadbeb06b5c086c7638556bd313dd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -686,20 +686,21 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 
- 	if (dsc) {
- 		/*
--		 * Use 2 DSC encoders and 2 layer mixers per single interface
-+		 * Use 2 DSC encoders, 2 layer mixers and 1 or 2 interfaces
- 		 * when Display Stream Compression (DSC) is enabled,
- 		 * and when enough DSC blocks are available.
- 		 * This is power-optimal and can drive up to (including) 4k
- 		 * screens.
- 		 */
--		if (dpu_kms->catalog->dsc_count >= 2) {
-+		WARN(topology.num_intf > 2,
-+		     "DSC topology cannot support more than 2 interfaces\n");
-+		if (intf_count >= 2 || dpu_kms->catalog->dsc_count >= 2) {
- 			topology.num_dsc = 2;
- 			topology.num_lm = 2;
- 		} else {
- 			topology.num_dsc = 1;
- 			topology.num_lm = 1;
- 		}
--		topology.num_intf = 1;
- 	}
- 
- 	return topology;
+BTW Zephyr fixed the code [1], but they introduced the MIPI DBI
+support just a couple of weeks before the fix, so they avoided the
+compatibility issue.
+I was not able to find users mentioning issues related to the display
+not functioning properly, so I had to dig into the code.
+But afterwards I found a thread on Raspberry PI forums, where one of
+the moderators mentions it [2].
 
--- 
-2.48.1
+[1] https://github.com/zephyrproject-rtos/zephyr/issues/68562
+[2] https://forums.raspberrypi.com/viewtopic.php?p=3D2165720#p2165720
 
+Best regards,
+Josef
