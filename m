@@ -2,109 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00337A389B8
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:42:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0791EA38A14
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:53:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F57A10E55A;
-	Mon, 17 Feb 2025 16:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E2210E0E6;
+	Mon, 17 Feb 2025 16:53:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MlEKO4H1";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="SJdUpIk0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF7010E565
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:42:18 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-ab7f9f57192so66773766b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:42:18 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DAAA10E0E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:53:10 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4395b367329so28421595e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:53:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739810537; x=1740415337; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=a3bwniejdI/OPbevpLj33tIqt0/bau3qVCvVDzBOjOY=;
- b=MlEKO4H1tBGJTF1NLBHVGXP5rmyGnn7MIc9e2eUgSdWTeuogXrXRXXmpZzW7ArL2XX
- nFw6FxRt8GKvHGX15JhZyibUQDWYNPCXpOGbntBR+oAkE8NblZe6BmNlkLfpvyeh+DVL
- CPgJpBfwomzykiQRPF4R7HJ5mCiUvhDinKwkCKFE9gQs+sWQvvWmKKa0h/1g7eejWTH6
- 7VnlMI4dAeYG3LscT7JkKaisinQQzEHRh1vgOU21Qr9XLJScNfGmhE9ZFhO+HLgbbQIW
- SAU3FVnkq1w2wwB74ZB0NciZkme/SFstdcB2Mqz3f/Ivruim8J97GIwuvOflfZIGbUI3
- GKnw==
+ d=ffwll.ch; s=google; t=1739811189; x=1740415989; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=DJtd9EpQG9v4B1pXdZqv1dATHwiQS+vJO3mKyIAjt7E=;
+ b=SJdUpIk0ny1qq5n3XKf3AlsAGluGNu5rby2GcsuaK5V9r0ndTe5QRhPqcJQkAUMoka
+ 1Dfpg6X0OgISzyVEBxDRcwjsCj1juyKEASL5vGcjhPLTGk3VV35xSXnLbSDqJygzYW/O
+ /Qa2OP2OUZ/4HiVyNime0YhsRnwm9QKcDJDo4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739810537; x=1740415337;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a3bwniejdI/OPbevpLj33tIqt0/bau3qVCvVDzBOjOY=;
- b=N0dGg7w+9R7gu2OMyvdrmb9h+Bw4BooFGpQnSQepAiBUHLaU9EuNPPclWpvsGa6A1A
- RFW2ab7RA2nvvomdUZKp0gaaqftO4CkpwkH/iruNYYqUisN4L0n/zHoTf8mOzkWLbX16
- myWucQ2rz2nbBbsvBWeVLNjDBYPJqOF+dqaOxoEVMrf2/bp6e4kby32ORaDmZwuPRCm0
- 6661G3HMJyrpH0Prys7o6zwlldIAv0l+kNKKe/v40/ik1Bh82m6lfinYKoAeTZ335FM/
- f3+LkeXpvjpxej3nbTLpwx+YbaOlOazvajb7dXStnHFfVK92Oj++9XdmolKzy83j4NOQ
- ZvSw==
+ d=1e100.net; s=20230601; t=1739811189; x=1740415989;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DJtd9EpQG9v4B1pXdZqv1dATHwiQS+vJO3mKyIAjt7E=;
+ b=N1NVmxg5i7hhEnOScWxCDfw6UL+bDxuGBA0WvxzP/aPf6bkE4WS1fQAqRVUNMER7fB
+ HEVIh9TyQxtkRMP4M2+9jS72j6Gi1OfFr4RrabFDLn/dPJjsxbBCO7QEurcoZKxYrOfa
+ BQ/DvCoYg7phOj2OoLgXu9Y2oQHUwm9zTdXZLyRCrq0AAYv4I9PXcsUsTPxeQIeV52eN
+ 3o2o8/rm3W4U5vT/kq2DxlPnoKlEQwMbEf88oKAkBhJdyDpRyvegIT++ptJyao8EcOnv
+ l4QhMcdp/atcYk76aYWMq7tdyTP8OwlYMrVFdHkgM0Umd8SeRMbajNDlLlFXbLXXjBmM
+ ssgQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW3okO6o7a3vB5xCVHoRdzJ8ibxz+xZxw95SCMuJ7cfC/L6hfAFN/b/IewkD5YCnp/oaadsBmdrwSU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzohfJ8L28g7xQy/5hAo+DLT6yLwRV9V/0+7+IRU82OqR9iw5Fk
- kzeDropAvoRHMGETdBacR1a+EBlQaG6gXhfaj76ijlva6Z7E51GoZHzx79sE92NyOUg0z1XWZBr
- w
-X-Gm-Gg: ASbGnct0bHRx2/A8LsbHcROUWAaVb5nEGKuzO/1MpXGqEaWUTpIl3YFzuO87QsGvyV+
- amafoMUHgCSC37w63uZg7bmG9X0HBK6YEZ+Jxa2++4z+5kHKrPjHJfuB08KIla0wUkvszsuc9KP
- L3X7aOalqz9sCViUdUmXCduOfRkaejoV1X2whBeMdnR2kLDnufOudr8wBNvRaeQ9LwiSmqAOLb3
- Olgt8dCHUkw5mHr2JhYJeUwJb7jkJes3PWIt59ZN2tKvIqn0L8SxIaahY6tzRwEpkNI3oMklg1G
- tljcPOlF7JnGd+oTWhM1mIqotX+1ozA=
-X-Google-Smtp-Source: AGHT+IFYF0nsGqkCnhvNcX42NuzRrOaSu5qMxI91MpfvgKlb990wc6+bQ0tjBdLkitfFsrwJbfj/Uw==
-X-Received: by 2002:a17:906:7310:b0:abb:6f35:f514 with SMTP id
- a640c23a62f3a-abb70df3426mr352695766b.13.1739810537368; 
- Mon, 17 Feb 2025 08:42:17 -0800 (PST)
-Received: from [127.0.1.1] ([178.197.206.225])
+ AJvYcCUnvGxlD5alQAIr+NmDVtGXJJcex8DrZTF08SlMPwjO3qzztu95lj5qeaKO51mHP9IcYBiCtzU58O4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/PNoZVAWxM4i9kCNjwnZTINlDPa1TM8SGFNgMlXGksv3+qak/
+ fGkFzgr3oztYG5A4/3nK8OroYIoHMX8JDNGufHpJnJwZGV86obrhy8oWKCeEI4E=
+X-Gm-Gg: ASbGnctOBA5r5fZPh8RbK6xEWH3Ys6mzuH/DNoQxhoaCLVgD40XqboTIIuyzHxHZs3J
+ vOS8VCYjZp2kH4qVpMObmdg+M7f96Zxy9rzOO3YB7jTuLdX/cIAFQIpu2KoocrrCIMZd6+oB+Zd
+ FC4eTohMOnWebpiRP3I0RRrkA9G2xZ+OEHef7e1ur6qwGawRt5TrUusYn09HpmSSvPhbCV2iwhU
+ 3BVCT6ZVNos9UrcOPFhUXtMXF0eZm7IZ/Dn4XEf9ybj9ufsEs/CkvP89fEVho4vPGyxdrOTyEWK
+ 6eTKiIBifXSIyu7Ly6y1brSXf38=
+X-Google-Smtp-Source: AGHT+IH3WbDB9Q36lcmdObU8CLnmpjCwtkXa80JnbwIBTYcpO4BzNQune7ic49wSNZc2DW/2rAReDQ==
+X-Received: by 2002:a05:600c:511c:b0:439:4d00:3ade with SMTP id
+ 5b1f17b1804b1-4396e765340mr79540805e9.26.1739811188690; 
+ Mon, 17 Feb 2025 08:53:08 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abbac781b78sm82647966b.60.2025.02.17.08.42.15
+ ffacd0b85a97d-38f258f5fabsm12569830f8f.45.2025.02.17.08.53.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 08:42:16 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Mon, 17 Feb 2025 17:41:37 +0100
-Subject: [PATCH v2 16/16] drm/msm/mdss: Add support for SM8750
+ Mon, 17 Feb 2025 08:53:08 -0800 (PST)
+Date: Mon, 17 Feb 2025 17:53:06 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, oded.gabbay@gmail.com,
+ maciej.falkowski@linux.intel.com, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH 0/6] accel/ivpu: Changes for 6.15 2025-02-04
+Message-ID: <Z7Npchtu-soSVI_U@phenom.ffwll.local>
+References: <20250204084622.2422544-1-jacek.lawrynowicz@linux.intel.com>
+ <c6537153-d03b-4b9b-8fdf-ff437512404e@suse.de>
+ <ef58703e-75c8-4b35-8acc-4bd79abbb150@linux.intel.com>
+ <5553249d-b0a8-b3e7-b255-9709870f574f@quicinc.com>
+ <2a1e5805-a93c-41aa-9a18-650668e30f18@suse.de>
+ <552067e5-297a-c807-9776-96275613e288@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250217-b4-sm8750-display-v2-16-d201dcdda6a4@linaro.org>
-References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
-In-Reply-To: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Srini Kandagatla <srinivas.kandagatla@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3191;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=npT/AUk70cBHCRbn81WnGX4UoVxSXbDYwaGyJuk3VME=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBns2bFZ2hu1MzBH0BCrv5flO9CVwu0Y6SnKx404
- uBGg2GNXWWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7NmxQAKCRDBN2bmhouD
- 10PMD/0TpbFaxlve+q6sBLe+kZnWI2gpgxVajSa1kKSerRKqRlJChd49nL352VlDKP/tMekaOEs
- Hb+KkarBrXjIt1LRA2FYHygGYffOZZlJMYLt9K6DJP+qi9ZE0PmomB1e6ts3j/67P8jPEWgxlkn
- Tfgp4kdXfC3LVggeXPlZwbo3ZQ6y8KV9H4yVmLD1/PM28bB2n+0e+w5Beakfc/tL4OkJEhdIKdb
- duCjqZlQ55c6i4V+4Nan08qanQM/h5pF5aL7rZDU8lNetrF5mmf/GmoYLbyN7I5UuDpZLN448bq
- QDjQF6UY3z/i5PmmQPvLrKjwqWrx3gs5sIXcF7247NEhs5WEJdAfQQuys7WKxupcs4+jSWxoL8v
- 2FcnAiaC6f3wSJMj64CoKlzNWp2nMFo+dnjnNNvu1L4vchGFXJV62dskce116r3MrL4M0tGNbd1
- mrx66nqmfy4dJRI1d8Xv1zTHqyY/tMTtX0QlKt6vhH2hVBC+sGHaHN9OUSaE622SNF42CMHxDDM
- /I2VKh72af99OKFHIczKQBOg6W4n8EGdOipZXaOk1UInIOKm5gfifVhem5dvShouRRGzPODRZrU
- zWLuLnb9ywEZbVSysnWrgIUQvGSLy+trxx4CIH6m5QhIZDWZBAnyN5JwE8bLrMw1ZUJbJobSZ5A
- nTciEaLHS497GBQ==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <552067e5-297a-c807-9776-96275613e288@quicinc.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,93 +96,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Qualcomm SM8750 platform.
+On Fri, Feb 14, 2025 at 08:47:26AM -0700, Jeffrey Hugo wrote:
+> On 2/13/2025 7:17 AM, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 12.02.25 um 16:52 schrieb Jeffrey Hugo:
+> > > On 2/12/2025 6:27 AM, Jacek Lawrynowicz wrote:
+> > > > Hi,
+> > > > 
+> > > > Thanks for your detailed feedback and constructive suggestions.
+> > > > I appreciate this as it is not easy to learn all process details
+> > > > otherwise.
+> > > 
+> > > I echo this.  At times, accel feels a bit isolated from DRM.
+> > 
+> > Agreed, but IDK how to fix that. Although both share common code, there
+> > seems little overlap driver-wise.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 33 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_mdss.h |  1 +
- 2 files changed, 34 insertions(+)
+Thanks to Thomas for raising this. I just wanted to add that we knowingly
+added accel fully aware that there's work to do here, and at first it will
+be isolated.
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index dcb49fd30402b80edd2cb5971f95a78eaad6081f..3f00eb6de3a9d2bee7637c6f516efff78b7d872b 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -222,6 +222,24 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
- 	}
- }
- 
-+static void msm_mdss_setup_ubwc_dec_50(struct msm_mdss *msm_mdss)
-+{
-+	const struct msm_mdss_data *data = msm_mdss->mdss_data;
-+	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
-+		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
-+
-+	if (data->ubwc_bank_spread)
-+		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
-+
-+	if (data->macrotile_mode)
-+		value |= MDSS_UBWC_STATIC_MACROTILE_MODE;
-+
-+	writel_relaxed(value, msm_mdss->mmio + REG_MDSS_UBWC_STATIC);
-+
-+	writel_relaxed(4, msm_mdss->mmio + REG_MDSS_UBWC_CTRL_2);
-+	writel_relaxed(1, msm_mdss->mmio + REG_MDSS_UBWC_PREDICTION_MODE);
-+}
-+
- #define MDSS_HW_MAJ_MIN		\
- 	(MDSS_HW_VERSION_MAJOR__MASK | MDSS_HW_VERSION_MINOR__MASK)
- 
-@@ -339,6 +357,9 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
- 	case UBWC_4_3:
- 		msm_mdss_setup_ubwc_dec_40(msm_mdss);
- 		break;
-+	case UBWC_5_0:
-+		msm_mdss_setup_ubwc_dec_50(msm_mdss);
-+		break;
- 	default:
- 		dev_err(msm_mdss->dev, "Unsupported UBWC decoder version %x\n",
- 			msm_mdss->mdss_data->ubwc_dec_version);
-@@ -722,6 +743,17 @@ static const struct msm_mdss_data sm8550_data = {
- 	.reg_bus_bw = 57000,
- };
- 
-+static const struct msm_mdss_data sm8750_data = {
-+	.ubwc_enc_version = UBWC_5_0,
-+	.ubwc_dec_version = UBWC_5_0,
-+	.ubwc_swizzle = 6,
-+	.ubwc_bank_spread = true,
-+	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
-+	.highest_bank_bit = 3,
-+	.macrotile_mode = true,
-+	.reg_bus_bw = 57000,
-+};
-+
- static const struct msm_mdss_data x1e80100_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_3,
-@@ -756,6 +788,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
- 	{ .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
- 	{ .compatible = "qcom,sm8650-mdss", .data = &sm8550_data},
-+	{ .compatible = "qcom,sm8750-mdss", .data = &sm8750_data},
- 	{ .compatible = "qcom,x1e80100-mdss", .data = &x1e80100_data},
- 	{}
- };
-diff --git a/drivers/gpu/drm/msm/msm_mdss.h b/drivers/gpu/drm/msm/msm_mdss.h
-index 14dc53704314558841ee1fe08d93309fd2233812..dd0160c6ba1a297cea5b87cd8b03895b2aa08213 100644
---- a/drivers/gpu/drm/msm/msm_mdss.h
-+++ b/drivers/gpu/drm/msm/msm_mdss.h
-@@ -22,6 +22,7 @@ struct msm_mdss_data {
- #define UBWC_3_0 0x30000000
- #define UBWC_4_0 0x40000000
- #define UBWC_4_3 0x40030000
-+#define UBWC_5_0 0x50000000
- 
- const struct msm_mdss_data *msm_mdss_get_mdss_data(struct device *dev);
- 
+We do have some other accel drivers now, so it would be great if teams
+could review/ack across drivers. That's how we get collaboration going and
+ideas for gaps in the drm core/helper infrastructure, and make this all
+less lonely.
+
+> > > > On 2/12/2025 11:20 AM, Thomas Zimmermann wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > here's a complaint about the lack of process and
+> > > > > documentation in accel/, and ivpu specifically. I came
+> > > > > across this series while preparing the weekly PR for
+> > > > > drm-misc-next and found myself unable to extract much useful
+> > > > > information to report. This is a problem for a development
+> > > > > process that relies on transparency, accountability and
+> > > > > collaboration. Other problematic examples are at [1] and
+> > > > > [2]. IIRC I had similar issues in previous development
+> > > > > cycles.
+> > > > > 
+> > > > > I cannot assess the quality of the code itself, but the
+> > > > > process and documentation involved does not meet the
+> > > > > requirements.
+> > > > > 
+> > > > > - 'Changes for <version>' is not an meaningful description
+> > > > > for a patch series. It's not the submitter (or anyone else)
+> > > > > deciding that this series gets merged into version
+> > > > > so-and-so. The series gets merged when it is ready to be
+> > > > > merged.
+> > > > > 
+> > > > > - Apparently this series contains 3 different things (buffer
+> > > > > imports, locking, debugging); so it should be 3 series with
+> > > > > each addressing one of these topics.
+> > > > > 
+> > > > > - The series' description just restates the patch
+> > > > > descriptions briefly. It should rather give some indication
+> > > > > of the problem being solved by the contained patches, and
+> > > > > context on why this is worth solving. (I know that this is
+> > > > > often complicated to state clearly to outsiders.)
+> > > > 
+> > > > We were sometimes using patchsets to bundle patches that were
+> > > > tested together. We apologize for any confusion this may have
+> > > > caused, as we were not aware that this approach was not
+> > > > preferred. Moving forward, we will ensure that patches are split
+> > > > into separate series, each addressing a specific topic. I hope
+> > > > this will help improve clarity and make it easier to understand
+> > > > and assess the changes.
+> > > > 
+> > > > > - Review should be public. I understand that it's often only
+> > > > > one dev team working on a specific driver, discussing issues
+> > > > > internally. Still it makes sense to do the code reviews in
+> > > > > public, so that others can follow what is going on in the
+> > > > > driver. Public code reviews are also necessary to establish
+> > > > > consent and institutional knowledge within the wider
+> > > > > developer community. You miss that with internal reviews.
+> > > > > 
+> > > > > - These patches come with R-b tags pre-applied. Even for
+> > > > > trivial changes, R-b tags should given in public. If the
+> > > > > R-bs have been given elsewhere, please include a reference
+> > > > > to that location. The tags (R-b, A-b, T-b, etc) are not just
+> > > > > for verifying the code itself. They also establish trust in
+> > > > > the development process involving each patch; and in the
+> > > > > developers involved in that process. This needs to happen in
+> > > > > public to be effective.
+> > > > 
+> > > > We value all public comments and typically wait a week for
+> > > > public reviews before submitting patches, regardless of whether
+> > > > an R-b tag is pre-applied. I was not aware that pre-applying R-b
+> > > > tags was an issue. We we will ensure that all R-b tags are added
+> > > > publicly from now on.
+> > > 
+> > > I'll provide a counter point on the pre-applied RBs - Qualcomm has
+> > > been told many times in the past decade or so to do this (GregKH
+> > > comes to mind although I'm certain he is not the only one).  I don't
+> > > particularly like it, but we seem to have a reputation for poor
+> > > quality in the community, and it would appear that the first step to
+> > > mitigating that is to indicate that we have actually done internal
+> > > reviews.  We've been warned that the next step is requiring a
+> > > "community approved" developer to SOB everything.  I hope to avoid
+> > > that.
+> > > 
+> > > Personally, I value community given RBs for maillist patches over
+> > > internal ones and will typically wait/seek them unless the change is
+> > > very trivial.  I can't speak for The Intel/AMD/Habana folks although
+> > > I suspect they will concur with this but I lurk on IRC and of course
+> > > you have my email address.  Please feel free to reach out with any
+> > > feedback.  I would hope that we can learn and improve without
+> > > annoying the community to the point that the community feels
+> > > frustrated and suggests drastic action.
+> > 
+> > I'd disagree with GregKH here, but him saying this is like having an
+> > 'official' statement for what to do. But I don't think other DRM driver
+> > teams pre-apply R-bs.  If a patch got an R-b from an internal review,
+> > maybe briefly mention it in the cover letter. At least it's clear then.
+> 
+> This seems like a good idea.  I will incorporate it.
+
+Yup, drm/dri-devel does fundamentally disagree with Greg KH and many other
+maintainers in the kernel - we _want_ the messy internal discussion in
+public, if at all possible, because that often allows us to catch issues
+earlier. And it's also much easier to collaborate across drivers and
+companies if you only have a draft hack and not yet the fully polished
+implementation.
+
+And as I've mentioned above, we now have another smaller accel driver with
+amd's, so it feels like a good time to start pushing for that.
+
+Cheers, Sima
+
+> 
+> -Jeff
+> 
+> > 
+> > Best regards
+> > Thomas
+> > 
+> > > 
+> > > To Jacek, I'm hoping to be more responsive to reviewing your patches
+> > > now that we are out of the holidays and other things have settled
+> > > down again.  I'm sorry if you've felt ignored.
+> > > 
+> > > > > - The kernel's (or any FOSS') development is organized
+> > > > > around individuals, not organizations. Having each developer
+> > > > > send their changes individually would likely resolve most of
+> > > > > the current problems.
+> > > > OK, I'll talk to the team about this.
+> > > > 
+> > > > > I understand that accel is not graphics and can feel
+> > > > > somewhat detached from the rest of DRM. Yet it is part of
+> > > > > the DRM subsystem. This development cycles' ivpu series'
+> > > > > made me go to IRC and ask for accel/ to be removed from the
+> > > > > drm-misc tree. Luckily the other maintainer were more
+> > > > > charitable. So I make these remarks in good faith and hope
+> > > > > that we can improve the processes within accel/.
+> > > > 
+> > > > I appreciate your feedback and would welcome more remarks.
+> > > > Please keep in mind that all accel drivers are new, and it takes
+> > > > time to learn all the upstream rules.
+> > > > The kernel/DRM development process is quite unique, and not
+> > > > everything is fully documented. I find emails like this to be
+> > > > incredibly valuable and I am eager to comply with the
+> > > > guidelines.
+> > > > I just need some patience and guidance as I navigate through
+> > > > this. Thank you for your understanding and support.
+> > > > 
+> > > > Regards,
+> > > > Jacek
+> > > > 
+> > > > > Best regards
+> > > > > Thomas
+> > > > > 
+> > > > > [1] https://patchwork.freedesktop.org/series/143182/
+> > > > > [2] https://patchwork.freedesktop.org/series/144101/
+> > > > > 
+> > > > > 
+> > > > > Am 04.02.25 um 09:46 schrieb Jacek Lawrynowicz:
+> > > > > > Add possibility to import single buffer into multiple contexts,
+> > > > > > fix locking when aborting contexts and add some debug features.
+> > > > > > 
+> > > > > > Andrzej Kacprowski (2):
+> > > > > >     accel/ivpu: Add missing locks around mmu queues
+> > > > > >     accel/ivpu: Prevent runtime suspend during context abort work
+> > > > > > 
+> > > > > > Karol Wachowski (3):
+> > > > > >     ccel/ivpu: Add debugfs interface for setting HWS priority bands
+> > > > > >     accel/ivpu: Add test modes to toggle clock relinquish disable
+> > > > > >     accel/ivpu: Implement D0i2 disable test modea
+> > > > > > 
+> > > > > > Tomasz Rusinowicz (1):
+> > > > > >     accel/ivpu: Allow to import single buffer into multiple contexts
+> > > > > > 
+> > > > > >    drivers/accel/ivpu/ivpu_debugfs.c | 84
+> > > > > > +++++++++++++++++++++++++++++++
+> > > > > >    drivers/accel/ivpu/ivpu_drv.c     |  2 +-
+> > > > > >    drivers/accel/ivpu/ivpu_drv.h     |  4 ++
+> > > > > >    drivers/accel/ivpu/ivpu_fw.c      |  4 ++
+> > > > > >    drivers/accel/ivpu/ivpu_gem.c     | 43 ++++++++++++++++
+> > > > > >    drivers/accel/ivpu/ivpu_gem.h     |  1 +
+> > > > > >    drivers/accel/ivpu/ivpu_hw.c      | 31 ++++++++++++
+> > > > > >    drivers/accel/ivpu/ivpu_hw.h      |  5 ++
+> > > > > >    drivers/accel/ivpu/ivpu_job.c     | 10 +++-
+> > > > > >    drivers/accel/ivpu/ivpu_jsm_msg.c | 29 ++++-------
+> > > > > >    drivers/accel/ivpu/ivpu_mmu.c     |  9 ++++
+> > > > > >    11 files changed, 202 insertions(+), 20 deletions(-)
+> > > > > > 
+> > > > > > -- 
+> > > > > > 2.45.1
+> > > > > 
+> > > > 
+> > > 
+> > 
+> 
 
 -- 
-2.43.0
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
