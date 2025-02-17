@@ -2,85 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D240A38CEB
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 21:00:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE56A38D0C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 21:12:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58AE910E126;
-	Mon, 17 Feb 2025 20:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C6110E12E;
+	Mon, 17 Feb 2025 20:12:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SEgrAazD";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="ajHIbnWT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B52210E126
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 20:00:26 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-54626a71b40so870649e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 12:00:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739822424; x=1740427224; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gpqEL8DpAJMrJ/rNxfQI3uKIUT/9KC6tNWKUzxHa+5g=;
- b=SEgrAazDyAP9uA0LkRWaZ6a3Gz/sIIyPZP5E05FSPq9dre2opS/1p8rjNn6JkFpJFv
- KXQRI7fzluNRIx+yOtK+C4Qg7x+M+3cyh3kQKTy9xBRhuqvU1x3f5KHXD5PBE+GHdrMa
- 1FBvk5CMJrOs+KRL5+/631B/HOVMvjbUZmSe2VTWc7VyGZOjKu7PJW2Q/ZNI1z7sf+qR
- QTaS1UZhzurlZaeSohPeYzJFyMKxGCqfcZ0GpvFJbnT71Xv4ZBSwS4F8RZeLbUcYwjD4
- f6MZyYQ1gpKMUjs0znlTl9SwuHcE+wo9YuAsQINUmkawoDMjg5W49aBTTwhMAsczGfQ/
- S65A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739822424; x=1740427224;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gpqEL8DpAJMrJ/rNxfQI3uKIUT/9KC6tNWKUzxHa+5g=;
- b=lpcwGKRe9MdMID50xFM43W6Ru4pr7ToSK9821lAeGu93JAfRp5ZI60q7CcNnMvM8kk
- JroQsl7J/l1jVi/XbbuIz/5bcCUr0BXkER77DnHS/kfBZ7p5fh/o129Gd/EqcjDlS0Bz
- cPk4ergmIemweN5tB5eibTZ5HnWvz4Hu5J7HqN3nqZ/0N8K4K5VKfaSeFYHFLgrtGjTu
- lCUtonl7fkiK2HJkKksxrn9RlsLKNySmWIOMFHgJBxdRv5s+tyvyZ/powVXrlf3Sh4md
- jflZ6miLpeki4zqj3H280is5xG5dVbLR+jlbBlcTOnib5V7QWVPfTxHhZ6pA+obDz7C7
- D2Hg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbaVckFTYqvT8w3Ky5S5rDPTrkYGOSwmenjTCicvd1xZZe7wEugNtxHBUZcmpv6vOOMsjMsYZelzI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzW6BgWbiUADPKmlCdYBXhM9p6l4YJDb0b+fQBBQd/DeTMRV46f
- uU9xOZA/oNCHt/hErANyxvE7VJBbovRoBgIL5sF2a5ewIuXiUdtZy6aRsQfeGU8=
-X-Gm-Gg: ASbGncvPNhx5JC3IKI5qAdNsvzXeqa9nv0o0ET465sLFLmSVj1zSmyxsetJq/srIQ0d
- 03fM0V533LtAk9nmzglEpqz47CYa0sFtM4DhymhZtQHZONI/jg2lGI7/J/IZbWB0SNGwvd+En67
- INjN/ORAuvCuJ2dmscpuk+G+83376zzNxqkRzPXW/6JUKbmh/Cd4OS7RLFHmKbGSkQvxjWJ3N41
- 9BTr/CQk3IVPxN9rmaNivK1RRZCkCnA4vxQ2gzT8JymOplFLigYF3dXsh/OA/mb0ZxqsBT6XaCb
- aS3IEhQ+XsNt5UzFLJ9K0RMmqZHYpX0V2Mdh0cp+4EKjbWnKRvktmmWYXajV80j5xbw4qMM=
-X-Google-Smtp-Source: AGHT+IHfYFHYucbMv9ssVZrygfyI/KAzMXlRnYVSK6/tZCdLiSCDTSlyjiu2Y9vqwm/0Wc+nrvZGmQ==
-X-Received: by 2002:a05:6512:2398:b0:545:2c86:17e6 with SMTP id
- 2adb3069b0e04-5452fe2f270mr3457419e87.5.1739822424412; 
- Mon, 17 Feb 2025 12:00:24 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54525784de2sm1436453e87.109.2025.02.17.12.00.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 12:00:23 -0800 (PST)
-Date: Mon, 17 Feb 2025 22:00:20 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>, 
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 02/11] drm/fourcc: Add DRM_FORMAT_XV15/XV20
-Message-ID: <e5ujn5lhj5vuvkbavoc3oppt3cpxnr7mm2vwh6liojmpxkfy2d@grpmckvbl5h4>
-References: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
- <20250212-xilinx-formats-v3-2-90d0fe106995@ideasonboard.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7104210E12E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 20:12:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1739823130; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Xv+OFR6SEBf30oSISQyFK5wNkBjKxC9mpiwrcINfHoixLZi5h1PHGMaleBtAVouRU0KbOxa+vej141bOMERk45Jnjs0RcORa3+xG7PRAnjSwngh4AW5t1+pahL2ZQaZnF9nd/FQhd55VJ2Tml8gYsFEWMphcMmUsGb7f7bQRoSs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1739823130;
+ h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=MvlB81+3iRSmBxuYmuxfJIK8WryhrLiJhvKpt/c2gvs=; 
+ b=DIXAnkq29EDOH3ifAfNlRNKYea1VEvhbUO2TtrhdDA8uWym9uGf55Zco6eDEEzSLyApnMb2PZo20RQZC15C5lLjNT5d+wuiUnMvYLuL0Qu8iHqKXeCVsGqSVesg+QRQkxELEvuUWDqoWVDvQWA/OdvQB/wizqfZS+bC0YPHV6Ds=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739823130; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+ bh=MvlB81+3iRSmBxuYmuxfJIK8WryhrLiJhvKpt/c2gvs=;
+ b=ajHIbnWTBg4L/4IPaESkZaccLpZMxJ/sVU6/xanBxJKO3vYdpyxxicas9fZT5Ex5
+ 9nX8aBgB72mYN7jJtGg6B8GPzNRYel65bqtvIPrEvlikxfm45yD/XKPj4EJ7AiF9f+z
+ WvAw9XrHqKU/dcKVfqO2xovXq223BYPfee3jLOKA=
+Received: by mx.zohomail.com with SMTPS id 173982312467572.26170725598013;
+ Mon, 17 Feb 2025 12:12:04 -0800 (PST)
+Message-ID: <9100653e-df48-446d-8f4a-ad60587aaf1f@collabora.com>
+Date: Mon, 17 Feb 2025 23:12:00 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250212-xilinx-formats-v3-2-90d0fe106995@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dma-buf: fix incorrect dma-fence documentation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sumit.semwal@linaro.org, tzimmermann@suse.de, simona@ffwll.ch,
+ tvrtko.ursulin@igalia.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20250211163109.12200-1-christian.koenig@amd.com>
+ <20250211163109.12200-2-christian.koenig@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250211163109.12200-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,76 +69,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 12, 2025 at 04:56:06PM +0200, Tomi Valkeinen wrote:
-> Add two new pixel formats:
-> 
-> DRM_FORMAT_XV15 ("XV15")
-> DRM_FORMAT_XV20 ("XV20")
-> 
-> The formats are 2 plane 10 bit per component YCbCr, with the XV15 2x2
-> subsampled whereas XV20 is 2x1 subsampled.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/drm_fourcc.c  | 8 ++++++++
->  include/uapi/drm/drm_fourcc.h | 8 ++++++++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> index 1e9afbf6ef99..bb0a2294573b 100644
-> --- a/drivers/gpu/drm/drm_fourcc.c
-> +++ b/drivers/gpu/drm/drm_fourcc.c
-> @@ -346,6 +346,14 @@ const struct drm_format_info *__drm_format_info(u32 format)
->  		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
->  		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
->  		  .hsub = 2, .vsub = 2, .is_yuv = true},
-> +		{ .format = DRM_FORMAT_XV15,		.depth = 0,
-> +		  .num_planes = 2, .char_per_block = { 4, 8, 0 },
-> +		  .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 }, .hsub = 2,
-> +		  .vsub = 2, .is_yuv = true },
-> +		{ .format = DRM_FORMAT_XV20,		.depth = 0,
-> +		  .num_planes = 2, .char_per_block = { 4, 8, 0 },
-> +		  .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 }, .hsub = 2,
-> +		  .vsub = 1, .is_yuv = true },
+On 2/11/25 19:31, Christian König wrote:
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index e7ad819962e3..e230af0d123f 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -169,8 +169,8 @@ struct dma_fence_ops {
+>  	 * implementation know that there is another driver waiting on the
+>  	 * signal (ie. hw->sw case).
+>  	 *
+> -	 * This function can be called from atomic context, but not
+> -	 * from irq context, so normal spinlocks can be used.
+> +	 * This is called with irq's disabled, so only spinlocks which also
+> +	 * disable irq's can be used.
 
-It might be beneficial to use the same formatting as previous entries,
-it simplifies reviewing. If the patchset is resent, it would be nice to
-get that fixed..
+Nit:
 
-However the patch looks correct, so
+The description sounds a bit cryptic to me. I'd add ".. so only
+spinlocks which disable IRQ's can be used in the code outside of this
+callback".
 
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-
->  	};
->  
->  	unsigned int i;
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index e41a3cec6a9e..ead756a71825 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -304,6 +304,14 @@ extern "C" {
->  #define DRM_FORMAT_RGB565_A8	fourcc_code('R', '5', 'A', '8')
->  #define DRM_FORMAT_BGR565_A8	fourcc_code('B', '5', 'A', '8')
->  
-> +/*
-> + * 2 plane 10 bit per component YCrCb
-> + * index 0 = Y plane, [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian
-> + * index 1 = Cb:Cr plane, [63:0] x:Cr2:Cb2:Cr1:x:Cb1:Cr0:Cb0 2:10:10:10:2:10:10:10 little endian
-> + */
-> +#define DRM_FORMAT_XV15		fourcc_code('X', 'V', '1', '5') /* 2x2 subsampled Cr:Cb plane 2:10:10:10 */
-> +#define DRM_FORMAT_XV20		fourcc_code('X', 'V', '2', '0') /* 2x1 subsampled Cr:Cb plane 2:10:10:10 */
-> +
->  /*
->   * 2 plane YCbCr
->   * index 0 = Y plane, [7:0] Y
-> 
-> -- 
-> 2.43.0
-> 
+Note that I removed the word 'also' because disabling IRQs isn't
+necessary for a spinlock taken within interrupt context because IRQs are
+already disabled there.
 
 -- 
-With best wishes
+Best regards,
 Dmitry
