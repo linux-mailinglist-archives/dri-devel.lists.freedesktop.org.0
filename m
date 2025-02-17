@@ -2,135 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DB3A38710
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 15:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99448A3872E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 16:03:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 842CA10E4F2;
-	Mon, 17 Feb 2025 14:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8058710E0CE;
+	Mon, 17 Feb 2025 15:03:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="jMkZrKJm";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="w/vCsIdo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2088.outbound.protection.outlook.com [40.107.92.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0581310E325;
- Mon, 17 Feb 2025 14:56:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w1EYxkn99bUAZcZZLFzSU4pG5GQZhCnPxifoHUPMaMCcOrIKUqYDg5QERqB7fJH0UKohUQN+FqfuAclj2Jze+6Q4aqwDu24larULX7HaKXFw1L6tSX745OywdC787RO2udv0WEGkUg4CcNNCI+PIdk0F/bNgla5Ac0CA7Nopo+ApFuG+jJmm8gbR6IIpocaIXFgaUU+j/CvqHpoi0x4Rp/V26MHU2rkekTJ9iBNJqj8Qd1r3y+PBqUTe98hR+9aw0Yv5ERMPmvfFUbk9haXaNyz5+JoTeLGwAIy499cCnJ7z7E52qUcI3raftCcEqtpI5M97U+Eo3MU5y/TiWX9WHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jArcG+k6KqGxZRuMIsTAGVcRrZ1lMSpjmDJ5UIhphTM=;
- b=khQPDigi/zu+q0nslf5V98NjOI/c21ulW/gkiFJL5g2EIs/qhGn1gb/bSWuwiXgnhHr2lleUw3noJAtMfFTarX3bbHKEnHXbpLSC8UnpABCLlJCbKOlvHc+l/CcDNcfpFTkha7rElVfkZn85qcYX92xaCfKRHdpv4xu6l2Ft6tp4n89uJgQNNQGZ3vrkTjNynrarV3MP2flhp66EYs0EWB0Spy73oMUFLXcyqFQY+1UfjfL3ieKVb6iYJ6LNh0u2Tu9U5WkZ53yJLZot5+99y0RrTaQejbRhuj5ntOzODmaUe4iZBnC+7Xc78S7thcyJhK8Oa7tWeHP9NIyP/xkMWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jArcG+k6KqGxZRuMIsTAGVcRrZ1lMSpjmDJ5UIhphTM=;
- b=jMkZrKJmvU8Fw2/Sx/0/R2NZdTdojU1dumylafpodlPv1MHMTo8ZbAnf2+2BUF8X2f7WweqcMmYebVl8VMYS/1wjljTOx+lN3IzJCLKLvxp0vSzX+8j27H+Fbh8wFT7IoJ8wq85TxaGX8bLvob9UA2+g1y/60xKLdGwS25E2Y1szosEsEARt/i3kcskima6yf0DXjoRQF3AP3ZcEZ5JPjg7+ifD0vKfOrAep0pciXYC3dx5cx9vco4c9eUXzc3w8bsCGqH9OUsYS3YQN9ZF00gDXJB4KC+Bb6dzdPJvU1RU5no+nps7g9dQjSSFYwboxKk2sqnRYOpuFp4FTtJ3yfg==
-Received: from CH2PR07CA0003.namprd07.prod.outlook.com (2603:10b6:610:20::16)
- by SA0PR12MB4495.namprd12.prod.outlook.com (2603:10b6:806:70::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Mon, 17 Feb
- 2025 14:56:44 +0000
-Received: from CH3PEPF00000009.namprd04.prod.outlook.com
- (2603:10b6:610:20:cafe::73) by CH2PR07CA0003.outlook.office365.com
- (2603:10b6:610:20::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8445.16 via Frontend Transport; Mon,
- 17 Feb 2025 14:56:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- CH3PEPF00000009.mail.protection.outlook.com (10.167.244.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8466.11 via Frontend Transport; Mon, 17 Feb 2025 14:56:44 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Feb
- 2025 06:56:38 -0800
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 17 Feb 2025 06:56:37 -0800
-Received: from localhost (10.127.8.10) by mail.nvidia.com (10.126.190.180)
- with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Mon, 17
- Feb 2025 06:56:34 -0800
-Date: Mon, 17 Feb 2025 16:56:33 +0200
-From: Zhi Wang <zhiw@nvidia.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, "David
- Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Timur Tabi
- <ttabi@nvidia.com>, Dave Airlie <airlied@redhat.com>, Ben Skeggs
- <bskeggs@nvidia.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kernel-janitors@vger.kernel.org>
-Subject: Re: [PATCH next] drm/nouveau: Fix error pointer dereference in
- r535_gsp_msgq_recv()
-Message-ID: <20250217165633.00004d13@nvidia.com>
-In-Reply-To: <b7052ac0-98e4-433b-ad58-f563bf51858c@stanley.mountain>
-References: <b7052ac0-98e4-433b-ad58-f563bf51858c@stanley.mountain>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-w64-mingw32)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6D7310E0CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 15:03:35 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5452c29bacfso3529839e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 07:03:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739804614; x=1740409414;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=//GayiTjk2VgwOuQxZT0tXCo12hznJ8fyvNG07N/o2g=;
+ b=w/vCsIdoPPe45ifxbHjKM4dN0PBGQ9jrHqlIarHrtEAMlc5LxtEa3m6W5aaEDU5MHR
+ G1NbEjVFuNYPJpd8q/Dv/rStboPlEMhaERR23LbVHy6bGnkycE5oZz+7aYD7BGXpaD6K
+ sDECU0MfEhoXlSXEmd73UPCCjeOAfJUtQ56PComhpqRwa/T2yDP9Rittaq1MIpnMqvw1
+ KVdNUCZjPVKnA62kuBOK1tnq66QuuKYNr/BCpFYGDm4jrgcUJj3BulZlMqPhSk0EeKQM
+ sbepAie4nuHow23zquNK3FtKsxBWd3hJK/K9LrwFak+MSASmbGw9zspIgwuqS10/TyYf
+ lL7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739804614; x=1740409414;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=//GayiTjk2VgwOuQxZT0tXCo12hznJ8fyvNG07N/o2g=;
+ b=sfgGFeOS3L73LQq5LwBlHiRObeTXZgVx6Kk6KrwZTx/K0z6Sk0OFTxh1naNJqp3KnR
+ Wit43BmLRoYjG3e1Pyvpplgzv+9Bnoyazfmkp80yEmhjH7vr80FYe7TZnUWI5+mp0d9/
+ tCrKANqI4GvaLZD+M31BRLGmHrCJXj1WJfYQMV53IwUhYWRrbaOCCF5wipDq263f+MFv
+ /2tvVsXlfsAOARFAN0309g+1sLaHu6rtDa8/2uKprZqyzHhD9MmvLmE++FUQsEmjisyb
+ lbLwXJ2Y1buvN+lV4iJwzOMoNgv9WdPGCyXv2VMGJJQgWTb8NJGohwO/k8giDWxqlnne
+ qxaA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWepxHecu6gSM+CnxlXJqFDGoEO+RWrCfiN50+PYfOnD/vytt3f2uy1VRdNaQdM2gm4aODDJ9EJxHU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGe0z5cO8yJ2E5S5xEgxzOsd3yQs2dNHUNj1dAhkJ3t60LNcdG
+ YrQh2r/q+lHupriP59KRwej5/DtkQkabfc+9+MjmqW8NFucVy3UaIHT2gD/Elvd/ksW14wsUS5i
+ uKqg=
+X-Gm-Gg: ASbGncuibR9tQFljMRRP6dJFLAP21coARgkc7qmwziU5zTyJ7f+MnwrFq+ke8BgyqoS
+ ixpkloEld5Xbxn37d9KkVrfYjsRQ1PjW1raTPPYKDpwbh0Flmq0GWGkii31089fQnUZ6NQro7w5
+ jBw8JYuFHpClFAJLUKOnTbJ7wu8FqVSR5Zka+7PNGWpLSJTVtGX82j9mrAaPyGiRkCqEEdm0KWb
+ HrN6bC/WCc58g9bVyZ9nOdO69xi0MeEfZM7QKtkqR15UjMpsep5o+YDvibQG/iryh6D3p9FS5Ew
+ uFkEoHSlFc42l4Fg/NRtJh5wxoex0nbAcSf+iXPKa84EZ4WoRJLYoJsNhrRwamk=
+X-Google-Smtp-Source: AGHT+IF9JYqSQ6ntE3558qRENvEigRRMYqxdMfCUuklz4yeVdCf7BoSLXDiwqfmV2TzwBrbwiuonQQ==
+X-Received: by 2002:a05:6000:1f87:b0:38f:23f4:2d7a with SMTP id
+ ffacd0b85a97d-38f33f43751mr9709394f8f.40.1739804602180; 
+ Mon, 17 Feb 2025 07:03:22 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:5ee:79d0:9c3e:a06c:91d9:c06b?
+ ([2a01:e0a:5ee:79d0:9c3e:a06c:91d9:c06b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38f258b412esm12273223f8f.1.2025.02.17.07.03.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Feb 2025 07:03:21 -0800 (PST)
+Message-ID: <79477810-00a9-47f1-8282-f8077ea082bb@baylibre.com>
+Date: Mon, 17 Feb 2025 16:03:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000009:EE_|SA0PR12MB4495:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14a90c20-a251-48ab-763e-08dd4f634b80
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|82310400026|36860700013|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?CtaytH1l302ifTzWhKoixVRzhZ1cUOVwMQs20wdhRVfUVyw5Hc6K1nZNzCpu?=
- =?us-ascii?Q?TO+5jC78UbZydE4PHZI2Pn8/ysW72+wZmW3P2lbPVixz5BRzSwGwhfjZot8a?=
- =?us-ascii?Q?ouBgklUGvaB0jyyRxqIYc3enwpY0k3wQ7V2fyP1KVRVbw9N0HkVWIKzNskvf?=
- =?us-ascii?Q?9Mm8Wz0CTu+VciSuGJXFzaRFUO+GODi4N5mTW/hMzAdMcb66J9ImAw0XB1Tn?=
- =?us-ascii?Q?Y1dm/5H/Q/UDxi0EYHQjcr+Mv3KwVmyL4N2NzUxHCiczPafSmHGGP2VhXC1X?=
- =?us-ascii?Q?Kt6BL74SZTg8Ygrmf0daFpFbhM8Hiac5n4Yt7JijfcSsUyVZwdleLwl6hhN4?=
- =?us-ascii?Q?5qDKThXEQnwbfD9R9bW+ab7cGEEDRowTmq5KzyCbNCFOfDdZ0oVxnHNfmtyM?=
- =?us-ascii?Q?vBiYbNyJkuxHxujBNK6tN4otSUMrnOd7Q8w9YnjQTPyQkQg4kkqJiZmMg3fb?=
- =?us-ascii?Q?5CYAjuhF3u9v+QVEJwGcc7fI0yK2AsTLrEMVJb841AUDrOCSj/Woxm71x/oa?=
- =?us-ascii?Q?MB/3BEvwL0qokiz7qKsNJdv+tl2rRPB5lPVqMXBiL56xFp36puFgSH6jKqYe?=
- =?us-ascii?Q?IK1LLqNLBNJl0z0mjKe3Hin5t4t7dVmPdq03INSpZ/XJAduQsoEMueAj8cux?=
- =?us-ascii?Q?CoiEIxJ1NcQQvIf1qXT3rWoL5/cUvWVUlNSUJGuvePDCV0K/yIQ+2pwghj6p?=
- =?us-ascii?Q?GEtIPNYGtwhLFt3pOe9oXyaZ36mdWcYuflkfqurcxTgsJk4i9OwT9iVg1fDy?=
- =?us-ascii?Q?z6XFYkF5AnjULv+aFS1iUn2IAitFKqspiGnTwIVUWH6OWTx+OZCGs9lO/G14?=
- =?us-ascii?Q?OfnRVSfQwSHBehARi+DpgsGgL1DWx2YYQ1rtB1fFJkjcnquQXGErNOkrWfO2?=
- =?us-ascii?Q?9uOsZ6z2RcBzatz1Me2I6VDoBVd486EEuQcdABQ26cqGX+o5L+t4pKG4rsLH?=
- =?us-ascii?Q?G9C5oaYkJB94yvNU4D4fYy7C4C3/x9WlzR0kySJlIo7VbniWYdjTvXa72ZcK?=
- =?us-ascii?Q?JzYIJADxw2XYY+XnS8SOdiYQhb8efYV9dO5DhBy7MrP6v0mez8ITO3BROGlG?=
- =?us-ascii?Q?7DL7RKBNr9GKXQygbuYAkxUyB7RCsr3wVCdTdpJb/0UcqBoFpIP6h5tavsim?=
- =?us-ascii?Q?9RnZDD/C4o1O4CNRlK4tgBf9+QX9nWeNdQ9UkYElrhM4NGGUflGaw2IeMVAs?=
- =?us-ascii?Q?YnqmEFYFfkCeEAp7Khc4BRdwu6uNbJJUfERzj3soY60NL/tnIt+jAEYyNq4n?=
- =?us-ascii?Q?f3inlbEP2nNDsdxwRtehYqwYedzlyci4QizS5g0+nR1YIaXoXDQwtKn7YsRT?=
- =?us-ascii?Q?UsXViBxh5e9RHsqEJ3tB7UyUzsWW4+lNFl8OiO7dMznz/mrRHpyegCq7meSX?=
- =?us-ascii?Q?7zrm+ACz+HnVrYWfEQIyqP3hXZKPHfS6wAaCeaToFS0XBBi2KTRerE8SdcIN?=
- =?us-ascii?Q?ZL/j2FshcYCf7HyuUMkhK0eihBApCAP+pWDybDI+NhkpA10qhEGeA9EOzbv8?=
- =?us-ascii?Q?2bBnWaaQiE72jVw=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2025 14:56:44.1982 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14a90c20-a251-48ab-763e-08dd4f634b80
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF00000009.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4495
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/6] drm/mediatek: dsi: Improves the DSI lane setup
+ robustness
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "simona.vetter@ffwll.ch" <simona.vetter@ffwll.ch>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "will@kernel.org" <will@kernel.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "robh@kernel.org" <robh@kernel.org>
+References: <20231023-display-support-v7-0-6703f3e26831@baylibre.com>
+ <20231023-display-support-v7-2-6703f3e26831@baylibre.com>
+ <ab3bd050c873bb6cecc00b615b938eabc157cb49.camel@mediatek.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <ab3bd050c873bb6cecc00b615b938eabc157cb49.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,32 +115,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Feb 2025 10:31:21 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+Hi CK.
 
-Thanks for catching this!
-
-Acked-by: Zhi Wang <zhiw@nvidia.com>
-
-> If "rpc" is an error pointer then return directly.  Otherwise it leads
-> to an error pointer dereference.
+On 17/02/2025 08:56, CK Hu (胡俊光) wrote:
+> On Fri, 2025-01-10 at 14:31 +0100, Alexandre Mergnat wrote:
+>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>> 
+>> 
+>> Currently, mtk_dsi_lane_ready (which setup the DSI lane) is triggered
+>> before mtk_dsi_poweron. lanes_ready flag toggle to true during
+>> mtk_dsi_lane_ready function, and the DSI module is set up during
+>> mtk_dsi_poweron.
+>> 
+>> Later, during panel driver init, mtk_dsi_lane_ready is triggered but does
+>> nothing because lanes are considered ready. Unfortunately, when the panel
+>> driver try to communicate, the DSI returns a timeout.
+>> 
+>> The solution found here is to put lanes_ready flag to false after the DSI
+>> module setup into mtk_dsi_poweron to init the DSI lanes after the power /
+>> setup of the DSI module.
 > 
-> Fixes: 50f290053d79 ("drm/nouveau: support handling the return of large GSP message")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> index 2075cad63805..db2602e88006 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> @@ -348,6 +348,7 @@ r535_gsp_msgq_recv(struct nvkm_gsp *gsp, u32 gsp_rpc_len, int *retries)
->  	if (IS_ERR(buf)) {
->  		kvfree(info.gsp_rpc_buf);
->  		info.gsp_rpc_buf = NULL;
-> +		return buf;
->  	}
->  
->  	if (expected <= max_rpc_size)
+> I'm not clear about what happen.
+> I think this DSI flow has worked for a long time.
+> So only some panel has problem?
 
+I don't know if it's related to a specific panel or not.
+
+> 
+> And another question.
+> Do you mean mtk_dsi_lane_ready() do some setting to hardware, but lane is not actually ready?
+
+The workflow should be:
+... | dsi->lanes_ready = false | Power-on | setup dsi lanes | dsi->lanes_ready = true (to avoid 
+re-do dsi lanes setup) | ...
+
+I observe (print function name called + dsi->lanes_ready value):
+
+[    9.086030] mtk_dsi_probe 0
+[    9.662319] mtk_dsi_host_attach 0
+[    9.662941] mtk_dsi_encoder_init
+[    9.984685] mtk_dsi_poweron 0
+[   10.043755] mtk_dsi_host_transfer 0
+[   10.043769] mtk_dsi_lane_ready 0
+[   10.055837] mtk_dsi_host_transfer 1
+[   10.055853] mtk_dsi_lane_ready 1
+[   10.179788] mtk_dsi_host_transfer 1
+[   10.179803] mtk_dsi_lane_ready 1
+[   10.179880] mtk_dsi_host_transfer 1
+[   10.179885] mtk_dsi_lane_ready 1
+[   10.179920] mtk_dsi_host_transfer 1
+[   10.179923] mtk_dsi_lane_ready 1
+[   10.179986] mtk_dsi_host_transfer 1
+[   10.179993] mtk_dsi_lane_ready 1
+[   10.180134] mtk_dsi_host_transfer 1
+[   10.180143] mtk_dsi_lane_ready 1
+[   10.180175] mtk_dsi_host_transfer 1
+[   10.180178] mtk_dsi_lane_ready 1
+[   10.180223] mtk_dsi_host_transfer 1
+[   10.180226] mtk_dsi_lane_ready 1
+[   10.180245] mtk_dsi_host_transfer 1
+[   10.180248] mtk_dsi_lane_ready 1
+[   10.180278] mtk_dsi_host_transfer 1
+[   10.180280] mtk_dsi_lane_ready 1
+[   10.180312] mtk_dsi_host_transfer 1
+[   10.180314] mtk_dsi_lane_ready 1
+[   10.203774] mtk_dsi_bridge_atomic_pre_enable
+[   10.203787] mtk_dsi_poweron 1
+[   10.203793] mtk_output_dsi_enable
+[   10.203795] mtk_dsi_lane_ready 1
+[   10.471517] mtk_dsi_host_transfer 1
+[   10.486962] mtk_dsi_lane_ready 1
+[   10.487244] mtk_dsi_host_transfer 1
+[   10.503733] mtk_dsi_lane_ready 1
+
+Here the mtk_dsi_lane_ready function:
+
+	static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
+	{
+		if (!dsi->lanes_ready) {
+			dsi->lanes_ready = true;
+			mtk_dsi_rxtx_control(dsi);
+			usleep_range(30, 100);
+			mtk_dsi_reset_dphy(dsi);
+			mtk_dsi_clk_ulp_mode_leave(dsi);
+			mtk_dsi_lane0_ulp_mode_leave(dsi);
+			mtk_dsi_clk_hs_mode(dsi, 0);
+			usleep_range(1000, 3000);
+			/* The reaction time after pulling up the mipi signal for dsi_rx */
+		}
+	}
+
+
+As you can see, something call "mtk_dsi_bridge_atomic_pre_enable" then mtk_dsi_poweron is called a 
+second time. This issue is probably due to the probe order (race condition).
+After all, IMHO, after a poweron, the registers status should be consider as unknown (or at least HW 
+default value), so, lanes setup has to be done. This solution improve the driver's robustness.
+
+
+> Or mtk_dsi_lane_ready() configure the hardware and lane is is actually ready,
+> but something make it not ready again, what's the thing which break lane ready?
+> 
+> If this is a bug fix, add Fixes tag.
+> 
+> Regards,
+> CK
+> 
+>> 
+>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> ---
+>>  drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> index e61b9bc68e9a..dcf0d93881b5 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> @@ -724,6 +724,8 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+>>         mtk_dsi_config_vdo_timing(dsi);
+>>         mtk_dsi_set_interrupt_enable(dsi);
+>> 
+>> +       dsi->lanes_ready = false;
+>> +
+>>         return 0;
+>>  err_disable_engine_clk:
+>>         clk_disable_unprepare(dsi->engine_clk);
+>> 
+>> --
+>> 2.25.1
+>> 
+> 
+> 
+> ************* MEDIATEK Confidentiality Notice
+>   ********************
+> The information contained in this e-mail message (including any
+> attachments) may be confidential, proprietary, privileged, or otherwise
+> exempt from disclosure under applicable laws. It is intended to be
+> conveyed only to the designated recipient(s). Any use, dissemination,
+> distribution, printing, retaining or copying of this e-mail (including its
+> attachments) by unintended recipient(s) is strictly prohibited and may
+> be unlawful. If you are not an intended recipient of this e-mail, or believe
+>   
+> that you have received this e-mail in error, please notify the sender
+> immediately (by replying to this e-mail), delete any and all copies of
+> this e-mail (including any attachments) from your system, and do not
+> disclose the content of this e-mail to any other person. Thank you!
+> 
+
+-- 
+Regards,
+Alexandre
