@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09604A38C33
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 20:18:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2E4A38C46
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 20:23:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E422510E5C0;
-	Mon, 17 Feb 2025 19:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881FA10E5C3;
+	Mon, 17 Feb 2025 19:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WssupDFL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zHL5TbuQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0AE10E5C0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 19:18:44 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-54626a71b40so838733e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 11:18:44 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9912B10E5C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 19:22:48 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-30920855d5bso34251851fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 11:22:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739819923; x=1740424723; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739820167; x=1740424967; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DK+fqhLw+0oSKSvkhmUshysfw/dArV7Gb0FGu6H8pRM=;
- b=WssupDFL0J68EGxTKhR9i6FdTixdAcIBgvLMJrEL+R0W9FPPA8bb/FqVwekQ8A26Bt
- 5WYzurCw6JzT2TcnoP+V2AfTIJTX/Nti21vhWJx6SHUqzen5XDk2tmQDV+rrg2kbIfPg
- NYg3HPnKNosQQRH1H6Fhh8q/pPKGa40cDPpGMysP6qz57bFmMGVmTGIazq+bysy0GrXs
- /NXYx6BXZML8Hh/mty/aDqR6G5EhA/D69STDIEdIEbR31OhPCUN/2/s5fpjH8WD/EjhU
- DpajDrMD9jrwx+pJBRqeEzoRjxKCXzZnvRZV0jyoEu+yJcSS+wPwdpLslUNx11nVH4c1
- OivA==
+ bh=S9GjiPamODZZMscfrw9WONv6M/bFOtmRPiKnVBr0uxQ=;
+ b=zHL5TbuQ/9mDNXnWtgMxUqCeszvoXr6tKDiE5w+exlKFLCyhQs6aJtG1Yi4t/1RhUx
+ 5bla9NXhGp0fXfhk7XL8Q+Wh9wkt+FbQpCN43TMVrvdpCFe38hWrhTEWPZuvG0NALVXJ
+ tHUe2qzl8GackHCqke7qHjiS628xWFfVC51VpGMv8sJCbEwpyw7DVi7gOi38U6GPuphO
+ WT7dC1znu1+8B4zu2GPLQP20SqD2uz2SV0z9j91koVxwRhyJIAIanjZhIs8x55AV/St/
+ mOzSMdfOHEK5fP6FoVvl28ZcGHzpns6vBnlJFqdr3etkYK3a35AtSNA74ijq83mR7Yit
+ YJNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739819923; x=1740424723;
+ d=1e100.net; s=20230601; t=1739820167; x=1740424967;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DK+fqhLw+0oSKSvkhmUshysfw/dArV7Gb0FGu6H8pRM=;
- b=ganwMLnQh85CCh6AvGfUPNSD0MAlFIkwH/Be4fKwncIy4AwnGg4+kIQ4EROHsLrpnf
- ZTe+s+p4mv70/OOw9qc7LppeD6rzGR5dHpzZTGhWbaODl3PoSQdNxwd1o/jISppA0BVP
- 3xB30mPt8sxI/7RyrtXCgjcmDCt2EdPWvqtNbAK+lhFZsKzuGOYtXMKC9uq9rSavFlNN
- FkgjZR6m+efiUboV2crYEoYWashZpjHWi/T7frQuLLP3CrB2SKSRXl5qZm6XnQDGD668
- EYTSI9+P0lGlYkVj9bD85L7Zno/HKU1d2Qpfdu2l/fwyeDB7cN9xv7jishyWY9x5GWZC
- SH8g==
+ bh=S9GjiPamODZZMscfrw9WONv6M/bFOtmRPiKnVBr0uxQ=;
+ b=DayLLBLBZ/Wcol3EpRqFElCfooa2GkzXJ+3DRYrj5wBIUWo8nKs+lLQYL1mZhhns9L
+ BH7x2XAoH57jbF8xWz3Uitt+aFaIqlK7IrHYYvjfMFDcgbOMPGlE82a4yB3upNgEinsN
+ 9q4yHNrruJNmEfDyPrVIyJSzewIkTOEp549X/+FBOHaX1r3ba9JUNLZZdF7bE27tx3OY
+ Mu21EZLDL6GMMjdjroO2+OUIV2k7mgbh640l2eTimdVXO3MHl0cCWI2WLR1hkTumzc3e
+ B7tvll4in1v3UjMpqmoiM3V+a+YXHTN77WTV5cAB30mzh7QhveNU9zO7kHKjjxQfeE8p
+ Y1vQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU8An66nU0E3ht+xDjAMWVhm82LHUlXA46Xyn5HHRVfPtSzYz9vgdMV6ZwtzpnsoFZRGhJYxHkqEGk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+OXQ2dTFV2x1sLDjy+6CORQil2serQgoCAYy8mGEXr5ApcxIO
- AatIBP6PQgaAjDyxUmwYV4uNZNrUXecZG9AzDdYMyL1mmvCGGbGDbMpAzhYuUQA=
-X-Gm-Gg: ASbGncsgU88fRW//grZiSrxpvcqpB80Db4JwUlOeSPN01OZ/6y9X2+ZBthvJvkO+iSi
- j1lrCIDMR3rQ9VO4+k8Pt8pPJLkOow7NxvYDc69w3/deiUlYqyGJRJTrxqSZaCtEkuKPGb2NeMB
- 9mrdo2keEnEe+h72ccDHAQuXI2FnRy6bjUkly09Z+ZBj+ShtHRiN7u86SLXzxQQpr7KHwbrp3wg
- 3CPLH6Ibd5YuWIP5e57h493WshDGqW8e98qiOxvxz5Jpxm6e61WgkjAOIpjfGw5RaEfcgAUCaC5
- bd7FLv0RMgdZH2pcnFX9Adz6iam4KIn5FLhYInZs6/IXtYu0o+XZM5v08epHr/F/46AvHoY=
-X-Google-Smtp-Source: AGHT+IH7pPe9WdA9acnmeu4tM6FBkJrCmOJkB/cGc23MUQGTJZAedW80zQq+KjfFc7YHQvnbMFONmg==
-X-Received: by 2002:a19:2d11:0:b0:546:27f0:21a7 with SMTP id
- 2adb3069b0e04-54627f02773mr695030e87.49.1739819922816; 
- Mon, 17 Feb 2025 11:18:42 -0800 (PST)
+ AJvYcCU7wepT+UaJ/oo4xASF9GNQ6yUDmt3aXiHFgk26HMRrXvMRomHU0PX0R2GvPiFLgKoCUFkgWKKJ4mA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YySHtqliNMa81AckdJ1RBUn7kTpdBeQREcU3rhPNuhPamf/8V14
+ JX1Br5AsZg4k0V7gFcjBbdoVSPgMHoO8D2NDYP/Fq7ElXYCSpJ/F8zRwYjXzebE=
+X-Gm-Gg: ASbGncst5+yUDaK/V/eRp5ZeLtA0mrxDr04BhEaM1QA2bK8eQvmFNIcj5lhBfGund13
+ SXehG6ChKRLUtbj3sIsV12a+7VPYo7ingNSFX51TF6zeDYf6I8i+5jslc/WfzspvAdVLD69bk3J
+ 2JHWpjqn7FxP8bPz4ZOAdAgAMZmt+SrVDExTui7Ez7U52VxGb2pbdnt+GuOVUr8OWTWlZekqj3e
+ 9EJpnYGx+rKhJ+2Fg9kJihmSG6p018kqvtrFaPkP1Fo7XmwdBGvoi3JtaclyrbWr77RSZtIzFfi
+ WsMgchJSean5whXTQIYD4jJs10wPUG/FSukwGobO//qTyZ8ZwG2EsiGInvb6DNPFNyuBnCQ=
+X-Google-Smtp-Source: AGHT+IFlV1UP/wKVxhbwSwQTJ2SEmKZ4/rOsrk8g+x6pZhmGCoSOJCnGQ4bptI2YGeo2RC0BYkCcnA==
+X-Received: by 2002:a05:6512:108f:b0:545:16a8:6a5d with SMTP id
+ 2adb3069b0e04-5451dfc13a5mr4931403e87.2.1739820166729; 
+ Mon, 17 Feb 2025 11:22:46 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5461d4f2aa5sm694294e87.0.2025.02.17.11.18.40
+ 2adb3069b0e04-5452cb59c35sm1293957e87.203.2025.02.17.11.22.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 11:18:41 -0800 (PST)
-Date: Mon, 17 Feb 2025 21:18:39 +0200
+ Mon, 17 Feb 2025 11:22:45 -0800 (PST)
+Date: Mon, 17 Feb 2025 21:22:43 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -79,14 +79,14 @@ Cc: Rob Clark <robdclark@gmail.com>,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  Srini Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH v2 15/16] drm/msm/dpu: Implement new v12.0 DPU differences
-Message-ID: <qlotuliwnm5spneolztca7avmh2a46pz2xqlxzqbw5kwa53m6q@oyhnzz7fhay3>
+Subject: Re: [PATCH v2 08/16] drm/msm/dpu: Drop useless comments
+Message-ID: <w3i4e3hkbemmjdbzp5kevxouv4smftsnzml3wa6mkd2e7mzmi6@op2uaa26kz2z>
 References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
- <20250217-b4-sm8750-display-v2-15-d201dcdda6a4@linaro.org>
+ <20250217-b4-sm8750-display-v2-8-d201dcdda6a4@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250217-b4-sm8750-display-v2-15-d201dcdda6a4@linaro.org>
+In-Reply-To: <20250217-b4-sm8750-display-v2-8-d201dcdda6a4@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,33 +102,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 17, 2025 at 05:41:36PM +0100, Krzysztof Kozlowski wrote:
-> Implement new features and differences coming in v12.0 of DPU present on
-> Qualcomm SM8750 SoC:
-> 1. 10-bit color alpha.
-> 2. New CTL_PIPE_ACTIVE and CTL_LAYER_ACTIVE registers for pipes and
->    layer mixers.
-> 2. Several differences in LM registers (also changed offsets) for LM
->    crossbar hardware changes.
+On Mon, Feb 17, 2025 at 05:41:29PM +0100, Krzysztof Kozlowski wrote:
+> Drop comments about SoC before each 'struct dpu_lm_sub_blks' for given
+> SoC because it's duplicating the actual name of structure.
 
-I'd really prefer for this patch to be split into a logical chunks
-rather than "everything for 12.x"
+Historically there were more SoC-specific data, now we are really
+limited to the LM sblk. Maybe that points out that we should rename
+those to drop the SoC name. Anyway,
+
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
 > ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 8 --------
+>  1 file changed, 8 deletions(-)
 > 
-> Changes in v2:
-> 1. New patch
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  49 +++++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  12 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  |  59 +++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h  |  17 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   | 210 +++++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h   |  18 +++
->  6 files changed, 350 insertions(+), 15 deletions(-)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 7ea424d7c1b75e06312692225f4e888e81621283..4ff29be965c39b29cf7e3b9761634b7f39ca97b0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -362,8 +362,6 @@ static const struct dpu_sspp_sub_blks dpu_dma_sblk = _DMA_SBLK();
+>   * MIXER sub blocks config
+>   *************************************************************/
+>  
+> -/* MSM8998 */
+> -
+>  static const struct dpu_lm_sub_blks msm8998_lm_sblk = {
+>  	.maxwidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.maxblendstages = 7, /* excluding base layer */
+> @@ -373,8 +371,6 @@ static const struct dpu_lm_sub_blks msm8998_lm_sblk = {
+>  	},
+>  };
+>  
+> -/* SDM845 */
+> -
+>  static const struct dpu_lm_sub_blks sdm845_lm_sblk = {
+>  	.maxwidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.maxblendstages = 11, /* excluding base layer */
+> @@ -384,8 +380,6 @@ static const struct dpu_lm_sub_blks sdm845_lm_sblk = {
+>  	},
+>  };
+>  
+> -/* SC7180 */
+> -
+>  static const struct dpu_lm_sub_blks sc7180_lm_sblk = {
+>  	.maxwidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.maxblendstages = 7, /* excluding base layer */
+> @@ -394,8 +388,6 @@ static const struct dpu_lm_sub_blks sc7180_lm_sblk = {
+>  	},
+>  };
+>  
+> -/* QCM2290 */
+> -
+>  static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
+>  	.maxwidth = DEFAULT_DPU_LINE_WIDTH,
+>  	.maxblendstages = 4, /* excluding base layer */
+> 
+> -- 
+> 2.43.0
 > 
 
 -- 
