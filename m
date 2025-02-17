@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E5CA38E5B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 22:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22339A38E5D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 22:57:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD4310E5F0;
-	Mon, 17 Feb 2025 21:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF0110E5E8;
+	Mon, 17 Feb 2025 21:57:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qTeQeRFq";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FrTGaWmW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C21110E5F0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 21:57:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39F9C10E5E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 21:57:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739829426;
- bh=KjsFAJNPsUpS9IOJmQDPTg0Dnewekb+T8H0LWKWYzdE=;
+ s=mail; t=1739829433;
+ bh=HqD/otvQ6CB/wALHb0KdTDbQw39m8H0tlEIqNzso+MM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qTeQeRFqenkD70Abt6ZUoS1IFNq1kRsHA9FXQReFb3wBNYMDjeFpxx7NJ4yiELak7
- 6ZGWdI/yJ4OgY8HEX5hWUmyjbR50XMvnFoJpaUEIAo+SKDHj//Au7YLjRkYwjzzWC9
- cFt1N3codg3H3eC005vunw+ZC/rjFNl0abB5gasWq5UIgrhPVu8obs7MO7jRjylZNA
- jnoUbhoZaw2gcWjfGVpvf7wbJ7JTRFUa5dE7qUu1uJe/lgZ+dVq+4VAbGHHmwhCeC4
- ToIrYCa/MtGvFIw97JriTEIPvMfegPU08bfu8ZSrrCT79UYA8PIwjeEsjedvkoOobQ
- NzUIxVVadGxmw==
+ b=FrTGaWmWZk7taRw20lsQ0wHef9+y9vUd8rxtGJSS2XOgvbq+FVHdXKd/2k+AqM/7X
+ OGGhSL/cyyrUgIrTpt8JY0z12EITFpcXrZTueXVNedHjbtjsL/xyG4kJsX266qFbQt
+ tRCJURjwzZoD1KR9+sGFu3k7XSTucHKSr7XYazqyd6q9PCtUGKQayebPTSCJmGOxk1
+ J87UUbiUFqfvh9gat1f4JtjYuxtpwIP1CJE9INjk2DmAKO1brjtYItY5flZrR9H+8x
+ OGt43Dubjo/ZiGYc8IxE7asXbA8diwdrFvUsw0m6oPS0GMJJr5/BT1/j0b7PCxQZED
+ QmfbCDp3iRqjQ==
 Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EA6FA17E02BE;
- Mon, 17 Feb 2025 22:56:59 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5179C17E0391;
+ Mon, 17 Feb 2025 22:57:07 +0100 (CET)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -57,10 +57,10 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  dri-devel@lists.freedesktop.org, kernel@collabora.com,
  Quentin Schulz <quentin.schulz@cherry.de>
-Subject: [PATCH v7 2/3] arm64: dts: rockchip: Add HDMI audio outputs for
- rk3588 SoC
-Date: Mon, 17 Feb 2025 16:47:41 -0500
-Message-ID: <20250217215641.372723-3-detlev.casanova@collabora.com>
+Subject: [PATCH v7 3/3] arm64: dts: rockchip: Enable HDMI audio outputs for
+ Rock 5B
+Date: Mon, 17 Feb 2025 16:47:42 -0500
+Message-ID: <20250217215641.372723-4-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250217215641.372723-1-detlev.casanova@collabora.com>
 References: <20250217215641.372723-1-detlev.casanova@collabora.com>
@@ -81,96 +81,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For hdmi0_sound, use the simple-audio-card driver with the hdmi0 QP node
-as CODEC and the i2s5 device as CPU.
+HDMI audio is available on the Rock 5B HDMI TX ports.
+Enable it for both ports.
 
-Similarly for hdmi1_sound, the CODEC is the hdmi1 node and the CPU is
-i2s6, but only added in the rk3588-extra.dtsi device tree as the second
-TX HDMI port is not available on base versions of the SoC.
-
-The simple-audio-card,mclk-fs value is set to 128 as it is done in
-the downstream driver.
-
-The #sound-dai-cells value is set to 0 in the hdmi0 and hdmi1 nodes so
-that they can be used as audio codec nodes.
-
-Tested-by: Quentin Schulz <quentin.schulz@cherry.de> # RK3588 Tiger Haikou
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi  | 17 +++++++++++++++++
- arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi | 17 +++++++++++++++++
- 2 files changed, 34 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 8cfa30837ce72..f9f888dedd8f0 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -382,6 +382,22 @@ scmi_reset: protocol@16 {
- 		};
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+index 27128c6a05a2f..8f42cd0427701 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+@@ -231,6 +231,10 @@ hdmi0_out_con: endpoint {
  	};
+ };
  
-+	hdmi0_sound: hdmi0-sound {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,format = "i2s";
-+		simple-audio-card,mclk-fs = <128>;
-+		simple-audio-card,name = "hdmi0";
-+		status = "disabled";
++&hdmi0_sound {
++	status = "okay";
++};
 +
-+		simple-audio-card,codec {
-+			sound-dai = <&hdmi0>;
-+		};
-+
-+		simple-audio-card,cpu {
-+			sound-dai = <&i2s5_8ch>;
-+		};
-+	};
-+
- 	pmu-a55 {
- 		compatible = "arm,cortex-a55-pmu";
- 		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH &ppi_partition0>;
-@@ -1394,6 +1410,7 @@ hdmi0: hdmi@fde80000 {
- 		reset-names = "ref", "hdp";
- 		rockchip,grf = <&sys_grf>;
- 		rockchip,vo-grf = <&vo1_grf>;
-+		#sound-dai-cells = <0>;
- 		status = "disabled";
+ &hdmi1 {
+ 	pinctrl-0 = <&hdmim0_tx1_cec &hdmim0_tx1_hpd
+ 		     &hdmim1_tx1_scl &hdmim1_tx1_sda>;
+@@ -249,6 +253,10 @@ hdmi1_out_con: endpoint {
+ 	};
+ };
  
- 		ports {
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-index 567f8f74c7b3c..cf04847afd040 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-@@ -7,6 +7,22 @@
- #include "rk3588-extra-pinctrl.dtsi"
++&hdmi1_sound {
++	status = "okay";
++};
++
+ &hdptxphy_hdmi0 {
+ 	status = "okay";
+ };
+@@ -351,6 +359,14 @@ i2s0_8ch_p0_0: endpoint {
+ 	};
+ };
  
- / {
-+	hdmi1_sound: hdmi1-sound {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,format = "i2s";
-+		simple-audio-card,mclk-fs = <128>;
-+		simple-audio-card,name = "hdmi1";
-+		status = "disabled";
++&i2s5_8ch {
++	status = "okay";
++};
 +
-+		simple-audio-card,codec {
-+			sound-dai = <&hdmi1>;
-+		};
++&i2s6_8ch {
++	status = "okay";
++};
 +
-+		simple-audio-card,cpu {
-+			sound-dai = <&i2s6_8ch>;
-+		};
-+	};
-+
- 	usb_host1_xhci: usb@fc400000 {
- 		compatible = "rockchip,rk3588-dwc3", "snps,dwc3";
- 		reg = <0x0 0xfc400000 0x0 0x400000>;
-@@ -165,6 +181,7 @@ hdmi1: hdmi@fdea0000 {
- 		reset-names = "ref", "hdp";
- 		rockchip,grf = <&sys_grf>;
- 		rockchip,vo-grf = <&vo1_grf>;
-+		#sound-dai-cells = <0>;
- 		status = "disabled";
+ &package_thermal {
+ 	polling-delay = <1000>;
  
- 		ports {
 -- 
 2.48.1
 
