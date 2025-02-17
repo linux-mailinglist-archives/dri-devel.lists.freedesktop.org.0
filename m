@@ -2,81 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC49EA38939
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85B4A38966
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:38:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6204210E0E5;
-	Mon, 17 Feb 2025 16:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BAE10E15C;
+	Mon, 17 Feb 2025 16:38:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OAssSBwF";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Lv6REnH4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C552410E0E5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:34:27 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-4394a0c65fcso50211575e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:34:27 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 359D710E15C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:38:13 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4398c8c8b2cso7844155e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:38:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739810066; x=1740414866; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LlEc/1DhhuQ6PXgaEU0RmiNtz94/GUUPYpvE7Dfmipg=;
- b=OAssSBwFmpW45yyWkmVhM6+lTDw+NFOQx93JogaHyw1OqVa2sV/Rpu5Kd5lWmJa9RZ
- XlvcvMuFd5FZIn5N7woMn7PBGhoC8PUgWtQG6yfH/vhdf80WIYOefLWQKe/HTzMubK6L
- KT6Ls8qmQS6pVn2hUXowaUkfS5sBliNXDumJ2maG73yUbHmo3q8JhgZUoB4ZlDvDjXBv
- Yy1/OlwSdFD9jM3bq/TrMgwPIAQEtPs7pW1MzUj1esZ6s9Vj1AB1u2HwoOMO0OzLWtWE
- u8mwXD60nLZQXRXRsbQf2NNP77/SHv9l6QARLrpGdNhJ/z2zBvA2InlWjaufW/Y1Seu9
- ZqWw==
+ d=ffwll.ch; s=google; t=1739810292; x=1740415092; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RlNG99GTV+OPIhKK6SzcOvuW8gdnJ6Gb1Ice7bp65SM=;
+ b=Lv6REnH4ifVEEYd0LsMMEyMS9zWDXTucM1ZZcehKoV/eh5X2hgDEfzFLwskPoRDso8
+ sW1iwtE94hdFdKu6XPio/1mjr+iNfut83DcqIKc9YerWWh6Kh+D0RppVZrc0bGvk+4Nh
+ 4Lm39lOtYxemcCOz1aV97jqqvYMYI+SqI0E1k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739810066; x=1740414866;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1739810292; x=1740415092;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LlEc/1DhhuQ6PXgaEU0RmiNtz94/GUUPYpvE7Dfmipg=;
- b=wI4oKohNsZ1vQML3sRQbFvVLnKCqNr3d/y/5AZGo3bcrJCG/web7aYJRNsDWFeZAtS
- K5Vnx6lPKQlRzG+A6QyoPzbd81o/e4nt3S/ZBjgd54h4kZcWF21nS9q1oB9uUf2phdKL
- QI2IZY3yEqDZnBuyaYwuT3M1J9LwWOiUrX1tFSG95vbJP0PCISxpya5ug0oCNQOKwjaA
- FNooLd/sq3nvaz8ec83Ei3a5MyScP10d9NqSWRT2Rfuto03zAILbijfc0bhO2UL72My/
- 9FV+QOrjo1Gt8dGO7y/M54Zf+jPfyWB2Y5TNCWlsXN9eFjy0+dIbjEIqqptuxLz34Hyl
- FI2Q==
+ bh=RlNG99GTV+OPIhKK6SzcOvuW8gdnJ6Gb1Ice7bp65SM=;
+ b=YzTMgUVZOmg6JglG67WVIuMuvF/iFOkieMmTJuK7N6GY+AY7WdfcN/gK9k/FDSI0Fr
+ Xh0MInaxfJm4azy2kUmTbo3nkny5Oouc/ScA7gb+6wvOWb2WjHch+kR24LEwtK6CRhXT
+ rfS7+yBEoTaOw/YmSilnFSrwniKNEkTOvmoP/fvLfBvnX2FlBy7VonvfmD8dr2LC53p9
+ T1MX5IsYNJMPLWo0Qru1DlTMjVicwgyDdxi/Lf6e3n4ZDfP/cc5NzKmC57m35eqIJulb
+ nXWaaUE1CkaQjnsCMxdCPGezFyamtI+KCuISEFd3HO0e0O1vhr8c328DroxWJahZZ7b/
+ EQNA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXI8kcUJNUiSlnOAZIy/fs5ZIRGgVvp+9KXOGQ7AnOl24rvXHiiN5gdYSSvOtKvueUBdjOmmwz8PGw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOCAiiZdvii1E8xubbBAO9uEXMDDso/nKl38a3JBXNM1NOkilQ
- dEc3t6Qic+SCjKaVDzmVFXILMp6WkKhLtF3nLkO17WCh3CuVjcZC
-X-Gm-Gg: ASbGncum5kxsgS6N/+tI2z/hdBnK9Vw/uH+xqzzioY49JiBusLFq3+fbhllk/QuSaeL
- N9pKP3tBuixOzY9ytU/y2+CiOFyt+W+UVgXj9KIt4y8rAeO5Bdhs+wh2dbK6Upd0GI1hTEB1PXM
- zSjQo5KiF2uxJBPYfJgb5LW3RZDLxek5S5q5lssNIXNgMJA9QSoczLJXM6JSem6A1FhUjL2E7C5
- vetWduZRdOXdYGQzpRBTI5JfaR1hmU+lgt/TBAy8OYc5uHKPi2OKIelHckYPNLwkCIMkUnIv1q2
- ty2MKOMyoDESFjY=
-X-Google-Smtp-Source: AGHT+IFMADmMY55Rroim8nNi4dr7lMdcl4XT7qcZvO7BoawuPszaqx+VZtHAReeiQxnTw3eLfeBMEA==
-X-Received: by 2002:a05:600c:3b8c:b0:431:5c3d:1700 with SMTP id
- 5b1f17b1804b1-4396e716f3dmr90733195e9.21.1739810065996; 
- Mon, 17 Feb 2025 08:34:25 -0800 (PST)
-Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439617fccfesm124645735e9.11.2025.02.17.08.34.25
+ AJvYcCWlKrbmvn2gcqF38oeCUWJqt/ffjI0Uvqd6k4bjNPg1z4Wjtm/tRgAVZ1bD/OISRhj46BOjyrg1C0U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLbyrUkWFJqLw/QyDOpx/hvEfhAqBg9chBDjP0AnLaGZ3HEpUH
+ EJry9QM8P0YOIgIyjLlgrVZo5HqW0ysNE0Fp8lzY47QL9EqkzuxYDkoPkGPU8Es=
+X-Gm-Gg: ASbGnctHVuZsK38AA2eQm47IhiLe4qsegjCXcFZ2C5ApmFenG6VY1Owvw0sU7in1/N/
+ TAFztOLt+BvwQtHdxC8tTJLF1PB3/nKRv74kHB9ktXiyfl/6F0B1LjuhlSOyOy2I7Kj23fg/s6v
+ ZO0EMH8QuMEGspyQJ35FllXwsqBQa77RIhcGbHQhz6rwOm1F0qusPSOgLJgu3KCSkv+8J+pDEqD
+ KUk/74qxT/Bha/aIHdJTH37j7lLTxLeZM3GpoX9cZ9wGOuJTmIcoLAqfHqCoRp66ZlhJk0TOiv5
+ tn7QNNuXJEp2wgXq+vZWoYr7d/U=
+X-Google-Smtp-Source: AGHT+IFd60CRWw/crQ4PqJA9O3LrM84lDIdHjWDAqTBxNvL64UjwetWcSQc4ZaOGrZvRZATo4YxAqg==
+X-Received: by 2002:a5d:638d:0:b0:38d:d2ea:9579 with SMTP id
+ ffacd0b85a97d-38f33f5651dmr8950428f8f.46.1739810291617; 
+ Mon, 17 Feb 2025 08:38:11 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38f259d5d8bsm12704381f8f.70.2025.02.17.08.38.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 08:34:25 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:34:23 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
+ Mon, 17 Feb 2025 08:38:10 -0800 (PST)
+Date: Mon, 17 Feb 2025 17:38:08 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 08/14] drm/vkms: Allow to configure multiple planes
-Message-ID: <Z7NlD8kWkUxojYWy@fedora>
-References: <20250217100120.7620-1-jose.exposito89@gmail.com>
- <20250217100120.7620-9-jose.exposito89@gmail.com>
- <6b29064f-104a-4f9c-a9f6-8f4a862dbcd7@bootlin.com>
+Subject: Re: [PATCH v3 32/37] drm/bridge: Make encoder pointer deprecated
+Message-ID: <Z7Nl8JiFncngynNy@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-32-e71598f49c8f@kernel.org>
+ <nfb4fb6lzjw4j5brsh242htgw3au2moklqjalfa3zzxjsi2qn5@l3censelmgbz>
+ <20250214-arrogant-strong-hoatzin-efdcd8@houat>
+ <yy37e4kne7i2hl7coix6v7vajb5bm4zohod4fdzayvxr52l57u@cxturs2uxgcm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6b29064f-104a-4f9c-a9f6-8f4a862dbcd7@bootlin.com>
+In-Reply-To: <yy37e4kne7i2hl7coix6v7vajb5bm4zohod4fdzayvxr52l57u@cxturs2uxgcm>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,85 +111,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
-
-Thanks for the quick review.
-
-On Mon, Feb 17, 2025 at 04:45:37PM +0100, Louis Chauvet wrote:
-> Hi José,
-> 
-> Thanks for this new iteration!
-> 
-> Le 17/02/2025 à 11:01, José Expósito a écrit :
-> > Add a list of planes to vkms_config and create as many planes as
-> > configured during output initialization.
+On Fri, Feb 14, 2025 at 03:29:12PM +0200, Dmitry Baryshkov wrote:
+> On Fri, Feb 14, 2025 at 02:07:18PM +0100, Maxime Ripard wrote:
+> > On Thu, Feb 13, 2025 at 06:35:15PM +0200, Dmitry Baryshkov wrote:
+> > > On Thu, Feb 13, 2025 at 03:43:51PM +0100, Maxime Ripard wrote:
+> > > > Other entities (drm_connector.crtc, drm_encoder.crtc, etc.) have
+> > > > pointer to other currently bound entities. They are all considered
+> > > > relevant only for non-atomic drivers, and generally perceived as
+> > > > deprecated in favour of the equivalent pointers in the atomic states.
+> > > 
+> > > I think there is a significant difference between mentioned fields and
+> > > drm_bridge.encoder: the former fields are variable and can change. The
+> > > latter one is static and set at the bridge attachment time. Nevertheless
+> > > I think it is a good idea to deprecate it.
 > > 
-> > For backwards compatibility, add one primary plane and, if configured,
-> > one cursor plane and NUM_OVERLAY_PLANES planes to the default
-> > configuration.
-> > 
-> > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > ---
-> >   .clang-format                                 |   1 +
-> >   drivers/gpu/drm/vkms/tests/vkms_config_test.c | 140 +++++++++++++++++-
-> >   drivers/gpu/drm/vkms/vkms_config.c            | 127 +++++++++++++++-
-> >   drivers/gpu/drm/vkms/vkms_config.h            |  75 +++++++++-
-> >   drivers/gpu/drm/vkms/vkms_output.c            |  42 ++----
-> >   5 files changed, 349 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/.clang-format b/.clang-format
-> > index fe1aa1a30d40..c585d2a5b395 100644
-> > --- a/.clang-format
-> > +++ b/.clang-format
-> > @@ -690,6 +690,7 @@ ForEachMacros:
-> >     - 'v4l2_m2m_for_each_src_buf'
-> >     - 'v4l2_m2m_for_each_src_buf_safe'
-> >     - 'virtio_device_for_each_vq'
-> > +  - 'vkms_config_for_each_plane'
-> >     - 'while_for_each_ftrace_op'
-> >     - 'xa_for_each'
-> >     - 'xa_for_each_marked'
-> > diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> > index 6e07139d261c..fe6f079902fd 100644
-> > --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> > +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> > @@ -24,6 +24,10 @@ static void vkms_config_test_empty_config(struct kunit *test)
-> >   	dev_name = NULL;
-> >   	KUNIT_EXPECT_STREQ(test, vkms_config_get_device_name(config), "test");
-> > +	KUNIT_EXPECT_TRUE(test, list_empty(&config->planes));
+> > I'm sorry, it's not clear to me here what you want here either. Do you
+> > want me to change anything to that patch?
 > 
-> Instead of testing directly a "private" field (planes), can we use something
-> like:
-> 
-> int count;
-> vkms_config_for_each_plane(config, plane_cfg)
-> 	count++;
-> ASSERT_EQ(count, 0);
-> 
-> So we don't make config->plane "public".
-> 
-> Same comment for connectors, crtc and encoders.
+> Well... I was thinking if we should expand the commit message. Most
+> likely it's fine though. In the end, I've r-b'ed the patch.
 
-On other calls to list_empty() and also list_count_nodes() and
-list_first_entry() we are also accessing "private" fields.
+I think this one is wrong, since the bridge->encoder link is static. This
+is unlike the connector->encoder->crtc chain, which isn't, and where you
+really want to go through the atomic states or you get funny stuff.
 
-I'll create helpers in vkms_config_test.c replacing the list_* APIs with
-iterators and send v4.
+I don't think we have bridge chains with multiple connectors though, so
+this is fairly academic and so maybe still a good idea to make this all
+more flexible? Unless I've missed the memo and atomic bridges have
+flexible routing, and in that case yes this shouldn't be used.
 
-Thanks!
-Jose
- 
-> With this:
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> (sorry, I did not notice this on your v2)
-> 
-> Thanks,
-> Louis Chauvet
-> 
-> -- 
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-> 
+Mildly confused ...
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
