@@ -2,102 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7358AA38256
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 12:53:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D64A38E33
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 22:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DEC610E440;
-	Mon, 17 Feb 2025 11:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C192810E293;
+	Mon, 17 Feb 2025 21:39:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H4iYflsJ";
+	dkim=pass (1024-bit key; unprotected) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="Y8gWhHAi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFBFF10E43E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 11:53:31 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4394a2af558so5553555e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 03:53:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739793210; x=1740398010; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=VXADKpBGHnogkbd8cS/4TYoAV8pATRtlq3ir5WyAbIs=;
- b=H4iYflsJyB8K7SIuF9htWT4Hq1cycvBRvXOaL9UItS3cpe63vO43p+iX8nPhGAhz4v
- HbtXlHJusrSo3+ImDYAcLMvU8tNp3FUp2eU7i/UgnGgDdZC6rDQPkMvr/sx5s+9zJGfF
- Hj4ozLEqoFs6aZcphGZDsXoMzYysnN3wa8pejvJGnXTLEeKYLQ8qXZoXcNlZw0JLxcDp
- mCffX+IMB5xtPcNDm6wCNgXbUer8heF5Vt9+gUcncnMI2TpAZLUPzA6mTGt8dTRmDFeR
- n8jDLV3MQCeZs8cus6Z4el4/mv9A3CGCZzcdzaSHxTw81b0CpZxQZi39STG6sN3WPbov
- nb/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739793210; x=1740398010;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VXADKpBGHnogkbd8cS/4TYoAV8pATRtlq3ir5WyAbIs=;
- b=V8FbZulKE70UgFDTtLfi27KGaSWJp2KdGNePwgd9uZJAEi6WR+HE5W7HbUK2IoxtEI
- rGB21+8krDf1/dNnOjsYhvlWAHJ2cXSYL0Ixfhb09oyUYECBRUzETUaGw60hCeRzEYVK
- Co8Edm0tX9IXoPlonRHAxoLJN31GO0fTwPbAjQiZ10ZG6kl3WvOtiEI1Y+TVIHmQg6Kt
- wlRLScoITMRMIlBLHmrnF/zLrj8MBOUmoyPUIOWHM3z+amWqRQgl3oaR/hqfRQEK/djM
- OSKW5c2d53oP2rCANwPjjTx0V7locF+XR5DEvMdX4RTyUgi7HFm7kyu5uNKw+a/3J+Rc
- eisw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVqSGLWFrLXW2O5q03h3JSUIlYnQf8MGBisOzeeiCg5WduD591uo8+4azfSwNefCkrKA55aw12BiMw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxO/LwTx5kEirrDW7TvlahUmP5+MDAU/x5aMnH9ZMn42hTtyo/9
- CIXzcjhj6PkGiUah8Eh0dKTAfjPJDEdqNpuBalfcVLCynFmPERS7smw/pzjA7mM=
-X-Gm-Gg: ASbGncvNMqe0MVoUzwhIRZz6dsLjBijfb2UAuOMNmZ2ulx2KdO9dlg4IUfY7vmlVv+D
- R2lMpMJ6RAFGWOsKksC+ulTlTsUXwQvzRgTYBd20/ugVT9DGt+cdbTm42nutC8NYRiOp5CeIhCv
- fXuPhsUECVcOhlLZHLruzEsj+EYqAhodVMC1Bbb0DitNj3/S976p0yUgqZfgBJ9L/idXQNbo6vC
- CXFbZlhBFmcYWxsylzqN0RlLK1SiS7a/i+3LW5U1Py0xqD3gGQ9sT/bhWlC7Hn1FjwPjt0wZwY6
- vHTZMAb36cAnXs0C9IkJxbzUxQwY9GU=
-X-Google-Smtp-Source: AGHT+IGvMjD7p9GjhrUpvftXXHMvF0vbK7oOwRaetxWgr7yi3kaGjbJ1/6/7j1IQvEsbRwaSlUn3zQ==
-X-Received: by 2002:a05:600c:4fc6:b0:439:60ef:ce81 with SMTP id
- 5b1f17b1804b1-4396e766556mr33000415e9.3.1739793210354; 
- Mon, 17 Feb 2025 03:53:30 -0800 (PST)
-Received: from [127.0.1.1] ([178.197.206.225])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4395a1b8397sm150212575e9.36.2025.02.17.03.53.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 03:53:29 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Mon, 17 Feb 2025 12:53:17 +0100
-Subject: [PATCH v4 4/4] drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01]
- bitfields and simplify saving
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2127.outbound.protection.outlook.com [40.107.92.127])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B708510E439
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 12:04:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ttcvey9Z20jYfoUGFQ678A0sED3Mg+kk4aG2hoGiINrFbDE8x9O6umIc+h1f+JaJ0afDeaFx32Eatlke3xg/uep3AoQLsgMa/KxESmQJxfmlg9bXTnNq36pd+59zopDeDNBur6GLCmGG49DncsYPtEpGy3q18oT8QbhPaWPA+tRNx6MrAqUhmHLD7mhjvy9vdJQ0gpm5kvG2YO9S9wKSwRap2xvA6wU6rm1iPy8hYZOMHOk6Zb8MWbibocy6NPeaUh/xaw64+GMh4NumLbShlOw5x/8PCPAogqGgu9XVyR3GgTDfemlRzBtIVrcUq9rn6+cjcYGTc2E9CjVS57v7kA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F7nk7V0szb9xOTaw+A3hIWr1N107vhwbWKKCohKH4fY=;
+ b=TTL80Z/gCfugQk/+z3Tj91YVYLFtIVrx2gPbB39rMznFPR8/p6ta01jvb3RfUwsrqazwzgBOX8V5ydn5MpoGyfr7KkLuCJMH6flmN6TOH0HSKlXUuu4t0jayAND6yhUcDhyYQi2V0jnxtJoB3Nulv1aMFbmR+RyFcuyQErXqAux0H930cF6nes/IMoxXnC4WO+P10QNv2dSrdgkiRH6Jd4jEcNX5iwuYaSid6pLgN+9/oJTlZSkCh/Xq3XYJpT8JUD1qiSXh5f5egd57WPmC52Xexji0NyIBbdp3nFdUvBb3GdLYryUHAH5YIIX900Q29KN0dPyr2MUPaIExbGTREQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
+ header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F7nk7V0szb9xOTaw+A3hIWr1N107vhwbWKKCohKH4fY=;
+ b=Y8gWhHAiuaZzQJmk0kbEKKfQXTyv6M1qYAezgj0sIIQPJEuJoYwS/Ye7FjHogIfRBAXfKzvozgwxVolpHPNnzmDtFgh88GzFXv2CDwtdEUY1xxYWUhvpQev4oJ/6HHVuEoIqfeUwzd3SIlfm+7weiKlnqInewDiJvTNjIlzR60A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
+Received: from MW4PR08MB8282.namprd08.prod.outlook.com (2603:10b6:303:1bd::18)
+ by PH0PR08MB7178.namprd08.prod.outlook.com (2603:10b6:510:78::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Mon, 17 Feb
+ 2025 12:04:41 +0000
+Received: from MW4PR08MB8282.namprd08.prod.outlook.com
+ ([fe80::55b3:31f1:11c0:4401]) by MW4PR08MB8282.namprd08.prod.outlook.com
+ ([fe80::55b3:31f1:11c0:4401%6]) with mapi id 15.20.8445.013; Mon, 17 Feb 2025
+ 12:04:40 +0000
+From: John Keeping <jkeeping@inmusicbrands.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: John Keeping <jkeeping@inmusicbrands.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panel: ilitek-ili9882t: fix GPIO name in error message
+Date: Mon, 17 Feb 2025 12:04:28 +0000
+Message-ID: <20250217120428.3779197-1-jkeeping@inmusicbrands.com>
+X-Mailer: git-send-email 2.48.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0179.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18a::22) To MW4PR08MB8282.namprd08.prod.outlook.com
+ (2603:10b6:303:1bd::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250217-drm-msm-phy-pll-cfg-reg-v4-4-106b0d1df51e@linaro.org>
-References: <20250217-drm-msm-phy-pll-cfg-reg-v4-0-106b0d1df51e@linaro.org>
-In-Reply-To: <20250217-drm-msm-phy-pll-cfg-reg-v4-0-106b0d1df51e@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Marek <jonathan@marek.ca>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Rob Clark <robdclark@chromium.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3974;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=4yRGnHcWDQONSQquawDOtYjp+676tk0lAQdyTV3hXMg=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnsyMwK7IZW73ULwxxqUXagpmKeHSvU+x5QzO/z
- k2gd9eaWp6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7MjMAAKCRDBN2bmhouD
- 1zCvD/9NDmBcpr4KfuIFGlG3APDEV8rTX5KEwtZ4EYWYh6xlWPARnoeam+n4Q+ZrBgqUqO32nAv
- YkSpnGU2fbzqbNZJ7LDaKe6ZuQ17q8emN9411nKX3L4zyF+3cOi+1ZVGTYA+COfzdrPFnlVYAn7
- Pgg/ojtRQNfxWlLGLD4Q+vB3/OXXMqnslW6ksFANsHYqhihKqwXvX6aus+XZtzbAtP2yGaIVY5Z
- SmzpTu2TvHD1aN17XWdf0nAN3bLpz3uAp3ySxd089adIHfMt5kMXyTSyHMg5svC2jLLD9pvhdPS
- AbK542sQ/XHukkiPeuwOwOLuFTdJjvPBJRjUgjcaPuo/DXUm7rzrD56Qgb/6TyZJFUSO/8gk9sd
- fudKxUkZNb9vsvnxFhFK6uYo8+jku3UJZlKEhVAf1bf7lEaxRizDOvEGq5vwyaP/SwCB+xe0+xA
- hnsoakNgkoEeOeW8QRvC7i2yVAxOzthurIfAfFOIuQhhSBOO85Uymw0nopl4rr14lRXsh6kx60G
- aaopaqdf4c1VRmTF9frM1ysffPNOudb87GsY5KvuUaEED76YlLt4aDdoFSO3lRtR6G0oRpSlW1g
- HBlsmRPu9mFabyUmcrriZ0GctEd8LnCiqzc1n7cwDKfXDPA4riuzoAMw/PdNt/g8U2MiM5drN0G
- MmJAfqK5jQnm+IQ==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR08MB8282:EE_|PH0PR08MB7178:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c89abf9-18a0-411e-c7d0-08dd4f4b41fd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0SK/h07KkT2sDzJlaVVfdH1eNA8zrXTo5FJ8t2y+9t8RI6Moz6Hc79tzJ+7H?=
+ =?us-ascii?Q?KtSpehTy7EiTLjwBomT2BBmpqtZbom8VNRWhEl0xfCHcDabQW893eiZRBMCt?=
+ =?us-ascii?Q?yAtVdvlx2z9vfqWwb0t9pqIz1nfW9iFS8WPHPAS22cZRFDmiLzy4RWfMG8tE?=
+ =?us-ascii?Q?jSvz3TAW/63NxqRYfMEPJ3BVedaivkYsJxvHv5g+8Ce36g+Kc1JMCqB25Qf1?=
+ =?us-ascii?Q?7Jxf1WfLPphDGvgfbeNHLcn+k0S/RcaxY1wlJIh14sYide6F+quDDojJFTgr?=
+ =?us-ascii?Q?NmY7N/r63432o1AWTBDC5prn457iP3QfWznjZCIdLsREP0hk+1KyU0viGzm+?=
+ =?us-ascii?Q?F5f58RkjWsevHIHHwupk8BVEieGgy1uYEXokGoJ9yW+7uoH85nF4EJx23/UP?=
+ =?us-ascii?Q?7clLdANoCCQB2LR5q2ry6wi4cGQxZhLuyDQ79yFzkV5+V1d8WCIIHPsMkRSp?=
+ =?us-ascii?Q?7n2LjHycJVJ0PlwCI1nllR7xl+9Ap/BVXyBxUZGzwBoW53k0ONvOWFi4hkmn?=
+ =?us-ascii?Q?vXzp5hoAQiq+vZRrWh/gCMSRV1ak6s1JZLTz+U9ZXXsBaeojkCX8Fq6soW4O?=
+ =?us-ascii?Q?IpnkqFKn7c6dbs/3tW3qosOz8wN3wLOkCJGKYrlsxm91fGnLQvSKRuRaysha?=
+ =?us-ascii?Q?Q1P8TNwjzEAuyhiFEcMapXdyM4J8JFHxxCavh13RKPFz/zFxw6vXc/VfVJ+s?=
+ =?us-ascii?Q?h4Uf5kBZr/zD/4/vQDZsfoKg3/t9kRD4HEoQAGDiszfyXyAhYjGpUx0n/OoN?=
+ =?us-ascii?Q?0LiyPXAVOcwJ1NPh0Cr2glIl6l+PnGl534ObnTR9pi7V3kk+qhj7CcZJX5qq?=
+ =?us-ascii?Q?C1gUn9PjoQPCJqYCVO+3x8/q8gINf4PA2zmpYJxLPK6IKxtKkmNDsrIKb/Aj?=
+ =?us-ascii?Q?ZB1PHI3K6xkNBhBGXWex3yrgompOclCtP/xdS8J/z/o6EPQ8fPgIz1mA9LDh?=
+ =?us-ascii?Q?7yKvhi0w673y9MMficvR9CTFLb9oxErHUx5utWMmjOJ3tnCOldH3RYRYmAHN?=
+ =?us-ascii?Q?rAl30EeIBQlUe7G1RsxHhvO+2IFWGqiqVv0/jGcVsITOG4ncm9U7DvPoebsl?=
+ =?us-ascii?Q?XVpOa6rASDkZXem/0uBXjsf1/GWpfEqkgv8VRPzsayj3Sa3kGe/9GppM45xp?=
+ =?us-ascii?Q?f6mBO4endO/i5OTpeGutg7a2kRpkb9r0vx1dcDcKD2QMhL6f0GVhXsPza2Xl?=
+ =?us-ascii?Q?VFyi1JqctVQlWlwVASpL/gHQbFXNRChk9nlzdh8jgQPt019JH4Jt5mvqDp1n?=
+ =?us-ascii?Q?rrutN8FfO0h+GnWMvkG8DdCT/R9oqW6n4O9ThjG+RQBmE79FUD8VF2gUbgBl?=
+ =?us-ascii?Q?KMR6payy+n1k31WYKEeE4NG2i4krBFsq/PXCSSs6+eWnOCXxSM188J5noIiC?=
+ =?us-ascii?Q?t8D+tsmlu2uffPquK9Pd+ltuJtxsNAB8gcWimMA780vXrDGXR8kWyURQ0Wtg?=
+ =?us-ascii?Q?vovkVL3BSaCmUNoCq21limsIcTzoak2R?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR08MB8282.namprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2+E6c4cf1P09gQtyarbZ9gaXgwKtocuYUOvjG3esGUNTkvUh+KXgvxjRAoxp?=
+ =?us-ascii?Q?X3aAUTPcGEh1a/7vFVxqhUcwjXmHjzly14sL3N31c4xpxnSv+hh3rFwPzeCr?=
+ =?us-ascii?Q?eCZTMi+r9ALTL0rCXcFzRshM586NIlspRzQkS/GqMd2mjgKPNpOZWECoaK2B?=
+ =?us-ascii?Q?GKik5WEJmAqwCNdV1RPTolVdP4h1tVhi69Vdy0n5E16/2hyJEtDyxdTfASLp?=
+ =?us-ascii?Q?BadqgLA+UlO8huM760Zci9VMiJNR90Z8w88VZ63xPya94slOwE6H5M3Dx9Tq?=
+ =?us-ascii?Q?CSrdKnh6eg5Q0xQ2K6YwmOFIiO2ZRa32243NrDpFmFON/7SaA94OYDB5XUG0?=
+ =?us-ascii?Q?U3vAx+4lobTJV8Fez69HIQoGR+mEyQHQtQPUmPRQbc7uKg8pV5Iy/61n2dDh?=
+ =?us-ascii?Q?+gwlqc0X4BNwQvptntTbg8rJxfuPcWqjOgv1gGpazXx0iUF/U7GTzeUhpfuo?=
+ =?us-ascii?Q?PYmMO5xJPmMN2Bij+32g3HP3eluagV3l/wmWIbDh+uXpAFkvt2GVzJkjx1vm?=
+ =?us-ascii?Q?lnbXac+R2oFJiLy4TjrA/GdOU441inw6GLpXzJJDcVs8/vqTVfaMffn6pdyy?=
+ =?us-ascii?Q?A2uazgfZ4NwKZ9w0d8Tx8YTnOS/jPOlCFOYrreP4BsHwYSDOfOBC7Tiob2Nh?=
+ =?us-ascii?Q?XsrFez4uN4DqG7x3l23PzV6FrmPbRofwAGNWpvtcXMcqNVZUGStEKYxT5Xa7?=
+ =?us-ascii?Q?8nAGRMtVshRQOhYC/qsB4eHUaERMdo7f3ZH//144bS5tq0IPYLZLMd+rgk1I?=
+ =?us-ascii?Q?7uyx2KMv23Qp996JaJdlDnIFlTD9dGBavVyYWbs4cXoxVuhuR/kEcZ/hLens?=
+ =?us-ascii?Q?2pbUDJdJDbYoXliw8mY272610IndcfgJQLdt9ya2IXp+PVe82H9u2C+2Go91?=
+ =?us-ascii?Q?fw98LaddJFEbgYbhy5QBXtOx30dH/tiywAEiTt99vMwLXaW8Ni6E/c/Vk6so?=
+ =?us-ascii?Q?yh4fm74/OE0jQfxuSHY1CiMRZBkCtbVUhui8/YEtQBuTO/dtzRXInEtxuPI5?=
+ =?us-ascii?Q?4i17DacJWJo7Mgn3R6l50Jmwrg6KruyCTqCEDOhTnEZ+VfotY/FZo8qafLTW?=
+ =?us-ascii?Q?YIr0gZTngqCkiSqHriLtp5tzjWRDAuTK56kFkcxEQz0IIMnYoqL8TQzOybx8?=
+ =?us-ascii?Q?b2qENrluJjmCX5jI0QWgItsK2qbE7vZc1+TRBQ9aDXU44Gz1MzTj+WIzvyu6?=
+ =?us-ascii?Q?hUKmltbqCX7XtxC1rEWeaSVB0f91vnfHMgKR5xfE9wxLysmWANyLQ2g/xI6Q?=
+ =?us-ascii?Q?hrum8kQSjyCSoauymn1gGzR8i/KGj8nb1u0Jcin6U0sdnpMMehDfdIZOwQbA?=
+ =?us-ascii?Q?wpJjWVGWJ7skK6S4Jx6odWVexEpYLA4V6RkuCA9ruM4bHb9D1ZUmhxQ5v/GW?=
+ =?us-ascii?Q?/cfIIEi2LwU3Ig042hQGBE1xf8rscMgu6oVod98QJ6oxK4+NwHVbT9mCz9k3?=
+ =?us-ascii?Q?lgNOj7EmaIlOApe9+wCj+cagx0E1RJDI0PUO2MWElowy4XAFYQx4vMy3fTNX?=
+ =?us-ascii?Q?ICNLdnPlUWZmbOxeIg0Vtaa3WyT3/pxeqVSdVA/RnImSLpbBZTl8DEBufoKE?=
+ =?us-ascii?Q?01bpxa84E9639Y6oo/q3MxWeTAtI58THFnXVGoYPIdMQJfcu3r+l4SeLubbx?=
+ =?us-ascii?Q?Kw=3D=3D?=
+X-OriginatorOrg: inmusicbrands.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c89abf9-18a0-411e-c7d0-08dd4f4b41fd
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR08MB8282.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2025 12:04:40.7826 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qC+H/AFAzyhUFonppfWxGWSNdkQdsGzfUHxUOc5h1Bef3c9mfoxbO2+fl8Tl1pJIIk46HoKR6Ox6lUupw1K6vrILLxkFXTsDUzKJxr8CT44=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR08MB7178
+X-Mailman-Approved-At: Mon, 17 Feb 2025 21:39:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,93 +154,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bitfields for PHY_CMN_CLK_CFG0 and PHY_CMN_CLK_CFG1 registers to
-avoid hard-coding bit masks and shifts and make the code a bit more
-readable.  While touching the lines in dsi_7nm_pll_save_state()
-resulting cached->pix_clk_div assignment would be too big, so just
-combine pix_clk_div and bit_clk_div into one cached state to make
-everything simpler.
+This driver uses the enable-gpios property and it is confusing that the
+error message refers to reset-gpios.  Use the correct name when the
+enable GPIO is not found.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Fixes: e2450d32e5fb5 ("drm/panel: ili9882t: Break out as separate driver")
+Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
 ---
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v4:
-1. Add mising bitfield.h include
-2. One more FIELD_GET and DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL (Dmitry)
-
-Changes in v3:
-1. Use FIELD_GET
-2. Keep separate bit_clk_div and pix_clk_div
-3. Rebase (some things moved to previous patches)
-
-Changes in v2:
-1. New patch
----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c             | 13 ++++++++-----
- drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml |  1 +
- 2 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index 798168180c1ab6c96ec2384f854302720cb27932..cf63b4c5c3c0c39f0031dbe948b1694765f01af8 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -3,6 +3,7 @@
-  * Copyright (c) 2018, The Linux Foundation
-  */
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+index 266a087fe14c1..3c24a63b6be8c 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+@@ -607,7 +607,7 @@ static int ili9882t_add(struct ili9882t *ili)
  
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/iopoll.h>
-@@ -572,11 +573,11 @@ static void dsi_7nm_pll_save_state(struct msm_dsi_phy *phy)
- 	cached->pll_out_div &= 0x3;
- 
- 	cmn_clk_cfg0 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG0);
--	cached->bit_clk_div = cmn_clk_cfg0 & 0xf;
--	cached->pix_clk_div = (cmn_clk_cfg0 & 0xf0) >> 4;
-+	cached->bit_clk_div = FIELD_GET(DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK, cmn_clk_cfg0);
-+	cached->pix_clk_div = FIELD_GET(DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__MASK, cmn_clk_cfg0);
- 
- 	cmn_clk_cfg1 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
--	cached->pll_mux = cmn_clk_cfg1 & 0x3;
-+	cached->pll_mux = FIELD_GET(DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK, cmn_clk_cfg1);
- 
- 	DBG("DSI PLL%d outdiv %x bit_clk_div %x pix_clk_div %x pll_mux %x",
- 	    pll_7nm->phy->id, cached->pll_out_div, cached->bit_clk_div,
-@@ -598,7 +599,8 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
- 	dsi_pll_cmn_clk_cfg0_write(pll_7nm,
- 				   DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0(cached->bit_clk_div) |
- 				   DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4(cached->pix_clk_div));
--	dsi_pll_cmn_clk_cfg1_update(pll_7nm, 0x3, cached->pll_mux);
-+	dsi_pll_cmn_clk_cfg1_update(pll_7nm, DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
-+				    cached->pll_mux);
- 
- 	ret = dsi_pll_7nm_vco_set_rate(phy->vco_hw,
- 			pll_7nm->vco_current_rate,
-@@ -739,7 +741,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 		u32 data;
- 
- 		data = readl(pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
--		writel(data | 3, pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-+		writel(data | DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL(3),
-+		       pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
- 
- 		phy_pll_out_dsi_parent = pll_post_out_div;
- 	} else {
-diff --git a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-index 35f7f40e405b7dd9687725eae754522a7136725e..d2c8c46bb04159da6e539bfe80a4b5dc9ffdf367 100644
---- a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-+++ b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-@@ -17,6 +17,7 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
- 		<bitfield name="CLK_EN" pos="5" type="boolean"/>
- 		<bitfield name="CLK_EN_SEL" pos="4" type="boolean"/>
- 		<bitfield name="BITCLK_SEL" low="2" high="3" type="uint"/>
-+		<bitfield name="DSICLK_SEL" low="0" high="1" type="uint"/>
- 	</reg32>
- 	<reg32 offset="0x00018" name="GLBL_CTRL"/>
- 	<reg32 offset="0x0001c" name="RBUF_CTRL"/>
-
+ 	ili->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+ 	if (IS_ERR(ili->enable_gpio)) {
+-		dev_err(dev, "cannot get reset-gpios %ld\n",
++		dev_err(dev, "cannot get enable-gpios %ld\n",
+ 			PTR_ERR(ili->enable_gpio));
+ 		return PTR_ERR(ili->enable_gpio);
+ 	}
 -- 
-2.43.0
+2.48.1
 
