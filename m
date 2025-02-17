@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAF0A38E11
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 22:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CA7A38E57
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 22:56:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF7510E5E1;
-	Mon, 17 Feb 2025 21:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6710E10E2A8;
+	Mon, 17 Feb 2025 21:56:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nNkTDYpu";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ItSMsNHL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE48110E5E1;
- Mon, 17 Feb 2025 21:33:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 752AD5C584B;
- Mon, 17 Feb 2025 21:32:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F1FC4CED1;
- Mon, 17 Feb 2025 21:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739828014;
- bh=kudnxAtRl/tDWg4bJcLUVW1vOsh4vA4q3gFnmmnVfwE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nNkTDYpuZG/KWMls9s4bXcfkxuJ3WK2RopCubxtg2qc6Py+Bufvtzwap/5//fa0aJ
- fXgezJMLxgFnFb9ag7NB9ju2Sc54Duia6rj3lXMEpg1SL2dh6S7Txlsm+YKEnKAAS7
- vnyyoTvih2EZ86IAboFIx1K2rZEEy15xE/b46WJ9G7uDTH+YMnSms88WuNafZhgf+P
- dLo4CNRHvcwKmUDXwVZY1DYTjfkhrhu9Diq5AVPoASuvp25pITHFApD//gnjRWULeQ
- tgBm+bSe/xeyKncUZCzuHtG51SEnTrEDb8xhJBn/uVDtXK0FpT4FnFuqeFmpnKTf7N
- B7FSxUG59DBPg==
-Date: Mon, 17 Feb 2025 22:33:29 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: David Airlie <airlied@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
- Ben Skeggs <bskeggs@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z7OrKX3zzjrzZdyz@pollux>
-References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2306510E2A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 21:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739829411;
+ bh=4VaQl0NtT63hn4RIkgnKAbuhy0jcZQTdg7q6kxOv9w4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ItSMsNHLFu60POXzGfILeItDV8X97590ll35srQbAmVX16kSPDUODZdf6YAxnsN1M
+ KejkAQ6qv6fiX45IYVEGfQ+9XZP9r2U9WJimqPIeBCFZatdHkmwThy+bAgBvfOabPs
+ UhoA6D8C6zcWU/x7BJa9B5QulVfrJ2ZIEhPjn/RJKyve4M7+8SFLm66heJQ/+tL/dg
+ hgZIu110oCwxgZVRc3zHP822L/mW8SEmgVlh/bQMt7LuHIKs/ZPKY+3ow+o4lmLlEf
+ LWfdqrhgvrupjCMvruyKtLbk1dffm3Gbz1SwI52UlDhj8awzUQqHwAEjRiiWH9yc+c
+ doe5tyoH0nteg==
+Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: detlev)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CEAE17E02BE;
+ Mon, 17 Feb 2025 22:56:44 +0100 (CET)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Alexey Charkov <alchark@gmail.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Niklas Cassel <cassel@kernel.org>, Dragan Simic <dsimic@manjaro.org>,
+ FUKAUMI Naoki <naoki@radxa.com>, Johan Jonker <jbx6244@gmail.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Algea Cao <algea.cao@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sugar Zhang <sugar.zhang@rock-chips.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
+Date: Mon, 17 Feb 2025 16:47:39 -0500
+Message-ID: <20250217215641.372723-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,128 +77,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
+To support HDMI audio on the rk3588 based devices, the generic HDMI
+Codec framework is used in the dw-hdmi-qp DRM bridge driver.
 
-On Mon, Feb 17, 2025 at 11:04:45PM +0900, Alexandre Courbot wrote:
-> Hi everyone,
-> 
-> This short RFC is based on top of Danilo's initial driver stub series
-> [1] and has for goal to initiate discussions and hopefully some design
-> decisions using the simplest subdevice of the GPU (the timer) as an
-> example, before implementing more devices allowing the GPU
-> initialization sequence to progress (Falcon being the logical next step
-> so we can get the GSP rolling).
-> 
-> It is kept simple and short for that purpose, and to avoid bumping into
-> a wall with much more device code because my assumptions were incorrect.
-> 
-> This is my first time trying to write Rust kernel code, and some of my
-> questions below are probably due to me not understanding yet how to use
-> the core kernel interfaces. So before going further I thought it would
-> make sense to raise the most obvious questions that came to my mind
-> while writing this draft:
+The implementation is mainly based on the downstream driver, ported to the
+generic HDMI Codec framework [1] recently merged in the master branch.
+The parameters computation has been kept as is and the data stored in the
+dw_hdmi_qp struct as been cleaned up.
 
-Thanks for sending this RFC, that makes a lot of sense.
+The table for the N values has been edited to reflect N recommended values
+as well as CTS recommended values.
 
-It's great to see you picking up work on Nova and Rust in the kernel in general!
+The downstream kernel also implements a machine driver for HDMI audio but
+it is doing exactly what the simple-audio-card driver does, so use that
+instead in the RK3588 SoC device tree.
 
-One nit: For the future, please make sure to copy in the folks listed under the
-RUST entry in the maintainers file explicitly.
+This adds HDMI audio support for both HDMI TX ports.
 
-> 
-> - Where and how to store subdevices. The timer device is currently a
->   direct member of the GPU structure. It might work for GSP devices
->   which are IIUC supposed to have at least a few fixed devices required
->   to bring the GSP up ; but as a general rule this probably won't scale
->   as not all subdevices are present on all GPU variants, or in the same
->   numbers. So we will probably need to find an equivalent to the
->   `subdev` linked list in Nouveau.
+*** Dependencies ***
 
-Hm...I think a Vec should probably do the job for this. Once we know the
-chipset, we know the exact topology of subdevices too.
+Based on Linus' master branch, but also needs Cristian's dts patches for HDMI1
+support [2], which depends on Heiko's patchset for
+phy-rockchip-samsung-hdptx [3]. Patches will apply without [3], but HDMI will
+not work (at all).
 
-> 
-> - BAR sharing between subdevices. Right now each subdevice gets access
->   to the full BAR range. I am wondering whether we could not split it
->   into the relevant slices for each-subdevice, and transfer ownership of
->   each slice to the device that is supposed to use it. That way each
->   register would have a single owner, which is arguably safer - but
->   maybe not as flexible as we will need down the road?
+[1]: https://lore.kernel.org/all/20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org
+[2]: https://lore.kernel.org/linux-rockchip/20241211-rk3588-hdmi1-v2-0-02cdca22ff68@collabora.com
+[3]: https://lore.kernel.org/lkml/20241206103401.1780416-3-heiko@sntech.de/
 
-I think for self-contained subdevices we can easily add an abstraction for
-pci_iomap_range() to pci::Device. I considered doing that from the get-go, but
-then decided to wait until we have some actual use for that.
+Changes since v6:
+ - Fix arguments alignement (checkpatch --strict warnings)
+ - Add hdmi1 audio support too
+ - Move hdmi0_sound node under hdmi0_out_con
 
-For where we have to share a mapping of the same set of registers between
-multiple structures, I think we have to embedd in into an Arc (unfortunately,
-we can't re-use the inner Arc of Devres for that).
+Changes since v5:
+ - Simplify audio math computation for N
+ - Move hdmi0-sound node up with other address-less nodes
 
-An alternative would be to request a whole new mapping, i.e. Devres<pci::Bar>
-instance, but that includes an inner Arc anyways and, hence, is more costly.
+Changes since v4:
+ - Moved hdmi0_audio node the rk3588-base.dtsi
+ - Enable hdmi0_audio in rk3588-rock-5b.dts
 
-> 
-> - On a related note, since the BAR is behind a Devres its availability
->   must first be secured before any hardware access using try_access().
->   Doing this on a per-register or per-operation basis looks overkill, so
->   all methods that access the BAR take a reference to it, allowing to
->   call try_access() from the highest-level caller and thus reducing the
->   number of times this needs to be performed. Doing so comes at the cost
->   of an extra argument to most subdevice methods ; but also with the
->   benefit that we don't need to put the BAR behind another Arc and share
->   it across all subdevices. I don't know which design is better here,
->   and input would be very welcome.
+Changes since v3:
+ - Renamed function to start with dw_hdmi_qp
 
-I'm not sure I understand you correctly, because what you describe here seem to
-be two different things to me.
+Changes since v2:
+ - Also clear the audio infoframe
+ - Write AUDI_CONTENTS0 to its default value in case it gets overwritten.
+ - Store tmds_char_rate in the dw_hdmi_qp struct in atomic_enable
+ - Clear tmds_char_rate in atomic_disable and only write registers when
+   tmds_char_rate is not 0.
+ - Do not use connector_state duplicates
 
-1. How to avoid unnecessary calls to try_access().
+Changes since v1:
+ - Remove useless audio_mutex (was used downstream for multiple drivers access
+   to audio functions)
+ - Let hdmi_codec build and setup audio infoframes
+ - Only access audio registers when connector is connected
+ - Rebased on master branch
 
-This is why I made Boot0.read() take a &RevocableGuard<'_, Bar0> as argument. I
-think we can just call try_access() once and then propage the guard through the
-callchain, where necessary.
+Detlev Casanova (2):
+  arm64: dts: rockchip: Add HDMI audio outputs for rk3588 SoC
+  arm64: dts: rockchip: Enable HDMI audio outputs for Rock 5B
 
-2. Share the MMIO mapping between subdevices.
+Sugar Zhang (1):
+  drm/bridge: synopsys: Add audio support for dw-hdmi-qp
 
-This is where I can follow. How does 1. help with that? How are 1. and 2.
-related?
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  17 +
+ .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |  17 +
+ .../boot/dts/rockchip/rk3588-rock-5b.dts      |  16 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c  | 489 ++++++++++++++++++
+ 4 files changed, 539 insertions(+)
 
-> 
-> - We will probably need sometime like a `Subdevice` trait or something
->   down the road, but I'll wait until we have more than one subdevice to
->   think about it.
+-- 
+2.48.1
 
-Yeah, that sounds reasonable.
-
-> 
-> The first 2 patches are small additions to the core Rust modules, that
-> the following patches make use of and which might be useful for other
-> drivers as well. The last patch is the naive implementation of the timer
-> device. I don't expect it to stay this way at all, so please point out
-> all the deficiencies in this very early code! :)
-> 
-> [1] https://lore.kernel.org/nouveau/20250209173048.17398-1-dakr@kernel.org/
-> 
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
-> Alexandre Courbot (3):
->       rust: add useful ops for u64
->       rust: make ETIMEDOUT error available
->       gpu: nova-core: add basic timer device
-> 
->  drivers/gpu/nova-core/driver.rs    |  4 +-
->  drivers/gpu/nova-core/gpu.rs       | 35 ++++++++++++++-
->  drivers/gpu/nova-core/nova_core.rs |  1 +
->  drivers/gpu/nova-core/regs.rs      | 43 ++++++++++++++++++
->  drivers/gpu/nova-core/timer.rs     | 91 ++++++++++++++++++++++++++++++++++++++
->  rust/kernel/error.rs               |  1 +
->  rust/kernel/lib.rs                 |  1 +
->  rust/kernel/num.rs                 | 32 ++++++++++++++
->  8 files changed, 206 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 6484e46f33eac8dd42aa36fa56b51d8daa5ae1c1
-> change-id: 20250216-nova_timer-c69430184f54
-> 
-> Best regards,
-> -- 
-> Alexandre Courbot <acourbot@nvidia.com>
-> 
