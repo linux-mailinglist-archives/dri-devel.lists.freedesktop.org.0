@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D060EA3883A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 16:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B2EA38835
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 16:50:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D72810E535;
-	Mon, 17 Feb 2025 15:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F8010E531;
+	Mon, 17 Feb 2025 15:50:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LKnX9YrQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="C2sPJ82d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C16A310E526
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 15:50:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE8710E530
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 15:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739807406;
- bh=yWBPoUIEixtFs29StdrtKv0VWCZxwUg8b5BuEvXACso=;
+ s=mail; t=1739807408;
+ bh=kgGxKB3MVlAJLxVhUASP8QgbIwyFURjLCqRnI6f1USc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LKnX9YrQJdeWLLF7QrXVFNtvF3s63a1Auwh90DHOJLzGWrgF6jMR6/qRFaHqJAtNy
- AG+6Ofe5xdnI4h3UE5s/funIxpqg0UPNIIGfnSewp7ap7hhZMGIYDkP4KsKGxBwR/h
- 3dxXkidRcnLeAR3C4iJz5zGjP3ck/6nFr5vvzakVEjlL5p90a6PqFUopr7EREcjxXF
- wqw3BqeI7M1/IF+tiRV8WD5cBn3JR6S5V/mHOcHYjtdfVGYJeH+aSXUmUAR2BFQLGG
- Bb6O6p7x+ZIZZHdVLtkpaAwqiiTbp7saXoWpiQh4vt2aXrscdDr4ngIA3AAiSFdCSj
- oHlE0vRecsEZg==
+ b=C2sPJ82dRA7BxmoDrMxVypBQtXXea43xNlWyAx3ZichpAw6yyoIdFk9dPcAiXfq5X
+ zfTTbR1a+BuH5AcMVqUF/xZG6P+kscg9CWUpbWntJbYWRDg78ls6JaOPq9lXiOuSFL
+ +pMW3gF/zFzZFa1kqj67IRPZgqjHdq20qjAXxDYsSEfuCbhAs4v8FDooquhgUdV5oK
+ G9mWb/UpgyLpNteRNYnmOCX7inBo+/O+h72ApLCzfo4K6QpKoMCh7ZBaftNUroER0i
+ NIKY3yXxwFzPh3dis+UtGfIS1rldiYBRnD9zr0mg1//7jjZIAWkgg+6KlJR4DUrNtb
+ JfLvJIyDrfJzA==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3C95F17E1507;
- Mon, 17 Feb 2025 16:50:05 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B903617E14E7;
+ Mon, 17 Feb 2025 16:50:06 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -46,10 +46,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
  jason-jh.lin@mediatek.com
-Subject: [PATCH v7 33/43] drm/mediatek: mtk_hdmi: Cleanup function
- mtk_hdmi_resume()
-Date: Mon, 17 Feb 2025 16:48:26 +0100
-Message-ID: <20250217154836.108895-34-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v7 34/43] drm/mediatek: mtk_hdmi: Improve
+ mtk_hdmi_get_all_clk() flexibility
+Date: Mon, 17 Feb 2025 16:48:27 +0100
+Message-ID: <20250217154836.108895-35-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
 References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
@@ -70,37 +70,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the error print in case of mtk_hdmi_clk_enable_audio()
-failures: since the APIs will already print on their own, having
-one in there is redundant.
+In preparation for splitting common bits of this driver and for
+introducing a new version of the MediaTek HDMI Encoder IP, improve
+the flexibility	of function mtk_hdmi_get_all_clk() by adding a
+pointer to the clock names array and size of it to its parameters.
+
+Also change the array of struct clock pointers in the mtk_hdmi
+structure to be dynamically allocated, and allocate it in probe.
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 50f9ab48cbf9..2614561e2634 100644
+index 2614561e2634..66a08eedef44 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1704,15 +1704,8 @@ static __maybe_unused int mtk_hdmi_suspend(struct device *dev)
- static __maybe_unused int mtk_hdmi_resume(struct device *dev)
- {
- 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
--	int ret = 0;
+@@ -159,7 +159,7 @@ struct mtk_hdmi {
+ 	struct phy *phy;
+ 	struct device *cec_dev;
+ 	struct i2c_adapter *ddc_adpt;
+-	struct clk *clk[MTK_HDMI_CLK_COUNT];
++	struct clk **clk;
+ 	struct drm_display_mode mode;
+ 	bool dvi_mode;
+ 	struct regmap *sys_regmap;
+@@ -1072,17 +1072,18 @@ static const char * const mtk_hdmi_clk_names[MTK_HDMI_CLK_COUNT] = {
+ 	[MTK_HDMI_CLK_AUD_SPDIF] = "spdif",
+ };
  
--	ret = mtk_hdmi_clk_enable_audio(hdmi);
--	if (ret) {
--		dev_err(dev, "hdmi resume failed!\n");
--		return ret;
--	}
--
--	return 0;
-+	return mtk_hdmi_clk_enable_audio(hdmi);
+-static int mtk_hdmi_get_all_clk(struct mtk_hdmi *hdmi,
+-				struct device_node *np)
++static int mtk_hdmi_get_all_clk(struct mtk_hdmi *hdmi, struct device_node *np,
++				const char * const *clock_names, size_t num_clocks)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < ARRAY_SIZE(mtk_hdmi_clk_names); i++) {
+-		hdmi->clk[i] = of_clk_get_by_name(np,
+-						  mtk_hdmi_clk_names[i]);
++	for (i = 0; i < num_clocks; i++) {
++		hdmi->clk[i] = of_clk_get_by_name(np, clock_names[i]);
++
+ 		if (IS_ERR(hdmi->clk[i]))
+ 			return PTR_ERR(hdmi->clk[i]);
+ 	}
++
+ 	return 0;
  }
  
- static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops, mtk_hdmi_suspend, mtk_hdmi_resume);
+@@ -1382,15 +1383,15 @@ static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, struc
+ 	return 0;
+ }
+ 
+-static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+-				   struct platform_device *pdev)
++static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi, struct platform_device *pdev,
++				   const char * const *clk_names, size_t num_clocks)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *np = dev->of_node;
+ 	struct device_node *remote, *i2c_np;
+ 	int ret;
+ 
+-	ret = mtk_hdmi_get_all_clk(hdmi, np);
++	ret = mtk_hdmi_get_all_clk(hdmi, np, clk_names, num_clocks);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to get clocks\n");
+ 
+@@ -1639,6 +1640,7 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
+ {
+ 	struct mtk_hdmi *hdmi;
+ 	struct device *dev = &pdev->dev;
++	const int num_clocks = MTK_HDMI_CLK_COUNT;
+ 	int ret;
+ 
+ 	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
+@@ -1648,7 +1650,11 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
+ 	hdmi->dev = dev;
+ 	hdmi->conf = of_device_get_match_data(dev);
+ 
+-	ret = mtk_hdmi_dt_parse_pdata(hdmi, pdev);
++	hdmi->clk = devm_kcalloc(dev, num_clocks, sizeof(*hdmi->clk), GFP_KERNEL);
++	if (!hdmi->clk)
++		return -ENOMEM;
++
++	ret = mtk_hdmi_dt_parse_pdata(hdmi, pdev, mtk_hdmi_clk_names, num_clocks);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.48.1
 
