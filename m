@@ -2,55 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A44A38671
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 15:33:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0A8A386C4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 15:40:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 629AA10E266;
-	Mon, 17 Feb 2025 14:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5348410E31D;
+	Mon, 17 Feb 2025 14:40:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="X49o8xJy";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OVID06cC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2648A10E266
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 14:33:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=j4YfzZyj7vkcD3SCN4L4GGNfCjFE9FR8KFVGORtDRkQ=; b=X49o8xJyLo64xwkvS3Z0DwKYKI
- MUbiT1h0JiTIFhstAoG3Ep6byovmYPCT8L5LdMCvkdD81fEuLDXm+P2IF0/Dr3zcj2CoMAS5+j/rM
- m5jKvicEr40u8rmgJHkGr1QdNxfHDqTRb14csicnrpOQYMSujOidVAB1ynFHh7oZRiaZDW59JQlCn
- +vlGm/kcOpA+BH36UsB09DVEZA7hz5xc4fsUbdpXyje8yv/62IoUz96xcxpHiJbu/MJyR/fefFwhP
- 7ljxtm+2Y3ESwyJSysFh/Wye3fks7ENaPmGahpS7qPRGN+f7claxKzF3MzVeHx6tWEFG9Gyh0lIL6
- KjuxCP/w==;
-Received: from i53875bc0.versanet.de ([83.135.91.192] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tk2Bq-0003zV-DR; Mon, 17 Feb 2025 15:33:42 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: cristian.ciocaltea@collabora.com, Jianfeng Liu <liujianfeng1994@gmail.com>
-Cc: airlied@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hjc@rock-chips.com, kernel@collabora.com, krzk+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robh@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
- to VOP2 on RK3588
-Date: Mon, 17 Feb 2025 15:33:41 +0100
-Message-ID: <5190979.MSiuQNM8U4@diego>
-In-Reply-To: <20250217024437.35155-1-liujianfeng1994@gmail.com>
-References: <20250215-vop2-hdmi1-disp-modes-v1-3-81962a7151d6@collabora.com>
- <20250217024437.35155-1-liujianfeng1994@gmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5C210E31D
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 14:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739803235;
+ bh=OVYHI4VIbnJazFaLF3pUhlCt++RZBQtTTuEqeJGFegA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OVID06cCDpY/UZaJcMIRfZbGqFE1fTIeO42R97aHrIeN32evrFtIQNS5Z0lkPew7T
+ ECf4JsNgv1J1rpBsdHA8WjxcxbUhocD4DDWZcw6mPXZOsUbHCzbGKyakX52mfVIlBr
+ JBkd00iIiaPxmo2QLnF2sBJpJhEHlh7xT4Hx+hkHse6laJOMTPnYb1IigP3edzCYaE
+ gg4xmpT0Oqfkht9xQl0ySoR5EcX93hYKE0D6OM79hBkxMWncjwHTLqL/BPoQ3pJ99J
+ 9fW+hZFVrtCgCK2opnpemY0IggNcqyysUb6k4PCLM7YvKdb2la7fyUWYioPjMft7nD
+ mwNgUGkv4tdZQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 56A8B17E0F86;
+ Mon, 17 Feb 2025 15:40:34 +0100 (CET)
+Message-ID: <6feb3c06-c4bd-4e8b-bd89-c73fae9801d1@collabora.com>
+Date: Mon, 17 Feb 2025 15:40:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 07/42] drm/mediatek: mtk_dpi: Add support for DPI input
+ clock from HDMI
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "robh@kernel.org" <robh@kernel.org>,
+ "jie.qiu@mediatek.com" <jie.qiu@mediatek.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>, =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
+ <jitao.shi@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ =?UTF-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?UTF-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?= <TommyYL.Chen@mediatek.com>,
+ =?UTF-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?= <Ives.Chenjh@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "junzhi.zhao@mediatek.com" <junzhi.zhao@mediatek.com>
+References: <20250211113409.1517534-1-angelogioacchino.delregno@collabora.com>
+ <20250211113409.1517534-8-angelogioacchino.delregno@collabora.com>
+ <500ce64dd1f4d0b18289418183011ea24938fe99.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <500ce64dd1f4d0b18289418183011ea24938fe99.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,51 +89,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 17. Februar 2025, 03:44:37 MEZ schrieb Jianfeng Liu:
-> Hi Cristian,
+Il 14/02/25 03:09, CK Hu (胡俊光) ha scritto:
+> On Tue, 2025-02-11 at 12:33 +0100, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>
+>>
+>> On some SoCs, like MT8195 and MT8188, the DPI instance that is
+>> reserved to the HDMI Transmitter uses a different clock topology.
+>>
+>> In this case, the DPI is clocked by the HDMI IP, and this outputs
+>> its clock to the MM input of dpi_pixel_clk, which is essential to
+>> enable register access to the DPI IP.
+>>
+>> Add a `clocked_by_hdmi` member to struct mtk_dpi_conf, and check
+>> it to avoid enabling the DPI clocks in the mediatek-drm internal
+>> .start() callback (and avoid disabing in the .stop() component
+>> callback): this will make sure that the clock configuration
+>> sequence is respected during display pipeline setup by following
+>> the bridge ops between DPI and HDMI, where the HDMI driver is
+>> expected to enable the clocks in the bridge's pre_enable(), and
+>> DPI in the enable() cb.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_dpi.c | 13 ++++++++++---
+>>   1 file changed, 10 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> index ad07005ad56e..6493c7e2fae4 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> @@ -146,6 +146,8 @@ struct mtk_dpi_factor {
+>>    * @input_2p_en_bit: Enable bit of two pixel per round feature
+>>    * @pixels_per_iter: Quantity of transferred pixels per iteration.
+>>    * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs to be set in MMSYS.
+>> + * @clocked_by_hdmi: HDMI IP outputs clock to dpi_pixel_clk input clock, needed
+>> + *                  for DPI registers access.
+>>    */
+>>   struct mtk_dpi_conf {
+>>          const struct mtk_dpi_factor *dpi_factor;
+>> @@ -167,6 +169,7 @@ struct mtk_dpi_conf {
+>>          u32 input_2p_en_bit;
+>>          u32 pixels_per_iter;
+>>          bool edge_cfg_in_mmsys;
+>> +       bool clocked_by_hdmi;
+>>   };
+>>
+>>   static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val, u32 mask)
+>> @@ -587,7 +590,9 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>>          struct videomode vm = { 0 };
+>>
+>>          drm_display_mode_to_videomode(mode, &vm);
+>> -       mtk_dpi_set_pixel_clk(dpi, &vm, mode->clock);
+>> +
+>> +       if (!dpi->conf->clocked_by_hdmi)
+>> +               mtk_dpi_set_pixel_clk(dpi, &vm, mode->clock);
+>>
+>>          dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
+>>          dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
+>> @@ -922,14 +927,16 @@ void mtk_dpi_start(struct device *dev)
+>>   {
+>>          struct mtk_dpi *dpi = dev_get_drvdata(dev);
+>>
+>> -       mtk_dpi_power_on(dpi);
+>> +       if (!dpi->conf->clocked_by_hdmi)
+>> +               mtk_dpi_power_on(dpi);
 > 
-> On Sat, 15 Feb 2025 02:55:39 +0200, Cristian Ciocaltea wrote:
-> >The HDMI1 PHY PLL clock source cannot be added directly to vop node in
-> >rk3588-base.dtsi, along with the HDMI0 related one, because HDMI1 is an
-> >optional feature and its PHY node belongs to a separate (extra) DT file.
-> >
-> >Therefore, add the HDMI1 PHY PLL clock source to VOP2 by overwriting its
-> >clocks & clock-names properties in the extra DT file.
+> mtk_dpi_bridge_enable() also call mtk_dpi_power_on().
+> Add this checking in mtk_dpi_bridge_enable() also.
 > 
-> There are boards that only use hdmi1 such as ROCK 5 ITX. So there are two
-> choices for this board:
-> 
-> 1, Enable hdptxphy0 as dependency of vop although it is not really used.
-> 
-> 2, Overwrite vop node at board dts to make it only use hdptxphy1 like:
-> 
-> &vop {
-> 	clocks = <&cru ACLK_VOP>,
-> 		 <&cru HCLK_VOP>,
-> 		 <&cru DCLK_VOP0>,
-> 		 <&cru DCLK_VOP1>,
-> 		 <&cru DCLK_VOP2>,
-> 		 <&cru DCLK_VOP3>,
-> 		 <&cru PCLK_VOP_ROOT>,
-> 		 <&hdptxphy1>;
-> 	clock-names = "aclk",
-> 		      "hclk",
-> 		      "dclk_vp0",
-> 		      "dclk_vp1",
-> 		      "dclk_vp2",
-> 		      "dclk_vp3",
-> 		      "pclk_vop",
-> 		      "pll_hdmiphy1";
-> };
-> 
-> What do you think of these two method?
 
-Going by the code in patch1 (+drm-misc) we have:
-  vop2->pll_hdmiphy0 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy0");
-+
-  vop2->pll_hdmiphy1 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy1");
+That's wanted.
 
-So the clock-reference to hdptxphy0 should just result in vop2->pll_hdmiphy0
-being NULL and thus ignored further on?
+>>   }
+>>
+>>   void mtk_dpi_stop(struct device *dev)
+>>   {
+>>          struct mtk_dpi *dpi = dev_get_drvdata(dev);
+>>
+>> -       mtk_dpi_power_off(dpi);
+>> +       if (!dpi->conf->clocked_by_hdmi)
+>> +               mtk_dpi_power_off(dpi);
+> 
+> mtk_dpi_bridge_disable() also call mtk_dpi_power_off().
+> Add this checking in mtk_dpi_bridge_disable() also.
+> 
+
+That's also wanted.
+
+> Because the clock is from hdmi, I think the clock define in DPI node in device tree should be removed.
+> Also change the binding document and let the clock not required in MT8195.
+
+No, because the clock is from HDMI, but there's a gate that needs to be
+enabled in order to enable the clock output to the DPI hardware.
+
+The clock being *generated from* HDMI IP doesn't mean that there's no
+gate in DPI - and that's the actual problem here that we're solving
+with clocked_by_hdmi. We are preventing the clock to be ungated to DPI
+while it is wrong or unstable.
+
+I didn't miss any check, all that was on purpose.
+
+Regards,
+Angelo
+
+> 
+> Regards,
+> CK
+> 
+>>   }
+>>
+>>   unsigned int mtk_dpi_encoder_index(struct device *dev)
+>> --
+>> 2.48.1
+>>
+> 
 
 
