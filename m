@@ -2,115 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8139DA38AEC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 18:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BC8A38B13
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 19:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E2E10E090;
-	Mon, 17 Feb 2025 17:55:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E60710E585;
+	Mon, 17 Feb 2025 18:11:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GCrZcwzw";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="w2L3MlWZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247A610E090
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 17:55:01 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C676E44328;
- Mon, 17 Feb 2025 17:54:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739814900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hIsMJ0YuoYMRvyxYJ1cP0EwqqnqSzX3NZXTyT1yGHBo=;
- b=GCrZcwzw68h302NDLEdQet+EQjpmB2t7WEwh0YdVcb3EyqftJAkMNDIwsaBqDb86Xi6F37
- 44E+0Wfo+fTdhHueShQo3Oo30peFhV0JtLdzpftuqBNNi4hMDgCeGSEl0Ax7QGChGimDzN
- i/do5hvBASw7euDQTP/dhUsQN1VjZYH4ABqrqViOmK1g63HYhUPIleMOpVk9Vfe8lEwd2q
- f3iZk8loRlFElDvRT0/gcwSvV5UCLGKIQHhdiIE+T8g9vbniJeXqs7EJFcmR7c24spti2J
- buU+7tTMK1ZUXGDkFBugtiYutnP5vaLWFgzS9T4KurcMpAL9dPAkXAvJS9rYmw==
-Message-ID: <519b82d4-7904-4320-93e4-efda799b545c@bootlin.com>
-Date: Mon, 17 Feb 2025 18:54:54 +0100
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D99A410E585
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 18:10:59 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-438a39e659cso31843905e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 10:10:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739815858; x=1740420658;
+ darn=lists.freedesktop.org; 
+ h=mime-version:message-id:date:user-agent:references:in-reply-to
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WYdQMpmWfwfRPZrNOq/JI6U8Fyr73ByGTD+9Af1nU7I=;
+ b=w2L3MlWZFQ+RN05zR9I9cnO3ds6j6J3kWcprTbcWtiR7k+hCMkJk19Xo1wlE4b/B0U
+ D+sLxRNhdT5Lc1LzRKRF1ETZAQvUVC7MvTQmHU8RbwHyCaP9C0Lt6tmSlfL15HJAUMhY
+ W+iBSCThDLbcxyniFFPKWIveqfT0tgUeGpfb44kZsr7hvJJTbwQiIOAzpuUiYECF7MMv
+ hiE3bSPUkfo4xU09AGjIiodwSEA5O4uBEHpQZDwTGS3r8rS1kCoPIkljwvXe92Za3sJj
+ /QAIOZQLXHnXsbXAwYJ8SrNE2AyiY62DA3m7qti47ucmV8O4doCAZKhVOpmngxeeCwe0
+ ODag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739815858; x=1740420658;
+ h=mime-version:message-id:date:user-agent:references:in-reply-to
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WYdQMpmWfwfRPZrNOq/JI6U8Fyr73ByGTD+9Af1nU7I=;
+ b=Y9aI1oL6ph+vPQ/uSs9TtWgialyiSzMTT+d4bK6lPzJn2aIrFBxxU01ljaLXDAExvC
+ nzwDTJcV+wWxroGDsx5uCPE9JxR2G6I63dmEMenOoKkX/fwgJNjj1UTefBw/NaqlEewl
+ omqlEf04pypwLy9JD9LpadxWHyF2pCK82QTcn7CqQcg7/sAld1bzDvoWe7+SAZKJj+Ct
+ 1fvB0X9C4x5TnMtHyFXhAD/HWi0FB9vUxm/UpwzgmO337LPRCj9ClMhxu7jZ/4zDq10U
+ HWxrkyNnyi1ATnYJdJOX7a/LRPafTq3cft9S5a37ZRQ1r20fjoH0QQu395XoY8xEBixR
+ Ig3A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIwIIvIZRrH/KDaqCSRd3LXkRNDH9y8yd/U6jJdGOjUn+K+Y3EhBfyIppuyiHZBHcJYHB6Lc/MLGI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPLwTE0EH5mDd28AFeb8UeVDjk8/QwLZI7R4SPA3FnIrTpk+ST
+ 8PGv5ORujwzfgNY+ltgMaQp+aeabpiKLI/S2e1n7UyE6ludceuBglpd/uGVTP+E=
+X-Gm-Gg: ASbGnctiOLJx80torMKcARQm8BdmymgGNbWAeDIsFsY2RCk/ihj0G0mXCsMfMjsS1n0
+ +3CbZfKUehXrULV3SfixhzFYp1mz/rJsVVmiC4EE0zBaDtRp43dcUXBal70aKkmZwYvG77z0V2m
+ 8WjJSvgHZDgXUNb5WblT32Z8uFXEP8AKV7Fp2aBuEro+IYJ9nlHlmadKczR8wS7y92DSm2afrlg
+ 032mEgcJpBaXmCb9djuKY15rE55zkSor4+U2EZ7BtbkSFGVMqeymAElOBsmR1gu5nsQ7EqelTF1
+ FClaYTeOxbpa2w==
+X-Google-Smtp-Source: AGHT+IFTAKZ9BquOVY29sEYMChLDnuqHcqVlSqR4NiZlMjD4bUMe9qRI5EU9r/6iyIf02WCX+Y2KzA==
+X-Received: by 2002:a5d:4cca:0:b0:38a:2b34:e13e with SMTP id
+ ffacd0b85a97d-38f33f28c01mr7768806f8f.18.1739815856721; 
+ Mon, 17 Feb 2025 10:10:56 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:a529:8667:e9bd:7f7])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-4395afaf052sm155075695e9.13.2025.02.17.10.10.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Feb 2025 10:10:55 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dave Ertman <david.m.ertman@intel.com>,  Ira Weiny
+ <ira.weiny@intel.com>,  "Rafael J. Wysocki" <rafael@kernel.org>,  Stephen
+ Boyd <sboyd@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Danilo Krummrich
+ <dakr@kernel.org>,  Conor Dooley <conor.dooley@microchip.com>,  Daire
+ McNamara <daire.mcnamara@microchip.com>,  Philipp Zabel
+ <p.zabel@pengutronix.de>,  Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>,  Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman
+ <jonas@kwiboo.se>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>,  David
+ Airlie <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Hans de
+ Goede <hdegoede@redhat.com>,  Ilpo =?utf-8?Q?J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>,  Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>,  Vladimir Kondratiev
+ <vladimir.kondratiev@mobileye.com>,  Gregory CLEMENT
+ <gregory.clement@bootlin.com>,  =?utf-8?Q?Th=C3=A9o?= Lebrun
+ <theo.lebrun@bootlin.com>,
+ Michael Turquette <mturquette@baylibre.com>,  Abel Vesa
+ <abelvesa@kernel.org>,  Peng Fan <peng.fan@nxp.com>,  Shawn Guo
+ <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  Kevin Hilman <khilman@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-kernel@vger.kernel.org,  linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org,  platform-driver-x86@vger.kernel.org,
+ linux-mips@vger.kernel.org,  linux-clk@vger.kernel.org,
+ imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v3 1/7] driver core: auxiliary bus: add device creation
+ helpers
+In-Reply-To: <2025021501-tamer-sank-142a@gregkh> (Greg Kroah-Hartman's message
+ of "Sat, 15 Feb 2025 07:53:12 +0100")
+References: <20250211-aux-device-create-helper-v3-0-7edb50524909@baylibre.com>
+ <20250211-aux-device-create-helper-v3-1-7edb50524909@baylibre.com>
+ <2025021437-washout-stonewall-d13e@gregkh>
+ <1jwmdsxugx.fsf@starbuckisacylon.baylibre.com>
+ <2025021501-tamer-sank-142a@gregkh>
+User-Agent: mu4e 1.12.8; emacs 29.4
+Date: Mon, 17 Feb 2025 19:10:54 +0100
+Message-ID: <1jikp8xx01.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Check for CONFIG_PWM using
- IS_REACHABLE()
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org
-References: <20250217174936.758420-2-u.kleine-koenig@baylibre.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250217174936.758420-2-u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehledthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduhedprhgtphhtthhopehurdhklhgvihhnvgdqkhhovghnihhgsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdpr
- hgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopeguihgrnhguvghrshestghhrhhomhhiuhhmrdhorhhg
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,78 +122,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat 15 Feb 2025 at 07:53, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
+[...]
 
-Le 17/02/2025 à 18:49, Uwe Kleine-König a écrit :
-> Currently CONFIG_PWM is a bool but I intend to change it to tristate. If
-> CONFIG_PWM=m in the configuration, the cpp symbol CONFIG_PWM isn't
-> defined and so the PWM code paths in the ti-sn65dsi86 driver are not
-> used.
-> 
-> The correct way to check for CONFIG_PWM is using IS_REACHABLE which does
-> the right thing for all cases
-> CONFIG_DRM_TI_SN65DSI86 ∈ { y, m } x CONFIG_PWM ∈ { y, m, n }.
-> 
-> There is no change until CONFIG_PWM actually becomes tristate.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+>> 
+>> >
+>> >> +							int id)
+>> >> +{
+>> >> +	struct auxiliary_device *auxdev;
+>> >> +	int ret;
+>> >> +
+>> >> +	auxdev = kzalloc(sizeof(*auxdev), GFP_KERNEL);
+>> >> +	if (!auxdev)
+>> >> +		return ERR_PTR(-ENOMEM);
+>> >
+>> > Ick, who cares what the error value really is?  Why not just do NULL or
+>> > a valid pointer?  That makes the caller much simpler to handle, right?
+>> >
+>> 
+>> Sure why not
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+I have tried the 'NULL or valid' approach. In the consumers,
+which mostly return an integer from their various init function, I got
+this weird to come up with one from NULL. EINVAL, ENOMEM, etc ... can't
+really pick one.
 
-Thanks,
-Louis Chauvet
+It is actually easier to pass something along.
 
-> ---
-> Hello,
-> 
-> even without the change to make CONFIG_PWM tristate using IS_REACHABLE()
-> is the more idiomatic way to check for CONFIG_PWM.
-> 
-> Note that IS_ENABLED() is wrong in the case CONFIG_DRM_TI_SN65DSI86=y +
-> CONFIG_PWM=m.
-> 
-> Best regards
-> Uwe
-> 
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index e4d9006b59f1..c84976db9ba5 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -196,7 +196,7 @@ struct ti_sn65dsi86 {
->   	struct gpio_chip		gchip;
->   	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
->   #endif
-> -#if defined(CONFIG_PWM)
-> +#if IS_REACHABLE(CONFIG_PWM)
->   	struct pwm_chip			*pchip;
->   	bool				pwm_enabled;
->   	atomic_t			pwm_pin_busy;
-> @@ -1361,7 +1361,7 @@ static struct auxiliary_driver ti_sn_bridge_driver = {
->   /* -----------------------------------------------------------------------------
->    * PWM Controller
->    */
-> -#if defined(CONFIG_PWM)
-> +#if IS_REACHABLE(CONFIG_PWM)
->   static int ti_sn_pwm_pin_request(struct ti_sn65dsi86 *pdata)
->   {
->   	return atomic_xchg(&pdata->pwm_pin_busy, 1) ? -EBUSY : 0;
-> @@ -1955,7 +1955,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
->   			return ret;
->   	}
->   
-> -	if (IS_ENABLED(CONFIG_PWM)) {
-> +	if (IS_REACHABLE(CONFIG_PWM)) {
->   		ret = ti_sn65dsi86_add_aux_device(pdata, &pdata->pwm_aux, "pwm");
->   		if (ret)
->   			return ret;
-> 
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+>> 
+>> >> +
+>> >> +	auxdev->id = id;
+>> >> +	auxdev->name = devname;
+>> >> +	auxdev->dev.parent = dev;
+>> >> +	auxdev->dev.platform_data = platform_data;
+>> >> +	auxdev->dev.release = auxiliary_device_release;
+>> >> +	device_set_of_node_from_dev(&auxdev->dev, dev);
+>> >> +
+>> >> +	ret = auxiliary_device_init(auxdev);
+>> >
+>> > Only way this will fail is if you forgot to set parent or a valid name.
+>> > So why not check for devname being non-NULL above this?
+>> 
+>> If auxiliary_device_init() ever changes it would be easy to forget to
+>> update that and lead to something nasty to debug, don't you think ?
+>
+> Yes, this is being more defensive, I take back my objection, thanks.
+>
+>> >> +	if (ret) {
+>> >> +		kfree(auxdev);
+>> >> +		return ERR_PTR(ret);
+>> >> +	}
+>> >> +
+>> >> +	ret = __auxiliary_device_add(auxdev, modname);
+>> >> +	if (ret) {
+>> >> +		/*
+>> >> +		 * NOTE: It may look odd but auxdev should not be freed
+>> >> +		 * here. auxiliary_device_uninit() calls device_put()
+>> >> +		 * which call the device release function, freeing auxdev.
+>> >> +		 */
+>> >> +		auxiliary_device_uninit(auxdev);
+>> >
+>> > Yes it is odd, are you SURE you should be calling device_del() on the
+>> > device if this fails?  auxiliary_device_uninit(), makes sense so why not
+>> > just call that here?
+>> 
+>> I'm confused ... I am call auxiliary_device_uninit() here. What do you
+>> mean ? 
+>
+> Oh wow, I got this wrong, sorry, I was thinking you were calling
+> auxiliary_device_destroy().  Nevermind, ugh, it was a long day...
+>
+
+No worries
+
+> thanks,
+>
+> greg k-h
 
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Jerome
