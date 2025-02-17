@@ -2,100 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85B4A38966
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E984A3898F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2025 17:41:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4BAE10E15C;
-	Mon, 17 Feb 2025 16:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D794B10E54B;
+	Mon, 17 Feb 2025 16:41:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Lv6REnH4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yPcW7g72";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 359D710E15C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:38:13 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4398c8c8b2cso7844155e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:38:13 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB8810E54B
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 16:41:45 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-ab7c4350826so81821166b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 08:41:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1739810292; x=1740415092; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RlNG99GTV+OPIhKK6SzcOvuW8gdnJ6Gb1Ice7bp65SM=;
- b=Lv6REnH4ifVEEYd0LsMMEyMS9zWDXTucM1ZZcehKoV/eh5X2hgDEfzFLwskPoRDso8
- sW1iwtE94hdFdKu6XPio/1mjr+iNfut83DcqIKc9YerWWh6Kh+D0RppVZrc0bGvk+4Nh
- 4Lm39lOtYxemcCOz1aV97jqqvYMYI+SqI0E1k=
+ d=linaro.org; s=google; t=1739810504; x=1740415304; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tl1qk986xZ9hRS1Mx9gWyhQ2tNCZt95h0ZGTwuGdgzE=;
+ b=yPcW7g72g28XtIxEQPO8VBP+RHrOmK3iu2ogoUg7ZLmivv3pNgmZ0Jra+8EElqu39Y
+ 6Ooslg1tGotOFWanHUxS777Ul4/6F1jigntnkZlWisCf5l2+CoWV/LHNccrPYHytNlDX
+ Q+t8Gk5ES0IjiVC/QBARonkN1JwIwmmbuuYqabJC/7FEVLLlsBQ8RKPDRdH/BXhttO4h
+ ocW9fbGxW2bFPocQKxLh8zeCkhz+BmimncEaWEsjnfGwMNFdZkadVzMYE4IkT8Y0OQ4P
+ sTDrbTo3vA3CZS84sUECwR85jLCrkNaNmLNbyJDL5FFm86koM5soVOeY+ZoJ6RnMaTpf
+ lKAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739810292; x=1740415092;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RlNG99GTV+OPIhKK6SzcOvuW8gdnJ6Gb1Ice7bp65SM=;
- b=YzTMgUVZOmg6JglG67WVIuMuvF/iFOkieMmTJuK7N6GY+AY7WdfcN/gK9k/FDSI0Fr
- Xh0MInaxfJm4azy2kUmTbo3nkny5Oouc/ScA7gb+6wvOWb2WjHch+kR24LEwtK6CRhXT
- rfS7+yBEoTaOw/YmSilnFSrwniKNEkTOvmoP/fvLfBvnX2FlBy7VonvfmD8dr2LC53p9
- T1MX5IsYNJMPLWo0Qru1DlTMjVicwgyDdxi/Lf6e3n4ZDfP/cc5NzKmC57m35eqIJulb
- nXWaaUE1CkaQjnsCMxdCPGezFyamtI+KCuISEFd3HO0e0O1vhr8c328DroxWJahZZ7b/
- EQNA==
+ d=1e100.net; s=20230601; t=1739810504; x=1740415304;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tl1qk986xZ9hRS1Mx9gWyhQ2tNCZt95h0ZGTwuGdgzE=;
+ b=o+SiC8AZhHfmuWhVQHiSD/7+Ylg0S5Oy6Gn7h7XU4vXTGrCNFtEILd1E3n0K5oYdac
+ 71acyAevaLFo/uzNt0Pc2N7oFV7epU0NtKwoiV4ZR+xFq5mdfMpBFbQ7z/U3H1S5Pblf
+ K9sC6Xbovylb4yf6q5zh5p1otMKutndvYE5BhCkLZnPmoCTi9MCbEW1SHoTRKFlQnJN0
+ fCY7hny3as5zrxkHdyQCyFrlVKbvJsem//2s5fLHRkdEne91a/gfIMhY59G0jyxvkaJU
+ jUuVqPVzQnDhAFV/RU5Q2JOt3Ifg7BIxjGv6DJPE1rTP2bbFwkjg0mAT5p9UZkf+FKFZ
+ wqIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlKrbmvn2gcqF38oeCUWJqt/ffjI0Uvqd6k4bjNPg1z4Wjtm/tRgAVZ1bD/OISRhj46BOjyrg1C0U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLbyrUkWFJqLw/QyDOpx/hvEfhAqBg9chBDjP0AnLaGZ3HEpUH
- EJry9QM8P0YOIgIyjLlgrVZo5HqW0ysNE0Fp8lzY47QL9EqkzuxYDkoPkGPU8Es=
-X-Gm-Gg: ASbGnctHVuZsK38AA2eQm47IhiLe4qsegjCXcFZ2C5ApmFenG6VY1Owvw0sU7in1/N/
- TAFztOLt+BvwQtHdxC8tTJLF1PB3/nKRv74kHB9ktXiyfl/6F0B1LjuhlSOyOy2I7Kj23fg/s6v
- ZO0EMH8QuMEGspyQJ35FllXwsqBQa77RIhcGbHQhz6rwOm1F0qusPSOgLJgu3KCSkv+8J+pDEqD
- KUk/74qxT/Bha/aIHdJTH37j7lLTxLeZM3GpoX9cZ9wGOuJTmIcoLAqfHqCoRp66ZlhJk0TOiv5
- tn7QNNuXJEp2wgXq+vZWoYr7d/U=
-X-Google-Smtp-Source: AGHT+IFd60CRWw/crQ4PqJA9O3LrM84lDIdHjWDAqTBxNvL64UjwetWcSQc4ZaOGrZvRZATo4YxAqg==
-X-Received: by 2002:a5d:638d:0:b0:38d:d2ea:9579 with SMTP id
- ffacd0b85a97d-38f33f5651dmr8950428f8f.46.1739810291617; 
- Mon, 17 Feb 2025 08:38:11 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ AJvYcCU1M0VbnYIlb8o43f3+aAY5V9ohK8T/gt5kPRBqIGgnuIdCVey3epz0UmC7oUXGnqnjBKvKJ3Jy65c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZl90fY8A+XACLBHS0nJ4EyM7u94WqGPadORSSPnZJaTBW+IGf
+ 0CGmtvS2VX1CCxSaJJ56rp3yJBFT+fzMAPG3vxfsvyVchatzyw1+DGM4BUvpbw8=
+X-Gm-Gg: ASbGncvLBhN8qxBvGvLjY6PEyEf4vGe9vawcI855/sCneCm+bXggtPR1wp6SBR2OQZl
+ xqK6CGCXfka9HyynAv+5NJZcWr8Sx2qsD4oU9oxSKia4M/b/9vpCc0BSS23p+9q/qyCvcubaL76
+ p7fHJjoaJuGsGFoOsp1SeNuDQS+94GFGh+5yjap4hDL76+U7+Lal3kDUJ9973HJ2/VwdvywAKTX
+ PqsYu0DY+m4WObbu7DnhTxCGAPMvH4xtE5RKR53uvxT0pc4U2R6LcyRp1E+bP9VmNbG1xxBbBlv
+ DHnEN3J+2/Ts0K/s20d7zgdz5BRrdas=
+X-Google-Smtp-Source: AGHT+IFcQeNVHnsKf9IkLIKYVAi4SxUUfp260hQPfDzut6VqqPWdr13KL6UsKqTMH8NkbWY8oez30A==
+X-Received: by 2002:a17:906:6a03:b0:ab7:425d:1fa2 with SMTP id
+ a640c23a62f3a-abb70d95991mr424723366b.10.1739810503738; 
+ Mon, 17 Feb 2025 08:41:43 -0800 (PST)
+Received: from [127.0.1.1] ([178.197.206.225])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259d5d8bsm12704381f8f.70.2025.02.17.08.38.10
+ a640c23a62f3a-abbac781b78sm82647966b.60.2025.02.17.08.41.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 08:38:10 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:38:08 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 32/37] drm/bridge: Make encoder pointer deprecated
-Message-ID: <Z7Nl8JiFncngynNy@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
- <20250213-bridge-connector-v3-32-e71598f49c8f@kernel.org>
- <nfb4fb6lzjw4j5brsh242htgw3au2moklqjalfa3zzxjsi2qn5@l3censelmgbz>
- <20250214-arrogant-strong-hoatzin-efdcd8@houat>
- <yy37e4kne7i2hl7coix6v7vajb5bm4zohod4fdzayvxr52l57u@cxturs2uxgcm>
+ Mon, 17 Feb 2025 08:41:43 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 00/16] drm/msm: Add support for SM8750
+Date: Mon, 17 Feb 2025 17:41:21 +0100
+Message-Id: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yy37e4kne7i2hl7coix6v7vajb5bm4zohod4fdzayvxr52l57u@cxturs2uxgcm>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALFms2cC/32NQQ6DIBBFr2Jm3WkAoVRXvUfjAhV0EisGGlJju
+ HupB+jyveS/f0C0gWyEtjog2ESR/FpAXCoYZrNOFmksDIIJxThrsJcYX3etGI4Ut8XseLNG1Vo
+ raRyHstuCdfQ5m8+u8Ezx7cN+XiT+s/9qiSPDvnZcOePk0OjHQqsJ/urDBF3O+QvwbVf7swAAA
+ A==
+X-Change-ID: 20250109-b4-sm8750-display-6ea537754af1
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Srini Kandagatla <srinivas.kandagatla@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3920;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=4GpjtyPhX2tIp7jKFxe8+OhXpy9WD8kHJbcuRQ6OQrE=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBns2a03lqV9dIyHRAwlUHltfCOEPr1IiF36ellm
+ Mlcs/X8ZX2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7NmtAAKCRDBN2bmhouD
+ 14NnD/9a4pjkt2J6S54Y+zsdMes7Q8++B4dMo0E+BAcDVAIW+FD7aMnvRQY+gsH8ZrDSV8wrXWa
+ Zt+3ARMZ+s6bjYynoZ3saHvO8tYiCPojMUn6UPnpBQ/jAJZ7KGvukfWJ6IKN2geKNqyy4FZPaH6
+ U7ARb55Vt/7KAbdceUn1TaNEMFlzZeFWPu5jM1o1Hc+4XjrdsCfQ7lfDIFqCPJIMp7q1di1RH3n
+ sWxrXBfcEv93aAQJUj24Vf+oaq61tMLVRp+N1EN6k/n7WYcP7RCpQaEIaN6f9XKJfBeg1UIGhWY
+ slvUnjub3z53iIgvdtLYuz5/EGqm+ChSCL9fQ3o08gh62U3DgpRTJ3kddlqR8QmxJPK9Q2qMCAp
+ xvSz8WYJnLAA128U4V78rc3RVgN14inNw5LJOfa15BNYLdfRDdznWN+ol5A5EWgMlCm80EU/vUI
+ 2V+NH+57BieX1jEWvb7jE8dYiwOZuDNAJ0pBsApZaCX1J80jV5IG6gndFpyKisLY3HnH9xfy0Ci
+ AWMdNov83jiCl6ZI42MYxqPzvyO8j6gGtVTb30BoDJRz+PuWlcuR69etka/UnwBk0Pdil0fX8bK
+ JBwFHSG/eu3ORZDfeFyROJrnpQZaxdQvfIOt2uPHx+BsMpOsTlIPRvHhkBB5IX4GXt6u4nb7p2W
+ rQQJXEiVe/CnP8Q==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,38 +122,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2025 at 03:29:12PM +0200, Dmitry Baryshkov wrote:
-> On Fri, Feb 14, 2025 at 02:07:18PM +0100, Maxime Ripard wrote:
-> > On Thu, Feb 13, 2025 at 06:35:15PM +0200, Dmitry Baryshkov wrote:
-> > > On Thu, Feb 13, 2025 at 03:43:51PM +0100, Maxime Ripard wrote:
-> > > > Other entities (drm_connector.crtc, drm_encoder.crtc, etc.) have
-> > > > pointer to other currently bound entities. They are all considered
-> > > > relevant only for non-atomic drivers, and generally perceived as
-> > > > deprecated in favour of the equivalent pointers in the atomic states.
-> > > 
-> > > I think there is a significant difference between mentioned fields and
-> > > drm_bridge.encoder: the former fields are variable and can change. The
-> > > latter one is static and set at the bridge attachment time. Nevertheless
-> > > I think it is a good idea to deprecate it.
-> > 
-> > I'm sorry, it's not clear to me here what you want here either. Do you
-> > want me to change anything to that patch?
-> 
-> Well... I was thinking if we should expand the commit message. Most
-> likely it's fine though. In the end, I've r-b'ed the patch.
+Hi,
 
-I think this one is wrong, since the bridge->encoder link is static. This
-is unlike the connector->encoder->crtc chain, which isn't, and where you
-really want to go through the atomic states or you get funny stuff.
+Dependency / Rabased on top of:
+https://lore.kernel.org/all/20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org/
 
-I don't think we have bridge chains with multiple connectors though, so
-this is fairly academic and so maybe still a good idea to make this all
-more flexible? Unless I've missed the memo and atomic bridges have
-flexible routing, and in that case yes this shouldn't be used.
+Changes in v2:
+- Implement LM crossbar, 10-bit alpha and active layer changes:
+  New patch: drm/msm/dpu: Implement new v12.0 DPU differences
+- New patch: drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+- Add CDM
+- Split some DPU patch pieces into separate patches:
+  drm/msm/dpu: Drop useless comments
+  drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+  drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
+- Split DSI and DSI PHY patches
+- Mention CLK_OPS_PARENT_ENABLE in DSI commit
+- Mention DSI PHY PLL work:
+  https://patchwork.freedesktop.org/patch/542000/?series=119177&rev=1
+- DPU: Drop SSPP_VIG4 comments
+- DPU: Add CDM
+- Link to v1: https://lore.kernel.org/r/20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org
 
-Mildly confused ...
--Sima
+Description:
+=============
+I got modetest writeback working, but DSI panel on MTP8750 still shows
+darkness.
+
+Best regards,
+Krzysztof
+
+---
+Krzysztof Kozlowski (16):
+      dt-bindings: display/msm: dsi-controller-main: Combine if:then: entries
+      dt-bindings: display/msm: dsi-controller-main: Add missing minItems
+      dt-bindings: display/msm: dsi-phy-7nm: Add SM8750
+      dt-bindings: display/msm: dsi-controller-main: Add SM8750
+      dt-bindings: display/msm: dp-controller: Add SM8750
+      dt-bindings: display/msm: qcom,sm8650-dpu: Add SM8750
+      dt-bindings: display/msm: qcom,sm8750-mdss: Add SM8750
+      drm/msm/dpu: Drop useless comments
+      drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+      drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
+      drm/msm/dsi/phy: Add support for SM8750
+      drm/msm/dsi: Add support for SM8750
+      drm/msm/dpu: Add support for SM8750
+      drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+      drm/msm/dpu: Implement new v12.0 DPU differences
+      drm/msm/mdss: Add support for SM8750
+
+ .../bindings/display/msm/dp-controller.yaml        |   4 +
+ .../bindings/display/msm/dsi-controller-main.yaml  | 124 +++---
+ .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
+ .../bindings/display/msm/qcom,sm8750-mdss.yaml     | 460 +++++++++++++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h    | 496 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  59 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  12 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  35 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  71 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  19 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          | 210 ++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |  18 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   6 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dsi/dsi.h                      |   2 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  25 ++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |  80 ++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  79 +++-
+ drivers/gpu/drm/msm/msm_mdss.c                     |  33 ++
+ drivers/gpu/drm/msm/msm_mdss.h                     |   1 +
+ .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  |  14 +
+ 26 files changed, 1655 insertions(+), 101 deletions(-)
+---
+base-commit: 44ddcc7604ae61eadc748ccc6156bf4b98697978
+change-id: 20250109-b4-sm8750-display-6ea537754af1
+
+Best regards,
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
