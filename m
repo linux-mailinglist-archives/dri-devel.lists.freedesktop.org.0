@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C0FA3A41F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 18:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7E1A3A51F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 19:18:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87D310E736;
-	Tue, 18 Feb 2025 17:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92E8C10E04E;
+	Tue, 18 Feb 2025 18:18:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sqB7zQoX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sooZ/3QH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B43210E0E3;
- Tue, 18 Feb 2025 17:24:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8390AA4101A;
- Tue, 18 Feb 2025 17:23:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9CF3C4CEE2;
- Tue, 18 Feb 2025 17:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739899488;
- bh=bHsM4J5OAf6pPIdlfG1dNWd+eY8oc64mzKvu/j3YixM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sqB7zQoXDT5cIFnVoS5QVfIvMFsgI6DfB/RxCesu+Q4O9URPvg1St0v3KVv7BVuLI
- oQwPTGQwGtWDpaWchA3XcueOhzcCZuyqH8tQBjb7Z8kwPCIINGXdWrhDibHPeQdBkl
- 6KL/Mti2VeUVbS+/WaYoYN/LBnuqq79he88E7X5XeE/rJk7Iq9A7o28qtw1JU5Xgeh
- zHyh/QbXy3mTRmSpE9lUl7duK/n3BsqWnJkyneVjVxvk3tz24uH7a/aSstS1MYVXiR
- Z+imndakYvZvxo1/KzgpP4Xkj79OP3NFkpLDwtWowV3qZkqvWlit1UE5bJcuk97sYK
- gd0Oe7lD+O/Zw==
-Date: Tue, 18 Feb 2025 18:24:43 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Russ Weight <russ.weight@linux.dev>
-Subject: Re: [PATCH] drm/nouveau: select FW caching
-Message-ID: <Z7TCWzTVQeEDt0j8@cassiopeiae>
-References: <20250207012531.621369-1-airlied@gmail.com>
- <Z68_m1iHYN_7a_hH@cassiopeiae> <Z69Awxng8zedDwws@cassiopeiae>
- <Z7SZJXP4APNLNqh2@bombadil.infradead.org>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3293D10E04E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 18:18:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wLZah36tLm4xOWwJU55Pxm/enxSsJZjr9oUwxC7JWZg=; b=sooZ/3QHQye4tgIwF7EprYtpTw
+ QfZjyavNYFnQTwhE2F5c9qB8uGoSIwJYwl1ADhN8au46xyjeCB96YDChy0F1hzlEPTcwm/MQYP7VE
+ SxkC8Pg8mmz4KS492SepYPEs2SI+msvtk7fwBdtcni/DPIkhcJS1eWHXuWc5rPEbK7Nch7uPVuNJD
+ fRFw28flOpN9HXNa8azfYnezZChgSLgYtKyu/7hNQsZZUtrRnQ+aPfapTnYUrdyb0vCxLJJFx3xJQ
+ idc0J7D0IWV3RzLbGz+hLFQMTYrojQdbik78Kcep0okhgnoVNMOsERQ0TgJs7KL5EHO5NjAcmX+Me
+ pjCVP2nA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tkSAj-00BPDZ-4t; Tue, 18 Feb 2025 19:18:23 +0100
+Message-ID: <3c7da108-4692-4456-ad23-7e5d51f0f606@igalia.com>
+Date: Tue, 18 Feb 2025 18:18:21 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7SZJXP4APNLNqh2@bombadil.infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] drm/sched: Fix preprocessor guard
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250218124149.118002-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250218124149.118002-2-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,20 +65,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 18, 2025 at 06:28:53AM -0800, Luis Chamberlain wrote:
+
+On 18/02/2025 12:41, Philipp Stanner wrote:
+> When writing the header guard for gpu_scheduler_trace.h, a typo,
+> apparently, occurred.
 > 
-> What I recommend is to look into why we disable it by default, I think
+> Fix the typo and document the scope of the guard.
+> 
+> Fixes: 353da3c520b4 ("drm/amdgpu: add tracepoint for scheduler (v2)")
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+> I just discovered this. But I have little understanding of what is going
+> on in this header in the first place, so I kindly ask for comments on
+> this entire guard line with its logical or ||
+> 
+> The code hasn't been touched since 2015. So it seems it at least didn't
+> cause bugs.
 
-I think FW_CACHE is enabled by default, no?
+No other header includes so it never caused a problem.
 
-> its sold old obscure reasoning but now suspect it was udev being dumb,
-> in line with why we also try to defensively try to ignore duplicate
-> udev requests for module requests causing a flood. Refer to commit
-> 9b9879fc03275ff ("modules: catch concurrent module loads, treat them as
-> idempotent") for details.
+> P.
+> ---
+>   drivers/gpu/drm/scheduler/gpu_scheduler_trace.h | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> index c75302ca3427..f56e77e7f6d0 100644
+> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> @@ -21,7 +21,7 @@
+>    *
+>    */
+>   
+> -#if !defined(_GPU_SCHED_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#if !defined(_GPU_SCHED_TRACE_H_) || defined(TRACE_HEADER_MULTI_READ)
+>   #define _GPU_SCHED_TRACE_H_
+>   
+>   #include <linux/stringify.h>
+> @@ -106,7 +106,7 @@ TRACE_EVENT(drm_sched_job_wait_dep,
+>   		      __entry->seqno)
+>   );
+>   
+> -#endif
+> +#endif /* _GPU_SCHED_TRACE_H_ */
+>   
+>   /* This part must be outside protection */
+>   #undef TRACE_INCLUDE_PATH
 
-Thanks, that helps a lot.
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Given that this commit landed in v6.5 I guess there's not really a concern to
-force enable FW_CACHE for Nouveau as a fix for commit 176fdcbddfd2
-("drm/nouveau/gsp/r535: add support for booting GSP-RM"), which landed in v6.7.
+Regards,
+
+Tvrtko
+
