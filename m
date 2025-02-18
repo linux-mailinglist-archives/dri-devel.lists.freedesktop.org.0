@@ -2,125 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1603A3A77F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 20:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0045DA3A7A0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 20:32:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4B010E74A;
-	Tue, 18 Feb 2025 19:31:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bYyjkKeR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9CE10E74D;
+	Tue, 18 Feb 2025 19:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B225C10E0EC
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 19:30:57 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-5ded46f323fso7746240a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:30:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739907056; x=1740511856;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=E174y95QWB8sLP4kKdqQSVofl2EIrt9GShIhCjB+Tv8=;
- b=bYyjkKeR2QnjhlMXVVe8qHc0wyWnOLmfjcrrUAhAXGf6t5HrailUQX8YxBTy2LXL0Y
- 5j1eOt1fnGfN8op7C873LJOgsLp3/qKoUKl/WS1Be96Wdg72ge1T2qy9ajKFgS3H87jh
- r42DA9IWGlZuaOpLIMYBZwwh+JJz/dwAxkElxJFYD3b/Ckw/lABS/X9CFyKio0AsRnN3
- V86nfMqRWz1/I8N6OZO/jffMaKam0FPqI5e9Jp+IbNQ3ItdSLNL7A56q1TgxrlREC/aA
- /6LsCpVmLJK2TOKLbC/yzFpyuhwWjaktAxogqeMjWA4daH4187T0LEslHP6litLLIYbW
- oXHw==
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+ [209.85.217.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C31DF10E74B;
+ Tue, 18 Feb 2025 19:32:45 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id
+ ada2fe7eead31-4be5b33ff91so631775137.1; 
+ Tue, 18 Feb 2025 11:32:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739907056; x=1740511856;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E174y95QWB8sLP4kKdqQSVofl2EIrt9GShIhCjB+Tv8=;
- b=k1+HwtLQZR1Y5FIUBFlXlg1Vccu2VFiappSOWbXPR6bs1C42PpHSIQ0/gESvz6xh98
- 1ev3Bz0I825CstbNoQ1RdZSkkT3DbJT9kJhVXQZRvDNBml865nF2gNWPRKYV5FvjmH8A
- k8VXS4m3BL1at7cv7+bmXQeF5LsLk9XsIBdKhkfLO7taA8w+Sc5o/2dYnEDbnGnsjFna
- zd4fxmwcwGH6vRNmUtIyDAja2DEBPu15Rmp965t4uO7q7uXEPZL5o+3fzzlUYVcDxOux
- 4UNDyj4Ejd7Auy3xzseWhWiPR0ZlIb3tfK5WB/pAeYTS+RvZPSiACujLY2q3O20jqxQY
- 8N0w==
+ d=1e100.net; s=20230601; t=1739907163; x=1740511963;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yb7jRjd6uguB9cG41rTvHpSN+ZVtgW/KmSvyau5JmeE=;
+ b=FQc8FP+6XTrTwwOksZwZkHjN1zaCoQFzrDYto+jBCCr3VeWsLbvdqpKlrHr7O4Wj6u
+ g7Uvf5q7N2QJTbXrhfV5n9gzWBLz5SVj279eOzgKLidvbAwunr0hs237VMYvyx+tOWcJ
+ fQJrVC5/RjxUAp1U9obGlaxZHqm1ZYtHvsBNtlW6eAlhAibY7QV3I5XBlimG7p1b5Bmy
+ mrspHCC5qpuCcYfrT641hRZdjVclOpfkh7eQO/dsWFDXiAfnVzYO0+ES8TyPXrhGoE4x
+ z1PYz/18Jz9QDyXPwnI+tvTArmepUfq3wRSnR+PYYvPQzkzT0TiJsDagoGfq+HIQrwD9
+ oqyw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW6+hy12KMwv5RLknMpvc7Z0454XqwG4fceNPBYhtC2ChTtjwPu0iKYz+x0uQrFLRwkOjA1RYlRwqU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVRu+cuqj0/b4yJYF4B+1JetJIu2jxads4joBCaqkx5YyKNREV
- p7P31Y+s97OwaowYboER9zPySpNHTDk+3IMN3+6w3wNB+Cv+YciaPNiyJgfJuOk=
-X-Gm-Gg: ASbGncsXGiVFLXDVj2UybWwM3GpT+kuy1JPPRIxxEryu8wbgPNq8KRD7AdOI3fQtjcD
- 5QG3Xg+78aQEY8ra8qAulvRofzoYJZh03DxV4N9Sp6WHbfz3GypoOZbjGYDEfOycNZ28BaNgLze
- m1bNNO/2GkenHKyofcoor1XN52oHIuX/pvk8Ui83oBiZxZllQNW61zFM8CjdQWx1iPDDr2aVTsd
- yhm0+vcYKcE3Ufinyy595qqqcn4lUwmwJVDA80qOUjfxL2SLimeuA0bZifAAl1dRiBiS4rY/UfZ
- YUP/50zluyeNEbpsz/Q67QJlp44y
-X-Google-Smtp-Source: AGHT+IH6dYXNSP6vLBRqe/ecMthhMu5dDSxKiguicPwszoCj13HXx3I+/2icxv2B1ExrsNYAjEdIdw==
-X-Received: by 2002:a05:6402:2354:b0:5e0:4c04:4186 with SMTP id
- 4fb4d7f45d1cf-5e089d2fb1dmr614186a12.24.1739907056050; 
- Tue, 18 Feb 2025 11:30:56 -0800 (PST)
-Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:cbaf:af0:839d:fb4a])
- by smtp.googlemail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dece1c3ce5sm9338985a12.17.2025.02.18.11.30.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 11:30:54 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Tue, 18 Feb 2025 20:29:53 +0100
-Subject: [PATCH v4 8/8] clk: amlogic: axg-audio: use the auxiliary reset
- driver - take 2
+ AJvYcCUvH6SWfIO/utpymYxvZKQ3gOp6NVrrk3q/TIT2lA0P7gnRxpC1rTDiUAszWq6NOySzj3P9o+VlH/E=@lists.freedesktop.org,
+ AJvYcCVaO7Hh8mlWcb7DWHvB3MYL21LBh3w206YvJWQmdY6WSWaUS/Di47NNxj0FcME+I9QYlwMfv+IFDg==@lists.freedesktop.org,
+ AJvYcCVkExXp875JTcTx9wne51a9WQSaLodxVPiSgMouPqdYrvAZMnXjchqUQx97+2yKpFMrDwY5Gwf7ylA=@lists.freedesktop.org,
+ AJvYcCWh72u5gKD4Fd8vZUerygv95B4xiR4Gc+Gh9mWFKt4aR+ECvkBCCRL59lD6Pfq9TTY4Mk4NAOvMLL66@lists.freedesktop.org,
+ AJvYcCXh9CRAmgIhS7j9QB7p6d8zJnHDtBrEX/Cv3wYBTcjc68LsLRIpuw+bKfolNdnK4VS/5ihdHRxOTQIwwJg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzi2IzmYDQBNUCzR+0R+jTX34w2ufbXe5H9CK0sfYM3sDsichTo
+ pcPNYfezZNnwYaCV949ExQoV2GOJ2j8NGtELFR0emogu2wIrmX60dykqSn5f
+X-Gm-Gg: ASbGncvQatqGViAs7rSlXVfaPRC2ajfC0nVLJHdQtIQsHr/zB8XJa/hu7kbPrjz6r3B
+ hTlOFbiSBVI0bJ/JADAUdfly6PVOuKvnSEc2Icel+KA7l6wpxDGIgkXslv3jXtZqI1bNX6nwOIi
+ 8aBOOqanr4nFWcXbeyaw7R/iX1/4SrOXrNXEdLy5r0IaLAzAnKYnIqq8ixliS+Rgc/yajNdSNTJ
+ Z4Yxd+b52QmtUWjL7ltRCkXbXJNGqFMH/j2WMbUTxy8cqZo/qMnQ34jr4tzoKWiVwolH7j2mp/Q
+ LciUJb7uC6FRzJmzAuqGznpJC6lNzIU8sV6lTV8OZ91VtgwoGuBTxg==
+X-Google-Smtp-Source: AGHT+IEDPxqRETVowx9o0L2xfyCCCVaPWhyN34UyZndc/5oNf/lOU19FA8O4l1otgYvu5pbGICZ4zw==
+X-Received: by 2002:a05:6102:dd1:b0:4bb:baa0:371d with SMTP id
+ ada2fe7eead31-4be85cedc05mr615638137.24.1739907161561; 
+ Tue, 18 Feb 2025 11:32:41 -0800 (PST)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com.
+ [209.85.217.54]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-4bd3b4fe4a6sm2140575137.14.2025.02.18.11.32.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Feb 2025 11:32:40 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id
+ ada2fe7eead31-4be633cacbbso688026137.3; 
+ Tue, 18 Feb 2025 11:32:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVWMKxIe42Vp7tg1OYuchWQ900PPwh4JCdSVq6c/XIMtoA0/PHHZkCH8EZ7VzaFSlq4vVu+vdi8nHk=@lists.freedesktop.org,
+ AJvYcCWCBqr2+xkX9aYwwXWMML0ZimFB0LenP4PbRt5G2PmzsPBTWY4sHlTY9J88uuOc0geC7/prPTyrvw==@lists.freedesktop.org,
+ AJvYcCWJOHTvy1XmA1mnUhcqWVrxkRSxX1HRjIn5zIln08CjezVOSXKPUIuF1ZDmwy9+q55ER1Uk+flliWI=@lists.freedesktop.org,
+ AJvYcCWY9T/MXqC7nSR/Fts0mmr70ctTvMcIJT7sHZRWWidc40/Vytibt3XbIKgMpWNa8CDD6tSAg1ZvlqCg@lists.freedesktop.org,
+ AJvYcCXKBEjhjJKiJfpYZ7fNAJmgEWzp0kaN82TjcHvUe8Bs2zKOGQX9DqOIpjb4z79sG1EBXqdcqO5O5oZCCr8=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:b10:b0:4bb:d394:46c5 with SMTP id
+ ada2fe7eead31-4be85bb8970mr656557137.9.1739907160582; Tue, 18 Feb 2025
+ 11:32:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250218-aux-device-create-helper-v4-8-c3d7dfdea2e6@baylibre.com>
-References: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
-In-Reply-To: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Danilo Krummrich <dakr@kernel.org>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Daire McNamara <daire.mcnamara@microchip.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Douglas Anderson <dianders@chromium.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
- Gregory CLEMENT <gregory.clement@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-clk@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- Jerome Brunet <jbrunet@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5906; i=jbrunet@baylibre.com; 
- h=from:subject:message-id;
- bh=QQ/ztLzccoD2euaC9XiJx7WBiQoWT8xupZIvkEt0604=; 
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBntN/VtNnyVBp1TZn2uakB3wDmrM70EYdAQGZ+h
- wV2jlYYVniJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZ7Tf1QAKCRDm/A8cN/La
- hQBjD/0RTaMxkXwenpFzTWRtbkfYP170epu7rqTng51UkW5dx0c746c0Qrzw65ygwvKsO9bol97
- b/pX1khkHz4ELctHC0/gUmfugRQcCjQABsrNxkCDZbVBWRI7TKwaVoFcjcogbLRmvhkjiXSfa1S
- 76FtH1DuaN7gQrQdnBBv1x7FKtahKBLyNkCamDmUN9/H+D4B5VUNpcymmgVRLIBszSinmGqPTL3
- MFDp0iDIpcxyoimExExtn7UXtiiqjTpiVC3WAuZQXY27zbMEjJJxtF7SWARmqxnkHPm4H6w4tje
- yctm1scmNxdLcnIBZBttjcu1TSntqESMEE4DFI03peNUvXuIL/XIFKO9EyRcTaq7T5JooFZ+uYF
- LjdTh5p1c+BdBEMRNBzCgChSerJ/F58X3dhAkb7BXDZfPr8Y2bCPMd1mwrJAwZRHh5EgJA5zdFo
- rSJu5S0ppYvzv4qYrPuiIwYXLpBN9djNeVshuwVJwGsoAJqs06vCyDgSjU/Wht/lVTA6m64V/xZ
- oA6dK3fHpBl5KIXSw65n854LYYRdWFln2yKyuGoYuso0i2Ib91Z91bnr/bzsBtM6h7s6w+3u2D3
- qcBQmOQ4aRSkyjclGXHc52MWgItdbJJ6s4Skitguub8FI3JxLo5cemUnME0vG2oMshqf0hDvQex
- S37+rb/FVdA14/A==
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+References: <20250218142542.438557-1-tzimmermann@suse.de>
+ <20250218142542.438557-3-tzimmermann@suse.de>
+In-Reply-To: <20250218142542.438557-3-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 18 Feb 2025 20:32:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV939ibJTRSaO-oW2Jz4zbkXGRpUYrmA7e=yQfF7W-k_g@mail.gmail.com>
+X-Gm-Features: AWEUYZnARFSxvjPUxC-uDBDfMGz-IvL-HNvEMBPwKo8soOA7GylWEHj75pA7v34
+Message-ID: <CAMuHMdV939ibJTRSaO-oW2Jz4zbkXGRpUYrmA7e=yQfF7W-k_g@mail.gmail.com>
+Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
+ and size
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
+ linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ xen-devel@lists.xenproject.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,205 +99,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the implementation of the reset driver in axg audio
-clock driver and migrate to the one provided by reset framework
-on the auxiliary bus.
+Hi Thomas,
 
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- drivers/clk/meson/Kconfig     |   2 +-
- drivers/clk/meson/axg-audio.c | 114 +++++-------------------------------------
- 2 files changed, 14 insertions(+), 102 deletions(-)
+On Tue, 18 Feb 2025 at 15:26, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Add drm_modes_size_dumb(), a helper to calculate the dumb-buffer
+> scanline pitch and allocation size. Implementations of struct
+> drm_driver.dumb_create can call the new helper for their size
+> computations.
+>
+> There is currently quite a bit of code duplication among DRM's
+> memory managers. Each calculates scanline pitch and buffer size
+> from the given arguments, but the implementations are inconsistent
+> in how they treat alignment and format support. Later patches will
+> unify this code on top of drm_mode_size_dumb() as much as possible.
+>
+> drm_mode_size_dumb() uses existing 4CC format helpers to interpret
+> the given color mode. This makes the dumb-buffer interface behave
+> similar the kernel's video= parameter. Current per-driver implementations
+> again likely have subtle differences or bugs in how they support color
+> modes.
+>
+> The dumb-buffer UAPI is only specified for known color modes. These
+> values describe linear, single-plane RGB color formats or legacy index
+> formats. Other values should not be specified. But some user space
+> still does. So for unknown color modes, there are a number of known
+> exceptions for which drm_mode_size_dumb() calculates the pitch from
+> the bpp value, as before. All other values work the same but print
+> an error.
+>
+> v3:
+> - document the UAPI semantics
+> - compute scanline pitch from for unknown color modes (Andy, Tomi)
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-diff --git a/drivers/clk/meson/Kconfig b/drivers/clk/meson/Kconfig
-index be2e3a5f83363b07cdcec2601acf15780ff24892..7cb21fc223b063cb93812643f02f192343981ed8 100644
---- a/drivers/clk/meson/Kconfig
-+++ b/drivers/clk/meson/Kconfig
-@@ -106,7 +106,7 @@ config COMMON_CLK_AXG_AUDIO
- 	select COMMON_CLK_MESON_SCLK_DIV
- 	select COMMON_CLK_MESON_CLKC_UTILS
- 	select REGMAP_MMIO
--	select RESET_CONTROLLER
-+	imply RESET_MESON_AUX
- 	help
- 	  Support for the audio clock controller on AmLogic A113D devices,
- 	  aka axg, Say Y if you want audio subsystem to work.
-diff --git a/drivers/clk/meson/axg-audio.c b/drivers/clk/meson/axg-audio.c
-index 9df627b142f89788966ede0262aaaf39e13f0b49..3948f5d0faca372dd5cc4ed6dc95f9c89fe5bae8 100644
---- a/drivers/clk/meson/axg-audio.c
-+++ b/drivers/clk/meson/axg-audio.c
-@@ -4,6 +4,7 @@
-  * Author: Jerome Brunet <jbrunet@baylibre.com>
-  */
- 
-+#include <linux/auxiliary_bus.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/init.h>
-@@ -12,7 +13,6 @@
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
--#include <linux/reset-controller.h>
- #include <linux/slab.h>
- 
- #include "meson-clkc-utils.h"
-@@ -1678,84 +1678,6 @@ static struct clk_regmap *const sm1_clk_regmaps[] = {
- 	&sm1_earcrx_dmac_clk,
- };
- 
--struct axg_audio_reset_data {
--	struct reset_controller_dev rstc;
--	struct regmap *map;
--	unsigned int offset;
--};
--
--static void axg_audio_reset_reg_and_bit(struct axg_audio_reset_data *rst,
--					unsigned long id,
--					unsigned int *reg,
--					unsigned int *bit)
--{
--	unsigned int stride = regmap_get_reg_stride(rst->map);
--
--	*reg = (id / (stride * BITS_PER_BYTE)) * stride;
--	*reg += rst->offset;
--	*bit = id % (stride * BITS_PER_BYTE);
--}
--
--static int axg_audio_reset_update(struct reset_controller_dev *rcdev,
--				unsigned long id, bool assert)
--{
--	struct axg_audio_reset_data *rst =
--		container_of(rcdev, struct axg_audio_reset_data, rstc);
--	unsigned int offset, bit;
--
--	axg_audio_reset_reg_and_bit(rst, id, &offset, &bit);
--
--	regmap_update_bits(rst->map, offset, BIT(bit),
--			assert ? BIT(bit) : 0);
--
--	return 0;
--}
--
--static int axg_audio_reset_status(struct reset_controller_dev *rcdev,
--				unsigned long id)
--{
--	struct axg_audio_reset_data *rst =
--		container_of(rcdev, struct axg_audio_reset_data, rstc);
--	unsigned int val, offset, bit;
--
--	axg_audio_reset_reg_and_bit(rst, id, &offset, &bit);
--
--	regmap_read(rst->map, offset, &val);
--
--	return !!(val & BIT(bit));
--}
--
--static int axg_audio_reset_assert(struct reset_controller_dev *rcdev,
--				unsigned long id)
--{
--	return axg_audio_reset_update(rcdev, id, true);
--}
--
--static int axg_audio_reset_deassert(struct reset_controller_dev *rcdev,
--				unsigned long id)
--{
--	return axg_audio_reset_update(rcdev, id, false);
--}
--
--static int axg_audio_reset_toggle(struct reset_controller_dev *rcdev,
--				unsigned long id)
--{
--	int ret;
--
--	ret = axg_audio_reset_assert(rcdev, id);
--	if (ret)
--		return ret;
--
--	return axg_audio_reset_deassert(rcdev, id);
--}
--
--static const struct reset_control_ops axg_audio_rstc_ops = {
--	.assert = axg_audio_reset_assert,
--	.deassert = axg_audio_reset_deassert,
--	.reset = axg_audio_reset_toggle,
--	.status = axg_audio_reset_status,
--};
--
- static struct regmap_config axg_audio_regmap_cfg = {
- 	.reg_bits	= 32,
- 	.val_bits	= 32,
-@@ -1766,8 +1688,7 @@ struct audioclk_data {
- 	struct clk_regmap *const *regmap_clks;
- 	unsigned int regmap_clk_num;
- 	struct meson_clk_hw_data hw_clks;
--	unsigned int reset_offset;
--	unsigned int reset_num;
-+	const char *rst_drvname;
- 	unsigned int max_register;
- };
- 
-@@ -1775,7 +1696,7 @@ static int axg_audio_clkc_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	const struct audioclk_data *data;
--	struct axg_audio_reset_data *rst;
-+	struct auxiliary_device *auxdev;
- 	struct regmap *map;
- 	void __iomem *regs;
- 	struct clk_hw *hw;
-@@ -1834,22 +1755,15 @@ static int axg_audio_clkc_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	/* Stop here if there is no reset */
--	if (!data->reset_num)
--		return 0;
--
--	rst = devm_kzalloc(dev, sizeof(*rst), GFP_KERNEL);
--	if (!rst)
--		return -ENOMEM;
--
--	rst->map = map;
--	rst->offset = data->reset_offset;
--	rst->rstc.nr_resets = data->reset_num;
--	rst->rstc.ops = &axg_audio_rstc_ops;
--	rst->rstc.of_node = dev->of_node;
--	rst->rstc.owner = THIS_MODULE;
-+	/* Register auxiliary reset driver when applicable */
-+	if (data->rst_drvname) {
-+		auxdev = __devm_auxiliary_device_create(dev, dev->driver->name,
-+							data->rst_drvname, NULL, 0);
-+		if (!auxdev)
-+			return -ENODEV;
-+	}
- 
--	return devm_reset_controller_register(dev, &rst->rstc);
-+	return 0;
- }
- 
- static const struct audioclk_data axg_audioclk_data = {
-@@ -1869,8 +1783,7 @@ static const struct audioclk_data g12a_audioclk_data = {
- 		.hws = g12a_audio_hw_clks,
- 		.num = ARRAY_SIZE(g12a_audio_hw_clks),
- 	},
--	.reset_offset = AUDIO_SW_RESET,
--	.reset_num = 26,
-+	.rst_drvname = "rst-g12a",
- 	.max_register = AUDIO_CLK_SPDIFOUT_B_CTRL,
- };
- 
-@@ -1881,8 +1794,7 @@ static const struct audioclk_data sm1_audioclk_data = {
- 		.hws = sm1_audio_hw_clks,
- 		.num = ARRAY_SIZE(sm1_audio_hw_clks),
- 	},
--	.reset_offset = AUDIO_SM1_SW_RESET0,
--	.reset_num = 39,
-+	.rst_drvname = "rst-sm1",
- 	.max_register = AUDIO_EARCRX_DMAC_CLK_CTRL,
- };
- 
+Thanks for your patch!
+
+> --- a/drivers/gpu/drm/drm_dumb_buffers.c
+> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
+> +/**
+> + * drm_mode_size_dumb - Calculates the scanline and buffer sizes for dumb buffers
+> + * @dev: DRM device
+> + * @args: Parameters for the dumb buffer
+> + * @pitch_align: Scanline alignment in bytes
+> + * @size_align: Buffer-size alignment in bytes
+> + *
+> + * The helper drm_mode_size_dumb() calculates the size of the buffer
+> + * allocation and the scanline size for a dumb buffer. Callers have to
+> + * set the buffers width, height and color mode in the argument @arg.
+> + * The helper validates the correctness of the input and tests for
+> + * possible overflows. If successful, it returns the dumb buffer's
+> + * required scanline pitch and size in &args.
+> + *
+> + * The parameter @pitch_align allows the driver to specifies an
+> + * alignment for the scanline pitch, if the hardware requires any. The
+> + * calculated pitch will be a multiple of the alignment. The parameter
+> + * @size_align allows to specify an alignment for buffer sizes. The
+> + * returned size is always a multiple of PAGE_SIZE.
+> + *
+> + * Returns:
+> + * Zero on success, or a negative error code otherwise.
+> + */
+> +int drm_mode_size_dumb(struct drm_device *dev,
+> +                      struct drm_mode_create_dumb *args,
+> +                      unsigned long pitch_align,
+> +                      unsigned long size_align)
+> +{
+> +       u64 pitch = 0;
+> +       u32 fourcc;
+> +
+> +       /*
+> +        * The scanline pitch depends on the buffer width and the color
+> +        * format. The latter is specified as a color-mode constant for
+> +        * which we first have to find the corresponding color format.
+> +        *
+> +        * Different color formats can have the same color-mode constant.
+> +        * For example XRGB8888 and BGRX8888 both have a color mode of 32.
+> +        * It is possible to use different formats for dumb-buffer allocation
+> +        * and rendering as long as all involved formats share the same
+> +        * color-mode constant.
+> +        */
+> +       fourcc = drm_driver_color_mode_format(dev, args->bpp);
+> +       if (fourcc != DRM_FORMAT_INVALID) {
+> +               const struct drm_format_info *info = drm_format_info(fourcc);
+> +
+> +               if (!info)
+> +                       return -EINVAL;
+> +               pitch = drm_format_info_min_pitch(info, 0, args->width);
+> +       } else if (args->bpp) {
+> +               /*
+> +                * Some userspace throws in arbitrary values for bpp and
+> +                * relies on the kernel to figure it out. In this case we
+> +                * fall back to the old method of using bpp directly. The
+> +                * over-commitment of memory from the rounding is acceptable
+> +                * for compatibility with legacy userspace. We have a number
+> +                * of deprecated legacy values that are explicitly supported.
+> +                */
+> +               switch (args->bpp) {
+> +               default:
+> +                       drm_warn(dev, "Unknown color mode %d; guessing buffer size.\n",
+
+%u
+
+> +                                args->bpp);
+> +                       fallthrough;
+> +               case 12:
+> +               case 15:
+> +               case 30: /* see drm_gem_afbc_get_bpp() */
+> +               case 10:
+
+Perhaps keep them sorted numerically?
+
+> +               case 64: /* used by Mesa */
+> +                       pitch = args->width * DIV_ROUND_UP(args->bpp, SZ_8);
+> +                       break;
+> +               }
+> +       }
+> +
+> +       if (!pitch || pitch > U32_MAX)
+> +               return -EINVAL;
+> +
+> +       args->pitch = pitch;
+> +
+> +       return drm_mode_align_dumb(args, pitch_align, size_align);
+> +}
+> +EXPORT_SYMBOL(drm_mode_size_dumb);
+> +
+>  int drm_mode_create_dumb(struct drm_device *dev,
+>                          struct drm_mode_create_dumb *args,
+>                          struct drm_file *file_priv)
+> diff --git a/include/drm/drm_dumb_buffers.h b/include/drm/drm_dumb_buffers.h
+> new file mode 100644
+> index 000000000000..6fe36004b19d
+> --- /dev/null
+> +++ b/include/drm/drm_dumb_buffers.h
+> @@ -0,0 +1,14 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +#ifndef __DRM_DUMB_BUFFERS_H__
+> +#define __DRM_DUMB_BUFFERS_H__
+> +
+> +struct drm_device;
+> +struct drm_mode_create_dumb;
+> +
+> +int drm_mode_size_dumb(struct drm_device *dev,
+> +                      struct drm_mode_create_dumb *args,
+> +                      unsigned long pitch_align,
+> +                      unsigned long size_align);
+> +
+> +#endif
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index c082810c08a8..eea09103b1a6 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1058,7 +1058,7 @@ struct drm_mode_crtc_page_flip_target {
+>   * struct drm_mode_create_dumb - Create a KMS dumb buffer for scanout.
+>   * @height: buffer height in pixels
+>   * @width: buffer width in pixels
+> - * @bpp: bits per pixel
+> + * @bpp: color mode
+>   * @flags: must be zero
+>   * @handle: buffer object handle
+>   * @pitch: number of bytes between two consecutive lines
+> @@ -1066,6 +1066,50 @@ struct drm_mode_crtc_page_flip_target {
+>   *
+>   * User-space fills @height, @width, @bpp and @flags. If the IOCTL succeeds,
+>   * the kernel fills @handle, @pitch and @size.
+> + *
+> + * The value of @bpp is a color-mode number describing a specific format
+> + * or a variant thereof. The value often corresponds to the number of bits
+> + * per pixel for most modes, although there are exceptions. Each color mode
+> + * maps to a DRM format plus a number of modes with similar pixel layout.
+> + * Framebuffer layout is always linear.
+> + *
+> + * Support for all modes and formats is optional. Even if dumb-buffer
+> + * creation with a certain color mode succeeds, it is not guaranteed that
+> + * the DRM driver supports any of the related formats. Most drivers support
+> + * a color mode of 32 with a format of DRM_FORMAT_XRGB8888 on their primary
+> + * plane.
+> + *
+> + * +------------+------------------------+------------------------+
+> + * | Color mode | Framebuffer format     | Compatibles            |
+> + * +============+========================+========================+
+> + * |     32     |  * DRM_FORMAT_XRGB8888 |  * DRM_FORMAT_XBGR8888 |
+> + * |            |                        |  * DRM_FORMAT_RGBX8888 |
+> + * |            |                        |  * DRM_FORMAT_BGRX8888 |
+> + * +------------+------------------------+------------------------+
+> + * |     24     |  * DRM_FORMAT_RGB888   |  * DRM_FORMAT_BGR888   |
+> + * +------------+------------------------+------------------------+
+> + * |     16     |  * DRM_FORMAT_RGB565   |  * DRM_FORMAT_BGR565   |
+> + * +------------+------------------------+------------------------+
+> + * |     15     |  * DRM_FORMAT_XRGB1555 |  * DRM_FORMAT_XBGR1555 |
+> + * |            |                        |  * DRM_FORMAT_RGBX1555 |
+> + * |            |                        |  * DRM_FORMAT_BGRX1555 |
+> + * +------------+------------------------+------------------------+
+> + * |      8     |  * DRM_FORMAT_C8       |  * DRM_FORMAT_R8       |
+
++ DRM_FORMAT_D8? (and 4/2/1 below)
+
+And DRM_FORMAT_Y8, if/when Tomi's series introducing that is accepted...
+
+> + * +------------+------------------------+------------------------+
+> + * |      4     |  * DRM_FORMAT_C4       |  * DRM_FORMAT_R4       |
+> + * +------------+------------------------+------------------------+
+> + * |      2     |  * DRM_FORMAT_C2       |  * DRM_FORMAT_R2       |
+> + * +------------+------------------------+------------------------+
+> + * |      1     |  * DRM_FORMAT_C1       |  * DRM_FORMAT_R1       |
+> + * +------------+------------------------+------------------------+
+> + *
+> + * Color modes of 10, 12, 15, 30 and 64 are only supported for use by
+> + * legacy user space. Please don't use them in new code. Other modes
+> + * are not support.
+> + *
+> + * Do not attempt to allocate anything but linear framebuffer memory
+> + * with single-plane RGB data. Allocation of other framebuffer
+> + * layouts requires dedicated ioctls in the respective DRM driver.
+>   */
+>  struct drm_mode_create_dumb {
+>         __u32 height;
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-2.47.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
