@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B750A3A779
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 20:30:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE09A3A77C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 20:31:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBED210E737;
-	Tue, 18 Feb 2025 19:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0779B10E0EC;
+	Tue, 18 Feb 2025 19:30:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="W7as4VGG";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="P1RXrXqm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5003B10E737
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 19:30:52 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-5e08064b4ddso1159370a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:30:52 -0800 (PST)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBE710E74A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 19:30:54 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-5e0516e7a77so4059989a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:30:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739907051; x=1740511851;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739907053; x=1740511853;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=V2IJA96cn2epCMiVThMTa+CHJ1H46iDl1Xl8KOw8NEU=;
- b=W7as4VGGXSPTYJqVXpn4NoR4Z2u6t+qkfSCFrKv/VvyYsQaHgAdBmBmMSbSgSJC1Nt
- gRtZlgdef1wQjuuqvc2myeGUn0QEVSMEKyUMBsw8g9gTyYLh6swFfRn51TnKavLG64Da
- +9srOjxtmpbCMyVw6uCYrZPkNc4QjqXVVbQV71cBFR961K5qy3tBZBYzfP0QMgQ5xb/m
- P27kOHMa5nIr/6dJ4w/S5bKYsh7DSE3LxjoGsYMuRq3zNLJc1+D8nPh22UQEDSftfEwz
- 4yh//RsbkmiRir6GVlUT3gxd4cWmsMdXm9uLRhbWvkH9+7l+ZL3d0haIItWKOefnLRKa
- HV9g==
+ :reply-to; bh=Rf7170qq7Y3fQ7uVc37Bv/W29DRyxfOGfDaN3M72oXs=;
+ b=P1RXrXqmgAx3R0tHcCcW/3yAr2EWXp+N+ApvXIM3dMFQZBOjo0enaBiEFRvu/zB+oo
+ /tt855LTw5nmGRE4tDs3TE0AKAJfK5ZBzENNG8fUGkYvmSOdKvGgDhWswY4QVfjOz99F
+ BfwZXrThUGy17ODJ9hORjSaSw5xzpC9M5UFU3YCu03O/BSALGrb45QjFfnK2IX5ANpZn
+ YkX7lZn1GCH1v7Ixjz+CAoCJjmD2wI6Cxs5lkhBxPJxQnKgFsglL6rNYMsJKn5fLqJ5+
+ 1E42DwqJBqcDtbHRpQxxKeaBCurx0otExYN1hchLGMZS7KbJtTHk9GMS2dLao2jD6MzC
+ tKXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739907051; x=1740511851;
+ d=1e100.net; s=20230601; t=1739907053; x=1740511853;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=V2IJA96cn2epCMiVThMTa+CHJ1H46iDl1Xl8KOw8NEU=;
- b=tk0TH1fu5SbnG/3GUBrj4v0PjynSwjaL8iVEkh0PBvu4TQNpv5kopeVmpO6+ksfkBb
- rSFsWCszViQbvgIuV9+MU9TlRKNASlRwptvtFjYbIqn7m6V6n4wKqiG0kWgoXDSv5IeR
- FiL5RGG4sMwNFOHA/Pi+JdUQ5RfK28EfeaNlylaq8tcYGkb0tr5Zm9wwMxOiOUXgqq4b
- EkMnNYTLvsLotbJRCiLg9Mlz3Qk6e9BalQ9C4IoioGPdi9at6RiX8r45XB5c4jkPXRWS
- uXaimEkcJyFuOgQrmu1rad1BxGa1K6K9J/IvcC+XSyrX6pAxkLlhxjo0wDL5Xdu9/4MQ
- cjxw==
+ bh=Rf7170qq7Y3fQ7uVc37Bv/W29DRyxfOGfDaN3M72oXs=;
+ b=f3UQFXYQg4I2GDTT3qCVqo8c3sMR6PADJbg8PfXUjk34N0WnV275TmbnDauvr98Pfy
+ y8T7GvW+Xy0qhSC+TeudvYduypASzQvThGAhL/bkLUMLUFhj39YFzdh1VgYDXHGGwk1E
+ 3u3JU1MI6lBpjHO4cxZ9C4LzJtdHp2KGp3LDn5kvGRyL5iMyf+BSUoE59TSqTgXhscX/
+ sI1fL5H2SMA6RGAybB5M46iD+Gf3Tr23n4cAg9BtIWPv0aQv3BGe3fy57SP+xLr9qelf
+ 8eTkbYMdUVXAgvCw9jh6pisjsEdXZqIXJJx/O/A+NyteYR8CG/2NXNO2mVxaL6NbafQe
+ Y8ZQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsh7YI76K3rOFaAGIGfZVyvn0JJIK4pSOFxp00dbJDgQikA95fUccwpJzCgSe7DKHjlk13Ck/f8l4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwrUeAWy+zseczaTm/zhfg+6np1bkpg/c8Uv06tc0+OB1aqfrbf
- bT146AWXw7GtBg6lzUWZ8HP/CrqTfAIlXmlrpXo9nXOJjTb5JfJy8KQxR7BBZ/o=
-X-Gm-Gg: ASbGncssNBkCcx6FnlDBqL/5orBYpu+gvTKzOwaAW/KAUMTqhzxQvSEo/okL8enqzl6
- uLJs0ewAwMfzGVeJqD3OzVG4xOgynriM4AfrO9ff72cxn82d6pzPbiPrpXQNKDzpazfPdNWRpJh
- XrQmrVvPfLSz4wKah6zHqL6jhudSnIRYHLDw+XbSDlKb5yTG5fWgzKZ+efl5PcD0+XbOlP5M0k4
- jHT+vfLKfcdMHtZqFiaQcAMw2Ztz6KC9PQMY4UcJSLLxskkmTxy7xSkusi+3N4dF4KeEBWy9yRz
- JZjI6T5EKJqQkoHYM9ff5xFfmSLS
-X-Google-Smtp-Source: AGHT+IHXtRDavoFEuaxpZTZMT0EqHfm1KbVfaahxr8Qdj+LPqSMJy9KjmSUTGyYJHs3yvBW2gyEYug==
-X-Received: by 2002:a05:6402:1ec8:b0:5e0:69b3:441c with SMTP id
- 4fb4d7f45d1cf-5e069b34491mr6798656a12.26.1739907050796; 
- Tue, 18 Feb 2025 11:30:50 -0800 (PST)
+ AJvYcCVL33GxJA6p8n+aHQ6UBwSKTp86cpxc8VNLLsc5vSPGcO+Za9fPqq7K06G1CzKxeeQsJP0HYJo9R/M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzw9+0ywNrinqfSBWgmZw56CELXnm2KNIxFFTYrkGQtjV7yJKuH
+ R/MdD/KL3s6HcvauTVxVWCuOqt+iPEQixR+TtElkvnQnyiuoZav3csi0Y2ex6hg=
+X-Gm-Gg: ASbGncuw7EB0eDmf9aXyNWlA0eIE4xjq0redbukLlVVFLUsBfHslnp+TuDDhYyvsqSg
+ eomqpafR5fBKiS3ATog3ZUMlW15FoBhU3WwHq4TvW1pkmyiTC/6zvR+hsG2axc9BtVh6Wy32QF9
+ soS4qvf80NLgzcnwNn8HYwJbTnNvUpgkXuUJHO4NbRQf5EYDZ3aSO2YUYibZK+46/ZZbbHe57VV
+ oV2ER8S42ahdz6tQ9sPwdzEjBEZcjrzkwJmEydhnXXb9U+YD5YSrqwBnWL0hLUIqv3QsIPwEQ1X
+ EgLCn0l4sX6Bmjo1+ZSOXIq1Q/m5
+X-Google-Smtp-Source: AGHT+IHpHIYxB4dVNZ3LyzCs91SySOLLXWjws+ryoYBHtygC8Wxu6MzjUCPyJSfIFH4a8C/yd6uRcA==
+X-Received: by 2002:a05:6402:51cb:b0:5e0:82a0:50dd with SMTP id
+ 4fb4d7f45d1cf-5e082a05797mr2098352a12.27.1739907052712; 
+ Tue, 18 Feb 2025 11:30:52 -0800 (PST)
 Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:cbaf:af0:839d:fb4a])
  by smtp.googlemail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dece1c3ce5sm9338985a12.17.2025.02.18.11.30.47
+ 4fb4d7f45d1cf-5dece1c3ce5sm9338985a12.17.2025.02.18.11.30.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 11:30:49 -0800 (PST)
+ Tue, 18 Feb 2025 11:30:52 -0800 (PST)
 From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Tue, 18 Feb 2025 20:29:51 +0100
-Subject: [PATCH v4 6/8] reset: eyeq: drop device_set_of_node_from_dev()
- done by parent
+Date: Tue, 18 Feb 2025 20:29:52 +0100
+Subject: [PATCH v4 7/8] clk: clk-imx8mp-audiomix: use the auxiliary device
+ creation helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250218-aux-device-create-helper-v4-6-c3d7dfdea2e6@baylibre.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250218-aux-device-create-helper-v4-7-c3d7dfdea2e6@baylibre.com>
 References: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
 In-Reply-To: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -104,21 +104,21 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
  Jerome Brunet <jbrunet@baylibre.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1584; i=jbrunet@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2798; i=jbrunet@baylibre.com; 
  h=from:subject:message-id;
- bh=Ay58eJ7ot5/ul3WJ0A2vWFebi7iz9JDlKKz/MQBcPk0=; 
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBntN/UNRwYRSxCacN/wjpG+gTD5T1KG1hcBQsMM
- QnDuvUYONiJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZ7Tf1AAKCRDm/A8cN/La
- hWCyEACe+SnGCN6YdYLKgHmg2tCmpB+scSaVfptOtiiCaNmkm2ceymUua+hl4HQuc+cggoymEAI
- NRoyFjvpDwxEsenxo50indBSo4J+xKz/BxfWgchbJ5jBN98rcIbG8qbRJoK6bofmL8VieWY/C9n
- QziuMeen3+L6VIqwheLwS89czpdFIbtEchmvyO7447kPZT/f9tcqTtHyZZQ9ZWmUEPqyytQH3g1
- FXnb/QkITd2cOjX8fiWKCwqHnHuZZioCk73ybWlnXFChDFTJO1C/Kubw+Ku8ou5Oi1eNm5DpAKD
- AnhlKqHvcd9jAybx2STZQG34ILyCq0PGKCqdShGQNi3dEiokHFL3C08wZwHaieTJgG/BRqHDLxd
- +zWCAJ1BPN4sHUG0VUhEU1N3y5PLQTlN+fqW1PfZs66fZF3RWN2m6IST2cjtFQqOp9qEe9VL2m9
- h+b2UEflNPJZnzrxvGsMYOa1GOe3xEDN35bjBbnpOKh+SqsEnFVFvC/O08+02k2pGEvuCJgPAjN
- cmFW/PiIsKprUWk5c8WAdIAGfcL4OPNoHW/au92eXmWfXnZY45TkkT8Hkk2hgbQosUEC1eOtFKf
- MF1kq+BTKv4twjueAZWSPLgmQ+t+yWBdXZDVBktP2ocMRM8KOEqTeFZuMEw7Sebi/SXGVa4YK25
- DPOtNJY5VIKPj0g==
+ bh=ma6EXu0EtX44zpd7hqJ6kC+ikAUaUrZisGtu8UlCCLk=; 
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBntN/VIh7m+Cn8Gx+R/npCxGvJH4NCUefaxFlhn
+ gu0IqWnjBiJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZ7Tf1QAKCRDm/A8cN/La
+ hYVyD/90MBlzLttiipSPEDV3EdUFxIRifW8CB/ozE3YsCyj2v/DltrmPk563MQ5pa8itqfo5hkU
+ 4A8uKNAUHs14NclRLizOGn6E2OBZW/tn4ElVBMO65CtqbYyOtqBnsWDcaS758f/TBsB/KzwIRqe
+ u/MdB86COXZ7E0Yx33885Shus9RahC6bGdvoBax0KzyWXB28Zfs56Dpy4haxed1jB0YzQnGrtWx
+ pZ6HQxrdNKrS1V4FWGSzPl5f1oazL81zZnYpSBz200B7CNxKcAEEAMCMMIANqSAhDDxXaynOTSp
+ WYqRQirSRpdrRSgogove/vJqlyJQEvkEoP08xVSBRUH0k8jPl8AyeIy1RrwvPiTPgoekvpMSb+8
+ DMkOah/WLuym+3gJnOq9dtIg+X/ZPE7iPKreaC4TIHkCRQ4enqoO0BaYy2G/W5t+uDGBzxhsqFH
+ CpQYATnH9X7aGhTIgcEatDE5NENzgl26jip0Dl2U6fTkcbRiYzRHwqdqqqlwsbZ6l9EooZL+6f4
+ 5kPCwJXOzUKfvTD8tNkD/GUpx8I1zc3pQ7R7KzzLxiiOG6oyQqm+HLCl/Bzr+afc+t51LbakoAm
+ t6Qd2Q3tmZH1iA0sds5miFLH45OdqHtXeqrKPzPI+3W8oH37DOBtnvGssDoHjB8HiBJ1Bx4Xdg9
+ OxcTaNJ3Vo552uA==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,46 +136,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Théo Lebrun <theo.lebrun@bootlin.com>
+The auxiliary device creation of this driver is simple enough to
+use the available auxiliary device creation helper.
 
-Our parent driver (clk-eyeq) now does the
-	device_set_of_node_from_dev(dev, dev->parent)
-call through the newly introduced devm_auxiliary_device_create() helper.
+Use it and remove some boilerplate code.
 
-Doing it again in the reset-eyeq probe would be redundant.
-Drop both the WARN_ON() and the device_set_of_node_from_dev() call.
-Also fix the following comment that talks about "our newfound OF node".
-
-Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- drivers/reset/reset-eyeq.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ drivers/clk/imx/clk-imx8mp-audiomix.c | 49 ++++++-----------------------------
+ 1 file changed, 8 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/reset/reset-eyeq.c b/drivers/reset/reset-eyeq.c
-index 02d50041048b42921e3e511148cd29f215b5fc5e..8018fa895427bb1e51ea23b99803dc7fe6108421 100644
---- a/drivers/reset/reset-eyeq.c
-+++ b/drivers/reset/reset-eyeq.c
-@@ -420,17 +420,8 @@ static int eqr_probe(struct auxiliary_device *adev,
- 	int ret;
+diff --git a/drivers/clk/imx/clk-imx8mp-audiomix.c b/drivers/clk/imx/clk-imx8mp-audiomix.c
+index c409fc7e061869988f83c7df3ef7860500426323..fa15a5ed59e304687317b5a23c845a0588890bee 100644
+--- a/drivers/clk/imx/clk-imx8mp-audiomix.c
++++ b/drivers/clk/imx/clk-imx8mp-audiomix.c
+@@ -230,61 +230,28 @@ struct clk_imx8mp_audiomix_priv {
  
- 	/*
--	 * We are an auxiliary device of clk-eyeq. We do not have an OF node by
--	 * default; let's reuse our parent's OF node.
--	 */
--	WARN_ON(dev->of_node);
--	device_set_of_node_from_dev(dev, dev->parent);
--	if (!dev->of_node)
--		return -ENODEV;
+ #if IS_ENABLED(CONFIG_RESET_CONTROLLER)
+ 
+-static void clk_imx8mp_audiomix_reset_unregister_adev(void *_adev)
++static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
+ {
+-	struct auxiliary_device *adev = _adev;
 -
--	/*
--	 * Using our newfound OF node, we can get match data. We cannot use
--	 * device_get_match_data() because it does not match reused OF nodes.
-+	 * Get match data. We cannot use device_get_match_data() because it does
-+	 * not accept reused OF nodes; see device_set_of_node_from_dev().
- 	 */
- 	match = of_match_node(dev->driver->of_match_table, dev->of_node);
- 	if (!match || !match->data)
+-	auxiliary_device_delete(adev);
+-	auxiliary_device_uninit(adev);
+-}
+-
+-static void clk_imx8mp_audiomix_reset_adev_release(struct device *dev)
+-{
+-	struct auxiliary_device *adev = to_auxiliary_dev(dev);
+-
+-	kfree(adev);
+-}
+-
+-static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev,
+-							 struct clk_imx8mp_audiomix_priv *priv)
+-{
+-	struct auxiliary_device *adev __free(kfree) = NULL;
+-	int ret;
++	struct auxiliary_device *adev;
+ 
+ 	if (!of_property_present(dev->of_node, "#reset-cells"))
+ 		return 0;
+ 
+-	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
++	adev = devm_auxiliary_device_create(dev, "reset", NULL);
+ 	if (!adev)
+-		return -ENOMEM;
+-
+-	adev->name = "reset";
+-	adev->dev.parent = dev;
+-	adev->dev.release = clk_imx8mp_audiomix_reset_adev_release;
+-
+-	ret = auxiliary_device_init(adev);
+-	if (ret)
+-		return ret;
++		return -ENODEV;
+ 
+-	ret = auxiliary_device_add(adev);
+-	if (ret) {
+-		auxiliary_device_uninit(adev);
+-		return ret;
+-	}
+-
+-	return devm_add_action_or_reset(dev, clk_imx8mp_audiomix_reset_unregister_adev,
+-					no_free_ptr(adev));
++	return 0;
+ }
+ 
+ #else /* !CONFIG_RESET_CONTROLLER */
+ 
+-static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev,
+-							 struct clk_imx8mp_audiomix_priv *priv)
++static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
+ {
+ 	return 0;
+ }
+ 
+-#endif /* !CONFIG_RESET_CONTROLLER */
++#endif
+ 
+ static void clk_imx8mp_audiomix_save_restore(struct device *dev, bool save)
+ {
+@@ -408,7 +375,7 @@ static int clk_imx8mp_audiomix_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_clk_register;
+ 
+-	ret = clk_imx8mp_audiomix_reset_controller_register(dev, priv);
++	ret = clk_imx8mp_audiomix_reset_controller_register(dev);
+ 	if (ret)
+ 		goto err_clk_register;
+ 
 
 -- 
 2.47.2
