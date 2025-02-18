@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469C5A3985F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 11:12:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6036A39864
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 11:12:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 663FC10E658;
-	Tue, 18 Feb 2025 10:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAE0710E65F;
+	Tue, 18 Feb 2025 10:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EmPmDsch";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N8wSZyHP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2BBF10E655
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 10:12:29 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4395dddb07dso54717765e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 02:12:29 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 664F810E660
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 10:12:31 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-38a25d4b9d4so3435790f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 02:12:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739873548; x=1740478348; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1739873550; x=1740478350; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vG84qkV7BJECjcnd+fwOr4EF0zkS6sxDafqd+tmcLZs=;
- b=EmPmDschEef8XxWv2XZTAVA+CHF7iYb5bWLJySClb523vIOVodppD4r6OPfon9NyNa
- paVfl5nSNiYqujSv/QzFB9TmNg3otXYGSXY9tGF3MaEO6RiyE0p9w+3VzYH6wjA6CTIi
- nRuFoRSBgfEAnfB5aHQdaaQhFZ3xhdnlURHuIj/fTmPRshlEytp/ntgKwK7A4F1RXspx
- yhrG2vmI/F7Nly3eOJFH+7PgHY40iVkhNuAqMNGgOXJtzUibox/h3CZDyT7mr0f+rhux
- RDPW6VrFLPVmMMEww1wUKZ9MygLwEeqjQ14EPmIb5sSWRZ3GhquTi1paIb72vu7DMDH9
- GoDg==
+ bh=8sp3iHvZITaZ2UTkf5VLRrARO1d57llPyzlqb0Su9fc=;
+ b=N8wSZyHPOwQhsb5fSEjwaFnAm6gpvBn4DAFjqFS2QgsvTV+OyqXmy2pSY3RxRSv94W
+ UFmGg8v0L3T6WMJC7Sq7/SuEiW1lg7leKptHV0YwuRAVdLveF6HgThBD0CyEy7pyP0F6
+ /9jOb4MGLFN0FZyeVeMmR0ooSY6BuCHJ7j5oGk+7uff5O971wBq9uun0vlOdrpLzm2P8
+ g8GSPRzhv6yzyZouUFQtwf4zclaXJWgLlqcBZgSe1Xu6LZ2Kx/UqY9xq7ZC2e4QKWftR
+ 4go/1hSsS2zMclAAw9fMis6Hsd7pusRcZvggEUAxlCEIGC7Pc2xiaqrzn7bB9RazrUb2
+ zB9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739873548; x=1740478348;
+ d=1e100.net; s=20230601; t=1739873550; x=1740478350;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vG84qkV7BJECjcnd+fwOr4EF0zkS6sxDafqd+tmcLZs=;
- b=vAoZC5esk66V5e+NHmJ5KT7n7R1pwq/VzOGqTPFYrId6nT5sjoqwloVwRBcONpePgB
- XFm0m3zACVFiCeJghL1Gq62qchkq02Ba+S5uot6WKoSmNWNhV/etGUT/sW1I/x2de0KW
- +K6DujmMNtjO/zLdZT5fKGlekiUTnFfIpLnEaxwWzbTHpX5nDLuGM2eOGXlwfsmCKls5
- kfV1xJ+T2xryxUvkYmL5C2uz/LitMdTe0AtR30j4mvdXTS+qRC3S0X5uo7bTQIyVJ3MW
- EAze5S9FJ1SYbPQFmUTMZ3x/mWwe/ZLb+dugQwwI+PGPL9CpK0mkvkze/6KF8coWhNu1
- es/g==
+ bh=8sp3iHvZITaZ2UTkf5VLRrARO1d57llPyzlqb0Su9fc=;
+ b=uhVzJGQBYCZCUSbbjNNy/CCUE8yvhOGJ2QrQ09OjolefeDYjSZkyrptPAfEPkboZrA
+ skl8fCF6oZTbjj3DjFcU1Tdu3qcHY3PFjGZgxXwFBtoKSnytasITlBTN4KJXV+dRao3p
+ npePvj3yJUbMbr6KRJnb/OK+RVMn/t+PXIuTcZ7GvuYlw2/zJPKANwEILNTeizGYl9nq
+ wACSUSyjKxrd7/5b+I91lLWEQNUo+rIf4/Kr5o2YfmVJzSeQhFIFcVFx4II9oZtE0frP
+ wo3b85xGKD4VJXSbX4mWKlFouHagDACBPU+f5sLNomQIaxxdIDKZcHGJP4JJVR9Vnaxd
+ qklg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwgFcf0udxoI+DViQRqmgd6Jv6LtbXfFhyTM1OzmqInx0t7GBuXgJZGggFM4k6fXnan/Gj1tmvfv4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznJtw2lHl/hoUDI1qkMaqWOfwzLq5wMNGyzxTpYA4u2mkr8AT4
- kwBm91O54343HRp7UaevOqBS9chbCP5juOMV+mz67JMJJW5uuIs1
-X-Gm-Gg: ASbGnctnnMbYdBFirJNr2FaGeBUZJ0xrsyxZnE1j09xJ0E6gqnrwrmeJHiG6ht3pLKV
- 1SRpNlrXqjN5QV69KGiFulyypCWPBdB4R9IweUs4pqx8jq8k0rPuzCxztkFn9DHMMC34SbisNY7
- 7Kj6ulpTNlbMhVEvS1ZOUYPg8R++btY5j9hQ48+s4XzZxbEo5uReuQWJ9TCebC0YGyAtaoyxjvC
- GrGQoppEl+Zh/LBnKgu6NA2GhLDBaQQEeKhAJnSW1akENC5WbtQeV7EnZlI+l5/reMaXCW3lccq
- xTQJlIRTdlc4EFhRIA==
-X-Google-Smtp-Source: AGHT+IFbaa0meB3wBm+TDHc5jyul6WCWSeakV99m+tb4BZHPtJ5c4WpsT4IWxy5+wWc8KfJM1qrkAw==
-X-Received: by 2002:a5d:64a3:0:b0:38f:50bd:ad11 with SMTP id
- ffacd0b85a97d-38f50bdadd5mr2178759f8f.5.1739873548145; 
- Tue, 18 Feb 2025 02:12:28 -0800 (PST)
+ AJvYcCWk7v5uFR4aWjxsIKNpnRA+bwagWhk7gskRmA6aEI2C8tI0s1j0ZeDryZp8HzZCz+rthXXgR/xHs3U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzP7c/oy2An2Qwig4aSIfvJLkVJkM+Y1wzqMBRKxaRvxVp8FMj7
+ 1AY5+6Njm58IQn03+5tQZhabVJssdp9atDcGjCL/j7TiWEWaE/LsxMXh+s/j
+X-Gm-Gg: ASbGnctzGVWseaSMNFChRAJ9SZZ1yx7qWE7Nt6PuzUh9i2l4RlEkbn3aH7CyAnXC+rh
+ +bq1lT6SdfDFKfo2rASpVqshqXLz4xtOls9ecqYy/t/Uo5vZ588vAZK5bm32JIGWQYfOQJHAqoO
+ jx8a4M0YWvM1UqomC8i3nTpMNfcfUNEDLIiprjIvWnavhlFMsr4jcF4RF8pqR1qWbrVf/+Jpgcj
+ 097D/Ilu6edvpVCOewG7HKW8cE2D5d1xliUXBgSVXWKxwShZnwmydSjYY1e+IZzSj6a35OU2eTZ
+ ZckypPBw9XRZn5ANcw==
+X-Google-Smtp-Source: AGHT+IG3UBFjjpNjfCkciQmHx67BD5Kxu4AYnE3/HFdgtuwzCgXp79IVB1vN+tAEgJYejdIjkM9LKA==
+X-Received: by 2002:a05:6000:1b02:b0:38f:2bee:e112 with SMTP id
+ ffacd0b85a97d-38f341708a2mr11199986f8f.45.1739873549512; 
+ Tue, 18 Feb 2025 02:12:29 -0800 (PST)
 Received: from fedora.. ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259d5e92sm14749720f8f.66.2025.02.18.02.12.27
+ ffacd0b85a97d-38f259d5e92sm14749720f8f.66.2025.02.18.02.12.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 02:12:27 -0800 (PST)
+ Tue, 18 Feb 2025 02:12:28 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -67,10 +67,9 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v4 07/14] drm/vkms: Add a validation function for VKMS
- configuration
-Date: Tue, 18 Feb 2025 11:12:07 +0100
-Message-ID: <20250218101214.5790-8-jose.exposito89@gmail.com>
+Subject: [PATCH v4 08/14] drm/vkms: Allow to configure multiple planes
+Date: Tue, 18 Feb 2025 11:12:08 +0100
+Message-ID: <20250218101214.5790-9-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250218101214.5790-1-jose.exposito89@gmail.com>
 References: <20250218101214.5790-1-jose.exposito89@gmail.com>
@@ -92,90 +91,591 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Louis Chauvet <louis.chauvet@bootlin.com>
+Add a list of planes to vkms_config and create as many planes as
+configured during output initialization.
 
-As the configuration will be used by userspace, add a validator to avoid
-creating a broken DRM device.
-
-For the moment, the function always returns true, but rules will be
-added in future patches.
+For backwards compatibility, add one primary plane and, if configured,
+one cursor plane and NUM_OVERLAY_PLANES planes to the default
+configuration.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/vkms/tests/vkms_config_test.c |  2 ++
- drivers/gpu/drm/vkms/vkms_config.c            |  6 ++++++
- drivers/gpu/drm/vkms/vkms_config.h            | 10 ++++++++++
- drivers/gpu/drm/vkms/vkms_output.c            |  3 +++
- 4 files changed, 21 insertions(+)
+ .clang-format                                 |   1 +
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c | 161 +++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_config.c            | 127 +++++++++++++-
+ drivers/gpu/drm/vkms/vkms_config.h            |  75 +++++++-
+ drivers/gpu/drm/vkms/vkms_output.c            |  42 ++---
+ 5 files changed, 370 insertions(+), 36 deletions(-)
 
+diff --git a/.clang-format b/.clang-format
+index fe1aa1a30d40..c585d2a5b395 100644
+--- a/.clang-format
++++ b/.clang-format
+@@ -690,6 +690,7 @@ ForEachMacros:
+   - 'v4l2_m2m_for_each_src_buf'
+   - 'v4l2_m2m_for_each_src_buf_safe'
+   - 'virtio_device_for_each_vq'
++  - 'vkms_config_for_each_plane'
+   - 'while_for_each_ftrace_op'
+   - 'xa_for_each'
+   - 'xa_for_each_marked'
 diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-index 92798590051b..6e07139d261c 100644
+index 6e07139d261c..116db01ba8a0 100644
 --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
 +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-@@ -54,6 +54,8 @@ static void vkms_config_test_default_config(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, config->writeback, params->enable_writeback);
- 	KUNIT_EXPECT_EQ(test, config->overlay, params->enable_overlay);
+@@ -6,6 +6,27 @@
  
-+	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+ MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+ 
++static size_t vkms_config_get_num_planes(struct vkms_config *config)
++{
++	struct vkms_config_plane *plane_cfg;
++	size_t count = 0;
++
++	vkms_config_for_each_plane(config, plane_cfg)
++		count++;
++
++	return count;
++}
++
++static struct vkms_config_plane *get_first_plane(struct vkms_config *config)
++{
++	struct vkms_config_plane *plane_cfg;
++
++	vkms_config_for_each_plane(config, plane_cfg)
++		return plane_cfg;
++
++	return NULL;
++}
++
+ struct default_config_case {
+ 	bool enable_cursor;
+ 	bool enable_writeback;
+@@ -24,6 +45,10 @@ static void vkms_config_test_empty_config(struct kunit *test)
+ 	dev_name = NULL;
+ 	KUNIT_EXPECT_STREQ(test, vkms_config_get_device_name(config), "test");
+ 
++	KUNIT_EXPECT_EQ(test, vkms_config_get_num_planes(config), 0);
++
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
 +
  	vkms_config_destroy(config);
  }
  
+@@ -44,16 +69,145 @@ static void vkms_config_test_default_config(struct kunit *test)
+ {
+ 	const struct default_config_case *params = test->param_value;
+ 	struct vkms_config *config;
++	struct vkms_config_plane *plane_cfg;
++	int n_primaries = 0;
++	int n_cursors = 0;
++	int n_overlays = 0;
+ 
+ 	config = vkms_config_default_create(params->enable_cursor,
+ 					    params->enable_writeback,
+ 					    params->enable_overlay);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+ 
+-	KUNIT_EXPECT_EQ(test, config->cursor, params->enable_cursor);
+ 	KUNIT_EXPECT_EQ(test, config->writeback, params->enable_writeback);
+-	KUNIT_EXPECT_EQ(test, config->overlay, params->enable_overlay);
+ 
++	/* Planes */
++	vkms_config_for_each_plane(config, plane_cfg) {
++		switch (vkms_config_plane_get_type(plane_cfg)) {
++		case DRM_PLANE_TYPE_PRIMARY:
++			n_primaries++;
++			break;
++		case DRM_PLANE_TYPE_CURSOR:
++			n_cursors++;
++			break;
++		case DRM_PLANE_TYPE_OVERLAY:
++			n_overlays++;
++			break;
++		default:
++			KUNIT_FAIL_AND_ABORT(test, "Unknown plane type");
++		}
++	}
++	KUNIT_EXPECT_EQ(test, n_primaries, 1);
++	KUNIT_EXPECT_EQ(test, n_cursors, params->enable_cursor ? 1 : 0);
++	KUNIT_EXPECT_EQ(test, n_overlays, params->enable_overlay ? 8 : 0);
++
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	vkms_config_destroy(config);
++}
++
++static void vkms_config_test_get_planes(struct kunit *test)
++{
++	struct vkms_config *config;
++	struct vkms_config_plane *plane_cfg;
++	struct vkms_config_plane *plane_cfg1, *plane_cfg2;
++	int n_planes = 0;
++
++	config = vkms_config_create("test");
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
++
++	vkms_config_for_each_plane(config, plane_cfg)
++		n_planes++;
++	KUNIT_ASSERT_EQ(test, n_planes, 0);
++
++	plane_cfg1 = vkms_config_create_plane(config);
++	vkms_config_for_each_plane(config, plane_cfg) {
++		n_planes++;
++		if (plane_cfg != plane_cfg1)
++			KUNIT_FAIL(test, "Unexpected plane");
++	}
++	KUNIT_ASSERT_EQ(test, n_planes, 1);
++	n_planes = 0;
++
++	plane_cfg2 = vkms_config_create_plane(config);
++	vkms_config_for_each_plane(config, plane_cfg) {
++		n_planes++;
++		if (plane_cfg != plane_cfg1 && plane_cfg != plane_cfg2)
++			KUNIT_FAIL(test, "Unexpected plane");
++	}
++	KUNIT_ASSERT_EQ(test, n_planes, 2);
++	n_planes = 0;
++
++	vkms_config_destroy_plane(plane_cfg1);
++	vkms_config_for_each_plane(config, plane_cfg) {
++		n_planes++;
++		if (plane_cfg != plane_cfg2)
++			KUNIT_FAIL(test, "Unexpected plane");
++	}
++	KUNIT_ASSERT_EQ(test, n_planes, 1);
++
++	vkms_config_destroy(config);
++}
++
++static void vkms_config_test_invalid_plane_number(struct kunit *test)
++{
++	struct vkms_config *config;
++	struct vkms_config_plane *plane_cfg;
++	int n;
++
++	config = vkms_config_default_create(false, false, false);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
++
++	/* Invalid: No planes */
++	plane_cfg = get_first_plane(config);
++	vkms_config_destroy_plane(plane_cfg);
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++
++	/* Invalid: Too many planes */
++	for (n = 0; n <= 32; n++)
++		vkms_config_create_plane(config);
++
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++
++	vkms_config_destroy(config);
++}
++
++static void vkms_config_test_valid_plane_type(struct kunit *test)
++{
++	struct vkms_config *config;
++	struct vkms_config_plane *plane_cfg;
++
++	config = vkms_config_default_create(false, false, false);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
++
++	plane_cfg = get_first_plane(config);
++	vkms_config_destroy_plane(plane_cfg);
++
++	/* Invalid: No primary plane */
++	plane_cfg = vkms_config_create_plane(config);
++	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++
++	/* Invalid: Multiple primary planes */
++	plane_cfg = vkms_config_create_plane(config);
++	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
++	plane_cfg = vkms_config_create_plane(config);
++	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++
++	/* Valid: One primary plane */
++	vkms_config_destroy_plane(plane_cfg);
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	/* Invalid: Multiple cursor planes */
++	plane_cfg = vkms_config_create_plane(config);
++	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
++	plane_cfg = vkms_config_create_plane(config);
++	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++
++	/* Valid: One primary and one cursor plane */
++	vkms_config_destroy_plane(plane_cfg);
+ 	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+ 
+ 	vkms_config_destroy(config);
+@@ -63,6 +217,9 @@ static struct kunit_case vkms_config_test_cases[] = {
+ 	KUNIT_CASE(vkms_config_test_empty_config),
+ 	KUNIT_CASE_PARAM(vkms_config_test_default_config,
+ 			 default_config_gen_params),
++	KUNIT_CASE(vkms_config_test_get_planes),
++	KUNIT_CASE(vkms_config_test_invalid_plane_number),
++	KUNIT_CASE(vkms_config_test_valid_plane_type),
+ 	{}
+ };
+ 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 9fb08d94a351..d1947537834c 100644
+index d1947537834c..3c3f5cf79058 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.c
 +++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -51,6 +51,12 @@ void vkms_config_destroy(struct vkms_config *config)
+@@ -22,6 +22,8 @@ struct vkms_config *vkms_config_create(const char *dev_name)
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
++	INIT_LIST_HEAD(&config->planes);
++
+ 	return config;
+ }
+ EXPORT_SYMBOL_IF_KUNIT(vkms_config_create);
+@@ -31,28 +33,116 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
+ 					       bool enable_overlay)
+ {
+ 	struct vkms_config *config;
++	struct vkms_config_plane *plane_cfg;
++	int n;
+ 
+ 	config = vkms_config_create(DEFAULT_DEVICE_NAME);
+ 	if (IS_ERR(config))
+ 		return config;
+ 
+-	config->cursor = enable_cursor;
+ 	config->writeback = enable_writeback;
+-	config->overlay = enable_overlay;
++
++	plane_cfg = vkms_config_create_plane(config);
++	if (IS_ERR(plane_cfg))
++		goto err_alloc;
++	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
++
++	if (enable_overlay) {
++		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
++			plane_cfg = vkms_config_create_plane(config);
++			if (IS_ERR(plane_cfg))
++				goto err_alloc;
++			vkms_config_plane_set_type(plane_cfg,
++						   DRM_PLANE_TYPE_OVERLAY);
++		}
++	}
++
++	if (enable_cursor) {
++		plane_cfg = vkms_config_create_plane(config);
++		if (IS_ERR(plane_cfg))
++			goto err_alloc;
++		vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
++	}
+ 
+ 	return config;
++
++err_alloc:
++	vkms_config_destroy(config);
++	return ERR_PTR(-ENOMEM);
+ }
+ EXPORT_SYMBOL_IF_KUNIT(vkms_config_default_create);
+ 
+ void vkms_config_destroy(struct vkms_config *config)
+ {
++	struct vkms_config_plane *plane_cfg, *plane_tmp;
++
++	list_for_each_entry_safe(plane_cfg, plane_tmp, &config->planes, link)
++		vkms_config_destroy_plane(plane_cfg);
++
+ 	kfree_const(config->dev_name);
+ 	kfree(config);
  }
  EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy);
  
-+bool vkms_config_is_valid(const struct vkms_config *config)
++static bool valid_plane_number(const struct vkms_config *config)
 +{
++	struct drm_device *dev = config->dev ? &config->dev->drm : NULL;
++	size_t n_planes;
++
++	n_planes = list_count_nodes((struct list_head *)&config->planes);
++	if (n_planes <= 0 || n_planes >= 32) {
++		drm_info(dev, "The number of planes must be between 1 and 31\n");
++		return false;
++	}
++
 +	return true;
 +}
-+EXPORT_SYMBOL_IF_KUNIT(vkms_config_is_valid);
 +
- static int vkms_config_show(struct seq_file *m, void *data)
++static bool valid_plane_type(const struct vkms_config *config)
++{
++	struct drm_device *dev = config->dev ? &config->dev->drm : NULL;
++	struct vkms_config_plane *plane_cfg;
++	bool has_primary_plane = false;
++	bool has_cursor_plane = false;
++
++	vkms_config_for_each_plane(config, plane_cfg) {
++		enum drm_plane_type type;
++
++		type = vkms_config_plane_get_type(plane_cfg);
++
++		if (type == DRM_PLANE_TYPE_PRIMARY) {
++			if (has_primary_plane) {
++				drm_info(dev, "Multiple primary planes\n");
++				return false;
++			}
++
++			has_primary_plane = true;
++		} else if (type == DRM_PLANE_TYPE_CURSOR) {
++			if (has_cursor_plane) {
++				drm_info(dev, "Multiple cursor planes\n");
++				return false;
++			}
++
++			has_cursor_plane = true;
++		}
++	}
++
++	if (!has_primary_plane) {
++		drm_info(dev, "Primary plane not found\n");
++		return false;
++	}
++
++	return true;
++}
++
+ bool vkms_config_is_valid(const struct vkms_config *config)
  {
- 	struct drm_debugfs_entry *entry = m->private;
++	if (!valid_plane_number(config))
++		return false;
++
++	if (!valid_plane_type(config))
++		return false;
++
+ 	return true;
+ }
+ EXPORT_SYMBOL_IF_KUNIT(vkms_config_is_valid);
+@@ -63,12 +153,17 @@ static int vkms_config_show(struct seq_file *m, void *data)
+ 	struct drm_device *dev = entry->dev;
+ 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+ 	const char *dev_name;
++	struct vkms_config_plane *plane_cfg;
+ 
+ 	dev_name = vkms_config_get_device_name((struct vkms_config *)vkmsdev->config);
+ 	seq_printf(m, "dev_name=%s\n", dev_name);
+ 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+-	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+-	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
++
++	vkms_config_for_each_plane(vkmsdev->config, plane_cfg) {
++		seq_puts(m, "plane:\n");
++		seq_printf(m, "\ttype=%d\n",
++			   vkms_config_plane_get_type(plane_cfg));
++	}
+ 
+ 	return 0;
+ }
+@@ -82,3 +177,27 @@ void vkms_config_register_debugfs(struct vkms_device *vkms_device)
+ 	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
+ 			      ARRAY_SIZE(vkms_config_debugfs_list));
+ }
++
++struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
++{
++	struct vkms_config_plane *plane_cfg;
++
++	plane_cfg = kzalloc(sizeof(*plane_cfg), GFP_KERNEL);
++	if (!plane_cfg)
++		return ERR_PTR(-ENOMEM);
++
++	plane_cfg->config = config;
++	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
++
++	list_add_tail(&plane_cfg->link, &config->planes);
++
++	return plane_cfg;
++}
++EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_plane);
++
++void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg)
++{
++	list_del(&plane_cfg->link);
++	kfree(plane_cfg);
++}
++EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_plane);
 diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index fcaa909fb2e0..31c758631c37 100644
+index 31c758631c37..613e98760640 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.h
 +++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -67,6 +67,16 @@ vkms_config_get_device_name(struct vkms_config *config)
- 	return config->dev_name;
- }
+@@ -3,6 +3,7 @@
+ #ifndef _VKMS_CONFIG_H_
+ #define _VKMS_CONFIG_H_
+ 
++#include <linux/list.h>
+ #include <linux/types.h>
+ 
+ #include "vkms_drv.h"
+@@ -12,18 +13,46 @@
+  *
+  * @dev_name: Name of the device
+  * @writeback: If true, a writeback buffer can be attached to the CRTC
+- * @cursor: If true, a cursor plane is created in the VKMS device
+- * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
++ * @planes: List of planes configured for the device
+  * @dev: Used to store the current VKMS device. Only set when the device is instantiated.
+  */
+ struct vkms_config {
+ 	const char *dev_name;
+ 	bool writeback;
+-	bool cursor;
+-	bool overlay;
++	struct list_head planes;
+ 	struct vkms_device *dev;
+ };
  
 +/**
-+ * vkms_config_is_valid() - Validate a configuration
-+ * @config: Configuration to validate
++ * struct vkms_config_plane
 + *
-+ * Returns:
-+ * Whether the configuration is valid or not.
-+ * For example, a configuration without primary planes is not valid.
++ * @link: Link to the others planes in vkms_config
++ * @config: The vkms_config this plane belongs to
++ * @type: Type of the plane. The creator of configuration needs to ensures that
++ *        at least one primary plane is present.
++ * @plane: Internal usage. This pointer should never be considered as valid.
++ *         It can be used to store a temporary reference to a VKMS plane during
++ *         device creation. This pointer is not managed by the configuration and
++ *         must be managed by other means.
 + */
-+bool vkms_config_is_valid(const struct vkms_config *config);
++struct vkms_config_plane {
++	struct list_head link;
++	struct vkms_config *config;
++
++	enum drm_plane_type type;
++
++	/* Internal usage */
++	struct vkms_plane *plane;
++};
++
++/**
++ * vkms_config_for_each_plane - Iterate over the vkms_config planes
++ * @config: &struct vkms_config pointer
++ * @plane_cfg: &struct vkms_config_plane pointer used as cursor
++ */
++#define vkms_config_for_each_plane(config, plane_cfg) \
++	list_for_each_entry((plane_cfg), &(config)->planes, link)
 +
  /**
-  * vkms_config_register_debugfs() - Register a debugfs file to show the device's
-  * configuration
+  * vkms_config_create() - Create a new VKMS configuration
+  * @dev_name: Name of the device
+@@ -84,4 +113,42 @@ bool vkms_config_is_valid(const struct vkms_config *config);
+  */
+ void vkms_config_register_debugfs(struct vkms_device *vkms_device);
+ 
++/**
++ * vkms_config_create_plane() - Add a new plane configuration
++ * @config: Configuration to add the plane to
++ *
++ * Returns:
++ * The new plane configuration or an error. Call vkms_config_destroy_plane() to
++ * free the returned plane configuration.
++ */
++struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config);
++
++/**
++ * vkms_config_destroy_plane() - Remove and free a plane configuration
++ * @plane_cfg: Plane configuration to destroy
++ */
++void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg);
++
++/**
++ * vkms_config_plane_type() - Return the plane type
++ * @plane_cfg: Plane to get the type from
++ */
++static inline enum drm_plane_type
++vkms_config_plane_get_type(struct vkms_config_plane *plane_cfg)
++{
++	return plane_cfg->type;
++}
++
++/**
++ * vkms_config_plane_set_type() - Set the plane type
++ * @plane_cfg: Plane to set the type to
++ * @type: New plane type
++ */
++static inline void
++vkms_config_plane_set_type(struct vkms_config_plane *plane_cfg,
++			   enum drm_plane_type type)
++{
++	plane_cfg->type = type;
++}
++
+ #endif /* _VKMS_CONFIG_H_ */
 diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 068a7f87ecec..414cc933af41 100644
+index 414cc933af41..08ea691db299 100644
 --- a/drivers/gpu/drm/vkms/vkms_output.c
 +++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -16,6 +16,9 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+@@ -11,28 +11,29 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 	struct vkms_connector *connector;
+ 	struct drm_encoder *encoder;
+ 	struct vkms_output *output;
+-	struct vkms_plane *primary, *overlay, *cursor = NULL;
++	struct vkms_plane *primary = NULL, *cursor = NULL;
++	struct vkms_config_plane *plane_cfg;
+ 	int ret;
  	int writeback;
- 	unsigned int n;
+-	unsigned int n;
  
-+	if (!vkms_config_is_valid(vkmsdev->config))
-+		return -EINVAL;
+ 	if (!vkms_config_is_valid(vkmsdev->config))
+ 		return -EINVAL;
+ 
+-	/*
+-	 * Initialize used plane. One primary plane is required to perform the composition.
+-	 *
+-	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
+-	 * composition.
+-	 */
+-	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
+-	if (IS_ERR(primary))
+-		return PTR_ERR(primary);
++	vkms_config_for_each_plane(vkmsdev->config, plane_cfg) {
++		enum drm_plane_type type;
+ 
+-	if (vkmsdev->config->cursor) {
+-		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
+-		if (IS_ERR(cursor))
+-			return PTR_ERR(cursor);
++		type = vkms_config_plane_get_type(plane_cfg);
 +
- 	/*
- 	 * Initialize used plane. One primary plane is required to perform the composition.
- 	 *
++		plane_cfg->plane = vkms_plane_init(vkmsdev, type);
++		if (IS_ERR(plane_cfg->plane)) {
++			DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
++			return PTR_ERR(plane_cfg->plane);
++		}
++
++		if (type == DRM_PLANE_TYPE_PRIMARY)
++			primary = plane_cfg->plane;
++		else if (type == DRM_PLANE_TYPE_CURSOR)
++			cursor = plane_cfg->plane;
+ 	}
+ 
+ 	output = vkms_crtc_init(dev, &primary->base,
+@@ -42,17 +43,6 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 		return PTR_ERR(output);
+ 	}
+ 
+-	if (vkmsdev->config->overlay) {
+-		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
+-			overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY);
+-			if (IS_ERR(overlay)) {
+-				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
+-				return PTR_ERR(overlay);
+-			}
+-			overlay->base.possible_crtcs = drm_crtc_mask(&output->crtc);
+-		}
+-	}
+-
+ 	connector = vkms_connector_init(vkmsdev);
+ 	if (IS_ERR(connector)) {
+ 		DRM_ERROR("Failed to init connector\n");
 -- 
 2.48.1
 
