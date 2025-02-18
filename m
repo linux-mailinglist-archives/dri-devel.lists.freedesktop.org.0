@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278FDA3A3A5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 18:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D625A3A3A0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 18:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3ECB10E45F;
-	Tue, 18 Feb 2025 17:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B735310E117;
+	Tue, 18 Feb 2025 17:08:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OUYmp//T";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mcN/rXSn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAE7D10E117
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 17:08:31 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-43948f77f1aso37668155e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 09:08:31 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE6F10E117
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 17:08:32 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4393dc02b78so38958175e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 09:08:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739898510; x=1740503310; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1739898511; x=1740503311; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HlEG/chzPR/lrdsujZEdOLY/tag0kKNloUyKVadlYPE=;
- b=OUYmp//TbdJ7iEfXegOqLnsLW6i5kdqdzp7ha9mxtVIQrbU16AOvns4uZuo5R51i74
- EkekCj1luW+jdOH1/fdnKohZsY97z0EY+GiNE/ymAAJfPXMNzqXH/ZDJ+fo4hBIcR8++
- /Vcp5JmJ+VMR+Ai9awFSjAVSsSTtw1jNjaraW5mkO+P+nd3epii8u6S6MLubXNNZfdpf
- gv2IeTFuaIQRG86FPUn6T5xScdnXktfNzMuZIdfxn1MN0O/l9lIlcoGk6IMP2nAhDJ3x
- Xo6kvXP58o5Y4XJEQixNWZTqDD3PuL1CLC+HJfY49/oK36DjY2azPsVpookw39BoiFFZ
- 4ouA==
+ bh=46U11AO6xb80BamoNjm5kPpbkH0qTV1KcPGiHji9h2E=;
+ b=mcN/rXSnlrGwTuJbLMURTBVLrMJdWW981t6o92DPLSwwCsR6b3r3B/K+FxsUPdavo1
+ bHTShPjryaCgtM4GfFlPybzZ6LaQU3QjfN8Ujniy5AnAhLPdRzflmdu8h7sfC+IoSTDe
+ vvdhcug709g57wVIPhiL9b0HAqqge7K16ElMRwiZ5/7Iwecjthe5KdDKxOJwlEAab2XB
+ VgUBpm9fiNaexcM58hfz4AERa63YADaZviR6+wZp828l8haAONawg1W073kKKRe1NlqG
+ zvbdybiNMuxNhXZ0xXExHt+pKeHiXv5lkWWNm66dkkIeIX49oyF4Ho5+d7JH7GlOHmOP
+ WMTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739898510; x=1740503310;
+ d=1e100.net; s=20230601; t=1739898511; x=1740503311;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HlEG/chzPR/lrdsujZEdOLY/tag0kKNloUyKVadlYPE=;
- b=RCkV1tqoGJ4Wph1lre6tyOcUqbfi+tVkqCvI1qnec41On3ctqjDTVyCsW3gpu2hEAJ
- b4eiJqGCsP6kLg6eAZcJvSKfaOwjOtah3y2bhmhJ3HqWmEVy3y3+fWZ70KU3nqiHUTaE
- ZorppC8TgGRSqG/6X3ARaRYUGptWppDkF4O2cvUQsZURAw4ukTx7wTeTGtceAY484YnZ
- Qfx0bUImFvDsG1A8Ux4dWgBgzq8i5TkHHAaQ8moau6bpI6ITJpNsEh2RTPE2ADx17KJa
- CXgjWOMdGKhXRiWmmOJCX7LZ0IsUBGUPUZ5e0TKSiL2p7rAFijYcI0AEh/fh+SElITQa
- 9Wjg==
+ bh=46U11AO6xb80BamoNjm5kPpbkH0qTV1KcPGiHji9h2E=;
+ b=N9pmaTohMq6LgnGtAexotTfofBwo/LxyKBn1UkV7BYqdWb9r/hnC9PbiD921nBoLzs
+ lHqFG/VjCDdXsvby/wtxz4jII3PHuRx72Tabt1ppnWSfovu8fpZuDI7yAR9/dkrUkkHU
+ iokImQEDe6vIVdHmdZoNqfkvpp5owtcQPW85yC7ID2J1dUMlKewx8V6pqb316bUL0Tg1
+ TgPu3uduhbU5M6jXXC9s5vQsC49GAEtJ5U0tTDhjq1lHk6R2a2PoOx9NSlS6fZxy87NN
+ 190evahWItf/JWYyKSo/sYuw7ycJl5PsFB4g22nYD2C+g3z7qvv7f0YCUt/BpjcdOEP2
+ sm8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRLP7+l1O9g3AnBFJAh/0i34Ck9aRpK2beC6U2e+3v/Bohl2pstBW1mKUbrqIPOGjNrA4LwXGrJcg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOvCaJTvYOpNa8fgfTOtVs308jfwTKCpOTdfPx/68Jwx23J84K
- dh4q8QskwtW7IBceUEEhm0fpZN0k8KvAU0slPBIKiWoPLXQvHGov
-X-Gm-Gg: ASbGncv65NQ4++CPnwWNRl459ksSzqwNEnh0Ow1VVosi+8na9wUmpXS6o5mHKz+2Jf+
- udETD6PX2gyKfw1BI6jMJbrx3tsG9oFyAlBK5biQna+syHxplg4snw0dbhOnwmeaQN96aHLx1vz
- y2Ku5dTSLNJcOGweO6HIpHn8M7zm7pUY68Qz5iAY8KTdUqzoNIDUb7y+EL4H1WMFf/670dKCUNw
- EP1+OLrI3oZVX2SPfFyqWaxNRHX6IU9Fyv1OmrntVwd23XfH+odjLUrKdNLtAuxgkP/JkILfh9x
- f0cWjOI+So8y98SLWw==
-X-Google-Smtp-Source: AGHT+IHJmx9NR3wfEj00ecrWtmWoVJ6ofaJLqeLW5MRWaQuX9F66y4B2x+CLpKatjE9UzUn3+3O1BQ==
-X-Received: by 2002:a05:600c:1c86:b0:439:9863:e876 with SMTP id
- 5b1f17b1804b1-4399863e985mr13677105e9.24.1739898510369; 
- Tue, 18 Feb 2025 09:08:30 -0800 (PST)
+ AJvYcCXxJ2ZvFZU/RfcGEOofREYOIJbWjb6xPXlp1OzDtVjW2MEdHNE5fusalNVJe8HbxPMHy0mQNeRN6BE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1qXymxR0vvL0oadRtpssoYgL+H/8pkqFhmyKbvVBLJ0aPctsj
+ Zl+Cb9q9N1ImAeF+1QQKI9dTdDu7JWGV/qCeGCv9zC/foGwxGlcB
+X-Gm-Gg: ASbGncteSqwvcDkznpy1YnRXR61nVywDj48k7NsShoVbihyh3JnMX4r+QqasUu9X6AE
+ hkFsUDaPZmMpoHz2RUzn5kVDgrWmn+Mq6SCYZ648hM64j4q4f2jgA1BuQIZMXpWT+TNxOaz0kYZ
+ ijnrYspcpRj+wg5G0/zJdd9RJf+UWpmfetwDFSEgIzxqi3AMabPcem8Xma5nFGAIO3Q9hPeZfhp
+ SG0fB/DCr9lXwqOseCnl0YnzrKHGHhRw/XRIlX5BPLbI1gw9qVESkOvseynZJ6zbGqgxZqCq/hA
+ uQU5KV6+PUdye4Ffwg==
+X-Google-Smtp-Source: AGHT+IFj0qB2qfVbC3n33K9GAWHWIFhdo1khdlRmgJtnZwIcOGa13vHbilTat8DaM/+qL3Ncs9+1aw==
+X-Received: by 2002:a05:600c:3107:b0:439:9828:c447 with SMTP id
+ 5b1f17b1804b1-4399828c60emr17222845e9.17.1739898511415; 
+ Tue, 18 Feb 2025 09:08:31 -0800 (PST)
 Received: from fedora.. ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439941bd54bsm24680135e9.11.2025.02.18.09.08.29
+ 5b1f17b1804b1-439941bd54bsm24680135e9.11.2025.02.18.09.08.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 09:08:29 -0800 (PST)
+ Tue, 18 Feb 2025 09:08:31 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -67,10 +67,9 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 14/16] drm/vkms: Allow to configure connector status via
- configfs
-Date: Tue, 18 Feb 2025 18:08:06 +0100
-Message-ID: <20250218170808.9507-15-jose.exposito89@gmail.com>
+Subject: [PATCH 15/16] drm/vkms: Allow to configure the default device creation
+Date: Tue, 18 Feb 2025 18:08:07 +0100
+Message-ID: <20250218170808.9507-16-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250218170808.9507-1-jose.exposito89@gmail.com>
 References: <20250218170808.9507-1-jose.exposito89@gmail.com>
@@ -92,145 +91,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a connector is created, add a `status` file to allow to update the
-connector status to:
-
- - 1 connector_status_connected
- - 2 connector_status_disconnected
- - 3 connector_status_unknown
-
-If the device is enabled, updating the status hot-plug or unplugs the
-connector.
+Add a new module param to allow to create or not the default VKMS
+instance. Useful when combined with configfs to avoid having additional
+VKMS instances.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- Documentation/gpu/vkms.rst            |  4 +++
- drivers/gpu/drm/vkms/vkms_configfs.c  | 51 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_connector.c |  7 ++++
- drivers/gpu/drm/vkms/vkms_connector.h |  6 ++++
- 4 files changed, 68 insertions(+)
+ drivers/gpu/drm/vkms/vkms_drv.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 0212e99e12dd..3068879ce1fc 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -107,6 +107,10 @@ Last but not least, create one or more connectors::
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 5bcfbcb6c0c5..b4ed19c97576 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -50,6 +50,10 @@ static bool enable_overlay;
+ module_param_named(enable_overlay, enable_overlay, bool, 0444);
+ MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
  
-   sudo mkdir /config/vkms/my-vkms/connectors/connector0
++static bool create_default_dev = true;
++module_param_named(create_default_dev, create_default_dev, bool, 0444);
++MODULE_PARM_DESC(create_default_dev, "Create or not the default VKMS device");
++
+ DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
  
-+Connectors have 1 configurable attribute:
-+
-+- status: Connection status: 1 connected, 2 disconnected, 3 unknown
-+
- To finish the configuration, link the different pipeline items::
+ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+@@ -219,6 +223,9 @@ static int __init vkms_init(void)
+ 	if (ret)
+ 		return ret;
  
-   sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/planes/plane0/possible_crtcs
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 9036d9983078..f0813536be12 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -6,6 +6,7 @@
- #include "vkms_drv.h"
- #include "vkms_config.h"
- #include "vkms_configfs.h"
-+#include "vkms_connector.h"
- 
- /* To avoid registering configfs more than once or unregistering on error */
- static bool is_configfs_registered;
-@@ -567,6 +568,55 @@ static const struct config_item_type encoder_group_type = {
- 	.ct_owner	= THIS_MODULE,
- };
- 
-+static ssize_t connector_status_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	enum drm_connector_status status;
++	if (!create_default_dev)
++		return 0;
 +
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	mutex_lock(&connector->dev->lock);
-+	status = vkms_config_connector_get_status(connector->config);
-+	mutex_unlock(&connector->dev->lock);
-+
-+	return sprintf(page, "%u", status);
-+}
-+
-+static ssize_t connector_status_store(struct config_item *item,
-+				      const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	enum drm_connector_status status;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	if (kstrtouint(page, 10, &status))
-+		return -EINVAL;
-+
-+	if (status != connector_status_connected &&
-+	    status != connector_status_disconnected &&
-+	    status != connector_status_unknown)
-+		return -EINVAL;
-+
-+	mutex_lock(&connector->dev->lock);
-+
-+	vkms_config_connector_set_status(connector->config, status);
-+
-+	if (connector->dev->enabled)
-+		vkms_trigger_connector_hotplug(connector->dev->config->dev);
-+
-+	mutex_unlock(&connector->dev->lock);
-+
-+	return (ssize_t)count;
-+}
-+
-+CONFIGFS_ATTR(connector_, status);
-+
-+static struct configfs_attribute *connector_item_attrs[] = {
-+	&connector_attr_status,
-+	NULL,
-+};
-+
- static void connector_release(struct config_item *item)
- {
- 	struct vkms_configfs_connector *connector;
-@@ -586,6 +636,7 @@ static struct configfs_item_operations connector_item_operations = {
- };
- 
- static const struct config_item_type connector_item_type = {
-+	.ct_attrs	= connector_item_attrs,
- 	.ct_item_ops	= &connector_item_operations,
- 	.ct_owner	= THIS_MODULE,
- };
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-index b03a00b5803a..ed99270c590f 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.c
-+++ b/drivers/gpu/drm/vkms/vkms_connector.c
-@@ -76,3 +76,10 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
- 
- 	return connector;
- }
-+
-+void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev)
-+{
-+	struct drm_device *dev = &vkmsdev->drm;
-+
-+	drm_kms_helper_hotplug_event(dev);
-+}
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
-index 5ab8a6d65182..7865f54a313c 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.h
-+++ b/drivers/gpu/drm/vkms/vkms_connector.h
-@@ -33,4 +33,10 @@ struct vkms_connector {
- struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
- 					   struct vkms_config_connector *connector_cfg);
- 
-+/**
-+ * struct vkms_device *vkmsdev() - Update the device's connectors status
-+ * @vkmsdev: VKMS device to update
-+ */
-+void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev);
-+
- #endif /* _VKMS_CONNECTOR_H_ */
+ 	config = vkms_config_default_create(enable_cursor, enable_writeback, enable_overlay);
+ 	if (IS_ERR(config))
+ 		return PTR_ERR(config);
 -- 
 2.48.1
 
