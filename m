@@ -2,94 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF79A39BDE
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 13:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA79A39BFE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 13:18:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0B7010E2BA;
-	Tue, 18 Feb 2025 12:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 295A710E69A;
+	Tue, 18 Feb 2025 12:18:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="t6UWJqrF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nDmQUedW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6153B10E2BA
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 12:14:48 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-30918c29da2so44321981fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 04:14:48 -0800 (PST)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A22410E69A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 12:18:39 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2f2f5e91393so1211872a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 04:18:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739880886; x=1740485686; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LAbvVw7Ic6dqBTqHKxGeWC/7bVyNwl4nKrDf3x382TY=;
- b=t6UWJqrFnuZrnugWSBq0UotHukvx5ZlpbSlqbQY4XTcuUgdqf4RafvkBwqwdSeGF6x
- sP0Om6dITtWKa4gZQTbKUw3cBH/+uSaTyhdw3F9qQ9HXN+fWp57yePQ9qZZnbbFHZulg
- jBrhvkqIybH6Vd3wBCxlWBJ6gLpxrsLMVnP8+3AwbC3l58VJ4f2TCL7TnMm5PB7hyCD1
- FN63IAwl72C7N/jtS4WU4vFeq9K7Z4wGMTdNv0M0fzGhJeGIQ7VkeWk3g64Iu1vGmhGf
- kCXLngckK+EUak9L+IWuSdFbKlApHle3mOzt1jlBntEIfhX2D3vOtzuuTVIXjXak5oHf
- 0pzA==
+ d=gmail.com; s=20230601; t=1739881119; x=1740485919; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rcOf/+mAe7HjVKdjr7yO9VSKEbj6DVv1uV/KGTc/++g=;
+ b=nDmQUedWSVO7eLHnQxxHhaz7QG+45XGcaoHAyDx6eLgkUM+BM6atHHseLtik0wQwb7
+ P1calOlkRgGmIUJhZq47DwZj8+QA2ZguL/hGYUU/RedGmPQvffkDI7vC5OUg3FVWdLwE
+ 8FutDWILZigqDuC5g2PKe48I5AuUm6HdZUcAhd5HBEf1W+2osed0ROwUfLHWkFVv9nEU
+ 9nnXXaNEPIG+IahkJR2CHm3/fcy8GniEpllfWsUQPSc/edjoUQBUyCZAHtngxg1ik5fW
+ Rhw2HYfPAMOOXFcqbmHy3CBsZrWkrE3HFpBrJ329Ay6yPL5KW5KLf5RI4cOdDLBY0mSG
+ HB+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739880886; x=1740485686;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LAbvVw7Ic6dqBTqHKxGeWC/7bVyNwl4nKrDf3x382TY=;
- b=LhRSOCasM0tRoMbVlOx9egk70ysrfcQK+bKL960JBwGQQ8cckBELaYYLoG1kbe8T0c
- xakpDVZTBVRfYyiZBDbU8i8MUde6rQnTT8L3K/1i9soB3I0pG7oT4Bb4Gej5dRuhyc5b
- wlSP2I4hAHMDUlZvuXCI9BZFxdn8bR7cSm8lEUfdL1hHdCQn54GWjy7sROTPVfDOXZLx
- cyjyRZoLeuZAdZZ8J/q/GJ7JMZTW4ezoMlVJP4LoBn/RT5fVVcXnJirac5U5D6wK06k0
- 45ECeHleWmke8crNJ7wU+ccv7ZUiwTznWevfmMGjlAqoBqbSYhUleMiMAep/DS8apq5z
- pnDw==
+ d=1e100.net; s=20230601; t=1739881119; x=1740485919;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rcOf/+mAe7HjVKdjr7yO9VSKEbj6DVv1uV/KGTc/++g=;
+ b=aXd8095xRc3RrZ8NrCBAmCk8l5gGldHtnoCqdrPvzXp6LNs/tO3MKvmwvpCcU1ow20
+ P+Cm3OHBNq6RLLKOnHLIJZXuu9QIo/Uo+5YP9BnnkSz4OlIsv6JsMNY2Wlip8zpZi5Iz
+ Dd7HJWWgVQPjfsWNHpc5lHlwVKlDzRNpsZIZSnY3P0qLLbzR3rv4UGN7YoQeR2l7gVER
+ i8Zp3N3AjpafWscp85FAcSTeXLOozh1wLojh+qntCzPLO0+YsRa8ylJquEzK1qRmaE41
+ H+CYOiJerzcw6uH/98mDKizj/u4jSLHNnQg5u3nmi1ascnW3a6ZArm7RApbY17kthHj1
+ QDpQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWgrfrvlek0/VUrs7RDZiW5+5AWPp945wVodA1t1ziUQSbwd+dCDygqVnPzYWE4k1drdmm3rk1JEFw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlApRrzvOqwImt0/VGJY4+KG1zlHOngZ4ub1eKGZfMwFZaPayY
- 2EN/nxLLBNDlPTY7xok1lNe7JUHjbkJht2ALP/jAAwN4VZ0usB5hl3DN12dk/b0=
-X-Gm-Gg: ASbGnct3R/AsVXB2aWqUH39d0SouhSMfOwuiC05oF4G/vhrdLczSG6axCLNQUPZ3u0R
- Lp/xyyAT4Ps1EVjdRudyOkKHYhWE8aQbkpUU6uS0Qs56hhAyil4mnrKJf5Ye9F+/DbxxRP7uofW
- +whLj3SLrtF0YWPRdedXhTh5rC2p1hAfb/TaG0qN5z9BMgqiGEhGgaL7KEI9zhyLvUgjPN/Ooz2
- adfxgMBSQhG/a3nkETel0+9vUErdUQY8BBvY0MUBEsE/bSs9fu3xtKOXiDNorEieo63LMMN0qRu
- FtSQJM0guxKxpt/pKVUMIR/nEW5rrmG8P9YJo7/2H7VCZE9wJRWDTdG6r/lVwDdUyshVBJI=
-X-Google-Smtp-Source: AGHT+IF6AAq0z6X4U1x73BkyxvJFRwy8V69OthYTxy/w5cJfeaIMCbsxrPSvj127AN4NZvNVoTBUaw==
-X-Received: by 2002:a2e:95d7:0:b0:307:46f3:4e92 with SMTP id
- 38308e7fff4ca-30927b128d4mr41674151fa.32.1739880886356; 
- Tue, 18 Feb 2025 04:14:46 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30a303a659fsm7266191fa.106.2025.02.18.04.14.44
+ AJvYcCVL7fv34w6r9SfEuThhO8BQe7yFyM0s4qJAuPk7R7oPNGkK89g18oP5U4nEikM/4CpaJ1u65wSZ1sg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUF1rQtBzz4UOWKHUjMNFvSLgaI5yjbIT9ls22rG3LeJpbU8vU
+ U7T2ZpQhQRKgsCHMqJp8SnlYWJBvH2PZJ5bKssJBuuG+Mo+HGuEF
+X-Gm-Gg: ASbGncsbhFh5u/NOJ8Wl6P9vp4tFS6fJV4n0V4/fmUGl/h9dpB5Lxp2rQe5wGw6QLli
+ vNdPC25BqxHRTmePG7UwvE3p8s/fH3zgZu0evsDTJ0K0vNpvSIMtY8BctEcZlzfl0syCDwEOL6o
+ a90G0iDcxe+odvcxbDCT+sjgXpN/JrX1JOmLFVsjNJFjj/Y/6gs6/vZ2uTeWEI2pKNF4+wxdAOE
+ 5HwUlkZ8GnChdtB8TYyhJOuzhb8ijHgk0yDEDwUfJV8zNhy1V0I71zwyWi8c/0meeQ6gkXzfYRE
+ 5+wPOpy79gP6mHktUf4p
+X-Google-Smtp-Source: AGHT+IHPsPfeZPNuDFA8wzs+mlVOqsQ83YHZnd3qlJa4+vQqXKKzygw1wD0+aOsxjfqbOZCURGWEyg==
+X-Received: by 2002:a17:90b:2250:b0:2fc:1370:9c2f with SMTP id
+ 98e67ed59e1d1-2fc4103cd0dmr8326098a91.4.1739881118858; 
+ Tue, 18 Feb 2025 04:18:38 -0800 (PST)
+Received: from rock-5b.. ([221.220.131.19]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2fc13ac19aesm9896535a91.17.2025.02.18.04.18.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 04:14:45 -0800 (PST)
-Date: Tue, 18 Feb 2025 14:14:43 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Doug Anderson <dianders@chromium.org>, 
- Anusha Srivatsa <asrivats@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>,
- Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Jianhua Lu <lujianhua000@gmail.com>, 
- Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
-Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
- variants when available
-Message-ID: <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
-References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
- <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
- <20250218-fabulous-agile-corgi-9a5ee0@houat>
+ Tue, 18 Feb 2025 04:18:38 -0800 (PST)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: heiko@sntech.de
+Cc: airlied@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org,
+ cristian.ciocaltea@collabora.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com, kernel@collabora.com,
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ liujianfeng1994@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robh@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
+Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
+ to VOP2 on RK3588
+Date: Tue, 18 Feb 2025 20:17:46 +0800
+Message-ID: <20250218121749.1382322-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <1919367.CQOukoFCf9@diego>
+References: <1919367.CQOukoFCf9@diego>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250218-fabulous-agile-corgi-9a5ee0@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,81 +94,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 18, 2025 at 10:55:49AM +0100, Maxime Ripard wrote:
-> On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
-> > Hi,
-> > 
-> > On Thu, Feb 13, 2025 at 12:44 PM Anusha Srivatsa <asrivats@redhat.com> wrote:
-> > >
-> > > A lot of mipi API are deprecated and have a _multi() variant
-> > > which is the preferred way forward. This covers  TODO in the
-> > > gpu Documentation:[1]
-> > >
-> > > An incomplete effort was made in the previous version
-> > > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
-> > > and mipi_dsi_generic_write_seq_multi() with the respective
-> > > replacemts and not the rest of the API.
-> > 
-> > You didn't seem to take most of the suggestions I gave in response to
-> > your v1 [3]. Specifically:
-> > 
-> > a) I asked that you CC Tejas. I've added him again.
-> > 
-> > b) I asked that you CC me on the whole patch series, which you didn't
-> > do. I can find them, but I'd find it convenient in this case for them
-> > to be in my Inbox.
-> > 
-> > The first patch conflicts with what Tejas already landed in
-> > drm-misc-next. See commit 8025f23728e9 ("drm/panel:
-> > xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
-> > second patch _also_ conflicts with what Tejas already landed. See
-> > commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
-> > mipi_dsi wrapped functions"). Later patches also also conflict. See
-> > commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
-> > wrapped functions"), commit ce8c69ec90ca ("drm/panel:
-> > samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
-> > functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
-> > transition to mipi_dsi wrapped functions"). Maybe you should sync up
-> > with drm-misc-next before submitting.
-> 
-> Yes, you should definitely work from drm-misc-next there, and sync with
-> Tejas.
-> 
-> > I also questioned whether this really made sense to try to do with a
-> > Coccinelle script and I still don't think so. It looks like Dmitry has
-> > already reviewed the first few of your patches and has repeated my
-> > advice. If you want to help with the effort of addressing this TODO
-> > item then that's great, but I'll stop reviewing (and start silently
-> > deleting) any future submissions of yours that say that they're done
-> > entirely with a Coccinelle script unless you address this point and
-> > convince me that your Coccinelle script is really smart enough to
-> > handle all the corner cases. I'll also assert that you should review
-> > Tejas's submissions to see how these conversions are expected to go.
-> 
-> I couldn't find that in your first answer though. What corner cases do
-> you have in mind, and why do you think coccinelle can't handle them?
+Hi Heiko,
 
-As can be seen from the reviews:
+On Tue, 18 Feb 2025 11:00:57 +0100, Heiko Stübnerwrote:
+>So I guess step1, check what error is actually returned.
 
-- sleeps between DSI calls
-- properly propagating the error at the end of the function
-- making decision whether to create the context at the caller or the
-  callee side. E.g. in patch 8 it is better to allocate context in
-  hx8394_enable() and pass it to .init_sequence() instead of keeping
-  some of error handling.
+I have checked that the return value is -517:
 
-> Also, why do you think ignoring a contributor after a second mistake is
-> a reasonable reaction?
-> 
-> Anusha, most of those comments aren't the end of the discussion though.
-> If you feel like something's not clear enough or ambiguous, feel free to
-> ask for more details and keep the discussion going.
+rockchip-drm display-subsystem: [drm] *ERROR* failed to get pll_hdmiphy1 with -517
 
-From my side: feel free to ask for the details if any of the emails is
-not clear enough. At the same time, please review your patches before
-sending them. Returning 0 in case there was an error is an obvious
-issue.
+>Step2 check if clk_get_optional need to be adapted or alternatively
+>catch the error in the vop2 and set the clock to NULL ourself in that case.
 
--- 
-With best wishes
-Dmitry
+I tried the following patch to set the clock to NULL when clk_get_optional
+failed with value -517, and hdmi0 is working now. There are also some
+boards like rock 5 itx which only use hdmi1, I think we should also add
+this logic to vop2->pll_hdmiphy0.
+
+@@ -3733,6 +3751,15 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(vop2->pll_hdmiphy0);
+ 	}
+ 
++	vop2->pll_hdmiphy1 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy1");
++	if (IS_ERR(vop2->pll_hdmiphy1)) {
++		drm_err(vop2->drm, "failed to get pll_hdmiphy1 with %d\n", vop2->pll_hdmiphy1);
++		if (vop2->pll_hdmiphy1 == -EPROBE_DEFER)
++			vop2->pll_hdmiphy1 = NULL;
++		else
++			return PTR_ERR(vop2->pll_hdmiphy1);
++	}
++
+ 	vop2->irq = platform_get_irq(pdev, 0);
+ 	if (vop2->irq < 0) {
+ 		drm_err(vop2->drm, "cannot find irq for vop2\n");
+
+Best regards,
+Jianfeng
