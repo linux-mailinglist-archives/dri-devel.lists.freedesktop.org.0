@@ -2,76 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4F8A39757
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 10:45:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69125A396C2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 10:17:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A28F410E2AD;
-	Tue, 18 Feb 2025 09:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8315110E63D;
+	Tue, 18 Feb 2025 09:17:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FI01hGr0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nZDYj2wl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77BA410E294;
- Mon, 17 Feb 2025 23:46:54 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-30737db1ab1so44778251fa.1; 
- Mon, 17 Feb 2025 15:46:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739836012; x=1740440812; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FM8gssIggd7QB1mF6kqIFjET31jYUzg6Outzr1oqKbM=;
- b=FI01hGr0Ll/Y3JbfSt0J5zjY70u+ITG+q01LJCsYx+HcUiStnh5tQH7AjjxwW9vFaB
- jOTe40CzLgiwXpxCaAhjE9OEgAkDYLiddVNLW/EPhC9euth8H8hi+TBzahlazI6hfavD
- gxcDxGdBLAgN8HN+ha+QsqvEBdfSR0T3rysQU341E3Mr7RQwoTt9J9SijO5MnTTXrKa/
- 1w/cXNzScyJ7ODlCBSphnsZOF0YLc4g94zFqIBtlcFuFYsLcbGFe2t1zE7fnVK3ENk0Q
- AgnXb+eojoe0HzYl2ohYSP8SXzIoEK2IeF/M43rZj+SJFgieSdqZAB6eK5J6RU2jFEB/
- O6ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739836012; x=1740440812;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FM8gssIggd7QB1mF6kqIFjET31jYUzg6Outzr1oqKbM=;
- b=V/nOMPwGzb5UVUDvZN0WSPaauqg+BXx05RKf2gb1AeWSvthgbkCNnKr5NP0EazqEsK
- Gxaw6yHqQtMLWkrgG5g3ITjNCSG07kRZHSsx3t3RTgGmPi+DSKt9k/QTZUqgxr6JhupU
- ON+oskJJUIkG1zbtVxo5EK06WeQjIuDZO87HIE00vovRhaZre67XH/2SbqqBlXKFVDp9
- gPPjiTDPT/h0j9tzgLITf2L5K9Hq8JA36jL5JQQc2xO2SlJ4HzeVjrVLIeJscEC/5Kc9
- 8AqsR/MY7HFCD4NoEeURUXZ+UvfAyTT4TACSaZ2MCamB/Piqr4Vp+g4QyUZWgHVcbNNJ
- i4yw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7CACAsNIPrC446r2J9FgYy6cW1oqS9jk77FK8jf40/yvatJkdzV99muWc8oozjWLuOxjFq0nIlA==@lists.freedesktop.org,
- AJvYcCXNlVMln3ui1gipMTUhz2psvXwAwq3RWghh7AHXr/HyEsDA4DwdYUfa8Le6O/+SORUpAjp0B0Bqu0g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1zeZbJyCEoqqLAwjK3ifHIL31VV+LCV3Uq0IXNKIgrvnghGHv
- Z94vDaz4CyF2xjeBS/NJrxCQXztV1/5HSlDphj3zauclD9N5VORpe3EtHbqCkSALhiiTWXa6Bzb
- 34G65zbm7dhLuffD9kzGpckv72uk=
-X-Gm-Gg: ASbGncthBmw2osMfRP5nRNlItk3v0mxHXm0Gd+pxii6tY3gnzZtqGoq9CDF6ERRvcL5
- ymnDC9An/ZwDhR2NxtNQZJ57Vg6GrmqywVupS3K4i1NZyJyLKWRA2i14+YiHNWZTByDPrzktR
-X-Google-Smtp-Source: AGHT+IEN5bTcsmKi2lfEIiRMKXu9LKo1SwbpnnYE7Q+3zxcf8RfOO11Rwp61iWEkvk7mMEmMRKSWDwyxuUtYVqZV69c=
-X-Received: by 2002:a2e:8615:0:b0:308:f6cf:3607 with SMTP id
- 38308e7fff4ca-30927a59acdmr29272921fa.3.1739836012177; Mon, 17 Feb 2025
- 15:46:52 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CE6910E639;
+ Tue, 18 Feb 2025 09:17:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739870263; x=1771406263;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=wKoPyKkHuExCceVeh8b0i/VqgdtFq1cYvMbfASWBE1Y=;
+ b=nZDYj2wlmXtcDq9m2DvrPacubpR+mAih2gAhqOGwhruLcfmmGgteS4/q
+ gd2o3AG7hFPp2aWWwcQsQIuxmryV8b6UwagU0k+AKw0KtjLDe7Svr+X0Y
+ chw2oXvVLmUyIwcez4V83yCiQpEM1qmT54cywgyfeD+4tBgHBRju2ZeIE
+ LbjWrBA7WqiZ7BjdZshxq91w+DBBWaFemGwDqeyqYkkME8kRIKHngdnI4
+ R9isgccC2/zsU7TBtpnEADZsC+1AQAGDFpcfN1Ugqi8WDeF+2KmBzz/o0
+ jD1v0/rCyF8RETlnLsH1EzEZKO0ZpO0C1lXplR649WL/+DBRIS2Xqele4 Q==;
+X-CSE-ConnectionGUID: Hr6vTO5hQ+2RAvFrprBiug==
+X-CSE-MsgGUID: 18SGLGUxTTaKXJJ0R361Sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51198271"
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; d="scan'208";a="51198271"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2025 01:17:43 -0800
+X-CSE-ConnectionGUID: flQaKn8KQ12iUDr8/NmDuA==
+X-CSE-MsgGUID: BDL9xjWcR3iuwUyVP3QNNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="151534682"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by orviesa001.jf.intel.com with ESMTP; 18 Feb 2025 01:17:40 -0800
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v5 0/3] Expose modifiers/formats supported by async flips
+Date: Tue, 18 Feb 2025 14:32:46 +0530
+Message-Id: <20250218-asyn-v5-0-7ac5ac4abd4a@intel.com>
 MIME-Version: 1.0
-References: <20250217-nouveau-gm10b-guard-v1-1-0d96f0068570@gmail.com>
-In-Reply-To: <20250217-nouveau-gm10b-guard-v1-1-0d96f0068570@gmail.com>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Mon, 17 Feb 2025 17:46:41 -0600
-X-Gm-Features: AWEUYZmJtDHUMPg6NAkLDss-aidiECufB4dsJAFV7McUhunlncLVMlVRtKKZwog
-Message-ID: <CALHNRZ99cs=rcR07jqsZE7Q3ndLqteKG8K8zpAm4vaEhsYwTLw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/pmu: Fix gp10b firmware guard
-To: webgeek1234@gmail.com
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 18 Feb 2025 09:45:17 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALZMtGcC/zXMwQ7CIBAE0F9p9ixkaQuoJ//DeEDcConQZmmNT
+ dN/l5h4fJOZ2aAQRypwbjZgescSx1yhDw344PKTRHxUQ4utRoWtcGXN4j5YYzusifdQqxPTED+
+ /m+uteuAxiTkwuf+4V0od0epOadkbg3gSSjhesmSZFp7Deol5ppf0Y4J9/wK8VUmOmAAAAA==
+X-Change-ID: 20250102-asyn-bf76730501cc
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: chaitanya.kumar.borah@intel.com, Arun R Murthy <arun.r.murthy@intel.com>, 
+ Naveen Kumar <naveen1.kumar@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,48 +71,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 17, 2025 at 5:43=E2=80=AFPM Aaron Kling via B4 Relay
-<devnull+webgeek1234.gmail.com@kernel.org> wrote:
->
-> From: Aaron Kling <webgeek1234@gmail.com>
->
-> Fixes: 989863d7cbe5 ("drm/nouveau/pmu: select implementation based on ava=
-ilable firmware")
-> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c b/drivers/gp=
-u/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-> index a6f410ba60bc94ec9d52fc78868acddfc6770e19..d393bc540f8628812990dffe4=
-c2f7e9014be07c5 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-> @@ -75,7 +75,7 @@ gp10b_pmu_acr =3D {
->         .bootstrap_multiple_falcons =3D gp10b_pmu_acr_bootstrap_multiple_=
-falcons,
->  };
->
-> -#if IS_ENABLED(CONFIG_ARCH_TEGRA_210_SOC)
-> +#if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC)
->  MODULE_FIRMWARE("nvidia/gp10b/pmu/desc.bin");
->  MODULE_FIRMWARE("nvidia/gp10b/pmu/image.bin");
->  MODULE_FIRMWARE("nvidia/gp10b/pmu/sig.bin");
->
-> ---
-> base-commit: 2408a807bfc3f738850ef5ad5e3fd59d66168996
-> change-id: 20250217-nouveau-gm10b-guard-a438402b5022
->
-> Best regards,
-> --
-> Aaron Kling <webgeek1234@gmail.com>
->
->
+All of the formats/modifiers supported by the plane during synchronous
+flips are nor supported by asynchronous flips. The formats/modifiers
+exposed to user by IN_FORMATS exposes all formats/modifiers supported by
+plane and this list varies for async flips. If the async flip supported
+formats/modifiers are exposed to the user, user based on this list can
+take decision to proceed or not and avoid flip failures during async
+flips.
+Discussion around this can be located @
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+Userspace implementation for IN_FORMARTS_ASYNC under review @
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
 
-Apologies to the maintainers for the multiple resends. For some reason
-the lists weren't accepting my submissions. Looks like it went through
-with b4, so hopefully I won't have more trouble in the future.
+TODO: Upon merge of the patch related to async flip
+https://patchwork.freedesktop.org/patch/626849/?series=139807&rev=6
+the patch 5 in this series will have to make use of the new function
+pointer can_async_flip().
 
-Sincerely,
-Aaron Kling
+v3: Add new plane->funcs format_mod_supported_async (Ville)
+
+Arun R Murthy (3):
+  drm/plane: Add new plane property IN_FORMATS_ASYNC
+  drm/plane: Expose function to create format/modifier blob
+  drm/i915/display: Populate list of async supported formats/modifiers
+
+ drivers/gpu/drm/drm_mode_config.c             |  7 +++
+ drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
+ .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
+ include/drm/drm_mode_config.h                 |  6 +++
+ include/drm/drm_plane.h                       |  4 ++
+ 5 files changed, 103 insertions(+), 15 deletions(-)
+
+--
+2.25.1
+
+---
+Arun R Murthy (5):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: Expose function to create format/modifier blob
+      drm/plane: Function to check async supported modifier/format
+      drm/i915/display: Populate list of async supported formats/modifiers
+      drm/i915/display: Add function for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |   7 ++
+ drivers/gpu/drm/drm_plane.c                        |  72 +++++++++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 113 ++++++++++++++++++---
+ include/drm/drm_mode_config.h                      |   6 ++
+ include/drm/drm_plane.h                            |  24 +++++
+ 5 files changed, 188 insertions(+), 34 deletions(-)
+---
+base-commit: 08bd590935a5258ffd79355c59adffd72fb2c642
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 49 ++++++++++++++-----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 5 files changed, 108 insertions(+), 27 deletions(-)
+---
+base-commit: bc7a84cbc968ce97e581e9e3c2d26fb0ac106482
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+-- 
+Arun R Murthy <arun.r.murthy@intel.com>
+
