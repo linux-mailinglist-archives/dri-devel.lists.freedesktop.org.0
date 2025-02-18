@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5D9A3AC7F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 00:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A18A3AC80
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 00:29:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 682F610E780;
-	Tue, 18 Feb 2025 23:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B23110E77E;
+	Tue, 18 Feb 2025 23:29:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="goQi3QnU";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="LPRN0EBK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4143710E77E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 23:29:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739921344; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 139A010E77E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 23:29:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1739921346; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=RuyA0qYHE59i9UeK6jSfX+vKYF2pBJDcnJVG7va5kUfSTIk5jFN9ElBtkdnbN64Nzesvxv3whjj4eHuC2152ZxI5/8TTQi7uO79sxq6zPsY4M+DLbZTeZaYIM0tAtnNWUEgOoAWoKlVwHppUYthA44QDE9QNVf5Obm93RJQKSXU=
+ b=Qifcp8XYul+frmQSo8lIl216jfu1LGHu/smbtO+yxc8piOwYPhaM/2+MdAUrj/r9TYV8Y37/HVQ/wFjQ5X+fNvBZU7z2BTaPBqyOc+4PLJeIfRUGWEIefTtKDFx1ulK4d0RAXu8A+cz5KdqZi+qMXbGpTAgodM8EbDAXGjcydTI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739921344;
+ s=zohoarc; t=1739921346;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=lxIiOljX+8RCkQFRb8Qc1CK/237y/rJX69Kr+P0hkwg=; 
- b=TGwkodcGf1i/Jv04xgiPBhLO9NrPPS/XDKsYKoPkXGpam+bF7ZAYsnwVzq/s8fSPK163/Gu3Dq66CT098bKyYlxzWU46dylQc4BnhX8zB5/DKBys6r4nj157DVzx4ae3Fe2uCBpW5nwFT4rdsLUQcwuR9jA3FcKlJl2Tju8KZMY=
+ bh=XNOD0+zkb7PNYrrdBX15Ic1+43Bxv9rI1DSYcDxeTZE=; 
+ b=i+A8U+2f+RILhuuDeJ0Q6I8b33LJ64AXfwpznqQS0PTWRUiF51IQ2N3ZF3Io3hoKEmy5qEDOtnQwBuVHqj9KG74TbdbOIHkMcHVtwIHz+cFclZtTeq6nL8PPHpMA2SLkc/FJUCvgCV/sAPFd0Sl0lEZmZJaViJ5GfPMbC7dYqac=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739921344; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739921346; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=lxIiOljX+8RCkQFRb8Qc1CK/237y/rJX69Kr+P0hkwg=;
- b=goQi3QnU9PXH3+xd3RZvDZ+f09wsssdxlkz4goU4WmQefz985Zww0D1TKAQP8qMG
- czdr9dc96AlszkwAyLxfjMr95dEiDI3b2HoQhQI5dqIvMw3dz+C07NbQOVca5zopDer
- oS15tMIH2nyDW3pLDqKp+XU7AyIZtaRZCncxKWR8=
-Received: by mx.zohomail.com with SMTPS id 1739921342252847.3662481768877;
- Tue, 18 Feb 2025 15:29:02 -0800 (PST)
+ bh=XNOD0+zkb7PNYrrdBX15Ic1+43Bxv9rI1DSYcDxeTZE=;
+ b=LPRN0EBKk3GnEYb72Xr1ToNxXHID31v1QyhTh8veT/Euxg9bRaoKE5ihT7mSArwg
+ 0z+fJwEi9dpTY+NHLpw7tghrabCPmF2V94CmZuNtP1crATAaQ1RwpjwDbZXDPTrfMEP
+ xDymQHBUabu0ibUTHVS+O50I5lZs+e9XuuDBDNbM=
+Received: by mx.zohomail.com with SMTPS id 1739921345075345.4757482949359;
+ Tue, 18 Feb 2025 15:29:05 -0800 (PST)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Boris Brezillon <boris.brezillon@collabora.com>,
@@ -47,10 +47,9 @@ To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Simona Vetter <simona@ffwll.ch>
 Cc: kernel@collabora.com,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Subject: [RFC PATCH 5/7] drm/shmem: Implement sparse allocation of pages for
- shmem objects
-Date: Tue, 18 Feb 2025 23:25:35 +0000
-Message-ID: <20250218232552.3450939-6-adrian.larumbe@collabora.com>
+Subject: [RFC PATCH 6/7] drm/panfrost: Use shmem sparse allocation for heap BOs
+Date: Tue, 18 Feb 2025 23:25:36 +0000
+Message-ID: <20250218232552.3450939-7-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250218232552.3450939-1-adrian.larumbe@collabora.com>
 References: <20250218232552.3450939-1-adrian.larumbe@collabora.com>
@@ -72,285 +71,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new function that lets drivers allocate pages for a subset of the shmem
-object's virtual address range. Expand the shmem object's definition to include
-an RSS field, since it's different from the base GEM object's virtual size.
+Panfrost heap BOs grow on demand when the GPU triggers a page fault after
+accessing an address within the BO's virtual range.
 
-Add also new function for putting the pages of a sparse page array. There is
-refactorisation potential with drm_gem_put_pages, but it is yet to be decided
-what this should look like.
+We still store the sgts we get back from the shmem sparse allocation function,
+since it was decided management of sparse memory SGTs should be done by client
+drivers rather than the shmem subsystem.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c              |  32 +++++++
- drivers/gpu/drm/drm_gem_shmem_helper.c | 123 ++++++++++++++++++++++++-
- include/drm/drm_gem.h                  |   3 +
- include/drm/drm_gem_shmem_helper.h     |  12 +++
- 4 files changed, 165 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 12 ++--
+ drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 85 +++++--------------------
+ 3 files changed, 25 insertions(+), 74 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index ee811764c3df..930c5219e1e9 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -679,6 +679,38 @@ void drm_gem_put_pages(struct drm_gem_object *obj, struct page **pages,
- }
- EXPORT_SYMBOL(drm_gem_put_pages);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 8e0ff3efede7..0cda2c4e524f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -40,10 +40,10 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+ 		int n_sgt = bo->base.base.size / SZ_2M;
  
-+void drm_gem_put_sparse_xarray(struct xarray *pa, unsigned long idx,
-+				unsigned int npages, bool dirty, bool accessed)
-+{
-+	struct folio_batch fbatch;
-+	struct page *page;
+ 		for (i = 0; i < n_sgt; i++) {
+-			if (bo->sgts[i].sgl) {
+-				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
++			if (bo->sgts[i]) {
++				dma_unmap_sgtable(pfdev->dev, bo->sgts[i],
+ 						  DMA_BIDIRECTIONAL, 0);
+-				sg_free_table(&bo->sgts[i]);
++				sg_free_table(bo->sgts[i]);
+ 			}
+ 		}
+ 		kvfree(bo->sgts);
+@@ -274,7 +274,11 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+ 	if (flags & PANFROST_BO_HEAP)
+ 		size = roundup(size, SZ_2M);
+ 
+-	shmem = drm_gem_shmem_create(dev, size);
++	if (flags & PANFROST_BO_HEAP)
++		shmem = drm_gem_shmem_create_sparse(dev, size);
++	else
++		shmem = drm_gem_shmem_create(dev, size);
 +
-+	folio_batch_init(&fbatch);
-+
-+	xa_for_each(pa, idx, page) {
-+		struct folio *folio = page_folio(page);
-+
-+		if (dirty)
-+			folio_mark_dirty(folio);
-+		if (accessed)
-+			folio_mark_accessed(folio);
-+
-+		/* Undo the reference we took when populating the table */
-+		if (!folio_batch_add(&fbatch, folio))
-+			drm_gem_check_release_batch(&fbatch);
-+
-+		xa_erase(pa, idx);
-+
-+		idx += folio_nr_pages(folio) - 1;
-+	}
-+
-+	if (folio_batch_count(&fbatch))
-+		drm_gem_check_release_batch(&fbatch);
-+
-+	WARN_ON((idx+1) != npages);
-+}
-+EXPORT_SYMBOL(drm_gem_put_sparse_xarray);
-+
- static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
- 			  struct drm_gem_object **objs)
+ 	if (IS_ERR(shmem))
+ 		return ERR_CAST(shmem);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index 7516b7ecf7fe..2a8d0752011e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -11,7 +11,7 @@ struct panfrost_mmu;
+ 
+ struct panfrost_gem_object {
+ 	struct drm_gem_shmem_object base;
+-	struct sg_table *sgts;
++	struct sg_table **sgts;
+ 
+ 	/*
+ 	 * Use a list for now. If searching a mapping ever becomes the
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index b91019cd5acb..4a78ff9ca293 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -441,14 +441,11 @@ addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
+ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 				       u64 addr)
  {
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index d63e42be2d72..40f7f6812195 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -10,7 +10,6 @@
- #include <linux/shmem_fs.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
--#include <linux/xarray.h>
+-	int ret, i;
+ 	struct panfrost_gem_mapping *bomapping;
+ 	struct panfrost_gem_object *bo;
+-	struct address_space *mapping;
+-	struct drm_gem_object *obj;
+ 	pgoff_t page_offset;
+ 	struct sg_table *sgt;
+-	struct page **pages;
++	int ret = 0;
  
- #ifdef CONFIG_X86
- #include <asm/set_memory.h>
-@@ -161,6 +160,18 @@ struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *de
+ 	bomapping = addr_to_mapping(pfdev, as, addr);
+ 	if (!bomapping)
+@@ -459,94 +456,44 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		dev_WARN(pfdev->dev, "matching BO is not heap type (GPU VA = %llx)",
+ 			 bomapping->mmnode.start << PAGE_SHIFT);
+ 		ret = -EINVAL;
+-		goto err_bo;
++		goto fault_out;
+ 	}
+ 	WARN_ON(bomapping->mmu->as != as);
+ 
+ 	/* Assume 2MB alignment and size multiple */
+ 	addr &= ~((u64)SZ_2M - 1);
+-	page_offset = addr >> PAGE_SHIFT;
+-	page_offset -= bomapping->mmnode.start;
++	page_offset = (addr >> PAGE_SHIFT) - bomapping->mmnode.start;
+ 
+-	obj = &bo->base.base;
+-
+-	dma_resv_lock(obj->resv, NULL);
+-
+-	if (!bo->base.pages) {
++	if (!bo->sgts) {
+ 		bo->sgts = kvmalloc_array(bo->base.base.size / SZ_2M,
+-				     sizeof(struct sg_table), GFP_KERNEL | __GFP_ZERO);
++					  sizeof(struct sg_table *), GFP_KERNEL | __GFP_ZERO);
+ 		if (!bo->sgts) {
+ 			ret = -ENOMEM;
+-			goto err_unlock;
+-		}
+-
+-		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
+-				       sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
+-		if (!pages) {
+-			kvfree(bo->sgts);
+-			bo->sgts = NULL;
+-			ret = -ENOMEM;
+-			goto err_unlock;
+-		}
+-		bo->base.pages = pages;
+-		bo->base.pages_use_count = 1;
+-	} else {
+-		pages = bo->base.pages;
+-		if (pages[page_offset]) {
+-			/* Pages are already mapped, bail out. */
+-			goto out;
++			goto fault_out;
+ 		}
+ 	}
+ 
+-	mapping = bo->base.base.filp->f_mapping;
+-	mapping_set_unevictable(mapping);
++	sgt = drm_gem_shmem_get_sparse_pages_sgt(&bo->base, NUM_FAULT_PAGES, page_offset);
++	if (IS_ERR(sgt)) {
++		if (WARN_ON(PTR_ERR(sgt) != -EEXIST))
++			ret = PTR_ERR(sgt);
++		else
++			ret = 0;
+ 
+-	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
+-		/* Can happen if the last fault only partially filled this
+-		 * section of the pages array before failing. In that case
+-		 * we skip already filled pages.
+-		 */
+-		if (pages[i])
+-			continue;
+-
+-		pages[i] = shmem_read_mapping_page(mapping, i);
+-		if (IS_ERR(pages[i])) {
+-			ret = PTR_ERR(pages[i]);
+-			pages[i] = NULL;
+-			goto err_unlock;
+-		}
++		goto fault_out;
+ 	}
+ 
+-	sgt = &bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)];
+-	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
+-					NUM_FAULT_PAGES, 0, SZ_2M, GFP_KERNEL);
+-	if (ret)
+-		goto err_unlock;
+-
+-	ret = dma_map_sgtable(pfdev->dev, sgt, DMA_BIDIRECTIONAL, 0);
+-	if (ret)
+-		goto err_map;
+-
+ 	mmu_map_sg(pfdev, bomapping->mmu, addr,
+ 		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+ 
++	bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)] = sgt;
++
+ 	bomapping->active = true;
+ 	bo->heap_rss_size += SZ_2M;
+ 
+ 	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
+ 
+-out:
+-	dma_resv_unlock(obj->resv);
+-
+-	panfrost_gem_mapping_put(bomapping);
+-
+-	return 0;
+-
+-err_map:
+-	sg_free_table(sgt);
+-err_unlock:
+-	dma_resv_unlock(obj->resv);
+-err_bo:
++fault_out:
+ 	panfrost_gem_mapping_put(bomapping);
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
- 
-+static void drm_gem_shmem_put_pages_sparse(struct drm_gem_shmem_object *shmem)
-+{
-+	unsigned int n_pages = shmem->rss_size / PAGE_SIZE;
-+
-+	drm_WARN_ON(shmem->base.dev, (shmem->rss_size & (PAGE_SIZE - 1)) != 0);
-+	drm_WARN_ON(shmem->base.dev, !shmem->sparse);
-+
-+	drm_gem_put_sparse_xarray(&shmem->xapages, 0, n_pages,
-+				   shmem->pages_mark_dirty_on_put,
-+				   shmem->pages_mark_accessed_on_put);
-+}
-+
- /**
-  * drm_gem_shmem_free - Free resources associated with a shmem GEM object
-  * @shmem: shmem GEM object to free
-@@ -264,10 +275,15 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
- 		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
- #endif
- 
--	drm_gem_put_pages(obj, shmem->pages,
--			  shmem->pages_mark_dirty_on_put,
--			  shmem->pages_mark_accessed_on_put);
--	shmem->pages = NULL;
-+	if (!shmem->sparse) {
-+		drm_gem_put_pages(obj, shmem->pages,
-+				  shmem->pages_mark_dirty_on_put,
-+				  shmem->pages_mark_accessed_on_put);
-+		shmem->pages = NULL;
-+	} else {
-+		drm_gem_shmem_put_pages_sparse(shmem);
-+		xa_destroy(&shmem->xapages);
-+	}
- }
- EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- 
-@@ -765,6 +781,81 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
- 	return ERR_PTR(ret);
- }
- 
-+static struct sg_table *drm_gem_shmem_get_sparse_pages_locked(struct drm_gem_shmem_object *shmem,
-+							       unsigned int n_pages,
-+							       pgoff_t page_offset)
-+{
-+	struct drm_gem_object *obj = &shmem->base;
-+	gfp_t mask = GFP_KERNEL | GFP_NOWAIT;
-+	size_t size = n_pages * PAGE_SIZE;
-+	struct address_space *mapping;
-+	struct sg_table *sgt;
-+	struct page *page;
-+	bool first_alloc;
-+	int ret, i;
-+
-+	if (!shmem->sparse)
-+		return ERR_PTR(-EINVAL);
-+
-+	/* If the mapping exists, then bail out immediately */
-+	if (xa_load(&shmem->xapages, page_offset) != NULL)
-+		return ERR_PTR(-EEXIST);
-+
-+	dma_resv_assert_held(shmem->base.resv);
-+
-+	first_alloc = xa_empty(&shmem->xapages);
-+
-+	mapping = shmem->base.filp->f_mapping;
-+	mapping_set_unevictable(mapping);
-+
-+	for (i = 0; i < n_pages; i++) {
-+		page = shmem_read_mapping_page_nonblocking(mapping, page_offset + i);
-+		if (IS_ERR(page)) {
-+			ret = PTR_ERR(page);
-+			goto err_free_pages;
-+		}
-+
-+		/* Add the page into the xarray */
-+		ret = xa_err(xa_store(&shmem->xapages, page_offset + i, page, mask));
-+		if (ret) {
-+			put_page(page);
-+			goto err_free_pages;
-+		}
-+	}
-+
-+	sgt = kzalloc(sizeof(*sgt), mask);
-+	if (!sgt) {
-+		ret = -ENOMEM;
-+		goto err_free_pages;
-+	}
-+
-+	ret = sg_alloc_table_from_page_xarray(sgt, &shmem->xapages, page_offset, n_pages, 0, size, mask);
-+	if (ret)
-+		goto err_free_sgtable;
-+
-+	ret = dma_map_sgtable(obj->dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
-+	if (ret)
-+		goto err_free_sgtable;
-+
-+	if (first_alloc)
-+		shmem->pages_use_count = 1;
-+
-+	shmem->rss_size += size;
-+
-+	return sgt;
-+
-+err_free_sgtable:
-+	kfree(sgt);
-+err_free_pages:
-+	while (--i) {
-+		page = xa_erase(&shmem->xapages, page_offset + i);
-+		if (drm_WARN_ON(obj->dev, !page))
-+			continue;
-+		put_page(page);
-+	}
-+	return ERR_PTR(ret);
-+}
-+
- /**
-  * drm_gem_shmem_get_pages_sgt - Pin pages, dma map them, and return a
-  *				 scatter/gather table for a shmem GEM object.
-@@ -796,6 +887,28 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_get_pages_sgt);
- 
-+struct sg_table *drm_gem_shmem_get_sparse_pages_sgt(struct drm_gem_shmem_object *shmem,
-+						     unsigned int n_pages, pgoff_t page_offset)
-+{
-+	struct drm_gem_object *obj = &shmem->base;
-+	struct sg_table *sgt;
-+	int ret;
-+
-+	if (drm_WARN_ON(obj->dev, !shmem->sparse))
-+		return ERR_PTR(-EINVAL);
-+
-+	ret = dma_resv_lock(shmem->base.resv, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	sgt = drm_gem_shmem_get_sparse_pages_locked(shmem, n_pages, page_offset);
-+
-+	dma_resv_unlock(shmem->base.resv);
-+
-+	return sgt;
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sparse_pages_sgt);
-+
- /**
-  * drm_gem_shmem_prime_import_sg_table - Produce a shmem GEM object from
-  *                 another driver's scatter/gather table of pinned pages
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index fdae947682cd..4fd45169a3af 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -38,6 +38,7 @@
- #include <linux/dma-resv.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-+#include <linux/xarray.h>
- 
- #include <drm/drm_vma_manager.h>
- 
-@@ -532,6 +533,8 @@ int drm_gem_create_mmap_offset_size(struct drm_gem_object *obj, size_t size);
- struct page **drm_gem_get_pages(struct drm_gem_object *obj);
- void drm_gem_put_pages(struct drm_gem_object *obj, struct page **pages,
- 		bool dirty, bool accessed);
-+void drm_gem_put_sparse_xarray(struct xarray *pa, unsigned long idx,
-+				unsigned int npages, bool dirty, bool accessed);
- 
- void drm_gem_lock(struct drm_gem_object *obj);
- void drm_gem_unlock(struct drm_gem_object *obj);
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 902039cfc4ce..fcd84c8cf8e7 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -44,6 +44,14 @@ struct drm_gem_shmem_object {
- 	 */
- 	unsigned int pages_use_count;
- 
-+	/**
-+	 * @rss_size:
-+	 *
-+	 * Size of the object RSS, in bytes.
-+	 * lifetime.
-+	 */
-+	size_t rss_size;
-+
- 	/**
- 	 * @madv: State for madvise
- 	 *
-@@ -107,6 +115,7 @@ struct drm_gem_shmem_object {
- 	container_of(obj, struct drm_gem_shmem_object, base)
- 
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
-+struct drm_gem_shmem_object *drm_gem_shmem_create_sparse(struct drm_device *dev, size_t size);
- struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
- 							   size_t size,
- 							   struct vfsmount *gemfs);
-@@ -138,6 +147,9 @@ void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
- struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
- struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem);
- 
-+struct sg_table *drm_gem_shmem_get_sparse_pages_sgt(struct drm_gem_shmem_object *shmem,
-+						     unsigned int n_pages, pgoff_t page_offset);
-+
- void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
- 			      struct drm_printer *p, unsigned int indent);
- 
 -- 
 2.47.1
 
