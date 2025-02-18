@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5822DA3A218
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 17:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B04BA3A2A2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 17:24:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D031210E3E4;
-	Tue, 18 Feb 2025 16:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C36A010E3EB;
+	Tue, 18 Feb 2025 16:24:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="FgA4+xS4";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="Z/XFcAxu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0761510E3F9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 16:06:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739894756; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QeE1UnGpkKUhFcjiTUMcgglbMPdzh955L6Mi2jIgD9tKNIPn26QzzWlV7f2y01eoxZSYkPLCGhcOpaKPojXRbtmGgdqIgS1zfN36bpC/hRjB+jcE9koavgWBAfY/sonHzKAQRSXZxLIXWMgspqrApuhGdX1IRJXN1+GCHmGNFq4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739894756;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=G046fTzq88sck8KR6YfGTXkooubDb0hnHxEcuTcuA5k=; 
- b=M7LcLdJQJVTN3G8u1bPUrNdYseFDG0lZMGBgvh9/yidSYURnFwX6TSOKl42NFCJ8wNXPsXNX82FsLDrvkAPh8tdcU7amdyHvWpLtHPOnfEcI13WO9WZC43QpsVSSfANAl3+jyjn0ShAo4rke8ei77214gfqIW2G+3wiiPX72fDs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739894756; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=G046fTzq88sck8KR6YfGTXkooubDb0hnHxEcuTcuA5k=;
- b=FgA4+xS4u3LMbTIIyv5qrJ6nnZmCprKCSG6FW+rUMiJXrIv136LF1qPiqpNhHi7N
- gQTLKgLNW6DXedADhp8GDjgB+ZMLON6NZRfxYc3YNyshrOByqG5h6AGKiLfXPNbAJmR
- Ftn4+eWXOqdOxSn99vfv2v0JP8kGRp5qh40qA+Cs=
-Received: by mx.zohomail.com with SMTPS id 1739894753650443.23063731499315;
- Tue, 18 Feb 2025 08:05:53 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
- id 4B7381807FB; Tue, 18 Feb 2025 17:05:48 +0100 (CET)
-Date: Tue, 18 Feb 2025 17:05:48 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Cc: Jianfeng Liu <liujianfeng1994@gmail.com>, airlied@gmail.com, 
- andy.yan@rock-chips.com, conor+dt@kernel.org, cristian.ciocaltea@collabora.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, hjc@rock-chips.com,
- kernel@collabora.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, robh@kernel.org,
- simona@ffwll.ch, tzimmermann@suse.de
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
- to VOP2 on RK3588
-Message-ID: <ldgdrytto5y2xf3ois23j4ymtajtwmqlxjr2zyqhwbbxcx6f6y@gzb37fntx2x6>
-References: <1919367.CQOukoFCf9@diego>
- <20250218121749.1382322-1-liujianfeng1994@gmail.com>
- <lnuceofdwm6lgibworaghcujp6rrncvn4e2xc2vzltimjw3rqu@jur7x5cxt5ue>
- <2425191.NG923GbCHz@diego>
+X-Greylist: delayed 528 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Feb 2025 16:24:49 UTC
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
+ [91.218.175.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC2F10E3EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 16:24:49 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+ s=key1; t=1739895359;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pZ7ABL2SNUiOCskWAI6jo53q67GpeDFRnPk2vd5ITGA=;
+ b=Z/XFcAxuyGuvWQEvH3RtQFP9yao9pfJWp8JnTTU7cO9xUyY2vtZ2xuyZFifK2B2Rr03hsY
+ cMDG4DQwMcS4f03Yto0FYi1AaIjG7QdYvNDSd79QvpeALNv4WWtOO2hhKjYirCJrGH5+2F
+ Oox/AzWSi9Fx/TMMnMWBXpIEnjU6F39q73Yo3gWuciOFn2RKVWNZ4+gINGVGPUyB5pgh/0
+ ip8jM1u/57pJuofDGiYpWUItaLg4YfXJj72zlrDM0kDx7paKOFYR7P9CjIWb/etX8NP/Ck
+ PHplFuEOGc8K4r7j+eELpM3psfhohfqHzafZq/37MvYYAyu0OtoEg2k2fQKauQ==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Date: Tue, 18 Feb 2025 11:15:54 -0500
+Subject: [PATCH] drm: add modifiers for Apple twiddled layouts
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="o5rdl6ozldbywqxd"
-Content-Disposition: inline
-In-Reply-To: <2425191.NG923GbCHz@diego>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.2/239.824.9
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io>
+X-B4-Tracking: v=1; b=H4sIADmytGcC/x3MywqDMBBG4VeRWTuQpFZKX0VcBOePHfASEtGC+
+ O4Gl9/inJMykiLTtzopYdes61Jg64qGn19GsEoxOePextkP+xgn8HaoyATheRUNipQ5CKxvQ/M
+ yZqCSx4Sg/2fd9dd1A6GTTK9qAAAA
+X-Change-ID: 20250218-apple-twiddled-modifiers-fde1a6f4300c
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2801; i=alyssa@rosenzweig.io; 
+ h=from:subject:message-id;
+ bh=SrrHl35kose8Uo9GxNf/Ij5PATQZEPvWJEFn6FxpRko=; 
+ b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBntLI9x9v5oGkUkxK4VSfK+AsF5c9UiDp6aY/AB
+ v5U1QvOm9qJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ7SyPQAKCRD+/lBaCvVY
+ DVeJD/9dSefpR/l7B4fG9didQ/l563IPyYlgcVGgklM6f8nlUnDbmH70wu6VgV5tc4ixtG+ze9g
+ zU1LSWnge6iSb9QhcOb7Z4NsYq0oqvi7XloUICfwJk8cIwtOM7MhHRVg7rOA7Zxu+wD9gIPFD/I
+ UBfXRMFmMYZkorqCGGg85xd0jXi7MsbwVAUfJB/417IC8DD3uawSNUD1nrEgzWCkNNWJ7WXDeEN
+ CpE4kmp+WE9FjsrDLs2klHNZ0i4aqGRh7GfTHTElg2h9L2LEiHC6FjFWS1fRyjyAaxJXtUGICBA
+ JUq6DOzwecZhX1U6qwLpUg/zRLt6wSWRWCu8YVBr0d+sAOk6Bq/gRTAc4tx0cYEmmZPxfBKHMPk
+ 6289LKKFbsiFaZR5N56hJuBHzuF88jBFbxdamlhMfpgR86oi85sJYkXSExMO4cHnWKBIPBBXPBq
+ 5u1wvmCGeFW47e8ONF8ROF8o8nsHMNF2LWksg8Ljo/AWSA1HpL476CEgM27MmQoHJIOWW0KwVV8
+ fLkEL8evpFniPxgv91qNz/RK14VDp/vTOFCyR6U6coBfGmhnwSXr+Sf8be8NSQRIz9DpxjhYNj7
+ rIRDceyWQxF9eOdffLpsWWbbQhNMRiwGKpkQdFpfWie+cykRba3ZTwy+uniM6QvDGA+6m46ILkc
+ l/SU5ZJA+W69aiw==
+X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
+ fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,120 +80,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Apple supports a few image layouts across the SoC. To begin, add
+modifiers for the "twiddled" and "twiddled + compressed" layouts. These
+are the two "standard" layouts used on the GPU. Mesa requires these
+modifiers to share non-linear buffers across processes, but no other
+userspace or kernel support is required/expected.
 
---o5rdl6ozldbywqxd
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
- to VOP2 on RK3588
-MIME-Version: 1.0
+These layouts are notably not used for interchange across hardware
+blocks (e.g. with the display controller). There are other layouts for
+those but we don't support them either in userspace or kernelspace yet
+(even downstream), so we're not adding them here.
 
-Hi,
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+---
+ include/uapi/drm/drm_fourcc.h | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-On Tue, Feb 18, 2025 at 03:53:06PM +0100, Heiko St=FCbner wrote:
-> Am Dienstag, 18. Februar 2025, 15:13:07 MEZ schrieb Sebastian Reichel:
-> > On Tue, Feb 18, 2025 at 08:17:46PM +0800, Jianfeng Liu wrote:
-> > > On Tue, 18 Feb 2025 11:00:57 +0100, Heiko St=FCbnerwrote:
-> > > >So I guess step1, check what error is actually returned.
-> > >=20
-> > > I have checked that the return value is -517:
-> > >=20
-> > > rockchip-drm display-subsystem: [drm] *ERROR* failed to get pll_hdmip=
-hy1 with -517
-> > >=20
-> > > >Step2 check if clk_get_optional need to be adapted or alternatively
-> > > >catch the error in the vop2 and set the clock to NULL ourself in tha=
-t case.
-> > >=20
-> > > I tried the following patch to set the clock to NULL when clk_get_opt=
-ional
-> > > failed with value -517, and hdmi0 is working now. There are also some
-> > > boards like rock 5 itx which only use hdmi1, I think we should also a=
-dd
-> > > this logic to vop2->pll_hdmiphy0.
-> > >=20
-> > > @@ -3733,6 +3751,15 @@ static int vop2_bind(struct device *dev, struc=
-t device *master, void *data)
-> > >  		return PTR_ERR(vop2->pll_hdmiphy0);
-> > >  	}
-> > > =20
-> > > +	vop2->pll_hdmiphy1 =3D devm_clk_get_optional(vop2->dev, "pll_hdmiph=
-y1");
-> > > +	if (IS_ERR(vop2->pll_hdmiphy1)) {
-> > > +		drm_err(vop2->drm, "failed to get pll_hdmiphy1 with %d\n", vop2->p=
-ll_hdmiphy1);
-> > > +		if (vop2->pll_hdmiphy1 =3D=3D -EPROBE_DEFER)
-> > > +			vop2->pll_hdmiphy1 =3D NULL;
-> > > +		else
-> > > +			return PTR_ERR(vop2->pll_hdmiphy1);
-> > > +	}
-> > > +
-> >=20
-> > This first of all shows, that we should replace drm_err in this
-> > place with dev_err_probe(), which hides -EPROBE_DEFER errors by
-> > default and instead captures the reason for /sys/kernel/debug/devices_d=
-eferred.
-> >=20
-> > Second what you are doing in the above suggestion will break kernel
-> > configurations where VOP is built-in and the HDMI PHY is build as a
-> > module.
-> >=20
-> > But I also think it would be better to have the clocks defined in the
-> > SoC level DT. I suppose that means vop2_bind would have to check if
-> > the HDMI controller <ID> is enabled and only requests pll_hdmiphy<ID>
-> > based on that. Considering there is the OF graph pointing from VOP
-> > to the enabled HDMI controllers, it should be able to do that.
->=20
->=20
-> I was more thinking about fixing the correct thing, with something like:
->=20
-> ----------- 8< ----------
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index cf7720b9172f..50faafbf5dda 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -5258,6 +5258,10 @@ of_clk_get_hw_from_clkspec(struct of_phandle_args =
-*clkspec)
->         if (!clkspec)
->                 return ERR_PTR(-EINVAL);
->=20
-> +       /* Check if node in clkspec is in disabled/fail state */
-> +       if (!of_device_is_available(clkspec->np))
-> +               return ERR_PTR(-ENOENT);
-> +
->         mutex_lock(&of_clk_mutex);
->         list_for_each_entry(provider, &of_clk_providers, link) {
->                 if (provider->node =3D=3D clkspec->np) {
-> ----------- 8< ----------
->=20
-> Because right now the clk framework does not handle nodes in
-> failed/disabled state and would defer indefinitly.
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..6c289fc172c099ab32bf539a1698dabb93f9a0d2 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -422,6 +422,7 @@ extern "C" {
+ #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+ #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+ #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
++#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
+ 
+ /* add more to the end as needed */
+ 
+@@ -1494,6 +1495,36 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+ /* alias for the most common tiling format */
+ #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
+ 
++/*
++ * Apple twiddled layout.
++ *
++ * This is the most "general" image layout supported on Apple GPUs.
++ *
++ * Twiddled images are divided into tiles. Tiles are always 16KiB, with
++ * dimensions depending on the base-format. Within a tile, pixels are fully
++ * interleaved (Morton order). Tiles themselves are raster-order.
++ *
++ * Images must be 16-byte aligned.
++ *
++ * For more information see
++ * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
++ */
++#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 1)
++
++/*
++ * Apple twiddled and compressed layout.
++ *
++ * This is the main lossless image compression layout supported by Apple GPUs.
++ *
++ * The image is divided into tiles that are internally twiddled.  In addition to
++ * the body, there is also a metadata section containing 8 bytes for each 16x16
++ * compression subtile. By convention, the metadata immediately follows the
++ * body, after padding to 128-bytes.
++ *
++ * Images must be 16-byte aligned.
++ */
++#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 2)
++
+ /*
+  * AMD modifiers
+  *
 
-Also LGTM.
+---
+base-commit: 0ed1356af8f629ae807963b7db4e501e3b580bc2
+change-id: 20250218-apple-twiddled-modifiers-fde1a6f4300c
 
-Greetings,
+Best regards,
+-- 
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
--- Sebastian
-
---o5rdl6ozldbywqxd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAme0r9AACgkQ2O7X88g7
-+prEJw//b+Nw+9Nf9WpI627qaO/nkDdYe5KdSqZ5AJLbh3YYVOCDhT/NZaj0hLmr
-vhxexWcqOxpnDMvC2+85z8Zvlkh5/4WVYfOb1e2ffacSFKlA63hKr6/icLbn/ID4
-MMtySrVG96k07/4Z33vjoLj8Hp/CHb/g8R0H3Kkre7CMBF8QLCbQFyMV9EwuCMQN
-V2uLFkhfuK1iuAQtoIkTeI5ayDNYEcA+iOyTNdcNenKL1iAuFqpBDZpsvWQArMm6
-W4mGQos4IbyoQs2eaT/+oj1BYpbCAmjAoD4lpWyhj/UzNgDnX35Q49cRrJk3zAfS
-dLl5gy1zWl1H/L0zCYEAw6ug+3ZtFRHAlGiHDJytGTIQHNBD5oYXabVqKaJtdZU3
-iqfqEA7DmJHQ0wUE1yn/Z96bkJ/caCrKwzVMCNmJnFh4FMm6Mn4C38rZBbPp5qov
-HmZiCDyegmHk91Le38hY1aa+Hme0YIkAm2pHUAzuvbNXShnydKIETQh/K+kv1XEb
-0Ox82DOWJnavmrRxBv/O8RfsMJG7PArEOekq/bHVRl0Z4e0fpOkRKC3bF1M0VaGj
-2djV6h+zLemt/Oy1RtzVot7yL5nI5EwIAzpZgzF5HZikFWLsoy3EjNLKXnLRwwTA
-le9kWno3wn2Ycy6E+wfMLIi3nULqcz1pXJqlxg3cTh2ZLqiugLs=
-=91vC
------END PGP SIGNATURE-----
-
---o5rdl6ozldbywqxd--
