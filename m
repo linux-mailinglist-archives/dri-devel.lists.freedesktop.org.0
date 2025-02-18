@@ -2,82 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04488A3978F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 10:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE38CA397B3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 10:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DEE310E3A5;
-	Tue, 18 Feb 2025 09:52:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0F5010E63C;
+	Tue, 18 Feb 2025 09:55:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WtF3/Fo9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nqmhkQo2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7292A10E3A5
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 09:52:24 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-218c8ac69faso10699105ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 01:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739872344; x=1740477144; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kXE7lzO8tAK+W+95G0EGctHj7HaDXe4ZOUjtDp40SHU=;
- b=WtF3/Fo9eDyRzxM8OfF1v4szAjp9kj01hcMByMFRcTg7mUhdRRIAi2d1YDlTbw8Pfd
- WiOofvlps6c1Qiv23aEGU6rkuEMhUVV4zk3tkIdUiYR0zVpKqOggRn99zJquLzRu3bVF
- 0ccf0cg+1HFTxi+lvxxaZaEU9+Ev3zgmy7WX0FvCJ65bFbCIXRLSMRjHHoU9dkvOBxq0
- YrZYazMHNSCsyYjHPG55u8/xllAm7HJEFcfgaVx+3geI/vJoSOO1LNOPnInOGsPAc863
- LheE9jCGI77uVR4784Nhhc8YEdv0EhxsCDqrJm80ak6/FKY4yz5grxP0Rby5UcYghqX7
- hzCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739872344; x=1740477144;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kXE7lzO8tAK+W+95G0EGctHj7HaDXe4ZOUjtDp40SHU=;
- b=bS/8YdbGeQVFhZxrymIC6H2LsoGjlAq3veKuoZ+4KPEaFdBija8qlP52ZNpNLHktlZ
- oQqFB1S+ko6CzzAy5iSEgzGJnOpa5IoiUcwwL9jigkBTNcgK39WTAMlYbOg/tVJfMGWs
- 69MrQIipsvr/Htu5lzfvOa+T2CyOiqFuVvI5taOoSEB0iIwB06sRRagS31Aq1XEIDJ8F
- Z0hOhi+PH+N7aE8N7luCm4nQk1v9TWoBIzG3ueUKO/291Qqso4lddhNwc+JP+m51JINT
- L3uZOBkASNssgJnGGd3byCQ+DlioD4tPO1AbNUtBm5k4BVawoZm/nyvo6hQM/TcY8DMI
- eN9g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6UeiCkru5LsY/LWSrB/EJOCYteXf46ZXtGOR2vFwhnQWRY2EpimUksUj/vvs5JygspznCkrnu09o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwawzIt8c4P3AMjjeFoPErTV9H/IE2eS+TiKj0XPk6FVSco/2m
- wWPBym00pvpSCjZxKmqzlrtjbnjsraF42Q6V8RYdCK57vrdkh27V
-X-Gm-Gg: ASbGnctJuxgxGqKf+40b8zRdQdRGu090nZnKQrZNzQ6mQjjb+tmTfVtORaWMGRrUZqg
- RtZW5pX82NOcgSJbtIMdBLRgrdGVlVtKfSusoUp//Ktmc69WrhpHbAbZC7jgK8hFs+t7x1jU8UL
- 4zOjNNhsT0GFd9uvXxnj5ac5cvIisfs6IcYqpK0hrp/Vep7s1BMw8LNShQ0sAn3wpVpMEc/2uMu
- XJPoqdlECBLpqDrYG3mHO1PnsXJDSMDHemrCiLSJdORyoIxk1sNNvi74tsAn+AueguwqlxEdoWe
- YGDjiRamMLz1rM0++5ki
-X-Google-Smtp-Source: AGHT+IHMok0RZ+xEpPKwmA/x6p5MJpbMNsZxQZEpx8+bc1wEOXS9InOWhw+MuPI9x2Y6TY782k+mrw==
-X-Received: by 2002:a05:6a21:998d:b0:1ed:ac86:8f94 with SMTP id
- adf61e73a8af0-1ee8caac786mr8600343637.1.1739872343886; 
- Tue, 18 Feb 2025 01:52:23 -0800 (PST)
-Received: from rock-5b.. ([221.220.131.19]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7324276171fsm10031640b3a.144.2025.02.18.01.52.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 01:52:23 -0800 (PST)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: cristian.ciocaltea@collabora.com
-Cc: airlied@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- heiko@sntech.de, hjc@rock-chips.com, kernel@collabora.com,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- liujianfeng1994@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robh@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
- to VOP2 on RK3588
-Date: Tue, 18 Feb 2025 17:52:16 +0800
-Message-ID: <20250218095216.1253498-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <1b3234ce-4526-4735-b9c0-c242e6cc3cf0@collabora.com>
-References: <1b3234ce-4526-4735-b9c0-c242e6cc3cf0@collabora.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D9110E63C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 09:55:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id DB753A41E37;
+ Tue, 18 Feb 2025 09:54:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E337C4CEE4;
+ Tue, 18 Feb 2025 09:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739872552;
+ bh=rvj0t9+tjvO+0OV9PLc5srj+NlKLO440nNkbXNyfhZs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nqmhkQo21p/IwHWW1vn6ppeNmvxU5hEUr+tROAL+/McFaDG+sFe50Rj+/GsweYbuB
+ gHc1Qd2npna0pnZlbEdqGy9oZVqyYcxOJz21wdqMdBDwmwcdD/s92xKnORETlpD8dr
+ u5DO1okXMmLpey9ba08Ua9Tu87nuk1H1kptFxzY3xCKA2sYE8uYt7vzFpy6egMcCw4
+ fJqGWmP8vQNKs0fl7mtBmAL6nEi1XTaeuCHgucvpJpyJub97Yyl9CJz9InOUApmYsa
+ ZjUuo1/rYIWGaDejRZLeEIqT4CizQMTrKrZmRJ+i2A7IAwTMtuL53BqCNg2+K7zvyJ
+ D23FMuv2ArjBA==
+Date: Tue, 18 Feb 2025 10:55:49 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Joel Selvaraj <jo@jsfamily.in>, 
+ Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>, 
+ Jianhua Lu <lujianhua000@gmail.com>, Robert Chiras <robert.chiras@nxp.com>, 
+ Artur Weber <aweber.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+Message-ID: <20250218-fabulous-agile-corgi-9a5ee0@houat>
+References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
+ <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="726nfthqf5wfkq3l"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,16 +70,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cristian,
 
-No matter one or two hdmi ports the rk3588 boards have, most of
-devicetrees in mainline kernel only have hdmi0 supported. After applying
-this patch their hdmi0 support is broken.
+--726nfthqf5wfkq3l
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+MIME-Version: 1.0
 
-So I recommend moving the vop clk part to board level devicetree.
-Then support of hdmi0 won't be broken, and board maintainers can add
-HDMI1 PHY PLL clk when they are adding hdmi1 support. I can add support
-for orangepi 5 max and armsom w3 for reference by other developers.
+On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
+> Hi,
+>=20
+> On Thu, Feb 13, 2025 at 12:44=E2=80=AFPM Anusha Srivatsa <asrivats@redhat=
+=2Ecom> wrote:
+> >
+> > A lot of mipi API are deprecated and have a _multi() variant
+> > which is the preferred way forward. This covers  TODO in the
+> > gpu Documentation:[1]
+> >
+> > An incomplete effort was made in the previous version
+> > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
+> > and mipi_dsi_generic_write_seq_multi() with the respective
+> > replacemts and not the rest of the API.
+>=20
+> You didn't seem to take most of the suggestions I gave in response to
+> your v1 [3]. Specifically:
+>=20
+> a) I asked that you CC Tejas. I've added him again.
+>=20
+> b) I asked that you CC me on the whole patch series, which you didn't
+> do. I can find them, but I'd find it convenient in this case for them
+> to be in my Inbox.
+>=20
+> The first patch conflicts with what Tejas already landed in
+> drm-misc-next. See commit 8025f23728e9 ("drm/panel:
+> xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
+> second patch _also_ conflicts with what Tejas already landed. See
+> commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
+> mipi_dsi wrapped functions"). Later patches also also conflict. See
+> commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
+> wrapped functions"), commit ce8c69ec90ca ("drm/panel:
+> samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
+> functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
+> transition to mipi_dsi wrapped functions"). Maybe you should sync up
+> with drm-misc-next before submitting.
 
-Best regards,
-Jianfeng
+Yes, you should definitely work from drm-misc-next there, and sync with
+Tejas.
+
+> I also questioned whether this really made sense to try to do with a
+> Coccinelle script and I still don't think so. It looks like Dmitry has
+> already reviewed the first few of your patches and has repeated my
+> advice. If you want to help with the effort of addressing this TODO
+> item then that's great, but I'll stop reviewing (and start silently
+> deleting) any future submissions of yours that say that they're done
+> entirely with a Coccinelle script unless you address this point and
+> convince me that your Coccinelle script is really smart enough to
+> handle all the corner cases. I'll also assert that you should review
+> Tejas's submissions to see how these conversions are expected to go.
+
+I couldn't find that in your first answer though. What corner cases do
+you have in mind, and why do you think coccinelle can't handle them?
+
+Also, why do you think ignoring a contributor after a second mistake is
+a reasonable reaction?
+
+Anusha, most of those comments aren't the end of the discussion though.
+If you feel like something's not clear enough or ambiguous, feel free to
+ask for more details and keep the discussion going.
+
+Maxime
+
+--726nfthqf5wfkq3l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7RZIQAKCRAnX84Zoj2+
+dnx1AYDvs65FcAkxFl9bq1N9OH/nVRFJIYjxboyBi8+tMU6haF4kZySHcec5o4jC
+5PoRUdIBgJqfgW9bYI6cos8FSWZOiPd2kShBBomX9tuNO0LB8BStQui7Vr/uAw9h
+kErY8M7ARw==
+=Z1aQ
+-----END PGP SIGNATURE-----
+
+--726nfthqf5wfkq3l--
