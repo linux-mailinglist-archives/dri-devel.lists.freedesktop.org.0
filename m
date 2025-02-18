@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71B4A397E9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 11:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E45A3980E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 11:04:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823CA10E093;
-	Tue, 18 Feb 2025 10:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60C9810E2B3;
+	Tue, 18 Feb 2025 10:04:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="NxiIsn1b";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RZZqVQkV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1889510E093
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 10:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=XqV/29FN8TAKwZ9jAVPZuJgB96iWFCzrBQyx4X5GjRI=; b=NxiIsn1b7FykEg6OCLh5DpDtTw
- RDjum5Qx4uV2nMLbl4A6rKayYGAtYmRYhAH5mPNiqN74w7AOyScXoApT0M3CIAtB5pfTCduRV84jd
- 8Y9wbfTlYPWDx+tG8n52sNCelLFypuJUEOv8RXNXELnwatmIl5F2DkL7iHY8TDhbx8bWA+EMZkzWV
- awy1oAO/ET4dDzpyQfTxmlkpCH5DD/0t5BSkPOJVNP06R7088+J5tbrXKad7fHL5iEhgRrswiU0aD
- P/xjDk3UO+AdXFAGXt0t8pbE8CJWS6djYfLefPC+snPPRg5SpASruOXsCRX6Fcqmmj6HbjXD424EU
- wvqiQjNA==;
-Received: from i53875bc0.versanet.de ([83.135.91.192] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tkKPS-0003jc-4g; Tue, 18 Feb 2025 11:00:58 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: cristian.ciocaltea@collabora.com, Jianfeng Liu <liujianfeng1994@gmail.com>
-Cc: airlied@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hjc@rock-chips.com, kernel@collabora.com, krzk+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, liujianfeng1994@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, robh@kernel.org,
- simona@ffwll.ch, tzimmermann@suse.de
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
- to VOP2 on RK3588
-Date: Tue, 18 Feb 2025 11:00:57 +0100
-Message-ID: <1919367.CQOukoFCf9@diego>
-In-Reply-To: <20250218095216.1253498-1-liujianfeng1994@gmail.com>
-References: <1b3234ce-4526-4735-b9c0-c242e6cc3cf0@collabora.com>
- <20250218095216.1253498-1-liujianfeng1994@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D7810E2B3;
+ Tue, 18 Feb 2025 10:03:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739873040; x=1771409040;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pbjfnE9HZCkMOLVmjETIUig4+GqCqmpYo/9Mb0qYsbA=;
+ b=RZZqVQkV/BxAgsOshJH+AtPb/EJLarQGz4dty61Wz+fTmk+RZRnG8NBk
+ MKyyOBZpgxJfHu2fny+oGiOeQxt458qjn0EzVdW/qfKtBUOwF4rg8rBcJ
+ OJRRUA+OhkXeNJXlaL1TX6laHIHKP1LkyOV5t6hiuJTLuMtqiaD6d/KJJ
+ EljDuDN4rSO5ebJOu547ASyswFhpAhPhGEE08VAYht46exUyL1pmClgz/
+ X9Gd9uSceybO9hcZyYLNJwAVq/3xvXiYGiJPiPcFn+ubs0ykqIB2pQQpO
+ O8efQd3H4hMLoKQcTkDAXW+6BF81rDOlgATXLqkm31oAMSJnZprAxuktX A==;
+X-CSE-ConnectionGUID: 2RXrxznoRCKzOdoZb5mH+A==
+X-CSE-MsgGUID: vSH1jhSIRo2nepSIx+8IuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="43392538"
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; d="scan'208";a="43392538"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2025 02:04:00 -0800
+X-CSE-ConnectionGUID: lVCtNglrTji1fTt9b5jeTA==
+X-CSE-MsgGUID: MYQ9djApRZGgCYSc+/APpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; d="scan'208";a="145201549"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2025 02:03:56 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-xe@lists.freedesktop.org,
+ stable@vger.kernel.org,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH] drm/xe: Fix exporting xe buffers multiple times
+Date: Tue, 18 Feb 2025 11:03:53 +0100
+Message-ID: <20250218100353.2137964-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +75,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, 18. Februar 2025, 10:52:16 MEZ schrieb Jianfeng Liu:
-> Hi Cristian,
-> 
-> No matter one or two hdmi ports the rk3588 boards have, most of
-> devicetrees in mainline kernel only have hdmi0 supported. After applying
-> this patch their hdmi0 support is broken.
-> 
-> So I recommend moving the vop clk part to board level devicetree.
-> Then support of hdmi0 won't be broken, and board maintainers can add
-> HDMI1 PHY PLL clk when they are adding hdmi1 support. I can add support
-> for orangepi 5 max and armsom w3 for reference by other developers.
+From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 
-better, fix the VOP2 driver - both for the existing hdmi0 + this hdmi1
-please.
+The `struct ttm_resource->placement` contains TTM_PL_FLAG_* flags, but
+it was incorrectly tested for XE_PL_* flags.
+This caused xe_dma_buf_pin() to always fail when invoked for
+the second time. Fix this by checking the `mem_type` field instead.
 
-I.e. the clock is optional, and the error you are seeing comes from the
+Fixes: 7764222d54b7 ("drm/xe: Disallow pinning dma-bufs in VRAM")
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-xe@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.8+
+Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/gpu/drm/xe/xe_bo.h      | 2 --
+ drivers/gpu/drm/xe/xe_dma_buf.c | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-       vop2->pll_hdmiphy1 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy1");
-       if (IS_ERR(vop2->pll_hdmiphy1)) {
-               drm_err(vop2->drm, "failed to get pll_hdmiphy1\n");
-               return PTR_ERR(vop2->pll_hdmiphy1);
-       }
-
-part. clk_get_optional is supposed to return NULL when clock-retrieval
-causes a ENOENT error. Seemingly going to a clock controller in a disabled
-node returns a different error?
-
-So I guess step1, check what error is actually returned.
-Step2 check if clk_get_optional need to be adapted or alternatively
-catch the error in the vop2 and set the clock to NULL ourself in that case.
-
-
-hdptxphy0 + hdpxphy1 _are_ valid supplies for the vop, so their reference
-should be in the soc-dtsi and the kernel code should just figure things out
-correctly. Wiggling with clocks in each board will cause headaches down
-the road.
-
-
-Heiko
-
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index d9386ab031404..43bf6f140d40d 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -341,7 +341,6 @@ static inline unsigned int xe_sg_segment_size(struct device *dev)
+ 	return round_down(max / 2, PAGE_SIZE);
+ }
+ 
+-#if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
+ /**
+  * xe_bo_is_mem_type - Whether the bo currently resides in the given
+  * TTM memory type
+@@ -356,4 +355,3 @@ static inline bool xe_bo_is_mem_type(struct xe_bo *bo, u32 mem_type)
+ 	return bo->ttm.resource->mem_type == mem_type;
+ }
+ #endif
+-#endif
+diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
+index c5b95470fa324..f67803e15a0e6 100644
+--- a/drivers/gpu/drm/xe/xe_dma_buf.c
++++ b/drivers/gpu/drm/xe/xe_dma_buf.c
+@@ -58,7 +58,7 @@ static int xe_dma_buf_pin(struct dma_buf_attachment *attach)
+ 	 * 1) Avoid pinning in a placement not accessible to some importers.
+ 	 * 2) Pinning in VRAM requires PIN accounting which is a to-do.
+ 	 */
+-	if (xe_bo_is_pinned(bo) && bo->ttm.resource->placement != XE_PL_TT) {
++	if (xe_bo_is_pinned(bo) && !xe_bo_is_mem_type(bo, XE_PL_TT)) {
+ 		drm_dbg(&xe->drm, "Can't migrate pinned bo for dma-buf pin.\n");
+ 		return -EINVAL;
+ 	}
+-- 
+2.45.1
 
