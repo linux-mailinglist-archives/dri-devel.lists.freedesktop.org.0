@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0730A3949E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 09:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6566DA394C1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 09:14:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F2210E627;
-	Tue, 18 Feb 2025 08:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3CA910E62C;
+	Tue, 18 Feb 2025 08:14:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IQRi2Vmv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AbO+c5W2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B07110E627
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 08:12:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 736AE10E62C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 08:14:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 83434A41DA3;
- Tue, 18 Feb 2025 08:10:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52511C4CEE8;
- Tue, 18 Feb 2025 08:12:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A0D235C5BC3;
+ Tue, 18 Feb 2025 08:13:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50A1C4CEE2;
+ Tue, 18 Feb 2025 08:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739866356;
- bh=m0uzICN3CTQeSUf/G77xR807tJo8YURiD8Lpz5F3ens=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IQRi2VmvFsxCUwDouh54xRwY0cY4kmYzRFK8LAGBUCczQ5U1izTJrDWOi6rz1KfUt
- goxHiFMqd0AWPpsfvy+HJbCIBsBzEvMlVkm90Hn1Wu6nzQbTorNu8WcFIBAkm9B+HJ
- nbG3WQ385KXyW9FZthjupNrV9+nm6jX5T1yDRGuY0gLKobJmvB1r55CMQt0yH4dOAd
- 9yjcdH8R6YIng+qM6PvycbzemR4koU2b8ltMNQg6/jAeUr4gFLTds1CaMoaBBtY0Tk
- klNNYzDYu1BR/pBi1QGxcS8RIlzjmrd391OatYOmQm0ZQtaldWlsb8kDI6FdhI/xEL
- 3QlKkcPjc8I7A==
-Date: Tue, 18 Feb 2025 09:12:33 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>
-Cc: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Nancy Lin <nancy.lin@mediatek.com>, 
- Singo Chang <singo.chang@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>, 
- Xavier Chang <xavier.chang@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>, 
- Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>, 
- Pin-yen Lin <treapking@chromium.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 1/8] dt-bindings: mailbox: mediatek: Add support for
- MT8196 GCE mailbox
-Message-ID: <20250218-cryptic-pompous-salmon-d816ea@krzk-bin>
-References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
- <20250218054405.2017918-2-jason-jh.lin@mediatek.com>
+ s=k20201202; t=1739866465;
+ bh=sK8OvyySumMdynSgRGKgZrd8TTS4U8uKw9PAHIAk3Nk=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=AbO+c5W2a24zWrFd5vgoqYvGkVnewmOK06KO3xgUWlJxlgZ77vB+Qj40jFr+veER+
+ EffIu3gs1hoykD6InX2z3Crz+23eojDl74vcfDijznofFjJzl4QXJ1qWOfuw++BL6X
+ 6CmFz5fY38hEmMljy/JpAxwgrdGU/wrRAq62/PEy0e1ppWLQUcIEX2U2fWPfarqC9U
+ 1MK0XSUkiffveOsH7LC85lGQG0YK6gGb4ydi5sZivqTI/pDmYDD9+cG91c5iLOeYNe
+ baZzG0KBrQ9z3WpguqmAok9WkK7pK/cabMa4s6xWmOkQAVuRX/8CNcWrSjll/Km93Z
+ 8rASBGHGWRwdg==
+From: Robert Foss <rfoss@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, oushixiong1025@163.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Shixiong Ou <oushixiong@kylinos.cn>
+In-Reply-To: <20250128065645.27140-1-oushixiong1025@163.com>
+References: <20250128065645.27140-1-oushixiong1025@163.com>
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Use
+ devm_platform_ioremap_resource()
+Message-Id: <173986645947.826953.17434979178193947426.b4-ty@kernel.org>
+Date: Tue, 18 Feb 2025 09:14:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250218054405.2017918-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,19 +65,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 18, 2025 at 01:41:46PM +0800, Jason-JH Lin wrote:
-> Add the compatible name and iommus property for MT8196.
+On Tue, 28 Jan 2025 14:56:45 +0800, oushixiong1025@163.com wrote:
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_ioremap_resource().
 > 
-> In MT8196, all command buffers allocated and used by the GCE device
-> work with IOMMU.
 > 
-> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
-> ---
->  .../devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml     | 4 ++++
->  1 file changed, 4 insertions(+)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Applied, thanks!
 
-Best regards,
-Krzysztof
+[1/1] drm/bridge: analogix_dp: Use devm_platform_ioremap_resource()
+      (no commit info)
+
+
+
+Rob
+
 
