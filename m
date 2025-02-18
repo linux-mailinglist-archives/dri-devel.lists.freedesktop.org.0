@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBC6A39B8E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3C1A39B90
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96FF210E699;
-	Tue, 18 Feb 2025 11:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16B7110E6A4;
+	Tue, 18 Feb 2025 11:59:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HAgEhTbT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Os6v8KsG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5294010E3A8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:59:35 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4398c8c8b2cso16533205e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 03:59:35 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 635FE10E699
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:59:36 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-438a3216fc2so55910535e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 03:59:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739879974; x=1740484774; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1739879975; x=1740484775; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=plNt14WfwZSI7Nln3sGs9yH+Yl4xRu49ch9ykH86mJ0=;
- b=HAgEhTbTaelUCGv5lvbdb8yWYVXxfPT3mPf4Xwn5T/rBHu9bl6jgyk8aQZvjmxHDDF
- 4dwefaFj5Lql5mw2395jwLZStofxpgUzSpGYdWMf9jTcPNfRNxLIuOZZJy1IagKfgOrO
- EkiNlDrJVMNuuISNQqVGy63mjheR/PYx6EA57Q7xcR2ccSs5MJsi138N8+L//mgH/Cf7
- VWf/+8Q+X2I25EuGZrArgofusN9QabTMuvhuIBBxup0xyGYi9No+ibtHiaakDJzcpbcX
- YCAapJYxbHUyMZ7bCPk9uLw7J48wn7ErjKW7jRm0485xP9bnx6G11ortnD5X0Bgu1xmV
- WdrA==
+ bh=TJwkMW+fR6PWnrXP7BmklxSTCrFBYNdKFnbyYQvG9uc=;
+ b=Os6v8KsGHrnqyK/1Wi6/O1zgz9A2fhvuo8PSCu4zy//ZoFY3xXdqr7bMfdfkuiF3qt
+ zocH6wJTU2mj0MRKKJQEXug1zA+1X1keoVQraIpOhmVc91FxLRxdIjzEtXCXA+cfk3XJ
+ ejwqxXmq7sYNuevhgqvVbiA36zxXuiM8aaBYV7OYjoDj/5U+SFhI5kZ7D6AUBjMrLiHH
+ 2twqL7iXAWefqUVpTKRdt+GOcE40bI2GjT2w3uXb2BFLAkYbRYoPSV2UZ6l9tpKSmjAZ
+ oXtj49ov03LeLmrEZM39wsvzOHbexqrUhVy/yqp3e4FjC3OTs9Ra7wOz0BDPNjFhZLL8
+ sfoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739879974; x=1740484774;
+ d=1e100.net; s=20230601; t=1739879975; x=1740484775;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=plNt14WfwZSI7Nln3sGs9yH+Yl4xRu49ch9ykH86mJ0=;
- b=hjdku9fVYENeH85jEnWbN5pBhq2CpS6W1F9SLVwT3z267KqLbUeMW7/UkQxFrNNHww
- SHG3MzIo3uyl5jE077cgTMj4H1BfxV8kBZbefhBCWAbrEp+X6WCVpR5YbJuRtSU0es/q
- sLClXM0fWM65tsDw5BJNzR55O8C2BJXrMRmE5u3TKTTL/GtJ5cLZ7k9AWfpA1sT4iRgY
- utHEL5b4TNZ0gvvDCYN70XmETqoE+USzVaFOFA6HppRXIcHcYiJyaud3g2zsskx4Gbwa
- GD5D1oXkKarQonKSsS0fjBafXIzP+PznH2X6uEgBOyOJVNSRjPlb6CoYiVVDTknzfz/r
- BbPw==
-X-Gm-Message-State: AOJu0YxU3nqU+rGJOe34oQAMQ05f2m2OK0Iqmr75+amH2afm6r1XglZ2
- iDLHBBJWMz+kfSuxOOK0fx0SKSUAA7N8Mu3yBwdGvjetu7tpM0z6
-X-Gm-Gg: ASbGncuLfG2mG0un4ue4dUXdgkH1otUdSW9g8ibZXRDMkVfgU93Sd8e+HWhCGtviHcK
- TEmcLhOcAYh7lse2a7fNu0QF8w1rZnJR3TFJv7ZeKwSablbjiY5JuBNVd7H+swJi1pCLlUKT0HB
- MQXjrLiYGij+B6+lF81xIhKAoRIO0J/p6lEGsdKDZcvDgK/OHVleCYG2iS5PEzBehGujKgjY5+a
- DvNHHI1Dl2eTa+yGHPdzbtzS+D+TpO4lLFAzeG5Pjie/BMUZOj3PA8RuVQo7Fm6ZhFNhb3fvf78
- jBV3KJGKDfzeN8+2NhU+3Q/PzCT73GBs6tLxApvgwsfm
-X-Google-Smtp-Source: AGHT+IGqpvy3pV7tb5l4+0aGMl4HQcPTOYCeNXFe0yeVJw2TNYm0+gCfRUOjhvo8TM1/rvWytw9fOA==
-X-Received: by 2002:a05:600c:3ba0:b0:439:93d2:72b4 with SMTP id
- 5b1f17b1804b1-43993d2742emr26482955e9.16.1739879973585; 
- Tue, 18 Feb 2025 03:59:33 -0800 (PST)
+ bh=TJwkMW+fR6PWnrXP7BmklxSTCrFBYNdKFnbyYQvG9uc=;
+ b=UWQl1FZvlsg+GReB0IBo3ut3DQigtvKizwbFHo75Hvbt10Y9CHiaUPAT8CA9yZVqCC
+ QswVIhGa9nKu8LOsh14Cri7n8PgnlMopU2pTm8Y5RHJFxCNCAlsbHGD1fWoPrrGnyUIL
+ hPNqKllq2ni4Un63PqcW3Vv5SMpzIIwFLvw4IRzUhkaP9++ct0VM1PLZAvorJeJRDsBh
+ 1qYaT2XMCqYRR2BgiLM35tz1q23aKcaphG0LTL7VhxpqpSgps3V9nR0okgD6p/wc/LAN
+ NiUhrwKZVcqARxyxMGyiw2bmr6MXqgLVQjFqFJQ+mBXD0EKSowluIz2V9Z24g5QPCsNi
+ VL6Q==
+X-Gm-Message-State: AOJu0YwVzWclIiU7b5eecUk4ROL4NMqWy0u3fEl1fxdCsyislIOAHM2O
+ feJdT7rpdADVUZQwILWkxxP7y1Ii6EinihvTO9L6wOBJlt732FFU
+X-Gm-Gg: ASbGnctnFJ+8468enwzDV7p7AfiS/X1zKCYa11yrxbC0FB2QMD80MsGfMkTPRKeMW57
+ RdA/XMsIRwpeAmwoZEGZPgQ9TnKpFW49R0nJSzWjfB1tyMYMZUqQdTlrfMeXDAJIEIfj1X9sjPB
+ cywsMYRpk5Ygmrb71yg4WjFt28zr5spunYfoQFAEOxqpukuIlWAyL1d3LgKJJCabslVlV6zv9ON
+ Zju75Me4lB5FIQoPCtkQ1fTHKkaXLVKU/wwtIc0rDn+6wx3rFqIb20Te0L9Ij8w3WILkTMGDJO2
+ eXACurXzOrfdk+zRMZG4pnUdxYtfYWXdZEzxtN97P9VC
+X-Google-Smtp-Source: AGHT+IEjGEbBg8RaF8tIzRsJYk8CHuKfBdlmsd8Q4ZTgmqFEA6CyOAfWf3dQWOU1FeBi7IN7eMmTOw==
+X-Received: by 2002:a05:600c:3b8c:b0:439:3e46:4b1c with SMTP id
+ 5b1f17b1804b1-4396e6d7c2amr106215895e9.2.1739879974689; 
+ Tue, 18 Feb 2025 03:59:34 -0800 (PST)
 Received: from prasmi.Home ([2a06:5906:61b:2d00:6940:cc67:5b00:b151])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4395cf084d5sm123873255e9.1.2025.02.18.03.59.32
+ 5b1f17b1804b1-4395cf084d5sm123873255e9.1.2025.02.18.03.59.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 03:59:33 -0800 (PST)
+ Tue, 18 Feb 2025 03:59:34 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -74,10 +74,9 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Biju Das <biju.das.jz@bp.renesas.com>,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/3] dt-bindings: gpu: mali-bifrost: Add compatible for
- RZ/V2H(P) SoC
-Date: Tue, 18 Feb 2025 11:59:20 +0000
-Message-ID: <20250218115922.407816-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/3] arm64: dts: renesas: r9a09g057: Add Mali-G31 GPU node
+Date: Tue, 18 Feb 2025 11:59:21 +0000
+Message-ID: <20250218115922.407816-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,36 +99,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add a compatible string for the Renesas RZ/V2H(P) SoC variants that
-include a Mali-G31 GPU. These variants share the same restrictions on
-interrupts, clocks, and power domains as the RZ/G2L SoC, so extend
-the existing schema validation accordingly.
+Add Mali-G31 GPU node to SoC DTSI.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 51 ++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 735c7f06c24e..1c81aea28c51 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -24,6 +24,7 @@ properties:
-               - realtek,rtd1619-mali
-               - renesas,r9a07g044-mali
-               - renesas,r9a07g054-mali
-+              - renesas,r9a09g057-mali
-               - rockchip,px30-mali
-               - rockchip,rk3568-mali
-               - rockchip,rk3576-mali
-@@ -142,6 +143,7 @@ allOf:
-             enum:
-               - renesas,r9a07g044-mali
-               - renesas,r9a07g054-mali
-+              - renesas,r9a09g057-mali
-     then:
-       properties:
-         interrupts:
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+index 5d4d999b450e..4d5baed02fda 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+@@ -105,6 +105,35 @@ L3_CA55: cache-controller-0 {
+ 		};
+ 	};
+ 
++	gpu_opp_table: opp-table-1 {
++		compatible = "operating-points-v2";
++
++		opp-630000000 {
++			opp-hz = /bits/ 64 <630000000>;
++			opp-microvolt = <800000>;
++		};
++
++		opp-315000000 {
++			opp-hz = /bits/ 64 <315000000>;
++			opp-microvolt = <800000>;
++		};
++
++		opp-157500000 {
++			opp-hz = /bits/ 64 <157500000>;
++			opp-microvolt = <800000>;
++		};
++
++		opp-78750000 {
++			opp-hz = /bits/ 64 <78750000>;
++			opp-microvolt = <800000>;
++		};
++
++		opp-19687500 {
++			opp-hz = /bits/ 64 <19687500>;
++			opp-microvolt = <800000>;
++		};
++	};
++
+ 	psci {
+ 		compatible = "arm,psci-1.0", "arm,psci-0.2";
+ 		method = "smc";
+@@ -585,6 +614,28 @@ i2c8: i2c@11c01000 {
+ 			status = "disabled";
+ 		};
+ 
++		gpu: gpu@14850000 {
++			compatible = "renesas,r9a09g057-mali",
++				     "arm,mali-bifrost";
++			reg = <0x0 0x14850000 0x0 0x10000>;
++			interrupts = <GIC_SPI 884 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 885 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 883 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 886 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "job", "mmu", "gpu", "event";
++			clocks = <&cpg CPG_MOD 0xf0>,
++				 <&cpg CPG_MOD 0xf1>,
++				 <&cpg CPG_MOD 0xf2>;
++			clock-names = "gpu", "bus", "bus_ace";
++			power-domains = <&cpg>;
++			resets = <&cpg 0xdd>,
++				 <&cpg 0xde>,
++				 <&cpg 0xdf>;
++			reset-names = "rst", "axi_rst", "ace_rst";
++			operating-points-v2 = <&gpu_opp_table>;
++			status = "disabled";
++		};
++
+ 		gic: interrupt-controller@14900000 {
+ 			compatible = "arm,gic-v3";
+ 			reg = <0x0 0x14900000 0 0x20000>,
 -- 
 2.43.0
 
