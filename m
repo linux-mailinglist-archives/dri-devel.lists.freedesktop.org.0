@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A2DA3A3A6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 18:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1192AA3A3B3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 18:09:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F13B10E73C;
-	Tue, 18 Feb 2025 17:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D23510E0F4;
+	Tue, 18 Feb 2025 17:09:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GPjg/7pU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SdZJ40HP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2B410E457
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 17:08:34 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-43964e79314so53420215e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 09:08:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739898512; x=1740503312; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=22DLucK3+Yc7gD+u5BwcgCf4UC4+6P633YUEKabQtVs=;
- b=GPjg/7pUJsEnEglg4k+B7Rdun4bXFXgEYxocqNT7KK/ase1OQmGernQGkn3qiA7JAl
- vQ6y+/Yfte7Xw4P2/VIsA7GxxdGNm/ikkLziZ7sYMTYQvmt5KjPxrNfAEKrc6EPlvE59
- eiZLanAsN0HO23NTq++PAImVOVrsa7OeAM9EEjRPwmXcA6GypyKrp/DvQ+Ay1RQ9U/PA
- ERSucNQjVREYI8eVQ7XqquUUD891WmsnFWSSAAlawrNEDSch9gZf1GLPhJ9WJbgpdqTi
- 4ES8VAIJdBSp1Z5dEbC6ESBJkmBceT/xmXWNdwDF12uXe3hsemPQbtZwHhy7T7OSfo9S
- 5lmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739898513; x=1740503313;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=22DLucK3+Yc7gD+u5BwcgCf4UC4+6P633YUEKabQtVs=;
- b=Ti2e1AF4GjCClWp5yUERlLEbCVzDciqWOKNw8zgLp1Kauw4UecqjhiUWFa5hOZGM+d
- iaLVOEM89tHNaZ6rjrAHuOpm2BJrYOng5B7vkMOyumwHCg743VCpkJgXjIi2pSWagxoj
- 0cCxOAkxgcgrgpcUssZKi7KnHn3miI1mpc7q0iYiIwPXCX6TDFFG8S7MiqrU0sjfYzY4
- TU9p5b41ZutgRKlyqeTznS+bsSDtVV2p2aYxpz3MNrYb42oN2E3JsSnMcRHwKkDuK65t
- ZFnvCBJasQdB1uf433iYBEZHe0AdMRdJZHUcQCSOteeTZjTzxIVFhQlyiiw6+bxKRqsu
- WdTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6Teu2MT3yBVhfbKasS2F+JkvEOL8DamHG6Ihr6u56Kz0PyuzRU5whvopfgUuK+2K0JhEPfLNE8zU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyCdatiDmKxaW8C/KEEJOqf82Z7CqiQdpyvLHEhPg1fK4HDo+ke
- hZL8GFBR7Bbv1Ecatz2W3lTvPRmHEOIQVUHGCNVZdIoEFLR3mxln
-X-Gm-Gg: ASbGncsdsDAwqaoLobRTDFTBim/xmI++uESMEEgPA/A5Gv7IOAlGs3FT+MLZsHurLwb
- uittPFXhSHkehfnvwO2H2AGGVEg2bQvEJ+eswqeogNNPIHCpJ53JZ5FkeQaOLYNmRhaNyjm2xfc
- Df+8c525ozA8+hS8UAgF4KWDLvSGQyYg7Aa8m2pNsVoA6Jz/zgju4pIE/SvX6JlDiaKF5aKvaG4
- 4kZwzB6E9Emtwk03LMzSwdKkchy4mBK5numDXFr+XoNB/J37XTloA0ooGFspANUwU2OpBW5mYqi
- 5eZXmc3aXOVu+WQkag==
-X-Google-Smtp-Source: AGHT+IGiD3HptGQJEipMmcpgiCAIU0akacuYmIdP7lpU6nnc+z3is2VM6M2uT+zI0Es6m92LwRl5VQ==
-X-Received: by 2002:a05:600c:4e8c:b0:439:99e6:2ab with SMTP id
- 5b1f17b1804b1-43999e60444mr3652025e9.28.1739898512471; 
- Tue, 18 Feb 2025 09:08:32 -0800 (PST)
-Received: from fedora.. ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439941bd54bsm24680135e9.11.2025.02.18.09.08.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 09:08:32 -0800 (PST)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: louis.chauvet@bootlin.com
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 16/16] drm/vkms: Remove completed task from the TODO list
-Date: Tue, 18 Feb 2025 18:08:08 +0100
-Message-ID: <20250218170808.9507-17-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250218170808.9507-1-jose.exposito89@gmail.com>
-References: <20250218170808.9507-1-jose.exposito89@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14FFA10E04C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 17:09:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D67595C60C4;
+ Tue, 18 Feb 2025 17:08:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7E2C4CEE2;
+ Tue, 18 Feb 2025 17:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739898574;
+ bh=rxpL1H7O2VdHAvI1ZRjYb0VzrGNCU0nMXi6S7wu99H0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SdZJ40HPDjbGBAAp/Gk+/O3GJowuyU+8HdtKvFrmPDevJxdMmUC4aP7mnTDLd9Ty6
+ DPdMFf7eOhEp5sSV/2KSbmAsleS09gRWkg+U1Cbtqv1IMdYxGlkUz9E4NzLiIb35mC
+ DMCrUu3Jnmdtm9u0+3Z1hwTNA6l8D7Jb/g9mYzHRlgjLMC4Zj3+vc5QkzAy53DurTK
+ Mi6ysZ8RTkiTknEhHYskbIFo2VevqC8WQNBXADXuKu9dXdl97MxYFh7AL+jqqfeRHH
+ A3lzDr7TYXmlBGpmaijRa0ygexxjCUD5lySTqETOdluD7/H4Xh41JQaa1CgUOIvCuv
+ tvDSdUMlsc+WA==
+Date: Tue, 18 Feb 2025 17:09:29 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: Document Solomon
+ SSD2825
+Message-ID: <20250218-thinly-passcode-f659d81cd5a4@spud>
+References: <20250213135605.157650-1-clamor95@gmail.com>
+ <20250213135605.157650-2-clamor95@gmail.com>
+ <20250213-pumice-overcrowd-6c22b0d5d66c@spud>
+ <CAPVz0n1CpoAFvwwvoTOFQu4mgg57jCwS5W4GXCiUZ3eLEAdwZA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jUeovMtJEMp6ohsP"
+Content-Disposition: inline
+In-Reply-To: <CAPVz0n1CpoAFvwwvoTOFQu4mgg57jCwS5W4GXCiUZ3eLEAdwZA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +71,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the configfs related TODO items from the "Runtime Configuration"
-section.
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- Documentation/gpu/vkms.rst | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+--jUeovMtJEMp6ohsP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 3068879ce1fc..0a5fcf0b3114 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -225,21 +225,14 @@ Runtime Configuration
- ---------------------
- 
- We want to be able to reconfigure vkms instance without having to reload the
--module. Use/Test-cases:
-+module through configfs. Use/Test-cases:
- 
- - Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
-   of compositors).
- 
--- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
--  them first).
--
- - Change output configuration: Plug/unplug screens, change EDID, allow changing
-   the refresh rate.
- 
--The currently proposed solution is to expose vkms configuration through
--configfs. All existing module options should be supported through configfs
--too.
--
- Writeback support
- -----------------
- 
--- 
-2.48.1
+On Fri, Feb 14, 2025 at 08:29:22AM +0200, Svyatoslav Ryhel wrote:
+> =D1=87=D1=82, 13 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 22:34 Co=
+nor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Thu, Feb 13, 2025 at 03:56:04PM +0200, Svyatoslav Ryhel wrote:
+> > > Add bindings for Solomon SSD2825 MIPI master bridge chip that connect=
+s an
+> > > application processor with traditional parallel LCD interface and an =
+LCD
+> > > driver with MIPI slave interface. The SSD2825 supports both parallel =
+RGB
+> > > interface and serial SPI interface.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  .../display/bridge/solomon,ssd2825.yaml       | 140 ++++++++++++++++=
+++
+> > >  1 file changed, 140 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/=
+solomon,ssd2825.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/solomon=
+,ssd2825.yaml b/Documentation/devicetree/bindings/display/bridge/solomon,ss=
+d2825.yaml
+> > > new file mode 100644
+> > > index 000000000000..cd7ff971495c
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/solomon,ssd282=
+5.yaml
+> > > @@ -0,0 +1,140 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/bridge/solomon,ssd2825.ya=
+ml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Solomon SSD2825 RGB to MIPI-DSI bridge
+> > > +
+> > > +maintainers:
+> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > > +
+> > > +allOf:
+> > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: solomon,ssd2825
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-gpios: true
+> > > +
+> > > +  dvdd-supply:
+> > > +    description: Regulator for 1.2V digital power supply.
+> > > +
+> > > +  avdd-supply:
+> > > +    description: Regulator for 1.2V analog power supply.
+> > > +
+> > > +  vddio-supply:
+> > > +    description: Regulator for 1.8V IO power supply.
+> > > +
+> > > +  spi-max-frequency:
+> > > +    maximum: 1000000
+> > > +
+> > > +  spi-cpha: true
+> > > +  spi-cpol: true
+> >
+> > Should these be required? Supplies should really be required too, since
+> > the device probably cannot function without them?
+> >
+>=20
+> No, since spi-* define mode in which device works. If both are present
+> it is mode 3, if none it is mode 0.
+>=20
+> About supplies, device cannot work without power supply obviously, but
+> often exact supplies are not known and I would like to not enforce
+> someone to add random regulators just because they are mandatory.
 
+If the device doesn't work without the supplies, the supplies should be
+mandatory in the binding.
+
+>=20
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    const: tx_clk
+> >
+> > Drop the _clk, since this cannot be anything else! clock-names isn't
+> > really useful when you have just one, so I'd be inclined to say remove
+> > it entirely...
+> >
+>=20
+> TX_CLK is the name which datasheet refers to hence I have included
+> clock name solely to have clear link between datasheet clock
+> references and clock used here.
+
+I think people will be able to make the leap between "tx_clk" and "tx".
+
+>=20
+> > > +  solomon,hs-zero-delay-ns:
+> > > +    description:
+> > > +      HS zero delay period
+> > > +    default: 133
+> > > +
+> > > +  solomon,hs-prep-delay-ns:
+> > > +    description:
+> > > +      HS prep delay period
+> > > +    default: 40
+> >
+> > Do these two have limits? Use maximum/minimum to set them if so.
+> > Cheers,
+> > Conor.
+> >
+>=20
+> Datasheet does not specify limits actually, only defaults. I will try
+> to calculate boundaries.
+
+Hmm, that's interesting. I see in your driver that the eventual value
+gets converted down to a u8? That should at least impose some sort of
+limits I guess.
+
+--jUeovMtJEMp6ohsP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ7S+yQAKCRB4tDGHoIJi
+0tZ9AP9JAAMNXWYdg/TBy4XNztE8Ae+dUaENkSycA9YxR2kLWwD+MJ4f+T6TzYEM
+ubzOjZtfD6wNXLAjlV5bLvbS6nd6YAU=
+=lSJg
+-----END PGP SIGNATURE-----
+
+--jUeovMtJEMp6ohsP--
