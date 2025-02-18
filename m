@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1726A3AC81
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 00:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FE4A3AC9F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 00:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F8410E781;
-	Tue, 18 Feb 2025 23:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1227010E1A1;
+	Tue, 18 Feb 2025 23:40:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="cT44W4Xt";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gtaqD/GW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EBBB10E781
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 23:29:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739921350; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nmqVa7cF5xhDoKrRmhZBDJGYT0v38+pBpdExeM7XdrYfG33t8RrDj559mOOlN1XoUUaOboH6DwR0oRuh5bI8TZPXSrAzgJ3O/p6FbaUt0YuUoMXK/X/K17gx1qOYGT/E08mgE/uhSQ/6M4zLBRTaoZDYRTOCnV3jaMLgF2Jv9KM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739921350;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=VtJM+6VGRnYwpG1okrpvmsoo+QzSvXWf7ZKxTATVhv4=; 
- b=bNxUEARlfyR/n2eH01zRD0BuXaKT8WS0p1R1V6YkVO+GRiticJW3WFCaHwTV7ircuY2lOvX9Lm+w/tWvlQzjsIUI+gBL5eREisOeYNwASA+Ht9FHijUZ59icKx8vEH0Tty21YcvrRwGlUoB4fP20KH20Q/wTyq8mfDoNXaq012k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739921350; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=VtJM+6VGRnYwpG1okrpvmsoo+QzSvXWf7ZKxTATVhv4=;
- b=cT44W4XtMz3+QJyLmTynv+wH6fRh/+jQdWmJJo+rVT8kV39GlTeWbFF4enqIuUFv
- b+CwdXdHKIa/jvfjNgOQIX8btggOULKtIChLy5iSLOazqNSz+PT36bw4KPhMHLRdY/Y
- tIBjX9Gv1EF/mOb7SuK38JzAsTuqr8AdsnuVNtQo=
-Received: by mx.zohomail.com with SMTPS id 1739921347867297.0981931852451;
- Tue, 18 Feb 2025 15:29:07 -0800 (PST)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Subject: [RFC PATCH 7/7] drm/panfrost/panthor: Take sparse objects into
- account for fdinfo
-Date: Tue, 18 Feb 2025 23:25:37 +0000
-Message-ID: <20250218232552.3450939-8-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250218232552.3450939-1-adrian.larumbe@collabora.com>
-References: <20250218232552.3450939-1-adrian.larumbe@collabora.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E53F10E1A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 23:40:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739922015;
+ bh=vtJYJScwIgD7t/Kjv9WAvIrpkcvjsYEil5lQtdhNnDE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=gtaqD/GWX2crjMIVsm9VhPgIp6ynjZ09aQZr76a03msFBEu3FN4S2lLI3hKVIXR6g
+ 2LOCyx9ZvSLA2TOXcjTszgbUuSNTbm1pbAWf0hAavTRc+y2+rR8S5pcR5E2wOcF8tR
+ LRplrtXfSFculPVtvURaCiLm3OcJ5reQycDBmNKAfUAstLCB74ZnIj1JtUDQNODQ4a
+ PsSfM1eMYJZBW7KBtqIiKNy3XmfNDycBWITJZVKFPkmnkjVddJqR+8RPSF3Sjl54be
+ 1+K0vAO/qvlBsPPMzC1rIMLXxt4k7mfTjUcjcl7YqwJxTtAnEeoQmXZqMMltmntcOq
+ eKv7Rd4oXgWSg==
+Received: from [192.168.1.143] (144.232.221.87.dynamic.jazztel.es
+ [87.221.232.144])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 881CB17E1411;
+ Wed, 19 Feb 2025 00:40:13 +0100 (CET)
+Message-ID: <0dd48599-448f-4472-9a8a-54b7f0379c13@collabora.com>
+Date: Wed, 19 Feb 2025 01:40:12 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
+ to VOP2 on RK3588
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: Jianfeng Liu <liujianfeng1994@gmail.com>, airlied@gmail.com,
+ andy.yan@rock-chips.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com, kernel@collabora.com,
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, robh@kernel.org,
+ simona@ffwll.ch, tzimmermann@suse.de
+References: <1919367.CQOukoFCf9@diego>
+ <20250218121749.1382322-1-liujianfeng1994@gmail.com>
+ <lnuceofdwm6lgibworaghcujp6rrncvn4e2xc2vzltimjw3rqu@jur7x5cxt5ue>
+ <2425191.NG923GbCHz@diego>
+ <ldgdrytto5y2xf3ois23j4ymtajtwmqlxjr2zyqhwbbxcx6f6y@gzb37fntx2x6>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <ldgdrytto5y2xf3ois23j4ymtajtwmqlxjr2zyqhwbbxcx6f6y@gzb37fntx2x6>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,46 +73,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because of the alternative definition of the 'pages' field in shmem after adding
-support for sparse allocations, the logic for deciding whether pages are
-available must be expanded.
+Hi,
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_gem.c | 4 +++-
- drivers/gpu/drm/panthor/panthor_gem.c   | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+On 2/18/25 6:05 PM, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Tue, Feb 18, 2025 at 03:53:06PM +0100, Heiko Stübner wrote:
+>> Am Dienstag, 18. Februar 2025, 15:13:07 MEZ schrieb Sebastian Reichel:
+>>> On Tue, Feb 18, 2025 at 08:17:46PM +0800, Jianfeng Liu wrote:
+>>>> On Tue, 18 Feb 2025 11:00:57 +0100, Heiko Stübnerwrote:
+>>>>> So I guess step1, check what error is actually returned.
+>>>>
+>>>> I have checked that the return value is -517:
+>>>>
+>>>> rockchip-drm display-subsystem: [drm] *ERROR* failed to get pll_hdmiphy1 with -517
+>>>>
+>>>>> Step2 check if clk_get_optional need to be adapted or alternatively
+>>>>> catch the error in the vop2 and set the clock to NULL ourself in that case.
+>>>>
+>>>> I tried the following patch to set the clock to NULL when clk_get_optional
+>>>> failed with value -517, and hdmi0 is working now. There are also some
+>>>> boards like rock 5 itx which only use hdmi1, I think we should also add
+>>>> this logic to vop2->pll_hdmiphy0.
+>>>>
+>>>> @@ -3733,6 +3751,15 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+>>>>  		return PTR_ERR(vop2->pll_hdmiphy0);
+>>>>  	}
+>>>>  
+>>>> +	vop2->pll_hdmiphy1 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy1");
+>>>> +	if (IS_ERR(vop2->pll_hdmiphy1)) {
+>>>> +		drm_err(vop2->drm, "failed to get pll_hdmiphy1 with %d\n", vop2->pll_hdmiphy1);
+>>>> +		if (vop2->pll_hdmiphy1 == -EPROBE_DEFER)
+>>>> +			vop2->pll_hdmiphy1 = NULL;
+>>>> +		else
+>>>> +			return PTR_ERR(vop2->pll_hdmiphy1);
+>>>> +	}
+>>>> +
+>>>
+>>> This first of all shows, that we should replace drm_err in this
+>>> place with dev_err_probe(), which hides -EPROBE_DEFER errors by
+>>> default and instead captures the reason for /sys/kernel/debug/devices_deferred.
+>>>
+>>> Second what you are doing in the above suggestion will break kernel
+>>> configurations where VOP is built-in and the HDMI PHY is build as a
+>>> module.
+>>>
+>>> But I also think it would be better to have the clocks defined in the
+>>> SoC level DT. I suppose that means vop2_bind would have to check if
+>>> the HDMI controller <ID> is enabled and only requests pll_hdmiphy<ID>
+>>> based on that. Considering there is the OF graph pointing from VOP
+>>> to the enabled HDMI controllers, it should be able to do that.
+>>
+>>
+>> I was more thinking about fixing the correct thing, with something like:
+>>
+>> ----------- 8< ----------
+>> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+>> index cf7720b9172f..50faafbf5dda 100644
+>> --- a/drivers/clk/clk.c
+>> +++ b/drivers/clk/clk.c
+>> @@ -5258,6 +5258,10 @@ of_clk_get_hw_from_clkspec(struct of_phandle_args *clkspec)
+>>         if (!clkspec)
+>>                 return ERR_PTR(-EINVAL);
+>>
+>> +       /* Check if node in clkspec is in disabled/fail state */
+>> +       if (!of_device_is_available(clkspec->np))
+>> +               return ERR_PTR(-ENOENT);
+>> +
+>>         mutex_lock(&of_clk_mutex);
+>>         list_for_each_entry(provider, &of_clk_providers, link) {
+>>                 if (provider->node == clkspec->np) {
+>> ----------- 8< ----------
+>>
+>> Because right now the clk framework does not handle nodes in
+>> failed/disabled state and would defer indefinitly.
+> 
+> Also LGTM.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 0cda2c4e524f..ced2fdee74ab 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -200,7 +200,9 @@ static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj
- 	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
- 	enum drm_gem_object_status res = 0;
- 
--	if (bo->base.base.import_attach || bo->base.pages)
-+	if (bo->base.base.import_attach ||
-+	    (!bo->base.sparse && bo->base.pages) ||
-+	    (bo->base.sparse && !xa_empty(&bo->base.xapages)))
- 		res |= DRM_GEM_OBJECT_RESIDENT;
- 
- 	if (bo->base.madv == PANFROST_MADV_DONTNEED)
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 8244a4e6c2a2..8dbaf766bd79 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -155,7 +155,9 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
- 	struct panthor_gem_object *bo = to_panthor_bo(obj);
- 	enum drm_gem_object_status res = 0;
- 
--	if (bo->base.base.import_attach || bo->base.pages)
-+	if (bo->base.base.import_attach ||
-+	    (!bo->base.sparse && bo->base.pages) ||
-+	    (bo->base.sparse && !xa_empty(&bo->base.xapages)))
- 		res |= DRM_GEM_OBJECT_RESIDENT;
- 
- 	return res;
--- 
-2.47.1
+Thank you all for the feedback and proposed solutions!
 
+I'm currently on leave and without access to any testing hw, but I'll be
+back in a couple of days.
+
+Regards,
+Cristian
