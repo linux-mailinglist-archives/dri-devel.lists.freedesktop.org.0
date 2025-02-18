@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321D6A39B8C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBC6A39B8E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:59:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A28B10E3A8;
-	Tue, 18 Feb 2025 11:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96FF210E699;
+	Tue, 18 Feb 2025 11:59:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DQSl4MBG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HAgEhTbT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
  [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A8210E3A8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:59:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5294010E3A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:59:35 +0000 (UTC)
 Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-438a3216fc2so55910215e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 03:59:33 -0800 (PST)
+ 5b1f17b1804b1-4398c8c8b2cso16533205e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 03:59:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739879972; x=1740484772; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=O813gytfaIQgKCLFaWJ2ufXSdD7F7BWIQSR0PxjKtPk=;
- b=DQSl4MBGYzBPJeKt51ItG3KOfR6f1kE47siaD978QOoHVVN7cIHwTtzTGXyILomMbO
- f4O5UDmyBptzNZ9OjzeXnFibAGHo9ody45RfzZoXYa+wz468s06fneRQHZDIwhqD0zBa
- JAg9QADI9sN8UtIoET9Ki+lrwQRpTD1k9OyAS1ewQKR0QFX42b/tSIu7xtMq0txzw3BB
- XCCJcnMoWs/gBuyqb/MMM1FEip1jMGI9kzIzZRHeN6iJja+jMrDA/UWyNGP9XQCwoocz
- 2xGLj09CQ6jvcWeJ7hEJa0BkSv7aJKqa2rNJ1qzEkgowZ3QduX0qd6O+ZjCv6t5WzOJr
- Wdyw==
+ d=gmail.com; s=20230601; t=1739879974; x=1740484774; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=plNt14WfwZSI7Nln3sGs9yH+Yl4xRu49ch9ykH86mJ0=;
+ b=HAgEhTbTaelUCGv5lvbdb8yWYVXxfPT3mPf4Xwn5T/rBHu9bl6jgyk8aQZvjmxHDDF
+ 4dwefaFj5Lql5mw2395jwLZStofxpgUzSpGYdWMf9jTcPNfRNxLIuOZZJy1IagKfgOrO
+ EkiNlDrJVMNuuISNQqVGy63mjheR/PYx6EA57Q7xcR2ccSs5MJsi138N8+L//mgH/Cf7
+ VWf/+8Q+X2I25EuGZrArgofusN9QabTMuvhuIBBxup0xyGYi9No+ibtHiaakDJzcpbcX
+ YCAapJYxbHUyMZ7bCPk9uLw7J48wn7ErjKW7jRm0485xP9bnx6G11ortnD5X0Bgu1xmV
+ WdrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739879972; x=1740484772;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=O813gytfaIQgKCLFaWJ2ufXSdD7F7BWIQSR0PxjKtPk=;
- b=wASgtgqrBSmRlp17/87isJSouXlGmIJw5lYZM2HVypYERnVHQXJWpOIgCYx8gQr5I1
- txiHJX5ViHUWTEIEuS0tQwwbikqq7BnvT/yHI9kqOynrbJFhQ8KQk5aamLbZQc9of3Bu
- 6KRRHaSzry7HqVNUUPI1cU2DaB49nqGG2AnrgT2fTmLQscJIUg8d5BkwNp4WiS9wCrel
- NI8LeqSGEBKpueknl3FFhlAbyBYWDUz6cBucQ0jmkimgWH8J5imPpsiYnFpqw7Q+vsQc
- j/A9QNYUCxv3Mt96H4uEg2r2Q9TbElP0AkLtk9Dc0G60vjVj6E88DW/ckgo9gV2yEGq/
- x2mA==
-X-Gm-Message-State: AOJu0YwX21Ndm8GC6fc7hsjzlcs7HFOsALat2DjhxC78t9XooEmuZi2q
- R/fXu9kwir3zsGnfC3cxw5TgL4g9tqqHXB82qFWXMbo9xGi/h36k
-X-Gm-Gg: ASbGncu6X+DMmQuO4jckLIX1UURG4QWayfa3v+NdjMnE2XvMBP8x9w1gb989JeQNAdQ
- 1oBqKjYqYTvk4RIm/nCKaLjz9Ap9c2X5r9JZFNsENCMdOlrNEQnkkwt3ocwPPrpLTRwAXvOa5s1
- I84ZFLq5p9SQXnNlOO4uckzR0acHifXc4x441UnxhZ+XNPc6WiGgWJMBZjm8TVjGINdRy1R7C/A
- YCuNzIF59dblTYN++L6Q7LqyfFyc/PXhri0WW15T2+1QPwXpca4hwqsV+YoAIOSPr37FTzdbX62
- mgmxwxYFOZryoy0aPIDfjcHWiM/BKRER/WlqfNCBkBZs
-X-Google-Smtp-Source: AGHT+IG89ZnXBXFf5f1VSsSomJrwv7mMVHfOqUcCIv9ZtqZW9JNdN8IPm7JEBYPGywYE8kKOC0HxLg==
-X-Received: by 2002:a05:600c:1e23:b0:439:8346:506b with SMTP id
- 5b1f17b1804b1-4398346535emr60676785e9.19.1739879972344; 
- Tue, 18 Feb 2025 03:59:32 -0800 (PST)
+ d=1e100.net; s=20230601; t=1739879974; x=1740484774;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=plNt14WfwZSI7Nln3sGs9yH+Yl4xRu49ch9ykH86mJ0=;
+ b=hjdku9fVYENeH85jEnWbN5pBhq2CpS6W1F9SLVwT3z267KqLbUeMW7/UkQxFrNNHww
+ SHG3MzIo3uyl5jE077cgTMj4H1BfxV8kBZbefhBCWAbrEp+X6WCVpR5YbJuRtSU0es/q
+ sLClXM0fWM65tsDw5BJNzR55O8C2BJXrMRmE5u3TKTTL/GtJ5cLZ7k9AWfpA1sT4iRgY
+ utHEL5b4TNZ0gvvDCYN70XmETqoE+USzVaFOFA6HppRXIcHcYiJyaud3g2zsskx4Gbwa
+ GD5D1oXkKarQonKSsS0fjBafXIzP+PznH2X6uEgBOyOJVNSRjPlb6CoYiVVDTknzfz/r
+ BbPw==
+X-Gm-Message-State: AOJu0YxU3nqU+rGJOe34oQAMQ05f2m2OK0Iqmr75+amH2afm6r1XglZ2
+ iDLHBBJWMz+kfSuxOOK0fx0SKSUAA7N8Mu3yBwdGvjetu7tpM0z6
+X-Gm-Gg: ASbGncuLfG2mG0un4ue4dUXdgkH1otUdSW9g8ibZXRDMkVfgU93Sd8e+HWhCGtviHcK
+ TEmcLhOcAYh7lse2a7fNu0QF8w1rZnJR3TFJv7ZeKwSablbjiY5JuBNVd7H+swJi1pCLlUKT0HB
+ MQXjrLiYGij+B6+lF81xIhKAoRIO0J/p6lEGsdKDZcvDgK/OHVleCYG2iS5PEzBehGujKgjY5+a
+ DvNHHI1Dl2eTa+yGHPdzbtzS+D+TpO4lLFAzeG5Pjie/BMUZOj3PA8RuVQo7Fm6ZhFNhb3fvf78
+ jBV3KJGKDfzeN8+2NhU+3Q/PzCT73GBs6tLxApvgwsfm
+X-Google-Smtp-Source: AGHT+IGqpvy3pV7tb5l4+0aGMl4HQcPTOYCeNXFe0yeVJw2TNYm0+gCfRUOjhvo8TM1/rvWytw9fOA==
+X-Received: by 2002:a05:600c:3ba0:b0:439:93d2:72b4 with SMTP id
+ 5b1f17b1804b1-43993d2742emr26482955e9.16.1739879973585; 
+ Tue, 18 Feb 2025 03:59:33 -0800 (PST)
 Received: from prasmi.Home ([2a06:5906:61b:2d00:6940:cc67:5b00:b151])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4395cf084d5sm123873255e9.1.2025.02.18.03.59.31
+ 5b1f17b1804b1-4395cf084d5sm123873255e9.1.2025.02.18.03.59.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 03:59:31 -0800 (PST)
+ Tue, 18 Feb 2025 03:59:33 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -73,10 +74,13 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Biju Das <biju.das.jz@bp.renesas.com>,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 0/3] Add support for Mali-G31 GPU on RZ/V2H(P) SoC
-Date: Tue, 18 Feb 2025 11:59:19 +0000
-Message-ID: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 1/3] dt-bindings: gpu: mali-bifrost: Add compatible for
+ RZ/V2H(P) SoC
+Date: Tue, 18 Feb 2025 11:59:20 +0000
+Message-ID: <20250218115922.407816-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,22 +100,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi All,
+Add a compatible string for the Renesas RZ/V2H(P) SoC variants that
+include a Mali-G31 GPU. These variants share the same restrictions on
+interrupts, clocks, and power domains as the RZ/G2L SoC, so extend
+the existing schema validation accordingly.
 
-This patch series adds support for the Mali-G31 GPU on the RZ/V2H(P) SoC.
-The changes include updating the device tree bindings, adding the GPU node
-to the SoC device tree, and enabling the GPU on the RZ/V2H evaluation kit.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Lad Prabhakar (3):
-  dt-bindings: gpu: mali-bifrost: Add compatible for RZ/V2H(P) SoC
-  arm64: dts: renesas: r9a09g057: Add Mali-G31 GPU node
-  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable Mali-G31
-
- .../bindings/gpu/arm,mali-bifrost.yaml        |  2 +
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 51 +++++++++++++++++++
- .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 15 ++++++
- 3 files changed, 68 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index 735c7f06c24e..1c81aea28c51 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -24,6 +24,7 @@ properties:
+               - realtek,rtd1619-mali
+               - renesas,r9a07g044-mali
+               - renesas,r9a07g054-mali
++              - renesas,r9a09g057-mali
+               - rockchip,px30-mali
+               - rockchip,rk3568-mali
+               - rockchip,rk3576-mali
+@@ -142,6 +143,7 @@ allOf:
+             enum:
+               - renesas,r9a07g044-mali
+               - renesas,r9a07g054-mali
++              - renesas,r9a09g057-mali
+     then:
+       properties:
+         interrupts:
 -- 
 2.43.0
 
