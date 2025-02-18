@@ -2,74 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E006CA3908F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 02:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C93A3914A
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 04:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4211610E5FC;
-	Tue, 18 Feb 2025 01:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C788710E0C2;
+	Tue, 18 Feb 2025 03:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GwEi7gHe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lYZd8Aux";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D7610E34E;
- Tue, 18 Feb 2025 01:46:39 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-abb7aecd39fso423320666b.0; 
- Mon, 17 Feb 2025 17:46:39 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5736210E0C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 03:27:00 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5461cb12e39so1889169e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 19:27:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739843198; x=1740447998; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CCf72YGlIJXBtU156+rJph9kgwvJXx8dygCkaGYLy+w=;
- b=GwEi7gHeY0+B7RIH/kcHdIAmWYIY1yiXNJjpfnAP6Q2SZlpB1f3KPZiODsLckU5w65
- 3oBKG47/vqmhcWU3DJs29zhz4GthYvxvBxB0gtHKSFwcUvxp4B5fOej87eCfeiRz8A6J
- x51ezCXwBMwYGx1c604n8B7zpvGdLgjod6UH86peQExKtQb9miC9LPMvOEn3S4/RnqcM
- rgetywRgiPzE6vcREe4OeyWQrZkd0fCPS6kt5wY+7CkAHCHZ2+rKuElxPnqhsIvYr8pO
- T38k7ZjuypvgkhlWkTN1e/uZ6RyhaZCm0bjsoe93hggyL+sZPhbRq1i7tgKPUim+K1Mv
- 1tzg==
+ d=linaro.org; s=google; t=1739849218; x=1740454018; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YSCxueoLHB/txHVHiuPd/+UkwH+GSWwoHHKB59+DFlU=;
+ b=lYZd8AuxYoPNhux9K011zCrGyNEwTI5drFB9jwOIWQyYL/HPo9U48dFY0Ctg99et4T
+ kFMtsAbBF0BA+3h9GKkYIK9VxoKS7uXQlGyycHohF9jMjeJxMCPAemOwtX2WEyY/Daq8
+ su2fnl4XvBCFx8msvtzQV47LqwrHxggqxFIzagjhnVw2Xqa/IwgaUciOmhXRtzyT5Qur
+ yx+JevQVrSYdYOdKJcz2KKAmOS2s6kV4N1/2ofkY6moa4XAurAjrdj7o5iM9q33I9Oub
+ YqpSV38RfwQcOd73oX4MD+nP8vX2Z9/a/SnttL+Sa9mhx00v/BrKZ965TYFBVtw7DcQi
+ 9qoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739843198; x=1740447998;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CCf72YGlIJXBtU156+rJph9kgwvJXx8dygCkaGYLy+w=;
- b=QOs4T8MhjE2xRrwldijCs7G0FyhF3v37ZsRiUcupOP2X7VG0T4K2n56YGH3ngaDqtO
- l6BpHgpFi+HuvRFosnX8JWVMRtTuYh5dFJpbYAvBY4PSli0CnK/Ts8VqVSH7eMU08nAs
- ZNGFcxqlS5yyKQW17wWoeN8+IKwIGfP8J2Ow99rY4fvQJ0lwFEGoS9c+qVH+EilyDFua
- VirBp6H4svzCnWiGn52+GwsHJcFWsiTAxFTe/AeRCFkK9LDttg/q/6B75fCpJzp/y9jE
- EtXPvQHiMCukccldMaaIKWKKnAw2JvSIAx1HvLOHxSbzMYtz44oUf4S2MP6oY20jyj1E
- WQmQ==
+ d=1e100.net; s=20230601; t=1739849218; x=1740454018;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YSCxueoLHB/txHVHiuPd/+UkwH+GSWwoHHKB59+DFlU=;
+ b=TAbpyoxk+a4Gs/IH3Vb7SNoCCeNUlQdiiaYCTZWXuuJyb45P4kbulrnpaaS7aPhTzK
+ iMhc12d5b0A+mrIXW7mdBdwsB0bkPYZefRVtnKSCgrSSs9L4JJLcin/QN8oOw6BhIO6I
+ tSpVUenkiIb2quiiW6StFCXvBecI/euURgDk75ue4J8g/2yK0yRjJgLGDP9ThUceokLZ
+ hnPsivTiyPkNV6CMJLK6PB+Z+ar/L0R1e2JdFFbbl9O1CLtfqJZgkocyDj4lQVhPhZc2
+ DTRDt1k7m2I4du9/jzrA7SMqFjaC2FKjDgJuxVRLaRlNoCxpv6lD/Dhn6hxvFbXP305Z
+ E/kA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDvpNCpBRvQCxpQqD0cVJ5AMuu0iv5aKqUDJ7x/Lju6MjEhLWPHQ+6jfmQ5VUEJVSlW0PW4pv20f4=@lists.freedesktop.org,
- AJvYcCXxSRSKVFUu9zsVfDqWlHQ97ELtOu8ltCwHeV209ThV0JnYUrqrO8YF+V/gatcUIIiKkeXixI+OBw==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSaCeoLXUeW1TY87YTjMK/rJbA9Xn031oQE3jiuOJ3yJNwdFqV
- 9a7ppG0kFOOyDH2qqCcSY2bgd8av5GX9UxtigU2/9W2Wd5fY390R5WmeIs57GEF7LEWJ6D9o/3M
- M4zweyS4pDt8jAdhxtUlIToyhDH7kBXhf
-X-Gm-Gg: ASbGncvKqCsw/ZKQlZ2VaB7GiUcx1HjiV4MH/IQGMO7wEa78rNYgS23eQELWzuTarEE
- gWBnpUV6qlJzrTBQrShakQawLMbHSRKJyEHCwJsYVH4RrGYWqHUGSVNLQNqTEHNfc9X58ttg=
-X-Google-Smtp-Source: AGHT+IH7918UaP+tJr4P+w7Ncj31TNcQzIB1RN+BxYusaqdvDFLog+0kyShinpcWariciJXGkbjL2IuVNQoZvxsk3LE=
-X-Received: by 2002:a17:907:8326:b0:abb:b24d:c63e with SMTP id
- a640c23a62f3a-abbb24dc7e8mr154657166b.16.1739843198130; Mon, 17 Feb 2025
- 17:46:38 -0800 (PST)
+ AJvYcCVfQTzlTHygHtsLOgXBhjVmwY0ssPD3U+TVI/j/n92d/IqbXeNTAEDrUNtlFWEHrdcysLRV3Uz/hQw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsTa+iWhI60nHIeT3DQoIHUXS6tN/629p8vYMI+f/X+ShQvoiJ
+ nFU9McLuisCajTuvx2dnWXmPREjwtpkF69xH4sjDNVt56I7aiuM6/Em8HKWfM9Y=
+X-Gm-Gg: ASbGnctkfsMvbtX1lvDTSSaN/eu14bUSBvDKBJDu9FkcPIEjBSTs3aiuM8l5D6SU6vN
+ MStRZQhf/u7ciPkXntaoP0huDYn2KOcKRv3jcj4EfiC24/XeuLF3pR9rzNsrxF24P2J3eq6iQGd
+ nQN1dKhNq6NPo8rf6IYrWbFspEc10uvlwjff2ZFnegB12M+vkigZpuxoOOzoOSeQHAe905AZJ/0
+ rAvWKceAyc5SSoeGpdWjA42fBMYDfIkQXoX4ZNhW8M1Xxa0GryCJhXOdqjR++3VStVvE0K6JZiw
+ SUJPA/KvEc8unTMW356BAZj5RXvFNTkiY2Dd72iZll8dH49FfAdoAnb+ZtXWTrXYztwZPSE=
+X-Google-Smtp-Source: AGHT+IEuXEdpqn4is6TUxaE/+JLqNClWKujDuBTB2tz6Yn1fQEc4M1pLzGsmXbDamEwCBtvEsM8kFA==
+X-Received: by 2002:a05:6512:2342:b0:545:f4b:ed58 with SMTP id
+ 2adb3069b0e04-5452fe47777mr4001491e87.18.1739849218533; 
+ Mon, 17 Feb 2025 19:26:58 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54595e38064sm980129e87.126.2025.02.17.19.26.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Feb 2025 19:26:57 -0800 (PST)
+Date: Tue, 18 Feb 2025 05:26:54 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>, 
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 06/11] drm/fourcc: Add DRM_FORMAT_XVUY2101010
+Message-ID: <naw67daoyb2lfmq4jovlwanz5niaolptwnug3c3kkrtlfoh6dd@trkctqyzvtb5>
+References: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
+ <20250212-xilinx-formats-v3-6-90d0fe106995@ideasonboard.com>
+ <bdpw2g65uor77tijlhpabodog7haqvdcemnr3wzqkooerzuib5@hfdn5zsrbkgg>
+ <7674314f-d95a-433a-81d2-ca78bc199359@ideasonboard.com>
 MIME-Version: 1.0
-References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
- <Z7OrKX3zzjrzZdyz@pollux>
-In-Reply-To: <Z7OrKX3zzjrzZdyz@pollux>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 18 Feb 2025 11:46:26 +1000
-X-Gm-Features: AWEUYZmF3nJ_6vA2tiOA_SUXKMv6w2unWAGmiFQTMmVBeIGS2-M0LRIEPh2iL2g
-Message-ID: <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Ben Skeggs <bskeggs@nvidia.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7674314f-d95a-433a-81d2-ca78bc199359@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,38 +98,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> 1. How to avoid unnecessary calls to try_access().
->
-> This is why I made Boot0.read() take a &RevocableGuard<'_, Bar0> as argument. I
-> think we can just call try_access() once and then propage the guard through the
-> callchain, where necessary.
+On Mon, Feb 17, 2025 at 10:27:56PM +0200, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 17/02/2025 22:15, Dmitry Baryshkov wrote:
+> > On Wed, Feb 12, 2025 at 04:56:10PM +0200, Tomi Valkeinen wrote:
+> > > Add XVUY2101010, a 10 bits per component YCbCr format in a 32 bit
+> > > container.
+> > 
+> > Is there a more common name for this format? Otherwise googling for it
+> > reveals only your series.
+> 
+> In the cover letter I mention the gstreamer names where available (this
+> particular format is not in gstreamer). AMD has these in their zynqmp
+> documentation (https://docs.amd.com/r/en-US/ug1085-zynq-ultrascale-trm/Video-Packer-Format).
+> 
+> XVUY2101010 is YUV444_10BPC in AMD docs.
+> 
+> X403 is Y444_10LE32 in gstreamer, and YV24_10BPC in AMD docs.
+> 
+> I'm not sure you'll have much more luck googling with those names, though
+> =).
 
-Nope, you can't do that, RevocableGuard holds a lock and things
-explode badly in lockdep if you do.
+I'm asking, because include/uapi/drm/drm_fourcc.h has a pretty explicit
+waiver: GL, Vulkan or other open standards. Otherwise normal
+requirements apply and it's required to have an open-source usespace
+implementation, etc.
 
-[ 39.960247] =============================
-[ 39.960265] [ BUG: Invalid wait context ]
-[ 39.960282] 6.12.0-rc2+ #151 Not tainted
-[ 39.960298] -----------------------------
-[ 39.960316] modprobe/2006 is trying to lock:
-[ 39.960335] ffffa08dd7783a68
-(drivers/gpu/nova-core/gsp/sharedq.rs:259){....}-{3:3}, at:
-_RNvMs0_NtNtCs6v51TV2h8sK_6nova_c3gsp7sharedqNtB5_26GSPSharedQueuesr535_113_018rpc_push+0x34/0x4c0
-[nova_core]
-[ 39.960413] other info that might help us debug this:
-[ 39.960434] context-{4:4}
-[ 39.960447] 2 locks held by modprobe/2006:
-[ 39.960465] #0: ffffa08dc27581b0 (&dev->mutex){....}-{3:3}, at:
-__driver_attach+0x111/0x260
-[ 39.960505] #1: ffffffffad55ac10 (rcu_read_lock){....}-{1:2}, at:
-rust_helper_rcu_read_lock+0x11/0x80
-[ 39.960545] stack backtrace:
-[ 39.960559] CPU: 8 UID: 0 PID: 2006 Comm: modprobe Not tainted 6.12.0-rc2+ #151
-[ 39.960586] Hardware name: System manufacturer System Product
-Name/PRIME X370-PRO, BIOS 6231 08/31/2024
-[ 39.960618] Call Trace:
-[ 39.960632] <TASK>
-
-was one time I didn't drop a revocable before proceeding to do other things,
-
-Dave.
+-- 
+With best wishes
+Dmitry
