@@ -2,138 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F722A3983E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 11:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F16F2A3984E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 11:11:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE37C10E2A1;
-	Tue, 18 Feb 2025 10:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F24110E33F;
+	Tue, 18 Feb 2025 10:11:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="YIT/hY3J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H8w0e7K6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YIT/hY3J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H8w0e7K6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IPeM9Iw+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF2410E2A1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 10:09:31 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C8AE121162;
- Tue, 18 Feb 2025 10:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739873369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c10boL3rm2mbeldZRPHsc/TZkeLmzoFr2zVMgxywo98=;
- b=YIT/hY3JVBOqnjRxWQhmZM3Ez5RrTeFH6A+/KBPm6S0ORh82KpuIwOk/VOyK3xPr3Rpelw
- r8eMnf05xBeQcL+yRdF8GX0ZbKTlW14OcAGguljn4GPvvqqrshmXFoOLDTvdHRcMs/MXjs
- JldLa6NZiKO9GlDAV1uQsa5/oPp5mKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739873369;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c10boL3rm2mbeldZRPHsc/TZkeLmzoFr2zVMgxywo98=;
- b=H8w0e7K6R+r88C+yHefVoNpIzpsf9gasgVL2+8ui3Nd2ftnbJx7ezoBTdTYibwgyQDLybi
- QCF8/cdWLThY+IDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739873369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c10boL3rm2mbeldZRPHsc/TZkeLmzoFr2zVMgxywo98=;
- b=YIT/hY3JVBOqnjRxWQhmZM3Ez5RrTeFH6A+/KBPm6S0ORh82KpuIwOk/VOyK3xPr3Rpelw
- r8eMnf05xBeQcL+yRdF8GX0ZbKTlW14OcAGguljn4GPvvqqrshmXFoOLDTvdHRcMs/MXjs
- JldLa6NZiKO9GlDAV1uQsa5/oPp5mKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739873369;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c10boL3rm2mbeldZRPHsc/TZkeLmzoFr2zVMgxywo98=;
- b=H8w0e7K6R+r88C+yHefVoNpIzpsf9gasgVL2+8ui3Nd2ftnbJx7ezoBTdTYibwgyQDLybi
- QCF8/cdWLThY+IDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86516132C7;
- Tue, 18 Feb 2025 10:09:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0IqiH1lctGfzAgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 18 Feb 2025 10:09:29 +0000
-Message-ID: <d9304ed0-911b-4877-a15c-981b3335bbf9@suse.de>
-Date: Tue, 18 Feb 2025 11:09:29 +0100
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5069410E33F
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 10:11:25 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-38f488f3161so822398f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 02:11:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739873484; x=1740478284; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=jOdZKesqfoNZ275Br6kZa4W41E5z6vETxGP2OEN0Wac=;
+ b=IPeM9Iw+zoACw9zk6g9ANSJfS4Wjz3ycAcAiyzklyihlaHetka8c3iwKeL860ek+jK
+ 81RiIPjVZAX9B3c8VG/rz9XA5uKNITfhbz5GLTc1QCW3jMQwmbu+BWa40q6cnc9s573T
+ 5/7UsQ+rCrrZpNQKw+8Noo2XR5f8OrTKeIB1J6JiPD4pkH8HJmbWPZQ36Z6361ISBSFZ
+ 0/jVI7Uc07IEatP52Dvj8j0uEIiBJqAxGWaax8e7XQoj+Hdtj69S2/ZFgV2/Lq4FobQ2
+ /dLIeadTsoS+EpB6vhW2twRzD6S1+pKci4eqs2QlbO+Ne8DRNnFqZIVaNimmChsM1PJg
+ 1KXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739873484; x=1740478284;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jOdZKesqfoNZ275Br6kZa4W41E5z6vETxGP2OEN0Wac=;
+ b=etFUkL6ld3vuwDf5yFIOgeRuSSqyDePz80Z/FgNJCYs52jvlTQ6YVZY2QKgFSLlo8O
+ mMtnMbvLFgM+pPX/oOO+NZKTl0A/+dc29doHtPah+10l/pfaCEBaf+42HNx87oywXiAC
+ 6wBqrspHRNIqh8HOR3YKENxpqS++GVMsCqnNW8PwXX4mtzvX9t5q5Mfu9v6ZiRnIr+Xi
+ nYqg6LzbwZ7JMePwHhTy1DbGwQmQEfUJqSmCcbswL/+ttPmYzx3BlvfgeBXQojDc7Ngo
+ y/Jp0zlFJlS0i+BUU+nRyH6u1R92HySSIGjLMDdDfvWe/DdpPYrGAmjUGkVcSaWIg78l
+ pE6Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXp+iPhkiJaJ14sgwPORHZatBFhh3RQLodGaFzJV7ax1Xi3JNLHxna1DvhRX9XTOd1F52iYQLlFPn4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNwpXi1MWun4JcrQb3rHWxO0b5FKYfoFXmBow0bOGyJ7udkhp7
+ R/bAi70thQYSMuzLsr0XN0Ua7LUcJt8A+p7c0/ipP4mBKNCjdQYp
+X-Gm-Gg: ASbGnctJn458Jt7kGOBHUv1Bs3zYdpSMs8HrzfYi+ywZC0MAUF3CFxbjcl95p9dUk8T
+ GHaiW6fBGiz9Nb6kTIzCuQd0As03IR47QeTvRNdEc3MPO5MUofDrmaeC/psBmxRtgh/UxvdGDBV
+ LF3mMucbyzdx8agujZSKbvbf7+XayXSDNNFLgeKZcY5SanoeO2tjR1oWIaDVMCYjKhihStJtpwh
+ 8/3rEpc/jlY6zmDfRSzZc3on8HMpLSj/QG7PMOTt+ML3j4/Oe6XIxy3tV3113oH4XEaQ3N9C0UK
+ xLHrTspk2Z6Ab2I=
+X-Google-Smtp-Source: AGHT+IGHXFUbjp01RiSXmJkE4aiTN+foCRp8wQgEPKHUD8tza4Sms4UvvdjkHTMla5PSEfeakRhI7A==
+X-Received: by 2002:a05:6000:1aca:b0:38f:37f3:5ca9 with SMTP id
+ ffacd0b85a97d-38f37f36159mr10474463f8f.50.1739873483348; 
+ Tue, 18 Feb 2025 02:11:23 -0800 (PST)
+Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38f258eb141sm14292940f8f.41.2025.02.18.02.11.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2025 02:11:22 -0800 (PST)
+Date: Tue, 18 Feb 2025 11:11:21 +0100
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 13/14] drm/vkms: Allow to configure multiple connectors
+Message-ID: <Z7RcyT2XEVYiNZ70@fedora>
+References: <20250217100120.7620-1-jose.exposito89@gmail.com>
+ <20250217100120.7620-14-jose.exposito89@gmail.com>
+ <6e1496ac-892d-4267-a670-75e6eb50e936@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tiny: add driver for Apple Touch Bars in x86 Macs
-To: Aditya Garg <gargaditya08@live.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
-Cc: Kerem Karabay <kekrby@gmail.com>, Atharva Tiwari <evepolonium@gmail.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <4BAFD886-84E0-4C4C-94B3-90BF911ED0E7@live.com>
- <F16BB9EB-632C-4BC4-A8BA-492BF32E43C1@live.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <F16BB9EB-632C-4BC4-A8BA-492BF32E43C1@live.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_EQ_ADDR_SOME(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[live.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.freedesktop.org];
- RCPT_COUNT_SEVEN(0.00)[9]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url, imap1.dmz-prg2.suse.org:helo,
- suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+In-Reply-To: <6e1496ac-892d-4267-a670-75e6eb50e936@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,871 +92,389 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Mon, Feb 17, 2025 at 04:45:41PM +0100, Louis Chauvet wrote:
+> 
+> 
+> Le 17/02/2025 à 11:01, José Expósito a écrit :
+> > Add a list of connectors to vkms_config and helper functions to add and
+> > remove as many connectors as wanted.
+> > 
+> > For backwards compatibility, add one enabled connector to the default
+> > configuration.
+> > 
+> > A future patch will allow to attach connectors and encoders, but for the
+> > moment there are no changes in the way the output is configured.
+> > 
+> > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> > ---
+> >   .clang-format                                 |  1 +
+> >   drivers/gpu/drm/vkms/tests/vkms_config_test.c | 74 +++++++++++++++++++
+> >   drivers/gpu/drm/vkms/vkms_config.c            | 54 ++++++++++++++
+> >   drivers/gpu/drm/vkms/vkms_config.h            | 44 +++++++++++
+> >   drivers/gpu/drm/vkms/vkms_connector.c         | 11 +++
+> >   5 files changed, 184 insertions(+)
+> > 
+> > diff --git a/.clang-format b/.clang-format
+> > index 5d21c0e4edbd..ca49832993c5 100644
+> > --- a/.clang-format
+> > +++ b/.clang-format
+> > @@ -690,6 +690,7 @@ ForEachMacros:
+> >     - 'v4l2_m2m_for_each_src_buf'
+> >     - 'v4l2_m2m_for_each_src_buf_safe'
+> >     - 'virtio_device_for_each_vq'
+> > +  - 'vkms_config_for_each_connector'
+> >     - 'vkms_config_for_each_crtc'
+> >     - 'vkms_config_for_each_encoder'
+> >     - 'vkms_config_for_each_plane'
+> > diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> > index 62fbcba4520f..0034f922713e 100644
+> > --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> > +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> > @@ -27,6 +27,7 @@ static void vkms_config_test_empty_config(struct kunit *test)
+> >   	KUNIT_EXPECT_TRUE(test, list_empty(&config->planes));
+> >   	KUNIT_EXPECT_TRUE(test, list_empty(&config->crtcs));
+> >   	KUNIT_EXPECT_TRUE(test, list_empty(&config->encoders));
+> > +	KUNIT_EXPECT_TRUE(test, list_empty(&config->connectors));
+> 
+> Ditto
+> With this modification:
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> 
+> >   	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+> > @@ -103,6 +104,9 @@ static void vkms_config_test_default_config(struct kunit *test)
+> >   	/* Encoders */
+> >   	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->encoders), 1);
+> > +	/* Connectors */
+> > +	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->connectors), 1);
+> > +
+> >   	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+> >   	vkms_config_destroy(config);
+> > @@ -232,6 +236,51 @@ static void vkms_config_test_get_encoders(struct kunit *test)
+> >   	vkms_config_destroy(config);
+> >   }
+> > +static void vkms_config_test_get_connectors(struct kunit *test)
+> > +{
+> > +	struct vkms_config *config;
+> > +	struct vkms_config_connector *connector_cfg;
+> > +	struct vkms_config_connector *connector_cfg1, *connector_cfg2;
+> > +	int n_connectors = 0;
+> > +
+> > +	config = vkms_config_create("test");
+> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+> > +
+> > +	vkms_config_for_each_connector(config, connector_cfg)
+> > +		n_connectors++;
+> > +	KUNIT_ASSERT_EQ(test, n_connectors, 0);
+> > +
+> > +	connector_cfg1 = vkms_config_create_connector(config);
+> > +	vkms_config_for_each_connector(config, connector_cfg) {
+> > +		n_connectors++;
+> > +		if (connector_cfg != connector_cfg1)
+> > +			KUNIT_FAIL(test, "Unexpected connector");
+> > +	}
+> > +	KUNIT_ASSERT_EQ(test, n_connectors, 1);
+> > +	n_connectors = 0;
+> > +
+> > +	connector_cfg2 = vkms_config_create_connector(config);
+> > +	vkms_config_for_each_connector(config, connector_cfg) {
+> > +		n_connectors++;
+> > +		if (connector_cfg != connector_cfg1 &&
+> > +		    connector_cfg != connector_cfg2)
+> > +			KUNIT_FAIL(test, "Unexpected connector");
+> > +	}
+> > +	KUNIT_ASSERT_EQ(test, n_connectors, 2);
+> > +	n_connectors = 0;
+> > +
+> > +	vkms_config_destroy_connector(connector_cfg2);
+> > +	vkms_config_for_each_connector(config, connector_cfg) {
+> > +		n_connectors++;
+> > +		if (connector_cfg != connector_cfg1)
+> > +			KUNIT_FAIL(test, "Unexpected connector");
+> > +	}
+> > +	KUNIT_ASSERT_EQ(test, n_connectors, 1);
+> > +	n_connectors = 0;
+> > +
+> > +	vkms_config_destroy(config);
+> > +}
+> > +
+> >   static void vkms_config_test_invalid_plane_number(struct kunit *test)
+> >   {
+> >   	struct vkms_config *config;
+> > @@ -439,6 +488,29 @@ static void vkms_config_test_valid_encoder_possible_crtcs(struct kunit *test)
+> >   	vkms_config_destroy(config);
+> >   }
+> > +static void vkms_config_test_invalid_connector_number(struct kunit *test)
+> > +{
+> > +	struct vkms_config *config;
+> > +	struct vkms_config_connector *connector_cfg;
+> > +	int n;
+> > +
+> > +	config = vkms_config_default_create(false, false, false);
+> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+> > +
+> > +	/* Invalid: No connectors */
+> > +	connector_cfg = list_first_entry(&config->connectors, typeof(*connector_cfg), link);
+> > +	vkms_config_destroy_connector(connector_cfg);
+> > +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+> > +
+> > +	/* Invalid: Too many connectors */
+> > +	for (n = 0; n <= 32; n++)
+> > +		connector_cfg = vkms_config_create_connector(config);
+> > +
+> > +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+> > +
+> > +	vkms_config_destroy(config);
+> > +}
+> > +
+> >   static void vkms_config_test_attach_different_configs(struct kunit *test)
+> >   {
+> >   	struct vkms_config *config1, *config2;
+> > @@ -678,12 +750,14 @@ static struct kunit_case vkms_config_test_cases[] = {
+> >   	KUNIT_CASE(vkms_config_test_get_planes),
+> >   	KUNIT_CASE(vkms_config_test_get_crtcs),
+> >   	KUNIT_CASE(vkms_config_test_get_encoders),
+> > +	KUNIT_CASE(vkms_config_test_get_connectors),
+> >   	KUNIT_CASE(vkms_config_test_invalid_plane_number),
+> >   	KUNIT_CASE(vkms_config_test_valid_plane_type),
+> >   	KUNIT_CASE(vkms_config_test_valid_plane_possible_crtcs),
+> >   	KUNIT_CASE(vkms_config_test_invalid_crtc_number),
+> >   	KUNIT_CASE(vkms_config_test_invalid_encoder_number),
+> >   	KUNIT_CASE(vkms_config_test_valid_encoder_possible_crtcs),
+> > +	KUNIT_CASE(vkms_config_test_invalid_connector_number),
+> >   	KUNIT_CASE(vkms_config_test_attach_different_configs),
+> >   	KUNIT_CASE(vkms_config_test_plane_attach_crtc),
+> >   	KUNIT_CASE(vkms_config_test_plane_get_possible_crtcs),
+> > diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> > index 17262a9c2567..fbbdee6068ce 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_config.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> > @@ -25,6 +25,7 @@ struct vkms_config *vkms_config_create(const char *dev_name)
+> >   	INIT_LIST_HEAD(&config->planes);
+> >   	INIT_LIST_HEAD(&config->crtcs);
+> >   	INIT_LIST_HEAD(&config->encoders);
+> > +	INIT_LIST_HEAD(&config->connectors);
+> >   	return config;
+> >   }
+> > @@ -38,6 +39,7 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
+> >   	struct vkms_config_plane *plane_cfg;
+> >   	struct vkms_config_crtc *crtc_cfg;
+> >   	struct vkms_config_encoder *encoder_cfg;
+> > +	struct vkms_config_connector *connector_cfg;
+> >   	int n;
+> >   	config = vkms_config_create(DEFAULT_DEVICE_NAME);
+> > @@ -89,6 +91,10 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
+> >   	if (vkms_config_encoder_attach_crtc(encoder_cfg, crtc_cfg))
+> >   		goto err_alloc;
+> > +	connector_cfg = vkms_config_create_connector(config);
+> > +	if (IS_ERR(connector_cfg))
+> > +		goto err_alloc;
+> > +
+> >   	return config;
+> >   err_alloc:
+> > @@ -102,6 +108,7 @@ void vkms_config_destroy(struct vkms_config *config)
+> >   	struct vkms_config_plane *plane_cfg, *plane_tmp;
+> >   	struct vkms_config_crtc *crtc_cfg, *crtc_tmp;
+> >   	struct vkms_config_encoder *encoder_cfg, *encoder_tmp;
+> > +	struct vkms_config_connector *connector_cfg, *connector_tmp;
+> >   	list_for_each_entry_safe(plane_cfg, plane_tmp, &config->planes, link)
+> >   		vkms_config_destroy_plane(plane_cfg);
+> > @@ -112,6 +119,9 @@ void vkms_config_destroy(struct vkms_config *config)
+> >   	list_for_each_entry_safe(encoder_cfg, encoder_tmp, &config->encoders, link)
+> >   		vkms_config_destroy_encoder(config, encoder_cfg);
+> > +	list_for_each_entry_safe(connector_cfg, connector_tmp, &config->connectors, link)
+> > +		vkms_config_destroy_connector(connector_cfg);
+> > +
+> >   	kfree_const(config->dev_name);
+> >   	kfree(config);
+> >   }
+> > @@ -255,6 +265,20 @@ static bool valid_encoder_possible_crtcs(const struct vkms_config *config)
+> >   	return true;
+> >   }
+> > +static bool valid_connector_number(const struct vkms_config *config)
+> > +{
+> > +	struct drm_device *dev = config->dev ? &config->dev->drm : NULL;
+> > +	size_t n_connectors;
+> > +
+> > +	n_connectors = list_count_nodes((struct list_head *)&config->connectors);
+> > +	if (n_connectors <= 0 || n_connectors >= 32) {
+> > +		drm_info(dev, "The number of connectors must be between 1 and 31\n");
+> > +		return false;
+> > +	}
+> > +
+> > +	return true;
+> > +}
+> > +
+> >   bool vkms_config_is_valid(const struct vkms_config *config)
+> >   {
+> >   	struct vkms_config_crtc *crtc_cfg;
+> > @@ -268,6 +292,9 @@ bool vkms_config_is_valid(const struct vkms_config *config)
+> >   	if (!valid_encoder_number(config))
+> >   		return false;
+> > +	if (!valid_connector_number(config))
+> > +		return false;
+> > +
+> >   	if (!valid_plane_possible_crtcs(config))
+> >   		return false;
+> > @@ -292,6 +319,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
+> >   	struct vkms_config_plane *plane_cfg;
+> >   	struct vkms_config_crtc *crtc_cfg;
+> >   	struct vkms_config_encoder *encoder_cfg;
+> > +	struct vkms_config_connector *connector_cfg;
+> >   	dev_name = vkms_config_get_device_name((struct vkms_config *)vkmsdev->config);
+> >   	seq_printf(m, "dev_name=%s\n", dev_name);
+> > @@ -311,6 +339,9 @@ static int vkms_config_show(struct seq_file *m, void *data)
+> >   	vkms_config_for_each_encoder(vkmsdev->config, encoder_cfg)
+> >   		seq_puts(m, "encoder\n");
+> > +	vkms_config_for_each_connector(vkmsdev->config, connector_cfg)
+> > +		seq_puts(m, "connector\n");
+> > +
+> >   	return 0;
+> >   }
+> > @@ -520,3 +551,26 @@ void vkms_config_encoder_detach_crtc(struct vkms_config_encoder *encoder_cfg,
+> >   	}
+> >   }
+> >   EXPORT_SYMBOL_IF_KUNIT(vkms_config_encoder_detach_crtc);
+> > +
+> > +struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *config)
+> > +{
+> > +	struct vkms_config_connector *connector_cfg;
+> > +
+> > +	connector_cfg = kzalloc(sizeof(*connector_cfg), GFP_KERNEL);
+> > +	if (!connector_cfg)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	connector_cfg->config = config;
+> > +
+> > +	list_add_tail(&connector_cfg->link, &config->connectors);
+> > +
+> > +	return connector_cfg;
+> > +}
+> > +EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_connector);
+> > +
+> > +void vkms_config_destroy_connector(struct vkms_config_connector *connector_cfg)
+> > +{
+> > +	list_del(&connector_cfg->link);
+> > +	kfree(connector_cfg);
+> > +}
+> > +EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
+> > diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> > index 3e5b2e407378..73562c894102 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_config.h
+> > +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> > @@ -16,6 +16,7 @@
+> >    * @planes: List of planes configured for the device
+> >    * @crtcs: List of CRTCs configured for the device
+> >    * @encoders: List of encoders configured for the device
+> > + * @connectors: List of connectors configured for the device
+> >    * @dev: Used to store the current VKMS device. Only set when the device is instantiated.
+> >    */
+> >   struct vkms_config {
+> > @@ -23,6 +24,7 @@ struct vkms_config {
+> >   	struct list_head planes;
+> >   	struct list_head crtcs;
+> >   	struct list_head encoders;
+> > +	struct list_head connectors;
+> >   	struct vkms_device *dev;
+> >   };
+> > @@ -92,6 +94,24 @@ struct vkms_config_encoder {
+> >   	struct drm_encoder *encoder;
+> >   };
+> > +/**
+> > + * struct vkms_config_connector
+> > + *
+> > + * @link: Link to the others connector in vkms_config
+> > + * @config: The vkms_config this connector belongs to
+> > + * @connector: Internal usage. This pointer should never be considered as valid.
+> > + *             It can be used to store a temporary reference to a VKMS connector
+> > + *             during device creation. This pointer is not managed by the
+> > + *             configuration and must be managed by other means.
+> > + */
+> > +struct vkms_config_connector {
+> > +	struct list_head link;
+> > +	struct vkms_config *config;
+> > +
+> > +	/* Internal usage */
+> > +	struct vkms_connector *connector;
+> > +};
+> > +
+> >   /**
+> >    * vkms_config_for_each_plane - Iterate over the vkms_config planes
+> >    * @config: &struct vkms_config pointer
+> > @@ -116,6 +136,14 @@ struct vkms_config_encoder {
+> >   #define vkms_config_for_each_encoder(config, encoder_cfg) \
+> >   	list_for_each_entry((encoder_cfg), &(config)->encoders, link)
+> > +/**
+> > + * vkms_config_for_each_connector - Iterate over the vkms_config connectors
+> > + * @config: &struct vkms_config pointer
+> > + * @connector_cfg: &struct vkms_config_connector pointer used as cursor
+> > + */
+> > +#define vkms_config_for_each_connector(config, connector_cfg) \
+> > +	list_for_each_entry((connector_cfg), &(config)->connectors, link)
+> > +
+> >   /**
+> >    * vkms_config_plane_for_each_possible_crtc - Iterate over the vkms_config_plane
+> >    * possible CRTCs
+> > @@ -361,4 +389,20 @@ int __must_check vkms_config_encoder_attach_crtc(struct vkms_config_encoder *enc
+> >   void vkms_config_encoder_detach_crtc(struct vkms_config_encoder *encoder_cfg,
+> >   				     struct vkms_config_crtc *crtc_cfg);
+> > +/**
+> > + * vkms_config_create_connector() - Add a new connector configuration
+> > + * @config: Configuration to add the connector to
+> > + *
+> > + * Returns:
+> > + * The new connector configuration or an error. Call
+> > + * vkms_config_destroy_connector() to free the returned connector configuration.
+> > + */
+> > +struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *config);
+> > +
+> > +/**
+> > + * vkms_config_destroy_connector() - Remove and free a connector configuration
+> > + * @connector_cfg: Connector configuration to destroy
+> > + */
+> > +void vkms_config_destroy_connector(struct vkms_config_connector *connector_cfg);
+> > +
+> >   #endif /* _VKMS_CONFIG_H_ */
+> > diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
+> > index ab8b52a84151..48b10cba322a 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_connector.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_connector.c
+> > @@ -25,8 +25,19 @@ static int vkms_conn_get_modes(struct drm_connector *connector)
+> >   	return count;
+> >   }
+> > +static struct drm_encoder *vkms_conn_best_encoder(struct drm_connector *connector)
+> > +{
+> > +	struct drm_encoder *encoder;
+> > +
+> > +	drm_connector_for_each_possible_encoder(connector, encoder)
+> > +		return encoder;
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> 
+> Not for this series, but does it make sense to make the "best_encoder"
+> configurable?
 
-Am 17.02.25 um 19:52 schrieb Aditya Garg:
-> From: Kerem Karabay <kekrby@gmail.com>
->
-> The Touch Bars found on x86 Macs support two USB configurations: one
-> where the device presents itself as a HID keyboard and can display
-> predefined sets of keys, and one where the operating system has full
-> control over what is displayed.
->
-> This commit adds support for the display functionality of the second
-> configuration. Functionality for the first configuration has been
-> merged in the HID tree.
->
-> Note that this driver has only been tested on T2 Macs, and only includes
-> the USB device ID for these devices. Testing on T1 Macs would be
-> appreciated.
->
-> Credit goes to @imbushuo on GitHub for reverse engineering most of the
-> protocol.
->
-> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> Co-developed-by: Atharva Tiwari <evepolonium@gmail.com>
-> Signed-off-by: Atharva Tiwari <evepolonium@gmail.com>
-> Co-developed-by: Aditya Garg <gargaditya08@live.com>
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> ---
->   drivers/gpu/drm/tiny/Kconfig      |  13 +
->   drivers/gpu/drm/tiny/Makefile     |   1 +
->   drivers/gpu/drm/tiny/appletbdrm.c | 702 ++++++++++++++++++++++++++++++
+Yes, definitely something we can configure in the future. The "pick the
+first one" algorithm leaves room for improvement.
 
-You also have to add the driver to MAINTAINERS.
+Sending v4 with the requested changes :)
 
->   3 files changed, 716 insertions(+)
->   create mode 100644 drivers/gpu/drm/tiny/appletbdrm.c
->
-> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-> index 94cbdb133..76d1a2f9f 100644
-> --- a/drivers/gpu/drm/tiny/Kconfig
-> +++ b/drivers/gpu/drm/tiny/Kconfig
-> @@ -1,5 +1,18 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   
-> +config DRM_APPLETBDRM
-> +	tristate "DRM support for Apple Touch Bars"
-> +	depends on DRM && USB && MMU
-> +	select DRM_GEM_SHMEM_HELPER
-> +	select DRM_KMS_HELPER
-> +	select HID_APPLETB_BL
-> +	help
-> +	  Say Y here if you want support for the display of Touch Bars on x86
-> +	  MacBook Pros.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called appletbdrm.
-> +
->   config DRM_ARCPGU
->   	tristate "ARC PGU"
->   	depends on DRM && OF
-> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-> index 60816d2eb..0a3a7837a 100644
-> --- a/drivers/gpu/drm/tiny/Makefile
-> +++ b/drivers/gpu/drm/tiny/Makefile
-> @@ -1,5 +1,6 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   
-> +obj-$(CONFIG_DRM_APPLETBDRM)		+= appletbdrm.o
->   obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
->   obj-$(CONFIG_DRM_BOCHS)			+= bochs.o
->   obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus-qemu.o
-> diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/appletbdrm.c
-> new file mode 100644
-> index 000000000..f056f6280
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tiny/appletbdrm.c
-> @@ -0,0 +1,702 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Apple Touch Bar DRM Driver
-> + *
-> + * Copyright (c) 2023 Kerem Karabay <kekrby@gmail.com>
-> + */
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/module.h>
-> +#include <linux/unaligned.h>
-> +#include <linux/usb.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_damage_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_encoder.h>
-> +#include <drm/drm_format_helper.h>
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_plane.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +#define __APPLETBDRM_MSG_STR4(str4)	((__le32 __force)((str4[0] << 24) | (str4[1] << 16) | (str4[2] << 8) | str4[3]))
-> +#define __APPLETBDRM_MSG_TOK4(tok4)	__APPLETBDRM_MSG_STR4(#tok4)
-> +
-> +#define APPLETBDRM_PIXEL_FORMAT		__APPLETBDRM_MSG_TOK4(RGBA) /* The actual format is BGR888 */
-> +#define APPLETBDRM_BITS_PER_PIXEL	24
-> +
-> +#define APPLETBDRM_MSG_CLEAR_DISPLAY	__APPLETBDRM_MSG_TOK4(CLRD)
-> +#define APPLETBDRM_MSG_GET_INFORMATION	__APPLETBDRM_MSG_TOK4(GINF)
-> +#define APPLETBDRM_MSG_UPDATE_COMPLETE	__APPLETBDRM_MSG_TOK4(UDCL)
-> +#define APPLETBDRM_MSG_SIGNAL_READINESS	__APPLETBDRM_MSG_TOK4(REDY)
-> +
-> +#define APPLETBDRM_BULK_MSG_TIMEOUT	1000
-> +
-> +#define drm_to_adev(_drm)		container_of(_drm, struct appletbdrm_device, drm)
-> +#define adev_to_udev(adev)		interface_to_usbdev(to_usb_interface(adev->dev))
-> +
-> +struct appletbdrm_msg_request_header {
-> +	__le16 unk_00;
-> +	__le16 unk_02;
-> +	__le32 unk_04;
-> +	__le32 unk_08;
-> +	__le32 size;
-> +} __packed;
-> +
-> +struct appletbdrm_msg_response_header {
-> +	u8 unk_00[16];
-> +	__le32 msg;
-> +} __packed;
-> +
-> +struct appletbdrm_msg_simple_request {
-> +	struct appletbdrm_msg_request_header header;
-> +	__le32 msg;
-> +	u8 unk_14[8];
-> +	__le32 size;
-> +} __packed;
-> +
-> +struct appletbdrm_msg_information {
-> +	struct appletbdrm_msg_response_header header;
-> +	u8 unk_14[12];
-> +	__le32 width;
-> +	__le32 height;
-> +	u8 bits_per_pixel;
-> +	__le32 bytes_per_row;
-> +	__le32 orientation;
-> +	__le32 bitmap_info;
-> +	__le32 pixel_format;
-> +	__le32 width_inches;	/* floating point */
-> +	__le32 height_inches;	/* floating point */
-> +} __packed;
-> +
-> +struct appletbdrm_frame {
-> +	__le16 begin_x;
-> +	__le16 begin_y;
-> +	__le16 width;
-> +	__le16 height;
-> +	__le32 buf_size;
-> +	u8 buf[];
-> +} __packed;
-> +
-> +struct appletbdrm_fb_request_footer {
-> +	u8 unk_00[12];
-> +	__le32 unk_0c;
-> +	u8 unk_10[12];
-> +	__le32 unk_1c;
-> +	__le64 timestamp;
-> +	u8 unk_28[12];
-> +	__le32 unk_34;
-> +	u8 unk_38[20];
-> +	__le32 unk_4c;
-> +} __packed;
-> +
-> +struct appletbdrm_fb_request {
-> +	struct appletbdrm_msg_request_header header;
-> +	__le16 unk_10;
-> +	u8 msg_id;
-> +	u8 unk_13[29];
-> +	/*
-> +	 * Contents of `data`:
-> +	 * - struct appletbdrm_frame frames[];
-> +	 * - struct appletbdrm_fb_request_footer footer;
-> +	 * - padding to make the total size a multiple of 16
-> +	 */
-> +	u8 data[];
-> +} __packed;
-> +
-> +struct appletbdrm_fb_request_response {
-> +	struct appletbdrm_msg_response_header header;
-> +	u8 unk_14[12];
-> +	__le64 timestamp;
-> +} __packed;
-> +
-> +struct appletbdrm_device {
-> +	struct device *dev;
-> +
-> +	unsigned int in_ep;
-> +	unsigned int out_ep;
-> +
-> +	unsigned int width;
-> +	unsigned int height;
-> +
-> +	struct drm_device drm;
-> +	struct drm_display_mode mode;
-> +	struct drm_connector connector;
-> +	struct drm_plane primary_plane;
-> +	struct drm_crtc crtc;
-> +	struct drm_encoder encoder;
-> +};
-> +
-> +static int appletbdrm_send_request(struct appletbdrm_device *adev,
-> +				   struct appletbdrm_msg_request_header *request, size_t size)
-> +{
-> +	struct usb_device *udev = adev_to_udev(adev);
-> +	struct drm_device *drm = &adev->drm;
-> +	int ret, actual_size;
-> +
-> +	ret = usb_bulk_msg(udev, usb_sndbulkpipe(udev, adev->out_ep),
-> +			   request, size, &actual_size, APPLETBDRM_BULK_MSG_TIMEOUT);
-> +	if (ret) {
-> +		drm_err(drm, "Failed to send message (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (actual_size != size) {
-> +		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-> +			actual_size, size);
-> +		return -EIO;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int appletbdrm_read_response(struct appletbdrm_device *adev,
-> +				    struct appletbdrm_msg_response_header *response,
-> +				    size_t size, u32 expected_response)
-> +{
-> +	struct usb_device *udev = adev_to_udev(adev);
-> +	struct drm_device *drm = &adev->drm;
-> +	int ret, actual_size;
-> +	bool readiness_signal_received = false;
-> +
-> +retry:
-> +	ret = usb_bulk_msg(udev, usb_rcvbulkpipe(udev, adev->in_ep),
-> +			   response, size, &actual_size, APPLETBDRM_BULK_MSG_TIMEOUT);
-> +	if (ret) {
-> +		drm_err(drm, "Failed to read response (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * The device responds to the first request sent in a particular
-> +	 * timeframe after the USB device configuration is set with a readiness
-> +	 * signal, in which case the response should be read again
-> +	 */
-> +	if (response->msg == APPLETBDRM_MSG_SIGNAL_READINESS) {
-> +		if (!readiness_signal_received) {
-> +			readiness_signal_received = true;
-> +			goto retry;
-> +		}
-> +
-> +		drm_err(drm, "Encountered unexpected readiness signal\n");
-> +		return -EIO;
-> +	}
-> +
-> +	if (actual_size != size) {
-> +		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-> +			actual_size, size);
-> +		return -EIO;
-> +	}
-> +
-> +	if (response->msg != expected_response) {
-> +		drm_err(drm, "Unexpected response from device (expected %p4ch found %p4ch)\n",
-> +			&expected_response, &response->msg);
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int appletbdrm_send_msg(struct appletbdrm_device *adev, u32 msg)
-> +{
-> +	struct appletbdrm_msg_simple_request *request;
-> +	int ret;
-> +
-> +	request = kzalloc(sizeof(*request), GFP_KERNEL);
-> +	if (!request)
-> +		return -ENOMEM;
-> +
-> +	request->header.unk_00 = cpu_to_le16(2);
-> +	request->header.unk_02 = cpu_to_le16(0x1512);
-> +	request->header.size = cpu_to_le32(sizeof(*request) - sizeof(request->header));
-> +	request->msg = msg;
-> +	request->size = request->header.size;
-> +
-> +	ret = appletbdrm_send_request(adev, &request->header, sizeof(*request));
-> +
-> +	kfree(request);
+Jose
 
-This is temporary data for the send operation and save to free here?
-
-> +
-> +	return ret;
-> +}
-> +
-> +static int appletbdrm_clear_display(struct appletbdrm_device *adev)
-> +{
-> +	return appletbdrm_send_msg(adev, APPLETBDRM_MSG_CLEAR_DISPLAY);
-> +}
-> +
-> +static int appletbdrm_signal_readiness(struct appletbdrm_device *adev)
-> +{
-> +	return appletbdrm_send_msg(adev, APPLETBDRM_MSG_SIGNAL_READINESS);
-> +}
-> +
-> +static int appletbdrm_get_information(struct appletbdrm_device *adev)
-> +{
-> +	struct appletbdrm_msg_information *info;
-> +	struct drm_device *drm = &adev->drm;
-> +	u8 bits_per_pixel;
-> +	u32 pixel_format;
-> +	int ret;
-> +
-> +	info = kzalloc(sizeof(*info), GFP_KERNEL);
-> +	if (!info)
-> +		return -ENOMEM;
-> +
-> +	ret = appletbdrm_send_msg(adev, APPLETBDRM_MSG_GET_INFORMATION);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = appletbdrm_read_response(adev, &info->header, sizeof(*info),
-> +				       APPLETBDRM_MSG_GET_INFORMATION);
-> +	if (ret)
-> +		goto free_info;
-> +
-> +	bits_per_pixel = info->bits_per_pixel;
-> +	pixel_format = get_unaligned(&info->pixel_format);
-> +
-> +	adev->width = get_unaligned_le32(&info->width);
-> +	adev->height = get_unaligned_le32(&info->height);
-> +
-> +	if (bits_per_pixel != APPLETBDRM_BITS_PER_PIXEL) {
-> +		drm_err(drm, "Encountered unexpected bits per pixel value (%d)\n", bits_per_pixel);
-> +		ret = -EINVAL;
-> +		goto free_info;
-> +	}
-> +
-> +	if (pixel_format != APPLETBDRM_PIXEL_FORMAT) {
-> +		drm_err(drm, "Encountered unknown pixel format (%p4ch)\n", &pixel_format);
-> +		ret = -EINVAL;
-> +		goto free_info;
-> +	}
-> +
-> +free_info:
-> +	kfree(info);
-> +
-> +	return ret;
-> +}
-> +
-> +static u32 rect_size(struct drm_rect *rect)
-> +{
-> +	return drm_rect_width(rect) * drm_rect_height(rect) * (APPLETBDRM_BITS_PER_PIXEL / 8);
-> +}
-> +
-> +static int appletbdrm_flush_damage(struct appletbdrm_device *adev,
-> +				   struct drm_plane_state *old_state,
-> +				   struct drm_plane_state *state)
-> +{
-> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
-> +	struct appletbdrm_fb_request_response *response;
-> +	struct appletbdrm_fb_request_footer *footer;
-> +	struct drm_atomic_helper_damage_iter iter;
-> +	struct drm_framebuffer *fb = state->fb;
-> +	struct appletbdrm_fb_request *request;
-> +	struct drm_device *drm = &adev->drm;
-> +	struct appletbdrm_frame *frame;
-> +	u64 timestamp = ktime_get_ns();
-> +	struct drm_rect damage;
-> +	size_t frames_size = 0;
-> +	size_t request_size;
-> +	int ret;
-> +
-> +	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
-> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
-> +		frames_size += struct_size(frame, buf, rect_size(&damage));
-> +	}
-> +
-> +	if (!frames_size)
-> +		return 0;
-> +
-> +	request_size = ALIGN(sizeof(*request) + frames_size + sizeof(*footer), 16);
-> +
-> +	request = kzalloc(request_size, GFP_KERNEL);
-> +	if (!request)
-> +		return -ENOMEM;
-> +
-> +	response = kzalloc(sizeof(*response), GFP_KERNEL);
-> +	if (!response) {
-> +		ret = -ENOMEM;
-> +		goto free_request;
-> +	}
-
-This code runs in the middle of the atomic update. It's then too late to 
-do error handling. If these allocs fail, the display hardware will 
-remain in undefined state.
-
-It is much preferable to allocate this memory in the atomic_check. To do 
-so, you need a plane-state structure. Allocate the memory for request 
-and response in the plane's atomic-check helper. If that fails, you can 
-return an error there. Store the pointers and the request size in your 
-plane-state structure and fetch them here.Â  The memory should later be 
-freed in the plane's destroy callback. For an example, see how the 
-ssd130x driver treats a buffer for a similar use case at [1].
-
-[1] 
-https://elixir.bootlin.com/linux/v6.13.2/source/drivers/gpu/drm/solomon/ssd130x.c#L1136
-
-
-> +
-> +	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
-> +	if (ret) {
-> +		drm_err(drm, "Failed to start CPU framebuffer access (%d)\n", ret);
-> +		goto free_response;
-> +	}
-> +
-> +	request->header.unk_00 = cpu_to_le16(2);
-> +	request->header.unk_02 = cpu_to_le16(0x12);
-> +	request->header.unk_04 = cpu_to_le32(9);
-> +	request->header.size = cpu_to_le32(request_size - sizeof(request->header));
-> +	request->unk_10 = cpu_to_le16(1);
-> +	request->msg_id = timestamp & 0xff;
-> +
-> +	frame = (struct appletbdrm_frame *)request->data;
-> +
-> +	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
-> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
-> +		struct iosys_map dst = IOSYS_MAP_INIT_VADDR(frame->buf);
-> +		u32 buf_size = rect_size(&damage);
-> +
-> +		/*
-> +		 * The coordinates need to be translated to the coordinate
-> +		 * system the device expects, see the comment in
-> +		 * appletbdrm_setup_mode_config
-> +		 */
-> +		frame->begin_x = cpu_to_le16(damage.y1);
-> +		frame->begin_y = cpu_to_le16(adev->height - damage.x2);
-> +		frame->width = cpu_to_le16(drm_rect_height(&damage));
-> +		frame->height = cpu_to_le16(drm_rect_width(&damage));
-> +		frame->buf_size = cpu_to_le32(buf_size);
-> +
-> +		ret = drm_fb_blit(&dst, NULL, DRM_FORMAT_BGR888,
-> +				  &shadow_plane_state->data[0], fb, &damage, &shadow_plane_state->fmtcnv_state);
-
-Can we void the use of drm_fb_blit()? Since you know all formats in 
-advance, just do
-
-switch (format)
-case XRGB8888: drm_fb_xrgb888_to_bgr888() break default:
- Â Â Â  drm_fb_memcpy() break }We use blit in simpledrm and ofdrm, where we 
-don't know the formats and output buffers in advance. But it's really 
-not so great in other drivers, I think.
-> +		if (ret) {
-> +			drm_err(drm, "Failed to copy damage clip (%d)\n", ret);
-> +			goto end_fb_cpu_access;
-> +		}
-> +
-> +		frame = (void *)frame + struct_size(frame, buf, buf_size);
-> +	}
-> +
-> +	footer = (struct appletbdrm_fb_request_footer *)&request->data[frames_size];
-> +
-> +	footer->unk_0c = cpu_to_le32(0xfffe);
-> +	footer->unk_1c = cpu_to_le32(0x80001);
-> +	footer->unk_34 = cpu_to_le32(0x80002);
-> +	footer->unk_4c = cpu_to_le32(0xffff);
-> +	footer->timestamp = cpu_to_le64(timestamp);
-> +
-> +	ret = appletbdrm_send_request(adev, &request->header, request_size);
-> +	if (ret)
-> +		goto end_fb_cpu_access;
-> +
-> +	ret = appletbdrm_read_response(adev, &response->header, sizeof(*response),
-> +				       APPLETBDRM_MSG_UPDATE_COMPLETE);
-> +	if (ret)
-> +		goto end_fb_cpu_access;
-> +
-> +	if (response->timestamp != footer->timestamp) {
-> +		drm_err(drm, "Response timestamp (%llu) doesn't match request timestamp (%llu)\n",
-> +			le64_to_cpu(response->timestamp), timestamp);
-> +		goto end_fb_cpu_access;
-> +	}
-> +
-> +end_fb_cpu_access:
-> +	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-> +free_response:
-> +	kfree(response);
-> +free_request:
-> +	kfree(request);
-> +
-> +	return ret;
-> +}
-> +
-> +static int appletbdrm_connector_helper_get_modes(struct drm_connector *connector)
-> +{
-> +	struct appletbdrm_device *adev = drm_to_adev(connector->dev);
-> +
-> +	return drm_connector_helper_get_modes_fixed(connector, &adev->mode);
-> +}
-> +
-> +static const u32 appletbdrm_primary_plane_formats[] = {
-> +	DRM_FORMAT_BGR888,
-> +	DRM_FORMAT_XRGB8888, /* emulated */
-> +};
-> +
-> +static int appletbdrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
-> +						   struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_crtc *new_crtc = new_plane_state->crtc;
-> +	struct drm_crtc_state *new_crtc_state = NULL;
-> +	int ret;
-> +
-> +	if (new_crtc)
-> +		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
-> +
-> +	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  false, false);
-> +	if (ret)
-> +		return ret;
-> +	else if (!new_plane_state->visible)
-> +		return 0;
-> +
-> +	return 0;
-> +}
-> +
-> +static void appletbdrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
-> +						     struct drm_atomic_state *old_state)
-> +{
-> +	struct appletbdrm_device *adev = drm_to_adev(plane->dev);
-> +	struct drm_device *drm = plane->dev;
-> +	struct drm_plane_state *plane_state = plane->state;
-> +	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(old_state, plane);
-> +	int idx;
-
-plane_state->fb can be NULL if the plane's atomic_disable is not set. At 
-a minimum you should check this first and return if so.
-
-A better idea is to implement atomic_disable. You can try to move the 
-code from appletbdrm_crtc_helper_atomic_disable() to the plane's atomic 
-disable and remove the CRTC helper. That would put all drawing code into 
-the plane. The CRTC is more about programming a display mode.
-> +
-> +	if (!drm_dev_enter(drm, &idx))
-> +		return;
-> +
-> +	appletbdrm_flush_damage(adev, old_plane_state, plane_state);
-> +
-> +	drm_dev_exit(idx);
-> +}
-> +
-> +static const struct drm_plane_helper_funcs appletbdrm_primary_plane_helper_funcs = {
-> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> +	.atomic_check = appletbdrm_primary_plane_helper_atomic_check,
-> +	.atomic_update = appletbdrm_primary_plane_helper_atomic_update,
-> +};
-> +
-> +static const struct drm_plane_funcs appletbdrm_primary_plane_funcs = {
-> +	.update_plane = drm_atomic_helper_update_plane,
-> +	.disable_plane = drm_atomic_helper_disable_plane,
-> +	.destroy = drm_plane_cleanup,
-> +	DRM_GEM_SHADOW_PLANE_FUNCS,
-> +};
-> +
-> +static enum drm_mode_status appletbdrm_crtc_helper_mode_valid(struct drm_crtc *crtc,
-> +							  const struct drm_display_mode *mode)
-> +{
-> +	struct appletbdrm_device *adev = drm_to_adev(crtc->dev);
-> +
-> +	return drm_crtc_helper_mode_valid_fixed(crtc, mode, &adev->mode);
-> +}
-> +
-> +static void appletbdrm_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-> +					     struct drm_atomic_state *crtc_state)
-> +{
-> +	struct appletbdrm_device *adev = drm_to_adev(crtc->dev);
-> +	int idx;
-> +
-> +	if (!drm_dev_enter(&adev->drm, &idx))
-> +		return;
-> +
-> +	appletbdrm_clear_display(adev);
-> +
-> +	drm_dev_exit(idx);
-> +}
-> +
-> +static const struct drm_mode_config_funcs appletbdrm_mode_config_funcs = {
-> +	.fb_create = drm_gem_fb_create_with_dirty,
-> +	.atomic_check = drm_atomic_helper_check,
-> +	.atomic_commit = drm_atomic_helper_commit,
-> +};
-> +
-> +static const struct drm_connector_funcs appletbdrm_connector_funcs = {
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.destroy = drm_connector_cleanup,
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +};
-> +
-> +static const struct drm_connector_helper_funcs appletbdrm_connector_helper_funcs = {
-> +	.get_modes = appletbdrm_connector_helper_get_modes,
-> +};
-> +
-> +static const struct drm_crtc_helper_funcs appletbdrm_crtc_helper_funcs = {
-> +	.mode_valid = appletbdrm_crtc_helper_mode_valid,
-> +	.atomic_disable = appletbdrm_crtc_helper_atomic_disable,
-> +};
-> +
-> +static const struct drm_crtc_funcs appletbdrm_crtc_funcs = {
-> +	.reset = drm_atomic_helper_crtc_reset,
-> +	.destroy = drm_crtc_cleanup,
-> +	.set_config = drm_atomic_helper_set_config,
-> +	.page_flip = drm_atomic_helper_page_flip,
-> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-> +};
-> +
-> +static const struct drm_encoder_funcs appletbdrm_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
-> +DEFINE_DRM_GEM_FOPS(appletbdrm_drm_fops);
-> +
-> +static const struct drm_driver appletbdrm_drm_driver = {
-> +	DRM_GEM_SHMEM_DRIVER_OPS,
-
-For USB devices, we need special wiring to make PRIME work. The PRIME 
-device must support DMA, but a USB device doesn't. So we pass the USB 
-controller device instead. See [2] for what udl does and how it obtains 
-dmadev.
-
-[2] 
-https://elixir.bootlin.com/linux/v6.14-rc3/source/drivers/gpu/drm/udl/udl_drv.c#L76
-
-> +	.name			= "appletbdrm",
-> +	.desc			= "Apple Touch Bar DRM Driver",
-> +	.date			= "20230910",
-
-The date field has been removed recently.
-
-> +	.major			= 1,
-> +	.minor			= 0,
-> +	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-> +	.fops			= &appletbdrm_drm_fops,
-> +};
-> +
-> +static int appletbdrm_setup_mode_config(struct appletbdrm_device *adev)
-> +{
-> +	struct drm_connector *connector = &adev->connector;
-> +	struct drm_plane *primary_plane;
-> +	struct drm_crtc *crtc;
-> +	struct drm_encoder *encoder;
-> +	struct drm_device *drm = &adev->drm;
-> +	struct device *dev = adev->dev;
-> +	int ret;
-> +
-> +	ret = drmm_mode_config_init(drm);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize mode configuration\n");
-> +
-> +	primary_plane = &adev->primary_plane;
-> +	ret = drm_universal_plane_init(drm, primary_plane, 0,
-> +				       &appletbdrm_primary_plane_funcs,
-> +				       appletbdrm_primary_plane_formats,
-> +				       ARRAY_SIZE(appletbdrm_primary_plane_formats),
-> +				       NULL,
-> +				       DRM_PLANE_TYPE_PRIMARY, NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize universal plane object\n");
-> +	drm_plane_helper_add(primary_plane, &appletbdrm_primary_plane_helper_funcs);
-> +	drm_plane_enable_fb_damage_clips(primary_plane);
-> +
-> +	crtc = &adev->crtc;
-> +	ret = drm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
-> +					&appletbdrm_crtc_funcs, NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize CRTC object\n");
-> +	drm_crtc_helper_add(crtc, &appletbdrm_crtc_helper_funcs);
-> +
-> +	encoder = &adev->encoder;
-> +	ret = drm_encoder_init(drm, encoder, &appletbdrm_encoder_funcs,
-> +			       DRM_MODE_ENCODER_DAC, NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize encoder\n");
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> +
-> +	/*
-> +	 * The coordinate system used by the device is different from the
-> +	 * coordinate system of the framebuffer in that the x and y axes are
-> +	 * swapped, and that the y axis is inverted; so what the device reports
-> +	 * as the height is actually the width of the framebuffer and vice
-> +	 * versa
-> +	 */
-> +	drm->mode_config.min_width = 0;
-> +	drm->mode_config.min_height = 0;
-
-> +	drm->mode_config.max_width = max(adev->height, DRM_SHADOW_PLANE_MAX_WIDTH);
-> +	drm->mode_config.max_height = max(adev->width, DRM_SHADOW_PLANE_MAX_HEIGHT);
-
-This might not work correctly. To use those SHADOW_PLANE_MAX constants, 
-you have to fixup the damage coordinates to account for changes to the 
-plane coordinates. Simpledrm does that by intersecting damage with 
-dst_clip. [3] You also have to put the result at the right place within 
-the display.
-
-[3] 
-https://elixir.bootlin.com/linux/v6.14-rc3/source/drivers/gpu/drm/tiny/simpledrm.c#L646
-
-> +	drm->mode_config.preferred_depth = APPLETBDRM_BITS_PER_PIXEL;
-> +	drm->mode_config.funcs = &appletbdrm_mode_config_funcs;
-> +
-> +	adev->mode = (struct drm_display_mode) {
-> +		DRM_MODE_INIT(60, adev->height, adev->width,
-> +			      DRM_MODE_RES_MM(adev->height, 218),
-> +			      DRM_MODE_RES_MM(adev->width, 218))
-> +	};
-> +
-> +	ret = drm_connector_init(drm, connector,
-> +				 &appletbdrm_connector_funcs, DRM_MODE_CONNECTOR_USB);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize connector\n");
-> +
-> +	drm_connector_helper_add(connector, &appletbdrm_connector_helper_funcs);
-> +
-> +	ret = drm_connector_set_panel_orientation(connector,
-> +						  DRM_MODE_PANEL_ORIENTATION_RIGHT_UP);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to set panel orientation\n");
-> +
-> +	connector->display_info.non_desktop = true;
-> +	ret = drm_object_property_set_value(&connector->base,
-> +					    drm->mode_config.non_desktop_property, true);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to set non-desktop property\n");
-> +
-> +	ret = drm_connector_attach_encoder(connector, encoder);
-> +
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize simple display pipe\n");
-> +
-> +	drm_mode_config_reset(drm);
-> +
-
-
-> +	ret = drm_dev_register(drm, 0);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to register DRM device\n");
-
-This call does not belong to the mode-setting pipeline and belongs into 
-appletbdrm_probe().
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int appletbdrm_probe(struct usb_interface *intf,
-> +			    const struct usb_device_id *id)
-> +{
-> +	struct usb_endpoint_descriptor *bulk_in, *bulk_out;
-> +	struct device *dev = &intf->dev;
-> +	struct appletbdrm_device *adev;
-> +	int ret;
-> +
-> +	ret = usb_find_common_endpoints(intf->cur_altsetting, &bulk_in, &bulk_out, NULL, NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to find bulk endpoints\n");
-> +
-> +	adev = devm_drm_dev_alloc(dev, &appletbdrm_drm_driver, struct appletbdrm_device, drm);
-> +	if (IS_ERR(adev))
-> +		return PTR_ERR(adev);
-> +
-> +	adev->dev = dev;
-> +	adev->in_ep = bulk_in->bEndpointAddress;
-> +	adev->out_ep = bulk_out->bEndpointAddress;
-> +
-> +	usb_set_intfdata(intf, adev);
-
-Rather set the DRM device here and fetch it in the callbacks below. At 
-some point, we might be able to share some of those helpers among drivers.
-
-> +
-> +	ret = appletbdrm_get_information(adev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to get display information\n");
-> +
-> +	ret = appletbdrm_signal_readiness(adev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to signal readiness\n");
-> +
-
-> +	ret = appletbdrm_clear_display(adev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to clear display\n");
-
-Clearing the display is not something usually done in probe. But I guess 
-there's no better place. I'd do this as the final call in probe; after 
-registering the device.Â  That way, it acts a bit like an in-kernel DRM 
-client.
-
-Best regards
-Thomas
-
-> +
-> +	return appletbdrm_setup_mode_config(adev);
-> +}
-> +
-> +static void appletbdrm_disconnect(struct usb_interface *intf)
-> +{
-> +	struct appletbdrm_device *adev = usb_get_intfdata(intf);
-> +	struct drm_device *drm = &adev->drm;
-> +
-> +	drm_dev_unplug(drm);
-> +	drm_atomic_helper_shutdown(drm);
-> +}
-> +
-> +static void appletbdrm_shutdown(struct usb_interface *intf)
-> +{
-> +	struct appletbdrm_device *adev = usb_get_intfdata(intf);
-> +
-> +	/*
-> +	 * The framebuffer needs to be cleared on shutdown since its content
-> +	 * persists across boots
-> +	 */
-> +	drm_atomic_helper_shutdown(&adev->drm);
-> +}
-> +
-> +static const struct usb_device_id appletbdrm_usb_id_table[] = {
-> +	{ USB_DEVICE_INTERFACE_CLASS(0x05ac, 0x8302, USB_CLASS_AUDIO_VIDEO) },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(usb, appletbdrm_usb_id_table);
-> +
-> +static struct usb_driver appletbdrm_usb_driver = {
-> +	.name		= "appletbdrm",
-> +	.probe		= appletbdrm_probe,
-> +	.disconnect	= appletbdrm_disconnect,
-> +	.shutdown	= appletbdrm_shutdown,
-> +	.id_table	= appletbdrm_usb_id_table,
-> +};
-> +module_usb_driver(appletbdrm_usb_driver);
-> +
-> +MODULE_AUTHOR("Kerem Karabay <kekrby@gmail.com>");
-> +MODULE_DESCRIPTION("Apple Touch Bar DRM Driver");
-> +MODULE_LICENSE("GPL");
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+> Thanks,
+> Louis Chauvet
+> 
+> >   static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
+> >   	.get_modes    = vkms_conn_get_modes,
+> > +	.best_encoder = vkms_conn_best_encoder,
+> >   };
+> >   struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev)
+> 
+> -- 
+> Louis Chauvet, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+> 
