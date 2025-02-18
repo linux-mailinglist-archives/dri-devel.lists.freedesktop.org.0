@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5408CA39AD5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BADBA39AD7
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:29:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546AA10E68F;
-	Tue, 18 Feb 2025 11:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8859E10E686;
+	Tue, 18 Feb 2025 11:29:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="WM9ABPes";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="mJppM8cL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1E9AE10E686
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:29:20 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E6A4B10E686
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:29:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=QCVLZ
- Vwkqxt+Z5qrKlu5ExcWoG+pU3WzCGMehfenaGY=; b=WM9ABPesh1s8FY4Pv1cQo
- TlvaWQsfpsaw74TVoMgtDOsFySvnVZ/iC3Rqe5dgeClIE4iKQj4HpgmgsqGCpz0i
- PDaipVIFKv360q5Sjxz8y1Q5Sz0raU1pspNNg3VcruePr8VyrojdbIy2uU1E0Hpy
- yq5lfz1wXmVAcCmmprknI8=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=hqUIo
+ 3mPnUIyqguQPvXUfr2S5iboamQqTtFzA4Iiu08=; b=mJppM8cLt0+DA2Jsg+tVP
+ flDqpWrL6ovbdGrJBPtHNku9Ul8G2LzRQ0xs9YKnkvmdJY05i7/3yDLJewOiOntj
+ 8lteip9Fy4DiQE5YYkNb2ParTSFP9TmDcyOncpOk5qlmRniUDan1KH+5sFt1ywTM
+ Z0t8CWfIXKyjjObqjKIWIM=
 Received: from ProDesk.. (unknown [])
  by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
- _____wD333uybrRnLIPUMQ--.34107S11; 
- Tue, 18 Feb 2025 19:27:58 +0800 (CST)
+ _____wD333uybrRnLIPUMQ--.34107S12; 
+ Tue, 18 Feb 2025 19:27:59 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
@@ -33,22 +33,23 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
  derek.foreman@collabora.com, detlev.casanova@collabora.com,
  daniel@fooishbar.org, robh@kernel.org, sebastian.reichel@collabora.com,
  Andy Yan <andy.yan@rock-chips.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
-Subject: [PATCH v15 09/13] drm/rockchip: vop2: Add uv swap for cluster window
-Date: Tue, 18 Feb 2025 19:27:36 +0800
-Message-ID: <20250218112744.34433-10-andyshrk@163.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v15 10/13] dt-bindings: display: vop2: describe constraint SoC
+ by SoC
+Date: Tue, 18 Feb 2025 19:27:37 +0800
+Message-ID: <20250218112744.34433-11-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250218112744.34433-1-andyshrk@163.com>
 References: <20250218112744.34433-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD333uybrRnLIPUMQ--.34107S11
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tFW8Ww1kAF4UAw47JFy7ZFb_yoW8XrWfpr
- 43ArWqgw45Kw4Iq34kJFW5AFWft3ZxKayxuws7tw1F9ryakFyDGwn0kFWUArnFyFs2kF47
- tF93JrW7Zr40vrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOgAwUUUUU=
+X-CM-TRANSID: _____wD333uybrRnLIPUMQ--.34107S12
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZF4UWFyDtryDuw43JFyftFb_yoW5uryfpa
+ 97Cas8X3ykGr1UWw4ktF1fAw4SqF9xJw4UJrn7t3W7Ga1DKF4UGw4agw1DAr9xWFsFvaya
+ 9F45Cr15Jw42vr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UGzuZUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBz3Xme0aMptrAABss
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBz3Xme0aMptrAACsv
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +67,146 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The Cluster windows of upcoming VOP on rk3576 also support
-linear YUV support, we need to set uv swap bit for it.
-
-As the VOP2_WIN_UV_SWA register defined on rk3568/rk3588 is
-0xffffffff, so this register will not be touched on these
-two platforms.
+As more SoCs variants are introduced, each SoC brings its own
+unique set of constraints, describe this constraints SoC by
+SoC will make things easier.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
-Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 ---
 
-(no changes since v1)
+(no changes since v14)
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Changes in v14:
+- Set maxItems constraint of clocks for rk3588 to 9 as a recently
+  merged patch added two optional clocks[0]:
+  [0]https://patchwork.freedesktop.org/patch/msgid/20250204-vop2-hdmi0-disp-modes-v3-1-d71c6a196e58@collabora.com
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index cc46fe2dc188..ec3f49ef03d1 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1377,10 +1377,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+Changes in v13:
+- Add maxItems constraint for clocks
+- Remove constraint for interrupts in allOf block, as the current
+  maxItems is already 1.
+
+Changes in v12:
+- Only change the description method for existing SoC.
+
+Changes in v11:
+- Remove redundant min/maxItems constraint
+
+Changes in v10:
+- Move interrupt-names back to top level
+- Add constraint of interrupts for all platform
+- Add constraint for all grf phandles
+- Reorder some properties
+
+Changes in v9:
+- Drop 'vop-' prefix of interrupt-names.
+- Add blank line between DT properties
+- Remove list interrupt-names in top level
+
+Changes in v8:
+- Fix dt_binding_check errors
+- ordered by soc name
+- Link to the previous version:
+  https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+
+Changes in v4:
+- describe constraint SOC by SOC, as interrupts of rk3576 is very
+  different from others
+- Drop Krzysztof's Reviewed-by, as this version changed a lot.
+
+Changes in v3:
+- ordered by soc name
+- Add description for newly added interrupt
+
+Changes in v2:
+- Add dt bindings
+
+ .../display/rockchip/rockchip-vop2.yaml       | 40 ++++++++++++-------
+ 1 file changed, 26 insertions(+), 14 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+index 46d956e63338..a5771edd83b5 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+@@ -14,6 +14,7 @@ description:
+ maintainers:
+   - Sandy Huang <hjc@rock-chips.com>
+   - Heiko Stuebner <heiko@sntech.de>
++  - Andy Yan <andyshrk@163.com>
  
- 	rb_swap = vop2_win_rb_swap(fb->format->format);
- 	vop2_win_write(win, VOP2_WIN_RB_SWAP, rb_swap);
--	if (!vop2_cluster_window(win)) {
--		uv_swap = vop2_win_uv_swap(fb->format->format);
--		vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
--	}
-+	uv_swap = vop2_win_uv_swap(fb->format->format);
-+	vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+ properties:
+   compatible:
+@@ -124,43 +125,54 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: rockchip,rk3588-vop
++            enum:
++              - rockchip,rk3566-vop
++              - rockchip,rk3568-vop
+     then:
+       properties:
+         clocks:
+-          minItems: 7
++          maxItems: 5
++
+         clock-names:
+-          minItems: 7
++          maxItems: 5
  
- 	if (fb->format->is_yuv) {
- 		vop2_win_write(win, VOP2_WIN_UV_VIR, DIV_ROUND_UP(fb->pitches[1], 4));
+         ports:
+           required:
+             - port@0
+             - port@1
+             - port@2
+-            - port@3
+ 
+-      required:
+-        - rockchip,grf
+-        - rockchip,vo1-grf
+-        - rockchip,vop-grf
+-        - rockchip,pmu
+-
+-    else:
+-      properties:
+         rockchip,vo1-grf: false
+         rockchip,vop-grf: false
+         rockchip,pmu: false
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,rk3588-vop
++    then:
++      properties:
+         clocks:
+-          maxItems: 5
++          minItems: 7
++          maxItems: 9
++
+         clock-names:
+-          maxItems: 5
++          minItems: 7
++          maxItems: 9
+ 
+         ports:
+           required:
+             - port@0
+             - port@1
+             - port@2
++            - port@3
++
++      required:
++        - rockchip,grf
++        - rockchip,vo1-grf
++        - rockchip,vop-grf
++        - rockchip,pmu
+ 
+ additionalProperties: false
+ 
 -- 
 2.34.1
 
