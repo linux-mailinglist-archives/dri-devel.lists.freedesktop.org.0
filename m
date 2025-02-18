@@ -2,87 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C93A3914A
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 04:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36435A3915B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 04:39:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C788710E0C2;
-	Tue, 18 Feb 2025 03:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C648910E26B;
+	Tue, 18 Feb 2025 03:38:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lYZd8Aux";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JUGksp8Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5736210E0C2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 03:27:00 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5461cb12e39so1889169e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 19:27:00 -0800 (PST)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 284A210E379
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 03:38:56 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-2f9b8ef4261so1224195a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2025 19:38:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739849218; x=1740454018; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YSCxueoLHB/txHVHiuPd/+UkwH+GSWwoHHKB59+DFlU=;
- b=lYZd8AuxYoPNhux9K011zCrGyNEwTI5drFB9jwOIWQyYL/HPo9U48dFY0Ctg99et4T
- kFMtsAbBF0BA+3h9GKkYIK9VxoKS7uXQlGyycHohF9jMjeJxMCPAemOwtX2WEyY/Daq8
- su2fnl4XvBCFx8msvtzQV47LqwrHxggqxFIzagjhnVw2Xqa/IwgaUciOmhXRtzyT5Qur
- yx+JevQVrSYdYOdKJcz2KKAmOS2s6kV4N1/2ofkY6moa4XAurAjrdj7o5iM9q33I9Oub
- YqpSV38RfwQcOd73oX4MD+nP8vX2Z9/a/SnttL+Sa9mhx00v/BrKZ965TYFBVtw7DcQi
- 9qoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739849218; x=1740454018;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1739849935; x=1740454735; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YSCxueoLHB/txHVHiuPd/+UkwH+GSWwoHHKB59+DFlU=;
- b=TAbpyoxk+a4Gs/IH3Vb7SNoCCeNUlQdiiaYCTZWXuuJyb45P4kbulrnpaaS7aPhTzK
- iMhc12d5b0A+mrIXW7mdBdwsB0bkPYZefRVtnKSCgrSSs9L4JJLcin/QN8oOw6BhIO6I
- tSpVUenkiIb2quiiW6StFCXvBecI/euURgDk75ue4J8g/2yK0yRjJgLGDP9ThUceokLZ
- hnPsivTiyPkNV6CMJLK6PB+Z+ar/L0R1e2JdFFbbl9O1CLtfqJZgkocyDj4lQVhPhZc2
- DTRDt1k7m2I4du9/jzrA7SMqFjaC2FKjDgJuxVRLaRlNoCxpv6lD/Dhn6hxvFbXP305Z
- E/kA==
+ bh=BpIhM0zsF5MRaXYqddzsaHiNvWZ/pZsLy5qS/qUhHO0=;
+ b=JUGksp8QvqNHM9b4B5KtY5avq7EkaIrjX4Ao+oOLrmBby+yC9E2JFKC8kCH4VnH6xI
+ mKtoF5rzdDFwKLPfvAL9YHDUX441/yybsTn8QHs1E79ZBWl/+MvlTNf0KN3/s58xdcTO
+ HrgTzmFdL12IM3KgQWuqVYO9mNR6GCYaFnS28xMdXIMQkE/uJXEvqhdoyQbr/QBTqYsx
+ QNoX3nu9A6XhTXffRFgaMzAsHHOpzFv2U/ycAWhmeZH0q9RnFK4sjpuIPJy6QtwTCZU8
+ lG2KIrPvexQTdrw/Bjm2Kz1fh1fBHLqfBaqNb98HgXGrybWZzCEo9sQ03cmIGStzK4++
+ Mwog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739849935; x=1740454735;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BpIhM0zsF5MRaXYqddzsaHiNvWZ/pZsLy5qS/qUhHO0=;
+ b=K1qNGgh2y+mD+XjrXMZIbUMbpb4LWF4PdxLVkOPA0auE+CZR/jMe1LW5j/r/BD2j94
+ 2vg5Nzg7+Ue2gdoH3Ln6xC3jDW30lZmBc5LoTynVbWww927/WDDNM4lWekPqHFG+PKMW
+ SWZBZC83l5Biv05K1dxSvFiaEXagdSwVVy3gsPV73KHji+DVFrvy7E8NFWN9+jfjbhqz
+ zQnTsDW8gqDUjH88Cy2gyy/HSRD2j+dQcULbJuKl2HVfP/cyP+FQz1LytftDuqIJ9Z2U
+ W9bsgsXFFZ8hmrvuCKIZVIMMAD2d2ceW5aGbD/2RHfHT+PuBNoFvVdoE7AWq3XIsO1lX
+ 5UZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfQTzlTHygHtsLOgXBhjVmwY0ssPD3U+TVI/j/n92d/IqbXeNTAEDrUNtlFWEHrdcysLRV3Uz/hQw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxsTa+iWhI60nHIeT3DQoIHUXS6tN/629p8vYMI+f/X+ShQvoiJ
- nFU9McLuisCajTuvx2dnWXmPREjwtpkF69xH4sjDNVt56I7aiuM6/Em8HKWfM9Y=
-X-Gm-Gg: ASbGnctkfsMvbtX1lvDTSSaN/eu14bUSBvDKBJDu9FkcPIEjBSTs3aiuM8l5D6SU6vN
- MStRZQhf/u7ciPkXntaoP0huDYn2KOcKRv3jcj4EfiC24/XeuLF3pR9rzNsrxF24P2J3eq6iQGd
- nQN1dKhNq6NPo8rf6IYrWbFspEc10uvlwjff2ZFnegB12M+vkigZpuxoOOzoOSeQHAe905AZJ/0
- rAvWKceAyc5SSoeGpdWjA42fBMYDfIkQXoX4ZNhW8M1Xxa0GryCJhXOdqjR++3VStVvE0K6JZiw
- SUJPA/KvEc8unTMW356BAZj5RXvFNTkiY2Dd72iZll8dH49FfAdoAnb+ZtXWTrXYztwZPSE=
-X-Google-Smtp-Source: AGHT+IEuXEdpqn4is6TUxaE/+JLqNClWKujDuBTB2tz6Yn1fQEc4M1pLzGsmXbDamEwCBtvEsM8kFA==
-X-Received: by 2002:a05:6512:2342:b0:545:f4b:ed58 with SMTP id
- 2adb3069b0e04-5452fe47777mr4001491e87.18.1739849218533; 
- Mon, 17 Feb 2025 19:26:58 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54595e38064sm980129e87.126.2025.02.17.19.26.56
+ AJvYcCVCxcnPBJUI8b0KX2EjbSv46GpBlUwnKoJ+KvGNEbpGkQuejRMfcpvjyptI8yvzp4jvjF3IGHsnV5A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwZ6ShT3ExShTursBlPu4A/jjRqvu8gugWoTqYIDBpe/OtUD85D
+ RNLSniJOePU7JHpCZiyYLqb6SVzHq0Md2sndKBndqUnmZlSuAGC/
+X-Gm-Gg: ASbGncvXA/h1uUqPlhB50f9vFuyoYSe3sJefAh6ynHfdr1Las52LuOlsPbdohAtvUkm
+ EAlvo+PT2HUuh4c5nBMrZwXVmCm4Apa4pK58IfcwQ2CEcRyj8yXvYjVycwmsgAPrpNioZKRd0vy
+ UcJ6HbdG9UyAZWKUhh++UhmZ4DwfyH9pafYTQ/VdJ7JPraNJufFAhuLkrAY/8jbsW4Gc863wKmJ
+ gWnKvhCfBPAcWLgdn8Mu+XJVXZ6eeFUPQ9Ee8Ol0pxycTBEik/O5LyFx3Jr+kNoy1UbHPdQPuZv
+ OwO2d7AEpGSoHIVHRZyN
+X-Google-Smtp-Source: AGHT+IHp51ZpR11Xenf1xc5xrATpU2b9pYP8ziEHbXQ3EXKCqj44fPEbRUBGOVevxEXu+GXioUS4wg==
+X-Received: by 2002:a05:6a00:198c:b0:732:2923:b70e with SMTP id
+ d2e1a72fcca58-73261446955mr7067310b3a.0.1739849935459; 
+ Mon, 17 Feb 2025 19:38:55 -0800 (PST)
+Received: from rock-5b.. ([221.220.131.19]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-73271b4a8b6sm3947699b3a.2.2025.02.17.19.38.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2025 19:26:57 -0800 (PST)
-Date: Tue, 18 Feb 2025 05:26:54 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>, 
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 06/11] drm/fourcc: Add DRM_FORMAT_XVUY2101010
-Message-ID: <naw67daoyb2lfmq4jovlwanz5niaolptwnug3c3kkrtlfoh6dd@trkctqyzvtb5>
-References: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
- <20250212-xilinx-formats-v3-6-90d0fe106995@ideasonboard.com>
- <bdpw2g65uor77tijlhpabodog7haqvdcemnr3wzqkooerzuib5@hfdn5zsrbkgg>
- <7674314f-d95a-433a-81d2-ca78bc199359@ideasonboard.com>
+ Mon, 17 Feb 2025 19:38:54 -0800 (PST)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: cristian.ciocaltea@collabora.com
+Cc: airlied@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ heiko@sntech.de, hjc@rock-chips.com, kernel@collabora.com,
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ liujianfeng1994@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robh@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
+Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source
+ to VOP2 on RK3588
+Date: Tue, 18 Feb 2025 11:38:46 +0800
+Message-ID: <20250218033846.1251897-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <1b3234ce-4526-4735-b9c0-c242e6cc3cf0@collabora.com>
+References: <1b3234ce-4526-4735-b9c0-c242e6cc3cf0@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7674314f-d95a-433a-81d2-ca78bc199359@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,33 +93,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 17, 2025 at 10:27:56PM +0200, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 17/02/2025 22:15, Dmitry Baryshkov wrote:
-> > On Wed, Feb 12, 2025 at 04:56:10PM +0200, Tomi Valkeinen wrote:
-> > > Add XVUY2101010, a 10 bits per component YCbCr format in a 32 bit
-> > > container.
-> > 
-> > Is there a more common name for this format? Otherwise googling for it
-> > reveals only your series.
-> 
-> In the cover letter I mention the gstreamer names where available (this
-> particular format is not in gstreamer). AMD has these in their zynqmp
-> documentation (https://docs.amd.com/r/en-US/ug1085-zynq-ultrascale-trm/Video-Packer-Format).
-> 
-> XVUY2101010 is YUV444_10BPC in AMD docs.
-> 
-> X403 is Y444_10LE32 in gstreamer, and YV24_10BPC in AMD docs.
-> 
-> I'm not sure you'll have much more luck googling with those names, though
-> =).
+Hi,
 
-I'm asking, because include/uapi/drm/drm_fourcc.h has a pretty explicit
-waiver: GL, Vulkan or other open standards. Otherwise normal
-requirements apply and it's required to have an open-source usespace
-implementation, etc.
+On Tue, 18 Feb 2025 01:33:34 +0200, Cristian Ciocaltea wrote:
+>@Jianfeng: Did you encounter any particular issue with the current approach?
 
--- 
-With best wishes
-Dmitry
+This patch is adding a dependency of hdptxphy1 to vop for all rk3588
+boards, but not all rk3588 boards have dual hdmi, armsom sige7 is an
+example. At runtime I will get errors because there is no hdptxphy1
+enabled in devicetree:
+
+[    2.945675] rockchip-drm display-subsystem: [drm] *ERROR* failed to get pll_hdmiphy1
+
+Overwrting vop node at board level to remove the dependency of hdptxphy1
+can fix the issue.
+
+Best regards,
+Jianfeng
