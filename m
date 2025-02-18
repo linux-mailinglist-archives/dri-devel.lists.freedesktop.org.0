@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE09A3A77C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 20:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1603A3A77F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 20:31:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0779B10E0EC;
-	Tue, 18 Feb 2025 19:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4B010E74A;
+	Tue, 18 Feb 2025 19:31:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="P1RXrXqm";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bYyjkKeR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBE710E74A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 19:30:54 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-5e0516e7a77so4059989a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:30:54 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B225C10E0EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 19:30:57 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-5ded46f323fso7746240a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:30:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739907053; x=1740511853;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739907056; x=1740511856;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Rf7170qq7Y3fQ7uVc37Bv/W29DRyxfOGfDaN3M72oXs=;
- b=P1RXrXqmgAx3R0tHcCcW/3yAr2EWXp+N+ApvXIM3dMFQZBOjo0enaBiEFRvu/zB+oo
- /tt855LTw5nmGRE4tDs3TE0AKAJfK5ZBzENNG8fUGkYvmSOdKvGgDhWswY4QVfjOz99F
- BfwZXrThUGy17ODJ9hORjSaSw5xzpC9M5UFU3YCu03O/BSALGrb45QjFfnK2IX5ANpZn
- YkX7lZn1GCH1v7Ixjz+CAoCJjmD2wI6Cxs5lkhBxPJxQnKgFsglL6rNYMsJKn5fLqJ5+
- 1E42DwqJBqcDtbHRpQxxKeaBCurx0otExYN1hchLGMZS7KbJtTHk9GMS2dLao2jD6MzC
- tKXw==
+ :reply-to; bh=E174y95QWB8sLP4kKdqQSVofl2EIrt9GShIhCjB+Tv8=;
+ b=bYyjkKeR2QnjhlMXVVe8qHc0wyWnOLmfjcrrUAhAXGf6t5HrailUQX8YxBTy2LXL0Y
+ 5j1eOt1fnGfN8op7C873LJOgsLp3/qKoUKl/WS1Be96Wdg72ge1T2qy9ajKFgS3H87jh
+ r42DA9IWGlZuaOpLIMYBZwwh+JJz/dwAxkElxJFYD3b/Ckw/lABS/X9CFyKio0AsRnN3
+ V86nfMqRWz1/I8N6OZO/jffMaKam0FPqI5e9Jp+IbNQ3ItdSLNL7A56q1TgxrlREC/aA
+ /6LsCpVmLJK2TOKLbC/yzFpyuhwWjaktAxogqeMjWA4daH4187T0LEslHP6litLLIYbW
+ oXHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739907053; x=1740511853;
+ d=1e100.net; s=20230601; t=1739907056; x=1740511856;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Rf7170qq7Y3fQ7uVc37Bv/W29DRyxfOGfDaN3M72oXs=;
- b=f3UQFXYQg4I2GDTT3qCVqo8c3sMR6PADJbg8PfXUjk34N0WnV275TmbnDauvr98Pfy
- y8T7GvW+Xy0qhSC+TeudvYduypASzQvThGAhL/bkLUMLUFhj39YFzdh1VgYDXHGGwk1E
- 3u3JU1MI6lBpjHO4cxZ9C4LzJtdHp2KGp3LDn5kvGRyL5iMyf+BSUoE59TSqTgXhscX/
- sI1fL5H2SMA6RGAybB5M46iD+Gf3Tr23n4cAg9BtIWPv0aQv3BGe3fy57SP+xLr9qelf
- 8eTkbYMdUVXAgvCw9jh6pisjsEdXZqIXJJx/O/A+NyteYR8CG/2NXNO2mVxaL6NbafQe
- Y8ZQ==
+ bh=E174y95QWB8sLP4kKdqQSVofl2EIrt9GShIhCjB+Tv8=;
+ b=k1+HwtLQZR1Y5FIUBFlXlg1Vccu2VFiappSOWbXPR6bs1C42PpHSIQ0/gESvz6xh98
+ 1ev3Bz0I825CstbNoQ1RdZSkkT3DbJT9kJhVXQZRvDNBml865nF2gNWPRKYV5FvjmH8A
+ k8VXS4m3BL1at7cv7+bmXQeF5LsLk9XsIBdKhkfLO7taA8w+Sc5o/2dYnEDbnGnsjFna
+ zd4fxmwcwGH6vRNmUtIyDAja2DEBPu15Rmp965t4uO7q7uXEPZL5o+3fzzlUYVcDxOux
+ 4UNDyj4Ejd7Auy3xzseWhWiPR0ZlIb3tfK5WB/pAeYTS+RvZPSiACujLY2q3O20jqxQY
+ 8N0w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVL33GxJA6p8n+aHQ6UBwSKTp86cpxc8VNLLsc5vSPGcO+Za9fPqq7K06G1CzKxeeQsJP0HYJo9R/M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzw9+0ywNrinqfSBWgmZw56CELXnm2KNIxFFTYrkGQtjV7yJKuH
- R/MdD/KL3s6HcvauTVxVWCuOqt+iPEQixR+TtElkvnQnyiuoZav3csi0Y2ex6hg=
-X-Gm-Gg: ASbGncuw7EB0eDmf9aXyNWlA0eIE4xjq0redbukLlVVFLUsBfHslnp+TuDDhYyvsqSg
- eomqpafR5fBKiS3ATog3ZUMlW15FoBhU3WwHq4TvW1pkmyiTC/6zvR+hsG2axc9BtVh6Wy32QF9
- soS4qvf80NLgzcnwNn8HYwJbTnNvUpgkXuUJHO4NbRQf5EYDZ3aSO2YUYibZK+46/ZZbbHe57VV
- oV2ER8S42ahdz6tQ9sPwdzEjBEZcjrzkwJmEydhnXXb9U+YD5YSrqwBnWL0hLUIqv3QsIPwEQ1X
- EgLCn0l4sX6Bmjo1+ZSOXIq1Q/m5
-X-Google-Smtp-Source: AGHT+IHpHIYxB4dVNZ3LyzCs91SySOLLXWjws+ryoYBHtygC8Wxu6MzjUCPyJSfIFH4a8C/yd6uRcA==
-X-Received: by 2002:a05:6402:51cb:b0:5e0:82a0:50dd with SMTP id
- 4fb4d7f45d1cf-5e082a05797mr2098352a12.27.1739907052712; 
- Tue, 18 Feb 2025 11:30:52 -0800 (PST)
+ AJvYcCW6+hy12KMwv5RLknMpvc7Z0454XqwG4fceNPBYhtC2ChTtjwPu0iKYz+x0uQrFLRwkOjA1RYlRwqU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVRu+cuqj0/b4yJYF4B+1JetJIu2jxads4joBCaqkx5YyKNREV
+ p7P31Y+s97OwaowYboER9zPySpNHTDk+3IMN3+6w3wNB+Cv+YciaPNiyJgfJuOk=
+X-Gm-Gg: ASbGncsXGiVFLXDVj2UybWwM3GpT+kuy1JPPRIxxEryu8wbgPNq8KRD7AdOI3fQtjcD
+ 5QG3Xg+78aQEY8ra8qAulvRofzoYJZh03DxV4N9Sp6WHbfz3GypoOZbjGYDEfOycNZ28BaNgLze
+ m1bNNO/2GkenHKyofcoor1XN52oHIuX/pvk8Ui83oBiZxZllQNW61zFM8CjdQWx1iPDDr2aVTsd
+ yhm0+vcYKcE3Ufinyy595qqqcn4lUwmwJVDA80qOUjfxL2SLimeuA0bZifAAl1dRiBiS4rY/UfZ
+ YUP/50zluyeNEbpsz/Q67QJlp44y
+X-Google-Smtp-Source: AGHT+IH6dYXNSP6vLBRqe/ecMthhMu5dDSxKiguicPwszoCj13HXx3I+/2icxv2B1ExrsNYAjEdIdw==
+X-Received: by 2002:a05:6402:2354:b0:5e0:4c04:4186 with SMTP id
+ 4fb4d7f45d1cf-5e089d2fb1dmr614186a12.24.1739907056050; 
+ Tue, 18 Feb 2025 11:30:56 -0800 (PST)
 Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:cbaf:af0:839d:fb4a])
  by smtp.googlemail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dece1c3ce5sm9338985a12.17.2025.02.18.11.30.50
+ 4fb4d7f45d1cf-5dece1c3ce5sm9338985a12.17.2025.02.18.11.30.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2025 11:30:52 -0800 (PST)
+ Tue, 18 Feb 2025 11:30:54 -0800 (PST)
 From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Tue, 18 Feb 2025 20:29:52 +0100
-Subject: [PATCH v4 7/8] clk: clk-imx8mp-audiomix: use the auxiliary device
- creation helper
+Date: Tue, 18 Feb 2025 20:29:53 +0100
+Subject: [PATCH v4 8/8] clk: amlogic: axg-audio: use the auxiliary reset
+ driver - take 2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250218-aux-device-create-helper-v4-7-c3d7dfdea2e6@baylibre.com>
+Message-Id: <20250218-aux-device-create-helper-v4-8-c3d7dfdea2e6@baylibre.com>
 References: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
 In-Reply-To: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -104,21 +104,21 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
  Jerome Brunet <jbrunet@baylibre.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2798; i=jbrunet@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5906; i=jbrunet@baylibre.com; 
  h=from:subject:message-id;
- bh=ma6EXu0EtX44zpd7hqJ6kC+ikAUaUrZisGtu8UlCCLk=; 
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBntN/VIh7m+Cn8Gx+R/npCxGvJH4NCUefaxFlhn
- gu0IqWnjBiJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZ7Tf1QAKCRDm/A8cN/La
- hYVyD/90MBlzLttiipSPEDV3EdUFxIRifW8CB/ozE3YsCyj2v/DltrmPk563MQ5pa8itqfo5hkU
- 4A8uKNAUHs14NclRLizOGn6E2OBZW/tn4ElVBMO65CtqbYyOtqBnsWDcaS758f/TBsB/KzwIRqe
- u/MdB86COXZ7E0Yx33885Shus9RahC6bGdvoBax0KzyWXB28Zfs56Dpy4haxed1jB0YzQnGrtWx
- pZ6HQxrdNKrS1V4FWGSzPl5f1oazL81zZnYpSBz200B7CNxKcAEEAMCMMIANqSAhDDxXaynOTSp
- WYqRQirSRpdrRSgogove/vJqlyJQEvkEoP08xVSBRUH0k8jPl8AyeIy1RrwvPiTPgoekvpMSb+8
- DMkOah/WLuym+3gJnOq9dtIg+X/ZPE7iPKreaC4TIHkCRQ4enqoO0BaYy2G/W5t+uDGBzxhsqFH
- CpQYATnH9X7aGhTIgcEatDE5NENzgl26jip0Dl2U6fTkcbRiYzRHwqdqqqlwsbZ6l9EooZL+6f4
- 5kPCwJXOzUKfvTD8tNkD/GUpx8I1zc3pQ7R7KzzLxiiOG6oyQqm+HLCl/Bzr+afc+t51LbakoAm
- t6Qd2Q3tmZH1iA0sds5miFLH45OdqHtXeqrKPzPI+3W8oH37DOBtnvGssDoHjB8HiBJ1Bx4Xdg9
- OxcTaNJ3Vo552uA==
+ bh=QQ/ztLzccoD2euaC9XiJx7WBiQoWT8xupZIvkEt0604=; 
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBntN/VtNnyVBp1TZn2uakB3wDmrM70EYdAQGZ+h
+ wV2jlYYVniJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZ7Tf1QAKCRDm/A8cN/La
+ hQBjD/0RTaMxkXwenpFzTWRtbkfYP170epu7rqTng51UkW5dx0c746c0Qrzw65ygwvKsO9bol97
+ b/pX1khkHz4ELctHC0/gUmfugRQcCjQABsrNxkCDZbVBWRI7TKwaVoFcjcogbLRmvhkjiXSfa1S
+ 76FtH1DuaN7gQrQdnBBv1x7FKtahKBLyNkCamDmUN9/H+D4B5VUNpcymmgVRLIBszSinmGqPTL3
+ MFDp0iDIpcxyoimExExtn7UXtiiqjTpiVC3WAuZQXY27zbMEjJJxtF7SWARmqxnkHPm4H6w4tje
+ yctm1scmNxdLcnIBZBttjcu1TSntqESMEE4DFI03peNUvXuIL/XIFKO9EyRcTaq7T5JooFZ+uYF
+ LjdTh5p1c+BdBEMRNBzCgChSerJ/F58X3dhAkb7BXDZfPr8Y2bCPMd1mwrJAwZRHh5EgJA5zdFo
+ rSJu5S0ppYvzv4qYrPuiIwYXLpBN9djNeVshuwVJwGsoAJqs06vCyDgSjU/Wht/lVTA6m64V/xZ
+ oA6dK3fHpBl5KIXSw65n854LYYRdWFln2yKyuGoYuso0i2Ib91Z91bnr/bzsBtM6h7s6w+3u2D3
+ qcBQmOQ4aRSkyjclGXHc52MWgItdbJJ6s4Skitguub8FI3JxLo5cemUnME0vG2oMshqf0hDvQex
+ S37+rb/FVdA14/A==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,97 +136,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The auxiliary device creation of this driver is simple enough to
-use the available auxiliary device creation helper.
-
-Use it and remove some boilerplate code.
+Remove the implementation of the reset driver in axg audio
+clock driver and migrate to the one provided by reset framework
+on the auxiliary bus.
 
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- drivers/clk/imx/clk-imx8mp-audiomix.c | 49 ++++++-----------------------------
- 1 file changed, 8 insertions(+), 41 deletions(-)
+ drivers/clk/meson/Kconfig     |   2 +-
+ drivers/clk/meson/axg-audio.c | 114 +++++-------------------------------------
+ 2 files changed, 14 insertions(+), 102 deletions(-)
 
-diff --git a/drivers/clk/imx/clk-imx8mp-audiomix.c b/drivers/clk/imx/clk-imx8mp-audiomix.c
-index c409fc7e061869988f83c7df3ef7860500426323..fa15a5ed59e304687317b5a23c845a0588890bee 100644
---- a/drivers/clk/imx/clk-imx8mp-audiomix.c
-+++ b/drivers/clk/imx/clk-imx8mp-audiomix.c
-@@ -230,61 +230,28 @@ struct clk_imx8mp_audiomix_priv {
+diff --git a/drivers/clk/meson/Kconfig b/drivers/clk/meson/Kconfig
+index be2e3a5f83363b07cdcec2601acf15780ff24892..7cb21fc223b063cb93812643f02f192343981ed8 100644
+--- a/drivers/clk/meson/Kconfig
++++ b/drivers/clk/meson/Kconfig
+@@ -106,7 +106,7 @@ config COMMON_CLK_AXG_AUDIO
+ 	select COMMON_CLK_MESON_SCLK_DIV
+ 	select COMMON_CLK_MESON_CLKC_UTILS
+ 	select REGMAP_MMIO
+-	select RESET_CONTROLLER
++	imply RESET_MESON_AUX
+ 	help
+ 	  Support for the audio clock controller on AmLogic A113D devices,
+ 	  aka axg, Say Y if you want audio subsystem to work.
+diff --git a/drivers/clk/meson/axg-audio.c b/drivers/clk/meson/axg-audio.c
+index 9df627b142f89788966ede0262aaaf39e13f0b49..3948f5d0faca372dd5cc4ed6dc95f9c89fe5bae8 100644
+--- a/drivers/clk/meson/axg-audio.c
++++ b/drivers/clk/meson/axg-audio.c
+@@ -4,6 +4,7 @@
+  * Author: Jerome Brunet <jbrunet@baylibre.com>
+  */
  
- #if IS_ENABLED(CONFIG_RESET_CONTROLLER)
++#include <linux/auxiliary_bus.h>
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/init.h>
+@@ -12,7 +13,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
+-#include <linux/reset-controller.h>
+ #include <linux/slab.h>
  
--static void clk_imx8mp_audiomix_reset_unregister_adev(void *_adev)
-+static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
- {
--	struct auxiliary_device *adev = _adev;
+ #include "meson-clkc-utils.h"
+@@ -1678,84 +1678,6 @@ static struct clk_regmap *const sm1_clk_regmaps[] = {
+ 	&sm1_earcrx_dmac_clk,
+ };
+ 
+-struct axg_audio_reset_data {
+-	struct reset_controller_dev rstc;
+-	struct regmap *map;
+-	unsigned int offset;
+-};
 -
--	auxiliary_device_delete(adev);
--	auxiliary_device_uninit(adev);
+-static void axg_audio_reset_reg_and_bit(struct axg_audio_reset_data *rst,
+-					unsigned long id,
+-					unsigned int *reg,
+-					unsigned int *bit)
+-{
+-	unsigned int stride = regmap_get_reg_stride(rst->map);
+-
+-	*reg = (id / (stride * BITS_PER_BYTE)) * stride;
+-	*reg += rst->offset;
+-	*bit = id % (stride * BITS_PER_BYTE);
 -}
 -
--static void clk_imx8mp_audiomix_reset_adev_release(struct device *dev)
+-static int axg_audio_reset_update(struct reset_controller_dev *rcdev,
+-				unsigned long id, bool assert)
 -{
--	struct auxiliary_device *adev = to_auxiliary_dev(dev);
+-	struct axg_audio_reset_data *rst =
+-		container_of(rcdev, struct axg_audio_reset_data, rstc);
+-	unsigned int offset, bit;
 -
--	kfree(adev);
+-	axg_audio_reset_reg_and_bit(rst, id, &offset, &bit);
+-
+-	regmap_update_bits(rst->map, offset, BIT(bit),
+-			assert ? BIT(bit) : 0);
+-
+-	return 0;
 -}
 -
--static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev,
--							 struct clk_imx8mp_audiomix_priv *priv)
+-static int axg_audio_reset_status(struct reset_controller_dev *rcdev,
+-				unsigned long id)
 -{
--	struct auxiliary_device *adev __free(kfree) = NULL;
+-	struct axg_audio_reset_data *rst =
+-		container_of(rcdev, struct axg_audio_reset_data, rstc);
+-	unsigned int val, offset, bit;
+-
+-	axg_audio_reset_reg_and_bit(rst, id, &offset, &bit);
+-
+-	regmap_read(rst->map, offset, &val);
+-
+-	return !!(val & BIT(bit));
+-}
+-
+-static int axg_audio_reset_assert(struct reset_controller_dev *rcdev,
+-				unsigned long id)
+-{
+-	return axg_audio_reset_update(rcdev, id, true);
+-}
+-
+-static int axg_audio_reset_deassert(struct reset_controller_dev *rcdev,
+-				unsigned long id)
+-{
+-	return axg_audio_reset_update(rcdev, id, false);
+-}
+-
+-static int axg_audio_reset_toggle(struct reset_controller_dev *rcdev,
+-				unsigned long id)
+-{
 -	int ret;
-+	struct auxiliary_device *adev;
- 
- 	if (!of_property_present(dev->of_node, "#reset-cells"))
- 		return 0;
- 
--	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-+	adev = devm_auxiliary_device_create(dev, "reset", NULL);
- 	if (!adev)
--		return -ENOMEM;
 -
--	adev->name = "reset";
--	adev->dev.parent = dev;
--	adev->dev.release = clk_imx8mp_audiomix_reset_adev_release;
--
--	ret = auxiliary_device_init(adev);
+-	ret = axg_audio_reset_assert(rcdev, id);
 -	if (ret)
 -		return ret;
-+		return -ENODEV;
- 
--	ret = auxiliary_device_add(adev);
--	if (ret) {
--		auxiliary_device_uninit(adev);
--		return ret;
--	}
 -
--	return devm_add_action_or_reset(dev, clk_imx8mp_audiomix_reset_unregister_adev,
--					no_free_ptr(adev));
+-	return axg_audio_reset_deassert(rcdev, id);
+-}
+-
+-static const struct reset_control_ops axg_audio_rstc_ops = {
+-	.assert = axg_audio_reset_assert,
+-	.deassert = axg_audio_reset_deassert,
+-	.reset = axg_audio_reset_toggle,
+-	.status = axg_audio_reset_status,
+-};
+-
+ static struct regmap_config axg_audio_regmap_cfg = {
+ 	.reg_bits	= 32,
+ 	.val_bits	= 32,
+@@ -1766,8 +1688,7 @@ struct audioclk_data {
+ 	struct clk_regmap *const *regmap_clks;
+ 	unsigned int regmap_clk_num;
+ 	struct meson_clk_hw_data hw_clks;
+-	unsigned int reset_offset;
+-	unsigned int reset_num;
++	const char *rst_drvname;
+ 	unsigned int max_register;
+ };
+ 
+@@ -1775,7 +1696,7 @@ static int axg_audio_clkc_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	const struct audioclk_data *data;
+-	struct axg_audio_reset_data *rst;
++	struct auxiliary_device *auxdev;
+ 	struct regmap *map;
+ 	void __iomem *regs;
+ 	struct clk_hw *hw;
+@@ -1834,22 +1755,15 @@ static int axg_audio_clkc_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Stop here if there is no reset */
+-	if (!data->reset_num)
+-		return 0;
+-
+-	rst = devm_kzalloc(dev, sizeof(*rst), GFP_KERNEL);
+-	if (!rst)
+-		return -ENOMEM;
+-
+-	rst->map = map;
+-	rst->offset = data->reset_offset;
+-	rst->rstc.nr_resets = data->reset_num;
+-	rst->rstc.ops = &axg_audio_rstc_ops;
+-	rst->rstc.of_node = dev->of_node;
+-	rst->rstc.owner = THIS_MODULE;
++	/* Register auxiliary reset driver when applicable */
++	if (data->rst_drvname) {
++		auxdev = __devm_auxiliary_device_create(dev, dev->driver->name,
++							data->rst_drvname, NULL, 0);
++		if (!auxdev)
++			return -ENODEV;
++	}
+ 
+-	return devm_reset_controller_register(dev, &rst->rstc);
 +	return 0;
  }
  
- #else /* !CONFIG_RESET_CONTROLLER */
+ static const struct audioclk_data axg_audioclk_data = {
+@@ -1869,8 +1783,7 @@ static const struct audioclk_data g12a_audioclk_data = {
+ 		.hws = g12a_audio_hw_clks,
+ 		.num = ARRAY_SIZE(g12a_audio_hw_clks),
+ 	},
+-	.reset_offset = AUDIO_SW_RESET,
+-	.reset_num = 26,
++	.rst_drvname = "rst-g12a",
+ 	.max_register = AUDIO_CLK_SPDIFOUT_B_CTRL,
+ };
  
--static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev,
--							 struct clk_imx8mp_audiomix_priv *priv)
-+static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
- {
- 	return 0;
- }
- 
--#endif /* !CONFIG_RESET_CONTROLLER */
-+#endif
- 
- static void clk_imx8mp_audiomix_save_restore(struct device *dev, bool save)
- {
-@@ -408,7 +375,7 @@ static int clk_imx8mp_audiomix_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_clk_register;
- 
--	ret = clk_imx8mp_audiomix_reset_controller_register(dev, priv);
-+	ret = clk_imx8mp_audiomix_reset_controller_register(dev);
- 	if (ret)
- 		goto err_clk_register;
+@@ -1881,8 +1794,7 @@ static const struct audioclk_data sm1_audioclk_data = {
+ 		.hws = sm1_audio_hw_clks,
+ 		.num = ARRAY_SIZE(sm1_audio_hw_clks),
+ 	},
+-	.reset_offset = AUDIO_SM1_SW_RESET0,
+-	.reset_num = 39,
++	.rst_drvname = "rst-sm1",
+ 	.max_register = AUDIO_EARCRX_DMAC_CLK_CTRL,
+ };
  
 
 -- 
