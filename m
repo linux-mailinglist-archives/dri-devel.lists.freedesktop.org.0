@@ -2,85 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C27A3A543
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 19:23:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F061A3A56C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 19:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D37E10E06C;
-	Tue, 18 Feb 2025 18:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBD6710E0DD;
+	Tue, 18 Feb 2025 18:26:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CcovgIvJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XJJXxF0T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08E6110E021;
- Tue, 18 Feb 2025 18:23:11 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id
- e9e14a558f8ab-3cfce97a3d9so19124095ab.2; 
- Tue, 18 Feb 2025 10:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739902991; x=1740507791; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z21PGtMoKOkP6/rqvgbqZXruaILXexhwG8Q6wG3Y9zo=;
- b=CcovgIvJ+DuWx+XYYuJpxEFpS9VVhwaAMgg1fx4dfEc9ERJ6e4FtCDV8dOzw7Rbc8Q
- O7HUe2BXrTH2Qa7eck4x+0IUikQZRX8wavAecOwlQ+Ci6Z1NZrTNgEGowqhOFiGePyN4
- bwX1hODQ864p/J4giRa4DdVmcDgszQZRY48tDCpeYTB0CnJDVUcXy8A9dp/nPeaBZlFX
- VGBggoflzLRzaqa7rO5YQbL9oazqvs8uIdq8K+nAXCCMbkTVheWwDY8dZG7cUOhQnjRO
- WkQvbAqAbNfocstzaa0pamX0MLQ3ANYYAdPvZ0TvBSCm17WAH7PtEWLOHMEXAzcCscSR
- bFeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739902991; x=1740507791;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z21PGtMoKOkP6/rqvgbqZXruaILXexhwG8Q6wG3Y9zo=;
- b=U0ID2pMbwJW4gB/jS530qn4Wxn3AV2ap9Zc2buraDwqhPHb6tDM/3vtMaeAhB+nf10
- AUULx/2d/rjFxm/LdIJ3PS0kp1Dhg/Eu473OrhG2V94kwP5PKjqI7dcgAtNoIBQXLKRu
- SGg7ttkW3ttVhjfUSl9MHuLlVUahfgUtTIrdL8du9LcWdukBK0j5Vbqwh/ikMgaxCxU9
- kQsHvuAfrTgGMjFvNVj1rnGyfPHhowGXKY6wu76VDW/6PVNVeYecoEkitXCT9vtWM6dM
- rWTR3c5rtqJS9KKw8/VabVqyS/QaZGo94hFzD+Sj/EBZUGi1I0aJqdG3EvWGk7omw/t8
- kmtw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX272Wv/wx8howD0xvoMgpaP6Yv8W7mzUf4VJD0emRPZzxBXCPyl0opJxSLaAtOc4rJD6TL+uEU2Plz@lists.freedesktop.org,
- AJvYcCXfPT278cJOvvxyckpcfX+1LkH/0+GQZaCSTVZ4ooLHOlXKCIfV5bv37ZvAEXM0bfSxCQFTGnqCxqY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YySuxrXm0w3l5MfzJVy4PtE7bdonAjvB1S5XeB4E94+YzsLQf2O
- fxGIx/+gY1Vm5evsO4F7pflKM9vDKfexXWhzY74kq9PE9lq2nTj7QQyHgLHRemO/9Qhka8n13Vs
- 59kR5Eaz5HYiz43Be6HiTHu9C1N8=
-X-Gm-Gg: ASbGncvPBQ+z52WBoAk3HABSHRvHgdnOluc5DyWViOnkfh3bX6iBjRFWAPIWQe4PKbC
- itZORsOgS4Q2y0dvpDGjaLJRnAeg+P6cbSRadF6ueq98WW20XQYKjh8BZQx75QCBb1hvNrWzNts
- UVkn7kwXdjo9d/XfpyKDfmMAdyZ64=
-X-Google-Smtp-Source: AGHT+IH6m+3JpSoefsz/wCPh++hcK26qXs4lJwUORXK0FJ65ByGufreIwlwfoIgDMMvRpdHdGUsMMLBHV/pse5FopSc=
-X-Received: by 2002:a05:6e02:20c7:b0:3d1:883c:6e84 with SMTP id
- e9e14a558f8ab-3d2807b9b5fmr128847205ab.8.1739902991169; Tue, 18 Feb 2025
- 10:23:11 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19DBB10E06F;
+ Tue, 18 Feb 2025 18:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=g+1NgTbwn2htB4xn3prNdmhnAxKUnWU+b53bAFxjIjw=; b=XJJXxF0ThQEFXVO9K0hXTXWz44
+ 80bQr7/TgyrC19v8tTsmbfCZ132Zg3bbeJidrcPnZFAB5B9FaiNpZkwQkWAyqkJIdjuvgW1GhwVpn
+ urBIz0zLz9sBW2RsB1KHOft2VixEW7hd4TNgFC3vc8NtCs4bbKak3siy6D24vTpJogxssFxwUe/n6
+ YhtffuT8fXIbCU9ptAs/NlB342KHA4UDHyAztlxxQ5/knywkyBdCXFDUWNu8zkyv8tZA2G67y4ZyU
+ A01/aeWwFONjjPl4mLQnYLqieQzD93s3oZ+GdVQBYAPElO7TmAvBHnBOV9pLMRBr0DdCA2iBdRQ8Q
+ q2o3TT4Q==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tkSIM-00BQu4-TF; Tue, 18 Feb 2025 19:26:16 +0100
+Message-ID: <0ecf7583-8e7a-45c7-bc4e-5935681effc3@igalia.com>
+Date: Tue, 18 Feb 2025 18:26:15 +0000
 MIME-Version: 1.0
-References: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
- <20250213-a623-gpu-support-v1-1-993c65c39fd2@quicinc.com>
-In-Reply-To: <20250213-a623-gpu-support-v1-1-993c65c39fd2@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 18 Feb 2025 10:22:59 -0800
-X-Gm-Features: AWEUYZnNPg2AfVlGCXj9pinFkd16J3E28yQ3KeG-PhyvgCV6j8swgW1l6ohQvEk
-Message-ID: <CAF6AEGvDR1md6D2dnqJWOW5v3t2wnaC29VD1fyX5q48bzqEkHQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/msm/a6xx: Fix gpucc register block for A621
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Jie Zhang <quic_jiezh@quicinc.com>, Rob Clark <robdclark@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/6] drm/sched: Add internal job peek/pop API
+To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
+References: <20250214101944.19390-1-tvrtko.ursulin@igalia.com>
+ <20250214101944.19390-2-tvrtko.ursulin@igalia.com>
+ <7244eaa81cfeb6ce959c591c11a97f52f25b5a5d.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <7244eaa81cfeb6ce959c591c11a97f52f25b5a5d.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,121 +65,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 8:10=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
->
-> From: Jie Zhang <quic_jiezh@quicinc.com>
->
-> Adreno 621 has a different memory map for GPUCC block. So update
-> a6xx_gpu_state code to dump the correct set of gpucc registers.
->
-> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 13 ++++++++++---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 17 +++++++++++++++++
->  2 files changed, 27 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/dr=
-m/msm/adreno/a6xx_gpu_state.c
-> index 0fcae53c0b14..2c10474ccc95 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> @@ -1214,12 +1214,12 @@ static void a6xx_get_gmu_registers(struct msm_gpu=
- *gpu,
->         struct a6xx_gpu *a6xx_gpu =3D to_a6xx_gpu(adreno_gpu);
->
->         a6xx_state->gmu_registers =3D state_kcalloc(a6xx_state,
-> -               3, sizeof(*a6xx_state->gmu_registers));
-> +               4, sizeof(*a6xx_state->gmu_registers));
->
->         if (!a6xx_state->gmu_registers)
->                 return;
->
-> -       a6xx_state->nr_gmu_registers =3D 3;
-> +       a6xx_state->nr_gmu_registers =3D 4;
 
-nit, this and splitting out a6xx_gpucc_reg from a6xx_gmu_cx_registers
-could probably be it's own commit
+On 18/02/2025 12:26, Philipp Stanner wrote:
+> Thx for the updated version. Overlooked it, I was out on Friday. See
+> below
+> 
+> On Fri, 2025-02-14 at 10:19 +0000, Tvrtko Ursulin wrote:
+>> Idea is to add helpers for peeking and popping jobs from entities
+>> with
+>> the goal of decoupling the hidden assumption in the code that
+>> queue_node
+>> is the first element in struct drm_sched_job.
+>>
+>> That assumption usually comes in the form of:
+>>
+>>    while ((job = to_drm_sched_job(spsc_queue_pop(&entity-
+>>> job_queue))))
+>>
+>> Which breaks if the queue_node is re-positioned due to_drm_sched_job
+>> being implemented with a container_of.
+>>
+>> This also allows us to remove duplicate definitions of
+>> to_drm_sched_job.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c   | 11 +++---
+>>   drivers/gpu/drm/scheduler/sched_internal.h | 46
+>> ++++++++++++++++++++++
+>>   drivers/gpu/drm/scheduler/sched_main.c     |  7 ++--
+>>   3 files changed, 54 insertions(+), 10 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/scheduler/sched_internal.h
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index 69bcf0e99d57..a171f05ad761 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -28,11 +28,10 @@
+>>   #include <drm/drm_print.h>
+>>   #include <drm/gpu_scheduler.h>
+>>   
+>> +#include "sched_internal.h"
+>> +
+>>   #include "gpu_scheduler_trace.h"
+>>   
+>> -#define to_drm_sched_job(sched_job)		\
+>> -		container_of((sched_job), struct drm_sched_job,
+>> queue_node)
+>> -
+>>   /**
+>>    * drm_sched_entity_init - Init a context entity used by scheduler
+>> when
+>>    * submit to HW ring.
+>> @@ -255,7 +254,7 @@ static void drm_sched_entity_kill(struct
+>> drm_sched_entity *entity)
+>>   	/* The entity is guaranteed to not be used by the scheduler
+>> */
+>>   	prev = rcu_dereference_check(entity->last_scheduled, true);
+>>   	dma_fence_get(prev);
+>> -	while ((job = to_drm_sched_job(spsc_queue_pop(&entity-
+>>> job_queue)))) {
+>> +	while ((job = drm_sched_entity_queue_pop(entity))) {
+>>   		struct drm_sched_fence *s_fence = job->s_fence;
+>>   
+>>   		dma_fence_get(&s_fence->finished);
+>> @@ -477,7 +476,7 @@ struct drm_sched_job
+>> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>   {
+>>   	struct drm_sched_job *sched_job;
+>>   
+>> -	sched_job = to_drm_sched_job(spsc_queue_peek(&entity-
+>>> job_queue));
+>> +	sched_job = drm_sched_entity_queue_peek(entity);
+>>   	if (!sched_job)
+>>   		return NULL;
+>>   
+>> @@ -513,7 +512,7 @@ struct drm_sched_job
+>> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>   	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
+>>   		struct drm_sched_job *next;
+>>   
+>> -		next = to_drm_sched_job(spsc_queue_peek(&entity-
+>>> job_queue));
+>> +		next = drm_sched_entity_queue_peek(entity);
+>>   		if (next) {
+>>   			struct drm_sched_rq *rq;
+>>   
+>> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h
+>> b/drivers/gpu/drm/scheduler/sched_internal.h
+>> new file mode 100644
+>> index 000000000000..815d384845a3
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+>> @@ -0,0 +1,46 @@
+>> +#ifndef _DRM_GPU_SCHEDULER_INTERNAL_H_
+>> +#define _DRM_GPU_SCHEDULER_INTERNAL_H_
+> 
+> DRM maintainer tools complain about a potentially missing license
+> identifier:
+> 
+> -:80: WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+> #80: FILE: drivers/gpu/drm/scheduler/sched_internal.h:1:
+> 
+> The other scheduler files don't have one, either. Still, it might be
+> good to add one for new files. So, shall we make it GPL?
 
-BR,
--R
+Ha, good question. And it is actually good I forgot to do this for this 
+series (I was doing for unit tests last week, I mean adding SPDX lines) 
+because, as sched_internal.h will take parts of gpu_scheduler.h which is 
+not explicitly GPL, nor the other scheduler source files, apart from 
+MODULE_LICENSE which is "GPL and additional rights", question indeed is 
+what copyright blurb to put there. IANAL so not sure. Surely there is 
+some established practice for cases like this one just I don't know what 
+it is.
 
->
->         /* Get the CX GMU registers from AHB */
->         _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[0],
-> @@ -1227,6 +1227,13 @@ static void a6xx_get_gmu_registers(struct msm_gpu =
-*gpu,
->         _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[1],
->                 &a6xx_state->gmu_registers[1], true);
->
-> +       if (adreno_is_a621(adreno_gpu))
-> +               _a6xx_get_gmu_registers(gpu, a6xx_state, &a621_gpucc_reg,
-> +                       &a6xx_state->gmu_registers[2], false);
-> +       else
-> +               _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gpucc_reg,
-> +                       &a6xx_state->gmu_registers[2], false);
-> +
->         if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
->                 return;
->
-> @@ -1234,7 +1241,7 @@ static void a6xx_get_gmu_registers(struct msm_gpu *=
-gpu,
->         gpu_write(gpu, REG_A6XX_GMU_AO_AHB_FENCE_CTRL, 0);
->
->         _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[2],
-> -               &a6xx_state->gmu_registers[2], false);
-> +               &a6xx_state->gmu_registers[3], false);
->  }
->
->  static struct msm_gpu_state_bo *a6xx_snapshot_gmu_bo(
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/dr=
-m/msm/adreno/a6xx_gpu_state.h
-> index dd4c28a8d923..e545106c70be 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-> @@ -363,6 +363,9 @@ static const u32 a6xx_gmu_cx_registers[] =3D {
->         0x51e0, 0x51e2, 0x51f0, 0x51f0, 0x5200, 0x5201,
->         /* GMU AO */
->         0x9300, 0x9316, 0x9400, 0x9400,
-> +};
-> +
-> +static const u32 a6xx_gmu_gpucc_registers[] =3D {
->         /* GPU CC */
->         0x9800, 0x9812, 0x9840, 0x9852, 0x9c00, 0x9c04, 0x9c07, 0x9c0b,
->         0x9c15, 0x9c1c, 0x9c1e, 0x9c2d, 0x9c3c, 0x9c3d, 0x9c3f, 0x9c40,
-> @@ -373,6 +376,17 @@ static const u32 a6xx_gmu_cx_registers[] =3D {
->         0xbc00, 0xbc16, 0xbc20, 0xbc27,
->  };
->
-> +static const u32 a621_gmu_gpucc_registers[] =3D {
-> +       /* GPU CC */
-> +       0x9800, 0x980e, 0x9c00, 0x9c0e, 0xb000, 0xb004, 0xb400, 0xb404,
-> +       0xb800, 0xb804, 0xbc00, 0xbc05, 0xbc14, 0xbc1d, 0xbc2a, 0xbc30,
-> +       0xbc32, 0xbc32, 0xbc41, 0xbc55, 0xbc66, 0xbc68, 0xbc78, 0xbc7a,
-> +       0xbc89, 0xbc8a, 0xbc9c, 0xbc9e, 0xbca0, 0xbca3, 0xbcb3, 0xbcb5,
-> +       0xbcc5, 0xbcc7, 0xbcd6, 0xbcd8, 0xbce8, 0xbce9, 0xbcf9, 0xbcfc,
-> +       0xbd0b, 0xbd0c, 0xbd1c, 0xbd1e, 0xbd40, 0xbd70, 0xbe00, 0xbe16,
-> +       0xbe20, 0xbe2d,
-> +};
-> +
->  static const u32 a6xx_gmu_cx_rscc_registers[] =3D {
->         /* GPU RSCC */
->         0x008c, 0x008c, 0x0101, 0x0102, 0x0340, 0x0342, 0x0344, 0x0347,
-> @@ -386,6 +400,9 @@ static const struct a6xx_registers a6xx_gmu_reglist[]=
- =3D {
->         REGS(a6xx_gmu_gx_registers, 0, 0),
->  };
->
-> +static const struct a6xx_registers a6xx_gpucc_reg =3D REGS(a6xx_gmu_gpuc=
-c_registers, 0, 0);
-> +static const struct a6xx_registers a621_gpucc_reg =3D REGS(a621_gmu_gpuc=
-c_registers, 0, 0);
-> +
->  static u32 a6xx_get_cp_roq_size(struct msm_gpu *gpu);
->  static u32 a7xx_get_cp_roq_size(struct msm_gpu *gpu);
->
->
-> --
-> 2.45.2
->
+Regards,
+
+Tvrtko
+
+> Rest of the series looks good.
+> 
+> P.
+> 
+>> +
+>> +/**
+>> + * drm_sched_entity_queue_pop - Low level helper for popping queued
+>> jobs
+>> + *
+>> + * @entity: scheduler entity
+>> + *
+>> + * Low level helper for popping queued jobs.
+>> + *
+>> + * Returns: The job dequeued or NULL.
+>> + */
+>> +static inline struct drm_sched_job *
+>> +drm_sched_entity_queue_pop(struct drm_sched_entity *entity)
+>> +{
+>> +	struct spsc_node *node;
+>> +
+>> +	node = spsc_queue_pop(&entity->job_queue);
+>> +	if (!node)
+>> +		return NULL;
+>> +
+>> +	return container_of(node, struct drm_sched_job, queue_node);
+>> +}
+>> +
+>> +/**
+>> + * drm_sched_entity_queue_peek - Low level helper for peeking at the
+>> job queue
+>> + *
+>> + * @entity: scheduler entity
+>> + *
+>> + * Low level helper for peeking at the job queue
+>> + *
+>> + * Returns: The job at the head of the queue or NULL.
+>> + */
+>> +static inline struct drm_sched_job *
+>> +drm_sched_entity_queue_peek(struct drm_sched_entity *entity)
+>> +{
+>> +	struct spsc_node *node;
+>> +
+>> +	node = spsc_queue_peek(&entity->job_queue);
+>> +	if (!node)
+>> +		return NULL;
+>> +
+>> +	return container_of(node, struct drm_sched_job, queue_node);
+>> +}
+>> +
+>> +#endif
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 8c36a59afb72..c634993f1346 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -78,6 +78,8 @@
+>>   #include <drm/gpu_scheduler.h>
+>>   #include <drm/spsc_queue.h>
+>>   
+>> +#include "sched_internal.h"
+>> +
+>>   #define CREATE_TRACE_POINTS
+>>   #include "gpu_scheduler_trace.h"
+>>   
+>> @@ -87,9 +89,6 @@ static struct lockdep_map drm_sched_lockdep_map = {
+>>   };
+>>   #endif
+>>   
+>> -#define to_drm_sched_job(sched_job)		\
+>> -		container_of((sched_job), struct drm_sched_job,
+>> queue_node)
+>> -
+>>   int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
+>>   
+>>   /**
+>> @@ -123,7 +122,7 @@ static bool drm_sched_can_queue(struct
+>> drm_gpu_scheduler *sched,
+>>   {
+>>   	struct drm_sched_job *s_job;
+>>   
+>> -	s_job = to_drm_sched_job(spsc_queue_peek(&entity-
+>>> job_queue));
+>> +	s_job = drm_sched_entity_queue_peek(entity);
+>>   	if (!s_job)
+>>   		return false;
+>>   
+> 
+
