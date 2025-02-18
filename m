@@ -2,185 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C27FA392D0
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 06:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A809A3934E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 07:02:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11DF310E618;
-	Tue, 18 Feb 2025 05:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A02F10E61B;
+	Tue, 18 Feb 2025 06:01:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lIVDh9RF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ebMA96VV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F8BB10E61B;
- Tue, 18 Feb 2025 05:44:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2D4810E0D2;
+ Tue, 18 Feb 2025 06:01:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739857460; x=1771393460;
+ t=1739858516; x=1771394516;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=1wQpDfDKKwsQgOaBtJtNgfhe2CX7uc6OCfhODEy5Jns=;
- b=lIVDh9RFbBP3DZnk38LU+CmE/g/E94mLeCf0aPAjFuGW79iv9ThM0yrF
- is4ht2ta2Nv+eo4/jnh9mn3iNq2+9DENb+Oyi2kUnmjMSpYFjyjH4bSOn
- vWukuen+A7TlIfTcAMjrsPHeaNYA6biDCSuyHaaNZMhPwO8Nswo4gkNFr
- Bih3BDrk/pd9doQyouk1xl6lVqaqsfzYaSRvZKJbIAP8SQdMFMm6AxkBZ
- qTzVxnpmxUr+KtCiISRiH7ZnFAbG8iVJwAjCSq38I75A/ZrEm93AxcjRQ
- IF6yzQuilYyCpO8+ILzYBkMvZGuvT8SGQiv8yajhA6c8fTmfs1EW3WzmM g==;
-X-CSE-ConnectionGUID: QmFCgjM2SUmgbco8XdOIxQ==
-X-CSE-MsgGUID: EOV6rU14RLaXCcdLmdUgew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51945730"
-X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; d="scan'208";a="51945730"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2025 21:44:20 -0800
-X-CSE-ConnectionGUID: KW89UdcISFiZ1rPHsAQBJA==
-X-CSE-MsgGUID: NpALESlyTU6cfxlQNDmtuA==
+ bh=mTfB9NdmQcyt83Azs7z/RV2fptlqj2HVX2b/L9Spx3E=;
+ b=ebMA96VVvkRDGmHwSLVWTb3mMyuuXqZNuNngCtU1tND4AU+7fleqlEXe
+ Gf4mu6OB7Fz+9g6x6Vl5WR9752JIH21zXS5tTxdYmcceU/9os3riWbLnq
+ q6Nn17yDzE41Wyp5xbJRqveZniHKa3m1OiLVVG36jVPKxButIjtW07nTi
+ X53zw1K7zYVBhvrPAI+IDSl0hxVAJQ8fbIcRa9veXrHvWa3p1yIjC7bgf
+ 41SyIFk79P6egq1/3lraVRMnUpss7W6Vf01PTV1uIyQACLJ+KAZWyKRb3
+ xtiQxxcp0ogGjjq/czmI9iltkHzGcEfV8B0tX1pqPqzd3J2jXZbmVrr2j w==;
+X-CSE-ConnectionGUID: nTSW+9pRSiO4JBnXLGgltg==
+X-CSE-MsgGUID: kYRjPK5QQE2O8/JuWem24A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="63016401"
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; d="scan'208";a="63016401"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2025 22:01:55 -0800
+X-CSE-ConnectionGUID: SbirQrpDQyu1sxpYUQ51pQ==
+X-CSE-MsgGUID: oVps6LAPQuWXYTlfkkK6Xg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="151488962"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="115196524"
 Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2025 21:44:19 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2025 22:01:55 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Mon, 17 Feb 2025 21:44:18 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 17 Feb 2025 21:44:18 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 17 Feb 2025 21:44:18 -0800
+ 15.2.1544.14; Mon, 17 Feb 2025 22:01:54 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Mon, 17 Feb 2025 22:01:54 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.43) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 17 Feb 2025 22:01:51 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ujm12hb1UNldvVpBwHF3zpfP4B5OdfUbJqrKNZYgmYPqiFKoapq3PnP+A3gY3hwradfuhgMfEtxykfwgmQT4QKYYEwmayhgQpqFqTa+2acSdP0vguSPUoZJcW1US1k7JePtecznNvdNZ5DwxQtY7Be6vyL7DurXlbwgwolLWV5fZ57g8RBjH3LTQirDySLk2N1ITgT5zoQXk/ew8x4UamjovBBIia2Ws9J9IWgkl1oeOJx5NRBw8YrQZZGNpAngAoqh/q2hwSwivC7KWJWPfhmP2KIcUMRCBqPr8/iuIFdjUrYgn+gzVMfa9mb0DhNAr99gXh9+hPXC+2gG/eepYTg==
+ b=ovJAOEWPkdVpkeD92l8R7AKkmXyb+pGqmbkVMOernW/CPjYo+y6Sj4MIBcBqQHmfCiAjv8sF9kZrjPioXsvNDGOfOEKUL+i9/bMCeM39ZhewbpFIXX38TZM3RTrBIBrVzakYsEG67Jyz3dbtIMTvOm00iz2R/TZupEo7uft2r5hKi1DMDU2tHBfrmEY2nnrh882gMbGg/BoZ1/ByqmefIDX1+gacGs8epknPRdT7MEQFw9tWLyIY1D3/me9L6D/lKUrhLIxhIkbqtKK27yx6WBRumYa0drytFOa6L6P8ee6sA103AVwfvzx2vfC6av+UBFikeuIqVGDBXMyezQrz9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kAGu7aqws7VCmF7UcLGITXtiqyY5F/Gqb3gIybyU9so=;
- b=GG+yGZluBzsr3rCQ0FegB58L39v05sA6ViVh5sZl4v8xVYzRMfkgSL7klqlwzl4g8pEDmlJL7erx5CIXm7jwnEiFXE1wzrtreDoYXPCIk/z4uurYf8R/TqOTG+Pi1hV1N1snEWWR1g+J54ARN0/wPYrCnsn3U9271T9CunnBqwjGuMjuIGYHOuJeCl/tFH1Cz8o8WcTaIEN/UeBSqgjAoWQknqteVEmzMhEAR8w9ZIIRHHYdPvvuaekojWZ0925DI2Yvz/im75Atg3jv0y6IgR6pXXWqGUulskBNcjKWZ9X01lnfyZ43DnpJkOdio9OCIRbOAwnQBdNl/r6JMhiLLQ==
+ bh=zfbghS84XHttXG0hasvZSu9+QbHezQTIQp4D76QRLio=;
+ b=OL66v5gR/LcB+HQabY363N42pWr6WNvHDjougKC1Dkf3Po8YDC8axmUD6oe0YNAZ+hYsxBmAM3MDOqI/Hhy34L+cv/Lfrf3NhZGEORQhNnkDTR1rgBRfkH5sTViir6yG+yuud3t0FMxBFrkBs2hQYZXzch5fARFT96nVs+mzEEzDcycflyJUKAHzAvSI9q6gcUVGkm0GlJO/FW5bgHT75BESeRTo1pF5zQoIZL1p1aZXS9S/rMkF/ABPb/wKuuldBVgG/tpfcBo52ZMxnVeydUN/mr27V+oBo4MdHWQRITcUO2a0el+yZ7W0tzy7hJAgE+j6xAFa7UiKyEXSDcZo+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by SA2PR11MB4811.namprd11.prod.outlook.com (2603:10b6:806:11d::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.18; Tue, 18 Feb
- 2025 05:43:49 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843%5]) with mapi id 15.20.8466.013; Tue, 18 Feb 2025
- 05:43:49 +0000
-Message-ID: <c423efcb-5ab8-41c2-af0a-621007c6175d@intel.com>
-Date: Tue, 18 Feb 2025 11:13:39 +0530
+Received: from CH3PR11MB7300.namprd11.prod.outlook.com (2603:10b6:610:150::21)
+ by DM6PR11MB4594.namprd11.prod.outlook.com (2603:10b6:5:2a0::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Tue, 18 Feb
+ 2025 06:01:49 +0000
+Received: from CH3PR11MB7300.namprd11.prod.outlook.com
+ ([fe80::cfdc:6323:1353:350d]) by CH3PR11MB7300.namprd11.prod.outlook.com
+ ([fe80::cfdc:6323:1353:350d%5]) with mapi id 15.20.8445.017; Tue, 18 Feb 2025
+ 06:01:49 +0000
+Message-ID: <42c7b117-22d6-4735-b921-4e9d3a1dcf72@intel.com>
+Date: Tue, 18 Feb 2025 11:31:42 +0530
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v8 01/14] drm: Define histogram structures exposed to user
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Pekka Paalanen
+ <pekka.paalanen@haloniitty.fi>
 CC: <intel-xe@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <suraj.kandpal@intel.com>,
  <dmitry.baryshkov@linaro.org>
 References: <20250128-dpst-v8-0-871b94d777f8@intel.com>
  <20250128-dpst-v8-1-871b94d777f8@intel.com> <20250217120808.708b9b4d@eldfell>
+ <Z7NxOVfgvvBt_sj3@phenom.ffwll.local>
 Content-Language: en-US
 From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-In-Reply-To: <20250217120808.708b9b4d@eldfell>
+In-Reply-To: <Z7NxOVfgvvBt_sj3@phenom.ffwll.local>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0026.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:b8::14) To IA0PR11MB7307.namprd11.prod.outlook.com
- (2603:10b6:208:437::10)
+X-ClientProxiedBy: MA1P287CA0004.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a00:35::23) To CH3PR11MB7300.namprd11.prod.outlook.com
+ (2603:10b6:610:150::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7307:EE_|SA2PR11MB4811:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1f6e7b7-db3a-41d2-79ff-08dd4fdf37e5
+X-MS-TrafficTypeDiagnostic: CH3PR11MB7300:EE_|DM6PR11MB4594:EE_
+X-MS-Office365-Filtering-Correlation-Id: 038ea65a-7efa-4be8-22d8-08dd4fe1bb84
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SGJ2MndnVGsyV3BnSjNZV1hmQy9qcUN3eWVpRnRnOC9QSnpjYTU5VUgvaGhZ?=
- =?utf-8?B?UHRFRkZCT2I2YW1vd2RQSWNaemtDWkxOU2N0b0ZmN1UwVzBSdHpKeWFoN09H?=
- =?utf-8?B?NFpyQURyMklDanVIbkV3bU5ucHBnTzFPVDBqbEJUcmhvQmxmZjBGNHovNlZH?=
- =?utf-8?B?dnNoYm04dXF1S3JYa21ndVo0Uk9qTnZtY3VvYlZsK2RpQTNQYmMzSzFLZ0FN?=
- =?utf-8?B?LzVUSktKMTBBOGxIZEs3SVZqWEZxM2RhMWZnazVzdm1GQ2NCWjNOWGJMODdk?=
- =?utf-8?B?a241eVFwbkFrY3BBcEJuOEZIby9ONGNNUElFUWhTbmY3M3owVWJudHB1RmZv?=
- =?utf-8?B?ZHp1YnJ0cWpSNDBOamcwL1NpdDJCdjJxMGVmb3NWdzBDNlBUcnAvR3FrS0o0?=
- =?utf-8?B?TUYrZkFpVXJTdTVkTis5K3AyN0lLNHBkMlpEK3l0ZElVcVVZV0tRZGpEOGpw?=
- =?utf-8?B?UmxtTHg4K2dpSjMxMHJrYm4xbDl0Z204a293c0R6Ny9hZmx6czVPL3NJU1VZ?=
- =?utf-8?B?dDl2dHozM29jQldFR0hTRTZUUm1EaWVaT0NqZnVGOW1kVitXRUFhYVBDQXNL?=
- =?utf-8?B?R1o1c2N4K0Faa090VzYxbnE2NVhxbTBERFphZnduK3VTWjhmalR5RlRVcDkw?=
- =?utf-8?B?Um11VEdRdTlBOTJxOWhHY2QwdzJ0N28rTUFkY1ZTU1FiTkM1d3RxZXN2K0Ur?=
- =?utf-8?B?UEd1b3Y0blhJOFZOVVBCMDc0d3RTd0lDVkIyY1d3SUFNQUJhaW5wL1lSc3cz?=
- =?utf-8?B?N0lCUjl4NytlOXNkUk42YkxxRFBPK0NXa3dpYkFlZTNBdUQ3YXJwSVI2cmh6?=
- =?utf-8?B?QUJWOXpMZUxneFoyUWFqUWdaRXY1UjF5Vjd5Y3BYNzMxam9Fa0tJZ3JxYUU0?=
- =?utf-8?B?clZkanRqejJZSzB6bGZTVXBXNHowck04d0gwZjFyamJlNjFtTlJtaG1zeDJ2?=
- =?utf-8?B?ejJDZmVHSVptdnJlYXA3L2tjUElIcVgyY1JWUFRRNEFTMmZlT1FleUxIOWlk?=
- =?utf-8?B?K2p2Z1BhdVlvVTJIcUxyM1FGK3Ywb2ExWUlVV2tkQk9sVTZIRVVpYTRacXN3?=
- =?utf-8?B?TUhTTjBjcGprTm8zSytDM2RFYzY3eTZ4LytGaCtuVmNaN2hDL2VuZVB0a3M3?=
- =?utf-8?B?NXJ0dVNSNmdqUmh0SlpzWkZnZHZzdHdHWldCd2Y3c2c3VVFFaGdVbUhtMExu?=
- =?utf-8?B?U1FLd1QvU044ODF5KzBTYVYwU2NOVEJvZTB6QkwycVVKc3ZtbkRzSkpMSXFk?=
- =?utf-8?B?elRXR0NQdzZyVHExVTliUzRJV212dEdkNXR5V04wTVZ4ZHMxUHRqWDRVSi9l?=
- =?utf-8?B?alFXZkZ0YkpKSG9udDh4VGpPaS9Wc0xCbHk4Vi9OR2h6eGZqU2lLV3VVcC95?=
- =?utf-8?B?bnRrZ2QvNU42RUR0RS9ZMFJjM3BUZm1wNEt3eWZPYzIvYzU2Q1ZKMW9wNmJZ?=
- =?utf-8?B?RUIxRm5vMFZGTkRjaDdLc0t2ZFVWS2dwR25nWllQTDNZUE5LWVFLZlhjK0ZZ?=
- =?utf-8?B?YlBRYm5ML3FlN2FZWWZYUnM5bDc5L1h1UUJNTER3d05SeHNzekxpeFNBa3pJ?=
- =?utf-8?B?WFJieUpEbEpHT21UcEdiVTN1UDVuZlpBbHpJTjB4RFhIUUhJTDR4Uk1xdzla?=
- =?utf-8?B?QkdyTmRCbWVXSktqdUVMTjFGUlZuY0Ura0p5S2NoOUFad2NsdmNQbytxMXNu?=
- =?utf-8?B?ZTl4UWhkU1M4WkJvUWFrdTd6QU5hNnNrRlJweG1JdDlxbEdyZXBaTUFtb2ho?=
- =?utf-8?B?SjFCbnZzN09pZU5oMHVOZDlqMWVYTTkzZ1U0Mnh6ZVVpVWhqb3VESHR2bGh6?=
- =?utf-8?B?cDFUZjJPU0ZlZ3U2RjNpR0FmOXZuc3liaVhxckdrUHRDQVJvZURLd1NISEpq?=
- =?utf-8?Q?XOkGOUiZv4Dv4?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TmZhK2krMnphS05uVEhhNjI1ZFovQ0FqVjd2QUdtYW42UVc4Y3hmNVBUdFVN?=
+ =?utf-8?B?REo3NVJLSWpjUzNxRlFIK0lrM0JXMVVQQm9NWlJDNlIxaGd3ck8rM2tlNUZK?=
+ =?utf-8?B?bjFDbXF0eFYrOGVUbzBsUmpWUFRkK0lZOTZEeEtRcmE3RmJ4TXFmWHR1cmVS?=
+ =?utf-8?B?NVZhRFRQTjJrOUUrckk3cEpMVEViNnFSdG1RSVRVaVdCaS9XUDZZR1NIL29V?=
+ =?utf-8?B?ekZhK2lVa1F2OW9mbDRxRElSYVhWeUROTTU1Rnk5eGVyTXo5eE5vTVBubW9a?=
+ =?utf-8?B?NXBBckhBdlg5bXlsVGJmUFV5bVBjTHhVNmpOLzZMR2tzTEV1RDgvdkNVUlNi?=
+ =?utf-8?B?T3BMZ3cybWhsUGxVU1o0Mjh2UnZsR0plQlpObnVVTUcwZnhNVlU5clNKMWFp?=
+ =?utf-8?B?d1Q2MmZvQjJnZnVDejVHdmFHUXdaZ2FKdXdvaUw5eFczVTdiZURzbjhrbHdm?=
+ =?utf-8?B?RDFsSytRdFNkOU50UE5hem5DMDB6aURUV2IvTlBHdHJJVkZJdzFtcGg2dW5P?=
+ =?utf-8?B?YkJYdk94MGpwOHdXbGZrTk1aaGRodmtNRnhRbHZWNmFQblpNV05oYURkdW02?=
+ =?utf-8?B?RnB6alpmTzBYZ29SMmtoVjcvUTEvMGxYVU11dzhPeURlSzZiZEJEelltR3JU?=
+ =?utf-8?B?cENMa1NVY1psUXlydEZhMWJxczRvcWlld1F0UkM1RUxlZ0ptREp1YUV5NXE1?=
+ =?utf-8?B?cVZjSTdHM094MldKZEpJNGIrNkFyNnlUdjU5ckh3K0JnNzYya3NrM08zUncw?=
+ =?utf-8?B?U0gyMHhncXJHeGpSczhUZVpkWUNzL1pkbDdrdzhORTNTbjN0aXBFMW5CamFs?=
+ =?utf-8?B?WlBzUWJ2U3JsNTBKbHFWcnVGN0t1ZFNMR01LeDEvUktOdmdxa0lXTFRQVzdr?=
+ =?utf-8?B?NWN0M2pnOUhTeDVkYkVod0dVNzFVbEpDV3p6aWhZUUY0Y1NyZWFzS0MyMWZB?=
+ =?utf-8?B?VU8yZlBWU1Z5VlBFVnE1OVdUeWk2S2JWZ2w5YXNSQWl1N2FWTzFPbC9RRUFZ?=
+ =?utf-8?B?eWVKRnVzNFdpVHg1Z0x4dmZVSzZ0djh1MHVWZ2hKWC9KblZDMGFjdzhjQVFm?=
+ =?utf-8?B?SUZzdEg0aFZ3ZktWRnVZbEQ5SDFDZE8yMFh2Z3htNnRjc212SUpLQ0lrdklJ?=
+ =?utf-8?B?U2JMcENZRkRWR2k1SDNYWVFiYUFsTnpMWlBFMkc2Wm1QaG9jQVJ5NzFaNDV6?=
+ =?utf-8?B?NEVhR3FvZTBZVWVqb1RCcmhaQ0lMckdxZFhKMWZrOXZ1eWhXeHlEQjlUQVRh?=
+ =?utf-8?B?NW5Mb1hoMmhncTZJUHc2MEJZZkE0T0x4L0J1VTd3dTRHc2REVStwYTdBWUs5?=
+ =?utf-8?B?cEx2WGpUcVAvZjRCaDl6NXIrTUpUeGhFcFlhNFJUcEhqZWxDbENUZzYvazVj?=
+ =?utf-8?B?QVF5WkNrMlI4N2lsSTFTMGRja2h1UklYUHhOTlQzY3ZuekdvMHhMdHpscFkz?=
+ =?utf-8?B?dkpuNDBnc1hEczNGd0p0YWtSMG04dmhZSlVBZ1daRmJCK09BVUFpeXUxc2Vm?=
+ =?utf-8?B?Z1ExOFUxWld2TW9oV0dpUVRqanJDOGJiSmtQOFhQcm1iVXFqeWVIWWEvbXJ0?=
+ =?utf-8?B?M2laWU5CK2ZwZ2l1MGN1aXhHTUw5QlBUaHVuSVJncHpZZmU5SkkzZ3FzU3Qw?=
+ =?utf-8?B?VWNUT0dTTElPamRSQVRnK3l4Wkc5UUZGRmxkQXlIajhwMDlFdDBvMm9Db0Rv?=
+ =?utf-8?B?NEJZUm9vazdQeFl2YjFxZDVWOFBnUVd5eGdXd2ROL3hMd1RKMHdDSjQ5SzFD?=
+ =?utf-8?B?SUtnU0p1U1JNVDFGS1g0Vlk4VGNPVFU1WVkxV21QdktUNGp3emN6QWNIZnVt?=
+ =?utf-8?B?MXBZK3JhaThGYzMyeUtmVjZNc21VMU11RFoxcXpIMFllVDZkdlpDV2ZhTXJ4?=
+ =?utf-8?Q?LNkMycg7ajIMJ?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CH3PR11MB7300.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ck5CUDUrZmVEZ1kvR1BSLzByaDI4cEdsazBlV0pXTnZVNC96RUhMc1lpRGFv?=
- =?utf-8?B?a0pWQnkyRWVCdjJtV0JYYzFOQldaTDRaSTdqZWorRlM4dGFFRkJ2WWNERVNP?=
- =?utf-8?B?NmEvdk5uQk1mZUdlSC9MRkdZRk9NaEsvSlJPdldJa3hreUpsaHB6dk8xWFNv?=
- =?utf-8?B?aEtRMVYxRmhvZmllRmtiNmNjZ1FPRjBaM2QvbU0xWm03ZDV5ZUZpQm1kek5F?=
- =?utf-8?B?ZXBOTzN2LzlFOS81U055WnRNZ0laekcvb3RLdXEzNmRJNTV1LzBJN0hhc2Fq?=
- =?utf-8?B?Ym5YclB0Q29EeVZuYnFUbUIzSDZXM1ZXU09JdlJNeE5Kc0UwVE1ZbXBNNGxx?=
- =?utf-8?B?Y09qWTEwM3RGWHBHZWRNUktIZGo1U1dxU1NreXVjd1NHWEJOV3ZvRXlhRUxK?=
- =?utf-8?B?UUcyTUNOT1BVcEdPRHpXLzU2QUxlM0d3ZGQ2RVh3c1dQczg5bU1XR1c4Q1NX?=
- =?utf-8?B?Nms3Zk1teHA0aG55dDRyQXArZmFFbmJnT2gwM1k3d2I1SEZmYzJhbzRHV3I5?=
- =?utf-8?B?UE9PRFQrc3R2Yk5ZVG16MkhSQTlrWjVqNzdvQlpuakRxczM3bWhpRVpieFg5?=
- =?utf-8?B?aVkzalRIdnl2ME12Z3p2bkYxQ3FIdERSempSc1lWZkdXN1hQcENieTNhMnVP?=
- =?utf-8?B?VWpmZFhRTFNvTDYxVG9KdThNeWZoK2EwcXNraEdSQ1BaV2dZK0JmUXJwOVpK?=
- =?utf-8?B?L3NTRzNIdWxGU0tqRGFMRzQ0NG54cko5eEJhK24wdnUrdHEvTjhGR2ZMNmJx?=
- =?utf-8?B?VGdXazQxNXhyV1B1UjBMYXR4NmdnNWljNTZ4T2VlWVY2dnA2QmJLQXozRkJo?=
- =?utf-8?B?eFV4blNhUTNhUDA0K0xQMG5RU1BIeUNYMWE4Z3N4emloMitVVG5GZ1pENXV6?=
- =?utf-8?B?Y29tbmVuZlNMc1NPR21iQlpXY1EzUTBqSHp3R05mNVZMdjJMYThBaXIyYytE?=
- =?utf-8?B?allaYlRWdnRJT3g3cEFYOHBzMXZQVUpmK0p0VDNteERpR2ovaHZmV2lsT0VX?=
- =?utf-8?B?TDU5c0VGVUo1amkxUkVwaEF2TTlCeSszUmJOUU00K2IwaUxGa0R0eFRVdFVZ?=
- =?utf-8?B?dk1ES21WY2thcjB3TklvbG1WMjdKV3ZKazlZUDROQ1RqWUQvM3p3djg0SnEz?=
- =?utf-8?B?T3F0Q2dMaC96V1NJZEZHdTMzT3VSbFNKeTFhY2U5eXlra1haRzZHTm9PWkYv?=
- =?utf-8?B?ZnRnZjE4UkdEay9EMms0NUFQbXpzNzZWQ1pKMHpPeTQwSUF2RlBzWG1SWVVi?=
- =?utf-8?B?RVhqOVNRYm5JdlE3UVVrdnZGQkNmMG4zM0RuZlpoczMwbkQxeWxvTG9zSGla?=
- =?utf-8?B?R1lwVndETGdncGswWHV0WElIbXN2SU5sOHNMNHJDc1R6Qm12cmV5U2JqcXJw?=
- =?utf-8?B?TC9hQ0tHSlpST3pQN093aE8zOGFhSW5XVHhzcEY3a1JtYXVReTZVZmtYZzgx?=
- =?utf-8?B?bVM1TC82TSsvKzhOQnoxNTBhWUdwVFdnbGl6QWEwMWIyQWNUVkI1NVJDQWVX?=
- =?utf-8?B?SE9iOGJZdGQ0VEs4K2FnWUU2Y21IeEdMeDBaWnhQMW16d0V3R2c0QVlvM2lM?=
- =?utf-8?B?REY5dE9qUzBicEdhOExsTnFFY3dENTIybFdBUWN3Wk54cXFST1hZUlRyUGRj?=
- =?utf-8?B?QkVENjA2anBxcytjQThYc0tWNUgxV3Vxa25INmJJeFh0YmdWcXROQUgzek8v?=
- =?utf-8?B?eUlSWFNoRTJkQy9qMjM4TkZZWFk3a01OWlJxeUVGUTVldFRoUHZ0S3Y4K0sx?=
- =?utf-8?B?MExQUlF5akF5SDRtdWxVdW9YNUQyQkpGNTVuWGREaXRGalQvYWgzL3c4QmRR?=
- =?utf-8?B?RVd3NFJpZ0JWTUpVYkdQY3htSVlOMTBuZHdIWjBiOXhlNUQrMWhqVDJZaGNX?=
- =?utf-8?B?TWhjNk02cVlLVHVySTZtVVcvaVVYeXFvUUNidTM3ZnoyZG5jQXA0ZVlIQXd3?=
- =?utf-8?B?NGV1dGV2SGovV0U0UllqRUtvSWdtZVowWjZyYjJjZ1FkOTg1cERsaTI3TlFV?=
- =?utf-8?B?a3pramRISE1LS2hwZyttd0JiUVlXN2JEM2ZYTDM5RjF5MHl1bTUxM0hTcmp6?=
- =?utf-8?B?c0hHdGNMejZyT2dWbFhKbUFNZXQ4V2dHTTAvMnJOQ3FBeUVQOU1NdWN6S29V?=
- =?utf-8?B?cE91SmFsMWx6S21HOHZ1elpOUExFRGtEOFoyQTRoTms4TCt3bnJqcVkzbUhu?=
- =?utf-8?B?NWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1f6e7b7-db3a-41d2-79ff-08dd4fdf37e5
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWp2WS9JcG90d2IvSDN5eHVmYXNEZkppK2RpNU5td1duMnFzbzlBbGNqSkxH?=
+ =?utf-8?B?RUZtNUlwTC9pNUw1a01ZLzVtc0M3SFE5WUFXbmV5K0N1cmswN3RFVTBxNzZS?=
+ =?utf-8?B?ZEs0UW11VU16alV3L1YwVUg1R2xoc3NXNkFXTlJrQlR0RjBFemM0NDNyZXow?=
+ =?utf-8?B?TUtNSlB3VE9ncVVtRnMvbmNrbytDQzFaK0hMTVQrdWtPNmtHUm5FM29XZnJq?=
+ =?utf-8?B?bWg4NEZiWHpLUGJJNll4WWNYaEx3WmRDckZSL2pxdGFLZ1lBVXVxMm9LODBw?=
+ =?utf-8?B?b1JES0lJdVdGOWxvZGlnK1Mrb0lzbGJVZ2RUVHMyamhwZWJLdFVnRlZnKzI0?=
+ =?utf-8?B?RmxITDJWVDE1dUFBeStCWVdXczhWYVN4Y3UvaTcza05PaGRGWFYrRkNRVnRq?=
+ =?utf-8?B?aVU2cWFnbEhXeUJOaTV5bDVjaE13b3pDWU1pdHRzRm1UQ0hEYXFxZzZhemgy?=
+ =?utf-8?B?M2RHd0RPbDV6R05ERjhZczV3MkIyeHNqNDM0eTV0RHpJTmpFZ3phOC9GWnRK?=
+ =?utf-8?B?N3RZMmNzb244NmphbFU5RWl1QW5aRStLQ053RU1LZURQMjNVODNlczhQQzBR?=
+ =?utf-8?B?Z1BPMVQ2Wityc2RJcjNiaFNTMHU2Q1hwYmFTbEFBeGlUTXRzTEdTYVRwdlBE?=
+ =?utf-8?B?UkVkcGthY1gxb3hwb1hBV0xwdXlmb1N2Y0ZWNGlEUFNXenRiZzBBM1BncVdl?=
+ =?utf-8?B?N29kWHpVdjBVOEhTb1c4bksyemtOTldXRTZLYjUvU3pGMzkvSWZnT2ZSci9K?=
+ =?utf-8?B?aHYxNS9KeHRlMWI5T00yMkRrT1lTUmVodnFpMVNMQmMybkRzL3RkbDRMSUtt?=
+ =?utf-8?B?N0YrWDkyYkpDQ05SMDNzTytHOEltcVNwQ3JlZHZLaGdnVHZTcjRMcExYTGFa?=
+ =?utf-8?B?UTlrUFh2cjUvWVJUemJnY1U4VTBtenE2SEtCOUI5QTlTb3M0K3FqMGFCRldY?=
+ =?utf-8?B?NC9XSTRIYkRWWi9pNDhTa0pLQ3VUTnJ5djlCbFgvZ3NYSDFENVUrRnQwUCtR?=
+ =?utf-8?B?TFRkclEvVVVselJDakd2NVdOK0g1aUFyb0FTbXRLeHZlVHRjSHdnQlp3b2N1?=
+ =?utf-8?B?UEtsWWtKVUtsR3Z0djh6amRidHZPUm1JMDZPalp5ZnRXVERKay9uRU1GMERy?=
+ =?utf-8?B?ZGJYNzdMdHRVbVYwZHNOZGJ6bWlKM0U4UG1OSlRhUE5oRUd4ZkRaa1RFcXVF?=
+ =?utf-8?B?K0tGT2w5VmlMMUN5Rzh4TURaNEJWNjRIUXhnT1VkcXhIYTlTblNSTlp3bTFH?=
+ =?utf-8?B?Tk4zejRMV01GaW16Yzg2T1ZscE9leVl5a1MwSTN3ZWRoaVRxbFpuYmxPVEdG?=
+ =?utf-8?B?d3FXN3FycTNrNjQ4S3pRaUNDRURWWlF2bThtcFFNZlZRcE9idmNlcUE5Wk50?=
+ =?utf-8?B?ZU43S0NBb21xREdEUHdqdGEwSXZrNUI4QWNaS2JwZld1VlUxZVhEalUxZVJG?=
+ =?utf-8?B?aTl0ZVoweTM1WTlTcnAyTUZPQXFOZ0JPN2EwZnk0ZWk1NFdaRlRkdW8xMitN?=
+ =?utf-8?B?cE5VVHRaRC9FbGNCc0pVTFdkWmFmUlMyK2NQMTdsaVdINEZ0NDhQcllOYzFS?=
+ =?utf-8?B?QWNUd3RGZmpyaW1sK2FBM1U3Ym9tOXhYZDBLR0oyNGZuUWYwVHhoOW93UTFT?=
+ =?utf-8?B?Y083UGFpSVl1ekJPeWZwb21taU1McytrYXE5WkRySkVlSEtJN0pQQTJjNkpY?=
+ =?utf-8?B?dG52L1ZnNDJoQlUyTHdCZDBFenU4MFRMTEZWTDZHMERJcXkxWHJFUVpuR3N4?=
+ =?utf-8?B?Tm1ZdEtzWWtZZXFPZXlGd00wTnc3Mlo1YWc4ZVB6cHNBSldGTjV0T3lvNUtL?=
+ =?utf-8?B?OWV2NDJOTVUxVlVnZzJhSVZWcjhwOVcrc3BKcmtlMXhmK3R5VG9jN0pKbTFM?=
+ =?utf-8?B?NmlNcGlJbFVqUzgzSkk2aUdCbHRpRmdQck1wWDIyL05IY3NJcW5kcE50QUtz?=
+ =?utf-8?B?S01TQzBwTXFzamVVSkVheGUycG9SZjM1dG1ydWhmVmJUekJWZU5yMmVWZitP?=
+ =?utf-8?B?M0RLMkhGbUlvVVhyL1ZLcVU3eTRubDRLN0EzZlBGcmFRaWlYazVFQ2MrWVdD?=
+ =?utf-8?B?ZXlhNjdEN1U4M3orUjRkWlY3ZTA5dWRXdWpuSGlFMEdJMm1pV3J3TVk0WkJX?=
+ =?utf-8?B?eDVrUDBOb0dyNmt5ODBPYSswWjgzQUpqOVNvZjl1cWJXOHh4TEtXdTB3Q0Za?=
+ =?utf-8?B?MUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 038ea65a-7efa-4be8-22d8-08dd4fe1bb84
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7300.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 05:43:49.1880 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 06:01:49.0329 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6Eo3OY5jc9lI0Fqd0Ls8/yKSoGV9zACOh9Ht9cRzu/klYb/VANp3WJQxiDUyhpFB5gpSbekR43kYXLUJAvo9NQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4811
+X-MS-Exchange-CrossTenant-UserPrincipalName: ylL/ZyoUZMZVF9p1RvuFEr8ZfBpcrt8EUZ/HYVkiwGYAQKt9A+Z2iLYDr4P5JwXj+G626bKWs9JTJvu0luOykw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4594
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -197,211 +199,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-02-2025 15:38, Pekka Paalanen wrote:
-> Hi Arun,
->
-> this whole series seems to be missing all the UAPI docs for the DRM
-> ReST files, e.g. drm-kms.rst. The UAPI header doc comments are not a
-> replacement for them, I would assume both are a requirement.
->
-> Without the ReST docs it is really difficult to see how this new UAPI
-> should be used.
-Hi Pekka,
-I also realized later on this. Will add this in my next patchset.
->
-> On Tue, 28 Jan 2025 21:21:07 +0530
-> Arun R Murthy <arun.r.murthy@intel.com> wrote:
->
->> Display Histogram is an array of bins and can be generated in many ways
->> referred to as modes.
->> Ex: HSV max(RGB), Wighted RGB etc.
+
+On 17-02-2025 22:56, Simona Vetter wrote:
+> On Mon, Feb 17, 2025 at 12:08:08PM +0200, Pekka Paalanen wrote:
+>> Hi Arun,
 >>
->> Understanding the histogram data format(Ex: HSV max(RGB))
->> Histogram is just the pixel count.
->> For a maximum resolution of 10k (10240 x 4320 = 44236800)
->> 25 bits should be sufficient to represent this along with a buffer of 7
->> bits(future use) u32 is being considered.
->> max(RGB) can be 255 i.e 0xFF 8 bit, considering the most significant 5
->> bits, hence 32 bins.
->> Below mentioned algorithm illustrates the histogram generation in
->> hardware.
+>> this whole series seems to be missing all the UAPI docs for the DRM
+>> ReST files, e.g. drm-kms.rst. The UAPI header doc comments are not a
+>> replacement for them, I would assume both are a requirement.
 >>
->> hist[32] = {0};
->> for (i = 0; i < resolution; i++) {
->> 	bin = max(RGB[i]);
->> 	bin = bin >> 3;	/* consider the most significant bits */
->> 	hist[bin]++;
->> }
->> If the entire image is Red color then max(255,0,0) is 255 so the pixel
->> count of each pixels will be placed in the last bin. Hence except
->> hist[31] all other bins will have a value zero.
->> Generated histogram in this case would be hist[32] = {0,0,....44236800}
+>> Without the ReST docs it is really difficult to see how this new UAPI
+>> should be used.
+> Seconded. But really only wanted to comment on the userspace address in
+> drm blobs.
+>
+>>> +/**
+>>> + * struct drm_histogram_config
+>>> + *
+>>> + * @hist_mode_data: address to the histogram mode specific data if any
+>> Do I understand correctly that the KMS blob will contain a userspace
+>> virtual memory address (a user pointer)? How does that work? What are
+>> the lifetime requirements for that memory?
 >>
->> Description of the structures, properties defined are documented in the
->> header file include/uapi/drm/drm_mode.h
->>
->> v8: Added doc for HDR planes, removed reserved variables (Dmitry)
->>
->> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
->> ---
->>   include/uapi/drm/drm_mode.h | 65 +++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 65 insertions(+)
->>
->> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
->> index c082810c08a8b234ef2672ecf54fc8c05ddc2bd3..b8b7b18843ae7224263a9c61b20ac6cbf5df69e9 100644
->> --- a/include/uapi/drm/drm_mode.h
->> +++ b/include/uapi/drm/drm_mode.h
->> @@ -1355,6 +1355,71 @@ struct drm_mode_closefb {
->>   	__u32 pad;
->>   };
->>   
->> +/**
->> + * enum drm_mode_histogram
->> + *
->> + * @DRM_MODE_HISTOGRAM_HSV_MAX_RGB:
->> + * Maximum resolution at present 10k, 10240x4320 = 44236800
->> + * can be denoted in 25bits. With an additional 7 bits in buffer each bin
->> + * can be a u32 value.
->> + * For SDL, Maximum value of max(RGB) is 255, so max 255 bins.
-> I assume s/SDL/SDR/.
-Yes, sorry TYPO
+>> I do not remember any precedent of this, and I suspect it's not a good
+>> design. I believe all the data should be contained in the blobs, e.g.
+>> how IN_FORMATS does it. I'm not sure what would be the best UAPI here
+>> for returning histogram data to userspace, but at least all the data
+>> sent to the kernel should be contained in the blob itself since it
+>> seems to be quite small. Variable length is ok for blobs.
+> So yeah this doesn't work for a few reasons:
 >
-> This assumption seems false. SDR can be also 10-bit and probably even
-> more.
-Yes but in practice majority of them being 8-bit. So have considered 
-8-bit for illustration purpose only.
-The design itself should accommodate 10-bit as well.
->> + * If the most significant 5 bits are considered, then bins = 2^5
->> + * will be 32 bins.
->> + * For HDR, maximum value of max(RGB) is 65535, so max 65535 bins.
-> Does this mean that the histogram is computed on the pixel values
-> emitted to the cable? What if the cable format is YUV?
-Yes, again the illustration over here is max(RGB) used for histogram 
-generation.
-If YUV is used or weighted RGB is used for histogram generation then the 
-mode will have to change and accordingly the data for that mode.
->> + * For illustration consider a full RED image of 10k resolution considering all
->> + * 8 bits histogram would look like hist[255] = {0,0,....44236800} with SDR
->> + * plane similarly with HDR the same would look like hist[65535] =
->> + * {0,0,0,....44236800}
-> This SDR vs. HDR is a false dichotomy. I presume the meaningful
-> difference is bits-per-channel, not the dynamic range.
+> - It's very restrictive what you're allowed to do during an atomic kms
+>    commit, and a userspace page fault due to copy_from/to_user is
+>    definitely not ok. Which means you need to unconditionally copy before
+>    the atomic commit in the synchronous prep phase for the user->kernel
+>    direction, and somewhere after the entire thing has finished for the
+>    other direction. So this is worse than just more blobs, because with
+>    drm blobs you can at least avoid copying if nothing has changed.
 >
-> It would be good to have the pseudocode snippet here instead of the
-> commit message. The commit message should not contain any UAPI notes
-> that are not in the UAPI docs. OTOH, repeating UAPI docs in the commit
-> message is probably not very useful, as the more interesting questions
-> are why this exists and what it can be used for.
-I have the pseudocode in the cover letter of this patchset.
->> + */
->> +enum drm_mode_histogram {
->> +	DRM_MODE_HISTOGRAM_HSV_MAX_RGB = 0x01,
-> What does the HSV stand for?
+> - Due to the above you also cannot synchronize with userspace for the
+>    kernel->userspace copy. And you can't fix that with a sync_file out
+>    fence, because the underlying dma_fence rules are what prevents you from
+>    doing userspace page faults in atomic commit, and the same rules apply
+>    for any other sync_file fence too.
 >
-> When talking about pixel values, my first impression is
-> hue-saturation-value. But there are no hue-saturation-value
-> computations at all?
-The computation will have to be done by the user in the library.
->> +};
->> +
->> +/**
->> + * struct drm_histogram_caps
->> + *
->> + * @histogram_mode: histogram generation modes, defined in the
->> + *		    enum drm_mode_histogram
->> + * @bins_count: number of bins for a chosen histogram mode. For illustration
->> + *		refer the above defined histogram mode.
->> + */
->> +struct drm_histogram_caps {
->> +	__u32 histogram_mode;
->> +	__u32 bins_count;
->> +};
-> Patch 3 says:
+> - More fundamentally, both drm blobs and userspace virtual address spaces
+>    (as represented by struct mm_struct) are refconted objects, with
+>    entirely decoupled lifetimes. You'll have UAF issues here, and if you
+>    fix them by grabbing references you'll break the world.
 >
-> + * Property HISTOGRAM_CAPS is a blob pointing to the struct drm_histogram_caps
-> + * Description of the structure is in include/uapi/drm/drm_mode.h
+> tldr; this does not work
 >
-> This is a read-only property, right?
+> Alternative A: drm blob
+> -----------------------
 >
-> The blob contains one struct drm_histogram_caps. What if more than one
-> mode is supported?
-Multiple modes can be ORed. User will have to choose one of them 
-depending on the algorithm that he is developing/using.
-> If the bin count depends on the bits-per-channel of something which
-> depends on set video mode or other things, how does updating work?
-> What if userspace uses a stale count? How does userspace ensure it uses
-> the current count?
-The bin count depends on the hardware design. Hence this bin count will 
-be share to the user via the histogram capability.
->> +
->> +/**
->> + * struct drm_histogram_config
->> + *
->> + * @hist_mode_data: address to the histogram mode specific data if any
-> Do I understand correctly that the KMS blob will contain a userspace
-> virtual memory address (a user pointer)? How does that work? What are
-> the lifetime requirements for that memory?
+> This would work for the userspace->kernel direction, but there's some
+> downsides:
 >
-> I do not remember any precedent of this, and I suspect it's not a good
-> design. I believe all the data should be contained in the blobs, e.g.
-> how IN_FORMATS does it. I'm not sure what would be the best UAPI here
-> for returning histogram data to userspace, but at least all the data
-> sent to the kernel should be contained in the blob itself since it
-> seems to be quite small. Variable length is ok for blobs.
-This point has actually opened up discussion on the design. Sima has 
-infact commented the same with multiple options and which among them 
-buits best. Lets take this discussion on that thread.
->> + * @nr_hist_mode_data: number of elements pointed by the address in
->> + *		       hist_mode_data
->> + * @hist_mode: histogram mode(HSV max(RGB), RGB, LUMA etc)
->> + * @enable: flag to enable/disable histogram
->> + */
->> +struct drm_histogram_config {
->> +	__u64 hist_mode_data;
->> +	__u32 nr_hist_mode_data;
->> +	enum drm_mode_histogram hist_mode;
->> +	bool enable;
-> Don't enum and bool have non-fixed sizes? Hence inappropriate as UABI,
-> if architecture, build options, or the contents of the enum change the
-> ABI.
+> - You still copy, although less often than with a userspace pointer.
 >
->> +};
->> +
->> +/**
->> + * struct drm_histogram
->> + *
->> + * @config: histogram configuration data pointed by struct drm_histogram_config
-> s/pointed by/defined by/ I presume? That much is obvious from the field
-> type. What does it mean? Why is struct drm_histogram_config a separate
-> struct?
-This is totally a separate property for enabling histogram. When 
-enabling histogram if there are multiple modes of histogram generation 
-supported by the hardware which among them will be used here and the 
-data for that mode if required(For Ex: weights for the RGB in case of 
-weighted RGB) would have to be sent from user and this struct 
-drm_histogram_config holds those elements.
->> + * @data_ptr: pointer to the array of histogram.
->> + *	      Histogram is an array of bins. Data format for each bin depends
->> + *	      on the histogram mode. Refer to the above histogram modes for
->> + *	      more information.
-> Another userspace virtual address stored in a KMS blob?
+> - The kernel->userspace direction doesn't work, because blob objects are
+>    immutable. We have mutable blob properties, but mutability is achieved
+>    by exchanging the entire blob object. There's two options to address
+>    that:
 >
->> + * @nr_elements: number of bins in the histogram.
->> + */
->> +struct drm_histogram {
->> +	struct drm_histogram_config config;
->> +	__u64 data_ptr;
->> +	__u32 nr_elements;
->> +};
->> +
->>   #if defined(__cplusplus)
->>   }
->>   #endif
->>
-> Thanks,
-> pq
+>    a) Fundamentally immutable objects is really nice api designs, so I
+>       prefer to not change that. But in theory making blob objects mutable
+>       would work, and probably break the world.
+>
+>    b) A more benign trick would be to split the blob object id allocation
+>       from creating the object itself. We could then allocate and return
+>       the blob ID of the new histogram to userspace synchronously from the
+>       atomic ioctl, while creating the object for real only in the atomic
+>       commit.
+>
+>       As long as we preallocate any memory this doesn't break and dma_fence
+>       signalling rules. Which also means we could use the existing atomic
+>       out-fence (or a new one for histograms) to signal to userspace when
+>       the data is ready, so this is at least somewhat useful for
+>       compositors without fundamental issues.
+>
+>       You still suffer from additional copies here.
+>
+> Alternative B: gem_bo
+> ---------------------
+>
+> One alternative which naturally has mutable data would be gem_bo, maybe
+> wrapped in a drm_fb. The issue with that is that for small histograms you
+> really want cpu access both in userspace and the kernel, while most
+> display hardware wants uncached. And all the display-only kms drivers we
+> have do not have a concept of cached gem_bo, unlike many of the drm
+> drivers with render/accel support. Which means we're adding gem_bo which
+> cannot be used for display, on display-only drivers, and I'd expect this
+> will result in compositors blowing up in funny ways to no end.
+>
+> So not a good idea either, at least not if your histograms are small and
+> the display hw doesn't dma them in/out already anyway.
+>
+> This also means that we'll probably need 2 interfaces here, one supporting
+> gem_bo for big histograms and hw that can dma in/out of them, and a 2nd
+> one optimized for the cpu access case.
+>
+> Alternative C: memfd
+> --------------------
+>
+> I think a new drm property type that accepts memfd would fit the bill
+> quit well:
+>
+> - memfd can be mmap(), so you avoid copies.
+>
+> - their distinct from gem_bo, so no chaos in apis everywhere with imposter
+>    gem_bo that cannot ever be used for display.
+>
+> - memfd can be sealed, so we can validate that they have the right size
+>
+> - thanks to umdabuf there's already core mm code to properly pin them, so
+>    painful to implement this all.
+>
+> For a driver interface I think the memfd should be pinned as long as it's
+> in a drm_crtc/plane/whatever_state structure, with a kernel vmap void *
+> pointer already set up. That way drivers can't get this wrong.
+>
+> The uapi has a few options:
+>
+> - Allow memfd to back drm_framebuffer. This won't result in api chaos
+>    since the compositor creates these, and these memfd should never show up
+>    in any property that would have a real fb backed by gem_bo. This still
+>    feels horrible to me personally, but it would allow to support
+>    histograms that need gem_bo in the same api. Personally I think we
+>    should just do two flavors, they're too distinct.
+>
+> - A new memfd kms object like blob objects, which you can create and
+>    destroy and which are refcounted. Creation would also pin the memfd and
+>    check it has a sealed size (and whatever else we want sealed). This
+>    avoids pin/unpin every time you change the memfd property, but no idea
+>    whether that's a real use-case.
+>
+> - memfd properties just get the file descriptor (like in/out fences do)
+>    and the drm atomic ioctl layer transparently pins/unpins as needed.
+>
+> Personally I think option C is neat, A doable, B really only for hw that
+> can dma in/out of histograms and where it's big enough that doing so is a
+> functional requirement.
+>
+> Cheers, Sima
+Thanks for the detailed exploration of the options available and the 
+conclusion among the available options.
+Bringing memfd as a drm object opens up new opportunity for the drm 
+users and a very good thought. Just curious to know if will histogram be 
+the only user for this or does new IPC open up the thoughts for other 
+interfaces such as writeback etc
+
+I also personally feel bringing this memfd to drm is a good approach, 
+will try to explore on the design part.
+Any other comments/opinions on this from anyone?
 
 Thanks and Regards,
 Arun R Murthy
--------------------
+--------------------
 
