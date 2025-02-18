@@ -2,83 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09036A3A1BA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 16:52:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C984A3A1BC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 16:53:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B9B10E028;
-	Tue, 18 Feb 2025 15:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F4210E0D9;
+	Tue, 18 Feb 2025 15:52:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="l2tStews";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K/Bfy9y9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00CFF10E028
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 15:52:50 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51IDSbeb031995;
- Tue, 18 Feb 2025 15:52:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 45Ya7b/B6eoXvn0f0RDYLUORkpYbRqtkzKFfh57DZNA=; b=l2tStewsfKw7f779
- iHnAKV1G7nfZ7MUoByzKk3Z2XNdRZz2o/gY8WVYpqCxOHwDd07O+tGDEXOLCkzOH
- 8Wd4S8yI5/kEHKur5FQyKEuALWV0JpVOkz6sTEOW6Ormlq2QFKSfyndMTNYgRuZp
- s0zQQDC3saoZKFni5ml/0mX6GBpt5yrWA4QrFoBgi3tba+W87gbVC3RoSu0pkUCr
- T+5fjZVTAu0uA+FbOLC21byJoYn0OUwenCNvEh5jsVNLmAyxHxxtDzpPR9RKSngJ
- NrA+IxJaNHffGHnsYuSZQEi9Q4iLmukrzU9gidvbQsvXycSis90vFbsmWaGrV5BM
- k58JFg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44ut7wwbcb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Feb 2025 15:52:46 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51IFqjmJ011585
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Feb 2025 15:52:45 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Feb
- 2025 07:52:45 -0800
-Message-ID: <0e3d1b36-b8e0-f473-0cb8-0d1eaea5e3a2@quicinc.com>
-Date: Tue, 18 Feb 2025 08:52:44 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFA9610E0D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 15:52:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 502FB5C601B;
+ Tue, 18 Feb 2025 15:52:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E116BC4CEE7;
+ Tue, 18 Feb 2025 15:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739893976;
+ bh=Lfy3wqOCBbjxg5nNsnZbpi/kGngbJgptpe7heB+ZnUk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=K/Bfy9y9GvvUCCcinsoy9LUwBfEUgAY7EsZTD9cvt7fqLwcGpXMHwq4sY1UkKTiHA
+ IOt9JnV9XpERQg1rywCHuIE/vKBfkunfNpS2djpqLBoeaWRBh82U2QDKTxMXc5B3mW
+ Q7oy9UqlgveAwOrkGE7vXiyle+mv0YX9s6/N09vGh7dV3Jl/AWWMHMqnJR/ahHeUYh
+ 9j65F3nRQ+eXHK0PEvPrVMs4kxW3alnNZmbi8qYdZ4e3nfzVCHwWX4+dvGPppnO1Pg
+ MGHv+gjZMUjMjMXQHR+80vhf+4tJgvipE+ZYMIIwE5TWaglnES8eB/VpltrIsFNI+p
+ NRSYrXILM7zqg==
+Date: Tue, 18 Feb 2025 16:52:53 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Doug Anderson <dianders@chromium.org>, 
+ Anusha Srivatsa <asrivats@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>,
+ Ondrej Jirman <megi@xff.cz>, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jianhua Lu <lujianhua000@gmail.com>, 
+ Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+Message-ID: <20250218-primitive-kickass-seagull-008bf2@houat>
+References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
+ <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
+ <20250218-fabulous-agile-corgi-9a5ee0@houat>
+ <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 1/6] accel/ivpu: Add missing locks around mmu queues
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, <maciej.falkowski@linux.intel.com>, Andrzej
- Kacprowski <Andrzej.Kacprowski@intel.com>
-References: <20250204084622.2422544-1-jacek.lawrynowicz@linux.intel.com>
- <20250204084622.2422544-2-jacek.lawrynowicz@linux.intel.com>
- <8b7ef8c3-788e-bf2a-c393-a627397f6e3f@quicinc.com>
- <f97d2306-d03b-47f6-836c-c9057e526490@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <f97d2306-d03b-47f6-836c-c9057e526490@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ClxFFN_2fNhNkdurwPUxRlcHD8005jEL
-X-Proofpoint-ORIG-GUID: ClxFFN_2fNhNkdurwPUxRlcHD8005jEL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-18_07,2025-02-18_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- lowpriorityscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
- bulkscore=0 mlxlogscore=808 spamscore=0 adultscore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502180115
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="fpteilqt6emhj7js"
+Content-Disposition: inline
+In-Reply-To: <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,23 +74,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/17/2025 8:26 AM, Jacek Lawrynowicz wrote:
-> Hi,
-> 
-> On 2/14/2025 5:41 PM, Jeffrey Hugo wrote:
->> On 2/4/2025 1:46 AM, Jacek Lawrynowicz wrote:
->>> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
->>>
->>> Multiple threads were accessing mmu cmd queue simultaneously
->>> causing sporadic failures in ivpu_mmu_cmdq_sync() function.
->>> Protect critical code with mmu mutex.
->>
->> Describe a scenario in which this can occur? The two functions this patch modify cannot run concurrently from what I can tell.
-> 
-> Functions from this diff are called in bottom IRQ handler when memory faults are detected.
-> The CMDQ is also accessed from IOCTLs when mapping/unmapping buffers in NPU MMU (ivpu_mmu_invalidate_tlb()).
 
-Ah.  Ok.  I think pointing that out in the commit text would be very 
-helpful.
+--fpteilqt6emhj7js
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+MIME-Version: 1.0
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Tue, Feb 18, 2025 at 02:14:43PM +0200, Dmitry Baryshkov wrote:
+> On Tue, Feb 18, 2025 at 10:55:49AM +0100, Maxime Ripard wrote:
+> > On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
+> > > Hi,
+> > >=20
+> > > On Thu, Feb 13, 2025 at 12:44=E2=80=AFPM Anusha Srivatsa <asrivats@re=
+dhat.com> wrote:
+> > > >
+> > > > A lot of mipi API are deprecated and have a _multi() variant
+> > > > which is the preferred way forward. This covers  TODO in the
+> > > > gpu Documentation:[1]
+> > > >
+> > > > An incomplete effort was made in the previous version
+> > > > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
+> > > > and mipi_dsi_generic_write_seq_multi() with the respective
+> > > > replacemts and not the rest of the API.
+> > >=20
+> > > You didn't seem to take most of the suggestions I gave in response to
+> > > your v1 [3]. Specifically:
+> > >=20
+> > > a) I asked that you CC Tejas. I've added him again.
+> > >=20
+> > > b) I asked that you CC me on the whole patch series, which you didn't
+> > > do. I can find them, but I'd find it convenient in this case for them
+> > > to be in my Inbox.
+> > >=20
+> > > The first patch conflicts with what Tejas already landed in
+> > > drm-misc-next. See commit 8025f23728e9 ("drm/panel:
+> > > xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
+> > > second patch _also_ conflicts with what Tejas already landed. See
+> > > commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
+> > > mipi_dsi wrapped functions"). Later patches also also conflict. See
+> > > commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
+> > > wrapped functions"), commit ce8c69ec90ca ("drm/panel:
+> > > samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
+> > > functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
+> > > transition to mipi_dsi wrapped functions"). Maybe you should sync up
+> > > with drm-misc-next before submitting.
+> >=20
+> > Yes, you should definitely work from drm-misc-next there, and sync with
+> > Tejas.
+> >=20
+> > > I also questioned whether this really made sense to try to do with a
+> > > Coccinelle script and I still don't think so. It looks like Dmitry has
+> > > already reviewed the first few of your patches and has repeated my
+> > > advice. If you want to help with the effort of addressing this TODO
+> > > item then that's great, but I'll stop reviewing (and start silently
+> > > deleting) any future submissions of yours that say that they're done
+> > > entirely with a Coccinelle script unless you address this point and
+> > > convince me that your Coccinelle script is really smart enough to
+> > > handle all the corner cases. I'll also assert that you should review
+> > > Tejas's submissions to see how these conversions are expected to go.
+> >=20
+> > I couldn't find that in your first answer though. What corner cases do
+> > you have in mind, and why do you think coccinelle can't handle them?
+>=20
+> As can be seen from the reviews:
+>=20
+> - sleeps between DSI calls
+> - properly propagating the error at the end of the function
+
+These two are legitimate feedback, but I don't see how coccinelle cannot
+deal with them.
+
+> - making decision whether to create the context at the caller or the
+>   callee side. E.g. in patch 8 it is better to allocate context in
+>   hx8394_enable() and pass it to .init_sequence() instead of keeping
+>   some of error handling.
+
+Yeah, that one is definitely subjective, and is going to need manual
+review.
+
+Maxime
+
+--fpteilqt6emhj7js
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7Ss0QAKCRAnX84Zoj2+
+dukDAYDXcF39vpxiWmY6ypqgL/3oHzXWyDI/hPJjKLqlSm/RBJvFdXWqH7cTvsJF
+BGl9h0kBgJTBJ0vvu/UwpgZ/UyHD1S710s4lhY5YyyHuho6JwZzsb+tXPmRgz5E1
+/h560Q3h1w==
+=9vo/
+-----END PGP SIGNATURE-----
+
+--fpteilqt6emhj7js--
