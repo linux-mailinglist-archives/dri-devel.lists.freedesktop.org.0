@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E966A39A1D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204BFA39A1E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:13:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB8B10E0BB;
-	Tue, 18 Feb 2025 11:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D8D10E2B9;
+	Tue, 18 Feb 2025 11:13:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Av5xQcp0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DGl1DWoD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEEDD10E0BB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:13:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9D210E2B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:13:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D8AD35C5DBF;
- Tue, 18 Feb 2025 11:12:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 699B0C4CEE7;
- Tue, 18 Feb 2025 11:13:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6C9675C5DBD;
+ Tue, 18 Feb 2025 11:12:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E7BC4CEED;
+ Tue, 18 Feb 2025 11:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739877189;
- bh=wHCQOUz8s89T92fB5TvJiqEYx/Hx0bOuLLu49+hLCDo=;
+ s=k20201202; t=1739877193;
+ bh=ryBWSSH+vxnj25RO828aq+7FfD30J+Zn25JvG2s5aZM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Av5xQcp0nEEhUsNRY+nRZq/jS84W4K0Fvh/ZaCu8DtgUgRklBoLlQQTCtNHG0Su3D
- a3HRxXRA21fmmJn3664wdapcQESXljQn/Bmjxo58r9zyV7FADWQIsqHuCoxgJIXy65
- RHfbLl+8bjfkGNdjOe797PVEjxd/Decs7xaModCepVbuJkfO/3sVpiUxwXjvG6ccU/
- QKXCVu3AnZFWiC0PrzjItCV8dz4yR85B8sF+p0MFO/DWBJlWQYA83FbepqgUTNPD3y
- bmyeoFjE2dbRa7ssWu/OzK2By3xXcXo7wgdyHQYPOk2nqfdbcIwNN3oFWUHlX+WdZx
- cGf74VN0N0yfg==
+ b=DGl1DWoD4yPr9flUvAElnD7BmbAhxGOWSg2uq3MVvp5CfT2MjsIjogEjO9sV+eJrC
+ d7YGG5zAfnsfMh3lB2crsOmzQWlJHnq7iBH6hzXGfKfcEiW/9GuqnNz7SUweysVnW7
+ 3FHDgLhzdvjkfkg0pkZN/AFrowBUTPv+CVVFWjUssENzGeJ4qPxlQ3ZN6ExyMFzAfs
+ s+A95S81MDXoYn2ejkcKkpMLE8FZeNFU2u2j6f6/tNF6XuD3LvZuQC9bf3vu8ayIql
+ abkX2haLB74Z2sTQIrMt8kspozJHxxN79yAOiL68J/os0GW0+rifzQbJmC9vL58YeG
+ G8Hh6vpTWHsCw==
 From: Philipp Stanner <phasta@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>,
  Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
@@ -39,11 +39,10 @@ To: Matthew Brost <matthew.brost@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v4 1/3] drm/sched: Document run_job() refcount hazard
-Date: Tue, 18 Feb 2025 12:12:45 +0100
-Message-ID: <20250218111246.108266-3-phasta@kernel.org>
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v4 2/3] drm/sched: Adjust outdated docu for run_job()
+Date: Tue, 18 Feb 2025 12:12:46 +0100
+Message-ID: <20250218111246.108266-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250218111246.108266-2-phasta@kernel.org>
 References: <20250218111246.108266-2-phasta@kernel.org>
@@ -64,88 +63,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philipp Stanner <pstanner@redhat.com>
+The documentation for drm_sched_backend_ops.run_job() mentions a certain
+function called drm_sched_job_recovery(). This function does not exist.
+What's actually meant is drm_sched_resubmit_jobs(), which is by now also
+deprecated.
 
-drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
-That fence is signalled by the driver once the hardware completed the
-associated job. The scheduler does not increment the reference count on
-that fence, but implicitly expects to inherit this fence from run_job().
+Remove the mention of the removed function.
 
-This is relatively subtle and prone to misunderstandings.
+Discourage the behavior of drm_sched_backend_ops.run_job() being called
+multiple times for the same job.
 
-This implies that, to keep a reference for itself, a driver needs to
-call dma_fence_get() in addition to dma_fence_init() in that callback.
-
-It's further complicated by the fact that the scheduler even decrements
-the refcount in drm_sched_run_job_work() since it created a new
-reference in drm_sched_fence_scheduled(). It does, however, still use
-its pointer to the fence after calling dma_fence_put() - which is safe
-because of the aforementioned new reference, but actually still violates
-the refcounting rules.
-
-Move the call to dma_fence_put() to the position behind the last usage
-of the fence.
-
-Document the necessity to increment the reference count in
-drm_sched_backend_ops.run_job().
-
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c |  5 ++---
- include/drm/gpu_scheduler.h            | 19 +++++++++++++++----
- 2 files changed, 17 insertions(+), 7 deletions(-)
+ include/drm/gpu_scheduler.h | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 8c36a59afb72..02af3f89099d 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1222,15 +1222,14 @@ static void drm_sched_run_job_work(struct work_struct *w)
- 	drm_sched_fence_scheduled(s_fence, fence);
- 
- 	if (!IS_ERR_OR_NULL(fence)) {
--		/* Drop for original kref_init of the fence */
--		dma_fence_put(fence);
--
- 		r = dma_fence_add_callback(fence, &sched_job->cb,
- 					   drm_sched_job_done_cb);
- 		if (r == -ENOENT)
- 			drm_sched_job_done(sched_job, fence->error);
- 		else if (r)
- 			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
-+
-+		dma_fence_put(fence);
- 	} else {
- 		drm_sched_job_done(sched_job, IS_ERR(fence) ?
- 				   PTR_ERR(fence) : 0);
 diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 6bf458dbce84..916279b5aa00 100644
+index 916279b5aa00..3fc43c6dc405 100644
 --- a/include/drm/gpu_scheduler.h
 +++ b/include/drm/gpu_scheduler.h
-@@ -420,10 +420,21 @@ struct drm_sched_backend_ops {
- 					 struct drm_sched_entity *s_entity);
+@@ -421,20 +421,24 @@ struct drm_sched_backend_ops {
  
  	/**
--         * @run_job: Called to execute the job once all of the dependencies
--         * have been resolved.  This may be called multiple times, if
--	 * timedout_job() has happened and drm_sched_job_recovery()
--	 * decides to try it again.
-+	 * @run_job: Called to execute the job once all of the dependencies
-+	 * have been resolved. This may be called multiple times, if
-+	 * timedout_job() has happened and drm_sched_job_recovery() decides to
-+	 * try it again.
+ 	 * @run_job: Called to execute the job once all of the dependencies
+-	 * have been resolved. This may be called multiple times, if
+-	 * timedout_job() has happened and drm_sched_job_recovery() decides to
+-	 * try it again.
++	 * have been resolved.
 +	 *
-+	 * @sched_job: the job to run
++	 * The deprecated drm_sched_resubmit_jobs() (called from
++	 * drm_sched_backend_ops.timedout_job()) can invoke this again with the
++	 * same parameters.
+ 	 *
+ 	 * @sched_job: the job to run
+ 	 *
+-	 * Returns: dma_fence the driver must signal once the hardware has
+-	 *	completed the job ("hardware fence").
+-	 *
+ 	 * Note that the scheduler expects to 'inherit' its own reference to
+ 	 * this fence from the callback. It does not invoke an extra
+ 	 * dma_fence_get() on it. Consequently, this callback must take a
+ 	 * reference for the scheduler, and additional ones for the driver's
+ 	 * respective needs.
 +	 *
-+	 * Returns: dma_fence the driver must signal once the hardware has
-+	 *	completed the job ("hardware fence").
-+	 *
-+	 * Note that the scheduler expects to 'inherit' its own reference to
-+	 * this fence from the callback. It does not invoke an extra
-+	 * dma_fence_get() on it. Consequently, this callback must take a
-+	 * reference for the scheduler, and additional ones for the driver's
-+	 * respective needs.
++	 * Return:
++	 * * On success: dma_fence the driver must signal once the hardware has
++	 * completed the job ("hardware fence").
++	 * * On failure: NULL or an ERR_PTR.
  	 */
  	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
  
