@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADAFA39A1F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC80A39AC5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 12:28:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943BA10E2BE;
-	Tue, 18 Feb 2025 11:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93C4010E2CE;
+	Tue, 18 Feb 2025 11:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J92IXOQQ";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="agMxwYXy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70DBF10E2BE
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:13:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9EA835C5DBD;
- Tue, 18 Feb 2025 11:12:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD190C4CEE2;
- Tue, 18 Feb 2025 11:13:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739877196;
- bh=wC5iF82xLf3tZHQoPf3DtzkHTBCPK/AWniZoE3OEjqU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J92IXOQQ3cH1bgD9InGpYw8e7QxUgOQ2DUm3oB2zAlgRJj3aZktI4E7zqzlOaGFrv
- 5tXGNeijIQuQN7QTSESCjQ5WfehwkCxWIljaHnSav2bJEYgpEvIAS8DpanautaOiUf
- yzcJ3pRZmDV+An52IKtglA3SCZR1IWCibgQZ+g3CldrtC+iG8x3sIP99XikzAoM7ow
- dLiw1pWTimc0+fjifcRXJNnX5PrGMDDtED7b22QlrXaqMjMUDE1O73tdlf32gW8h7m
- nf1/d5VkT+FS/DilHBR33FzUiNlznyOatDGf63/2mJLnWN2o8OS6swQToSi8Jn+Fmb
- K7h1v0l/5xzGQ==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v4 3/3] drm/sched: Update timedout_job()'s documentation
-Date: Tue, 18 Feb 2025 12:12:47 +0100
-Message-ID: <20250218111246.108266-5-phasta@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250218111246.108266-2-phasta@kernel.org>
-References: <20250218111246.108266-2-phasta@kernel.org>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DABA010E2C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 11:28:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=Pb3n7
+ l2tooqli9b1xrdoDDE+B//VOByVg4XLxTUVUsA=; b=agMxwYXymjYGRduJNDyFO
+ ZBfvBrV/EU5OaQ+DvHRNTL5ZjWHWp13KuaTTtK/q5X9BA78Pes2xt2Sx0YRmQFPa
+ qjbiFi1XUTKX9FSekVkTKpzuuhHhACUQ7+lECFn/jSJt+Ax2AvW+WCdnT6acuADG
+ yOxVI7d86FfhJxfVSVxcFw=
+Received: from ProDesk.. (unknown [])
+ by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
+ _____wD333uybrRnLIPUMQ--.34107S2; 
+ Tue, 18 Feb 2025 19:27:49 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, detlev.casanova@collabora.com,
+ daniel@fooishbar.org, robh@kernel.org, sebastian.reichel@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v15 00/13] VOP Support for rk3576
+Date: Tue, 18 Feb 2025 19:27:27 +0800
+Message-ID: <20250218112744.34433-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD333uybrRnLIPUMQ--.34107S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXw1DJr4xCr17ur4kKF43Awb_yoW7Gr4fpa
+ 95C3s8XrW8GF1jqw4ktw1xCr1SqanxJrW3C34fK3W7Ga1DKF17KrWS9F1Yyr9xGr1xZFWj
+ 9F4Yya13KanFvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UksqAUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkBT3Xme0bEsvuAAAsO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,142 +61,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_backend_ops.timedout_job()'s documentation is outdated. It
-mentions the deprecated function drm_sched_resubmit_job(). Furthermore,
-it does not point out the important distinction between hardware and
-firmware schedulers.
+From: Andy Yan <andy.yan@rock-chips.com>
 
-Since firmware schedulers tyipically only use one entity per scheduler,
-timeout handling is significantly more simple because the entity the
-faulted job came from can just be killed without affecting innocent
-processes.
 
-Update the documentation with that distinction and other details.
+PATCH 1~9 are preparations for rk3576 support
+PATCH 10~13 are real support for rk376
 
-Reformat the docstring to work to a unified style with the other
-handles.
+I test it with a 1080P/4K HDMI output with modetest and weston
+output.
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 83 +++++++++++++++++++++++--------------
- 1 file changed, 52 insertions(+), 31 deletions(-)
+If there are some one want to have a try, I have a tree based on
+Linux 6.14-rc1 here[0]
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 3fc43c6dc405..0ee8c5a948bf 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -393,8 +393,15 @@ static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
- 	return s_job && atomic_inc_return(&s_job->karma) > threshold;
- }
- 
-+/**
-+ * enum drm_gpu_sched_stat - the scheduler's status
-+ *
-+ * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
-+ * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
-+ * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
-+ */
- enum drm_gpu_sched_stat {
--	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-+	DRM_GPU_SCHED_STAT_NONE,
- 	DRM_GPU_SCHED_STAT_NOMINAL,
- 	DRM_GPU_SCHED_STAT_ENODEV,
- };
-@@ -427,6 +434,11 @@ struct drm_sched_backend_ops {
- 	 * drm_sched_backend_ops.timedout_job()) can invoke this again with the
- 	 * same parameters.
- 	 *
-+	 * This method is called in a workqueue context - either from the
-+	 * submit_wq the driver passed through &drm_sched_init(), or, if the
-+	 * driver passed NULL, a separate, ordered workqueue the scheduler
-+	 * allocated.
-+	 *
- 	 * @sched_job: the job to run
- 	 *
- 	 * Note that the scheduler expects to 'inherit' its own reference to
-@@ -446,43 +458,52 @@ struct drm_sched_backend_ops {
- 	 * @timedout_job: Called when a job has taken too long to execute,
- 	 * to trigger GPU recovery.
- 	 *
--	 * This method is called in a workqueue context.
-+	 * @sched_job: The job that has timed out
- 	 *
--	 * Drivers typically issue a reset to recover from GPU hangs, and this
--	 * procedure usually follows the following workflow:
-+	 * Drivers typically issue a reset to recover from GPU hangs.
-+	 * This procedure looks very different depending on whether a firmware
-+	 * or a hardware scheduler is being used.
- 	 *
--	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
--	 *    scheduler thread and cancel the timeout work, guaranteeing that
--	 *    nothing is queued while we reset the hardware queue
--	 * 2. Try to gracefully stop non-faulty jobs (optional)
--	 * 3. Issue a GPU reset (driver-specific)
--	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
--	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
--	 *    jobs can be queued, and the scheduler thread is unblocked
-+	 * For a FIRMWARE SCHEDULER, each ring has one scheduler, and each
-+	 * scheduler has one entity. Hence, the steps taken typically look as
-+	 * follows:
-+	 *
-+	 * 1. Stop the scheduler using drm_sched_stop(). This will pause the
-+	 *    scheduler workqueues and cancel the timeout work, guaranteeing
-+	 *    that nothing is queued while the ring is being removed.
-+	 * 2. Remove the ring. The firmware will make sure that the
-+	 *    corresponding parts of the hardware are resetted, and that other
-+	 *    rings are not impacted.
-+	 * 3. Kill the entity and the associated scheduler.
-+	 *
-+	 *
-+	 * For a HARDWARE SCHEDULER, a scheduler instance schedules jobs from
-+	 * one or more entities to one ring. This implies that all entities
-+	 * associated with the affected scheduler cannot be torn down, because
-+	 * this would effectively also affect innocent userspace processes which
-+	 * did not submit faulty jobs (for example).
-+	 *
-+	 * Consequently, the procedure to recover with a hardware scheduler
-+	 * should look like this:
-+	 *
-+	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop().
-+	 * 3. Kill the entity the faulty job stems from.
-+	 * 4. Issue a GPU reset on all faulty rings (driver-specific).
-+	 * 5. Re-submit jobs on all schedulers impacted by re-submitting them to
-+	 * the entities which are still alive.
-+	 * 6. Restart all schedulers that were stopped in step #1 using
-+	 * drm_sched_start().
- 	 *
- 	 * Note that some GPUs have distinct hardware queues but need to reset
- 	 * the GPU globally, which requires extra synchronization between the
--	 * timeout handler of the different &drm_gpu_scheduler. One way to
--	 * achieve this synchronization is to create an ordered workqueue
--	 * (using alloc_ordered_workqueue()) at the driver level, and pass this
--	 * queue to drm_sched_init(), to guarantee that timeout handlers are
--	 * executed sequentially. The above workflow needs to be slightly
--	 * adjusted in that case:
-+	 * timeout handlers of different schedulers. One way to achieve this
-+	 * synchronization is to create an ordered workqueue (using
-+	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
-+	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
-+	 * that timeout handlers are executed sequentially.
- 	 *
--	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop()
--	 * 2. Try to gracefully stop non-faulty jobs on all queues impacted by
--	 *    the reset (optional)
--	 * 3. Issue a GPU reset on all faulty queues (driver-specific)
--	 * 4. Re-submit jobs on all schedulers impacted by the reset using
--	 *    drm_sched_resubmit_jobs()
--	 * 5. Restart all schedulers that were stopped in step #1 using
--	 *    drm_sched_start()
-+	 * Return: The scheduler's status, defined by &drm_gpu_sched_stat
- 	 *
--	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
--	 * and the underlying driver has started or completed recovery.
--	 *
--	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
--	 * available, i.e. has been unplugged.
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
+[0]https://github.com/andyshrk/linux/tree/rk3576-vop2-upstream-v14
+
+
+Changes in v15:
+- Remove AFBC/AFBCD prefix of TRANSFORM_OFFSET register
+- Remove redundant blank line before function vop2_lock
+- Fix nr_regs arguments for smart windows register.
+- Link to v14: https://lore.kernel.org/linux-rockchip/20250212093530.52961-1-andyshrk@163.com/
+
+Changes in v14:
+- Rebase on drm-misc-next
+- Set maxItems constraint of clocks for rk3588 to 9 as a recently
+  merged patch added two optional clocks[0]:
+  [0]https://patchwork.freedesktop.org/patch/msgid/20250204-vop2-hdmi0-disp-modes-v3-1-d71c6a196e58@collabora.com
+
+Changes in v13:
+- Add maxItems constraint for clocks
+- Remove constraint for interrupts in allOf block, as the current
+  maxItems is already 1.
+- typo fix
+- Explain the function of this property.
+- Use maxItems constraint for clocks in allOf block
+
+Changes in v12:
+- Only change the description method for existing SoC.
+- Split from patch 10/13
+- Split from patch 10/13
+
+Changes in v11:
+- Remove redundant min/maxItems constraint
+- Remove redundant min/maxItems constraint
+
+Changes in v10:
+- Move interrupt-names back to top level
+- Add constraint of interrupts for all platform
+- Add constraint for all grf phandles
+- Reorder some properties
+- Move interrupt-names back to top level
+- Add constraint of interrupts for all platform
+- Add constraint for all grf phandles
+- Reorder some properties
+
+Changes in v9:
+- Drop 'vop-' prefix of interrupt-names.
+- Add blank line between DT properties
+- Remove list interrupt-names in top level
+- Drop 'vop-' prefix of interrupt-names.
+- Add blank line between DT properties
+- Remove list interrupt-names in top level
+- Drop 'vop-' prefix of interrupt-names.
+
+Changes in v8:
+- Remove redundant blank line before drm_bus_format_enum_list
+- Add a blank line before DRM_ENUM_NAME_FN
+- Fix dt_binding_check errors
+- ordered by soc name
+- Link to the previous version:
+  https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+- Fix dt_binding_check errors
+- ordered by soc name
+- Link to the previous version:
+  https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+
+Changes in v7:
+- Fix rk3588 dp+dsi maxclk verification
+
+Changes in v6:
+- Add a blank line after hardware version check code
+-  More specific explanation about the AXI_BUS_ID register bit of
+   cluster window.
+
+Changes in v5:
+- Add axi id configuration
+- Remove the non-existent CBCR scale register.
+
+Changes in v4:
+- Typo fix: selet->select
+- describe constraint SOC by SOC, as interrupts of rk3576 is very
+  different from others
+- Drop Krzysztof's Reviewed-by, as this version changed a lot.
+- describe constraint SOC by SOC, as interrupts of rk3576 is very
+  different from others
+- Drop Krzysztof's Reviewed-by, as this version changed a lot.
+
+Changes in v3:
+- Add comments for why we should treat rk3566 with special care.
+- Add hardware version check
+- Add comments for why we should treat rk3566 with special care.
+- ordered by soc name
+- Add description for newly added interrupt
+- ordered by soc name
+- Add description for newly added interrupt
+- Share the alpha setup function with rk3568
+- recoder the code block by soc
+
+Changes in v2:
+- Add platform specific callback
+- Introduce vop hardware version
+- Add dt bindings
+- Add dt bindings
+- Add platform specific callback
+
+Andy Yan (12):
+  drm/rockchip: vop2: Remove AFBC from TRANSFORM_OFFSET register macro
+  drm/rockchip: vop2: Add platform specific callback
+  drm/rockchip: vop2: Merge vop2_cluster/esmart_init function
+  drm/rockchip: vop2: Support for different layer select configuration
+    between VPs
+  drm/rockchip: vop2: Introduce vop hardware version
+  drm/rockchip: vop2: Register the primary plane and overlay plane
+    separately
+  drm/rockchip: vop2: Set plane possible crtcs by possible vp mask
+  drm/rockchip: vop2: Add uv swap for cluster window
+  dt-bindings: display: vop2: describe constraint SoC by SoC
+  dt-bindings: display: vop2: Add missing rockchip,grf property for
+    rk3566/8
+  dt-bindings: display: vop2: Add rk3576 support
+  drm/rockchip: vop2: Add support for rk3576
+
+Heiko Stuebner (1):
+  drm/rockchip: vop2: use devm_regmap_field_alloc for cluster-regs
+
+ .../display/rockchip/rockchip-vop2.yaml       |   99 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 1472 +++-----------
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  277 ++-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 1798 ++++++++++++++++-
+ 4 files changed, 2377 insertions(+), 1269 deletions(-)
+
 -- 
-2.47.1
+2.34.1
 
