@@ -2,47 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29842A3947C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 09:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4841A39485
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 09:10:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6723110E625;
-	Tue, 18 Feb 2025 08:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4151010E62A;
+	Tue, 18 Feb 2025 08:10:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JYtwZ3rw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RsLnlksF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00E9810E64D;
- Tue, 18 Feb 2025 08:07:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9379B10E627
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 08:10:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A25F35C4CC7;
- Tue, 18 Feb 2025 08:06:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E3AC4CEE6;
- Tue, 18 Feb 2025 08:07:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739866038;
- bh=0nJNYoHEPY55ekPjs2MDTQbDYT48weyBXJTKQum9lYM=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=JYtwZ3rwsLQu4WBaDduY/mEVvInOMPJ16YmXZDER0bYrEWJ7sdc7ZYLPmZh3GGD9r
- ESqOX2EZjua0kKcrx9D+Lgm3sRAiIBYUth0/RuncbJL/eXmaEYJ+CB9msS8pozxVDE
- 1J+N56X+jVbr+Qg7Di4W4B8vCuSz8MTDnZTlbyp4=
-Date: Tue, 18 Feb 2025 09:07:15 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alexandre Courbot <acourbot@nvidia.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <2025021830-segment-boil-5ff7@gregkh>
-References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
- <Z7NaPYvuRF11uxnM@phenom.ffwll.local>
+ by dfw.source.kernel.org (Postfix) with ESMTP id BDBEE5C5BAC
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 08:09:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC25CC4CEF0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 08:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739866211;
+ bh=lm4izQPUPAxU1EFbWA1X1QGgm3ceV+i3LzDKWszTFuo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=RsLnlksF3ghInRjfQUK2RbEcqA4utlAXSkdEuDOes0UY6OEHubhGH9LV9w0k9HI8g
+ w1J2zhebwtjsjUt4moRwPvipUmD9TWYTLhxBahQaztXJpd/ttcbtVYAUf6oXMGBc8f
+ /BoLRhvbRBbtDq8W1mIuSvv++WQD/pQhNElF9lqTSyXApYZ9WSvSP289j7maCKfmfg
+ nyA9L/dTpKS9Sgn2IZPKsMeWXVklaBgV97Io+6bXR5YI7sC8yVFIHhQZEBoeYscq3L
+ 3XlFCrk87mclPoiw8aFg9O78aCThHrsEw6GrIPNEMT3as1PHG160dthI0sNwkm6ef4
+ xaR1Aeas7lbdQ==
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-e5dcc3b0c77so2350283276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 00:10:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX62Eff41//44y3W81OxBDbbWYLzfDphfA7Qjbml36A2qLbSn3H5AodyLOrVSeKfylBuSW6bHHm+2U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwehXqFXjKp/Ibu+C9EwKBFrfGyGhIwI6NfzxKEQbLsjrIEfbN+
+ R8QNAdUtuU5oFDv6yDVpzenMvkMQ6Ia+JFxQRto5//8zQSCaIQ/TjFY8keJ+IfyyYWGrw9lenY/
+ vvRbfb+lUo9b/In9w2qtsb9+BEn1dnQ75Cco1Aw==
+X-Google-Smtp-Source: AGHT+IECc7JXf4PulZUAuqjkIE4N91vsuo67KP4yMuA2IEZ6yNrlZtVPBQlMqGyALdhW2ompVxgJOZSBbCCzz20fC7A=
+X-Received: by 2002:a05:6902:2ec1:b0:e5d:d4e3:ad8 with SMTP id
+ 3f1490d57ef6-e5dd4e31aa6mr7029201276.28.1739866210764; Tue, 18 Feb 2025
+ 00:10:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7NaPYvuRF11uxnM@phenom.ffwll.local>
+References: <20250217174936.758420-2-u.kleine-koenig@baylibre.com>
+ <519b82d4-7904-4320-93e4-efda799b545c@bootlin.com>
+In-Reply-To: <519b82d4-7904-4320-93e4-efda799b545c@bootlin.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Tue, 18 Feb 2025 09:09:54 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi5MNzK5piULQN4x7r2np8fF2RaPxpksPszP-GBTW+4b_w@mail.gmail.com>
+X-Gm-Features: AWEUYZlCU8GZZu1AIfPxJ-K_nmRqCoXWLxYkqwQTskKMCDCFCP1jOIC3mj0uPHo
+Message-ID: <CAN6tsi5MNzK5piULQN4x7r2np8fF2RaPxpksPszP-GBTW+4b_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Check for CONFIG_PWM using
+ IS_REACHABLE()
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Douglas Anderson <dianders@chromium.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ linux-pwm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,63 +83,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 17, 2025 at 04:48:13PM +0100, Simona Vetter wrote:
-> On Mon, Feb 17, 2025 at 11:04:45PM +0900, Alexandre Courbot wrote:
-> > Hi everyone,
-> > 
-> > This short RFC is based on top of Danilo's initial driver stub series
-> > [1] and has for goal to initiate discussions and hopefully some design
-> > decisions using the simplest subdevice of the GPU (the timer) as an
-> > example, before implementing more devices allowing the GPU
-> > initialization sequence to progress (Falcon being the logical next step
-> > so we can get the GSP rolling).
-> > 
-> > It is kept simple and short for that purpose, and to avoid bumping into
-> > a wall with much more device code because my assumptions were incorrect.
-> > 
-> > This is my first time trying to write Rust kernel code, and some of my
-> > questions below are probably due to me not understanding yet how to use
-> > the core kernel interfaces. So before going further I thought it would
-> > make sense to raise the most obvious questions that came to my mind
-> > while writing this draft:
-> > 
-> > - Where and how to store subdevices. The timer device is currently a
-> >   direct member of the GPU structure. It might work for GSP devices
-> >   which are IIUC supposed to have at least a few fixed devices required
-> >   to bring the GSP up ; but as a general rule this probably won't scale
-> >   as not all subdevices are present on all GPU variants, or in the same
-> >   numbers. So we will probably need to find an equivalent to the
-> >   `subdev` linked list in Nouveau.
-> > 
-> > - BAR sharing between subdevices. Right now each subdevice gets access
-> >   to the full BAR range. I am wondering whether we could not split it
-> >   into the relevant slices for each-subdevice, and transfer ownership of
-> >   each slice to the device that is supposed to use it. That way each
-> >   register would have a single owner, which is arguably safer - but
-> >   maybe not as flexible as we will need down the road?
-> > 
-> > - On a related note, since the BAR is behind a Devres its availability
-> >   must first be secured before any hardware access using try_access().
-> >   Doing this on a per-register or per-operation basis looks overkill, so
-> >   all methods that access the BAR take a reference to it, allowing to
-> >   call try_access() from the highest-level caller and thus reducing the
-> >   number of times this needs to be performed. Doing so comes at the cost
-> >   of an extra argument to most subdevice methods ; but also with the
-> >   benefit that we don't need to put the BAR behind another Arc and share
-> >   it across all subdevices. I don't know which design is better here,
-> >   and input would be very welcome.
-> > 
-> > - We will probably need sometime like a `Subdevice` trait or something
-> >   down the road, but I'll wait until we have more than one subdevice to
-> >   think about it.
-> 
-> It might make sense to go with a full-blown aux bus. Gives you a lot of
-> structures and answers to these questions, but also might be way too much.
+On Mon, Feb 17, 2025 at 6:55=E2=80=AFPM Louis Chauvet <louis.chauvet@bootli=
+n.com> wrote:
+>
+>
+>
+> Le 17/02/2025 =C3=A0 18:49, Uwe Kleine-K=C3=B6nig a =C3=A9crit :
+> > Currently CONFIG_PWM is a bool but I intend to change it to tristate. I=
+f
+> > CONFIG_PWM=3Dm in the configuration, the cpp symbol CONFIG_PWM isn't
+> > defined and so the PWM code paths in the ti-sn65dsi86 driver are not
+> > used.
+> >
+> > The correct way to check for CONFIG_PWM is using IS_REACHABLE which doe=
+s
+> > the right thing for all cases
+> > CONFIG_DRM_TI_SN65DSI86 =E2=88=88 { y, m } x CONFIG_PWM =E2=88=88 { y, =
+m, n }.
+> >
+> > There is no change until CONFIG_PWM actually becomes tristate.
+> >
+> > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+>
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-No, it's not too much, that's exactly what the auxbus code is for
-(splitting a real device into child ones where they all share the same
-physical resources.)  So good suggestion.
-
-thanks,
-
-greg k-h
+Reviewed-by: Robert Foss <rfoss@kernel.org>
