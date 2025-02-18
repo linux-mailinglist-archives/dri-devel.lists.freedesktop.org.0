@@ -2,167 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EE7A3AB62
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 22:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E39A3AB82
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2025 23:16:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9941C10E77C;
-	Tue, 18 Feb 2025 21:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036AB10E12B;
+	Tue, 18 Feb 2025 22:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JC2LPRkU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V9RjslWH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12F2B10E779;
- Tue, 18 Feb 2025 21:53:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3333610E12B;
+ Tue, 18 Feb 2025 22:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739915638; x=1771451638;
+ t=1739916999; x=1771452999;
  h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=dw2QvxmS94WLK882a8TmEqR4CgoKyD2K5oka4sjca8s=;
- b=JC2LPRkUrgJcbZXjzdIMf/VKsBs+nB76iQd9vgwd04DCTjO1bhAlIRgJ
- dNRTcwCN9o7zJDgm2gRv7OQm+q15YBUf/Zf7+K8cF133FtIP5ah/S8Wvf
- Hp/NwPOjpCs7xKMpt0MONLx1XXa8rUO7TbHfEwrWGrau5mJQNbYQm5Ln9
- w7xgyRRj7lJ5lYIkUNkx43g9gBHdepBT0CG6TGv7w5sfa7/NrAp5B7YTr
- OUWZVuzSZqP9h14Z9lIKkfLf7xcPmzzFbnkYWRMIMbrTqvHL5YDMYrMPU
- dFxF+6y8FMk11kf2Sn+U6UIQmn+ZwWs6H2jpYzUciU4UTzwDxTRjcwcZG g==;
-X-CSE-ConnectionGUID: NkvCtazsRlK1dglnKmsjrw==
-X-CSE-MsgGUID: ksDxVAPYQVSsz8PUtFtXew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40757287"
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; d="scan'208";a="40757287"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2025 13:53:51 -0800
-X-CSE-ConnectionGUID: HLYznAkmTQGfumGsr94MpA==
-X-CSE-MsgGUID: /9QhOzHQTZmo0hcZHn6wXQ==
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=kbwxs57FYI3v1qxKByDUMZbIdRCnaqji4Btlau4MIKY=;
+ b=V9RjslWH7MlcXiqr6BZgMYO2Jfduw0WZ/ApD3meZ/ogDQQ589aXnDfCb
+ 6KFpSyQ5Sqr0B8MimecpB42LSaRkSxm4t6fyW5p4RQDeCezKN/u+yIOhh
+ YyCBFPScEGAhYVBkFo5Bqw9t1f1dOsiwkr2CKO+QQ3Gw64AAP0lkGDsDG
+ /tFBIUPeWmVbk4b3WzgMsu2GT0jGTy/0Nxte0sqCM5SZlQ6bgGCxkBfMN
+ zWSPY+DnUMlXUefG/ncL9stgNSJXjp1dDzcqlLK4YfLnMVYXuNorToDO7
+ /nX3kNetg0Um81Cxt2imkbhwHQDIUxHbXtOm9oecaMN7f3pmEtwrV/Iu7 A==;
+X-CSE-ConnectionGUID: TTU/+nxBTKir28UwaTk4+g==
+X-CSE-MsgGUID: 55m6fU9qQrGAQA+LRE11cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40559934"
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; d="scan'208";a="40559934"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2025 14:16:38 -0800
+X-CSE-ConnectionGUID: D8g9zb78S4CVyxODm6JPrg==
+X-CSE-MsgGUID: IyEcLUTwStOFPc+fwzW35A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; d="scan'208";a="114456606"
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; d="scan'208";a="115051468"
 Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2025 13:53:48 -0800
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2025 14:16:37 -0800
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 18 Feb 2025 13:53:44 -0800
+ 15.2.1544.14; Tue, 18 Feb 2025 14:16:35 -0800
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 18 Feb 2025 13:53:44 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.40) by
+ 15.2.1544.14 via Frontend Transport; Tue, 18 Feb 2025 14:16:35 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.49) by
  edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 18 Feb 2025 13:53:44 -0800
+ 15.1.2507.44; Tue, 18 Feb 2025 14:16:32 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FB+Wsba8ZEBcK+rZOa4C81GHjv6oo3LeFyvJpCptO2jDaw7vG5vE/osAJ7zhqIDxpzzvIfWbGuX1o23iP2d+kB5xrWnX7WCkWjYrF0D5FquW9nWHnssCXGfBSFtAs9PSe/d9YYfvyLLIbQEFETqx9gNokyx2VBP49SVltzpjk8pyiB/qJ7LzX6DK0f7dLHRMO5WRInCVD3o3hmUvaQK6SOd6yanr+FzsHig0RKZW+80XBYJdNNUZeNBbu0k8LOa54lXCpvk0tAIAVBe3G0YnS4Ltn2nYrdNMRAB24RUFP4LBZgSl737Hx7BfEEt4vD7K4KZqoFbtLWnww54slHVljQ==
+ b=soFfbqH6z+JRM6KJi1uynViNblgerM5Q8+dK8VCJ3cQyFm04DoO1cXC8DVN5KOWJJWBneq7j2IXaFcoK2FtZM+2cSsIM2t4FS3uPc4suqjBK9J7xXCTIqDV9MavC3lO57bsCrgWeeTIWL2eSOGMvoSBU8o0Znc2DDL2rWp2SA9/h9doHGzY0F6owK5Lwvjq6unKj3dHh7eBnOR6XyBHVqnfSYD+Kmay5voqOWitKvmb1/jEKxBPKtg8wvXIaoCchePlwq7ztFjZSpzQc2NWmq4CbeSppmmZly5F/pnFjpxE55R7+QTwzKyWsCRVpSEsBO7JgDuJwHKoGfUfjc9UoEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PbzsYmRS3eZc05/raztpGEl0PFYcdJU38j4jGMA8tUw=;
- b=jljt2ajBwdROBuIo9d4SXTlULUbRaeaEvMGJQgw1NxZPvAfD56+99VU9nS5+9HA/9QYWk2MtUwo4ZkibwBSQ/Xb6WpZVt7TMBEO804JbZJP+0FGMDdPWTFdvrM+eI8y28WXArOqTkVWaah7zyRkWXaUkO0XpMDFo5PCzhlNon0mVUZGJ4g0MQnrYq/TUhDTkdyVArSaxQFd8l00mXmr9OEcBHvtK24vz/FBfmvmRatVWAvZml6Fj+NwzBvgkkMEf48Q+SjNnKfO7V5XZV5NhAQBiTm3UCXYkxVUVohKZH+T2sa0NkY9MKIBZI8mPOsbZe1OuYtNsvj3wUUcHa5R/Iw==
+ bh=S2/Pv39IikBry3g6aCgbIPW6h59xsrbFo1O4ThUc1Hw=;
+ b=LAqpXRVCf5QQmsJ1Vtk5Z/F1QdJdtZO2inottIUQroVWqRCDTgmvAy6K1xMYQn1mApYlrPKNP/ewl1Nsh54mKrINT7CSoh7hDvLnJolquVOYiaptd21DCFGYPRWa0t47+325OdN5rzV55ZoY1hFdyGbGJeGEtbKkS+O7raZWWaNPot4z0FclJRE85yM0kYLwyzw+mLCgxK3UULP1F8FQt3IAkCJlTN4EVjgnknNHHanQ04ApRxIMbYH7Fh3e6nZo7UfsTHL6gqlVfqSLM5LKLbreieP4VncCbAmkYMhikGuFOI9uej3YGaXynKdHxu1nKysYDAT3dqW+G9BLlPweRA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DM4PR11MB7184.namprd11.prod.outlook.com (2603:10b6:8:110::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Tue, 18 Feb
- 2025 21:53:15 +0000
+ by SJ0PR11MB8296.namprd11.prod.outlook.com (2603:10b6:a03:47a::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.18; Tue, 18 Feb
+ 2025 22:16:30 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.8445.017; Tue, 18 Feb 2025
- 21:53:15 +0000
-Date: Tue, 18 Feb 2025 13:54:17 -0800
+ 22:16:30 +0000
+Date: Tue, 18 Feb 2025 14:17:31 -0800
 From: Matthew Brost <matthew.brost@intel.com>
-To: "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <apopple@nvidia.com>, <airlied@gmail.com>,
- <thomas.hellstrom@linux.intel.com>, <simona.vetter@ffwll.ch>,
- <felix.kuehling@amd.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v5 27/32] drm/xe: Add SVM VRAM migration
-Message-ID: <Z7UBiYFn3oq9dhXN@lstrano-desk.jf.intel.com>
-References: <20250213021112.1228481-1-matthew.brost@intel.com>
- <20250213021112.1228481-28-matthew.brost@intel.com>
- <ee155ea0-e7ef-4a5e-b409-d08b62762e5c@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+CC: <phasta@kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <kernel-dev@igalia.com>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v5 1/6] drm/sched: Add internal job peek/pop API
+Message-ID: <Z7UG+8nWwOSyILFW@lstrano-desk.jf.intel.com>
+References: <20250214101944.19390-1-tvrtko.ursulin@igalia.com>
+ <20250214101944.19390-2-tvrtko.ursulin@igalia.com>
+ <7244eaa81cfeb6ce959c591c11a97f52f25b5a5d.camel@mailbox.org>
+ <0ecf7583-8e7a-45c7-bc4e-5935681effc3@igalia.com>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <ee155ea0-e7ef-4a5e-b409-d08b62762e5c@intel.com>
-X-ClientProxiedBy: MW4PR04CA0160.namprd04.prod.outlook.com
- (2603:10b6:303:85::15) To PH7PR11MB6522.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0ecf7583-8e7a-45c7-bc4e-5935681effc3@igalia.com>
+X-ClientProxiedBy: MW4PR03CA0021.namprd03.prod.outlook.com
+ (2603:10b6:303:8f::26) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM4PR11MB7184:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e1f5f7d-4a13-45fd-7a3a-08dd5066a581
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ0PR11MB8296:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c0747d1-49c1-49d8-2387-08dd5069e4df
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?N0Go03B3fpFEhbSbL8uVWlKv9ztRKuC25F5yzltYUeejEvCsN3Dv9L6Gvl5H?=
- =?us-ascii?Q?ucWf6l/iLPqdDpC2o03bLJKgEtFCon3A7DiOqn4s5AbeIle8ejSuJRR5/6ap?=
- =?us-ascii?Q?8je/iem6lIsckiMM2YdzF00CusTAHMYUo+Ae7fQhpLm8Kw4yaqOKGBh+aYdd?=
- =?us-ascii?Q?tcU4+G2CKkiPQKIh8X04VtarwJAarv8BGVup9unR0TpHD8JbNQTrTsYJQeUU?=
- =?us-ascii?Q?3MC0uZIKdYJtdCeyJRkC9RgwD5/XK20v9fRsczNfck17UKjdxjoluZA3bM5K?=
- =?us-ascii?Q?J9mhQAVQxM+Zvgq5Yxnm0jTw6XFc8s6nUQhWvCcrWuPvpqrlxoxlKS/ofkt9?=
- =?us-ascii?Q?sFSRw8Aq9eh36+RwnOKRSz0QELWLrgcZNNK4esie/s0rfWIpJ1DRl5ZGzAFR?=
- =?us-ascii?Q?VwVjB8pmWg4UCnYZj7L7X6i5xmft5mEALhlrY7CuN5xIZ5cMFoDRe/8TvZ07?=
- =?us-ascii?Q?H+ZOuiCdG/j7T09opWn41bnyeoU4OXU7BGBTZV8FvvI8r0S3Kb7vT0gzt2H1?=
- =?us-ascii?Q?q40LT3P0FpQHloAf32SfKoXCqnOMPZCKos5RWtVkJJWmymo8TgUbo1RyqOby?=
- =?us-ascii?Q?tJ+Cdfq+qkaYC78FU0x1NcetqSk3NPtd2mFbABYjoH1ezBSf3tdCTwaPVmK/?=
- =?us-ascii?Q?wefMnJZ5iqIsZLqmXG2tuHiqAsjfosyoPRlqwEH7fs24KT4L44HfZjvBMlIe?=
- =?us-ascii?Q?2AE/7SKpwm/D8MgKkGYvL38HRteaSM7pGFFv23uk8BC7fDiKRGZt1aacUF6L?=
- =?us-ascii?Q?a5sIWqos5Af921vpI0c2L44cN33GEwncdmlVDi67+VYPf/gNgDpreeFechAy?=
- =?us-ascii?Q?vheDyMdGGzawQN/8kvyorxMiIuARZBJaDArrB2GbeHMjBKkKQywwEK0g6iAL?=
- =?us-ascii?Q?WkgTzM8s9Atit3UGoipPKBN6u6xj6EjBvJ0HnEN5CTCEohXtQHqUiJhHc8Ma?=
- =?us-ascii?Q?7wl4bRvZShBDvd8Iab5BhU2r0kmZFyFEOXGikE/dgvbsH3SHZb/QbIgJ2aPN?=
- =?us-ascii?Q?jdaPuOm5/ctKxjVjQGNU84YswnUx1SsREHY4jnsOjd9aK68tk2QVWhPCp/ry?=
- =?us-ascii?Q?bxub7QcHzCr4bzTEBhVQYVNXFNlrKScQUSV2/hrqmBe/mrFjlXiC6RlhaVoB?=
- =?us-ascii?Q?kkfMT5/gYGeHp9cwHYLOYyEh8FTd6TwkouxxWMre1jp47XCV+vCIZZ5FY/P8?=
- =?us-ascii?Q?KFF+y84FY/bjViua7lP1eoMjywfwz9pSx56ay3aZPO5OH2KvWWtG4qKDiTqZ?=
- =?us-ascii?Q?dPce4i5j0GQn4ZCvohYTozUmADd4f92OMQK2s369nMnKc3fIOHBNNtnqugMU?=
- =?us-ascii?Q?5CF363pC7iRovUVsnZjf4P4+kB8KvxypIV6d00Y7KMi8VA=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?hKkJXA9sbEB7QcCK+zSqbOLoe9WKKAFQoPgP9hO5iGCxDE/nIepTn+NDHp?=
+ =?iso-8859-1?Q?oEszEyDXy6K2R6eu2RDwanTErcgPvjz4lbNrtPHvefm1fr0SO0IwU8Ymd2?=
+ =?iso-8859-1?Q?ybIbZd4Fr15R5GEV4IBoOM+fW7HkdRvIn/e8dq/+F8+PBhiMScdI0mnU9W?=
+ =?iso-8859-1?Q?vf/Gszn3Xe9r8TzCJD3jEHyVDy83gsTnPGwLsvLLedCS3+0XnCVNpGZzBR?=
+ =?iso-8859-1?Q?fMJNThejvfouh0WCWHoFg6ykkOBNgc4yANhux+D+HqJdtxM2Hwe9aHB51l?=
+ =?iso-8859-1?Q?74JbBVitoLq+zUqFKz5y8v/fosEzpXMgVchSeHpulSc0wBdr6gXXLqNwJr?=
+ =?iso-8859-1?Q?aRIGfft1HyIwZEQQ961f2et7GtR5JMF8R8HrLe8YdpOGpw/abXRDrq8Shl?=
+ =?iso-8859-1?Q?JxePVqALln8yZcZwzg+BYtsXSD0F4G4O0Q6kkCclqqSTprMOqqZguM3EJP?=
+ =?iso-8859-1?Q?s58Ru6PNaNg/kkNNytd2V4TkPKYi2SUaIrtHfDHm7odB3T5BbfC4e6mdvd?=
+ =?iso-8859-1?Q?FL5lTK5MJYeGL/R0kWMPf47jcdXphA85/DuhXTxFmczEypV1R0o6ZAcTUL?=
+ =?iso-8859-1?Q?5B1FGXyD7XwnBKkZRwuZ2cfW9N2cLCb6HjRTaJn3C8/jMg4FY+7ROlF27G?=
+ =?iso-8859-1?Q?dZcxzWOtEZ6ENkfgMul1mnTw5bS4Cxp09IMa5LVArNHLGNuKC2pT2rkIxr?=
+ =?iso-8859-1?Q?QNWiLdFQy6AWQmUgxaHHo+4r3RZPAz2IfC4aGh0oZqBDRSdrQBizkFg+gY?=
+ =?iso-8859-1?Q?8+npyRtSB4HV/PImEgGO6Gs1W5t51W4MT/o6ai6z1o1RGJnDKCqvRvtfMm?=
+ =?iso-8859-1?Q?+qWmxzV7WpGEqh3rxErO1dUYJ+MgjqHaaMRmovArRi7h1fSijg/yqeWsHw?=
+ =?iso-8859-1?Q?EVPUu/+fmfHTxFJ2v5UhCHDM4hiDxrXlsNhb3Wvruaa9qc/rWWtNXpxu4H?=
+ =?iso-8859-1?Q?QjVCakYgYCLKqiQA1/OldwSb0RLirr4bCiW2uhWz9Iq+R6EOWac1Ek4v7U?=
+ =?iso-8859-1?Q?I7jSXd9vFxXLSC7Z7hRQYBL5VlnkSIV8ARmzVp/MSi2x4NZrDnsVAmwCxs?=
+ =?iso-8859-1?Q?ROtnArwTJPs6f/42fjVpM57ztrs1hbs9DY3L215jv0AwkQLEel1Mxy1Uj4?=
+ =?iso-8859-1?Q?KylRfd11IPnBnA6VQXTnIR5RdBIU4IhP/6me78D4oMkoq41zox2iLOmJrJ?=
+ =?iso-8859-1?Q?4O5h+hhy2ltUZTu4hnOVszVX1Z/JNdgJ9D8a6dYPWTJ9/rZCLHeD8Xzy17?=
+ =?iso-8859-1?Q?799ApAfsyn2TybuE0XLjySFU5KOEhWgQO0LFNB+S0MeUWhXTvw/PU9Gt4k?=
+ =?iso-8859-1?Q?ZolyWrl6Y6k6Ou1Ft+HY7E75P/9w8XwZ9toXMS7wplZBvDbpeGXZumIM3E?=
+ =?iso-8859-1?Q?glCWZoMW9K8bX610s6Z1LV0OpMZ/O0Kw=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FoOerQH9nqptY9yI3LwRJaf84EIPQ+sOIS+lY/720/4ffEesu4x6/xT9VX0W?=
- =?us-ascii?Q?97MtG1u27xllR1aazGcTt2AFBeq1Y4tQpLonepqBQQb1RzsTVcrRVTCAIeua?=
- =?us-ascii?Q?DUrX70rpqG4p0aMnAAUwppMpayH39Ydx0rsCZlXTIkJQb+NwR3c0RZnzuneJ?=
- =?us-ascii?Q?Mnu4xDCuivid/HdSFbqarOPZHuK6tQWJbAw9euUwtulcoospiPEazsDSkgHr?=
- =?us-ascii?Q?Brfh5h3zlrGkmMkNKU8K/qg6/mNa9NmkdRg3Gr5UWMIGRc12mGOM5Xs7Ps1J?=
- =?us-ascii?Q?mXlL5U05Ccc/l/frt4qDloRKXTsLHesgCynsJvCq6mY3HJXtFFLngFk2rqYK?=
- =?us-ascii?Q?6WFpM5RjhRaAfZlN5rtP/fDiPlBVzcjioM/z693Fwv8yQD4mNyCAbABMuQoo?=
- =?us-ascii?Q?m40jtQDIHO6pP/YgM7h+/xGMOkQe4jU6aWazlXjdYgZgBmYMFUy8UPzf1yH+?=
- =?us-ascii?Q?88QUCTTDIE/MHIo+niRIgqVJWZMblmOH08+LhF0XN0pyGTvCS6ZW45SH8j9s?=
- =?us-ascii?Q?RLmOhRwMC3nCpddbdXnRZIyl8SNKZkeuE1TL7rE/Slyc94Vk/v79WHlwQGfF?=
- =?us-ascii?Q?gZ3hquvG9z5go9pTrEvjG5iXDgRimJvCIGfV0TJeTGG76TrqAHjFCnT008nf?=
- =?us-ascii?Q?RrRU5MCcPtvaTWNx3Cry9ne+2QhgiMSlf4Z+O7DRfMhlMGBbo4H2SiNYZmwL?=
- =?us-ascii?Q?B2oP+fvZfrQmDcaFufnqxkNz4hCNwdYDkZTuxO3l9b/UvIr8Q5OWu79NlsXX?=
- =?us-ascii?Q?X0U+h0vmG9BuuRuMD+PdPg4x5CFqjSPP/KVk8/Ydxg8ylKeOiClzQW86sAif?=
- =?us-ascii?Q?beivk2xo+nOvpztH9cCG2RQHhsySFgzFRnFUl7OHpBm7qjaK0e81ZvSWJb0P?=
- =?us-ascii?Q?Ia6pjXKlaKFxL7ghkxr3PngTD9c5nQGrHudfEX2mSi1KDtVQMNmxgLSy/Oa2?=
- =?us-ascii?Q?tJGGDnFiwBE/DHJw/4Y8Q3b6825JDdILdQN46oIb+AjAOPRK4TS83zf5ezC2?=
- =?us-ascii?Q?xar3e6piwjvcKvM7hUMJv3TI36+cEET+EFxsag+N+5Es3v6qDBI4vzETxiXI?=
- =?us-ascii?Q?nyL49WfdcKtZxBr7mUq/YIGCvPP+LHeX/Nd/79AMvzxZIJdwV/32xr9AOp/j?=
- =?us-ascii?Q?C/H9t9g0Ym1MNOJ6zPnq2WhFnhRUreNx7pwAm5qxg1PfR3XExG5MRPMPwvfO?=
- =?us-ascii?Q?ODinbHKhY2BdaPCWlc6yH+l4/I563yQbPP8mEN7CUSPJZWW/q2LcLaMvZ7hy?=
- =?us-ascii?Q?TeslrfSxylJ1EEbBZVnXKCVeqah9nyWB0K4pSNe5JnSb4rgypAbiPSqeoRw7?=
- =?us-ascii?Q?46G6y8j8f67B3HzGOWa8yq76eSZ3xTtZDQhBB0yXTDCEA+tUEAAaQKS3VtoL?=
- =?us-ascii?Q?ULZuqXjVh/CYz+2hcBaE0FGCESDIHiRSJGnU1wR7yOdTyr7UCfbFLBECM6tB?=
- =?us-ascii?Q?YNQ1kivFyWeAecJMfFeZRC9w8Kov+zW4bGuYpdhwDOq5TrIb+p/35lCE7qAd?=
- =?us-ascii?Q?bxkXfOTOH8aLb28y6gxl9a4Nsix6yn1NjxWnSuEpv/b6XLTrY9Lb/ys9TeC7?=
- =?us-ascii?Q?a/YDii/vu9Dk4O7m1xqa8Ks8iyfRgfvxkHbTOLGzoh9dt4KM/QUTNvvrNufr?=
- =?us-ascii?Q?Hw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e1f5f7d-4a13-45fd-7a3a-08dd5066a581
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?I71FTqtvv7TKbwuPkSf33BA/8LdM/NbL3CVe/bgSFM+vBq5TVo6Td2xddD?=
+ =?iso-8859-1?Q?1Czu2CI39TczApKjf/kVxb9H9U9UPXD8mpIjtvGptE364/q+DxU1TtMapo?=
+ =?iso-8859-1?Q?qz90C0eJtHOK3LA9W5xS6B2YwzbySADD0J4fXKSMv78ubGKdIRmFfBo/kW?=
+ =?iso-8859-1?Q?4CUwfqDul1xprFndoJYJnB5FIxWB3D2TYoTtinSgtyRwUglKrvcpX0JxWg?=
+ =?iso-8859-1?Q?oOte9XhiY4HaNHZS+o6SqaQyFUehMD/iy9jWVx+Z4vuhJzU/cfTs+reDtN?=
+ =?iso-8859-1?Q?Lcqeuf+vhk6a/y9PAA9p6J2pIJPpdwZk6O2ZgrRJA83RunxGV3L1b76TEl?=
+ =?iso-8859-1?Q?G5J29STmw0K0eXKvTp1hMngTXs8vdA3kZxn0NSQbxXtejoC+UnfJAxezdD?=
+ =?iso-8859-1?Q?XdfYWFnUEdluoQlwf6Yxr6jFWbVxEGbcemYy5/c4v1BsH7/MFM4lnxAYb5?=
+ =?iso-8859-1?Q?nSXleSW3vgEiXrqJv9kMMzXGnpTekpS9xT0F720ieQEhy9KZhMVfbqs8hw?=
+ =?iso-8859-1?Q?73QLhonV/Yb28Z4EAou3xKb/ozWrxZBx+8/KEa+kVC5K9mKJq4QNUn0Msg?=
+ =?iso-8859-1?Q?RVVo0FtWJriK1U3k3Z5cpXhdgc1ZHBHbRaS/B0DO6mLf6PHKA8CCYwMDgq?=
+ =?iso-8859-1?Q?Z8g6Gi3jWJcu/s9Zndem5VWl5p0YXl3wCCmcLm5tq4PX5rd2CHcGjtY9zQ?=
+ =?iso-8859-1?Q?og8pCOSSKUvi7TfnM59Zd19ZOUYf64JmwPnYUsLNt2AZonvTcRdbk7rNez?=
+ =?iso-8859-1?Q?9maC1mUOv3OLdpn0DL7wbehafHNx7R7D8qbSOxpnqiVvbttGc8SUAnm9/X?=
+ =?iso-8859-1?Q?r32rw7cLzoQFLJ3KxJq620RdpGkeQitZpVZzRrGMoq1nc/VwSGrZoJw38C?=
+ =?iso-8859-1?Q?KtWYjzz2ebE8etpDMsdwDtOVSkBUwZjZpgqZ/jpXvzXnkD9gnHgVhsiCim?=
+ =?iso-8859-1?Q?zHNxmiN881/VEEQQ3gZnvHnfvSAGtybS9GlwdtnR8HRdu5q+frqc8FXuna?=
+ =?iso-8859-1?Q?wahVR8K8ElYnLvbwRqHWe6QTOneuGkl9FWjRywDlCIGzXxNEKckbs0nsq5?=
+ =?iso-8859-1?Q?rOjGoANf3FoxxFSGn19xKFwZgOTTyQ2lZYg0pWic0t9L6rnTwewZnRItrW?=
+ =?iso-8859-1?Q?hfbJyPMpGKeU04x+UCkegGJl1UZStINVTteAbd1vixcF+tcst123zp4NQQ?=
+ =?iso-8859-1?Q?ZccAR0vyYZye7t82WEu1mkgj328k1WY0PVVwEDE3Ap8yJcowGkpN7otz3l?=
+ =?iso-8859-1?Q?VOxyzaW1rxZ2gZbTwygPMmT36UYalxpFpoHzNJAMat28HxIwDz6QuJpg9Q?=
+ =?iso-8859-1?Q?zLydH1l9E284jLz7AykC+zmpYbKzNEAhRY4HKzm1I7rMW90ERnXLwEdOSa?=
+ =?iso-8859-1?Q?DJtVm/r1dTd//OjodnImrx8H2HzXdNArxjBCgjMzj9nCbjizJ2mo3qEwdH?=
+ =?iso-8859-1?Q?dl7KLVERcYONOhLzyC41Bwif9DHgzH8BXDJb1pWzZC0zOCovHpou1J48fZ?=
+ =?iso-8859-1?Q?mftWKzso/rYu3hQOPk9vHpDPxSUln95XK2hypfCscYwFUa+lkTvs79qSat?=
+ =?iso-8859-1?Q?8urBa7VN0RTkb816fAP8hU2CR5nz0ZdLKKsSdhfTWIhYknF/McBMn8kxL0?=
+ =?iso-8859-1?Q?e04aI2XFH9gslEXzsS7zTL6uewK2zONTaQfiCF3DpbGwRrqbpwU8SvrA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c0747d1-49c1-49d8-2387-08dd5069e4df
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 21:53:15.2852 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 22:16:30.0092 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vh35wj0lvUluQvOH34PRk5ntZSmfz1AO3rKS8xm8/yivh41G2sC56NaA+0qWbz0xQcX0uNU/9evWYMaTypyWBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7184
+X-MS-Exchange-CrossTenant-UserPrincipalName: L1TW1M17BNTT3Gm9KrZYrksxSKN8F+2vptbPoP3kxfAe+8VMqb4p13VtbsEsw3XKhQcm2XLtyHu0cqsriGlTgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8296
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -179,258 +183,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 11:58:27PM +0530, Ghimiray, Himal Prasad wrote:
+On Tue, Feb 18, 2025 at 06:26:15PM +0000, Tvrtko Ursulin wrote:
 > 
+> On 18/02/2025 12:26, Philipp Stanner wrote:
+> > Thx for the updated version. Overlooked it, I was out on Friday. See
+> > below
+> > 
+> > On Fri, 2025-02-14 at 10:19 +0000, Tvrtko Ursulin wrote:
+> > > Idea is to add helpers for peeking and popping jobs from entities
+> > > with
+> > > the goal of decoupling the hidden assumption in the code that
+> > > queue_node
+> > > is the first element in struct drm_sched_job.
+> > > 
+> > > That assumption usually comes in the form of:
+> > > 
+> > >    while ((job = to_drm_sched_job(spsc_queue_pop(&entity-
+> > > > job_queue))))
+> > > 
+> > > Which breaks if the queue_node is re-positioned due to_drm_sched_job
+> > > being implemented with a container_of.
+> > > 
+> > > This also allows us to remove duplicate definitions of
+> > > to_drm_sched_job.
+> > > 
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Cc: Christian König <christian.koenig@amd.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > >   drivers/gpu/drm/scheduler/sched_entity.c   | 11 +++---
+> > >   drivers/gpu/drm/scheduler/sched_internal.h | 46
+> > > ++++++++++++++++++++++
+> > >   drivers/gpu/drm/scheduler/sched_main.c     |  7 ++--
+> > >   3 files changed, 54 insertions(+), 10 deletions(-)
+> > >   create mode 100644 drivers/gpu/drm/scheduler/sched_internal.h
+> > > 
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > index 69bcf0e99d57..a171f05ad761 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > @@ -28,11 +28,10 @@
+> > >   #include <drm/drm_print.h>
+> > >   #include <drm/gpu_scheduler.h>
+> > > +#include "sched_internal.h"
+> > > +
+> > >   #include "gpu_scheduler_trace.h"
+> > > -#define to_drm_sched_job(sched_job)		\
+> > > -		container_of((sched_job), struct drm_sched_job,
+> > > queue_node)
+> > > -
+> > >   /**
+> > >    * drm_sched_entity_init - Init a context entity used by scheduler
+> > > when
+> > >    * submit to HW ring.
+> > > @@ -255,7 +254,7 @@ static void drm_sched_entity_kill(struct
+> > > drm_sched_entity *entity)
+> > >   	/* The entity is guaranteed to not be used by the scheduler
+> > > */
+> > >   	prev = rcu_dereference_check(entity->last_scheduled, true);
+> > >   	dma_fence_get(prev);
+> > > -	while ((job = to_drm_sched_job(spsc_queue_pop(&entity-
+> > > > job_queue)))) {
+> > > +	while ((job = drm_sched_entity_queue_pop(entity))) {
+> > >   		struct drm_sched_fence *s_fence = job->s_fence;
+> > >   		dma_fence_get(&s_fence->finished);
+> > > @@ -477,7 +476,7 @@ struct drm_sched_job
+> > > *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+> > >   {
+> > >   	struct drm_sched_job *sched_job;
+> > > -	sched_job = to_drm_sched_job(spsc_queue_peek(&entity-
+> > > > job_queue));
+> > > +	sched_job = drm_sched_entity_queue_peek(entity);
+> > >   	if (!sched_job)
+> > >   		return NULL;
+> > > @@ -513,7 +512,7 @@ struct drm_sched_job
+> > > *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+> > >   	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
+> > >   		struct drm_sched_job *next;
+> > > -		next = to_drm_sched_job(spsc_queue_peek(&entity-
+> > > > job_queue));
+> > > +		next = drm_sched_entity_queue_peek(entity);
+> > >   		if (next) {
+> > >   			struct drm_sched_rq *rq;
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_internal.h
+> > > b/drivers/gpu/drm/scheduler/sched_internal.h
+> > > new file mode 100644
+> > > index 000000000000..815d384845a3
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+> > > @@ -0,0 +1,46 @@
+> > > +#ifndef _DRM_GPU_SCHEDULER_INTERNAL_H_
+> > > +#define _DRM_GPU_SCHEDULER_INTERNAL_H_
+> > 
+> > DRM maintainer tools complain about a potentially missing license
+> > identifier:
+> > 
+> > -:80: WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+> > #80: FILE: drivers/gpu/drm/scheduler/sched_internal.h:1:
+> > 
+> > The other scheduler files don't have one, either. Still, it might be
+> > good to add one for new files. So, shall we make it GPL?
 > 
-> On 13-02-2025 07:41, Matthew Brost wrote:
-> > Migration is implemented with range granularity, with VRAM backing being
-> > a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of the
-> > TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
-> > SVM range is migrated to SRAM, the TTM BO is destroyed).
-> > 
-> > The design choice for using TTM BO for VRAM backing store, as opposed to
-> > direct buddy allocation, is as follows:
-> > 
-> > - DRM buddy allocations are not at page granularity, offering no
-> >    advantage over a BO.
-> > - Unified eviction is required (SVM VRAM and TTM BOs need to be able to
-> >    evict each other).
-> > - For exhaustive eviction [1], SVM VRAM allocations will almost certainly
-> >    require a dma-resv.
-> > - Likely allocation size is 2M which makes of size of BO (872)
-> >    acceptable per allocation (872 / 2M == .0004158).
-> > 
-> > With this, using TTM BO for VRAM backing store seems to be an obvious
-> > choice as it allows leveraging of the TTM eviction code.
-> > 
-> > Current migration policy is migrate any SVM range greater than or equal
-> > to 64k once.
-> > 
-> > [1] https://patchwork.freedesktop.org/series/133643/
-> > 
-> > v2:
-> >   - Rebase on latest GPU SVM
-> >   - Retry page fault on get pages returning mixed allocation
-> >   - Use drm_gpusvm_devmem
-> > v3:
-> >   - Use new BO flags
-> >   - New range structure (Thomas)
-> >   - Hide migration behind Kconfig
-> >   - Kernel doc (Thomas)
-> >   - Use check_pages_threshold
-> > v4:
-> >   - Don't evict partial unmaps in garbage collector (Thomas)
-> >   - Use %pe to print errors (Thomas)
-> >   - Use %p to print pointers (Thomas)
-> > v5:
-> >   - Use range size helper (Thomas)
-> >   - Make BO external (Thomas)
-> >   - Set tile to NULL for BO creation (Thomas)
-> >   - Drop BO mirror flag (Thomas)
-> >   - Hold BO dma-resv lock across migration (Auld, Thomas)
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/xe/xe_svm.c | 111 ++++++++++++++++++++++++++++++++++--
-> >   drivers/gpu/drm/xe/xe_svm.h |   5 ++
-> >   2 files changed, 112 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> > index 0a78a838508c..2e1e0f31c1a8 100644
-> > --- a/drivers/gpu/drm/xe/xe_svm.c
-> > +++ b/drivers/gpu/drm/xe/xe_svm.c
-> > @@ -32,6 +32,11 @@ static unsigned long xe_svm_range_end(struct xe_svm_range *range)
-> >   	return drm_gpusvm_range_end(&range->base);
-> >   }
-> > +static unsigned long xe_svm_range_size(struct xe_svm_range *range)
-> > +{
-> > +	return drm_gpusvm_range_size(&range->base);
-> > +}
-> > +
-> >   static void *xe_svm_devm_owner(struct xe_device *xe)
-> >   {
-> >   	return xe;
-> > @@ -512,7 +517,6 @@ static int xe_svm_populate_devmem_pfn(struct drm_gpusvm_devmem *devmem_allocatio
-> >   	return 0;
-> >   }
-> > -__maybe_unused
-> >   static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops = {
-> >   	.devmem_release = xe_svm_devmem_release,
-> >   	.populate_devmem_pfn = xe_svm_populate_devmem_pfn,
-> > @@ -592,6 +596,71 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
-> >   	return (range->tile_present & ~range->tile_invalidated) & BIT(tile->id);
-> >   }
-> > +static struct xe_vram_region *tile_to_vr(struct xe_tile *tile)
-> > +{
-> > +	return &tile->mem.vram;
-> > +}
-> > +
-> > +static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
-> > +				       struct xe_svm_range *range,
-> > +				       const struct drm_gpusvm_ctx *ctx)
-> > +{
-> > +	struct mm_struct *mm = vm->svm.gpusvm.mm;
-> > +	struct xe_vram_region *vr = tile_to_vr(tile);
-> > +	struct drm_buddy_block *block;
-> > +	struct list_head *blocks;
-> > +	struct xe_bo *bo;
-> > +	ktime_t end = 0;
-> > +	int err;
-> > +
-> > +	if (!mmget_not_zero(mm))
-> > +		return ERR_PTR(-EFAULT);
-> > +	mmap_read_lock(mm);
-> > +
-> > +retry:
-> > +	bo = xe_bo_create_locked(tile_to_xe(tile), NULL, NULL,
-> > +				 xe_svm_range_size(range),
-> > +				 ttm_bo_type_device,
-> > +				 XE_BO_FLAG_VRAM_IF_DGFX(tile));
-> > +	if (IS_ERR(bo)) {
-> > +		err = PTR_ERR(bo);
-> > +		if (xe_vm_validate_should_retry(NULL, err, &end))
-> > +			goto retry;
-> > +		goto unlock;
-> > +	}
-> > +
-> > +	drm_gpusvm_devmem_init(&bo->devmem_allocation,
-> > +			       vm->xe->drm.dev, mm,
-> > +			       &gpusvm_devmem_ops,
-> > +			       &tile->mem.vram.dpagemap,
-> > +			       xe_svm_range_size(range));
-> > +
-> > +	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
-> > +	list_for_each_entry(block, blocks, link)
-> > +		block->private = vr;
-> > +
-> > +	/*
-> > +	 * Take ref because as soon as drm_gpusvm_migrate_to_devmem succeeds the
-> > +	 * creation ref can be dropped upon CPU fault or unmap.
-> > +	 */
-> > +	xe_bo_get(bo);
-> > +
-> > +	err = drm_gpusvm_migrate_to_devmem(&vm->svm.gpusvm, &range->base,
-> > +					   &bo->devmem_allocation, ctx);
-> > +	xe_bo_unlock(bo);
-> > +	if (err) {
-> > +		xe_bo_put(bo);	/* Local ref */
-> > +		xe_bo_put(bo);	/* Creation ref */
-> > +		bo = ERR_PTR(err);
-> > +	}
-> > +
-> > +unlock:
-> > +	mmap_read_unlock(mm);
-> > +	mmput(mm);
-> > +
-> > +	return bo;
-> > +}
-> > +
-> >   /**
-> >    * xe_svm_handle_pagefault() - SVM handle page fault
-> >    * @vm: The VM.
-> > @@ -600,7 +669,8 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
-> >    * @fault_addr: The GPU fault address.
-> >    * @atomic: The fault atomic access bit.
-> >    *
-> > - * Create GPU bindings for a SVM page fault.
-> > + * Create GPU bindings for a SVM page fault. Optionally migrate to device
-> > + * memory.
-> >    *
-> >    * Return: 0 on success, negative error code on error.
-> >    */
-> > @@ -608,11 +678,18 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
-> >   			    struct xe_tile *tile, u64 fault_addr,
-> >   			    bool atomic)
-> >   {
-> > -	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma), };
-> > +	struct drm_gpusvm_ctx ctx = {
-> > +		.read_only = xe_vma_read_only(vma),
-> > +		.devmem_possible = IS_DGFX(vm->xe) &&
-> > +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR),
-> > +		.check_pages_threshold = IS_DGFX(vm->xe) &&
-> > +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR) ? SZ_64K : 0,
-> > +	};
-> >   	struct xe_svm_range *range;
-> >   	struct drm_gpusvm_range *r;
-> >   	struct drm_exec exec;
-> >   	struct dma_fence *fence;
-> > +	struct xe_bo *bo = NULL;
-> >   	ktime_t end = 0;
-> >   	int err;
-> > @@ -620,6 +697,9 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
-> >   	xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(vma));
-> >   retry:
-> > +	xe_bo_put(bo);
-> > +	bo = NULL;
-> > +
-> >   	/* Always process UNMAPs first so view SVM ranges is current */
-> >   	err = xe_svm_garbage_collector(vm);
-> >   	if (err)
-> > @@ -635,9 +715,31 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
-> >   	if (xe_svm_range_is_valid(range, tile))
-> >   		return 0;
-> > +	/* XXX: Add migration policy, for now migrate range once */
-> > +	if (!range->migrated && range->base.flags.migrate_devmem &&
-> > +	    xe_svm_range_size(range) >= SZ_64K) {
-> > +		range->migrated = true;
-> 
-> 
-> shouldn't this be set to true, only once xe_svm_alloc_vram is successfull ?
-> In case of bo alloc failure retry wont enter here.
+> Ha, good question. And it is actually good I forgot to do this for this
+> series (I was doing for unit tests last week, I mean adding SPDX lines)
+> because, as sched_internal.h will take parts of gpu_scheduler.h which is not
+> explicitly GPL, nor the other scheduler source files, apart from
+> MODULE_LICENSE which is "GPL and additional rights", question indeed is what
+> copyright blurb to put there. IANAL so not sure. Surely there is some
+> established practice for cases like this one just I don't know what it is.
 > 
 
-No. The point of this is try to migrate once to avoid a live lock case
-of concurrent CPU and GPU access. Once we have migration policy, I'd
-suspect memory marked as prefered VRAM only try once too. If memory is
-marked as VRAM only we'd retry to a limit and if reached kill the app.
-We can work of those details when that code lands. Until then, trying
-once seems reasonable.
+I think GPL or MIT would be the preference given [1]. Also ofc IANAL.
 
 Matt
 
-> > +
-> > +		bo = xe_svm_alloc_vram(vm, tile, range, &ctx);
-> > +		if (IS_ERR(bo)) {
-> > +			drm_info(&vm->xe->drm,
-> > +				 "VRAM allocation failed, falling back to retrying, asid=%u, errno %pe\n",
-> > +				 vm->usm.asid, bo);
-> > +			bo = NULL;
-> > +			goto retry;
-> > +		}
-> > +	}
-> > +
-> >   	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
-> > -	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU mappings have changed */
-> > +	/* Corner where CPU mappings have changed */
-> > +	if (err == -EOPNOTSUPP || err == -EFAULT || err == -EPERM) {
-> > +		if (err == -EOPNOTSUPP)
-> > +			drm_gpusvm_range_evict(&vm->svm.gpusvm, &range->base);
-> > +		drm_info(&vm->xe->drm,
-> > +			 "Get pages failed, falling back to retrying, asid=%u, gpusvm=%p, errno %pe\n",
-> > +			 vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
-> >   		goto retry;
-> > +	}
-> >   	if (err)
-> >   		goto err_out;
-> > @@ -668,6 +770,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
-> >   	dma_fence_put(fence);
-> >   err_out:
-> > +	xe_bo_put(bo);
-> >   	return err;
-> >   }
-> > diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-> > index 0fa525d34987..984a61651d9e 100644
-> > --- a/drivers/gpu/drm/xe/xe_svm.h
-> > +++ b/drivers/gpu/drm/xe/xe_svm.h
-> > @@ -35,6 +35,11 @@ struct xe_svm_range {
-> >   	 * range. Protected by GPU SVM notifier lock.
-> >   	 */
-> >   	u8 tile_invalidated;
-> > +	/**
-> > +	 * @migrated: Range has been migrated to device memory, protected by
-> > +	 * GPU fault handler locking.
-> > +	 */
-> > +	u8 migrated	:1;
-> >   };
-> >   int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr);
+[1] https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/3852
+
+> Regards,
+> 
+> Tvrtko
+> 
+> > Rest of the series looks good.
+> > 
+> > P.
+> > 
+> > > +
+> > > +/**
+> > > + * drm_sched_entity_queue_pop - Low level helper for popping queued
+> > > jobs
+> > > + *
+> > > + * @entity: scheduler entity
+> > > + *
+> > > + * Low level helper for popping queued jobs.
+> > > + *
+> > > + * Returns: The job dequeued or NULL.
+> > > + */
+> > > +static inline struct drm_sched_job *
+> > > +drm_sched_entity_queue_pop(struct drm_sched_entity *entity)
+> > > +{
+> > > +	struct spsc_node *node;
+> > > +
+> > > +	node = spsc_queue_pop(&entity->job_queue);
+> > > +	if (!node)
+> > > +		return NULL;
+> > > +
+> > > +	return container_of(node, struct drm_sched_job, queue_node);
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_sched_entity_queue_peek - Low level helper for peeking at the
+> > > job queue
+> > > + *
+> > > + * @entity: scheduler entity
+> > > + *
+> > > + * Low level helper for peeking at the job queue
+> > > + *
+> > > + * Returns: The job at the head of the queue or NULL.
+> > > + */
+> > > +static inline struct drm_sched_job *
+> > > +drm_sched_entity_queue_peek(struct drm_sched_entity *entity)
+> > > +{
+> > > +	struct spsc_node *node;
+> > > +
+> > > +	node = spsc_queue_peek(&entity->job_queue);
+> > > +	if (!node)
+> > > +		return NULL;
+> > > +
+> > > +	return container_of(node, struct drm_sched_job, queue_node);
+> > > +}
+> > > +
+> > > +#endif
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index 8c36a59afb72..c634993f1346 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -78,6 +78,8 @@
+> > >   #include <drm/gpu_scheduler.h>
+> > >   #include <drm/spsc_queue.h>
+> > > +#include "sched_internal.h"
+> > > +
+> > >   #define CREATE_TRACE_POINTS
+> > >   #include "gpu_scheduler_trace.h"
+> > > @@ -87,9 +89,6 @@ static struct lockdep_map drm_sched_lockdep_map = {
+> > >   };
+> > >   #endif
+> > > -#define to_drm_sched_job(sched_job)		\
+> > > -		container_of((sched_job), struct drm_sched_job,
+> > > queue_node)
+> > > -
+> > >   int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
+> > >   /**
+> > > @@ -123,7 +122,7 @@ static bool drm_sched_can_queue(struct
+> > > drm_gpu_scheduler *sched,
+> > >   {
+> > >   	struct drm_sched_job *s_job;
+> > > -	s_job = to_drm_sched_job(spsc_queue_peek(&entity-
+> > > > job_queue));
+> > > +	s_job = drm_sched_entity_queue_peek(entity);
+> > >   	if (!s_job)
+> > >   		return false;
+> > 
 > 
