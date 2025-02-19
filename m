@@ -2,62 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC585A3BE49
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 13:37:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1219FA3BE51
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 13:40:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E20510E2F3;
-	Wed, 19 Feb 2025 12:37:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB7B10E057;
+	Wed, 19 Feb 2025 12:40:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mV2BD9Hx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QDanW54g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0455C10E2F3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 12:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739968673;
- bh=yWQBctTmTYw2F6D0YrO+rF/Gn/2V69KKlL8m0tLUKc4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mV2BD9Hxs36pOHX9FkZKfw+gQIuDnAd4bvjf8XtdSJvkyBEam5NsrQaAQl8M6WZgC
- JYbwtlfxCcVCkQu1WD/vt4IOre8mbxHr3t6jwauve4CZr8UM6SEXmzeu9YgAOdHmHO
- BUAUTvFJgAaN0yO05kunUr334Z+pKxln4ayffgJcZFjdwZNFwWLevzZNOa96gI776B
- 1iDhSr8QZGx6k+IrJNi1kQmWmcrp/OHnbUxAhpj889/coeYv0tsuI6EnNH0JeoqAcZ
- 7Fw2wINiqcbO5APmPZao8MXM8aRy6T31tllsqCZ4rCcXdZmMgmhnVE0xla5gKwBIku
- 1325lknngshbA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7BB7C17E154A;
- Wed, 19 Feb 2025 13:37:52 +0100 (CET)
-Message-ID: <c72a8643-4211-40e1-a64d-6bf3c69bcae1@collabora.com>
-Date: Wed, 19 Feb 2025 13:37:51 +0100
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0934210E057
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 12:40:16 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-307325f2436so56852601fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 04:40:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739968814; x=1740573614; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NhQhj1c3gRWwOUJHeLmg2V70Y2oTFaMlvauJibjC3uU=;
+ b=QDanW54g26j7FSRQCerHw7jpRYgKja2L3ayUjokimdo9tpVRsUfntUZdG7mK1u3PVP
+ 9QtKOfFkMnk7Ch4EilRXntPUa6tKstQTY4nHpi7sy/rSUUKY7eU9qo/YufwIriK9+tO3
+ SbdVWL2NhokZMMbGyQxFJP8IdpLSCK3sR5dHoUvtkwqh66V8O0rBxRpM2MWFcsog/1OM
+ dweQJzGLAHz4qdJTcArv3/6H3gPIzWOV1bw7JeqU5elDSe/0/w0vjiwY64lk/gxZ+Bgy
+ UlAYKWlJbDySS+g8Uvy06Tscmf9OrmyabCR34dpxnrynH+e30l/dw7C54NyHQz7yBNoL
+ W5yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739968814; x=1740573614;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NhQhj1c3gRWwOUJHeLmg2V70Y2oTFaMlvauJibjC3uU=;
+ b=g8SO5Yq97UyAPqciSD4EM+XvajHLYtyuz+lYc5kSpX/bzBD9VBbzhiBpM7OWc4VS6U
+ vwqJ2M/tRHSyXTNL+/sskBnaBrhmUpdnDdX78BOOsPze4JjtyDg4mW+h08LkkhoF94gg
+ gWl1wcuMB6jLMivahqo0HSnioVw4TtrRoamvZG/h5+aDxml6aRZdc6t8Xt5Fu3UQ7nCy
+ qyjt03hanWEn19NCB/rdQitqAG2Y9TX4EUuOIeNF4GQ3WjCSASDTGfsM2fgOtw7GC0ub
+ +iU3UlI7NpKAqgBkr54q1Yh/8jwcOblG/tMsxKxg1xYsXBkyZrrME+2WAVFj/Op5DPZ2
+ xFnw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX3iu4Hr2rO8aj4Uv0sfvv7sJBcMiMutsor7gonXS4gHZwUJTLQXVislWuY+acAUzaGm1Pz0HYMudA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywx4yUK8TOZPrtWEvjn+JHbiFwOgCaart+9LwU9GtVkRE2otMTQ
+ U51yhrguIGplCIWG5xQX2ClkjcFIFwXowkLPfuIWi3fg/MZL0NC29ZP04GnYfQmonPpkk27iJBI
+ buSpmLqbCY4IajyL63X9uStbmzHQ=
+X-Gm-Gg: ASbGncvHl3AXbOTZgeZUu2LKoNFUq3AA6NdcwDWXoctGkpsvA3jqsBbfdSMGcSmxOwN
+ 63D+QVAne6izD6XV2VA4nKdk5RNSgb/DSaa61f5L5CTgV0r9zocidCDqEDRh6I2r/P0wZCUiRGY
+ nyKsuzUxm1+Dz1YqFSVcdrA/fPfAk=
+X-Google-Smtp-Source: AGHT+IFiEAAmOQeNiwKM9pYHoGOeRxDwt6aWpRp0aHFkiqJ/scb58wtITAVUYzMW7vzAfCPPDIj0kMB/lDvHjfDXQ/E=
+X-Received: by 2002:a2e:8810:0:b0:308:e8d3:756d with SMTP id
+ 38308e7fff4ca-30a44ed1da9mr12054681fa.19.1739968813787; Wed, 19 Feb 2025
+ 04:40:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] drm/mediatek: Add TDSHP component support for MT8196
-To: Jay Liu <jay.liu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20250219092040.11227-1-jay.liu@mediatek.com>
- <20250219092040.11227-4-jay.liu@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250219092040.11227-4-jay.liu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241101135406.47836-1-festevam@gmail.com>
+ <173073495749.210192.9138587910771237679.robh@kernel.org>
+ <CAOMZO5BVLpQecZH4vvmRi=KfZ=MvCgUQ_tUKjvUzMGO=wTU-MA@mail.gmail.com>
+In-Reply-To: <CAOMZO5BVLpQecZH4vvmRi=KfZ=MvCgUQ_tUKjvUzMGO=wTU-MA@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 19 Feb 2025 09:40:01 -0300
+X-Gm-Features: AWEUYZkvUCi3PRNaZjpqQ7zkYqcKxcjgv_RBbFS6LFh_ywtWOQiG9QgEhk9Prp0
+Message-ID: <CAOMZO5BJy2B0Jy-ehz44ZkrzUpGqrAs_GjE-Nh1P9K8uDXVmyw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: lcdif: Document a imx6sx-lcdif
+ fallback
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, shawnguo@kernel.org, imx@lists.linux.dev, 
+ conor+dt@kernel.org, Fabio Estevam <festevam@denx.de>, 
+ linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de, 
+ krzk+dt@kernel.org, a.fatoum@pengutronix.de, dri-devel@lists.freedesktop.org, 
+ andreas@kemnade.info, marex@denx.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,94 +89,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 19/02/25 10:20, Jay Liu ha scritto:
-> Add TDSHP component support for MT8196.
-> TDSHP is a hardware module designed to enhance the sharpness and
-> clarity of displayed images by analyzing and improving edges and
-> fine details in frames.
-> 
-> Signed-off-by: Jay Liu <jay.liu@mediatek.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 58 +++++++++++++++++++++++++
->   drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  1 +
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c  |  2 +
->   3 files changed, 61 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-> index d7e230bac53e..b87fde64ee49 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-> @@ -57,6 +57,16 @@
->   #define POSTMASK_RELAY_MODE				BIT(0)
->   #define DISP_REG_POSTMASK_SIZE			0x0030
->   
-> +#define DISP_REG_TDSHP_EN			0x0000
-> +#define DISP_TDSHP_TDS_EN			BIT(31)
-> +#define DISP_REG_TDSHP_CTRL			0x0100
-> +#define DISP_TDSHP_CTRL_EN			BIT(0)
-> +#define DISP_TDSHP_PWR_SCL_EN			BIT(2)
-> +#define DISP_REG_TDSHP_CFG			0x0110
+Rob,
 
-#define TDSHP_RELAY_MODE	BIT(0)
+On Tue, Dec 17, 2024 at 10:20=E2=80=AFAM Fabio Estevam <festevam@gmail.com>=
+ wrote:
 
-> +#define DISP_REG_TDSHP_INPUT_SIZE		0x0120
-> +#define DISP_REG_TDSHP_OUTPUT_OFFSET		0x0124
-> +#define DISP_REG_TDSHP_OUTPUT_SIZE		0x0128
-> +
->   #define DISP_REG_UFO_START			0x0000
->   #define UFO_BYPASS				BIT(2)
->   
-> @@ -261,6 +271,44 @@ static void mtk_postmask_stop(struct device *dev)
->   	writel_relaxed(0x0, priv->regs + DISP_REG_POSTMASK_EN);
->   }
->   
-> +static void mtk_disp_tdshp_config(struct device *dev, unsigned int w,
-> +				  unsigned int h, unsigned int vrefresh,
-> +				  unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-> +{
-> +	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> +	u32 tdshp_ctrl = (bpc == 8) ? DISP_TDSHP_PWR_SCL_EN | DISP_TDSHP_CTRL_EN : 0;
-> +
-> +	mtk_ddp_write(cmdq_pkt, tdshp_ctrl, &priv->cmdq_reg, priv->regs,
-> +		      DISP_REG_TDSHP_CTRL);
-> +
-> +	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs,
-> +		      DISP_REG_TDSHP_INPUT_SIZE);
-> +	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs,
-> +		      DISP_REG_TDSHP_OUTPUT_SIZE);
-> +	mtk_ddp_write(cmdq_pkt, 0x0, &priv->cmdq_reg, priv->regs,
-> +		      DISP_REG_TDSHP_OUTPUT_OFFSET);
-> +
-> +	mtk_ddp_write(cmdq_pkt, 0x1, &priv->cmdq_reg,
+> > Acked-by: Rob Herring (Arm) <robh@kernel.org>
+>
+> Can you apply 1/3 and 2/3?
 
-mtk_ddp_write(cmdq_pkt, TDSHP_RELAY_MODE, ... etc etc
-
-> +		      priv->regs, DISP_REG_TDSHP_CFG);
-> +
-> +	mtk_ddp_write_mask(cmdq_pkt, DISP_TDSHP_TDS_EN, &priv->cmdq_reg, priv->regs,
-> +			   DISP_REG_TDSHP_EN, DISP_TDSHP_TDS_EN);
-> +}
-> +
-> +static void mtk_disp_tdshp_start(struct device *dev)
-> +{
-> +	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> +
-> +	writel(DISP_TDSHP_CTRL_EN, priv->regs + DISP_REG_TDSHP_CTRL);
-> +}
-> +
-> +static void mtk_disp_tdshp_stop(struct device *dev)
-> +{
-> +	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> +
-> +	writel(0x0, priv->regs + DISP_REG_TDSHP_CTRL);
-
-writel(0, priv->regs + DISP_REG_TDSHP_CTRL);
-
-> +}
-> +
-
-After which:
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-
+Gentle ping.
