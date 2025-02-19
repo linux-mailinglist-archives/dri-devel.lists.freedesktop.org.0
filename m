@@ -2,72 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55504A3C90F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 20:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C35A3C918
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 20:50:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE95D10E4A2;
-	Wed, 19 Feb 2025 19:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2008910E884;
+	Wed, 19 Feb 2025 19:50:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aap2AHju";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Alw8WS3U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9E7E10E4A2;
- Wed, 19 Feb 2025 19:49:22 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-2fa8c788c74so39524a91.2; 
- Wed, 19 Feb 2025 11:49:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739994562; x=1740599362; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k1ko0K0VPns/1ufKOAk4rGj58/AaNo29DGGtkB+ahbw=;
- b=aap2AHjuT6uMpRYMG0fImstFVgfP/t9ArhUr9uwXeeeYujTYmt3KNZVQMpC7kksbfN
- LL4thtSBVV4zr06wvuWDWzjRvFgPBfSss1c0/AJiYkMLp3gp13EOSXVykGzlPqLZx9oV
- EPfkY9amTbWoFFfpg1Ef1MbztrWdU08rlOp5hJGzwxOmuKMRHRoGTxzGyPSptJyuYNo+
- uckN0fInQ57+RPVC89iPCJTbiMZdcarmD9AdvPvnF5qSKiagBuLt3HEcBUpbbrzWLCkj
- +rFZVapU+hut2+4QRMt5Pb5NIe5quUM3PFF2Ja3Np44vgS8FMwW5nosgCNkgPg86Zwh6
- 4SHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739994562; x=1740599362;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=k1ko0K0VPns/1ufKOAk4rGj58/AaNo29DGGtkB+ahbw=;
- b=Ve9dp0xDRpadJ+jWIOxb8/PIIq6MRTbMn+uykyrx9ixAFTwD/wy5nzGdbdphoP14hG
- JqbC97a7DOJWZvTF4j6dTulhg4pgDQTYS2PNgWqOK3V5Sw6rGRT9hlWfUjVPSIV5eFEv
- v+WxGy4rCH7DcJ7RIG6To/7YbTPz0olYF3VQp3sFH84PxRLXi/ShRtM0I6uuhpmqotvh
- BXyx1t7ly4SEabq9EiBS0B+5AoO0Z3VKLwty+a/2EXE3zoV6PTDfv7cezss/G8T1jgJi
- REFOACEywCGJk6VBhdCQG//u1j7L2ptD9FVnJ/2Gt8g5nQ704g269JfVJpbVKbkNIInJ
- bBGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW6qMQCn2hPeMK6bv42z5qlOPb6FApV5S7562TGrdzE+A+a3GLhdswzVN4Js6gMWNhUEb2REs3hYQai@lists.freedesktop.org,
- AJvYcCXQiiWhJSSV3xQ75l0yu9GDRJimBQnWkqZKLt7jf0is9TaA1uNvjf1vEQXTdILOMwIXe0MFlejl@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+FgK7AbY9EmXO90Ud9gfjIXVWi/5fpC3rd1sJcXP5OpTr4mnh
- rj2Hb5qhsepCZWrWIl/XVnATHxnytuVBY0ZEOEtrSaZotZcjRqVdayGEWZ3oP8dlLV/UXDJfLtp
- zwc0mqq+V2yrhQEIoGS5PRbH/YEI=
-X-Gm-Gg: ASbGncumqnTVOh2z07tP44ONt2ndKQgftCq+bvfmxCFJEb6sc43fieyaOjr3pX1Hd16
- M82Xz6XoZfCUC4IrGsu0zt5S0JxTwMVChTcK6Lx5/ksjNSkoSH9MVAE5CXcejpDdOXubsRXnB
-X-Google-Smtp-Source: AGHT+IEXEswCU21IclzIqq8mn21mAzvoAwR5lDtLJnj3Ej+0CAuf35Wo7tg86K+SrwhvFhJRfg3O97rz5blqzCgBsSY=
-X-Received: by 2002:a17:90b:3504:b0:2fc:f63:4b6a with SMTP id
- 98e67ed59e1d1-2fc4078f0a1mr11700294a91.0.1739994562272; Wed, 19 Feb 2025
- 11:49:22 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8D410E880;
+ Wed, 19 Feb 2025 19:50:00 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51JAaXDw017365;
+ Wed, 19 Feb 2025 19:49:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=yoqVrLtziorSSQIsiIHYjF
+ LK7d7Ng89gryqZ1bWum3s=; b=Alw8WS3Uy0f3gjmV0BQodARsWkBWXWtfUkEnSm
+ P93OuUt+u58A6LIvXW35boq2OjP/HsRXFeo/n6VyQoI2r4BecVgvYL02mWpicgBr
+ AdyRMbpI94NkkTKE4cs4xMyWz7VQodDXsEETikjz+HeB/j02mlT6lrpYoN/0Cq+P
+ QHGgATo+j1+D1nUwer2Hpd1+YxGeZ0941la+dhvPh2J8FwW58yig0WPwqpk/lk3c
+ VehPc0Y0/+TXuaPww5HEhHA9Ws8FmBQfb2rlbLSFa0yJfmwrz2+UYZfNBbqc6Mys
+ KakG1e9ly4dETr2BnQJdPUjYgA0mqJwcTrNz9lw00b1PMi3A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy3bthn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2025 19:49:58 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51JJnvcb025556
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2025 19:49:57 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 19 Feb 2025 11:49:57 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v3 0/5] drm/msm: add a display mmu fault handler
+Date: Wed, 19 Feb 2025 11:49:16 -0800
+Message-ID: <20250219-abhinavk-smmu-fault-handler-v3-0-aa3f0bf4434a@quicinc.com>
 MIME-Version: 1.0
-References: <Z7YomFgEdOZzIyun@gallifrey>
-In-Reply-To: <Z7YomFgEdOZzIyun@gallifrey>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 19 Feb 2025 14:49:10 -0500
-X-Gm-Features: AWEUYZliLQF8PlcHo6YBjl-yI8D0guWHgq-i8iUHAPM_9o6kIqmwAaDdPk6Y6wE
-Message-ID: <CADnq5_NpxZLJxvP0dWwT_9MbyLUvuTSWHTt7j=cgqeQUsPiDwA@mail.gmail.com>
-Subject: Re: missing wire up of nbif_v6_3_1_sriov_funcs ?
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: alexander.deucher@amd.com, Hawking.Zhang@amd.com, Likun.Gao@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL01tmcC/43OQQrCMBCF4atI1k5J0jSprryHiMR0Ygdtq0lbF
+ OndTQsK7lz+MHzzXixiIIxsu3qxgCNF6toU+XrFXG3bMwJVqZnkUgkpDNhTTa0dLxCbZgBvh2s
+ P6bC6YgBboSk8+k3JNywJt4CeHou+P6T2oWugrwPar8m1LKVQpSozxU2hCwEC7gO54+fRbi5qX
+ ea6ZkZrin0XnsviUc70f+NGCRxUIXJjtNbOVj/wYZqmNy5mrn4NAQAA
+X-Change-ID: 20241217-abhinavk-smmu-fault-handler-ade75fef9809
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "Jessica Zhang" <quic_jesszhan@quicinc.com>
+X-Mailer: b4 0.15-dev-f0f05
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739994596; l=1766;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=tWZue+1RuI1RRVTcW+CiaxaQDWrkOh8LDyTvVfPHg2E=;
+ b=wk/Y/1EhCHPvuwDEasfLYS+BHi4CT28ZuZeceUMxShAsQNxssgoQa8YDYHOXWoNlBCQxTmaA2
+ e6tyaG9JH9+AsZS/JMvLcIfzP54zh02YSH/eAEPmWHzM+M8VNqGZRIu
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: AphNhgLKZhfAdtjavU5Z1462TtlcefRw
+X-Proofpoint-GUID: AphNhgLKZhfAdtjavU5Z1462TtlcefRw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-19_08,2025-02-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ phishscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 mlxlogscore=889 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2502190153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,54 +101,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 2:04=E2=80=AFPM Dr. David Alan Gilbert
-<linux@treblig.org> wrote:
->
-> Hi All,
->   I think you may be misisng some wiring of nbif_v6_3_1_sriov_funcs.
->
->   My scripts noticed 'nbif_v6_3_1_sriov_funcs' was unused;
-> It was added in:
->   Commit: 894c6d3522d1 ("drm/amdgpu: Add nbif v6_3_1 ip block support")
->
->
-> and is:
-> drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c:
->   const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs =3D {
->
-> but, it's not referenced, which makes me think it perhaps
-> should be in:
-> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
->
-> I see for 4.3.x there is:
->   case IP_VERSION(4, 3, 0):
->   case IP_VERSION(4, 3, 1):
->     if (amdgpu_sriov_vf(adev))
->       adev->nbio.funcs =3D &nbio_v4_3_sriov_funcs;
->     else
->       adev->nbio.funcs =3D &nbio_v4_3_funcs;
->     adev->nbio.hdp_flush_reg =3D &nbio_v4_3_hdp_flush_reg;
->     break;
->
-> but for 6.3.1 we have:
->
->   case IP_VERSION(6, 3, 1):
->     adev->nbio.funcs =3D &nbif_v6_3_1_funcs;
->     adev->nbio.hdp_flush_reg =3D &nbif_v6_3_1_hdp_flush_reg;
->     break;
->
->
-> so is that supposed to have something similar?
+To debug display mmu faults, this series introduces a display fault
+handler similar to the gpu one.
 
-They can be dropped.  I think they were just copy and paste leftovers.
+This series has been tested on sc7280 chromebook by using triggering
+a smmu fault by forcing an incorrect stride on the planes.
 
-Alex
+---
+Changes in v3:
+- Move resetting of fault_snapshot_capture to before prepare_commit()
+  call (Dmitry)
+- Change fault_snapshot_capture from int to atomic_t (Dmitry, Abhinav)
+- Link to v2: https://lore.kernel.org/r/20241217-abhinavk-smmu-fault-handler-v2-0-451377666cad@quicinc.com
 
->
-> Dave
->
-> --
->  -----Open up your eyes, open up your mind, open up your code -------
-> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \
-> \        dave @ treblig.org |                               | In Hex /
->  \ _________________________|_____ http://www.treblig.org   |_______/
+Changes in v2:
+- Reset fault_snapshot_capture flag in atomic commit tail (Rob)
+
+changes since RFC:
+	- move msm_mmu_set_fault_handler() to msm_kms_init_aspace
+	- make msm_kms_fault_handler return -ENOSYS
+	- use msm_disp_snapshot_state() instead of msm_disp_snapshot_state_sync()
+	  because smmu fault handler should not sleep
+	- add a rate limiter for the snapshot to avoid spam
+
+---
+Abhinav Kumar (5):
+      drm/msm: register a fault handler for display mmu faults
+      drm/msm/iommu: rename msm_fault_handler to msm_gpu_fault_handler
+      drm/msm/iommu: introduce msm_iommu_disp_new() for msm_kms
+      drm/msm: switch msm_kms to use msm_iommu_disp_new()
+      drm/msm/dpu: rate limit snapshot capture for mmu faults
+
+ drivers/gpu/drm/msm/msm_atomic.c |  2 ++
+ drivers/gpu/drm/msm/msm_iommu.c  | 32 +++++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/msm_kms.c    | 18 +++++++++++++++++-
+ drivers/gpu/drm/msm/msm_kms.h    |  3 +++
+ drivers/gpu/drm/msm/msm_mmu.h    |  1 +
+ 5 files changed, 52 insertions(+), 4 deletions(-)
+---
+base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
+change-id: 20241217-abhinavk-smmu-fault-handler-ade75fef9809
+
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
+
