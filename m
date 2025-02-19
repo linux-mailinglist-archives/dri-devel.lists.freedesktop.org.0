@@ -2,75 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73017A3C09B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 14:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A993A3C0E8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 15:00:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4F7710E803;
-	Wed, 19 Feb 2025 13:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01E7710E030;
+	Wed, 19 Feb 2025 14:00:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jS+qh9w5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zi+Bfg1R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5823810E7FC
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:53:16 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4398e839cd4so5491275e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 05:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1739973195; x=1740577995; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FyEka5hJeoXHg0os4K6Y2PLLWFiuCF9r77npcdvsS+8=;
- b=jS+qh9w5X+Ye5jNFASHtCHUYSw11p/biOBFy8EMYccejGvBuqKVr63q97cK3id4yCC
- tIYp9PWeZCoLFqyDa7SP1vme1swO11MzT0XpXDE54g+ALoXTzod6zH1B2PXwOWzKypP6
- 1iEbYC1+HRWNp5ooViv6Zl1nZz542OOcQfCts=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739973195; x=1740577995;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FyEka5hJeoXHg0os4K6Y2PLLWFiuCF9r77npcdvsS+8=;
- b=uy82ILKsTL/9xtorobawLqAl1ufBhRuwq/7y8cl9tdnqWFsGEdoNqDq87ZxhOP+bvP
- xIuxeYGR1x8S/wSNmQNjNrPt1c/D5pFf8z5axqglHPB/vt7VuKPHBC0ZhUZ304OvcSc6
- ItW7Te5L/3zc/FoUcpB9FXdhq6Gbn7bGurq0Z02E1PmdG1e6VK5HNyn/3BYRkC5q/5ZN
- aC4kbljnDnfvVyFzM2xORqZ4ACPj0LiiyccVIzRaqbxTclyCmv1cnhVvYOm510UcoOW6
- 3pV7pK2zZ9cMMyeTP2L8V7gZahgPkf6WyWDKOwe+6efMnxLdKe2+vpU3QMIM2bEW9bwi
- I8RQ==
-X-Gm-Message-State: AOJu0YyNjb5a+OBqKAyO8GQAOExhwBXorc2ZFE38YkkTZ2AWMvRTXKjg
- eh1z72pwpY0KlI3lzwKsLYVRL5BhaxBY3bT3X/iLeuX0Hop68cRPS/qtmqoxVawCusxCW48dIsk
- p
-X-Gm-Gg: ASbGncu/EhET6WSXy0xrA9xBN/YeJ9JHag/kTYxDI3TNKqU5B4QBl2txEHqxXgxqXJp
- tq/TyvINOv/revlh8iO7aAmcgooyMtaSGAbYALBN6PJbl4Klax1ZhuvdrH5g3/v/xuedMkvIGw0
- KZ9WfvBB9EaSxiPW6fSjQCViP9OWT3YfmqbDHTnegYGzK0VP2SnIEhxpH2FaBx1NSL3N2lVMNhV
- 1CVzclgdChMCaYWR9V9ZG/VJNQ9DJYSznTmlmVW+XkSNJDzZbn6emDVfXUQtD03+YZ+kwAwOe8S
- VqMcwNceZByrK4ypHwiDicy8g9k=
-X-Google-Smtp-Source: AGHT+IHhxL7NdXguAsHBVaP1UvYcb8rpQV9UAn0iPu3pZhbjhRGsonzEzPwRA956d+9JVoraHQ0pbA==
-X-Received: by 2002:a5d:47c6:0:b0:38b:d807:f3be with SMTP id
- ffacd0b85a97d-38f57bd9182mr3175939f8f.3.1739973194736; 
- Wed, 19 Feb 2025 05:53:14 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259d5923sm18084914f8f.74.2025.02.19.05.53.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2025 05:53:14 -0800 (PST)
-Date: Wed, 19 Feb 2025 14:53:12 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, chaitanya.kumar.borah@intel.com,
- Naveen Kumar <naveen1.kumar@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-Subject: Re: [PATCH v6 0/3] Expose modifiers/formats supported by async flips
-Message-ID: <Z7XiSGwsPntwP7bd@phenom.ffwll.local>
-References: <20250219-asyn-v6-0-b959e6becb3c@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A297A10E030
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:00:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 160FEA427FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:59:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8702DC4CED6
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739973646;
+ bh=vEn5X9s0X03RZNsX/FehVn8bFO/GVsoqwmgLAKeThTI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Zi+Bfg1RQd+Lf4yEh810Okdlgu/zmfqteq1iKlGjV9u6OXEOJYhII6NBAn/0gE3Ko
+ Tp+I7eItZ1itdf1igTj06pEtoiaNFTC9GdT7liBCY4EcBlQqGN86HY55MJ8vC4tN4M
+ NxB/NzKIgvkECDBDfxMfrRAi7cmnW27+ZG3qRhWiwtBm0W7wcL6HxQg3E+eQQsbbwh
+ LlFBXQwsdwum316iPRaOS5tvYqQCvlaancOvovw8ETCIOeXpm6CbYF3bo5BhoYcbqk
+ oLAIJn87TSOQKwLfHisNbXuZYeUDcF9jaWTtPO6iIezEpSh5/+hNrisapP0/MshpnS
+ bImhpaceohLZg==
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-2fc4418c0b9so5902473a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 06:00:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZkvRZ/EZmnMgCNaoJc+0D9I7e7mii6QxYr3AMfRyvzY6p1SECx6nFYqvk5mbxyBlJB10IPt1JB8U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywzm3mbdR7CEv5N5mAygO6kWXM9zUfOk6fOj20HJqZWXues1Wzt
+ jgcdkDiAlrHgqH2/S9xOXRrCqphTnpvqakisj1+FXli/IIL9y4+8Hda9orJOqEMluoe877ap2vP
+ ZweQDJGwjQXOeMBe7mJXuUJTfHg==
+X-Google-Smtp-Source: AGHT+IHRoKXGmXM1paDFNeCBXkKPPbaMW6fIKItj9hAqnwjEMJdKy4fDjEc43FMEaHHNLq0oBSEC7WyHzl/u9EJNtqg=
+X-Received: by 2002:a17:90b:1a89:b0:2ee:c2b5:97a0 with SMTP id
+ 98e67ed59e1d1-2fcb5a9db51mr5836056a91.25.1739973646106; Wed, 19 Feb 2025
+ 06:00:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250219-asyn-v6-0-b959e6becb3c@intel.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
+ <20250217154836.108895-18-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250217154836.108895-18-angelogioacchino.delregno@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 19 Feb 2025 22:01:30 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__d2A6BiegTqX+eXAk5LYAtRexnwLvkbje94ax05jOMug@mail.gmail.com>
+X-Gm-Features: AWEUYZn3pFp_1IYzIW4DyIvJ63JD27HTlx-6jN1bSkLAtPngd4i98FCr_lIubC4
+Message-ID: <CAAOTY__d2A6BiegTqX+eXAk5LYAtRexnwLvkbje94ax05jOMug@mail.gmail.com>
+Subject: Re: [PATCH v7 17/43] drm/mediatek: mtk_hdmi: Unregister audio
+ platform device on failure
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com, 
+ jie.qiu@mediatek.com, junzhi.zhao@mediatek.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com, 
+ dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com, 
+ ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com, 
+ jason-jh.lin@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,104 +82,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 02:47:22PM +0530, Arun R Murthy wrote:
-> All of the formats/modifiers supported by the plane during synchronous
-> flips are nor supported by asynchronous flips. The formats/modifiers
-> exposed to user by IN_FORMATS exposes all formats/modifiers supported by
-> plane and this list varies for async flips. If the async flip supported
-> formats/modifiers are exposed to the user, user based on this list can
-> take decision to proceed or not and avoid flip failures during async
-> flips.
-> Discussion around this can be located @
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
-> Userspace implementation for IN_FORMARTS_ASYNC under review @
-> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
-> 
-> TODO: Upon merge of the patch related to async flip
-> https://patchwork.freedesktop.org/patch/626849/?series=139807&rev=6
-> the patch 5 in this series will have to make use of the new function
-> pointer can_async_flip().
-> 
-> v3: Add new plane->funcs format_mod_supported_async (Ville)
-> 
-> Arun R Murthy (3):
->   drm/plane: Add new plane property IN_FORMATS_ASYNC
->   drm/plane: Expose function to create format/modifier blob
->   drm/i915/display: Populate list of async supported formats/modifiers
+Hi, Angelo:
 
-Somewhat orthogonal, but in a different atomic kms discussion the much
-bigger question of what are compositors supposed to figure out with
-TEST_ONLY and what are they supposed to figure out through special
-properties cropped up. Might be really good to document that, so that we
-can have some design consistency here.
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
+=BC
+2025=E5=B9=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:=
+49=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> The probe function of this driver may fail after registering the
+> audio platform device: in that case, the state is not getting
+> cleaned up, leaving this device registered.
+>
+> Adding up to the mix, should the probe function of this driver
+> return a probe deferral for N times, we're registering up to N
+> audio platform devices and, again, never freeing them up.
+>
+> To fix this, add a pointer to the audio platform device in the
+> mtk_hdmi structure, and add a devm action to unregister it upon
+> driver removal or probe failure.
 
-I think this patch series should also document why we need this and
-compositors can't figure this out on their own, ideally by linking/quoting
-the relevant discussions in the compositor enabling PR.
+Applied to mediatek-drm-next [1], thanks.
 
-Thanks, Sima
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
-> 
->  drivers/gpu/drm/drm_mode_config.c             |  7 +++
->  drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
->  .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
->  include/drm/drm_mode_config.h                 |  6 +++
->  include/drm/drm_plane.h                       |  4 ++
->  5 files changed, 103 insertions(+), 15 deletions(-)
-> 
+Regards,
+Chun-Kuang.
+
+>
+> Fixes: 8f83f26891e1 ("drm/mediatek: Add HDMI support")
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c | 25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
+ek/mtk_hdmi.c
+> index be71105ba81d..b9f4f06edde6 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> @@ -172,6 +172,7 @@ struct mtk_hdmi {
+>         unsigned int sys_offset;
+>         void __iomem *regs;
+>         enum hdmi_colorspace csp;
+> +       struct platform_device *audio_pdev;
+>         struct hdmi_audio_param aud_param;
+>         bool audio_enable;
+>         bool powered;
+> @@ -1661,6 +1662,11 @@ static const struct hdmi_codec_ops mtk_hdmi_audio_=
+codec_ops =3D {
+>         .hook_plugged_cb =3D mtk_hdmi_audio_hook_plugged_cb,
+>  };
+>
+> +static void mtk_hdmi_unregister_audio_driver(void *data)
+> +{
+> +       platform_device_unregister(data);
+> +}
+> +
+>  static int mtk_hdmi_register_audio_driver(struct device *dev)
+>  {
+>         struct mtk_hdmi *hdmi =3D dev_get_drvdata(dev);
+> @@ -1671,13 +1677,20 @@ static int mtk_hdmi_register_audio_driver(struct =
+device *dev)
+>                 .data =3D hdmi,
+>                 .no_capture_mute =3D 1,
+>         };
+> -       struct platform_device *pdev;
+> +       int ret;
+>
+> -       pdev =3D platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
+> -                                            PLATFORM_DEVID_AUTO, &codec_=
+data,
+> -                                            sizeof(codec_data));
+> -       if (IS_ERR(pdev))
+> -               return PTR_ERR(pdev);
+> +       hdmi->audio_pdev =3D platform_device_register_data(dev,
+> +                                                        HDMI_CODEC_DRV_N=
+AME,
+> +                                                        PLATFORM_DEVID_A=
+UTO,
+> +                                                        &codec_data,
+> +                                                        sizeof(codec_dat=
+a));
+> +       if (IS_ERR(hdmi->audio_pdev))
+> +               return PTR_ERR(hdmi->audio_pdev);
+> +
+> +       ret =3D devm_add_action_or_reset(dev, mtk_hdmi_unregister_audio_d=
+river,
+> +                                      hdmi->audio_pdev);
+> +       if (ret)
+> +               return ret;
+>
+>         DRM_INFO("%s driver bound to HDMI\n", HDMI_CODEC_DRV_NAME);
+>         return 0;
 > --
-> 2.25.1
-> 
-> ---
-> Arun R Murthy (5):
->       drm/plane: Add new plane property IN_FORMATS_ASYNC
->       drm/plane: Expose function to create format/modifier blob
->       drm/plane: Function to check async supported modifier/format
->       drm/i915/display: Populate list of async supported formats/modifiers
->       drm/i915/display: Add function for format_mod_supported_async
-> 
->  drivers/gpu/drm/drm_mode_config.c                  |   7 ++
->  drivers/gpu/drm/drm_plane.c                        |  72 +++++++++----
->  drivers/gpu/drm/i915/display/skl_universal_plane.c | 113 ++++++++++++++++++---
->  include/drm/drm_mode_config.h                      |   6 ++
->  include/drm/drm_plane.h                            |  24 +++++
->  5 files changed, 188 insertions(+), 34 deletions(-)
-> ---
-> base-commit: 08bd590935a5258ffd79355c59adffd72fb2c642
-> change-id: 20250102-asyn-bf76730501cc
-> 
-> Best regards,
-> --
-> Arun R Murthy <arun.r.murthy@intel.com>
-> 
-> ---
-> Changes in v6:
-> - EDITME: describe what is new in this series revision.
-> - EDITME: use bulletpoints and terse descriptions.
-> - Link to v5: https://lore.kernel.org/r/20250218-asyn-v5-0-7ac5ac4abd4a@intel.com
-> 
-> ---
-> Arun R Murthy (3):
->       drm/plane: Add new plane property IN_FORMATS_ASYNC
->       drm/plane: modify create_in_formats to accommodate async
->       drm/i915/display: Add i915 hook for format_mod_supported_async
-> 
->  drivers/gpu/drm/drm_mode_config.c                  |  7 +++
->  drivers/gpu/drm/drm_plane.c                        | 53 +++++++++++++++-----
->  drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
->  include/drm/drm_mode_config.h                      |  6 +++
->  include/drm/drm_plane.h                            | 17 +++++++
->  5 files changed, 112 insertions(+), 27 deletions(-)
-> ---
-> base-commit: bc7a84cbc968ce97e581e9e3c2d26fb0ac106482
-> change-id: 20250102-asyn-bf76730501cc
-> 
-> Best regards,
-> -- 
-> Arun R Murthy <arun.r.murthy@intel.com>
-> 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> 2.48.1
+>
