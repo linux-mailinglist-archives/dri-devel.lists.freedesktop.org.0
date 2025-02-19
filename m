@@ -2,105 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AAEA3B87D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 10:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A942A3B8FA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 10:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910D410E79F;
-	Wed, 19 Feb 2025 09:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18CE410E7A0;
+	Wed, 19 Feb 2025 09:29:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WinqEIH0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y/OawoYI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C141910E79F
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:25:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068BD10E79B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:29:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1137EA41FFF;
- Wed, 19 Feb 2025 09:23:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8808C4CEE8;
- Wed, 19 Feb 2025 09:25:03 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 712F0A41FDD;
+ Wed, 19 Feb 2025 09:27:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E56C4CED1;
+ Wed, 19 Feb 2025 09:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739957110;
- bh=MmDCocIFSUXV+xZa3WIpR+8qm3Y5VnuEZAGr13l/yPg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WinqEIH0TfrYIQFc6AgV6RXuBC+tFpt8fVcrq7875pzx0HcIZtcVnkKss8OBc3TSJ
- yVvEc++JS7N9elGpBqf0tXjA8Il05yAnzgsqRTHc8IBv6fof1f6wPpPuVA/Z/fUeke
- Ct0yltxMSHn1TFx+usR2dYRU0TuhRhymsGtbEBU4vfcXgUaZQUw6yHGfP0BrhYSVeG
- ip8+EHJTVd7e/mPv4qLWDe6MoC/EZ2GUOZVEpikbjvK03qx8fGpsE8nLXyJNuzh5/S
- rdPCrmbkWZtvtU9UTdZ5CyM2e9TMVcuUcDRCmtNzLlunaQtCBB/dLOY0iAunwnRKTn
- gd6RkZE+GIKSg==
-Message-ID: <4d8abd3f-c39b-49ea-8a43-b6ad0cf6fb15@kernel.org>
-Date: Wed, 19 Feb 2025 10:25:01 +0100
+ s=k20201202; t=1739957338;
+ bh=2YoKx2TA+5+dia75YWBoUPKIALRgLf622XWlx8fTymc=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=Y/OawoYIG1YanwzyXgQHJASucgl7c83lWPCnd57U+zaG5W9+10Md34elMbKPqHBRh
+ xCGnUNbKSEZ3RoktoQ6HSIYhRVpOEuCEQR5zMDyh+jMdIePuBkCw/fgGnatLC16vUN
+ bXeOaeGZyVDlA7vUHEPBI+lY/dPPQmoqaZRLFmTfCleH3LbKW+0di4T1jZ8xsq3Ol1
+ 2LZer1jSbb+fuyUYl5XqUr43cG83+dbv8fYxIqc4dZ6strL8sltGzJtgQ8gOfrhAuo
+ RqWwZNaeYnS08IX/8PQnw/+KEMphinLjjncNOXFsNoUx4/81BOgSjRNMqaaz1V3KSD
+ wYEJf7mhZwk/w==
+Date: Wed, 19 Feb 2025 10:28:56 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
+Message-ID: <20250219-versatile-smilodon-of-felicity-cbcc4d@houat>
+References: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
+ <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
+ <20241126-overjoyed-knowing-cuttlefish-c8d0f6@houat>
+ <Z2GqEOiVkdgB3IXy@louis-chauvet-laptop>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] dt-bindings: display: mediatek: tdshp: Add support
- for MT8196
-To: Jay Liu <jay.liu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20250219092040.11227-1-jay.liu@mediatek.com>
- <20250219092040.11227-8-jay.liu@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250219092040.11227-8-jay.liu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="5dyx5btulynwqir3"
+Content-Disposition: inline
+In-Reply-To: <Z2GqEOiVkdgB3IXy@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,84 +70,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/02/2025 10:20, Jay Liu wrote:
-> Add a compatible string for MediaTek MT8196 SoC
 
-No, this is just bogus commit msg.
+--5dyx5btulynwqir3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
+MIME-Version: 1.0
 
-You did not try enough, just pasted same useless and incorrect message
-to every patch.
+On Tue, Dec 17, 2024 at 05:42:56PM +0100, Louis Chauvet wrote:
+> Hi,
+>=20
+> > > Hi all,
+> > >=20
+> > > I am also currently working on MST emulation for VKMS. If someone can=
+ read=20
+> > > what I already did and at tell me if my implementation seems on the r=
+ight=20
+> > > track it could be nice.
+> > >=20
+> > > The current status is not very advanced: I can emulate a mst HUB, but=
+ not=20
+> > > a screen. I am currently working on properly emulating the HUB by usi=
+ng an=20
+> > > other hub.
+> > >=20
+> > > You can find the branch for this work here:
+> > > https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-mst
+> >=20
+> > I think this is exactly the kind of things where we'll want eBPF I
+> > think. There's no way you'll be able to model each possible test
+> > scenarios for MST through configfs, even more so with a stable
+> > interface.
+>=20
+> I just spent some time to think about it. I agree that eBPF seems=20
+> applicable: we want to allows userspace to emulate any MST device, and we=
+=20
+> don't want to create huge uAPI + whole emulation in the kernel.
+>=20
+> As most of the protocol is similar accros device kind, I currently built=
+=20
+> my code around the struct vkms_mst_sideband_helpers to specify only the=
+=20
+> changed behavior (this way the "write to registers" "parse command"... is=
+=20
+> only done in one place). The choice of function is not definitive at all=
+=20
+> (it was just practical at this moment).
+>=20
+> With eBPF, I know three different way to attach programs to the kernel:
+>  - Using a kprobe/attaching to a function: I can change the behavior of=
+=20
+>    all the device, there is no way "attach prog1 to hub" and "attach prog=
+2=20
+>    to screen1", it will be "attach prog1 to the function=20
+>    `vkms_mst_emulator_handle_transfer_write`, and all the device will be=
+=20
+>    affected. This should be very easy to implement (maybe it already=20
+>    works without modification?), but very limited / make userspace stuff=
+=20
+>    very ugly =3D> Not ideal at all
+>  - Creating a whole architecture to attach eBPF programs in vkms: VKMS=20
+>    manage the list of attached eBPF programs, call them when it needs...=
+=20
+>    This is probably the "most flexible" option (in the sense "VKMS can do=
+=20
+>    whatever we need to fit our usecase"). This seems not trivial to=20
+>    implement (drm complexity + MST complexity + BPF complexity in the sam=
+e=20
+>    driver seems a bad idea, espicially because VKMS don't have a lot of=
+=20
+>    maintainance and I don't feel confident introducing more complexity)
+>    =3D> Can work, require some work, but may bring more complexity in VKMS
+>  - Using BPF struct_ops: I can "simply" create/complete a struct ops for=
+=20
+>    diverse mst callbacks (see the proposition bellow). I looked at some=
+=20
+>    example, this seems to be "easy" to do, and the work in VKMS should be=
+=20
+>    limited.
+>    =3D> Can work, a bit less flexible than the previous solution, but avo=
+id=20
+>    a lot of complexity
+>=20
+> I don't know if I will be able to finish the implementation but I imagine=
+=20
+> something like that may be a nice interface (may be not possible "as is"):
+>=20
+> // vkms_mst.c struct_ops that can be filled by userspace with custom=20
+> // functions
+> // Known limitation: maximum 64 functions in this table
+> struct vkms_mst_ops {
+> 	// Completly overide the transfer function, so the userspace can=20
+> 	// do whatever he wants (even emulating a complex MST tree=20
+> 	// without using stuff in vkms)
+> 	handle_transfer(drm_dp_aux_msg);=20
+>=20
+> 	// If default transfer function is used, those are the callback=20
+> 	// you can use (again, they will come with default=20
+> 	// implementation)
+> 	clear_payload_id_table(..);
+> 	link_address(..);
+> 	enum_path_ressources(..);
+> 	[...]
+>=20
+> 	// Used to identify this kind of device, in my example the=20
+> 	// userspace could register "LG_screen", "dell dock", "HP screen",=20
+> 	// and then configure each mst device with the correct kind
+> 	name =3D "<unique name for this device kind>",
+>=20
+> 	// If you want to use the default "hub" implementation, but only=20
+> 	// tweak one specific behavior, you can use this
+> 	base =3D "<name of the other structops>"
+> }
+>=20
+>=20
+> // Needed to implement eBPF struct_ops, called when userspace registers a
+> // struct_ops of type vkms_mst_ops
+> void register_struct_ops(new_ops...) {
+> 	vkms_registered_ops.append(new_ops).
+> }
+>=20
+> // In vkms_connector.c
+> // Callback called by drm core to do transfer on the connector
+> void vkms_mst_transfer(aux, msg) {
+> 	mst_emulator =3D get_mst_emulator(aux);
+>=20
+> 	ops =3D vkms_registered_ops.search_for(mst_emulator.name);
+> 	ops->handle_transfer(msg);
+> }
+>=20
+> // mst_ebpf.c In the BPF program, userspace side
+> void handle_transfer(...) {
+> 	[...]
+> }
+> struct vkms_mst_ops {
+> 	handle_transfer =3D handle_transfer;
+> 	name =3D "lg-screen";
+> 	base =3D "default-screen"
+> }
 
-> 
-> Signed-off-by: Jay Liu <jay.liu@mediatek.com>
-> ---
->  .../display/mediatek/mediatek,tdshp.yaml      | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,tdshp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,tdshp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,tdshp.yaml
-> new file mode 100644
-> index 000000000000..5ed7bdd53d0e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,tdshp.yaml
+I don't think MST is the right abstraction there. We should have MST
+related helper functions available to eBPF programs, but we should load
+them at the connector level, ie, implement a full blown connector
+atomic_check for example. It's more flexible and will allow to implement
+other use-cases people have been interested in (like panels).
 
-Filename matching exactly compatible.
+Maxime
 
-> @@ -0,0 +1,51 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,tdshp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek display clarity correction
-> +
-> +maintainers:
-> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> +  - Philipp Zabel <p.zabel@pengutronix.de>
-> +
-> +description: |
+--5dyx5btulynwqir3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Do not need '|' unless you need to preserve formatting.
+-----BEGIN PGP SIGNATURE-----
 
-> +  MediaTek display clarity correction, namely TDSHP, provides a
-> +  operation used to adjust sharpness in display system.
-> +  TDSHP device node must be siblings to the central MMSYS_CONFIG node.
-> +  For a description of the MMSYS_CONFIG binding, see
-> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> +  for details.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7WkVwAKCRAnX84Zoj2+
+doFcAYC9HgMlrj9WYV3EnakLXo2nwaDCK95rzk/ZxsNzM6i3k3SvH8/2NjkDtx4F
+ePU9yu8Bfjbnbg4P3dN6CXDb8pdmbCZiiQnOzLAgK6B+uEaKTGgnUFeL+Hdd1lyW
+Rj2kUfHx8w==
+=jqNE
+-----END PGP SIGNATURE-----
 
-Missing blank line. Do not introduce own style.
-
-> +properties:
-> +  compatible:
-> +    oneOf:
-
-Drop, unless this is already going to grow?
-
-
-> +      - enum:
-> +          - mediatek,mt8196-disp-tdshp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-
-Drop
-
-
-Best regards,
-Krzysztof
+--5dyx5btulynwqir3--
