@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D7DA3C136
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 15:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511B4A3C196
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 15:13:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C97F510E2BC;
-	Wed, 19 Feb 2025 14:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 389C310E2DB;
+	Wed, 19 Feb 2025 14:13:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BUlQLfY8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FnsiTdTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6046A10E2BC
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:05:51 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B37010E2DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:13:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9BB935C0F6B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:05:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D5AC4CEE0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:05:50 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 97AA6A42868
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:11:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6FC7C4CEEB
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:13:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739973950;
- bh=85tPlsB4usIu6yhe/BHQqQ4y6WX5bDga5umRKzU2bKY=;
+ s=k20201202; t=1739974415;
+ bh=jso5qQFQSYU2mgkN6qCTfJjd+ezV54v2ynj9RTPzjc4=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=BUlQLfY8V3xQrs5YrlQNv3smrE6Q7+YS5w+c+n95W1TBOprHNjsOYaI1d93dFRSuS
- Jj6eNJrTjb30dsRR2H83KNhHckPWX1D30v1Z3L8HrjzhCmVACDogFuUUKz60P0tNM4
- phxfX9Ewg14lO3NDcDO6v+/G5OlFXIcawGUCSrR9tsd5ViNVr0HgRpqiMHIaJL9QoQ
- 35ebM/cE25/0P9ThxM2X6VnbAAdRnyD5jDmSeqJyVzut7DBFvOBlg5T3VvTvE4AVlz
- zd+5enri1W/wbw3Q20QvWCmbTIm7SS08GAiDJ3gAy/KAwFAJYJWsUWH8wA23aixsGj
- gDmAcyEcRG4Gg==
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-2fa8ac56891so9795250a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 06:05:50 -0800 (PST)
+ b=FnsiTdTjIta96r2UPsWQppWhDfdDVi33yIdAv7br0buBtK0uCnRlPz0zRE70iN7jh
+ qU5jsaxlcf56OVAeYMyc9UZZcCMR60GxCxst2IolLXGVZ/dvgaC8RZOOj8Re+N/zrA
+ 25NjV3xP/6CV/+rhx4njuRt3Wv0qvCfwVw5iHK5l6YA1fngr3GwC+Ota629c+VKEye
+ qVFF9FH0D0rsAHnroytvbw/un7iO2yCsCfutiArUcaWitMcJArqal9WgfQ6dY7HtAi
+ bzGz9inzKseg0RKM85ZLNScRMNjpmwIXJK5dU1ihYmGpvi2DKeeFrYZ/lOeaTOtDtK
+ 3yJ424zphsNFA==
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-2fc4418c0b9so5930660a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 06:13:35 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU9SC5ZtYoHCO2MKnSPs67pWR2hsCD6W3P2iaSVMwVwx88p1Eakv9PP1xlTx6tI/oo0NXA9NtPvSjM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNS9KHX/hDsu7ndCSYJJvd1Dh1tQzV9AbzMDDoxHuwU+UqA2XL
- oDLYINxQqeppHtdhVh0BW+FM2bgifP6eFeBecO8k/2mp9E0Yu5BrZ/pTTQg8e6JxwAE+/iZ7zq6
- CczMEOGlGPsScMeyxt1AAnmCmQQ==
-X-Google-Smtp-Source: AGHT+IEsdOUobKrxzG2bHgh8FAnY3IxI3OdMrs5IpBFPR0BmaGsai+pHLZwpl46Br4o8jc93c37YtHPS/ZvBONvysZQ=
-X-Received: by 2002:a17:90b:510c:b0:2ee:ab29:1a57 with SMTP id
- 98e67ed59e1d1-2fc40d13203mr28805344a91.2.1739973950021; Wed, 19 Feb 2025
- 06:05:50 -0800 (PST)
+ AJvYcCU25ahnW6dK6V7Hbrw58GfFUYEMq2lbF0UIO2NiSDLIe4bmCw2dPeqkl7gSrtMq5aobCegWvetgoeA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXTGyjm6WTv43vT9JcAu3WTkKUvilFg8P5vSbDDaw/NAS6OvWo
+ P7NvZWs380fcfrj6Gd2RKGnHUQHGzTbC3vuvBOV3ZhiNobDBSw+vMYlHgF5yWKD2lhiTX3dpMY9
+ jQrUCxLIj8GjAs2a+USnpbzjg6A==
+X-Google-Smtp-Source: AGHT+IFa8R6i4Eeuldo8axIMgGyezQE2Aih3YKW/uwabG5hR2Fqqcd+qkA666mlQjsQf/SRPn9uJJ5YEmt8CiUS/WUI=
+X-Received: by 2002:a17:90b:3912:b0:2fa:229f:d036 with SMTP id
+ 98e67ed59e1d1-2fcb5abe3cemr5694227a91.30.1739974415205; Wed, 19 Feb 2025
+ 06:13:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
- <20250217154836.108895-20-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250217154836.108895-20-angelogioacchino.delregno@collabora.com>
+ <20250217154836.108895-17-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250217154836.108895-17-angelogioacchino.delregno@collabora.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 19 Feb 2025 22:06:35 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-BaK-160A4=oWKkEuYnJE69BXqk7CY3yoc71zn-M9y+Q@mail.gmail.com>
-X-Gm-Features: AWEUYZlzg0d2_e6rOyz76Y9yADZ6uIl1Va12EUEGab7yKc_JPlmQYlOnNcjVbhg
-Message-ID: <CAAOTY_-BaK-160A4=oWKkEuYnJE69BXqk7CY3yoc71zn-M9y+Q@mail.gmail.com>
-Subject: Re: [PATCH v7 19/43] drm/mediatek: mtk_hdmi: Fix typo for
- aud_sampe_size member
+Date: Wed, 19 Feb 2025 22:14:20 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_99Q5X+PurxQKewJRN4e=cxwMwX-6qzrZztOe5Eu2KuPg@mail.gmail.com>
+X-Gm-Features: AWEUYZmtLYXEQSNosRWwGHhpXxbA8tfEaeBMbNB5Y9ryg9Aq3cPAidz3jkYE8sg
+Message-ID: <CAAOTY_99Q5X+PurxQKewJRN4e=cxwMwX-6qzrZztOe5Eu2KuPg@mail.gmail.com>
+Subject: Re: [PATCH v7 16/43] drm/mediatek: mtk_hdmi: Compress of_device_id
+ array entries
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
  simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
@@ -89,10 +89,9 @@ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
 2025=E5=B9=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:=
 49=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Rename member aud_sampe_size of struct hdmi_audio_param to
-> aud_sample_size to fix a typo and enhance readability.
->
-> This commit brings no functional changes.
+> Compress the entries found in the of_device_id array to improve
+> readability of this file and to make that consistent with other
+> kernel drivers.
 
 Applied to mediatek-drm-next [1], thanks.
 
@@ -103,58 +102,40 @@ Regards,
 Chun-Kuang.
 
 >
-> Fixes: 8f83f26891e1 ("drm/mediatek: Add HDMI support")
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
 ek/mtk_hdmi.c
-> index 29000cfcf761..6257503ce639 100644
+> index 1e50b3918069..be71105ba81d 100644
 > --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 > +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -136,7 +136,7 @@ enum hdmi_aud_channel_swap_type {
+> @@ -1780,15 +1780,10 @@ static const struct mtk_hdmi_conf mtk_hdmi_conf_m=
+t8167 =3D {
+>  };
 >
->  struct hdmi_audio_param {
->         enum hdmi_audio_coding_type aud_codec;
-> -       enum hdmi_audio_sample_size aud_sampe_size;
-> +       enum hdmi_audio_sample_size aud_sample_size;
->         enum hdmi_aud_input_type aud_input_type;
->         enum hdmi_aud_i2s_fmt aud_i2s_fmt;
->         enum hdmi_aud_mclk aud_mclk;
-> @@ -1033,7 +1033,7 @@ static int mtk_hdmi_output_init(struct mtk_hdmi *hd=
-mi)
+>  static const struct of_device_id mtk_hdmi_of_ids[] =3D {
+> -       { .compatible =3D "mediatek,mt2701-hdmi",
+> -         .data =3D &mtk_hdmi_conf_mt2701,
+> -       },
+> -       { .compatible =3D "mediatek,mt8167-hdmi",
+> -         .data =3D &mtk_hdmi_conf_mt8167,
+> -       },
+> -       { .compatible =3D "mediatek,mt8173-hdmi",
+> -       },
+> -       {}
+> +       { .compatible =3D "mediatek,mt2701-hdmi", .data =3D &mtk_hdmi_con=
+f_mt2701 },
+> +       { .compatible =3D "mediatek,mt8167-hdmi", .data =3D &mtk_hdmi_con=
+f_mt8167 },
+> +       { .compatible =3D "mediatek,mt8173-hdmi" },
+> +       { /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, mtk_hdmi_of_ids);
 >
->         hdmi->csp =3D HDMI_COLORSPACE_RGB;
->         aud_param->aud_codec =3D HDMI_AUDIO_CODING_TYPE_PCM;
-> -       aud_param->aud_sampe_size =3D HDMI_AUDIO_SAMPLE_SIZE_16;
-> +       aud_param->aud_sample_size =3D HDMI_AUDIO_SAMPLE_SIZE_16;
->         aud_param->aud_input_type =3D HDMI_AUD_INPUT_I2S;
->         aud_param->aud_i2s_fmt =3D HDMI_I2S_MODE_I2S_24BIT;
->         aud_param->aud_mclk =3D HDMI_AUD_MCLK_128FS;
-> @@ -1529,14 +1529,14 @@ static int mtk_hdmi_audio_hw_params(struct device=
- *dev, void *data,
->         switch (daifmt->fmt) {
->         case HDMI_I2S:
->                 hdmi_params.aud_codec =3D HDMI_AUDIO_CODING_TYPE_PCM;
-> -               hdmi_params.aud_sampe_size =3D HDMI_AUDIO_SAMPLE_SIZE_16;
-> +               hdmi_params.aud_sample_size =3D HDMI_AUDIO_SAMPLE_SIZE_16=
-;
->                 hdmi_params.aud_input_type =3D HDMI_AUD_INPUT_I2S;
->                 hdmi_params.aud_i2s_fmt =3D HDMI_I2S_MODE_I2S_24BIT;
->                 hdmi_params.aud_mclk =3D HDMI_AUD_MCLK_128FS;
->                 break;
->         case HDMI_SPDIF:
->                 hdmi_params.aud_codec =3D HDMI_AUDIO_CODING_TYPE_PCM;
-> -               hdmi_params.aud_sampe_size =3D HDMI_AUDIO_SAMPLE_SIZE_16;
-> +               hdmi_params.aud_sample_size =3D HDMI_AUDIO_SAMPLE_SIZE_16=
-;
->                 hdmi_params.aud_input_type =3D HDMI_AUD_INPUT_SPDIF;
->                 break;
->         default:
 > --
 > 2.48.1
 >
