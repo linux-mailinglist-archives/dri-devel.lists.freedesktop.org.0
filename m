@@ -2,93 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005C5A3CB51
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:22:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4135EA3CB57
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:23:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9448610E0B4;
-	Wed, 19 Feb 2025 21:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5BA010E037;
+	Wed, 19 Feb 2025 21:23:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="c6pH/CO7";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="hQ1gWCZI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D64610E037;
- Wed, 19 Feb 2025 21:22:31 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51JH6vL5011673;
- Wed, 19 Feb 2025 21:22:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- xHZFgs0gR1i+A1hyCRodklSySviA0ZVGJbSzC8U+evg=; b=c6pH/CO7B91dldw4
- QwKa+xiPiAR1SqqCwdjPdTkd+3a8TN+mSDgoRGsBWgNPIVIcCT4lQA00p231ujRW
- 0plcbHqIHqX5wwedlKLb3Hoy0luKvNtgs4UbqL/J5Ky6kZDrldblSdL+Hyl4cxPw
- MH+yIjL+6sT1XlrL5ZGw8MWIJIsJ67jbtvHDIWrmqSXRHT5unaeb+j8TnLPSzv+Z
- FT5l778ZjTUHjWQGC7AbEGa2dM7YAKwwH1eMqFuPZpWRWV9QM+QtiMnqyECA51qu
- AbJ9qS+9DXMXsKKSyUmw67HnjpDbWnuphQCR3f66WvexEDeOPnsVsx5FBG8Ai6Vr
- LiZhmw==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy3kyta-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2025 21:22:23 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51JLMLN0029381
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2025 21:22:21 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Feb
- 2025 13:22:21 -0800
-Message-ID: <5282d2b8-78fe-43b0-9136-78f41ccdce14@quicinc.com>
-Date: Wed, 19 Feb 2025 13:22:20 -0800
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E199710E037;
+ Wed, 19 Feb 2025 21:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+ :Subject; bh=1JGf/Y/oyw4zN0SBBADTkP28paEMPAF1wrU205emGFQ=; b=hQ1gWCZIBEFKpjVP
+ JIDpOaUEX2Pe+tyZ7oYxEWfSytBv6CE3fBHcmt6zKFA9spJDAgjwRhK3B/BmEhaGhhNUTOUc9CZLn
+ C5uoXMUCLuXBakHzWd8g52id4t+rZuW/JlkoClStPahsYgCCmqs+mGEk1hTLeCd4EXRFZKcrSNk+E
+ kQkGU09+edqLM72A5Q5De+WffMar8MMX3k090UxFdf5IBIpyuSb+lfNBkn3RTEHeLOgoAq1svPtew
+ ++NL3DG8MQxP6n5wIl3wnXpq9yzO+UN3NUzYDAiiKUga1T4CIXyX2+eD/MCE+t9wDo6gpx6lRkrxG
+ z9RmkZj+CGnSe9CbeQ==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+ by mx.treblig.org with esmtp (Exim 4.96)
+ (envelope-from <linux@treblig.org>) id 1tkrXL-00H0cS-1n;
+ Wed, 19 Feb 2025 21:23:19 +0000
+From: linux@treblig.org
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	Xinhui.Pan@amd.com
+Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] drm/amdgpu: Remove unused nbif_v6_3_1_sriov_funcs
+Date: Wed, 19 Feb 2025 21:23:18 +0000
+Message-ID: <20250219212318.46036-1-linux@treblig.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/16] drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and
- MERGE_3D_5
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Jonathan Marek
- <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, Neil Armstrong
- <neil.armstrong@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, Srini Kandagatla
- <srinivas.kandagatla@linaro.org>
-References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
- <20250217-b4-sm8750-display-v2-9-d201dcdda6a4@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20250217-b4-sm8750-display-v2-9-d201dcdda6a4@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: h4vaZr4Zf3dBXHiz3purCafyI_wZQoEr
-X-Proofpoint-GUID: h4vaZr4Zf3dBXHiz3purCafyI_wZQoEr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-19_09,2025-02-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 mlxlogscore=986 bulkscore=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1011
- malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502100000 definitions=main-2502190160
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,60 +56,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
+The nbif_v6_3_1_sriov_funcs instance of amdgpu_nbio_funcs was added in
+commit 894c6d3522d1 ("drm/amdgpu: Add nbif v6_3_1 ip block support")
+but has remained unused.
 
-On 2/17/2025 8:41 AM, Krzysztof Kozlowski wrote:
-> Add IDs for new blocks present in MDSS/MDP v12 for LM, DSC, PINGPONG and
-> MERGE_3D blocks.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Alex has confirmed it wasn't needed.
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Remove it, together with the four unused stub functions:
+  nbif_v6_3_1_sriov_ih_doorbell_range
+  nbif_v6_3_1_sriov_gc_doorbell_init
+  nbif_v6_3_1_sriov_vcn_doorbell_range
+  nbif_v6_3_1_sriov_sdma_doorbell_range
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> index ba7bb05efe9b8cac01a908e53121117e130f91ec..440a327c64eb83a944289c6ce9ef9a5bfacc25f3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> @@ -123,6 +123,7 @@ enum dpu_lm {
->   	LM_4,
->   	LM_5,
->   	LM_6,
-> +	LM_7,
->   	LM_MAX
->   };
->   
-> @@ -167,6 +168,8 @@ enum dpu_dsc {
->   	DSC_3,
->   	DSC_4,
->   	DSC_5,
-> +	DSC_6,
-> +	DSC_7,
->   	DSC_MAX
->   };
->   
-> @@ -183,6 +186,8 @@ enum dpu_pingpong {
->   	PINGPONG_3,
->   	PINGPONG_4,
->   	PINGPONG_5,
-> +	PINGPONG_6,
-> +	PINGPONG_7,
->   	PINGPONG_CWB_0,
->   	PINGPONG_CWB_1,
->   	PINGPONG_CWB_2,
-> @@ -197,6 +202,7 @@ enum dpu_merge_3d {
->   	MERGE_3D_2,
->   	MERGE_3D_3,
->   	MERGE_3D_4,
-> +	MERGE_3D_5,
->   	MERGE_3D_MAX
->   };
->   
-> 
-> -- 
-> 2.43.0
-> 
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c | 46 ------------------------
+ drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h |  1 -
+ 2 files changed, 47 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c
+index c92875ceb31f..9efe74148867 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c
++++ b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c
+@@ -474,52 +474,6 @@ const struct amdgpu_nbio_funcs nbif_v6_3_1_funcs = {
+ };
+ 
+ 
+-static void nbif_v6_3_1_sriov_ih_doorbell_range(struct amdgpu_device *adev,
+-						bool use_doorbell, int doorbell_index)
+-{
+-}
+-
+-static void nbif_v6_3_1_sriov_sdma_doorbell_range(struct amdgpu_device *adev,
+-						  int instance, bool use_doorbell,
+-						  int doorbell_index,
+-						  int doorbell_size)
+-{
+-}
+-
+-static void nbif_v6_3_1_sriov_vcn_doorbell_range(struct amdgpu_device *adev,
+-						 bool use_doorbell,
+-						 int doorbell_index, int instance)
+-{
+-}
+-
+-static void nbif_v6_3_1_sriov_gc_doorbell_init(struct amdgpu_device *adev)
+-{
+-}
+-
+-const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs = {
+-	.get_hdp_flush_req_offset = nbif_v6_3_1_get_hdp_flush_req_offset,
+-	.get_hdp_flush_done_offset = nbif_v6_3_1_get_hdp_flush_done_offset,
+-	.get_pcie_index_offset = nbif_v6_3_1_get_pcie_index_offset,
+-	.get_pcie_data_offset = nbif_v6_3_1_get_pcie_data_offset,
+-	.get_rev_id = nbif_v6_3_1_get_rev_id,
+-	.mc_access_enable = nbif_v6_3_1_mc_access_enable,
+-	.get_memsize = nbif_v6_3_1_get_memsize,
+-	.sdma_doorbell_range = nbif_v6_3_1_sriov_sdma_doorbell_range,
+-	.vcn_doorbell_range = nbif_v6_3_1_sriov_vcn_doorbell_range,
+-	.gc_doorbell_init = nbif_v6_3_1_sriov_gc_doorbell_init,
+-	.enable_doorbell_aperture = nbif_v6_3_1_enable_doorbell_aperture,
+-	.enable_doorbell_selfring_aperture = nbif_v6_3_1_enable_doorbell_selfring_aperture,
+-	.ih_doorbell_range = nbif_v6_3_1_sriov_ih_doorbell_range,
+-	.update_medium_grain_clock_gating = nbif_v6_3_1_update_medium_grain_clock_gating,
+-	.update_medium_grain_light_sleep = nbif_v6_3_1_update_medium_grain_light_sleep,
+-	.get_clockgating_state = nbif_v6_3_1_get_clockgating_state,
+-	.ih_control = nbif_v6_3_1_ih_control,
+-	.init_registers = nbif_v6_3_1_init_registers,
+-	.remap_hdp_registers = nbif_v6_3_1_remap_hdp_registers,
+-	.get_rom_offset = nbif_v6_3_1_get_rom_offset,
+-	.set_reg_remap = nbif_v6_3_1_set_reg_remap,
+-};
+-
+ static int nbif_v6_3_1_set_ras_err_event_athub_irq_state(struct amdgpu_device *adev,
+ 						       struct amdgpu_irq_src *src,
+ 						       unsigned type,
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h
+index 9ac4831d39e1..3afec715a9fe 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h
++++ b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h
+@@ -28,7 +28,6 @@
+ 
+ extern const struct nbio_hdp_flush_reg nbif_v6_3_1_hdp_flush_reg;
+ extern const struct amdgpu_nbio_funcs nbif_v6_3_1_funcs;
+-extern const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs;
+ extern struct amdgpu_nbio_ras nbif_v6_3_1_ras;
+ 
+ #endif
+-- 
+2.48.1
 
