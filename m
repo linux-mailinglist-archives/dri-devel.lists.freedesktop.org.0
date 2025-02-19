@@ -2,60 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACBB5A3C9B9
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864ECA3CA3E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F7D10E8A0;
-	Wed, 19 Feb 2025 20:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0627E10E038;
+	Wed, 19 Feb 2025 20:42:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FeIEUIWv";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VVtW/q4S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C866010E894;
- Wed, 19 Feb 2025 20:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739996929; x=1771532929;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=WRoA2Otu8KXZFy/YShs2Evzm1qWRGAVUan1amEpzAB8=;
- b=FeIEUIWvSM+WBFqvw/zIzltGIBkPu0uHSFqLxSyF/KZDhzS55TjJAO8Z
- nqvDGtT+GqmLZDEQ+BLKwGNdHTymFuaExpt9jJHd5EcyvH5A8AwN1qW83
- T1i9hZNIIp7gkc7wtNUFNZgbCxIifaxeb7G4k0HiniJBi4t0jTl6xONbB
- AMX3RxaZj49M0MYnccwEU9tf530T/66fJaYtpdQ3RIOu68Ceqql8E1BcO
- gZi/PaG13E9gXHjxrfvXker7y6lmFbaJ0UBLdC8+LDTaSLhXA/bsRUFPb
- rs+jPsVVlEtrzeLBEI/c+oHb4ykMw9XLH0R0gZ1iDjvbNLKOYcKc7Keir g==;
-X-CSE-ConnectionGUID: sM6sy976RUuayWjJxmAnkg==
-X-CSE-MsgGUID: 6UScIwDWRva2QvcCHoMGwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="41012251"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="41012251"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 12:28:49 -0800
-X-CSE-ConnectionGUID: McMD7KADSxyUouaXsFl1vA==
-X-CSE-MsgGUID: vCp4XjHyQxyEy3ETs/wXPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="119765739"
-Received: from dut4410lnl.fm.intel.com ([10.105.8.78])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 12:28:49 -0800
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, tvrtko.ursulin@igalia.com,
- lucas.demarchi@intel.com, matthew.brost@intel.com,
- dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch
-Subject: [PATCH v4 6/6] drm/xe/xe_query: Add support for per-drm-client reset
- stat querying
-Date: Wed, 19 Feb 2025 20:28:46 +0000
-Message-ID: <20250219202847.127425-7-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250219202847.127425-1-jonathan.cavitt@intel.com>
-References: <20250219202847.127425-1-jonathan.cavitt@intel.com>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2315F10E038
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 20:42:05 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-543e4bbcd86so264127e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 12:42:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739997724; x=1740602524; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=oWfn2QE048JAogGjdO/HN/1zhXyyFXLbFj0VStJXPXI=;
+ b=VVtW/q4S1IvwG/iEAatRptWoSWUjlTX2Us9oeOdj2SDJuCx8OWmcPFEbGJffkyQMM9
+ S6XHhi1cmpzPEVvPIdUukVZ9bdRiN/AcVF+ZjJeyjSkzmtD3dd9fa1JfGjhZBiMrPkXQ
+ vmBkTCYxbq0coa7QUA3dtxOyKv2BhPVDT7AssIRVYkW4eGZ17DY1M0WWjF3GDyt9wLVN
+ uX323yp7qSstpObvdOpyXpbiy7mtpiX5YJ3Lfn4EBU5cLLu3NiQf995eORufJjx92dPg
+ fbictAaG+eRATRUmw/o9gOxlnAynygcj5xSu6oouDxcOlpQOSa60QG2BSIQuF4s/vFR+
+ Czkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739997724; x=1740602524;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oWfn2QE048JAogGjdO/HN/1zhXyyFXLbFj0VStJXPXI=;
+ b=Z4RXCsvolWpXdZdf4hR1/ARjDVbVEv+N4WrKvy8TZM4eIkfmkr0lOSp+WjAnOfOOZ3
+ eugkdIX26MFZcikazVeL5IgJH2XJvrsKY0M3mFwBsu9FGd85svq2kqQeozZM34HOlTVC
+ B9Kpu9V5bi6wQ1dzJktMx06k5I8Fu26uVUzDU63W7fKT/KKYaP0BL6Lo69w4QH8ihhtf
+ FpLRXh8D0AMOsdmpWlzmrkeFC3cuMc4kMsuC0jOEaNP9ixMfasNCXtPAT7Jy/sd3A7gp
+ /BbYw7ZCnEDnBkIA19SCwG9ZfelmKbN/VzkNBsUrv0vEedgP8LxikzbLqCIv3X/PsYNu
+ kC/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVOz+YR8udN69WVg92VIac8KZQnw1wBCaljnJhtJ6ZDDddM9DSGroe15Ps/UWYKbu6Go0w33sEo5Gs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjKfzRaXL9Wr88NoTxoig0DoIZdwvE/Zml63oVlSroZMmckoNe
+ 4dg8IWGG4f9yTNNF1+ZCq7JxMuHBfV3KbAllRAL8DTPV9nj4kHdFwA+MLVYeMkM=
+X-Gm-Gg: ASbGncsRaJ7KG4whsPGrmS1jhLcDgi24b1BvbPkT2c2Kq8p3HHazGytc1H/ednZTHHE
+ ZCtnpzoYBRh2KAatxtrePqbSe8d04dTxqgowjHnw4XCFqUNuNPMsnlZw9ML43HSLInUnaJ8gPLR
+ F+psnPyLwXQoasg8R0niTFIW6xp93lp7MhCRzyP+uR8LOtqKCQ/0GlU8khCf4HJmTfF6UfqRFRN
+ lMQKdg1pG3475ZxMBz5pDNJ7+hZIPHY/LyusZSMXfX6MzAWmqBNk9DTeeaB44o7Bby1RLgeeG/s
+ CUGS4/nZaMe2q7EGqo6BrR8nbcnYLOoheWqLorzXTnwpRXzcbs1vWAugbLTcJFEfuXVwSzg=
+X-Google-Smtp-Source: AGHT+IGXMalRxphojh9Kz/mE/PFLZuuLeouSpCzsm5nqbBL2KU5Od7qqkelGjB8u41IdiGOmFC8W3A==
+X-Received: by 2002:a05:6512:e94:b0:545:d54:2ec6 with SMTP id
+ 2adb3069b0e04-5462eedb519mr1875009e87.2.1739997723749; 
+ Wed, 19 Feb 2025 12:42:03 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5452871ead0sm1907991e87.193.2025.02.19.12.42.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2025 12:42:02 -0800 (PST)
+Date: Wed, 19 Feb 2025 22:41:59 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] drm/msm/dpu: rate limit snapshot capture for mmu
+ faults
+Message-ID: <h5i5wegkurgmujrkx35qpyjmkbjv3z4re53dx5i4ly4ghzpek6@hgsdbmfmgxe3>
+References: <20250219-abhinavk-smmu-fault-handler-v3-0-aa3f0bf4434a@quicinc.com>
+ <20250219-abhinavk-smmu-fault-handler-v3-5-aa3f0bf4434a@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250219-abhinavk-smmu-fault-handler-v3-5-aa3f0bf4434a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,195 +94,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to query per drm client reset stats via the
-query ioctl.  This includes the number of engine resets the drm client
-has observed, as well as a list of up to the last 50 relevant exec
-queue bans and their associated causal pagefaults (if they exists).
+On Wed, Feb 19, 2025 at 11:49:21AM -0800, Jessica Zhang wrote:
+> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> There is no recovery mechanism in place yet to recover from mmu
+> faults for DPU. We can only prevent the faults by making sure there
+> is no misconfiguration.
+> 
+> Rate-limit the snapshot capture for mmu faults to once per
+> msm_atomic_commit_tail() as that should be sufficient to capture
+> the snapshot for debugging otherwise there will be a lot of DPU
+> snapshots getting captured for the same fault which is redundant
+> and also might affect capturing even one snapshot accurately.
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+> Changes in v3:
+> - Clear fault_snapshot_capture before calling prepare_commit() (Dmitry)
+> - Make fault_snapshot_capture an atomic variable (Dmitry, Abhinav)
+> ---
+>  drivers/gpu/drm/msm/msm_atomic.c | 2 ++
+>  drivers/gpu/drm/msm/msm_kms.c    | 5 ++++-
+>  drivers/gpu/drm/msm/msm_kms.h    | 3 +++
+>  3 files changed, 9 insertions(+), 1 deletion(-)
+> 
 
-v2: Report EOPNOTSUPP if CONFIG_PROC_FS is not set in the kernel
-    config, as it is required to trace the reset count and exec
-    queue bans.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
----
- drivers/gpu/drm/xe/xe_query.c | 70 +++++++++++++++++++++++++++++++++++
- include/uapi/drm/xe_drm.h     | 50 +++++++++++++++++++++++++
- 2 files changed, 120 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
-index 3aad4737bfec..671bc4270b93 100644
---- a/drivers/gpu/drm/xe/xe_query.c
-+++ b/drivers/gpu/drm/xe/xe_query.c
-@@ -16,10 +16,12 @@
- #include "regs/xe_gt_regs.h"
- #include "xe_bo.h"
- #include "xe_device.h"
-+#include "xe_drm_client.h"
- #include "xe_exec_queue.h"
- #include "xe_force_wake.h"
- #include "xe_ggtt.h"
- #include "xe_gt.h"
-+#include "xe_gt_pagefault.h"
- #include "xe_guc_hwconfig.h"
- #include "xe_macros.h"
- #include "xe_mmio.h"
-@@ -740,6 +742,73 @@ static int query_pxp_status(struct xe_device *xe,
- 	return 0;
- }
- 
-+static size_t calc_reset_stats_size(struct xe_drm_client *client)
-+{
-+	size_t size = sizeof(struct drm_xe_query_reset_stats);
-+#ifdef CONFIG_PROC_FS
-+	spin_lock(&client->blame_lock);
-+	size += sizeof(struct drm_xe_exec_queue_ban) * client->blame_len;
-+	spin_lock(&client->blame_lock);
-+#endif
-+	return size;
-+}
-+
-+static int query_reset_stats(struct xe_device *xe,
-+			     struct drm_xe_device_query *query,
-+			     struct drm_file *file)
-+{
-+	void __user *query_ptr = u64_to_user_ptr(query->data);
-+	struct drm_xe_query_reset_stats resp;
-+	struct xe_file *xef = to_xe_file(file);
-+	struct xe_drm_client *client = xef->client;
-+	struct blame *b;
-+	size_t size = calc_reset_stats_size(client);
-+	int i = 0;
-+
-+#ifdef CONFIG_PROC_FS
-+	if (query->size == 0) {
-+		query->size = size;
-+		return 0;
-+	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
-+		return -EINVAL;
-+	}
-+
-+	if (copy_from_user(&resp, query_ptr, size))
-+		return -EFAULT;
-+
-+	resp.reset_count = atomic_read(&client->reset_count);
-+
-+	spin_lock(&client->blame_lock);
-+	resp.ban_count = client->blame_len;
-+	list_for_each_entry(b, &client->blame_list, list) {
-+		struct drm_xe_exec_queue_ban *ban = &resp.ban_list[i++];
-+		struct pagefault *pf = b->pf;
-+
-+		ban->exec_queue_id = b->exec_queue_id;
-+		ban->pf_found = pf ? 1 : 0;
-+		if (!pf)
-+			continue;
-+
-+		ban->access_type = pf->access_type;
-+		ban->fault_type = pf->fault_type;
-+		ban->vfid = pf->vfid;
-+		ban->asid = pf->asid;
-+		ban->pdata = pf->pdata;
-+		ban->engine_class = xe_to_user_engine_class[pf->engine_class];
-+		ban->engine_instance = pf->engine_instance;
-+		ban->fault_addr = pf->page_addr;
-+	}
-+	spin_unlock(&client->blame_lock);
-+
-+	if (copy_to_user(query_ptr, &resp, size))
-+		return -EFAULT;
-+
-+	return 0;
-+#else
-+	return -EOPNOTSUPP;
-+#endif
-+}
-+
- static int (* const xe_query_funcs[])(struct xe_device *xe,
- 				      struct drm_xe_device_query *query,
- 				      struct drm_file *file) = {
-@@ -753,6 +822,7 @@ static int (* const xe_query_funcs[])(struct xe_device *xe,
- 	query_uc_fw_version,
- 	query_oa_units,
- 	query_pxp_status,
-+	query_reset_stats,
- };
- 
- int xe_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 892f54d3aa09..ffeb2a79e084 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -682,6 +682,7 @@ struct drm_xe_query_pxp_status {
-  *  - %DRM_XE_DEVICE_QUERY_GT_TOPOLOGY
-  *  - %DRM_XE_DEVICE_QUERY_ENGINE_CYCLES
-  *  - %DRM_XE_DEVICE_QUERY_PXP_STATUS
-+ *  - %DRM_XE_DEVICE_QUERY_RESET_STATS
-  *
-  * If size is set to 0, the driver fills it with the required size for
-  * the requested type of data to query. If size is equal to the required
-@@ -735,6 +736,7 @@ struct drm_xe_device_query {
- #define DRM_XE_DEVICE_QUERY_UC_FW_VERSION	7
- #define DRM_XE_DEVICE_QUERY_OA_UNITS		8
- #define DRM_XE_DEVICE_QUERY_PXP_STATUS		9
-+#define DRM_XE_DEVICE_QUERY_RESET_STATS		10
- 	/** @query: The type of data to query */
- 	__u32 query;
- 
-@@ -1845,6 +1847,54 @@ enum drm_xe_pxp_session_type {
- 	DRM_XE_PXP_TYPE_HWDRM = 1,
- };
- 
-+/**
-+ * struct drm_xe_exec_queue_ban - Per drm client exec queue ban info returned
-+ * from @DRM_XE_DEVICE_QUERY_RESET_STATS query.  Includes the exec queue ID and
-+ * all associated pagefault information, if relevant.
-+ */
-+struct drm_xe_exec_queue_ban {
-+	/** @exec_queue_id: ID of banned exec queue */
-+	__u32 exec_queue_id;
-+	/**
-+	 * @pf_found: whether or not the ban is associated with a pagefault.
-+	 * If not, all pagefault data will default to 0 and will not be relevant.
-+	 */
-+	__u8 pf_found;
-+	/** @access_type: access type of associated pagefault */
-+	__u8 access_type;
-+	/** @fault_type: fault type of associated pagefault */
-+	__u8 fault_type;
-+	/** @vfid: VFID of associated pagefault */
-+	__u8 vfid;
-+	/** @asid: ASID of associated pagefault */
-+	__u32 asid;
-+	/** @pdata: PDATA of associated pagefault */
-+	__u16 pdata;
-+	/** @engine_class: engine class of associated pagefault */
-+	__u8 engine_class;
-+	/** @engine_instance: engine instance of associated pagefault */
-+	__u8 engine_instance;
-+	/** @fault_addr: faulted address of associated pagefault */
-+	__u64 fault_addr;
-+};
-+
-+/**
-+ * struct drm_xe_query_reset_stats - Per drm client reset stats query.
-+ */
-+struct drm_xe_query_reset_stats {
-+	/** @extensions: Pointer to the first extension struct, if any */
-+	__u64 extensions;
-+	/** @reset_count: Number of times the drm client has observed an engine reset */
-+	__u64 reset_count;
-+	/** @ban_count: number of exec queue bans saved by the drm client */
-+	__u64 ban_count;
-+	/**
-+	 * @ban_list: flexible array of struct drm_xe_exec_queue_ban, reporting all
-+	 * observed exec queue bans on the drm client.
-+	 */
-+	struct drm_xe_exec_queue_ban ban_list[];
-+};
-+
- /* ID of the protected content session managed by Xe when PXP is active */
- #define DRM_XE_PXP_HWDRM_DEFAULT_SESSION 0xf
- 
 -- 
-2.43.0
-
+With best wishes
+Dmitry
