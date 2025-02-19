@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2155AA3B33A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 09:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F55A3B346
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 09:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF6810E24E;
-	Wed, 19 Feb 2025 08:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B891B10E47A;
+	Wed, 19 Feb 2025 08:10:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fEytPdbB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TDRvwp9j";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fEytPdbB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TDRvwp9j";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dKPf/W8O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MeWi0m6i";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dKPf/W8O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MeWi0m6i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D08C10E24E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 08:08:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749A910E47A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 08:10:00 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 42B4622320;
- Wed, 19 Feb 2025 08:08:54 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1D76821940;
+ Wed, 19 Feb 2025 08:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739952534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1739952599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
- b=fEytPdbB7vEzobk73HzZO2QIAsu7xb9wuNWkksdZCOJs6EQWp17ICaXZxgxlHL1do3lcE6
- ZTFpQzugbMFLPe/eKGVHbjoy60lQGBxhGmU22I1HkY4dXrwNTAmjM0RhwAvE0PPrVOAYmd
- onM4b3Upsb8874P2K2/vnjsRzJyqcGU=
+ bh=7n22irSeGWIqSBNiIIhY8dUu78jzeyktmwLlH058QWI=;
+ b=dKPf/W8OQXbxt6ftlFfGpxSgQu7gVp2dstzZ3XzqVgl5Z357Tinp+N+mnS5eZMNrmbpIct
+ ERkIgZLFbCqLer2bR/7cT4Nal5dezMobDUN5PBm/4ffPV3aQDn17w9FIeMBLCA5L6STVWi
+ Fu675OecpkfIKo5+vbkkfz5g/IUDu/c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739952534;
+ s=susede2_ed25519; t=1739952599;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
- b=TDRvwp9jlCeS6uN5CbUeQlbXNO4Rbjt8LGgeabXDBgRB11pUqvwi0GuKFf1YvvOqk2favY
- g5eex6t86X8xLrBw==
+ bh=7n22irSeGWIqSBNiIIhY8dUu78jzeyktmwLlH058QWI=;
+ b=MeWi0m6iVBnfg747H1LUoCuWVrL86D9smnRpv47ULAXeqgfodW1nBInmL14qgH8vx7K4fX
+ EIRt6Mg5pinhPRCA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fEytPdbB;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TDRvwp9j
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="dKPf/W8O";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MeWi0m6i
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739952534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1739952599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
- b=fEytPdbB7vEzobk73HzZO2QIAsu7xb9wuNWkksdZCOJs6EQWp17ICaXZxgxlHL1do3lcE6
- ZTFpQzugbMFLPe/eKGVHbjoy60lQGBxhGmU22I1HkY4dXrwNTAmjM0RhwAvE0PPrVOAYmd
- onM4b3Upsb8874P2K2/vnjsRzJyqcGU=
+ bh=7n22irSeGWIqSBNiIIhY8dUu78jzeyktmwLlH058QWI=;
+ b=dKPf/W8OQXbxt6ftlFfGpxSgQu7gVp2dstzZ3XzqVgl5Z357Tinp+N+mnS5eZMNrmbpIct
+ ERkIgZLFbCqLer2bR/7cT4Nal5dezMobDUN5PBm/4ffPV3aQDn17w9FIeMBLCA5L6STVWi
+ Fu675OecpkfIKo5+vbkkfz5g/IUDu/c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739952534;
+ s=susede2_ed25519; t=1739952599;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
- b=TDRvwp9jlCeS6uN5CbUeQlbXNO4Rbjt8LGgeabXDBgRB11pUqvwi0GuKFf1YvvOqk2favY
- g5eex6t86X8xLrBw==
+ bh=7n22irSeGWIqSBNiIIhY8dUu78jzeyktmwLlH058QWI=;
+ b=MeWi0m6iVBnfg747H1LUoCuWVrL86D9smnRpv47ULAXeqgfodW1nBInmL14qgH8vx7K4fX
+ EIRt6Mg5pinhPRCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD52513806;
- Wed, 19 Feb 2025 08:08:53 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93F3213806;
+ Wed, 19 Feb 2025 08:09:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id uHZlLJWRtWcmFwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 19 Feb 2025 08:08:53 +0000
-Message-ID: <c011ec88-3b68-486b-9fda-ef18a0906c8e@suse.de>
-Date: Wed, 19 Feb 2025 09:08:53 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id p5PBItaRtWd5FwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 19 Feb 2025 08:09:58 +0000
+Message-ID: <0b68b63f-a826-45f5-8845-11db9b46757d@suse.de>
+Date: Wed, 19 Feb 2025 09:09:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
- and size
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 06/25] drm/armada: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
  simona@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
@@ -90,8 +90,8 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org,
  xen-devel@lists.xenproject.org
 References: <20250218142542.438557-1-tzimmermann@suse.de>
- <20250218142542.438557-3-tzimmermann@suse.de>
- <CAMuHMdV939ibJTRSaO-oW2Jz4zbkXGRpUYrmA7e=yQfF7W-k_g@mail.gmail.com>
+ <20250218142542.438557-7-tzimmermann@suse.de>
+ <Z7St0O3A_mXEYK49@shell.armlinux.org.uk>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -118,10 +118,10 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMuHMdV939ibJTRSaO-oW2Jz4zbkXGRpUYrmA7e=yQfF7W-k_g@mail.gmail.com>
+In-Reply-To: <Z7St0O3A_mXEYK49@shell.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 42B4622320
+X-Rspamd-Queue-Id: 1D76821940
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -139,7 +139,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
  TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
  TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
  RCVD_COUNT_TWO(0.00)[2]; DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
@@ -162,138 +162,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 18.02.25 um 20:32 schrieb Geert Uytterhoeven:
-[...]
->> +                                args->bpp);
->> +                       fallthrough;
->> +               case 12:
->> +               case 15:
->> +               case 30: /* see drm_gem_afbc_get_bpp() */
->> +               case 10:
-> Perhaps keep them sorted numerically?
-
-The first block comes from the afbc helper; the second block from Mesa; 
-hence the odd order. I'll reorder and comment each case individually.
-
+Am 18.02.25 um 16:57 schrieb Russell King (Oracle):
+> On Tue, Feb 18, 2025 at 03:23:29PM +0100, Thomas Zimmermann wrote:
+>> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
+>> buffer size. No alignment required.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Russell King <linux@armlinux.org.uk>
+> armada_pitch() does have some special alignment (it aligns the pitch to
+> 128 bytes). I've no idea what drm_mode_size_dumb() does. Can you check
+> whether it does the same please?
 >
->> +               case 64: /* used by Mesa */
->> +                       pitch = args->width * DIV_ROUND_UP(args->bpp, SZ_8);
->> +                       break;
->> +               }
->> +       }
->> +
->> +       if (!pitch || pitch > U32_MAX)
->> +               return -EINVAL;
->> +
->> +       args->pitch = pitch;
->> +
->> +       return drm_mode_align_dumb(args, pitch_align, size_align);
->> +}
->> +EXPORT_SYMBOL(drm_mode_size_dumb);
->> +
->>   int drm_mode_create_dumb(struct drm_device *dev,
->>                           struct drm_mode_create_dumb *args,
->>                           struct drm_file *file_priv)
->> diff --git a/include/drm/drm_dumb_buffers.h b/include/drm/drm_dumb_buffers.h
->> new file mode 100644
->> index 000000000000..6fe36004b19d
->> --- /dev/null
->> +++ b/include/drm/drm_dumb_buffers.h
->> @@ -0,0 +1,14 @@
->> +/* SPDX-License-Identifier: MIT */
->> +
->> +#ifndef __DRM_DUMB_BUFFERS_H__
->> +#define __DRM_DUMB_BUFFERS_H__
->> +
->> +struct drm_device;
->> +struct drm_mode_create_dumb;
->> +
->> +int drm_mode_size_dumb(struct drm_device *dev,
->> +                      struct drm_mode_create_dumb *args,
->> +                      unsigned long pitch_align,
->> +                      unsigned long size_align);
->> +
->> +#endif
->> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
->> index c082810c08a8..eea09103b1a6 100644
->> --- a/include/uapi/drm/drm_mode.h
->> +++ b/include/uapi/drm/drm_mode.h
->> @@ -1058,7 +1058,7 @@ struct drm_mode_crtc_page_flip_target {
->>    * struct drm_mode_create_dumb - Create a KMS dumb buffer for scanout.
->>    * @height: buffer height in pixels
->>    * @width: buffer width in pixels
->> - * @bpp: bits per pixel
->> + * @bpp: color mode
->>    * @flags: must be zero
->>    * @handle: buffer object handle
->>    * @pitch: number of bytes between two consecutive lines
->> @@ -1066,6 +1066,50 @@ struct drm_mode_crtc_page_flip_target {
->>    *
->>    * User-space fills @height, @width, @bpp and @flags. If the IOCTL succeeds,
->>    * the kernel fills @handle, @pitch and @size.
->> + *
->> + * The value of @bpp is a color-mode number describing a specific format
->> + * or a variant thereof. The value often corresponds to the number of bits
->> + * per pixel for most modes, although there are exceptions. Each color mode
->> + * maps to a DRM format plus a number of modes with similar pixel layout.
->> + * Framebuffer layout is always linear.
->> + *
->> + * Support for all modes and formats is optional. Even if dumb-buffer
->> + * creation with a certain color mode succeeds, it is not guaranteed that
->> + * the DRM driver supports any of the related formats. Most drivers support
->> + * a color mode of 32 with a format of DRM_FORMAT_XRGB8888 on their primary
->> + * plane.
->> + *
->> + * +------------+------------------------+------------------------+
->> + * | Color mode | Framebuffer format     | Compatibles            |
->> + * +============+========================+========================+
->> + * |     32     |  * DRM_FORMAT_XRGB8888 |  * DRM_FORMAT_XBGR8888 |
->> + * |            |                        |  * DRM_FORMAT_RGBX8888 |
->> + * |            |                        |  * DRM_FORMAT_BGRX8888 |
->> + * +------------+------------------------+------------------------+
->> + * |     24     |  * DRM_FORMAT_RGB888   |  * DRM_FORMAT_BGR888   |
->> + * +------------+------------------------+------------------------+
->> + * |     16     |  * DRM_FORMAT_RGB565   |  * DRM_FORMAT_BGR565   |
->> + * +------------+------------------------+------------------------+
->> + * |     15     |  * DRM_FORMAT_XRGB1555 |  * DRM_FORMAT_XBGR1555 |
->> + * |            |                        |  * DRM_FORMAT_RGBX1555 |
->> + * |            |                        |  * DRM_FORMAT_BGRX1555 |
->> + * +------------+------------------------+------------------------+
->> + * |      8     |  * DRM_FORMAT_C8       |  * DRM_FORMAT_R8       |
-> + DRM_FORMAT_D8? (and 4/2/1 below)
+> If it doesn't, then this patch is incorrect.
 
-Right, missed that.
-
->
-> And DRM_FORMAT_Y8, if/when Tomi's series introducing that is accepted...
-
-Sure, if it is compatible, it can also go into the third column.
+Indeed, I should have noticed. Will be fixed in the next iteration. 
+Thanks for the review.
 
 Best regards
 Thomas
 
->
->> + * +------------+------------------------+------------------------+
->> + * |      4     |  * DRM_FORMAT_C4       |  * DRM_FORMAT_R4       |
->> + * +------------+------------------------+------------------------+
->> + * |      2     |  * DRM_FORMAT_C2       |  * DRM_FORMAT_R2       |
->> + * +------------+------------------------+------------------------+
->> + * |      1     |  * DRM_FORMAT_C1       |  * DRM_FORMAT_R1       |
->> + * +------------+------------------------+------------------------+
->> + *
->> + * Color modes of 10, 12, 15, 30 and 64 are only supported for use by
->> + * legacy user space. Please don't use them in new code. Other modes
->> + * are not support.
->> + *
->> + * Do not attempt to allocate anything but linear framebuffer memory
->> + * with single-plane RGB data. Allocation of other framebuffer
->> + * layouts requires dedicated ioctls in the respective DRM driver.
->>    */
->>   struct drm_mode_create_dumb {
->>          __u32 height;
-> Gr{oetje,eeting}s,
->
->                          Geert
 >
 
 -- 
