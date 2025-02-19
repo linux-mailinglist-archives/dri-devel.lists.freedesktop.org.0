@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44688A3CB8A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EB3A3CB89
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:35:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B8D10E89D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3F210E06B;
 	Wed, 19 Feb 2025 21:35:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FMdKruiw";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Nuw0LJRZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12B310E06B;
- Wed, 19 Feb 2025 21:35:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A280B10E069;
+ Wed, 19 Feb 2025 21:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=w5g9otFiJkeNvBm1eGPsPJCmTn9xUTThN+I9+NmpxrY=; b=FMdKruiwht0LyTiwr7WdOr8gv/
- 7AOuzoKTijGIy/YVuUvrjjZ8eQsTlJHrDd3Ec7Atc0xIycYibdnZLbh/ToyhIAZtCmL3U8V3bgQIz
- bTFvT1cGPpaWo/3y+ZHyOprWF/lUhbRw54oE1nyLpwUatPykgXxVo/t2LkVvpsJb+qU6gOiXKxRVM
- Yml1ibP3v3au5OmHYKENLQfLNTJ4YpRPpSby44LAa+MXXGfOAOchp9KobXYhVZXlAWttqOK7iQGWN
- R1GDJH5ngPEcou5wuyDoAmHh0GytFLY0EKCoP++47DBZIfus5YaesGstXgcPusvG0gAm73YDSLVa4
- iZ6mXwfg==;
+ bh=iwq57pgU5eH9DcXYUU5567uzianHf1TSEbwFS1hNRQo=; b=Nuw0LJRZXEWbexoRiCAkFfNA6y
+ 3J5+7kNAbe7oTczEBF19sv3aQApDEWnZ/BpE0KHaY5iKnp3ejBdoz9zCMx8HPWJM5q/OzxHiBM4ZC
+ WCWmuNnHs4btWDc+HdJXR2+sD7JEUq7YEopM82i9Rbkdj6nzk9p72cDwGmM1PLtahf3ZTA3d8qKKv
+ 02fsGlfzG0W5uxzOONEqwomkY9hbzEeO3TCWSnciHQuBHfhM0xXslznFhMJbTW9saiBSemf6awjbR
+ ENjfCU+KS41Xj3uDj0PXUUxej2s7d3WP5RgUUpiMc1O1v1HSVky7iXOrsFPa7jS724QXbGRk5/MoA
+ YN2b/DQA==;
 Received: from [191.204.194.148] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tkrj3-00F1SN-Rf; Wed, 19 Feb 2025 22:35:32 +0100
+ id 1tkrj6-00F1SN-MV; Wed, 19 Feb 2025 22:35:34 +0100
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
@@ -39,9 +39,9 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-dev@igalia.com, siqueira@igalia.com
 Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH 1/3] drm/amdgpu: Log the creation of a coredump file
-Date: Wed, 19 Feb 2025 18:35:15 -0300
-Message-ID: <20250219213517.281556-2-andrealmeid@igalia.com>
+Subject: [PATCH 2/3] drm/amdgpu: Log after a successful ring reset
+Date: Wed, 19 Feb 2025 18:35:16 -0300
+Message-ID: <20250219213517.281556-3-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250219213517.281556-1-andrealmeid@igalia.com>
 References: <20250219213517.281556-1-andrealmeid@igalia.com>
@@ -63,30 +63,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After a GPU reset happens, the driver creates a coredump file. However,
-the user might not be aware of it. Log the file creation the user can
-find more information about the device and add the file to bug reports.
-This is similar to what the xe driver does.
+When a ring reset happens, the kernel log shows only "amdgpu: Starting
+<ring name> ring reset", but when it finishes nothing appears in the
+log. Explicitly write in the log that the reset has finished correctly.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-index 824f9da5b6ce..7b50741dc097 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-@@ -364,5 +364,9 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
- 
- 	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
- 		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
-+
-+	drm_info(dev, "AMDGPU device coredump file has been created\n");
-+	drm_info(dev, "Check your /sys/class/drm/card%d/device/devcoredump/data\n",
-+		 dev->primary->index);
- }
- #endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 100f04475943..698e5799e542 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -149,6 +149,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 			amdgpu_fence_driver_force_completion(ring);
+ 			if (amdgpu_ring_sched_ready(ring))
+ 				drm_sched_start(&ring->sched, 0);
++			dev_err(adev->dev, "Ring %s reset succeeded\n", ring->sched.name);
+ 			goto exit;
+ 		}
+ 		dev_err(adev->dev, "Ring %s reset failure\n", ring->sched.name);
 -- 
 2.48.1
 
