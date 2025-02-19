@@ -2,65 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E96A3CAB5
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44888A3CB35
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:17:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A74E210E049;
-	Wed, 19 Feb 2025 21:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6560C10E065;
+	Wed, 19 Feb 2025 21:17:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LFrlZJYZ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YdKxKivw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269C310E065
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 21:02:05 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5e05717755bso254627a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:02:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739998923; x=1740603723; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=vxdKCP6DZMfUjXK7siDz6HfrRhXpGFwXZwRUOkR4i4w=;
- b=LFrlZJYZ7buiVgzxZ2oRU3fb8oVAspbkeE/9yKnjUCSZ+QlTDDp71hhCqxYDsjpnnc
- ax9rMVbyysx2Rgr5RpU2KX9vV0QcuvGPKeqTx/PiRCaUKE/+ixoC/0Lo9F9BK0Wa6jO0
- OA07Sla5+nX4uf7LXEvujJe5VHHJ4KuwWU3kY9tUMG8ILdqRd41BW1kKoLMUGCuYQLaZ
- ftV0H0jxRXB1yxcLf8m74/PiTHNrviVg05iLM6HOn4zAsBEZniqVeQR2XgLsHds4mE+T
- FAXo/xKZvPsdyagP8555BEHDwVXulbdx9TFtZDM8F76ifoTc5Kf2IxslLXH6nLDhA7fW
- z51g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739998923; x=1740603723;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vxdKCP6DZMfUjXK7siDz6HfrRhXpGFwXZwRUOkR4i4w=;
- b=OovaAajok/odwfRk/2rqMTKQqhkzW0eKmBN04nH6UQXKlmAjwVdhnv2Lez+p0BRNl0
- bkgUxQn0tusR6ygkHZKnQXM/zy8JQoEwCo5UoUonz2UjIwi6fzzBFO4/2QsZ3qLcgeJq
- Z86/nWcVS84Csx8w0PUXL0HmssThnUigWRUHoylaHaoexPIYrRnBvk4IXRr0lBqyieDJ
- oJhKVDqTZIje1JUWkc1ncFcz1luKmamjkyu4O9jLsKIW+lc8RI7Qc/1NGBv1EGwHPqpo
- MxbX06U3i0fc7tgGEzb1MgjP8tAnkHj9sjOt8yijo4QRqlj/Dgjqgbd+PISZIsD7kl+3
- 4cbw==
-X-Gm-Message-State: AOJu0Yw8mwkbD4mrdJvbcC+PDkR6Fo1GFCiz9uKF8NP1OgoN1EM/gmZw
- bLcPU/PH1t93ZLKaOWzd8KFDnaL7CIqvSbUsm6geCK67OQRIj4dEwPLNjVN6RpHGJAzRYhbn4/r
- KjQalxEULgADy+HkMIrqh6rO9MPSkHAb1
-X-Gm-Gg: ASbGncv12DjV0sgk8ob4TZoF+DgQYl8Dz1uHrGifqM2fNCGW4D1aBiWAExRoEioKVPH
- tbIGn07A3DT6CMsCA39iOfxF83Eq1Rbk6tY2XJ1PdYThItuv1gbKrRTglAfw5yfK8G0nEUUs=
-X-Google-Smtp-Source: AGHT+IFyNLgBemsG3ROpjUwwEU9YDLBUnK3UfEh8y7s1DncBvbp5QbPHL3bDdPfLCsvS3XLyFF23VOsbOM6lK7/ZQs8=
-X-Received: by 2002:a17:907:d27:b0:ab7:c6a5:4555 with SMTP id
- a640c23a62f3a-abb70a7c662mr1916034966b.2.1739998923077; Wed, 19 Feb 2025
- 13:02:03 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DABA310E065;
+ Wed, 19 Feb 2025 21:17:52 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51JG4Fnu011661;
+ Wed, 19 Feb 2025 21:17:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ w48HOZMFw01ljPkQupwltv/5BomVknzkOw4r7VsrW58=; b=YdKxKivwenLwBHZL
+ 4s+orJp2TcH0p/rj7gUOPXyMDunbpoCHvQdNu2MscCzj2gdZvvA95ddMnazi8QMQ
+ DrpyZ+59oN0mBpAxS6IKp0nm1maY3mhcTMnC+dNsa8hYX5uLWWFD1BNZQUXjkYVl
+ Fbq4OsR+4jNKMezm3a4Gn0QOTqkT7L1pNUG/UtXMM1+K8yjSSbxKH6tUpIiYUptw
+ snOCjLt23VtuPJhSQNLF68D68WHpUWRZZwH5UKiMDg4C5DSq8pLt1nae/EmYhg1b
+ 86k2hFt5BhRktAglO0WMvkNK1WLPMCPxS2yj+hBg5XALFQJvqrd2xS83zcT/mCXe
+ Xdhi5A==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy3kyhh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2025 21:17:45 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51JLHaji030396
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2025 21:17:36 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Feb
+ 2025 13:17:35 -0800
+Message-ID: <eedf08c5-d781-45c8-a5f7-b0369e3efac9@quicinc.com>
+Date: Wed, 19 Feb 2025 13:17:35 -0800
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 20 Feb 2025 07:01:52 +1000
-X-Gm-Features: AWEUYZl1Y2Dca5ftLg5SpNteaLXnKbIAVRCv7lNrEalUiy-5AyRjcUHA0Pm71P8
-Message-ID: <CAPM=9tw_a+3qLjUn0=SqjVL=N6ExRbw0u9TamwGwigWwDwc23Q@mail.gmail.com>
-Subject: firmware requirements
-To: dri-devel <dri-devel@lists.freedesktop.org>, 
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, 
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Min Ma <min.ma@amd.com>,
- Lizhi Hou <lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/16] drm/msm: Add support for SM8750
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Rob Herring <robh@kernel.org>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Simona Vetter
+ <simona@ffwll.ch>, David Airlie <airlied@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, <dri-devel@lists.freedesktop.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski@linaro.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Srini
+ Kandagatla" <srinivas.kandagatla@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Maxime Ripard
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, Krishna
+ Manikandan <quic_mkrishn@quicinc.com>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
+References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: SvzmE1HiS2uImoE2ToLabryis8mtKYIl
+X-Proofpoint-GUID: SvzmE1HiS2uImoE2ToLabryis8mtKYIl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-19_09,2025-02-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1011
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2502100000 definitions=main-2502190160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,24 +101,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'd just like to remind everyone of the firmware requirements for
-vendors that control their firmware and the driver upstreams:
 
-https://docs.kernel.org/driver-api/firmware/firmware-usage-guidelines.html
 
-Intel VPU it seems like you are not currently shipping upstream
-firmware, and might have tied your fw and userspace together.
+On 2/17/2025 8:41 AM, Krzysztof Kozlowski wrote:
+> Hi,
+> 
+> Dependency / Rabased on top of:
+> https://lore.kernel.org/all/20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org/
+> 
+> Changes in v2:
+> - Implement LM crossbar, 10-bit alpha and active layer changes:
+>    New patch: drm/msm/dpu: Implement new v12.0 DPU differences
+> - New patch: drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+> - Add CDM
+> - Split some DPU patch pieces into separate patches:
+>    drm/msm/dpu: Drop useless comments
+>    drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+>    drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
+> - Split DSI and DSI PHY patches
+> - Mention CLK_OPS_PARENT_ENABLE in DSI commit
+> - Mention DSI PHY PLL work:
+>    https://patchwork.freedesktop.org/patch/542000/?series=119177&rev=1
+> - DPU: Drop SSPP_VIG4 comments
+> - DPU: Add CDM
+> - Link to v1: https://lore.kernel.org/r/20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org
+> 
+> Description:
+> =============
+> I got modetest writeback working, but DSI panel on MTP8750 still shows
+> darkness.
 
-I'm cc'ing the AMD XDNA driver as it recently landed and I'd like them
-to confirm they are following the above requirements.
+Hey Dmitry,
 
-The main reason we don't allow userspace/fw direct linkage is if a
-user deploys two containers with two different userspace drivers in
-them on the same hardware, what is the kernel driver supposed to do?
+Just wanted to emphasize this note on Krzysztof's cover letter.
 
-Firmware should be abstracted in the kernel if it is not possible to
-build proper fw APIs for userspace to use directly, by proper I mean
-forward and backwards compatible.
+Can we hold off on picking up the DSI parts of this series until the DSI 
+panel comes up for MTP8750?
 
 Thanks,
-Dave.
+
+Jessica Zhang
+
+> 
+> Best regards,
+> Krzysztof
+> 
+> ---
+> Krzysztof Kozlowski (16):
+>        dt-bindings: display/msm: dsi-controller-main: Combine if:then: entries
+>        dt-bindings: display/msm: dsi-controller-main: Add missing minItems
+>        dt-bindings: display/msm: dsi-phy-7nm: Add SM8750
+>        dt-bindings: display/msm: dsi-controller-main: Add SM8750
+>        dt-bindings: display/msm: dp-controller: Add SM8750
+>        dt-bindings: display/msm: qcom,sm8650-dpu: Add SM8750
+>        dt-bindings: display/msm: qcom,sm8750-mdss: Add SM8750
+>        drm/msm/dpu: Drop useless comments
+>        drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+>        drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
+>        drm/msm/dsi/phy: Add support for SM8750
+>        drm/msm/dsi: Add support for SM8750
+>        drm/msm/dpu: Add support for SM8750
+>        drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+>        drm/msm/dpu: Implement new v12.0 DPU differences
+>        drm/msm/mdss: Add support for SM8750
+> 
+>   .../bindings/display/msm/dp-controller.yaml        |   4 +
+>   .../bindings/display/msm/dsi-controller-main.yaml  | 124 +++---
+>   .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
+>   .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
+>   .../bindings/display/msm/qcom,sm8750-mdss.yaml     | 460 +++++++++++++++++++
+>   .../drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h    | 496 +++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  59 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  12 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  35 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  71 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  19 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          | 210 ++++++++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |  18 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   6 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>   drivers/gpu/drm/msm/dsi/dsi.h                      |   2 +
+>   drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  25 ++
+>   drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+>   drivers/gpu/drm/msm/dsi/dsi_host.c                 |  80 ++++
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  79 +++-
+>   drivers/gpu/drm/msm/msm_mdss.c                     |  33 ++
+>   drivers/gpu/drm/msm/msm_mdss.h                     |   1 +
+>   .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  |  14 +
+>   26 files changed, 1655 insertions(+), 101 deletions(-)
+> ---
+> base-commit: 44ddcc7604ae61eadc748ccc6156bf4b98697978
+> change-id: 20250109-b4-sm8750-display-6ea537754af1
+> 
+> Best regards,
+> -- 
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+
