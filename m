@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0BAA3ACE8
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 00:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078E2A3AD35
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 01:42:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C425410E07D;
-	Tue, 18 Feb 2025 23:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD4410E18E;
+	Wed, 19 Feb 2025 00:42:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=codeweavers.com header.i=@codeweavers.com header.b="beFRfKIp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RfUZS6xx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D75A10E07D
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2025 23:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=codeweavers.com; s=s1; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=f8V96M1dNZ/nDV9/9O0iW1J6fywepGaauBM99maMCPQ=; b=beFRfKIpyWei/AqaxjdVB1+t7R
- myVQ+O8u5GMBnjskUEmNlLfY2k+BjDYJ7w99yJukhUdZfNzVclUJYwTLt5ozKiqSyOnHHHUVnuATY
- s1PkyXMVtxNW1TaPbjkZ7DWF4CxFIQbBMieRn4zalDn8sDu321MTv6bk3r3O1ywLLMeFLEpXnYKrG
- g0KSQUirG3qstUAAXwr96d6E0RHjQojV8gp5Q58FIJ8fmjeY7HPsF+jufg2LFkgsHb/eMw1QZGMZm
- cObsCE9Uhe9+0UvFvVbB4PY8Y951NMvQIwx7/K41+Nd03w3YYn1vWo0cWFSBd0wgUwS7s1L3i7MLO
- wgotkd9g==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160]
- helo=camazotz.localnet)
- by mail.codeweavers.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <zfigura@codeweavers.com>) id 1tkXT1-00Agzb-2A;
- Tue, 18 Feb 2025 17:57:31 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- Mike Lothian <mike@fireburn.co.uk>
-Cc: Mike Lothian <mike@fireburn.co.uk>, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, wine-devel@winehq.org,
- =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH] ntsync: Set the permissions to be 0666
-Date: Tue, 18 Feb 2025 17:57:31 -0600
-Message-ID: <2768333.mvXUDI8C0e@camazotz>
-In-Reply-To: <20250214122759.2629-2-mike@fireburn.co.uk>
-References: <20250214122759.2629-2-mike@fireburn.co.uk>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE3B10E16F;
+ Wed, 19 Feb 2025 00:42:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B4901A41DD0;
+ Wed, 19 Feb 2025 00:40:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F519C4CEE2;
+ Wed, 19 Feb 2025 00:42:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739925735;
+ bh=ryEi3Gdxg4pkyjUwXvJjllTE/ArxaV03uCok4oi9M2I=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=RfUZS6xxt/XFwBFB0CzcvRedosRVvnPpr4gf0mAfSOTfWO0fKt17P1iH2BYpZKOls
+ 6btRTVU6tJr3oufC1KauYg+ulZHe0JoZyAHJ5b0TW7oFF2WXillJoHz3R58+1A3qyx
+ VJD7TEtgjtJ1WNaC03EAKLkk6MvVe5bSRK/7SyXVHZrks3kZBSmO+jAGFqBSPq7NFs
+ NQ61sFztsHUeI3U52duGcJQ19KsNVrS55fd7v60Wq+8DiFyTSFFvfalol48xJ1qS13
+ XUStdKV5SHxmgeU4MPBsojOkAZ8/MHtbum419TqBATmyKUiV98LLx3/gFgxvEERO2w
+ 6ygshi8BPjt+g==
+Date: Tue, 18 Feb 2025 18:42:14 -0600
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Jie Zhang <quic_jiezh@quicinc.com>, Simona Vetter <simona@ffwll.ch>, 
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Rob Clark <robdclark@gmail.com>, freedreno@lists.freedesktop.org, 
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Maxime Ripard <mripard@kernel.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
+References: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
+Message-Id: <173992515318.2064841.13048632010447768805.robh@kernel.org>
+Subject: Re: [PATCH 0/5] EDITME: Support for Adreno 623 GPU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +68,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, 14 February 2025 06:28:00 CST Mike Lothian wrote:
-> This allows ntsync to be usuable by non-root processes out of the box
+
+On Thu, 13 Feb 2025 21:40:05 +0530, Akhil P Oommen wrote:
+> This series adds support for A623 GPU found in QCS8300 chipsets. This
+> GPU IP is very similar to A621 GPU, except for the UBWC configuration
+> and the GMU firmware.
 > 
-> Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
+> Both DT patches are for Bjorn and rest of the patches for Rob Clark to
+> pick up.
+> 
 > ---
->  drivers/misc/ntsync.c | 1 +
->  1 file changed, 1 insertion(+)
+> Jie Zhang (5):
+>       drm/msm/a6xx: Fix gpucc register block for A621
+>       drm/msm/a6xx: Add support for Adreno 623
+>       dt-bindings: display/msm/gmu: Add Adreno 623 GMU
+>       arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
+>       arm64: dts: qcom: qcs8300-ride: Enable Adreno 623 GPU
 > 
-> diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
-> index 055395cde42b..586b86243e1d 100644
-> --- a/drivers/misc/ntsync.c
-> +++ b/drivers/misc/ntsync.c
-> @@ -1208,6 +1208,7 @@ static struct miscdevice ntsync_misc = {
->  	.minor		= MISC_DYNAMIC_MINOR,
->  	.name		= NTSYNC_NAME,
->  	.fops		= &ntsync_fops,
-> +	.mode		= 0666, // Setting file permissions to 0666
->  };
->  
->  module_misc_device(ntsync_misc);
+>  .../devicetree/bindings/display/msm/gmu.yaml       |  1 +
+>  arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |  8 ++
+>  arch/arm64/boot/dts/qcom/qcs8300.dtsi              | 93 ++++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c          | 29 +++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  8 ++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        | 13 ++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        | 17 ++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  5 ++
+>  8 files changed, 171 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 6a25088d268ce4c2163142ead7fe1975bb687cb7
+> change-id: 20250213-a623-gpu-support-f6698603fb85
+> prerequisite-change-id: 20250131-b4-branch-gfx-smmu-b03261963064:v5
+> prerequisite-patch-id: f8fd1a2020c940e595e58a8bd3c55d00d3d87271
+> prerequisite-patch-id: 08a0540f75b0f95fd2018b38c9ed5c6f96433b4d
+> 
+> Best regards,
+> --
+> Akhil P Oommen <quic_akhilpo@quicinc.com>
+> 
+> 
 > 
 
-Reviewed-by: Elizabeth Figura <zfigura@codeweavers.com>
 
---
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-The comment seems rather redundant, but otherwise this is correct and prudent.
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com:
+
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:0: 'gcc_gpu_memnoc_gfx_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:1: 'gcc_gpu_snoc_dvm_gfx_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:2: 'gpu_cc_ahb_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:3: 'gpu_cc_hlos1_vote_gpu_smmu_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:4: 'gpu_cc_cx_gmu_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:5: 'gpu_cc_hub_cx_int_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+
+
+
 
 
