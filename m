@@ -2,96 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418F9A3CBAA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131ABA3CBC6
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DD910E895;
-	Wed, 19 Feb 2025 21:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3EA10E8A6;
+	Wed, 19 Feb 2025 21:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="h6YyJEnp";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="kAn1zkn5";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="jDhIcwUo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB47510E8A1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 21:41:20 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51JGX4Z8011609
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 21:41:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=WtJk7J+L8STgsfYU6SmyrwCAbVUZ+0/gGqo
- u6kln5js=; b=h6YyJEnpFmO83l55NtwqxqZb3fjuNT8fjux95Yak8rY34a/ljg7
- SIpSbC+5VqH5GVOUjXCHRt3E1qadunbl5OhYXIPVZ7nRzm90wcC6GLofZqnY6t7q
- RhkA0Sx3vQX3wLQPZPhzIvFfgNDV07Ep3ZGbc22cImmbtMztlgasnbqKN3iX5lpB
- qPqjdE4fnbYm76QxMN8M1REgKLaoS9P0X0nd7O5MrTyl82Eru2yipCXAMyD2BUfj
- HYiIw61U/gE2VPTl84PaMaP/yLazCD+m5hCkAcL/E4JZ/Rl6Jay0nQk2sVmu8gCl
- ugk3WNDUGjKXqb8G7k+rwtWL8x7BazNtQkg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy3m0ts-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 21:41:19 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-2217b4a48a4so5004555ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:41:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740001278; x=1740606078;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WtJk7J+L8STgsfYU6SmyrwCAbVUZ+0/gGqou6kln5js=;
- b=kTYGFq/HnRkXTe2XFxJcXZN940G9gVLtWZ7KZ9OMby2CEQPMM3D3RZ2cIIOC4zFZ+E
- zr0QcfxphEktmp3Pc3733j7phWuSV5MObJdcXksuwCvGD/dAAfNJ2ANVggaYJYh0k0CD
- wbvd7k0muCe2uFnDkPWKnYP71afT+XtbQcrh1YLp6sx47YpADb2rBezIH9kOarc6crRV
- YXPy8mtnhbaVTxB38A15yepa9tcf4eCyzwBtdEwvZIrIV0aUPmzBIH4BxwtCPszVwfPm
- HsPS7v34BmkqWEhrg7DJ091rxuee+wGmMMOpb4T0aUOjGFNiXcJVUZNqi8wUHSBnYgc2
- nwYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWNAD9FKqk2gBcYxjGhXXHDEtbyDVYfQoPXEMcVMJ6LCJeFIRMYaqB/hp5cqgMtYMTs4p0vLsm6b20=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0YvufWNwSyI1tqDkDtCF7HxngfaakEO4xF5pfPiHQic4FxQGY
- 7GfayUaS1BRRfZeRl62bBzqsB4IO3bX060OVx6O1Gd9mXhGIKHMU4YZeGi7iTfCWdT7rXuxBps5
- AJde+OrmQ8NwH2BhnRcHCsNK+27+O1ZCvXB0r9VSiWg7fSLDhGIzTh2+kKw5DxihkTpBiVZ8Jua
- E=
-X-Gm-Gg: ASbGncsSGFrGLiRpG+bbpKlJQGn4mflXY3+yFUFDWs202HKHUklEmg9kIWL5TDHsF3X
- /KOkRyUB0Rz9lgml+QWrmn91TT4f3ME1RGVsz+fCNnVXZ45pC75AB3by0PzFiwC3KjsIS+HpDBB
- bW6MN/sWQ3yFwcC0fCYqXWVf0EZH4b3+SKep8COosb3ySQVCnf/yYF+BjZ/G5g0BVcG+PkqCpPs
- c2opATDRwLWkH9DJin2zwnWZrzwy87iQFw0DDPh02C1GhpGusoIA8KkfO8Ksqjo6BcBcztuWdXw
- X5Pa565XOE94PdB2mkz48cSLgd8WnWmjHS8fBiAd8gdoNPHzC8LPug==
-X-Received: by 2002:a05:6a00:198c:b0:730:8386:6070 with SMTP id
- d2e1a72fcca58-73261445ce1mr32387868b3a.0.1740001278125; 
- Wed, 19 Feb 2025 13:41:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHYy8GSI+yB3hoPIZBl5aPJIOh94NXuDkh6EdcQ4qKTjkPx3KBxkM3IM4tfQQ7jjYkV93lZpQ==
-X-Received: by 2002:a05:6a00:198c:b0:730:8386:6070 with SMTP id
- d2e1a72fcca58-73261445ce1mr32387837b3a.0.1740001277752; 
- Wed, 19 Feb 2025 13:41:17 -0800 (PST)
-Received: from jhugo-lnx.qualcomm.com (i-global254.qualcomm.com.
- [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7325a8236bfsm9732983b3a.31.2025.02.19.13.41.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2025 13:41:17 -0800 (PST)
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-To: quic_carlv@quicinc.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Subject: [PATCH] MAINTAINERS: Update my email address
-Date: Wed, 19 Feb 2025 14:41:12 -0700
-Message-Id: <20250219214112.2168604-1-jeff.hugo@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Feb 2025 21:47:52 UTC
+Received: from fhigh-b2-smtp.messagingengine.com
+ (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9896710E8A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 21:47:52 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal
+ [10.202.2.49])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id CB833254018C;
+ Wed, 19 Feb 2025 16:42:27 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-09.internal (MEProxy); Wed, 19 Feb 2025 16:42:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm2; t=1740001347; x=1740087747; bh=ckcnFC2PEi
+ /TmO7cPULgl0dHPxY4zBm0jXhpXxiGuI0=; b=kAn1zkn5CTBMQHc85TJn4GNp54
+ yBhL6nQ4KLBHOlC0KYhJc0oFI7ChE1m+thfgNZvpaCp9qlNPS5BkpA4JpB+aFWAt
+ 7I23KI/Ofk2VW0katsRUzjDGCE1nmzmOoDmKWr2YECFD7pFU+1CMORVLrYu6h95a
+ TIF04zLX6TjsZD2ZkFQfz+lIBGy7xpaI61JJzS0cJgLO2pPUthfQYpK7bO02bfwx
+ U63JTkcJCeUVVM+KlVv9HLrgF69PtB+46tPCr1IL7b5Uzn8tODQnONOYDI+hZUh+
+ SmmJp0jA0QNdSa7S8hjEi/1XYfBVOuq04rXDstRYQIH6SKiXXex4bcKhXYnw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1740001347; x=1740087747; bh=ckcnFC2PEi/TmO7cPULgl0dHPxY4zBm0jXh
+ pXxiGuI0=; b=jDhIcwUoCRxWWzQWFmsutDPtpp+vzslaxY/L4oqdnu9qq12jI/q
+ 6jqbjDSvZtsyrlXZh2n4t2on9RYON2Z+XGsb3H02Y81MkYSj3SHxFwEbZYZCA9qw
+ wfVtSPTNSQX7JXmpaoySl32gZ6EonoUdWI9LrW1SXFfXNoiVWCt6V1Pdr/dYWO83
+ wJjos+LUfzVX66oeOMYnvO8l0//YdSSBGon23mERveOp1YfROjww/RHnV6vF+//p
+ 8lSxHgQQTpWGl7OoD+nKKT1CDk0XBfsywHadJAMFBcZeYzMXttT8P6OqCoUP6TPM
+ NMALVx9sTxMQtrEsWb950Se/79X9unY0lmw==
+X-ME-Sender: <xms:QlC2Z9c39ngTrLIR-pUp1e2ZDSqVDXpt50_5_BAWnNtceYgDiD4-LQ>
+ <xme:QlC2Z7MMK-v5lL64fAvA_XYawEA-n7WvkSmro46xsQps1pGA7jLwczms-cXvY2oJ6
+ YtseHXegfbOHirCDLA>
+X-ME-Received: <xmr:QlC2Z2iSIbWgYnGoabTPE_aExzA8jOFPDBbYpRWoVVXv6mwbot_85uimy73hWiTDUQnwaHASr4LSd5UPm2YQuYWWwwQsHkNbeaU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiheefjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
+ necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+ cuggftrfgrthhtvghrnhepieeitdduudekkeeljeekudelgfejgfeiteehvdehieehgeff
+ tefhffehteejudeknecuffhomhgrihhnpehmvghsrgefugdrohhrghenucevlhhushhtvg
+ hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgv
+ thdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprg
+ hlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtoheprghirhhlihgvuges
+ ghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtg
+ hpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdr
+ tghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtth
+ hopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepughrihdquggv
+ vhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlih
+ hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegr
+ shgrhhhisehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:QlC2Z28ymLWekoPMdfE13xKkp7QrzDgcm63LSTo0w2Cr-oBiEhHk8g>
+ <xmx:QlC2Z5v3tAtzxb01J8Wmx9LU8B0dJzhMwQQW8beK34-8g9TpMEAfPQ>
+ <xmx:QlC2Z1FLTcC3k1KoM6XoEA6x4WJOpEzhtjBPYVyho9vJGZ2sFZ-LKg>
+ <xmx:QlC2ZwNp3XG5p5vUXjjpeO6T0t-J8evjpSDmehBmsZ6nmQUawKVVOA>
+ <xmx:Q1C2Z_LMauPWkruA46Fq_ymeLC3b8TyzN3S_hcZGhflWySL9JMXa_uVA>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Feb 2025 16:42:25 -0500 (EST)
+Date: Wed, 19 Feb 2025 22:42:24 +0100
+From: Janne Grunau <j@jannau.net>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH] drm: add modifiers for Apple twiddled layouts
+Message-ID: <20250219214224.GB57799@robin.jannau.net>
+References: <20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: S8vgWgRtiF4APcneQtKPdtCFArHbx4tN
-X-Proofpoint-GUID: S8vgWgRtiF4APcneQtKPdtCFArHbx4tN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-19_09,2025-02-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1011
- malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502100000 definitions=main-2502190161
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,42 +107,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Qualcomm is migrating away from quicinc.com email addresses towards ones
-with *.qualcomm.com.
+Hej,
 
-Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
----
- .mailmap    | 3 ++-
- MAINTAINERS | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+On Tue, Feb 18, 2025 at 11:15:54AM -0500, Alyssa Rosenzweig wrote:
+> Apple supports a few image layouts across the SoC. To begin, add
+> modifiers for the "twiddled" and "twiddled + compressed" layouts. These
+> are the two "standard" layouts used on the GPU. Mesa requires these
+> modifiers to share non-linear buffers across processes, but no other
+> userspace or kernel support is required/expected.
+> 
+> These layouts are notably not used for interchange across hardware
+> blocks (e.g. with the display controller). There are other layouts for
+> those but we don't support them either in userspace or kernelspace yet
+> (even downstream), so we're not adding them here.
+> 
+> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> ---
+>  include/uapi/drm/drm_fourcc.h | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..6c289fc172c099ab32bf539a1698dabb93f9a0d2 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -422,6 +422,7 @@ extern "C" {
+>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+>  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+>  #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
+> +#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
+>  
+>  /* add more to the end as needed */
+>  
+> @@ -1494,6 +1495,36 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>  /* alias for the most common tiling format */
+>  #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
+>  
+> +/*
+> + * Apple twiddled layout.
+> + *
+> + * This is the most "general" image layout supported on Apple GPUs.
+> + *
+> + * Twiddled images are divided into tiles. Tiles are always 16KiB, with
+> + * dimensions depending on the base-format. Within a tile, pixels are fully
+> + * interleaved (Morton order). Tiles themselves are raster-order.
+> + *
+> + * Images must be 16-byte aligned.
+> + *
+> + * For more information see
+> + * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
+> + */
+> +#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 1)
+> +
+> +/*
+> + * Apple twiddled and compressed layout.
+> + *
+> + * This is the main lossless image compression layout supported by Apple GPUs.
+> + *
+> + * The image is divided into tiles that are internally twiddled.  In addition to
 
-diff --git a/.mailmap b/.mailmap
-index ae0adc499f4a..f4b927e48ad1 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -320,7 +320,8 @@ Jeff Garzik <jgarzik@pretzel.yyz.us>
- Jeff Layton <jlayton@kernel.org> <jlayton@poochiereds.net>
- Jeff Layton <jlayton@kernel.org> <jlayton@primarydata.com>
- Jeff Layton <jlayton@kernel.org> <jlayton@redhat.com>
--Jeffrey Hugo <quic_jhugo@quicinc.com> <jhugo@codeaurora.org>
-+Jeff Hugo <jeff.hugo@oss.qualcomm.com> <jhugo@codeaurora.org>
-+Jeff Hugo <jeff.hugo@oss.qualcomm.com> <quic_jhugo@quicinc.com>
- Jens Axboe <axboe@kernel.dk> <axboe@suse.de>
- Jens Axboe <axboe@kernel.dk> <jens.axboe@oracle.com>
- Jens Axboe <axboe@kernel.dk> <axboe@fb.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 950e8b7c0805..815a28c7e6fc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19426,7 +19426,7 @@ F:	drivers/clk/qcom/
- F:	include/dt-bindings/clock/qcom,*
- 
- QUALCOMM CLOUD AI (QAIC) DRIVER
--M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
-+M:	Jeff Hugo <jeff.hugo@oss.qualcomm.com>
- R:	Carl Vanderlip <quic_carlv@quicinc.com>
- L:	linux-arm-msm@vger.kernel.org
- L:	dri-devel@lists.freedesktop.org
--- 
-2.34.1
+Does the compressed format uses the same the sime tile sizes (in pixel
+dimensions) and layout as DRM_FORMAT_MOD_APPLE_TWIDDLED? I'd assume so
+but I think it's worth stating explictly.
 
+> + * the body, there is also a metadata section containing 8 bytes for each 16x16
+> + * compression subtile. By convention, the metadata immediately follows the
+> + * body, after padding to 128-bytes.
+> + *
+> + * Images must be 16-byte aligned.
+> + */
+> +#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 2)
+> +
+
+ciao Janne
