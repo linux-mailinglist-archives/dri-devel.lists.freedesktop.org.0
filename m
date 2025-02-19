@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791D0A3C1EE
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 15:22:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B6AA3C216
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 15:27:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1CCF10E818;
-	Wed, 19 Feb 2025 14:22:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCC510E320;
+	Wed, 19 Feb 2025 14:27:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rm8Lp1ml";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="daDjzf5m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7871E10E818
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:22:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id CF23DA428EE
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:20:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48673C4CED6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:22:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739974956;
- bh=reh2ru3wGs4xpgkwhP9irvC0VjoDeR95OIEbA777fUo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Rm8Lp1ml+GLe9LpjM4u789wk9VDrcRCHCwOx5d1y1OyHKpQWu1SkSPWkLEj/iHM8K
- DhtqHwrVw9g5PBRsYAc09f/9PVPYCl78tlWVq7n12KDwO3oQyvj1K8udCXPVo2Xumc
- WRIok7A9Y6AeZRRgvrlNJLUoawaTA1/5LH7n1EYvbOBZtCPEyVuoampbIn2/R5dtDs
- /VPI3NwDIqO3E2udYGT8Q9n3e+vb42vS1fle+5mIAwLqbK7Vg3fAxONZsxm2T01Gfn
- gdIWBWtvVcBDtWRVhKRneSEyttJX26itrB7o/cTI44gZJt94az8kEgvd9i25Bu9C8E
- ErfCOx1KUGaQg==
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-2fc0bd358ccso13602744a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 06:22:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWh/1AGshG0p1Ve9RoObzHnAYWtNxFoMyyKoxRALiugdfNSWEPWVYY3g/BGeoJ+IP/o7jG5RY8O8Ek=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxk2FesnQu3YpMfDOSnhk48xYTYbmob3UjWK7C9AYp3xu89A82O
- 1MxizJ/6BXeUSTKm0OIf5J4jpcqkjhI4fnc6sayaXk5VO7jg2IDy4+GYZVLf3CrcABSgAPmqHjZ
- q2SaTPgUJaFFW2pGL1WYg7ftp3g==
-X-Google-Smtp-Source: AGHT+IFcqF5yaXmkd1Kkc/nRemVogPJJE5Ke5gvEz4B9RO5EGqWKjgjJjYnTiJJa8/Cdthu+CTDKxzr7KsWY9zI/Ph4=
-X-Received: by 2002:a17:90b:39cc:b0:2fa:229f:d03a with SMTP id
- 98e67ed59e1d1-2fc4104056emr23304153a91.26.1739974955900; Wed, 19 Feb 2025
- 06:22:35 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF4D910E18D
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739975229; x=1771511229;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vhmxI/qpUsmrpjWohWJgs/TMHfwXta/ulC9P6VHKIyA=;
+ b=daDjzf5mojiz2V2cSo4fFeSy+9Bb59xvvdaG/QNr1UaoCT9y7/wUJ42C
+ Tjjxv0McT9XIwPr+QDqSP9Bylb4jBkNQTuU1D3b6Z1XfEaspSMZSGfW95
+ SlD2pLsRMim1TPkFviRK5LJjMBi0kzyDyiMcShPZ+CH0Mp8epUEQC9b8K
+ QUyPuylO7Ppyx5Lsr2sqSJ+CEEMLOm5GHOvV2f6Qj7Uz1oRP8etvs/sdx
+ 2xWRBLzGsZ2fSukeMAHE9Ik5BPal73nSKrDhGrRWPc351IAVe9TZhk525
+ ykbb/po1PCXI0Jqc/ZXuuXpKUuzbJsj3Jp8jqa9PtDxHj/2QM+L1eUVeX Q==;
+X-CSE-ConnectionGUID: 40ScvtyOQ021XFKfW5zjaA==
+X-CSE-MsgGUID: KU4JpgLWQ2ShZt4HYLrLVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="66067584"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="66067584"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 06:26:56 -0800
+X-CSE-ConnectionGUID: 5fTf7ojeRZiQzvfXC1fUTQ==
+X-CSE-MsgGUID: zkUoBl+eRPGI1IYoJeFrYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="145620194"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 06:26:52 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tkl2H-0000000D2xx-20EC; Wed, 19 Feb 2025 16:26:49 +0200
+Date: Wed, 19 Feb 2025 16:26:49 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+ Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
+Message-ID: <Z7XqKcOUt5niXzpv@smile.fi.intel.com>
+References: <20250218132702.114669-1-clamor95@gmail.com>
+ <20250218132702.114669-3-clamor95@gmail.com>
 MIME-Version: 1.0
-References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
- <20250217154836.108895-25-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250217154836.108895-25-angelogioacchino.delregno@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 19 Feb 2025 22:23:20 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8qu6QeV=KJypYm=25PSGJD=jaMK6tMa2gWAoEF-mgPGg@mail.gmail.com>
-X-Gm-Features: AWEUYZm6NK2d9V3p_Lp0cN8OApA1MPTl0H47EFaINMxZJFCgqd5UGa_xL6LrvNY
-Message-ID: <CAAOTY_8qu6QeV=KJypYm=25PSGJD=jaMK6tMa2gWAoEF-mgPGg@mail.gmail.com>
-Subject: Re: [PATCH v7 24/43] drm/mediatek: mtk_hdmi: Move vendor/product
- strings to drm_bridge
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com, 
- jie.qiu@mediatek.com, junzhi.zhao@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com, 
- dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com, 
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com, 
- jason-jh.lin@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250218132702.114669-3-clamor95@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,83 +81,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Angelo:
+On Tue, Feb 18, 2025 at 03:27:00PM +0200, Svyatoslav Ryhel wrote:
+> Remove platform data and fully relay on OF and device tree
+> parsing and binding devices.
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2025=E5=B9=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:=
-49=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Move the vendor and product strings to the appropriate entries
-> of struct drm_bridge and use that in mtk_hdmi_setup_spd_infoframe
-> instead of having the same as function parameters.
->
-> While at it, also beautify the strings, setting them to read
-> "MediaTek On-Chip HDMI".
+Thanks for following the advice, but the problem with this change as it does
+too much at once. It should be split to a few simpler ones.
+On top of that, this removes MFD participation from the driver but leaves it
+under MFD realm. Moreover, looking briefly at the code it looks like it open
+codes the parts of MFD. The latter needs a very goo justification which commit
+message is missing.
 
-Applied to mediatek-drm-next [1], thanks.
+...
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+> +static const struct of_device_id lm3533_als_match_table[] = {
+> +	{ .compatible = "ti,lm3533-als" },
+> +	{ },
 
-Regards,
-Chun-Kuang.
+No comma for the terminator entry. I think I already pointed that out earlier.
 
->
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
-ek/mtk_hdmi.c
-> index e9f2f15e98fa..4bf19574463d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -952,15 +952,14 @@ static int mtk_hdmi_setup_avi_infoframe(struct mtk_=
-hdmi *hdmi,
->         return 0;
->  }
->
-> -static int mtk_hdmi_setup_spd_infoframe(struct mtk_hdmi *hdmi,
-> -                                       const char *vendor,
-> -                                       const char *product)
-> +static int mtk_hdmi_setup_spd_infoframe(struct mtk_hdmi *hdmi)
->  {
-> +       struct drm_bridge *bridge =3D &hdmi->bridge;
->         struct hdmi_spd_infoframe frame;
->         u8 buffer[HDMI_INFOFRAME_HEADER_SIZE + HDMI_SPD_INFOFRAME_SIZE];
->         ssize_t err;
->
-> -       err =3D hdmi_spd_infoframe_init(&frame, vendor, product);
-> +       err =3D hdmi_spd_infoframe_init(&frame, bridge->vendor, bridge->p=
-roduct);
->         if (err < 0) {
->                 dev_err(hdmi->dev, "Failed to initialize SPD infoframe: %=
-zd\n",
->                         err);
-> @@ -1328,7 +1327,7 @@ static void mtk_hdmi_send_infoframe(struct mtk_hdmi=
- *hdmi,
->  {
->         mtk_hdmi_setup_audio_infoframe(hdmi);
->         mtk_hdmi_setup_avi_infoframe(hdmi, mode);
-> -       mtk_hdmi_setup_spd_infoframe(hdmi, "mediatek", "On-chip HDMI");
-> +       mtk_hdmi_setup_spd_infoframe(hdmi);
->         if (mode->flags & DRM_MODE_FLAG_3D_MASK)
->                 mtk_hdmi_setup_vendor_specific_infoframe(hdmi, mode);
->  }
-> @@ -1707,6 +1706,8 @@ static int mtk_hdmi_probe(struct platform_device *p=
-dev)
->         hdmi->bridge.ops =3D DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
->                          | DRM_BRIDGE_OP_HPD;
->         hdmi->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
-> +       hdmi->bridge.vendor =3D "MediaTek";
-> +       hdmi->bridge.product =3D "On-Chip HDMI";
->         drm_bridge_add(&hdmi->bridge);
->
->         ret =3D mtk_hdmi_clk_enable_audio(hdmi);
-> --
-> 2.48.1
->
+> +};
+
+...
+
+> +	device_property_read_string(&pdev->dev, "linux,default-trigger",
+> +				    &led->cdev.default_trigger);
+
+One prerequisite patch you probably want is an introduction of
+
+	struct device *dev = &pdev->dev;
+
+in the respective ->probe() implementations. This, in particular, makes the
+above lines shorter and fit one line.
+
+...
+
+> +static const struct of_device_id lm3533_led_match_table[] = {
+> +	{ .compatible = "ti,lm3533-leds" },
+> +	{ },
+
+As per above.
+
+> +};
+
+...
+
+> +		if (!strcmp(comatible, "ti,lm3533-als"))
+> +			lm3533->have_als = 1;
+
+If you end up having this, it's not the best what we can do. OF ID tables have
+a driver_data field exactly for the cases like this.
+
+...
+
+> +		if (!strcmp(comatible, "ti,lm3533-backlight"))
+> +			lm3533->have_backlights = 1;
+
+Ditto.
+
+...
+
+> +		if (!strcmp(comatible, "ti,lm3533-leds"))
+> +			lm3533->have_leds = 1;
+
+Ditto.
+
+...
+
+> +		ret = lm3533_update(bl->lm3533, LM3533_REG_CTRLBANK_AB_BCONF,
+> +				    1 << (2 * id + 1), 1 << (2 * id + 1));
+
+BIT() and better to use a temporary variable for this calculation.
+
+> +		if (ret)
+> +			return ret;
+
+...
+
+> +		ret = lm3533_update(bl->lm3533, LM3533_REG_OUTPUT_CONF1,
+> +				    id | id << 1, BIT(0) | BIT(1));
+
+		mask = GENMASK();
+		..., id ? mask : 0, mask);
+
+> +		if (ret)
+> +			return ret;
+> +	}
+
+...
+
+> +	bd = devm_backlight_device_register(&pdev->dev, pdev->name, pdev->dev.parent,
+> +					    bl, &lm3533_bl_ops, &props);
+
+
+With the advice from above:
+
+	bd = devm_backlight_device_register(dev, pdev->name, dev->parent, bl, &lm3533_bl_ops,
+					    &props);
+
+
+>  	if (IS_ERR(bd)) {
+>  		dev_err(&pdev->dev, "failed to register backlight device\n");
+>  		return PTR_ERR(bd);
+
+Consider another prerequisite patch (which should come before the firstly
+proposed one):
+
+	struct device *dev = &pdev->dev; // yes, this can go in this change
+	...
+
+	if (IS_ERR(bd))
+		return dev_err_probe(dev, PTR_ERR(bd), "failed to register backlight device\n");
+
+...
+
+> +static const struct of_device_id lm3533_bl_match_table[] = {
+> +	{ .compatible = "ti,lm3533-backlight" },
+> +	{ },
+
+As per above.
+
+> +};
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
