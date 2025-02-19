@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E7FA3B2A0
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 08:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795DBA3B2A3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 08:40:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7AED10E1CF;
-	Wed, 19 Feb 2025 07:39:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fnOQK2ht";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E909E10E243;
+	Wed, 19 Feb 2025 07:40:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 984B810E1CF
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 07:39:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A0B5FA41F5B;
- Wed, 19 Feb 2025 07:37:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF18C4CEE6;
- Wed, 19 Feb 2025 07:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739950774;
- bh=pgRTuJF/vNg0LY60My1QaeV54AWgu4FtzhhiAB7jQW8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fnOQK2htDKmKHRx1o0+IqenQIMCVQSiPzU9HaylAnvHg9pEe00ExQPRm01E1dyQZf
- s9Ms2/G897XOehsQxE9WaP0cena8BsQ0S1IaHn9xJNbesO8K+/pXEjvM5f3fsUrv9Z
- 5ycNGNN6st4CXcTpCkrPCByvKxDUgu+OMtNFhMNn8tHvgQsrkgGHZciNl42EU0927I
- 9AAKiAeTDiFOlIwsL6JfDvjorp7nxfWM+RyQcQ1EInyrmx7rdYrgE31qgmTOcAKMwQ
- ytABuUhY6fju2EYnexU4EGE/KO7+OO3EMp+5Wi3PirMSZnaWXgDzYUg9sUJgAC9AqD
- P6hiJXeQj6W/w==
-Date: Tue, 18 Feb 2025 23:39:32 -0800
-From: Namhyung Kim <namhyung@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
- Kan Liang <kan.liang@linux.intel.com>,
- James Clark <james.clark@linaro.org>, Weilin Wang <weilin.wang@intel.com>,
- Jean-Philippe Romain <jean-philippe.romain@foss.st.com>,
- Junhao He <hejunhao3@huawei.com>, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1] perf drm_pmu: Add a tool like PMU to expose DRM
- information
-Message-ID: <Z7WKtI6lwvAZPb1y@google.com>
-References: <20250211071727.364389-1-irogers@google.com>
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 538A810E243
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 07:40:06 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4YySrR4dSjzhZqH;
+ Wed, 19 Feb 2025 15:36:39 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id 315D214034E;
+ Wed, 19 Feb 2025 15:40:03 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Wed, 19 Feb 2025 15:40:01 +0800
+Message-ID: <a049b7ae-e3b2-4300-81ee-76f677804135@huawei.com>
+Date: Wed, 19 Feb 2025 15:40:00 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250211071727.364389-1-irogers@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 drm-dp 4/7] drm/hisilicon/hibmc: Add colorbar-cfg: set
+ color bar cfg
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250210144959.100551-1-shiyongbang@huawei.com>
+ <20250210144959.100551-5-shiyongbang@huawei.com>
+ <msjbkixuc27nxqzqgewvtwaa3yszfp3fwrv4qiot4petpxrtyu@3n6crntdm2ay>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <msjbkixuc27nxqzqgewvtwaa3yszfp3fwrv4qiot4petpxrtyu@3n6crntdm2ay>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,170 +61,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ian,
+> On Mon, Feb 10, 2025 at 10:49:56PM +0800, Yongbang Shi wrote:
+>> From: Baihan Li <libaihan@huawei.com>
+>>
+>> This is a DP IP controller's feature. It can be used as a debug method
+>> which can check DP controller is working good. The colorbar displaying
+>> doesn't rely on other IPs work in the chip, like: GPU or DDR (vram) and
+>> so on, because colorbar diplaying data is generated by controller itself
+>> inside the DP IP.
+> You are describing it in a pretty strange manner. Does this sound
+> better?
+>
+> DP controller can support generating a color bar signal over the
+> DisplayPort interface. This can be useful to check for possible memory
+> or GPU problems, as the signal generator resides completely in the DP
+> block. Add debugfs file that controls colorbar generator.
+>
+> This also requires having corresponding debugfs entry here.
 
-On Mon, Feb 10, 2025 at 11:17:27PM -0800, Ian Rogers wrote:
-> DRM clients expose information through usage stats as documented in
-> Documentation/gpu/drm-usage-stats.rst (available online at
-> https://docs.kernel.org/gpu/drm-usage-stats.html). Add a tool like
-> PMU, similar to the hwmon PMU, that exposes DRM information.
-
-Probably better to put this link in a file header comment.
-
-
-> For example on a tigerlake laptop:
-> ```
-> $ perf list drm
-> 
-> List of pre-defined events (to be used in -e or -M):
-> 
-> drm:
->   drm-active-stolen-system0
->        [Total memory active in one or more engines. Unit: drm_i915]
->   drm-active-system0
->        [Total memory active in one or more engines. Unit: drm_i915]
->   drm-engine-capacity-video
->        [Engine capacity. Unit: drm_i915]
->   drm-engine-copy
->        [Utilization in ns. Unit: drm_i915]
->   drm-engine-render
->        [Utilization in ns. Unit: drm_i915]
->   drm-engine-video
->        [Utilization in ns. Unit: drm_i915]
->   drm-engine-video-enhance
->        [Utilization in ns. Unit: drm_i915]
->   drm-purgeable-stolen-system0
->        [Size of resident and purgeable memory bufers. Unit: drm_i915]
->   drm-purgeable-system0
->        [Size of resident and purgeable memory bufers. Unit: drm_i915]
->   drm-resident-stolen-system0
->        [Size of resident memory bufers. Unit: drm_i915]
->   drm-resident-system0
->        [Size of resident memory bufers. Unit: drm_i915]
->   drm-shared-stolen-system0
->        [Size of shared memory bufers. Unit: drm_i915]
->   drm-shared-system0
->        [Size of shared memory bufers. Unit: drm_i915]
->   drm-total-stolen-system0
->        [Size of shared and private memory. Unit: drm_i915]
->   drm-total-system0
->        [Size of shared and private memory. Unit: drm_i915]
-> ```
-> 
-> System wide data can be gathered:
-> ```
-> $ perf stat -x, -I 1000 -e drm-active-stolen-system0,drm-active-system0,drm-engine-capacity-video,drm-engine-copy,drm-engine-render,drm-engine-video,drm-engine-video-enhance,drm-purgeable-stolen-system0,drm-purgeable-system0,drm-resident-stolen-system0,drm-resident-system0,drm-shared-stolen-system0,drm-shared-system0,drm-total-stolen-system0,drm-total-system0
-> 1.000904910,0,bytes,drm-active-stolen-system0,1,100.00,,
-> 1.000904910,0,bytes,drm-active-system0,1,100.00,,
-> 1.000904910,36,capacity,drm-engine-capacity-video,1,100.00,,
-> 1.000904910,0,ns,drm-engine-copy,1,100.00,,
-> 1.000904910,1472970566175,ns,drm-engine-render,1,100.00,,
-> 1.000904910,0,ns,drm-engine-video,1,100.00,,
-> 1.000904910,0,ns,drm-engine-video-enhance,1,100.00,,
-> 1.000904910,0,bytes,drm-purgeable-stolen-system0,1,100.00,,
-> 1.000904910,38199296,bytes,drm-purgeable-system0,1,100.00,,
-> 1.000904910,0,bytes,drm-resident-stolen-system0,1,100.00,,
-> 1.000904910,4643196928,bytes,drm-resident-system0,1,100.00,,
-> 1.000904910,0,bytes,drm-shared-stolen-system0,1,100.00,,
-> 1.000904910,1886871552,bytes,drm-shared-system0,1,100.00,,
-> 1.000904910,0,bytes,drm-total-stolen-system0,1,100.00,,
-> 1.000904910,4643196928,bytes,drm-total-system0,1,100.00,,
-> 2.264426839,0,bytes,drm-active-stolen-system0,1,100.00,,
-> ```
-> 
-> Or for a particular process:
-> ```
-> $ perf stat -x, -I 1000 -e drm-active-stolen-system0,drm-active-system0,drm-engine-capacity-video,drm-engine-copy,drm-engine-render,drm-engine-video,drm-engine-video-enhance,drm-purgeable-stolen-system0,drm-purgeable-system0,drm-resident-stolen-system0,drm-resident-system0,drm-shared-stolen-system0,drm-shared-system0,drm-total-stolen-system0,drm-total-system0 -p 200027
-> 1.001040274,0,bytes,drm-active-stolen-system0,6,100.00,,
-> 1.001040274,0,bytes,drm-active-system0,6,100.00,,
-> 1.001040274,12,capacity,drm-engine-capacity-video,6,100.00,,
-> 1.001040274,0,ns,drm-engine-copy,6,100.00,,
-> 1.001040274,1542300,ns,drm-engine-render,6,100.00,,
-> 1.001040274,0,ns,drm-engine-video,6,100.00,,
-> 1.001040274,0,ns,drm-engine-video-enhance,6,100.00,,
-> 1.001040274,0,bytes,drm-purgeable-stolen-system0,6,100.00,,
-> 1.001040274,13516800,bytes,drm-purgeable-system0,6,100.00,,
-> 1.001040274,0,bytes,drm-resident-stolen-system0,6,100.00,,
-> 1.001040274,27746304,bytes,drm-resident-system0,6,100.00,,
-> 1.001040274,0,bytes,drm-shared-stolen-system0,6,100.00,,
-> 1.001040274,0,bytes,drm-shared-system0,6,100.00,,
-> 1.001040274,0,bytes,drm-total-stolen-system0,6,100.00,,
-> 1.001040274,27746304,bytes,drm-total-system0,6,100.00,,
-> 2.016629075,0,bytes,drm-active-stolen-system0,6,100.00,,
-> ```
-
-I've tested it briefly.
-
-  $ ./perf stat -e drm-engine-render,drm-total-system0 -a sleep 1
-  
-   Performance counter stats for 'system wide':
-  
-   2,869,492,628,815 ns    drm-engine-render                                                     
-       2,777,497,600 bytes drm-total-system0                                                     
-  
-         1.004182447 seconds time elapsed
-
-It seems the numbers are quite big.
-
-  $ ./perf stat -e drm-engine-render,drm-total-system0 -aA sleep 1
-  
-   Performance counter stats for 'system wide':
-  
-  CPU0    2,870,871,280,238 ns    drm_i915/drm-engine-render/                                           
-  CPU1        <not counted> ns    drm_i915/drm-engine-render/                                           
-  CPU2        <not counted> ns    drm_i915/drm-engine-render/                                           
-  CPU3        <not counted> ns    drm_i915/drm-engine-render/                                           
-  CPU0        2,750,578,688 bytes drm_i915/drm-total-system0/                                           
-  CPU1        <not counted> bytes drm_i915/drm-total-system0/                                           
-  CPU2        <not counted> bytes drm_i915/drm-total-system0/                                           
-  CPU3        <not counted> bytes drm_i915/drm-total-system0/                                           
-  
-         1.001678363 seconds time elapsed
-
-Ok, it only reads from the CPU0.  But I guess there are some
-duplications.  Have you checked drm-client-id?
-
-  $ ./perf stat -e drm-engine-render -a --per-thread sleep 1
-  
-   Performance counter stats for 'system wide':
-  
-              Xorg-6900       852,545,872,646 ns    drm-engine-render                                                     
-       Xorg:disk$0-6901       852,545,872,646 ns    drm-engine-render                                                     
-          Xorg:sh0-6902       852,545,872,646 ns    drm-engine-render                                                     
-      Xorg:traceq0-6904       852,545,872,646 ns    drm-engine-render                                                     
-        Xorg:gdrv0-6906       852,545,872,646 ns    drm-engine-render                                                     
-       InputThread-6946       852,545,872,646 ns    drm-engine-render                                                     
-       gnome-shell-7127       808,521,145,191 ns    drm-engine-render                                                     
-      pool-spawner-7146       808,521,145,191 ns    drm-engine-render                                                     
-             gmain-7147       808,521,145,191 ns    drm-engine-render                                                     
-             gdbus-7149       808,521,145,191 ns    drm-engine-render                                                     
-      dconf worker-7150       808,521,145,191 ns    drm-engine-render                                                     
-         JS Helper-7151       808,521,145,191 ns    drm-engine-render                                                     
-         JS Helper-7152       808,521,145,191 ns    drm-engine-render                                                     
-      ...
-
-Trying record..
-
-  $ ./perf record -e drm-engine-render sleep 1
-  failed to mmap with 9 (Bad file descriptor)
-
-I think you can fail evsel__open() if attr.sample_period != 0.
-
-> 
-> As with the hwmon PMU, high numbered PMU types are used to encode
-> multiple possible "DRM" PMUs. The appropriate fdinfo is found by
-> scanning /proc and filtering which fdinfos to read with stat. To avoid
-> some unneeding scanning, events not starting with "drm-" are ignored.
-
-It's sad that it should scan /proc whenever it reads the event but I
-don't think we have other options.
+Hi Dmitry,
+Thank you for your guidance, I got it.
 
 
-> The patch builds on commit 57e13264dcea ("perf pmus:
-> Restructure pmu_read_sysfs to scan fewer PMUs") so that only if full
-> wild carding is being done, that the drm PMUs will be read.
-
-Can you please add a test case?
-
-Thanks,
-Namhyung
+>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+>> ---
+>> ChangeLog:
+>> v1 -> v2:
+>>    - add colorbar introduction in commit, suggested by Dmitry Baryshkov.
+>>    - splittting colorbar and debugfs in different patches, suggested by Dmitry Baryshkov.
+>> ---
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c  | 43 +++++++++++++++++++++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h  | 29 ++++++++++++++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h |  2 +
+>>   3 files changed, 74 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> index 77f02d5151f7..8adace0befde 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> @@ -226,3 +226,46 @@ int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode)
+>>   
+>>   	return 0;
+>>   }
+>> +
+>> +static const struct hibmc_dp_color_raw g_rgb_raw[] = {
+>> +	{CBAR_COLOR_BAR, 0x000, 0x000, 0x000},
+>> +	{CBAR_WHITE,     0xfff, 0xfff, 0xfff},
+>> +	{CBAR_RED,       0xfff, 0x000, 0x000},
+>> +	{CBAR_ORANGE,    0xfff, 0x800, 0x000},
+>> +	{CBAR_YELLOW,    0xfff, 0xfff, 0x000},
+>> +	{CBAR_GREEN,     0x000, 0xfff, 0x000},
+>> +	{CBAR_CYAN,      0x000, 0x800, 0x800},
+>> +	{CBAR_BLUE,      0x000, 0x000, 0xfff},
+>> +	{CBAR_PURPLE,    0x800, 0x000, 0x800},
+>> +	{CBAR_BLACK,     0x000, 0x000, 0x000},
+>> +};
+>> +
+>> +void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg)
+>> +{
+>> +	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
+>> +	struct hibmc_dp_color_raw raw_data;
+>> +
+>> +	if (cfg->enable) {
+>> +		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(9),
+>> +					 cfg->self_timing);
+>> +		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, GENMASK(8, 1),
+>> +					 cfg->dynamic_rate);
+>> +		if (cfg->pattern == CBAR_COLOR_BAR) {
+>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(10), 0);
+>> +		} else {
+>> +			raw_data = g_rgb_raw[cfg->pattern];
+>> +			drm_dbg_dp(dp->drm_dev, "r:%x g:%x b:%x\n", raw_data.r_value,
+>> +				   raw_data.g_value, raw_data.b_value);
+>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(10), 1);
+>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, GENMASK(23, 12),
+>> +						 raw_data.r_value);
+>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL1, GENMASK(23, 12),
+>> +						 raw_data.g_value);
+>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL1, GENMASK(11, 0),
+>> +						 raw_data.b_value);
+>> +		}
+>> +	}
+>> +
+>> +	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(0), cfg->enable);
+>> +	writel(HIBMC_DP_SYNC_EN_MASK, dp_dev->base + HIBMC_DP_TIMING_SYNC_CTRL);
+>> +}
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>> index 53b6d0beecea..621a0a1d7eb7 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>> @@ -14,6 +14,33 @@
+>>   
+>>   struct hibmc_dp_dev;
+>>   
+>> +enum hibmc_dp_cbar_pattern {
+>> +	CBAR_COLOR_BAR,
+>> +	CBAR_WHITE,
+>> +	CBAR_RED,
+>> +	CBAR_ORANGE,
+>> +	CBAR_YELLOW,
+>> +	CBAR_GREEN,
+>> +	CBAR_CYAN,
+>> +	CBAR_BLUE,
+>> +	CBAR_PURPLE,
+>> +	CBAR_BLACK,
+>> +};
+>> +
+>> +struct hibmc_dp_color_raw {
+>> +	enum hibmc_dp_cbar_pattern pattern;
+>> +	u32 r_value;
+>> +	u32 g_value;
+>> +	u32 b_value;
+>> +};
+>> +
+>> +struct hibmc_dp_cbar_cfg {
+>> +	bool enable;
+>> +	bool self_timing;
+>> +	u8 dynamic_rate; /* 0:static, 1-255(frame):dynamic */
+>> +	enum hibmc_dp_cbar_pattern pattern;
+>> +};
+>> +
+>>   struct hibmc_dp {
+>>   	struct hibmc_dp_dev *dp_dev;
+>>   	struct drm_device *drm_dev;
+>> @@ -21,10 +48,12 @@ struct hibmc_dp {
+>>   	struct drm_connector connector;
+>>   	void __iomem *mmio;
+>>   	struct drm_dp_aux aux;
+>> +	struct hibmc_dp_cbar_cfg cfg;
+>>   };
+>>   
+>>   int hibmc_dp_hw_init(struct hibmc_dp *dp);
+>>   int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode);
+>>   void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable);
+>> +void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg);
+>>   
+>>   #endif
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>> index f2fa9807d8ab..c43ad6b30c2c 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>> @@ -23,6 +23,8 @@
+>>   #define HIBMC_DP_VIDEO_MSA1			0x11c
+>>   #define HIBMC_DP_VIDEO_MSA2			0x120
+>>   #define HIBMC_DP_VIDEO_HORIZONTAL_SIZE		0X124
+>> +#define HIBMC_DP_COLOR_BAR_CTRL			0x260
+>> +#define HIBMC_DP_COLOR_BAR_CTRL1		0x264
+>>   #define HIBMC_DP_TIMING_GEN_CONFIG0		0x26c
+>>   #define HIBMC_DP_TIMING_GEN_CONFIG2		0x274
+>>   #define HIBMC_DP_TIMING_GEN_CONFIG3		0x278
+>> -- 
+>> 2.33.0
+>>
