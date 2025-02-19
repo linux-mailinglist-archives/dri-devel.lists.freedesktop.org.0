@@ -2,96 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770C2A3B1C4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 07:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A93A3B1C8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 07:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3BF10E036;
-	Wed, 19 Feb 2025 06:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8271910E461;
+	Wed, 19 Feb 2025 06:48:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="OFXPhAWh";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="S8cN9Grw";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="A2f8rQ7h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a6-smtp.messagingengine.com
- (fout-a6-smtp.messagingengine.com [103.168.172.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 718FF10E036
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 06:47:40 +0000 (UTC)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal
- [10.202.2.51])
- by mailfout.phl.internal (Postfix) with ESMTP id 7C4401380861;
- Wed, 19 Feb 2025 01:47:39 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-11.internal (MEProxy); Wed, 19 Feb 2025 01:47:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1739947659;
- x=1740034059; bh=J36qZr4XlQJHghLHCEZehAHjZbscRnNTmQ9ugnTYxVo=; b=
- OFXPhAWhRehitF6GSNzJuzWZoC9i+FkscVRs9xpeC0DjoI8ljDc2hB0HEdM+sfIh
- xjXTMyLSXAPttxAu/Rbg5OlNq8KVnSBtRGj34virrlToENk9Yt1AI03oSr17GP/p
- ItE6NA8QtriiHRFspzmdgWlOGL/BRcW6eNKuHkiJJW2W3E0NiyJ8AZQy5PT8VHlB
- Af4zuEKF3lKXgZZaN6m9nqivj5Xr4a1+vYIW0Recnh1I3/DOeRNO2lgxoWV9HhIk
- t1P3kyL3oDDjUtJ5nxIO8tsRHpeYkJoURtKdmsZEr0VOboByMV7L/p2WoQqnysDO
- Qj7WjF+3yA/plTuYqxfqcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739947659; x=
- 1740034059; bh=J36qZr4XlQJHghLHCEZehAHjZbscRnNTmQ9ugnTYxVo=; b=S
- 8cN9GrwjiCFlRI4BSr7oLDPMvEOAMFRL0/lhW26MFviJ9W0LX7rWlZ/MAVbrX7+o
- KXLCRFf4hnvRyU8JAj0OxmjeNzCBBXwxM03tCwNU+LKIbyDzWmVjxTBnvYC9Vyis
- E7SZdc8aRTWjzh04UvyxKf43YSMFB0vFzFx3GxLb++rgsj3aHfAAp69SizicXllz
- MC+Sj4xdIFf3DHnM3yUeLdR4Dna61+S13fjv9Gujzgbo9eqip08uBCbpDvXiAvj5
- PXZYLjB378W4dT5AbvEGsuZwIMLa6t/hr0IQ9fVY3NWrHP7WaESxoTg5t1MWxUdG
- d7yGQn9MDZkquAXmzpbzw==
-X-ME-Sender: <xms:iX61ZyPZshRIVa-De3lhnUd8ev5oTNVqwRG8IBT7N6jjeIJ4Jab8Lg>
- <xme:iX61Zw8Cdk3v-pSafSh2TKhqROR0trG-RdXSjc_guD8jBzw_VnfLFoVmlypyK2JmP
- 75ncgaeToNeM3E8LWg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeifeehhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
- tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
- druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
- gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
- epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedu
- tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepohhushhhihigihhonhhguddtvd
- ehseduieefrdgtohhmpdhrtghpthhtohepuhdrkhhlvghinhgvqdhkohgvnhhighessggr
- hihlihgsrhgvrdgtohhmpdhrtghpthhtohepuggvlhhlvghrsehgmhigrdguvgdprhgtph
- htthhopehlrghurhgvnhhtrdhpihhntghhrghrthdorhgvnhgvshgrshesihguvggrshho
- nhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtg
- hpthhtohepohhushhhihigihhonhhgsehkhihlihhnohhsrdgtnhdprhgtphhtthhopegu
- rhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpth
- htohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehlihhnuhig
- qdhfsgguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:iX61Z5SyTODmXICOp_WXU3NSDFy1s_FTtNbLc1gOCPdibSHLmS1lww>
- <xmx:iX61ZyttbKacXZ9qlo-Pw5b8KuvM-yTc0w3qHB8Pw_eSJaraQFybbw>
- <xmx:iX61Z6fhJnCSyXSQ6ZuOoUJdm596mkMwKo225NV-CHVuxl3TSNuOvw>
- <xmx:iX61Z226JAg3E-s_OB-Nr0DNGmrggT029C1mUx7bTU02ok-QVsAbhA>
- <xmx:i361Z64u886KwNja_d7rD4JlceV124kFry1zhn9OT4MmYloJ7kdd4R1O>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 9AACC2220072; Wed, 19 Feb 2025 01:47:37 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 829FD10E461
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 06:48:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=U1net
+ 4T7Q6cu0QEL0E/9T25UtKWWEpm4SRfno/kdROI=; b=A2f8rQ7h+lFehOjJPbVZR
+ MY64dVxtPHCzKnRrHhYiwDk7gNSNUsGA6ThjL8PTNzJ28AtpbLsthuB/E4AFWCF7
+ fth/MVD+hC0cfvcbCutupu2X6V2YT7HwehZnxhyAGJgM2F0sQYgr/dKQVumACaSt
+ OeYp/NY5r5B94jiOz2zQic=
+Received: from localhost.localdomain (unknown [])
+ by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id
+ _____wDnz8qqfrVnPwaGNA--.2549S2; 
+ Wed, 19 Feb 2025 14:48:11 +0800 (CST)
+From: oushixiong1025@163.com
+To: Helge Deller <deller@gmx.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Arnd Bergmann <arnd@arndb.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH v3] fbdev: lcdcfb: add missing device_remove_file()
+Date: Wed, 19 Feb 2025 14:48:08 +0800
+Message-Id: <20250219064808.170517-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Wed, 19 Feb 2025 07:47:06 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: oushixiong <oushixiong1025@163.com>, "Helge Deller" <deller@gmx.de>
-Cc: "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>,
- "Lee Jones" <lee@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, oushixiong <oushixiong@kylinos.cn>
-Message-Id: <4f2ae439-1bdc-4593-9151-e15981509344@app.fastmail.com>
-In-Reply-To: <20250208092918.251733-1-oushixiong1025@163.com>
-References: <20250208092918.251733-1-oushixiong1025@163.com>
-Subject: Re: [PATCH v2] fbdev: lcdcfb: add missing device_remove_file()
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDnz8qqfrVnPwaGNA--.2549S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WFy8WFWDWw13Cr4xAF1rXrb_yoW5JrWxpF
+ 4UGas0grZ5Zrn7ur43AF4Uua15urykta4DZr1xJw15C3s3Arn5W343J397JF17JFZ3GF1a
+ vrW0y343GF47uaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UPgAcUUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYwj4D2e1fEcuXwAAsE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,16 +62,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 8, 2025, at 10:29, oushixiong1025@163.com wrote:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
->
-> 1. The device_remove_file() need to be called when driver is removing.
-> 2. The device_remove_file() need to be called if the call to
->    device_create_file() fails.
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-This should probably use device_add_group() instead of
-individual files to simplify both creation and removal.
-It would also avoid the bug you introduced that gcc warns
-about.
+1. The device_remove_file() need to be called when driver is removing.
+2. The device_remove_file() need to be called if the call to
+   device_create_file() fails.
 
-      Arnd
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+v1->v2:
+        add missing 'return error'.
+        call device_remove_file() in sh_mobile_lcdc_overlay_fb_unregister().
+v2->v3:
+	change the type of 'i' to int.
+	add overlay_sysfs_attrs_enabled flag.
+
+ drivers/video/fbdev/sh_mobile_lcdcfb.c | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+index 4715dcb59811..eaf782133542 100644
+--- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
++++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+@@ -200,6 +200,8 @@ struct sh_mobile_lcdc_overlay {
+ 	unsigned int pitch;
+ 	int pos_x;
+ 	int pos_y;
++
++	bool overlay_sysfs_attrs_enabled;
+ };
+ 
+ struct sh_mobile_lcdc_priv {
+@@ -1504,10 +1506,16 @@ static void
+ sh_mobile_lcdc_overlay_fb_unregister(struct sh_mobile_lcdc_overlay *ovl)
+ {
+ 	struct fb_info *info = ovl->info;
++	unsigned int i;
+ 
+ 	if (info == NULL || info->dev == NULL)
+ 		return;
+ 
++	if (ovl->overlay_sysfs_attrs_enabled) {
++		for (i = 0; i < ARRAY_SIZE(overlay_sysfs_attrs); ++i)
++			device_remove_file(info->dev, &overlay_sysfs_attrs[i]);
++		ovl->overlay_sysfs_attrs_enabled =  false;
++	}
+ 	unregister_framebuffer(ovl->info);
+ }
+ 
+@@ -1516,7 +1524,7 @@ sh_mobile_lcdc_overlay_fb_register(struct sh_mobile_lcdc_overlay *ovl)
+ {
+ 	struct sh_mobile_lcdc_priv *lcdc = ovl->channel->lcdc;
+ 	struct fb_info *info = ovl->info;
+-	unsigned int i;
++	int i, error = 0;
+ 	int ret;
+ 
+ 	if (info == NULL)
+@@ -1530,10 +1538,19 @@ sh_mobile_lcdc_overlay_fb_register(struct sh_mobile_lcdc_overlay *ovl)
+ 		 dev_name(lcdc->dev), ovl->index, info->var.xres,
+ 		 info->var.yres, info->var.bits_per_pixel);
+ 
++	ovl->overlay_sysfs_attrs_enabled = true;
++
+ 	for (i = 0; i < ARRAY_SIZE(overlay_sysfs_attrs); ++i) {
+-		ret = device_create_file(info->dev, &overlay_sysfs_attrs[i]);
+-		if (ret < 0)
+-			return ret;
++		error = device_create_file(info->dev, &overlay_sysfs_attrs[i]);
++		if (error)
++			break;
++	}
++
++	if (error) {
++		while (--i >= 0)
++			device_remove_file(info->dev, &overlay_sysfs_attrs[i]);
++		ovl->overlay_sysfs_attrs_enabled = false;
++		return error;
+ 	}
+ 
+ 	return 0;
+-- 
+2.25.1
+
