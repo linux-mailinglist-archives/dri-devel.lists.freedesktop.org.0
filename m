@@ -2,76 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A982EA3C97A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:19:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E266A3C983
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:20:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8718510E889;
-	Wed, 19 Feb 2025 20:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A045B10E89F;
+	Wed, 19 Feb 2025 20:20:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q2hpu+3V";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KF7v8j3M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A486010E889
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 20:18:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD6D10E88A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 20:20:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739996338; x=1771532338;
+ t=1739996414; x=1771532414;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=oXeGgZ0czwVwUtkAvKWihshapBTjaKnRt7r/lDXjwUg=;
- b=Q2hpu+3VcrCRlHkvWLhmtgMWXagzMGN6IzF3XEoSKkB8S75vJPiqrjpV
- nxyyNpYw5oCMMQ9cQYIpUTjHtazcwPn4b9U24hLvmKoaawcasppXLbMLp
- 0t/0OK/I34XUOq7tZzzawPehEw4l3q9e1egUczWhDGRcQesFkCUFNNHd2
- kirYqC6sJIHEfX5m4vvdundIhE5qMsivBNvvX50+/0JCo9FGMZ+16FJOT
- UxwW041ZPeMm3OOySCgV/41ImWBgzzr8CqrDmKcxoZvV4GTUvFsy37umT
- mRX83A5FTcGhWLvpxA8iw95Pg5tOFU7aJ/rVW3CAnFiWkQK9Lrom/tD4T A==;
-X-CSE-ConnectionGUID: 75Waq0K5R6eH7/Nek6LNrg==
-X-CSE-MsgGUID: fchYJKyORxux5AVOQ9rg1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51734467"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="51734467"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 12:18:57 -0800
-X-CSE-ConnectionGUID: vlRCi91XTOu32FEws8/1Vg==
-X-CSE-MsgGUID: yYmc9FLARoeVY4knBxElMg==
+ mime-version:in-reply-to;
+ bh=oUcnF6wLVy+xmj8OVpUmP+faVLotvjxceq1mY3aO/So=;
+ b=KF7v8j3MrBe6z91HsCBVNHa9tXQ0MH18geaQwBsxUpBxVEL5iEuE0sRU
+ /kJq0qHLyMmat5trrkfCyCWkZqF4DwBaWyavB4s+Pm3/1pJSWiomD/72B
+ MwYpfmaUyHEK6y5hiji1fkHyEw3Fz76S0sDJyfhQgCyVcycZHKARbGyJl
+ xHLMedSRbKbUN4ourjD3FUAHeg2JoOmCCGM5kzwh78ygzR/vmVjDG2PS5
+ FagnbigGQgrMYiZ4SGy2uma5FNWQryCkPo7hDGjrVxKixW20aToTx20Rd
+ TZIHSXwxPPwZ73+sEuhLpCh75qM0V3yCP88Yoj3aK+tKcUVYmFGLUFvZA w==;
+X-CSE-ConnectionGUID: uNFBkooAT3yjNfdXGib+GA==
+X-CSE-MsgGUID: gSJXuQTPS06KxTDsg7es3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="50966658"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="50966658"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 12:20:13 -0800
+X-CSE-ConnectionGUID: pBlNVsujSvyr6QenP15SOg==
+X-CSE-MsgGUID: Nq+u8uC3QQy+wHa6XfpUhQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="138038520"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="115020364"
 Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 12:18:52 -0800
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 12:20:08 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tkqWv-0000000D7cB-47Tq; Wed, 19 Feb 2025 22:18:49 +0200
-Date: Wed, 19 Feb 2025 22:18:49 +0200
+ id 1tkqY8-0000000D7d9-2wZe; Wed, 19 Feb 2025 22:20:04 +0200
+Date: Wed, 19 Feb 2025 22:20:04 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
+To: kernel test robot <lkp@intel.com>
+Cc: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
  Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
  Daniel Thompson <danielt@kernel.org>,
  Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
  Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+ oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
-Message-ID: <Z7Y8qcNDxjsqJfhM@smile.fi.intel.com>
-References: <20250218132702.114669-1-clamor95@gmail.com>
- <20250218132702.114669-3-clamor95@gmail.com>
- <Z7XqKcOUt5niXzpv@smile.fi.intel.com>
- <CAPVz0n1_WQyOHhtEVAh53uhEUhZvqqZSEJh6XALtSrVfkMSLYw@mail.gmail.com>
- <Z7XzgfHcjyK_UZKv@smile.fi.intel.com>
- <CAPVz0n2WwAOb1UU7J7aDTdhXXCaAZkCpYjW_nc_CBRgkGWdEOw@mail.gmail.com>
- <Z7X3ZvQbSe75U-AR@smile.fi.intel.com>
- <CAPVz0n19D1mS_prvMo-HD3m7U9+iknm49JSj5ydNUHoqjK7gZw@mail.gmail.com>
+Message-ID: <Z7Y89AI8me_MFsEV@smile.fi.intel.com>
+References: <20250218132702.114669-3-clamor95@gmail.com>
+ <202502192343.twEQ3SSs-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n19D1mS_prvMo-HD3m7U9+iknm49JSj5ydNUHoqjK7gZw@mail.gmail.com>
+In-Reply-To: <202502192343.twEQ3SSs-lkp@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,45 +82,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 07:39:29PM +0200, Svyatoslav Ryhel wrote:
-> ср, 19 лют. 2025 р. о 17:56 Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> пише:
-> > On Wed, Feb 19, 2025 at 05:13:15PM +0200, Svyatoslav Ryhel wrote:
-> > > ср, 19 лют. 2025 р. о 17:07 Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> пише:
-> > > > On Wed, Feb 19, 2025 at 04:36:38PM +0200, Svyatoslav Ryhel wrote:
-> > > > > ср, 19 лют. 2025 р. о 16:27 Andy Shevchenko
-> > > > > <andriy.shevchenko@linux.intel.com> пише:
-
-...
-
-> > > > > MFD part is removed since MFD cells binding is unconditional, while
-> > > > > the device supports any amount of children grater then one. For
-> > > > > example, my  device uses only backlight at bank A, while all other
-> > > > > subdevices are not present and used. This patch switches to dynamic
-> > > > > bind of children.
-> > > >
-> > > > MFD does the same. Please, take your time and get familiar with how MFD works.
-> > >
-> > > It does not. I have tried. If mfd cell binding is missing, driver will
-> > > complain and fail.
-> >
-> > I really don't know what exactly is going on here, you can check it later, but
-> > I'm 100% sure that MFD works for only driver that are present. What you are
-> > describing is how component framework is designed.
-> >
-> > To proove my words you can check drivers/mfd/intel_soc_pmic_*.c and find listed
-> > cells that never had a driver in the Linux kernel. They are just placeholders.
+On Thu, Feb 20, 2025 at 12:02:51AM +0800, kernel test robot wrote:
+> Hi Svyatoslav,
 > 
-> This example is not valid since those drivers do not use device tree.
+> kernel test robot noticed the following build errors:
 
-You didn't get the point. I'm telling that it should not matter if there is a
-device driver present or absent. The rest will be enumerated as usual.
-
-I even checked the code that handles of_compatible member from struct mfd_cell and
-at a brief glance I do not see that it can do otherwise.
-
-Care to elaborate what and where is the error happened exactly?
+It a second time you send not even compiled code.
 
 -- 
 With Best Regards,
