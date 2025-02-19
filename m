@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B79A3C997
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C347A3C9B3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:28:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60E7A10E891;
-	Wed, 19 Feb 2025 20:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E824B10E892;
+	Wed, 19 Feb 2025 20:28:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PxOCFc/w";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FjqJ7ELn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B934310E88E;
- Wed, 19 Feb 2025 20:23:49 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5dee1626093so2479198a12.1; 
- Wed, 19 Feb 2025 12:23:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739996628; x=1740601428; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8C9FDgpCO5k/lG9CyZPK4deI/6T7YtN9NRCiQlWA9Hs=;
- b=PxOCFc/wti7SOGhC4B37qldQK8xfqwKlYteRzrZVeD3M5kIA4/YT/wdVyLfYZK7SY/
- oGJUJImIpkj54EJeheYRE12cCUR7VWcW/ckmC8pvC2RQ1mg8XyD9PeG3rPURRKXua01t
- mqX99r+ZqoHcvsYvFdAaCr2Jk+Wbhy9T6j69Uno9jarU3StqUWP3dQsjFGP/Sfe3CDL1
- kO1JFlSPUU5nnfDMbrpVGaxeoSo0BA1av+isccBVW+8wdxTZrNFhcXpKiI2kyXX24Vo8
- 9kcsQmmFuenU9HBWUqoQM60q+8A1/1OlutxuabF2OeAFUCJAfICFpV6WSlczYIr7msXe
- 4qCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739996628; x=1740601428;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8C9FDgpCO5k/lG9CyZPK4deI/6T7YtN9NRCiQlWA9Hs=;
- b=VPcgCkJIShvVo1BAYnIqKR57qe5W7CbV/ereKWBuD+tDyQsLfgKGXdVlNDzrf0dFUm
- Dlvwtl+NF5CPCv+kOYf/UPUfOuhsMzS4I3ALwsG5NwMpnDuRh2MqZtIBX+VHlQsIemH/
- +x+i8c+f2Dd2FHWp6WF21b89AHL9Wd5k9EFZ51j3+pquyZHf5Kv9Hl3UAIEeVDp1v8LT
- PNoh0p9YAIKjzsBFTNdmXGe3AYgzR8GyQwfl3YBi0Tq2Y7un4uiGy229LEU1BdLWQbl9
- 1N88ergDd6hvcyv66GSnT0M6XPo9TI0nxv8aZEiobCxRX/K1YxjSwxiLHPOpmXnByJnh
- nyDg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVwSA0ko48s6tpkqh7JBbOUq4/J77uAGU43n/+U0bWiBB0lKwcicSiQljPpQHLTyh7xcwtm0TixZmQ=@lists.freedesktop.org,
- AJvYcCWU5+O84r0xYBLHcYABWg84j8vq607pZcO9ijHg6OqUu0B+P5J0o6LflnpKJODLGbAWrszGIaQfEA==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxHdSSr1j8iwMT29RIRhw4hhBRz9NBLq/MQjVPzM7VjnT7gN70
- q+uYCGvJm0d0YcsjhCvN1/dMPH4pd+ESINaq7/vMj1IZ99LG/vSHY9evVeD41iCY/ZWstgzXcnj
- EmkfX+kZeyCh2SNx59oJsG8ExRaU=
-X-Gm-Gg: ASbGncuX8bQ8TPNslUgC5IsnQ+MMoCIdO9cBp9El+SEMJpxdS3PM1ooUiHZPOsZYph4
- AMlNJEx+082g7sqp1FpNsZmizzsWw3MVC/n3DYPztLGgN3q4ujOlOA76Vlv6GQwCexEaLG28=
-X-Google-Smtp-Source: AGHT+IFTlPvg9QQaaWG38k9pWnqwqUxFI4TWfr84YWgQa8VYHZrfD/59IaIQj2pDGyJZK0qQXwPO63XKwpHnAgwuThw=
-X-Received: by 2002:a17:907:770b:b0:ab7:b7b5:2a0c with SMTP id
- a640c23a62f3a-abbedd2f416mr55624866b.6.1739996627857; Wed, 19 Feb 2025
- 12:23:47 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B49F210E365;
+ Wed, 19 Feb 2025 20:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739996928; x=1771532928;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=qQHnUVNHySd8MnM5z2hgs5AnKlhcxIdsrePnMhUHCG4=;
+ b=FjqJ7ELnNsl2IFpWcGZcQQ6uNyzmEhoh7pSqRVwT4GwLSNDpCujyDgHM
+ WlG4w+MNbkpDpp/5sK7Ot8aIZcdvVazH207AP9mIZo/btI9eP3mB11z5m
+ okhPSGecFull8u13wQQJsEmoX3ub3NXWaI0WET17CkexDWOojsDMvETy7
+ uCou0q9SimLeGPGzQtrtm2OfCHT//q2YFngE6lhkHv76jSOBzitlbdf7h
+ iUQ54HLc/FKyM3Wzfd1lDqoTPgmaWQFVQLapIeBr22jOT0KE0/4butDFv
+ +gxz4vssn2sFh4HZu6FIBeuxhCDIt2pEvTQxqbzGPlTnNsk2vrvmUBNBf g==;
+X-CSE-ConnectionGUID: rkMTh7HbRx6cGh1+FP1dVA==
+X-CSE-MsgGUID: ikREP9O7SVeL8jlKVvhyPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="41012232"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="41012232"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 12:28:47 -0800
+X-CSE-ConnectionGUID: 6H/n4axxRk2O5XTi6GImQA==
+X-CSE-MsgGUID: dx4kVWNcRuu0qG+0xihfzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="119765717"
+Received: from dut4410lnl.fm.intel.com ([10.105.8.78])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 12:28:47 -0800
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, tvrtko.ursulin@igalia.com,
+ lucas.demarchi@intel.com, matthew.brost@intel.com,
+ dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch
+Subject: [PATCH v4 0/6] drm/xe/xe_drm_client: Add per drm client reset stats
+Date: Wed, 19 Feb 2025 20:28:40 +0000
+Message-ID: <20250219202847.127425-1-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
- <20250217-nova_timer-v1-1-78c5ace2d987@nvidia.com>
- <C1FF4314-C013-4AE1-A94E-444AFACDB4AC@collabora.com>
- <D7VLMD31YB0V.OKHDSVUPAZTE@nvidia.com>
- <1b8921d46f7d70c7467ea0940d60220f05cccc5d.camel@nvidia.com>
- <D7W119MHCCWH.IS600FTIOV8O@nvidia.com>
- <e6322f90-08bd-4e86-8dad-2ddbd7e5cece@nvidia.com>
- <D7WFP99SMV3H.26AJWK17S0UPX@nvidia.com>
- <fd920faf-a707-4c6d-8c0b-3d59c010da1d@nvidia.com>
-In-Reply-To: <fd920faf-a707-4c6d-8c0b-3d59c010da1d@nvidia.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 20 Feb 2025 06:23:36 +1000
-X-Gm-Features: AWEUYZkOfBGae_62O2RzZAhPDqSPHCfH2IsqaSVq-HA6ddj2SAfSDh8cunMZ-t0
-Message-ID: <CAPM=9txmQWO+SHnZhr8zXHCZ=S8CNY=PryRVkWWuHyor-ajU6A@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/3] rust: add useful ops for u64
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
- "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dakr@kernel.org" <dakr@kernel.org>, Ben Skeggs <bskeggs@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,25 +68,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Feb 2025 at 06:22, John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 2/19/25 4:51 AM, Alexandre Courbot wrote:
-> > Yes, that looks like the optimal way to do this actually. It also
-> > doesn't introduce any overhead as the destructuring was doing both
-> > high_half() and low_half() in sequence, so in some cases it might
-> > even be more efficient.
-> >
-> > I'd just like to find a better naming. high() and low() might be enough?
-> > Or are there other suggestions?
-> >
->
-> Maybe use "32" instead of "half":
->
->      .high_32()  / .low_32()
->      .upper_32() / .lower_32()
->
+Add additional information to drm client so it can report the last 50
+exec queues to have been banned on it, as well as the last pagefault
+seen when said exec queues were banned. Since we cannot reasonably
+associate a pagefault to a specific exec queue, we currently report the
+last seen pagefault on the associated hw engine instead.
 
-The C code currently does upper_32_bits and lower_32_bits, do we want
-to align or diverge here?
+The last pagefault seen per exec queue is saved to the hw engine, and the
+pagefault is updated during the pagefault handling process in
+xe_gt_pagefault. The last seen pagefault is reset when the engine is
+reset because any future exec queue bans likely were not caused by said
+pagefault after the reset.
 
-Dave.
+Also add a tracker that counts the number of times the drm client has
+experienced an engine reset.
+
+Finally, add a new query to xe_query that reports these drm client reset
+stats back to the user.
+
+v2: Report the per drm client reset stats as a query, rather than
+    coopting xe_drm_client_fdinfo (Joonas)
+v3: Report EOPNOTSUPP during the reset stats query if CONFIG_PROC_FS
+    is not set in the kernel config, as it is required to trace the
+    reset count and exec queue bans.
+v4: Fix formatting and kzalloc during lock warnings
+
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+CC: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+CC: Lucas de Marchi <lucas.demarchi@intel.com>
+CC: Matthew Brost <matthew.brost@intel.com>
+CC: Simona Vetter <simona.vetter@ffwll.ch>
+
+Jonathan Cavitt (6):
+  drm/xe/xe_exec_queue: Add ID param to exec queue struct
+  drm/xe/xe_gt_pagefault: Migrate pagefault struct to header
+  drm/xe/xe_drm_client: Add per drm client pagefault info
+  drm/xe/xe_drm_client: Add per drm client reset stats
+  drm/xe/xe_query: Pass drm file to query funcs
+  drm/xe/xe_query: Add support for per-drm-client reset stat querying
+
+ drivers/gpu/drm/xe/xe_drm_client.c       |  68 ++++++++++++++
+ drivers/gpu/drm/xe/xe_drm_client.h       |  44 +++++++++
+ drivers/gpu/drm/xe/xe_exec_queue.c       |   8 ++
+ drivers/gpu/drm/xe/xe_exec_queue_types.h |   2 +
+ drivers/gpu/drm/xe/xe_gt_pagefault.c     |  44 ++++-----
+ drivers/gpu/drm/xe/xe_gt_pagefault.h     |  28 ++++++
+ drivers/gpu/drm/xe/xe_guc_submit.c       |  17 ++++
+ drivers/gpu/drm/xe/xe_hw_engine.c        |   4 +
+ drivers/gpu/drm/xe/xe_hw_engine_types.h  |   8 ++
+ drivers/gpu/drm/xe/xe_query.c            | 109 ++++++++++++++++++++---
+ include/uapi/drm/xe_drm.h                |  50 +++++++++++
+ 11 files changed, 343 insertions(+), 39 deletions(-)
+
+-- 
+2.43.0
+
