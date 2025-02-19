@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E87AA3B95A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 10:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50DDA3B7F6
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 10:20:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85EC10E7D6;
-	Wed, 19 Feb 2025 09:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03AAA10E798;
+	Wed, 19 Feb 2025 09:20:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YfEjdtux";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="um+CXceo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0AA610E7D1;
- Wed, 19 Feb 2025 09:32:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739957527; x=1771493527;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=NTkaFdqOXt49ggVpaXj+gVSCa/GyDDoh3XBDpGhpmt0=;
- b=YfEjdtuxenWLVnKMHFMUWTGDsmQGfAm2AMKFbZDBTzAjQq3phiH4Hu5x
- 0wGxoOIrcdfWx8AMrQtx7W0LvpPPf9EjCMT7bWezZJZyN5ZNKq5l0QPoA
- ieotD0aHboKNwtyodDHdZSpCKydgrRpbKDapaYkDjayToQpmlNHv+6DEp
- DMdXreygOuX2WbBPtm0QqfvLyXPhE2ysV47/FGNXbS19FiTWv3dHqEObB
- dPduo4BrlL3lKXQvVYb1ysFwF0TSqAdBSQaqhwBK3NcWa/U4k7V0t/c/h
- pxKe0uMWxXW5jXPMmvxLi/70aQd+gjsBk2AO3Kb/ayfIm/hsCWykHkZoK Q==;
-X-CSE-ConnectionGUID: g21WQ89pThyqOvdLsudECQ==
-X-CSE-MsgGUID: Xym6QfZBTGmnSfTEKT5/bg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40551488"
-X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; d="scan'208";a="40551488"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 01:32:07 -0800
-X-CSE-ConnectionGUID: KDm2tZ/dRhCpsqFlI6TXDQ==
-X-CSE-MsgGUID: eWKPaJ+CQaCNIrUKVSmk7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="137910344"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa002.fm.intel.com with ESMTP; 19 Feb 2025 01:32:05 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Wed, 19 Feb 2025 14:47:25 +0530
-Subject: [PATCH v6 3/3] drm/i915/display: Add i915 hook for
- format_mod_supported_async
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2A610E798
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:20:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 076135C588C;
+ Wed, 19 Feb 2025 09:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9234AC4CED1;
+ Wed, 19 Feb 2025 09:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739956799;
+ bh=GgomySZeWLFxNbBGw621PvZP7aIPFglKh/2yCe/9CRw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=um+CXceoAosY+iDzoAcLX/Gvv/rQUVTxGW/D/FIllUW1/Xtt/ZcLq3JjP/7iBMa6V
+ sn4fuIndsB7k0OrGZcr7TFYHJ/fQy2HJL4nmOiXcQmx5dsGVJ/xTrchO6c37rirl2D
+ FpY24faKQspkY7slXbWMMzU9ymOv3hw8ttfZ96UfDGi6ykw7u1Z71D2kVxzmYpoAMA
+ c4ByAoK602ltzfCP3C6oPrAK+cRR1RvPZKAfLpViVBEKUA6eaIfXh+aa0cJ/K6V6R6
+ jEMjwsA06ggIId/GdPUcdgyNsbaCmlYJzgFhjlGkVp8R40iL9qJbWU8KfsgjvmFGnO
+ KdWRqEzlyDGwQ==
+Date: Wed, 19 Feb 2025 10:19:57 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 02/10] drm/display: add CEC helpers code
+Message-ID: <20250219-fascinating-quizzical-herring-fe7d9c@houat>
+References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
+ <20250126-drm-hdmi-connector-cec-v3-2-5b5b2d4956da@linaro.org>
+ <ylahtg54vvrpg5rzp3z5oyi37mtblj3hn4pzwylcimfakrzy3m@idqczwb3hvxl>
+ <lme4jqksg7djyrxwpo3x363vlsyhld22co3tfsthniistnrm5h@kbygscfa7afr>
+ <20250205-smoky-fearless-hornet-cbf422@houat>
+ <j2ej27mzia326q6fjqk2c3xui6dhbx2chswjjmgaoxgiajstl2@dcmgdtkzbjht>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250219-asyn-v6-3-b959e6becb3c@intel.com>
-References: <20250219-asyn-v6-0-b959e6becb3c@intel.com>
-In-Reply-To: <20250219-asyn-v6-0-b959e6becb3c@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Cc: chaitanya.kumar.borah@intel.com, Arun R Murthy <arun.r.murthy@intel.com>, 
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>, 
- Naveen Kumar <naveen1.kumar@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="yw42zjrvnoz67ryw"
+Content-Disposition: inline
+In-Reply-To: <j2ej27mzia326q6fjqk2c3xui6dhbx2chswjjmgaoxgiajstl2@dcmgdtkzbjht>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,105 +73,377 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hook up the newly added plane function pointer
-format_mod_supported_async to populate the modifiers/formats supported
-by asynchronous flips.
 
-v5: Correct the if condition for modifier support check (Chaitanya)
-v6: Replace uint32_t/uint64_t with u32/u64 (Jani)
+--yw42zjrvnoz67ryw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 02/10] drm/display: add CEC helpers code
+MIME-Version: 1.0
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Reviewed-by: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-Tested-by: Naveen Kumar <naveen1.kumar@intel.com>
----
- drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
- 1 file changed, 41 insertions(+), 15 deletions(-)
+On Wed, Feb 05, 2025 at 05:01:09PM +0200, Dmitry Baryshkov wrote:
+> On Wed, Feb 05, 2025 at 03:27:05PM +0100, Maxime Ripard wrote:
+> > On Tue, Jan 28, 2025 at 02:17:19PM +0200, Dmitry Baryshkov wrote:
+> > > On Tue, Jan 28, 2025 at 11:36:06AM +0100, Maxime Ripard wrote:
+> > > > On Sun, Jan 26, 2025 at 03:29:07PM +0200, Dmitry Baryshkov wrote:
+> > > > > Add generic CEC helpers to be used by HDMI drivers. Both notifier=
+ and
+> > > > > and adapter are supported for registration. Once registered, the =
+driver
+> > > > > can call common set of functions to update physical address, to
+> > > > > invalidate it or to unregister CEC data.
+> > > > >=20
+> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > ---
+> > > > >  drivers/gpu/drm/display/Kconfig               |   5 +
+> > > > >  drivers/gpu/drm/display/Makefile              |   2 +
+> > > > >  drivers/gpu/drm/display/drm_hdmi_cec_helper.c | 209 ++++++++++++=
+++++++++++++++
+> > > > >  include/drm/display/drm_hdmi_cec_helper.h     |  61 ++++++++
+> > > > >  4 files changed, 277 insertions(+)
+> > > > >=20
+> > > > > diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/di=
+splay/Kconfig
+> > > > > index 8d22b7627d41f7bc015decf24ae02a05bc00f055..49da9b768acf3e5f8=
+4f2cefae4bb042cfd57a50c 100644
+> > > > > --- a/drivers/gpu/drm/display/Kconfig
+> > > > > +++ b/drivers/gpu/drm/display/Kconfig
+> > > > > @@ -82,6 +82,11 @@ config DRM_DISPLAY_HDMI_AUDIO_HELPER
+> > > > >  	  DRM display helpers for HDMI Audio functionality (generic HDM=
+I Codec
+> > > > >  	  implementation).
+> > > > > =20
+> > > > > +config DRM_DISPLAY_HDMI_CEC_HELPER
+> > > > > +	bool
+> > > > > +	help
+> > > > > +	  DRM display helpers for HDMI CEC implementation.
+> > > > > +
+> > > > >  config DRM_DISPLAY_HDMI_HELPER
+> > > > >  	bool
+> > > > >  	help
+> > > > > diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/d=
+isplay/Makefile
+> > > > > index b17879b957d5401721396e247fa346387cf6c48a..2cd078e2b81c1a9e6=
+b336c4187b444bcb8a50e51 100644
+> > > > > --- a/drivers/gpu/drm/display/Makefile
+> > > > > +++ b/drivers/gpu/drm/display/Makefile
+> > > > > @@ -16,6 +16,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DSC_HEL=
+PER) +=3D \
+> > > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) +=3D drm_hd=
+cp_helper.o
+> > > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_AUDIO_HELPER) +=3D \
+> > > > >  	drm_hdmi_audio_helper.o
+> > > > > +drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_CEC_HELPER) +=3D \
+> > > > > +	drm_hdmi_cec_helper.o
+> > > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) +=3D \
+> > > > >  	drm_hdmi_helper.o \
+> > > > >  	drm_scdc_helper.o
+> > > > > diff --git a/drivers/gpu/drm/display/drm_hdmi_cec_helper.c b/driv=
+ers/gpu/drm/display/drm_hdmi_cec_helper.c
+> > > > > new file mode 100644
+> > > > > index 0000000000000000000000000000000000000000..a6ed5f0fc3835b013=
+a83308f5285ea0819c5702c
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
+> > > > > @@ -0,0 +1,209 @@
+> > > > > +// SPDX-License-Identifier: MIT
+> > > > > +/*
+> > > > > + * Copyright (c) 2024 Linaro Ltd
+> > > > > + */
+> > > > > +
+> > > > > +#include <drm/drm_bridge.h>
+> > > > > +#include <drm/drm_connector.h>
+> > > > > +#include <drm/display/drm_hdmi_cec_helper.h>
+> > > > > +
+> > > > > +#include <linux/mutex.h>
+> > > > > +
+> > > > > +#include <media/cec.h>
+> > > > > +#include <media/cec-notifier.h>
+> > > > > +
+> > > > > +void drm_connector_hdmi_cec_unregister(struct drm_connector *con=
+nector)
+> > > > > +{
+> > > > > +	cec_unregister_adapter(connector->cec.adapter);
+> > > > > +	connector->cec.adapter =3D NULL;
+> > > > > +
+> > > > > +	cec_notifier_conn_unregister(connector->cec.notifier);
+> > > > > +	connector->cec.notifier =3D NULL;
+> > > > > +
+> > > > > +	connector->cec.funcs =3D NULL;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_unregister);
+> > > > > +
+> > > > > +static const struct drm_connector_cec_funcs drm_connector_hdmi_c=
+ec_funcs =3D {
+> > > > > +	.unregister =3D drm_connector_hdmi_cec_unregister,
+> > > > > +};
+> > > > > +
+> > > > > +int drm_connector_hdmi_cec_notifier_register(struct drm_connecto=
+r *connector,
+> > > > > +					     const char *port_name,
+> > > > > +					     struct device *dev)
+> > > > > +{
+> > > > > +	struct cec_connector_info conn_info;
+> > > > > +	struct cec_notifier *notifier;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	mutex_lock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	if (connector->cec.funcs) {
+> > > > > +		ret =3D -EBUSY;
+> > > > > +		goto err_unlock;
+> > > > > +	}
+> > > > > +
+> > > > > +	cec_fill_conn_info_from_drm(&conn_info, connector);
+> > > > > +
+> > > > > +	notifier =3D cec_notifier_conn_register(dev, port_name, &conn_i=
+nfo);
+> > > > > +	if (!notifier) {
+> > > > > +		ret =3D -ENOMEM;
+> > > > > +		goto err_unlock;
+> > > > > +	}
+> > > > > +
+> > > > > +	connector->cec.notifier =3D notifier;
+> > > > > +	connector->cec.funcs =3D &drm_connector_hdmi_cec_funcs;
+> > > > > +
+> > > > > +	mutex_unlock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	return 0;
+> > > > > +
+> > > > > +err_unlock:
+> > > > > +	mutex_unlock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	return ret;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_notifier_register);
+> > > > > +
+> > > > > +#define to_hdmi_cec_adapter_ops(ops) \
+> > > > > +	container_of(ops, struct drm_connector_hdmi_cec_adapter_ops, ba=
+se)
+> > > > > +
+> > > > > +static int drm_connector_hdmi_cec_adap_enable(struct cec_adapter=
+ *adap, bool enable)
+> > > > > +{
+> > > > > +	struct drm_connector *connector =3D cec_get_drvdata(adap);
+> > > > > +	struct drm_connector_hdmi_cec_adapter_ops *ops =3D
+> > > > > +		to_hdmi_cec_adapter_ops(connector->cec.funcs);
+> > > > > +
+> > > > > +	return ops->enable(connector, enable);
+> > > > > +}
+> > > > > +
+> > > > > +static int drm_connector_hdmi_cec_adap_log_addr(struct cec_adapt=
+er *adap, u8 logical_addr)
+> > > > > +{
+> > > > > +	struct drm_connector *connector =3D cec_get_drvdata(adap);
+> > > > > +	struct drm_connector_hdmi_cec_adapter_ops *ops =3D
+> > > > > +		to_hdmi_cec_adapter_ops(connector->cec.funcs);
+> > > > > +
+> > > > > +	return ops->log_addr(connector, logical_addr);
+> > > > > +}
+> > > > > +
+> > > > > +static int drm_connector_hdmi_cec_adap_transmit(struct cec_adapt=
+er *adap, u8 attempts,
+> > > > > +						u32 signal_free_time, struct cec_msg *msg)
+> > > > > +{
+> > > > > +	struct drm_connector *connector =3D cec_get_drvdata(adap);
+> > > > > +	struct drm_connector_hdmi_cec_adapter_ops *ops =3D
+> > > > > +		to_hdmi_cec_adapter_ops(connector->cec.funcs);
+> > > > > +
+> > > > > +	return ops->transmit(connector, attempts, signal_free_time, msg=
+);
+> > > > > +}
+> > > > > +
+> > > > > +static const struct cec_adap_ops drm_connector_hdmi_cec_adap_ops=
+ =3D {
+> > > > > +	.adap_enable =3D drm_connector_hdmi_cec_adap_enable,
+> > > > > +	.adap_log_addr =3D drm_connector_hdmi_cec_adap_log_addr,
+> > > > > +	.adap_transmit =3D drm_connector_hdmi_cec_adap_transmit,
+> > > > > +};
+> > > > > +
+> > > > > +int drm_connector_hdmi_cec_register(struct drm_connector *connec=
+tor,
+> > > > > +				    const struct drm_connector_hdmi_cec_adapter_ops *ops,
+> > > > > +				    const char *name,
+> > > > > +				    u8 available_las,
+> > > > > +				    struct device *dev)
+> > > > > +{
+> > > > > +	struct cec_connector_info conn_info;
+> > > > > +	struct cec_adapter *cec_adap;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	if (!ops->base.unregister ||
+> > > > > +	    !ops->init || !ops->enable || !ops->log_addr || !ops->trans=
+mit)
+> > > > > +		return -EINVAL;
+> > > > > +
+> > > > > +	mutex_lock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	if (connector->cec.funcs) {
+> > > > > +		ret =3D -EBUSY;
+> > > > > +		goto err_unlock;
+> > > > > +	}
+> > > > > +
+> > > > > +	cec_adap =3D cec_allocate_adapter(&drm_connector_hdmi_cec_adap_=
+ops, connector, name,
+> > > > > +					CEC_CAP_DEFAULTS | CEC_CAP_CONNECTOR_INFO,
+> > > > > +					available_las ? : CEC_MAX_LOG_ADDRS);
+> > > > > +	ret =3D PTR_ERR_OR_ZERO(cec_adap);
+> > > > > +	if (ret < 0)
+> > > > > +		goto err_unlock;
+> > > > > +
+> > > > > +	cec_fill_conn_info_from_drm(&conn_info, connector);
+> > > > > +	cec_s_conn_info(cec_adap, &conn_info);
+> > > > > +
+> > > > > +	connector->cec.adapter =3D cec_adap;
+> > > > > +	connector->cec.funcs =3D &ops->base;
+> > > > > +
+> > > > > +	ret =3D ops->init(connector);
+> > > > > +	if (ret < 0)
+> > > > > +		goto err_delete_adapter;
+> > > > > +
+> > > > > +	ret =3D cec_register_adapter(cec_adap, dev);
+> > > > > +	if (ret < 0)
+> > > > > +		goto err_delete_adapter;
+> > > > > +
+> > > > > +	mutex_unlock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	return 0;
+> > > > > +
+> > > > > +err_delete_adapter:
+> > > > > +	cec_delete_adapter(cec_adap);
+> > > > > +
+> > > > > +	connector->cec.adapter =3D NULL;
+> > > > > +
+> > > > > +err_unlock:
+> > > > > +	mutex_unlock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	return ret;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_register);
+> > > > > +
+> > > > > +void drm_connector_hdmi_cec_received_msg(struct drm_connector *c=
+onnector,
+> > > > > +					 struct cec_msg *msg)
+> > > > > +{
+> > > > > +	cec_received_msg(connector->cec.adapter, msg);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_received_msg);
+> > > > > +
+> > > > > +void drm_connector_hdmi_cec_transmit_attempt_done(struct drm_con=
+nector *connector,
+> > > > > +						  u8 status)
+> > > > > +{
+> > > > > +	cec_transmit_attempt_done(connector->cec.adapter, status);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_transmit_attempt_done);
+> > > > > +
+> > > > > +void drm_connector_hdmi_cec_transmit_done(struct drm_connector *=
+connector,
+> > > > > +					  u8 status,
+> > > > > +					  u8 arb_lost_cnt, u8 nack_cnt,
+> > > > > +					  u8 low_drive_cnt, u8 error_cnt)
+> > > > > +{
+> > > > > +	cec_transmit_done(connector->cec.adapter, status,
+> > > > > +			  arb_lost_cnt, nack_cnt, low_drive_cnt, error_cnt);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_transmit_done);
+> > > > > +
+> > > > > +void drm_connector_hdmi_cec_phys_addr_invalidate(struct drm_conn=
+ector *connector)
+> > > > > +{
+> > > > > +	mutex_lock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	cec_phys_addr_invalidate(connector->cec.adapter);
+> > > > > +	cec_notifier_phys_addr_invalidate(connector->cec.notifier);
+> > > > > +
+> > > > > +	mutex_unlock(&connector->cec.mutex);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_phys_addr_invalidate);
+> > > > > +
+> > > > > +void drm_connector_hdmi_cec_phys_addr_set(struct drm_connector *=
+connector)
+> > > > > +{
+> > > > > +	mutex_lock(&connector->cec.mutex);
+> > > > > +
+> > > > > +	cec_s_phys_addr(connector->cec.adapter,
+> > > > > +			connector->display_info.source_physical_address, false);
+> > > > > +	cec_notifier_set_phys_addr(connector->cec.notifier,
+> > > > > +				   connector->display_info.source_physical_address);
+> > > > > +
+> > > > > +	mutex_unlock(&connector->cec.mutex);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_cec_phys_addr_set);
+> > > > > diff --git a/include/drm/display/drm_hdmi_cec_helper.h b/include/=
+drm/display/drm_hdmi_cec_helper.h
+> > > > > new file mode 100644
+> > > > > index 0000000000000000000000000000000000000000..cd6274e4ee9b3e41a=
+2d85289c4a420b854340e19
+> > > > > --- /dev/null
+> > > > > +++ b/include/drm/display/drm_hdmi_cec_helper.h
+> > > > > @@ -0,0 +1,61 @@
+> > > > > +/* SPDX-License-Identifier: MIT */
+> > > > > +
+> > > > > +#ifndef DRM_DISPLAY_HDMI_CEC_HELPER
+> > > > > +#define DRM_DISPLAY_HDMI_CEC_HELPER
+> > > > > +
+> > > > > +#include <drm/drm_connector.h>
+> > > > > +
+> > > > > +#include <linux/types.h>
+> > > > > +
+> > > > > +struct drm_connector;
+> > > > > +
+> > > > > +struct cec_msg;
+> > > > > +struct device;
+> > > > > +
+> > > > > +struct drm_connector_hdmi_cec_adapter_ops {
+> > > > > +	struct drm_connector_cec_funcs base;
+> > > > > +
+> > > > > +	int (*init)(struct drm_connector *connector);
+> > > > > +	void (*uninit)(struct drm_connector *connector);
+> > > > > +
+> > > > > +	int (*enable)(struct drm_connector *connector, bool enable);
+> > > > > +	int (*log_addr)(struct drm_connector *connector, u8 logical_add=
+r);
+> > > > > +	int (*transmit)(struct drm_connector *connector, u8 attempts,
+> > > > > +			u32 signal_free_time, struct cec_msg *msg);
+> > > > > +};
+> > > >=20
+> > > > Why can't we merge drm_connector_cec_funcs and
+> > > > drm_connector_cec_adapter_ops? They look equivalent to me?
+> > >=20
+> > > Well, not exactly. The funcs is a generic interface. Notifiers do not
+> > > need the adapter_ops. And cec_pin (sun4i) would also require a differ=
+ent
+> > > set of callbacks. Thus I decided that it's easier to subclass funcs
+> > > instead of adding all possible callbacks there.
+> >=20
+> > There's two things here: cec_pin and cec_adapter are equivalent. They
+> > provide the same feature, but one relies on an hardware controller, the
+> > other bitbangs a GPIO. They are also mutually exclusive.
+> >=20
+> > So I'd very much expect a different set of hooks there.
+>=20
+> That's the point. Normal CEC adapters would need to implement these
+> callbacks. CEC pin adapter will have a different set of callbacks.
+> Notifiers do not need any extra callbacks at all.
 
-diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index cd9762947f1de227a3abbcd61b7c7b0c9848e439..f8baeb012f5e2423204f3f5ad7ce466666e04def 100644
---- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-+++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -509,6 +509,33 @@ skl_plane_max_stride(struct intel_plane *plane,
- 				modifier, rotation,
- 				max_pixels, max_bytes);
- }
-+static bool intel_plane_async_formats(struct intel_plane *plane, u32 format)
-+{
-+	switch (format) {
-+	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_XBGR8888:
-+	case DRM_FORMAT_ARGB8888:
-+	case DRM_FORMAT_ABGR8888:
-+	case DRM_FORMAT_XRGB2101010:
-+	case DRM_FORMAT_XBGR2101010:
-+	case DRM_FORMAT_XRGB16161616F:
-+	case DRM_FORMAT_XBGR16161616F:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool intel_plane_format_mod_supported_async(struct drm_plane *plane,
-+						   u32 format,
-+						   u64 modifier)
-+{
-+	if (!intel_plane_can_async_flip(to_intel_plane(plane), modifier))
-+		return false;
-+
-+	return intel_plane_async_formats(to_intel_plane(plane), format);
-+}
- 
- static bool tgl_plane_can_async_flip(u64 modifier)
- {
-@@ -2616,30 +2643,29 @@ static bool tgl_plane_format_mod_supported(struct drm_plane *_plane,
- 	}
- }
- 
-+#define INTEL_PLANE_FUNCS \
-+	.update_plane = drm_atomic_helper_update_plane, \
-+	.disable_plane = drm_atomic_helper_disable_plane, \
-+	.destroy = intel_plane_destroy, \
-+	.atomic_duplicate_state = intel_plane_duplicate_state, \
-+	.atomic_destroy_state = intel_plane_destroy_state, \
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async
-+
- static const struct drm_plane_funcs skl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = skl_plane_format_mod_supported,
- };
- 
- static const struct drm_plane_funcs icl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = icl_plane_format_mod_supported,
- };
- 
- static const struct drm_plane_funcs tgl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = tgl_plane_format_mod_supported,
- };
- 
+Sure, and that's true for most of the KMS entities we support. What I
+don't get is why that dual layer func structure is needed in the first
+place. We have no other entity that works that way, and we typically
+solve this using a helper.
 
--- 
-2.25.1
+Maxime
 
+--yw42zjrvnoz67ryw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7WiPAAKCRAnX84Zoj2+
+dqRlAYDKyvbMvNU7FFsZ28yYD7pORcOa4Z4LiLUoDzS12cyiRyh7hu3RlFc1hl33
+VriqP2QBgJzviPfdCfXFCThN9ctad0eX+ROGSvdzssikdExQvXTokH62FgJYcbJK
+OL9THcPlDw==
+=tGFg
+-----END PGP SIGNATURE-----
+
+--yw42zjrvnoz67ryw--
