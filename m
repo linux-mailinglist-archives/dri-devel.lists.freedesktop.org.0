@@ -2,86 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F11A3C65A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 18:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE426A3C6A1
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 18:49:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D68710E354;
-	Wed, 19 Feb 2025 17:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D48BA10E358;
+	Wed, 19 Feb 2025 17:49:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jPS0Plwb";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qxjpHJ4t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C88B10E878
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 17:39:43 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-38f1e8efe82so77117f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:39:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739986782; x=1740591582; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k8wYliwl6UOtHCOysjfqNPSlzww+g9jxkMxRAdHQVyY=;
- b=jPS0PlwbHuPKjdOfCe/mtsWTnH/3vQ7s2wCTzzFIFf9KZPZqjMvwRGSut5yx8rsMEi
- 71rNW2TmHk3sxzrD0mMdfuXwnfUVtBgRz11SVBOCGOvFgUjlk0ddkYTlukG7AgQ2rgaO
- 0Cr3Qs28ZhKMzTNWJ/UH28+jMuZqDQ1QSvFUDbQwsRTMUJU1OtlJEv69tAFrmO86kPF/
- t9XDH3S6pGcSJ6TkdyKjwY6tITSdiT/CWUYVWUjCQbjaCsRrAD3J4Ub9jiN+FV8+y6YC
- BXkr54f+qYtLXxwax7pt3rwF7UIC9tQAXRF3aGUD9WG/nlr2yi4JbqqwrPG+ssHXudOO
- RiLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739986782; x=1740591582;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=k8wYliwl6UOtHCOysjfqNPSlzww+g9jxkMxRAdHQVyY=;
- b=UHKjXq1Kc/r9+O/Skp4dB3cBdBYFY9usEeJmOQkgK61JhstoIkCpRF1QDUMF9AKscP
- 1CvE79siqdyeCCScdB8M5tQQogQRPhKFhTJNH+JlqtR8SnLp4E6w+QDf0GGfgK2y0NMQ
- +HaqNZmZ3vbhFsZB+mvfQwNOX9s1VQQtjJ9d9uPb8lNerACHHEfbWsKcXf2Fb38dmBf/
- Xtf02w/iHgFJYJyotbaxFKGHjc6Jj2Pq3i5swozf/LIposxAHPGZ5CH0fIpsclPQBuBy
- gbjOnV2fJK7b27Wu7jAT0YE5w783YXihp3cY3Hkj3YLMcZAVxjgKOnHXJsvDdWmtEPi+
- 83cA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVd34BPUOQviT13gkPg3rFZS01TczOp1J9M5PKjVX9aJQq5qHhvpP7uoNaDQNV7TgnQeczcS0GDgH4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyR4skilugXR/KuxZDv4ZhaZhbl7JhEuzOoVxWCfh0RzmJZEzTj
- fvyyIqPsf8q5Lyj5azPlmcE/Uumv2274OofovYpYJ6FQeNN2lphSXNymRMbZCe+mAWoyQfeE+fk
- mQX8KYpc0pv372URjwaJzxj6v6Ws=
-X-Gm-Gg: ASbGncur499cyREQupn3wFuZ2CAVkmGMDb2Row7Psy0L4FF/nk8QityIqvGlhti8/QN
- mPBY49tq5xhT/D5aTLwBaAp9Ai+oJ5yEqY0PJ5PCjH13C9TwuSUUJLAa4M+OJsolUgeTwjJHnRg
- ==
-X-Google-Smtp-Source: AGHT+IEyS3n7gqj0ex4KbPOptDtwVLwjsOmfhhv3WWfLv9zPiV55DmsbGLPpAuqV+3ItRvWlkBKbfteXPmxuNkeSagE=
-X-Received: by 2002:a05:6000:2c1:b0:38f:474f:f3f3 with SMTP id
- ffacd0b85a97d-38f474ff5bdmr13969667f8f.13.1739986781750; Wed, 19 Feb 2025
- 09:39:41 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E6210E358
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 17:49:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F8503E;
+ Wed, 19 Feb 2025 18:48:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1739987307;
+ bh=ehH8TK1UXsd8MxE8OrYZ4KkZHnWrbgI+iBbISw88D7k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qxjpHJ4twUM+bakLBtJEWS9NKWqtOJRbDhVokKIkLnCc+djLVtTuNKfeFHfek2QIY
+ +FbpMh91pxfr91KoQ+pWSRfxuMnwoxq6n30drFS6mJOI4Fz5AnJ3pjn5DUyYIELb3E
+ 7rPsubtTQg07KBH46csT7LagRALlwuBWko7UlXPQ=
+Date: Wed, 19 Feb 2025 19:49:34 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 06/11] drm/fourcc: Add DRM_FORMAT_XVUY2101010
+Message-ID: <20250219174934.GA22240@pendragon.ideasonboard.com>
+References: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
+ <20250212-xilinx-formats-v3-6-90d0fe106995@ideasonboard.com>
+ <bdpw2g65uor77tijlhpabodog7haqvdcemnr3wzqkooerzuib5@hfdn5zsrbkgg>
+ <7674314f-d95a-433a-81d2-ca78bc199359@ideasonboard.com>
+ <naw67daoyb2lfmq4jovlwanz5niaolptwnug3c3kkrtlfoh6dd@trkctqyzvtb5>
+ <23e71045-1ae2-4e02-9780-aa11a338d481@ideasonboard.com>
+ <20250219150840.GA31825@pendragon.ideasonboard.com>
+ <gkqq3c6pew5etfmjqqzgxtddlu7h3tbscrijkbymls524vfrrz@uy7qysfecrjk>
 MIME-Version: 1.0
-References: <20250218132702.114669-1-clamor95@gmail.com>
- <20250218132702.114669-3-clamor95@gmail.com>
- <Z7XqKcOUt5niXzpv@smile.fi.intel.com>
- <CAPVz0n1_WQyOHhtEVAh53uhEUhZvqqZSEJh6XALtSrVfkMSLYw@mail.gmail.com>
- <Z7XzgfHcjyK_UZKv@smile.fi.intel.com>
- <CAPVz0n2WwAOb1UU7J7aDTdhXXCaAZkCpYjW_nc_CBRgkGWdEOw@mail.gmail.com>
- <Z7X3ZvQbSe75U-AR@smile.fi.intel.com>
-In-Reply-To: <Z7X3ZvQbSe75U-AR@smile.fi.intel.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 19 Feb 2025 19:39:29 +0200
-X-Gm-Features: AWEUYZlErtPnGBIjsmHfQD2f3-JQKBhMt1WzPgDf8uSaX-tKvCIgiy9477XzETE
-Message-ID: <CAPVz0n19D1mS_prvMo-HD3m7U9+iknm49JSj5ydNUHoqjK7gZw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Pavel Machek <pavel@ucw.cz>, 
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <gkqq3c6pew5etfmjqqzgxtddlu7h3tbscrijkbymls524vfrrz@uy7qysfecrjk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,67 +70,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D1=81=D1=80, 19 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 17:56 Andy=
- Shevchenko
-<andriy.shevchenko@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Wed, Feb 19, 2025 at 05:13:15PM +0200, Svyatoslav Ryhel wrote:
-> > =D1=81=D1=80, 19 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 17:07 =
-Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > On Wed, Feb 19, 2025 at 04:36:38PM +0200, Svyatoslav Ryhel wrote:
-> > > > =D1=81=D1=80, 19 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 16=
-:27 Andy Shevchenko
-> > > > <andriy.shevchenko@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> ...
->
-> > > > MFD part is removed since MFD cells binding is unconditional, while
-> > > > the device supports any amount of children grater then one. For
-> > > > example, my  device uses only backlight at bank A, while all other
-> > > > subdevices are not present and used. This patch switches to dynamic
-> > > > bind of children.
-> > >
-> > > MFD does the same. Please, take your time and get familiar with how M=
-FD works.
-> >
-> > It does not. I have tried. If mfd cell binding is missing, driver will
-> > complain and fail.
->
-> I really don't know what exactly is going on here, you can check it later=
-, but
-> I'm 100% sure that MFD works for only driver that are present. What you a=
-re
-> describing is how component framework is designed.
->
-> To proove my words you can check drivers/mfd/intel_soc_pmic_*.c and find =
-listed
-> cells that never had a driver in the Linux kernel. They are just placehol=
-ders.
->
+On Wed, Feb 19, 2025 at 07:28:44PM +0200, Dmitry Baryshkov wrote:
+> On Wed, Feb 19, 2025 at 05:08:40PM +0200, Laurent Pinchart wrote:
+> > On Wed, Feb 19, 2025 at 04:47:26PM +0200, Tomi Valkeinen wrote:
+> > > Hi,
+> > > 
+> > > On 18/02/2025 05:26, Dmitry Baryshkov wrote:
+> > > > On Mon, Feb 17, 2025 at 10:27:56PM +0200, Tomi Valkeinen wrote:
+> > > >> Hi,
+> > > >>
+> > > >> On 17/02/2025 22:15, Dmitry Baryshkov wrote:
+> > > >>> On Wed, Feb 12, 2025 at 04:56:10PM +0200, Tomi Valkeinen wrote:
+> > > >>>> Add XVUY2101010, a 10 bits per component YCbCr format in a 32 bit
+> > > >>>> container.
+> > > >>>
+> > > >>> Is there a more common name for this format? Otherwise googling for it
+> > > >>> reveals only your series.
+> > > >>
+> > > >> In the cover letter I mention the gstreamer names where available (this
+> > > >> particular format is not in gstreamer). AMD has these in their zynqmp
+> > > >> documentation (https://docs.amd.com/r/en-US/ug1085-zynq-ultrascale-trm/Video-Packer-Format).
+> > > >>
+> > > >> XVUY2101010 is YUV444_10BPC in AMD docs.
+> > > >>
+> > > >> X403 is Y444_10LE32 in gstreamer, and YV24_10BPC in AMD docs.
+> > > >>
+> > > >> I'm not sure you'll have much more luck googling with those names, though
+> > > >> =).
+> > > > 
+> > > > I'm asking, because include/uapi/drm/drm_fourcc.h has a pretty explicit
+> > > > waiver: GL, Vulkan or other open standards. Otherwise normal
+> > > > requirements apply and it's required to have an open-source usespace
+> > > > implementation, etc.
+> > > 
+> > > I can drop DRM_FORMAT_XVUY2101010 until we get it to gstreamer. I just 
+> > > had it ready, so I thought it's better to include it than leave out.
+> > > 
+> > > Is the current gstreamer support enough for the other formats to fulfill 
+> > > the userspace requirement?
+> > 
+> > We've received a green light in the past to add formats to drm_fourcc.h
+> > that would be used by cameras only. There's no open formal standard there, but
+> > we have libcamera as a de-facto standard. I would assume GStreamer to be
+> > enough for a scanout format.
+> 
+> Thanks for the clarification!
 
-This example is not valid since those drivers do not use device tree.
+To make it extra clear, this format is not currently (as in the mainline
+kernel, with Tomi's work) used for cameras, but only for display
+scanout. My comment related to cameras was meant to indicate I expect
+drm_fourcc.h to not strictly require all formats to match open formal
+standards.
 
-> ...
->
-> > > --
-> > > With Best Regards,
-> > > Andy Shevchenko
->
-> Please, when answering, remove unrelated context from the replies.
->
-> ...
->
-> > Let this driver rot for now, I might return to it. At some point
->
-> Up to you. But thanks for trying!
->
+-- 
+Regards,
 
-Thank you for suggestions. Once I complete more urgent tasks, I might
-do some tinkering with this driver.
-
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+Laurent Pinchart
