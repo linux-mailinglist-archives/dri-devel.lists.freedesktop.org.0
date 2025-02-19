@@ -2,78 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABD3A3BFC7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 14:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FC3A3BFD9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 14:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C15010E2F6;
-	Wed, 19 Feb 2025 13:25:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="g7bo0ZYG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C346A10E316;
+	Wed, 19 Feb 2025 13:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD6710E2F6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:25:03 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-38f2cb1ba55so4202054f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 05:25:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1739971502; x=1740576302; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8iG/fqmBFTqqJwFASf3T8KEK+JxvvaWHo7YdHpjwpt8=;
- b=g7bo0ZYGDwv+J4h+Gjdk6BoG4U2ifJIZoTNo1B+JnJu4VMYEC6GmUU7RvNY++fPTWy
- rplRhjUyW0EP1eQsUCXi4wCTNnSl2A4j7O6Fp5zrGb3xI8zhP5/NSyCIV11UyLieGJ/M
- /5XjInOHJ60Fx1QXglAhZ4hpPrAl7HncC5LGo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739971502; x=1740576302;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8iG/fqmBFTqqJwFASf3T8KEK+JxvvaWHo7YdHpjwpt8=;
- b=N7XzhR62fuBwO0KmQHTYD5nw00pRyoo5SH/CaPn33UUlbryqFmVUBGxhED2oxurH+S
- x87rbme0CN0A4e96OwBsNA4PiCXx6wTr7u5QqjHcmS7JaxQeS45KcRtFK4FHrg+vm0io
- gJSgYyJUp8VOrzr0D/vIO3y1eizXkeCbmQgg07tninTSbdZjyGgJRIvG9c+zv4v1n39+
- pKUcC8/41Qo5glyOgkxcIJudqVrPLVQck0WNN3hvktZ7HtiDYykT/fhz0l5dBeOVGYq2
- XR33NuNCbKfJWp70B911BMaCifxoOWABEczxxqR9x4tcUARyH2rp6UGIXF13rszSoE/q
- Z+hQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9B4fKbfUie600EHISDp03iD4QuHEjutSdsnohAnHJcpIgQwMVRH10tZDpmUk+dqgo7HfZGBshEJ4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBJjE4tuFYpkerrbbbXNFrHHxDEyOp2+Bnzt+RDJRqKRdfMWEz
- fmx3iGVnyI9OwEFpT+ihibxAgGEJA3acL5xPyHrszYsf2il45xXWZW6u6IhMIdo=
-X-Gm-Gg: ASbGnctyC19zAVT4ji5O+33L3ZBnJzXaPVCAsf0OrtKYPJrXYOCOVj4DsHvo/k8+yv/
- Q28Mkkr4BJRe800F47hcsTyOhzkhPLdnUCOtdsWRDxA6WB518CBgjM7yBaPiKvBKFVXhSWduEoa
- Su2XY9BBbefmY8E1EFMIsFnLoBiNPrZpFgQHpJE9tvUCIrw2B6eVWMI9U6szSgXCrhTohfNx+j7
- 8YaqZi29hGt1ouce3gaE50nHlSn9y/0W/soE2RnYNyiUZDQ8jO+fMvZ4DxeF9IosOvJa/tmhd4d
- X6r9BdeYDcJo7H+VwtHQ+tU+QzE=
-X-Google-Smtp-Source: AGHT+IEox4ZqUHFiOC3/A4WizZnNGy/FZoJa5/z9gjKcBTvJzOboshGsrsIqVqonyZ6bdo8wUrVQ6g==
-X-Received: by 2002:a05:6000:1a86:b0:38f:2ddd:a1bb with SMTP id
- ffacd0b85a97d-38f587813a0mr2989557f8f.8.1739971502046; 
- Wed, 19 Feb 2025 05:25:02 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f258ccd3bsm17880386f8f.22.2025.02.19.05.25.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2025 05:25:01 -0800 (PST)
-Date: Wed, 19 Feb 2025 14:24:59 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH] drm/doc: Document KUnit expectations
-Message-ID: <Z7Xbq-P0RTttJfz-@phenom.ffwll.local>
-References: <20250113101100.1373856-1-mripard@kernel.org>
- <87v7t6paks.fsf@minerva.mail-host-address-is-not-set>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3838510E316
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:27:12 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[127.0.0.1])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <a.fatoum@pengutronix.de>)
+ id 1tkk6L-0003h1-Mj; Wed, 19 Feb 2025 14:26:57 +0100
+Message-ID: <37d2a7bb-1c8c-4c33-a277-dc1a7448433b@pengutronix.de>
+Date: Wed, 19 Feb 2025 14:26:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87v7t6paks.fsf@minerva.mail-host-address-is-not-set>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/10] dt-bindings: display/lvds-codec: add
+ ti,sn65lvds822
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
+ Frank Li <Frank.li@nxp.com>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Oleksij Rempel
+ <o.rempel@pengutronix.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20250106-skov-dt-updates-v2-0-4504d3f00ecb@pengutronix.de>
+ <20250106-skov-dt-updates-v2-5-4504d3f00ecb@pengutronix.de>
+Content-Language: en-US
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <20250106-skov-dt-updates-v2-5-4504d3f00ecb@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,29 +75,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 10:06:59AM +0100, Javier Martinez Canillas wrote:
-> Maxime Ripard <mripard@kernel.org> writes:
-> 
-> > The DRM and KMS frameworks and helpers gain more and more kunit
-> > coverage, so let's document what our expectations are.
-> >
-> > Suggested-by: Jani Nikula <jani.nikula@intel.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> >
-> > ---
-> >
-> 
-> Seems a reasonable expection to me.
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Dear DRM bridge maintainers,
 
-Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+On 06.01.25 17:06, Ahmad Fatoum wrote:
+> Add compatible strings for TI SN65LVDS822, a FlatLink LVDS receiver.
+> 
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 
-I think some more acks from folks working on Kunit tests would be great,
-but that aside I think this accurately summarizes the discussion we had a
-while back.
--Sima
+Shawn has asked that the DT or display maintainers take this one patch
+through their tree. He has already applied the remainder of the series.
+
+Can you take a look? DT maintainers already acked it.
+
+Thanks,
+Ahmad
+
+> ---
+> v1 -> v2:
+>   - Add Rob's Acked-by
+> 
+> To: Andrzej Hajda <andrzej.hajda@intel.com> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
+> To: Neil Armstrong <neil.armstrong@linaro.org> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
+> To: Robert Foss <rfoss@kernel.org> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS,in file)
+> Cc: Jonas Karlman <jonas@kwiboo.se> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS)
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS)
+> Cc: David Airlie <airlied@gmail.com> (maintainer:DRM DRIVERS)
+> Cc: Simona Vetter <simona@ffwll.ch> (maintainer:DRM DRIVERS)
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
+> Cc: Maxime Ripard <mripard@kernel.org> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
+> Cc: Thomas Zimmermann <tzimmermann@suse.de> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
+> Cc: dri-devel@lists.freedesktop.org (open list:DRM DRIVERS)
+> ---
+>  Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index 6ceeed76e88ece6d86ecd6588ead7a65362dfe62..0487bbffd7f7c4bcce3f71df19548d601715fb98 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -41,6 +41,7 @@ properties:
+>            - enum:
+>                - ti,ds90cf364a # For the DS90CF364A FPD-Link LVDS Receiver
+>                - ti,ds90cf384a # For the DS90CF384A FPD-Link LVDS Receiver
+> +              - ti,sn65lvds822  # For the SN65LVDS822 FlatLink LVDS Receiver
+>                - ti,sn65lvds94 # For the SN65DS94 LVDS serdes
+>            - const: lvds-decoder # Generic LVDS decoders compatible fallback
+>        - enum:
+> 
+
+
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
