@@ -2,63 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7441A3C7BD
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 19:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F76A3C7D7
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 19:47:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF8510E04B;
-	Wed, 19 Feb 2025 18:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F73B10E35E;
+	Wed, 19 Feb 2025 18:47:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Eh3XlaWf";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Z2QH8Sxx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF5110E04B;
- Wed, 19 Feb 2025 18:38:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739990304; x=1771526304;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/Ab4W9HhQ4J8/sVsEn3pOQCHhHNFSaB01HRXCpZrWuw=;
- b=Eh3XlaWfB6La14ouEXcm57rcW82UGywNCGiWgjL0okXq5j0zSRoSUGz6
- MfkiLc1nlwQELC53ARUZvNYaJyKeBYHW4b9oSQqmW0VcoDwHFO3vA+32s
- fvhirTcbjVE4EecfBsf/IRQJHEJ8fSeFKDnrJVP/kSvJhKoRX5bhsxP9R
- 82NIVgZuH8Mr5adtTreeNJtcjcfdNYFeGi28SaoN2+uhdQ1jnJSiUrgJw
- ePnoCWwWqimQnsz8ngqQp+fToygaSJgy9t9rZ7VE3BRhjJaPJ1AVcuFKS
- YFSPjvWH7qMN5LE2aD+gkLdh/weyNZC56aTvJJYIXSm9NP2SlLNuf211c g==;
-X-CSE-ConnectionGUID: P2yDkZ/5ThiWMau3XbG5tw==
-X-CSE-MsgGUID: mVW54nzCQDix6hYWJmiG4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="39975439"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="39975439"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 10:38:23 -0800
-X-CSE-ConnectionGUID: ebOWXqleRH28TLlPYSeA5A==
-X-CSE-MsgGUID: 2nJGSFCIRIaoCsiTwarcIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="114628936"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.245.246.132])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 10:38:21 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	Andi Shyti <andi.shyti@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH v2] drm/i915: Fix harmfull driver register/unregister assymetry
-Date: Wed, 19 Feb 2025 19:37:50 +0100
-Message-ID: <20250219183807.713776-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2052.outbound.protection.outlook.com [40.107.220.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C2710E35E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 18:47:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fACvvsLLyNIAauUxctgbiBgGGAlmKPJj062/1x1++yXmUux/HkNrfjwkxB7CZLwlnG/0bowVYYm+xMOIm1xYzJ77dnMmzUg7LynYV6Ye5iMZQ+YsLI0Kf+38kHUc7QZhFCgHWKy2sFuFceaMMCPfoyuIF4RMLV7n01ZF0FP8wnFcR5snKJ95mnaMKXGlSGu7Si3RHwVm0zbbkx3mQEuISclf94vsTYl5Z1104gSJSHLS5JQ/GFQlBE7dBWRGhXQKHC/j4RJD4xz3Q8tX2LsLy2qCbGJixbPqFNevwYx/eomWQGakq9A0L3p6JvF44LrzUNjImV0PRBCXcPQaPpSgWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=scT/KsI42Z/eyT34daJd2VXa/5Vxm+ZdLwiMkCSUVMc=;
+ b=CS3Ef18sN5leLF0qfYmw3hsVvYPYZ0dqIEKh/H3z4Vg5Fg+oXCDvHnsQMXmkVzcg5CFtpyXN/enhr/DKbcdbYC987URStNDJBiGIOYrhQEuJwTdtcHPswvLlDBE9xBSaj3B5nGqdre34twmM47geY0XyFlAM0wNOgcB9RLv4npG6Y1rYRbIRs1QyRLX9iQaUqEBmgcZomQT1A0NZzx3zR4GySObYYxUTZSm0brFWhNATtp2ztqjhBy4k80E9rEaBMdmhxWJPl5qtLXUPX5kUJEK1ipGumt5817Pr8cxDPoeguiyPx+olY3jKs1L6wIFS/GzoANSurDzXbz/+E0jAPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=scT/KsI42Z/eyT34daJd2VXa/5Vxm+ZdLwiMkCSUVMc=;
+ b=Z2QH8SxxVFIBjPJ9ethzY9avITwPFf6eATVXcU33A0tDrCSLTPxPwMriM+vVzQff66r2+qvGKySdGTBNElComVLAi9VNskOFIIq2Ou4d4hnrxc6HGVTTFErJYpI5fIkGD0EoNuYh27URPXKZY4flE+cITnaM6UEBtQOVHl5ezkY=
+Received: from BY5PR17CA0013.namprd17.prod.outlook.com (2603:10b6:a03:1b8::26)
+ by CY8PR12MB8266.namprd12.prod.outlook.com (2603:10b6:930:79::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Wed, 19 Feb
+ 2025 18:47:16 +0000
+Received: from SJ5PEPF00000208.namprd05.prod.outlook.com
+ (2603:10b6:a03:1b8:cafe::a3) by BY5PR17CA0013.outlook.office365.com
+ (2603:10b6:a03:1b8::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.14 via Frontend Transport; Wed,
+ 19 Feb 2025 18:47:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SJ5PEPF00000208.mail.protection.outlook.com (10.167.244.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8466.11 via Frontend Transport; Wed, 19 Feb 2025 18:47:15 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 19 Feb
+ 2025 12:47:15 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 19 Feb
+ 2025 12:47:14 -0600
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 19 Feb 2025 12:47:14 -0600
+Message-ID: <c3075150-94f5-7187-007c-0037eaed6077@amd.com>
+Date: Wed, 19 Feb 2025 10:47:13 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] accel/amdxdna: Add missing include linux/slab.h
+Content-Language: en-US
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, Su Hui <suhui@nfschina.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <min.ma@amd.com>, <ogabbay@kernel.org>
+CC: <George.Yang@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+References: <20250211015354.3388171-1-suhui@nfschina.com>
+ <60700ca3-8d9a-d284-d2d8-343d770ca384@quicinc.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <60700ca3-8d9a-d284-d2d8-343d770ca384@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF00000208:EE_|CY8PR12MB8266:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89aff0a5-0535-40b2-4429-08dd5115d4b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|36860700013|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UEZTSk5RSlMzS3NjbDRuajR4QUROcVQxRmZjSWUvUjZSa09EU3lTYnlwMDJK?=
+ =?utf-8?B?VkhUZks3eXRzV1MvNUtNdVRqbHgvK1UwQVcxV25BcW1ZMmFZWTVnMXlNS1ls?=
+ =?utf-8?B?bGk1VE9UUGYrelpLbDdKT0pQUE5LVG05ajZJSE0veklYZUs2V0dvb1JVVEw1?=
+ =?utf-8?B?OTZKTmFjNnhJMFhSa09BcDZoYXRUaU5xSld6WnhNUkZteGE3RnRrM294azFt?=
+ =?utf-8?B?Z0dxTWJlQWVGTEtyejNYSnArTWRMUS92Zytic29oNGhZWkdUaUVJOTFCdkJz?=
+ =?utf-8?B?cEVFeUNaVDhtTEVhVSsrbmc1dlBHL2JYSWNpWS9qUU9aSWs4WGVmQ0pDaXNr?=
+ =?utf-8?B?UWV2ZitvOTlpMi9SdkVSQzd6cVhkNFRYTW45Z3BScklkb0dLeWpsMEZMUG9W?=
+ =?utf-8?B?aTZzMEFjSlphTDNiK0tYTWdPNWxTc3JNNDltN1RvWkNLeGMxQkJvY3dmSlYv?=
+ =?utf-8?B?L0Z6RHNMM08wL0Z1QWdhbEhPc0hENEJkdXB0bGtObUVVZVp4dUszN0xrMWFq?=
+ =?utf-8?B?RGdJTU9KYWRVdUZQTXF6Sit4VzkzdHhqWmF2NVR1VzZBQzNoa0JxOVZXYlhT?=
+ =?utf-8?B?SlpvamIrN1RxeFVZVDhYelJoMWJOZkQ0S0k0UEQ2MXA3T1NTcHlkbXFsL2Np?=
+ =?utf-8?B?YjE3c2xWNU13KzNrai85Y01ZSTZLdS9qVEV2bTk0MlB4ZzdraXpZelVxWVg5?=
+ =?utf-8?B?YlBtZDlzTzFKdThtdTlXdmh6RU0zVjFFZUpHa0s4bDlqem5aNmFCVFVJR09G?=
+ =?utf-8?B?ZFJqY0p5NWN1SHVXdWMvYjhEV1llNlkxS1lxSVhTY3BGcGFoVlFqZitWZkVU?=
+ =?utf-8?B?Nnpvc0JIb0wva3RteEV4SndrcmVWZ0IySVFYdjFNN0VkNkZiY2cxUlcyb1Zw?=
+ =?utf-8?B?eFliOGtwYjJ0ekZCcnZ5L0QzSGpyc1JlaWFlK1V1S3paa2hBdHhlcWtLU3dv?=
+ =?utf-8?B?aHBhc2YwTThhV1c2c045YXZhR0hQNzRJc2d2S0c5NTdkVktjRFVOa0FaeGFR?=
+ =?utf-8?B?STAzc3BBYmxhVUtzbktNeEdZdkYzeER0N1VJdWVPTFY3Y2FnVkxJTmRSNE1L?=
+ =?utf-8?B?amlsV1hzNnZhOXM4bms5RTEwa1Y0UWE0ejRZMDQ3M0lROVBUZGdSZGNmTkg2?=
+ =?utf-8?B?cVZZOHhKRFR5dHJnR1lJTmFOV0RCaStyL2h1bTRIK3dPZUQ3LzRaM0dZMG9T?=
+ =?utf-8?B?d1BlcHQrczFjS2dZZUc1aDBrTkxtZVNrbGE4bFczaGZPQ0dpbHd5TFZVa2lu?=
+ =?utf-8?B?UGM1cytpTEhXVWRBNkYrdlhKWDdBZnYwaFd4N0V6cHpubTlaYit3V3YrZ1dW?=
+ =?utf-8?B?a1BVUDRoRVl1MkY1L0x0NTdBRUtLSWdnTWZ6Z2F2MDhlR0V3OE11L2JvWVVi?=
+ =?utf-8?B?NXc3WFZEYS8zVklDdFpSVSs5Q01VZS9zM1ViMWh0ZC9iUHBuVVlFODJoeFVX?=
+ =?utf-8?B?eXE4b2pQazl1c2Zkb0R3ekVQQzZrdzQwZUJ3QUVzVlFnQ2pmalBLSWZnZEJE?=
+ =?utf-8?B?ZlBLU1BNZ0FrUnVsQWR0cWpVMnNFV29pNkxoWUltT1JKT1grbXhrT05jVExV?=
+ =?utf-8?B?RVgxNlkzNUxJVklLRjVVR1A0T1JxdTZNWEFTYWlXalR4aXNwdmVDZW55Q2ZE?=
+ =?utf-8?B?T3lJZXBUZUNXdlpoRWR2c2EybXBqM1JNME9WelV6TUpOK003RVh2aVBBeTR3?=
+ =?utf-8?B?YjJ4WDNySEtNWk5FdllQZ2c4cG9mdzRGWWswUjV2MEo5N0FCMEZxVUtCZ3FL?=
+ =?utf-8?B?MTYrZlFmUnNTVFlKZjZTVGZRSlZlOC9QMzh6U051UUNTMDQvSXlOa3BqMkhi?=
+ =?utf-8?B?Q2M0Z3F0eHFJVW9WZHRKNUpZbHk2aGNOdGZCSE9mYnMvajFFbjk2KzdDQk5h?=
+ =?utf-8?B?cTFKZWRIbDk1dXhrN2Y5c0pYZDkwU0hwTWllUnVWMUxsL1FpcHFOOTBramxv?=
+ =?utf-8?B?K0hsZU9zVDNSWDRJdWVwRGlMTkFYbEVGc3dLanFwSWRoMk5IMklRQVpwc2RO?=
+ =?utf-8?Q?dmWGjCZ9XTcDT5fu4KtQ4S3qwGxlN4=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2025 18:47:15.9466 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89aff0a5-0535-40b2-4429-08dd5115d4b1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF00000208.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8266
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,177 +152,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Starting with commit ec3e00b4ee27 ("drm/i915: stop registering if
-drm_dev_register() fails"), we return immediately from
-i915_driver_register() if drm_dev_register() fails, skipping remaining
-registration steps.  However, the _unregister() counterpart called at
-device remove knows nothing about that skip and executes reverts of all
-those steps.  As a consequence, a number of kernel warnings that taint the
-kernel are triggered:
 
-<3> [525.823143] i915 0000:00:02.0: [drm] *ERROR* Failed to register driver for
-userspace access!
-...
-<4> [525.831069] ------------[ cut here ]------------
-<4> [525.831071] i915 0000:00:02.0: [drm] drm_WARN_ON(power_domains->init_wakere
-f)
-<4> [525.831095] WARNING: CPU: 6 PID: 3440 at drivers/gpu/drm/i915/display/intel
-_display_power.c:2074 intel_power_domains_disable+0xc2/0xd0 [i915]
-...
-<4> [525.831328] CPU: 6 UID: 0 PID: 3440 Comm: i915_module_loa Tainted: G     U
-            6.14.0-rc1-CI_DRM_16076-g7a632b6798b6+ #1
-...
-<4> [525.831334] RIP: 0010:intel_power_domains_disable+0xc2/0xd0 [i915]
-...
-<4> [525.831483] Call Trace:
-<4> [525.831484]  <TASK>
-...
-<4> [525.831943]  i915_driver_remove+0x4b/0x140 [i915]
-<4> [525.832028]  i915_pci_remove+0x1e/0x40 [i915]
-<4> [525.832099]  pci_device_remove+0x3e/0xb0
-<4> [525.832103]  device_remove+0x40/0x80
-<4> [525.832107]  device_release_driver_internal+0x215/0x280
-...
-<4> [525.947666] ------------[ cut here ]------------
-<4> [525.947669] kobject: '(null)' (ffff88814f62a218): is not initialized, yet kobject_put() is being called.
-<4> [525.947707] WARNING: CPU: 6 PID: 3440 at lib/kobject.c:734 kobject_put+0xe4/0x200
-...
-<4> [525.947875] RIP: 0010:kobject_put+0xe4/0x200
-...
-<4> [525.947909] Call Trace:
-<4> [525.947911]  <TASK>
-...
-<4> [525.947963]  intel_gt_sysfs_unregister+0x25/0x40 [i915]
-<4> [525.948133]  intel_gt_driver_unregister+0x14/0x80 [i915]
-<4> [525.948291]  i915_driver_remove+0x6c/0x140 [i915]
-<4> [525.948411]  i915_pci_remove+0x1e/0x40 [i915]
-...
-<4> [526.441186] ------------[ cut here ]------------
-<4> [526.441191] kernfs: can not remove 'error', no directory
-<4> [526.441211] WARNING: CPU: 1 PID: 3440 at fs/kernfs/dir.c:1684 kernfs_remove_by_name_ns+0xbc/0xc0
-...
-<4> [526.441536] RIP: 0010:kernfs_remove_by_name_ns+0xbc/0xc0
-...
-<4> [526.441578] Call Trace:
-<4> [526.441581]  <TASK>
-...
-<4> [526.441686]  sysfs_remove_bin_file+0x17/0x30
-<4> [526.441691]  i915_gpu_error_sysfs_teardown+0x1d/0x30 [i915]
-<4> [526.442226]  i915_teardown_sysfs+0x1c/0x60 [i915]
-<4> [526.442369]  i915_driver_remove+0x9d/0x140 [i915]
-<4> [526.442473]  i915_pci_remove+0x1e/0x40 [i915]
-...
-<4> [526.685700] ------------[ cut here ]------------
-<4> [526.685706] i915 0000:00:02.0: [drm] i915 raw-wakerefs=1 wakelocks=1 on cle
-anup
-<4> [526.685734] WARNING: CPU: 1 PID: 3440 at drivers/gpu/drm/i915/intel_runtime
-_pm.c:443 intel_runtime_pm_driver_release+0x75/0x90 [i915]
-...
-<4> [526.686090] RIP: 0010:intel_runtime_pm_driver_release+0x75/0x90 [i915]
-...
-<4> [526.686294] Call Trace:
-<4> [526.686296]  <TASK>
-...
-<4> [526.687025]  i915_driver_release+0x7e/0xb0 [i915]
-<4> [526.687243]  drm_dev_put.part.0+0x47/0x90
-<4> [526.687250]  devm_drm_dev_init_release+0x13/0x30
-<4> [526.687255]  devm_action_release+0x12/0x30
-<4> [526.687261]  release_nodes+0x3a/0x120
-<4> [526.687268]  devres_release_all+0x97/0xe0
-<4> [526.687277]  device_unbind_cleanup+0x12/0x80
-<4> [526.687282]  device_release_driver_internal+0x23a/0x280
-...
+On 2/11/25 07:36, Jeffrey Hugo wrote:
+> On 2/10/2025 6:53 PM, Su Hui wrote:
+>> When compiling without CONFIG_IA32_EMULATION, there can be some errors:
+>>
+>> drivers/accel/amdxdna/amdxdna_mailbox.c: In function 
+>> ‘mailbox_release_msg’:
+>> drivers/accel/amdxdna/amdxdna_mailbox.c:197:2: error: implicit 
+>> declaration
+>> of function ‘kfree’.
+>>    197 |  kfree(mb_msg);
+>>        |  ^~~~~
+>> drivers/accel/amdxdna/amdxdna_mailbox.c: In function 
+>> ‘xdna_mailbox_send_msg’:
+>> drivers/accel/amdxdna/amdxdna_mailbox.c:418:11: error:implicit 
+>> declaration
+>> of function ‘kzalloc’.
+>>    418 |  mb_msg = kzalloc(sizeof(*mb_msg) + pkg_size, GFP_KERNEL);
+>>        |           ^~~~~~~
+>>
+>> Add the missing include.
+>>
+>> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+>> Signed-off-by: Su Hui <suhui@nfschina.com>
+>> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Introduce a flag that indicates device registration status, raise it on
-device registration success.  When that flag is found not set while
-unregistering the driver, jump over reverts of registration steps omitted
-on device registration failure.
+Pushed to drm-misc-fixes
 
-To make it possible, move i915_pmu_unregister(), a counterpart of
-i915_pmu_unregister() that is called unconditionally before registering
-the device, down so it is not skipped in any case.  Also, move
-intel_pxp_fini(), that apparently needs to be called on driver remove
-whether the device was registered successfully or not, down right below
-the jump target (though it doesn't look like a step that belongs to driver
-unregistration, but that's beyond the scope of this patch).
 
-v2: Check in _unregister whether the drm_dev_register has succeeded and
-    skip some of the _unregister() steps. (Andi)
+Thanks,
 
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12817
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/9820
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10047
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10131
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10887
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/gpu/drm/i915/i915_driver.c | 13 ++++++++++---
- drivers/gpu/drm/i915/i915_drv.h    |  2 ++
- 2 files changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 91a7748f44926..d3b30c3690bbe 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -639,6 +639,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
- 		return;
- 	}
- 
-+	dev_priv->registered = true;
-+
- 	i915_debugfs_register(dev_priv);
- 	i915_setup_sysfs(dev_priv);
- 
-@@ -673,6 +675,9 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- 	struct intel_gt *gt;
- 	unsigned int i;
- 
-+	if (!dev_priv->registered)
-+		goto not_registered;
-+
- 	i915_switcheroo_unregister(dev_priv);
- 
- 	intel_unregister_dsm_handler();
-@@ -682,17 +687,19 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- 
- 	intel_display_driver_unregister(display);
- 
--	intel_pxp_fini(dev_priv);
--
- 	for_each_gt(gt, dev_priv, i)
- 		intel_gt_driver_unregister(gt);
- 
- 	i915_hwmon_unregister(dev_priv);
- 
- 	i915_perf_unregister(dev_priv);
--	i915_pmu_unregister(dev_priv);
- 
- 	i915_teardown_sysfs(dev_priv);
-+
-+not_registered:
-+	intel_pxp_fini(dev_priv);
-+	i915_pmu_unregister(dev_priv);
-+
- 	drm_dev_unplug(&dev_priv->drm);
- 
- 	i915_gem_driver_unregister(dev_priv);
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index ffc346379cc2c..27a23b1eb9de0 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -347,6 +347,8 @@ struct drm_i915_private {
- 	/* The TTM device structure. */
- 	struct ttm_device bdev;
- 
-+	bool registered;
-+
- 	I915_SELFTEST_DECLARE(struct i915_selftest_stash selftest;)
- 
- 	/*
--- 
-2.48.1
+Lizhi
 
