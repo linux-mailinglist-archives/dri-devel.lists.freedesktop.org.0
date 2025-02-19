@@ -2,60 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A14A3C584
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129F4A3C4FE
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:28:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95E1610E85C;
-	Wed, 19 Feb 2025 16:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0795C10E856;
+	Wed, 19 Feb 2025 16:28:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BC4CL/Iu";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="T65cSBjJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F67810E347;
- Wed, 19 Feb 2025 16:55:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739984154; x=1771520154;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=WRoA2Otu8KXZFy/YShs2Evzm1qWRGAVUan1amEpzAB8=;
- b=BC4CL/IuD8noSrzL0LO2qO7p2AYXbCt2/30yPEgYTnmn/JCiXk44z6s5
- RxOvfVCVnXwWOTRkJRXBOS50k8ER1Io+1sQC8YHqyzpqqfpeTJd7Z9jr+
- Y8pEvdRnjqgcV9dZfov+4WpUJMTo4TMIvJcz6n21m/v1rmsOvHWoi/2Da
- rc786jLtvEmNc4n3pwjp2z2YF/r7Tr4X/eOvabYgKKRE+0Yjb+/cgflRB
- ZvMfZmQPNZmBIkj5yBQLi68SXhXLOXdo8TJstJsgnw/ABvyO90UXbUUbj
- Jx72gMLRsVljoqQyRhuo/nd6/rQNzBSi/2Y/qUJGqfhFquXvXM3y6ay4l Q==;
-X-CSE-ConnectionGUID: MkphdDVdR6qsyDXZI1n2nQ==
-X-CSE-MsgGUID: 4tOH4AfmSZmPN2XXifG0XQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="40991892"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="40991892"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 08:55:45 -0800
-X-CSE-ConnectionGUID: XorV37fcR1iKalXflUo3gg==
-X-CSE-MsgGUID: Dv62fMMUQC+Nd6vRhWrZ/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="114966330"
-Received: from dut4410lnl.fm.intel.com ([10.105.8.78])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 08:23:41 -0800
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, tvrtko.ursulin@ursulin.net,
- lucas.demarchi@intel.com, matthew.brost@intel.com,
- dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch
-Subject: [PATCH v3 6/6] drm/xe/xe_query: Add support for per-drm-client reset
- stat querying
-Date: Wed, 19 Feb 2025 16:23:40 +0000
-Message-ID: <20250219162340.116499-7-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250219162340.116499-1-jonathan.cavitt@intel.com>
-References: <20250219162340.116499-1-jonathan.cavitt@intel.com>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5C9E10E851
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 16:28:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B70BA204D5;
+ Wed, 19 Feb 2025 16:28:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1739982526;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=r26FKGG+adt7uAn+1dqw1kypEE/sGGwT5qwvDLzxGGw=;
+ b=T65cSBjJKEDyb9iz/mmk3X5LoxaGaLx59ntwWk3wqzb9CVmEuAfOhNUNbb38+8khgIpWIv
+ NcoG1UocEn5vOxhEVfJwelgPX/AtXhCHVO1B8RYKQpFncQ5m7iYurFKDZUHBsHcXVB0VuQ
+ yXTe266iSfECJwxoTXZbAexXED9/8sRssfG1tmzrq0Ev+t+CA7PIp56oisdNEUkwzl+F80
+ frXlSwbK1MqfvHMp+iQ10t2xld9ErDZR5vOB/6IJf2EQbQvx5YdA4eUr6fuJd9UeCBbi0v
+ Is1k5ovnh7z57+B2Z1xxmvv2N2ChhnWGfzrE54yTKUrv98hYl0Sz5vD6FlUVxA==
+Message-ID: <4e0d66f7-6234-4265-bfbb-a919224ecb2a@bootlin.com>
+Date: Wed, 19 Feb 2025 17:28:37 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
+To: Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, jose.exposito89@gmail.com,
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com
+References: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
+ <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
+ <20241126-overjoyed-knowing-cuttlefish-c8d0f6@houat>
+ <Z2GqEOiVkdgB3IXy@louis-chauvet-laptop>
+ <20250219-versatile-smilodon-of-felicity-cbcc4d@houat>
+ <Z7XZYVs6LL1gEzIF@phenom.ffwll.local>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
+ 5K81kIWbtQX91pD/wH5UapRF4kwMXTAqof8+m3XfYcEDVG31Kf8QkJTG/gLBi1UfJgGBahbY
+ hjP40kuUR/mr7M7bKoBP9Uh0uaEM+DuKl6bSXMSrJ6fOtEPOtnfBY0xVPmqIKfLFEkjh800v
+ jD1fdwWKtAIXf+cQtC9QWvcdzAmQIwmyFBmbg+ccqao1OIXTgu+qMAHfgKDjYctESvo+Szmb
+ DFBZudPbyTAlf2mVKpoHKMGy3ndPZ19RboKUP0wjrF+Snif6zRFisHK7D/mqpgUftoV4HjEH
+ bQO9bTJZXIoPJMSb+Lyds0m83/LYfjcWP8w889bNyD4Lzzzu+hWIu/OObJeGEQqY01etOLMh
+ deuSuCG9tFr0DY6l37d4VK4dqq4Snmm87IRCb3AHAEMJ5SsO8WmRYF8ReLIk0tJJPrALv8DD
+ lnLnwadBJ9H8djZMj24+GC6MJjN8dDNWctpBXgGZKuCM7Ggaex+RLHP/+14Vl+lSLdFiUb3U
+ ljBXuc9v5/9+D8fWlH03q+NCa1dVgUtsP2lpolOV3EE85q1HdMyt5K91oB0hLNFdTFYwn1bW
+ WJ2FaRhiC1yV4kn/z8g7fAp57VyIb6lQfS1Wwuj5/53XYjdipQARAQABzSlMb3VpcyBDaGF1
+ dmV0IDxsb3Vpcy5jaGF1dmV0QGJvb3RsaW4uY29tPsLBlAQTAQgAPgIbAwULCQgHAgYVCgkI
+ CwIEFgIDAQIeAQIXgBYhBItxBK6aJy1mk/Un8uwYg/VeC0ClBQJmlnw+BQkH8MsdAAoJEOwY
+ g/VeC0ClyhwP/Ra6H+5F2NEW6/IMVHeXmhuly8CcZ3kyoKeGNowghIcTBo59dFh0atGCvr+y
+ K9YD5Pyg9aX4Ropw1R1RVIMrWoUNZUKebRTu6iNHkE6tmURJaKLzR+9la+789jznQvbV+9gM
+ YTBppX4/0cWY58jiDiDV4aJ77JDo7aWNK4hz8mZsB+Y7ezMuS4jy2r4b7dZ+YL/T9/k3/emO
+ PkAuFkVhkNhytMEyOBsT7SjL4IUBeYWvOw9MIaXEl4qW/5HLGtMuNhS94NsviDXZquoOHOby
+ 2uuRAI0bLz1qcsnY90yyPlDJ0pMuJHbi0DBzPTIYkyuwoyplfWxnUPp1wfsjiy/B6mRKTbdE
+ a/K6jNzdVC1LLjTD4EjwnCE8IZBRWH1NVC1suOkw3Sr1FYcHFSYqNDrrzO+RKtR1JMrIe8/3
+ Xhe2/UNUhppsK3SaFaIsu98mVQY3bA/Xn9wYcuAAzRzhEHgrbp8LPzYdi6Qtlqpt4HcPV3Ya
+ H9BkCacgyLHcdeQbBXaup9JbF5oqbdtwev3waAmNfhWhrQeqQ0tkrpJ46l9slEGEdao5Dcct
+ QDRjmJz7Gx/rKJngQrbboOQz+rhiHPoJc/n75lgOqtHRePNEf9xmtteHYpiAXh/YNooXJvdA
+ tgR1jAsCsxuXZnW2DpVClm1WSHNfLSWona8cTkcoSTeYCrnXzsFNBGCG6KUBEADZhvm9TZ25
+ JZa7wbKMOpvSH36K8wl74FhuVuv7ykeFPKH2oC7zmP1oqs1IF1UXQQzNkCHsBpIZq+TSE74a
+ mG4sEhZP0irrG/w3JQ9Vbxds7PzlQzDarJ1WJvS2KZ4AVnwc/ucirNuxinAuAmmNBUNF8w6o
+ Y97sdgFuIZUP6h972Tby5bu7wmy1hWL3+2QV+LEKmRpr0D9jDtJrKfm25sLwoHIojdQtGv2g
+ JbQ9Oh9+k3QG9Kh6tiQoOrzgJ9pNjamYsnti9M2XHhlX489eXq/E6bWOBRa0UmD0tuQKNgK1
+ n8EDmFPW3L0vEnytAl4QyZEzPhO30GEcgtNkaJVQwiXtn4FMw4R5ncqXVvzR7rnEuXwyO9RF
+ tjqhwxsfRlORo6vMKqvDxFfgIkVnlc2KBa563qDNARB6caG6kRaLVcy0pGVlCiHLjl6ygP+G
+ GCNfoh/PADQz7gaobN2WZzXbsVS5LDb9w/TqskSRhkgXpxt6k2rqNgdfeyomlkQnruvkIIjs
+ Sk2X68nwHJlCjze3IgSngS2Gc0NC/DDoUBMblP6a2LJwuF/nvaW+QzPquy5KjKUO2UqIO9y+
+ movZqE777uayqmMeIy4cd/gg/yTBBcGvWVm0Dh7dE6G6WXJUhWIUtXCzxKMmkvSmZy+gt1rN
+ OyCd65HgUXPBf+hioCzGVFSoqQARAQABwsOyBBgBCAAmAhsuFiEEi3EErponLWaT9Sfy7BiD
+ 9V4LQKUFAmaWfGYFCQfwx0ECQAkQ7BiD9V4LQKXBdCAEGQEIAB0WIQRPj7g/vng8MQxQWQQg
+ rS7GWxAs4gUCYIbopQAKCRAgrS7GWxAs4gfGEACcA0XVNesbVIyvs5SJpJy+6csrH4yy233o
+ GclX2P7pcCls55wiV6ywCtRaXWFjztYmklQieaZ/zq+pUuUDtBZo95rUP20E56gYV2XFB18W
+ YeekTwH5d2d/j++60iHExWTB+sgMEv3CEGikUBj7iaMX2KtaB1k9K+3K6dx/s1KWxOClFkbJ
+ EV/tmeq7Ta8LiytQM9b4yY550tzC0pEEeFcLFXo1m5KcJauYnAqrlOVY48NFpFUd9oAZf/Pz
+ p3oEs+zn/8zK2PBrZZCD6AhrbotRy7irE5eimhxcsFm1+MG5ufnaQUWHrRYXVuFhvkSoqZ8j
+ GPgPEpFor4NjRyX/PMLglQ7S5snkvKcr3Lun44aybXEHq/1FTzW2kOh6kFHFFOPbMv1voJKM
+ IzrmDoDS+xANt/La7OwpCylCgF6t9oHHTTGfAfwtfYZbiepC66FDe/Jt/QLwkIXeIoeSS1O4
+ 6rJdGWG2kHthUM+uIbUbaRJW8AkJpzP1Mz7TieR/9jO4YPeUm9tGL5kP2yyNtzFilcoOeox1
+ NSFNAPz+zPcovVmxAaSDGcSzhQVJVlk8xPib8g4fnI8qJ3Gj7xyw8D9dzxhCR2DIFmZL84En
+ N7Rj+k4VIGY7M/cVvxL81jlbMGMERMmb96Cua9z1ROviGA1He2gbHOcp6qmLNu3nprleG8PL
+ ZRNdEAC0iZapoyiXlVCKLFIwUPnxUz5iarqIfQU8sa1VXYYd/AAAFI6Wv3zfNtGicjgHP8rN
+ CIegqm2Av1939XXGZJVI9f3hEoUn04rvxCgcDcUvn7I0WTZ4JB9G5qAGvQLXeXK6Byu77qTx
+ eC7PUIIEKN3X47e8xTSj2reVTlanDr8yeqZhxpKHaS0laF8RbD85geZtAK67qEByX2KC9DUo
+ eHBFuXpYMzGQnf2SG105ePI2f4h5iAfbTW9VWH989fx4f2hVlDwTe08/NhPdwq/Houov9f/+
+ uPpYEMlHCNwE8GRV7aEjd/dvu87PQPm4zFtC3jgQaUKCbYYlHmYYRlrLQenX3QSorrQNPbfz
+ uQkNLDVcjgD2fxBpemT7EhHYBz+ugsfbtdsH+4jVCo5WLb/HxE6o5zvSIkXknWh1DhFj/qe9
+ Zb9PGmfp8T8Ty+c/hjE5x6SrkRCX8qPXIvfSWLlb8M0lpcpFK+tB+kZlu5I3ycQDNLTk3qmf
+ PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
+ ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
+ qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
+In-Reply-To: <Z7XZYVs6LL1gEzIF@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeejgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgheehgeevudekvdetfeeifeelveeffffhieevtefhueelheettdeuhfeugfeuueenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudekpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhoughrihhgohhsihhquhgvihhrrghmvghlohesghhmrghilhdrtghomhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlr
+ dgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghuphdrnhgvthdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,195 +131,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to query per drm client reset stats via the
-query ioctl.  This includes the number of engine resets the drm client
-has observed, as well as a list of up to the last 50 relevant exec
-queue bans and their associated causal pagefaults (if they exists).
 
-v2: Report EOPNOTSUPP if CONFIG_PROC_FS is not set in the kernel
-    config, as it is required to trace the reset count and exec
-    queue bans.
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
----
- drivers/gpu/drm/xe/xe_query.c | 70 +++++++++++++++++++++++++++++++++++
- include/uapi/drm/xe_drm.h     | 50 +++++++++++++++++++++++++
- 2 files changed, 120 insertions(+)
+Le 19/02/2025 à 14:15, Simona Vetter a écrit :
+> On Wed, Feb 19, 2025 at 10:28:56AM +0100, Maxime Ripard wrote:
+>> On Tue, Dec 17, 2024 at 05:42:56PM +0100, Louis Chauvet wrote:
+>>> Hi,
+>>>
+>>>>> Hi all,
+>>>>>
+>>>>> I am also currently working on MST emulation for VKMS. If someone can read
+>>>>> what I already did and at tell me if my implementation seems on the right
+>>>>> track it could be nice.
+>>>>>
+>>>>> The current status is not very advanced: I can emulate a mst HUB, but not
+>>>>> a screen. I am currently working on properly emulating the HUB by using an
+>>>>> other hub.
+>>>>>
+>>>>> You can find the branch for this work here:
+>>>>> https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-mst
+> 
+> Can't look at this because it's private.
 
-diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
-index 3aad4737bfec..671bc4270b93 100644
---- a/drivers/gpu/drm/xe/xe_query.c
-+++ b/drivers/gpu/drm/xe/xe_query.c
-@@ -16,10 +16,12 @@
- #include "regs/xe_gt_regs.h"
- #include "xe_bo.h"
- #include "xe_device.h"
-+#include "xe_drm_client.h"
- #include "xe_exec_queue.h"
- #include "xe_force_wake.h"
- #include "xe_ggtt.h"
- #include "xe_gt.h"
-+#include "xe_gt_pagefault.h"
- #include "xe_guc_hwconfig.h"
- #include "xe_macros.h"
- #include "xe_mmio.h"
-@@ -740,6 +742,73 @@ static int query_pxp_status(struct xe_device *xe,
- 	return 0;
- }
- 
-+static size_t calc_reset_stats_size(struct xe_drm_client *client)
-+{
-+	size_t size = sizeof(struct drm_xe_query_reset_stats);
-+#ifdef CONFIG_PROC_FS
-+	spin_lock(&client->blame_lock);
-+	size += sizeof(struct drm_xe_exec_queue_ban) * client->blame_len;
-+	spin_lock(&client->blame_lock);
-+#endif
-+	return size;
-+}
-+
-+static int query_reset_stats(struct xe_device *xe,
-+			     struct drm_xe_device_query *query,
-+			     struct drm_file *file)
-+{
-+	void __user *query_ptr = u64_to_user_ptr(query->data);
-+	struct drm_xe_query_reset_stats resp;
-+	struct xe_file *xef = to_xe_file(file);
-+	struct xe_drm_client *client = xef->client;
-+	struct blame *b;
-+	size_t size = calc_reset_stats_size(client);
-+	int i = 0;
-+
-+#ifdef CONFIG_PROC_FS
-+	if (query->size == 0) {
-+		query->size = size;
-+		return 0;
-+	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
-+		return -EINVAL;
-+	}
-+
-+	if (copy_from_user(&resp, query_ptr, size))
-+		return -EFAULT;
-+
-+	resp.reset_count = atomic_read(&client->reset_count);
-+
-+	spin_lock(&client->blame_lock);
-+	resp.ban_count = client->blame_len;
-+	list_for_each_entry(b, &client->blame_list, list) {
-+		struct drm_xe_exec_queue_ban *ban = &resp.ban_list[i++];
-+		struct pagefault *pf = b->pf;
-+
-+		ban->exec_queue_id = b->exec_queue_id;
-+		ban->pf_found = pf ? 1 : 0;
-+		if (!pf)
-+			continue;
-+
-+		ban->access_type = pf->access_type;
-+		ban->fault_type = pf->fault_type;
-+		ban->vfid = pf->vfid;
-+		ban->asid = pf->asid;
-+		ban->pdata = pf->pdata;
-+		ban->engine_class = xe_to_user_engine_class[pf->engine_class];
-+		ban->engine_instance = pf->engine_instance;
-+		ban->fault_addr = pf->page_addr;
-+	}
-+	spin_unlock(&client->blame_lock);
-+
-+	if (copy_to_user(query_ptr, &resp, size))
-+		return -EFAULT;
-+
-+	return 0;
-+#else
-+	return -EOPNOTSUPP;
-+#endif
-+}
-+
- static int (* const xe_query_funcs[])(struct xe_device *xe,
- 				      struct drm_xe_device_query *query,
- 				      struct drm_file *file) = {
-@@ -753,6 +822,7 @@ static int (* const xe_query_funcs[])(struct xe_device *xe,
- 	query_uc_fw_version,
- 	query_oa_units,
- 	query_pxp_status,
-+	query_reset_stats,
- };
- 
- int xe_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 892f54d3aa09..ffeb2a79e084 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -682,6 +682,7 @@ struct drm_xe_query_pxp_status {
-  *  - %DRM_XE_DEVICE_QUERY_GT_TOPOLOGY
-  *  - %DRM_XE_DEVICE_QUERY_ENGINE_CYCLES
-  *  - %DRM_XE_DEVICE_QUERY_PXP_STATUS
-+ *  - %DRM_XE_DEVICE_QUERY_RESET_STATS
-  *
-  * If size is set to 0, the driver fills it with the required size for
-  * the requested type of data to query. If size is equal to the required
-@@ -735,6 +736,7 @@ struct drm_xe_device_query {
- #define DRM_XE_DEVICE_QUERY_UC_FW_VERSION	7
- #define DRM_XE_DEVICE_QUERY_OA_UNITS		8
- #define DRM_XE_DEVICE_QUERY_PXP_STATUS		9
-+#define DRM_XE_DEVICE_QUERY_RESET_STATS		10
- 	/** @query: The type of data to query */
- 	__u32 query;
- 
-@@ -1845,6 +1847,54 @@ enum drm_xe_pxp_session_type {
- 	DRM_XE_PXP_TYPE_HWDRM = 1,
- };
- 
-+/**
-+ * struct drm_xe_exec_queue_ban - Per drm client exec queue ban info returned
-+ * from @DRM_XE_DEVICE_QUERY_RESET_STATS query.  Includes the exec queue ID and
-+ * all associated pagefault information, if relevant.
-+ */
-+struct drm_xe_exec_queue_ban {
-+	/** @exec_queue_id: ID of banned exec queue */
-+	__u32 exec_queue_id;
-+	/**
-+	 * @pf_found: whether or not the ban is associated with a pagefault.
-+	 * If not, all pagefault data will default to 0 and will not be relevant.
-+	 */
-+	__u8 pf_found;
-+	/** @access_type: access type of associated pagefault */
-+	__u8 access_type;
-+	/** @fault_type: fault type of associated pagefault */
-+	__u8 fault_type;
-+	/** @vfid: VFID of associated pagefault */
-+	__u8 vfid;
-+	/** @asid: ASID of associated pagefault */
-+	__u32 asid;
-+	/** @pdata: PDATA of associated pagefault */
-+	__u16 pdata;
-+	/** @engine_class: engine class of associated pagefault */
-+	__u8 engine_class;
-+	/** @engine_instance: engine instance of associated pagefault */
-+	__u8 engine_instance;
-+	/** @fault_addr: faulted address of associated pagefault */
-+	__u64 fault_addr;
-+};
-+
-+/**
-+ * struct drm_xe_query_reset_stats - Per drm client reset stats query.
-+ */
-+struct drm_xe_query_reset_stats {
-+	/** @extensions: Pointer to the first extension struct, if any */
-+	__u64 extensions;
-+	/** @reset_count: Number of times the drm client has observed an engine reset */
-+	__u64 reset_count;
-+	/** @ban_count: number of exec queue bans saved by the drm client */
-+	__u64 ban_count;
-+	/**
-+	 * @ban_list: flexible array of struct drm_xe_exec_queue_ban, reporting all
-+	 * observed exec queue bans on the drm client.
-+	 */
-+	struct drm_xe_exec_queue_ban ban_list[];
-+};
-+
- /* ID of the protected content session managed by Xe when PXP is active */
- #define DRM_XE_PXP_HWDRM_DEFAULT_SESSION 0xf
- 
+Hi Maxime, Sima,
+
+Normally, those should work:
+
+https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/vkms-mst
+https://github.com/Fomys/linux/tree/vkms-mst
+
+I just re-tested, this is broken, probably because I never had the time 
+to properly finish my last idea: simplifying vkms_connector by creating 
+vkms_mst_emulator_root. With the rest of the code (i.e. 
+vkms_mst_hub/display_emulator + vkms_connector), I was able to make this 
+config working:
+
+HUB1 -> HUB2 -> DISPLAY1
+      |       -> DISPLAY2
+      -> DISPLAY3
+
+(working == it was listed properly by modetest + did not report any 
+issue when using a connector with modetest -s)
+
+Few things to note: no ConfigFS support, no eBPF support, poorly tested 
+(there are probably multithread/recursion issues)
+
+I had to stop working on it because I don't have anymore time, I plan to 
+at least rebase + send an RFC once the VKMS+ConfigFS work is done.
+
+>>>> I think this is exactly the kind of things where we'll want eBPF I
+>>>> think. There's no way you'll be able to model each possible test
+>>>> scenarios for MST through configfs, even more so with a stable
+>>>> interface.
+>>>
+>>> I just spent some time to think about it. I agree that eBPF seems
+>>> applicable: we want to allows userspace to emulate any MST device, and we
+>>> don't want to create huge uAPI + whole emulation in the kernel.
+>>>
+>>> As most of the protocol is similar accros device kind, I currently built
+>>> my code around the struct vkms_mst_sideband_helpers to specify only the
+>>> changed behavior (this way the "write to registers" "parse command"... is
+>>> only done in one place). The choice of function is not definitive at all
+>>> (it was just practical at this moment).
+>>>
+>>> With eBPF, I know three different way to attach programs to the kernel:
+>>>   - Using a kprobe/attaching to a function: I can change the behavior of
+>>>     all the device, there is no way "attach prog1 to hub" and "attach prog2
+>>>     to screen1", it will be "attach prog1 to the function
+>>>     `vkms_mst_emulator_handle_transfer_write`, and all the device will be
+>>>     affected. This should be very easy to implement (maybe it already
+>>>     works without modification?), but very limited / make userspace stuff
+>>>     very ugly => Not ideal at all
+>>>   - Creating a whole architecture to attach eBPF programs in vkms: VKMS
+>>>     manage the list of attached eBPF programs, call them when it needs...
+>>>     This is probably the "most flexible" option (in the sense "VKMS can do
+>>>     whatever we need to fit our usecase"). This seems not trivial to
+>>>     implement (drm complexity + MST complexity + BPF complexity in the same
+>>>     driver seems a bad idea, espicially because VKMS don't have a lot of
+>>>     maintainance and I don't feel confident introducing more complexity)
+>>>     => Can work, require some work, but may bring more complexity in VKMS
+>>>   - Using BPF struct_ops: I can "simply" create/complete a struct ops for
+>>>     diverse mst callbacks (see the proposition bellow). I looked at some
+>>>     example, this seems to be "easy" to do, and the work in VKMS should be
+>>>     limited.
+>>>     => Can work, a bit less flexible than the previous solution, but avoid
+>>>     a lot of complexity
+>>>
+>>> I don't know if I will be able to finish the implementation but I imagine
+>>> something like that may be a nice interface (may be not possible "as is"):
+>>>
+>>> // vkms_mst.c struct_ops that can be filled by userspace with custom
+>>> // functions
+>>> // Known limitation: maximum 64 functions in this table
+>>> struct vkms_mst_ops {
+>>> 	// Completly overide the transfer function, so the userspace can
+>>> 	// do whatever he wants (even emulating a complex MST tree
+>>> 	// without using stuff in vkms)
+>>> 	handle_transfer(drm_dp_aux_msg);
+>>>
+>>> 	// If default transfer function is used, those are the callback
+>>> 	// you can use (again, they will come with default
+>>> 	// implementation)
+>>> 	clear_payload_id_table(..);
+>>> 	link_address(..);
+>>> 	enum_path_ressources(..);
+>>> 	[...]
+>>>
+>>> 	// Used to identify this kind of device, in my example the
+>>> 	// userspace could register "LG_screen", "dell dock", "HP screen",
+>>> 	// and then configure each mst device with the correct kind
+>>> 	name = "<unique name for this device kind>",
+>>>
+>>> 	// If you want to use the default "hub" implementation, but only
+>>> 	// tweak one specific behavior, you can use this
+>>> 	base = "<name of the other structops>"
+>>> }
+>>>
+>>>
+>>> // Needed to implement eBPF struct_ops, called when userspace registers a
+>>> // struct_ops of type vkms_mst_ops
+>>> void register_struct_ops(new_ops...) {
+>>> 	vkms_registered_ops.append(new_ops).
+>>> }
+>>>
+>>> // In vkms_connector.c
+>>> // Callback called by drm core to do transfer on the connector
+>>> void vkms_mst_transfer(aux, msg) {
+>>> 	mst_emulator = get_mst_emulator(aux);
+>>>
+>>> 	ops = vkms_registered_ops.search_for(mst_emulator.name);
+>>> 	ops->handle_transfer(msg);
+>>> }
+>>>
+>>> // mst_ebpf.c In the BPF program, userspace side
+>>> void handle_transfer(...) {
+>>> 	[...]
+>>> }
+>>> struct vkms_mst_ops {
+>>> 	handle_transfer = handle_transfer;
+>>> 	name = "lg-screen";
+>>> 	base = "default-screen"
+>>> }
+>>
+>> I don't think MST is the right abstraction there. We should have MST
+>> related helper functions available to eBPF programs, but we should load
+>> them at the connector level, ie, implement a full blown connector
+>> atomic_check for example. It's more flexible and will allow to implement
+>> other use-cases people have been interested in (like panels).
+> 
+> So since I can't look at the code I'll just drop my thoughts here.
+> 
+> - I think validating the MST helpers implementation should be done with
+>    kunit tests. So these are out of scope for vkms testing I think
+>    entirely.
+
+Yes, I agree with this, and it joins your last comment: the full dp-aux 
+emulation does not belong only to VKMS. I had this idea only because my 
+solution only use the normal core MST implementation (no special 
+handling in VKMS, just pure dp-aux emulation), so technically you could 
+also stress-test drm core with it.
+
+> - Next up are the driver implementations. There we might want to be able
+>    to inject fake mst devices to stress-test driver corner cases. But I
+>    don't think that's a job for vkms either.
+
+I agree, VKMS is not here to test other drivers.
+
+> - Now for vkms itself, I think the interesting case here is being able to
+>    test compositors against funny mst corner-cases, but for that we don't
+>    really need an mst operation at all. So no dp-aux or anything like that,
+>    we just hotplug-create connectors with names and PATH property and MST
+>    type, without any of the kernel-internal presentations for hubs/branch
+>    points and all that stuff. Because userspace doesn't ever see that.
+
+I knew that user space don't really see the MST information (apart from 
+PATH), but I did not think about this solution. This may work well to 
+test user space, I agree!
+
+I think we are on the good track with José, he is trying to implement 
+connector hot-creation through ConfigFS [1]. To add "MST emulation", we 
+can "simply" add the PATH property through ConfigFS.
+
+[1]: Few discussions here 
+https://lore.kernel.org/all/Z5zJ1rEZyBEgd7DN@louis-chauvet-laptop/
+
+> - Next up is expressing all the funny constraints that can result in,
+>    across different drivers. For that I think we want ebpf to implement the
+>    various atomic_check hooks, so that you can implement all the funny
+>    constraints of mst link bw limitations, but also host-side display
+>    limitations. And I concur with Maxime that this ebpf support should be
+>    entirely agnostic and just allow you to attach atomic_check
+>    implementations to connectors, planes and crtcs. And then maybe one for
+>    the overall commit, so that global constraints are easier to implement.
+
+If I understand correctly, this has nothing to do with VKMS + MST?
+I don't clearly understand the use case: why do we want the user space 
+to express hardware limitations? If you have already discussed this on 
+the mailing list, can you share the discussion?
+
+> So summary: MST testing in vkms only needs to look like MST to userspace.
+> Internally we'll just hand-roll the entire connector hotplug and leave out
+> everything else. Because testing driver dp mst implementations and the
+> helpers is better covered through different means.
+ >
+> Eventually we might want to implement fake i2c and dp-aux implementations
+> for additional features like TV remote control and fun stuff like that (I
+> forgot the CEA/HDMI name for these). But I think that's waaaayyyyyy down
+> the road.
+
+I think I am not that far from a full dp-aux emulation, it is precisely 
+what I tried to do in VKMS. I don't have the time to transform it to 
+kunit tests.
+
+Thanks a lot for your feedback!
+Louis Chauvet
+
+> Cheers, Sima
+
 -- 
-2.43.0
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
