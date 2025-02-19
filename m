@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C4DA3C11D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 15:03:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B59A3C11E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 15:03:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD66C10E814;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC34010E817;
 	Wed, 19 Feb 2025 14:03:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="SSpJtbT/";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="GwygPMBA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4634410E7FC
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:03:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93CE310E7FC
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:03:20 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250219140318euoutp02d4c628769585ef89f1cffc6fb4260b93~loPNWah7x0214002140euoutp02L
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:03:18 +0000 (GMT)
+ 20250219140319euoutp02fa79c078b05a2ea2cbff460eb5c4a243~loPOlTpLT0177601776euoutp02o
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:03:19 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250219140318euoutp02d4c628769585ef89f1cffc6fb4260b93~loPNWah7x0214002140euoutp02L
+ 20250219140319euoutp02fa79c078b05a2ea2cbff460eb5c4a243~loPOlTpLT0177601776euoutp02o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1739973798;
- bh=arn7vNGc0C9o+3i6Gdwd/04ZMnEd9KXSldDdvyaiPC0=;
+ s=mail20170921; t=1739973799;
+ bh=PsAB+JOgcxnXBZ0RJoudGrm4LQ1wEP+2yNk/4fwQIHs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SSpJtbT/CYCz296efmEoXzpF4NgHe7u3FntgglEjQiFHnfne5/z7OhSFMFlYX9MFa
- ip+vX+fPICFYZSpkwRYfYK2MUY7L2nJ59mLaW8Tuw4SmzcNK8EJpJ75OaH/zE4u92A
- LKIv65Q/V75gS4iZzK5gCvU8z4a+6Hll7b9QwUF4=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ b=GwygPMBAIwrdjEo7uvTOCLeB5Sn0RNiLBSgqfWgo7r/clZHUPJDqKamuHY+MEgOn+
+ J5TbRdELtbNind9dJ5d9TzuqqhCJxMK8nWM67/S8rgsbUiFL79ZnIMuqeBOGlVMe4Z
+ 7SyCnpJ6NRWZFlEUgkNfmo9oXRnlULIV9gndBygg=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20250219140317eucas1p1ea70e0d4d29ed0403dcb7e305f86651f~loPM9vlKe2960029600eucas1p1A;
- Wed, 19 Feb 2025 14:03:17 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id C1.21.20409.5A4E5B76; Wed, 19
- Feb 2025 14:03:17 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250219140316eucas1p29a76023868946f090f261bf78d5103e3~loPMW181P2649626496eucas1p22;
- Wed, 19 Feb 2025 14:03:16 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20250219140316eusmtrp167e5a20dece60ac9109c2f0c41a8c2ff~loPMVum702416524165eusmtrp1y;
- Wed, 19 Feb 2025 14:03:16 +0000 (GMT)
-X-AuditID: cbfec7f4-c0df970000004fb9-52-67b5e4a52fd4
+ 20250219140319eucas1p1ecfb22946c7f4617d5f74daf7dc47c4b~loPORRSwq2213222132eucas1p1g;
+ Wed, 19 Feb 2025 14:03:19 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 3D.93.20821.6A4E5B76; Wed, 19
+ Feb 2025 14:03:18 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250219140318eucas1p1db0d55468b1958f9d41963cb789e4f29~loPNxaRGl1654516545eucas1p1B;
+ Wed, 19 Feb 2025 14:03:18 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20250219140318eusmtrp2029534af637e6839596fe5c3ea02185c~loPNrxAUV2481124811eusmtrp2F;
+ Wed, 19 Feb 2025 14:03:18 +0000 (GMT)
+X-AuditID: cbfec7f2-b11c470000005155-8e-67b5e4a609c7
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id A0.A6.19920.4A4E5B76; Wed, 19
- Feb 2025 14:03:16 +0000 (GMT)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 5D.62.19654.6A4E5B76; Wed, 19
+ Feb 2025 14:03:18 +0000 (GMT)
 Received: from AMDC4942.home (unknown [106.210.136.40]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250219140315eusmtip29871bf26f3b3f632c94fabeabd785cef~loPLCkLfh2765027650eusmtip2i;
- Wed, 19 Feb 2025 14:03:15 +0000 (GMT)
+ 20250219140316eusmtip2a5c7a24083fa3ce8351ed5c3f9fdaa14~loPMPVwmE0697306973eusmtip2J;
+ Wed, 19 Feb 2025 14:03:16 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
 To: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
@@ -65,59 +65,59 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org, Michal Wilczynski
  <m.wilczynski@samsung.com>
-Subject: [PATCH v5 20/21] riscv: dts: thead: Introduce reset controller node
-Date: Wed, 19 Feb 2025 15:02:38 +0100
-Message-Id: <20250219140239.1378758-21-m.wilczynski@samsung.com>
+Subject: [PATCH v5 21/21] riscv: dts: thead: Add GPU node to TH1520 device tree
+Date: Wed, 19 Feb 2025 15:02:39 +0100
+Message-Id: <20250219140239.1378758-22-m.wilczynski@samsung.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250219140239.1378758-1-m.wilczynski@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xbdRT2d+/tvZeasrtCtl9gKqs644OHZJNfMoOYPfJbwAAxZtFopMKl
- oJTOlscwKgxoZVAGs25I2XgNhRGRCaVQwiNjHWUb4zkKS1ZGMqYDqwQoyDZB6W6n++873/ed
- 852THJaUttN+bHJqGq9OlafIaDFl7r8/HPjDbJsipPziDjQwWUugtodGBv3UPUSgKuuQCE2P
- mQh0Y2WBRj/fHWHQve5jFLI3nGVQXn8zjeaM0zRa1E+L0HjnGRotF1sBMi/n06jJ6mBQ80oV
- gWoW2yhU19EJkO74jyI0evUAckwPUGhuXE8inXEL+qerg0Eb9l8oVPFnL4NMzpMiZGs6jPJ7
- v6MinsULU1oGO+fmKHypwMXg7tVqCluMDgbrLYMAtzQep/EtexeNK6/E4ttFNgK31mXj/KZ+
- Apesh+CFngkanzA1AjyWN8nESD8Qv5nApyRn8Org8DhxUvk9A3Vknj16vneYzgEXmELgxUJu
- N1w6ZaULgZiVcg0A/nUunxEKF4B23U1CKJYBnMk9CR63bFhsHqEeQOtIkaffCWBeYyXhdtFc
- KJyprxK5BV9OS0Ht5WPAXZDcbwCaZ8/QbpcPFwVbc1YeYYp7Ed5ucYrcWMJFwIVBLSXkPQd7
- L14nCwHLem3yPaN+gmUrvFI++8hCblry2ipI93zINYlhpWOVEHr3Q3vxvEjAPnDeZvKcvQNe
- M+g981Vwpm2JFPCX0KK3efBeeGvoAe3OJbmXYXNnsEC/DYfrKoCbhpw3nPpjq7CCN/zWXEYK
- tAQW6KSCexc8pS/+L3SowexZDMOHkxN0KdhpfOIY4xPHGP/PrQZkI9jOp2uUCl4TmspnBmnk
- Sk16qiIoXqVsAZu/fW3D5uoA9fOLQX2AYEEfgCwp85Xosk0KqSRBnvUFr1Z9rE5P4TV9wJ+l
- ZNsltb1ahZRTyNP4z3j+CK9+rBKsl18O8X16Lr/sd18R+NK+RD9nxaIqOmNntar7cNqEf82l
- fRF9v3pl7uJuXG5nE/7OfOqN2E8M4/EKn2/ygkOjS/RiJi5XG713tYPcn2UYejpq9Kh99v2v
- ayMdiUbpHUZS9KoyW8p9fldfjE5ntc6GHbBuhK+l6bCpaR6fcKmcyuU1ouGjpOd9Pixr948s
- SSt4x3wozDvVMgDH1uLX3wooC3/h0O9JMaVlqutfxYVt616Zi8F7fN/tf6bvrDJgdEts1Dp2
- OXqKnbKumsKggKiCqcC4EddSzYU7V/dw2Y7TB3MGH2wLD95tkBgy3vv04NK50LqAitzXbiZm
- r42HnK+L5C1lpclqGaVJkr/+CqnWyP8F9eu8UEoEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKKsWRmVeSWpSXmKPExsVy+t/xe7pLnmxNN9jXbGRx4voiJoutv2ex
- W6zZe47JYv6Rc6wW9y5tYbK48vU9m8W6pxfYLV7sbWSxuLZiLrtF87H1bBYvZ91js/jYc4/V
- 4vKuOWwWn3uPMFps+9zCZrH2yF12i/Vf5zNZLPy4lcViyY5djBZtnctYLS6ecrW4e+8Ei8XL
- yz3MFm2z+C3+79nBbvHv2kYWi9nv9rNbbHkzkdXi+Npwi5b9U1gc5Dze32hl93jz8iWLx+GO
- L+wee78tYPHYOesuu0fPzjOMHptWdbJ53Lm2h81j3slAj/vdx5k8Ni+p92hZe4zJo/+vgcf7
- fVfZPPq2rGL0uNR8nT1AKErPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/O
- JiU1J7MstUjfLkEvY+aLySwFrzgqVu4/z9bAuIG9i5GTQ0LAROLfzuNMXYxcHEICSxklbl7e
- wwqRkJG41v2SBcIWlvhzrYsNougVo8SGNf/ButkEjCQeLJ8P1iAisJhFYu++SpAiZoG3jBLX
- Z24E6xYW8JHY3PCVDcRmEVCVuL/pDVgDr4CDxPszrVAb5CX2HzzL3MXIwcEJFN93UQokLCRg
- L3Gu7z5UuaDEyZlPwMqZgcqbt85mnsAoMAtJahaS1AJGplWMIqmlxbnpucWGesWJucWleel6
- yfm5mxiB6WXbsZ+bdzDOe/VR7xAjEwfjIUYJDmYlEd62+i3pQrwpiZVVqUX58UWlOanFhxhN
- gc6eyCwlmpwPTHB5JfGGZgamhiZmlgamlmbGSuK8bpfPpwkJpCeWpGanphakFsH0MXFwSjUw
- xbnrrFVQ7UpZYLdw05XXT5VtJs3MXJD/VTwrsHrn2t6LB361nS5eeU1/UnxgGWN/VRRbLkfm
- j0flIn7Ocy4K7JLJVGjQmHXXv2jmtm2n2SKcyr7vTEptOtMWGb6fUWV/h+Xvh7Lab/zehfKv
- Sjscuf1B7dTQpt38j55+PPS7bu9sjW9MUocvLflSf/FHJ//FjdVPQkR+bCl8qS7AJVXN3mzh
- mcW06Z54RbtBj1ACV/iOt6ZJGc7/JyTz/vn5Z+1/4aq4tb2rxYqKNJI+OFkuazg4l2XyG7Wt
- Rcf+5yx7uUK6e9rJYwZlHywPnBTlOLtNurki76h31MfSk2VvDR9tXMA6W8y0zWxC3PJWn41n
- lFiKMxINtZiLihMBlOv5gbgDAAA=
-X-CMS-MailID: 20250219140316eucas1p29a76023868946f090f261bf78d5103e3
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTGfXtv773UFa6F6BvKhjRxmS4imsnesPmVzO1uyTKJmil/CEXu
+ ipEvW9DpSKDQMmRUNmFbKLiqQQRi7ZS2AqNUC7blQ1YQqoigbhAtQ4FSRpxDRrls87/fOc9z
+ 3uec5KUwUT0RSh1Ky2TladIUCSHAzfbn3eurR0yyqF9/iEHOO+d5yPRCS6JLlm4e0rV189Fw
+ r5GH+mYmCHR51EWiJxYljtw1Z0iUbzcQyKMdJtBU8TAf3W6qJNC0pg0g87SKQPq2IRIZZnQ8
+ dG7KhKOqhiaACk5W81FPx040NOzEked2MYYKtEFovrmBRC/dV3BU8cxKIuP4d3zk0H+OVNYy
+ fPsbzMRdNcmMezw401roIxnLn2dxplE7RDLFjV2AuVp3kmDuu5sJ5qf2WObBNw4eU1+Vw6j0
+ dh5TMhfFTLT0E8wpYx1gevPvkLtEcYL3k9iUQ0dZ+YatCYJk36CKzNAs/9JzbZTIBYUBRSCA
+ gvQ7sKXcTRQBASWiawDsKLUQfkFE+wAsrYznhGkAy5v1/CJALU6c/i2c618EcKAzH+OKcQAf
+ m9sWpwl6E3x4Ucf3CyG0Gofqm0rgLzD6MYDmkcpFVzAdC2/UuoCfcXoN9PZoF1lIb4cNvn6c
+ WzAcWm/cwvzRAQv9lp5QzrICtpePLFqwBUu+qQLj7FcEcORRNMcfwJtdGoLjYDjmMJIch8H5
+ Rh2P43T40ORdms2GjcWOJX4P3u/+i/DHYvRaaGjawB2/A/oGszgMhHefruAWCISnzT9iXFsI
+ CwtE3Btvwu+LNf9ldteYlzIZWKi8jH8LIrSvnKJ95RTt/7FnAVYHVrFZilQZq9iYxh6LVEhT
+ FVlpssiD6alXwcK/7nzp8DaAM2NTkTbAo4ANQAqThAgLcowykTBJevwEK0+Pl2elsAobEFO4
+ ZJXwvFUtE9EyaSZ7mGUzWPm/Ko8KCM3lAVcXii853L/2dV2iO6Ek8ci6steuD3x9ITps/9Nr
+ gXm79n2RB9tLJkPstc9QNjy+cj6nNXdZtZc5EN8SxoZvTnPRc8p3xQLTp0fnJSeOCCPq2sRV
+ sVsSbJ/MbJlc9tUs7S7fU1LWdz3GZ8+Y2+3d5BFuntWv0ZqPjUkqDLtX703QZOpsefcsITvW
+ x4xGS2bjnEFJnZEZOz9O7nMc6Aihrb/Y9eG+lak/w61iFPfZk9Bt9aqKR7ZtrefqXlAXDhbs
+ 10T98UBc61QEv039vXr5vY8CIib35M5aYkyMcfhUqbK9SbZ33qVNfB444My6la0etNZOmX/f
+ pwz68JLY0PuWt0WCK5KlG9dhcoX0H62cehFGBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMKsWRmVeSWpSXmKPExsVy+t/xe7rLnmxNN7j6VtDixPVFTBZbf89i
+ t1iz9xyTxfwj51gt7l3awmRx5et7Not1Ty+wW7zY28hicW3FXHaL5mPr2SxezrrHZvGx5x6r
+ xeVdc9gsPvceYbTY9rmFzWLtkbvsFuu/zmeyWPhxK4vFkh27GC3aOpexWlw85Wpx994JFouX
+ l3uYLdpm8Vv837OD3eLftY0sFrPf7We32PJmIqvF8bXhFi37p7A4yHm8v9HK7vHm5UsWj8Md
+ X9g99n5bwOKxc9Zddo+enWcYPTat6mTzuHNtD5vHvJOBHve7jzN5bF5S79Gy9hiTR/9fA4/3
+ +66yefRtWcXocan5OnuAUJSeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6d
+ TUpqTmZZapG+XYJexpfbLewFvdwVL7c/ZWtg7ODsYuTgkBAwkZj0SL6LkZNDSGApo8TP0+wg
+ toSAjMS17pcsELawxJ9rXWxdjFxANa8YJT5+vwSWYBMwkniwfD4riC0isJhFYu++SpAiZoG3
+ jBLXZ24EKxIW8Jc4PHEyM4jNIqAq8eniLEYQm1fAQWLHl6tQG+Ql9h88ywxyECdQfN9FKYiD
+ 7CXO9d1nhSgXlDg58wlYOTNQefPW2cwTGAVmIUnNQpJawMi0ilEktbQ4Nz232EivODG3uDQv
+ XS85P3cTIzC1bDv2c8sOxpWvPuodYmTiYDzEKMHBrCTC21a/JV2INyWxsiq1KD++qDQntfgQ
+ oynQ2ROZpUST84HJLa8k3tDMwNTQxMzSwNTSzFhJnJftyvk0IYH0xJLU7NTUgtQimD4mDk6p
+ BiYFxtSv/z69nynU46ls9//3zZ/Vz71Snr/SzNy2oWeC/7as2wWi/XvlEj7e/JtnGXh1eRBz
+ zY7a+XWPizWZ5zw9aP8upF77RsKf5PznSukpWyc4X1ogWeuSzxmStHTWWfuAOdctTlsV7fwZ
+ snNS17mmDZmGjreevw5+qC9RNJWve5JD3FYZpi22Xw2ZeHfHzb3wcdH2rzN+bp/wxfhDbWhk
+ wOq4x+W/pvPsu2Q5adKDdTZHruqJp/VI7uN49Ejy8oNJnH2h1/ZyLhWrcj+5cqOVw573WuEO
+ +gEZFqu/rs5aJ2Js9nFVM1PBd5+bjlzfWpw8rIPzZqyQeSjnVjLvSXF7/Wovxh1JDyZpujP8
+ 8WFVYinOSDTUYi4qTgQAOTMmP7YDAAA=
+X-CMS-MailID: 20250219140318eucas1p1db0d55468b1958f9d41963cb789e4f29
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250219140316eucas1p29a76023868946f090f261bf78d5103e3
+X-RootMTR: 20250219140318eucas1p1db0d55468b1958f9d41963cb789e4f29
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20250219140316eucas1p29a76023868946f090f261bf78d5103e3
+X-CMS-RootMailID: 20250219140318eucas1p1db0d55468b1958f9d41963cb789e4f29
 References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <CGME20250219140316eucas1p29a76023868946f090f261bf78d5103e3@eucas1p2.samsung.com>
+ <CGME20250219140318eucas1p1db0d55468b1958f9d41963cb789e4f29@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,39 +133,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T-HEAD TH1520 SoC requires to put the GPU out of the reset state as part
-of the power-up sequence.
+Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
+TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
+the GPU using the drm/imagination driver.
+
+By adding this node, the kernel can recognize and initialize the GPU,
+providing graphics acceleration capabilities on the Lichee Pi 4A and
+other boards based on the TH1520 SoC.
 
 Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
- arch/riscv/boot/dts/thead/th1520.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/riscv/boot/dts/thead/th1520.dtsi | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-index 474f31576a1b..6b34aab4b455 100644
+index 6b34aab4b455..c4fa616efac8 100644
 --- a/arch/riscv/boot/dts/thead/th1520.dtsi
 +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-@@ -7,6 +7,7 @@
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/clock/thead,th1520-clk-ap.h>
- #include <dt-bindings/power/thead,th1520-power.h>
-+#include <dt-bindings/reset/thead,th1520-reset.h>
- 
- / {
- 	compatible = "thead,th1520";
-@@ -497,6 +498,12 @@ clk: clock-controller@ffef010000 {
+@@ -498,6 +498,19 @@ clk: clock-controller@ffef010000 {
  			#clock-cells = <1>;
  		};
  
-+		rst: reset-controller@ffef528000 {
-+			compatible = "thead,th1520-reset";
-+			reg = <0xff 0xef528000 0x0 0x4f>;
-+			#reset-cells = <1>;
++		gpu: gpu@ffef400000 {
++			compatible = "thead,th1520-gpu", "img,img-bxm";
++			reg = <0xff 0xef400000 0x0 0x100000>;
++			interrupt-parent = <&plic>;
++			interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&clk_vo CLK_GPU_CORE>,
++				 <&clk_vo CLK_GPU_MEM>,
++				 <&clk_vo CLK_GPU_CFG_ACLK>;
++			clock-names = "core", "mem", "sys";
++			power-domains = <&aon TH1520_GPU_PD>;
++			resets = <&rst TH1520_RESET_ID_GPU>;
 +		};
 +
- 		clk_vo: clock-controller@ffef528050 {
- 			compatible = "thead,th1520-clk-vo";
- 			reg = <0xff 0xef528050 0x0 0xfb0>;
+ 		rst: reset-controller@ffef528000 {
+ 			compatible = "thead,th1520-reset";
+ 			reg = <0xff 0xef528000 0x0 0x4f>;
 -- 
 2.34.1
 
