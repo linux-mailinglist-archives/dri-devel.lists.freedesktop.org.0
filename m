@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3273A3C4DD
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD708A3C4E1
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:23:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20FC210E4A6;
-	Wed, 19 Feb 2025 16:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC6D10E854;
+	Wed, 19 Feb 2025 16:23:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Q2kKzdFV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KJAQiBjh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF9E110E4A6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 16:23:43 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-38c62ef85daso784733f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 08:23:43 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 883F410E851
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 16:23:45 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-38f20fc478dso766417f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 08:23:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739982222; x=1740587022; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=h/JVUNmYdeWSnzu6tb+ukMUUG1W+l3NrvPTKiVQ7u4Y=;
- b=Q2kKzdFVuAUMQwb2TmysO2OFg8fZcs7P1Trb7x4rPaFQ4fE+19B77hBSpYlNOffdu+
- s4WaaUxN0l5FgCpmridwqmoO7LKBGkOvs9tbRYw+wGDdN4iLplU942bhv/th/x6i4dIP
- 1MoENzUGDDsIHQ5d2PXZQvFZ49uXOMMptojW+mBcy8TbI+zvKkKy59Tbv6NWsC0Lb1S4
- 2wZn0+59SdEfH/cGLcQcxQx+oedYBjxziJFZ3LxC0EeZOotXBgXIio6nZh/37Qhnj8vm
- jgZ2XT9SwgUK+z3+9RiimX3zrkEXuHKZE14wuKjYrV3QF5TwEx5ocYu/4wRhfU/2AB8h
- Vp9w==
+ d=linaro.org; s=google; t=1739982224; x=1740587024; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=flx79lLhyjNJ1uQQH7Feun8sDQLsABUenRP8+0wgvY4=;
+ b=KJAQiBjhmIto7byRMzrrVvoH7EriHeB3PzV5wpywAzES0DT2UDSVyL2Rc7ykB0vbAF
+ 09eifd+Y0Dd9QuTE+zp6xfFVkeyiiQ6s0+sUZviJFOItwEcjV6IU/Er6utaGojjgJR7w
+ t54MLNUw5CZTaRympfK4evv/KhzclUPEoqc4yn7Gp3ycMLnu/KreVLuQDzDKByiqOjTi
+ aVwPhko4mBqL9m+LadhzCfdah99dSzA5vgteMP0+eJp/voQSR0AmAht1gwVxms61usl+
+ oTJdiZDqzqdYfeqzQHcIUoHePBRSJNiSX2ixxBvY3sERm4O9eCknN6rIeUYUJDj8Oh1y
+ MAgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739982222; x=1740587022;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h/JVUNmYdeWSnzu6tb+ukMUUG1W+l3NrvPTKiVQ7u4Y=;
- b=Dv1Inq2M8IpCJqoibtWVGbsxvdZaIjS0VaO3nPprzpSyoibPQpp+aFfF8gFg8CepGQ
- 1P1+jpMeizRQJQnhUPPrXK1Uygpgid1flj3eHaLQNun1Fta7zxovBpP0wkK/PwCrRkcf
- QSVwtfMax2/3UYp8tGOX2pVwk1JB8AL3Awans+AB7yoS9Tr5Y8FQqoBed9/XCWjJALPx
- SLJyy9Y68Ozk7DEu/FI6p0XPzZENQFm3OIMBGsEDEsv5oG1+lB2muZ+KzD0JPQZdDAeM
- ZPjwZgxUYCXQwVBhgXe+8IXha2uyuG2j2Yj+kMBH7E/ABNCo5EmvW9UtSAAQzNC20mCj
- BuLA==
+ d=1e100.net; s=20230601; t=1739982224; x=1740587024;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=flx79lLhyjNJ1uQQH7Feun8sDQLsABUenRP8+0wgvY4=;
+ b=SMmTiZqUzJMq3ZtlHmFdpJ0vgZtw+1y6IwVD5uJoLeUKimMmZ2n5HIr+94LfsDTWuU
+ dKOFcBe3i/oorohEOOiYZ8hJtsPDKBAzoM8oQCK7mzx8VXPkChuB7tnqpqEgrk/RnLy3
+ cnNMw7LW289iAp/xkIgxIeEKJc83JKAK4xHwJyqR2XRG5iIwN+JmXRb8Sl9wDkkOt40A
+ 5pJsqzbqOBdO4Ci0EG4LxSI0IgmWiWbqteW0/zVErzlEkfZAaIoIfBdB7bHK2vq+heZ3
+ gzvyi3UlqNwhYjE5rTfYe4SdaeqZrn9dFK9ywYmZOeXujBA2W0fa+jyTe7M7avPFHdRG
+ WkRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUQUCHlR4HJaXLJEISzcqMAgpVbif5a/JEQIykoQenOI0YygOmskyEnAG4Agc/Ky/KggBdMOAeM3oY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzH+7uj8ATwC1l0aQKmQO/tIqpxywxdbx+uFrlLlzV9LYsZTjXc
- 3atl/2CqHu5RodTRmxqEpvs+SCZulZ0NFdpgjYwsXpOrsAAv40qr1USdY9Vkvtc=
-X-Gm-Gg: ASbGncsinftoWrNqw6nxTaxS/Un0Yrgq+YlmVkTzrZoM3BTqXDjdRQLIytD1n6b3Qe8
- IipGBrVl6oT5LLyWkzFkSE0emKyPV1gmnylXJma5ip4J17RAIrDHf2EYXSxPVxXV4mAqfEbvuS9
- 5jRXXBcJf+crIV3LQ5M6tcjIOhHjcL5dfid9a2MqR+x6uGcgl8UTu979g5zqsnxVQ3FiT+2XFOk
- n5tXPkt/mKQI1MDU9RNTTuSkix6MLcvV6PEmHIOg9go7w4+c9+El4ny1Hc+o+fWRG8SNUBaY+R4
- Mr9qGusu9VVuc2BZLJasOlbxy+0lM54=
-X-Google-Smtp-Source: AGHT+IGBdM3lo0D85OcGM+X/7yDsIYEa3ff6Dvt0fm3r6ukYvpu2eEqg39AxdYMVjgmIP9+/XM39uw==
-X-Received: by 2002:a05:6000:210a:b0:38c:5d0b:71ca with SMTP id
- ffacd0b85a97d-38f33e87b96mr6342208f8f.0.1739982222200; 
- Wed, 19 Feb 2025 08:23:42 -0800 (PST)
+ AJvYcCWkhQxwWIR/lRFShahJR2yCCMrKteclOdP+7fj9oR2KzY8qeaNLxQtajUgwbpjxM/1cC/mCWc+sDow=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwR/Cf14zeVdmI7TG3wp5pb4kJl66RP3okNBR1Meta0demKt8n+
+ Irttr9eZr+TnM8Ahvq5Xe4wtcgdDNvC5FXv+ek8cCCB2MMlCIBcv+OB7lASGgTU=
+X-Gm-Gg: ASbGnctEqBe4aoFShZerLRlFfmrJgy/ogxN5ggpJJMzH/s4dUmUHA2NnyTZfx19CZFR
+ hxtp4yCReB+1HSQ5oiWx5qsHVClUSRyJWzUcvB9YiRdYC3xbTF9pc+JU5JHIsyA8e1vK54EMmaU
+ e5HZbgJs+w8Z4bzhzZcwVjOlsngc0rGNuB8s25R9hCo1bhQGKr/zuWpBLSSAaoT2eDNM+X7VRuk
+ WOSO6ce7ECFM+oQbY8ES0IFrfiech0HW3T4dFxKT9w6UQ9a/K1XPz9xzAWT/p2QtydwvHbD/3QR
+ 9J1LXJtKYtLqAMz0vcz2jQjiwg+I9CM=
+X-Google-Smtp-Source: AGHT+IGKoVneTQvKJC5CNmJtYrFVOs50kNrFcO6oV1uqtn6asl3HDOg8xjQNibJEhGg4neAkUWVmNQ==
+X-Received: by 2002:a5d:598f:0:b0:38f:20b5:2c80 with SMTP id
+ ffacd0b85a97d-38f33f2cbcdmr6538286f8f.6.1739982223890; 
+ Wed, 19 Feb 2025 08:23:43 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.206.225])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f25a0fe5esm18442417f8f.99.2025.02.19.08.23.40
+ ffacd0b85a97d-38f25a0fe5esm18442417f8f.99.2025.02.19.08.23.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2025 08:23:41 -0800 (PST)
+ Wed, 19 Feb 2025 08:23:43 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v5 0/2] drm/msm/dsi/phy: Improvements around concurrent
- PHY_CMN_CLK_CFG[01]
-Date: Wed, 19 Feb 2025 17:23:31 +0100
-Message-Id: <20250219-drm-msm-phy-pll-cfg-reg-v5-0-d28973fa513a@linaro.org>
+Date: Wed, 19 Feb 2025 17:23:32 +0100
+Subject: [PATCH v5 1/2] drm/msm/dsi/phy: Use dsi_pll_cmn_clk_cfg1_update()
+ when registering PLL
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIMFtmcC/4XNy2rDMBCF4VcJWneKZmT5klXeo2RhWSNb4BtSM
- THG7145m6YE0+V/YL7ZROTgOYrrZROBFx/9NKbQHxfRdPXYMnibWpAkLVEh2DDAEAeYuxXmvof
- GtRC4hYK1cbquK+tyka7nwM4/nvLXPXXn4/cU1uejBY/1f3NBkKBMVbFjQ1zaW+/HOkyfU2jFg
- S70C5FU5xAlqMzJoMobbYneIPUCYXYOqQTJKlOm1LIgat6g7BUqzqEsQShzIy1ap5H/QPu+/wC
- XLcutmgEAAA==
-X-Change-ID: 20250131-drm-msm-phy-pll-cfg-reg-7e5bf5aa9df6
+Message-Id: <20250219-drm-msm-phy-pll-cfg-reg-v5-1-d28973fa513a@linaro.org>
+References: <20250219-drm-msm-phy-pll-cfg-reg-v5-0-d28973fa513a@linaro.org>
+In-Reply-To: <20250219-drm-msm-phy-pll-cfg-reg-v5-0-d28973fa513a@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -85,21 +81,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Rob Clark <robdclark@chromium.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1781;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2574;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=tZwVmZGIy/eSt0F/uS5uvIVQSBhlXJtKuOQbLfRhrCg=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBntgWG39erfPCkDuCBdlsjBei3XeCpr5sf5QY1l
- egU/afYzjaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7YFhgAKCRDBN2bmhouD
- 1zQOD/0c+MQ1gae4xMmQAO8dgpOXfEBJ6P5vw2BXNnqg8SilK01Oks0ZGEoEacDx49ZndSz3WA4
- Sv2hqvKyFS3oF2gQ5Nar78q/04ZvrWxRW9Jde/J6ivRid+0TwEODwpA6JqyHoDhHYMDU5Hm2C+j
- cdC/GKKl/1oYT++nmzvSU+3d+RtuSleDwzjNmBL8G2fMDH17tU6KwKuWBK4+e6I99qPAPexWGzq
- qmcaIqXGsoU76ltjMb4W0QBVKdproY0F99tH9O+DW/g5wS5SGPrkTKCnHxTje3aLAF0FoDhFI/M
- yKWZbwklNlSbuiRHWddbyoy2JEywnLkeKSlQLk52VB2JJMMWYdrO4uMUqW5ThmF6LuMnv2m2ZiO
- 3nBybqToaOZ1Tsb5AezUdTsj7IKrM0Se19X71latB2eVGK7KOejtRWmK9GDIp11jPq9KrvnWuoK
- IZ/bUDh2KlgHkUm3JOhMCwkv0e2u22epW0r++EKWSIqIkqUx477N0qXZX+iSP/v6qrZjpxkDDV3
- 5BH4kEzJRtGNCEoJsztwmwJYf8+wBsL+nnLazTWjVlVHPI68H3Lr7+Ud4A9CvXEQQFr7UIyd+sU
- 4oTPnHpykDkR0YEIkj/BKKW8QSqy00tv2yUMH3mno2Lx1ZSx7vYv1J7Dt0/Dxan0ObifeqColxR
- vZQ8uPeFGafll1w==
+ bh=HoJJKf2KbkS2X5DYSjb3aYDsagjrOYDoT6ljyujy3rA=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBntgWKtcucSVVrV+JpQB35XSs5L2SAmKtx22d+5
+ q+mpsfbjMaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7YFigAKCRDBN2bmhouD
+ 16gmD/949j1pjmbpzNX0ZwnPqFTYiEuKoDTSR+KqMSaBI88QYFyOIlLcJTY5hCT+xCVAAhqfnk1
+ vcUGlcvzGISUvAVQGIUiSo/Db8E4CYSgM6PhIvlT1MespJwLYvFxyCUC7qojzNhwhHP6qYJdmyH
+ vBOtk52PjNUMQ+H6+fYw6CoTXDgsGw7vcAu1g8v588Aaw+3pb9mAZvsO8UJDhIeqctuqmUkAE23
+ V/qy9NvSpcHgknXJo7QbukF9JJABXX66dlxU6MKQ0k9OZ5dhuBZVAF/Me/eS1cokF5OT9LxJDof
+ gxNeclLnZzq7dhGNbmGv1EB46R8j6bvnP0a5e8S6RA9xgf+wVOed7VFpY6GZPLAAE7EHXsQ5A7j
+ +9CJP65N2HHB1Fap3vJC1ffg/Fod1phdQfLGe4ug/5uej5kwZSIZMWxdqmF4HF4JbIwIhcj2aFa
+ 4IIwjbS0cmzT5REOARFcRszKjlKrjohPr/4rC56nNW5DnmqbaAox6jC3u+7z6at4VCy6FGGxbUv
+ ObCQx3xVVW+JKR17q6Uiqfta4vKcL2UhfdX8HKWdDM2UKV5HXXRIOtPDGpfIp9H0qYgOMhcg5mC
+ rN6jplRFeSTYwqenJUHWzaL5i+zSoVdcHVXD9ZhMY9gDbj4l5ukslomn2zApoGQmRl5sLyfZrhO
+ KZ3TrCcPn8mxoAA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,50 +113,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Newly added dsi_pll_cmn_clk_cfg1_update() wrapper protects concurrent
+updates to PHY_CMN_CLK_CFG1 register between driver and Common Clock
+Framework.  pll_7nm_register() still used in one place previous
+readl+writel, which can be simplified with this new wrapper.
+
+This is purely for readability and simplification and should have no
+functional impact, because the code touched here is before clock is
+registered via CCF, so there is no concurrency issue.
+
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+
 Changes in v5:
-- Drop applied patches 1-3
-- Split part touching pll_7nm_register() from last (#4) patch to new patch
-   - Thus: new patch #1 in new numbering.
-- Link to v4: https://lore.kernel.org/r/20250217-drm-msm-phy-pll-cfg-reg-v4-0-106b0d1df51e@linaro.org
-
-Changes in v4:
-- Add tags
-- Patch #4: Add mising bitfield.h include
-- One more FIELD_GET and DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL (Dmitry)
-- Link to v3: https://lore.kernel.org/r/20250214-drm-msm-phy-pll-cfg-reg-v3-0-0943b850722c@linaro.org
-
-Changes in v3:
-- Define bitfields in patches 1-3, so move there parts from patch #4
-- Use FIELD_GET
-- Keep separate cached->bit_clk_div and pix_clk_div
-- I think this implements entire feedback from Dmitry
-- Link to v2: https://lore.kernel.org/r/20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org
-
-Changes in v2:
-- Add Fixes tag
-- New patch #4
-- Link to v1: https://lore.kernel.org/r/20250131-drm-msm-phy-pll-cfg-reg-v1-0-3b99efeb2e8d@linaro.org
-
-Calling these improvements, not fixes, because I don't think we ever hit
-actual concurrency issue.  Although if we ever hit it, it would be very
-tricky to debug and find the cause.
-
-Best regards,
-Krzysztof
-
+1. New patch
 ---
-Krzysztof Kozlowski (2):
-      drm/msm/dsi/phy: Use dsi_pll_cmn_clk_cfg1_update() when registering PLL
-      drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01] bitfields and simplify saving
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c             | 8 +++-----
+ drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml | 1 +
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c             | 18 +++++++++---------
- drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml |  1 +
- 2 files changed, 10 insertions(+), 9 deletions(-)
----
-base-commit: 15ad9d0efd6a8b1db4c098ac0a5e66b736ca774a
-change-id: 20250131-drm-msm-phy-pll-cfg-reg-7e5bf5aa9df6
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index 798168180c1ab6c96ec2384f854302720cb27932..2fca469b10b33ac2350de5ab8a606704e84800ea 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -736,11 +736,9 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
+ 	 * don't register a pclk_mux clock and just use post_out_div instead
+ 	 */
+ 	if (pll_7nm->phy->cphy_mode) {
+-		u32 data;
+-
+-		data = readl(pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+-		writel(data | 3, pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+-
++		dsi_pll_cmn_clk_cfg1_update(pll_7nm,
++					    DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
++					    DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL(3));
+ 		phy_pll_out_dsi_parent = pll_post_out_div;
+ 	} else {
+ 		snprintf(clk_name, sizeof(clk_name), "dsi%d_pclk_mux", pll_7nm->phy->id);
+diff --git a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
+index 35f7f40e405b7dd9687725eae754522a7136725e..d2c8c46bb04159da6e539bfe80a4b5dc9ffdf367 100644
+--- a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
++++ b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
+@@ -17,6 +17,7 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
+ 		<bitfield name="CLK_EN" pos="5" type="boolean"/>
+ 		<bitfield name="CLK_EN_SEL" pos="4" type="boolean"/>
+ 		<bitfield name="BITCLK_SEL" low="2" high="3" type="uint"/>
++		<bitfield name="DSICLK_SEL" low="0" high="1" type="uint"/>
+ 	</reg32>
+ 	<reg32 offset="0x00018" name="GLBL_CTRL"/>
+ 	<reg32 offset="0x0001c" name="RBUF_CTRL"/>
 
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.43.0
 
