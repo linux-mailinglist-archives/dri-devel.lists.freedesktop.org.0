@@ -2,65 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA1CA3C00B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 14:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14BCA3C011
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 14:37:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B8FF10E7FD;
-	Wed, 19 Feb 2025 13:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A3810E7F5;
+	Wed, 19 Feb 2025 13:37:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IV04VHIT";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Mepsuet4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA30C10E7FA
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:35:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 422D5A42755;
- Wed, 19 Feb 2025 13:33:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 609DFC4CEDD;
- Wed, 19 Feb 2025 13:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739972139;
- bh=6dQCoBcaN3M8jj8L/pn5TacJEiDTodGAhACpPrrYv4g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IV04VHITAhLiaZdnPNUjoHFWXVbobXWFLWtWG2UhHL31C9uC9j85j4r7rqvIfmymM
- fLl0gAU64SSOat/LtfB99WovVL8164waJbE2dA88AFO8hrZeI7CZZ6iPniQoDcBudv
- KB0k+A9LllhAHONhVB0NyDf3HDt7Z48yqwIAPIz7HIc96Jm5o9llCg05amJbi/BHce
- YRGKUT3mK8oeWOjI1hKiRwsYecPR2p/s+mjpi6fgEz0+mk7GwZ15WMUGVNQ2BIoLqa
- +t00SLkqMPDhHPsrdBHRADVUv6FIvL5HXcVHITDFKX5cFZ+hJESYF7Ymjz0BHLg+kl
- mxNfVv7YYJMlQ==
-Date: Wed, 19 Feb 2025 14:35:37 +0100
-From: Maxime Ripard <mripard@kernel.org>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3687F10E7F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:37:10 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-43932b9b09aso74075275e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 05:37:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1739972229; x=1740577029; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QnaSCouzQmNuhqYTcZLJpNbPQUbz2vK2Oob4CBiaQYw=;
+ b=Mepsuet406Iu4wfg6PrPU8AMLzihMJXnOp6NWHPYlhS9O1qEZkkTl4gw8OpawlF8Kh
+ drJ9IzP1fLvhLOft+dqmjWfawywMBvkotHsee5IqkhMNFCK3hzP/UXDhcWEeZvfm6n6t
+ S55u5L/3fghSMeM3mT5Lu4BpDuX0zEJpXXELI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739972229; x=1740577029;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QnaSCouzQmNuhqYTcZLJpNbPQUbz2vK2Oob4CBiaQYw=;
+ b=hbAcaBOao2aSsNjWz52NVSneaboSWBZbGTdmBym9TabInQwNpuCzNm0Dy4AgmSJ8Sk
+ x9d4HRjtSyjoI1UOkfuapjdQex2me1jP4nppaMyS2MzG4SSDgqpvek0wdmu5mC/Ap4no
+ 6nBzXAyD/ZKwmlXgRlOg6pOwVhxK85dzhE03mS0wuu4yCdM2NpHJqh7CevfrGnodZhnb
+ c+Jb3cQX5oZVeOhThVFDam3LJJMakwbnQkuwNQHZpEVLmQdJYEQjQatKZE3RQDZGtlR8
+ MOgDnZd4CeVI3aIi6ZEffMABML70rtlkeVTmh68IrfHN1lubWDWY/fyvMtdBTZPloh8q
+ xXIQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWZVSuzVi+uDNjZLMXfJwoTsI5RO4OgrT7Yl/CCMKoYMDrGNK9VsN4Djm3i9/eIHZbLSSFz7jTLqv8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9dVnT9F0En+A+HSaeGVLRdR3WPuwqPeogayqVOFX3yUSZ6yUO
+ Qpd6sJ6cXw7cndJurgpQMZdUUVApa/VvZkgb5IWj17ry485lg6TczSzX4LVMyxEIVM182V6jKJ0
+ B
+X-Gm-Gg: ASbGnct6l9vnXotG2KINxoP8Rgm6+dzrr5LCjkrldvpXgYJQLdr30pOOrCxe8K4JLq9
+ giLGCdwPEifH3/sMKR1pQ/Bn9D+wkTPSKk3wBuzglK9cjAsIbW0iVfQzYd+mlT24NxPWUPNZH5O
+ o2yKC6xA5YnTngqP5mNG8C/bR9AHYZS+5fJo52avKPMFoskFPWxWJEJLWgS8bjOG9AvTZzEiXaM
+ 13GY3qxvA4v+5GeCe/nXpzvWN3WaAhrAgBRwzdU9EzsxK+49ib02rOjtiO6MN19/ujpylzW6MEh
+ x3r7HhGrZLo0Tj3I2BmCQr2fmfw=
+X-Google-Smtp-Source: AGHT+IGGRfoQHCYTnobHX61n/c8lJyBUwM3cGLFfRiuWQzf+sYUfBk2z/yW3uYQI5OozES3QICOcIQ==
+X-Received: by 2002:a05:600d:8:b0:439:86c4:a8ec with SMTP id
+ 5b1f17b1804b1-43986c4ac03mr121856395e9.15.1739972228743; 
+ Wed, 19 Feb 2025 05:37:08 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4395a1aa7c7sm215410785e9.27.2025.02.19.05.37.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2025 05:37:08 -0800 (PST)
+Date: Wed, 19 Feb 2025 14:37:06 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Doug Anderson <dianders@chromium.org>, 
- Anusha Srivatsa <asrivats@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>,
- Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Jianhua Lu <lujianhua000@gmail.com>, 
- Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
-Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
- variants when available
-Message-ID: <20250219-marvellous-calculating-piculet-f6b9ec@houat>
-References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
- <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
- <20250218-fabulous-agile-corgi-9a5ee0@houat>
- <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
- <20250218-primitive-kickass-seagull-008bf2@houat>
- <rg4mctlqofydzexa7uwnmcsv66dhx5u2wrmytslpyltraz6p5q@ohvo7ab2ws7q>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 31/37] drm/bridge: Provide pointers to the connector
+ and crtc in bridge state
+Message-ID: <Z7XegnwgIy8Xe9M6@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
+ <20250213-bridge-connector-v3-31-e71598f49c8f@kernel.org>
+ <Z7NmtF83adILfasi@phenom.ffwll.local>
+ <padhzkj5astckiltvxkcs4xq335crrhf2m6bvii6cezyoyfypq@t535fgjwqzqg>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="elwcbsq7xwvzgu3j"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <rg4mctlqofydzexa7uwnmcsv66dhx5u2wrmytslpyltraz6p5q@ohvo7ab2ws7q>
+In-Reply-To: <padhzkj5astckiltvxkcs4xq335crrhf2m6bvii6cezyoyfypq@t535fgjwqzqg>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,119 +112,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 17, 2025 at 09:36:35PM +0200, Dmitry Baryshkov wrote:
+> On Mon, Feb 17, 2025 at 05:41:24PM +0100, Simona Vetter wrote:
+> > On Thu, Feb 13, 2025 at 03:43:50PM +0100, Maxime Ripard wrote:
+> > > Now that connectors are no longer necessarily created by the bridges
+> > > drivers themselves but might be created by drm_bridge_connector, it's
+> > > pretty hard for bridge drivers to retrieve pointers to the connector and
+> > > CRTC they are attached to.
+> > > 
+> > > Indeed, the only way to retrieve the CRTC is to follow the drm_bridge
+> > > encoder field, and then the drm_encoder crtc field, both of them being
+> > > deprecated.
+> > 
+> > Eh, this isn't quite how this works. So unless bridges have become very
+> > dynamic and gained flexible routing the bridge(->bridge->...)->encoder
+> > chain is static. And the crtc for an encoder you find by walking the
+> > connector states in a drm_atomic_state, finding the right one that points
+> > at your encoder, and then return the ->crtc pointer from that connector
+> > state.
+> > 
+> > It's a bit bonkers, but I think it's better to compute this than adding
+> > more pointers that potentially diverge. Unless there's a grand plan here,
+> > but then I think we want some safety checks that all the pointers never
+> > get out of sync here.
+> 
+> Luca is working on bridges hotplug, so connectors are dynamic now. And
+> at least my humble opinion is that we'd better provide the corresponding
+> pointers rather than having a lot of boilerplate code in the drivers.
+> (there are enough drivers which look up connector and/or CRTC) and there
+> are even more drivers (I think, I haven't actually checked the source
+> tree) that could have benefited from thaving the connector or CRTC in
+> the state. Instead they store a pointer to the connector or perform
+> other fancy tricks.
 
---elwcbsq7xwvzgu3j
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
- variants when available
-MIME-Version: 1.0
+Yeah definitely don't replicate this across drivers, it needs to be a
+helper function. What I meant to say is that we have a way to do this
+already, and it also works for dp mst drivers. So full blast fun of
+dynamically selecting the right encoder _and_ hotplug/unplug of
+connectors.
 
-On Wed, Feb 19, 2025 at 11:11:33AM +0200, Dmitry Baryshkov wrote:
-> On Tue, Feb 18, 2025 at 04:52:53PM +0100, Maxime Ripard wrote:
-> > On Tue, Feb 18, 2025 at 02:14:43PM +0200, Dmitry Baryshkov wrote:
-> > > On Tue, Feb 18, 2025 at 10:55:49AM +0100, Maxime Ripard wrote:
-> > > > On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
-> > > > > Hi,
-> > > > >=20
-> > > > > On Thu, Feb 13, 2025 at 12:44=E2=80=AFPM Anusha Srivatsa <asrivat=
-s@redhat.com> wrote:
-> > > > > >
-> > > > > > A lot of mipi API are deprecated and have a _multi() variant
-> > > > > > which is the preferred way forward. This covers  TODO in the
-> > > > > > gpu Documentation:[1]
-> > > > > >
-> > > > > > An incomplete effort was made in the previous version
-> > > > > > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
-> > > > > > and mipi_dsi_generic_write_seq_multi() with the respective
-> > > > > > replacemts and not the rest of the API.
-> > > > >=20
-> > > > > You didn't seem to take most of the suggestions I gave in respons=
-e to
-> > > > > your v1 [3]. Specifically:
-> > > > >=20
-> > > > > a) I asked that you CC Tejas. I've added him again.
-> > > > >=20
-> > > > > b) I asked that you CC me on the whole patch series, which you di=
-dn't
-> > > > > do. I can find them, but I'd find it convenient in this case for =
-them
-> > > > > to be in my Inbox.
-> > > > >=20
-> > > > > The first patch conflicts with what Tejas already landed in
-> > > > > drm-misc-next. See commit 8025f23728e9 ("drm/panel:
-> > > > > xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). T=
-he
-> > > > > second patch _also_ conflicts with what Tejas already landed. See
-> > > > > commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
-> > > > > mipi_dsi wrapped functions"). Later patches also also conflict. S=
-ee
-> > > > > commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_=
-dsi
-> > > > > wrapped functions"), commit ce8c69ec90ca ("drm/panel:
-> > > > > samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
-> > > > > functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx=
-01:
-> > > > > transition to mipi_dsi wrapped functions"). Maybe you should sync=
- up
-> > > > > with drm-misc-next before submitting.
-> > > >=20
-> > > > Yes, you should definitely work from drm-misc-next there, and sync =
-with
-> > > > Tejas.
-> > > >=20
-> > > > > I also questioned whether this really made sense to try to do wit=
-h a
-> > > > > Coccinelle script and I still don't think so. It looks like Dmitr=
-y has
-> > > > > already reviewed the first few of your patches and has repeated my
-> > > > > advice. If you want to help with the effort of addressing this TO=
-DO
-> > > > > item then that's great, but I'll stop reviewing (and start silent=
-ly
-> > > > > deleting) any future submissions of yours that say that they're d=
-one
-> > > > > entirely with a Coccinelle script unless you address this point a=
-nd
-> > > > > convince me that your Coccinelle script is really smart enough to
-> > > > > handle all the corner cases. I'll also assert that you should rev=
-iew
-> > > > > Tejas's submissions to see how these conversions are expected to =
-go.
-> > > >=20
-> > > > I couldn't find that in your first answer though. What corner cases=
- do
-> > > > you have in mind, and why do you think coccinelle can't handle them?
-> > >=20
-> > > As can be seen from the reviews:
-> > >=20
-> > > - sleeps between DSI calls
-> > > - properly propagating the error at the end of the function
-> >=20
-> > These two are legitimate feedback, but I don't see how coccinelle cannot
-> > deal with them.
->=20
-> Maybe it can. both issues were pointed out during review of the first
-> series, there was no improvement here. I'd really ask to perform
-> conversion of a single driver, so that the script (or post-script
-> fixups) can be improved. I'd still expect that Anusha actually reviews
-> the changed driver before posting it and verifies that there is no
-> regression in the logic / error reporting.
-
-Yeah, it makes sense, thanks!
-Maxime
-
---elwcbsq7xwvzgu3j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7XeKAAKCRAnX84Zoj2+
-dq1zAYCKf0VaKTwdDAgifOhtr6CZmQ0xXsHGqPSRQeDxj1kxtni5jzUQECUY0jJ6
-AlH5icIBfA4QxeNdZJINU7DbFY3UXzHVx0W83MCWHK4WzTXVICVt6PrAf3nL92l8
-WWTv4RhA4Q==
-=3az7
------END PGP SIGNATURE-----
-
---elwcbsq7xwvzgu3j--
+Unless bridge is very special, this should work for bridges too.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
