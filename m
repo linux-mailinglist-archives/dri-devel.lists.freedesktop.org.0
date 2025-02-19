@@ -2,75 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97A8A3C43C
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 16:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D399A3C399
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 16:26:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 480B810E341;
-	Wed, 19 Feb 2025 15:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B97CA10E330;
+	Wed, 19 Feb 2025 15:26:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l+PsfPPA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AXq4j3T9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E16CA10E341
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 15:56:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E250E10E32D;
+ Wed, 19 Feb 2025 15:26:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739980577; x=1771516577;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=uV3soKwL+HCNAvSymtrWOzDP+EtcGO1BQkAUCm5Wg+g=;
- b=l+PsfPPADquQnvwHDcuEa3gtjaaNpW3+RvgcuJnvQJ84VE9D6d7Ly0FW
- aXVPeLeNseU3VLkvXdscrXLGm0l7W3oQvWTYyY/b8tytW/M+42dm7XfId
- +P3x93FSTqqLx1AAZq7Z7tP6xvJvpn4Cp4TPFdWV1GahXM+pzJnz29ref
- oYT7dd1hT2Mkatm9IrGmh6BJ+tUXAw+WTYJvolGwOiF+d8QmZc6usIsyb
- pRyDieZP2BzK/Jrj4IuPPsACwCMPctuJ+q9FodpRuipp48wwNst05q6I6
- XxQSUVM3jrsndqtwBK4YP6aL7GiNksPGb+iKYs5emv1hhfgyawwsZX2Ym g==;
-X-CSE-ConnectionGUID: T0G8GhdMSd2cegZRHI2cdw==
-X-CSE-MsgGUID: hStApfhyRx6IGkV4TySXdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44641213"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="44641213"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 07:56:15 -0800
-X-CSE-ConnectionGUID: 9tQ7e4C6QyWDwrfSehe6Ew==
-X-CSE-MsgGUID: pjGdWZJjSauXppPQLfgMhw==
+ t=1739978802; x=1771514802;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=CK0AZ7Lpkp/QfXcb02pW83lUn9FRAJI72YGbMp2sIIQ=;
+ b=AXq4j3T94k7pJ6pSkhc2RfwAq5ddOCYvXk2Jiqf0mNMQbWzHoBlNL40f
+ 8GxbBie1+uNDGHPl7WirikjA+XhiaXHHCh9NMGQ00WXiq44C9vb/w3qvR
+ ZrftBVmNCj5SZSw0WTpbRmif0XlPrmiYFD0pN8ydzi4GhUKx0i4YsWum9
+ 4vQBtlHGBp0Rg4cEj4Bf3U8q7VCthvTN+aywMalbrIeh3bsdH2ihIOg/9
+ NPnhTe32Aw4zskT1rNYurEi+xgxNIqBmGSI0H+W09hVN2jjLK0+p8de4C
+ Q8Pjd0UrYDvdo/JJlusfF12ksZkaMqql7H8R2xFM9/HHAXVgEQ+W8h27C Q==;
+X-CSE-ConnectionGUID: T4JyzvKJQq+H+FFZ8xLfSw==
+X-CSE-MsgGUID: JEV8Dn+WTaeaFysdGAoNiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44490308"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="44490308"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 07:26:42 -0800
+X-CSE-ConnectionGUID: hc0YFeZyTfenPRKrf4pPAg==
+X-CSE-MsgGUID: yV91Q3S3TiOssDXVkhcBOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="145612236"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 07:23:30 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tkluw-0000000D3ix-2SQZ; Wed, 19 Feb 2025 17:23:18 +0200
-Date: Wed, 19 Feb 2025 17:23:18 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
- Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
-Message-ID: <Z7X3ZvQbSe75U-AR@smile.fi.intel.com>
-References: <20250218132702.114669-1-clamor95@gmail.com>
- <20250218132702.114669-3-clamor95@gmail.com>
- <Z7XqKcOUt5niXzpv@smile.fi.intel.com>
- <CAPVz0n1_WQyOHhtEVAh53uhEUhZvqqZSEJh6XALtSrVfkMSLYw@mail.gmail.com>
- <Z7XzgfHcjyK_UZKv@smile.fi.intel.com>
- <CAPVz0n2WwAOb1UU7J7aDTdhXXCaAZkCpYjW_nc_CBRgkGWdEOw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n2WwAOb1UU7J7aDTdhXXCaAZkCpYjW_nc_CBRgkGWdEOw@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="114941437"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.160])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 07:26:35 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Haoxiang Li <haoxiang_li2024@163.com>, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch, gustavo.sousa@intel.com
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Haoxiang Li
+ <haoxiang_li2024@163.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/display: Add check for
+ alloc_ordered_workqueue() and alloc_workqueue()
+In-Reply-To: <20250219130800.2638016-1-haoxiang_li2024@163.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250219130800.2638016-1-haoxiang_li2024@163.com>
+Date: Wed, 19 Feb 2025 17:26:28 +0200
+Message-ID: <87wmdmlzvf.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,49 +73,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 05:13:15PM +0200, Svyatoslav Ryhel wrote:
-> ср, 19 лют. 2025 р. о 17:07 Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> пише:
-> > On Wed, Feb 19, 2025 at 04:36:38PM +0200, Svyatoslav Ryhel wrote:
-> > > ср, 19 лют. 2025 р. о 16:27 Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> пише:
+On Wed, 19 Feb 2025, Haoxiang Li <haoxiang_li2024@163.com> wrote:
+> Add check for the return value of alloc_ordered_workqueue()
+> and alloc_workqueue() to catch potential exception.
+>
+> Fixes: 40053823baad ("drm/i915/display: move modeset probe/remove functions to intel_display_driver.c")
 
-...
+Not really. That's just code movement.
 
-> > > MFD part is removed since MFD cells binding is unconditional, while
-> > > the device supports any amount of children grater then one. For
-> > > example, my  device uses only backlight at bank A, while all other
-> > > subdevices are not present and used. This patch switches to dynamic
-> > > bind of children.
-> >
-> > MFD does the same. Please, take your time and get familiar with how MFD works.
-> 
-> It does not. I have tried. If mfd cell binding is missing, driver will
-> complain and fail.
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display_driver.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_driver.c b/drivers/gpu/drm/i915/display/intel_display_driver.c
+> index 50ec0c3c7588..dfe5b779aefd 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_driver.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
+> @@ -245,6 +245,11 @@ int intel_display_driver_probe_noirq(struct intel_display *display)
+>  						WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
+>  	display->wq.cleanup = alloc_workqueue("i915_cleanup", WQ_HIGHPRI, 0);
+>  
+> +	if (!display->wq.modeset || !display->wq.flip || !display->wq.cleanup) {
+> +		ret = -ENOMEM;
+> +		goto cleanup_vga_client_pw_domain_dmc;
+> +	}
+> +
 
-I really don't know what exactly is going on here, you can check it later, but
-I'm 100% sure that MFD works for only driver that are present. What you are
-describing is how component framework is designed.
+Yes, we should check these, but if some of them succeed and some fail,
+we'll never destroy the workqueues whose allocation succeeded.
 
-To proove my words you can check drivers/mfd/intel_soc_pmic_*.c and find listed
-cells that never had a driver in the Linux kernel. They are just placeholders.
+BR,
+Jani.
 
-...
 
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
-
-Please, when answering, remove unrelated context from the replies.
-
-...
-
-> Let this driver rot for now, I might return to it. At some point
-
-Up to you. But thanks for trying!
+>  	intel_mode_config_init(display);
+>  
+>  	ret = intel_cdclk_init(display);
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
