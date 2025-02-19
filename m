@@ -2,60 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6797A3C84A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 20:11:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA79A3C8DC
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 20:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE6D10E35B;
-	Wed, 19 Feb 2025 19:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7370C10E10D;
+	Wed, 19 Feb 2025 19:35:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="crMg/yf0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hhmHqpbe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 776A010E88C;
- Wed, 19 Feb 2025 19:11:49 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A907010E045;
+ Wed, 19 Feb 2025 19:35:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739992310; x=1771528310;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Ke6kIODm7Ic5ld2VhbGjjU4lqUyHOlUNpqd7DdjdFYc=;
- b=crMg/yf0dUq9P4Bii1wFtB/stNu35Zq9SxBYLhOIWXDfslSdL+V1y/4V
- qGMeUgBYnJNgKZb4CB/c9uOsAgveVmEb3MgPzM0q0+r1cHfZUOMlD/2LR
- yvSrIW2SvJMJuU+gwB3aEmTmbbEiiagLdfh+mUeb0LCCIEfBfxN6FjmmN
- TSXo/SapLIR6nz7KLmutcQnZ55vJQ2nBzxx81QJdjviLDusl65FN6++2L
- DWcArvuaY8giOLNfzdefFrQnPtYPohGqTTfUdfBsZth3ahHPJEgZzGf1h
- SUZOy0P7n3ZKob9E3FMHHKUvJMHa9KgzTHbO5CtMNfcjUoG9Glse8HTXO A==;
-X-CSE-ConnectionGUID: 2f/lYnj3S+WQft+pjwnCPA==
-X-CSE-MsgGUID: Kt4gttFoQfqi3M5hRjxPVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44663087"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="44663087"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 11:11:47 -0800
-X-CSE-ConnectionGUID: zzwfKHGhTTOb+YmgD3VuBQ==
-X-CSE-MsgGUID: A/IeRTbWRrObUAqmg7WciQ==
+ t=1739993732; x=1771529732;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=j6DeFoRc0fF7e2Oks35if1gZ6a65rDtTUrU//ykiUzE=;
+ b=hhmHqpbe99vJ7eS3o8Zo5rBI88H8BF0rRWUQHPJwEtxRawadtZwuauyl
+ bqMfaLXLAMtQ5c7dM6z6JkG3RK4JQZAUkJcthAPhCRgHwFwjzTqGtDU1c
+ +n1pzsynrqrYW2U9wFn8ufPGIqi5GUA+oRHQCFW/NXOedTE/HbHB+zBnU
+ WG1ropwl3SpIs8VfyphWtJ5NcMhHzgEA70bO4ZLjuyOl8P6Nh/Z8k9/qk
+ wuhPZ8ywQdk2STlE9oxjFcGkZ9QsgCArXA8MYLNEUQXzwVr2zZlqPopAa
+ i62XU+9mQWQ729qJcEDa3YkVxRzNzkKHBxg1oiRvx9SjO90uzOG/5LMEM Q==;
+X-CSE-ConnectionGUID: aAoc3ET7S6uwoe2leX3MZQ==
+X-CSE-MsgGUID: yDcGNTf8Q6qHcuuVv1l3Ig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44518663"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="44518663"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 11:35:31 -0800
+X-CSE-ConnectionGUID: e+8QBiJrTuanDsBQC5xjHA==
+X-CSE-MsgGUID: rcNt279eQzm+o3qVVFZ6cA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="120015438"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 19 Feb 2025 11:10:44 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 19 Feb 2025 21:10:42 +0200
-Date: Wed, 19 Feb 2025 21:10:42 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/atomic: Filter out redundant DPMS calls
-Message-ID: <Z7YssnuBvJ0MtaNX@intel.com>
-References: <20250219160239.17502-1-ville.syrjala@linux.intel.com>
- <Z7YPjEOgLJGsAt2d@hm-sls2>
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="114645396"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.160])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2025 11:35:26 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Alan Previn
+ <alan.previn.teres.alexis@intel.com>, Janusz Krzysztofik
+ <janusz.krzysztofik@linux.intel.com>
+Subject: Re: [PATCH v2] drm/i915: Fix harmfull driver register/unregister
+ assymetry
+In-Reply-To: <20250219183807.713776-2-janusz.krzysztofik@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250219183807.713776-2-janusz.krzysztofik@linux.intel.com>
+Date: Wed, 19 Feb 2025 21:35:19 +0200
+Message-ID: <87o6yxn2x4.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z7YPjEOgLJGsAt2d@hm-sls2>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,50 +76,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 12:06:20PM -0500, Hamza Mahfooz wrote:
-> On Wed, Feb 19, 2025 at 06:02:39PM +0200, Ville Syrjala wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > 
-> > Video players (eg. mpv) do periodic XResetScreenSaver() calls to
-> > keep the screen on while the video playing. The modesetting ddx
-> > plumbs these straight through into the kernel as DPMS setproperty
-> > ioctls, without any filtering whatsoever. When implemented via
-> > atomic these end up as full commits on the crtc, which leads to a
-> > dropped frame every time XResetScreenSaver() is called.
-> > 
-> > Let's just filter out redundant DPMS property changes in the
-> > kernel to avoid this issue.
-> 
-> Do you know if this has any impact on the DPMS timeout (as set by
-> DPMSSetTimeouts())?
+On Wed, 19 Feb 2025, Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com> wrote:
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index ffc346379cc2c..27a23b1eb9de0 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -347,6 +347,8 @@ struct drm_i915_private {
+>  	/* The TTM device structure. */
+>  	struct ttm_device bdev;
+>  
+> +	bool registered;
+> +
 
-That's all in userspace.
+*must* find another way.
 
-> 
-> > 
-> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_uapi.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> > index 2765ba90ad8f..c2726af6698e 100644
-> > --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > @@ -957,6 +957,10 @@ int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
-> >  
-> >  	if (mode != DRM_MODE_DPMS_ON)
-> >  		mode = DRM_MODE_DPMS_OFF;
-> > +
-> > +	if (connector->dpms == mode)
-> > +		goto out;
-> > +
-> >  	connector->dpms = mode;
-> >  
-> >  	crtc = connector->state->crtc;
-> > -- 
-> > 2.45.3
+BR,
+Jani.
+
+
+>  	I915_SELFTEST_DECLARE(struct i915_selftest_stash selftest;)
+>  
+>  	/*
 
 -- 
-Ville Syrjälä
-Intel
+Jani Nikula, Intel
