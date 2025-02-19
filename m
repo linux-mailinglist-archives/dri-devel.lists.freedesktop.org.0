@@ -2,59 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A942A3B8FA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 10:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31748A3B9ED
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 10:37:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18CE410E7A0;
-	Wed, 19 Feb 2025 09:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C6C10E7A6;
+	Wed, 19 Feb 2025 09:37:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y/OawoYI";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="VvmmoHWN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 068BD10E79B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:29:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 712F0A41FDD;
- Wed, 19 Feb 2025 09:27:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E56C4CED1;
- Wed, 19 Feb 2025 09:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739957338;
- bh=2YoKx2TA+5+dia75YWBoUPKIALRgLf622XWlx8fTymc=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=Y/OawoYIG1YanwzyXgQHJASucgl7c83lWPCnd57U+zaG5W9+10Md34elMbKPqHBRh
- xCGnUNbKSEZ3RoktoQ6HSIYhRVpOEuCEQR5zMDyh+jMdIePuBkCw/fgGnatLC16vUN
- bXeOaeGZyVDlA7vUHEPBI+lY/dPPQmoqaZRLFmTfCleH3LbKW+0di4T1jZ8xsq3Ol1
- 2LZer1jSbb+fuyUYl5XqUr43cG83+dbv8fYxIqc4dZ6strL8sltGzJtgQ8gOfrhAuo
- RqWwZNaeYnS08IX/8PQnw/+KEMphinLjjncNOXFsNoUx4/81BOgSjRNMqaaz1V3KSD
- wYEJf7mhZwk/w==
-Date: Wed, 19 Feb 2025 10:28:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org,
- arthurgrillo@riseup.net, 
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, 
- thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
-Message-ID: <20250219-versatile-smilodon-of-felicity-cbcc4d@houat>
-References: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
- <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
- <20241126-overjoyed-knowing-cuttlefish-c8d0f6@houat>
- <Z2GqEOiVkdgB3IXy@louis-chauvet-laptop>
+Received: from PNYPR01CU001.outbound.protection.outlook.com
+ (mail-centralindiaazolkn19010014.outbound.protection.outlook.com
+ [52.103.68.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B56D10E7DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:37:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CvHw4eVazZrQISWoaALvb7bjejqKoee/1Oe+pKj+Z8Fw3qRi0yWofiAHYjl8LF/7c1G1fVpmdEBEkWyi5A0gyyQYqpC5g4a9NQS1Q8XOLqVtAozQsVsntQhtKyN57pYqjlN8vF/3+Y7lDpSNguNRyq9fr7JrKCwZRVd5gx1hzwDKIOfAU9wjz/sYtQl9EMnS5zqz0T4RFP6XrGJIo0d/EZCPxqLRimR27QjF8WMTuHLI+a/zAzZsLGJourvKiUvrODwVCGDMI7J0wVnpicCR4M/dTzB5cd0WytIGnDzKqjy+v03/3p2NuI+6blxJLJK3dUgWyWBcFvfq8zVYq2uyzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0RFZlvv6wslF3Sz/z3dWGxoGXj7jR18ofG2dLX67LZ8=;
+ b=A+rQ2eXN9M+uPRFpzqlgfj29irbEsTo8wVXUREZaRIqb0hHplRJ6rLWVPHJ2Hj4sZcOjxs2m9IxMatPvp08EXvJxHvy0WAJenw9CpDoXTYCsy2Nx5PWlWOYe2ygaQvNHi2jJbJ31Tz7omX0/aCeB36/CbxTsg182ESa0HPqG+ciTUHx+KFe/Q4jCFEuqpwhIz+exKG3w1sa6u/Ozru1dsFhmhYaUJO3Ezc4PsDlnfwxHnK2cdYmF+pjPCYK6MWniQWs4Na93EJ787qKDlvwd3FnpX2/6OcLhhBu1aAiwZ4tBYcWIM8qYyE8e9PO2l2U+i+6jh/xvPKGcCftr0XNS3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0RFZlvv6wslF3Sz/z3dWGxoGXj7jR18ofG2dLX67LZ8=;
+ b=VvmmoHWNEyzXuwSqCSQmFOSA/7R+lZcth3jvlqG1EzBZJ8Q9jJnZxiA2AzCHratp2mHfoPRhT4vhsRe3nKMxocn2feCeG5oV+zDosa9ZlosZBBgG4KW5raB1gNh3RfirA4obAGAWT3uueNos+EnwTFA+wEFn8nQtf4CurfrZuS7cVlPvnR23AmCBoEhq8vgIst5defQ7MOHVy6KYMNsxLsTCa34zSaYAfuxcoPmxbvhWI7YKHR7KeSUQKwKkAWPQ1hW0NugDS1r9QtP0WzfjpYerwEe2GIbj+mAiZbMUdv/X0hRb7jrd932ZPPwUpDRAqqVEiUVVEp1comrxnLQSaA==
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
+ by PN3PR01MB9950.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:150::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Wed, 19 Feb
+ 2025 09:37:34 +0000
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.015; Wed, 19 Feb 2025
+ 09:37:34 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+CC: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
+ <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>, Kerem Karabay
+ <kekrby@gmail.com>, Atharva Tiwari <evepolonium@gmail.com>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 2/2] drm/tiny: add driver for Apple Touch Bars in x86 Macs
+Thread-Topic: [PATCH 2/2] drm/tiny: add driver for Apple Touch Bars in x86 Macs
+Thread-Index: AQHbgW0jg2AkJlVClEWW91xnm1SunLNM14qAgAA9boCAAS6yAIAAHTcA
+Date: Wed, 19 Feb 2025 09:37:34 +0000
+Message-ID: <858CA9AF-6128-4974-9C98-9EC01FF4FDB1@live.com>
+References: <4BAFD886-84E0-4C4C-94B3-90BF911ED0E7@live.com>
+ <F16BB9EB-632C-4BC4-A8BA-492BF32E43C1@live.com>
+ <d9304ed0-911b-4877-a15c-981b3335bbf9@suse.de>
+ <8051F1F7-C1B0-428E-BE12-353C242EA650@live.com>
+ <a88a6e48-8c55-410b-b553-8942dac3608a@suse.de>
+In-Reply-To: <a88a6e48-8c55-410b-b553-8942dac3608a@suse.de>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|PN3PR01MB9950:EE_
+x-ms-office365-filtering-correlation-id: ec85ed1f-badc-4787-73ed-08dd50c90a3d
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|8022599003|19110799003|461199028|15080799006|7092599003|8060799006|8062599003|102099032|3412199025|440099028|12091999003|41001999003;
+x-microsoft-antispam-message-info: =?utf-8?B?Yit3TXVsOTMyMlJ2VGw5NHlTanFzMTFreWw0dWpVMzlWUitiSlBHR3RTMmp3?=
+ =?utf-8?B?Z1ZOdXRnTDR5Snd5bFdaeHZwQXhIUFN2ck52MVFYVzJIQ1JiNVJ3MElXM21m?=
+ =?utf-8?B?L2JsS0lpVy9HQkhhRUxBY0Jtb0p2VTZoNjRVWHNoMVUrZUIwbXh4cnFOaWpk?=
+ =?utf-8?B?REY5elo1SVVuZEpCd2JyNTdJaGpjOGdkMllFS0djQWxQdXI1OUFIREc2cVV4?=
+ =?utf-8?B?SmdDeEk0S1NWY3BoZXEzQSszUHJCYmRDWnhESVE4d2Fyc1plOW1kK3V4NVQv?=
+ =?utf-8?B?RUJENm5sOU1OL0dwUno4eExqL2t6TjVTVUZabTlwWUJqb3dTekF0V09xbG5X?=
+ =?utf-8?B?bXZBVnRmbnpIdzY0eXRtbmVuSC85VVFXV1FBMXREUFdqMXo3eXdERm1TMGVB?=
+ =?utf-8?B?MURJZGlxakxEdFRrRS84UjNTZmQzNkRTWEVlZ3VOM25iN1psOFlaaEtMZWdh?=
+ =?utf-8?B?WnFHeUF0M21NckxEZDlvQVFEbStjS2ZxTm1sQW5CMWJVUFNwYy93K1JDTEJG?=
+ =?utf-8?B?UFpSdHh3K2lETnhlb1dtcHl1RXZwTCsrTzJlMXNOVmFqbnd1YkV1NjJVMTdB?=
+ =?utf-8?B?ZE52Q2hlRUt1WXcyWXdnV2Fad3VIRUdOSlpRSkpDK0JLYmMxR29ieXVaczE5?=
+ =?utf-8?B?MDY5Nm94dllHY3M4anJYNkozUkVEOWhBb2N0cUJ5aHlpUEloV3g3MFJ3NW9Q?=
+ =?utf-8?B?RmZHWjZ2OTJGaklWZktRNTJPSG9ON0RnVmEzU2RTZXdzZlhqSkE3Qk5GWi9Y?=
+ =?utf-8?B?b2FOZGdIY0V6RkZHM3RUY04xLzBrb2h5OGt6bCtHcExiZEJXNThxOXZaUWx1?=
+ =?utf-8?B?d09hQzJobEg5YVRQMjNyVzVIWTBSVTJkY0FBRU9lOVpuM0lHWWVBOW52SGtj?=
+ =?utf-8?B?MVhrdkxLTmE4NGxxUzJuLzFnaW1sR1dyT2x6U2pJa0ROTHp4SVpBTktEZmZa?=
+ =?utf-8?B?LzcvSS9MbDFkc1V4bUNGZzc2dnpLNDMzUk5WT1R5WGxPQjBKRlZUcitIWllr?=
+ =?utf-8?B?eUozdDNXWjNabFNPRlppRkNxY00rZHhYYzBpZ0swNFZxM1V2eE9ZWXZRQ3FH?=
+ =?utf-8?B?ZG82SkZkcjM0UWJzMVFIRy9ieU4zUVpVa3JYeWpjU0FTQVVQZ1RMYjhuVi9P?=
+ =?utf-8?B?TGZZKzlTNEZwdlZvWlJpdjRQSnR6a05NWk9aV083RnJheE93cTNBZCtiNUVi?=
+ =?utf-8?B?b1F1S3l4Z212VnNHUCtvbVFCMDFGT09CUFNNbVpwRkhYelR6WHRKV2RBSnZO?=
+ =?utf-8?B?RVZEQmhjL2V3SVk4WSt0clc0OUZ6RUtsS1V0eEowT0FZemRLTFRqR0JVMTBX?=
+ =?utf-8?B?cVVXcEdDcm1FT3dXZWFaQ1FCb1lpWStxZUNuaFBxS0owcXgwVWY5c08wVVYx?=
+ =?utf-8?B?Qi9WVWpWMFlua2FkUUtUUzcxUGpBakt0WDNqUkZla1N5WW1DaWgzNlVMMkR0?=
+ =?utf-8?B?c3FtTGVVOUdOMUhqTzA1ZVM3bGs3NDhDQTRyYjQwUWVEb1gyL0FWZ21jRjQz?=
+ =?utf-8?B?a1dNbDZmMUpsWlFOUE8rZlIwelluMmJqSzd0dEMvdnlCaWFuOFpybzBDa1ky?=
+ =?utf-8?Q?Ot7GaREs3fMlcTxOPzYvJF+i0=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R1NNZDhpTWlnM1dhbWZBS0o0NGRnS0RZaXU2Z0Zsb2dVTGtOY0dMcHZqQXhW?=
+ =?utf-8?B?UlJIRHhmTHFCMDZTQzVEUUxEeWNsN3BHYi85Qk9Rc21uRXduNGZpL2g0aGxv?=
+ =?utf-8?B?MXlNbVZaS2Q5akJaVmxWTXZ3VHdnY3pkdFBmU3dONVc5T0F5bm1MRVNxaXZ1?=
+ =?utf-8?B?SEdST3JaZ1FWL3RsR2xzaEdtbWE5MStzTUpPaFFxeFFhWjhZMmRjZ2R0THZK?=
+ =?utf-8?B?c3ZSRStBZXNYaW1leVc1VWJUVjloaHRzSU1PVzV6WCtxbzM3MFhmK1BuNWN6?=
+ =?utf-8?B?S2M5eksza0RIQUhyWHNybE1NblBpaG94N1Vsd0hzNTZWM0czaitQR1lIK1pI?=
+ =?utf-8?B?STNSREwzWHJIeWFJd3l5cXk0T0ljODhmNHlyU25pb3BNaHgyKzN5K1lyalYr?=
+ =?utf-8?B?bmQ3YU8xdTBpMHlIZG5lak4xSDJaTi9CUkIrcnVFdEhPa05vQkZDVmhkTHJq?=
+ =?utf-8?B?cFAwdkRRM2FUbG5BK2xqRDA4Z1BPTXNsWWIvMVJWdElzU1BCMTE4UThCR1g4?=
+ =?utf-8?B?RU83M3NBTkIyWlBLc1EvNmM5dDZva24zR2FFWXBhbkNaZzg1Nzcvc1FzRjJR?=
+ =?utf-8?B?cVhJNUhBRXJCaVBXd3VBdmlNM1I1UmtWQkptZy9WOTNXaEVWdmR3Wkh0ZWp2?=
+ =?utf-8?B?YjhHaE1QT282NWl2a0dGa0x5MEZCaEhSV3FZeVZHUVdzTy84aVM2UmV1UVEx?=
+ =?utf-8?B?VnIrWXMvUnhRZ1BrRWJtK1VNeW93YUx5UWJlTUU5V3Yzd214UTVTd2NVbWJC?=
+ =?utf-8?B?Nks3bGJ0UE8rclZ5ZzM0dW1TUU9LbUovY3RBMGFVdkV3ZzE4Q0laM01mUEMy?=
+ =?utf-8?B?Q3pkSndXbzhLb0VkSnVodDJ6aUlYaCtNQXhQZnNuc21ycXJNSVBWV1BVaFd2?=
+ =?utf-8?B?ZUpSSXc4a21vYUMzdStYVVFlUm8vbWkrMy9uck4wWlViQWZMamVWcXdId3Br?=
+ =?utf-8?B?NThFMm5LSDBwcnFLVWlBOXM2d1RKdy8yNm14WS8za2dWNGR0MU1oNUFDeEYv?=
+ =?utf-8?B?NmtJS0YrNnBwa0JQbmFkNWZnaXlrYXFZMEI0YTg1Zy81SzRUSW1xWXNuNzRJ?=
+ =?utf-8?B?dlhYZ3NLVFpGU1EyVkpWT3loUUZaVHZFMFhuZWdPQzZhMElSSFh0STh1QlFQ?=
+ =?utf-8?B?dGNuVkFsMGw2azBzR2EzYStQbjhkTGN6YUVJbzdwMFF5c2lrYWtML0lCamZS?=
+ =?utf-8?B?dGdvWjJOdmdHZzBFQkVoZU5PS0Z2enVTQXlPUjQ4djJDV0l3R05QVnlKU2lE?=
+ =?utf-8?B?RzRJY3Qrb0tvbDN4dk0vVXkrSWVMcmFSTmo5S1kzcGsya2ZwR1I3U2Q0bnEr?=
+ =?utf-8?B?eHhYTzJGRUZSSlZRWE1tVFJja3NHbnVXZ1BHL1VDeUgydldxSmJQWlhISGVS?=
+ =?utf-8?B?Z3QxOGhwcUNNK3dQYXo1TFY3TmpNT0o0TXVjclRvaWw3alRxVWovMW0zdDNw?=
+ =?utf-8?B?aDAzQWZOdVRCaTdoVDlqeExZV0hkR002cFVGYzZQV2RDQ0Z2SGZJS0xnUll2?=
+ =?utf-8?B?NVAwczZUZzVFSng2bzgzU2wxNFZSOVcrWjBELzZWM3laU2tQelAxVjhkUXpF?=
+ =?utf-8?B?U3FRNDRNSEJKNkRvbFdVcDJ1UzVURVpJM2thbzNKU0V3YTNzY0NmWEEvcFJr?=
+ =?utf-8?B?bXhIQ3FRdUhuUGsybVlvVVptajBNRkJTRHFUblkwR2lBdlJIdHRYZE5lcHl0?=
+ =?utf-8?B?dVZVcDZ5cDdnSEJ6czc1anM3V3NLNlNLNWwrRXhwZGR2Sk9yalhlUWlJT2Zh?=
+ =?utf-8?Q?CaK5Sir5ZkDIH4cdGBh/KKhbpmAYfvlasTWklZO?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8E03C8F04CA02B439F02CE08FDB4AFD3@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="5dyx5btulynwqir3"
-Content-Disposition: inline
-In-Reply-To: <Z2GqEOiVkdgB3IXy@louis-chauvet-laptop>
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec85ed1f-badc-4787-73ed-08dd50c90a3d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2025 09:37:34.6778 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB9950
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,164 +155,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---5dyx5btulynwqir3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
-MIME-Version: 1.0
-
-On Tue, Dec 17, 2024 at 05:42:56PM +0100, Louis Chauvet wrote:
-> Hi,
->=20
-> > > Hi all,
-> > >=20
-> > > I am also currently working on MST emulation for VKMS. If someone can=
- read=20
-> > > what I already did and at tell me if my implementation seems on the r=
-ight=20
-> > > track it could be nice.
-> > >=20
-> > > The current status is not very advanced: I can emulate a mst HUB, but=
- not=20
-> > > a screen. I am currently working on properly emulating the HUB by usi=
-ng an=20
-> > > other hub.
-> > >=20
-> > > You can find the branch for this work here:
-> > > https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-mst
-> >=20
-> > I think this is exactly the kind of things where we'll want eBPF I
-> > think. There's no way you'll be able to model each possible test
-> > scenarios for MST through configfs, even more so with a stable
-> > interface.
->=20
-> I just spent some time to think about it. I agree that eBPF seems=20
-> applicable: we want to allows userspace to emulate any MST device, and we=
-=20
-> don't want to create huge uAPI + whole emulation in the kernel.
->=20
-> As most of the protocol is similar accros device kind, I currently built=
-=20
-> my code around the struct vkms_mst_sideband_helpers to specify only the=
-=20
-> changed behavior (this way the "write to registers" "parse command"... is=
-=20
-> only done in one place). The choice of function is not definitive at all=
-=20
-> (it was just practical at this moment).
->=20
-> With eBPF, I know three different way to attach programs to the kernel:
->  - Using a kprobe/attaching to a function: I can change the behavior of=
-=20
->    all the device, there is no way "attach prog1 to hub" and "attach prog=
-2=20
->    to screen1", it will be "attach prog1 to the function=20
->    `vkms_mst_emulator_handle_transfer_write`, and all the device will be=
-=20
->    affected. This should be very easy to implement (maybe it already=20
->    works without modification?), but very limited / make userspace stuff=
-=20
->    very ugly =3D> Not ideal at all
->  - Creating a whole architecture to attach eBPF programs in vkms: VKMS=20
->    manage the list of attached eBPF programs, call them when it needs...=
-=20
->    This is probably the "most flexible" option (in the sense "VKMS can do=
-=20
->    whatever we need to fit our usecase"). This seems not trivial to=20
->    implement (drm complexity + MST complexity + BPF complexity in the sam=
-e=20
->    driver seems a bad idea, espicially because VKMS don't have a lot of=
-=20
->    maintainance and I don't feel confident introducing more complexity)
->    =3D> Can work, require some work, but may bring more complexity in VKMS
->  - Using BPF struct_ops: I can "simply" create/complete a struct ops for=
-=20
->    diverse mst callbacks (see the proposition bellow). I looked at some=
-=20
->    example, this seems to be "easy" to do, and the work in VKMS should be=
-=20
->    limited.
->    =3D> Can work, a bit less flexible than the previous solution, but avo=
-id=20
->    a lot of complexity
->=20
-> I don't know if I will be able to finish the implementation but I imagine=
-=20
-> something like that may be a nice interface (may be not possible "as is"):
->=20
-> // vkms_mst.c struct_ops that can be filled by userspace with custom=20
-> // functions
-> // Known limitation: maximum 64 functions in this table
-> struct vkms_mst_ops {
-> 	// Completly overide the transfer function, so the userspace can=20
-> 	// do whatever he wants (even emulating a complex MST tree=20
-> 	// without using stuff in vkms)
-> 	handle_transfer(drm_dp_aux_msg);=20
->=20
-> 	// If default transfer function is used, those are the callback=20
-> 	// you can use (again, they will come with default=20
-> 	// implementation)
-> 	clear_payload_id_table(..);
-> 	link_address(..);
-> 	enum_path_ressources(..);
-> 	[...]
->=20
-> 	// Used to identify this kind of device, in my example the=20
-> 	// userspace could register "LG_screen", "dell dock", "HP screen",=20
-> 	// and then configure each mst device with the correct kind
-> 	name =3D "<unique name for this device kind>",
->=20
-> 	// If you want to use the default "hub" implementation, but only=20
-> 	// tweak one specific behavior, you can use this
-> 	base =3D "<name of the other structops>"
-> }
->=20
->=20
-> // Needed to implement eBPF struct_ops, called when userspace registers a
-> // struct_ops of type vkms_mst_ops
-> void register_struct_ops(new_ops...) {
-> 	vkms_registered_ops.append(new_ops).
-> }
->=20
-> // In vkms_connector.c
-> // Callback called by drm core to do transfer on the connector
-> void vkms_mst_transfer(aux, msg) {
-> 	mst_emulator =3D get_mst_emulator(aux);
->=20
-> 	ops =3D vkms_registered_ops.search_for(mst_emulator.name);
-> 	ops->handle_transfer(msg);
-> }
->=20
-> // mst_ebpf.c In the BPF program, userspace side
-> void handle_transfer(...) {
-> 	[...]
-> }
-> struct vkms_mst_ops {
-> 	handle_transfer =3D handle_transfer;
-> 	name =3D "lg-screen";
-> 	base =3D "default-screen"
-> }
-
-I don't think MST is the right abstraction there. We should have MST
-related helper functions available to eBPF programs, but we should load
-them at the connector level, ie, implement a full blown connector
-atomic_check for example. It's more flexible and will allow to implement
-other use-cases people have been interested in (like panels).
-
-Maxime
-
---5dyx5btulynwqir3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7WkVwAKCRAnX84Zoj2+
-doFcAYC9HgMlrj9WYV3EnakLXo2nwaDCK95rzk/ZxsNzM6i3k3SvH8/2NjkDtx4F
-ePU9yu8Bfjbnbg4P3dN6CXDb8pdmbCZiiQnOzLAgK6B+uEaKTGgnUFeL+Hdd1lyW
-Rj2kUfHx8w==
-=jqNE
------END PGP SIGNATURE-----
-
---5dyx5btulynwqir3--
+SGkNCg0KPj4gSeKAmXZlIHRyaWVkIHRoZXNlIGNoYW5nZXMsIHNlZW0gdG8gYmUgYnJlYWtpbmcg
+dGhlIGRyaXZlcjoNCj4+IA0KPj4g4oCUPjjigJQNCj4+IEZyb20gMTZjOTIwY2FiZjY1ZWM2NjQ2
+NjNlYmUxNjExYzBjY2Y2ZTgxZGU0YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4+IEZyb206
+IEFkaXR5YSBHYXJnIDxnYXJnYWRpdHlhMDhAbGl2ZS5jb20+DQo+PiBEYXRlOiBUdWUsIDE4IEZl
+YiAyMDI1IDE4OjU0OjEwICswNTMwDQo+PiBTdWJqZWN0OiBbUEFUQ0hdIGJldHRlciBlcnJvciBo
+YW5kbGluZw0KPj4gDQo+PiAtLS0NCj4+ICAuLi4vYXBwbGUtdG91Y2hiYXItYWR2YW5jZWQtMC4x
+L2FwcGxldGJkcm0uYyAgfCA2OCArKysrKysrKysrKysrLS0tLS0tDQo+PiAgMSBmaWxlIGNoYW5n
+ZWQsIDQ2IGluc2VydGlvbnMoKyksIDIyIGRlbGV0aW9ucygtKQ0KPj4gDQo+PiBkaWZmIC0tZ2l0
+IGEvdXNyL3NyYy9hcHBsZS10b3VjaGJhci1hZHZhbmNlZC0wLjEvYXBwbGV0YmRybS5jIGIvdXNy
+L3NyYy9hcHBsZS10b3VjaGJhci1hZHZhbmNlZC0wLjEvYXBwbGV0YmRybS5jDQo+PiBpbmRleCBm
+MmQ5MTEzLi5jYjEzYjM2IDEwMDY0NA0KPj4gLS0tIGEvdXNyL3NyYy9hcHBsZS10b3VjaGJhci1h
+ZHZhbmNlZC0wLjEvYXBwbGV0YmRybS5jDQo+PiArKysgYi91c3Ivc3JjL2FwcGxlLXRvdWNoYmFy
+LWFkdmFuY2VkLTAuMS9hcHBsZXRiZHJtLmMNCj4+IEBAIC0xMzMsNiArMTMzLDE3IEBAIHN0cnVj
+dCBhcHBsZXRiZHJtX2RldmljZSB7DQo+PiAgIHN0cnVjdCBkcm1fZW5jb2RlciBlbmNvZGVyOw0K
+Pj4gIH07DQo+PiAgK3N0cnVjdCBhcHBsZXRiZHJtX3BsYW5lX3N0YXRlIHsNCj4+ICsgc3RydWN0
+IGRybV9zaGFkb3dfcGxhbmVfc3RhdGUgYmFzZTsNCj4+ICsgdTggKnJlcXVlc3RfYnVmZmVyOw0K
+Pj4gKyB1OCAqcmVzcG9uc2VfYnVmZmVyOw0KPj4gK307DQo+PiArDQo+PiArc3RhdGljIGlubGlu
+ZSBzdHJ1Y3QgYXBwbGV0YmRybV9wbGFuZV9zdGF0ZSAqdG9fYXBwbGV0YmRybV9wbGFuZV9zdGF0
+ZShzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSkNCj4+ICt7DQo+PiArIHJldHVybiBjb250
+YWluZXJfb2Yoc3RhdGUsIHN0cnVjdCBhcHBsZXRiZHJtX3BsYW5lX3N0YXRlLCBiYXNlLmJhc2Up
+Ow0KPj4gK30NCj4+ICsNCj4+ICBzdGF0aWMgaW50IGFwcGxldGJkcm1fc2VuZF9yZXF1ZXN0KHN0
+cnVjdCBhcHBsZXRiZHJtX2RldmljZSAqYWRldiwNCj4+ICAgICBzdHJ1Y3QgYXBwbGV0YmRybV9t
+c2dfcmVxdWVzdF9oZWFkZXIgKnJlcXVlc3QsIHNpemVfdCBzaXplKQ0KPj4gIHsNCj4+IEBAIC0z
+MTEsMjQgKzMyMiw2IEBAIHN0YXRpYyBpbnQgYXBwbGV0YmRybV9mbHVzaF9kYW1hZ2Uoc3RydWN0
+IGFwcGxldGJkcm1fZGV2aWNlICphZGV2LA0KPj4gICBpZiAoIWZyYW1lc19zaXplKQ0KPj4gICBy
+ZXR1cm4gMDsNCj4+ICAtIHJlcXVlc3Rfc2l6ZSA9IEFMSUdOKHNpemVvZigqcmVxdWVzdCkgKyBm
+cmFtZXNfc2l6ZSArIHNpemVvZigqZm9vdGVyKSwgMTYpOw0KPj4gLQ0KPj4gLSByZXF1ZXN0ID0g
+a3phbGxvYyhyZXF1ZXN0X3NpemUsIEdGUF9LRVJORUwpOw0KPj4gLSBpZiAoIXJlcXVlc3QpDQo+
+PiAtIHJldHVybiAtRU5PTUVNOw0KPj4gLQ0KPj4gLSByZXNwb25zZSA9IGt6YWxsb2Moc2l6ZW9m
+KCpyZXNwb25zZSksIEdGUF9LRVJORUwpOw0KPj4gLSBpZiAoIXJlc3BvbnNlKSB7DQo+PiAtIHJl
+dCA9IC1FTk9NRU07DQo+PiAtIGdvdG8gZnJlZV9yZXF1ZXN0Ow0KPj4gLSB9DQo+PiAtDQo+PiAt
+IHJldCA9IGRybV9nZW1fZmJfYmVnaW5fY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsN
+Cj4+IC0gaWYgKHJldCkgew0KPj4gLSBkcm1fZXJyKGRybSwgIkZhaWxlZCB0byBzdGFydCBDUFUg
+ZnJhbWVidWZmZXIgYWNjZXNzICglZClcbiIsIHJldCk7DQo+PiAtIGdvdG8gZnJlZV9yZXNwb25z
+ZTsNCj4+IC0gfQ0KPj4gLQ0KPj4gICByZXF1ZXN0LT5oZWFkZXIudW5rXzAwID0gY3B1X3RvX2xl
+MTYoMik7DQo+PiAgIHJlcXVlc3QtPmhlYWRlci51bmtfMDIgPSBjcHVfdG9fbGUxNigweDEyKTsN
+Cj4+ICAgcmVxdWVzdC0+aGVhZGVyLnVua18wNCA9IGNwdV90b19sZTMyKDkpOw0KPj4gQEAgLTM4
+OSwxMCArMzgyLDYgQEAgc3RhdGljIGludCBhcHBsZXRiZHJtX2ZsdXNoX2RhbWFnZShzdHJ1Y3Qg
+YXBwbGV0YmRybV9kZXZpY2UgKmFkZXYsDQo+PiAgICBlbmRfZmJfY3B1X2FjY2VzczoNCj4+ICAg
+ZHJtX2dlbV9mYl9lbmRfY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4+IC1mcmVl
+X3Jlc3BvbnNlOg0KPj4gLSBrZnJlZShyZXNwb25zZSk7DQo+PiAtZnJlZV9yZXF1ZXN0Og0KPj4g
+LSBrZnJlZShyZXF1ZXN0KTsNCj4+ICAgICByZXR1cm4gcmV0Ow0KPj4gIH0NCj4+IEBAIC00MTUs
+NiArNDA0LDE1IEBAIHN0YXRpYyBpbnQgYXBwbGV0YmRybV9wcmltYXJ5X3BsYW5lX2hlbHBlcl9h
+dG9taWNfY2hlY2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiAgIHN0cnVjdCBkcm1fcGxh
+bmVfc3RhdGUgKm5ld19wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0
+ZShzdGF0ZSwgcGxhbmUpOw0KPj4gICBzdHJ1Y3QgZHJtX2NydGMgKm5ld19jcnRjID0gbmV3X3Bs
+YW5lX3N0YXRlLT5jcnRjOw0KPj4gICBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm5ld19jcnRjX3N0
+YXRlID0gTlVMTDsNCj4+ICsgc3RydWN0IGFwcGxldGJkcm1fcGxhbmVfc3RhdGUgKmFwcGxldGJk
+cm1fc3RhdGUgPSB0b19hcHBsZXRiZHJtX3BsYW5lX3N0YXRlKG5ld19wbGFuZV9zdGF0ZSk7DQo+
+PiArIHN0cnVjdCBkcm1fZGV2aWNlICpkcm0gPSBwbGFuZS0+ZGV2Ow0KPj4gKyBzdHJ1Y3QgZHJt
+X3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsNCj4+ICsgc3RydWN0IGFw
+cGxldGJkcm1fZmJfcmVxdWVzdF9yZXNwb25zZSAqcmVzcG9uc2U7DQo+PiArIHN0cnVjdCBhcHBs
+ZXRiZHJtX2ZiX3JlcXVlc3RfZm9vdGVyICpmb290ZXI7DQo+PiArIHN0cnVjdCBkcm1fZnJhbWVi
+dWZmZXIgKmZiID0gcGxhbmVfc3RhdGUtPmZiOw0KPj4gKyBzdHJ1Y3QgYXBwbGV0YmRybV9mYl9y
+ZXF1ZXN0ICpyZXF1ZXN0Ow0KPj4gKyBzaXplX3QgZnJhbWVzX3NpemUgPSAwOw0KPj4gKyBzaXpl
+X3QgcmVxdWVzdF9zaXplOw0KPj4gICBpbnQgcmV0Ow0KPj4gICAgIGlmIChuZXdfY3J0YykNCj4+
+IEBAIC00MjksNiArNDI3LDIyIEBAIHN0YXRpYyBpbnQgYXBwbGV0YmRybV9wcmltYXJ5X3BsYW5l
+X2hlbHBlcl9hdG9taWNfY2hlY2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiAgIGVsc2Ug
+aWYgKCFuZXdfcGxhbmVfc3RhdGUtPnZpc2libGUpDQo+PiAgIHJldHVybiAwOw0KPj4gICsgcmVx
+dWVzdF9zaXplID0gQUxJR04oc2l6ZW9mKCpyZXF1ZXN0KSArIGZyYW1lc19zaXplICsgc2l6ZW9m
+KCpmb290ZXIpLCAxNik7DQo+PiArDQo+PiArIGFwcGxldGJkcm1fc3RhdGUtPnJlcXVlc3RfYnVm
+ZmVyID0ga3phbGxvYyhyZXF1ZXN0X3NpemUsIEdGUF9LRVJORUwpOw0KPj4gKyBpZiAoIXJlcXVl
+c3QpDQo+PiArIHJldHVybiAtRU5PTUVNOw0KPj4gKw0KPj4gKyBhcHBsZXRiZHJtX3N0YXRlLT5y
+ZXNwb25zZV9idWZmZXIgPSBremFsbG9jKHNpemVvZigqcmVzcG9uc2UpLCBHRlBfS0VSTkVMKTsN
+Cj4+ICsgaWYgKCFyZXNwb25zZSkgew0KPj4gKyByZXQgPSAtRU5PTUVNOw0KPj4gKyB9DQo+PiAr
+DQo+PiArIHJldCA9IGRybV9nZW1fZmJfYmVnaW5fY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVW
+SUNFKTsNCj4+ICsgaWYgKHJldCkgew0KPj4gKyBkcm1fZXJyKGRybSwgIkZhaWxlZCB0byBzdGFy
+dCBDUFUgZnJhbWVidWZmZXIgYWNjZXNzICglZClcbiIsIHJldCk7DQo+PiArIH0NCj4+ICsNCj4+
+ICAgcmV0dXJuIDA7DQo+PiAgfQ0KPj4gIEBAIC00NjQsNiArNDc4LDE1IEBAIHN0YXRpYyB2b2lk
+IGFwcGxldGJkcm1fcHJpbWFyeV9wbGFuZV9oZWxwZXJfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRy
+bV9wbGFuZSAqcGxhDQo+PiAgIGRybV9kZXZfZXhpdChpZHgpOw0KPj4gIH0NCj4+ICArc3RhdGlj
+IHZvaWQgYXBwbGV0YmRybV9wcmltYXJ5X3BsYW5lX2Rlc3Ryb3lfc3RhdGUoc3RydWN0IGRybV9w
+bGFuZSAqcGxhbmUsDQo+PiArIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnN0YXRlKQ0KPj4gK3sN
+Cj4+ICsgc3RydWN0IGFwcGxldGJkcm1fcGxhbmVfc3RhdGUgKmFwcGxldGJkcm1fc3RhdGUgPSB0
+b19hcHBsZXRiZHJtX3BsYW5lX3N0YXRlKHN0YXRlKTsNCj4+ICsNCj4+ICsga2ZyZWUoYXBwbGV0
+YmRybV9zdGF0ZS0+cmVxdWVzdF9idWZmZXIpOw0KPj4gKyBrZnJlZShhcHBsZXRiZHJtX3N0YXRl
+LT5yZXNwb25zZV9idWZmZXIpOw0KPj4gK30NCj4+ICsNCj4+ICBzdGF0aWMgY29uc3Qgc3RydWN0
+IGRybV9wbGFuZV9oZWxwZXJfZnVuY3MgYXBwbGV0YmRybV9wcmltYXJ5X3BsYW5lX2hlbHBlcl9m
+dW5jcyA9IHsNCj4+ICAgRFJNX0dFTV9TSEFET1dfUExBTkVfSEVMUEVSX0ZVTkNTLA0KPj4gICAu
+YXRvbWljX2NoZWNrID0gYXBwbGV0YmRybV9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfY2hl
+Y2ssDQo+PiBAQCAtNDc0LDYgKzQ5Nyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5l
+X2hlbHBlcl9mdW5jcyBhcHBsZXRiZHJtX3ByaW1hcnlfcGxhbmVfaGVscGVyX2Z1bmNzDQo+PiAg
+c3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfZnVuY3MgYXBwbGV0YmRybV9wcmltYXJ5X3Bs
+YW5lX2Z1bmNzID0gew0KPj4gICAudXBkYXRlX3BsYW5lID0gZHJtX2F0b21pY19oZWxwZXJfdXBk
+YXRlX3BsYW5lLA0KPj4gICAuZGlzYWJsZV9wbGFuZSA9IGRybV9hdG9taWNfaGVscGVyX2Rpc2Fi
+bGVfcGxhbmUsDQo+PiArIC5hdG9taWNfZGVzdHJveV9zdGF0ZSA9IGFwcGxldGJkcm1fcHJpbWFy
+eV9wbGFuZV9kZXN0cm95X3N0YXRlLA0KPj4gICAuZGVzdHJveSA9IGRybV9wbGFuZV9jbGVhbnVw
+LA0KPj4gICBEUk1fR0VNX1NIQURPV19QTEFORV9GVU5DUywNCj4gDQo+IFlvdSBkb24ndCBhbGxv
+Y2F0ZSBzdHJ1Y3QgYXBwbGV0YmRybV9wbGFuZV9zdGF0ZS4gSW5zdGVhZCBvZiB0aGlzIG1hY3Jv
+LCB5b3UgYWxzbyBoYXZlIHRvIHNldCB5b3VyIG93biBoZWxwZXJzIGZvciB0aGUgcGxhbmUncyAu
+cmVzZXQgYW5kIC5hdG9taWNfZHVwbGljYXRlX3N0YXRlIFRoZXJlJ3MgYWdhaW4gZXhhbXBsZSBj
+b2RlIGluIHRoZSBzc2QxMzB4IGRyaXZlci4NCg0KQW55IGF0dGVtcHQgbWFrZSB0byBhbGxvY2F0
+ZSByZXF1ZXN0IGFuZCByZXNwb25zZSBvdXRzaWRlIGFwcGxldGRybV9mbHVzaF9kYW1hZ2Ugc2Vl
+bXMgdG8gYmUgYnJlYWtpbmcgdGhlIGRyaXZlci4NCg0KSWYgSSB1bmRlcnN0YW5kIGNvcnJlY3Rs
+eSwgeW91IHdhbnQgbWUgdG8gYWxsb2NhdGUgdGhlbSBvdXRzaWRlIGFwcGxldGRybV9mbHVzaF9k
+YW1hZ2UsIGluIGFwcGxldGJkcm1fcHJpbWFyeV9wbGFuZV9oZWxwZXJfYXRvbWljX2NoZWNrLCBy
+ZXR1cm4gLUVOT01FTSBpZiB0aGV5IGZhaWwuIEFmdGVyIHRoYXQgYWRkIGtmcmVlKHJldHVybikg
+YW5kIGtmcmVlKHJlc3BvbnNlKSBpbiBhcHBsZXRiZHJtX3ByaW1hcnlfcGxhbmVfZGVzdHJveV9z
+dGF0ZS4NCg0KVGhlIHNzZDEzMHggZHJpdmVyIGV4YW1wbGUgaXNu4oCZdCByZWFsbHkgaGVscGlu
+ZyBtZS4gQ291bGQgeW91IHBsZWFzZSBoZWxwIG1lIG91dCBoZXJlPw==
