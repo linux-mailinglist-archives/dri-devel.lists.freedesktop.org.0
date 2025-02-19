@@ -2,64 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FC3A3BFD9
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 14:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3ECA3BFD6
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 14:27:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C346A10E316;
-	Wed, 19 Feb 2025 13:27:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FDE510E33A;
+	Wed, 19 Feb 2025 13:27:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="I+JCLULR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3838510E316
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:27:12 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[127.0.0.1])
- by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <a.fatoum@pengutronix.de>)
- id 1tkk6L-0003h1-Mj; Wed, 19 Feb 2025 14:26:57 +0100
-Message-ID: <37d2a7bb-1c8c-4c33-a277-dc1a7448433b@pengutronix.de>
-Date: Wed, 19 Feb 2025 14:26:52 +0100
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA45910E33A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 13:27:03 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43984e9cc90so5114515e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 05:27:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1739971622; x=1740576422; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=P97+9Izdp48aMPe+x/Vt4fyC+VGy5GXgsbg5en6vb3I=;
+ b=I+JCLULR5mDjupUFVffrOHunHTSo9VILSe765YjRILZBMBMV22tQaEyqvi9qdf1A9A
+ +sKSHDtfjMucR8skGq9b9yBwateYWe4awDdDLNos8NsO9opQC+52Fos+vaYQxCmyDhuv
+ UB9m/7oyKJAiYUMC93dd6wjAogoWu8tPpuQsE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739971622; x=1740576422;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P97+9Izdp48aMPe+x/Vt4fyC+VGy5GXgsbg5en6vb3I=;
+ b=FMsXpGcMT6Rh18GfjvtNQQm0gDGeo+XbUMMef4/S572MIOeiyEUqKco7M4RB44aRbc
+ TGOfwID5LstwSBmJVOJlExYFnxWY8DL5oQWr2GQVmahsLSyP6N9clUnKNRnN0i5cgUgb
+ cq4LPtLceedWnHNLbSQSHzXzZT2ZH749CcrNFycS5yA7Ajxff0aw7PTJNTwkJ1VWFB4q
+ Z7rL5tc9aQtD1sbvgzeFQnrm3KKqWUOPHbXnEHKR4mh+y6Ckk0kiYLsAWlazPzXrdSlL
+ oIXJHkdiqHowQ0DlrO6peug0Y6XHm4ggqoA4fWgBcPRKlYJGvvNG3D6BDLiqkemasVv5
+ xfpA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWWaK7k5pJ083cQD38T+VnsPAq/3scx5fS4N9IPGGtnmCcXLz+sbMvbGPi3Igq0zbayHy5brrM4iJ4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YznWZL5KFCpeFCvZ6gP+1xSKAaxki62mr2xEGiI+bkrFMmWIqbw
+ DDv8iLxo58O4RIVg518PEegkf0uG+KieavD2xPkHqmpaqHQnf2CsaNPSUHh1SIU=
+X-Gm-Gg: ASbGncvHuARix/RFDDd4HwhrULaPrf/AiFpikLwAyvxUfORE34Rs3wpg6REnNgx9//1
+ SeMmj+4RA4/Q2WWjcoVxlmRFD8qwmWx1yoR2LMkElGJYFp2nKGrFjtjfOh/n1WLSpPgd4PAjudb
+ 1f0oTg7o8J4RsDJpFvIPc9RwyTY9U3oYfIe/8XhJroNGtSfPihUGx+fXWMi2OageJIvzMzMxKmL
+ kcbddQVsamWaXHnEA7yPFWh6sMS8eBiSd/3VGjXCPBCANmL6cTmTSJxfZVJTw8713oICqL6h/7W
+ iMaZZiZF9FAXWZtBK65r7Nr18lI=
+X-Google-Smtp-Source: AGHT+IEwj9Cg3rz3rMnKfCwVitwHErBe+cWUY6n5CQbHW1Ovl4AwLj/OmgmR9qK49M7TGJhzhA/ZmA==
+X-Received: by 2002:a05:600c:4586:b0:439:8634:9909 with SMTP id
+ 5b1f17b1804b1-43999b70cbbmr33220245e9.14.1739971622313; 
+ Wed, 19 Feb 2025 05:27:02 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4398242f2c2sm94444545e9.20.2025.02.19.05.27.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2025 05:27:01 -0800 (PST)
+Date: Wed, 19 Feb 2025 14:26:59 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>, Maarten Lankhorst <dev@lankhorst.se>,
+ Friedrich Vock <friedrich.vock@gmx.de>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ cgroups@vger.kernel.org
+Subject: Re: [PATCH v2] cgroup/dmem: Don't open-code
+ css_for_each_descendant_pre
+Message-ID: <Z7XcIxX_LDxODXZ9@phenom.ffwll.local>
+References: <20250114153912.278909-1-friedrich.vock@gmx.de>
+ <20250127152754.21325-1-friedrich.vock@gmx.de>
+ <7f799ba1-3776-49bd-8a53-dc409ef2afe3@lankhorst.se>
+ <Z7TT_lFL6hu__NP-@slm.duckdns.org>
+ <20250219-tactful-attractive-goldfish-51f8fc@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/10] dt-bindings: display/lvds-codec: add
- ti,sn65lvds822
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
- Frank Li <Frank.li@nxp.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Oleksij Rempel
- <o.rempel@pengutronix.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20250106-skov-dt-updates-v2-0-4504d3f00ecb@pengutronix.de>
- <20250106-skov-dt-updates-v2-5-4504d3f00ecb@pengutronix.de>
-Content-Language: en-US
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <20250106-skov-dt-updates-v2-5-4504d3f00ecb@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250219-tactful-attractive-goldfish-51f8fc@houat>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +95,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear DRM bridge maintainers,
-
-On 06.01.25 17:06, Ahmad Fatoum wrote:
-> Add compatible strings for TI SN65LVDS822, a FlatLink LVDS receiver.
+On Wed, Feb 19, 2025 at 10:08:57AM +0100, Maxime Ripard wrote:
+> On Tue, Feb 18, 2025 at 08:39:58AM -1000, Tejun Heo wrote:
+> > Hello,
+> > 
+> > On Tue, Feb 18, 2025 at 03:55:43PM +0100, Maarten Lankhorst wrote:
+> > > Should this fix go through the cgroup tree?
+> > 
+> > I haven't been routing any dmem patches. Might as well stick to drm tree?
 > 
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> We merged the dmem cgroup through drm because we also had driver
+> changes, but going forward, as far as I'm concerned, it's "your" thing,
+> and it really shouldn't go through drm
 
-Shawn has asked that the DT or display maintainers take this one patch
-through their tree. He has already applied the remainder of the series.
+I guess we could also route it through drm-misc. Either way I think we
+need a MAINTAINERS entry for dmem so that dri-devel gets cc'ed. And then
+make a decision on which git repo should be the standard path. I think
+either is fine, but at least for now it looks like most interactions are
+between dmem and drm, and not between dmem and cgroups at large. And in
+any case we can just ack patches for going the other path on a
+case-by-case basis.
 
-Can you take a look? DT maintainers already acked it.
-
-Thanks,
-Ahmad
-
-> ---
-> v1 -> v2:
->   - Add Rob's Acked-by
-> 
-> To: Andrzej Hajda <andrzej.hajda@intel.com> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
-> To: Neil Armstrong <neil.armstrong@linaro.org> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
-> To: Robert Foss <rfoss@kernel.org> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS,in file)
-> Cc: Jonas Karlman <jonas@kwiboo.se> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS)
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS)
-> Cc: David Airlie <airlied@gmail.com> (maintainer:DRM DRIVERS)
-> Cc: Simona Vetter <simona@ffwll.ch> (maintainer:DRM DRIVERS)
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
-> Cc: Maxime Ripard <mripard@kernel.org> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
-> Cc: Thomas Zimmermann <tzimmermann@suse.de> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
-> Cc: dri-devel@lists.freedesktop.org (open list:DRM DRIVERS)
-> ---
->  Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> index 6ceeed76e88ece6d86ecd6588ead7a65362dfe62..0487bbffd7f7c4bcce3f71df19548d601715fb98 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> @@ -41,6 +41,7 @@ properties:
->            - enum:
->                - ti,ds90cf364a # For the DS90CF364A FPD-Link LVDS Receiver
->                - ti,ds90cf384a # For the DS90CF384A FPD-Link LVDS Receiver
-> +              - ti,sn65lvds822  # For the SN65LVDS822 FlatLink LVDS Receiver
->                - ti,sn65lvds94 # For the SN65DS94 LVDS serdes
->            - const: lvds-decoder # Generic LVDS decoders compatible fallback
->        - enum:
-> 
-
-
+Cheers, Sima
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
