@@ -2,62 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC81AA3BC24
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 11:55:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0F3A3BC3F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 11:59:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF5810E267;
-	Wed, 19 Feb 2025 10:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92CF210E2BF;
+	Wed, 19 Feb 2025 10:58:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TcikSjAp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wMSzwpsO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC04E10E230;
- Wed, 19 Feb 2025 10:55:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739962512; x=1771498512;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=EClwj13NTX8Hj8zFPBap13BgTHic0dr2s/0ap1cNuT4=;
- b=TcikSjApwweqh2QLvEPtqUz8baUj72ZdyLieP3xvK230SgfVHDbSq+kj
- pmxZWD2B9eRhUo1F2LbLJ/fUxg952CjKUp9TP5WnxHn9LwNmSJ1rasuVb
- 80p0LEwX7yiOtR5aorTgIvnESIboGppxDAZoWMAGpRPyQBS/hyijY4tWK
- UWTcy5O94PTFQp6ZZ2xTOIHPrg8fnU7UZCHp8infuMnzkhtyo7lg4y5op
- xWqe8KxyhSQTm9UM7V90gOGfO6IggxgqoW1S/rj81+fsEzKj/p1DkNT7i
- Ey/CiDJ8QOZrN0FyLb7UnJbl/7UKVo3Mw/OR2mkJFS9WrfxwlH6ePHufP w==;
-X-CSE-ConnectionGUID: W7Zy94RaQNy9JDx42dJZmQ==
-X-CSE-MsgGUID: TCGBXbT6S1OmwFOJaX6BXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51334342"
-X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; d="scan'208";a="51334342"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 02:55:12 -0800
-X-CSE-ConnectionGUID: gUCTNculRwauUosko+Ni1Q==
-X-CSE-MsgGUID: M7TIyD8VSaS8Y/Fl9tzTEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="115160418"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.210])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 02:55:09 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C604A10E2A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 10:58:55 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-30613802a6bso67776151fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 02:58:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739962734; x=1740567534; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=01B6M3B/6e8fBJbhUwGqxldkm9jDFUlKOIpIo2WPDw8=;
+ b=wMSzwpsOelsOd2tH+o/WP/0R33myFfeaiHsoolrmuq6zHwi/H1Q4f/kDVJ3Jbgz5X2
+ SqCEhkwX4Fc23NJpJvbcIWB8KeaxVBTtxB1ZQcKIuooWUJVnk/u5T2zPB/O1wvLivaU3
+ pXeKAqSmU2TkhYA7nSKRjiqwO5WJmrSBbrkduEkrB6h7Z/6QmpcTGhJQ7GwxqcejFSYl
+ kq5lo8OvgYeW06D/wVpdiCvTKvVFh0RU8Lzcfii1/pHI3OM9aUJZIsqFtEn/yFq3hMYK
+ stxH6aWl2TSUarsZ416GibRQvJIo+n/aEUCGdlvJAD4cxkgCu12OydiOC5bN1mRcZi6q
+ F1Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739962734; x=1740567534;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=01B6M3B/6e8fBJbhUwGqxldkm9jDFUlKOIpIo2WPDw8=;
+ b=R+ZokjnvU6wY03WPjIqTjAbjrBE8SAEo1Jt9lH1O/qpCIIvK3IKMxt2dHOFCI7NZV9
+ 2pITjFjR6SXbWFqkVCK/fjf1XlELgU7lcc2DvohX8jub9Him0CL1h6iBHMvnE96BCkMs
+ jHdRgeA+XAucgcxVS70fpVzPXeRhq+ZkLDy4hXgu4/5tklpREyKHefzQ9UrhG/2lHUIN
+ S60DoR3oy+kpBw700vaHUCibul5oujGBKtFGpMOvKlKwOz2eEoPFDcJe9WalVYc1YwLz
+ WnUdhpEn18+0YMIQV/jnFyeh2FI+LPoPG3lc3dI1HbA32BLDBLN2MT0yZ6JGVm2X97yY
+ QVGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUKCP5L9CuGtkWA8kteYMnqwragHHoLM1ExUEw29wIw43FlaT7R2oCwlkAYzq32QA7Ef5IJ4RicH6Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyl2KDj+W1eve720dMWGeOK5UwR1m+L6584QCdXXXzonCwJ/+Ht
+ 60adMeyTSswrOvSiY76C3c/HYSdgmrUXZLKBdBN5F5LtTxnADkzYEDEaPRW3g8w=
+X-Gm-Gg: ASbGnctAY1zj9REGn7uZHuS/naWubI1//oCNpKESadCnSpeZtK8gMCuyQq1OB6HBd4P
+ 1tBvj9/+Bh+zKUoRF7MChMKbCU38kT4lRpAZLP80oQPZezevci38ZwDDW5y6/hsgJGQgLmyDvGp
+ w/mQA3TV1N8r586w3zCW5ZDzM6COtwARvj501wDncscsxapt/ue8mxgAMDMCmTCz5r0jgWRo0UT
+ 7tmHKhnm1/lfO93IlWNWP+OcRl6WDCCm4WPAxQOQgX4sq7HfadnV/KiwXr2HnV/O2MbD0dSOSL2
+ FFmgDDdQxC29ImRtad5f8nQ+W2uNnPH4lg8hI9mPfVfZCAQyCQEUPODVVu63Yr1lYE+vrv4=
+X-Google-Smtp-Source: AGHT+IGcisYXxPQLC+b5+fYSrjvm5AAYIjBDylh4x2pSEkaI839acVqUHx0018XYsObzYf9DMzTOXA==
+X-Received: by 2002:a2e:91c6:0:b0:300:1ea5:1655 with SMTP id
+ 38308e7fff4ca-30927a47351mr50492061fa.15.1739962733885; 
+ Wed, 19 Feb 2025 02:58:53 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30941da3978sm14149531fa.112.2025.02.19.02.58.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2025 02:58:53 -0800 (PST)
+Date: Wed, 19 Feb 2025 12:58:51 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Yongxing Mou <quic_yongmou@quicinc.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Add MST support for qcs8300 platform
+Message-ID: <ylotx2i5wvkitezd3ilqg67g2fj2emjigvnxhsdfl5nmoscsbf@kybjxritnslb>
+References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
+ <87058b73-8854-4dbd-9f27-1da2a8240c16@kernel.org>
+ <2ede97c5-a4f2-42fb-b3cd-68f26297150b@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <a712ee97-1851-4f6d-97b1-7d1cc136481f@linux.intel.com>
-References: <20250114082303.1319508-1-jacek.lawrynowicz@linux.intel.com>
- <a712ee97-1851-4f6d-97b1-7d1cc136481f@linux.intel.com>
-Subject: Re: [PATCH v2] drm/i915: Add VM_DONTEXPAND to exported buffers
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, karol.wachowski@intel.com,
- tomasz.rusinowicz@intel.com, Krzysztof Karas <krzysztof.karas@intel.com>
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Date: Wed, 19 Feb 2025 12:55:06 +0200
-Message-ID: <173996250609.74092.8072729956400006000@jlahtine-mobl>
-User-Agent: alot/0.12.dev7+g16b50e5f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2ede97c5-a4f2-42fb-b3cd-68f26297150b@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,14 +100,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Jacek Lawrynowicz (2025-02-11 17:57:03)
-> Hi, can I submit this to drm-misc or should someone commit this to drm-in=
-tel?
+On Wed, Feb 19, 2025 at 06:02:27PM +0800, Yongxing Mou wrote:
+> 
+> 
+> On 2025/2/12 17:06, Krzysztof Kozlowski wrote:
+> > On 12/02/2025 08:12, Yongxing Mou wrote:
+> > > This series of patches introduces how to enable MST functionality on
+> > > the qcs8300 platform. The qcs8300 platform uses dpu_8_4 hardware, which
+> > > is the same as the sa8775p, but it only has one DPU. So it only has one
+> > > DP0 controller, supporting 4-stream MST. This patch only enables
+> > > 2-stream MST, using intf0 and intf3. The first and second patches are
+> > > modifications to the correspond dt-bindings, third patch is the dp
+> > > controller driver after not reuse sm8650, fourth patch is the qcs8300
+> > > dts modification which add the clk support for stream 1.
+> > > 
+> > > Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> > > ---
+> > > This patch depends on following series:
+> > > https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com/
+> > > https://lore.kernel.org/all/20250114-dts_qcs8300-v3-0-d114cc5e4af9@quicinc.com/
+> > > https://lore.kernel.org/all/20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com
+> > > https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/
+> > 
+> > Buggy patch cannot be the dependency. You need to fix the original patch
+> > instead. You are not supposed to wait till knowingly incorrect patches
+> > get merged so you can send a fix. You must respond to that patch
+> > stopping its merging process.
+> > 
+> > Best regards,
+> > Krzysztof
+> Thanks for the reminder. I hadn't noticed that before. We will wait for our
+> dependencies to be ready before sending the new patchset.
 
-Is the this happening in linux-next or is it still completely out-of-tree?
+Hmm, no. Work with Abhinav and send the bindings (including all 4
+stream clocks) and platform enablement. Then MST support can come up
+together with the rest of MST patchset.
 
-Feels weird that the splat would not have happened in any hybrid GPU
-systems in the past. Did you look what is the difference between your
-driver and amdgpu/nouveau?
-
-Regards, Joonas
+-- 
+With best wishes
+Dmitry
