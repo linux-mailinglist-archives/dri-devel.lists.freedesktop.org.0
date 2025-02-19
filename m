@@ -2,74 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBF1A3C93F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DA1A3C948
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:09:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 536DE10E885;
-	Wed, 19 Feb 2025 20:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22DC010E02D;
+	Wed, 19 Feb 2025 20:09:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TUzWJdvY";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZPKBkBfA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D6A10E364;
- Wed, 19 Feb 2025 20:01:02 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-220c895af63so367655ad.0; 
- Wed, 19 Feb 2025 12:01:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739995262; x=1740600062; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cimPSTnT0VmPRvCmAm8mGE9gXb+RFptDwWRoJAVxdew=;
- b=TUzWJdvYj0N044J3XEkLw3TOK4a3LfSTVRRhLB1cd//onvBHsphDiRaJ4potMQszQ6
- 8jG/ZtgLg10OdpsBD9rK4sWkWNgSg+axijy69s1TbYfeHxjkgnZgWAA4mX8uWSDbXN1i
- DwHPhY/GKASj1O+0BoSUWt6vEUSBlCM1YBXmC+bbsUl+GZEdPB8a6jcXzWGwyWrl9tub
- to9WW/I5OCI3jJIrzN6QktQGbUFENO0Ltl1Jb63FWFJcceGqjEpEB1yB/9aSG8vqsgup
- lq6YE18wWX2/SHC51qaBro4RY9CcIQxhgG2eebTwScRQL/efitHC1ESeFRg39VJN6we+
- ouQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739995262; x=1740600062;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cimPSTnT0VmPRvCmAm8mGE9gXb+RFptDwWRoJAVxdew=;
- b=YnZ9O8+uPaargRdj35RFUtIOB3wIqgiMv0xhFzf/4WKXxxBYqialo78374ojlykm3J
- 7DB4XbK+K74vlIT0twtdLaEg5XmrfxUn5+HRygU19kf2k6JV/ofXu2gWpdnxIOEZ41R6
- 9ZhJiQwkPk1m6rIvdpk+jhZY8WEajSVSZKHCQjOEj+5zFghaHZEDAvXWg6KDbedv56LD
- 0Mu+PSSZSDy1TfkCImNVLizPhq6lY05N08wjQhLHq41rdSx84gkZgpOBBoRSWmMiaedJ
- B9cFjB1eXxrb17DmmIZwYm2a4GLriib5bKAVCwQ4/3lxZXiGlNMZfUg68W2MsLs7UIFk
- /9Lg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLZO8IV8/wQKP2xLqJrzoLZegmxrZfMqAS7yLz3xz/XgjB0xxRa0BbDT6sCZ2M2IFxRBXmea3V@lists.freedesktop.org,
- AJvYcCXhC27bcZPwCu17C1QsgrCSe7IYBd8HSXMCDRJmTLfvGOMuR9cMVi8UUBQLKhGHVhaJnYkc7cP1zI1d@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMVhCHmqEtQnud9OGaQgoBUquuyvWK/PL/7oEnE0+Gyem63L+S
- peSdXHsGljxiMjGJB8D8WMdRs1Jt6LTchTt66CWXZW+0qEO+SihGJzDw6jTcb/qp/XmKRJMVmK9
- wHUM7jhKqfyDulf7vPerlmQSRtQy8Jw==
-X-Gm-Gg: ASbGncvVUwWXuOywmGybXN2w4gZ8k07GbWev4JBgSBovKrc5P0hihcy7aL9b19srl22
- HywDdXkFBBQfvApiRIgMn4f+q3zAqQj0KTYTQHcTLVUeUauWGGTL7lC2bt2OFxmInvE1wfgE8
-X-Google-Smtp-Source: AGHT+IFC6teEJadKt/7mVTkHVTNcGzuBc7KoC4wNEFP8G2DN7ZgoMPG7VycpsxwtDvNXC/QtcekI1GsOZvBrYwp+4og=
-X-Received: by 2002:a17:903:2cd:b0:220:bf1c:35da with SMTP id
- d9443c01a7336-2210402b73amr111871965ad.7.1739995261993; Wed, 19 Feb 2025
- 12:01:01 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A091810E02D;
+ Wed, 19 Feb 2025 20:09:46 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51JGcR7i001826;
+ Wed, 19 Feb 2025 20:09:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ pG01oGH7fuiVs0VYeiiXtmylPqK5guGPOI0XpTEK1aQ=; b=ZPKBkBfAhyHSh50b
+ 7KRRSj4NAZJlGcFpJuCyUoyACejL2yGE/g3EIg6n7ucjZjwB5/zYXvRm6Q9xn68m
+ IwJDynqmQcq5oa8GZ4pC9RaUGmYMJNcA8oTw+Fdo+0V81W66BiJjertZimZiU2yQ
+ KwjISE4VxpvlD8YTVtofFJ1gZsz9gg9qUhSF0haaOL/jJEtcMNqQ8G9xS63YsgEe
+ dlSTpWWSFP93Ipx0N8k83OempJVFpPm8vOWN6Mneq+uREqlRETDlRviFq60dAUTa
+ t0qZ0JdraMazynmb1SC0Lb9sZm7jBWm/xJXxFHN5lO1673vOC+d/Jd67sH9COCOS
+ J/GmWA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy2buyx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2025 20:09:37 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51JK9afg001785
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2025 20:09:36 GMT
+Received: from [10.110.87.61] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Feb
+ 2025 12:09:36 -0800
+Message-ID: <0ad8db2c-b5aa-448b-bd4f-e4305bc64b86@quicinc.com>
+Date: Wed, 19 Feb 2025 12:09:28 -0800
 MIME-Version: 1.0
-References: <Z7YomFgEdOZzIyun@gallifrey>
- <CADnq5_NpxZLJxvP0dWwT_9MbyLUvuTSWHTt7j=cgqeQUsPiDwA@mail.gmail.com>
- <Z7Y4P4hEltSuHLEy@gallifrey>
-In-Reply-To: <Z7Y4P4hEltSuHLEy@gallifrey>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 19 Feb 2025 15:00:50 -0500
-X-Gm-Features: AWEUYZlnyw3zTugQskNb8nar3nio8bM4meGLeDgueaPCyRDubPuGWsybVtAA5js
-Message-ID: <CADnq5_NXQANfWsCky4kvBL2VBWXCRPJkEg27taeBDkZHkexR1A@mail.gmail.com>
-Subject: Re: missing wire up of nbif_v6_3_1_sriov_funcs ?
-To: "Dr. David Alan Gilbert" <dave@treblig.org>
-Cc: alexander.deucher@amd.com, Hawking.Zhang@amd.com, Likun.Gao@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/dsi: Add check for devm_kstrdup()
+To: Haoxiang Li <haoxiang_li2024@163.com>, <robdclark@gmail.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <jonathan@marek.ca>, <quic_jesszhan@quicinc.com>,
+ <konradybcio@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <stable@vger.kernel.org>
+References: <20250219040712.2598161-1-haoxiang_li2024@163.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250219040712.2598161-1-haoxiang_li2024@163.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: w6EFJGp3IeYKq0z9dpEfOIMw50JCv7dz
+X-Proofpoint-GUID: w6EFJGp3IeYKq0z9dpEfOIMw50JCv7dz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-19_09,2025-02-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 clxscore=1011 adultscore=0 phishscore=0 mlxlogscore=864
+ bulkscore=0 malwarescore=0 impostorscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502190155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,77 +94,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 3:00=E2=80=AFPM Dr. David Alan Gilbert <dave@trebli=
-g.org> wrote:
->
-> * Alex Deucher (alexdeucher@gmail.com) wrote:
-> > On Wed, Feb 19, 2025 at 2:04=E2=80=AFPM Dr. David Alan Gilbert
-> > <linux@treblig.org> wrote:
-> > >
-> > > Hi All,
-> > >   I think you may be misisng some wiring of nbif_v6_3_1_sriov_funcs.
-> > >
-> > >   My scripts noticed 'nbif_v6_3_1_sriov_funcs' was unused;
-> > > It was added in:
-> > >   Commit: 894c6d3522d1 ("drm/amdgpu: Add nbif v6_3_1 ip block support=
-")
-> > >
-> > >
-> > > and is:
-> > > drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c:
-> > >   const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs =3D {
-> > >
-> > > but, it's not referenced, which makes me think it perhaps
-> > > should be in:
-> > > drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-> > >
-> > > I see for 4.3.x there is:
-> > >   case IP_VERSION(4, 3, 0):
-> > >   case IP_VERSION(4, 3, 1):
-> > >     if (amdgpu_sriov_vf(adev))
-> > >       adev->nbio.funcs =3D &nbio_v4_3_sriov_funcs;
-> > >     else
-> > >       adev->nbio.funcs =3D &nbio_v4_3_funcs;
-> > >     adev->nbio.hdp_flush_reg =3D &nbio_v4_3_hdp_flush_reg;
-> > >     break;
-> > >
-> > > but for 6.3.1 we have:
-> > >
-> > >   case IP_VERSION(6, 3, 1):
-> > >     adev->nbio.funcs =3D &nbif_v6_3_1_funcs;
-> > >     adev->nbio.hdp_flush_reg =3D &nbif_v6_3_1_hdp_flush_reg;
-> > >     break;
-> > >
-> > >
-> > > so is that supposed to have something similar?
-> >
-> > They can be dropped.  I think they were just copy and paste leftovers.
->
-> Thanks for the reply.
->
-> OK, I'll send a patch then to remove nbif_v6_3_1_sriov_funcs.
 
-Thanks!
 
-Alex
+On 2/18/2025 8:07 PM, Haoxiang Li wrote:
+> Add check for the return value of devm_kstrdup() in
+> dsi_host_parse_dt() to catch potential exception.
+> 
+> Fixes: 958d8d99ccb3 ("drm/msm/dsi: parse vsync source from device tree")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
 
->
-> Dave
->
-> > Alex
-> >
-> > >
-> > > Dave
-> > >
-> > > --
-> > >  -----Open up your eyes, open up your mind, open up your code -------
-> > > / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  =
-\
-> > > \        dave @ treblig.org |                               | In Hex =
-/
-> > >  \ _________________________|_____ http://www.treblig.org   |_______/
-> --
->  -----Open up your eyes, open up your mind, open up your code -------
-> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \
-> \        dave @ treblig.org |                               | In Hex /
->  \ _________________________|_____ http://www.treblig.org   |_______/
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
