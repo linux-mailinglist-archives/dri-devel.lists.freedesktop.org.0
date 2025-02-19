@@ -2,104 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C68A3BDC7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 13:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A26A3BDCA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 13:08:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5422110E0C0;
-	Wed, 19 Feb 2025 12:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD1810E7BB;
+	Wed, 19 Feb 2025 12:08:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gtklZxRw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U3VwlWPY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B22210E0C0;
- Wed, 19 Feb 2025 12:07:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9A548A425ED;
- Wed, 19 Feb 2025 12:05:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96359C4CED1;
- Wed, 19 Feb 2025 12:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739966858;
- bh=zDqQxhgE6MUmynchhg9jklMd/gLcPLFkZLYHIMbYVLI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gtklZxRwHhLIXfjo0WMYEVFNcCeaugEJziysKCJq3BO/FTl2Z84/nFKuNgDxF1zD/
- Oax8ANHfa3MmkM+DJi0SGEEGd4Eh+lbOOfL45rGkyL5rVyQTsnXDv9JjMdU3lWAha+
- bLb2kf8fRPsVp/Nt2deJJivifEZ54PTVYyolnsWascsnnCllzrAGF9LNTKCZu86PBc
- dcZ4qynzmeHheiOEA2LMaRTqmk4ooR1+7qLuLkwCgHz9r1gmzy4dlFOya4pszBhbTf
- BdDGmhLOtKiqQ3Z4hFRSLtfeQWt8bQQm1O5DnO4euSIO4yir+10LFc2nO/OxPBMgEh
- /jTeChs4SVcnA==
-Message-ID: <ffa5b482-2404-4497-a041-38f970cc9086@kernel.org>
-Date: Wed, 19 Feb 2025 13:07:32 +0100
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C5010E7BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 12:08:27 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-5452ca02bdbso4886787e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 04:08:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739966905; x=1740571705; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kfNES95aCHrH5DW7HOssGE1cf0vTi0kl2N0MBpHNSOY=;
+ b=U3VwlWPYImv+4hYoo1wtUWftvbmblqzbw56FD0oww6sCECcUrAfiyXYtx/Nsz1LwpI
+ XOOokfvPozT7uF20SVFkAT19oKwfnP4p6MkhsJizD8+9EVZA7O+v9HTCASwe2rSmJQ+U
+ 8cQFDeQ+BCKZr0GvVPDkWB4tzi5+spG3nxHDjSjpliKIwQj3WsxdB/aoIRrtAkl9g+A7
+ gRxft9irMUH/4kCO842fQYDFqCFBMrYVKJwLx5IgarqhHV8nEQsdUQwgS/8Mw68rrDBf
+ ePysOYiCpMm2+BZYrfTPXlNREg+KnIBqKX+DExqWdzlJWd3GganyjCk1F57rQUHb6Jxl
+ x4zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739966905; x=1740571705;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kfNES95aCHrH5DW7HOssGE1cf0vTi0kl2N0MBpHNSOY=;
+ b=T8NY9F8OVhDFxL5Nnz3s2uPNLdzo7EcS9w6NEAHYlrQT5PFVCblTTlhPTLoM8Txw8b
+ 2du/WHWpnPP0uTQ/sA1Et5CtOtUI3B0s12EAOqt7+E86oAU42t6ULSjNEoOdtyXOIV0k
+ 0Qjm/DUAbi+ELGmP+n7wHqf0eb9o8L7C5C306RmuaSls+Ym3jNL+aKaVb6inX4vzf3SR
+ IFgzEusNm6sIU3eGr7JOb3cv/20RsSaQ4uASGik29HziXzbddBIeuVvPwlCCwl4Mtc/F
+ 0aYuxxFsnDbpvGbcb9Ry2hWWsdX3lQZOwwcFLDL9pZBhRAQUA+tM/17b7HlltUfryNnC
+ Zv2g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWsy8pN9H4B5D+tHt3we8KQxN4oxyyOvqVMS/Uvo7zyZc+7bl8SAGWfPaEg1BFcXyun1Tqgag5BzMk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0xxIv7OFnFKKKfnTOqr6m6cWQLc2POnzNp97W7j8mJmTDB6zL
+ cl7c9GqI+dJWE95BNOqF17C4jKBcZuL7ZetaOfOGACBJxXEBlta4gmuIFSxIOiA=
+X-Gm-Gg: ASbGncuQRyOfrbfXY384ePoQIAKJZqDATik9mcPDsN/C8PiT+3qQBtolrxRhSjTAF4n
+ 8SpYu5TuX5cQjrh0/kvdCLWq1e4SUO/PXE7KM8TzO10TUFdiNcUqujBw0BH4qjd0j4WQrtt/5PQ
+ CBehEWm2K69DNfLl7iGjp/WQjq8ZyFvff2/6GmQp3xzxHxi19e4Q8Vxnq0P/eM1XWKbw2Qd+Mln
+ 1aeClS/Dhajzmox/4M8dEMyxGV4YLE+16ticdlftouUfGwWs0ViHoPxJg5XXdgH5372gBgWUic2
+ ZNlMwmWEDn0LHLZfS1xM3xV9zY4fYX+xY6zrr4pvIhFNTHJlmx7pOvIK/I1fb8msuVcljyk=
+X-Google-Smtp-Source: AGHT+IFMLOpDHMHA4h3/Gxx2zV0fjSL0lgJbRphbGzyITSKOMSUgTcKxT5mQ7K/tT3lwL8tk5JoMMA==
+X-Received: by 2002:ac2:4e05:0:b0:545:62c:4b29 with SMTP id
+ 2adb3069b0e04-5452fe5bedcmr6706804e87.22.1739966905285; 
+ Wed, 19 Feb 2025 04:08:25 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5461cfdd5a2sm1148260e87.39.2025.02.19.04.08.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2025 04:08:24 -0800 (PST)
+Date: Wed, 19 Feb 2025 14:08:22 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Danilo Krummrich <dakr@kernel.org>, Conor Dooley <conor.dooley@microchip.com>, 
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+ Gregory CLEMENT <gregory.clement@bootlin.com>,
+ =?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Abel Vesa <abelvesa@kernel.org>,
+ Peng Fan <peng.fan@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, 
+ platform-driver-x86@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-clk@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v4 1/8] driver core: auxiliary bus: add device creation
+ helpers
+Message-ID: <eskvhtljnrkhm6vmqy52gkweexj3tcethejeywcoib4la72jcl@ojuqcazpvht4>
+References: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
+ <20250218-aux-device-create-helper-v4-1-c3d7dfdea2e6@baylibre.com>
+ <crtrciitrlqkxh5mxvnbdjy6zoxny5onse7xgbw7biozg6myux@grp3ketgl2uh>
+ <2025021922-spongy-swirl-0746@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Add MST support for qcs8300 platform
-To: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
- <87058b73-8854-4dbd-9f27-1da2a8240c16@kernel.org>
- <2ede97c5-a4f2-42fb-b3cd-68f26297150b@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <2ede97c5-a4f2-42fb-b3cd-68f26297150b@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025021922-spongy-swirl-0746@gregkh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,40 +124,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/02/2025 11:02, Yongxing Mou wrote:
+On Wed, Feb 19, 2025 at 11:13:14AM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Feb 19, 2025 at 11:06:02AM +0200, Dmitry Baryshkov wrote:
+> > On Tue, Feb 18, 2025 at 08:29:46PM +0100, Jerome Brunet wrote:
+> > > Add helper functions to create a device on the auxiliary bus.
+> > > 
+> > > This is meant for fairly simple usage of the auxiliary bus, to avoid having
+> > > the same code repeated in the different drivers.
+> > > 
+> > > Suggested-by: Stephen Boyd <sboyd@kernel.org>
+> > > Cc: Arnd Bergmann <arnd@arndb.de>
+> > > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> > > ---
+> > >  drivers/base/auxiliary.c      | 108 ++++++++++++++++++++++++++++++++++++++++++
+> > >  include/linux/auxiliary_bus.h |  17 +++++++
+> > >  2 files changed, 125 insertions(+)
+> > > 
+> > > diff --git a/drivers/base/auxiliary.c b/drivers/base/auxiliary.c
+> > > index afa4df4c5a3f371b91d8dd8c4325495d32ad1291..a6d46c2759be81a0739f07528d5959c2a76eb8a8 100644
+> > > --- a/drivers/base/auxiliary.c
+> > > +++ b/drivers/base/auxiliary.c
+> > > @@ -385,6 +385,114 @@ void auxiliary_driver_unregister(struct auxiliary_driver *auxdrv)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(auxiliary_driver_unregister);
+> > >  
+> > > +static void auxiliary_device_release(struct device *dev)
+> > > +{
+> > > +	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
+> > > +
+> > > +	kfree(auxdev);
+> > > +}
+> > > +
+> > > +/**
+> > > + * auxiliary_device_create - create a device on the auxiliary bus
+> > > + * @dev: parent device
+> > > + * @modname: module name used to create the auxiliary driver name.
+> > > + * @devname: auxiliary bus device name
+> > > + * @platform_data: auxiliary bus device platform data
+> > > + * @id: auxiliary bus device id
+> > > + *
+> > > + * Helper to create an auxiliary bus device.
+> > > + * The device created matches driver 'modname.devname' on the auxiliary bus.
+> > > + */
+> > > +struct auxiliary_device *auxiliary_device_create(struct device *dev,
+> > > +						 const char *modname,
+> > > +						 const char *devname,
+> > > +						 void *platform_data,
+> > > +						 int id)
+> > > +{
+> > > +	struct auxiliary_device *auxdev;
+> > > +	int ret;
+> > > +
+> > > +	auxdev = kzalloc(sizeof(*auxdev), GFP_KERNEL);
+> > > +	if (!auxdev)
+> > > +		return NULL;
+> > > +
+> > > +	auxdev->id = id;
+> > > +	auxdev->name = devname;
+> > > +	auxdev->dev.parent = dev;
+> > > +	auxdev->dev.platform_data = platform_data;
+> > > +	auxdev->dev.release = auxiliary_device_release;
+> > > +	device_set_of_node_from_dev(&auxdev->dev, dev);
+> > > +
+> > > +	ret = auxiliary_device_init(auxdev);
+> > > +	if (ret) {
+> > > +		kfree(auxdev);
+> > > +		return NULL;
+> > > +	}
+> > > +
+> > > +	ret = __auxiliary_device_add(auxdev, modname);
+> > > +	if (ret) {
+> > 
+> > This loses possible error return values from __auxiliary_device_add().
 > 
+> Why does that really matter?
+
+At the very least the caller (or caller of a caller) can call
+dev_err_probe() or dev_err("%pe"). With the current implementation as
+everybody maps NULL to -ENOMEM the error message will be cryptic.
+
+Or just having a cryptic value in the logs.
+
+> > I'd suggest to return ERR_PTR(ret) here and in the
+> > auxiliary_device_init() chunks and ERR_PTR(-ENOMEM) in case of kzalloc()
+> > failure.
 > 
-> On 2025/2/12 17:06, Krzysztof Kozlowski wrote:
->> On 12/02/2025 08:12, Yongxing Mou wrote:
->>> This series of patches introduces how to enable MST functionality on
->>> the qcs8300 platform. The qcs8300 platform uses dpu_8_4 hardware, which
->>> is the same as the sa8775p, but it only has one DPU. So it only has one
->>> DP0 controller, supporting 4-stream MST. This patch only enables
->>> 2-stream MST, using intf0 and intf3. The first and second patches are
->>> modifications to the correspond dt-bindings, third patch is the dp
->>> controller driver after not reuse sm8650, fourth patch is the qcs8300
->>> dts modification which add the clk support for stream 1.
->>>
->>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
->>> ---
->>> This patch depends on following series:
->>> https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com/
->>> https://lore.kernel.org/all/20250114-dts_qcs8300-v3-0-d114cc5e4af9@quicinc.com/
->>> https://lore.kernel.org/all/20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com
->>> https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/
->>
->> Buggy patch cannot be the dependency. You need to fix the original patch
->> instead. You are not supposed to wait till knowingly incorrect patches
->> get merged so you can send a fix. You must respond to that patch
->> stopping its merging process.
->>
->> Best regards,
->> Krzysztof
-> Thanks for the reminder. I hadn't noticed that before. We will wait for 
-> our dependencies to be ready before sending the new patchset.
+> Will the caller do something different based on the error value here?
+> All we care is that this worked or not, the specific error isn't going
+> to matter for device creation like this.
 
-So this means you intend the knowingly incorrect patch to be applied? If
-so, all this should be just NAKed.
+The caller might not, the developer might.
 
-Best regards,
-Krzysztof
+-- 
+With best wishes
+Dmitry
