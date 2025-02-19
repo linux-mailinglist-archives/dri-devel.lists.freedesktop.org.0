@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548B6A3C8F9
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 20:40:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5766AA3C8FD
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 20:40:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA6A710E35D;
-	Wed, 19 Feb 2025 19:40:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661CF10E87C;
+	Wed, 19 Feb 2025 19:40:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OIB+0NEm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e2o2Yljq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED2910E35D;
- Wed, 19 Feb 2025 19:40:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE3A310E877;
+ Wed, 19 Feb 2025 19:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739994019; x=1771530019;
+ t=1739994030; x=1771530030;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=FixTnbLB8ynF1WmXJrD4c2cnCEGf3KFr2M2MKl4fW3k=;
- b=OIB+0NEmwOBhIqsqlgbq6l8tL+YCeb3ny6p85eop5iPwBf5dw0iJK6fV
- /0nrCisA6W6CBQ7wQicyWzMDhvcO4AfzrRP6rtX/N51yAlpkUBJV1T8xg
- N9MKUsiGvKbsFo1q1zNuk8jLWfQWj4/tOf+1NtFf+ua9pyG0tVD607AZd
- PCCG/uQKtLqCSCzvkuTlAyqTrIeVEuOrySnxJwp0O9LsP/FMKVUUuTOKY
- hRlLLe5F3/thyMYah1Uv5XN/VkR5vUDpOL+cMWfM/e1xb5/IwG1Gm8Bqk
- DN7iK2J9it3WrjfUo0p4uyqxmzwmaiSX8CrswTwpg3Fuzaz8qltyLrz7a w==;
-X-CSE-ConnectionGUID: FeBW/M53TqWJ+DVSufBWvw==
-X-CSE-MsgGUID: bZ48tRteShST+iW84cUwgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44519783"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="44519783"
+ bh=sVzFNbaz7eQ7oOHVi1ZQMQwFe1TH8TLEFZfys0vY3mQ=;
+ b=e2o2YljqTEAcoEo+YoXdT98XFCyd/sYfb5kB1UtnwaAvVWgd78+pxB5/
+ a+XvV4iwVsp9O7JG0C+pCXgPrkVJoYMXvozsB6UQg5P9HL26Owt2SGz13
+ 8nT46wFoUQuhS0KocWibUjJG+X9AK70GcHCIMtM7Y6+wm7gQh8GxGoV7m
+ z+hz2CdeUlMy52NpUS1qmn5PaFUtajG129TB1jiMdn6CpCncGFhxM7oDP
+ cmntKUjxl/O/oTTqBCiYMPsVSlJETxxi+CIoUPojqTGdYq7i3/DKqEYg3
+ IlluSLZ3YofW4LJHOcWv0fP8L3bGLxYEsJwWKLHuW85Q8sdn5/sdPcqhv g==;
+X-CSE-ConnectionGUID: cmS/g/BpRuOxatQyo2MA2w==
+X-CSE-MsgGUID: 3IVW0IYfRweCmlzn70s/9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44519902"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="44519902"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 11:39:59 -0800
-X-CSE-ConnectionGUID: UDfYFy5ARdi9xZZMzkZgDQ==
-X-CSE-MsgGUID: XUTvgbEsTPutEzatsHTO1w==
+ 19 Feb 2025 11:40:08 -0800
+X-CSE-ConnectionGUID: 2faPgLclSo+7h1kAXw/exA==
+X-CSE-MsgGUID: 1/i6z9e7RsSjxw+fiieymA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="115011627"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="115011632"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 19 Feb 2025 10:53:54 -0800
+ by fmviesa008.fm.intel.com with SMTP; 19 Feb 2025 10:54:38 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 19 Feb 2025 20:53:41 +0200
-Date: Wed, 19 Feb 2025 20:53:41 +0200
+ Wed, 19 Feb 2025 20:54:26 +0200
+Date: Wed, 19 Feb 2025 20:54:26 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Arun R Murthy <arun.r.murthy@intel.com>
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, chaitanya.kumar.borah@intel.com,
  Naveen Kumar <naveen1.kumar@intel.com>
-Subject: Re: [PATCH v6 2/3] drm/plane: modify create_in_formats to
- accommodate async
-Message-ID: <Z7YotTllfzjddNcL@intel.com>
+Subject: Re: [PATCH v6 1/3] drm/plane: Add new plane property IN_FORMATS_ASYNC
+Message-ID: <Z7Yo4jYqmEtTEgsK@intel.com>
 References: <20250219-asyn-v6-0-b959e6becb3c@intel.com>
- <20250219-asyn-v6-2-b959e6becb3c@intel.com>
+ <20250219-asyn-v6-1-b959e6becb3c@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250219-asyn-v6-2-b959e6becb3c@intel.com>
+In-Reply-To: <20250219-asyn-v6-1-b959e6becb3c@intel.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,130 +73,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 02:47:24PM +0530, Arun R Murthy wrote:
-> create_in_formats creates the list of supported format/modifiers for
-> synchronous flips, modify the same function so as to take the
-> format_mod_supported as argument and create list of format/modifier for
-> async as well.
+On Wed, Feb 19, 2025 at 02:47:23PM +0530, Arun R Murthy wrote:
+> There exists a property IN_FORMATS which exposes the plane supported
+> modifiers/formats to the user. In some platforms when asynchronous flip
+> are used all of modifiers/formats mentioned in IN_FORMATS are not
+> supported. This patch adds a new plane property IN_FORMATS_ASYNC to
+> expose the async flip supported modifiers/formats so that user can use
+> this information ahead and do flip with unsupported
+> formats/modifiers. This will save flip failures.
+> Add a new function pointer similar to format_mod_supported specifically
+> for asynchronous flip.
 > 
-> v5: create_in_formats can return -ve value in failure case, correct the
-> if condition to check the creation of blob <Chaitanya>
-> Dont add the modifier for which none of the formats is not supported.
-> v6: Remove the code for masking the unsupported modifiers as UMD can
-> leave with it. (Naveen/Chaitanya)
+> v2: Remove async variable from drm_plane (Ville)
+> v3: Add new function pointer for async (Ville)
+> v5: Typo corrected in commit message & some correction in the kernel
+> documentation. (Chaitanya)
 > 
 > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 > Tested-by: Naveen Kumar <naveen1.kumar@intel.com>
 > ---
->  drivers/gpu/drm/drm_plane.c | 45 +++++++++++++++++++++++++++++++++------------
->  1 file changed, 33 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/drm_mode_config.c |  7 +++++++
+>  drivers/gpu/drm/drm_plane.c       |  8 ++++++++
+>  include/drm/drm_mode_config.h     |  6 ++++++
+>  include/drm/drm_plane.h           | 17 +++++++++++++++++
+>  4 files changed, 38 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index fe181c1002171acc68d3054c2d178f9b9f501fe2..fc26ef8a6cab346c9491495b57f88f1eb205d22c 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -193,9 +193,12 @@ modifiers_ptr(struct drm_format_modifier_blob *blob)
->  	return (struct drm_format_modifier *)(((char *)blob) + blob->modifiers_offset);
->  }
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index 8642a2fb25a90116dab975aa0ab6b51deafb4b96..dbbef20753f834a85ae9ded748cff2b3f0e85043 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -388,6 +388,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
+>  		return -ENOMEM;
+>  	dev->mode_config.size_hints_property = prop;
 >  
-> -static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane)
-> +static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane,
-> +				 bool (*format_mod_supported)
-> +						(struct drm_plane *plane,
-> +						 uint32_t format,
-> +						 uint64_t modifier))
->  {
-> -	const struct drm_mode_config *config = &dev->mode_config;
->  	struct drm_property_blob *blob;
->  	struct drm_format_modifier *mod;
->  	size_t blob_size, formats_size, modifiers_size;
-> @@ -237,13 +240,17 @@ static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane
->  	mod = modifiers_ptr(blob_data);
->  	for (i = 0; i < plane->modifier_count; i++) {
->  		for (j = 0; j < plane->format_count; j++) {
-> -			if (!plane->funcs->format_mod_supported ||
-> -			    plane->funcs->format_mod_supported(plane,
-> -							       plane->format_types[j],
-> -							       plane->modifiers[i])) {
-> +			if (!format_mod_supported || format_mod_supported
-> +							(plane,
-> +							 plane->format_types[j],
-> +							 plane->modifiers[i])) {
+> +	prop = drm_property_create(dev,
+> +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
+> +				   "IN_FORMATS_ASYNC", 0);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	dev->mode_config.async_modifiers_property = prop;
 
-Weird line breaks.
+Please put it next to the other blob.
 
->  				mod->formats |= 1ULL << j;
->  			}
->  		}
-> +		if (!mod->formats) {
-> +			blob_data->count_modifiers--;
-> +			continue;
-> +		}
-
-I hope no userspace rejects the blob if there
-is extra data at the end...
-
-Since this can actually change the behaviour 
-I think this one needs to be a separate patch
-in case we need a revert later.
-
->  
->  		mod->modifier = plane->modifiers[i];
->  		mod->offset = 0;
-> @@ -251,10 +258,7 @@ static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane
->  		mod++;
->  	}
->  
-> -	drm_object_attach_property(&plane->base, config->modifiers_property,
-> -				   blob->base.id);
-> -
-> -	return 0;
-> +	return blob->base.id;
-
-The return type is wrong for this.
-
-I think it'd probably be better to return
-struct drm_property_blob* instead so we can
-return errors properly as well.
-
->  }
->  
->  /**
-> @@ -371,6 +375,7 @@ static int __drm_universal_plane_init(struct drm_device *dev,
->  	};
->  	unsigned int format_modifier_count = 0;
->  	int ret;
-> +	int blob_id;
->  
->  	/* plane index is used with 32bit bitmasks */
->  	if (WARN_ON(config->num_total_plane >= 32))
-> @@ -477,8 +482,24 @@ static int __drm_universal_plane_init(struct drm_device *dev,
->  		drm_plane_create_hotspot_properties(plane);
->  	}
->  
-> -	if (format_modifier_count)
-> -		create_in_format_blob(dev, plane);
-> +	if (format_modifier_count) {
-> +		blob_id = create_in_format_blob(dev, plane,
-> +						plane->funcs->format_mod_supported);
-> +		if (blob_id > 0)
-> +			drm_object_attach_property(&plane->base,
-> +						   config->modifiers_property,
-> +						   blob_id);
-> +	}
 > +
-> +	if (plane->funcs->format_mod_supported_async) {
-> +		blob_id = create_in_format_blob(dev, plane,
-> +						plane->funcs->format_mod_supported_async);
-> +		if (blob_id > 0)
-> +			drm_object_attach_property(&plane->base,
-> +						   config->async_modifiers_property,
-> +						   blob_id);
-> +	}
-> +
->  
 >  	return 0;
 >  }
+>  
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index a28b22fdd7a41aca82d097d42237851da9a0a79b..fe181c1002171acc68d3054c2d178f9b9f501fe2 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -141,6 +141,14 @@
+>   *     various bugs in this area with inconsistencies between the capability
+>   *     flag and per-plane properties.
+>   *
+> + * IN_FORMATS_ASYNC:
+> + *     Blob property which contains the set of buffer format and modifier
+> + *     pairs supported by this plane for asynchronous flips. The blob is a struct
+> + *     drm_format_modifier_blob. Userspace cannot change this property. This is an
+> + *     optional property and if not present then user should expect a failure in
+> + *     atomic ioctl when the modifier/format is not supported by that plane under
+> + *     asynchronous flip.
+> + *
+>   * SIZE_HINTS:
+>   *     Blob property which contains the set of recommended plane size
+>   *     which can used for simple "cursor like" use cases (eg. no scaling).
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 271765e2e9f2da62aaf0d258828ef4196e14822e..0c116d6dfd277262b1a4c0f097fce2d719f43844 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -936,6 +936,12 @@ struct drm_mode_config {
+>  	 */
+>  	struct drm_property *modifiers_property;
+>  
+> +	/**
+> +	 * @async_modifiers_property: Plane property to list support modifier/format
+> +	 * combination for asynchronous flips.
+> +	 */
+> +	struct drm_property *async_modifiers_property;
+> +
+>  	/**
+>  	 * @size_hints_property: Plane SIZE_HINTS property.
+>  	 */
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index dd718c62ac31bf16606f3ee9f025a5b171cd1e67..4393a0e9edf91ccfd78ef62b168b9313187c1a81 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -549,6 +549,23 @@ struct drm_plane_funcs {
+>  	 */
+>  	bool (*format_mod_supported)(struct drm_plane *plane, uint32_t format,
+>  				     uint64_t modifier);
+> +	/**
+> +	 * @format_mod_supported_async:
+> +	 *
+> +	 * This optional hook is used for the DRM to determine if for
+> +	 * asynchronous flip the given format/modifier combination is valid for
+> +	 * the plane. This allows the DRM to generate the correct format
+> +	 * bitmask (which formats apply to which modifier), and to validate
+> +	 * modifiers at atomic_check time.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * True if the given modifier is valid for that format on the plane.
+> +	 * False otherwise.
+> +	 */
+> +	bool (*format_mod_supported_async)(struct drm_plane *plane,
+> +					   uint32_t format, uint64_t modifier);
+> +
+>  };
+>  
+>  /**
 > 
 > -- 
 > 2.25.1
