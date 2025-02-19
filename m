@@ -2,90 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1514BA3BB2E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 11:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAB0A3BB43
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 11:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0846288FAE;
-	Wed, 19 Feb 2025 10:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18BAD10E7AE;
+	Wed, 19 Feb 2025 10:13:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="g5I03+4s";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LHj7SUL6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA9288FAE;
- Wed, 19 Feb 2025 10:07:18 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51J8GABm025577;
- Wed, 19 Feb 2025 10:07:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- migp/H6waSbZvABgFADiLiD2FdkHWrDuu/2RIFvQi+Y=; b=g5I03+4szlQ8eIIf
- 0QXTwWOptjxco4sQWeneoDbsut/miXiKnjUv7tw9mw2PNgYkDADW9/U7sHItNh22
- 5VoLmgq5b1Tf4CshsEHjhshgp3lu9N5F8+Tms9gEpfn7yYINMIa3KT2t7zqx6ODJ
- 5spOktBRYAuGcu17I6FyCs72EEm21+Sc5N6hm2xUsWZilHwvuS/lrGzStW5QqZWp
- LoOoL9wxukF9bL6SZzgoYd+khGWehG2z1YgzLFRkBJ7kt58sRhwJW5LHe/WObjm3
- RdEI1h425Ge+Io1xnZ5wJH0Sf7fpROOwhXK/hMIq3/9MpgwaRVrlSIOGd2eOKTSt
- bygn6A==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy0j23k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2025 10:07:13 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51JA7Cuj000858
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2025 10:07:12 GMT
-Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Feb
- 2025 02:07:07 -0800
-Message-ID: <3fff9266-fd9a-4c12-acfa-2ef953dabcdc@quicinc.com>
-Date: Wed, 19 Feb 2025 18:07:04 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Add MST support for qcs8300 platform
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB9510E7B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 10:13:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9B9E25C4D90;
+ Wed, 19 Feb 2025 10:12:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F40B3C4CED1;
+ Wed, 19 Feb 2025 10:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1739959997;
+ bh=fMTgCZ4pkvP3/QIoF7iwpCmqEdcG6A1koNbMDvsj2dk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LHj7SUL6hr9dnxeuMouAoZl+TqgPJkJnt6OxeGZBVnwjG1an8QfGZTZhAz67SUNMi
+ V5LaRH/n8f0+cZvr3kZbgPWLsV3MQceZE5n+wYuzRWmC4ZHELcec25299VKUrxRVkD
+ lwg+grq7xKKnKHBmMBQEKZrZR5rJUGwcEwJFWwx8=
+Date: Wed, 19 Feb 2025 11:13:14 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
- <iwr7hcavp43u2yoif5fefd7y3q3rlfx73gxdyfotfuz5s2jalo@kzyt4kotpawh>
-Content-Language: en-US
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-In-Reply-To: <iwr7hcavp43u2yoif5fefd7y3q3rlfx73gxdyfotfuz5s2jalo@kzyt4kotpawh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: jxb780ZwJBVKNt9_WrwY58n12zUZx4_X
-X-Proofpoint-ORIG-GUID: jxb780ZwJBVKNt9_WrwY58n12zUZx4_X
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-19_04,2025-02-18_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=838 spamscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 mlxscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502190079
+Cc: Jerome Brunet <jbrunet@baylibre.com>,
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+ Gregory CLEMENT <gregory.clement@bootlin.com>,
+ =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-clk@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v4 1/8] driver core: auxiliary bus: add device creation
+ helpers
+Message-ID: <2025021922-spongy-swirl-0746@gregkh>
+References: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
+ <20250218-aux-device-create-helper-v4-1-c3d7dfdea2e6@baylibre.com>
+ <crtrciitrlqkxh5mxvnbdjy6zoxny5onse7xgbw7biozg6myux@grp3ketgl2uh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <crtrciitrlqkxh5mxvnbdjy6zoxny5onse7xgbw7biozg6myux@grp3ketgl2uh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,66 +89,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Feb 19, 2025 at 11:06:02AM +0200, Dmitry Baryshkov wrote:
+> On Tue, Feb 18, 2025 at 08:29:46PM +0100, Jerome Brunet wrote:
+> > Add helper functions to create a device on the auxiliary bus.
+> > 
+> > This is meant for fairly simple usage of the auxiliary bus, to avoid having
+> > the same code repeated in the different drivers.
+> > 
+> > Suggested-by: Stephen Boyd <sboyd@kernel.org>
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> > ---
+> >  drivers/base/auxiliary.c      | 108 ++++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/auxiliary_bus.h |  17 +++++++
+> >  2 files changed, 125 insertions(+)
+> > 
+> > diff --git a/drivers/base/auxiliary.c b/drivers/base/auxiliary.c
+> > index afa4df4c5a3f371b91d8dd8c4325495d32ad1291..a6d46c2759be81a0739f07528d5959c2a76eb8a8 100644
+> > --- a/drivers/base/auxiliary.c
+> > +++ b/drivers/base/auxiliary.c
+> > @@ -385,6 +385,114 @@ void auxiliary_driver_unregister(struct auxiliary_driver *auxdrv)
+> >  }
+> >  EXPORT_SYMBOL_GPL(auxiliary_driver_unregister);
+> >  
+> > +static void auxiliary_device_release(struct device *dev)
+> > +{
+> > +	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
+> > +
+> > +	kfree(auxdev);
+> > +}
+> > +
+> > +/**
+> > + * auxiliary_device_create - create a device on the auxiliary bus
+> > + * @dev: parent device
+> > + * @modname: module name used to create the auxiliary driver name.
+> > + * @devname: auxiliary bus device name
+> > + * @platform_data: auxiliary bus device platform data
+> > + * @id: auxiliary bus device id
+> > + *
+> > + * Helper to create an auxiliary bus device.
+> > + * The device created matches driver 'modname.devname' on the auxiliary bus.
+> > + */
+> > +struct auxiliary_device *auxiliary_device_create(struct device *dev,
+> > +						 const char *modname,
+> > +						 const char *devname,
+> > +						 void *platform_data,
+> > +						 int id)
+> > +{
+> > +	struct auxiliary_device *auxdev;
+> > +	int ret;
+> > +
+> > +	auxdev = kzalloc(sizeof(*auxdev), GFP_KERNEL);
+> > +	if (!auxdev)
+> > +		return NULL;
+> > +
+> > +	auxdev->id = id;
+> > +	auxdev->name = devname;
+> > +	auxdev->dev.parent = dev;
+> > +	auxdev->dev.platform_data = platform_data;
+> > +	auxdev->dev.release = auxiliary_device_release;
+> > +	device_set_of_node_from_dev(&auxdev->dev, dev);
+> > +
+> > +	ret = auxiliary_device_init(auxdev);
+> > +	if (ret) {
+> > +		kfree(auxdev);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	ret = __auxiliary_device_add(auxdev, modname);
+> > +	if (ret) {
+> 
+> This loses possible error return values from __auxiliary_device_add().
 
+Why does that really matter?
 
-On 2025/2/12 18:51, Dmitry Baryshkov wrote:
-> On Wed, Feb 12, 2025 at 03:12:23PM +0800, Yongxing Mou wrote:
->> This series of patches introduces how to enable MST functionality on
->> the qcs8300 platform.
-> 
->> The qcs8300 platform uses dpu_8_4 hardware, which
->> is the same as the sa8775p, but it only has one DPU. So it only has one
->> DP0 controller, supporting 4-stream MST.
-> 
-> This is irrelevant, unless you want to point out something else.
-Got it.
-> 
->> This patch only enables
->> 2-stream MST, using intf0 and intf3. The first and second patches are
->> modifications to the correspond dt-bindings, third patch is the dp
->> controller driver after not reuse sm8650, fourth patch is the qcs8300
->> dts modification which add the clk support for stream 1.
-> 
-> This is obvious. Really. Instead you must explain why QCS8300 isn't
-> compatible with SM8650. How many streams are supported by the SM8650?
-> 
-Got it, will update in new patchset.
->>
->> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
->> ---
->> This patch depends on following series:
->> https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com/
->> https://lore.kernel.org/all/20250114-dts_qcs8300-v3-0-d114cc5e4af9@quicinc.com/
->> https://lore.kernel.org/all/20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com
->> https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/
->>
-> 
-> Please don't patches against series which were requested to be changed
-> singificantly. Don't spam mailing lists just to be able to 'FROMLIST'
-> them. Instead work with Abhinav to get this patchset integrated into his
-> next iteration of the series.
-> 
-Emmm, got it, thanks for reminder. Will work with Abhinav to modify the 
-MST patchset comments first. And then repost qcs8300 enablement changes.
->> ---
->> Yongxing Mou (4):
->>        dt-bindings: display/msm: Redocument the dp-controller for QCS8300
->>        dt-bindings: display/msm: Add stream 1 pixel clock for QCS8300
->>        drm/msm/dp: Populate the max_streams for qcs8300 mst controller
->>        arm64: dts: qcom: qcs8300: Add support for stream 1 clk for DP MST
->>
->>   .../devicetree/bindings/display/msm/dp-controller.yaml     |  5 +----
->>   .../devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml | 14 ++++++++------
->>   arch/arm64/boot/dts/qcom/qcs8300.dtsi                      | 12 ++++++++----
->>   drivers/gpu/drm/msm/dp/dp_display.c                        |  8 ++++++++
->>   4 files changed, 25 insertions(+), 14 deletions(-)
->> ---
->> base-commit: 7ba9bcc5090556c007d9a718d7176e097fe54f19
->> change-id: 20250211-mst_qcs8300-4c18a5179165
->>
->> Best regards,
->> -- 
->> Yongxing Mou <quic_yongmou@quicinc.com>
->>
-> 
+> I'd suggest to return ERR_PTR(ret) here and in the
+> auxiliary_device_init() chunks and ERR_PTR(-ENOMEM) in case of kzalloc()
+> failure.
 
+Will the caller do something different based on the error value here?
+All we care is that this worked or not, the specific error isn't going
+to matter for device creation like this.
+
+thanks,
+
+greg k-h
