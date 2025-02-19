@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58EBA3C57E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594EFA3C583
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:56:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 412E910E498;
-	Wed, 19 Feb 2025 16:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8FB10E85F;
+	Wed, 19 Feb 2025 16:55:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BewL8Aj9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IM2qe4F6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4098010E050;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9DA210E498;
  Wed, 19 Feb 2025 16:55:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739984153; x=1771520153;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=9yxgusXRCdpQO/9//7pxpxTt4iTieeykrScMRHQvOc0=;
- b=BewL8Aj9Vg3w03tWr6UJ+uLN4EisA7+eGUZuykwwJjm8jLRwySB3k5/2
- Qsdk//O3KoIDuC+2TfL0M69sWV9AdMINVThOnYQo2oLOWoqX4aQiriDRC
- VIqFLeixmTMhiCOgwCbkHBHVwXqV8FChArdbde0exS2VReopAYCKTEjhJ
- xQ3z7utbIHZ77lX26+og3U5RchrBFu1alke4BRBmqV/onup/1UL2HhEF5
- /U5ociVKP+9LDEEqK+ybtFQYOGY9VbBo9MTuUlco4vBo6jhR8MgD56rmV
- DOscNbZ4KLXyltClqKHslHWsAwzDFSVqm29DtK0h3tYR2uYpT1i1MlqQX Q==;
-X-CSE-ConnectionGUID: jFUlnU4KSnGm1dZZVlkg0Q==
-X-CSE-MsgGUID: IRFinFpfSWanTK6qwXd14A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="40991877"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="40991877"
+ t=1739984154; x=1771520154;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=kdx43vBPxQuJgAnPefatV3H8gKQrTpuV5MOzEF/ZEe8=;
+ b=IM2qe4F6cTId7FFsWy22wy7BC3WLFlLkZQgN8bGaX/jGdpWd7bOkUm38
+ DobAcDkR5ri0dWGhh3KNWWH7JDNLX72jEnT+zTS+rQ3Gx7OjMD3Qstmez
+ knEEeSHlCgHvBmWHu8EbR7k1FnqtMmihMh+q51vys1jncB29VJF1fCfFo
+ idVIACs/kVUaT9q7P8SJrv7E39KYxBx+Uwfa8hLiY1VDR1+92tH4FYuQk
+ qZf/n/6dpn017rJEM5edQjL5G7hM9HDgmsrO+mJrhChpp9jOGGRkBz8tf
+ 9UUj7vGwU0VnjNK8LnRWfWoAJYKe/mvd1KtAAidO/eRPUOKd/Rw0b4yhB g==;
+X-CSE-ConnectionGUID: FaQaB1y3SkqWFZ/xk3YTCQ==
+X-CSE-MsgGUID: 03xBdo9vRYW1W5GYAU7Jmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="40991874"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="40991874"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Feb 2025 08:55:45 -0800
-X-CSE-ConnectionGUID: dAhqnFcOQBaLJIPE5yzgKA==
-X-CSE-MsgGUID: PX5E8m/WRCmw7q5HEbDQkw==
+X-CSE-ConnectionGUID: W0grXNWvTUyH31DILSRBog==
+X-CSE-MsgGUID: sR7AFvAPSWuBZ6grEIQ1nQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="114966318"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="114966319"
 Received: from dut4410lnl.fm.intel.com ([10.105.8.78])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Feb 2025 08:23:40 -0800
@@ -47,10 +47,12 @@ Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  joonas.lahtinen@linux.intel.com, tvrtko.ursulin@ursulin.net,
  lucas.demarchi@intel.com, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch
-Subject: [PATCH v3 0/6] drm/xe/xe_drm_client: Add per drm client reset stats
-Date: Wed, 19 Feb 2025 16:23:34 +0000
-Message-ID: <20250219162340.116499-1-jonathan.cavitt@intel.com>
+Subject: [PATCH v3 1/6] drm/xe/xe_exec_queue: Add ID param to exec queue struct
+Date: Wed, 19 Feb 2025 16:23:35 +0000
+Message-ID: <20250219162340.116499-2-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250219162340.116499-1-jonathan.cavitt@intel.com>
+References: <20250219162340.116499-1-jonathan.cavitt@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,59 +70,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add additional information to drm client so it can report the last 50
-relevant exec queues to have been banned on it, as well as the last
-pagefault seen when said exec queues were banned. Since we cannot
-reasonably associate a pagefault to a specific exec queue, we currently
-report the last seen pagefault on the associated hw engine instead.
-
-The last pagefault seen per exec queue is saved to the hw engine, and the
-pagefault is updated during the pagefault handling process in
-xe_gt_pagefault. The last seen pagefault is reset when the engine is
-reset because any future exec queue bans likely were not caused by said
-pagefault after the reset.
-
-Also add a tracker that counts the number of times the drm client has
-experienced an engine reset.
-
-Finally, add a new query to xe_query that reports these drm client reset
-stats back to the user.
-
-v2: Report the per drm client reset stats as a query, rather than
-    coopting xe_drm_client_fdinfo (Joonas)
-
-v3: Report EOPNOTSUPP during the reset stats query if CONFIG_PROC_FS
-    is not set in the kernel config, as it is required to trace the
-    reset count and exec queue bans.
+Add the exec queue id to the exec queue struct.  This is useful for
+performing a reverse lookup into the xef->exec_queue xarray.
 
 Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-CC: Tvrtko Ursulin <tvrtko.ursulin@ursulin.net>
-CC: Lucas de Marchi <lucas.demarchi@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
-CC: Simona Vetter <simona.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/xe/xe_exec_queue.c       | 1 +
+ drivers/gpu/drm/xe/xe_exec_queue_types.h | 2 ++
+ 2 files changed, 3 insertions(+)
 
-Jonathan Cavitt (6):
-  drm/xe/xe_exec_queue: Add ID param to exec queue struct
-  drm/xe/xe_gt_pagefault: Migrate pagefault struct to header
-  drm/xe/xe_drm_client: Add per drm client pagefault info
-  drm/xe/xe_drm_client: Add per drm client reset stats
-  drm/xe/xe_query: Pass drm file to query funcs
-  drm/xe/xe_query: Add support for per-drm-client reset stat querying
-
- drivers/gpu/drm/xe/xe_drm_client.c       |  66 ++++++++++++++
- drivers/gpu/drm/xe/xe_drm_client.h       |  44 +++++++++
- drivers/gpu/drm/xe/xe_exec_queue.c       |   8 ++
- drivers/gpu/drm/xe/xe_exec_queue_types.h |   2 +
- drivers/gpu/drm/xe/xe_gt_pagefault.c     |  46 ++++------
- drivers/gpu/drm/xe/xe_gt_pagefault.h     |  28 ++++++
- drivers/gpu/drm/xe/xe_guc_submit.c       |  19 ++++
- drivers/gpu/drm/xe/xe_hw_engine.c        |   4 +
- drivers/gpu/drm/xe/xe_hw_engine_types.h  |   8 ++
- drivers/gpu/drm/xe/xe_query.c            | 109 ++++++++++++++++++++---
- include/uapi/drm/xe_drm.h                |  50 +++++++++++
- 11 files changed, 345 insertions(+), 39 deletions(-)
-
+diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+index 23a9f519ce1c..4a98a5d0e405 100644
+--- a/drivers/gpu/drm/xe/xe_exec_queue.c
++++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+@@ -709,6 +709,7 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 	if (err)
+ 		goto kill_exec_queue;
+ 
++	q->id = id;
+ 	args->exec_queue_id = id;
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/xe/xe_exec_queue_types.h b/drivers/gpu/drm/xe/xe_exec_queue_types.h
+index 6eb7ff091534..088d838218e9 100644
+--- a/drivers/gpu/drm/xe/xe_exec_queue_types.h
++++ b/drivers/gpu/drm/xe/xe_exec_queue_types.h
+@@ -55,6 +55,8 @@ struct xe_exec_queue {
+ 	struct xe_vm *vm;
+ 	/** @class: class of this exec queue */
+ 	enum xe_engine_class class;
++	/** @id: exec queue ID as reported during create ioctl */
++	u32 id;
+ 	/**
+ 	 * @logical_mask: logical mask of where job submitted to exec queue can run
+ 	 */
 -- 
 2.43.0
 
