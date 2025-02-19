@@ -2,97 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563C9A3B306
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 09:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2155AA3B33A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 09:09:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB7A410E477;
-	Wed, 19 Feb 2025 08:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF6810E24E;
+	Wed, 19 Feb 2025 08:08:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hoYfRI86";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="36VhpKuX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="olS2jPCY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0EFsskqI";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fEytPdbB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TDRvwp9j";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fEytPdbB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TDRvwp9j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A2510E477
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 08:02:19 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D08C10E24E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 08:08:55 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3DD6E20114;
- Wed, 19 Feb 2025 08:02:17 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 42B4622320;
+ Wed, 19 Feb 2025 08:08:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739952138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1739952534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sozIbeB09zXFHrwy7GrS/V1BsYGWUEYwSeF7GCgqvSA=;
- b=hoYfRI86vMcgvV9JK2BFgk1zdhiJ76W4ujRnCG/LnohxU+Yeu2QH9fnagya4mLZKeH7eRR
- pJ+JBwo/NKjKiGOHNzjc/rhBXZsUPy+6r3U7md4xQkgKzWCgXlgBEwyiDPBuGDOZGii9eB
- WeIfeTGL/i8n6ag7Ow4IbY4Xv4Zo6HI=
+ bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
+ b=fEytPdbB7vEzobk73HzZO2QIAsu7xb9wuNWkksdZCOJs6EQWp17ICaXZxgxlHL1do3lcE6
+ ZTFpQzugbMFLPe/eKGVHbjoy60lQGBxhGmU22I1HkY4dXrwNTAmjM0RhwAvE0PPrVOAYmd
+ onM4b3Upsb8874P2K2/vnjsRzJyqcGU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739952138;
+ s=susede2_ed25519; t=1739952534;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sozIbeB09zXFHrwy7GrS/V1BsYGWUEYwSeF7GCgqvSA=;
- b=36VhpKuXwzhTkuaNK3+s86Pw6J4g18bwrWSMt77L9AaV2crohaOAA20MogqsDWdhebeMzi
- 97bgllomBLvBGJAQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=olS2jPCY;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0EFsskqI
+ bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
+ b=TDRvwp9jlCeS6uN5CbUeQlbXNO4Rbjt8LGgeabXDBgRB11pUqvwi0GuKFf1YvvOqk2favY
+ g5eex6t86X8xLrBw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fEytPdbB;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TDRvwp9j
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739952137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1739952534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sozIbeB09zXFHrwy7GrS/V1BsYGWUEYwSeF7GCgqvSA=;
- b=olS2jPCYVV2BGgrOo5IfcpULUNkgNS1YcnQsTQ7/Mgxex6HGaWF7LFvIlUMwl09JTu2n7U
- xF9jRhtLugcsPK/4CDWTiCzdP20pUtb4rEArilH4kr8kzML6/HzYvsMX67Yc7djeoJD6bg
- omtr11BTvaSF9YenTAjRHOjRX9vz+2c=
+ bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
+ b=fEytPdbB7vEzobk73HzZO2QIAsu7xb9wuNWkksdZCOJs6EQWp17ICaXZxgxlHL1do3lcE6
+ ZTFpQzugbMFLPe/eKGVHbjoy60lQGBxhGmU22I1HkY4dXrwNTAmjM0RhwAvE0PPrVOAYmd
+ onM4b3Upsb8874P2K2/vnjsRzJyqcGU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739952137;
+ s=susede2_ed25519; t=1739952534;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sozIbeB09zXFHrwy7GrS/V1BsYGWUEYwSeF7GCgqvSA=;
- b=0EFsskqIBvchCiDK13CVIW2w1pyoUsq5kU3WOg+tZaDYRnID6Wql+RJS4ZngUNghBixg/Q
- LUK6sr1fzGAa16AA==
+ bh=DXWxnFMHJa9a8U+SQEz26XZ3j5LfQZZJq9rvFv/nYcw=;
+ b=TDRvwp9jlCeS6uN5CbUeQlbXNO4Rbjt8LGgeabXDBgRB11pUqvwi0GuKFf1YvvOqk2favY
+ g5eex6t86X8xLrBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 015FB13806;
- Wed, 19 Feb 2025 08:02:16 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD52513806;
+ Wed, 19 Feb 2025 08:08:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id UByVOgiQtWdYFQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 19 Feb 2025 08:02:16 +0000
-Message-ID: <e76a94cc-3102-4327-9868-b5af5706cecd@suse.de>
-Date: Wed, 19 Feb 2025 09:02:16 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id uHZlLJWRtWcmFwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 19 Feb 2025 08:08:53 +0000
+Message-ID: <c011ec88-3b68-486b-9fda-ef18a0906c8e@suse.de>
+Date: Wed, 19 Feb 2025 09:08:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tiny: add driver for Apple Touch Bars in x86 Macs
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, Kerem Karabay <kekrby@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <4BAFD886-84E0-4C4C-94B3-90BF911ED0E7@live.com>
- <F16BB9EB-632C-4BC4-A8BA-492BF32E43C1@live.com>
- <d9304ed0-911b-4877-a15c-981b3335bbf9@suse.de>
- <BC25CBDD-D101-49DA-B10B-F47F1CAE2A6F@live.com>
- <81826e1b-1ec8-4665-9682-2a57c95f06d3@suse.de>
+Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
+ and size
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
+ linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org
+References: <20250218142542.438557-1-tzimmermann@suse.de>
+ <20250218142542.438557-3-tzimmermann@suse.de>
+ <CAMuHMdV939ibJTRSaO-oW2Jz4zbkXGRpUYrmA7e=yQfF7W-k_g@mail.gmail.com>
 Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
  XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
@@ -117,33 +118,32 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <81826e1b-1ec8-4665-9682-2a57c95f06d3@suse.de>
+In-Reply-To: <CAMuHMdV939ibJTRSaO-oW2Jz4zbkXGRpUYrmA7e=yQfF7W-k_g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 3DD6E20114
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 42B4622320
 X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
  MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FREEMAIL_TO(0.00)[live.com];
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; TO_DN_EQ_ADDR_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
- RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
- MID_RHS_MATCH_FROM(0.00)[];
  RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[9]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,bootlin.com:url]
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[19];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+ RCVD_COUNT_TWO(0.00)[2]; DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+X-Spam-Score: -3.01
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -162,156 +162,138 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 19.02.25 um 08:57 schrieb Thomas Zimmermann:
-> Hi
+Am 18.02.25 um 20:32 schrieb Geert Uytterhoeven:
+[...]
+>> +                                args->bpp);
+>> +                       fallthrough;
+>> +               case 12:
+>> +               case 15:
+>> +               case 30: /* see drm_gem_afbc_get_bpp() */
+>> +               case 10:
+> Perhaps keep them sorted numerically?
+
+The first block comes from the afbc helper; the second block from Mesa; 
+hence the odd order. I'll reorder and comment each case individually.
+
 >
-> Am 18.02.25 um 21:12 schrieb Aditya Garg:
->> Hi
->>
->> In continuation to my previous mail.
->>
->>>> +
->>>> +static int appletbdrm_send_msg(struct appletbdrm_device *adev, u32 
->>>> msg)
->>>> +{
->>>> + struct appletbdrm_msg_simple_request *request;
->>>> + int ret;
->>>> +
->>>> + request = kzalloc(sizeof(*request), GFP_KERNEL);
->>>> + if (!request)
->>>> + return -ENOMEM;
->>>> +
->>>> + request->header.unk_00 = cpu_to_le16(2);
->>>> + request->header.unk_02 = cpu_to_le16(0x1512);
->>>> + request->header.size = cpu_to_le32(sizeof(*request) - 
->>>> sizeof(request->header));
->>>> + request->msg = msg;
->>>> + request->size = request->header.size;
->>>> +
->>>> + ret = appletbdrm_send_request(adev, &request->header, 
->>>> sizeof(*request));
->>>> +
->>>> + kfree(request);
->>> This is temporary data for the send operation and save to free here?
->> Probably yes. If I understand correctly, it’s needed to make the 
->> touchbar go into the display mode, from the hid keyboard mode.
->>
->> We here are doing the same as the Windows driver [1] for this does.
->>
->> [1] 
->> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/include/Dfr.h#L3
->
-> Yeah. My concern was that request is being freed while the USB send 
-> operation is still using it. But in the USB code, it doesn't look like 
-> that.
->
-> [...]
->>> Can we void the use of drm_fb_blit()? Since you know all formats in 
->>> advance, just do
->>>
->>> switch (format)
->>> case XRGB8888: drm_fb_xrgb888_to_bgr888() break default:
->>>     drm_fb_memcpy() break }We use blit in simpledrm and ofdrm, where 
->>> we don't know the formats and output buffers in advance. But it's 
->>> really not so great in other drivers, I think.
->> I think you mean this:
->>
->> #include <drm/drm_framebuffer.h>
->>
->>         switch (fb->format->format) {
->>         case DRM_FORMAT_XRGB8888:
->>             drm_fb_xrgb8888_to_bgr888(&dst, NULL, 
->> &shadow_plane_state->data[0], fb, &damage, 
->> &shadow_plane_state->fmtcnv_state);
->>             break;
->>         default:
->>             drm_fb_memcpy(&dst, NULL, &shadow_plane_state->data[0], 
->> fb, &damage);
->>             break;
->>         }
->
-> Yes.
->
-> [...]
->>> For USB devices, we need special wiring to make PRIME work. The 
->>> PRIME device must support DMA, but a USB device doesn't. So we pass 
->>> the USB controller device instead. See [2] for what udl does and how 
->>> it obtains dmadev.
->>>
->>> [2] 
->>> https://elixir.bootlin.com/linux/v6.14-rc3/source/drivers/gpu/drm/udl/udl_drv.c#L76
->> Disregard my previous reply for this. I believe you meant by this?:
->>
->> —>8—
->>  From b6fda730995b7f28374c1ff38778a6f3e6da65da Mon Sep 17 00:00:00 2001
->> From: Aditya Garg <gargaditya08@live.com>
->> Date: Tue, 18 Feb 2025 22:47:44 +0530
->> Subject: [PATCH] prime
->>
->> ---
->> drivers/gpu/drm/tiny/appletbdrm.c | 13 +++++++++++++
->> 1 file changed, 13 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tiny/appletbdrm.c 
->> b/drivers/gpu/drm/tiny/appletbdrm.c
->> index f2d911325..b835063c2 100644
->> --- a/drivers/gpu/drm/tiny/appletbdrm.c
->> +++ b/drivers/gpu/drm/tiny/appletbdrm.c
->> @@ -118,6 +118,7 @@ struct appletbdrm_fb_request_response {
->>
->> struct appletbdrm_device {
->>     struct device *dev;
->> +    struct device *dmadev;
->>
->>     unsigned int in_ep;
->>     unsigned int out_ep;
->> @@ -521,10 +522,22 @@ static const struct drm_encoder_funcs 
->> appletbdrm_encoder_funcs = {
->>     .destroy = drm_encoder_cleanup,
->> };
->>
->> +static struct drm_gem_object 
->> *appletbdrm_driver_gem_prime_import(struct drm_device *dev,
->> +                                 struct dma_buf *dma_buf)
->> +{
->> +    struct appletbdrm_device *adev = drm_to_adev(dev);
+>> +               case 64: /* used by Mesa */
+>> +                       pitch = args->width * DIV_ROUND_UP(args->bpp, SZ_8);
+>> +                       break;
+>> +               }
+>> +       }
 >> +
->> +    if (!adev->dmadev)
->> +        return ERR_PTR(-ENODEV);
+>> +       if (!pitch || pitch > U32_MAX)
+>> +               return -EINVAL;
 >> +
->> +    return drm_gem_prime_import_dev(dev, dma_buf, adev->dmadev);
+>> +       args->pitch = pitch;
+>> +
+>> +       return drm_mode_align_dumb(args, pitch_align, size_align);
 >> +}
+>> +EXPORT_SYMBOL(drm_mode_size_dumb);
 >> +
->> DEFINE_DRM_GEM_FOPS(appletbdrm_drm_fops);
->>
->> static const struct drm_driver appletbdrm_drm_driver = {
->>     DRM_GEM_SHMEM_DRIVER_OPS,
->> +    .gem_prime_import    = appletbdrm_driver_gem_prime_import,
->
-> Exactly. The TODO item for this problem is at [1], but there's quite a 
-> bit of change involved to fix it. Setting a dedicated DMA device is 
-> the next best thing.
->
-> [1] 
-> https://elixir.bootlin.com/linux/v6.13.3/source/Documentation/gpu/todo.rst#L615
+>>   int drm_mode_create_dumb(struct drm_device *dev,
+>>                           struct drm_mode_create_dumb *args,
+>>                           struct drm_file *file_priv)
+>> diff --git a/include/drm/drm_dumb_buffers.h b/include/drm/drm_dumb_buffers.h
+>> new file mode 100644
+>> index 000000000000..6fe36004b19d
+>> --- /dev/null
+>> +++ b/include/drm/drm_dumb_buffers.h
+>> @@ -0,0 +1,14 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +
+>> +#ifndef __DRM_DUMB_BUFFERS_H__
+>> +#define __DRM_DUMB_BUFFERS_H__
+>> +
+>> +struct drm_device;
+>> +struct drm_mode_create_dumb;
+>> +
+>> +int drm_mode_size_dumb(struct drm_device *dev,
+>> +                      struct drm_mode_create_dumb *args,
+>> +                      unsigned long pitch_align,
+>> +                      unsigned long size_align);
+>> +
+>> +#endif
+>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>> index c082810c08a8..eea09103b1a6 100644
+>> --- a/include/uapi/drm/drm_mode.h
+>> +++ b/include/uapi/drm/drm_mode.h
+>> @@ -1058,7 +1058,7 @@ struct drm_mode_crtc_page_flip_target {
+>>    * struct drm_mode_create_dumb - Create a KMS dumb buffer for scanout.
+>>    * @height: buffer height in pixels
+>>    * @width: buffer width in pixels
+>> - * @bpp: bits per pixel
+>> + * @bpp: color mode
+>>    * @flags: must be zero
+>>    * @handle: buffer object handle
+>>    * @pitch: number of bytes between two consecutive lines
+>> @@ -1066,6 +1066,50 @@ struct drm_mode_crtc_page_flip_target {
+>>    *
+>>    * User-space fills @height, @width, @bpp and @flags. If the IOCTL succeeds,
+>>    * the kernel fills @handle, @pitch and @size.
+>> + *
+>> + * The value of @bpp is a color-mode number describing a specific format
+>> + * or a variant thereof. The value often corresponds to the number of bits
+>> + * per pixel for most modes, although there are exceptions. Each color mode
+>> + * maps to a DRM format plus a number of modes with similar pixel layout.
+>> + * Framebuffer layout is always linear.
+>> + *
+>> + * Support for all modes and formats is optional. Even if dumb-buffer
+>> + * creation with a certain color mode succeeds, it is not guaranteed that
+>> + * the DRM driver supports any of the related formats. Most drivers support
+>> + * a color mode of 32 with a format of DRM_FORMAT_XRGB8888 on their primary
+>> + * plane.
+>> + *
+>> + * +------------+------------------------+------------------------+
+>> + * | Color mode | Framebuffer format     | Compatibles            |
+>> + * +============+========================+========================+
+>> + * |     32     |  * DRM_FORMAT_XRGB8888 |  * DRM_FORMAT_XBGR8888 |
+>> + * |            |                        |  * DRM_FORMAT_RGBX8888 |
+>> + * |            |                        |  * DRM_FORMAT_BGRX8888 |
+>> + * +------------+------------------------+------------------------+
+>> + * |     24     |  * DRM_FORMAT_RGB888   |  * DRM_FORMAT_BGR888   |
+>> + * +------------+------------------------+------------------------+
+>> + * |     16     |  * DRM_FORMAT_RGB565   |  * DRM_FORMAT_BGR565   |
+>> + * +------------+------------------------+------------------------+
+>> + * |     15     |  * DRM_FORMAT_XRGB1555 |  * DRM_FORMAT_XBGR1555 |
+>> + * |            |                        |  * DRM_FORMAT_RGBX1555 |
+>> + * |            |                        |  * DRM_FORMAT_BGRX1555 |
+>> + * +------------+------------------------+------------------------+
+>> + * |      8     |  * DRM_FORMAT_C8       |  * DRM_FORMAT_R8       |
+> + DRM_FORMAT_D8? (and 4/2/1 below)
 
-To add to this: you also have to set dmadev. See [2] for the respective 
-code in udl. And please git-grep udl for dmadev and look for the places 
-were it handles device ref-counting.
+Right, missed that.
 
-[2] 
-https://elixir.bootlin.com/linux/v6.13.2/source/drivers/gpu/drm/udl/udl_main.c#L314
+>
+> And DRM_FORMAT_Y8, if/when Tomi's series introducing that is accepted...
+
+Sure, if it is compatible, it can also go into the third column.
 
 Best regards
 Thomas
 
 >
-> Best regards
-> Thomas
+>> + * +------------+------------------------+------------------------+
+>> + * |      4     |  * DRM_FORMAT_C4       |  * DRM_FORMAT_R4       |
+>> + * +------------+------------------------+------------------------+
+>> + * |      2     |  * DRM_FORMAT_C2       |  * DRM_FORMAT_R2       |
+>> + * +------------+------------------------+------------------------+
+>> + * |      1     |  * DRM_FORMAT_C1       |  * DRM_FORMAT_R1       |
+>> + * +------------+------------------------+------------------------+
+>> + *
+>> + * Color modes of 10, 12, 15, 30 and 64 are only supported for use by
+>> + * legacy user space. Please don't use them in new code. Other modes
+>> + * are not support.
+>> + *
+>> + * Do not attempt to allocate anything but linear framebuffer memory
+>> + * with single-plane RGB data. Allocation of other framebuffer
+>> + * layouts requires dedicated ioctls in the respective DRM driver.
+>>    */
+>>   struct drm_mode_create_dumb {
+>>          __u32 height;
+> Gr{oetje,eeting}s,
 >
->>     .name            = "appletbdrm",
->>     .desc            = "Apple Touch Bar DRM Driver",
->>     .major            = 1,
+>                          Geert
 >
 
 -- 
