@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E20BA3C9B7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBB5A3C9B9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 21:29:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6721210E897;
-	Wed, 19 Feb 2025 20:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08F7D10E8A0;
+	Wed, 19 Feb 2025 20:28:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m4d/gNsv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FeIEUIWv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB4310E892;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C866010E894;
  Wed, 19 Feb 2025 20:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1739996929; x=1771532929;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=60nckjAvEwo8lnuh60Lk9jDkK46KiEserXo4D8hJMuY=;
- b=m4d/gNsvs3EGlkScDS+m5xCLifzDwsPqcdeDnS8Fhg7CA+R/1BOhenhh
- g4muFgdzzi5Z3Tb3epOGBPWwYV+tOE9h1NfrCQA4WJfSHMfx+kta3KpYz
- t4henG0vmUPJr1CaVFA8CwFOyiB9IVe0yUhztbhtEARwFZ7wq9QjUac8X
- xAgLt1b2hOcS5lrvl5NnBYU/W948ZHM0Nftlb+ytMQMMqJiTpfItLq2Gt
- 1YsB2v3HcW9QdgTANmdsLQfohQ1wc2g++7HGqBsiX2Cl4S265t6dRCxqZ
- R3i1ra0LecOaUbdCMLQUgxMGXP+M979Dz93QtBhdCdKk1HrKbTVvDtmrq A==;
-X-CSE-ConnectionGUID: ocE6LBlWSUGTqikj+m9+Ww==
-X-CSE-MsgGUID: FrKv8G4JQVqK7UgSTkvxKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="41012248"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="41012248"
+ bh=WRoA2Otu8KXZFy/YShs2Evzm1qWRGAVUan1amEpzAB8=;
+ b=FeIEUIWvSM+WBFqvw/zIzltGIBkPu0uHSFqLxSyF/KZDhzS55TjJAO8Z
+ nqvDGtT+GqmLZDEQ+BLKwGNdHTymFuaExpt9jJHd5EcyvH5A8AwN1qW83
+ T1i9hZNIIp7gkc7wtNUFNZgbCxIifaxeb7G4k0HiniJBi4t0jTl6xONbB
+ AMX3RxaZj49M0MYnccwEU9tf530T/66fJaYtpdQ3RIOu68Ceqql8E1BcO
+ gZi/PaG13E9gXHjxrfvXker7y6lmFbaJ0UBLdC8+LDTaSLhXA/bsRUFPb
+ rs+jPsVVlEtrzeLBEI/c+oHb4ykMw9XLH0R0gZ1iDjvbNLKOYcKc7Keir g==;
+X-CSE-ConnectionGUID: sM6sy976RUuayWjJxmAnkg==
+X-CSE-MsgGUID: 6UScIwDWRva2QvcCHoMGwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="41012251"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; d="scan'208";a="41012251"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Feb 2025 12:28:49 -0800
-X-CSE-ConnectionGUID: gpExPD5YQ8e5kFuaNUdNmA==
-X-CSE-MsgGUID: tVsHc2YRQKWm5fjzIv6a3w==
+X-CSE-ConnectionGUID: McMD7KADSxyUouaXsFl1vA==
+X-CSE-MsgGUID: vCp4XjHyQxyEy3ETs/wXPA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="119765734"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="119765739"
 Received: from dut4410lnl.fm.intel.com ([10.105.8.78])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2025 12:28:48 -0800
+ 19 Feb 2025 12:28:49 -0800
 From: Jonathan Cavitt <jonathan.cavitt@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  joonas.lahtinen@linux.intel.com, tvrtko.ursulin@igalia.com,
  lucas.demarchi@intel.com, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch
-Subject: [PATCH v4 5/6] drm/xe/xe_query: Pass drm file to query funcs
-Date: Wed, 19 Feb 2025 20:28:45 +0000
-Message-ID: <20250219202847.127425-6-jonathan.cavitt@intel.com>
+Subject: [PATCH v4 6/6] drm/xe/xe_query: Add support for per-drm-client reset
+ stat querying
+Date: Wed, 19 Feb 2025 20:28:46 +0000
+Message-ID: <20250219202847.127425-7-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250219202847.127425-1-jonathan.cavitt@intel.com>
 References: <20250219202847.127425-1-jonathan.cavitt@intel.com>
@@ -70,139 +71,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pass the drm file to the query funcs in xe_query.c.  This will be
-necessary for a future query.
+Add support for userspace to query per drm client reset stats via the
+query ioctl.  This includes the number of engine resets the drm client
+has observed, as well as a list of up to the last 50 relevant exec
+queue bans and their associated causal pagefaults (if they exists).
+
+v2: Report EOPNOTSUPP if CONFIG_PROC_FS is not set in the kernel
+    config, as it is required to trace the reset count and exec
+    queue bans.
 
 Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 ---
- drivers/gpu/drm/xe/xe_query.c | 39 ++++++++++++++++++++++++-----------
- 1 file changed, 27 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/xe/xe_query.c | 70 +++++++++++++++++++++++++++++++++++
+ include/uapi/drm/xe_drm.h     | 50 +++++++++++++++++++++++++
+ 2 files changed, 120 insertions(+)
 
 diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
-index 042f87a688e7..3aad4737bfec 100644
+index 3aad4737bfec..671bc4270b93 100644
 --- a/drivers/gpu/drm/xe/xe_query.c
 +++ b/drivers/gpu/drm/xe/xe_query.c
-@@ -110,7 +110,8 @@ hwe_read_timestamp(struct xe_hw_engine *hwe, u64 *engine_ts, u64 *cpu_ts,
- 
- static int
- query_engine_cycles(struct xe_device *xe,
--		    struct drm_xe_device_query *query)
-+		    struct drm_xe_device_query *query,
-+		    struct drm_file *file)
- {
- 	struct drm_xe_query_engine_cycles __user *query_ptr;
- 	struct drm_xe_engine_class_instance *eci;
-@@ -179,7 +180,8 @@ query_engine_cycles(struct xe_device *xe,
- }
- 
- static int query_engines(struct xe_device *xe,
--			 struct drm_xe_device_query *query)
-+			 struct drm_xe_device_query *query,
-+			 struct drm_file *file)
- {
- 	size_t size = calc_hw_engine_info_size(xe);
- 	struct drm_xe_query_engines __user *query_ptr =
-@@ -240,7 +242,8 @@ static size_t calc_mem_regions_size(struct xe_device *xe)
- }
- 
- static int query_mem_regions(struct xe_device *xe,
--			    struct drm_xe_device_query *query)
-+			     struct drm_xe_device_query *query,
-+			     struct drm_file *file)
- {
- 	size_t size = calc_mem_regions_size(xe);
- 	struct drm_xe_query_mem_regions *mem_regions;
-@@ -310,7 +313,9 @@ static int query_mem_regions(struct xe_device *xe,
- 	return ret;
- }
- 
--static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
-+static int query_config(struct xe_device *xe,
-+			struct drm_xe_device_query *query,
-+			struct drm_file *file)
- {
- 	const u32 num_params = DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY + 1;
- 	size_t size =
-@@ -351,7 +356,9 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
+@@ -16,10 +16,12 @@
+ #include "regs/xe_gt_regs.h"
+ #include "xe_bo.h"
+ #include "xe_device.h"
++#include "xe_drm_client.h"
+ #include "xe_exec_queue.h"
+ #include "xe_force_wake.h"
+ #include "xe_ggtt.h"
+ #include "xe_gt.h"
++#include "xe_gt_pagefault.h"
+ #include "xe_guc_hwconfig.h"
+ #include "xe_macros.h"
+ #include "xe_mmio.h"
+@@ -740,6 +742,73 @@ static int query_pxp_status(struct xe_device *xe,
  	return 0;
  }
  
--static int query_gt_list(struct xe_device *xe, struct drm_xe_device_query *query)
-+static int query_gt_list(struct xe_device *xe,
-+			 struct drm_xe_device_query *query,
-+			 struct drm_file *file)
- {
- 	struct xe_gt *gt;
- 	size_t size = sizeof(struct drm_xe_query_gt_list) +
-@@ -422,7 +429,8 @@ static int query_gt_list(struct xe_device *xe, struct drm_xe_device_query *query
- }
- 
- static int query_hwconfig(struct xe_device *xe,
--			  struct drm_xe_device_query *query)
-+			  struct drm_xe_device_query *query,
-+			  struct drm_file *file)
- {
- 	struct xe_gt *gt = xe_root_mmio_gt(xe);
- 	size_t size = xe_guc_hwconfig_size(&gt->uc.guc);
-@@ -490,7 +498,8 @@ static int copy_mask(void __user **ptr,
- }
- 
- static int query_gt_topology(struct xe_device *xe,
--			     struct drm_xe_device_query *query)
++static size_t calc_reset_stats_size(struct xe_drm_client *client)
++{
++	size_t size = sizeof(struct drm_xe_query_reset_stats);
++#ifdef CONFIG_PROC_FS
++	spin_lock(&client->blame_lock);
++	size += sizeof(struct drm_xe_exec_queue_ban) * client->blame_len;
++	spin_lock(&client->blame_lock);
++#endif
++	return size;
++}
++
++static int query_reset_stats(struct xe_device *xe,
 +			     struct drm_xe_device_query *query,
 +			     struct drm_file *file)
- {
- 	void __user *query_ptr = u64_to_user_ptr(query->data);
- 	size_t size = calc_topo_query_size(xe);
-@@ -549,7 +558,9 @@ static int query_gt_topology(struct xe_device *xe,
- }
- 
- static int
--query_uc_fw_version(struct xe_device *xe, struct drm_xe_device_query *query)
-+query_uc_fw_version(struct xe_device *xe,
-+		    struct drm_xe_device_query *query,
-+		    struct drm_file *file)
- {
- 	struct drm_xe_query_uc_fw_version __user *query_ptr = u64_to_user_ptr(query->data);
- 	size_t size = sizeof(struct drm_xe_query_uc_fw_version);
-@@ -639,7 +650,8 @@ static size_t calc_oa_unit_query_size(struct xe_device *xe)
- }
- 
- static int query_oa_units(struct xe_device *xe,
--			  struct drm_xe_device_query *query)
-+			  struct drm_xe_device_query *query,
-+			  struct drm_file *file)
- {
- 	void __user *query_ptr = u64_to_user_ptr(query->data);
- 	size_t size = calc_oa_unit_query_size(xe);
-@@ -699,7 +711,9 @@ static int query_oa_units(struct xe_device *xe,
- 	return ret ? -EFAULT : 0;
- }
- 
--static int query_pxp_status(struct xe_device *xe, struct drm_xe_device_query *query)
-+static int query_pxp_status(struct xe_device *xe,
-+			    struct drm_xe_device_query *query,
-+			    struct drm_file *file)
- {
- 	struct drm_xe_query_pxp_status __user *query_ptr = u64_to_user_ptr(query->data);
- 	size_t size = sizeof(struct drm_xe_query_pxp_status);
-@@ -727,7 +741,8 @@ static int query_pxp_status(struct xe_device *xe, struct drm_xe_device_query *qu
- }
- 
++{
++	void __user *query_ptr = u64_to_user_ptr(query->data);
++	struct drm_xe_query_reset_stats resp;
++	struct xe_file *xef = to_xe_file(file);
++	struct xe_drm_client *client = xef->client;
++	struct blame *b;
++	size_t size = calc_reset_stats_size(client);
++	int i = 0;
++
++#ifdef CONFIG_PROC_FS
++	if (query->size == 0) {
++		query->size = size;
++		return 0;
++	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
++		return -EINVAL;
++	}
++
++	if (copy_from_user(&resp, query_ptr, size))
++		return -EFAULT;
++
++	resp.reset_count = atomic_read(&client->reset_count);
++
++	spin_lock(&client->blame_lock);
++	resp.ban_count = client->blame_len;
++	list_for_each_entry(b, &client->blame_list, list) {
++		struct drm_xe_exec_queue_ban *ban = &resp.ban_list[i++];
++		struct pagefault *pf = b->pf;
++
++		ban->exec_queue_id = b->exec_queue_id;
++		ban->pf_found = pf ? 1 : 0;
++		if (!pf)
++			continue;
++
++		ban->access_type = pf->access_type;
++		ban->fault_type = pf->fault_type;
++		ban->vfid = pf->vfid;
++		ban->asid = pf->asid;
++		ban->pdata = pf->pdata;
++		ban->engine_class = xe_to_user_engine_class[pf->engine_class];
++		ban->engine_instance = pf->engine_instance;
++		ban->fault_addr = pf->page_addr;
++	}
++	spin_unlock(&client->blame_lock);
++
++	if (copy_to_user(query_ptr, &resp, size))
++		return -EFAULT;
++
++	return 0;
++#else
++	return -EOPNOTSUPP;
++#endif
++}
++
  static int (* const xe_query_funcs[])(struct xe_device *xe,
--				      struct drm_xe_device_query *query) = {
-+				      struct drm_xe_device_query *query,
-+				      struct drm_file *file) = {
- 	query_engines,
- 	query_mem_regions,
- 	query_config,
-@@ -757,5 +772,5 @@ int xe_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	if (XE_IOCTL_DBG(xe, !xe_query_funcs[idx]))
- 		return -EINVAL;
+ 				      struct drm_xe_device_query *query,
+ 				      struct drm_file *file) = {
+@@ -753,6 +822,7 @@ static int (* const xe_query_funcs[])(struct xe_device *xe,
+ 	query_uc_fw_version,
+ 	query_oa_units,
+ 	query_pxp_status,
++	query_reset_stats,
+ };
  
--	return xe_query_funcs[idx](xe, query);
-+	return xe_query_funcs[idx](xe, query, file);
- }
+ int xe_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index 892f54d3aa09..ffeb2a79e084 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -682,6 +682,7 @@ struct drm_xe_query_pxp_status {
+  *  - %DRM_XE_DEVICE_QUERY_GT_TOPOLOGY
+  *  - %DRM_XE_DEVICE_QUERY_ENGINE_CYCLES
+  *  - %DRM_XE_DEVICE_QUERY_PXP_STATUS
++ *  - %DRM_XE_DEVICE_QUERY_RESET_STATS
+  *
+  * If size is set to 0, the driver fills it with the required size for
+  * the requested type of data to query. If size is equal to the required
+@@ -735,6 +736,7 @@ struct drm_xe_device_query {
+ #define DRM_XE_DEVICE_QUERY_UC_FW_VERSION	7
+ #define DRM_XE_DEVICE_QUERY_OA_UNITS		8
+ #define DRM_XE_DEVICE_QUERY_PXP_STATUS		9
++#define DRM_XE_DEVICE_QUERY_RESET_STATS		10
+ 	/** @query: The type of data to query */
+ 	__u32 query;
+ 
+@@ -1845,6 +1847,54 @@ enum drm_xe_pxp_session_type {
+ 	DRM_XE_PXP_TYPE_HWDRM = 1,
+ };
+ 
++/**
++ * struct drm_xe_exec_queue_ban - Per drm client exec queue ban info returned
++ * from @DRM_XE_DEVICE_QUERY_RESET_STATS query.  Includes the exec queue ID and
++ * all associated pagefault information, if relevant.
++ */
++struct drm_xe_exec_queue_ban {
++	/** @exec_queue_id: ID of banned exec queue */
++	__u32 exec_queue_id;
++	/**
++	 * @pf_found: whether or not the ban is associated with a pagefault.
++	 * If not, all pagefault data will default to 0 and will not be relevant.
++	 */
++	__u8 pf_found;
++	/** @access_type: access type of associated pagefault */
++	__u8 access_type;
++	/** @fault_type: fault type of associated pagefault */
++	__u8 fault_type;
++	/** @vfid: VFID of associated pagefault */
++	__u8 vfid;
++	/** @asid: ASID of associated pagefault */
++	__u32 asid;
++	/** @pdata: PDATA of associated pagefault */
++	__u16 pdata;
++	/** @engine_class: engine class of associated pagefault */
++	__u8 engine_class;
++	/** @engine_instance: engine instance of associated pagefault */
++	__u8 engine_instance;
++	/** @fault_addr: faulted address of associated pagefault */
++	__u64 fault_addr;
++};
++
++/**
++ * struct drm_xe_query_reset_stats - Per drm client reset stats query.
++ */
++struct drm_xe_query_reset_stats {
++	/** @extensions: Pointer to the first extension struct, if any */
++	__u64 extensions;
++	/** @reset_count: Number of times the drm client has observed an engine reset */
++	__u64 reset_count;
++	/** @ban_count: number of exec queue bans saved by the drm client */
++	__u64 ban_count;
++	/**
++	 * @ban_list: flexible array of struct drm_xe_exec_queue_ban, reporting all
++	 * observed exec queue bans on the drm client.
++	 */
++	struct drm_xe_exec_queue_ban ban_list[];
++};
++
+ /* ID of the protected content session managed by Xe when PXP is active */
+ #define DRM_XE_PXP_HWDRM_DEFAULT_SESSION 0xf
+ 
 -- 
 2.43.0
 
