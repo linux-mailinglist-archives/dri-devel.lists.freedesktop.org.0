@@ -2,84 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41206A3C465
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC67CA3C490
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 17:12:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A34310E49B;
-	Wed, 19 Feb 2025 16:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FEE110E497;
+	Wed, 19 Feb 2025 16:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gSabo/Yg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="czoqeHeA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84CE410E86D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 16:05:01 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-5ded1395213so11445268a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 08:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739981100; x=1740585900; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ljkXhqkhG6hd6NRSsz5fArUZWBwAzxurIP4uHPf/TMY=;
- b=gSabo/Yg0eitCDTvpm3OLsQ4RU+hFWa2Lk27/VMsLvwmeYGtrcExjRYjzElv+7IVJp
- s4SOKd+DkB1Z1vv3hDb4VvQ1zwYgSyUtMqC3suuGWleST0Q34pHUfsMyYY6JpVBZrkH6
- ONImCPRPBOUguijHRrDhxGtQnp4caUQNyaZvq8j74HR3fR/Yyhhv8g+l9zR1kUPQWmJV
- oQD7+aRQlugGe9dae/GwM3SKTXKdH+bzLRYamPcWeCfLjF1dz51AyXJJhM9CyzNxbdP2
- dZ+XOwcjIgvASlD87vMD0hTe3sWV9kEyF3VCVqEmhFwKmVq1Szx5lW9g0rorbbjHUUOw
- KBwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739981100; x=1740585900;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ljkXhqkhG6hd6NRSsz5fArUZWBwAzxurIP4uHPf/TMY=;
- b=PNo0/h9ZUlkhKaKY2pKNT716iFjt1oXNkd+7OPwvomV4jl+TYiauPFI5OJ4poqALky
- TX3Iz365dJK+6CRnXLzBsa7+5xtu5uJbODLUi0G99CzcJUK7jqulDhwoNPW59YmdZA7r
- trtyLwpmaBEz4Z8UDGeP0HesBcK/g6LXgIPEor6y1xE4MslskJWj4rgdRImNERVlW9qc
- lIm7rYHW3MWuNS4dro+asAdYbTaN8w8gGwvkFyvswegi+wDirBrOME8HzkKCIS4CYJ6/
- 6KXGZG29zvCLgP94GNhXSw3xEhVHOlXGOTAPsGc73W+HAiSZsL9D0UHfRQXvQekAN5q7
- oUiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeyD4U4KPiBLAOGU5pWXWskB+JBc6Q3qfTI+W+kamwH0dyCAd8lB39LXYMXtKLqn/2tiwL6Qk6ihQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxLOzeev2ym4/Ie4YQOScvEE4otgE+zoewHngKWHvqQOdJ0VsiG
- 9zbatsKbwSmq+yNUdjuaszLb6eFAhXth72WC+W4glduYNCttj5V7ZeMQFz3h6ZQ=
-X-Gm-Gg: ASbGncujP8zkzPzH59J7kE/bNbXEwgDj3mOB40UOrfWqhY7JbIiS/4EDwtgROu6LPZc
- urdn+Y/cEYZwdfmv4AyHHSv6lOFrROE6MwmUZup5SAefdaHFDDwuUOs0uziR+IcsnieSOCsejsD
- 2cQ/QjiPnkEmDlzvKK1Fa6Vp0nBQx3A7C1XdVfCcyChspPYHpMr9aajOiSNSFnLYDvqypwx60sW
- XeUvT5Fg/+5M8mDXieQZlx8VdcVT7D2+GrXpEDfW2jP3lSPjC11Sk2TLvjViQRYl44yVOQZ8f2E
- bm6bFKs6uCBh0C7eoEBR
-X-Google-Smtp-Source: AGHT+IGIOphoxeNaBbPBBYiv7n3xtBHBqQ7mynIC16IzmDF75ejyL2+ZcOWGMA4f93tnbTIyUvSjSw==
-X-Received: by 2002:a05:6402:234f:b0:5dc:72e1:63ee with SMTP id
- 4fb4d7f45d1cf-5e03605b765mr20641327a12.6.1739981099630; 
- Wed, 19 Feb 2025 08:04:59 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 4fb4d7f45d1cf-5dece287d3fsm10511628a12.72.2025.02.19.08.04.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2025 08:04:59 -0800 (PST)
-Date: Wed, 19 Feb 2025 19:04:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jim Qu <Jim.Qu@amd.com>, Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Takashi Iwai <tiwai@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Su Hui <suhui@nfschina.com>
-Subject: Re: [PATCH] vgaswitcheroo: Fix error checking in
- vga_switcheroo_register_audio_client()
-Message-ID: <f608a3b5-320a-4194-bd03-cf08be04c317@stanley.mountain>
-References: <ae24cd32-1e78-4656-b983-051ed22d86b9@stanley.mountain>
- <87zfiim09n.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D056610E497
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 16:12:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AFA7D5C5ADA;
+ Wed, 19 Feb 2025 16:11:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA83C4CED1;
+ Wed, 19 Feb 2025 16:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739981547;
+ bh=nh8cFNIeObOKXMAGYxjgXKUcHk+AS/4DcT+B0swB+os=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=czoqeHeAxnbycojOPrrWy3+oXBvIIi9Orz3CkAygwfY56mCSLoV+oHx8Cmv2+0Kl7
+ 684DoqQAjdXF2FVMnxqHmISs8xfcs+lk+tOw/ox42lNVlrlvC9eN/jc+eRQW1H8xrm
+ Hw2WBlTH201JBSfMHq4XzrqioSVMbnej/cmYAR/iFRJI/TpUr8zwmMri8hQUWyOl6q
+ qKoYmXU1hcxVteA2xp8bG1FsKZUYfcfVmYnf4jXCuqpFSbI9JCno9YjIYI/VjZF2a2
+ vj3qb6et7U8xEMQ26cbxbkR7ApyGeaMHSoYFg3cLE1uLcEVfXo48Wn2pCba2MjKbXT
+ tQJRInpdep96A==
+Date: Wed, 19 Feb 2025 17:12:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 00/37] drm/bridge: Various quality of life improvements
+Message-ID: <20250219-thick-clam-of-inspiration-bc38ab@houat>
+References: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ql5avbhszhighkaj"
 Content-Disposition: inline
-In-Reply-To: <87zfiim09n.fsf@intel.com>
+In-Reply-To: <20250213-bridge-connector-v3-0-e71598f49c8f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,32 +66,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 05:17:56PM +0200, Jani Nikula wrote:
-> On Wed, 19 Feb 2025, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > The "id" variable is an enum and in this context it's treated as an
-> > unsigned int so the error handling can never trigger.
-> 
-> When would that be true with GCC?
 
-The C standard give compilers a lot of flexibility with regards to enums.
+--ql5avbhszhighkaj
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 00/37] drm/bridge: Various quality of life improvements
+MIME-Version: 1.0
 
-But in terms of GCC/Clang then enums default to unsigned int, if you
-declare one as negative then they become signed int.  If they don't fit
-in int, then they become u64 etc.
+On Thu, Feb 13, 2025 at 03:43:19PM +0100, Maxime Ripard wrote:
+> Hi,
+>=20
+> Here's a series of changes after to the KMS helpers and bridge API
+> following a bunch of reviews I did.
+>=20
+> It's mostly centered across providing an easier time to deal with bridge
+> states, and a somewhat consistent with the other entities API.
+>=20
+> It's build tested only, with arm64 allmodconfig.
+>=20
+> Maxime
+>=20
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-enum u32_values {
-	zero,
-};
+Merged patches 1-26 into drm-misc-next
 
-enum s32_values {
-	minus_one = -1,
-	zero,
-};
+Maxime
 
-enum u64_values {
-	big = 0xfffffffffUL;
-};
+--ql5avbhszhighkaj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-regards,
-dan carpenter
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7YC6AAKCRAnX84Zoj2+
+dos5AYCBZky3Iv31zMJc4Zrs0DW4pcEa0gFpGEnZurclpyA90vWWKeiji3RsCbqh
+CNM1TvgBgKIDyscugMLeMNN/XJFPjf/qBkxqAy5lFaekl+CstTbNxPQyKRSLgFop
+WrPnv4dOPw==
+=OyNX
+-----END PGP SIGNATURE-----
+
+--ql5avbhszhighkaj--
