@@ -2,96 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131ABA3CBC6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 22:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20460A3CBF2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 23:02:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3EA10E8A6;
-	Wed, 19 Feb 2025 21:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036CD10E08A;
+	Wed, 19 Feb 2025 22:02:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="kAn1zkn5";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="jDhIcwUo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vnmEqdvj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
- Wed, 19 Feb 2025 21:47:52 UTC
-Received: from fhigh-b2-smtp.messagingengine.com
- (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9896710E8A6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 21:47:52 +0000 (UTC)
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal
- [10.202.2.49])
- by mailfhigh.stl.internal (Postfix) with ESMTP id CB833254018C;
- Wed, 19 Feb 2025 16:42:27 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-09.internal (MEProxy); Wed, 19 Feb 2025 16:42:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm2; t=1740001347; x=1740087747; bh=ckcnFC2PEi
- /TmO7cPULgl0dHPxY4zBm0jXhpXxiGuI0=; b=kAn1zkn5CTBMQHc85TJn4GNp54
- yBhL6nQ4KLBHOlC0KYhJc0oFI7ChE1m+thfgNZvpaCp9qlNPS5BkpA4JpB+aFWAt
- 7I23KI/Ofk2VW0katsRUzjDGCE1nmzmOoDmKWr2YECFD7pFU+1CMORVLrYu6h95a
- TIF04zLX6TjsZD2ZkFQfz+lIBGy7xpaI61JJzS0cJgLO2pPUthfQYpK7bO02bfwx
- U63JTkcJCeUVVM+KlVv9HLrgF69PtB+46tPCr1IL7b5Uzn8tODQnONOYDI+hZUh+
- SmmJp0jA0QNdSa7S8hjEi/1XYfBVOuq04rXDstRYQIH6SKiXXex4bcKhXYnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1740001347; x=1740087747; bh=ckcnFC2PEi/TmO7cPULgl0dHPxY4zBm0jXh
- pXxiGuI0=; b=jDhIcwUoCRxWWzQWFmsutDPtpp+vzslaxY/L4oqdnu9qq12jI/q
- 6jqbjDSvZtsyrlXZh2n4t2on9RYON2Z+XGsb3H02Y81MkYSj3SHxFwEbZYZCA9qw
- wfVtSPTNSQX7JXmpaoySl32gZ6EonoUdWI9LrW1SXFfXNoiVWCt6V1Pdr/dYWO83
- wJjos+LUfzVX66oeOMYnvO8l0//YdSSBGon23mERveOp1YfROjww/RHnV6vF+//p
- 8lSxHgQQTpWGl7OoD+nKKT1CDk0XBfsywHadJAMFBcZeYzMXttT8P6OqCoUP6TPM
- NMALVx9sTxMQtrEsWb950Se/79X9unY0lmw==
-X-ME-Sender: <xms:QlC2Z9c39ngTrLIR-pUp1e2ZDSqVDXpt50_5_BAWnNtceYgDiD4-LQ>
- <xme:QlC2Z7MMK-v5lL64fAvA_XYawEA-n7WvkSmro46xsQps1pGA7jLwczms-cXvY2oJ6
- YtseHXegfbOHirCDLA>
-X-ME-Received: <xmr:QlC2Z2iSIbWgYnGoabTPE_aExzA8jOFPDBbYpRWoVVXv6mwbot_85uimy73hWiTDUQnwaHASr4LSd5UPm2YQuYWWwwQsHkNbeaU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiheefjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
- necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
- cuggftrfgrthhtvghrnhepieeitdduudekkeeljeekudelgfejgfeiteehvdehieehgeff
- tefhffehteejudeknecuffhomhgrihhnpehmvghsrgefugdrohhrghenucevlhhushhtvg
- hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgv
- thdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprg
- hlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtoheprghirhhlihgvuges
- ghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtg
- hpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdr
- tghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtth
- hopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepughrihdquggv
- vhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlih
- hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegr
- shgrhhhisehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:QlC2Z28ymLWekoPMdfE13xKkp7QrzDgcm63LSTo0w2Cr-oBiEhHk8g>
- <xmx:QlC2Z5v3tAtzxb01J8Wmx9LU8B0dJzhMwQQW8beK34-8g9TpMEAfPQ>
- <xmx:QlC2Z1FLTcC3k1KoM6XoEA6x4WJOpEzhtjBPYVyho9vJGZ2sFZ-LKg>
- <xmx:QlC2ZwNp3XG5p5vUXjjpeO6T0t-J8evjpSDmehBmsZ6nmQUawKVVOA>
- <xmx:Q1C2Z_LMauPWkruA46Fq_ymeLC3b8TyzN3S_hcZGhflWySL9JMXa_uVA>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Feb 2025 16:42:25 -0500 (EST)
-Date: Wed, 19 Feb 2025 22:42:24 +0100
-From: Janne Grunau <j@jannau.net>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97DEA10E077
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 22:02:23 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-30762598511so2453451fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 14:02:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740002542; x=1740607342; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=oXHpN0DWqjhN0hLE65VSAtbnzicm1GUQhBz/HJwZ43M=;
+ b=vnmEqdvj3qjX7bMV1z5hhsjZMl16M/jqk6Nm30LBavKaYS5sowXFP0YJ3sN0iwGJo7
+ fxT1iev63+otYv15XjX32HdvGFDOtucmLQAUk+Luom34VTHYZsogP0GiV+62RUZiWzst
+ PrWdFdRoFXtyVkNIji0hjPrpwHR2ilbVZwpkB8xGKQGt1Wht4POSt4q2cUJsX+zm/M7G
+ nB6KcFiTsnWCRxX3Qwc8nUNmP8wSunDQp3U+z8hwd5vWV5IoWGx9HZTkLCvrpPK80S56
+ gxU2Dz5yX6qK6MZUTIcsxOYPebsO4bAPlJb3qmzsZ73FH7OoKFqmISAIsex1CPm6UuPz
+ qjgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740002542; x=1740607342;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oXHpN0DWqjhN0hLE65VSAtbnzicm1GUQhBz/HJwZ43M=;
+ b=PImK8RBM5dOF02F/1iotJpT0/yZUxBeEhgBWD93c+x15YVZzsvjU33rpRDPENnkqCS
+ JPbdsb1uTcfql81ZJsSYjcIXmw7YmnqdtBn+cAib4jRmPzMhs4732yJwGxlwZcFP+v4E
+ +Y/a5S4cb9AyWxxi81/EF2UCR5IDtYiw7X6DNeWN+3/Lka/fi+w+mH1mSDr01tsfvaWZ
+ FHegC6tlcRCYU1Gw7H/Z1L7Xxr7w3uYaSJZv3dq/ps8WxqHJ3vqzw69AHTf49YyRex8M
+ XxVRdFaq/PYo8nbHR+npM9nFixUSpEpx+tZezn5HH7Eb5WtS82OIRSiwoFyKCcjIh2g6
+ qQfw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJxPUz02yKAvHzR0mQ+DyzRsLZGdbic7/VwlWITo6/Wenk1+ptnVgIr81LyXMA2isAjw3pypqGtu8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx8g8CkxwqWTP22QPOzRdMznq7qpLZuBNLg98062wKvvamH1V9t
+ LPFQy5yUX20I4WOWpSwFNnD3RQUb6ZhH1vi9k4uh30hYwLZyxjUwUUKj453/1/o=
+X-Gm-Gg: ASbGncvrS6HwFJ8F4CRlRKvmiFel8unU6jlhXeksuHVl3XjFR6MG9ZFKw5K18GA4tG2
+ DUgRzkDzTHXnYaRMtfZMXCXde1rdcM5quGGMKiyQpHxxI0AGZoTN72JGgA3SKneSXFtVECGkXsk
+ smCZryA6XGZ4a9nU8PAvUVM9hwKTRHKN6lHGR8MIOKHtZ5Vx30fyDKzK7zI+9vu/c6wI42YnHIO
+ /OfsA9fV7orYvX2Kn4lcKBouoRBZ7/CI6BHUB+5XTRy77xjO6t845XHJ47lESUL7HfQ6Ynkj90m
+ 0eKIDvl7acL0ta4tt5jKtSF/DvBrUFbTLXsmrxFCvTHeZyY3oqxXxOqobervaUp2/NVI2YM=
+X-Google-Smtp-Source: AGHT+IH3qwpCZJIIRtXoLdJAC5M4Yj195wVlXHneaiHgEATwNAfneT8LPoyDLjdolhf1GGkQ1/U9CQ==
+X-Received: by 2002:a2e:a302:0:b0:304:d8e7:7ea1 with SMTP id
+ 38308e7fff4ca-30927ad5151mr58261401fa.23.1740002541724; 
+ Wed, 19 Feb 2025 14:02:21 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30a2b50c78esm13466611fa.74.2025.02.19.14.02.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2025 14:02:20 -0800 (PST)
+Date: Thu, 20 Feb 2025 00:02:17 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Rob Herring <robh@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Srini Kandagatla <srinivas.kandagatla@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-Subject: Re: [PATCH] drm: add modifiers for Apple twiddled layouts
-Message-ID: <20250219214224.GB57799@robin.jannau.net>
-References: <20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io>
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v2 00/16] drm/msm: Add support for SM8750
+Message-ID: <h6rm4zlj2xoqp6ze34cwu6y5xxx423l7lrdrbkezp7ct5pwms2@jmrlxr6hyhb7>
+References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
+ <eedf08c5-d781-45c8-a5f7-b0369e3efac9@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io>
+In-Reply-To: <eedf08c5-d781-45c8-a5f7-b0369e3efac9@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,75 +104,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hej,
-
-On Tue, Feb 18, 2025 at 11:15:54AM -0500, Alyssa Rosenzweig wrote:
-> Apple supports a few image layouts across the SoC. To begin, add
-> modifiers for the "twiddled" and "twiddled + compressed" layouts. These
-> are the two "standard" layouts used on the GPU. Mesa requires these
-> modifiers to share non-linear buffers across processes, but no other
-> userspace or kernel support is required/expected.
+On Wed, Feb 19, 2025 at 01:17:35PM -0800, Jessica Zhang wrote:
 > 
-> These layouts are notably not used for interchange across hardware
-> blocks (e.g. with the display controller). There are other layouts for
-> those but we don't support them either in userspace or kernelspace yet
-> (even downstream), so we're not adding them here.
 > 
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
->  include/uapi/drm/drm_fourcc.h | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+> On 2/17/2025 8:41 AM, Krzysztof Kozlowski wrote:
+> > Hi,
+> > 
+> > Dependency / Rabased on top of:
+> > https://lore.kernel.org/all/20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org/
+> > 
+> > Changes in v2:
+> > - Implement LM crossbar, 10-bit alpha and active layer changes:
+> >    New patch: drm/msm/dpu: Implement new v12.0 DPU differences
+> > - New patch: drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+> > - Add CDM
+> > - Split some DPU patch pieces into separate patches:
+> >    drm/msm/dpu: Drop useless comments
+> >    drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+> >    drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
+> > - Split DSI and DSI PHY patches
+> > - Mention CLK_OPS_PARENT_ENABLE in DSI commit
+> > - Mention DSI PHY PLL work:
+> >    https://patchwork.freedesktop.org/patch/542000/?series=119177&rev=1
+> > - DPU: Drop SSPP_VIG4 comments
+> > - DPU: Add CDM
+> > - Link to v1: https://lore.kernel.org/r/20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org
+> > 
+> > Description:
+> > =============
+> > I got modetest writeback working, but DSI panel on MTP8750 still shows
+> > darkness.
 > 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..6c289fc172c099ab32bf539a1698dabb93f9a0d2 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -422,6 +422,7 @@ extern "C" {
->  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
->  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
->  #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
-> +#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
->  
->  /* add more to the end as needed */
->  
-> @@ -1494,6 +1495,36 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->  /* alias for the most common tiling format */
->  #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
->  
-> +/*
-> + * Apple twiddled layout.
-> + *
-> + * This is the most "general" image layout supported on Apple GPUs.
-> + *
-> + * Twiddled images are divided into tiles. Tiles are always 16KiB, with
-> + * dimensions depending on the base-format. Within a tile, pixels are fully
-> + * interleaved (Morton order). Tiles themselves are raster-order.
-> + *
-> + * Images must be 16-byte aligned.
-> + *
-> + * For more information see
-> + * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
-> + */
-> +#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 1)
-> +
-> +/*
-> + * Apple twiddled and compressed layout.
-> + *
-> + * This is the main lossless image compression layout supported by Apple GPUs.
-> + *
-> + * The image is divided into tiles that are internally twiddled.  In addition to
+> Hey Dmitry,
+> 
+> Just wanted to emphasize this note on Krzysztof's cover letter.
+> 
+> Can we hold off on picking up the DSI parts of this series until the DSI
+> panel comes up for MTP8750?
+> 
 
-Does the compressed format uses the same the sime tile sizes (in pixel
-dimensions) and layout as DRM_FORMAT_MOD_APPLE_TWIDDLED? I'd assume so
-but I think it's worth stating explictly.
+Ack, I will try to remember it.
 
-> + * the body, there is also a metadata section containing 8 bytes for each 16x16
-> + * compression subtile. By convention, the metadata immediately follows the
-> + * body, after padding to 128-bytes.
-> + *
-> + * Images must be 16-byte aligned.
-> + */
-> +#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 2)
-> +
-
-ciao Janne
+-- 
+With best wishes
+Dmitry
