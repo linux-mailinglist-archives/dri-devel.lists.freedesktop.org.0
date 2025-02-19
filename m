@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F031CA3C5C1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 18:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B532EA3C616
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2025 18:24:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7E810E49D;
-	Wed, 19 Feb 2025 17:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D83F10E34A;
+	Wed, 19 Feb 2025 17:24:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="h8ftXl/f";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RHNmOecF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4502710E86A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 17:11:17 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-543d8badc30so88239e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:11:17 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2E610E34A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 17:24:26 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-6f9625c0fccso58845837b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 09:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739985075; x=1740589875; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LVBCLwBb20SftVpr6Cb6gqWVa+/TpS0PacR3slD6cr4=;
- b=h8ftXl/fibPLV2/VZqEyIWgbR/olcKYcKSthTxnDSYgTfL08dqNeuCmP3rIrOI5Kif
- 957PqLuoIlUWNgngCKjDc66VYoGbXYzdkdzRouodGj0ojkboEmafIdfag6fAHePDPfbV
- hAbBL9ZLRLUrCgomZ2fUrZy0KVZgC6bGI3FEuy61GEHxf9eCymGYMrFvgf/MheIc4ge2
- vINwNoU1DXzHtEXaODiTIekOlhemZJRa1qDxUF5GBE6eQPVvYJnJuGXZ8591lMrePw37
- 8cjGhh+4hwVovRkyoc+22FbaqJ8xyVp8b+ahgQEubB6xnpM1aUfnC0mJKMCdg/S5Re0F
- DLiQ==
+ d=linaro.org; s=google; t=1739985865; x=1740590665; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0cr90zEajdAaEBjcRfisPPDqVdNWUpvTZCFRKVO9Uh4=;
+ b=RHNmOecFP6Gkzig9bO8eLaOJnvFbm+KbSbgV4oLyOkO1rntFLbDxIFx31G8IIs7lGE
+ tsyno61vQyGhRvYfzkUUtzAhFjQLXQA0nQsFO7XQFn2C0lYUhtCAnn6PTHF31shzRDg2
+ UsmDCU7B27Zgl9CTCYJG4l06yH4hUlBJrPk7AT+pdMKkhPYDKjtnroPWMegDKhldIUTI
+ qRsM7e9Oe1oeAlu0QVJekmMqCBYgzW4egUXdZZ8TTQ1aat30BGJdN4e3EtJ/EoS3GqUs
+ Ss9yff5JC/kh/VWkGZJkswhYD1e2P7ievJAqlYhKds33qO5MksvcDeG/L9FSbLY9UT75
+ AluA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739985075; x=1740589875;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LVBCLwBb20SftVpr6Cb6gqWVa+/TpS0PacR3slD6cr4=;
- b=D5OdfAtdtALI4XuHfov4Ql+0OoSXJ4ONjPmoDA7nlUY6P8nABgLXUf6prKjf0b5rcO
- UX9C/4xrSxPLY5pbzI2kdCmSIyWhSO/SJGNcsLsW4bGeurofxNlKMhwWFYgnP3e46EPv
- X1DiCBxzfQsu72D3sp9b9NcEgw9/DzE6XFo9OlvbajjmkU43+8dqtLYA0yQQxpC1uQii
- +KsQtOyAoqIkqzafbf0xP69K1RsbUigMofDh7pkDvMNV6li/3+ioihRaLi29wBHWV9IZ
- az+dxGVgrykEiyRwxl/ix+4qGGLqzx5LoAqaFzGGQydI7qXsIj7fG1ct/eeVnuDKl9oN
- JG1g==
+ d=1e100.net; s=20230601; t=1739985865; x=1740590665;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0cr90zEajdAaEBjcRfisPPDqVdNWUpvTZCFRKVO9Uh4=;
+ b=NF1RrVzwnZ7UOeebos0ftvJRoImiszBvYg/gyNkmWJ4kDTSjTReOawOzj6Mi5usm4Y
+ xNg5ONbmROxnfPgi54t7PqaQb3E45jcgoUZJwslp338Hj031y9DqAXdlHkW1BudlAMVB
+ kdaV9T58MtPppSaShE9JAuNAyylEnbWItYfzfK4ny/z3KUAk4mf94fA3DS2vUSWd2aoH
+ 5zaIEgvAXKNCqCyQyULaXPLQYbejnX0SNPDAPMycgYX5HGGX6rW5QB3R1ZMuU5RZttGA
+ UgAGriSl7LyCQYxCGSJ6maYid/0hvlPX/5jJ2PzQF3gVl6IHJHvdVTZqWCj/eRrgdoGV
+ YLUQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/6ZoAFWiJZVSZ7Xf65rcJKKydNTcI2PSM/3u/ppWsP+oTIiYq4dwO0Pnf/kG4ESrKar/EViuVyX4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsKpUBZDjQzYk3qTmGFbg4JhBz04BjC7CnIL+8KtucWuaMjByl
- jh5qpI/JuzzTRqArx9i5XRw/4wb7duX8y/8Rw7KNxwI4IrDa0MASdnjCQj8gFUk=
-X-Gm-Gg: ASbGncvpn0MEj7oyQ2XHMmGcAjrhdhNy9HYPm9ew/AysMcvyB1fMnjc2C2sgDD3qxOW
- oLbVNy6gtoVpXNXSki377RvkXBk53XhSgu3P/67IrqLgWCI0umNR41AKcTRRUTAg2CDaYnGO4y8
- Td8PolIAG6d08CXb5XXxKxpp9qRPRwCqFWgjkFoBdXbZrMqcXKNvMuOb559vQIT74Tp9PWG0Dvt
- m7enIEGh6Tiz3GfzLGoQ+t1AEnz5oxOWtlX7/HVn8lASqx9MEN1x0RrXUCRy69arRdXIqxqwQb1
- 9QNA1HxfAnaIhpiQ80f89z7S9/dRlBvNoG0DiGuKLNoMcrFygre1IOMwJqzwqCTCSn5N2NY=
-X-Google-Smtp-Source: AGHT+IH7FL01qZOB3XAPbsmFC6KyEv2EmZ1yIsxjB78l1rwLXp5knouU37jT15QdaWHDAkHvPlzRzg==
-X-Received: by 2002:a05:6512:b12:b0:545:e7f:cf3d with SMTP id
- 2adb3069b0e04-5452fe2e4aemr7300090e87.5.1739985075494; 
- Wed, 19 Feb 2025 09:11:15 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5452f3d38basm1661990e87.222.2025.02.19.09.11.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2025 09:11:14 -0800 (PST)
-Date: Wed, 19 Feb 2025 19:11:12 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Marek <jonathan@marek.ca>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH v5 2/2] drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01]
- bitfields and simplify saving
-Message-ID: <snvornde63yoviyjn6yitmz2vkw424jkyv4434jre7ts65cqe6@tbqgalok5e5n>
-References: <20250219-drm-msm-phy-pll-cfg-reg-v5-0-d28973fa513a@linaro.org>
- <20250219-drm-msm-phy-pll-cfg-reg-v5-2-d28973fa513a@linaro.org>
+ AJvYcCUgGK9shiJELGiS9oDinUu6kO50jIA2OQSTE+044jsDXdOzcLxvgNpAZXduk12YbPJ5UcvYM75Ct60=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxnoPRzxOBg145cINhCJvNEZg8NiF1XQBDFOYsOJJ6MToy+UfW2
+ 38kY7cA5aV0bOuEFpaSgW0vvQq8k+69kcTunvIg/aeZ9LZ0fVuOsvjZsCrnEw2azulI1qA9IQUD
+ Qf3RPhRzaMOQG4kgrVMN1lPLCZ8WwzBJACNn3ew==
+X-Gm-Gg: ASbGncsenv0YCi0UsvvE9jFx1GcA7ZklBnhMAQoCX3/mX6jYS6Ys+njJa7VB6mTefcN
+ wYY+uf6Z46GY/dhUrO1+GFbKgqg/n7C99RiK3MOhgUWVT7P1d9oXS6d0Z64Ffuzti+nUbdJMD8c
+ qjFJauMsEmUc8=
+X-Google-Smtp-Source: AGHT+IHPYcZfjn7eucK8FvixqCR2I2msLnTZntlahztuzdBpXoxW57EO45la9a3FzKXUns8U3FOZ+w7YFPg8lisWjjs=
+X-Received: by 2002:a05:690c:7445:b0:6ef:7dde:bdef with SMTP id
+ 00721157ae682-6fb58359ca6mr143804167b3.23.1739985865461; Wed, 19 Feb 2025
+ 09:24:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250219-drm-msm-phy-pll-cfg-reg-v5-2-d28973fa513a@linaro.org>
+References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
+ <20250217-b4-sm8750-display-v2-15-d201dcdda6a4@linaro.org>
+ <qlotuliwnm5spneolztca7avmh2a46pz2xqlxzqbw5kwa53m6q@oyhnzz7fhay3>
+ <4b2426d2-a7bb-4c19-9ebe-77f6a90caf5e@linaro.org>
+In-Reply-To: <4b2426d2-a7bb-4c19-9ebe-77f6a90caf5e@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 19 Feb 2025 19:24:14 +0200
+X-Gm-Features: AWEUYZmAr3QYLaFayeHeppxyHSH1mnwXmz4zOX0FGc46bc3FPvsfNyKPQb2_VV4
+Message-ID: <CAA8EJpquBhQeac0E66NqeagkxP-qY0whmah2ND0xziUQdxc_7g@mail.gmail.com>
+Subject: Re: [PATCH v2 15/16] drm/msm/dpu: Implement new v12.0 DPU differences
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Srini Kandagatla <srinivas.kandagatla@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,36 +97,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 05:23:33PM +0100, Krzysztof Kozlowski wrote:
-> Add bitfields for PHY_CMN_CLK_CFG0 and PHY_CMN_CLK_CFG1 registers to
-> avoid hard-coding bit masks and shifts and make the code a bit more
-> readable.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Changes in v5:
-> 1. Split part touching pll_7nm_register() to new patch.
-> 2. Update commit msg.
-> 
-> Changes in v4:
-> 1. Add mising bitfield.h include
-> 2. One more FIELD_GET and DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL (Dmitry)
-> 
-> Changes in v3:
-> 1. Use FIELD_GET
-> 2. Keep separate bit_clk_div and pix_clk_div
-> 3. Rebase (some things moved to previous patches)
-> 
-> Changes in v2:
-> 1. New patch
-> ---
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
+On Wed, 19 Feb 2025 at 19:04, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 17/02/2025 20:18, Dmitry Baryshkov wrote:
+> > On Mon, Feb 17, 2025 at 05:41:36PM +0100, Krzysztof Kozlowski wrote:
+> >> Implement new features and differences coming in v12.0 of DPU present on
+> >> Qualcomm SM8750 SoC:
+> >> 1. 10-bit color alpha.
+> >> 2. New CTL_PIPE_ACTIVE and CTL_LAYER_ACTIVE registers for pipes and
+> >>    layer mixers.
+> >> 2. Several differences in LM registers (also changed offsets) for LM
+> >>    crossbar hardware changes.
+> >
+> > I'd really prefer for this patch to be split into a logical chunks
+> > rather than "everything for 12.x"
+> everything 12.x is still logical chunk. I can split more, but without
+> guidance what is here logical chunk, will be tricky.
+>
+> For example 10-bit color alpha looks like separate feature. But
+> remaining PIPE/LAYER active - not sure.
+>
+> I can split them but I would not call such split necessarily logical.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I'd say, the following items are logical chunks:
+- ctl->ops.active_fetch_pipes in dpu_encoder_helper_reset_mixers() and
+dpu_hw_ctl_reset_intf_cfg_v1() (with a proper Fixes tag?)
+- 10-bit alpha, border color,
+- active_pipes
+- blend stage in LM + set_active_lms
 
 -- 
 With best wishes
