@@ -2,52 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00514A3DD8C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D841A3DDC3
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:07:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50BBC10E0D6;
-	Thu, 20 Feb 2025 15:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3D710E086;
+	Thu, 20 Feb 2025 15:07:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jhwuq73G";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uEG51OVM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC41A10E0D6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 15:00:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5E5FD614CF;
- Thu, 20 Feb 2025 15:00:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE99CC4CEDD;
- Thu, 20 Feb 2025 15:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740063620;
- bh=4bckTq02vaYkp80bkNFN6Mdl+bCKGs+xiMduy7+da4Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jhwuq73GiLIkP8rLFDZ5sCdKaip/pnIr9jbsMzBNwAs+ue9U8dPoCj2Q5KHnqqEA+
- BNrRsPfS5NuNTMIuhQ82f9lgYHb1B/fJ2HCE99s5nkqFkHch3VnlINwJGlusQ4W93O
- sKLKUUB1XZzYTpD7tf5CQUK8Q1+JPlQNhinQFi1sF8trYC/7QkO8gaW4sVsANDz/KX
- rQYFuw55EW9GIZxmjxzvdBh8VYX5DtfoLQ+8BaWgO5uKFKF/9aK1fitTO0Uh5t2IJd
- qIUE5J87X/5KIXUUzE4/KzugfK8YRYmvzZYEbsJBR+E6ozfJJQ5luh9gDAdRLFgGlG
- yQ0ZkagfPiy7w==
-Date: Thu, 20 Feb 2025 15:00:16 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: pavel@ucw.cz, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- simona@ffwll.ch, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 12/13] leds: backlight trigger: Replace fb events with a
- dedicated function call
-Message-ID: <20250220150016.GC778229@google.com>
-References: <20250206154033.697495-1-tzimmermann@suse.de>
- <20250206154033.697495-13-tzimmermann@suse.de>
- <20250211135752.GT1868108@google.com>
- <f4652dbd-7544-4a6d-98d0-f4b64d60a435@suse.de>
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF7FB10E086
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 15:07:31 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-30918c29da2so10387801fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 07:07:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740064050; x=1740668850; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uvG19MxhO3fYpjz2GmSHw6ccIGj+912fnpqB5X8XAQE=;
+ b=uEG51OVMDDUjL28R1tta+O0pnO0tX2pN+r7+9qgeOe9R6rl4R9F+QqtiiRYn8TUHoG
+ v12ohLtRvxwNG1rzZWRN+hqKzZfXMONICnGtE8EGpxoxTaGTVzKXvJ7lElM6KrkZFUQ7
+ xi0YoeJF/Pv2ldPEDekyzf49dz7fpOZBZhjAIsERMKihakxxwDgJvxTEQXvDBF0Axbs0
+ LSoiSThL57pCr2A3OXUAew8RGQbs5xmH+1KB/NGuDIeoZweHDjBBB+QZ3lXaAh32QNz1
+ amhGbRAW8w8ry3tozjFVSGcmquHUuG49Jp7QmZgDNH3cibhiffMjOrCpsDYooLIQt4FN
+ wpbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740064050; x=1740668850;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uvG19MxhO3fYpjz2GmSHw6ccIGj+912fnpqB5X8XAQE=;
+ b=gpqW0CiOnApPrOT+kAGkJL1u76UOC1yqKwLOAhcltklT98eV17nkxHJqUHyTFrgPPB
+ Cbh/a4jYg83j9zMIjyq06LO49yAlTp9vym5BahxnECIZGQGyBrDw4V93s87VkzNAZj95
+ fg+s8g20vquN7R9dqHI1X+2Lur2Cd2bCwYF1Is4NQx8285D5U8xMLQM27bi3S9LXglic
+ 7Wp+QxTOpqzACkfrjysL+chbozuotIS/61iqVAjk8ngKhQ5BEyiE62RMn50VYJ4/2xSy
+ W+4XlDS9Kf6Nkd99AdOuujRnXmWNI5mLajctuAreMtcJneKqBjCuQuLF7qhefvInsXRr
+ 7IPg==
+X-Gm-Message-State: AOJu0YxlFfozQlSy7GOqb2phNd+bZYdhtelEkS0Kg5CZJm2i0WXXJLx9
+ dPBPT3TAwHX8iaWTibifE2JwJYxTrVsQnzffUqT3tAHAmYP/MYKuXSiz5SRD8s2cjR2mzdC/N2/
+ I
+X-Gm-Gg: ASbGncuJKbnyPd2lXh/48IEpYjr4rOyKR4znqWX5B4mXNO1+nwK4u2v/0irT4FCq4gg
+ KqWiGJrQuITAVPDlEC6L00LC0ma4IT6JX1tmTM5FBgT/aZxyDeeP4bb9MGy2wz0JRzP/D5tB/RK
+ vQ7UJBjvPVvCGwgVVXOtT4LviMhcPkjGsEfR2Yg+1oVWB2wo08OT3pdz0GBc7xPKRDSYD2Z5qMn
+ jWa88Ab0K11jGs+wQ57X/U1/DQIsDGxHbvNGEb36lE6YfYf8VBsJkD33EM95JBCM270ni/2bm+R
+ gs/mp+LSpagvIU7yRr1kcow=
+X-Google-Smtp-Source: AGHT+IETrZT5oIuDLjlPhyAtOgizah+3OWG8Z0rwGfMHYB+otPCEElkRy42DyiPBfMuzjPj44nhQvg==
+X-Received: by 2002:a2e:8a84:0:b0:306:501:4772 with SMTP id
+ 38308e7fff4ca-30a2a7d42fbmr51425261fa.37.1740064049632; 
+ Thu, 20 Feb 2025 07:07:29 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-309311777a8sm18419121fa.25.2025.02.20.07.07.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Feb 2025 07:07:28 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 20 Feb 2025 17:07:26 +0200
+Subject: [PATCH] drm/bridge: panel: move prepare_prev_first handling to
+ drm_panel_bridge_add_typed
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f4652dbd-7544-4a6d-98d0-f4b64d60a435@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250220-panel_prev_first-v1-1-b9e787825a1a@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAC1Ft2cC/x2MUQqAIBAFrxL7nWALRXWVCBFbayFMNCIQ797S5
+ /DmTYFMiSnD3BRI9HDmKwh0bQPusGEnxZswoMZeI2oVbaDTRHGN55Rv5d2k3eBGS96C3GTy/P7
+ JZa31AyZLoq9iAAAA
+X-Change-ID: 20250220-panel_prev_first-fc90c6c8aefa
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Svyatoslav Ryhel <clamor95@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2350;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=kNWHbdQTfRuwv2Va9uXhxADhuf1Qe21ZY5fqlYZexyI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnt0Uv+NryiBFZE11p7O20qwstMksW1SPCO+2d5
+ kshDb+eqtiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ7dFLwAKCRCLPIo+Aiko
+ 1easB/9psQew0KpvbiVyfpBWBJJoXZ+oLaY5qqIF/v1CEUx19i8UKAZTpUv7/0eHvv4sCVW8oGs
+ MG5FOmXafYYxbSyCNr1Es1NV8b/aZZSwiNn5yWos9VAOdJD5g9npG0q4JjqD3YpLst4cBdYsx0x
+ sn3b5caZXqWVugrwYSh7bHwt09WR8fDI9qsRmC73mAmOpMiz9AELWOUM+Vk4TvaiPnf2sixFvDp
+ yXLabRmGt2RzOnadKucI0q0VOZz/Le2BQ1nR/KFS2nWgBsNTr1X81D6S+Lzd2ldKQnfoyWQ/mIK
+ pQrQU/Zh8Uc8dYZbW1XGzdMENFiSAAZlsq5GE+m4B8Jk+CyM
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,139 +109,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Feb 2025, Thomas Zimmermann wrote:
+The commit 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to
+drm_panel") and commit 0974687a19c3 ("drm/bridge: panel: Set
+pre_enable_prev_first from drmm_panel_bridge_add") added handling of
+panel's prepare_prev_first to devm_panel_bridge_add() and
+drmm_panel_bridge_add(). However if the driver calls
+drm_panel_bridge_add_typed() directly, then the flag won't be handled
+and thus the drm_bridge.pre_enable_prev_first will not be set.
 
-> Hi
-> 
-> Am 11.02.25 um 14:57 schrieb Lee Jones:
-> > On Thu, 06 Feb 2025, Thomas Zimmermann wrote:
-> > 
-> > > Remove support for fb events from the led backlight trigger. Provide the
-> > > helper ledtrig_backlight_blank() instead. Call it from fbdev to inform
-> > > the trigger of changes to a display's blank state.
-> > > 
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > ---
-> > >   drivers/leds/trigger/ledtrig-backlight.c | 31 +++++-------------------
-> > >   drivers/video/fbdev/core/fbmem.c         | 21 +++++++++-------
-> > >   include/linux/leds.h                     |  6 +++++
-> > >   3 files changed, 24 insertions(+), 34 deletions(-)
-> > > 
-> > > diff --git a/drivers/leds/trigger/ledtrig-backlight.c b/drivers/leds/trigger/ledtrig-backlight.c
-> > > index f9317f93483b..e3ae4adc29e3 100644
-> > > --- a/drivers/leds/trigger/ledtrig-backlight.c
-> > > +++ b/drivers/leds/trigger/ledtrig-backlight.c
-> > > @@ -10,7 +10,6 @@
-> > >   #include <linux/kernel.h>
-> > >   #include <linux/slab.h>
-> > >   #include <linux/init.h>
-> > > -#include <linux/fb.h>
-> > >   #include <linux/leds.h>
-> > >   #include "../leds.h"
-> > > @@ -21,7 +20,6 @@ struct bl_trig_notifier {
-> > >   	struct led_classdev *led;
-> > >   	int brightness;
-> > >   	int old_status;
-> > > -	struct notifier_block notifier;
-> > >   	unsigned invert;
-> > >   	struct list_head entry;
-> > > @@ -30,7 +28,7 @@ struct bl_trig_notifier {
-> > >   static struct list_head ledtrig_backlight_list;
-> > >   static struct mutex ledtrig_backlight_list_mutex;
-> > > -static void ledtrig_backlight_blank(struct bl_trig_notifier *n, bool on)
-> > > +static void __ledtrig_backlight_blank(struct bl_trig_notifier *n, bool on)
-> > I'm confused.  Didn't you just introduce this?
-> 
-> It's being renamed here; probably something to avoid.
-> 
-> 
-> > 
-> > >   {
-> > >   	struct led_classdev *led = n->led;
-> > >   	int new_status = !on ? BLANK : UNBLANK;
-> > > @@ -48,23 +46,14 @@ static void ledtrig_backlight_blank(struct bl_trig_notifier *n, bool on)
-> > >   	n->old_status = new_status;
-> > >   }
-> > > -static int fb_notifier_callback(struct notifier_block *p,
-> > > -				unsigned long event, void *data)
-> > > +void ledtrig_backlight_blank(bool on)
-> > >   {
-> > > -	struct bl_trig_notifier *n = container_of(p,
-> > > -					struct bl_trig_notifier, notifier);
-> > > -	struct fb_event *fb_event = data;
-> > > -	int *blank;
-> > > -
-> > > -	/* If we aren't interested in this event, skip it immediately ... */
-> > > -	if (event != FB_EVENT_BLANK)
-> > > -		return 0;
-> > > -
-> > > -	blank = fb_event->data;
-> > > +	struct bl_trig_notifier *n;
-> > > -	ledtrig_backlight_blank(n, !blank[0]);
-> > > +	guard(mutex)(&ledtrig_backlight_list_mutex);
-> > > -	return 0;
-> > > +	list_for_each_entry(n, &ledtrig_backlight_list, entry)
-> > > +		__ledtrig_backlight_blank(n, on);
-> > >   }
-> > >   static ssize_t bl_trig_invert_show(struct device *dev,
-> > > @@ -110,8 +99,6 @@ ATTRIBUTE_GROUPS(bl_trig);
-> > >   static int bl_trig_activate(struct led_classdev *led)
-> > >   {
-> > > -	int ret;
-> > > -
-> > >   	struct bl_trig_notifier *n;
-> > >   	n = kzalloc(sizeof(struct bl_trig_notifier), GFP_KERNEL);
-> > > @@ -122,11 +109,6 @@ static int bl_trig_activate(struct led_classdev *led)
-> > >   	n->led = led;
-> > >   	n->brightness = led->brightness;
-> > >   	n->old_status = UNBLANK;
-> > > -	n->notifier.notifier_call = fb_notifier_callback;
-> > > -
-> > > -	ret = fb_register_client(&n->notifier);
-> > > -	if (ret)
-> > > -		dev_err(led->dev, "unable to register backlight trigger\n");
-> > >   	mutex_lock(&ledtrig_backlight_list_mutex);
-> > >   	list_add(&n->entry, &ledtrig_backlight_list);
-> > > @@ -143,7 +125,6 @@ static void bl_trig_deactivate(struct led_classdev *led)
-> > >   	list_del(&n->entry);
-> > >   	mutex_unlock(&ledtrig_backlight_list_mutex);
-> > > -	fb_unregister_client(&n->notifier);
-> > >   	kfree(n);
-> > >   }
-> > > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> > > index fb7ca143a996..92c3fe2a7aff 100644
-> > > --- a/drivers/video/fbdev/core/fbmem.c
-> > > +++ b/drivers/video/fbdev/core/fbmem.c
-> > > @@ -16,6 +16,7 @@
-> > >   #include <linux/fb.h>
-> > >   #include <linux/fbcon.h>
-> > >   #include <linux/lcd.h>
-> > > +#include <linux/leds.h>
-> > >   #include <video/nomodeset.h>
-> > > @@ -373,11 +374,19 @@ static void fb_lcd_notify_blank(struct fb_info *info)
-> > >   #endif
-> > >   }
-> > > +static void fb_ledtrig_backlight_notify_blank(struct fb_info *info)
-> > > +{
-> > > +#if IS_REACHABLE(CONFIG_LEDS_TRIGGER_BACKLIGHT)
-> > #iferry is generally discouraged in C files.
-> > 
-> > Does is_defined() work for you?
-> 
-> I don't think so. This ifdef covers the case that fbdev is built in, but led
-> is a module (i.e., fbdev=y && led=m).
-> 
-> > /
-> > > +	if (info->blank == FB_BLANK_UNBLANK)
-> > > +		ledtrig_backlight_blank(true);
-> > If !CONFIG_LEDS_TRIGGER_BACKLIGHT(), then ledtrig_backlight_blank() is a
-> > noop anyway, right?  So why encompass it in the #if at all?
-> 
-> Because of (fbdev=y && led=m) again. ledtrig_backlight_blank() would be
-> defined then, but not linkable from fbdev. Preferably, I'd rather leave out
-> the ifdef in the led header file.
+Move prepare_prev_first handling to the drm_panel_bridge_add_typed() so
+that there is no way to miss the flag.
 
-#ifdefs are not generally welcome in C-files.  Please rework it.
+Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to drm_panel")
+Fixes: 0974687a19c3 ("drm/bridge: panel: Set pre_enable_prev_first from drmm_panel_bridge_add")
+Reported-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Closes: https://lore.kernel.org/dri-devel/CAPVz0n3YZass3Bns1m0XrFxtAC0DKbEPiW6vXimQx97G243sXw@mail.gmail.com/
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/bridge/panel.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index c57036b06493a6922e2cae38bcd1733930ff0073..ed23de0478312a26a5d3434e63bd2fe4a6099bfc 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -302,6 +302,7 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
+ 	panel_bridge->bridge.of_node = panel->dev->of_node;
+ 	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
+ 	panel_bridge->bridge.type = connector_type;
++	panel_bridge->bridge.pre_enable_prev_first = panel->prepare_prev_first;
+ 
+ 	drm_bridge_add(&panel_bridge->bridge);
+ 
+@@ -416,8 +417,6 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+ 		return bridge;
+ 	}
+ 
+-	bridge->pre_enable_prev_first = panel->prepare_prev_first;
+-
+ 	*ptr = bridge;
+ 	devres_add(dev, ptr);
+ 
+@@ -459,8 +458,6 @@ struct drm_bridge *drmm_panel_bridge_add(struct drm_device *drm,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+-	bridge->pre_enable_prev_first = panel->prepare_prev_first;
+-
+ 	return bridge;
+ }
+ EXPORT_SYMBOL(drmm_panel_bridge_add);
+
+---
+base-commit: 8936cec5cb6e27649b86fabf383d7ce4113bba49
+change-id: 20250220-panel_prev_first-fc90c6c8aefa
+
+Best regards,
 -- 
-Lee Jones [李琼斯]
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
