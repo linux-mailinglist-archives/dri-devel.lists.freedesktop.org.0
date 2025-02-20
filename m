@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1C6A3E852
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 00:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1502A3E890
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 00:34:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E501410E9F0;
-	Thu, 20 Feb 2025 23:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C6AC10E19C;
+	Thu, 20 Feb 2025 23:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F17010E9F0;
- Thu, 20 Feb 2025 23:23:42 +0000 (UTC)
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0906B10E19C;
+ Thu, 20 Feb 2025 23:34:15 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
  server-digest SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id CA2941FB6F;
- Fri, 21 Feb 2025 00:23:40 +0100 (CET)
-Date: Fri, 21 Feb 2025 00:23:39 +0100
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 5E7661FB92;
+ Fri, 21 Feb 2025 00:34:13 +0100 (CET)
+Date: Fri, 21 Feb 2025 00:34:12 +0100
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -28,15 +28,14 @@ Cc: Rob Clark <robdclark@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] drm/msm/dpu: pass master interface to CTL
- configuration
-Message-ID: <plurs7xfefclro5cw7c5hcd3akryzx6p75owbrkntsbwzxz26n@ac2dxrbcej6w>
+Subject: Re: [PATCH 6/7] drm/msm/dpu: allocate single CTL for DPU >= 5.0
+Message-ID: <4aix26abutkas2fpj6ubu2hbqeljpgr5e3m24akeb3jz33limj@c7rymwz6zmft>
 References: <20250220-dpu-active-ctl-v1-0-71ca67a564f8@linaro.org>
- <20250220-dpu-active-ctl-v1-3-71ca67a564f8@linaro.org>
+ <20250220-dpu-active-ctl-v1-6-71ca67a564f8@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250220-dpu-active-ctl-v1-3-71ca67a564f8@linaro.org>
+In-Reply-To: <20250220-dpu-active-ctl-v1-6-71ca67a564f8@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,45 +51,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-02-20 12:26:20, Dmitry Baryshkov wrote:
-> Active controls require setup of the master interface. Pass the selected
-> interface to CTL configuration.
+On 2025-02-20 12:26:23, Dmitry Baryshkov wrote:
+> Unlike previous generation, since DPU 5.0 it is possible to use just one
+> CTL to handle all INTF and WB blocks for a single output. And one has to
+> use single CTL to support bonded DSI config. Allocate single CTL for
+> these DPU versions.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 17 +++++++++++++----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h |  2 ++
+>  2 files changed, 15 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 5baf9df702b84b74ba00e703ad3cc12afb0e94a4..4dbc9bc7eb4f151f83055220665ee5fd238ae7ba 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -53,6 +53,8 @@ int dpu_rm_init(struct drm_device *dev,
+>  	/* Clear, setup lists */
+>  	memset(rm, 0, sizeof(*rm));
+>  
+> +	rm->has_legacy_ctls = (cat->mdss_ver->core_major_ver < 5);
+> +
+>  	/* Interrogate HW catalog and create tracking items for hw blocks */
+>  	for (i = 0; i < cat->mixer_count; i++) {
+>  		struct dpu_hw_mixer *hw;
+> @@ -381,10 +383,16 @@ static int _dpu_rm_reserve_ctls(
+>  	int i = 0, j, num_ctls;
+>  	bool needs_split_display;
+>  
+> -	/* each hw_intf needs its own hw_ctrl to program its control path */
+> -	num_ctls = top->num_intf;
+> +	if (rm->has_legacy_ctls) {
+> +		/* each hw_intf needs its own hw_ctrl to program its control path */
+> +		num_ctls = top->num_intf;
+>  
+> -	needs_split_display = _dpu_rm_needs_split_display(top);
+> +		needs_split_display = _dpu_rm_needs_split_display(top);
+> +	} else {
+> +		/* use single CTL */
+> +		num_ctls = 1;
+> +		needs_split_display = false;
+> +	}
+>  
+>  	for (j = 0; j < ARRAY_SIZE(rm->ctl_blks); j++) {
+>  		const struct dpu_hw_ctl *ctl;
+> @@ -402,7 +410,8 @@ static int _dpu_rm_reserve_ctls(
+>  
+>  		DPU_DEBUG("ctl %d caps 0x%lX\n", j + CTL_0, features);
+>  
+> -		if (needs_split_display != has_split_display)
+> +		if (rm->has_legacy_ctls &&
+> +		    needs_split_display != has_split_display)
+
+I deduced a long time ago that the check for rm->has_legacy_ctls is not needed.
+
+needs_split_display is always false on DPU >= 5, and neither of those SoCs has
+DPU_CTRL_SPLIT_DISPLAY which means false != false is false, and this condition
+never triggers on active CTLs even without checking has_legacy_ctls.
+
+Other than that, this is all successfully tested and:
 
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 2 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 ++
->  2 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index e9bbccc44dad8b391cd51daf902307105b2598fc..d1e16da00529de35cf4e205077c4264bdb70de16 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -59,6 +59,8 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->  		return;
+>  			continue;
 >  
->  	intf_cfg.intf = phys_enc->hw_intf->idx;
-> +	if (phys_enc->split_role == ENC_ROLE_MASTER)
-> +		intf_cfg.intf_master = phys_enc->hw_intf->idx;
->  	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
->  	intf_cfg.stream_sel = cmd_enc->stream_sel;
->  	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index abd6600046cb3a91bf88ca240fd9b9c306b0ea2e..232055473ba55998b79dd2e8c752c129bbffbff4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -298,6 +298,8 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->  	if (phys_enc->hw_cdm)
->  		intf_cfg.cdm = phys_enc->hw_cdm->idx;
->  	intf_cfg.intf = phys_enc->hw_intf->idx;
-> +	if (phys_enc->split_role == ENC_ROLE_MASTER)
-> +		intf_cfg.intf_master = phys_enc->hw_intf->idx;
->  	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_VID;
->  	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
->  	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+>  		ctl_idx[i] = j;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index 99bd594ee0d1995eca5a1f661b15e24fdf6acf39..130f753c36338544e84a305b266c3b47fa028d84 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -24,6 +24,7 @@ struct dpu_global_state;
+>   * @dspp_blks: array of dspp hardware resources
+>   * @hw_sspp: array of sspp hardware resources
+>   * @cdm_blk: cdm hardware resource
+> + * @has_legacy_ctls: DPU uses pre-ACTIVE CTL blocks.
+>   */
+>  struct dpu_rm {
+>  	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
+> @@ -37,6 +38,7 @@ struct dpu_rm {
+>  	struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
+>  	struct dpu_hw_sspp *hw_sspp[SSPP_MAX - SSPP_NONE];
+>  	struct dpu_hw_blk *cdm_blk;
+> +	bool has_legacy_ctls;
+>  };
+>  
+>  struct dpu_rm_sspp_requirements {
 > 
 > -- 
 > 2.39.5
