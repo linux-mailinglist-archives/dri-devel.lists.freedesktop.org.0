@@ -2,90 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5801EA3D332
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 09:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AFCA3D35C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 09:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 027FB10E4A8;
-	Thu, 20 Feb 2025 08:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F7889C5E;
+	Thu, 20 Feb 2025 08:39:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jLzj6cau";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ur312CK6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB0E10E8DE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 08:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1740040209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=FkLw1vmgQ7dtdgPJ1UHXPdMfhD6ZeaEzB3pGWQTdiPI=;
- b=jLzj6cauumzalxR75ukZAuKBXQiKEpfLl71HmgnszL6df5e4m9kHpBYgEAAgLkyMVvDjVo
- xTnMSoJ6iUoWgK6+FQaqTLk3lvkS/pDg6tM3YAv8uqojcK5si5Fp7kqsNhkpc1kho0Ud7i
- a+bolskYN9WYV+thaQpfMIvvyMgmH1E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-231-8AX-qgM9Ney6mh5CUkFvAA-1; Thu, 20 Feb 2025 03:30:07 -0500
-X-MC-Unique: 8AX-qgM9Ney6mh5CUkFvAA-1
-X-Mimecast-MFC-AGG-ID: 8AX-qgM9Ney6mh5CUkFvAA_1740040206
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-38f29b4d4adso281673f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 00:30:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740040206; x=1740645006;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FkLw1vmgQ7dtdgPJ1UHXPdMfhD6ZeaEzB3pGWQTdiPI=;
- b=a+Qy7b1SCHbZuxSYobiwLw4/h7WvhdOxkWtkr/c1mjM3Heo6/t4nGGl4dZ8eZEmnin
- UPzU8cdRfolZrZR3zDkyODDRJHRpaLTMq2zJH6ray9hckX9vCxggOhXysqtnB8jlcQt4
- /O8zIWJnKS/dJOvYn+Aiq7CqhmZobf4Y0RBt8lXQsREC64NTuTziVit5ofXmbbz1r8RM
- YxB4tcXFAIuDXnTRU5gQucw6rbggVB7D1HRktZw12YyuZyBHtbeyeSLaQyMf/4qgXv1f
- qUj030BuUlTZQC1DYlZPsNHKDXKkxyglNGF8izIGeprUs5+Zv/m4x9eNvtZssjmcmdVo
- M2Bw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0Ek3F7ggsxojAyMiu28lueHEq+i9VcSxW0Ct2MDRlIv1CBaHEkycvn+SYkVpYrU0dPlPu/Gb6ki0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzbq+jENVr9AxfelpG3L4DNyl5uBNxMzKUl8R1rLPypycVWcEc6
- fq9HgK7wO7mpu67EluzcZmdpzqE8shqJFlbNFiVHLYnGEDj3Twcv5vhDIKA8Nk8PM8RVGpGgr+D
- SFzW7r0C0JShH5E5e4ccHg0I9eBgPu22ZXRafqnygWWqAQEsJWaOUp3RyZMepuCLNAg==
-X-Gm-Gg: ASbGncs8fxfr0Dj+XIlWpHSDxdpOckD3wSGUZ2R5r7DNBER5HMFvWjrF0Mgw2KteozE
- jh+kk4AytEXDhEzgu5BR3K33S8g/h8kypZLmVSNZxMG/bH13J8LvLwgCIeqBsTvlybfD1uIEX/C
- GW6x4QY6WR0H3Ex7Bos8zJNGgnsiuUYmPzH6Bx06iKHcVQOE+2luuBozU6L/7s82BFcqU5vOx3x
- +tHZIR0b62CLoxaCToC69BFmCIphd31B+Ru4BthRhuYOf988lc+NV0Z
-X-Received: by 2002:a05:6000:1f88:b0:38f:31fe:6d23 with SMTP id
- ffacd0b85a97d-38f650f1026mr1102935f8f.23.1740040206386; 
- Thu, 20 Feb 2025 00:30:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGWe4dn/vMvUAlPK6coZSzvXwdBlz74zEXtytT7szYDy88V3WgwxDv+rQTmR53uaULnwnf4Aw==
-X-Received: by 2002:a05:6000:1f88:b0:38f:31fe:6d23 with SMTP id
- ffacd0b85a97d-38f650f1026mr1102876f8f.23.1740040205927; 
- Thu, 20 Feb 2025 00:30:05 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f64b0f565sm1082572f8f.51.2025.02.20.00.30.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2025 00:30:05 -0800 (PST)
-Date: Thu, 20 Feb 2025 09:30:04 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20250220-glorious-cockle-of-might-5b35f7@houat>
+X-Greylist: delayed 467 seconds by postgrey-1.36 at gabe;
+ Thu, 20 Feb 2025 08:39:32 UTC
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD4E89C5E;
+ Thu, 20 Feb 2025 08:39:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id F250261319;
+ Thu, 20 Feb 2025 08:31:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA79CC4CED1;
+ Thu, 20 Feb 2025 08:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1740040304;
+ bh=18G7Hj9q8cncfV3hH9722v8zJ7usf7Q8Ng96aoe59RU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ur312CK6OZntPrD/B/vpgyRBV0khNbq4RMObqL3AFcWJcZwgHMzR8fC01L9WuPOBA
+ QH7NCc8dpW0Dwo8Ea3vNgGXx7m5lVpAffwyRxxZf6jBNn0+O8o528POtH7Wxe/XphW
+ SgoVvAIMPjhmazLOAomPqJTTdUl/hqDpt7ezOIM4=
+Date: Thu, 20 Feb 2025 09:31:41 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: linux-kernel@vger.kernel.org, jbaron@akamai.com, ukaszb@chromium.org,
+ intel-gfx-trybot@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
+ ville.syrjala@linux.intel.com
+Subject: Re: [PATCH 00/63] Fix CONFIG_DRM_USE_DYNAMIC_DEBUG=y
+Message-ID: <2025022012-viscous-cringing-bf88@gregkh>
+References: <20250125064619.8305-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ej76au2ish3ar7gs"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250125064619.8305-1-jim.cromie@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,78 +61,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jan 24, 2025 at 11:45:14PM -0700, Jim Cromie wrote:
+> This series fixes dynamic-debug's support for DRM debug-categories.
+> Classmaps-v1 evaded full review, and got committed in 2 chunks:
+> 
+>   b7b4eebdba7b..6ea3bf466ac6	# core dyndbg changes
+>   0406faf25fb1..ee7d633f2dfb	# drm adoption
+> 
+> DRM-CI found a regression during init with drm.debug=<initval>; the
+> static-keys under the drm-dbgs in drm.ko got enabled, but those in
+> drivers & helpers did not.
+> 
+> Root Problem:
+> 
+> DECLARE_DYNDBG_CLASSMAP violated a K&R rule "define once, refer
+> afterwards".  Replace it with DYNDBG_CLASSMAP_DEFINE (invoked once in
+> drm-core) and DYNDBG_CLASSMAP_USE (invoked repeatedly, in drivers &
+> helpers).
+> 
+> _DEFINE exports the classmap it creates (in drm.ko), other modules
+> _USE the classmap.  The _USE adds a record ref'g the _DEFINEd (&
+> exported) classmap, in a 2nd __dyndbg_class_users section.
+> 
+> So now at modprobe, dyndbg scans the new section after the 1st
+> __dyndbg_class_maps section, follows the linkage to the _DEFINEr
+> module, finds the (optional) kernel-param controlling the classmap,
+> examines its drm.debug=<initval>, and applies it to the module being
+> initialized.
+> 
+> To recapitulate the multi-module problem wo DRM involvement, Add:
+> 
+> A. tools/testing/selftests/dynamic_debug/*
+> 
+> This alters pr_debugs in the test-modules, counts the results and
+> checks them against expectations.  It uses this formula to test most
+> of the control grammar, including the new class keyword.
+> 
+> B. test_dynamic_debug_submod.ko
+> 
+> This alters the test-module to build both parent & _submod ko's, with
+> _DEFINE and _USE inside #if/#else blocks.  This recap's DRM's 2 module
+> failure scenario, allowing A to exersize several cases.
+> 
+> The #if/#else puts the 2 macro uses together for clarity, and gives
+> the 2 modules identical sets of debugs.
+> 
+> Recent DRM-CI tests are here:
+>   https://patchwork.freedesktop.org/series/139147/
+> 
+> Previous rev:
+>   https://lore.kernel.org/lkml/20240716185806.1572048-1-jim.cromie@gmail.com/
+> 
+> Noteworthy Additions:
+> 
+> 1- drop class "protection" special case, per JBaron's preference.
+>    only current use is marked BROKEN so nobody to affect.
+>    now framed as policy-choice:
+>    #define ddebug_client_module_protects_classes() false
+>    subsystems wanting protection can change this.
+> 
+> 2- compile-time arg-tests in DYNDBG_CLASSMAP_DEFINE
+>    implement several required constraints, and fail obviously.
+> 
+> 3- modprobe time check of conflicting class-id reservations
+>    only affects 2+classmaps users.
+>    compile-time solution not apparent.
+> 
+> 4- dyndbg can now cause modprobe to fail.
+>    needed to catch 3.
+>    maybe some loose ends here on failure.
+> 
+> 5- refactor & rename ddebug_attach_*module_classes
+>    reduce repetetive boilerplate on 2 types: maps, users.
+>    rework mostly brought forward in patchset to reduce churn
+>    TBD: maybe squash more.
+> 
+> Several recent trybot submissions (against drm-tip) have been passing
+> CI.BAT, and failing one or few CI.IGT tests randomly; re-tests do not
+> reliably repeat the failures.
+> 
+> its also at github.com:jimc/linux.git
+>   dd-fix-9[st]-ontip  &  dd-fix-9-13
+> 
+> Ive been running it on my desktop w/o issues.
+> 
+> The drivers/gpu/drm patches are RFC, I think there might be a single
+> place to call DRM_CLASSMAP_USE(drm_dedbug_classes) to replace the
+> sprinkling of _USEs in drivers and helpers.  IIRC, I tried adding a
+> _DEFINE into drm_drv.c, that didn't do it, so I punted for now.
+> 
+> I think the dyndbg core additions are ready for review and merging
+> into a (next-next) test/integration tree.
 
---ej76au2ish3ar7gs
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: [PULL] drm-misc-fixes
-MIME-Version: 1.0
+So whose tree should this go through?
 
-Hi,
+And I think the last patch in this series isn't correct, it looks like a
+000 email somehow.
 
-Here's this week drm-misc-fixes PR
+thanks,
 
-Maxime
-
-drm-misc-fixes-2025-02-20:
-An reset signal polarity fix for the jd9365da-h3 panel, a folio handling
-fix and config fix in nouveau, a dmem cgroup descendant pool handling
-fix, and a missing header for amdxdna.
-The following changes since commit e00a2e5d485faf53c7a24b9d1b575a642227947f:
-
-  drm: Fix DSC BPP increment decoding (2025-02-13 10:20:30 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-02-20
-
-for you to fetch changes up to 838c17fd077e611b12c78feb0feee1b30ed09b63:
-
-  accel/amdxdna: Add missing include linux/slab.h (2025-02-19 09:42:17 -0800)
-
-----------------------------------------------------------------
-An reset signal polarity fix for the jd9365da-h3 panel, a folio handling
-fix and config fix in nouveau, a dmem cgroup descendant pool handling
-fix, and a missing header for amdxdna.
-
-----------------------------------------------------------------
-Aaron Kling (1):
-      drm/nouveau/pmu: Fix gp10b firmware guard
-
-David Hildenbrand (1):
-      nouveau/svm: fix missing folio unlock + put after make_device_exclusive_range()
-
-Friedrich Vock (1):
-      cgroup/dmem: Don't open-code css_for_each_descendant_pre
-
-Hugo Villeneuve (1):
-      drm: panel: jd9365da-h3: fix reset signal polarity
-
-Karol Herbst (1):
-      MAINTAINERS: Remove myself
-
-Su Hui (1):
-      accel/amdxdna: Add missing include linux/slab.h
-
- MAINTAINERS                                      |  2 -
- drivers/accel/amdxdna/amdxdna_mailbox.c          |  1 +
- drivers/gpu/drm/nouveau/nouveau_svm.c            |  9 ++++-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c  |  2 +-
- drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c |  8 ++--
- kernel/cgroup/dmem.c                             | 50 ++++++------------------
- 6 files changed, 24 insertions(+), 48 deletions(-)
-
---ej76au2ish3ar7gs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7boDAAKCRAnX84Zoj2+
-djlZAYDRWB/eU3jG1AGXcUwRjWNjXcdBLXybwk5Iln3U8cxwsE9vCR8cE0Iy4wWh
-Wktc2T8BgLD8z8DWsOo4V72o6jSQdZXQl8uO4MxpEjctfXILwPUDLvIhEn6d6Emg
-k+Pb72oimA==
-=AiuH
------END PGP SIGNATURE-----
-
---ej76au2ish3ar7gs--
-
+greg k-h
