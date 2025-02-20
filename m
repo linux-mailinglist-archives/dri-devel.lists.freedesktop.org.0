@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F14A3DF47
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:51:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E605A3DF5A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:53:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2DC210E9A4;
-	Thu, 20 Feb 2025 15:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22C6410E9A6;
+	Thu, 20 Feb 2025 15:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="MG9s4xAi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jZznId6x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A4410E191;
- Thu, 20 Feb 2025 15:50:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7sjjd4KuVh7sQswGRTVV8u5TUIDseOf5972SJMocmes=; b=MG9s4xAiDNsCNTakyTIBQ7wL8O
- fci6bqOnmm+Oeo2omLVzYuzrBhMqWsgyqFH753mu6HuoGCr6KR3eKLaigywQIM3i8uw35J73ddwH9
- BR7Qti//kn4i35hGWpFHkXFLfvfyhe+H3/5xvGdPz1q8Ljclcaum81l8s/i/wuvO9yKfxTY5D7S+1
- 3fG/x7ZOS40NcvOkVKrMLx5a2Xh/9kC/mduVsZgUODwvA6+TdxgIMxwMGPKyVOr0irqUJ7RUswqn6
- cwLaUP+2V5wq+OuyIK2Vx/p09dVvhOhfE3s2By7MC0CNskJy0yd17Zbd6njDkof5WzZB9/PcfFp9n
- MeNmlldQ==;
-Received: from [194.136.85.206] (port=52826 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tl8pD-0003Iy-28;
- Thu, 20 Feb 2025 17:50:55 +0200
-Date: Thu, 20 Feb 2025 17:50:47 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: <intel-xe@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <suraj.kandpal@intel.com>,
- <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v8 01/14] drm: Define histogram structures exposed to user
-Message-ID: <20250220175047.412ee8d4@eldfell>
-In-Reply-To: <cd095fd7-3043-402a-9e21-c0c85c53f8e3@intel.com>
-References: <20250128-dpst-v8-0-871b94d777f8@intel.com>
- <20250128-dpst-v8-1-871b94d777f8@intel.com>
- <20250217120808.708b9b4d@eldfell>
- <c423efcb-5ab8-41c2-af0a-621007c6175d@intel.com>
- <20250218181819.11ca41ab@eldfell>
- <cd095fd7-3043-402a-9e21-c0c85c53f8e3@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A14610E161;
+ Thu, 20 Feb 2025 15:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740066796; x=1771602796;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=KetKDm/M9vkBJONzRRNG+8WMKFDk+Kp0BcH+/OvQF94=;
+ b=jZznId6x3PlFD81U0QJIOtTXTwb3veeo0Vhhh+M0xqDaF2jkr70RTrQY
+ 33b2c3LViYrBV3T5xt0mjmHQjNMIVRq79QlKpcefcUc9AGhuxAIdnaJBF
+ UNH/Nm40cZqh2BsIYKfu1WSXbX1K6fq9SCvaSQJDrbbqxDaSrIQ2xMLui
+ Qq6qFnZfzQQw5F9usbTEd2bxDEfER9n/l7Lkh6xblgNo++aL6BPQbLjeC
+ /th46PCc83vugAewP6V2uyaQJiFCBJPXbpwNDg4sucN2jxmloCnd0oHHa
+ UYUwbaiSl8FIbKUXSSTMbka85XvfOxVO0LC6g0sWA6uxn/TV0U38GS+mS A==;
+X-CSE-ConnectionGUID: 1eOGN1M/R2ehs5cJuWnXtg==
+X-CSE-MsgGUID: njf7VCuQQ1uTzf0UbqcOIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51471451"
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; d="scan'208";a="51471451"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2025 07:53:15 -0800
+X-CSE-ConnectionGUID: y5q7SbGJQ62DPxfSL/WuTw==
+X-CSE-MsgGUID: E9RH2eYWReOrRipTlNupkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; d="scan'208";a="119697316"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO [10.245.244.161])
+ ([10.245.244.161])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2025 07:53:13 -0800
+Message-ID: <3de5325a-147e-4126-970c-765884a1f6da@intel.com>
+Date: Thu, 20 Feb 2025 15:53:10 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/FHtMHN9K_t5TFIWRa/qNN2j";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 27/32] drm/xe: Add SVM VRAM migration
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
+ felix.kuehling@amd.com, dakr@kernel.org
+References: <20250213021112.1228481-1-matthew.brost@intel.com>
+ <20250213021112.1228481-28-matthew.brost@intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250213021112.1228481-28-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,182 +74,256 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/FHtMHN9K_t5TFIWRa/qNN2j
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 13/02/2025 02:11, Matthew Brost wrote:
+> Migration is implemented with range granularity, with VRAM backing being
+> a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of the
+> TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
+> SVM range is migrated to SRAM, the TTM BO is destroyed).
+> 
+> The design choice for using TTM BO for VRAM backing store, as opposed to
+> direct buddy allocation, is as follows:
+> 
+> - DRM buddy allocations are not at page granularity, offering no
+>    advantage over a BO.
+> - Unified eviction is required (SVM VRAM and TTM BOs need to be able to
+>    evict each other).
+> - For exhaustive eviction [1], SVM VRAM allocations will almost certainly
+>    require a dma-resv.
+> - Likely allocation size is 2M which makes of size of BO (872)
+>    acceptable per allocation (872 / 2M == .0004158).
+> 
+> With this, using TTM BO for VRAM backing store seems to be an obvious
+> choice as it allows leveraging of the TTM eviction code.
+> 
+> Current migration policy is migrate any SVM range greater than or equal
+> to 64k once.
+> 
+> [1] https://patchwork.freedesktop.org/series/133643/
+> 
+> v2:
+>   - Rebase on latest GPU SVM
+>   - Retry page fault on get pages returning mixed allocation
+>   - Use drm_gpusvm_devmem
+> v3:
+>   - Use new BO flags
+>   - New range structure (Thomas)
+>   - Hide migration behind Kconfig
+>   - Kernel doc (Thomas)
+>   - Use check_pages_threshold
+> v4:
+>   - Don't evict partial unmaps in garbage collector (Thomas)
+>   - Use %pe to print errors (Thomas)
+>   - Use %p to print pointers (Thomas)
+> v5:
+>   - Use range size helper (Thomas)
+>   - Make BO external (Thomas)
+>   - Set tile to NULL for BO creation (Thomas)
+>   - Drop BO mirror flag (Thomas)
+>   - Hold BO dma-resv lock across migration (Auld, Thomas)
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/xe/xe_svm.c | 111 ++++++++++++++++++++++++++++++++++--
+>   drivers/gpu/drm/xe/xe_svm.h |   5 ++
+>   2 files changed, 112 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
+> index 0a78a838508c..2e1e0f31c1a8 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -32,6 +32,11 @@ static unsigned long xe_svm_range_end(struct xe_svm_range *range)
+>   	return drm_gpusvm_range_end(&range->base);
+>   }
+>   
+> +static unsigned long xe_svm_range_size(struct xe_svm_range *range)
+> +{
+> +	return drm_gpusvm_range_size(&range->base);
+> +}
+> +
+>   static void *xe_svm_devm_owner(struct xe_device *xe)
+>   {
+>   	return xe;
+> @@ -512,7 +517,6 @@ static int xe_svm_populate_devmem_pfn(struct drm_gpusvm_devmem *devmem_allocatio
+>   	return 0;
+>   }
+>   
+> -__maybe_unused
+>   static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops = {
+>   	.devmem_release = xe_svm_devmem_release,
+>   	.populate_devmem_pfn = xe_svm_populate_devmem_pfn,
+> @@ -592,6 +596,71 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
+>   	return (range->tile_present & ~range->tile_invalidated) & BIT(tile->id);
+>   }
+>   
+> +static struct xe_vram_region *tile_to_vr(struct xe_tile *tile)
+> +{
+> +	return &tile->mem.vram;
+> +}
+> +
+> +static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
+> +				       struct xe_svm_range *range,
+> +				       const struct drm_gpusvm_ctx *ctx)
+> +{
+> +	struct mm_struct *mm = vm->svm.gpusvm.mm;
+> +	struct xe_vram_region *vr = tile_to_vr(tile);
+> +	struct drm_buddy_block *block;
+> +	struct list_head *blocks;
+> +	struct xe_bo *bo;
+> +	ktime_t end = 0;
+> +	int err;
+> +
+> +	if (!mmget_not_zero(mm))
+> +		return ERR_PTR(-EFAULT);
+> +	mmap_read_lock(mm);
+> +
+> +retry:
+> +	bo = xe_bo_create_locked(tile_to_xe(tile), NULL, NULL,
+> +				 xe_svm_range_size(range),
+> +				 ttm_bo_type_device,
+> +				 XE_BO_FLAG_VRAM_IF_DGFX(tile));
 
-On Wed, 19 Feb 2025 09:28:51 +0530
-"Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+Just to confirm, there is nothing scary with the vram still potentially 
+being used by the GPU at this point (like with an async eviction + clear 
+op), right? At some point we have some kind of synchronisation before 
+the user can touch this memory?
 
-> On 18-02-2025 21:48, Pekka Paalanen wrote:
-> > On Tue, 18 Feb 2025 11:13:39 +0530
-> > "Murthy, Arun R"<arun.r.murthy@intel.com> wrote:
-> > =20
-> >> On 17-02-2025 15:38, Pekka Paalanen wrote: =20
-> >>> Hi Arun,
-> >>>
-> >>> this whole series seems to be missing all the UAPI docs for the DRM
-> >>> ReST files, e.g. drm-kms.rst. The UAPI header doc comments are not a
-> >>> replacement for them, I would assume both are a requirement.
-> >>>
-> >>> Without the ReST docs it is really difficult to see how this new UAPI
-> >>> should be used. =20
-> >> Hi Pekka,
-> >> I also realized later on this. Will add this in my next patchset. =20
-> >>> On Tue, 28 Jan 2025 21:21:07 +0530
-> >>> Arun R Murthy<arun.r.murthy@intel.com> wrote:
-> >>>    =20
-> >>>> Display Histogram is an array of bins and can be generated in many w=
-ays
-> >>>> referred to as modes.
-> >>>> Ex: HSV max(RGB), Wighted RGB etc.
-> >>>>
-> >>>> Understanding the histogram data format(Ex: HSV max(RGB))
-> >>>> Histogram is just the pixel count.
-> >>>> For a maximum resolution of 10k (10240 x 4320 =3D 44236800)
-> >>>> 25 bits should be sufficient to represent this along with a buffer o=
-f 7
-> >>>> bits(future use) u32 is being considered.
-> >>>> max(RGB) can be 255 i.e 0xFF 8 bit, considering the most significant=
- 5
-> >>>> bits, hence 32 bins.
-> >>>> Below mentioned algorithm illustrates the histogram generation in
-> >>>> hardware.
-> >>>>
-> >>>> hist[32] =3D {0};
-> >>>> for (i =3D 0; i < resolution; i++) {
-> >>>> 	bin =3D max(RGB[i]);
-> >>>> 	bin =3D bin >> 3;	/* consider the most significant bits */
-> >>>> 	hist[bin]++;
-> >>>> }
-> >>>> If the entire image is Red color then max(255,0,0) is 255 so the pix=
-el
-> >>>> count of each pixels will be placed in the last bin. Hence except
-> >>>> hist[31] all other bins will have a value zero.
-> >>>> Generated histogram in this case would be hist[32] =3D {0,0,....4423=
-6800}
-> >>>>
-> >>>> Description of the structures, properties defined are documented in =
-the
-> >>>> header file include/uapi/drm/drm_mode.h
-> >>>>
-> >>>> v8: Added doc for HDR planes, removed reserved variables (Dmitry)
-> >>>>
-> >>>> Signed-off-by: Arun R Murthy<arun.r.murthy@intel.com>
-> >>>> ---
-> >>>>    include/uapi/drm/drm_mode.h | 65 ++++++++++++++++++++++++++++++++=
-+++++++++++++
-> >>>>    1 file changed, 65 insertions(+)
-> >>>>
-> >>>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode=
-.h
-> >>>> index c082810c08a8b234ef2672ecf54fc8c05ddc2bd3..b8b7b18843ae7224263a=
-9c61b20ac6cbf5df69e9 100644
-> >>>> --- a/include/uapi/drm/drm_mode.h
-> >>>> +++ b/include/uapi/drm/drm_mode.h
-> >>>> @@ -1355,6 +1355,71 @@ struct drm_mode_closefb {
-> >>>>    	__u32 pad;
-> >>>>    };
-> >>>>   =20
-> >>>> +/**
-> >>>> + * enum drm_mode_histogram
-> >>>> + *
-> >>>> + * @DRM_MODE_HISTOGRAM_HSV_MAX_RGB:
-> >>>> + * Maximum resolution at present 10k, 10240x4320 =3D 44236800
-> >>>> + * can be denoted in 25bits. With an additional 7 bits in buffer ea=
-ch bin
-> >>>> + * can be a u32 value.
-> >>>> + * For SDL, Maximum value of max(RGB) is 255, so max 255 bins. =20
-> >>> I assume s/SDL/SDR/. =20
-> >> Yes, sorry TYPO =20
-> >>> This assumption seems false. SDR can be also 10-bit and probably even
-> >>> more. =20
-> >> Yes but in practice majority of them being 8-bit. So have considered
-> >> 8-bit for illustration purpose only.
-> >> The design itself should accommodate 10-bit as well. =20
-> > Hi Arun,
-> >
-> > if these are just examples, then there is no need to mention SDR or
-> > HDR. You can say that if "thing" is 8-bit, then there are 256 possible
-> > values, and we could have 256 bins or we could have just 32 bins.
-> >
-> > But what is "thing"? Let's see below. =20
-> Sure will remove these over here and add then in the ReST document.
-> >>>> + * If the most significant 5 bits are considered, then bins =3D 2^5
-> >>>> + * will be 32 bins.
-> >>>> + * For HDR, maximum value of max(RGB) is 65535, so max 65535 bins. =
-=20
-> >>> Does this mean that the histogram is computed on the pixel values
-> >>> emitted to the cable? What if the cable format is YUV? =20
-> >> Yes, again the illustration over here is max(RGB) used for histogram
-> >> generation.
-> >> If YUV is used or weighted RGB is used for histogram generation then t=
-he
-> >> mode will have to change and accordingly the data for that mode. =20
-> > Do you mean that the HDMI or DisplayPort signalling mode (YUV vs. RGB?
-> > sub-sampling? bit-depth?) affects which histogram modes can be used? =20
-> No this is actually for user as to how to interpret the histogram data=20
-> that is being sent from the KMD. UMD reads this histogram so in order to=
-=20
-> understand the format of this data he needs to know the histogram mode.
-> > Currently userspace cannot know or control the signalling mode. How
-> > would userspace know which histogram modes are possible? =20
-> As part of drm_histogram_caps struct under HISTOGRAM_CAPS property KMD=20
-> will expose all of the supported histogram modes to the user. User will=20
-> then choose one among the supported modes by drm_histogram_config=20
-> struct(HISTOGRAM_ENABLE property)
-> > You should also define at which point of the pixel pipeline the
-> > histogram is recorded. Is it before, say, CRTC DEGAMMA processing? Is
-> > it after signal encoding to the 6/8/10/12/14/16-bit RGB or YUV format?
-> > Before or after YUV sub-sampling? Limited or full range? =20
-> This again is the hardware design. Theoretically this histogram hardware=
-=20
-> will be at the end of the hardware pipe, i.e after hardware/software=20
-> composition is done.
+> +	if (IS_ERR(bo)) {
+> +		err = PTR_ERR(bo);
+> +		if (xe_vm_validate_should_retry(NULL, err, &end))
+> +			goto retry;
+> +		goto unlock;
+> +	}
+> +
+> +	drm_gpusvm_devmem_init(&bo->devmem_allocation,
+> +			       vm->xe->drm.dev, mm,
+> +			       &gpusvm_devmem_ops,
+> +			       &tile->mem.vram.dpagemap,
+> +			       xe_svm_range_size(range));
+> +
+> +	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
+> +	list_for_each_entry(block, blocks, link)
+> +		block->private = vr;
+> +
+> +	/*
+> +	 * Take ref because as soon as drm_gpusvm_migrate_to_devmem succeeds the
+> +	 * creation ref can be dropped upon CPU fault or unmap.
+> +	 */
+> +	xe_bo_get(bo);
+> +
+> +	err = drm_gpusvm_migrate_to_devmem(&vm->svm.gpusvm, &range->base,
+> +					   &bo->devmem_allocation, ctx);
+> +	xe_bo_unlock(bo);
+> +	if (err) {
+> +		xe_bo_put(bo);	/* Local ref */
+> +		xe_bo_put(bo);	/* Creation ref */
+> +		bo = ERR_PTR(err);
+> +	}
+> +
+> +unlock:
+> +	mmap_read_unlock(mm);
+> +	mmput(mm);
+> +
+> +	return bo;
+> +}
+> +
+>   /**
+>    * xe_svm_handle_pagefault() - SVM handle page fault
+>    * @vm: The VM.
+> @@ -600,7 +669,8 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
+>    * @fault_addr: The GPU fault address.
+>    * @atomic: The fault atomic access bit.
+>    *
+> - * Create GPU bindings for a SVM page fault.
+> + * Create GPU bindings for a SVM page fault. Optionally migrate to device
+> + * memory.
+>    *
+>    * Return: 0 on success, negative error code on error.
+>    */
+> @@ -608,11 +678,18 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   			    struct xe_tile *tile, u64 fault_addr,
+>   			    bool atomic)
+>   {
+> -	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma), };
+> +	struct drm_gpusvm_ctx ctx = {
+> +		.read_only = xe_vma_read_only(vma),
+> +		.devmem_possible = IS_DGFX(vm->xe) &&
+> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR),
+> +		.check_pages_threshold = IS_DGFX(vm->xe) &&
+> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR) ? SZ_64K : 0,
+> +	};
+>   	struct xe_svm_range *range;
+>   	struct drm_gpusvm_range *r;
+>   	struct drm_exec exec;
+>   	struct dma_fence *fence;
+> +	struct xe_bo *bo = NULL;
+>   	ktime_t end = 0;
+>   	int err;
+>   
+> @@ -620,6 +697,9 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   	xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(vma));
+>   
+>   retry:
+> +	xe_bo_put(bo);
+> +	bo = NULL;
+> +
+>   	/* Always process UNMAPs first so view SVM ranges is current */
+>   	err = xe_svm_garbage_collector(vm);
+>   	if (err)
+> @@ -635,9 +715,31 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   	if (xe_svm_range_is_valid(range, tile))
+>   		return 0;
+>   
+> +	/* XXX: Add migration policy, for now migrate range once */
+> +	if (!range->migrated && range->base.flags.migrate_devmem &&
+> +	    xe_svm_range_size(range) >= SZ_64K) {
+> +		range->migrated = true;
+> +
+> +		bo = xe_svm_alloc_vram(vm, tile, range, &ctx);
+> +		if (IS_ERR(bo)) {
+> +			drm_info(&vm->xe->drm,
+> +				 "VRAM allocation failed, falling back to retrying, asid=%u, errno %pe\n",
+> +				 vm->usm.asid, bo);
+> +			bo = NULL;
+> +			goto retry;
+> +		}
+> +	}
+> +
+>   	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
+> -	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU mappings have changed */
+> +	/* Corner where CPU mappings have changed */
+> +	if (err == -EOPNOTSUPP || err == -EFAULT || err == -EPERM) {
+> +		if (err == -EOPNOTSUPP)
+> +			drm_gpusvm_range_evict(&vm->svm.gpusvm, &range->base);
+> +		drm_info(&vm->xe->drm,
+> +			 "Get pages failed, falling back to retrying, asid=%u, gpusvm=%p, errno %pe\n",
+> +			 vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
+>   		goto retry;
+> +	}
+>   	if (err)
+>   		goto err_out;
+>   
+> @@ -668,6 +770,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   	dma_fence_put(fence);
+>   
+>   err_out:
+> +	xe_bo_put(bo);
+>   
+>   	return err;
+>   }
+> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
+> index 0fa525d34987..984a61651d9e 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.h
+> +++ b/drivers/gpu/drm/xe/xe_svm.h
+> @@ -35,6 +35,11 @@ struct xe_svm_range {
+>   	 * range. Protected by GPU SVM notifier lock.
+>   	 */
+>   	u8 tile_invalidated;
+> +	/**
+> +	 * @migrated: Range has been migrated to device memory, protected by
+> +	 * GPU fault handler locking.
+> +	 */
+> +	u8 migrated	:1;
+>   };
+>   
+>   int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr);
 
-Hi Arun,
-
-sure, it may be by hardware design, but the UAPI must specify or
-communicate exactly what it is. This seems to be the recurring theme in
-all the remaining comments, so I trimmed them away.
-
-A generic UAPI is mandatory, because that's KMS policy AFAIU. A generic
-UAPI cannot key anything off of the hardware revision. Instead,
-everything must be specified and communicated explicitly. It's good if
-AMD has similar functionality, someone from their team could take a
-look so you can come up with an UAPI that works for both.
-
-Dmitry Baryshkov tried to ask for the same thing. Assuming I know
-nothing about the hardware, and the only documentation I have is the
-KMS UAPI documentation (userland side, not kernel internals), I should
-be able to write a program from scratch that correctly records and
-analyses the histogram on every piece of hardware where the kernel
-driver exposes it. That means explaining exactly what the driver and the
-hardware will do when I poke that UAPI.
-
-
-Thanks,
-pq
-
---Sig_/FHtMHN9K_t5TFIWRa/qNN2j
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAme3T1cACgkQI1/ltBGq
-qqc76g//SLDgRAgDtK0SBEzCcwd4IS8/VqktMCoaohEIthfdt6wSgdoSYI/R2aTr
-0AFkqReFhpsodIgyvpjGNFXWOLFKRJp8VV0sy67nPmTr/z9EnnXbQ7wwFKBBS9Rf
-+YNm1eqF0Kaw8h/T+mEPyBRMMGcDTsUhodhY0EtUqSROIccxeFSv3DHkDv7aW9ne
-yamWmSW5pMbHuxE7ZsgOsl5CyHmoaCVGle7rs1fOWThtqmt7djKwxHCsHMujwxTC
-49+WDDAl6tvmfEPWYbpZOWdVstoy22P7siSElk/aSbiUKUBgmYAxvmLQNOcQse5h
-gAdJZ3keaWn2PGv6ejmgt5kX8Aw6JYSO4mSV1pWo4UeZeFQXhBihzKSqo8ALpyIF
-55YIeu/JnljIZiSrQu9AkYZHB0wEU5FJ1EpFhW5+6KFHlXVbVR4cs4QASW+2D1dx
-oC3MZPUjcIrzcEygWZMq1NFi5bV6HIYPddjROWzyJnq1a1jiZyPEVGWonnsieHwR
-rvmT1u6UyWzb35bO4mgjdQEEbkCqoTBEjLt08MgV/WfswMlrG6mfevjOJQpx3cSr
-eHZ98Di/y3WpM2jBw0AG5YDIU21H45/vF+av/jdZDqD0sNseavVAZcqdx+dvI2ug
-MK1w7CDabhx9LPJDYMF+OJTskQptqshfwL8VyoTBuVyv05gw6xs=
-=LMv+
------END PGP SIGNATURE-----
-
---Sig_/FHtMHN9K_t5TFIWRa/qNN2j--
