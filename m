@@ -2,109 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB07A3DA76
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 13:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D0DA3DAA2
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 14:01:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A4510E96D;
-	Thu, 20 Feb 2025 12:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEBAD10E053;
+	Thu, 20 Feb 2025 13:01:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hjjfB0Q/";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ujs3U6IB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4E510E962
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 12:51:43 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 644B344117;
- Thu, 20 Feb 2025 12:51:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740055901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QGnp1hPc4h8YmxgjCIlQSvQmEqv4VQlYn22ipnSzRrU=;
- b=hjjfB0Q/MlPPOj88KiyDJYmA3pFIAZ8XhDTyMjboenGw0128l00/kuXeHUDQvf3fqfVk/8
- xsli0X/W7hMVRUZdk6pD0XIYwmd0DQlucQSZLIQJOvxDHrhuZWTBcyybS8r0OR/ckp3uju
- b0m4J/hrFIzjv9VYw+fDyAdR9zHAN/FYfLaN097aOJ5mOoNw+aoZpdkxpmsA4GKSMqjWol
- VaGA0+8RRpWWJ8xbktRyHWVI4D0KwX5PdCTWqXxZsME2wFMKyTLgB/tQ9PWRXMD+hanMsL
- hC7aRIzBLInOs+Xijat+NFra9g+ze/vawFS5/pJzmd0ZDJOgmt8U85NxgoJ3yw==
-Message-ID: <9efc1ba4-89ad-4aed-b4d5-b0a53b120fd4@bootlin.com>
-Date: Thu, 20 Feb 2025 13:51:37 +0100
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB26510E192;
+ Thu, 20 Feb 2025 13:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1740056451; x=1740661251; i=markus.elfring@web.de;
+ bh=sU1XHE9KFAlc92izSS4V5NV97DtDuepbnguI4jYS71U=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=ujs3U6IBH3U1iEkzFEXb2IrHDrjTO7bnnlsuDC8FoO/cs328dJ0VRBwIlFQVI/v+
+ p94gX6JIhKbfBKlaoodtQQLOaICkdkBQpZAA0nDSJBg9WdDGMzw/bAyRqMXd93l5z
+ 1keGIui/Z5Vgs51bQAvsMReB9Ov07lW0LvSNNf53zLiMEdmYK+VbZDuHsUp5nNv0r
+ ig7xCrvLA/J8haNcUbm+dX8F91wJWWWajYbkbBeVXq+pNm5IMgt5uD0jOhIxy3DOv
+ KQlhOqGnzK612Cii3y7tgnSj4EPRYvQj16p0ZzsCNYezWROs0UroxpzPvO2ptDcxS
+ HVm93ZNRhq3IEWdZiA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.25]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MuVKI-1tT9Zx21mk-013Cx5; Thu, 20
+ Feb 2025 14:00:51 +0100
+Message-ID: <731c6ba8-f165-4ee5-80be-514fc32c8475@web.de>
+Date: Thu, 20 Feb 2025 14:00:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: writeback: Fix kernel doc name
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20250207-b4-fix-warning-v1-1-b4964beb60a3@bootlin.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250207-b4-fix-warning-v1-1-b4964beb60a3@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeijedukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeegjeeguddtkefhfffggeduuedttefgueevgeetfedttdefveeufffgvefgveeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepledprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlr
- dgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-GND-Sasl: louis.chauvet@bootlin.com
+To: vulab@iscas.ac.cn, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Xinhui Pan <Xinhui.Pan@amd.com>
+References: <20250220064244.733-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH v2?] drm/radeon: Add error handlings for r420 CP errata
+ initialization
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250220064244.733-1-vulab@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:DTCVMAzRcbXDsDaWrsjoQpRHRWy8WC4va94OF+pvpJwvN9EipS4
+ Kk0u6da2VtyehCQrLHfr6nKqncDZIugJ3xjTfi+UDfX4pDx4k9eoZboZjwCGr+nsuRjJ4mO
+ pZxXHWP7HjQRkFB5Ta3ENRVuNBR0fU2tFxZCHE/CyRYfp93ueRUbcFTSZLINKp/ykhS1kjI
+ foI1RQ6pJPjszMXSJuc+A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ss8rG+UxAxc=;w0c9oGegRzOmROzOzwreyUWufmH
+ LmCUCyxqoXi8BCTW/sAkHwGNtkI8VKYlDdcXioRp7//EHBVeNSZcKoEUpf1A0I5ALX3cCm51Z
+ BWq1/pBge7CoynZeMG+uFkwm2GOW9vCmJg9cH4Oak2w8wizqkWCdWnJBnlKyGWzm6kAyrOeew
+ fc7tFQyJ1kU7PVzzSu4eQ/hOpGUkl+JwGMr+gXxiSsUGQrvDVWaYvNjGb8i1tyF+A9OK6viYK
+ JspDd0j97jvP8GcM0WN2dQdwp2m7Sev8DK5ZM2XKjebR3JyQ9orkvuRXI7PZS18rCIg8h0BZD
+ EEZhuKq9r1leRcddliuouVhJUb6J8mcw1R56hUumYXA9VxAIXU/2OJP6H+UsXRva3AeSKa5gv
+ PlT5Whm8OfLQrbg7fQ7WLDncu4xZzRa2LTHsXEaDgUOmCWyadSjtDhvgMMXj9m8wDX1GDUdDn
+ 7kpg7bhM7hkvsoWSeVrAbdkl0IxtXVDel9LBUJootAS6jCPiekbqQyO6ACh2zTXNG4is/SXg+
+ Wu5kMvBUI+MrfNU9q37NTwGtIQm8Ckn2fxc2DxKOIdQ2t9Ogiez+iudY79jgLkN/BluVTt4wq
+ a+0xwPIKMXiH4vY73oJhzZ/KtPUFgzb/OnZAs0BNTGT7t70uanvoCYSTmobqXppYb3Ps3f4J0
+ Yx+6Xp326eeWvNdq1pE5X7aRQYiJhlfzFEOhyvEj+iYZvYXf9jfGLCOs0jwwn8/vzIiYRluxM
+ jwM1vOz20G7t3OwMlExP0nt6QkqZuyz4W+iGKuaidGvdO/KR8KRGDE4e0TSlaPQeI35jcDkPc
+ qTXnwvaPr0ngyxk8R4yWI416ER/A56eBoCEZYfC4ED4RSk1UklNsbhtQus5oUivB7AioJhzcy
+ uTxhL4N8eD+Oym72Fcm2B6rY5uObACqHQA8rlWrdT8oDftk2Fs8ItWQR2zJ1ljR45cunjWhdz
+ ceB7/5DpuB5Pi5RbTKYTGOjg6kc6DhywAdGZN7rwd1vJKtHHTKdN6FkAvpAz/16wkBkblQvBL
+ EhngzdueEnxbpmwEnRG3WgBhthnDELuZas/M7HrXhNOWOQSMnt/uZs0MW/F2jk/GAR47cpqPw
+ /WK3RrCmDY0+lct9cj/1aDk9D/Zk+ewsOgabkz27qtJjkK7yG05gI6gFM4+8RmKKGek2vxW8h
+ M5ivuY3883rcvS45emSAmz84aHFS6VZGoG4MmBgZeh4ZUz1Q4RHD5DQdW8sz3wza4t4L2ecAU
+ 2ZMPe6z7hgJE22c8uHMNDvn7v/uHhYX4cTtnsxRvtYITVTebGBwG9oA1UIsuG6/9s35tEtiSD
+ 3XwPTy1gmsOaql2U4/LXuPCGFJYR3UgUJaXl1CSanihubV3pYpzA+oeXMdNSs7aMG07osD/zF
+ Xnd6Mga5rUs4Lb+ZKGvsBTA73pODd5GcUe4mtVfhFZCY3IyxTJhG6smTNnl/bwvKc3/46GEQ2
+ 8Fip25jyYkR9vO0V785oqVBvFjgg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,53 +93,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 07/02/2025 à 18:35, Louis Chauvet a écrit :
-> During the creation of drmm_ variants for writeback connector, one
-> function was renamed, but not the kernel doc.
-> 
-> To remove the warning, use the proper name in kernel doc.
-> 
-> Fixes: 135d8fc7af44 ("drm: writeback: Create an helper for drm_writeback_connector initialization")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/all/20250207142201.550ce870@canb.auug.org.au/
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-Hi all,
-
-Gentle ping on this patch. Can someone ack/review it so I can apply it 
-on drm-misc-next?
-
-Thanks,
-Louis Chauvet
-
+=E2=80=A6
 > ---
->   drivers/gpu/drm/drm_writeback.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-> index 3628fbef77524a7390b3929896a20f1c0a82117d..b14dafe765a148bbde70fcfd1a49cfea9baa9fea 100644
-> --- a/drivers/gpu/drm/drm_writeback.c
-> +++ b/drivers/gpu/drm/drm_writeback.c
-> @@ -213,7 +213,7 @@ static void delete_writeback_properties(struct drm_device *dev)
->   }
->   
->   /**
-> - * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
-> + * __drm_writeback_connector_init - Initialize a writeback connector with
->    * a custom encoder
->    *
->    * @dev: DRM device
-> 
-> ---
-> base-commit: 2eca617f12586abff62038db1c14cb3aa60a15aa
-> change-id: 20250207-b4-fix-warning-431e0a7067ae
-> 
-> Best regards,
+>  drivers/gpu/drm/radeon/r420.c | 15 +++++++++++----
+=E2=80=A6
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+How do you think about to improve your version management?
+https://lore.kernel.org/all/?q=3D%22This+looks+like+a+new+version+of+a+pre=
+viously+submitted+patch%22
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.14-rc3#n780
 
+Regards,
+Markus
