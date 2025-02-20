@@ -2,60 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B480A3E5F6
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 21:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7492A3E600
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 21:41:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C99FA10E9E4;
-	Thu, 20 Feb 2025 20:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E3410E9DC;
+	Thu, 20 Feb 2025 20:41:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M1s6vBPI";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="TBZBr8F9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2860310E9DF;
- Thu, 20 Feb 2025 20:38:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740083917; x=1771619917;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=WRoA2Otu8KXZFy/YShs2Evzm1qWRGAVUan1amEpzAB8=;
- b=M1s6vBPIhCsU8rnViZonzZFDhP9x0vitkij4Z911wUyWKi1J1IeyA/a2
- S0MgxFAqilHhlrBILJCtYN7i0676/m3o6LOcH6KY4l6Mxq8OXvL4fkfnu
- jpzX5geXCp5X2lBe3QifFaDhjA2vP+87QBvpeLi3kaSDRDr+bPzrsZZfc
- Nuyh6ECY6gEFADyZkI/J+1htLTuRoSLufOLDROLk/h1w/A+2DH+w5EjGf
- ZfFkkkF9Q/pkk7BKCQdAl4m3bQl2v6/oSOyEfu9NsuFz6cMLZ2db4Iijs
- X8fX/d53wiY0Qu+ObQT4uz7qIsFCEFpPYiEqAGVjHkPaLS8S8k7aKhImT w==;
-X-CSE-ConnectionGUID: hnWDICAZQOCbUC0hkFxegQ==
-X-CSE-MsgGUID: nq9J4QU3SwupGPzCkOIvaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41097944"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="41097944"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2025 12:38:37 -0800
-X-CSE-ConnectionGUID: Ruzg0pEtRjGy7XWyCVjLwg==
-X-CSE-MsgGUID: VqXGo015SjimLlpLUbxrsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; d="scan'208";a="115100576"
-Received: from dut4086lnl.fm.intel.com ([10.105.10.90])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2025 12:38:35 -0800
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, tvrtko.ursulin@igalia.com,
- lucas.demarchi@intel.com, matthew.brost@intel.com,
- dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch
-Subject: [PATCH v4 6/6] drm/xe/xe_query: Add support for per-drm-client reset
- stat querying
-Date: Thu, 20 Feb 2025 20:38:32 +0000
-Message-ID: <20250220203832.130430-7-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250220203832.130430-1-jonathan.cavitt@intel.com>
-References: <20250220203832.130430-1-jonathan.cavitt@intel.com>
+Received: from MA0PR01CU012.outbound.protection.outlook.com
+ (mail-southindiaazolkn19011035.outbound.protection.outlook.com
+ [52.103.67.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABBE10E9DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 20:41:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JtmAOzeiebnsYQXMfUReeN3anJAi5SyTuwDZB8wfTBeYodQmv82wcD7xKBuCRlXJ3MNXT1NZmukI+vayodi0YPsj+AX9EK8O1Qd3bTvKceq1qqqeKI2ip5f0N8duf9RbNY2SzMSzjVlIQgy3+KfsVINlEx/lb3h7OUthyKnwx1MWTG795Kv7vHiHRgyjGovusT1wD/r4uBiGxw0Eb+jBKysvgR322NC+T12pMxilLBfl+xUpx6NLpNMbUXQad/yv3a7PAENdWvfcGregj9OkoFgpKouu1FENnGqCBOqMPvCX+W/yeOFjUdKLaLQkJG/vclEQcK26oWXjBR6n6K3ajA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o9wmHMBSZh0bUKqYZCXP6X/WUzMxmqZWUQHWoKmtq4I=;
+ b=ZcjI0L8FARu7ZH/G1CR7Rpp3ZfskLjRCAl7HMnUBuoti8X36aqD3+ZGGm5uaxwaRJzBS29wFFbFGh9T0NRSAsfqtjgaBL3iI1ZowwMa5bOTHcuCWBi/TBoaoqg3t/6pPH63yRYne3hhcMhxph7dGoJJzU0vHrHuWP+j+u9Ds3Tf0kdBI3Fv3oCxobW1JYgqoxpbbAUwg0vCUCWqK9J02af9/KB7uD6W30O9QlSem9s7BrYCWfZMZjpFcU1A3iHewLn1bOOpg/7GijI3kXMh4w1Hio8EvayVoK0+ERc1uyhN6rnCQBOu6PD/6nrbJxaj8TewY4mUK/UjFVNOpL/Ys5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o9wmHMBSZh0bUKqYZCXP6X/WUzMxmqZWUQHWoKmtq4I=;
+ b=TBZBr8F9axsemIivg8TvIu7WCOB83nCHHNIWf91O9Zuzpc+P/3woln/TudlJlwYGYpx8iX2pYslODhpk27iepzUdtbCkReguI81LHt2eKfFAJQvCXjo3GJq1IgGn5114mvxy3pRtHohHYuR+ZfGMgORQnjkidh2DZavfjS27KGoUoXgV3o5W5we+YhC8wlSLdkorQbqvmz0iBriCHbghvKZWH6nZ6RaaJ3w0Bgco0mbxJbrITHJidcTvEF4rLw5I3LgS2DhCdYYqIuORcgrOnAxBcbQ74AMsj3NkGoOjlunYuhkDxAwlE1Aae8yHLmR49GIuZXcPF4xoCnEMMg7wdA==
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
+ by MA1PR01MB4273.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:15::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Thu, 20 Feb
+ 2025 20:41:05 +0000
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.016; Thu, 20 Feb 2025
+ 20:41:05 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Neal Gompa <neal@gompa.dev>
+CC: "pmladek@suse.com" <pmladek@suse.com>, "rostedt@goodmis.org"
+ <rostedt@goodmis.org>, "andriy.shevchenko@linux.intel.com"
+ <andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
+ <linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
+ <senozhatsky@chromium.org>, "corbet@lwn.net" <corbet@lwn.net>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>,
+ "joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com"
+ <dwaipayanray1@gmail.com>, "lukas.bulwahn@gmail.com"
+ <lukas.bulwahn@gmail.com>, "sumit.semwal@linaro.org"
+ <sumit.semwal@linaro.org>, "christian.koenig@amd.com"
+ <christian.koenig@amd.com>, "kekrby@gmail.com" <kekrby@gmail.com>,
+ "admin@kodeit.net" <admin@kodeit.net>, Orlando Chamberlain
+ <orlandoch.dev@gmail.com>, "evepolonium@gmail.com" <evepolonium@gmail.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, Hector
+ Martin <marcan@marcan.st>, "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>, Sven Peter
+ <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Thread-Topic: [PATCH v2 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Thread-Index: AQHbg7Yiy5uw96uLM0CihTgzlh/R37NQhMwAgAAjP4A=
+Date: Thu, 20 Feb 2025 20:41:05 +0000
+Message-ID: <2F0ACEE2-231F-426C-952E-975670AFC87D@live.com>
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+ <1EFD4096-FB85-47BB-9952-E014E463DB1B@live.com>
+ <CAEg-Je8VaMGxztdu9+Uk5dFJeYaru=nFSZhpVczM79GaCYURkw@mail.gmail.com>
+In-Reply-To: <CAEg-Je8VaMGxztdu9+Uk5dFJeYaru=nFSZhpVczM79GaCYURkw@mail.gmail.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|MA1PR01MB4273:EE_
+x-ms-office365-filtering-correlation-id: 1cdf8d40-a235-44e9-1f11-08dd51eee5e2
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|461199028|8060799006|7092599003|15080799006|19110799003|12121999004|8062599003|102099032|440099028|3412199025;
+x-microsoft-antispam-message-info: =?utf-8?B?Y2RUelQxaGNVclBYSGllamxLRVBMQzY0Ung1eUdyUXB2bWVOUlloQ3JJN0V4?=
+ =?utf-8?B?dkNtZTlMMnp0MHJsTjA4d0F6cjZ0aXV1SUorNFpFZmZ2d1JMbGF4SW1udU1Y?=
+ =?utf-8?B?MnBITllRaWJaam5mQzBid3FqK0x0TEdNTkcxcjFHdlZ4UnkrMUJsNnVKVkww?=
+ =?utf-8?B?d25abDlLcnJIV0lzOUdqSEpRekZOMU4yelVZQzlxRjdlQlNiYmN0T3hVcnYr?=
+ =?utf-8?B?Wm0wUkdQeXllUmlrT0sxMnpMNG96cCtTbVJ3ckJKUW9IRFZwdm9yYUIxY05J?=
+ =?utf-8?B?V3pLSVhqbmhSakIzR0ZtbExIN1pnU25XeEozUHBKTDk5N0ZvekRPWCtYemJB?=
+ =?utf-8?B?TVRqVHR2YXRaR3ZDckQ5bTFrby8zd01uNFc1TWhrU28vMytKM0YzSkpvSFFn?=
+ =?utf-8?B?VklOS1FPcWJQZUsvQUU2akpSWlU3Q0VyNG1heWNBWWpLdGpRemFtaWF2U05s?=
+ =?utf-8?B?OHZVSHJyKzE5YmNuT3NZZzR6ejd5WjhHeW9IMmMzREswU3lyTzlDMzVqYmZJ?=
+ =?utf-8?B?bFVQa1ZzcUpkWjZNUHBCa3g2NDRjVXJnMUFQUHphTlRhT0pkWGhyRVp6dkQ2?=
+ =?utf-8?B?anVqRm0rM1dtWFB0Y1VLdE8wNjh6eDR0a1NmZTl1Qk5MYUdmdHoyYkh0R2JK?=
+ =?utf-8?B?bFc2eHdLN3kwcjcvYkxlcjMvTWRlSTdhWVJCaEIxT2NQWVk1OVd5NWYvckZz?=
+ =?utf-8?B?Vk1ROEgyTXZNL2NrbkRiZVhTUnd6cGhZMUFvUmg2UFcyNkYxNk1FT1hEUysz?=
+ =?utf-8?B?M3c5MmJEUWdOdUI0Q2NCV0pVczVoMmYwcDExSEcweTJHWTN3bUdZbytjKy9h?=
+ =?utf-8?B?UVM5Nk1ITjRyTCtOTzNJZ3hhYjBJM1IySWFhYnI5bTNpZkpGSVc4a3pLY1pX?=
+ =?utf-8?B?dHhXanMrcWhUMGxWd1FxYVRFZzVGNDVQSmhlUldZNXdFbm8vamRnZlpkL2w2?=
+ =?utf-8?B?eXVvM3VCc05KYUxDYzByQldOcTdPOXVhdXl3NklSTXR0dzBrV2xFU2hqejJM?=
+ =?utf-8?B?VERYZzBFOXlxWDk3VnRkdmFlaENXT01Rb1A3RFJJWmpMY1lOT015aE8wRm56?=
+ =?utf-8?B?Y3lFcDQ5Q0FTM3FHR3NsK1QwZ282TDBkNWVJdEpaSDZoRTM5N0dwS3IzeUx1?=
+ =?utf-8?B?a0FuaFhpdUdQeUpYaytkempVWkhsSXBnZGpjaDR0ZlVjRTZXbW1jbTc3SW1W?=
+ =?utf-8?B?M0ZiT3BvemI5TUh1NHMxNFhlcXNtKzFQdXFDVW51NFBKV1FYMStINjB0b09B?=
+ =?utf-8?B?VzIyRjVacXphUzdzWEpGRm8rTmMwZ0dhMWtXTWZNVWorUWVkR2hwK1htSzly?=
+ =?utf-8?B?STlGNkNuZUVuZUduU0JObDJlSUU3UkhYRUgzY3VWazQ0NDMrVkJxeUluL3FB?=
+ =?utf-8?B?QVdoUDRtVlJqNWRZQmUyMzFHSmtURDRERGFMbFVyU015NzBBZWIvOE9SRHND?=
+ =?utf-8?B?ZDQ4VDlpUjlxN3VZMWQrZ254UFBFMExCNi80MjZlblRDcG12ak5zeHpHUTRP?=
+ =?utf-8?Q?AUOzuI=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZGh0T0RaZVdMQ2tjenpjanM3WmhmVkI4YVNkTXdhSlhpLy82MHIxVXRTbmpG?=
+ =?utf-8?B?UmFXd20wR1Vrc05RdmwzQllTbkFMY3hiRlZGcExyZk5SNVplcXZvS0krQ3di?=
+ =?utf-8?B?czh0WmtwVkw5YmtlVnBnOTYzRndKR2Y2UWwweEJRYWl1bGQ5ZzBOU0lHbHZ0?=
+ =?utf-8?B?YkE3N2NMcUdvLzNxSzFwYU5nZUZPSk92dk1KcTFULzV1aUE2cDh6ZUg2R1k2?=
+ =?utf-8?B?TDluVHhTQlJkc0VrTnR4eHRQd1A0NWZFRzl3cFVUbllMaUkxM1pHUG0vRHZw?=
+ =?utf-8?B?Qm1RMFVhdnYvSE5NRk9CdlVHdnpDdll6SVRESm9UUjM3a3BRNVBKMi9iV2ov?=
+ =?utf-8?B?ZjhlaUM4MmJNWmc2eFpEUThIa0hlUWZHYzJodFJOU2hOLzlzcG1FMElCZExG?=
+ =?utf-8?B?NUpXWFhLbHRqOXFDUmtscWJpSDdhK0grNVlpM1hIc0ZiQVhhSE5zaHk0QjZP?=
+ =?utf-8?B?MmN5YnNYT2hqS2RUalJQL20walphTTZZOVFtYXlSUWw4WWF6Z3lVNWpvd0hl?=
+ =?utf-8?B?M0NkMW9xNEVlQllOVC9EbnZjdE1VVk5wSjJ6VS9LTFZZRFFLV1U2UlIrUkdp?=
+ =?utf-8?B?VDBqcUtleG1mMENicnlYU1dKOFRnOGNiSE1PZnpaNlQ3ekJCaEdxMkQ4MFMw?=
+ =?utf-8?B?UkVYNks4QTNUSUhXQXZqQWNDWkRCWElXVzFzcVlISTZuUmRPZ2VKREVxWXQv?=
+ =?utf-8?B?Tng0Q2dMSkp6ZU5STHpCVWppL29KZXl5RkJ0NXFpY1F0aTVtbG5Fd2ZTZUNM?=
+ =?utf-8?B?VlZPWkFuSE5tQTBubFBoQkVQSFNYakU4LytaWm9QTUtsNDVkek9HUlZ2WktS?=
+ =?utf-8?B?Nm55NnRWR3ZCV3UwdFg0WXdxUXJoRGw4bnlJZEhnOWtvNXRtc2ZFZ1J4YW5u?=
+ =?utf-8?B?VDQ0VDI1ZFZ0OGlyVGFCOGxRREZ5dnU1Z0N1V2hUamNPUnRqWENIUHM1MW1L?=
+ =?utf-8?B?QlBUU1lzZCtIZzJrR3F6cjd2NGduT080cmp3Tmp6K0VLLzdieU1iU0pYZ1Mz?=
+ =?utf-8?B?WGxiNStYemJZeElaRHVHd2pKaFhraEJneHBocnpteGFZVG9aY255NnhyK0Z4?=
+ =?utf-8?B?czgzcG5LYTF2SCsyWTVvQjA3cTVzUTlUYlcvTmJsb0lIeFRLUlF5SElYVGda?=
+ =?utf-8?B?bFEyczlzVkVKbitzNlliQ0llbUZJZnNVWkp3czF4WkI3ZWFWVjFnSHBQdVhG?=
+ =?utf-8?B?SklrS2pBRWk1ZUpTWGFGMjZPdEJxUWJCY2JKemt3UFI3MW8xMWR4N0NQUEVN?=
+ =?utf-8?B?QUl2N2tNTVVwbjB1TUFRYW8xL01ZNzl5TUhZcWZLOTdSd3E4bklabTFzamE1?=
+ =?utf-8?B?NGR2TUZ2QlZwUTVMVEhMT09tWUJ4MTE0OGovWFhwSHk0ZkhYejd5cVBKeTQy?=
+ =?utf-8?B?QXhkTG1tbXdrdGkrNHVpNTZRNm9VeCtZWkRic0RwejVLVzhJZFdlQVU3djdx?=
+ =?utf-8?B?L3NsNXBQVU1vUWMrUE5VQW9wMVZpT3RaOTUyL0c1ejcrSGJYTDhJK1AzZVBP?=
+ =?utf-8?B?V0RGeXJaNklDYTlLWmFEbUFEc3FNRWJYL0hzdW93NFg3Q0QzNW1QYXdQaCtH?=
+ =?utf-8?B?Wm9zK2w0bDBTZWt6MllGMUNYWlR1bERPanNxbW1NdFhmcmE1SFNFU2lCZHFH?=
+ =?utf-8?B?WjBjcUhhZGVRNDdvZzVzMElKd1NUQlpkY1RsdTl5czI1OXNqcGNtaE14L1I4?=
+ =?utf-8?B?Nmg2Rmk0NDNCY1lRUnc4cWFHTFdkUE1NNHdKT3NoNlQyL2dLb0liemowbVVl?=
+ =?utf-8?Q?9w57aSDXi/7A26wB/QMqdWyusif168tZmkrgGht?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F4C8DC5B5C3DE04B95F9B328441AFF9A@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cdf8d40-a235-44e9-1f11-08dd51eee5e2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2025 20:41:05.7130 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PR01MB4273
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,195 +173,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to query per drm client reset stats via the
-query ioctl.  This includes the number of engine resets the drm client
-has observed, as well as a list of up to the last 50 relevant exec
-queue bans and their associated causal pagefaults (if they exists).
-
-v2: Report EOPNOTSUPP if CONFIG_PROC_FS is not set in the kernel
-    config, as it is required to trace the reset count and exec
-    queue bans.
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
----
- drivers/gpu/drm/xe/xe_query.c | 70 +++++++++++++++++++++++++++++++++++
- include/uapi/drm/xe_drm.h     | 50 +++++++++++++++++++++++++
- 2 files changed, 120 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
-index 3aad4737bfec..671bc4270b93 100644
---- a/drivers/gpu/drm/xe/xe_query.c
-+++ b/drivers/gpu/drm/xe/xe_query.c
-@@ -16,10 +16,12 @@
- #include "regs/xe_gt_regs.h"
- #include "xe_bo.h"
- #include "xe_device.h"
-+#include "xe_drm_client.h"
- #include "xe_exec_queue.h"
- #include "xe_force_wake.h"
- #include "xe_ggtt.h"
- #include "xe_gt.h"
-+#include "xe_gt_pagefault.h"
- #include "xe_guc_hwconfig.h"
- #include "xe_macros.h"
- #include "xe_mmio.h"
-@@ -740,6 +742,73 @@ static int query_pxp_status(struct xe_device *xe,
- 	return 0;
- }
- 
-+static size_t calc_reset_stats_size(struct xe_drm_client *client)
-+{
-+	size_t size = sizeof(struct drm_xe_query_reset_stats);
-+#ifdef CONFIG_PROC_FS
-+	spin_lock(&client->blame_lock);
-+	size += sizeof(struct drm_xe_exec_queue_ban) * client->blame_len;
-+	spin_lock(&client->blame_lock);
-+#endif
-+	return size;
-+}
-+
-+static int query_reset_stats(struct xe_device *xe,
-+			     struct drm_xe_device_query *query,
-+			     struct drm_file *file)
-+{
-+	void __user *query_ptr = u64_to_user_ptr(query->data);
-+	struct drm_xe_query_reset_stats resp;
-+	struct xe_file *xef = to_xe_file(file);
-+	struct xe_drm_client *client = xef->client;
-+	struct blame *b;
-+	size_t size = calc_reset_stats_size(client);
-+	int i = 0;
-+
-+#ifdef CONFIG_PROC_FS
-+	if (query->size == 0) {
-+		query->size = size;
-+		return 0;
-+	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
-+		return -EINVAL;
-+	}
-+
-+	if (copy_from_user(&resp, query_ptr, size))
-+		return -EFAULT;
-+
-+	resp.reset_count = atomic_read(&client->reset_count);
-+
-+	spin_lock(&client->blame_lock);
-+	resp.ban_count = client->blame_len;
-+	list_for_each_entry(b, &client->blame_list, list) {
-+		struct drm_xe_exec_queue_ban *ban = &resp.ban_list[i++];
-+		struct pagefault *pf = b->pf;
-+
-+		ban->exec_queue_id = b->exec_queue_id;
-+		ban->pf_found = pf ? 1 : 0;
-+		if (!pf)
-+			continue;
-+
-+		ban->access_type = pf->access_type;
-+		ban->fault_type = pf->fault_type;
-+		ban->vfid = pf->vfid;
-+		ban->asid = pf->asid;
-+		ban->pdata = pf->pdata;
-+		ban->engine_class = xe_to_user_engine_class[pf->engine_class];
-+		ban->engine_instance = pf->engine_instance;
-+		ban->fault_addr = pf->page_addr;
-+	}
-+	spin_unlock(&client->blame_lock);
-+
-+	if (copy_to_user(query_ptr, &resp, size))
-+		return -EFAULT;
-+
-+	return 0;
-+#else
-+	return -EOPNOTSUPP;
-+#endif
-+}
-+
- static int (* const xe_query_funcs[])(struct xe_device *xe,
- 				      struct drm_xe_device_query *query,
- 				      struct drm_file *file) = {
-@@ -753,6 +822,7 @@ static int (* const xe_query_funcs[])(struct xe_device *xe,
- 	query_uc_fw_version,
- 	query_oa_units,
- 	query_pxp_status,
-+	query_reset_stats,
- };
- 
- int xe_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 892f54d3aa09..ffeb2a79e084 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -682,6 +682,7 @@ struct drm_xe_query_pxp_status {
-  *  - %DRM_XE_DEVICE_QUERY_GT_TOPOLOGY
-  *  - %DRM_XE_DEVICE_QUERY_ENGINE_CYCLES
-  *  - %DRM_XE_DEVICE_QUERY_PXP_STATUS
-+ *  - %DRM_XE_DEVICE_QUERY_RESET_STATS
-  *
-  * If size is set to 0, the driver fills it with the required size for
-  * the requested type of data to query. If size is equal to the required
-@@ -735,6 +736,7 @@ struct drm_xe_device_query {
- #define DRM_XE_DEVICE_QUERY_UC_FW_VERSION	7
- #define DRM_XE_DEVICE_QUERY_OA_UNITS		8
- #define DRM_XE_DEVICE_QUERY_PXP_STATUS		9
-+#define DRM_XE_DEVICE_QUERY_RESET_STATS		10
- 	/** @query: The type of data to query */
- 	__u32 query;
- 
-@@ -1845,6 +1847,54 @@ enum drm_xe_pxp_session_type {
- 	DRM_XE_PXP_TYPE_HWDRM = 1,
- };
- 
-+/**
-+ * struct drm_xe_exec_queue_ban - Per drm client exec queue ban info returned
-+ * from @DRM_XE_DEVICE_QUERY_RESET_STATS query.  Includes the exec queue ID and
-+ * all associated pagefault information, if relevant.
-+ */
-+struct drm_xe_exec_queue_ban {
-+	/** @exec_queue_id: ID of banned exec queue */
-+	__u32 exec_queue_id;
-+	/**
-+	 * @pf_found: whether or not the ban is associated with a pagefault.
-+	 * If not, all pagefault data will default to 0 and will not be relevant.
-+	 */
-+	__u8 pf_found;
-+	/** @access_type: access type of associated pagefault */
-+	__u8 access_type;
-+	/** @fault_type: fault type of associated pagefault */
-+	__u8 fault_type;
-+	/** @vfid: VFID of associated pagefault */
-+	__u8 vfid;
-+	/** @asid: ASID of associated pagefault */
-+	__u32 asid;
-+	/** @pdata: PDATA of associated pagefault */
-+	__u16 pdata;
-+	/** @engine_class: engine class of associated pagefault */
-+	__u8 engine_class;
-+	/** @engine_instance: engine instance of associated pagefault */
-+	__u8 engine_instance;
-+	/** @fault_addr: faulted address of associated pagefault */
-+	__u64 fault_addr;
-+};
-+
-+/**
-+ * struct drm_xe_query_reset_stats - Per drm client reset stats query.
-+ */
-+struct drm_xe_query_reset_stats {
-+	/** @extensions: Pointer to the first extension struct, if any */
-+	__u64 extensions;
-+	/** @reset_count: Number of times the drm client has observed an engine reset */
-+	__u64 reset_count;
-+	/** @ban_count: number of exec queue bans saved by the drm client */
-+	__u64 ban_count;
-+	/**
-+	 * @ban_list: flexible array of struct drm_xe_exec_queue_ban, reporting all
-+	 * observed exec queue bans on the drm client.
-+	 */
-+	struct drm_xe_exec_queue_ban ban_list[];
-+};
-+
- /* ID of the protected content session managed by Xe when PXP is active */
- #define DRM_XE_PXP_HWDRM_DEFAULT_SESSION 0xf
- 
--- 
-2.43.0
-
+SGkNCg0KPiBPbiAyMSBGZWIgMjAyNSwgYXQgMTI6MDTigK9BTSwgTmVhbCBHb21wYSA8bmVhbEBn
+b21wYS5kZXY+IHdyb3RlOg0KPiANCj4gT24gVGh1LCBGZWIgMjAsIDIwMjUgYXQgMTE6NDfigK9B
+TSBBZGl0eWEgR2FyZyA8Z2FyZ2FkaXR5YTA4QGxpdmUuY29tPiB3cm90ZToNCj4+IA0KPj4gRnJv
+bTogS2VyZW0gS2FyYWJheSA8a2VrcmJ5QGdtYWlsLmNvbT4NCj4+IA0KPj4gVGhlIFRvdWNoIEJh
+cnMgZm91bmQgb24geDg2IE1hY3Mgc3VwcG9ydCB0d28gVVNCIGNvbmZpZ3VyYXRpb25zOiBvbmUN
+Cj4+IHdoZXJlIHRoZSBkZXZpY2UgcHJlc2VudHMgaXRzZWxmIGFzIGEgSElEIGtleWJvYXJkIGFu
+ZCBjYW4gZGlzcGxheQ0KPj4gcHJlZGVmaW5lZCBzZXRzIG9mIGtleXMsIGFuZCBvbmUgd2hlcmUg
+dGhlIG9wZXJhdGluZyBzeXN0ZW0gaGFzIGZ1bGwNCj4+IGNvbnRyb2wgb3ZlciB3aGF0IGlzIGRp
+c3BsYXllZC4NCj4+IA0KPj4gVGhpcyBjb21taXQgYWRkcyBzdXBwb3J0IGZvciB0aGUgZGlzcGxh
+eSBmdW5jdGlvbmFsaXR5IG9mIHRoZSBzZWNvbmQNCj4+IGNvbmZpZ3VyYXRpb24uIEZ1bmN0aW9u
+YWxpdHkgZm9yIHRoZSBmaXJzdCBjb25maWd1cmF0aW9uIGhhcyBiZWVuDQo+PiBtZXJnZWQgaW4g
+dGhlIEhJRCB0cmVlLg0KPj4gDQo+PiBOb3RlIHRoYXQgdGhpcyBkcml2ZXIgaGFzIG9ubHkgYmVl
+biB0ZXN0ZWQgb24gVDIgTWFjcywgYW5kIG9ubHkgaW5jbHVkZXMNCj4+IHRoZSBVU0IgZGV2aWNl
+IElEIGZvciB0aGVzZSBkZXZpY2VzLiBUZXN0aW5nIG9uIFQxIE1hY3Mgd291bGQgYmUNCj4+IGFw
+cHJlY2lhdGVkLg0KPj4gDQo+PiBDcmVkaXQgZ29lcyB0byBAaW1idXNodW8gb24gR2l0SHViIGZv
+ciByZXZlcnNlIGVuZ2luZWVyaW5nIG1vc3Qgb2YgdGhlDQo+PiBwcm90b2NvbC4NCj4+IA0KPiAN
+Cj4gQ2FuIHdlIGNyZWRpdCB0aGVtIGFzICJCZW4gKEJpbmd4aW5nKSBXYW5nIiBpbnN0ZWFkPyBU
+aGF0J3MgdGhlIG5hbWUNCj4gb24gdGhlaXIgR2l0SHViIHByb2ZpbGUuDQoNClN1cmUgSSBjYW4g
+Y2hhbmdlIHRoYXQuIEnigJlsbCB3YWl0IGZvciBhIHJldmlldyBvbiB0aGUgZHJpdmVyIGl0c2Vs
+ZiBhcyB3ZWxsLCBhbmQgaW5jb3Jwb3JhdGUgdGhpcyBjaGFuZ2UgYWxvbmcgd2l0aCBvdGhlciBj
+aGFuZ2VzIHJlcXVlc3RlZCAoaWYgYW55KS4NCj4gDQo+IA0KPiAtLSANCj4g55yf5a6f44Gv44GE
+44Gk44KC5LiA44Gk77yBLyBBbHdheXMsIHRoZXJlJ3Mgb25seSBvbmUgdHJ1dGghDQoNCg0K
