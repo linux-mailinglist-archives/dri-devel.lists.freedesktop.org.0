@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAD9A3D5FA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C5FA3D5FF
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:08:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C2710E908;
-	Thu, 20 Feb 2025 10:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF0610E90C;
+	Thu, 20 Feb 2025 10:08:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BDHeK9fz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x1q+8DZC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 561FE10E907
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:08:07 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-2fc0d44a876so1133778a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 02:08:07 -0800 (PST)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACAA010E90D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:08:17 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-2f9b9c0088fso1305676a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 02:08:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740046087; x=1740650887; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=O/4TEs4cPoG1AcM4+yxLSv0REuXRrTGKT4YLCRC3ZSk=;
- b=BDHeK9fzCAXxnwb0lnFCc+XYtNZYLAJAQKQt7YuVfmY2kvl6/3oIlRZaLfg5ofnpz7
- LAlNCH0h+sLIxuUGucJLaHA49Z2Xt8X4G0mC0SUs9LD+rT5psQ0WVYC8xpyqcx3NU2JD
- RT7yGZNYJshBkGxLVcL/kUQq2aMVjxvqf6T+iVB1iY2Wv3kcyqz4HwxxknwQBMcdSe6N
- c4KiXblzgWeRXlOjRpnvrv58jSaPcKdGGtOE6YySrKFwhTKzISJvoLo2QKggqMLE3RZr
- 3Hjv/Y1BShvrNR/kYNJadXWgLw7L8TifQH0lhYhL3pgwsVIVviIkvL97uUN+nbcRvUTV
- qawQ==
+ d=linaro.org; s=google; t=1740046097; x=1740650897; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=K2bbvpaMxnQ9ItTta/5Hoc0GpndlEEH7ZCqt3McNEd4=;
+ b=x1q+8DZCE99VZv3UPdOJ0SuKzvAVC6ZJXBKTINE7S8bgeEClUhMKhjDA2Q3ZV4m7NO
+ q9E5mQ1M+/cvFGNKbzLjZSaPMJW9kOfb5CtAuwlPDnjwpzg4THz4xioMvVgodX/Qx8gd
+ YbRI5fhYXI2NXQcByuyoqAvQEo021FRTbKr7+y/m/FHexqhsrmxHub4QJbEI+8/Agp/m
+ b+Wo+78mmmvWgAbOZO6GcEbrRoEwsMwE2ibz0l6jezeAwdBsQmy+WIPJkVn7Buu5w+hh
+ DAKsms0qePrIplMVqNrpZzdNdA14jhKGldGxwqljM+t2Q7qptQKzecFrAFFCDeAhoL/Z
+ yy6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740046087; x=1740650887;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=O/4TEs4cPoG1AcM4+yxLSv0REuXRrTGKT4YLCRC3ZSk=;
- b=o6lZsjVnsEm8h4gzr4dMBDYqPXZTFfOxanZvcZ4Yj8dyPyyacpqujJkGwidhEIwsbH
- pMPoKpaCA/OnbYJwXYXWaFn3ix84cXQzDnNHpRkVHn4E95DXdK7juhgxJWHjCCteBuXJ
- ylK5P/qJ01vhUka3cF7mUDRdNseo4XwbFMYTKPkO6RaLV4UHsBU9TPxuDIqTm72faPyx
- Sa3dhgNJEkVKDAcQKG13UblkFXFfOETEh2SVMI+ECsWskN8kr9gl3fB9y6Dj83HFLd+I
- 0LdVZeWj2hWFrKbN6Za9KrEdjs/cNWsuf0RFqMIUZmblxoQPAY9jH4F/qD3VHclX0jmF
- D8MA==
+ d=1e100.net; s=20230601; t=1740046097; x=1740650897;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=K2bbvpaMxnQ9ItTta/5Hoc0GpndlEEH7ZCqt3McNEd4=;
+ b=Zdv8/tVF6lOlJ4UQBx7/eNNpTACu7nysK5qNsaIw/w9jXJpVaT+bArnDYI4Evh4Qq6
+ twO93jrmgc4stL0xlVJVIKnPE90H5ersW03en4ou+rFvuSWM2Hu2WJ+qTcqMArExEqn2
+ N8nTT8JFw/tqrTjWbODcefhmdrBQC4EOTh6K1tLsgFlLLA/d6BY8BamEXNoIvk+zBaKK
+ rtYZbuZNb0z3TTZbNUCdwhVtWRBH290y1IU1FB201BwFBRY2NSxQ9pVoTrAFby/vVTx0
+ 56hj2XRPUX80kbuCycT1PaVdeHg6N+CyyPNbB5sOgiTChfSvbSgN6yoliM2p7EwkM8Dd
+ njhw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbq1Y9CgTjcjYklV5MphHRcSTRa2v+euHghMI9dl7VkfXBbC3jJ/PEaJtn+R6b2cyBhTGa9s1ZusI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1vSrryhlBp93H/CB7CLYWhOHuyKvIxWhp9Sy3OlpCfTJPkMCZ
- yYOQogBmvwjG7gcrt/amyX4IUb+WJTnjw1RJ/oqZdl9iv+y+2VEWlec+4BLwZ9c=
-X-Gm-Gg: ASbGncsI36GYm/m9BX+EDE3jnkkChyRqzM+QV3XzXXq86D6bsX54uuKYM8TPp4Ei+db
- SJTX+SwMc43ZqIdavqUTFqCZJp+d26gRfJDX8JzbLBHNBMC/4+WlXZHAdzUiIL1C5ABDI2iIsGl
- hYG4msB93gpxkZ2REVNmVXX0XFta3uUBEFmR4Tg7NpPOrdFILsGMfz+qZdC1UHqyBX+AjgiG+0Q
- 66uEL+bF4D8LqVhviRiWgXNslYXmmImk4Svk/+FbPq/oUcGsO332tkrxNVkg0yGlOoyMchF3aps
- xyFjY/c7Rlnz
-X-Google-Smtp-Source: AGHT+IE4Hnx3iwIdTTQMv1etNjaKK2fbBl3p4LS+dGKDHiLfiUb9a4DuJMquOBV5Z9uPvqneJ57u1A==
-X-Received: by 2002:a17:90b:3b92:b0:2fa:15ab:4de7 with SMTP id
- 98e67ed59e1d1-2fc40f10763mr39959135a91.12.1740046086882; 
- Thu, 20 Feb 2025 02:08:06 -0800 (PST)
+ AJvYcCVWLS8B0Ek/eKmaOvX0DMc3nplD79G/i8gK8SvHs0hCXyxovkk3NdTC9RiyIgRDwx8KJNrY8bCPjK8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwaxwL31IiD5teU7zJiG4h9MDxal8uKxfkjuTR3mDsQyVwwXWNU
+ 85mDcV5RWdOWDsx7PtY8gGiD8P+/FOrs8OM7MXG4Q4MTlI3suilLTou4w8DF7v4=
+X-Gm-Gg: ASbGncsOG9mq/j8u2Qq7O77iWRGZX3rkWQBaHKaUKXGdYVQqmpOxyA4OUi0B9sdl/dz
+ 41Qs3v97kFJ24WTQyILxe2DjpQXOwaNukU70zmJ2kf1xYuHgThMGybFn+1WpBiiMpzSJCDWiPNJ
+ oDygQXaBHLVIBqn4vlOKH5QberxBqamaWo3C7fctKwr2OgN7gY6G6BASHeBbJLEgav24gHXUCQD
+ D3RLjQ/92v4LNZzNH+csWiWtFUZFyG/FcMUufVVlkzqo2TWS1g8JaE2bq4H953ELuTcR8b1uFDH
+ 2Dl8wwdHjWx3
+X-Google-Smtp-Source: AGHT+IHCE4RtRNEXKZoOaSDN6mdrpoY8L7CkHQP/kzENk3sqFeSHV34QzJKi6JsrMhW9w9ua07iDCQ==
+X-Received: by 2002:a17:90a:d445:b0:2fa:21d3:4332 with SMTP id
+ 98e67ed59e1d1-2fccc97dfe7mr4597618a91.12.1740046097223; 
+ Thu, 20 Feb 2025 02:08:17 -0800 (PST)
 Received: from [127.0.1.1] ([112.65.12.217]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2fbf98b3305sm15304645a91.6.2025.02.20.02.07.56
+ 98e67ed59e1d1-2fbf98b3305sm15304645a91.6.2025.02.20.02.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2025 02:08:06 -0800 (PST)
+ Thu, 20 Feb 2025 02:08:16 -0800 (PST)
 From: Jun Nie <jun.nie@linaro.org>
-Subject: [PATCH v2 0/5] drm/msm/dsi: Add DSC support to 2 panels in dual
- DSI mode
-Date: Thu, 20 Feb 2025 18:07:51 +0800
-Message-Id: <20250220-dual-dsi-v2-0-6c0038d5a2ef@linaro.org>
+Date: Thu, 20 Feb 2025 18:07:52 +0800
+Subject: [PATCH v2 1/5] drm/msm/dsi: add support VBIF_CTRL_PRIORITY to
+ v2.8.0 controller
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPf+tmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDI1MDIyMD3ZTSxBzdlOJM3WRTMzODZCOjRDMzQyWg8oKi1LTMCrBR0bG1tQA
- 5/tdMWgAAAA==
-X-Change-ID: 20250220-dual-dsi-c5660c22a661
+Message-Id: <20250220-dual-dsi-v2-1-6c0038d5a2ef@linaro.org>
+References: <20250220-dual-dsi-v2-0-6c0038d5a2ef@linaro.org>
+In-Reply-To: <20250220-dual-dsi-v2-0-6c0038d5a2ef@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -87,11 +85,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, Jun Nie <jun.nie@linaro.org>, 
  Jonathan Marek <jonathan@marek.ca>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740046076; l=1838;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740046076; l=1578;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=lZ+poUcsGaFUUbHXQn1jSPCAMiMLRg/1oYtrAb7t0FE=;
- b=gVYCs4tCVL63DS0T89O4NzqVIwKEcs/N4UZrpeCdVcmN6sQ+aapzx/p58uvsnYolbAvacke1A
- irHVh7r6j7bAoG48rVQuFuCWdkYRRk/RpT90O2QhyOagQh8LypEsFdG
+ bh=lyKLAJr554JAOHjjCnxBQz5CBxEAxvVfUFObcdY1ag4=;
+ b=m9wZrPVBSR+QFJ2DUz/SNoHz3xMrc85nVdPM1VuwlkkM2KmcuqsZt4IzPpcd3vqZEPukV8UFz
+ Q1wZLZvkNnCDMVDPFv4QVErnUTSQ+9VvDwTKh1lvQQdWOSoY1Qs3jj7
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,43 +107,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The 2 DSI interfaces may be connected to 2 independent panels in dual-DSI
-mode. Device tree binging is added and frame width for DSC is changed to
-support the usage case. Support to multiple slice per packet is added for
-the device setup to test the usage case.
+This change originates from the Qualcomm Android Linux driver. It is
+essential to support a dual-DSI configuration with two panels in
+some circumstances per testing. As the name suggests, this modification
+may enhance the bandwidth robustness of a bus.
 
-This patch set is split from the quad-pipe patch set v1. It is also dependent
-on Marijn's patch: 
-	https://lore.kernel.org/all/20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-1-9a60184fdc36@somainline.org/
-
-The change vs v1:
-    - Add device tree binding for dual panel case in handling frame width for
-      DSC to avoid breaking existing dual-DSI case.
-    - Leverage Marijn's patch to configure proper slice per interface in
-      dsi_update_dsc_timing().
-    - Polish commit comments.
-    - Link to v1: https://lore.kernel.org/all/20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org/
-
+Co-developed-by: Jonathan Marek <jonathan@marek.ca>
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
 ---
-Jun Nie (5):
-      drm/msm/dsi: add support VBIF_CTRL_PRIORITY to v2.8.0 controller
-      drm/msm/dsi: check DSC width for the bonded DSI case
-      drm/msm/dsi: support DSC configurations with slice_per_pkt > 1
-      dt-bindings: display/msm: dsi-controller-main: Document dual panel property
-      drm/msm/dsi: Support DSC for dual panel case
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
- .../bindings/display/msm/dsi-controller-main.yaml  |  8 +++-
- drivers/gpu/drm/msm/dsi/dsi.h                      |  6 ++-
- drivers/gpu/drm/msm/dsi/dsi_host.c                 | 54 ++++++++++++++--------
- drivers/gpu/drm/msm/dsi/dsi_manager.c              | 12 +++--
- include/drm/drm_mipi_dsi.h                         |  2 +
- 5 files changed, 56 insertions(+), 26 deletions(-)
----
-base-commit: 53d2d43787aa9a7daf91d2421033528c2e186be8
-change-id: 20250220-dual-dsi-c5660c22a661
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 42e100a8adca09d7b55afce0e2553e76d898744f..f59c4cd6bc8cdb31c1302f8e3ff395486c0b4898 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -2238,13 +2238,23 @@ int msm_dsi_host_cmd_rx(struct mipi_dsi_host *host,
+ 	return ret;
+ }
+ 
++#define DSI_VBIF_CTRL			(0x01CC - 4)
++#define DSI_VBIF_CTRL_PRIORITY		0x07
++
+ void msm_dsi_host_cmd_xfer_commit(struct mipi_dsi_host *host, u32 dma_base,
+ 				  u32 len)
+ {
+ 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
++	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
++	u32 reg;
+ 
+ 	dsi_write(msm_host, REG_DSI_DMA_BASE, dma_base);
+ 	dsi_write(msm_host, REG_DSI_DMA_LEN, len);
++	if (cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V2_8_0) {
++		reg = dsi_read(msm_host, DSI_VBIF_CTRL);
++		reg |= (DSI_VBIF_CTRL_PRIORITY & 0x7);
++		dsi_write(msm_host, DSI_VBIF_CTRL, reg);
++	}
+ 	dsi_write(msm_host, REG_DSI_TRIG_DMA, 1);
+ 
+ 	/* Make sure trigger happens */
 
-Best regards,
 -- 
-Jun Nie <jun.nie@linaro.org>
+2.34.1
 
