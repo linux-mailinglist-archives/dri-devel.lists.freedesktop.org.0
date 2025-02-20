@@ -2,92 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D63A3D9E5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 13:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C859A3DA51
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 13:45:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B619A10E954;
-	Thu, 20 Feb 2025 12:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4349910E059;
+	Thu, 20 Feb 2025 12:45:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WA37wYh2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Pm7qXcpH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A2E10E95E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 12:26:36 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-38dcac27bcbso1240267f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 04:26:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740054395; x=1740659195; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qH3DdgoKEAfwj4iaPXGOxAlwGgUTybVzhqeu1NMzPMo=;
- b=WA37wYh2RH5pTzShmfzXR8uWc0I3vTk8s+2vfo6kF/dgSWuTJRvvZkkhkJZBJmSdlH
- ste72uGM6BVKcaJKHB7bt1zKeD1dTMWBfjiaqZj1Kt58asC/rO5rRlaunfsXu/DGDn85
- /nZf606VKSg2aGB0m7koc/zz3/+wzEW9b0sJKAbG6+HqdQazu770qNk93WOwRDYh/YMH
- jtn0iJ7euElTPpZmZ6AWF3x5Xx8AmNg/yrpqZTrZsb20ri1lRG8st3Pj6E0Oyhpy6pDs
- 4+5N6sQ7Yh4E8D38fXVA0s8BxygjvNunCS7DRnm2eDvyHCTjTmRqDvdMX6Ri729ipYmA
- ITpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740054395; x=1740659195;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qH3DdgoKEAfwj4iaPXGOxAlwGgUTybVzhqeu1NMzPMo=;
- b=g7CmwQqeu4h9nYUitsvboxF6CncfGgptCLG3oqy4bIuDAPvrebUPaKstemkADOM9WA
- csWgXbjy5mgrihvW7Xt/XnrfO5u6tfxzxW1vmBNkQHDh80hpqEld/0LgrCNTCV5pl9gD
- 0AosT5AwnxWTaUPhLsa6mIQJEKsvSCF8lS9aOSqhamdQu+glCn5qWdtjwqMGiB14JdyZ
- H6KJOPUyAk2M26RHQ8hVklHO/BqbJXfI8K4pbu5khnbKr2bh01dJorejlgmJ2QvAxa6m
- YcDJeKx7jtWjs6HuZ29O0jf5XO6+8cpkZcYmQuu7ogNaD+b1UjdRksq48wOIosOHx40N
- pU9Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXaNzMD/DYeLJt1ly8zRsb3ZmEZ3edioRI+6SPxGGpvaD7TBZ0RZdxBIUTXFtShsIBAcEVMsw24EcQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRh15FcD7+WsEtGq3mSaeOUFZe4Od1bra2n6GytGbhoTUDKwUy
- h2UDMNLJXOmD3g5WJwzslZeEYmVI84wCwGUtCVqJ3+uy7PeduLUbyJnLmtHBDg45F6Fxg3/WDAl
- CNSJylF62cpeUfeqzgvO9zCN6Gxk=
-X-Gm-Gg: ASbGnctQSOpiJ/nqnyakyItLUQVRNhvPKuag1alilKzgmYo05CSMgp5dRLp8QvmX7BB
- N19E+5/Hdmmm0pIshdDHE3fQLbCL701D9Z2MXhwrD18G5gt1RxEhaewNb653GcdmAnlC1nw4LGg
- ==
-X-Google-Smtp-Source: AGHT+IEJTUmZHt18x/a4EVaHGfsjiEvSDzeEMYQTsZEr7m09QmHa6Dk5Cu5cXVAh1apSpLSOdMYco8A9NnvUxoKYV4Q=
-X-Received: by 2002:a5d:58eb:0:b0:38d:b12f:60d1 with SMTP id
- ffacd0b85a97d-38f61609f19mr2169886f8f.26.1740054394477; Thu, 20 Feb 2025
- 04:26:34 -0800 (PST)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C764910E059
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 12:45:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4714C44217;
+ Thu, 20 Feb 2025 12:45:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1740055513;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r4s0JlhPWxmp2VGXGngLBFkziKozV4HjR8VGZcGVQS0=;
+ b=Pm7qXcpH+shqvmrKR+DMw0MBaDFQL8QsvuX1rzfdiYtuvo8Qg3gByTUMg2WBis1d1DlzOI
+ jMJLst4fjS3aJPSxBXGn4wlk/rfGqrD645tYsg5Qi7s0qJ3oRvHessFYzlA4JKYuiBWeeC
+ x0GL2asz7JAJk1NB9zto1HZ8VHkf9XA6Fl1fYOaiDnDqhcup1cZbFIJb6OhULGsJobvOhX
+ cGXW/jWpBuM4hMmMdefSSFD9rQM3zzSVK5nK6G4KFYQoyYYNK39su7wpTRzqKm9HVkxeB1
+ zQ2T2DRItM31Wzein/ma4Ai9t0pm+RHoNSEdU/M0++GGQ77O6B3RAktW/TPJSQ==
+Date: Thu, 20 Feb 2025 13:45:10 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Marek Vasut
+ <marex@denx.de>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Louis Chauvet
+ <louis.chauvet@bootlin.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <20250220134510.392b9997@bootlin.com>
+In-Reply-To: <20250219-tall-turkey-of-dew-d9ba9e@houat>
+References: <20250108101907.410456-1-herve.codina@bootlin.com>
+ <20250108101907.410456-4-herve.codina@bootlin.com>
+ <20250114-juicy-authentic-mushroom-cfcdfb@houat>
+ <20250114135456.5366eb2a@bootlin.com>
+ <20250116-archetypal-bulldog-of-expression-fcc937@houat>
+ <20250117091213.647bf0e6@bootlin.com>
+ <20250204-chocolate-lionfish-of-luck-10ebb8@houat>
+ <20250204163404.0a6b6526@bootlin.com>
+ <20250204-crouching-alligator-of-success-ab52f8@houat>
+ <20250204195240.005603b7@bootlin.com>
+ <20250219-tall-turkey-of-dew-d9ba9e@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250217140910.108175-1-clamor95@gmail.com>
- <20250217140910.108175-3-clamor95@gmail.com>
- <zmwn3dnnmwhms2qxqwb6ksshx27fcq2i4wujz5utuldaiqs6oz@idvy3dirrmuo>
- <CAPVz0n3bqLhuC0gxXD-=L0ETMmhOv1Ku0PrWUb_Yn09v3UNuOA@mail.gmail.com>
- <hemnpzzz3ddibdbqwkazwuoalmvuc2mekebqxfrnxiod6futni@sgdjgtrbcwza>
- <CAPVz0n24o5yar-0oO5dPb3vLzuK=Ln8+JKuaooSRwPfiaLQ9vA@mail.gmail.com>
- <jo7nnxrzwi43qqii7wtekdbc6vluakkvg4ndw266ajgkpe3y52@whd5nly34nju>
- <CAPVz0n3HsXJeyRJGP=_UMhs7d4OA-P_yXx5B9EQDU7vQCz8qoA@mail.gmail.com>
- <3lms6xzzu3hfhkncikcmvl6btzdcc2cwoh4kwhw53hdakecrij@yqoyl3bqmm5m>
-In-Reply-To: <3lms6xzzu3hfhkncikcmvl6btzdcc2cwoh4kwhw53hdakecrij@yqoyl3bqmm5m>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 20 Feb 2025 14:26:22 +0200
-X-Gm-Features: AWEUYZnht_Ew12HsnJseDT7TV_6lFwyWBz022uUOwakEZ6gmzeAR7-sBzh9_wRA
-Message-ID: <CAPVz0n3YZass3Bns1m0XrFxtAC0DKbEPiW6vXimQx97G243sXw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm: bridge: Add support for Solomon SSD2825
- RGB/DSI bridge
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeijedujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeefhffhvdfftdfhjeeftdfftefgleefveeifeduteefveejhfeifeetjeffkeffvdenucffohhmrghinheptghrthgtrdihohhupdhkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmedvgeeimeejjeeltdemvdeitgegmegvvddvmeeitdefugemheekrgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdegieemjeejledtmedviegtgeemvgdvvdemiedtfegumeehkegrpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddupdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghil
+ hdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,167 +85,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D1=82, 20 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 13:35 Dmitry Bar=
-yshkov <dmitry.baryshkov@linaro.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thu, Feb 20, 2025 at 09:37:18AM +0200, Svyatoslav Ryhel wrote:
-> > =D1=81=D1=80, 19 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 15:34 =
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > On Tue, Feb 18, 2025 at 04:36:17PM +0200, Svyatoslav Ryhel wrote:
-> > > > =D0=B2=D1=82, 18 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 16=
-:20 Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =D0=BF=D0=B8=D1=88=D0=B5=
-:
-> > > > >
-> > > > > On Tue, Feb 18, 2025 at 02:45:19PM +0200, Svyatoslav Ryhel wrote:
-> > > > > > =D0=B2=D1=82, 18 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=
-=BE 14:31 Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =D0=BF=D0=B8=D1=88=
-=D0=B5:
-> > > > > > >
-> > > > > > > On Mon, Feb 17, 2025 at 04:09:10PM +0200, Svyatoslav Ryhel wr=
-ote:
-> > > > > > > > SSD2825 is a cost-effective MIPI Bridge Chip solution targe=
-ting mainly
-> > > > > > > > smartphones. It can convert 24bit RGB interface into 4-lane=
- MIPI-DSI
-> > > > > > > > interface to drive display modules of up to 800 x 1366, whi=
-le supporting
-> > > > > > > > AMOLED, a-si LCD or LTPS panel technologies for smartphone =
-applications.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > > > ---
-> > > > > > > >  drivers/gpu/drm/bridge/Kconfig   |  14 +
-> > > > > > > >  drivers/gpu/drm/bridge/Makefile  |   1 +
-> > > > > > > >  drivers/gpu/drm/bridge/ssd2825.c | 824 +++++++++++++++++++=
-++++++++++++
-> > > > > > > >  3 files changed, 839 insertions(+)
-> > > > > > > >  create mode 100644 drivers/gpu/drm/bridge/ssd2825.c
-> > > > > > > >
-...
-> > > > > > >
-> > > > > > > From v1:
-> > > > > > >
-> > > > > > > Most of these flags should be set depending on the
-> > > > > > > mipi_dsi_device.mode_flags.
-> > > > > > >
-> > > > > > > > +             ssd2825_write_reg(priv, SSD2825_PLL_CTRL_REG,=
- 0x0001);
-> > > > > > > > +             ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, =
-0x0000);
-> > > > > > >
-> > > > > > > Why? Why do you need this special handling for the
-> > > > > > > MIPI_DCS_SET_DISPLAY_ON? Why can't it just go to .atomic_enab=
-le()?
-> > > > > > >
-> > > > > >
-> > > > > > This has to be called after panel init dsi sequence completes, =
-is
-> > > > > > atomic_enable called after panel init dsi seq is completed? May=
-be you
-> > > > > > can suggest where to place it.
-> > > > >
-> > > > > That depends on a panel. Significant number of panel drivers call=
- all
-> > > > > DSI programming in .prepare because some DSI hosts can not transf=
-er
-> > > > > commands after starting DSI video stream.
-> > > > >
-> > > > > So these commands should go to your .enable().
-> > > > >
-> > > >
-> > > > This is weird and counter intuitive to send dsi commands in prepare=
-,
-> > > > there should be smth like enable_post. Oh well, fine, I will try to
-> > > > fit this somehow.
-> > > >
-> >
-> > Who had made this cursed framework?
-> >
-> > Functions are called in the next seq
-> >
-> > panel_prepare > bridge_pre_enable > bridge_enable > panel_enable
->
-> Use drm_bridge.pre_enable_prev_first or drm_panel.prepare_prev_first. I
-> think that fixes your order issues.
->
+Hi Maxime,
 
-This seems to have no effect. I have set panel.prepare_prev_first =3D
-true in the panel probe, which should result in
-bridge_atomic_pre_enable be called before panel prepare,
-and yet I still have this:
+On Wed, 19 Feb 2025 10:07:39 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
-[   45.280653] renesas_r61307_prepare start
-[   45.300873] renesas_r61307_prepare end
-[   45.301070] ssd2825_bridge_atomic_pre_enable start
-[   45.317248] ssd2825_bridge_atomic_pre_enable end
-[   45.317287] ssd2825_bridge_atomic_enable start
-[   45.331650] ssd2825_bridge_atomic_enable end
-[   45.331677] renesas_r61307_enable start
-[   45.520959] renesas_r61307_enable end
+> Hi,
+> 
+> On Tue, Feb 04, 2025 at 07:52:40PM +0100, Herve Codina wrote:
+> > On Tue, 4 Feb 2025 18:11:01 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> > 
+> > > On Tue, Feb 04, 2025 at 04:34:04PM +0100, Herve Codina wrote:
+> > > > On Tue, 4 Feb 2025 16:17:10 +0100
+> > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > >   
+> > > > > Hi,
+> > > > > 
+> > > > > On Fri, Jan 17, 2025 at 09:12:13AM +0100, Herve Codina wrote:  
+> > > > > > Hi Maxime,
+> > > > > > 
+> > > > > > On Thu, 16 Jan 2025 09:38:45 +0100
+> > > > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > > > >     
+> > > > > > > On Tue, Jan 14, 2025 at 01:54:56PM +0100, Herve Codina wrote:    
+> > > > > > > > Hi Maxime,
+> > > > > > > > 
+> > > > > > > > On Tue, 14 Jan 2025 08:40:51 +0100
+> > > > > > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > > > > > > 
+> > > > > > > > ...
+> > > > > > > >       
+> > > > > > > > > >  
+> > > > > > > > > > +static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
+> > > > > > > > > > +{
+> > > > > > > > > > +	struct drm_atomic_state *state = ERR_PTR(-EINVAL);
+> > > > > > > > > > +	struct drm_device *dev = sn65dsi83->bridge.dev;
+> > > > > > > > > > +	struct drm_connector_state *connector_state;
+> > > > > > > > > > +	struct drm_modeset_acquire_ctx ctx;
+> > > > > > > > > > +	struct drm_connector *connector;
+> > > > > > > > > > +	int err;
+> > > > > > > > > > +
+> > > > > > > > > > +	/*
+> > > > > > > > > > +	 * Reset active outputs of the related CRTC.
+> > > > > > > > > > +	 *
+> > > > > > > > > > +	 * This way, drm core will reconfigure each components in the CRTC
+> > > > > > > > > > +	 * outputs path. In our case, this will force the previous component to
+> > > > > > > > > > +	 * go back in LP11 mode and so allow the reconfiguration of SN64DSI83
+> > > > > > > > > > +	 * bridge.
+> > > > > > > > > > +	 *
+> > > > > > > > > > +	 * Keep the lock during the whole operation to be atomic.
+> > > > > > > > > > +	 */
+> > > > > > > > > > +
+> > > > > > > > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+> > > > > > > > > > +
+> > > > > > > > > > +	state = drm_atomic_helper_duplicate_state(dev, &ctx);
+> > > > > > > > > > +	if (IS_ERR(state)) {
+> > > > > > > > > > +		err = PTR_ERR(state);
+> > > > > > > > > > +		goto unlock;
+> > > > > > > > > > +	}        
+> > > > > > > > > 
+> > > > > > > > > No, you must not allocate a new state for this, you need to reuse the
+> > > > > > > > > existing state. You'll find it in bridge->base.state->state.      
+> > > > > > > > 
+> > > > > > > > Thanks for pointing that. I didn't know about bridge->base.state->state.
+> > > > > > > > 
+> > > > > > > > I will use that if using the state is still relevant (see next comment).
+> > > > > > > >       
+> > > > > > > > >       
+> > > > > > > > > > +	state->acquire_ctx = &ctx;
+> > > > > > > > > > +
+> > > > > > > > > > +	connector = drm_atomic_get_old_connector_for_encoder(state,
+> > > > > > > > > > +							     sn65dsi83->bridge.encoder);
+> > > > > > > > > > +	if (!connector) {
+> > > > > > > > > > +		err = -EINVAL;
+> > > > > > > > > > +		goto unlock;
+> > > > > > > > > > +	}
+> > > > > > > > > > +
+> > > > > > > > > > +	connector_state = drm_atomic_get_connector_state(state, connector);
+> > > > > > > > > > +	if (IS_ERR(connector_state)) {
+> > > > > > > > > > +		err = PTR_ERR(connector_state);
+> > > > > > > > > > +		goto unlock;
+> > > > > > > > > > +	}
+> > > > > > > > > > +
+> > > > > > > > > > +	err = drm_atomic_helper_reset_pipe(connector_state->crtc, &ctx);
+> > > > > > > > > > +	if (err < 0)
+> > > > > > > > > > +		goto unlock;        
+> > > > > > > > > 
+> > > > > > > > > And you'll find the crtc in bridge->encoder->crtc.      
+> > > > > > > > 
+> > > > > > > > I am a bit confused. I looked at the drm_encoder structure [1] and the crtc
+> > > > > > > > field available in this structure should not be used by atomic drivers. They
+> > > > > > > > should rely on &drm_connector_state.crtc.      
+> > > > > > > 
+> > > > > > > You're right, it's deprecated but used by most bridges anyway.
+> > > > > > > 
+> > > > > > > I made a series of changes after reviewing your series to address some
+> > > > > > > issues with the current bridge API, most notably
+> > > > > > > 
+> > > > > > > https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9a2fecd886a6@kernel.org/    
+> > > > > > 
+> > > > > > Thanks for pointing that, indeed, it clarify many things!
+> > > > > >     
+> > > > > > >     
+> > > > > > > > In my case, I have the feeling that I should get the ctrc from the current
+> > > > > > > > state (i.e. bridge->base.state->state) using the sequence provided in this
+> > > > > > > > current patch:
+> > > > > > > >   Retrieve the connector with drm_atomic_get_old_connector_for_encoder()      
+> > > > > > > 
+> > > > > > > Retrieving the old connector makes no sense though. It's the connector
+> > > > > > > that was formerly associated with your encoder. It might work, it might
+> > > > > > > not, it's not what you're looking for.
+> > > > > > >     
+> > > > > > > >   Retrieve the connector state with drm_atomic_get_connector_state()      
+> > > > > > > 
+> > > > > > > drm_atomic_get_connector_state will allocate and pull the connector
+> > > > > > > state into the drm_atomic_state, even if it wasn't part of it before, so
+> > > > > > > it's not great. And you don't need it in the first place, you only need
+> > > > > > > the current active CRTC.    
+> > > > > > 
+> > > > > > Yes, I agree with that, I only need the active CRTC.
+> > > > > > 
+> > > > > > I tried to get the current atomic_state from:
+> > > > > >   1) bridge->base.state->state
+> > > > > >   2) drm_bridge_state->base.state
+> > > > > > 
+> > > > > > In both cases, it is NULL. Looking at Sima's reply in your series
+> > > > > > explained that:
+> > > > > >   https://lore.kernel.org/dri-devel/Z4juJy7kKPbI2BDb@phenom.ffwll.local/
+> > > > > > 
+> > > > > > If I understood correctly those pointers are explicitly cleared.
+> > > > > > 
+> > > > > > So, with all of that, either:
+> > > > > >   a) I wait for your series to be applied in order to use your the crtc field from
+> > > > > >      drm_bridge_state added by:
+> > > > > >        https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9a2fecd886a6@kernel.org/#t
+> > > > > >   b) I use the old school bridge->encoder->crtc for the moment
+> > > > > > 
+> > > > > > Do you mind if I use the bridge->encoder->crtc way for the next iteration of
+> > > > > > my series?    
+> > > > > 
+> > > > > Yeah, it makes sense.  
+> > > > 
+> > > > I already send a wrong v4 (sorry) and a correct v5 with modifications in
+> > > > this way :)
+> > > >   
+> > > > > 
+> > > > > Still, it would be great if you could test my series on your setup and see if it helps :)  
+> > > > 
+> > > > Of course, I can test updated version of your series.
+> > > > 
+> > > > I already try to get the current atomic_state exactly the same way as you do
+> > > > in your series and the pointer is NULL in my case.  
+> > > 
+> > > I sent a second version today, let me know if it works.
+> > > 
+> > 
+> > Tried your v2 series and...:
+> >    # modetest -s 39:1920x1080
+> >    trying to open device 'i915'...failed
+> >    ...
+> >    trying to open device 'imx-lcdif'...done
+> >    [   28.310476] ------------[ cut here ]------------
+> >    [   28.310494] WARNING: CPU: 3 PID: 449 at drivers/gpu/drm/drm_bridge.c:943 drm_atomic_bridge_chain_check+0x24c/0x310 [drm]
+> > setting mode 1920x1080-60.00Hz on[   28.326058] Modules linked in: fsl_ldb imx8mp_interconnect imx_interconnect imx_cpufreq_dt imx8mm_thermal lm75 tmp103 rtc_snvs leds_pca963x snvs_pwrkey rtc_rs5c372 pwm_imx27 st_pressure_spi st_sensors_spi regmap_spi gpio_charger st_pressure_i2c st_pressure st_sensors_i2c industrialio_triggered_buffer kfifo_buf st_sensors led_bl panel_simple opt3001 iio_hwmon governor_userspace imx_bus imx8mp_hdmi_tx dw_hdmi dwmac_imx stmmac_platform stmmac pcs_xpcs phylink samsung_dsim imx_sdma imx_lcdif drm_dma_helper imx8mp_hdmi_pvi fsl_imx8_ddr_perf exc3000 caam ti_sn65dsi83 error hotplug_bridge pwm_bl drm_display_helper drm_kms_helper drm drm_panel_orientation_quirks backlight gehc_sunh_connector ltc2497 ltc2497_core
+> >    [   28.391264] CPU: 3 UID: 0 PID: 449 Comm: modetest Not tainted 6.14.0-rc1+ #18
+> >    [   28.398404] Hardware name: Xxxxxxxxxx
+> >    [   28.404933] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> >    [   28.411896] pc : drm_atomic_bridge_chain_check+0x24c/0x310 [drm]
+> >    [   28.417940] lr : drm_atomic_bridge_chain_check+0x134/0x310 [drm]
+> >    [   28.423983] sp : ffff8000823eb860
+> >    [   28.427299] x29: ffff8000823eb860 x28: ffff000000ac1e00 x27: ffff00007b27ea18
+> >    [   28.434445] x26: ffff00007b27ea90 x25: ffff00007b106170 x24: ffff00007a5d6ed8
+> >    [   28.441587] x23: ffff00007bb4b8a0 x22: ffff00007b27e800 x21: ffff00007b27ea00
+> >    [   28.448732] x20: 0000000000000000 x19: ffff00007b106008 x18: 0000000000000000
+> >    [   28.455876] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+> >    [   28.463021] x14: 0000000000000000 x13: ffff00007a7c4ec0 x12: ffff000006dcb440
+> >    [   28.470165] x11: ffff00007a7c4ec0 x10: ffff000079ee5200 x9 : ffff8000798e1aec
+> >    [   28.477311] x8 : ffff00007a63f190 x7 : 0000000000000000 x6 : ffff800079954110
+> >    [   28.484455] x5 : 0000000000000000 x4 : 0000000000000020 x3 : ffff000079a12d80
+> >    [   28.491601] x2 : ffff00007b107000 x1 : ffff00007b106008 x0 : 0000000000000000
+> >    [   28.498747] Call trace:
+> >    [   28.501195]  drm_atomic_bridge_chain_check+0x24c/0x310 [drm] (P)
+> >    [   28.507241]  drm_atomic_helper_check_modeset+0xa1c/0xca0 [drm_kms_helper]
+> >    [   28.514046]  drm_atomic_helper_check+0x28/0xb8 [drm_kms_helper]
+> >    [   28.519980]  drm_atomic_check_only+0x4bc/0x990 [drm]
+> >    [   28.524982]  drm_atomic_commit+0x50/0xd8 [drm]
+> >    [   28.529463]  drm_atomic_helper_set_config+0xe4/0x128 [drm_kms_helper]
+> >    [   28.535919]  drm_mode_setcrtc+0x1cc/0x7b0 [drm]
+> >    [   28.540486]  drm_ioctl_kernel+0xc0/0x140 [drm]
+> >    [   28.544965]  drm_ioctl+0x210/0x4e8 [drm]
+> >    [   28.548926]  __arm64_sys_ioctl+0xa4/0xe8
+> >    [   28.552860]  invoke_syscall+0x50/0x120
+> >    [   28.556619]  el0_svc_common.constprop.0+0x48/0xf8
+> >    [   28.561330]  do_el0_svc+0x28/0x40
+> >    [   28.564653]  el0_svc+0x30/0xd0
+> >    [   28.567713]  el0t_64_sync_handler+0x144/0x168
+> >    [   28.572075]  el0t_64_sync+0x198/0x1a0
+> >    [   28.575746] ---[ end trace 0000000000000000 ]---
+> >     connectors 39, crtc 36
+> >    failed to set mode: Function not implemented
+> > 
+> > 
+> > Without your series applied, modetest -s works correctly.
+> > 
+> > Due to the failure, I couldn't test your drm_bridge_get_current_state() to
+> > see if I can retrieve the drm_bridge_state from my sn65dsi83_reset_pipe()
+> > function.
+> > 
+> > Also, I have some local commits related to Luca's work about DRM bridge
+> > hot-pluggin stuff on my test branch.
+> > 
+> > It will not be easy for me to test your series without them as my TI
+> > sn65dsi83 bridge is behind a connector and I need some Luca's modification
+> > to have a functional system. Sorry about that.
+> >
+> > Hope that the kernel WARN log provided here will ring you a bell.
+> 
+> Not really. I can't figure out where in drm_atomic_bridge_chain_check we
+> have that warning.
+> 
+> Does $CROSS_COMPILE-addr2line -e vmlinux
+> drm_atomic_bridge_chain_check+0x24c/0x310 report anything?
+> 
 
-With or without the flag it is same
+addr2line doesn't give any information but the WARN() triggered is the
+following (code available in your series):
+   --- 8< ---
+   static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+   				   struct drm_crtc_state *crtc_state,
+   				   struct drm_connector_state *conn_state)
+   {
+   	struct drm_bridge_state *bridge_state;
+   	int ret;
+   
+   	bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+   						       bridge);
+   	if (WARN_ON(!bridge_state))
+   		return -EINVAL;
+   --- 8< ---
 
-> > There is no gap in between bridge_pre_enable and bridge enable, hence
-> > I cannot call dsi commands in panel_prepare since bridge is not even
-> > pre_enabled, and if I call then in panel_enable, I cannot complete
-> > bridge configuration since bridge enable is called before. like WTF!
-> >
-> > I enclose log with function call seq
-> >
-> > DSI commands in panel prepare
-> > [   75.149700] ssd2825_dsi_host_transfer start  << this is panel prepar=
-e
-> > [   75.149737] ssd2825 spi0.2: Bridge is not enabled
-> > [   75.149750] panel-renesas-r61307 spi0.2.1: Failed to exit sleep mode=
-: -19
-> > [   75.149779] ssd2825_bridge_atomic_pre_enable start
-> > [   75.178518] ssd2825_bridge_atomic_pre_enable end
-> > [   75.178552] ssd2825_bridge_atomic_enable start
-> > [   75.179026] ssd2825_bridge_atomic_enable end
-> >
-> > DSI commands in panel enable
-> >
-> > [  102.821580] ssd2825_bridge_atomic_pre_enable start
-> > [  102.852000] ssd2825_bridge_atomic_pre_enable end
-> > [  102.852057] ssd2825_bridge_atomic_enable start
-> > [  102.852840] ssd2825_bridge_atomic_enable end
-> > [  102.852866] ssd2825_dsi_host_transfer start  << panel enable
-> > [  102.853876] ssd2825_dsi_host_transfer end
-> > [  102.948420] ssd2825_dsi_host_transfer start
-> > [  102.949289] ssd2825_dsi_host_transfer end
-> > [  102.978389] ssd2825_dsi_host_transfer start
-> > [  102.979567] ssd2825_dsi_host_transfer end
-> > [  102.980117] ssd2825_dsi_host_transfer start
-> > [  102.981248] ssd2825_dsi_host_transfer end
-> > [  102.981809] ssd2825_dsi_host_transfer start
-> > [  102.982851] ssd2825_dsi_host_transfer end
-> > [  102.983537] ssd2825_dsi_host_transfer start
-> > [  102.984556] ssd2825_dsi_host_transfer end
-> > [  102.986743] ssd2825_dsi_host_transfer start
-> > [  102.988078] ssd2825_dsi_host_transfer end
-> > [  102.989445] ssd2825_dsi_host_transfer start
-> > [  102.990411] ssd2825_dsi_host_transfer end
-> > [  102.990912] ssd2825_dsi_host_transfer start
-> > [  102.992274] ssd2825_dsi_host_transfer end
-> >
-> > In both cases there is no gap in between bridge pre_enable and enable
-> >
-> > > > > But what is the case for these calls? Are you manually implementi=
-ng the
-> > > > > MIPI_DSI_MODE_LPM flag? What exactly do they do? What happens if =
-the
-> > > > > panel driver asks for the MIPI_DCS_SET_DISPLAY_ON command after y=
-ou've
-> > > > > programmed those registers? What happens if the panel asks for th=
-e
-> > > > > backlight control?
-> > > > >
-> > > >
-> > > > Backlight is externally controlled, at least on my device, so I can=
-not
-> > > > test other cases. If I configure those registers before dsi sequenc=
-e
-> > > > is completed panel stays black. If I simply remove those
-> > > > configuration, panel stays black.
-> > > >
+Best regards,
+Hervé
+
+-- 
+Hervé Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
