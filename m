@@ -2,100 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4EEA3D818
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 12:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2210AA3D8C7
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 12:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E9210E942;
-	Thu, 20 Feb 2025 11:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62DA10E4CF;
+	Thu, 20 Feb 2025 11:34:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EWpP3pVB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q4Hq1uHr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807C410E942
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 11:16:38 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-ab78e6edb99so114705766b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 03:16:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740050197; x=1740654997; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u33bNsVrNxNtTUoEnhMd7zgtXI5olli4RASjpX/hNKk=;
- b=EWpP3pVByANqtb7cP7rhrenOgnYcylkLyK04+GmqRlX7aoJHnmN1/c1ke3FhKO9cWO
- SzFE40sMFpe3s3TKrKzKRT0d8GuiZwZ4uQO2lx2j6+pc6kMaFxEFjVUnov5NlyNcx2ri
- jxptKnX9Hc1SnBqeuacco9iFKfYOdTG2g9U5v2bA0Ox3grYxRCQLQK+ULKvA2/BYL2o8
- hmzD4G1DxTWW5Yh3mhZjGVZ5/L69Fhb+SZYwM08z+qqA9InkRzooseEHc4w6nsvokIT1
- +UMove4Rzxucxz4juSNl0YMKLGoeKmhOhK+NU5cpa4T/u13hBfxqzoT6n9jVifUmNEj5
- u8/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740050197; x=1740654997;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=u33bNsVrNxNtTUoEnhMd7zgtXI5olli4RASjpX/hNKk=;
- b=aQ83rUN8dGEEkIVpvcKP1yBU3he+IQOpWWtCaaf7Q16M804Je7E8IZsgQimGo2o/Aw
- m2gfTYh8W6SGJ5oc74pG5rPNuYaGqdoPyRLljGRTeZXasaQGVykA8vTzzMSvRqAi0jhc
- MSv2o0Ytcoj7wKavWOSKLlBykeRht2hUSs9MBYLGZUKCc/uAHALmoMPimHzocYxd4a1R
- oqwR38tiGxNG4B1P+ykqAQ7VuRyK0c+mDDwPdV+9vX5ZBK2H1r1DGFWI1QKI5Vlb2MKS
- YMKZcOkRSnrHGpVnifYb7GGZB1zW9l8TTAD8wn1sNOMljy+1ijF50f3VntBh/btTtMJD
- N4ZQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX1xceG+SKgSFlv2C9NNjXlwEghG1IrZyiwhIvbkN2FyONTEC8BPrKrNQ56AdI/FKUjtyF1RBwlOqw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4IJMcAB5DZ21jg37eq1do/iJgCzI9ViK/Hk5jOzu8dsAfEVw3
- Kska2RSS2BoNvhZo9FEbCdH72gliyxdQZBC7FfKzlVZWC9wvWPlz
-X-Gm-Gg: ASbGncuXLubvW4Niaw3kdl+W9DInlIGHxvBYN/9nM/xBr2uCVFRuFX2yTM05Zw4Xfdl
- 1Ohe63QH/H8vmsgJ4KpSCM8VSU2H4E57wC3JEEWl+g/B7YZJU/GOTeLLKCyG6arWlJQ14b4ePIQ
- FgVHBt6EChIH7+H9r1ZkTlux+RHEwNebTWpDCQPrqmoKv/d48JkerEE6Mfj3sKPePvdBm+3SibL
- 5PnOnkAhKXD3e1nGG/yeqZVQmAmOUY1JDWIBVZmXC4/spISz3OQO/VH0E9ZgXFlcKKLWVvmvJ3X
- iUJBXh5nLlCOx2X7mDqVYu1gaI8m5tgfGZYDu2mGq6Pylxv60SiwnyUJ82qC2vVJTgD7mqFX
-X-Google-Smtp-Source: AGHT+IFmWBcDPInhp9w4btY1qA9eIzy3GXZXztUdnckb0Hqqtby2WfdghhMP/SBKRVAMezhhUK82sg==
-X-Received: by 2002:a17:907:3da3:b0:ab7:9b86:598d with SMTP id
- a640c23a62f3a-abbcce1eeaemr613793166b.17.1740050196513; 
- Thu, 20 Feb 2025 03:16:36 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl.
- [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abba9bd6e22sm630838366b.121.2025.02.20.03.16.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Feb 2025 03:16:36 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <20250217215641.372723-1-detlev.casanova@collabora.com>
-Date: Thu, 20 Feb 2025 12:16:20 +0100
-Cc: linux-kernel@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, Niklas Cassel <cassel@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@collabora.com,
- David Airlie <airlied@gmail.com>, Dragan Simic <dsimic@manjaro.org>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- FUKAUMI Naoki <naoki@radxa.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0155710E955
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 11:34:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 98D4E613AD;
+ Thu, 20 Feb 2025 11:28:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EBFAC4CED1;
+ Thu, 20 Feb 2025 11:28:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740050902;
+ bh=JDB0yEuPVkvAyMz7TDwn8wLKPDLpB7CukMSdFDh9uKQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=q4Hq1uHrh/jj9PjoUlaXaPuSrfwJpj7bckJ54hKBP/dzpToM0O29jPKXU4X08nX3e
+ qbYWs9Jfc2Kjj2jKuflhYXWFMON9WgxDbUp/I5gWH3r0DXYa5w+Htl8LpdhqSTdilo
+ AvyMYVOwbNMIlakWtsqrEPiBFBpjmHJ8AnPw+5mLkf5ze+nDezpSandxM+8/ot6Qsl
+ nnQW2eoUBp2FbbY+Ib9eyRNZBiUkOlNnf7YGsUs87YOXR3g5iAT2Kdy+WqZn2m6jH4
+ SaRKksH1QeLrDr0gHeci47kZrnroQu8Jqg+aRNceBgkLSlCGVbnJj72tfqJ+2sCjja
+ GTNmo37HcjA7w==
+From: Philipp Stanner <phasta@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Alexey Charkov <alchark@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B8EF5196-55FB-44EC-B93C-E327C791225B@gmail.com>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/3] drm/sched: Documentation and refcount improvements
+Date: Thu, 20 Feb 2025 12:28:11 +0100
+Message-ID: <20250220112813.87992-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.47.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,127 +61,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes in v5:
+  - Fix broken enumarated list in timedout_job's docu.
+  - Add TODO for documenting the dma_fence rules in timedout_job one
+    day.
 
+Changes in v4:
+  - Remove mention of vague "dma_fence rules" in timedout_job() again
+    since I couldn't get input on what those rules precisely are.
+  - Address a forgotten TODO. (Me)
+  - Reposition "Return:" statements to make them congruent with the
+    official kernel style. (Tvrtko)
+  - Change formatting a bit because of crazy make htmldocs errors. (Me)
 
-> Wiadomo=C5=9B=C4=87 napisana przez Detlev Casanova =
-<detlev.casanova@collabora.com> w dniu 17 lut 2025, o godz. 22:47:
->=20
-> To support HDMI audio on the rk3588 based devices, the generic HDMI
-> Codec framework is used in the dw-hdmi-qp DRM bridge driver.
->=20
-> The implementation is mainly based on the downstream driver, ported to =
-the
-> generic HDMI Codec framework [1] recently merged in the master branch.
-> The parameters computation has been kept as is and the data stored in =
-the
-> dw_hdmi_qp struct as been cleaned up.
->=20
-> The table for the N values has been edited to reflect N recommended =
-values
-> as well as CTS recommended values.
->=20
-> The downstream kernel also implements a machine driver for HDMI audio =
-but
-> it is doing exactly what the simple-audio-card driver does, so use =
-that
-> instead in the RK3588 SoC device tree.
->=20
-> This adds HDMI audio support for both HDMI TX ports.
->=20
-> *** Dependencies ***
->=20
-> Based on Linus' master branch, but also needs Cristian's dts patches =
-for HDMI1
-> support [2], which depends on Heiko's patchset for
-> phy-rockchip-samsung-hdptx [3]. Patches will apply without [3], but =
-HDMI will
-> not work (at all).
->=20
-> [1]: =
-https://lore.kernel.org/all/20241224-drm-bridge-hdmi-connector-v10-0-dc895=
-77cd438@linaro.org
-> [2]: =
-https://lore.kernel.org/linux-rockchip/20241211-rk3588-hdmi1-v2-0-02cdca22=
-ff68@collabora.com
-> [3]: =
-https://lore.kernel.org/lkml/20241206103401.1780416-3-heiko@sntech.de/
->=20
-> Changes since v6:
-> - Fix arguments alignement (checkpatch --strict warnings)
-> - Add hdmi1 audio support too
-> - Move hdmi0_sound node under hdmi0_out_con
->=20
-> Changes since v5:
-> - Simplify audio math computation for N
-> - Move hdmi0-sound node up with other address-less nodes
->=20
-> Changes since v4:
-> - Moved hdmi0_audio node the rk3588-base.dtsi
-> - Enable hdmi0_audio in rk3588-rock-5b.dts
->=20
-> Changes since v3:
-> - Renamed function to start with dw_hdmi_qp
->=20
-> Changes since v2:
-> - Also clear the audio infoframe
-> - Write AUDI_CONTENTS0 to its default value in case it gets =
-overwritten.
-> - Store tmds_char_rate in the dw_hdmi_qp struct in atomic_enable
-> - Clear tmds_char_rate in atomic_disable and only write registers when
->   tmds_char_rate is not 0.
-> - Do not use connector_state duplicates
->=20
-> Changes since v1:
-> - Remove useless audio_mutex (was used downstream for multiple drivers =
-access
->   to audio functions)
-> - Let hdmi_codec build and setup audio infoframes
-> - Only access audio registers when connector is connected
-> - Rebased on master branch
->=20
-> Detlev Casanova (2):
->  arm64: dts: rockchip: Add HDMI audio outputs for rk3588 SoC
->  arm64: dts: rockchip: Enable HDMI audio outputs for Rock 5B
->=20
-> Sugar Zhang (1):
->  drm/bridge: synopsys: Add audio support for dw-hdmi-qp
->=20
-> arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  17 +
-> .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |  17 +
-> .../boot/dts/rockchip/rk3588-rock-5b.dts      |  16 +
-> drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c  | 489 ++++++++++++++++++
-> 4 files changed, 539 insertions(+)
->=20
-> --=20
-> 2.48.1
->=20
->=20
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+Changes in v3:
+  - timedout_job(): various docu wording improvements. (Danilo)
+  - Use the term "ring" consistently. (Danilo)
+  - Add fully fledged docu for enum drm_gpu_sched_stat. (Danilo)
 
+Changes in v2:
+  - Document what run_job() is allowed to return. (Tvrtko)
+  - Delete confusing comment about putting the fence. (Danilo)
+  - Apply Danilo's RB to patch 1.
+  - Delete info about job recovery for entities in patch 3. (Danilo, me)
+  - Set the term "ring" as fix term for both HW rings and FW rings. A
+    ring shall always be the thingy on the CPU ;) (Danilo)
+  - Many (all) other comments improvements in patch 3. (Danilo)
 
-Detelv,
+This is as series succeeding my previous patch [1].
 
-Just curious of your opinion:
+I recognized that we are still referring to a non-existing function and
+a deprecated one in the callback docu. We should probably also point out
+the important distinction between hardware and firmware schedulers more
+cleanly.
 
-I=E2=80=99m on 6.14-rc3 and using =
-https://gitlab.collabora.com/cristicc/linux-next/-/commits/rk3588-hdmi-bri=
-dge + this v7 series.
+Please give me feedback, especially on the RFC comments in patch3.
 
-On mine rock5b all works nicely but - at boot time - i=E2=80=99m getting =
-some oops in kernel like this: =
-https://gist.github.com/warpme/e1668acbef7817e5d2a88a6840328722
+(This series still fires docu-build-warnings. I want to gather feedback
+on the opion questions first and will solve them in v2.)
 
-I=E2=80=99m not sure where issue is but it looks to me like kind of =
-interference between analog audio and hdmi audio as commenting analog =
-audio in dts ( =
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch=
-/arm64/boot/dts/rockchip/rk3588-rock-5b.dts?h=3Dv6.14-rc3#n24 ) stops =
-kernel from oops=E2=80=99ing=E2=80=A6.
+Thank you,
+Philipp
 
- rock5b dts i=E2=80=99m using is like this: =
-https://gist.github.com/warpme/a8a32afd4a05d4b7f25d2808984b05ac
+[1] https://lore.kernel.org/all/20241220124515.93169-2-phasta@kernel.org/
 
+Philipp Stanner (3):
+  drm/sched: Document run_job() refcount hazard
+  drm/sched: Adjust outdated docu for run_job()
+  drm/sched: Update timedout_job()'s documentation
+
+ drivers/gpu/drm/scheduler/sched_main.c |   5 +-
+ include/drm/gpu_scheduler.h            | 109 +++++++++++++++++--------
+ 2 files changed, 76 insertions(+), 38 deletions(-)
+
+-- 
+2.47.1
 
