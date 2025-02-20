@@ -2,47 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD4AA3D5AE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C93A3D5B4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F8510E8FD;
-	Thu, 20 Feb 2025 10:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70A7E10E902;
+	Thu, 20 Feb 2025 10:00:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="BV1BLeNm";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="S3knFB8T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id EADDA10E8FD
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=2RoNr
- SjHOSnrbQWPVmn0LiRyjXkWM0htcxpHKmfkuqc=; b=BV1BLeNmH6YzL7rRbUtjE
- R542RFTSXbvkLXpOaNF4F3seYCVa+3SjrpKeZiZYcKGpEPsqiLKakUrKeOmcaGAO
- ZBzNLLjCNuUN63pG/vPcXOs8ouwGE3ou2uy7VImVeNI39cwS4rCCdln6rMDEWCoK
- quh8NXRgJ73gCAZ5LATcw0=
-Received: from localhost.localdomain (unknown [])
- by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id
- _____wDn77ML_bZnugebMw--.5396S2; 
- Thu, 20 Feb 2025 17:59:40 +0800 (CST)
-From: oushixiong1025@163.com
-To: Simona Vetter <simona@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- oushixiong <oushixiong@kylinos.cn>
-Subject: [PATCH] fbdev: Register sysfs groups through device_add_group
-Date: Thu, 20 Feb 2025 17:59:35 +0800
-Message-Id: <20250220095935.270797-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ACF610E902
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:00:32 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-439a4dec9d5so4352895e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 02:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1740045631; x=1740650431; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7gSnEulNPHGW59kN5NlhcVPq1odJotXpIwPfOlH4gXc=;
+ b=S3knFB8T4eP6lKUsPhz10JKwbO8pl1ONqjSWd1mvZv9wzBMHkOrjsBnZnsLAqOOQYc
+ 6IG055qZMwqDrCYw7tXUMcObqhYBzzyiHIXVM+uXyxmRy7xwerX9AS9OHJ4ipm4+dTDK
+ 3C1tRPOaBwe+33Na3B7voTPR7qmWSGFvEYSDA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740045631; x=1740650431;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7gSnEulNPHGW59kN5NlhcVPq1odJotXpIwPfOlH4gXc=;
+ b=aed5K/TbNnaQEhzI0DigsRwV8DKs6wsZ3dQqqFRz5bXatjnQVUoUsKzpaz+7OSCc0M
+ LLHSO6fQq33s95PmggoAv2p+AKyUFvOqNCThJrsKUXuGfXpc7koqf7WKnVEyWrrZ3hyi
+ r7h5r0tNWk4x/z8PzNNZjIQ7xg5uctNfPMs+AOiqycSvgh6oSY5JuNL8LvIsvfzjpBaA
+ MtKlBtQ7ib6vVzUViOp7npgtVY0T0be70UYcYhNZA75WAElG5UBciuyC/bvp815IVevN
+ ZE2OW3UTrStUEEycUpaeqegqRKKKCWUnWKzsWJIbN5dStHCB9oJwoK7/HX6v5SHwf83F
+ o4Lg==
+X-Gm-Message-State: AOJu0YzmwF34VxMvqH52N9n5wr9+Xm+0G+KbOauAnc/LHrkYEKlDx2mT
+ R2zpvq20G3PsO4/iZXbEvWXZZnt4y+FvziKkj/iyyld9ralfDf+JwzDaVZvEyHuUDWRpOaeNKXT
+ C
+X-Gm-Gg: ASbGnctb/TX4cfLrHygCcFq9uBhDxW0YR3wczT+svBp9o04xgnn5NyCX+KMcV/YApc1
+ pkfP2YhccRfjSV/68DuOR3E3r9FkgCiIqzcViSJC+YBtZBbVcoyeY3aOGOkB32mWq9rtBxZirH5
+ kEkFwJO9IayNBEQfxiJSby9SWs+kmwTu5gvLEnx9o3AeYiKb/8+B2JMzfIwp02rJZDTLqbYNA+l
+ ipGlhTdaagYjzmwCKJCD87VhizYHa6g5ncpVbb2VGH2iNMhZxQtP7lXmQ2WJAigNOuAAV/GoPcG
+ NhzNZMqcvzDqcZ1xiu511KTXq6U=
+X-Google-Smtp-Source: AGHT+IH6VXFG7I7YI20n9sEVCzM1EqLuDUUlC7OOJg5EJY1l1IPCAZhZ9KqyfSoBugjctrkmj3Gb/w==
+X-Received: by 2002:a05:600c:4e87:b0:439:9274:81cd with SMTP id
+ 5b1f17b1804b1-439927484b2mr113239115e9.4.1740045631154; 
+ Thu, 20 Feb 2025 02:00:31 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4399d55fc1asm38775925e9.35.2025.02.20.02.00.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Feb 2025 02:00:30 -0800 (PST)
+Date: Thu, 20 Feb 2025 11:00:28 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/atomic: Filter out redundant DPMS calls
+Message-ID: <Z7b9PD2o6XhfdjWf@phenom.ffwll.local>
+References: <20250219160239.17502-1-ville.syrjala@linux.intel.com>
+ <Z7b7tSabXeLe1ovT@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDn77ML_bZnugebMw--.5396S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJF43urWUKryfJF15Jw47Jwb_yoWrWw43pr
- n3JFyFgry5WF1UGFs3uwsrX39xWw4rury5Jr9xt3yxGF43GFZrW34xAFy5A3yrGr97Jr1S
- qFsrXw18JFZF9aUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOZ2-UUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRb5D2e28fjYegAAsH
+In-Reply-To: <Z7b7tSabXeLe1ovT@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,114 +86,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: oushixiong <oushixiong@kylinos.cn>
+On Thu, Feb 20, 2025 at 10:53:57AM +0100, Simona Vetter wrote:
+> On Wed, Feb 19, 2025 at 06:02:39PM +0200, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > Video players (eg. mpv) do periodic XResetScreenSaver() calls to
+> > keep the screen on while the video playing. The modesetting ddx
+> > plumbs these straight through into the kernel as DPMS setproperty
+> > ioctls, without any filtering whatsoever. When implemented via
+> > atomic these end up as full commits on the crtc, which leads to a
+> > dropped frame every time XResetScreenSaver() is called.
+> 
+> I think you should add here that it's just an empty commit, because we do
+> filter out redundant commits where crtc->active_changed does nothing.
+> Except we still run the entire machinery with timestamps and drm_event and
+> everything.
+> 
+> And I don't think it's worth to filter that out at the atomic level,
+> because it's really only legacy ioctl that had this "complete noop"
+> behaviour.
+> 
+> With the commit message augmented:
+> 
+> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Use device_add_group() to simplify creation.
+Ok, one more thing: Please also augment the dpms property uapi doc text
+with a note that we make this guarantee. Otherwise this feels a bit too
+much opaque magic. Maybe even a one-liner comment in the code that this is
+uapi?
+-Sima
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/video/fbdev/core/fbsysfs.c | 69 +++++++++++++++++-------------
- 1 file changed, 39 insertions(+), 30 deletions(-)
+> 
+> Might also be nice to have a igt for this? Plus also wondering whether we
+> should cc: stable it.
+> 
+> Cheers, Sima
+> 
+> > Let's just filter out redundant DPMS property changes in the
+> > kernel to avoid this issue.
+> > 
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_atomic_uapi.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> > index 2765ba90ad8f..c2726af6698e 100644
+> > --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> > @@ -957,6 +957,10 @@ int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
+> >  
+> >  	if (mode != DRM_MODE_DPMS_ON)
+> >  		mode = DRM_MODE_DPMS_OFF;
+> > +
+> > +	if (connector->dpms == mode)
+> > +		goto out;
+> > +
+> >  	connector->dpms = mode;
+> >  
+> >  	crtc = connector->state->crtc;
+> > -- 
+> > 2.45.3
+> > 
+> 
+> -- 
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-index 1b3c9958ef5c..06d75c767579 100644
---- a/drivers/video/fbdev/core/fbsysfs.c
-+++ b/drivers/video/fbdev/core/fbsysfs.c
-@@ -416,55 +416,64 @@ static ssize_t show_bl_curve(struct device *device,
- /* When cmap is added back in it should be a binary attribute
-  * not a text one. Consideration should also be given to converting
-  * fbdev to use configfs instead of sysfs */
--static struct device_attribute device_attrs[] = {
--	__ATTR(bits_per_pixel, S_IRUGO|S_IWUSR, show_bpp, store_bpp),
--	__ATTR(blank, S_IRUGO|S_IWUSR, show_blank, store_blank),
--	__ATTR(console, S_IRUGO|S_IWUSR, show_console, store_console),
--	__ATTR(cursor, S_IRUGO|S_IWUSR, show_cursor, store_cursor),
--	__ATTR(mode, S_IRUGO|S_IWUSR, show_mode, store_mode),
--	__ATTR(modes, S_IRUGO|S_IWUSR, show_modes, store_modes),
--	__ATTR(pan, S_IRUGO|S_IWUSR, show_pan, store_pan),
--	__ATTR(virtual_size, S_IRUGO|S_IWUSR, show_virtual, store_virtual),
--	__ATTR(name, S_IRUGO, show_name, NULL),
--	__ATTR(stride, S_IRUGO, show_stride, NULL),
--	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
--	__ATTR(state, S_IRUGO|S_IWUSR, show_fbstate, store_fbstate),
-+static DEVICE_ATTR(bits_per_pixel, 0644, show_bpp, store_bpp);
-+static DEVICE_ATTR(blank, 0644, show_blank, store_blank);
-+static DEVICE_ATTR(console, 0644, show_console, store_console);
-+static DEVICE_ATTR(cursor, 0644, show_cursor, store_cursor);
-+static DEVICE_ATTR(mode, 0644, show_mode, store_mode);
-+static DEVICE_ATTR(modes, 0644, show_modes, store_modes);
-+static DEVICE_ATTR(pan, 0644, show_pan, store_pan);
-+static DEVICE_ATTR(virtual_size, 0644, show_virtual, store_virtual);
-+static DEVICE_ATTR(name, 0444, show_name, NULL);
-+static DEVICE_ATTR(stride, 0444, show_stride, NULL);
-+static DEVICE_ATTR(rotate, 0644, show_rotate, store_rotate);
-+static DEVICE_ATTR(state, 0644, show_fbstate, store_fbstate);
- #if IS_ENABLED(CONFIG_FB_BACKLIGHT)
--	__ATTR(bl_curve, S_IRUGO|S_IWUSR, show_bl_curve, store_bl_curve),
-+static DEVICE_ATTR(bl_curve, 0644, show_bl_curve, store_bl_curve);
- #endif
-+
-+static struct attribute *fb_device_attrs[] = {
-+	&dev_attr_bits_per_pixel.attr,
-+	&dev_attr_blank.attr,
-+	&dev_attr_console.attr,
-+	&dev_attr_cursor.attr,
-+	&dev_attr_mode.attr,
-+	&dev_attr_modes.attr,
-+	&dev_attr_pan.attr,
-+	&dev_attr_virtual_size.attr,
-+	&dev_attr_name.attr,
-+	&dev_attr_stride.attr,
-+	&dev_attr_rotate.attr,
-+	&dev_attr_state.attr,
-+#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
-+	&dev_attr_bl_curve.attr,
-+#endif
-+	NULL,
-+};
-+
-+static const struct attribute_group fb_device_attr_group = {
-+	.attrs          = fb_device_attrs,
- };
- 
- static int fb_init_device(struct fb_info *fb_info)
- {
--	int i, error = 0;
-+	int ret;
- 
- 	dev_set_drvdata(fb_info->dev, fb_info);
- 
- 	fb_info->class_flag |= FB_SYSFS_FLAG_ATTR;
- 
--	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
--		error = device_create_file(fb_info->dev, &device_attrs[i]);
--
--		if (error)
--			break;
--	}
--
--	if (error) {
--		while (--i >= 0)
--			device_remove_file(fb_info->dev, &device_attrs[i]);
-+	ret = device_add_group(fb_info->dev, &fb_device_attr_group);
-+	if (ret)
- 		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
--	}
- 
- 	return 0;
- }
- 
- static void fb_cleanup_device(struct fb_info *fb_info)
- {
--	unsigned int i;
--
- 	if (fb_info->class_flag & FB_SYSFS_FLAG_ATTR) {
--		for (i = 0; i < ARRAY_SIZE(device_attrs); i++)
--			device_remove_file(fb_info->dev, &device_attrs[i]);
-+		device_remove_group(fb_info->dev, &fb_device_attr_group);
- 
- 		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
- 	}
 -- 
-2.17.1
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
