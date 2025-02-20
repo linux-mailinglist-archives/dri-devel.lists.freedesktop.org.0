@@ -2,93 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177AAA3D675
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC54A3D67E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:26:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4B3910E913;
-	Thu, 20 Feb 2025 10:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E68410E916;
+	Thu, 20 Feb 2025 10:26:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WQladiNX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QFgDu+Yq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279B810E913
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1740047055;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PCfNk2irYZhiAVEAeMF3jzWLVhPjMhVSnPe0uvp0LKw=;
- b=WQladiNX3kmGPXs7DkYsk/LemS+Koi5CQvbK3ZRxhAG35j0e+QQxUxOGC01mhOPPTwzU1U
- GBGtyV/PQvRs0Fw8ulI6loCUNh75jSKYnkw9lDSXYwY04A2PVhl18HLF3D4R4Qkmwuhsb5
- KcPXBXMHUdMKRlA6ur6SIvX9SJ7tsWU=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-5IuC_ZneOsmc5tYg1chtEQ-1; Thu, 20 Feb 2025 05:24:11 -0500
-X-MC-Unique: 5IuC_ZneOsmc5tYg1chtEQ-1
-X-Mimecast-MFC-AGG-ID: 5IuC_ZneOsmc5tYg1chtEQ_1740047051
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-220d9d98ea6so25025175ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 02:24:11 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07BD010E916
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:26:21 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-30a3092a9ebso8204921fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 02:26:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740047180; x=1740651980; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=O7kUm1v64pAlfTNgHXT9+jQTHsgrWw2Fb+swiiw/lqg=;
+ b=QFgDu+YqKsvTOzBeCsLTKiDd1351qJIwwQ6i5aI65uHxCw66AA8hSEdFZX3AMztrUm
+ a7k3g5dcU9PjNFDGg+smDIEhJ5Q+aZml8CK5BY4Sd1s5EAo5Rx01qcmBzKuZ1m37R/Bu
+ tVMZvfe7ZOQGeyWqBhxHQf7AhlQWcl3tb/26eFXqVJL+vW7+9CvQJLfJsyFPTrJGrwkb
+ +897Lh6Ke0ekthXZECRaBH7kCZrYShITPTdQGgaMUrrIjs4AMrIrv6lUl1K2GFBf5x4n
+ As/aG5YbNi4V+BZISCEFZUCuIPaEoTkjhs/1G4vfpnBL1ei2fOUQHY2kGWsvm7nt3wdI
+ sfHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740047050; x=1740651850;
- h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PCfNk2irYZhiAVEAeMF3jzWLVhPjMhVSnPe0uvp0LKw=;
- b=TaQLf076Tk3MCh3PnI3fYyhsC0xAm6HUrBlC673OBsiYiULBGTreOg++XpHm2+1L+w
- bR1dr+KnXRchk2kT6vHQoKMZCmlCJCApnFs319MgCZr45endy9xag9ng/nXqkl1VanSQ
- 99KDUjrgiu6OH3U/++BisLsUuw4f9zu7pRg7NhkrMjCrs254nP7mwkT+YZmc886nc8vu
- 2KpsnCYrsmZ+2TovCEG32z1M+kLg3ssP70Ga6fZP10d+JJTRYgYmXwDIEGjrY6ePzpsv
- DWCUi+8vkWdwqBGrCrINlnsnU91mXVDE7HiGQ+WxBb73x5JDNArHm8N2bTSjT6cvjXx6
- YO8Q==
+ d=1e100.net; s=20230601; t=1740047180; x=1740651980;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=O7kUm1v64pAlfTNgHXT9+jQTHsgrWw2Fb+swiiw/lqg=;
+ b=wBUAQSa6UkZSjUhfjzbkaV8Vjq4sfGHzCU/UWfAasjX476CVHKX8nKb37CQilqsdHX
+ tpvIxt8EjZpbCkfoS4MUAU2eYflLE0OSOXNDmgz2PLD+51cGvVPS+BLaoUqCRXv35E7t
+ k9EfKrtEwdm5eR3fVvP//NLHMmRLoYcY3ORwpkh+2JqGG59DJuIjSLSeNlNvgzDJTUvh
+ jqiAdDWBq6ddYpR9HLL82s39Su24EwacaAOIINeH+UiqYHdWagAUDMR93cvxVMCGWfo0
+ OfV3uSSLcOCsw1tP0PZ8I3nGI9zJinPEniUfIHkI5SIWF2UzifJeit4Q3naRyioKq1dU
+ HF1Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfA1Uko51WDd4S5ouledBb3G5nddcHQhQVJrbPJkvT3xlgAzW6L45r5nCMO9+NR4tBqIWOIgUay3I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWimzOMxL5vluRvRl0WFyNIQ7LoiNCJUo/V+KNMKoQR3Ym0ZKT
- W6/PmwHIv93deHOMgCOgA52tfiZAy4C31qX5pYGHw0wULF5IcCguXCfVtG/OAb9zW5tCPsV/IV+
- 0wkviJLEUu3TPmfhBACHW+trbcXmlV4AyaqB1zJmfkVcHRtlVZhkaK6JDLH6v6tNLpN4d9JPjGu
- V4VIAewntAXyHAfzHndeRRTPxpHRNBEStzKvvRME9t
-X-Gm-Gg: ASbGncv3eXb5pcFUdXrVSjjrowuXaR+IZ97IOxd4ttp0XXkoeYB1mo1o111u3q0VKao
- I7bunzGFGlEY+dsgVe7g+7ZnGKHE88/LH3z8HfG/rI2rpKxONBFdFzSVpCQ==
-X-Received: by 2002:a17:902:e803:b0:216:1543:196c with SMTP id
- d9443c01a7336-221040620b2mr340108555ad.27.1740047050645; 
- Thu, 20 Feb 2025 02:24:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGhBmKY/Jd/FJcL0J0umaKdIJTK407yNESWW6lHPZ4yPs84G32nsvPhs1j0n5aPenBrC+US2evK7mAnibRfM8Q=
-X-Received: by 2002:a17:902:e803:b0:216:1543:196c with SMTP id
- d9443c01a7336-221040620b2mr340108255ad.27.1740047050275; Thu, 20 Feb 2025
- 02:24:10 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 20 Feb 2025 02:24:08 -0800
-From: Sergio Lopez Pascual <slp@redhat.com>
-In-Reply-To: <1f9a86a5-97d6-41d5-9a30-0422fc9ec137@collabora.com>
-References: <20250214-virtio-shm-page-size-v2-0-aa1619e6908b@redhat.com>
- <20250214-virtio-shm-page-size-v2-4-aa1619e6908b@redhat.com>
- <1f9a86a5-97d6-41d5-9a30-0422fc9ec137@collabora.com>
+ AJvYcCUdfCdeRZ2lE1SivorzlNYxl2yqKY/m2Km4ugm9GPwAYICgnJJ2uIj1wy3Maa5flOV5epyQaDlBChk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQt0mVJHt2J8Y3nokh3mLNjKduA0QkDnzIcDjWvwdrGQO29EAj
+ STckOA9ninuQoFaSgu/gmlceqQCrPoycxBPBrexVt8jeZc9N+RwkK9WrMSaN7HM=
+X-Gm-Gg: ASbGncveyHICRdVR5D6eqh9p8eL4BpFpueAk1XOLTdQNpZim1z04atYHx+Bpt5kxxiw
+ GwcQ2LjVV8pFlsSeh3sCSBgUdmujpEO6mSKKr2RktTcAwFLZUq4OkYxu9kA+XnOJx6m6bZ7Hmlx
+ 7mn23DeXJ9EzB1cR/XFLqmlP+xFxGTmOSv0Qy4OaTXKSoWz8eHisF1O0q2GJoYa9czaupFKE6T7
+ 29dh2xjd5ooWUcjjbICWxYpAc5Bv/G4t1Qcto/u8spksyos+126SQ6dcxUSoeWXMkrz563NXJLl
+ +5DAksK2+0jt3K0WIzW1uHQ=
+X-Google-Smtp-Source: AGHT+IGlXUzn3hUtO3qI4uZIYQwTOom4ZNCtperoIH7T9iwqU09YHCrm1fmNkZnNsMT0VEKdIAouHg==
+X-Received: by 2002:a05:6512:3d28:b0:545:f90:2753 with SMTP id
+ 2adb3069b0e04-5452fe65418mr6812551e87.30.1740047180139; 
+ Thu, 20 Feb 2025 02:26:20 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-545e939224esm1588052e87.135.2025.02.20.02.26.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Feb 2025 02:26:19 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/7] drm/msm/dpu: improve CTL handling on DPU >= 5.0 platforms
+Date: Thu, 20 Feb 2025 12:26:17 +0200
+Message-Id: <20250220-dpu-active-ctl-v1-0-71ca67a564f8@linaro.org>
 MIME-Version: 1.0
-Date: Thu, 20 Feb 2025 02:24:08 -0800
-X-Gm-Features: AWEUYZlfgST3-O9VCrzw5HD0jnPovA3jL5BWDBB878el2RF0dCmg4Z8bMopNsuE
-Message-ID: <CAAiTLFXihV_DUpd25Mc-OcgsNJ5tVJx7XYsETgxh+7cFuicuHA@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 4/5] virtio-mmio: read shm region page size
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Daniel Verkamp <dverkamp@chromium.org>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, fnkl.kernel@gmail.com
-Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 9KsPzj_mdiEFISBF5T0P6i5VeMMxuCuc4YTtBSPQ6oQ_1740047051
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEkDt2cC/x3MMQqAMAxA0atIZgOxKFSvIg41jRoQlVZFkN7d4
+ viG/1+IElQidMULQW6Num8ZVVkAL26bBdVngyHTkKEW/XGh41NvQT5XJMvsam9Hsg5ydASZ9Pm
+ H/ZDSB7a1VLJgAAAA
+X-Change-ID: 20250209-dpu-active-ctl-08cca4d8b08a
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2280;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=YyvVU2M7joMcm6kj5ecMLcRcuQdUfBOt7Mz2QmcKpMA=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBntwNKz077CpwnHsET093pRfGyj2RJD7zbmGJM9
+ MlqG+6ye5SJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ7cDSgAKCRCLPIo+Aiko
+ 1XSmCACCpPXkFLHWeGP3ru9CD7CIQa+/GkF+9BR52tm4Fr7Um5rFL3qRex3TPMfI8cBBY/PO+oH
+ lk+HugPCgmD8QAwrqrQJjbyyLtTNhd46sBP50hhpLzQapJHQiUanAb8o6S7yqNXeuP/qSCvoku6
+ atL/fSRrZZ5vpPqZ4s3saodLzO12QfdpBIgOJnNHM1yR22wCA9yZR6K3dqnOfG5hfFsXdCP0P+O
+ 6DCM2YASFcARwe8IDUzeyKAHoKow9QSs71o7sayKDSshDtqUmxfDIxHRnbynaXsniBYLChvZ1+x
+ j1sdyqSsZpkGCqjmtMBbWcV6JiXesfFmNnLe5q2U+wcg+898
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,63 +104,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Osipenko <dmitry.osipenko@collabora.com> writes:
+Since version 5.0 the DPU got an improved way of handling multi-output
+configurations. It is now possible to program all pending changes
+through a single CTL and flush everything at the same time.
 
-> On 2/14/25 18:16, Sergio Lopez wrote:
->> Use the newly introduced SHM_PAGE_SHIFT register to read the page shift
->> for the shared memory region, derive the page size from it and store the
->> resulting value into virtio_shm_region.
->>
->> Signed-off-by: Sergio Lopez <slp@redhat.com>
->> ---
->>  drivers/virtio/virtio_mmio.c     | 11 ++++++++++-
->>  include/uapi/linux/virtio_mmio.h |  3 +++
->>  2 files changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/virtio/virtio_mmio.c b/drivers/virtio/virtio_mmio.c
->> index 1f594b626d7a7734e8ec58766737a118c26bad94..0f892770739ea84b3e7be5615332773049b10ab1 100644
->> --- a/drivers/virtio/virtio_mmio.c
->> +++ b/drivers/virtio/virtio_mmio.c
->> @@ -537,6 +537,7 @@ static bool vm_get_shm_region(struct virtio_device *vdev,
->>  			      struct virtio_shm_region *region, u8 id)
->>  {
->>  	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
->> +	u8 page_shift = 0;
->>  	u64 len, addr;
->>
->>  	/* Select the region we're interested in */
->> @@ -560,7 +561,15 @@ static bool vm_get_shm_region(struct virtio_device *vdev,
->>
->>  	region->addr = addr;
->>
->> -	region->page_size = 4096;
->> +	/* If supported by the device transport, read the region page size.
->> +	 * The page_shift variable is initialized to zero above, so if this
->> +	 * feature isn't supported it will result in a page_size of 4096, a
->> +	 * default safe value.
->> +	 */
->> +	if (__virtio_test_bit(vdev, VIRTIO_F_SHM_PAGE_SIZE))
->> +		page_shift = (u8) readl(vm_dev->base + VIRTIO_MMIO_SHM_PAGE_SHIFT);
->> +
->> +	region->page_size = 1 << (page_shift + 12);
->>
->>  	return true;
->>  }
->> diff --git a/include/uapi/linux/virtio_mmio.h b/include/uapi/linux/virtio_mmio.h
->> index 0650f91bea6c70f935764070d825d181a2379afb..43348be30eff90ee228b6490b9d3c35ba4c50aa5 100644
->> --- a/include/uapi/linux/virtio_mmio.h
->> +++ b/include/uapi/linux/virtio_mmio.h
->> @@ -133,6 +133,9 @@
->>  #define VIRTIO_MMIO_SHM_BASE_LOW        0x0b8
->>  #define VIRTIO_MMIO_SHM_BASE_HIGH       0x0bc
->>
->> +/* Shared memory region page shift */
->> +#define VIRTIO_MMIO_SHM_PAGE_SHIFT      0x0c4
->
-> What's the logic behind choosing 0x0c4, why not 0x0c0?
+Implement corresponding changes in the DPU driver.
 
-It seems like Linux doesn't support it yet, but in the specs 0x0c0 is
-already reserved for QueueReset.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (7):
+      drm/msm/dpu: don't overwrite CTL_MERGE_3D_ACTIVE register
+      drm/msm/dpu: program master INTF value
+      drm/msm/dpu: pass master interface to CTL configuration
+      drm/msm/dpu: use single CTL if it is the only CTL returned by RM
+      drm/msm/dpu: don't select single flush for active CTL blocks
+      drm/msm/dpu: allocate single CTL for DPU >= 5.0
+      drm/msm/dpu: remove DPU_CTL_SPLIT_DISPLAY from CTL blocks on DPU >= 5.0
 
-Sergio.
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h |  5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  |  5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h  |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  |  5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h  |  5 ++---
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h    |  5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h  |  5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h |  5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h  |  5 ++---
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h    |  5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c             |  6 +++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c    |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    |  5 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c              | 11 +++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h              |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c                  | 17 +++++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h                  |  2 ++
+ 18 files changed, 59 insertions(+), 39 deletions(-)
+---
+base-commit: ed58d103e6da15a442ff87567898768dc3a66987
+change-id: 20250209-dpu-active-ctl-08cca4d8b08a
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
