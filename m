@@ -2,99 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DBFA3D6ED
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:39:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B29FA3D6CE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:33:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFC0F10E91E;
-	Thu, 20 Feb 2025 10:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62E7C10E395;
+	Thu, 20 Feb 2025 10:33:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Hq/HIYST";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 453 seconds by postgrey-1.36 at gabe;
- Thu, 20 Feb 2025 10:39:32 UTC
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E131D10E91E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:39:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 040356138B;
- Thu, 20 Feb 2025 10:31:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66793C4CED1;
- Thu, 20 Feb 2025 10:31:52 +0000 (UTC)
-Message-ID: <6dc1e10e-9c40-4da3-b0e0-72bdc9daa827@xs4all.nl>
-Date: Thu, 20 Feb 2025 11:31:50 +0100
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A26F210E919
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:33:35 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5439a6179a7so884742e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 02:33:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740047614; x=1740652414; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nOULWVV8S2WJWFH7D0olvt+CcxnnRMsdjMYkB3pg9sU=;
+ b=Hq/HIYSTAxqFd0/xVBeBEr+fqG3kGfp/gPi2r5PG5FobYJjLA0+SpQfLpazVm/N1wS
+ UiJvCEKd1baODMqeEMjIHzdNKQqhRtZC0J5YjZVviq7pZwHrakFQwV2emwi9moEk2b65
+ hFqiqN81pyx7QsFeK/J/0jukok0YmY/NW0wVTkvhWsmraFY+5QZfrRASqEGshjSfwJ4r
+ wuuOVKqjeijC603QmAzh8UdTnoLdwdcwYnYo9uZ7wnNrNXICXLBExuFRcr56H3Il2fZ3
+ v/eFg8Q/MHo4BwVDAbGeL3iEzhAAA+IGJxOfrWVrnVt73fSjCB0O1SqXlqaz1iEp7WX4
+ 6U9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740047614; x=1740652414;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nOULWVV8S2WJWFH7D0olvt+CcxnnRMsdjMYkB3pg9sU=;
+ b=FXtaOwEN2hZEZYfWJ672e+Oa2uVLf0XQJ5C4zuky91lNo9lK2Rc1l97ZFqo1WRK69U
+ n17iskXkXeFQeSqkgcIKAHpw13aCIYagp2Pu8TMjIN55C+i8RYw4Z4x3gFzuXCjn9YFH
+ 7DIfGxIgqWVFEgyrxZI4D1/i8yddnIhDdEdTgR6Mb2vb4Xl8aRN14wikADo6871liYR2
+ GckTrvSUtXvS1cwfU/tRrUiT6Tigs4b93lNI5yf4S9owNhKWS3p1/ctl5MoQuC3eFfDm
+ +8axc9ldLBkaXbRua6GMLnwZH/M+98ngIl/uC1CVWSeuSTtyaIVp4PI5bK3Nz6Qhd5mj
+ IPKA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXSrfjrNxZKjU8Wc8E8M/57Q2Z1JcmQpL6myl2zHX8boI6Len8Jdlnf1vVBqrmE1hxX0Nul70pi+Wo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5arJD8JO5KlLLy7LK+d7drO1cw8IzkGunqeaQuMmQ/e0yv4qT
+ DeMCdBvwFefTg6mvKMgLN629BTgHBLFXz1bpeSU9gx0A/TzUXTobgR3T3VP3tRM=
+X-Gm-Gg: ASbGncvgE6PmSbrwLdeopBoMzdDQbyjUn0J1O4M81SCRf0yg7X03428xCymBpOUzO5i
+ H4Pdg33I64JbstdGckVIgw6vwILH4z2aBU2o7XWAT1mhb2dkvtVSjSsWSJGxXrKCQbSU+pDn3wC
+ ovQExFcQaHtUcJWTIyTBphtKspu9s5VBi7yPKOAc+72hJs0XalFC0pTVoYttw8o3UkU1lLz4hvM
+ eIAXgilA0fg46BOMEiAutQ1iWj/B9GMUqmbGaukaW/6za1YEZFrstZe6US7LGmUwF9YWB4E+/LC
+ XDxtFXeN4+yM9ZfT6nigXEQf7c4nkWPeOs9SM6vyqnF3LMvUR9M0K+gZVbtwng5uqw9EfQE=
+X-Google-Smtp-Source: AGHT+IGUUcYwMWrswexilTub+9t7uGS/voZUkkMFCSEUbJmmonP/3ieTF/+EZ9nECI5YUhJLWrjddQ==
+X-Received: by 2002:a05:6512:2387:b0:545:9e4:e823 with SMTP id
+ 2adb3069b0e04-546e58bacd7mr835355e87.16.1740047613925; 
+ Thu, 20 Feb 2025 02:33:33 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54595e38064sm1632621e87.126.2025.02.20.02.33.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Feb 2025 02:33:32 -0800 (PST)
+Date: Thu, 20 Feb 2025 12:33:31 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] dt-bindings: display/msm: dsi-controller-main:
+ Document dual panel property
+Message-ID: <grdadzunaabzg5jxpsiasgzbioy24tctlhhyxg6zwdkpv5vjwe@7k2di2myu4k6>
+References: <20250220-dual-dsi-v2-0-6c0038d5a2ef@linaro.org>
+ <20250220-dual-dsi-v2-4-6c0038d5a2ef@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/12] driver core: Constify API device_find_child()
- and adapt for various usages
-To: Zijun Hu <zijun_hu@icloud.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, netdev@vger.kernel.org,
- Zijun Hu <quic_zijuhu@quicinc.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Takashi Sakamoto <o-takashi@sakamocchi.jp>
-References: <20241224-const_dfc_done-v5-0-6623037414d4@quicinc.com>
- <20241224-const_dfc_done-v5-4-6623037414d4@quicinc.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241224-const_dfc_done-v5-4-6623037414d4@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250220-dual-dsi-v2-4-6c0038d5a2ef@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,66 +101,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/12/2024 14:05, Zijun Hu wrote:
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
-> 
-> Constify the following API:
-> struct device *device_find_child(struct device *dev, void *data,
-> 		int (*match)(struct device *dev, void *data));
-> To :
-> struct device *device_find_child(struct device *dev, const void *data,
->                                  device_match_t match);
-> typedef int (*device_match_t)(struct device *dev, const void *data);
-> with the following reasons:
-> 
-> - Protect caller's match data @*data which is for comparison and lookup
->   and the API does not actually need to modify @*data.
-> 
-> - Make the API's parameters (@match)() and @data have the same type as
->   all of other device finding APIs (bus|class|driver)_find_device().
-> 
-> - All kinds of existing device match functions can be directly taken
->   as the API's argument, they were exported by driver core.
-> 
-> Constify the API and adapt for various existing usages.
-> 
-> BTW, various subsystem changes are squashed into this commit to meet
-> 'git bisect' requirement, and this commit has the minimal and simplest
-> changes to complement squashing shortcoming, and that may bring extra
-> code improvement.
-> 
-> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-> Acked-by: Uwe Kleine-König <ukleinek@kernel.org> # for drivers/pwm
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+On Thu, Feb 20, 2025 at 06:07:55PM +0800, Jun Nie wrote:
+> The DSI interface can be connected to a panel that has a dual DSI channel,
+> or to two separate panels, each equipped with a single DSI channel. To
+> prevent the DSC configuration for the dual panel setup from disrupting the
+> current configuration of a single panel with a dual DSI channel, add a dual
+> panel property to support the use of two panels.
 
-<snip>
+Please use the terms from the standard. The "channel" is mostly used for
+the "Virtual Channel" or the "logical channel".
 
-> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
-> index bc63dc81bcae0d20924174be74b93a2139d5879f..697d50bedfe285d74c702efde61e510df87c1229 100644
-> --- a/drivers/media/pci/mgb4/mgb4_core.c
-> +++ b/drivers/media/pci/mgb4/mgb4_core.c
-> @@ -123,7 +123,7 @@ static const struct hwmon_chip_info temp_chip_info = {
->  };
->  #endif
+Also I don't follow how DSC configuration for a dual panel setup can
+disrupt current (?) configuration of a single panel.
+
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/dsi-controller-main.yaml      | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> index ffbd1dc9470e2091b477b0c88392d81802119f48..e3f2eabde27609a66d6d81fafcb14e1bc014613c 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> @@ -88,9 +88,15 @@ properties:
+>    qcom,dual-dsi-mode:
+>      type: boolean
+>      description: |
+> -      Indicates if the DSI controller is driving a panel which needs
+> +      Indicates if the DSI controller is driving display device which needs
+
+Unrelated change
+
+>        2 DSI links.
 >  
-> -static int match_i2c_adap(struct device *dev, void *data)
-> +static int match_i2c_adap(struct device *dev, const void *data)
->  {
->  	return i2c_verify_adapter(dev) ? 1 : 0;
->  }
-> @@ -139,7 +139,7 @@ static struct i2c_adapter *get_i2c_adap(struct platform_device *pdev)
->  	return dev ? to_i2c_adapter(dev) : NULL;
->  }
->  
-> -static int match_spi_adap(struct device *dev, void *data)
-> +static int match_spi_adap(struct device *dev, const void *data)
->  {
->  	return to_spi_device(dev) ? 1 : 0;
->  }
+> +  qcom,dual-panel:
+> +    type: boolean
+> +    description: |
+> +      Indicates if the DSI controller is driving display device that composed
+> +      with 2 independent panels and needs 2 DSI links.
 
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
+How is tht different from qcom,dual-dsi-mode?
 
-Regards,
+> +
+>    qcom,master-dsi:
+>      type: boolean
+>      description: |
+> 
+> -- 
+> 2.34.1
+> 
 
-	Hans
+-- 
+With best wishes
+Dmitry
