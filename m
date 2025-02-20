@@ -2,91 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268B6A3D037
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 04:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE463A3D096
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 05:58:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABBE10E8C3;
-	Thu, 20 Feb 2025 03:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D925910E130;
+	Thu, 20 Feb 2025 04:58:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ClSaBuSp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jRsrv0DN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24DB810E8C2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 03:59:41 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30762598511so4526241fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 19:59:41 -0800 (PST)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B8110E130
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 04:58:18 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2f9b91dff71so776292a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2025 20:58:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740023979; x=1740628779; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9GONTdbG86yZro8yaESxJ4TpZYRnEloO1TeuZMx3gBM=;
- b=ClSaBuSpW2tnQFaXpwYdpJLCztSXF0YYnJVVgG9ikma7Jxpz+E9ofkgQU3p0zX9J3u
- kzdPNwxWxdlOTsetNA3CxBF6mLdl0HOnxRI0AUYjf4NZCpTDDAvXDIoO7SiuhFYPagSP
- lqRU/nYVyLiJNjAUydKjoI2q2SqTPRml1EzV7/XDGdnzf+BxmkRYs+j0whmp6/SAhRS0
- 8ti3CO20ZNEp3fdVFDzhFuvYHgEChbiMwswm1ZQCIGnHL4LmZPWdcZ4GAMf9mzhL2dQZ
- HCIjBhNNMWT8S0jYDHsbq4mYnyYJqmcj+nAcNN/7neE1u3yJfXSp5cvJIT8a0aJF7ybw
- emgQ==
+ d=gmail.com; s=20230601; t=1740027497; x=1740632297; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=x79i0bhLqpiDBJcBajlZ43nChj/icM/N7Ue738YpG3s=;
+ b=jRsrv0DNFfPHnlh+Cbx5WQkY54LU4hxwdxzFFglDWr0f/cVYWVYgxBGubimzT7KyWE
+ 2YlWQKhYSnDoGl/JXhrHqL8q8VL5Iqump7Zt2tfVPjukegemG7mEhQ/mFvfQbGC5bvGU
+ daL5iODk2AgR3oPkl/T7LKq2trSk+G6ujtzlwe9bL9ZWQwLMwgWfub4GAWffEYudBrz/
+ +QBLTcoegFdrqB1MLQeqqYSfA5EopQOVuhqlxS1eAaqOUjVo97vN4IA5b+yAwbcwxN5w
+ QUeVUCn5lJyYj2ZkrIjLDaPcUk8ITD++kuWEtjWc6XmafYXIYSuHFaUjJBqjISco7p/I
+ /1YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740023979; x=1740628779;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9GONTdbG86yZro8yaESxJ4TpZYRnEloO1TeuZMx3gBM=;
- b=okHUpYnrSSGVlLdCZr4R92Rj0Wm9v3NJZfAm1d9WkTHbNaqCm8HMqEG0GrHNzV36QF
- 8+QkzLDOC7PmMYl0Lohq3LCAjNgc0//BbfBrXuiLgHpGElhkKGMdl4siuN725nJip+kf
- er4QnALMksEujDFzmvg2zd2oVSAEzV23c069F4/sBnIOQg1Ij9xgroKqwDTcRHCKJTVb
- bkWzfQpe195wVL8dQKGnqLP78ee8lo+/SjsgjvqKI7U4E1nSboRy76+rhf+6luEtAh0Z
- x/y8pEbOsyWZ4p6rkB0eTZxcOBG2D3D6ncD2QSHBMdgQpHLNrgHLk67DLA2chXbUz6I+
- AzdA==
+ d=1e100.net; s=20230601; t=1740027497; x=1740632297;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=x79i0bhLqpiDBJcBajlZ43nChj/icM/N7Ue738YpG3s=;
+ b=Drwl0Z1EsX/aV+oVCFspVhBiFtXWHCpyJnaMzZQt9tVIcgZvPfpZO6L68ZjWFUHPDt
+ iOp7hc7vnqc5x8JkuNB7Bs+bukbnslU4WamAr7qljO75IStt1870v+lLEMxoSRrBFxV+
+ qcTsmGikUyN995dtqeY4/aPgmS2el78Za8KlTEgBhmH2acz9kdRG+8LvQ9SCPhBISovB
+ G3/1cMP4QDuZmAQ/9p7zUfe0d3USkJy1S5osuLJG6JajcLHd73yj6/YFcWZ1J9hwgTHZ
+ BcyZhrlRiZPICGBAH30+Sqtsepk4GaScL/OJnLkCgZR8Ed9eobPh6W8yqUp5jkgmdz5M
+ q7Og==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4yLIRtf8YZmdwg0YLRUkm222y4Ia36dIQRmRO9xp5w1LDpQHKuhfj+kaHvWILR1ryrBmrtNg/sI0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzPc4jr4yZAZsjbfRTvafS37zoOEgBz7X61GOxihxlE9fgOnzBP
- wJmbjLF6l1+PWYllyWKok/fiWvhsu12t1lyXeqLeoEDzw4aY0/Htnyg2e+XKa0E=
-X-Gm-Gg: ASbGncsSGjGTbtO2+SaA1eJxX0nvcKNwMun2jkSSc/CDK9/jH729LrjqkQhIFfIb5RM
- qQoz9MoVqLzjQcu78wtKcornRkN7zVcoiyB1tsPpAk4K2zn4ALzN37y8bdgdhhDjIRD7YfdT93M
- G3yk7r2Wy0Et1Xsso9345yTJDLCATeV8x/Q7Ei3I8KNmeoYe0I41+P6CqlTkkYRCabuwS1SHt1/
- zp11JVjrt7wouM7C42iBejfu+KycJcsp5olOUwn4rc/136Q5W3yQvjUwYFPD5MlFz23f/XrtwKN
- 9SvyAdSVxcc8aVPulC9Q8g8=
-X-Google-Smtp-Source: AGHT+IEhhy/z8VtOIqW4qjL7UAytFR0EnzQu+f+Os3W5yJxEdSUFdt89d6o9y72QFALZRA2LauuJNw==
-X-Received: by 2002:ac2:430b:0:b0:545:3032:91fd with SMTP id
- 2adb3069b0e04-54530329210mr6349493e87.16.1740023979295; 
- Wed, 19 Feb 2025 19:59:39 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-545225f22ebsm2143909e87.16.2025.02.19.19.59.36
+ AJvYcCUMrS78c4siYUx0TrNXgjEsSef9Js0V6xkJupLL/d/RUYz6PPi2ZDJvAxJIQVrAV6XFAdksKNkrTxc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUN6zhQDRmmAIjgzaHwr/V3fKgdxGrao6ovLarnoJaeErStG8B
+ a1IEEYQfjaR7/DcpYeQb9JI4MrRIjqhKQazR4cW/bXtY0wF/fFrIc9/nKlJ3
+X-Gm-Gg: ASbGncsFB8FaKiTQKTNBfzLyKr8lfWfZgi2fT5N2yUNNr07CFWkUJPTHrxDRFD+0vUC
+ OQhvFOhLFpNjBoq/QAUSGlvC5was9Wt2XuSBos3b7FP4FwSyg0tKLara6EbKOBeUY3w1/gli/Yt
+ +tsw0FG2KCYI3fXLH3lYHZCQB+sIv4VOzGYl4Swaa0XFCTjHuwocLaONwL02xfO57qaJwIbJbnT
+ 9LSR8i/ezAV31Ge1OU44kMsXKnxfiR2AiIOf3IZBtV50JfsnXA1AnockD4MffwGUwgw7FiL+OVt
+ Y2/VKqKz2o5sloki//cpqc3AF1HhK+nJmkeq1w==
+X-Google-Smtp-Source: AGHT+IHrngJ9wsLKpkmfVQR0Zl8QKv2Ahs8dagIFjlgk1+gYTfOhpaMk96T6lHuygPJ2/XQ7+lJnNA==
+X-Received: by 2002:a17:90b:47:b0:2ee:d7d3:3019 with SMTP id
+ 98e67ed59e1d1-2fcb5a1aa37mr11785103a91.12.1740027497539; 
+ Wed, 19 Feb 2025 20:58:17 -0800 (PST)
+Received: from distilledx.localdomain
+ ([2401:4900:6273:d0ef:80a7:d92e:7b3e:31e8])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2fbf98cfd19sm14993179a91.14.2025.02.19.20.58.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2025 19:59:37 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 20 Feb 2025 05:59:26 +0200
-Subject: [PATCH v2 5/5] drm/msm/dpu: enable CDM_0 for X Elite platform
+ Wed, 19 Feb 2025 20:58:17 -0800 (PST)
+From: Tejas Vipin <tejasvipin76@gmail.com>
+To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tejas Vipin <tejasvipin76@gmail.com>
+Subject: [PATCH v2] drm/mipi-dsi: extend "multi" functions and use them in
+ sony-td4353-jdi
+Date: Thu, 20 Feb 2025 10:27:21 +0530
+Message-ID: <20250220045721.145905-1-tejasvipin76@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250220-dpu-add-cdm-v2-5-77f5f0df3d9a@linaro.org>
-References: <20250220-dpu-add-cdm-v2-0-77f5f0df3d9a@linaro.org>
-In-Reply-To: <20250220-dpu-add-cdm-v2-0-77f5f0df3d9a@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=974;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Q0AAoFwflM5C/JzoUWd/DlT7FRIKp6S0uiQ3bl9uOHU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBntqiduKMlpqumEmY5OPFLoCuQXyc2gb70SXzyJ
- mywbLuvK72JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ7aonQAKCRCLPIo+Aiko
- 1b3MB/wPJEdUn5qcCCIEys0QHQbx0quVb/3EjLjFhCH3MdRYOPBQH1q31C0F4p7f+e+OVF7/QZH
- xS9SxWgd+TAv9ruf2lZt6fOkC1V+laRCZUz0pQsU0dZPi0DArTjuC8YfZxoWN1oSpHfqwriv5Xg
- tBS4RgB5isOHZnrA0R6xjA7DTCyKsAqSJPsj7+5I10eTetG/ZJ4EJ+K2gBmxZ2oKshysEgPCunS
- NQOiT7IognnfI77uzPrw3cTJah8MCWi9ngQp86N3Pm9bBxS19eetcS4UWbDb+hboVDZncBa7rQR
- aM92Cs9GyUESrpBUh37NHHYmUIJpkiONB88BNUMij4JM4ucZ
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,28 +89,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable CDM on the X Elite platform, allowing RGB to YUV conversion for
-the output.
+Removes mipi_dsi_dcs_set_tear_off and replaces it with a
+multi version as after replacing it in sony-td4353-jdi, it doesn't
+appear anywhere else. sony-td4353-jdi is converted to use multi style
+functions, including mipi_dsi_dcs_set_tear_off_multi.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v2:
+    - Squashed panel changes and mipi_dsi changes into 1 patch
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-index 6b112e3d17da6a4423851525262b66aa6c8622e3..8977fa48926b40d486110424f70344c4d29abe80 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-@@ -453,6 +453,7 @@ const struct dpu_mdss_cfg dpu_x1e80100_cfg = {
- 	.mdss_ver = &x1e80100_mdss_ver,
- 	.caps = &x1e80100_dpu_caps,
- 	.mdp = &x1e80100_mdp,
-+	.cdm = &dpu_cdm_5_x,
- 	.ctl_count = ARRAY_SIZE(x1e80100_ctl),
- 	.ctl = x1e80100_ctl,
- 	.sspp_count = ARRAY_SIZE(x1e80100_sspp),
+Link to v1: https://lore.kernel.org/all/20250214172958.81258-1-tejasvipin76@gmail.com/
+---
+ drivers/gpu/drm/drm_mipi_dsi.c                |  42 +++----
+ drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 107 ++++--------------
+ include/drm/drm_mipi_dsi.h                    |   2 +-
+ 3 files changed, 47 insertions(+), 104 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 5e5c5f84daac..2e148753ea97 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -1265,25 +1265,6 @@ int mipi_dsi_dcs_set_page_address(struct mipi_dsi_device *dsi, u16 start,
+ }
+ EXPORT_SYMBOL(mipi_dsi_dcs_set_page_address);
+ 
+-/**
+- * mipi_dsi_dcs_set_tear_off() - turn off the display module's Tearing Effect
+- *    output signal on the TE signal line
+- * @dsi: DSI peripheral device
+- *
+- * Return: 0 on success or a negative error code on failure
+- */
+-int mipi_dsi_dcs_set_tear_off(struct mipi_dsi_device *dsi)
+-{
+-	ssize_t err;
+-
+-	err = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_TEAR_OFF, NULL, 0);
+-	if (err < 0)
+-		return err;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(mipi_dsi_dcs_set_tear_off);
+-
+ /**
+  * mipi_dsi_dcs_set_tear_on() - turn on the display module's Tearing Effect
+  *    output signal on the TE signal line.
+@@ -1713,6 +1694,29 @@ void mipi_dsi_turn_on_peripheral_multi(struct mipi_dsi_multi_context *ctx)
+ }
+ EXPORT_SYMBOL(mipi_dsi_turn_on_peripheral_multi);
+ 
++/**
++ * mipi_dsi_dcs_set_tear_off_multi() - turn off the display module's Tearing Effect
++ *    output signal on the TE signal line
++ * @ctx: Context for multiple DSI transactions
++ */
++void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi_multi_context *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	ssize_t err;
++
++	if (ctx->accum_err)
++		return;
++
++	err = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_TEAR_OFF, NULL, 0);
++	if (err < 0) {
++		ctx->accum_err = err;
++		dev_err(dev, "Failed to set tear off: %d\n",
++			ctx->accum_err);
++	}
++}
++EXPORT_SYMBOL(mipi_dsi_dcs_set_tear_off_multi);
++
+ /**
+  * mipi_dsi_dcs_soft_reset_multi() - perform a software reset of the display module
+  * @ctx: Context for multiple DSI transactions
+diff --git a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
+index 472195d4bbbe..97f4bb4e1029 100644
+--- a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
++++ b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
+@@ -47,93 +47,40 @@ static inline struct sony_td4353_jdi *to_sony_td4353_jdi(struct drm_panel *panel
+ static int sony_td4353_jdi_on(struct sony_td4353_jdi *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 1080 - 1);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set column address: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 2160 - 1);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set page address: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set tear on: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0x0000, 1080 - 1);
++	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0x0000, 2160 - 1);
++	mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx, 0);
++	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
+ 
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
+-
+-	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set pixel format: %d\n", ret);
+-		return ret;
+-	}
+-
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS,
+-			  0x00, 0x00, 0x08, 0x6f);
+-
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(70);
++	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x77);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_ROWS,
++				     0x00, 0x00, 0x08, 0x6f);
+ 
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 70);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_MEMORY_START);
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to turn display on: %d\n", ret);
+-		return ret;
+-	}
+-
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+-static int sony_td4353_jdi_off(struct sony_td4353_jdi *ctx)
++static void sony_td4353_jdi_off(struct sony_td4353_jdi *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display off: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(22);
+-
+-	ret = mipi_dsi_dcs_set_tear_off(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set tear off: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(80);
+-
+-	return 0;
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 22);
++	mipi_dsi_dcs_set_tear_off_multi(&dsi_ctx);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 80);
+ }
+ 
+ static void sony_td4353_assert_reset_gpios(struct sony_td4353_jdi *ctx, int mode)
+@@ -146,14 +93,11 @@ static void sony_td4353_assert_reset_gpios(struct sony_td4353_jdi *ctx, int mode
+ static int sony_td4353_jdi_prepare(struct drm_panel *panel)
+ {
+ 	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
+-	struct device *dev = &ctx->dsi->dev;
+ 	int ret;
+ 
+ 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enable regulators: %d\n", ret);
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+ 	msleep(100);
+ 
+@@ -161,7 +105,6 @@ static int sony_td4353_jdi_prepare(struct drm_panel *panel)
+ 
+ 	ret = sony_td4353_jdi_on(ctx);
+ 	if (ret < 0) {
+-		dev_err(dev, "Failed to power on panel: %d\n", ret);
+ 		sony_td4353_assert_reset_gpios(ctx, 0);
+ 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+ 		return ret;
+@@ -173,12 +116,8 @@ static int sony_td4353_jdi_prepare(struct drm_panel *panel)
+ static int sony_td4353_jdi_unprepare(struct drm_panel *panel)
+ {
+ 	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
+-	struct device *dev = &ctx->dsi->dev;
+-	int ret;
+ 
+-	ret = sony_td4353_jdi_off(ctx);
+-	if (ret < 0)
+-		dev_err(dev, "Failed to power off panel: %d\n", ret);
++	sony_td4353_jdi_off(ctx);
+ 
+ 	sony_td4353_assert_reset_gpios(ctx, 0);
+ 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 94400a78031f..bd40a443385c 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -346,7 +346,6 @@ int mipi_dsi_dcs_set_column_address(struct mipi_dsi_device *dsi, u16 start,
+ 				    u16 end);
+ int mipi_dsi_dcs_set_page_address(struct mipi_dsi_device *dsi, u16 start,
+ 				  u16 end);
+-int mipi_dsi_dcs_set_tear_off(struct mipi_dsi_device *dsi);
+ int mipi_dsi_dcs_set_tear_on(struct mipi_dsi_device *dsi,
+ 			     enum mipi_dsi_dcs_tear_mode mode);
+ int mipi_dsi_dcs_set_pixel_format(struct mipi_dsi_device *dsi, u8 format);
+@@ -379,6 +378,7 @@ void mipi_dsi_dcs_set_page_address_multi(struct mipi_dsi_multi_context *ctx,
+ 					 u16 start, u16 end);
+ void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
+ 					  u16 scanline);
++void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi_multi_context *ctx);
+ 
+ /**
+  * mipi_dsi_generic_write_seq - transmit data using a generic write packet
 -- 
-2.39.5
+2.48.1
 
