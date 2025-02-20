@@ -2,84 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B861AA3DBAB
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 14:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F90A3DBC0
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 14:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2D610E95E;
-	Thu, 20 Feb 2025 13:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B80910E1C2;
+	Thu, 20 Feb 2025 13:53:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F6tUSOJP";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="LMrE9b+g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1C910E95E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 13:49:38 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-3072f8dc069so9448291fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 05:49:38 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6051310E4C7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 13:53:14 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-43937cf2131so6460935e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 05:53:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740059376; x=1740664176; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=JVChDugCDHNh1sYydRHTglk+V7CxAJZfPMAov1KRCoA=;
- b=F6tUSOJPoGo2U+v9fIFv5juGjT7EGAVyhEwyTqwPsvyEpy8sY4Vwvk8sx66aJzYZt6
- 6abr7ZyGVOAVTOU3q3u4h5cvVgzXmcrU88UCZ/CwUw5qLhDxo5v6NPB8/2mlq+3lt46t
- PAOzevrDohNLOYejWgRJ0h4lSOO1Vnc9jEvSHQrwxHOChUZ/5K478XdhrUtktsm/9/QP
- GUwe02YhIChofIHJBLfR1WJtC3m0ge5YMx04NkXp+f9p5UrF4EzKPCYXAX4B2UvAB/jz
- rI/Kpbi1i00dKEH/OY6SA7Sdw4gWVfZY3Fr98pSBNS54c7VOLnX+Nn/bfyjSN6pxYq35
- lHVA==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1740059593; x=1740664393;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jKtWU5Mkp+ViQ4pxX9o3rYjT+cW7LIalA0vDNcGKwaQ=;
+ b=LMrE9b+gq4DvlV/wkSS8IgHsV+J5PYR/3X6Ca5pBztHhrJylD4h/z30rBZGzUPa8iB
+ 4nJBZrx7GjTpWWfoY+vXMIOdLWJuOkGef+LpagR+bhn9YKwPajjofbfEHv+mYxVfMaBz
+ ZvjOnoU/xxZ+/e72TlSrcEbogGotYV8CXlQeAv0fwdbWz0v2GufAw/DSQg08n3wuFAcD
+ UrhNavCVKK9IJJEO/nLNQWDz/fJbQn8+LWm3HVyeIdZOyfWg/mU+500rxUKsGSawghbf
+ t7VvDDH5Xjck8DVmJ6ybSwenbquyFST9jY+NEXjyRBFsNGCO9FDwbqzbKsehHlZEjm9/
+ Lsyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740059376; x=1740664176;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1740059593; x=1740664393;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JVChDugCDHNh1sYydRHTglk+V7CxAJZfPMAov1KRCoA=;
- b=MPYoJeUfT/372EnnqWF/VUG7+PUYSEwPV5xPAx0R2XfsEZRd062VpKLMbdV+k5yUwJ
- 5IzuXUjuep800mbzQkalmNnMjbd/m1oMrFYzn3lb8hkNgjgNan3RfiPO7UiVgZlBUlXw
- s/O5q4mChy615GoNjx7T1kt1KgVBrcxHPEiXDV9hgMro9IxvByt+ivVbM9s6WUejpJtT
- aQQtwyrX2y2BmIeHwEnokkueEFGyLExLrrqgYDaOE0q6lkRqD6ASdHhzqwTyApPn6UyZ
- BLERdlE1CWECMZ6DOyVd7Iwx+4+ODW/D91tzVqzzrreUG+oJFR6HIxVHaaameOAW6kRa
- 9pTw==
+ bh=jKtWU5Mkp+ViQ4pxX9o3rYjT+cW7LIalA0vDNcGKwaQ=;
+ b=bHe7MXdggDd627dCEgAuj/g0qQo8YhkfnFebNQjiNXK37g5RpH7K+1mF27L+aaCbq9
+ AKFugXjL/1MhvXykyBdarrTA7bBj8g743viA0B8l8BgoFB7N+kJRyAxiZcoEiY4ozw79
+ 3RyX57eEYq/eW6z0XyD/DSr368elTsVSag+jdAa1aYBX940UFMFpsdT9tlJENCbjCuiZ
+ 1v9qEdL4q6dDhyjtod8pdk++Kxp6BETmH9rSCiGI6FHGsdx/G49grwa2cFxgmqYbMQ/i
+ pgbqbf+4UhI72t1ouTZ3mjL0KiZTXeJftLVkqw/6juI/t4J1XTHc44eu/bjKc1XBcULs
+ lEQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCeeIz5Z+cTu/lPLD3y8AmVENaLlOM0yemsqIcxEjvRqUWcc8gnU8Mo3HMYdPllZeuSrCa32SFAQw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz//vn8sNJxceBfDkasn3Q/GGhyeGPcgE2tu1qGV0jSR8wJOwPe
- lVr9CzLqHOAaqJzH26NoP9PDiH4Nby5c2nbxNg1ke2zhgv49L9PjZfcp0O0+B9g=
-X-Gm-Gg: ASbGncuj2EhgkGxldbTFg5Hzhv/jGpYK8kP+QB43zxDopGlEISSGAS4irvpp3cJ+reI
- 7qx4xqbUzLxGH4XrEGg5d17Lk1paGu6dkOUNOaSQoJAsO9trw9nX2JMUIDd2oJ7rXOMoyGzrgFf
- UESicW793ohlJ1r+LxTgSQm/oqYBDkgkj1ww3PZ8xC2dYo2FbKsa3F/pApOCq1uy1S2zAcKWnY4
- 020CW5N1IdgEmkYB8YPjBSvrMFNjBz+sbF2hH8irRfnmmxtJhXK5DiOzeL+F3YyEHYUZ5cFqk4k
- D4e97DjxnJ0hM3tywFjh6Lm+weSNPsfaCFGk8Yf45wPm1NvKXwh49wNafOrspC5iMKkg6TY=
-X-Google-Smtp-Source: AGHT+IGsOfsqDJo7AefkxFTmXC+8Xia9z7Pzt320U3bkWePPHzHtswdcejk3sC0/NN4ev4LoA3nCRA==
-X-Received: by 2002:a05:6512:2342:b0:53e:3a7c:c0b5 with SMTP id
- 2adb3069b0e04-5462eedb4c9mr2941295e87.10.1740059376386; 
- Thu, 20 Feb 2025 05:49:36 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCW9MLXiqQSvheeehXobZ5hgWdyAAFcVNYp2Uaeaok1WiubJ7Hcr9wgK8aZfyDY/9k3wMNOwT7pkHCE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy2cCOBYg715/qH10Iy4iYwCu8Joh+BoIFq+kMHdCjLyjJrIncI
+ ycpYSEH14nAauCrE7+RMKkFxqV0qQ71TO7FZJyu4ME1PBKw5Lu58sRhvU2W8/Y8=
+X-Gm-Gg: ASbGncvQLcUusouYaSwgATNtqWYlTsIZ1tr576xhbNsgRgmMo//UquKhNFm5Ix4Xu+w
+ Dyuie5hE0kyH0gdVZLReyHILAM2FTcl9tzeUKve1+n36b48//QuXza9VXeBGsVQ6jwbHsKjSlYS
+ bjzHVG5wojAkH0gAdEq+l21BueQaaO4GVecKRqfdd4xmzO+pT8zLdinWB9lJFvH5PLFVhAakadf
+ a3zvunTA2F8aQeaz1Aje2tlRb0w1t+F7ykxV8cXOXbRbYrOpaPeTncRNhddiQU8L1LoEyACcx4v
+ zrWBuLkgZ+R+/x0jZqyy6YUIfPECBkk=
+X-Google-Smtp-Source: AGHT+IHVyVfSr40DoPL9tto6QBRRQS8+dyvmhbMW8aF7j2cG4zpdpnJ9eM2hAVoJbry/BtY6NBO7qQ==
+X-Received: by 2002:a05:600c:354d:b0:439:8ec2:a9dc with SMTP id
+ 5b1f17b1804b1-439a4bf0d64mr22135985e9.31.1740059592373; 
+ Thu, 20 Feb 2025 05:53:12 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5452e9099d8sm1939324e87.79.2025.02.20.05.49.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2025 05:49:35 -0800 (PST)
-Date: Thu, 20 Feb 2025 15:49:33 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- thomas.petazzoni@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] drm: writeback: Fix kernel doc name
-Message-ID: <xgkfvp7dmgzd64hriccbpyc2beoj7syiw2a5pgmtaao3fmlhdn@a5vudlyhzhqm>
-References: <20250207-b4-fix-warning-v1-1-b4964beb60a3@bootlin.com>
- <9efc1ba4-89ad-4aed-b4d5-b0a53b120fd4@bootlin.com>
+ 5b1f17b1804b1-4398e84efb9sm93108545e9.10.2025.02.20.05.53.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Feb 2025 05:53:11 -0800 (PST)
+Message-ID: <15c019f5-a26b-47e5-9ec5-41746e63cae6@ursulin.net>
+Date: Thu, 20 Feb 2025 13:53:11 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9efc1ba4-89ad-4aed-b4d5-b0a53b120fd4@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/i915: Add VM_DONTEXPAND to exported buffers
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, karol.wachowski@intel.com,
+ tomasz.rusinowicz@intel.com, Krzysztof Karas <krzysztof.karas@intel.com>
+References: <20250114082303.1319508-1-jacek.lawrynowicz@linux.intel.com>
+ <a712ee97-1851-4f6d-97b1-7d1cc136481f@linux.intel.com>
+ <173996250609.74092.8072729956400006000@jlahtine-mobl>
+ <22fedeac-0919-4d33-b4a3-ade7afce8261@linux.intel.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <22fedeac-0919-4d33-b4a3-ade7afce8261@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,29 +97,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2025 at 01:51:37PM +0100, Louis Chauvet wrote:
-> 
-> 
-> Le 07/02/2025 à 18:35, Louis Chauvet a écrit :
-> > During the creation of drmm_ variants for writeback connector, one
-> > function was renamed, but not the kernel doc.
-> > 
-> > To remove the warning, use the proper name in kernel doc.
-> > 
-> > Fixes: 135d8fc7af44 ("drm: writeback: Create an helper for drm_writeback_connector initialization")
-> > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Closes: https://lore.kernel.org/all/20250207142201.550ce870@canb.auug.org.au/
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> 
-> Hi all,
-> 
-> Gentle ping on this patch. Can someone ack/review it so I can apply it on
-> drm-misc-next?
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 20/02/2025 13:14, Jacek Lawrynowicz wrote:
+> Hi,
+> 
+> On 2/19/2025 11:55 AM, Joonas Lahtinen wrote:
+>> Quoting Jacek Lawrynowicz (2025-02-11 17:57:03)
+>>> Hi, can I submit this to drm-misc or should someone commit this to drm-intel?
+>>
+>> Is the this happening in linux-next or is it still completely out-of-tree?
+> The patch is not merged so it is happening everywhere.
+> 
+>> Feels weird that the splat would not have happened in any hybrid GPU
+>> systems in the past. Did you look what is the difference between your
+>> driver and amdgpu/nouveau?
+> 
+> It looks like imported buffers are just never mmaped.
+> 
+> This is a call chain when mmapping imported buffer in amdgpu:
+> drm_gem_mmap()->drm_gem_mmap_obj()->amdgpu_gem_object_mmap()->drm_gem_ttm_mmap()->ttm_bo_mmap_obj()
+> 
+> And this is intel_vpu call chain:
+> drm_gem_mmap()->drm_gem_mmap_obj()->drm_gem_shmem_object_mmap()->drm_gem_shmem_mmap()->dma_buf_mmap()->i915_gem_dmabuf_mmap()
+> 
+> amdgpu does not check if the object is imported and just calls drm_gem_ttm_mmap() and dma_buf_mmap() is never called.
+> Same with xe and nouveau. All drivers using drm_gem_shmem seems ok but besides them only couple small drivers check for import_attach in mmap.
+> Looks like most drivers do not support mmapping imported buffers.
+> Is this really possible? Do you have test coverage for this?
 
+Without going into details here, commenting just on the "mmaping 
+imported buffers" part.
 
+My understanding is that mmaping imported buffers should not be 
+supported by design. There was some discussion around this in 
+https://lore.kernel.org/dri-devel/bc7f7844-0aa3-4802-b203-69d58e8be2fa@linux.intel.com/ 
+(The thread is for a patch which added this ability to i915.).
 
--- 
-With best wishes
-Dmitry
+Regards,
+
+Tvrtko
+
+> 
+> PS.
+> you may also want to add VM_PFNMAP, VM_DONTDUMP and VM_IO that you are setting for i915 buffers in i915_gem_object_mmap().
+> 
+> Jacek
+
