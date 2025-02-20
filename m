@@ -2,84 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7C4A3DEDC
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB07A3DEE2
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8A2410E1B1;
-	Thu, 20 Feb 2025 15:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED6B10E9A0;
+	Thu, 20 Feb 2025 15:40:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Zbd/BCJM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WDFsu/09";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9624B10E161
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 15:40:16 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-6f74b78df93so10098797b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 07:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740066015; x=1740670815; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UuoPq2e93XPbKnAaHkR9ErZM40sqwUWhuIwAQ7Wv18c=;
- b=Zbd/BCJM9mpLHPzRCFSG1cBnXbEAcD8NKPRBFzfHmjZWli+QpC6N90YWtK2Qr3Mcxd
- 88zzTGGPOQFCJLUOg7QIVad+jCnrYRM6y9ZsEu5vb09uB4CLgL32uYK7WuwQo+OnI0Q3
- zIW61Zrg+QbHQAh2ULCAo0WFIanRuuwZ3FI4R1j9p/SEhGdhh/CkKtP6k0eF15MqHiXr
- Jlb8MHUNZz3txc88OuHgbpoGAeBdXk3f6/RhzLlFefRKjkKEn9njqRc8X+lxkYYU7rFX
- AnZ6N8y+ou/4Ai8s3kQ+gR+4XbD3ZqF7Nh2q6HfrvG14r7Ubq4MEclfMv23s+hIrZ0jI
- WyKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740066015; x=1740670815;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UuoPq2e93XPbKnAaHkR9ErZM40sqwUWhuIwAQ7Wv18c=;
- b=UsP4o2i639yTaNVlw0ov0U9mSvkLdvW1abl1/7s4/ZxRTxkhv8z5KiZx6UNduei9qu
- a0yA1KccgAkF3+awM1UkW5N/NRVSkmdrrPMmiC7tVAR0p74B8m4YYLiGLBHXjikXxHbU
- 13tq027uBNdckzKk4WgXoWVCG5ve+YL6LR1CVBTOz9dmAeKltqCMsfczN+WCH1AP2ZVl
- +4sZNo4NgYp+LKuUScwh5NwNMeS8M4d6kj9z74eRRjrSiyn0xPLGOoOJoY3JgTP6macE
- dmp7W/8VXFbe/55VRSORS57u/EreqfkX3BTtrLCIfkj9Go837lyJsPktrhvvqtrXB4Pm
- 5ILg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5llfAjW+Qo0XhphsNuZGOe0Hb4wt6gVRU9I329Au+CMg5KEwysrFvS929LnZCMq2KHXIVC+HGruI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0STupM6f09aq8vvl0FEeprLicrOwDlEznT2gCTNq8Iz6nC9Wo
- tXaSd4volYuQIvIZSBsaQpL2G0B9D1n3wv7ll9URp5VTyTr0ekb4DNGVTjfaGqBqqQqNuVE6AaD
- CEmUwbGzZ6QGPsJ6qJIe3rg2a+PxBFk606HPfwA==
-X-Gm-Gg: ASbGncu/lXZLzJSkTMkn9WXe5PiVeZDc7QC9vhT160EHCMblQrTomwZxxGkf9CmK4+x
- +HyiLnsr4fAESSoxy1ca4NuhKVsW3gUaZteQdeLO9ErVr3Q6t/6lsawrz5ZLwPQYDK2a0FGe2Au
- sj
-X-Google-Smtp-Source: AGHT+IHtHZhFj6w8a+w7dVjeZYWKiittrIVs8CqnEw31ZTbZ6uSF2vKph0PXxTGqAHFiH+3dzNT93tQlYHmsEeOEsb4=
-X-Received: by 2002:a05:690c:fcc:b0:6f9:82a8:e5dd with SMTP id
- 00721157ae682-6fba579f34dmr76095757b3.29.1740066013981; Thu, 20 Feb 2025
- 07:40:13 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A131910E99F;
+ Thu, 20 Feb 2025 15:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740066044; x=1771602044;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=gNHNt6lCen0DHsSDxtO7RivDVN29tF7Ss1yakXiI1uY=;
+ b=WDFsu/09h94KCzfKTB9+ZbMgVWYt/K/Qq8ZkhVo6+RQGf1EEJ6D1ASng
+ csqo2M3dUzHqKOJ5N8Vez+l7JE/V/yYrKo7q0ES2KHBmIDHarDJXhRuBN
+ is3jB5zwzAknxGtA52G7hHhuZpegfk9jy5oUeCpfP5BJ5Rd+qjVoEiexh
+ +pDyI7xkzbG+g7CBplrotf/Is/Ngn9AdfLKQrnuAqrOG1hFVvpNzS7CXd
+ Aqvpd2b8TCwteR2LNI6q3y2NHZQtHlyb/nZwptUIf9zeV19vOOMFCPu1/
+ bvfdhRUHz30WT8vBv/QODBncJdC9S1+tUDwDkf01DnQDC+rU4SL9smJ4J A==;
+X-CSE-ConnectionGUID: rcAuYbDLREadPsyPapzH3A==
+X-CSE-MsgGUID: bKD9Hz6XTPC1FNh9Bkt/ng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40707254"
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; d="scan'208";a="40707254"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2025 07:40:43 -0800
+X-CSE-ConnectionGUID: TP2nwyJqRXuniy2pnl1GBw==
+X-CSE-MsgGUID: Dwg/kEDoRNG/GnkB9vLY+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; d="scan'208";a="145926313"
+Received: from yakiklei-mobl2.ger.corp.intel.com (HELO [10.245.82.75])
+ ([10.245.82.75])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2025 07:40:40 -0800
+Message-ID: <880db65b-6d17-4adf-ad88-4a9e077aebc4@linux.intel.com>
+Date: Thu, 20 Feb 2025 16:40:36 +0100
 MIME-Version: 1.0
-References: <20250220-dual-dsi-v2-0-6c0038d5a2ef@linaro.org>
- <20250220-dual-dsi-v2-4-6c0038d5a2ef@linaro.org>
- <grdadzunaabzg5jxpsiasgzbioy24tctlhhyxg6zwdkpv5vjwe@7k2di2myu4k6>
-In-Reply-To: <grdadzunaabzg5jxpsiasgzbioy24tctlhhyxg6zwdkpv5vjwe@7k2di2myu4k6>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 20 Feb 2025 23:40:03 +0800
-X-Gm-Features: AWEUYZnHnOuixko96mQ2117kijVCx6xdBgICQdXQ3HuBcopAGGxNVlm-TLHVG9A
-Message-ID: <CABymUCMn+USbm21agBZbe=JmV-FzLdVD4s0xgg0CPU=M9jvC9w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] dt-bindings: display/msm: dsi-controller-main:
- Document dual panel property
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/i915: Add VM_DONTEXPAND to exported buffers
+To: Tvrtko Ursulin <tursulin@ursulin.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, karol.wachowski@intel.com,
+ tomasz.rusinowicz@intel.com, Krzysztof Karas <krzysztof.karas@intel.com>
+References: <20250114082303.1319508-1-jacek.lawrynowicz@linux.intel.com>
+ <a712ee97-1851-4f6d-97b1-7d1cc136481f@linux.intel.com>
+ <173996250609.74092.8072729956400006000@jlahtine-mobl>
+ <22fedeac-0919-4d33-b4a3-ade7afce8261@linux.intel.com>
+ <15c019f5-a26b-47e5-9ec5-41746e63cae6@ursulin.net>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <15c019f5-a26b-47e5-9ec5-41746e63cae6@ursulin.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,83 +81,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B42=E6=
-=9C=8820=E6=97=A5=E5=91=A8=E5=9B=9B 18:33=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, Feb 20, 2025 at 06:07:55PM +0800, Jun Nie wrote:
-> > The DSI interface can be connected to a panel that has a dual DSI chann=
-el,
-> > or to two separate panels, each equipped with a single DSI channel. To
-> > prevent the DSC configuration for the dual panel setup from disrupting =
-the
-> > current configuration of a single panel with a dual DSI channel, add a =
-dual
-> > panel property to support the use of two panels.
->
-> Please use the terms from the standard. The "channel" is mostly used for
-> the "Virtual Channel" or the "logical channel".
+Hi,
 
-OK, will use DSI link for all later description.
->
-> Also I don't follow how DSC configuration for a dual panel setup can
-> disrupt current (?) configuration of a single panel.
+On 2/20/2025 2:53 PM, Tvrtko Ursulin wrote:
+> 
+> On 20/02/2025 13:14, Jacek Lawrynowicz wrote:
+>> Hi,
+>>
+>> On 2/19/2025 11:55 AM, Joonas Lahtinen wrote:
+>>> Quoting Jacek Lawrynowicz (2025-02-11 17:57:03)
+>>>> Hi, can I submit this to drm-misc or should someone commit this to drm-intel?
+>>>
+>>> Is the this happening in linux-next or is it still completely out-of-tree?
+>> The patch is not merged so it is happening everywhere.
+>>
+>>> Feels weird that the splat would not have happened in any hybrid GPU
+>>> systems in the past. Did you look what is the difference between your
+>>> driver and amdgpu/nouveau?
+>>
+>> It looks like imported buffers are just never mmaped.
+>>
+>> This is a call chain when mmapping imported buffer in amdgpu:
+>> drm_gem_mmap()->drm_gem_mmap_obj()->amdgpu_gem_object_mmap()->drm_gem_ttm_mmap()->ttm_bo_mmap_obj()
+>>
+>> And this is intel_vpu call chain:
+>> drm_gem_mmap()->drm_gem_mmap_obj()->drm_gem_shmem_object_mmap()->drm_gem_shmem_mmap()->dma_buf_mmap()->i915_gem_dmabuf_mmap()
+>>
+>> amdgpu does not check if the object is imported and just calls drm_gem_ttm_mmap() and dma_buf_mmap() is never called.
+>> Same with xe and nouveau. All drivers using drm_gem_shmem seems ok but besides them only couple small drivers check for import_attach in mmap.
+>> Looks like most drivers do not support mmapping imported buffers.
+>> Is this really possible? Do you have test coverage for this?
+> 
+> Without going into details here, commenting just on the "mmaping imported buffers" part.
+> 
+> My understanding is that mmaping imported buffers should not be supported by design. There was some discussion around this in https://lore.kernel.org/dri-devel/bc7f7844-0aa3-4802-b203-69d58e8be2fa@linux.intel.com/ (The thread is for a patch which added this ability to i915.).
 
-For the disruption, Marijn mentioned it in the last post.
-https://gitlab.freedesktop.org/drm/msm/-/issues/41#note_2411541
+If so, these drivers should return an error when mmaping imported buffer instead of happily proceed as if it was an ordinary buffer.
+In my opinion, every driver that doesn't check obj->import_attach in drm_gem_object_funcs->mmap has potential for security vulnerability.
 
->
-> >
-> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > ---
-> >  .../devicetree/bindings/display/msm/dsi-controller-main.yaml      | 8 =
-+++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controll=
-er-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller=
--main.yaml
-> > index ffbd1dc9470e2091b477b0c88392d81802119f48..e3f2eabde27609a66d6d81f=
-afcb14e1bc014613c 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
-.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
-.yaml
-> > @@ -88,9 +88,15 @@ properties:
-> >    qcom,dual-dsi-mode:
-> >      type: boolean
-> >      description: |
-> > -      Indicates if the DSI controller is driving a panel which needs
-> > +      Indicates if the DSI controller is driving display device which =
-needs
->
-> Unrelated change
->
-> >        2 DSI links.
-> >
-> > +  qcom,dual-panel:
-> > +    type: boolean
-> > +    description: |
-> > +      Indicates if the DSI controller is driving display device that c=
-omposed
-> > +      with 2 independent panels and needs 2 DSI links.
->
-> How is tht different from qcom,dual-dsi-mode?
+Thomas, Simona, shouldn't there be a clear policy regarding this for the all drivers?
 
-Your questioning is right. The dual panel case is a subset of
-dual-dsi-mode, not parallel with
-dual-dsi-mode. It is single panel with 2 DSI link by default, and 2
-panel with 1 DSI link in
-each panel if property dual-panel is present.
->
-> > +
-> >    qcom,master-dsi:
-> >      type: boolean
-> >      description: |
-> >
-> > --
-> > 2.34.1
-> >
->
-> --
-> With best wishes
-> Dmitry
+Jacek
