@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917D8A3E155
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 17:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B15A3E167
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 17:52:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC76210E1DB;
-	Thu, 20 Feb 2025 16:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDBA10E4C9;
+	Thu, 20 Feb 2025 16:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nNh/dsFL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aFYoJXz7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFA9010E1DB
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 16:50:13 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2210d92292eso33479605ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 08:50:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740070213; x=1740675013; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
- b=nNh/dsFL8yRs2mytCJp9U7zJ9ftONBBP+zH4hVnuXiIwirWDHLttyHWA6OaClogEpO
- vZFYofofijnNmPqRb9ClPvnkRl1QuzMzARJy7xf8hQfr0U5XIrZZoKneP3jO+erHxzjY
- /RRm3DmclC0LUAmE/i/ZK7oBJROswnb1Il91R8FCGfx+Co5PtXx1amagydNNat2RZAaD
- Lv/ElLLsVDU8l1307iO23nc7etYi+8NT1dCjoLHGMrmUMdXaIsQ12L5lY2D7hvpHs7Ir
- mK2r9joZDE4lbyXMvQwmFS8r/71z6AZAvhMPrk0Vorc0SESCUyyefkyLwL5s9otZLe0/
- DGxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740070213; x=1740675013;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
- b=IK/Vfd00ymDjM/kgd5nwaySzq+wfGdkf65AOR6NmTTYvF1SJm+XLfwEgH0b4Keo5VE
- DLMlt/oCQO7s07zEa92mOAzmR7+Myq4iqD/Lx9TaQNJXLHy9FEaHbRy3sjzyYI19zVgR
- OueZcONvBAHEn9ZxFpLB6xvJuB3pLekH3ovZtTkE4WffcH1xJJNL1PZLTyqP1BgMtSK6
- lwJYhW+lwBxFeSqiCZ1bafd9oZL2/PCdVHVRPbArY2XmiOVOOuxv4cuH5CpeAFnJvUzV
- r9XgN4mgE+of0B7HpAjYeOYyncayMwCNGEQtW6dPsdQ/XOxAgT7vyveIeYeUntFSec9C
- Byhw==
-X-Gm-Message-State: AOJu0YwtI+cxelYgxGUHWjMspr3Ev2Z992jlpTRfRQbHDkx1UWBL+n/Q
- mbrQxQecoEoQ6CIqutH3C5IIZyrz0FZRjYzC2MSCIFi7147rfWtM
-X-Gm-Gg: ASbGncs+1XmhiyARINcBSjZIH6bVwmNE2+cpMhezUBevAtNGaDASPkCNU6zC2O+eh0T
- 2fHHj4i0ksj7F55/sAZHqn0vwJn3WR7BsKiE3z1D8D0iP3Zq79UkDo63wY59cuOmq/7P4W+WqEo
- ES1K9m/VEmLf9nK7BM/qKVmdHYeXiJfpEeAtEO508Mw5zMX4C9ohpVfNrNlxjIVUVGoZ7XGnla/
- d/t0WH252SzBPkpz5fxVf8oxQCMMQpo4Luuuwa2218sFR/LpDSBru7pnUlL6r1krKh0DgSDtPPn
- MGn1dAYLLjJlsRW1itbMKSZbW/5VhW9Isl66
-X-Google-Smtp-Source: AGHT+IEZEJ5Vx0cDfop6Q20EF8DsuK+QyG7/1ZeIrNw7H+oUSeWhjSyHlDH+GyEOp57VhYxnE3uFtg==
-X-Received: by 2002:a17:902:d2c2:b0:215:5625:885b with SMTP id
- d9443c01a7336-221711c2866mr129989005ad.52.1740070213205; 
- Thu, 20 Feb 2025 08:50:13 -0800 (PST)
-Received: from localhost.localdomain ([106.207.145.213])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-73266fd6438sm10619451b3a.142.2025.02.20.08.50.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2025 08:50:12 -0800 (PST)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, bagasdotme@gmail.com,
- skhan@linuxfoundation.org, Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] vgaarbiter: documentation grammar correction 
-Date: Thu, 20 Feb 2025 22:19:46 +0530
-Message-ID: <20250220164946.18007-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.47.1
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE91410E4C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 16:52:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3A4D76159D;
+ Thu, 20 Feb 2025 16:52:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8DDDC4CEDD;
+ Thu, 20 Feb 2025 16:52:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740070353;
+ bh=y/AlVIT3kLymBFi+Y3/Zj0WV5ydUhq8hGVLV1npStzo=;
+ h=Subject:From:To:Date:In-Reply-To:References:From;
+ b=aFYoJXz7gmhnfIFYZCXBkDEozmmsX4/STMr9zkqagwhQqgFNueICwHGUlUmiRe4fP
+ uImHlgSyREV65OkNUWzX7CdT3WfxD0K6FM6KKuvpfKFwO/JbVcV0DiG0Z1gR4savqA
+ RHjhwHBMMB2KHhQloC5B2ydH7+fa9hXSFwWsizvcH859Gh0ft30HGFU6WTWjOb4Tlm
+ uVlYYR5/W2pXinAVedoEiIrvkAcG4N0Y949rmjKGtRZ/tNe2YuK/iOepLCYeJ588Hp
+ F/3Kgqxg77/W8B/kS1rLlHMBHueo8et7psA3MrFAC7WGiH6Gnah6fwHqiMEv7Qi69e
+ l7gKAJ1+91oPA==
+Message-ID: <b286d05d02671cbb8622d77ed9968dc3f16ba841.camel@kernel.org>
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@redhat.com>, 
+ Theodore Ts'o	 <tytso@mit.edu>, "Dr. Greg" <greg@enjellic.com>, Linus
+ Torvalds	 <torvalds@linux-foundation.org>, Hector Martin
+ <marcan@marcan.st>, Dave Airlie	 <airlied@gmail.com>, Greg KH
+ <gregkh@linuxfoundation.org>, phasta@kernel.org,  Christoph Hellwig	
+ <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda	
+ <miguel.ojeda.sandonis@gmail.com>, Abdiel Janulgue
+ <abdiel.janulgue@gmail.com>, 	daniel.almeida@collabora.com,
+ aliceryhl@google.com, robin.murphy@arm.com, 
+ rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Alex
+ Gaynor	 <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary
+ Guo	 <gary@garyguo.net>, Bj??rn Roy Baron <bjorn3_gh@protonmail.com>, Benno
+ Lossin	 <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Valentin Obst <kernel@valentinobst.de>,
+ open list	 <linux-kernel@vger.kernel.org>, Marek Szyprowski
+ <m.szyprowski@samsung.com>,  "open list:DMA MAPPING HELPERS"	
+ <iommu@lists.linux.dev>, DRI Development <dri-devel@lists.freedesktop.org>
+Date: Thu, 20 Feb 2025 18:52:28 +0200
+In-Reply-To: <20250220163747.GA69996@nvidia.com>
+References: <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+ <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
+ <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
+ <20250207121638.GA7356@wind.enjellic.com>
+ <20250208204416.GL1130956@mit.edu>
+ <CAMwc25pxz2+B329BArDQMpxOvpMtvhop1u_Uwc0axn2LqNP0vA@mail.gmail.com>
+ <Z7dXIfFJ2qXNKtwT@phenom.ffwll.local> <20250220163747.GA69996@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,42 +82,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Corrects the following grammatical issues in the VGA Arbiter documentation:
-- Fixes subject-verb agreement by changing "co-exists" to "co-exist"
-- Corrects pluralization by changing "server" to "servers"
-- Improves sentence structure for clarity
+On Thu, 2025-02-20 at 12:37 -0400, Jason Gunthorpe wrote:
+> > =C2=A0=C2=A0=C2=A0 I think one of key advantages of open source is that=
+ people
+> > stick
+> > =C2=A0=C2=A0=C2=A0 around for a very long time. Even when they switch j=
+obs or move
+> > =C2=A0=C2=A0=C2=A0 around. Maybe the usual =E2=80=9Cfor life=E2=80=9D q=
+ualifier isn=E2=80=99t really a
+> > great
+> > =C2=A0=C2=A0=C2=A0 choice, since it sounds more like a mandatory senten=
+ce than
+> > something
+> > =C2=A0=C2=A0=C2=A0 done by choice. What I object to is the =E2=80=9Cdic=
+tator=E2=80=9D part, since
+> > if your
+> > =C2=A0=C2=A0=C2=A0 goal is to grow a great community and maybe reach wo=
+rld
+> > domination,
+> > =C2=A0=C2=A0=C2=A0 then you as the maintainer need to serve that commun=
+ity. And
+> > not that
+> > =C2=A0=C2=A0=C2=A0 the community serves you.
+>=20
+> +1
+>=20
+> I agree and try, as best I can, to embody this.
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/gpu/vgaarbiter.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I keep four simple rules of email response list these days when
+I response to LKML:
 
-diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
-index bde3c0afb059..d1e953712cc2 100644
---- a/Documentation/gpu/vgaarbiter.rst
-+++ b/Documentation/gpu/vgaarbiter.rst
-@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
- 
- The Resource Access Control (RAC) module inside the X server [0] existed for
- the legacy VGA arbitration task (besides other bus management tasks) when more
--than one legacy device co-exists on the same machine. But the problem happens
-+than one legacy device co-exist on the same machine. But the problem happens
- when these devices are trying to be accessed by different userspace clients
--(e.g. two server in parallel). Their address assignments conflict. Moreover,
-+(e.g. two servers in parallel). Their address assignments conflict. Moreover,
- ideally, being a userspace application, it is not the role of the X server to
- control bus resources. Therefore an arbitration scheme outside of the X server
- is needed to control the sharing of these resources. This document introduces
-@@ -106,7 +106,7 @@ In-kernel interface
- libpciaccess
- ------------
- 
--To use the vga arbiter char device it was implemented an API inside the
-+To use the vga arbiter char device, an API was implemented inside the
- libpciaccess library. One field was added to struct pci_device (each device
- on the system)::
- 
--- 
-2.47.1
+1. Be honest.
+2. Address your concerns.
+3. Ask for help where you need it.
+4. Admit your possible misconceptions (getting things wrong is not a mistak=
+e).
 
+It's quite easy actually shift away from these even if you
+don't do it purposely. So I actually just read what I'm going
+to respond and reflect to these :-) It's anyhow usually best
+to keep a short break and breath-in/outs before triggering
+send, right?
+
+The fourth one addresses so called "toxic positive" responses
+as addresses in the associated Mastodon thread [1] :-)
+
+> Jason
+
+[1] https://social.kernel.org/notice/ArH99Q2ErS20vJB7Tc
+
+BR, Jarkko
