@@ -2,173 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04130A3E583
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 21:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B0EA3E5D4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 21:26:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C4610E0F6;
-	Thu, 20 Feb 2025 20:03:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5417C10E061;
+	Thu, 20 Feb 2025 20:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cJpuhh40";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="di9T55Bz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 986DF10E0F6;
- Thu, 20 Feb 2025 20:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740081787; x=1771617787;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=NqN59lj7nxO110JQFxVnQhVuDsFLGsUVpBc3WEyAmAc=;
- b=cJpuhh40kXQ/2fHCgSWwmqYPSUF/wg47SrkTtduNY11VV5cGLXA0HAMw
- UaJR5aK3cAPV/3ri1yc7uQIdMYSNG1O2XliL27lVwVxfCVRRQR32+3r0C
- ydpnndYeh4g0CpTFiKKxRVQYh2O5dZmJbDdzBC08g/6asLM8nrke2Ntno
- Pl7rIzuhSa9GC1oNtC0r+1hpCmIdweeRGVRmO7zmK1rF0a7xalAG69fbb
- gbdJqqp+1ggEMqylfyONk2EKN1z0vKQsF0nqb1P95Iir7hBCa1Kfx+jVZ
- 65IhossrS7vV8yLTuTqzSE1vsMYNPhC6AeF3B1bf5k6G5HPE5poQULRUz g==;
-X-CSE-ConnectionGUID: zD5K8d20SaixojWt12VNVg==
-X-CSE-MsgGUID: EkEMAVstRTKiq+An73BYXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51525078"
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; d="scan'208";a="51525078"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2025 12:02:51 -0800
-X-CSE-ConnectionGUID: b/EdggOyQtylkGqB7ixIpw==
-X-CSE-MsgGUID: V7mP5kY0S6iBlAbxn4ZFvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; d="scan'208";a="120261260"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 20 Feb 2025 12:02:50 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 20 Feb 2025 12:02:49 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 20 Feb 2025 12:02:49 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.177)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 20 Feb 2025 12:02:48 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kmHU3QRYDAR0KIpHunB1E7g5ZNGgIv0/6SVJTvfzFEjjEXUeHekh08gcmCoQFMTzhAXuk79pD5HlHyLZEGEmS4n8X9dJ3OgDE6hJUyRocabCHEfvKZi9gGAyLSBEV5nk6qFd1jmAygXjUrk44OJRwl3PEC+zAjVOW6Y9ckh3aUgYGLjeiAzBgx1dMe/pxPbv8YE6cVMHj6RNZENt0JF2UGxbdJdhWZB5tGTbcEnMGZ9D37gItcnL09kUu4r+WEHXk8tE3TmTY6l5RjtcrnMK/1JBU1WryQ3vciH7se62RVuM1+/z4qB2Hc89O5J3S8aefrJFNO8WAu6MGzQivHIJCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ChjOcGTQgsgBexFM20Feqvivah3iN39aUF2eDFXdhh4=;
- b=t3yc2ZcC4Pee4+mdHRRpOSlugpYmBTD/+QvPmfih+bbzdKwFXmaRYnroc3DJruINUFsbUMhqjACKTxjcSfgZjLBZlihPviC1y7GvFVMwoSsCyBNGAKCZbPm3rXdJ5NlWz04Qf3/UxscDYAFr6vsolc5iKWxB0QXfQPwN89KCxykoeKrWj7gmZQBJNQP1HqgbnMaxsvmPthBmFDceYRwrXgGLzhb00hEXzzbMMMf1Hpl+j4WTOnJORNut9ksVmmF4xOjQpLCoDM0Jbkk865DVtnizj9StK5l542zXlYXwnoQL1YZ/P4idW+FzOQFtV7nFfx9a3upmJutYF9DIVIKM/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH7PR11MB6377.namprd11.prod.outlook.com (2603:10b6:510:1fb::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.16; Thu, 20 Feb
- 2025 20:02:44 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.8466.015; Thu, 20 Feb 2025
- 20:02:43 +0000
-Date: Thu, 20 Feb 2025 12:03:46 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <himal.prasad.ghimiray@intel.com>, <apopple@nvidia.com>, <airlied@gmail.com>, 
- <thomas.hellstrom@linux.intel.com>, <simona.vetter@ffwll.ch>,
- <felix.kuehling@amd.com>, <dakr@kernel.org>, "Harry (Hyeonggon) Yoo"
- <42.hyeyoo@gmail.com>, Byungchul Park <byungchul@sk.com>
-Subject: Re: [PATCH v5 03/32] mm/migrate: Trylock device page in do_swap_page
-Message-ID: <Z7eKohyglFCIxSio@lstrano-desk.jf.intel.com>
-References: <20250213021112.1228481-1-matthew.brost@intel.com>
- <20250213021112.1228481-4-matthew.brost@intel.com>
- <2dcef9ea-f204-437c-bd28-c84a8ab5b2fa@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1EEE10E061
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 20:26:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1740083194; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=g6YzpYu5p0hajy/Q1G+OT34zCRoEesIqdghLYuSTur1MPePxXDkeymNdj/LQsa2IFCUreZBRTosXNggR7v9uyEOSXEJEhQ/PkaMntWW9/nXJPMPlHW7j/JAbClPPNa1kBbVrjKw/Yqbpm8e38EiY46YDS5gQJfARUWB7HMX90+Q=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1740083194;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=IkP67AER6aEjnCYCWLq5wbAPovaeURUiPdxzZYvXBRs=; 
+ b=AVZ/NdQVHdUL76m8XEOLpImIOETidbYhQUb7KGGQlvFyXP3tDlVL72tFZe2QrVuN3jRMWHCCqeesGHhixwhQsQMEUdpQ4pnNsUkF5xsR3VEfUDqNo0E3BtG47RI6aF3Yg2KttMns3HsAwc3LcmZ7z/XgHcsZZieM5USo9nF2SF8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740083194; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=IkP67AER6aEjnCYCWLq5wbAPovaeURUiPdxzZYvXBRs=;
+ b=di9T55Bzo35577mm2tI2Zz5251VuRvQnJPv+W9G5busu1Usj2vSntOACxO8JE7nR
+ /UQNVpWAp43POlOa3ADPhO+yoaOGKI2sdSZQ6mNqsClkEHUewqOQ1eFSmnjpwDU09w2
+ q0IamfQPQ1Dqa3vDhRPTfMfSxY++Mi0KO6yPemiM=
+Received: by mx.zohomail.com with SMTPS id 1740083192429330.01870912248773;
+ Thu, 20 Feb 2025 12:26:32 -0800 (PST)
+Date: Thu, 20 Feb 2025 20:26:23 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Mihail Atanassov <mihail.atanassov@arm.com>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm/panthor: Avoid sleep locking in the internal
+ BO size path
+Message-ID: <22tktof6433nshmhihwjpvvgnwpos3v4mkggxqikxbta5p4s57@w2gzdqudhbfi>
+References: <20250214210009.1994543-1-adrian.larumbe@collabora.com>
+ <20250214210009.1994543-2-adrian.larumbe@collabora.com>
+ <20250215104438.13220f14@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2dcef9ea-f204-437c-bd28-c84a8ab5b2fa@intel.com>
-X-ClientProxiedBy: MW2PR16CA0046.namprd16.prod.outlook.com
- (2603:10b6:907:1::23) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH7PR11MB6377:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83aee038-cce4-4815-392f-08dd51e989b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?GOMzg41Vkxp7XImdnZZOXmKSbSo5woJgTJDELB3dkuHKB6/13hXVpxKqEJ?=
- =?iso-8859-1?Q?pe+8TSdpuPe3UlVaZOEEeYH2C/HrTkO1osSOsvjZpYKwm2bNC63cLmA+bD?=
- =?iso-8859-1?Q?Pi9n7olu78snXK6aDvnpO5Ne/OZeySAt/itavW6Je5XXg5rb/dazKCcyNp?=
- =?iso-8859-1?Q?xtgiYHTKRrDA19nJ1GkD6V1z1lBkuKYjxFRerPscSGnzGiiJV8XVSU0qUA?=
- =?iso-8859-1?Q?R2V9KZ9rmRmLDb0XRsqlKJc6Etqb/vhG+eiYkFWTNJ7jLZPNHpAYkcWNFw?=
- =?iso-8859-1?Q?GI88C1PdDPvcZaOROu+37SBOHZ38wJNlhAVsOrKDIMhRyvx9CZ8c4akKiQ?=
- =?iso-8859-1?Q?txU3yME0ztmsXe6vLr16ovFTDN/lfmzmeI3od48co963d05nRFXsfRK6rv?=
- =?iso-8859-1?Q?RE5y3T28Bs+l3WVVT1NTpSbhho5qs+pjqAePrQJM1df1jl6gGwv/skd/iH?=
- =?iso-8859-1?Q?F2vDsjr2xvCOOsPR404KO7yfboIGMm5vXYY5RIoDxl0eVxAwimvWkxtShn?=
- =?iso-8859-1?Q?KXuad9AMJRvzHwDQfIvYUeVuKCpuh8hnSUVKPKLnpQwFq+AuZmP33sIKxI?=
- =?iso-8859-1?Q?U6X0mU22nlukySyhQA0Yn7s0PYth9D8VFcuSZ1WWT3mHeR5Db57Bm26Xu8?=
- =?iso-8859-1?Q?LYEPpeELaR1rJIE/I4tv2UiWjQaWcfBj8kLhcZGmG87I0z3N4b8wK18b1L?=
- =?iso-8859-1?Q?KkyWAva2++lfLRM6wSOhwMfM9977HUL1oLTBQY1qaCIbf5umFuDqL6bwCn?=
- =?iso-8859-1?Q?Om8NO12Gj/R8STsPw+MzHzLGVRqYxAhQzNCEbnnA5757fPjo7/Qzq9n+pH?=
- =?iso-8859-1?Q?0JnzsCNOfixNp1RQ6ATbq2dZiD7FGrtDUAaYqeLQUwADy9P7J/5n8U/aJ/?=
- =?iso-8859-1?Q?1ZBcVls7WjuW+2ul/gexPeK8WRuJzDQxAt0BPrwD4BBno9QLqU3FKqChcw?=
- =?iso-8859-1?Q?3s7lyfW4tD1m6D/6hNZWa7jO+RXYOWY51H27oEKmH+0CWB/gDzHWn1SOq+?=
- =?iso-8859-1?Q?AofNP9Gx33mBe7UmhuF8QMAL8JLbNLO+1RM/jVbwewC8Qtu+YHgQ1nEqrS?=
- =?iso-8859-1?Q?vt9psCBtzSnfbUXk/U0n05VivVeaOShKo6Dq4dxqwL3x8oo2hdHttBarel?=
- =?iso-8859-1?Q?u7sgjniWTNnf+RbSfCzh9mxGhH7qJdsSf+21+C95VjTm423Hbdw6YH8mYD?=
- =?iso-8859-1?Q?AFw1YAsnOuoixwQk5XULO1eAG41svXRnYEfSM2f2UiWm0X7yA2Vgcb4BV5?=
- =?iso-8859-1?Q?K6ZASISftq3pQseUNAcT7VztyXoznnJXAlnJtgBlhI+B9sGEKYUezUm/eI?=
- =?iso-8859-1?Q?D0FTeyd/oe879/q7UPHcSC/PsMVLqRsGFnIeM5z7ytU/zFeHnQuE1jdFyK?=
- =?iso-8859-1?Q?oHZmRXZXeXO2ZXgFzWvYkc2ICfBIX9pS2rw+GUGPM4CmxpqFrye3kI0Qpe?=
- =?iso-8859-1?Q?4gSz7iSjRdFLkZAU?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?BS1JWdlnVTFD6FBJpdkWp9beFu9u2gcDZYM8Ewo9yYZhxRP+4XqVnfx4W2?=
- =?iso-8859-1?Q?X54lxZh4D0zhnaEBc1uVBVBs3PVoa2kMzOAFTBB9z7iVeBR4dcrUzNkJOn?=
- =?iso-8859-1?Q?RSnN417+ORYk+ZdTGqlyI4rD0HiNuIfgie7ITKurQUC0JU6K6HcGCyedtS?=
- =?iso-8859-1?Q?HhAyh3TAmGSOoiFlkDBCGRvxSkLovMM/ShkXyyNidbRFshSPKsGgQ4e5A+?=
- =?iso-8859-1?Q?9KGBxdp5gBTjJwQkU/8Tpddfbl27SRiYXeU3lwewL5s9IBbIQqPNufgGgH?=
- =?iso-8859-1?Q?rIqM5ZvVGugdk53gB1/df7VPDeC5lcGb0gTMpCispFT1HK2s600RCvbdBG?=
- =?iso-8859-1?Q?+7O+c6DF2QyYnUM1atZ8olbNcHfgy80SiRUyJL6mNGWClTTHnmwE01KApa?=
- =?iso-8859-1?Q?noSKjTfqjilzpmtiil3WQUODMEZ4N3Qkd9HMvWNBfn1eCtkf/bqefrF1uV?=
- =?iso-8859-1?Q?0oHXXtX31dnvg8gSQTsWHgHIFj/p+mjwr7WjI2Lia253S+iPLdnHOkPWwi?=
- =?iso-8859-1?Q?G/9Z7mm6eL0g+NsRLtPzyCG31PA74VpIHKKb/Go2Jnr7VyU/qOmjQRqhTd?=
- =?iso-8859-1?Q?n0fG0KXYbbhoWBhglTS6TGpgbEiANp1gUcWdKSvifRjACIejan+sHSdjkR?=
- =?iso-8859-1?Q?p3EAjIddErQf9Sxnpm5tmgGJUYJargBVF9Zomj8SMc458eIc0XXwPbndIA?=
- =?iso-8859-1?Q?d4bnVW3usyt3BdpYOOWwDf9xBBULo48eHYylj1vVbfKwB92tDv2tOxmMBL?=
- =?iso-8859-1?Q?CyGl2YjI/S+7pn+Wcht551e0QdcJ2nBb4BMcjcoSJ925DMQswEw9ts4L8B?=
- =?iso-8859-1?Q?DMo7xERDr7QC+izTITh+hBYFaB96nl9Hw8KtPtjHhVaz0E+qAU6RFuUI+E?=
- =?iso-8859-1?Q?MeFNP6+zpI0/iDMXLikMmMxvVKAJx0ql0/r84vi+tdjxvnknMH65A9UGwF?=
- =?iso-8859-1?Q?831vBapf2lDAAf2dfjFiX7ewbKehcNijmXI1+O4XSfHJol0KOrSnLeBH/h?=
- =?iso-8859-1?Q?VgR6pf4d5DLsTa9HYNPrqx8oPoq44Tp01Bc5LuCvPJ/5RZj1Kqb6PjE0LH?=
- =?iso-8859-1?Q?mtWIyKsPO7te2xQwfQVq0NqsFcjDYgXozaq+3SxNHXzCG6mnBJSDICbILH?=
- =?iso-8859-1?Q?1s0i5z0yG3l2Jd7nxYeiqUyLtaAGcY5U1zvPBeUBhmuKzATSADbzbyZfv2?=
- =?iso-8859-1?Q?JnIsDBRRQ5q0+geKIbG9H7bN6gWO8S4Z59zjagStxVNqR7CLesCqfHXdFf?=
- =?iso-8859-1?Q?rp4Uszps5+wVcAvyxQv4eyh2eFkkTIx2fgXyH3g38AR9MeZfKLpjBvJ9b2?=
- =?iso-8859-1?Q?hr0BVBUhMWdu9/n7FJtgNA60OMqb97DiTpxQnKniYGjgJtkNJI0oKvRX4A?=
- =?iso-8859-1?Q?iTdkOKakNQKOKwlToxHy55LL2mcUBoo1ivU+1m73pydfPXH194ytkHD82j?=
- =?iso-8859-1?Q?+bGwuBpXgZlEMbhFMynexH8SiuhUm7FfN2CX6u5hkQL5+vzztrJAbMh+ly?=
- =?iso-8859-1?Q?cuR4H8a0pWfnQLgqmvgY2qM0sIxAxGiOrckrGtN+Io8a95qdzn1OszGT5l?=
- =?iso-8859-1?Q?QJmGeKcTIiIGX7NlTocLENohzDVKsNQXJRJ9lrU7t/1nt+KiTxQ89JS6eK?=
- =?iso-8859-1?Q?xrLEP1b22uo2b0rJ8ypzSS0QkqwOCcUQurWGLz3W6M59N+2JZdQl+OZQ?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83aee038-cce4-4815-392f-08dd51e989b2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 20:02:43.7562 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IdgxiwHbAgKYwPMCiBS6soaHeClu6VMia0A+Cmv0E0YDjII/9kX5VAHGBTMKjQWFeLkFcEdRUSa9Ca7wqpORuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6377
-X-OriginatorOrg: intel.com
+In-Reply-To: <20250215104438.13220f14@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,249 +73,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2025 at 03:28:23PM +0200, Gwan-gyeong Mun wrote:
-> 
-> 
-> On 2/13/25 4:10 AM, Matthew Brost wrote:
-> > Avoid multiple CPU page faults to the same device page racing by trying
-> > to lock the page in do_swap_page before taking an extra reference to the
-> > page. This prevents scenarios where multiple CPU page faults each take
-> > an extra reference to a device page, which could abort migration in
-> > folio_migrate_mapping. With the device page being locked in
-> > do_swap_page, the migrate_vma_* functions need to be updated to avoid
-> > locking the fault_page argument.
-> > 
-> > Prior to this change, a livelock scenario could occur in Xe's (Intel GPU
-> > DRM driver) SVM implementation if enough threads faulted the same device
-> > page.
-> > 
-> > v3:
-> >   - Put page after unlocking page (Alistair)
-> >   - Warn on spliting a TPH which is fault page (Alistair)
-> >   - Warn on dst page == fault page (Alistair)
-> > 
-> > Cc: Alistair Popple <apopple@nvidia.com>
-> > Cc: Philip Yang <Philip.Yang@amd.com>
-> > Cc: Felix Kuehling <felix.kuehling@amd.com>
-> > Cc: Christian K�nig <christian.koenig@amd.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Hi Boris,
+
+On 15.02.2025 10:44, Boris Brezillon wrote:
+> On Fri, 14 Feb 2025 20:55:21 +0000
+> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+>
+> > Commit 434e5ca5b5d7 ("drm/panthor: Expose size of driver internal BO's over
+> > fdinfo") locks the VMS xarray, to avoid UAF errors when the same VM is
+> > being concurrently destroyed by another thread. However, that puts the
+> > current thread in atomic context, which means taking the VMS' heap locks
+> > will trigger a warning as the thread is no longer allowed to sleep.
+> >
+> > Because in this case replacing the heap mutex with a spinlock isn't
+> > feasible, the fdinfo handler no longer traverses the list of heaps for
+> > every single VM associated with an open DRM file. Instead, when a new heap
+> > chunk is allocated, its size is accumulated into a VM-wide tally, which
+> > also makes the atomic context code path somewhat faster.
+> >
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > Fixes: 3e2c8c718567 ("drm/panthor: Expose size of driver internal BO's over fdinfo")
 > > ---
-> >   mm/memory.c         | 13 ++++++---
-> >   mm/migrate_device.c | 64 ++++++++++++++++++++++++++++++++-------------
-> >   2 files changed, 55 insertions(+), 22 deletions(-)
-> > 
-> > diff --git a/mm/memory.c b/mm/memory.c
-> > index 539c0f7c6d54..1e010c5d67bc 100644
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -4337,10 +4337,15 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
-> >   			 * Get a page reference while we know the page can't be
-> >   			 * freed.
-> >   			 */
-> > -			get_page(vmf->page);
-> > -			pte_unmap_unlock(vmf->pte, vmf->ptl);
-> > -			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
-> > -			put_page(vmf->page);
-> > +			if (trylock_page(vmf->page)) {
-> As a minor point, mm core suggests using folio rather than page and
-> folio_trylock() rather than trylock_page(). Is there a reason why page is
-> preferred over folio here?
-
-Device pages are currently never compound so page lock == folio lock. If
-/ when this eventually change, then yea we'd need the folio lock. Given
-this existing code operates on pages, I went with that. Ofc we could
-change this to folio opertaions to future proof this.
-
-> > +				get_page(vmf->page);
-> > +				pte_unmap_unlock(vmf->pte, vmf->ptl);
-> > +				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
-> This makes the internal locks that migrate_to_ram() can hold depend on page
-
-Yes is / was a concern. I think the trylock here avoids any possible
-locking inversions. Another concern is migrate_to_ram certainly
-allocates memory under this page lock but since device pages cannot be
-reclaimed this also is a non-issue, at least that is what Thomas and I
-reasoned.
-
-> lock. Would it be better to do fine-grained page lock when necessary to
-> prepare for locking issues that may arise later?
-> What are the advantages of using a holding large-scale lock  here rather
-> than worrying about lock dependencies?
-> 
-
-I'm not following most of the rest of the comments here, wrt to
-fine-grained / large-scale locking.
-
-Matt
-
-> Br,
-> 
-> G.G.
-> > +				unlock_page(vmf->page);
-> > +				put_page(vmf->page);
-> > +			} else {
-> > +				pte_unmap_unlock(vmf->pte, vmf->ptl);
-> > +			}
-> >   		} else if (is_hwpoison_entry(entry)) {
-> >   			ret = VM_FAULT_HWPOISON;
-> >   		} else if (is_pte_marker_entry(entry)) {
-> > diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-> > index 19960743f927..3470357d9bae 100644
-> > --- a/mm/migrate_device.c
-> > +++ b/mm/migrate_device.c
-> > @@ -60,6 +60,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
-> >   				   struct mm_walk *walk)
-> >   {
-> >   	struct migrate_vma *migrate = walk->private;
-> > +	struct folio *fault_folio = migrate->fault_page ?
-> > +		page_folio(migrate->fault_page) : NULL;
-> >   	struct vm_area_struct *vma = walk->vma;
-> >   	struct mm_struct *mm = vma->vm_mm;
-> >   	unsigned long addr = start, unmapped = 0;
-> > @@ -88,11 +90,16 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
-> >   			folio_get(folio);
-> >   			spin_unlock(ptl);
-> > +			/* FIXME support THP */
-> > +			if (WARN_ON_ONCE(fault_folio == folio))
-> > +				return migrate_vma_collect_skip(start, end,
-> > +								walk);
-> >   			if (unlikely(!folio_trylock(folio)))
-> >   				return migrate_vma_collect_skip(start, end,
-> >   								walk);
-> >   			ret = split_folio(folio);
-> > -			folio_unlock(folio);
-> > +			if (fault_folio != folio)
-> > +				folio_unlock(folio);
-> >   			folio_put(folio);
-> >   			if (ret)
-> >   				return migrate_vma_collect_skip(start, end,
-> > @@ -192,7 +199,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
-> >   		 * optimisation to avoid walking the rmap later with
-> >   		 * try_to_migrate().
-> >   		 */
-> > -		if (folio_trylock(folio)) {
-> > +		if (fault_folio == folio || folio_trylock(folio)) {
-> >   			bool anon_exclusive;
-> >   			pte_t swp_pte;
-> > @@ -204,7 +211,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
-> >   				if (folio_try_share_anon_rmap_pte(folio, page)) {
-> >   					set_pte_at(mm, addr, ptep, pte);
-> > -					folio_unlock(folio);
-> > +					if (fault_folio != folio)
-> > +						folio_unlock(folio);
-> >   					folio_put(folio);
-> >   					mpfn = 0;
-> >   					goto next;
-> > @@ -363,6 +371,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
-> >   					  unsigned long npages,
-> >   					  struct page *fault_page)
-> >   {
-> > +	struct folio *fault_folio = fault_page ?
-> > +		page_folio(fault_page) : NULL;
-> >   	unsigned long i, restore = 0;
-> >   	bool allow_drain = true;
-> >   	unsigned long unmapped = 0;
-> > @@ -427,7 +437,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
-> >   		remove_migration_ptes(folio, folio, 0);
-> >   		src_pfns[i] = 0;
-> > -		folio_unlock(folio);
-> > +		if (fault_folio != folio)
-> > +			folio_unlock(folio);
-> >   		folio_put(folio);
-> >   		restore--;
-> >   	}
-> > @@ -536,6 +547,8 @@ int migrate_vma_setup(struct migrate_vma *args)
-> >   		return -EINVAL;
-> >   	if (args->fault_page && !is_device_private_page(args->fault_page))
-> >   		return -EINVAL;
-> > +	if (args->fault_page && !PageLocked(args->fault_page))
-> > +		return -EINVAL;
-> >   	memset(args->src, 0, sizeof(*args->src) * nr_pages);
-> >   	args->cpages = 0;
-> > @@ -799,19 +812,13 @@ void migrate_vma_pages(struct migrate_vma *migrate)
-> >   }
-> >   EXPORT_SYMBOL(migrate_vma_pages);
-> > -/*
-> > - * migrate_device_finalize() - complete page migration
-> > - * @src_pfns: src_pfns returned from migrate_device_range()
-> > - * @dst_pfns: array of pfns allocated by the driver to migrate memory to
-> > - * @npages: number of pages in the range
-> > - *
-> > - * Completes migration of the page by removing special migration entries.
-> > - * Drivers must ensure copying of page data is complete and visible to the CPU
-> > - * before calling this.
-> > - */
-> > -void migrate_device_finalize(unsigned long *src_pfns,
-> > -			unsigned long *dst_pfns, unsigned long npages)
-> > +static void __migrate_device_finalize(unsigned long *src_pfns,
-> > +				      unsigned long *dst_pfns,
-> > +				      unsigned long npages,
-> > +				      struct page *fault_page)
-> >   {
-> > +	struct folio *fault_folio = fault_page ?
-> > +		page_folio(fault_page) : NULL;
-> >   	unsigned long i;
-> >   	for (i = 0; i < npages; i++) {
-> > @@ -824,6 +831,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
-> >   		if (!page) {
-> >   			if (dst) {
-> > +				WARN_ON_ONCE(fault_folio == dst);
-> >   				folio_unlock(dst);
-> >   				folio_put(dst);
-> >   			}
-> > @@ -834,6 +842,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
-> >   		if (!(src_pfns[i] & MIGRATE_PFN_MIGRATE) || !dst) {
-> >   			if (dst) {
-> > +				WARN_ON_ONCE(fault_folio == dst);
-> >   				folio_unlock(dst);
-> >   				folio_put(dst);
-> >   			}
-> > @@ -841,7 +850,8 @@ void migrate_device_finalize(unsigned long *src_pfns,
-> >   		}
-> >   		remove_migration_ptes(src, dst, 0);
-> > -		folio_unlock(src);
-> > +		if (fault_folio != src)
-> > +			folio_unlock(src);
-> >   		if (folio_is_zone_device(src))
-> >   			folio_put(src);
-> > @@ -849,6 +859,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
-> >   			folio_putback_lru(src);
-> >   		if (dst != src) {
-> > +			WARN_ON_ONCE(fault_folio == dst);
-> >   			folio_unlock(dst);
-> >   			if (folio_is_zone_device(dst))
-> >   				folio_put(dst);
-> > @@ -857,6 +868,22 @@ void migrate_device_finalize(unsigned long *src_pfns,
-> >   		}
-> >   	}
-> >   }
+> >  drivers/gpu/drm/panthor/panthor_heap.c | 38 ++++++++------------------
+> >  drivers/gpu/drm/panthor/panthor_heap.h |  2 --
+> >  drivers/gpu/drm/panthor/panthor_mmu.c  | 23 +++++++++++-----
+> >  drivers/gpu/drm/panthor/panthor_mmu.h  |  1 +
+> >  4 files changed, 28 insertions(+), 36 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+> > index db0285ce5812..e5e5953e4f87 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> > @@ -127,6 +127,8 @@ static void panthor_free_heap_chunk(struct panthor_vm *vm,
+> >  	heap->chunk_count--;
+> >  	mutex_unlock(&heap->lock);
+> >
+> > +	panthor_vm_heaps_size_accumulate(vm, -heap->chunk_size);
 > > +
-> > +/*
-> > + * migrate_device_finalize() - complete page migration
-> > + * @src_pfns: src_pfns returned from migrate_device_range()
-> > + * @dst_pfns: array of pfns allocated by the driver to migrate memory to
-> > + * @npages: number of pages in the range
-> > + *
-> > + * Completes migration of the page by removing special migration entries.
-> > + * Drivers must ensure copying of page data is complete and visible to the CPU
-> > + * before calling this.
-> > + */
-> > +void migrate_device_finalize(unsigned long *src_pfns,
-> > +			unsigned long *dst_pfns, unsigned long npages)
+> >  	panthor_kernel_bo_destroy(chunk->bo);
+> >  	kfree(chunk);
+> >  }
+> > @@ -180,6 +182,8 @@ static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
+> >  	heap->chunk_count++;
+> >  	mutex_unlock(&heap->lock);
+> >
+> > +	panthor_vm_heaps_size_accumulate(vm, heap->chunk_size);
+> > +
+> >  	return 0;
+> >
+> >  err_destroy_bo:
+> > @@ -389,6 +393,7 @@ int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
+> >  			removed = chunk;
+> >  			list_del(&chunk->node);
+> >  			heap->chunk_count--;
+> > +			panthor_vm_heaps_size_accumulate(chunk->bo->vm, -heap->chunk_size);
+> >  			break;
+> >  		}
+> >  	}
+> > @@ -560,6 +565,8 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
+> >  	if (ret)
+> >  		goto err_destroy_pool;
+> >
+> > +	panthor_vm_heaps_size_accumulate(vm, pool->gpu_contexts->obj->size);
+> > +
+> >  	return pool;
+> >
+> >  err_destroy_pool:
+> > @@ -594,8 +601,11 @@ void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
+> >  	xa_for_each(&pool->xa, i, heap)
+> >  		drm_WARN_ON(&pool->ptdev->base, panthor_heap_destroy_locked(pool, i));
+> >
+> > -	if (!IS_ERR_OR_NULL(pool->gpu_contexts))
+> > +	if (!IS_ERR_OR_NULL(pool->gpu_contexts)) {
+> > +		panthor_vm_heaps_size_accumulate(pool->gpu_contexts->vm,
+> > +					    -pool->gpu_contexts->obj->size);
+> >  		panthor_kernel_bo_destroy(pool->gpu_contexts);
+> > +	}
+> >
+> >  	/* Reflects the fact the pool has been destroyed. */
+> >  	pool->vm = NULL;
+> > @@ -603,29 +613,3 @@ void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
+> >
+> >  	panthor_heap_pool_put(pool);
+> >  }
+> > -
+> > -/**
+> > - * panthor_heap_pool_size() - Calculate size of all chunks across all heaps in a pool
+> > - * @pool: Pool whose total chunk size to calculate.
+> > - *
+> > - * This function adds the size of all heap chunks across all heaps in the
+> > - * argument pool. It also adds the size of the gpu contexts kernel bo.
+> > - * It is meant to be used by fdinfo for displaying the size of internal
+> > - * driver BO's that aren't exposed to userspace through a GEM handle.
+> > - *
+> > - */
+> > -size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
+> > -{
+> > -	struct panthor_heap *heap;
+> > -	unsigned long i;
+> > -	size_t size = 0;
+> > -
+> > -	down_read(&pool->lock);
+> > -	xa_for_each(&pool->xa, i, heap)
+> > -		size += heap->chunk_size * heap->chunk_count;
+> > -	up_read(&pool->lock);
+> > -
+> > -	size += pool->gpu_contexts->obj->size;
+> > -
+> > -	return size;
+> > -}
+> > diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/panthor/panthor_heap.h
+> > index e3358d4e8edb..25a5f2bba445 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_heap.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_heap.h
+> > @@ -27,8 +27,6 @@ struct panthor_heap_pool *
+> >  panthor_heap_pool_get(struct panthor_heap_pool *pool);
+> >  void panthor_heap_pool_put(struct panthor_heap_pool *pool);
+> >
+> > -size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
+> > -
+> >  int panthor_heap_grow(struct panthor_heap_pool *pool,
+> >  		      u64 heap_gpu_va,
+> >  		      u32 renderpasses_in_flight,
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index 8c6fc587ddc3..9e48b34fcf80 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -347,6 +347,14 @@ struct panthor_vm {
+> >  		struct mutex lock;
+> >  	} heaps;
+> >
+> > +	/**
+> > +	 * @fdinfo: VM-wide fdinfo fields.
+> > +	 */
+> > +	struct {
+> > +		/** @fdinfo.heaps_size: Size of all chunks across all heaps in the pool. */
+> > +		atomic_t heaps_size;
+> > +	} fdinfo;
+>
+> Feels more like a panthor_heap_pool field to me. If you do that,
+> you can keep the panthor_heap_pool_size() helper.
+
+The only downside of storing a per-heap-pool fdinfo size for its chunks size total is that we'll
+have to traverse all the heap pools owned by a VM any time the fdinfo handler for an open
+DRM file is invoked. That means spending a longer time with the vms xarray lock taken.
+
+> > +
+> >  	/** @node: Used to insert the VM in the panthor_mmu::vm::list. */
+> >  	struct list_head node;
+> >
+> > @@ -1541,6 +1549,8 @@ static void panthor_vm_destroy(struct panthor_vm *vm)
+> >  	vm->heaps.pool = NULL;
+> >  	mutex_unlock(&vm->heaps.lock);
+> >
+> > +	atomic_set(&vm->fdinfo.heaps_size, 0);
+> > +
+>
+> I don't think that's needed, the VM is gone, so there's no way
+> someone can query its heaps size after that point.
+
+You're right, I had thought destruction doesn't always equal removal until
+the refcnt for the VM goes to zero, but it seems all code paths that lead to
+panthor_vm_destroy() either remove the VM from the VMS xarray or delete
+that xarray altogether. I'll get rid of this line in the next revision.
+
+> >  	drm_WARN_ON(&vm->ptdev->base,
+> >  		    panthor_vm_unmap_range(vm, vm->base.mm_start, vm->base.mm_range));
+> >  	panthor_vm_put(vm);
+> > @@ -1963,13 +1973,7 @@ void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats
+> >
+> >  	xa_lock(&pfile->vms->xa);
+> >  	xa_for_each(&pfile->vms->xa, i, vm) {
+> > -		size_t size = 0;
+> > -
+> > -		mutex_lock(&vm->heaps.lock);
+> > -		if (vm->heaps.pool)
+> > -			size = panthor_heap_pool_size(vm->heaps.pool);
+> > -		mutex_unlock(&vm->heaps.lock);
+> > -
+> > +		size_t size = atomic_read(&vm->fdinfo.heaps_size);
+> >  		stats->resident += size;
+> >  		if (vm->as.id >= 0)
+> >  			stats->active += size;
+> > @@ -1977,6 +1981,11 @@ void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats
+> >  	xa_unlock(&pfile->vms->xa);
+> >  }
+> >
+> > +void panthor_vm_heaps_size_accumulate(struct panthor_vm *vm, ssize_t acc)
 > > +{
-> > +	return __migrate_device_finalize(src_pfns, dst_pfns, npages, NULL);
+> > +	atomic_add(acc, &vm->fdinfo.heaps_size);
 > > +}
-> >   EXPORT_SYMBOL(migrate_device_finalize);
-> >   /**
-> > @@ -872,7 +899,8 @@ EXPORT_SYMBOL(migrate_device_finalize);
-> >    */
-> >   void migrate_vma_finalize(struct migrate_vma *migrate)
-> >   {
-> > -	migrate_device_finalize(migrate->src, migrate->dst, migrate->npages);
-> > +	__migrate_device_finalize(migrate->src, migrate->dst, migrate->npages,
-> > +				  migrate->fault_page);
-> >   }
-> >   EXPORT_SYMBOL(migrate_vma_finalize);
-> 
+>
+> Calling atomic_add() directly would probably be shorter, and I prefer
+> the idea of calling atomic_sub(size) instead of atomic_add(-size), so
+> how about we drop this helper and use atomic_add/sub() directly?
+
+I had to add this VM interface function because the VM struct fields are kept hidden from
+other compilation units, as struct panthor_vm is defined inside panthor_mmu.c. I agree
+using atomic_sub() would be clearer, but that would imply exporting yet another panthor_mmu
+symbol, and atomic_add() can take signed values anyway.
+
+> > +
+> >  static u64 mair_to_memattr(u64 mair, bool coherent)
+> >  {
+> >  	u64 memattr = 0;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> > index fc274637114e..29030384eafe 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> > @@ -39,6 +39,7 @@ struct panthor_heap_pool *
+> >  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
+> >
+> >  void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats *stats);
+> > +void panthor_vm_heaps_size_accumulate(struct panthor_vm *vm, ssize_t acc);
+> >
+> >  struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
+> >  void panthor_vm_put(struct panthor_vm *vm);
+
+Adrian Larumbe
