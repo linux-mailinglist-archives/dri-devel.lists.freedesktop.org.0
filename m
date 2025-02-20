@@ -2,71 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957DEA3DBFC
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 15:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC7FA3DC01
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 15:03:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7384E10E960;
-	Thu, 20 Feb 2025 14:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B46110E962;
+	Thu, 20 Feb 2025 14:03:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q+KTDZMh";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UGqW15GS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6765F10E960
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 14:01:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 13E9961467
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 14:01:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C873C4AF09
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 14:01:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740060114;
- bh=b4AZKnm/4CW7chhpu6yQW9p0aspr3R6qCEzhfg2YT2I=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Q+KTDZMhrGHww4kznoyoJFRb3olr8UODUOwgc0KY/L9KBdW9BoIXyszGXXv4Ynh6Z
- cO0HdO06VC3E/UqF/Jg8NUdTCasfU7SOTlMugQ16kiTF2vZGHhv7tudwRpKchBJDcY
- 8VcxRDg9kr3ykokUeRV1/TPRR3+pN/SwC5fjv62+HwG3C4tb3DfGpdAHVb+l3BvvIW
- uo3aq8fCpm2E2YrplY+KvwQMHgVPbrsIVesZTtmr2Ku21/tlm46VDSYvvXMCK1jhVv
- XBzNMX4ScWWBxkf1CsgRWByYXYhUwiB7AuXrTU5hTSZIWGsL4ttlO1axyFx0nIeMiz
- Hr+pDlJKgKBOA==
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-220bfdfb3f4so20268245ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 06:01:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWiYQ7UUQfiCeOboy9xf+TAyb7XGmTIIAxNqJ56LhYaGqcglch1mdoh5AkCTAAdIsp5KQ9ZUDIhbB0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YziFjllw1TYQOjegInfN4ThVdpQfj6d4xhayht4AhUN7mfh7Bfo
- X0J0f55ZM+zBtRBHNjI9QBc+RNRifGaijQoHsv8ZHA2j0m1wb8x35NC6kki3am4a+QzlOi+qwN2
- vWKcFrulqkv7/TMdMBIrDnzmINQ==
-X-Google-Smtp-Source: AGHT+IFapzn+NKHW52s4K7DIT+hFK+iRpE1/gZU7kl7MdKEYaDixn7SWx5ZWS9wyFmn3w4NhHQTiw5+aDFJOtqZJANg=
-X-Received: by 2002:a17:902:f689:b0:220:bd01:6507 with SMTP id
- d9443c01a7336-22170988a48mr119225175ad.25.1740060113565; Thu, 20 Feb 2025
- 06:01:53 -0800 (PST)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D310110E962
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 14:03:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 60A4944190;
+ Thu, 20 Feb 2025 14:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1740060194;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=PcRUYICUFc9WFYfM/+f57BLwzhqf4lNu8MD51TGBNxk=;
+ b=UGqW15GSSyj68A2UEnlAFK4vkAV8m7kt4NeUR6wQaS3jfR0ufThCLzdZvrWG9bhZ2/9GvF
+ WML69MDvZinYAQOdD98dUD07u9QNFpIWUm4bHnjg7ys3AW/V1wcBBAl4hQP6omV5f4Ct85
+ nw60ddplkqjQVGbyWbZoEoEKRh7W6QD3z2YAgVzR76hoOcQf/+AOPdSqkG1YR2vHTE3fVL
+ 8NehoQ/rDQgkucxWBro2ruAa4LsmnXSFFbWfLl/LycqEKwjgkcBiRaSaUev0CaWSL4odLM
+ /QiggiAoal8kPvAuSyTTd6ocOEoqEGCfQ96k40H5U5e/0cM6ZkJnMFNmK9jmFA==
+Message-ID: <89b3f572-356a-4ccc-a55d-a4d15c6bee40@bootlin.com>
+Date: Thu, 20 Feb 2025 15:03:10 +0100
 MIME-Version: 1.0
-References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
- <20250217154836.108895-28-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250217154836.108895-28-angelogioacchino.delregno@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 20 Feb 2025 22:02:38 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8xmwncZUdjpfFNZdTc-xVm2tqE7yxFTOHK8=ihPfXL9g@mail.gmail.com>
-X-Gm-Features: AWEUYZlmnVy895-w6W37aRIYiIz5B_4hc6yNRSLEcLY9PIsmLv3U1pSvn8yAnCY
-Message-ID: <CAAOTY_8xmwncZUdjpfFNZdTc-xVm2tqE7yxFTOHK8=ihPfXL9g@mail.gmail.com>
-Subject: Re: [PATCH v7 27/43] drm/mediatek: mtk_hdmi: Remove unused members of
- struct mtk_hdmi
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com, 
- jie.qiu@mediatek.com, junzhi.zhao@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com, 
- dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com, 
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com, 
- jason-jh.lin@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: writeback: Fix kernel doc name
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20250207-b4-fix-warning-v1-1-b4964beb60a3@bootlin.com>
+ <9efc1ba4-89ad-4aed-b4d5-b0a53b120fd4@bootlin.com>
+ <xgkfvp7dmgzd64hriccbpyc2beoj7syiw2a5pgmtaao3fmlhdn@a5vudlyhzhqm>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <xgkfvp7dmgzd64hriccbpyc2beoj7syiw2a5pgmtaao3fmlhdn@a5vudlyhzhqm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeijeefudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeegjeeguddtkefhfffggeduuedttefgueevgeetfedttdefveeufffgvefgveeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlihhnrghrohdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmm
+ hgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,69 +123,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Angelo:
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2025=E5=B9=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:=
-50=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> The hdmi_colorspace csp member of struct mtk_hdmi is initialized
-> once but then it's never used at all.
-> Remove said member and the only assignment to it as a cleanup.
->
-> Also remove the ibias, ibias_up, min_clock, max_clock, min_hdisplay
-> and max_vdisplay members, as those were really completely unused.
->
-> This commit brings no functional changes.
 
-Applied to mediatek-drm-next [1], thanks.
+Le 20/02/2025 à 14:49, Dmitry Baryshkov a écrit :
+> On Thu, Feb 20, 2025 at 01:51:37PM +0100, Louis Chauvet wrote:
+>>
+>>
+>> Le 07/02/2025 à 18:35, Louis Chauvet a écrit :
+>>> During the creation of drmm_ variants for writeback connector, one
+>>> function was renamed, but not the kernel doc.
+>>>
+>>> To remove the warning, use the proper name in kernel doc.
+>>>
+>>> Fixes: 135d8fc7af44 ("drm: writeback: Create an helper for drm_writeback_connector initialization")
+>>> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+>>> Closes: https://lore.kernel.org/all/20250207142201.550ce870@canb.auug.org.au/
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>
+>> Hi all,
+>>
+>> Gentle ping on this patch. Can someone ack/review it so I can apply it on
+>> drm-misc-next?
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+Thanks,
+Applied on drm-misc-next!
 
-Regards,
-Chun-Kuang.
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
->
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 --------
->  1 file changed, 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
-ek/mtk_hdmi.c
-> index eb3b1009c305..6e4900f99b51 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -162,16 +162,9 @@ struct mtk_hdmi {
->         struct clk *clk[MTK_HDMI_CLK_COUNT];
->         struct drm_display_mode mode;
->         bool dvi_mode;
-> -       u32 min_clock;
-> -       u32 max_clock;
-> -       u32 max_hdisplay;
-> -       u32 max_vdisplay;
-> -       u32 ibias;
-> -       u32 ibias_up;
->         struct regmap *sys_regmap;
->         unsigned int sys_offset;
->         struct regmap *regs;
-> -       enum hdmi_colorspace csp;
->         struct platform_device *audio_pdev;
->         struct hdmi_audio_param aud_param;
->         bool audio_enable;
-> @@ -1036,7 +1029,6 @@ static int mtk_hdmi_output_init(struct mtk_hdmi *hd=
-mi)
->  {
->         struct hdmi_audio_param *aud_param =3D &hdmi->aud_param;
->
-> -       hdmi->csp =3D HDMI_COLORSPACE_RGB;
->         aud_param->aud_codec =3D HDMI_AUDIO_CODING_TYPE_PCM;
->         aud_param->aud_sample_size =3D HDMI_AUDIO_SAMPLE_SIZE_16;
->         aud_param->aud_input_type =3D HDMI_AUD_INPUT_I2S;
-> --
-> 2.48.1
->
