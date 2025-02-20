@@ -2,49 +2,188 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98074A3DB41
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 14:25:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97293A3DB50
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 14:30:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E28110E197;
-	Thu, 20 Feb 2025 13:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0646E10E959;
+	Thu, 20 Feb 2025 13:30:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VVYtkDYd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kQGWFtxt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2079810E197
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 13:25:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 76F745C57DA;
- Thu, 20 Feb 2025 13:25:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAC8C4CED1;
- Thu, 20 Feb 2025 13:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740057941;
- bh=BZAhdlTCRPUzqFspXw+ULhHxYXJuUMwGcDqpvl4gjCo=;
- h=From:To:Cc:Subject:Date:From;
- b=VVYtkDYdEinpYRpHnMGh8V0qZPhh0kGm3UYiIrLTYUk0eV28HEEOf+blwWGJhQTT5
- 2w+rjscUps9oUtWprdzN89/t9Vc7KMtA2GRIlQUH4jkTveAO5uRjko78rgO0AbhnjK
- Fk+rf4fVWG4Ca0soevAx6kEHwXcfuK/JchmcDu4CBncy3l+UR00nvzbfu9zhWMvh1r
- jX7aDKgsql2MQnaD+bcHPmToMdtm/zJVtaV/idNPuFLLau7y7JDHn606NuxGCM2VHs
- nXQZ6kH1wHKaDSeiNllZeGSIy8dixWUqYa3Pbtcy9DkT2GHmQxCF3lcGagmeMfNNCT
- tPyD8GEb8+0Tw==
-From: Maxime Ripard <mripard@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
- Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2] drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()
-Date: Thu, 20 Feb 2025 14:25:37 +0100
-Message-ID: <20250220132537.2834168-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.48.1
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF32D10E19F;
+ Thu, 20 Feb 2025 13:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740058205; x=1771594205;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=p0LrCMUSQneLvEzvZqIjCPUv1Y1wUydsS88YugYn+8A=;
+ b=kQGWFtxth0OpGpRv9qB3P0lbEcvIcbwHfVhUs02dLpH3C2NB//WzHbfG
+ prSR7ijvm+ke4iPiiCYGvmiEAGb4IkidSZjmH/N/ggZak7lKKRoGHWlHw
+ +J1eBcOwGxD9Ot307NoRgzXmXzbKpyBPcDWkkq4SHvFMp62XMYYUkU3F1
+ vx7mkf34jE3RcHjWg43lQnCrZT1oQBRzQJEwF7JCtGFZpcxgoqNh+eVkl
+ pPoMshAC2ssT9p7QMry6CqA80zWUEOLZEBGKcbt7WYmJENISYaOtdELj/
+ WwAe2GYZRrVA4WRug5U7wH9tYM324hf2/SP77BqlFIBu1IRXek0sPnzCB g==;
+X-CSE-ConnectionGUID: H5v5GApeSmKwvIO3KoSxLA==
+X-CSE-MsgGUID: x8LBDNxcRTyrHRTIi75sDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="66194996"
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; d="scan'208";a="66194996"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2025 05:30:04 -0800
+X-CSE-ConnectionGUID: n/2tfPovT9+4vqHDXJ046w==
+X-CSE-MsgGUID: qvRSN952SBG5XwD+pFW4Bw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; d="scan'208";a="119980473"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Feb 2025 05:30:04 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 20 Feb 2025 05:30:03 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 20 Feb 2025 05:30:03 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.46) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 20 Feb 2025 05:30:03 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vcaTeUXO9q73zJlZqi6IV5e9jluBxjeyvt6E1BrBE5xBAggI9XRGMtFOIfBqTaB98Cj1dxlTkwEfxOwIv0I2e79NUNktIkiKn2u1slOaZrhD+oO3oRdAeT1zGsUdCoNZtuCKXxSwKGhmueWJ5STambYh0rwC8mDilUmyRY04m2o2l5DxHVCBIRPOcK5dmA/86BXQ75DtEFyDWqk4Wwixh1v98ThfEOB9i3iZfodF9ePHqUNn9i/Yq3/3ArY0lUANGXqFXvMs1QMIFpLTqIQok45OLOjvz/5f7hmBMHvaYmDElnCy+flQcMOT1ql5pufpqU+09WvqZMfR+sRD8Xf1CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N9gxEFQtZGWWAE4rySRrErzdN0sKn+35xrxkKvoWhcU=;
+ b=fJdwuknLzxYomimU77vyobUHYgjwKkQVc6uRY43d1SFmUV+cDnA4tW1Ap7uyjkTo+hRKYbK1vPZXd3okCTw8csqlkZo+eG5euCHw+YoDQ4ruJPJG4Mn4PN1pexwb4FY8zfo7FmEd95bLXv1GWZjj/yZKVO2zse/jEYTNERwih9iHBmeRtPlWG84moTb2AvSsxz5zPlzQnvKuOM6TdN9rJ7NwVwhnZWAn3+qjV0z0ckKUCTiaeUhzZwNfimesZiJMUJXJAIsaxkdS/Obnf0NHR2CufvjBYy3fDfgwSQou7cCP1wbmM27pfu5DQZ3CkkFk3z5F1zmUl4OKg0oFTm++yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7904.namprd11.prod.outlook.com (2603:10b6:8:f8::8) by
+ DS0PR11MB6472.namprd11.prod.outlook.com (2603:10b6:8:c0::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8466.16; Thu, 20 Feb 2025 13:29:32 +0000
+Received: from DS0PR11MB7904.namprd11.prod.outlook.com
+ ([fe80::f97d:d6b8:112a:7739]) by DS0PR11MB7904.namprd11.prod.outlook.com
+ ([fe80::f97d:d6b8:112a:7739%2]) with mapi id 15.20.8445.017; Thu, 20 Feb 2025
+ 13:29:32 +0000
+Message-ID: <2dcef9ea-f204-437c-bd28-c84a8ab5b2fa@intel.com>
+Date: Thu, 20 Feb 2025 15:28:23 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/32] mm/migrate: Trylock device page in do_swap_page
+To: Matthew Brost <matthew.brost@intel.com>, <intel-xe@lists.freedesktop.org>, 
+ <dri-devel@lists.freedesktop.org>
+CC: <himal.prasad.ghimiray@intel.com>, <apopple@nvidia.com>,
+ <airlied@gmail.com>, <thomas.hellstrom@linux.intel.com>,
+ <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, <dakr@kernel.org>, "Harry
+ (Hyeonggon) Yoo" <42.hyeyoo@gmail.com>, Byungchul Park <byungchul@sk.com>
+References: <20250213021112.1228481-1-matthew.brost@intel.com>
+ <20250213021112.1228481-4-matthew.brost@intel.com>
+Content-Language: en-US
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+In-Reply-To: <20250213021112.1228481-4-matthew.brost@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR07CA0298.eurprd07.prod.outlook.com
+ (2603:10a6:800:130::26) To DS0PR11MB7904.namprd11.prod.outlook.com
+ (2603:10b6:8:f8::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7904:EE_|DS0PR11MB6472:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88b62806-4814-4262-9578-08dd51b29c16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SG5iQlNjMXFGSklTWURsTkJqS1NjUlVNd2d6elRFRVhYWjVQa1dLSTFZWEYx?=
+ =?utf-8?B?SEd0VVJXMnZ2VDZubHpTM3loSWpnZW1HL3NXaDZUOWp3eVdmSFNzaEd3OVRN?=
+ =?utf-8?B?RXVTaUxjYnlDQzlRWFhPR1pXeGxRcWZTZG96dHZnL0hBaWhFcnZQdFNOeHRX?=
+ =?utf-8?B?R3dqWTJsSitMcGtZNFQyUDRSQXBoWDM1RERKbGlKUDVac094NitIeXdaRnpm?=
+ =?utf-8?B?a1YxOWRJU1RQUmxQeVVmS3F5aWF0bGY0N1lrb3dVZXlHSnlMckZDQU52b29h?=
+ =?utf-8?B?VDRpbkF6Zld5bzZNYnlTdkE0THU2blI4YnJxbkZ3NzJqR0ZFZ3JXdmU3aFdQ?=
+ =?utf-8?B?QldjN1I1RkpUU01sZ2J4NWxhNDFEWC9ZOEx1M1RLM3M4T1J3WjZ3eG8wUEJS?=
+ =?utf-8?B?T3UxTEFFZnhWYUJMS2tkWWNFajNVUTBFdDN1RHpxVTFWZXhMcUIwMWVDaGRL?=
+ =?utf-8?B?dWJtOS9ZemJCT3hrOGVvQklNaC9iYUdNMGpBZ1YxUjZHV1IvRUd3QldIUFU4?=
+ =?utf-8?B?MzFBbjYzcFpvQVVxQWxtTUJmUnRocnc3U0IvR2JiS3VkTE5NZXFwNzdxS1hn?=
+ =?utf-8?B?bkEwdHRGeVhMSldDTWN5RHNKNktEWjduWEwwa3gzYnlCUldncWc5bi9ndTRL?=
+ =?utf-8?B?ckIvYTkzenhsRzl0VzVRYnpuUXB1SnFULytEbnNuRFJ5cWI2Tk9YRnRhWnhP?=
+ =?utf-8?B?cEpXUVVWMXdxZldXWnBRTkhmMTgxMEJDZ3FYUENTemFLbk80bjc2OElZQjcw?=
+ =?utf-8?B?Vy95cnRva1pRdnNwV3ZNRW9qdHJDYmZXR1g2U2IrVDhOMldoWitmYUJzT0VJ?=
+ =?utf-8?B?bitIMnBrWE1nbW9Rd1VYOUdKVnlwRDEwRXB6ZmJ6N1hxdXRCZXlibmpFczJP?=
+ =?utf-8?B?VWlpSEFBdmtNdjkrWERHTEhnUXJybkc3NFo0aEc0d241dHdFeU9nQnpENWlh?=
+ =?utf-8?B?eGlNMk1BeHpYeWxCdnhucGZFaHlGNlIxd0t5K055NzRiYk8rRGZhdzhFdHM2?=
+ =?utf-8?B?clZUcksvb2hRT2M2VDlTaFFoWmhNNVRlR3BUNEtHMzFXVXhaREJYS3FKc09G?=
+ =?utf-8?B?T1dXcy9Nenl4dGpOMnA1dlpMc3VPMGdkdDFwQU83Mjd5MEVYMXFHZlg2cEJm?=
+ =?utf-8?B?K1haNkxQYklVVmI1QTUrOFhkdFJjSHBLNUlzdHFiY1hvU2ZPUjFHSDRoaVBI?=
+ =?utf-8?B?dkVpb3NtdnFEVVhpYzdDSlNlQ3p2Yk9ROVBiZDk0RXFENTh6bmw4dHA3OWtC?=
+ =?utf-8?B?MmMvemRqR2hORjRNV1VoSVVLcGJkWjM3UEo4OHo3SmNaZEU4Yjd3Qmhmcmlh?=
+ =?utf-8?B?OVlLS3B1MmVSbThNMElIM0VFL3pac2N2K29tNXV4VjNoaCtoNU50d3J4ektr?=
+ =?utf-8?B?Mzh3c1RIcGRERjhVWGs1UGcyUy8yZlhqTzN4SmJ1MzI4ODRlTm9ld2xxK256?=
+ =?utf-8?B?dGxpR2x6OTVpMzMwWEFoKzQyUEJHemVxbDNEMVNTK2NvdHVMVDNWdDRpRXZS?=
+ =?utf-8?B?VEd1cW1XeHNOYWgwSC9LR29UdFhId3lnSElYNGFxNmVYVWpFcnlWN0JQMVNn?=
+ =?utf-8?B?R1BnU3dXNWxmNVgrWll2YnpMYUJVdWNvRWdXK0RlS3IzZ2UvejhBdEdJUTVK?=
+ =?utf-8?B?Vi9qbGlBYWVwUll0cEx2VHB0NFM0aGYrY21FWEJoUDJ2elBYaDBVZW1EUUxT?=
+ =?utf-8?B?UmdtanRoQkdNT1BJMytiOG1lb1hGSlBDVlJMV2h5RVd1V0JKbENZb0taNjdK?=
+ =?utf-8?B?Ty9ESWdjQk9nTDRPQWhmRyszeHJTN2NCTDlERWhjeUlMYzVIMTJhZ2t0aUpa?=
+ =?utf-8?B?bWdRTmYvSWJoR3lDNm9JZFIwYWdTWDF0RGw5YWhYbEFBL3p3TDBVOGlGekVa?=
+ =?utf-8?Q?deWV24u6y7gC9?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7904.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YkNDZVh1OXRGa0lVR2IvSDhFMnBpMFJ3Z1E5NzNVcFZnWG8yLzdMcGh0VU1Z?=
+ =?utf-8?B?Rzh5YmdLV3UvRExQSjBPNlFRd0NKK2N2NTFTL0VuUnFvWE4wMFJXMmN4a1hY?=
+ =?utf-8?B?R0lQb3ZjWEhERWgzKy81T2VXMUduVmhTV3MwR2p6RWZWTnR5Wmw2UzI4Vjdh?=
+ =?utf-8?B?VEN5bExaZm40bmI2QVpRSkp3KzMwVzlENXNkL1R6d0ZkVHVwRnhlOGd5Q2c4?=
+ =?utf-8?B?b050KzFjS1d1RmlCLzZ1NDd3bzQydEVjZGlmSDIrNEV4dmZFK3VJdDcxWGVm?=
+ =?utf-8?B?STJTdVpmWURoMUlaTTQ3dWt0aXVEemRrbzduK0dVSnVlYVJNcFduQzV2aXNp?=
+ =?utf-8?B?cWs3L1VqQ2VUeG5jOWxvNkdKMTd4T3Z3UnJqamNUSjY4RUZUTnpvRHhmd2dr?=
+ =?utf-8?B?cmxKRmJvYUJBMVRmREd6aUlicHhrUTVZdWJnNlZqVVI2blFuUU0rc08vYkpn?=
+ =?utf-8?B?MFZRcVA5eVIxUTU4ejdLeEZ1UWFyZUNuQ3lGeVlEQmxWOTJPQkdaQUJETFFo?=
+ =?utf-8?B?MitmR1o0eDVOL2haMFNTVUlDVlR3ZTNmTlZqWHBNTVR3b3BxY21zWm9Qdm1O?=
+ =?utf-8?B?TVJ4bURNR3d6Y0haejBvR1RXNkM5VGhkekkyTk1ieVdDQVNPajE5NGQ5eE5t?=
+ =?utf-8?B?RU1ZTUd1NnlZUEpULzlwLy9qQ05qeUJLZ0xneUREQ3BOT0NnVms1THJQeWxH?=
+ =?utf-8?B?S0hzNnNLWnlGNkFRdXp1ZlIvL1RNa1ptNjY2WFVndXBTd1dVbGZvZ3VERWJO?=
+ =?utf-8?B?ckQxdTM0L1pHcUtDRVlGWFVLWFdyS2FCZ0hhd1FyUHdEOHR4QVFWdDBXcHFs?=
+ =?utf-8?B?MGxWY1pGcHlpN0V2aXdLRFhBQlllUjhnWExiSCsyckNQMlh6MjVUVFlZNE9u?=
+ =?utf-8?B?bDBxY1NKYzBrQmVTRlpFazBwdkRNV2hPbWdNdFFSL1FCLzluaXZVS1VkRGhu?=
+ =?utf-8?B?ZVd3blBYY21LNEgzdVNoYllxeHR4Sm0rRllpeC9TQ0FrTnFxRURXLzNVNWw4?=
+ =?utf-8?B?ZW9JZEhXQWJ1YTVMajBiOEpYRC9DT2YzTjJtNGtmQ2VCRmdKUnBGQURUTkdx?=
+ =?utf-8?B?MlYzcnorRTc3cDFWY3dLUGYreGkvY0tlYkhkQWYyUHlIZC95YVQyQkl3d0JR?=
+ =?utf-8?B?c25DcUw3MUF2Y2J6RVYyOENEeEJsSjJVclNmMVp2V0cvNWxWQWFXNDY1MzQ1?=
+ =?utf-8?B?b1FiZmcyd2I4bVBVN2RtanNGWWVmNWtBZTB5MDZPQ05SRFo4YmlTQ3crcHV2?=
+ =?utf-8?B?UFQxbmc5Zzh3eFdLMzNCbERVYkRNSFNGamtaNlVLaVo2RjlWOXhOS01TODhI?=
+ =?utf-8?B?c20rVTFJY0hXOWRzSUFnTis5dEpkRGZhQjh2eHNFaEJ1ZTFiVkVPWGREM0dZ?=
+ =?utf-8?B?ZFZpUWFMWDJzOTJOU09NcnRsZ3hZTEZFdUI0QmFzQmorc0FGNnAzRFZ3QmxQ?=
+ =?utf-8?B?a1d6WXJDZTJHWnlYcXBxYURrWmZ0b0pNc2VHNy9oSXB6ekZuVGp4VFdTdkJk?=
+ =?utf-8?B?bVl5SlV5WXV0UVExYWw2a2t5WmNGajd5MXkrR3U1Z3pubDJJdi80WmttWU5Y?=
+ =?utf-8?B?ODFoS2RHdmZnUENEZlg2bC9HMWlHTVV3OTRGZ3NLMkQ1ZU5yUWkvWEVidjA0?=
+ =?utf-8?B?Zzk4bGN5ZFg3VkNXYW5zUXZXZ2dNd1NaOGZNbkMzRExka211WnhMUU93QWx6?=
+ =?utf-8?B?Q1BkeWtCaTAxZXpRelhZclpzMUNKMUFWQkxVc3cwck45bWNuUHNXa280bFY5?=
+ =?utf-8?B?TXVNN3FMVmNVSStyOWhHNkF4Qkp0MjM2S25uUklCTjV0NWdmdGd2Q3c1Qm9E?=
+ =?utf-8?B?TjIycE1xVVd3Z2Y1dUgyODR1eG1YMWFnSEVsb1dvUStEb0JueTBudlhrS2dT?=
+ =?utf-8?B?UEtiQnlHM09PcUNsVHdFK0pTRy9iOHRoQlhzdGkydlR1UExnUjdSTFQzWlBK?=
+ =?utf-8?B?TU8vZ1l3dUlSZHU5b2hNMlU1b0N2NmNCTmc4cUpaalFWbnBaNTN0ODEwU2Rr?=
+ =?utf-8?B?UkZvQjhwM2UzWXhRVjcySk9oL2hYYWoyTUhwRkErQm1yWkc1U3oxb1Bzc0hM?=
+ =?utf-8?B?TVYwMEF2NjArcHZnY2lIckdueHE0M0NwemdibEZIYzlBbWNQcmlDUVpRWkZR?=
+ =?utf-8?B?UjNkNHJHU1Iyd3RWeExGSjF4eG5VaXpCYUxMM1NPTzFPQzk0R0dLSjl6OGdN?=
+ =?utf-8?B?SEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88b62806-4814-4262-9578-08dd51b29c16
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7904.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 13:29:32.5674 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TVOc2U/3HXyHDgqKE92w/2R1/23x9SHaoGo79uFRLvmej4qKqINPefhR7RaAMd0yUXljKPZYVJaLOG8zDSG1TUw99TVUEbzGka6nYqu8XQk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6472
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,1430 +199,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-lockdep complains when a lock is released in a separate thread the
-lock is taken in, and it turns out that kunit does run its actions in a
-separate thread than the test ran in.
 
-This means that drm_kunit_helper_acquire_ctx_alloc() just cannot work as
-it's supposed to, so let's just get rid of it.
 
-Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On 2/13/25 4:10 AM, Matthew Brost wrote:
+> Avoid multiple CPU page faults to the same device page racing by trying
+> to lock the page in do_swap_page before taking an extra reference to the
+> page. This prevents scenarios where multiple CPU page faults each take
+> an extra reference to a device page, which could abort migration in
+> folio_migrate_mapping. With the device page being locked in
+> do_swap_page, the migrate_vma_* functions need to be updated to avoid
+> locking the fault_page argument.
+> 
+> Prior to this change, a livelock scenario could occur in Xe's (Intel GPU
+> DRM driver) SVM implementation if enough threads faulted the same device
+> page.
+> 
+> v3:
+>   - Put page after unlocking page (Alistair)
+>   - Warn on spliting a TPH which is fault page (Alistair)
+>   - Warn on dst page == fault page (Alistair)
+> 
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: Philip Yang <Philip.Yang@amd.com>
+> Cc: Felix Kuehling <felix.kuehling@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   mm/memory.c         | 13 ++++++---
+>   mm/migrate_device.c | 64 ++++++++++++++++++++++++++++++++-------------
+>   2 files changed, 55 insertions(+), 22 deletions(-)
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 539c0f7c6d54..1e010c5d67bc 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4337,10 +4337,15 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+>   			 * Get a page reference while we know the page can't be
+>   			 * freed.
+>   			 */
+> -			get_page(vmf->page);
+> -			pte_unmap_unlock(vmf->pte, vmf->ptl);
+> -			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+> -			put_page(vmf->page);
+> +			if (trylock_page(vmf->page)) {
+As a minor point, mm core suggests using folio rather than page and 
+folio_trylock() rather than trylock_page(). Is there a reason why page 
+is preferred over folio here?
+> +				get_page(vmf->page);
+> +				pte_unmap_unlock(vmf->pte, vmf->ptl);
+> +				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+This makes the internal locks that migrate_to_ram() can hold depend on 
+page lock. Would it be better to do fine-grained page lock when 
+necessary to prepare for locking issues that may arise later?
+What are the advantages of using a holding large-scale lock  here rather 
+than worrying about lock dependencies?
 
----
+Br,
 
-Changes from v1:
- - Reworded the commit log (Sima)
----
- drivers/gpu/drm/tests/drm_atomic_state_test.c |  24 +-
- .../drm/tests/drm_hdmi_state_helper_test.c    | 254 +++++++++++-------
- drivers/gpu/drm/tests/drm_kunit_helpers.c     |  41 ---
- .../gpu/drm/vc4/tests/vc4_test_pv_muxing.c    |  46 ++--
- include/drm/drm_kunit_helpers.h               |   2 -
- 5 files changed, 191 insertions(+), 176 deletions(-)
-
-diff --git a/drivers/gpu/drm/tests/drm_atomic_state_test.c b/drivers/gpu/drm/tests/drm_atomic_state_test.c
-index 5945c3298901..2f6ac7a09f44 100644
---- a/drivers/gpu/drm/tests/drm_atomic_state_test.c
-+++ b/drivers/gpu/drm/tests/drm_atomic_state_test.c
-@@ -187,11 +187,11 @@ static int set_up_atomic_state(struct kunit *test,
-  * connectors are changed but the CRTC mode is not.
-  */
- static void drm_test_check_connector_changed_modeset(struct kunit *test)
- {
- 	struct drm_atomic_test_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector *old_conn, *new_conn;
- 	struct drm_atomic_state *state;
- 	struct drm_device *drm;
- 	struct drm_connector_state *new_conn_state, *old_conn_state;
- 	int ret, initial_modeset_count;
-@@ -201,18 +201,17 @@ static void drm_test_check_connector_changed_modeset(struct kunit *test)
- 
- 	drm = &priv->drm;
- 	old_conn = &priv->connectors[0];
- 	new_conn = &priv->connectors[1];
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	// first modeset to enable
--	ret = set_up_atomic_state(test, priv, old_conn, ctx);
-+	ret = set_up_atomic_state(test, priv, old_conn, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	new_conn_state = drm_atomic_get_connector_state(state, new_conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
- 
-@@ -229,10 +228,13 @@ static void drm_test_check_connector_changed_modeset(struct kunit *test)
- 
- 	// modeset_disables is called as part of the atomic commit tail
- 	ret = drm_atomic_commit(state);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 	KUNIT_ASSERT_EQ(test, modeset_counter, initial_modeset_count + 1);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that the drm_crtc_in_clone_mode() helper can detect if a given CRTC
-  * state is in clone mode
-@@ -261,27 +263,26 @@ static void drm_test_check_in_clone_mode(struct kunit *test)
- static void drm_test_check_valid_clones(struct kunit *test)
- {
- 	int ret;
- 	const struct drm_clone_mode_test *param = test->param_value;
- 	struct drm_atomic_test_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_device *drm;
- 	struct drm_atomic_state *state;
- 	struct drm_crtc_state *crtc_state;
- 
- 	priv = drm_atomic_test_init_drm_components(test, false);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = set_up_atomic_state(test, priv, NULL, ctx);
-+	ret = set_up_atomic_state(test, priv, NULL, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	crtc_state = drm_atomic_get_crtc_state(state, priv->crtc);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 
-@@ -290,10 +291,13 @@ static void drm_test_check_valid_clones(struct kunit *test)
- 	// force modeset
- 	crtc_state->mode_changed = true;
- 
- 	ret = drm_atomic_helper_check_modeset(drm, state);
- 	KUNIT_ASSERT_EQ(test, ret, param->expected_result);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- static void drm_check_in_clone_mode_desc(const struct drm_clone_mode_test *t,
- 				      char *desc)
- {
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 23ecc00accb2..e97efd3af9ed 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -271,11 +271,11 @@ drm_kunit_helper_connector_hdmi_init(struct kunit *test,
-  * in turn disable/enable the connector.
-  */
- static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *old_conn_state;
- 	struct drm_connector_state *new_conn_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
-@@ -294,17 +294,16 @@ static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
- 	conn = &priv->connector;
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	new_conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
- 
-@@ -325,21 +324,24 @@ static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, new_conn_state->hdmi.broadcast_rgb, DRM_HDMI_BROADCAST_RGB_FULL);
- 
- 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 	KUNIT_EXPECT_TRUE(test, crtc_state->mode_changed);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if we set the RGB quantization property to the same value,
-  * we don't trigger a mode change on the connector's CRTC and leave the
-  * connector unaffected.
-  */
- static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *old_conn_state;
- 	struct drm_connector_state *new_conn_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
-@@ -358,17 +360,16 @@ static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *tes
- 	conn = &priv->connector;
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	new_conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
- 
-@@ -391,21 +392,24 @@ static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *tes
- 			new_conn_state->hdmi.broadcast_rgb);
- 
- 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 	KUNIT_EXPECT_FALSE(test, crtc_state->mode_changed);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that for an HDMI connector, with an HDMI monitor, if the
-  * Broadcast RGB property is set to auto with a mode that isn't the
-  * VIC-1 mode, we will get a limited RGB Quantization Range.
-  */
- static void drm_test_check_broadcast_rgb_auto_cea_mode(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -424,17 +428,16 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode(struct kunit *test)
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 	KUNIT_ASSERT_NE(test, drm_match_cea_mode(preferred), 1);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
-@@ -447,21 +450,24 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode(struct kunit *test)
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_TRUE(test, conn_state->hdmi.is_limited_range);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that for an HDMI connector, with an HDMI monitor, if the
-  * Broadcast RGB property is set to auto with a VIC-1 mode, we will get
-  * a full RGB Quantization Range.
-  */
- static void drm_test_check_broadcast_rgb_auto_cea_mode_vic_1(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *mode;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -475,21 +481,20 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode_vic_1(struct kunit *test)
- 
- 	drm = &priv->drm;
- 	conn = &priv->connector;
- 	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	mode = drm_kunit_display_mode_from_cea_vic(test, drm, 1);
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
--	ret = light_up_connector(test, drm, crtc, conn, mode, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, mode, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
-@@ -502,21 +507,24 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode_vic_1(struct kunit *test)
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_FALSE(test, conn_state->hdmi.is_limited_range);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that for an HDMI connector, with an HDMI monitor, if the
-  * Broadcast RGB property is set to full with a mode that isn't the
-  * VIC-1 mode, we will get a full RGB Quantization Range.
-  */
- static void drm_test_check_broadcast_rgb_full_cea_mode(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -535,17 +543,16 @@ static void drm_test_check_broadcast_rgb_full_cea_mode(struct kunit *test)
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 	KUNIT_ASSERT_NE(test, drm_match_cea_mode(preferred), 1);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
-@@ -560,21 +567,24 @@ static void drm_test_check_broadcast_rgb_full_cea_mode(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test,
- 			conn_state->hdmi.broadcast_rgb,
- 			DRM_HDMI_BROADCAST_RGB_FULL);
- 
- 	KUNIT_EXPECT_FALSE(test, conn_state->hdmi.is_limited_range);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that for an HDMI connector, with an HDMI monitor, if the
-  * Broadcast RGB property is set to full with a VIC-1 mode, we will get
-  * a full RGB Quantization Range.
-  */
- static void drm_test_check_broadcast_rgb_full_cea_mode_vic_1(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *mode;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -588,21 +598,20 @@ static void drm_test_check_broadcast_rgb_full_cea_mode_vic_1(struct kunit *test)
- 
- 	drm = &priv->drm;
- 	conn = &priv->connector;
- 	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	mode = drm_kunit_display_mode_from_cea_vic(test, drm, 1);
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
--	ret = light_up_connector(test, drm, crtc, conn, mode, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, mode, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
-@@ -617,21 +626,24 @@ static void drm_test_check_broadcast_rgb_full_cea_mode_vic_1(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test,
- 			conn_state->hdmi.broadcast_rgb,
- 			DRM_HDMI_BROADCAST_RGB_FULL);
- 
- 	KUNIT_EXPECT_FALSE(test, conn_state->hdmi.is_limited_range);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that for an HDMI connector, with an HDMI monitor, if the
-  * Broadcast RGB property is set to limited with a mode that isn't the
-  * VIC-1 mode, we will get a limited RGB Quantization Range.
-  */
- static void drm_test_check_broadcast_rgb_limited_cea_mode(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -650,17 +662,16 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode(struct kunit *test)
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 	KUNIT_ASSERT_NE(test, drm_match_cea_mode(preferred), 1);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
-@@ -675,21 +686,24 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test,
- 			conn_state->hdmi.broadcast_rgb,
- 			DRM_HDMI_BROADCAST_RGB_LIMITED);
- 
- 	KUNIT_EXPECT_TRUE(test, conn_state->hdmi.is_limited_range);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that for an HDMI connector, with an HDMI monitor, if the
-  * Broadcast RGB property is set to limited with a VIC-1 mode, we will
-  * get a limited RGB Quantization Range.
-  */
- static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *mode;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -703,21 +717,20 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
- 
- 	drm = &priv->drm;
- 	conn = &priv->connector;
- 	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	mode = drm_kunit_display_mode_from_cea_vic(test, drm, 1);
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
--	ret = light_up_connector(test, drm, crtc, conn, mode, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, mode, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
- 
-@@ -732,21 +745,24 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
- 	KUNIT_ASSERT_EQ(test,
- 			conn_state->hdmi.broadcast_rgb,
- 			DRM_HDMI_BROADCAST_RGB_LIMITED);
- 
- 	KUNIT_EXPECT_TRUE(test, conn_state->hdmi.is_limited_range);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if we change the maximum bpc property to a different value,
-  * we trigger a mode change on the connector's CRTC, which will in turn
-  * disable/enable the connector.
-  */
- static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *old_conn_state;
- 	struct drm_connector_state *new_conn_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
-@@ -769,17 +785,16 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- 	KUNIT_ASSERT_GT(test, ret, 0);
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	new_conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
- 
-@@ -806,21 +821,24 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- 			new_conn_state->hdmi.output_bpc);
- 
- 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 	KUNIT_EXPECT_TRUE(test, crtc_state->mode_changed);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if we set the output bpc property to the same value, we
-  * don't trigger a mode change on the connector's CRTC and leave the
-  * connector unaffected.
-  */
- static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *old_conn_state;
- 	struct drm_connector_state *new_conn_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
-@@ -843,17 +861,16 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- 	KUNIT_ASSERT_GT(test, ret, 0);
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	new_conn_state = drm_atomic_get_connector_state(state, conn);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
- 
-@@ -878,20 +895,23 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- 			new_conn_state->hdmi.output_bpc);
- 
- 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 	KUNIT_EXPECT_FALSE(test, crtc_state->mode_changed);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if we have an HDMI connector but a !HDMI display, we always
-  * output RGB with 8 bpc.
-  */
- static void drm_test_check_output_bpc_dvi(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -917,31 +937,33 @@ static void drm_test_check_output_bpc_dvi(struct kunit *test)
- 	KUNIT_ASSERT_FALSE(test, info->is_hdmi);
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that when doing a commit which would use RGB 8bpc, the TMDS
-  * clock rate stored in the connector state is equal to the mode clock
-  */
- static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
- 	struct drm_crtc *crtc;
-@@ -962,33 +984,35 @@ static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 	KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_bpc, 8);
- 	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, preferred->clock * 1000);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that when doing a commit which would use RGB 10bpc, the TMDS
-  * clock rate stored in the connector state is equal to 1.25 times the
-  * mode pixel clock
-  */
- static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
- 	struct drm_crtc *crtc;
-@@ -1009,33 +1033,35 @@ static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 	KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_bpc, 10);
- 	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, preferred->clock * 1250);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that when doing a commit which would use RGB 12bpc, the TMDS
-  * clock rate stored in the connector state is equal to 1.5 times the
-  * mode pixel clock
-  */
- static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
- 	struct drm_crtc *crtc;
-@@ -1056,22 +1082,24 @@ static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 	KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_bpc, 12);
- 	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, preferred->clock * 1500);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if we filter a rate through our hook, it's indeed rejected
-  * by the whole atomic_check logic.
-@@ -1081,11 +1109,11 @@ static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
-  * again to see if it fails as it should.
-  */
- static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_connector *conn;
- 	struct drm_device *drm;
-@@ -1102,29 +1130,31 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
- 	conn = &priv->connector;
- 
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	/* You shouldn't be doing that at home. */
- 	conn->hdmi.funcs = &reject_connector_hdmi_funcs;
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	crtc_state = drm_atomic_get_crtc_state(state, crtc);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 
- 	crtc_state->connectors_changed = true;
- 
- 	ret = drm_atomic_check_only(state);
- 	KUNIT_EXPECT_LT(test, ret, 0);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if:
-  * - We have an HDMI connector supporting RGB only
-@@ -1137,11 +1167,11 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
-  * will be equal to 1.25 times the mode pixel clock.
-  */
- static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *preferred;
- 	unsigned long long rate;
- 	struct drm_connector *conn;
-@@ -1174,22 +1204,24 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
- 	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
- 
- 	rate = drm_hdmi_compute_mode_clock(preferred, 10, HDMI_COLORSPACE_RGB);
- 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 10);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, preferred->clock * 1250);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if:
-  * - We have an HDMI connector supporting both RGB and YUV422 and up to
-@@ -1204,11 +1236,11 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
-  * picking YUV422.
-  */
- static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *preferred;
- 	unsigned long long rate;
- 	struct drm_connector *conn;
-@@ -1246,32 +1278,34 @@ static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
- 	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
- 
- 	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_YUV422);
- 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 10);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if a driver and screen supports RGB and YUV formats, and we
-  * try to set the VIC 1 mode, we end up with 8bpc RGB even if we could
-  * have had a higher bpc.
-  */
- static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *mode;
- 	unsigned long long rate;
- 	struct drm_connector *conn;
-@@ -1308,32 +1342,34 @@ static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
- 	 * Thus, we have to calculate the rate by hand.
- 	 */
- 	rate = mode->clock * 1500;
- 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	crtc = priv->crtc;
--	ret = light_up_connector(test, drm, crtc, conn, mode, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, mode, &ctx);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if a driver supports only RGB but the screen also supports
-  * YUV formats, we only end up with an RGB format.
-  */
- static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *preferred;
- 	unsigned long long rate;
- 	struct drm_connector *conn;
-@@ -1374,31 +1410,33 @@ static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
- 	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
- 
- 	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_YUV422);
- 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_LT(test, conn_state->hdmi.output_bpc, 12);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if a screen supports only RGB but the driver also supports
-  * YUV formats, we only end up with an RGB format.
-  */
- static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *preferred;
- 	unsigned long long rate;
- 	struct drm_connector *conn;
-@@ -1441,32 +1479,34 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
- 	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
- 
- 	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_YUV422);
- 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_LT(test, conn_state->hdmi.output_bpc, 12);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if a display supports higher bpc but the driver only
-  * supports 8 bpc, we only end up with 8 bpc even if we could have had a
-  * higher bpc.
-  */
- static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *preferred;
- 	unsigned long long rate;
- 	struct drm_connector *conn;
-@@ -1499,32 +1539,34 @@ static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test
- 	 * clock to actually use 12bpc.
- 	 */
- 	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_RGB);
- 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if a driver supports higher bpc but the display only
-  * supports 8 bpc, we only end up with 8 bpc even if we could have had a
-  * higher bpc.
-  */
- static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_display_info *info;
- 	struct drm_display_mode *preferred;
- 	unsigned long long rate;
- 	struct drm_connector *conn;
-@@ -1559,28 +1601,30 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
- 	 * clock to actually use 12bpc.
- 	 */
- 	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_RGB);
- 	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
- 	KUNIT_ASSERT_NOT_NULL(test, conn_state);
- 
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /* Test that atomic check succeeds when disabling a connector. */
- static void drm_test_check_disable_connector(struct kunit *test)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_atomic_state *state;
- 	struct drm_display_mode *preferred;
- 	struct drm_connector *conn;
-@@ -1591,23 +1635,22 @@ static void drm_test_check_disable_connector(struct kunit *test)
- 	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						    BIT(HDMI_COLORSPACE_RGB),
- 						    8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	conn = &priv->connector;
- 	preferred = find_preferred_mode(conn);
- 	KUNIT_ASSERT_NOT_NULL(test, preferred);
- 
- 	drm = &priv->drm;
- 	crtc = priv->crtc;
--	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	crtc_state = drm_atomic_get_crtc_state(state, crtc);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 
-@@ -1621,10 +1664,13 @@ static void drm_test_check_disable_connector(struct kunit *test)
- 	ret = drm_atomic_set_crtc_for_connector(conn_state, NULL);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	ret = drm_atomic_check_only(state);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode),
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode_vic_1),
-diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-index 3c0b7824c0be..a4eb68f0decc 100644
---- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-+++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-@@ -78,51 +78,10 @@ __drm_kunit_helper_alloc_drm_device_with_driver(struct kunit *test,
- 
- 	return drm;
- }
- EXPORT_SYMBOL_GPL(__drm_kunit_helper_alloc_drm_device_with_driver);
- 
--static void action_drm_release_context(void *ptr)
--{
--	struct drm_modeset_acquire_ctx *ctx = ptr;
--
--	drm_modeset_drop_locks(ctx);
--	drm_modeset_acquire_fini(ctx);
--}
--
--/**
-- * drm_kunit_helper_acquire_ctx_alloc - Allocates an acquire context
-- * @test: The test context object
-- *
-- * Allocates and initializes a modeset acquire context.
-- *
-- * The context is tied to the kunit test context, so we must not call
-- * drm_modeset_acquire_fini() on it, it will be done so automatically.
-- *
-- * Returns:
-- * An ERR_PTR on error, a pointer to the newly allocated context otherwise
-- */
--struct drm_modeset_acquire_ctx *
--drm_kunit_helper_acquire_ctx_alloc(struct kunit *test)
--{
--	struct drm_modeset_acquire_ctx *ctx;
--	int ret;
--
--	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
--	KUNIT_ASSERT_NOT_NULL(test, ctx);
--
--	drm_modeset_acquire_init(ctx, 0);
--
--	ret = kunit_add_action_or_reset(test,
--					action_drm_release_context,
--					ctx);
--	if (ret)
--		return ERR_PTR(ret);
--
--	return ctx;
--}
--EXPORT_SYMBOL_GPL(drm_kunit_helper_acquire_ctx_alloc);
--
- static void kunit_action_drm_atomic_state_put(void *ptr)
- {
- 	struct drm_atomic_state *state = ptr;
- 
- 	drm_atomic_state_put(state);
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-index 40a05869a50e..992e8f5c5c6e 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-@@ -722,11 +722,11 @@ static void drm_vc4_test_pv_muxing_invalid(struct kunit *test)
- }
- 
- static int vc4_pv_muxing_test_init(struct kunit *test)
- {
- 	const struct pv_muxing_param *params = test->param_value;
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct pv_muxing_priv *priv;
- 	struct drm_device *drm;
- 	struct vc4_dev *vc4;
- 
- 	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-@@ -735,17 +735,19 @@ static int vc4_pv_muxing_test_init(struct kunit *test)
- 
- 	vc4 = params->mock_fn(test);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
- 	priv->vc4 = vc4;
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	drm = &vc4->base;
--	priv->state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	priv->state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->state);
- 
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+
- 	return 0;
- }
- 
- static struct kunit_case vc4_pv_muxing_tests[] = {
- 	KUNIT_CASE_PARAM(drm_vc4_test_pv_muxing,
-@@ -780,11 +782,11 @@ static struct kunit_suite vc5_pv_muxing_test_suite = {
-  * and
-  * https://lore.kernel.org/dri-devel/20200917121623.42023-1-maxime@cerno.tech/
-  */
- static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *test)
- {
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_atomic_state *state;
- 	struct vc4_crtc_state *new_vc4_crtc_state;
- 	struct vc4_hvs_state *new_hvs_state;
- 	unsigned int hdmi0_channel;
- 	unsigned int hdmi1_channel;
-@@ -793,15 +795,14 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
- 	int ret;
- 
- 	vc4 = vc5_mock_device(test);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	drm = &vc4->base;
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI0);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
-@@ -820,11 +821,11 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
- 	KUNIT_ASSERT_TRUE(test, new_hvs_state->fifo_state[hdmi0_channel].in_use);
- 
- 	ret = drm_atomic_helper_swap_state(state, false);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI1);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
-@@ -841,10 +842,13 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
- 	hdmi1_channel = new_vc4_crtc_state->assigned_channel;
- 	KUNIT_ASSERT_NE(test, hdmi1_channel, VC4_HVS_CHANNEL_DISABLED);
- 	KUNIT_ASSERT_TRUE(test, new_hvs_state->fifo_state[hdmi1_channel].in_use);
- 
- 	KUNIT_EXPECT_NE(test, hdmi0_channel, hdmi1_channel);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * This test makes sure that we never change the FIFO of an active HVS
-  * channel if we disable a FIFO with a lower index.
-@@ -852,11 +856,11 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
-  * Doing so would result in a FIFO stall and would disrupt an output
-  * supposed to be unaffected by the commit.
-  */
- static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
- {
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_atomic_state *state;
- 	struct vc4_crtc_state *new_vc4_crtc_state;
- 	struct vc4_hvs_state *new_hvs_state;
- 	unsigned int old_hdmi0_channel;
- 	unsigned int old_hdmi1_channel;
-@@ -865,15 +869,14 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
- 	int ret;
- 
- 	vc4 = vc5_mock_device(test);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	drm = &vc4->base;
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI0);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
-@@ -903,11 +906,11 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
- 	KUNIT_ASSERT_TRUE(test, new_hvs_state->fifo_state[old_hdmi1_channel].in_use);
- 
- 	ret = drm_atomic_helper_swap_state(state, false);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	ret = vc4_mock_atomic_del_output(test, state, VC4_ENCODER_TYPE_HDMI0);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
-@@ -927,10 +930,13 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
- 		KUNIT_ASSERT_NE(test, hdmi1_channel, VC4_HVS_CHANNEL_DISABLED);
- 		KUNIT_ASSERT_TRUE(test, new_hvs_state->fifo_state[hdmi1_channel].in_use);
- 
- 		KUNIT_EXPECT_EQ(test, old_hdmi1_channel, hdmi1_channel);
- 	}
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- /*
-  * Test that if we affect a single output, only the CRTC state of that
-  * output will be pulled in the global atomic state.
-@@ -947,25 +953,24 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
-  *     inactive CRTC that never completes.
-  */
- static void
- drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct kunit *test)
- {
--	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_atomic_state *state;
- 	struct vc4_crtc_state *new_vc4_crtc_state;
- 	struct drm_device *drm;
- 	struct vc4_dev *vc4;
- 	int ret;
- 
- 	vc4 = vc5_mock_device(test);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
- 
--	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+	drm_modeset_acquire_init(&ctx, 0);
- 
- 	drm = &vc4->base;
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI0);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
-@@ -973,11 +978,11 @@ drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct ku
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	ret = drm_atomic_helper_swap_state(state, false);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI1);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
-@@ -985,10 +990,13 @@ drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct ku
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	new_vc4_crtc_state = get_vc4_crtc_state_for_encoder(test, state,
- 							    VC4_ENCODER_TYPE_HDMI0);
- 	KUNIT_EXPECT_NULL(test, new_vc4_crtc_state);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- static struct kunit_case vc5_pv_muxing_bugs_tests[] = {
- 	KUNIT_CASE(drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable),
- 	KUNIT_CASE(drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state),
-diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
-index afdd46ef04f7..11d59ce0bac0 100644
---- a/include/drm/drm_kunit_helpers.h
-+++ b/include/drm/drm_kunit_helpers.h
-@@ -93,12 +93,10 @@ __drm_kunit_helper_alloc_drm_device(struct kunit *test,
- #define drm_kunit_helper_alloc_drm_device(_test, _dev, _type, _member, _feat)	\
- 	((_type *)__drm_kunit_helper_alloc_drm_device(_test, _dev,		\
- 						      sizeof(_type),		\
- 						      offsetof(_type, _member),	\
- 						      _feat))
--struct drm_modeset_acquire_ctx *
--drm_kunit_helper_acquire_ctx_alloc(struct kunit *test);
- 
- struct drm_atomic_state *
- drm_kunit_helper_atomic_state_alloc(struct kunit *test,
- 				    struct drm_device *drm,
- 				    struct drm_modeset_acquire_ctx *ctx);
--- 
-2.48.1
+G.G.
+> +				unlock_page(vmf->page);
+> +				put_page(vmf->page);
+> +			} else {
+> +				pte_unmap_unlock(vmf->pte, vmf->ptl);
+> +			}
+>   		} else if (is_hwpoison_entry(entry)) {
+>   			ret = VM_FAULT_HWPOISON;
+>   		} else if (is_pte_marker_entry(entry)) {
+> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+> index 19960743f927..3470357d9bae 100644
+> --- a/mm/migrate_device.c
+> +++ b/mm/migrate_device.c
+> @@ -60,6 +60,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>   				   struct mm_walk *walk)
+>   {
+>   	struct migrate_vma *migrate = walk->private;
+> +	struct folio *fault_folio = migrate->fault_page ?
+> +		page_folio(migrate->fault_page) : NULL;
+>   	struct vm_area_struct *vma = walk->vma;
+>   	struct mm_struct *mm = vma->vm_mm;
+>   	unsigned long addr = start, unmapped = 0;
+> @@ -88,11 +90,16 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>   
+>   			folio_get(folio);
+>   			spin_unlock(ptl);
+> +			/* FIXME support THP */
+> +			if (WARN_ON_ONCE(fault_folio == folio))
+> +				return migrate_vma_collect_skip(start, end,
+> +								walk);
+>   			if (unlikely(!folio_trylock(folio)))
+>   				return migrate_vma_collect_skip(start, end,
+>   								walk);
+>   			ret = split_folio(folio);
+> -			folio_unlock(folio);
+> +			if (fault_folio != folio)
+> +				folio_unlock(folio);
+>   			folio_put(folio);
+>   			if (ret)
+>   				return migrate_vma_collect_skip(start, end,
+> @@ -192,7 +199,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>   		 * optimisation to avoid walking the rmap later with
+>   		 * try_to_migrate().
+>   		 */
+> -		if (folio_trylock(folio)) {
+> +		if (fault_folio == folio || folio_trylock(folio)) {
+>   			bool anon_exclusive;
+>   			pte_t swp_pte;
+>   
+> @@ -204,7 +211,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>   
+>   				if (folio_try_share_anon_rmap_pte(folio, page)) {
+>   					set_pte_at(mm, addr, ptep, pte);
+> -					folio_unlock(folio);
+> +					if (fault_folio != folio)
+> +						folio_unlock(folio);
+>   					folio_put(folio);
+>   					mpfn = 0;
+>   					goto next;
+> @@ -363,6 +371,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+>   					  unsigned long npages,
+>   					  struct page *fault_page)
+>   {
+> +	struct folio *fault_folio = fault_page ?
+> +		page_folio(fault_page) : NULL;
+>   	unsigned long i, restore = 0;
+>   	bool allow_drain = true;
+>   	unsigned long unmapped = 0;
+> @@ -427,7 +437,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+>   		remove_migration_ptes(folio, folio, 0);
+>   
+>   		src_pfns[i] = 0;
+> -		folio_unlock(folio);
+> +		if (fault_folio != folio)
+> +			folio_unlock(folio);
+>   		folio_put(folio);
+>   		restore--;
+>   	}
+> @@ -536,6 +547,8 @@ int migrate_vma_setup(struct migrate_vma *args)
+>   		return -EINVAL;
+>   	if (args->fault_page && !is_device_private_page(args->fault_page))
+>   		return -EINVAL;
+> +	if (args->fault_page && !PageLocked(args->fault_page))
+> +		return -EINVAL;
+>   
+>   	memset(args->src, 0, sizeof(*args->src) * nr_pages);
+>   	args->cpages = 0;
+> @@ -799,19 +812,13 @@ void migrate_vma_pages(struct migrate_vma *migrate)
+>   }
+>   EXPORT_SYMBOL(migrate_vma_pages);
+>   
+> -/*
+> - * migrate_device_finalize() - complete page migration
+> - * @src_pfns: src_pfns returned from migrate_device_range()
+> - * @dst_pfns: array of pfns allocated by the driver to migrate memory to
+> - * @npages: number of pages in the range
+> - *
+> - * Completes migration of the page by removing special migration entries.
+> - * Drivers must ensure copying of page data is complete and visible to the CPU
+> - * before calling this.
+> - */
+> -void migrate_device_finalize(unsigned long *src_pfns,
+> -			unsigned long *dst_pfns, unsigned long npages)
+> +static void __migrate_device_finalize(unsigned long *src_pfns,
+> +				      unsigned long *dst_pfns,
+> +				      unsigned long npages,
+> +				      struct page *fault_page)
+>   {
+> +	struct folio *fault_folio = fault_page ?
+> +		page_folio(fault_page) : NULL;
+>   	unsigned long i;
+>   
+>   	for (i = 0; i < npages; i++) {
+> @@ -824,6 +831,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
+>   
+>   		if (!page) {
+>   			if (dst) {
+> +				WARN_ON_ONCE(fault_folio == dst);
+>   				folio_unlock(dst);
+>   				folio_put(dst);
+>   			}
+> @@ -834,6 +842,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
+>   
+>   		if (!(src_pfns[i] & MIGRATE_PFN_MIGRATE) || !dst) {
+>   			if (dst) {
+> +				WARN_ON_ONCE(fault_folio == dst);
+>   				folio_unlock(dst);
+>   				folio_put(dst);
+>   			}
+> @@ -841,7 +850,8 @@ void migrate_device_finalize(unsigned long *src_pfns,
+>   		}
+>   
+>   		remove_migration_ptes(src, dst, 0);
+> -		folio_unlock(src);
+> +		if (fault_folio != src)
+> +			folio_unlock(src);
+>   
+>   		if (folio_is_zone_device(src))
+>   			folio_put(src);
+> @@ -849,6 +859,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
+>   			folio_putback_lru(src);
+>   
+>   		if (dst != src) {
+> +			WARN_ON_ONCE(fault_folio == dst);
+>   			folio_unlock(dst);
+>   			if (folio_is_zone_device(dst))
+>   				folio_put(dst);
+> @@ -857,6 +868,22 @@ void migrate_device_finalize(unsigned long *src_pfns,
+>   		}
+>   	}
+>   }
+> +
+> +/*
+> + * migrate_device_finalize() - complete page migration
+> + * @src_pfns: src_pfns returned from migrate_device_range()
+> + * @dst_pfns: array of pfns allocated by the driver to migrate memory to
+> + * @npages: number of pages in the range
+> + *
+> + * Completes migration of the page by removing special migration entries.
+> + * Drivers must ensure copying of page data is complete and visible to the CPU
+> + * before calling this.
+> + */
+> +void migrate_device_finalize(unsigned long *src_pfns,
+> +			unsigned long *dst_pfns, unsigned long npages)
+> +{
+> +	return __migrate_device_finalize(src_pfns, dst_pfns, npages, NULL);
+> +}
+>   EXPORT_SYMBOL(migrate_device_finalize);
+>   
+>   /**
+> @@ -872,7 +899,8 @@ EXPORT_SYMBOL(migrate_device_finalize);
+>    */
+>   void migrate_vma_finalize(struct migrate_vma *migrate)
+>   {
+> -	migrate_device_finalize(migrate->src, migrate->dst, migrate->npages);
+> +	__migrate_device_finalize(migrate->src, migrate->dst, migrate->npages,
+> +				  migrate->fault_page);
+>   }
+>   EXPORT_SYMBOL(migrate_vma_finalize);
+>   
 
