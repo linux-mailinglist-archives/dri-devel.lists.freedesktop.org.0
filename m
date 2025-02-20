@@ -2,73 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BE1A3D577
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 10:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD4AA3D5AE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 11:00:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0D888C4C;
-	Thu, 20 Feb 2025 09:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96F8510E8FD;
+	Thu, 20 Feb 2025 10:00:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eILameml";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="BV1BLeNm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94EF410E4A9
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 09:54:01 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-439a331d981so5869675e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 01:54:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1740045240; x=1740650040; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=D8ThgEs9dav93FXajnfmXH01yXAojaokYEmTOlDNMFY=;
- b=eILameml/Xh0hMWLuOHnjG+8y8n6+MHOumcSbtJu2SnLw+xTZgSEmUF54xmo+yM1Kr
- ls/R2jc7hjpnxvxEj9WQJ6ARipUyc2k8TjkIyP+HQnjcsbQ/pCDechCI7dHdWyvqa2cc
- tzrEsJRJUdJKMMGBTTO5KhTRIwGRiiWnND9d0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740045240; x=1740650040;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D8ThgEs9dav93FXajnfmXH01yXAojaokYEmTOlDNMFY=;
- b=CPykDw0YkMwQw0BHoANvgx5JeQIipwsqSHHmeAnJyJbryUuPYIriIA5GPubJvtxl9/
- RInywS56EsEAfCmZ8ObNcPIqJA2QXqqXd3mmkSdORdKt3p3azPfR9vD7YC9c/uIW7tNL
- 2iNihUEdpFWSOoMQe+ULOgB4lJnPL1gVZTRL0Cpcisw4jHFz1VJllcceW8ZBBXsEc8Uf
- 4tao5u+b5qx0g13DUepqofuYPJ5WYjZCGyq/u+UkSGs9Xx+HJCVooSv9ztepWcBRWuRC
- JlLd1J+IaIaxnzkwr2OetqYCmnzS6rqpB35pC2WHS4GU3Jtp8VR9BCgFvDJDmb8NIuEs
- 5xjQ==
-X-Gm-Message-State: AOJu0Yyd+RbGAv59j6YWrrW8S+YJFdYrpGkze/CACPvQdsDj+zQlbAp/
- 4BXxfvXL+Mviy1yd8Iqe+VC2O/VlP3rtVqY8gYtU8Q/dK9OSnx3H+oTC/LTOn3I=
-X-Gm-Gg: ASbGncuWyZYlWt5xHO2h0VWh8kkpFfft0qOjlW8QLvIP/EF2E19B+2XRrbu0Hk+Kw0A
- LjZPfd3bQsG3DWRj+n0uj32p2aLdy9uP9sIDteoF/9kskA75o1q/VjRBk6LnM0CnplHA1Nc9Ko/
- q31L0cJoX3f4FOExXiR3S9NYTxLrVG0GqmSRTACsDDz5ToT81Fq1sAlL/EHiLRJhDreF57TqrOM
- lQi1385Roh9KqqoyHSp0kTghUrXcJcF1OURJ3Qqa5JLIy05BW3oIT4P3qcsuB0Bb0oYFexY/Zfy
- P3jfJeiIxeTYpNrPPw0bELJyOcc=
-X-Google-Smtp-Source: AGHT+IETbnbJcGPzbNA0NFK5vp6cXXqbj6bTepUJBJ1DbFZPHgtV7pQqYmeH1xFWeBuMFGEIBfkF/w==
-X-Received: by 2002:a05:600c:3110:b0:439:9985:6984 with SMTP id
- 5b1f17b1804b1-43999de0cc2mr73773795e9.30.1740045239923; 
- Thu, 20 Feb 2025 01:53:59 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439930a9966sm77167315e9.15.2025.02.20.01.53.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2025 01:53:59 -0800 (PST)
-Date: Thu, 20 Feb 2025 10:53:57 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/atomic: Filter out redundant DPMS calls
-Message-ID: <Z7b7tSabXeLe1ovT@phenom.ffwll.local>
-References: <20250219160239.17502-1-ville.syrjala@linux.intel.com>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EADDA10E8FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 10:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=2RoNr
+ SjHOSnrbQWPVmn0LiRyjXkWM0htcxpHKmfkuqc=; b=BV1BLeNmH6YzL7rRbUtjE
+ R542RFTSXbvkLXpOaNF4F3seYCVa+3SjrpKeZiZYcKGpEPsqiLKakUrKeOmcaGAO
+ ZBzNLLjCNuUN63pG/vPcXOs8ouwGE3ou2uy7VImVeNI39cwS4rCCdln6rMDEWCoK
+ quh8NXRgJ73gCAZ5LATcw0=
+Received: from localhost.localdomain (unknown [])
+ by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id
+ _____wDn77ML_bZnugebMw--.5396S2; 
+ Thu, 20 Feb 2025 17:59:40 +0800 (CST)
+From: oushixiong1025@163.com
+To: Simona Vetter <simona@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ oushixiong <oushixiong@kylinos.cn>
+Subject: [PATCH] fbdev: Register sysfs groups through device_add_group
+Date: Thu, 20 Feb 2025 17:59:35 +0800
+Message-Id: <20250220095935.270797-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250219160239.17502-1-ville.syrjala@linux.intel.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+X-CM-TRANSID: _____wDn77ML_bZnugebMw--.5396S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJF43urWUKryfJF15Jw47Jwb_yoWrWw43pr
+ n3JFyFgry5WF1UGFs3uwsrX39xWw4rury5Jr9xt3yxGF43GFZrW34xAFy5A3yrGr97Jr1S
+ qFsrXw18JFZF9aUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOZ2-UUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRb5D2e28fjYegAAsH
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,62 +58,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 06:02:39PM +0200, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> Video players (eg. mpv) do periodic XResetScreenSaver() calls to
-> keep the screen on while the video playing. The modesetting ddx
-> plumbs these straight through into the kernel as DPMS setproperty
-> ioctls, without any filtering whatsoever. When implemented via
-> atomic these end up as full commits on the crtc, which leads to a
-> dropped frame every time XResetScreenSaver() is called.
+From: oushixiong <oushixiong@kylinos.cn>
 
-I think you should add here that it's just an empty commit, because we do
-filter out redundant commits where crtc->active_changed does nothing.
-Except we still run the entire machinery with timestamps and drm_event and
-everything.
+Use device_add_group() to simplify creation.
 
-And I don't think it's worth to filter that out at the atomic level,
-because it's really only legacy ioctl that had this "complete noop"
-behaviour.
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/video/fbdev/core/fbsysfs.c | 69 +++++++++++++++++-------------
+ 1 file changed, 39 insertions(+), 30 deletions(-)
 
-With the commit message augmented:
-
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-Might also be nice to have a igt for this? Plus also wondering whether we
-should cc: stable it.
-
-Cheers, Sima
-
-> Let's just filter out redundant DPMS property changes in the
-> kernel to avoid this issue.
-> 
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 2765ba90ad8f..c2726af6698e 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -957,6 +957,10 @@ int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
->  
->  	if (mode != DRM_MODE_DPMS_ON)
->  		mode = DRM_MODE_DPMS_OFF;
-> +
-> +	if (connector->dpms == mode)
-> +		goto out;
-> +
->  	connector->dpms = mode;
->  
->  	crtc = connector->state->crtc;
-> -- 
-> 2.45.3
-> 
-
+diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+index 1b3c9958ef5c..06d75c767579 100644
+--- a/drivers/video/fbdev/core/fbsysfs.c
++++ b/drivers/video/fbdev/core/fbsysfs.c
+@@ -416,55 +416,64 @@ static ssize_t show_bl_curve(struct device *device,
+ /* When cmap is added back in it should be a binary attribute
+  * not a text one. Consideration should also be given to converting
+  * fbdev to use configfs instead of sysfs */
+-static struct device_attribute device_attrs[] = {
+-	__ATTR(bits_per_pixel, S_IRUGO|S_IWUSR, show_bpp, store_bpp),
+-	__ATTR(blank, S_IRUGO|S_IWUSR, show_blank, store_blank),
+-	__ATTR(console, S_IRUGO|S_IWUSR, show_console, store_console),
+-	__ATTR(cursor, S_IRUGO|S_IWUSR, show_cursor, store_cursor),
+-	__ATTR(mode, S_IRUGO|S_IWUSR, show_mode, store_mode),
+-	__ATTR(modes, S_IRUGO|S_IWUSR, show_modes, store_modes),
+-	__ATTR(pan, S_IRUGO|S_IWUSR, show_pan, store_pan),
+-	__ATTR(virtual_size, S_IRUGO|S_IWUSR, show_virtual, store_virtual),
+-	__ATTR(name, S_IRUGO, show_name, NULL),
+-	__ATTR(stride, S_IRUGO, show_stride, NULL),
+-	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
+-	__ATTR(state, S_IRUGO|S_IWUSR, show_fbstate, store_fbstate),
++static DEVICE_ATTR(bits_per_pixel, 0644, show_bpp, store_bpp);
++static DEVICE_ATTR(blank, 0644, show_blank, store_blank);
++static DEVICE_ATTR(console, 0644, show_console, store_console);
++static DEVICE_ATTR(cursor, 0644, show_cursor, store_cursor);
++static DEVICE_ATTR(mode, 0644, show_mode, store_mode);
++static DEVICE_ATTR(modes, 0644, show_modes, store_modes);
++static DEVICE_ATTR(pan, 0644, show_pan, store_pan);
++static DEVICE_ATTR(virtual_size, 0644, show_virtual, store_virtual);
++static DEVICE_ATTR(name, 0444, show_name, NULL);
++static DEVICE_ATTR(stride, 0444, show_stride, NULL);
++static DEVICE_ATTR(rotate, 0644, show_rotate, store_rotate);
++static DEVICE_ATTR(state, 0644, show_fbstate, store_fbstate);
+ #if IS_ENABLED(CONFIG_FB_BACKLIGHT)
+-	__ATTR(bl_curve, S_IRUGO|S_IWUSR, show_bl_curve, store_bl_curve),
++static DEVICE_ATTR(bl_curve, 0644, show_bl_curve, store_bl_curve);
+ #endif
++
++static struct attribute *fb_device_attrs[] = {
++	&dev_attr_bits_per_pixel.attr,
++	&dev_attr_blank.attr,
++	&dev_attr_console.attr,
++	&dev_attr_cursor.attr,
++	&dev_attr_mode.attr,
++	&dev_attr_modes.attr,
++	&dev_attr_pan.attr,
++	&dev_attr_virtual_size.attr,
++	&dev_attr_name.attr,
++	&dev_attr_stride.attr,
++	&dev_attr_rotate.attr,
++	&dev_attr_state.attr,
++#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
++	&dev_attr_bl_curve.attr,
++#endif
++	NULL,
++};
++
++static const struct attribute_group fb_device_attr_group = {
++	.attrs          = fb_device_attrs,
+ };
+ 
+ static int fb_init_device(struct fb_info *fb_info)
+ {
+-	int i, error = 0;
++	int ret;
+ 
+ 	dev_set_drvdata(fb_info->dev, fb_info);
+ 
+ 	fb_info->class_flag |= FB_SYSFS_FLAG_ATTR;
+ 
+-	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
+-		error = device_create_file(fb_info->dev, &device_attrs[i]);
+-
+-		if (error)
+-			break;
+-	}
+-
+-	if (error) {
+-		while (--i >= 0)
+-			device_remove_file(fb_info->dev, &device_attrs[i]);
++	ret = device_add_group(fb_info->dev, &fb_device_attr_group);
++	if (ret)
+ 		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
+-	}
+ 
+ 	return 0;
+ }
+ 
+ static void fb_cleanup_device(struct fb_info *fb_info)
+ {
+-	unsigned int i;
+-
+ 	if (fb_info->class_flag & FB_SYSFS_FLAG_ATTR) {
+-		for (i = 0; i < ARRAY_SIZE(device_attrs); i++)
+-			device_remove_file(fb_info->dev, &device_attrs[i]);
++		device_remove_group(fb_info->dev, &fb_device_attr_group);
+ 
+ 		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
+ 	}
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.17.1
+
