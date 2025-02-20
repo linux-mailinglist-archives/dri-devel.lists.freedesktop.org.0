@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91736A3DE81
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:29:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143E0A3DECD
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 16:38:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B498110E992;
-	Thu, 20 Feb 2025 15:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1FA10E9A2;
+	Thu, 20 Feb 2025 15:37:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="CgwDOyNJ";
+	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="U1WhYni7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3A4C10E992
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 15:29:05 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4YzHH14NZ7z9spX;
- Thu, 20 Feb 2025 16:29:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1740065341; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=moBIYW5c22y5U9ZUMoNmX9PjRve/TYLKT2xP88T6GNk=;
- b=CgwDOyNJ9frMDol6i9GuBnEYEJ9ZZ81FtxQmDD8lk03pzpp8Zbb+Kp444xjUC6hhQY2X/y
- q+LWv5eM/C+31tBZhn+dHj5YPGue7FIgb7+i6t/T07lubhwUcTo0f2P2CJgwG1ONyq+mWk
- j2uh9oFC+Pmt9DbLmu7hZ+NNSqjD/+0AnsihkGRaW0tR5I5/Syi6628iNDDT2cNEOt6/G4
- x+1TfPekeh9aqWktEWtgjwZzfz5NUEV97Wuh5P+yWAB0jEyl6zN+PSERAIYxm9R2zKKGoY
- AHqXvSMWhQpBe77/tws8dccCK+mrCE9J5dGDeSWVc2QcqSx1ViPT7D03Re1Tcg==
-Message-ID: <1457e985f88e02cd04b2152d2468a65b7a513e63.camel@mailbox.org>
-Subject: Re: [PATCH v5 2/3] drm/sched: Adjust outdated docu for run_job()
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Philipp Stanner
- <phasta@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Danilo
- Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Thu, 20 Feb 2025 16:28:57 +0100
-In-Reply-To: <12c53d41-21c4-443d-a572-fd22c3cc56ad@igalia.com>
-References: <20250220112813.87992-2-phasta@kernel.org>
- <20250220112813.87992-4-phasta@kernel.org>
- <12c53d41-21c4-443d-a572-fd22c3cc56ad@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF4410E9A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 15:37:54 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id
+ 6a1803df08f44-6e66b4607d2so4968576d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2025 07:37:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1740065873; x=1740670673;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=CIhju5VbOnCPzyQKlcCT5jMfOJKAXyz0TX6VSDMcljc=;
+ b=U1WhYni7d63qutwV9y3lcv6iOjnj2b7SmP4zv6yuQZBT9zORbKLukNk7VSdtHQhJAK
+ 9K4M2GdrB5pcckhHTyOqcj3Asj1ufFxgxbnINkxnG23jXh/5AuONcTzuiK4YeVpLGagT
+ lfPWU8lxrovwHtR5sGVS7XSX1bzrxjphzpv1O8RLCyZfHTLJdNosSpTOjPJXw5NUOSoh
+ cOT641WLE68Olb4FpjCSro2bsiwBmYVIqAPf6grM0bsI6kVDGWhm1jaWgazIqnNrWon0
+ 8iaGb7hIcKwrPdHfHMycOkqSsCUlf9/HDfWQUPaYPSIv39Z/HpBiZcUyDTm0we2j+734
+ 7sag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740065873; x=1740670673;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CIhju5VbOnCPzyQKlcCT5jMfOJKAXyz0TX6VSDMcljc=;
+ b=ZRqeWL7X6+R/zVRXDSItHmahWRIFL5tx3CBllde506xsoSBJaXVaId3f/oz5nBMmjG
+ bBygxOum5fphZfexjEEvRW8vqu26tZuoCy2E5bU2heO1XPaHjcOa2bMGcXPXXFv9Ew6X
+ V/HTjp35uM+rZuuNBR/H9Gumd0VP2B+OUVEATzcfcsSi2rvLNmW1jAEyueueVT9iylK7
+ +jaNEvyUTswk8CzccQF2Y7QY4n1sIIiyVNtR/UwlI7yyRJc97FN44jsbaSIaqLkIDMpf
+ uAEyHPuSo8Rv8ZtBuuvrapXCN2IhnY7TiqMIyMKSDZWr77pMW2+ulPXmeFzipwfHuLQa
+ /IKw==
+X-Gm-Message-State: AOJu0YxzsxnCVHsQkMDC48AWDalQNQctH45ctNYytW2t0SwKkeBba9Fe
+ 0WWX/dNC/u8qXNXfEh6JQRxbRRljkxGfhWjkNboTHg+se6+vNA1BzCvr+f1pT0s=
+X-Gm-Gg: ASbGnctji657WTtgBbQe6EwZe1MZGC/1hxyCBnc21ttJt93cIJ5h/CIWOplFPUHLwJt
+ pazmcGO+BB0ON9nDiO960f2sh9QyBTltLZLB5RmkaB8KoR9lWORFRPsHDfYOKuJVXFpDK0e/iHx
+ SeMBupn6LhEQDu+9DtnJTERK5hBpqaCTglik/Gy/HQ5zekbc4kH2zz8o4q8JxP2FN0HpxRdpejr
+ 57nDUntNO1/Dw0jYJwp5pVlH3QanZJ3tqYYZMsld69U2kQANYchro08Zni9z8WL4PX6Tof+gzxU
+ auPgcws3AB0QpA==
+X-Google-Smtp-Source: AGHT+IFcIm7KN2/kYyHI5w4jBjyHNX4kq0DRfJRG5JubjcBZrPYm8p9wZWeE5aKd+xtJNfQyZ49tZg==
+X-Received: by 2002:a05:6214:29e1:b0:6e2:55b5:91d1 with SMTP id
+ 6a1803df08f44-6e697413d1fmr120862276d6.0.1740065873655; 
+ Thu, 20 Feb 2025 07:37:53 -0800 (PST)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 6a1803df08f44-6e65d9f3498sm86868896d6.84.2025.02.20.07.37.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Feb 2025 07:37:52 -0800 (PST)
+Date: Thu, 20 Feb 2025 10:37:51 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: dri-devel@lists.freedesktop.org, cgroups@vger.kernel.org,
+ Tejun Heo <tj@kernel.org>,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>
+Subject: Re: [PATCH] MAINTAINERS: Add entry for DMEM cgroup controller
+Message-ID: <20250220153751.GA1276171@cmpxchg.org>
+References: <20250220140757.16823-1-dev@lankhorst.se>
 MIME-Version: 1.0
-X-MBO-RS-META: rcyh97uoydj6trykgde1o673ouj3r9dy
-X-MBO-RS-ID: 993dd54fa9f0bb66e38
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250220140757.16823-1-dev@lankhorst.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,135 +86,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-02-20 at 10:28 -0300, Ma=C3=ADra Canal wrote:
-> Hi Philipp,
->=20
-> On 20/02/25 08:28, Philipp Stanner wrote:
-> > The documentation for drm_sched_backend_ops.run_job() mentions a
-> > certain
-> > function called drm_sched_job_recovery(). This function does not
-> > exist.
-> > What's actually meant is drm_sched_resubmit_jobs(), which is by now
-> > also
-> > deprecated.
-> >=20
-> > Remove the mention of the removed function.
-> >=20
-> > Discourage the behavior of drm_sched_backend_ops.run_job() being
-> > called
-> > multiple times for the same job.
->=20
-> It looks odd to me that this patch removes lines that were added in
-> patch 1/3. Maybe you could change the patchset order and place this
-> one
-> as the first.
->=20
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0 include/drm/gpu_scheduler.h | 19 +++++++++++++------
-> > =C2=A0 1 file changed, 13 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/include/drm/gpu_scheduler.h
-> > b/include/drm/gpu_scheduler.h
-> > index 916279b5aa00..29e5bda91806 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -421,20 +421,27 @@ struct drm_sched_backend_ops {
-> > =C2=A0=20
-> > =C2=A0=C2=A0	/**
-> > =C2=A0=C2=A0	 * @run_job: Called to execute the job once all of the
-> > dependencies
-> > -	 * have been resolved. This may be called multiple times,
-> > if
-> > -	 * timedout_job() has happened and
-> > drm_sched_job_recovery() decides to
-> > -	 * try it again.
-> > +	 * have been resolved.
-> > +	 *
-> > +	 * The deprecated drm_sched_resubmit_jobs() (called from
-> > +	 * drm_sched_backend_ops.timedout_job()) can invoke this
-> > again with the
->=20
-> I think it would be "@timedout_job".
+On Thu, Feb 20, 2025 at 03:07:57PM +0100, Maarten Lankhorst wrote:
+> The cgroups controller is currently maintained through the
+> drm-misc tree, so lets add add Maxime Ripard, Natalie Vock
+> and me as specific maintainers for dmem.
+> 
+> We keep the cgroup mailing list CC'd on all cgroup specific patches.
+> 
+> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Acked-by: Natalie Vock <natalie.vock@gmx.de>
 
-Not sure, isn't referencing in docstrings done with '&'?
-
->=20
-> > +	 * same parameters. Using this is discouraged because it,
-> > presumably,
-> > +	 * violates dma_fence rules.
->=20
-> I believe it would be "struct dma_fence".
-
-Well, in this case strictly speaking not IMO, because it's about the
-rules of the "DMA Fence Subsystem", not about the struct itself.
-
-I'd just keep it that way or call it "dma fence"
-
->=20
-> > +	 *
-> > +	 * TODO: Document which fence rules above.
-> > =C2=A0=C2=A0	 *
-> > =C2=A0=C2=A0	 * @sched_job: the job to run
-> > =C2=A0=C2=A0	 *
-> > -	 * Returns: dma_fence the driver must signal once the
-> > hardware has
-> > -	 *	completed the job ("hardware fence").
-> > -	 *
-> > =C2=A0=C2=A0	 * Note that the scheduler expects to 'inherit' its own
-> > reference to
-> > =C2=A0=C2=A0	 * this fence from the callback. It does not invoke an
-> > extra
-> > =C2=A0=C2=A0	 * dma_fence_get() on it. Consequently, this callback must
-> > take a
-> > =C2=A0=C2=A0	 * reference for the scheduler, and additional ones for
-> > the driver's
-> > =C2=A0=C2=A0	 * respective needs.
->=20
-> Would it be possible to add a comment that `run_job()` must check if
-> `s_fence->finished.error` is different than 0? If you increase the
-> karma
-> of a job and don't check for `s_fence->finished.error`, you might run
-> a
-> cancelled job.
-
-s_fence->finished is only signaled and its error set once the hardware
-fence got signaled; or when the entity is killed.
-
-In any case, signaling "finished" will cause the job to be prevented
-from being executed (again), and will never reach run_job() in the
-first place.
-
-Correct me if I am mistaken.
-
-Or are you suggesting that there is a race?
-
-
-P.
-
->=20
-> > +	 *
-> > +	 * Return:
-> > +	 * * On success: dma_fence the driver must signal once the
-> > hardware has
-> > +	 * completed the job ("hardware fence").
->=20
-> A suggestion: "the fence that the driver must signal once the
-> hardware
-> has completed the job".
->=20
-> Best Regards,
-> - Ma=C3=ADra
->=20
-> > +	 * * On failure: NULL or an ERR_PTR.
-> > =C2=A0=C2=A0	 */
-> > =C2=A0=C2=A0	struct dma_fence *(*run_job)(struct drm_sched_job
-> > *sched_job);
-> > =C2=A0=20
->=20
-
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
