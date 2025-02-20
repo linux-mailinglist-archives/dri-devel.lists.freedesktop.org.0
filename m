@@ -2,82 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D0DA3DAA2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 14:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D150A3DB05
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2025 14:15:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEBAD10E053;
-	Thu, 20 Feb 2025 13:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E506A10E0F0;
+	Thu, 20 Feb 2025 13:15:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ujs3U6IB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Rmb0MH4J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB26510E192;
- Thu, 20 Feb 2025 13:01:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1740056451; x=1740661251; i=markus.elfring@web.de;
- bh=sU1XHE9KFAlc92izSS4V5NV97DtDuepbnguI4jYS71U=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=ujs3U6IBH3U1iEkzFEXb2IrHDrjTO7bnnlsuDC8FoO/cs328dJ0VRBwIlFQVI/v+
- p94gX6JIhKbfBKlaoodtQQLOaICkdkBQpZAA0nDSJBg9WdDGMzw/bAyRqMXd93l5z
- 1keGIui/Z5Vgs51bQAvsMReB9Ov07lW0LvSNNf53zLiMEdmYK+VbZDuHsUp5nNv0r
- ig7xCrvLA/J8haNcUbm+dX8F91wJWWWajYbkbBeVXq+pNm5IMgt5uD0jOhIxy3DOv
- KQlhOqGnzK612Cii3y7tgnSj4EPRYvQj16p0ZzsCNYezWROs0UroxpzPvO2ptDcxS
- HVm93ZNRhq3IEWdZiA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.25]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MuVKI-1tT9Zx21mk-013Cx5; Thu, 20
- Feb 2025 14:00:51 +0100
-Message-ID: <731c6ba8-f165-4ee5-80be-514fc32c8475@web.de>
-Date: Thu, 20 Feb 2025 14:00:49 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3009A10E0F0;
+ Thu, 20 Feb 2025 13:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740057304; x=1771593304;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=V2C6WGPAhxJbFbrw5/XQBWG1uEs0zPqr7UgWRoYF8xk=;
+ b=Rmb0MH4JePEGU8gADL+OH8bsLuHfB/121FfbIp9Jq7z/a57Rj8vJnc8/
+ wwmG39+SiBymdRVeHYoLGuLqoGEh16ryOtl/golRHWlq4zNq85g/lj5KB
+ nCvf0r3ShccTFFJeTiXJYSQN5yavOBzCdR3HwCQGxRH1LceR04YIASnuy
+ 0C4Dh03LQOn0dNGGOOjLFGq/3MM5OmmEDlyKWaJQBMNg69sAVz5BD4lkS
+ gc94/31FRzvflGbjTF0NRCBi3oqtRg07WpLIDvYOdiucFnNRUUB0exRz+
+ U+losXAuGpBL8EQBq9thGRwIw0u12p33A7fyVXzKWfSGaowLQK74FDL0T w==;
+X-CSE-ConnectionGUID: Dh4fped/RS+uKA7H72WDhw==
+X-CSE-MsgGUID: G915fK9MSze7jti+qgVeVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51046542"
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; d="scan'208";a="51046542"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2025 05:15:03 -0800
+X-CSE-ConnectionGUID: sMivNI6nRv2SqZIXmhnH5Q==
+X-CSE-MsgGUID: GYBe42RUSU2uZTZefXE5+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; d="scan'208";a="115571790"
+Received: from yakiklei-mobl2.ger.corp.intel.com (HELO [10.245.82.75])
+ ([10.245.82.75])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2025 05:15:00 -0800
+Message-ID: <22fedeac-0919-4d33-b4a3-ade7afce8261@linux.intel.com>
+Date: Thu, 20 Feb 2025 14:14:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: vulab@iscas.ac.cn, amd-gfx@lists.freedesktop.org,
+Subject: Re: [PATCH v2] drm/i915: Add VM_DONTEXPAND to exported buffers
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-References: <20250220064244.733-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH v2?] drm/radeon: Add error handlings for r420 CP errata
- initialization
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250220064244.733-1-vulab@iscas.ac.cn>
+Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, karol.wachowski@intel.com,
+ tomasz.rusinowicz@intel.com, Krzysztof Karas <krzysztof.karas@intel.com>
+References: <20250114082303.1319508-1-jacek.lawrynowicz@linux.intel.com>
+ <a712ee97-1851-4f6d-97b1-7d1cc136481f@linux.intel.com>
+ <173996250609.74092.8072729956400006000@jlahtine-mobl>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <173996250609.74092.8072729956400006000@jlahtine-mobl>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DTCVMAzRcbXDsDaWrsjoQpRHRWy8WC4va94OF+pvpJwvN9EipS4
- Kk0u6da2VtyehCQrLHfr6nKqncDZIugJ3xjTfi+UDfX4pDx4k9eoZboZjwCGr+nsuRjJ4mO
- pZxXHWP7HjQRkFB5Ta3ENRVuNBR0fU2tFxZCHE/CyRYfp93ueRUbcFTSZLINKp/ykhS1kjI
- foI1RQ6pJPjszMXSJuc+A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Ss8rG+UxAxc=;w0c9oGegRzOmROzOzwreyUWufmH
- LmCUCyxqoXi8BCTW/sAkHwGNtkI8VKYlDdcXioRp7//EHBVeNSZcKoEUpf1A0I5ALX3cCm51Z
- BWq1/pBge7CoynZeMG+uFkwm2GOW9vCmJg9cH4Oak2w8wizqkWCdWnJBnlKyGWzm6kAyrOeew
- fc7tFQyJ1kU7PVzzSu4eQ/hOpGUkl+JwGMr+gXxiSsUGQrvDVWaYvNjGb8i1tyF+A9OK6viYK
- JspDd0j97jvP8GcM0WN2dQdwp2m7Sev8DK5ZM2XKjebR3JyQ9orkvuRXI7PZS18rCIg8h0BZD
- EEZhuKq9r1leRcddliuouVhJUb6J8mcw1R56hUumYXA9VxAIXU/2OJP6H+UsXRva3AeSKa5gv
- PlT5Whm8OfLQrbg7fQ7WLDncu4xZzRa2LTHsXEaDgUOmCWyadSjtDhvgMMXj9m8wDX1GDUdDn
- 7kpg7bhM7hkvsoWSeVrAbdkl0IxtXVDel9LBUJootAS6jCPiekbqQyO6ACh2zTXNG4is/SXg+
- Wu5kMvBUI+MrfNU9q37NTwGtIQm8Ckn2fxc2DxKOIdQ2t9Ogiez+iudY79jgLkN/BluVTt4wq
- a+0xwPIKMXiH4vY73oJhzZ/KtPUFgzb/OnZAs0BNTGT7t70uanvoCYSTmobqXppYb3Ps3f4J0
- Yx+6Xp326eeWvNdq1pE5X7aRQYiJhlfzFEOhyvEj+iYZvYXf9jfGLCOs0jwwn8/vzIiYRluxM
- jwM1vOz20G7t3OwMlExP0nt6QkqZuyz4W+iGKuaidGvdO/KR8KRGDE4e0TSlaPQeI35jcDkPc
- qTXnwvaPr0ngyxk8R4yWI416ER/A56eBoCEZYfC4ED4RSk1UklNsbhtQus5oUivB7AioJhzcy
- uTxhL4N8eD+Oym72Fcm2B6rY5uObACqHQA8rlWrdT8oDftk2Fs8ItWQR2zJ1ljR45cunjWhdz
- ceB7/5DpuB5Pi5RbTKYTGOjg6kc6DhywAdGZN7rwd1vJKtHHTKdN6FkAvpAz/16wkBkblQvBL
- EhngzdueEnxbpmwEnRG3WgBhthnDELuZas/M7HrXhNOWOQSMnt/uZs0MW/F2jk/GAR47cpqPw
- /WK3RrCmDY0+lct9cj/1aDk9D/Zk+ewsOgabkz27qtJjkK7yG05gI6gFM4+8RmKKGek2vxW8h
- M5ivuY3883rcvS45emSAmz84aHFS6VZGoG4MmBgZeh4ZUz1Q4RHD5DQdW8sz3wza4t4L2ecAU
- 2ZMPe6z7hgJE22c8uHMNDvn7v/uHhYX4cTtnsxRvtYITVTebGBwG9oA1UIsuG6/9s35tEtiSD
- 3XwPTy1gmsOaql2U4/LXuPCGFJYR3UgUJaXl1CSanihubV3pYpzA+oeXMdNSs7aMG07osD/zF
- Xnd6Mga5rUs4Lb+ZKGvsBTA73pODd5GcUe4mtVfhFZCY3IyxTJhG6smTNnl/bwvKc3/46GEQ2
- 8Fip25jyYkR9vO0V785oqVBvFjgg=
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,16 +77,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> ---
->  drivers/gpu/drm/radeon/r420.c | 15 +++++++++++----
-=E2=80=A6
+Hi,
 
-How do you think about to improve your version management?
-https://lore.kernel.org/all/?q=3D%22This+looks+like+a+new+version+of+a+pre=
-viously+submitted+patch%22
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.14-rc3#n780
+On 2/19/2025 11:55 AM, Joonas Lahtinen wrote:
+> Quoting Jacek Lawrynowicz (2025-02-11 17:57:03)
+>> Hi, can I submit this to drm-misc or should someone commit this to drm-intel?
+> 
+> Is the this happening in linux-next or is it still completely out-of-tree?
+The patch is not merged so it is happening everywhere.
 
-Regards,
-Markus
+> Feels weird that the splat would not have happened in any hybrid GPU
+> systems in the past. Did you look what is the difference between your
+> driver and amdgpu/nouveau?
+
+It looks like imported buffers are just never mmaped.
+
+This is a call chain when mmapping imported buffer in amdgpu:
+drm_gem_mmap()->drm_gem_mmap_obj()->amdgpu_gem_object_mmap()->drm_gem_ttm_mmap()->ttm_bo_mmap_obj()
+
+And this is intel_vpu call chain:
+drm_gem_mmap()->drm_gem_mmap_obj()->drm_gem_shmem_object_mmap()->drm_gem_shmem_mmap()->dma_buf_mmap()->i915_gem_dmabuf_mmap()
+
+amdgpu does not check if the object is imported and just calls drm_gem_ttm_mmap() and dma_buf_mmap() is never called.
+Same with xe and nouveau. All drivers using drm_gem_shmem seems ok but besides them only couple small drivers check for import_attach in mmap.
+Looks like most drivers do not support mmapping imported buffers.
+Is this really possible? Do you have test coverage for this?
+
+PS.
+you may also want to add VM_PFNMAP, VM_DONTDUMP and VM_IO that you are setting for i915 buffers in i915_gem_object_mmap().
+
+Jacek
