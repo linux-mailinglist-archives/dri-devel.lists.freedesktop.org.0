@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126F0A3F3D5
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 13:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62F3A3F3DE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 13:09:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B165910E1EF;
-	Fri, 21 Feb 2025 12:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23E5510EA5E;
+	Fri, 21 Feb 2025 12:09:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LJ6FgWjH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="L9G3eXnE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F3B10E1EF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F044F10EA58
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 12:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=IOjStTKrVf3IbIGuIwjljxpDQTnM5rUwDE1kwXUYODs=; b=LJ6FgWjHKVqCv84O8R5jcJUc+G
- 0Ox6/rde5QzbBHFbiNqDJP64J60jfjPX8+TS9aCPDAEniTXT85RniPuvblaAXeZwf92yD8oPj/6jW
- MHQIurGg8vIAaXscbNTIHsSnra1mC82l4buiBB008plkfJRlVLUNb6dixNoZF0uucFHMkanANun8O
- Wtg7jJJnogys2EWe5R2YILkbhxmRja40EQ6y8jkYNFRtGvXQjX0cFKpTB2ES/UI3k4eHkYhKDfvTy
- f2CXcVbFpddmmf5nwian1mHnB8GG1L7+6tlU4cNNE6F8eRoUexDNEL7PU2uGDcbbfr+Mrfg2WcjKP
- auvibCzQ==;
+ bh=4YzmRfpN3jFLIB9dUkGmP+K9+k6D/YnyXi9ufIFa40Q=; b=L9G3eXnET4nFetPz9gLNzfiGuH
+ PrzqacAAAYTzlGeBy2L97ObaBE8zUrprF2nprGCYUzTOOSkDoCQ+IXWiQtlhdDczQja4+6FyTsJe7
+ Dg4GarDAi5NQedgKDI2yIDvqD5bghSlxgJJYbBgkGlrnwffOfffsaSvVSuA4xeWvpM8G+dQ48FjkU
+ wlpI1tiMCYK1Uzi28J6NohUV0hYOm0BnfaOyhOP92wDq1dqwEPtQ4rWsQigN60b+DsQyYgileq7tR
+ /BaC6CWzgojGYgaW1zM5jcrYjze1CWAKFS4eo8Nibl2P4u5pTljj9tiv+HG2NFGF9Woy3syWFnsrn
+ MvjHHeug==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tlRqD-00G5G1-K2; Fri, 21 Feb 2025 13:09:19 +0100
+ id 1tlRqE-00G5G3-Dw; Fri, 21 Feb 2025 13:09:20 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 0/5] DRM scheduler kunit tests
-Date: Fri, 21 Feb 2025 12:09:12 +0000
-Message-ID: <20250221120917.80617-1-tvrtko.ursulin@igalia.com>
+Cc: kernel-dev@igalia.com,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [PATCH v2 1/5] drm: Move some options to separate new Kconfig
+Date: Fri, 21 Feb 2025 12:09:13 +0000
+Message-ID: <20250221120917.80617-2-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
+In-Reply-To: <20250221120917.80617-1-tvrtko.ursulin@igalia.com>
+References: <20250221120917.80617-1-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,92 +59,273 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There has repeatedly been quite a bit of apprehension when any change to the DRM
-scheduler is proposed, with two main reasons being code base is considered
-fragile, not well understood and not very well documented, and secondly the lack
-of systematic testing outside the vendor specific tests suites and/or test
-farms.
+Move some options out into a new debug specific kconfig file in order to
+make things a bit cleaner.
 
-This series is an attempt to dislodge this status quo by adding some unit tests
-using the kunit framework.
-
-General approach is that there is a mock "hardware" backend which can be
-controlled from tests, which in turn allows exercising various scheduler code
-paths.
-
-Only some simple basic tests get added in the series and hopefully it is easy to
-understand what tests are doing.
-
-An obligatory "screenshot" for reference:
-
-[14:29:37] ============ drm_sched_basic_tests (3 subtests) ============
-[14:29:38] [PASSED] drm_sched_basic_submit
-[14:29:38] ================== drm_sched_basic_test  ===================
-[14:29:38] [PASSED] A queue of jobs in a single entity
-[14:29:38] [PASSED] A chain of dependent jobs across multiple entities
-[14:29:38] [PASSED] Multiple independent job queues
-[14:29:38] [PASSED] Multiple inter-dependent job queues
-[14:29:38] ============== [PASSED] drm_sched_basic_test ===============
-[14:29:38] [PASSED] drm_sched_basic_entity_cleanup
-[14:29:38] ============== [PASSED] drm_sched_basic_tests ==============
-[14:29:38] ======== drm_sched_basic_timeout_tests (1 subtest) =========
-[14:29:40] [PASSED] drm_sched_basic_timeout
-[14:29:40] ========== [PASSED] drm_sched_basic_timeout_tests ==========
-[14:29:40] ======= drm_sched_basic_priority_tests (2 subtests) ========
-[14:29:42] [PASSED] drm_sched_priorities
-[14:29:42] [PASSED] drm_sched_change_priority
-[14:29:42] ========= [PASSED] drm_sched_basic_priority_tests ==========
-[14:29:42] ====== drm_sched_basic_modify_sched_tests (1 subtest) ======
-[14:29:43] [PASSED] drm_sched_test_modify_sched
-[14:29:43] ======= [PASSED] drm_sched_basic_modify_sched_tests ========
-[14:29:43] ============================================================
-[14:29:43] Testing complete. Ran 10 tests: passed: 10
-[14:29:43] Elapsed time: 13.330s total, 0.001s configuring, 4.005s building, 9.276s running
-
-v2:
- * Parameterize a bunch of similar tests.
- * Improve test commentary.
- * Rename TDR test to timeout. (Christian)
- * Improve quality and consistency of naming. (Philipp)
-
-RFC v2 -> series v1:
- * Rebased for drm_sched_init changes.
- * Fixed modular build.
- * Added some comments.
- * Filename renames. (Philipp)
-
-v2:
- * Dealt with a bunch of checkpatch warnings.
-
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
-
-Tvrtko Ursulin (5):
-  drm: Move some options to separate new Kconfig
-  drm/scheduler: Add scheduler unit testing infrastructure and some
-    basic tests
-  drm/scheduler: Add a simple timeout test
-  drm/scheduler: Add basic priority tests
-  drm/scheduler: Add a basic test for modifying entities scheduler list
-
- drivers/gpu/drm/Kconfig                       | 109 +----
- drivers/gpu/drm/Kconfig.debug                 | 115 +++++
- drivers/gpu/drm/scheduler/.kunitconfig        |  12 +
- drivers/gpu/drm/scheduler/Makefile            |   2 +
- drivers/gpu/drm/scheduler/tests/Makefile      |   6 +
- .../gpu/drm/scheduler/tests/mock_scheduler.c  | 324 +++++++++++++
- drivers/gpu/drm/scheduler/tests/sched_tests.h | 222 +++++++++
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 425 ++++++++++++++++++
- 8 files changed, 1111 insertions(+), 104 deletions(-)
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+---
+ drivers/gpu/drm/Kconfig       | 109 ++--------------------------------
+ drivers/gpu/drm/Kconfig.debug | 103 ++++++++++++++++++++++++++++++++
+ 2 files changed, 108 insertions(+), 104 deletions(-)
  create mode 100644 drivers/gpu/drm/Kconfig.debug
- create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
- create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
- create mode 100644 drivers/gpu/drm/scheduler/tests/mock_scheduler.c
- create mode 100644 drivers/gpu/drm/scheduler/tests/sched_tests.h
- create mode 100644 drivers/gpu/drm/scheduler/tests/tests_basic.c
 
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index d9986fd52194..46ba24592553 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -26,6 +26,11 @@ menuconfig DRM
+ 	  details.  You should also select and configure AGP
+ 	  (/dev/agpgart) support if it is available for your platform.
+ 
++menu "DRM debugging options"
++depends on DRM
++source "drivers/gpu/drm/Kconfig.debug"
++endmenu
++
+ if DRM
+ 
+ config DRM_MIPI_DBI
+@@ -37,65 +42,6 @@ config DRM_MIPI_DSI
+ 	bool
+ 	depends on DRM
+ 
+-config DRM_DEBUG_MM
+-	bool "Insert extra checks and debug info into the DRM range managers"
+-	default n
+-	depends on DRM
+-	depends on STACKTRACE_SUPPORT
+-	select STACKDEPOT
+-	help
+-	  Enable allocation tracking of memory manager and leak detection on
+-	  shutdown.
+-
+-	  Recommended for driver developers only.
+-
+-	  If in doubt, say "N".
+-
+-config DRM_USE_DYNAMIC_DEBUG
+-	bool "use dynamic debug to implement drm.debug"
+-	default n
+-	depends on BROKEN
+-	depends on DRM
+-	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+-	depends on JUMP_LABEL
+-	help
+-	  Use dynamic-debug to avoid drm_debug_enabled() runtime overheads.
+-	  Due to callsite counts in DRM drivers (~4k in amdgpu) and 56
+-	  bytes per callsite, the .data costs can be substantial, and
+-	  are therefore configurable.
+-
+-config DRM_KUNIT_TEST_HELPERS
+-	tristate
+-	depends on DRM && KUNIT
+-	select DRM_KMS_HELPER
+-	help
+-	  KUnit Helpers for KMS drivers.
+-
+-config DRM_KUNIT_TEST
+-	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
+-	depends on DRM && KUNIT && MMU
+-	select DRM_BUDDY
+-	select DRM_DISPLAY_DP_HELPER
+-	select DRM_DISPLAY_HDMI_STATE_HELPER
+-	select DRM_DISPLAY_HELPER
+-	select DRM_EXEC
+-	select DRM_EXPORT_FOR_TESTS if m
+-	select DRM_GEM_SHMEM_HELPER
+-	select DRM_KUNIT_TEST_HELPERS
+-	select DRM_LIB_RANDOM
+-	select PRIME_NUMBERS
+-	default KUNIT_ALL_TESTS
+-	help
+-	  This builds unit tests for DRM. This option is not useful for
+-	  distributions or general kernels, but only for kernel
+-	  developers working on DRM and associated drivers.
+-
+-	  For more information on KUnit and unit tests in general,
+-	  please refer to the KUnit documentation in
+-	  Documentation/dev-tools/kunit/.
+-
+-	  If in doubt, say "N".
+-
+ config DRM_KMS_HELPER
+ 	tristate
+ 	depends on DRM
+@@ -247,23 +193,6 @@ config DRM_TTM
+ 	  GPU memory types. Will be enabled automatically if a device driver
+ 	  uses it.
+ 
+-config DRM_TTM_KUNIT_TEST
+-        tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
+-        default n
+-        depends on DRM && KUNIT && MMU && (UML || COMPILE_TEST)
+-        select DRM_TTM
+-        select DRM_BUDDY
+-        select DRM_EXPORT_FOR_TESTS if m
+-        select DRM_KUNIT_TEST_HELPERS
+-        default KUNIT_ALL_TESTS
+-        help
+-          Enables unit tests for TTM, a GPU memory manager subsystem used
+-          to manage memory buffers. This option is mostly useful for kernel
+-          developers. It depends on (UML || COMPILE_TEST) since no other driver
+-          which uses TTM can be loaded while running the tests.
+-
+-          If in doubt, say "N".
+-
+ config DRM_EXEC
+ 	tristate
+ 	depends on DRM
+@@ -463,9 +392,6 @@ config DRM_HYPERV
+ 
+ 	 If M is selected the module will be called hyperv_drm.
+ 
+-config DRM_EXPORT_FOR_TESTS
+-	bool
+-
+ # Separate option as not all DRM drivers use it
+ config DRM_PANEL_BACKLIGHT_QUIRKS
+ 	tristate
+@@ -478,31 +404,6 @@ config DRM_PRIVACY_SCREEN
+ 	bool
+ 	default n
+ 
+-config DRM_WERROR
+-	bool "Compile the drm subsystem with warnings as errors"
+-	depends on DRM && EXPERT
+-	depends on !WERROR
+-	default n
+-	help
+-	  A kernel build should not cause any compiler warnings, and this
+-	  enables the '-Werror' flag to enforce that rule in the drm subsystem.
+-
+-	  The drm subsystem enables more warnings than the kernel default, so
+-	  this config option is disabled by default.
+-
+-	  If in doubt, say N.
+-
+-config DRM_HEADER_TEST
+-	bool "Ensure DRM headers are self-contained and pass kernel-doc"
+-	depends on DRM && EXPERT
+-	default n
+-	help
+-	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
+-	  include/drm compile, are self-contained, have header guards, and have
+-	  no kernel-doc warnings.
+-
+-	  If in doubt, say N.
+-
+ endif
+ 
+ # Separate option because drm_panel_orientation_quirks.c is shared with fbdev
+diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
+new file mode 100644
+index 000000000000..601d7e07d421
+--- /dev/null
++++ b/drivers/gpu/drm/Kconfig.debug
+@@ -0,0 +1,103 @@
++config DRM_USE_DYNAMIC_DEBUG
++	bool "use dynamic debug to implement drm.debug"
++	default n
++	depends on BROKEN
++	depends on DRM
++	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
++	depends on JUMP_LABEL
++	help
++	 Use dynamic-debug to avoid drm_debug_enabled() runtime overheads.
++	 Due to callsite counts in DRM drivers (~4k in amdgpu) and 56
++	 bytes per callsite, the .data costs can be substantial, and
++	 are therefore configurable.
++
++config DRM_WERROR
++	bool "Compile the drm subsystem with warnings as errors"
++	depends on DRM && EXPERT
++	depends on !WERROR
++	default n
++	help
++	  A kernel build should not cause any compiler warnings, and this
++	  enables the '-Werror' flag to enforce that rule in the drm subsystem.
++
++	  The drm subsystem enables more warnings than the kernel default, so
++	  this config option is disabled by default.
++
++	  If in doubt, say N.
++
++config DRM_HEADER_TEST
++	bool "Ensure DRM headers are self-contained and pass kernel-doc"
++	depends on DRM && EXPERT
++	default n
++	help
++	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
++	  include/drm compile, are self-contained, have header guards, and have
++	  no kernel-doc warnings.
++
++	  If in doubt, say N.
++
++config DRM_DEBUG_MM
++	bool "Insert extra checks and debug info into the DRM range managers"
++	default n
++	depends on DRM
++	depends on STACKTRACE_SUPPORT
++	select STACKDEPOT
++	help
++	  Enable allocation tracking of memory manager and leak detection on
++	  shutdown.
++
++	  Recommended for driver developers only.
++
++	  If in doubt, say "N".
++
++config DRM_KUNIT_TEST_HELPERS
++	tristate
++	depends on DRM && KUNIT
++	select DRM_KMS_HELPER
++	help
++	  KUnit Helpers for KMS drivers.
++
++config DRM_KUNIT_TEST
++	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
++	depends on DRM && KUNIT && MMU
++	select DRM_BUDDY
++	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_HDMI_STATE_HELPER
++	select DRM_DISPLAY_HELPER
++	select DRM_EXEC
++	select DRM_EXPORT_FOR_TESTS if m
++	select DRM_GEM_SHMEM_HELPER
++	select DRM_KUNIT_TEST_HELPERS
++	select DRM_LIB_RANDOM
++	select PRIME_NUMBERS
++	default KUNIT_ALL_TESTS
++	help
++	  This builds unit tests for DRM. This option is not useful for
++	  distributions or general kernels, but only for kernel
++	  developers working on DRM and associated drivers.
++
++	  For more information on KUnit and unit tests in general,
++	  please refer to the KUnit documentation in
++	  Documentation/dev-tools/kunit/.
++
++	  If in doubt, say "N".
++
++config DRM_TTM_KUNIT_TEST
++	tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
++	default n
++	depends on DRM && KUNIT && MMU && (UML || COMPILE_TEST)
++	select DRM_TTM
++	select DRM_BUDDY
++	select DRM_EXPORT_FOR_TESTS if m
++	select DRM_KUNIT_TEST_HELPERS
++	default KUNIT_ALL_TESTS
++	help
++	  Enables unit tests for TTM, a GPU memory manager subsystem used
++	  to manage memory buffers. This option is mostly useful for kernel
++	  developers. It depends on (UML || COMPILE_TEST) since no other driver
++	  which uses TTM can be loaded while running the tests.
++
++	  If in doubt, say "N".
++
++config DRM_EXPORT_FOR_TESTS
++	bool
 -- 
 2.48.0
 
