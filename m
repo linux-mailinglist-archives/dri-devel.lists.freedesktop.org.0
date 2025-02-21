@@ -2,52 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEA8A3F3DF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 13:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5073A3F3F8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 13:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D521E10EA64;
-	Fri, 21 Feb 2025 12:09:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D531E10E21D;
+	Fri, 21 Feb 2025 12:17:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dl/g9qrh";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aFgBqvpF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF7310E1EF
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 12:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=no1rZyXm7qh1ucbvivicTVVOMbqN1+m43ZNecpW0ZXk=; b=dl/g9qrhYY72OpSt4qjB2HUuiv
- 4tj4lNK4qVRQvz9uloSzuHLxWyDv66EuTntZ17kK5fOmfIowGtbJN0HkSmZMB5a1etc0igGZ2X3nr
- WpJdL8SRRbHxnTK2hwytO0AYShz2YFK19D+n89a6NXs9NYGbpN6Uf5DJ55FyoJww+TOg8NqTF3WA2
- hqpk509YzRs6Hjl+rYkrLj1eCV8K2VdBS/0c4u3AK9DnIJWihKFD0jV+0kQuG26K11EM1H2mMvEbe
- 70AzIc+0eofsSm6mdy9CdIrnopvLAxM5vV/bC1vvPeM7+8XczqnJ+RlfnuEf6vwRES3CJbQTh68Cw
- ngeW7NBw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tlRqH-00G5GM-Di; Fri, 21 Feb 2025 13:09:23 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 5/5] drm/scheduler: Add a basic test for modifying entities
- scheduler list
-Date: Fri, 21 Feb 2025 12:09:17 +0000
-Message-ID: <20250221120917.80617-6-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250221120917.80617-1-tvrtko.ursulin@igalia.com>
-References: <20250221120917.80617-1-tvrtko.ursulin@igalia.com>
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A05F110E2C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 12:17:08 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-abb7d5a6577so23453666b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 04:17:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740140227; x=1740745027; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eAeiE8ep92u5I2OEjsiUsdxt/J43hiJGD52gUZJ3zJ0=;
+ b=aFgBqvpFtTJbubkstquqqA/6Ln74UG3+xgsl94gUp/XMt7dCRvMRSW6efNFSfZu8/z
+ 8hhnZ6h2ftrsjRRD0/YnRAaFPiwNOjQpG881EDhFXQpJ3TqOxE4y9Y2cwgGcJndf+4Qx
+ jtW7P1zolZx3L4cPC3dD6XNcZWPjaJgyW2U6bVVXLrC7VuSdT2s4he4p73s8oCv2zLve
+ PiQFryNZSokz2X4DYkh/QkPdQntExe92z+d0748+ji7OnHlj86YuHi1MH91ul6nKk/pY
+ pRVrfFrx01EG7DT4WdzSd6mk7UV4LTsm97e3O/83lp+ccttGIfUTeFdpUTzCawKlGufl
+ l27w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740140227; x=1740745027;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eAeiE8ep92u5I2OEjsiUsdxt/J43hiJGD52gUZJ3zJ0=;
+ b=GSGQa/8tV6w6psajZ3HhNEB4xJtQKEW5eFFhuzYS1dzGmpxxtHtvANOGdRWWXn0txo
+ nqHkI8KekqJoWcc1MJN7s3eJIx6hte+5P4in6CzctJAGrGlvSUjWGuy5T7ZRoSlZzPYy
+ w1sVZPa8DS4vSDoewmsaPJsHSa/IZ14NGovCf0sGQXpkWyu9Bn0JXwsG3Fv0E0y+d0wJ
+ BI8zOmExMgwN5iE4thL8rF5zOnmsbQqPKZRJpQKLqRYhLto3pbXO/yndUgPPDi15+37O
+ abAHZlMhiPI5Q3cQFmGwkpI07R+sAE7HnoX2ggZGOimDA0r5/Bj82lGs1Zjd92KKniLg
+ LfEw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXeqJo7GbcsX4vRC2dQTq2k7RNh7uAH32S75BRBBPAXh+DgctTTWaiV2uQ/gXTwYoQn8oU78FHCvw4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9rsMtpnABn3LGAKoDccxLXya3zrUWEeo4+wJbTmWVEnTno3U3
+ 8m2X+BU5DIv25SLPeVRa7Sr/DZftmC6QTNXtyU+NEtPLl83kXB+I8vrCECIXsmo=
+X-Gm-Gg: ASbGnct/i7nVsi0qJaP1mgK7ghRl7vN0J+G4Ri0m/4eFvJdaivPhlwYapZ0OzPMO4Dv
+ LitHQMclqH8HN+VEeMv00OyVekAQglJIkz6SkGcn03ToqWMVq98rLUQxldFC/iZRu/zeeklyRWw
+ tyBW6cmAYPX+NwbVfK71QgVFiCHBAOTrl2WDacTUhyHhNRpzS8aDXxZ76amtXujlUqsLFKZ5LR9
+ sHF20Qb8BNnRzXVHGXRu2GodipC+u8Iw5BdFjMrQB9m2iaHVqP1WuBNS92WbNkSXq48/3fhjCSf
+ vHEHwbVSPAAz43peTAAADop5nixqfPlaZJXOv3R6Jeg8m5l6LAagAFc+FwFx6ItYvc6qIz+rA6o
+ =
+X-Google-Smtp-Source: AGHT+IHuU1zR/BA+Pe2MYhCuCM+VStRQ9WlfH6VW1Kurq6t3qWN2H1iXwJJ1LKrJXNRHpLQnGQxwPA==
+X-Received: by 2002:a17:907:a089:b0:aa6:9574:1728 with SMTP id
+ a640c23a62f3a-abc09a0bf96mr111665666b.6.1740140227001; 
+ Fri, 21 Feb 2025 04:17:07 -0800 (PST)
+Received: from krzk-bin.. (78-11-220-99.static.ip.netia.com.pl. [78.11.220.99])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-abb916db37bsm1041690566b.165.2025.02.21.04.17.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Feb 2025 04:17:06 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mahadevan <quic_mahap@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: display/msm: qcom,
+ sa8775p-mdss: Add missing eDP phy
+Date: Fri, 21 Feb 2025 13:17:03 +0100
+Message-ID: <20250221121703.72230-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,101 +98,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic test for exercising modifying the entities scheduler list at
-runtime.
+The Qualcomm SA8775p MDSS display block comes with eDP phy, already used
+in DTS and already documented in phy/qcom,edp-phy.yaml binding.  Add the
+missing device node in the binding and extend example to silence
+dtbs_check warnings like:
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
+  sa8775p-ride.dtb: display-subsystem@ae00000: Unevaluated properties are not allowed ('phy@aec2a00', 'phy@aec5a00' were unexpected)
+
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 73 ++++++++++++++++++-
- 1 file changed, 72 insertions(+), 1 deletion(-)
+ .../display/msm/qcom,sa8775p-mdss.yaml        | 32 +++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index f0e5ae1220c7..2744a8c262c4 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -349,6 +349,77 @@ static struct kunit_suite drm_sched_priority = {
- 	.test_cases = drm_sched_priority_tests,
- };
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+index a90a8b3f1a9e..9c5648f63901 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+@@ -52,6 +52,13 @@ patternProperties:
+         items:
+           - const: qcom,sa8775p-dp
  
-+static void drm_sched_test_modify_sched(struct kunit *test)
-+{
-+	unsigned int i, cur_ent = 0, cur_sched = 0;
-+	struct drm_mock_sched_entity *entity[13];
-+	struct drm_mock_scheduler *sched[3];
-+	struct drm_mock_sched_job *job;
-+	const unsigned int qd = 1000;
-+	bool done;
++  "^phy@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,sa8775p-edp-phy
 +
-+	/*
-+	 * Submit a bunch of jobs against entities configured with different
-+	 * schedulers and while waiting for them to complete, periodically keep
-+	 * changing schedulers associated with each entity.
-+	 *
-+	 * We set up the queue-depth (qd) and job duration so the sched modify
-+	 * loop has some time to interact with submissions to the backend and
-+	 * job completions as they progress.
-+	 *
-+	 * For the number of schedulers and entities we use primes in order to
-+	 * perturb the entity->sched assignments with less of a regular pattern.
-+	 */
+ required:
+   - compatible
+ 
+@@ -61,6 +68,7 @@ examples:
+   - |
+     #include <dt-bindings/interconnect/qcom,icc.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/qcom,sa8775p-dispcc.h>
+     #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+     #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
+     #include <dt-bindings/power/qcom,rpmhpd.h>
+@@ -158,6 +166,26 @@ examples:
+             };
+         };
+ 
++        mdss0_dp0_phy: phy@aec2a00 {
++            compatible = "qcom,sa8775p-edp-phy";
 +
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		sched[i] = drm_mock_new_scheduler(test, MAX_SCHEDULE_TIMEOUT);
++            reg = <0x0 0x0aec2a00 0x0 0x200>,
++                  <0x0 0x0aec2200 0x0 0xd0>,
++                  <0x0 0x0aec2600 0x0 0xd0>,
++                  <0x0 0x0aec2000 0x0 0x1c8>;
 +
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		entity[i] = drm_mock_new_sched_entity(test,
-+						      DRM_SCHED_PRIORITY_NORMAL,
-+						      sched[i % ARRAY_SIZE(sched)]);
++            clocks = <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_AUX_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_AHB_CLK>;
++            clock-names = "aux",
++                          "cfg_ahb";
 +
-+	for (i = 0; i < qd; i++) {
-+		job = drm_mock_new_sched_job(test, entity[cur_ent++]);
-+		cur_ent %= ARRAY_SIZE(entity);
-+		drm_mock_sched_job_set_duration_us(job, 1000);
-+		drm_mock_sched_job_submit(job);
-+	}
++            #clock-cells = <1>;
++            #phy-cells = <0>;
 +
-+	do {
-+		struct drm_gpu_scheduler *modify;
++            vdda-phy-supply = <&vreg_l1c>;
++            vdda-pll-supply = <&vreg_l4a>;
++        };
 +
-+		usleep_range(200, 500);
-+		cur_ent++;
-+		cur_ent %= ARRAY_SIZE(entity);
-+		cur_sched++;
-+		cur_sched %= ARRAY_SIZE(sched);
-+		modify = &sched[cur_sched]->base;
-+		drm_sched_entity_modify_sched(&entity[cur_ent]->base, &modify,
-+					      1);
-+	} while (!drm_mock_sched_job_is_finished(job));
-+
-+	done = drm_mock_sched_job_wait_finished(job, HZ);
-+	KUNIT_ASSERT_EQ(test, done, true);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		drm_mock_sched_entity_free(entity[i]);
-+
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		drm_mock_scheduler_fini(sched[i]);
-+}
-+
-+static struct kunit_case drm_sched_modify_sched_tests[] = {
-+	KUNIT_CASE(drm_sched_test_modify_sched),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_modify_sched = {
-+	.name = "drm_sched_basic_modify_sched_tests",
-+	.test_cases = drm_sched_modify_sched_tests,
-+};
-+
- kunit_test_suites(&drm_sched_basic,
- 		  &drm_sched_timeout,
--		  &drm_sched_priority);
-+		  &drm_sched_priority,
-+		  &drm_sched_modify_sched);
+         displayport-controller@af54000 {
+             compatible = "qcom,sa8775p-dp";
+ 
+@@ -186,9 +214,9 @@ examples:
+ 
+             assigned-clocks = <&dispcc_mdss_dptx0_link_clk_src>,
+                               <&dispcc_mdss_dptx0_pixel0_clk_src>;
+-            assigned-clock-parents = <&mdss0_edp_phy 0>, <&mdss0_edp_phy 1>;
++            assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>;
+ 
+-            phys = <&mdss0_edp_phy>;
++            phys = <&mdss0_dp0_phy>;
+             phy-names = "dp";
+ 
+             operating-points-v2 = <&dp_opp_table>;
 -- 
-2.48.0
+2.43.0
 
