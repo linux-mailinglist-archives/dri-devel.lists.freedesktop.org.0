@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD2BA3FA55
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:11:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AFFA3FA5D
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:12:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCB5010EACA;
-	Fri, 21 Feb 2025 16:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7183110EAA5;
+	Fri, 21 Feb 2025 16:12:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lrAEoiy/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BK+/lJvR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4619A10EAC4
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 16:11:49 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-30a303a656aso22839401fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 08:11:49 -0800 (PST)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9874810EAA5
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 16:12:12 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-309311e7b39so20809931fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 08:12:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740154307; x=1740759107; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740154331; x=1740759131; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=z+tgAjCj9MawDwVZ/hBSY+WAuy/JgEh3oVqbLFgO/vU=;
- b=lrAEoiy/ohxSvrjkTx5MhvbLUdgp7m+eWVvzMNRMBurwzWOAzXqrOD5N/gKOHmIfMl
- HVHAVT+C0Otnzfj1f5f0uV25qgv0++cIXG45eaQlGdA0zqhAwNxI7EaRD2X9NqNrUs7e
- 0nBjtVKp4rozpR9hZ6lat6Cm9NP9aFEe+lUHrOIODZjBXAyWEWz71MIeZVbQEMQhi7wK
- 9p4TuMDtvPTx6TNNkeCqh9KAGf2xoPBLAUWrnWNIB7mOowKWlToXU8lMH1f2RymHWmVt
- UjtqtJ1+OAU1exInBsGsoppWjl2nn/BAPPE6lmtJCHKBxNWXqo+tKr7XpyFnQaCkPj/a
- lLrg==
+ bh=IbnhtJEa4SquPfm19GzdxAOTsJ3ZtzFT/hW1Tsd7YMA=;
+ b=BK+/lJvRzKMTBCCIg0TBoGTChTW/vvwWmH3iqMmw25YUphwLCuMM3P1KDY3BqLUHdI
+ eOUyz/pFWHfASyDAnh7D1SpuqC16PFgdNzV4+RhFbs+hqSakUrc9qISCUA5a0KK6eCgw
+ XQHJ3DDkBIUDUvoeGRXpSoG6khhe8C6zInFZcKJz4SAh72K4JRSxecE6/fSpEILRXE8Q
+ M6Z+wQhOf4Axb3aE4Ts4tzwmhFt5g9HQyYYD4iJNCnU0F6LWNAWHObsfDBA4yuOC96JE
+ 3g7oW4w6V1aM5bS5aNVvsiGY3aNDKseDr2A+P+SFQVG3ePwpVmqoIm/8kpUdkVyHZFkX
+ VhsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740154307; x=1740759107;
+ d=1e100.net; s=20230601; t=1740154331; x=1740759131;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=z+tgAjCj9MawDwVZ/hBSY+WAuy/JgEh3oVqbLFgO/vU=;
- b=f7Gf5c1J/+yRmM22H4nf2LEz6W5Ll4il2QOLvMs98H3wxjD75LQLhwTUKtsfVeFwfC
- WMJB+SnEuMYCeLz3Dg+yFBbymnst1fv/H111nRFFdczOQ/suT18DX2sSPag5YFxgllyL
- a6hPyeyw2DSYj4g2KC05wlqsIUIaQZWWl+d8/bYRQWuHxiLjQP043MruJDPF0I+AYVms
- 003oj+ZjiO9XegZN2YQTMjg89QT7LvsEzNZ1E34HMrbYAzWxuKEvTFrte086w+dK8VhE
- QJ7Gs6UF04odVPlEXefGx4ZKlHIUR/RDb+12MzZ9Y0q7Q/Op5ImhuRespvEvAT9T1aN/
- 0Q2Q==
+ bh=IbnhtJEa4SquPfm19GzdxAOTsJ3ZtzFT/hW1Tsd7YMA=;
+ b=cuDIXpoMGang5VzBvw/LEJTQwL/jUPiXGG/ep2KeyARKwNveS/g7d8oX+RHHdQfgWS
+ bKyEmHfDTolkvbmTWXrZKGcLRa8R1VKk3mUnxQV6rJr0JoypCNlXVQWOxs5CO/I4YI8v
+ MbYk6xfFbm/Y1tO3VNE8mwWitWxw8myXyp+rtIs6mr+FA25QWOTHeMy5eToV3IrZbiEs
+ RgsglGVH83qqT04oQ/7dJrH2er8/MN8aovqYinrCSIA2UwMrY2pEsvV1BktrxfK5qd9+
+ rb/XIDZd7NKrH1mRWkNa+M2+QFWIXTXW5AuGvsNGMQK0SZ2QFXYlUrGtUfo8aE644CcV
+ H9tw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW65/qjSAL67AZVjxs+hiZXcLFzNaKA49uy48z9+gLu6xqIK0sNR1lTtOUgFCw4QtJOSAxWnOBW0V0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx92doLivHrwS90VFFeEIWmB9nP9BGlwjxro4zMFywHC85tjiJ6
- DDCKwgeqZFiaJsw9CGnbzK/5xWHZ5MhWltt031PvzyfekCs+IWdmsOISVlwJE6o=
-X-Gm-Gg: ASbGncsJLZmkne++HuiXPrhjMd/SZ7i51GpLILuabYleyQCwpzdKOWMb+41mlfUeYOs
- nn5AQ/YCxKWAwZEva2bJZwq2m4gpL1WBZ0penoZdDX2vDMckWfA8YjTvLJH0gUd/PlwYkIgJOps
- iQq2EeHQN9zVU24ERyydM5fGfdWifQHhguCXv+T8xY2c6K0pQj+PIXW4PEGCijoX8WlIQxbhmzy
- xQQjQE5y/q9tFMQeMEYAVJbJYcEkGks4SGNPQczgHdM7QJIQ25RKZfea85CBzSW8cCzEpKRaoW/
- 9mooEB7P4yrh3TXZw8Bys8msZHnLlOY/VOfC8jgJ636ymIpVLqrtXJpnQ/70/VwI2Dx1Dv7lVma
- G98qmfA==
-X-Google-Smtp-Source: AGHT+IETyZBtso9u2xTJJhnVpTpjfbtC5aJNz6G9jWZcCAmcTZJGEkXDdGpqS0eQHNV8suEN6FsErA==
-X-Received: by 2002:a2e:8854:0:b0:300:330d:a5c4 with SMTP id
- 38308e7fff4ca-30a5b1829dbmr12028681fa.10.1740154307464; 
- Fri, 21 Feb 2025 08:11:47 -0800 (PST)
+ AJvYcCWSlMZBwENwrYEOpaxQOkoICPvnIYM92rKTETk3SHGcRV/kbiHv7S6SEP1icsoGkqDCiUQ8AT7M6J8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrtWwM2Ef3r+A7zFAa/ck9GUU4F4v3ZSfNclbA0bZ2QV/+LxC7
+ 1nE4M9ZTDZoXKzV7fW5LM1itaTo50ut5odVv90DpzGL8Pv8eNdWBpqpr7O7DLLU=
+X-Gm-Gg: ASbGncuZvjp2Kt5zoTAVKzjW99TSrIGWCEjsKGji+qsvR/6VmeCt1DMwjfMFEqaAiej
+ tWzlfBRJOtSPFj04lvutu0ObAyPajmgL3BY7OyQQNCPWsY4SpDFRcMcBcaWrDtp8FxOXN2Vsq7Y
+ o9NvBhv+oKFuoCTQRkS7QLRdy0jpVF+vijWPImt1tOgwOx3Zor6A64F67AjJECC3vzFaxxuN4X+
+ xaTPvPVqBzW/fd20PYeoOuWvFaRVQ7fL7HhKhmALhFm6kmhv9/XbWDTNeH3NwLlioRUDmQ3l93o
+ arNuYKE/hXEs2lHGGtqOsAOYG3V8AzpkU7L2rziBR2hoNnURMKntx596hy7ykgy8NRLUl0oaN41
+ sdHGewQ==
+X-Google-Smtp-Source: AGHT+IEKm09ffSc5M3frvvgU3E9J1EUpouTHSwPL5rhTUfv0oqJAypzPAMmviTh4qLAjGZjUYSJxPQ==
+X-Received: by 2002:a2e:7d07:0:b0:308:ec6f:7022 with SMTP id
+ 38308e7fff4ca-30a598e29c8mr15100431fa.17.1740154330646; 
+ Fri, 21 Feb 2025 08:12:10 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30a4506729bsm8828231fa.108.2025.02.21.08.11.46
+ 38308e7fff4ca-30a25195701sm20109501fa.4.2025.02.21.08.12.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2025 08:11:47 -0800 (PST)
-Date: Fri, 21 Feb 2025 18:11:45 +0200
+ Fri, 21 Feb 2025 08:12:10 -0800 (PST)
+Date: Fri, 21 Feb 2025 18:12:08 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -81,15 +81,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  linux-kernel@vger.kernel.org, 
  Srini Kandagatla <srinivas.kandagatla@linaro.org>,
  Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH v3 10/21] drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE on
- ctl_path reset
-Message-ID: <k4ivqzdnvmllek4i4kmbqfhjcz3mohmromcfxyyn2jw6efkju5@mug3ndaptajs>
+Subject: Re: [PATCH v3 11/21] drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE before
+ blend setup
+Message-ID: <7nd7j7wslq5fclik6trs2egwj7kx5wy246ljaqmwbkvnutu547@qgxcx66kjsw2>
 References: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
- <20250221-b4-sm8750-display-v3-10-3ea95b1630ea@linaro.org>
+ <20250221-b4-sm8750-display-v3-11-3ea95b1630ea@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221-b4-sm8750-display-v3-10-3ea95b1630ea@linaro.org>
+In-Reply-To: <20250221-b4-sm8750-display-v3-11-3ea95b1630ea@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,14 +105,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2025 at 04:24:20PM +0100, Krzysztof Kozlowski wrote:
-> Resetting entire CTL path should also include resetting active fetch
-> pipes.
+On Fri, Feb 21, 2025 at 04:24:21PM +0100, Krzysztof Kozlowski wrote:
+> Before blend setup, all existing blend stages are cleared, so shall be
+> active fetch pipes.
 > 
-> Fixes: e1a950eec256 ("drm/msm/dpu: add reset_intf_cfg operation for dpu_hw_ctl")
+> Fixes: b3652e87c03c ("drm/msm/disp/dpu1: add support to program fetch active in ctl path")
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
 > ---
+> 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
