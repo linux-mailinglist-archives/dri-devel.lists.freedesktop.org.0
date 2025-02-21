@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B6AA3F85A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7DFA3F85F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:25:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079AB10EA89;
-	Fri, 21 Feb 2025 15:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1509F10EA96;
+	Fri, 21 Feb 2025 15:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Op0ATXya";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="u1RSmE4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EEBF10EA93
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 15:24:53 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-abb88d2b67eso28360566b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 07:24:53 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C8510EA89
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 15:24:56 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-ab7f9f57192so32103066b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 07:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740151492; x=1740756292; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740151495; x=1740756295; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=2cslAnLurx2uWkIblqnE5n5YBSWA6fYOjQz9w/DOA/I=;
- b=Op0ATXya8HErOpRQ7xm1noMFoy3tUHCtxsUcsYQmoVOG82s65gShcqLyLsuaiBkK4S
- Dc64ZpEr6IumQ1asgA3UTefIGbIhpj1csdWCuR6ba0Myf+aKqYAkw+NFlh9SmpIRwLi2
- ScLHWdYnSC8zPFqVpI2f7Ye1qRrlgx7hzvMlxKC3gN5sm1spIHUpXJf4V6HZBrlgD1Jh
- 2LAnbrU9vi5p8sRGrOFWyIjt0tSt9MvKu4KnOWVq2NL3YcUjKUBNRus4EF6oHnuK/rtS
- v56rJv74C+ZJwzJNoqUu6IXqrQOo0tZaTm66MbdalAIcc0C9yiAhblpvrlK3UVOJIOJk
- +F0Q==
+ :reply-to; bh=ve17j3mm/abtdUOwnmohJ1b3/R5tZ1e+gOy6d8tNk6E=;
+ b=u1RSmE4vWWaevnJULdD2FWAfnj+u26XVdKM2GLavdX6mAHYHnPsczm0lF6H65N5LN+
+ tdN32mNv93O87REXTh4HBrqALz2Kk5pF0awHMA6JGCz6xnwmU0C+S5FDf2Fg+8ozRSXn
+ Nw/08cZGpSezZ3k/JSzU00bmD4S3VXPJrdYcgA8HcBBZ3sSmq5ySZxaSU7i4hLe6LlSA
+ qZV/GvmHc2yQVVS9B2D+eQXgXRb7PtdHbg+O+LkG8/I29FDZE2FXtejpJBGIBe4OMrDf
+ UNoWyS8tfUMxrEsqUpIWI23YzdsPKJq9+qV85YyX0VeZY2RZHLYgv5OJJ2URQfJe3CjM
+ 3ESw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740151492; x=1740756292;
+ d=1e100.net; s=20230601; t=1740151495; x=1740756295;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2cslAnLurx2uWkIblqnE5n5YBSWA6fYOjQz9w/DOA/I=;
- b=hltkMCaNiYad0aZdKR4X3JoJXdxcQuQpZY8Icu4uhdlVyunJK/n2/7JWgDdKsbLzi9
- VjRL1YHxLNRSo/EHJp0R1jqomnuNw8tBklp/N/aLFLgvWdWCyxd8VsgrIlNwcGA/9GtA
- 18wtnt6y2wK3NhBmVQkcyJu5VJj+8LvQppINYKAJsVubGcIk/AVNtEX6FrZqiVksTMOX
- ihsxRIJcxSg/bIbfFyoHS2UDfhXaKQObzGTQXWcZFxkPckVYI2RrLrnO6+HXcHcIlkKB
- NYKwcfGLDeEZ0OH90rDnnGGpIMdAm95FFnsoOYmtNSK0VjDXcmnGf5AECnRpWGw2/iyi
- zyfw==
+ bh=ve17j3mm/abtdUOwnmohJ1b3/R5tZ1e+gOy6d8tNk6E=;
+ b=FB5jHohPGWB3/UoCqDdNL/o7z7suzsclw9lawoIlyBW33J1wOFzqNAdfnIcqYnhqWB
+ TB2FmKG2yQq8xLJVKx0NXoOk5b9HHa5GmGnlzui3d13qbVk5mq35loRI3cZlnYzLwaWE
+ 11NMHNJv6Mtb74FxL9usA6iUiuOG3DLtq/BVfBJu/GmazXs6oUX2R1sdDGaKZvJ5A9Iy
+ SyMSsZX4pTA1Z+TSxsN/u6yr3m6g3QzVCv6TPJBP92DehCD8N5ysCJoihdut3E+9WCsS
+ kbcfhX86AcYqQs6B+tLWKAepUl4PqGuZhFHWlx0UTAUrSZHB/xsfyW4X/tlY48H2JnoL
+ /xLQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW9AZ4au2Phm2Mb4eceBkCKrQIcRCotZnp5/NDaZ1xtFOM2dEHjLpH+WFtqdfr4pZkB3iJ/V2+zju8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzAhYHWxzBSwLo0oZcdS4+89YBAcEP8Lix7Ymgf9j90ADUPamKI
- h2LpBpK9LBFPoQqw3F/qGckTCYWyGQqsDWlGC82POXuOhmKNhtI3IKolUfRFhXU=
-X-Gm-Gg: ASbGncuMUu50JduS31L+Uotj1hH5olfJSKC6OsHiiTCp0thBcqzzhU0fEXmlg+iKZN4
- ujSAVnwaNdfVv6eRSKMkKspHFxQ2NTA/6DEQoJdq6J5bxLalJL48fU3cZ2kV+HfxZNeV+KHg2uB
- wOl+qHkOm5GrnmSF89z/EQsMU0DSWQugjU4W3Dj7Ub2xL1xHVAJY3rvO+Ya6EENCF52zWBNFCkv
- c/8Heq6QZxRkIngs2UqznNqP4lrN9C6k6Xk2Xis1ahe8Z+2QdfeiBuSbCL3OmAYGy3QGewsm7Ps
- LWQCCLHys7vBYnfFlLliEUzKquNqNsFkNfLmq8v9XhVwXsnKulOOSHj4rFX2a5ikauo5d+pdXtW
- s
-X-Google-Smtp-Source: AGHT+IFKIQuk3xKeyN1ac8pfvFoGo1xm55r4yDfi0obbysI0RFch3oRgefyzIhmQ666lB2tFSSmLeg==
-X-Received: by 2002:a17:907:7286:b0:aa6:9c29:86d1 with SMTP id
- a640c23a62f3a-abc099b8837mr122567366b.3.1740151491870; 
- Fri, 21 Feb 2025 07:24:51 -0800 (PST)
+ AJvYcCVoSY0c4aNoNkyryL7WNVfDJMY1ZYRF7ivpYTNcWzV0FRPTY3mvUIZ9HGQYLCUXFJ8N6L97vvij100=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwhN5hZ+qotBbfKAW1OiLpH8iIjCCMESwAG4Xj90sDZxRMmI5lr
+ wpJAE6c1R6gJ3uK68wlVwCI8ssWHxektfT3wFUytVY7RZG+PomgyktCtiMg0xjE=
+X-Gm-Gg: ASbGncsqHg/kzbWuNv5O0ZJV86ozQw9sKa6WcGOSLyp9+fcx9HYKF5hKZOWlXH2kwg1
+ 0vDL+mAnc4L1nx+tX0quTg4GJr8TCYKlDAkv/eA+SAwkxmVFsE50JM0LonNWF0qZ9hfWOQLARzs
+ 1coo6FMgEoxFginq/Y6Av9h9Xe1XQXAQFtehM02AHjnDr0hvnOQIsI6MHIqf5uBspAj8uZSCj1I
+ RM5bXAUm2LPIvQ4CumjYsteSmel4Yf+QvcxFwVKXqaYkkuoZjrdveeJ7SO+WVxGyC4ErTbTzIhP
+ onnJivAEbibtIjc+LDzd+v3+3BltSisGEuEZUoGKuHf68vYNr4rUSc6ghr6GKg/HmoiB0wzjhgC
+ 8
+X-Google-Smtp-Source: AGHT+IGThcFZG5h6nyf0Wo4R9pbuzagN/g7Q86hCwRQ07ocY0fsI/LnRjCQ+ln/jckB/H3+qTrieVA==
+X-Received: by 2002:a17:907:7f17:b0:ab7:63fa:e35a with SMTP id
+ a640c23a62f3a-abc099e1dafmr140767666b.2.1740151493681; 
+ Fri, 21 Feb 2025 07:24:53 -0800 (PST)
 Received: from [127.0.1.1] (78-11-220-99.static.ip.netia.com.pl.
  [78.11.220.99]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abbaa56026fsm865456666b.113.2025.02.21.07.24.50
+ a640c23a62f3a-abbaa56026fsm865456666b.113.2025.02.21.07.24.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2025 07:24:51 -0800 (PST)
+ Fri, 21 Feb 2025 07:24:53 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Fri, 21 Feb 2025 16:24:11 +0100
-Subject: [PATCH v3 01/21] dt-bindings: display/msm: dsi-controller-main:
- Combine if:then: entries
+Date: Fri, 21 Feb 2025 16:24:12 +0100
+Subject: [PATCH v3 02/21] dt-bindings: display/msm: dsi-controller-main:
+ Add missing minItems
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250221-b4-sm8750-display-v3-1-3ea95b1630ea@linaro.org>
+Message-Id: <20250221-b4-sm8750-display-v3-2-3ea95b1630ea@linaro.org>
 References: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
 In-Reply-To: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -90,21 +90,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Srini Kandagatla <srinivas.kandagatla@linaro.org>, 
  Rob Clark <robdclark@chromium.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3023;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1931;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=gC/FypNj+ZpUyniZ+8EtOmpEbEyuPuBTmn13DjMHXtU=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnuJqsgXbxiTLYqR/PSolFrAbqMkllUjvxoL/mo
- OOMU655pAqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7iarAAKCRDBN2bmhouD
- 17YvD/wKGo6OfOEhuVfcMzmhFGgg37DWi/RIVXURAzYJ+joeU6L1inAafck7Qy+TNi6sa6k8YO1
- fBublLhM8E95wDVz2/WQV6PDZNKInMFryiQ8uIV9DGH4hqdtEMBp8ori6Rb1RTJICbSZWuTjEyp
- +9pggs6KDS6zo9nqtigeo3Tzcg98GlwsgEISJbA7N+ZfmNi/oNk7FEEdUxJ6FK3n61s9uoEgP3f
- fW1a/fSYE1ZGgoZ7R9UBXRDmddpNJwIYT32TWF3SJjr+tSXkLOnUKloaDf3FCpe/viuYqusz2f3
- muedbNjHozEOgPn3dpTvX6xCOBqgi605kIhmwJxme4fdw73jbYW3OBinFykeIAyosNeaHFwAt/9
- bZFl89wn8JGqzw1WpXJ+vPo0E4Y52PExXh8YYS9rSpaiAvZ/XPpoau6LFw2zAXFpuEpQlWK0fKN
- K81L05zXOa5dw8BFdJPaOXXqcVk08zwTqtxUeRWGP6dYYF8VPPhrdB4mLj56sNxguCHUR18pkW4
- HJ8UIhckPvigJQ4xaKWiwMOh1K4YIDf8UwejgyXirT3Xu00G4FBt/LnVt/MJsO6PtzGtbzY5pOj
- +Uk1USE2aNZrkUR6OusYZaTDOx4n5Vafs9/9NMO3ia2lXDdiWIDh9u7Yj8Hd4CI1Ev2GpyPwC1y
- kL6N46HexQeM2nw==
+ bh=bIJmVQhUPgDWhOxkXZXr441zWOXIC11HBHyQtQ4C9AI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnuJqtl/dJu9saPm64cDkotdIPNx/NMuosAvWNm
+ I2ba2uSO8iJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7iarQAKCRDBN2bmhouD
+ 168UD/4soLQMowTp96PKFERzDIPLIBRahxZNBzCNEQBX0rlr1gS10d2jJqUplfH8osgbTis/4sU
+ R3B15+PKFAy2ol7Fb8eO9svK7dbJWZ3aNLVQ1DjHKxryodaeai4UhmRFSEe2mVKoVncQ5Phdzi6
+ HF9gJdr0ptsIsalibfNCEiXevMyu5rBtcz0TsmeY7BimEG6qWlsuWYyfclVjAlkXHMsV4LYl6kY
+ RbqDDsatU6wIw/ft8Z7Rt/L4MjKrF0LibxtmKdp5hTXi10by2V2PS05ysEJ37QUzFvTntouZMPs
+ /35sGIrCSBFtujJ8THjXdc3n4dL8ifDigHXraiOa10Qbe4C46tEFP+saQYBKMwr4I0KMLG9g4Vh
+ PhhSva15QOGSw+83ZVNv7Ozu8sZDcwd3OYaeMn8tK5bONBjSKCJacXk607YFllITGbV//rJl05j
+ J7sUmaG1jo1AYlUeGRv8QkFNqh25b/z7Ir/Xnd8F4u53RnOjAnFCBIIQuk1pB5e/hAqXvyfCrxS
+ hm71NzAq7XTyR9gU06Z0Sl9lJAnoEkGUck4PkrzQ99FRsOrUre0qDqe7q5Zyai9viRPuHnAyfSk
+ vYnIZyjYq3lg6Mr3SvySVbMx5blM7ZgW3u4rjbA9XOyciLbs2m4DdeLuBgket3YHcCEaY5qeMta
+ 87c/5O7v0NKq0mg==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,106 +122,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several devices have the same clock inputs, thus they can be in the same
-if:then: clause, making everything smaller.  No functional impact.
+Specific constrain in if:then: blocks for variable lists, like clocks
+and clock-names, should have a fixed upper and lower size.  Older
+dtschema implied minItems, but that's not true since 2024 and missing
+minItems means that lower bound is not set.
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/display/msm/dsi-controller-main.yaml  | 64 ++--------------------
- 1 file changed, 5 insertions(+), 59 deletions(-)
+ .../devicetree/bindings/display/msm/dsi-controller-main.yaml        | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index ffbd1dc9470e2091b477b0c88392d81802119f48..e496e5430918d54b2f07f1d5b64de85d29256951 100644
+index e496e5430918d54b2f07f1d5b64de85d29256951..2aab33cd0017cd4a0c915b7297bb3952e62561fa 100644
 --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -248,24 +248,6 @@ allOf:
-           contains:
-             enum:
-               - qcom,msm8916-dsi-ctrl
--    then:
--      properties:
--        clocks:
--          maxItems: 6
--        clock-names:
--          items:
--            - const: mdp_core
--            - const: iface
--            - const: bus
--            - const: byte
--            - const: pixel
--            - const: core
--
--  - if:
--      properties:
--        compatible:
--          contains:
--            enum:
-               - qcom,msm8953-dsi-ctrl
-               - qcom,msm8976-dsi-ctrl
+@@ -231,6 +231,7 @@ allOf:
      then:
-@@ -328,28 +310,13 @@ allOf:
-           contains:
-             enum:
-               - qcom,msm8998-dsi-ctrl
--              - qcom,sm6125-dsi-ctrl
--              - qcom,sm6350-dsi-ctrl
--    then:
--      properties:
--        clocks:
--          maxItems: 6
--        clock-names:
--          items:
--            - const: byte
--            - const: byte_intf
--            - const: pixel
--            - const: core
--            - const: iface
--            - const: bus
--
--  - if:
--      properties:
--        compatible:
--          contains:
--            enum:
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-+              - qcom,sdm845-dsi-ctrl
-+              - qcom,sm6115-dsi-ctrl
-+              - qcom,sm6125-dsi-ctrl
-+              - qcom,sm6350-dsi-ctrl
-+              - qcom,sm6375-dsi-ctrl
-               - qcom,sm6150-dsi-ctrl
-               - qcom,sm7150-dsi-ctrl
-               - qcom,sm8150-dsi-ctrl
-@@ -393,27 +360,6 @@ allOf:
-             - const: pixel
-             - const: core
- 
--  - if:
--      properties:
--        compatible:
--          contains:
--            enum:
--              - qcom,sdm845-dsi-ctrl
--              - qcom,sm6115-dsi-ctrl
--              - qcom,sm6375-dsi-ctrl
--    then:
--      properties:
--        clocks:
--          maxItems: 6
--        clock-names:
--          items:
--            - const: byte
--            - const: byte_intf
--            - const: pixel
--            - const: core
--            - const: iface
--            - const: bus
--
- unevaluatedProperties: false
- 
- examples:
+       properties:
+         clocks:
++          minItems: 7
+           maxItems: 7
+         clock-names:
+           items:
+@@ -253,6 +254,7 @@ allOf:
+     then:
+       properties:
+         clocks:
++          minItems: 6
+           maxItems: 6
+         clock-names:
+           items:
+@@ -273,6 +275,7 @@ allOf:
+     then:
+       properties:
+         clocks:
++          minItems: 7
+           maxItems: 7
+         clock-names:
+           items:
+@@ -293,6 +296,7 @@ allOf:
+     then:
+       properties:
+         clocks:
++          minItems: 7
+           maxItems: 7
+         clock-names:
+           items:
+@@ -328,6 +332,7 @@ allOf:
+     then:
+       properties:
+         clocks:
++          minItems: 6
+           maxItems: 6
+         clock-names:
+           items:
+@@ -347,6 +352,7 @@ allOf:
+     then:
+       properties:
+         clocks:
++          minItems: 9
+           maxItems: 9
+         clock-names:
+           items:
 
 -- 
 2.43.0
