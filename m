@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0EFA3F97B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B92BA3F97D
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:54:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A551210EAC7;
-	Fri, 21 Feb 2025 15:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33CFC10EACB;
+	Fri, 21 Feb 2025 15:54:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QODkOxOX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iZC9cd3z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D2610EAC3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3C8E10EAC1;
  Fri, 21 Feb 2025 15:54:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740153256; x=1771689256;
+ t=1740153257; x=1771689257;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=C8/VP15dw5nM6vDUrN/jJM4lP9/GJpfnqfKL+bPMCNk=;
- b=QODkOxOX5WASRLUtSg6MGDIKcM+6jcEwG/7soPJkJhO2YfX3XpaX34hg
- BHRX62tafwr5olpe3rw+ijqBn/Xz0vik6M49jO3K+OYsJVyKG62a30Lmh
- yYxG5KksFZd9I3HgjnbHAFBpwuUHk6uLG0Bq1VYXxQ/o71AVJRVsA9VGz
- 0Mo5L0l7jzj+UyEhP4lg4F4knNmGBLmpZOkaFfiEjf70mfgyk+UMqv/+N
- doZ1lk8sEQqiupJVL9qAbWsixWQuLuAdLISXLht51HRvWpFcO36YKTmAG
- ulT5RRaAUv3pkFmd6xIYCa6xlFcsYvEBAch0WZOWhTCNXklcQj/ZwcYHa w==;
-X-CSE-ConnectionGUID: 6WB00pQASDCFpoyx/ykLBw==
-X-CSE-MsgGUID: jTWRB7BARuuVzBwEGpkJPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51190864"
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="51190864"
+ bh=3CCZcQ88N7xM0mUkD6/JYIoCM034YA+KexUX3QUBvHQ=;
+ b=iZC9cd3z/4GOoFAhhyKTmoTiOLvv9+06l4m43NM5OEARjufdbqRw+AVa
+ xTKnThH0J0/DbCrJsYZ6GlLU2rUhzVZ9MSUmIz4u+xSgqsV36OIl9vyKQ
+ 1STnkgIQQhHA39UBJ9PGzXQPVTPS1jlXP/VRQz0m1HqRAWFcl+TeWLCcl
+ nKxFa//2Hn/F/f9iJevdlV9IdYvjQjmhWD34Kx7q+rIuGUWFqwzM8OsHB
+ USAy2+HiIrlL7c/T69eI/0vISNTfpkxdw46o6kW4solOd3C5ObFH6xItL
+ LCwo7j9YmppWczX3vaMmhaY5LP1kEh7MeETKQqmqtZ2qtDgWgZxD9SIP4 w==;
+X-CSE-ConnectionGUID: 0wc284wXSJmU71t4YhJR4g==
+X-CSE-MsgGUID: sBh41qxOSWWmmw3OW65Qxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51190869"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="51190869"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 07:54:16 -0800
-X-CSE-ConnectionGUID: ocPvaGxASvKY3kYB3ctAhg==
-X-CSE-MsgGUID: 1tChsnraS8WUogQ1uClL8w==
+ 21 Feb 2025 07:54:17 -0800
+X-CSE-ConnectionGUID: m3vMS1DNRWeUyA8Xstv0GQ==
+X-CSE-MsgGUID: MT3cSLx/QTCkRltLZ0MCkw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="152595563"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="152595569"
 Received: from dut4432lnl.fm.intel.com ([10.105.10.105])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Feb 2025 07:54:16 -0800
@@ -48,9 +48,9 @@ Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  lucas.demarchi@intel.com, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch,
  kamil.konieczny@linux.intel.com
-Subject: [PATCH 1/4] drm-uapi/xe: Declare reset stats query
-Date: Fri, 21 Feb 2025 15:54:11 +0000
-Message-ID: <20250221155414.13961-2-jonathan.cavitt@intel.com>
+Subject: [PATCH 2/4] tests/intel/xe_query: Implement reset stats query test
+Date: Fri, 21 Feb 2025 15:54:12 +0000
+Message-ID: <20250221155414.13961-3-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250221155414.13961-1-jonathan.cavitt@intel.com>
 References: <20250221155414.13961-1-jonathan.cavitt@intel.com>
@@ -71,84 +71,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Align with 20250220203832.130430-1-jonathan.cavitt@intel.com
-
-Add initial declarations for the reset stats query, including necessary
-structures and IOCTL macros.
+Add initial test to xe query test suite that exercises the reset stats
+query.  The new test outputs the results of the query.
 
 Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 ---
- include/drm-uapi/xe_drm.h | 50 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ tests/intel/xe_query.c | 85 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
 
-diff --git a/include/drm-uapi/xe_drm.h b/include/drm-uapi/xe_drm.h
-index 08e263b3b2..e4f2f0d2a6 100644
---- a/include/drm-uapi/xe_drm.h
-+++ b/include/drm-uapi/xe_drm.h
-@@ -700,6 +700,7 @@ struct drm_xe_device_query {
- #define DRM_XE_DEVICE_QUERY_ENGINE_CYCLES	6
- #define DRM_XE_DEVICE_QUERY_UC_FW_VERSION	7
- #define DRM_XE_DEVICE_QUERY_OA_UNITS		8
-+#define DRM_XE_DEVICE_QUERY_RESET_STATS		10
- 	/** @query: The type of data to query */
- 	__u32 query;
- 
-@@ -1729,6 +1730,55 @@ struct drm_xe_oa_stream_info {
- 	__u64 reserved[3];
- };
- 
-+#define MAX_BAN_COUNT	50
-+/**
-+ * struct drm_xe_exec_queue_ban - Per drm client exec queue ban info returned
-+ * from @DRM_XE_DEVICE_QUERY_RESET_STATS query.  Includes the exec queue ID and
-+ * all associated pagefault information, if relevant.
-+ */
-+struct drm_xe_exec_queue_ban {
-+	/** @exec_queue_id: ID of banned exec queue */
-+	__u32 exec_queue_id;
-+	/**
-+	 * @pf_found: whether or not the ban is associated with a pagefault.
-+	 * If not, all pagefault data will default to 0 and will not be relevant.
-+	 */
-+	__u8 pf_found;
-+	/** @access_type: access type of associated pagefault */
-+	__u8 access_type;
-+	/** @fault_type: fault type of associated pagefault */
-+	__u8 fault_type;
-+	/** @vfid: VFID of associated pagefault */
-+	__u8 vfid;
-+	/** @asid: ASID of associated pagefault */
-+	__u32 asid;
-+	/** @pdata: PDATA of associated pagefault */
-+	__u16 pdata;
-+	/** @engine_class: engine class of associated pagefault */
-+	__u8 engine_class;
-+	/** @engine_instance: engine instance of associated pagefault */
-+	__u8 engine_instance;
-+	/** @fault_addr: faulted address of associated pagefault */
-+	__u64 fault_addr;
-+};
-+
-+/**
-+ * struct drm_xe_query_reset_stats - Per drm client reset stats query.
-+ */
-+struct drm_xe_query_reset_stats {
-+	/** @extensions: Pointer to the first extension struct, if any */
-+	__u64 extensions;
-+	/** @reset_count: Number of times the drm client has observed an engine reset */
-+	__u64 reset_count;
-+	/** @ban_count: number of exec queue bans saved by the drm client */
-+	__u64 ban_count;
-+	/**
-+	 * @ban_list: flexible array of struct drm_xe_exec_queue_ban, reporting all
-+	 * observed exec queue bans on the drm client.
-+	 */
-+	struct drm_xe_exec_queue_ban ban_list[];
-+};
-+
- #if defined(__cplusplus)
+diff --git a/tests/intel/xe_query.c b/tests/intel/xe_query.c
+index 1566680e7a..9862ea87d9 100644
+--- a/tests/intel/xe_query.c
++++ b/tests/intel/xe_query.c
+@@ -1077,6 +1077,90 @@ static void test_query_oa_units(int fd)
+ 	}
  }
- #endif
+ 
++/**
++ * The reset stats query will report -EOPNOTSUPP if the kernel is
++ * configured without CONFIG_PROC_FS.  Check this before running
++ * any tests on this query.
++ */
++static bool
++query_reset_stats_supported(int fd)
++{
++	struct drm_xe_device_query query = {
++		.extensions = 0,
++		.query = DRM_XE_DEVICE_QUERY_RESET_STATS,
++		.size = 0,
++		.data = 0,
++	};
++	int ret = igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query);
++
++	if (ret)
++		igt_assert(ret == -EOPNOTSUPP);
++	return !ret;
++}
++
++/**
++ * SUBTEST: query-reset-stats
++ * Description: Display fields for reset stats query
++ *
++ * SUBTEST: multigpu-query-reset-stats
++ * Description: Display fields for reset stats query for all GPU devices
++ * Sub-category: MultiGPU
++ */
++static void test_query_reset_stats(int fd)
++{
++	struct drm_xe_query_reset_stats *qrs;
++	struct drm_xe_device_query query = {
++		.extensions = 0,
++		.query = DRM_XE_DEVICE_QUERY_RESET_STATS,
++		.size = 0,
++		.data = 0,
++	};
++	struct drm_xe_exec_queue_ban *ban;
++
++	igt_skip_on(!query_reset_stats_supported(fd));
++	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query), 0);
++
++	qrs = malloc(query.size);
++	igt_assert(qrs);
++
++	query.data = to_user_pointer(qrs);
++	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query), 0);
++
++	igt_info("reset count: %lld\n", qrs->reset_count);
++	igt_info("ban count: %lld\n", qrs->ban_count);
++
++	for (int i = 0; i < qrs->ban_count; i++) {
++		ban = &qrs->ban_list[i];
++
++		igt_info("-------------------------------\n");
++		igt_info("exec queue ban %d\n", i);
++		igt_info("-------------------------------\n");
++		igt_info("exec_queue_id: %d\n", ban->exec_queue_id);
++		if (!ban->pf_found) {
++			igt_info("no associated pagefault\n");
++			continue;
++		}
++		igt_info("pagefault associated:\n");
++		igt_info("\tASID: %d\n"
++			 "\tVFID: %d\n"
++			 "\tPDATA: 0x%04x\n"
++			 "\tFaulted Address: 0x%08x%08x\n"
++			 "\tFaultType: %d\n"
++			 "\tAccessType: %d\n"
++			 "\tEngineClass: %d %s\n"
++			 "\tEngineInstance: %d\n",
++			 ban->asid, ban->vfid, ban->pdata,
++			 upper_32_bits(ban->fault_addr),
++			 lower_32_bits(ban->fault_addr),
++			 ban->fault_type, ban->access_type,
++			 ban->engine_class,
++			 xe_engine_class_string(ban->engine_class),
++			 ban->engine_instance);
++	}
++
++	free(qrs);
++}
++
+ igt_main
+ {
+ 	const struct {
+@@ -1094,6 +1178,7 @@ igt_main
+ 		{ "query-uc-fw-version-guc", test_query_uc_fw_version_guc },
+ 		{ "query-uc-fw-version-huc", test_query_uc_fw_version_huc },
+ 		{ "query-oa-units", test_query_oa_units },
++		{ "query-reset-stats", test_query_reset_stats },
+ 		{ "query-invalid-cs-cycles", test_engine_cycles_invalid },
+ 		{ "query-invalid-query", test_query_invalid_query },
+ 		{ "query-invalid-size", test_query_invalid_size },
 -- 
 2.43.0
 
