@@ -2,92 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B323A400C4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA627A400E6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:29:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92FCD10EB25;
-	Fri, 21 Feb 2025 20:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8821E10E0C6;
+	Fri, 21 Feb 2025 20:29:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W3qBOCb2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bjumTcQE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27FC510EB25
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 20:26:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740169567; x=1771705567;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=7HlkPlv9RaA45j5wq1XrEU1jlnPDHZG/VbqOejfstqk=;
- b=W3qBOCb2MIy9zECofuDzM+S7PsI42wzeU6BO0Q+jyvrYXct2GxcRg02d
- 0bZZuHhnlaeISr2eDqDyts6sNWzmZAilsa7TzsmsUzVSIk4VSiA4pOWSp
- 4kJUMx56cM5BmDnI/NP1iPvxMyc7byGu2h8kCsyJU4Omg93Hjb1jr8xyq
- RqJFQQksHtyIFC57OSVI07Q/1LPOs9Qc7kszF9Lqy7L8zwna0kxWAWq/H
- H5TaJ4OMFw8TCoqooYmukS2XTSTEyw3u3YI34e4IJYHbac18mOVNwl2QL
- VwFT097CNYA3xekshIQrBtt/XVYgA8bEohrFBmRU9EZg+xaHTTWaTWa4K w==;
-X-CSE-ConnectionGUID: 6UpREHIgQV6+P/ssrTMtbw==
-X-CSE-MsgGUID: vGdL+4hfTuCrzY73llflWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="41264372"
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="41264372"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 12:26:06 -0800
-X-CSE-ConnectionGUID: 8DTLyFp1Tb6qPxlmd/pqwA==
-X-CSE-MsgGUID: Kj59BScTSAaTFhqhmO42zA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="146309571"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 12:25:59 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tlZar-0000000DjzO-2hnW; Fri, 21 Feb 2025 22:25:53 +0200
-Date: Fri, 21 Feb 2025 22:25:53 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
- "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- "apw@canonical.com" <apw@canonical.com>,
- "joe@perches.com" <joe@perches.com>,
- "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Hector Martin <marcan@marcan.st>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
- to BGR888
-Message-ID: <Z7jhUb0J0yaM_ROI@smile.fi.intel.com>
-References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
- <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
- <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63F110E0C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 20:29:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C3FC05C6D9C;
+ Fri, 21 Feb 2025 20:28:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFE3C4CED6;
+ Fri, 21 Feb 2025 20:29:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740169752;
+ bh=dVquMpewX/+NkVDUur45gc/Yc+Kf01Dyu5/+irO3VQQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bjumTcQEe3AkEx1htsLx8vIkarGUhMuyiJN/Y7/yuFH+aEk9JVLZiXlUQpoxscDQN
+ nl1JurFoUMGGamq0lPlyRGP6+oQHdTFJ5PLY41+fhsD3Yf0islbtygj1mqFHnsG7mU
+ OjZFMU3TJTJql8pF5wZfMXW3l7v4PNUFJHxPaBFz95rYCk0QSyHL9gcJ2Ma6+NGTyl
+ bu6TKCukf1mcoD7Qkj5rA2i4jmvxmzH+2+d/egMUqjS8NlcItPdhALD23WPl/DvWLT
+ GVREGNQjzhE7gVSIOgnIIWS3yqe9qhJyg8gWLSO/WBRnWhhPakwnjGcYk3mULXRUI9
+ XpGW5nhWfYGSQ==
+Date: Fri, 21 Feb 2025 14:29:10 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-renesas-soc@vger.kernel.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ devicetree@vger.kernel.org, Simona Vetter <simona@ffwll.ch>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: gpu: mali-bifrost: Add compatible for
+ RZ/V2H(P) SoC
+Message-ID: <174016975012.24654.2096409843196384969.robh@kernel.org>
+References: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250218115922.407816-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250218115922.407816-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,46 +70,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2025 at 05:21:08PM +0000, Aditya Garg wrote:
-> > On 21 Feb 2025, at 9:21 PM, andriy.shevchenko@linux.intel.com wrote:
-> > On Fri, Feb 21, 2025 at 11:36:00AM +0000, Aditya Garg wrote:
 
-...
-
-> >> + for (x = 0; x < pixels; x++) {
-> >> + pix = le32_to_cpu(sbuf32[x]);
-> >> + /* write red-green-blue to output in little endianness */
-> >> + *dbuf8++ = (pix & 0x00ff0000) >> 16;
-> >> + *dbuf8++ = (pix & 0x0000ff00) >> 8;
-> >> + *dbuf8++ = (pix & 0x000000ff) >> 0;
-> > 
-> > put_unaligned_be24()
-
-(1)
-
-> >> + }
-
-...
-
-> >> + static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-> >> + 3,
-> >> + };
-> > 
-> > One line?
-> > 
-> > static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = { 3 };
+On Tue, 18 Feb 2025 11:59:20 +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Wrt all the above respective changes, the formatting has been done exactly like what other emulation helps do in the upstream patch.
+> Add a compatible string for the Renesas RZ/V2H(P) SoC variants that
+> include a Mali-G31 GPU. These variants share the same restrictions on
+> interrupts, clocks, and power domains as the RZ/G2L SoC, so extend
+> the existing schema validation accordingly.
 > 
-> I doubt Thomas would want these changes to be done, or would want these changes to be done for the upstream emulation helpers as well.
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> For reference: https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_format_helper.c
 
-I'm not sure how this is applicable to (1) above. Otherwise it's fine if there
-is a documented style or due to consistency with the existing style.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Applied, thanks!
 
