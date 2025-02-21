@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC5AA3FB75
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:36:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE9FA3FB85
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:38:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE7F10EAF9;
-	Fri, 21 Feb 2025 16:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECEDF10EAB7;
+	Fri, 21 Feb 2025 16:37:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g/OJEnmk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GmoqzwKO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24A0F10EAB7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 16:36:20 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-30a2dfcfd83so22444041fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 08:36:20 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D648610EAB7
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 16:37:57 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-309311e7b39so21064091fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 08:37:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740155778; x=1740760578; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740155876; x=1740760676; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bPds9oAtueHibvIS0BHa1Q9Tu3GfdsskW31+FCbd/E0=;
- b=g/OJEnmkJKn7WNnfypHHRLoJ1gvMyo5WlKtdrPq7Lq5FsbOqfqdiz6avCdhy6CLKrd
- T4Zekil6PrPDYKiatNSI5oA4ldG0wLkqhRfwTC/4cIaCXP/0HL5rfBSMNGAXsVMTXe+I
- CKpVmgBoJ/oqHeFVCCXQZKMdpIcym+EP5A6GBbs48dZZ0cfpsncXANG2PY7aWx0ukvfe
- B4A9OeF3lBhlW9ky/cHMzePQtayKKys8Nb+uScH5OlueT0v9Lu61uNEzSX3FUKxAduM3
- qpxzSmFTc+oB4rfyJPF/zfaDRUVZmi742cZLBxgEHiCeCpMdMv+5ADY8nLNMZF88rh/R
- Idjg==
+ bh=HiCM9rHR9ep2t2LpEOjyyuBT+CM+zVgh9rP3wMq2c10=;
+ b=GmoqzwKOQFh+DS+S3NYgEXwTiOQUjTnvljaveRouMp9F8G24FTns3eo67vMzUXtACu
+ zxZt04fYMMHw3l2HIhUZqdI3Jl8mrBKmFk7qF4X/+u0+WW8NMFLsCZpNd6G4vMoVzHlI
+ lW3so+ZoaSLePCmWcNf5mpJLjcTYw0B8AF+dlBmWnLgS74tkYHbZLMirSXZeFzHWmJc9
+ YQ/3JYT7sKTIOIHg9JFgCrJ0hRMp9iOHhLMpn+rmK5v0SROTUGawOQVjLlzdUwMFL90m
+ mTtFSwidWXYh+PN0jS4XD1Lyc7MDd9jSMiMYtxFgyieI+qGqQG7euO36S240vVkUqqAF
+ bF7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740155778; x=1740760578;
+ d=1e100.net; s=20230601; t=1740155876; x=1740760676;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bPds9oAtueHibvIS0BHa1Q9Tu3GfdsskW31+FCbd/E0=;
- b=MRvtYO+Fx3Yz7SFnf/FYHJL3nXTM4fScuO4WT8MJVGBG3KTloLdFghyjluLW2M13JS
- KQRpX9OnlH4Y/zsIbccp+CCkNP0/vv/UCbbBCS8Q3tgFoViIE7Xjq9DkJq8MBmj12o76
- +iLRViYKtwhAy+Jk7+tfgEloy61Jz0akmSogU55eFd0K/00AoA5vpJGZ7ylN3kDq7OCa
- mtRNbYoK+jMRh3FhzxONfpoxnk25watjG97Nb1NQR3vdTYKoCiIpMkyHP/W5NvKBLrro
- 2ggZYTb9O74/aSy1VGMw1rjmSXKMAdbpKQjcajrENNNKB838Lhc/ZTloCjtmH7wgc4SC
- JgTA==
+ bh=HiCM9rHR9ep2t2LpEOjyyuBT+CM+zVgh9rP3wMq2c10=;
+ b=mQ5fjKsVGzujCi2JZxS4mTE9OgGg2I//AWFU9+g2CpVMq++1zANSpYKFBpZUB4mKXq
+ dtQVMZTTA+9v4Q+erxnuD2E9dQCS0+/zWPe113WCJOx8bOP6j1NqbVHHkrm7ED25p1v9
+ RjXvlqFYMuik+fkDBLrgYtdVRaDNa+negciV/fThEgzmXsPZCdv3tlI2NT2LdmkHK9G9
+ rYh4NRiwi23UeE7sAUgODV4rn8MKbLUadmPiQ9gn/9lUvRvvyjTCbGbDyWnAFXZ/mdWq
+ Zu3sKtoQFTz+KfxzTSMoG3rxWq3YrLXgLpivjPHleb2tJEbZs/Oj+AK3r5ydkRn1rccB
+ SQnA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXP1EZtwfDm6TRwmKjsJmKFMqHPhS5OsWnED1vsvQHP5w/yo+kngWNe0cFC3ZdyZEwu6sgfmfhpV+0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzbev4Tckfs4Uo7gQaNHlyZxcdx2upM5wBrQe7weqEdemfaQVrn
- t38/wrx/KOPrg3HYKM/pWChjhw5rWg0eWTJ6Qy2SMO+MAEDleRKEjj2Ta3fcMGQ=
-X-Gm-Gg: ASbGncvVeYEJhuc4OIcA/zP1DYiEmKurfWJ9TGdYggYlIcFnagn2i+/0PYNj0MAWmex
- DW7+DEY8zBlGS64Rq/Z+LJsX3j33QBAkIilJLoWKvrmXwbV4FnOHuma/EWc/a0UqghOHfLU8jM/
- v65mk7G3CLo1k6AzLBDJvOjdoQt30k1OdCKorM9lvpJjD0IhHICYTgzLtn8qLcewF4mPFTyG3o8
- 8BmxTCXnd4s+3KUC+p7Mq7c3go29F39AHv8oIu3Z3cR53ztzhSV4KDfd89HuNbZtVfN5AHBTI5i
- ZuQuWg4X6f6hmmDYQzVkRVYZPxsmBks7dB5jzO8y26B1C7y9cFevQkO4z8gFamXLOGeyQfiljNt
- hq0aJ8w==
-X-Google-Smtp-Source: AGHT+IG5OE0xMdR23O2TUN2vTwu+eGSplv/MmFU+Pt5AentUHO2eMzUBhfbNGyJXT3btW78Y1ZdZVw==
-X-Received: by 2002:a05:6512:104e:b0:545:2e5d:f3f3 with SMTP id
- 2adb3069b0e04-54838f5b0bcmr1640970e87.46.1740155777708; 
- Fri, 21 Feb 2025 08:36:17 -0800 (PST)
+ AJvYcCWPczd3aJuyvWhPhdEzHRT7yALTGKHYNog6PNXC5oCJqoYNZYXL/h9TfRIlaZxBqWWbOnpYC3sQrng=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6Ab+kVIpqWNGpZwmkHAH21q7hCvtzWhZSXVnyWMVJlvh1kpaT
+ ycJBKoXDjJF4LbhMlgg2ncwNWhTQHvIADZyeT3NCNqFE90jpZO1dY127MuDlQZU=
+X-Gm-Gg: ASbGnctzzMNGs5gqMN8patZ4kUxI22PsHYm3y70HUVJLGdLMlXpxFnJcsqOFt0+AZoV
+ +9YXtM3mT1pTYSnYRtI+jD5vMVjfuOjsQrW+d26qhtRlzcFVjgoSLUVC5CSt3gKIlP48x3P/Svd
+ vB0EcvN/AJVK3QXtupD6ZGx+P12nXJoz0Pl7qIdV1znMlpbotxQgWC49zV6BkEd9Mwd9mKKUzYM
+ eYKquhkUl1TZMJaqJqEunMK5hLu6p1KFxp28Xh5Zl2K7mijB3hJTlZOdiPkbqbw2Bh4ex/Ynyay
+ ho73zwjTV4LdY+2tZ1g6j9C1P9+kRXUpSL5L0nLKkDTzdEZFzOPcb778NGfms+rxnLwb+tSOw/3
+ fCub0Sg==
+X-Google-Smtp-Source: AGHT+IGoFXuun5GJ97Xvt7Zgkc3Ne28NUcJZxPJK51Drj8l8NBtis2PX6e4XOtShtMwtO68U8U2oOQ==
+X-Received: by 2002:a05:6512:e99:b0:545:c51:4a0f with SMTP id
+ 2adb3069b0e04-54838edd8e6mr1785885e87.4.1740155876184; 
+ Fri, 21 Feb 2025 08:37:56 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-545637f0e14sm1961903e87.86.2025.02.21.08.36.15
+ 2adb3069b0e04-5461dea980dsm1758346e87.63.2025.02.21.08.37.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2025 08:36:16 -0800 (PST)
-Date: Fri, 21 Feb 2025 18:36:13 +0200
+ Fri, 21 Feb 2025 08:37:54 -0800 (PST)
+Date: Fri, 21 Feb 2025 18:37:52 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jun Nie <jun.nie@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -72,15 +72,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 13/15] drm/msm/dpu: support SSPP assignment for
+Subject: Re: [PATCH v6 14/15] drm/msm/dpu: support plane splitting in
  quad-pipe case
-Message-ID: <khmeegjx5jmu4c32un3gqu7sumkbtdkg6cawwwmwtmkp5gkrag@sklf5tr7qbwv>
+Message-ID: <5sio6so2dcdadxps4russkuk4i4duui3oxcl3aeiafkbsw4ag2@g6l42epivgpz>
 References: <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-0-c11402574367@linaro.org>
- <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-13-c11402574367@linaro.org>
+ <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-14-c11402574367@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-13-c11402574367@linaro.org>
+In-Reply-To: <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-14-c11402574367@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,70 +96,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 17, 2025 at 10:16:02PM +0800, Jun Nie wrote:
-> Currently, SSPPs are assigned to a maximum of two pipes. However,
-> quad-pipe usage scenarios require four pipes and involve configuring
-> two stages. In quad-pipe case, the first two pipes share a set of
-> mixer configurations and enable multi-rect mode when certain
-> conditions are met. The same applies to the subsequent two pipes.
+On Mon, Feb 17, 2025 at 10:16:03PM +0800, Jun Nie wrote:
+> The content of every half of screen is sent out via one interface in
+> dual-DSI case. The content for every interface is blended by a LM
+> pair in quad-pipe case, thus a LM pair should not blend any content
+> that cross the half of screen in this case. Clip plane into pipes per
+> left and right half screen ROI if topology is quad pipe case.
 > 
-> Assign SSPPs to the pipes in each stage using a unified method and
-> to loop the stages accordingly.
+> The clipped rectangle on every half of screen is futher handled by two
+> pipes if its width exceeds a limit for a single pipe.
 > 
 > Signed-off-by: Jun Nie <jun.nie@linaro.org>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 63 +++++++++++++++++++------------
->  1 file changed, 39 insertions(+), 24 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  11 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  |   2 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 134 +++++++++++++++++++++---------
+>  3 files changed, 107 insertions(+), 40 deletions(-)
 > 
-> +	for (stage_id = 0; stage_id < num_stages; stage_id++) {
-> +		for (i = stage_id * PIPES_PER_STAGE; i < (stage_id + 1) * PIPES_PER_STAGE; i++) {
-> +			pipe = &pstate->pipe[i];
-> +			pipe_cfg = &pstate->pipe_cfg[i];
-> +
-> +			if (drm_rect_width(&pipe_cfg->src_rect) == 0)
-> +				break;
-> +
-> +			pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> +			if (!pipe->sspp)
-> +				return -ENODEV;
-> +
-> +			r_pipe = &pstate->pipe[i + 1];
-> +			r_pipe_cfg = &pstate->pipe_cfg[i + 1];
-> +
-> +			/*
-> +			 * If current pipe is the first pipe in pipe pair, check
-> +			 * multi-rect opportunity for the 2nd pipe in the pair.
-> +			 * SSPP multi-rect mode cross mixer pairs is not supported.
-> +			 */
-> +			if ((i % PIPES_PER_STAGE == 0) &&
-
-Please move r_pipe / r_pipe_cfg definition and assignment here. With
-that fixed:
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-> +			    drm_rect_width(&r_pipe_cfg->src_rect) != 0 &&
-> +			    dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> +							      pipe->sspp,
-> +							      msm_framebuffer_format(plane_state->fb),
-> +							      dpu_kms->catalog->caps->max_linewidth)) {
-> +				i++;
-> +			} else {
-> +				/* multirect is not possible, use two SSPP blocks */
-> +				pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +				pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +				DPU_DEBUG_PLANE(pdpu, "allocating sspp_%d for pipe %d.\n",
-> +						pipe->sspp->idx - SSPP_NONE, i);
-> +			}
-> +		}
->  	}
->  
->  	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
-> 
-> -- 
-> 2.34.1
-> 
 
 -- 
 With best wishes
