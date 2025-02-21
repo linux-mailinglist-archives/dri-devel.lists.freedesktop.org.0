@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B92BA3F97D
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:54:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F277EA3F97A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33CFC10EACB;
-	Fri, 21 Feb 2025 15:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A486C10EAC6;
+	Fri, 21 Feb 2025 15:54:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iZC9cd3z";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eu41Ynur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3C8E10EAC1;
- Fri, 21 Feb 2025 15:54:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3844C10EAC6;
+ Fri, 21 Feb 2025 15:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1740153257; x=1771689257;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3CCZcQ88N7xM0mUkD6/JYIoCM034YA+KexUX3QUBvHQ=;
- b=iZC9cd3z/4GOoFAhhyKTmoTiOLvv9+06l4m43NM5OEARjufdbqRw+AVa
- xTKnThH0J0/DbCrJsYZ6GlLU2rUhzVZ9MSUmIz4u+xSgqsV36OIl9vyKQ
- 1STnkgIQQhHA39UBJ9PGzXQPVTPS1jlXP/VRQz0m1HqRAWFcl+TeWLCcl
- nKxFa//2Hn/F/f9iJevdlV9IdYvjQjmhWD34Kx7q+rIuGUWFqwzM8OsHB
- USAy2+HiIrlL7c/T69eI/0vISNTfpkxdw46o6kW4solOd3C5ObFH6xItL
- LCwo7j9YmppWczX3vaMmhaY5LP1kEh7MeETKQqmqtZ2qtDgWgZxD9SIP4 w==;
-X-CSE-ConnectionGUID: 0wc284wXSJmU71t4YhJR4g==
-X-CSE-MsgGUID: sBh41qxOSWWmmw3OW65Qxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51190869"
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="51190869"
+ bh=zI0CgkJN8PhMuLw7NBSP5eBEt5JvbKKdnyarZw+8Zvg=;
+ b=eu41YnurlZnT5FjDFN/2JmNk0MytvEV/jDVp58+6LMGu6grIBPpSx4Nz
+ DGvCOL4VPytFKpdHKgRe36ukpw1nS7NBGenbydfTS5clE+90ycU/WG+Dh
+ GmM4htW7OrYpI3WKnanbKKGm5tHceO+G4kTmbJYQvK8e9stu8g188pFV8
+ Xz8burXIXyOPSQEkXboqMPblbOVoI5LnN+FgI7FcrGybfM23KMDpUHmuT
+ KgEifpFI0yoTvBHjij4n2qxAMjLsiaLuk2hWiPQJ94IzbCMaHCBQn+Bjw
+ qaOS8bXN8Jef5tUOM4w+00Gmd/UPhT+wppzKIRSfdT85vPIIKu5vH5iu+ w==;
+X-CSE-ConnectionGUID: Lt2WHZnhTr6fknqNM+XCgg==
+X-CSE-MsgGUID: O4KzuMtHShmrfmCFZU83cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51190872"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="51190872"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Feb 2025 07:54:17 -0800
-X-CSE-ConnectionGUID: m3vMS1DNRWeUyA8Xstv0GQ==
-X-CSE-MsgGUID: MT3cSLx/QTCkRltLZ0MCkw==
+X-CSE-ConnectionGUID: v3FUSx+QQi+6lIF8mvTM3A==
+X-CSE-MsgGUID: PF2Ni3ZqT9KKCvUyYg59uA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="152595569"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="152595573"
 Received: from dut4432lnl.fm.intel.com ([10.105.10.105])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 07:54:16 -0800
+ 21 Feb 2025 07:54:17 -0800
 From: Jonathan Cavitt <jonathan.cavitt@intel.com>
 To: igt-dev@lists.freedesktop.org
 Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
@@ -48,9 +48,9 @@ Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  lucas.demarchi@intel.com, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch,
  kamil.konieczny@linux.intel.com
-Subject: [PATCH 2/4] tests/intel/xe_query: Implement reset stats query test
-Date: Fri, 21 Feb 2025 15:54:12 +0000
-Message-ID: <20250221155414.13961-3-jonathan.cavitt@intel.com>
+Subject: [PATCH 3/4] tests/intel/xe_query: Exercise reset count in reset stats
+Date: Fri, 21 Feb 2025 15:54:13 +0000
+Message-ID: <20250221155414.13961-4-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250221155414.13961-1-jonathan.cavitt@intel.com>
 References: <20250221155414.13961-1-jonathan.cavitt@intel.com>
@@ -71,53 +71,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add initial test to xe query test suite that exercises the reset stats
-query.  The new test outputs the results of the query.
+Extend the reset stats query tests to exercise the reset count value.
+Assert that the reset count increases when an engine reset occurs.
 
 Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 ---
- tests/intel/xe_query.c | 85 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+ tests/intel/xe_query.c | 52 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
 diff --git a/tests/intel/xe_query.c b/tests/intel/xe_query.c
-index 1566680e7a..9862ea87d9 100644
+index 9862ea87d9..1a9a583a9a 100644
 --- a/tests/intel/xe_query.c
 +++ b/tests/intel/xe_query.c
-@@ -1077,6 +1077,90 @@ static void test_query_oa_units(int fd)
- 	}
+@@ -1161,6 +1161,57 @@ static void test_query_reset_stats(int fd)
+ 	free(qrs);
  }
  
 +/**
-+ * The reset stats query will report -EOPNOTSUPP if the kernel is
-+ * configured without CONFIG_PROC_FS.  Check this before running
-+ * any tests on this query.
-+ */
-+static bool
-+query_reset_stats_supported(int fd)
-+{
-+	struct drm_xe_device_query query = {
-+		.extensions = 0,
-+		.query = DRM_XE_DEVICE_QUERY_RESET_STATS,
-+		.size = 0,
-+		.data = 0,
-+	};
-+	int ret = igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query);
-+
-+	if (ret)
-+		igt_assert(ret == -EOPNOTSUPP);
-+	return !ret;
-+}
-+
-+/**
-+ * SUBTEST: query-reset-stats
-+ * Description: Display fields for reset stats query
++ * SUBTEST: query-reset-stats-reset
++ * Description: Assert reset stats query tracks reset count
 + *
-+ * SUBTEST: multigpu-query-reset-stats
-+ * Description: Display fields for reset stats query for all GPU devices
++ * SUBTEST: multigpu-query-reset-stats-reset
++ * Description: Assert reset stats query tracks reset count for all GPU devices
 + * Sub-category: MultiGPU
 + */
-+static void test_query_reset_stats(int fd)
++static void
++test_query_reset_stats_reset(int fd)
 +{
++	struct drm_xe_engine_class_instance *hwe;
 +	struct drm_xe_query_reset_stats *qrs;
 +	struct drm_xe_device_query query = {
 +		.extensions = 0,
@@ -125,7 +106,7 @@ index 1566680e7a..9862ea87d9 100644
 +		.size = 0,
 +		.data = 0,
 +	};
-+	struct drm_xe_exec_queue_ban *ban;
++	u64 resets1, resets2;
 +
 +	igt_skip_on(!query_reset_stats_supported(fd));
 +	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query), 0);
@@ -135,50 +116,36 @@ index 1566680e7a..9862ea87d9 100644
 +
 +	query.data = to_user_pointer(qrs);
 +	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query), 0);
-+
-+	igt_info("reset count: %lld\n", qrs->reset_count);
-+	igt_info("ban count: %lld\n", qrs->ban_count);
-+
-+	for (int i = 0; i < qrs->ban_count; i++) {
-+		ban = &qrs->ban_list[i];
-+
-+		igt_info("-------------------------------\n");
-+		igt_info("exec queue ban %d\n", i);
-+		igt_info("-------------------------------\n");
-+		igt_info("exec_queue_id: %d\n", ban->exec_queue_id);
-+		if (!ban->pf_found) {
-+			igt_info("no associated pagefault\n");
-+			continue;
-+		}
-+		igt_info("pagefault associated:\n");
-+		igt_info("\tASID: %d\n"
-+			 "\tVFID: %d\n"
-+			 "\tPDATA: 0x%04x\n"
-+			 "\tFaulted Address: 0x%08x%08x\n"
-+			 "\tFaultType: %d\n"
-+			 "\tAccessType: %d\n"
-+			 "\tEngineClass: %d %s\n"
-+			 "\tEngineInstance: %d\n",
-+			 ban->asid, ban->vfid, ban->pdata,
-+			 upper_32_bits(ban->fault_addr),
-+			 lower_32_bits(ban->fault_addr),
-+			 ban->fault_type, ban->access_type,
-+			 ban->engine_class,
-+			 xe_engine_class_string(ban->engine_class),
-+			 ban->engine_instance);
-+	}
-+
++	resets1 = qrs->reset_count;
 +	free(qrs);
++
++	query.size = 0;
++	query.data = 0;
++
++	xe_for_each_engine(fd, hwe)
++		xe_force_gt_reset_sync(fd, hwe->gt_id);
++
++	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query), 0);
++
++	qrs = malloc(query.size);
++	igt_assert(qrs);
++
++	query.data = to_user_pointer(qrs);
++	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_DEVICE_QUERY, &query), 0);
++	resets2 = qrs->reset_count;
++	free(qrs);
++
++	igt_assert_lt(resets1, resets2);
 +}
 +
  igt_main
  {
  	const struct {
-@@ -1094,6 +1178,7 @@ igt_main
- 		{ "query-uc-fw-version-guc", test_query_uc_fw_version_guc },
+@@ -1179,6 +1230,7 @@ igt_main
  		{ "query-uc-fw-version-huc", test_query_uc_fw_version_huc },
  		{ "query-oa-units", test_query_oa_units },
-+		{ "query-reset-stats", test_query_reset_stats },
+ 		{ "query-reset-stats", test_query_reset_stats },
++		{ "query-reset-stats-reset", test_query_reset_stats_reset },
  		{ "query-invalid-cs-cycles", test_engine_cycles_invalid },
  		{ "query-invalid-query", test_query_invalid_query },
  		{ "query-invalid-size", test_query_invalid_size },
