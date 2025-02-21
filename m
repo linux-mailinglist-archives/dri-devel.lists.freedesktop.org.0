@@ -2,56 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BA1A40126
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9013A40141
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:42:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B5710E15E;
-	Fri, 21 Feb 2025 20:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1836B10E213;
+	Fri, 21 Feb 2025 20:42:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ndfbt+48";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ONeIxLb+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF19B10E15E
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 20:38:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0C1A85C577E;
- Fri, 21 Feb 2025 20:37:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94787C4CED6;
- Fri, 21 Feb 2025 20:38:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740170285;
- bh=cZReEKvxGMFAzn2nYLfiWitsoEwnGLiU1ItJsk7GJrQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ndfbt+48L4RUb3WT78YqKEkPhF3BzDwk9jaSj6fPv91ryKts6+cOTdoQgapK2WP0j
- 8s0traSuhiLn53SJu6fL4ilpCUF8Nz8CUmU7BVBo3Lzk2eprS+ah0xVQ0T4mCzTETe
- PhZMvy0gKeAA+mEoGpLNH7rx9uIsPMvC+mbfSwfYgV9/iwh1SkPucuS6HDUdCS3yON
- KN1vTiTDcNH95IeouzRup2F9LQMCJBifFZbg8Sj5HqAAQtsJLYTPB7PCUVoQMlRVtt
- HCJSPaFTSjpuD1bJaYsRx7EpyZpgQDd0itSh2KMcV9LeQWf73Z8sGW6Ge6+oVhEGze
- henAZXi/4khyA==
-Date: Fri, 21 Feb 2025 14:38:03 -0600
-From: Rob Herring <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
- Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: mfd: Document TI LM3533 MFD
-Message-ID: <20250221203803.GA24813-robh@kernel.org>
-References: <20250218132702.114669-1-clamor95@gmail.com>
- <20250218132702.114669-2-clamor95@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3256410E213
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 20:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740170567; x=1771706567;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WDe+to5rRRq7lsLv9P59RikBY/hODwqoknD2e2l+CDo=;
+ b=ONeIxLb+QY68H/f+MVNnKKc1+ghZHbxI9aTiv4ql71iT3tacqrX371OI
+ c/DYt9B0utm5iF3Xgn4/RH3KPxBNiQKkdO6mkvFpZyIU9894tssztSLqJ
+ V0kyXq+T3+JGWIWfKq+eXOQxbBQWwuSqLMfpgG+O54Fmm5zIJ/mzGdEQA
+ wmRpztoXqlhLNoqBpOUJcqcDobKR87vf5sowUz3e+avIxfx1SGrItOUPP
+ mogNqScPpVEcGkfVNBoMkC1S32agJyfowFJtHVkTJP8B+zR4stWoA3vyB
+ rCGK+O+mRgaac9fdnhlGwTNp9+o5f/WATZ1E+EyTG1T+xrmri5D1Qum8J g==;
+X-CSE-ConnectionGUID: ZQ5k/TH9RiqQYB/kWbCIcg==
+X-CSE-MsgGUID: IHF6CVOvQK+pm2Vcmmgtag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40922573"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="40922573"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2025 12:42:47 -0800
+X-CSE-ConnectionGUID: zC+uNe1dTIO9JBrdJOTyTw==
+X-CSE-MsgGUID: swnSrLXlTzum+CJRrwvp1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="115308379"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2025 12:42:39 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tlZr0-0000000DkDP-0Fwy; Fri, 21 Feb 2025 22:42:34 +0200
+Date: Fri, 21 Feb 2025 22:42:33 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>,
+ "joe@perches.com" <joe@perches.com>,
+ "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>,
+ Atharva Tiwari <evepolonium@gmail.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Hector Martin <marcan@marcan.st>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>,
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
+ <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
+ <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250218132702.114669-2-clamor95@gmail.com>
+In-Reply-To: <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,273 +104,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 18, 2025 at 03:26:59PM +0200, Svyatoslav Ryhel wrote:
-> Add bindings for the LM3533 - a complete power source for
-> backlight, keypad, and indicator LEDs in smartphone handsets.
-> The high-voltage inductive boost converter provides the
-> power for two series LED strings display backlight and keypad
-> functions.
+On Fri, Feb 21, 2025 at 07:13:06PM +0000, Aditya Garg wrote:
+> > On Fri, Feb 21, 2025 at 11:37:57AM +0000, Aditya Garg wrote:
+
+...
+
+> >> +} __packed;
+> > 
+> > Why __packed? Please explain and justify for all the data types that are marked
+> > with this attribute.
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../devicetree/bindings/mfd/ti,lm3533.yaml    | 231 ++++++++++++++++++
->  1 file changed, 231 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
+> Just following the original Windows driver here (#pragma pack) :
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
-> new file mode 100644
-> index 000000000000..83542f0c7bf7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
-> @@ -0,0 +1,231 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/ti,lm3533.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI LM3533 Complete Lighting Power Solution
-> +
-> +description: |
-
-Use '>' rather than '|' if only formatting is paragraphs.
-
-> +  The LM3533 is a complete power source for backlight,
-> +  keypad, and indicator LEDs in smartphone handsets. The
-> +  high-voltage inductive boost converter provides the
-> +  power for two series LED strings display backlight and
-> +  keypad functions.
-
-Wrap lines at 80
-
-blank line here
-
-> +  https://www.ti.com/product/LM3533
-> +
-> +maintainers:
-> +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,lm3533
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +  enable-gpios:
-> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
-> +    maxItems: 1
-> +
-> +  ti,boost-ovp-microvolt:
-> +    description:
-> +      Boost OVP select (16V, 24V, 32V, 40V)
-> +    enum: [ 16000000, 24000000, 32000000, 40000000 ]
-> +    default: 16000000
-> +
-> +  ti,boost-freq-hz:
-> +    description:
-> +      Boost frequency select (500KHz or 1MHz)
-> +    enum: [ 500000, 1000000 ]
-> +    default: 500000
-> +
-> +  light-sensor@0:
-> +    type: object
-> +    description:
-> +      Properties for an illumination sensor.
-> +
-> +    properties:
-> +      compatible:
-> +        const: ti,lm3533-als
-> +
-> +      reg:
-> +        const: 0
-> +
-> +      ti,resistor-value-ohm:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: |
-
-Don't need '|'. Elsewhere too.
-
-> +          Internal configuration resister value when ALS is in Analog Sensor
-> +          mode and PWM mode is disabled.
-> +        minimum: 1575
-> +        maximum: 200000
-> +
-> +      ti,pwm-mode:
-> +        type: boolean
-> +        description: |
-> +          Switch for mode in which ALS is running. If this propertly is
-> +          set then ALS is running in PWM mode, internal resistor value is
-> +          set to high-impedance (0) and resistor-value-ohm propertly is
-> +          ignored.
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +
-> +    additionalProperties: false
-
-Move this above 'properties'.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +  - enable-gpios
-> +
-> +patternProperties:
-> +  "^backlight@[01]$":
-> +    type: object
-> +    description:
-> +      Properties for a backlight device.
-> +
-> +    $ref: /schemas/leds/backlight/common.yaml#
-> +
-> +    properties:
-> +      compatible:
-> +        const: ti,lm3533-backlight
-> +
-> +      reg:
-> +        description: |
-> +          The control bank that is used to program the two current sinks. The
-> +          LM3533 has two control banks (A and B) and are represented as 0 or 1
-> +          in this property. The two current sinks can be controlled
-> +          independently with both banks, or bank A can be configured to control
-> +          both sinks with the led-sources property.
-> +        minimum: 0
-> +        maximum: 1
-> +
-> +      default-brightness: true
-> +
-> +      ti,max-current-microamp:
-> +        description:
-> +          Maximum current in µA with a 800 µA step.
-> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
-> +                10600, 11400, 12200, 13000, 13800, 14600,
-> +                15400, 16200, 17000, 17800, 18600, 19400,
-> +                20200, 21000, 21800, 22600, 23400, 24200,
-> +                25000, 25800, 26600, 27400, 28200, 29000,
-> +                29800 ]
-> +        default: 5000
-> +
-> +      ti,pwm-config-mask:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: |
-> +          Control Bank PWM Configuration Register mask that allows to configure
-> +          PWM input in Zones 0-4
-> +          BIT(0) - PWM Input is enabled
-> +          BIT(1) - PWM Input is enabled in Zone 0
-> +          BIT(2) - PWM Input is enabled in Zone 1
-> +          BIT(3) - PWM Input is enabled in Zone 2
-> +          BIT(4) - PWM Input is enabled in Zone 3
-> +          BIT(5) - PWM Input is enabled in Zone 4
-> +
-> +      ti,linear-mapping-mode:
-> +        description: |
-> +          Enable linear mapping mode. If disabled, then it will use exponential
-> +          mapping mode in which the ramp up/down appears to have a more uniform
-> +          transition to the human eye.
-> +        type: boolean
-> +
-> +      ti,hardware-controlled:
-> +        description: |
-> +          Each backlight has its own voltage Control Bank (A and B) and there are
-> +          two HVLED sinks which by default are linked to respective Bank. Setting
-> +          this property will link both sinks to a Control Bank of backlight where
-> +          property is defined.
-> +        type: boolean
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
-> +  "^led@[0-3]$":
-> +    type: object
-> +    description:
-> +      Properties for a led device.
-> +
-> +    $ref: /schemas/leds/common.yaml#
-> +
-> +    properties:
-> +      compatible:
-> +        const: ti,lm3533-leds
-> +
-> +      reg:
-> +        description:
-> +          4 led banks
-> +        minimum: 0
-> +        maximum: 3
-> +
-> +      linux,default-trigger: true
-> +
-> +      ti,max-current-microamp:
-> +        description:
-> +          Maximum current in µA with a 800 µA step.
-> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
-> +                10600, 11400, 12200, 13000, 13800, 14600,
-> +                15400, 16200, 17000, 17800, 18600, 19400,
-> +                20200, 21000, 21800, 22600, 23400, 24200,
-> +                25000, 25800, 26600, 27400, 28200, 29000,
-> +                29800 ]
-> +        default: 5000
-> +
-> +      ti,pwm-config-mask:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Same descryption and function as for backlight.
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led-controller@36 {
-> +            compatible = "ti,lm3533";
-> +            reg = <0x36>;
-> +
-> +            enable-gpios = <&gpio 110 GPIO_ACTIVE_HIGH>;
-> +
-> +            ti,boost-ovp-microvolt = <24000000>;
-> +            ti,boost-freq-hz = <500000>;
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            backlight@0 {
-> +                compatible = "ti,lm3533-backlight";
-> +                reg = <0>;
-> +
-> +                ti,max-current-microamp = <23400>;
-> +                default-brightness = <113>;
-> +                ti,hardware-controlled;
-> +            };
-
-Please make the example complete.
-
-> +        };
-> +    };
-> +...
-> -- 
-> 2.43.0
+> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/include/DFRHostIo.h
 > 
+> IMO these structures are used for communication with the Touch Bar over USB.
+> The hardware expects a very specific layout for the data it receives and
+> sends. If the compiler were to insert padding for alignment, it would break
+> the communication protocol because the fields would not be in the expected
+> positions.
+
+What padding, please? Why TCP UAPI headers do not have these attributes?
+Think about it, and think about what actually __packed does and how it affects
+(badly) the code generation. Otherwise it looks like a cargo cult.
+
+> I tried removing __packed btw and driver no longer works.
+
+So, you need to find a justification why. But definitely not due to padding in
+many of them. They can go without __packed as they are naturally aligned.
+
+...
+
+> >> + if (response->msg == APPLETBDRM_MSG_SIGNAL_READINESS) {
+> >> + if (!readiness_signal_received) {
+> >> + readiness_signal_received = true;
+> >> + goto retry;
+> >> + }
+> >> +
+> >> + drm_err(drm, "Encountered unexpected readiness signal\n");
+> >> + return -EIO;
+> >> + }
+> >> +
+> >> + if (actual_size != size) {
+> >> + drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
+> >> + actual_size, size);
+> >> + return -EIO;
+> >> + }
+> >> +
+> >> + if (response->msg != expected_response) {
+> >> + drm_err(drm, "Unexpected response from device (expected %p4ch found %p4ch)\n",
+> >> + &expected_response, &response->msg);
+> >> + return -EIO;
+> > 
+> > For three different cases the same error code, can it be adjusted more to the
+> > situation?
+> 
+> All these are I/O errors, you got any suggestion?
+
+Your email client mangled the code so badly that it's hard to read. But I would
+suggest to use -EINTR in the first case, and -EBADMSG. But also you may consider
+-EPROTO.
+
+> >> + }
+
+...
+
+> >> + if (ret)
+> >> + return ret;
+> > 
+> >> + else if (!new_plane_state->visible)
+> > 
+> > Why 'else'? It's redundant.
+> 
+> Iâ€™ve just followed what other drm drivers are doing here:
+> 
+> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/bochs.c#L436
+> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/cirrus.c#L363
+> 
+> And plenty more
+
+A bad example is still a bad example. 'else' is simply redundant in this
+case and add a noisy to the code.
+
+> I wonâ€™t mind removing else. You want that?
+
+Sure.
+
+...
+
+> >> + request_size = ALIGN(sizeof(struct appletbdrm_fb_request) +
+> >> +        frames_size +
+> >> +        sizeof(struct appletbdrm_fb_request_footer), 16);
+> > 
+> > Missing header for ALIGN().
+> > 
+> > But have you checked overflow.h for the possibility of using some helper macros
+> > from there? This is what should be usually done for k*alloc() in the kernel.
+> 
+> I donâ€™t really think we need a macro here.
+
+Hmm... is frames_size known to be in a guaranteed range to make sure no
+potential overflow happens?
+
+> >> + appletbdrm_state->request = kzalloc(request_size, GFP_KERNEL);
+> >> +
+> >> + if (!appletbdrm_state->request)
+> >> + return -ENOMEM;
+
+...
+
+> >> + request->msg_id = timestamp & 0xff;
+> > 
+> > Why ' & 0xff'?
+> 
+> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/DfrDisplay.c#L147
+
+This is not an answer.
+Why do you need this here? Isn't the type of msg_id enough?
+
+...
+
+> >> + adev->mode = (struct drm_display_mode) {
+> > 
+> > Why do you need a compound literal here? Perhaps you want to have that to be
+> > done directly in DRM_MODE_INIT()?
+> 
+> I really donâ€™t find this as an issue. You want me to declare another structure, basically this?:
+
+Nope, I'm asking if the DRM_MODE_INIT() is done in a way that it only can be
+used for the static data. Seems like the case. Have you tried to convert
+DRM_MODE_INIT() to be always a compound literal? Does it break things?
+
+> struct drm_display_mode mode = {
+> DRM_MODE_INIT(60, adev->height, adev->width,
+> DRM_MODE_RES_MM(adev->height, 218),
+> DRM_MODE_RES_MM(adev->width, 218))
+> };
+> adev->mode = mode;
+> 
+> >> + DRM_MODE_INIT(60, adev->height, adev->width,
+> >> +       DRM_MODE_RES_MM(adev->height, 218),
+> >> +       DRM_MODE_RES_MM(adev->width, 218))
+> >> + };
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
