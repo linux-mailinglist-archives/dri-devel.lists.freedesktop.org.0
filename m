@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B006FA3F78E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 15:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A936A3F7DD
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 15:59:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C28110EA71;
-	Fri, 21 Feb 2025 14:43:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB3A410EA80;
+	Fri, 21 Feb 2025 14:59:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="Oqd6dpyx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b9RtikKL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB72410EA71
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 14:43:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1740149018; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LlJGyGMRQMGa7d1hiq5ol+5x17hrNEGOITinBxi2RfLVUmuqWFvWwvZraOoEpi4OYi1YoOLNyqvnuoBhJv5NjSBAknykKoIDBYOOujNCSffFzetkfrbLL99wcmnReve0li94vUEnRp/md2vSGDu2zRk6o3mUwB3ZXFwJScQUKxg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1740149018;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=gA8mn4fOHoGECCHqYXtlx2zwyQnjDL6NNJx/mEGL37k=; 
- b=SS5CeWfivsYuXpFsx/0MPvpuxMWFRxte1/ddDomWFSwswVstzSnzPNvljfY4htomab7qaxtT3qI+cXo+9mA4ytBNiy2AqaiXhG+Y0rBgX6bKYRLZeo5xmTxEYemz2Kg0vt+8tTa5BgxPqXvk6GWwPr1ADZQqOXGt1rrKGMkXUmQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
- dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740149018; 
- s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=gA8mn4fOHoGECCHqYXtlx2zwyQnjDL6NNJx/mEGL37k=;
- b=Oqd6dpyxZY9ouCf7T8Ku9XIIh2lKIO7kgmqL3aRYfciczdjFa77sxZ12CaQ/izzJ
- 3eUDdaUsKGpAhc87xv6+Ln8RjEH0POVBgunMSnnqLqqH0XNLvDk09FnQIz0S1CHOx2t
- l0fX5qeyonfxOLsyVYaCaZsUIY5ALfsn9B5l3MNg=
-Received: by mx.zohomail.com with SMTPS id 1740149014815682.0553532876535;
- Fri, 21 Feb 2025 06:43:34 -0800 (PST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-kernel@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, Niklas Cassel <cassel@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@collabora.com,
- David Airlie <airlied@gmail.com>, Dragan Simic <dsimic@manjaro.org>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, linux-rockchip@lists.infradead.org, 
- Chen-Yu Tsai <wens@csie.org>, FUKAUMI Naoki <naoki@radxa.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Alexey Charkov <alchark@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
-Date: Fri, 21 Feb 2025 09:43:31 -0500
-Message-ID: <4988041.31r3eYUQgx@trenzalore>
-In-Reply-To: <5E535D58-AEFF-45A4-A1EA-1FA282F366AE@gmail.com>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
- <BA73C4A1-C680-4748-9CE1-4B3B19A14261@gmail.com>
- <5E535D58-AEFF-45A4-A1EA-1FA282F366AE@gmail.com>
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9828710EA80;
+ Fri, 21 Feb 2025 14:59:11 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2fc8482c62dso531507a91.3; 
+ Fri, 21 Feb 2025 06:59:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740149951; x=1740754751; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QGuEcGyCvXU1PZ8BK+/owth/b57IvpYwbhJHbR1V5MM=;
+ b=b9RtikKLtNnVaIR2EXygAKbJVoCMLgQbjFq74xFgElcCMwFVP/yYEMFRTXppUWTmbK
+ xX4DjShOjmNd+JEoR+WbafOzlXCQPOoQlqc4itn29SR7ojD7q+edVwGdRMUtbKlpcnD/
+ icL/W4g+Fy2MrLba3TvJ1XO2Kr51pTOLo5fmImPkDe8lXDgrWVwDRvcmV+RKSSowYObm
+ hjUl9g7oPHwFzuiRXb6BicszCUukW3JXxpQuL9AzVAQIZy6hVHCcX3/hpfiwkc3snFrb
+ 3MKm6A+dsXWWPhetXexe5w/CbD5kAblvj+Gc6iWRIM8rpF6C7/xwDgrYQ8dtBXdEiqSG
+ CqKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740149951; x=1740754751;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QGuEcGyCvXU1PZ8BK+/owth/b57IvpYwbhJHbR1V5MM=;
+ b=xAWjVQn8g9SI0BPyJIYg77nSYXkxR3fuane0NODIV5DYSM25K5sF5B2u3LJ1ab7ymU
+ GYYd1Gv3UAU2fRVqHsU0VpfhRDlyLdHi7iyavQPB8VbXZHT3eAeXkMfYAsfkFYqxUiL2
+ cxb3G+mG+gC2lpvmC98THVbAxCc6rvCOgbc9L1asXuErc8CDNjBgFILNPeo++g11EKyP
+ v+3s3MOyUXStutSr0hndxzpnYC6aS1M6ecvTtvDJv7h1Xm06On6dKwUBg1Xu4TI/i9ET
+ qjLxwW23a6othAdlsS09uMO4RgmonaEjWcaDmVSbY+f4FTlnfIavMiIRn5mTTDXqTleE
+ 9ggQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVOx0PDUz+jr8RTyoY+Yx3/Twef5Zk8nGJKkodg3cS2LFFQdSqezPbevzNH4ItPu6bWxBj6hJCk@lists.freedesktop.org,
+ AJvYcCVef+dAJ24xzLVsLrIZDjaAzkvwZ0yk99CpAKr9GWdLGDViDzFvfBhBlHMSXaeyDr2KycyswlR9dA2D@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAzWoI/Lt8we3eI94ApWzxMeFt7o7pDZay4m8PRz6MSNr6f0VI
+ w82V81MJMIl2D4NuQOYpXxHUqLygHJ/ZS66c/r/Cgkef4Rn8aoEBbjhjPublyMUYUJ+6ymXADrz
+ Wb6zzUOYEdlZC0be+amRDAYl1Y1wZpQ==
+X-Gm-Gg: ASbGnct4WDbZy1mGiNi+/0nNvZ1iLulXJxYD+2XZnybqizU9t/R5WtRUHGrCoBgXYlH
+ pfcLh+YjVyoH32Jy3HpB5+7NHEmIDUKrTz5PYv0JaTq49Eak8wCEILK1rvDbsgA+OgaMbGaSlf8
+ 6wx1wk+cU=
+X-Google-Smtp-Source: AGHT+IEllMkZI2e2wCc2Ox1K7sQtQj2/KK+wR8W2901yorQqSGwxmp2E+h3TQJAdmzusA0aUyoy57pRZTVLxCkJYH5w=
+X-Received: by 2002:a17:90b:4c04:b0:2ee:6db1:21dc with SMTP id
+ 98e67ed59e1d1-2fce76a2781mr2322720a91.1.1740149951042; Fri, 21 Feb 2025
+ 06:59:11 -0800 (PST)
 MIME-Version: 1.0
+References: <20250220162750.343139-1-andrealmeid@igalia.com>
+ <20250220162750.343139-2-andrealmeid@igalia.com>
+In-Reply-To: <20250220162750.343139-2-andrealmeid@igalia.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 21 Feb 2025 09:58:59 -0500
+X-Gm-Features: AWEUYZkDQigRBbUEBbX-bkqBNmeQ0_LINBwN_MO09AozMdl7LIZ_Ar3wfltdwSY
+Message-ID: <CADnq5_P_+QCeAnxZzf_N6+EgzLM9iUs-XxDaoNYkEzJAO26UGA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/amdgpu: Log the creation of a coredump file
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel-dev@igalia.com, siqueira@igalia.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,31 +88,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, 21 February 2025 06:42:31 EST Piotr Oniszczuk wrote:
-> Small data point: on rock5b switching in dts analog audio: from
-> audio-graph-card to simple-audio-card (so dts is:
-> https://gist.github.com/warpme/349b27e49bc6f617ef1041047e75adab ) makes
-> kernel oops go away with analog audio still working=E2=80=A6
->=20
-> so maybe issue is in audio-graph-card code (or its dts fragments)?
+Applied, thanks!
 
-I can reproduce with your config (I guess that removing the driver for anal=
-og=20
-audio hides the issue)
+Alex
 
-I'm really feel like simple_util_clean_reference(card) in simple_probe()=20
-errors path should not be called anymore, since
-https://lore.kernel.org/all/87zfk4o5l2.wl-kuninori.morimoto.gx@renesas.com/
-
-I'm adding Kuninori Morimoto in the to list of this thread for extra input=
-=20
-(See thread at https://lore.kernel.org/all/B8EF5196-55FB-44EC-B93C-E327C791=
-225B@gmail.com/) as they made that change.
-Especially those commits:
-      ASoC: audio-graph-card2: use __free(device_node) for device node
-      ASoC: audio-graph-card: use __free(device_node) for device node
-      ASoC: simple-card: use __free(device_node) for device node
-
-Detlev.
-
-
+On Thu, Feb 20, 2025 at 11:28=E2=80=AFAM Andr=C3=A9 Almeida <andrealmeid@ig=
+alia.com> wrote:
+>
+> After a GPU reset happens, the driver creates a coredump file. However,
+> the user might not be aware of it. Log the file creation the user can
+> find more information about the device and add the file to bug reports.
+> This is similar to what the xe driver does.
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> index 824f9da5b6ce..7b50741dc097 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> @@ -364,5 +364,9 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool=
+ skip_vram_check,
+>
+>         dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
+>                       amdgpu_devcoredump_read, amdgpu_devcoredump_free);
+> +
+> +       drm_info(dev, "AMDGPU device coredump file has been created\n");
+> +       drm_info(dev, "Check your /sys/class/drm/card%d/device/devcoredum=
+p/data\n",
+> +                dev->primary->index);
+>  }
+>  #endif
+> --
+> 2.48.1
+>
