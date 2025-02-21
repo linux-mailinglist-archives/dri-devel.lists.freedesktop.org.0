@@ -2,110 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57F3A3F885
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1170A3F899
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 16:27:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4FF210EAAC;
-	Fri, 21 Feb 2025 15:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F63010EA93;
+	Fri, 21 Feb 2025 15:27:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vn/8PpE2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YOeekpCj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C959810EA9C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 15:25:32 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-ab7f9f57192so32122266b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 07:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740151531; x=1740756331; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=a3bwniejdI/OPbevpLj33tIqt0/bau3qVCvVDzBOjOY=;
- b=vn/8PpE2m8Ecuyw3JLZ2Fpwx9lkTUM5n0LDdE3iiMUJo3Tt8IIGsDND3V+KbIGqsnN
- SWYooWTYaMjZeztwFwMr3QYyh0Fiyb1sK96xw0Cya/jkm656ex4+3CAyUoAMN10mRlpG
- S8zV46irEGF0M3UyD33lJfRSZtAA62KpNugLAFuAVGppdleyGgjhsrXx+bBk7oSHHsnL
- Sx2nTMPy7f7qngZOmdOhU39shAd71ckHmB7X7lmwmiOhhkJnuxUJytuuieCazUej4KUX
- KogTrKEKBjI915oPSshMXV8caaMIJqqjGFpT84lfjn208lucX4NHh5fozT1bOP0yvPTd
- 0sKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740151531; x=1740756331;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a3bwniejdI/OPbevpLj33tIqt0/bau3qVCvVDzBOjOY=;
- b=TzDwKt7g0ve6rF0CPJ/LDYOJ8RguXMRZOB9Vv/zM0cuNlYwHHii2KPp5FVPSz7uJuq
- t6C+TzqmjMkmuP1EoHyNvVTpQOwuUmgkRO3ZOo5BbGkcyFN40Baddz2h2N1bgf4cpRys
- sYf4zAn0VMTMTQFtHgq446110xhE/Y/ZWaH43DM1bVwPe+de3KRYHf4odSlbneegDApl
- RbX5UNNX6NyQb9HUZtAnS6MNSXveK5OH+0YRvUr9Cu3AfYoaxBQcc0ZMhP+sVCGiMSPP
- tawxdYvQlgY5+A9sUyMFcswT1RKYcSMaaNqcFikZDs1hMrTNB6WZT8+nRmsnrVOkOG0K
- cZKw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUyEdA8ka4efFQ+v6gi14jvA1vIvUX7j0bdu4+jvr15LH/UKaAzQajutcJBOshIOCrbaSxl9e4V3w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzpIYQJ+CH2MKhVXUPmdO8jLPgAZy5guHXqCdcZ7wY3J+Jh3OFT
- 997kXkWc/23GPWbU5dGWklPz0fDHeVT31H9Soe0Xyn1qwq71i/p4Eg3KKYC3DPQ=
-X-Gm-Gg: ASbGncuc5NTsdqZmMNV/GRP+e8XawBYrmh59SC2+MX9Lo9ZILm9hwaZbEh23KuSwrfA
- 623Ox9+RYiFNDj02thXGc5JkAyEKcCd6J3kO0xd+3gxu4YvPTMLGxHcZBLTaYPupT0Q5XHS7ltJ
- eXrHh8N5jhZiTi4O5WbkgF+W9AKs+KmkkspKBWnpMRqE7BxKKXEQk9IaTk9Raskfl6i4jGtAomY
- qOwMxEOPg3EllHBULyQ32qcQ7W6/4L5yv0boyVWJ6jn6pZiQJwB7peTEgz3QUPJdObHJV11tYmx
- FL1ZWbx45RnpZQbulQkd6QHFznFhoHZ8Xbvd5A/JVzarx67Pkv6sdb81++MWHVlY0HZ9YWiFDT1
- l
-X-Google-Smtp-Source: AGHT+IG6Alr+e5u5uJxjL/bold2dU0K4L3hDTsgqPGJ/U2s/DiVnDUFaMiTdmBFp0wEmMkaMFodGpA==
-X-Received: by 2002:a17:907:74a:b0:abb:e5ac:28b2 with SMTP id
- a640c23a62f3a-abc09c24732mr106927866b.13.1740151531277; 
- Fri, 21 Feb 2025 07:25:31 -0800 (PST)
-Received: from [127.0.1.1] (78-11-220-99.static.ip.netia.com.pl.
- [78.11.220.99]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abbaa56026fsm865456666b.113.2025.02.21.07.25.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2025 07:25:30 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Fri, 21 Feb 2025 16:24:31 +0100
-Subject: [PATCH v3 21/21] drm/msm/mdss: Add support for SM8750
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F2810EA93
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 15:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740151634; x=1771687634;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Sfehn+vxaohcVVAqSihS41naG90uu0O3ieV6HHFFTfg=;
+ b=YOeekpCjVT33PW3rr/AIOYrUpxI89V75xtkumPBPtqCr9nzt4zaTzIUj
+ sWKTHSlRLwmQBKc6ZaWyzLHy1X1KhAyiRDaANz5EeSyNkYrwTCZRLPF49
+ k7b4RImi0HZEd7Aru0Qm0ChPzFosKVZdy1b17Ajrk81TOckFtghmo8pIi
+ 1Gx9Pbyn3ih3tTCtdfBfg0JMGh9Gbe30m70g7KZ8CRHP6ragwxfxEUtXs
+ JtaFwtdzfP872wHfLzXQyl7XXD6gLhypWddlZa96gNn4BhIoBY8lQoSu8
+ zGr9CJfLH1GWGYU2Fsg01q1fZGqzbAJN8K5lM63HcGZ596uDQ3EgJGDJd g==;
+X-CSE-ConnectionGUID: E1aF++m0T4GNQX/LpgM+ww==
+X-CSE-MsgGUID: splIgWySRyuuJfdYc4JzPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51614266"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="51614266"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2025 07:27:14 -0800
+X-CSE-ConnectionGUID: LLjaei35SCi8ziZO34FEIg==
+X-CSE-MsgGUID: naEziUDpSTKMRNtO8rc0Vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="152589752"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2025 07:27:06 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tlUvd-0000000Dg3A-1782; Fri, 21 Feb 2025 17:27:01 +0200
+Date: Fri, 21 Feb 2025 17:27:00 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>,
+ "joe@perches.com" <joe@perches.com>,
+ "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "kekrby@gmail.com" <kekrby@gmail.com>,
+ "admin@kodeit.net" <admin@kodeit.net>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>,
+ "evepolonium@gmail.com" <evepolonium@gmail.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Hector Martin <marcan@marcan.st>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z7ibRHb2FS1cTx0O@smile.fi.intel.com>
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+ <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250221-b4-sm8750-display-v3-21-3ea95b1630ea@linaro.org>
-References: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
-In-Reply-To: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Srini Kandagatla <srinivas.kandagatla@linaro.org>, 
- Rob Clark <robdclark@chromium.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3191;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=npT/AUk70cBHCRbn81WnGX4UoVxSXbDYwaGyJuk3VME=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnuJq/ctXpMZ8Jnwnml7qBOIiMMaNsLSOfnFQtu
- E+RAw9e9LeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ7iavwAKCRDBN2bmhouD
- 17mXD/94+XDsJfLydNAyZTQ+/RWjpP+M005+GCV3TKtBNDit1ewBvJdQko5LBfWZJlSMI0nTmKJ
- z/z7fgHHOeeW58wIwdsjtLf3k3SR7XqaonuobTJHEP+gdpvcUvFRKfBzwpsAjFbtVRiZ9SZM0pB
- 814FttaFuZO0WF9rYaRk1bdtoAoAeZJ3zli7f53GyQ6mbAye5P0vrhMnVUSpK3C9vp8pSyOQ0Eb
- 0fkMQxzYCMmSaCaIpffD9XH7GFEGgjhO43h+yHZp+qELOfCDizLV+BzbIixYLvAH5u7D8cl2Woq
- D6L2M/qrSHWSV6STwB26EPFDr/40lcVL6RDglOv44lNTVwvwnGhh/HUmume8slOYwK4PtlB9Aen
- U6o3772Tsho6oqXQ5rIUYfYiyiHp0yP39Wrh+G8HMYk78tCSaXuEEGl4XnXuB8HyKDYWdUrnYZA
- +zE/9srdqNj1bqsup1ouiljIQSyUjh7uGff9MUrh9p+57CVMWHkFTgiFJdmmjlc6y9n+u1OX4dW
- tj9prAwgFZBlqyPZ76kH/F3pn6Sgr+gSVqB7tvQ6C+iaSaJkHP9+G+nMRp5HQ1aga0WU9nEi5yr
- 8E0Im/f16dGTMtSNUM1Fm7mT4PwXWLXaZlLJdQYJviLwCP6YkJSi35ZIo2qhJzlNvZsmjxcqQAB
- Zcg9tFWD5yU7oJw==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,93 +102,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Qualcomm SM8750 platform.
+On Thu, Feb 20, 2025 at 04:39:23PM +0000, Aditya Garg wrote:
+> From: Hector Martin <marcan@marcan.st>
+> 
+> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FOURCCs with various endian semantics:
+> 
+> %p4ch   Host-endian
+> %p4cl	Little-endian
+> %p4cb	Big-endian
+> %p4cr	Reverse-endian
+> 
+> The endianness determines how bytes are interpreted as a u32, and the
+> FOURCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> allow printing LSByte-first FOURCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 33 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_mdss.h |  1 +
- 2 files changed, 34 insertions(+)
+...
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index dcb49fd30402b80edd2cb5971f95a78eaad6081f..3f00eb6de3a9d2bee7637c6f516efff78b7d872b 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -222,6 +222,24 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
- 	}
- }
- 
-+static void msm_mdss_setup_ubwc_dec_50(struct msm_mdss *msm_mdss)
-+{
-+	const struct msm_mdss_data *data = msm_mdss->mdss_data;
-+	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
-+		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
-+
-+	if (data->ubwc_bank_spread)
-+		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
-+
-+	if (data->macrotile_mode)
-+		value |= MDSS_UBWC_STATIC_MACROTILE_MODE;
-+
-+	writel_relaxed(value, msm_mdss->mmio + REG_MDSS_UBWC_STATIC);
-+
-+	writel_relaxed(4, msm_mdss->mmio + REG_MDSS_UBWC_CTRL_2);
-+	writel_relaxed(1, msm_mdss->mmio + REG_MDSS_UBWC_PREDICTION_MODE);
-+}
-+
- #define MDSS_HW_MAJ_MIN		\
- 	(MDSS_HW_VERSION_MAJOR__MASK | MDSS_HW_VERSION_MINOR__MASK)
- 
-@@ -339,6 +357,9 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
- 	case UBWC_4_3:
- 		msm_mdss_setup_ubwc_dec_40(msm_mdss);
- 		break;
-+	case UBWC_5_0:
-+		msm_mdss_setup_ubwc_dec_50(msm_mdss);
-+		break;
- 	default:
- 		dev_err(msm_mdss->dev, "Unsupported UBWC decoder version %x\n",
- 			msm_mdss->mdss_data->ubwc_dec_version);
-@@ -722,6 +743,17 @@ static const struct msm_mdss_data sm8550_data = {
- 	.reg_bus_bw = 57000,
- };
- 
-+static const struct msm_mdss_data sm8750_data = {
-+	.ubwc_enc_version = UBWC_5_0,
-+	.ubwc_dec_version = UBWC_5_0,
-+	.ubwc_swizzle = 6,
-+	.ubwc_bank_spread = true,
-+	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
-+	.highest_bank_bit = 3,
-+	.macrotile_mode = true,
-+	.reg_bus_bw = 57000,
-+};
-+
- static const struct msm_mdss_data x1e80100_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_3,
-@@ -756,6 +788,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
- 	{ .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
- 	{ .compatible = "qcom,sm8650-mdss", .data = &sm8550_data},
-+	{ .compatible = "qcom,sm8750-mdss", .data = &sm8750_data},
- 	{ .compatible = "qcom,x1e80100-mdss", .data = &x1e80100_data},
- 	{}
- };
-diff --git a/drivers/gpu/drm/msm/msm_mdss.h b/drivers/gpu/drm/msm/msm_mdss.h
-index 14dc53704314558841ee1fe08d93309fd2233812..dd0160c6ba1a297cea5b87cd8b03895b2aa08213 100644
---- a/drivers/gpu/drm/msm/msm_mdss.h
-+++ b/drivers/gpu/drm/msm/msm_mdss.h
-@@ -22,6 +22,7 @@ struct msm_mdss_data {
- #define UBWC_3_0 0x30000000
- #define UBWC_4_0 0x40000000
- #define UBWC_4_3 0x40030000
-+#define UBWC_5_0 0x50000000
- 
- const struct msm_mdss_data *msm_mdss_get_mdss_data(struct device *dev);
- 
+>  	orig = get_unaligned(fourcc);
+> -	val = orig & ~BIT(31);
+> +	switch (fmt[2]) {
+> +	case 'h':
+> +		val = orig;
+> +		break;
+> +	case 'r':
+> +		orig = swab32(orig);
+> +		val = orig;
+> +		break;
+> +	case 'l':
+
+> +		orig = le32_to_cpu(orig);
+> +		val = orig;
+> +		break;
+> +	case 'b':
+> +		orig = be32_to_cpu(orig);
+
+I do not see that orig is a union of different types. Have you run sparse?
+It will definitely complain on this code.
+
+> +		val = orig;
+> +		break;
+> +	case 'c':
+> +		/* Pixel formats are printed LSB-first */
+> +		val = swab32(orig & ~BIT(31));
+> +		pixel_fmt = true;
+> +		break;
+> +	default:
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +	}
+
+...
+
+> -	*p++ = ' ';
+> -	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> -	p += strlen(p);
+
+> +	if (pixel_fmt) {
+
+Technically we can avoid a boolean by checking fmt[2] again here, but I'm okay
+with a temporary holder.
+
+> +		*p++ = ' ';
+> +		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> +		p += strlen(p);
+> +	}
 
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
