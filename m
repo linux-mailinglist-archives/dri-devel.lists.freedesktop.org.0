@@ -2,51 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ABDA3EAD9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 03:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E88A3EB16
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 04:10:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67EDD10E1F4;
-	Fri, 21 Feb 2025 02:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5B0310E1B8;
+	Fri, 21 Feb 2025 03:10:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="SdXS1/bA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VFDagafo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 146475 seconds by postgrey-1.36 at gabe;
- Fri, 21 Feb 2025 02:39:04 UTC
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7FEBD10E1F4;
- Fri, 21 Feb 2025 02:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/f7AI
- zZ1TrU8hxNz23pogo7bbfU7wlUsam29chQ5ZDA=; b=SdXS1/bA0fqGHJD2/ax5A
- I9wuwLqoZ+6XARK2wL/z9D1w0wgrDe5foMkWL91nsCAsJ3zhsd+RLtQDKYuyqJea
- nP1D0NAPKwSdGZTtpibi73kdVU95fYLpFIjUNzopGapU4O/aRQUaLtys9HYYV202
- J7rAfW/b6EEtucxhnSPqqs=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
- by gzsmtp1 (Coremail) with SMTP id PCgvCgDHnpc457dn82KsEg--.4363S4;
- Fri, 21 Feb 2025 10:38:49 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
- simona@ffwll.ch, gustavo.sousa@intel.com
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Haoxiang Li <haoxiang_li2024@163.com>, stable@vger.kernel.org
-Subject: [PATCH v2] drm/i915/display: Add check for alloc_ordered_workqueue()
- and alloc_workqueue()
-Date: Fri, 21 Feb 2025 10:38:46 +0800
-Message-Id: <20250221023846.2727311-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 206A110E1B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 03:10:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1220C5C6287;
+ Fri, 21 Feb 2025 03:09:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99AECC4CEE2;
+ Fri, 21 Feb 2025 03:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740107435;
+ bh=Oq1X5TNC2tWMxrSbGulpzxocpjGNFsSObQBCaMkillk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VFDagafou7PhexlxWZhuXdvPDLL6bFX4N3BQgpMhHL2C1RXcjgLGkUzdvcvslmmQ/
+ /L8gT3+0dIB3ay+rShwnpTg5cqkkHQ4lDS/md1XkbzO7nJLvnr9T4s7YzGoag+BH8q
+ qj+l84vSD1RWrUq62goAdPGghHffRulNDGNYIoiG4V6Hg4HrqdecrKvrZ1d9x+4eci
+ o53AHHNA0h6BZCCmR+Ga3NTK/1nc1oqq3qcriVH+BufZclZ+/g/dVBfM3gsgFsvUZ3
+ hAGQcwxgY6AVU6Zahao3GoOkhGHM2DmGPDqsYf+UG0x9eYzYqgWWKNvWgzgQwT9Go1
+ 7HbHFpHxwungw==
+Date: Thu, 20 Feb 2025 21:10:32 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: quic_carlv@quicinc.com, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] MAINTAINERS: Update my email address
+Message-ID: <x5rkidwwklcqspbukzhkx26vldjhnohff6lshezgondltibvwx@e4jadrlop52i>
+References: <20250219214112.2168604-1-jeff.hugo@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PCgvCgDHnpc457dn82KsEg--.4363S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAF4xGw1xAF18WrykKryfZwb_yoW5Ar17pa
- 1fXFyUAFW5XFs2kay7Xa18uFyxW3409w15GF1fC3Wqq3WUAw4qg3W09F1UXryDGF1xXF1f
- AFWqyF429r1qkF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piPCztUUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/1tbiqBf5bme23pywzwADsH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250219214112.2168604-1-jeff.hugo@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,91 +57,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add check for the return value of alloc_ordered_workqueue()
-and alloc_workqueue(). Furthermore, if some allocations fail,
-cleanup works are added to avoid potential memory leak problem.
+On Wed, Feb 19, 2025 at 02:41:12PM -0700, Jeff Hugo wrote:
+> Qualcomm is migrating away from quicinc.com email addresses towards ones
+> with *.qualcomm.com.
+> 
+> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
-Fixes: 40053823baad ("drm/i915/display: move modeset probe/remove functions to intel_display_driver.c")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
----
-Changes in v2:
-- Split the compound conditional statement into separate
-  conditional statements to facilitate cleanup works.
-- Add cleanup works to destory work queues if allocations fail,
-  and modify the later goto destination to do the full excercise. 
-- modify the patch description. Thanks, Jani!
----
- .../drm/i915/display/intel_display_driver.c   | 29 +++++++++++++++----
- 1 file changed, 24 insertions(+), 5 deletions(-)
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_driver.c b/drivers/gpu/drm/i915/display/intel_display_driver.c
-index 50ec0c3c7588..0b9971a5626b 100644
---- a/drivers/gpu/drm/i915/display/intel_display_driver.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
-@@ -241,31 +241,44 @@ int intel_display_driver_probe_noirq(struct intel_display *display)
- 	intel_dmc_init(display);
- 
- 	display->wq.modeset = alloc_ordered_workqueue("i915_modeset", 0);
-+	if (!display->wq.modeset) {
-+		ret = -ENOMEM;
-+		goto cleanup_vga_client_pw_domain_dmc;
-+	}
-+
- 	display->wq.flip = alloc_workqueue("i915_flip", WQ_HIGHPRI |
- 						WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
-+	if (!display->wq.flip) {
-+		ret = -ENOMEM;
-+		goto cleanup_wq_modeset;
-+	}
- 	display->wq.cleanup = alloc_workqueue("i915_cleanup", WQ_HIGHPRI, 0);
-+	if (!display->wq.cleanup) {
-+		ret = -ENOMEM;
-+		goto cleanup_wq_flip;
-+	}
- 
- 	intel_mode_config_init(display);
- 
- 	ret = intel_cdclk_init(display);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_wq_cleanup;
- 
- 	ret = intel_color_init(display);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_wq_cleanup;
- 
- 	ret = intel_dbuf_init(i915);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_wq_cleanup;
- 
- 	ret = intel_bw_init(i915);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_wq_cleanup;
- 
- 	ret = intel_pmdemand_init(display);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_wq_cleanup;
- 
- 	intel_init_quirks(display);
- 
-@@ -273,6 +286,12 @@ int intel_display_driver_probe_noirq(struct intel_display *display)
- 
- 	return 0;
- 
-+cleanup_wq_cleanup:
-+	destroy_workqueue(display->wq.cleanup);
-+cleanup_wq_flip:
-+	destroy_workqueue(display->wq.flip);
-+cleanup_wq_modeset:
-+	destroy_workqueue(display->wq.modeset);
- cleanup_vga_client_pw_domain_dmc:
- 	intel_dmc_fini(display);
- 	intel_power_domains_driver_remove(display);
--- 
-2.25.1
+Regards,
+Bjorn
 
+> ---
+>  .mailmap    | 3 ++-
+>  MAINTAINERS | 2 +-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.mailmap b/.mailmap
+> index ae0adc499f4a..f4b927e48ad1 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -320,7 +320,8 @@ Jeff Garzik <jgarzik@pretzel.yyz.us>
+>  Jeff Layton <jlayton@kernel.org> <jlayton@poochiereds.net>
+>  Jeff Layton <jlayton@kernel.org> <jlayton@primarydata.com>
+>  Jeff Layton <jlayton@kernel.org> <jlayton@redhat.com>
+> -Jeffrey Hugo <quic_jhugo@quicinc.com> <jhugo@codeaurora.org>
+> +Jeff Hugo <jeff.hugo@oss.qualcomm.com> <jhugo@codeaurora.org>
+> +Jeff Hugo <jeff.hugo@oss.qualcomm.com> <quic_jhugo@quicinc.com>
+>  Jens Axboe <axboe@kernel.dk> <axboe@suse.de>
+>  Jens Axboe <axboe@kernel.dk> <jens.axboe@oracle.com>
+>  Jens Axboe <axboe@kernel.dk> <axboe@fb.com>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 950e8b7c0805..815a28c7e6fc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19426,7 +19426,7 @@ F:	drivers/clk/qcom/
+>  F:	include/dt-bindings/clock/qcom,*
+>  
+>  QUALCOMM CLOUD AI (QAIC) DRIVER
+> -M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
+> +M:	Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+>  R:	Carl Vanderlip <quic_carlv@quicinc.com>
+>  L:	linux-arm-msm@vger.kernel.org
+>  L:	dri-devel@lists.freedesktop.org
+> -- 
+> 2.34.1
+> 
+> 
