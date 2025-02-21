@@ -2,158 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A204A4014E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00526A40156
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:51:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 665DC10EB2C;
-	Fri, 21 Feb 2025 20:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A30BD10EB2D;
+	Fri, 21 Feb 2025 20:51:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GFlDc3WJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mUU8kvX5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2077.outbound.protection.outlook.com [40.107.236.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97C0910EB28;
- Fri, 21 Feb 2025 20:47:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UwAsp0KmMHRu/U8/SgUSuFejoGwS86Kh7GCgzm0TBRcG3o6TnXc/UseIarVkRVPZcRXiCW/I4u8bjZwZLL3H8eSKlriTMOUMEUKQ+aud2Kz+LV1i4kjwPGSBL+NnMHN/9kjacuM0Ug4acgXfZGKRN1UivHo9sofImW/rNcvuJmuEMTpGlA1ywZFmISCxPXRKSzzReq2hTUT2msF+jUeQWGpJ+OE9rZm6vgnkkaJIKVTgE5J+mqTpQzs6p+Vj0GGAJ+bSNulgiU5IVcfuqdgPZNasMG0ZxQM7G3F+YHaXJ770hiuAVrFHHL7RSZKZnqFUJfp0/4qu0zglE0Cor29AsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ijlWQDu+5E+7r0ky4bKdS7BDVkX4hD5PTHXgoPShTG0=;
- b=sGVLGruRSgbzwHNccaiT94MjnFyebGV1NoBX9gHF89rCpzUMyINiM8r47owrVdY3UgHdgvnbTLZfX/bNbpYKBFansRPD6gTh26GMs0GiDLKDDEotPFJF23qMMO0iLWHSWzYmYwan/xsGK/4uUgKQZPw7143NWFRazR8EPDS9B0rAehuqw/2jaU0vDQ6GAeTKIGjTgumC4386Ie1+3rfBBXdDCBqUrTTg8M1p3i7sShRlUdHExAp8YjL1QAFsabOR28bOmc8rjRMb937S2A0lh3q9wTYPfkrMfqlEeFLaQjzSBNYTZZ8eP9R/Hx0kzrk/sn0PwX6vePd138GlyblYvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijlWQDu+5E+7r0ky4bKdS7BDVkX4hD5PTHXgoPShTG0=;
- b=GFlDc3WJ6mSRzj7Q9EhLX/xGXzLMUlrC2IfB/xBF8sqW3rPgQG40lElRCuuxF3tMbsLdLxi7hi+BEt76u8T4/Fz3+PlpsqfDRcd+ftyyqtNF3kiIs7VMOQoMRRhYTqYee0AHwJeXpFuEUWDrngjX/Jgen55snuDhdobtBttdem4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by DS0PR12MB9276.namprd12.prod.outlook.com (2603:10b6:8:1a0::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Fri, 21 Feb
- 2025 20:47:45 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%4]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
- 20:47:45 +0000
-Message-ID: <b6466238-42dd-4de4-9c95-ba3c019a6b21@amd.com>
-Date: Fri, 21 Feb 2025 13:47:41 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/amd/display: restore edid reading from a given i2c
- adapter
-To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, mario.limonciello@amd.com
-Cc: Roman Li <Roman.Li@amd.com>, Aurabindo Pillai <Aurabindo.Pillai@amd.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20250215211549.79832-1-mwen@igalia.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20250215211549.79832-1-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0252.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:66::11) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F07F710EB2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 20:51:45 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-abbae92be71so293315066b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 12:51:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740171104; x=1740775904; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=x96f1GfMBe0SzhF3gidD9+1z7xQuC/mzsHXfqU7tA9M=;
+ b=mUU8kvX5peAn/gl8UZT355iHFooWOZkXmApz8CHhKfiadzYWEVo+QRl7WkFQw47w9i
+ kXM+52Onx/rHtKVutotLMNLYny4zUSsargErsxaXlxaqRl/EUVGYQX5n+bLq+qCA9KnR
+ oAMOZQNMLWcmq9swK2JAN30+QGYIR9bzwuWHstXHylWnQc5aLRnbWB9CLPlj/l3XixIT
+ /XkmlV/TicbtiMWUrqH52JBbbDXAMgrQuoUS1VHN4TnzoVt236LycPf/2fVG92o9E37V
+ Kh8+8/HzkOkbhjrL3vx0lN4on6zrMc/6a4gE0FqnLcpU0lRtOSNQbr1tgnRK26X9UVnn
+ /QQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740171104; x=1740775904;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=x96f1GfMBe0SzhF3gidD9+1z7xQuC/mzsHXfqU7tA9M=;
+ b=CXwsM0XhMQx/wBh1FWAqW/Q5ITDiFMG9YlV5TtOLUseRukLWooQoFG8kjoONwrdi22
+ OZNb17FYJ/tHqB1+otAyeIuuMLosHlQ7lg9lQ+9WGD+XFLbMSPlOj53/eQUfuS/vcxNT
+ qtu4p2Md09UFV6+mXgus1NDGj30COALd4+jZgNsEERc80Bo8ROgdJoLKoqoK4BxLn1Zs
+ 59/hci8atg7DtGKvGTbzI4QVC5xiB/iFoYkjojn5Q0edpFPJvN81yYUKGSynJ+PyiIWv
+ dsaROb/t1HbIy7wlRfycOgc7bS8qLr8CljAfyyvTCfThj5PWvdG3OnMmqUKUQevKgcUp
+ fRcA==
+X-Gm-Message-State: AOJu0Ywg/BXcIFdkQzDC2v0+ggskKpBIxwRRcYtnalVFcYxIPLsSBRC+
+ 9D70k8TlUUeb3bJO8nZCTY8ytkoqLVnzVhWT72+HPf4/78LQfJSIWv+w6y8WGDtpC8N/+r3GMjd
+ uXeKqoEKFu6CvgjIj6zkUXlwS0Y4=
+X-Gm-Gg: ASbGncuoxeFNdPy6XV1d2IImTmMwNfR1465/o/owz09SP4MUZkAp5HNQ1CF740sB1fR
+ 6ggO6Yau2+ToLmuyKOrEmSCQBHhFhlTrKfYVj1YOA6Ic9KxDFUH7Qc6p+b0W0edZhdnv6iYO05F
+ 1Fl9W8gw==
+X-Google-Smtp-Source: AGHT+IEBIM3w/S/4VXusmbdzIx6RtxGNJF3Zb9ZxCF2ectBaJO4SRI3P29mXck8mE014TqAR9asMcjXvZEJGv/MBQe0=
+X-Received: by 2002:a05:6402:2350:b0:5de:a6a8:5ec6 with SMTP id
+ 4fb4d7f45d1cf-5e0b70f0872mr9828315a12.10.1740171104188; Fri, 21 Feb 2025
+ 12:51:44 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DS0PR12MB9276:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d33cb3d-9e75-41df-05a2-08dd52b8fe83
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7053199007|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Wmd5RVpickh2OG0vVDJTL0VmWFNmeDNzS3VYUUZxR0d6TzZOeVNNb044ZUdM?=
- =?utf-8?B?MExRM01UeGh4MWdIbTlMZExKVXlCUHNXZ2hlekRTRlVzTU1BcUlxZFJqMWdv?=
- =?utf-8?B?YmtwWVVobHRtOEVyYTNva2pWRzVMVFpxY210WHlzbmYzcndxRXRKbkJNVEw1?=
- =?utf-8?B?VFRhY3lDaWQvaGEvNTF5L0JweEtLZ3RGUzR5Ty9paEJqc0VSSjBrKzNlYkhv?=
- =?utf-8?B?QUFjSHg3Ky9UYjd2NjZsMmF6VGRXcCtvREhMRkthOUNlcGZuWnJvWk5Sd0da?=
- =?utf-8?B?MllzSnBFblAwOG5WWGp3RWd0emxCYnh2L3RJRURzTDR3Wnc1c2pmanhHR2Mv?=
- =?utf-8?B?SW9VQ2VESHZJRjVNMyt0N0srQ0V6MnBURWUraWtURjJjWHJuSTE0ZCsreXRx?=
- =?utf-8?B?MmdsMGxsM3NKdCtNSEx2L1E4eFE1SGR3Q0Q3RmZzYTRmY0RqQ0hVTUpWRk5s?=
- =?utf-8?B?TTMvSWxtRHhQZlo1VVFVU2JEZW9ld0d5WGdKWDAxSzI3bGNGcjdqN2Zxc2l5?=
- =?utf-8?B?dUphUWtsN1JQL2pJUzdxU3cxNDdqWVoxUUVHTzVCZTRkTU1lM2NWS08vd01J?=
- =?utf-8?B?SkZvUk12c21XWHZuRUUrb0s5aUlOZW1rby8zK2FRMkxBVm9ISU1XUW41Ukp0?=
- =?utf-8?B?VkNHZktnNm5nZGl0VjIxdWpYaFJNeCtOTUZIYUZOejE5Z0FtM3RldmNJZjVO?=
- =?utf-8?B?NHl3MmdGZUN6RTNoaXRVdUNZcHprUmRqY21LeU9nc2ttOXFDYXp2U0FiZmgy?=
- =?utf-8?B?SkVjRWRnKzRzbTBlalpqekJoZkxmWkhDVkVnY0wxY3d5L1FJSGhaSHl6N1dx?=
- =?utf-8?B?SDBNS1pjbXM3UkRNL0UzU0FRZFZaU2NrT2tkTmZuYjJzay9KaTBjN0hCS3pk?=
- =?utf-8?B?d3FGc2hjQkVnRTQ3Yzg0cDZaSEY5TVUyT0ZadWYzOWM4SlVFdmVaRXpPSEsx?=
- =?utf-8?B?T0NKWlR3dElsMmFmYXdaTDVjbDNsSC9nTEZ0dlNUcHlaNTE1S3B0K0dCK3pO?=
- =?utf-8?B?c3JiY0E5SDZHSytzWWg3ZGdpSUxlb2RSaXZYekdmbHNHcTV4WTlMYnI3d21w?=
- =?utf-8?B?MDIvOU85SzdjZGlRM080dmd1QktxYWc0dG9RbmtoUlpwUXZqcysrcmRvNk8w?=
- =?utf-8?B?UEZ2NEZKZEdzQU1vaGZCY0h1K2o4NHpIa2gyeUJha2tNcmxlN3REMU8xYzRj?=
- =?utf-8?B?UWp2ZVhqVllOdnlYa205ZFhla3AvU3FBZHpqMG1CWWtESnpoeGU0QXQzSUF5?=
- =?utf-8?B?eHVjQWdzZWhiL3NCT2NVUUZLaFNidjNyT3lsMHpJTXlRNERqOXZpNnNwVWN2?=
- =?utf-8?B?VEVpdnBpRXc2TXRCS3NOTG40dldqek5DamxrSEliVC9ia1JRRlZ1U2ZxSnhx?=
- =?utf-8?B?SWdLYXk3ZmMvbHlPWmZUMjNNRnh1M3NUZWl3OXo0SnBkbUVrK2dzT0RBUW52?=
- =?utf-8?B?WGhYSnhia1BmZTlFZExONHRkaXFqT0orU3EyUnNuRWVjZGZZNmo3RWpadGoz?=
- =?utf-8?B?V1h1eVpJSWJNSy9uZDZ0QXlNbWtvRGFQODhnaFZ2YzFUbEpUQ1gvME5hVEpU?=
- =?utf-8?B?NVdzckZBL1VCVmxuODBWbkRKUi9jdk9ham5WUVMrOE1LTXI3ZmVrd0lRTVFn?=
- =?utf-8?B?N0ZNMk8zNzh2SXNLd214UllGTVlRVnk5RmpuZ1hGSG9LeU5hSC9WRWw2d0Vt?=
- =?utf-8?B?dkxadHZpUldzODFCbkpMbG5palk0QklUZ2c3NVNBWVRBR202L2V1MU9nTHhU?=
- =?utf-8?B?NHJXWk4ySEhDOUZ1MUlqWjUxSjYyQ3B4eG5na0ovOFBWdzNaSm14UUxpWkFC?=
- =?utf-8?B?d2ZGS0Q5YkZldHVhM1hZTTB2ZTF5ZnRLazg4akVoYUZ6RHlGMEUreW94bVhO?=
- =?utf-8?B?RHdPTTkrYWdNWVYwOUE0RXZEVUdiR3BLTDNuaFRUMmV1YUowWm4rRUhyQ0hO?=
- =?utf-8?Q?TzmclaG8n4A=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7053199007)(921020); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWo3THM5aDd5bkkyOTYzbFY3MVJSYnFuTVdTcGc0UmNvY29jSUEwQVpQT29F?=
- =?utf-8?B?UThPS2EwMHZxS2RiVk55TjdESXdPaW1XazZLWmFDdTRDS2ZQS0k1TUQ1czIv?=
- =?utf-8?B?b2xWS0JPVkJka1pwd3Y0WWRKYUV2Q3pocFdWSDhHaDlkWCtjTG5NdWROUjQr?=
- =?utf-8?B?MjFHd0JVZnhuL29nY2pidHZRN0NpdWpYR01WdXNQajV5Rks5SWE5OHdZRDJ4?=
- =?utf-8?B?bXpwVnpKWCtza2pzNkNKeE5uVnAwU0pkV0VPeXNIbmI5QXJvQ1QvWlNINmdH?=
- =?utf-8?B?ZDhkMXNUaDlrcDVvZEVzekJ0ZEZndUloUkNvcFNxbFVia2lvUjRmc2Z3NXRS?=
- =?utf-8?B?UWpzNWdzYk9Pc003a2g5cEFOUlpoM1p3RTV1NS9ib0gzVlRGTmxFcEhMUW81?=
- =?utf-8?B?SHp4bWFSdG5QNWdtTFJKdlJIRndLQi96TURFMDNraDZ3enZ3TDFaMXZ0NThh?=
- =?utf-8?B?YjhwVElEa0JpbFV3M1lDYVcvdnhReHlvVSt4Q2pXTk5DODJmeU9CaHMvYVU0?=
- =?utf-8?B?Q09NUDZZdjlBMWdNMGlPTjBmcnJGUVZoNEFvVlFOVjVtQ0dQME9IanVNN1Ba?=
- =?utf-8?B?NDVlbFJEY0crRDQvSlh4NndkOE5EQjhYM0wwWU1QSlhnenZyTmxYZkZTeHZZ?=
- =?utf-8?B?U3Ruc0laRCtpUjVCZFRTNzhoRzhaNkhnTEtDcndlN1JVM0d0Tm1CWm5tZFZJ?=
- =?utf-8?B?M0hhWXFFdEtrdTE4M0o5WHZSV3ZGcVhpRlREUE81OTEvMUtTaXdMdzRDaGF2?=
- =?utf-8?B?eEtya1ZJQnVDb3VHcWhsREVjeWV4a2xTNE5GNldQRUY5RjNMZVIxeVd4YjYv?=
- =?utf-8?B?ZFJiNmdNWnMxYURmQktTTksxek5taFFwR0c2MmloWEVHTUUvSTRWelFPVnNJ?=
- =?utf-8?B?SmVhTGFqNmJ4QjZRVXFISWMzSmp1RVo4bTAwSlVCUUVRTTNDZE9JcVpydmw1?=
- =?utf-8?B?TEFhU3dQTG16aWhsYzF1YjF5a2RnbERIY3QzMjNGMVVibnptQ1NVU0tUbXBz?=
- =?utf-8?B?Zy85WWtSSVlleEYybEFma1ZFVGVuNkRKZm9TclVJdURxWWJua3NGbWJObVhW?=
- =?utf-8?B?aEZwN2lSVG1RS1EwanVXMVlrWndRcER2QVNvVDVaa3dKSEJ0Tlg5MldxSUcx?=
- =?utf-8?B?QWpSOXpGRG1nVGM4SmU3TnVTVzZWS0w1dFp2Z0JHeXk5Nmw2ajN4a3EyMnNP?=
- =?utf-8?B?MEZkVWs1SXVVRG1VMXJNSlB4bGhKN2tQcGJvdmYxUld6QW5BRThtUlgwVk9h?=
- =?utf-8?B?Z1VXcFVRQ0VISFZXTEorQndkbFAvL2JTYWdPWll6b3VmT3ZLbXlIWHRQYUNy?=
- =?utf-8?B?TFpPakNkbzQrajRqdnRnOEFhaWZlcDdXbjNvQTJURnRMR3FlbFdSQXpnY01D?=
- =?utf-8?B?YzRQZ1lkTVRHaVRGRVJLVVhMNUNMUHFJUGZkcCsyYnV0TFpCVFNTRnNQeU42?=
- =?utf-8?B?QS9KUVpXZ0VWQk1jYnpIUHRsTnB0ZmhPK29DZTQyRWREUmxVRG5BMklzVEVU?=
- =?utf-8?B?MVBRZUQ3d1BHMzZqWk5LamMzVU0xdGJzVHlLb0xsY1JlTkR5OVhrcC9vNHAv?=
- =?utf-8?B?VHZac25JQmx5Z3c4WE9KRWlscGZ5YlhxWEFUa3pBVllGVXVQYVFScTRnSks2?=
- =?utf-8?B?ejFBQWdLSDBCdFo0S2htc2E4NWpyclpkeVE1MlF3eFJWNnY1aWhUT2lpMTRz?=
- =?utf-8?B?VkhiQW9wc0pEM0I3UzNwR1NSYjB5dDd1MURKblhUL09PbEI3YXlTdElpWnhY?=
- =?utf-8?B?TVRiTEFjcUhWQU5oT2w2WU5EODZ3ZmtSTzJZaU9hbGQyYWZrZUxZSzV6cnNw?=
- =?utf-8?B?ZXBmTDdUeWtGUEFwL2UvM2p3UHpWazNUVDQ5MC92NUJJZ1Z4VklmTk52WFZ2?=
- =?utf-8?B?V2lHQ3RBYkkvZk11K09qS0RVVk1jTUFPZmZDNml2U01yK0FRZ0o5RzVmWUFP?=
- =?utf-8?B?OU1VM2VkWk1DdTV2azNGRk1RcWRXQVJCOXlzVFRlYUgwdkhUSDRQOHNoTHdS?=
- =?utf-8?B?V3AvMUJEbEJSbFBFVEtmeHdWZFdRWW13cU5ZQnJqYitoc2RZYXRhU2V4cWVl?=
- =?utf-8?B?VWl1RjA2cFBkWmszTFNHWmo3a1pzbTZUVlFZdW8vZW93T1RrL3JLbTNVRC9u?=
- =?utf-8?Q?QdztZ64Vvl7vsq7bRS1uajEVi?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d33cb3d-9e75-41df-05a2-08dd52b8fe83
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 20:47:45.5419 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: heLOk3f9jsUTeCsj5aE5uKjcP4YRhG/LitK92IA4euutFiJWpGbTFE3nKqJEIXameiM3HDfIr2D1LAvv391e1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9276
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 22 Feb 2025 06:51:33 +1000
+X-Gm-Features: AWEUYZlHT0KIW6LET21wCc2AX_ISkd6d3ZxA2cwyAdI4KGn4QmjXCgDhU4YQ-2Q
+Message-ID: <CAPM=9tyHJiMrF8nxXe=mhn0i5N1v-7RHh2TZfoz8BoUBBnuxzw@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.14-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,69 +78,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alex Hung <alex.hung@amd.com>
+Hi Linus,
 
-On 2/15/25 14:15, Melissa Wen wrote:
-> When switching to drm_edid, we slightly changed how to get edid by
-> removing the possibility of getting them from dc_link when in aux
-> transaction mode. As MST doesn't initialize the connector with
-> `drm_connector_init_with_ddc()`, restore the original behavior to avoid
-> functional changes.
-> 
-> v2:
-> - Fix build warning of unchecked dereference (kernel test bot)
-> 
-> CC: Alex Hung <alex.hung@amd.com>
-> CC: Mario Limonciello <mario.limonciello@amd.com>
-> CC: Roman Li <Roman.Li@amd.com>
-> CC: Aurabindo Pillai <Aurabindo.Pillai@amd.com>
-> Fixes: 48edb2a4256e ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> ---
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 +++++++++++++++--
->   1 file changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index a8421c07b160..142d366e3347 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7269,8 +7269,14 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
->   	struct dc_link *dc_link = aconnector->dc_link;
->   	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
->   	const struct drm_edid *drm_edid;
-> +	struct i2c_adapter *ddc;
->   
-> -	drm_edid = drm_edid_read(connector);
-> +	if (dc_link && dc_link->aux_mode)
-> +		ddc = &aconnector->dm_dp_aux.aux.ddc;
-> +	else
-> +		ddc = &aconnector->i2c->base;
-> +
-> +	drm_edid = drm_edid_read_ddc(connector, ddc);
->   	drm_edid_connector_update(connector, drm_edid);
->   	if (!drm_edid) {
->   		DRM_ERROR("No EDID found on connector: %s.\n", connector->name);
-> @@ -7315,14 +7321,21 @@ static int get_modes(struct drm_connector *connector)
->   static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
->   {
->   	struct drm_connector *connector = &aconnector->base;
-> +	struct dc_link *dc_link = aconnector->dc_link;
->   	struct dc_sink_init_data init_params = {
->   			.link = aconnector->dc_link,
->   			.sink_signal = SIGNAL_TYPE_VIRTUAL
->   	};
->   	const struct drm_edid *drm_edid;
->   	const struct edid *edid;
-> +	struct i2c_adapter *ddc;
->   
-> -	drm_edid = drm_edid_read(connector);
-> +	if (dc_link && dc_link->aux_mode)
-> +		ddc = &aconnector->dm_dp_aux.aux.ddc;
-> +	else
-> +		ddc = &aconnector->i2c->base;
-> +
-> +	drm_edid = drm_edid_read_ddc(connector, ddc);
->   	drm_edid_connector_update(connector, drm_edid);
->   	if (!drm_edid) {
->   		DRM_ERROR("No EDID found on connector: %s.\n", connector->name);
+Weekly drm fixes pull request, lots of small things all over, msm has
+a bunch of things but all very small, xe, i915, a fix for the cgroup
+dmem controller.
 
+Thanks,
+Dave.
+
+drm-fixes-2025-02-22:
+drm fixes for v6.14-rc4
+
+core:
+- remove MAINTAINERS entry
+
+cgroup/dmem:
+- use correct function for pool descendants
+
+panel:
+- fix signal polarity issue jd9365da-h3
+
+nouveau:
+- folio handling fix
+- config fix
+
+amdxdna:
+- fix missing header
+
+xe:
+- Fix error handling in xe_irq_install
+- Fix devcoredump format
+
+i915:
+- Use spin_lock_irqsave() in interruptible context on guc submission
+- Fixes on DDI and TRANS programming
+- Make sure all planes in use by the joiner have their crtc included
+- Fix 128b/132b modeset issues
+
+msm:
+- More catalog fixes:
+- to skip watchdog programming through top block if its not present
+- fix the setting of WB mask to ensure the WB input control is programmed
+  correctly through ping-pong
+- drop lm_pair for sm6150 as that chipset does not have any 3dmerge block
+- Fix the mode validation logic for DP/eDP to account for widebus (2ppc)
+  to allow high clock resolutions
+- Fix to disable dither during encoder disable as otherwise this was
+  causing kms_writeback failure due to resource sharing between
+  WB and DSI paths as DSI uses dither but WB does not
+- Fixes for virtual planes, namely to drop extraneous return and fix
+  uninitialized variables
+- Fix to avoid spill-over of DSC encoder block bits when programming
+  the bits-per-component
+- Fixes in the DSI PHY to protect against concurrent access of
+  PHY_CMN_CLK_CFG regs between clock and display drivers
+- Core/GPU:
+- Fix non-blocking fence wait incorrectly rounding up to 1 jiffy timeout
+- Only print GMU fw version once, instead of each time the GPU resumes
+The following changes since commit 0ad2507d5d93f39619fc42372c347d6006b64319=
+:
+
+  Linux 6.14-rc3 (2025-02-16 14:02:44 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-02-22
+
+for you to fetch changes up to 9a1cd7d6df5d708ef244f93715855c8e54d79448:
+
+  Merge tag 'drm-msm-fixes-2025-02-20' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes (2025-02-21
+10:50:29 +1000)
+
+----------------------------------------------------------------
+drm fixes for v6.14-rc4
+
+core:
+- remove MAINTAINERS entry
+
+cgroup/dmem:
+- use correct function for pool descendants
+
+panel:
+- fix signal polarity issue jd9365da-h3
+
+nouveau:
+- folio handling fix
+- config fix
+
+amdxdna:
+- fix missing header
+
+xe:
+- Fix error handling in xe_irq_install
+- Fix devcoredump format
+
+i915:
+- Use spin_lock_irqsave() in interruptible context on guc submission
+- Fixes on DDI and TRANS programming
+- Make sure all planes in use by the joiner have their crtc included
+- Fix 128b/132b modeset issues
+
+msm:
+- More catalog fixes:
+- to skip watchdog programming through top block if its not present
+- fix the setting of WB mask to ensure the WB input control is programmed
+  correctly through ping-pong
+- drop lm_pair for sm6150 as that chipset does not have any 3dmerge block
+- Fix the mode validation logic for DP/eDP to account for widebus (2ppc)
+  to allow high clock resolutions
+- Fix to disable dither during encoder disable as otherwise this was
+  causing kms_writeback failure due to resource sharing between
+  WB and DSI paths as DSI uses dither but WB does not
+- Fixes for virtual planes, namely to drop extraneous return and fix
+  uninitialized variables
+- Fix to avoid spill-over of DSC encoder block bits when programming
+  the bits-per-component
+- Fixes in the DSI PHY to protect against concurrent access of
+  PHY_CMN_CLK_CFG regs between clock and display drivers
+- Core/GPU:
+- Fix non-blocking fence wait incorrectly rounding up to 1 jiffy timeout
+- Only print GMU fw version once, instead of each time the GPU resumes
+
+----------------------------------------------------------------
+Aaron Kling (1):
+      drm/nouveau/pmu: Fix gp10b firmware guard
+
+Abhinav Kumar (1):
+      drm/msm/dp: account for widebus and yuv420 during mode validation
+
+Dave Airlie (4):
+      Merge tag 'drm-misc-fixes-2025-02-20' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2025-02-20' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'drm-intel-fixes-2025-02-20' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'drm-msm-fixes-2025-02-20' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+
+David Hildenbrand (1):
+      nouveau/svm: fix missing folio unlock + put after
+make_device_exclusive_range()
+
+Dmitry Baryshkov (3):
+      drm/msm/dpu: skip watchdog timer programming through TOP on >=3D SM84=
+50
+      drm/msm/dpu: enable DPU_WB_INPUT_CTRL for DPU 5.x
+      drm/msm/dpu: correct LM pairing for SM6150
+
+Ethan Carter Edwards (1):
+      drm/msm/dpu: Fix uninitialized variable
+
+Friedrich Vock (1):
+      cgroup/dmem: Don't open-code css_for_each_descendant_pre
+
+Hugo Villeneuve (1):
+      drm: panel: jd9365da-h3: fix reset signal polarity
+
+Imre Deak (4):
+      drm/i915/dsi: Use TRANS_DDI_FUNC_CTL's own port width macro
+      drm/i915/ddi: Fix HDMI port width programming in DDI_BUF_CTL
+      drm/i915/dp: Fix error handling during 128b/132b link training
+      drm/i915/dp: Fix disabling the transcoder function in 128b/132b mode
+
+Jessica Zhang (2):
+      drm/msm/dpu: Disable dither in phys encoder cleanup
+      drm/msm/dpu: Drop extraneous return in dpu_crtc_reassign_planes()
+
+Jos=C3=A9 Roberto de Souza (1):
+      drm/xe: Make GUC binaries dump consistent with other binaries in
+devcoredump
+
+Karol Herbst (1):
+      MAINTAINERS: Remove myself
+
+Konrad Dybcio (1):
+      drm/msm/a6xx: Only print the GMU firmware version once
+
+Krzysztof Karas (1):
+      drm/i915/gt: Use spin_lock_irqsave() in interruptible context
+
+Krzysztof Kozlowski (3):
+      drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG0 updated from driver side
+      drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG1 against clock driver
+      drm/msm/dsi/phy: Do not overwite PHY_CMN_CLK_CFG1 when choosing
+bitclk source
+
+Lucas De Marchi (2):
+      drm/xe: Fix error handling in xe_irq_install()
+      drm/xe/guc: Fix size_t print format
+
+Marijn Suijten (1):
+      drm/msm/dpu: Don't leak bits_per_component into random DSC_ENC fields
+
+Rob Clark (1):
+      drm/msm: Avoid rounding up to one jiffy
+
+Su Hui (1):
+      accel/amdxdna: Add missing include linux/slab.h
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Make sure all planes in use by the joiner have their
+crtc included
+
+ MAINTAINERS                                        |  2 -
+ drivers/accel/amdxdna/amdxdna_mailbox.c            |  1 +
+ drivers/gpu/drm/i915/display/icl_dsi.c             |  4 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |  8 ++--
+ drivers/gpu/drm/i915/display/intel_display.c       | 18 ++++++++
+ .../gpu/drm/i915/display/intel_dp_link_training.c  | 15 +++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  4 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |  2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  8 ++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  2 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  2 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h |  2 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  2 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  3 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  7 ++-
+ drivers/gpu/drm/msm/dp/dp_display.c                | 11 +++--
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |  5 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 53 +++++++++++++++---=
+----
+ drivers/gpu/drm/msm/msm_drv.h                      | 11 ++---
+ .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  | 11 ++++-
+ drivers/gpu/drm/nouveau/nouveau_svm.c              |  9 +++-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c    |  2 +-
+ drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c   |  8 ++--
+ drivers/gpu/drm/xe/xe_guc_ct.c                     |  6 ++-
+ drivers/gpu/drm/xe/xe_guc_log.c                    |  3 +-
+ drivers/gpu/drm/xe/xe_irq.c                        | 14 +-----
+ kernel/cgroup/dmem.c                               | 50 +++++-------------=
+--
+ 30 files changed, 146 insertions(+), 124 deletions(-)
