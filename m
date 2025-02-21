@@ -2,154 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4580DA3FAB3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F69A3FAD6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:20:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6295010EAC4;
-	Fri, 21 Feb 2025 16:18:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E5410EABA;
+	Fri, 21 Feb 2025 16:20:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="L3xYob3l";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ms8BL8EW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2079.outbound.protection.outlook.com [40.107.223.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F33310EAC4;
- Fri, 21 Feb 2025 16:18:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m5ohbm4J1JhD17dsP4jO0NYjo8Ig9m9khd3Vh+nyvna5nDLPIcN+hvIdRNGNbGadkUXrYbUuSpt8ulJGHtRNwRhALbKVLpmyEI2c0XuqLt42AZH34I13Lq6cYBtMI73kV7bypzEV3MZYMcU3s7gZdxzaU9qP70eWJua/Q6J3r1t8OQeZatXvluY/KM6HGE60cjHs4cwPAYH6SuI8FWiR3cjSsOK0xtpSX1c3QqfB9/OC3YmOPa43fMIYXz/LQPAkiQ83HVmksZnqGNRdrT42+Ba9TBaFdwkYHZATBABcsHEuYfylwYc1OXmDYc6wBCS8rXW/zae7z2Mc9LOq0mjrpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RlLs97klWBop6Ykr5mE5HUhaF7vXHLIt0zQ/IRU6wxE=;
- b=oxMr0eRHoEcW+AL5vqYdVubXruJ0oymhmcBCiOLUdMGMQfsxP6ze65geQfosgD23atfHIk7W+J+VYvnLzvcdymiqMOivKCluERTKVmZXXKkL5QEhoZCNUywWRebuybUZ5sF7vlUHfyUwUnHFy2i0QurgKFa3Bp9jTtVHXVX0KlHGop5ImB7ru7il2CAq5Z15unm8PyVvNNSsJRdwCJ3SM8rjPXvzrotCvV8/U3Kl06TbODPvGPaad0rsvh8+eAcANa1KWLagd1Gvv/r9t+D/rV3Pp5KF81kmqvMtRz6dp05G3sE4ykSArc8m1Uu7tCmpfzA6hNd2Kr7NZ3vKk4n9GA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RlLs97klWBop6Ykr5mE5HUhaF7vXHLIt0zQ/IRU6wxE=;
- b=L3xYob3lfGHQGatiMWlxNuRAGHOnZ4GjUCXHoTTKQRBJRfsHdgvZoWh6nnLu5OYP1OuuqU8L0n3V4YwRJj167YA5BE/a8s2b6mAYpGrJAw2LkEoiKb9buIZc3iSHT6aiqtHLndqTf9InC+KWHg5m/sPDX3iWZBcz6p6B4tJDYBY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DM4PR12MB5913.namprd12.prod.outlook.com (2603:10b6:8:66::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.16; Fri, 21 Feb
- 2025 16:18:46 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062%4]) with mapi id 15.20.8466.015; Fri, 21 Feb 2025
- 16:18:46 +0000
-Message-ID: <5e3eb899-ae82-4919-a382-99cbd3c6bf34@amd.com>
-Date: Fri, 21 Feb 2025 11:18:43 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [V7 08/45] Documentation/gpu: document drm_colorop
-To: Simon Ser <contact@emersion.fr>
-Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
-References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-9-alex.hung@amd.com>
- <eDrRzjuU_q4z4Jvq-DYxUnw2a-VUts65NbWMZbhrvqYoKbcW_jUawJ_ZirFIFQzrtMG4asLn6f9WP24o-k4DnP_oYf5R94PYoMIejFqdTZM=@emersion.fr>
- <5eb5fecd-caa8-4e40-8fe9-23599dc59bbf@amd.com>
- <TFAFx0Fj4cqaba_HYCGoFyvpZVhmaa2KEHRsejqoqEr64CBhJRzpaBs4ZuQWQIJDSQovx0NwwYKhb0GrbhyBWxNGxJbmxckHlyCDtJBbSYs=@emersion.fr>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <TFAFx0Fj4cqaba_HYCGoFyvpZVhmaa2KEHRsejqoqEr64CBhJRzpaBs4ZuQWQIJDSQovx0NwwYKhb0GrbhyBWxNGxJbmxckHlyCDtJBbSYs=@emersion.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQ1P288CA0021.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c01:9e::27) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF9E10EAAD;
+ Fri, 21 Feb 2025 16:20:45 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-2217875d103so5163865ad.3; 
+ Fri, 21 Feb 2025 08:20:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740154845; x=1740759645; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ok1PcUQEwo9Z4uPO0boiFAABo1z9iTXkCf8Ww7aDcN4=;
+ b=Ms8BL8EWwoMn6bRK4Hu9SrtkBLcr1QcZA9TFljg7HAvoTGPWcX9ukZLvW/XMZzHnSt
+ TAUB1OGarSgAfXot1v9iX8RepN1L0difIb6AhmtjOVTtC3TFEep+7VwhWYTF+BtZ515k
+ Gse3bhFhBlrjS1xGYujCg5/4kP7UB1nCmFa2UEElWJDVME0tA9RMnmmhMDUlKFZ5Avj5
+ EqX6BwzvkGY61wQTXkY25WXfNQg4PGqGhzPW705QdK5E/FDuQhUe1GtpQt7xUl6/Uq9O
+ OuLrN7BjIxC4ID+IT6ZFLXepfb4qh7246pnOWFMjrih44Ce5b+0mxzFtmZaQFrZIyHBE
+ CuMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740154845; x=1740759645;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ok1PcUQEwo9Z4uPO0boiFAABo1z9iTXkCf8Ww7aDcN4=;
+ b=Je8bvpq47Um1rxMLmEKFWJ3my7z3S/4Y5RzYprV2QaAgA6DVnQjlZXdbSp1A5izLjC
+ JRgdtSXGZKQ65LpeH2UR6pGGZw0mXQuhvTNyGdoVFTlnOl8Y25caYVrL0R4Vpl8G7Df7
+ vGkG9wyBX1fa8AgSYDq98npYhUj7+epcp3jfnwvrSg8iQ2J2NRv1MObNult4KTaeoObL
+ 6JEsqElvvqY/fiyFl6twqwOejWaV/w43G/4QzL4Q3CtqsAGW2XtOHfrbeRlQ3loM9nYR
+ Hy+lK3z66r5+iE/7SeR0X33Rl/71Cia1yygny+LA8ZPsVsEZVHIwklBa9vxq86kF4788
+ 2X/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/Jnw0hOypm7ytPGYono82H9UDcEJ6hXo3QRrUjH2nouTYrO98HPReIi1787PDtkR5bSJ4w0hMweQ/@lists.freedesktop.org,
+ AJvYcCV0O5XOm9tgIDPOzp285Kfqb3/3aFXJE0ZYUOUeFmanjrVVyejlzJPnjUmSiVekWXrTmee1HA/4@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+/a0eTkJjbJB7CLrnCZ11gScJpK5nszAkK3SWtjtvee8AxSVZ
+ QajhYEC60VqBQxA4vZaZ7gbB/kwtJ3OTujT8dcCTIl6B+jElEGJyxAZHQnLhhEJyGqTRs4ezJ46
+ AM5yoUw489H/uReDRlLLAMFfqaHd06g==
+X-Gm-Gg: ASbGncsigVaA7Aphz9nVVYsCEwlAZSwXHEN4LN5n5rvBRjLS4+Z6moBlXrdSjHBgGp7
+ OtsRWifhF5lb7KgMatA2gcd8xgCGyagwugDsxZAAkcchArYIf6mMV4b0veRI/nF7B36fP2Xggk1
+ yWAldBTgY=
+X-Google-Smtp-Source: AGHT+IEeQ2lAvqEeFfxRn4Nrirkv4XDLaiyqdZeo/kvpEaOxNKZdbOVPP1dGbhLcch78JwD2YY3l/amCLt49Tu9LiQU=
+X-Received: by 2002:a17:902:cec6:b0:220:d71d:4666 with SMTP id
+ d9443c01a7336-2219fff855emr22594785ad.13.1740154845453; Fri, 21 Feb 2025
+ 08:20:45 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DM4PR12MB5913:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b535004-7732-45c3-5055-08dd52936af6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RFhYYzVtNzBmMzlsb1haOHlqK3Jmc3duOVZYV1VEZTBMTWYweEFXVnA5MlFm?=
- =?utf-8?B?elVFRXo3L2JJL0JrUEhUOTM5ajRtRGxmZ3Z1cVhtNVU1U04xWDJ5d1R0SURy?=
- =?utf-8?B?TlZqaDNvSkVZUnJ2MVFQZ0VleHFzaVBwRFlCckVFV2ZsTmsvU3ZyYUo5enhJ?=
- =?utf-8?B?dzBITmJXRC9BazZuS01xa2VRQ1M0OEN0RllmVnNjaW5hRFVXM2wrallSbEhw?=
- =?utf-8?B?WGdFb1RseXMxa0VUOUNITG5NZDA5aUFuNldRWm5xK0k3TjdDYytOK2F3dzhY?=
- =?utf-8?B?SndMcEE2VDAxQWI3a0hBQ3FucnRyUHlKdzZDZ2pBak1OMkFiR3lLdi8xWjMv?=
- =?utf-8?B?VGIrRnV6Z2gzaGpHWWZQNDFkcEx2a0g4RUlLVmxDSnB2VWFXLys5K0NTS2NE?=
- =?utf-8?B?TVNlaVJWc1AxQWZ0RmRSL095S0kvWWpBN2FrSFpwUlJPYk42d1VzZEUrcWwx?=
- =?utf-8?B?bWlHNkpCdkt4ZXhDdTFFUWdjZlc1bVFPZmYwUHFZM2lCN3YzOGtPQkxYalVZ?=
- =?utf-8?B?OTE3ZmtqdERTZWlNeHJ4dEJzV1ovQ1hBNXJaakp3R0pwMkREQ1o2TWtVYlRI?=
- =?utf-8?B?ckQ2WE0wYTdYY25SUzcrTVN5eGpwaUhrQzQydjZ2Rm11WjQwMS9FQWFPRmlC?=
- =?utf-8?B?ZnkzRTFzSjg5MVU1ZTBPZENNZm9Ndy82bW15aWh4OWVLcjRpZVMwbWNPbENl?=
- =?utf-8?B?d1FSWVA1TjFwcVlmL3FkQ0wrK0FuWEd3Nkk2MXFiSGp4eG9rS04wNTR6UllT?=
- =?utf-8?B?U1hJRlpEMVN1dkJDR3V2eHo4ZkVEWHdiZjJXU0hBemEzYXgrUXdONldVV3Qv?=
- =?utf-8?B?OWlEQWs4Z3RKQ0FCaU1rSjhTNjVmc2R6ZFVqVGM3V2NtZmJpUnBkSENDS0lW?=
- =?utf-8?B?MkJ5UnBJQ3l2TDVOdDc0YTRhd2ZXNnRmWm9kVGZiaXBvZHpURm5tWFBWWFkw?=
- =?utf-8?B?cDdxRVFaV3lDZDlEdVNKalNaL2VKMHJrZk1wTnh2RFVYU2t0UzQyb2Uwa2VE?=
- =?utf-8?B?NEdudmVTVlFVaUd0bVFzQ1kvZy9lV2hRYndRQ1BnUmZyWUU0dlVuNkVYelFk?=
- =?utf-8?B?T0wwL0l5UTNISE40czVwRDl5VGRKOXFJQXJjTTl4a0o3NzNmb2pQY2xmczgr?=
- =?utf-8?B?SU0wWEh5UUp6OUdVek8vbUF5NnNuTEJNQ3pPUmgvYk1wS1JBUzExSlJ0eTFE?=
- =?utf-8?B?bTJicFRMQTh6amx2L0w4Z0wzSzdxK2d0T2M5c0p5U2h4M09NaE9NajNoK1lt?=
- =?utf-8?B?dE5OYy9ObHoxR1A4QVg4SHg5a1Q5YUNGQlJra1lhclNsa1hvU0xiQ1RuZ3JT?=
- =?utf-8?B?WjlCZVQxc1dHMVQ0T2M0UXovMG1ZdXVjQzNnRzBiWUJQdmRPbGNLdndMcFIr?=
- =?utf-8?B?dERPS0ZkUVlrbkY2VE5RMExvZHVJZUU0SGFIc1lvTGozQWYxZ0dvUjI3dnNj?=
- =?utf-8?B?em8zcnQxM0JLRVJpQ2c2c1AwUzNpODJBTis2YnM5dHlINHJlQjgxbnZvL255?=
- =?utf-8?B?NDJZNGNOV2ZHN0RkS0RGblRVeVR5YXdEbzZzSW9UOHFadmpOY0xjNmgwNWl5?=
- =?utf-8?B?eVo1Q1RGWnhmN3B0WFNoTmk0YlhMZHlOSGNVS09VRngyY244WXBnSGE1TlFi?=
- =?utf-8?B?NDVuTEZzTXNrNXNPOExveGN0T29qUlNhb3lGMzRzeGtLS1NUSDhCeHA4R0pk?=
- =?utf-8?B?YytKOFJ4MG1ha0pUamdkQXRRdThTQUd1MW5sR2JRYjRsSkgydHBGSU92bGhQ?=
- =?utf-8?B?N250cU1UNWoxT3JDRklmSzhGdTBUd2hPczdpclRkSHBXL3Z1NDZzWVBHZUNL?=
- =?utf-8?B?M3VhL2duNUZ6Q20wMG5SalkvSmlZcHlUUlpjZXdrdzNMa2wvQndLek9QMlR0?=
- =?utf-8?Q?4C2cCj2LJldTh?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eUNBMWQ3eGZ2MUxBZnVZaWV6Rm9aUloxRzd1ZmpHbTVsVG1IendYRnk4S2NF?=
- =?utf-8?B?SERyZ1pxQlY4Q1dORnluVDhvL1BvRVFyYU11OTFtbHhPVXBrSkhCNHkxV1Z4?=
- =?utf-8?B?MFJWdTNnSkI3MVdNaW9kd0x5NkNQRTlsQW9JdEVxYlRzWGJyN3dJZVRnTlly?=
- =?utf-8?B?YVNHOVNOeG5RWFp3NHVDT3hPVU13dERZeXdVMnVudFBHK0hLUlBmL3U3Y3BB?=
- =?utf-8?B?Y2NrUnRzSFRKWjhta3ZsNUlpd2dGRkU2T1lTK0pIMHUwNTRDa0h3VFMyUTNm?=
- =?utf-8?B?V2NPd1N5NzNpYWl6eWh1WjNwcytla3pUSVNIZU4zNUwzUzY2OWQ2bFdUWlVn?=
- =?utf-8?B?ZGsxeGpQcFJyNUcvVks1b3lLTDNkQTMyVExMcEthbmxlUWNZN3psSDFhOTMw?=
- =?utf-8?B?TTdyRklYeVVNN3I4MFNwbVAzYjczekNua3lHU0tjQ1IyYVIzSnJjNGlaYmVQ?=
- =?utf-8?B?YVBRSHBFZGZtMnlzdm1SdHB0d0FHYkttQXkzL2dsRmV6RnMvSGpVdHgvSW1B?=
- =?utf-8?B?QVJVQlRjbUY0ak1wOHdHNDJlNi9qbENPOTJCdXJCSXRZUCswSHR3TzF2WC9y?=
- =?utf-8?B?TjFQZHFWOWthVktKc3dJbGlMZmViVkYvSnA4U2xPdFhxN3VyS1luL0dLcmhX?=
- =?utf-8?B?OXVoQmlYU2R4MkNiTUNKbkxmSVJrZXBkdnZTbDRpQmE3Y1htMStReDR2NEpk?=
- =?utf-8?B?alZEc0NmTUFXNFViUUVFVkxJRG5laFhTMlY1MEhTYnZaeWoyZWVhRk9vS2Jy?=
- =?utf-8?B?R3F4Y3RxNHorckF3WVFjZzBFZDhySm9FZHFJdks2Sm5VSTFMbVRTZS9MQngr?=
- =?utf-8?B?QWViaW9lb0lMckhaSm82d1gxSEZQQkQ5UVdwaVNYaldKS2tSUyt2VG41NHlG?=
- =?utf-8?B?QWFSb09Qa2gyejRTY3l2QlpjNUhiZjhzblB5bmxzOHI1OENhVWg1RVR5QUd1?=
- =?utf-8?B?MVNLRndzY0doZnBsa01zRGNhWUlBSUxNZU1SZlo5Q1FHVDRCbXlhcjhTcGdi?=
- =?utf-8?B?ZlBpTitNSVp5aGpxZ1UvNmRPVG1EUTkyWVppNUg4ZVJSRkh6U1QwY0hldUpa?=
- =?utf-8?B?K2t4ekZ4aXhaSS9VWmoxUjg3YnNVZVl2L1NNcVNjUFVpb2RUbE1sUGVDUTgy?=
- =?utf-8?B?SVF2Y2l0bk53a1hURXIvTStMcm85bUJZWXFKWTJOcUZJblBzT0JFNnJuK3l4?=
- =?utf-8?B?c2hNOFZ6eWhkWVNFVk5VbXExczFpWUE0TDdsTnJiSTJSbldQQ3VxclF3Wkti?=
- =?utf-8?B?QmNTZUN2dGtsVjkzRitqNDJOYmJNY01CUjB2Ylg2dWtZYnhMc1A2SWhrYnRu?=
- =?utf-8?B?MmxzcldBaTd6elRSTHFUak5ZMnRLaG04VkxKZDdlNE9BTHRFRjkzYUpTTCsr?=
- =?utf-8?B?M0JCd2dXMGVsZFBvVXF1YmRPKzY4dlRWY3NpZ2VsMHFJWkFlRTBQWGZ5S0dx?=
- =?utf-8?B?azNVeS8wdmdobnZGeDEzUVJJRXk3dUl3ZTM2MDI5ZWdpMStVWTVSQXpUYmNM?=
- =?utf-8?B?NTZjRXlybE9MWE1iZXk0ZkhtS3hES2ExNkVxL1V0ZThJY1FuRHV4ZkVIYk1Q?=
- =?utf-8?B?YTcwYlUrQTJ2Ym1DTjNEaElLU0l4dGtOZDBZbFNDSUgrRldHcHdiTVNQUmdR?=
- =?utf-8?B?WTM2WmxweFBxQ1lUa0tnVC84Y2JUODZSbnYraHZ5ZE05WVMzQXZ4YnJmUjNi?=
- =?utf-8?B?aVpOUThUWnBRbGQ0RkxiZ0xLdzNJTGxpTCtvdEYyMForM0hBaGhQSWhIT2Z2?=
- =?utf-8?B?VnIybWlUUTZTTTFudHZNYzR0akQwbDVqZ3pFQWF1TVRheUpWaTlMUm8vUTVW?=
- =?utf-8?B?THkzMHZMa0syN1YrNVlDRTZaNkF1MkxXZEFhWEdhczk4RWhWSll4b0JsVlBz?=
- =?utf-8?B?R1Z6NUdrMkZUb2ZsNXZDalQxYlFlUGNZK3lnZllnZU5BZWYwdTIrYkE2MGVT?=
- =?utf-8?B?RVRFb2ZFWEJiTUJBL3daeVJPQUIxVGxDcjMrWmxUSlVDNWhacG9DVS9Bbytp?=
- =?utf-8?B?MGc1TUs4Z2FRS2VmeUZVQWcwOEh3YmpPUVl3R1RyVDRhUEZWdHFadUJVZGlR?=
- =?utf-8?B?QjJDYVE0Q2J5Zm03YU1Td2ZzNTlUV1dmNkNJMklkNHVpNFNQc1FSR2dHZVla?=
- =?utf-8?Q?9Rn1mknyqSkSan2EH4TNQyrVK?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b535004-7732-45c3-5055-08dd52936af6
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 16:18:46.5770 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ft36bN+qooeC8KnbVueUPAHn21AFLGprByAeLCCpxaXRE10kIAq/9Hej3scOJ/ljc83RI0XI+9s908jEhkQOuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5913
+References: <20250219212318.46036-1-linux@treblig.org>
+In-Reply-To: <20250219212318.46036-1-linux@treblig.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 21 Feb 2025 11:20:33 -0500
+X-Gm-Features: AWEUYZmGC373SSC5vhbJhkIHShbThxRTzyZwtw8XnFZE5muKA-ZzJdtCPl_7X2w
+Message-ID: <CADnq5_PmPkzHrh9MjQF_tx-6ntEem0VKr=pbdWCgKaCKPz0NsA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Remove unused nbif_v6_3_1_sriov_funcs
+To: linux@treblig.org
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,60 +85,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
-
-On 2025-02-15 09:40, Simon Ser wrote:
-> On Monday, February 10th, 2025 at 23:03, Harry Wentland <harry.wentland@amd.com> wrote:
-> 
->>>> + * DOC: overview
->>>> + *
->>>> + * A colorop represents a single color operation. Colorops are chained
->>>> + * via the NEXT property and make up color pipelines. Color pipelines
->>>> + * are advertised and selected via the COLOR_PIPELINE &drm_plane
->>>> + * property.
->>>> + *
->>>> + * A colorop will be of a certain type, advertised by the read-only TYPE
->>>> + * property. Each type of colorop will advertise a different set of
->>>> + * properties and is programmed in a different manner. Types can be
->>>> + * enumerated 1D curves, 1D LUTs, 3D LUTs, matrices, etc. See the
->>>> + * &drm_colorop_type documentation for information on each type.
->>>
->>> It's not super nice to refer to internal kernel docs here, because AFAIU
->>> this section is mostly written towards user-space developers. User-space
->>> developers have no idea how internal kernel structs work.
->>>
->>> It would be nicer to have a list of colorop types here, without referring
->>> to kernel internals. For instance, we have a list of
->>
->> I'm not sure I follow. This is linking to the drm_colorop_type
->> (from drm_mode.h) enum documentation in drm-uapi.html.
->>
->> Duplicating it here would mean that sooner or later the two
->> docs will get out of sync.
-> 
-> Oh, I thought this was an internal kernel enum. I guess the only missing
-> thing is the string exposed to user-space for each enum entry then?
-> 
-
-Good point. We'll add that to the enum drm_colorop_type docs.
-
-I did a brief survey of other enum properties and noticed
-that this isn't well documented for others, such as the Content
-Protection connector property, or the COLOR_RANGE and COLOR_ENCODING
-plane properties.
-
-On the IGT front, some tests set enum properties via enum strings,
-and other set and get enum properties based on the prop uint64_t
-prop_values[i] entry from the drmModeObjectPropertiesPtr.
-
-Do you know if there's a best practice for enum usage or is it mostly
-a case of "use what works for you"?
-
-Harry
-
-> In any case, sounds good to me.
-> 
->> I agree with the rest and we'll reflect that in v8.
-> 
-> Sweet!
-
+On Wed, Feb 19, 2025 at 4:48=E2=80=AFPM <linux@treblig.org> wrote:
+>
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>
+> The nbif_v6_3_1_sriov_funcs instance of amdgpu_nbio_funcs was added in
+> commit 894c6d3522d1 ("drm/amdgpu: Add nbif v6_3_1 ip block support")
+> but has remained unused.
+>
+> Alex has confirmed it wasn't needed.
+>
+> Remove it, together with the four unused stub functions:
+>   nbif_v6_3_1_sriov_ih_doorbell_range
+>   nbif_v6_3_1_sriov_gc_doorbell_init
+>   nbif_v6_3_1_sriov_vcn_doorbell_range
+>   nbif_v6_3_1_sriov_sdma_doorbell_range
+>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c | 46 ------------------------
+>  drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h |  1 -
+>  2 files changed, 47 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c b/drivers/gpu/drm/a=
+md/amdgpu/nbif_v6_3_1.c
+> index c92875ceb31f..9efe74148867 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c
+> @@ -474,52 +474,6 @@ const struct amdgpu_nbio_funcs nbif_v6_3_1_funcs =3D=
+ {
+>  };
+>
+>
+> -static void nbif_v6_3_1_sriov_ih_doorbell_range(struct amdgpu_device *ad=
+ev,
+> -                                               bool use_doorbell, int do=
+orbell_index)
+> -{
+> -}
+> -
+> -static void nbif_v6_3_1_sriov_sdma_doorbell_range(struct amdgpu_device *=
+adev,
+> -                                                 int instance, bool use_=
+doorbell,
+> -                                                 int doorbell_index,
+> -                                                 int doorbell_size)
+> -{
+> -}
+> -
+> -static void nbif_v6_3_1_sriov_vcn_doorbell_range(struct amdgpu_device *a=
+dev,
+> -                                                bool use_doorbell,
+> -                                                int doorbell_index, int =
+instance)
+> -{
+> -}
+> -
+> -static void nbif_v6_3_1_sriov_gc_doorbell_init(struct amdgpu_device *ade=
+v)
+> -{
+> -}
+> -
+> -const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs =3D {
+> -       .get_hdp_flush_req_offset =3D nbif_v6_3_1_get_hdp_flush_req_offse=
+t,
+> -       .get_hdp_flush_done_offset =3D nbif_v6_3_1_get_hdp_flush_done_off=
+set,
+> -       .get_pcie_index_offset =3D nbif_v6_3_1_get_pcie_index_offset,
+> -       .get_pcie_data_offset =3D nbif_v6_3_1_get_pcie_data_offset,
+> -       .get_rev_id =3D nbif_v6_3_1_get_rev_id,
+> -       .mc_access_enable =3D nbif_v6_3_1_mc_access_enable,
+> -       .get_memsize =3D nbif_v6_3_1_get_memsize,
+> -       .sdma_doorbell_range =3D nbif_v6_3_1_sriov_sdma_doorbell_range,
+> -       .vcn_doorbell_range =3D nbif_v6_3_1_sriov_vcn_doorbell_range,
+> -       .gc_doorbell_init =3D nbif_v6_3_1_sriov_gc_doorbell_init,
+> -       .enable_doorbell_aperture =3D nbif_v6_3_1_enable_doorbell_apertur=
+e,
+> -       .enable_doorbell_selfring_aperture =3D nbif_v6_3_1_enable_doorbel=
+l_selfring_aperture,
+> -       .ih_doorbell_range =3D nbif_v6_3_1_sriov_ih_doorbell_range,
+> -       .update_medium_grain_clock_gating =3D nbif_v6_3_1_update_medium_g=
+rain_clock_gating,
+> -       .update_medium_grain_light_sleep =3D nbif_v6_3_1_update_medium_gr=
+ain_light_sleep,
+> -       .get_clockgating_state =3D nbif_v6_3_1_get_clockgating_state,
+> -       .ih_control =3D nbif_v6_3_1_ih_control,
+> -       .init_registers =3D nbif_v6_3_1_init_registers,
+> -       .remap_hdp_registers =3D nbif_v6_3_1_remap_hdp_registers,
+> -       .get_rom_offset =3D nbif_v6_3_1_get_rom_offset,
+> -       .set_reg_remap =3D nbif_v6_3_1_set_reg_remap,
+> -};
+> -
+>  static int nbif_v6_3_1_set_ras_err_event_athub_irq_state(struct amdgpu_d=
+evice *adev,
+>                                                        struct amdgpu_irq_=
+src *src,
+>                                                        unsigned type,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h b/drivers/gpu/drm/a=
+md/amdgpu/nbif_v6_3_1.h
+> index 9ac4831d39e1..3afec715a9fe 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h
+> @@ -28,7 +28,6 @@
+>
+>  extern const struct nbio_hdp_flush_reg nbif_v6_3_1_hdp_flush_reg;
+>  extern const struct amdgpu_nbio_funcs nbif_v6_3_1_funcs;
+> -extern const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs;
+>  extern struct amdgpu_nbio_ras nbif_v6_3_1_ras;
+>
+>  #endif
+> --
+> 2.48.1
+>
