@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E27A3EC19
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 06:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDB6A3EC67
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 06:58:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14B1B10EA1E;
-	Fri, 21 Feb 2025 05:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2291F10E0A4;
+	Fri, 21 Feb 2025 05:58:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XfaWaGZk";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HaBXhcLM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3B110EA1E
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 05:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740114510; x=1771650510;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=TVYoOTVKyEAencSjBAyeJyQSl8CPe1x13zL0NhN2xus=;
- b=XfaWaGZkfPX7fniWO1cypJH3WSOHMk/H7yEdLSaz/QnWuHuA+JXA/DXB
- 0AI0qDJUe1+8jPvpFjqjPsf4uf9m4O0rBmi2wcWanOkSsjW58Yh7bnzqg
- anZx5hedkP59zGWgf4yrr6cLQoZQp+Znk+vdnI4euwH9h0tK5WtEzsap6
- wuvwX+G0VHGSqMGUiwK3nGzew8m+Jz/ONTrqn96eL5oOEdDbSZrZcC0jl
- aWzLFOhrQqOFQVu2NBx0b83HIc1ymLJJzFOdu3HyYXZUeKR5mxwYPmFZ6
- ei6ENdnqNiDoZ/Z/CvQWUkRKfsg6h8MdfTvifZX6pKgxQwDemqWw0yl1i Q==;
-X-CSE-ConnectionGUID: qX5CNetVQpuDPd/FqdTWeA==
-X-CSE-MsgGUID: d0+mH74fQt63dQJ/OfuFWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="28518732"
-X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; d="scan'208";a="28518732"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2025 21:08:29 -0800
-X-CSE-ConnectionGUID: +w0BIQlaQHaI+AIUSMhEyg==
-X-CSE-MsgGUID: I4ZCIjD+TxeYCAuuxxPisg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; d="scan'208";a="115459304"
-Received: from jraag-z790m-itx-wifi.iind.intel.com ([10.190.239.23])
- by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2025 21:08:27 -0800
-From: Raag Jadav <raag.jadav@intel.com>
-To: arnd@arndb.de, gregkh@linuxfoundation.org,
- andriy.shevchenko@linux.intel.com, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v2 2/2] drm/draw: include bug.h
-Date: Fri, 21 Feb 2025 10:38:04 +0530
-Message-Id: <20250221050804.2764553-3-raag.jadav@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250221050804.2764553-1-raag.jadav@intel.com>
-References: <20250221050804.2764553-1-raag.jadav@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A7C10E0A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 05:58:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D1AEB5C5409;
+ Fri, 21 Feb 2025 05:57:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F60BC4CEE2;
+ Fri, 21 Feb 2025 05:58:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1740117513;
+ bh=eAuYwlysZ7m/8cEe+oEJgI+h3VQhPc9pSBGB6ags7Uc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HaBXhcLMbmXEktGS8xExYWOIRJx4iu28bJYpKdWe6sFRAQEk7X3FmLFtZzdLWTWSE
+ aqGB6WtsmkM80XRAlrAG7qTMEPf795k1FfkObOKuRVqreJSMiKUBSo//CqBUH4gaKP
+ zG6aTDW17Ohe2etUth4Y8w1RT7l3GFtaSk6ggGhI=
+Date: Fri, 21 Feb 2025 06:57:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: linux-kernel@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH 1/6] drivers: base: devres: Allow to release group on
+ device release
+Message-ID: <2025022102-another-balmy-fe4d@gregkh>
+References: <20250212200542.515493-1-lucas.demarchi@intel.com>
+ <20250212200542.515493-2-lucas.demarchi@intel.com>
+ <2025022007-judiciary-broadly-a1f8@gregkh>
+ <ky3kd4rwuwm6lehmb3n7bplnaoxiwuje67q6m7tvuz6vt7bnnb@lool6xnskx32>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ky3kd4rwuwm6lehmb3n7bplnaoxiwuje67q6m7tvuz6vt7bnnb@lool6xnskx32>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,26 +59,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Directly include bug.h for WARN() helpers instead of relying on
-intermediate headers.
+On Thu, Feb 20, 2025 at 05:48:10PM -0600, Lucas De Marchi wrote:
+> On Thu, Feb 20, 2025 at 01:24:20PM +0100, Greg Kroah-Hartman wrote:
+> > On Wed, Feb 12, 2025 at 12:05:37PM -0800, Lucas De Marchi wrote:
+> > > When releasing a device, if the release action causes a group to be
+> > > released, a warning is emitted because it can't find the group. This
+> > > happens because devres_release_all() moves the entire list to a todo
+> > > list and also move the group markers. Considering r* normal resource
+> > > nodes and g1 a group resource node:
+> > > 
+> > > 		    g1 -----------.
+> > > 		    v		  v
+> > > 	r1 -> r2 -> g1[0] -> r3-> g[1] -> r4
+> > > 
+> > > After devres_release_all(), dev->devres_head becomes empty and the todo
+> > > list it iterates on becomes:
+> > > 
+> > > 			       g1
+> > > 			       v
+> > > 	r1 -> r2 -> r3-> r4 -> g1[0]
+> > > 
+> > > When a call to component_del() is made and takes down the aggregate
+> > > device, a warning like this happen:
+> > > 
+> > > 	RIP: 0010:devres_release_group+0x362/0x530
+> > > 	...
+> > > 	Call Trace:
+> > > 	 <TASK>
+> > > 	 component_unbind+0x156/0x380
+> > > 	 component_unbind_all+0x1d0/0x270
+> > > 	 mei_component_master_unbind+0x28/0x80 [mei_hdcp]
+> > > 	 take_down_aggregate_device+0xc1/0x160
+> > > 	 component_del+0x1c6/0x3e0
+> > > 	 intel_hdcp_component_fini+0xf1/0x170 [xe]
+> > > 	 xe_display_fini+0x1e/0x40 [xe]
+> > > 
+> > > Because the devres group corresponding to the hdcp component cannot be
+> > > found. Just ignore this corner case: if the dev->devres_head is empty
+> > > and the caller is trying to remove a group, it's likely in the process
+> > > of device cleanup so just ignore it instead of warning.
+> > > 
+> > > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> > > ---
+> > 
+> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> Thanks. Is it ok to take these 3 through the drm tree or are you taking
+> it through yours?
 
-Signed-off-by: Raag Jadav <raag.jadav@intel.com>
----
- drivers/gpu/drm/drm_draw.c | 1 +
- 1 file changed, 1 insertion(+)
+As the drm patches depened on these, I figured they should all go
+through the drm tree, so please feel free to take them.
 
-diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
-index cb2ad12bce57..0a0e1eebf481 100644
---- a/drivers/gpu/drm/drm_draw.c
-+++ b/drivers/gpu/drm/drm_draw.c
-@@ -5,6 +5,7 @@
-  */
- 
- #include <linux/bits.h>
-+#include <linux/bug.h>
- #include <linux/iosys-map.h>
- #include <linux/types.h>
- 
--- 
-2.34.1
+thanks,
 
+greg k-h
