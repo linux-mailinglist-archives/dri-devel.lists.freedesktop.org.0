@@ -2,141 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76488A3F256
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 11:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54A8A3F298
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 11:59:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F4E10E27E;
-	Fri, 21 Feb 2025 10:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 917CB10E2D0;
+	Fri, 21 Feb 2025 10:59:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x2bO4bGn";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="bCgapSh4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD99810E24A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 10:43:23 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-abad214f9c9so32644766b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 02:43:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740134602; x=1740739402; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :references:cc:to:from:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=W9nDvBHgnq2Y1NVf5ENVQRjZ2yktIiYk3KFxT6GMAUs=;
- b=x2bO4bGnTwcMKR0ysLuUCqcIYd/56wVSvEGVGXe/lGNuE24nnIvSn/vswOnEJSvExw
- tBvDd4zpBuj+YKJxgcFe7QpplrCA8qmuTkzSGOddjSpry8WLJ29wf5F/m0PlEtBJHlwx
- aUzdJ8MtQyFIsd1g6CaHOP6GOAyYqwPN1JdgaUZNuSgURucasq+47qUt026mfO2hXtfa
- ISdlmftoPXcJwP7XAWfT5tnjn0j3zD4zRhdQhW/n94pzAfhjCKi3Bozl6fTiIrrGbeES
- Ntu9NNUTGL0jr3YyO62X10v0wdBEfD022+5BG1NZ9W1a321KNCog0zSWDDEcAAB+hU0f
- dOeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740134602; x=1740739402;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :references:cc:to:from:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=W9nDvBHgnq2Y1NVf5ENVQRjZ2yktIiYk3KFxT6GMAUs=;
- b=XScwq9b82R4j7ZFE0LBFuTR62AblmLWroUZhadA/BXlK5SQicidJjmlwiD6szXAVSJ
- hoz75o1tmwKf5WWV1zTVNdcmaCCwYi8Qftv3AtPRrrCACxci8SpU8k0U3Zc/jMggKmmj
- WtMsgoDJTfvbCjUIRdiTJUK/lnlVOnk1yJpKqKyluoTR1SQcS+ZppACynUl2/e/6pJy4
- TQiHsrr31uoJ89eVgyxlmc8a8lojMuZ1AdzK5Y42bwjmjBDYfGAfVJYOAQAtV8WmmEI5
- mTvYum3WHjAyXRTbLfJtkk99a9pRWzQ7xxXEOHU5EB/sYla417BpsboHJBp+JGsP/zb1
- KENQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3KXAn0nwK9awvF6IZFci1fyAvLAk4bEkV5IrHw51m+f4nLVZZQMfuJxIo+uzprpJEcqa75tNrN9k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTlZaYBh3sAYEZ2RjHGPfWm0puPBlaUM78qm1YAoOLYAPojuH4
- JJZwi+p3284jAn8YfKwom2g1pfQarbk7NK/M8Rf/X8jy9WtqnxnOjxrpl+C4XBk=
-X-Gm-Gg: ASbGncuB4CzEULhQfRUEzA1fiTvsnV6dn/zlKIsr+IIXppaJRYZZRirENv9H4SobPKr
- dP6PW56c3yiArU/Cd83avTqOsenVEEWYGCFXSens4ySUV3TNmoZTRgzItj/BTcR6xk5SIDkVZ8v
- /kkQ6cmggzs7jIHKAT63vh5h2jL3ampisETP8HNGmpMDLwreXsIjcKEi1mcT4f2aUIYButSilYv
- 5mAxfNS11bM5F7S1wgdtl70d7E7+qQFyYN+fHgGHHO9CbmMq1m+DS8xo7hh8vtZMWboyKzk27Ae
- 8ZZSMe6v2ssZcPn90nJU8LvPG4h4X8Yi9DkVOlMyIXB2Qu22o1PF691uEUyANTwVvzB08/D+3js
- FRBWW
-X-Google-Smtp-Source: AGHT+IFJ61t1Ztkvz7Fj0diXrn9EhDeYjqCaFDp2KZ4iJ3snoJlNHALHHuaGmotnRpz7Yh9bL0nhQQ==
-X-Received: by 2002:a17:906:4fd0:b0:aae:e684:cc75 with SMTP id
- a640c23a62f3a-abc09e5e43emr101017566b.13.1740134602287; 
- Fri, 21 Feb 2025 02:43:22 -0800 (PST)
-Received: from [192.168.0.18] (78-11-220-99.static.ip.netia.com.pl.
- [78.11.220.99]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abb925bbb1fsm1023439666b.70.2025.02.21.02.43.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Feb 2025 02:43:21 -0800 (PST)
-Message-ID: <15edc720-1fc3-46a4-b7b2-a3b2217109d4@linaro.org>
-Date: Fri, 21 Feb 2025 11:43:20 +0100
+X-Greylist: delayed 589 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Feb 2025 10:59:51 UTC
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
+ [91.207.212.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08BDE10E2CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 10:59:50 +0000 (UTC)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+ by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51L8e2lw024901;
+ Fri, 21 Feb 2025 10:49:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=dk201812; bh=mjTilb8cr247Njy9/ZFsPrY
+ Kvk+tGJQGhpsz9jWm1eE=; b=bCgapSh48FtchwT07DucV9149bSGaJM+pjCaS7r
+ EhNftKoRsmj9taG9y4EMlkyO3vKMhzSosg1MXupZFG0VHMC1fKxPFoDBgJLKzf8Z
+ 1zjjxMjgKq5ov/feI5sLTPqxEQMTfUs5lRC+4P97Voe8ilY4CPxair3L5hbsjKMn
+ MG7zUxk+74tTT+80DuayJbWLOLpPIxCeLWzg3OrzYg6+OSPXZj9MUGC1B4rSW+JT
+ 2zJ5tY0qpo2RyAc7BOaD4bSgSoSiPcqE1nSV2LRLubSf+J3neob7mQ9qlLO3tzG2
+ O77iybaHjOcnRZ7WPi/du3sSSLWNlJp5o6Qth5L8pFmMP1w==
+Received: from hhmail05.hh.imgtec.org
+ (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 44w4c9t0qv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Fri, 21 Feb 2025 10:49:46 +0000 (GMT)
+Received: from NP-A-BELLE.kl.imgtec.org (172.25.1.196) by
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 21 Feb 2025 10:49:46 +0000
+From: Alessio Belle <alessio.belle@imgtec.com>
+Date: Fri, 21 Feb 2025 10:49:35 +0000
+Subject: [PATCH] drm/imagination: Fix timestamps in firmware traces
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/16] drm/msm/dsi/phy: Add support for SM8750
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Srini Kandagatla <srinivas.kandagatla@linaro.org>
-References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
- <20250217-b4-sm8750-display-v2-11-d201dcdda6a4@linaro.org>
- <e5b6b5cc-2afb-411d-903e-152a6a617d53@quicinc.com>
- <30b29961-881d-48a6-8688-cb520363b50f@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <30b29961-881d-48a6-8688-cb520363b50f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-ID: <20250221-fix-fw-trace-timestamps-v1-1-dba4aeb030ca@imgtec.com>
+X-B4-Tracking: v=1; b=H4sIAD5auGcC/x2MSQqAMAwAvyI5G6gREf2KeKg21RxcaIoK0r9bP
+ A7MzAvKQVihL14IfInKsWeoygLm1e4Lo7jMQIYaQ2TQy4P+xhjszBhlY412OxWrxrVmmsh1tYN
+ cn4Gz+p+HMaUP70MsSmkAAAA=
+X-Change-ID: 20250220-fix-fw-trace-timestamps-15d70bb2d93d
+To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Alexandru Dadu <alexandru.dadu@imgtec.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ "Alessio Belle" <alessio.belle@imgtec.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740134986; l=2210;
+ i=alessio.belle@imgtec.com; s=20250219; h=from:subject:message-id;
+ bh=Nmn1WkM/0L//ox2zY+lhf82FfeFH2247Y9hhlOpXOFw=;
+ b=Djbe3gHbtcB0IoAm8z7b8CsAUKXWBtZiIWiEl+O7oE85EVfQKrOBv37MXUizXKuKCvpZMpKjw
+ +VDo3fJ2c9+A4boZqB3EOj0eUB1YExtdsGuZcZZKVTRck9B65oO8Z9d
+X-Developer-Key: i=alessio.belle@imgtec.com; a=ed25519;
+ pk=461lRgRg6AriUFORrCd1maNrcZ+FQJK9D+lWwEPvRPk=
+X-Originating-IP: [172.25.1.196]
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-GUID: mjawzWKNHC5dqVTBH5323QBbYJfZmUBB
+X-Proofpoint-ORIG-GUID: mjawzWKNHC5dqVTBH5323QBbYJfZmUBB
+X-Authority-Analysis: v=2.4 cv=U59oDfru c=1 sm=1 tr=0 ts=67b85a4a cx=c_pps
+ a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
+ a=qOZVjcO8vPQA:10 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=r_1tXGB3AAAA:8
+ a=iuFoamyZqZ1IYpyTJZkA:9 a=QEXdDO2ut3YA:10
+ a=t8nPyN_e6usw4ciXM-Pk:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,37 +89,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/02/2025 11:41, Krzysztof Kozlowski wrote:
-> On 20/02/2025 01:50, Jessica Zhang wrote:
->>>   
->>> -	if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
->>> +	if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
->>> +	    (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
->>>   		if (pll->vco_current_rate < 1557000000ULL)
->>>   			vco_config_1 = 0x08;
->>>   		else
->>> @@ -624,6 +648,7 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
->>>   static int dsi_7nm_set_usecase(struct msm_dsi_phy *phy)
->>>   {
->>>   	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(phy->vco_hw);
->>> +	void __iomem *base = phy->base;
->>
->> Hi Krzysztof,
->>
->> I see that this line was only previously removed in a patch that was in 
->> an older revision of your PHY_CMN_CLK_CFG[01] improvements series 
->> ("drm/msm/dsi/phy: Do not overwite PHY_CMN_CLK_CFG1 when choosing bitclk 
->> source").
->>
->> Did you mean for this patch/series to be dependent on that patch? If so, 
->> can you make a note of that in the cover letter?
-> 
-> I indeed rebased on top of my previous set, assuming it will get merged
-> faster. I will mention this in cover letter.
+When firmware traces are enabled, the firmware dumps 48-bit timestamps
+for each trace as two 32-bit values, highest 32 bits (of which only 16
+useful) first.
 
+The driver was reassembling them the other way round i.e. interpreting
+the first value in memory as the lowest 32 bits, and the second value
+as the highest 32 bits (then truncated to 16 bits).
 
-Ha, not anymore, that "PHY_CMN_CLK_CFG[01]" pieces were already merged
-to drm/msm.
+Due to this, firmware trace dumps showed very large timestamps even for
+traces recorded shortly after GPU boot. The timestamps in these dumps
+would also sometimes jump backwards because of the truncation.
+
+Example trace dumped after loading the powervr module and enabling
+firmware traces, where each line is commented with the timestamp value
+in hexadecimal to better show both issues:
+
+[93540092739584] : Host Sync Partition marker: 1    // 0x551300000000
+[28419798597632] : GPU units deinit                 // 0x19d900000000
+[28548647616512] : GPU deinit                       // 0x19f700000000
+
+Update logic to reassemble the timestamps halves in the correct order.
+
+Fixes: cb56cd610866 ("drm/imagination: Add firmware trace to debugfs")
+Signed-off-by: Alessio Belle <alessio.belle@imgtec.com>
+---
+ drivers/gpu/drm/imagination/pvr_fw_trace.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+index 73707daa4e52d13fd1388cb2e9feff0aea109620..5dbb636d7d4ffeea2253ea58e817710979f90cf0 100644
+--- a/drivers/gpu/drm/imagination/pvr_fw_trace.c
++++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+@@ -333,8 +333,8 @@ static int fw_trace_seq_show(struct seq_file *s, void *v)
+ 	if (sf_id == ROGUE_FW_SF_LAST)
+ 		return -EINVAL;
+ 
+-	timestamp = read_fw_trace(trace_seq_data, 1) |
+-		((u64)read_fw_trace(trace_seq_data, 2) << 32);
++	timestamp = ((u64)read_fw_trace(trace_seq_data, 1) << 32) |
++		read_fw_trace(trace_seq_data, 2);
+ 	timestamp = (timestamp & ~ROGUE_FWT_TIMESTAMP_TIME_CLRMSK) >>
+ 		ROGUE_FWT_TIMESTAMP_TIME_SHIFT;
+ 
+
+---
+base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+change-id: 20250220-fix-fw-trace-timestamps-15d70bb2d93d
 
 Best regards,
-Krzysztof
+-- 
+Alessio Belle <alessio.belle@imgtec.com>
+
