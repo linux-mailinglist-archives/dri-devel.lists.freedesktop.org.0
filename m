@@ -2,60 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972EBA3F1E8
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 11:24:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B34A3F207
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 11:29:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CA810E255;
-	Fri, 21 Feb 2025 10:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC7010E257;
+	Fri, 21 Feb 2025 10:29:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ah5SMrmq";
+	dkim=pass (1024-bit key; unprotected) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="ENQumGOU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73C410E255
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 10:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740133482; x=1771669482;
- h=date:from:to:subject:message-id:references:mime-version:
- in-reply-to; bh=ak5HhJgea9kjBINxSEsca6JCZ/SZSug8UZ6ylG+W/74=;
- b=ah5SMrmq++rI7SvYvcdNCiZObOapDmCCPHRp0sdWe3ZZbbSLHRDZLn15
- OOuEK2GLzr6IkIoPlBM4nq9pE0mf4RAT3ppvRduhmUZFc4Cj/qSpgmXQA
- Dz9QF9YHQs1UJQUfvmyjXmE9WfASlZkYPY8Yke8cfSh88Aomt3dQeFuv+
- n03lhrN6bXHkqTFW9mThd1gg7DoqGs3ALL8Mph/NTZ+QwDxnSNvWx5jAZ
- ZIhZC029w2EYRuCOCiLSsKzFZYopBbn/+P2R1kuPmpXCPgbofDc9h4zDL
- 90CaRX+Tlgrlav6msgdlgI57rLPfHVNoCTHTZSpOFaJ2f6gzLPI2RxfsS Q==;
-X-CSE-ConnectionGUID: DXwgXw9JSUmCFjIkjMRnkg==
-X-CSE-MsgGUID: pySSqSTxSOGIyyL/0FYYMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41154398"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="41154398"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 02:24:42 -0800
-X-CSE-ConnectionGUID: 9XQmhJ4JRW2FqEUCh10x+w==
-X-CSE-MsgGUID: 6NWjHjybRA++5n1NIlQ13g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; d="scan'208";a="146197544"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 02:24:39 -0800
-Date: Fri, 21 Feb 2025 12:24:36 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Greg KH <gregkh@linuxfoundation.org>, arnd@arndb.de,
- andriy.shevchenko@linux.intel.com, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm/draw: include bug.h
-Message-ID: <Z7hUZIYhg6ShNJCf@black.fi.intel.com>
-References: <20250221050804.2764553-1-raag.jadav@intel.com>
- <20250221050804.2764553-3-raag.jadav@intel.com>
- <2025022135-aviation-evident-2518@gregkh>
- <Z7hMPIxFyd6cqbC0@phenom.ffwll.local>
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CAB010E24A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 10:29:42 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30615661f98so18624211fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 02:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rasmusvillemoes.dk; s=google; t=1740133781; x=1740738581;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:message-id:date:references:in-reply-to
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XBgTd9yS8bHj2inA4KCI/wGm8uZFJ13xmrkCLQobpyg=;
+ b=ENQumGOUq9RFivLS65WjVjGQIVAfEDng0PLDKiZ1xrylVEz+0vd6YN9D8OZFnb9NkO
+ GhRnpbEiNwQ5KWC/loPd/I+H9STkLALMgPR5GmrWHj3VvZWg9Ld+JrPwi06lC7n4aI6i
+ 7eyHo7mjf/Q1qak8YM3HwnO97kkQ8sdZywofI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740133781; x=1740738581;
+ h=mime-version:user-agent:message-id:date:references:in-reply-to
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XBgTd9yS8bHj2inA4KCI/wGm8uZFJ13xmrkCLQobpyg=;
+ b=wYu4RhzOSYjSAhZ2V3HvkVlzlXW1nXro2dnF+XSts/3hOaMV+eCwAg5+pQR0HW8LVC
+ rZcQq/xXDGpL/TWn+GsxnO1fdhFzAGOoZQST5S5CYVfm5S2+/WOaO32l3f5AAkgWFmSF
+ 7OMC3cU66t1IfBwbmVAFXi/DLDF9/z8rILSUTPTMCPse7KIO576AugTRPgoVC4z4mEDN
+ bc6O1oq31PNheeZFkn6KVqwooIAKAG4aFbBxbQTQ11v7s3tLwTb0KTPPdMlfbUV56lHZ
+ AkbdFkrqiJ2UF0u4JvxOdepas2wKTe3iJrHM5/FIigYRKIhl4obp5Wh32gISAk99FA6H
+ 4a8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWFGCA2pC5eAM4yjp14f+hpLDZHMbebLYJWnAzwBX6k6PT3dN8/uaEi7UgXeEwkZAK9EGsvBkmf19A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLCI0Xh3EPpLQh0HCk3rEbQHzcEVQx/ulbfYGWGyMvtOR+1okD
+ u+u63tnEM9wzT+DQIQpXAsSbak07TiY2B/Fh213Rpgek8wMYkIYZV42G03ZCcFI=
+X-Gm-Gg: ASbGncs6uxTTCmGhBqnuvzUNoR/fAyLc+Dszb4KbNFT+WXLL8BnjWsN7wQLJlUfvYUy
+ V921MjJ+K8OnqN5miN0N1nfNnFlGJHMuAUdo6CTV55DzreNdW1onHHG+zalIAPijaBsS/GK+sLp
+ ojl63fdfPMZHuDbsBGxr+DAO+RltQLgR7e4WBuHF3bugUUT5hu26FpgdRmYuDRf4oIkp2omCoDX
+ hg7oFW5B7aB+IiEllNvv1vHSgx9IoG2ICGAMUk1SrNgDTJJwrRj0MOKEEM4qMBBTaYgIHxiX5cC
+ D0JQQgJQ9/6xEzPJKKe3w+/ARw4=
+X-Google-Smtp-Source: AGHT+IEUOdqdqFnuqPXA4cgWINcdgxUl8JQ3ygr09PQ43kzULiZT56Khi3z1J3sj7fkaU8oDV/YSHQ==
+X-Received: by 2002:a05:651c:2120:b0:309:1f98:2848 with SMTP id
+ 38308e7fff4ca-30a598e2984mr10302661fa.19.1740133781115; 
+ Fri, 21 Feb 2025 02:29:41 -0800 (PST)
+Received: from localhost ([81.216.59.226]) by smtp.gmail.com with UTF8SMTPSA id
+ 38308e7fff4ca-30a449aa148sm8429891fa.109.2025.02.21.02.29.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Feb 2025 02:29:40 -0800 (PST)
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk> 
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,  "rostedt@goodmis.org"
+ <rostedt@goodmis.org>,  "andriy.shevchenko@linux.intel.com"
+ <andriy.shevchenko@linux.intel.com>,  "senozhatsky@chromium.org"
+ <senozhatsky@chromium.org>,  "corbet@lwn.net" <corbet@lwn.net>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,  "tzimmermann@suse.de"
+ <tzimmermann@suse.de>,  "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,  "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>,  "apw@canonical.com" <apw@canonical.com>,
+ "joe@perches.com" <joe@perches.com>,  "dwaipayanray1@gmail.com"
+ <dwaipayanray1@gmail.com>,  "lukas.bulwahn@gmail.com"
+ <lukas.bulwahn@gmail.com>,  "sumit.semwal@linaro.org"
+ <sumit.semwal@linaro.org>,  "christian.koenig@amd.com"
+ <christian.koenig@amd.com>,  "kekrby@gmail.com" <kekrby@gmail.com>,
+ "admin@kodeit.net" <admin@kodeit.net>,  Orlando Chamberlain
+ <orlandoch.dev@gmail.com>,  "evepolonium@gmail.com"
+ <evepolonium@gmail.com>,  "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>,  "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,  "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>,  "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>,  "linaro-mm-sig@lists.linaro.org"
+ <linaro-mm-sig@lists.linaro.org>,  Hector Martin <marcan@marcan.st>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,  "asahi@lists.linux.dev"
+ <asahi@lists.linux.dev>,  Sven Peter <sven@svenpeter.dev>,  Janne Grunau
+ <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+In-Reply-To: <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com> (Aditya Garg's
+ message of "Thu, 20 Feb 2025 16:39:23 +0000")
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+ <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
+Date: Fri, 21 Feb 2025 11:29:40 +0100
+Message-ID: <871pvrpp4b.fsf@prevas.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7hMPIxFyd6cqbC0@phenom.ffwll.local>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +110,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2025 at 10:49:48AM +0100, Simona Vetter wrote:
-> On Fri, Feb 21, 2025 at 07:05:12AM +0100, Greg KH wrote:
-> > On Fri, Feb 21, 2025 at 10:38:04AM +0530, Raag Jadav wrote:
-> > > Directly include bug.h for WARN() helpers instead of relying on
-> > > intermediate headers.
-> > > 
-> > > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_draw.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
-> > > index cb2ad12bce57..0a0e1eebf481 100644
-> > > --- a/drivers/gpu/drm/drm_draw.c
-> > > +++ b/drivers/gpu/drm/drm_draw.c
-> > > @@ -5,6 +5,7 @@
-> > >   */
-> > >  
-> > >  #include <linux/bits.h>
-> > > +#include <linux/bug.h>
-> > >  #include <linux/iosys-map.h>
-> > >  #include <linux/types.h>
-> > >  
-> > > -- 
-> > > 2.34.1
-> > > 
-> > 
-> > Does patch 1 break this file without this patch so this series is not in
-> > order?
-> > 
-> > I'll be glad to take patch 1 in my tree, but I don't want to break
-> > anything else.
-> 
-> Yeah looks inverted. In case this is all there is I'm happy to land this
-> patch through your tree, that seems like the simplest approach.
+On Thu, Feb 20 2025, Aditya Garg <gargaditya08@live.com> wrote:
 
-Yep, I messed up the ordering. Let me send out a v3 since I need to fix
-nios2 builds anyway.
+> v2 -> Add this patch
+>  Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
+>  lib/test_printf.c                         | 39 +++++++++++++++++++----
+>  lib/vsprintf.c                            | 38 ++++++++++++++++++----
 
-> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+Yay! Thanks for remembering to include test cases.
 
-Thank you!
+>  
+> diff --git a/lib/test_printf.c b/lib/test_printf.c
+> index 59dbe4f9a..ee860327e 100644
+> --- a/lib/test_printf.c
+> +++ b/lib/test_printf.c
+> @@ -776,21 +776,46 @@ static void __init fwnode_pointer(void)
+>  	software_node_unregister_node_group(group);
+>  }
+>  
+> +struct fourcc_struct {
+> +	u32 code;
+> +	const char *str;
+> +};
+> +
+> +static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+> +				       const char *fmt)
+> +{
+> +	size_t i;
+> +
+> +	for (i = 0; i < n; i++)
+> +		test(fc[i].str, fmt, &fc[i].code);
+> +}
+> +
+>  static void __init fourcc_pointer(void)
+>  {
+> -	struct {
+> -		u32 code;
+> -		char *str;
+> -	} const try[] = {
+> +	struct fourcc_struct const try_cc[] = {
 
-Raag
+I know it matches the code it replaces, but kernel style seems to be
+"const struct foo" rather than "struct foo const" (at around 130:1) -
+just as you use in the new helper function.
+
+Also, please consider changing the array, and the newly added instances,
+to be static instead of automatic (our le32_to_cpu should be usable also
+for static initializers).
+
+This will conflict with the conversion-to-kunit which is in flight, but
+the conflict should be trivial to resolve.
+
+Rasmus
