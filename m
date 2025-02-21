@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8052AA3EFA9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 10:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8751EA3EFB1
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 10:13:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49B3B10EA3F;
-	Fri, 21 Feb 2025 09:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA6FD10EA40;
+	Fri, 21 Feb 2025 09:12:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m8zPwa7X";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eOvrXnia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D3810E178
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 09:11:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0203010EA40
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 09:12:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 087A961182;
- Fri, 21 Feb 2025 09:11:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34D00C4CED6;
- Fri, 21 Feb 2025 09:11:40 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 38AAA611C9;
+ Fri, 21 Feb 2025 09:12:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF0DC4CED6;
+ Fri, 21 Feb 2025 09:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740129100;
- bh=OnhM+IngcbfTGE1ogRH7mwjuGlDyBD9XjnvZeiestVM=;
+ s=k20201202; t=1740129177;
+ bh=mGyruGLf48W9PdHCU/1T2pGmF4R+E3nW6UeeBVAtmrA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m8zPwa7Xb55i7LAqI58OdJeShKNREpdDkpI1YATQdlyc5nCRDRdZN0I5YrBle66XN
- VNc/7jANzsn07jLN8/IM74GX4QngHJx5RAPjeNrgQBfyauJJM3auB53GrOsjcjGU+j
- gUYKsk63YZzIgkoX94R7rd52iMjRZTwSouG21VOjmPRw6F/kF+XRRAsHVDBNomPBzl
- cfpQL3tJoumzj8Ic3A2bdn2V6dPqyr1bGqxDjKnu/2oKTTjjVdGbSEqaDSbF0p7hjO
- ZC0JywTcJXnsDpdoNESpXVffOFF/HAmfvEXSFEqtUyz9bqsCSbqHCoD9fguLgLa29Z
- DxZCFi5Naz+7Q==
-Date: Fri, 21 Feb 2025 10:11:38 +0100
+ b=eOvrXniaMi5ISUyFw5P3LDYA3GLaau6Z0hBefRURq22U28Gtx89/qJZqaKQAlFjFn
+ NzsqPEeTOS/uB//GvmU2vykTyWBtxHH0fzQMsL9fpmSdqgr4kiX/qreqMIQdIsEilE
+ 0gpESbJ1rO+tUsJYxEIkKHiuweHLkPPSQo9UZ7D/Rix6NDr7pNTY5HlzlpDk7+bwe4
+ 2dmjKx7HrIYGyUgRWzAwCM31jwcf2L3OScZDa+jKwqi2TiloIutJDvIHu/s7Pw/cQ1
+ rp1f+v5OPY28kaIS5uiLSkMMIqMDOSRqRNEAxfOYqZ67w/rjNERHsYnAN7zXJQKwhu
+ n0zmklCfvEevQ==
+Date: Fri, 21 Feb 2025 10:12:54 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Michal Wilczynski <m.wilczynski@samsung.com>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
@@ -44,16 +44,15 @@ Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
  linux-kernel@vger.kernel.org, 
  linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
  linux-pm@vger.kernel.org
-Subject: Re: [PATCH v5 09/21] dt-bindings: clock: thead: Add GPU clkgen reset
- property
-Message-ID: <20250221-imaginary-ebony-macaque-aace8d@krzk-bin>
-References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <CGME20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639@eucas1p2.samsung.com>
- <20250219140239.1378758-10-m.wilczynski@samsung.com>
+Subject: Re: [PATCH v5 00/21] Enable drm/imagination BXM-4-64 Support for
+ LicheePi 4A
+Message-ID: <20250221-eminent-squirrel-of-honor-dee80d@krzk-bin>
+References: <CGME20250219140249eucas1p1291eb86c932373c847a3314ae54789d5@eucas1p1.samsung.com>
+ <20250219140239.1378758-1-m.wilczynski@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250219140239.1378758-10-m.wilczynski@samsung.com>
+In-Reply-To: <20250219140239.1378758-1-m.wilczynski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,58 +68,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2025 at 03:02:27PM +0100, Michal Wilczynski wrote:
-> Add a mandatory reset property for the TH1520 VO clock controller that
-> handles the GPU clocks. This reset line controls the GPU CLKGEN reset,
-> which is required for proper GPU clock operation.
+On Wed, Feb 19, 2025 at 03:02:18PM +0100, Michal Wilczynski wrote:
+> The LicheePi 4A board, featuring the T-HEAD TH1520 SoC, includes an Imagination
+> Technologies BXM-4-64 GPU. Initial support for this GPU was provided through a
+> downstream driver [1]. Recently, efforts have been made to upstream support for
+> the Rogue family GPUs, which the BXM-4-64 is part of [2].
 > 
-> The reset property is only required for the "thead,th1520-clk-vo"
-> compatible, as it specifically handles the GPU-related clocks.
+> While the initial upstream driver focused on the AXE-1-16 GPU, newer patches
+> have introduced support for the BXS-4-64 GPU [3]. The modern upstream
+> drm/imagination driver is expected to support the BXM-4-64 as well [4][5]. As
+> this support is being developed, it's crucial to upstream the necessary glue
+> code including clock and power-domain drivers so they're ready for integration
+> with the drm/imagination driver.
 > 
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> ---
->  .../bindings/clock/thead,th1520-clk-ap.yaml      | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
-> index 9d058c00ab3d..6ea8202718d0 100644
-> --- a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
-> +++ b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
-> @@ -40,6 +40,12 @@ properties:
->              (integer PLL) typically running at 792 MHz (FOUTPOSTDIV), with
->              a maximum FOUTVCO of 2376 MHz.
->  
-> +  resets:
-> +    maxItems: 1
-> +    description:
-> +      Required for "thead,th1520-clk-vo". This reset line controls the
 
-You just added the compatible in other patch, so are you saying you
-added knowingly incomplete code?
+This is v5 of big patchset which became huge. I understand you did like
+that for v1 which was RFC. But it stopped being RFC.
 
-No, this must be squashed.
-
-> +      GPU CLKGEN reset which is required for proper GPU clock operation.
-> +
->    "#clock-cells":
->      const: 1
->      description:
-> @@ -51,6 +57,16 @@ required:
->    - clocks
->    - "#clock-cells"
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: thead,th1520-clk-vo
-> +    then:
-> +      required:
-> +        - resets
-
-else:
-? What's there? Also reset or no?
+Split your patchset, keeping versioning and changelog, per subsystem.
 
 Best regards,
 Krzysztof
