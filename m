@@ -2,83 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3138AA3F0E5
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 10:49:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A43A3F0F0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 10:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F98910E048;
-	Fri, 21 Feb 2025 09:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE9FC10E23B;
+	Fri, 21 Feb 2025 09:51:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="c9gh28lr";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="k/9cW5ai";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E096110E048
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 09:49:53 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4397e5d5d99so11693285e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 01:49:53 -0800 (PST)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B93AD10E23B
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 09:51:04 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-38f325ddbc2so1321793f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 01:51:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1740131392; x=1740736192; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1740131463; x=1740736263; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a+bqdYT2vB++aLYRe6uuUn4Zzo34myKw/ce5O2MaFJ8=;
- b=c9gh28lrZAgFWlPt/aHEbhNISPHWCn2jyoNwZQUDRzHzWVKYKOsVOiZatsm/O2azFi
- uOyIetr7Gtt8CQgn9+VvjOe22/5A3h1onG8OKMQpqJ6yJ8iN/apx1Q96oCDjs6OPSQOj
- hPBpoOvHiZKrJfVVAtf60jT2w+Vfd143Qv+1Y=
+ bh=EkBqyj1NJ++IcFdvPYM6tSZ9F5kg9Qwf+D+lXPfSeHQ=;
+ b=k/9cW5ai684bD4MHj4P+G7+91mBVUD7sIiI8Oee6oCZjsSYmQb16YW7GdZxSgyktQc
+ f2qyn5glt2utWoxQ8GZG7T+k7zdmwWxD0bQRVDSmKMQUmrVa+y7Ln8v/YN2IOQ+T8jB0
+ UrN9TxcN/+ng4wkg410lWPkcRsx0RrL6Qn3n4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740131392; x=1740736192;
+ d=1e100.net; s=20230601; t=1740131463; x=1740736263;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a+bqdYT2vB++aLYRe6uuUn4Zzo34myKw/ce5O2MaFJ8=;
- b=eua7Gz7wE+jDMEMbBAmpOw1O9+3UI6Xmj2hdE1Wn4gEoQJCYKhDUV9GHh2JycYf8y0
- kI3AUnblIH75EAHsrSIORmmLOX0ZaNUJ/J/qc6oT9PciZcnAyZqaB8OrbFBB7dSNRCm5
- p4yq5xS52nSkV69wI86C6LT1h3SxMW0SsU0WKONuyuzT4t+5VhH01tqSmbQMvQ4xfXAM
- 7VM3jndU++QhCn1UFBAOQHDIAJ6nYmc17U6ixKQLUZ9Nt1XFklX6KnsbfQpYDfNcAYlp
- 596Fkoop1Opafu8cM5Fryjyk0a6ULEsp7npYgsPvGUG2XXNG2jPJZdQqgmmZYu75dCFf
- sB4Q==
+ bh=EkBqyj1NJ++IcFdvPYM6tSZ9F5kg9Qwf+D+lXPfSeHQ=;
+ b=t3TM41vgywRlJUvC6LGZDeNT0eOydM7xN4tkg425QrWtngmLB9PlTKu9p6Gkpoj625
+ ealpWuu9wsgyfXSsoz1friA2hf0Jbj70KE/xPK+y0T9yKz+qPniYzwZK1YCXDr+ECw66
+ i2lmmyfxg/rgPIje9xBZlfrY2dPBRMJF53LByqmPKtTdnCEJ5emCpEm+vSq6XNub1k7n
+ wzZLs+96W3BIqCLrFUfM8BMzhdXiwkIXulAY4+nKBBG3lla/Oh9btZVLNHHVjVapjsze
+ AeGAkV8GSTq7vnT4IOpxS/7zQGuifsBS2SkpQ/wc2QLbJYQvQrA9IoGC9JN3t3KGoZ17
+ MShQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWgxy4HcG/6imEwTczHIeNGJTgi1v9fVXYfUhsXFIvSCvSPRTyymxRNv5Fc63XtoRjqz62Gm+Viid0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyKV/XeTYwbRr52bofU8uuxEP/f4RHQYEu/xrgf36AVeyx1Cr+M
- ghCposneOgjuHai9U918MqSK8Wh1vFinM611QLWLa9+Fvz0tAPVZoGwwZG3GF8w=
-X-Gm-Gg: ASbGncsZMdjKBsUv/KQr3UGz575fQG+BHHC2fbkPxyZE9mq0xilyLyQdUVMlpwQSPFj
- QyyrLv1rv33A1lGv/6gKSYRiL06ogRREPzPG+ARKvyFY2tyk2F1GoRFRHFDV8cjTINofYEWd/TH
- +r/yoPbNXJSw6vsxlaLWTEtq5nJbRxqImhaCKUgXIJlFfAPoXVZ6w0y5/FC8GOn5hoi4MjSxLIb
- N4RTV8Z47mrPClVzNf7+5o9ao8GAnXLDBvTcVuFrUEwiRr+K7GdsKrSmrreIZKp5lFDlfarvmjc
- pSBBVXd2xR4PmMnnNBVXv0QmUcHm7kIa9HbVCQ==
-X-Google-Smtp-Source: AGHT+IEmJ5MipungHbiWmtpuUqPEucmYmkgvTIqBEX4X1VrM8Q8aJe0Kqf+wyOXqX27kcNvBWgGf0Q==
-X-Received: by 2002:a5d:598c:0:b0:38f:48ee:ddb1 with SMTP id
- ffacd0b85a97d-38f6e95d5e2mr2850300f8f.18.1740131391626; 
- Fri, 21 Feb 2025 01:49:51 -0800 (PST)
+ AJvYcCXy0DcwZCu4gZ5gycjsCqsWbHvcRh9hZovdCbA8QVERa5VKZBrpJT63TnmwBuJjqirbQHZHbJiXNoc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0JH9QCh4gAVcB8l17K8DAV1OcaGL5bwBwREhPb0ofyRcC4SoZ
+ wdEzhum6o4LeTb1zRPpQxqGZFxfCefFJZLdnFt8EJLO9GPvPJw+aDzrMNqVnogw=
+X-Gm-Gg: ASbGnctjY56WfUSkXKPEuyCv2/SqFCxgRaDbDpweupBHFh3WsjHEuYajkoA5Ym8ggkB
+ 9m/GIlOt2CUWos5cKOG5Ylp83OXa0bm5wefkm7PoHZ5D7kar4xpGx8iY76RPf6kNjVjVwlNVELh
+ AYOq8DzkqJkwWMlseCzoMYnGgc+yUsUJFvHaMPfGQTTiMZuPcp5mkR7+iY7w65B9yXDy4eBVoid
+ KepVAyH8QfmxXmqjJM/sOaW5/CgPQjggXRmDqOdvfKmw3nBawAbsJ49elBscUajgqmlAINI3ZCv
+ Z6Ed6bP7n3kmGz5ID0mSCsWfocz5lYc4qczGzQ==
+X-Google-Smtp-Source: AGHT+IHmq7b1qRekf8aTazizZx9u6TzOuIpZCimXH5wNq+e74czCrxUFI8LledckRXx1iP2HXeSuuw==
+X-Received: by 2002:a5d:6c6d:0:b0:38f:4cdc:5d2a with SMTP id
+ ffacd0b85a97d-38f70783feamr1553394f8f.4.1740131463231; 
+ Fri, 21 Feb 2025 01:51:03 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f259d5eeesm23289252f8f.63.2025.02.21.01.49.50
+ 5b1f17b1804b1-439b01346d1sm12342375e9.0.2025.02.21.01.51.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2025 01:49:50 -0800 (PST)
-Date: Fri, 21 Feb 2025 10:49:48 +0100
+ Fri, 21 Feb 2025 01:51:02 -0800 (PST)
+Date: Fri, 21 Feb 2025 10:51:00 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Raag Jadav <raag.jadav@intel.com>, arnd@arndb.de,
- andriy.shevchenko@linux.intel.com, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm/draw: include bug.h
-Message-ID: <Z7hMPIxFyd6cqbC0@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
- Raag Jadav <raag.jadav@intel.com>, arnd@arndb.de,
- andriy.shevchenko@linux.intel.com, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250221050804.2764553-1-raag.jadav@intel.com>
- <20250221050804.2764553-3-raag.jadav@intel.com>
- <2025022135-aviation-evident-2518@gregkh>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH] drm/atomic-helper: Add a note in
+ drm_atomic_helper_reset_crtc() kernel-doc
+Message-ID: <Z7hMhEz_hTymarO1@phenom.ffwll.local>
+Mail-Followup-To: Herve Codina <herve.codina@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20250220140406.593314-1-herve.codina@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2025022135-aviation-evident-2518@gregkh>
+In-Reply-To: <20250220140406.593314-1-herve.codina@bootlin.com>
 X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,44 +100,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2025 at 07:05:12AM +0100, Greg KH wrote:
-> On Fri, Feb 21, 2025 at 10:38:04AM +0530, Raag Jadav wrote:
-> > Directly include bug.h for WARN() helpers instead of relying on
-> > intermediate headers.
-> > 
-> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_draw.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
-> > index cb2ad12bce57..0a0e1eebf481 100644
-> > --- a/drivers/gpu/drm/drm_draw.c
-> > +++ b/drivers/gpu/drm/drm_draw.c
-> > @@ -5,6 +5,7 @@
-> >   */
-> >  
-> >  #include <linux/bits.h>
-> > +#include <linux/bug.h>
-> >  #include <linux/iosys-map.h>
-> >  #include <linux/types.h>
-> >  
-> > -- 
-> > 2.34.1
-> > 
+On Thu, Feb 20, 2025 at 03:04:06PM +0100, Herve Codina wrote:
+> As suggested in [0], add a note indicating that
+> drm_atomic_helper_reset_crtc() can be a no-op in some cases.
 > 
-> Does patch 1 break this file without this patch so this series is not in
-> order?
+> [0]:https://lore.kernel.org/all/Z7XfnPGDYspwG42y@phenom.ffwll.local/
 > 
-> I'll be glad to take patch 1 in my tree, but I don't want to break
-> anything else.
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-Yeah looks inverted. In case this is all there is I'm happy to land this
-patch through your tree, that seems like the simplest approach.
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+I'm assuming you or someone else at bootling has commit rights? Otherwise
+I guess on Maxime to get that sorted.
+-Sima
 
-Cheers, Sima
+> ---
+>  This patch applies on top of the following commit available in drm-misc
+>    ab83b7f6a0c1 ("drm/atomic-helper: Introduce drm_atomic_helper_reset_crtc()")
+> 
+>  drivers/gpu/drm/drm_atomic_helper.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 0a636c398578..1f93b0a855de 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -3371,6 +3371,10 @@ EXPORT_SYMBOL(drm_atomic_helper_disable_all);
+>   * This implies a reset of all active components available between the CRTC and
+>   * connectors.
+>   *
+> + * NOTE: This relies on resetting &drm_crtc_state.connectors_changed.
+> + * For drivers which optimize out unnecessary modesets this will result in
+> + * a no-op commit, achieving nothing.
+> + *
+>   * Returns:
+>   * 0 on success or a negative error code on failure.
+>   */
+> -- 
+> 2.48.1
+> 
+
 -- 
 Simona Vetter
 Software Engineer, Intel Corporation
