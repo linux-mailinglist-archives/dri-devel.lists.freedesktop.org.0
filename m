@@ -2,99 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E279CA3F2DE
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 12:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63258A3F2E3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 12:26:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C96C510E11C;
-	Fri, 21 Feb 2025 11:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C56D010E2D7;
+	Fri, 21 Feb 2025 11:26:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VUO7RuJi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fjrva0Wm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
- [209.85.222.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA65410E11C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 11:24:45 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id
- a1e0cc1a2514c-868e368ec74so1213304241.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 03:24:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740137084; x=1740741884; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=mQpj5OYtvrzGwuvsGqLuFUVRvPktL6wX4C7ZRj/Lz9g=;
- b=VUO7RuJiBNfucucZzuzlgwRosUPl+ts5A6VRuBE4uIk+iIuNTOvGb0yHnEX/jQxgIu
- JrB5ApHO+kQRDi82+yxU1kKnXjxf6KYaUxHQ3ScBkK84qhWfwa7MgawdFLAHNHni91xH
- 5MqI3vy8iTwQ6s0o4pVoyz0uQKIWYe7bbmuZ4zcvLlw/u+hb3O0oC7AtqQKWbXs5gu0M
- BjT5AK6IJNdzdT6AUl8z4TpA5Nqxtap2o3Ow4fNN3Bxe7rbaypqmRTszBMR4EFFFL613
- picRB/MlAvOZJ9oDbCQ+7j6ZLAfeLUIb689EAKZubSbOdFUGwxP9EqUyBvVgMcmSQdpt
- eRwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740137084; x=1740741884;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mQpj5OYtvrzGwuvsGqLuFUVRvPktL6wX4C7ZRj/Lz9g=;
- b=OojNKTCZTMjtgDKVPRxSv93xpPRvlUanj7MEf0Sukl1j9Pg8IAA8oBtYCaoWBkc3as
- yoC3u//kr9gXiiJ8wSWwn0wMWTxj41br+pwmgiGR02fU1NrVQ6L+y2Fx1XqGnWxFQwcx
- HobIi+w1SESltlufttJCJhwEAIA+UofaandEy0iTD4sNR4DPbIcT76XCahm2IiA+B1sp
- 0PRvSFhaAhmQQTubWFqqGMEKFdBq8+shGSCKWinTZJACKBBeWR92LMKbME0fkwySQJRZ
- wBK0bNDQr4P6SCC0D8AmnDkpBxSDg2zUUuk5vBsz4F29tc8fcF0K98Uk9kCUgcVYRU5L
- gOXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWSrSaeVZD4O3CxGRostpm6+qLi3xy3PxwhQiVtXc2dd84eypa6yVoEpn5FUwgHME49aqLoV3ddEA0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxOw5YrOP4AoZG+LtXNdkbRnjgVB0F8ptaMfFuerKYcBpVw+2NI
- y76+mFxYS2oe/w5vV9V8Gjv0CcNzKFf931X7hPI7YvvUYjO0WEueI5E9i7703vh2TkH3NFVs8dd
- z71JCDtqMAtxH3U4+lUvQdGlqKIqAKQLjYsvf8w==
-X-Gm-Gg: ASbGncuPxOCd1aL5EhqxJr3KkLrkA6I+kiplDcXWxqVup7GVNSWA5EDZcq9EzorH4rv
- YnGe/qrRX/pOrbqfeakFw7RkR/yIKTRckJ0qQmBnmWhHg5WBOlPOUbmKn3sRHz6GGzCNkv3LQWy
- /5LDyolyF8Gg==
-X-Google-Smtp-Source: AGHT+IEEFDT7zw2jzeYUu4scukbdYB4lknasD3bWh5ghSoREMknA9fEDbTJjpM6XHz/2KAnn95mbCSQMBgCOtTskL2U=
-X-Received: by 2002:a05:6102:32d6:b0:4bb:ba51:7d4d with SMTP id
- ada2fe7eead31-4bfc0025f2bmr1746137137.8.1740137084336; Fri, 21 Feb 2025
- 03:24:44 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8286210E2D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 11:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740137188; x=1771673188;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=uCaoV8ieBoq865Aj57HbN0qiQTi5jg6DIIv1wdMIPpg=;
+ b=fjrva0Wm1H/EKAFTK48PURHyu9zRvE/XPAl+rvk9u4rPtRiCxw4oVH+7
+ 6MH3ubvhqokpZ+jBlk717G2z8cyccB/tGZ6yW/vxZmD6s80cYTO7pnzQq
+ JCSwTuiiv1E378qypZql0pmsjsxFR4ZMwP8cuTTuL3nTouQd3apBRpInz
+ CcYDUa1/aV0LA/eObTe1zcM1yQeJ0efGc0b+MFsadH1SJ7JV/3bMmoel5
+ qEoKNSEVDk2MrSQVsNkFDBsxekmykshKaVrOS3m1oe5kdVlpR6j1GS7u7
+ nTLa9R/NA/WNQzDHqR8B+uQsZk/swcU+YEz+jl5rB/M00jQDFId3r3P+n g==;
+X-CSE-ConnectionGUID: T3H5VcVIQ/iwg29GOgB0qA==
+X-CSE-MsgGUID: Ey+0PdjHQvqEhedoXhAOLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="66316028"
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; d="scan'208";a="66316028"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2025 03:26:27 -0800
+X-CSE-ConnectionGUID: aJZxBnQZRxO9vVuEPSoBdw==
+X-CSE-MsgGUID: XtTsBYe2RTK1o27w8Io8vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; d="scan'208";a="115066363"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2025 03:26:25 -0800
+Date: Fri, 21 Feb 2025 13:26:21 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Cleanup io.h
+Message-ID: <Z7hi3cHDlvctTwnV@black.fi.intel.com>
+References: <20250221050804.2764553-1-raag.jadav@intel.com>
+ <2342b516-2c6e-42e5-b4f4-579b280823ba@app.fastmail.com>
 MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20250212205613.4400a888@collabora.com>
- <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
- <20250213093557.278f5d19@collabora.com>
- <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
- <20250213134008.4cbef142@collabora.com>
- <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
- <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
- <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
- <CAHUa44Gs0D1fBD0=+EDgcQUMeDv4knci9trUkYEc1J98qFV7HQ@mail.gmail.com>
- <CAFA6WYOuTwRPEh3L7+hMyARB_E73xmp+OwhKyS-r4+ryS7=9sw@mail.gmail.com>
- <20250214164856.0d2ead8a@collabora.com>
- <CAFA6WYPc6EHQwcPuMZRm4C1P6SoDrCzEPUmju_meupB6NXQ1sg@mail.gmail.com>
- <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
-In-Reply-To: <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Fri, 21 Feb 2025 16:54:33 +0530
-X-Gm-Features: AWEUYZmWGLJSr8dI5fGVPvBYBUuW01AR9UFyCT0aSOf_de_3Q9BR4iWL6l6nzQw
-Message-ID: <CAFA6WYMLLLSuz3y5J+DuRFAGrmwpZoWax5sasfAUhXoQXmrNNA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Jens Wiklander <jens.wiklander@linaro.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2342b516-2c6e-42e5-b4f4-579b280823ba@app.fastmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,173 +71,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Feb 2025 at 21:52, Daniel Stone <daniel@fooishbar.org> wrote:
->
-> Hi Sumit,
->
-> On Mon, 17 Feb 2025 at 06:13, Sumit Garg <sumit.garg@linaro.org> wrote:
-> > On Fri, 14 Feb 2025 at 21:19, Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> > > I would say one heap per-profile.
+On Fri, Feb 21, 2025 at 11:15:47AM +0100, Arnd Bergmann wrote:
+> On Fri, Feb 21, 2025, at 06:08, Raag Jadav wrote:
+> > In a wider effort to improve build speeds, we're attempting to split/cleanup
+> > core headers.
 > >
-> > And then it would have a per vendor multiplication factor as each
-> > vendor enforces memory restriction in a platform specific manner which
-> > won't scale.
->
-> Yes, they do enforce it in a platform-specific manner, but so does
-> TEE. There is no one golden set of semantics which is globally
-> applicable between all hardware and all products in a useful manner.
->
-> So, if we define protected,secure-video +
-> protected,secure-video-record + protected,trusted-ui heap names, we
-> have exactly the same number of axes. The only change is from uint32_t
-> to string.
->
-> > > > Christian gave an historical background here [1] as to why that hasn't
-> > > > worked in the past with DMA heaps given the scalability issues.
-> > > >
-> > > > [1] https://lore.kernel.org/dri-devel/e967e382-6cca-4dee-8333-39892d532f71@gmail.com/
-> > >
-> > > Hm, I fail to see where Christian dismiss the dma-heaps solution in
-> > > this email. He even says:
-> > >
-> > > > If the memory is not physically attached to any device, but rather just
-> > > memory attached to the CPU or a system wide memory controller then
-> > > expose the memory as DMA-heap with specific requirements (e.g. certain
-> > > sized pages, contiguous, restricted, encrypted, ...).
+> > This series attempts to cleanup io.h with "include what you need" approach.
 > >
-> > I am not saying Christian dismissed DMA heaps but rather how
-> > scalability is an issue. What we are proposing here is a generic
-> > interface via TEE to the firmware/Trusted OS which can perform all the
-> > platform specific memory restrictions. This solution will scale across
-> > vendors.
->
-> I read something completely different into Christian's mail.
->
-> What Christian is saying is that injecting generic constraint solving
-> into the kernel doesn't scale. It's not OK to build out generic
-> infrastructure in the kernel which queries a bunch of leaf drivers and
-> attempts to somehow come up with something which satisfies
-> userspace-provided constraints.
->
-> But this isn't the same thing as saying 'dma-heaps is wrong'! Again,
-> there is no additional complexity in the kernel between a dma-heap
-> which bridges over to TEE, and a TEE userspace interface which also
-> bridges over to TEE. Both of them are completely fine according to
-> what he's said.
->
-> > > Honestly, when I look at dma-heap implementations, they seem
-> > > to be trivial shells around existing (more complex) allocators, and the
-> > > boiler plate [1] to expose a dma-heap is relatively small. The dma-buf
-> > > implementation, you already have, so we're talking about a hundred
-> > > lines of code to maintain, which shouldn't be significantly more than
-> > > what you have for the new ioctl() to be honest.
+> > This depends on earlier modifications available in immutable tag[1]. Feel
+> > free to carry your subsystem patches with it, or let Andy know if you'd
+> > rather let him carry them.
 > >
-> > It will rather be redundant vendor specific code under DMA heaps
-> > calling into firmware/Trusted OS to enforce memory restrictions as you
-> > can look into Mediatek example [1]. With TEE subsystem managing that
-> > it won't be the case as we will provide a common abstraction for the
-> > communication with underlying firmware/Trusted OS.
->
-> Yes, it's common for everyone who uses TEE to implement SVP. It's not
-> common for the people who do _not_ use TEE to implement SVP. Which
-> means that userspace has to type out both, and what we're asking in
-> this thread is: why?
->
-> Why should userspace have to support dma-heap allocation for platforms
-> supporting SVP via a static DT-defined carveout as well as supporting
-> TEE API allocation for platforms supporting SVP via a dynamic
-> carveout? What benefit does it bring to have this surfaced as a
-> completely separate uAPI?
->
-> > > And I'll insist on what
-> > > Daniel said, it's a small price to pay to have a standard interface to
-> > > expose to userspace. If dma-heaps are not used for this kind things, I
-> > > honestly wonder what they will be used for...
+> > [1] https://lore.kernel.org/r/Z7cqCaME4LxTTBn6@black.fi.intel.com/
 > >
-> > Let's try not to forcefully find a use-case for DMA heaps when there
-> > is a better alternative available.
->
-> What makes it better? If you could explain very clearly the benefit
-> userspace will gain from asking TEE to allocate $n bytes for
-> TEE_IOC_UC_SECURE_VIDEO_PLAY, compared to asking dma-heap to allocate
-> $n bytes for protected,secure-video, I think that would really help.
-> Right now, I don't understand how it would be better in any way
-> whatsoever for userspace. And I think your decision to implement it as
-> a separate API is based on a misunderstanding of Christian's position.
->
-> > I am still failing to see why you
-> > don't consider following as a standardised user-space interface:
-> >
-> > "When user-space has to work with restricted memory, ask TEE device to
-> > allocate it"
->
-> As far as I can tell, having userspace work with the TEE interface
-> brings zero benefit (again, please correct me if I'm wrong and explain
-> how it's better). The direct cost - call it a disbenefit - it brings
-> is that we have to spend a pile of time typing out support for TEE
-> allocation in every media/GPU/display driver/application, and when we
-> do any kind of negotiation, we have to have one protocol definition
-> for TEE and one for non-TEE.
->
-> dma-heaps was created to solve the problem of having too many
-> 'allocate $n bytes from $specialplace' uAPIs. The proliferation was
-> painful and making it difficult for userspace to do what it needed to
-> do. Userspace doesn't _yet_ make full use of it, but the solution is
-> to make userspace make full use of it, not to go create entirely
-> separate allocation paths for unclear reasons.
->
-> Besides, I'm writing this from a platform that implements SVP not via
-> TEE. I've worked on platforms which implement SVP without any TEE,
-> where the TEE implementation would be at best a no-op stub, and at
-> worst flat-out impossible.
+> > v2: Fix drm_draw.c build errors
+> 
+> Hi Raag,
+> 
+> I think your patch is to linux/io.h is correct and we should
+> eventually apply it, but I think the header file cleanup needs
+> to be done in a little more structured way or it ends up causing
+> a lot of extra work for very little gain.
+> 
+> As you already found, removing an old indirect #include that is
+> no longer needed usually leads to some files breaking. The more
+> impactful your change is in terms of build speed, the more
+> things break! I think in this case, removing linux/err.h and
+> linux/bug.h made very little difference because they are very
+> small files in terms of what else they include.
+> 
+> The approach that I would suggest you take is:
+> 
+> 1. identify a header file that is included indirectly in a lot
+>    of places and also has a ton of indirect inclusions inside it
+> 2. split it up in a way that most indirect inclusions can be
+>    replaced with a much smaller varient
+> 3. repeat step 1 and 2 for additional headers, splitting them
+>    up but leaving the inclusions in place for the moment
+> 4. test thousands of randconfig builds across architectures
+>    with the unnecessary indirect inclusions removed, send
+>    fixup patches for the drivers to add the missing direct
+>    #include statements, one patch per subsystem
+> 5. once the known regressions are fixed, actually propose
+>    removing the extra #include statements and fix the remaining
+>    regressions
+> 
+> If you are looking for a good place to start with step 1, 
+> the way I've done this in the past is to calculate for each
+> header file how often it gets included in a particular build
+> and how large the preprocessed files are, then sort them
+> by the product of the two. These are the top entries I
+> see for an arm64 defconfig
+> 
+> #incl #lines file
+> 7054 41901 include/linux/module.i
+> 7146 39685 include/linux/fs.i
+> 7057 39996 include/linux/elf.i
+> 5667 44323 include/linux/energy_model.i
+> 5667 44322 include/linux/device.i
+> 5668 42467 include/linux/device/driver.i
+> 4707 47776 include/linux/mm.i
+> 7151 29653 include/linux/kobject.i
+> 7151 29494 include/linux/sysfs.i
+> 7146 29090 include/linux/percpu-rwsem.i
+> 7152 28963 include/linux/rcuwait.i
+> 7154 28929 include/linux/sched/signal.i
+> 7151 28608 include/linux/kernfs.i
+> 3713 55040 include/linux/kprobes.i
+> 3707 55113 include/linux/kgdb.i
+> 3718 54591 include/linux/ftrace.i
+> 7366 27519 include/linux/slab.i
+> 7146 28276 include/linux/ioprio.i
+> 7190 28029 include/linux/radix-tree.i
+> 7159 28137 include/linux/idr.i
+> 7146 28098 include/linux/iocontext.i
+> 3390 59188 include/linux/bio.i
+> 7146 28073 include/linux/list_lru.i
+> 7192 27842 include/linux/xarray.i
+> 3390 58566 include/linux/blk_types.i
+> 3176 62442 include/linux/writeback.i
+> 7366 26873 include/linux/percpu-refcount.i
+> 3538 55872 include/linux/highmem.i
+> 7054 27934 include/linux/kmod.i
+> 7382 26691 include/linux/gfp.i
+> 7054 27925 include/linux/umh.i
+> 3538 55255 include/linux/cacheflush.i
+> 7382 26416 include/linux/topology.i
+> 3053 63637 include/linux/memcontrol.i
+> 7193 27010 include/linux/sched/mm.i
+> 7382 26210 include/linux/mmzone.i
+> 7382 26210 include/linux/memory_hotplug.i
+> 4707 40968 include/linux/huge_mm.i
+> 3428 56061 include/linux/bvec.i
+> 3713 49335 include/linux/rethook.i
+> ...
+> 5159 28781 include/linux/io.i
+> 
+> You can pick any one of these and try to analyze why the
+> header gets included absolutely everywhere, and why it is
+> so huge, then try to come up with an idea for how to
+> improve that based on what you found.
+> 
+> When you do the analysis for linux/io.h, you find that
+> it's only on #72 on that list (for arm64 defconfig), and
+> that almost all of its 28781 lines come from one of these
+> indirectly included files (sorted by number of lines after
+> preprocessing), not from bug.h or err.h:
+> 
+> 27569 include/linux/pgtable.h
+> 24636 include/linux/mmu_notifier.h
+> 24217 include/linux/page-flags.h
+> 23860 include/linux/mmap_lock.h
+> 23670 include/linux/mm_types.h
+> 21468 include/linux/srcu.h
+> 21355 include/linux/uprobes.h
+> 20746 include/linux/workqueue.h
+> 20091 include/linux/timer.h
+> 19950 include/linux/ktime.h
+> 19949 include/linux/timekeeping.h
+> 19536 include/linux/jiffies.h
+> 19428 include/linux/timex.h
+> 19428 include/linux/time.h
+> 19427 include/linux/time32.h
+> 18716 include/linux/percpu_counter.h
+> 18595 include/linux/percpu.h
+> 18390 include/linux/sched.h
+> 16879 include/linux/maple_tree.h
+> 16699 include/linux/seqlock.h
+> 16527 include/linux/kref.h
+> 16472 include/linux/completion.h
+> 16429 include/linux/swait.h
+> 16388 include/linux/wait.h
+> 16364 include/linux/rwsem.h
+> 
+> Note that a lot of these are indirectly included multiple
+> times below linux/io.h. Almost none of the above have any
+> business being included in linux/io.h.
 
-Can you elaborate the non-TEE use-case for Secure Video Path (SVP) a
-bit more? As to how the protected/encrypted media content pipeline
-works? Which architecture support does your use-case require? Is there
-any higher privileged level firmware interaction required to perform
-media content decryption into restricted memory? Do you plan to
-upstream corresponding support in near future?
+Excellent! Thanks for laying out a great analysis and points worth
+considering. It seems this will require extensive study and motivation,
+and is definitely not as obvious and simple as this series, but I'll
+surely look into it later on.
 
-Let me try to elaborate on the Secure Video Path (SVP) flow requiring
-a TEE implementation (in general terms a higher privileged firmware
-managing the pipeline as the kernel/user-space has no access
-permissions to the plain text media content):
-
-- Firstly a content decryption key is securely provisioned into the
-TEE implementation.
-- Interaction with TEE to set up access permissions of different
-peripherals in the media pipeline so that they can access restricted
-memory.
-- Interaction with TEE to allocate restricted memory buffers.
-- Interaction with TEE to decrypt downloaded encrypted media content
-from normal memory buffers to restricted memory buffers.
-- Then the further media pipeline is able to process the plain media
-content in restricted buffers and display it.
-
->
-> So that's 'why not TEE as the single uAPI for SVP'.
-
-Let's try to see if your SVP use-case really converges with TEE based
-SVP such that we really need a single uAPI.
-
-> So, again, let's
-> please turn this around: _why_ TEE? Who benefits from exposing this as
-> completely separate to the more generic uAPI that we specifically
-> designed to handle things like this?
-
-The bridging between DMA heaps and TEE would still require user-space
-to perform an IOCTL into TEE to register the DMA-bufs as you can see
-here [1]. Then it will rather be two handles for user-space to manage.
-Similarly during restricted memory allocation/free we need another
-glue layer under DMA heaps to TEE subsystem.
-
-The reason is simply which has been iterated over many times in the
-past threads that:
-
-    "If user-space has to interact with a TEE device for SVP use-case
-then why it's not better to ask TEE to allocate restricted DMA-bufs
-too"
-
-[1] https://lkml.indiana.edu/hypermail/linux/kernel/2408.3/08296.html
-
--Sumit
+Raag
