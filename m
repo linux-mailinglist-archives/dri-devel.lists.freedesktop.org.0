@@ -2,93 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9013A40141
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A204A4014E
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 21:47:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1836B10E213;
-	Fri, 21 Feb 2025 20:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 665DC10EB2C;
+	Fri, 21 Feb 2025 20:47:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ONeIxLb+";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GFlDc3WJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3256410E213
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 20:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740170567; x=1771706567;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=WDe+to5rRRq7lsLv9P59RikBY/hODwqoknD2e2l+CDo=;
- b=ONeIxLb+QY68H/f+MVNnKKc1+ghZHbxI9aTiv4ql71iT3tacqrX371OI
- c/DYt9B0utm5iF3Xgn4/RH3KPxBNiQKkdO6mkvFpZyIU9894tssztSLqJ
- V0kyXq+T3+JGWIWfKq+eXOQxbBQWwuSqLMfpgG+O54Fmm5zIJ/mzGdEQA
- wmRpztoXqlhLNoqBpOUJcqcDobKR87vf5sowUz3e+avIxfx1SGrItOUPP
- mogNqScPpVEcGkfVNBoMkC1S32agJyfowFJtHVkTJP8B+zR4stWoA3vyB
- rCGK+O+mRgaac9fdnhlGwTNp9+o5f/WATZ1E+EyTG1T+xrmri5D1Qum8J g==;
-X-CSE-ConnectionGUID: ZQ5k/TH9RiqQYB/kWbCIcg==
-X-CSE-MsgGUID: IHF6CVOvQK+pm2Vcmmgtag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40922573"
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; d="scan'208";a="40922573"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 12:42:47 -0800
-X-CSE-ConnectionGUID: zC+uNe1dTIO9JBrdJOTyTw==
-X-CSE-MsgGUID: swnSrLXlTzum+CJRrwvp1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="115308379"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2025 12:42:39 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tlZr0-0000000DkDP-0Fwy; Fri, 21 Feb 2025 22:42:34 +0200
-Date: Fri, 21 Feb 2025 22:42:33 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
- "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- "apw@canonical.com" <apw@canonical.com>,
- "joe@perches.com" <joe@perches.com>,
- "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Hector Martin <marcan@marcan.st>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
- Macs
-Message-ID: <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
-References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
- <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
- <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
- <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2077.outbound.protection.outlook.com [40.107.236.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97C0910EB28;
+ Fri, 21 Feb 2025 20:47:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UwAsp0KmMHRu/U8/SgUSuFejoGwS86Kh7GCgzm0TBRcG3o6TnXc/UseIarVkRVPZcRXiCW/I4u8bjZwZLL3H8eSKlriTMOUMEUKQ+aud2Kz+LV1i4kjwPGSBL+NnMHN/9kjacuM0Ug4acgXfZGKRN1UivHo9sofImW/rNcvuJmuEMTpGlA1ywZFmISCxPXRKSzzReq2hTUT2msF+jUeQWGpJ+OE9rZm6vgnkkaJIKVTgE5J+mqTpQzs6p+Vj0GGAJ+bSNulgiU5IVcfuqdgPZNasMG0ZxQM7G3F+YHaXJ770hiuAVrFHHL7RSZKZnqFUJfp0/4qu0zglE0Cor29AsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ijlWQDu+5E+7r0ky4bKdS7BDVkX4hD5PTHXgoPShTG0=;
+ b=sGVLGruRSgbzwHNccaiT94MjnFyebGV1NoBX9gHF89rCpzUMyINiM8r47owrVdY3UgHdgvnbTLZfX/bNbpYKBFansRPD6gTh26GMs0GiDLKDDEotPFJF23qMMO0iLWHSWzYmYwan/xsGK/4uUgKQZPw7143NWFRazR8EPDS9B0rAehuqw/2jaU0vDQ6GAeTKIGjTgumC4386Ie1+3rfBBXdDCBqUrTTg8M1p3i7sShRlUdHExAp8YjL1QAFsabOR28bOmc8rjRMb937S2A0lh3q9wTYPfkrMfqlEeFLaQjzSBNYTZZ8eP9R/Hx0kzrk/sn0PwX6vePd138GlyblYvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ijlWQDu+5E+7r0ky4bKdS7BDVkX4hD5PTHXgoPShTG0=;
+ b=GFlDc3WJ6mSRzj7Q9EhLX/xGXzLMUlrC2IfB/xBF8sqW3rPgQG40lElRCuuxF3tMbsLdLxi7hi+BEt76u8T4/Fz3+PlpsqfDRcd+ftyyqtNF3kiIs7VMOQoMRRhYTqYee0AHwJeXpFuEUWDrngjX/Jgen55snuDhdobtBttdem4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by DS0PR12MB9276.namprd12.prod.outlook.com (2603:10b6:8:1a0::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Fri, 21 Feb
+ 2025 20:47:45 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1%4]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
+ 20:47:45 +0000
+Message-ID: <b6466238-42dd-4de4-9c95-ba3c019a6b21@amd.com>
+Date: Fri, 21 Feb 2025 13:47:41 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: restore edid reading from a given i2c
+ adapter
+To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, mario.limonciello@amd.com
+Cc: Roman Li <Roman.Li@amd.com>, Aurabindo Pillai <Aurabindo.Pillai@amd.com>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20250215211549.79832-1-mwen@igalia.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20250215211549.79832-1-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0252.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:66::11) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DS0PR12MB9276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d33cb3d-9e75-41df-05a2-08dd52b8fe83
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Wmd5RVpickh2OG0vVDJTL0VmWFNmeDNzS3VYUUZxR0d6TzZOeVNNb044ZUdM?=
+ =?utf-8?B?MExRM01UeGh4MWdIbTlMZExKVXlCUHNXZ2hlekRTRlVzTU1BcUlxZFJqMWdv?=
+ =?utf-8?B?YmtwWVVobHRtOEVyYTNva2pWRzVMVFpxY210WHlzbmYzcndxRXRKbkJNVEw1?=
+ =?utf-8?B?VFRhY3lDaWQvaGEvNTF5L0JweEtLZ3RGUzR5Ty9paEJqc0VSSjBrKzNlYkhv?=
+ =?utf-8?B?QUFjSHg3Ky9UYjd2NjZsMmF6VGRXcCtvREhMRkthOUNlcGZuWnJvWk5Sd0da?=
+ =?utf-8?B?MllzSnBFblAwOG5WWGp3RWd0emxCYnh2L3RJRURzTDR3Wnc1c2pmanhHR2Mv?=
+ =?utf-8?B?SW9VQ2VESHZJRjVNMyt0N0srQ0V6MnBURWUraWtURjJjWHJuSTE0ZCsreXRx?=
+ =?utf-8?B?MmdsMGxsM3NKdCtNSEx2L1E4eFE1SGR3Q0Q3RmZzYTRmY0RqQ0hVTUpWRk5s?=
+ =?utf-8?B?TTMvSWxtRHhQZlo1VVFVU2JEZW9ld0d5WGdKWDAxSzI3bGNGcjdqN2Zxc2l5?=
+ =?utf-8?B?dUphUWtsN1JQL2pJUzdxU3cxNDdqWVoxUUVHTzVCZTRkTU1lM2NWS08vd01J?=
+ =?utf-8?B?SkZvUk12c21XWHZuRUUrb0s5aUlOZW1rby8zK2FRMkxBVm9ISU1XUW41Ukp0?=
+ =?utf-8?B?VkNHZktnNm5nZGl0VjIxdWpYaFJNeCtOTUZIYUZOejE5Z0FtM3RldmNJZjVO?=
+ =?utf-8?B?NHl3MmdGZUN6RTNoaXRVdUNZcHprUmRqY21LeU9nc2ttOXFDYXp2U0FiZmgy?=
+ =?utf-8?B?SkVjRWRnKzRzbTBlalpqekJoZkxmWkhDVkVnY0wxY3d5L1FJSGhaSHl6N1dx?=
+ =?utf-8?B?SDBNS1pjbXM3UkRNL0UzU0FRZFZaU2NrT2tkTmZuYjJzay9KaTBjN0hCS3pk?=
+ =?utf-8?B?d3FGc2hjQkVnRTQ3Yzg0cDZaSEY5TVUyT0ZadWYzOWM4SlVFdmVaRXpPSEsx?=
+ =?utf-8?B?T0NKWlR3dElsMmFmYXdaTDVjbDNsSC9nTEZ0dlNUcHlaNTE1S3B0K0dCK3pO?=
+ =?utf-8?B?c3JiY0E5SDZHSytzWWg3ZGdpSUxlb2RSaXZYekdmbHNHcTV4WTlMYnI3d21w?=
+ =?utf-8?B?MDIvOU85SzdjZGlRM080dmd1QktxYWc0dG9RbmtoUlpwUXZqcysrcmRvNk8w?=
+ =?utf-8?B?UEZ2NEZKZEdzQU1vaGZCY0h1K2o4NHpIa2gyeUJha2tNcmxlN3REMU8xYzRj?=
+ =?utf-8?B?UWp2ZVhqVllOdnlYa205ZFhla3AvU3FBZHpqMG1CWWtESnpoeGU0QXQzSUF5?=
+ =?utf-8?B?eHVjQWdzZWhiL3NCT2NVUUZLaFNidjNyT3lsMHpJTXlRNERqOXZpNnNwVWN2?=
+ =?utf-8?B?VEVpdnBpRXc2TXRCS3NOTG40dldqek5DamxrSEliVC9ia1JRRlZ1U2ZxSnhx?=
+ =?utf-8?B?SWdLYXk3ZmMvbHlPWmZUMjNNRnh1M3NUZWl3OXo0SnBkbUVrK2dzT0RBUW52?=
+ =?utf-8?B?WGhYSnhia1BmZTlFZExONHRkaXFqT0orU3EyUnNuRWVjZGZZNmo3RWpadGoz?=
+ =?utf-8?B?V1h1eVpJSWJNSy9uZDZ0QXlNbWtvRGFQODhnaFZ2YzFUbEpUQ1gvME5hVEpU?=
+ =?utf-8?B?NVdzckZBL1VCVmxuODBWbkRKUi9jdk9ham5WUVMrOE1LTXI3ZmVrd0lRTVFn?=
+ =?utf-8?B?N0ZNMk8zNzh2SXNLd214UllGTVlRVnk5RmpuZ1hGSG9LeU5hSC9WRWw2d0Vt?=
+ =?utf-8?B?dkxadHZpUldzODFCbkpMbG5palk0QklUZ2c3NVNBWVRBR202L2V1MU9nTHhU?=
+ =?utf-8?B?NHJXWk4ySEhDOUZ1MUlqWjUxSjYyQ3B4eG5na0ovOFBWdzNaSm14UUxpWkFC?=
+ =?utf-8?B?d2ZGS0Q5YkZldHVhM1hZTTB2ZTF5ZnRLazg4akVoYUZ6RHlGMEUreW94bVhO?=
+ =?utf-8?B?RHdPTTkrYWdNWVYwOUE0RXZEVUdiR3BLTDNuaFRUMmV1YUowWm4rRUhyQ0hO?=
+ =?utf-8?Q?TzmclaG8n4A=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007)(921020); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWo3THM5aDd5bkkyOTYzbFY3MVJSYnFuTVdTcGc0UmNvY29jSUEwQVpQT29F?=
+ =?utf-8?B?UThPS2EwMHZxS2RiVk55TjdESXdPaW1XazZLWmFDdTRDS2ZQS0k1TUQ1czIv?=
+ =?utf-8?B?b2xWS0JPVkJka1pwd3Y0WWRKYUV2Q3pocFdWSDhHaDlkWCtjTG5NdWROUjQr?=
+ =?utf-8?B?MjFHd0JVZnhuL29nY2pidHZRN0NpdWpYR01WdXNQajV5Rks5SWE5OHdZRDJ4?=
+ =?utf-8?B?bXpwVnpKWCtza2pzNkNKeE5uVnAwU0pkV0VPeXNIbmI5QXJvQ1QvWlNINmdH?=
+ =?utf-8?B?ZDhkMXNUaDlrcDVvZEVzekJ0ZEZndUloUkNvcFNxbFVia2lvUjRmc2Z3NXRS?=
+ =?utf-8?B?UWpzNWdzYk9Pc003a2g5cEFOUlpoM1p3RTV1NS9ib0gzVlRGTmxFcEhMUW81?=
+ =?utf-8?B?SHp4bWFSdG5QNWdtTFJKdlJIRndLQi96TURFMDNraDZ3enZ3TDFaMXZ0NThh?=
+ =?utf-8?B?YjhwVElEa0JpbFV3M1lDYVcvdnhReHlvVSt4Q2pXTk5DODJmeU9CaHMvYVU0?=
+ =?utf-8?B?Q09NUDZZdjlBMWdNMGlPTjBmcnJGUVZoNEFvVlFOVjVtQ0dQME9IanVNN1Ba?=
+ =?utf-8?B?NDVlbFJEY0crRDQvSlh4NndkOE5EQjhYM0wwWU1QSlhnenZyTmxYZkZTeHZZ?=
+ =?utf-8?B?U3Ruc0laRCtpUjVCZFRTNzhoRzhaNkhnTEtDcndlN1JVM0d0Tm1CWm5tZFZJ?=
+ =?utf-8?B?M0hhWXFFdEtrdTE4M0o5WHZSV3ZGcVhpRlREUE81OTEvMUtTaXdMdzRDaGF2?=
+ =?utf-8?B?eEtya1ZJQnVDb3VHcWhsREVjeWV4a2xTNE5GNldQRUY5RjNMZVIxeVd4YjYv?=
+ =?utf-8?B?ZFJiNmdNWnMxYURmQktTTksxek5taFFwR0c2MmloWEVHTUUvSTRWelFPVnNJ?=
+ =?utf-8?B?SmVhTGFqNmJ4QjZRVXFISWMzSmp1RVo4bTAwSlVCUUVRTTNDZE9JcVpydmw1?=
+ =?utf-8?B?TEFhU3dQTG16aWhsYzF1YjF5a2RnbERIY3QzMjNGMVVibnptQ1NVU0tUbXBz?=
+ =?utf-8?B?Zy85WWtSSVlleEYybEFma1ZFVGVuNkRKZm9TclVJdURxWWJua3NGbWJObVhW?=
+ =?utf-8?B?aEZwN2lSVG1RS1EwanVXMVlrWndRcER2QVNvVDVaa3dKSEJ0Tlg5MldxSUcx?=
+ =?utf-8?B?QWpSOXpGRG1nVGM4SmU3TnVTVzZWS0w1dFp2Z0JHeXk5Nmw2ajN4a3EyMnNP?=
+ =?utf-8?B?MEZkVWs1SXVVRG1VMXJNSlB4bGhKN2tQcGJvdmYxUld6QW5BRThtUlgwVk9h?=
+ =?utf-8?B?Z1VXcFVRQ0VISFZXTEorQndkbFAvL2JTYWdPWll6b3VmT3ZLbXlIWHRQYUNy?=
+ =?utf-8?B?TFpPakNkbzQrajRqdnRnOEFhaWZlcDdXbjNvQTJURnRMR3FlbFdSQXpnY01D?=
+ =?utf-8?B?YzRQZ1lkTVRHaVRGRVJLVVhMNUNMUHFJUGZkcCsyYnV0TFpCVFNTRnNQeU42?=
+ =?utf-8?B?QS9KUVpXZ0VWQk1jYnpIUHRsTnB0ZmhPK29DZTQyRWREUmxVRG5BMklzVEVU?=
+ =?utf-8?B?MVBRZUQ3d1BHMzZqWk5LamMzVU0xdGJzVHlLb0xsY1JlTkR5OVhrcC9vNHAv?=
+ =?utf-8?B?VHZac25JQmx5Z3c4WE9KRWlscGZ5YlhxWEFUa3pBVllGVXVQYVFScTRnSks2?=
+ =?utf-8?B?ejFBQWdLSDBCdFo0S2htc2E4NWpyclpkeVE1MlF3eFJWNnY1aWhUT2lpMTRz?=
+ =?utf-8?B?VkhiQW9wc0pEM0I3UzNwR1NSYjB5dDd1MURKblhUL09PbEI3YXlTdElpWnhY?=
+ =?utf-8?B?TVRiTEFjcUhWQU5oT2w2WU5EODZ3ZmtSTzJZaU9hbGQyYWZrZUxZSzV6cnNw?=
+ =?utf-8?B?ZXBmTDdUeWtGUEFwL2UvM2p3UHpWazNUVDQ5MC92NUJJZ1Z4VklmTk52WFZ2?=
+ =?utf-8?B?V2lHQ3RBYkkvZk11K09qS0RVVk1jTUFPZmZDNml2U01yK0FRZ0o5RzVmWUFP?=
+ =?utf-8?B?OU1VM2VkWk1DdTV2azNGRk1RcWRXQVJCOXlzVFRlYUgwdkhUSDRQOHNoTHdS?=
+ =?utf-8?B?V3AvMUJEbEJSbFBFVEtmeHdWZFdRWW13cU5ZQnJqYitoc2RZYXRhU2V4cWVl?=
+ =?utf-8?B?VWl1RjA2cFBkWmszTFNHWmo3a1pzbTZUVlFZdW8vZW93T1RrL3JLbTNVRC9u?=
+ =?utf-8?Q?QdztZ64Vvl7vsq7bRS1uajEVi?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d33cb3d-9e75-41df-05a2-08dd52b8fe83
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 20:47:45.5419 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: heLOk3f9jsUTeCsj5aE5uKjcP4YRhG/LitK92IA4euutFiJWpGbTFE3nKqJEIXameiM3HDfIr2D1LAvv391e1g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9276
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,151 +169,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2025 at 07:13:06PM +0000, Aditya Garg wrote:
-> > On Fri, Feb 21, 2025 at 11:37:57AM +0000, Aditya Garg wrote:
+Reviewed-by: Alex Hung <alex.hung@amd.com>
 
-...
-
-> >> +} __packed;
-> > 
-> > Why __packed? Please explain and justify for all the data types that are marked
-> > with this attribute.
+On 2/15/25 14:15, Melissa Wen wrote:
+> When switching to drm_edid, we slightly changed how to get edid by
+> removing the possibility of getting them from dc_link when in aux
+> transaction mode. As MST doesn't initialize the connector with
+> `drm_connector_init_with_ddc()`, restore the original behavior to avoid
+> functional changes.
 > 
-> Just following the original Windows driver here (#pragma pack) :
+> v2:
+> - Fix build warning of unchecked dereference (kernel test bot)
 > 
-> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/include/DFRHostIo.h
+> CC: Alex Hung <alex.hung@amd.com>
+> CC: Mario Limonciello <mario.limonciello@amd.com>
+> CC: Roman Li <Roman.Li@amd.com>
+> CC: Aurabindo Pillai <Aurabindo.Pillai@amd.com>
+> Fixes: 48edb2a4256e ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 +++++++++++++++--
+>   1 file changed, 15 insertions(+), 2 deletions(-)
 > 
-> IMO these structures are used for communication with the Touch Bar over USB.
-> The hardware expects a very specific layout for the data it receives and
-> sends. If the compiler were to insert padding for alignment, it would break
-> the communication protocol because the fields would not be in the expected
-> positions.
-
-What padding, please? Why TCP UAPI headers do not have these attributes?
-Think about it, and think about what actually __packed does and how it affects
-(badly) the code generation. Otherwise it looks like a cargo cult.
-
-> I tried removing __packed btw and driver no longer works.
-
-So, you need to find a justification why. But definitely not due to padding in
-many of them. They can go without __packed as they are naturally aligned.
-
-...
-
-> >> + if (response->msg == APPLETBDRM_MSG_SIGNAL_READINESS) {
-> >> + if (!readiness_signal_received) {
-> >> + readiness_signal_received = true;
-> >> + goto retry;
-> >> + }
-> >> +
-> >> + drm_err(drm, "Encountered unexpected readiness signal\n");
-> >> + return -EIO;
-> >> + }
-> >> +
-> >> + if (actual_size != size) {
-> >> + drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-> >> + actual_size, size);
-> >> + return -EIO;
-> >> + }
-> >> +
-> >> + if (response->msg != expected_response) {
-> >> + drm_err(drm, "Unexpected response from device (expected %p4ch found %p4ch)\n",
-> >> + &expected_response, &response->msg);
-> >> + return -EIO;
-> > 
-> > For three different cases the same error code, can it be adjusted more to the
-> > situation?
-> 
-> All these are I/O errors, you got any suggestion?
-
-Your email client mangled the code so badly that it's hard to read. But I would
-suggest to use -EINTR in the first case, and -EBADMSG. But also you may consider
--EPROTO.
-
-> >> + }
-
-...
-
-> >> + if (ret)
-> >> + return ret;
-> > 
-> >> + else if (!new_plane_state->visible)
-> > 
-> > Why 'else'? It's redundant.
-> 
-> I’ve just followed what other drm drivers are doing here:
-> 
-> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/bochs.c#L436
-> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/cirrus.c#L363
-> 
-> And plenty more
-
-A bad example is still a bad example. 'else' is simply redundant in this
-case and add a noisy to the code.
-
-> I won’t mind removing else. You want that?
-
-Sure.
-
-...
-
-> >> + request_size = ALIGN(sizeof(struct appletbdrm_fb_request) +
-> >> +        frames_size +
-> >> +        sizeof(struct appletbdrm_fb_request_footer), 16);
-> > 
-> > Missing header for ALIGN().
-> > 
-> > But have you checked overflow.h for the possibility of using some helper macros
-> > from there? This is what should be usually done for k*alloc() in the kernel.
-> 
-> I don’t really think we need a macro here.
-
-Hmm... is frames_size known to be in a guaranteed range to make sure no
-potential overflow happens?
-
-> >> + appletbdrm_state->request = kzalloc(request_size, GFP_KERNEL);
-> >> +
-> >> + if (!appletbdrm_state->request)
-> >> + return -ENOMEM;
-
-...
-
-> >> + request->msg_id = timestamp & 0xff;
-> > 
-> > Why ' & 0xff'?
-> 
-> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/DfrDisplay.c#L147
-
-This is not an answer.
-Why do you need this here? Isn't the type of msg_id enough?
-
-...
-
-> >> + adev->mode = (struct drm_display_mode) {
-> > 
-> > Why do you need a compound literal here? Perhaps you want to have that to be
-> > done directly in DRM_MODE_INIT()?
-> 
-> I really don’t find this as an issue. You want me to declare another structure, basically this?:
-
-Nope, I'm asking if the DRM_MODE_INIT() is done in a way that it only can be
-used for the static data. Seems like the case. Have you tried to convert
-DRM_MODE_INIT() to be always a compound literal? Does it break things?
-
-> struct drm_display_mode mode = {
-> DRM_MODE_INIT(60, adev->height, adev->width,
-> DRM_MODE_RES_MM(adev->height, 218),
-> DRM_MODE_RES_MM(adev->width, 218))
-> };
-> adev->mode = mode;
-> 
-> >> + DRM_MODE_INIT(60, adev->height, adev->width,
-> >> +       DRM_MODE_RES_MM(adev->height, 218),
-> >> +       DRM_MODE_RES_MM(adev->width, 218))
-> >> + };
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index a8421c07b160..142d366e3347 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -7269,8 +7269,14 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+>   	struct dc_link *dc_link = aconnector->dc_link;
+>   	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
+>   	const struct drm_edid *drm_edid;
+> +	struct i2c_adapter *ddc;
+>   
+> -	drm_edid = drm_edid_read(connector);
+> +	if (dc_link && dc_link->aux_mode)
+> +		ddc = &aconnector->dm_dp_aux.aux.ddc;
+> +	else
+> +		ddc = &aconnector->i2c->base;
+> +
+> +	drm_edid = drm_edid_read_ddc(connector, ddc);
+>   	drm_edid_connector_update(connector, drm_edid);
+>   	if (!drm_edid) {
+>   		DRM_ERROR("No EDID found on connector: %s.\n", connector->name);
+> @@ -7315,14 +7321,21 @@ static int get_modes(struct drm_connector *connector)
+>   static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
+>   {
+>   	struct drm_connector *connector = &aconnector->base;
+> +	struct dc_link *dc_link = aconnector->dc_link;
+>   	struct dc_sink_init_data init_params = {
+>   			.link = aconnector->dc_link,
+>   			.sink_signal = SIGNAL_TYPE_VIRTUAL
+>   	};
+>   	const struct drm_edid *drm_edid;
+>   	const struct edid *edid;
+> +	struct i2c_adapter *ddc;
+>   
+> -	drm_edid = drm_edid_read(connector);
+> +	if (dc_link && dc_link->aux_mode)
+> +		ddc = &aconnector->dm_dp_aux.aux.ddc;
+> +	else
+> +		ddc = &aconnector->i2c->base;
+> +
+> +	drm_edid = drm_edid_read_ddc(connector, ddc);
+>   	drm_edid_connector_update(connector, drm_edid);
+>   	if (!drm_edid) {
+>   		DRM_ERROR("No EDID found on connector: %s.\n", connector->name);
 
