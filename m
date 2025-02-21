@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33316A3F5DF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 14:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF104A3F564
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 14:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D99DF10E822;
-	Fri, 21 Feb 2025 13:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 702AE10E1D9;
+	Fri, 21 Feb 2025 13:14:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="deOZsFKN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QHv6vEql";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11CB610EA4B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 11:39:27 +0000 (UTC)
-Received: from [192.168.42.116] (pd9e59d4d.dip0.t-ipconnect.de
- [217.229.157.77]) (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 305C82FC0182;
- Fri, 21 Feb 2025 12:39:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1740137966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LqXUo1FZ4TpebA15goo8baRIskVIN6WUi38uv9gPwFc=;
- b=deOZsFKNmuJi0lPeSPivrTX2+2wjtvvKLqs7wSbApPPMJx4ziaoUyUlgNkvW+JfIP1tVeh
- 7e/mRwslMZtcjVNpm2dPNZABksf3cyyJYZwFCmc00DVTLG8/NOqGPhZOwxBn6/nU2bACwZ
- wdhXvtekzZvIu+hG/nglgxoVs3tvMok=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <ea88c72e-a03f-4aac-9182-ece94fb99e54@tuxedocomputers.com>
-Date: Fri, 21 Feb 2025 12:39:24 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Pavel Machek <pavel@ucw.cz>, Armin Wolf <W_Armin@gmx.de>,
- Benjamin Tissoires <bentiss@kernel.org>, Hans de Goede <hdegoede@redhat.com>
-Cc: ilpo.jarvinen@linux.intel.com, dri-devel@lists.freedesktop.org,
- jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, cs@tuxedo.de,
- platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
-References: <20250121225510.751444-1-wse@tuxedocomputers.com>
- <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de> <Z53f7VNIgUWWFn9l@duo.ucw.cz>
- <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
-Content-Language: en-US
-In-Reply-To: <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C7510E1D9;
+ Fri, 21 Feb 2025 13:14:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 1E4C6612B5;
+ Fri, 21 Feb 2025 13:14:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2A0AC4CED6;
+ Fri, 21 Feb 2025 13:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740143683;
+ bh=4SLtRVzYW2Epxvc52iwU1nHpJqyBgABkLoe0js9iRpY=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=QHv6vEqlf4x8hZS5I+CDOVG3hd40C8YTA1T31EuW2WH+Zwxu0iOHsnm0MI6i2bw9H
+ G41CnL0ZNSu0pkhn8f9l7dpDwt1mRxAx62WaNNfik6I0cv6qj4rcKYjAFu/FDpHoKb
+ DC8jYuf/04RfmmI2qtsW1Be230JkMM9QdLsTkqm8HJfT1YaEHAYyTN/x6QhIN61R13
+ jpioxmZ/xEnywpf7MKN7VTQ3YmYeTlx5ah79rNC0RUXEeb1tpCUums5S7vneDClZNL
+ H62wHgckTdom1N+PDY6w/xRoJDw5UcZHRJ18B4KbudH82/GEYCOu7cOMUKvDRZ4BsR
+ S0j8JDnDVYVrA==
+Date: Fri, 21 Feb 2025 07:14:41 -0600
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 21 Feb 2025 13:26:55 +0000
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Clark <robdclark@gmail.com>, devicetree@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Mahadevan <quic_mahap@quicinc.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250221121703.72230-1-krzysztof.kozlowski@linaro.org>
+References: <20250221121703.72230-1-krzysztof.kozlowski@linaro.org>
+Message-Id: <174014368122.2668239.11304901481263017777.robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: display/msm: qcom,sa8775p-mdss: Add
+ missing eDP phy
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,87 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-Am 06.02.25 um 17:18 schrieb Werner Sembach:
-> Hi,
->
-> Am 01.02.25 um 09:48 schrieb Pavel Machek:
->> Hi!
->>
->>>> I now got my feet a little wet with hid-bpf regarding something else, and
->>>> with that knowledge I would leave the long arrays in the beginning in the
->>>> kernel code for the time being:
->>>>
->>>> sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
->>>> during initialization so they have to exist in the kernel code anyway.
->>>>
->>>> report_descriptor will most likly not change even for future models and
->>>> afaik having report_descriptors in kernel drivers is not unheard of.
->>>>
->>>> So the only things that could be meaningfully moved to a hid-bpf program
->>>> are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to give
->>>> out some fallback value anyway for the case where a hid-bpf file is missing
->>>> or fails to load. So why not use real world values from my test device for
->>>> these values?
->>>>
->>>> As soon as there is a future device that can use the same driver with just
->>>> these pos arrays different, then I would implement that change via a bpf
->>>> program instead of a change to the kernel driver.
->>>>
->>>> Let me know if you too think this is a sensefull approach?
->>>>
->>>>
->>>> Another question: Would this patch need to wait for a userspace
->>>> implementation of lamp array before it can get accepted?
->>> It would be nice if you could test the LampArray implementation. But other 
->>> than that
->>> userspace can catch up later.
->>>
->>> Still, i am interested in the opinion of the LED maintainers
->>> regarding the fake HID interface.
->> Comments from previous review were not addressed.
->>
->> Most importantly, this is not a way to do kernel interface. We want
->> reasonable interface that can be documented and modified as needed. We
->> want to pass /dev/input to userspace, not raw HID. This is not ok.
->
-> There are already 2 endless discussions about this:
->
-> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/ 
->
->
-> https://lore.kernel.org/all/73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedocomputers.com/ 
->
->
-> And a shorter one before that:
->
-> https://lore.kernel.org/all/30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedocomputers.com/ 
->
->
-> The brief:
->
-> - LampArray is a standard that will hit the Linux world anyway.
->
-> - The alternative proposal via a led matrix does not even really fit 
-> keyboards, and does not at all fit all other device types.
->
-> Hans and Benjamin already agree with me that LampArray is the way to go.
->
-> So after over 2 years can I please have a final decision on how to implement 
-> this?
+On Fri, 21 Feb 2025 13:17:03 +0100, Krzysztof Kozlowski wrote:
+> The Qualcomm SA8775p MDSS display block comes with eDP phy, already used
+> in DTS and already documented in phy/qcom,edp-phy.yaml binding.  Add the
+> missing device node in the binding and extend example to silence
+> dtbs_check warnings like:
+> 
+>   sa8775p-ride.dtb: display-subsystem@ae00000: Unevaluated properties are not allowed ('phy@aec2a00', 'phy@aec5a00' were unexpected)
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../display/msm/qcom,sa8775p-mdss.yaml        | 32 +++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
+> 
 
-Any update?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Best regards,
+yamllint warnings/errors:
 
-Werner Sembach
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dtb: phy@aec2a00: reg: [[0, 183249408], [0, 512], [0, 183247360], [0, 208], [0, 183248384], [0, 208], [0, 183246848], [0, 456]] is too long
+	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
 
->
-> Regards,
->
-> Werner
->
->>
->> Best regards,
->>                                 Pavel
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250221121703.72230-1-krzysztof.kozlowski@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
