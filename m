@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB7FA3FB19
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:26:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C442EA3FB2C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFB310EAE7;
-	Fri, 21 Feb 2025 16:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4331B10EAF6;
+	Fri, 21 Feb 2025 16:27:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KMaRlyFI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rL2calm9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
  [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E7C10EAE7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 16:26:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E753110EAF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 16:27:08 +0000 (UTC)
 Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5462a2b9dedso2598082e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 08:26:21 -0800 (PST)
+ 2adb3069b0e04-5462a2b9dedso2599033e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 08:27:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740155180; x=1740759980; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740155227; x=1740760027; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xjL5HnyHIkjOW/V091xA7OYPeED0xOIXslkPMlUBUug=;
- b=KMaRlyFIBe19a+wkK1iueerZB+jrGmOZtb69Ne/aqrDIThNeTRSz6WDRvWgxDjVOI+
- ujKht9MgXAstsD/l7pEggshqK6IG3qy/3eO21mDKMIojaJCSQdn/NGPyhKyPUQ+0lT5I
- 2aoWocwVbMx0UjVyDonC9o2ePJErOAEBtuejJtNVkxW6WDeucNCJaMgoKf+f++9Wb5hu
- QrUaPYHQiRTFgRnce7AUamVbMeMmr8SkCvUe9BG4+kDaTOm3QyTlmwiZcgSPgfW2z3ar
- CIWj4Tv8YdNmWsxuGETw2vw/5HZcqdh5Jw/h/Jf6bz+UhtJPmnsv5i9NxKj1o5y6OYiO
- oY7Q==
+ bh=RO/xULPiLg/cqk8vEEmcPFhJpvcf/cIfAW6O8KBIGk4=;
+ b=rL2calm9WWQF39IimfcP1vkvRny5ENxpAOyM3UunAMk8g3nLD5Vf5219ZZDzhWhJ22
+ SIx2DUKMK4AgJ3Nle4qYD5aBus/FV/CVprWvo8gCdG1aKHlsiSztT773h4IMtrUeHWUH
+ g4qM1IHcyxQbz8OQ92OsHEO0dxpDm8b6C4gjEdjTpxCm3ez2UAVB7fU46A0mAzyBN2To
+ Ac7FOExhuwwYkG2Qtutq15bLxmLoXRx5m/TYYGNEuFwqYpLX4DCzwmhTAk0dyWeNmcDs
+ R+mBrBGeNXfhSQIo6EgaHUDA3CRQ5v6+1K6GGB6ZYpFKy0YPpUDSqZgcv96Oxqv013FD
+ vMgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740155180; x=1740759980;
+ d=1e100.net; s=20230601; t=1740155227; x=1740760027;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xjL5HnyHIkjOW/V091xA7OYPeED0xOIXslkPMlUBUug=;
- b=S8fDKUAU2+NeoIX2z6HG6U6tdXImWMcflnbHMnsWSk9xeVr9r8Kwd3iQoIZi4kF98W
- KCQI+fSuiAb0jJQuGNkED72g1k96SR6ysGRaue3j90T1/6EtJ95EiPQndz2oenxx+8Lo
- nVb+FYg1dRsTvs/emF4uOF3BJeA+8njhMRrtNEzrCraIqFBVIE4m8x4crYUW+S8salj4
- 5Iwm/3vHNuvGbT+HM6VE1xagnnF0VBldXGZ/LphcTWDsUchRnA+tgzPKGk+HwtQFixJp
- n9Z2qc4iJi88Vojj87enprO+5Fp/48bLPdeoAn0cIvoxWTSLuJqKpD4MZhB145XVP6jY
- 3SQg==
+ bh=RO/xULPiLg/cqk8vEEmcPFhJpvcf/cIfAW6O8KBIGk4=;
+ b=scjOPKGuEjBPNvqOOaeuhsk2QGXRl+rtTHzlcOnimGvnbNTpbsEY6diNyc1wkStU15
+ BP5SldVscoA51uT6kELEPMtSqgm3WvRiwaCH0iq82mdvX63KEW93/I3Z8HyyZs4BeuXX
+ DrwYT4j1+KCds/P6PP08zwxPL62OycZ4LcTzpZKmHpAfy2dLYHwr6hmrWs33OYZrBjli
+ DHzQ5wYSwLiSa0OgUaPUpy6ykCvsjblAm/ZwoP5tSFtcIc5XqMOv+ELDmEVHYa/U/NcH
+ noq+qrfdaf42tLwHBluWNy32aLvv+/Fe9I4YdTdn/vDOD8N5urch5pxd6Yh5kNNhXxUl
+ NpAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpBZzSq6N6YliScgT6w7n30Pb6rzmSRw1taq1Afrs/Pv9u47dm+qN9j0OL97A/iYqBk7ytyeIGXCE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyf9kWJs7TD0NsuNphtdknOKxqteEdTLJNNrbJzV5aMZxHJ7nDE
- XLCQg/5rECqY+KGZUd7/scg1pT96UM8qb9MxVdobpbFRxo0rLJxq0+h8QUBRXDA=
-X-Gm-Gg: ASbGncuB/fc17HCsIYrnZLDw74HvFSSnwAKj8RRXJpQHyheLkG4nIQUs0BBjIMKDM1n
- vny1bkTzDu2uk/cnncXqt98BggDlG5en+mh3S1rpEH4SqL/09EA8rhIFd9NInOH5nVdo9zJe0sx
- Khgyc2K0wEWQXpk3Gml1IqS7UHnIymSF/dBuTFy1NVuHv+CMjcW6IZDocY9UbxKEG6InD3t84Ms
- S+7ZJeMaPY+KhWUkYtX5It4gXnuOlMUtikKVBzCAnLG/X5ZQvYdz4KtqqA+346/INP4mxrySn6D
- ooMxApfIha39fIL+y4hEMHhb6hqvNz9yUFgEAjuPvjWszn+LXydEUNiJq78+bmGnohEtTWpwy1d
- djJ7yfQ==
-X-Google-Smtp-Source: AGHT+IGFPBqQwJN5a48M/xNQBTDNxvZTEjIAW3PFsBL+6h3O4OdEk1slnuoUOVeOHEYt968uLpwuBg==
-X-Received: by 2002:a05:6512:31cf:b0:545:a5e:b4ef with SMTP id
- 2adb3069b0e04-5483913ae13mr1829559e87.16.1740155179895; 
- Fri, 21 Feb 2025 08:26:19 -0800 (PST)
+ AJvYcCWb1M0LmkLYvPLvjQNu5FPliGfRp3wjNYR9HCmP07aPjrb6ZRR+n14KZG/Sawy1X3EZ3LjEBocWX7o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyx555xozYphJ3CYZnUdgjR9HQTzrtWcw0yxuqCOSpKgP78aZ9K
+ 9wLBMhpqqYy0OU1NHFbrdcrNAsXXpNKbe69rGBdea8KEt8cZftwhgDI7wH2zHRM=
+X-Gm-Gg: ASbGncvQuUcDoT8+X8Fyl/hbh4wRiQhVWYoyK+LbtKDTHvSC5s2A+wwTKQSxst2qzVn
+ KWC7Om7IxzXa2neKDDoBZeM/OoBLUK1pFkeDSYp61CC2EJe/zzRXQLQk0Wa/7nq8SkUtlJGEpKp
+ bbJMfGhoc7Z4Y/vLGPWIebOTuXFKkJno+lhk8/Xp2uVnpZiv7OuSaIAO6QDmKnRoOM9c2Ko/ml2
+ wC9IoNZGnjFSvDUdIwoYvBIvVzx+9xvSjtdgGlZiDjiZzZL5LxFYsjqYMSo5c5BkLe7AreAkw4r
+ eSs+XX5i7jF2gpxQ8G5KYgFkbvimwkH4233KkKnfz5TXPPcVmWG9IJoyJ4XzdSn+nCF3pGgHM73
+ EXD7i0w==
+X-Google-Smtp-Source: AGHT+IEMuaPFm2VqydkoNq2irXckzsYYhwuYOiNxJjx5gnYeCmDTClKpB1kOxjoJ7uto3x+2JhCDUw==
+X-Received: by 2002:a05:6512:3e1b:b0:545:8cb:218d with SMTP id
+ 2adb3069b0e04-54839268650mr1523943e87.41.1740155227153; 
+ Fri, 21 Feb 2025 08:27:07 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30921a593f6sm25579171fa.65.2025.02.21.08.26.17
+ 2adb3069b0e04-54531afdbdcsm1984161e87.247.2025.02.21.08.27.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2025 08:26:18 -0800 (PST)
-Date: Fri, 21 Feb 2025 18:26:16 +0200
+ Fri, 21 Feb 2025 08:27:06 -0800 (PST)
+Date: Fri, 21 Feb 2025 18:27:05 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -81,15 +81,14 @@ Cc: Rob Clark <robdclark@gmail.com>,
  linux-kernel@vger.kernel.org, 
  Srini Kandagatla <srinivas.kandagatla@linaro.org>,
  Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH v3 19/21] drm/msm/dpu: Implement CTL_PIPE_ACTIVE for
- v12.0 DPU
-Message-ID: <5rlcxx7pcu32hz3r4qufqcq2jzk2z4g2ep7reecpm2kksttwyi@66p2u4nwfzx6>
+Subject: Re: [PATCH v3 20/21] drm/msm/dpu: Implement LM crossbar for v12.0 DPU
+Message-ID: <vdayz63gfjnm7rwaamd36i5fbgtaedvpobuvp5u76iypdrwcsq@atgj263lo5g6>
 References: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
- <20250221-b4-sm8750-display-v3-19-3ea95b1630ea@linaro.org>
+ <20250221-b4-sm8750-display-v3-20-3ea95b1630ea@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221-b4-sm8750-display-v3-19-3ea95b1630ea@linaro.org>
+In-Reply-To: <20250221-b4-sm8750-display-v3-20-3ea95b1630ea@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,10 +104,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2025 at 04:24:29PM +0100, Krzysztof Kozlowski wrote:
-> v12.0 DPU on SM8750 comes with new CTL_PIPE_ACTIVE register for
-> selective activation of pipes, which replaces earlier
-> dpu_hw_ctl_setup_blendstage() code path for newer devices.
+On Fri, Feb 21, 2025 at 04:24:30PM +0100, Krzysztof Kozlowski wrote:
+> v12.0 DPU on SM8750 comes with new LM crossbar that requires each pipe
+> rectangle to be programmed separately in blend stage.  Implement support
+> for this along with a new CTL_LAYER_ACTIVE register and setting the
+> blend stage in layer mixer code.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
@@ -117,31 +117,17 @@ On Fri, Feb 21, 2025 at 04:24:29PM +0100, Krzysztof Kozlowski wrote:
 > Changes in v3:
 > 1. New patch, split from previous big DPU v12.0.
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  9 +++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  3 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  | 29 +++++++++++++++++++++++++++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h  |  8 ++++++++
->  4 files changed, 47 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  18 +++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |   6 ++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  |  27 +++++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h  |   9 ++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   | 126 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h   |  18 ++++
+>  6 files changed, 201 insertions(+), 3 deletions(-)
+> 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Minot nit below
-
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 43a254cf57da571e2ec8aad38028477652f9283c..3e0bdd1100ebb0d302a852ceeaf8af86835e69a1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -40,6 +40,7 @@
->  #define   CTL_INTF_FLUSH                0x110
->  #define   CTL_CDM_FLUSH                0x114
->  #define   CTL_PERIPH_FLUSH              0x128
-> +#define   CTL_PIPE_ACTIVE               0x12C
-
-lowercase hex, please.
-
->  #define   CTL_INTF_MASTER               0x134
->  #define   CTL_DSPP_n_FLUSH(n)           ((0x13C) + ((n) * 4))
->  
 
 -- 
 With best wishes
