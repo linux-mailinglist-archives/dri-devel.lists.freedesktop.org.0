@@ -2,72 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F69A3FAD6
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89B8A3FB0C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2025 17:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8E5410EABA;
-	Fri, 21 Feb 2025 16:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2D3E10EAE8;
+	Fri, 21 Feb 2025 16:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ms8BL8EW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="m0BUuYeR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFF9E10EAAD;
- Fri, 21 Feb 2025 16:20:45 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-2217875d103so5163865ad.3; 
- Fri, 21 Feb 2025 08:20:45 -0800 (PST)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B37B810EAE8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 16:25:03 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-6f4b266d333so16969017b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2025 08:25:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740154845; x=1740759645; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740155102; x=1740759902; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ok1PcUQEwo9Z4uPO0boiFAABo1z9iTXkCf8Ww7aDcN4=;
- b=Ms8BL8EWwoMn6bRK4Hu9SrtkBLcr1QcZA9TFljg7HAvoTGPWcX9ukZLvW/XMZzHnSt
- TAUB1OGarSgAfXot1v9iX8RepN1L0difIb6AhmtjOVTtC3TFEep+7VwhWYTF+BtZ515k
- Gse3bhFhBlrjS1xGYujCg5/4kP7UB1nCmFa2UEElWJDVME0tA9RMnmmhMDUlKFZ5Avj5
- EqX6BwzvkGY61wQTXkY25WXfNQg4PGqGhzPW705QdK5E/FDuQhUe1GtpQt7xUl6/Uq9O
- OuLrN7BjIxC4ID+IT6ZFLXepfb4qh7246pnOWFMjrih44Ce5b+0mxzFtmZaQFrZIyHBE
- CuMA==
+ bh=7dw2LSPn4p4oHMVWGGbX7p83lj89Xs+Zx7joVuGBhQE=;
+ b=m0BUuYeRbienXNglL++M1CA4DqM6wfBqruaDrBV/kS9nb9nBhz98sNZUxGabPI/AEX
+ m/WzrM05mADQmYYPOGQRgxHm44Vxca7p+q3bl5YfaYlmj7WCaVdDupnZ7MZFwKHuEqlZ
+ lsh0pcvYUz50bDB5I0pGSecTxcIfhIpr+pMnXO//mmWBzmiyTAbreTaEdhz/3ykyfM9F
+ xNT1qnDhXOx7EZF1zdf+r62XUvnONS14TogLMG+S5ZAzdBNFZR0PyPA6rs2PVrzm4TSv
+ R9V585+B+z4VhH1KJEvDzQ3hM3Z/nBTLMK54+lWhyRqX84jlVqH6vY6P+BvXzNMTbjLX
+ /7dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740154845; x=1740759645;
+ d=1e100.net; s=20230601; t=1740155102; x=1740759902;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ok1PcUQEwo9Z4uPO0boiFAABo1z9iTXkCf8Ww7aDcN4=;
- b=Je8bvpq47Um1rxMLmEKFWJ3my7z3S/4Y5RzYprV2QaAgA6DVnQjlZXdbSp1A5izLjC
- JRgdtSXGZKQ65LpeH2UR6pGGZw0mXQuhvTNyGdoVFTlnOl8Y25caYVrL0R4Vpl8G7Df7
- vGkG9wyBX1fa8AgSYDq98npYhUj7+epcp3jfnwvrSg8iQ2J2NRv1MObNult4KTaeoObL
- 6JEsqElvvqY/fiyFl6twqwOejWaV/w43G/4QzL4Q3CtqsAGW2XtOHfrbeRlQ3loM9nYR
- Hy+lK3z66r5+iE/7SeR0X33Rl/71Cia1yygny+LA8ZPsVsEZVHIwklBa9vxq86kF4788
- 2X/w==
+ bh=7dw2LSPn4p4oHMVWGGbX7p83lj89Xs+Zx7joVuGBhQE=;
+ b=Q34F8UwRWyVqEeMwmDALCH0kU56M5In4RRjlN+17C8KIUjjP0W27QNYlOQDsyfOxnw
+ WERwnBHtmT2vv2gCj3Iv44Q1Lgu+PGUN47Su6jqp09nuTFQX9LJZz0AbY2TBxx/MPvKi
+ X75tujQN0sH9s+61EJnKSq1Fnbn0AeiRhyyyDFjAggG0HElpIeFFG8e+lvJMFgZTOuVV
+ Tmi73D8rZxQun2JyMImW1mn58ZHhXHeut/+FQPeQKAApGEMx9BRMa1esQ64cxDo3FwGY
+ 68Rf/t7mBJYUNVI2csMRVS0+p9Bj5vORrMZT8CT9pkUWzoINs6uprr1fCpXRYbf475h5
+ i4Iw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV/Jnw0hOypm7ytPGYono82H9UDcEJ6hXo3QRrUjH2nouTYrO98HPReIi1787PDtkR5bSJ4w0hMweQ/@lists.freedesktop.org,
- AJvYcCV0O5XOm9tgIDPOzp285Kfqb3/3aFXJE0ZYUOUeFmanjrVVyejlzJPnjUmSiVekWXrTmee1HA/4@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+/a0eTkJjbJB7CLrnCZ11gScJpK5nszAkK3SWtjtvee8AxSVZ
- QajhYEC60VqBQxA4vZaZ7gbB/kwtJ3OTujT8dcCTIl6B+jElEGJyxAZHQnLhhEJyGqTRs4ezJ46
- AM5yoUw489H/uReDRlLLAMFfqaHd06g==
-X-Gm-Gg: ASbGncsigVaA7Aphz9nVVYsCEwlAZSwXHEN4LN5n5rvBRjLS4+Z6moBlXrdSjHBgGp7
- OtsRWifhF5lb7KgMatA2gcd8xgCGyagwugDsxZAAkcchArYIf6mMV4b0veRI/nF7B36fP2Xggk1
- yWAldBTgY=
-X-Google-Smtp-Source: AGHT+IEeQ2lAvqEeFfxRn4Nrirkv4XDLaiyqdZeo/kvpEaOxNKZdbOVPP1dGbhLcch78JwD2YY3l/amCLt49Tu9LiQU=
-X-Received: by 2002:a17:902:cec6:b0:220:d71d:4666 with SMTP id
- d9443c01a7336-2219fff855emr22594785ad.13.1740154845453; Fri, 21 Feb 2025
- 08:20:45 -0800 (PST)
+ AJvYcCUXk1mfa0HtKqOl6tS9VKZaxXOp1Bl6abZ9NHtGe2ApxzY0J24Xp1JBf5zRwDoTHhZ2PJTGnnEpLYk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyg1c3fFeAj/dL6GRzpuKUYaTUBiDcQm6YfpQiD9SvutO/5N+mv
+ x8JuYU2dSpX39TOMEtNDIFirKiKpGkR5qrVxCfJs2ZqjFIv00cjOkkOCFtOxVhmBp3IZ/jRHU39
+ bllHLIRRKA/kiWvXrB7Xwtn8uRfPVvCmWYMB+pg==
+X-Gm-Gg: ASbGncuYWOYGsxbA0XHeQzu8xJOt/NgkwjdtuXFVDP6n3tFBQ3bKBEsACGANa2QlItN
+ 7dfBfAyQYAQ3O2obEcldgkT3sQwlh7G0Z8dpNk9hqs4Ql1lJa2hgvlqAGwfxwBMYHDSKHw5gDgG
+ k7lWKtFOt32TefVPpP4iq1hg==
+X-Google-Smtp-Source: AGHT+IHSP4qUUydGpYdXtz2gK85IvsMIHQC8OSLidB2Ckf6s9uE7p/Zt+DVtkEXwyAE91tbj7srKBQjREnpYB2HOfOI=
+X-Received: by 2002:a05:690c:46c7:b0:6fb:1c5a:80ea with SMTP id
+ 00721157ae682-6fbcc85fbd6mr36065247b3.32.1740155102557; Fri, 21 Feb 2025
+ 08:25:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20250219212318.46036-1-linux@treblig.org>
-In-Reply-To: <20250219212318.46036-1-linux@treblig.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 21 Feb 2025 11:20:33 -0500
-X-Gm-Features: AWEUYZmGC373SSC5vhbJhkIHShbThxRTzyZwtw8XnFZE5muKA-ZzJdtCPl_7X2w
-Message-ID: <CADnq5_PmPkzHrh9MjQF_tx-6ntEem0VKr=pbdWCgKaCKPz0NsA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Remove unused nbif_v6_3_1_sriov_funcs
-To: linux@treblig.org
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-0-c11402574367@linaro.org>
+ <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-12-c11402574367@linaro.org>
+ <qrwo5jtdj64vu27jn3v2wwyuxu25bjqrybj5jjfc5ifiotgzit@6vx2km46j7b3>
+ <CABymUCPEYJTK=gBHcL291qn2zbotC7_8jA4z18sbSZSjRafSsg@mail.gmail.com>
+ <ee7xdxyxjs46zfbotsa6hdmwpsvrkaere2hend4iavcvk6duqn@ogvght5qcx7b>
+ <CABymUCNnt0Jiks+Fv8Os=V+zxzPAKMyH-wUpgDNMibWA_KNAxg@mail.gmail.com>
+ <djq577v6e7cnvybegddxfzqgg5eat4ormqyopa4b5j7wa6spfk@jwuy4cash6ch>
+ <CABymUCOHTecLL7zvsXA1uw=3hr4TAL0PZN6AEwFVGRX5G0_j9g@mail.gmail.com>
+In-Reply-To: <CABymUCOHTecLL7zvsXA1uw=3hr4TAL0PZN6AEwFVGRX5G0_j9g@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 21 Feb 2025 18:24:51 +0200
+X-Gm-Features: AWEUYZk6hXewd_nXlg1xB3QA0qyGnOQaVvRf84wUzT4pvI9PIs5mozaQq_9coHg
+Message-ID: <CAA8EJpppBjxenqXX3baEV2mmxBHEhT7wSanwY5Dq17Lcsc=wLA@mail.gmail.com>
+Subject: Re: [PATCH v6 12/15] drm/msm/dpu: blend pipes per mixer pairs config
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,117 +94,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Fri, 21 Feb 2025 at 18:12, Jun Nie <jun.nie@linaro.org> wrote:
+>
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B42=E6=
+=9C=8821=E6=97=A5=E5=91=A8=E4=BA=94 22:21=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Fri, Feb 21, 2025 at 04:07:45PM +0800, Jun Nie wrote:
+> > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B4=
+2=E6=9C=8821=E6=97=A5=E5=91=A8=E4=BA=94 00:17=E5=86=99=E9=81=93=EF=BC=9A
+> > > >
+> > > > On Thu, Feb 20, 2025 at 11:48:45PM +0800, Jun Nie wrote:
+> > > > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=
+=B9=B42=E6=9C=8818=E6=97=A5=E5=91=A8=E4=BA=8C 03:57=E5=86=99=E9=81=93=EF=BC=
+=9A
+> > > > > >
+> > > > > > On Mon, Feb 17, 2025 at 10:16:01PM +0800, Jun Nie wrote:
+> > > > > > > Currently, only 2 pipes are used at most for a plane. A stage=
+ structure
+> > > > > > > describes the configuration for a mixer pair. So only one sta=
+ge is needed
+> > > > > > > for current usage cases. The quad-pipe case will be added in =
+future and 2
+> > > > > > > stages are used in the case. So extend the stage to an array =
+with array size
+> > > > > > > STAGES_PER_PLANE and blend pipes per mixer pair with configur=
+ation in the
+> > > > > > > stage structure.
+> > > > > > >
+> > > > > > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > > > > > ---
+> > > > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 45 +++++++++++=
+++++++++----------
+> > > > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
+> > > > > > >  2 files changed, 30 insertions(+), 16 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drive=
+rs/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > > > > > index 81474823e6799132db71c9712046d359e3535d90..50acaf25a3ffc=
+c94354faaa816fe74566784844c 100644
+> > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > > > > > @@ -401,7 +401,7 @@ static void _dpu_crtc_blend_setup_pipe(st=
+ruct drm_crtc *crtc,
+> > > > > > >                                      struct dpu_hw_stage_cfg =
+*stage_cfg
+> > > > > > >                                     )
+> > > > > > >  {
+> > > > > > > -     uint32_t lm_idx;
+> > > > > > > +     uint32_t lm_idx, lm_in_pair;
+> > > > > > >       enum dpu_sspp sspp_idx;
+> > > > > > >       struct drm_plane_state *state;
+> > > > > > >
+> > > > > > > @@ -426,7 +426,8 @@ static void _dpu_crtc_blend_setup_pipe(st=
+ruct drm_crtc *crtc,
+> > > > > > >       stage_cfg->multirect_index[stage][stage_idx] =3D pipe->=
+multirect_index;
+> > > > > > >
+> > > > > > >       /* blend config update */
+> > > > > > > -     for (lm_idx =3D 0; lm_idx < num_mixers; lm_idx++)
+> > > > > > > +     lm_in_pair =3D num_mixers > 1 ? 2 : 1;
+> > > > > > > +     for (lm_idx =3D 0; lm_idx < lm_in_pair; lm_idx++)
+> > > > > > >               mixer[lm_idx].lm_ctl->ops.update_pending_flush_=
+sspp(mixer[lm_idx].lm_ctl, sspp_idx);
+> > > > > >
+> > > > > > I almost missed this. Why is this necessary?
+> > > > >
+> > > > > It is protective code. In case there is only 1 LM, we should not
+> > > > > iterate 2 LM in a stage.
+> > > >
+> > > > That's not what the code does.
+> > >
+> > > I do not get your iea. _dpu_crtc_blend_setup_pipe() is called with
+> > > num_mixers set as:
+> > > cstate->num_mixers - (stage * PIPES_PER_STAGE).
+> > > So lm_in_pair will get the LM number in this stage to iterate.
+> >
+> > You have written that it is incorrect to iterate over two LMs if we hav=
+e
+> > one. The code does a different thing: 'don't iterate over more than two
+> > LMs'. It would be more idiomatic to write it as:
+> >
+> > lm_in_pair =3D min(num_mixers, 2);
+> >
+> > And then it is obvious that it is not 'lm_in_pair' (note, singular), bu=
+t
+> > something like 'lms_in_stage'. I'd really ask you to pull this up to a
+> > caller function and pass a correct num_mixers instead.
+>
+> Thanks for the suggestion! min() is much more readable than mine version.=
+ And
+> stage is more proper than LM pair as a stage may only contain one LM. Wil=
+l
+> replace the term.
+>
+> For the pulling up to a caller, you mean the min(num_mixers, 2) here, rig=
+ht?
 
-On Wed, Feb 19, 2025 at 4:48=E2=80=AFPM <linux@treblig.org> wrote:
+Yes, to _dpu_crtc_blend_setup_mixer(). And of course. use a proper define f=
+or 2.
+
 >
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> The nbif_v6_3_1_sriov_funcs instance of amdgpu_nbio_funcs was added in
-> commit 894c6d3522d1 ("drm/amdgpu: Add nbif v6_3_1 ip block support")
-> but has remained unused.
->
-> Alex has confirmed it wasn't needed.
->
-> Remove it, together with the four unused stub functions:
->   nbif_v6_3_1_sriov_ih_doorbell_range
->   nbif_v6_3_1_sriov_gc_doorbell_init
->   nbif_v6_3_1_sriov_vcn_doorbell_range
->   nbif_v6_3_1_sriov_sdma_doorbell_range
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c | 46 ------------------------
->  drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h |  1 -
->  2 files changed, 47 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c b/drivers/gpu/drm/a=
-md/amdgpu/nbif_v6_3_1.c
-> index c92875ceb31f..9efe74148867 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c
-> @@ -474,52 +474,6 @@ const struct amdgpu_nbio_funcs nbif_v6_3_1_funcs =3D=
- {
->  };
->
->
-> -static void nbif_v6_3_1_sriov_ih_doorbell_range(struct amdgpu_device *ad=
-ev,
-> -                                               bool use_doorbell, int do=
-orbell_index)
-> -{
-> -}
-> -
-> -static void nbif_v6_3_1_sriov_sdma_doorbell_range(struct amdgpu_device *=
-adev,
-> -                                                 int instance, bool use_=
-doorbell,
-> -                                                 int doorbell_index,
-> -                                                 int doorbell_size)
-> -{
-> -}
-> -
-> -static void nbif_v6_3_1_sriov_vcn_doorbell_range(struct amdgpu_device *a=
-dev,
-> -                                                bool use_doorbell,
-> -                                                int doorbell_index, int =
-instance)
-> -{
-> -}
-> -
-> -static void nbif_v6_3_1_sriov_gc_doorbell_init(struct amdgpu_device *ade=
-v)
-> -{
-> -}
-> -
-> -const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs =3D {
-> -       .get_hdp_flush_req_offset =3D nbif_v6_3_1_get_hdp_flush_req_offse=
-t,
-> -       .get_hdp_flush_done_offset =3D nbif_v6_3_1_get_hdp_flush_done_off=
-set,
-> -       .get_pcie_index_offset =3D nbif_v6_3_1_get_pcie_index_offset,
-> -       .get_pcie_data_offset =3D nbif_v6_3_1_get_pcie_data_offset,
-> -       .get_rev_id =3D nbif_v6_3_1_get_rev_id,
-> -       .mc_access_enable =3D nbif_v6_3_1_mc_access_enable,
-> -       .get_memsize =3D nbif_v6_3_1_get_memsize,
-> -       .sdma_doorbell_range =3D nbif_v6_3_1_sriov_sdma_doorbell_range,
-> -       .vcn_doorbell_range =3D nbif_v6_3_1_sriov_vcn_doorbell_range,
-> -       .gc_doorbell_init =3D nbif_v6_3_1_sriov_gc_doorbell_init,
-> -       .enable_doorbell_aperture =3D nbif_v6_3_1_enable_doorbell_apertur=
-e,
-> -       .enable_doorbell_selfring_aperture =3D nbif_v6_3_1_enable_doorbel=
-l_selfring_aperture,
-> -       .ih_doorbell_range =3D nbif_v6_3_1_sriov_ih_doorbell_range,
-> -       .update_medium_grain_clock_gating =3D nbif_v6_3_1_update_medium_g=
-rain_clock_gating,
-> -       .update_medium_grain_light_sleep =3D nbif_v6_3_1_update_medium_gr=
-ain_light_sleep,
-> -       .get_clockgating_state =3D nbif_v6_3_1_get_clockgating_state,
-> -       .ih_control =3D nbif_v6_3_1_ih_control,
-> -       .init_registers =3D nbif_v6_3_1_init_registers,
-> -       .remap_hdp_registers =3D nbif_v6_3_1_remap_hdp_registers,
-> -       .get_rom_offset =3D nbif_v6_3_1_get_rom_offset,
-> -       .set_reg_remap =3D nbif_v6_3_1_set_reg_remap,
-> -};
-> -
->  static int nbif_v6_3_1_set_ras_err_event_athub_irq_state(struct amdgpu_d=
-evice *adev,
->                                                        struct amdgpu_irq_=
-src *src,
->                                                        unsigned type,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h b/drivers/gpu/drm/a=
-md/amdgpu/nbif_v6_3_1.h
-> index 9ac4831d39e1..3afec715a9fe 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.h
-> @@ -28,7 +28,6 @@
->
->  extern const struct nbio_hdp_flush_reg nbif_v6_3_1_hdp_flush_reg;
->  extern const struct amdgpu_nbio_funcs nbif_v6_3_1_funcs;
-> -extern const struct amdgpu_nbio_funcs nbif_v6_3_1_sriov_funcs;
->  extern struct amdgpu_nbio_ras nbif_v6_3_1_ras;
->
->  #endif
-> --
-> 2.48.1
->
+> >
+> > > >
+> > > > > >
+> > > > > > >  }
+> > > > > > >
+> > > > > >
+> > > > > > [...]
+> > > > > >
+> > > > > > > @@ -535,8 +543,13 @@ static void _dpu_crtc_blend_setup(struct=
+ drm_crtc *crtc)
+> > > > > > >                       mixer[i].mixer_op_mode,
+> > > > > > >                       ctl->idx - CTL_0);
+> > > > > > >
+> > > > > > > +             /*
+> > > > > > > +              * call dpu_hw_ctl_setup_blendstage() to blend =
+layers per stage cfg.
+> > > > > > > +              * There are 4 mixers at most. The first 2 are =
+for the left half, and
+> > > > > > > +              * the later 2 are for the right half.
+> > > > > > > +              */
+> > > > > >
+> > > > > > The comment is invalid until you introduce quad pipe, currently=
+ there
+> > > > > > are 2 mixers at most. However you can just say something like '=
+stage
+> > > > > > data is shared between PIPES_PER_STAGE pipes'.
+> > > > >
+> > > > > Accepted.
+> > > > > >
+> > > > > > >               ctl->ops.setup_blendstage(ctl, mixer[i].hw_lm->=
+idx,
+> > > > > > > -                     &stage_cfg);
+> > > > > > > +                     &stage_cfg[i / PIPES_PER_STAGE]);
+> > > > > > >       }
+> > > > > > >  }
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/dr=
+ivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > > > > > > index 5f010d36672cc6440c69779908b315aab285eaf0..64e220987be56=
+82f26d02074505c5474a547a814 100644
+> > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > > > > > > @@ -34,6 +34,7 @@
+> > > > > > >  #define DPU_MAX_PLANES                       4
+> > > > > > >  #endif
+> > > > > > >
+> > > > > > > +#define STAGES_PER_PLANE             2
+> > > >
+> > > > BTW, This should be 1 for now.
+> > >
+> > > Yeah, it can be added in the last patch.
+> > > >
+> > > > > > >  #define PIPES_PER_PLANE                      2
+> > > > > > >  #define PIPES_PER_STAGE                      2
+> > > > > > >  #ifndef DPU_MAX_DE_CURVES
+> > > > > > >
+> > > > > > > --
+> > > > > > > 2.34.1
+> > > > > > >
+> > > > > >
+> > > > > > --
+> > > > > > With best wishes
+> > > > > > Dmitry
+> > > >
+> > > > --
+> > > > With best wishes
+> > > > Dmitry
+> >
+> > --
+> > With best wishes
+> > Dmitry
+
+
+
+--=20
+With best wishes
+Dmitry
