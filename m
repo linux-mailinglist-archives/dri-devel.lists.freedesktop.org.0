@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6582CA40AD3
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2025 18:58:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1546FA40AD1
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2025 18:58:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26AA410E258;
-	Sat, 22 Feb 2025 17:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1CC410E0E5;
+	Sat, 22 Feb 2025 17:58:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="Aqa+ragB";
+	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="Ni+5jsBW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D59EB10E052
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA86E10E15C
  for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2025 17:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
- t=1740247094; bh=uOTZ6w5F/QVUfzYDDHW1oSDwuDIcbKSfDmjsbQ08n8M=;
+ t=1740247094; bh=DLlM/zIk2mJj+8LyDcVP/WgvP7lc/bPIn0VwmGnPM9k=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=Aqa+ragBgDTY6nh25HY4HOXyRN/U9dnvsIBfc5tbSsFw96cjRzbnZki/Gi58y8bVu
- lL3wvitX2CgAVr9bOWw4l+XCDb5b++Be5gWJ2ZonJNi88K/ZiPecvGrrNz/8GlHIGk
- rHxulfQhbDXf0By0e1TsGEDtc/ae/RPNIFSbRxCI=
+ b=Ni+5jsBWKmfWnZTV8oxEXtSosiHVZGQEB+SZ6JvLutqhSOqPUzu+0CcKAzQkP8UDd
+ PRDroZVTnvVa4/BYspAtzfzBScmTMV7R+yNYc53TdLh2XsmUGW1cY33bki+gP4eG7T
+ MegfNHt8P6cUJCkNkKVrK8mDiNOx31Jl4xfCxWH8=
 From: Luca Weiss <luca@lucaweiss.eu>
-Date: Sat, 22 Feb 2025 18:58:05 +0100
-Subject: [PATCH 2/4] dt-bindings: display: panel: Add Himax HX83112B
+Date: Sat, 22 Feb 2025 18:58:06 +0100
+Subject: [PATCH 3/4] drm/panel: Add driver for DJN HX83112B LCD panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250222-fp3-display-v1-2-ccd812e16952@lucaweiss.eu>
+Message-Id: <20250222-fp3-display-v1-3-ccd812e16952@lucaweiss.eu>
 References: <20250222-fp3-display-v1-0-ccd812e16952@lucaweiss.eu>
 In-Reply-To: <20250222-fp3-display-v1-0-ccd812e16952@lucaweiss.eu>
 To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
@@ -43,20 +43,20 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Luca Weiss <luca@lucaweiss.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2253; i=luca@lucaweiss.eu;
- h=from:subject:message-id; bh=uOTZ6w5F/QVUfzYDDHW1oSDwuDIcbKSfDmjsbQ08n8M=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBnuhAy2zK2gofuVwCEFjaW4Dk7ucYCGIT+QxvYi
- VwdQ87xbJOJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZ7oQMgAKCRBy2EO4nU3X
- VjspD/0ZDU4ZmU2PbTqUxEx4jwWkjKRaUTjbndEjvWc2jRg2rIzDMFiKRlhpF2P1NpsW1VeTnRm
- TwRq9gGnXotpqI7HC5HM+UltpxGIVyPCJp/SAt0NpDrmmiZp8z5Oqak/kAFDOijxT42gi+s98nN
- rk/ObWlZRtUBHOJNlBvN8VOTqC5UV+qXvOZNh0XtAiQg7cHhxPkaNSv/Xfhfqdo1oxRq0WUpx/J
- rJ+JTJBgwBQQRpEMFwgjQQT+teggx3DbxUzFatL9KZq/QSXc2mZ/ZGufHhl3u/ysvOplFJQtxeZ
- /BbAWPCXSK1yGixEX9WLfM1W6IuIM2pTn6EWK1rcbkiLDUY4kiRLY2HSFqOlhB48JWHfLI+Gqo6
- UGm1SN+W2rgKrcOBNA76ZRbspwU53/ggGKSXu436XM3go+qg3UdcZmR6qVJji16OvtRnG5pySs5
- zxcOhaP4XqjSA89A1OI9YmT/zkt8X54ppk9hKl4GmFf2W/RGv9DCicbo4oZ5w/9cv9Q+qNISWff
- MJGvV5jZx2BQVzADYJphc2XhSXaf0uj+5rYKIhVnHUXftT8S7un4L+OeYU0ueXTgcx4PsBmz7gn
- IyjDNE4xCIijXJJZ+GHAZpc9e38gKeLXvxYV4TieZsuGtkDqTvlNCCTXYT/0V9LKACQCG4tJcgY
- fb0TU7eXXM7UXdg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=18929; i=luca@lucaweiss.eu;
+ h=from:subject:message-id; bh=DLlM/zIk2mJj+8LyDcVP/WgvP7lc/bPIn0VwmGnPM9k=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBnuhAzvkIvj132zMZ7O+gNK3LjIv5T+CTIdf6of
+ jHNeoS+EjmJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZ7oQMwAKCRBy2EO4nU3X
+ VmxbD/9iEu9In7BnfBzw46sHPSorsMzLt3miy5GA/gChg2VXTuvwlhtbQEukIyFhTwXi4Fy1Hqv
+ a7mXoOnEtFs3K4cVOfm4ax3bPCRY8ujWZ0qcJ63i+cYNCGIatjgaaKPxBp/AU6V2tw90AAaZcJ6
+ XgaDUBQdCADjqojcMlCnGpohraPW/urLpQDlnLVAv8P9Eh3fQuC1OOpy2rnCj0rdpiWw5N8z07v
+ B9Gnhpw5ctBV0PU7rVYXYXDNIYPEn0kJ55ZeVJ3mcWyWchCxRpcOIF2BHds/CI7O3OARZkAjn0k
+ uegOP3j36Yjiuhupoln8cbmblukxz6wOffPr0ucbjt/3zr9uc6lKsYgk4I94DZTpS5uXvF1+A01
+ OGyUofnEnfnzXdF8jTFcDsjV1xPZxg6oAsmCUXhGJJZ5vgwPRLKOkMDDEJUYbn3BBZMjau7VSji
+ 4YtUa+NZcHmjSwYI0z0eEc9ZGjNhMzNxr71bDoYpAtm2w159BnXmU4ggNf6wzUQvexKERilbP5E
+ si3GpZJEthDp3zXHaRs75wCY/n9LucGAgByogp6X7jHqAC3XlQLyRryeKjCvfH++bmg/rEfnM2b
+ dGCbsy9eI+GhLkmxO0Lh2N7IbtS/UC4E9hy4pKTFs8oz72SYtrOTeKrHrLYybfHvSSocTRvHYfK
+ yMkkvne/ToiFgWQ==
 X-Developer-Key: i=luca@lucaweiss.eu; a=openpgp;
  fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,95 +74,485 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Himax HX83112B is a display driver IC used to drive LCD DSI panels.
-Describe it and the Fairphone 3 panel from DJN using it.
+Add support for the 2160x1080 LCD panel from DJN bundled with a HX83112B
+driver IC, as found on the Fairphone 3 smartphone.
 
 Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
 ---
- .../bindings/display/panel/himax,hx83112b.yaml     | 75 ++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+ drivers/gpu/drm/panel/Kconfig                |  10 +
+ drivers/gpu/drm/panel/Makefile               |   1 +
+ drivers/gpu/drm/panel/panel-himax-hx83112b.c | 430 +++++++++++++++++++++++++++
+ 3 files changed, 441 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index d7469c565d1db8b8e974dd6c45d03d9352d99d63..b32e300c563a3fd94134d61140f66cad18b4ebb6 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -173,6 +173,16 @@ config DRM_PANEL_HIMAX_HX83112A
+ 	  Say Y here if you want to enable support for Himax HX83112A-based
+ 	  display panels, such as the one found in the Fairphone 4 smartphone.
+ 
++config DRM_PANEL_HIMAX_HX83112B
++	tristate "Himax HX83112B-based DSI panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	select DRM_KMS_HELPER
++	help
++	  Say Y here if you want to enable support for Himax HX83112B-based
++	  display panels, such as the one found in the Fairphone 3 smartphone.
++
+ config DRM_PANEL_HIMAX_HX8394
+ 	tristate "HIMAX HX8394 MIPI-DSI LCD panels"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index 7dcf72646cacff11bab90c78e3b8b1f357e5f14a..6257c3cd48b57b808c95c2e535f5624fd0e06efa 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -18,6 +18,7 @@ obj-$(CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02) += panel-feixin-k101-im2ba02.o
+ obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) += panel-feiyang-fy07024di26a30d.o
+ obj-$(CONFIG_DRM_PANEL_HIMAX_HX83102) += panel-himax-hx83102.o
+ obj-$(CONFIG_DRM_PANEL_HIMAX_HX83112A) += panel-himax-hx83112a.o
++obj-$(CONFIG_DRM_PANEL_HIMAX_HX83112B) += panel-himax-hx83112b.o
+ obj-$(CONFIG_DRM_PANEL_HIMAX_HX8394) += panel-himax-hx8394.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) += panel-ilitek-ili9341.o
+diff --git a/drivers/gpu/drm/panel/panel-himax-hx83112b.c b/drivers/gpu/drm/panel/panel-himax-hx83112b.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..e6bd4b33d40be98e479d84617aea6d2af0df70e4
+index 0000000000000000000000000000000000000000..031531b47a8814071bc5b7f5f28ed48ba08dab80
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
-@@ -0,0 +1,75 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/himax,hx83112b.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/panel/panel-himax-hx83112b.c
+@@ -0,0 +1,430 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree.
++ * Copyright (c) 2025 Luca Weiss <luca@lucaweiss.eu>
++ */
 +
-+title: Himax HX83112B-based DSI display panels
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/regulator/consumer.h>
 +
-+maintainers:
-+  - Luca Weiss <luca@lucaweiss.eu>
++#include <video/mipi_display.h>
 +
-+description:
-+  The Himax HX83112B is a generic DSI Panel IC used to control
-+  LCD panels.
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_probe_helper.h>
 +
-+allOf:
-+  - $ref: panel-common.yaml#
++/* Manufacturer specific DSI commands */
++#define HX83112B_SETPOWER1	0xb1
++#define HX83112B_SETDISP	0xb2
++#define HX83112B_SETDRV		0xb4
++#define HX83112B_SETEXTC	0xb9
++#define HX83112B_SETBANK	0xbd
++#define HX83112B_SETDGCLUT	0xc1
++#define HX83112B_SETDISMO	0xc2
++#define HX83112B_UNKNOWN1	0xc6
++#define HX83112B_SETPANEL	0xcc
++#define HX83112B_UNKNOWN2	0xd1
++#define HX83112B_SETPOWER2	0xd2
++#define HX83112B_SETGIP0	0xd3
++#define HX83112B_SETGIP1	0xd5
++#define HX83112B_SETGIP2	0xd6
++#define HX83112B_SETGIP3	0xd8
++#define HX83112B_SETIDLE	0xdd
++#define HX83112B_UNKNOWN3	0xe7
++#define HX83112B_UNKNOWN4	0xe9
 +
-+properties:
-+  compatible:
-+    contains:
-+      const: djn,fairphone-fp3-panel
++struct hx83112b_panel {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct regulator_bulk_data *supplies;
++	struct gpio_desc *reset_gpio;
++};
 +
-+  reg:
-+    maxItems: 1
++static const struct regulator_bulk_data hx83112b_supplies[] = {
++	{ .supply = "iovcc" },
++	{ .supply = "vsn" },
++	{ .supply = "vsp" },
++};
 +
-+  iovcc-supply:
-+    description: I/O voltage rail
++static inline struct hx83112b_panel *to_hx83112b_panel(struct drm_panel *panel)
++{
++	return container_of(panel, struct hx83112b_panel, panel);
++}
 +
-+  vsn-supply:
-+    description: Positive source voltage rail
++static void hx83112b_reset(struct hx83112b_panel *ctx)
++{
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(10000, 11000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(10000, 11000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(10000, 11000);
++}
 +
-+  vsp-supply:
-+    description: Negative source voltage rail
++static int hx83112b_on(struct hx83112b_panel *ctx)
++{
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
 +
-+  port: true
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETEXTC, 0x83, 0x11, 0x2b);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDISMO, 0x08, 0x70);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDISP, 0x04, 0x38, 0x08, 0x70);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETPOWER1,
++				     0xf8, 0x27, 0x27, 0x00, 0x00, 0x0b, 0x0e,
++				     0x0b, 0x0e, 0x33);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETPOWER2, 0x2d, 0x2d);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDISP,
++				     0x80, 0x02, 0x18, 0x80, 0x70, 0x00, 0x08,
++				     0x1c, 0x08, 0x11, 0x05);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xd1);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDISP, 0x00, 0x08);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDISP, 0xb5, 0x0a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETIDLE,
++				     0x00, 0x00, 0x08, 0x1c, 0x08, 0x34, 0x34,
++				     0x88);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDRV,
++				     0x65, 0x6b, 0x00, 0x00, 0xd0, 0xd4, 0x36,
++				     0xcf, 0x06, 0xce, 0x00, 0xce, 0x00, 0x00,
++				     0x00, 0x07, 0x00, 0x2a, 0x07, 0x01, 0x07,
++				     0x00, 0x00, 0x2a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xc3);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDRV, 0x01, 0x67, 0x2a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDGCLUT, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDGCLUT,
++				     0xff, 0xfb, 0xf9, 0xf6, 0xf4, 0xf1, 0xef,
++				     0xea, 0xe7, 0xe5, 0xe2, 0xdf, 0xdd, 0xda,
++				     0xd8, 0xd5, 0xd2, 0xcf, 0xcc, 0xc5, 0xbe,
++				     0xb7, 0xb0, 0xa8, 0xa0, 0x98, 0x8e, 0x85,
++				     0x7b, 0x72, 0x69, 0x5e, 0x53, 0x48, 0x3e,
++				     0x35, 0x2b, 0x22, 0x17, 0x0d, 0x09, 0x07,
++				     0x05, 0x01, 0x00, 0x26, 0xf0, 0x86, 0x25,
++				     0x6e, 0xb6, 0xdd, 0xf3, 0xd8, 0xcc, 0x9b,
++				     0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDGCLUT,
++				     0xff, 0xfb, 0xf9, 0xf6, 0xf4, 0xf1, 0xef,
++				     0xea, 0xe7, 0xe5, 0xe2, 0xdf, 0xdd, 0xda,
++				     0xd8, 0xd5, 0xd2, 0xcf, 0xcc, 0xc5, 0xbe,
++				     0xb7, 0xb0, 0xa8, 0xa0, 0x98, 0x8e, 0x85,
++				     0x7b, 0x72, 0x69, 0x5e, 0x53, 0x48, 0x3e,
++				     0x35, 0x2b, 0x22, 0x17, 0x0d, 0x09, 0x07,
++				     0x05, 0x01, 0x00, 0x26, 0xf0, 0x86, 0x25,
++				     0x6e, 0xb6, 0xdd, 0xf3, 0xd8, 0xcc, 0x9b,
++				     0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDGCLUT,
++				     0xff, 0xfb, 0xf9, 0xf6, 0xf4, 0xf1, 0xef,
++				     0xea, 0xe7, 0xe5, 0xe2, 0xdf, 0xdd, 0xda,
++				     0xd8, 0xd5, 0xd2, 0xcf, 0xcc, 0xc5, 0xbe,
++				     0xb7, 0xb0, 0xa8, 0xa0, 0x98, 0x8e, 0x85,
++				     0x7b, 0x72, 0x69, 0x5e, 0x53, 0x48, 0x3e,
++				     0x35, 0x2b, 0x22, 0x17, 0x0d, 0x09, 0x07,
++				     0x05, 0x01, 0x00, 0x26, 0xf0, 0x86, 0x25,
++				     0x6e, 0xb6, 0xdd, 0xf3, 0xd8, 0xcc, 0x9b,
++				     0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETDISMO, 0xc8);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETPANEL, 0x08);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP0,
++				     0x81, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
++				     0x04, 0x00, 0x01, 0x13, 0x40, 0x04, 0x09,
++				     0x09, 0x0b, 0x0b, 0x32, 0x10, 0x08, 0x00,
++				     0x08, 0x32, 0x10, 0x08, 0x00, 0x08, 0x32,
++				     0x10, 0x08, 0x00, 0x08, 0x00, 0x00, 0x0a,
++				     0x08, 0x7b);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xc5);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN1, 0xf7);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xd4);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN1, 0x6e);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xef);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP0, 0x0c);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xc8);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP0, 0xa1);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP1,
++				     0x18, 0x18, 0x19, 0x18, 0x18, 0x20, 0x18,
++				     0x18, 0x18, 0x10, 0x10, 0x18, 0x18, 0x00,
++				     0x00, 0x18, 0x18, 0x01, 0x01, 0x18, 0x18,
++				     0x28, 0x28, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x2f, 0x2f, 0x30, 0x30, 0x31, 0x31, 0x35,
++				     0x35, 0x36, 0x36, 0x37, 0x37, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0xfc,
++				     0xfc, 0x00, 0x00, 0xfc, 0xfc, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP2,
++				     0x18, 0x18, 0x19, 0x18, 0x18, 0x20, 0x19,
++				     0x18, 0x18, 0x10, 0x10, 0x18, 0x18, 0x00,
++				     0x00, 0x18, 0x18, 0x01, 0x01, 0x18, 0x18,
++				     0x28, 0x28, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x2f, 0x2f, 0x30, 0x30, 0x31, 0x31, 0x35,
++				     0x35, 0x36, 0x36, 0x37, 0x37, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP3,
++				     0xaa, 0xaa, 0xaa, 0xaf, 0xea, 0xaa, 0xaa,
++				     0xaa, 0xaa, 0xaf, 0xea, 0xaa, 0xaa, 0xaa,
++				     0xab, 0xaf, 0xef, 0xaa, 0xaa, 0xaa, 0xaa,
++				     0xaf, 0xea, 0xaa);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP3,
++				     0xaa, 0xaa, 0xab, 0xaf, 0xea, 0xaa, 0xaa,
++				     0xaa, 0xae, 0xaf, 0xea, 0xaa);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP3,
++				     0xaa, 0xaa, 0xaa, 0xaf, 0xea, 0xaa, 0xaa,
++				     0xaa, 0xaa, 0xaf, 0xea, 0xaa);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETGIP3,
++				     0xba, 0xaa, 0xaa, 0xaf, 0xea, 0xaa, 0xaa,
++				     0xaa, 0xaa, 0xaf, 0xea, 0xaa, 0xba, 0xaa,
++				     0xaa, 0xaf, 0xea, 0xaa, 0xaa, 0xaa, 0xaa,
++				     0xaf, 0xea, 0xaa);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xe4);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN3, 0x17, 0x69);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN3,
++				     0x09, 0x09, 0x00, 0x07, 0xe8, 0x00, 0x26,
++				     0x00, 0x07, 0x00, 0x00, 0xe8, 0x32, 0x00,
++				     0xe9, 0x0a, 0x0a, 0x00, 0x00, 0x00, 0x01,
++				     0x01, 0x00, 0x12, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN3,
++				     0x02, 0x00, 0x01, 0x20, 0x01, 0x18, 0x08,
++				     0xa8, 0x09);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN3, 0x20, 0x20, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN3,
++				     0x00, 0xdc, 0x11, 0x70, 0x00, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0xc9);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN3,
++				     0x2a, 0xce, 0x02, 0x70, 0x01, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN4, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_SETBANK, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112B_UNKNOWN2, 0x27);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 20);
++	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x0000);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY,
++				     0x24);
++	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
 +
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+  - iovcc-supply
-+  - vsn-supply
-+  - vsp-supply
-+  - port
++	return dsi_ctx.accum_err;
++}
 +
-+unevaluatedProperties: false
++static int hx83112b_off(struct hx83112b_panel *ctx)
++{
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 20);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
 +
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	return dsi_ctx.accum_err;
++}
 +
-+        panel@0 {
-+            compatible = "djn,fairphone-fp3-panel";
-+            reg = <0>;
++static int hx83112b_prepare(struct drm_panel *panel)
++{
++	struct hx83112b_panel *ctx = to_hx83112b_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
 +
-+            reset-gpios = <&tlmm 61 GPIO_ACTIVE_LOW>;
++	ret = regulator_bulk_enable(ARRAY_SIZE(hx83112b_supplies), ctx->supplies);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enable regulators: %d\n", ret);
++		return ret;
++	}
 +
-+            iovcc-supply = <&pm8953_l6>;
-+            vsn-supply = <&pmi632_lcdb_ncp>;
-+            vsp-supply = <&pmi632_lcdb_ldo>;
++	hx83112b_reset(ctx);
 +
-+            port {
-+                panel_in_0: endpoint {
-+                    remote-endpoint = <&dsi0_out>;
-+                };
-+            };
-+        };
-+    };
++	ret = hx83112b_on(ctx);
++	if (ret < 0) {
++		dev_err(dev, "Failed to initialize panel: %d\n", ret);
++		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++		regulator_bulk_disable(ARRAY_SIZE(hx83112b_supplies), ctx->supplies);
++		return ret;
++	}
 +
-+...
++	return 0;
++}
++
++static int hx83112b_unprepare(struct drm_panel *panel)
++{
++	struct hx83112b_panel *ctx = to_hx83112b_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	ret = hx83112b_off(ctx);
++	if (ret < 0)
++		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	regulator_bulk_disable(ARRAY_SIZE(hx83112b_supplies), ctx->supplies);
++
++	return 0;
++}
++
++static const struct drm_display_mode hx83112b_mode = {
++	.clock = (1080 + 40 + 4 + 12) * (2160 + 32 + 2 + 2) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 40,
++	.hsync_end = 1080 + 40 + 4,
++	.htotal = 1080 + 40 + 4 + 12,
++	.vdisplay = 2160,
++	.vsync_start = 2160 + 32,
++	.vsync_end = 2160 + 32 + 2,
++	.vtotal = 2160 + 32 + 2 + 2,
++	.width_mm = 65,
++	.height_mm = 128,
++	.type = DRM_MODE_TYPE_DRIVER,
++};
++
++static int hx83112b_get_modes(struct drm_panel *panel,
++				  struct drm_connector *connector)
++{
++	return drm_connector_helper_get_modes_fixed(connector, &hx83112b_mode);
++}
++
++static const struct drm_panel_funcs hx83112b_panel_funcs = {
++	.prepare = hx83112b_prepare,
++	.unprepare = hx83112b_unprepare,
++	.get_modes = hx83112b_get_modes,
++};
++
++static int hx83112b_bl_update_status(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	u16 brightness = backlight_get_brightness(bl);
++	int ret;
++
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
++	if (ret < 0)
++		return ret;
++
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	return 0;
++}
++
++static const struct backlight_ops hx83112b_bl_ops = {
++	.update_status = hx83112b_bl_update_status,
++};
++
++static struct backlight_device *
++hx83112b_create_backlight(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	const struct backlight_properties props = {
++		.type = BACKLIGHT_RAW,
++		.brightness = 4095,
++		.max_brightness = 4095,
++	};
++
++	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
++					      &hx83112b_bl_ops, &props);
++}
++
++static int hx83112b_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct hx83112b_panel *ctx;
++	int ret;
++
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ret = devm_regulator_bulk_get_const(dev,
++					    ARRAY_SIZE(hx83112b_supplies),
++					    hx83112b_supplies,
++					    &ctx->supplies);
++	if (ret < 0)
++		return ret;
++
++	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ctx->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
++				     "Failed to get reset-gpios\n");
++
++	ctx->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, ctx);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
++			  MIPI_DSI_CLOCK_NON_CONTINUOUS |
++			  MIPI_DSI_MODE_VIDEO_NO_HSA | MIPI_DSI_MODE_LPM;
++
++	drm_panel_init(&ctx->panel, dev, &hx83112b_panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++	ctx->panel.prepare_prev_first = true;
++
++	ctx->panel.backlight = hx83112b_create_backlight(dsi);
++	if (IS_ERR(ctx->panel.backlight))
++		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
++				     "Failed to create backlight\n");
++
++	drm_panel_add(&ctx->panel);
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		drm_panel_remove(&ctx->panel);
++		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
++	}
++
++	return 0;
++}
++
++static void hx83112b_remove(struct mipi_dsi_device *dsi)
++{
++	struct hx83112b_panel *ctx = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
++
++	drm_panel_remove(&ctx->panel);
++}
++
++static const struct of_device_id hx83112b_of_match[] = {
++	{ .compatible = "djn,fairphone-fp3-panel" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, hx83112b_of_match);
++
++static struct mipi_dsi_driver hx83112b_driver = {
++	.probe = hx83112b_probe,
++	.remove = hx83112b_remove,
++	.driver = {
++		.name = "panel-himax-hx83112b",
++		.of_match_table = hx83112b_of_match,
++	},
++};
++module_mipi_dsi_driver(hx83112b_driver);
++
++MODULE_DESCRIPTION("DRM driver for hx83112b-equipped DSI panels");
++MODULE_LICENSE("GPL");
 
 -- 
 2.48.1
