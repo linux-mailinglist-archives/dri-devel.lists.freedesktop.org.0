@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9C9A406E0
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2025 10:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A599A406E5
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2025 10:30:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC4810E256;
-	Sat, 22 Feb 2025 09:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970D710E26D;
+	Sat, 22 Feb 2025 09:30:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PmvlA7Hp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d6+lapyV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7734310E256
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2025 09:28:55 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-38f325dd9e6so1471496f8f.1
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2025 01:28:55 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74B3410E26D
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2025 09:30:39 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-38f488f3161so1476693f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2025 01:30:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740216534; x=1740821334; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740216638; x=1740821438; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=St1JTstNvtpDJwVJQG8kMHDEmxsx7ifcGkS2W32UHvQ=;
- b=PmvlA7HpYCfBRPUDU8D6tHQp6A4KlRnoxlmULDdLUhTEB5BntyFt6x+ihdVf1VGKYi
- OciR4G70hiIgc26aUt6v1v5LXl8BEkurqqDIbQP+kx1jXvHFItfp01TcBMnNCalniAAT
- FyIaDzDWTw/TvxWP2XQptAoYQQ5Zu653mjnM49VwQ+jaUG2A0Nb4ZIyl5m9rOksDuu4V
- oqMLP7LgqwJvkDBNuSi3jOmajWAFELTyzcvLpFDqb6qTvLCwn55USznnYlwsEFl4Q6Dx
- zmssNg8NXAxJHu/c8eKkQRfsZsx6G7+6MiePzGVz3BEqQgDVxloo9DS2KN8ma3yxoJk5
- ylfA==
+ bh=K9F20fzricZrTGW+QeF883b7IwAmdJ0gyJoHIxyxNBc=;
+ b=d6+lapyVn5WmmMvDGYLxrYQWjRsriMd79sQu+dtoxP1aXBxDBgw/Y3bhjiiu7i6z11
+ 1SlywpKHQxuDk40J9AfChohFI1od9o6Ns03DVG+eZduuuElZ9O2TRuXi7sRbDUfzUdjq
+ Q7NqezLP/n23UpfQojxXH6MzJN6a+Cbo9NBu46SsrvCkOcaD6S9Ao9a7Uq9i81pDLf9w
+ azm1pOvfsRztA4MK0SthmOEp1VINayCMcvVRrFYDkSamHW7YqVx7hiijokpnc527BSjU
+ kECda3UgnL6iXQooL0dDojqHuvC/HYcb8Pa7DY+JDVI1Iaf4Hl0Lx3O/V57VfTQo0Fej
+ Mwmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740216534; x=1740821334;
+ d=1e100.net; s=20230601; t=1740216638; x=1740821438;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=St1JTstNvtpDJwVJQG8kMHDEmxsx7ifcGkS2W32UHvQ=;
- b=uHpGajYwmrCQ8i9Y2lB7Jt9EoTW6jHoeKzObq5qUzQ4IGnML5bwZNsT2nCEIJeQuKO
- P9jB4mtKidh+VEpyjymzjTAA80QNuUzoBJFhssfRg4flYGW4qGnWjmN6jKYw0qS5lgp7
- RdSv5G7VwtxNVHErqQ7YVp4mu1R5PUdNWNr+PEXyC291DUZc+B4XoLdyDuntJSbEu4uZ
- 9NGphThPLESgrvGHaK3quI1Ubgr90m/9vspppyQ61MhBxFBIjzKGzrAGY9ZyClXb9SWo
- 1p7sAWXgxf8+jVq+B9+tBvvWfLMu7faHyzCDmDJ7/v4SMwP8pGY7CHkhx46MRW4lIuKK
- kGdA==
+ bh=K9F20fzricZrTGW+QeF883b7IwAmdJ0gyJoHIxyxNBc=;
+ b=EaBQJNBEcPPT7Jvw0N8GJhiF2qGljSX5252KvHCEYRWeUYYJoeYskPD2evbbO/Th+4
+ jfLr8CheZolWdVz0/bcQoEjv1nlShnNzWckuXiheILTUjiHBiyFw1QPw9UZ+9A+Lo7Wf
+ aOAfcCY9vehj2LJzoI0TyEeotNIPLol+p505O95gi5UHcCElEX533/NfrtaMXgvzdl0+
+ laRXkCF1K73HwS0+/1L0WRUuhJ3lmsxn2YR0kGl9rtNYASD8SFD19rewZuhAdMlHxcXG
+ fgLUvSQdt1BgkyxixVUoXuu44XN2l5pgYinYCPKKSAWB21JZ+7F8OYp5A/jwqKhD8caz
+ pj3w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUXGDLi9SIAbeBtRPgkYeaAsKdpZtpkSsDYwmVadnZDwdIAGOjK3yRNw1foA+e7GlUVb9mGqUn18n8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwZhH1bsHsvao48/Qvdjhf8j1SOnmkGfny5TKdtMoQCcgdT9lOd
- QLWX4DBy1wUMijwyXYyHpPVJidrF0qAiDJDauJ+o8WB7wQn3zjue
-X-Gm-Gg: ASbGncuOmEP87uytvgneq25y45Uw1gw0NMkD695jv2q5S/cBYfIaVX3SABWr1XeK5bg
- menBD+vAdOpGViPf2sKtyx6bnOsm4U/ZLWoDyTy8n3/dCN4IcY0Jug0htLrRM7MSSBxUqUyOmcc
- nrpf2Exn4irhbK2B+uNDV6r3KtppN1AkklwdW7GtdorusbE6GcxBTGaj3Emks1qUcB89fhtv063
- QZmiE2XOg+Js9vZdcK7i6s3RftqJDAdE5zo3Y8jaGrWooP4COJQYBoe+CUd1p0kdZ90JqxHP9ML
- BoNfgqw6lAoSSNzmUYNFaUyevyLBt4VVgQbhN9SCvD2qN0Ib7yfVDhYxJl2Ys3xhB23IhnmBr+r
- zCA==
-X-Google-Smtp-Source: AGHT+IF6pzVIMqT3bI5J8rbMV0F1AIJ9MBRqLOEPinMndAjfKOv9u7BlBPc4YGBvwr2qQglMbEAZjA==
-X-Received: by 2002:a5d:6da2:0:b0:38f:443b:48f4 with SMTP id
- ffacd0b85a97d-38f6f0d0ea0mr4633663f8f.49.1740216533405; 
- Sat, 22 Feb 2025 01:28:53 -0800 (PST)
+ AJvYcCWfJjdndLwdZQgLdw/dL1khSa4dJoZmKBy6QvTL2mWxImHKnYp99f731BY13eUygY5lJm1ytkpcOgs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1mq1aiGD1c6325IAGA/vCpSiwydTgl+hUXsf4fvqHgA1x+FvX
+ XRrp9Ygp6E70mxzc+/FGh84pXUAtbztPUKv5awh7GrZXJQ5GEVDN
+X-Gm-Gg: ASbGncsMX5RfCjW8vVaihDv8YAfNpW9RqYlDa6OwPhR7IRDeLisXkvezC4I82c6bRXO
+ hqSIdOQbfiTmkWOcnT8Awlb6CDapzwmq7gQK4aQ+Ag0ng/FIFhnR6sSBJXj52P6ymopJtkiC6i8
+ yb8b2ig4PCkW2/532Oq0nVi3jVE65v1NKm5YXiXjfPkquLFlePm3qJJW1p9hpDuwHZQS1Q2pgvT
+ rIPtcB3NfxcFGqTub7usddL8t2UguTXkA2bgxGa5M+uVdOYTc3XxiIYKRyaGxUZ0pHSloGrWjSg
+ swizcOk6yzPtFnU/AEn+3B758OzEq+JIXt6p2TKW9nyS3IhD99xiHR9lcG1+LHERFFg2tFqaOPz
+ Kug==
+X-Google-Smtp-Source: AGHT+IGveW3w0SKQKx8LXKO0L/gAvng9bbQi2cKgrZ9bQASh6DROV0jb7VWS/TE7EA2uJePz27ztjw==
+X-Received: by 2002:a5d:47a9:0:b0:385:f249:c336 with SMTP id
+ ffacd0b85a97d-38f70859ab3mr5498849f8f.45.1740216637740; 
+ Sat, 22 Feb 2025 01:30:37 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
  [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f258b439dsm25488772f8f.8.2025.02.22.01.28.51
+ ffacd0b85a97d-38f259d8e62sm25790168f8f.71.2025.02.22.01.30.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Feb 2025 01:28:52 -0800 (PST)
+ Sat, 22 Feb 2025 01:30:37 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -78,14 +78,13 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH v7 00/27] drm: sun4i: add Display Engine 3.3 (DE33) support
-Date: Sat, 22 Feb 2025 10:28:51 +0100
-Message-ID: <7770397.EvYhyI6sBW@jernej-laptop>
-In-Reply-To: <2a864555-d81f-4048-aa0b-c286544faa50@app.fastmail.com>
-References: <20250216183524.12095-1-ryan@testtoast.com>
- <2221204.Mh6RI2rZIc@jernej-laptop>
- <2a864555-d81f-4048-aa0b-c286544faa50@app.fastmail.com>
+ linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
+Subject: Re: [PATCH v7 08/27] drm: sun4i: de3: add YUV support to the DE3 mixer
+Date: Sat, 22 Feb 2025 10:30:35 +0100
+Message-ID: <3860147.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <20250216183710.8443-9-ryan@testtoast.com>
+References: <20250216183710.8443-3-ryan@testtoast.com>
+ <20250216183710.8443-9-ryan@testtoast.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
@@ -104,180 +103,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne sobota, 22. februar 2025 ob 03:48:01 Srednjeevropski standardni =C4=8Da=
-s je Ryan Walklin napisal(a):
-> On Sat, 22 Feb 2025, at 7:57 AM, Jernej =C5=A0krabec wrote:
-> > Hi Ryan,
-> >
-> > sorry for very late review, but here we go...
+Dne nedelja, 16. februar 2025 ob 19:36:08 Srednjeevropski standardni =C4=8D=
+as je Ryan Walklin napisal(a):
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >=20
-> No problem, thanks for the review!
+> The mixer in the DE3 display engine supports YUV 8 and 10 bit
+> formats in addition to 8-bit RGB. Add the required register
+> configuration and format enumeration callback functions to the mixer,
+> and store the in-use output format (defaulting to RGB) and color
+> encoding in the mixer configuration.
 >=20
-> > This patchset actually introduces 3 disticnt features, which should IMO=
-=20
-> > be separated
-> > and thus making reviewing patches easier.
-> >
-> > 1. native 10-bit YUV420 output (without YUV->RGB->YUV conversions) -=20
-> > this is used on
-> >     HDMI for proper 10-bit 4K@60 HDR output
-> > 2. Display Engine 3.3 (DE33) support
-> > 3. AFBC modifier/format support (used for more efficient GPU or VPU=20
-> > output rendering)
-> >
-> > If I'm not mistaken, your goal is only DE33 support.=20
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 >=20
-> This is my initial goal, but I would still like good HDMI and video suppo=
-rt (including HW decode).=20
+> ---
+> Changelog v4..v5:
+> - Remove trailing whitespace
 >=20
-> It took some refactoring and resequencing of (your) existing driver work =
-to get to this series, and I have left out the HDMI and separated the TCON =
-code for the same reason, that initially I am intending to just support RGB=
- operation to an LCD. I do intend however to use the HDMI code either in or=
- out of tree but think that will be a much bigger/more complex change to ma=
-inline given the current HDMI code is more invasive to the generic driver.
+> Changelog v5..v6:
+> - Move color format and encoding flags to mixer and add struct.
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c | 54 +++++++++++++++++++++++++++--
+>  drivers/gpu/drm/sun4i/sun8i_mixer.h | 11 ++++++
+>  2 files changed, 62 insertions(+), 3 deletions(-)
 >=20
-> The YUV and AFBC changes seemed more self-contained and seemed reasonable=
- approaches given that they were both features of the DE3 and up. I am happ=
-y either to split these into either 4 or 5 separate patches ie:
->=20
-> 1a. refactor CSC code to prepare for YUV
-> 1b. add YUV for DE3
-> 2. refactor mixer enumeration and regmaps to support DE3+
-> 3. add DE33
-> 4. Add AFBC
->=20
-> My only reluctance is that that adds more work to manage multiple patches=
- which are logically grouped and in terms of ease of review, all these 4 st=
-eps are in the current set in that order (apart from AFBC which is complete=
-ly standalone), and I don't think submitting them separately reduces comple=
-xity. It however will reduce reviewer burden as you suggest, but this has b=
-een a slow process already.
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.c
+> index a170f68708b1f..bc934186bfd6f 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -23,7 +23,10 @@
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_probe_helper.h>
+> =20
+> +#include <uapi/linux/media-bus-format.h>
+> +
+>  #include "sun4i_drv.h"
+> +#include "sun50i_fmt.h"
+>  #include "sun8i_mixer.h"
+>  #include "sun8i_ui_layer.h"
+>  #include "sun8i_vi_layer.h"
+> @@ -390,12 +393,52 @@ static void sun8i_mixer_mode_set(struct sunxi_engin=
+e *engine,
+> =20
+>  	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
+>  			 interlaced ? "on" : "off");
+> +
+> +	if (mixer->color_model.format =3D=3D MEDIA_BUS_FMT_RGB888_1X24)
+> +		val =3D SUN8I_MIXER_BLEND_COLOR_BLACK;
+> +	else
+> +		val =3D 0xff108080;
+> +
+> +	regmap_write(mixer->engine.regs,
+> +		     SUN8I_MIXER_BLEND_BKCOLOR(bld_base), val);
+> +	regmap_write(mixer->engine.regs,
+> +		     SUN8I_MIXER_BLEND_ATTR_FCOLOR(bld_base, 0), val);
+> +
+> +	if (mixer->cfg->has_formatter)
+> +		sun50i_fmt_setup(mixer, mode->hdisplay,
+> +				 mode->vdisplay, mixer->color_model.format);
+> +}
+> +
+> +static u32 *sun8i_mixer_get_supported_fmts(struct sunxi_engine *engine, =
+u32 *num)
+> +{
+> +	struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
+> +	u32 *formats, count;
+> +
+> +	count =3D 0;
+> +
+> +	formats =3D kcalloc(5, sizeof(*formats), GFP_KERNEL);
+> +	if (!formats)
+> +		return NULL;
+> +
+> +	if (mixer->cfg->has_formatter) {
+> +		formats[count++] =3D MEDIA_BUS_FMT_UYYVYY10_0_5X30;
+> +		formats[count++] =3D MEDIA_BUS_FMT_YUV8_1X24;
+> +		formats[count++] =3D MEDIA_BUS_FMT_UYVY8_1X16;
+> +		formats[count++] =3D MEDIA_BUS_FMT_UYYVYY8_0_5X24;
+> +	}
+> +
+> +	formats[count++] =3D MEDIA_BUS_FMT_RGB888_1X24;
+> +
+> +	*num =3D count;
+> +
+> +	return formats;
+>  }
+> =20
+>  static const struct sunxi_engine_ops sun8i_engine_ops =3D {
+> -	.commit		=3D sun8i_mixer_commit,
+> -	.layers_init	=3D sun8i_layers_init,
+> -	.mode_set	=3D sun8i_mixer_mode_set,
+> +	.commit			=3D sun8i_mixer_commit,
+> +	.layers_init		=3D sun8i_layers_init,
+> +	.mode_set		=3D sun8i_mixer_mode_set,
+> +	.get_supported_fmts	=3D sun8i_mixer_get_supported_fmts,
+>  };
+> =20
+>  static const struct regmap_config sun8i_mixer_regmap_config =3D {
+> @@ -484,6 +527,11 @@ static int sun8i_mixer_bind(struct device *dev, stru=
+ct device *master,
+>  	if (!mixer->cfg)
+>  		return -EINVAL;
+> =20
+> +	/* default output format, supported by all mixers */
+> +	mixer->color_model.format =3D MEDIA_BUS_FMT_RGB888_1X24;
+> +	/* default color encoding, ignored with RGB I/O */
+> +	mixer->color_model.encoding =3D DRM_COLOR_YCBCR_BT601;
+> +
+>  	regs =3D devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(regs))
+>  		return PTR_ERR(regs);
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.h
+> index 8417b8fef2e1f..5f465a974fbdf 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> @@ -9,6 +9,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+> +#include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_plane.h>
+> =20
+>  #include "sunxi_engine.h"
+> @@ -177,6 +178,11 @@ struct sun8i_mixer_cfg {
+>  	unsigned int	scanline_yuv;
+>  };
+> =20
+> +struct sun8i_color_model {
+> +	u32			format;
+> +	enum drm_color_encoding	encoding;
+> +};
+> +
+>  struct sun8i_mixer {
+>  	struct sunxi_engine		engine;
+> =20
+> @@ -186,6 +192,11 @@ struct sun8i_mixer {
+> =20
+>  	struct clk			*bus_clk;
+>  	struct clk			*mod_clk;
+> +
+> +	struct regmap			*top_regs;
+> +	struct regmap			*disp_regs;
 
-Sorry, completely forgot. YUV420 HDMI code relies on my previous work, with=
- which
-Maxime wasn't happy with:
-
-https://lore.kernel.org/linux-sunxi/20230924192604.3262187-1-jernej.skrabec=
-@gmail.com/
-
-So unless switching HDMI to bridge ops is implemented, which also brings fo=
-rmat,
-YUV formatter and some other patches just add unused code, which isn't idea=
-l,
-especially if we decide to rework driver before that code can be put in acc=
-eptable
-state for all involved.
-
-=46rom quick look, patches 5-13, 26 should be dropped for now. Not sure abo=
-ut 1-4.
-
-I'm fine with AFBC support going in, it's just one patch.
-
->=20
-> I am happy to accept either process but this has been some time already n=
-ow with lots of stylistic feedback but not much on the correctness of the a=
-pproach and code, and I am keen to get this landed.
->=20
-> There is are two=20
-> > reasons why
-> > I've never sent these patches myself:
-> >
-> > 1. scaling YUV images doesn't work
-> >
-> > Not a problem for any user who doesn't use video player with DRM plane=
-=20
-> > rendering,
-> > which I assume is most of them. We can get around of this issue to deny=
-=20
-> > scaling
-> > YUV buffers until the issue is sorted out.
->=20
-> Good to know, I hadn't appreciated that. Mostly relevant for video as you=
- say and it would be good to land YUV support without scaling, then extend =
-subsequently, possibly when we get to the video engine?
-
-Correct.
-
-Just be aware of one thing. Even if YUV buffer is rendered in 1:1 scale, vi=
- scaler
-still needs to be configured. That's because U and V planes are subsampled =
-and
-need to be scaled to Y plane size. For unknown reason, that works just fine=
-, but
-if Y scale is bigger than 1, it all falls apart.
-
-This should be implemented in atomic check.
-
->=20
-> > 2. plane allocations are hackish
-> >
-> > DE33 for the first time introduced option to move planes between the=20
-> > mixers. DRM
-> > has also support for this, but for time being static allocation is=20
-> > acceptable and tbh,
-> > even dynamic support need appropriate initial setting.
-> > As you might guessed this is done in DE33 clock driver using magic=20
-> > values. Proper
-> > way would be to introduce some kind of connection between mixer/plane=20
-> > and clock
-> > driver, so initial configuration can be moved to appropriate module=20
-> > instead of
-> > being thrown into clock driver. I need to check where to put it and how=
-=20
-> > to properly
-> > connect DT nodes. Maybe syscon phandle? I'll do some research.
->=20
-> Thanks, I was not aware of this either.
-
-Here you have some pointers how this values are actually set:
-https://github.com/orangepi-xunlong/linux-orangepi/blob/orange-pi-5.15-sun5=
-5iw3/bsp/drivers/video/sunxi/disp2/disp/de/lowlevel_v33x/de330/de_top.c#L23=
-2-L260
-
-I think this is the biggest issue of this code. As soon as we solve it prop=
-erly, we
-have an ability to implement all remaining features at a later date.
-
->=20
-> > There is one glaring issue (when you work on driver and test every=20
-> > aspect of it).
-> > DE33 introduced RCQ, which is basically DMA, which copies shadowed=20
-> > registers
-> > from memory buffer directly to hw registers. IIRC it does that at=20
-> > vblank time. This
-> > tells you that current concept of writing register values at any time=20
-> > userspace feels
-> > to do commit is wrong and we've been lucky that it works as well as it=
-=20
-> > does. So,
-> > in order to fix this, driver would need quite a big reorganization.=20
-> > Introducing
-> > shadow buffers would solve most of the issues, most likely also with=20
-> > YUV scaling.
-> > Implementing RCQ would be then relatively simple and even improve=20
-> > timings.
-> > Note that even DE3 has occasional issue with YUV scaler and also=20
-> > read-modify-read
-> > access to some of its register can produce bogus value and thus corrupt=
-=20
-> > image
-> > until next commit.
->=20
-> Thanks, again I wasn't aware. All my testing has shown remarkable stabili=
-ty and there are some downstream users out-of-tree with good feedback, but =
-would be happy to support an effort to improve this.
-
-Let's land DE33 support first since it's long overdue and then I'm happy to=
- discuss plans for moving forward.
+This chunk is DE33 specific and should go in patch 24.
 
 Best regards,
 Jernej
 
->=20
-> Regards,
->=20
-> Ryan
+> +
+> +	struct sun8i_color_model	color_model;
+>  };
+> =20
+>  enum {
 >=20
 
 
