@@ -2,107 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B02FA40C26
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 00:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA48A40CD4
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 06:27:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE67F10E0E4;
-	Sat, 22 Feb 2025 23:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A85D10E039;
+	Sun, 23 Feb 2025 05:27:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="G81bPmtJ";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="GEQO0T1t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LBWYKfoX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a8-smtp.messagingengine.com
- (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E2B10E0CB
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2025 23:37:15 +0000 (UTC)
-Received: from phl-compute-13.internal (phl-compute-13.phl.internal
- [10.202.2.53])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 5956211400E3;
- Sat, 22 Feb 2025 18:37:14 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
- by phl-compute-13.internal (MEProxy); Sat, 22 Feb 2025 18:37:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:content-type
- :date:date:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:subject:subject:to:to; s=fm1;
- t=1740267434; x=1740353834; bh=h7jj2OIYXJKTacAxvFh74vzRvVu7yE3V
- 9RKcJiHkDeE=; b=G81bPmtJ1VvPdaPATZTVE6kT9vNOYg6pD4/eIkxu36ArMnZJ
- hyI4Kq1JZfLudZLIyGVHD7383Jo8NrBUSTMrKMrAKtn8sPH84/DecS7v9xz5h95b
- dJzol18B2NEmzIEe0sn4wi/HDDJIeegxvpUO7DRT3+kwexjxRWb1gDtFbukng3FE
- +6vc6FckdfMZAmLPqyKjI2u+/nKhiHHk5LYfyb5A/Xo7EJn90jjtYkWjSBs5ViKG
- J//JgTACKJxRLwFmguS8gDD/dfJS4kp64G5nafEA2QKHmHlE0X/sQESccS8N8UQD
- 1H9V0Kcy9EwX/p/tTNjDUKN8+iyTNItGMMQfaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740267434; x=
- 1740353834; bh=h7jj2OIYXJKTacAxvFh74vzRvVu7yE3V9RKcJiHkDeE=; b=G
- EQO0T1tv9kK9FGFevO50hgX3lLItvbgUnXTrdvrpsNHklwzJWUz0pFDOOu0YmZUg
- QWhDcYwBLk5XWQGDRW4kub59Efw7+XmH3LVaXpvYdTjUPpkwPWgEF8K36ajEBJLH
- tV76mM1QTm7G30yr7n6X8m5mQD5Nq54n+Ptr1sdytHeR3/osy0HYFuaNMkEK1EFj
- wwrITAaR5CLQtCGtmG25g2V5TSIUnf6Fh48wzeKUZYy2QM5MJ/YN3/AQecY30b/x
- 2FogmvzRVVZVlPcHRIQhdaBzFUllWaxG99No2V/bdbOPxLtI8jnGWjW9Kdm8MB74
- hZ3ipaoQGoYZY7FjuwaOQ==
-X-ME-Sender: <xms:qV-6Z1H6yX-5U5ODT2Q0NksEWRL5e3azNe20KVofC9zRXsheW964Cg>
- <xme:qV-6Z6V2hijT5_TEwOtSXOtxJkW9SBLeRrsg43zVcdDQmibmTO9778uuDGJube9C_
- PDXVDDCvb_d53PjVQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejgedvjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
- jeenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
- grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeeghffgkedtueeiudeukedvveevhfdu
- uefhhedviefgffduheeuieeihefhfefgveenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
- pghrtghpthhtohepvdefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurh
- gvrdhprhiihiifrghrrgesrghrmhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthht
- vgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrgh
- dprhgtphhtthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhl
- ihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtg
- esghhmrghilhdrtghomhdprhgtphhtthhopehkihhkuhgthhgrnhelkeesghhmrghilhdr
- tghomhdprhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghilhdrtghomhdprh
- gtphhtthhopehsihhmohhnshdrphhhihhlihhpphgvsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:qV-6Z3IaVX26xeOkrfTi3HIrfb1IOy1-RrRn_XnSKvWPi-MxZMOmMQ>
- <xmx:qV-6Z7Ea-lTZEYIo9K528Ob4kXpU4lMSD2GXAJKV42mAtt9auHFX0g>
- <xmx:qV-6Z7Un6DejbJ8tDJJZ2KGgYgtDIZcwN7yhUF-EikEr1I2k7carJg>
- <xmx:qV-6Z2MiSHOzsnr_6jrOtsGAldZJc3qg62_8dVypSxeWYsWFqxUm0w>
- <xmx:ql-6ZxGRR19w_JzQ7-5bmxxOxZC2WimK1eSZxjiHVpeuBw-HW4leABaF>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id EB7D8BA006F; Sat, 22 Feb 2025 18:37:12 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0253A10E039
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 05:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740288471; x=1771824471;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ZoFMidOYBshnEsnzIKH5pW7glP8uk+guezRItblF2Ys=;
+ b=LBWYKfoXVMpzMj1PvUDu/ZjzsWz7ArWAK4bn77OVqSXsWh5X50K0kHH9
+ qP/PRsIZ32XTqbTlCwzKlmAjKISUWWkbWqgrvg0PVaQgVbX/NCUsV3jGS
+ Ri3bd57ZB/6zu2RZh/P+pEcsONRlWFa40DCFxh06CiJSQ0g6sxcTG1lKp
+ BHONeahDi7Eeee6CSeGEalV43HGk5bEj/TEdPecjx6xZnw5xDXXMzWLVN
+ mQljWsXNBiC1mnf9xFs/2PPKl7Sn9VBzU7UyFeGEszRN9wKs0zaC0+0ny
+ 2EVgxJDI2UY+ZSEaG8S4ge//xbkbo3mhqZ/lnuUdBH3wU/Fd+MceVitTs g==;
+X-CSE-ConnectionGUID: twNeIWeaRlGAgCk5z+97dw==
+X-CSE-MsgGUID: 5t44gvKlQg2IfJ/hu+bvSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52494660"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="52494660"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2025 21:27:49 -0800
+X-CSE-ConnectionGUID: MDi6dxZtSu61rtEuamNdDw==
+X-CSE-MsgGUID: 5Ce2PjiPSwG7ocpbQD3+mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; d="scan'208";a="116261630"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+ by fmviesa010.fm.intel.com with ESMTP; 22 Feb 2025 21:27:45 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tm4Wl-00079L-0b;
+ Sun, 23 Feb 2025 05:27:43 +0000
+Date: Sun, 23 Feb 2025 13:26:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ liangjian010@huawei.com, chenjianmin@huawei.com,
+ lidongming5@huawei.com, shiyongbang@huawei.com, libaihan@huawei.com,
+ shenjian15@huawei.com, shaojijie@huawei.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
+ detect of irq feature
+Message-ID: <202502231304.BCzV4Y8D-lkp@intel.com>
+References: <20250222025102.1519798-8-shiyongbang@huawei.com>
 MIME-Version: 1.0
-Date: Sun, 23 Feb 2025 12:36:51 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>
-Cc: "Andre Przywara" <andre.przywara@arm.com>,
- "Chris Morgan" <macroalpha82@gmail.com>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Philippe Simons" <simons.philippe@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Message-Id: <5c5dfb41-1697-44e8-b082-fa88b524cd10@app.fastmail.com>
-In-Reply-To: <3860147.kQq0lBPeGt@jernej-laptop>
-References: <20250216183710.8443-3-ryan@testtoast.com>
- <20250216183710.8443-9-ryan@testtoast.com> <3860147.kQq0lBPeGt@jernej-laptop>
-Subject: Re: [PATCH v7 08/27] drm: sun4i: de3: add YUV support to the DE3 mixer
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250222025102.1519798-8-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,16 +77,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 22 Feb 2025, at 10:30 PM, Jernej =C5=A0krabec wrote:
-> Dne nedelja, 16. februar 2025 ob 19:36:08 Srednjeevropski standardni=20
-> =C4=8Das je Ryan Walklin napisal(a):
->> +	struct regmap			*top_regs;
->> +	struct regmap			*disp_regs;
->
-> This chunk is DE33 specific and should go in patch 24.
+Hi Yongbang,
 
-Thanks, will fix.
+kernel test robot noticed the following build errors:
 
-Regards,
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Ryan
+url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-Restructuring-the-header-dp_reg-h/20250222-110052
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250222025102.1519798-8-shiyongbang%40huawei.com
+patch subject: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug detect of irq feature
+config: arm64-randconfig-004-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231304.BCzV4Y8D-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231304.BCzV4Y8D-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502231304.BCzV4Y8D-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "drm_client_init" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
+>> ERROR: modpost: "drm_client_register" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
+>> ERROR: modpost: "drm_client_release" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
