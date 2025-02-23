@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86296A40FD9
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 17:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 139EDA40FDE
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 17:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EACCF10E055;
-	Sun, 23 Feb 2025 16:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661AC10E05A;
+	Sun, 23 Feb 2025 16:44:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XL2xbm+V";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="el5ymoDF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D1610E055
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 16:43:45 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2fc042c9290so5702427a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 08:43:45 -0800 (PST)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95A7310E05A
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 16:44:31 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-220d601886fso53248965ad.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 08:44:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740329025; x=1740933825; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740329071; x=1740933871; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=r0Ho2aCKNYfg5T/o22fFzxZ+UyjSx6Fm0wn6W8o8Gr8=;
- b=XL2xbm+VDwc+B4ldZadJzzeshIWG71YfoYWUJ6/9BKV3uLCgtMhWjIj3xmeDJHYXVs
- EvwOwbA1V01lBtOKb4IEvuX15Q4EYXpm6pca7yxHIuq2zgHhtRXkeAjwv3Kpyg5cQOY/
- mE0+Dp72ttO2r8PnMtC+MKmpjqOR8eBaQ2fpvP8d7gmNJK+hi6STWvjxJ0kzfh4xMjQ7
- 1m/s59lEpTYjA4IFTdL+GLVcMbU8yuRI1BOurXr6eQ699yoIlgdAhcGRMLM9kU2s+75l
- ChlEnwykv4c5N/4O6C3ePMABPAT2Rkk/0Z3eUGlhGw735bMBn89gohFcta7NVcYAZeuG
- R4kA==
+ bh=U4Bkihj4DGACHQctYAnhtp6nEz1RGAPDBfirVsTzUzk=;
+ b=el5ymoDFRELkI5LqS3GxRO9eBrqMfw+Ti2qkBPhlMxTGbuHwpNAWry7s0cJVqW1e3h
+ 8IzRRI3RESFV65Gfq6BdUIfVULN/SpGaobS0UtVq4nNw9eu2LQlFwRnMI+JPNaxkiEnS
+ CQWXL/7hijjY3UPfnG+MC8YsRbjx8oeEY3ZIBTU9xg2Arcx7oQXtSM3n9EV4ONo8/IvS
+ 2topLNorjUzyzzPVOExHlgZ4GzGm/TpsCUx7Wk1rY2m92LqkhP+I75dzTuQZwrpVk2+V
+ Je4H7v+ukFhEScVeCi3LlQvR2yO6WV4I/2WpaUAuPPGb/eQFmyFRVF4Ov0GUksTJ4rCh
+ urIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740329025; x=1740933825;
+ d=1e100.net; s=20230601; t=1740329071; x=1740933871;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=r0Ho2aCKNYfg5T/o22fFzxZ+UyjSx6Fm0wn6W8o8Gr8=;
- b=v0oVSpD1fy6B/J9tj0vj93G9SRaq+piUsATRyPgjPYk56AWapZIa/YF2gviRHRIznF
- gt6LLs8Fr8cuCJC08DHbFIDajAvRGKj/9H181HaglBQCRwssSU63NGak8rfYiOoubOkD
- KryzBCmpaTX9K/DPocQbgUbUS8sUriIqmSaPGnhvbZNp54BO8M/BIeD9UoCSDdqqikcT
- Rz9fBthjahg712ictCAklIZeU9B4RbRWe6mMOXhVZmT/kRnLH5VGTbkbAIxgzYCFGg4c
- WCQWFBcl7EJcxYR+8NSRuGQWd9nKTO1AyTFJPZpYbB2xDNaUSDPra0cUbtR+3mYbHD+y
- vWQQ==
+ bh=U4Bkihj4DGACHQctYAnhtp6nEz1RGAPDBfirVsTzUzk=;
+ b=GN0jfVRfDYykFpGCGUuj9HyCPBiffRT7Ls+oJMKPTEi4+CK3HHHK08uW34a38sWmPT
+ d9GBs+gL+FzKX+t5pyBhJd5G9dkG6wkNFHMUsgbZnm7tCCSw2BDoWgBs76X4NJ4ygw/W
+ bx0BRWWSBYWOqWvDnWufTZz8LNTm/GZ+I1Kv5QQkevld0m2yK2NrOKPyUMcOTBjfaBkq
+ ZrnTQj+BlPxFe55WM+edG3dJvai0Th1fFRO2cU1No2+ThX11ieaCXpNyvdCaVhg+p9h1
+ +6xQeIi/POW4793yIJaJOoKGYo2PZ0EzmVBDG6bxsUsSdoDXU2IP0b1fFVogJLE2872e
+ J9og==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUQlqfYqjt4/W0tt9HGeArf75wUjkRnLdrrIzcQrvz/lTbE252wN9kGdOMc1mtmisopYzUiBaaVspU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAOCxBWjV1W/rGKni9ZzR6u+Hr+BbmSXkGfMlG3eXDcZVhjDf0
- 0xUfICHjkXzekoCIcYlEDlNtRvyhQyBHfu+W+hjBdFrVH9k7l6wC
-X-Gm-Gg: ASbGncvbenuVWZIf2mkvwkTWsrH7OKzxJZVjzZ0xEgf0cqXSMDjDOpeQ+d0iCX1kUbs
- csHuFQEFTubl7hgu6C2tS2i8KmvkrS1zh4Pl8jKADBs3I3zgQIWnAc/VTvlqAqx5dGndoyA14wC
- l4IhWDvyuT0TInqfZLBNcTBOPLbLkazR0FLht/vOTjeP9btyJMmWC27xKUHSIJwKcsCtQgwgKl/
- orCG/A7paJAKc7evBHNsxfNVwfb9IHGuinaVCzod+sFkCnt59zgmOdJ5z8mYtVjtOY9gGu5/8/I
- H68dG0bi5Ns/bqyeSvP+K5IrOFLkfZuUEzPsJiK7Lbu20JEjsp/a0OpO
-X-Google-Smtp-Source: AGHT+IGVq/VDL8yFNkkrNqMmhpwnPeH21AgiBV1Ypn8QzIpzc6gLajBMUvDiltb0IdO3Sbiytrzwqg==
-X-Received: by 2002:a17:90b:2e0d:b0:2f2:ab09:c256 with SMTP id
- 98e67ed59e1d1-2fce7b07205mr19070739a91.33.1740329025494; 
- Sun, 23 Feb 2025 08:43:45 -0800 (PST)
+ AJvYcCWBPWzNmSTT7xmqte74GoIVP1CMptPSVwahZrHDxcYkb4kyIt9xa/ZFW0JhNeBGfo7yww4YVtLMZFM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzbh2KmIbGTqPXgdOfWdTqH6hSlb8RiDiyh4jEDzzzU0C0nq7v6
+ w/xNlREfOkgJMjMO40Wf6l3VwiCiyxf51UA2DtvN7PoAsB2NenUR
+X-Gm-Gg: ASbGnctdd6CM+UA16WyN7+jInqrhsQ93l3MkBbMZ8zBKEWlor9nE7fu0w70kRCNIArV
+ M+cSqvvuennYjpJxvkOwTZAI3ITAQYZFBBUvqC1wcroGBWMTE4Gx5ibmfqC+WT+aBQI5W9vs8Ej
+ byPEuKfh6zlKlRvgYfjswGaRZi8tiDwoWgB0Fu/ouSd2UgOguSZIK0aCEAPGTku8peix7R/9apW
+ aiGIQF9a06OquH+HqZQjyZlm38vvjeWhBY/BW4tv8qFxqGRBnuYH4iV5eBR+AQKSsFDCicVtJT4
+ 4DBAumV+20q4DGHtATF+DSyyS2dN3N327uATn1FC1MPeJ3RiJKo7dkIP
+X-Google-Smtp-Source: AGHT+IFqMPtN+gPmr77Z5+UXqcepcxQO5H8AaDoUEcywHGCumZ53dM6PMFmuD7xMrlzO6YmaaybKmg==
+X-Received: by 2002:a17:903:2286:b0:220:cd9f:a186 with SMTP id
+ d9443c01a7336-2219fdc2dfcmr186405365ad.0.1740329071014; 
+ Sun, 23 Feb 2025 08:44:31 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2fceb09f6e0sm4935080a91.44.2025.02.23.08.43.36
+ 98e67ed59e1d1-2fceb09f6e0sm4935080a91.44.2025.02.23.08.44.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Feb 2025 08:43:45 -0800 (PST)
+ Sun, 23 Feb 2025 08:44:30 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -84,10 +84,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH 05/17] media: pci: cx18-av-vbi: Replace open-coded parity
- calculation with parity8()
-Date: Mon, 24 Feb 2025 00:42:05 +0800
-Message-Id: <20250223164217.2139331-6-visitorckw@gmail.com>
+Subject: [PATCH 09/17] Input: joystick - Replace open-coded parity calculation
+ with parity32()
+Date: Mon, 24 Feb 2025 00:42:09 +0800
+Message-Id: <20250223164217.2139331-10-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
 References: <20250223164217.2139331-1-visitorckw@gmail.com>
@@ -108,54 +108,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactor parity calculations to use the standard parity8() helper. This
-change eliminates redundant implementations and improves code
+Refactor parity calculations to use the standard parity32() helper.
+This change eliminates redundant implementations and improves code
 efficiency.
 
 Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/media/pci/cx18/cx18-av-vbi.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ drivers/input/joystick/grip_mp.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/media/pci/cx18/cx18-av-vbi.c b/drivers/media/pci/cx18/cx18-av-vbi.c
-index 65281d40c681..1a113aad9cd4 100644
---- a/drivers/media/pci/cx18/cx18-av-vbi.c
-+++ b/drivers/media/pci/cx18/cx18-av-vbi.c
-@@ -8,6 +8,7 @@
-  */
- 
- 
+diff --git a/drivers/input/joystick/grip_mp.c b/drivers/input/joystick/grip_mp.c
+index 5eadb5a3ca37..897ce13753dc 100644
+--- a/drivers/input/joystick/grip_mp.c
++++ b/drivers/input/joystick/grip_mp.c
+@@ -18,6 +18,7 @@
+ #include <linux/delay.h>
+ #include <linux/proc_fs.h>
+ #include <linux/jiffies.h>
 +#include <linux/bitops.h>
- #include "cx18-driver.h"
  
- /*
-@@ -56,15 +57,6 @@ struct vbi_anc_data {
- 	/* u8 fill[]; Variable number of fill bytes */
- };
+ #define DRIVER_DESC	"Gravis Grip Multiport driver"
  
--static int odd_parity(u8 c)
--{
--	c ^= (c >> 4);
--	c ^= (c >> 2);
--	c ^= (c >> 1);
+@@ -112,20 +113,6 @@ static const int axis_map[] = { 5, 9, 1, 5, 6, 10, 2, 6, 4, 8, 0, 4, 5, 9, 1, 5
+ 
+ static int register_slot(int i, struct grip_mp *grip);
+ 
+-/*
+- * Returns whether an odd or even number of bits are on in pkt.
+- */
 -
--	return c & 1;
+-static int bit_parity(u32 pkt)
+-{
+-	int x = pkt ^ (pkt >> 16);
+-	x ^= x >> 8;
+-	x ^= x >> 4;
+-	x ^= x >> 2;
+-	x ^= x >> 1;
+-	return x & 1;
 -}
 -
- static int decode_vps(u8 *dst, u8 *p)
- {
- 	static const u8 biphase_tbl[] = {
-@@ -278,7 +270,7 @@ int cx18_av_decode_vbi_line(struct v4l2_subdev *sd,
- 		break;
- 	case 6:
- 		sdid = V4L2_SLICED_CAPTION_525;
--		err = !odd_parity(p[0]) || !odd_parity(p[1]);
-+		err = !parity8(p[0]) || !parity8(p[1]);
- 		break;
- 	case 9:
- 		sdid = V4L2_SLICED_VPS;
+ /*
+  * Poll gameport; return true if all bits set in 'onbits' are on and
+  * all bits set in 'offbits' are off.
+@@ -236,7 +223,7 @@ static int mp_io(struct gameport* gameport, int sendflags, int sendcode, u32 *pa
+ 		pkt = (pkt >> 2) | 0xf0000000;
+ 	}
+ 
+-	if (bit_parity(pkt) == 1)
++	if (parity32(pkt) == 1)
+ 		return IO_RESET;
+ 
+ 	/* Acknowledge packet receipt */
 -- 
 2.34.1
 
