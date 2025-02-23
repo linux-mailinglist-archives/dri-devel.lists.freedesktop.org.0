@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DFEA40E53
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 12:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE9FA40E54
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 12:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7549D10E034;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA7310E0BB;
 	Sun, 23 Feb 2025 11:32:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="VVmqJyzQ";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="JQeth/Oj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 54C0C10E034
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 11:31:02 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7AFC510E034
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 11:31:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=vmnv2
- MhbHUJhpP+7UCIFUQTwEEWv5QErRDdciQ4T95E=; b=VVmqJyzQ+OBTXAwtKh6dy
- SAB5iOxlJf3AWx1AQCgxIGqVukVC+ytt1gR7heJ6BLZO23TWPB1sUx82TU9Jd8u/
- tmvpMDNYBCpp1oyLxXUWL1UajWdBB4CP27iGMS0P7MyDj5lyxyCn9490+IQyGTs5
- e8nFt643mou9w/XzZoHW3c=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=EHczv
+ SSk5h351i00BwsKZf8PI4LoDDRa7hJpbsRqGqM=; b=JQeth/Oj8PqnJ/7Xc69V8
+ 0q18sNMHKMpvnUHYpbvxUtKPRNab5OxjRFaduMGS25RZDFYBUkPemhCsT5rY5oPJ
+ Jl1yfxCIdEm2/jiLsUeVLytyJV5pVsvDPf6ZRRxTzQfNHVbZo7w6fosQoE2MYI3Z
+ Ny/WRhY1UlO9DuTaUv4oZQ=
 Received: from ProDesk.. (unknown [])
- by gzsmtp4 (Coremail) with SMTP id PygvCgBHWqbdBrtnleHpAg--.47651S7;
- Sun, 23 Feb 2025 19:30:48 +0800 (CST)
+ by gzsmtp4 (Coremail) with SMTP id PygvCgBHWqbdBrtnleHpAg--.47651S8;
+ Sun, 23 Feb 2025 19:30:49 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, mripard@kernel.org, cristian.ciocaltea@collabora.com,
@@ -32,21 +32,22 @@ Cc: hjc@rock-chips.com, mripard@kernel.org, cristian.ciocaltea@collabora.com,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org, robh@kernel.org,
  sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH 5/6] arm64: dts: rockchip: Add DP1 for rk3588
-Date: Sun, 23 Feb 2025 19:30:28 +0800
-Message-ID: <20250223113036.74252-6-andyshrk@163.com>
+Subject: [PATCH 6/6] arm64: dts: rockchip: Enable DisplayPort for rk3588s Cool
+ Pi 4B
+Date: Sun, 23 Feb 2025 19:30:29 +0800
+Message-ID: <20250223113036.74252-7-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250223113036.74252-1-andyshrk@163.com>
 References: <20250223113036.74252-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PygvCgBHWqbdBrtnleHpAg--.47651S7
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrWDCry7tFWfJw17JFWxCrg_yoW8Xw1xpw
- nrurZ3Wry8WFy2q39xt3s5Xr95A3Z5Aa9rKr1xGa4UKr1Sqryqkr1a9rn3Ca4UXr4UXwsF
- kF43Jry8KFsFvaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: PygvCgBHWqbdBrtnleHpAg--.47651S8
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ur48WF43Jw4ktFWxJw4fZrb_yoW8WFykp3
+ ZxArsYgFs7urW7t3s5tF4xJFs8Ars5ua97Jr13Za43KFW7W3s5t34fGw1vyrWYvF4fX3yr
+ tr1kXasF93WDXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UXjjkUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBT8Xme7BHQlkgAAsF
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hv8Xme6-oyBhQAAsA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,57 +65,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The DP1 is compliant with the DisplayPort Specification
-Version 1.4, and share the USBDP combo PHY1 with USB 3.1
-HOST1 controller.
+Enable the Mini DisplayPort on this board.
+Note that ROCKCHIP_VOP2_EP_DP0 is defined as 10 in dt-binding header,
+but it will trigger a dtc warning like "graph node unit address error,
+expected "a"" if we use it directly after endpoint, so we use "a"
+instead here.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 ---
 
- .../arm64/boot/dts/rockchip/rk3588-extra.dtsi | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-index 4a950907ea6f..427d2a39f79a 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-@@ -135,6 +135,36 @@ i2s10_8ch: i2s@fde00000 {
- 		status = "disabled";
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts b/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
+index e892dd7c91aa..0f58eb56557f 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
+@@ -39,6 +39,18 @@ chosen {
+ 		stdout-path = "serial2:1500000n8";
  	};
  
-+	dp1: dp@fde60000 {
-+		compatible = "rockchip,rk3588-dp";
-+		reg = <0x0 0xfde60000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru PCLK_DP1>, <&cru CLK_AUX16M_1>,
-+			 <&cru CLK_DP1>, <&cru MCLK_I2S8_8CH_TX>,
-+			 <&cru MCLK_SPDIF5_DP1>;
-+		clock-names = "apb", "aux", "hdcp", "i2s", "spdif";
-+		assigned-clocks = <&cru CLK_AUX16M_1>;
-+		assigned-clock-rates = <16000000>;
-+		resets = <&cru SRST_DP1>;
-+		phys = <&usbdp_phy1 PHY_TYPE_DP>;
-+		power-domains = <&power RK3588_PD_VO0>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
++	dp-con {
++		compatible = "dp-connector";
++		label = "DP OUT";
++		type = "mini";
 +
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			dp1_in: port@0 {
-+				reg = <0>;
-+			};
-+
-+			dp1_out: port@1 {
-+				reg = <1>;
++		port {
++			dp_con_in: endpoint {
++				remote-endpoint = <&dp0_out_con>;
 +			};
 +		};
 +	};
 +
- 	pcie3x4: pcie@fe150000 {
- 		compatible = "rockchip,rk3588-pcie", "rockchip,rk3568-pcie";
- 		#address-cells = <3>;
+ 	hdmi-con {
+ 		compatible = "hdmi-connector";
+ 		type = "d";
+@@ -220,6 +232,24 @@ &gpu {
+ 	status = "okay";
+ };
+ 
++&dp0 {
++	status = "okay";
++	pinctrl-0 = <&dp0m0_pins>;
++	pinctrl-names = "default";
++};
++
++&dp0_in {
++	dp0_in_vp2: endpoint {
++		remote-endpoint = <&vp2_out_dp0>;
++	};
++};
++
++&dp0_out {
++	dp0_out_con: endpoint {
++		remote-endpoint = <&dp_con_in>;
++	};
++};
++
+ &hdmi0 {
+ 	status = "okay";
+ };
+@@ -889,3 +919,10 @@ vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
+ 		remote-endpoint = <&hdmi0_in_vp0>;
+ 	};
+ };
++
++&vp2 {
++	vp2_out_dp0: endpoint@a {
++		reg = <ROCKCHIP_VOP2_EP_DP0>;
++		remote-endpoint = <&dp0_in_vp2>;
++	};
++};
 -- 
 2.34.1
 
