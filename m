@@ -2,66 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA48A40CD4
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 06:27:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D256A40CE8
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 07:07:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A85D10E039;
-	Sun, 23 Feb 2025 05:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E87A10E1B2;
+	Sun, 23 Feb 2025 06:07:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LBWYKfoX";
+	dkim=pass (2048-bit key; secure) header.d=sladewatkins.com header.i=@sladewatkins.com header.b="BDKiCpJZ";
+	dkim=pass (2048-bit key; secure) header.d=sladewatkins.net header.i=@sladewatkins.net header.b="oTnUa6Om";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0253A10E039
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 05:27:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740288471; x=1771824471;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ZoFMidOYBshnEsnzIKH5pW7glP8uk+guezRItblF2Ys=;
- b=LBWYKfoXVMpzMj1PvUDu/ZjzsWz7ArWAK4bn77OVqSXsWh5X50K0kHH9
- qP/PRsIZ32XTqbTlCwzKlmAjKISUWWkbWqgrvg0PVaQgVbX/NCUsV3jGS
- Ri3bd57ZB/6zu2RZh/P+pEcsONRlWFa40DCFxh06CiJSQ0g6sxcTG1lKp
- BHONeahDi7Eeee6CSeGEalV43HGk5bEj/TEdPecjx6xZnw5xDXXMzWLVN
- mQljWsXNBiC1mnf9xFs/2PPKl7Sn9VBzU7UyFeGEszRN9wKs0zaC0+0ny
- 2EVgxJDI2UY+ZSEaG8S4ge//xbkbo3mhqZ/lnuUdBH3wU/Fd+MceVitTs g==;
-X-CSE-ConnectionGUID: twNeIWeaRlGAgCk5z+97dw==
-X-CSE-MsgGUID: 5t44gvKlQg2IfJ/hu+bvSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52494660"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="52494660"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2025 21:27:49 -0800
-X-CSE-ConnectionGUID: MDi6dxZtSu61rtEuamNdDw==
-X-CSE-MsgGUID: 5Ce2PjiPSwG7ocpbQD3+mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; d="scan'208";a="116261630"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
- by fmviesa010.fm.intel.com with ESMTP; 22 Feb 2025 21:27:45 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tm4Wl-00079L-0b;
- Sun, 23 Feb 2025 05:27:43 +0000
-Date: Sun, 23 Feb 2025 13:26:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- liangjian010@huawei.com, chenjianmin@huawei.com,
- lidongming5@huawei.com, shiyongbang@huawei.com, libaihan@huawei.com,
- shenjian15@huawei.com, shaojijie@huawei.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
- detect of irq feature
-Message-ID: <202502231304.BCzV4Y8D-lkp@intel.com>
-References: <20250222025102.1519798-8-shiyongbang@huawei.com>
+X-Greylist: delayed 452 seconds by postgrey-1.36 at gabe;
+ Sun, 23 Feb 2025 06:07:24 UTC
+Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com
+ [148.163.129.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D3010E217
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 06:07:24 +0000 (UTC)
+Received: from dispatch1-us1.ppe-hosted.com (ip6-localhost [127.0.0.1])
+ by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id
+ 7BB382A8002
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 05:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sladewatkins.com;
+ h=cc:cc:content-transfer-encoding:content-transfer-encoding:content-type:content-type:date:date:from:from:in-reply-to:in-reply-to:message-id:message-id:mime-version:mime-version:references:references:subject:subject:to:to;
+ s=selector-1739986532; bh=tL+mVeQMxkFXhPRf8l5PyJu7sCPJ52EsfXLbcrTR+QY=;
+ b=BDKiCpJZcHVNtp9XhIZUjCzWBmNxRliQMBGWvI4JMHvuxv1LWDeJ+MxP/hc5OP9+gGr6H7POsveQG6FYx7O6FDEGEll8LRjmos1viL2GVUI1yuxAqO0aBmvC9aRK0FmNPDhvm3CdwOw9od61u24oRhJ3jpK9q9aEyQgJuhKSX2uby/W4iDl2cBmwNmZwFcJYXumd5xeAgPTJ+4rd33dfYhfrl0QKxuhraXjW1w1y/M75NQkcfMWBu3BlC6qaLmdmL48isPiMSYmeGfeqjdy3cIznWW77VYg4qyZFEIchgvi/8UtTMNVmihQo2Cm5K/dNJCl/C61wk7GtK9cggDm/bg==
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 2E263700066
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 05:59:49 +0000 (UTC)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-47220fab76eso1648121cf.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2025 21:59:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sladewatkins.net; s=google; t=1740290388; x=1740895188;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tL+mVeQMxkFXhPRf8l5PyJu7sCPJ52EsfXLbcrTR+QY=;
+ b=oTnUa6OmuZip/40FwRBVphXqCh5Ga8LHVmCJ9jLyJEqCxr9kyc4q6AFdo8wCQ7eXEJ
+ wtP6B+YyerTNg0zoNCxCVIw+81caRvPhSHtKXz97kxi4hAr1/dKLurDt1i2ketNA8rN9
+ Dec7s4GHG76jCQpJ34aiWnjLkTHBevHcUOYX4LrqkkYHq68LBhzifME1k6TcXT/ICp2C
+ zvrDQI82WjogjWl0Zb4QdOUg4OR/0me15WvPST6PzkitSLfvRQQFZaaGjUtVEHnXfD7r
+ dpYv2Bb7a74CHDnSVgUb73WY+IO7OvwkDYAD6zUgU2u/K9xdnvrzy1DSNgrdPeTczFUI
+ jAHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740290388; x=1740895188;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tL+mVeQMxkFXhPRf8l5PyJu7sCPJ52EsfXLbcrTR+QY=;
+ b=gPECVaGVIVeTNkNYICzexA2cxCUqPxyrEMkPhQPWrfx0ivf8tggAV6lUBBRa3AScx+
+ KpKk1Sf4F1i/leGoIuHl1vX4uUzJ4F5esKk4SlhTiFF8jgZqVg5KqIoDxX04Eq2LiBGs
+ y+5zqiXvft3bPfuuvcZQ6Ju8/BSVJp/3BDeAKzdfDogcOYKtfQIT2paBUMi+5ykjeAH/
+ y8qtwaBnbr+XBA4Tv1+/befz1lHNoHqToyBFEiD/D9BQwDm0JlK18J8sybp+7kkY5TtT
+ M6HXH/y5AeWGLsxT/Ahwq9QEWafFJl8FN4kLAcnRJO8M1/N/vHwKr7tpN100P3NwJhqx
+ Q4ZA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOGP6j5SgF2vGyN/dRPgv4szZ3OYmv6Q38UXXx6ahFCU32Qks1Gr9SYkC7RV/noy8kLTdeAKyTf+U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPbDZInvlj3HiztN8/bVeMeOzwkLUmiXEkuxcPN4JVqwm8ZmBy
+ r8sM8Wh9XBlQzvi7Zsw98ZLGzsgwhs1M5ISJUOfwhx4Gto2BhzFo4JUW1jk9oQ2TGzZvIhEmaLt
+ wIYsAKDmBd0Y6rcLUbKFGed/Dz7mvFlkmdBHlJ9eAv8KAoS5lvQIJBQ8pmmNgaFH2kpk0dIryWa
+ J5sorNI9f9G/U=
+X-Gm-Gg: ASbGncuVFx2q9bkTh8lDCYM1w3gbSTo5Mwp3/Vd1M8RVO5g3KuPrV+BYv5c6v+SIs7+
+ QxG96E4JFk6IJumF7wi5oSWTs1rdLQ72/7otvcspR3oGdYaxsP0GWKK3ivvGA674FkqsMGyBRNc
+ icbv2rUG1asOlvFqG4UFmPYraRM/cIp/2OPUPmJlwwdSKtoGlN3V2oa2mok8NHvD1L+kHIDvDP7
+ aaCr1lt9DOc3/rJs2l8AlazelDUKkZW2ZVsEhaq0cQthxtuj+cWMQYpCE49ydf7t0aKvarUw+Sf
+ ZIJVeZYeVxGNcLcEztP68gKR7jiN6XOKpKSdwkHN2qwDq95lEcMTaIoi1VH5QTkXMwwpoCr87Cl
+ O9c0=
+X-Received: by 2002:ac8:5943:0:b0:471:ef27:a313 with SMTP id
+ d75a77b69052e-472228e0cd8mr132522321cf.23.1740290388338; 
+ Sat, 22 Feb 2025 21:59:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHobZoEPNEVbzAjy+6qRcpI57LJnIrUU7nIRUOKBrAOd5qMdLhrdrimMqYyYbwOoH1p1MYTJQ==
+X-Received: by 2002:ac8:5943:0:b0:471:ef27:a313 with SMTP id
+ d75a77b69052e-472228e0cd8mr132522181cf.23.1740290388021; 
+ Sat, 22 Feb 2025 21:59:48 -0800 (PST)
+Received: from [192.168.86.23] (syn-076-037-141-128.res.spectrum.com.
+ [76.37.141.128]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-47207d1dc11sm53927831cf.6.2025.02.22.21.59.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 22 Feb 2025 21:59:47 -0800 (PST)
+Message-ID: <4569fa6a-cee5-4499-964e-b1e9e1aef474@sladewatkins.net>
+Date: Sun, 23 Feb 2025 00:59:44 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250222025102.1519798-8-shiyongbang@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Please backport "drm: select DRM_KMS_HELPER from
+ DRM_GEM_SHMEM_HELPER" to 6.13.x
+To: NoisyCoil <noisycoil@disroot.org>
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, arnd@arndb.de
+References: <bfd2258b-9bbe-42e6-89aa-1bd77a58983b@disroot.org>
+Content-Language: en-US
+From: Slade Watkins <srw@sladewatkins.net>
+In-Reply-To: <bfd2258b-9bbe-42e6-89aa-1bd77a58983b@disroot.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MDID: 1740290389-uFeRupSBAoee
+X-MDID-O: us5; ut7; 1740290389; uFeRupSBAoee; <slade@sladewatkins.com>;
+ dbfad48f6c13e9a10057019461e11712
+X-PPE-TRUSTED: V=1;DIR=OUT;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,35 +121,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yongbang,
 
-kernel test robot noticed the following build errors:
+On 2/22/2025 8:20 PM, NoisyCoil wrote:
+> The build (actually, linking) failure described in [1] affects current 
+> stable (6.13.4). Could the commit that fixes it in mainline, namely, 
+> c40ca9ef7c5c9bbb0d2f7774c87417cc4f1713bf ("drm: select DRM_KMS_HELPER 
+> from DRM_GEM_SHMEM_HELPER") be backported to 6.13.x, please?
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.14-rc3 next-20250221]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
++Arnd?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-Restructuring-the-header-dp_reg-h/20250222-110052
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250222025102.1519798-8-shiyongbang%40huawei.com
-patch subject: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug detect of irq feature
-config: arm64-randconfig-004-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231304.BCzV4Y8D-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231304.BCzV4Y8D-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502231304.BCzV4Y8D-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "drm_client_init" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
->> ERROR: modpost: "drm_client_register" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
->> ERROR: modpost: "drm_client_release" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-slade
