@@ -2,74 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C6BA420EF
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8390DA4217F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:44:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5390D10E397;
-	Mon, 24 Feb 2025 13:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC9410E525;
+	Mon, 24 Feb 2025 13:42:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="ZW7mviti";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PX+DSyGo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D02510E117;
- Sun, 23 Feb 2025 19:06:20 +0000 (UTC)
-Received: from [192.168.34.162] (254C2546.nat.pool.telekom.hu [37.76.37.70])
- by mail.mainlining.org (Postfix) with ESMTPSA id B004ABBAC4;
- Sun, 23 Feb 2025 18:58:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
- s=psm; t=1740337139;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GlHPwyr8ZnTM5/WlKroU3Y27jw+MUZrDVj5fqkf7a04=;
- b=ZW7mvitit8z6GSin/Hue14uQh2SZOJucFcv8s1SvNSHs2Hk1Kyy5YgZDDwbSMC/fv/uX7Z
- l0BXfCGpk85iABTzWBWkLWKm5s4KRKN1XEIkYowkO5aFlPpyhDjDR5jtTP4azq1/AfEZHr
- 5ik7zP1h+sorv60eQevlscstEuZyShq9pyO/Mn+TnpTXQfg/LmJ8zQV7D6VnEyqu6pkSLK
- em96t0MUh2b9XFsT5dSMtAXIS0deuAWf4E4OsFu7MQ1Yvr8HvZDflrbojDKvTnkfjYXv+b
- sB6Y718KMiDMbl2EN67a+ZntLa2Hdtu17/dLZQHTd5RikJzfaUHYv9ZXvjOoYg==
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
- <barnabas.czeman@mainlining.org>
-Date: Sun, 23 Feb 2025 19:57:53 +0100
-Subject: [PATCH v2 8/8] arm64: dts: qcom: Add Xiaomi Redmi 3S
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11A2C10E04E
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 20:25:48 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-abb8045c3f3so463274966b.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 12:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740342346; x=1740947146; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
+ b=PX+DSyGobkPxHvbkbvlotKrJQJw9vPYheFIwtwebalRDn0toMnRGVZJQ5VBpFiGcy8
+ Qpdx8MZumMeu+R9u1LmOraAS1XCLRx5D/6V+s6s/ErpjE5O4fPwFsnkdHO6RgsaEDbpk
+ yk34sl12H6T80vWL2Sd5UYj+0aNCGahcpt4ngtQr89P8MWX1BtKkhWfErpc6BtQw+yUv
+ VVpfbsc7G54qXus5v756pOYp5bwKfsHeGmJt5wAjYtsIr6spYpjYO/ojpezEmvykyhoJ
+ MzxzWdPMJhmyZ5F37H3Wde9HsTaJL/0zvVnEOAm9wOjXwXe16YEst88i2OnlAztbYb1n
+ vYEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740342346; x=1740947146;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
+ b=jFAYx2A+B0LZ4jwx+iIlMFSZmOLfos7pTlI5lkfLljZk7oEBlwxeUCTm0hN85ne81a
+ xEO5LANZ1fSqnsRj+/c06ZJmE5t7ukV9afO6wW6QTlTVRCDvyUGsooQIUlZCmY5ZbOYd
+ MYlCu47fbea5K22aS5ByPnrFlT5SaM4zOJHXlTyv4PGghNW1MK4/7IKghk4TBTPHUvi6
+ XHORAzk56Ge69tPP+hoK1VdI1pdCeNRwfNIgnHreECfim2PuYxVQtjkgM4F45k2V2XAS
+ x5uZmLdQ8Zdov3K8DAsoKoF7/kCdN22u+b3NifA3XVvjW1yWuD7V0iw9YNzWAzGu//yr
+ dwDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZkVDeI91w1JCiqERiMJLYlQ1dmL4a/mVqSfmXE/ycWT0wB23Z/4OfuYdwK7S6SEnX6MnI4nk3M40=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywv8Bkmbnw3jK4Hr/EgHbxONHYxvwpqLOWz+IoF6rLDdZmWhLYQ
+ 4rx45o4runfjKjKDTKGkcVK7/ZHNWAeoHUZzW3X9jg9onACI4p+B
+X-Gm-Gg: ASbGnctbUA2+adHzhWn0F6S0FE6Y555A54dbecfrohnAnVRhZmXQo6c/lfaMCQlEwhD
+ HPSwPk+lMae4BqXniLaXxSyVUU3HSVlBmcSEAkSM81GHigQdJzrT3GraGUNyySiIHfujd7iEUBA
+ B1LRrRDl5tIeQXHRgqgnithD023yTeApP9OyReDEbclU+5fnh1QJYM/V+UDT3NMezCOP+ZxPuEb
+ HCLjqrg2301TsjRo9dvW1DaZ3PZBMxx9FNL/7Qg5jj6GwH4CpnsndsGfFG5EJetk/NWASnJWPqN
+ MA9EicpGy45wRnR8nTJrJv+4lvs=
+X-Google-Smtp-Source: AGHT+IEASkBZDUs2HV66FfbppKxrXfiPEOQdWl35/1TkX9MbOUwdnZRhQOYUiSPPWnjZ/EnkcBUtNQ==
+X-Received: by 2002:a17:907:1b26:b0:ab7:be81:8944 with SMTP id
+ a640c23a62f3a-abc099b88ccmr1174431166b.6.1740342346244; 
+ Sun, 23 Feb 2025 12:25:46 -0800 (PST)
+Received: from [192.168.1.100] ([46.248.82.114])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-abbbe74100asm1142813766b.95.2025.02.23.12.25.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Feb 2025 12:25:45 -0800 (PST)
+Message-ID: <602e03fd-ce4b-feef-5053-e95834ab35d7@gmail.com>
+Date: Sun, 23 Feb 2025 21:25:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250223-msm8937-v2-8-b99722363ed3@mainlining.org>
-References: <20250223-msm8937-v2-0-b99722363ed3@mainlining.org>
-In-Reply-To: <20250223-msm8937-v2-0-b99722363ed3@mainlining.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>, 
- =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
- Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, iommu@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740337120; l=10383;
- i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=n6TmArhLEu5eZCXZTy7SUUToG2kqcPyvPFl6FEMcjXc=;
- b=N7bIf6xEJTyvKNjzcpfALzmGJmAjTgKA04ysXxecpMk7MT/COYCKUplgr0QwD6qWgPwPB6it9
- WbQBnV8nqrlAsU4J90nUHGa6l+RJ2XBLJDtetdemzZPRvJl62hDZy1n
-X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
- pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 00/17] Introduce and use generic parity32/64 helper
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
+ arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
+ akpm@linux-foundation.org
+Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+Content-Language: en-US
+From: Uros Bizjak <ubizjak@gmail.com>
+In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,441 +111,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add initial support for Xiaomi Redmi 3S (land).
 
-Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
----
- arch/arm64/boot/dts/qcom/Makefile                |   1 +
- arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts | 408 +++++++++++++++++++++++
- 2 files changed, 409 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 140b0b2abfb555b8ef61bd9ed0217d8997800809..18f0c0f7ebadf86a36b02461c02bdba7bfebe397 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -64,6 +64,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-wingtech-wt88047.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-yiming-uz801v3.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8917-xiaomi-riva.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8929-wingtech-wt82918hd.dtb
-+dtb-$(CONFIG_ARCH_QCOM)	+= msm8937-xiaomi-land.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8939-huawei-kiwi.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8939-longcheer-l9100.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8939-samsung-a7.dtb
-diff --git a/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts b/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..dce61a14b4152ebd6dc80cb77481c4da2fde126d
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts
-@@ -0,0 +1,408 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2024, Barnabas Czeman
-+ */
-+/dts-v1/;
-+
-+#include <dt-bindings/arm/qcom,ids.h>
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+
-+#include "msm8937.dtsi"
-+#include "pm8937.dtsi"
-+#include "pmi8950.dtsi"
-+
-+/delete-node/ &qseecom_mem;
-+
-+/ {
-+	model = "Xiaomi Redmi 3S (land)";
-+	compatible = "xiaomi,land", "qcom,msm8937";
-+	chassis-type = "handset";
-+
-+	qcom,msm-id = <QCOM_ID_MSM8937 0x0>;
-+	qcom,board-id = <0x1000b 1>, <0x2000b 1>;
-+
-+	aliases {
-+		mmc0 = &sdhc_1;
-+		mmc1 = &sdhc_2;
-+	};
-+
-+	speaker_amp: audio-amplifier {
-+		compatible = "awinic,aw8738";
-+		mode-gpios = <&tlmm 124 GPIO_ACTIVE_HIGH>;
-+		awinic,mode = <5>;
-+		sound-name-prefix = "Speaker Amp";
-+		pinctrl-0 = <&speaker_amp_default>;
-+		pinctrl-names = "default";
-+	};
-+
-+	headphones_switch: audio-switch {
-+		compatible = "simple-audio-amplifier";
-+		enable-gpios = <&tlmm 129 GPIO_ACTIVE_HIGH>;
-+		sound-name-prefix = "Headphones Switch";
-+		pinctrl-0 = <&headphones_switch_default>;
-+		pinctrl-names = "default";
-+	};
-+
-+	battery: battery {
-+		compatible = "simple-battery";
-+
-+		charge-full-design-microamp-hours = <4100000>;
-+		constant-charge-current-max-microamp = <1000000>;
-+		voltage-min-design-microvolt = <3400000>;
-+		voltage-max-design-microvolt = <4400000>;
-+	};
-+
-+	chosen {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		stdout-path = "framebuffer0";
-+
-+		framebuffer0: framebuffer@8dd01000 {
-+			compatible = "simple-framebuffer";
-+			reg = <0x0 0x8dd01000 0x0 (720 * 1280 * 3)>;
-+			width = <720>;
-+			height = <1280>;
-+			stride = <(720 * 3)>;
-+			format = "r8g8b8";
-+
-+			clocks = <&gcc GCC_MDSS_AHB_CLK>,
-+				 <&gcc GCC_MDSS_AXI_CLK>,
-+				 <&gcc GCC_MDSS_VSYNC_CLK>,
-+				 <&gcc GCC_MDSS_MDP_CLK>,
-+				 <&gcc GCC_MDSS_BYTE0_CLK>,
-+				 <&gcc GCC_MDSS_PCLK0_CLK>,
-+				 <&gcc GCC_MDSS_ESC0_CLK>;
-+			power-domains = <&gcc MDSS_GDSC>;
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		pinctrl-0 = <&gpio_keys_default>;
-+		pinctrl-names = "default";
-+
-+		key-volup {
-+			label = "Volume Up";
-+			linux,code = <KEY_VOLUMEUP>;
-+			gpios = <&tlmm 91 GPIO_ACTIVE_LOW>;
-+			debounce-interval = <15>;
-+		};
-+	};
-+
-+	irled {
-+		compatible = "gpio-ir-tx";
-+		gpios = <&tlmm 45 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	reserved-memory {
-+		reserved@84a00000 {
-+			reg = <0x0 0x84a00000 0x0 0x1900000>;
-+			no-map;
-+		};
-+
-+		framebuffer: memory@8dd01000 {
-+			reg = <0x0 0x8dd01000 0x0 (720 * 1280 * 3)>;
-+			no-map;
-+		};
-+	};
-+
-+	vph_pwr: vph-pwr-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vph_pwr";
-+		regulator-min-microvolt = <3700000>;
-+		regulator-max-microvolt = <3700000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+};
-+
-+&blsp1_i2c2 {
-+	status = "okay";
-+
-+	led-controller@45 {
-+		compatible = "awinic,aw2013";
-+		reg = <0x45>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		vcc-supply = <&pm8937_l10>;
-+		vio-supply = <&pm8937_l5>;
-+
-+		led@0 {
-+			reg = <0>;
-+			function = LED_FUNCTION_INDICATOR;
-+			led-max-microamp = <5000>;
-+			color = <LED_COLOR_ID_RED>;
-+		};
-+
-+		led@1 {
-+			reg = <1>;
-+			function = LED_FUNCTION_INDICATOR;
-+			led-max-microamp = <5000>;
-+			color = <LED_COLOR_ID_GREEN>;
-+		};
-+
-+		led@2 {
-+			reg = <2>;
-+			function = LED_FUNCTION_INDICATOR;
-+			led-max-microamp = <5000>;
-+			color = <LED_COLOR_ID_BLUE>;
-+		};
-+	};
-+};
-+
-+&blsp1_i2c3 {
-+	status = "okay";
-+
-+	touchscreen@3e {
-+		compatible = "edt,edt-ft5306";
-+		reg = <0x3e>;
-+
-+		interrupts-extended = <&tlmm 65 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
-+		vcc-supply = <&pm8937_l10>;
-+		iovcc-supply = <&pm8937_l5>;
-+
-+		pinctrl-0 = <&tsp_int_rst_default>;
-+		pinctrl-names = "default";
-+
-+		touchscreen-size-x = <720>;
-+		touchscreen-size-y = <1280>;
-+	};
-+};
-+
-+&pm8937_resin {
-+	linux,code = <KEY_VOLUMEDOWN>;
-+	status = "okay";
-+};
-+
-+&pm8937_spmi_regulators {
-+	/* APC */
-+	pm8937_s5: s5 {
-+		regulator-min-microvolt = <1050000>;
-+		regulator-max-microvolt = <1350000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+};
-+
-+&pmi8950_wled {
-+	qcom,num-strings = <2>;
-+	qcom,external-pfet;
-+	qcom,current-limit-microamp = <20000>;
-+	qcom,ovp-millivolt = <29600>;
-+
-+	status = "okay";
-+};
-+
-+&rpm_requests {
-+	regulators-0 {
-+		compatible = "qcom,rpm-pm8937-regulators";
-+
-+		vdd_s1-supply = <&vph_pwr>;
-+		vdd_s2-supply = <&vph_pwr>;
-+		vdd_s3-supply = <&vph_pwr>;
-+		vdd_s4-supply = <&vph_pwr>;
-+
-+		vdd_l1_l19-supply = <&pm8937_s3>;
-+		vdd_l2_l23-supply = <&pm8937_s3>;
-+		vdd_l3-supply = <&pm8937_s3>;
-+		vdd_l4_l5_l6_l7_l16-supply = <&pm8937_s4>;
-+		vdd_l8_l11_l12_l17_l22-supply = <&vph_pwr>;
-+		vdd_l9_l10_l13_l14_l15_l18-supply = <&vph_pwr>;
-+
-+		pm8937_s1: s1 {
-+			regulator-min-microvolt = <1000000>;
-+			regulator-max-microvolt = <1225000>;
-+		};
-+
-+		pm8937_s3: s3 {
-+			regulator-min-microvolt = <1300000>;
-+			regulator-max-microvolt = <1300000>;
-+		};
-+
-+		pm8937_s4: s4 {
-+			regulator-min-microvolt = <2050000>;
-+			regulator-max-microvolt = <2050000>;
-+		};
-+
-+		pm8937_l2: l2 {
-+			regulator-min-microvolt = <1200000>;
-+			regulator-max-microvolt = <1200000>;
-+		};
-+
-+		pm8937_l5: l5 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l6: l6 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l7: l7 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l8: l8 {
-+			regulator-min-microvolt = <2850000>;
-+			regulator-max-microvolt = <2900000>;
-+		};
-+
-+		pm8937_l9: l9 {
-+			regulator-min-microvolt = <3000000>;
-+			regulator-max-microvolt = <3300000>;
-+		};
-+
-+		pm8937_l10: l10 {
-+			regulator-min-microvolt = <2800000>;
-+			regulator-max-microvolt = <3000000>;
-+		};
-+
-+		pm8937_l11: l11 {
-+			regulator-min-microvolt = <2950000>;
-+			regulator-max-microvolt = <2950000>;
-+			regulator-allow-set-load;
-+			regulator-system-load = <200000>;
-+		};
-+
-+		pm8937_l12: l12 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <2950000>;
-+		};
-+
-+		pm8937_l13: l13 {
-+			regulator-min-microvolt = <3075000>;
-+			regulator-max-microvolt = <3075000>;
-+		};
-+
-+		pm8937_l14: l14 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <3300000>;
-+		};
-+
-+		pm8937_l15: l15 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <3300000>;
-+		};
-+
-+		pm8937_l16: l16 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l17: l17 {
-+			regulator-min-microvolt = <2800000>;
-+			regulator-max-microvolt = <2900000>;
-+		};
-+
-+		pm8937_l19: l19 {
-+			regulator-min-microvolt = <1225000>;
-+			regulator-max-microvolt = <1350000>;
-+		};
-+
-+		pm8937_l22: l22 {
-+			regulator-min-microvolt = <2800000>;
-+			regulator-max-microvolt = <2800000>;
-+		};
-+
-+		pm8937_l23: l23 {
-+			regulator-min-microvolt = <1200000>;
-+			regulator-max-microvolt = <1200000>;
-+		};
-+	};
-+};
-+
-+&sdc2_cmd_default {
-+	drive-strength = <12>;
-+};
-+
-+&sdc2_data_default {
-+	drive-strength = <12>;
-+};
-+
-+&sdhc_1 {
-+	vmmc-supply = <&pm8937_l8>;
-+	vqmmc-supply = <&pm8937_l5>;
-+	status = "okay";
-+};
-+
-+&sdhc_2 {
-+	cd-gpios = <&tlmm 67 GPIO_ACTIVE_LOW>;
-+	vmmc-supply = <&pm8937_l11>;
-+	vqmmc-supply = <&pm8937_l12>;
-+	pinctrl-0 = <&sdc2_default &sdc2_cd_default>;
-+	pinctrl-1 = <&sdc2_sleep &sdc2_cd_default>;
-+	pinctrl-names = "default", "sleep";
-+	status = "okay";
-+};
-+
-+&sleep_clk {
-+	clock-frequency = <32768>;
-+};
-+
-+&tlmm {
-+	gpio-reserved-ranges = <0 4>, <20 4>;
-+
-+	gpio_keys_default: gpio-keys-default-state {
-+		pins = "gpio91";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
-+	headphones_switch_default: headphones-switch-default-state {
-+		pins = "gpio129";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
-+	sdc2_cd_default: sdc2-cd-default-state {
-+		pins = "gpio67";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
-+	speaker_amp_default: speaker-amp-default-state {
-+		pins = "gpio124";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
-+	tsp_int_rst_default: tsp-int-rst-default-state {
-+		pins = "gpio64", "gpio65";
-+		function = "gpio";
-+		drive-strength = <8>;
-+		bias-pull-up;
-+	};
-+};
-+
-+&wcnss {
-+	vddpx-supply = <&pm8937_l5>;
-+	status = "okay";
-+};
-+
-+&wcnss_iris {
-+	compatible = "qcom,wcn3620";
-+	vddxo-supply = <&pm8937_l7>;
-+	vddrfa-supply = <&pm8937_l19>;
-+	vddpa-supply = <&pm8937_l9>;
-+	vdddig-supply = <&pm8937_l5>;
-+};
-+
-+&wcnss_mem {
-+	status = "okay";
-+};
-+
-+&xo_board {
-+	clock-frequency = <19200000>;
-+};
+On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:
+> Several parts of the kernel contain redundant implementations of parity
+> calculations for 32-bit and 64-bit values. Introduces generic
+> parity32() and parity64() helpers in bitops.h, providing a standardized
+> and optimized implementation.
+> 
+> Subsequent patches refactor various kernel components to replace
+> open-coded parity calculations with the new helpers, reducing code
+> duplication and improving maintainability.
 
--- 
-2.48.1
+Please note that GCC (and clang) provide __builtin_parity{,l,ll}() 
+family of builtin functions. Recently, I have tried to use this builtin 
+in a couple of places [1], [2], but I had to retract the patches, 
+because __builtin functions aren't strictly required to be inlined and 
+can generate a library call [3].
 
+As explained in [2], the compilers are able to emit optimized 
+target-dependent code (also automatically using popcnt insn when 
+avaialble), so ideally the generic parity64() and parity32() would be 
+implemented using __builtin_parity(), where the generic library would 
+provide a fallback __paritydi2() and __paritysi2() functions, otherwise 
+provided by the compiler support library.
+
+For x86, we would like to exercise the hardware parity calculation or 
+optimized code sequences involving HW parity calculation, as shown in 
+[1] and [2].
+
+[1] https://lore.kernel.org/lkml/20250129205746.10963-1-ubizjak@gmail.com/
+
+[2] https://lore.kernel.org/lkml/20250129154920.6773-2-ubizjak@gmail.com/
+
+[3] 
+https://lore.kernel.org/linux-mm/CAKbZUD0N7bkuw_Le3Pr9o1V2BjjcY_YiLm8a8DPceubTdZ00GQ@mail.gmail.com/
+
+Thanks,
+Uros.
