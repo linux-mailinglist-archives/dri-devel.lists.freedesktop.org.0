@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7761A40EA3
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 12:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38768A40EA4
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 12:54:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC7A10E297;
-	Sun, 23 Feb 2025 11:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 784F710E298;
+	Sun, 23 Feb 2025 11:54:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h7L1j5Z4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cI+ElpLL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C11410E297
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 11:52:09 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E73DB10E298
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 11:54:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9BF2B5C698B;
- Sun, 23 Feb 2025 11:51:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B1F8C4CEDD;
- Sun, 23 Feb 2025 11:52:07 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 3EF8C61132;
+ Sun, 23 Feb 2025 11:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE79CC4CEDD;
+ Sun, 23 Feb 2025 11:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740311528;
- bh=g00fXgKmgUjZV3xG7CeSK90P8cJwJoK2Pn53R6or8ps=;
+ s=k20201202; t=1740311647;
+ bh=0rnegyoPhqtqI/UJ60gCJqaehQ7iPihQkGs6eKBlSN4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h7L1j5Z4CF1bHHxnACvakbNxdW36SLOQ5RApwJX2FNBVDsgKBdg7qohdqTsPZ9YHA
- +GxeLTHRSelhVZl8xkDbFZixeCRrKrjlwpJudNZs10am7/nfut3ZWKMcQnJrC8Yy5Y
- RgrzzXv4LmBJupb4fdeuu/nmL7IprCt0IJdZ1nSL3byDa2k6NJrcD5o53kvChQxd33
- AgpUNwkzuuqQfOYERzHTFnHJ65UQofHJLiDP/Gl3s4IgbPHpUzAXoAgALFfFDODzyC
- M+vS5p5zGiY7GXfPuslPsrJ2cmlcUxsw016+GK+38ubIe1tTmlUDVxifJYpnzFZh2O
- 7uahS7DsY3fmw==
-Date: Sun, 23 Feb 2025 12:52:05 +0100
+ b=cI+ElpLL/qJfgJxNnUNOmBczNjq9lWIGYZFthMAmWkmcpI6GHvhelbY6hqi9j7kKI
+ 20IeqTzUQSxtDfSqL77T1rvXI2EiULA0ZuzsuVJPU/SrvDG7T7qcxXY0gMT9YF3BKb
+ CsWooQguIOtQ/nh3DZfCjIKXbT4vgR1+v/3hjjtXrUUwSlJWKXmp+79zj8VSRtpKX7
+ U0lENZofBwmErHzIckb61qmMripfXj6WLG8o+N1KM/S+aXoU687ZXq1bI/JwFsWrt8
+ 5WSJ79xhqaIgbjAHvZZ8BZgq+B/JzNUST+yHbGikHkZRzE/O2l5CIzNuY8k2BAMUlD
+ KDgYPe9YXBQhg==
+Date: Sun, 23 Feb 2025 12:54:04 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Luca Weiss <luca@lucaweiss.eu>
 Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
@@ -44,15 +44,14 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: vendor-prefixes: document Shenzhen DJN
- Optronics Technology
-Message-ID: <20250223-garrulous-orange-binturong-acf1bb@krzk-bin>
+Subject: Re: [PATCH 2/4] dt-bindings: display: panel: Add Himax HX83112B
+Message-ID: <20250223-tricky-saffron-rattlesnake-aaad63@krzk-bin>
 References: <20250222-fp3-display-v1-0-ccd812e16952@lucaweiss.eu>
- <20250222-fp3-display-v1-1-ccd812e16952@lucaweiss.eu>
+ <20250222-fp3-display-v1-2-ccd812e16952@lucaweiss.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250222-fp3-display-v1-1-ccd812e16952@lucaweiss.eu>
+In-Reply-To: <20250222-fp3-display-v1-2-ccd812e16952@lucaweiss.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,15 +67,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 22, 2025 at 06:58:04PM +0100, Luca Weiss wrote:
-> Add the vendor prefix for DJN (http://en.djnlcd.com/).
+On Sat, Feb 22, 2025 at 06:58:05PM +0100, Luca Weiss wrote:
+> Himax HX83112B is a display driver IC used to drive LCD DSI panels.
+> Describe it and the Fairphone 3 panel from DJN using it.
 > 
 > Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../bindings/display/panel/himax,hx83112b.yaml     | 75 ++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e6bd4b33d40be98e479d84617aea6d2af0df70e4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
+> @@ -0,0 +1,75 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/himax,hx83112b.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Himax HX83112B-based DSI display panels
+> +
+> +maintainers:
+> +  - Luca Weiss <luca@lucaweiss.eu>
+> +
+> +description:
+> +  The Himax HX83112B is a generic DSI Panel IC used to control
+> +  LCD panels.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    contains:
+> +      const: djn,fairphone-fp3-panel
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Why no himax,hx83112b fallback?
 
 Best regards,
 Krzysztof
