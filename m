@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3DAA4210C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC391A4211E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9CD10E3FF;
-	Mon, 24 Feb 2025 13:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1DC10E40E;
+	Mon, 24 Feb 2025 13:41:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iF3FLRXI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aiBxymmF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E32C10E04E;
- Sun, 23 Feb 2025 20:29:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E12C10E04E;
+ Sun, 23 Feb 2025 20:29:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 248605C64AE;
- Sun, 23 Feb 2025 20:28:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBCF9C4CEDD;
- Sun, 23 Feb 2025 20:29:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AA3FF5C63BF;
+ Sun, 23 Feb 2025 20:28:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 515F6C4CEE4;
+ Sun, 23 Feb 2025 20:29:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740342543;
- bh=n4NWWAUXEdT0YGj4Aiq2nVtrLD+1ywCK9QsELKjAkPA=;
+ s=k20201202; t=1740342544;
+ bh=25wcv9/ByfyIXsbtB9mOxT+rcPesJBpvAGF7OtGW36I=;
  h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=iF3FLRXIwtp4T2Mrc28IqG9radah4rcXuDw8jWPJ5stZ1RqEbhlM1DwR5McIjSabZ
- VnqNvJaXrmxh1IPK1QRtBZYepZd/q4kt5Qhs/Eb3Bjw8hPuh+tNJ6c5p/+6kJTlPuF
- hDw5qCFERLC3zo4nQPHGRwmG5gVjICiVjF3sYbihO99NyxMa3O12/eNlv4j5dWBuzF
- 0XwH/Y9FmdlSGdtANBBoc+nANUcxa1rv3FvHQEt4zn6V/S9nGDV/KklY9ZcGpUubTS
- 2O9a1d7sbik66eeIvpXvXRzVWo0vgcdvudFv/WJ7C2JAy24V3vYgd7EKxoLDdiU+qj
- ELJmu770IhaDg==
-Date: Sun, 23 Feb 2025 14:29:01 -0600
+ b=aiBxymmFac4ydGQwnzY6lVVO/Xg3v8emyWIXixXZ0atfmnRtswFfuOCX4IpiBEbti
+ XKRgFf5IkZb3qqSW1KEzvzpgthwboxZvKliFoUBGrIWZHn8a3lCyZfgzD4VW8Q20Wt
+ AYCFAnuqqiggtTm2XRoNDRO2zWZSORs1dGovHFEaE5ecIRrZFXvrj1kYvWt90ZGNa7
+ Zo1IEF4ErR5dw+oZ7/TzAairfuv7aJlf9zMk17nKSgpFa8rL8rTff2Rrai2+xNo8/B
+ B6QR1CxWibSFGH29Q4WDNK1YLOa/xTXw8g7vmpvXgOdPXtCeT7IfYfNHjRBgpyV1AA
+ XkE+uvViPn16Q==
+Date: Sun, 23 Feb 2025 14:29:03 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Simona Vetter <simona@ffwll.ch>, Conor Dooley <conor+dt@kernel.org>, 
- linux-gpio@vger.kernel.org, Will Deacon <will@kernel.org>, 
- linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>, 
- David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
  =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
- Rob Clark <robdclark@gmail.com>, Lee Jones <lee@kernel.org>, 
- Sean Paul <sean@poorly.run>, Stephen Boyd <sboyd@kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>, 
+ freedreno@lists.freedesktop.org, iommu@lists.linux.dev, 
+ Stephan Gerhold <stephan@gerhold.net>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Lee Jones <lee@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Robin Murphy <robin.murphy@arm.com>, linux-clk@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, iommu@lists.linux.dev, 
+ Adam Skladowski <a39.skl@gmail.com>, Will Deacon <will@kernel.org>, 
+ David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Sean Paul <sean@poorly.run>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, freedreno@lists.freedesktop.org, 
- Bjorn Andersson <andersson@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Maxime Ripard <mripard@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, linux-gpio@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
  Michael Turquette <mturquette@baylibre.com>, 
- Stephan Gerhold <stephan@gerhold.net>
+ Robin Murphy <robin.murphy@arm.com>
 To: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-In-Reply-To: <20250223-msm8937-v2-4-b99722363ed3@mainlining.org>
+In-Reply-To: <20250223-msm8937-v2-5-b99722363ed3@mainlining.org>
 References: <20250223-msm8937-v2-0-b99722363ed3@mainlining.org>
- <20250223-msm8937-v2-4-b99722363ed3@mainlining.org>
-Message-Id: <174034253782.156239.3219626417590856183.robh@kernel.org>
-Subject: Re: [PATCH v2 4/8] dt-bindings: iommu: qcom,iommu: Add MSM8937
- IOMMU to SMMUv1 compatibles
+ <20250223-msm8937-v2-5-b99722363ed3@mainlining.org>
+Message-Id: <174034253866.156279.3992338487990231067.robh@kernel.org>
+Subject: Re: [PATCH v2 5/8] dt-bindings: drm/msm/gpu: Document AON clock
+ for A505/A506/A510
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,16 +80,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sun, 23 Feb 2025 19:57:49 +0100, Barnabás Czémán wrote:
-> Add MSM8937 compatible string with "qcom,msm-iommu-v1" as fallback
-> for the MSM8937 IOMMU which is compatible with Qualcomm's secure
-> fw "SMMU v1" implementation.
+On Sun, 23 Feb 2025 19:57:50 +0100, Barnabás Czémán wrote:
+> From: Adam Skladowski <a39.skl@gmail.com>
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Adreno 505 (MSM8937), Adreno 506(MSM8953) and Adreno 510(MSM8976)
+> require Always-on branch clock to be enabled, describe it.
+> 
+> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+> [reword commit, move alwayson on the first place]
 > Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 > ---
->  Documentation/devicetree/bindings/iommu/qcom,iommu.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -101,7 +103,7 @@ dtschema/dtc warnings/errors:
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250223-msm8937-v2-4-b99722363ed3@mainlining.org
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250223-msm8937-v2-5-b99722363ed3@mainlining.org
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
