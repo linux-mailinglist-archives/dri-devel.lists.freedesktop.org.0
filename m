@@ -2,49 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE25A4213F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A826A4212E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 003C210E42D;
-	Mon, 24 Feb 2025 13:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2879410E17A;
+	Mon, 24 Feb 2025 13:41:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="dla8E8dk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CJWRJJfr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDB110E027
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 15:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
- t=1740324557; bh=hN7DZ9oLfkraNLNI5u4MTj4WoyJjFliLGCQi+3yJ2kc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=dla8E8dkJPoZDFQlxhvpcCJvubg+X44jV2yRz9wQ267cH9CqTMsMT/UTyKLQGm25t
- eW8zwFE7QkVVpZ0d06dMd4Ty6sg+CvHQbINoQJ5ELCFD4ftaaLMx08WWqYwVlyi6RD
- YRPMxtazghT9NvVxiViyHjE6dlCppgtE4ErlsMU4=
-Message-ID: <89cbb27e-414a-472f-8664-db5b4d37ddc1@lucaweiss.eu>
-Date: Sun, 23 Feb 2025 16:29:16 +0100
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/4] dt-bindings: display: panel: Add Himax HX83112B
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B9710E027
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 15:33:16 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-5452c2805bcso4036164e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 07:33:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740324794; x=1740929594; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YgjojD0fkXCQkwACLWsbK5zmwbRWKyzVLcOWkG51yvI=;
+ b=CJWRJJfrZPXcqdUgaS/uIBukzS7ZBV5UBg++jK6xsVyphBReGAELLZ03n6fn/wvxr3
+ U5o/rzXKF8bR8KCcIDZOL7qnKkgNn3alyeMPZ8E2m1LbzRIr5goz6TNYq7iYHXcx452c
+ 4uMSiFJO3gn1WfGKCDJdDc9Ny/uxnr8mAuzWykGe6BF+ji6zWWnXs912PM2qTKaDA8D8
+ xPUfeOYqykpy9FUVajwthW354fe31c1nEqYrxhfoN3TYQh3wx+r/iNsJ7/uTIxuR83Hg
+ BhotmJYVKVNcKjvgF/N+eCALqbkaCx0+jkBGuPPMns/ttK3qyXw109RXEXBcr1yU48Nm
+ u3fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740324794; x=1740929594;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YgjojD0fkXCQkwACLWsbK5zmwbRWKyzVLcOWkG51yvI=;
+ b=Mepvhjgt05BPTyDlaQlOczmxR2hrZosU9Bl5nVPpUOsjNEEWX9vyQ9ToOLJp5UwK9k
+ t6mgHPmE6kQktEzYbdj0vjJo6FjSVbFI81DD7yZQrkR5/1VxqHYtFJkN3U9m2V5ewHsP
+ zc7ZLWDg6oKVGURlz73LRJaLr/kR/kZEgNRxAAJRWn0OTdu37QNlKudNMl5xQN6QwwXj
+ PelzmnRoaWhGvG484H4fs3+TWjgzRrpg1q32l9D3VKGDGj/cbjN7cLMj7MqT0YTvrhhs
+ HRbPN5JjBl5AyeIt75Kb/rE9CZjAUoTVfrzXoH7beejQVjHMngah40yVSvTeR2BBKY/Q
+ +Q8g==
+X-Gm-Message-State: AOJu0Ywq4Qmq+eyDix/8bhyuBiJAcpU8JyPF8XV62LFK/0Rvh+HdodXw
+ jj9SQqKuezvttxrNUhaT5TcC2UEmNosWI4zZwaVvruTEI587gdyx
+X-Gm-Gg: ASbGncv1j1EQ7QwfRXJiWCNv7i39LWZa8XKx93mwial2qnfgXQOa1VVbB9FsZuND0j5
+ LSBxuyR8Y6Xy7dOnVSorw8pgmSCtg2F/oAF5w0K9ZJTItLYPLd4FQ2uGq70FsxbkmqGo741DBrt
+ DCRvi1dWV1bpRCiaOX2MRWTtwsUzn2teie46jtqgnMRpjvgVVRpn4aB2e/klI6QFEA7ZCQtV9b5
+ sVTilVK0oHB3vlPWiOB84+Swe1CmKih9MZ+Ua6J9ZUooihpTvsprSmf/JrVvwE5xIIttAOT4b6m
+ hBn+1tp6sqjrphvt
+X-Google-Smtp-Source: AGHT+IG77PHKjf5AhiLyerMkTqb453TjzWBZYQ7pg1s4WIRVRUE0L2S+OmWF2VO1uU3W239jf6xc6Q==
+X-Received: by 2002:a05:6512:1386:b0:545:e19:ba24 with SMTP id
+ 2adb3069b0e04-54838f791d4mr4496251e87.48.1740324793960; 
+ Sun, 23 Feb 2025 07:33:13 -0800 (PST)
+Received: from xeon.. ([188.163.112.51]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54523dd8ca3sm3025569e87.181.2025.02.23.07.33.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Feb 2025 07:33:13 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20250222-fp3-display-v1-0-ccd812e16952@lucaweiss.eu>
- <20250222-fp3-display-v1-2-ccd812e16952@lucaweiss.eu>
- <20250223-tricky-saffron-rattlesnake-aaad63@krzk-bin>
-Content-Language: en-US
-From: Luca Weiss <luca@lucaweiss.eu>
-In-Reply-To: <20250223-tricky-saffron-rattlesnake-aaad63@krzk-bin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] drm: bridge: add ssd2825 RGB/DSI bridge support
+Date: Sun, 23 Feb 2025 17:32:42 +0200
+Message-ID: <20250223153244.149102-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +91,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+Solomon SSD2825 is a RGB to MIPI DSI bridge used in LG Optimus 4D P880
+and LG Optimus Vu P895
 
-On 23-02-2025 12:54 p.m., Krzysztof Kozlowski wrote:
-> On Sat, Feb 22, 2025 at 06:58:05PM +0100, Luca Weiss wrote:
->> Himax HX83112B is a display driver IC used to drive LCD DSI panels.
->> Describe it and the Fairphone 3 panel from DJN using it.
->>
->> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
->> ---
->>   .../bindings/display/panel/himax,hx83112b.yaml     | 75 ++++++++++++++++++++++
->>   1 file changed, 75 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..e6bd4b33d40be98e479d84617aea6d2af0df70e4
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
->> @@ -0,0 +1,75 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/panel/himax,hx83112b.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Himax HX83112B-based DSI display panels
->> +
->> +maintainers:
->> +  - Luca Weiss <luca@lucaweiss.eu>
->> +
->> +description:
->> +  The Himax HX83112B is a generic DSI Panel IC used to control
->> +  LCD panels.
->> +
->> +allOf:
->> +  - $ref: panel-common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    contains:
->> +      const: djn,fairphone-fp3-panel
-> 
-> Why no himax,hx83112b fallback?
+---
+Changes on switching from v2 to v3:
+- added mutex guard
+- configuration register flags parametrized using panel flags
+- removed unneded debug messages
+- removed unimplemented modes checks
+- added check for maximum pixel row length
+- use types header
+- remove ssd2825_to_ns
+- shift bridge setup into atomic pre-enable
+- cleaned default values of hzd and hpd
 
-While this is the driver IC for this panel, I don't think there's any 
-"generic" init sequence that can successfully configure this panel, so 
-generic hx83112b driver could work I'd say.
+Changes on switching from v1 to v2:
+- added description for clock
+- removed clock-names
+- added boundries for hs-zero-delay-ns and hs-prep-delay-ns
+- added mutex lock for host transfers
+- converted to atomic ops
+- get drm_display_mode mode with atomic helpers
+- parameterized INTERFACE_CTRL_REG_6 configuration
+- added video mode validation and fixup
+- removed clock name
+- switched to devm_regulator_bulk_get_const
+- added default timings
+---
 
-Regards
-Luca
+Svyatoslav Ryhel (2):
+  dt-bindings: display: bridge: Document Solomon SSD2825
+  drm: bridge: Add support for Solomon SSD2825 RGB/DSI bridge
 
-> 
-> Best regards,
-> Krzysztof
-> 
+ .../display/bridge/solomon,ssd2825.yaml       | 141 +++
+ drivers/gpu/drm/bridge/Kconfig                |  13 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/ssd2825.c              | 821 ++++++++++++++++++
+ 4 files changed, 976 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/solomon,ssd2825.yaml
+ create mode 100644 drivers/gpu/drm/bridge/ssd2825.c
+
+-- 
+2.43.0
 
