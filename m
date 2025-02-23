@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49BDA40DAA
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 10:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30ED5A40DA7
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2025 10:33:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6827310E0B6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5B110E03A;
 	Sun, 23 Feb 2025 09:33:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mEvbdRS1";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SvqbIkZ/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E56410E03A
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 09:32:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 327EC10E03A
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 09:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1740303154;
- bh=IIbQtGdGs7/uoTW3BPrdz9oK55TicYM24n7b/K73gFU=;
- h=From:Subject:Date:To:Cc:From;
- b=mEvbdRS1VxG65ooVjFYOLU7F8HeB1To6Bi79Hb7N9zMDZvL8lbl0MX/6g2u6q+37U
- 4x5ZNGK9SD7cpsNG0F6fw+hLOWhpFzQ8QhAKGzZA9xIPNEUuOTkCd3CGCfRzuKud9J
- 2A2/3Ivu6OWh68VIRPentM+bXr74fL/vtOUmVa3v5GasPfr8Sp/Q1zlyCZpYppKyXj
- dHq/IWwK/uUtNquzGdqxqF9tP98nj9/pp+B3yGfoFtN32iCtHKBja5bzfoTdwFjmKH
- fzEAdLXjvhTTdOFstg4yAbIK54ARp6OQ2tXe8jayHVHC0juxHL22s0jyfrEhGBvRPe
- YRVRphvDUijLw==
+ bh=0OPWL1Pq9MJ+uuqDestb4m/s3yphbnfHKs8L0d5GcPE=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=SvqbIkZ/e8ipm7IDhPI+prNTIqS9yLKUdQsBSQ6erv4wHJk0AHBAE4XecaQP+Ibf/
+ VEOxe7GjI8ypKosnmoaqAVIJrRf/JX3LUJYl9dPRoosLnJ1+Gaga3vmSKB0OBOKGpx
+ IDj4NFuvl38bquAdx8TGPTF9gOZCX3OqjQdFv0DvFZgNeTvEXBEaw+ItiKe2Aywzuk
+ KdXxj3O8xfiCRUsdijuK87mdEJXffBi10C7EkDoJHfl7EDNIu5wot8Pbv42Oy1XPIm
+ zsNRiPX7A5C9n7x5VzohyaeoCa0tcscdSJGU6xFcpBrTmyZFno4Bsk0YW+bAVJ1Giu
+ G+oee4AEvCMlw==
 Received: from localhost (unknown [188.27.58.83])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id CBB1117E00BD;
- Sun, 23 Feb 2025 10:32:33 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id B45A517E00FC;
+ Sun, 23 Feb 2025 10:32:34 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH v2 0/5] Improve Rockchip VOP2 display modes handling on
- RK3588 HDMI1
-Date: Sun, 23 Feb 2025 11:31:36 +0200
-Message-Id: <20250223-vop2-hdmi1-disp-modes-v2-0-f4cec5e06fbe@collabora.com>
+Date: Sun, 23 Feb 2025 11:31:37 +0200
+Subject: [PATCH v2 1/5] drm/rockchip: vop2: Improve display modes handling
+ on RK3588 HDMI1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPjqumcC/4WNQQ6CMBBFr0K6dgwzEayuvIdhUdpRJgGGtKbRE
- O5u5QIu30v++6tJHIWTuVariZwlic4F6FAZP7j5ySChsKGampqwgawLwRAmQQiSFpg0cAJ2Nrg
- T2d5bNmW7RH7Ie+/eu8KDpJfGz36T8Wf/FTNCDRYvLbkzNhjam9dxdL1Gd/Q6mW7bti+VtVD5v
- gAAAA==
-X-Change-ID: 20250215-vop2-hdmi1-disp-modes-ea8da428bc8e
+Message-Id: <20250223-vop2-hdmi1-disp-modes-v2-1-f4cec5e06fbe@collabora.com>
+References: <20250223-vop2-hdmi1-disp-modes-v2-0-f4cec5e06fbe@collabora.com>
+In-Reply-To: <20250223-vop2-hdmi1-disp-modes-v2-0-f4cec5e06fbe@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
  =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, 
@@ -73,46 +70,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As a followup to getting basic HDMI1 output support [1] merged upstream,
-make use of the HDMI1 PHY PLL to provide better VOP2 display modes
-handling for the second HDMI output port on RK3588 SoC, similarly to
-what has been achieved recently for HDMI0 [2].
+The RK3588 specific implementation is currently quite limited in terms
+of handling the full range of display modes supported by the connected
+screens, e.g. 2560x1440@75Hz, 2048x1152@60Hz, 1024x768@60Hz are just a
+few of them.
 
-Please note Heiko's fix [3] in of_clk_get_hw_from_clkspec() is also
-required for boards that do not provide HDMI0 output, that is to ensure
-devm_clk_get_optional() returns NULL instead of ERR_PTR(-EPROBE_DEFER),
-which otherwise would put rockchip-drm module in a permanent deferred
-probe mode.
+Additionally, it doesn't cope well with non-integer refresh rates like
+59.94, 29.97, 23.98, etc.
 
-Additionally, enable HDMI1 output on Rockchip RK3588 EVB1.
-
-[1] https://lore.kernel.org/lkml/20241211-rk3588-hdmi1-v2-0-02cdca22ff68@collabora.com/
-[2] https://lore.kernel.org/lkml/20250204-vop2-hdmi0-disp-modes-v3-0-d71c6a196e58@collabora.com/
-[3] https://lore.kernel.org/lkml/20250222223733.2990179-1-heiko@sntech.de/
+Make use of HDMI1 PHY PLL as a more accurate DCLK source to handle
+all display modes up to 4K@60Hz.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Changes in v2:
-- Make use of dev_err_probe() for handling failures when trying to get
-  pll_hdmiphy1 optional clock (Sebastian)
-- Add a new patch to replace drm_err() calls in vop2_bind() and
-  vop2_create_crtcs() with dev_err_probe(), to simplify error handling
-  and improve consistency, along with some related fixes
-- Link to v1: https://lore.kernel.org/r/20250215-vop2-hdmi1-disp-modes-v1-0-81962a7151d6@collabora.com
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
----
-Cristian Ciocaltea (5):
-      drm/rockchip: vop2: Improve display modes handling on RK3588 HDMI1
-      drm/rockchip: vop2: Consistently use dev_err_probe()
-      arm64: dts: rockchip: Enable HDMI1 PHY clk provider on RK3588
-      arm64: dts: rockchip: Add HDMI1 PHY PLL clock source to VOP2 on RK3588
-      arm64: dts: rockchip: Enable HDMI1 on rk3588-evb1
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index afc946ead87091373605e59dbca281a9e91bea57..14e039e9143ab855f32c392c5b097b97bcba70b8 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -216,6 +216,7 @@ struct vop2 {
+ 	struct clk *aclk;
+ 	struct clk *pclk;
+ 	struct clk *pll_hdmiphy0;
++	struct clk *pll_hdmiphy1;
+ 
+ 	/* optional internal rgb encoder */
+ 	struct rockchip_rgb *rgb;
+@@ -2270,11 +2271,14 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	 * Switch to HDMI PHY PLL as DCLK source for display modes up
+ 	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
+ 	 */
+-	if (vop2->pll_hdmiphy0 && clock <= VOP2_MAX_DCLK_RATE) {
++	if ((vop2->pll_hdmiphy0 || vop2->pll_hdmiphy1) && clock <= VOP2_MAX_DCLK_RATE) {
+ 		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
+ 			struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+ 
+ 			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI0) {
++				if (!vop2->pll_hdmiphy0)
++					break;
++
+ 				if (!vp->dclk_src)
+ 					vp->dclk_src = clk_get_parent(vp->dclk);
+ 
+@@ -2284,6 +2288,20 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
+ 				break;
+ 			}
++
++			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI1) {
++				if (!vop2->pll_hdmiphy1)
++					break;
++
++				if (!vp->dclk_src)
++					vp->dclk_src = clk_get_parent(vp->dclk);
++
++				ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy1);
++				if (ret < 0)
++					drm_warn(vop2->drm,
++						 "Could not switch to HDMI1 PHY PLL: %d\n", ret);
++				break;
++			}
+ 		}
+ 	}
+ 
+@@ -3733,6 +3751,11 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(vop2->pll_hdmiphy0);
+ 	}
+ 
++	vop2->pll_hdmiphy1 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy1");
++	if (IS_ERR(vop2->pll_hdmiphy1))
++		return dev_err_probe(drm->dev, PTR_ERR(vop2->pll_hdmiphy1),
++				     "failed to get pll_hdmiphy1\n");
++
+ 	vop2->irq = platform_get_irq(pdev, 0);
+ 	if (vop2->irq < 0) {
+ 		drm_err(vop2->drm, "cannot find irq for vop2\n");
 
- arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts |  42 ++++++++-
- arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi   |  22 +++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c     | 108 +++++++++++++----------
- 3 files changed, 123 insertions(+), 49 deletions(-)
----
-base-commit: 0ae0fa3bf0b44c8611d114a9f69985bf451010c3
-change-id: 20250215-vop2-hdmi1-disp-modes-ea8da428bc8e
+-- 
+2.48.1
 
