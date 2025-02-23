@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26074A420F2
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B9AA42131
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA5410E3B0;
-	Mon, 24 Feb 2025 13:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 951CC10E453;
+	Mon, 24 Feb 2025 13:41:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="CfnqB93i";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="Ses6nwLU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 457 seconds by postgrey-1.36 at gabe;
- Sun, 23 Feb 2025 19:06:20 UTC
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5271110E02C;
- Sun, 23 Feb 2025 19:06:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D2210E04F;
+ Sun, 23 Feb 2025 19:06:21 +0000 (UTC)
 Received: from [192.168.34.162] (254C2546.nat.pool.telekom.hu [37.76.37.70])
- by mail.mainlining.org (Postfix) with ESMTPSA id 1E07DBBAB3;
- Sun, 23 Feb 2025 18:58:49 +0000 (UTC)
+ by mail.mainlining.org (Postfix) with ESMTPSA id 5B189BBAB6;
+ Sun, 23 Feb 2025 18:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
- s=psm; t=1740337130;
+ s=psm; t=1740337133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z246zezQsbXmW6ySsE8/P5ydLD0Q9o6QEpyka1CHFOY=;
- b=CfnqB93izEdU4jARJBRhbMPT9DqN+iSCXqPHaW6WB4Mgtj2ngXultM+5YlemV4XATjNsNq
- i5XUwfSwa14QrUQXUe5eTShBVAhUfOrSRYzG6yoYU3fFiw0/gAtrJZ57w773tHVs3STSFw
- NfpOD1wdghEk2BZf1WLyMVkspscBjX+Cr0GAFoG8d2joYywBTdVvnReOxbqRpGElH5p2WP
- kHCmLuWuchReKOU6/z8v0qJ1PoKjvoeTlno3z5waLSIsdUhsZ+VNjvYCCJ/Nt3gygW3XeO
- 5Kywk7dXYfQV1bqHFXAlrPABnT6gwGa8A72SJKDV8AdnR0lAb9LoHQJBxoduiA==
+ bh=J3WiKNi0MIshObrUkPnMHrbIdV3GvCNsZBMA8goXVDc=;
+ b=Ses6nwLU0eo5fm5DmVrN3VwtdABkhE+vJOyS5vOpA0XdSkiYCrRb6R47CcynvFXygHwhn4
+ kLyFKpf+8+G2tMXqyyxfNM4pIvBbM2xjKZ3Zg4ywFm1pUsC7YWb3Q13HnaiQJi/s8/qCsl
+ R2eyXVX390VFEXqYPj/iXxEB+rxXzRmDnWoCCgAmQ29OuG6THTX0UwtU9CxWyAffx8UySF
+ KvXdTSXuQxHu9dRcHtT0aGkLwunoqtVnNlHk3oc0QOTRRYR7VVIc0/Uduopn17c4WUp7Rf
+ JD8NSBgiwF2FEJMOXai44JqP+nRJ/9rlZaxStcILCxLprYx2PIdmevQNy25Hpg==
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
  <barnabas.czeman@mainlining.org>
-Date: Sun, 23 Feb 2025 19:57:49 +0100
-Subject: [PATCH v2 4/8] dt-bindings: iommu: qcom,iommu: Add MSM8937 IOMMU
- to SMMUv1 compatibles
+Date: Sun, 23 Feb 2025 19:57:50 +0100
+Subject: [PATCH v2 5/8] dt-bindings: drm/msm/gpu: Document AON clock for
+ A505/A506/A510
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250223-msm8937-v2-4-b99722363ed3@mainlining.org>
+Message-Id: <20250223-msm8937-v2-5-b99722363ed3@mainlining.org>
 References: <20250223-msm8937-v2-0-b99722363ed3@mainlining.org>
 In-Reply-To: <20250223-msm8937-v2-0-b99722363ed3@mainlining.org>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -65,13 +63,13 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, iommu@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Adam Skladowski <a39.skl@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740337120; l=1026;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740337120; l=1421;
  i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=LjF/wuS0Kp0a3fx8BedXAUUREYCxLDlQzoS7oLz29U4=;
- b=DPw8gGt0BLfs0MdMDjNrvXdyN745W57lQLjm9Yg8tSdya+PNLz5DqzyaqOSJMO2ofNOGfNXna
- k+wGGgnM1RmA/5Y0h1oMUpv7IpFI1jh5/n1ZnmZp+VMEkpvh9sna5KY
+ bh=JwsrQQ1h4foaqssnMVZ2dfrZxb+bgTSu50bLlQR5yv0=;
+ b=tpxYpeRTM5XGKU7CNSwaYlhV+yW0Zr0m3RaCHUzmitJs1/tcwApQcb7woCo8lUMg6+/TPnhLx
+ adB/dHA9ZETAzJd8grSr3wBFvpCyJ3eLhHkcU0g0PJWM8RzTd3WItjT
 X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
  pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,28 +87,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MSM8937 compatible string with "qcom,msm-iommu-v1" as fallback
-for the MSM8937 IOMMU which is compatible with Qualcomm's secure
-fw "SMMU v1" implementation.
+From: Adam Skladowski <a39.skl@gmail.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Adreno 505 (MSM8937), Adreno 506(MSM8953) and Adreno 510(MSM8976)
+require Always-on branch clock to be enabled, describe it.
+
+Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+[reword commit, move alwayson on the first place]
 Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 ---
- Documentation/devicetree/bindings/iommu/qcom,iommu.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml b/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
-index 5ae9a628261fd251c1e991a70662c6d37ef2c4e3..3e5623edd207abbfbd2ba80f51db7829f02eb7b5 100644
---- a/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
-@@ -22,6 +22,7 @@ properties:
-           - enum:
-               - qcom,msm8916-iommu
-               - qcom,msm8917-iommu
-+              - qcom,msm8937-iommu
-               - qcom,msm8953-iommu
-           - const: qcom,msm-iommu-v1
-       - items:
+diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+index 6ddc72fd85b04537ea270754a897b4e7eb269641..5028398cc3b517e404a92a2c30688f72eab4c1b3 100644
+--- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+@@ -152,11 +152,13 @@ allOf:
+       properties:
+         clocks:
+           minItems: 2
+-          maxItems: 7
++          maxItems: 8
+ 
+         clock-names:
+           items:
+             anyOf:
++              - const: alwayson
++                description: GPU Always-On clock
+               - const: core
+                 description: GPU Core clock
+               - const: iface
+@@ -174,7 +176,7 @@ allOf:
+               - const: rbcpr
+                 description: GPU RB Core Power Reduction clock
+           minItems: 2
+-          maxItems: 7
++          maxItems: 8
+ 
+       required:
+         - clocks
 
 -- 
 2.48.1
