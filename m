@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCF6A420F6
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADBAA4210F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CB310E3BA;
-	Mon, 24 Feb 2025 13:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78E4410E3F2;
+	Mon, 24 Feb 2025 13:41:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mB6c/Iax";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ur4nKnkW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC0D10E071
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 16:44:42 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-220f048c038so68415165ad.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 08:44:42 -0800 (PST)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD3010E09E
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 16:45:04 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-2fc0bd358ccso7496899a91.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 08:45:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740329082; x=1740933882; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740329104; x=1740933904; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OqxvpgZHoGiLr6YH8sD6RZa4e3r1mx+K51Pz7JFmQwA=;
- b=mB6c/IaxrCfTab7l3/pjqSnhmmqHxrSXH5BFoEJQdKbODxXzJKNeRtM1mkvbuPK74Q
- wVMpJJ+MzXsfrRu5XtBtKSDzzbcFqrQTdB5LNqWzy+84DosQ2jknHkS1nanQtz8cYAsl
- jZnzNaOr2bfi+PewaVa7cv9ggaH6+QPb1gTG0sKk6VUb6eQYauHRmhyp7MbnNS/rGInk
- dsOsJi23AsSSXrmOkd4xAGpNGo1hpqGBTigJXBkbW4UKgUyF19JDTC4gsH4Pk5W4cyZr
- 9pMBgFr8CDnWjQpf4hjG9NVku7D9EC0wsODKlILHMIGpKhCefvYmmUfpMT50xgAatFn5
- oVvA==
+ bh=HQRFKAla41Ay10wYFnrS+X/WAyPF0gKgODKhC/FC/AE=;
+ b=Ur4nKnkW/LALglx4T6ZVA6/JLXMnNOFZl+j4b5qseje+w2ex+RlCHYLnXBOK3LZ4j8
+ 1OKaG7yvA3444UA+wrdNarh794pbd2B1bqaQP/MSIVQbryNBzoTuVQ3rZoTXAUdwfS1f
+ Or+WqfADYMrhjZMJHWVNDAeUDzkJNTrckYOMJdOhA1wTMdk7aco3VS/EqnwIWAcqcI7P
+ 9V4xpSoesv7Lt9AR0h6vWA5DA0tc1/kVkwP+ixbMUsoZtmbtEJq42mc9UlIvL6SR5ZN1
+ FpBpaMquXBG+H/q1Knwo8zpYawruxII5ZeSA79T4iVJwLfIYFa4dq/o3jmTMamEYzBh5
+ SkFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740329082; x=1740933882;
+ d=1e100.net; s=20230601; t=1740329104; x=1740933904;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OqxvpgZHoGiLr6YH8sD6RZa4e3r1mx+K51Pz7JFmQwA=;
- b=IvgZeCQGydkjGcrtQ43+cuV6/sVFBOMh6fKTuZt2IujE2K/Po2U/kgeV1nnIaPhN8U
- y55JWZ2QC19ArKgF1aYk86V157Ub5tqpIeM4d03T7YnHveZfsotjB3CFrM0YoIB2rj95
- JH8fjVNcDQtaefGIuQBhTKg14dlJSbzFzPeR1j66IP0JYM4AVxmORdNqeCoKFcuOr8cm
- SYV2xjkfqbrwxkt+YTG2914iIbl7hHfcxRSRyeA/Y/ddVQswRnkm006C1VN0YFEud2YJ
- gJYpgXylrMq7SMfTtobDE7X0/Bvmsj8p2Q1XQRsrKf4dbXJ5IcYw8fedayFiCNwxcU1w
- l8ug==
+ bh=HQRFKAla41Ay10wYFnrS+X/WAyPF0gKgODKhC/FC/AE=;
+ b=mK0jy5xZEUtXViI9f4tjRqyzbY8yUQUCdf6X+limnK58xREtTTWyuy55OBz93r7T5a
+ 9jyx2EoJS/vU0D9k/PwYPa64T0T2jUn+CwZRhpIPO6Yb+mlUHtEESCmhYv66MNPSGw2T
+ /Bj/tdlF4hgOnS1hox8QYPZOzblmNou0yQEldTbyje46fWLVmZznjnZN1DuGorVuZNk+
+ ul8tcKCmyi5jFblsi9r30nEwPQj2yWZGXW4aw1E6akObM1LQ1SEiU75J+pbGEmY/lc6x
+ 7xGWMz04tnTs2KtgqWxIuP/a32MjhZ+QYbjgDFsEPKNO6DurjtxR0L2NRbG9BlO5kfI+
+ iWaw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUFIRZiC0gps4wrslVSLwcVdkiEVfBc6Sk4kKRhGMoAG8LnWH6t0xFRo36C+R8XMB7uVEq6wWeG2qQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkzUT5Cow0xldxlw8seKfCyA5mXzawNX9DgrmkVKoHkg/KvHsG
- Ryv72j9+w7WQ/le+qM+hfYBSNUUkV4L6+t+9YL/q3RkRY7pk3KR0
-X-Gm-Gg: ASbGnctH+SuhnVeV358HxSA8RjUmVYf30zTPQ+e1QYd0jYuirRGGQZqhuVq5q5KBzmu
- 6ZP/Oe9VYYtT7Fm/VArKznuyzDTNSaVx4tH2jowpvwUxAIpMir9pzFYRu9pLU02dwYFFcLQPCvh
- 335XiU8EP9NML2oqSsOXZ65IDZO4OGEvfKvHHB0+BhLFRl8hdAP/HQm10t4QhnV+rOoAGqxGPDb
- LOUxO5UJWyXsLH44HehK/U5ZrljVy9oe6mtfNOo1wQ0kv7xxqjIvXMpc8j3YURqq9sXXOAricCS
- xq4T1pXuPOQhN1yIOBJhznfguwaWXkHy0N5leTEoCznG66qv0HF1+q7U
-X-Google-Smtp-Source: AGHT+IGsE1LtqpOiLzBH/xsJP0qffWffejZOaFdgJ8XT2KOaHV87U7eq24SL1hIn8uNFPIxHHHWZ4w==
-X-Received: by 2002:a17:902:d54c:b0:220:e023:8fa6 with SMTP id
- d9443c01a7336-2219ffd8556mr169735225ad.50.1740329081702; 
- Sun, 23 Feb 2025 08:44:41 -0800 (PST)
+ AJvYcCV6vURAlfSDsW7QdjWUuGi9jULC29pdByp/QolXYvDjgyjiSJVQSS/aaUhxx75uiRQ+zg4/xS1h9LE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1aAHXSf4OWXFfcIgY6BEY0xdyrFnKLO49NBKdcyNay2ZpyNbq
+ Ow+d4KQEbHHa5ZI/9oJSgHLdyot7ZO7WpSK5BgffE4wGlsI+CV7n
+X-Gm-Gg: ASbGncvldeW5OIIRtCvNT+XUov+waaKV56AzCfC+0RKz0fQj6K3RKcklPMIXc46qjZ1
+ HMRIl+qGI7jO0HNaPYrzk/3Ws24F2xsE2VlqVAo8sFSGqZHKHYwcP7v8kJU46zfjilwhLbgcWsl
+ cL7DN3IV914OvW5fVnhUTjgWajz2+bwn/RFsMr/eZP+QAtOYspEJuYA3G8tSpkTlP68DGbPtC6T
+ 8W1MOTKdqnA3QRWLgfRz6aNiWbvkdc4tbAJIi2txWTdKukbhXMo53P86xYWcHTOb8/kiwePiPYV
+ Be1p6YmjybsYxXxVYcRsuAUsaw1FnIaD3uSC4ak+GbmJZxVnE+NjYkFm
+X-Google-Smtp-Source: AGHT+IGJMVNjh2ZkbH600/jnGa2+6i7gpIXMvZAnEqRCXvTYi+XMSGJQL5WK3aQh+mNtGiJ0yE3iuQ==
+X-Received: by 2002:a17:90b:2590:b0:2ee:df70:1ff3 with SMTP id
+ 98e67ed59e1d1-2fce75e1b18mr21089922a91.0.1740329104301; 
+ Sun, 23 Feb 2025 08:45:04 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2fceb09f6e0sm4935080a91.44.2025.02.23.08.44.32
+ 98e67ed59e1d1-2fceb09f6e0sm4935080a91.44.2025.02.23.08.44.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Feb 2025 08:44:41 -0800 (PST)
+ Sun, 23 Feb 2025 08:45:03 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -84,10 +84,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH 10/17] net: ethernet: oa_tc6: Replace open-coded parity
+Subject: [PATCH 12/17] drm/bridge: dw-hdmi: Replace open-coded parity
  calculation with parity32()
-Date: Mon, 24 Feb 2025 00:42:10 +0800
-Message-Id: <20250223164217.2139331-11-visitorckw@gmail.com>
+Date: Mon, 24 Feb 2025 00:42:12 +0800
+Message-Id: <20250223164217.2139331-13-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
 References: <20250223164217.2139331-1-visitorckw@gmail.com>
@@ -116,60 +116,35 @@ Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/net/ethernet/oa_tc6.c | 19 +++----------------
- 1 file changed, 3 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-index db200e4ec284..f02dba7b89a1 100644
---- a/drivers/net/ethernet/oa_tc6.c
-+++ b/drivers/net/ethernet/oa_tc6.c
-@@ -6,6 +6,7 @@
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+index cf1f66b7b192..833e65f33483 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+@@ -4,6 +4,7 @@
+  *
+  * Written and tested against the Designware HDMI Tx found in iMX6.
   */
- 
- #include <linux/bitfield.h>
 +#include <linux/bitops.h>
- #include <linux/iopoll.h>
- #include <linux/mdio.h>
- #include <linux/phy.h>
-@@ -177,19 +178,6 @@ static int oa_tc6_spi_transfer(struct oa_tc6 *tc6,
- 	return spi_sync(tc6->spi, &msg);
- }
+ #include <linux/io.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+@@ -171,12 +172,7 @@ static void dw_hdmi_reformat_iec958(struct snd_dw_hdmi *dw,
  
--static int oa_tc6_get_parity(u32 p)
--{
--	/* Public domain code snippet, lifted from
--	 * http://www-graphics.stanford.edu/~seander/bithacks.html
--	 */
--	p ^= p >> 1;
--	p ^= p >> 2;
--	p = (p & 0x11111111U) * 0x11111111U;
--
--	/* Odd parity is used here */
--	return !((p >> 28) & 1);
--}
--
- static __be32 oa_tc6_prepare_ctrl_header(u32 addr, u8 length,
- 					 enum oa_tc6_register_op reg_op)
+ static u32 parity(u32 sample)
  {
-@@ -202,7 +190,7 @@ static __be32 oa_tc6_prepare_ctrl_header(u32 addr, u8 length,
- 		 FIELD_PREP(OA_TC6_CTRL_HEADER_ADDR, addr) |
- 		 FIELD_PREP(OA_TC6_CTRL_HEADER_LENGTH, length - 1);
- 	header |= FIELD_PREP(OA_TC6_CTRL_HEADER_PARITY,
--			     oa_tc6_get_parity(header));
-+			     !parity32(header));
- 
- 	return cpu_to_be32(header);
+-	sample ^= sample >> 16;
+-	sample ^= sample >> 8;
+-	sample ^= sample >> 4;
+-	sample ^= sample >> 2;
+-	sample ^= sample >> 1;
+-	return (sample & 1) << 27;
++	return parity32(sample) << 27;
  }
-@@ -940,8 +928,7 @@ static __be32 oa_tc6_prepare_data_header(bool data_valid, bool start_valid,
- 		     FIELD_PREP(OA_TC6_DATA_HEADER_END_BYTE_OFFSET,
- 				end_byte_offset);
  
--	header |= FIELD_PREP(OA_TC6_DATA_HEADER_PARITY,
--			     oa_tc6_get_parity(header));
-+	header |= FIELD_PREP(OA_TC6_DATA_HEADER_PARITY, !parity32(header));
- 
- 	return cpu_to_be32(header);
- }
+ static void dw_hdmi_reformat_s24(struct snd_dw_hdmi *dw,
 -- 
 2.34.1
 
