@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576CEA420EC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCF6A420F6
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF4310E3A1;
-	Mon, 24 Feb 2025 13:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3CB310E3BA;
+	Mon, 24 Feb 2025 13:41:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TsNl2ElH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mB6c/Iax";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A59689D8E
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 16:44:21 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2fc1c80cdc8so5668622a91.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 08:44:20 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC0D10E071
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 16:44:42 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-220f048c038so68415165ad.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 08:44:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740329060; x=1740933860; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740329082; x=1740933882; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EcXJ496C/2+0qa2GsfTbiscKGioWO59ZW48/kJd6oSs=;
- b=TsNl2ElHUN3n7M2QxydDTyjqptOTlHEu/f7WunQOVjy4hSuIs5u6ll953Yfn0BhMH9
- hpyNsREl997Eavw3wdwvwmTXOy+fP3608Kr7q14/WUSP/sKDVKQyUm32aMAmvpUn2DB/
- XmJvK9789O6ZCyCXU9NLNSxo0wLhXtnD1qSwLwVVfYF3+WIa62+wymXlASWF02Q3j+qv
- d+riHBf1jdsk7QAkG1hb1GsrCpfK7L521IM4kD+4ll3AtVBtFVV1Ev/xIffI++jTbER8
- PWj+ftYMWPdH1Hp/3UBmxeqD2wUe5NJuRvUsk5sywc++kHOkpypsmopR6w67OYYReNEZ
- MYxA==
+ bh=OqxvpgZHoGiLr6YH8sD6RZa4e3r1mx+K51Pz7JFmQwA=;
+ b=mB6c/IaxrCfTab7l3/pjqSnhmmqHxrSXH5BFoEJQdKbODxXzJKNeRtM1mkvbuPK74Q
+ wVMpJJ+MzXsfrRu5XtBtKSDzzbcFqrQTdB5LNqWzy+84DosQ2jknHkS1nanQtz8cYAsl
+ jZnzNaOr2bfi+PewaVa7cv9ggaH6+QPb1gTG0sKk6VUb6eQYauHRmhyp7MbnNS/rGInk
+ dsOsJi23AsSSXrmOkd4xAGpNGo1hpqGBTigJXBkbW4UKgUyF19JDTC4gsH4Pk5W4cyZr
+ 9pMBgFr8CDnWjQpf4hjG9NVku7D9EC0wsODKlILHMIGpKhCefvYmmUfpMT50xgAatFn5
+ oVvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740329060; x=1740933860;
+ d=1e100.net; s=20230601; t=1740329082; x=1740933882;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EcXJ496C/2+0qa2GsfTbiscKGioWO59ZW48/kJd6oSs=;
- b=h2ko5wQEvTVFiC1Hmn/jFgOle20eb7NavgWOcUGVAD108itRrHqiaA1lJ25cMbfXSa
- +Ig2G7fH6tVnAf/Ndzq1N8Q3G7fFn/x8Cd2DOy7i/1ig+OyrgolgOLTk+heAGaEB3ySX
- ht+kTuVtAk/bpzeMMa0MXz7nOvxqf6/bac/xSO/E2HB43wsmuVcBgbjBItKgfpNJ1pYh
- 0IcJm8o7GWa8wF1FtRZNdbKLp8Lko9Ei5hagXjsanY2IZt6iD9jgH+zcxGjX3pBFeQeO
- Pf2oICww7dKD9w6Xa9+HD4EYAsjw0Yq9SGjHl719ufqzJ/9ZBlnknQGY9qlEzzEh2lKD
- SFwg==
+ bh=OqxvpgZHoGiLr6YH8sD6RZa4e3r1mx+K51Pz7JFmQwA=;
+ b=IvgZeCQGydkjGcrtQ43+cuV6/sVFBOMh6fKTuZt2IujE2K/Po2U/kgeV1nnIaPhN8U
+ y55JWZ2QC19ArKgF1aYk86V157Ub5tqpIeM4d03T7YnHveZfsotjB3CFrM0YoIB2rj95
+ JH8fjVNcDQtaefGIuQBhTKg14dlJSbzFzPeR1j66IP0JYM4AVxmORdNqeCoKFcuOr8cm
+ SYV2xjkfqbrwxkt+YTG2914iIbl7hHfcxRSRyeA/Y/ddVQswRnkm006C1VN0YFEud2YJ
+ gJYpgXylrMq7SMfTtobDE7X0/Bvmsj8p2Q1XQRsrKf4dbXJ5IcYw8fedayFiCNwxcU1w
+ l8ug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVPw4g9jbPhDqeALyyv8iJYJZHGNyLVexahD9FW0kb/e0dIK5lv8dTb235yNjYZHcof64iMc99u2Zk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGZmGLG1tcFlBGUTkI6DFGtCu8LkUTqsVSl5PISoMHSXfDKq5g
- bkrnylaUaHK4wBHLU08/XvrqUskE+VJRNBoOCmdYNh/xlhceaz0v
-X-Gm-Gg: ASbGncu3fqJ6BEaLYsQ3OnAkDF485ct3E76W1DE3M8+6lex5EXmXdGZ4zh8mSRly+uf
- kskCbgopusxC/Zj8Lrx6T0BvIkp1CRdiiuCuJxhVwSndBw732eCTHLHO8afIPGKMYULpbcm6SDS
- Af0231CDvCfAiVfw2ErQI9Yk6l89l4K+MZBNVwQYzjNIwJhAH1OiLYxvO4iPLAJLDQIj9hwvqEI
- usGI8fVX1pLggLe/Hz9REmsMFFYa4GABo1v2OkbjtqJyXelj0wXauaA1aK23dVtvS5SJf44n5PQ
- bMAFsMTtad/eWhT5wKDbCiNxX1ckP7sP4Fe76I8nspAdCsKAA6mcu8IK
-X-Google-Smtp-Source: AGHT+IHbMWEVOubhP8X9psmxxmvHUjnp2Da3yrH5tyGilfGOwqHtwm1WTVAYDoMFuzjd1nirp2a0lA==
-X-Received: by 2002:a17:90b:2f10:b0:2ee:f076:20f1 with SMTP id
- 98e67ed59e1d1-2fce75d8389mr20940871a91.0.1740329060473; 
- Sun, 23 Feb 2025 08:44:20 -0800 (PST)
+ AJvYcCUFIRZiC0gps4wrslVSLwcVdkiEVfBc6Sk4kKRhGMoAG8LnWH6t0xFRo36C+R8XMB7uVEq6wWeG2qQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkzUT5Cow0xldxlw8seKfCyA5mXzawNX9DgrmkVKoHkg/KvHsG
+ Ryv72j9+w7WQ/le+qM+hfYBSNUUkV4L6+t+9YL/q3RkRY7pk3KR0
+X-Gm-Gg: ASbGnctH+SuhnVeV358HxSA8RjUmVYf30zTPQ+e1QYd0jYuirRGGQZqhuVq5q5KBzmu
+ 6ZP/Oe9VYYtT7Fm/VArKznuyzDTNSaVx4tH2jowpvwUxAIpMir9pzFYRu9pLU02dwYFFcLQPCvh
+ 335XiU8EP9NML2oqSsOXZ65IDZO4OGEvfKvHHB0+BhLFRl8hdAP/HQm10t4QhnV+rOoAGqxGPDb
+ LOUxO5UJWyXsLH44HehK/U5ZrljVy9oe6mtfNOo1wQ0kv7xxqjIvXMpc8j3YURqq9sXXOAricCS
+ xq4T1pXuPOQhN1yIOBJhznfguwaWXkHy0N5leTEoCznG66qv0HF1+q7U
+X-Google-Smtp-Source: AGHT+IGsE1LtqpOiLzBH/xsJP0qffWffejZOaFdgJ8XT2KOaHV87U7eq24SL1hIn8uNFPIxHHHWZ4w==
+X-Received: by 2002:a17:902:d54c:b0:220:e023:8fa6 with SMTP id
+ d9443c01a7336-2219ffd8556mr169735225ad.50.1740329081702; 
+ Sun, 23 Feb 2025 08:44:41 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2fceb09f6e0sm4935080a91.44.2025.02.23.08.44.11
+ 98e67ed59e1d1-2fceb09f6e0sm4935080a91.44.2025.02.23.08.44.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Feb 2025 08:44:20 -0800 (PST)
+ Sun, 23 Feb 2025 08:44:41 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -84,10 +84,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH 08/17] lib/bch: Replace open-coded parity calculation with
- parity32()
-Date: Mon, 24 Feb 2025 00:42:08 +0800
-Message-Id: <20250223164217.2139331-9-visitorckw@gmail.com>
+Subject: [PATCH 10/17] net: ethernet: oa_tc6: Replace open-coded parity
+ calculation with parity32()
+Date: Mon, 24 Feb 2025 00:42:10 +0800
+Message-Id: <20250223164217.2139331-11-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
 References: <20250223164217.2139331-1-visitorckw@gmail.com>
@@ -116,41 +116,60 @@ Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- lib/bch.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ drivers/net/ethernet/oa_tc6.c | 19 +++----------------
+ 1 file changed, 3 insertions(+), 16 deletions(-)
 
-diff --git a/lib/bch.c b/lib/bch.c
-index 1c0cb07cdfeb..769459749982 100644
---- a/lib/bch.c
-+++ b/lib/bch.c
-@@ -311,18 +311,6 @@ static inline int deg(unsigned int poly)
- 	return fls(poly)-1;
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+index db200e4ec284..f02dba7b89a1 100644
+--- a/drivers/net/ethernet/oa_tc6.c
++++ b/drivers/net/ethernet/oa_tc6.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/bitfield.h>
++#include <linux/bitops.h>
+ #include <linux/iopoll.h>
+ #include <linux/mdio.h>
+ #include <linux/phy.h>
+@@ -177,19 +178,6 @@ static int oa_tc6_spi_transfer(struct oa_tc6 *tc6,
+ 	return spi_sync(tc6->spi, &msg);
  }
  
--static inline int parity(unsigned int x)
+-static int oa_tc6_get_parity(u32 p)
 -{
--	/*
--	 * public domain code snippet, lifted from
+-	/* Public domain code snippet, lifted from
 -	 * http://www-graphics.stanford.edu/~seander/bithacks.html
 -	 */
--	x ^= x >> 1;
--	x ^= x >> 2;
--	x = (x & 0x11111111U) * 0x11111111U;
--	return (x >> 28) & 1;
+-	p ^= p >> 1;
+-	p ^= p >> 2;
+-	p = (p & 0x11111111U) * 0x11111111U;
+-
+-	/* Odd parity is used here */
+-	return !((p >> 28) & 1);
 -}
 -
- /* Galois field basic operations: multiply, divide, inverse, etc. */
+ static __be32 oa_tc6_prepare_ctrl_header(u32 addr, u8 length,
+ 					 enum oa_tc6_register_op reg_op)
+ {
+@@ -202,7 +190,7 @@ static __be32 oa_tc6_prepare_ctrl_header(u32 addr, u8 length,
+ 		 FIELD_PREP(OA_TC6_CTRL_HEADER_ADDR, addr) |
+ 		 FIELD_PREP(OA_TC6_CTRL_HEADER_LENGTH, length - 1);
+ 	header |= FIELD_PREP(OA_TC6_CTRL_HEADER_PARITY,
+-			     oa_tc6_get_parity(header));
++			     !parity32(header));
  
- static inline unsigned int gf_mul(struct bch_control *bch, unsigned int a,
-@@ -524,7 +512,7 @@ static int solve_linear_system(struct bch_control *bch, unsigned int *rows,
- 		tmp = 0;
- 		for (r = m-1; r >= 0; r--) {
- 			mask = rows[r] & (tmp|1);
--			tmp |= parity(mask) << (m-r);
-+			tmp |= parity32(mask) << (m-r);
- 		}
- 		sol[p] = tmp >> 1;
- 	}
+ 	return cpu_to_be32(header);
+ }
+@@ -940,8 +928,7 @@ static __be32 oa_tc6_prepare_data_header(bool data_valid, bool start_valid,
+ 		     FIELD_PREP(OA_TC6_DATA_HEADER_END_BYTE_OFFSET,
+ 				end_byte_offset);
+ 
+-	header |= FIELD_PREP(OA_TC6_DATA_HEADER_PARITY,
+-			     oa_tc6_get_parity(header));
++	header |= FIELD_PREP(OA_TC6_DATA_HEADER_PARITY, !parity32(header));
+ 
+ 	return cpu_to_be32(header);
+ }
 -- 
 2.34.1
 
