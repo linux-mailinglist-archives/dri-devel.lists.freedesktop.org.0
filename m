@@ -2,81 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF94A42113
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1DDA4210E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6C9F10E3FD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8099810E3F4;
 	Mon, 24 Feb 2025 13:41:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CeUtgmJ4";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ejF4qh/6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29E4210E051;
- Mon, 24 Feb 2025 03:53:30 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51NM4Hin001740;
- Mon, 24 Feb 2025 03:53:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ALU04tsqdZsRPiZwa5Y6ZXqz2LMFNuvmWWw14DcDdbI=; b=CeUtgmJ48KQhhit0
- 84ugcNOGp9lmAOhyD1xbKk9M3uGwFjHtGnIKI05EblYKrpy/G34i+A1GYHv5J4xf
- nlfi3dxyKp3qdmn4n0E+KguyGcbNjhuSJJvvl4mDSvrsiyTUUu+EKqbASV2uITvW
- lg9zTGIlYkE7A494ycr9U9E9JKmNwiaxuLuf9hpEa0XUKmfP8EAzHbiYfaO1dAxg
- csMeNSaW7jvmhLyDNhRF2W4QC83c3p5mVASpuES1eilWi7kJ4NF44+604WrbgCLM
- i253xFM8polYGnml+/uObqMtj1+iQmEoCaWd4rqYhYAsIa8M/e/7EqJsIm5BrNYl
- UsvECg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y3xnbq2w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2025 03:53:27 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51O3rQNW005913
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2025 03:53:26 GMT
-Received: from [10.110.85.197] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 23 Feb
- 2025 19:53:26 -0800
-Message-ID: <a49164d9-50ec-4362-954d-5667725d1a94@quicinc.com>
-Date: Sun, 23 Feb 2025 19:53:25 -0800
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC5C410E118
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 05:13:06 +0000 (UTC)
+X-UUID: 060c2a58f26e11ef8eb9c36241bbb6fb-20250224
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=0Xf3zNMSr+yu5a58iIvJf4uTceCQidvq4R1Svcp2yks=; 
+ b=ejF4qh/68ugQBmFvcgRXHLQbCmqqvdLcaRpl1lDwa85n4hQqyccfeUxHLUMm3zxeUPzSnC4KiNI6v6NcpCTtWvyrbCOVyd0lj9of+QOsTfe1teD8YJPXBqSUdCdGGT+pKJj08Y7tmt+upGFdCIYilxS+eqpJQaS8rVFPhL9nphA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.46, REQID:686a94d8-87d3-402d-8a1a-034c65dfa4ef, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:60aa074, CLOUDID:b3e978a4-5c06-4e72-8298-91cabc9efadf,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+ l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 060c2a58f26e11ef8eb9c36241bbb6fb-20250224
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1748444666; Mon, 24 Feb 2025 13:13:03 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Mon, 24 Feb 2025 13:13:02 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.28 via Frontend Transport; Mon, 24 Feb 2025 13:13:02 +0800
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+CC: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, Nancy Lin
+ <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Yongqiang
+ Niu <yongqiang.niu@mediatek.com>, Sirius Wang <sirius.wang@mediatek.com>,
+ Xavier Chang <xavier.chang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Chen-yu Tsai <wenst@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH] drm/mediatek: Fix config_updating flag never false when no
+ mbox channel
+Date: Mon, 24 Feb 2025 13:12:21 +0800
+Message-ID: <20250224051301.3538484-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] drm/msm/dpu: allow sharing SSPP between planes
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241215-dpu-share-sspp-v5-1-665d266183f9@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241215-dpu-share-sspp-v5-1-665d266183f9@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: J4cGPwJ5op0wOEYXkWlTFI3bXNF8R20e
-X-Proofpoint-GUID: J4cGPwJ5op0wOEYXkWlTFI3bXNF8R20e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-24_01,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- suspectscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- priorityscore=1501 spamscore=0 malwarescore=0 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2502240026
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,275 +81,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When CONFIG_MTK_CMDQ is enabled, if the display is controlled by the CPU
+while other hardware is controlled by the GCE, the display will encounter
+a mbox request channel failure.
+However, it will still enter the CONFIG_MTK_CMDQ statement, causing the
+config_updating flag to never be set to false. As a result, no page flip
+event is sent back to user space, and the screen does not update.
 
+Fixes: da03801ad08f ("drm/mediatek: Move mtk_crtc_finish_page_flip() to ddp_cmdq_cb()")
+Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_crtc.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-On 12/15/2024 5:10 AM, Dmitry Baryshkov wrote:
-> Since SmartDMA planes provide two rectangles, it is possible to use them
-> to drive two different DRM planes, first plane getting the rect_0,
-> another one using rect_1 of the same SSPP. The sharing algorithm is
-> pretty simple, it requires that each of the planes can be driven by the
-> single rectangle and only consequetive planes are considered.
-> 
-
-consequetive - > consecutive (this was highlighted in v4 too)
-
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> This patch has been deferred from v5 of virtual wide patchset to
-> simplify the merging path. Now as the wide planes have been merged, pick
-> up the patch that allows sharing of the SSPPs between two planes.
-> ---
-> Changes since v4:
-> - Rebased on top of the current msm-next-lumag
-> - Renamed dpu_plane_try_multirect() to dpu_plane_try_multirect_shared()
->    (Abhinav)
-> - Link to v4: https://lore.kernel.org/dri-devel/20240314000216.392549-11-dmitry.baryshkov@linaro.org/
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 153 +++++++++++++++++++++++++-----
->   1 file changed, 128 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 098abc2c0003cde90ce6219c97ee18fa055a92a5..2fd21d27df4741a8d942f9c9bae989f319cfb8d8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -887,10 +887,9 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
->   	return 0;
->   }
->   
-> -static int dpu_plane_is_multirect_parallel_capable(struct dpu_hw_sspp *sspp,
-> -						   struct dpu_sw_pipe_cfg *pipe_cfg,
-> -						   const struct msm_format *fmt,
-> -						   uint32_t max_linewidth)
-> +static int dpu_plane_is_multirect_capable(struct dpu_hw_sspp *sspp,
-> +					  struct dpu_sw_pipe_cfg *pipe_cfg,
-> +					  const struct msm_format *fmt)
->   {
->   	if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
->   	    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect))
-> @@ -902,10 +901,6 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_hw_sspp *sspp,
->   	if (MSM_FORMAT_IS_YUV(fmt))
->   		return false;
->   
-> -	if (MSM_FORMAT_IS_UBWC(fmt) &&
-> -	    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
-> -		return false;
-> -
->   	if (!test_bit(DPU_SSPP_SMART_DMA_V1, &sspp->cap->features) &&
->   	    !test_bit(DPU_SSPP_SMART_DMA_V2, &sspp->cap->features))
->   		return false;
-> @@ -913,6 +908,27 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_hw_sspp *sspp,
->   	return true;
->   }
->   
-> +static int dpu_plane_is_parallel_capable(struct dpu_sw_pipe_cfg *pipe_cfg,
-> +					 const struct msm_format *fmt,
-> +					 uint32_t max_linewidth)
-> +{
-> +	if (MSM_FORMAT_IS_UBWC(fmt) &&
-> +	    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +static int dpu_plane_is_multirect_parallel_capable(struct dpu_hw_sspp *sspp,
-> +						   struct dpu_sw_pipe_cfg *pipe_cfg,
-> +						   const struct msm_format *fmt,
-> +						   uint32_t max_linewidth)
-> +{
-> +	return dpu_plane_is_multirect_capable(sspp, pipe_cfg, fmt) &&
-> +		dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth);
-> +}
-> +
-> +
->   static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
->   				       struct drm_atomic_state *state,
->   				       const struct drm_crtc_state *crtc_state)
-> @@ -1001,6 +1017,69 @@ static bool dpu_plane_try_multirect_parallel(struct dpu_sw_pipe *pipe, struct dp
->   	return true;
->   }
->   
-> +static int dpu_plane_try_multirect_shared(struct dpu_plane_state *pstate,
-> +					  struct dpu_plane_state *prev_pstate,
-> +					  const struct msm_format *fmt,
-> +					  uint32_t max_linewidth)
-> +{
-> +	struct dpu_sw_pipe *pipe = &pstate->pipe;
-> +	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-> +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-> +	struct dpu_sw_pipe *prev_pipe = &prev_pstate->pipe;
-> +	struct dpu_sw_pipe_cfg *prev_pipe_cfg = &prev_pstate->pipe_cfg;
-> +	const struct msm_format *prev_fmt = msm_framebuffer_format(prev_pstate->base.fb);
-> +	u16 max_tile_height = 1;
-> +
-> +	if (prev_pstate->r_pipe.sspp != NULL ||
-> +	    prev_pipe->multirect_mode != DPU_SSPP_MULTIRECT_NONE)
-> +		return false;
-> +
-> +	if (!dpu_plane_is_multirect_capable(pipe->sspp, pipe_cfg, fmt) ||
-> +	    !dpu_plane_is_multirect_capable(prev_pipe->sspp, prev_pipe_cfg, prev_fmt))
-> +		return false;
-> +
-> +	if (MSM_FORMAT_IS_UBWC(fmt))
-> +		max_tile_height = max(max_tile_height, fmt->tile_height);
-> +
-> +	if (MSM_FORMAT_IS_UBWC(prev_fmt))
-> +		max_tile_height = max(max_tile_height, prev_fmt->tile_height);
-> +
-> +	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +
-> +	r_pipe->sspp = NULL;
-> +
-> +	if (dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth) &&
-> +	    dpu_plane_is_parallel_capable(prev_pipe_cfg, prev_fmt, max_linewidth) &&
-> +	    (pipe_cfg->dst_rect.x1 >= prev_pipe_cfg->dst_rect.x2 ||
-> +	     prev_pipe_cfg->dst_rect.x1 >= pipe_cfg->dst_rect.x2)) {
-> +		pipe->sspp = prev_pipe->sspp;
-> +
-> +		pipe->multirect_index = DPU_SSPP_RECT_1;
-> +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> +
-> +		prev_pipe->multirect_index = DPU_SSPP_RECT_0;
-> +		prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> +
-> +		return true;
-> +	}
-> +
-> +	if (pipe_cfg->dst_rect.y1 >= prev_pipe_cfg->dst_rect.y2 + 2 * max_tile_height ||
-> +	    prev_pipe_cfg->dst_rect.y1 >= pipe_cfg->dst_rect.y2 + 2 * max_tile_height) {
-> +		pipe->sspp = prev_pipe->sspp;
-> +
-> +		pipe->multirect_index = DPU_SSPP_RECT_1;
-> +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
-> +
-> +		prev_pipe->multirect_index = DPU_SSPP_RECT_0;
-> +		prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
-> +
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->   static int dpu_plane_atomic_check(struct drm_plane *plane,
->   				  struct drm_atomic_state *state)
->   {
-> @@ -1098,13 +1177,14 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
->   static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->   					      struct dpu_global_state *global_state,
->   					      struct drm_atomic_state *state,
-> -					      struct drm_plane_state *plane_state)
-> +					      struct drm_plane_state *plane_state,
-> +					      struct drm_plane_state *prev_plane_state)
->   {
->   	const struct drm_crtc_state *crtc_state = NULL;
->   	struct drm_plane *plane = plane_state->plane;
->   	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
->   	struct dpu_rm_sspp_requirements reqs;
-> -	struct dpu_plane_state *pstate;
-> +	struct dpu_plane_state *pstate, *prev_pstate;
->   	struct dpu_sw_pipe *pipe;
->   	struct dpu_sw_pipe *r_pipe;
->   	struct dpu_sw_pipe_cfg *pipe_cfg;
-> @@ -1116,6 +1196,7 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->   							   plane_state->crtc);
->   
->   	pstate = to_dpu_plane_state(plane_state);
-> +	prev_pstate = prev_plane_state ? to_dpu_plane_state(prev_plane_state) : NULL;
->   	pipe = &pstate->pipe;
->   	r_pipe = &pstate->r_pipe;
->   	pipe_cfg = &pstate->pipe_cfg;
-> @@ -1134,24 +1215,42 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->   
->   	reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
->   
-> -	pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> -	if (!pipe->sspp)
-> -		return -ENODEV;
-> +	if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
-> +		if (!prev_pstate ||
-> +		    !dpu_plane_try_multirect_shared(pstate, prev_pstate, fmt,
-> +						    dpu_kms->catalog->caps->max_linewidth)) {
-> +			pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> +			if (!pipe->sspp)
-> +				return -ENODEV;
->   
-> -	if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> -					      pipe->sspp,
-> -					      msm_framebuffer_format(plane_state->fb),
-> -					      dpu_kms->catalog->caps->max_linewidth)) {
-> -		/* multirect is not possible, use two SSPP blocks */
-> -		r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> -		if (!r_pipe->sspp)
-> +			r_pipe->sspp = NULL;
-> +
-> +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +
-> +			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +		}
-> +	} else {
-> +		pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> +		if (!pipe->sspp)
->   			return -ENODEV;
->   
-> -		pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -		pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +		if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> +						      pipe->sspp,
-> +						      msm_framebuffer_format(plane_state->fb),
-> +						      dpu_kms->catalog->caps->max_linewidth)) {
-> +			/* multirect is not possible, use two SSPP blocks */
-> +			r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> +			if (!r_pipe->sspp)
-> +				return -ENODEV;
->   
-> -		r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +
-> +			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +		}
->   	}
->   
->   	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
-> @@ -1165,6 +1264,7 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
->   {
->   	unsigned int i;
->   	int ret;
-> +	struct drm_plane_state *prev_plane_state = NULL;
->   
->   	for (i = 0; i < num_planes; i++) {
->   		struct drm_plane_state *plane_state = states[i];
-> @@ -1174,9 +1274,12 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
->   			continue;
->   
->   		ret = dpu_plane_virtual_assign_resources(crtc, global_state,
-> -							 state, plane_state);
-> +							 state, plane_state,
-> +							 prev_plane_state);
->   		if (ret)
->   			break;
-> +
-> +		prev_plane_state = plane_state;
->   	}
-
-We agreed to rename this to prev_adjacent_plane_state in v4. This has 
-not been addressed.
-
-With these two changes done,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->   
->   	return ret;
-> 
-> ---
-> base-commit: d82c9281189d2b27642ede2760db495379503b86
-> change-id: 20241215-dpu-share-sspp-75a566eec185
-> 
-> Best regards,
+diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
+index 5674f5707cca..cfc4867296b8 100644
+--- a/drivers/gpu/drm/mediatek/mtk_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
+@@ -620,13 +620,14 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
+ 
+ 		mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_handle);
+ 		mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
++		goto update_config_out;
+ 	}
+-#else
++#endif
+ 	spin_lock_irqsave(&mtk_crtc->config_lock, flags);
+ 	mtk_crtc->config_updating = false;
+ 	spin_unlock_irqrestore(&mtk_crtc->config_lock, flags);
+-#endif
+ 
++update_config_out:
+ 	mutex_unlock(&mtk_crtc->hw_lock);
+ }
+ 
+-- 
+2.43.0
 
