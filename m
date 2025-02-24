@@ -2,63 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BD6A419C8
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 10:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E52BA419CF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 10:58:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCBD310E1B3;
-	Mon, 24 Feb 2025 09:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D409710E1B5;
+	Mon, 24 Feb 2025 09:58:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=3xo.fr header.i=@3xo.fr header.b="BXW8cJ8A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gIwc1H79";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6300610E1B3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 09:57:40 +0000 (UTC)
-Received: from localhost (mail.3xo.fr [212.129.21.66])
- by mail.3xo.fr (Postfix) with ESMTP id 815E88D;
- Mon, 24 Feb 2025 10:57:38 +0100 (CET)
-X-Virus-Scanned: Debian amavis at nxo2.3xo.fr
-Received: from mail.3xo.fr ([212.129.21.66])
- by localhost (mail.3xo.fr [212.129.21.66]) (amavis, port 10024) with ESMTP
- id eLhPAqcJMhzr; Mon, 24 Feb 2025 10:57:36 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.3xo.fr 0EC4C8C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xo.fr; s=3xo;
- t=1740391056; bh=NFlPp2fA2pDpeFVq75KIRnfMMtdGC9swH34bQDpPKdk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BXW8cJ8AoWFZakWzml0RkTc50uPb9O2nXfdFdjNicF08tRTxq1iWvbP8mdZQ3Z7nE
- m4wTpInI/9IVPb7IfsCXJfaTCUNesoWhHGewRr4fhCeuECz6XEeu5RdUSuzCv9/Eab
- m1fDECNnqZGUtIbOQmRKu6bPxSrX57i4YXdthDm1ZHpj44bb49u7HqD9qmDiZ37ht/
- BXLxRY1Xewx4wPRNPzmxPPd8OkSyeLRwzWO68+L7fZCZp/yWImG/4tNzqbuSnJaJyw
- nmFjj4f6cqtV8MhiPaCUhOnmZ8d+vK1OimHDZp1iDBErv3lY3DHpd72bf4/0IrtqKM
- yoMbznt+2EMPg==
-Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
- (No client certificate requested)
- by mail.3xo.fr (Postfix) with ESMTPSA id 0EC4C8C;
- Mon, 24 Feb 2025 10:57:36 +0100 (CET)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E37F510E1B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 09:58:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740391100; x=1771927100;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=nAiaU3xwjMDNRMLJw8qN9OXA1uMi4hAnYos+MNgxPWo=;
+ b=gIwc1H79NKR+8XApGQXGJ1bj0iBAsr0NFDkYg07gDhEEl9z6uhPz5aum
+ bCYJP89IgFpOslUS2xvO3cVuJ+IPTixG0kEpWS2Yb9+BsL7s9rIcb8sM0
+ bRLXHWy5UZYvJmGwvaaHzgPgOoOHJGVqOx3wAI7ky41xdRptEvEe1+GYH
+ 8ECxINfXEmRnRKFc1/VQLzHoCepUWc+joC3nL8C7hY9Na+QKUDoL3LxD8
+ p7BzoFuWDZl7Ok+HazfjicX9f1GJzxSbTb41VbLX2sEl66I5N3frwvVEo
+ rI8kcsUuqQf1/hNvG/AvQKfQvWp7xJHdZmRt3oCBMARBEx2iz+6WNjv4D Q==;
+X-CSE-ConnectionGUID: L32gcp7STKGRHuVcEa/fEw==
+X-CSE-MsgGUID: N1n7m7M1Tyu5bpmzcJILmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41349416"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="41349416"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 01:58:19 -0800
+X-CSE-ConnectionGUID: 11TMVs8TQuSz6IfVkUqtCg==
+X-CSE-MsgGUID: zRpSnxCBTH6o2zWgA+I+MQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="116206670"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 01:58:11 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tmVDz-0000000Eequ-1e5o; Mon, 24 Feb 2025 11:58:07 +0200
+Date: Mon, 24 Feb 2025 11:58:07 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>,
+ "joe@perches.com" <joe@perches.com>,
+ "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "kekrby@gmail.com" <kekrby@gmail.com>,
+ "admin@kodeit.net" <admin@kodeit.net>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>,
+ "evepolonium@gmail.com" <evepolonium@gmail.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Hector Martin <marcan@marcan.st>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z7xCr4iPmIkPoWGC@smile.fi.intel.com>
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+ <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
+ <6CB20172-906F-4D13-B5E4-100A9CF74F02@live.com>
 MIME-Version: 1.0
-Date: Mon, 24 Feb 2025 10:57:35 +0100
-From: Nicolas Baranger <nicolas.baranger@3xo.fr>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, airlied@redhat.com, Jocelyn Falempe
- <jfalempe@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
-In-Reply-To: <87o6yr911t.fsf@intel.com>
-References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
- <194c4656963debcf074d87e89ab1a829@3xo.fr>
- <b296bfef-1a9c-4452-baeb-09f86758addd@suse.de>
- <984c317de1027f5886390a65f1f66126@3xo.fr> <87o6yr911t.fsf@intel.com>
-Message-ID: <78ac8b58affdd365506fe72822e30f6f@3xo.fr>
-X-Sender: nicolas.baranger@3xo.fr
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <6CB20172-906F-4D13-B5E4-100A9CF74F02@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,44 +104,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani
+On Sat, Feb 22, 2025 at 03:46:03PM +0000, Aditya Garg wrote:
+> > On 20 Feb 2025, at 10:09 PM, Aditya Garg <gargaditya08@live.com> wrote:
+> > 
+> > %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> > it's useful to be able to print generic 4-character codes formatted as
+> > an integer. Extend it to add format specifiers for printing generic
+> > 32-bit FOURCCs with various endian semantics:
+> > 
+> > %p4ch   Host-endian
+> > %p4cl Little-endian
+> > %p4cb Big-endian
+> > %p4cr Reverse-endian
+> > 
+> > The endianness determines how bytes are interpreted as a u32, and the
+> > FOURCC is then always printed MSByte-first (this is the opposite of
+> > V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> > allow printing LSByte-first FOURCCs stored in host endian order
+> > (other than the hex form being in character order, not the integer
+> > value).
 
-> I'm not sure what you're trying to say here. The driver date was 
-> removed
-> because it was virtually never updated for any driver. It provided no
-> useful information.
+...
 
-Sure your right, when I removed it from NVIDIA driver (to be able to 
-build nvidia driver with DKMS on mainline), the .date value was still 
-set to 20160202 !
-See the PR here 
-https://github.com/NVIDIA/open-gpu-kernel-modules/pull/783
+> BTW, after looking at the comments by Martin [1], its actually better to use
+> existing specifiers for the appletbdrm driver.  The driver needs the host
+> endian as proposed by this patch, so instead of that, we can use %.4s
 
-I did just say that to be able to build and use the ast_new on mainline 
-(6.14-rcX) I had to update the source which were working on linux-stable 
-and to remove .date from drm structure.
-That's why on the online directory there are 2 versions of the driver, 
-one for linux-stable (up to 6.13.2) and one for mainline (from 
-6.14.0-rc1).
+Do you mean this patch will not be needed? If this a case, that would be the
+best solution.
 
-Kind regards
-Nicolas Baranger
-
-
-
-Le 2025-02-24 09:53, Jani Nikula a écrit :
-
-> On Thu, 13 Feb 2025, Nicolas Baranger <nicolas.baranger@3xo.fr> wrote:
+> [1]: https://lore.kernel.org/asahi/E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org/
 > 
->> Yes, due to .date total removal in linux 6.14
->> (https://github.com/torvalds/linux/commit/cb2e1c2136f71618142557ceca3a8802e87a44cd)
->> the last DKMS sources are :
->> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/
-> 
-> I'm not sure what you're trying to say here. The driver date was 
-> removed
-> because it was virtually never updated for any driver. It provided no
-> useful information.
-> 
-> BR,
-> Jani.
+> Alternatively we could add a host endian only. Other endians are not really
+> used by any driver AFAIK. The host endian is being used by appletbdrm and
+> Asahi Linux’ SMC driver only.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
