@@ -2,90 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB637A42153
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A6AA42143
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67CBC10E48D;
-	Mon, 24 Feb 2025 13:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93DE110E3EF;
+	Mon, 24 Feb 2025 13:42:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BDuN2p3q";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="inKikSb7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2AFC10E04A
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 02:10:13 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-309311e7b39so35554191fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 18:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740363012; x=1740967812; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=70SIM7ve3ohVCr23pGlRASua+1uwWRT9srkX+niW28E=;
- b=BDuN2p3qaRnQVb6KP2GYICKOYYUQGObe8m/H9fcPcVP3qQtyX0KFdpErxdylYS9ssu
- V204LJjJOJNN1htJrYcXkG75cBaZ4syw0QSAK47uHua7tsn8Isr3OhkR6kY9usOmRzEf
- Sf2/rNj0fd9m7YqHOOfGVQMaeThhYUnsGBy3B14OI661euLmTKoKPPvSNG1XYfvcF31N
- 0Fck3h8IDAY6ZKtoB3JvGi/WV3T+NfipKLr5llYGUQMPHPCpfL57fJZf9Wc15XSCDOJF
- 71ALA4wj/PLzc2oQmY/WjzqUZwPozIVrrAXAiOSwnDdG+GFFetwcUSNKDcP0ua7U2gaC
- HssA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740363012; x=1740967812;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=70SIM7ve3ohVCr23pGlRASua+1uwWRT9srkX+niW28E=;
- b=JW5p9Ht2AY8lFC5BR/Nv5klGeP23Kc6muBZzVY3/DblGqeK1fK/GJDFTAypZIa5js0
- 6VoxQX6QkewNLIymiedm1ToBK3NIkZTPeCH6m+Plttr34kwfogb0U8+KVoaztX3R1iDD
- CAq49XJrXqU6nqhQmi5jMkfRFrO3keI74Ni3WOCeglX9YAZDFa9cGJufiapv3kiSMORQ
- +IHRbLGr8SIbV94g0iqzypectlu8czdHjYXBYVsZqBJ0F6JbtOatWLvM9YYOevc4ZWIU
- HqjwdFIttRM+lp5y2pT441NyGPOR5OIeQ26rT4M4No1bgoijs3eB5s+REktFQFfTnYEk
- U3Sg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXpPnfpVmXziH4F4qYq6LJxXp9ifPmRUypcejRj+hjzRFNY5pbCrvmUPs68w5z7E7Arady2JNPFXs4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyvFJtO3TRecN9jzaQ6QGkue3J3kiCRBLYEQ1pAb/jjFBdTydyc
- 59fGqRmlRlkFAmeCvzya2Zh7LdLwJLM1IEJZYIK4/0zRDdd4OAf+bjHf14dqtSE=
-X-Gm-Gg: ASbGncvX7paJyXf2xmIEhfFPOwme8R5xlftZww1dJGUqkrb8fvSTuHdK1SCULYHhkdE
- KXx1UGNnEAXFdGU/coBkaUPhWE1Mew2k5RZwyUZbVTloQ5zBCprxtQhIBUE6rtaSYAK8f5EpklW
- DorKZw7Xgc7c9vn/wm5GWqsu4q7Hxe3oICfsFQ1o8po2x5pfqp9hBYcgg2ckZux0eFyrFPCuVBt
- 4iTid7fzt3gCSRA+Cz5N5issB+0rPweJZHBAQsKzzKgjxrttHsK2a4YXs7y0ELoh0wli+NTluFG
- JAwzZXVdj7tSZ93oqUy0IP8lc6rE8mx3/iKhAP78ibDTyDI/Rc1y8seu2DRursjNOBLvLMA9EfM
- FggzJug==
-X-Google-Smtp-Source: AGHT+IEWdqjReqmo0CabaDV+wigcDC1IzI30i9hnje8CtWWpRhAfh0Nh8SpUaaNV8YO6QJ4AwRMK8Q==
-X-Received: by 2002:a05:6512:3f19:b0:545:646:7519 with SMTP id
- 2adb3069b0e04-54838d3d9d5mr4448013e87.0.1740363011574; 
- Sun, 23 Feb 2025 18:10:11 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54618f0a36bsm2533548e87.195.2025.02.23.18.10.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Feb 2025 18:10:11 -0800 (PST)
-Date: Mon, 24 Feb 2025 04:10:08 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] drm: bridge: Add support for Solomon SSD2825
- RGB/DSI bridge
-Message-ID: <hz6amgqdmvr6tow5k3gj6n2bnaayejrdv6yhj6sjzs7v3dbjbv@3dcm45ydkkd3>
-References: <20250223153244.149102-1-clamor95@gmail.com>
- <20250223153244.149102-3-clamor95@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0950110E0C3;
+ Mon, 24 Feb 2025 02:33:10 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51NNPYwa013401;
+ Mon, 24 Feb 2025 02:33:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ FDjpF9wv5THn1Su5bkxiSJ/+ZI2FB+8RpTy0OM/Vqy8=; b=inKikSb7P4olJKGu
+ j/PxpcqwKUSdyuxtqOokqEHnGHSU9zGSHwHZgjg2rVjrYqyoTQDjDc1galQR9J6A
+ uLyGw2Zz/P/EvBX0WzdT6bpnry/NRCJyxegJ5B9hhaxhE+eN9AAZ2MDr96Y5AZhb
+ CsGTBFikN6dUoFTIfI6ksdKvVXWtRjGRauw+NIzVjZSxP80NRTKRPRgv/qU0Qicc
+ YOeQrkyjRhsHCvhkJ7C7kKwtGiTXDdfgRZdw46lA75Bjn1bh4IaqxB+v2vmLoHxO
+ /Lh03lzhUgxuoSEOAnSvk9mSOsEvEB+cd9T9XAFaVDmFwucT4yvu8X3T7x1+1WJF
+ 84RdQQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y5hrub3x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Feb 2025 02:33:07 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51O2X68O004256
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Feb 2025 02:33:06 GMT
+Received: from [10.110.85.197] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 23 Feb
+ 2025 18:33:05 -0800
+Message-ID: <0b387a53-a67f-400d-b8a0-8c904496a558@quicinc.com>
+Date: Sun, 23 Feb 2025 18:33:05 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250223153244.149102-3-clamor95@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] drm/msm/dpu: enable CDM_0 for DPUs 5.x+
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250220-dpu-add-cdm-v2-0-77f5f0df3d9a@linaro.org>
+ <20250220-dpu-add-cdm-v2-2-77f5f0df3d9a@linaro.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250220-dpu-add-cdm-v2-2-77f5f0df3d9a@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 3GD14BWOHkiae9x-jYkXwfM72cntEPcK
+X-Proofpoint-GUID: 3GD14BWOHkiae9x-jYkXwfM72cntEPcK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-23_11,2025-02-20_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=770
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 spamscore=0
+ malwarescore=0 bulkscore=0 mlxscore=0 suspectscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502240018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,70 +93,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 23, 2025 at 05:32:44PM +0200, Svyatoslav Ryhel wrote:
-> SSD2825 is a cost-effective MIPI Bridge Chip solution targeting mainly
-> smartphones. It can convert 24bit RGB interface into 4-lane MIPI-DSI
-> interface to drive display modules of up to 800 x 1366, while supporting
-> AMOLED, a-si LCD or LTPS panel technologies for smartphone applications.
+
+
+On 2/19/2025 7:59 PM, Dmitry Baryshkov wrote:
+> Enable the CDM_0 block on DPU generations starting from 5.x as
+> documented in the vendor dtsi file.
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/Kconfig   |  13 +
->  drivers/gpu/drm/bridge/Makefile  |   1 +
->  drivers/gpu/drm/bridge/ssd2825.c | 821 +++++++++++++++++++++++++++++++
->  3 files changed, 835 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/ssd2825.c
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h  | 1 +
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h  | 1 +
+>   11 files changed, 11 insertions(+)
 > 
 
-> +
-> +	if (buf == MIPI_DCS_SET_DISPLAY_ON) {
-> +		/*
-> +		 * NOTE! This is here since it cannot be called in bridge enable because
-> +		 * bridge pre enable and bridge enable have no gap in between.
-> +		 *
-> +		 * Existing framework bridge-panel seq is:
-> +		 *	panel_prepare > bridge_pre_enable > bridge_enable > panel_enable
-> +		 *
-> +		 * Using prepare_prev_first was tested, but it switches seq like this:
-> +		 *	bridge_pre_enable > panel_prepare > bridge_enable > panel_enable
-> +		 *
-> +		 * This will not work since panel hw MUST be prepared before bridge is
-> +		 * configured. Correct seq should be:
-> +		 *	panel_prepare > bridge_pre_enable > panel_enable > bridge_enable
-> +		 *
-> +		 * Last two functions are swapped related to existing framework. I am not
-> +		 * aware about method which allows that.
-> +		 *
-> +		 * Once there will be such method/flag, code below should be moved into
-> +		 * bridge_enable since it is basically a bridge configuration completing
-> +		 * after initial panel DSI sequence is completed.
-
-Will bridge_pre_enable -> panel_prepare (including
-MIPI_DCS_SET_DISPLAY_ON) -> bridge_enable work?
-
-The rest looks good to me.
-
-> +		 */
-> +		config = SSD2825_CONF_REG_HS | SSD2825_CONF_REG_DCS |
-> +			 SSD2825_CONF_REG_ECD | SSD2825_CONF_REG_EOT;
-> +
-> +		if (dsi_dev->mode_flags & MIPI_DSI_MODE_VIDEO)
-> +			config |= SSD2825_CONF_REG_VEN;
-> +
-> +		if (dsi_dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
-> +			config &= ~SSD2825_CONF_REG_EOT;
-> +
-> +		/* Complete configuration after DSI commands were sent */
-> +		ssd2825_write_reg(priv, SSD2825_CONFIGURATION_REG, config);
-> +		ssd2825_write_reg(priv, SSD2825_PLL_CTRL_REG, 0x0001);
-> +		ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, 0x0000);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> 
-
--- 
-With best wishes
-Dmitry
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
