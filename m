@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38ECDA4276F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 17:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482DFA4276A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 17:07:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F7810E44B;
-	Mon, 24 Feb 2025 16:07:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F12410E340;
+	Mon, 24 Feb 2025 16:07:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FhaC0Ckc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hxvAmB6T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCDD810E340
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 16:07:44 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 053114444F;
- Mon, 24 Feb 2025 16:07:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA6610E34B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 16:07:45 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 958AC44453;
+ Mon, 24 Feb 2025 16:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740413263;
+ t=1740413264;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
  bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=FhaC0Ckc2tPQwyfAOyFpibM0eapHqXdrI4xRLc7kbvGcyYpXxiomGScRGfM+WpwRxgSRz1
- UCE+AuKVpOPAUgBpFWuzvsTioxohBrRj8QDXv6Rv+mGuweacgNQJ7RsB0cjjj8wqOMqJV1
- r23e32KsQ99f5SkiILKluVwH1g4Nhwn0tjueHUZKCmzlvRjScRzSnFkTjlG3aPoixrstBw
- +chTsdu2THS6zPzMCAbwdvSG9i6nhHNPMQBMIxYNkOS3SDSj9FruB6Rrv/XqBvjeDTE7fG
- nTjwPDvvbSWNUT4+Skf+9fBuvNXHFA+hGgD7dTfIlll1M9MtQZ264Gi1gA+fFw==
-Message-ID: <3c4b07b9-4173-4c93-bd15-07f6a63c5939@bootlin.com>
-Date: Mon, 24 Feb 2025 17:07:31 +0100
+ b=hxvAmB6TGPNFB7nhCzyyBh7XNk+/rndFWUTkRN+/KbaQjFoB0zNdL8dMEECUuX118OHOAK
+ UY+ADU/2+d4kwwhzFH6nQxDfuvR3nFZIBs8fiBvcR6RHXsEROIBG5itohVKZgNTpFVifBD
+ SgYNZXTvjrl/MGSHgeAC5xPIhzyLHTtljiVPJ1Q85HYh9OT3xNqpFF78WQRRP2IqMFqRvu
+ Ec0qjacO8wL5RFVjLovkAbihcH4rZshak9Kc0bqAAIcvcqIRUweErYHN25w2hm0u/vfQWr
+ kGDevZiNQKOOkKgr5EmtiCQIvmtH5KKGQKfjW3cizWQprk2qULmbUFwpDwqjWQ==
+Message-ID: <b874f260-a8d5-4859-bc32-f23988e8f0f2@bootlin.com>
+Date: Mon, 24 Feb 2025 17:07:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [V7 07/45] drm/colorop: Add 1D Curve subtype
+Subject: Re: [V7 09/45] drm/colorop: Add BYPASS property
 To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org
 Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
 References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-8-alex.hung@amd.com>
+ <20241220043410.416867-10-alex.hung@amd.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -96,12 +96,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20241220043410.416867-8-alex.hung@amd.com>
+In-Reply-To: <20241220043410.416867-10-alex.hung@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-GND-State: clean
 X-GND-Score: -50
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejledvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnefgmhhpthihucgsohguhiculdehtddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkedvtdetvedtlefgveetgfegvefhueeludekgfegjefgueejhfdtgeegueeutedvnecukfhppedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohephedprhgtphhtthhopegrlhgvgidrhhhunhhgsegrmhgurdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrf
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejledvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnefgmhhpthihucgsohguhiculdehtddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkedvtdetvedtlefgveetgfegvefhueeludekgfegjefgueejhfdtgeegueeutedvnecukfhppedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejheenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohephedprhgtphhtthhopegrlhgvgidrhhhunhhgsegrmhgurdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrf
  hhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepfigrhihlrghnugdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehhrghrrhihrdifvghnthhlrghnugesrghmugdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
