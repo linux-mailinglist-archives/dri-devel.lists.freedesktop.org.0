@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88701A42233
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 15:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7150CA42235
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 15:01:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD5610E403;
-	Mon, 24 Feb 2025 14:00:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECBD410E3BC;
+	Mon, 24 Feb 2025 14:01:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ou8YPowB";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="M1GG7ZIv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A1D10E3BC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 14:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740405654; x=1771941654;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7Z65X3uAnnrMTsxGFkCu0G6zCm18r0qbQoTUv+3XTJY=;
- b=Ou8YPowB6seSB49nO3PQx3mWh0CgR/Etcnx2goIWZA7hKCSnaVshCkTF
- 3HumsUxAl47JShqIHAzctatYStcOXUwcbYvLckg4NX+XmIGnMnDSyQcMl
- Y6oyj/XJiSlTfox3CPjHn2f/WE92oakxQsmeGFMWfGMD20wyoZ6FxgtNg
- bjT6Cyb1zfYkO8MF2lDwPTD8OepJpUNJtewIn0MDypa8ydE9bGCDoj4MS
- HKg9Nf6XjipoNdLFzrSAs+6rwum1SNqTQJzMpSxMBx/eLlHXsHDnkQ3N0
- Xy2EopVPWUHuI3DFNvgG1/Alqbm9Qjju6jO4NL5IvdKwVxj2gl4rSniIg Q==;
-X-CSE-ConnectionGUID: NcoZPEauS2qrnq5WYpGRbA==
-X-CSE-MsgGUID: tg1ZVbQeRBinFi9f+FIlKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58576175"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="58576175"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 06:00:54 -0800
-X-CSE-ConnectionGUID: omwNZuk9RwmIZq4cQKjXWA==
-X-CSE-MsgGUID: 8k+fUmvKS+K3SkL+2y59lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="116270717"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 06:00:51 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tmZ0q-0000000EiFx-1f8o; Mon, 24 Feb 2025 16:00:48 +0200
-Date: Mon, 24 Feb 2025 16:00:48 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>, Kerem Karabay <kekrby@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
- Macs
-Message-ID: <Z7x7kMjaDbCp_LB2@smile.fi.intel.com>
-References: <B08444CD-38A8-4B82-94B2-4162D6D2EABD@live.com>
- <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6966F10E3BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 14:01:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1740405662;
+ bh=dbw6dXg5TQeVowkeoYcRgmEHG8zpRcSKiLa7Cj4uv/E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=M1GG7ZIv7rz7MMMQd7tgm39CzSeYcobCtvKgXQKcjGYpZvW6Vx7EjKpZqjbfa1oo7
+ cmDcS9wSJMxNz+GekADGFyfAS6s+p7ksVtm7nn9L9fw3PbkRSKH8MvLiPk1VqjxWTZ
+ nxIRVhlWiwhG79GGEYgn2wKaJliYaJZYXIWgrDh2wHA1tzRTdC4u7D/Gm0LI1l9vUI
+ Z41UoW8xIACcsKDa18+jjKpPo2S9ldrSVj/iPKUBy37eqQnBW+3882xcqYJELo//Cx
+ VGFsAaHfERb/OHLKTmNdVscSwxwc8efuE49Uc7/mm7T+apJQQ86FkPlYy3CB35KGC+
+ 3zHOq3n3fQ3Vg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7A97B17E0DFB;
+ Mon, 24 Feb 2025 15:01:01 +0100 (CET)
+Message-ID: <7dfa6548-c2ad-4492-832d-87dea1ececf5@collabora.com>
+Date: Mon, 24 Feb 2025 15:01:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mailbox: mtk-cmdq: Refine GCE_GCTL_VALUE setting
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Nancy Lin <nancy.lin@mediatek.com>, Singo Chang
+ <singo.chang@mediatek.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>,
+ Xavier Chang <xavier.chang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Chen-yu Tsai <wenst@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20250224105414.3576243-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250224105414.3576243-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,86 +69,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 24, 2025 at 01:40:20PM +0000, Aditya Garg wrote:
-> From: Kerem Karabay <kekrby@gmail.com>
+Il 24/02/25 11:50, Jason-JH Lin ha scritto:
+> Add cmdq_gctl_value_toggle() to configure GCE_CTRL_BY_SW and GCE_DDR_EN
+> together in the same GCE_GCTL_VALUE register.
 > 
-> The Touch Bars found on x86 Macs support two USB configurations: one
-> where the device presents itself as a HID keyboard and can display
-> predefined sets of keys, and one where the operating system has full
-> control over what is displayed.
+> For the SoCs whose GCE is located in MMINFRA and uses MMINFRA_AO power,
+> this allows it to be written without enabling the clocks. Otherwise, all
+> GCE registers should be written after the GCE clocks are enabled.
+> Move this function into cmdq_runtime_resume() and cmdq_runtime_suspend()
+> to ensure it is called when the GCE clock is enabled.
 > 
-> This commit adds support for the display functionality of the second
-> configuration. Functionality for the first configuration has been
-> merged in the HID tree.
-> 
-> Note that this driver has only been tested on T2 Macs, and only includes
-> the USB device ID for these devices. Testing on T1 Macs would be
-> appreciated.
-> 
-> Credit goes to Ben (Bingxing) Wang on GitHub for reverse engineering
-> most of the protocol.
-> 
-> Also, as requested by Andy, I would like to clarify the use of __packed
-> structs in this driver:
-> 
-> - All the packed structs are aligned except for appletbdrm_msg_information.
-> - We have to pack appletbdrm_msg_information since it is requirement of
->   the protocol.
-> - We compared binaries compiled by keeping the rest structs __packed and
->   not __packed using bloat-o-meter, and __packed was not affecting code
->   generation.
-> - To maintain consistency, rest structs have been kept __packed.
+> Fixes: 7abd037aa581 ("mailbox: mtk-cmdq: add gce ddr enable support flow")
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 
-...
-
-> +#define __APPLETBDRM_MSG_STR4(str4)	((__le32 __force)((str4[0] << 24) | (str4[1] << 16) | (str4[2] << 8) | str4[3]))
-
-As commented previously this is quite strange what's going on with endianess in
-this driver. Especially the above weirdness when get_unaligned_be32() is being
-open coded and force-cast to __le32.
-
-...
-
-> +struct appletbdrm_msg_information {
-> +	struct appletbdrm_msg_response_header header;
-> +	u8 unk_14[12];
-> +	__le32 width;
-> +	__le32 height;
-> +	u8 bits_per_pixel;
-> +	__le32 bytes_per_row;
-> +	__le32 orientation;
-> +	__le32 bitmap_info;
-> +	__le32 pixel_format;
-> +	__le32 width_inches;	/* floating point */
-> +	__le32 height_inches;	/* floating point */
-> +} __packed;
-
-Haven't looked deeply into the protocol, but still makes me think that
-the above (since it's the only __packed data type required) might be simply
-depicted wrongly w.r.t. endianess / data types in use. It might be that
-the data types have something combined and / or different types.
-
-Do I understand correctly that the protocol was basically reverse-engineered?
-
-...
-
-> +	/*
-> +	 * The coordinate system used by the device is different from the
-> +	 * coordinate system of the framebuffer in that the x and y axes are
-> +	 * swapped, and that the y axis is inverted; so what the device reports
-> +	 * as the height is actually the width of the framebuffer and vice
-> +	 * versa
-
-Missing period.
-
-> +	 */
-
-...
-
-Otherwise it's nice tiny driver.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
