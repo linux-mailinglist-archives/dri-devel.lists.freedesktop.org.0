@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1C4A42992
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:26:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3213CA42996
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9779F10E484;
-	Mon, 24 Feb 2025 17:26:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B9E10E490;
+	Mon, 24 Feb 2025 17:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gh8zAafw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kOKR3i2w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D15310E484;
- Mon, 24 Feb 2025 17:26:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A188F10E490;
+ Mon, 24 Feb 2025 17:26:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740418017; x=1771954017;
+ t=1740418020; x=1771954020;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Df8lLYHdR7ES7CuOed2xfa2zvmICDkIHqVOVSpzwRTA=;
- b=gh8zAafwP9lX5t7aYOupgIG7VsoT+hcAadzIdB9pM8u86L4voWTg8plO
- aq6SUAFXyoPTFaU62VgRSziN8pOXCvm5fAAoip9kUa/kh18rTvd+yZRfk
- ggqZjhWlrIV2C9BCHHwyzOp4bml/5BJ7iIWacK6Rhh7KftWxcHoZSGwb3
- rmfmi68qRJv7N8yU8+javOu22v4l9bQ93W8OJdFI18QxxnTM1fvOJSuuU
- h4mumuoBGiGznctqI7fNO+R0sFZ94rVMLVoKN6WtRBVn6SvPrK2qDQc/4
- HVXMi3tfLtAdMfvPYRUOZVhT5XA2xY4saymoq4UH6qfgZPfIEQZkfScz+ g==;
-X-CSE-ConnectionGUID: ycdR5nzIRV2UiPkocJ6peA==
-X-CSE-MsgGUID: oOeEro+MQnaNJEm/PcsFGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58601720"
-X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; d="scan'208";a="58601720"
+ bh=15bVnZqp0pq5j31G+Q5yND4HYvvrxU7+WBbeybGegzE=;
+ b=kOKR3i2wpusIwN2EmDY8NdQCTSpT1QtRbTL9naIEWLzgBzNSvAJGh7d1
+ n1Rs/ZzpKDcY5urLFigjJIG6TWuqzTnIaK3UAGKwSR9GveRWJ3Mcl6rmo
+ UbrccTK6BEbjP2Xcgba08ZPkZuCAGPc1c1vsSCk3Btn5WXsxloBODqOi4
+ LI0mX/zZIE+5TeaIQZBIcD9u/9lSkoHIyqtbSYJg96TC/a5Bp9nFlh3MP
+ bbypYIc8TI9OuLc7mlRH4WmfOE2+O9dM5oM/NsCZnwrcHVzFR1IK9c7WP
+ QApQYbNU53PGOcGS0v5kahYNGd01XJHyjlGS/+hNX1dv4GA5ZJEjsEYq0 w==;
+X-CSE-ConnectionGUID: V6qwmVVKT82wxdZIik1BSg==
+X-CSE-MsgGUID: NcA5xrJBRWS92J67z4F8zw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58601729"
+X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; d="scan'208";a="58601729"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 09:26:57 -0800
-X-CSE-ConnectionGUID: 4pWQi1M0TQ2Vzr086dEM8A==
-X-CSE-MsgGUID: mpXXMvHrT1SrFFYrW2hG2g==
+ 24 Feb 2025 09:27:00 -0800
+X-CSE-ConnectionGUID: dvqnjI0WSI6FPZNch3Cgew==
+X-CSE-MsgGUID: ivBAIuvQSrCc4f51YTIxiQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121374105"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121374117"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 24 Feb 2025 09:26:54 -0800
+ by orviesa005.jf.intel.com with SMTP; 24 Feb 2025 09:26:58 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 24 Feb 2025 19:26:52 +0200
+ Mon, 24 Feb 2025 19:26:56 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/9] drm/dp: Add POST_LT_ADJ_REQ helpers
-Date: Mon, 24 Feb 2025 19:26:38 +0200
-Message-ID: <20250224172645.15763-3-ville.syrjala@linux.intel.com>
+Subject: [PATCH 3/9] drm/i915/dp: Clear DPCD training pattern before
+ transmitting the idle pattern
+Date: Mon, 24 Feb 2025 19:26:39 +0200
+Message-ID: <20250224172645.15763-4-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.3
 In-Reply-To: <20250224172645.15763-1-ville.syrjala@linux.intel.com>
 References: <20250224172645.15763-1-ville.syrjala@linux.intel.com>
@@ -72,61 +73,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Add small helpers (drm_dp_post_lt_adj_req_supported() and
-drm_dp_post_lt_adj_req_in_progress()) to help with implementing
-the POST_LT_ADJ_REQ sequence.
+We are supposed to switch off the training pattern in DPCD before
+we start transmitting the idle pattern. For LTTPRs we do that
+correctly, but for the sink DPRX we only do this correctly
+for some platforms.
+
+On pre-HSW (where we don't implement the .set_idle_link_train()
+hook), we directly switch from transmitting the training pattern
+to normal pixel transmission (the hardware should guarantee that
+the minimum number of required idle patters will be transmitted
+during this transition).
+
+For HSW+ we start transmitting the idle pattern earlier, and only
+switch off the DPCD training pattern after we switch from the idle
+pattern to normal pixel transmission. Adjust the code to disable
+the DPCD training pattern before we start transmitting the idle
+patter.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 8 ++++++++
- include/drm/display/drm_dp_helper.h     | 8 ++++++++
- 2 files changed, 16 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dp_link_training.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index f5c596234729..252f022f0837 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -122,6 +122,14 @@ bool drm_dp_clock_recovery_ok(const u8 link_status[DP_LINK_STATUS_SIZE],
- }
- EXPORT_SYMBOL(drm_dp_clock_recovery_ok);
- 
-+bool drm_dp_post_lt_adj_req_in_progress(const u8 link_status[DP_LINK_STATUS_SIZE])
-+{
-+	u8 lane_align = dp_link_status(link_status, DP_LANE_ALIGN_STATUS_UPDATED);
-+
-+	return lane_align & DP_POST_LT_ADJ_REQ_IN_PROGRESS;
-+}
-+EXPORT_SYMBOL(drm_dp_post_lt_adj_req_in_progress);
-+
- u8 drm_dp_get_adjust_request_voltage(const u8 link_status[DP_LINK_STATUS_SIZE],
- 				     int lane)
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+index 11953b03bb6a..b2fb641e4e96 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+@@ -1125,7 +1125,9 @@ void intel_dp_stop_link_train(struct intel_dp *intel_dp,
  {
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 89a34dff85a4..bec97d29bfa2 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -37,6 +37,7 @@ bool drm_dp_channel_eq_ok(const u8 link_status[DP_LINK_STATUS_SIZE],
- 			  int lane_count);
- bool drm_dp_clock_recovery_ok(const u8 link_status[DP_LINK_STATUS_SIZE],
- 			      int lane_count);
-+bool drm_dp_post_lt_adj_req_in_progress(const u8 link_status[DP_LINK_STATUS_SIZE]);
- u8 drm_dp_get_adjust_request_voltage(const u8 link_status[DP_LINK_STATUS_SIZE],
- 				     int lane);
- u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SIZE],
-@@ -155,6 +156,13 @@ drm_dp_enhanced_frame_cap(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- 		(dpcd[DP_MAX_LANE_COUNT] & DP_ENHANCED_FRAME_CAP);
- }
+ 	intel_dp->link_trained = true;
  
-+static inline bool
-+drm_dp_post_lt_adj_req_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-+{
-+	return dpcd[DP_DPCD_REV] >= 0x13 &&
-+		(dpcd[DP_MAX_LANE_COUNT] & DP_POST_LT_ADJ_REQ_SUPPORTED);
-+}
+-	intel_dp_disable_dpcd_training_pattern(intel_dp, DP_PHY_DPRX);
++	if (!intel_dp->set_idle_link_train)
++		intel_dp_disable_dpcd_training_pattern(intel_dp, DP_PHY_DPRX);
 +
- static inline bool
- drm_dp_fast_training_cap(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- {
+ 	intel_dp_program_link_training_pattern(intel_dp, crtc_state, DP_PHY_DPRX,
+ 					       DP_TRAINING_PATTERN_DISABLE);
+ 
+@@ -1357,8 +1359,10 @@ intel_dp_link_train_all_phys(struct intel_dp *intel_dp,
+ 	if (ret)
+ 		ret = intel_dp_link_train_phy(intel_dp, crtc_state, DP_PHY_DPRX);
+ 
+-	if (intel_dp->set_idle_link_train)
++	if (intel_dp->set_idle_link_train) {
++		intel_dp_disable_dpcd_training_pattern(intel_dp, DP_PHY_DPRX);
+ 		intel_dp->set_idle_link_train(intel_dp, crtc_state);
++	}
+ 
+ 	return ret;
+ }
 -- 
 2.45.3
 
