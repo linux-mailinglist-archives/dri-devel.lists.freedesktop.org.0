@@ -2,51 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62413A42112
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44459A42150
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4940B10E3E9;
-	Mon, 24 Feb 2025 13:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF65910E483;
+	Mon, 24 Feb 2025 13:42:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KRaQWkOG";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2CD510E11D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 02:43:42 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.234])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Z1Q6g4RZgzsXVw;
- Mon, 24 Feb 2025 10:44:11 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id D081A140368;
- Mon, 24 Feb 2025 10:43:39 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Mon, 24 Feb 2025 10:43:38 +0800
-Message-ID: <a77e7302-3eff-4515-a0b2-a94ee76030d5@huawei.com>
-Date: Mon, 24 Feb 2025 10:43:37 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D08F10E122
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 02:52:49 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-5461cb12e39so3728324e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 18:52:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740365567; x=1740970367; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=N79cu7iC2Cqqnin+PLo4xCdrijtvr/2XsDeBhnAhIuo=;
+ b=KRaQWkOGHRbe7zwgY9+CYNNZ9bWAJ1kKbp9Do+6UEy54FG0piPu2KxsbqLP3fDRXDA
+ r2y22tIlxYA8yYJdOpZ5LaeWuvsnk1F97WyU496iZlvLQPmW6ZfKa6k3+p/fUoT5rL7M
+ RmK+/puaPxvuRwKYwiuDILeLZigz6CsZYQwwOglJoHXTymiNFCKkP2mAMKnDhpD3o5wu
+ ns8NkPUBUCgtS/z8m9SSyUSEowajeH0c/3Qs01XvJ0nCG7eEJ9vl+ciZKxK/3FdfYHhp
+ 36znjg9Yj/imgR4nYUgQxe1gUcnRbyBLLqYjjvxv6GnnYYK7ZLzc/rHflfEygjGd9L3+
+ /QpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740365567; x=1740970367;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N79cu7iC2Cqqnin+PLo4xCdrijtvr/2XsDeBhnAhIuo=;
+ b=dnUY9IOrDIu472hLyUtJN5b1No3wIh9qvmuAFt2pzlp/TtxtyqDcAXKAOw4nhcOIKU
+ VDVJNIDdYb6aWDhG5tSsImREJsrH0rPqRNnuvrwbg3ZFOLys8zdJNrpLp6vIvo6AJT/c
+ mRw+sWS4rwjhEcm2Y+ekaNqX/cQuStHuUBuORJl421eE/5lFz+T2R2MxqCYYUPEYdUNN
+ idFKqYNq0+KWtrmUIqfnqnpiH6LBstAJ1ADBCF82ZIk3VxgXjwqe5i4WEwsK4xnXOc+6
+ NCsPFSJcpmTvvuGKwsmPoC7asDjmI6bMA/GW751GWLbREAGFqVKMvPvvD3s0fltwpRwk
+ PTgA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXqkv+Ic3v6tYPZ4zbuF1L+PkEx2zLVxVrYGHwtFnYBJ46hTniQ3IAxDN0OybNRO1iagUoK1mrdD6M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNORU5IZzO574POP99l/29JkOY0NzfcEbyPEihkMij6Z5db0DM
+ 2mf+4RJBJAwIc4q2DWfxRxpV5OtGmjYVoLxuB6I2+wujPgjrAycexdJDy/ZYntk=
+X-Gm-Gg: ASbGncum4aY5Qsh+eVEeWSLF62o6E11V2myuGKqVukFWLon5hBImm3leR9634Q9z2oU
+ A1fPJAacULAS2znoPGBCw9XXQKYEcJyM6BzLPEHzspundhtJsid07GR9ijH8q4Onhch9uYqrzzT
+ j+MSFlCe2+q74L0TiqFfd7xtG+bGBFzryh2eU51y4uy0KhqmWrP4UYBRjE8N31BfLw7vrKmF8ZJ
+ Ie3d6vFGXmt4LslBTSBR9j3TnDJgFku1MdCIZU4ChOtPE/2qainDEAZTNvaKTXbaSLcBBaJ12et
+ SgeDyxnfPZzSg4dRLz4+AmmTLeywUrduT1DlblwUliuGbqeRSdgxLu6PnnF5/9tMeEVpHKhKwuW
+ E8mPOcg==
+X-Google-Smtp-Source: AGHT+IEa5Mf84ph5T/ZdHvdKMLIs5jH8HXd1tjLXSn92MqsxBCI728iU6GLsECzIInK2/X8Pt2Ep/A==
+X-Received: by 2002:a05:6512:110d:b0:545:62c:4b13 with SMTP id
+ 2adb3069b0e04-54838f4c9efmr4290701e87.40.1740365567236; 
+ Sun, 23 Feb 2025 18:52:47 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54839cd339dsm838172e87.203.2025.02.23.18.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Feb 2025 18:52:45 -0800 (PST)
+Date: Mon, 24 Feb 2025 04:52:43 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
+ chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
+ shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
  detect of irq feature
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
+Message-ID: <6jx5ldpidy2ycrqognfiv5ttqr5ia4dtbryta3kc2mkndrvvgo@qzuakucz765k>
 References: <20250222025102.1519798-1-shiyongbang@huawei.com>
  <20250222025102.1519798-8-shiyongbang@huawei.com>
  <reqpxlbvlz5qssgy6gbjuou33h4zevo4xeztqbsr4keehplyhx@utv22a5ihohx>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <reqpxlbvlz5qssgy6gbjuou33h4zevo4xeztqbsr4keehplyhx@utv22a5ihohx>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+ <eef68fc7-30f4-4246-a82e-4f90cd6a665d@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eef68fc7-30f4-4246-a82e-4f90cd6a665d@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,237 +98,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Sat, Feb 22, 2025 at 10:51:00AM +0800, Yongbang Shi wrote:
->> From: Baihan Li <libaihan@huawei.com>
->>
->> Enable HPD feature and add its isr and event function. Add a drm client
->> dev and realized the hotplug callback in it.
-> What for? There should be no need to add a separate drm client just for
-> the hotplug.
->
->> Signed-off-by: Baihan Li <libaihan@huawei.com>
->> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->> ---
->> ChangeLog:
->> v2 -> v3:
->>    - remove mdelay(100) hpd function in ISR, suggested by Dmitry Baryshkov.
->>    - remove enble_display in ISR, suggested by Dmitry Baryshkov.
->>    - change drm_kms_helper_connector_hotplug_event() to
->>      drm_connector_helper_hpd_irq_event(), suggested by Dmitry Baryshkov.
->>    - move macros to dp_reg.h, suggested by Dmitry Baryshkov.
->>    - remove struct irqs, suggested by Dmitry Baryshkov.
->>    - split this patch into two parts, suggested by Dmitry Baryshkov.
->>    - add a drm client dev to handle HPD event.
->> v1 -> v2:
->>    - optimizing the description in commit message, suggested by Dmitry Baryshkov.
->>    - add mdelay(100) comments, suggested by Dmitry Baryshkov.
->>    - deleting display enable in hpd event, suggested by Dmitry Baryshkov.
->> ---
->>   .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  1 +
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 22 +++++++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  6 ++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 61 +++++++++++++++++++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  2 +
->>   5 files changed, 92 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> index c5feef8dc27d..08f9e1caf7fc 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> @@ -16,5 +16,6 @@
->>   #define HIBMC_DP_SYNC_EN_MASK		0x3
->>   #define HIBMC_DP_LINK_RATE_CAL		27
->>   #define HIBMC_DP_SYNC_DELAY(lanes)	((lanes) == 0x2 ? 86 : 46)
->> +#define HIBMC_DP_INT_ENABLE		0xc
->>   
->>   #endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> index a921b98dbf50..b2116395b8dd 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> @@ -182,6 +182,7 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
->>   	/* int init */
->>   	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->>   	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
->> +	writel(HIBMC_DP_INT_ENABLE, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->>   	/* rst */
->>   	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
->>   	/* clock enable */
->> @@ -190,6 +191,21 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
->>   	return 0;
->>   }
->>   
->> +void hibmc_dp_hpd_cfg(struct hibmc_dp *dp)
->> +{
->> +	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
->> +
->> +	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_SYNC_LEN_SEL, 0x0);
->> +	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_TIMER_TIMEOUT, 0x1);
->> +	hibmc_dp_reg_write_field(dp->dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_MIN_PULSE_NUM, 0x9);
->> +	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
->> +	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->> +	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
->> +	writel(HIBMC_DP_INT_ENABLE, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->> +	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
->> +	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
->> +}
->> +
->>   void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable)
->>   {
->>   	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
->> @@ -228,6 +244,12 @@ int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode)
->>   	return 0;
->>   }
->>   
->> +void hibmc_dp_reset_link(struct hibmc_dp *dp)
->> +{
->> +	dp->dp_dev->link.status.clock_recovered = false;
->> +	dp->dp_dev->link.status.channel_equalized = false;
-> Could you please point out, where the link rate and number of lanes are
-> reset?
+On Sat, Feb 22, 2025 at 06:35:48PM +0800, Yongbang Shi wrote:
+> > > +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
+> > > +{
+> > > +	struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
+> > > +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
+> > > +	struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
+> > > +	int ret;
+> > > +
+> > > +	if (dp->hpd_status) {
+> > > +		hibmc_dp_hpd_cfg(&priv->dp);
+> > > +		ret = hibmc_dp_prepare(dp, mode);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +
+> > > +		hibmc_dp_display_en(dp, true);
+> > > +	} else {
+> > > +		hibmc_dp_display_en(dp, false);
+> > > +		hibmc_dp_reset_link(&priv->dp);
+> > > +	}
+> > If I understand this correctly, you are using a separate drm_client to
+> > enable and disable the link & display. Why is it necessary? Existing
+> > drm_clients and userspace compositors use drm framework, they should be
+> > able to turn the display on and off as required.
+> > 
+> Thanks for your asking, there are cfg/reset process when the connector 's pluging in/out.
+> We want to cfg DP registers again when the connector changes. Not only dp link training, but also cfg
+> the different video modes into DP registers.
 
-Thanks for your reminder, I will reset link rate and lanes here too.
+Why? The link training and mode programming should happen during
+pre_enable / enable stage (legacy or atomic).
 
+> 
+> 
 
->> +}
->> +
->>   static const struct hibmc_dp_color_raw g_rgb_raw[] = {
->>   	{CBAR_COLOR_BAR, 0x000, 0x000, 0x000},
->>   	{CBAR_WHITE,     0xfff, 0xfff, 0xfff},
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> index 83a53dae8012..a55d66d53966 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> @@ -11,6 +11,7 @@
->>   #include <drm/drm_connector.h>
->>   #include <drm/drm_print.h>
->>   #include <drm/display/drm_dp_helper.h>
->> +#include <drm/drm_client.h>
->>   
->>   struct hibmc_dp_dev;
->>   
->> @@ -49,11 +50,16 @@ struct hibmc_dp {
->>   	void __iomem *mmio;
->>   	struct drm_dp_aux aux;
->>   	struct hibmc_dp_cbar_cfg cfg;
->> +	u32 irq_status;
->> +	u32 hpd_status;
->> +	struct drm_client_dev client;
->>   };
->>   
->>   int hibmc_dp_hw_init(struct hibmc_dp *dp);
->>   int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode);
->>   void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable);
->>   void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg);
->> +void hibmc_dp_reset_link(struct hibmc_dp *dp);
->> +void hibmc_dp_hpd_cfg(struct hibmc_dp *dp);
->>   
->>   #endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> index a7f611e82f73..40a3ebb8ac4b 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> @@ -9,10 +9,13 @@
->>   #include <drm/drm_modes.h>
->>   #include <drm/drm_drv.h>
->>   #include <drm/drm_edid.h>
->> +#include <drm/drm_client.h>
->>   
->>   #include "hibmc_drm_drv.h"
->>   #include "dp/dp_hw.h"
->>   
->> +#define DP_MASKED_SINK_HPD_PLUG_INT	BIT(2)
->> +
->>   static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->>   {
->>   	struct hibmc_dp *dp = to_hibmc_dp(connector);
->> @@ -98,6 +101,58 @@ static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
->>   	.atomic_disable = hibmc_dp_encoder_disable,
->>   };
->>   
->> +irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
->> +{
->> +	struct drm_device *dev = (struct drm_device *)arg;
->> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
->> +	int idx;
->> +
->> +	if (!drm_dev_enter(dev, &idx))
->> +		return -ENODEV;
->> +
->> +	if (priv->dp.irq_status & DP_MASKED_SINK_HPD_PLUG_INT) {
->> +		drm_dbg_dp(&priv->dev, "HPD IN isr occur!\n");
->> +		priv->dp.hpd_status = 1;
->> +	} else {
->> +		drm_dbg_dp(&priv->dev, "HPD OUT isr occur!\n");
->> +		priv->dp.hpd_status = 0;
->> +	}
->> +
->> +	if (dev->registered)
->> +		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
->> +
->> +	drm_dev_exit(idx);
->> +
->> +	return IRQ_HANDLED;
->> +}
->> +
->> +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
->> +{
->> +	struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
->> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
->> +	struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
->> +	int ret;
->> +
->> +	if (dp->hpd_status) {
->> +		hibmc_dp_hpd_cfg(&priv->dp);
->> +		ret = hibmc_dp_prepare(dp, mode);
->> +		if (ret)
->> +			return ret;
->> +
->> +		hibmc_dp_display_en(dp, true);
->> +	} else {
->> +		hibmc_dp_display_en(dp, false);
->> +		hibmc_dp_reset_link(&priv->dp);
->> +	}
-> If I understand this correctly, you are using a separate drm_client to
-> enable and disable the link & display. Why is it necessary? Existing
-> drm_clients and userspace compositors use drm framework, they should be
-> able to turn the display on and off as required.
->
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct drm_client_funcs hibmc_dp_client_funcs = {
->> +	.hotplug = hibmc_dp_hpd_event,
->> +	.unregister = drm_client_release,
->> +};
->> +
->>   int hibmc_dp_init(struct hibmc_drm_private *priv)
->>   {
->>   	struct drm_device *dev = &priv->dev;
->> @@ -138,5 +193,11 @@ int hibmc_dp_init(struct hibmc_drm_private *priv)
->>   
->>   	drm_connector_attach_encoder(connector, encoder);
->>   
->> +	ret = drm_client_init(dev, &dp->client, "hibmc-DP-HPD", &hibmc_dp_client_funcs);
->> +	if (ret)
->> +		return ret;
->> +
->> +	drm_client_register(&dp->client);
->> +
->>   	return 0;
->>   }
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> index bc89e4b9f4e3..daed1330b961 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> @@ -71,4 +71,6 @@ int hibmc_dp_init(struct hibmc_drm_private *priv);
->>   
->>   void hibmc_debugfs_init(struct drm_connector *connector, struct dentry *root);
->>   
->> +irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg);
->> +
->>   #endif
->> -- 
->> 2.33.0
->>
+-- 
+With best wishes
+Dmitry
