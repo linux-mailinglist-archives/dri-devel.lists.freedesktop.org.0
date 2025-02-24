@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8E5A41E15
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 13:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35E2A41E5A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 13:07:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFC4410E35F;
-	Mon, 24 Feb 2025 12:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F273A10E363;
+	Mon, 24 Feb 2025 12:07:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cTOw7fk4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="llLJM4oI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E1710E35F
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 12:01:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 862A510E361;
+ Mon, 24 Feb 2025 12:07:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F1051611AF;
- Mon, 24 Feb 2025 12:01:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B71C4CED6;
- Mon, 24 Feb 2025 12:01:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 1A00E611A0;
+ Mon, 24 Feb 2025 12:07:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D4B2C4CEE6;
+ Mon, 24 Feb 2025 12:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740398491;
- bh=ksjrJsaXHGs+/qojuMnwn+tMZr0i67NGvRTZp6GNHqM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cTOw7fk4hlSaArImsvrN63uePusXG8VaGRYtat9pdX8JDcAES2ymC39qwH49ZkZTR
- tTg5ZdcmySjzo9Y8MrRUZNS5TiL0K8wT7UIbstkw+6hP8Vb3hUVei/B+x5NEnKvNKm
- ztHDkI/dDoTL82P2ftbBjVxXyPIMv/tuS4j+ygSIkJKSMeWTctvsg6EzNej1HhXOL+
- tLiZn0xhJ6ulE2qVrYZnirh/Cy/8EV6vAMTWe7A/m6PNn0dSeEWG6uYXyjsnFp5pzl
- TdYCkTf+59tsaCpM/2ys1UWH7zmt9/nOlwVmGBThbZS7kRcXiFCuVvIIHeG42mLzkM
- PYMV+2LFgGn3Q==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 3/3] drm/sched: Update timedout_job()'s documentation
-Date: Mon, 24 Feb 2025 13:01:05 +0100
-Message-ID: <20250224120104.26211-5-phasta@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250224120104.26211-2-phasta@kernel.org>
-References: <20250224120104.26211-2-phasta@kernel.org>
+ s=k20201202; t=1740398839;
+ bh=Lj7AnxrvrJdZGqg0jt9Y26sh/3qsXsYiQTfMs9xf2bo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=llLJM4oIRH1SLrvaPQn/ZipABAJlry7z52TN2eJOr3wP5G9JsfqnpscjFGCMEcK0x
+ 8h6u8Z8F9FO/IrKvQmSInGHVYZyjCA4n8NPAdChcqiW8pamjDLpiYEm/tjc1KD1chO
+ gPgq6fG6Butmyj5gzgDdtMxtB+a8bgmhCk+9RG+Ra7a56X29e0UiAVXPW3RYiNi45m
+ GKySzUVt2gWhsMERCGpGydGPZc8P0Qu9aivv0nTPC6JCU5JbBR2+BquXhVrMNqw5ve
+ 0hpKJoEX3QmwYqoMfcgj+WrvP2XJq43S05I2/+KvqbGPfdboYqVmmDHe5UMv7BGhRo
+ BxtX0sof8DcyA==
+Date: Mon, 24 Feb 2025 13:07:14 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z7xg8uArPlr2gQBU@pollux>
+References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
+ <Z7OrKX3zzjrzZdyz@pollux>
+ <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
+ <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,130 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_backend_ops.timedout_job()'s documentation is outdated. It
-mentions the deprecated function drm_sched_resubmit_job(). Furthermore,
-it does not point out the important distinction between hardware and
-firmware schedulers.
+CC: Gary
 
-Since firmware schedulers tyipically only use one entity per scheduler,
-timeout handling is significantly more simple because the entity the
-faulted job came from can just be killed without affecting innocent
-processes.
+On Mon, Feb 24, 2025 at 10:40:00AM +0900, Alexandre Courbot wrote:
+> This inability to sleep while we are accessing registers seems very
+> constraining to me, if not dangerous. It is pretty common to have
+> functions intermingle hardware accesses with other operations that might
+> sleep, and this constraint means that in such cases the caller would
+> need to perform guard lifetime management manually:
+> 
+>   let bar_guard = bar.try_access()?;
+>   /* do something non-sleeping with bar_guard */
+>   drop(bar_guard);
+> 
+>   /* do something that might sleep */
+> 
+>   let bar_guard = bar.try_access()?;
+>   /* do something non-sleeping with bar_guard */
+>   drop(bar_guard);
+> 
+>   ...
+> 
+> Failure to drop the guard potentially introduces a race condition, which
+> will receive no compile-time warning and potentialy not even a runtime
+> one unless lockdep is enabled. This problem does not exist with the
+> equivalent C code AFAICT, which makes the Rust version actually more
+> error-prone and dangerous, the opposite of what we are trying to achieve
+> with Rust. Or am I missing something?
 
-Update the documentation with that distinction and other details.
+Generally you are right, but you have to see it from a different perspective.
 
-Reformat the docstring to work to a unified style with the other
-handles.
+What you describe is not an issue that comes from the design of the API, but is
+a limitation of Rust in the kernel. People are aware of the issue and with klint
+[1] there are solutions for that in the pipeline, see also [2] and [3].
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 78 ++++++++++++++++++++++---------------
- 1 file changed, 47 insertions(+), 31 deletions(-)
-
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index c59a903deebe..f31c1032af45 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -393,8 +393,15 @@ static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
- 	return s_job && atomic_inc_return(&s_job->karma) > threshold;
- }
- 
-+/**
-+ * enum drm_gpu_sched_stat - the scheduler's status
-+ *
-+ * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
-+ * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
-+ * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
-+ */
- enum drm_gpu_sched_stat {
--	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-+	DRM_GPU_SCHED_STAT_NONE,
- 	DRM_GPU_SCHED_STAT_NOMINAL,
- 	DRM_GPU_SCHED_STAT_ENODEV,
- };
-@@ -455,43 +462,52 @@ struct drm_sched_backend_ops {
- 	 * @timedout_job: Called when a job has taken too long to execute,
- 	 * to trigger GPU recovery.
- 	 *
--	 * This method is called in a workqueue context.
-+	 * @sched_job: The job that has timed out
- 	 *
--	 * Drivers typically issue a reset to recover from GPU hangs, and this
--	 * procedure usually follows the following workflow:
-+	 * Drivers typically issue a reset to recover from GPU hangs.
-+	 * This procedure looks very different depending on whether a firmware
-+	 * or a hardware scheduler is being used.
- 	 *
--	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
--	 *    scheduler thread and cancel the timeout work, guaranteeing that
--	 *    nothing is queued while we reset the hardware queue
--	 * 2. Try to gracefully stop non-faulty jobs (optional)
--	 * 3. Issue a GPU reset (driver-specific)
--	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
--	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
--	 *    jobs can be queued, and the scheduler thread is unblocked
-+	 * For a FIRMWARE SCHEDULER, each ring has one scheduler, and each
-+	 * scheduler has one entity. Hence, the steps taken typically look as
-+	 * follows:
-+	 *
-+	 * 1. Stop the scheduler using drm_sched_stop(). This will pause the
-+	 *    scheduler workqueues and cancel the timeout work, guaranteeing
-+	 *    that nothing is queued while the ring is being removed.
-+	 * 2. Remove the ring. The firmware will make sure that the
-+	 *    corresponding parts of the hardware are resetted, and that other
-+	 *    rings are not impacted.
-+	 * 3. Kill the entity and the associated scheduler.
-+	 *
-+	 *
-+	 * For a HARDWARE SCHEDULER, a scheduler instance schedules jobs from
-+	 * one or more entities to one ring. This implies that all entities
-+	 * associated with the affected scheduler cannot be torn down, because
-+	 * this would effectively also affect innocent userspace processes which
-+	 * did not submit faulty jobs (for example).
-+	 *
-+	 * Consequently, the procedure to recover with a hardware scheduler
-+	 * should look like this:
-+	 *
-+	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop().
-+	 * 2. Kill the entity the faulty job stems from.
-+	 * 3. Issue a GPU reset on all faulty rings (driver-specific).
-+	 * 4. Re-submit jobs on all schedulers impacted by re-submitting them to
-+	 *    the entities which are still alive.
-+	 * 5. Restart all schedulers that were stopped in step #1 using
-+	 *    drm_sched_start().
- 	 *
- 	 * Note that some GPUs have distinct hardware queues but need to reset
- 	 * the GPU globally, which requires extra synchronization between the
--	 * timeout handler of the different &drm_gpu_scheduler. One way to
--	 * achieve this synchronization is to create an ordered workqueue
--	 * (using alloc_ordered_workqueue()) at the driver level, and pass this
--	 * queue to drm_sched_init(), to guarantee that timeout handlers are
--	 * executed sequentially. The above workflow needs to be slightly
--	 * adjusted in that case:
-+	 * timeout handlers of different schedulers. One way to achieve this
-+	 * synchronization is to create an ordered workqueue (using
-+	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
-+	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
-+	 * that timeout handlers are executed sequentially.
- 	 *
--	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop()
--	 * 2. Try to gracefully stop non-faulty jobs on all queues impacted by
--	 *    the reset (optional)
--	 * 3. Issue a GPU reset on all faulty queues (driver-specific)
--	 * 4. Re-submit jobs on all schedulers impacted by the reset using
--	 *    drm_sched_resubmit_jobs()
--	 * 5. Restart all schedulers that were stopped in step #1 using
--	 *    drm_sched_start()
-+	 * Return: The scheduler's status, defined by &drm_gpu_sched_stat
- 	 *
--	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
--	 * and the underlying driver has started or completed recovery.
--	 *
--	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
--	 * available, i.e. has been unplugged.
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
--- 
-2.48.1
-
+[1] https://rust-for-linux.com/klint
+[2] https://github.com/Rust-for-Linux/klint/blob/trunk/doc/atomic_context.md
+[3] https://www.memorysafety.org/blog/gary-guo-klint-rust-tools/
