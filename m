@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C68A42771
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 17:07:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ECDA4276F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 17:07:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32BE510E455;
-	Mon, 24 Feb 2025 16:07:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F7810E44B;
+	Mon, 24 Feb 2025 16:07:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XhFC4R8w";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FhaC0Ckc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33CFC10E340
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 16:07:43 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 62ADF4444A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCDD810E340
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 16:07:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 053114444F;
  Mon, 24 Feb 2025 16:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740413262;
+ t=1740413263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
  bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=XhFC4R8wdT1M1IG90z5TNwAjdCQOFY56RWbxIS49zS9kA+bV0vAAX7FzFJnVFXwB4IKySD
- HMk/j69biWYkHyUyES8aMO41tDF/OrXgEgjRZfT3eO4IKo8FohGe81EDqHxMzd+fM98gff
- txMyXpzMj0y84MBw9T2ZjYIdC1JRuX8Zjl5yep/UpRCGhu4ERU8Ji3SZB1EqolN57PBWYm
- abFPfsyxBYJsNmsqxYcHcDCDLZvNFAEsc5INAhClT448td1hrRDEISZNkcSSGg13NmsAYq
- 0GwEMVitrZyP/THDXmIPzzDIFoGQs97+Ejc8DiofE6G6PdLmKEFVv0ORmaX5pA==
-Message-ID: <723149af-b1e8-4b29-83c4-718b8f9ab80e@bootlin.com>
-Date: Mon, 24 Feb 2025 17:07:30 +0100
+ b=FhaC0Ckc2tPQwyfAOyFpibM0eapHqXdrI4xRLc7kbvGcyYpXxiomGScRGfM+WpwRxgSRz1
+ UCE+AuKVpOPAUgBpFWuzvsTioxohBrRj8QDXv6Rv+mGuweacgNQJ7RsB0cjjj8wqOMqJV1
+ r23e32KsQ99f5SkiILKluVwH1g4Nhwn0tjueHUZKCmzlvRjScRzSnFkTjlG3aPoixrstBw
+ +chTsdu2THS6zPzMCAbwdvSG9i6nhHNPMQBMIxYNkOS3SDSj9FruB6Rrv/XqBvjeDTE7fG
+ nTjwPDvvbSWNUT4+Skf+9fBuvNXHFA+hGgD7dTfIlll1M9MtQZ264Gi1gA+fFw==
+Message-ID: <3c4b07b9-4173-4c93-bd15-07f6a63c5939@bootlin.com>
+Date: Mon, 24 Feb 2025 17:07:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [V7 06/45] drm/colorop: Add TYPE property
+Subject: Re: [V7 07/45] drm/colorop: Add 1D Curve subtype
 To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org
 Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
 References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-7-alex.hung@amd.com>
+ <20241220043410.416867-8-alex.hung@amd.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -96,7 +96,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20241220043410.416867-7-alex.hung@amd.com>
+In-Reply-To: <20241220043410.416867-8-alex.hung@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-GND-State: clean
