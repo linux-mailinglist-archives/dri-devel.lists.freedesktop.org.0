@@ -2,68 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09629A42C3A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 20:01:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70490A42C8A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 20:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 638D910E4D4;
-	Mon, 24 Feb 2025 19:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1C3610E4E2;
+	Mon, 24 Feb 2025 19:16:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VORHk7Wq";
+	dkim=pass (2048-bit key; unprotected) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="duLD4bry";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D08C10E4D4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 19:01:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E58DB5C54C3;
- Mon, 24 Feb 2025 19:00:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EB93C4CED6;
- Mon, 24 Feb 2025 19:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740423674;
- bh=tn7rMLzZMtYRYg7sNSmwLOytEKHtBv8WoWbob9xBWAM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VORHk7Wqt7FpXC7lv2ML0sepJs4sW6mDdIpTFKoV7wPrw0aR0r5iCxp8oLZLtoV0Y
- 540ePSSJ0hU/aKR0bzvf8f/bPJf5wVzaDukJaEB5j0TRYA+99jJRCQ4S1tclH1EsVk
- 395bkLFZhWxRREnrZo82NjoVBq+EYH9knwECJQhCvGguyL2NryDJ6Iztn0zVp1KOB1
- okSrPhygsQc3THoomI+G3QF/b3gCLzBmk+ew1EnHT5kwVUAZduTsUgpLNmkPfeGf/b
- GELUYLGonFzMCDJZMLWQ6selS3CyorJXMcDE/aAp0mj0qIeTCDm1eNFicwNARHIuja
- BTIyXR32KjUFA==
-Date: Mon, 24 Feb 2025 19:01:08 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Sunny Shen =?utf-8?B?KOayiOWnjeWnjSk=?= <Sunny.Shen@mediatek.com>
-Cc: Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- "robh@kernel.org" <robh@kernel.org>,
- Nancy Lin =?utf-8?B?KOael+aso+ieoik=?= <Nancy.Lin@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Paul-pl Chen =?utf-8?B?KOmZs+afj+mclik=?= <Paul-pl.Chen@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "fshao@chromium.org" <fshao@chromium.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- Singo Chang =?utf-8?B?KOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "treapking@chromium.org" <treapking@chromium.org>
-Subject: Re: [PATCH 1/5] dt-bindings: display: mediatek: mdp-rsz: Add rules
- for MT8196
-Message-ID: <20250224-dreamland-tactile-bdb58daf6060@spud>
-References: <20250211025317.399534-1-sunny.shen@mediatek.com>
- <20250211025317.399534-2-sunny.shen@mediatek.com>
- <20250211-feed-shed-4b32f146cc54@spud>
- <029f9fd7ab898769a7ae627b160e1dce446ccc9e.camel@mediatek.com>
+X-Greylist: delayed 308 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Feb 2025 18:11:23 UTC
+Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D62D10E495
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 18:11:23 +0000 (UTC)
+Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
+ by ksmg02.maxima.ru (Postfix) with ESMTP id CD7021E0002;
+ Mon, 24 Feb 2025 21:06:04 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru CD7021E0002
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
+ s=sl; t=1740420364; bh=kjFoRlvCs05WvCXviC7CcZDDhmBmJ1uIW5ZI9DussEs=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+ b=duLD4bryRA1C1k2NJjIQey5GN+1ZIgq6g03bnXoZKiOVwMJ12R1cJEtCjBMGlrAEa
+ BEl0Q25EGhfY7+kgkFzL7DQHW4vYhdT7gkN/inVs30owGzGk5gHhxpjTcB1lMLORNQ
+ SEod26p/pNAuGnW/zxdNA5BQkgPgBOyhZn4Kkw53mVfT1bISTNOzqbTda+s1+i14QI
+ XyB5+JENuTdXgXQZ/9Z1fJ2A09cWcmcWlQlW8jeX/3GDCqANhaY1o9zmUWINJ+QbHN
+ dgiqnPavhg/87dlAy45qyBZwUahjYLMxYiniJ2JBjDPQc+wsdDadfK3BBWuoE8+Mpx
+ nRHuzVU+UaaBQ==
+Received: from ksmg02.maxima.ru (mail.maxima.ru [81.200.124.62])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.maxima.ru",
+ Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+ by ksmg02.maxima.ru (Postfix) with ESMTPS;
+ Mon, 24 Feb 2025 21:06:04 +0300 (MSK)
+Received: from GS-NOTE-190.mt.ru (10.0.246.182) by mmail-p-exch02.mt.ru
+ (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Mon, 24 Feb
+ 2025 21:06:02 +0300
+From: Murad Masimov <m.masimov@mt-integration.ru>
+To: Dave Airlie <airlied@redhat.com>
+CC: Murad Masimov <m.masimov@mt-integration.ru>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Jocelyn Falempe <jfalempe@redhat.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Mathieu Larouche <mathieu.larouche@matrox.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <lvc-project@linuxtesting.org>
+Subject: [PATCH v4] drm/mgag200: Apply upper limit for clock variable
+Date: Mon, 24 Feb 2025 21:04:38 +0300
+Message-ID: <20250224180442.675-1-m.masimov@mt-integration.ru>
+X-Mailer: git-send-email 2.46.0.windows.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Kj7+TgqWhvqCa97w"
-Content-Disposition: inline
-In-Reply-To: <029f9fd7ab898769a7ae627b160e1dce446ccc9e.camel@mediatek.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.246.182]
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
+ (81.200.124.62)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;
+ spf=none smtp.mailfrom=mt-integration.ru; dkim=none
+X-KSMG-AntiSpam-Envelope-From: m.masimov@mt-integration.ru
+X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51
+ 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail},
+ {Tracking_from_domain_doesnt_match_to}, mt-integration.ru:7.1.1;
+ ksmg02.maxima.ru:7.1.1; 127.0.0.199:7.1.2;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;
+ 81.200.124.62:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.62
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 191247 [Feb 24 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310,
+ bases: 2025/02/24 12:27:00 #27432361
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 7
+X-Mailman-Approved-At: Mon, 24 Feb 2025 19:16:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,43 +97,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+If the value of the clock variable is higher than 800000, the value of the
+variable m, which is used as a divisor, will remain zero, because
+(clock * testp) will be higher than vcomax in every loop iteration, which
+leads to skipping every iteration and leaving variable m unmodified.
 
---Kj7+TgqWhvqCa97w
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Return -EINVAL just after the loop, if m is still 0.
 
-On Sun, Feb 23, 2025 at 05:49:45PM +0000, Sunny Shen (=E6=B2=88=E5=A7=8D=E5=
-=A7=8D) wrote:
-> On Tue, 2025-02-11 at 17:54 +0000, Conor Dooley wrote:
-> > On Tue, Feb 11, 2025 at 10:52:50AM +0800, Sunny Shen wrote:
-> > > Add MDP-RSZ hardware description for MediaTek MT8196 SoC
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-> > > +examples:
-> > > +=C2=A0 - |
-> > > +=C2=A0=C2=A0=C2=A0 soc {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =3D <2>;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D <2>;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 disp_mdp_rsz0: disp-mdp-r=
-sz0@321a0000 {
-> >=20
-> > And "disp-mdp-rsz0" isn't anything close to a generic node name.
->=20
-> Will modify "disp-mdp-rsz0@321a0000" to "mdp-rsz@321a0000"
+Fixes: 877507bb954e ("drm/mgag200: Provide per-device callbacks for PIXPLLC")
+Signed-off-by: Murad Masimov <m.masimov@mt-integration.ru>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/mgag200/mgag200_g200se.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I don't think that's an improvement. Hint: full words would be a good
-place to start
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+index 7a32d3b1d226..4d65ead63d66 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+@@ -249,6 +249,9 @@ static int mgag200_g200se_04_pixpllc_atomic_check(struct drm_crtc *crtc,
+ 		}
+ 	}
 
---Kj7+TgqWhvqCa97w
-Content-Type: application/pgp-signature; name="signature.asc"
++	if (m == 0)
++		return -EINVAL;
++
+ 	fvv = pllreffreq * n / m;
+ 	fvv = (fvv - 800000) / 50000;
+ 	if (fvv > 15)
+--
+2.39.2
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ7zB9AAKCRB4tDGHoIJi
-0movAP0T4ZSKqBTGVXYcSVdKvK8Atq3J5/N6tEb8HcMi9xx9UQEAkfBR5ULg8Sm6
-kSeROWLffX6nrBC9VVNWJbYYIa/a0AI=
-=v5zV
------END PGP SIGNATURE-----
-
---Kj7+TgqWhvqCa97w--
