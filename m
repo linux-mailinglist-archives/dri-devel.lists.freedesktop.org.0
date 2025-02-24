@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B72A423C2
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 15:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECE9A423C5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 15:48:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 058AB10E3F8;
-	Mon, 24 Feb 2025 14:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9400F10E42C;
+	Mon, 24 Feb 2025 14:48:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WUaiZIja";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XykCKSk7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27E3310E3F8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 14:48:31 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 87B7B44441;
- Mon, 24 Feb 2025 14:48:26 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5DD610E3F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 14:48:39 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6AADE44281;
+ Mon, 24 Feb 2025 14:48:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740408510;
+ t=1740408518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NS2qwoJvJ8qoRdzcQTSlvegG8AHJ/S91xM5zgMD671c=;
- b=WUaiZIjazk95kA1adjvGhpb3Zo1r2Ik+kaXtg4prIl34mO3Nt18uzclf0pX1tKLFFTrdHH
- LPjH9YCddRknIP0azmfkW49ngkx7wxADPLkMl6Zfm1qxaiRSMOPZnz1CYoKNqEGZtZNZ1v
- G/fjJaUYCGX/gPQZ4JlFuqeR/5D1AW8VkUoIf1mZ+uWV8bLTfCeHkU2ktCNt9V8IUizt6G
- 7IQ1DCdybTBrIvqnQyWNigP1dpXp8tq/mfaOl7nGQo0KUvB0n1NEXkc28xV3tg3Poj218w
- AVFz7tNlNpAQ2Fajr8WHQsYHGne1YywHj86Wm0tYR0CMD8SPL0szP+mn+kwPBA==
-Message-ID: <c259c65d-8124-451b-b741-b288fc30663d@bootlin.com>
-Date: Mon, 24 Feb 2025 15:48:24 +0100
+ bh=VEu+apYGnOwICjaNbh6W9XYrg2WdikujEa9NsWxIwdA=;
+ b=XykCKSk7GsyjIsGNSPZG4n25oh6Til8w7kpm+zbLLGKh3wfkW+DSQIGMD4frv6XTQW5W2W
+ Z7XlAZG029HyHzFme8EQjcPyW1EoZXWEiaCe2KDcpny6EUuCzqeHLpU7tze+APujxnL70P
+ OmjBRkIV+8cU+XUzW+xiS+Wcds5wmMiLbMP/RgDhsirJK5oS1KKW9okexKhMqBQsnKttZK
+ 7BIs+o4fkP9N5nkVwdWhVvHbfLcwgqpY1wpeIWhdBIHpN/w8xqEZ12vgH0SdbCo4FWTaJk
+ xL9UNFp0lsQy2Q1z73tMxlDJbNWR1sh4OdV2ZrwTadvoOAWGfPL0Otzr4bbS+g==
+Message-ID: <6cf7d81e-9069-4632-96f3-daccc033bfc9@bootlin.com>
+Date: Mon, 24 Feb 2025 15:48:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH 3/5] drm/sched: stop passing non struct drm_device to
- drm_err() and friends
+Subject: Re: [PATCH 5/5] drm/print: require struct drm_device for drm_err()
+ and friends
 To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>, 
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org
 References: <cover.1737644530.git.jani.nikula@intel.com>
- <fe441dd1469d2b03e6b2ff247078bdde2011c6e3.1737644530.git.jani.nikula@intel.com>
+ <dfe6e774883e6ef93cfaa2b6fe92b804061ab9d9.1737644530.git.jani.nikula@intel.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -98,13 +96,13 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <fe441dd1469d2b03e6b2ff247078bdde2011c6e3.1737644530.git.jani.nikula@intel.com>
+In-Reply-To: <dfe6e774883e6ef93cfaa2b6fe92b804061ab9d9.1737644530.git.jani.nikula@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejledtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepteffhfdtiefgheffudeuvdekfefgvdduudfgffetteffvdetfffgjeevudfggfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehinhhtvghlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvl
- heslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepmhgrthhthhgvfidrsghrohhsthesihhnthgvlhdrtghomhdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphhhrghsthgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtkhhovghnihhgrdhlvghitghhthiiuhhmvghrkhgvnhesghhmrghilhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejledtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepteffhfdtiefgheffudeuvdekfefgvdduudfgffetteffvdetfffgjeevudfggfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejheenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehinhhtvghlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvl
+ heslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,109 +126,108 @@ Le 23/01/2025 à 16:09, Jani Nikula a écrit :
 > passed an actual struct drm_device pointer rather than some random
 > struct pointer where you can dereference the ->dev member.
 > 
-> Convert drm_err(sched, ...) to dev_err(sched->dev, ...) and
-> similar. This matches current usage, as struct drm_device is not
-> available, but drops "[drm]" or "[drm] *ERROR*" prefix from logging.
+> Add a static inline helper to convert struct drm_device to struct
+> device, with the main benefit being the type checking of the macro
+> argument.
 > 
-> Unfortunately, there's no dev_WARN_ON(), so the conversion is not
-> exactly the same.
+> As a side effect, this also reduces macro argument double references.
 > 
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
+>   include/drm/drm_print.h | 41 +++++++++++++++++++++++------------------
+>   1 file changed, 23 insertions(+), 18 deletions(-)
 > 
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
->   drivers/gpu/drm/scheduler/sched_main.c   | 20 +++++++++++---------
->   2 files changed, 12 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 69bcf0e99d57..e29af71d4b5c 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -92,7 +92,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->   		 * the lowest priority available.
->   		 */
->   		if (entity->priority >= sched_list[0]->num_rqs) {
-> -			drm_err(sched_list[0], "entity with out-of-bounds priority:%u num_rqs:%u\n",
-> +			dev_err(sched_list[0]->dev, "entity with out-of-bounds priority:%u num_rqs:%u\n",
->   				entity->priority, sched_list[0]->num_rqs);
->   			entity->priority = max_t(s32, (s32) sched_list[0]->num_rqs - 1,
->   						 (s32) DRM_SCHED_PRIORITY_KERNEL);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index a48be16ab84f..d1c1f22fd1db 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -103,9 +103,9 @@ static u32 drm_sched_available_credits(struct drm_gpu_scheduler *sched)
->   {
->   	u32 credits;
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 9732f514566d..f31eba1c7cab 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -584,9 +584,15 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+>    * Prefer drm_device based logging over device or prink based logging.
+>    */
 >   
-> -	drm_WARN_ON(sched, check_sub_overflow(sched->credit_limit,
-> -					      atomic_read(&sched->credit_count),
-> -					      &credits));
-> +	WARN_ON(check_sub_overflow(sched->credit_limit,
-> +				   atomic_read(&sched->credit_count),
-> +				   &credits));
+> +/* Helper to enforce struct drm_device type */
+> +static inline struct device *__drm_to_dev(const struct drm_device *drm)
+> +{
+> +	return drm ? drm->dev : NULL;
+> +}
+> +
+>   /* Helper for struct drm_device based logging. */
+>   #define __drm_printk(drm, level, type, fmt, ...)			\
+> -	dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+> +	dev_##level##type(__drm_to_dev(drm), "[drm] " fmt, ##__VA_ARGS__)
 >   
->   	return credits;
->   }
-> @@ -130,9 +130,11 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
->   	/* If a job exceeds the credit limit, truncate it to the credit limit
->   	 * itself to guarantee forward progress.
->   	 */
-> -	if (drm_WARN(sched, s_job->credits > sched->credit_limit,
-> -		     "Jobs may not exceed the credit limit, truncate.\n"))
-> +	if (s_job->credits > sched->credit_limit) {
-> +		dev_WARN(sched->dev,
-> +			 "Jobs may not exceed the credit limit, truncate.\n");
->   		s_job->credits = sched->credit_limit;
-> +	}
 >   
->   	return drm_sched_available_credits(sched) >= s_job->credits;
->   }
-> @@ -790,7 +792,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
->   		 * or worse--a blank screen--leave a trail in the
->   		 * logs, so this can be debugged easier.
->   		 */
-> -		drm_err(job->sched, "%s: entity has no rq!\n", __func__);
-> +		dev_err(job->sched->dev, "%s: entity has no rq!\n", __func__);
->   		return -ENOENT;
->   	}
+>   #define drm_info(drm, fmt, ...)					\
+> @@ -620,25 +626,25 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
 >   
-> @@ -1280,7 +1282,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->   	if (num_rqs > DRM_SCHED_PRIORITY_COUNT) {
->   		/* This is a gross violation--tell drivers what the  problem is.
->   		 */
-> -		drm_err(sched, "%s: num_rqs cannot be greater than DRM_SCHED_PRIORITY_COUNT\n",
-> +		dev_err(sched->dev, "%s: num_rqs cannot be greater than DRM_SCHED_PRIORITY_COUNT\n",
->   			__func__);
->   		return -EINVAL;
->   	} else if (sched->sched_rq) {
-> @@ -1288,7 +1290,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->   		 * fine-tune their DRM calling order, and return all
->   		 * is good.
->   		 */
-> -		drm_warn(sched, "%s: scheduler already initialized!\n", __func__);
-> +		dev_warn(sched->dev, "%s: scheduler already initialized!\n", __func__);
->   		return 0;
->   	}
 >   
-> @@ -1343,7 +1345,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->   Out_check_own:
->   	if (sched->own_submit_wq)
->   		destroy_workqueue(sched->submit_wq);
-> -	drm_err(sched, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
-> +	dev_err(sched->dev, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
->   	return -ENOMEM;
->   }
->   EXPORT_SYMBOL(drm_sched_init);
+>   #define drm_dbg_core(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> -#define drm_dbg_driver(drm, fmt, ...)						\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_driver(drm, fmt, ...)					\
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_kms(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_prime(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_atomic(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_vbl(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_VBL, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_state(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_STATE, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_lease(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_dp(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
+>   #define drm_dbg_drmres(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+>   
+>   #define drm_dbg(drm, fmt, ...)	drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+>   
+> @@ -727,10 +733,9 @@ void __drm_err(const char *format, ...);
+>   #define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)					\
+>   ({												\
+>   	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST);\
+> -	const struct drm_device *drm_ = (drm);							\
+>   												\
+>   	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))			\
+> -		drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);	\
+> +		drm_dev_printk(__drm_to_dev(drm), KERN_DEBUG, fmt, ## __VA_ARGS__);		\
+>   })
+>   
+>   #define drm_dbg_ratelimited(drm, fmt, ...) \
+> @@ -752,13 +757,13 @@ void __drm_err(const char *format, ...);
+>   /* Helper for struct drm_device based WARNs */
+>   #define drm_WARN(drm, condition, format, arg...)			\
+>   	WARN(condition, "%s %s: [drm] " format,				\
+> -			dev_driver_string((drm)->dev),			\
+> -			dev_name((drm)->dev), ## arg)
+> +			dev_driver_string(__drm_to_dev(drm)),		\
+> +			dev_name(__drm_to_dev(drm)), ## arg)
+>   
+>   #define drm_WARN_ONCE(drm, condition, format, arg...)			\
+>   	WARN_ONCE(condition, "%s %s: [drm] " format,			\
+> -			dev_driver_string((drm)->dev),			\
+> -			dev_name((drm)->dev), ## arg)
+> +			dev_driver_string(__drm_to_dev(drm)),		\
+> +			dev_name(__drm_to_dev(drm)), ## arg)
+>   
+>   #define drm_WARN_ON(drm, x)						\
+>   	drm_WARN((drm), (x), "%s",					\
 
 -- 
 Louis Chauvet, Bootlin
