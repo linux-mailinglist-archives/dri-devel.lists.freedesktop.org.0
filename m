@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D9FA430D7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 00:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88C6A43127
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 00:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C236310E088;
-	Mon, 24 Feb 2025 23:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA1810E4A2;
+	Mon, 24 Feb 2025 23:45:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lS0PoM1g";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from c64.rulez.org (c64.rulez.org [79.139.58.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 336CB10E05B
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 21:52:26 +0000 (UTC)
-Received: from [192.168.0.207] (catv-89-134-12-32.catv.fixed.one.hu
- [89.134.12.32])
- by c64.rulez.org (Postfix) with ESMTPSA id 9B124100C5;
- Mon, 24 Feb 2025 22:52:23 +0100 (CET)
-Message-ID: <ccfdff32-fe91-900d-e7a0-81d4d407f648@c64.rulez.org>
-Date: Mon, 24 Feb 2025 22:52:27 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D422610E4A2;
+ Mon, 24 Feb 2025 23:44:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5CC815C419A;
+ Mon, 24 Feb 2025 23:44:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54A2BC4CED6;
+ Mon, 24 Feb 2025 23:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740440697;
+ bh=Kr1rcS4ZMViPxe+TilfErx2vNbgRGnGen+c0co0S3HY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lS0PoM1gPsYGz6CL0m4sV/UNKhyh3NDOUWFZhOk7k7RwVpFFDHNFkY2wK1ZsdBZV3
+ AeGefMf/BsacH6jQUEnHnR9do9P3j0e/Oinz9iaDMGyE3V92sg8owwWr86Lvi5wnA5
+ 0YxPtdGUCUd25EJOEeAaBjvmMV8tzTJymm6m9gqwQxZ4f0POdPahMHcNoOSbYnnvgs
+ yPZSuiKL1vUjYo4trTbcO4w5TUnCP9sF+kattMFoYYXAkaDhKtx1+ckS4/+IAju1dr
+ rwRO6A8Y6kG5IsxN3ZTVD2wAJgrFFluekHJMa+sauLd/0X08PCafLFWTulb01DlcI5
+ mlKMhPlZ/rByg==
+Date: Tue, 25 Feb 2025 00:44:51 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z70EcwNIX0KtWy36@cassiopeiae>
+References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
+ <Z7OrKX3zzjrzZdyz@pollux>
+ <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
+ <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
+ <Z7xh5bEyh_MII4WV@pollux> <20250224184502.GA1599486@joelnvbox>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-GB
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250207041818.4031-1-soci@c64.rulez.org>
- <c4db73a2-12a7-41f4-a175-332c44f51bc4@suse.de>
- <8c0aa1f0-27f8-befa-2b27-76e9faf7fc6d@c64.rulez.org>
- <e07fbd60-e362-482d-8233-409a366c9b2f@suse.de>
-From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
-Subject: Re: [PATCH RESEND 00/13] fbdev: core: Deduplicate cfb/sys drawing
- fbops
-In-Reply-To: <e07fbd60-e362-482d-8233-409a366c9b2f@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------iNe00QEpBepMAoAL3qlHyl0s"
-X-Mailman-Approved-At: Mon, 24 Feb 2025 23:28:54 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224184502.GA1599486@joelnvbox>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,126 +67,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------iNe00QEpBepMAoAL3qlHyl0s
-Content-Type: multipart/mixed; boundary="------------9gWubFacvy44Fclf2AYj0FzV";
- protected-headers="v1"
-From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <ccfdff32-fe91-900d-e7a0-81d4d407f648@c64.rulez.org>
-Subject: Re: [PATCH RESEND 00/13] fbdev: core: Deduplicate cfb/sys drawing
- fbops
-References: <20250207041818.4031-1-soci@c64.rulez.org>
- <c4db73a2-12a7-41f4-a175-332c44f51bc4@suse.de>
- <8c0aa1f0-27f8-befa-2b27-76e9faf7fc6d@c64.rulez.org>
- <e07fbd60-e362-482d-8233-409a366c9b2f@suse.de>
-In-Reply-To: <e07fbd60-e362-482d-8233-409a366c9b2f@suse.de>
+On Mon, Feb 24, 2025 at 01:45:02PM -0500, Joel Fernandes wrote:
+> Hi Danilo,
+> 
+> On Mon, Feb 24, 2025 at 01:11:17PM +0100, Danilo Krummrich wrote:
+> > On Mon, Feb 24, 2025 at 01:07:19PM +0100, Danilo Krummrich wrote:
+> > > CC: Gary
+> > > 
+> > > On Mon, Feb 24, 2025 at 10:40:00AM +0900, Alexandre Courbot wrote:
+> > > > This inability to sleep while we are accessing registers seems very
+> > > > constraining to me, if not dangerous. It is pretty common to have
+> > > > functions intermingle hardware accesses with other operations that might
+> > > > sleep, and this constraint means that in such cases the caller would
+> > > > need to perform guard lifetime management manually:
+> > > > 
+> > > >   let bar_guard = bar.try_access()?;
+> > > >   /* do something non-sleeping with bar_guard */
+> > > >   drop(bar_guard);
+> > > > 
+> > > >   /* do something that might sleep */
+> > > > 
+> > > >   let bar_guard = bar.try_access()?;
+> > > >   /* do something non-sleeping with bar_guard */
+> > > >   drop(bar_guard);
+> > > > 
+> > > >   ...
+> > > > 
+> > > > Failure to drop the guard potentially introduces a race condition, which
+> > > > will receive no compile-time warning and potentialy not even a runtime
+> > > > one unless lockdep is enabled. This problem does not exist with the
+> > > > equivalent C code AFAICT
+> > 
+> > Without klint [1] it is exactly the same as in C, where I have to remember to
+> > not call into something that might sleep from atomic context.
+> >
+> 
+> Sure, but in C, a sequence of MMIO accesses don't need to be constrained to
+> not sleeping?
 
---------------9gWubFacvy44Fclf2AYj0FzV
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+It's not that MMIO needs to be constrained to not sleeping in Rust either. It's
+just that the synchronization mechanism (RCU) used for the Revocable type
+implies that.
 
-Hello Thomas!
+In C we have something that is pretty similar with drm_dev_enter() /
+drm_dev_exit() even though it is using SRCU instead and is specialized to DRM.
 
-Wanted to answer earlier but things took time, and a lot more than expect=
-ed.
+In DRM this is used to prevent accesses to device resources after the device has
+been unplugged.
 
-> First of all, commit 779121e9f175 ("fbdev: Support for byte-reversed
-> framebuffer formats") isn't super complicated AFAICT. I can be
-> implemented in the sys_ helpers as well. It seems like you initially di=
-d
-> that.
+> 
+> I am fairly new to rust, could you help elaborate more about why these MMIO
+> accesses need to have RevocableGuard in Rust? What problem are we trying to
+> solve that C has but Rust doesn't with the aid of a RCU read-side section? I
+> vaguely understand we are trying to "wait for an MMIO access" using
+> synchronize here, but it is just a guest.
 
-Meanwhile I found out that this implementation had corner cases. I also
-expected original implementations be a bit more complete.
+Similar to the above, in Rust it's a safety constraint to prevent MMIO accesses
+to unplugged devices.
 
-> About the series at hand: generating code by macro expansion is good fo=
-r
-> simple cases. I've done that in several places within fbdev myself, suc=
-h
-> as [1]. But if the generated code requires Turing-completeness, it
-> becomes much harder to see through the macros and understand what is
-> going on. This makes code undiscoverable; and discoverability is a
-> requirement for maintenance.
+The exact type in Rust in this case is Devres<pci::Bar>. Within Devres, the
+pci::Bar is placed in a Revocable. The Revocable is revoked when the device
+is detached from the driver (for instance because it has been unplugged).
 
-In the new version I resorted to only generate tables with them, in
-close proximity. The mentioned part made me think when I first run into
-it, btw.
+By revoking the Revocable, the pci::Bar is dropped, which implies that it's also
+unmapped; a subsequent call to try_access() would fail.
 
-> Then there's type-safety and type-casting. The current series defeats i=
-t
-> by casting various pointers to whatever the macros define. For example,=
-
-> looking at the copyarea patches, they use screen_base [2] from struct
-> fb_info. The thing is, using screen_base is wrong for sys_copyarea().
-> The function should use 'screen_buffer' instead. It works because both
-> fields share the same bits of a union. Using screen_base is a bug in th=
-e
-> current implementation that should be fixed, while this patch series
-> would set it in stone.
-
-I've noticed the screen base vs. buffer issue back then and was already
-corrected. But it's handled more cleanly now.
-
-> Next, if you look through the commit history, you'll find that there ar=
-e
-> several commits with performance improvements. Memory access in the sys=
-
-> variants is not guaranteed to be 32-bit aligned by default. The compile=
-r
-> has to assume unaligned access, which results in slower code. Hence,
-> some manual intervention has to be done. It's too easy to accidentally
-> mess this up by using nontransparent macros for access.
-
-In the new version I made it very hard to get the alignment wrong.
-
-> If you want to do meaningful work here, please do actual refactoring
-> instead of throwing unrelated code together. First of all, never use
-> macros, but functions. You can supply callback functions to access the
-> framebuffer. Each callback should know whether it operates on
-> screen_base or screen_buffer.
-
-I've used such callbacks but not for the read/writes as that would have
-made the parameter list huge, in terms of lines. Not to mention passing
-them down to lowest level.
-
-> But using callbacks for individual reads and writes can have runtime
-> overhead. It's better to operate on complete scanlines. The current
-> helpers are already organized that way. Again, from the copyarea helper=
-:
-
-If done slightly differently the compiler inlines these and there's no
-overhead.
-
-> The inner helper do_something_...() has to be written for various cfb
-> and sys cases and can be given as function pointer to a generic helper.=
-
-The vertical loops are small, but I kept them separate from the scanline
-rendering part.
-
-Thanks for the tips, that was really helpful and used them when applicabl=
-e.
-
-While the updated version is not quite so as described I hope it isn't
-too bad either.
-
---------------9gWubFacvy44Fclf2AYj0FzV--
-
---------------iNe00QEpBepMAoAL3qlHyl0s
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEE8WlaH4v4aHNT2Bn0WOeEu4KftGsFAme86hsFAwAAAAAACgkQWOeEu4KftGvE
-4Qf9Fdqsd4X9jOvVLvGSljiDsQnfz90C4el3Ohs+2E3np9H9JM0QCGU8FKEwTxyo+Pwx0hyNUIre
-P1J1bb8gJQ4Mu7w/12g32WxB7vLVSNpKpWUqF5wLWfrDt61ljAs813wE7WJrT4Zp3Xh6Hz+LNFYp
-pkC+FoyzuW6HyxffWo/IQgM8xY7gdjkty7uI63SPE9RI1n2kfjq+v5gAvJZ9PSbHMzz5P/IkAo+V
-tZBQIPk5GhiC5m8JCB3+EL5TRnfWDhFQgkvsuPz7l6lQhZiF505e4oOl5KUdRlLdwdNBcUgec86h
-B2qu+mWd+HxK6y8tWAoEQG7ccEobVJGSpgM2Z/632g==
-=X0RA
------END PGP SIGNATURE-----
-
---------------iNe00QEpBepMAoAL3qlHyl0s--
+But yes, if the device is unplugged while holding the RCU guard, one is on their
+own; that's also why keeping the critical sections short is desirable.
