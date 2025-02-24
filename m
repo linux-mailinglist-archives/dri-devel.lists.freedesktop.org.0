@@ -2,97 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E0BA41D3A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 12:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B545A41D85
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 12:50:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 274F410E29C;
-	Mon, 24 Feb 2025 11:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1959B10E342;
+	Mon, 24 Feb 2025 11:50:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CxUDyeUH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LltrUJxt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6A0D10E29C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 11:42:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740397378; x=1771933378;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6OCRV0xcE71pdQo/ooLcXkgJAkHfA35prjUwXgmdZrU=;
- b=CxUDyeUHphnXEcGy2wGVNhvt3G4ohRAzRJnOOlgVTf1bTG7gDNPnxHwE
- GdE6xSHY7SAW/GABNCeYfpJ/usSvVhHeUp/0RneYevINV1xnFdfnAa7Xr
- BOG6e1/+rIt4fWpzhOeMKlek2uESeM0FfQhCcmYiq3T4aH3yVj/Uis5uC
- b25JFLUZwlQOEddDONU5BViSva7p8bXBuAGoiiUxYJAf44UNvQyZwkY4+
- WXXw1i5CcoxUTmBvOYP4wnfKj8Iikqy76rmHhuCsyG65TBoLengn5pDDA
- Moh3fXuG05zJ/r/sWFotA6M9+AeneWFNXU1RxDN/R2GvqLa907qTl5daH A==;
-X-CSE-ConnectionGUID: KG4swZEKTwmaSmLbkLO3Tg==
-X-CSE-MsgGUID: xWgDP5V9QYCbrPEgVSePIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="43976432"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="43976432"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 03:42:57 -0800
-X-CSE-ConnectionGUID: 1R08KThaTxeJOXqJwi8GWA==
-X-CSE-MsgGUID: vjuad0/bQPmWqD5uSM5QeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121306390"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 03:42:48 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tmWrE-0000000EgNc-188V; Mon, 24 Feb 2025 13:42:44 +0200
-Date: Mon, 24 Feb 2025 13:42:43 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- "pmladek@suse.com" <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
- "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- "apw@canonical.com" <apw@canonical.com>,
- "joe@perches.com" <joe@perches.com>,
- "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Hector Martin <marcan@marcan.st>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
- Macs
-Message-ID: <Z7xbM_8fV4MT_TJ0@smile.fi.intel.com>
-References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
- <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
- <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
- <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
- <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
- <E8256A03-5D13-4B8B-932D-70E734E580FE@live.com>
- <6f7b0886-5f31-4ba9-b82e-e9d3614b504f@suse.de>
- <Z7xAINooeB7zpnhf@smile.fi.intel.com>
- <3AC583EA-AA74-4F75-ADB9-3270519E8448@live.com>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7A7B10E2BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 11:48:36 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-546202d633dso4316290e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 03:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740397715; x=1741002515; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=atnb8vT8PjjHld1I8ZHaKAb/081GPPRide+V3/o4HbQ=;
+ b=LltrUJxtxI5P/wtHk1rvDZFH8B0mpk0M6gorcoIktOEcTxT2Ic3goN8NYNUeRN1Xt7
+ 2iP80FiSZ/7M5QbBT6/DszTbkrpBEXUfJgpABOn+A/NorY/x6wxOQUM3AKIRMOVFY0Py
+ OyxGGO2EQoqoPMyaH1gM25ItmSVb9XK/PY20BHrub2a0cUvMSUYudU4L2d8H5lgjCArL
+ VVCwjL6H3XRty1uo6ZzFhMAZMJy4v6ACulq1XAhEMfAaWoiha5OQ5/P9WN78v5McVXNS
+ 2CPzKlUhKbz5rJ9bEFJaULtRhvCyYfNYEHt2BY8ANcC44YZuzsNtAwo4Yl/w9YTBI4qj
+ 5Q/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740397715; x=1741002515;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=atnb8vT8PjjHld1I8ZHaKAb/081GPPRide+V3/o4HbQ=;
+ b=t/iSH8Ou3F2TndRFb9mMUQ1xu7Yab0PKYwf1NUHGvOyJwjD/xVgs6ZRpAvtRLFnd7m
+ 56XLHKUyaw/fqnKLr1BecMIWj98qXARE2dZsYBG7oFU3vsuSB9YDGxD0uFRo46Dv5CiO
+ Q3i1UIhkYJ4uB8Judv64OjyyifpvlS6ZJaGORpMIxCbSP28UW8p1szqdf9XxHA+wBkap
+ /Qx6BZqD/XIla+RaFb2mqpYcGH7RfC2WYmU+MKu7iMYXHuvF0ih4tTsN2i/5tPbTHTd6
+ QUwpmLCsSUbTD7iyjQSYbLjYnuqFMDEvvHvIXC9T1kQWD6IOJhObpw4TbM1EU9XWBae9
+ wk8A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXE4ClaMjoraONtlAijkqSvjlXbNZ2ctjiYTEhP1Yr+ajlCXP6XhiH+LlnDElXiXBTkOv+AV0GPLIo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzhdihAaqQqpI8iKxztz86/a04cK/DhhPp3Rg556BOTaMoPs1z
+ Bunn+CREIxAzCb92OaTbI6hZClWiifjeQ0N8MCYCE/vrl9yqSsbk
+X-Gm-Gg: ASbGnctAcNQix+nj2fwL/a5i+yZrPxPkAZC9sfiZu/l++xIUB52C77Harv0CI64ofE+
+ 4zYn6fUAMqdXUszNFz/qpQta/IQuwYC9sa90ERCdA7/i5kCKQgFxd8YziHCamAaWGcaIhVfJULg
+ wMiAI7ZP+NsKDp8VLksaOWI0r5/8BaP+2cti9G04S9/EKqbyND2oqKs8/VWX7vvBNR/FfPzIQAf
+ +B5KvG7P/T9hUJSPjh/0cRJMSY8p/rLocBQxJZPnkjbwyPqFTVDyhk1O4I8dadTielfjcs38ebJ
+ mhumWBgJHC1wtFCq
+X-Google-Smtp-Source: AGHT+IGtaNoSRQNpqZE6mcTQCEU9FuEKP+HpNqYhMZ4Fh8GwXbsRAlQ2tLnm7O+tpwCdNz943QPcdg==
+X-Received: by 2002:a05:6512:e86:b0:545:60b:f38d with SMTP id
+ 2adb3069b0e04-54838ee3406mr4784026e87.8.1740397714664; 
+ Mon, 24 Feb 2025 03:48:34 -0800 (PST)
+Received: from xeon.. ([188.163.112.51]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54526338bf9sm3167862e87.85.2025.02.24.03.48.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2025 03:48:34 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Svyatoslav Ryhel <clamor95@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: [PATCH v3 0/2] mfd: lm3533: convert to use OF
+Date: Mon, 24 Feb 2025 13:48:12 +0200
+Message-ID: <20250224114815.146053-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3AC583EA-AA74-4F75-ADB9-3270519E8448@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,27 +92,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 24, 2025 at 11:20:12AM +0000, Aditya Garg wrote:
-> 
-> > 
-> > It would be nice to see the difference in the code generation for the all
-> > __packed vs. only those that require it.
-> > 
-> >> At least it's clear then
-> >> what happens. And if your hardware requires this, you can't do much anyway.
-> > 
-> > One aspect (member level alignment) is clear but the other is not
-> > (object level alignment). I dunno if it makes sense to be pedantic about this,
-> > but would like to see the binary outcome asked for.
-> 
-> Hex dump of the compiled binary:
+Add schema and add support for lm3533 mfd to use device tree bindings.
 
-Oh, sorry I wasn't clear. We have a script called bloat-o-meter for these
-purposes. Please, run it with old and new binaries as parameters and share the
-output.
+---
+Changes on switching from v2 to v3:
+- wrapped lines in schema and commit messages arround 80 chars
+- removed |
+- switched to MFD binding style
+- completed binding example
+- restored MFD
+
+Changes on switching from v1 to v2:
+- added unit seffix where it is suitable
+- added vendor prefixes where it is suitable
+- light sensor mover out of pattern properties
+- added references to common schemas
+- added detailed descriptions of properties
+- removed platform data use
+- devices bind and configure themself entirely
+  using device tree
+---
+
+Svyatoslav Ryhel (2):
+  dt-bindings: mfd: Document TI LM3533 MFD
+  mfd: lm3533: convert to use OF
+
+ .../devicetree/bindings/mfd/ti,lm3533.yaml    | 231 ++++++++++++++++++
+ drivers/iio/light/lm3533-als.c                |  40 ++-
+ drivers/leds/leds-lm3533.c                    |  46 ++--
+ drivers/mfd/lm3533-core.c                     | 159 ++++--------
+ drivers/video/backlight/lm3533_bl.c           |  71 ++++--
+ include/linux/mfd/lm3533.h                    |  35 +--
+ 6 files changed, 395 insertions(+), 187 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
