@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50517A4209C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2040A4209D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:30:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC6B510E28F;
-	Mon, 24 Feb 2025 13:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF5F10E2B2;
+	Mon, 24 Feb 2025 13:29:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="KhKIvb9Z";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CnrlGXKl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEEE10E28F
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 13:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=TNNQD/SLQwg4+HSI7YyhAzrq9gAaQsxuP/bvFj2JKi0=; b=KhKIvb9ZzxC7y3N8MDFX1AKKuI
- 2R0duv2sFx37wVijCSyGjrCD+QL+bkuKwAOStOHfwPAfKLzYcxa2ZbQkWd4wBdtj0fA4ytQwuALYC
- epVeeSp1/m+ySNaTzkzxOxGXSsJsSRZFatFPJ3b6XhOzKogc3deQtSWs/+n/xJ70bxmrgrsOBvfWR
- lUoRoTuYF4WgHFl70+nHyACRs26vX3TBk4faxLdZO7QdATzz039oJycz1SyFqBDtVLA6E+EChz3mt
- I8CiKVGScl7BHSnGa5lIiCRx+bVp0cBGpxHR+QvpF/V6i32QZg8CfLOTECjKpRhkSTw9RrYtFlKfU
- bJ+D+Gsw==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tmYWW-00HVPi-M4; Mon, 24 Feb 2025 14:29:34 +0100
-Message-ID: <cfef8bd7-f335-4796-9d4f-93197bb3fc2d@igalia.com>
-Date: Mon, 24 Feb 2025 10:29:26 -0300
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24D3910E2B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 13:29:54 +0000 (UTC)
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+ id 3EAB6203CDDA; Mon, 24 Feb 2025 05:29:46 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3EAB6203CDDA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1740403786;
+ bh=i01zIab6305TaFlNKn7K/1S71vqUHIZ2SMtS+KnZW5U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CnrlGXKlOaWiyi66FhJ6/N36v5KvcV6ldKV+IQevrGpmO7UGJnZ8rJ7Cd/BQuYkw0
+ lLWRMnUwFeM4OuGuimbaznlHZ4tZQmlbIr5R/GlWCw8txh7UxhvKliD0zif9TV17AM
+ FEUNe9MgWI+y11r/xtxLv/fIOAOcmwsztrr4Z7ew=
+Date: Mon, 24 Feb 2025 05:29:46 -0800
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "deller@gmx.de" <deller@gmx.de>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "ssengar@microsoft.com" <ssengar@microsoft.com>
+Subject: Re: [PATCH] fbdev: hyperv_fb: Allow graceful removal of framebuffer
+Message-ID: <20250224132946.GA7039@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1739611240-9512-1-git-send-email-ssengar@linux.microsoft.com>
+ <SN6PR02MB4157813782C1D9E6D1225582D4C52@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <20250222172715.GA28061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <SN6PR02MB4157F6CF7CACF45C398933C4D4C62@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <20250223140933.GA16428@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <SN6PR02MB41571ED5CEA6B91A7F35AC3FD4C02@SN6PR02MB4157.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/sched: Adjust outdated docu for run_job()
-To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250220112813.87992-2-phasta@kernel.org>
- <20250220112813.87992-4-phasta@kernel.org>
- <12c53d41-21c4-443d-a572-fd22c3cc56ad@igalia.com>
- <1457e985f88e02cd04b2152d2468a65b7a513e63.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <1457e985f88e02cd04b2152d2468a65b7a513e63.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <SN6PR02MB41571ED5CEA6B91A7F35AC3FD4C02@SN6PR02MB4157.namprd02.prod.outlook.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,167 +68,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Philipp,
+On Mon, Feb 24, 2025 at 12:38:22AM +0000, Michael Kelley wrote:
+> From: Saurabh Singh Sengar <ssengar@linux.microsoft.com> Sent: Sunday, February 23, 2025 6:10 AM
+> > 
+> > On Sat, Feb 22, 2025 at 08:16:53PM +0000, Michael Kelley wrote:
+> > > From: Saurabh Singh Sengar <ssengar@linux.microsoft.com> Sent: Saturday, February 22, 2025 9:27 AM
+> > > >
+> 
+> [anip]
+> 
+> > > >
+> > > > I had considered moving the entire `hvfb_putmem()` function to `destroy`,
+> > > > but I was hesitant for two reasons:
+> > > >
+> > > >   1. I wasn’t aware of any scenario where this would be useful. However,
+> > > >      your explanation has convinced me that it is necessary.
+> > > >   2. `hvfb_release_phymem()` relies on the `hdev` pointer, which requires
+> > > >      multiple `container_of` operations to derive it from the `info` pointer.
+> > > >      I was unsure if the complexity was justified, but it seems worthwhile now.
+> > > >
+> > > > I will move `hvfb_putmem()` to the `destroy` function in V2, and I hope this
+> > > > will address all the cases you mentioned.
+> > > >
+> > >
+> > > Yes, that's what I expect needs to happen, though I haven't looked at the
+> > > details of making sure all the needed data structures are still around. Like
+> > > you, I just had this sense that hvfb_putmem() might need to be moved as
+> > > well, so I tried to produce a failure scenario to prove it, which turned out
+> > > to be easy.
+> > >
+> > > Michael
+> > 
+> > I will add this in V2 as well. But I have found an another issue which is
+> > not very frequent.
+> > 
+> > 
+> > [  176.562153] ------------[ cut here ]------------
+> > [  176.562159] fb0: fb_WARN_ON_ONCE(pageref->page != page)
+> > [  176.562176] WARNING: CPU: 50 PID: 1522 at drivers/video/fbdev/core/fb_defio.c:67
+> > fb_deferred_io_mkwrite+0x215/0x280
+> > 
+> > <snip>
+> > 
+> > [  176.562258] Call Trace:
+> > [  176.562260]  <TASK>
+> > [  176.562263]  ? show_regs+0x6c/0x80
+> > [  176.562269]  ? __warn+0x8d/0x150
+> > [  176.562273]  ? fb_deferred_io_mkwrite+0x215/0x280
+> > [  176.562275]  ? report_bug+0x182/0x1b0
+> > [  176.562280]  ? handle_bug+0x133/0x1a0
+> > [  176.562283]  ? exc_invalid_op+0x18/0x80
+> > [  176.562284]  ? asm_exc_invalid_op+0x1b/0x20
+> > [  176.562289]  ? fb_deferred_io_mkwrite+0x215/0x280
+> > [  176.562291]  ? fb_deferred_io_mkwrite+0x215/0x280
+> > [  176.562293]  do_page_mkwrite+0x4d/0xb0
+> > [  176.562296]  do_wp_page+0xe8/0xd50
+> > [  176.562300]  ? ___pte_offset_map+0x1c/0x1b0
+> > [  176.562304]  __handle_mm_fault+0xbe1/0x10e0
+> > [  176.562307]  handle_mm_fault+0x17f/0x2e0
+> > [  176.562309]  do_user_addr_fault+0x2d1/0x8d0
+> > [  176.562314]  exc_page_fault+0x85/0x1e0
+> > [  176.562318]  asm_exc_page_fault+0x27/0x30
+> > 
+> > Looks this is because driver is unbind still Xorg is trying to write
+> > to memory which is causing some page faults. I have confirmed PID 1522
+> > is of Xorg. I think this is because we need to cancel the framebuffer
+> > deferred work after flushing it.
+> 
+> Does this new issue occur even after moving hvfb_putmem()
+> into the destroy() function?
 
-On 20/02/25 12:28, Philipp Stanner wrote:
-> On Thu, 2025-02-20 at 10:28 -0300, Maíra Canal wrote:
->> Hi Philipp,
->>
->> On 20/02/25 08:28, Philipp Stanner wrote:
->>> The documentation for drm_sched_backend_ops.run_job() mentions a
->>> certain
->>> function called drm_sched_job_recovery(). This function does not
->>> exist.
->>> What's actually meant is drm_sched_resubmit_jobs(), which is by now
->>> also
->>> deprecated.
->>>
->>> Remove the mention of the removed function.
->>>
->>> Discourage the behavior of drm_sched_backend_ops.run_job() being
->>> called
->>> multiple times for the same job.
->>
->> It looks odd to me that this patch removes lines that were added in
->> patch 1/3. Maybe you could change the patchset order and place this
->> one
->> as the first.
->>
->>>
->>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
->>> ---
->>>    include/drm/gpu_scheduler.h | 19 +++++++++++++------
->>>    1 file changed, 13 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/include/drm/gpu_scheduler.h
->>> b/include/drm/gpu_scheduler.h
->>> index 916279b5aa00..29e5bda91806 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -421,20 +421,27 @@ struct drm_sched_backend_ops {
->>>    
->>>    	/**
->>>    	 * @run_job: Called to execute the job once all of the
->>> dependencies
->>> -	 * have been resolved. This may be called multiple times,
->>> if
->>> -	 * timedout_job() has happened and
->>> drm_sched_job_recovery() decides to
->>> -	 * try it again.
->>> +	 * have been resolved.
->>> +	 *
->>> +	 * The deprecated drm_sched_resubmit_jobs() (called from
->>> +	 * drm_sched_backend_ops.timedout_job()) can invoke this
->>> again with the
->>
->> I think it would be "@timedout_job".
-> 
-> Not sure, isn't referencing in docstrings done with '&'?
+Unfortunately yes :( 
 
-`timedout_job` is a member of the same struct, so I believe it should be
-@. But, I'm no kernel-doc expert, it's just my understanding of [1]. If
-we don't use @, it should be at least
-"&drm_sched_backend_ops.timedout_job".
-
-[1] https://docs.kernel.org/doc-guide/kernel-doc.html
-
-> 
->>
->>> +	 * same parameters. Using this is discouraged because it,
->>> presumably,
->>> +	 * violates dma_fence rules.
->>
->> I believe it would be "struct dma_fence".
-> 
-> Well, in this case strictly speaking not IMO, because it's about the
-> rules of the "DMA Fence Subsystem", not about the struct itself.
-> 
-> I'd just keep it that way or call it "dma fence"
-> 
->>
->>> +	 *
->>> +	 * TODO: Document which fence rules above.
->>>    	 *
->>>    	 * @sched_job: the job to run
->>>    	 *
->>> -	 * Returns: dma_fence the driver must signal once the
->>> hardware has
->>> -	 *	completed the job ("hardware fence").
->>> -	 *
->>>    	 * Note that the scheduler expects to 'inherit' its own
->>> reference to
->>>    	 * this fence from the callback. It does not invoke an
->>> extra
->>>    	 * dma_fence_get() on it. Consequently, this callback must
->>> take a
->>>    	 * reference for the scheduler, and additional ones for
->>> the driver's
->>>    	 * respective needs.
->>
->> Would it be possible to add a comment that `run_job()` must check if
->> `s_fence->finished.error` is different than 0? If you increase the
->> karma
->> of a job and don't check for `s_fence->finished.error`, you might run
->> a
->> cancelled job.
-> 
-> s_fence->finished is only signaled and its error set once the hardware
-> fence got signaled; or when the entity is killed.
-
-If you have a timeout, increase the karma of that job with
-`drm_sched_increase_karma()` and call `drm_sched_resubmit_jobs()`, the
-latter will flag an error in the dma fence. If you don't check for it in
-`run_job()`, you will run the guilty job again.
-
-I'm still talking about `drm_sched_resubmit_jobs()`, because I'm
-currently fixing an issue in V3D with the GPU reset and we still use
-`drm_sched_resubmit_jobs()`. I read the documentation of `run_job()` and
-`timeout_job()` and the information I commented here (which was crucial
-to fix the bug) wasn't available there.
-
-`drm_sched_resubmit_jobs()` was deprecated in 2022, but Xe introduced a
-new use in 2023, for example. The commit that deprecated it just
-mentions AMD's case, but do we know if the function works as expected
-for the other users? For V3D, it does. Also, we need to make it clear 
-which are the dma fence requirements that the functions violates.
-
-If we shouldn't use `drm_sched_resubmit_jobs()`, would it be possible to
-provide a common interface for job resubmission?
-
-Best Regards,
-- Maíra
-
-> 
-> In any case, signaling "finished" will cause the job to be prevented
-> from being executed (again), and will never reach run_job() in the
-> first place.
-> 
-> Correct me if I am mistaken.
-> 
-> Or are you suggesting that there is a race?
-> 
-> 
-> P.
-> 
->>
->>> +	 *
->>> +	 * Return:
->>> +	 * * On success: dma_fence the driver must signal once the
->>> hardware has
->>> +	 * completed the job ("hardware fence").
->>
->> A suggestion: "the fence that the driver must signal once the
->> hardware
->> has completed the job".
->>
->> Best Regards,
->> - Maíra
->>
->>> +	 * * On failure: NULL or an ERR_PTR.
->>>    	 */
->>>    	struct dma_fence *(*run_job)(struct drm_sched_job
->>> *sched_job);
->>>    
->>
+>                             I'm hoping it doesn't. I've
+> looked at the fb_deferred_io code, and can't quite figure out
+> how that deferred I/O work is supposed to get cancelled. Or
+> maybe it's just not supposed to get started again after the flush.
 > 
 
+I want to understand why cancel_delayed_work_sync was introduce in
+hvfb_suspend and not the flush. Following commit introduced it.
+
+382a462217572 ('video: hyperv_fb: Fix hibernation for the deferred IO feature')
+
+But I agree this need more analysis.
+
+> If the new issue still happens, that seems like more of a flaw
+> in the fb deferred I/O mechanism not shutting itself down
+> properly.
+> 
+
+As the repro rate is quite low, this will take some effort to get this
+fixed. Shall we take this in a separate patch later ?
+
+
+> Michael
+>
+
+<snip> 
