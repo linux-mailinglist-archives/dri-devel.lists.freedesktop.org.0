@@ -2,83 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12F2A413C0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 03:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAF9A41432
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 04:45:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC88410E124;
-	Mon, 24 Feb 2025 02:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD64310E011;
+	Mon, 24 Feb 2025 03:45:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mfc0WSEN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dZ66Gnkx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7018610E122;
- Mon, 24 Feb 2025 02:54:02 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51NNrhAc020772;
- Mon, 24 Feb 2025 02:53:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- L2ErAeTCXh1BSkWCZv77bSJfnXRytcM3lAP8vKDKRQg=; b=mfc0WSEN5VcdZ/7f
- ns8o+3KO5E5/iwZDigC7hFTxOKd1kcNCWEH/tSHMi3mDG2bFbkXoKX34uvsZTxj4
- Gm0K3LSM2Lt9uIDlcV/AwI2hJxdzWBp6SNnxwGJmUG1ebMRReT9BGnXFI1buwW/7
- Fur6+Csh97/ccZsKEbHsFq6lq7cOQy+5LSfMTFww/SHQnVqXbpmo7XV6mO090lGR
- naKnRbjyLgWw2gICpQoDBzpbTtlZuD3Q2yzXwiE9DNVAFIZbNWOmCnMXKSNbWh5w
- Lc78qZHMb+Lky9Mzo2zqoPfP41kiEsIEkuLubs2wr4i7mJyfKnvMLyVk7Oqy0uH3
- Mmr8oA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y5k63dqf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2025 02:53:59 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51O2rwAZ032692
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2025 02:53:58 GMT
-Received: from [10.110.85.197] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 23 Feb
- 2025 18:53:57 -0800
-Message-ID: <765050d8-9606-4e27-b1ea-3c3273641d08@quicinc.com>
-Date: Sun, 23 Feb 2025 18:53:56 -0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA67810E011;
+ Mon, 24 Feb 2025 03:45:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 19B1A5C01E2;
+ Mon, 24 Feb 2025 03:45:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98399C4CEDD;
+ Mon, 24 Feb 2025 03:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740368743;
+ bh=x36eM8I9mvfh06MWtqJiRZWuU4kR0fM4aRJdD6U8/3A=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=dZ66Gnkx4ceRLCODpuOct/FlYIgHKqs09y3VyEDNYAeha11wFWePwaaELtFepl9+4
+ jHgmYb1wgobZRs68fx2xUSo42mlGXp5LeZdbA7pATs9awNxbbS/uxz1ztkFYUTN4oj
+ PnprRGqYhqO2eefvXY+Z0u0lZ78dy2w14Iw0W2KSSgNO816Gi2Tum51Ve1u1uQP7BO
+ nujq0yaUYUivZXPjg0DV+Gh7ujILbkVD3/6JFA27qQnmbnoxooiI3JN4esbPZ4X9y+
+ wlKpoWNBvVA8QtFog4fqlNwBGOSMDhftxLpAs+Zbz7K+VdV9iHxLyOGM2MKd9L6SBE
+ 7aPO9gLogFY+Q==
+Date: Sun, 23 Feb 2025 21:45:42 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/8] drm/msm/dpu: drop core_clk_rate overrides from
- _dpu_core_perf_calc_crtc
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Stephen
- Boyd <swboyd@chromium.org>, Simona Vetter <simona.vetter@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20250209-dpu-perf-rework-v5-0-87e936cf3004@linaro.org>
- <20250209-dpu-perf-rework-v5-7-87e936cf3004@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250209-dpu-perf-rework-v5-7-87e936cf3004@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: jECsfwHs92Jkgbev0MOJIPXSoNwTBhNx
-X-Proofpoint-GUID: jECsfwHs92Jkgbev0MOJIPXSoNwTBhNx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-23_11,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- bulkscore=0 spamscore=0 phishscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=999 suspectscore=0 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502240020
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ linux-clk@vger.kernel.org, Will Deacon <will@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ iommu@lists.linux.dev, Robin Murphy <robin.murphy@arm.com>, 
+ Joerg Roedel <joro@8bytes.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Simona Vetter <simona@ffwll.ch>, Stephan Gerhold <stephan@gerhold.net>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
+ linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Lee Jones <lee@kernel.org>, 
+ Rob Clark <robdclark@gmail.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>
+To: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+In-Reply-To: <20250224-msm8937-v3-1-dad7c182cccb@mainlining.org>
+References: <20250224-msm8937-v3-0-dad7c182cccb@mainlining.org>
+ <20250224-msm8937-v3-1-dad7c182cccb@mainlining.org>
+Message-Id: <174036873937.769195.3244673416189974329.robh@kernel.org>
+Subject: Re: [PATCH v3 1/8] dt-bindings: clock: qcom: Add MSM8937 Global
+ Clock Controller
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,15 +79,43 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 2/8/2025 7:21 PM, Dmitry Baryshkov wrote:
-> core_clk_rate override is handled in _dpu_core_perf_get_core_clk_rate().
-> Drop imperfect duplicating code from _dpu_core_perf_calc_crtc().
+On Mon, 24 Feb 2025 02:56:16 +0100, Barnabás Czémán wrote:
+> Add device tree bindings for the global clock controller on Qualcomm
+> MSM8937 platform.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>  .../bindings/clock/qcom,gcc-msm8937.yaml           | 73 ++++++++++++++++++++++
+>  include/dt-bindings/clock/qcom,gcc-msm8917.h       | 17 +++++
+>  2 files changed, 90 insertions(+)
 > 
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/clock/qcom,gcc-msm8937.example.dts:24.28-29 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/clock/qcom,gcc-msm8937.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1511: dt_binding_check] Error 2
+make: *** [Makefile:251: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250224-msm8937-v3-1-dad7c182cccb@mainlining.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
