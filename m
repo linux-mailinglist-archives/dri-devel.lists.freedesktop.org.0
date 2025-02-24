@@ -2,83 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031A1A42141
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B332A42148
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52F4F10E473;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3CD310E47A;
 	Mon, 24 Feb 2025 13:42:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Th1Y0Uk3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="swEjHk0l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01CE810E10B;
- Mon, 24 Feb 2025 03:04:32 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51NMSqdU004252;
- Mon, 24 Feb 2025 03:04:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- xJWDeQGXxkIVUKLcI6o6+7otQwSy2qTSX5wBLbCsRwU=; b=Th1Y0Uk3QloaSSwK
- Km4CWDj09Z1vPdmKkMxgcStGmrI2zLxzc3/wDc/ymqLHUFN+CRe7oHBp1a0LcThP
- JAjoCX5ao8GMAm/ZH7Awcd0JsNZkUXvUVsXVsrQdcWGjHWlLnYlw5ykFHH5O00Nu
- 1yePJTudWh0f3OFCYnrxMtDzRNySwcWUpoDKAwIzH2F9TOnBMWcf154xOgU/8tTZ
- iHxMCoPvIya6zme7Y5kmt9vNpD75/On0KUjyqQWUbgB9W98gCjUV0gRJi0HxvGd4
- AzGSIn/dc0Sw/i/WAOcQ6DrrTX0AxFLXxfr9GUKXjMgCnFk/d1j7jr7zbYSMpqPS
- yQRwNA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y6ntubmd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2025 03:04:30 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51O34TCv015905
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2025 03:04:29 GMT
-Received: from [10.110.85.197] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 23 Feb
- 2025 19:04:28 -0800
-Message-ID: <1f97fdc6-515e-48bb-bb2e-6a49e95d4097@quicinc.com>
-Date: Sun, 23 Feb 2025 19:04:27 -0800
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1698E10E10B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 03:15:28 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-30a28bf1baaso35017381fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 19:15:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740366926; x=1740971726; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=60oW0NE+5WvAkx2Mu3B4WEX9+Sk/VuCzxW52FoixHDs=;
+ b=swEjHk0lGOWyIJQI7ZMHmW1ule090Z0U3H7Bv2fvbKcZlJ8yhC8vVxGAswYtGuDzda
+ KkmAQsHxodQErU6rI8Z1gWw+IlFwVHoQ9re/6kjInhB+YmBVKi77IqwKZXPA+/KjKSjO
+ TzBQwUf4ygFFRELWm66kayUZbZQ3/UsjfJQXkPJHMCf2vU3KHAS2JFUcFRDHO8gfZcyE
+ wzEdSe6Et05ZHHV7V+lEnRzydvhPm5e1SR98yOHYPwh1BvBzHtQ/08ssZ1uah8tJok2H
+ gnpSzoQpKARt+9OUQK6bKYV2d7D+gkB2P9iPy1DokEfMYo7WzhGPMcM2xPdu12QZmBnD
+ fmsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740366926; x=1740971726;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=60oW0NE+5WvAkx2Mu3B4WEX9+Sk/VuCzxW52FoixHDs=;
+ b=ZtSsxonG4uHHZs84kDbFICtsKAbQ71BdhQ5pW9MLFmjIJ0YjuXEbnLIt4SMXvY/SM1
+ S70Ds02GAIc+3ZA45ynCBVDuFzMWxyF3IWxD0TMqLXw20rj3fcsTnbVkoi0d9v2+bAIa
+ 4i9b++0K18JCCvIJAdtnvGOtKSdJ9wrCPpzhDXY2gbIE+UNQlHIJDPvVyvqakFfPxHS8
+ HWkec7ZQaYYt7usYFgSoiVHz9diPm10iKB9IZ5fKvI//S4HSzl2BbmkxUo5bJOYmj+M9
+ JZhfJxyItXvnwjIIM2BMpcvByTi9qeoYA0mSWfhgIW1BMS6fsrgpPujLTuk8GSysZ3QS
+ YybA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLkiTTToht+KJgD+btxsQ7s0+H23KCxX342JdCkq0sB0dkrPwbbWSQ7T7qpXrJHdYkWqj9u67oOMk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6602xvW2YvmwhAGyfL76+3qeFrsrP7iXgNRNwJJq+oFGyaIjI
+ ni0+70B5alzr3aL3wpW+esa07XYu2ozjZ9AUHK4J+FYntd2T81bV3WToGjppsBY=
+X-Gm-Gg: ASbGncuXvuYpOZxnA6y2eCIITSP8/sEhWDss5VUdeMLi+s9Q8S2VlnixyjkJqdP7LmF
+ jX7xb4eSjA63Tk6t+VaGnNfdKbRBVHLhnY91ZQ/Uus8MLrkHRTl6N1h7DYCbv54gQrrDaXJGjGB
+ KjrWGQkpqtgxWGVZAgdtDQpckyHJ+fFWdg/JWjCh9VnpepK3svimnaplzp1D4p5QKuTFuiTm3SR
+ ZrqfrOTxb1qLr3yed+R+K9DcP2ZAJGw9gcbdeVgTHhqGoM8CHi1e1plVUT5STCkflmGg2Le63LE
+ 6OGnXpKoev38Bj2K74gUNrzvNl0lffjpCAuAaM1E9HFnPaeWg9kqHquUEZ7uOw4TDAUqp7eHolv
+ 6B1nPEg==
+X-Google-Smtp-Source: AGHT+IHhiKmfrH5ka4uDKdUNP+Kqb6vQhRfA/nDzn2mvuW92iiRvCMWFslhv/a7ivXaSSdw6dmkihQ==
+X-Received: by 2002:a2e:9f06:0:b0:308:eabd:297f with SMTP id
+ 38308e7fff4ca-30a5b182b9cmr32215911fa.14.1740366926080; 
+ Sun, 23 Feb 2025 19:15:26 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30a23dddef9sm28895541fa.37.2025.02.23.19.15.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Feb 2025 19:15:24 -0800 (PST)
+Date: Mon, 24 Feb 2025 05:15:22 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ kernel-list@raspberrypi.com, linux-sound@vger.kernel.org, 
+ David Turner <david.turner@raspberrypi.com>
+Subject: Re: [PATCH RFC] drm/vc4: hdmi: Add jack detection to HDMI audio driver
+Message-ID: <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
+References: <20250222102921.75496-1-wahrenst@gmx.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 8/8] drm/msm/dpu: handle perf mode in
- _dpu_core_perf_crtc_update_bus()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Stephen
- Boyd <swboyd@chromium.org>, Simona Vetter <simona.vetter@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20250209-dpu-perf-rework-v5-0-87e936cf3004@linaro.org>
- <20250209-dpu-perf-rework-v5-8-87e936cf3004@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250209-dpu-perf-rework-v5-8-87e936cf3004@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: X7I0Ysy8xhNnKGWaLrg_BC5g6ZD1DWDk
-X-Proofpoint-GUID: X7I0Ysy8xhNnKGWaLrg_BC5g6ZD1DWDk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-24_01,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 malwarescore=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0 mlxscore=0
- priorityscore=1501 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502100000 definitions=main-2502240021
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250222102921.75496-1-wahrenst@gmx.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,31 +96,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/8/2025 7:21 PM, Dmitry Baryshkov wrote:
-> Move perf mode handling for the bandwidth to
-> _dpu_core_perf_crtc_update_bus() rather than overriding per-CRTC data
-> and then aggregating known values.
+On Sat, Feb 22, 2025 at 11:29:21AM +0100, Stefan Wahren wrote:
+> From: David Turner <david.turner@raspberrypi.com>
 > 
-> Note, this changes the fix_core_ab_vote. Previously it would be
-> multiplied per the CRTC number, now it will be used directly for
-> interconnect voting. This better reflects user requirements in the case
-> of different resolutions being set on different CRTCs: instead of using
-> the same bandwidth for each CRTC (which is incorrect) user can now
-> calculate overall bandwidth required by all outputs and use that value.
+> Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
+> when to add/remove HDMI audio devices.
 > 
-> Note #2: this also disables threshold checks for user-entered bandwidth
-> values. First of all, it doesn't make sense to fail atomic commits
-> because of the debugfs input. Compositors have no way to correlate
-> failing commits with debugfs settings. Second, it makes sense to allow
-> users to go beyond these values and check whether this makes any
-> difference or fixes the issue.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: David Turner <david.turner@raspberrypi.com>
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 36 +++++++++++++--------------
->   1 file changed, 18 insertions(+), 18 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++--
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
+>  2 files changed, 31 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 47d9ada98430..d24ae86d799e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -51,6 +51,7 @@
+>  #include <linux/reset.h>
+>  #include <sound/dmaengine_pcm.h>
+>  #include <sound/hdmi-codec.h>
+> +#include <sound/jack.h>
+>  #include <sound/pcm_drm_eld.h>
+>  #include <sound/pcm_params.h>
+>  #include <sound/soc.h>
+> @@ -386,6 +387,12 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+>  	struct drm_connector *connector = &vc4_hdmi->connector;
+>  	int ret;
+> 
+> +	/*
+> +	 * Needs to be called for both connects and disconnects for HDMI
+> +	 * audio hotplug to work correctly.
+> +	 */
+> +	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+> +
+>  	/*
+>  	 * NOTE: This function should really be called with vc4_hdmi->mutex
+>  	 * held, but doing so results in reentrancy issues since
+> @@ -405,8 +412,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+>  		return;
+>  	}
+> 
+> -	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+> -
+>  	cec_s_phys_addr(vc4_hdmi->cec_adap,
+>  			connector->display_info.source_physical_address, false);
+> 
+> @@ -2203,6 +2208,22 @@ static const struct drm_connector_hdmi_audio_funcs vc4_hdmi_audio_funcs = {
+>  	.shutdown = vc4_hdmi_audio_shutdown,
+>  };
+> 
+> +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
+> +{
+> +	struct vc4_hdmi *vc4_hdmi = snd_soc_card_get_drvdata(rtd->card);
+> +	struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
+> +	int ret;
+> +
+> +	ret = snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOUT,
+> +				    &vc4_hdmi->hdmi_jack);
+> +	if (ret) {
+> +		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NULL);
+
+PLease excuse my ignorance, but dows this work. In other words, how is
+the driver exporting the plugged state through this jack?
+
+
+> +}
+> +
+>  static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+>  {
+>  	const struct vc4_hdmi_register *mai_data =
+> @@ -2316,6 +2337,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+>  	dai_link->cpus->dai_name = dev_name(dev);
+>  	dai_link->codecs->name = dev_name(&vc4_hdmi->connector.hdmi_audio.codec_pdev->dev);
+>  	dai_link->platforms->name = dev_name(dev);
+> +	dai_link->init = vc4_hdmi_codec_init;
+> 
+>  	card->dai_link = dai_link;
+>  	card->num_links = 1;
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index e3d989ca302b..a31157c99bee 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -4,6 +4,7 @@
+>  #include <drm/drm_connector.h>
+>  #include <media/cec.h>
+>  #include <sound/dmaengine_pcm.h>
+> +#include <sound/hdmi-codec.h>
+>  #include <sound/soc.h>
+> 
+>  #include "vc4_drv.h"
+> @@ -211,6 +212,12 @@ struct vc4_hdmi {
+>  	 * KMS hooks. Protected by @mutex.
+>  	 */
+>  	enum hdmi_colorspace output_format;
+> +
+> +	/**
+> +	 * @hdmi_jack: Represents the connection state of the HDMI plug, for
+> +	 * ALSA jack detection.
+> +	 */
+> +	struct snd_soc_jack hdmi_jack;
+>  };
+> 
+>  #define connector_to_vc4_hdmi(_connector)				\
+> --
+> 2.34.1
 > 
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+-- 
+With best wishes
+Dmitry
