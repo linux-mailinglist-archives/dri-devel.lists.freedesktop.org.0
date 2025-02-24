@@ -2,83 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6ACBA4263E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 16:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA78A4264D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 16:33:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D8F10E3F5;
-	Mon, 24 Feb 2025 15:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB76610E3C8;
+	Mon, 24 Feb 2025 15:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="R14mv4fm";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="GBqkQPng";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B30C510E3EE
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 15:29:04 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4398e839cd4so32481645e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 07:29:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1740410943; x=1741015743;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2gffEozykQ8vm3vt/eTUO/9qSmO4rptuqRph1HBGJlk=;
- b=R14mv4fmnVDith1vcOHm/GvN6VyCmmgjt3zk4by1zRGm+H3nlQbMcMYwtbakHH0U9u
- rOLOHfIXGS9mfvIwiWw94hj5xqhfmokLW9GhYu/xYy0WnIcIE85eS/Od1ViIvnJn/33e
- +CVZaQIHrqfjjmMttmLYbKo7+ufH8r4C+WhZvv8rEE3iChQWMc2SajwXmXcmnYp9B+q7
- psGw4t+WuBOkx28RPrG9nCRxP9LFDqavh1HD+aPLvgfxHmixSClxiNHp75IgDtY58obQ
- dPsRf+2qHQeGQ4fvlulFAB6eHPkazn5bJ0YCNNOFNMLkY6Uw0OgoOc6HtMBaIrVKgGTy
- 1Euw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740410943; x=1741015743;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2gffEozykQ8vm3vt/eTUO/9qSmO4rptuqRph1HBGJlk=;
- b=bDpdjDGn/XH4voRVXOhkw0LrQBpAU8r/n463mntsGflBfMgCQAKc2FNBjnvsUcoloi
- g+RY8IgG8N3p6Y2N6PBKwSHhAISEATItGpdLORFlJqK5/oiBbnlvmEUnipnaplGf4ogl
- hb1w2fKJgIt+4CCDSGG+37oAvcdf8AOBxViV5lSnCpxSNnW+cCqBGE2yDdv544v1dAKs
- 6/rtV8tJLYp4ze1SkBn64IEV9lXSIj54MSRUCzoNjIfFL0hwleIbaLXNY5Az1n+KZAvf
- /rlUDAQhB4OPlH1n1nv/TiJU8X5QASrPAwRgOuCNbniWzxXM+OcIuEq3+6azUMbI91gI
- ceWw==
-X-Gm-Message-State: AOJu0YxmU0ZsxJX/5Z/rlo3d6nnQisZcIK/TZAebABLF5xgY1sEr0RW+
- YpE9qZjyUns79JwJ9izm+/FhGmqsrVHHdycgujm/UdGfmtCZUPForx/tzW8y5Fk=
-X-Gm-Gg: ASbGncsJh9szCrnJtghJpKEd9t3CFWB5xhQI2G9uka0FMi1dWU9I2aGnj9E9oSw4J6F
- HCpgXE4klnhBjBt8A4aDe1d/2Yz08tRbvKVX3QRfjznWKv0Bw2RZObGrACe8Skx+bQ6h8zjivEh
- G4+OZ09ZbYFsaMkley69b/FQy9hk7ytvUiTviU/G9/tyXnGkUW8c632rfWDlHP4zEGEA8JTHFu1
- ISEA5xhbgY58e3kR/qt6m88BpMcleh/EcpwM346nDBNu1kEb+8lOiLNAvPQdkaT+3ICyjIo5aqi
- WD/tiGAggBgwssJEwJoQmrY4IxzWtZQj7SnmIRlGDQ==
-X-Google-Smtp-Source: AGHT+IFPzGRf53fjeBF7TLlTs3paKCZFdwVLTTSrhJ3Lux1wsfHkxxU1KVSOPL/QSnZGh397sTfMFA==
-X-Received: by 2002:a5d:64e6:0:b0:38d:b028:d906 with SMTP id
- ffacd0b85a97d-38f6f51535amr12004060f8f.21.1740410943020; 
- Mon, 24 Feb 2025 07:29:03 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38f2591513bsm32146380f8f.55.2025.02.24.07.29.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2025 07:29:02 -0800 (PST)
-Message-ID: <03c8c2a3-5061-450b-a6fc-2a708a2dc4b5@ursulin.net>
-Date: Mon, 24 Feb 2025 15:29:01 +0000
+Received: from MA0PR01CU012.outbound.protection.outlook.com
+ (mail-southindiaazolkn19011028.outbound.protection.outlook.com
+ [52.103.67.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957CD10E3C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 15:33:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=niD1G0iFYxZ+aOJo0fYZRIZ8H5SJ3UqOdHzJVno5KeAW0m72wgIAghjz1MxS2pc8r8Ai3CvUhLYPjGSRu3MDxNGGUUDkuH2JW1Yx0Fvkvs3TrNE4b33i3f9J0Gr+xBfB01eLR9QTG8Ilui0uPUP6kDgwjfST5uQt93bXxuUc8cV6MrqYuleIZXBzaTr/+MbiqPuW78eMLpSFkd4ep1FBZ2FzE8Jb7AnpKZs1J17SavwL9HxrL7IDNBHIfQYP2hXrAwspNXspAUuFD59zfRDvZcumAYpF4MkpHNQFJvgE1WREapZNow9FSAWrq0BJAxRfXQq4Uq5qz+h2yJiw6dfjWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=70ZZYfm0AH5BuNfH8AiR12cqiGkj23x0/e77z1pv1ro=;
+ b=sU0fXGq2qmkojew7aBJQUWeK9QCl1cDHqxqHsYg5mVIuPBZL5LKkv3KC42kzQEH4DPtu37H9H0Fo73gNoeVmejbBS8DodEMHiHSy0pzAtD+nrEX1f8kKh6ogp3G2sP4zSXRN83mkoR7FYx4clTL8W28u6fjSyxUvaXmcr8lkOa3cT/oaioskXptEJLpOWVCzOEtMn2YFDIv6+CdbjEa+Ol0nIpi8+E9UK4XfCSwoWg6s0jhLxZ/g7Ng7NipLwWFquBU/KQJz616yNC3NC4E02j+DxvZ4s8hB6DHTl5DYlPzfw5Waui9FflaVHBmumlPOrkXx/YXcTCWqY3RIV9ZPmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=70ZZYfm0AH5BuNfH8AiR12cqiGkj23x0/e77z1pv1ro=;
+ b=GBqkQPngFUi1T4DUPXenFv3U8a09e3n2o7RhmDBluMt7QYoHNpJsTrXg4ZFgBlM9a+3rsBT0XNgE38w2UGW94N9AbC8WNGqCjYQ5ZGq2voFejwTkFssUeGCQVomNoFgo6VWtdYAqP9pBga51vFZVSupGh8ySKmYQdbexXF/ciduqB/QD+pEVj3B8CudcEHh1G0c0maV4Pd0OHtXqIImBcHa/AcnCrxEsrXkz0TfU8o1sooYziftTYuCnpKr257HDhdVu+SYUE6BC7+dfthWe8gNZ47OC/wQkXpFEwA38R6wpuAXtMwUWPCC/p9BlNuJkTLydkeQXPCNaqGituHSP1Q==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by MA0PR01MB7569.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:2a::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
+ 2025 15:32:57 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
+ 15:32:56 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+CC: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, Kerem Karabay <kekrby@gmail.com>,
+ Atharva Tiwari <evepolonium@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Thread-Topic: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Thread-Index: AQHbhsGm46fWR/3mxEipqc6+PMbxkrNWe38AgAAI1YCAAAcMAIAAAaKAgAACOwCAAAJQAIAAA7BU
+Date: Mon, 24 Feb 2025 15:32:56 +0000
+Message-ID: <PN3PR01MB959729DB53C0D359F8A83292B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+References: <Z7yMIC1wxm0AGBCt@smile.fi.intel.com>
+ <PN3PR01MB9597D4FD9FD8B8A8FB0F2B3CB8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PN3PR01MB9597D4FD9FD8B8A8FB0F2B3CB8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MA0PR01MB7569:EE_
+x-ms-office365-filtering-correlation-id: 0225c21d-3eeb-4765-5be4-08dd54e88346
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|6072599003|8060799006|15080799006|7092599003|19110799003|8062599003|461199028|102099032|3412199025|440099028;
+x-microsoft-antispam-message-info: =?utf-8?B?NEhpS29EZ0Uya3ZjSU1EZUkxTGZCRlg4TjFyVnRpemNYNzZ2Y2J4NjVldXRi?=
+ =?utf-8?B?L2ptbUh0SXc4eXQzRm1rS1JYbVdoamZQZ1NicStlRTZPVzFSLzhRV3p3V0FO?=
+ =?utf-8?B?MVRBd01VaUNOQjNwaHdLSGxjRUNHa24rL1pxaHdqNlh2R0o1eWdXalV5eVJs?=
+ =?utf-8?B?NHZYUVRWUXBIV0F1NW1jVUZKT1BqbkJyUERqdm9qM2ZPcnVibmprT1RaaDZR?=
+ =?utf-8?B?YW9WOThwbHkxVEVWTnV2WEN2V3E5M0NpTjVYaExPbVBPeS9ySCttY1dCRUpl?=
+ =?utf-8?B?VXBjSnlSL1FiSWtGRnVQMmtGZXZ4U3g4emJvU0Q2K05jb0kzdm1qRnArQTNk?=
+ =?utf-8?B?V2YzSVpmbTdIZ3cybHhoeDlTaU0zemRWMGQ3TzZOdEpLMXJiYWRMMDlpeGs0?=
+ =?utf-8?B?emtoVnFKemc0ZndBZUVrUFlpN3kzNHNVdTd4YnFIak9EY2krY1ZZWFMvWjBO?=
+ =?utf-8?B?REsrZmZ5aWQwWFBJUUVWQ1g5cFNZUHNldHdlanFuRlZlRlJYeU02R04xSHBz?=
+ =?utf-8?B?bUozeENBaTlicWN3QXZaYzFDVjA5bXRVaFY1Um80QUVRd1h2ak9XVTlFQm1W?=
+ =?utf-8?B?RmlYM0lIb2JGVXpzNXQ1cnlxKzU1ZitqZ0pmcVR1NEJyb1cwZnpWMU83YUhX?=
+ =?utf-8?B?UXlmTk9iVjdJQkJYaHpTNm5CZmliRXFkemxFeXJoancyTit0MjRLemRVMkcv?=
+ =?utf-8?B?U0J2T1pVQ0YrZ1NlSXpVQmJndlpCUFBEVUZTenJsSVY0Ly90NHhoeXYva3dp?=
+ =?utf-8?B?MTFiSkowMEVTaVpKeG1FKzJDU1BSM1NKWjUwbm9ZSWhmdXp2MXVQSGZGdExM?=
+ =?utf-8?B?aDE4T2MwVUgxSXhWQTdmeHQ1VWJFcitUb1YvQ0dxdHdpQTl1TEJaRjRwUE5y?=
+ =?utf-8?B?L0JQbFBvM3BXdURzVlhDcG52cjNVQVdEUlNIK3d2Y29lekJCckxOR08wUW5D?=
+ =?utf-8?B?QS8zZ3ZyWnJuenJEdU5oL0pVS1VKTVZPVGdseGZMUjhJZE00bFQyMGV6Wmtn?=
+ =?utf-8?B?K1prR1Fibm8rZDVqbVZNcUhycVhUZUZMYnlvM1cxUmd2VXJuTHkyOHdkYU9t?=
+ =?utf-8?B?QmdzeWUxNDkvK1ErclpBTW9HOGZaMzArcGVCT01LeDBRdXVMMVV3OEJDZzNs?=
+ =?utf-8?B?dllzcjQzaXVQcloxWmlob3hlV3YvYjZ6a0c3L2VMVGxVSFBRMTdHY2t6WFpR?=
+ =?utf-8?B?TCtuRVYrSmJ6c2JlZkU1ZElCMEFOb3VHWThWRjNHaHBCTFlHTVFZTHNPUjF5?=
+ =?utf-8?B?OU1rY1FGbXBvR3hVZWRjQXJicnNPK2p1T0thUkp1Wm5SZWtkTHVrV3JXQU9Z?=
+ =?utf-8?B?V1QrY1pXMkx0NmdZVjhsbXVlaUtKSWo5QlJKM2huUzNOYUhMam1rMmlpeWUv?=
+ =?utf-8?B?WVBKandJZEtEZTBkTXkrMXhoN1JrV2I2K3lCbFdBME9oU0hoVGQ2K2Z5THNL?=
+ =?utf-8?B?Qis3aW0wblNrSk1pZFpOa3lEcWhmV0lyamR5MVE2bjRxMmREZkUzTXhLS3cy?=
+ =?utf-8?Q?AxlnBg=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WGtLaE5od3lSOXBFcXlURW81TjBLOS9neXk0RWVyWGgrcDhJdHd1TEJIWTRP?=
+ =?utf-8?B?dTg5cDdOVGtkV3REODQ0b1FyYXIyano1cGhBNGI2RUFpNVZpUm5uWVRrSkMw?=
+ =?utf-8?B?RTJjbWdtbDdjMzhVOUNmRjBpUEhYK0Y1OHpGUXNyUU4yRmZ3SzFrbWlhTVd4?=
+ =?utf-8?B?SGMwNFVLbXZXdFlTUGlXbXhhOW94L3FtUXBRbmZranBIQy8yL0p4UGsvL0hK?=
+ =?utf-8?B?S1BZTnh1eDdZbkovUmx4VVdpSVA0VDU0dlZuUUlxOVRQTWlkTG1Dd1QrNGsr?=
+ =?utf-8?B?blVZWklMUDJYQml6ZGhKS2ZRcktKVlJhMXhvdFVpb0ZIZ1BVZWM0U09nblE4?=
+ =?utf-8?B?QVBEUTBWTmRmYjZuV25CRXMxR051UW16WEhSQXhUdGVaTHRCaFVUMGlvS2tE?=
+ =?utf-8?B?R04rQmRBU3U4RjRxODVRYWdSdE9sUngyQjRhYVBtWGFERENKNFFTUm5PN2J4?=
+ =?utf-8?B?NmZjNlVBVGhuSmNYZ1JyWXJxYTVvSXVGODgwc3FTK1liNWM5VHNpUjZqd0cr?=
+ =?utf-8?B?TFoyaTJKRmthVXNBWVJGa0RGTi95VUNSR3RyTW80aWF0Z2F2MFdLQnJwL0tQ?=
+ =?utf-8?B?dFdFVXR6MkhrZGNoYldFNHNLRDRjYjNBTnllc0orMENVckRpR1JYakJPTUE2?=
+ =?utf-8?B?NG5PdVVyVS82dG5kVGFOOFJUUWtjWURjVXJHNm85eVhuRk80cjJYZWRobDlO?=
+ =?utf-8?B?UVd3eDYvYzZOdnY2ZTlEYTU0RmxpbWxyNkh1RmptengyL2lYS0tyZmRqUlRI?=
+ =?utf-8?B?MFpyV2szcGkyTm9xT0FxMWxzQlI0Mkd3c2xlR3ZxaWY4RG0vRlZuTXVjL2xz?=
+ =?utf-8?B?UjRoMWk4dWdJNFVObU1EOGpQTE5kUEthYmhYQkN6alZNRnhPdExwY1JjSm85?=
+ =?utf-8?B?MmF0WnZtWGtkR2pDOHlNeHhHQTlFOWdvY3BsRUI2aFdDczA4R21BV2ZzcU4w?=
+ =?utf-8?B?YmpMU0ZFMDlnZ2NJZFA5aGxsK2ROL3F2bVBCSGRRazNmcmxGQ2F6a0R1SzRp?=
+ =?utf-8?B?TFZiR0hFNFkrTTV1S2ZVLzRKZVkzY3hjMlFTa0NPdzhJa2gyTDlvZVdPNTFL?=
+ =?utf-8?B?SjNwM2EzeFpYZFltbGMyV2VUSnkzNDFvTkxPdklVeDhxbEVXcE9ZZk1McVR6?=
+ =?utf-8?B?QzFMZTROdHpoeDRza2lYb1FkSlZmRW0waE9JT0RwcXNFOWNhM3ZOV1JBY0lS?=
+ =?utf-8?B?UlFRbUNGaTJHSHFlNTh2N3N3WFNSU3V3c2RTRUFBMGxJTEV4QXFUNE9SdTRw?=
+ =?utf-8?B?TTVxdStrQmNLS1NNSHpCcTAzVVRFUnpCZ2RKUmcxWFZGaWd6TnprWVZNbFhK?=
+ =?utf-8?B?SUFTKy8zTTBTbk9UeHZHZlJvUnV6Zjd1MFYxOFk1bHZCRm1HMUswMmpJVUtw?=
+ =?utf-8?B?RW9VY2tTY2VicFovcmxLUjhzSkdLZE55akU3dUtXVFY5d0xQcFhIdk93VGE1?=
+ =?utf-8?B?N0VWR3VCWGlyekhlSVRUMkF2dUlXalRYOWFhZ21LSytzMVg2S0JTbWl3b3Iw?=
+ =?utf-8?B?V0hwUEM5ejVTN0M1dEhYc21HdjZVQnBpc25KZnpoTDNuL3pld3V0RFNDQ00z?=
+ =?utf-8?B?TTlSbWYwdCtKcTZEMGlFUWFpMDk0dHVnOC9hVHNWakpkNzBMeHY2VVBlUnNh?=
+ =?utf-8?Q?yqGKHDlR1sxRWZyuu62u2bUKl/GeBhDWf+XxZq2vAnVM=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/sched: stop passing non struct drm_device to
- drm_err() and friends
-To: Jani Nikula <jani.nikula@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <fe441dd1469d2b03e6b2ff247078bdde2011c6e3.1737644530.git.jani.nikula@intel.com>
- <Z5KeZnJ4HOxs1wuk@phenom.ffwll.local> <87msfgbfjz.fsf@intel.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <87msfgbfjz.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0225c21d-3eeb-4765-5be4-08dd54e88346
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2025 15:32:56.7935 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB7569
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,151 +151,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/01/2025 11:46, Jani Nikula wrote:
-> On Thu, 23 Jan 2025, Simona Vetter <simona.vetter@ffwll.ch> wrote:
->> On Thu, Jan 23, 2025 at 05:09:10PM +0200, Jani Nikula wrote:
->>> The expectation is that the struct drm_device based logging helpers get
->>> passed an actual struct drm_device pointer rather than some random
->>> struct pointer where you can dereference the ->dev member.
->>>
->>> Convert drm_err(sched, ...) to dev_err(sched->dev, ...) and
->>> similar. This matches current usage, as struct drm_device is not
->>> available, but drops "[drm]" or "[drm] *ERROR*" prefix from logging.
->>>
->>> Unfortunately, there's no dev_WARN_ON(), so the conversion is not
->>> exactly the same.
->>>
->>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>
->> For the two previous patches just dev_ makes sense since they're just
->> platform drivers, but for drm/sched I wonder whether it wouldn't be better
->> to switch from struct device * to struct drm_device * instead. I guess
->> might be best to leave that decision to scheduler folks.
-> 
-> I had a very brief look, and it seemed like struct drm_device isn't
-> passed around in sched. If use of struct drm_device is preferred, I'm
-> not the best person to figure out how to do that. But the abuse of the
-> drm_err() and friends macros needs to stop.
-
-FWIW I agree it should be the DRM device and I even wanted to tidy this 
-some time ago but something distracted me. Worst thing here is that 
-sched->dev was apparently added exactly to enable abuse of the logging 
-macros. See 8ab62eda177b ("drm/sched: Add device pointer to 
-drm_gpu_scheduler"). Logging is the only use for sched->dev at the moment.
-
-But I think it is fine to merge your patch until a more comprehensive 
-cleanup happens. Only drm_sched_available_credits loses the device 
-information and that one should be unreachable anyway.
-
-Regards,
-
-Tvrtko
-
->> Anyway on the series and with that caveat:
->>
->> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-> 
-> Thanks,
-> Jani.
-> 
->>
->>
->>>
->>> ---
->>>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> Cc: Danilo Krummrich <dakr@kernel.org>
->>> Cc: Philipp Stanner <phasta@kernel.org>
->>> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
->>> Cc: dri-devel@lists.freedesktop.org
->>> ---
->>>   drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
->>>   drivers/gpu/drm/scheduler/sched_main.c   | 20 +++++++++++---------
->>>   2 files changed, 12 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index 69bcf0e99d57..e29af71d4b5c 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -92,7 +92,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->>>   		 * the lowest priority available.
->>>   		 */
->>>   		if (entity->priority >= sched_list[0]->num_rqs) {
->>> -			drm_err(sched_list[0], "entity with out-of-bounds priority:%u num_rqs:%u\n",
->>> +			dev_err(sched_list[0]->dev, "entity with out-of-bounds priority:%u num_rqs:%u\n",
->>>   				entity->priority, sched_list[0]->num_rqs);
->>>   			entity->priority = max_t(s32, (s32) sched_list[0]->num_rqs - 1,
->>>   						 (s32) DRM_SCHED_PRIORITY_KERNEL);
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index a48be16ab84f..d1c1f22fd1db 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -103,9 +103,9 @@ static u32 drm_sched_available_credits(struct drm_gpu_scheduler *sched)
->>>   {
->>>   	u32 credits;
->>>   
->>> -	drm_WARN_ON(sched, check_sub_overflow(sched->credit_limit,
->>> -					      atomic_read(&sched->credit_count),
->>> -					      &credits));
->>> +	WARN_ON(check_sub_overflow(sched->credit_limit,
->>> +				   atomic_read(&sched->credit_count),
->>> +				   &credits));
->>>   
->>>   	return credits;
->>>   }
->>> @@ -130,9 +130,11 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
->>>   	/* If a job exceeds the credit limit, truncate it to the credit limit
->>>   	 * itself to guarantee forward progress.
->>>   	 */
->>> -	if (drm_WARN(sched, s_job->credits > sched->credit_limit,
->>> -		     "Jobs may not exceed the credit limit, truncate.\n"))
->>> +	if (s_job->credits > sched->credit_limit) {
->>> +		dev_WARN(sched->dev,
->>> +			 "Jobs may not exceed the credit limit, truncate.\n");
->>>   		s_job->credits = sched->credit_limit;
->>> +	}
->>>   
->>>   	return drm_sched_available_credits(sched) >= s_job->credits;
->>>   }
->>> @@ -790,7 +792,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
->>>   		 * or worse--a blank screen--leave a trail in the
->>>   		 * logs, so this can be debugged easier.
->>>   		 */
->>> -		drm_err(job->sched, "%s: entity has no rq!\n", __func__);
->>> +		dev_err(job->sched->dev, "%s: entity has no rq!\n", __func__);
->>>   		return -ENOENT;
->>>   	}
->>>   
->>> @@ -1280,7 +1282,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->>>   	if (num_rqs > DRM_SCHED_PRIORITY_COUNT) {
->>>   		/* This is a gross violation--tell drivers what the  problem is.
->>>   		 */
->>> -		drm_err(sched, "%s: num_rqs cannot be greater than DRM_SCHED_PRIORITY_COUNT\n",
->>> +		dev_err(sched->dev, "%s: num_rqs cannot be greater than DRM_SCHED_PRIORITY_COUNT\n",
->>>   			__func__);
->>>   		return -EINVAL;
->>>   	} else if (sched->sched_rq) {
->>> @@ -1288,7 +1290,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->>>   		 * fine-tune their DRM calling order, and return all
->>>   		 * is good.
->>>   		 */
->>> -		drm_warn(sched, "%s: scheduler already initialized!\n", __func__);
->>> +		dev_warn(sched->dev, "%s: scheduler already initialized!\n", __func__);
->>>   		return 0;
->>>   	}
->>>   
->>> @@ -1343,7 +1345,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->>>   Out_check_own:
->>>   	if (sched->own_submit_wq)
->>>   		destroy_workqueue(sched->submit_wq);
->>> -	drm_err(sched, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
->>> +	dev_err(sched->dev, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
->>>   	return -ENOMEM;
->>>   }
->>>   EXPORT_SYMBOL(drm_sched_init);
->>> -- 
->>> 2.39.5
->>>
-> 
-
+DQoNCj4gT24gMjQgRmViIDIwMjUsIGF0IDg6NTDigK9QTSwgQWRpdHlhIEdhcmcgPGdhcmdhZGl0
+eWEwOEBsaXZlLmNvbT4gd3JvdGU6DQo+IA0KPiDvu78NCj4gDQo+PiBPbiAyNCBGZWIgMjAyNSwg
+YXQgODo0MeKAr1BNLCBhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20gd3JvdGU6DQo+
+PiANCj4+IO+7v09uIE1vbiwgRmViIDI0LCAyMDI1IGF0IDAzOjAzOjQwUE0gKzAwMDAsIEFkaXR5
+YSBHYXJnIHdyb3RlOg0KPj4+Pj4gT24gMjQgRmViIDIwMjUsIGF0IDg6MjfigK9QTSwgYW5kcml5
+LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tIHdyb3RlOg0KPj4+PiBPbiBNb24sIEZlYiAyNCwg
+MjAyNSBhdCAwMjozMjozN1BNICswMDAwLCBBZGl0eWEgR2FyZyB3cm90ZToNCj4+Pj4+PiBPbiAy
+NCBGZWIgMjAyNSwgYXQgNzozMOKAr1BNLCBhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5j
+b20gd3JvdGU6DQo+Pj4+Pj4+IE9uIE1vbiwgRmViIDI0LCAyMDI1IGF0IDAxOjQwOjIwUE0gKzAw
+MDAsIEFkaXR5YSBHYXJnIHdyb3RlOg0KPj4+IA0KPj4+IC4uLg0KPj4+IA0KPj4+Pj4+Pj4gKyNk
+ZWZpbmUgX19BUFBMRVRCRFJNX01TR19TVFI0KHN0cjQpICgoX19sZTMyIF9fZm9yY2UpKChzdHI0
+WzBdIDw8IDI0KSB8IChzdHI0WzFdIDw8IDE2KSB8IChzdHI0WzJdIDw8IDgpIHwgc3RyNFszXSkp
+DQo+Pj4+Pj4+IA0KPj4+Pj4+PiBBcyBjb21tZW50ZWQgcHJldmlvdXNseSB0aGlzIGlzIHF1aXRl
+IHN0cmFuZ2Ugd2hhdCdzIGdvaW5nIG9uIHdpdGggZW5kaWFuZXNzIGluDQo+Pj4+Pj4+IHRoaXMg
+ZHJpdmVyLiBFc3BlY2lhbGx5IHRoZSBhYm92ZSB3ZWlyZG5lc3Mgd2hlbiBnZXRfdW5hbGlnbmVk
+X2JlMzIoKSBpcyBiZWluZw0KPj4+Pj4+PiBvcGVuIGNvZGVkIGFuZCBmb3JjZS1jYXN0IHRvIF9f
+bGUzMi4NCj4+Pj4+PiANCj4+Pj4+PiBJIHdvdWxkIGFzc3VtZSBpdCB3YXMgYWxzbyBtaW1pY2tl
+ZCBmcm9tIHRoZSBXaW5kb3dzIGRyaXZlciwgdGhvdWdoIEkgaGF2ZW4ndA0KPj4+Pj4+IHJlYWxs
+eSB0cmllZCBleHBsb3JpbmcgdGhpcyB0aGVyZS4NCj4+Pj4+PiANCj4+Pj4+PiBJ4oCZZCByYXRo
+ZXIgYmUgaGFwcHkgaWYgeW91IGdpdmUgbWUgY29kZSBjaGFuZ2Ugc3VnZ2VzdGlvbnMgYW5kIGxl
+dCBtZSByZXZpZXcNCj4+Pj4+PiBhbmQgdGVzdCB0aGVtDQo+Pj4+PiANCj4+Pj4+IEZvciB0aGUg
+c3RhcnRlciBJIHdvdWxkIGRvIHRoZSBmb2xsb3dpbmcgZm9yIGFsbCByZWxhdGVkIGNvbnN0YW50
+cyBhbmQNCj4+Pj4+IGRyb3AgdGhhdCB3ZWlyZCBhbmQgdWdseSBtYWNyb3MgYXQgdGhlIHRvcCAo
+aXQgYWxzbyBoYXMgYW4gaXNzdWUgd2l0aA0KPj4+Pj4gdGhlIHN0cjQgbGVuZ3RoIGFzIGl0IGlz
+IDUgYnl0ZXMgbG9uZywgbm90IDQsIGJ0dyk6DQo+Pj4+PiANCj4+Pj4+ICNkZWZpbmUgQVBQTEVU
+QkRSTV9NU0dfQ0xFQVJfRElTUExBWSBjcHVfdG9fbGUzMigweDQzNGM1MjQ0KSAvKiBDTFJEICov
+DQo+Pj4gDQo+Pj4gTGVtbWUgdGVzdCB0aGlzLg0KPj4gDQo+PiBKdXN0IGluIGNhc2UgaXQgd29u
+J3Qgd29yaywgcmV2ZXJzZSBieXRlcyBpbiB0aGUgaW50ZWdlci4gQmVjYXVzZSBJIHdhcyBsb3N0
+IGluDQo+PiB0aGlzIGNvbnZlcnNpb24uDQo+IA0KPiBJdCB3b3Jrcy4gV2hhdCBJIHVuZGVyc3Rh
+bmQgaXMgdGhhdCB5b3UgdXNlZCB0aGUgbWFjcm8gdG8gZ2V0IHRoZSBmaW5hbCBoZXggYW5kIGNv
+bnZlcnRlZCBpdCBpbnRvIGxpdHRsZSBlbmRpYW4sIHdoaWNoIG9uIHRoZSB4ODYgbWFjcyB3b3Vs
+ZCB0ZWNobmljYWxseSByZW1haW4gdGhlIHNhbWUuDQoNCkFuZCBub3cgdGhhdCBJIG9iZXJ2ZWQg
+YWdhaW4sICVwNGNjIGlzIGFjdHVhbGx5IHByaW50aW5nIHRoZXNlIENMUkQsIFJFRFkgZXRjIGlu
+IHJldmVyc2Ugb3JkZXIsIHByb2JhYmx5IHRoZSByZWFzb24gJXA0Y2ggd2FzIGNob3Nlbi4gQW5k
+IEkgYW0gdW5hYmxlIHRvIGZpbmQgd2hhdCBtYWNybyB1cHN0cmVhbSBjYW4gYmUgdXNlZC4NCg==
