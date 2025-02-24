@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632F6A4158D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 07:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757BBA41700
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 09:14:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF3D010E14D;
-	Mon, 24 Feb 2025 06:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD8A910E054;
+	Mon, 24 Feb 2025 08:14:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="MRCv7FT1";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 398 seconds by postgrey-1.36 at gabe;
- Mon, 24 Feb 2025 06:39:12 UTC
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0999110E14D;
- Mon, 24 Feb 2025 06:39:11 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-01 (Coremail) with SMTP id qwCowAC3vVV0ErxnL6j0Dw--.49149S2;
- Mon, 24 Feb 2025 14:32:29 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, wenjing.liu@amd.com, alex.hung@amd.com,
- dillon.varone@amd.com, Samson.Tam@amd.com, yi-lchen@amd.com,
- chris.park@amd.com, aurabindo.pillai@amd.com, george.shen@amd.com,
- gabe.teeger@amd.com, Yihan.Zhu@amd.com, Tony.Cheng@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>,
- stable@vger.kernel.org
-Subject: [PATCH] drm/amd/display: Fix null check for pipe_ctx->plane_state in
- resource_build_scaling_params
-Date: Mon, 24 Feb 2025 14:32:18 +0800
-Message-Id: <20250224063218.2953217-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-m21466.qiye.163.com (mail-m21466.qiye.163.com
+ [117.135.214.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3454510E036
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 08:14:22 +0000 (UTC)
+Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id bfd2882b;
+ Mon, 24 Feb 2025 16:14:18 +0800 (GMT+08:00)
+From: Damon Ding <damon.ding@rock-chips.com>
+To: heiko@sntech.de
+Cc: andy.yan@rock-chips.com, hjc@rock-chips.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org,
+ dianders@chromium.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, boris.brezillon@collabora.com,
+ l.stach@pengutronix.de, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: [PATCH v7 11/15] dt-bindings: display: rockchip: analogix-dp: Add
+ support for RK3588
+Date: Mon, 24 Feb 2025 16:13:21 +0800
+Message-Id: <20250224081325.96724-12-damon.ding@rock-chips.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250224081325.96724-1-damon.ding@rock-chips.com>
+References: <20250224081325.96724-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAC3vVV0ErxnL6j0Dw--.49149S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZr45GrW5XF1rZr4UJr47urg_yoWDKrg_KF
- 48urn3tr1fAanF9F10vw4fuFyF9rZ5urZaqFW2yFWYyry7WrWkX34xXr1rWryxZFsrKF98
- A3Wqkr15ZwnFgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbSxFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
- 648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2
- Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
- kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRKCJmDUUUU
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ05CHlYfSUMfHR1LS0kdGEhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+X-HM-Tid: 0a95370571bd03a3kunmbfd2882b
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mi46Mxw*CzIRLxMpNj4ZESwN
+ MAMwCQ1VSlVKTE9LSENPQ01LTkhMVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJSE1JNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=MRCv7FT1aJZkzNoY9zwVPmbn65wZ3DVTOHpDYirRehxNUfeLGi8nhiV+Z1NNV0DLFK00Wb/O2i0U4DtqhAwA027Eb5An5nBZvu6EqCQG50NdWJoa7+jqDuCn043SMlHBJMOlpV1zPDd6GCCCIuPMi2+J22jYpQ8ZzOtS5L+bfFM=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=qxBez8DZIwrWCO8EJmDubFkC0E69kmKK5aFcCHqH3DY=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,33 +70,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Null pointer dereference issue could occur when pipe_ctx->plane_state
-is null. The fix adds a check to ensure 'pipe_ctx->plane_state' is not
-null before accessing. This prevents a null pointer dereference.
+Compared with RK3288/RK3399, the HBR2 link rate support is the main
+improvement of RK3588 eDP TX controller, and there are also two
+independent eDP display interfaces on RK3588 Soc.
 
-Found by code review.
+The newly added 'apb' reset is to ensure the APB bus of eDP controller
+works well on the RK3588 SoC.
 
-Cc: stable@vger.kernel.org
-Fixes: 3be5262e353b ("drm/amd/display: Rename more dc_surface stuff to plane_state")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 520a34a42827..88e8ae63a07f 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -1452,6 +1452,9 @@ bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx)
- 	struct scaling_taps temp = {0};
- 	bool res = false;
+Changes in v2:
+- Add the main defferences of the RK3588 eDP and the previous versions
+  in commit message
+
+Changes in v3:
+- Expand the property clock-names, resets and reset-names
+
+Changes in v4:
+- Remove 'spdif' clock which added in v3
+- Add the comment of newly added 'apb' reset in commit message
+
+Changes in v5:
+- Put the differences between RK3288/RK3399 and RK3588 into 'allOf'
+
+Changes in v6:
+- Keep the widest constraints and add only RK3588 related constraints
+  into 'allOf'
+
+Changes in v7:
+- Fix the errors related to 'reset-names'
+- Remove unnecessary 'maxItems' under 'reset-names'
+---
+ .../rockchip/rockchip,analogix-dp.yaml        | 22 +++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
+index eaf4e67e232e..d99b23b88cc5 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
+@@ -15,6 +15,7 @@ properties:
+     enum:
+       - rockchip,rk3288-dp
+       - rockchip,rk3399-edp
++      - rockchip,rk3588-edp
  
-+	if (!plane_state)
-+		return false;
+   clocks:
+     minItems: 2
+@@ -31,10 +32,14 @@ properties:
+     maxItems: 1
+ 
+   resets:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
+ 
+   reset-names:
+-    const: dp
++    minItems: 1
++    items:
++      - const: dp
++      - const: apb
+ 
+   rockchip,grf:
+     $ref: /schemas/types.yaml#/definitions/phandle
+@@ -55,6 +60,19 @@ required:
+ allOf:
+   - $ref: /schemas/display/bridge/analogix,dp.yaml#
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rk3588-edp
++    then:
++      properties:
++        resets:
++          minItems: 2
++        reset-names:
++          minItems: 2
 +
- 	DC_LOGGER_INIT(pipe_ctx->stream->ctx->logger);
+ unevaluatedProperties: false
  
- 	/* Invalid input */
+ examples:
 -- 
-2.25.1
+2.34.1
 
