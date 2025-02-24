@@ -2,57 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2040A4209D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB73EA420BA
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:34:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF5F10E2B2;
-	Mon, 24 Feb 2025 13:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284438924F;
+	Mon, 24 Feb 2025 13:34:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CnrlGXKl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iwbbTVh6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 24D3910E2B2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 13:29:54 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
- id 3EAB6203CDDA; Mon, 24 Feb 2025 05:29:46 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3EAB6203CDDA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1740403786;
- bh=i01zIab6305TaFlNKn7K/1S71vqUHIZ2SMtS+KnZW5U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CnrlGXKlOaWiyi66FhJ6/N36v5KvcV6ldKV+IQevrGpmO7UGJnZ8rJ7Cd/BQuYkw0
- lLWRMnUwFeM4OuGuimbaznlHZ4tZQmlbIr5R/GlWCw8txh7UxhvKliD0zif9TV17AM
- FEUNe9MgWI+y11r/xtxLv/fIOAOcmwsztrr4Z7ew=
-Date: Mon, 24 Feb 2025 05:29:46 -0800
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "kys@microsoft.com" <kys@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "deller@gmx.de" <deller@gmx.de>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ssengar@microsoft.com" <ssengar@microsoft.com>
-Subject: Re: [PATCH] fbdev: hyperv_fb: Allow graceful removal of framebuffer
-Message-ID: <20250224132946.GA7039@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1739611240-9512-1-git-send-email-ssengar@linux.microsoft.com>
- <SN6PR02MB4157813782C1D9E6D1225582D4C52@SN6PR02MB4157.namprd02.prod.outlook.com>
- <20250222172715.GA28061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <SN6PR02MB4157F6CF7CACF45C398933C4D4C62@SN6PR02MB4157.namprd02.prod.outlook.com>
- <20250223140933.GA16428@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <SN6PR02MB41571ED5CEA6B91A7F35AC3FD4C02@SN6PR02MB4157.namprd02.prod.outlook.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7584F8924F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 13:34:38 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-43690d4605dso26967085e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 05:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740404076; x=1741008876; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OAg+3nWpCX28gp0yop3cTi7eprtgpHgYieQoEXp/Zxw=;
+ b=iwbbTVh6YOEhSZjy5hIjN3OJfM5goV24xCILX+lkoO84GnpbgwzafvuEhXu9Qv0lsc
+ x4ULFjx+54wA54RUixtZ53Kp+wNSSIowKR0DA4hGFA/0RCRLaYCbB2xU3NNBp3UMrdvI
+ 362LdyyJQOAJm4EHMti2YBmvhqDeFYQlkEzdisWJ96yOzNkFI7r+PLI4paLN2XstCBqS
+ GWrziXfjChzt2HJeBSSiHLYcNxDVyIOSnK+alShtL3HDN+Y8jiN/UfBn43ugFg0eJtRp
+ oFSPK42H9S0SMwZnqUCSfiKNvRoksEBmOZnnx7OgMqZin5V9q/wlPHZk0tI3Mgw68B3D
+ jRKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740404076; x=1741008876;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OAg+3nWpCX28gp0yop3cTi7eprtgpHgYieQoEXp/Zxw=;
+ b=qJq0QiHddlqZ5Tb45CosZxzfhgFBHx42PXzW8spjv5OOOVl9EUg27KZecTj+M2nlmc
+ 0Uq4pafQFRJqFk+6bJUNjE+BFMQQYRuv4fJjQeul2waAXH0NUx6QHkCwuJw0MyEPbfjC
+ uHtASGYmB7iPg45MxliiZOUrZ8VYjuyTgl8QeviIyUsSsPU3aUnxoERAaP3q8cmnk/Bv
+ w5ALL7qZ5yKKWNkMnpDkSPv+aL8HnTRKv2TtI5+Zc4MvcfQibudpuaMbK7v2OtBzTdkE
+ gmdGkZxLXB5zaoFaq5OYhBwTmbqFfRVKjq0gW0Bq9yUeEHMeNKZPsmai4ORs2KUqWlqM
+ KLBQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUYBbe7/CCyFUiBEFoKJf6AilArnhM9O5ejvh7MxZGbUil54EBa3I3+NvcSaYgzkc16+mc6Fl6EITI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQ4/f4U2v7L7nFcZJ1YbiBmZqI2a0JvHIRhSybqiWkr5B4TksQ
+ SrnEpS4FKCi6/wYnYfojHLDukBQPLVb/Il0utvihKfnjv8uQLuUH
+X-Gm-Gg: ASbGnctJAg9HA8UvMWO+A6SG9uAIOwdZi23juQXoib744DdiGzExuOk+OMPspHvzoJM
+ 15iR2E8H0r0LBT68ZQrM5dJCdCiNMB3q62aTZXPF6EkmdGHvY5GGFJO/zOpluMlbpILvhdlIU+1
+ L9yk/fVBKWZFNfkp6UJWWh2DDg7d9yP95CfE5/XctUzzZX3JPGmNbSg8YGo+qT2U+ULL8gTfwAO
+ AEMElLnTKfs5X+0FTctRRlSVZvEx25YDS9Rpypp2esDGmF9OGYLMyB6/VzgF2N1yCyjl697R7P2
+ fiVyRGGbqd/oMJyQee61jAu3wSXWWi+XttUsSBAGAJYeb+i9XI6Vuq7RqRqgCa+g
+X-Google-Smtp-Source: AGHT+IHAk3Wvwyk1vqkRenvO3RPC8nmIGBVFBN9gj/vKmwdIoVhq2/WUUPGNh8lDJR1/QVDS5j7zIQ==
+X-Received: by 2002:a05:6000:144a:b0:38f:4d40:358 with SMTP id
+ ffacd0b85a97d-38f6e7587c5mr11099286f8f.9.1740404075459; 
+ Mon, 24 Feb 2025 05:34:35 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38f74817cbdsm9492882f8f.68.2025.02.24.05.34.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2025 05:34:35 -0800 (PST)
+Date: Mon, 24 Feb 2025 13:34:31 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ yury.norov@gmail.com, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <20250224133431.2c38213f@pumpkin>
+In-Reply-To: <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SN6PR02MB41571ED5CEA6B91A7F35AC3FD4C02@SN6PR02MB4157.namprd02.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,101 +112,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 24, 2025 at 12:38:22AM +0000, Michael Kelley wrote:
-> From: Saurabh Singh Sengar <ssengar@linux.microsoft.com> Sent: Sunday, February 23, 2025 6:10 AM
-> > 
-> > On Sat, Feb 22, 2025 at 08:16:53PM +0000, Michael Kelley wrote:
-> > > From: Saurabh Singh Sengar <ssengar@linux.microsoft.com> Sent: Saturday, February 22, 2025 9:27 AM
-> > > >
-> 
-> [anip]
-> 
-> > > >
-> > > > I had considered moving the entire `hvfb_putmem()` function to `destroy`,
-> > > > but I was hesitant for two reasons:
-> > > >
-> > > >   1. I wasn’t aware of any scenario where this would be useful. However,
-> > > >      your explanation has convinced me that it is necessary.
-> > > >   2. `hvfb_release_phymem()` relies on the `hdev` pointer, which requires
-> > > >      multiple `container_of` operations to derive it from the `info` pointer.
-> > > >      I was unsure if the complexity was justified, but it seems worthwhile now.
-> > > >
-> > > > I will move `hvfb_putmem()` to the `destroy` function in V2, and I hope this
-> > > > will address all the cases you mentioned.
-> > > >
-> > >
-> > > Yes, that's what I expect needs to happen, though I haven't looked at the
-> > > details of making sure all the needed data structures are still around. Like
-> > > you, I just had this sense that hvfb_putmem() might need to be moved as
-> > > well, so I tried to produce a failure scenario to prove it, which turned out
-> > > to be easy.
-> > >
-> > > Michael
-> > 
-> > I will add this in V2 as well. But I have found an another issue which is
-> > not very frequent.
-> > 
-> > 
-> > [  176.562153] ------------[ cut here ]------------
-> > [  176.562159] fb0: fb_WARN_ON_ONCE(pageref->page != page)
-> > [  176.562176] WARNING: CPU: 50 PID: 1522 at drivers/video/fbdev/core/fb_defio.c:67
-> > fb_deferred_io_mkwrite+0x215/0x280
-> > 
-> > <snip>
-> > 
-> > [  176.562258] Call Trace:
-> > [  176.562260]  <TASK>
-> > [  176.562263]  ? show_regs+0x6c/0x80
-> > [  176.562269]  ? __warn+0x8d/0x150
-> > [  176.562273]  ? fb_deferred_io_mkwrite+0x215/0x280
-> > [  176.562275]  ? report_bug+0x182/0x1b0
-> > [  176.562280]  ? handle_bug+0x133/0x1a0
-> > [  176.562283]  ? exc_invalid_op+0x18/0x80
-> > [  176.562284]  ? asm_exc_invalid_op+0x1b/0x20
-> > [  176.562289]  ? fb_deferred_io_mkwrite+0x215/0x280
-> > [  176.562291]  ? fb_deferred_io_mkwrite+0x215/0x280
-> > [  176.562293]  do_page_mkwrite+0x4d/0xb0
-> > [  176.562296]  do_wp_page+0xe8/0xd50
-> > [  176.562300]  ? ___pte_offset_map+0x1c/0x1b0
-> > [  176.562304]  __handle_mm_fault+0xbe1/0x10e0
-> > [  176.562307]  handle_mm_fault+0x17f/0x2e0
-> > [  176.562309]  do_user_addr_fault+0x2d1/0x8d0
-> > [  176.562314]  exc_page_fault+0x85/0x1e0
-> > [  176.562318]  asm_exc_page_fault+0x27/0x30
-> > 
-> > Looks this is because driver is unbind still Xorg is trying to write
-> > to memory which is causing some page faults. I have confirmed PID 1522
-> > is of Xorg. I think this is because we need to cancel the framebuffer
-> > deferred work after flushing it.
-> 
-> Does this new issue occur even after moving hvfb_putmem()
-> into the destroy() function?
+On Mon, 24 Feb 2025 08:09:43 +0100
+Jiri Slaby <jirislaby@kernel.org> wrote:
 
-Unfortunately yes :( 
+> On 23. 02. 25, 17:42, Kuan-Wei Chiu wrote:
+> > Several parts of the kernel open-code parity calculations using
+> > different methods. Add a generic parity64() helper implemented with the
+> > same efficient approach as parity8().
+> > 
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> >   include/linux/bitops.h | 22 ++++++++++++++++++++++
+> >   1 file changed, 22 insertions(+)
+> > 
+> > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > index fb13dedad7aa..67677057f5e2 100644
+> > --- a/include/linux/bitops.h
+> > +++ b/include/linux/bitops.h
+> > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+> >   	return (0x6996 >> (val & 0xf)) & 1;
+> >   }
+> >   
+> > +/**
+> > + * parity64 - get the parity of an u64 value
+> > + * @value: the value to be examined
+> > + *
+> > + * Determine the parity of the u64 argument.
+> > + *
+> > + * Returns:
+> > + * 0 for even parity, 1 for odd parity
+> > + */
+> > +static inline int parity64(u64 val)
+> > +{
+> > +	/*
+> > +	 * One explanation of this algorithm:
+> > +	 * https://funloop.org/codex/problem/parity/README.html
+> > +	 */
+> > +	val ^= val >> 32;  
+> 
+> Do we need all these implementations? Can't we simply use parity64() for 
+> any 8, 16 and 32-bit values too? I.e. have one parity().
 
->                             I'm hoping it doesn't. I've
-> looked at the fb_deferred_io code, and can't quite figure out
-> how that deferred I/O work is supposed to get cancelled. Or
-> maybe it's just not supposed to get started again after the flush.
+I'm not sure you can guarantee that the compiler will optimise away
+the unnecessary operations.
+
+But:
+static inline int parity64(u64 val)
+{
+	return parity32(val ^ (val >> 32))
+}
+
+should be ok.
+It will also work on x86-32 where parity32() can just check the parity flag.
+Although you are unlikely to manage to use the the PF the xor sets.
+
+	David
+
+> 
+> > +	val ^= val >> 16;
+> > +	val ^= val >> 8;
+> > +	val ^= val >> 4;
+> > +	return (0x6996 >> (val & 0xf)) & 1;
+> > +}
+> > +
+> >   /**
+> >    * __ffs64 - find first set bit in a 64 bit word
+> >    * @word: The 64 bit word  
+> 
 > 
 
-I want to understand why cancel_delayed_work_sync was introduce in
-hvfb_suspend and not the flush. Following commit introduced it.
-
-382a462217572 ('video: hyperv_fb: Fix hibernation for the deferred IO feature')
-
-But I agree this need more analysis.
-
-> If the new issue still happens, that seems like more of a flaw
-> in the fb deferred I/O mechanism not shutting itself down
-> properly.
-> 
-
-As the repro rate is quite low, this will take some effort to get this
-fixed. Shall we take this in a separate patch later ?
-
-
-> Michael
->
-
-<snip> 
