@@ -2,203 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7AFA42119
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C766CA42122
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AEA510E418;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2497C10E419;
 	Mon, 24 Feb 2025 13:41:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Ari9/ynu";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="LImIbOfh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YtJENO9H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C580E10E051
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 05:31:52 +0000 (UTC)
-X-UUID: a5094dbef27011efaae1fd9735fae912-20250224
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=4BEuNXMqsiOHcejFkGdbV0pe+5goIDQO6bUKSnu9QhI=; 
- b=Ari9/ynuCufpQ2tluHsQhwbdPNSGvCb2V0RB+Q4oO632P0xa53IUzDlYeisj5zQeZmLvLj0qiXq/As/ersnymP6jGIbMAfTVjXp2Z1G523TN38EEf5hMCDi2PMVxUpOoRvqUjdnh5dtG+1JS0qJdag+xhevMTO1znFbpRycjspg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46, REQID:61f8cbe7-86e2-4fb4-9178-ec6056b17949, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:60aa074, CLOUDID:a91879a4-5c06-4e72-8298-91cabc9efadf,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
- EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
- A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: a5094dbef27011efaae1fd9735fae912-20250224
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 495754367; Mon, 24 Feb 2025 13:31:49 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02DED10E12A;
+ Mon, 24 Feb 2025 06:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740377232; x=1771913232;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=JdEkd+bnyB4DRM14pjq1ieFe2dqOq/POV8Ol0pHeyJM=;
+ b=YtJENO9H5Nq2ImBufnYE0fSQzkoj82R6LrQrAryRlbOcvo2bw8Kp+b/b
+ 0eqScZhASTifUx/YaJe9xL8rDs957V9b0kpCofbHMJ+8jQiRMeMHzmYhO
+ 7hLGospeCtk7KyOtV3bBJAw7CpdO8HILLsV83tx49SC0StPnxUdaYch5Z
+ tBoQuWH6oxP0Prmkfjg3Y5bryQOm+9nHhOdTJF/lzYrrY/bnUVbPJZ3Q8
+ pjVt9ZNMFJZSq3WMI/OaKjtR48x8dvwMsiRc+v5XwHVnAfC53yxiB41EL
+ 7xIPK7x3pc7/thnLJO11nutTwUW0q712gr1uLl6h9Z7S3u8kNzfTZOCDZ Q==;
+X-CSE-ConnectionGUID: SG8lnD+0TFig85qnBwuhBQ==
+X-CSE-MsgGUID: 0X1dWf43ShK7jPSf8FlB6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="44897665"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="44897665"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2025 22:07:11 -0800
+X-CSE-ConnectionGUID: +YY/oj0MRKWeeowQovX5jg==
+X-CSE-MsgGUID: EfvoBwwEQh2JScycpXwGdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="120877526"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 23 Feb 2025 22:07:11 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Sun, 23 Feb 2025 22:07:10 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Mon, 24 Feb 2025 13:31:47 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1258.28 via Frontend Transport; Mon, 24 Feb 2025 13:31:47 +0800
+ 15.2.1544.14 via Frontend Transport; Sun, 23 Feb 2025 22:07:10 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Sun, 23 Feb 2025 22:07:08 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wcy1/QBia5S57igybGqwRzfVFun+w1D9ye/QUxUj1lH9oU4IpymGljc/Vf//4hhOmQCYC4a8SA15QDX++cv1sq5hlkMmULCEPtQYfLm9wOIL3OfFAuwAi58qhs5bnpnf6YXQecJvpvOIpbubUUdcDp/DrfP+PD8KmjqTaGd4BOE9w767w5vIWJLCgn2FYwK0TeC3Ztigg2PEpIbUIjXxdHbaw8TqaOJXnQROC/HdA/oVjFLKgBeRJSmIJPzpPCYsyh+TmoBq18lw9X2JUGGublrAA94PVoyevQ/u7kwDvpusNjRltuku6Ai6KXhyw8pEm50WbJ1wfbCPBwRN59Txhw==
+ b=TkkU0qI3VDH/Wy6frlEpEDF3af2SHzE+EWq35DjX5hO20pV7PoW6B4jZZODx6/mlp92/2rpWZdM/W9sQIr1cXROEZtmMqOylKa2LuRKR0L/FcIz6hqkJLRQU1d0esJTKRyMi23ksSfsq+ZOWjUSYOv0DUYyxDYuMNhMbRTUdAy+RCWO2w9gHwAWwdwslmgR/cA7A/5bAI3copAQozyqB2BDmvacn7pbd8ry1c84qiG6gsOt+Wy8lUXu1zhmlE7zTIlFZMYuap1rMGjtDRX9Y2CUs2F7AqDy5RTqcIzX0V3sDSYuvH6C3ymdqLzODxmFDEdbEf4pR0/ohgOOXEFq2Ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y45W03jKSj5dKbw3qHSoM3q2fYHu/VzHlChPw5qleds=;
- b=llKmSWwXjVC4owX2/IYF5HwWm/CZNVIvVqqc+iRhgiT+RV38X6PyyNpF2jwaSgyycVh34+sjI8H21lNn0eRZgqNJ10QDykR0tJz1MiIJhwfuAu0/08IxTfiQIytYm0dvCTwKUbZyATuGFEeJrSHYB8kCyZqcgzr+8o35yXIPzOTKVftas+4chhkqlHjY+jvP62Dqk9cSdwxnvTzU93PU4g1R+8vHS42Bu1pIFz0p4xkA1TmSahsWq/j7qwcqD/QTwHdWtirfOK8M/iJdYvDLsXRxxR0LhYF2M4UjijAhBq3pcubA8Goqaou4OeuZZg42emAVeOH90r7oFZvq6bbXTA==
+ bh=0Cc9mIP2H0eif96lhwB6eFfptjvZl9JhMkUINzk9fUc=;
+ b=SGNMIJN69maEoaybNSC/nHKk/4IKejcnpCoYtuUc+RB+0hDLlRPST7oybi3x2tNpyPmv1qzoFb32FSl15iqSeuf0Ztyqhw6xvsTh50Jg6w0KcKY7YUQkjeD1Flap6YtTnrS9XENxfkxMNI5b/e5TmBJ9IBAYn6mEa4wtlvVQgYxVdJdrQt64SQnU2ZikwRMsEI8IYPPqu20Dd+nDOncChxECJMJaQ8mS2fwB5RTwHP+ZBXCJzi5XKssFR/dTmiPepP/yxQ2iS0u277pO16iaDqKBKWr/Fv+xK7o9ITnfo26Uunvm7kAsGh2JycOF7tgeEtK2BeDW4h06B+inlLA0zQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y45W03jKSj5dKbw3qHSoM3q2fYHu/VzHlChPw5qleds=;
- b=LImIbOfh5ZFuYJILKolCXAcBysn2THaIy6Gwxr7ra5trwD7lzS/Exlw7UWo++bqMS9y1g7I/LfPMTuSSwjzUinXSC+ahcVFytsmkfMihnlJEYq0/ptiYnB67Ftjx4hNB2q4gJuHNfWDBbTvHAJR11KWJUZx8W64avl8lle7KAR4=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by KL1PR03MB7742.apcprd03.prod.outlook.com (2603:1096:820:e3::9) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by MW4PR11MB7102.namprd11.prod.outlook.com (2603:10b6:303:22b::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Mon, 24 Feb
- 2025 05:31:45 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54%3]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 05:31:45 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "AngeloGioacchino Del
- Regno" <angelogioacchino.delregno@collabora.com>
-CC: =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "treapking@chromium.org" <treapking@chromium.org>,
- =?utf-8?B?WW9uZ3FpYW5nIE5pdSAo54mb5rC45by6KQ==?=
- <yongqiang.niu@mediatek.com>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?utf-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
- =?utf-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] drm/mediatek: Fix config_updating flag never false when
- no mbox channel
-Thread-Topic: [PATCH] drm/mediatek: Fix config_updating flag never false when
- no mbox channel
-Thread-Index: AQHbhnsWG0BWDKW8EUeRuC1fH33kkLNV7dEA
-Date: Mon, 24 Feb 2025 05:31:44 +0000
-Message-ID: <5255301c4520a625144debb9daacdd62ce7dd2cd.camel@mediatek.com>
-References: <20250224051301.3538484-1-jason-jh.lin@mediatek.com>
-In-Reply-To: <20250224051301.3538484-1-jason-jh.lin@mediatek.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Mon, 24 Feb
+ 2025 06:06:52 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::397:7566:d626:e839]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::397:7566:d626:e839%7]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
+ 06:06:52 +0000
+Message-ID: <f9641756-5d96-4c34-9e93-6a17a20e1677@intel.com>
+Date: Mon, 24 Feb 2025 11:36:41 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/6] drm/i915/display: Compute the scaler filter
+ coefficients
+To: Nemesa Garg <nemesa.garg@intel.com>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: Naga Venkata Srikanth V <nagavenkata.srikanth.v@intel.com>
+References: <20250219115359.2320992-1-nemesa.garg@intel.com>
+ <20250219115359.2320992-3-nemesa.garg@intel.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|KL1PR03MB7742:EE_
-x-ms-office365-filtering-correlation-id: c6df6b9e-ca97-4da7-2fc2-08dd549486d4
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?RDJVRTdIUzRJZ29TdDJmSnZJOWpXZHl2SHhWcW9nMktVdGNIY0lEdFI3aVZn?=
- =?utf-8?B?N082eG1HODRsaS83NFhMKzY2aE9uVHNaUjdjc3RkZ2EwZlVkSGs4akJpbkNv?=
- =?utf-8?B?NE16Zi8vZjRaNkw3ai9XdmV6WDVBRlFCaXlsMzRNTGF3aDdqb2R5cWg4ejA0?=
- =?utf-8?B?MmNiRXBCOTh4YzZPcktmck1wS0xhWXlsVDVKYmtYMmZ5OWhwK0w4bDFJK3Bi?=
- =?utf-8?B?ZEhKeTRmcmhhWm1ZWGdLN0JVN3M0MUhyMytyT3hBT3ZZeEpEanlTNHlpS3FJ?=
- =?utf-8?B?YXhCYkhKYURsSVA3dHY3cjExQkhObGlOSlRON3VqeVpVbC8wSFhQWTVGSGJI?=
- =?utf-8?B?UytGREFhRUVGemhTamNoYkx2dTRLVzZwOTh2WWNjbzFaVldGSkllVC9GRjh5?=
- =?utf-8?B?RFAvZnBTUERqOGJLVzdIRTZIcGZYSVpRMyt1VjlyUkoxQnpiUUxNb2EzTHNY?=
- =?utf-8?B?T3BPMys3QTFjS3pGZ1pVODBHc1BlWUFLYXhUYTVzYW5JTkxnQkIwMG9sc2lP?=
- =?utf-8?B?eTJ6OEcvenREd0lZdXU1TS9qWDVnYzZyTVQ2WUlKa1VuamNYZDRkMk1rbVEx?=
- =?utf-8?B?Qm5KaG5rbUFSNlp3MWZTWFI0QUUxemZrRTdjRUxHVldMMFMwRC94S3lqVDZt?=
- =?utf-8?B?Z1lGRjRLRVFSZ3JUOGtkRmpTdmhLZjdHaTVNSkUxbjRnbTlNdnM2VHp4eUFW?=
- =?utf-8?B?Zi9IZXRSSEswUEpHOEZ5dDI5Q0lMeWNWUno5NTU5QjdJYXJWSVBSNmN0WWYw?=
- =?utf-8?B?U3pTRS9nZGU1UFB0a1ZoQ3FpOWVCdkkxeXJrRHluNWVRdGYwejNpNTZ4bzBj?=
- =?utf-8?B?MHQ2VngrdGtvNGNEd3BSL05jRllxaENBNXV4alBBZnJ5TDlPcTZhV2Q3NjBV?=
- =?utf-8?B?VXpndG9DRXJ4d0FnaUl3WFNCN29KUVM0d25NOUp4cVlFTS95ejZZbm9QZlhV?=
- =?utf-8?B?TmVLZUJFS25qajlFSmRzUHRqOS94cXA1WnZvOHF6ZWo4aVYzd01ja0c0dFVh?=
- =?utf-8?B?Nnp1dnNZRkhmYStVcnJSS25FK0JGdU9jOXZXd1QyYkJkYVg4OE0wSnNFWEtQ?=
- =?utf-8?B?KzdMbDhrLzRQTnVmN3pVM3FGekQxMDVHWUxlMUp0RUlQWTRNcDJKeU5oejFF?=
- =?utf-8?B?d3gzaElET0lsMlo4U3NhS0lPeXpkdmRpYmhHNTJOc25IMk5zQkVOZHZQQ0JK?=
- =?utf-8?B?Y3AzMmtyWFM4eG9yb2d6WVpDQk1yNUk1cWNxelhiRmg2eDBvemFBUERtRmRQ?=
- =?utf-8?B?OHAxWi81YlBhL0FCdSt4SFNFejVVNnh2aWxTRlIrSDZPTkNCbXM1Y1BGdGhH?=
- =?utf-8?B?bW10a2NpRHlxYStWcmlaMEtzeVNoUmw1TE1CLzZOU09jTzNDV2x3d0t1MEww?=
- =?utf-8?B?QTJXYm1yNEVyUmZtVWZKT09XSEZZUWpGVFNVSjViQ05hSnZZOTM1TzFhVHE4?=
- =?utf-8?B?N1ZnY3pCUER2MzM5UVA0ckRYNlBpQzdWeGtYbmtVMGRjQWFPOGlicnppaUdU?=
- =?utf-8?B?aGU1TlRwam1YYnJvcUlHbW91Rm10MlBwdk9ta2s5Rlcyc2gwWmFqa2o5dzFk?=
- =?utf-8?B?OGc4OE9JbHVrMDVUM0ZMdmNESFQyc0txR00wMXkrNTF1SnBmMVB0WWpncmo5?=
- =?utf-8?B?bkNIdkoraTVCaDBXSE16aDJjNy9aL2Z0U2FMdXo3cUhmd1ZzM2RDcjNvcld0?=
- =?utf-8?B?enEvZmt5cm9meXNub0JNc0Q0dkEvVU9mQ2pwbXhORzd5M28vOWcyTlA1amts?=
- =?utf-8?B?alk3V1lVcFlLcDc0NG1FUDJuM3Q2LzkyZFNLUUFTb0xicUJIQUx3L3B5WXZO?=
- =?utf-8?B?VVpxcTJ1VnBKRDVWMUd2TnhXNXlZQVVidEwzQ2hvQzBEeC8xNWlCeDN6d1ZR?=
- =?utf-8?B?WGk0RngzTndxMHRJSHpTSjFlYXpzVjQ2V2FGclBsT2h2WWdPdTc2Q3psTlFo?=
- =?utf-8?Q?vUswf00+UQ0MnTsxbvDDssbbmC5gu5MF?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZnVyRys3SkJrY1Q0cUJVK3B6YkFQbUU2aTYzK2FWdVphNHRkT3F3NTdUbkM1?=
- =?utf-8?B?ZXhXVm9BYW5kcHFlWDRSb2Z1N0ZoWmt3UnVXMjZLM1kraGN4YTMzelViQWVD?=
- =?utf-8?B?RkRBamQ0VVlnaldKQmZqMFNmNDdod2xPUXlkWHJPUEw5MnBXVjdTVU5JUm13?=
- =?utf-8?B?V25QYW1iT0xUaGlsWW5RYnNLUXFHZkhoZnZHZFBwK2xjZkxQTlRLT0xud2Na?=
- =?utf-8?B?Z3RVME96RGhKT0xNR1hEOGMyVU4xMTFRbnFlY0hLam5HOWFBUkFtemhhMXNC?=
- =?utf-8?B?L1ltNE0rOG1oWkM4KzBkcnFmU0dHWmc5YXFkcDhPS2hpY2lPaDVCRTNiNWhX?=
- =?utf-8?B?RkpqZXRjaS9heWVwVWVTUVhxY1JUbEs3L3NsM2dlRnhjLzZLb1UwYkdCV0xN?=
- =?utf-8?B?MUdTU2JLSUh6WFZCMC9CTUk1NGI5TjNaNGVib0Y3QzRqOHZ5ODNZckwrTURT?=
- =?utf-8?B?YXY2R0ZoYmdNOWczdE81Q1RIeFNuSExtV1BxNDVBU0VaRkFhTzNtdGNja0tE?=
- =?utf-8?B?YmRiLzdPNHlZRkhFMUd0eVNIK3FXUmpVbDVEQkt2SnlYU3MvVWZ0d2ZWYzI3?=
- =?utf-8?B?Y1BscUk5Qjh6V3RDN1VrdnV4MWtSN2RWcW1JTmlXbi9QdkhzaDhsK29MYVhh?=
- =?utf-8?B?NWI2akpaVWl0SHRwRTdneEZpWmhYTWM3UmdKdGlZL0xzQVNhSld0OHNkR3lp?=
- =?utf-8?B?ckovN0xON2VlK2VQSWV1T2NkRTVFaUY1RUkzTmF4eWZJRkU3RFpPOEFsR0hG?=
- =?utf-8?B?YmdYb1BoYlN5VDBTeHRxOWF3ZnNrVVFsaHBWVGRrUUFaWCtkYy9ndis3dUxW?=
- =?utf-8?B?dGd5TDVvRGJ4ZGpCSkhvTllScUUxeGZQaTYxSnlhTVNMbkFiVUtiaDA5RzVC?=
- =?utf-8?B?MWRoOC9KWUhMOVRHcFZScHA3aVI5VGRGU3dndnBzZTk3Tk9hdVU4YlZRdHdO?=
- =?utf-8?B?ZGZhamk4cUJkakdCNFFmQnMrWTNuTUZRMXI5TTA0TW5JSUVTbUltTk0zcEI5?=
- =?utf-8?B?ckUzUU1KbHNheEdyN094Ky9Dd3p0M3VTdDViKzhyaStoY2M4UDd6Qk9yZGsw?=
- =?utf-8?B?SXRXdTNtZVVpUmFVQlZ0VzhxaXdJbFcxaHM4dTMwb0srQkVSZzdFUDIvYXVF?=
- =?utf-8?B?TkNkU1ZnRWF5emp4cUJ3OE9NWEtUNHZyN3hDeVo0WkFtVVNrUTJUcHJBSW9R?=
- =?utf-8?B?NkVKTERZTmo0L1cxWXBBM2pjRFBzNWJWRUtnM2UvZWo0QmxrMGJJY0ZkOW1F?=
- =?utf-8?B?RmVHWmFQK0NvazBNNC8wK0lGc1k3VzNmRC9WV2NOZWNaYi9qWHkzMnZnbDha?=
- =?utf-8?B?em5VMGFxUy9mbEw4QjRPV21tTHlmZTVYdjJNT1dJWWl4RXNhY2VuUEJNeEdI?=
- =?utf-8?B?dnZwTlN4QTdZUWQ4S3cwTTlML2x3MzNTcGE1SVE4OVJ1OFB2aFZnNnRzVExX?=
- =?utf-8?B?d2wrZXEvZXZ3WFNkZi9HU1RaVEpJVzRuUytPN20xaVZETVNFMVVtNkV2TCtv?=
- =?utf-8?B?NVhEd1EwVWQzclA3aXdDZ2Z4bUtxQmVWbGwxMnZ0TmEvaFdCQ1Q1R2c1YXov?=
- =?utf-8?B?QmhMd3hLcElUUElTNzJTNk1kK3lWWlMramxOc3RKSkNab2t6TjNya3MyWm10?=
- =?utf-8?B?RjBJV0pJMThKMGRXVnFTRm1GUC90OWgzeU9WaWtFTExzZUNnam9mVkhXdWZh?=
- =?utf-8?B?STZGT3pueTNETU0wZnhZRlBBdStsWmtSSllFUlpmV1NFbXdJK0RjaEVicGZo?=
- =?utf-8?B?NFhZU280UEpIZ0hRVVRGWXlHVnNqNVpxN0QzRGY4UnBFaXJWUUtiSEZIcUFj?=
- =?utf-8?B?RjA4SGRzNklQaFowZ0tjTnFtSnB5TFNIc0FueE9UanhLK2RnbE5WV0xlVkhn?=
- =?utf-8?B?UldKYkd4eTJUYnNtRE8xemFIMFlETTYxNmxMZVdJZkVxMXo4akplMlVOb3ZZ?=
- =?utf-8?B?eVBoMGdaYkFPQThZc2dQYXJlei9oN0g4d2dTcmhsYThmSGNBTnAyN2MyUUFJ?=
- =?utf-8?B?eXIxdVJoTE1obThtYkpxNm41MUZXclQrRDF2aThvMmlFMGN5K21iK3gramlL?=
- =?utf-8?B?TUJNYjgybnRXMm5mRmFFMlZ1Z012b0FYS3RPNGJiL0VITHFxa3ZQaVN6eW8z?=
- =?utf-8?Q?Fj6chuEx5qKVYt0g1bau3n+x1?=
-Content-ID: <770A20B1982AD8408BE8AE59B297B10C@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <20250219115359.2320992-3-nemesa.garg@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA0P287CA0009.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:d9::9) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|MW4PR11MB7102:EE_
+X-MS-Office365-Filtering-Correlation-Id: eecfa3ec-0a05-4748-8deb-08dd54996eb9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c2lHenVqbWc2NmZQOUNGMFUvcktPcXcvWVZhc1Y4cWpDQmF3QWc3WUpPaUdv?=
+ =?utf-8?B?dTVseHZIQTNHN0xtZWhBQmFEWEpzNFBQTkQ5S0hVU1dVVlVKaHRiK0Nnemc2?=
+ =?utf-8?B?K0czeWl0ZjRFMFB4VHhuSmRjUlRhTVl3Y0wxbkl4em9kQ2x6VjlwTWpQSy8r?=
+ =?utf-8?B?MURJVXFKZVFFL3REMUNLdnBLeWlDRFMvK212Z1hRdlNjWUpaRVc1c21oM1R6?=
+ =?utf-8?B?ald2Vk15UThsWEtsOGhlUk5uSHpRaHY0Rm5Oc1dIT3ZCRTNveUUxRmxMQWRK?=
+ =?utf-8?B?NDlWazlYTER2VEhNMVBYUHZRb01GVGgwSVJaR2xQWU1ZNGVKNzVSNU0wcmhk?=
+ =?utf-8?B?eGwwcCt0RWdLQlQvSDBOQjduR3BSaWtXOFJDMW0wMXJ2Y015MHFUVEgzNDhQ?=
+ =?utf-8?B?clBUaVFVTVZ0ZE5lNFJWTEQrZllPU3B2TmZzUHpKSVlMWFE4a2ZkRFZpcjlH?=
+ =?utf-8?B?RHhWZ3RvWDVFMTJHQm9TOTlzMEFyakJCK296Zi9Cci9jV0MzWS9ZSTN2UGxv?=
+ =?utf-8?B?bVBUODA0am1xbENiUmlZYkYwRTlQdVpOMkhtRUs2TDJDcXVPNVZXMmk5N3Jv?=
+ =?utf-8?B?dmd4TyswMGo2TCtzOVNzMjVIUG1OcUJSWjl0c1lxcG5SMmF5UUp6NjNPcjl0?=
+ =?utf-8?B?TCtRbGh3cnN3WEtmbFBDUnltSVU0OEdSNXVkMUhDYno3SjBNSnZqTWk5T2sz?=
+ =?utf-8?B?a04wRy8ya1RHVy9STlNBN3EvNndSdWVvVkMzblRvVmxLSVF4SEc4UW55c1pT?=
+ =?utf-8?B?SXRsTTgxdmRaMDVma1dmTnFnbDREenVwWWpNd0hxZitzMzFveFQwMFQxdDdu?=
+ =?utf-8?B?c0xqbFZGUStIbEs2T0NjdU5OUlNzL0ZuTTdOa0lienF2aHdiUGU5anZaZ0I3?=
+ =?utf-8?B?SjFzWXRXdGxmZ0FHZkU1NFVrOGRYTi9tU21YOFA4TGowVHU4ZDhTdTNybWxh?=
+ =?utf-8?B?R0haQ0pMckJLWGxNUkgvaHVqQ2Jyc2RBblhEd3kvT01UeGxuSEFKaGFIeXcv?=
+ =?utf-8?B?bFVMdWNFY25HMzJ6aktzUVFySFVLb3EvMGJWR3FtTzBDd1V6cTRIckhJa1VV?=
+ =?utf-8?B?MGdOTnZwQ0ZvcU1WYkU5TDcrTFcyR2FQZkcycHBKUFVCUUYydnpYeExxcEFa?=
+ =?utf-8?B?U1l5QXRSWVQ1NFZPd09YUnR5WjNwMllzTEFEQWhoNFhVVzg2Qk4va2szRHg4?=
+ =?utf-8?B?c2R4RXBDcThoTHFaaDVNOU12ZmtzOHo3blNwQVVobEVib3B1bDB4eDljNmVM?=
+ =?utf-8?B?aUZ6R2JYaDZlMGJlUEVIU2ltdUg3SlV5SlJoem91dlR5cXhvaGpoS1JGaUoy?=
+ =?utf-8?B?VjFxcWg5R0ZPblNNQ04rZkM1RHVCdGQvN0ZOa1B2WWttRGtScFFsUm1FRSti?=
+ =?utf-8?B?MFUvc2w0LytFdWMzZGdYR294cEc3ZkdTRC95QTRSYXhnOUlYeWtTc2JNWDBi?=
+ =?utf-8?B?RHRJVUxieWQ3T1FLRlpDQmNNQ2xHWFVDOGthR0NRdm9LOENONkN6NnNpZ2hF?=
+ =?utf-8?B?UFBkWW5qdUErRWt2b0R1VUNZQWtZWXhQSnFPQ3k0UmpJSzVvOGVLdWIrY2Qy?=
+ =?utf-8?B?QzEwUWRxd25KVDVoNlJkWStaTTB1U0djZEk3a0dNUDZ5clJZSGthS3ZVS0VT?=
+ =?utf-8?B?eGdVNytTQWE1Z011dXllY2IxTjNpMFcrblUvNzU4M2hTUk5YWWZ5Y2RILzlV?=
+ =?utf-8?B?UEhGM3NZR1FTMC9tMWJPOUxaQi9tNE5VNVozS3htUi9aLzdlS2pSWFdITm83?=
+ =?utf-8?B?MWtwNTBXRUI0Zjh1VkduVlFMdnNncmpGbkc3RjRPWEQrK3B5Wk5RWUl1Qjc3?=
+ =?utf-8?Q?07zZvlDtCqGvE29K6kepyA1PYR0FyrhBhdPv8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmlHRXN4NmZqTFp5MzE5eG1oU1Ivd044U01WcklPVHVkdHloS3lGWUFGb2NH?=
+ =?utf-8?B?MkF3VWhKZlRWakN5Ym5odjVOWUc1NXNaVkZBKzVHM3B0U2dYdHNxRXljQmQv?=
+ =?utf-8?B?a29rQTRVbDlzUWJlblVTT1QwMVJQbGF4OXRBU29hdmNYZmJ0MnhRQm5FMUpx?=
+ =?utf-8?B?T1c0ZmZNdUZNYzlsMjlvaVhiVS9lL0pJSzVLbCtCNW1NaUxtYnZuUGpUV1p4?=
+ =?utf-8?B?SnlMbzFLNm5weVlFTGFYQUt3N3NCaExCeHlaN1Z4TEc2NVVSa3NpUVpEM096?=
+ =?utf-8?B?UUNTQlh5eGY1dFVONWxSNHFHWGhyN3pzUW5LdXU1Vk9aSUhqL09ETmpOTUxp?=
+ =?utf-8?B?bGFvRHV2bnBWU1BHK1JLVDEvNVhYUUpxT2g3dGlxS1FIQUJnZXdBaUVTaGdo?=
+ =?utf-8?B?eElQdlRDUEEzaXZTTnYwSVJJSk52WnppTnJSVXh4amhVOVJZVXlxUjVpSTk3?=
+ =?utf-8?B?eGE3cjZPTGo3by9YTTRFQ0trRUVMWWdVcy9weFdxTVV3VFZvb3FaK21BUGZU?=
+ =?utf-8?B?RitPT2FHQXB3cEVJSitxSHl4MjVJdjFlaXViU1l4cVR4cTlHV0txMTh6bXk3?=
+ =?utf-8?B?VDg5eEhxQlQ5ZTZPUXFzaG84WGZ4RW9XMWFucUpLRTloVW9XYmxnaTRWTUt2?=
+ =?utf-8?B?bm5hV2w4WGRuS2Jkc2lPQzl3M0NxRDRtcHVQbGE1ckhkTlUzb1dWVGgxK3hH?=
+ =?utf-8?B?c2lJbzB0RG5KYUV2VmRDd0dVMFhBNzZkRzk1R3JTeEh5dXF3bnpsbWlhQjFK?=
+ =?utf-8?B?MktoUzJDN0VMVVExejdNVUhtWmsyTThQY3BCL1pObDdoYXd1aUhKZnBsYkRC?=
+ =?utf-8?B?MEZJeGJTQ0xlcTVsNjlaQ0M1YnR3azNXYi9WeFBoUGJFSXA2cTB6Y3VjWTBz?=
+ =?utf-8?B?WWowbmp4MjFYUzVIam9zSE9kaTUrbGFFNmwxWGRWbXltZnAwaFJFbU1IMmV2?=
+ =?utf-8?B?YlRCSjR0U0YxejdRYTJVMENXMStFdW1OQjZUT0p5eUp5OE9JS2crZjgzNkUw?=
+ =?utf-8?B?V3phVnFkZjJTYXdtRnowTVltdjZxSWJjdWlreUNrdVNCMzIrOFJ5VlZRdDZN?=
+ =?utf-8?B?ODEyVTMydFRWTEE3S0JFUFdTY2JFb3ozaHp1Ull2bzRMNll3SnFhT283YnVN?=
+ =?utf-8?B?SVltRU5iOHpObFhvdi9WZGhrdm1tdUJ4ZHpUZTVNblVkT0plVkZRSk9xTDJl?=
+ =?utf-8?B?bU5tZlRkc2ZxZHkreE5ZUkRFbDF1RGY0S3dkQ3B1QU9Hc0tHOG8yK2pIbktx?=
+ =?utf-8?B?SnVOS3I3YVZUZC82Y3NUS0NCYVRxMm90Z0kvSTA2cm52K3ppUk4vMmpneUZP?=
+ =?utf-8?B?YVhmMmxtZkRZaVRMSFVMb0Y3NUZLVHdxREhPT2psc1RQVFI3SjRSTG1SVFFa?=
+ =?utf-8?B?U2JYTklZT0U1N2F5QVlab0Q2RzA2RVhjK1ZKUEhNclFFTTVLak5FeExTR0VC?=
+ =?utf-8?B?SjVxYmlybnJPUkNlSTdzeUMyU3BKSE8rZlR5UWROTWM3ekZudXBDUUcyVmU1?=
+ =?utf-8?B?bGlHZUNDMENveEF4dktab0Zqbzdod3B6WVR0WkxOSmlzb1BhU3JtMFFiRERG?=
+ =?utf-8?B?SnZRQ0JIQmFQY2c1dFgrMzZVVUg1RGNRc09VZmF3amhYVEIrMFgwK2VVaEVN?=
+ =?utf-8?B?VGJyd2syYlN2OUJtSzZuWjhPbDBLRFJnSWtnMlRHa0lYb3hlNnV0YmsxVGlO?=
+ =?utf-8?B?UW8yMDFwcHRZZVphVVRFbWlMWFlOaEVVMjV2TVlxaHhoTEdVMXVBNjEzUGgr?=
+ =?utf-8?B?Vm1nbGpQcUp2MnlvWVh3ZEZEMzBFOTZOUDlxSDVySTN6SFdmUVdnZEo2SUxO?=
+ =?utf-8?B?OTRzbmNrR2tYeTFGMU95T2hoRmFXbG5HcU82dDROVFBkTVVyV2tDTmZmelZ4?=
+ =?utf-8?B?cGVybkJsbFN4QTNvVHpuTlZ3NURhOVpyNUlPL2pHZjJvMVM4VGR2TytDTEJG?=
+ =?utf-8?B?TGtveXBpYkNkYThYcUs4Rzg5dTByaTBHeGhTOWVUQlhhTFVyS3BBeEVHY1pG?=
+ =?utf-8?B?RG9vMEhMZldqdjZnK0htOVQraEJqbVdaSDB5RWY0NVFqN1dsQ0h3bUx5K0ti?=
+ =?utf-8?B?SEVSbkhKN1FkUEQvUDFIbVd6Mm1ZUlZGMW52SlBuYUZNMnY3aHo3MHppN0Jq?=
+ =?utf-8?B?MGJISlZnME9LSmV2eHk2d3JRVUdqSUNpQ1JTa1dLVkRsUU5lVUxFOEp0N05w?=
+ =?utf-8?B?VFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: eecfa3ec-0a05-4748-8deb-08dd54996eb9
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6df6b9e-ca97-4da7-2fc2-08dd549486d4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2025 05:31:44.9812 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GJPx4aJB9qnplFyoX3DM6u/GCYM7YoPz3efavG5Cg+nc36AaDEOyQlVhMEYPGDS+k7jF9dU8cDH4Um+pBOoobQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7742
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_005_1698447057.1946106253"
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 06:06:52.2036 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1AxNGK2+alocztCxBrftYRmw+uUQqkeoJP50UqhV3SYtYIrniMsQcQonQAwg6gu/09UvS3kwii8g5MywRlec/ZdkGkk3ZEs5+4vEY5HS9Lc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7102
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -214,102 +196,334 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_005_1698447057.1946106253
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
 
-T24gTW9uLCAyMDI1LTAyLTI0IGF0IDEzOjEyICswODAwLCBKYXNvbi1KSCBMaW4gd3JvdGU6DQo+
-IFdoZW4gQ09ORklHX01US19DTURRIGlzIGVuYWJsZWQsIGlmIHRoZSBkaXNwbGF5IGlzIGNvbnRy
-b2xsZWQgYnkgdGhlIENQVQ0KPiB3aGlsZSBvdGhlciBoYXJkd2FyZSBpcyBjb250cm9sbGVkIGJ5
-IHRoZSBHQ0UsIHRoZSBkaXNwbGF5IHdpbGwgZW5jb3VudGVyDQo+IGEgbWJveCByZXF1ZXN0IGNo
-YW5uZWwgZmFpbHVyZS4NCj4gSG93ZXZlciwgaXQgd2lsbCBzdGlsbCBlbnRlciB0aGUgQ09ORklH
-X01US19DTURRIHN0YXRlbWVudCwgY2F1c2luZyB0aGUNCj4gY29uZmlnX3VwZGF0aW5nIGZsYWcg
-dG8gbmV2ZXIgYmUgc2V0IHRvIGZhbHNlLiBBcyBhIHJlc3VsdCwgbm8gcGFnZSBmbGlwDQo+IGV2
-ZW50IGlzIHNlbnQgYmFjayB0byB1c2VyIHNwYWNlLCBhbmQgdGhlIHNjcmVlbiBkb2VzIG5vdCB1
-cGRhdGUuDQoNClJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPg0KDQo+IA0K
-PiBGaXhlczogZGEwMzgwMWFkMDhmICgiZHJtL21lZGlhdGVrOiBNb3ZlIG10a19jcnRjX2Zpbmlz
-aF9wYWdlX2ZsaXAoKSB0byBkZHBfY21kcV9jYigpIikNCj4gU2lnbmVkLW9mZi1ieTogSmFzb24t
-SkggTGluIDxqYXNvbi1qaC5saW5AbWVkaWF0ZWsuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1
-L2RybS9tZWRpYXRlay9tdGtfY3J0Yy5jIHwgNSArKystLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDMg
-aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2NydGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfY3J0Yy5jDQo+IGluZGV4IDU2NzRmNTcwN2NjYS4uY2ZjNDg2NzI5NmI4IDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2NydGMuYw0KPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2NydGMuYw0KPiBAQCAtNjIwLDEzICs2MjAsMTQgQEAgc3Rh
-dGljIHZvaWQgbXRrX2NydGNfdXBkYXRlX2NvbmZpZyhzdHJ1Y3QgbXRrX2NydGMgKm10a19jcnRj
-LCBib29sIG5lZWRzX3ZibGFuaykNCj4gIA0KPiAgCQltYm94X3NlbmRfbWVzc2FnZShtdGtfY3J0
-Yy0+Y21kcV9jbGllbnQuY2hhbiwgY21kcV9oYW5kbGUpOw0KPiAgCQltYm94X2NsaWVudF90eGRv
-bmUobXRrX2NydGMtPmNtZHFfY2xpZW50LmNoYW4sIDApOw0KPiArCQlnb3RvIHVwZGF0ZV9jb25m
-aWdfb3V0Ow0KPiAgCX0NCj4gLSNlbHNlDQo+ICsjZW5kaWYNCj4gIAlzcGluX2xvY2tfaXJxc2F2
-ZSgmbXRrX2NydGMtPmNvbmZpZ19sb2NrLCBmbGFncyk7DQo+ICAJbXRrX2NydGMtPmNvbmZpZ191
-cGRhdGluZyA9IGZhbHNlOw0KPiAgCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJm10a19jcnRjLT5j
-b25maWdfbG9jaywgZmxhZ3MpOw0KPiAtI2VuZGlmDQo+ICANCj4gK3VwZGF0ZV9jb25maWdfb3V0
-Og0KPiAgCW11dGV4X3VubG9jaygmbXRrX2NydGMtPmh3X2xvY2spOw0KPiAgfQ0KPiAgDQoNCg==
+On 2/19/2025 5:23 PM, Nemesa Garg wrote:
+> The sharpness property requires the use of one of the scaler
+> so need to set the sharpness scaler coefficient values.
+> These values are based on experiments and vary for different
+> tap value/win size. These values are normalized by taking the
+> sum of all values and then dividing each value with a sum.
+>
+> v2: Fix ifndef header naming issue reported by kernel test robot
+> v3: Rename file name[Arun]
+>      Replace array size number with macro[Arun]
+> v4: Correct the register format[Jani]
+>      Add brief comment and expalin about file[Jani]
+>      Remove coefficient value from crtc_state[Jani]
+> v5: Fix build issue
+> v6: Add new function for writing coefficients[Ankit]
+> v7: Add cooments and add a scaler id check [Ankit]
+>
+> Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
+> Reviewed-by: Naga Venkata Srikanth V <nagavenkata.srikanth.v@intel.com>
+> ---
+>   drivers/gpu/drm/i915/Makefile                 |   1 +
+>   drivers/gpu/drm/i915/display/intel_casf.c     | 154 ++++++++++++++++++
+>   drivers/gpu/drm/i915/display/intel_casf.h     |  16 ++
+>   .../gpu/drm/i915/display/intel_casf_regs.h    |  19 +++
+>   drivers/gpu/drm/i915/display/intel_display.c  |   1 +
+>   .../drm/i915/display/intel_display_types.h    |  13 ++
+>   drivers/gpu/drm/xe/Makefile                   |   1 +
+>   7 files changed, 205 insertions(+)
+>   create mode 100644 drivers/gpu/drm/i915/display/intel_casf.c
+>   create mode 100644 drivers/gpu/drm/i915/display/intel_casf.h
+>   create mode 100644 drivers/gpu/drm/i915/display/intel_casf_regs.h
+>
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index ed05b131ed3a..d7550b26cdfb 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -230,6 +230,7 @@ i915-y += \
+>   	display/intel_bios.o \
+>   	display/intel_bo.o \
+>   	display/intel_bw.o \
+> +	display/intel_casf.o \
+>   	display/intel_cdclk.o \
+>   	display/intel_cmtg.o \
+>   	display/intel_color.o \
+> diff --git a/drivers/gpu/drm/i915/display/intel_casf.c b/drivers/gpu/drm/i915/display/intel_casf.c
+> new file mode 100644
+> index 000000000000..1526bebae1b6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/display/intel_casf.c
+> @@ -0,0 +1,154 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2025 Intel Corporation
+> + *
+> + */
+> +#include "i915_reg.h"
+> +#include "intel_casf.h"
+> +#include "intel_casf_regs.h"
+> +#include "intel_de.h"
+> +#include "intel_display_types.h"
+> +#include "skl_scaler.h"
+> +
+> +#define FILTER_COEFF_0_125 125
+> +#define FILTER_COEFF_0_25 250
+> +#define FILTER_COEFF_0_5 500
+> +#define FILTER_COEFF_1_0 1000
+> +#define FILTER_COEFF_0_0 0
+> +#define SET_POSITIVE_SIGN(x) ((x) & (~SIGN))
+> +
+> +/**
+> + * DOC: Content Adaptive Sharpness Filter (CASF)
+> + *
+> + * From LNL onwards the display engine based adaptive
+> + * sharpening filter is supported. This helps in
+> + * improving the image quality. The display hardware
+> + * uses one of the pipe scaler for implementing casf.
+> + * It works on a region of pixels depending on the
+> + * tap size. The coefficients are used to generate an
+> + * alpha value which is used to blend the sharpened image
+> + * to original image.
+> + */
+> +
+> +const u16 filtercoeff_1[] = {
+> +	FILTER_COEFF_0_0, FILTER_COEFF_0_0, FILTER_COEFF_0_5,
+> +	FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_0,
+> +	FILTER_COEFF_0_0,
+> +};
+> +
+> +const u16 filtercoeff_2[] = {
+> +	FILTER_COEFF_0_0, FILTER_COEFF_0_25, FILTER_COEFF_0_5,
+> +	FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_25,
+> +	FILTER_COEFF_0_0,
+> +};
+> +
+> +const u16 filtercoeff_3[] = {
+> +	FILTER_COEFF_0_125, FILTER_COEFF_0_25, FILTER_COEFF_0_5,
+> +	FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_25,
+> +	FILTER_COEFF_0_125,
+> +};
+> +
+> +static int casf_coeff_tap(int i)
+> +{
+> +	return i % SCALER_FILTER_NUM_TAPS;
+> +}
+> +
+> +static u16 casf_coeff(struct intel_crtc_state *crtc_state, int t)
+> +{
+> +	struct scaler_filter_coeff value;
+> +	u16 coeff;
+> +
+> +	value = crtc_state->hw.casf_params.coeff[t];
+> +	coeff = SET_POSITIVE_SIGN(0) | EXPONENT(value.exp) | MANTISSA(value.mantissa);
+> +
+> +	return coeff;
+> +}
+> +
+> +/*
+> + * 17 phase of 7 taps requires 119 coefficients in 60 dwords per set.
+> + * To enable casf:  program scaler coefficients with the coeffients
+> + * that are calculated and stored in hw.casf_params.coeff as per
+> + * SCALER_COEFFICIENT_FORMAT
+> + *
 
---__=_Part_Boundary_005_1698447057.1946106253
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Remove extra line here.
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO01vbiwmIzMyOzIwMjUtMDItMjQmIzMyO2F0
-JiMzMjsxMzoxMiYjMzI7KzA4MDAsJiMzMjtKYXNvbi1KSCYjMzI7TGluJiMzMjt3cm90ZToNCiZn
-dDsmIzMyO1doZW4mIzMyO0NPTkZJR19NVEtfQ01EUSYjMzI7aXMmIzMyO2VuYWJsZWQsJiMzMjtp
-ZiYjMzI7dGhlJiMzMjtkaXNwbGF5JiMzMjtpcyYjMzI7Y29udHJvbGxlZCYjMzI7YnkmIzMyO3Ro
-ZSYjMzI7Q1BVDQomZ3Q7JiMzMjt3aGlsZSYjMzI7b3RoZXImIzMyO2hhcmR3YXJlJiMzMjtpcyYj
-MzI7Y29udHJvbGxlZCYjMzI7YnkmIzMyO3RoZSYjMzI7R0NFLCYjMzI7dGhlJiMzMjtkaXNwbGF5
-JiMzMjt3aWxsJiMzMjtlbmNvdW50ZXINCiZndDsmIzMyO2EmIzMyO21ib3gmIzMyO3JlcXVlc3Qm
-IzMyO2NoYW5uZWwmIzMyO2ZhaWx1cmUuDQomZ3Q7JiMzMjtIb3dldmVyLCYjMzI7aXQmIzMyO3dp
-bGwmIzMyO3N0aWxsJiMzMjtlbnRlciYjMzI7dGhlJiMzMjtDT05GSUdfTVRLX0NNRFEmIzMyO3N0
-YXRlbWVudCwmIzMyO2NhdXNpbmcmIzMyO3RoZQ0KJmd0OyYjMzI7Y29uZmlnX3VwZGF0aW5nJiMz
-MjtmbGFnJiMzMjt0byYjMzI7bmV2ZXImIzMyO2JlJiMzMjtzZXQmIzMyO3RvJiMzMjtmYWxzZS4m
-IzMyO0FzJiMzMjthJiMzMjtyZXN1bHQsJiMzMjtubyYjMzI7cGFnZSYjMzI7ZmxpcA0KJmd0OyYj
-MzI7ZXZlbnQmIzMyO2lzJiMzMjtzZW50JiMzMjtiYWNrJiMzMjt0byYjMzI7dXNlciYjMzI7c3Bh
-Y2UsJiMzMjthbmQmIzMyO3RoZSYjMzI7c2NyZWVuJiMzMjtkb2VzJiMzMjtub3QmIzMyO3VwZGF0
-ZS4NCg0KUmV2aWV3ZWQtYnk6JiMzMjtDSyYjMzI7SHUmIzMyOyZsdDtjay5odUBtZWRpYXRlay5j
-b20mZ3Q7DQoNCiZndDsmIzMyOw0KJmd0OyYjMzI7Rml4ZXM6JiMzMjtkYTAzODAxYWQwOGYmIzMy
-OygmcXVvdDtkcm0vbWVkaWF0ZWs6JiMzMjtNb3ZlJiMzMjttdGtfY3J0Y19maW5pc2hfcGFnZV9m
-bGlwKCkmIzMyO3RvJiMzMjtkZHBfY21kcV9jYigpJnF1b3Q7KQ0KJmd0OyYjMzI7U2lnbmVkLW9m
-Zi1ieTomIzMyO0phc29uLUpIJiMzMjtMaW4mIzMyOyZsdDtqYXNvbi1qaC5saW5AbWVkaWF0ZWsu
-Y29tJmd0Ow0KJmd0OyYjMzI7LS0tDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfY3J0Yy5jJiMzMjt8JiMzMjs1JiMzMjsrKystLQ0KJmd0OyYjMzI7JiMzMjsxJiMz
-MjtmaWxlJiMzMjtjaGFuZ2VkLCYjMzI7MyYjMzI7aW5zZXJ0aW9ucygrKSwmIzMyOzImIzMyO2Rl
-bGV0aW9ucygtKQ0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9kcml2
-ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2NydGMuYyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2NydGMuYw0KJmd0OyYjMzI7aW5kZXgmIzMyOzU2NzRmNTcwN2NjYS4uY2ZjNDg2
-NzI5NmI4JiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2NydGMuYw0KJmd0OyYjMzI7KysrJiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfY3J0Yy5jDQomZ3Q7JiMzMjtAQCYjMzI7LTYyMCwxMyYjMzI7KzYyMCwxNCYjMzI7
-QEAmIzMyO3N0YXRpYyYjMzI7dm9pZCYjMzI7bXRrX2NydGNfdXBkYXRlX2NvbmZpZyhzdHJ1Y3Qm
-IzMyO210a19jcnRjJiMzMjsqbXRrX2NydGMsJiMzMjtib29sJiMzMjtuZWVkc192YmxhbmspDQom
-Z3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7JiMzMjttYm94X3NlbmRfbWVzc2FnZShtdGtfY3J0Yy0m
-Z3Q7Y21kcV9jbGllbnQuY2hhbiwmIzMyO2NtZHFfaGFuZGxlKTsNCiZndDsmIzMyOyYjMzI7bWJv
-eF9jbGllbnRfdHhkb25lKG10a19jcnRjLSZndDtjbWRxX2NsaWVudC5jaGFuLCYjMzI7MCk7DQom
-Z3Q7JiMzMjsrZ290byYjMzI7dXBkYXRlX2NvbmZpZ19vdXQ7DQomZ3Q7JiMzMjsmIzMyO30NCiZn
-dDsmIzMyOy0jZWxzZQ0KJmd0OyYjMzI7KyNlbmRpZg0KJmd0OyYjMzI7JiMzMjtzcGluX2xvY2tf
-aXJxc2F2ZSgmYW1wO210a19jcnRjLSZndDtjb25maWdfbG9jaywmIzMyO2ZsYWdzKTsNCiZndDsm
-IzMyOyYjMzI7bXRrX2NydGMtJmd0O2NvbmZpZ191cGRhdGluZyYjMzI7PSYjMzI7ZmFsc2U7DQom
-Z3Q7JiMzMjsmIzMyO3NwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmFtcDttdGtfY3J0Yy0mZ3Q7Y29u
-ZmlnX2xvY2ssJiMzMjtmbGFncyk7DQomZ3Q7JiMzMjstI2VuZGlmDQomZ3Q7JiMzMjsmIzMyOw0K
-Jmd0OyYjMzI7K3VwZGF0ZV9jb25maWdfb3V0Og0KJmd0OyYjMzI7JiMzMjttdXRleF91bmxvY2so
-JmFtcDttdGtfY3J0Yy0mZ3Q7aHdfbG9jayk7DQomZ3Q7JiMzMjsmIzMyO30NCiZndDsmIzMyOyYj
-MzI7DQoNCg0KPC9wcmU+DQo8L3A+PC9ib2R5PjwvaHRtbD48IS0tdHlwZTp0ZXh0LS0+PCEtLXst
-LT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioq
-KioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFp
-bCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRp
-YWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRp
-c2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNv
-bnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNz
-ZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5n
-IG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5k
-ZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3
-ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWws
-IG9yIGJlbGlldmUgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9y
-LCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8g
-dGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwg
-KGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QN
-CmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24u
-IFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
---__=_Part_Boundary_005_1698447057.1946106253--
+> + */
+> +static void intel_casf_write_coeff(struct intel_crtc_state *crtc_state)
+> +{
+> +	struct intel_display *display = to_intel_display(crtc_state);
+> +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+> +	int id = crtc_state->scaler_state.scaler_id;
+> +	int i;
+> +
+> +	if (id == 0) {
+> +		drm_WARN(display->drm, 0, "Second scaler not enabled\n");
+> +		return;
+> +	}
 
+Perhaps better thing to check here is if (id != 1)
+
+
+> +
+> +	intel_de_write_fw(display, GLK_PS_COEF_INDEX_SET(crtc->pipe, id, 0),
+> +			  PS_COEF_INDEX_AUTO_INC);
+> +
+> +	intel_de_write_fw(display, GLK_PS_COEF_INDEX_SET(crtc->pipe, id, 1),
+> +			  PS_COEF_INDEX_AUTO_INC);
+> +
+> +	for (i = 0; i < 17 * 7; i += 2) {
+
+Use the macro here.
+
+
+> +		u32 tmp;
+> +		int t;
+> +
+> +		t = casf_coeff_tap(i);
+> +		tmp = casf_coeff(crtc_state, t);
+> +
+> +		t = casf_coeff_tap(i + 1);
+> +		tmp |= casf_coeff(crtc_state, t) << 16;
+> +
+> +		intel_de_write_fw(display, GLK_PS_COEF_DATA_SET(crtc->pipe, id, 0),
+> +				  tmp);
+> +		intel_de_write_fw(display, GLK_PS_COEF_DATA_SET(crtc->pipe, id, 1),
+> +				  tmp);
+> +	}
+> +}
+> +
+> +void intel_casf_enable(struct intel_crtc_state *crtc_state)
+> +{
+> +	intel_casf_write_coeff(crtc_state);
+> +}
+> +
+> +static void convert_sharpness_coef_binary(struct scaler_filter_coeff *coeff,
+> +					  u16 coefficient)
+> +{
+> +	if (coefficient < 25) {
+> +		coeff->mantissa = (coefficient * 2048) / 100;
+> +		coeff->exp = 3;
+> +	} else if (coefficient < 50) {
+> +		coeff->mantissa = (coefficient * 1024) / 100;
+> +		coeff->exp = 2;
+> +	} else if (coefficient < 100) {
+> +		coeff->mantissa = (coefficient * 512) / 100;
+> +		coeff->exp = 1;
+> +	} else {
+> +		coeff->mantissa = (coefficient * 256) / 100;
+> +		coeff->exp = 0;
+> +	}
+> +}
+> +
+> +void intel_casf_scaler_compute_config(struct intel_crtc_state *crtc_state)
+> +{
+> +	const u16 *filtercoeff;
+> +	u16 filter_coeff[SCALER_FILTER_NUM_TAPS];
+> +	u16 sumcoeff = 0;
+> +	u8 i;
+> +
+> +	if (crtc_state->hw.casf_params.win_size == 0)
+> +		filtercoeff = filtercoeff_1;
+> +	else if (crtc_state->hw.casf_params.win_size == 1)
+> +		filtercoeff = filtercoeff_2;
+> +	else
+> +		filtercoeff = filtercoeff_3;
+> +
+> +	for (i = 0; i < SCALER_FILTER_NUM_TAPS; i++)
+> +		sumcoeff += *(filtercoeff + i);
+> +
+> +	for (i = 0; i < SCALER_FILTER_NUM_TAPS; i++) {
+> +		filter_coeff[i] = (*(filtercoeff + i) * 100 / sumcoeff);
+> +		convert_sharpness_coef_binary(&crtc_state->hw.casf_params.coeff[i],
+> +					      filter_coeff[i]);
+> +	}
+> +}
+> diff --git a/drivers/gpu/drm/i915/display/intel_casf.h b/drivers/gpu/drm/i915/display/intel_casf.h
+> new file mode 100644
+> index 000000000000..840208b277f8
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/display/intel_casf.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2025 Intel Corporation
+> + */
+> +
+> +#ifndef __INTEL_CASF_H__
+> +#define __INTEL_CASF_H__
+> +
+> +#include <linux/types.h>
+> +
+> +struct intel_crtc_state;
+> +
+> +void intel_casf_enable(struct intel_crtc_state *crtc_state);
+> +void intel_casf_scaler_compute_config(struct intel_crtc_state *crtc_state);
+> +
+> +#endif /* __INTEL_CASF_H__ */
+> diff --git a/drivers/gpu/drm/i915/display/intel_casf_regs.h b/drivers/gpu/drm/i915/display/intel_casf_regs.h
+> new file mode 100644
+> index 000000000000..0b3fcdb22c0c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/display/intel_casf_regs.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2024 Intel Corporation
+
+2025
+
+
+> + */
+> +
+> +#ifndef __INTEL_CASF_REGS_H__
+> +#define __INTEL_CASF_REGS_H__
+> +
+> +#include "intel_display_reg_defs.h"
+> +
+> +/* Scaler Coefficient structure */
+> +#define SIGN				REG_BIT(15)
+> +#define EXPONENT_MASK			REG_GENMASK(13, 12)
+> +#define EXPONENT(x)			REG_FIELD_PREP(EXPONENT_MASK, (x))
+> +#define MANTISSA_MASK			REG_GENMASK(11, 3)
+> +#define MANTISSA(x)			REG_FIELD_PREP(MANTISSA_MASK, (x))
+> +
+> +#endif /* __INTEL_CASF_REGS__ */
+> +
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 065fdf6dbb88..0f3279cfa0f1 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -60,6 +60,7 @@
+>   #include "intel_audio.h"
+>   #include "intel_bo.h"
+>   #include "intel_bw.h"
+> +#include "intel_casf.h"
+
+This does not belong to this patch.
+
+
+Regards,
+
+Ankit
+
+>   #include "intel_cdclk.h"
+>   #include "intel_clock_gating.h"
+>   #include "intel_color.h"
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index a4e3f33f75eb..bb902cb7561f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -926,6 +926,18 @@ struct intel_csc_matrix {
+>   	u16 postoff[3];
+>   };
+>   
+> +struct scaler_filter_coeff {
+> +	u16 sign;
+> +	u16 exp;
+> +	u16 mantissa;
+> +};
+> +
+> +struct intel_casf {
+> +#define SCALER_FILTER_NUM_TAPS 7
+> +	struct scaler_filter_coeff coeff[SCALER_FILTER_NUM_TAPS];
+> +	u8 win_size;
+> +};
+> +
+>   void intel_io_mmio_fw_write(void *ctx, i915_reg_t reg, u32 val);
+>   
+>   typedef void (*intel_io_reg_write)(void *ctx, i915_reg_t reg, u32 val);
+> @@ -966,6 +978,7 @@ struct intel_crtc_state {
+>   		struct drm_property_blob *degamma_lut, *gamma_lut, *ctm;
+>   		struct drm_display_mode mode, pipe_mode, adjusted_mode;
+>   		enum drm_scaling_filter scaling_filter;
+> +		struct intel_casf casf_params;
+>   	} hw;
+>   
+>   	/* actual state of LUTs */
+> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+> index 5ce65ccb3c08..f2418585a498 100644
+> --- a/drivers/gpu/drm/xe/Makefile
+> +++ b/drivers/gpu/drm/xe/Makefile
+> @@ -205,6 +205,7 @@ xe-$(CONFIG_DRM_XE_DISPLAY) += \
+>   	i915-display/intel_backlight.o \
+>   	i915-display/intel_bios.o \
+>   	i915-display/intel_bw.o \
+> +	i915-display/intel_casf.o \
+>   	i915-display/intel_cdclk.o \
+>   	i915-display/intel_cmtg.o \
+>   	i915-display/intel_color.o \
