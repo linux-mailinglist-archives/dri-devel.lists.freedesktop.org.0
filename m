@@ -2,46 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9782BA42142
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31114A42256
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 15:05:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A899610E411;
-	Mon, 24 Feb 2025 13:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBBCF10E409;
+	Mon, 24 Feb 2025 14:05:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="McTsKz6d";
+	dkim=pass (2048-bit key; secure) header.d=ozlabs.org header.i=@ozlabs.org header.b="ims34gfQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id A095010E07A
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 07:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=JBeRk
- 4co3+uSwf3WyPiW0R5ciRcTZIeouYHkX7tcL/M=; b=McTsKz6dcaZmybhL4zeys
- KZLrr5bcTkC1DHyjwS0DFwmle2Q6erq8+CcKTpCFJDOeUQjZEMmN6G2Fse1KzGDX
- Y9xVuSo/9cSUqMs5zZZFe47Mxel2qEqR0u8nJju4NpRoyYS12n9HLimCkWfvLI/A
- h3ZsPElFwhTMpYQBcTAslk=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
- by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id
- _____wCXu_oSI7xnHWzkNg--.62438S4; 
- Mon, 24 Feb 2025 15:43:16 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Haoxiang Li <haoxiang_li2024@163.com>, stable@vger.kernel.org
-Subject: [PATCH] agp: Fix a potential memory leak bug in agp_amdk7_probe()
-Date: Mon, 24 Feb 2025 15:43:13 +0800
-Message-Id: <20250224074313.2958696-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82D0E89A4E
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 07:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
+ s=201707; t=1740383950;
+ bh=KH7gHdSS1itQHQoP3z+uj401oB/rX1ncYfhBdSQWuUg=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=ims34gfQA1vb1TN04LB3UWi8oHvR4gxRnPiIctjK103CyZjimW58U3jEvwGUiodUv
+ Za6iGn3q5AdLIxYyGTz781CdTkRRuzvuzvB+jqoRCFNgqP3roPHIeinGtWFwJEKkks
+ APqv1lGjpK23uVFnzo7nVVS6b3xXCg06P8jTIx1RlPQEEsIl6RAASM53YXWxfxgCPT
+ YuWYvczKQgqWnAIi87XjLoll+9D2dsL+De6hgIcZaT1OeN4O1e1mvYID5Q0/x192AI
+ cIKrTswlatGOS2XEjLU/PxGrM3nDGtjSOtqs2L52iQ/z9EMvUaOHQjKU3ndigQC8xz
+ 42ZoJR/u2NoBg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Z1Y5l5GVTz4wby;
+ Mon, 24 Feb 2025 18:58:51 +1100 (AEDT)
+Message-ID: <1cebfebb9c205a1ebc5722ca7e3b87339ceb3c79.camel@ozlabs.org>
+Subject: Re: [PATCH 00/17] Introduce and use generic parity32/64 helper
+From: Jeremy Kerr <jk@ozlabs.org>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com,  bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, joel@jms.id.au,  eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,  rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com,  mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl,  miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com,  louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net,  edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com,  arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net,  gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, yury.norov@gmail.com,  akpm@linux-foundation.org
+Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com,  kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org,  dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org,  linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org,  oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, 
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Date: Mon, 24 Feb 2025 15:58:49 +0800
+In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCXu_oSI7xnHWzkNg--.62438S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7GF4DCF47tFyktw17JF17trb_yoWDXFb_G3
- yUAr9293s5AFW8ur1akw4F9rWF9a1rXryku3ZFgwnxAFy3Zr4xXanrWFs5WF17ursrCFy7
- t34DXr4Uuw1IyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRXyCLJUUUUU==
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbBkA39bme77loMFgABs9
+X-Mailman-Approved-At: Mon, 24 Feb 2025 14:05:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,30 +80,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable "bridge" is allocated by agp_alloc_bridge() and
-have to be released by agp_put_bridge() if something goes
-wrong. In this patch, add the missing call of agp_put_bridge()
-in agp_amdk7_probe() to prevent potential memory leak bug.
+Hi Kuan-Wei,
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
----
- drivers/char/agp/amd-k7-agp.c | 1 +
- 1 file changed, 1 insertion(+)
+> Several parts of the kernel contain redundant implementations of parity
+> calculations for 32-bit and 64-bit values. Introduces generic
+> parity32() and parity64() helpers in bitops.h, providing a standardized
+> and optimized implementation.=C2=A0=20
 
-diff --git a/drivers/char/agp/amd-k7-agp.c b/drivers/char/agp/amd-k7-agp.c
-index 795c8c9ff680..40e1fc462dca 100644
---- a/drivers/char/agp/amd-k7-agp.c
-+++ b/drivers/char/agp/amd-k7-agp.c
-@@ -441,6 +441,7 @@ static int agp_amdk7_probe(struct pci_dev *pdev,
- 			gfxcard = pci_get_class(PCI_CLASS_DISPLAY_VGA<<8, gfxcard);
- 			if (!gfxcard) {
- 				dev_info(&pdev->dev, "no AGP VGA controller\n");
-+				agp_put_bridge(bridge);
- 				return -ENODEV;
- 			}
- 			cap_ptr = pci_find_capability(gfxcard, PCI_CAP_ID_AGP);
--- 
-2.25.1
+More so than __builtin_parity() ?
 
+I'm all for reducing the duplication, but the compiler may well have a
+better parity approach than the xor-folding implementation here. Looks
+like we can get this to two instructions on powerpc64, for example.
+
+Cheers,
+
+
+Jeremy
