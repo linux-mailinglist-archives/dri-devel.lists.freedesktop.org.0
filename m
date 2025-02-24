@@ -2,100 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2751FA42636
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 16:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6ACBA4263E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 16:29:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E2710E3C1;
-	Mon, 24 Feb 2025 15:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D8F10E3F5;
+	Mon, 24 Feb 2025 15:29:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P5wiWvuh";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="R14mv4fm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41FCB10E3C1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 15:27:16 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-220c665ef4cso78434635ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 07:27:16 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30C510E3EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 15:29:04 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4398e839cd4so32481645e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 07:29:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740410836; x=1741015636; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NVMni6CCCY2us6Xo8mKZ2xt3KdSK/Spp1dIxAZpVn4s=;
- b=P5wiWvuhCabN2aH6oQG/OPTnWE38x/YTzwRsaTY128TmNnV+sbVeufU8OKtUtU/kMA
- aE3VXZALJbdttAjbL6Nu0Lalie2EZdmfXZiPTydCNUcm0o+W8KfHpaB+vAIVmw6qK5O8
- +zdTxcLAnYdy/JfJV7ueHLLtFAw8jvKjzNSlgN+GO4mwdr8Wn/JlUq/G0vFAMU0F9P4K
- DJ9Hq3OZJGOHeitu7kS4EjXz/SO9BmKK+43FgLf0Dnnk4WeaW73gDTNxiNbgRd874LiM
- I5pY9Kx5PsDPSpE47F5KvlyCvmnAJD5Hk3DFMzSLVVNQC4H89lRq4wqaJAmD7nrv0tCD
- MO2Q==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1740410943; x=1741015743;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2gffEozykQ8vm3vt/eTUO/9qSmO4rptuqRph1HBGJlk=;
+ b=R14mv4fmnVDith1vcOHm/GvN6VyCmmgjt3zk4by1zRGm+H3nlQbMcMYwtbakHH0U9u
+ rOLOHfIXGS9mfvIwiWw94hj5xqhfmokLW9GhYu/xYy0WnIcIE85eS/Od1ViIvnJn/33e
+ +CVZaQIHrqfjjmMttmLYbKo7+ufH8r4C+WhZvv8rEE3iChQWMc2SajwXmXcmnYp9B+q7
+ psGw4t+WuBOkx28RPrG9nCRxP9LFDqavh1HD+aPLvgfxHmixSClxiNHp75IgDtY58obQ
+ dPsRf+2qHQeGQ4fvlulFAB6eHPkazn5bJ0YCNNOFNMLkY6Uw0OgoOc6HtMBaIrVKgGTy
+ 1Euw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740410836; x=1741015636;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NVMni6CCCY2us6Xo8mKZ2xt3KdSK/Spp1dIxAZpVn4s=;
- b=awRRvXchJ5fd778BJ7FwGsaANTbUO1nHHEmGJUo4tBE3gLQfSD4mbom/p65Ad49jR+
- jlKcByu/Kydx1upVm2Q0FepD32fO3KebjB/V/+gZcRBe+7gp7Suh0wdb49ZkIPo2oSLK
- h0CZewh9qMcMjbml0ctnFR3sKTl7xwmXfL46AagLra6VgT9D5uOeKKFmopDbcbNhGNvD
- jVE7ICN0SRzHIjxA0YcCs9Trso7Ub3sWMv1c2FUN4y1xgZJ+CEbajEa2IQNgsULUFrYQ
- M/ocl/GdwR39MKDOzRQ5QkTQ7ouNhsbHfNDC5Tdj+OmJrEr7ZF1H9z7aUCPdgsw70zt9
- c5GA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXoLBxOlQs1ev0jMdQmyJ3s7C3hZMw12nsgWiYgHPRH7UZ1bJb+1xBimCDjk5ckZSy0k/2ksWFEBVE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywv1LyHlAmhZ4j0FBc2p1T6Rzm4S3MnrvYN98ft1uHIXhXLvs/t
- sGJ4Ul7K2d8wRdY717A5t82OT6/TQk7onfYC805BoNH7Q+nejdry
-X-Gm-Gg: ASbGncsHQyufZ7yNhbL/0PAHPm3Jb3N4nSAO2Dfbw2J0M9By7BQW5ijbBq2kpU8/JXR
- QWBsD4Jxn3NrpgHf4dMIVRFOrc6Y0ZxRan+AHzffBr+PR+6ca0p6Pv8bHOdU63sgmrevJhmMN3p
- fv2pmVenJhN7lFenh2WCxXtpIGohzVKTtzn9rEP56hfO+cR/GWSooSlj3RZPpQt2hEW5sx2NbxU
- yTIJMaCUEtBknBEVRwpX8a8ylpdbO2QbsOyQpbWPvJuURD3uy8CwueNb6CDFwOoj+J7SvFWv9ab
- ZRlAG9HirAYHDcKIERdGP3pDcefB
-X-Google-Smtp-Source: AGHT+IFl+fmLe2Snker6fx4GB6SiAhwknYLzw9iuDcRtyo7AdhlkRr95Yy6wYLAjG0rHC6oLfbqCGA==
-X-Received: by 2002:a05:6a00:cce:b0:732:6214:35f5 with SMTP id
- d2e1a72fcca58-73426c8d21fmr17154986b3a.1.1740410835401; 
- Mon, 24 Feb 2025 07:27:15 -0800 (PST)
-Received: from eleanor-wkdl ([140.116.96.203])
+ d=1e100.net; s=20230601; t=1740410943; x=1741015743;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2gffEozykQ8vm3vt/eTUO/9qSmO4rptuqRph1HBGJlk=;
+ b=bDpdjDGn/XH4voRVXOhkw0LrQBpAU8r/n463mntsGflBfMgCQAKc2FNBjnvsUcoloi
+ g+RY8IgG8N3p6Y2N6PBKwSHhAISEATItGpdLORFlJqK5/oiBbnlvmEUnipnaplGf4ogl
+ hb1w2fKJgIt+4CCDSGG+37oAvcdf8AOBxViV5lSnCpxSNnW+cCqBGE2yDdv544v1dAKs
+ 6/rtV8tJLYp4ze1SkBn64IEV9lXSIj54MSRUCzoNjIfFL0hwleIbaLXNY5Az1n+KZAvf
+ /rlUDAQhB4OPlH1n1nv/TiJU8X5QASrPAwRgOuCNbniWzxXM+OcIuEq3+6azUMbI91gI
+ ceWw==
+X-Gm-Message-State: AOJu0YxmU0ZsxJX/5Z/rlo3d6nnQisZcIK/TZAebABLF5xgY1sEr0RW+
+ YpE9qZjyUns79JwJ9izm+/FhGmqsrVHHdycgujm/UdGfmtCZUPForx/tzW8y5Fk=
+X-Gm-Gg: ASbGncsJh9szCrnJtghJpKEd9t3CFWB5xhQI2G9uka0FMi1dWU9I2aGnj9E9oSw4J6F
+ HCpgXE4klnhBjBt8A4aDe1d/2Yz08tRbvKVX3QRfjznWKv0Bw2RZObGrACe8Skx+bQ6h8zjivEh
+ G4+OZ09ZbYFsaMkley69b/FQy9hk7ytvUiTviU/G9/tyXnGkUW8c632rfWDlHP4zEGEA8JTHFu1
+ ISEA5xhbgY58e3kR/qt6m88BpMcleh/EcpwM346nDBNu1kEb+8lOiLNAvPQdkaT+3ICyjIo5aqi
+ WD/tiGAggBgwssJEwJoQmrY4IxzWtZQj7SnmIRlGDQ==
+X-Google-Smtp-Source: AGHT+IFPzGRf53fjeBF7TLlTs3paKCZFdwVLTTSrhJ3Lux1wsfHkxxU1KVSOPL/QSnZGh397sTfMFA==
+X-Received: by 2002:a5d:64e6:0:b0:38d:b028:d906 with SMTP id
+ ffacd0b85a97d-38f6f51535amr12004060f8f.21.1740410943020; 
+ Mon, 24 Feb 2025 07:29:03 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7346d9b1af1sm1359758b3a.71.2025.02.24.07.27.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2025 07:27:14 -0800 (PST)
-Date: Mon, 24 Feb 2025 23:27:01 +0800
-From: Yu-Chun Lin <eleanor15x@gmail.com>
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org,
- awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, yury.norov@gmail.com,
- akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw
-Subject: Re: [PATCH 00/17] Introduce and use generic parity32/64 helper
-Message-ID: <Z7yPxdiLLXlsWSQN@eleanor-wkdl>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <602e03fd-ce4b-feef-5053-e95834ab35d7@gmail.com>
+ ffacd0b85a97d-38f2591513bsm32146380f8f.55.2025.02.24.07.29.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Feb 2025 07:29:02 -0800 (PST)
+Message-ID: <03c8c2a3-5061-450b-a6fc-2a708a2dc4b5@ursulin.net>
+Date: Mon, 24 Feb 2025 15:29:01 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <602e03fd-ce4b-feef-5053-e95834ab35d7@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] drm/sched: stop passing non struct drm_device to
+ drm_err() and friends
+To: Jani Nikula <jani.nikula@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <cover.1737644530.git.jani.nikula@intel.com>
+ <fe441dd1469d2b03e6b2ff247078bdde2011c6e3.1737644530.git.jani.nikula@intel.com>
+ <Z5KeZnJ4HOxs1wuk@phenom.ffwll.local> <87msfgbfjz.fsf@intel.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <87msfgbfjz.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,37 +94,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 23, 2025 at 09:25:42PM +0100, Uros Bizjak wrote:
-> 
-> Please note that GCC (and clang) provide __builtin_parity{,l,ll}() family of
-> builtin functions. Recently, I have tried to use this builtin in a couple of
-> places [1], [2], but I had to retract the patches, because __builtin
-> functions aren't strictly required to be inlined and can generate a library
-> call [3].
-> 
-> As explained in [2], the compilers are able to emit optimized
-> target-dependent code (also automatically using popcnt insn when avaialble),
-> so ideally the generic parity64() and parity32() would be implemented using
-> __builtin_parity(), where the generic library would provide a fallback
-> __paritydi2() and __paritysi2() functions, otherwise provided by the
-> compiler support library.
-> 
-> For x86, we would like to exercise the hardware parity calculation or
-> optimized code sequences involving HW parity calculation, as shown in [1]
-> and [2].
-> 
-> [1] https://lore.kernel.org/lkml/20250129205746.10963-1-ubizjak@gmail.com/
-> 
-> [2] https://lore.kernel.org/lkml/20250129154920.6773-2-ubizjak@gmail.com/
-> 
-> [3] https://lore.kernel.org/linux-mm/CAKbZUD0N7bkuw_Le3Pr9o1V2BjjcY_YiLm8a8DPceubTdZ00GQ@mail.gmail.com/
 
-Hi Uros,
-Thanks for your information.
+On 24/01/2025 11:46, Jani Nikula wrote:
+> On Thu, 23 Jan 2025, Simona Vetter <simona.vetter@ffwll.ch> wrote:
+>> On Thu, Jan 23, 2025 at 05:09:10PM +0200, Jani Nikula wrote:
+>>> The expectation is that the struct drm_device based logging helpers get
+>>> passed an actual struct drm_device pointer rather than some random
+>>> struct pointer where you can dereference the ->dev member.
+>>>
+>>> Convert drm_err(sched, ...) to dev_err(sched->dev, ...) and
+>>> similar. This matches current usage, as struct drm_device is not
+>>> available, but drops "[drm]" or "[drm] *ERROR*" prefix from logging.
+>>>
+>>> Unfortunately, there's no dev_WARN_ON(), so the conversion is not
+>>> exactly the same.
+>>>
+>>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>
+>> For the two previous patches just dev_ makes sense since they're just
+>> platform drivers, but for drm/sched I wonder whether it wouldn't be better
+>> to switch from struct device * to struct drm_device * instead. I guess
+>> might be best to leave that decision to scheduler folks.
+> 
+> I had a very brief look, and it seemed like struct drm_device isn't
+> passed around in sched. If use of struct drm_device is preferred, I'm
+> not the best person to figure out how to do that. But the abuse of the
+> drm_err() and friends macros needs to stop.
 
-We originally planned to implement hardware optimizations after this
-patch series. However, for V2, We will incorporate __builtin_parity(),
-while keeping our current implementation as the fallback function.
+FWIW I agree it should be the DRM device and I even wanted to tidy this 
+some time ago but something distracted me. Worst thing here is that 
+sched->dev was apparently added exactly to enable abuse of the logging 
+macros. See 8ab62eda177b ("drm/sched: Add device pointer to 
+drm_gpu_scheduler"). Logging is the only use for sched->dev at the moment.
 
-Best regards,
-Yu-Chun Lin
+But I think it is fine to merge your patch until a more comprehensive 
+cleanup happens. Only drm_sched_available_credits loses the device 
+information and that one should be unreachable anyway.
+
+Regards,
+
+Tvrtko
+
+>> Anyway on the series and with that caveat:
+>>
+>> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> 
+> Thanks,
+> Jani.
+> 
+>>
+>>
+>>>
+>>> ---
+>>>
+>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>> Cc: Philipp Stanner <phasta@kernel.org>
+>>> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> ---
+>>>   drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
+>>>   drivers/gpu/drm/scheduler/sched_main.c   | 20 +++++++++++---------
+>>>   2 files changed, 12 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index 69bcf0e99d57..e29af71d4b5c 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -92,7 +92,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>>   		 * the lowest priority available.
+>>>   		 */
+>>>   		if (entity->priority >= sched_list[0]->num_rqs) {
+>>> -			drm_err(sched_list[0], "entity with out-of-bounds priority:%u num_rqs:%u\n",
+>>> +			dev_err(sched_list[0]->dev, "entity with out-of-bounds priority:%u num_rqs:%u\n",
+>>>   				entity->priority, sched_list[0]->num_rqs);
+>>>   			entity->priority = max_t(s32, (s32) sched_list[0]->num_rqs - 1,
+>>>   						 (s32) DRM_SCHED_PRIORITY_KERNEL);
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index a48be16ab84f..d1c1f22fd1db 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -103,9 +103,9 @@ static u32 drm_sched_available_credits(struct drm_gpu_scheduler *sched)
+>>>   {
+>>>   	u32 credits;
+>>>   
+>>> -	drm_WARN_ON(sched, check_sub_overflow(sched->credit_limit,
+>>> -					      atomic_read(&sched->credit_count),
+>>> -					      &credits));
+>>> +	WARN_ON(check_sub_overflow(sched->credit_limit,
+>>> +				   atomic_read(&sched->credit_count),
+>>> +				   &credits));
+>>>   
+>>>   	return credits;
+>>>   }
+>>> @@ -130,9 +130,11 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
+>>>   	/* If a job exceeds the credit limit, truncate it to the credit limit
+>>>   	 * itself to guarantee forward progress.
+>>>   	 */
+>>> -	if (drm_WARN(sched, s_job->credits > sched->credit_limit,
+>>> -		     "Jobs may not exceed the credit limit, truncate.\n"))
+>>> +	if (s_job->credits > sched->credit_limit) {
+>>> +		dev_WARN(sched->dev,
+>>> +			 "Jobs may not exceed the credit limit, truncate.\n");
+>>>   		s_job->credits = sched->credit_limit;
+>>> +	}
+>>>   
+>>>   	return drm_sched_available_credits(sched) >= s_job->credits;
+>>>   }
+>>> @@ -790,7 +792,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>>   		 * or worse--a blank screen--leave a trail in the
+>>>   		 * logs, so this can be debugged easier.
+>>>   		 */
+>>> -		drm_err(job->sched, "%s: entity has no rq!\n", __func__);
+>>> +		dev_err(job->sched->dev, "%s: entity has no rq!\n", __func__);
+>>>   		return -ENOENT;
+>>>   	}
+>>>   
+>>> @@ -1280,7 +1282,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>>>   	if (num_rqs > DRM_SCHED_PRIORITY_COUNT) {
+>>>   		/* This is a gross violation--tell drivers what the  problem is.
+>>>   		 */
+>>> -		drm_err(sched, "%s: num_rqs cannot be greater than DRM_SCHED_PRIORITY_COUNT\n",
+>>> +		dev_err(sched->dev, "%s: num_rqs cannot be greater than DRM_SCHED_PRIORITY_COUNT\n",
+>>>   			__func__);
+>>>   		return -EINVAL;
+>>>   	} else if (sched->sched_rq) {
+>>> @@ -1288,7 +1290,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>>>   		 * fine-tune their DRM calling order, and return all
+>>>   		 * is good.
+>>>   		 */
+>>> -		drm_warn(sched, "%s: scheduler already initialized!\n", __func__);
+>>> +		dev_warn(sched->dev, "%s: scheduler already initialized!\n", __func__);
+>>>   		return 0;
+>>>   	}
+>>>   
+>>> @@ -1343,7 +1345,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>>>   Out_check_own:
+>>>   	if (sched->own_submit_wq)
+>>>   		destroy_workqueue(sched->submit_wq);
+>>> -	drm_err(sched, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
+>>> +	dev_err(sched->dev, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
+>>>   	return -ENOMEM;
+>>>   }
+>>>   EXPORT_SYMBOL(drm_sched_init);
+>>> -- 
+>>> 2.39.5
+>>>
+> 
+
