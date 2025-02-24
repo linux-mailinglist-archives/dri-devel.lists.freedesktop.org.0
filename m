@@ -2,90 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEB2A4216C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2431EA421A4
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D93C10E501;
-	Mon, 24 Feb 2025 13:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB01210E43D;
+	Mon, 24 Feb 2025 13:43:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jS8GT6zS";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="bPP8dfzG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C165A10E1B3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 09:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740390916; x=1771926916;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1ilvj0oDQeThsIG8wBY8lof+2A6deA3Sr4q3qxryDVo=;
- b=jS8GT6zSYSX5Wvulf/f6ohkOFJfqyPU1tQySOJXeqrz/HbLAY8BUImaN
- +tv9QMelInR/ZhQzEe6QKzbsz6lNrwYYYD8nEW7BTJRmwAip790X3lfIU
- 4qk1iavQw5g7yKdXbsr4PtfaG+eCDjwxqzIQU7AlCwQU2Vr9hr57LR4Xz
- Wvx4mOcWMD2Z6fV8AkEgomHJ1vIBzhAPntwdsRukSTsy+M3Jna7dC9tAU
- bqM7CjtVU8qIGfRkqS1KrXQIYIdOMJlwn+bflex8CrY3bKgKKQNd4r7Nu
- HW/Wuesvxf2AimRMD74iaeZXx7+2sVlzMkWgjzHI0O+9oT2wryXDO+qq2 g==;
-X-CSE-ConnectionGUID: q6EMwELMRJumyCeZa7dXgQ==
-X-CSE-MsgGUID: HGpdDxyzTMucuQa2E3CRkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="52538781"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="52538781"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 01:55:16 -0800
-X-CSE-ConnectionGUID: lC++JjrHQvqYs+QjHqNAUg==
-X-CSE-MsgGUID: xy0XPd+SSduIhKi6mf0hPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="153213616"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 01:55:09 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tmVB1-0000000EeoE-3eVf; Mon, 24 Feb 2025 11:55:03 +0200
-Date: Mon, 24 Feb 2025 11:55:03 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Aditya Garg <gargaditya08@live.com>, "pmladek@suse.com" <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
- "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- "apw@canonical.com" <apw@canonical.com>,
- "joe@perches.com" <joe@perches.com>,
- "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Hector Martin <marcan@marcan.st>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
- to BGR888
-Message-ID: <Z7xB9xD6748bF9vJ@smile.fi.intel.com>
-References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
- <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
- <27efffe1-6562-4612-a748-893475ba02fa@suse.de>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E808410E1B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 09:57:32 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z1bkf0DrSz9spX;
+ Mon, 24 Feb 2025 10:57:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1740391050; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZVke/a1muIuPPw9tqzQVhkbMsCi2gU1HQNx6O8LlpO0=;
+ b=bPP8dfzG1KdKoo4XbbnX0Egqkj/tZSMiFQtHy0HvtRoDc1AE3cT7JliMii9B6hAOhVOblf
+ dM7uLyZnW/0Q/zmfi3RhUY5+XHeCFuCfNRpTwnnk+rCzBHW4JTB5CcAv74yZkt9ZVWI6dJ
+ BMCH5t719k17DKhmW5PQJl7ec77gcQdbfka5T4+QJDdY2gIqODr1uWlXA5I2ZQ2zeze2GI
+ S2GTSWjkvKDG8RQAGVqsvyyIr+evhi7laaLgrGdDr1FhaxKfJnnkEcVVZhw9PI6DgHPE46
+ 95+Kpar4PR98oI4e9W9SlPpTO+IwujfdjeSmSzWZkadPJyIc8PTjD3UtKOLgwA==
+Message-ID: <21a944a054790c0a5b542183b7d5fa54483232be.camel@mailbox.org>
+Subject: Re: [PATCH] drm/scheduler: Fix mem leak when last_scheduled signaled
+From: Philipp Stanner <phasta@mailbox.org>
+To: phasta@kernel.org, qianyi liu <liuqianyi125@gmail.com>, Danilo Krummrich
+ <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Mon, 24 Feb 2025 10:57:26 +0100
+In-Reply-To: <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
+References: <20250221062702.1293754-1-liuqianyi125@gmail.com>
+ <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27efffe1-6562-4612-a748-893475ba02fa@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-MBO-RS-META: o6us1zn17yc464ke5wp6ap13n3xd8wwq
+X-MBO-RS-ID: 181b0d227478099764b
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,65 +66,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 24, 2025 at 10:19:13AM +0100, Thomas Zimmermann wrote:
-> Am 21.02.25 um 16:51 schrieb andriy.shevchenko@linux.intel.com:
-> > On Fri, Feb 21, 2025 at 11:36:00AM +0000, Aditya Garg wrote:
+On Mon, 2025-02-24 at 10:52 +0100, Philipp Stanner wrote:
+> Hello,
+>=20
+> subject line: please write "drm/sched" instead of "drm/scheduler". It
+> has become the norm
+>=20
+> On Fri, 2025-02-21 at 14:27 +0800, qianyi liu wrote:
+> > Problem: If prev(last_scheduled) was already signaled I encountred
+> > a
+>=20
+> prev(last_scheduled) almost reads like a function call. Maybe write
+> "prev / last_scheduled"?
+>=20
+> > memory leak in drm_sched_entity_fini. This is because the
+> > prev(last_scheduled) fence is not free properly.
+>=20
+> s/free/freed
+>=20
+> >=20
+> > Fix: Balance the prev(last_scheduled) fence refcnt when
+> > dma_fence_add_callback failed.
+> >=20
+> > Signed-off-by: qianyi liu <liuqianyi125@gmail.com>
+> > ---
+> > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 7 +++++--
+> > =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> > b/drivers/gpu/drm/scheduler/sched_entity.c
+> > index 69bcf0e99d57..1c0c14bcf726 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -259,9 +259,12 @@ static void drm_sched_entity_kill(struct
+> > drm_sched_entity *entity)
+> > =C2=A0		struct drm_sched_fence *s_fence =3D job->s_fence;
+> > =C2=A0
+> > =C2=A0		dma_fence_get(&s_fence->finished);
+> > -		if (!prev || dma_fence_add_callback(prev, &job-
+> > > finish_cb,
+> > -					=C2=A0=C2=A0
+> > drm_sched_entity_kill_jobs_cb))
+> > +		if (!prev ||
+> > +		=C2=A0=C2=A0=C2=A0 dma_fence_add_callback(prev, &job->finish_cb,
+> > +					=C2=A0=C2=A0
+> > drm_sched_entity_kill_jobs_cb)) {
+> > +			dma_fence_put(prev);
+>=20
+> But now the fence will also be put when prev =3D=3D NULL. Is that
+> intentional? It doesn't seem correct to me from looking at the commit
+> message, which states "Balance [=E2=80=A6] refcnt when dma_fence_add_call=
+back
+> failed"
+>=20
+> It didn't get clear to me immediately which dma_fence_get() your new
+> dma_fence_put() balances. Can you ellaborate on that or maybe write a
+> comment?
+>=20
+> But also be handy of could share the kmemleak trace.
 
-...
+Argh.
 
-> > > +	for (x = 0; x < pixels; x++) {
-> > > +		pix = le32_to_cpu(sbuf32[x]);
-> > > +		/* write red-green-blue to output in little endianness */
-> > > +		*dbuf8++ = (pix & 0x00ff0000) >> 16;
-> > > +		*dbuf8++ = (pix & 0x0000ff00) >> 8;
-> > > +		*dbuf8++ = (pix & 0x000000ff) >> 0;
-> > put_unaligned_be24()
-> 
-> I'm all for sharing helper code, but maybe not here.
-> 
-> - DRM pixel formats are always little endian.
-> - CPU encoding is LE or BE.
-> - Pixel-component order can be anything: RGB/BGR/etc.
-> 
-> So the code has a comment to explain what happens here. Adding that call
-> with the _be24 postfix into the mix would make it more confusing.
+-> "It would also be handy if you could share the kmemleak trace"
 
-I'm not objecting the comment, the code has definite meaning and with the
-proposed helper it makes clearer (in my opinion).
+I should drink less=E2=80=A6
 
-Comment can be adjusted to explain better this conversion.
+P.
 
-Or, perhaps pix should be be32? That's probably where confusion starts.
 
-		pix = be32_to_cpu(sbuf32[x]);
-
-		/* write red-green-blue to output in little endianness */
-		put_unaligned_le24(...);
-
-?
-
-> > > +	}
-
-...
-
-> > > +	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-> > > +		3,
-> > > +	};
-> > One line?
-> > 
-> > 	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = { 3 };
-> 
-> I'd be ok, if there's a string preference in the kernel to use thins style.
-
-Just a common sense to avoid more LoCs when it's not needed / redundant.
-
-> Most of DRM doesn't AFAIK.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+>=20
+>=20
+> Thanks
+> P.
+>=20
+> > =C2=A0			drm_sched_entity_kill_jobs_cb(NULL, &job-
+> > > finish_cb);
+> > +		}
+> > =C2=A0
+> > =C2=A0		prev =3D &s_fence->finished;
+> > =C2=A0	}
+>=20
 
