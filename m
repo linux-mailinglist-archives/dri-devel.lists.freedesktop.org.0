@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88D8A42161
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CCBA4217A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:44:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E804210E4DC;
-	Mon, 24 Feb 2025 13:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE8710E51D;
+	Mon, 24 Feb 2025 13:42:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="givNZBbg";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="IOM5tliM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B914710E29C;
- Mon, 24 Feb 2025 11:17:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EA54F5C60AB;
- Mon, 24 Feb 2025 11:17:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9D3C4CEE6;
- Mon, 24 Feb 2025 11:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740395871;
- bh=TeyWQj9qkghOfMJ64W/gHI66DjJV8RFUgYrm7AH8ts4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=givNZBbgt6o8H3gOcRCAfBdG16tweQmnw0jeMuS/BMxLAvaW61puGGTmFjGmgVaTA
- 1gt5ilNYcYMShtYS+cI+t9tOngbgSpbiTjvZL8JICGu8LX5aLVhcJR8Yh7AUkqEASs
- 7Z6k6Xj2DWfrcmvtPmb2SCurgy2bMY5R9WFaWgMKX8/F63+B2GCrq/r3eNzfZwaV6n
- 8OrTa47/ssMGfEVX3QD35IUp3vTUkA8UKLJSUqIe7GGkNU5v5WYXe5UT0CH7goVgu5
- rBsAzvafwk8+jGZkSfr/17fU6b4TEwPVp2z/t4391M3SlYIBuwm7b2vPIPHVqj+uxl
- Xs/5zHhNXq8cg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sasha Levin <sashal@kernel.org>,
- thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 27/32] drm/xe: Make GUC binaries dump consistent
- with other binaries in devcoredump
-Date: Mon, 24 Feb 2025 06:16:33 -0500
-Message-Id: <20250224111638.2212832-27-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250224111638.2212832-1-sashal@kernel.org>
-References: <20250224111638.2212832-1-sashal@kernel.org>
+X-Greylist: delayed 407 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Feb 2025 11:25:05 UTC
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCCE10E267
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 11:25:05 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z1dWq3hyNz9sp9;
+ Mon, 24 Feb 2025 12:18:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1740395895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=poEXpB9K1y9vdfQWtg9Kt9vHNV/RTZ0L7LaGGPuin2E=;
+ b=IOM5tliMYHrHklJCslpc23Y2z9qSc7C4myDYgRpC2yRS4Rx4N0vUSGEVnDFE8k/xRT/NeW
+ JCKnIzueuGXXCYIyTeyaebgSwvg0VVfICr3BiHLJA47tS0TG8sQ+fjoncPPV35DpWrp2by
+ M4RnY1lOjYRqzZYqP43eyY4QAWlVd7kwWMwPOzdV8Y4aDm7EtC71BsoSq1otL+jsThOTd8
+ LM/wMtjOE8UEJKzSGNlXSvDzB4L107H+GWqZcFsEJ27IkAz/l3HPpbhj2i9YGosBxVy0df
+ ujbK/n1Wyfef3m2CRBFZ8zFCb1L2di2eHQ1UtutrUQV1sBSSdyfvwdHWdgkXZg==
+Message-ID: <055fb477-c369-414b-98e4-d2677213fb9e@mailbox.org>
+Date: Mon, 24 Feb 2025 12:18:12 +0100
 MIME-Version: 1.0
+Subject: Re: [PATCH 1/3] drm/amdgpu: Log the creation of a coredump file
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?B?J0NocmlzdGlhbiBLw7ZuaWcn?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, siqueira@igalia.com
+References: <20250219213517.281556-1-andrealmeid@igalia.com>
+ <20250219213517.281556-2-andrealmeid@igalia.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <20250219213517.281556-2-andrealmeid@igalia.com>
 Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.4
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: m4n5jh5nm7i7j4fubmeks4qk69itcojw
+X-MBO-RS-ID: f8b276519071cec9aea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,72 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: José Roberto de Souza <jose.souza@intel.com>
+On 2025-02-19 22:35, André Almeida wrote:
+> After a GPU reset happens, the driver creates a coredump file. However,
+> the user might not be aware of it. Log the file creation the user can
+> find more information about the device and add the file to bug reports.
+> This is similar to what the xe driver does.
+> 
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> index 824f9da5b6ce..7b50741dc097 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> @@ -364,5 +364,9 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
+>  
+>  	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
+>  		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
+> +
+> +	drm_info(dev, "AMDGPU device coredump file has been created\n");
+> +	drm_info(dev, "Check your /sys/class/drm/card%d/device/devcoredump/data\n",
+> +		 dev->primary->index);
+>  }
+>  #endif
 
-[ Upstream commit 643f209ba3fdd4099416aaf9efa8266f7366d6fb ]
+Maybe this should be done in dev_coredumpm instead of in the driver?
 
-All other(hwsp, hwctx and vmas) binaries follow this format:
-[name].length: 0x1000
-[name].data: xxxxxxx
-[name].error: errno
+Could make it a single line:
 
-The error one is just in case by some reason it was not able to
-capture the binary.
+	drm_info(dev, "Device core dump created in /sys/class/drm/card%d/device/devcoredump/data\n",
+		 dev->primary->index);
 
-So this GuC binaries should follow the same patern.
+(AFAICT drm_info prints the driver name twice already, no need for a third time :)
 
-v2:
-- renamed GUC binary to LOG
 
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250123202307.95103-3-jose.souza@intel.com
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-(cherry picked from commit cb1f868ca13756c0c18ba54d1591332476760d07)
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/xe/xe_guc_ct.c  | 6 ++++--
- drivers/gpu/drm/xe/xe_guc_log.c | 3 ++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
-index 6eabf7a9d3b07..b527f34b979be 100644
---- a/drivers/gpu/drm/xe/xe_guc_ct.c
-+++ b/drivers/gpu/drm/xe/xe_guc_ct.c
-@@ -1699,9 +1699,11 @@ void xe_guc_ct_snapshot_print(struct xe_guc_ct_snapshot *snapshot,
- 		drm_printf(p, "\tg2h outstanding: %d\n",
- 			   snapshot->g2h_outstanding);
- 
--		if (snapshot->ctb)
--			xe_print_blob_ascii85(p, "CTB data", '\n',
-+		if (snapshot->ctb) {
-+			drm_printf(p, "[CTB].length: 0x%lx\n", snapshot->ctb_size);
-+			xe_print_blob_ascii85(p, "[CTB].data", '\n',
- 					      snapshot->ctb, 0, snapshot->ctb_size);
-+		}
- 	} else {
- 		drm_puts(p, "CT disabled\n");
- 	}
-diff --git a/drivers/gpu/drm/xe/xe_guc_log.c b/drivers/gpu/drm/xe/xe_guc_log.c
-index 2baa4d95571fb..2457572ed86ad 100644
---- a/drivers/gpu/drm/xe/xe_guc_log.c
-+++ b/drivers/gpu/drm/xe/xe_guc_log.c
-@@ -208,10 +208,11 @@ void xe_guc_log_snapshot_print(struct xe_guc_log_snapshot *snapshot, struct drm_
- 	drm_printf(p, "GuC timestamp: 0x%08llX [%llu]\n", snapshot->stamp, snapshot->stamp);
- 	drm_printf(p, "Log level: %u\n", snapshot->level);
- 
-+	drm_printf(p, "[LOG].length: 0x%lx\n", snapshot->size);
- 	remain = snapshot->size;
- 	for (i = 0; i < snapshot->num_chunks; i++) {
- 		size_t size = min(GUC_LOG_CHUNK_SIZE, remain);
--		const char *prefix = i ? NULL : "Log data";
-+		const char *prefix = i ? NULL : "[LOG].data";
- 		char suffix = i == snapshot->num_chunks - 1 ? '\n' : 0;
- 
- 		xe_print_blob_ascii85(p, prefix, suffix, snapshot->copy[i], 0, size);
 -- 
-2.39.5
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
