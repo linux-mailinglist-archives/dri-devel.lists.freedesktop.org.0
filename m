@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD50A42E17
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 21:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B381A42E31
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 21:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC2310E4AD;
-	Mon, 24 Feb 2025 20:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8081B10E35D;
+	Mon, 24 Feb 2025 20:44:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="vitKRRCT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mwWbpNhC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BAC610E4AD
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 20:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
- t=1740429624; bh=YCBdJbUx0eezkgiS7e5oa20MNmUQMvngyjUjEqpjLTM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=vitKRRCT0FDO+MFCpM+oNGOuuzlj4/oKKiebkE8stMHaxMzf27bAxxqur33AcvwDI
- jc8GJxIppGPasCEOD/Poo5P0RmXlMxZ+GB2EMrSDEOeG41CiydyeaUxipL0012T3rz
- hweWP6i1Qg6AYnNs2JH26YtOcVVIXuoO1tAnzHtQ=
-Message-ID: <8b67cea3-82f7-47f8-b026-fd26cfbf94b4@lucaweiss.eu>
-Date: Mon, 24 Feb 2025 21:40:23 +0100
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/4] dt-bindings: display: panel: Add Himax HX83112B
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2463510E02D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 20:44:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 29099611F7;
+ Mon, 24 Feb 2025 20:44:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9165DC4CED6;
+ Mon, 24 Feb 2025 20:44:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740429870;
+ bh=6ZQ2uzFiFhD7gkzk+n7hLxToXvw9f/qLjNwvw3IN058=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mwWbpNhCqwW2+IaFJM8s1EadrnggVS8HGVSkSAatxVKhTW1CDmZCPuIV58P2ejefE
+ 9fFCKKpdviw7OhuqtW474AqL9TJoMz+idxN5Dg1PXNJ2HAJs/aJP2T2Com9JjsU/WN
+ ccOvcuOl8SzV1MhWguZaOXc2gHGBy2MZfmB8pjl0yWZLUKRgLpAgoxCgkJBeAPKcV/
+ 6Mkkpf0jw2ofTdTGrB+rw6+cpM20zOg8/7qHNCeg+WOYOaTA1nymb9+I6nhpR0oc/f
+ UM9JJvk16LHop1JdTSdslzTFJrIcugsdLECkKsvah8C1ZpSmpEWHx+fpN/InM+TFRx
+ 2YaKffluH7H3w==
+Date: Mon, 24 Feb 2025 14:44:28 -0600
+From: Rob Herring <robh@kernel.org>
+To: Maud Spierings <maudspierings@gocontroll.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20250222-fp3-display-v1-0-ccd812e16952@lucaweiss.eu>
- <20250222-fp3-display-v1-2-ccd812e16952@lucaweiss.eu>
- <77wat26ggsfqwssgt5wfq6yz6w3ccqz3pmn727a4aphqv4ljhx@vrzneg2rvzfj>
-Content-Language: en-US
-From: Luca Weiss <luca@lucaweiss.eu>
-In-Reply-To: <77wat26ggsfqwssgt5wfq6yz6w3ccqz3pmn727a4aphqv4ljhx@vrzneg2rvzfj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 05/14] dt-bindings: trivial-devices: add GOcontroll
+ Moduline IO modules
+Message-ID: <20250224204428.GA4050751-robh@kernel.org>
+References: <20250224-initial_display-v1-0-5ccbbf613543@gocontroll.com>
+ <20250224-initial_display-v1-5-5ccbbf613543@gocontroll.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224-initial_display-v1-5-5ccbbf613543@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,118 +72,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23-02-2025 7:25 p.m., Dmitry Baryshkov wrote:
-> On Sat, Feb 22, 2025 at 06:58:05PM +0100, Luca Weiss wrote:
->> Himax HX83112B is a display driver IC used to drive LCD DSI panels.
->> Describe it and the Fairphone 3 panel from DJN using it.
->>
->> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
->> ---
->>   .../bindings/display/panel/himax,hx83112b.yaml     | 75 ++++++++++++++++++++++
->>   1 file changed, 75 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..e6bd4b33d40be98e479d84617aea6d2af0df70e4
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
->> @@ -0,0 +1,75 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/panel/himax,hx83112b.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Himax HX83112B-based DSI display panels
->> +
->> +maintainers:
->> +  - Luca Weiss <luca@lucaweiss.eu>
->> +
->> +description:
->> +  The Himax HX83112B is a generic DSI Panel IC used to control
->> +  LCD panels.
->> +
->> +allOf:
->> +  - $ref: panel-common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    contains:
->> +      const: djn,fairphone-fp3-panel
+On Mon, Feb 24, 2025 at 02:50:55PM +0100, Maud Spierings wrote:
+> The main point of the Moduline series of embedded controllers is its
+> ecosystem of IO modules, these currently are operated through the spidev
+> interface. Ideally there will be a full dedicated driver in the future.
 > 
-> Would you know a better name or ID for a panel?
-
-Initially no, as mentioned on the cover letter.
-
-But I dug a bit more in some other documents and found this number now: 
-"98-03057-6598B-I"
-
-This also somewhat matches the format of the Fairphone 4 panel from DJN: 
-("djn,9a-3r063-1102b").
-
-So I'll change the compatible to "djn,98-03057-6598b-i" in the next 
-revision.
-
-Regards
-Luca
-
+> Add the gocontroll moduline-module-slot device to enable the required
+> spidev interface.
 > 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  iovcc-supply:
->> +    description: I/O voltage rail
->> +
->> +  vsn-supply:
->> +    description: Positive source voltage rail
->> +
->> +  vsp-supply:
->> +    description: Negative source voltage rail
->> +
->> +  port: true
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reset-gpios
->> +  - iovcc-supply
->> +  - vsn-supply
->> +  - vsp-supply
->> +  - port
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    dsi {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        panel@0 {
->> +            compatible = "djn,fairphone-fp3-panel";
->> +            reg = <0>;
->> +
->> +            reset-gpios = <&tlmm 61 GPIO_ACTIVE_LOW>;
->> +
->> +            iovcc-supply = <&pm8953_l6>;
->> +            vsn-supply = <&pmi632_lcdb_ncp>;
->> +            vsp-supply = <&pmi632_lcdb_ldo>;
->> +
->> +            port {
->> +                panel_in_0: endpoint {
->> +                    remote-endpoint = <&dsi0_out>;
->> +                };
->> +            };
->> +        };
->> +    };
->> +
->> +...
->>
->> -- 
->> 2.48.1
->>
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> ---
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+> index 8255bb590c0cc619d15b27dcbfd3aa85389c0a54..24ba810f91b73efdc615c7fb46f771a300926f05 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -107,6 +107,8 @@ properties:
+>            - fsl,mpl3115
+>              # MPR121: Proximity Capacitive Touch Sensor Controller
+>            - fsl,mpr121
+> +            # GOcontroll Moduline module slot for spi based IO modules
 
+I couldn't find anything about SPI for GOcontroll Moduline. Can you 
+point me to what this hardware looks like. Based on what I did find, 
+this seems incomplete and not likely a trivial device.
+
+> +          - gocontroll,moduline-module-slot
+>              # Honeywell Humidicon HIH-6130 humidity/temperature sensor
+>            - honeywell,hi6130
+>              # IBM Common Form Factor Power Supply Versions (all versions)
+> 
+> -- 
+> 2.48.1
+> 
