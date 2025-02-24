@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D93CA41438
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 04:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0146CA41437
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 04:45:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5809010E131;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0425E10E12F;
 	Mon, 24 Feb 2025 03:45:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VQfan/Iv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RkR+ERFx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B14110E10B;
- Mon, 24 Feb 2025 03:45:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE5110E12A;
+ Mon, 24 Feb 2025 03:45:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A1BEB5C1D0D;
- Mon, 24 Feb 2025 03:45:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB64FC4CEEA;
- Mon, 24 Feb 2025 03:45:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BDEF75C4D99;
+ Mon, 24 Feb 2025 03:45:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D322C4CEE8;
+ Mon, 24 Feb 2025 03:45:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740368746;
- bh=qUFe4UpqBfFhFksfcMUFZKdum1MPLs1H5ZB+gO4zfFY=;
+ s=k20201202; t=1740368747;
+ bh=6a0qjdqlzvGzQVstllexhGYhGqe+l900EvniR1D7J4g=;
  h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=VQfan/Iv4Y9TzOMYqSNVSOsUCmtvnlwiK3HdxmznH6xj6G8HcNLH+41M3XIsuGBP6
- oG4xsCddQ53ccSIuco6whQ6gqaK09azWoX7fgWCO8sKXxARPieOVtwnue+iXiaXp9O
- XU0ALoPgI7BvYETedwjXQ/IB5ymMT9gRuFEa9AUGn+RGqH1msqmLDu0S/pdHqqYa04
- 8v2WjYQO1aLtO+1U3/CtreGCdOG9tHd5e35TGmD0uQayFqXzR7FOiOy2tTVbB+KbRX
- 6utsBGtAHCH7q1eOC5ak46c8biDkn7vc1jXaN6kgu6wSNSNtb2YkYfIeTPcLmyWkIc
- IpelMr2K567Pg==
-Date: Sun, 23 Feb 2025 21:45:45 -0600
+ b=RkR+ERFxNZmnBs2BeeB0SYJ1Z1A24/AlraglZB+UaMuqntfYU2Uar+pP3y+iob1ik
+ TNPWnR06qmZut+a++1LJvHnNlxVYnMpOVMW9GcXLteZjsedOkqhVuGF8kwBC7iaY/c
+ as3BPFNKnYsVyVKU8N6W1NyTISlx4tVvaSjiOSlE+enNGXks/RxQAEyel1MzddQVt3
+ 2XeYg4SuIp6ZseOLWkUXVfjtdQfuJ4f36xltML4JACN2cWtMDp8VlxjSlGJHrAWObq
+ aoCp8FztTrFLZzeKus2vDfG1t0hC/UY5IfvD+T08OTK0m44Sajjf+y6CkJtwxBpVAd
+ l12y9aAZjgAbQ==
+Date: Sun, 23 Feb 2025 21:45:46 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- linux-clk@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Stephan Gerhold <stephan@gerhold.net>, 
- Konrad Dybcio <konradybcio@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
- Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
+Cc: Bjorn Andersson <andersson@kernel.org>, Lee Jones <lee@kernel.org>, 
+ linux-gpio@vger.kernel.org, Joerg Roedel <joro@8bytes.org>, 
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
+ dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
  Michael Turquette <mturquette@baylibre.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
- Adam Skladowski <a39.skl@gmail.com>, David Airlie <airlied@gmail.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Simona Vetter <simona@ffwll.ch>, Robin Murphy <robin.murphy@arm.com>, 
- iommu@lists.linux.dev, freedreno@lists.freedesktop.org, 
- Stephen Boyd <sboyd@kernel.org>, Sean Paul <sean@poorly.run>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, Stephan Gerhold <stephan@gerhold.net>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, Rob Clark <robdclark@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>
+ Linus Walleij <linus.walleij@linaro.org>, 
+ =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
+ Stephen Boyd <sboyd@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Rob Clark <robdclark@gmail.com>, iommu@lists.linux.dev, 
+ devicetree@vger.kernel.org
 To: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-In-Reply-To: <20250224-msm8937-v3-5-dad7c182cccb@mainlining.org>
+In-Reply-To: <20250224-msm8937-v3-7-dad7c182cccb@mainlining.org>
 References: <20250224-msm8937-v3-0-dad7c182cccb@mainlining.org>
- <20250224-msm8937-v3-5-dad7c182cccb@mainlining.org>
-Message-Id: <174036874131.769285.18190619820973305083.robh@kernel.org>
-Subject: Re: [PATCH v3 5/8] dt-bindings: drm/msm/gpu: Document AON clock
- for A505/A506/A510
+ <20250224-msm8937-v3-7-dad7c182cccb@mainlining.org>
+Message-Id: <174036874208.769324.12190196634420728570.robh@kernel.org>
+Subject: Re: [PATCH v3 7/8] dt-bindings: arm: qcom: Add Xiaomi Redmi 3S
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,18 +81,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 24 Feb 2025 02:56:20 +0100, Barnabás Czémán wrote:
-> From: Adam Skladowski <a39.skl@gmail.com>
+On Mon, 24 Feb 2025 02:56:22 +0100, Barnabás Czémán wrote:
+> Document Xiaomi Redmi 3S (land).
+> Add qcom,msm8937 for msm-id, board-id allow-list.
 > 
-> Adreno 505 (MSM8937), Adreno 506(MSM8953) and Adreno 510(MSM8976)
-> require Always-on branch clock to be enabled, describe it.
-> 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> [reword commit, move alwayson on the first place]
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 > ---
->  Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  Documentation/devicetree/bindings/arm/qcom.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -103,7 +101,7 @@ dtschema/dtc warnings/errors:
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250224-msm8937-v3-5-dad7c182cccb@mainlining.org
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250224-msm8937-v3-7-dad7c182cccb@mainlining.org
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
