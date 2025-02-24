@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB45A4223D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 15:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379ECA42242
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 15:03:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5DD10E3D5;
-	Mon, 24 Feb 2025 14:02:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lmYWGnuV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B312610E3DC;
+	Mon, 24 Feb 2025 14:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B350010E3D5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 14:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740405757;
- bh=NtQ8UJ5HySKPPmQnEnNNQwk1UmdTw09FLFYUk5geJ0s=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=lmYWGnuVgm+KmTD5YIxehDk+tVlRC1vDVfK3HtWmF4+Xq4+qBxIDwOjpAaJvHPift
- Iui0tPLrBtCwaPZFe1Y0gbWZIrnAXC10sAKWIMuEnQs3olEYWEDjRCysz/YtqhkcYH
- lWyzHOV4kXH761x7If9uEk2Ps2sjc7XQNhouXivC3kLAogKB4Fj1QFoIWUjp28UJIW
- VwWMp6/+QipGW+jONwhGszvac4z5tVDFcVG86uo2VvwY+0EjwCVhO4/kTG+8wgKlRP
- QNzimmhM4cg2etTnbrfvkeV0PvBbGwLAEkIuJjOqVK/BRTREvZESd7DV3lvUAh0NU8
- CAzRrDrDeB5rA==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B74F517E00F6;
- Mon, 24 Feb 2025 15:02:36 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Jason-JH Lin <jason-jh.lin@mediatek.com>
-Cc: Nancy Lin <nancy.lin@mediatek.com>, 
- Singo Chang <singo.chang@mediatek.com>, 
- Yongqiang Niu <yongqiang.niu@mediatek.com>, 
- Sirius Wang <sirius.wang@mediatek.com>, 
- Xavier Chang <xavier.chang@mediatek.com>, Fei Shao <fshao@chromium.org>, 
- Chen-yu Tsai <wenst@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com
-In-Reply-To: <20250224105414.3576243-1-jason-jh.lin@mediatek.com>
-References: <20250224105414.3576243-1-jason-jh.lin@mediatek.com>
-Subject: Re: [PATCH v2] mailbox: mtk-cmdq: Refine GCE_GCTL_VALUE setting
-Message-Id: <174040575668.71176.5895162308675381424.b4-ty@collabora.com>
-Date: Mon, 24 Feb 2025 15:02:36 +0100
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8775710E3DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 14:03:29 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Z1j6q187Lz21p5G;
+ Mon, 24 Feb 2025 22:00:19 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id EDBBD140120;
+ Mon, 24 Feb 2025 22:03:22 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Mon, 24 Feb 2025 22:03:21 +0800
+Message-ID: <6634386b-afc1-4e31-a2f4-9c1afed2d1d8@huawei.com>
+Date: Mon, 24 Feb 2025 22:03:20 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
+ detect of irq feature
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250222025102.1519798-1-shiyongbang@huawei.com>
+ <20250222025102.1519798-8-shiyongbang@huawei.com>
+ <reqpxlbvlz5qssgy6gbjuou33h4zevo4xeztqbsr4keehplyhx@utv22a5ihohx>
+ <eef68fc7-30f4-4246-a82e-4f90cd6a665d@huawei.com>
+ <6jx5ldpidy2ycrqognfiv5ttqr5ia4dtbryta3kc2mkndrvvgo@qzuakucz765k>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <6jx5ldpidy2ycrqognfiv5ttqr5ia4dtbryta3kc2mkndrvvgo@qzuakucz765k>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,24 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Feb 2025 18:50:13 +0800, Jason-JH Lin wrote:
-> Add cmdq_gctl_value_toggle() to configure GCE_CTRL_BY_SW and GCE_DDR_EN
-> together in the same GCE_GCTL_VALUE register.
-> 
-> For the SoCs whose GCE is located in MMINFRA and uses MMINFRA_AO power,
-> this allows it to be written without enabling the clocks. Otherwise, all
-> GCE registers should be written after the GCE clocks are enabled.
-> Move this function into cmdq_runtime_resume() and cmdq_runtime_suspend()
-> to ensure it is called when the GCE clock is enabled.
-> 
-> [...]
+> On Sat, Feb 22, 2025 at 06:35:48PM +0800, Yongbang Shi wrote:
+>>>> +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
+>>>> +{
+>>>> +	struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
+>>>> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
+>>>> +	struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
+>>>> +	int ret;
+>>>> +
+>>>> +	if (dp->hpd_status) {
+>>>> +		hibmc_dp_hpd_cfg(&priv->dp);
+>>>> +		ret = hibmc_dp_prepare(dp, mode);
+>>>> +		if (ret)
+>>>> +			return ret;
+>>>> +
+>>>> +		hibmc_dp_display_en(dp, true);
+>>>> +	} else {
+>>>> +		hibmc_dp_display_en(dp, false);
+>>>> +		hibmc_dp_reset_link(&priv->dp);
+>>>> +	}
+>>> If I understand this correctly, you are using a separate drm_client to
+>>> enable and disable the link & display. Why is it necessary? Existing
+>>> drm_clients and userspace compositors use drm framework, they should be
+>>> able to turn the display on and off as required.
+>>>
+>> Thanks for your asking, there are cfg/reset process when the connector 's pluging in/out.
+>> We want to cfg DP registers again when the connector changes. Not only dp link training, but also cfg
+>> the different video modes into DP registers.
+> Why? The link training and mode programming should happen during
+> pre_enable / enable stage (legacy or atomic).
 
-Applied to v6.14-next/soc, thanks!
+Hi Dmitry,
 
-[1/1] mailbox: mtk-cmdq: Refine GCE_GCTL_VALUE setting
-      commit: 6b9a5fc65a7880f7ac6a981a0a30b5ecba7bd5ae
-
-Cheers,
-Angelo
+Right, that's what I'm curious about. It won't call encoder enble/disable functions when I triggered HPD.
+And I'm sure the drm_connector_helper_hpd_irq_event() is called. So I add a drm_client for it.
 
 
+>>
