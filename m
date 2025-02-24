@@ -2,85 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B332A42148
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AA9A4214A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:43:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3CD310E47A;
-	Mon, 24 Feb 2025 13:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A1510E432;
+	Mon, 24 Feb 2025 13:42:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="swEjHk0l";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="TtkboSsl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1698E10E10B
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 03:15:28 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-30a28bf1baaso35017381fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2025 19:15:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740366926; x=1740971726; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=60oW0NE+5WvAkx2Mu3B4WEX9+Sk/VuCzxW52FoixHDs=;
- b=swEjHk0lGOWyIJQI7ZMHmW1ule090Z0U3H7Bv2fvbKcZlJ8yhC8vVxGAswYtGuDzda
- KkmAQsHxodQErU6rI8Z1gWw+IlFwVHoQ9re/6kjInhB+YmBVKi77IqwKZXPA+/KjKSjO
- TzBQwUf4ygFFRELWm66kayUZbZQ3/UsjfJQXkPJHMCf2vU3KHAS2JFUcFRDHO8gfZcyE
- wzEdSe6Et05ZHHV7V+lEnRzydvhPm5e1SR98yOHYPwh1BvBzHtQ/08ssZ1uah8tJok2H
- gnpSzoQpKARt+9OUQK6bKYV2d7D+gkB2P9iPy1DokEfMYo7WzhGPMcM2xPdu12QZmBnD
- fmsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740366926; x=1740971726;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=60oW0NE+5WvAkx2Mu3B4WEX9+Sk/VuCzxW52FoixHDs=;
- b=ZtSsxonG4uHHZs84kDbFICtsKAbQ71BdhQ5pW9MLFmjIJ0YjuXEbnLIt4SMXvY/SM1
- S70Ds02GAIc+3ZA45ynCBVDuFzMWxyF3IWxD0TMqLXw20rj3fcsTnbVkoi0d9v2+bAIa
- 4i9b++0K18JCCvIJAdtnvGOtKSdJ9wrCPpzhDXY2gbIE+UNQlHIJDPvVyvqakFfPxHS8
- HWkec7ZQaYYt7usYFgSoiVHz9diPm10iKB9IZ5fKvI//S4HSzl2BbmkxUo5bJOYmj+M9
- JZhfJxyItXvnwjIIM2BMpcvByTi9qeoYA0mSWfhgIW1BMS6fsrgpPujLTuk8GSysZ3QS
- YybA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLkiTTToht+KJgD+btxsQ7s0+H23KCxX342JdCkq0sB0dkrPwbbWSQ7T7qpXrJHdYkWqj9u67oOMk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6602xvW2YvmwhAGyfL76+3qeFrsrP7iXgNRNwJJq+oFGyaIjI
- ni0+70B5alzr3aL3wpW+esa07XYu2ozjZ9AUHK4J+FYntd2T81bV3WToGjppsBY=
-X-Gm-Gg: ASbGncuXvuYpOZxnA6y2eCIITSP8/sEhWDss5VUdeMLi+s9Q8S2VlnixyjkJqdP7LmF
- jX7xb4eSjA63Tk6t+VaGnNfdKbRBVHLhnY91ZQ/Uus8MLrkHRTl6N1h7DYCbv54gQrrDaXJGjGB
- KjrWGQkpqtgxWGVZAgdtDQpckyHJ+fFWdg/JWjCh9VnpepK3svimnaplzp1D4p5QKuTFuiTm3SR
- ZrqfrOTxb1qLr3yed+R+K9DcP2ZAJGw9gcbdeVgTHhqGoM8CHi1e1plVUT5STCkflmGg2Le63LE
- 6OGnXpKoev38Bj2K74gUNrzvNl0lffjpCAuAaM1E9HFnPaeWg9kqHquUEZ7uOw4TDAUqp7eHolv
- 6B1nPEg==
-X-Google-Smtp-Source: AGHT+IHhiKmfrH5ka4uDKdUNP+Kqb6vQhRfA/nDzn2mvuW92iiRvCMWFslhv/a7ivXaSSdw6dmkihQ==
-X-Received: by 2002:a2e:9f06:0:b0:308:eabd:297f with SMTP id
- 38308e7fff4ca-30a5b182b9cmr32215911fa.14.1740366926080; 
- Sun, 23 Feb 2025 19:15:26 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30a23dddef9sm28895541fa.37.2025.02.23.19.15.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Feb 2025 19:15:24 -0800 (PST)
-Date: Mon, 24 Feb 2025 05:15:22 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- kernel-list@raspberrypi.com, linux-sound@vger.kernel.org, 
- David Turner <david.turner@raspberrypi.com>
-Subject: Re: [PATCH RFC] drm/vc4: hdmi: Add jack detection to HDMI audio driver
-Message-ID: <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
-References: <20250222102921.75496-1-wahrenst@gmx.net>
+Received: from mail-m1973185.qiye.163.com (mail-m1973185.qiye.163.com
+ [220.197.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF2210E051
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 03:21:07 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id bf356a8d;
+ Mon, 24 Feb 2025 11:21:02 +0800 (GMT+08:00)
+Message-ID: <731abf8f-b157-47d4-a9e1-9aed6f5b4e37@rock-chips.com>
+Date: Mon, 24 Feb 2025 11:21:02 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250222102921.75496-1-wahrenst@gmx.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/14] Add eDP support for RK3588
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: heiko@sntech.de, robh@kernel.org, conor+dt@kernel.org,
+ algea.cao@rock-chips.com, rfoss@kernel.org, devicetree@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hjc@rock-chips.com, kever.yang@rock-chips.com, dmitry.baryshkov@linaro.org,
+ vkoul@kernel.org, andy.yan@rock-chips.com, krzk+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, l.stach@pengutronix.de
+References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+ <5044FFCB-B325-40D0-BA82-03AF64EAF029@gmail.com>
+ <tg6eyew4qahuxqakmmejne7xx2rkouj6htp55acun4ajz2irz2@vlmvqv3zc5vc>
+ <C81810F2-6E9B-4DCC-85D1-CCB63CBFBFEA@gmail.com>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <C81810F2-6E9B-4DCC-85D1-CCB63CBFBFEA@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUtLHlYYHkhNH0oeTh5DHkNWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+X-HM-Tid: 0a9535f8f24203a3kunmbf356a8d
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pi46Djo5AjIXNxwdLSo9TD1L
+ FQMwClZVSlVKTE9LSE1MSU1PS09IVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFITExLNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=TtkboSslEuG3O6Q33PmEvHv28Jvg5WyhYR2LFUqcKFp4BOeB/mohA8ndDgbxGn5eNvpe7Fkf8HB8qjnmn2aLu9BlykbGs6RCVL395hZUmPJW9eyvlAmbaEAF23buy2DkdSvordvN2UaJJ3yxiUObEM3aHwA/1rf/oZ7kgAjYhgE=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=SUWTCb0GbfrLEePUqui3jDgm691jrzdjRDy4hq8S9z0=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,118 +71,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 22, 2025 at 11:29:21AM +0100, Stefan Wahren wrote:
-> From: David Turner <david.turner@raspberrypi.com>
-> 
-> Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
-> when to add/remove HDMI audio devices.
-> 
-> Signed-off-by: David Turner <david.turner@raspberrypi.com>
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++--
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
->  2 files changed, 31 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 47d9ada98430..d24ae86d799e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -51,6 +51,7 @@
->  #include <linux/reset.h>
->  #include <sound/dmaengine_pcm.h>
->  #include <sound/hdmi-codec.h>
-> +#include <sound/jack.h>
->  #include <sound/pcm_drm_eld.h>
->  #include <sound/pcm_params.h>
->  #include <sound/soc.h>
-> @@ -386,6 +387,12 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
->  	struct drm_connector *connector = &vc4_hdmi->connector;
->  	int ret;
-> 
-> +	/*
-> +	 * Needs to be called for both connects and disconnects for HDMI
-> +	 * audio hotplug to work correctly.
-> +	 */
-> +	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-> +
->  	/*
->  	 * NOTE: This function should really be called with vc4_hdmi->mutex
->  	 * held, but doing so results in reentrancy issues since
-> @@ -405,8 +412,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
->  		return;
->  	}
-> 
-> -	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-> -
->  	cec_s_phys_addr(vc4_hdmi->cec_adap,
->  			connector->display_info.source_physical_address, false);
-> 
-> @@ -2203,6 +2208,22 @@ static const struct drm_connector_hdmi_audio_funcs vc4_hdmi_audio_funcs = {
->  	.shutdown = vc4_hdmi_audio_shutdown,
->  };
-> 
-> +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
-> +{
-> +	struct vc4_hdmi *vc4_hdmi = snd_soc_card_get_drvdata(rtd->card);
-> +	struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
-> +	int ret;
-> +
-> +	ret = snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOUT,
-> +				    &vc4_hdmi->hdmi_jack);
-> +	if (ret) {
-> +		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NULL);
+Hi Piotr,
 
-PLease excuse my ignorance, but dows this work. In other words, how is
-the driver exporting the plugged state through this jack?
+On 2025/2/14 20:00, Piotr Oniszczuk wrote:
+> 
+> 
+>> Wiadomość napisana przez Sebastian Reichel <sebastian.reichel@collabora.com> w dniu 13 lut 2025, o godz. 18:26:
+>>
+>> Hello Piotr,
+>>
+>>
+>> The RK3588 has two different DP controllers. The one handled in this
+>> series should get the eDP port running, which is routed to the
+>> "eDP Panel" in the block diagram on page 3 of the Rock 5 ITX schematics.
+>> So this series adds support for using "HDMI/eDP TX0" and "HDMI/eDP TX1"
+>> in DP mode.
+>>
+>> The port routed to HDMI0 via RA620 is the other DP controller, which
+>> also exists twice: "TYPEC0/DP0" and "TYPEC1/DP1". This DP controller
+>> is not yet supported upstream and there is no pending patchset. As far
+>> as I know Rockchip plans to work on preparing upstream support for that
+>> soon.
 
+Yes, Andy has recently updated the DP controller related patchset:
+https://patchwork.kernel.org/project/linux-rockchip/list/?series=936784
 
-> +}
-> +
->  static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->  {
->  	const struct vc4_hdmi_register *mai_data =
-> @@ -2316,6 +2337,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->  	dai_link->cpus->dai_name = dev_name(dev);
->  	dai_link->codecs->name = dev_name(&vc4_hdmi->connector.hdmi_audio.codec_pdev->dev);
->  	dai_link->platforms->name = dev_name(dev);
-> +	dai_link->init = vc4_hdmi_codec_init;
+>>
 > 
->  	card->dai_link = dai_link;
->  	card->num_links = 1;
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index e3d989ca302b..a31157c99bee 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -4,6 +4,7 @@
->  #include <drm/drm_connector.h>
->  #include <media/cec.h>
->  #include <sound/dmaengine_pcm.h>
-> +#include <sound/hdmi-codec.h>
->  #include <sound/soc.h>
+> Oh - this is very valuable info and explains a lot.
+> Thx.
 > 
->  #include "vc4_drv.h"
-> @@ -211,6 +212,12 @@ struct vc4_hdmi {
->  	 * KMS hooks. Protected by @mutex.
->  	 */
->  	enum hdmi_colorspace output_format;
-> +
-> +	/**
-> +	 * @hdmi_jack: Represents the connection state of the HDMI plug, for
-> +	 * ALSA jack detection.
-> +	 */
-> +	struct snd_soc_jack hdmi_jack;
->  };
+>> Note, that the two DisplayPort controllers are completely different.
+>> The HDMI/eDP controller is a design from Analogix and the TypeC/DP
+>> controller is a design from Synopsys.
+>>
+>> P.S.: Heiko merged support for HDMI1 (RK3588 SoC level) recently. So you
+>> should be able to get that running by some DT additions to the Rock 5
+>> ITX board DT with the latest linux-next code :)
+>>
 > 
->  #define connector_to_vc4_hdmi(_connector)				\
-> --
-> 2.34.1
+> And it works perfectly on all my 3588 bards (including audio and my cec addition)
+> But only on boards using both hdmi tx0 and tx1 to hdmi0/hdmi1 ports.
+> 
+> on rock5 itx:
+
+According to the schematic of ROCK 5 ITX, I find the display routes are:
+- DP0 -> TYPEC0 Connector
+- DP1 -> RA620 -> HDMI Connector (Andy's patch series will help it work)
+- HDMI/eDP TX0 -> eDP Panel (This patch series will help it work)
+- HDMI/eDP TX1 -> HDMI Connector
+
+So the HDMI/eDP TX0 should be enabled as eDP in DTS. Maybe it's just a 
+test to enable both HDMI0 and HDMI1 in the ROCK 5 ITX board?
+
+> With both hdmi tx0 and tx1 enabled in dts it looks like kernel detects hdmi tx0 as connected and tries read edid.
+> As nothing is connected to J11 (eDP con) - i’m getting i2c ddc timeouts
+> [   54.188880] dwhdmiqp-rockchip fde80000.hdmi: i2c read timed out
+> [   54.292207] dwhdmiqp-rockchip fde80000.hdmi: i2c read timed out
+> [   54.395554] dwhdmiqp-rockchip fde80000.hdmi: i2c read timed out
 > 
 
--- 
-With best wishes
-Dmitry
+I think the reason may be that HDMI0 is enabled, and HPD pin of HDMI0 is 
+also configured, but the HPD pin is in an unstable state in the 
+hardware, which is mistakenly detected as connected.
+
+> 
+> disabling hdmi0 makes kernel talking to hdmi1 but with issues:
+> [    0.540446] dwhdmiqp-rockchip fdea0000.hdmi: registered DesignWare HDMI QP I2C bus driver
+> [    0.541230] rockchip-drm display-subsystem: bound fdea0000.hdmi (ops dw_hdmi_qp_rockchip_ops)
+> [    0.542285] [drm] Initialized rockchip 1.0.0 for display-subsystem on minor 0
+> [    0.542933] rockchip-drm display-subsystem: [drm] Cannot find any crtc or sizes
+> [    0.543605] rockchip-drm display-subsystem: [drm] Cannot find any crtc or sizes
+> 
+> and here i’m a bit puzzled as on other 3588 boards (i.e. rock5b) - when i connected monitor to hdmi1 - all works perfectly
+> (kernel, OS and app nicely skipping hdmi0 and talking to actually connected hdmi1 port. all works)
+> 
+> on rock5 itx this not works.
+> 
+> my observations so far are:
+> -on rock5 itx hdmi0 is falsely detected as connected - even when eDP connector (J11) has nothing connected
+> -on rock5 itx disabling hdmi0 in dts breaks hdmi1
+> -on other 3588 (e.g. rock 5b) disabling hdmi0 in dts NOT breaks hdmi1
+> 
+> strange….
+> 
+> 
+
+Best regards
+Damon
+
