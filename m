@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF05DA4299E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C9DA429A1
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:27:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F35ED10E494;
-	Mon, 24 Feb 2025 17:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 363F610E4C1;
+	Mon, 24 Feb 2025 17:27:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bz4YRS+Y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j//30GVA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA0910E4A4;
- Mon, 24 Feb 2025 17:27:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD11010E495;
+ Mon, 24 Feb 2025 17:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740418031; x=1771954031;
+ t=1740418034; x=1771954034;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=IzCopLV9Q+AMdzq8n4dN9//3yqdNrmf+RrF/jnmgHSU=;
- b=Bz4YRS+YGBMwq/FqV79XjywYxlMuM01ZyKUkeNQTL9BjooS+kA/oS05S
- 2qcdHwg+tdgmYYS60nidjl5Z0tuDoQiapmvIRMVK+9eb8LVrEAnRstJ8B
- /o9/DFqCunx2NWtIWfeLP4t9+58VU7bX0HuCcsMVC7dTcNcqxTs9YbRC3
- y0exIVdq4bBJ9vzICBuTa03v/7I/XlVcyYsX7Qq7KpeiYOd2bFQSJ1dMT
- Bick5rp87GGsYPRFWTn7TxGLoG21mAqvMjXwPavEKyOMsZUPrfhH/hONr
- d9ftgRGIB+OYCMl93ODgd78DtBwD6WmFVbsDwWk6dKjwTQlE3ABFGZJtk A==;
-X-CSE-ConnectionGUID: 8+HSVXvGRSmzM38SreYz+A==
-X-CSE-MsgGUID: 0kZJVaonQo2icLcJhENyWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58601758"
-X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; d="scan'208";a="58601758"
+ bh=1S+gbQI4tRMHfpY74D40BT/HxUgN89obzD0BxMRZEqg=;
+ b=j//30GVA09mlkjc9cuqDH7Rqtxw0ChCc+88mu9eGeKBq8CqQYcZxFSDB
+ UHkaGUjfrQ0R7uXPAmGjLuIN/9SV3ruv72O/csnrt13sXGORM75Hboqsb
+ q0r/vgDl4lXk/YckWzdea6JXfZdQxSF+frZn89sDxbQL5q3eRhiF+fAMu
+ iyUnmP5BrKpfbOUx3JsKyS/Aot13B5SzeCJ5ZxVoWjFjBYfnYR0MX7MyD
+ XwkGslv/LzFKcAcd1xiOLxXW5hh7Nvet8+lqX1G9y8iT/rPfl2a8kMlmx
+ kFNPLwI61IeMwhSRAlSTYDWyEw8ciwDu7HzBmyXnzUeFkwXN6Ok972MWV w==;
+X-CSE-ConnectionGUID: zFLho8JLRCmZJCeCRL6RGg==
+X-CSE-MsgGUID: il+wWR+RShe3CKdcO3yndw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58601773"
+X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; d="scan'208";a="58601773"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 09:27:11 -0800
-X-CSE-ConnectionGUID: zD1Vmf1rSoKHbXEjeDi5EQ==
-X-CSE-MsgGUID: 6jcqOWyMSx24B7VisHzwYQ==
+ 24 Feb 2025 09:27:14 -0800
+X-CSE-ConnectionGUID: RY/js/YhRkydFRrUKGIbVg==
+X-CSE-MsgGUID: hG10up7JSXGViD4VgV2K0w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121374183"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121374190"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 24 Feb 2025 09:27:08 -0800
+ by orviesa005.jf.intel.com with SMTP; 24 Feb 2025 09:27:12 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 24 Feb 2025 19:27:06 +0200
+ Mon, 24 Feb 2025 19:27:10 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/9] drm/i915/dp: Move intel_dp_training_pattern()
-Date: Mon, 24 Feb 2025 19:26:42 +0200
-Message-ID: <20250224172645.15763-7-ville.syrjala@linux.intel.com>
+Subject: [PATCH 7/9] drm/i915/dp: Implement .set_idle_link_train() for everyone
+Date: Mon, 24 Feb 2025 19:26:43 +0200
+Message-ID: <20250224172645.15763-8-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.3
 In-Reply-To: <20250224172645.15763-1-ville.syrjala@linux.intel.com>
 References: <20250224172645.15763-1-ville.syrjala@linux.intel.com>
@@ -72,146 +72,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Move intel_dp_training_pattern() upwards to avoid the forward
-declaration for the POST_LT_ADJ_REQ stuff.
+All platforms are capable of explicitly transmitting the idle
+pattern. Implement it for everyone (so far it as implemented
+only for HSW+).
+
+The immediate benefit is that we gain support for the
+POST_LT_ADJ_REQ sequence for all platforms.
+
+Another potential future use would be a pseudo port sync mode on
+pre-BDW where we attempt to sync up multiple ports/pipes by trying
+to turn on the transcoders at the same time, and switching the
+links to normal pixel transmission at the same time.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- .../drm/i915/display/intel_dp_link_training.c | 112 +++++++++---------
- 1 file changed, 54 insertions(+), 58 deletions(-)
+ drivers/gpu/drm/i915/display/g4x_dp.c | 33 +++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index 8863fc2c44ff..f208b947ef92 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -767,9 +767,62 @@ void intel_dp_link_training_set_bw(struct intel_dp *intel_dp,
- 	}
+diff --git a/drivers/gpu/drm/i915/display/g4x_dp.c b/drivers/gpu/drm/i915/display/g4x_dp.c
+index 372c3683c193..390f9b476a11 100644
+--- a/drivers/gpu/drm/i915/display/g4x_dp.c
++++ b/drivers/gpu/drm/i915/display/g4x_dp.c
+@@ -621,6 +621,19 @@ cpt_set_link_train(struct intel_dp *intel_dp,
+ 	intel_de_posting_read(display, intel_dp->output_reg);
  }
  
-+/*
-+ * Pick Training Pattern Sequence (TPS) for channel equalization. 128b/132b TPS2
-+ * for UHBR+, TPS4 for HBR3 or for 1.4 devices that support it, TPS3 for HBR2 or
-+ * 1.2 devices that support it, TPS2 otherwise.
-+ */
- static u32 intel_dp_training_pattern(struct intel_dp *intel_dp,
- 				     const struct intel_crtc_state *crtc_state,
--				     enum drm_dp_phy dp_phy);
-+				     enum drm_dp_phy dp_phy)
++static void
++cpt_set_idle_link_train(struct intel_dp *intel_dp,
++			const struct intel_crtc_state *crtc_state)
 +{
 +	struct intel_display *display = to_intel_display(intel_dp);
-+	bool source_tps3, sink_tps3, source_tps4, sink_tps4;
 +
-+	/* UHBR+ use separate 128b/132b TPS2 */
-+	if (intel_dp_is_uhbr(crtc_state))
-+		return DP_TRAINING_PATTERN_2;
++	intel_dp->DP &= ~DP_LINK_TRAIN_MASK_CPT;
++	intel_dp->DP |= DP_LINK_TRAIN_PAT_IDLE_CPT;
 +
-+	/*
-+	 * TPS4 support is mandatory for all downstream devices that
-+	 * support HBR3. There are no known eDP panels that support
-+	 * TPS4 as of Feb 2018 as per VESA eDP_v1.4b_E1 specification.
-+	 * LTTPRs must support TPS4.
-+	 */
-+	source_tps4 = intel_dp_source_supports_tps4(display);
-+	sink_tps4 = dp_phy != DP_PHY_DPRX ||
-+		    drm_dp_tps4_supported(intel_dp->dpcd);
-+	if (source_tps4 && sink_tps4) {
-+		return DP_TRAINING_PATTERN_4;
-+	} else if (crtc_state->port_clock == 810000) {
-+		if (!source_tps4)
-+			lt_dbg(intel_dp, dp_phy,
-+			       "8.1 Gbps link rate without source TPS4 support\n");
-+		if (!sink_tps4)
-+			lt_dbg(intel_dp, dp_phy,
-+			       "8.1 Gbps link rate without sink TPS4 support\n");
-+	}
-+
-+	/*
-+	 * TPS3 support is mandatory for downstream devices that
-+	 * support HBR2. However, not all sinks follow the spec.
-+	 */
-+	source_tps3 = intel_dp_source_supports_tps3(display);
-+	sink_tps3 = dp_phy != DP_PHY_DPRX ||
-+		    drm_dp_tps3_supported(intel_dp->dpcd);
-+	if (source_tps3 && sink_tps3) {
-+		return  DP_TRAINING_PATTERN_3;
-+	} else if (crtc_state->port_clock >= 540000) {
-+		if (!source_tps3)
-+			lt_dbg(intel_dp, dp_phy,
-+			       ">=5.4/6.48 Gbps link rate without source TPS3 support\n");
-+		if (!sink_tps3)
-+			lt_dbg(intel_dp, dp_phy,
-+			       ">=5.4/6.48 Gbps link rate without sink TPS3 support\n");
-+	}
-+
-+	return DP_TRAINING_PATTERN_2;
++	intel_de_write(display, intel_dp->output_reg, intel_dp->DP);
++	intel_de_posting_read(display, intel_dp->output_reg);
 +}
- 
- static bool intel_dp_use_post_lt_adj_req(struct intel_dp *intel_dp,
- 					 const struct intel_crtc_state *crtc_state)
-@@ -971,63 +1024,6 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp,
- 	return false;
++
+ static void
+ g4x_set_link_train(struct intel_dp *intel_dp,
+ 		   const struct intel_crtc_state *crtc_state,
+@@ -649,6 +662,19 @@ g4x_set_link_train(struct intel_dp *intel_dp,
+ 	intel_de_posting_read(display, intel_dp->output_reg);
  }
  
--/*
-- * Pick Training Pattern Sequence (TPS) for channel equalization. 128b/132b TPS2
-- * for UHBR+, TPS4 for HBR3 or for 1.4 devices that support it, TPS3 for HBR2 or
-- * 1.2 devices that support it, TPS2 otherwise.
-- */
--static u32 intel_dp_training_pattern(struct intel_dp *intel_dp,
--				     const struct intel_crtc_state *crtc_state,
--				     enum drm_dp_phy dp_phy)
--{
--	struct intel_display *display = to_intel_display(intel_dp);
--	bool source_tps3, sink_tps3, source_tps4, sink_tps4;
--
--	/* UHBR+ use separate 128b/132b TPS2 */
--	if (intel_dp_is_uhbr(crtc_state))
--		return DP_TRAINING_PATTERN_2;
--
--	/*
--	 * TPS4 support is mandatory for all downstream devices that
--	 * support HBR3. There are no known eDP panels that support
--	 * TPS4 as of Feb 2018 as per VESA eDP_v1.4b_E1 specification.
--	 * LTTPRs must support TPS4.
--	 */
--	source_tps4 = intel_dp_source_supports_tps4(display);
--	sink_tps4 = dp_phy != DP_PHY_DPRX ||
--		    drm_dp_tps4_supported(intel_dp->dpcd);
--	if (source_tps4 && sink_tps4) {
--		return DP_TRAINING_PATTERN_4;
--	} else if (crtc_state->port_clock == 810000) {
--		if (!source_tps4)
--			lt_dbg(intel_dp, dp_phy,
--			       "8.1 Gbps link rate without source TPS4 support\n");
--		if (!sink_tps4)
--			lt_dbg(intel_dp, dp_phy,
--			       "8.1 Gbps link rate without sink TPS4 support\n");
--	}
--
--	/*
--	 * TPS3 support is mandatory for downstream devices that
--	 * support HBR2. However, not all sinks follow the spec.
--	 */
--	source_tps3 = intel_dp_source_supports_tps3(display);
--	sink_tps3 = dp_phy != DP_PHY_DPRX ||
--		    drm_dp_tps3_supported(intel_dp->dpcd);
--	if (source_tps3 && sink_tps3) {
--		return  DP_TRAINING_PATTERN_3;
--	} else if (crtc_state->port_clock >= 540000) {
--		if (!source_tps3)
--			lt_dbg(intel_dp, dp_phy,
--			       ">=5.4/6.48 Gbps link rate without source TPS3 support\n");
--		if (!sink_tps3)
--			lt_dbg(intel_dp, dp_phy,
--			       ">=5.4/6.48 Gbps link rate without sink TPS3 support\n");
--	}
--
--	return DP_TRAINING_PATTERN_2;
--}
--
- /*
-  * Perform the link training channel equalization phase on the given DP PHY
-  * using one of training pattern 2, 3 or 4 depending on the source and
++static void
++g4x_set_idle_link_train(struct intel_dp *intel_dp,
++			const struct intel_crtc_state *crtc_state)
++{
++	struct intel_display *display = to_intel_display(intel_dp);
++
++	intel_dp->DP &= ~DP_LINK_TRAIN_MASK;
++	intel_dp->DP |= DP_LINK_TRAIN_PAT_IDLE;
++
++	intel_de_write(display, intel_dp->output_reg, intel_dp->DP);
++	intel_de_posting_read(display, intel_dp->output_reg);
++}
++
+ static void intel_dp_enable_port(struct intel_dp *intel_dp,
+ 				 const struct intel_crtc_state *crtc_state)
+ {
+@@ -1353,10 +1379,13 @@ bool g4x_dp_init(struct intel_display *display,
+ 	intel_encoder->audio_disable = g4x_dp_audio_disable;
+ 
+ 	if ((display->platform.ivybridge && port == PORT_A) ||
+-	    (HAS_PCH_CPT(dev_priv) && port != PORT_A))
++	    (HAS_PCH_CPT(dev_priv) && port != PORT_A)) {
+ 		dig_port->dp.set_link_train = cpt_set_link_train;
+-	else
++		dig_port->dp.set_idle_link_train = cpt_set_idle_link_train;
++	} else {
+ 		dig_port->dp.set_link_train = g4x_set_link_train;
++		dig_port->dp.set_idle_link_train = g4x_set_idle_link_train;
++	}
+ 
+ 	if (display->platform.cherryview)
+ 		intel_encoder->set_signal_levels = chv_set_signal_levels;
 -- 
 2.45.3
 
