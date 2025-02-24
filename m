@@ -2,63 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77388A428E7
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88323A428E9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:08:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E045B10E486;
-	Mon, 24 Feb 2025 17:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E164A10E489;
+	Mon, 24 Feb 2025 17:08:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Sio8wCHU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o+xA+XU9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10D610E4D2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 17:07:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1740416861; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cQsG9W64Zk2OKPd85hxSBf3MoJiTODMBTu4S6CnPlWuor7IGgJIcWNndNYTukQzzy5BIS7ko8YZuDAuCpYJal2IXzhCTBaWol/+/qQWufRn4WPQ3FoxqUTMqRthnnunXMY1EDYsQ8Ni6IH0bH9RmjXJ9VJ1ZuwMHsguCwu5Lhv8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1740416861;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=sEPEAsu37A1qIiTQHKAj9euGoglZkXFnn7bkzdjcrRE=; 
- b=foLWPn7DIDy5HLGjNjLotNo9FeEe+uTIuAE0AjTgPX0e3wNcpU2CZSVQ+/Zn5+0V8pQkjdAozQeO9kl+ZXiYapXqxsRO/XcfP63G8q6yGydmhZue7i7pZGXZucZvt3Q/OBFQJbuWCyKqFQbJVdslHBIIzEzcXuNdG2hefJhxmqw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740416861; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=sEPEAsu37A1qIiTQHKAj9euGoglZkXFnn7bkzdjcrRE=;
- b=Sio8wCHUmuVQl6YhlW1D/0pbEkzPpmY28SSltsg2poGIlD72ugcjNeHS5lZoUKZd
- QvtXgPe3rWf/YjlVpGqgYacgKRrF0vd5WXdwYWJ5j2AJntdbB83gK8shcCflxeOwNMU
- rjwmLAt4nqsVMBGOEy+2FNQqstP3/I8o5MKOondc=
-Received: by mx.zohomail.com with SMTPS id 17404168592031017.3373094891671;
- Mon, 24 Feb 2025 09:07:39 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
- id AC79518067D; Mon, 24 Feb 2025 18:07:34 +0100 (CET)
-Date: Mon, 24 Feb 2025 18:07:34 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andy Yan <andyshrk@163.com>,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 0/2] Rockchip W552793DBA-V10 panel support
-Message-ID: <psmfw2znti3luu6pjyi5g22bgvylcb5lms22yakfkshnol4v4y@bhzvqjbgzhep>
-References: <20250207-raydium-rm67200-v2-0-1fdc927aae82@kernel.org>
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C2010E489
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 17:08:11 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-546237cd3cbso4702218e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 09:08:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740416889; x=1741021689; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SDD7C/XbQ4WEaFEyI9RS4ouDEECOxDAKosUSoNyCeps=;
+ b=o+xA+XU9VQBXj6eW3MvNp6hv0Pem35pStZoOBSPreexFtfo8mR8qQgf0MRSJ+TBMQm
+ SROAWK5ctCRUXe+CInGkLYLYzWuq3+qkfZpuCeNfh3I7e0bLRmb/he2i9nwlUBDWAOE5
+ P4cMooKQc63195R+P+AdDk8GGNLwIQqx6N/9M/14e6e2HlCylm1+LuYivdMSw9CeFFdH
+ b8iP653fiFz9WEENhqExsNnbxEUTXOgL0HlMEcN7ogwMLKcO89+WaFeX4Hc4LNRMdjhg
+ CjlcJDQ1Qx+1onpePE7QSalQfEN08anZ9TNgo+ksBb0pH6IVasBRzV+5cT+edvOd/ly/
+ dx7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740416889; x=1741021689;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SDD7C/XbQ4WEaFEyI9RS4ouDEECOxDAKosUSoNyCeps=;
+ b=ApWejBnwIJFMCqOO4QDkM/u9nOcK236IZRTo0CQq3U/y6x2KEXUmI1WWoZ4VwnxTj6
+ xl1UWcvJS//t8RjWOT487yJi+acbc/MeHCpP1g0NGANGyrkmP/+gTjT990ee5FPxwlQu
+ vY8htGChur5UYFNGHCy3BF4EItE9zNfi4a0cYh3fIhs64YpRFy2yyjglfjDkpAy8f06e
+ TgY4EG7tY7WwBBSnZgwr/xyQfcIK6VzAXcP6HlkcVQwVlxTQiO3HalmBBl3LQxRfHuST
+ 5w+QEIXzJLKGmakd9I8KgLIOmMUPs9nFE5An94OYd4bDWYJcC6NROxY5hjU52dl5VuPi
+ z3bQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVf2g8nvpeHbjty2Gi0oTUmOoQMPakamsl1Gu34PPfHINiUfwBx67XLxhYECRkXEqrFWGY1fxfpSSY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWbR+LDFWT0FKO+zEnhFPabuM0m3ERsKe2kUDAYn1whG++4pu5
+ 4iV7vPhlox88Zgn5wb/smZaDzzYnPAuvJ47FqBO5hD97r5ulZ8qavlI7EP1THDU=
+X-Gm-Gg: ASbGncsLXDPmlh7KzY2HFu9XKBuNNHz4vuerucP+D95EuB0hFJcA0w+oMFhm3syRhJz
+ 0JX01P0UAXPDwMEHXV6AY1dW9JqrRk1oQxsIIY8zh2q39oyhvGEWZW1fEnnfVhGdC4enBIyJIvm
+ ZMyyj2iS+1FnMY2c/08C5LsjcjV459+UWQQWGmkKtz+56Rjns2nmXdo+gfnSPXv+Iv6p9zSnULY
+ A647GFspuMPA6wGy2hfNDqzSkxT1f8FxagO1rubwPN/GLUxQCuwJ/XS7Qs7ArjiPYT3rWX5Whdk
+ KGAQpz1uK8+btDsnlNG7wXIcwwFNYQlos9TCstDAbAL3m6VtUMfwtt+5mYxB2SL7ROEZEx1twPh
+ ZhsQQ5g==
+X-Google-Smtp-Source: AGHT+IHB1gFnnaGSzBphtTkMlhlOX/xtMLMcfN5SzTa6WkSqGOzrAt8tTjA8bVyEGzKZWV+BQiheoQ==
+X-Received: by 2002:a05:6512:691:b0:545:e7f:cf33 with SMTP id
+ 2adb3069b0e04-54838efaefcmr5529016e87.28.1740416889466; 
+ Mon, 24 Feb 2025 09:08:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-545243fdfb6sm3283441e87.218.2025.02.24.09.08.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2025 09:08:08 -0800 (PST)
+Date: Mon, 24 Feb 2025 19:08:06 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 13/15] drm/msm/dpu: support SSPP assignment for
+ quad-pipe case
+Message-ID: <n22g66ruabunma4w4p44zjtsnb5t4vdpjuaocasbup3alb4fxp@74tu3wnqbwfg>
+References: <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-0-c11402574367@linaro.org>
+ <20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-13-c11402574367@linaro.org>
+ <khmeegjx5jmu4c32un3gqu7sumkbtdkg6cawwwmwtmkp5gkrag@sklf5tr7qbwv>
+ <CABymUCOnnWQZpOhgDfENmWrTUuwb76zSN7nSeO+eyNp4k+PKRw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250207-raydium-rm67200-v2-0-1fdc927aae82@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABymUCOnnWQZpOhgDfENmWrTUuwb76zSN7nSeO+eyNp4k+PKRw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,31 +100,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Feb 24, 2025 at 06:14:22PM +0800, Jun Nie wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 于2025年2月22日周六 00:36写道：
+> >
+> > On Mon, Feb 17, 2025 at 10:16:02PM +0800, Jun Nie wrote:
+> > > Currently, SSPPs are assigned to a maximum of two pipes. However,
+> > > quad-pipe usage scenarios require four pipes and involve configuring
+> > > two stages. In quad-pipe case, the first two pipes share a set of
+> > > mixer configurations and enable multi-rect mode when certain
+> > > conditions are met. The same applies to the subsequent two pipes.
+> > >
+> > > Assign SSPPs to the pipes in each stage using a unified method and
+> > > to loop the stages accordingly.
+> > >
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 63 +++++++++++++++++++------------
+> > >  1 file changed, 39 insertions(+), 24 deletions(-)
+> > >
+> > > +     for (stage_id = 0; stage_id < num_stages; stage_id++) {
+> > > +             for (i = stage_id * PIPES_PER_STAGE; i < (stage_id + 1) * PIPES_PER_STAGE; i++) {
+> 
+> Do you mean define and assign r_pipe / r_pipe_cfg here?
 
-On Fri, Feb 07, 2025 at 05:21:46PM +0100, Sebastian Reichel wrote:
-> This has been tested in combination with the series from Heiko St=FCbne=
-r
-> enabling DSI support for the RK3588 [0] (DSI controller support has bee=
-n
-> merged already, only the PHY support is missing) on the RK3588 EVB1.
->=20
-> [0] https://lore.kernel.org/linux-rockchip/20241203164934.1500616-1-hei=
-ko@sntech.de/
->=20
-> Changes since PATCHv1:
->  * https://lore.kernel.org/all/20241210164333.121253-1-sebastian.reiche=
-l@collabora.com/
->  * move additionalProperties below required in the DT binding
->  * collect Reviewed-by from Krzysztof Kozlowski, Andy Yan and Jessica Z=
-hang
->  * improve Kconfig help text
->=20
-> Thanks for having a look.
+No, because for i = num_stages-1, the r_pipe would point to invalid
+memory.
 
-I believe this has all necessary Reviewed-by tags. Can somebody
-merge it please? :)
+> 
+> > > +                     pipe = &pstate->pipe[i];
+> > > +                     pipe_cfg = &pstate->pipe_cfg[i];
+> > > +
+> > > +                     if (drm_rect_width(&pipe_cfg->src_rect) == 0)
+> > > +                             break;
+> > > +
+> > > +                     pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> > > +                     if (!pipe->sspp)
+> > > +                             return -ENODEV;
+> > > +
+> > > +                     r_pipe = &pstate->pipe[i + 1];
+> > > +                     r_pipe_cfg = &pstate->pipe_cfg[i + 1];
+> > > +
+> > > +                     /*
+> > > +                      * If current pipe is the first pipe in pipe pair, check
+> > > +                      * multi-rect opportunity for the 2nd pipe in the pair.
+> > > +                      * SSPP multi-rect mode cross mixer pairs is not supported.
+> > > +                      */
+> > > +                     if ((i % PIPES_PER_STAGE == 0) &&
+> >
+> > Please move r_pipe / r_pipe_cfg definition and assignment here.
+> 
+> r_pipe / r_pipe_cfg is used in this if(). Please see above question.
 
-Greetings,
+Maybe we can rework it somehow. I really don't fancy the after-the-array
+pointer.
 
--- Sebastian
+> >
+> >
+> > > +                         drm_rect_width(&r_pipe_cfg->src_rect) != 0 &&
+> > > +                         dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
+> > > +                                                           pipe->sspp,
+> > > +                                                           msm_framebuffer_format(plane_state->fb),
+> > > +                                                           dpu_kms->catalog->caps->max_linewidth)) {
+> > > +                             i++;
+> > > +                     } else {
+> > > +                             /* multirect is not possible, use two SSPP blocks */
+> > > +                             pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > > +                             pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > > +                             DPU_DEBUG_PLANE(pdpu, "allocating sspp_%d for pipe %d.\n",
+> > > +                                             pipe->sspp->idx - SSPP_NONE, i);
+> > > +                     }
+> > > +             }
+> > >       }
+> > >
+> > >       return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
+> > >
+> > > --
+> > > 2.34.1
+> > >
+> >
+> > --
+> > With best wishes
+> > Dmitry
+
+-- 
+With best wishes
+Dmitry
