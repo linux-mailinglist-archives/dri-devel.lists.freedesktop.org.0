@@ -2,116 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC5CA42194
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:44:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EA3A42184
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 14:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1B9210E4F8;
-	Mon, 24 Feb 2025 13:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3882210E530;
+	Mon, 24 Feb 2025 13:42:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nsjpHz21";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nhZ1OCH6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18C110E16F
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 08:52:09 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4394345e4d5so26059355e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 00:52:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740387128; x=1740991928; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=rfttPucZes4uslCtilxnixZCmYMBBrCsgPvpifvl92U=;
- b=nsjpHz214eq0iBZgbFiH623GPu4lCCt+q8sM5Ihxi645pLHWGvJBbQEGg8bIOxr5lx
- US4ahhu8D6ra8H72e8sAkN2MwZ/0r7Fh/w3FcNqjDjUUYPn65kMyVj2EP2id4bhiDvlr
- hRDItUO9q0hbq0y0BTVDlMeKysSpS9T5k+AGgXyYkmE97fs7PA4P7zT2j9sUlFcGuerK
- h2Keg/CrJ72Kj1nW8XNJAKVkQSRKtlFogv5OikYkubyuXR05+Yyeyf4heMHWLk9DK2oU
- jfgHIGyTLWOecw7y/wCkBk1RLYVLnOc5aKXXtvxoxofRGhBVdXCYgBr0abRaK7zql8Yz
- 3lGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740387128; x=1740991928;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=rfttPucZes4uslCtilxnixZCmYMBBrCsgPvpifvl92U=;
- b=K8Vky/CB5srye56JwesDSLNnIc9i2apubbnrqDcjkQdZbiVyhPBZbSyxIw71Zy59YK
- DlixQGqRmxFntADrZ5hM6m5Z7DPq5qAn5nsRUhjQObalG6XVt5eUwnM9a03PoacFf1OW
- 5aByySzdaq8+XhyHRJeH5+THY0FMbe2TMrFj2xTJBiYggHktsNQK5/wzkYbYooEWP32I
- 0c/H+YaB+zWw3C/+wirOIaaldueCZWmRu+dWTBxpOT7XE+7rOD4wcFjb98bIZwDs3lwg
- 1yugsH1tdFQIlsZkjCH2xOZfaqNBMJZZBwj6/CONDJ9fJ7hDL7s7RbcpEChWC/Lncmee
- a1og==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYdwfRex1pHoJwU7WAx5y3b8L9yoyK5IPSvGIGmK5Dnds/qug/nz0NnE4ex9kmkm/yt9147I/Ikjc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8tVyt6TRng7dn2GZKenkb2ZDDzDzGr+LzSFoX7+Ve5+vnkUOF
- JeAUJZIrydWRWfZ7JhWpi18J7BqjegxSbmCWCenLKC5jT1j8zzsqw6p0ofzlOuk=
-X-Gm-Gg: ASbGncsqB3yGoNaznbOuZPmRa+L4CbD4Jo6eu8lgpmA46VBgHvOEvJHvW5hipvkHGSB
- mO3JAIG4o17Fkq9KM9jf3s+o4XlxXpymyYPAyvKoS8GDrTlSUpmXnkNlb3n6AFi7dc4FniGPf6f
- HrqhyuvIRuG8IjDk3j5CUhVa9h7W8Kq3InWrW2LDzUW3XCx39w6k+AeXFHt26MYL13QlQ20+xGn
- 8KyHFIYIg1jLh9edrKIYdxRoSG44trwm5UjsiNPEF2xpaXA/xdcQeyS2L8pncYUYtiUPJtPMpsN
- r8ydnzkFNakyVXgbzU8qTEGZZD9UdPkgVWfEzfELrdJoDll1eUOCQUg9SBuRqxlVojXY4tOIkKi
- 1hpM=
-X-Google-Smtp-Source: AGHT+IGc4DlL71WulAAnKcQ9CzF1y/33BchgEuu9bZ5o2bSiiIB3/0bTM2b5M5+480mvGS24HXxp7w==
-X-Received: by 2002:a05:600c:19ce:b0:439:a1c7:7b2d with SMTP id
- 5b1f17b1804b1-439aeae05fbmr98203575e9.4.1740387128219; 
- Mon, 24 Feb 2025 00:52:08 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:825b:5392:ef70:cc0b?
- ([2a01:e0a:982:cbb0:825b:5392:ef70:cc0b])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439b02ce65dsm99552155e9.1.2025.02.24.00.52.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2025 00:52:07 -0800 (PST)
-Message-ID: <794bf229-df4a-41f3-a8a4-8b1362eb7f04@linaro.org>
-Date: Mon, 24 Feb 2025 09:52:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
-To: kernel test robot <lkp@intel.com>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90EB610E16F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 08:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740387189; x=1771923189;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=neshqSurALujxJaE68ap1rRMFm3NUp1g3KLiJlE7CYo=;
+ b=nhZ1OCH60bqgA3XPWuhof2wEUqXZQ/5bsWw7ps20VPTSHXCB4NSnWDDM
+ QnK5WQSt/+CjAeHQDfR+I7jVgiwEhNptkic/Nicit43rMDpA8hk3OIwfW
+ 9nrtxJ78bbnC8eobJwMipshgwaG+XvC2Ghi8iUWDexCdC4ihCfGBNM8wk
+ snidG686f6maHZw/o+KKLH9I8Za2qCVhdn+GOW6AQL7wkRQo3b0K3r5iX
+ CmHQaiR/wnOB5miNOqP+VuIlZY25b+4pDo3nBL/UtqVIvoVNyTBIH2Ukq
+ WD07YAql/I6XX2wv5hhdGH2mKMeKHzbBndbS2I9GRk4BeU+FJ1vGIgU2B w==;
+X-CSE-ConnectionGUID: rlB3egjTTbmbInvxTpeQzg==
+X-CSE-MsgGUID: D+fKFqajS3iiM6v8Juyb3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="40370373"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="40370373"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 00:53:08 -0800
+X-CSE-ConnectionGUID: PNhOh7vxSOGLVEau75g2nQ==
+X-CSE-MsgGUID: WM7FaagXSw+Fumvlggpw7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="153200232"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.133])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 00:53:06 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nicolas Baranger <nicolas.baranger@3xo.fr>, Thomas Zimmermann
+ <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com, Jocelyn Falempe
+ <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-References: <20250110074458.3624094-3-christianshewitt@gmail.com>
- <202501210513.GCec6kts-lkp@intel.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <202501210513.GCec6kts-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
+In-Reply-To: <984c317de1027f5886390a65f1f66126@3xo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
+ <194c4656963debcf074d87e89ab1a829@3xo.fr>
+ <b296bfef-1a9c-4452-baeb-09f86758addd@suse.de>
+ <984c317de1027f5886390a65f1f66126@3xo.fr>
+Date: Mon, 24 Feb 2025 10:53:02 +0200
+Message-ID: <87o6yr911t.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,44 +73,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, 13 Feb 2025, Nicolas Baranger <nicolas.baranger@3xo.fr> wrote:
+> Yes, due to .date total removal in linux 6.14 
+> (https://github.com/torvalds/linux/commit/cb2e1c2136f71618142557ceca3a8802e87a44cd) 
+> the last DKMS sources are :
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/nba_last_src_20250212/src/
 
-On 20/01/2025 22:56, kernel test robot wrote:
-> Hi Christian,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.13 next-20250120]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/Revert-drm-meson-vclk-fix-calculation-of-59-94-fractional-rates/20250110-154701
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20250110074458.3624094-3-christianshewitt%40gmail.com
-> patch subject: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
-> config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501210513.GCec6kts-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/gpib/fmh_gpib/fmh_gpib.o
->>> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/meson/meson-drm.ko] undefined!
-> 
+I'm not sure what you're trying to say here. The driver date was removed
+because it was virtually never updated for any driver. It provided no
+useful information.
 
-Please use do_div() when dividing 64bit numbers to please 32-bit platforms.
+BR,
+Jani.
 
-Neil
+
+-- 
+Jani Nikula, Intel
