@@ -2,59 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FBEA41704
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 09:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCF2A41973
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 10:47:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20C9A10E198;
-	Mon, 24 Feb 2025 08:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65E9E10E00D;
+	Mon, 24 Feb 2025 09:47:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="B8AqRAw6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bT2ICR5Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m15598.qiye.163.com (mail-m15598.qiye.163.com
- [101.71.155.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33BD10E153
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 08:14:30 +0000 (UTC)
-Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id bfd28862;
- Mon, 24 Feb 2025 16:14:26 +0800 (GMT+08:00)
-From: Damon Ding <damon.ding@rock-chips.com>
-To: heiko@sntech.de
-Cc: andy.yan@rock-chips.com, hjc@rock-chips.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org,
- dianders@chromium.org, sebastian.reichel@collabora.com,
- cristian.ciocaltea@collabora.com, boris.brezillon@collabora.com,
- l.stach@pengutronix.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v7 15/15] arm64: dts: rockchip: Enable eDP0 display on RK3588S
- EVB1 board
-Date: Mon, 24 Feb 2025 16:13:25 +0800
-Message-Id: <20250224081325.96724-16-damon.ding@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250224081325.96724-1-damon.ding@rock-chips.com>
-References: <20250224081325.96724-1-damon.ding@rock-chips.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4D6910E00D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 09:47:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740390446; x=1771926446;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+WTxUZC6daTEmaagLEmds/XTc+7JQgGYHuO1yDEuspo=;
+ b=bT2ICR5YhKL7qLMRyyaG2mtQb0x9lXzASSTMq78q5g0QXxQEm000K7ZW
+ go4SZKEXCLQh5pcrzqR6nKECmwPs0vzf2QikoXtg4dNBkLCrc/7OafJA/
+ 2/oUBPRNKnZ7sDwdw8Kk+kaUJqflX0YAoyNU5ksfcGm030AhEcI+sTlKV
+ QYrvnrPCS7zfHeOinzyDTe8PGtUX9eZ3jedwWwgTtN9fY5a8RY3xhCOg8
+ wVSRQ/FdA3mqC4haJrwMKX2WSVKc4Qdkov4hD99OvHTDQ8mmuS6vKVjPc
+ wfknpS3mkGkSqwx9AcDG51ZkdYVS8dfPAYrqjWVfMaEV7Y4u3Ic93XRf0 w==;
+X-CSE-ConnectionGUID: ZJetSbTBTGa+EHuV+ZYIKQ==
+X-CSE-MsgGUID: Df4wSZihQICoRo/EIHEqPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="44789673"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="44789673"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 01:47:26 -0800
+X-CSE-ConnectionGUID: vQmcoqNlR3C0fKUshxY8iA==
+X-CSE-MsgGUID: oCE9LlNOTnOO77JGa4IywQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; d="scan'208";a="121097706"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 01:47:19 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tmV3R-0000000EXdv-14JO; Mon, 24 Feb 2025 11:47:13 +0200
+Date: Mon, 24 Feb 2025 11:47:12 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Aditya Garg <gargaditya08@live.com>, "pmladek@suse.com" <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>,
+ "joe@perches.com" <joe@perches.com>,
+ "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>,
+ Atharva Tiwari <evepolonium@gmail.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Hector Martin <marcan@marcan.st>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>,
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <Z7xAINooeB7zpnhf@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
+ <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
+ <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
+ <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
+ <E8256A03-5D13-4B8B-932D-70E734E580FE@live.com>
+ <6f7b0886-5f31-4ba9-b82e-e9d3614b504f@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkxPTlYYHxlNS0NKThpLSRhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a953705924d03a3kunmbfd28862
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6M006Agw6KDIUMxMRTTMBEQ0X
- CB9PCRBVSlVKTE9LSENPQ01DQ0tPVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFISE9MNwY+
-DKIM-Signature: a=rsa-sha256;
- b=B8AqRAw6Tbymyr1sz474bXDJxxKsZIun4JYntG1Btss0YszgMlqF+06zz73RdUa0B7s4zI71p0b155OIJlcSShh88bdXD+gPKfm24AhrwfdflUnjOLB4tiu/jeEa0JwMRBtmOPpbi0R0Ee2J8Wl3qGYtFf5bZkqtmhLLrSe9KVY=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=5h/y9NEgz/o71+GHUNhAGQ4SKKQ0RE+55I5pH4r07Uk=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f7b0886-5f31-4ba9-b82e-e9d3614b504f@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,138 +105,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
-- Set pinctrl of pwm12 for backlight
-- Enable edp0/hdptxphy0/vp2
-- Assign the parent of DCLK_VOP2_SRC to PLL_V0PLL
-- Add aux-bus/panel nodes
+On Mon, Feb 24, 2025 at 09:41:43AM +0100, Thomas Zimmermann wrote:
+> Am 22.02.25 um 10:07 schrieb Aditya Garg:
 
-For RK3588, the PLL_V0PLL is specifically designed for the VOP2. This
-means the clock rate of PLL_V0PLL can be adjusted according to the dclk
-rate of relevant VP. It is typically assigned as the dclk source of a
-specific VP when the clock of relevant display mode is unusual, such as
-the eDP panel 'lg,lp079qx1-sp0v' paired with RK3588S EVB1, which has a
-clock rate of 202.02MHz.
+...
 
-Additionally, the 'force-hpd' is set for edp0 because the HPD pin on the
-panel side is not connected to the eDP HPD pin on the SoC side according
-to the RK3588S EVB1 hardware design.
+> > > What padding, please? Why TCP UAPI headers do not have these attributes?
+> > > Think about it, and think about what actually __packed does and how it affects
+> > > (badly) the code generation. Otherwise it looks like a cargo cult.
+> > > 
+> > > > I tried removing __packed btw and driver no longer works.
+> > > So, you need to find a justification why. But definitely not due to padding in
+> > > many of them. They can go without __packed as they are naturally aligned.
+> > Alright, I did some debugging, basically printk sizeof(struct). Did it for both packed and unpacked with the following results:
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_request_header is 16
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_request_header_unpacked is 16
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_response_header is 20
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_response_header_unpacked is 20
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_simple_request is 32
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_simple_request_unpacked is 32
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_information is 65
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_information_unpacked is 68
+> 
+> In the unpacked version, there is a 3-byte gap after the 'bits_per_pixel' to
+> align the next field. Using __packed removes those gaps at the expense of
+> runtime overhead.
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_frame is 12
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_frame_unpacked is 12
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_footer is 80
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_footer_unpacked is 80
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request is 48
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_unpacked is 48
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_response is 40
+> > Feb 22 13:02:04 MacBook kernel: size of struct appletbdrm_fb_request_response_unpacked is 40
+> > 
+> > So, the difference in sizeof in unpacked and packed is only in appletbdrm_msg_information. So, I kept this packed, and removed it from others. The Touch Bar still works.
+> > 
+> > So maybe keep just this packed?
+> 
+> The fields in the TCP header are aligned by design.
 
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Unfortunately, this hardware's protocol is not. And there's no way of fixing
+> this now. Just keep all of them packed if you want.
 
----
+It would be nice to see the difference in the code generation for the all
+__packed vs. only those that require it.
 
-Changes in v2:
-- Remove brightness-levels and default-brightness-level properties in
-  backlight node.
-- Add the detail DT changes to commit message.
+> At least it's clear then
+> what happens. And if your hardware requires this, you can't do much anyway.
 
-Changes in v3:
-- Use aux-bus instead of platform bus for edp-panel.
+One aspect (member level alignment) is clear but the other is not
+(object level alignment). I dunno if it makes sense to be pedantic about this,
+but would like to see the binary outcome asked for.
 
-Changes in v4:
-- Add comments related to the use of panel compatible "lg,lp079qx1-sp0v"
-  in the commit message.
-
-Changes in v5:
-- Use "edp-panel" instead of "lg,lp079qx1-sp0v"
-- Remove unnecessary comments in commit message
-- Assign the parent of DCLK_VOP2_SRC to PLL_V0PLL
-
-Changes in v6:
-- Add PLL_V0PLL related descriptions in commit message
-
-Changes in v7:
-- Describe why to set the 'force-hpd' for edp0
-- Add no-hpd for the panel node
----
- .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-index bc4077575beb..de52a6600b7b 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-@@ -9,6 +9,7 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/pinctrl/rockchip.h>
-+#include <dt-bindings/soc/rockchip,vop2.h>
- #include <dt-bindings/usb/pd.h>
- #include "rk3588s.dtsi"
- 
-@@ -238,6 +239,42 @@ &combphy2_psu {
- 	status = "okay";
- };
- 
-+&edp0 {
-+	force-hpd;
-+	status = "okay";
-+
-+	aux-bus {
-+		panel {
-+			compatible = "edp-panel";
-+			backlight = <&backlight>;
-+			power-supply = <&vcc3v3_lcd_edp>;
-+			no-hpd;
-+
-+			port {
-+				panel_in_edp: endpoint {
-+					remote-endpoint = <&edp_out_panel>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&edp0_in {
-+	edp0_in_vp2: endpoint {
-+		remote-endpoint = <&vp2_out_edp0>;
-+	};
-+};
-+
-+&edp0_out {
-+	edp_out_panel: endpoint {
-+		remote-endpoint = <&panel_in_edp>;
-+	};
-+};
-+
-+&hdptxphy0 {
-+	status = "okay";
-+};
-+
- &i2c3 {
- 	status = "okay";
- 
-@@ -399,6 +436,7 @@ usbc0_int: usbc0-int {
- };
- 
- &pwm12 {
-+	pinctrl-0 = <&pwm12m1_pins>;
- 	status = "okay";
- };
- 
-@@ -1168,3 +1206,20 @@ usbdp_phy0_dp_altmode_mux: endpoint@1 {
- 		};
- 	};
- };
-+
-+&vop_mmu {
-+	status = "okay";
-+};
-+
-+&vop {
-+	assigned-clocks = <&cru DCLK_VOP2_SRC>;
-+	assigned-clock-parents = <&cru PLL_V0PLL>;
-+	status = "okay";
-+};
-+
-+&vp2 {
-+	vp2_out_edp0: endpoint@ROCKCHIP_VOP2_EP_EDP0 {
-+		reg = <ROCKCHIP_VOP2_EP_EDP0>;
-+		remote-endpoint = <&edp0_in_vp2>;
-+	};
-+};
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
