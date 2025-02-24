@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35FBDA429A6
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD1DA42A74
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:56:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D18910E4AE;
-	Mon, 24 Feb 2025 17:27:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="S25UuhU1";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1448210E159;
+	Mon, 24 Feb 2025 17:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6945410E498;
- Mon, 24 Feb 2025 17:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740418041; x=1771954041;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2HF//5vlOKnqTw3amAWY5VdbAzdNNEL5Z3GrC8zDGzg=;
- b=S25UuhU1v5bZyx97qiqXp65f8QX/88Y5UdSgmIo7VrLLWo2GNlGlZvNd
- rcCd7OhLWLtPvvmupnrggI9M2R2/zLsCY1IpDThK/sQkXzTrXCV+Ei8CN
- LI+cCT7W3h27+2XFXvTSTqNqzrHGTNV2jX+6So/06RgMRl5X+Bpe9qlNO
- iOS0Q72DZM7uTvyG85Qf09l5vcuqvWrhPW32Oaa6qT6dBDTzGiVZAqeVe
- hBo3TVk5EMPH1XaNgMA7JKuFCXRXUqZtFoFLFKdZ0kXERUMqxU/Sj7Xu3
- 69/qep0gcUN4aeBzOYt3vbkaWhCuAy9jnZ9CBlJKtH44zthJVfK4k1hej Q==;
-X-CSE-ConnectionGUID: UkLtB+2cT02rs7LJd3clKQ==
-X-CSE-MsgGUID: RAof1UHZQ8aNEt41wL6XAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58601786"
-X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; d="scan'208";a="58601786"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 09:27:21 -0800
-X-CSE-ConnectionGUID: RIaEw/OFTBSqUVvwzrfQMQ==
-X-CSE-MsgGUID: xXMRrctWTXaG5Ed9tyfOaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121374206"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 24 Feb 2025 09:27:19 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 24 Feb 2025 19:27:17 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 9/9] hax: drm/i915: Disable TPS4 support to force
- POST_LT_ADJ_REQ usage
-Date: Mon, 24 Feb 2025 19:26:45 +0200
-Message-ID: <20250224172645.15763-10-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.45.3
-In-Reply-To: <20250224172645.15763-1-ville.syrjala@linux.intel.com>
-References: <20250224172645.15763-1-ville.syrjala@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 81CBF10E159
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 17:56:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7991B152B;
+ Mon, 24 Feb 2025 09:57:06 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D9C63F5A1;
+ Mon, 24 Feb 2025 09:56:46 -0800 (PST)
+Date: Mon, 24 Feb 2025 17:56:42 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chris
+ Morgan <macroalpha82@gmail.com>, Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, Conor Dooley
+ <conor.dooley@microchip.com>
+Subject: Re: [PATCH v7 22/27] dt-bindings: allwinner: add H616 DE33 mixer
+ binding
+Message-ID: <20250224175642.170c124e@donnerap.manchester.arm.com>
+In-Reply-To: <20250216183710.8443-23-ryan@testtoast.com>
+References: <20250216183710.8443-3-ryan@testtoast.com>
+ <20250216183710.8443-23-ryan@testtoast.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,33 +61,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Mon, 17 Feb 2025 07:36:22 +1300
+Ryan Walklin <ryan@testtoast.com> wrote:
 
-Disable TPS4 in favor of POST_LT_ADJ_REQ for testing purposes.
+Hi,
 
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp_link_training.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> The Allwinner H616 and variants have a new display engine revision
+> (DE33).
+> 
+> The mixer configuration registers are significantly different to the DE3
+> and DE2 revisions, being split into separate top and display blocks,
+> therefore a fallback for the mixer compatible is not provided.
+> 
+> Add a display engine mixer binding for the DE33.
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+> 
+> ---
+> Changelog v2..v3:
+> - Separate content into three patches for three separate subsystems
+> 
+> Changelog v5..v6:
+> - increase reg maxItems to 3 and add conditional for h616-de33
+> ---
+>  .../allwinner,sun8i-a83t-de2-mixer.yaml       | 21 ++++++++++++++++++-
+>  1 file changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+> index b75c1ec686ad2..274f5e6327333 100644
+> --- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+> +++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+> @@ -24,9 +24,11 @@ properties:
+>        - allwinner,sun50i-a64-de2-mixer-0
+>        - allwinner,sun50i-a64-de2-mixer-1
+>        - allwinner,sun50i-h6-de3-mixer-0
+> +      - allwinner,sun50i-h616-de33-mixer-0
+>  
+>    reg:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 3
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index 3bd15054effe..7ccfa202dbc0 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -792,6 +792,13 @@ static u32 intel_dp_training_pattern(struct intel_dp *intel_dp,
- 	source_tps4 = intel_dp_source_supports_tps4(display);
- 	sink_tps4 = dp_phy != DP_PHY_DPRX ||
- 		    drm_dp_tps4_supported(intel_dp->dpcd);
-+
-+	/* hax */
-+	if (dp_phy == DP_PHY_DPRX &&
-+	    drm_dp_post_lt_adj_req_supported(intel_dp->dpcd) &&
-+	    crtc_state->port_clock != 810000)
-+		sink_tps4 = false;
-+
- 	if (source_tps4 && sink_tps4) {
- 		return DP_TRAINING_PATTERN_4;
- 	} else if (crtc_state->port_clock == 810000) {
--- 
-2.45.3
+What are those three regions? I wonder if we should have reg-names here,
+to fix the order, and to document them on the way?
+
+>  
+>    clocks:
+>      items:
+> @@ -61,6 +63,23 @@ properties:
+>      required:
+>        - port@1
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - allwinner,sun50i-h616-de33-mixer-0
+> +
+> +    then:
+> +      properties:
+> +        reg:
+> +          maxItems: 3
+
+Should we override minItems here as well? I guess any driver would need
+all three region to work?
+
+Cheers,
+Andre
+
+> +
+> +    else:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
 
