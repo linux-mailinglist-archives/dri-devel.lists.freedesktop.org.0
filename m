@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDE8A42975
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22167A4298D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 18:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDD610E33B;
-	Mon, 24 Feb 2025 17:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3C7110E351;
+	Mon, 24 Feb 2025 17:26:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iMt+CR2A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZlTWVqot";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BFE48984C;
- Mon, 24 Feb 2025 17:23:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 81441611E4;
- Mon, 24 Feb 2025 17:23:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8C8C4CED6;
- Mon, 24 Feb 2025 17:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740417825;
- bh=VRzmzKwfkmV/SsmodSt2tTi4F0g1wvkHl9yIrrDB7OE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iMt+CR2A9wqhSwtNmbETDqNEElQZLf2gzHZolLxoktxpkWHA7/Jmt+PpbuMGupBss
- Ia2XpnfV+lm7LE80cGoMXq5xfAkElQeNiDiryNFhuphXuOEVTSGjf9zMcPfR2C48ro
- VvdZkrD49M29bTU9BGxDun6REFI7fI2DSPupdbidZlDB9B/BSd3iQ4ojPqzMlGKHAD
- 5jJibDwRQceEW4qArPFgJBD7o6FZIuWBUomcWJCSqR14sqr96Ge7CU2YWefOX7uwLf
- KzpBaPnMEw5HRQ3D1reVCZ7yB1P9N7sp/+Lyro15sGC4hVBNPayVafMSZXOoUbMUqF
- pTXqPIPQNkI7w==
-Date: Mon, 24 Feb 2025 11:23:43 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Maxime Ripard <mripard@kernel.org>, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- Conor Dooley <conor+dt@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Jonathan Marek <jonathan@marek.ca>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Srini Kandagatla <srinivas.kandagatla@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 07/21] dt-bindings: display/msm: qcom, sm8750-mdss: Add
- SM8750
-Message-ID: <174041782271.3553565.17982761584486770776.robh@kernel.org>
-References: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
- <20250221-b4-sm8750-display-v3-7-3ea95b1630ea@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D681210E347;
+ Mon, 24 Feb 2025 17:26:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740418010; x=1771954010;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=eAoQmvB1/5uFup65O8Oyst1eOy94uFJZn6f1HXRiyWo=;
+ b=ZlTWVqot6y+qNldJM6pVErpaGs9iLRnRsodAzpX0U8NjCJ2zuFATyEMP
+ Xh/GUy/qJCbbNQVBIvR9EWabTPhnx4M/DkqyQEMAu7zfKtcTsdDOGoRYh
+ XVIz3CLVCE5ySQaJHZuH9EjmA8QTnaUKNxXWR1v0t26YYZL2aYwSrqpnD
+ UVlTchndc5w1SVAy7yu4TJ4xDQS+ZmTXA5A38FntqynxVSCgNTUw0fnQ0
+ Ofo3d012cvLdCT0BS/0MDbNDvF9dFpqgkxrM5cmHsEnGSGIuYwQRW7OCH
+ NRzzpxV48H3KTmkjpsQSTJ95Rdzg0vgqOYH7iwsDbqEhoH0qXgPoUGD2N Q==;
+X-CSE-ConnectionGUID: QzDcs2SaR7ex5JLtW2JcTQ==
+X-CSE-MsgGUID: XTX2IVRsTOGS4QzQK2XsMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58601706"
+X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; d="scan'208";a="58601706"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 09:26:50 -0800
+X-CSE-ConnectionGUID: L2jYOjjYQIS8GrPNMvvdNw==
+X-CSE-MsgGUID: laHDoFzuSw644Hq/mabelg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121374089"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orviesa005.jf.intel.com with SMTP; 24 Feb 2025 09:26:47 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 24 Feb 2025 19:26:45 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/9] drm/i915/dp: Implement POST_LT_ADJ_REQ
+Date: Mon, 24 Feb 2025 19:26:36 +0200
+Message-ID: <20250224172645.15763-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.45.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250221-b4-sm8750-display-v3-7-3ea95b1630ea@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,22 +68,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-On Fri, 21 Feb 2025 16:24:17 +0100, Krzysztof Kozlowski wrote:
-> Add MDSS/MDP display subsystem for Qualcomm SM8750 SoC, next generation
-> with two revisions up of the IP block comparing to SM8650.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Changes in v3:
-> 1. Properly described interconnects
-> 2. Use only one compatible and contains for the sub-blocks (Rob)
-> ---
->  .../bindings/display/msm/qcom,sm8750-mdss.yaml     | 470 +++++++++++++++++++++
->  1 file changed, 470 insertions(+)
-> 
+Implement the POST_LT_ADJ_REQ sequence, which is supposed
+to be used to further tune the link vswing/pre-emphasis
+when TPS4 is not supported.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Unfortunately I don't have any displays/dongles that support
+this so I wasn't able to test anything. Hopefully CI has
+something...
+
+Ville Syrjälä (9):
+  drm/dp: Add definitions for POST_LT_ADJ training sequence
+  drm/dp: Add POST_LT_ADJ_REQ helpers
+  drm/i915/dp: Clear DPCD training pattern before transmitting the idle
+    pattern
+  drm/i915/dp: Have intel_dp_get_adjust_train() tell us if anything
+    changed
+  drm/i915/dp: Implement the POST_LT_ADJ_REQ sequence
+  drm/i915/dp: Move intel_dp_training_pattern()
+  drm/i915/dp: Implement .set_idle_link_train() for everyone
+  drm/i915/dp: Make .set_idle_link_train() mandatory
+  hax: drm/i915: Disable TPS4 support to force POST_LT_ADJ_REQ usage
+
+ drivers/gpu/drm/display/drm_dp_helper.c       |   8 +
+ drivers/gpu/drm/i915/display/g4x_dp.c         |  33 ++-
+ .../drm/i915/display/intel_dp_link_training.c | 267 +++++++++++++-----
+ .../drm/i915/display/intel_dp_link_training.h |   4 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   2 +-
+ include/drm/display/drm_dp.h                  |   3 +
+ include/drm/display/drm_dp_helper.h           |   8 +
+ 7 files changed, 253 insertions(+), 72 deletions(-)
+
+-- 
+2.45.3
 
