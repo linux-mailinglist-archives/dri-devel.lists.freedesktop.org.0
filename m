@@ -2,84 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69291A41D84
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 12:50:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C688A41D98
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2025 12:51:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDDC410E33F;
-	Mon, 24 Feb 2025 11:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99E0510E343;
+	Mon, 24 Feb 2025 11:51:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RNCwFjab";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="a19wWjJT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C63A410E2BF
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 11:48:39 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5484fa1401cso150929e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 03:48:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740397718; x=1741002518; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s7YGxgcYsH2Z6UeAPNFU8eFx1X3tNVUIDdtvMVz8EVg=;
- b=RNCwFjabvL7DqS4t70E1oNqU4bULBaHviBhhJmfNpQHNm2W6QhwpVpMA4btsb/ixo+
- Md+oDHEFJCufBgSZGuAY5qTAxPZ5m0hFGl4eFbx4c88knBHr5lIBmEqJFpnXRMiZnBVC
- kIzQa62ZGJOR9fuTFtsmGm5/L93GK/aXHKU3JFEgPGhAGRHKOSmATlKYvcOY23u/NeDM
- Yj9g6WeFoaHXD7kUKaVGEqbmS1RHAfKOdBtB4kCqAeV195fYXMpsxGXhDXmBiWsEFudT
- KR+zqNAqASPc3GuldzNWG7GKsq2ahMlG4u1EKVqjDrtYKUV6ObpFTqwXTrcVlVFeBvd6
- zxsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740397718; x=1741002518;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s7YGxgcYsH2Z6UeAPNFU8eFx1X3tNVUIDdtvMVz8EVg=;
- b=j0eGt6UZiqetTQw2L7QdPNhy8327oJImsajoV6HrgpA8B82Fv7s5XKXNtLMk8T2PZe
- M7n8pktnOpHyIQnZSJgAHvjs3Z/eNH2fNgl2sdlkSt3DAU1TwOsUR4tC1cBEHgB4/XIN
- KILDtePSkaGFusKMAkVdmk/a5uLjIQ7UAiz3UT7Y3IClmU/FLXR0yDtlPCN2rVscNI+Z
- pEf8Hrchb1/V6OC3fYusdenl6gxj5Dqll54BaaGo4cLQBt496CagX2NWhkf9WeichU2i
- irBO1jcbxRajZTXTh5WirAJbgi7UyakcjeJv/+h9byNn5LMJTZcMRdy+0dX8FCw8QFaU
- olvA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUuxuMXEHniHhNge54ySPBml3ISrMfDx/3dHFyuFWOMynkKOx6/BffmxQ8+2hAdX5c7G9KBA/3OEsg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxr618Mgrxxso/LlIymAU67wm/krW8aQPj/IevYT77xUceaIkTB
- Kk0roGhU4KBzc4+aFxq8DP1pbCK7B8bX/10NWGwEWbCO+nfRdvZX
-X-Gm-Gg: ASbGncvm8UBkGWRWD7wSHos4e6fnSJlGpltO+Tu0WW6HwYMtxvThylF6xkiWYiRQGyd
- NmY2UMSOZEbkOWrIFnm+TChJKmpuEP8VOj6ydPMBCjEwBJy3uBF9NClB2EQK53QuB2fDOsz3RzU
- 5BxjZY1QO+bDeq5eQuUEiiBju2Hr/vdSuHlAMwgSRjCOqFTFi4w2kUdH3YnXRp9jFXbh3bPOLmx
- 6iOabAwHObtBUDCCE+rgzs9A0cnr/okIwqvjnzaWbdOyiferf9EkQOaSSA8n0Ur4z4LTYH9t1lh
- qTxixeMMYqhvYT50
-X-Google-Smtp-Source: AGHT+IGkL3jPbvjdhubhnPrx7plRciIWdKWwe/aVSvkhwLSqdnGfEPza49vkT/ZGzqXc7B6I0kxqLQ==
-X-Received: by 2002:a05:6512:3186:b0:545:f9c:a80f with SMTP id
- 2adb3069b0e04-54838edd978mr4285102e87.1.1740397717800; 
- Mon, 24 Feb 2025 03:48:37 -0800 (PST)
-Received: from xeon.. ([188.163.112.51]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54526338bf9sm3167862e87.85.2025.02.24.03.48.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2025 03:48:37 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Svyatoslav Ryhel <clamor95@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH v3 2/2] mfd: lm3533: convert to use OF
-Date: Mon, 24 Feb 2025 13:48:14 +0200
-Message-ID: <20250224114815.146053-3-clamor95@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250224114815.146053-1-clamor95@gmail.com>
-References: <20250224114815.146053-1-clamor95@gmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CBC610E343
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 11:51:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1740397890;
+ bh=DEB+SMivXXKdttMI0HIj4UzZBSfctVingpXmJjWYPbQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=a19wWjJTIdrUI1w/E9NlR5Zwn9/2T1WkvKsDDms833Rlvearb30SSwORC0D/0WoMQ
+ I9GTYJ94HLVE3Cgy0/sF+lGuEp85SsIWDXsBwzpwFBBi7y8/cPV+wfhk0RmYDucuYq
+ 9yKcvzWdO2MRKhmv/uqbZznaDSVxFze0qrIhAYor72HnKPGG6EFrU2wJLGhXNu+8d3
+ RLu5hxRiM9rLzEysXDv4gsKwQtuu0hRNdEzE8vT/Gwu9/y8k5iDjctV3CQb+eUfXdf
+ s3g/rHhYMbsDYlkhV+Sg92FTj++WEsjUCgNM0WDImL/uWlyE8O56mCGNYO2lkL1wLi
+ JvInyWNZnoPZw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8A8E617E00FC;
+ Mon, 24 Feb 2025 12:51:29 +0100 (CET)
+Date: Mon, 24 Feb 2025 12:51:24 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Mihail Atanassov
+ <mihail.atanassov@arm.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm/panthor: Avoid sleep locking in the internal
+ BO size path
+Message-ID: <20250224125124.34dc1e7a@collabora.com>
+In-Reply-To: <22tktof6433nshmhihwjpvvgnwpos3v4mkggxqikxbta5p4s57@w2gzdqudhbfi>
+References: <20250214210009.1994543-1-adrian.larumbe@collabora.com>
+ <20250214210009.1994543-2-adrian.larumbe@collabora.com>
+ <20250215104438.13220f14@collabora.com>
+ <22tktof6433nshmhihwjpvvgnwpos3v4mkggxqikxbta5p4s57@w2gzdqudhbfi>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,732 +69,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove platform data and fully relay on OF and device tree
-parsing and binding devices.
+Hi Adrian,
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/iio/light/lm3533-als.c      |  40 ++++---
- drivers/leds/leds-lm3533.c          |  46 +++++---
- drivers/mfd/lm3533-core.c           | 159 ++++++++--------------------
- drivers/video/backlight/lm3533_bl.c |  71 ++++++++++---
- include/linux/mfd/lm3533.h          |  35 +-----
- 5 files changed, 164 insertions(+), 187 deletions(-)
+On Thu, 20 Feb 2025 20:26:23 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-diff --git a/drivers/iio/light/lm3533-als.c b/drivers/iio/light/lm3533-als.c
-index 99f0b903018c..cb52965e93c6 100644
---- a/drivers/iio/light/lm3533-als.c
-+++ b/drivers/iio/light/lm3533-als.c
-@@ -16,9 +16,12 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/mfd/core.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/slab.h>
- #include <linux/uaccess.h>
-+#include <linux/units.h>
- 
- #include <linux/mfd/lm3533.h>
- 
-@@ -56,6 +59,9 @@ struct lm3533_als {
- 
- 	atomic_t zone;
- 	struct mutex thresh_mutex;
-+
-+	unsigned pwm_mode:1;		/* PWM input mode (default analog) */
-+	u8 r_select;			/* 1 - 127 (ignored in PWM-mode) */
- };
- 
- 
-@@ -753,18 +759,17 @@ static int lm3533_als_set_resistor(struct lm3533_als *als, u8 val)
- 	return 0;
- }
- 
--static int lm3533_als_setup(struct lm3533_als *als,
--			    const struct lm3533_als_platform_data *pdata)
-+static int lm3533_als_setup(struct lm3533_als *als)
- {
- 	int ret;
- 
--	ret = lm3533_als_set_input_mode(als, pdata->pwm_mode);
-+	ret = lm3533_als_set_input_mode(als, als->pwm_mode);
- 	if (ret)
- 		return ret;
- 
- 	/* ALS input is always high impedance in PWM-mode. */
--	if (!pdata->pwm_mode) {
--		ret = lm3533_als_set_resistor(als, pdata->r_select);
-+	if (!als->pwm_mode) {
-+		ret = lm3533_als_set_resistor(als, als->r_select);
- 		if (ret)
- 			return ret;
- 	}
-@@ -828,22 +833,16 @@ static const struct iio_info lm3533_als_info = {
- 
- static int lm3533_als_probe(struct platform_device *pdev)
- {
--	const struct lm3533_als_platform_data *pdata;
- 	struct lm3533 *lm3533;
- 	struct lm3533_als *als;
- 	struct iio_dev *indio_dev;
-+	u32 val;
- 	int ret;
- 
- 	lm3533 = dev_get_drvdata(pdev->dev.parent);
- 	if (!lm3533)
- 		return -EINVAL;
- 
--	pdata = dev_get_platdata(&pdev->dev);
--	if (!pdata) {
--		dev_err(&pdev->dev, "no platform data\n");
--		return -EINVAL;
--	}
--
- 	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*als));
- 	if (!indio_dev)
- 		return -ENOMEM;
-@@ -864,13 +863,21 @@ static int lm3533_als_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, indio_dev);
- 
-+	val = 200 * KILO; /* 200kOhm */
-+	device_property_read_u32(&pdev->dev, "ti,resistor-value-ohm", &val);
-+
-+	/* Convert resitance into R_ALS value with 2v / 10uA * R */
-+	als->r_select = DIV_ROUND_UP(2 * MICRO, 10 * val);
-+
-+	als->pwm_mode = device_property_read_bool(&pdev->dev, "ti,pwm-mode");
-+
- 	if (als->irq) {
- 		ret = lm3533_als_setup_irq(als, indio_dev);
- 		if (ret)
- 			return ret;
- 	}
- 
--	ret = lm3533_als_setup(als, pdata);
-+	ret = lm3533_als_setup(als);
- 	if (ret)
- 		goto err_free_irq;
- 
-@@ -907,9 +914,16 @@ static void lm3533_als_remove(struct platform_device *pdev)
- 		free_irq(als->irq, indio_dev);
- }
- 
-+static const struct of_device_id lm3533_als_match_table[] = {
-+	{ .compatible = "ti,lm3533-als" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, lm3533_als_match_table);
-+
- static struct platform_driver lm3533_als_driver = {
- 	.driver	= {
- 		.name	= "lm3533-als",
-+		.of_match_table = lm3533_als_match_table,
- 	},
- 	.probe		= lm3533_als_probe,
- 	.remove		= lm3533_als_remove,
-diff --git a/drivers/leds/leds-lm3533.c b/drivers/leds/leds-lm3533.c
-index 45795f2a1042..6e661a2a540f 100644
---- a/drivers/leds/leds-lm3533.c
-+++ b/drivers/leds/leds-lm3533.c
-@@ -10,8 +10,10 @@
- #include <linux/module.h>
- #include <linux/leds.h>
- #include <linux/mfd/core.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/slab.h>
- 
- #include <linux/mfd/lm3533.h>
-@@ -48,6 +50,9 @@ struct lm3533_led {
- 
- 	struct mutex mutex;
- 	unsigned long flags;
-+
-+	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
-+	u8 pwm;				/* 0 - 0x3f */
- };
- 
- 
-@@ -632,23 +637,22 @@ static const struct attribute_group *lm3533_led_attribute_groups[] = {
- 	NULL
- };
- 
--static int lm3533_led_setup(struct lm3533_led *led,
--					struct lm3533_led_platform_data *pdata)
-+static int lm3533_led_setup(struct lm3533_led *led)
- {
- 	int ret;
- 
--	ret = lm3533_ctrlbank_set_max_current(&led->cb, pdata->max_current);
-+	ret = lm3533_ctrlbank_set_max_current(&led->cb, led->max_current);
- 	if (ret)
- 		return ret;
- 
--	return lm3533_ctrlbank_set_pwm(&led->cb, pdata->pwm);
-+	return lm3533_ctrlbank_set_pwm(&led->cb, led->pwm);
- }
- 
- static int lm3533_led_probe(struct platform_device *pdev)
- {
- 	struct lm3533 *lm3533;
--	struct lm3533_led_platform_data *pdata;
- 	struct lm3533_led *led;
-+	u32 val;
- 	int ret;
- 
- 	dev_dbg(&pdev->dev, "%s\n", __func__);
-@@ -657,12 +661,6 @@ static int lm3533_led_probe(struct platform_device *pdev)
- 	if (!lm3533)
- 		return -EINVAL;
- 
--	pdata = dev_get_platdata(&pdev->dev);
--	if (!pdata) {
--		dev_err(&pdev->dev, "no platform data\n");
--		return -EINVAL;
--	}
--
- 	if (pdev->id < 0 || pdev->id >= LM3533_LVCTRLBANK_COUNT) {
- 		dev_err(&pdev->dev, "illegal LED id %d\n", pdev->id);
- 		return -EINVAL;
-@@ -673,8 +671,11 @@ static int lm3533_led_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	led->lm3533 = lm3533;
--	led->cdev.name = pdata->name;
--	led->cdev.default_trigger = pdata->default_trigger;
-+	led->cdev.name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s-%d",
-+					pdev->name, pdev->id);
-+	led->cdev.default_trigger = "none";
-+	device_property_read_string(&pdev->dev, "linux,default-trigger",
-+				    &led->cdev.default_trigger);
- 	led->cdev.brightness_set_blocking = lm3533_led_set;
- 	led->cdev.brightness_get = lm3533_led_get;
- 	led->cdev.blink_set = lm3533_led_blink_set;
-@@ -702,7 +703,17 @@ static int lm3533_led_probe(struct platform_device *pdev)
- 
- 	led->cb.dev = led->cdev.dev;
- 
--	ret = lm3533_led_setup(led, pdata);
-+	/* 5000 - 29800 uA (800 uA step) */
-+	val = 5000;
-+	device_property_read_u32(&pdev->dev, "ti,max-current-microamp", &val);
-+	led->max_current = val;
-+
-+	/* 0 - 0x3f */
-+	val = 0;
-+	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &val);
-+	led->pwm = val;
-+
-+	ret = lm3533_led_setup(led);
- 	if (ret)
- 		goto err_deregister;
- 
-@@ -739,9 +750,16 @@ static void lm3533_led_shutdown(struct platform_device *pdev)
- 	lm3533_led_set(&led->cdev, LED_OFF);		/* disable blink */
- }
- 
-+static const struct of_device_id lm3533_led_match_table[] = {
-+	{ .compatible = "ti,lm3533-leds" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, lm3533_led_match_table);
-+
- static struct platform_driver lm3533_led_driver = {
- 	.driver = {
- 		.name = "lm3533-leds",
-+		.of_match_table = lm3533_led_match_table,
- 	},
- 	.probe		= lm3533_led_probe,
- 	.remove		= lm3533_led_remove,
-diff --git a/drivers/mfd/lm3533-core.c b/drivers/mfd/lm3533-core.c
-index 0a2409d00b2e..e1b8fe136af9 100644
---- a/drivers/mfd/lm3533-core.c
-+++ b/drivers/mfd/lm3533-core.c
-@@ -14,10 +14,13 @@
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/mfd/core.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/seq_file.h>
- #include <linux/slab.h>
- #include <linux/uaccess.h>
-+#include <linux/units.h>
- 
- #include <linux/mfd/lm3533.h>
- 
-@@ -42,41 +45,41 @@
- 
- #define LM3533_REG_MAX			0xb2
- 
--
--static struct mfd_cell lm3533_als_devs[] = {
-+static struct mfd_cell lm3533_child_devices[] = {
- 	{
- 		.name	= "lm3533-als",
- 		.id	= -1,
-+		.of_compatible = "ti,lm3533-als",
- 	},
--};
--
--static struct mfd_cell lm3533_bl_devs[] = {
- 	{
- 		.name	= "lm3533-backlight",
- 		.id	= 0,
-+		.of_compatible = "ti,lm3533-backlight",
- 	},
- 	{
- 		.name	= "lm3533-backlight",
- 		.id	= 1,
-+		.of_compatible = "ti,lm3533-backlight",
- 	},
--};
--
--static struct mfd_cell lm3533_led_devs[] = {
- 	{
- 		.name	= "lm3533-leds",
- 		.id	= 0,
-+		.of_compatible = "ti,lm3533-leds",
- 	},
- 	{
- 		.name	= "lm3533-leds",
- 		.id	= 1,
-+		.of_compatible = "ti,lm3533-leds",
- 	},
- 	{
- 		.name	= "lm3533-leds",
- 		.id	= 2,
-+		.of_compatible = "ti,lm3533-leds",
- 	},
- 	{
- 		.name	= "lm3533-leds",
- 		.id	= 3,
-+		.of_compatible = "ti,lm3533-leds",
- 	},
- };
- 
-@@ -376,136 +379,60 @@ static struct attribute_group lm3533_attribute_group = {
- 	.attrs		= lm3533_attributes
- };
- 
--static int lm3533_device_als_init(struct lm3533 *lm3533)
--{
--	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
--	int ret;
--
--	if (!pdata->als)
--		return 0;
--
--	lm3533_als_devs[0].platform_data = pdata->als;
--	lm3533_als_devs[0].pdata_size = sizeof(*pdata->als);
--
--	ret = mfd_add_devices(lm3533->dev, 0, lm3533_als_devs, 1, NULL,
--			      0, NULL);
--	if (ret) {
--		dev_err(lm3533->dev, "failed to add ALS device\n");
--		return ret;
--	}
--
--	lm3533->have_als = 1;
--
--	return 0;
--}
--
--static int lm3533_device_bl_init(struct lm3533 *lm3533)
--{
--	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
--	int i;
--	int ret;
--
--	if (!pdata->backlights || pdata->num_backlights == 0)
--		return 0;
--
--	if (pdata->num_backlights > ARRAY_SIZE(lm3533_bl_devs))
--		pdata->num_backlights = ARRAY_SIZE(lm3533_bl_devs);
--
--	for (i = 0; i < pdata->num_backlights; ++i) {
--		lm3533_bl_devs[i].platform_data = &pdata->backlights[i];
--		lm3533_bl_devs[i].pdata_size = sizeof(pdata->backlights[i]);
--	}
--
--	ret = mfd_add_devices(lm3533->dev, 0, lm3533_bl_devs,
--			      pdata->num_backlights, NULL, 0, NULL);
--	if (ret) {
--		dev_err(lm3533->dev, "failed to add backlight devices\n");
--		return ret;
--	}
--
--	lm3533->have_backlights = 1;
--
--	return 0;
--}
--
--static int lm3533_device_led_init(struct lm3533 *lm3533)
--{
--	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
--	int i;
--	int ret;
--
--	if (!pdata->leds || pdata->num_leds == 0)
--		return 0;
--
--	if (pdata->num_leds > ARRAY_SIZE(lm3533_led_devs))
--		pdata->num_leds = ARRAY_SIZE(lm3533_led_devs);
--
--	for (i = 0; i < pdata->num_leds; ++i) {
--		lm3533_led_devs[i].platform_data = &pdata->leds[i];
--		lm3533_led_devs[i].pdata_size = sizeof(pdata->leds[i]);
--	}
--
--	ret = mfd_add_devices(lm3533->dev, 0, lm3533_led_devs,
--			      pdata->num_leds, NULL, 0, NULL);
--	if (ret) {
--		dev_err(lm3533->dev, "failed to add LED devices\n");
--		return ret;
--	}
--
--	lm3533->have_leds = 1;
--
--	return 0;
--}
--
--static int lm3533_device_setup(struct lm3533 *lm3533,
--					struct lm3533_platform_data *pdata)
-+static int lm3533_device_setup(struct lm3533 *lm3533)
- {
- 	int ret;
- 
--	ret = lm3533_set_boost_freq(lm3533, pdata->boost_freq);
-+	ret = lm3533_set_boost_freq(lm3533, lm3533->boost_freq);
- 	if (ret)
- 		return ret;
- 
--	return lm3533_set_boost_ovp(lm3533, pdata->boost_ovp);
-+	return lm3533_set_boost_ovp(lm3533, lm3533->boost_ovp);
- }
- 
- static int lm3533_device_init(struct lm3533 *lm3533)
- {
--	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
-+	u32 val;
- 	int ret;
- 
--	dev_dbg(lm3533->dev, "%s\n", __func__);
-+	lm3533->hwen = devm_gpiod_get(lm3533->dev, "enable", GPIOD_OUT_LOW);
-+	if (IS_ERR(lm3533->hwen))
-+		return dev_err_probe(lm3533->dev, PTR_ERR(lm3533->hwen),
-+				     "failed to request HWEN GPIO\n");
- 
--	if (!pdata) {
--		dev_err(lm3533->dev, "no platform data\n");
--		return -EINVAL;
--	}
-+	val = 16 * MICRO; /* 16V */
-+	device_property_read_u32(lm3533->dev, "ti,boost-ovp-microvolt", &val);
- 
--	lm3533->hwen = devm_gpiod_get(lm3533->dev, NULL, GPIOD_OUT_LOW);
--	if (IS_ERR(lm3533->hwen))
--		return dev_err_probe(lm3533->dev, PTR_ERR(lm3533->hwen), "failed to request HWEN GPIO\n");
--	gpiod_set_consumer_name(lm3533->hwen, "lm3533-hwen");
-+	/* boost_ovp is defined in microvolts, convert to enum value */
-+	lm3533->boost_ovp = val / (8 * MICRO) - 2;
-+
-+	val = 500 * KILO; /* 500kHz */
-+	device_property_read_u32(lm3533->dev, "ti,boost-freq-hz", &val);
-+
-+	/* boost_freq is defined in Hz, convert to enum value */
-+	lm3533->boost_freq = val / (500 * KILO) - 1;
- 
- 	lm3533_enable(lm3533);
- 
--	ret = lm3533_device_setup(lm3533, pdata);
-+	ret = lm3533_device_setup(lm3533);
- 	if (ret)
- 		goto err_disable;
- 
--	lm3533_device_als_init(lm3533);
--	lm3533_device_bl_init(lm3533);
--	lm3533_device_led_init(lm3533);
-+	ret = devm_mfd_add_devices(lm3533->dev, 0, lm3533_child_devices,
-+				   ARRAY_SIZE(lm3533_child_devices), NULL, 0, NULL);
-+	if (ret) {
-+		dev_err(lm3533->dev, "failed to add MFD devices: %d\n", ret);
-+		goto err_disable;
-+	}
- 
- 	ret = sysfs_create_group(&lm3533->dev->kobj, &lm3533_attribute_group);
- 	if (ret < 0) {
- 		dev_err(lm3533->dev, "failed to create sysfs attributes\n");
--		goto err_unregister;
-+		goto err_disable;
- 	}
- 
- 	return 0;
- 
--err_unregister:
--	mfd_remove_devices(lm3533->dev);
- err_disable:
- 	lm3533_disable(lm3533);
- 
-@@ -517,8 +444,6 @@ static void lm3533_device_exit(struct lm3533 *lm3533)
- 	dev_dbg(lm3533->dev, "%s\n", __func__);
- 
- 	sysfs_remove_group(&lm3533->dev->kobj, &lm3533_attribute_group);
--
--	mfd_remove_devices(lm3533->dev);
- 	lm3533_disable(lm3533);
- }
- 
-@@ -591,6 +516,9 @@ static int lm3533_i2c_probe(struct i2c_client *i2c)
- 	lm3533->dev = &i2c->dev;
- 	lm3533->irq = i2c->irq;
- 
-+	i2c->dev.coherent_dma_mask = 0;
-+	i2c->dev.dma_mask = &i2c->dev.coherent_dma_mask;
-+
- 	return lm3533_device_init(lm3533);
- }
- 
-@@ -603,6 +531,12 @@ static void lm3533_i2c_remove(struct i2c_client *i2c)
- 	lm3533_device_exit(lm3533);
- }
- 
-+static const struct of_device_id lm3533_match_table[] = {
-+	{ .compatible = "ti,lm3533" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, lm3533_match_table);
-+
- static const struct i2c_device_id lm3533_i2c_ids[] = {
- 	{ "lm3533" },
- 	{ }
-@@ -612,6 +546,7 @@ MODULE_DEVICE_TABLE(i2c, lm3533_i2c_ids);
- static struct i2c_driver lm3533_i2c_driver = {
- 	.driver = {
- 		   .name = "lm3533",
-+		   .of_match_table = lm3533_match_table,
- 	},
- 	.id_table	= lm3533_i2c_ids,
- 	.probe		= lm3533_i2c_probe,
-diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
-index babfd3ceec86..0827a5e98dbb 100644
---- a/drivers/video/backlight/lm3533_bl.c
-+++ b/drivers/video/backlight/lm3533_bl.c
-@@ -9,7 +9,9 @@
- 
- #include <linux/module.h>
- #include <linux/init.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/backlight.h>
- #include <linux/slab.h>
- 
-@@ -19,6 +21,7 @@
- #define LM3533_HVCTRLBANK_COUNT		2
- #define LM3533_BL_MAX_BRIGHTNESS	255
- 
-+#define LM3533_REG_OUTPUT_CONF1		0x10
- #define LM3533_REG_CTRLBANK_AB_BCONF	0x1a
- 
- 
-@@ -27,6 +30,11 @@ struct lm3533_bl {
- 	struct lm3533_ctrlbank cb;
- 	struct backlight_device *bd;
- 	int id;
-+
-+	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
-+	u8 pwm;				/* 0 - 0x3f */
-+	bool linear;
-+	bool hvled;
- };
- 
- 
-@@ -246,25 +254,40 @@ static struct attribute_group lm3533_bl_attribute_group = {
- 	.attrs		= lm3533_bl_attributes
- };
- 
--static int lm3533_bl_setup(struct lm3533_bl *bl,
--					struct lm3533_bl_platform_data *pdata)
-+static int lm3533_bl_setup(struct lm3533_bl *bl)
- {
-+	int id = lm3533_bl_get_ctrlbank_id(bl);
- 	int ret;
- 
--	ret = lm3533_ctrlbank_set_max_current(&bl->cb, pdata->max_current);
-+	if (bl->linear) {
-+		ret = lm3533_update(bl->lm3533, LM3533_REG_CTRLBANK_AB_BCONF,
-+				    BIT(2 * id + 1), BIT(2 * id + 1));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (bl->hvled) {
-+		ret = lm3533_update(bl->lm3533, LM3533_REG_OUTPUT_CONF1,
-+				    id | id << 1, BIT(0) | BIT(1));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = lm3533_ctrlbank_set_max_current(&bl->cb, bl->max_current);
- 	if (ret)
- 		return ret;
- 
--	return lm3533_ctrlbank_set_pwm(&bl->cb, pdata->pwm);
-+	return lm3533_ctrlbank_set_pwm(&bl->cb, bl->pwm);
- }
- 
- static int lm3533_bl_probe(struct platform_device *pdev)
- {
- 	struct lm3533 *lm3533;
--	struct lm3533_bl_platform_data *pdata;
- 	struct lm3533_bl *bl;
- 	struct backlight_device *bd;
- 	struct backlight_properties props;
-+	char *name;
-+	u32 val;
- 	int ret;
- 
- 	dev_dbg(&pdev->dev, "%s\n", __func__);
-@@ -273,12 +296,6 @@ static int lm3533_bl_probe(struct platform_device *pdev)
- 	if (!lm3533)
- 		return -EINVAL;
- 
--	pdata = dev_get_platdata(&pdev->dev);
--	if (!pdata) {
--		dev_err(&pdev->dev, "no platform data\n");
--		return -EINVAL;
--	}
--
- 	if (pdev->id < 0 || pdev->id >= LM3533_HVCTRLBANK_COUNT) {
- 		dev_err(&pdev->dev, "illegal backlight id %d\n", pdev->id);
- 		return -EINVAL;
-@@ -295,13 +312,15 @@ static int lm3533_bl_probe(struct platform_device *pdev)
- 	bl->cb.id = lm3533_bl_get_ctrlbank_id(bl);
- 	bl->cb.dev = NULL;			/* until registered */
- 
-+	name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s-%d", pdev->name, pdev->id);
-+
- 	memset(&props, 0, sizeof(props));
- 	props.type = BACKLIGHT_RAW;
- 	props.max_brightness = LM3533_BL_MAX_BRIGHTNESS;
--	props.brightness = pdata->default_brightness;
--	bd = devm_backlight_device_register(&pdev->dev, pdata->name,
--					pdev->dev.parent, bl, &lm3533_bl_ops,
--					&props);
-+	props.brightness = LM3533_BL_MAX_BRIGHTNESS;
-+	device_property_read_u32(&pdev->dev, "default-brightness", &props.brightness);
-+	bd = devm_backlight_device_register(&pdev->dev, name, pdev->dev.parent,
-+					    bl, &lm3533_bl_ops, &props);
- 	if (IS_ERR(bd)) {
- 		dev_err(&pdev->dev, "failed to register backlight device\n");
- 		return PTR_ERR(bd);
-@@ -320,7 +339,20 @@ static int lm3533_bl_probe(struct platform_device *pdev)
- 
- 	backlight_update_status(bd);
- 
--	ret = lm3533_bl_setup(bl, pdata);
-+	/* 5000 - 29800 uA (800 uA step) */
-+	val = 5000;
-+	device_property_read_u32(&pdev->dev, "ti,max-current-microamp", &val);
-+	bl->max_current = val;
-+
-+	/* 0 - 0x3f */
-+	val = 0;
-+	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &val);
-+	bl->pwm = val;
-+
-+	bl->linear = device_property_read_bool(&pdev->dev, "ti,linear-mapping-mode");
-+	bl->hvled = device_property_read_bool(&pdev->dev, "ti,hardware-controlled");
-+
-+	ret = lm3533_bl_setup(bl);
- 	if (ret)
- 		goto err_sysfs_remove;
- 
-@@ -381,10 +413,17 @@ static void lm3533_bl_shutdown(struct platform_device *pdev)
- 	lm3533_ctrlbank_disable(&bl->cb);
- }
- 
-+static const struct of_device_id lm3533_bl_match_table[] = {
-+	{ .compatible = "ti,lm3533-backlight" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, lm3533_bl_match_table);
-+
- static struct platform_driver lm3533_bl_driver = {
- 	.driver = {
- 		.name	= "lm3533-backlight",
- 		.pm	= &lm3533_bl_pm_ops,
-+		.of_match_table = lm3533_bl_match_table,
- 	},
- 	.probe		= lm3533_bl_probe,
- 	.remove		= lm3533_bl_remove,
-diff --git a/include/linux/mfd/lm3533.h b/include/linux/mfd/lm3533.h
-index 69059a7a2ce5..3b28fc0970f6 100644
---- a/include/linux/mfd/lm3533.h
-+++ b/include/linux/mfd/lm3533.h
-@@ -27,6 +27,9 @@ struct lm3533 {
- 	struct gpio_desc *hwen;
- 	int irq;
- 
-+	u32 boost_ovp;
-+	u32 boost_freq;
-+
- 	unsigned have_als:1;
- 	unsigned have_backlights:1;
- 	unsigned have_leds:1;
-@@ -38,25 +41,6 @@ struct lm3533_ctrlbank {
- 	int id;
- };
- 
--struct lm3533_als_platform_data {
--	unsigned pwm_mode:1;		/* PWM input mode (default analog) */
--	u8 r_select;			/* 1 - 127 (ignored in PWM-mode) */
--};
--
--struct lm3533_bl_platform_data {
--	char *name;
--	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
--	u8 default_brightness;		/* 0 - 255 */
--	u8 pwm;				/* 0 - 0x3f */
--};
--
--struct lm3533_led_platform_data {
--	char *name;
--	const char *default_trigger;
--	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
--	u8 pwm;				/* 0 - 0x3f */
--};
--
- enum lm3533_boost_freq {
- 	LM3533_BOOST_FREQ_500KHZ,
- 	LM3533_BOOST_FREQ_1000KHZ,
-@@ -69,19 +53,6 @@ enum lm3533_boost_ovp {
- 	LM3533_BOOST_OVP_40V,
- };
- 
--struct lm3533_platform_data {
--	enum lm3533_boost_ovp boost_ovp;
--	enum lm3533_boost_freq boost_freq;
--
--	struct lm3533_als_platform_data *als;
--
--	struct lm3533_bl_platform_data *backlights;
--	int num_backlights;
--
--	struct lm3533_led_platform_data *leds;
--	int num_leds;
--};
--
- extern int lm3533_ctrlbank_enable(struct lm3533_ctrlbank *cb);
- extern int lm3533_ctrlbank_disable(struct lm3533_ctrlbank *cb);
- 
--- 
-2.43.0
+> Hi Boris,
+>=20
+> On 15.02.2025 10:44, Boris Brezillon wrote:
+> > On Fri, 14 Feb 2025 20:55:21 +0000
+> > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+> > =20
+> > > Commit 434e5ca5b5d7 ("drm/panthor: Expose size of driver internal BO'=
+s over
+> > > fdinfo") locks the VMS xarray, to avoid UAF errors when the same VM is
+> > > being concurrently destroyed by another thread. However, that puts the
+> > > current thread in atomic context, which means taking the VMS' heap lo=
+cks
+> > > will trigger a warning as the thread is no longer allowed to sleep.
+> > >
+> > > Because in this case replacing the heap mutex with a spinlock isn't
+> > > feasible, the fdinfo handler no longer traverses the list of heaps for
+> > > every single VM associated with an open DRM file. Instead, when a new=
+ heap
+> > > chunk is allocated, its size is accumulated into a VM-wide tally, whi=
+ch
+> > > also makes the atomic context code path somewhat faster.
+> > >
+> > > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> > > Fixes: 3e2c8c718567 ("drm/panthor: Expose size of driver internal BO'=
+s over fdinfo")
+> > > ---
+> > >  drivers/gpu/drm/panthor/panthor_heap.c | 38 ++++++++----------------=
+--
+> > >  drivers/gpu/drm/panthor/panthor_heap.h |  2 --
+> > >  drivers/gpu/drm/panthor/panthor_mmu.c  | 23 +++++++++++-----
+> > >  drivers/gpu/drm/panthor/panthor_mmu.h  |  1 +
+> > >  4 files changed, 28 insertions(+), 36 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm=
+/panthor/panthor_heap.c
+> > > index db0285ce5812..e5e5953e4f87 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> > > +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> > > @@ -127,6 +127,8 @@ static void panthor_free_heap_chunk(struct pantho=
+r_vm *vm,
+> > >  	heap->chunk_count--;
+> > >  	mutex_unlock(&heap->lock);
+> > >
+> > > +	panthor_vm_heaps_size_accumulate(vm, -heap->chunk_size);
+> > > +
+> > >  	panthor_kernel_bo_destroy(chunk->bo);
+> > >  	kfree(chunk);
+> > >  }
+> > > @@ -180,6 +182,8 @@ static int panthor_alloc_heap_chunk(struct pantho=
+r_device *ptdev,
+> > >  	heap->chunk_count++;
+> > >  	mutex_unlock(&heap->lock);
+> > >
+> > > +	panthor_vm_heaps_size_accumulate(vm, heap->chunk_size);
+> > > +
+> > >  	return 0;
+> > >
+> > >  err_destroy_bo:
+> > > @@ -389,6 +393,7 @@ int panthor_heap_return_chunk(struct panthor_heap=
+_pool *pool,
+> > >  			removed =3D chunk;
+> > >  			list_del(&chunk->node);
+> > >  			heap->chunk_count--;
+> > > +			panthor_vm_heaps_size_accumulate(chunk->bo->vm, -heap->chunk_size=
+);
+> > >  			break;
+> > >  		}
+> > >  	}
+> > > @@ -560,6 +565,8 @@ panthor_heap_pool_create(struct panthor_device *p=
+tdev, struct panthor_vm *vm)
+> > >  	if (ret)
+> > >  		goto err_destroy_pool;
+> > >
+> > > +	panthor_vm_heaps_size_accumulate(vm, pool->gpu_contexts->obj->size);
+> > > +
+> > >  	return pool;
+> > >
+> > >  err_destroy_pool:
+> > > @@ -594,8 +601,11 @@ void panthor_heap_pool_destroy(struct panthor_he=
+ap_pool *pool)
+> > >  	xa_for_each(&pool->xa, i, heap)
+> > >  		drm_WARN_ON(&pool->ptdev->base, panthor_heap_destroy_locked(pool, =
+i));
+> > >
+> > > -	if (!IS_ERR_OR_NULL(pool->gpu_contexts))
+> > > +	if (!IS_ERR_OR_NULL(pool->gpu_contexts)) {
+> > > +		panthor_vm_heaps_size_accumulate(pool->gpu_contexts->vm,
+> > > +					    -pool->gpu_contexts->obj->size);
+> > >  		panthor_kernel_bo_destroy(pool->gpu_contexts);
+> > > +	}
+> > >
+> > >  	/* Reflects the fact the pool has been destroyed. */
+> > >  	pool->vm =3D NULL;
+> > > @@ -603,29 +613,3 @@ void panthor_heap_pool_destroy(struct panthor_he=
+ap_pool *pool)
+> > >
+> > >  	panthor_heap_pool_put(pool);
+> > >  }
+> > > -
+> > > -/**
+> > > - * panthor_heap_pool_size() - Calculate size of all chunks across al=
+l heaps in a pool
+> > > - * @pool: Pool whose total chunk size to calculate.
+> > > - *
+> > > - * This function adds the size of all heap chunks across all heaps i=
+n the
+> > > - * argument pool. It also adds the size of the gpu contexts kernel b=
+o.
+> > > - * It is meant to be used by fdinfo for displaying the size of inter=
+nal
+> > > - * driver BO's that aren't exposed to userspace through a GEM handle.
+> > > - *
+> > > - */
+> > > -size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
+> > > -{
+> > > -	struct panthor_heap *heap;
+> > > -	unsigned long i;
+> > > -	size_t size =3D 0;
+> > > -
+> > > -	down_read(&pool->lock);
+> > > -	xa_for_each(&pool->xa, i, heap)
+> > > -		size +=3D heap->chunk_size * heap->chunk_count;
+> > > -	up_read(&pool->lock);
+> > > -
+> > > -	size +=3D pool->gpu_contexts->obj->size;
+> > > -
+> > > -	return size;
+> > > -}
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm=
+/panthor/panthor_heap.h
+> > > index e3358d4e8edb..25a5f2bba445 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_heap.h
+> > > +++ b/drivers/gpu/drm/panthor/panthor_heap.h
+> > > @@ -27,8 +27,6 @@ struct panthor_heap_pool *
+> > >  panthor_heap_pool_get(struct panthor_heap_pool *pool);
+> > >  void panthor_heap_pool_put(struct panthor_heap_pool *pool);
+> > >
+> > > -size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
+> > > -
+> > >  int panthor_heap_grow(struct panthor_heap_pool *pool,
+> > >  		      u64 heap_gpu_va,
+> > >  		      u32 renderpasses_in_flight,
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/=
+panthor/panthor_mmu.c
+> > > index 8c6fc587ddc3..9e48b34fcf80 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > > @@ -347,6 +347,14 @@ struct panthor_vm {
+> > >  		struct mutex lock;
+> > >  	} heaps;
+> > >
+> > > +	/**
+> > > +	 * @fdinfo: VM-wide fdinfo fields.
+> > > +	 */
+> > > +	struct {
+> > > +		/** @fdinfo.heaps_size: Size of all chunks across all heaps in the=
+ pool. */
+> > > +		atomic_t heaps_size;
+> > > +	} fdinfo; =20
+> >
+> > Feels more like a panthor_heap_pool field to me. If you do that,
+> > you can keep the panthor_heap_pool_size() helper. =20
+>=20
+> The only downside of storing a per-heap-pool fdinfo size for its chunks s=
+ize total is that we'll
+> have to traverse all the heap pools owned by a VM any time the fdinfo han=
+dler for an open
+> DRM file is invoked. That means spending a longer time with the vms xarra=
+y lock taken.
 
+There's only one heap pool per VM though, and once the pool is created
+it can't go away, so you don't even have to take the lock to deref the
+panthor_vm::heaps::pool object, you just need a NULL check.
+
+> > >
+> > > +void panthor_vm_heaps_size_accumulate(struct panthor_vm *vm, ssize_t=
+ acc)
+> > > +{
+> > > +	atomic_add(acc, &vm->fdinfo.heaps_size);
+> > > +} =20
+> >
+> > Calling atomic_add() directly would probably be shorter, and I prefer
+> > the idea of calling atomic_sub(size) instead of atomic_add(-size), so
+> > how about we drop this helper and use atomic_add/sub() directly? =20
+>=20
+> I had to add this VM interface function because the VM struct fields are =
+kept hidden from
+> other compilation units, as struct panthor_vm is defined inside panthor_m=
+mu.c. I agree
+> using atomic_sub() would be clearer, but that would imply exporting yet a=
+nother panthor_mmu
+> symbol, and atomic_add() can take signed values anyway.
+
+If you move the "heaps_size" field to panthor_heap_pool (which I would
+rename "size" when moving it to panthor_heap::fdinfo BTW), you no longer
+have this problem, because all users of this field exist in
+panthor_heap.c only.
+
+Regards,
+
+Boris
