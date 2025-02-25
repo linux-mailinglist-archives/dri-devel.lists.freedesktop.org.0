@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEE2A43F21
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 13:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0335CA43F19
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 13:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0413610E675;
-	Tue, 25 Feb 2025 12:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6120610E664;
+	Tue, 25 Feb 2025 12:18:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Hj9DSQ+3";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="brXGui07";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0965710E662;
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A627C10E664;
  Tue, 25 Feb 2025 12:18:48 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51P8oplJ017279;
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51P4EHuG001855;
  Tue, 25 Feb 2025 12:18:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=ekYdLa4/0Vz
- 1RVj+kC2ag4OwV8SsXSN8u/2tpE/AFzQ=; b=Hj9DSQ+3CrjcWJqTl4EsxvvcM7t
- V66CqeDOSHE0i65pPjn8wp65/gQMq+7UK4JCr7Wz2dDUfcMSkqpLkIefqwZF77Cd
- 9bsmiY7YzHMNtQcKnFRMf+e2pBNYjI9AsW58wN0R/0zquYuzUFBGwan2deTa88SR
- 3TSkaawuCIHRdQP5By3LsU6DzmsDIPXAe6O8YWkttuQK/vb8WFE5oXOHKGlIzkH/
- PLU7rnNmU9RKJokdd236TMYQ/vGjiTuIBezm+b9RYNCSqrDTyiu9njhwIPRCzT7r
- fT5X+GjL2m/sE/SYGDlrc7kVQdEuANCc7LfULhdcdX74TAnGO4ruKuare1A==
+ :mime-version:references:subject:to; s=qcppdkim1; bh=4OOmj/1hd/W
+ p8950jWtvumeQsSXdW658W38biQNVU40=; b=brXGui07MsxOR0HEcPGUSZ2/vho
+ mzgKqdl6VSnn+vqc4GkpOfCJWOQy4uZEX6WlHYdHAnYtcOQCoa6/8sIGBz3BXSIH
+ 9fPRhnK/HI9YP8kIuUeMNA3/Cff7aAecSqzkYgCxJGmFIyy1hw64PX4wx4cfbnKj
+ pb9kJKc/H1x7udjlk3K7pKIHdRJglvITchTSomxCYXhG+9MpHnP6K3zXRuKNLI9A
+ TgOe4ZJ6qn4YmTfJPieEqfpewt27cxhwXH7iTRFUgfx1DcKoGkjvTgTS7aHfQcMt
+ xIsddfIsSb8oY92DFko4spBXpVsDdnyuPU7DGAmihnNeEGobUGTlodebnBg==
 Received: from apblrppmta01.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y5k68x90-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4516nm9ccb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2025 12:18:38 +0000 (GMT)
+ Tue, 25 Feb 2025 12:18:37 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 51PCIXQt004486; 
- Tue, 25 Feb 2025 12:18:34 GMT
+ by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 51PCIXPx004485; 
+ Tue, 25 Feb 2025 12:18:33 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 44y7nkx1xh-1
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 44y7nkx1xf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2025 12:18:34 +0000
+ Tue, 25 Feb 2025 12:18:33 +0000
 Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 51PCIXtx004461;
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 51PCIXmL004464;
  Tue, 25 Feb 2025 12:18:33 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-amakhija-hyd.qualcomm.com
  [10.213.99.91])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 51PCIXtl004453
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 51PCIXef004457
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 25 Feb 2025 12:18:33 +0000
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4090850)
- id 8E9F957F; Tue, 25 Feb 2025 17:48:32 +0530 (+0530)
+ id 93B74580; Tue, 25 Feb 2025 17:48:32 +0530 (+0530)
 From: Ayushi Makhija <quic_amakhija@quicinc.com>
 To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
@@ -65,10 +65,9 @@ Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
  jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
  quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
  quic_jesszhan@quicinc.com
-Subject: [PATCH 03/11] dt-bindings: display: msm: document DSI controller and
- phy on SA8775P
-Date: Tue, 25 Feb 2025 17:48:16 +0530
-Message-Id: <20250225121824.3869719-4-quic_amakhija@quicinc.com>
+Subject: [PATCH 04/11] drm/msm/dsi: add DSI PHY configuration on SA8775P
+Date: Tue, 25 Feb 2025 17:48:17 +0530
+Message-Id: <20250225121824.3869719-5-quic_amakhija@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
 References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
@@ -80,17 +79,17 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: ZyccYoDPDp9tuExpb_73JWv1X5pNGWh7
-X-Proofpoint-GUID: ZyccYoDPDp9tuExpb_73JWv1X5pNGWh7
+X-Proofpoint-ORIG-GUID: hR0FVOZq_YgE7X105gl3njN3RIO7JC3H
+X-Proofpoint-GUID: hR0FVOZq_YgE7X105gl3njN3RIO7JC3H
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-25_04,2025-02-25_03,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- bulkscore=0 spamscore=0 phishscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=999 suspectscore=0 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502250086
+ bulkscore=0
+ lowpriorityscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 adultscore=0 clxscore=1011 spamscore=0
+ malwarescore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2502100000 definitions=main-2502250086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,201 +105,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document DSI controller and phy on SA8775P platform.
+The SA8775P SoC uses the 5nm (v4.2) DSI PHY driver with
+different enable regulator load.
 
 Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
 ---
- .../display/msm/qcom,sa8775p-mdss.yaml        | 170 ++++++++++++++++++
- 1 file changed, 170 insertions(+)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  2 ++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 27 +++++++++++++++++++++++
+ 3 files changed, 30 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-index a90a8b3f1a9e..25b65dda90ed 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-@@ -52,6 +52,22 @@ patternProperties:
-         items:
-           - const: qcom,sa8775p-dp
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index c0bcc6828963..92be08ac5f65 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -581,6 +581,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
+ 	  .data = &dsi_phy_7nm_cfgs },
+ 	{ .compatible = "qcom,dsi-phy-7nm-8150",
+ 	  .data = &dsi_phy_7nm_8150_cfgs },
++	{ .compatible = "qcom,sa8775p-dsi-phy-5nm",
++	  .data = &dsi_phy_5nm_8775p_cfgs },
+ 	{ .compatible = "qcom,sc7280-dsi-phy-7nm",
+ 	  .data = &dsi_phy_7nm_7280_cfgs },
+ 	{ .compatible = "qcom,sm6375-dsi-phy-7nm",
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+index 8985818bb2e0..22f23a5b9fa0 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+@@ -58,6 +58,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_7nm_7280_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8350_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8450_cfgs;
++extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8775p_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8550_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8650_cfgs;
  
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        items:
-+          - const: qcom,sa8775p-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
-+
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        enum:
-+          - qcom,sa8775p-dsi-phy-5nm
-+          - qcom,sa8775p-edp-phy
-+
- required:
-   - compatible
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index 031446c87dae..76e63752a85e 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -1127,6 +1127,10 @@ static const struct regulator_bulk_data dsi_phy_7nm_37750uA_regulators[] = {
+ 	{ .supply = "vdds", .init_load_uA = 37550 },
+ };
  
-@@ -158,6 +174,160 @@ examples:
-             };
-         };
++static const struct regulator_bulk_data dsi_phy_7nm_115000uA_regulators[] = {
++	{ .supply = "vdds", .init_load_uA = 115000 },
++};
++
+ static const struct regulator_bulk_data dsi_phy_7nm_98000uA_regulators[] = {
+ 	{ .supply = "vdds", .init_load_uA = 98000 },
+ };
+@@ -1269,6 +1273,29 @@ const struct msm_dsi_phy_cfg dsi_phy_5nm_8450_cfgs = {
+ 	.quirks = DSI_PHY_7NM_QUIRK_V4_3,
+ };
  
-+        dsi@ae94000 {
-+            compatible = "qcom,sa8775p-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-+            reg = <0x0ae94000 0x400>;
-+            reg-names = "dsi_ctrl";
++const struct msm_dsi_phy_cfg dsi_phy_5nm_8775p_cfgs = {
++	.has_phy_lane = true,
++	.regulator_data = dsi_phy_7nm_115000uA_regulators,
++	.num_regulators = ARRAY_SIZE(dsi_phy_7nm_115000uA_regulators),
++	.ops = {
++		.enable = dsi_7nm_phy_enable,
++		.disable = dsi_7nm_phy_disable,
++		.pll_init = dsi_pll_7nm_init,
++		.save_pll_state = dsi_7nm_pll_save_state,
++		.restore_pll_state = dsi_7nm_pll_restore_state,
++		.set_continuous_clock = dsi_7nm_set_continuous_clock,
++		},
++	.min_pll_rate = 600000000UL,
++#ifdef CONFIG_64BIT
++	.max_pll_rate = 5000000000UL,
++#else
++	.max_pll_rate = ULONG_MAX,
++#endif
++	.io_start = { 0xae94400, 0xae96400 },
++	.num_dsi_phy = 2,
++	.quirks = DSI_PHY_7NM_QUIRK_V4_2,
++};
 +
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispc_byte_clk>,
-+                     <&dispcc_intf_clk>,
-+                     <&dispcc_pclk>,
-+                     <&dispcc_esc_clk>,
-+                     <&dispcc_ahb_clk>,
-+                     <&gcc_bus_clk>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+            assigned-clocks = <&dispcc_byte_clk>,
-+                              <&dispcc_pclk>;
-+            assigned-clock-parents = <&mdss0_dsi0_phy 0>, <&mdss0_dsi0_phy 1>;
-+            phys = <&mdss0_dsi0_phy>;
-+
-+            operating-points-v2 = <&dsi0_opp_table>;
-+            power-domains = <&rpmhpd SA8775P_MMCX>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    mdss_dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    mdss_dsi0_out: endpoint { };
-+                };
-+            };
-+
-+            dsi0_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-358000000 {
-+                    opp-hz = /bits/ 64 <358000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+            };
-+        };
-+
-+        mdss0_dsi0_phy: phy@ae94400 {
-+            compatible = "qcom,sa8775p-dsi-phy-5nm";
-+            reg = <0x0ae94400 0x200>,
-+                  <0x0ae94600 0x280>,
-+                  <0x0ae94900 0x27c>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc_iface_clk>,
-+                     <&rpmhcc_ref_clk>;
-+            clock-names = "iface", "ref";
-+
-+            vdds-supply = <&vreg_dsi_supply>;
-+        };
-+
-+        dsi@ae96000 {
-+            compatible = "qcom,sa8775p-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-+            reg = <0x0ae96000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispc_byte_clk>,
-+                     <&dispcc_intf_clk>,
-+                     <&dispcc_pclk>,
-+                     <&dispcc_esc_clk>,
-+                     <&dispcc_ahb_clk>,
-+                     <&gcc_bus_clk>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+            assigned-clocks = <&dispcc_byte_clk>,
-+                              <&dispcc_pclk>;
-+            assigned-clock-parents = <&mdss0_dsi1_phy 0>, <&mdss0_dsi1_phy 1>;
-+            phys = <&mdss0_dsi1_phy>;
-+
-+            operating-points-v2 = <&dsi1_opp_table>;
-+            power-domains = <&rpmhpd SA8775P_MMCX>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    mdss_dsi1_in: endpoint {
-+                        remote-endpoint = <&dpu_intf2_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    mdss_dsi1_out: endpoint { };
-+                };
-+            };
-+
-+            dsi1_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-358000000 {
-+                    opp-hz = /bits/ 64 <358000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+            };
-+        };
-+
-+        mdss0_dsi1_phy: phy@ae96400 {
-+            compatible = "qcom,sa8775p-dsi-phy-5nm";
-+            reg = <0x0ae96400 0x200>,
-+                  <0x0ae96600 0x280>,
-+                  <0x0ae96900 0x27c>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc_iface_clk>,
-+                     <&rpmhcc_ref_clk>;
-+            clock-names = "iface", "ref";
-+
-+            vdds-supply = <&vreg_dsi_supply>;
-+        };
-+
-         displayport-controller@af54000 {
-             compatible = "qcom,sa8775p-dp";
- 
+ const struct msm_dsi_phy_cfg dsi_phy_4nm_8550_cfgs = {
+ 	.has_phy_lane = true,
+ 	.regulator_data = dsi_phy_7nm_98400uA_regulators,
 -- 
 2.34.1
 
