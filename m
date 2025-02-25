@@ -2,113 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DB1A44538
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3842AA44549
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:02:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A5710E72E;
-	Tue, 25 Feb 2025 16:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93E8110E736;
+	Tue, 25 Feb 2025 16:02:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="S0inVMyK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aayJ+tLx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D7F10E73E;
- Tue, 25 Feb 2025 16:00:12 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 34602442E6;
- Tue, 25 Feb 2025 16:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740499209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=oQ3EXwHp1UicROiYTIaZjxCgt30oZN9RdFwAd5RDBMY=;
- b=S0inVMyKtuT2Qe8PipNL550bL92R3obRqkM1PgCj/SUs8fhpwzSun54Xs6D0AATy9pg7jM
- UV3qzYQkepZpn2LZcMYgvrt0BT3fwmymYQnnzWqIrlMpz5QEVsCir0KNDl68ry8PIbtNXE
- CsIwZArs/60XX8BmWeNQ8PEff4pD9a4cERl8QO5ZNeEFgP+qT8VDV6IWaJKDJMPEz2bZyi
- k1mxYSvVY5sQev+S5CgBflNX2nm6fflCK6GnyLLZaCj3rUVjH+q2T6n/q7kqNL7EHJCW7H
- 0DjJqy/Qyw3Bi2vy6FhJT1LFpES60MNENBZUvoJVUiZVWL+3zQi5OlB1PG8Npw==
-Message-ID: <ff51e003-29a7-44a4-aa38-7df95086a5c5@bootlin.com>
-Date: Tue, 25 Feb 2025 17:00:07 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B8B10E736
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 16:02:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 21FF65C7228;
+ Tue, 25 Feb 2025 16:02:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263E1C4CEDD;
+ Tue, 25 Feb 2025 16:02:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740499371;
+ bh=NKncxX/f4OhZjM586JgqScppgEm06MohF+FhDmQBvJA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aayJ+tLxA6sG7cTVHHP4hUNez7LShHiaUnSSJzHetMr0TTsIqSW1PvC+ZUJ9IylE7
+ XlWq5aGz/7ZLsFiIKCGQ+pWmDERxvEmBdfgcQNT73hLMRjK/aWv1nxDQ9Be+WUtb/9
+ IxLLTAq02Rm+/M6N3AyMn3uwkw/UY1hMjCSoMBjMSIaePE/L+Qt01+v17wK+HsdLta
+ yuvJmFvmc3hkC+asYqMSqPc7TAUKOm/snWXAHGGLreTeuo2+hfnTYI6e9APTZJVd+T
+ 8oKTWtP4n5A+GLUUHGhO38M0u90xZ/OY0/wrimn3qWuhSur6TavIPSH36oLHQA9CbG
+ WLKmVFAGQ+l4A==
+Date: Tue, 25 Feb 2025 10:02:48 -0600
+From: Rob Herring <robh@kernel.org>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 1/7] dt-bindings: npu: rockchip,rknn: Add bindings
+Message-ID: <20250225160248.GA2563229-robh@kernel.org>
+References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [V7 02/45] drm/vkms: Round fixp2int conversion in lerp_u16
-To: Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
-References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-3-alex.hung@amd.com>
- <99a8779c-bb1c-44fc-b8a3-56ea80425c15@bootlin.com>
- <sumH-jMWxEB0ReC-xhqT2YbATq4l_TMfU2_ogO2tyM7iYG5Fp0XM7guLPCcUOuxW6uLW1YOoTNegOUOJVGiWYDxGaaGcXNjA5eZ8axRgl8E=@emersion.fr>
- <f307f2d3-44e4-45bf-ba94-57459043b7a6@bootlin.com>
- <1a523721-0228-4ed4-932e-ad4bcf317ff5@amd.com>
- <YEcSNl71FeEEa6hG0zCc-mlVnSgqcNKQtk4DZoLzZbhTvS73_VbTkg3eMTsFUeV82Z0p2sSk1cS6llYeU4q4_VWWg8l2MQi4Gmz8ervZHe0=@emersion.fr>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <YEcSNl71FeEEa6hG0zCc-mlVnSgqcNKQtk4DZoLzZbhTvS73_VbTkg3eMTsFUeV82Z0p2sSk1cS6llYeU4q4_VWWg8l2MQi4Gmz8ervZHe0=@emersion.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeipdhrtghpthhtoheptghonhhtrggtthesvghmvghrshhiohhnrdhfrhdprhgtphhtthhopehhrghrrhihrdifvghnthhlrghnugesrghmugdrtghomhdprhgtphhtthhopegrlhgvgidrhhhunhhgsegrmhgurdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtt
- hhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepfigrhihlrghnugdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,47 +72,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 25/02/2025 à 15:45, Simon Ser a écrit :
-> On Tuesday, February 25th, 2025 at 15:43, Harry Wentland <harry.wentland@amd.com> wrote:
+On Tue, Feb 25, 2025 at 08:55:47AM +0100, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
->>>> We need to be a bit careful when merging patches from the same series
->>>> via multiple trees. Maybe we'll merge the colorop stuff via the amd
->>>> tree? I don't remember the rules around trees, and I don't know if it
->>>> would be fine to merge the vkms changes in that tree as well. (I only
->>>> remember Simona recommending against merging via multiple trees, because
->>>> it's painful.)
->>>>
->>>> If we can't merge the vkms changes via the amd tree, they will likely
->>>> need to wait for the amd tree to be merged back in drm-next?
->>>>
->>>> If we merge some changes via drm-misc-next, then we won't be able to
->>>> merge the rest via amd, if the rest depends on these changes.
->>>
->>> If the drm-*-next branches are synchronized often, I propose to split into 4 series:
->>> - 2/45, in drm-misc-fixes (it is a bug)
->>> - 3/45, in drm-misc-next (only the vkms part needs it, can be merged just after 1 with minor conflict resolution, which I can do)
->>> - 1, 4..13, 21..45, in drm-amd-next
->>> - 14..20, in drm-misc-next, once drm-amd-next is merged in drm-misc-next (I don't expect huge conflicts if this is merged "soon", afaik nobody is currently working on the composition algorithm)
->>
->> I would think it's easier if it all goes in via drm-misc next,
->> except for patch 2 which can be part of drm-misc-fixes. Alex
->> and I based our branches on drm-misc-next. There shouldn't be
->> major conflicts with drm/amd code but we can check that before
->> merging.
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
 > 
-> That sounds like the simplest solution to me :)
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 152 +++++++++++++++++++++
+>  1 file changed, 152 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e8d0afe4a7d1c4f166cf13a9f4aa7c1901362a3f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
+> @@ -0,0 +1,152 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Neural Processing Unit IP from Rockchip
+> +
+> +maintainers:
+> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +
+> +description:
+> +  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
+> +  open source NVDLA IP.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^npu-core@[a-f0-9]+$'
+> +
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - rockchip,rk3588-rknn-core-top
+> +          - const: rockchip,rknn-core-top
 
-So let's go this way!
+Drop the fallbacks unless you have some evidence that the IP is the 
+same across a lot of SoCs. If you don't, then 
+rockchip,rk3588-rknn-core-top can be the fallback whenever there are 
+more compatible SoCs.
 
-I just applied PATCH 2.
+Or if there's version/feature registers that otherwise make it 
+discoverable, then a common compatible is fine.
 
-I don't feel comfortable merging the whole colorop and AMD parts without 
-broader reviews, but I can definitely apply the VKMS part.
+> +      - items:
+> +          - enum:
+> +              - rockchip,rk3588-rknn-core
+> +          - const: rockchip,rknn-core
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I don't understand the difference between core and core-top. That needs 
+to be explained in the top-level description.
 
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 2
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: hclk
+> +      - const: npu
+> +      - const: pclk
+> +    minItems: 2
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  npu-supply: true
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 2
+> +
+> +  reset-names:
+> +    items:
+> +      - const: srst_a
+> +      - const: srst_h
+> +
+> +  sram-supply: true
+
+Group supply properties together
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - iommus
+> +  - npu-supply
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - sram-supply
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - rockchip,rknn-core-top
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 4
+> +
+> +        clock-names:
+> +          minItems: 4
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - rockchip,rknn-core
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 2
+> +        clock-names:
+> +          maxItems: 2
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/rk3588-power.h>
+> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
+> +
+> +    bus {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      rknn_core_top: npu-core@fdab0000 {
+
+npu@...
+
+> +        compatible = "rockchip,rk3588-rknn-core-top", "rockchip,rknn-core-top";
+> +        reg = <0x0 0xfdab0000 0x0 0x9000>;
+> +        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
+> +        assigned-clock-rates = <200000000>;
+> +        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
+> +                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
+> +        clock-names = "aclk", "hclk", "npu", "pclk";
+> +        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        iommus = <&rknn_mmu_top>;
+> +        npu-supply = <&vdd_npu_s0>;
+> +        power-domains = <&power RK3588_PD_NPUTOP>;
+> +        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
+> +        reset-names = "srst_a", "srst_h";
+> +        sram-supply = <&vdd_npu_mem_s0>;
+> +      };
+> +
+> +      rknn_core_1: npu-core@fdac0000 {
+> +        compatible = "rockchip,rk3588-rknn-core", "rockchip,rknn-core";
+> +        reg = <0x0 0xfdac0000 0x0 0x9000>;
+> +        clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>;
+> +        clock-names = "aclk", "hclk";
+> +        interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        iommus = <&rknn_mmu_1>;
+> +        npu-supply = <&vdd_npu_s0>;
+> +        power-domains = <&power RK3588_PD_NPU1>;
+> +        resets = <&cru SRST_A_RKNN1>, <&cru SRST_H_RKNN1>;
+> +        reset-names = "srst_a", "srst_h";
+> +        sram-supply = <&vdd_npu_mem_s0>;
+> +      };
+> +    };
+> +...
+> 
+> -- 
+> 2.48.1
+> 
