@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48332A44C52
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005C8A44C57
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:17:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A793D10E7CB;
-	Tue, 25 Feb 2025 20:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC3410E7D0;
+	Tue, 25 Feb 2025 20:17:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="K0iLGq1r";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rY57gui/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 776EB10E7CF
+ by gabe.freedesktop.org (Postfix) with ESMTP id 990EC10E7D4
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 20:17:26 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 4BD7A2069419;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 75931206AB6C;
  Tue, 25 Feb 2025 12:17:21 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4BD7A2069419
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 75931206AB6C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1740514641;
- bh=20ohR9ydXU2pCwzgNxjjrd2yDVsQ48Ay1dojiJT8hzc=;
+ bh=/rdlqcTwv5mN/sc7m2KrDg4m+dKAQX2yY+t0CXok2oY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=K0iLGq1rGc4Qg7xtebfYNMLt7AN2VvRrBSayFG3R2ubH/K1ImvnybXJrcnesEf8Va
- cjRHQ1+ptab8tqVzdvfsEgqdZ2cuicdWCcfCnvxFiNuLLWeeATmmp/van3jz7hvAmZ
- byfY8S+3q00hAqCMvFkJrtiZmQlqR3XmHjwAmbVw=
+ b=rY57gui/I5s3opnKpMkUiVz2c8KEinkfrPoI4a0X58a/iSSS8lb6zsgJqkOKu7xOq
+ seorPBf8U1Bj+VcZjFfcO6jdNkWNML7i48hryZFC0g73WPEObXszX5QqDSiVWRpKsR
+ xhTzpQnxfRVcu8e8QVi+FGZLfxmNCa9p9IBg3p6A=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 25 Feb 2025 20:17:24 +0000
-Subject: [PATCH v3 10/16] power: supply: da9030: convert timeouts to
- secs_to_jiffies()
+Date: Tue, 25 Feb 2025 20:17:25 +0000
+Subject: [PATCH v3 11/16] nvme: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-10-a43967e36c88@linux.microsoft.com>
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-11-a43967e36c88@linux.microsoft.com>
 References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -106,25 +105,30 @@ expression E;
 - * \( 1000 \| MSEC_PER_SEC \)
 )
 
+Acked-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/power/supply/da9030_battery.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/power/supply/da9030_battery.c b/drivers/power/supply/da9030_battery.c
-index ac2e319e95179039279dacaed1744136f679fbac..d25279c260308b6c82acb2aabf44f3749f71b703 100644
---- a/drivers/power/supply/da9030_battery.c
-+++ b/drivers/power/supply/da9030_battery.c
-@@ -502,8 +502,7 @@ static int da9030_battery_probe(struct platform_device *pdev)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f028913e2e622ee348e88879c6e6b7e8f8a1cc82..24c3e1765d491daf8fd600f96788bf5765946f54 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4466,11 +4466,9 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 	nvme_auth_stop(ctrl);
  
- 	/* 10 seconds between monitor runs unless platform defines other
- 	   interval */
--	charger->interval = msecs_to_jiffies(
--		(pdata->batmon_interval ? : 10) * 1000);
-+	charger->interval = secs_to_jiffies(pdata->batmon_interval ? : 10);
+ 	if (ctrl->mtfa)
+-		fw_act_timeout = jiffies +
+-				msecs_to_jiffies(ctrl->mtfa * 100);
++		fw_act_timeout = jiffies + msecs_to_jiffies(ctrl->mtfa * 100);
+ 	else
+-		fw_act_timeout = jiffies +
+-				msecs_to_jiffies(admin_timeout * 1000);
++		fw_act_timeout = jiffies + secs_to_jiffies(admin_timeout);
  
- 	charger->charge_milliamp = pdata->charge_milliamp;
- 	charger->charge_millivolt = pdata->charge_millivolt;
+ 	nvme_quiesce_io_queues(ctrl);
+ 	while (nvme_ctrl_pp_status(ctrl)) {
 
 -- 
 2.43.0
