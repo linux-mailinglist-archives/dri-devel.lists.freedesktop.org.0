@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC449A44C5E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9BAA44C5C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:17:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEBE310E7DC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05C8110E7D7;
 	Tue, 25 Feb 2025 20:17:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="G9tFph11";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Du6Fw81g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id B1DA010E7C9
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 20:17:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1BCE010E7C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 20:17:27 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 2959A206ADE3;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 544A4206ADFB;
  Tue, 25 Feb 2025 12:17:22 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2959A206ADE3
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 544A4206ADFB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1740514642;
- bh=ho1p9T+EgqW5ri+TziTR9nEBpqCpp/MEy1wgOMQmOKY=;
+ bh=XNL3dldZNlw1Eq84meBUr//vKEng/ID/zFGHKMY53sg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=G9tFph11Fv4vR4hm6scJe7fKKxiuuiHwgM5dUJa9rcD0K6DazlUazY3gwz7F4CLY0
- n+x+Wn7TB7JHxrIDrlWf5FrXGMkHRBYm+gG42H30XGodgn7ZLnsU4+T9bbNcR1j28/
- i/uGrozSqAqsXekEKsNJKYeqEFawNklWw2krWhmI=
+ b=Du6Fw81gtR9lc6VxhG+uolWk6DNSsR0fD03V4uHvgstLN4C99mrYAdfHxBUoITNbw
+ 0dBuGVNQZXhzAmqB9swX2y81gcwwAgNvdFZl3mtEL75lM8WadHp0lYC+JXaZXEaD0T
+ xEVN7fx6wsqh1SZPlLtM4UUNPYU6T4vw+KsVz5dg=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 25 Feb 2025 20:17:29 +0000
-Subject: [PATCH v3 15/16] platform/x86: thinkpad_acpi: convert timeouts to
- secs_to_jiffies()
+Date: Tue, 25 Feb 2025 20:17:30 +0000
+Subject: [PATCH v3 16/16] RDMA/bnxt_re: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-15-a43967e36c88@linux.microsoft.com>
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-16-a43967e36c88@linux.microsoft.com>
 References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -108,22 +107,22 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 2 +-
+ drivers/infiniband/hw/bnxt_re/qplib_rcfw.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index ab1cade5ef231e9a9a520bc0cca82384c911a331..d269e791f7fbc2a8ccf96f28cb476beccb57c9a7 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -8512,7 +8512,7 @@ static void fan_watchdog_reset(void)
- 	if (fan_watchdog_maxinterval > 0 &&
- 	    tpacpi_lifecycle != TPACPI_LIFE_EXITING)
- 		mod_delayed_work(tpacpi_wq, &fan_watchdog_task,
--			msecs_to_jiffies(fan_watchdog_maxinterval * 1000));
-+			secs_to_jiffies(fan_watchdog_maxinterval));
- 	else
- 		cancel_delayed_work(&fan_watchdog_task);
- }
+diff --git a/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c b/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+index 17e62f22683b14a3571188e25fe0df3cbf1d8360..b1a18c9cb7f6c248548bc38fcb98781a3030a1b6 100644
+--- a/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
++++ b/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+@@ -160,7 +160,7 @@ static int __wait_for_resp(struct bnxt_qplib_rcfw *rcfw, u16 cookie)
+ 		wait_event_timeout(cmdq->waitq,
+ 				   !crsqe->is_in_used ||
+ 				   test_bit(ERR_DEVICE_DETACHED, &cmdq->flags),
+-				   msecs_to_jiffies(rcfw->max_timeout * 1000));
++				   secs_to_jiffies(rcfw->max_timeout));
+ 
+ 		if (!crsqe->is_in_used)
+ 			return 0;
 
 -- 
 2.43.0
