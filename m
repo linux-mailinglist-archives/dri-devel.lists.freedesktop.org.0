@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67814A44AF6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 19:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F09A44B60
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 20:35:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D672B10E7A6;
-	Tue, 25 Feb 2025 18:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A33C10E7BD;
+	Tue, 25 Feb 2025 19:35:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ug8gdA5C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YXL9PCUH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 051ED10E7A6;
- Tue, 25 Feb 2025 18:56:18 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-2fd02536660so994207a91.2; 
- Tue, 25 Feb 2025 10:56:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740509778; x=1741114578; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5LJYpUID6W4I5EJhScurw/AX4q422xg2nTEM2WBLhuA=;
- b=Ug8gdA5CzfAmTVTwdu7Jklz9K/kPYQdx5uv4YUVmj61r0LXM9z1nfiSwhuIuhoSYvl
- fEM2Cx5gy+wGMaM6hlqF1ghvl9VhS+QQUZwl4o4Xt7tIstFHAdmJmfCqIG+gAQAuqEUl
- 9FbIk4vgKtRiD5cH+gE1yQImeOIAYRG5TiXXyv92M4P8ACi+ycbdrFN41QK5Y97ND5ql
- Hc2Lsy3IitOrTwf2k5468RdtDr6R7erKFvIlk77nSktNSdwEqZWZlYK09LquezV+c/X9
- aTDhuADnozWGAUORgFoTyAXaaWYOeTPhraI6ivmVovUzVdts3jQIiK0Wd/iB+NJIhFFW
- ZjUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740509778; x=1741114578;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5LJYpUID6W4I5EJhScurw/AX4q422xg2nTEM2WBLhuA=;
- b=H6uVFabIU0OYGh0zFPLHTuk31ruARwsGLRCv2yDP8GhR0ib2HjA+KnbuETVVPvKofa
- tg+rkibthAyRyYSD6xC9D5hDmSgD0k4snVD2dk10KjgxxFmZEQE1H6sd4vXAWbaMV0zT
- JeJR+OgX66CyxyMR3KKqMXPyDb/AJV37T9GCNq1CRBCSna95s3uG9gNxl4p3LbJ4W9Vc
- pn3zc2VlfV473tVd8q9AP1OJa7UmqHIkKV1aigYbxTUrhTAC9TgGLbt1IcqHI3ev7jAM
- zQSIdkvn73S0Svx2dXIJrPHM5WQ0bMKRcivDqETGTSsc8fun9Mwz82HXvyDXapQs+Xlw
- ++Ig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXYlcNqveXWPIr2dJoG00b/2gHchab2/tW6dFpJwGjZGWQOEWkqEBywUThl+iW9+Zr4kJRJGQLJ@lists.freedesktop.org,
- AJvYcCXvMF9eI8fwZPrDsePhmPxOnd3GdKmET091252OXKHrmH7frnB8Po4BVwasaCzTfMu2DvJpURNPjmhv@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxvTazTX9/5w9DC6AmKl5dz881hKrPFsjd/t4dfunp1cFG8yg/2
- y9FzINOo4ZYhelheKllIMaL+BpYjbrKDZPaP7QY4q2+0lQBEnNR6HkIV9WiR8teQfjP5T7FsSxZ
- ZL/xzYHhWwjRxbfS01ev3pMcmy7o=
-X-Gm-Gg: ASbGncv61P1DloEDVCWujMZLI96x/+qviU2h83eguFl+l0MnZDbnp6B0QuUDn30A2Qd
- AwFAJYPKUPEG1bjCw8sLdfNPs2kM1U69YMgSSED0yRJeHAhlNDPDn3I4fv3fs/aEJmPAu2FyiLv
- 1tSUxf4iA=
-X-Google-Smtp-Source: AGHT+IGkDAct65mknFExr5qSoeMevF/bWfU3G2E8vI3pXH1PsZu7yjosujAuCh+2s6GdpE0tBa1Vyokcv8UkFO7+ROg=
-X-Received: by 2002:a17:90b:3e8d:b0:2fa:2011:c85d with SMTP id
- 98e67ed59e1d1-2fce7b4f29fmr10629837a91.7.1740509778436; Tue, 25 Feb 2025
- 10:56:18 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 981B810E7C2;
+ Tue, 25 Feb 2025 19:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740512105; x=1772048105;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=Y0dgq02rrgg6GhOsq8ZPtCl2ibf+lqJ5X0BUAPIsTbA=;
+ b=YXL9PCUHv9QJp9cdVpTULr5P460GbJSkh8AVaAwun/2b3qh4MVCaO8aS
+ 4F69Xjp3z/+Byo+HiA0BECqv6j9ovnWBEMZL2HBzVnENnoE95qAsDOFg1
+ 4E072SbIPvoqyabQh0+3dHAve6iwwA165+bCpQgS9o3yl9Y4iFCG4NO3C
+ KMaI4dWJ/7GShorYl60BnwLViHzw6I3liZND8UTbBREn7sI0h8GYlae9C
+ IQjA2JVa2VpIcrVYEcMtrLI8Jrzj60wkA5APj1qvWWrFU3C+g7KxENDxR
+ 0Bw7P/sFV4saJaumGgTxN420xgMgsZVIQuk+U8OW597uFK9muv5rupHky Q==;
+X-CSE-ConnectionGUID: HBCyXdFnReqd4CxRrXwN6Q==
+X-CSE-MsgGUID: Nmfc5O17SLuQpE98jh7nAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41465287"
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="41465287"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2025 11:35:05 -0800
+X-CSE-ConnectionGUID: qrC/vWxRRZ2hkAfLY3GMYA==
+X-CSE-MsgGUID: rpKIiapzTxKqUpXFTcgExw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="116263364"
+Received: from monicael-mobl3 (HELO localhost) ([10.245.246.246])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2025 11:35:02 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Sandy
+ Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan
+ <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, sam@ravnborg.org, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>
+Subject: Re:Re:[PATCH 2/5] drm/rockchip: stop passing non struct drm_device
+ to drm_err() and friends
+In-Reply-To: <730ee1d4.f63.1949b97fc99.Coremail.andyshrk@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1737644530.git.jani.nikula@intel.com>
+ <f42da4c9943a2f2a9de4272b7849e72236d4c3f9.1737644530.git.jani.nikula@intel.com>
+ <2c0a76c3.618c.19497bb4329.Coremail.andyshrk@163.com>
+ <87plkcbfp0.fsf@intel.com>
+ <730ee1d4.f63.1949b97fc99.Coremail.andyshrk@163.com>
+Date: Tue, 25 Feb 2025 21:34:58 +0200
+Message-ID: <87wmdd4y3h.fsf@intel.com>
 MIME-Version: 1.0
-References: <20250224014942.193407-1-linux@treblig.org>
-In-Reply-To: <20250224014942.193407-1-linux@treblig.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 25 Feb 2025 13:56:04 -0500
-X-Gm-Features: AWEUYZkV-VKShpz06myyPBFccE18IuxpHMzvBHAaolC_sSnG3Qgfe_3AzTFlGo4
-Message-ID: <CADnq5_MPXqCucYhh1kSCQVOm0QXT00+Bax9G=S9+vRJ2QLB6Sg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove unused optc3_fpu_set_vrr_m_const
-To: linux@treblig.org
-Cc: alexander.deucher@amd.com, chaitanya.dhere@amd.com, jun.lei@amd.com, 
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,139 +78,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Sat, 25 Jan 2025, "Andy Yan" <andyshrk@163.com> wrote:
+> =E5=9C=A8 2025-01-24 19:43:07=EF=BC=8C"Jani Nikula" <jani.nikula@intel.co=
+m> =E5=86=99=E9=81=93=EF=BC=9A
+>>On Fri, 24 Jan 2025, "Andy Yan" <andyshrk@163.com> wrote:
+>>> Hi=EF=BC=8C
+>>>
+>>> At 2025-01-23 23:09:09, "Jani Nikula" <jani.nikula@intel.com> wrote:
+>>>>The expectation is that the struct drm_device based logging helpers get
+>>>>passed an actual struct drm_device pointer rather than some random
+>>>>struct pointer where you can dereference the ->dev member.
+>>>>
+>>>>Convert drm_err(hdmi, ...) to dev_err(hdmi->dev, ...). This matches
+>>>>current usage, but drops "[drm] *ERROR*" prefix from logging.
+>>>
+>>> Frankly, I prefer the original version of the log.
+>>> It is a platform driver, so it should use its own device.
+>>> It is a driver that works in drm subsystem, so it's better to use "[drm=
+] *ERROR*" prefix when logging
+>>
+>>If you need to do struct device based logging that is not the same
+>>device as the struct drm_device dev member, you need to use dev_err()
+>>and friends. You can't and must not use drm_err() and friends.
+>>
+>>It's as simple as that.
+>>
+>>The current drm_err(hdmi, ...) usage is simply abuse of the macros, and
+>>must stop.
+>
+> Perhaps when you initially designed this macros, you intended it to accep=
+t only drm_device,=20
+> but your code implementation didn't enforce this restriction at the begin=
+ning.
+> If that's truly what you intended, I suggest just reverting this commit t=
+hat converting to use these macros[0],=20
+> as neither drm_err nor dev_err can maintain consistency with the original=
+ log of this driver.
+> Alternatively, as suggested by Sam  in the initial submission of your pat=
+ch 5 years ago,=20
+> there should also be a macro similar to drm_dev_info(device *, ..).[1]
 
-Alex
+Commit 1b8f576c6958 ("drm/rockchip: dw_hdmi: Use modern drm_device based
+logging") does not revert cleanly, and even if it did, DRM_DEV_ERROR()
+is deprecated in favour of drm_err() or dev_err(). I'm using the latter.
 
-On Mon, Feb 24, 2025 at 8:43=E2=80=AFAM <linux@treblig.org> wrote:
->
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> The last use of optc3_fpu_set_vrr_m_const() was removed in 2022's
-> commit 64f991590ff4 ("drm/amd/display: Fix a compilation failure on Power=
-PC
-> caused by FPU code")
-> which removed the only caller (with a similar) name.
->
-> Remove it.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  .../drm/amd/display/dc/dml/dcn30/dcn30_fpu.c  | 76 -------------------
->  .../drm/amd/display/dc/dml/dcn30/dcn30_fpu.h  |  3 -
->  2 files changed, 79 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c b/drive=
-rs/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c
-> index aac0a0ae2966..88789987bdbc 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c
-> @@ -178,82 +178,6 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_0_soc =3D {
->  };
+Ack for applying the patch at hand as-is?
+
+BR,
+Jani.
+
+
+
+
 >
 >
-> -void optc3_fpu_set_vrr_m_const(struct timing_generator *optc,
-> -               double vtotal_avg)
-> -{
-> -       struct optc *optc1 =3D DCN10TG_FROM_TG(optc);
-> -       double vtotal_min, vtotal_max;
-> -       double ratio, modulo, phase;
-> -       uint32_t vblank_start;
-> -       uint32_t v_total_mask_value =3D 0;
-> -
-> -       dc_assert_fp_enabled();
-> -
-> -       /* Compute VTOTAL_MIN and VTOTAL_MAX, so that
-> -        * VOTAL_MAX - VTOTAL_MIN =3D 1
-> -        */
-> -       v_total_mask_value =3D 16;
-> -       vtotal_min =3D dcn_bw_floor(vtotal_avg);
-> -       vtotal_max =3D dcn_bw_ceil(vtotal_avg);
-> -
-> -       /* Check that bottom VBLANK is at least 2 lines tall when running=
- with
-> -        * VTOTAL_MIN. Note that VTOTAL registers are defined as 'total n=
-umber
-> -        * of lines in a frame - 1'.
-> -        */
-> -       REG_GET(OTG_V_BLANK_START_END, OTG_V_BLANK_START,
-> -               &vblank_start);
-> -       ASSERT(vtotal_min >=3D vblank_start + 1);
-> -
-> -       /* Special case where the average frame rate can be achieved
-> -        * without using the DTO
-> -        */
-> -       if (vtotal_min =3D=3D vtotal_max) {
-> -               REG_SET(OTG_V_TOTAL, 0, OTG_V_TOTAL, (uint32_t)vtotal_min=
-);
-> -
-> -               optc->funcs->set_vtotal_min_max(optc, 0, 0);
-> -               REG_SET(OTG_M_CONST_DTO0, 0, OTG_M_CONST_DTO_PHASE, 0);
-> -               REG_SET(OTG_M_CONST_DTO1, 0, OTG_M_CONST_DTO_MODULO, 0);
-> -               REG_UPDATE_3(OTG_V_TOTAL_CONTROL,
-> -                       OTG_V_TOTAL_MIN_SEL, 0,
-> -                       OTG_V_TOTAL_MAX_SEL, 0,
-> -                       OTG_SET_V_TOTAL_MIN_MASK_EN, 0);
-> -               return;
-> -       }
-> -
-> -       ratio =3D vtotal_max - vtotal_avg;
-> -       modulo =3D 65536.0 * 65536.0 - 1.0; /* 2^32 - 1 */
-> -       phase =3D ratio * modulo;
-> -
-> -       /* Special cases where the DTO phase gets rounded to 0 or
-> -        * to DTO modulo
-> -        */
-> -       if (phase <=3D 0 || phase >=3D modulo) {
-> -               REG_SET(OTG_V_TOTAL, 0, OTG_V_TOTAL,
-> -                       phase <=3D 0 ?
-> -                               (uint32_t)vtotal_max : (uint32_t)vtotal_m=
-in);
-> -               REG_SET(OTG_V_TOTAL_MIN, 0, OTG_V_TOTAL_MIN, 0);
-> -               REG_SET(OTG_V_TOTAL_MAX, 0, OTG_V_TOTAL_MAX, 0);
-> -               REG_SET(OTG_M_CONST_DTO0, 0, OTG_M_CONST_DTO_PHASE, 0);
-> -               REG_SET(OTG_M_CONST_DTO1, 0, OTG_M_CONST_DTO_MODULO, 0);
-> -               REG_UPDATE_3(OTG_V_TOTAL_CONTROL,
-> -                       OTG_V_TOTAL_MIN_SEL, 0,
-> -                       OTG_V_TOTAL_MAX_SEL, 0,
-> -                       OTG_SET_V_TOTAL_MIN_MASK_EN, 0);
-> -               return;
-> -       }
-> -       REG_UPDATE_6(OTG_V_TOTAL_CONTROL,
-> -               OTG_V_TOTAL_MIN_SEL, 1,
-> -               OTG_V_TOTAL_MAX_SEL, 1,
-> -               OTG_SET_V_TOTAL_MIN_MASK_EN, 1,
-> -               OTG_SET_V_TOTAL_MIN_MASK, v_total_mask_value,
-> -               OTG_VTOTAL_MID_REPLACING_MIN_EN, 0,
-> -               OTG_VTOTAL_MID_REPLACING_MAX_EN, 0);
-> -       REG_SET(OTG_V_TOTAL, 0, OTG_V_TOTAL, (uint32_t)vtotal_min);
-> -       optc->funcs->set_vtotal_min_max(optc, vtotal_min, vtotal_max);
-> -       REG_SET(OTG_M_CONST_DTO0, 0, OTG_M_CONST_DTO_PHASE, (uint32_t)pha=
-se);
-> -       REG_SET(OTG_M_CONST_DTO1, 0, OTG_M_CONST_DTO_MODULO, (uint32_t)mo=
-dulo);
-> -}
-> -
->  void dcn30_fpu_populate_dml_writeback_from_context(
->                 struct dc *dc, struct resource_context *res_ctx, display_=
-e2e_pipe_params_st *pipes)
->  {
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.h b/drive=
-rs/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.h
-> index cab864095ce7..e3b6ad6a8784 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.h
-> @@ -29,9 +29,6 @@
->  #include "core_types.h"
->  #include "dcn20/dcn20_optc.h"
+> [0]https://lore.kernel.org/linux-rockchip/20240813-dw-hdmi-rockchip-clean=
+up-v1-1-b3e73b5f4fd6@collabora.com/
+> [1]https://lore.kernel.org/dri-devel/20191212215303.GA11520@ravnborg.org/
 >
-> -void optc3_fpu_set_vrr_m_const(struct timing_generator *optc,
-> -               double vtotal_avg);
-> -
->  void dcn30_fpu_populate_dml_writeback_from_context(
->                 struct dc *dc, struct resource_context *res_ctx, display_=
-e2e_pipe_params_st *pipes);
->
-> --
-> 2.48.1
->
+>>
+>>
+>>BR,
+>>Jani.
+>>
+>>
+>>>
+>>>>
+>>>>Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>>>
+>>>>---
+>>>>
+>>>>Looks like it's possible to hunt down the struct drm_device in most of
+>>>>these cases, if that's desired. This was the simplest change.
+>>>>
+>>>>Cc: Sandy Huang <hjc@rock-chips.com>
+>>>>Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
+>>>>Cc: Andy Yan <andy.yan@rock-chips.com>
+>>>>Cc: dri-devel@lists.freedesktop.org
+>>>>Cc: linux-arm-kernel@lists.infradead.org
+>>>>Cc: linux-rockchip@lists.infradead.org
+>>>>---
+>>>> drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c    | 16 ++++++++--------
+>>>> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 16 ++++++++--------
+>>>> 2 files changed, 16 insertions(+), 16 deletions(-)
+>>>>
+>>>>diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/=
+drm/rockchip/dw_hdmi-rockchip.c
+>>>>index e7a6669c46b0..f737e7d46e66 100644
+>>>>--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>>>>+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>>>>@@ -203,7 +203,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_h=
+dmi *hdmi)
+>>>>=20
+>>>> 	hdmi->regmap =3D syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
+>>>> 	if (IS_ERR(hdmi->regmap)) {
+>>>>-		drm_err(hdmi, "Unable to get rockchip,grf\n");
+>>>>+		dev_err(hdmi->dev, "Unable to get rockchip,grf\n");
+>>>> 		return PTR_ERR(hdmi->regmap);
+>>>> 	}
+>>>>=20
+>>>>@@ -214,7 +214,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_h=
+dmi *hdmi)
+>>>> 	if (IS_ERR(hdmi->ref_clk)) {
+>>>> 		ret =3D PTR_ERR(hdmi->ref_clk);
+>>>> 		if (ret !=3D -EPROBE_DEFER)
+>>>>-			drm_err(hdmi, "failed to get reference clock\n");
+>>>>+			dev_err(hdmi->dev, "failed to get reference clock\n");
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>@@ -222,7 +222,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_h=
+dmi *hdmi)
+>>>> 	if (IS_ERR(hdmi->grf_clk)) {
+>>>> 		ret =3D PTR_ERR(hdmi->grf_clk);
+>>>> 		if (ret !=3D -EPROBE_DEFER)
+>>>>-			drm_err(hdmi, "failed to get grf clock\n");
+>>>>+			dev_err(hdmi->dev, "failed to get grf clock\n");
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>@@ -302,16 +302,16 @@ static void dw_hdmi_rockchip_encoder_enable(struc=
+t drm_encoder *encoder)
+>>>>=20
+>>>> 	ret =3D clk_prepare_enable(hdmi->grf_clk);
+>>>> 	if (ret < 0) {
+>>>>-		drm_err(hdmi, "failed to enable grfclk %d\n", ret);
+>>>>+		dev_err(hdmi->dev, "failed to enable grfclk %d\n", ret);
+>>>> 		return;
+>>>> 	}
+>>>>=20
+>>>> 	ret =3D regmap_write(hdmi->regmap, hdmi->chip_data->lcdsel_grf_reg, v=
+al);
+>>>> 	if (ret !=3D 0)
+>>>>-		drm_err(hdmi, "Could not write to GRF: %d\n", ret);
+>>>>+		dev_err(hdmi->dev, "Could not write to GRF: %d\n", ret);
+>>>>=20
+>>>> 	clk_disable_unprepare(hdmi->grf_clk);
+>>>>-	drm_dbg(hdmi, "vop %s output to hdmi\n", ret ? "LIT" : "BIG");
+>>>>+	dev_dbg(hdmi->dev, "vop %s output to hdmi\n", ret ? "LIT" : "BIG");
+>>>> }
+>>>>=20
+>>>> static int
+>>>>@@ -574,7 +574,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev=
+, struct device *master,
+>>>> 	ret =3D rockchip_hdmi_parse_dt(hdmi);
+>>>> 	if (ret) {
+>>>> 		if (ret !=3D -EPROBE_DEFER)
+>>>>-			drm_err(hdmi, "Unable to parse OF data\n");
+>>>>+			dev_err(hdmi->dev, "Unable to parse OF data\n");
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>@@ -582,7 +582,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev=
+, struct device *master,
+>>>> 	if (IS_ERR(hdmi->phy)) {
+>>>> 		ret =3D PTR_ERR(hdmi->phy);
+>>>> 		if (ret !=3D -EPROBE_DEFER)
+>>>>-			drm_err(hdmi, "failed to get phy\n");
+>>>>+			dev_err(hdmi->dev, "failed to get phy\n");
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/g=
+pu/drm/rockchip/dw_hdmi_qp-rockchip.c
+>>>>index f41151d49fca..3d1dddb34603 100644
+>>>>--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+>>>>+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+>>>>@@ -242,7 +242,7 @@ static void dw_hdmi_qp_rk3588_hpd_work(struct work_=
+struct *work)
+>>>> 	if (drm) {
+>>>> 		changed =3D drm_helper_hpd_irq_event(drm);
+>>>> 		if (changed)
+>>>>-			drm_dbg(hdmi, "connector status changed\n");
+>>>>+			dev_dbg(hdmi->dev, "connector status changed\n");
+>>>> 	}
+>>>> }
+>>>>=20
+>>>>@@ -472,7 +472,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
+dev, struct device *master,
+>>>> 		}
+>>>> 	}
+>>>> 	if (hdmi->port_id < 0) {
+>>>>-		drm_err(hdmi, "Failed to match HDMI port ID\n");
+>>>>+		dev_err(hdmi->dev, "Failed to match HDMI port ID\n");
+>>>> 		return hdmi->port_id;
+>>>> 	}
+>>>>=20
+>>>>@@ -496,20 +496,20 @@ static int dw_hdmi_qp_rockchip_bind(struct device=
+ *dev, struct device *master,
+>>>> 	hdmi->regmap =3D syscon_regmap_lookup_by_phandle(dev->of_node,
+>>>> 						       "rockchip,grf");
+>>>> 	if (IS_ERR(hdmi->regmap)) {
+>>>>-		drm_err(hdmi, "Unable to get rockchip,grf\n");
+>>>>+		dev_err(hdmi->dev, "Unable to get rockchip,grf\n");
+>>>> 		return PTR_ERR(hdmi->regmap);
+>>>> 	}
+>>>>=20
+>>>> 	hdmi->vo_regmap =3D syscon_regmap_lookup_by_phandle(dev->of_node,
+>>>> 							  "rockchip,vo-grf");
+>>>> 	if (IS_ERR(hdmi->vo_regmap)) {
+>>>>-		drm_err(hdmi, "Unable to get rockchip,vo-grf\n");
+>>>>+		dev_err(hdmi->dev, "Unable to get rockchip,vo-grf\n");
+>>>> 		return PTR_ERR(hdmi->vo_regmap);
+>>>> 	}
+>>>>=20
+>>>> 	ret =3D devm_clk_bulk_get_all_enabled(hdmi->dev, &clks);
+>>>> 	if (ret < 0) {
+>>>>-		drm_err(hdmi, "Failed to get clocks: %d\n", ret);
+>>>>+		dev_err(hdmi->dev, "Failed to get clocks: %d\n", ret);
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>@@ -517,7 +517,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
+dev, struct device *master,
+>>>> 						    GPIOD_OUT_HIGH);
+>>>> 	if (IS_ERR(hdmi->enable_gpio)) {
+>>>> 		ret =3D PTR_ERR(hdmi->enable_gpio);
+>>>>-		drm_err(hdmi, "Failed to request enable GPIO: %d\n", ret);
+>>>>+		dev_err(hdmi->dev, "Failed to request enable GPIO: %d\n", ret);
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>@@ -525,7 +525,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
+dev, struct device *master,
+>>>> 	if (IS_ERR(hdmi->phy)) {
+>>>> 		ret =3D PTR_ERR(hdmi->phy);
+>>>> 		if (ret !=3D -EPROBE_DEFER)
+>>>>-			drm_err(hdmi, "failed to get phy: %d\n", ret);
+>>>>+			dev_err(hdmi->dev, "failed to get phy: %d\n", ret);
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>@@ -564,7 +564,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
+dev, struct device *master,
+>>>> 	connector =3D drm_bridge_connector_init(drm, encoder);
+>>>> 	if (IS_ERR(connector)) {
+>>>> 		ret =3D PTR_ERR(connector);
+>>>>-		drm_err(hdmi, "failed to init bridge connector: %d\n", ret);
+>>>>+		dev_err(hdmi->dev, "failed to init bridge connector: %d\n", ret);
+>>>> 		return ret;
+>>>> 	}
+>>>>=20
+>>>>--=20
+>>>>2.39.5
+>>>>
+>>>>
+>>>>_______________________________________________
+>>>>Linux-rockchip mailing list
+>>>>Linux-rockchip@lists.infradead.org
+>>>>http://lists.infradead.org/mailman/listinfo/linux-rockchip
+>>
+>>--=20
+>>Jani Nikula, Intel
+
+--=20
+Jani Nikula, Intel
