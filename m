@@ -2,64 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD57BA44411
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7E9A4443A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:23:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADECC10E715;
-	Tue, 25 Feb 2025 15:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB83310E71D;
+	Tue, 25 Feb 2025 15:23:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QSzw6nbA";
+	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="BUMWjRPI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 367E610E710;
- Tue, 25 Feb 2025 15:14:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740496470; x=1772032470;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=a6fcKRCcSMKDXJTwwhzfzELOJTwdCx1MKrczazoy5rg=;
- b=QSzw6nbAO7oAld7zzBF4Rep7kLZQhe/HqnnIsA5pc/6pGZe2Ldtd5eZQ
- 5jEsJbT6GEe6QZDUjI8CUoRCn2yioOwwDg40TlPmZdU8xKEW85kmKInVm
- Ajw8dzmjdUWb2wpKUJE9alnjnOvxI10FixTBN+3zhwDfQbjL3ynyMKbsc
- nrmxPH55cCunASVLm71ym//tP78VZ3k7juebzSGfw7jEYQvf3XBs65L1d
- bN1A7bK1CU06vUWchsJ6JAOzNqhtMyHRq6YyPQSdELyaGyktyuBxwiUmq
- X7ZMWvxOaLKGndtKi+MPXV1tbHI4rBe5xL6gfnuCOiWF9VEBZ6PJshaRM A==;
-X-CSE-ConnectionGUID: fDaPsva0T62OnXjNkjCJ/w==
-X-CSE-MsgGUID: eeL6x7PHS0eyLwUdbCmuow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="28895078"
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="28895078"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 07:14:29 -0800
-X-CSE-ConnectionGUID: OBfwnLxGQyWcIS2sI1waJw==
-X-CSE-MsgGUID: Th7LyYslS9moIfJjVKgUEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="116909801"
-Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.244.112])
- ([10.245.244.112])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 07:14:26 -0800
-Message-ID: <bf92727d-8d06-4fd4-9908-cfce46a8afb0@intel.com>
-Date: Tue, 25 Feb 2025 15:14:23 +0000
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 995A710E71D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 15:23:00 +0000 (UTC)
+Received: from [127.0.0.1] ([76.133.66.138]) (authenticated bits=0)
+ by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51PFLeJx1321966
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+ Tue, 25 Feb 2025 07:21:41 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51PFLeJx1321966
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+ s=2025021701; t=1740496908;
+ bh=IFxVykDS0g8xLLyPz9dDn1sgxptbnK+YyCXg+3CY3aM=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=BUMWjRPIFaLk9eEljQvZOhLwrBHl5WiOz4myJbzxM1DiE4BYZIZywLpG+8lH6L2Ld
+ bFtraaKU3/cK4+FeRWQF5FbFz83DA8Z/AQnawksvD4yyCe21dX2Z0rgdJKhBBHLj1z
+ s4I9gcurp+Edn27zjQimLT1osW8ygdQmmUepB5mDrHI/BX4Xi6bUBzkmawhEaTO/H0
+ x2/DVO+Y+FeNzDFJllD1SIrMR4JwTWu/5UrL2K1pJJDRRfeaeW4lVKsfyboLsLCJ0g
+ GbLOzT769Ufnz8kospEBAiCZ1QDPJbYxD0w9NG/sbS9pBQyDxcESpuh28quuCen1V2
+ 4+wvwE+cqOncg==
+Date: Tue, 25 Feb 2025 07:21:38 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: David Laight <david.laight.linux@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>
+CC: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ yury.norov@gmail.com, akpm@linux-foundation.org, alistair@popple.id.au,
+ linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250224133431.2c38213f@pumpkin>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+ <20250224133431.2c38213f@pumpkin>
+Message-ID: <949B0809-3BB9-4E18-8FA1-A12BD47F2843@zytor.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/32] drm/gpusvm: Add support for GPU Shared Virtual
- Memory
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
- felix.kuehling@amd.com, dakr@kernel.org
-References: <20250225044311.3178695-1-matthew.brost@intel.com>
- <20250225044311.3178695-7-matthew.brost@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20250225044311.3178695-7-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,165 +84,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/02/2025 04:42, Matthew Brost wrote:
-> This patch introduces support for GPU Shared Virtual Memory (SVM) in the
-> Direct Rendering Manager (DRM) subsystem. SVM allows for seamless
-> sharing of memory between the CPU and GPU, enhancing performance and
-> flexibility in GPU computing tasks.
-> 
-> The patch adds the necessary infrastructure for SVM, including data
-> structures and functions for managing SVM ranges and notifiers. It also
-> provides mechanisms for allocating, deallocating, and migrating memory
-> regions between system RAM and GPU VRAM.
-> 
-> This is largely inspired by GPUVM.
-> 
-> v2:
->   - Take order into account in check pages
->   - Clear range->pages in get pages error
->   - Drop setting dirty or accessed bit in get pages (Vetter)
->   - Remove mmap assert for cpu faults
->   - Drop mmap write lock abuse (Vetter, Christian)
->   - Decouple zdd from range (Vetter, Oak)
->   - Add drm_gpusvm_range_evict, make it work with coherent pages
->   - Export drm_gpusvm_evict_to_sram, only use in BO evict path (Vetter)
->   - mmget/put in drm_gpusvm_evict_to_sram
->   - Drop range->vram_alloation variable
->   - Don't return in drm_gpusvm_evict_to_sram until all pages detached
->   - Don't warn on mixing sram and device pages
->   - Update kernel doc
->   - Add coherent page support to get pages
->   - Use DMA_FROM_DEVICE rather than DMA_BIDIRECTIONAL
->   - Add struct drm_gpusvm_vram and ops (Thomas)
->   - Update the range's seqno if the range is valid (Thomas)
->   - Remove the is_unmapped check before hmm_range_fault (Thomas)
->   - Use drm_pagemap (Thomas)
->   - Drop kfree_mapping (Thomas)
->   - dma mapp pages under notifier lock (Thomas)
->   - Remove ctx.prefault
->   - Remove ctx.mmap_locked
->   - Add ctx.check_pages
->   - s/vram/devmem (Thomas)
-> v3:
->   - Fix memory leak drm_gpusvm_range_get_pages
->   - Only migrate pages with same zdd on CPU fault
->   - Loop over al VMAs in drm_gpusvm_range_evict
->   - Make GPUSVM a drm level module
->   - GPL or MIT license
->   - Update main kernel doc (Thomas)
->   - Prefer foo() vs foo for functions in kernel doc (Thomas)
->   - Prefer functions over macros (Thomas)
->   - Use unsigned long vs u64 for addresses (Thomas)
->   - Use standard interval_tree (Thomas)
->   - s/drm_gpusvm_migration_put_page/drm_gpusvm_migration_unlock_put_page (Thomas)
->   - Drop err_out label in drm_gpusvm_range_find_or_insert (Thomas)
->   - Fix kernel doc in drm_gpusvm_range_free_pages (Thomas)
->   - Newlines between functions defs in header file (Thomas)
->   - Drop shall language in driver vfunc kernel doc (Thomas)
->   - Move some static inlines from head to C file (Thomas)
->   - Don't allocate pages under page lock in drm_gpusvm_migrate_populate_ram_pfn (Thomas)
->   - Change check_pages to a threshold
-> v4:
->   - Fix NULL ptr deref in drm_gpusvm_migrate_populate_ram_pfn (Thomas, Himal)
->   - Fix check pages threshold
->   - Check for range being unmapped under notifier lock in get pages (Testing)
->   - Fix characters per line
->   - Drop WRITE_ONCE for zdd->devmem_allocation assignment (Thomas)
->   - Use completion for devmem_allocation->detached (Thomas)
->   - Make GPU SVM depend on ZONE_DEVICE (CI)
->   - Use hmm_range_fault for eviction (Thomas)
->   - Drop zdd worker (Thomas)
-> v5:
->   - Select Kconfig deps (CI)
->   - Set device to NULL in __drm_gpusvm_migrate_to_ram (Matt Auld, G.G.)
->   - Drop Thomas's SoB (Thomas)
->   - Add drm_gpusvm_range_start/end/size helpers (Thomas)
->   - Add drm_gpusvm_notifier_start/end/size helpers (Thomas)
->   - Absorb drm_pagemap name changes (Thomas)
->   - Fix driver lockdep assert (Thomas)
->   - Move driver lockdep assert to static function (Thomas)
->   - Assert mmap lock held in drm_gpusvm_migrate_to_devmem (Thomas)
->   - Do not retry forever on eviction (Thomas)
-> v6:
->   - Fix drm_gpusvm_get_devmem_page alignment (Checkpatch)
->   - Modify Kconfig (CI)
->   - Compile out lockdep asserts (CI)
-> 
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/Kconfig      |    9 +
->   drivers/gpu/drm/Makefile     |    1 +
->   drivers/gpu/drm/drm_gpusvm.c | 2236 ++++++++++++++++++++++++++++++++++
->   include/drm/drm_gpusvm.h     |  507 ++++++++
->   4 files changed, 2753 insertions(+)
->   create mode 100644 drivers/gpu/drm/drm_gpusvm.c
->   create mode 100644 include/drm/drm_gpusvm.h
-> 
+On February 24, 2025 5:34:31 AM PST, David Laight <david=2Elaight=2Elinux@g=
+mail=2Ecom> wrote:
+>On Mon, 24 Feb 2025 08:09:43 +0100
+>Jiri Slaby <jirislaby@kernel=2Eorg> wrote:
+>
+>> On 23=2E 02=2E 25, 17:42, Kuan-Wei Chiu wrote:
+>> > Several parts of the kernel open-code parity calculations using
+>> > different methods=2E Add a generic parity64() helper implemented with=
+ the
+>> > same efficient approach as parity8()=2E
+>> >=20
+>> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
+>> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
+>> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail=2Ecom>
+>> > ---
+>> >   include/linux/bitops=2Eh | 22 ++++++++++++++++++++++
+>> >   1 file changed, 22 insertions(+)
+>> >=20
+>> > diff --git a/include/linux/bitops=2Eh b/include/linux/bitops=2Eh
+>> > index fb13dedad7aa=2E=2E67677057f5e2 100644
+>> > --- a/include/linux/bitops=2Eh
+>> > +++ b/include/linux/bitops=2Eh
+>> > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+>> >   	return (0x6996 >> (val & 0xf)) & 1;
+>> >   }
+>> >  =20
+>> > +/**
+>> > + * parity64 - get the parity of an u64 value
+>> > + * @value: the value to be examined
+>> > + *
+>> > + * Determine the parity of the u64 argument=2E
+>> > + *
+>> > + * Returns:
+>> > + * 0 for even parity, 1 for odd parity
+>> > + */
+>> > +static inline int parity64(u64 val)
+>> > +{
+>> > +	/*
+>> > +	 * One explanation of this algorithm:
+>> > +	 * https://funloop=2Eorg/codex/problem/parity/README=2Ehtml
+>> > +	 */
+>> > +	val ^=3D val >> 32; =20
+>>=20
+>> Do we need all these implementations? Can't we simply use parity64() fo=
+r=20
+>> any 8, 16 and 32-bit values too? I=2Ee=2E have one parity()=2E
+>
+>I'm not sure you can guarantee that the compiler will optimise away
+>the unnecessary operations=2E
+>
+>But:
+>static inline int parity64(u64 val)
+>{
+>	return parity32(val ^ (val >> 32))
+>}
+>
+>should be ok=2E
+>It will also work on x86-32 where parity32() can just check the parity fl=
+ag=2E
+>Although you are unlikely to manage to use the the PF the xor sets=2E
+>
+>	David
+>
+>>=20
+>> > +	val ^=3D val >> 16;
+>> > +	val ^=3D val >> 8;
+>> > +	val ^=3D val >> 4;
+>> > +	return (0x6996 >> (val & 0xf)) & 1;
+>> > +}
+>> > +
+>> >   /**
+>> >    * __ffs64 - find first set bit in a 64 bit word
+>> >    * @word: The 64 bit word =20
+>>=20
+>>=20
+>
 
-<snip>
-
-> +/**
-> + * struct drm_gpusvm_notifier - Structure representing a GPU SVM notifier
-> + *
-> + * @gpusvm: Pointer to the GPU SVM structure
-> + * @notifier: MMU interval notifier
-> + * @itree: Interval tree node for the notifier (inserted in GPU SVM)
-> + * @entry: List entry to fast interval tree traversal
-> + * @root: Cached root node of the RB tree containing ranges
-> + * @range_list: List head containing of ranges in the same order they appear in
-> + *              interval tree. This is useful to keep iterating ranges while
-> + *              doing modifications to RB tree.
-
-Build is failing here. I think just missing:
-
-+ * @flags: ....
-
-> + * @flags.removed: Flag indicating whether the MMU interval notifier has been
-> + *                 removed
-> + *
-> + * This structure represents a GPU SVM notifier.
-> + */
-> +struct drm_gpusvm_notifier {
-> +	struct drm_gpusvm *gpusvm;
-> +	struct mmu_interval_notifier notifier;
-> +	struct interval_tree_node itree;
-> +	struct list_head entry;
-> +	struct rb_root_cached root;
-> +	struct list_head range_list;
-> +	struct {
-> +		u32 removed : 1;
-> +	} flags;
-> +};
-> +
-> +/**
-> + * struct drm_gpusvm_range - Structure representing a GPU SVM range
-> + *
-> + * @gpusvm: Pointer to the GPU SVM structure
-> + * @notifier: Pointer to the GPU SVM notifier
-> + * @refcount: Reference count for the range
-> + * @itree: Interval tree node for the range (inserted in GPU SVM notifier)
-> + * @entry: List entry to fast interval tree traversal
-> + * @notifier_seq: Notifier sequence number of the range's pages
-> + * @dma_addr: Device address array
-> + * @dpagemap: The struct drm_pagemap of the device pages we're dma-mapping.
-> + *            Note this is assuming only one drm_pagemap per range is allowed.
-
-Same here:
-
-+ * @flags: ....
-
-> + * @flags.migrate_devmem: Flag indicating whether the range can be migrated to device memory
-> + * @flags.unmapped: Flag indicating if the range has been unmapped
-> + * @flags.partial_unmap: Flag indicating if the range has been partially unmapped
-> + * @flags.has_devmem_pages: Flag indicating if the range has devmem pages
-> + * @flags.has_dma_mapping: Flag indicating if the range has a DMA mapping
-> + *
-> + * This structure represents a GPU SVM range used for tracking memory ranges
-> + * mapped in a DRM device.
-> + */
+Sure you can; you do need an 8- and a 16-bit arch implementation though (t=
+he 16 bit one being xor %rh,%rl)
