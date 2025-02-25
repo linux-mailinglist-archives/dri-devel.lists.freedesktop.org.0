@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC02A43641
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C99A43662
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:48:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39E0410E58D;
-	Tue, 25 Feb 2025 07:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 831D610E593;
+	Tue, 25 Feb 2025 07:48:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="mohV7Dk/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QSHuYjFf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 670 seconds by postgrey-1.36 at gabe;
- Tue, 25 Feb 2025 07:39:52 UTC
-Received: from relay3.mymailcheap.com (relay3.mymailcheap.com
- [217.182.119.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6AAE10E589;
- Tue, 25 Feb 2025 07:39:52 +0000 (UTC)
-Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
- by relay3.mymailcheap.com (Postfix) with ESMTPS id 1B67B3E917;
- Tue, 25 Feb 2025 07:39:51 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- by nf1.mymailcheap.com (Postfix) with ESMTPSA id 897A84023E;
- Tue, 25 Feb 2025 07:39:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1740469190; bh=jJv616jfTn0ZGbYwwYOpX5lWgGqrU9i3HLdGP4o/yI8=;
- h=From:To:Cc:Subject:Date:From;
- b=mohV7Dk/6gbHatB+pznBJbKYR3zzmfXMIYKZUlHQhSxTRi+mgvypiWZ9bXfoiwWX6
- k7UblRqmPpaPLQFUa6sR3J705ccGOtPrwf6IuUreTEd2CsQEFHGlmDOXOq8KqiqcHP
- 7D52fpiNBtJ5v7IjRGlPXxrI7uLsabDwJAQGowkA=
-Received: from JellyNote.localdomain (unknown [203.175.14.48])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 55F72413A7;
- Tue, 25 Feb 2025 07:39:44 +0000 (UTC)
-From: Mingcong Bai <jeffbai@aosc.io>
-To: linux-kernel@vger.kernel.org
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>, stable@vger.kernel.org,
- Mingcong Bai <jeffbai@aosc.io>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Pallavi Mishra <pallavi.mishra@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Ilia Levi <ilia.levi@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/xe/regs: remove a duplicate definition for
- RING_CTL_SIZE(size)
-Date: Tue, 25 Feb 2025 15:31:01 +0800
-Message-ID: <20250225073104.865230-1-jeffbai@aosc.io>
-X-Mailer: git-send-email 2.48.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C28C10E182;
+ Tue, 25 Feb 2025 07:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740469711; x=1772005711;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=Vl8GcaSocvM7Af1UNFMpl7Uo8LqtcRl34GJUlYcCKCw=;
+ b=QSHuYjFfha5FHeslABlXG5y4mg7iNfwzUkuTKrlEZ0hbMIBi2wDZcaM+
+ OmdYyDs8SFsv1+T39pz2N3NazCYIJxOU631YBNYyBekj1Zy6XYSdoNX4h
+ AUJ++JPmZEc6IFE6LMKUPtyWJN+gEFJgKECy1IGdK7lbAeH9nYsYBY9n8
+ fe5FQb6lw0XBrtzauPSelE3Qd7S9Wxh7yzO6ac9k6yi9wfQcBd6IrR+85
+ sFU29AKfcXbHcJUmyuBrdAMAmMeEhfrqGnj0n4i4w8A8e3j3B7RZbb7qd
+ +dOsJPgk0vNNPllbpf7z3sQnTU41XbBuii1x05UiKIgWYMH3DL0D7bD9M Q==;
+X-CSE-ConnectionGUID: OslYao/OSzSy9sd9MSBEdg==
+X-CSE-MsgGUID: 0XgsCPXlTX2wW0+wt+D1OQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="63726913"
+X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; d="scan'208";a="63726913"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2025 23:48:30 -0800
+X-CSE-ConnectionGUID: bAYbtkC6TmqriM52oiRP7Q==
+X-CSE-MsgGUID: EG+4NsvpR5iL4Xk+GQL+tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; d="scan'208";a="116330844"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by fmviesa007.fm.intel.com with ESMTP; 24 Feb 2025 23:48:27 -0800
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v7 0/3] Expose modifiers/formats supported by async flips
+Date: Tue, 25 Feb 2025 13:03:50 +0530
+Message-Id: <20250225-asyn-v7-0-20b81122f4ce@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: nf1.mymailcheap.com
-X-Rspamd-Queue-Id: 897A84023E
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.40 / 10.00]; MID_CONTAINS_FROM(1.00)[];
- R_MISSING_CHARSET(0.50)[]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_TWELVE(0.00)[20];
- ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
- RCVD_COUNT_ONE(0.00)[1]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- SPFBL_URIBL_EMAIL_FAIL(0.00)[stable.vger.kernel.org:server
- fail,jeffbai.aosc.io:server fail]; 
- FREEMAIL_CC(0.00)[aosc.io,vger.kernel.org,intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF5yvWcC/02OwQ6DIBAFf8VwLgRQxPbU/2g8IGIhqdAsaGqM/
+ 17UNOlxNvsms6JowJmIbsWKwMwuuuAzyEuBtFX+abDrMyNOuaCMcqzi4nE3yFqWNF+0Rvn1DWZ
+ wn0PzaDMPEEacLBj1G1eMsYZKUTJBqrqm9IoZVjB5AmScINnl7nwyL6LDuButiynAcnTNYveeC
+ Zw1Z8IsMMVSaaF0pbq+Un/7dtu2L/1UMrraAAAA
+X-Change-ID: 20250102-asyn-bf76730501cc
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, ville.syrjala@linux.intel.com
+Cc: Arun R Murthy <arun.r.murthy@intel.com>, 
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, 
+ Naveen Kumar <naveen1.kumar@intel.com>, 
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,35 +74,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit b79e8fd954c4 ("drm/xe: Remove dependency on intel_engine_regs.h")
-introduced an internal set of engine registers, however, as part of this
-change, it has also introduced two duplicate `define' lines for
-`RING_CTL_SIZE(size)'. This commit was introduced to the tree in v6.8-rc1.
+All of the formats/modifiers supported by the plane during synchronous
+flips are nor supported by asynchronous flips. The formats/modifiers
+exposed to user by IN_FORMATS exposes all formats/modifiers supported by
+plane and this list varies for async flips. If the async flip supported
+formats/modifiers are exposed to the user, user based on this list can
+take decision to proceed or not and avoid flip failures during async
+flips.
+Discussion around this can be located @
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+Mutter implementation for IN_FORMARTS_ASYNC under review @
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
+Xorg/modesetting patch 
+https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1816
 
-While this is harmless as the definitions did not change, so no compiler
-warning was observed.
+TODO: Upon merge of the patch related to async flip
+https://patchwork.freedesktop.org/patch/626849/?series=139807&rev=6
+the patch 5 in this series will have to make use of the new function
+pointer can_async_flip().
 
-Drop this line anyway for the sake of correctness.
+v3: Add new plane->funcs format_mod_supported_async (Ville)
 
-Cc: <stable@vger.kernel.org> # v6.8-rc1+
-Fixes: b79e8fd954c4 ("drm/xe: Remove dependency on intel_engine_regs.h")
-Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
+Arun R Murthy (3):
+  drm/plane: Add new plane property IN_FORMATS_ASYNC
+  drm/plane: Expose function to create format/modifier blob
+  drm/i915/display: Populate list of async supported formats/modifiers
+
+ drivers/gpu/drm/drm_mode_config.c             |  7 +++
+ drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
+ .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
+ include/drm/drm_mode_config.h                 |  6 +++
+ include/drm/drm_plane.h                       |  4 ++
+ 5 files changed, 103 insertions(+), 15 deletions(-)
+
+--
+2.25.1
+
 ---
- drivers/gpu/drm/xe/regs/xe_engine_regs.h | 1 -
- 1 file changed, 1 deletion(-)
+Arun R Murthy (5):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: Expose function to create format/modifier blob
+      drm/plane: Function to check async supported modifier/format
+      drm/i915/display: Populate list of async supported formats/modifiers
+      drm/i915/display: Add function for format_mod_supported_async
 
-diff --git a/drivers/gpu/drm/xe/regs/xe_engine_regs.h b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-index d86219dedde2a..b732c89816dff 100644
---- a/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-@@ -53,7 +53,6 @@
- 
- #define RING_CTL(base)				XE_REG((base) + 0x3c)
- #define   RING_CTL_SIZE(size)			((size) - PAGE_SIZE) /* in bytes -> pages */
--#define   RING_CTL_SIZE(size)			((size) - PAGE_SIZE) /* in bytes -> pages */
- 
- #define RING_START_UDW(base)			XE_REG((base) + 0x48)
- 
+ drivers/gpu/drm/drm_mode_config.c                  |   7 ++
+ drivers/gpu/drm/drm_plane.c                        |  72 +++++++++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 113 ++++++++++++++++++---
+ include/drm/drm_mode_config.h                      |   6 ++
+ include/drm/drm_plane.h                            |  24 +++++
+ 5 files changed, 188 insertions(+), 34 deletions(-)
+---
+base-commit: 08bd590935a5258ffd79355c59adffd72fb2c642
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Changes in v6:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v5: https://lore.kernel.org/r/20250218-asyn-v5-0-7ac5ac4abd4a@intel.com
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 53 +++++++++++++++-----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 5 files changed, 112 insertions(+), 27 deletions(-)
+---
+base-commit: bc7a84cbc968ce97e581e9e3c2d26fb0ac106482
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 ++++
+ drivers/gpu/drm/drm_plane.c                        | 49 ++++++++++++++++------
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |  6 ++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 30 ++++++++++++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  6 ++-
+ drivers/gpu/drm/i915/display/intel_display.c       | 11 +----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  5 ++-
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 ++++++++
+ 9 files changed, 111 insertions(+), 26 deletions(-)
+---
+base-commit: be5a404c3344b7d794766f045b8f94aa93c42069
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
 -- 
-2.48.1
+Arun R Murthy <arun.r.murthy@intel.com>
 
