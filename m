@@ -2,109 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EBFA43A49
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 10:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A37CA43A81
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:01:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6EDA10E5E4;
-	Tue, 25 Feb 2025 09:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F0A10E5E2;
+	Tue, 25 Feb 2025 10:01:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DucSEBiX";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="o3HEFj6v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67CDF10E5E1;
- Tue, 25 Feb 2025 09:51:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D473C433E9;
- Tue, 25 Feb 2025 09:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740477099;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=daz6XIwQt+4+EyXCRI/UZAxdQaTrgBamQkele6r+r3U=;
- b=DucSEBiXJ1ZfEYobtiYF4x4SwIuiXcEfnfUjWJO9BL8Zx+41ZZoks1tc/BRbOcQZsNtEaK
- FCFWEvIBc3CwnV0PXKGkqxW37Go5X3K1Jt8HS5v90PA6sNiapUoUwJhXn6IXYeLxfTS9m0
- 9RuX7BI3pyf6Y2RKCNJZdse1uHXgogpbicphokQaWfE2IwpRRfYCDR6DrTSEDPqLXgkb2X
- +M7jKqj0owIfmTXwC7JDBQ6epHouvngyp2U7zA3ZXP7ubYMNdF2DvqGLXcGRmenzToylf2
- bJEGJffSyVKDkro+2HORYB26EdPuz/DfCPPpy188RuK7+G1RfrU6l4c6+fct0Q==
-Message-ID: <e8651c30-e602-4dd4-bb2c-0e6bca61e53b@bootlin.com>
-Date: Tue, 25 Feb 2025 10:51:38 +0100
+Received: from MA0PR01CU012.outbound.protection.outlook.com
+ (mail-southindiaazolkn19011025.outbound.protection.outlook.com
+ [52.103.67.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA45C10E5E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:01:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NVe+0zr4+Hh4xsqPqR6M0m5P3kFYzAa+WmK0utUbZ3ivd5PYfdo0prVnVL2yYQUT4XtGp2vfNwNJc75mzCkES+hNszEeWFBvAlyqAoanLjinQV5bmFQP1NV3oC2j6TkDSLWHICe4PjNW1eZhmLH1vNVZofkGlTvWxeVjNHUTqKxvtOaacGv2oOMKF4hhHpUAd5EcyPqG1evrP/FYPfU0+8vWj1gh4nAZG4k4EZW31T+YCBkg/XYS1KqBFUy7LCpEEZ6rNh3iNSM22XCWZ2f20ku3bDMnBRiQChoTqgqmc1fjYuU8YAxfzvhfCYTGU121jbZ7UcrnQls39t3reH3ipg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9N8SaXmDfgTcRRs9dx5lSqCy5G+xh5+h9z8R7N5uA/s=;
+ b=KNNlRjnNj1TlT9xw0fkU5gsd+0YsRaaS/+616nOjLT52XdE+JyN0EHABw4PKIPgRZYRmeRPEGCVdIPM/+07dL9GnSc/27H7sOqkiDWM9g6ZVfxqFf8bEf4+WKYxhGi7TNA8LnACiiwf08BJu07UzuB8HkND37hREIuDH6UTXSMoezmOD0aXNdFCyLFubSNWRQ52bH+IMN+WH00fZoOyll54ryZ6HNfIaXoUl0L2YUcXWlZpdhaH3YNC4Ueg43FoQmNr4pPUqCsq5ppoP1uNRCfT/oSvFvvKORiQUHCwAa7udtfD6no2FCIMYaLv/AQfuuBAjYaBzHpPBwoKyGFwxeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9N8SaXmDfgTcRRs9dx5lSqCy5G+xh5+h9z8R7N5uA/s=;
+ b=o3HEFj6viPX4udI4QO1wcwfw1/rNO0o79O2E9V5bXrDwj4AKDIQxYKw7/KTboSxUAs/89+LXrY31Loys0gDRGAYQmj+IaDsfhNW+oA1saXX1CBZ4ZXyiQ/chPpqPCMuudnn3SlRLzcjRtblY1yerBlvRcjXS3BJl+/2vNFo3rCD4DXEuQf6zTNm7X7r2hi7gK+wOPcjj5I4zXxNL7xaWWebLaW6+FC8R6oMA9GS9i3juYwEB9GoSpcmWYWp+aKQHHIFGYKGSBSKDU/Lvk0oqNTMBRqo47hnH8jO8qtAAalHFQpjWLVW1XGzHPS7/qOdNfBn8ZoA2G9czPGtr2R9GXw==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by MAZPR01MB8869.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:d5::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.22; Tue, 25 Feb
+ 2025 10:01:16 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
+ 10:01:16 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+CC: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
+ <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ Kerem Karabay <kekrby@gmail.com>, Atharva Tiwari <evepolonium@gmail.com>,
+ Aun-Ali Zaidi <admin@kodeit.net>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Thread-Topic: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Thread-Index: AQHbhsGm46fWR/3mxEipqc6+PMbxkrNWrTuIgAD67QCAABL7QIAAANpQgAAHqwCAAAB7rIAABsNR
+Date: Tue, 25 Feb 2025 10:01:16 +0000
+Message-ID: <PN3PR01MB9597026ED0B9D82EC13F4DD7B8C32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+References: <B08444CD-38A8-4B82-94B2-4162D6D2EABD@live.com>
+ <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
+ <PN3PR01MB95974D5EB5A25386A8BF6FDAB8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <ca34309a-f2b2-4082-92df-86a775952348@suse.de>
+ <PN3PR01MB95979D1B21250604F834357FB8C32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB959719792308EBB9370993DFB8C32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <a4bc0440-5451-49e7-b7a3-9299c5200a2e@suse.de>
+ <PN3PR01MB95976ED2D5FDC48C5F9E6EF7B8C32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PN3PR01MB95976ED2D5FDC48C5F9E6EF7B8C32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MAZPR01MB8869:EE_
+x-ms-office365-filtering-correlation-id: 64e7d455-bc52-47d0-7a77-08dd55835800
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|8062599003|19110799003|8060799006|6072599003|7092599003|15080799006|461199028|3412199025|440099028|102099032;
+x-microsoft-antispam-message-info: =?utf-8?B?Q0YyT2V0MjVMLzNtRFkySUVBZjZOMTZUOGliT1BZRTk1MGVNTWhRT3lQa3Fv?=
+ =?utf-8?B?TzduVjExSjl4MWl4Unp5VmtOT2hDaC9BTnlSeENlbVdPMFRZUjBxNXlGY3Vz?=
+ =?utf-8?B?M1NoR2t2QW5SNFU3WDUvVWF1cjI5b2hOdi96SXdwZ0VMWkYzODBCT0hDTkRl?=
+ =?utf-8?B?Q3NLU1FjMmlSRFhpNDA1RTlkSzMyaDJ5djBESlQ4dHRPMTJuRU9yRHRjL3BQ?=
+ =?utf-8?B?RHlpNm5FSlF3dWlzNmhDSCtmSklEcEJXVllFbzBzMGJKU1d5ZTdhOUV0WXZs?=
+ =?utf-8?B?WHU4Sm9TamZVOEtUR3IrZlVFVFFmTFZwaXcxaUZXSUxWa2dmN3RIcFprZ3pE?=
+ =?utf-8?B?UUVsemhTbFNHMm1jSkp0TVRtSWRCdzYrVHhaNEdxS3dUdW5UUUUxUUtlNmJu?=
+ =?utf-8?B?d1ZNUFFUYTQzMkw4VXptdXp4K1R6RUlzSEtVbnI3TEYzcVBOcDNpTjkwdVQ1?=
+ =?utf-8?B?dm9TK1A4WElqTXNJN1Z3MFFDMm9HeUxUM2xSU3JvMWZ0cTJLYzdPUXVJT1NM?=
+ =?utf-8?B?Z2g0U3F1d04vQXc0MGVsUjFKOE4zSmt4d01HYVlsL0VucVpJZ3VQMERnQmRx?=
+ =?utf-8?B?amtRZHRJZ29OS3NkVnY1ZHhwOUk3b0RVQ2NWTHpqazhoMWJBNjg0aVlKUHFB?=
+ =?utf-8?B?UDdORVRSd1NwSFY4dFZxL202TUJ0T0dHS0ZFME9qbG4zUXRic0RrWGUxbGQ2?=
+ =?utf-8?B?SE95d0xibVpOb3NqZ2VQSnBTaEdVcmc3cjBUZHZEUW04NzJqL2Myem96Vld4?=
+ =?utf-8?B?NC80akRBd0tEaUhYOUV6R0JJdkR3VFBiZVFPb3d5QUZ3OGU3ajFGdUhJcktO?=
+ =?utf-8?B?RldtSC9vR0NQdGpwVVloZmg3RHpQQm5yb0VDUmdwcjJ1eUU5a0ZWMHppaCts?=
+ =?utf-8?B?aDJCZFBBRWdWemhLMGJ5cHBWQm14Ky9vNzFCMEMxWEtDL3ZhMFM3ai8vOGNK?=
+ =?utf-8?B?b0lIMjZ4dyttbVpGOXpaSzJvelVIeFdSalZhbXBKcHdIOXIwYzZCVzVWVWlU?=
+ =?utf-8?B?TDF2RnppVUhhRGVhTFd3TDVXSWtyT092bU5XeUFOTWNNT1QrQnhlTDhHdU9V?=
+ =?utf-8?B?QXVRaE9naGMzN3RmMWxNcTkrWURPVi9vQnNOaWNwVkhTTXhoZ2h0VEhVREtu?=
+ =?utf-8?B?Q2t5UkR3ZUpJRUsyWnUrV01ldGRvRUZNLzBHdUYyK1lPSW04djBvaFA0ZHo5?=
+ =?utf-8?B?ZWFtVVJRbTVOc3FObTZEdEEvd0toVFg4M3ZwSDZuZTg4S2VqQU92MS92d3FM?=
+ =?utf-8?B?YXBvWkVCLzA3OHRIVGxEVy9RQ1czamNoQUViUWNYbVpYNFAwdytMMnNDK0ZL?=
+ =?utf-8?B?S0tUUUF3Nzg5MVAwcUJpV1hQNC95czJHSnpEK0hoUE11MGl4bUlYM3VvRm1i?=
+ =?utf-8?B?dXROT3JEYTUzclR0OVpQai9xV1VlOG9VdWluNVVHS0NXS0w4SFllcGU1R0R4?=
+ =?utf-8?B?SER0a3JEOE5najQxQlMweHhGMGRmZXBQTUhMckRGVk8vYlFUN1RLOTgydW41?=
+ =?utf-8?Q?RXQBVM=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?emxZZVdCNFZ1bG5ZK1NIOHFxMk1FcFRrVUhrSEZwSm1JdXVibWw1Uy9DL1o0?=
+ =?utf-8?B?c1ZhbmtoZ1lVSmd2UXAvaU5wbW44TmhOY3dualYzVTdJaFo4cjhKaVBUSmxv?=
+ =?utf-8?B?QjFITDRNMUNmMEJPa0tsZTZTQ0I0UXlpWC9lZGVZMmYwVzYxeVphTC9UMXo0?=
+ =?utf-8?B?Sk9PLy8vZC9DMy9yZ1kwdEt5bExuTy81YmVtMWVKSjE5L3NseUVUMC9XSzZu?=
+ =?utf-8?B?aW5kUThUK3llRGk0VGROclBvVmlNOVFQSzFjSFBDeXRKWHQ0WWpUNHZlVDA4?=
+ =?utf-8?B?THpHYnpkTFNkaTlIWThDaWVySXhvSXYzdkJQR3RnU3ZDMXA3QkxmUnFwY0k5?=
+ =?utf-8?B?cEQ5RXpzMXBMcHd0SUZLZG5ZdnBaT3pTMmUxcjJlQkxXZlBETk90NVpJQzZM?=
+ =?utf-8?B?QnZiS1NHWUlIeDU4eC95MU82dDZOSDh2UFZwWWhYNnRaamRSUHRYai9Ecjli?=
+ =?utf-8?B?ZGF2RStORmhmOVN1ais1VXJzOXdJWXQyc3NtQWRZSEg0NDA1OHdEMEJzdFRS?=
+ =?utf-8?B?Zk1UOTdqRHVZTm5LbHMwaW9EU3pSTUpqK1BpMVBlUHpFRHRKcGhjU2VuNzhz?=
+ =?utf-8?B?dTVKVmFGRlM1ZG5uTFU4RFF0L2o0UnJ6SW8zMlJ5U1hITUJrbytXa3lyQWNo?=
+ =?utf-8?B?djdOdGZIYVlRMERIeVpNc1Zqa0xOa1NjSUUxYnNjOWxZWUlEOXdIdGNmd2tN?=
+ =?utf-8?B?ZmcrbEZHRjI0emt0Qm1sTUxyUXRrWWxvVE43R1lpcnFCc1JoMEIxTjFhcW5Y?=
+ =?utf-8?B?SXo1RXZHT2lLOVpSREVsa3RKUzd1TUJCekhqL25HZTNsTFBxb2tmVER0eWwv?=
+ =?utf-8?B?dXhBSndObU01cVhJK1YzRTAyUStKKzh6M1VuR2RJOURhNmU4ZURPVUdTeFRr?=
+ =?utf-8?B?elBoYmZvRS9rUkMvQkp5TkJ3aVFvS0tnVWtka3BNRlRhS0lMcXhUazVxZ2lQ?=
+ =?utf-8?B?OTNMNlVaOC9LMUNzNEd5UlNkL2RSbWFyTHdKV0NVN0psTTRUakg0ZGJvZHhj?=
+ =?utf-8?B?KzRGclVSYWtUazVFeFp1OE5JRHk5bDI1MXM2QXNONTVsRXB5NFM2UkRWS200?=
+ =?utf-8?B?enFHWVYycnM3Zm5HcUNGOHJFZ2FWbEp1RTFiTnBNMlpyNHVSc25MVVd5RVI3?=
+ =?utf-8?B?VDBxclFNRTh2T1R6Tkhoc2ptdm9RTUhRdy9tWVZOaUl2TXpVZ0hqMDRDZ1p2?=
+ =?utf-8?B?VS9KS1JxNFdkRzBDTDJCN2JWWGFteXhybG00N3ZrdDczT1hJY2NYejZ4ZUNT?=
+ =?utf-8?B?ZGdkRnhDa1F6L3AvYmtxaVBKbTdOZDcvN0VhVXVGU3JsMmIxenJ6ZU1lNUxp?=
+ =?utf-8?B?enlzTFJZa09talZxYjdCSDBZanUvbkFXYjgzWXo4dUNvQ1MxSk5KeVUrTVNm?=
+ =?utf-8?B?WU9ES2N4TlJNSEIxNml4andoY1U2Q3JCSUZTVkRpR0NMOTU2eHdoMDFOQkVo?=
+ =?utf-8?B?ZFh6WVd4QkMzRWpZQUdwckpMMno1T1lTNFM3elNCRFp5RG5VSUh4ZHhCU29w?=
+ =?utf-8?B?aitsU2N4Y1h0alNFTU9tK1lzOXlLcHY2NkJLOGh4NU9wU3BGOHVpOGxHNk5Y?=
+ =?utf-8?B?MXkzVWtsRFVrcG5TV1FlaGxTZXgwaElKVHJtc0NuTEZtK3ZrVTlCV0VxM0dv?=
+ =?utf-8?B?TGdINDJLdnFpUHdZZFlqSkx2d3NpQm5zYzl3TC9zRFJ3NFNrMmUzKzROTS96?=
+ =?utf-8?B?NEp1Z2luYWFxeVl4L2c5K3RYMmNqaHJUUHBhYW4yWmJhb2ZMSTYvZHVPazVZ?=
+ =?utf-8?Q?vrsYx1AsHTPsuKdkWo=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [V7 03/45] drm/vkms: Add kunit tests for VKMS LUT handling
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- Arthur Grillo <arthurgrillo@riseup.net>
-References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-4-alex.hung@amd.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
- 5K81kIWbtQX91pD/wH5UapRF4kwMXTAqof8+m3XfYcEDVG31Kf8QkJTG/gLBi1UfJgGBahbY
- hjP40kuUR/mr7M7bKoBP9Uh0uaEM+DuKl6bSXMSrJ6fOtEPOtnfBY0xVPmqIKfLFEkjh800v
- jD1fdwWKtAIXf+cQtC9QWvcdzAmQIwmyFBmbg+ccqao1OIXTgu+qMAHfgKDjYctESvo+Szmb
- DFBZudPbyTAlf2mVKpoHKMGy3ndPZ19RboKUP0wjrF+Snif6zRFisHK7D/mqpgUftoV4HjEH
- bQO9bTJZXIoPJMSb+Lyds0m83/LYfjcWP8w889bNyD4Lzzzu+hWIu/OObJeGEQqY01etOLMh
- deuSuCG9tFr0DY6l37d4VK4dqq4Snmm87IRCb3AHAEMJ5SsO8WmRYF8ReLIk0tJJPrALv8DD
- lnLnwadBJ9H8djZMj24+GC6MJjN8dDNWctpBXgGZKuCM7Ggaex+RLHP/+14Vl+lSLdFiUb3U
- ljBXuc9v5/9+D8fWlH03q+NCa1dVgUtsP2lpolOV3EE85q1HdMyt5K91oB0hLNFdTFYwn1bW
- WJ2FaRhiC1yV4kn/z8g7fAp57VyIb6lQfS1Wwuj5/53XYjdipQARAQABzSlMb3VpcyBDaGF1
- dmV0IDxsb3Vpcy5jaGF1dmV0QGJvb3RsaW4uY29tPsLBlAQTAQgAPgIbAwULCQgHAgYVCgkI
- CwIEFgIDAQIeAQIXgBYhBItxBK6aJy1mk/Un8uwYg/VeC0ClBQJmlnw+BQkH8MsdAAoJEOwY
- g/VeC0ClyhwP/Ra6H+5F2NEW6/IMVHeXmhuly8CcZ3kyoKeGNowghIcTBo59dFh0atGCvr+y
- K9YD5Pyg9aX4Ropw1R1RVIMrWoUNZUKebRTu6iNHkE6tmURJaKLzR+9la+789jznQvbV+9gM
- YTBppX4/0cWY58jiDiDV4aJ77JDo7aWNK4hz8mZsB+Y7ezMuS4jy2r4b7dZ+YL/T9/k3/emO
- PkAuFkVhkNhytMEyOBsT7SjL4IUBeYWvOw9MIaXEl4qW/5HLGtMuNhS94NsviDXZquoOHOby
- 2uuRAI0bLz1qcsnY90yyPlDJ0pMuJHbi0DBzPTIYkyuwoyplfWxnUPp1wfsjiy/B6mRKTbdE
- a/K6jNzdVC1LLjTD4EjwnCE8IZBRWH1NVC1suOkw3Sr1FYcHFSYqNDrrzO+RKtR1JMrIe8/3
- Xhe2/UNUhppsK3SaFaIsu98mVQY3bA/Xn9wYcuAAzRzhEHgrbp8LPzYdi6Qtlqpt4HcPV3Ya
- H9BkCacgyLHcdeQbBXaup9JbF5oqbdtwev3waAmNfhWhrQeqQ0tkrpJ46l9slEGEdao5Dcct
- QDRjmJz7Gx/rKJngQrbboOQz+rhiHPoJc/n75lgOqtHRePNEf9xmtteHYpiAXh/YNooXJvdA
- tgR1jAsCsxuXZnW2DpVClm1WSHNfLSWona8cTkcoSTeYCrnXzsFNBGCG6KUBEADZhvm9TZ25
- JZa7wbKMOpvSH36K8wl74FhuVuv7ykeFPKH2oC7zmP1oqs1IF1UXQQzNkCHsBpIZq+TSE74a
- mG4sEhZP0irrG/w3JQ9Vbxds7PzlQzDarJ1WJvS2KZ4AVnwc/ucirNuxinAuAmmNBUNF8w6o
- Y97sdgFuIZUP6h972Tby5bu7wmy1hWL3+2QV+LEKmRpr0D9jDtJrKfm25sLwoHIojdQtGv2g
- JbQ9Oh9+k3QG9Kh6tiQoOrzgJ9pNjamYsnti9M2XHhlX489eXq/E6bWOBRa0UmD0tuQKNgK1
- n8EDmFPW3L0vEnytAl4QyZEzPhO30GEcgtNkaJVQwiXtn4FMw4R5ncqXVvzR7rnEuXwyO9RF
- tjqhwxsfRlORo6vMKqvDxFfgIkVnlc2KBa563qDNARB6caG6kRaLVcy0pGVlCiHLjl6ygP+G
- GCNfoh/PADQz7gaobN2WZzXbsVS5LDb9w/TqskSRhkgXpxt6k2rqNgdfeyomlkQnruvkIIjs
- Sk2X68nwHJlCjze3IgSngS2Gc0NC/DDoUBMblP6a2LJwuF/nvaW+QzPquy5KjKUO2UqIO9y+
- movZqE777uayqmMeIy4cd/gg/yTBBcGvWVm0Dh7dE6G6WXJUhWIUtXCzxKMmkvSmZy+gt1rN
- OyCd65HgUXPBf+hioCzGVFSoqQARAQABwsOyBBgBCAAmAhsuFiEEi3EErponLWaT9Sfy7BiD
- 9V4LQKUFAmaWfGYFCQfwx0ECQAkQ7BiD9V4LQKXBdCAEGQEIAB0WIQRPj7g/vng8MQxQWQQg
- rS7GWxAs4gUCYIbopQAKCRAgrS7GWxAs4gfGEACcA0XVNesbVIyvs5SJpJy+6csrH4yy233o
- GclX2P7pcCls55wiV6ywCtRaXWFjztYmklQieaZ/zq+pUuUDtBZo95rUP20E56gYV2XFB18W
- YeekTwH5d2d/j++60iHExWTB+sgMEv3CEGikUBj7iaMX2KtaB1k9K+3K6dx/s1KWxOClFkbJ
- EV/tmeq7Ta8LiytQM9b4yY550tzC0pEEeFcLFXo1m5KcJauYnAqrlOVY48NFpFUd9oAZf/Pz
- p3oEs+zn/8zK2PBrZZCD6AhrbotRy7irE5eimhxcsFm1+MG5ufnaQUWHrRYXVuFhvkSoqZ8j
- GPgPEpFor4NjRyX/PMLglQ7S5snkvKcr3Lun44aybXEHq/1FTzW2kOh6kFHFFOPbMv1voJKM
- IzrmDoDS+xANt/La7OwpCylCgF6t9oHHTTGfAfwtfYZbiepC66FDe/Jt/QLwkIXeIoeSS1O4
- 6rJdGWG2kHthUM+uIbUbaRJW8AkJpzP1Mz7TieR/9jO4YPeUm9tGL5kP2yyNtzFilcoOeox1
- NSFNAPz+zPcovVmxAaSDGcSzhQVJVlk8xPib8g4fnI8qJ3Gj7xyw8D9dzxhCR2DIFmZL84En
- N7Rj+k4VIGY7M/cVvxL81jlbMGMERMmb96Cua9z1ROviGA1He2gbHOcp6qmLNu3nprleG8PL
- ZRNdEAC0iZapoyiXlVCKLFIwUPnxUz5iarqIfQU8sa1VXYYd/AAAFI6Wv3zfNtGicjgHP8rN
- CIegqm2Av1939XXGZJVI9f3hEoUn04rvxCgcDcUvn7I0WTZ4JB9G5qAGvQLXeXK6Byu77qTx
- eC7PUIIEKN3X47e8xTSj2reVTlanDr8yeqZhxpKHaS0laF8RbD85geZtAK67qEByX2KC9DUo
- eHBFuXpYMzGQnf2SG105ePI2f4h5iAfbTW9VWH989fx4f2hVlDwTe08/NhPdwq/Houov9f/+
- uPpYEMlHCNwE8GRV7aEjd/dvu87PQPm4zFtC3jgQaUKCbYYlHmYYRlrLQenX3QSorrQNPbfz
- uQkNLDVcjgD2fxBpemT7EhHYBz+ugsfbtdsH+4jVCo5WLb/HxE6o5zvSIkXknWh1DhFj/qe9
- Zb9PGmfp8T8Ty+c/hjE5x6SrkRCX8qPXIvfSWLlb8M0lpcpFK+tB+kZlu5I3ycQDNLTk3qmf
- PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
- ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
- qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20241220043410.416867-4-alex.hung@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudeflecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeipdhrtghpthhtoheprghlvgigrdhhuhhnghesrghmugdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopeifrgihlhgrnhguqdguvghvvghlsehlihhst
- hhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhgrrhhrhidrfigvnhhtlhgrnhgusegrmhgurdgtohhmpdhrtghpthhtoheprghrthhhuhhrghhrihhllhhosehrihhsvghuphdrnhgvth
-X-GND-Sasl: louis.chauvet@bootlin.com
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64e7d455-bc52-47d0-7a77-08dd55835800
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2025 10:01:16.1899 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB8869
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,373 +160,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 20/12/2024 à 05:33, Alex Hung a écrit :
-> From: Harry Wentland <harry.wentland@amd.com>
-> 
-> Debugging LUT math is much easier when we can unit test
-> it. Add kunit functionality to VKMS and add tests for
->   - get_lut_index
->   - lerp_u16
-> 
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Arthur Grillo <arthurgrillo@riseup.net>
-
-Hi,
-
-I would like to take this patch too. Can I take it with the 
-modifications below:
-
-> ---
-> v7:
->   - Fix checkpatch warnings and errors (Louis Chauvet)
->    - Change SPDX-License-Identifier: GPL-2.0+ from /* */ to //
->    - Fix checkpatch errors and warnings (new line at EOF, redundant spaces, and long lines)
->    - Add static to const struct vkms_color_lut test_linear_lut
->   - Add "MODULE_DESCRIPTION" (Jeff Johnson)
-> 
-> v6:
->   - Eliminate need to include test as .c file (Louis Chauvet)
-> 
-> v5:
->   - Bring back static for lerp_u16 and get_lut_index (Arthur)
-> 
-> v4:
->   - Test the critical points of the lerp function (Pekka)
-> 
-> v3:
->   - Use include way of testing static functions (Arthur)
->   
->   drivers/gpu/drm/vkms/Kconfig                 |  15 ++
->   drivers/gpu/drm/vkms/Makefile                |   1 +
->   drivers/gpu/drm/vkms/tests/.kunitconfig      |   4 +
->   drivers/gpu/drm/vkms/tests/Makefile          |   3 +
->   drivers/gpu/drm/vkms/tests/vkms_color_test.c | 172 +++++++++++++++++++
->   drivers/gpu/drm/vkms/vkms_composer.c         |   8 +-
->   drivers/gpu/drm/vkms/vkms_composer.h         |  13 ++
->   7 files changed, 214 insertions(+), 2 deletions(-)
->   create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
->   create mode 100644 drivers/gpu/drm/vkms/tests/Makefile
->   create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_test.c
->   create mode 100644 drivers/gpu/drm/vkms/vkms_composer.h
-> 
-> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-> index b9ecdebecb0b..59c4a32adb9d 100644
-> --- a/drivers/gpu/drm/vkms/Kconfig
-> +++ b/drivers/gpu/drm/vkms/Kconfig
-> @@ -13,3 +13,18 @@ config DRM_VKMS
->   	  a VKMS.
->   
->   	  If M is selected the module will be called vkms.
-> +
-> +config DRM_VKMS_KUNIT_TESTS
-
-Can I change to:
-
-	config DRM_VKMS_KUNIT_TEST
-
-> +	tristate "KUnit tests for VKMS." if !KUNIT_ALL_TESTS
-
-Can I change to:
-
-	tristate "KUnit tests for VKMS" if !KUNIT_ALL_TESTS
-
-> +	depends on DRM_VKMS=y && KUNIT
-
-Can I change to:
-
-	depends on DRM_VKMS && KUNIT
-
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  This builds unit tests for VKMS. This option is not useful for
-> +	  distributions or general kernels, but only for kernel
-> +	  developers working on VKMS.
-> +
-> +	  For more information on KUnit and unit tests in general,
-> +	  please refer to the KUnit documentation in
-> +	  Documentation/dev-tools/kunit/.
-> +
-> +	  If in doubt, say "N".
-> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-> index 1b28a6a32948..8d3e46dde635 100644
-> --- a/drivers/gpu/drm/vkms/Makefile
-> +++ b/drivers/gpu/drm/vkms/Makefile
-> @@ -9,3 +9,4 @@ vkms-y := \
->   	vkms_writeback.o
->   
->   obj-$(CONFIG_DRM_VKMS) += vkms.o
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += tests/
-> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> new file mode 100644
-> index 000000000000..70e378228cbd
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> @@ -0,0 +1,4 @@
-> +CONFIG_KUNIT=y
-> +CONFIG_DRM=y
-> +CONFIG_DRM_VKMS=y
-> +CONFIG_DRM_VKMS_KUNIT_TESTS=y
-> diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
-> new file mode 100644
-> index 000000000000..7876ca7a3c42
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += vkms_color_test.o
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-> new file mode 100644
-> index 000000000000..b53beaac2703
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-> @@ -0,0 +1,172 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_fixed.h>
-> +#include <drm/drm_mode.h>
-> +#include "../vkms_drv.h"
-> +#include "../vkms_composer.h"
-> +
-> +#define TEST_LUT_SIZE 16
-> +
-> +MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
-
-Needs to be changed to: (Can I do it?)
-
-	MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
-
-Thanks,
-Louis Chauvet
-
-> +
-> +static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] = {
-> +	{ 0x0, 0x0, 0x0, 0 },
-> +	{ 0x1111, 0x1111, 0x1111, 0 },
-> +	{ 0x2222, 0x2222, 0x2222, 0 },
-> +	{ 0x3333, 0x3333, 0x3333, 0 },
-> +	{ 0x4444, 0x4444, 0x4444, 0 },
-> +	{ 0x5555, 0x5555, 0x5555, 0 },
-> +	{ 0x6666, 0x6666, 0x6666, 0 },
-> +	{ 0x7777, 0x7777, 0x7777, 0 },
-> +	{ 0x8888, 0x8888, 0x8888, 0 },
-> +	{ 0x9999, 0x9999, 0x9999, 0 },
-> +	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
-> +	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
-> +	{ 0xcccc, 0xcccc, 0xcccc, 0 },
-> +	{ 0xdddd, 0xdddd, 0xdddd, 0 },
-> +	{ 0xeeee, 0xeeee, 0xeeee, 0 },
-> +	{ 0xffff, 0xffff, 0xffff, 0 },
-> +};
-> +
-> +static const struct vkms_color_lut test_linear_lut = {
-> +	.base = test_linear_array,
-> +	.lut_length = TEST_LUT_SIZE,
-> +	.channel_value2index_ratio = 0xf000fll
-> +};
-> +
-> +
-> +static void vkms_color_test_get_lut_index(struct kunit *test)
-> +{
-> +	s64 lut_index;
-> +	int i;
-> +
-> +	lut_index = get_lut_index(&test_linear_lut, test_linear_array[0].red);
-> +	KUNIT_EXPECT_EQ(test, drm_fixp2int(lut_index), 0);
-> +
-> +	for (i = 0; i < TEST_LUT_SIZE; i++) {
-> +		lut_index = get_lut_index(&test_linear_lut, test_linear_array[i].red);
-> +		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(lut_index), i);
-> +	}
-> +}
-> +
-> +static void vkms_color_test_lerp(struct kunit *test)
-> +{
-> +	/*** half-way round down ***/
-> +	s64 t = 0x80000000 - 1;
-> +
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x8);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
-> +
-> +	/*** half-way round up ***/
-> +	t = 0x80000000;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x9);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
-> +
-> +	/*** t = 0.0 ***/
-> +	t = 0x0;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
-> +
-> +	/*** t = 1.0 ***/
-> +	t = 0x100000000;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
-> +
-> +	/*** t = 0.0 + 1 ***/
-> +	t = 0x0 + 1;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
-> +
-> +	/*** t = 1.0 - 1 ***/
-> +	t = 0x100000000 - 1;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
-> +
-> +	/*** t chosen to verify the flipping point of result a (or b) to a+1 (or b-1) ***/
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000 - 1), 0x0);
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000), 0x1);
-> +}
-> +
-> +static struct kunit_case vkms_color_test_cases[] = {
-> +	KUNIT_CASE(vkms_color_test_get_lut_index),
-> +	KUNIT_CASE(vkms_color_test_lerp),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite vkms_color_test_suite = {
-> +	.name = "vkms-color",
-> +	.test_cases = vkms_color_test_cases,
-> +};
-> +
-> +kunit_test_suite(vkms_color_test_suite);
-> +
-> +MODULE_DESCRIPTION("Kunit test for VKMS LUT handling");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 3d6785d081f2..d15ceac6c56f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -12,6 +12,8 @@
->   #include <linux/minmax.h>
->   
->   #include "vkms_drv.h"
-> +#include <kunit/visibility.h>
-> +#include "vkms_composer.h"
->   
->   static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
->   {
-> @@ -91,7 +93,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
->   }
->   
->   // lerp(a, b, t) = a + (b - a) * t
-> -static u16 lerp_u16(u16 a, u16 b, s64 t)
-> +VISIBLE_IF_KUNIT u16 lerp_u16(u16 a, u16 b, s64 t)
->   {
->   	s64 a_fp = drm_int2fixp(a);
->   	s64 b_fp = drm_int2fixp(b);
-> @@ -100,13 +102,15 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
->   
->   	return drm_fixp2int_round(a_fp + delta);
->   }
-> +EXPORT_SYMBOL_IF_KUNIT(lerp_u16);
->   
-> -static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-> +VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
->   {
->   	s64 color_channel_fp = drm_int2fixp(channel_value);
->   
->   	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
->   }
-> +EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
->   
->   /*
->    * This enum is related to the positions of the variables inside
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
-> new file mode 100644
-> index 000000000000..9316a053e7d7
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.h
-> @@ -0,0 +1,13 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +
-> +#ifndef _VKMS_COMPOSER_H_
-> +#define _VKMS_COMPOSER_H_
-> +
-> +#include <kunit/visibility.h>
-> +
-> +#if IS_ENABLED(CONFIG_KUNIT)
-> +u16 lerp_u16(u16 a, u16 b, s64 t);
-> +s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
-> +#endif
-> +
-> +#endif /* _VKMS_COMPOSER_H_ */
-
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+DQoNCj4gT24gMjUgRmViIDIwMjUsIGF0IDM6MDfigK9QTSwgQWRpdHlhIEdhcmcgPGdhcmdhZGl0
+eWEwOEBsaXZlLmNvbT4gd3JvdGU6DQo+IA0KPiDvu78NCj4gDQo+PiBPbiAyNSBGZWIgMjAyNSwg
+YXQgMzowNeKAr1BNLCBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3Jv
+dGU6DQo+PiANCj4+IO+7v0hpDQo+PiANCj4+Pj4gQW0gMjUuMDIuMjUgdW0gMTA6MDcgc2Nocmll
+YiBBZGl0eWEgR2FyZzoNCj4+PiANCj4+Pj4+IE9uIDI1IEZlYiAyMDI1LCBhdCAyOjM04oCvUE0s
+IEFkaXR5YSBHYXJnIDxnYXJnYWRpdHlhMDhAbGl2ZS5jb20+IHdyb3RlOg0KPj4+PiANCj4+Pj4g
+77u/DQo+Pj4+IA0KPj4+Pj4gT24gMjUgRmViIDIwMjUsIGF0IDE6MjfigK9QTSwgVGhvbWFzIFpp
+bW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4+Pj4gDQo+Pj4+PiDvu79I
+aQ0KPj4+Pj4gDQo+Pj4+PiBBbSAyNC4wMi4yNSB1bSAxNzo1OCBzY2hyaWViIEFkaXR5YSBHYXJn
+Og0KPj4+Pj4gWy4uLl0NCj4+Pj4+Pj4gK2NvbmZpZyBEUk1fQVBQTEVUQkRSTQ0KPj4+Pj4+PiAr
+ICAgIHRyaXN0YXRlICJEUk0gc3VwcG9ydCBmb3IgQXBwbGUgVG91Y2ggQmFycyINCj4+Pj4+Pj4g
+KyAgICBkZXBlbmRzIG9uIERSTSAmJiBVU0IgJiYgTU1VDQo+Pj4+Pj4+ICsgICAgc2VsZWN0IERS
+TV9HRU1fU0hNRU1fSEVMUEVSDQo+Pj4+Pj4+ICsgICAgc2VsZWN0IERSTV9LTVNfSEVMUEVSDQo+
+Pj4+Pj4+ICsgICAgc2VsZWN0IEhJRF9BUFBMRVRCX0JMDQo+Pj4+Pj4gQnR3IEkgaGF2ZSBhIGRv
+dWJ0IHJlZ2FyZGluZyB0aGlzIGRlcGVuZGVuY3kuIFdoaWxlIGhpZC1hcHBsZXRiLWJsIGhhcyBt
+YWRlIGludG8gdGhlIGxpbnV4LW5leHQgdHJlZSwgaXQgaGFzIHN0aWxsIG5vdCBiZWVuIG1lcmdl
+ZCBpbnRvIExpbnVzJyB0cmVlLCBhbmQgbmVpdGhlciB0aGUgZHJtIHRyZWUgSSBhc3N1bWUuIEl0
+IHBvdGVudGlhbGx5IGNvdWxkIGNhdXNlIGlzc3Vlcz8NCj4+Pj4+IFllcy4gV2UgY2Fubm90IG1l
+cmdlIHRoaXMgZHJpdmVyIHVudGlsIHdlIGhhdmUgdGhpcyBzeW1ib2wgaW4gb3VyIHRyZWUuIEJ1
+dCB0aGF0IHdpbGwgaGFwcGVuIHNvb25lciBvciBsYXRlci4NCj4+Pj4+IA0KPj4+Pj4gTW9yZSBw
+cm9ibGVtYXRpYyBpcyB0aGF0IHlvdXIgZHJpdmVyIHNlbGVjdHMgSElEX0FQUExFVEJfQkwuIEZy
+b20gd2hhdCBJJ3ZlIHNlZW4sIHRoaXMgc3ltYm9sIGlzIHVzZXIgY29uZmlndXJhYmxlLCBzbyB0
+aGUgZHJpdmVyIHNob3VsZG4ndCBzZWxlY3QgaXQuIFlvdSBuZWVkIHRvIHVzZSAnZGVwZW5kcyBv
+bicgaW5zdGVhZCBvZiAnc2VsZWN0JyBoZXJlLg0KPj4+PiBMb29raW5nIGF0IHRoaXMgYWdhaW4s
+IG1heWJlIGl0IHNob3VsZCBiZSBzZWxlY3RlZC4gSWYgeW91IHNlZSB0aGUga2VybmVsIGNvbmZp
+ZyBvZiBUSU5ZRFJNX0hYODM1N0QsIHdoaWNoIGlzIGFsc28gaW4gZHJtL3RpbnksIGl0IGlzIHNl
+bGVjdGluZyBCQUNLTElHSFRfQ0xBU1NfREVWSUNFLg0KPj4gDQo+PiBUaGlzIGRyaXZlciBkb2Vz
+IGl0IHdyb25nLg0KPj4gDQo+Pj4gVG8gbWFrZSB0aGluZ3MgbW9yZSBjbGVhciwNCj4+PiANCj4+
+PiAxLiBoaWQtYXBwbGV0Yi1ibCBpcyBmb3IgdGhlIGJhY2tsaWdodCBvZiB0aGUgdG91Y2hiYXIu
+IFRoZSBEUk0gY29kZSByZW1haW5zIHNlcGFyYXRlLg0KPj4+IDIuIGhpZC1tdWx0aXRvdWNoIGlz
+IHRvIG1ha2UgdGhlIHRvdWNoYmFyIGEgdG91Y2ggc2NyZWVuLiBZb3UgY2FuIHN0aWxsIHVzZSB0
+aGUgZHJpdmVyIHdpdGhvdXQgdGhlIHRvdWNoIGZ1bmN0aW9uYWxpdHkuDQo+PiANCj4+IElmIHlv
+dXIgZHJpdmVyIGRvZXMgbm90IHJlcXVpcmUgdGhpcywgaXQgc2hvdWxkbid0IHNlbGVjdCBvciBk
+ZXBlbmQgb24gaXQuDQo+IA0KPiBDb3VsZCB5b3UgZXhwbGFpbiBtZSBpbiB3aGF0IHNpdHVhdGlv
+bnMgd291bGQgc2VsZWN0IGJlIHVzZWQ/DQoNCkhtbSwgSSBnb3Qgc29tZSBkb2NzIGFib3V0IHRo
+aXMsIHRob3VnaCBub3QgdmVyeSBjbGVhciwgYnV0IGdvb2QgZW5vdWdoIHRvIG1ha2UgbWUgZGVj
+aWRlIHRvIG5vdCBpbmNsdWRlIHRoZXNlIHR3byBpbiB0aGUga2NvbmZpZy4NCg0KVGhpcyBhbHNv
+IG1lYW5zIHRoYXQgdGhlIGRyaXZlciBjYW4gbm93IGJlIG1lcmdlZCB3aXRob3V0IHB1bGxpbmcg
+bGludXgtbmV4dCBpbiBEUk0u
