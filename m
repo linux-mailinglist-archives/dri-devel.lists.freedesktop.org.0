@@ -2,72 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74802A43B96
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9988BA43BB9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB24610E60B;
-	Tue, 25 Feb 2025 10:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7BAB10E60E;
+	Tue, 25 Feb 2025 10:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lUutau1m";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="itqWpvyS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE5DB10E60B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:29:01 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C8210E60E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740479342; x=1772015342;
+ t=1740479628; x=1772015628;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=bQ6fvZqvVAScXUHVfi2Jgc1uaKIbM24bSW4bUHsGHUQ=;
- b=lUutau1mFYjt1s1ex9aXWOXW+1fzkr8LGIQTMagW5+k3X7zDIQXHk/BY
- CvJbOxPunj9SH8CkKgZPSRdWVjdBpJ1tChePTXa8W/BLsOZFrORNy4Kpp
- uNfvWCLXC++CB+4Nbc2XrOJFVXlGz4UwVfsOulFbxS3thxIfF/M89qosW
- TyiPY1Y7hAJou+b8m46/oBqXVttTljPS8BBsU2Z1w+AV6d3+2OdMg11Mt
- 7ukRQoW6jqFztteP7ZIMnbswD3dLJIwXmplzXn0DaVeI49ZjwFzrcqT4P
- +TmDhTCFaaYxQA+XCbsxX9seftnloW5x26+Nco9aOENQQhYhOFhv51IJp w==;
-X-CSE-ConnectionGUID: zGAAeXb+SVurnxwWgT/6qQ==
-X-CSE-MsgGUID: ff/Jl3HVQrCfs4WFyzfgxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="51914618"
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="51914618"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 02:29:01 -0800
-X-CSE-ConnectionGUID: 4kiwgWtzSHWSQoZWk1IDOA==
-X-CSE-MsgGUID: DMZs2XXcT0ywATF+ooUJ+w==
+ mime-version:in-reply-to;
+ bh=xDtEhN1Z+pJ+VKbDwekrT0fQS2yTec4QWfwd4POyIVM=;
+ b=itqWpvySbLMh347ByhvLOktGWoWTdwWTUj3L8E9Jukk3tRwSGFMjUfNk
+ YmwRwtfMzAMYihyHvBE5E4xdwONAsvDgm0udRy69OtZ7SwNW3xEfxliWG
+ SLMe9VqNOerfJVhRHUR4XaGa/XO6vxDcEPaxRlkPerZx5vC7YPidldWpo
+ qVCZFDuWNWz46sxKII44P8jKERBYAr+Pm0s3HihaOGemBHsrRBJMcTa2Z
+ 01LEEA69O4v/2lVJbqIBndMZvrupyxNPlYMcXp5Y1oxTY9i5R7WSricOB
+ SUzlXc8xwAip05VVdBnZa82UzyXr/xqVI5EKS8jwYoxbSEGDrAurOEK2X w==;
+X-CSE-ConnectionGUID: BtQlUJmIRoGPH8MuNn/nnw==
+X-CSE-MsgGUID: lqFX/SCsSDGcI02dcykJvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41412503"
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="41412503"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2025 02:33:48 -0800
+X-CSE-ConnectionGUID: TmKLdnSVTkCUMbCIqENeyw==
+X-CSE-MsgGUID: 84RCDiuURBW2Y8gDTdIwew==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="153534389"
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="116144291"
 Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 02:28:58 -0800
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2025 02:33:46 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tmsBL-0000000ExTN-21Rf; Tue, 25 Feb 2025 12:28:55 +0200
-Date: Tue, 25 Feb 2025 12:28:55 +0200
+ id 1tmsFy-0000000ExYS-2dxt; Tue, 25 Feb 2025 12:33:42 +0200
+Date: Tue, 25 Feb 2025 12:33:42 +0200
 From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Aditya Garg <gargaditya08@live.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
  "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
  "airlied@gmail.com" <airlied@gmail.com>,
  "simona@ffwll.ch" <simona@ffwll.ch>, Kerem Karabay <kekrby@gmail.com>,
  Atharva Tiwari <evepolonium@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
+Subject: Re: [PATCH v5 2/2] drm/tiny: add driver for Apple Touch Bars in x86
  Macs
-Message-ID: <Z72bZ3iURwhW5Pj1@smile.fi.intel.com>
-References: <B08444CD-38A8-4B82-94B2-4162D6D2EABD@live.com>
- <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
- <91a39a2e-a3ad-499d-86cd-0e621a68e282@suse.de>
- <PN3PR01MB959702F55F747E5D87D9AD56B8C32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <54e45d37-6ada-42e3-a3ae-92d3ee475c5f@suse.de>
+Message-ID: <Z72chunE_vvxtjLQ@smile.fi.intel.com>
+References: <3457BF95-0E50-4B70-86DE-EE5EE95D3ACE@live.com>
+ <4D7C00B4-7B75-4715-8D37-0059B22C030D@live.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <54e45d37-6ada-42e3-a3ae-92d3ee475c5f@suse.de>
+In-Reply-To: <4D7C00B4-7B75-4715-8D37-0059B22C030D@live.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,42 +80,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 09:48:11AM +0100, Thomas Zimmermann wrote:
-> Am 25.02.25 um 09:00 schrieb Aditya Garg:
-> > > On 25 Feb 2025, at 1:22 PM, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > > Am 24.02.25 um 14:40 schrieb Aditya Garg:
+On Tue, Feb 25, 2025 at 10:09:42AM +0000, Aditya Garg wrote:
+> From: Kerem Karabay <kekrby@gmail.com>
+> 
+> The Touch Bars found on x86 Macs support two USB configurations: one
+> where the device presents itself as a HID keyboard and can display
+> predefined sets of keys, and one where the operating system has full
+> control over what is displayed.
+> 
+> This commit adds support for the display functionality of the second
+> configuration. Functionality for the first configuration has been
+> merged in the HID tree.
+> 
+> Note that this driver has only been tested on T2 Macs, and only includes
+> the USB device ID for these devices. Testing on T1 Macs would be
+> appreciated.
+> 
+> Credit goes to Ben (Bingxing) Wang on GitHub for reverse engineering
+> most of the protocol.
+> 
+> Also, as requested by Andy, I would like to clarify the use of __packed
+> structs in this driver:
+> 
+> - All the packed structs are aligned except for appletbdrm_msg_information.
+> - We have to pack appletbdrm_msg_information since it is requirement of
+>   the protocol.
+> - We compared binaries compiled by keeping the rest structs __packed and
+>   not __packed using bloat-o-meter, and __packed was not affecting code
+>   generation.
+> - To maintain consistency, rest structs have been kept __packed.
+> 
+> I would also like to point out that since the driver was reverse-engineered
+> the actual data types of the protocol might be different, including, but
+> not limited to, endianness.
 
 ...
 
-> > > > +struct appletbdrm_device {
-> > > > +    struct device *dev;
-> > > This field should go away, please. There's drm.dev, which contains the same address.
-> > > 
-> > > So seems to have remove the dmadev field instead, which you'll need for
-> > > dma-buf sharing. Was that a misunderstanding from the last review?
-> > Yeah that was a misunderstanding. I though you meant to remove dmadev.
-> > > The rest of the driver looks good.
-> > Maybe you missed the left over dev_err_probe left in this patch? I'll fix
-> > them.
-> 
-> Sure.
+> +static int appletbdrm_probe(struct usb_interface *intf,
+> +			    const struct usb_device_id *id)
+> +{
+> +	struct usb_endpoint_descriptor *bulk_in, *bulk_out;
+> +	struct device *dev = &intf->dev;
+> +	struct appletbdrm_device *adev;
+> +	struct drm_device *drm;
+> +	int ret;
+> +
+> +	ret = usb_find_common_endpoints(intf->cur_altsetting, &bulk_in, &bulk_out, NULL, NULL);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to find bulk endpoints\n");
 
-But can you comment on my reply where I'm asking for a clarification how
-drm_err() can be used on the physical device ->probe() to begin with?
+This is simply wrong (and in this case even lead to crash in some circumstances).
+drm_err() may not be used here. That's my point in previous discussions.
+Independently on the subsystem the ->probe() for the sake of consistency and
+being informative should only rely on struct device *dev,
 
-> > > > +    unsigned int in_ep;
-> > > > +    unsigned int out_ep;
-> > > > +
-> > > > +    unsigned int width;
-> > > > +    unsigned int height;
-> > > > +
-> > > > +    struct drm_device drm;
-> > > > +    struct drm_display_mode mode;
-> > > > +    struct drm_connector connector;
-> > > > +    struct drm_plane primary_plane;
-> > > > +    struct drm_crtc crtc;
-> > > > +    struct drm_encoder encoder;
-> > > > +};
+> +		return ret;
+> +	}
+> +
+> +	adev = devm_drm_dev_alloc(dev, &appletbdrm_drm_driver, struct appletbdrm_device, drm);
+> +	if (IS_ERR(adev))
+> +		return PTR_ERR(adev);
+> +
+> +	adev->in_ep = bulk_in->bEndpointAddress;
+> +	adev->out_ep = bulk_out->bEndpointAddress;
+> +	adev->dmadev = dev;
+> +
+> +	drm = &adev->drm;
+> +
+> +	usb_set_intfdata(intf, adev);
+> +
+> +	ret = appletbdrm_get_information(adev);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to get display information\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = appletbdrm_signal_readiness(adev);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to signal readiness\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = appletbdrm_setup_mode_config(adev);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to setup mode config\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = drm_dev_register(drm, 0);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to register DRM device\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = appletbdrm_clear_display(adev);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to clear display\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
 
 -- 
 With Best Regards,
