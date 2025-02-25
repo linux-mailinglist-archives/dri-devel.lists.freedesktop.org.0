@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0B5A44C4E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DBDA44C53
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:17:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEF310E7C8;
-	Tue, 25 Feb 2025 20:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C52BD10E7CD;
+	Tue, 25 Feb 2025 20:17:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XJ2yFpBk";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VF2S71Fr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 76C4610E7CD
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8FA3E10E7CB
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 20:17:26 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id CAF7C206AB9B;
- Tue, 25 Feb 2025 12:17:21 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CAF7C206AB9B
+ by linux.microsoft.com (Postfix) with ESMTPSA id 01AC6206ADC0;
+ Tue, 25 Feb 2025 12:17:22 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 01AC6206ADC0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1740514641;
- bh=ZH8umU91mi0wAcmYNb/gkPuUZx7SURsrk1GkGJenkwI=;
+ s=default; t=1740514642;
+ bh=ikev2rH24pVz9CRPhvH6wDJ7r0PdVdeh8ytItRqAYQs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=XJ2yFpBk3qCLV4nsMZVlvUSB6SJoAMrG/lilaGrXcFN0Lc7s5NOy3uhepXpsayAcq
- x07K8FkHjDySQIgscKrqdj6VScj0K5xWaPtsAkir9VsMrBs2e09ZnaVPpKQCXsFOuq
- vOHcRdnBLLKCxEgEkL55Xz0ft8yD2027HMK/8AS8=
+ b=VF2S71FrpuJed9xqKlYjg6lEPxmNDlkKwcxVkdTlYjNNx9YTd26L3cLC5hHpjrpZI
+ 2Dcf45plhzYMI20gpqO2W6u6L+54iQinCmEbfV8FhZAV43vQCSYecMlSiK0b6lZyyq
+ PFhZHeiZEzXh/3EEyPzIdAVSQzmM2Ysr+6ndIEjw=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 25 Feb 2025 20:17:27 +0000
-Subject: [PATCH v3 13/16] spi: spi-imx: convert timeouts to secs_to_jiffies()
+Date: Tue, 25 Feb 2025 20:17:28 +0000
+Subject: [PATCH v3 14/16] platform/x86/amd/pmf: convert timeouts to
+ secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-13-a43967e36c88@linux.microsoft.com>
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-14-a43967e36c88@linux.microsoft.com>
 References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -105,25 +106,24 @@ expression E;
 - * \( 1000 \| MSEC_PER_SEC \)
 )
 
-Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/spi/spi-imx.c | 2 +-
+ drivers/platform/x86/amd/pmf/acpi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
-index eeb7d082c2472f954001045295b349bc2eb53197..832d6e9009ebe741779acd58c3a9450c231151bb 100644
---- a/drivers/spi/spi-imx.c
-+++ b/drivers/spi/spi-imx.c
-@@ -1449,7 +1449,7 @@ static int spi_imx_calculate_timeout(struct spi_imx_data *spi_imx, int size)
- 	timeout += 1;
+diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
+index dd5780a1d06e1dc979fcff5bafd6729bc4937eab..f75f7ecd8cd91c9d55abc38ce6e46eed7fe69fc0 100644
+--- a/drivers/platform/x86/amd/pmf/acpi.c
++++ b/drivers/platform/x86/amd/pmf/acpi.c
+@@ -220,7 +220,7 @@ static void apmf_sbios_heartbeat_notify(struct work_struct *work)
+ 	if (!info)
+ 		return;
  
- 	/* Double calculated timeout */
--	return msecs_to_jiffies(2 * timeout * MSEC_PER_SEC);
-+	return secs_to_jiffies(2 * timeout);
+-	schedule_delayed_work(&dev->heart_beat, msecs_to_jiffies(dev->hb_interval * 1000));
++	schedule_delayed_work(&dev->heart_beat, secs_to_jiffies(dev->hb_interval));
+ 	kfree(info);
  }
  
- static int spi_imx_dma_transfer(struct spi_imx_data *spi_imx,
 
 -- 
 2.43.0
