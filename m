@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E6DA443DD
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4E2A443E1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6F010E722;
-	Tue, 25 Feb 2025 15:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C077010E709;
+	Tue, 25 Feb 2025 15:06:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I80wjH0y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XvU7uEam";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC1F710E71B;
- Tue, 25 Feb 2025 15:06:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F33FD5C05BB;
- Tue, 25 Feb 2025 15:05:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17319C4CEE6;
- Tue, 25 Feb 2025 15:06:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740495969;
- bh=kIzpWgLCcE7L4I8PudX2xwqeT82m7xGRh8clcilUdQg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I80wjH0yESR6jSXjrLsl16Zz2CVyrakKYFjoS+OiKY7LVRV4bmBSXzXqasQtY+YjW
- Ug1zX4Cf2rQWxBozwEozVIlYRfwUpTCN35TyAUDr2VJvpVmgTIDiHy3yvvf/4HosPu
- DcA0SAyOpgOciaUazuiQ8V+CaFBU+nCsLbZb9Usz7vGMIjcki2xwSdQ9HYf7NFf5N/
- UPERGOs0JR8LLRimKkDavjt+rNJ6PQ8RMU+dIRKqGTyx+QJmLiandXCMub+OkWseqt
- 0qlE1nuimyCp+zJZlc4f/3uxY9Mc6nejmh6nURuO09f6piveosX2kDmM9vVO33ImWU
- rt/NtQ3ByELhw==
-Date: Tue, 25 Feb 2025 16:06:04 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Nouveau <nouveau-bounces@lists.freedesktop.org>
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z73cXGkookq5-NON@cassiopeiae>
-References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
- <Z7OrKX3zzjrzZdyz@pollux>
- <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
- <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
- <D81L5PE1SPWC.O56MB6SRS0XK@nvidia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F7610E707;
+ Tue, 25 Feb 2025 15:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740495999; x=1772031999;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=n03KhDZHU0KFIQJAbdOQWzMnNAFHVJ50fg106qXphs4=;
+ b=XvU7uEam/0x0KY8eREC6valvbj0dRNRdugmJICYNAl/CccZ1DxdiigyE
+ p7Mvue24tokZLA6rG0dkHfXn1cM3z1T9fVAcvaUld39xbV9/EtCdVBRv8
+ EvE8fl6gWmf0AKh7PQXwFLTiFWKXoZaknaSwNV8y6RGA+65xkdrEQmraD
+ 1xNsG1tTDYNTWQAPED+saVUaNttVaK+61O9uHcFEgffay+QdkulzP5c7X
+ 4qrRtISERQnR0kLDxOeTWq60mnR1j0adZtAQvw6ijFuG6yDFlSUxGRW/H
+ 0+qimR/MxrEReaiSqsnJgEbl1zWbgjRPjbLLCRsLuZ3UvUWE2ugl8gBuE A==;
+X-CSE-ConnectionGUID: e3h46w1pRiy1d62VoXKeLQ==
+X-CSE-MsgGUID: AI3Ii3wfTWmeW9yti89k3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="40489748"
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="40489748"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2025 07:06:38 -0800
+X-CSE-ConnectionGUID: uXMqubFkR3OROsQiEqJhCQ==
+X-CSE-MsgGUID: PIEvgdFsQUWtwJRQ8tJ4VA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="116901071"
+Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.244.112])
+ ([10.245.244.112])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2025 07:06:36 -0800
+Message-ID: <c43d98e4-7f13-480c-82d0-3d400fdf97a4@intel.com>
+Date: Tue, 25 Feb 2025 15:06:34 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D81L5PE1SPWC.O56MB6SRS0XK@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/32] drm/pagemap: Add DRM pagemap
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
+ felix.kuehling@amd.com, dakr@kernel.org
+References: <20250225044311.3178695-1-matthew.brost@intel.com>
+ <20250225044311.3178695-5-matthew.brost@intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250225044311.3178695-5-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,83 +74,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 11:11:07PM +0900, Alexandre Courbot wrote:
-> On Mon Feb 24, 2025 at 9:07 PM JST, Danilo Krummrich wrote:
-> > CC: Gary
-> >
-> > On Mon, Feb 24, 2025 at 10:40:00AM +0900, Alexandre Courbot wrote:
-> >> This inability to sleep while we are accessing registers seems very
-> >> constraining to me, if not dangerous. It is pretty common to have
-> >> functions intermingle hardware accesses with other operations that might
-> >> sleep, and this constraint means that in such cases the caller would
-> >> need to perform guard lifetime management manually:
-> >> 
-> >>   let bar_guard = bar.try_access()?;
-> >>   /* do something non-sleeping with bar_guard */
-> >>   drop(bar_guard);
-> >> 
-> >>   /* do something that might sleep */
-> >> 
-> >>   let bar_guard = bar.try_access()?;
-> >>   /* do something non-sleeping with bar_guard */
-> >>   drop(bar_guard);
-> >> 
-> >>   ...
-> >> 
-> >> Failure to drop the guard potentially introduces a race condition, which
-> >> will receive no compile-time warning and potentialy not even a runtime
-> >> one unless lockdep is enabled. This problem does not exist with the
-> >> equivalent C code AFAICT, which makes the Rust version actually more
-> >> error-prone and dangerous, the opposite of what we are trying to achieve
-> >> with Rust. Or am I missing something?
-> >
-> > Generally you are right, but you have to see it from a different perspective.
-> >
-> > What you describe is not an issue that comes from the design of the API, but is
-> > a limitation of Rust in the kernel. People are aware of the issue and with klint
-> > [1] there are solutions for that in the pipeline, see also [2] and [3].
-> >
-> > [1] https://rust-for-linux.com/klint
-> > [2] https://github.com/Rust-for-Linux/klint/blob/trunk/doc/atomic_context.md
-> > [3] https://www.memorysafety.org/blog/gary-guo-klint-rust-tools/
+On 25/02/2025 04:42, Matthew Brost wrote:
+> From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > 
-> Thanks, I wasn't aware of klint and it looks indeed cool, even if not perfect by
-> its own admission. But even if the ignore the safety issue, the other one
-> (ergonomics) is still there.
+> Introduce drm_pagemap ops to map and unmap dma to VRAM resources. In the
+> local memory case it's a matter of merely providing an offset into the
+> device's physical address. For future p2p the map and unmap functions may
+> encode as needed.
 > 
-> Basically this way of accessing registers imposes quite a mental burden on its
-> users. It requires a very different (and harsher) discipline than when writing
-> the same code in C
-
-We need similar solutions in C too, see drm_dev_enter() / drm_dev_exit() and
-drm_dev_unplug().
-
-> and the correct granularity to use is unclear to me.
+> Similar to how dma-buf works, let the memory provider (drm_pagemap) provide
+> the mapping functionality.
 > 
-> For instance, if I want to do the equivalent of Nouveau's nvkm_usec() to poll a
-> particular register in a busy loop, should I call try_access() once before the
-> loop? Or every time before accessing the register?
-
-I think we should re-acquire the guard in each iteration and drop it before the
-delay. I think a simple closure would work very well for this pattern?
-
-> I'm afraid having to check
-> that the resource is still alive before accessing any register is going to
-> become tedious very quickly.
+> v3:
+>   - Move to drm level include
+> v4:
+>   - Fix kernel doc (G.G.)
+> v5:
+>   - s/map_dma/device_map (Thomas)
+>   - s/unmap_dma/device_unmap (Thomas)
 > 
-> I understand that we want to protect against accessing the IO region of an
-> unplugged device ; but still there is no guarantee that the device won't be
-> unplugged in the middle of a critical section, however short. Thus the driver
-> code should be able to recognize that the device has fallen off the bus when it
-> e.g. gets a bunch of 0xff instead of a valid value. So do we really need to
-> extra protection that AFAICT isn't used in C?
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> ---
+>   include/drm/drm_pagemap.h | 105 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 105 insertions(+)
+>   create mode 100644 include/drm/drm_pagemap.h
+> 
+> diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+> new file mode 100644
+> index 000000000000..2634abb1e8bf
+> --- /dev/null
+> +++ b/include/drm/drm_pagemap.h
+> @@ -0,0 +1,105 @@
+> +/* SPDX-License-Identifier: MIT */
+> +#ifndef _DRM_PAGEMAP_H_
+> +#define _DRM_PAGEMAP_H_
+> +
+> +#include <linux/dma-direction.h>
+> +#include <linux/hmm.h>
+> +#include <linux/types.h>
+> +
+> +struct drm_pagemap;
+> +struct device;
+> +
+> +/**
+> + * enum drm_interconnect_protocol - Used to identify an interconnect protocol.
+> + */
 
-As mentioned above, we already do similar things in C.
+Getting some build failures here. I think just needs something like:
 
-Also, think about what's the alternative. If we remove the Devres wrapper of
-pci::Bar, we lose the control over the lifetime of the bar mapping and it can
-easily out-live the device / driver binding. This makes the API unsound.
+  /**
+   * enum drm_interconnect_protocol - Used to identify an interconnect 
+protocol.
++ * @DRM_INTERCONNECT_SYSTEM: DMA map is system pages.
++ * @DRM_INTERCONNECT_PCIE_P2P: DMA map is PCIE P2P.
++ * @DRM_INTERCONNECT_DRIVER:  DMA map is driver defined.
+   */
 
-With this drivers would be able to keep resources acquired. What if after a
-hotplug the physical address region is re-used and to be mapped by another
-driver?
+> +enum drm_interconnect_protocol {
+> +	DRM_INTERCONNECT_SYSTEM,    /* DMA map is system pages. */
+> +	DRM_INTERCONNECT_PCIE_P2P,  /* DMA map is PCIE P2P */
+> +	DRM_INTERCONNECT_DRIVER,    /* DMA map is driver defined */
+> +	/* A driver can add private values beyond DRM_INTERCONNECT_DRIVER */
+> +};
+> +
+> +/**
+> + * struct drm_pagemap_device_addr - Device address representation.
+> + * @addr: The dma address or driver-defined address for driver private interconnects.
+> + * @proto: The interconnect protocol.
+> + * @order: The page order of the device mapping. (Size is PAGE_SIZE << order).
+> + * @dir: The DMA direction.
+> + *
+> + * Note: There is room for improvement here. We should be able to pack into
+> + * 64 bits.
+> + */
+> +struct drm_pagemap_device_addr {
+> +	dma_addr_t addr;
+> +	u64 proto : 54;
+> +	u64 order : 8;
+> +	u64 dir : 2;
+> +};
+> +
+> +/**
+> + * drm_pagemap_device_addr_encode() - Encode a dma address with metadata
+> + * @addr: The dma address or driver-defined address for driver private interconnects.
+> + * @proto: The interconnect protocol.
+> + * @order: The page order of the dma mapping. (Size is PAGE_SIZE << order).
+> + * @dir: The DMA direction.
+> + *
+> + * Return: A struct drm_pagemap_device_addr encoding the above information.
+> + */
+> +static inline struct drm_pagemap_device_addr
+> +drm_pagemap_device_addr_encode(dma_addr_t addr,
+> +			       enum drm_interconnect_protocol proto,
+> +			       unsigned int order,
+> +			       enum dma_data_direction dir)
+> +{
+> +	return (struct drm_pagemap_device_addr) {
+> +		.addr = addr,
+> +		.proto = proto,
+> +		.order = order,
+> +		.dir = dir,
+> +	};
+> +}
+> +
+> +/**
+> + * struct drm_pagemap_ops: Ops for a drm-pagemap.
+> + */
+> +struct drm_pagemap_ops {
+> +	/**
+> +	 * @device_map: Map for device access or provide a virtual address suitable for
+> +	 *
+> +	 * @dpagemap: The struct drm_pagemap for the page.
+> +	 * @dev: The device mapper.
+> +	 * @page: The page to map.
+> +	 * @order: The page order of the device mapping. (Size is PAGE_SIZE << order).
+> +	 * @dir: The transfer direction.
+> +	 */
+> +	struct drm_pagemap_device_addr (*device_map)(struct drm_pagemap *dpagemap,
+> +						     struct device *dev,
+> +						     struct page *page,
+> +						     unsigned int order,
+> +						     enum dma_data_direction dir);
+> +
+> +	/**
+> +	 * @device_unmap: Unmap a device address previously obtained using @device_map.
+> +	 *
+> +	 * @dpagemap: The struct drm_pagemap for the mapping.
+> +	 * @dev: The device unmapper.
+> +	 * @addr: The device address obtained when mapping.
+> +	 */
+> +	void (*device_unmap)(struct drm_pagemap *dpagemap,
+> +			     struct device *dev,
+> +			     struct drm_pagemap_device_addr addr);
+> +
+> +};
+> +
+> +/**
+> + * struct drm_pagemap: Additional information for a struct dev_pagemap
+> + * used for device p2p handshaking.
+> + * @ops: The struct drm_pagemap_ops.
+> + * @dev: The struct drevice owning the device-private memory.
+> + */
+> +struct drm_pagemap {
+> +	const struct drm_pagemap_ops *ops;
+> +	struct device *dev;
+> +};
+> +
+> +#endif
+
