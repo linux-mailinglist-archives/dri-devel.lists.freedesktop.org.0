@@ -2,85 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF23CA45067
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 23:42:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5C0A4506E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 23:46:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF76D10E0BE;
-	Tue, 25 Feb 2025 22:42:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A3D10E082;
+	Tue, 25 Feb 2025 22:46:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OLjybS5R";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Me2ACZec";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09F1710E082;
- Tue, 25 Feb 2025 22:42:50 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-abb7520028bso830340366b.3; 
- Tue, 25 Feb 2025 14:42:49 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCC6110E082
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:46:27 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-43984e9cc90so1568075e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 14:46:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740523368; x=1741128168; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=b+LeoWD79JHqCNmXmfrX82I1MTihVlt4+Y014zmulIs=;
- b=OLjybS5RLo5hnmorH2ByntxaEZ6lnQHxJPaTo9MCqgHYJ0Sp/sSOocAMYhR614q+HG
- tgWBqlStHHVgXW2ObLgIn4hkMfySf20mfIln3bq13AeZ7yeNzs/+L99e9ZPyuuPduGkh
- V5c5RQTr5ZwzYdm4wA7+AnW5839nBhBR4qdoDehT8WGf6YN2ZhM0gnTQQd2cHNtIlVUV
- lElNP7OfJr3J3GTA/xQU0UnPUc3ZPjUu1CQIcbVjLn3QHxO4aVORxoDn2lKShmwM0RIG
- r6mVTwyQ86nm3SVtRx5xoAErlgk6sjzhLPJnS9C2ToMDJDx1mj0mj45SUnHYFsGdNBg3
- RBfA==
+ d=gmail.com; s=20230601; t=1740523586; x=1741128386; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3xEzm5a7MvJg/wvZ+Z8+F/9tGDPPJZX+eI/HEgAntBA=;
+ b=Me2ACZecNaZN7F0lro0X/FTDg4hYsLTTFiIHZub/k2dAmGNIoeYKvkWGoTOy59YgKc
+ L29jfPfuKuDcSS6yR4li1T23y3chMEUJgnamtGHA9/WgY4udH8CzDmVpxLZhcHSv1F3K
+ tWhWMmeX4BNeLk7ZIKG64likKEL36ITo/DDaagoT6x+Bo/cCNBOtL7ijPu+JIeS6uT9b
+ aq7jYrs8OlntpznIJI18GysMpp8IZ2ac3Bd3Trsfepl/9+csTpd/HZeVTHkq0EbrSDnz
+ xhWvvyiSctl02zOQ6zS7FfbkHR9V2wnLIf2q1JhDfdemBzO5Y+WztlrIwUKgeAZQAisw
+ ByWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740523368; x=1741128168;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b+LeoWD79JHqCNmXmfrX82I1MTihVlt4+Y014zmulIs=;
- b=cwUWA+M3wlldHGyM7f/ww+f8shrnoqkL2tWacHiYtw7yt4uryoz1OOxpgblcwAThi2
- eePsfQVClAcB20UQ5PulRmZs597Y5NmYJDpSBn2dlAeO8xohgvzazWtQLvMROiUohjOt
- sU4Hc80TuBdT9eju7v8j7EG8iUECdcOLYfrmwI/w/t7UKis/0U9Nkfd4tB1qvmSAk7e0
- 4J39EynUBVpyiecwMQIkTWAXwewUkbfcton6pyH2azRJ0NpoW8el3JZfLzVe8f4p8KKx
- rNHw3XqLunGWQgzNxTYNsXUifzhbz6oHpISPYyRv3P3UMExkgZjgFX+PVNJYYjstjWi/
- m50g==
+ d=1e100.net; s=20230601; t=1740523586; x=1741128386;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3xEzm5a7MvJg/wvZ+Z8+F/9tGDPPJZX+eI/HEgAntBA=;
+ b=UYPsh6S897F2YW6bdHeZpzt+BCcdBXqcyEX/rnC94CMg1DFoSrWmHfY2Mpxt3DQKWB
+ VmaHhFgFV57p8+vXkL5NjlN9njrsU3SMcYBqRVm6TZGX6bGpP7R1AeYBUMiTsi3q80zy
+ CPaKvD7WAhQXzStGkZ5/d4dqyHXOjDcWnpakOMo86dCty3rfS/opxsM1VvobyRCPGB4L
+ vZ/Q0GypDmN1SgVd9SY4LA67NNGUTFM5b3qzghUhhnvhSEQCDhEL+FkLwArvZRCrjQP7
+ Rp2gU3wK8ynuY1fpxCGLQ+2UgHXcNvq4ec9k3bdXVWXZJZGu303TQxiYt+PmyVvbqv/y
+ naJQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4WoR62I422RL051717xaaBpacrh/kNitRJqFECbY03tSk4tvu8c0DPfKFoPZFVC94fZqZtO4QQ/4=@lists.freedesktop.org,
- AJvYcCXV4W2zaqkq/AKIgnEQaOEbSh6kaImFTq8fVLto5XjQcNoA6j8bmJt/fBYaFJG+QFwC7zfYVj7QAw==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXvBCMxVol27vRflyE4HLUr8ZYYCHwnM8iuYRufsCmH6W8kP1a
- EjMbthY5dH3Fg4kDl2c4rp5AnwMT2FQJRtFJxys265wDlnPTMF6cQ/vqnsCStZA/8Sfvf4SGiE2
- 4Tj6yDpqyY6m7z5BLhepDn8/1wfI=
-X-Gm-Gg: ASbGncttss4HkNzf8Y76DHugkiaKkSDKTVSzLdXdM51oJd5pfU6ehv4/fic3LczEVMg
- GuI3vgkDOoG3lkg5twDReugPaStzLoTeMi0/qxVXPOh3K3f8esrIatCGheqR7EpDK7XWHur6LlU
- /yXTCy0Q==
-X-Google-Smtp-Source: AGHT+IFifrc/55FE/o7oKNACzTd5eIPpMN3RnO7ka1K/p5yqQNOOgOOnNnXkfu+qTWAXrjJTu1ZcDxRLPqb8lMW9yYw=
-X-Received: by 2002:a17:907:7d8c:b0:ab7:d87f:665a with SMTP id
- a640c23a62f3a-abeeef36285mr65939366b.46.1740523367894; Tue, 25 Feb 2025
- 14:42:47 -0800 (PST)
+ AJvYcCUXlf33roNclF+3PrKGbqU7rDmU1HuCoOr3DqIxRQBntfd8+Ip+2np6EdL57O0Kzfg/SJxgzS2WGbM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxd9QAoFvh8JyqjRffs18YW2sZvHZ+4xwZ4P+HQdBdKFNVZsu5D
+ r0/Me4mubbMPtQ2SucvdM6A//q4yOBrjmdjFRO3HM9ghkGZMIC/l
+X-Gm-Gg: ASbGncvklADuoCyeFtHiZSrmGbjJ4ymTFuVPQJifn95GZpUR/PVqD1Op1wFfsS8vlLl
+ oJnDpi2qcE491aNa2ke8OvsPury5/ADsxDxQINVVS5nm/AX/w1WoGIuQeK+J+84/6UJaevs7Iwl
+ 8DVtp+fxzuOuW+baYnYeuldv46l8xb9p4JJgm6QPSiAxDKST0HrOqfJ6j49Fp1n2CJlPmYmUJ7G
+ bF54C19oFg0xJ7ZT4U2aXH653QYT0+pjb8w9Sfs5reVu2Cq71HgboaeTGlZmBEDwpknU6bhuiOi
+ YwEWLQr+8tLax6fxHd1sljggaN7bZnmoH/p+cKOXJMkFby0UN/y5q54c2RYf7gOj
+X-Google-Smtp-Source: AGHT+IFjrInluoqnbFjbjbGFkCsa4TCd0YMAhHctzgy+ODQ6ToD9u7urtlYhpUHFZQok7JnATsU7Wg==
+X-Received: by 2002:a05:6000:144d:b0:38f:4f17:ee29 with SMTP id
+ ffacd0b85a97d-38f6f3dca7amr14183257f8f.17.1740523586194; 
+ Tue, 25 Feb 2025 14:46:26 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-390cd88295dsm3621054f8f.45.2025.02.25.14.46.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 14:46:25 -0800 (PST)
+Date: Tue, 25 Feb 2025 22:46:23 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Uros Bizjak <ubizjak@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>,
+ tglx@linutronix.de, Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+ eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org,
+ mingo@kernel.org, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 03/17] x86: Replace open-coded parity calculation with
+ parity8()
+Message-ID: <20250225224623.6edaaaa9@pumpkin>
+In-Reply-To: <e0b1c299-7f19-4453-a1ce-676068601213@zytor.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-4-visitorckw@gmail.com>
+ <d080a2d6-9ec7-1c86-4cf4-536400221f68@gmail.com>
+ <e0b1c299-7f19-4453-a1ce-676068601213@zytor.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-References: <Z7OrKX3zzjrzZdyz@pollux>
- <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
- <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
- <Z7xh5bEyh_MII4WV@pollux> <20250224184502.GA1599486@joelnvbox>
- <Z70EcwNIX0KtWy36@cassiopeiae>
- <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
- <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
- <Z7493C8_IvvYDbm8@pollux>
-In-Reply-To: <Z7493C8_IvvYDbm8@pollux>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 26 Feb 2025 08:42:35 +1000
-X-Gm-Features: AQ5f1JrXlW948cBSgISkGZ98vaN4OmpvDgQrRNGPSuFQf0Efsh9Vf4MvRVvuzKk
-Message-ID: <CAPM=9txkwr3_sdNESa9ufu1j4V-XsJ=EuLFuNLb_dLCfwhYD3w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>, 
- Gary Guo <gary@garyguo.net>, Joel Fernandes <joel@joelfernandes.org>, 
- Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>, 
- Ben Skeggs <bskeggs@nvidia.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, paulmck@kernel.org, 
- Jason Gunthorpe <jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,20 +114,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->
-> I'm saying that extending the time of critical sections is a concern, because
-> it's more likely to miss the unplug event and it's just not necessary. You grab
-> the guard, do a few I/O ops and drop it -- simple.
+On Mon, 24 Feb 2025 13:55:28 -0800
+"H. Peter Anvin" <hpa@zytor.com> wrote:
 
-At least for nova-core I've realised I got this partly wrong,
+> On 2/24/25 07:24, Uros Bizjak wrote:
+> > 
+> > 
+> > On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:  
+> >> Refactor parity calculations to use the standard parity8() helper. This
+> >> change eliminates redundant implementations and improves code
+> >> efficiency.  
+...
+> Of course, on x86, parity8() and parity16() can be implemented very simply:
+> 
+> (Also, the parity functions really ought to return bool, and be flagged 
+> __attribute_const__.)
+> 
+> static inline __attribute_const__ bool _arch_parity8(u8 val)
+> {
+> 	bool parity;
+> 	asm("and %0,%0" : "=@ccnp" (parity) : "q" (val));
+> 	return parity;
+> }
+> 
+> static inline __attribute_const__ bool _arch_parity16(u16 val)
+> {
+> 	bool parity;
+> 	asm("xor %h0,%b0" : "=@ccnp" (parity), "+Q" (val));
+> 	return parity;
+> }
 
-https://gitlab.freedesktop.org/nouvelles/kernel/-/blob/nova-core-experiments/drivers/gpu/nova-core/falcon.rs?ref_type=heads#L305
+The same (with fixes) can be done for parity64() on 32bit.
 
-However in this case I expect the sleeps small enough to end up in
-udelay perhaps instead of actual sleeps,
+> 
+> In the generic algorithm, you probably should implement parity16() in 
+> terms of parity8(), parity32() in terms of parity16() and so on:
+> 
+> static inline __attribute_const__ bool parity16(u16 val)
+> {
+> #ifdef ARCH_HAS_PARITY16
+> 	if (!__builtin_const_p(val))
+> 		return _arch_parity16(val);
+> #endif
+> 	return parity8(val ^ (val >> 8));
+> }
+> 
+> This picks up the architectural versions when available.
 
-but I wouldn't be too worried about the overhead of adding a bit of
-extra code in the wake up from sleep path, the sleep is going to take
-the time, a few extra instructions in the poll won't be noticeable.
+Not the best way to do that.
+Make the name in the #ifdef the same as the function and define
+a default one if the architecture doesn't define one.
+So:
 
-Dave.
+static inline parity16(u16 val)
+{
+	return __builtin_const_p(val) ? _parity_const(val) : _parity16(val);
+}
+
+#ifndef _parity16
+static inline _parity16(u15 val)
+{
+	return _parity8(val ^ (val >> 8));
+}
+#endif
+
+You only need one _parity_const().
+
+> 
+> Furthermore, if a popcnt instruction is known to exist, then the parity 
+> is simply popcnt(x) & 1.
+
+Beware that some popcnt instructions are slow.
+
+	David
+
+> 
+> 	-hpa
+> 
+> 
+
