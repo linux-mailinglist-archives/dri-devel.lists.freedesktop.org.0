@@ -2,162 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75437A43508
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 07:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EAD3A43559
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 07:35:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5A4310E116;
-	Tue, 25 Feb 2025 06:17:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9349610E49C;
+	Tue, 25 Feb 2025 06:35:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="AlskJxWh";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XNRh+F6H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010003.outbound.protection.outlook.com [52.101.228.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2566710E116
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 06:16:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B0KgGv0wZER0pmsA/d+z8b2QjusKDkm3hiBhIQUz7oezZTPMVy976W2qQzi+gLmhH8/FcLwsCNsN88yMhCi0BhZpKZjsvYi/XiUPK7WCQJwqmY1TI785vC3wLUmPGJJBPIBgeBW3w7zbu8u2jsf9ajRhiuKygVQFrARO6mSPVidJqyBerr4D6Z+aU+h0KqGE1PidZrpOwrh3iBLQ5yvUkvcR8R/3IviLfqWroMpRKx6OO1ZMeBzlRnFxNeUHD6IIpwi13nD/tqPICNY/e73fM/0fe+IWrCbvO4PlgmDbIEHwJEa5UBSy2cW2k6ODGGf8czA+BMxR78M/1rLuUdL85Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uMltxy1/wD4qM0oWoxUkpsuo7IE2Iho7RFUOlhu7mi4=;
- b=iiV58X3H/IMv9VZidvRgjG23EiraKvYvuwFEkkqaxxoiR4B59Po13D0DlJw7pdx/gGY81oURpvs9gEN6hTtLPbtQGRoXFAik9AGUGbgXUUr7UiYkLANGe3w7ijOpVomJqmFoAXUfiv5jK3yGrHTaK04MoN/L6LOUbI1WfMudg9vzhb4VuNwtKrq3PyB8uVX/FbFByFJbzWYOzrxyjJ3z7M7maBO5+apezCtpNFMtd+U02TAPot93V7abRv36umgKKfebmBD7wCfAL7Wa3ERE48XQL62HfEVtlI/qllS4mmHEtu3putlOrAoLAMDSksEFw0DtyZxRJAozVAfNcZvoAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uMltxy1/wD4qM0oWoxUkpsuo7IE2Iho7RFUOlhu7mi4=;
- b=AlskJxWhyaQicu3QLSFUJ7qdUegt/Ph2MyrORqMQQ+lUbLx3I0s6BASGkeNtJJYvSkXViC5Krlq3Swx37QFlpCaWEdJfbjRI5COE6gQqtdIrlWb+QnzooZD6Jhp+BhQDMGOOOIBgZHWCJDgiuSh/XUp8b1p7ABzX93Jno6MQ+To=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYWPR01MB12125.jpnprd01.prod.outlook.com
- (2603:1096:400:440::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.22; Tue, 25 Feb
- 2025 06:16:51 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8466.020; Tue, 25 Feb 2025
- 06:16:51 +0000
-Message-ID: <8734g2sg4t.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, linux-kernel@vger.kernel.org,
- Algea Cao <algea.cao@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, Niklas Cassel <cassel@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@collabora.com,
- David Airlie <airlied@gmail.com>, Dragan Simic <dsimic@manjaro.org>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- FUKAUMI Naoki <naoki@radxa.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Alexey Charkov <alchark@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
-In-Reply-To: <87frk2sumw.wl-kuninori.morimoto.gx@renesas.com>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
- <BA73C4A1-C680-4748-9CE1-4B3B19A14261@gmail.com>
- <5E535D58-AEFF-45A4-A1EA-1FA282F366AE@gmail.com>
- <4988041.31r3eYUQgx@trenzalore>
- <87frk2sumw.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: multipart/mixed; boundary="Multipart_Tue_Feb_25_15:16:50_2025-1"
-Date: Tue, 25 Feb 2025 06:16:50 +0000
-X-ClientProxiedBy: TYAPR01CA0119.jpnprd01.prod.outlook.com
- (2603:1096:404:2a::35) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B37610E36F;
+ Tue, 25 Feb 2025 06:35:03 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51OKOmDJ015364;
+ Tue, 25 Feb 2025 06:34:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ G5wLAQ2SISBLFUCx4diUD5E+j7DrZlbJZLbDRxONCcs=; b=XNRh+F6HPPj7WMD/
+ qm0tFXE+cj/vzmsJ1iBtIQWg7e/QfAil8yR7ZfSM4eFlfmxdtdHRPs6UB3VBR8k+
+ PU7gom9MjlSH12YvVpKFzJFjC8+PfDIGDYzfGSznNFcrkD9qK4SV8AsRLntX7mEe
+ g5mwrILTYGK047J/+iLz7kXAPwb7/6oe4jtoqUdRbowl21rDfI4e4peOA8DKjp5j
+ hMYzlxZ5XNu6Ih/x75dN+nqnHkxDevAQXKb3Duf7l4vQiMvw/QPR1XHh8tLzqtMZ
+ tSQcZgv+538ttx8iJX5Phu861vuZk9ofjTZ+g0f7yfywAaHACxwzJ/LfS+LOMvPl
+ d1btdQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 450kqg404y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2025 06:34:51 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51P6YoRA020803
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2025 06:34:50 GMT
+Received: from [10.216.12.26] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 24 Feb
+ 2025 22:34:43 -0800
+Message-ID: <891c0e28-dda6-4025-8455-4033f9b3406a@quicinc.com>
+Date: Tue, 25 Feb 2025 12:04:41 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB12125:EE_
-X-MS-Office365-Filtering-Correlation-Id: 080264aa-e0d9-4319-9e4c-08dd5563fe07
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|52116014|376014|7416014|4053099003|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?kKQyU7LMz2MhAkHZTpDnjYV2r+m9ywc7DbrI/oSLQrZVaLlZtZ9tVuj8TDiq?=
- =?us-ascii?Q?w8geinNYz8NWT5u+SQMHpQd7j1jNiJa9X9n5INqtzerAAlpgvq+4t7tP7+/z?=
- =?us-ascii?Q?2FxZSLxm+oArkEotuqtBZsYRxVD3B3oI/L0RM6nW9DeqOHTdf1dFAli80BQY?=
- =?us-ascii?Q?Vhz0qVlwS6FZIABXbOuhK0HMIWeW/s0rzIay9GXSv32Dz6pf+/dBfqrf8kwl?=
- =?us-ascii?Q?+/UhU98aVM1fakIoPkK/9KZlSqr22pE1yr8EggHNbaIKd1cN+dlDaO8lQEUH?=
- =?us-ascii?Q?RgU6XB9OoBq4rVoW7rV6BLMWZoFY4hkaX8CkHhXIX1Y793fVcCmiKIOLsEB/?=
- =?us-ascii?Q?4xudl/tNrPX0njVcs3g/zDZkx9dUEWWtq8i9qz0JX5t4Veva8UUrtEg3tstd?=
- =?us-ascii?Q?rqSVcaVWZtiAch70xcYkACv4ZBWw4GaG4V38QS9XLczpWwjAYvVsAhKwtumV?=
- =?us-ascii?Q?YPvJiWJDPfzjPXLGVmw7nSPSLKFQHtXwdBIKJlolIAkxevV35DQeTnKr/5Iu?=
- =?us-ascii?Q?nqbRpbtXNn+G+VmpyLgUFgr9RIrevTttC3xlFJV22iIq/bWya5PVcJk7/oX8?=
- =?us-ascii?Q?kA1c0xCme4AH9AX7P2Hwx1iGlF+lTudj0O7zm8KaLYFKYqRoN6vn7wH8qsgr?=
- =?us-ascii?Q?cPb+7m/aaPD7zl7zxTTEkvSksgkQBjNwWSfj088pShcbv+ipFwciu7hN5Rd4?=
- =?us-ascii?Q?C+TQ77v+kKEkmso/25AX6UuKgbtVRfYNnRc/0Deon7Qif/g12V+XjXfkvBRI?=
- =?us-ascii?Q?5raLclg8QsRTWSFkHcgRDzHerqJGZbpB6Gf1quP7uq6gcxcBkLtAaLzsnMpz?=
- =?us-ascii?Q?q5IKAgp52PM5RJ8NG4vE+1SZ0Cow5BCJ7L/WYborpZaWxQLFhi1kWEyRHD5w?=
- =?us-ascii?Q?hilmWJ757gUbb59HxFPwovDrckwX3Kb5RA20AgQBbiefw1jHv5bOPn6Jw1d2?=
- =?us-ascii?Q?Rc64bUa/g5chGDOeVM0T2zJer2cCVk81hoZ4BewbYeMTRo3wVwTdcZfWemdh?=
- =?us-ascii?Q?VQn2JvZExc7F6Fb3xm6cUq+3VpKhWnwBQAXzt1CMx2JSWH0r3AErcYDum//Z?=
- =?us-ascii?Q?ReF7E/Dt0kbJocqNUjLYR9MWwLllG4oquv/b9h3AyHFvac9Yt3XgEJPAvGeb?=
- =?us-ascii?Q?29XA6bQXKk9cb9UGoY4YwyULfKRDMnjAgO9dbY2184SraQmfjYT4hEcqTj0k?=
- =?us-ascii?Q?ws1eQ+yzo36zrqTJSOXKL4BmbxwoZPs4B9RrAEVCxRpJ9VLi2+BKtulthL6t?=
- =?us-ascii?Q?JlPhtaRohx9Wx0RimPA/0ZLi9z06XnUC0Ad+mk/NDOS58vkg9iB6pcPx4vcU?=
- =?us-ascii?Q?I3k2OkmQckj3BH6mosophYCDhDHH9h3FiNa8I6zRYSLkHRIrU8dFMpbwCXyR?=
- =?us-ascii?Q?dT8GYINvbBuU5d44REvl0YPXX+qq/dwCmHo7pOFZP4IPYqVIVxbQohD8dQKe?=
- =?us-ascii?Q?LyBgeCmvGL9ze9f8Z+adVyzWW03VhpNE?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(4053099003)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wTcJvlWc0845cS0tHUwhTmH0sngYljf0TMXizr9RCsmk/REt09y+iiiqgaor?=
- =?us-ascii?Q?AYhKF+4JrsSlt4ZEy/QINZ7HHm97aJTgW8joIHIMssUnHcoXPx52mqQYXJ7w?=
- =?us-ascii?Q?TCBGVKQA6lp4w5BqMYJ0a9JgNpStISk76cAgddKSRM4V9QeTe21L2uqEpJKO?=
- =?us-ascii?Q?rksbzLbnU0aCCW1TCYx69lYmuSfxuvliLOvTR9GZr68Mt9uptcARdC4Bh6lD?=
- =?us-ascii?Q?o+dzdKv+sg9QAOnt9fdreKfYd+V/f57NNOd/MbVP2ifo/zYVT97Izkv+EFsu?=
- =?us-ascii?Q?zE2sW1Vwp0+oAQ1DcnTbAxWbrPKtlfe5OgIcxTXEKHSZ3jqI8E6fx1JA3+X2?=
- =?us-ascii?Q?EkW7fkvm9SShdmDnMD5f+ky9pDSMSQjCnCM2o30cXrfmSFAw5lf9ouCRB4YK?=
- =?us-ascii?Q?XwXTmferjHZm7mFVnc/rL+wzSA6RujDhceEXyyjP20PlkFsqDa50GO51ZJFg?=
- =?us-ascii?Q?JUZYlbaBabffP3yRxVaQabJs8UQTErvwZf8dQY0L5l0/seGOQtexofzeciWB?=
- =?us-ascii?Q?KjGLQIlMLp9G/pZjptxvNpRyd4JIB0WX4HsfpKoU8AA665Bq0bt2nuNcTYYV?=
- =?us-ascii?Q?UR9jwP9kgHqgiX7sYIdA4P9bZcnf7y86d70JH9mEaA6BFSfbMTr8gzWutd1V?=
- =?us-ascii?Q?6Vglbdn4UOHNwrFMiRJY5IfngXGq/SKnE6let87xR2nnnQwMxgcuAgNo56KC?=
- =?us-ascii?Q?Sw4qazvZVcqE3BLEQwO1xTwY56D/ba8z26WOb736zwRIA339BBPrAbvZCOz5?=
- =?us-ascii?Q?Y6b3lJDjI5ziDFjaKt49GBODwOUrymTtWLHRBdLtz/9FDOxZHJkaFyqqoPe5?=
- =?us-ascii?Q?33L6ErxsGea2P/RZv0gMQMaWkIOpSVbDOcHyHwz7utTuD32mQ8rM42UM6Izp?=
- =?us-ascii?Q?i2uIDvE7ZgBcWMUshK9dEinqQMrJBFPJDy143JOUi/ijRZv7IuPPwncd+w4C?=
- =?us-ascii?Q?x5oBeBnQzZZSJ1a6jaoOFCh5mnen+suskiPeuGq60EtGv+CKDM6CsD2YOAPs?=
- =?us-ascii?Q?bMLQGnz4zz1Xw1ki/EZON758PY4VKZb5ujPYotePcCAD5v7XmI9tsiMuPT7D?=
- =?us-ascii?Q?9hQzWpSQonj4mhCAVjthD6TMZ3PQTvFMTxajFpZYHswA/lyOX7T2T/Jk0Tak?=
- =?us-ascii?Q?y0ppt2CDIk6+IfstapaU5mfzbSun2dKcHxY6PiMz/xrRlSHle45KkHNs9LRp?=
- =?us-ascii?Q?TvzpB4U8TvIifvKWXTAyWxnfkwZJvIltsdVby3Jw+2tWpyfsgkfG5qkcWcDQ?=
- =?us-ascii?Q?OHIYRfX5sj+v6GXFFbAoA64TMVxD1YKZEI5EQfjb+BH7NbcOSOK00rwAJF6w?=
- =?us-ascii?Q?+YUThvRYon4hWTliMOG5Wjqt5kaO4nyjUxeup3DJx8VB/KQKhvIHwn9EvSXi?=
- =?us-ascii?Q?TjTCPRics1mn9yVWCbXXD32oiKdG26fBDntXATyf0SOHh44Yl1XIzwBoTmhb?=
- =?us-ascii?Q?NUSLbjnN1s7Z8XeKfHkY9fNinSyuv7lILA6fcwVDSNL4bODTY3kjQWsLfTMg?=
- =?us-ascii?Q?FMNduY69srMiBuFT1/XVun/EotVH+M+GQSOfEy8fDgFvErDuBuzmpWzYcbka?=
- =?us-ascii?Q?zM04hZcwxJKIehrA8OuHWUrDlccs8nhImXdQmVttSgSDRPly4CwH72VxCx8I?=
- =?us-ascii?Q?IF7y70rT5BQoaHcIdnd7eYE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 080264aa-e0d9-4319-9e4c-08dd5563fe07
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 06:16:51.0277 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jg/rd4ddVhsMEu9rrwaPdU8qXQxZdGIuWFTIgOw8ibWDXfMQwyCvtkq7SNRkHYUc6IIiWKKrPzaHO9ALZa2tly9u1c2aiOIer0Q8OXAUgch9t2J45oJNoTj5duVwhVhY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB12125
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] drm/msm/a6xx: Fix gpucc register block for A621
+To: Rob Clark <robdclark@gmail.com>
+CC: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, Jie Zhang <quic_jiezh@quicinc.com>,
+ Rob Clark <robdclark@chromium.org>
+References: <20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com>
+ <20250213-a623-gpu-support-v1-1-993c65c39fd2@quicinc.com>
+ <CAF6AEGvDR1md6D2dnqJWOW5v3t2wnaC29VD1fyX5q48bzqEkHQ@mail.gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <CAF6AEGvDR1md6D2dnqJWOW5v3t2wnaC29VD1fyX5q48bzqEkHQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: t7CXTnGOgrqsMkH-nPVXS7XAht9tiN4n
+X-Proofpoint-ORIG-GUID: t7CXTnGOgrqsMkH-nPVXS7XAht9tiN4n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-25_02,2025-02-24_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ bulkscore=0 mlxscore=0 spamscore=0 clxscore=1015 mlxlogscore=999
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502250041
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,69 +102,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Multipart_Tue_Feb_25_15:16:50_2025-1
-Content-Type: text/plain; charset=US-ASCII
-
-
-Hi Detlev, again
-
-> > Especially those commits:
-> >       ASoC: audio-graph-card2: use __free(device_node) for device node
-> >       ASoC: audio-graph-card: use __free(device_node) for device node
-> >       ASoC: simple-card: use __free(device_node) for device node
+On 2/18/2025 11:52 PM, Rob Clark wrote:
+> On Thu, Feb 13, 2025 at 8:10 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>
+>> From: Jie Zhang <quic_jiezh@quicinc.com>
+>>
+>> Adreno 621 has a different memory map for GPUCC block. So update
+>> a6xx_gpu_state code to dump the correct set of gpucc registers.
+>>
+>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> ---
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 13 ++++++++++---
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 17 +++++++++++++++++
+>>  2 files changed, 27 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>> index 0fcae53c0b14..2c10474ccc95 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>> @@ -1214,12 +1214,12 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>>         struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>
+>>         a6xx_state->gmu_registers = state_kcalloc(a6xx_state,
+>> -               3, sizeof(*a6xx_state->gmu_registers));
+>> +               4, sizeof(*a6xx_state->gmu_registers));
+>>
+>>         if (!a6xx_state->gmu_registers)
+>>                 return;
+>>
+>> -       a6xx_state->nr_gmu_registers = 3;
+>> +       a6xx_state->nr_gmu_registers = 4;
 > 
-> I got same report from our test team. I'm now tring to solve it.
+> nit, this and splitting out a6xx_gpucc_reg from a6xx_gmu_cx_registers
+> could probably be it's own commit
 
-Unfortunately, I can't reproduce the issue on my environment,
-but I guess I found the root cause. Does attached patch can solve
-your issue ?
-I will officially post the patch to ML, but want to confirm it before it.
+Ack. Will split this patch.
 
-Thank you for your help !!
+-Akhil
 
-Best regards
----
-Kuninori Morimoto
+> 
+> BR,
+> -R
+> 
+>>
+>>         /* Get the CX GMU registers from AHB */
+>>         _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[0],
+>> @@ -1227,6 +1227,13 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>>         _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[1],
+>>                 &a6xx_state->gmu_registers[1], true);
+>>
+>> +       if (adreno_is_a621(adreno_gpu))
+>> +               _a6xx_get_gmu_registers(gpu, a6xx_state, &a621_gpucc_reg,
+>> +                       &a6xx_state->gmu_registers[2], false);
+>> +       else
+>> +               _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gpucc_reg,
+>> +                       &a6xx_state->gmu_registers[2], false);
+>> +
+>>         if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>>                 return;
+>>
+>> @@ -1234,7 +1241,7 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>>         gpu_write(gpu, REG_A6XX_GMU_AO_AHB_FENCE_CTRL, 0);
+>>
+>>         _a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[2],
+>> -               &a6xx_state->gmu_registers[2], false);
+>> +               &a6xx_state->gmu_registers[3], false);
+>>  }
+>>
+>>  static struct msm_gpu_state_bo *a6xx_snapshot_gmu_bo(
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+>> index dd4c28a8d923..e545106c70be 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+>> @@ -363,6 +363,9 @@ static const u32 a6xx_gmu_cx_registers[] = {
+>>         0x51e0, 0x51e2, 0x51f0, 0x51f0, 0x5200, 0x5201,
+>>         /* GMU AO */
+>>         0x9300, 0x9316, 0x9400, 0x9400,
+>> +};
+>> +
+>> +static const u32 a6xx_gmu_gpucc_registers[] = {
+>>         /* GPU CC */
+>>         0x9800, 0x9812, 0x9840, 0x9852, 0x9c00, 0x9c04, 0x9c07, 0x9c0b,
+>>         0x9c15, 0x9c1c, 0x9c1e, 0x9c2d, 0x9c3c, 0x9c3d, 0x9c3f, 0x9c40,
+>> @@ -373,6 +376,17 @@ static const u32 a6xx_gmu_cx_registers[] = {
+>>         0xbc00, 0xbc16, 0xbc20, 0xbc27,
+>>  };
+>>
+>> +static const u32 a621_gmu_gpucc_registers[] = {
+>> +       /* GPU CC */
+>> +       0x9800, 0x980e, 0x9c00, 0x9c0e, 0xb000, 0xb004, 0xb400, 0xb404,
+>> +       0xb800, 0xb804, 0xbc00, 0xbc05, 0xbc14, 0xbc1d, 0xbc2a, 0xbc30,
+>> +       0xbc32, 0xbc32, 0xbc41, 0xbc55, 0xbc66, 0xbc68, 0xbc78, 0xbc7a,
+>> +       0xbc89, 0xbc8a, 0xbc9c, 0xbc9e, 0xbca0, 0xbca3, 0xbcb3, 0xbcb5,
+>> +       0xbcc5, 0xbcc7, 0xbcd6, 0xbcd8, 0xbce8, 0xbce9, 0xbcf9, 0xbcfc,
+>> +       0xbd0b, 0xbd0c, 0xbd1c, 0xbd1e, 0xbd40, 0xbd70, 0xbe00, 0xbe16,
+>> +       0xbe20, 0xbe2d,
+>> +};
+>> +
+>>  static const u32 a6xx_gmu_cx_rscc_registers[] = {
+>>         /* GPU RSCC */
+>>         0x008c, 0x008c, 0x0101, 0x0102, 0x0340, 0x0342, 0x0344, 0x0347,
+>> @@ -386,6 +400,9 @@ static const struct a6xx_registers a6xx_gmu_reglist[] = {
+>>         REGS(a6xx_gmu_gx_registers, 0, 0),
+>>  };
+>>
+>> +static const struct a6xx_registers a6xx_gpucc_reg = REGS(a6xx_gmu_gpucc_registers, 0, 0);
+>> +static const struct a6xx_registers a621_gpucc_reg = REGS(a621_gmu_gpucc_registers, 0, 0);
+>> +
+>>  static u32 a6xx_get_cp_roq_size(struct msm_gpu *gpu);
+>>  static u32 a7xx_get_cp_roq_size(struct msm_gpu *gpu);
+>>
+>>
+>> --
+>> 2.45.2
+>>
 
---Multipart_Tue_Feb_25_15:16:50_2025-1
-Content-Type: text/plain; type=patch; name="0001-ASoC-simple-card-utils-Don-t-use-__free-device_node-.patch"; charset=US-ASCII
-Content-Disposition: attachment; filename="0001-ASoC-simple-card-utils-Don-t-use-__free-device_node-.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSAzOTk1NDc4YWU4NDI0MGIyNDk2NGE0NThlY2JlZmU5ZmI2ZGMyMjcyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLdW5pbm9yaSBNb3JpbW90byA8a3VuaW5vcmkubW9yaW1vdG8u
-Z3hAcmVuZXNhcy5jb20+CkRhdGU6IFR1ZSwgMjUgRmViIDIwMjUgMDk6NTQ6NDcgKzA5MDAKU3Vi
-amVjdDogW1BBVENIXSBBU29DOiBzaW1wbGUtY2FyZC11dGlsczogRG9uJ3QgdXNlIF9fZnJlZShk
-ZXZpY2Vfbm9kZSkgYXQKIGdyYXBoX3V0aWxfcGFyc2VfZGFpKCkKCmNvbW1pdCA0MTlkMTkxODEw
-NWUgKCJBU29DOiBzaW1wbGUtY2FyZC11dGlsczogdXNlIF9fZnJlZShkZXZpY2Vfbm9kZSkgZm9y
-CmRldmljZSBub2RlIikgdXNlcyBfX2ZyZWUoZGV2aWNlX25vZGUpIGZvciBkbGMtPm9mX25vZGUs
-IGJ1dCB3ZSBuZWVkIHRvCmtlZXAgaXQgd2hpbGUgZHJpdmVyIGlzIGluIHVzZS4KCkRvbid0IHVz
-ZSBfX2ZyZWUoZGV2aWNlX25vZGUpIGluIGdyYXBoX3V0aWxfcGFyc2VfZGFpKCkuCgpGaXhlczog
-NDE5ZDE5MTgxMDVlICgiQVNvQzogc2ltcGxlLWNhcmQtdXRpbHM6IHVzZSBfX2ZyZWUoZGV2aWNl
-X25vZGUpIGZvciBkZXZpY2Ugbm9kZSIpClNpZ25lZC1vZmYtYnk6IEt1bmlub3JpIE1vcmltb3Rv
-IDxrdW5pbm9yaS5tb3JpbW90by5neEByZW5lc2FzLmNvbT4KLS0tCiBzb3VuZC9zb2MvZ2VuZXJp
-Yy9zaW1wbGUtY2FyZC11dGlscy5jIHwgNyArKysrKy0tCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNl
-cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3NvdW5kL3NvYy9nZW5lcmlj
-L3NpbXBsZS1jYXJkLXV0aWxzLmMgYi9zb3VuZC9zb2MvZ2VuZXJpYy9zaW1wbGUtY2FyZC11dGls
-cy5jCmluZGV4IDUxZTBlNDM0NTE0ZC4uNzlmZGQ1N2E0NzBjIDEwMDY0NAotLS0gYS9zb3VuZC9z
-b2MvZ2VuZXJpYy9zaW1wbGUtY2FyZC11dGlscy5jCisrKyBiL3NvdW5kL3NvYy9nZW5lcmljL3Np
-bXBsZS1jYXJkLXV0aWxzLmMKQEAgLTExMDIsNiArMTEwMiw3IEBAIHN0YXRpYyBpbnQgZ3JhcGhf
-Z2V0X2RhaV9pZChzdHJ1Y3QgZGV2aWNlX25vZGUgKmVwKQogaW50IGdyYXBoX3V0aWxfcGFyc2Vf
-ZGFpKHN0cnVjdCBzaW1wbGVfdXRpbF9wcml2ICpwcml2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKmVw
-LAogCQkJIHN0cnVjdCBzbmRfc29jX2RhaV9saW5rX2NvbXBvbmVudCAqZGxjLCBpbnQgKmlzX3Np
-bmdsZV9saW5rKQogeworCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbm9kZTsKIAlzdHJ1Y3QgZGV2aWNl
-ICpkZXYgPSBzaW1wbGVfcHJpdl90b19kZXYocHJpdik7CiAJc3RydWN0IG9mX3BoYW5kbGVfYXJn
-cyBhcmdzID0ge307CiAJc3RydWN0IHNuZF9zb2NfZGFpICpkYWk7CkBAIC0xMTEwLDcgKzExMTEs
-NyBAQCBpbnQgZ3JhcGhfdXRpbF9wYXJzZV9kYWkoc3RydWN0IHNpbXBsZV91dGlsX3ByaXYgKnBy
-aXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAqZXAsCiAJaWYgKCFlcCkKIAkJcmV0dXJuIDA7CiAKLQlz
-dHJ1Y3QgZGV2aWNlX25vZGUgKm5vZGUgX19mcmVlKGRldmljZV9ub2RlKSA9IG9mX2dyYXBoX2dl
-dF9wb3J0X3BhcmVudChlcCk7CisJbm9kZSA9IG9mX2dyYXBoX2dldF9wb3J0X3BhcmVudChlcCk7
-CiAKIAkvKgogCSAqIFRyeSB0byBmaW5kIGZyb20gREFJIG5vZGUKQEAgLTExNTMsOCArMTE1NCwx
-MCBAQCBpbnQgZ3JhcGhfdXRpbF9wYXJzZV9kYWkoc3RydWN0IHNpbXBsZV91dGlsX3ByaXYgKnBy
-aXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAqZXAsCiAJICogICAgaWYgaGUgdW5iaW5kZWQgQ1BVIG9y
-IENvZGVjLgogCSAqLwogCXJldCA9IHNuZF9zb2NfZ2V0X2RsYygmYXJncywgZGxjKTsKLQlpZiAo
-cmV0IDwgMCkKKwlpZiAocmV0IDwgMCkgeworCQlvZl9ub2RlX3B1dChub2RlKTsKIAkJZ290byBl
-bmQ7CisJfQogCiBwYXJzZV9kYWlfZW5kOgogCWlmIChpc19zaW5nbGVfbGluaykKLS0gCjIuNDMu
-MAoK
-
---Multipart_Tue_Feb_25_15:16:50_2025-1--
