@@ -2,73 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312B9A43D9A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:29:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73604A43DCC
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:38:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8082A10E646;
-	Tue, 25 Feb 2025 11:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65DFF10E645;
+	Tue, 25 Feb 2025 11:37:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aJ9kvOky";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="msI+UTdy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702D110E643;
- Tue, 25 Feb 2025 11:29:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740482973; x=1772018973;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=NKedsfUkieXfxiUN7z3yWpWCUJzwcsbZVYDJyCoU/r4=;
- b=aJ9kvOkya8DhuPu6V5i0XokyNv6Eh1SSrJ1Qfj/UKSPd6cMPP1MTk+C3
- I5v6tP07wVR1CDihLGE23DcIa7ZNb5YAYbTaCoPxTXwkoLpHpB278UHqM
- 9xCm6uaKxpk6GXZNTAJcp8CaHElGeQyBAPDxaslHWD1DiTZDJbGNm9vXp
- BAd5ruAWAys0FRPw13CrPdYz/06KF6rfKvdqpLQ8PDe2SgbEZbx4qJhQC
- jvILuvitbJtmVnSiObGFFOK8lYsMt63sZOlYIzf3v2js+glITqLg8BHpd
- Md9eyWz9iOJggEZl3jtkKKCl3sK2M547+ScNig6ig7UHOSAp9yuaudvBD Q==;
-X-CSE-ConnectionGUID: USYKg57VTwC4PipRckFNRw==
-X-CSE-MsgGUID: J3AFTp8dTtSGAVVs8EypOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41198781"
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="41198781"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 03:29:32 -0800
-X-CSE-ConnectionGUID: /fXmTyiFQkG/6ivPziotjA==
-X-CSE-MsgGUID: i7XrO8h1R2mz9UkjF/+iig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121615259"
-Received: from monicael-mobl3 (HELO localhost) ([10.245.246.246])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 03:29:24 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Abel Vesa
- <abel.vesa@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Karol Herbst
- <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
- <dakr@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>,
- Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH v5 0/4] drm/dp: Rework LTTPR transparent mode handling
- and add support to msm driver
-In-Reply-To: <frsbcvxcvtp45mh45cld3rzbgl52gomzmzs73crv53pwbc4fns@sygnt6z2avht>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250203-drm-dp-msm-add-lttpr-transparent-mode-set-v5-0-c865d0e56d6e@linaro.org>
- <frsbcvxcvtp45mh45cld3rzbgl52gomzmzs73crv53pwbc4fns@sygnt6z2avht>
-Date: Tue, 25 Feb 2025 13:29:20 +0200
-Message-ID: <87o6yq5kkv.fsf@intel.com>
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
+ [209.85.219.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93BAC10E645
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:37:57 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-e549be93d5eso5890607276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:37:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740483476; x=1741088276; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=n1TWnKYSjWgGvb3cyxt3TX5DamTHuovBzjkuSknBSeU=;
+ b=msI+UTdy+SvvMX/kAgQPwzB900liSLZI5IrOJeaseYlki9qCL174IGaWFi111DleeS
+ Lf17rxA3OCu6t/QmeyAlCeVnarTwBUyEEmkOxAKlGGjnqenfDQXB4HjWUj84JDbcqz9W
+ DQGGxzKJ495c1dG9tDtASMYKwdYGXPvjC6iKd5rgEuKubVLNOYYyclDGJfPKIROEbZEg
+ 3nonXsnq9fu6BU4tvKbwYwEgFbZch8eQRg1gGAnSSzlfkDuBLMlzd6dQuz7wd7QGNooJ
+ SEQXOAOAxLqixQY93tdWVyRXO+Nw06QVEWn08a8Q6lOwkc1cx7MPYZSjb7H9bcq/ncD0
+ Sfdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740483476; x=1741088276;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n1TWnKYSjWgGvb3cyxt3TX5DamTHuovBzjkuSknBSeU=;
+ b=LiTyA6OX2mO4lVbxZ3RX8V8Ng3moFBEa0KDuW+7orQGG20yYMOrsV6LH/xnAcrkLxG
+ 3F/Uz9CaAXGeSzwtYKDzTYfxiTjLp5k5yLggrMH2xD4Lq2kjHCMRAUykiiufraqiVkHn
+ Exn4CnT/vXlbn7vUrg8Rwx3EkD/m2RCBtS80MCYt87aWSY8SeqYbraze+4+dsJx9AoGn
+ M2SLz67bsB2m3NJ7N0GiGmQnwEJSrQYXYFp4e6ooFeGVR1nPIDHpj5E8Jvsi843WSR+3
+ tkU5dw0JHxwHDLnS37w0ALXyvl8jpPj15vFMIWhtZkOpDxpa5p1jRC8OtQxvdX+MxFIs
+ 2zPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOhJRujb29OqNdyeE94+lvjSve7+kdJVZmckAgbHXFLybtHxMCZOL47yImHh2cClv5j37dwzVILYA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7YmHcbrbnJXjigtW8x1D2i4DxlZV1efR4IxExFvUebLuhIFEN
+ 4IhmYxxRHIUNK4dR7ajHyeO7oQUkByAD04G0hNhiu2NLwoKG6x8rkE6XDGcP4qAxu8M2E/owIrN
+ FzeD/YqBn9eVEtKT73Q3bqxv3aksf0NS6xqTWwA==
+X-Gm-Gg: ASbGncsiQh+mTyEOxcZGknH1MoyIxIn6RdvkTPYjZhlsbdtybd3c7wZO2w2Jml5BEgM
+ 45eGhrS+k3DWdjspWh3sbeY1uruio8QcGcgaSHiNdnfp3Mvkc6NN9GgzBb3YJQqxWLbhZxLnC9Z
+ Doz1o2H3lKmOhxuBzCKbT4/kbKYFqQDryIIbB2yTY=
+X-Google-Smtp-Source: AGHT+IFoRV0tABvVleGcPGFjITHVSAozbUIV7vt/JXOPnNAtmYOOQYQ8LJ70dKpeCX04ppbU+mmusjSHjBwHx6qf6uI=
+X-Received: by 2002:a05:6902:18cd:b0:e5d:fccc:7907 with SMTP id
+ 3f1490d57ef6-e607a4e3c9bmr1939202276.14.1740483476663; Tue, 25 Feb 2025
+ 03:37:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250217-adpdrm-v7-0-ca2e44b3c7d8@gmail.com>
+ <174047913824.2131221.6545389561298332217.b4-ty@linaro.org>
+In-Reply-To: <174047913824.2131221.6545389561298332217.b4-ty@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 25 Feb 2025 13:37:45 +0200
+X-Gm-Features: AQ5f1Jq_8vz2X92aaDmmCRK3QuSACEM5CmHNBFF9CumkaBecyk4PuPviBAdIWp0
+Message-ID: <CAA8EJpqM8ZQ-ScEtEBXaUF2Nargtp_TBAyMYvbJ49PGbwPWjaQ@mail.gmail.com>
+Subject: Re: (subset) [PATCH v7 0/5] Driver for pre-DCP apple display
+ controller.
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
+ Janne Grunau <j@jannau.net>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Alyssa Ross <hi@alyssa.is>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Nick Chan <towinchenmi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,66 +96,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Feb 2025, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Mon, Feb 03, 2025 at 12:57:55PM +0200, Abel Vesa wrote:
->> Looking at both i915 and nouveau DP drivers, both are setting the first
->> LTTPR (if found) in transparent mode first and then in non-transparent
->> mode, just like the DP v2.0 specification mentions in section 3.6.6.1.
->> 
->> Being part of the standard, setting the LTTPR in a specific operation mode
->> can be easily moved in the generic framework. So do that by adding a new
->> helper.
->> 
->> Then, the msm DP driver is lacking any kind of support for LTTPR handling,
->> so add it by reading the LTTPR caps for figuring out the number of LTTPRs
->> found on plug detect and then do exactly what the i915 and nouveau drivers
->> do with respect to toggling through operating modes, just like the
->> up-mentioned section from DP spec describes.
->> 
->> At some point, link training per sub-segment will probably be needed, but
->> for now, toggling the operating modes seems to be enough at least for the
->> X Elite-based platforms that this patchset has been tested on.
->> 
->> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+On Tue, 25 Feb 2025 at 12:25, Neil Armstrong <neil.armstrong@linaro.org> wrote:
 >
-> [...]
->> 
->> ---
->> Abel Vesa (4):
->>       drm/dp: Add helper to set LTTPRs in transparent mode
->>       drm/nouveau/dp: Use the generic helper to control LTTPR transparent mode
->>       drm/i915/dp: Use the generic helper to control LTTPR transparent mode
+> Hi,
 >
-> Lyude, Jani, what would be your preferred way of merging these patches?
-> Would you ack merging of those through drm-misc or would you prefer for
-> the first patch only to be landed to drm-misc, which you can then pull
-> into nouveau and i915 trees.
-
-Either way is fine with me, up to you. But please try to ensure these
-get into drm-misc-next pull request by this cycle, so we can backmerge
-and catch up sooner rather than later.
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
-
-
+> On Mon, 17 Feb 2025 12:39:30 +0100, Sasha Finkelstein wrote:
+> > This patch series adds support for a secondary display controller
+> > present on Apple M1/M2 chips and used to drive the display of the
+> > "touchbar" touch panel present on those.
+> >
+> >
 >
->>       drm/msm/dp: Add support for LTTPR handling
->> 
->>  drivers/gpu/drm/display/drm_dp_helper.c            | 61 ++++++++++++++++++++++
->>  .../gpu/drm/i915/display/intel_dp_link_training.c  | 24 ++-------
->>  drivers/gpu/drm/msm/dp/dp_display.c                | 15 ++++++
->>  drivers/gpu/drm/nouveau/nouveau_dp.c               | 17 +-----
->>  include/drm/display/drm_dp_helper.h                |  2 +
->>  5 files changed, 85 insertions(+), 34 deletions(-)
->> ---
->> base-commit: 00f3246adeeacbda0bd0b303604e46eb59c32e6e
->> change-id: 20241031-drm-dp-msm-add-lttpr-transparent-mode-set-136cd5bfde07
->> 
->> Best regards,
->> -- 
->> Abel Vesa <abel.vesa@linaro.org>
->> 
+> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+>
+> [3/5] drm: panel: Add a panel driver for the Summit display
+>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/40115947b59f2ca361a47615304dff0a2b69a2b4
+
+Without the bindings?!
 
 -- 
-Jani Nikula, Intel
+With best wishes
+Dmitry
