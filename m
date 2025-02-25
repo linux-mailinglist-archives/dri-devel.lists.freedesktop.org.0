@@ -2,54 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CDEA446F0
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07274A4479C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 18:15:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B37810E76E;
-	Tue, 25 Feb 2025 16:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCAFA10E778;
+	Tue, 25 Feb 2025 17:14:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="BLgRT4Ot";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pTLQgqkU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65CA510E76E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 16:52:59 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C76EA441BD;
- Tue, 25 Feb 2025 16:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740502378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hNCH3eRFqyZ9cbFT6aCducIwxMi8sSbBLLMC8kqEA5o=;
- b=BLgRT4Ot0TFGZfcR22WZQTtgeP9v96cHasEJ7YgiIvWmBa3mt5v6/C3yMrQ6pxqT/bmN/O
- 0gdNjhOI54J/aFH7Ano2J+kMPGJ2nSYM38CyiF2Ao4QLkwMhBF86IJDPI7FirM5fZ9iDhL
- yAryZaR5/owX76kCmLdQczSO9XOTxaWVZtOlKxi7Cz2WiMNaoNt96Xfw59+RZtGGbe4dXI
- hkzcniEI5INYkz7tWaC2fPGmuleE2PAswJjrPzLcyQmwlOvrQ5SGVAYApcJQmvlNJCvSI8
- FSNZrTU9uqRvdk/5n83ikoCgZZy5nDeCJD5xdhO4pFBcajrrAU0f0JPJGyr4Iw==
-Date: Tue, 25 Feb 2025 17:52:56 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 5/5] drm/print: require struct drm_device for drm_err()
- and friends
-Message-ID: <20250225175256.70b616a5@booty>
-In-Reply-To: <dfe6e774883e6ef93cfaa2b6fe92b804061ab9d9.1737644530.git.jani.nikula@intel.com>
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <dfe6e774883e6ef93cfaa2b6fe92b804061ab9d9.1737644530.git.jani.nikula@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C629010E778
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 17:14:54 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-3091fecb637so47314651fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 09:14:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740503693; x=1741108493; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+dODZ+7MTPPBH6S67MBivWnFKuk0Orcv5ZDM65vBwrU=;
+ b=pTLQgqkU2DQ5VlHKNgS+Cpmpo7yygf4jAo6Stlml10uLqhI9UTTsxKeeX5WiLB1GvU
+ dZOCoWlorSS85nx5M2GnSH1xcy1QApbhm5arwP5/HPVRrAAnWNJS9x9scQFzSPVcVj//
+ q8pnc5LVvIyt1g+d1wCpNrKkbbOFfsZewS4XmsOkouC3kdUkj5JsQBLn7A4TJBC/F5Bw
+ WXTOvqVtp0ZR+E2usHr29h5BV3j4oozjKLvtnwPYvIuRL6r2e14Fs6c08iAysaf2YjEm
+ V6OaAzxLmsvH1p1u4fpig/8ro2hsACnWLwpKWXL5dlsAFWjRNmb1i52XjBFgZ4RhIqXf
+ iaxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740503693; x=1741108493;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+dODZ+7MTPPBH6S67MBivWnFKuk0Orcv5ZDM65vBwrU=;
+ b=CJ9K1a5cDgl886GK+3Li2OF0loXcpIV5NP0IZ39b12+nRJlm+IYENrja+C/UOSXDcF
+ vZ0PLXLkDjezhRawgiloLPzcSXrpJ8soD+XVcx5FCMAemj3GMh6JdwT0nnqwBVSZltJj
+ lKAO1ZRj17NVdPOJ9X3wgnGxgkwShryF3RmjsVmEREyMEPFTWyYwSludbMvREScRB0tD
+ WZfeMjtZfgvEh+FFRhD5vnfrClE1RWiTVxQbNvz0tTsTt6om8q27rTBqlsu3zJ2WELfA
+ hxdk/me/+6q4jHp2369ioSkSXm1kQKxjGggV93H9UcwbhTVrSLZUP41t5DI5dtkIqeWT
+ vlNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXTAaux3gaBT4EYOsFUcI95aWxhTsC4ShlL1mYWHvF6KQb2HCtLup7YOXuB4Flz3APmnRwA2JReQck=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxkfFRKWBhXi6ehO7n1C1/gsGaQjbqw07oEQHq6w2GvcpAacQ/c
+ YBbf6Rt2MPUcZ+UEofBtiBVRmtvGllC4+V3YeXysWyxRbWu1rd8ztReecbfknJ0=
+X-Gm-Gg: ASbGncuFNMGCm8mBvrL/f14p41Ph92/JFRh4Rhxe/PR6Zz6tQf1xWQnNBiI3Z3ogczH
+ rdg8aSu6y/RIjsG80j5jTFVw67Msn+q08Z1tt0fnO3x4pnl3hJKG3A51ZBdi+LudyTsoba8UJ22
+ 2BsC+ob+jTHPsayMMmdgoJrUQEMQYqK4HCcNwgOylpKNdlFsSIF/D33pl/4SfCw45R5B/94DxVt
+ JBWlupzZu03uVtpRTxuRs1+85ExbrzDmSmyRdKqghYUXu6GMUe2zQKzF4N1Kry3gRqyRSNcbfxQ
+ XBllJ9AHhiaMj0BWxXhOT3SadodxB9lByerlRSHIpr/EDJSQLvH9SztedlbNTIhcfnCVme9NwA0
+ SrD8lcw==
+X-Google-Smtp-Source: AGHT+IG2JNWtG5t9NbVNuoQ9NN6EnQTrfMLDjiH8gZ0sx1WPbonGS4f2ipr94i56nk1lp01l/rVSZw==
+X-Received: by 2002:a05:6512:3d16:b0:545:62c:4b29 with SMTP id
+ 2adb3069b0e04-548510d2891mr1850229e87.22.1740503691782; 
+ Tue, 25 Feb 2025 09:14:51 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-548514b237bsm233549e87.4.2025.02.25.09.14.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 09:14:51 -0800 (PST)
+Date: Tue, 25 Feb 2025 19:14:48 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Ayushi Makhija <quic_amakhija@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ robdclark@gmail.com, sean@poorly.run, marijn.suijten@somainline.org, 
+ andersson@kernel.org, robh@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org, 
+ konradybcio@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com, 
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com, quic_jesszhan@quicinc.com
+Subject: Re: [PATCH 04/11] drm/msm/dsi: add DSI PHY configuration on SA8775P
+Message-ID: <jrlpgcg4f4p76muibh4hypdjag2fl7ex55bspxhkjya6dyqjin@gcsrrrtoggcg>
+References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
+ <20250225121824.3869719-5-quic_amakhija@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepjhgrnhhirdhnihhkuhhlrgesihhnthgvlhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgiesl
- hhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250225121824.3869719-5-quic_amakhija@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,24 +97,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Jan 2025 17:09:12 +0200
-Jani Nikula <jani.nikula@intel.com> wrote:
+On Tue, Feb 25, 2025 at 05:48:17PM +0530, Ayushi Makhija wrote:
+> The SA8775P SoC uses the 5nm (v4.2) DSI PHY driver with
+> different enable regulator load.
+> 
+> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  2 ++
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 27 +++++++++++++++++++++++
+>  3 files changed, 30 insertions(+)
+> 
 
-> The expectation is that the struct drm_device based logging helpers get
-> passed an actual struct drm_device pointer rather than some random
-> struct pointer where you can dereference the ->dev member.
-> 
-> Add a static inline helper to convert struct drm_device to struct
-> device, with the main benefit being the type checking of the macro
-> argument.
-> 
-> As a side effect, this also reduces macro argument double references.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+With best wishes
+Dmitry
