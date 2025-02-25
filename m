@@ -2,66 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C71A44264
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 15:19:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC34DA4426C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 15:20:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21EC410E6D8;
-	Tue, 25 Feb 2025 14:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E0889823;
+	Tue, 25 Feb 2025 14:20:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZkpO8h4n";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jjfAYyte";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D89989823;
- Tue, 25 Feb 2025 14:19:44 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5519944284;
- Tue, 25 Feb 2025 14:19:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740493183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hDkkqmZ4caBeAmp+5yCWsPyGqZBN2ya4J9NVnxHeg7I=;
- b=ZkpO8h4nKh+tceth9zmiAW5x76eNswrkbbuKc7F8/2dmEZ0xVyboPP28NKxrbnCxCOjUnU
- BJhv2PmNypYOlGiVlMOxybFuAyMrGbsS7zdZGVXKyHlpNwhDQptQbpMmFvdvDpQABoQk6B
- DLPdHjO5JVM/OIqWTVPZWY/1Aue1455/OFRqQYOnTwx1GvqWS56rniSK7K68v2uRkHnrWz
- o0d+IODGe3OGPyTreCXk7c3Yw8UbfaLHTv7j6stRdpIcvUaBJw7xIft/UlkB33x54oGhtv
- DXA5eQIJXEMSCD0XQLFhS4CTf+0DmKPm+v8zmnNxujBTohhj87SKlObW/P0pUQ==
-Date: Tue, 25 Feb 2025 15:19:41 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
- jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org
-Cc: intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
- ville.syrjala@linux.intel.com
-Subject: Re: [PATCH 19/63] dyndbg: make proper substructs in _ddebug_info
-Message-ID: <74f6ee77-523c-4943-9b3f-a9bcab78faa7@bootlin.com>
-Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>,
- linux-kernel@vger.kernel.org, jbaron@akamai.com,
- gregkh@linuxfoundation.org, ukaszb@chromium.org,
- intel-gfx-trybot@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
- ville.syrjala@linux.intel.com
-References: <20250125064619.8305-1-jim.cromie@gmail.com>
- <20250125064619.8305-20-jim.cromie@gmail.com>
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAA089823
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 14:20:37 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-22100006bc8so100012535ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 06:20:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740493237; x=1741098037; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pH6kCz8lTpjp3q7JFqjKA+FgBtUVtLCpjnGefR5mF5k=;
+ b=jjfAYyteL00liMcKk4anHikXwPJLNchsuZSPvS9jWOTp07hmUfH/1qw/vfvsTIbeCV
+ lAHvwp8QYMKj6MEPqro9Gw4+7qTRZ6PLmJG109/XYbDXhYWfAa9s5DoWFKafZ00XCocZ
+ pyuzQ5HvnCiS2zfgbYk+VBPLhkoCsECEhgDWokoymMUiaNB38UTOGcUM8wfysuABDRy6
+ 1Jp8ufOk31TyCqeaZnrTNEG0vwmcRbj9jET7YA8/LI07ljjrFmJoynOjluP0u/rKjHIr
+ Pv8mgMvCTjZeynO+V63GCo+/YhY8nOUHo8Myzcp7mbGHJ5kNlFE057xS+99l1bRVHJZF
+ uW3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740493237; x=1741098037;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pH6kCz8lTpjp3q7JFqjKA+FgBtUVtLCpjnGefR5mF5k=;
+ b=rFqnkcV707PJ5SAwDrpRDExMNyiAzk4yU3Y9/MJKDBYv4jX4m4DVYIXe3+kCJtUwsK
+ roFAy1JlDxuUHt/1jszhSR8XygdG1FwUpNqZXNLWWxFzM3rvZSzCNURGtXe+ZQZDEyZV
+ jPWjeQKp8qWuoPuTth4LBLLxPcp5Bz4erxTWwjWX1QtYne8Dpe6iGPXX5WppstG/EcVm
+ YS0cL3GqUCaiGLs99j61a2CoNG3WM+kjkFsCTZL+lsxi5XyOYDzlWWW5o/T2usateiha
+ t36Y1UjEh2UIrXCK22xg+eBoXawu8X9MBslcAq/FNy7L0p0EXGeIJujLInpZpecAA08O
+ pvPw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWsSCV9Lf9bIwRScGLEEGsCJr3RwaRezoMeKZfETjJXj42xT5WNb3CWlHFGOxtt6+iyAczFoyvW8kI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywmA0Ths4UkRB5u/djZqcDJ9xp1o+cPiSANFv/MYI8KpUE48Wx
+ YGf8aeIUQbGCl8D+w3xcL0u7dUc7qDfl2XnNOo+I7Kgwn7IzkdKN
+X-Gm-Gg: ASbGncvFxsOXcq0m3TL4dl9HboOVhaHeBHm6Jb8di+eBAFrLq47wYUTsDmKAq1LwSws
+ vlTF5mTgn7GiJpUT3cfLhdkCvLAmylCKLzdjcbLsdHqAZa0otOHipgu7Mgsf7/qZL+sn/+tbHws
+ 4g/xpRpZcUIhctRgjub1HQ1SFan7y9K1G8zXwkDu/xSWkXzaui2zAOGOiwDif4W3qrrEwyXZsys
+ qLe9077Xhg8zKxoqID2rNj/xW0DSlQMEClcw6WDJ9mAsNmJHcB3gGBv40fnZH3/yfvJrqUWC/3m
+ paZPQj2tOXDqMxHjvpSs3ondLJJ9MNVBZaDbx/NHp4IezGuIjM1NGw==
+X-Google-Smtp-Source: AGHT+IF5xwcyMuEse5d6U24DTrm7La/i/EXLcWUjTbDTBaLHgklr2LYp0Shxn4PZ0SRkVV82FkT4WQ==
+X-Received: by 2002:a05:6a00:3392:b0:730:9946:5973 with SMTP id
+ d2e1a72fcca58-734790a2af5mr5118831b3a.5.1740493236834; 
+ Tue, 25 Feb 2025 06:20:36 -0800 (PST)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7347a72ef60sm1586035b3a.75.2025.02.25.06.20.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 06:20:36 -0800 (PST)
+Date: Tue, 25 Feb 2025 22:20:26 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org,
+ awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <Z73RqnMRS+31wzrv@visitorckw-System-Product-Name>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <Z7zIBwH4aUA7G9MY@thinkpad>
+ <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250125064619.8305-20-jim.cromie@gmail.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudeiffduffeivdejgfejheeuudekkedvjeeuffegfefghfffkeelgffgieevudejnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehjihhmrdgtrhhomhhivgesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsggrrhhonhesrghkrghmrghirdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnr
- dhorhhgpdhrtghpthhtohepuhhkrghsiigssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigqdhtrhihsghotheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,394 +113,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 25/01/2025 à 07:45, Jim Cromie a écrit :
-> struct _ddebug_info's jobs is to enapsulate the __sections of dyndbg
-> data from the linker.  The data started as a single pair of fields:
-> descs - ref'g an array of descriptors & num_descs - counting the
-> "pertinent" descriptors.  Then classes & num_classes were added, and
-> _ddebug_info was invented to contain the 4 fields.
+On Tue, Feb 25, 2025 at 09:29:51PM +0800, Kuan-Wei Chiu wrote:
+> Hi Yury,
 > 
-> When class_users & num_class_users were added (earlier in this
-> series), the easy path was to replicate functions and adapt them to
-> work on ddebug_class_users, instead of class_maps.  This worked, but
-> made repetitive boilerplate code, leading to (other commits with)
-> macros walking num_##{classes,class_users} to capture the repetition.
+> On Mon, Feb 24, 2025 at 02:27:03PM -0500, Yury Norov wrote:
+> > On Mon, Feb 24, 2025 at 12:42:02AM +0800, Kuan-Wei Chiu wrote:
+> > > Several parts of the kernel open-code parity calculations using
+> > > different methods. Add a generic parity64() helper implemented with the
+> > > same efficient approach as parity8().
+> > 
+> > No reason to add parity32() and parity64() in separate patches
 > 
-> To fix it better, create structs to contain start,len for vectors of
-> all 3 objects: classmaps, class_users, and pr_debug descriptors, and
-> adjust field-refs accordingly.
+> Ack.
 > 
-> Also recompose struct ddebug_table to contain a _ddebug_info (rather
-> than repeat the contents, as before), and adjust all array-walks to
-> use the newly contained info.
+> >  
+> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > ---
+> > >  include/linux/bitops.h | 22 ++++++++++++++++++++++
+> > >  1 file changed, 22 insertions(+)
+> > > 
+> > > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > > index fb13dedad7aa..67677057f5e2 100644
+> > > --- a/include/linux/bitops.h
+> > > +++ b/include/linux/bitops.h
+> > > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+> > >  	return (0x6996 >> (val & 0xf)) & 1;
+> > >  }
+> > >  
+> > > +/**
+> > > + * parity64 - get the parity of an u64 value
+> > > + * @value: the value to be examined
+> > > + *
+> > > + * Determine the parity of the u64 argument.
+> > > + *
+> > > + * Returns:
+> > > + * 0 for even parity, 1 for odd parity
+> > > + */
+> > > +static inline int parity64(u64 val)
+> > > +{
+> > > +	/*
+> > > +	 * One explanation of this algorithm:
+> > > +	 * https://funloop.org/codex/problem/parity/README.html
+> > 
+> > This is already referenced in sources. No need to spread it for more.
 > 
-> This allows ridding the class* macros of the num##<T> paste-up, and
-> should enable further cleanups.
+> Ack.
 > 
-> NB: The __packed attribute on _ddebug_info and the 3 contained structs
-> closes the holes otherwise created by the structification (which was
-> the excuse for not doing it originally).
+> > 
+> > > +	 */
+> > > +	val ^= val >> 32;
+> > > +	val ^= val >> 16;
+> > > +	val ^= val >> 8;
+> > > +	val ^= val >> 4;
+> > > +	return (0x6996 >> (val & 0xf)) & 1;
+> > 
+> > It's better to avoid duplicating the same logic again and again.
 > 
-> TBD: see if this can precede other patches, to reduce churn
-
-Hi Jim,
-
-This could be amazing if possible!
-
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-> ---
->   include/linux/dynamic_debug.h | 29 ++++++++---
->   kernel/module/main.c          | 18 +++----
->   lib/dynamic_debug.c           | 93 +++++++++++++++++------------------
->   3 files changed, 74 insertions(+), 66 deletions(-)
+> Ack.
 > 
-> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> index 2b0c943af330..48d76a273f68 100644
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -173,15 +173,28 @@ struct ddebug_class_user {
->   		.map = &(_var),						\
->   	}
->   
-> -/* encapsulate linker provided built-in (or module) dyndbg data */
-> +/*
-> + * @_ddebug_info: gathers module/builtin dyndbg_* __sections together.
-> + * For builtins, it is used as a cursor, with the inner structs
-> + * marking sub-vectors of the builtin __sections in DATA.
-> + */
-> +struct _ddebug_descs {
-> +	struct _ddebug *start;
-> +	int len;
-> +} __packed;
-> +struct dd_class_maps {
-> +	struct ddebug_class_map *start;
-> +	int len;
-> +} __packed;
-> +struct dd_class_users {
-> +	struct ddebug_class_user *start;
-> +	int len;
-> +} __packed;
->   struct _ddebug_info {
-> -	struct _ddebug *descs;
-> -	struct ddebug_class_map *classes;
-> -	struct ddebug_class_user *class_users;
-> -	unsigned int num_descs;
-> -	unsigned int num_classes;
-> -	unsigned int num_class_users;
-> -};
-> +	struct _ddebug_descs descs;
-> +	struct dd_class_maps maps;
-> +	struct dd_class_users users;
-> +} __packed;
->   
->   struct ddebug_class_param {
->   	union {
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index c394a0c6e8c6..858882a1eacd 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -2540,15 +2540,15 @@ static int find_module_sections(struct module *mod, struct load_info *info)
->   		pr_warn("%s: Ignoring obsolete parameters\n", mod->name);
->   
->   #ifdef CONFIG_DYNAMIC_DEBUG_CORE
-> -	mod->dyndbg_info.descs = section_objs(info, "__dyndbg",
-> -					      sizeof(*mod->dyndbg_info.descs),
-> -					      &mod->dyndbg_info.num_descs);
-> -	mod->dyndbg_info.classes = section_objs(info, "__dyndbg_classes",
-> -						sizeof(*mod->dyndbg_info.classes),
-> -						&mod->dyndbg_info.num_classes);
-> -	mod->dyndbg_info.class_users = section_objs(info, "__dyndbg_class_users",
-> -						    sizeof(*mod->dyndbg_info.class_users),
-> -						   &mod->dyndbg_info.num_class_users);
-> +	mod->dyndbg_info.descs.start = section_objs(info, "__dyndbg",
-> +						    sizeof(*mod->dyndbg_info.descs.start),
-> +						    &mod->dyndbg_info.descs.len);
-> +	mod->dyndbg_info.maps.start = section_objs(info, "__dyndbg_classes",
-> +						   sizeof(*mod->dyndbg_info.maps.start),
-> +						   &mod->dyndbg_info.maps.len);
-> +	mod->dyndbg_info.users.start = section_objs(info, "__dyndbg_class_users",
-> +						    sizeof(*mod->dyndbg_info.users.start),
-> +						    &mod->dyndbg_info.users.len);
->   #endif
->   
->   	return 0;
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 08b6e4e7489f..067db504dd1d 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -49,10 +49,7 @@ extern struct ddebug_class_user __stop___dyndbg_class_users[];
->   struct ddebug_table {
->   	struct list_head link;
->   	const char *mod_name;
-> -	struct _ddebug *ddebugs;
-> -	struct ddebug_class_map *classes;
-> -	struct ddebug_class_user *class_users;
-> -	unsigned int num_ddebugs, num_classes, num_class_users;
-> +	struct _ddebug_info info;
->   };
->   
->   struct ddebug_query {
-> @@ -154,8 +151,8 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
->   #define vpr_dt_info(dt_p, msg_p, ...) ({				\
->   	struct ddebug_table const *_dt = dt_p;				\
->   	v2pr_info(msg_p " module:%s nd:%d nc:%d nu:%d\n", ##__VA_ARGS__, \
-> -		  _dt->mod_name, _dt->num_ddebugs, _dt->num_classes,	\
-> -		  _dt->num_class_users);				\
-> +		  _dt->mod_name, _dt->info.descs.len, _dt->info.maps.len, \
-> +		  _dt->info.users.len);					\
->   	})
->   
->   /*
-> @@ -168,8 +165,8 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
->    * @_vec: name of a sub-struct member in _box, with array-ref and length
->    */
->   #define for_subvec(_i, _sp, _box, _vec)				       \
-> -	for ((_i) = 0, (_sp) = (_box)->_vec;			       \
-> -	     (_i) < (_box)->num_##_vec;				       \
-> +	for ((_i) = 0, (_sp) = (_box)->_vec.start;		       \
-> +	     (_i) < (_box)->_vec.len;				       \
->   	     (_i)++, (_sp)++)
->   
->   static int ddebug_find_valid_class(struct ddebug_table const *dt, const char *class_string)
-> @@ -178,14 +175,14 @@ static int ddebug_find_valid_class(struct ddebug_table const *dt, const char *cl
->   	struct ddebug_class_user *cli;
->   	int i, idx;
->   
-> -	for_subvec(i, map, dt, classes) {
-> +	for_subvec(i, map, &dt->info, maps) {
->   		idx = match_string(map->class_names, map->length, class_string);
->   		if (idx >= 0) {
->   			vpr_dt_info(dt, "good-class: %s.%s ", map->mod_name, class_string);
->   			return idx + map->base;
->   		}
->   	}
-> -	for_subvec(i, cli, dt, class_users) {
-> +	for_subvec(i, cli, &dt->info, users) {
->   		idx = match_string(cli->map->class_names, cli->map->length, class_string);
->   		if (idx >= 0) {
->   			vpr_dt_info(dt, "class-ref: %s -> %s.%s ",
-> @@ -229,8 +226,8 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
->   			valid_class = _DPRINTK_CLASS_DFLT;
->   		}
->   
-> -		for (i = 0; i < dt->num_ddebugs; i++) {
-> -			struct _ddebug *dp = &dt->ddebugs[i];
-> +		for (i = 0; i < dt->info.descs.len; i++) {
-> +			struct _ddebug *dp = &dt->info.descs.start[i];
->   
->   			/* match site against query-class */
->   			if (dp->class_id != valid_class)
-> @@ -990,8 +987,8 @@ static struct _ddebug *ddebug_iter_first(struct ddebug_iter *iter)
->   	}
->   	iter->table = list_entry(ddebug_tables.next,
->   				 struct ddebug_table, link);
-> -	iter->idx = iter->table->num_ddebugs;
-> -	return &iter->table->ddebugs[--iter->idx];
-> +	iter->idx = iter->table->info.descs.len;
-> +	return &iter->table->info.descs.start[--iter->idx];
->   }
->   
->   /*
-> @@ -1012,10 +1009,10 @@ static struct _ddebug *ddebug_iter_next(struct ddebug_iter *iter)
->   		}
->   		iter->table = list_entry(iter->table->link.next,
->   					 struct ddebug_table, link);
-> -		iter->idx = iter->table->num_ddebugs;
-> +		iter->idx = iter->table->info.descs.len;
->   		--iter->idx;
->   	}
-> -	return &iter->table->ddebugs[iter->idx];
-> +	return &iter->table->info.descs.start[iter->idx];
->   }
->   
->   /*
-> @@ -1064,15 +1061,15 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
->   
->   static const char *ddebug_class_name(struct ddebug_table *dt, struct _ddebug *dp)
->   {
-> -	struct ddebug_class_map *map = dt->classes;
-> -	struct ddebug_class_user *cli = dt->class_users;
-> +	struct ddebug_class_map *map;
-> +	struct ddebug_class_user *cli;
->   	int i;
->   
-> -	for (i = 0; i < dt->num_classes; i++, map++)
-> +	for_subvec(i, map, &dt->info, maps)
->   		if (class_in_range(dp->class_id, map))
->   			return map->class_names[dp->class_id - map->base];
->   
-> -	for (i = 0; i < dt->num_class_users; i++, cli++)
-> +	for_subvec(i, cli, &dt->info, users)
->   		if (class_in_range(dp->class_id, cli->map))
->   			return cli->map->class_names[dp->class_id - cli->map->base];
->   
-> @@ -1203,8 +1200,7 @@ static void ddebug_apply_params(const struct ddebug_class_map *cm, const char *m
->   
->   	if (cm->mod) {
->   		vpr_cm_info(cm, "loaded classmap: %s", modnm);
-> -		/* ifdef protects the cm->mod->kp deref */
-> -		for_subvec(i, kp, cm->mod, kp)
-> +		for (i = 0, kp = cm->mod->kp; i < cm->mod->num_kp; i++, kp++)
->   			ddebug_match_apply_kparam(kp, cm, modnm);
->   	}
->   #endif
-> @@ -1226,20 +1222,20 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt,
->   	struct ddebug_class_map *cm;
->   	int i, nc = 0;
->   
-> -	for_subvec(i, cm, di, classes) {
-> +	for_subvec(i, cm, di, maps) {
->   		if (!strcmp(cm->mod_name, dt->mod_name)) {
->   			vpr_cm_info(cm, "classes[%d]:", i);
->   			if (!nc++)
-> -				dt->classes = cm;
-> +				dt->info.maps.start = cm;
->   		}
->   	}
->   	if (!nc)
->   		return;
->   
->   	vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
-> -	dt->num_classes = nc;
-> +	dt->info.maps.len = nc;
->   
-> -	for_subvec(i, cm, dt, classes)
-> +	for_subvec(i, cm, &dt->info, maps)
->   		ddebug_apply_params(cm, cm->mod_name);
->   }
->   
-> @@ -1259,23 +1255,23 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
->   	 * module's refs, save to dt.  For loadables, this is the
->   	 * whole array.
->   	 */
-> -	for_subvec(i, cli, di, class_users) {
-> +	for_subvec(i, cli, di, users) {
->   		if (WARN_ON_ONCE(!cli || !cli->map || !cli->mod_name))
->   			continue;
->   		if (!strcmp(cli->mod_name, dt->mod_name)) {
->   			vpr_cm_info(cli->map, "class_ref[%d] %s -> %s", i,
->   				    cli->mod_name, cli->map->mod_name);
->   			if (!nc++)
-> -				dt->class_users = cli;
-> +				dt->info.users.start = cli;
->   		}
->   	}
->   	if (!nc)
->   		return;
->   
-> -	dt->num_class_users = nc;
-> +	dt->info.users.len = nc;
->   
->   	/* now iterate dt */
-> -	for_subvec(i, cli, di, class_users)
-> +	for_subvec(i, cli, di, users)
->   		ddebug_apply_params(cli->map, cli->mod_name);
->   
->   	vpr_dt_info(dt, "attach-client-module: ");
-> @@ -1291,10 +1287,10 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
->   	struct _ddebug *iter;
->   	int i, class_ct = 0;
->   
-> -	if (!di->num_descs)
-> +	if (!di->descs.len)
->   		return 0;
->   
-> -	v3pr_info("add-module: %s %d sites\n", modname, di->num_descs);
-> +	v3pr_info("add-module: %s %d sites\n", modname, di->descs.len);
->   
->   	dt = kzalloc(sizeof(*dt), GFP_KERNEL);
->   	if (dt == NULL) {
-> @@ -1308,8 +1304,7 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
->   	 * this struct ddebug_table.
->   	 */
->   	dt->mod_name = modname;
-> -	dt->ddebugs = di->descs;
-> -	dt->num_ddebugs = di->num_descs;
-> +	dt->info.descs = di->descs;
->   
->   	INIT_LIST_HEAD(&dt->link);
->   
-> @@ -1317,17 +1312,17 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
->   		if (iter->class_id != _DPRINTK_CLASS_DFLT)
->   			class_ct++;
->   
-> -	if (class_ct && di->num_classes)
-> +	if (class_ct && di->maps.len)
->   		ddebug_attach_module_classes(dt, di);
->   
->   	mutex_lock(&ddebug_lock);
->   	list_add_tail(&dt->link, &ddebug_tables);
->   	mutex_unlock(&ddebug_lock);
->   
-> -	if (class_ct && di->num_class_users)
-> +	if (class_ct && di->users.len)
->   		ddebug_attach_user_module_classes(dt, di);
->   
-> -	vpr_info("%3u debug prints in module %s\n", di->num_descs, modname);
-> +	vpr_info("%3u debug prints in module %s\n", di->descs.len, modname);
->   	return 0;
->   }
->   
-> @@ -1474,12 +1469,12 @@ static int __init dynamic_debug_init(void)
->   	char *cmdline;
->   
->   	struct _ddebug_info di = {
-> -		.descs = __start___dyndbg,
-> -		.classes = __start___dyndbg_classes,
-> -		.class_users = __start___dyndbg_class_users,
-> -		.num_descs = __stop___dyndbg - __start___dyndbg,
-> -		.num_classes = __stop___dyndbg_classes - __start___dyndbg_classes,
-> -		.num_class_users = __stop___dyndbg_class_users - __start___dyndbg_class_users,
-> +		.descs.start = __start___dyndbg,
-> +		.maps.start = __start___dyndbg_classes,
-> +		.users.start = __start___dyndbg_class_users,
-> +		.descs.len = __stop___dyndbg - __start___dyndbg,
-> +		.maps.len = __stop___dyndbg_classes - __start___dyndbg_classes,
-> +		.users.len = __stop___dyndbg_class_users - __start___dyndbg_class_users,
->   	};
->   
->   #ifdef CONFIG_MODULES
-> @@ -1508,8 +1503,8 @@ static int __init dynamic_debug_init(void)
->   
->   		if (strcmp(modname, iter->modname)) {
->   			mod_ct++;
-> -			di.num_descs = mod_sites;
-> -			di.descs = iter_mod_start;
-> +			di.descs.len = mod_sites;
-> +			di.descs.start = iter_mod_start;
->   			ret = ddebug_add_module(&di, modname);
->   			if (ret)
->   				goto out_err;
-> @@ -1519,8 +1514,8 @@ static int __init dynamic_debug_init(void)
->   			iter_mod_start = iter;
->   		}
->   	}
-> -	di.num_descs = mod_sites;
-> -	di.descs = iter_mod_start;
-> +	di.descs.len = mod_sites;
-> +	di.descs.start = iter_mod_start;
->   	ret = ddebug_add_module(&di, modname);
->   	if (ret)
->   		goto out_err;
-> @@ -1530,8 +1525,8 @@ static int __init dynamic_debug_init(void)
->   		 i, mod_ct, (int)((mod_ct * sizeof(struct ddebug_table)) >> 10),
->   		 (int)((i * sizeof(struct _ddebug)) >> 10));
->   
-> -	if (di.num_classes)
-> -		v2pr_info("  %d builtin ddebug class-maps\n", di.num_classes);
-> +	if (di.maps.len)
-> +		v2pr_info("  %d builtin ddebug class-maps\n", di.maps.len);
->   
->   	/* now that ddebug tables are loaded, process all boot args
->   	 * again to find and activate queries given in dyndbg params.
+> > 
+> > > +}
+> > > +
+> > 
+> > So maybe make it a macro?
+> > 
+> > 
+> > From f17a28ae3429f49825d65ebc0f7717c6a191a3e2 Mon Sep 17 00:00:00 2001
+> > From: Yury Norov <yury.norov@gmail.com>
+> > Date: Mon, 24 Feb 2025 14:14:27 -0500
+> > Subject: [PATCH] bitops: generalize parity8()
+> > 
+> > The generic parity calculation approach may be easily generalized for
+> > other standard types. Do that and drop sub-optimal implementation of
+> > parity calculation in x86 code.
+> > 
+> > Signed-off-by: Yury Norov [NVIDIA] <yury.norov@gmail.com>
+> > ---
+> >  arch/x86/kernel/bootflag.c | 14 +-----------
+> >  include/linux/bitops.h     | 47 +++++++++++++++++++++++++++-----------
+> >  2 files changed, 35 insertions(+), 26 deletions(-)
+> > 
+> > diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
+> > index 3fed7ae58b60..4a85c69a28f8 100644
+> > --- a/arch/x86/kernel/bootflag.c
+> > +++ b/arch/x86/kernel/bootflag.c
+> > @@ -2,6 +2,7 @@
+> >  /*
+> >   *	Implement 'Simple Boot Flag Specification 2.0'
+> >   */
+> > +#include <linux/bitops.h>
+> >  #include <linux/types.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/init.h>
+> > @@ -20,19 +21,6 @@
+> >  
+> >  int sbf_port __initdata = -1;	/* set via acpi_boot_init() */
+> >  
+> > -static int __init parity(u8 v)
+> > -{
+> > -	int x = 0;
+> > -	int i;
+> > -
+> > -	for (i = 0; i < 8; i++) {
+> > -		x ^= (v & 1);
+> > -		v >>= 1;
+> > -	}
+> > -
+> > -	return x;
+> > -}
+> > -
+> >  static void __init sbf_write(u8 v)
+> >  {
+> >  	unsigned long flags;
+> > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > index c1cb53cf2f0f..29601434f5f4 100644
+> > --- a/include/linux/bitops.h
+> > +++ b/include/linux/bitops.h
+> > @@ -230,10 +230,10 @@ static inline int get_count_order_long(unsigned long l)
+> >  }
+> >  
+> >  /**
+> > - * parity8 - get the parity of an u8 value
+> > + * parity - get the parity of a value
+> >   * @value: the value to be examined
+> >   *
+> > - * Determine the parity of the u8 argument.
+> > + * Determine parity of the argument.
+> >   *
+> >   * Returns:
+> >   * 0 for even parity, 1 for odd parity
+> > @@ -241,24 +241,45 @@ static inline int get_count_order_long(unsigned long l)
+> >   * Note: This function informs you about the current parity. Example to bail
+> >   * out when parity is odd:
+> >   *
+> > - *	if (parity8(val) == 1)
+> > + *	if (parity(val) == 1)
+> >   *		return -EBADMSG;
+> >   *
+> >   * If you need to calculate a parity bit, you need to draw the conclusion from
+> >   * this result yourself. Example to enforce odd parity, parity bit is bit 7:
+> >   *
+> > - *	if (parity8(val) == 0)
+> > + *	if (parity(val) == 0)
+> >   *		val ^= BIT(7);
+> > + *
+> > + * One explanation of this algorithm:
+> > + * https://funloop.org/codex/problem/parity/README.html
+> >   */
+> > -static inline int parity8(u8 val)
+> > -{
+> > -	/*
+> > -	 * One explanation of this algorithm:
+> > -	 * https://funloop.org/codex/problem/parity/README.html
+> > -	 */
+> > -	val ^= val >> 4;
+> > -	return (0x6996 >> (val & 0xf)) & 1;
+> > -}
+> > +#define parity(val)					\
+> > +({							\
+> > +	u64 __v = (val);				\
+> > +	int __ret;					\
+> > +	switch (BITS_PER_TYPE(val)) {			\
+> > +	case 64:					\
+> > +		__v ^= __v >> 32;			\
+> > +		fallthrough;				\
+> > +	case 32:					\
+> > +		__v ^= __v >> 16;			\
+> > +		fallthrough;				\
+> > +	case 16:					\
+> > +		__v ^= __v >> 8;			\
+> > +		fallthrough;				\
+> > +	case 8:						\
+> > +		__v ^= __v >> 4;			\
+> > +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
+> > +		break;					\
+> > +	default:					\
+> > +		BUILD_BUG();				\
+> > +	}						\
+> > +	__ret;						\
+> > +})
+> > +
+> > +#define parity8(val)	parity((u8)(val))
+> > +#define parity32(val)	parity((u32)(val))
+> > +#define parity64(val)	parity((u64)(val))
+> >  
+> What do you think about using these inline functions instead of macros?
+> Except for parity8(), each function is a single line and follows the
+> same logic. I find inline functions more readable, and coding-style.rst
+> also recommends them over macros.
+> 
+> Regards,
+> Kuan-Wei
+> 
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index c1cb53cf2f0f..d518a382f1fe 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -260,6 +260,26 @@ static inline int parity8(u8 val)
+>  	return (0x6996 >> (val & 0xf)) & 1;
+>  }
+>  
+> +static inline parity16(u16 val)
+> +{
+> +	return parity8(val ^ (val >> 8));
+> +}
+> +
+> +static inline parity16(u16 val)
+> +{
+> +	return parity8(val ^ (val >> 8));
+> +}
+> +
+> +static inline parity32(u32)
+> +{
+> +	return parity16(val ^ (val >> 16));
+> +}
+> +
+> +static inline parity64(u64)
+> +{
+> +	return parity32(val ^ (val >> 32));
+> +}
+> +
+>  /**
+>   * __ffs64 - find first set bit in a 64 bit word
+>   * @word: The 64 bit word
+> 
+>
+Oops... I made a lot of fat-finger mistakes. Here's the correct one.
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+index c1cb53cf2f0f..427e4c06055e 100644
+--- a/include/linux/bitops.h
++++ b/include/linux/bitops.h
+@@ -260,6 +260,21 @@ static inline int parity8(u8 val)
+ 	return (0x6996 >> (val & 0xf)) & 1;
+ }
+ 
++static inline int parity16(u16 val)
++{
++	return parity8(val ^ (val >> 8));
++}
++
++static inline int parity32(u32 val)
++{
++	return parity16(val ^ (val >> 16));
++}
++
++static inline int parity64(u64 val)
++{
++	return parity32(val ^ (val >> 32));
++}
++
+ /**
+  * __ffs64 - find first set bit in a 64 bit word
+  * @word: The 64 bit word
 
+
+> >  /**
+> >   * __ffs64 - find first set bit in a 64 bit word
+> > -- 
+> > 2.43.0
+> > 
