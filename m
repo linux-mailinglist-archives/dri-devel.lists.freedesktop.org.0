@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BDBA443D5
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E6DA443DD
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:06:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBFE10E704;
-	Tue, 25 Feb 2025 15:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6F010E722;
+	Tue, 25 Feb 2025 15:06:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MLWQZpXz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I80wjH0y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4526210E704
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 15:05:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740495905;
- bh=xCTtrHDdXUTIma0E6i1UNMQGYB9gWHwdyQbD5ikxQig=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MLWQZpXzxGEwiizt3jBSXSieYKq5MHfftP6Zw4kzkzUVZ6eyd+EhyCwqgrrWqKnt7
- mFhuEpstRuKMWuY+ONICCuMs6jxVOefolMEMx5fOWERsqa33NhtVvhDv70yl289oP6
- QD/r/0Al8nXN/t34OV6fYGmiWrNsv0jvWyplMxHH6Rj7Mth47iRccC2Plk0YxNcWoC
- Sb43qL4SUXJBtWDfBwra2nSbj9AzwcDhlED0Vs4poJMHQNRryp3taSnw7qgZUGqv5k
- sRN3og3MfutSmqt5eUrelyAn8fTtH15NvKNbyskHebDYD083sC0+boRJRBaEdwVnSR
- P0h26cIWx6I2A==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9FB5217E0CFA;
- Tue, 25 Feb 2025 16:05:04 +0100 (CET)
-Date: Tue, 25 Feb 2025 16:04:59 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Steven
- Price <steven.price@arm.com>, Rob Herring <robh@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com
-Subject: Re: [RFC PATCH 6/7] drm/panfrost: Use shmem sparse allocation for
- heap BOs
-Message-ID: <20250225160459.664ce342@collabora.com>
-In-Reply-To: <20250218232552.3450939-7-adrian.larumbe@collabora.com>
-References: <20250218232552.3450939-1-adrian.larumbe@collabora.com>
- <20250218232552.3450939-7-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC1F710E71B;
+ Tue, 25 Feb 2025 15:06:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id F33FD5C05BB;
+ Tue, 25 Feb 2025 15:05:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17319C4CEE6;
+ Tue, 25 Feb 2025 15:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740495969;
+ bh=kIzpWgLCcE7L4I8PudX2xwqeT82m7xGRh8clcilUdQg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I80wjH0yESR6jSXjrLsl16Zz2CVyrakKYFjoS+OiKY7LVRV4bmBSXzXqasQtY+YjW
+ Ug1zX4Cf2rQWxBozwEozVIlYRfwUpTCN35TyAUDr2VJvpVmgTIDiHy3yvvf/4HosPu
+ DcA0SAyOpgOciaUazuiQ8V+CaFBU+nCsLbZb9Usz7vGMIjcki2xwSdQ9HYf7NFf5N/
+ UPERGOs0JR8LLRimKkDavjt+rNJ6PQ8RMU+dIRKqGTyx+QJmLiandXCMub+OkWseqt
+ 0qlE1nuimyCp+zJZlc4f/3uxY9Mc6nejmh6nURuO09f6piveosX2kDmM9vVO33ImWU
+ rt/NtQ3ByELhw==
+Date: Tue, 25 Feb 2025 16:06:04 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Nouveau <nouveau-bounces@lists.freedesktop.org>
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z73cXGkookq5-NON@cassiopeiae>
+References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
+ <Z7OrKX3zzjrzZdyz@pollux>
+ <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
+ <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
+ <D81L5PE1SPWC.O56MB6SRS0XK@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D81L5PE1SPWC.O56MB6SRS0XK@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,73 +66,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Feb 2025 23:25:36 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+On Tue, Feb 25, 2025 at 11:11:07PM +0900, Alexandre Courbot wrote:
+> On Mon Feb 24, 2025 at 9:07 PM JST, Danilo Krummrich wrote:
+> > CC: Gary
+> >
+> > On Mon, Feb 24, 2025 at 10:40:00AM +0900, Alexandre Courbot wrote:
+> >> This inability to sleep while we are accessing registers seems very
+> >> constraining to me, if not dangerous. It is pretty common to have
+> >> functions intermingle hardware accesses with other operations that might
+> >> sleep, and this constraint means that in such cases the caller would
+> >> need to perform guard lifetime management manually:
+> >> 
+> >>   let bar_guard = bar.try_access()?;
+> >>   /* do something non-sleeping with bar_guard */
+> >>   drop(bar_guard);
+> >> 
+> >>   /* do something that might sleep */
+> >> 
+> >>   let bar_guard = bar.try_access()?;
+> >>   /* do something non-sleeping with bar_guard */
+> >>   drop(bar_guard);
+> >> 
+> >>   ...
+> >> 
+> >> Failure to drop the guard potentially introduces a race condition, which
+> >> will receive no compile-time warning and potentialy not even a runtime
+> >> one unless lockdep is enabled. This problem does not exist with the
+> >> equivalent C code AFAICT, which makes the Rust version actually more
+> >> error-prone and dangerous, the opposite of what we are trying to achieve
+> >> with Rust. Or am I missing something?
+> >
+> > Generally you are right, but you have to see it from a different perspective.
+> >
+> > What you describe is not an issue that comes from the design of the API, but is
+> > a limitation of Rust in the kernel. People are aware of the issue and with klint
+> > [1] there are solutions for that in the pipeline, see also [2] and [3].
+> >
+> > [1] https://rust-for-linux.com/klint
+> > [2] https://github.com/Rust-for-Linux/klint/blob/trunk/doc/atomic_context.md
+> > [3] https://www.memorysafety.org/blog/gary-guo-klint-rust-tools/
+> 
+> Thanks, I wasn't aware of klint and it looks indeed cool, even if not perfect by
+> its own admission. But even if the ignore the safety issue, the other one
+> (ergonomics) is still there.
+> 
+> Basically this way of accessing registers imposes quite a mental burden on its
+> users. It requires a very different (and harsher) discipline than when writing
+> the same code in C
 
-> Panfrost heap BOs grow on demand when the GPU triggers a page fault after
-> accessing an address within the BO's virtual range.
->=20
-> We still store the sgts we get back from the shmem sparse allocation func=
-tion,
-> since it was decided management of sparse memory SGTs should be done by c=
-lient
-> drivers rather than the shmem subsystem.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 12 ++--
->  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_mmu.c | 85 +++++--------------------
->  3 files changed, 25 insertions(+), 74 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.c
-> index 8e0ff3efede7..0cda2c4e524f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -40,10 +40,10 @@ static void panfrost_gem_free_object(struct drm_gem_o=
-bject *obj)
->  		int n_sgt =3D bo->base.base.size / SZ_2M;
-> =20
->  		for (i =3D 0; i < n_sgt; i++) {
-> -			if (bo->sgts[i].sgl) {
-> -				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
-> +			if (bo->sgts[i]) {
-> +				dma_unmap_sgtable(pfdev->dev, bo->sgts[i],
->  						  DMA_BIDIRECTIONAL, 0);
-> -				sg_free_table(&bo->sgts[i]);
-> +				sg_free_table(bo->sgts[i]);
->  			}
->  		}
->  		kvfree(bo->sgts);
-> @@ -274,7 +274,11 @@ panfrost_gem_create(struct drm_device *dev, size_t s=
-ize, u32 flags)
->  	if (flags & PANFROST_BO_HEAP)
->  		size =3D roundup(size, SZ_2M);
-> =20
-> -	shmem =3D drm_gem_shmem_create(dev, size);
-> +	if (flags & PANFROST_BO_HEAP)
-> +		shmem =3D drm_gem_shmem_create_sparse(dev, size);
-> +	else
-> +		shmem =3D drm_gem_shmem_create(dev, size);
-> +
->  	if (IS_ERR(shmem))
->  		return ERR_CAST(shmem);
-> =20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.h
-> index 7516b7ecf7fe..2a8d0752011e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -11,7 +11,7 @@ struct panfrost_mmu;
-> =20
->  struct panfrost_gem_object {
->  	struct drm_gem_shmem_object base;
-> -	struct sg_table *sgts;
-> +	struct sg_table **sgts;
+We need similar solutions in C too, see drm_dev_enter() / drm_dev_exit() and
+drm_dev_unplug().
 
-I guess using an xarray here would make sense. Or maybe even an
-sg_append_table, since we don't expect holes in the populated pages.
-This makes me wonder if we really want the gem_shmem layer to automate
-sgt creation for sparse GEM objects. Looks like something the driver
-can easily optimize for its use-case.
+> and the correct granularity to use is unclear to me.
+> 
+> For instance, if I want to do the equivalent of Nouveau's nvkm_usec() to poll a
+> particular register in a busy loop, should I call try_access() once before the
+> loop? Or every time before accessing the register?
+
+I think we should re-acquire the guard in each iteration and drop it before the
+delay. I think a simple closure would work very well for this pattern?
+
+> I'm afraid having to check
+> that the resource is still alive before accessing any register is going to
+> become tedious very quickly.
+> 
+> I understand that we want to protect against accessing the IO region of an
+> unplugged device ; but still there is no guarantee that the device won't be
+> unplugged in the middle of a critical section, however short. Thus the driver
+> code should be able to recognize that the device has fallen off the bus when it
+> e.g. gets a bunch of 0xff instead of a valid value. So do we really need to
+> extra protection that AFAICT isn't used in C?
+
+As mentioned above, we already do similar things in C.
+
+Also, think about what's the alternative. If we remove the Devres wrapper of
+pci::Bar, we lose the control over the lifetime of the bar mapping and it can
+easily out-live the device / driver binding. This makes the API unsound.
+
+With this drivers would be able to keep resources acquired. What if after a
+hotplug the physical address region is re-used and to be mapped by another
+driver?
