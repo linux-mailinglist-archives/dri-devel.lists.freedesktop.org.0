@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA31A44E83
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 22:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0411A44EC1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 22:26:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1010110E1C9;
-	Tue, 25 Feb 2025 21:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B8010E7F3;
+	Tue, 25 Feb 2025 21:26:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="bHA9pBSy";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="siYU52+w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7458E10E10E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 21:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
- t=1740518094; bh=V8zm/T/v89iW7Qxn5c4OjobqRw0lXZC27c2iSEMOnn8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=bHA9pBSyZxybVLBkGBxL+XQPqfwe7PIMBtMoImfwremXWYF7+4ujNADL8TOlNCZAI
- xn45l+mjxxr0GRIa98XIbwhIZU+ErfQH9m1JHM09OQAxXGLc3ctdf1SqDU3JIXJRNQ
- 5Ik7PwoEvLkXS2cl/J8cWygkyFHh7/xLFLweVQfk=
-From: Luca Weiss <luca@lucaweiss.eu>
-Date: Tue, 25 Feb 2025 22:14:32 +0100
-Subject: [PATCH v2 4/4] arm64: dts: qcom: sdm632-fairphone-fp3: Enable
- display and GPU
+Received: from smtp.smtpout.orange.fr (smtp-72.smtpout.orange.fr
+ [80.12.242.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58E8910E7F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 21:26:00 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id n2R0tkeFQ4iG7n2R3t60Fm; Tue, 25 Feb 2025 22:25:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1740518758;
+ bh=CDOnVbuHRa5TlckniZ+QbcxrKwAHtppPzAjAscxNHSY=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=siYU52+wZ9L1fww+iQDN9rtYX6/aPczL9atUE2l26+nq1Ri8dh3TYGdKOZSOl8FUk
+ XrbU+P2TpuXPZmylEcNVhm7IGsserFCZYBNjOT562ZUYjLqKjMa1SJH893MOHidh6R
+ OQATR7VDki3fiHZfHEF2JqtwL04PZvB0Oj0pypFUs2f2NaghtKWNKg5zY+oKMy9gx3
+ hJDV0lXDGXzAw1PjH65vHLOKoP3lFuSvJzAbZkaII3cDH1jfDHrdCDL8+lHftSY/+S
+ CY90Fz3FaFYxcLZzbR4khlsrjLfgaLUxO0uOmAn+6ltyDhAKQJ99yzzK2ZVeFXSo2U
+ OrHC+r+ja1CFQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 25 Feb 2025 22:25:58 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <44dd2b5b-d91c-4daf-ab75-ed4030180028@wanadoo.fr>
+Date: Tue, 25 Feb 2025 22:25:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-fp3-display-v2-4-0b1f05915fae@lucaweiss.eu>
-References: <20250225-fp3-display-v2-0-0b1f05915fae@lucaweiss.eu>
-In-Reply-To: <20250225-fp3-display-v2-0-0b1f05915fae@lucaweiss.eu>
-To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Luca Weiss <luca@lucaweiss.eu>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3207; i=luca@lucaweiss.eu;
- h=from:subject:message-id; bh=V8zm/T/v89iW7Qxn5c4OjobqRw0lXZC27c2iSEMOnn8=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBnvjLLLxC/LXvqZR548r1l8YFfBF2H/HiCQs346
- JBrmX4EdJaJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZ74yywAKCRBy2EO4nU3X
- Vq5ID/9mkGZ+E3Mi1lgJtZ0A+laMbxyjekOKGBvkS0VKwBQcRvRCq17iXyJlQeh4fDKbm00aiFU
- v/58MYo39g9G6Wxqi/0zrE5a+QNf2qYoYu9BJGpi7t7Sy5KUBUUf45yT1zk2XvZzrOiepmVipV0
- mowzmFBaihCmdO37D8PiqcOaCHkG8sWLu/4IKuvNSAFZWO1uhmpY09u/Rs3DdehW0XTyvAxolHP
- b5raB9EjvJZIs2U7VQGVBtxpvtJwSNBrqOCwGZi+VaYbwP4p/9VekdZoIogiPDYUKAhieiMujuK
- 8Shka3vkvE/j/5x7NGEM5/UkrFgyA9lodTwWmC+tAov5pqZLgxAssU9R8Ec1yEvsMRi5p+bz5oD
- iaM8ad6N9MLnsCVv9UDUpnidpooLORlhZVM+G9TMIIpjd3b9pun/jf8QF9ziOXuXOPU8klpNwYh
- ExPnQUjQUeSWM31xAwLjthNtO1HkVSWTo0RBGbuuDzlV4+Zc+5kbBoKOGnMscLHspBjG5hYEawu
- +f3+5C+wKdOzZXrAeUik1PmpuoaFo3w8eMzVov/dk4JZM+3fVOUC4/54Y9jJvf4GKE3JB+SzkjT
- drjsKBg8eGXFAbf43zkiCzYMAQUU2vuKqIcAMLrXG5oqagllvGgYd2d3LUwgo7xFAN1vZqVrbyd
- HzpS/hAXEzmmbyg==
-X-Developer-Key: i=luca@lucaweiss.eu; a=openpgp;
- fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/16] libceph: convert timeouts to secs_to_jiffies()
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Frank.Li@nxp.com, James.Bottomley@HansenPartnership.com,
+ Julia.Lawall@inria.fr, Shyam-sundar.S-k@amd.com, akpm@linux-foundation.org,
+ axboe@kernel.dk, broonie@kernel.org, cassel@kernel.org, cem@kernel.org,
+ ceph-devel@vger.kernel.org, clm@fb.com, cocci@inria.fr,
+ dick.kennedy@broadcom.com, djwong@kernel.org, dlemoal@kernel.org,
+ dongsheng.yang@easystack.cn, dri-devel@lists.freedesktop.org,
+ dsterba@suse.com, festevam@gmail.com, hch@lst.de, hdegoede@redhat.com,
+ hmh@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net, idryomov@gmail.com,
+ ilpo.jarvinen@linux.intel.com, imx@lists.linux.dev,
+ james.smart@broadcom.com, jgg@ziepe.ca, josef@toxicpanda.com,
+ kalesh-anakkur.purayil@broadcom.com, kbusch@kernel.org,
+ kernel@pengutronix.de, leon@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-xfs@vger.kernel.org,
+ martin.petersen@oracle.com, nicolas.palix@imag.fr, ogabbay@kernel.org,
+ perex@perex.cz, platform-driver-x86@vger.kernel.org, s.hauer@pengutronix.de,
+ sagi@grimberg.me, selvin.xavier@broadcom.com, shawnguo@kernel.org,
+ sre@kernel.org, tiwai@suse.com, xiubli@redhat.com, yaron.avizrat@intel.com
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+ <20250225-converge-secs-to-jiffies-part-two-v3-7-a43967e36c88@linux.microsoft.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-7-a43967e36c88@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,128 +82,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the description for the display panel found on this phone.
-Unfortunately the LCDB module on PMI632 isn't yet supported upstream so
-we need to use a dummy regulator-fixed in the meantime.
+Le 25/02/2025 à 21:17, Easwar Hariharan a écrit :
+> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+> secs_to_jiffies().  As the value here is a multiple of 1000, use
+> secs_to_jiffies() instead of msecs_to_jiffies() to avoid the multiplication
+> 
+> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+> the following Coccinelle rules:
+> 
+> @depends on patch@ expression E; @@
+> 
+> -msecs_to_jiffies(E * 1000)
+> +secs_to_jiffies(E)
+> 
+> @depends on patch@ expression E; @@
+> 
+> -msecs_to_jiffies(E * MSEC_PER_SEC)
+> +secs_to_jiffies(E)
+> 
+> While here, remove the no-longer necessary checks for range since there's
+> no multiplication involved.
 
-And with this done we can also enable the GPU and set the zap shader
-firmware path.
+No sure it is correct.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
----
- arch/arm64/boot/dts/qcom/msm8953.dtsi             |  2 +-
- arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts | 62 +++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 1 deletion(-)
+Same comment as on patch 06/16, available at [1].
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8953.dtsi b/arch/arm64/boot/dts/qcom/msm8953.dtsi
-index af4c341e2533ef2cca593e0dc97003334d3fd6b7..6f5e6c407194d16682d1e6401fd4d10f3b73c195 100644
---- a/arch/arm64/boot/dts/qcom/msm8953.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8953.dtsi
-@@ -1072,7 +1072,7 @@ gpu: gpu@1c00000 {
- 
- 			status = "disabled";
- 
--			zap-shader {
-+			gpu_zap_shader: zap-shader {
- 				memory-region = <&zap_shader_region>;
- 			};
- 
-diff --git a/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts b/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
-index 31ed26c31e6ea381a8942ccf569513df3300cdeb..55a45b528bd3f1bf9b6fe7882753338b43c62271 100644
---- a/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
-@@ -36,6 +36,14 @@ key-volume-up {
- 		};
- 	};
- 
-+	/* Dummy regulator until PMI632 has LCDB VSP/VSN support */
-+	lcdb_dummy: regulator-lcdb-dummy {
-+		compatible = "regulator-fixed";
-+		regulator-name = "lcdb_dummy";
-+		regulator-min-microvolt = <5500000>;
-+		regulator-max-microvolt = <5500000>;
-+	};
-+
- 	vph_pwr: vph-pwr-regulator {
- 		compatible = "regulator-fixed";
- 		regulator-name = "vph_pwr";
-@@ -44,6 +52,14 @@ vph_pwr: vph-pwr-regulator {
- 	};
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/msm8953/fairphone/fp3/a506_zap.mbn";
-+};
-+
- &hsusb_phy {
- 	vdd-supply = <&pm8953_l3>;
- 	vdda-pll-supply = <&pm8953_l7>;
-@@ -87,6 +103,45 @@ &lpass {
- 	status = "okay";
- };
- 
-+&mdss {
-+	status = "okay";
-+};
-+
-+&mdss_dsi0 {
-+	vdda-supply = <&pm8953_s3>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "djn,98-03057-6598b-i";
-+		reg = <0>;
-+
-+		reset-gpios = <&tlmm 61 GPIO_ACTIVE_LOW>;
-+
-+		iovcc-supply = <&pm8953_l6>;
-+		vsn-supply = <&lcdb_dummy>;
-+		vsp-supply = <&lcdb_dummy>;
-+
-+		pinctrl-0 = <&mdss_te_default>;
-+		pinctrl-names = "default";
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&mdss_dsi0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss_dsi0_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&panel_in>;
-+};
-+
-+&mdss_dsi0_phy {
-+	vcca-supply = <&pm8953_l3>;
-+	status = "okay";
-+};
-+
- &mpss {
- 	firmware-name = "qcom/msm8953/fairphone/fp3/mba.mbn",
- 			"qcom/msm8953/fairphone/fp3/modem.mbn";
-@@ -292,6 +347,13 @@ &tlmm {
- 	 * 135-138: fingerprint reader (SPI)
- 	 */
- 	gpio-reserved-ranges = <0 4>, <135 4>;
-+
-+	mdss_te_default: mdss-te-default-state {
-+		pins = "gpio24";
-+		function = "mdp_vsync";
-+		drive-strength = <2>;
-+		bias-pull-down;
-+	};
- };
- 
- &uart_0 {
+CJ
 
--- 
-2.48.1
+[1]: 
+https://lore.kernel.org/linux-kernel/e53d7586-b278-4338-95a2-fa768d5d8b5e@wanadoo.fr/
+
+> 
+> Acked-by: Ilya Dryomov <idryomov@gmail.com>
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>   include/linux/ceph/libceph.h | 12 ++++++------
+>   net/ceph/ceph_common.c       | 18 ++++++------------
+>   net/ceph/osd_client.c        |  3 +--
+>   3 files changed, 13 insertions(+), 20 deletions(-)
+> 
+> diff --git a/include/linux/ceph/libceph.h b/include/linux/ceph/libceph.h
+> index 733e7f93db66a7a29a4a8eba97e9ebf2c49da1f9..5f57128ef0c7d018341c15cc59288aa47edec646 100644
+> --- a/include/linux/ceph/libceph.h
+> +++ b/include/linux/ceph/libceph.h
+> @@ -72,15 +72,15 @@ struct ceph_options {
+>   /*
+>    * defaults
+>    */
+> -#define CEPH_MOUNT_TIMEOUT_DEFAULT	msecs_to_jiffies(60 * 1000)
+> -#define CEPH_OSD_KEEPALIVE_DEFAULT	msecs_to_jiffies(5 * 1000)
+> -#define CEPH_OSD_IDLE_TTL_DEFAULT	msecs_to_jiffies(60 * 1000)
+> +#define CEPH_MOUNT_TIMEOUT_DEFAULT	secs_to_jiffies(60)
+> +#define CEPH_OSD_KEEPALIVE_DEFAULT	secs_to_jiffies(5)
+> +#define CEPH_OSD_IDLE_TTL_DEFAULT	secs_to_jiffies(60)
+>   #define CEPH_OSD_REQUEST_TIMEOUT_DEFAULT 0  /* no timeout */
+>   #define CEPH_READ_FROM_REPLICA_DEFAULT	0  /* read from primary */
+>   
+> -#define CEPH_MONC_HUNT_INTERVAL		msecs_to_jiffies(3 * 1000)
+> -#define CEPH_MONC_PING_INTERVAL		msecs_to_jiffies(10 * 1000)
+> -#define CEPH_MONC_PING_TIMEOUT		msecs_to_jiffies(30 * 1000)
+> +#define CEPH_MONC_HUNT_INTERVAL		secs_to_jiffies(3)
+> +#define CEPH_MONC_PING_INTERVAL		secs_to_jiffies(10)
+> +#define CEPH_MONC_PING_TIMEOUT		secs_to_jiffies(30)
+>   #define CEPH_MONC_HUNT_BACKOFF		2
+>   #define CEPH_MONC_HUNT_MAX_MULT		10
+>   
+> diff --git a/net/ceph/ceph_common.c b/net/ceph/ceph_common.c
+> index 4c6441536d55b6323f4b9d93b5d4837cd4ec880c..c2a2c3bcc4e91a628c99bd1cef1211d54389efa2 100644
+> --- a/net/ceph/ceph_common.c
+> +++ b/net/ceph/ceph_common.c
+> @@ -527,29 +527,23 @@ int ceph_parse_param(struct fs_parameter *param, struct ceph_options *opt,
+>   
+>   	case Opt_osdkeepalivetimeout:
+>   		/* 0 isn't well defined right now, reject it */
+> -		if (result.uint_32 < 1 || result.uint_32 > INT_MAX / 1000)
+> +		if (result.uint_32 < 1)
+>   			goto out_of_range;
+> -		opt->osd_keepalive_timeout =
+> -		    msecs_to_jiffies(result.uint_32 * 1000);
+> +		opt->osd_keepalive_timeout = secs_to_jiffies(result.uint_32);
+>   		break;
+>   	case Opt_osd_idle_ttl:
+>   		/* 0 isn't well defined right now, reject it */
+> -		if (result.uint_32 < 1 || result.uint_32 > INT_MAX / 1000)
+> +		if (result.uint_32 < 1)
+>   			goto out_of_range;
+> -		opt->osd_idle_ttl = msecs_to_jiffies(result.uint_32 * 1000);
+> +		opt->osd_idle_ttl = secs_to_jiffies(result.uint_32);
+>   		break;
+>   	case Opt_mount_timeout:
+>   		/* 0 is "wait forever" (i.e. infinite timeout) */
+> -		if (result.uint_32 > INT_MAX / 1000)
+> -			goto out_of_range;
+> -		opt->mount_timeout = msecs_to_jiffies(result.uint_32 * 1000);
+> +		opt->mount_timeout = secs_to_jiffies(result.uint_32);
+>   		break;
+>   	case Opt_osd_request_timeout:
+>   		/* 0 is "wait forever" (i.e. infinite timeout) */
+> -		if (result.uint_32 > INT_MAX / 1000)
+> -			goto out_of_range;
+> -		opt->osd_request_timeout =
+> -		    msecs_to_jiffies(result.uint_32 * 1000);
+> +		opt->osd_request_timeout = secs_to_jiffies(result.uint_32);
+>   		break;
+>   
+>   	case Opt_share:
+> diff --git a/net/ceph/osd_client.c b/net/ceph/osd_client.c
+> index b24afec241382b60d775dd12a6561fa23a7eca45..ba61a48b4388c2eceb5b7a299906e7f90191dd5d 100644
+> --- a/net/ceph/osd_client.c
+> +++ b/net/ceph/osd_client.c
+> @@ -4989,8 +4989,7 @@ int ceph_osdc_notify(struct ceph_osd_client *osdc,
+>   	linger_submit(lreq);
+>   	ret = linger_reg_commit_wait(lreq);
+>   	if (!ret)
+> -		ret = linger_notify_finish_wait(lreq,
+> -				 msecs_to_jiffies(2 * timeout * MSEC_PER_SEC));
+> +		ret = linger_notify_finish_wait(lreq, secs_to_jiffies(2 * timeout));
+>   	else
+>   		dout("lreq %p failed to initiate notify %d\n", lreq, ret);
+>   
+> 
 
