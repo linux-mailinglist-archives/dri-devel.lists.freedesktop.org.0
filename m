@@ -2,96 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B07A4329B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 02:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774AEA432B1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 02:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 056F810E515;
-	Tue, 25 Feb 2025 01:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC40110E522;
+	Tue, 25 Feb 2025 01:55:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MVWtf0Zq";
+	dkim=pass (2048-bit key; secure) header.d=usp.br header.i=@usp.br header.b="Xh6Bt5aM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F7110E515
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 01:48:56 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-ab771575040so1053212866b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 17:48:56 -0800 (PST)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7776F10E0DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 01:55:45 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-220e989edb6so138230355ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 17:55:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1740448134; x=1741052934;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=loyJuf6zNk03z78etJFgemOo09eYVwdWkJ6KQXv4Jfk=;
- b=MVWtf0ZqKcxsXyofdtuNEx5zJxgrBEreu2gqtfMjEYYrm0yRG0YsNFjhFK4DhXmupK
- V15oqwLYHjDcWhhnP/fYuEkNs8mwXtrUhnoExQUbNY01k0T76iAJvLyqkikYy/dOxi4f
- DfX+Qhs+EndW0tGq+nm0esRfZEsJleaMHeSM8=
+ d=usp.br; s=usp-google; t=1740448545; x=1741053345; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BVtEIXt2XiRQBgkQxldZbwoGe8FwTsoxgK9PR+Vko9E=;
+ b=Xh6Bt5aMVLn8oO7ltnt8HBrnQ2axnHNN9mJw6trK8ynQVRulOanidonvmBgN8vmjqx
+ kfrmydsoq6Xo3IR7CK20gMJsnz4bt6ArIuYF1tYqSgTYeLQVC6ITai6VdrgqZeDlAsyP
+ /5pvfvW05WqjcfXkTP4OiwG/F+cMpkiT1bSy/wzZ3u5096uIM7Yh/z6TjT4+CXonRLEL
+ rk4Xl775iuJDF8ctXMiPuyqv5HXHBHyn0tsfhqld94JJfwnqvFNJSGY1m9hmFObg1WoU
+ XHxkB7O0jwMFqgzmfO8SjD59rlFi1crFmIchNrlHaF/06AHE68cyMAZ2Xi2LRbZiJwcg
+ SrTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740448134; x=1741052934;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=loyJuf6zNk03z78etJFgemOo09eYVwdWkJ6KQXv4Jfk=;
- b=uhEYhhfPqrAAAXRiGxYQNV8teaGbuY3BMe6+wxXfljYCqTFxIsEBR1znTtyP4uAHir
- 8gKKFQd56gW0fJMxvmWj6WpG+KMMdAYvqH//qH3AwQcLrmvw8Viikeulisla7UEX/0Dv
- U6inKPN+sfUOJQoEvtYd6Tb6X/Wjvbv1GD9sL+IXtgSZprNLH+egySIk0gcN8eDJYuBh
- At8HrFnJBe8BmkgNDAw1WKmXgx8Kfpi0HpznERMwGc3qoetUlJ20ebPH+bXbL9HY86q4
- VdnWIskpcdrVPUyd9cRqfG/RYYW3YxZRWoWvd0fyiu9wYbH8l7i0vvMucmvTrw0GF9LA
- 4whA==
+ d=1e100.net; s=20230601; t=1740448545; x=1741053345;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BVtEIXt2XiRQBgkQxldZbwoGe8FwTsoxgK9PR+Vko9E=;
+ b=ZY8KjELOo8penqjaLOMA/ZiGWmc4Qqujs6W1Zu9qWeELv/SDfbDArSi5gMmXT7mEWN
+ csc4FzZ7R8irKuuK0RBSvoHYyq2frtJY2ZO+jIX30TQqtX7k9TrMt7UCcQDvOgENdV17
+ orC5xoPHKtKciizcjAW+HQUXzridvNNJ03y5hZFAF+vKpmXGoi5P7qAakY8PxnrHVTYD
+ 8cM37DvHhJ4HfOn3rl5UpUWFFIff/D0MJRmI57heGyU+EcT7wuJwCuik6hnr1X/R8xwh
+ fPATS+/Dvl+q83DcT+t5q9s2DBBisE5UXqSkpdFqK+smHPz0F1jOD38A91vVAyjQsv3o
+ bfZw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxouYSgUIATbxjaTYaYRtamOKfHQO4FWsG2ejj50azMEnU2XAkOsMMRPCiTD0vAHFjve+uslZ1BRI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydcZyuO6nRXoCmT8V2U9+fMGQi6CKSYf5/+dPlmZaKsyWUdSPg
- yDh/R2rbPjexVQFtwSC9Tn9AHYFGNS8eWkYQ6VYQTZCfrMyFTPc2/ChtimS9IlCtspjHizK/ZvL
- g0FhO
-X-Gm-Gg: ASbGncs05qrh+YQ48wUGr9rUMWbUJehhna3e8qVAsOQb+fIPT18/DDz8mPjpEoJMd6S
- rz/PL7RX3s7wpecZT0Pg7f/y0kaZuaFeYoemqBLqqSQMMq2uEnLKJyQkpPE41TW7aYuhkdzdNl0
- 56I8o7xPAgvkXiZnzELeXNW0gB/OcoK8L0mR3MrELW8++GOHQVMX1ljzKElDvya2sFrPsE7KcMr
- 0XtpuG3UjNKWdcJ2oKnJ9F4EM9uGpvVvPK+Mi6ye6G4D6pW+k8e1jT3bRjw1aNdUwkb/MF+LI+N
- 6AXgx6addAqtWQUj1DliWI2oBqkOMN+skSnDJsau5Stpw5QOvWwvxtBvxdSJ1bgQYQ==
-X-Google-Smtp-Source: AGHT+IFdafxW5ar2tQ0Gs1zzLdQqmt54jyGmH1ubGR47N+4kxSgnbTxbF0Pwzi2ohxu6L0bPJ1wP8Q==
-X-Received: by 2002:a17:907:720a:b0:aba:6385:576e with SMTP id
- a640c23a62f3a-abc0ae1aed3mr1436007166b.3.1740448134406; 
- Mon, 24 Feb 2025 17:48:54 -0800 (PST)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com.
- [209.85.208.47]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abed1cd2d3asm55668366b.18.2025.02.24.17.48.54
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2025 17:48:54 -0800 (PST)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-5dccaaca646so8853188a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 17:48:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXXAhJsYbpIfZRvJOSiZfEFkDbQ2xYCFeCM0l0sZ0MB5GNALAvhXdIGSPp/K5MdqS4BimOFthGWaC0=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:1253:b0:545:6a2:e59 with SMTP id
- 2adb3069b0e04-54838cb627cmr5635189e87.18.1740447736562; Mon, 24 Feb 2025
- 17:42:16 -0800 (PST)
+ AJvYcCUcHlOyZA6yaU9Hzti8VmIvMkVhJ9Cv3o8idEnN8Tp0wgH4x3Zj3qCUev3V8REa/rkW4IspD5G5sJI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvjT3El7cQgARzbj1T55+fAx7CPegFCnLFS2FZ/jHC7m9FaZFp
+ 2zHjiJJs8LEFiH/hUHCWYtW48cWkJ9ViEDfbQjyHYBGTNqKsR9/fXaATUQxSzNgnbhF8aQX46RH
+ hGWo=
+X-Gm-Gg: ASbGncs+E9lkA0xyBrItd8+BW3h/8YjHN/4BELdO2ksxoW1OJtn5QCShpdi/fpXwDIF
+ P8sMm25KLFXXPbRqqIQVwxegneKFdVgZV0v7WGx0aZy8wkFNpRyGQgcl70Cv/el7Gcy8efZrri0
+ d0vFe67naiVk/whEWmOzSlTNOMqsYEqcVx8oMZOO72CPBoMCTC72vs6lPl/dvYO0gkru3+OXzih
+ eZmP7IGgxpTERbfMpJIKaAVfqdB9OqlZjT3iX5Q31i9sRxcCTm9ZLwSbaoTh5emFuAxw26HLl8u
+ 5jriNcw7xHz/b6DkOxYR45LEovS32uqkwWdgIfw=
+X-Google-Smtp-Source: AGHT+IHCTzTBB/ZhhkU2g6kfeagjQ0bA3rZM/GlWv3NXBKKV0UwS0ToM9TglMakPYb/d9rO5QV6OVQ==
+X-Received: by 2002:a05:6a20:72a2:b0:1ee:cab3:4280 with SMTP id
+ adf61e73a8af0-1f0fc13e262mr2575190637.14.1740448544914; 
+ Mon, 24 Feb 2025 17:55:44 -0800 (PST)
+Received: from luan-B550M-AORUS-ELITE.. ([191.185.78.175])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7347a836c9bsm317816b3a.158.2025.02.24.17.55.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2025 17:55:44 -0800 (PST)
+From: Luan Icaro Pinto Arcanjo <luanicaro@usp.br>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: Luan Arcanjo <luanicaro@usp.br>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v4] drm/amd/display/dc: Refactor remove duplications
+Date: Mon, 24 Feb 2025 22:55:29 -0300
+Message-ID: <20250225015532.303032-1-luanicaro@usp.br>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250224081325.96724-1-damon.ding@rock-chips.com>
- <20250224081325.96724-11-damon.ding@rock-chips.com>
-In-Reply-To: <20250224081325.96724-11-damon.ding@rock-chips.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 24 Feb 2025 17:42:05 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WS_2JAKMyFFmrNtaN7-O4dh2hOXHc25FytDxXAjAr+5A@mail.gmail.com>
-X-Gm-Features: AWEUYZkb9AduQv4S2t7Q6Lb4ouepbii0QdSB144heJ2UJlKArYXhKCxoqxEOhvg
-Message-ID: <CAD=FV=WS_2JAKMyFFmrNtaN7-O4dh2hOXHc25FytDxXAjAr+5A@mail.gmail.com>
-Subject: Re: [PATCH v7 10/15] drm/rockchip: analogix_dp: Add support to get
- panel from the DP AUX bus
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- dmitry.baryshkov@linaro.org, sebastian.reichel@collabora.com, 
- cristian.ciocaltea@collabora.com, boris.brezillon@collabora.com, 
- l.stach@pengutronix.de, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,78 +88,814 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Luan Arcanjo <luanicaro@usp.br>
 
-On Mon, Feb 24, 2025 at 12:14=E2=80=AFAM Damon Ding <damon.ding@rock-chips.=
-com> wrote:
->
-> @@ -392,11 +393,27 @@ static const struct component_ops rockchip_dp_compo=
-nent_ops =3D {
->         .unbind =3D rockchip_dp_unbind,
->  };
->
-> +static int rockchip_dp_link_panel(struct drm_dp_aux *aux)
-> +{
-> +       struct analogix_dp_plat_data *plat_data =3D analogix_dp_aux_to_pl=
-at_data(aux);
-> +       struct rockchip_dp_device *dp =3D pdata_encoder_to_dp(plat_data);
-> +       int ret;
-> +
-> +       ret =3D drm_of_find_panel_or_bridge(dp->dev->of_node, 1, 0, &plat=
-_data->panel, NULL);
-> +       if (ret && ret !=3D -ENODEV)
-> +               return ret;
+All dce command_table_helper's shares a copy-pasted collection
+of copy-pasted functions, which are: phy_id_to_atom,
+clock_source_id_to_atom_phy_clk_src_id, and engine_bp_to_atom.
 
-Can you explain why you treat -ENODEV as a non-error case here? Maybe
-this is for the non-eDP case (AKA the DP case) where there's no
-further panels or bridges? Maybe a comment would be helpful to remind
-us?
+This patch removes the multiple copy-pasted by moving them to
+the command_table_helper.c and make the command_table_helper's
+calls the functions implemented by the command_table_helper.c
+instead.
 
+The changes were not tested on actual hardware. I am only able
+to verify that the changes keep the code compileable and do my
+best to to look repeatedly if I am not actually changing any code.
 
-> +       ret =3D component_add(dp->dev, &rockchip_dp_component_ops);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return ret;
+This is the version 4 of the PATCH, fixed comments about
+licence in the new files and the matches From email to
+Signed-off-by email. Fixed comments about using
+command_table_helper instead of creating a dce_common
 
-nit: the above could just be:
+Signed-off-by: Luan Icaro Pinto Arcanjo <luanicaro@usp.br>
+---
+ .../display/dc/bios/command_table_helper.c    | 104 +++++++++++++++++
+ .../display/dc/bios/command_table_helper.h    |   8 ++
+ .../bios/dce110/command_table_helper_dce110.c | 104 -----------------
+ .../dce112/command_table_helper2_dce112.c     | 106 +-----------------
+ .../bios/dce112/command_table_helper_dce112.c | 104 -----------------
+ .../bios/dce60/command_table_helper_dce60.c   | 104 -----------------
+ .../bios/dce80/command_table_helper_dce80.c   | 104 -----------------
+ 7 files changed, 114 insertions(+), 520 deletions(-)
 
-return component_add(dp->dev, &rockchip_dp_component_ops);
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.c b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.c
+index e317a3615147..91bc8a06e2cf 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.c
+@@ -293,3 +293,107 @@ uint8_t dal_cmd_table_helper_encoder_id_to_atom(
+ 		return ENCODER_OBJECT_ID_NONE;
+ 	}
+ }
++
++uint8_t phy_id_to_atom(enum transmitter t)
++{
++	uint8_t atom_phy_id;
++
++	switch (t) {
++	case TRANSMITTER_UNIPHY_A:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
++		break;
++	case TRANSMITTER_UNIPHY_B:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
++		break;
++	case TRANSMITTER_UNIPHY_C:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
++		break;
++	case TRANSMITTER_UNIPHY_D:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
++		break;
++	case TRANSMITTER_UNIPHY_E:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
++		break;
++	case TRANSMITTER_UNIPHY_F:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
++		break;
++	case TRANSMITTER_UNIPHY_G:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
++		break;
++	default:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
++		break;
++	}
++	return atom_phy_id;
++}
++
++uint8_t clock_source_id_to_atom_phy_clk_src_id(
++		enum clock_source_id id)
++{
++	uint8_t atom_phy_clk_src_id = 0;
++
++	switch (id) {
++	case CLOCK_SOURCE_ID_PLL0:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
++		break;
++	case CLOCK_SOURCE_ID_PLL1:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
++		break;
++	case CLOCK_SOURCE_ID_PLL2:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
++		break;
++	case CLOCK_SOURCE_ID_EXTERNAL:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
++		break;
++	default:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
++		break;
++	}
++
++	return atom_phy_clk_src_id >> 2;
++}
++
++bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
++{
++	bool result = false;
++
++	if (atom_engine_id != NULL)
++		switch (id) {
++		case ENGINE_ID_DIGA:
++			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGB:
++			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGC:
++			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGD:
++			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGE:
++			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGF:
++			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGG:
++			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DACA:
++			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
++			result = true;
++			break;
++		default:
++			break;
++		}
++
++	return result;
++}
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.h b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.h
+index dfd30aaf4032..547700e119a6 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.h
++++ b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper.h
+@@ -59,4 +59,12 @@ uint8_t dal_cmd_table_helper_transmitter_bp_to_atom(
+ 
+ uint8_t dal_cmd_table_helper_encoder_id_to_atom(
+ 	enum encoder_id id);
++
++uint8_t phy_id_to_atom(enum transmitter t);
++
++uint8_t clock_source_id_to_atom_phy_clk_src_id(
++		enum clock_source_id id);
++
++bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id);
++
+ #endif
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c b/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c
+index 11bf247bb180..3099128223df 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c
+@@ -31,39 +31,6 @@
+ 
+ #include "../command_table_helper.h"
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
+-
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+ 	uint8_t atom_dig_mode = ATOM_TRANSMITTER_DIGMODE_V5_DP;
+@@ -94,32 +61,6 @@ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ 	return atom_dig_mode;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t hpd_sel_to_atom(enum hpd_source_id id)
+ {
+ 	uint8_t atom_hpd_sel = 0;
+@@ -207,51 +148,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c
+index 755b6e33140a..349f0e5d5856 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c
+@@ -29,40 +29,9 @@
+ 
+ #include "include/bios_parser_types.h"
+ 
+-#include "../command_table_helper2.h"
+-
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
++#include "../command_table_helper.h"
+ 
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
++#include "../command_table_helper2.h"
+ 
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+@@ -91,32 +60,6 @@ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ 	return atom_dig_mode;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t hpd_sel_to_atom(enum hpd_source_id id)
+ {
+ 	uint8_t atom_hpd_sel = 0;
+@@ -209,51 +152,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c
+index 06b4f7fa4a50..1a5fefcde8af 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c
+@@ -31,39 +31,6 @@
+ 
+ #include "../command_table_helper.h"
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
+-
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+ 	uint8_t atom_dig_mode = ATOM_TRANSMITTER_DIGMODE_V6_DP;
+@@ -91,32 +58,6 @@ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ 	return atom_dig_mode;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t hpd_sel_to_atom(enum hpd_source_id id)
+ {
+ 	uint8_t atom_hpd_sel = 0;
+@@ -209,51 +150,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c b/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c
+index 710221b4f5c5..01ccc803040c 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c
+@@ -58,51 +58,6 @@ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ 	return atom_action;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static bool clock_source_id_to_atom(
+ 	enum clock_source_id id,
+ 	uint32_t *atom_pll_id)
+@@ -149,32 +104,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+ 	uint8_t atom_dig_mode = ATOM_TRANSMITTER_DIGMODE_V5_DP;
+@@ -270,39 +199,6 @@ static uint8_t dig_encoder_sel_to_atom(enum engine_id id)
+ 	return atom_dig_encoder_sel;
+ }
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
+-
+ static uint8_t disp_power_gating_action_to_atom(
+ 	enum bp_pipe_control_action action)
+ {
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c b/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c
+index 8b30b558cf1f..2ec5264536c7 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c
+@@ -58,51 +58,6 @@ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ 	return atom_action;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static bool clock_source_id_to_atom(
+ 	enum clock_source_id id,
+ 	uint32_t *atom_pll_id)
+@@ -149,32 +104,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+ 	uint8_t atom_dig_mode = ATOM_TRANSMITTER_DIGMODE_V5_DP;
+@@ -270,39 +199,6 @@ static uint8_t dig_encoder_sel_to_atom(enum engine_id id)
+ 	return atom_dig_encoder_sel;
+ }
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
+-
+ static uint8_t disp_power_gating_action_to_atom(
+ 	enum bp_pipe_control_action action)
+ {
+-- 
+2.43.0
 
-
-> @@ -448,9 +460,16 @@ static int rockchip_dp_probe(struct platform_device =
-*pdev)
->         if (IS_ERR(dp->adp))
->                 return PTR_ERR(dp->adp);
->
-> -       ret =3D component_add(dev, &rockchip_dp_component_ops);
-> -       if (ret)
-> -               return ret;
-> +       ret =3D devm_of_dp_aux_populate_bus(analogix_dp_get_aux(dp->adp),=
- rockchip_dp_link_panel);
-> +       if (ret) {
-> +               if (ret !=3D -ENODEV)
-> +                       return dev_err_probe(dp->dev, ret,
-> +                                            "failed to populate aux bus =
-: %d\n", ret);
-
-IIRC this -ENODEV case is for old legacy panels that aren't listed
-under the aux bus in the device tree. Maybe a comment would be helpful
-to remind us?
-
-nit: don't need the %d in your error message. dev_err_probe() already
-prints the error code.
-
-
-> +               ret =3D rockchip_dp_link_panel(analogix_dp_get_aux(dp->ad=
-p));
-> +               if (ret)
-> +                       return ret;
-> +       }
->
->         return 0;
-
-You can get rid of a few of your return cases by just returning "ret" here.
-
-
--Doug
