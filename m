@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343DDA44579
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:08:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC83A4457C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E3310E73A;
-	Tue, 25 Feb 2025 16:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 759DB10E73D;
+	Tue, 25 Feb 2025 16:08:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iGWrr319";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Yh785hMB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D885F10E73C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8B2C10E73D
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 16:08:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740499701;
- bh=o17bnnQUEXgXrnp222u+zUnN4w91QL0V3CleEpaxZOI=;
- h=From:Subject:Date:To:Cc:From;
- b=iGWrr319DTRYgkygkqseNbwdEGNgbtMrUWhx5OJcShHWoOsV6WRvC1GNwOP6Ld8H9
- MyDVHGuB/48sTTHQKTZH79JMwbszVEUL/0n9BRSf9/xZwX6x/EA00QLnQm3HWQVyJF
- X7RYO6R6VNpJ4CIBO2WUezLAKZajvIkf9Eisw6mFPL62xtm+qqbYjSucNPE1ZW/AvQ
- X7yj1enYCamdNmbewkZ1oVHMhmvWvVOetkuwh6e9HDuxt6Gy+HdDcaSAIAYu2XEaXJ
- PMorJ2P4M0yjaGga9J6hO0pSOx0kSYYzDFIyf5DoWN5L5AFxSq8wtlfBGSxZoqUHxh
- pJ6Q6R8/A7x6w==
+ s=mail; t=1740499700;
+ bh=WsW4sJ9uxm43lHLyN92viVq/iZ4gai0sRD6kALPbI0c=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=Yh785hMBVWmCAIp2fhXzzdcEBabNhdBwxrjQbwrsCQbwOKUPzH0OCNPnIJOppSKve
+ bqqd4T5l8fnGjPKHyxBi31VRqBc9Zkd+FdRpez1Lfq+Q5oQ3+jTHwWUW6PtdOE89AL
+ HaTf/UzR/r066m2xeqDmfkdiS7FMti80u7Nfj8SofiFiTTwrzLwL8tVw0rrUuOUgOd
+ v0pocbUrPiNOZotuYLCsVcfL4WXhtOILMhYY5qHTZcf8uFjALmkKQ/c/0RWLo7jLQ5
+ LWYMahf02my5t0dyk1KSMe2+/4XDO8u0dCwJo2/an72E5QkT/wEFoWh4z+jzePIYwD
+ YYG4bhUS2fijQ==
 Received: from jupiter.universe (dyndsl-091-248-213-055.ewe-ip-backbone.de
  [91.248.213.55])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: sre)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0155217E0CD2;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DB35817E09B8;
  Tue, 25 Feb 2025 17:08:20 +0100 (CET)
 Received: by jupiter.universe (Postfix, from userid 1000)
- id 83094480035; Tue, 25 Feb 2025 17:08:20 +0100 (CET)
+ id 850A6480037; Tue, 25 Feb 2025 17:08:20 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH v3 0/2] Rockchip W552793DBA-V10 panel support
-Date: Tue, 25 Feb 2025 17:07:58 +0100
-Message-Id: <20250225-raydium-rm67200-v3-0-d9e1010dd8ab@kernel.org>
+Date: Tue, 25 Feb 2025 17:07:59 +0100
+Subject: [PATCH v3 1/2] dt-bindings: display: panel: Add Raydium RM67200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAN7qvWcC/3WNQQ6CMBBFr0JmbU0doqWuvIdhUdsBJgqYqTYS0
- rtb2bt8L/nvrxBJmCKcqxWEEkeepwL1rgI/uKknxaEwoMajRm2UuCXwe1Qyngxqrehm0dbosSE
- PZfUU6vizFa9t4YHja5ZlO0j4s/9bCZVWhy54i8Y5avByJ5nosZ+lhzbn/AWwbwqhrwAAAA==
-X-Change-ID: 20250207-raydium-rm67200-eb92932c28ec
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250225-raydium-rm67200-v3-1-d9e1010dd8ab@kernel.org>
+References: <20250225-raydium-rm67200-v3-0-d9e1010dd8ab@kernel.org>
+In-Reply-To: <20250225-raydium-rm67200-v3-0-d9e1010dd8ab@kernel.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
@@ -58,20 +56,20 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1550; i=sre@kernel.org;
- h=from:subject:message-id; bh=o17bnnQUEXgXrnp222u+zUnN4w91QL0V3CleEpaxZOI=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGe96vSVn6Y7aMxiITtnCu8ax+TK84NwxHoEf
- weDzDjX4vspT4kCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJnver0AAoJENju1/PI
- O/qaZdUQAJZTcEAUN2kjIn/5R4AAYf1JaSIzz7Jqj9GVDY1s1C4XUGnWp6z4hGih1GTKNrxWBQL
- Fm4XvnSAEAG/yfRuWRAdhiqrivWiVbgVtps1OsW6evUeF1nWJsY2421mIDTFowgeG4UI8HPwmrA
- +msmPizod5EBJ1IsO5mgqSaLsyLjBd7TWpyxsni8vA9UC4F5IvxdhqApkIADn0FXLVLVnxyEcIS
- 6eDgrOP+nRLgaVOeLu6es9Rp72tyQimLZdue6JAfNq8p8cQK1Hym1Qn/TK+2iHoUbyc3TaWvM7q
- 6F33ZEfZXCX+jhgAPu6gUY1vSRbRqmXv9kX3WAvJJTqqV8LFy4cG/JI5rZ5AM+bDT6Jg9K4JBfu
- veNbPRyL4yK9w+QQdJULG16T2Yt4BZZGDr4EjBdScD30bDuxffkjfBJ4ZxkpZku8afdcjIfp1DP
- f+GxzbKaFL7ZK35NysV8TM9agE1vN3tBDwjBDOPmJI+y2tk1KBv5ktStebn2KAmn4h5Yfb+6oUg
- hrCZ/+0FE6LHdmMogffZFoCLYtNtxftz7rHzpGDO0CwUDBMSruuAKJVdGcJ0T88Cg6SdvBrOcVJ
- E0xuW0cux5EslgY2fRQK3TySyTRkpGzFltrRt39rs8rIJPbw04ikwcH7RoKhNjGy44kamee9zcr
- n5jMRst00wVcsyOSj2gwyiQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2453; i=sre@kernel.org;
+ h=from:subject:message-id; bh=WsW4sJ9uxm43lHLyN92viVq/iZ4gai0sRD6kALPbI0c=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGe96vSWT6nNH0xaepL9MStCfAqXvMxKy47M2
+ ZyuLJNwu/ExpIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJnver0AAoJENju1/PI
+ O/qazngP/jevRZ8b1xOfaKeVAdSMJRokkZAkX2JmyRTaIB+auN08BSq7GQVGeuOr5wKuCHip3qI
+ xzTjHRGaKJlWdHbJI8dTiQ3XD8gVQ4Mcd+GrQ+SiQkayzSKzmFQnB56k/K6Itvfeb8gnH6IhLtT
+ v5amySFcxZ3953GWQ7YFnT4Ukcg7KKiXprg708BsTsnyzp5PFNpsJDIQ3ZnYh3o5THIMwcdt9RY
+ bKU/huB+swMTpr0Mev+6pHeyLh2qjwmNzPV3tMv14cypbnHJE4U6lmoH7gcLNyoqk10dSzLxr59
+ KoQyGuPtOG1oLbhfHWjlHvq1fgVn7EAwzjetzvEaXRUMR/75+QlFIhpnWr0H0AtKCM8I2J+i4Cp
+ e+nkfwzzYkk4d4V8WMGLWLOwkCbL+v7WWRwgnDg3222YtcXJGDTrfoccjDmHlIz0gd3Q6kTFIW/
+ BY/BJeec/ceouSR8Mj7f3CpeXr2+eOJ5YTRTc7U0aHROEXV6kb1z2DBZRvjmFhK1eqDiFuefDAU
+ 7fHjISPSC0ykhfd+SgHwk5++FZoe99uSc7oOVfhf5DYeug7BxumiNWtN5TJO0YVRwhf44cdKqRa
+ 1/2ItWrYKb2Lysu64QfF5+A+/6qIU6veQewPHUYscOo+b6jZJ9vRZ2+r5hm99vAczOCyPJbbYuT
+ CjamL7MczhORJS6wHwdoy9g==
 X-Developer-Key: i=sre@kernel.org; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,46 +87,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The Rockchip W552793DBA-V10 display/touchscreen board contains a
+Wanchanglong W552793BAA panel, which in turn is using a Raydium
+RM67200 MIPI-DSI controller. Add a DT binding for the DSI panel.
 
-This has been tested in combination with the series from Heiko Stübner
-enabling DSI support for the RK3588 [0] (DSI controller support has been
-merged already, only the PHY support is missing) on the RK3588 EVB1.
-
-[0] https://lore.kernel.org/linux-rockchip/20241203164934.1500616-1-heiko@sntech.de/
-
-Changes since PATCHv2:
- * https://lore.kernel.org/r/20250207-raydium-rm67200-v2-0-1fdc927aae82@kernel.org
- * replace upper case hex with lower case
- * rework final sleep in enable and disable callbacks
- * return drm_connector_helper_get_modes_fixed result in get_modes callback
-Changes since PATCHv1:
- * https://lore.kernel.org/all/20241210164333.121253-1-sebastian.reichel@collabora.com/
- * move additionalProperties below required in the DT binding
- * collect Reviewed-by from Krzysztof Kozlowski, Andy Yan and Jessica Zhang
- * improve Kconfig help text
-
-Thanks for having a look.
-
-Greetings,
-
--- Sebastian
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
-Sebastian Reichel (2):
-      dt-bindings: display: panel: Add Raydium RM67200
-      drm/panel: add Raydium RM67200 panel driver
+ .../bindings/display/panel/raydium,rm67200.yaml    | 72 ++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
- .../bindings/display/panel/raydium,rm67200.yaml    |  72 +++
- drivers/gpu/drm/panel/Kconfig                      |  10 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-raydium-rm67200.c      | 499 +++++++++++++++++++++
- 4 files changed, 582 insertions(+)
----
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-change-id: 20250207-raydium-rm67200-eb92932c28ec
+diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67200.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67200.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..54c9c0ef45ecc730c722fb152390db4e6c45aab9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67200.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/raydium,rm67200.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Raydium RM67200 based MIPI-DSI panels
++
++maintainers:
++  - Sebastian Reichel <sebastian.reichel@collabora.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - wanchanglong,w552793baa
++      - const: raydium,rm67200
++
++  reg:
++    maxItems: 1
++
++  vdd-supply:
++    description: 2.8V Logic voltage
++
++  iovcc-supply:
++    description: 1.8V IO voltage
++
++  vsp-supply:
++    description: positive 5.5V voltage
++
++  vsn-supply:
++    description: negative 5.5V voltage
++
++  backlight: true
++  port: true
++  reset-gpios: true
++
++required:
++  - compatible
++  - port
++  - reg
++  - reset-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        panel@0 {
++            compatible = "wanchanglong,w552793baa", "raydium,rm67200";
++            reg = <0>;
++
++            vdd-supply = <&regulator1>;
++            iovcc-supply = <&regulator2>;
++            vsp-supply = <&regulator3>;
++            vsn-supply = <&regulator4>;
++            reset-gpios = <&gpiobank 42 GPIO_ACTIVE_LOW>;
++
++            port {
++                panel0_in: endpoint {
++                    remote-endpoint = <&dsi0_out>;
++                };
++            };
++        };
++    };
++...
 
-Best regards,
 -- 
-Sebastian Reichel <sre@kernel.org>
+2.47.2
 
