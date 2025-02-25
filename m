@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECD2A43AF5
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:13:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A937A43AF7
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEB710E5FD;
-	Tue, 25 Feb 2025 10:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE3310E5FE;
+	Tue, 25 Feb 2025 10:13:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rtXlqRFJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vca312RU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F92010E5FD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:13:04 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-38f265c6cb0so2634625f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 02:13:04 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08C9910E5FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:13:17 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4398e839cd4so37218415e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 02:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740478383; x=1741083183; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740478395; x=1741083195; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=j/CdZ+U93yCfAHM20K4VCGZK5tana82Sk9q6rPMpkaE=;
- b=rtXlqRFJNCM6OLrWOlv7P4SVMeVmULmhb4/g1QEpWmF9GDZ1Y3dqpBiUm8R41Mcs1N
- eGM99BFgFoxZpp5D0XtPzefx9TLiX9rjIVEkMVUequ6HM9BHuAYfw8LgvixidB3mreUw
- 5NebVOPN9xYtO3EyYLUB6ZG7ja4CGpSD9PMa/aTvXtuH3PFEWHSezhxDsbOR+2aTlOsN
- x//N8KORypfnn0F+2JLrC/pZIFgFqOwGAllxnS4zqtBAnj1oJuJ2AR/2mXcIyoHg2YLe
- H60UEluzb/YJCvm3wtAZ9DGSlzDHCh3Z1RS0uMLa/qwg6y8SqQurHsHh2FMRbp57haja
- SNww==
+ :reply-to; bh=UIEVpBfqzlAIj3t3+p9Xkb4HBEKJwXzTRtthqqzde8o=;
+ b=vca312RUPIa5GN1B3QHjAlk03RJ0BY+uZLxxd7qeqj9OCtLb/mvWbRyV0UpWWEjzAz
+ cim/0XE4k2c7N+0CfmwaysT7iNDlD2bVgFd6F8i49RX6EchxFW1dXjzAjQScBKITyrr2
+ ZF9KcqOha6ku0gBwEA2C/8pZuLX8XWjUSEq1Af7RyNDKPhnenagliUxjUmJXW8zIOy41
+ X37NtDMHJ1Xz0pVaxFK4BLSWwHbYGPLYmX3pOfwy7DBYrrduJo/5679bakLYOtBZuPAr
+ X3YKGLU5lydC2vT8jpwT4ADV9S2gFwT428D8m8eMYe4urzW+XjrGMtN0dynJQAPCjDzK
+ 7ysw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740478383; x=1741083183;
+ d=1e100.net; s=20230601; t=1740478395; x=1741083195;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=j/CdZ+U93yCfAHM20K4VCGZK5tana82Sk9q6rPMpkaE=;
- b=VYsHJgEMJeXlYb58My115BYEy0bp7bLvy11ClSdeiR5QT34fXTSbVOyOQy4U/p19pd
- R3ERaHiSaoUXYZw0kb9B1qMTLc1X0dZq4+bm8jJURSDFWp6C0JcnKMKW//JyhaDwI6/U
- g7mzCl1POjjX/KsQ86V3ZQ6Rx9Kwzr33eVE+Yrd0kAPCRgG8f3V1vaxdeqPvQfV/lmkA
- O6LZ8+fx6FXBm/oehlHbgqCgbC+N6RxQHzDkdzRr0m1gyXZRDW3vfJwtgrIA1ogxUiRb
- Pdn5V2r2j1dvlkaiyx7W5oTwlqQJdBY3r5TiSYb/JrHblCLUKetv3Kdg4djNj6A87g9U
- +HHA==
-X-Gm-Message-State: AOJu0YyLPO/2QTRR43ZbFHNQV32Bj9W/zQ/VphBgF2YHg4Qo7XlDF+Tx
- Ofuy1+GjlavjPCU61vzgj4UGQqi9DoZvrEwL5uO7SXJHUef0+6DWOOh8JUO14xA=
-X-Gm-Gg: ASbGnctzlnaXoRKrSGn2U4bcexbfkDLcvyKautN0uevM5geYySkyKPiw6PuAdhBnpnA
- CTiV2oVH9yVZjQzdGDRJRyoP0V0yYGj3VRy8QE4xvg+QKp+tbldo8boLcbu95dNXlGozpiHehIr
- Y80jIoB+JGya3bRflnGNIPd8bQdtp9KdeT1n95AKPIJjFRVmgffbl15yl9GYOIADIwMsl5UnFwc
- hI9Kz0o0oPLeYVer1Nn6cIyYpAYpNUbQ377HuZZrCsufXt+jNrw33d2mC+l5vjlRyEfHm5S7B89
- hgqeYhEnaJ9dvkOggTZYSkBJasdeLRzC3eUL
-X-Google-Smtp-Source: AGHT+IFG+1rFiHyvGAdLQom1xamSgtQXx5X9EhBwiiiWXiH5ajISwOfGmcfQGL3L3N7dQSd1xz/2Pg==
-X-Received: by 2002:a05:6000:1fa3:b0:38d:d603:ff46 with SMTP id
- ffacd0b85a97d-38f7d1ffbfemr10982478f8f.14.1740478382825; 
- Tue, 25 Feb 2025 02:13:02 -0800 (PST)
+ bh=UIEVpBfqzlAIj3t3+p9Xkb4HBEKJwXzTRtthqqzde8o=;
+ b=OTAyuV3XYm4Zttn17WEMbe9ea8I8FC2QmRxqh9VFNuXMOwfz2Q0lMW/yTI1d56ymN4
+ VfIB6jiQlocepZ1YszWbY0DNv3qQ/t7n5GjIEYQfwVu3XNEqF++2uDtMDV9pDUF9qbjE
+ 6H9tU4Q9t1eXaghzyFUbCE25u3irvcJtta47+itvZOL/vv9EOi7Jdav9heYF24ZwD9hq
+ FJ7fqfPM24NnkXJjHcWtH1iOjgMXyYVEi19luiVhFpc4GoNzI/T+hw5EYYoJ5Ghx4ihh
+ xtdAqrjTeINL0wz8H9X4WuzYdEwTI7GyrbuLgHf6bhyBe1ai4a/JYHxOmJn6hDv8qSR8
+ YBXA==
+X-Gm-Message-State: AOJu0YxxVRUAt+RTh4huvNE6903lVVKuRYEF8OtXq8+qvTQFElknenmI
+ +ErVGCaRh18wvBwH1QcBdrnmiNO7LfhqyfoHeyYd4E5BfKM95+D1fjJbeFoHsIA=
+X-Gm-Gg: ASbGncsrIsQxxhfPwvIgRCR8+CaIYrxLn3pfLdgRkQw7jPH0dpYT43q+lti1XDk5mDX
+ OITcsTvEzTYADilkHdXkR3pXCksJ7ccqPyo97NSBkyh8IzZHQwdbdfDBnSqp4R9zlpalrZuarqd
+ oxOHv5sXw+0CM3cAu2WVdZOMXvKsCv0VWtP3Uhr85X2K2Lu2RQ0pKBrhmETlrmbZWf0eoLivhcm
+ A3tymbmsI/ZTW8d4ltfkcgYivi/DNBSYrhRxvgU4jhnkoPlGBq4NA77JgilkTsmeWy5Bz0J+aTC
+ 3vydQ3G3ovZtBHZTO1Ho/HhTvuwRg2vD9pwz
+X-Google-Smtp-Source: AGHT+IHuxrFve4RrQxTJm/qq5KQxrxMVsYCL+f8dws0ADcO/Z7yzKKpEwdKKdpFUHyiamvR4ZVYVPw==
+X-Received: by 2002:a05:600c:46ca:b0:439:4b23:9e8e with SMTP id
+ 5b1f17b1804b1-439ae2d1f3fmr129669155e9.3.1740478395441; 
+ Tue, 25 Feb 2025 02:13:15 -0800 (PST)
 Received: from [192.168.1.100] ([37.167.173.6])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43a9d921c9csm93910385e9.11.2025.02.25.02.13.00
+ 5b1f17b1804b1-439b02ce615sm135803455e9.5.2025.02.25.02.13.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2025 02:13:02 -0800 (PST)
-Message-ID: <d08ce3dd-a639-4829-a9ca-c4f897336228@linaro.org>
-Date: Tue, 25 Feb 2025 11:13:00 +0100
+ Tue, 25 Feb 2025 02:13:15 -0800 (PST)
+Message-ID: <d4903cb5-f876-4229-b89c-c1fafd77fc3c@linaro.org>
+Date: Tue, 25 Feb 2025 11:13:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 07/14] drm/panel: simple: add BOE AV101HDT-A10 panel
+Subject: Re: [PATCH 08/14] drm/panel: simple: Add BOE AV123Z7M-N17 panel
 To: maudspierings@gocontroll.com, Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -81,7 +81,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
 References: <20250224-initial_display-v1-0-5ccbbf613543@gocontroll.com>
- <20250224-initial_display-v1-7-5ccbbf613543@gocontroll.com>
+ <20250224-initial_display-v1-8-5ccbbf613543@gocontroll.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -108,7 +108,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250224-initial_display-v1-7-5ccbbf613543@gocontroll.com>
+In-Reply-To: <20250224-initial_display-v1-8-5ccbbf613543@gocontroll.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -130,7 +130,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 24/02/2025 14:50, Maud Spierings via B4 Relay wrote:
 > From: Maud Spierings <maudspierings@gocontroll.com>
 > 
-> add support for the BOE AV101HDT-A10 10.1" LVDS panel
+> Add support for the BOE AV123Z7M-N17 12.3" LVDS panel.
 > 
 > Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
 > ---
@@ -138,36 +138,36 @@ On 24/02/2025 14:50, Maud Spierings via B4 Relay wrote:
 >   1 file changed, 32 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 9b2f128fd3094bfb6731fc348b91cc101f495a86..a52977ab73dc2edab0d1954c702fd797d6a5b969 100644
+> index a52977ab73dc2edab0d1954c702fd797d6a5b969..232b03c1a259eb15e423b9d452d28e2ff95c70f8 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1374,6 +1374,35 @@ static const struct panel_desc bananapi_s070wv20_ct16 = {
->   	},
+> @@ -1403,6 +1403,35 @@ static const struct panel_desc boe_av101hdt_a10 = {
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 >   };
 >   
-> +static const struct display_timing boe_av101hdt_a10_timing = {
-> +	.pixelclock = { 74210000, 75330000, 76780000, },
-> +	.hactive = { 1280, 1280, 1280, },
-> +	.hfront_porch = { 10, 42, 33, },
-> +	.hback_porch = { 10, 18, 33, },
-> +	.hsync_len = { 30, 10, 30, },
+> +static const struct display_timing boe_av123z7m_n17_timing = {
+> +	.pixelclock = { 86600000, 88000000, 90800000, },
+> +	.hactive = { 1920, 1920, 1920, },
+> +	.hfront_porch = { 10, 10, 10, },
+> +	.hback_porch = { 10, 10, 10, },
+> +	.hsync_len = { 9, 12, 25, },
 > +	.vactive = { 720, 720, 720, },
-> +	.vfront_porch = { 200, 183, 200, },
-> +	.vback_porch = { 8, 8, 8, },
-> +	.vsync_len = { 2, 19, 2, },
+> +	.vfront_porch = { 7, 10, 13, },
+> +	.vback_porch = { 7, 10, 13, },
+> +	.vsync_len = { 7, 11, 14, },
 > +	.flags = DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
 > +};
 > +
-> +static const struct panel_desc boe_av101hdt_a10 = {
-> +	.timings = &boe_av101hdt_a10_timing,
-> +	.num_timings = 1,
+> +static const struct panel_desc boe_av123z7m_n17 = {
+> +	.timings = &boe_av123z7m_n17_timing,
 > +	.bpc = 8,
+> +	.num_timings = 1,
 > +	.size = {
-> +		.width = 224,
-> +		.height = 126,
+> +		.width = 292,
+> +		.height = 110,
 > +	},
 > +	.delay = {
-> +		.enable = 50,
+> +		.prepare = 50,
 > +		.disable = 50,
 > +	},
 > +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
@@ -177,13 +177,13 @@ On 24/02/2025 14:50, Maud Spierings via B4 Relay wrote:
 >   static const struct drm_display_mode boe_bp101wx1_100_mode = {
 >   	.clock = 78945,
 >   	.hdisplay = 1280,
-> @@ -4813,6 +4842,9 @@ static const struct of_device_id platform_of_match[] = {
+> @@ -4845,6 +4874,9 @@ static const struct of_device_id platform_of_match[] = {
 >   	}, {
->   		.compatible = "bananapi,s070wv20-ct16",
->   		.data = &bananapi_s070wv20_ct16,
+>   		.compatible = "boe,av101hdt-a10",
+>   		.data = &boe_av101hdt_a10,
 > +	}, {
-> +		.compatible = "boe,av101hdt-a10",
-> +		.data = &boe_av101hdt_a10,
+> +		.compatible = "boe,av123z7m-n17",
+> +		.data = &boe_av123z7m_n17,
 >   	}, {
 >   		.compatible = "boe,bp082wx1-100",
 >   		.data = &boe_bp082wx1_100,
