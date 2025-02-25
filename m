@@ -2,65 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9E6A43E49
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600ADA43E62
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:56:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE02E10E650;
-	Tue, 25 Feb 2025 11:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BD610E149;
+	Tue, 25 Feb 2025 11:56:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="axOr7SQB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pJ398eYk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 409BF10E650
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:52:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CDA0961239;
- Tue, 25 Feb 2025 11:52:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 803AEC4CEDD;
- Tue, 25 Feb 2025 11:52:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740484373;
- bh=hSHb3rOa9k5tsPmaPPeA5bikJl+Av+tcshX5VjzhvP4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=axOr7SQBeGTA3q1VBqZiED6W6FPt3G7EHRdpdlPTJ0aengiP2RL4qJAdZWRpjahev
- cDz78xYjfg9QCWpj4+1wn4OPbZxS/oPm5lQvVulupYW2VrnWu9g0+hl1zvPCcEKwPQ
- GjQqtL0Wl1GPrV/BonDqWLaNdgTD+pl8eAhReFDmL5VD2aAJSHg4aKnwmao35N6n9h
- srvpA/g6CXOqMvbFoVB4cuSwEPPw3JCFxB8A8W23s/NxTasqq/ZWVVGLJddeeDW0iH
- 2EMxexvwXOQr7cbFohPt+WksCavde2D181k0HtfIMi7HlNJY1s1ia5TziH+sey/x+B
- DfF36Ne7eCc5Q==
-Date: Tue, 25 Feb 2025 12:52:50 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Maud Spierings | GOcontroll <maudspierings@gocontroll.com>
-Cc: Rob Herring <robh@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFBA10E149
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:56:10 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-abbd96bef64so896345266b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:56:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740484568; x=1741089368; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WJyPxjFleKuEal7BN10cNxi9EzRWaplUTMZg3DzwJ5g=;
+ b=pJ398eYk3grUiMj8YiY+g884XdECVRA3kE8fkzbEfoNLb+9quf4x15pg+dkw+5vpYp
+ 4EocA9uZRflYiFXyz3io1yUanTeWBF27k6eTcjnGVSQWm+4VE+bVpIVVan7J4nBPMdxe
+ RGjCWnHdzckSWokF/W44jVd3tI8hdxVIuSbQdFeTYVTVkQVVf0mqx5ryINvCmd6KWBd5
+ maZZYECNF5Us8lx9GNbUBc8QZL4VQ0ijojcwWhvNvZW30qwEwllTVxh9V4v8yJo7Jb3u
+ Lj+Zv08pYR4/BKxJHw4enO7yIou2xWvYgpUAnLKYIB31RnomqwE8U3ktR793gAP//5ej
+ 7R6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740484568; x=1741089368;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WJyPxjFleKuEal7BN10cNxi9EzRWaplUTMZg3DzwJ5g=;
+ b=R1UKf7WDQqmWmn/x4UTmi8WFtG7k1/V3ipfwG6ddbCFtdxPKC5SS9KZd/qTC8/+BiR
+ sBRvRGnTi2MfSoFIlqaRHaMzp223aVtxHAFYpgzGYAV4ODh7K3MIRO4drgq0chsMJheP
+ sbK9v/iLiWAg8ufRkqqnaOHFPG5nr13ccr+0hkbznEItw2ZZYyKg0yeEzF9AjJoDzjlm
+ JbnrR5n4sJhJSVwz4Ir291sJEbg/4CeEznmfvZmCoJZvbwXgAsuRNCfWA2Uy8KjcO7aV
+ p284ImAdkiFjxbUcea9/j1GEMoFrNxJlQHj429z7tDR3sOhGqfoBxusvR5IQczPxNUjB
+ GQVg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJEnn0ZTMxaGZvFmToTQnA1APuJaXO7GEgUnT7kYpbG1lljn/6zPJ2IbR6/ZLmsLqivt2mGx7T9EY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw59M8rNjmCsc2Vy4x+F4lzFxCTQJ92BJcb5qU1xlpDbZm0qc2C
+ GmWgOcT5fpxXCpyDHLxjQIW+bAWUnBT7JlFUg+bjuqQtO8ZiBevwND9qF8MA3uM=
+X-Gm-Gg: ASbGncuZwxVMoLum9LiwuuhUe8LUJrV3TqjVEqsnfQCF/Gbj2LnWV/ad9Hp1sNPhxoj
+ GmaPUUsbePiCL4YqzZJY+qwn+JA62i3QGOkWX/MJxV6WG9uWQPiJF2y0zgBk/Ik70pVGGY0FeXP
+ /d+meMU5YlmZprxh/2zr1UrWBz83USwV02Yk5uN5rWh32zB2hB1Iw8ac/aMxU6GQuQoQ1fH9e0x
+ 67nGYeF42jD8V21LhG3vmvTqoto6WHuBB5lHObXGLLgJZ3rt/LhdItep4YL7drprmuq3+kHa+Ms
+ xao1KKdpuNt9+lDnPwbnMBq2QHoVj/c=
+X-Google-Smtp-Source: AGHT+IGtwfDPoI1urGz4W6sWGWt7cIKJRtHke0xAzp1DGA8IEACl7iCkLafu7qlCmJ17Ht/wFJ+uJw==
+X-Received: by 2002:a17:906:3290:b0:ab7:b30:42ed with SMTP id
+ a640c23a62f3a-abed0959f38mr253119666b.0.1740484568004; 
+ Tue, 25 Feb 2025 03:56:08 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ a640c23a62f3a-abed2012360sm127195466b.114.2025.02.25.03.56.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 03:56:07 -0800 (PST)
+Date: Tue, 25 Feb 2025 14:56:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Lukas Wunner <lukas@wunner.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
- Sam Ravnborg <sam@ravnborg.org>, Liu Ying <victor.liu@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 05/14] dt-bindings: trivial-devices: add GOcontroll
- Moduline IO modules
-Message-ID: <20250225-smart-industrious-groundhog-41deb2@krzk-bin>
-References: <20250224-initial_display-v1-0-5ccbbf613543@gocontroll.com>
- <20250224-initial_display-v1-5-5ccbbf613543@gocontroll.com>
- <20250224204428.GA4050751-robh@kernel.org>
- <PA4PR04MB763009E88F6406CD84ACBD33C5C32@PA4PR04MB7630.eurprd04.prod.outlook.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Takashi Iwai <tiwai@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Su Hui <suhui@nfschina.com>
+Subject: Re: [PATCH] vgaswitcheroo: Fix error checking in
+ vga_switcheroo_register_audio_client()
+Message-ID: <121efc5e-1050-476e-8e34-e4db11a4ac11@stanley.mountain>
+References: <ae24cd32-1e78-4656-b983-051ed22d86b9@stanley.mountain>
+ <87eczn7adi.fsf@intel.com>
+ <8e161bf8-70f6-4557-8fa8-81d4bbfab91f@stanley.mountain>
+ <87zfia5r0a.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <PA4PR04MB763009E88F6406CD84ACBD33C5C32@PA4PR04MB7630.eurprd04.prod.outlook.com>
+In-Reply-To: <87zfia5r0a.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,80 +97,312 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 07:39:52AM +0000, Maud Spierings | GOcontroll wrote:
-> From:=C2=A0Rob Herring <robh@kernel.org>
-> Sent:=C2=A0Monday, February 24, 2025 9:44 PM
-> =C2=A0
-> >On Mon, Feb 24, 2025 at 02:50:55PM +0100, Maud Spierings wrote:
-> >> The main point of the Moduline series of embedded controllers is its
-> >> ecosystem of IO modules, these currently are operated through the spid=
-ev
-> >> interface. Ideally there will be a full dedicated driver in the future.
-> >>
-> >> Add the gocontroll moduline-module-slot device to enable the required
-> >> spidev interface.
-> >>
-> >> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> >> ---
-> >>=C2=A0 Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
-> >>=C2=A0 1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/=
-Documentation/devicetree/bindings/trivial-devices.yaml
-> >> index 8255bb590c0cc619d15b27dcbfd3aa85389c0a54..24ba810f91b73efdc615c7=
-fb46f771a300926f05 100644
-> >> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> >> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> >> @@ -107,6 +107,8 @@ properties:
-> >>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - fs=
-l,mpl3115
-> >>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 # MPR121: Proximity Capacitive Touch Sensor Controller
-> >>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - fs=
-l,mpr121
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # =
-GOcontroll Moduline module slot for spi based IO modules
+On Tue, Feb 25, 2025 at 11:10:29AM +0200, Jani Nikula wrote:
+> On Mon, 24 Feb 2025, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> > On Mon, Feb 24, 2025 at 03:14:33PM +0200, Jani Nikula wrote:
+> >> On Wed, 19 Feb 2025, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >> > The "id" variable is an enum and in this context it's treated as an
+> >> > unsigned int so the error handling can never trigger.  The
+> >> > ->get_client_id() functions do not currently return any errors but
+> >> > I imagine that if they did, then the intention was to return
+> >> > VGA_SWITCHEROO_UNKNOWN_ID on error.  Let's check for both negatives
+> >> > and UNKNOWN_ID so we'll catch it either way.
+> >> >
+> >> > Reported-by: Su Hui <suhui@nfschina.com>
+> >> > Closes: https://lore.kernel.org/all/20231026021056.850680-1-suhui@nfschina.com/
+> >> > Fixes: 4aaf448fa975 ("vga_switcheroo: set audio client id according to bound GPU id")
+> >> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> >> > ---
+> >> >  drivers/gpu/vga/vga_switcheroo.c | 2 +-
+> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >> >
+> >> > diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
+> >> > index 18f2c92beff8..216fb208eb31 100644
+> >> > --- a/drivers/gpu/vga/vga_switcheroo.c
+> >> > +++ b/drivers/gpu/vga/vga_switcheroo.c
+> >> > @@ -375,7 +375,7 @@ int vga_switcheroo_register_audio_client(struct pci_dev *pdev,
+> >> >  	mutex_lock(&vgasr_mutex);
+> >> >  	if (vgasr_priv.active) {
+> >> >  		id = vgasr_priv.handler->get_client_id(vga_dev);
+> >> > -		if (id < 0) {
+> >> > +		if ((int)id < 0 || id == VGA_SWITCHEROO_UNKNOWN_ID) {
+> >> 
+> >> Maybe we want to do something else here... see [1].
+> >> 
+> >> BR,
+> >> Jani.
+> >> 
+> >> 
+> >> [1] https://lore.kernel.org/r/CAHk-=wgg2A_iHNwf_JDjYJF=XHnKVGOjGp50FzVWniA2Z010bw@mail.gmail.com
+> >> 
 > >
-> >I couldn't find anything about SPI for GOcontroll Moduline. Can you
-> >point me to what this hardware looks like. Based on what I did find,
-> >this seems incomplete and not likely a trivial device.
->=20
-> I'll give some more details, if there is a v2 of this patch I will also
-> add more information in the commit message.
->=20
-> The module slots have a number of pins, a lot of them currently unused as
-> they have not found a function yet, this is very much still a developing
-> product. The currently used interfaces to the SoC are:
-> 1. SPI bus as a spidev to ease developing new modules and quickly
-> integrate them. This is the main communication interface for control and
-> firmware updates.
-> 2. A reset pin, this is/was driven with the gpio-led driver but I doubt
-> that would get accepted upstream so I intend to switch to the much better
-> suited libgpio.
+> > I feel like my patch is good enough...  I guess the concern here is that
+> > GCC could change enums to something else.  I don't think that's likely as
+> > it would break a lot of code.  The other option, which is a good option,
+> > is to change the function signature for vgasr_priv.handler->get_client_id()
+> > so that we do:
+> >
+> > 	ret = vgasr_priv.handler->get_client_id(vga_dev, &id);
+> > 	if (ret)
+> > 		return;
+> >
+> > That's better code, honestly.  But I can't find motivation enough to do
+> > the work.
+> 
+> The more I look at this, the more bonkers 4aaf448fa975 feels.
+> 
+> Anyway, I don't think ->get_client_id() hooks should return negative
+> error codes, and indeed none of them do. None of them return
+> VGA_SWITCHEROO_UNKNOWN_ID either, but that would be a valid return.
+> 
 
-reset-gpios is not in trivial devices, so that's already a hint you
-cannot use this binding.
+Ugh...  Yeah.  The checks should all be the same obviously...
 
-> 3. An interrupt pin, this is currently only used in the firmware update
-> utility [2] to speed up the update process. Other communication is done at
-> a regular interval.
->=20
-> What is unused:
-> 1. A potentially multi-master i2c bus between all the module slots and
-> the SoC
-> 2. An SMBus alert line is shared between the modules, but not the SoC.
-> 3. A shared line designated as a clock line, intended to in the future
-> aid with synchronizing modules to each other for time critical control.
->=20
-> current software that is used to work with the modules can be found at
-> [2] and [3], one of them is a Node-RED module the other is a blockset for
-> Matlab/Simulink generated code.
->=20
-> If you know a better way I could describe this in the devicetree then I
 
-You need dedicated binding where you describe entire device, entire
-hardware, not what your driver supports in current release.
+> I suggest only checking for id == VGA_SWITCHEROO_UNKNOWN_ID. And doing
+> that in all the places that have that check, there are two more, but
+> they assign the return value to an int. So the int ret should be changed
+> to enum vga_switcheroo_unknown_id id I think.
+> 
 
-Best regards,
-Krzysztof
+I mean the future is hard to predict but it's way more likely that
+people will return negative error codes than that they'll return
+VGA_SWITCHEROO_UNKNOWN_ID.  To be honest, I'd probably just apply
+Su Hui's original patch at this point based on that's how that's what
+all the callers essentially do.
+
+https://lore.kernel.org/all/20231026021056.850680-1-suhui@nfschina.com/
+
+Really returning VGA_SWITCHEROO_UNKNOWN_ID is a headache for the callers
+because they have to test for it and then return -EINVAL.  It's
+non-standard and more complicated than just checking for negative.
+
+Changing it to return int is also slightly frustrating because everything
+returns zero but that's more likely the best approach.
+
+regards,
+dan carpenter
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c
+index 3893e6fc2f03..494df3984c68 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c
+@@ -549,12 +549,14 @@ static int amdgpu_atpx_init(void)
+  * look up whether we are the integrated or discrete GPU (all asics).
+  * Returns the client id.
+  */
+-static enum vga_switcheroo_client_id amdgpu_atpx_get_client_id(struct pci_dev *pdev)
++static int amdgpu_atpx_get_client_id(struct pci_dev *pdev, enum vga_switcheroo_client_id *id)
+ {
+ 	if (amdgpu_atpx_priv.dhandle == ACPI_HANDLE(&pdev->dev))
+-		return VGA_SWITCHEROO_IGD;
++		*id = VGA_SWITCHEROO_IGD;
+ 	else
+-		return VGA_SWITCHEROO_DIS;
++		*id = VGA_SWITCHEROO_DIS;
++
++	return 0;
+ }
+ 
+ static const struct vga_switcheroo_handler amdgpu_atpx_handler = {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_acpi.c b/drivers/gpu/drm/nouveau/nouveau_acpi.c
+index 21b56cc7605c..72f3d02779ec 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_acpi.c
++++ b/drivers/gpu/drm/nouveau/nouveau_acpi.c
+@@ -192,17 +192,22 @@ static int nouveau_dsm_power_state(enum vga_switcheroo_client_id id,
+ 	return nouveau_dsm_set_discrete_state(nouveau_dsm_priv.dhandle, state);
+ }
+ 
+-static enum vga_switcheroo_client_id nouveau_dsm_get_client_id(struct pci_dev *pdev)
++static int nouveau_dsm_get_client_id(struct pci_dev *pdev, enum vga_switcheroo_client_id *id)
+ {
+ 	/* easy option one - intel vendor ID means Integrated */
+-	if (pdev->vendor == PCI_VENDOR_ID_INTEL)
+-		return VGA_SWITCHEROO_IGD;
++	if (pdev->vendor == PCI_VENDOR_ID_INTEL) {
++		*id = VGA_SWITCHEROO_IGD;
++		return 0;
++	}
+ 
+ 	/* is this device on Bus 0? - this may need improving */
+-	if (pdev->bus->number == 0)
+-		return VGA_SWITCHEROO_IGD;
++	if (pdev->bus->number == 0) {
++		*id = VGA_SWITCHEROO_IGD;
++		return 0;
++	}
+ 
+-	return VGA_SWITCHEROO_DIS;
++	*id = VGA_SWITCHEROO_DIS;
++	return 0;
+ }
+ 
+ static const struct vga_switcheroo_handler nouveau_dsm_handler = {
+diff --git a/drivers/gpu/drm/radeon/radeon_atpx_handler.c b/drivers/gpu/drm/radeon/radeon_atpx_handler.c
+index f557535c1d7b..8dce19cd3d3a 100644
+--- a/drivers/gpu/drm/radeon/radeon_atpx_handler.c
++++ b/drivers/gpu/drm/radeon/radeon_atpx_handler.c
+@@ -529,12 +529,14 @@ static int radeon_atpx_init(void)
+  * look up whether we are the integrated or discrete GPU (all asics).
+  * Returns the client id.
+  */
+-static enum vga_switcheroo_client_id radeon_atpx_get_client_id(struct pci_dev *pdev)
++static int radeon_atpx_get_client_id(struct pci_dev *pdev, enum vga_switcheroo_client_id *id)
+ {
+ 	if (radeon_atpx_priv.dhandle == ACPI_HANDLE(&pdev->dev))
+-		return VGA_SWITCHEROO_IGD;
++		*id = VGA_SWITCHEROO_IGD;
+ 	else
+-		return VGA_SWITCHEROO_DIS;
++		*id = VGA_SWITCHEROO_DIS;
++
++	return 0;
+ }
+ 
+ static const struct vga_switcheroo_handler radeon_atpx_handler = {
+diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
+index 18f2c92beff8..5ff222921d2f 100644
+--- a/drivers/gpu/vga/vga_switcheroo.c
++++ b/drivers/gpu/vga/vga_switcheroo.c
+@@ -187,6 +187,8 @@ static void vga_switcheroo_enable(void)
+ {
+ 	int ret;
+ 	struct vga_switcheroo_client *client;
++	enum vga_switcheroo_client_id id;
++
+ 
+ 	/* call the handler to init */
+ 	if (vgasr_priv.handler->init)
+@@ -197,11 +199,9 @@ static void vga_switcheroo_enable(void)
+ 		     client_id(client) != VGA_SWITCHEROO_UNKNOWN_ID)
+ 			continue;
+ 
+-		ret = vgasr_priv.handler->get_client_id(client->pdev);
+-		if (ret < 0)
++		ret = vgasr_priv.handler->get_client_id(client->pdev, &client->id);
++		if (ret)
+ 			return;
+-
+-		client->id = ret;
+ 	}
+ 
+ 	list_for_each_entry(client, &vgasr_priv.clients, list) {
+@@ -209,13 +209,13 @@ static void vga_switcheroo_enable(void)
+ 		     client_id(client) != VGA_SWITCHEROO_UNKNOWN_ID)
+ 			continue;
+ 
+-		ret = vgasr_priv.handler->get_client_id(client->vga_dev);
+-		if (ret < 0)
++		ret = vgasr_priv.handler->get_client_id(client->vga_dev, &id);
++		if (ret)
+ 			return;
+ 
+-		client->id = ret | ID_BIT_AUDIO;
++		client->id = id | ID_BIT_AUDIO;
+ 		if (client->ops->gpu_bound)
+-			client->ops->gpu_bound(client->pdev, ret);
++			client->ops->gpu_bound(client->pdev, id);
+ 	}
+ 
+ 	vga_switcheroo_debugfs_init(&vgasr_priv);
+@@ -364,6 +364,7 @@ int vga_switcheroo_register_audio_client(struct pci_dev *pdev,
+ 			struct pci_dev *vga_dev)
+ {
+ 	enum vga_switcheroo_client_id id = VGA_SWITCHEROO_UNKNOWN_ID;
++	int ret;
+ 
+ 	/*
+ 	 * if vga_switcheroo has enabled, that mean two GPU clients and also
+@@ -374,10 +375,10 @@ int vga_switcheroo_register_audio_client(struct pci_dev *pdev,
+ 	 */
+ 	mutex_lock(&vgasr_mutex);
+ 	if (vgasr_priv.active) {
+-		id = vgasr_priv.handler->get_client_id(vga_dev);
+-		if (id < 0) {
++		ret = vgasr_priv.handler->get_client_id(vga_dev, &id);
++		if (ret) {
+ 			mutex_unlock(&vgasr_mutex);
+-			return -EINVAL;
++			return ret;
+ 		}
+ 		/* notify if GPU has been already bound */
+ 		if (ops->gpu_bound)
+@@ -559,6 +560,7 @@ EXPORT_SYMBOL(vga_switcheroo_client_fb_set);
+ int vga_switcheroo_lock_ddc(struct pci_dev *pdev)
+ {
+ 	enum vga_switcheroo_client_id id;
++	int ret;
+ 
+ 	mutex_lock(&vgasr_priv.mux_hw_lock);
+ 	if (!vgasr_priv.handler || !vgasr_priv.handler->switch_ddc) {
+@@ -566,7 +568,9 @@ int vga_switcheroo_lock_ddc(struct pci_dev *pdev)
+ 		return -ENODEV;
+ 	}
+ 
+-	id = vgasr_priv.handler->get_client_id(pdev);
++	ret = vgasr_priv.handler->get_client_id(pdev, &id);
++	if (ret)
++		return ret;
+ 	vgasr_priv.old_ddc_owner = vgasr_priv.handler->switch_ddc(id);
+ 	return vgasr_priv.old_ddc_owner;
+ }
+@@ -597,11 +601,14 @@ int vga_switcheroo_unlock_ddc(struct pci_dev *pdev)
+ 		return -EINVAL;
+ 
+ 	if (vgasr_priv.old_ddc_owner >= 0) {
+-		id = vgasr_priv.handler->get_client_id(pdev);
++		ret = vgasr_priv.handler->get_client_id(pdev, &id);
++		if (ret)
++			goto unlock;
+ 		if (vgasr_priv.old_ddc_owner != id)
+ 			ret = vgasr_priv.handler->switch_ddc(
+ 						     vgasr_priv.old_ddc_owner);
+ 	}
++unlock:
+ 	mutex_unlock(&vgasr_priv.mux_hw_lock);
+ 	return ret;
+ }
+diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+index 1417e230edbd..4f10e8c81a30 100644
+--- a/drivers/platform/x86/apple-gmux.c
++++ b/drivers/platform/x86/apple-gmux.c
+@@ -541,19 +541,21 @@ static int gmux_set_power_state(enum vga_switcheroo_client_id id,
+ 	return gmux_set_discrete_state(apple_gmux_data, state);
+ }
+ 
+-static enum vga_switcheroo_client_id gmux_get_client_id(struct pci_dev *pdev)
++static int gmux_get_client_id(struct pci_dev *pdev, enum vga_switcheroo_client_id *id)
+ {
+ 	/*
+ 	 * Early Macbook Pros with switchable graphics use nvidia
+ 	 * integrated graphics. Hardcode that the 9400M is integrated.
+ 	 */
+ 	if (pdev->vendor == PCI_VENDOR_ID_INTEL)
+-		return VGA_SWITCHEROO_IGD;
++		*id = VGA_SWITCHEROO_IGD;
+ 	else if (pdev->vendor == PCI_VENDOR_ID_NVIDIA &&
+ 		 pdev->device == 0x0863)
+-		return VGA_SWITCHEROO_IGD;
++		*id = VGA_SWITCHEROO_IGD;
+ 	else
+-		return VGA_SWITCHEROO_DIS;
++		*id = VGA_SWITCHEROO_DIS;
++
++	return 0;
+ }
+ 
+ static const struct vga_switcheroo_handler gmux_handler_no_ddc = {
+diff --git a/include/linux/vga_switcheroo.h b/include/linux/vga_switcheroo.h
+index 7e6ac0114d55..cd3167ba2d02 100644
+--- a/include/linux/vga_switcheroo.h
++++ b/include/linux/vga_switcheroo.h
+@@ -119,7 +119,7 @@ struct vga_switcheroo_handler {
+ 	int (*switch_ddc)(enum vga_switcheroo_client_id id);
+ 	int (*power_state)(enum vga_switcheroo_client_id id,
+ 			   enum vga_switcheroo_state state);
+-	enum vga_switcheroo_client_id (*get_client_id)(struct pci_dev *pdev);
++	int (*get_client_id)(struct pci_dev *pdev, enum vga_switcheroo_client_id *id);
+ };
+ 
+ /**
 
