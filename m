@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF48CA43356
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 03:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5845A4336E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 04:14:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC9810E060;
-	Tue, 25 Feb 2025 02:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB6210E52C;
+	Tue, 25 Feb 2025 03:14:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XoUu2BKe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kFSb9BV4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A24210E060
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 02:59:05 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-2fc317ea4b3so1416394a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 18:59:05 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF8610E52C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:14:34 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-220d27d490dso12116575ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 19:14:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740452345; x=1741057145; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740453274; x=1741058074; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uxLwz9pAWPv4wliE2pWI7MwI3tykU6R8KAu78IrFtBQ=;
- b=XoUu2BKe9mv4VlicMhBlHryD+m1+gYlLyy3KgX/a/YEYNEBEPD46ae+pJ6YnA56t7i
- 3LA83XaHWybW+XwyoiKA7zyZoo7TWSpharCVbVFGLT0HxfkZJGpSNFrg9NkBX37jFQdx
- OOoD0UUHGOIA5YlmHAYAi+KlGVGqveHmzbwqPCVYhfsys+8zKYQJzlzeaB2boYXFHcP0
- ZJ6aacwIcxKobMJSgsv5x/A6Tk5PGDmi7IJP68PKTePLwnED9qF0CpowKHJSGycdytvv
- fiwz6mgwHka95gaZUO9Yzi7S4rtcrtOodIncMs7OAzKuTzQIPNkp6llx+m17thNJb0YV
- J0Iw==
+ bh=MTiii+zQqPJopvoIqRNCl49x8lpdFSLa6UIMeGztj1o=;
+ b=kFSb9BV4UZokiqCVjKncdcGNKgrIPQD1nYQKGm4+f76z1ro5SijwBudtLTLXcyfYSo
+ fFSaXbj2XOFl9C+R/tXbxnsIwdlUPwWN41dscjxfIbQ5br2D27gtICWYnogqgsexNobH
+ Frb0MyR+UrYaSGMIcJ0HMe7IiPqoE8x+zCjPeB6/ylNAzSkAbrbXKYu2/c4wpkQEq/fP
+ YroLK3B2k9XQ1+ag/WmBqpBv+m+hyT6xaQ2sSPmT2tSl4d2WW2hI60bswjAf2Wb3GPrG
+ 3T7+etySE13mXNGV04m7BDhHqqOK7E4d7334JuYiIzllzyWN51KwpwX1bKNsf6jlZqen
+ bPrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740452345; x=1741057145;
+ d=1e100.net; s=20230601; t=1740453274; x=1741058074;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uxLwz9pAWPv4wliE2pWI7MwI3tykU6R8KAu78IrFtBQ=;
- b=FqxCpc2+zNzc7F2GMOvX/ZEzJZ5lDPt7njIBcEl5RE/i68SZevqLzMhWe/3joz3CTM
- 7ZaenRr+GgybwnyvhwjJFuifmJCCoLlFBr5qDsgP6n4Wcrr5AactWBXdEzKDz3D3x3sM
- R5Iz7nRnzkuqOro59XL2R/ZQdhxjHGY3SMOediqbYbdgVAfqpQXY5QINnbOBJcp08e6U
- xBndITW2xTHEy4Ig0tFSro9nAC/9oX1ZEV1N61+a157l1citNURUpFAAWoYGyBEyHluQ
- 85P//elGWJSb9rG5G1sd9wETBKEaHOMNVgEAVQ7HoIfXi+QnDb4jk/pyFkhKTw1IW228
- 3bSw==
+ bh=MTiii+zQqPJopvoIqRNCl49x8lpdFSLa6UIMeGztj1o=;
+ b=A7/RiATsd10MTIVzEdx3ehNUCtWp5N5WhPOZleB0cb1fn6bWSz7MH6dxaip2PjulsG
+ 2taDMKQyUvWP8N6qQ3WV0gY2AH0uqjLBLIxeaurS/1kP8KDHGCwSdLNvlTzTco61cUsk
+ XJUAWqCVyVZr97GM5u+3CUyzOSspIht6QPm4aeEvFV2oBkK39JOuPqy2VNmgW4Wi1vTb
+ a0S3npkv0TNuwkJvr/xQ6IeiSakJDwT4ICxrioYNPGbwG27e60W3ineBYLgy0Pe59q/n
+ SaF2NiEs98yCIZs6VVr0OglalfMNb4T5k2XxzV2NnqqgN48UFDCuIkTeiH16AiuFxbpR
+ naZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVei/HN9WJ3JiU97DHMau9/bVjP3YKySiXLOrd892AQfGpcFX+UC3aaitVp9vTlsKd9MRsYaCyY1AE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzDSJe6UpKyfNK7M75j1FVrY1waGDXHjy/pgPIBs7gWL4CH0TBe
- jJ24yKOgGGE8aN0n965gjrISVte/QVsMaHAyvDAe8KylP8KdSjNu
-X-Gm-Gg: ASbGnctRjuNdcHmeZFniEt7g9rZvqLMy7BdV0hkFwEnLrQEfjyG0qhxEDHQylUwvv8S
- r9CGLoqSs9xAvWdSLtFiZxq/xGAelxMLzH/uyvqDI1EfFjSC+W7oRfW2iwIFjQsKOXLQD6wkJaK
- zen7vaZCKZ3lL008YzEuGUYh1y5aqN0b7fKuKyuJATSYeIkHXJfUHYxTwJQsc57T+AICEb66KKt
- 4OjcePaX6WTqilJFczhRT/66N/u7lkuiBQjvnW2zrgImVs3CFrBW9zMeJjrkWxsyYmNYrCyEsTZ
- K5sXj17Cl05HeNrJiwblw+Xl0A0o3QeSo1WE4yGUOw==
-X-Google-Smtp-Source: AGHT+IEEHHuebk6f0XqdbdzxFm+LbP1RDneTW/XWyiaxf+6sAHyMqfxlMXYlNk6VtOFPABpWireG+Q==
-X-Received: by 2002:a17:90b:4a07:b0:2f4:447b:f095 with SMTP id
- 98e67ed59e1d1-2fce7b14cc8mr9920933a91.4.1740452345260; 
- Mon, 24 Feb 2025 18:59:05 -0800 (PST)
-Received: from localhost.localdomain ([182.148.13.61])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2fe6a43cddbsm388655a91.31.2025.02.24.18.59.00
+ AJvYcCXoAYofR4zMP44xsltLyAn5Bnjt4N+zWfVqFng6l5GP7LadbcczlCoNkhT7HtJarXBZvxfTL94jon4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVJiDueHchza0e3/dx0OtD3rJWD+QmCRQSNDIgawJuh/WmUigx
+ 3I634DgcyPFh8/nTUcoizD/6AmPwXmTSjJeAZoqbijh0si7THhUK
+X-Gm-Gg: ASbGncvqp2e1KqvklVCq0Qd/ArXUH6J64aPjFqYONn6x8CiXalbat5YcryCgXBSgcpT
+ i9DXHXErYOCqej3XxzipSE3TM3Pbw+QCldl+HMX42Hzu1I4RjHzkEkH563lbP04l52cNR/h58A6
+ 84Z4De4QkysP98QrzzgWMQSL+QjO53Jp/k65ID/6CHLXXiyzBa1OBiXAgVWUMl5kWHXfz7tWN3t
+ uywYbvfKa5HSXzqHJkqWgfpv/OUxFOUjtyXddxUhHle7ct5wUPhZFpbPpv6uQYMxSuU+oCvPH5M
+ 3Lfj96PdL6pszqX9qlma/PxkX9usNouuR967t5GQspICOOdfPUJfmgYno1j/vxGrsHK4h9dn1iF
+ DjOc=
+X-Google-Smtp-Source: AGHT+IENisR31wnapQP5UILjmjga6+1j4+iRyv5pEpuKq0rZqZjB5Dc4GFMjy8dLP7W44x5xyZLSqw==
+X-Received: by 2002:a17:902:da90:b0:212:48f0:5b6f with SMTP id
+ d9443c01a7336-2219ffbdf18mr96244445ad.9.1740453273602; 
+ Mon, 24 Feb 2025 19:14:33 -0800 (PST)
+Received: from localhost.localdomain (210-61-187-174.hinet-ip.hinet.net.
+ [210.61.187.174]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2230a0ae9acsm3491085ad.225.2025.02.24.19.14.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2025 18:59:04 -0800 (PST)
+ Mon, 24 Feb 2025 19:14:33 -0800 (PST)
 From: Qianyi Liu <liuqianyi125@gmail.com>
 To: phasta@mailbox.org
 Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org,
@@ -69,8 +70,8 @@ Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org,
  maarten.lankhorst@linux.intel.com, matthew.brost@intel.com,
  mripard@kernel.org, phasta@kernel.org, tzimmermann@suse.de
 Subject: Re: [PATCH] drm/scheduler: Fix mem leak when last_scheduled signaled
-Date: Tue, 25 Feb 2025 10:58:57 +0800
-Message-Id: <20250225025857.36391-1-liuqianyi125@gmail.com>
+Date: Tue, 25 Feb 2025 11:12:25 +0800
+Message-Id: <20250225031225.44102-1-liuqianyi125@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
 References: <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
@@ -91,23 +92,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Philipp,
+
 Thank you for your patient reply. Let's first clarify the issue and send a new
 patch if necessary.
 
 As soon as it enters the drm_sched_entity_kill function, the entity
-->last_stchedled reference count is incremented by 1. If there are still jobs in
+->last_scheduled reference count is incremented by 1. If there are still jobs in
 the current entity, it will enter the while loop, assuming there is only one job
-left. If entity ->last_stcheduled has already been signaled, it will enter
-drm_sched_detity_kill_jobs_cb, but because null is passed in, the
-last_stcheduled reference count will not be correctly reduced by 1.
+left. If entity->last_scheduled has already been signaled, it will enter
+drm_sched_entity_kill_jobs_cb, but because null is passed in, the
+last_scheduled reference count will not be correctly reduced by 1.
 
-Because the prev pointer has been updated to &s_sense ->defined, the
-dma_ffence_put in the last line only reduces the reference count of s_fence
-->finished. The reference count of entity ->last_stcheduled was not reduced by
+Because the prev pointer has been updated to &s_fence->finished, the
+dma_fence_put in the last line only reduces the reference count of s_fence->finished.
+The reference count of entity->last_scheduled was not reduced by
 1, causing a memory leak.
 
-We should subtract 1 from the reference count of the prev when dma_ fence_ add_
-callback fails, which is called balance.
+We should subtract 1 from the reference count of the prev when dma_fence_add_callback
+fails, which is called balance.
 
 Best Regards.
 QianYi.
