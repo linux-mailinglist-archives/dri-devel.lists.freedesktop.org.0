@@ -2,67 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C254A43D76
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BA1A43D97
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:28:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4961C10E63E;
-	Tue, 25 Feb 2025 11:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00D410E641;
+	Tue, 25 Feb 2025 11:28:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="l4JC/HF2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="AxteAyoh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B28C10E63C;
- Tue, 25 Feb 2025 11:24:25 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6232D41C15;
- Tue, 25 Feb 2025 11:24:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740482664;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LAaEkGU3fY2hgCB19IgOdEZAdlwzGVDHNxR4949T30k=;
- b=l4JC/HF2kohEwyFKMeN0QY1rZVHWtHBoPl/7Hc82WrMN7rLfi3NdauPjwV07JakgUwKA8q
- k1WTVnl/BGeEoVHG8ESiXrvBBy7cqZuysoqMkaVmnoCZ3QDv/sI8SKM2hMIbI6+OaIpNOM
- BtQnnpNBCjlx+qdtH2sBY6BXVW3rJEUDDNu6x95X4vncHFOGjznoO9n1/U1TN5MMMrOn9H
- lddXnMHkQ5URJ+sfi9SUIwM9MDnVOLtKJnSv3fo1SM/Agirte8Pk5mGs89RJg8IkB4i2Fj
- fbDCAi4kWbtmJuwfIIgKAjcGooxDRtlToGYsyWJyYHio4uZ/zxnxyBrQWgrrOw==
-Date: Tue, 25 Feb 2025 12:24:21 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
- jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org
-Cc: intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
- ville.syrjala@linux.intel.com
-Subject: Re: [PATCH 04/63] dyndbg: make ddebug_class_param union members same
- size
-Message-ID: <791c0b1d-6fc2-43b4-b0fe-484eeef613d8@bootlin.com>
-Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>,
- linux-kernel@vger.kernel.org, jbaron@akamai.com,
- gregkh@linuxfoundation.org, ukaszb@chromium.org,
- intel-gfx-trybot@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
- ville.syrjala@linux.intel.com
-References: <20250125064619.8305-1-jim.cromie@gmail.com>
- <20250125064619.8305-5-jim.cromie@gmail.com>
+Received: from mail-4018.protonmail.ch (mail-4018.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86ACF10E642
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1740482918; x=1740742118;
+ bh=ZQXxRbGSbgaGwmvDUWTC+pRYlOBypLZ3GUVr0VwDJPI=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=AxteAyoh1Ndq3clbbRBTUZ2xnHUSiouoadh0WlYouQSeOf5ulzIzm0T4wUrgQxY/g
+ kt781UFS8xyyitbW88nxpR3babxwwqqXeAfFh4dld+4k/drUi6Pbq7t7UXieDNwJ7J
+ qqx1iPQAEKe4Bd6tgAQ97tTI9BvcWCIYWhL/STi7MYm+K/gojiGL5J9QW1/2FNYFbZ
+ OgHrda1tuDJAZx3rdSKVVjJHAb/VvUW1HeDdCNPSWvN6weJEnoE0Pgg9qll64eDppC
+ 3QHAzBAZbMHaM/24OKFAoWl3Wz3HRLFKkvc+qhKV4y7oBipj/yY7XH6HyRLfLDCIon
+ JBtaeFIC31jLg==
+Date: Tue, 25 Feb 2025 11:28:33 +0000
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com
+Subject: Re: [V7 02/45] drm/vkms: Round fixp2int conversion in lerp_u16
+Message-ID: <sumH-jMWxEB0ReC-xhqT2YbATq4l_TMfU2_ogO2tyM7iYG5Fp0XM7guLPCcUOuxW6uLW1YOoTNegOUOJVGiWYDxGaaGcXNjA5eZ8axRgl8E=@emersion.fr>
+In-Reply-To: <99a8779c-bb1c-44fc-b8a3-56ea80425c15@bootlin.com>
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-3-alex.hung@amd.com>
+ <99a8779c-bb1c-44fc-b8a3-56ea80425c15@bootlin.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: cf61a1186044b1d7546ebd6adf0b44a16b7373c1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250125064619.8305-5-jim.cromie@gmail.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudeiffduffeivdejgfejheeuudekkedvjeeuffegfefghfffkeelgffgieevudejnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehjihhmrdgtrhhomhhivgesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsggrrhhonhesrghkrghmrghirdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnr
- dhorhhgpdhrtghpthhtohepuhhkrghsiigssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigqdhtrhihsghotheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,54 +59,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tuesday, February 25th, 2025 at 10:37, Louis Chauvet <louis.chauvet@boot=
+lin.com> wrote:
 
+> Can I extract this patch from the series and apply it on drm-misc-next?
 
-Le 25/01/2025 à 07:45, Jim Cromie a écrit :
-> struct ddebug_class_param keeps a ref to the state-storage of the
-> param; make both class-types use the same unsigned long storage type.
-> 
-> ISTM this is simpler and safer; it avoids an irrelevant difference,
-> and if 2 users somehow get class-type mixed up (or refer to the wrong
-> union member), at least they will both see the same value.
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+That sounds completely fine by me, and TBH it sounds like it could even
+be drm-misc-fixes material?
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+We need to be a bit careful when merging patches from the same series
+via multiple trees. Maybe we'll merge the colorop stuff via the amd
+tree? I don't remember the rules around trees, and I don't know if it
+would be fine to merge the vkms changes in that tree as well. (I only
+remember Simona recommending against merging via multiple trees, because
+it's painful.)
 
-> ---
->   include/linux/dynamic_debug.h | 2 +-
->   lib/dynamic_debug.c           | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> index ff44ec346162..b9afc7731b7c 100644
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -124,7 +124,7 @@ struct _ddebug_info {
->   struct ddebug_class_param {
->   	union {
->   		unsigned long *bits;
-> -		unsigned int *lvl;
-> +		unsigned long *lvl;
->   	};
->   	char flags[8];
->   	const struct ddebug_class_map *map;
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 147540c57154..55df35df093b 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -799,7 +799,7 @@ int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
->   
->   	case DD_CLASS_TYPE_LEVEL_NAMES:
->   	case DD_CLASS_TYPE_LEVEL_NUM:
-> -		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl);
-> +		return scnprintf(buffer, PAGE_SIZE, "%ld\n", *dcp->lvl);
->   	default:
->   		return -1;
->   	}
+If we can't merge the vkms changes via the amd tree, they will likely
+need to wait for the amd tree to be merged back in drm-next?
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+If we merge some changes via drm-misc-next, then we won't be able to
+merge the rest via amd, if the rest depends on these changes.
 
+Simon
