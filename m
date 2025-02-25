@@ -2,122 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5BAA444DF
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:47:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA2DA444FD
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 16:52:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEACF10E144;
-	Tue, 25 Feb 2025 15:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0470010E0FF;
+	Tue, 25 Feb 2025 15:52:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="afa7Jbbs";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="OjLY0pIc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 071A510E144
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 15:46:58 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C7004429D;
- Tue, 25 Feb 2025 15:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740498417;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bzDPxLUdNty4pQsCfli/sP1l1GeyUx5l4lgbIIDK4uw=;
- b=afa7Jbbswbg/tCX2EW8J6PC1gR9lNc/MhWqDQCWiD6NLycYXj6zqzvp97z276yIgcliyg0
- rMZrTIodBz4LfKWeKpyI2uDdxbagx3zejy/DVXCABkLxH40Z94dGTSiod7cZYH3QfrxQ8U
- GeoKeT4IUlNKgsrBZ88MyIaI7PnyOKCHqKSPNexDGhxzVtGMtfziI26WPBQh/lx2smtUQr
- 6HAfD1BfBWjBBNOdg7BsuTRs4yqnJlFijj0M+2oR+Cz+iauz6SbBv4YuMjr35cvT/qIGFa
- vgoZoWATskUkoKoCqqFABhDRExDcOxh0B00RH0ehsD8TS1D7kfL4QEoppSTtBA==
-Message-ID: <e98d2da9-139a-48a6-841b-8ef8f94aa7df@bootlin.com>
-Date: Tue, 25 Feb 2025 16:46:56 +0100
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2064.outbound.protection.outlook.com [40.107.223.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF6D10E0FF;
+ Tue, 25 Feb 2025 15:52:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UkLWYLiYzVOV/5ADJ8DYi3Euq4ay1l9+es8Z/VW2dcUUBx2K9X9sBKknFmhFevnscBaTBu6g5vcm/ZusgtlfOHtuF1uJ1nysdZbMEGhYsL252MZGA6MOfLQC7byOD9ZKI29xKMz+NYJXLifTLDugNS/n4l4nSY+k/mBU+srGtGvgP55ahYCHnFTshvIZ2bn77PKgxs3h1W+0OBiysawCMK81dSqPkTUZPEnez8oTcce1d3EPW1jEB13Znq1R8ZceL6hQOV7mivzFEQNDhPLQBWq8sTxsJ2DaV5Szg5oWABtpPo3J1rBkKXBWV9hrcBuikciQbYfUFxWh8WmOPTEEbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sUD6s6plIdzPFnyme81jIUTj53uIA0hp95TzycVyIOw=;
+ b=ocRoK0pWoth2Fz0vPIGB1ZDEa6G600Dqk/p/RJiPeAtHS9Tu5Bs6vB+w4If66fY0P5eYonMrron0wvwpAzQNzcs4A6wgrL5LoFmqWv+Cvij5ZJUwkmJ2enhowihokO7v5TgyaofYbRRL4WzD8pXNm9OcAq3oMG5Y67IO25WFjdzBc8dGiGek4kLBM4ex9r571DfOLN4iw+8x3DPxuuoKpMi9kSIYOhTtMpQDjIw9yVh0pIyo51wCfN674NjtMEY81jUxoKh25kXuoyGBOPhi1ud9I6rZvYbKSUFVUz6T00y8P6jSzlT7+xXoi0waHvhKS85HAJ69ww676fJyQKuBNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sUD6s6plIdzPFnyme81jIUTj53uIA0hp95TzycVyIOw=;
+ b=OjLY0pIcBIhis+40P8FIpAXe2aPxDHdQiQqQv0ilrNtEFyKdaTcEz4mztWb7KfqE7hSwrkVs//kv1nhIfoO5HYAVOECfiixxBqHYyeQ0lIq5nGCc4FkLgMlmDZgT4GJZp88gtkb1jIp+bP4CuY6r2mCwnUBJ6UgcAx+TBEQvMzep/ZmH9cy5NsY9WzCmskR8NJYvo/yzrQITWMjOlsuZh+cQnaux28T3Y2YjcgTsQs9mGygrRH14ahVW95mTTZT/ta9ZCL9xOfNN2xyufcUTtOxSsXT3Rtexv+D9F1IFqRqlwJpBCYYB7NskN/4wFOpdb0YiYhFr2eB+oQoPGo74NQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by BL3PR12MB6594.namprd12.prod.outlook.com (2603:10b6:208:38d::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.18; Tue, 25 Feb
+ 2025 15:52:43 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%5]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
+ 15:52:43 +0000
+Message-ID: <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
+Date: Tue, 25 Feb 2025 10:52:41 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
-To: Maxime Ripard <mripard@kernel.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, jose.exposito89@gmail.com,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com
-References: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
- <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
- <20241126-overjoyed-knowing-cuttlefish-c8d0f6@houat>
- <Z2GqEOiVkdgB3IXy@louis-chauvet-laptop>
- <20250219-versatile-smilodon-of-felicity-cbcc4d@houat>
- <Z7XZYVs6LL1gEzIF@phenom.ffwll.local>
- <4e0d66f7-6234-4265-bfbb-a919224ecb2a@bootlin.com>
- <Z7b5OcewxCEsDGo9@phenom.ffwll.local>
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Alexandre Courbot <acourbot@nvidia.com>, Dave Airlie <airlied@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ Ben Skeggs <bskeggs@nvidia.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, paulmck@kernel.org
+References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
+ <Z7OrKX3zzjrzZdyz@pollux>
+ <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
+ <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
+ <Z7xh5bEyh_MII4WV@pollux> <20250224184502.GA1599486@joelnvbox>
+ <Z70EcwNIX0KtWy36@cassiopeiae>
 Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <Z7b5OcewxCEsDGo9@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgheehgeevudekvdetfeeifeelveeffffhieevtefhueelheettdeuhfeugfeuueenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudekpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhoughrihhgohhsihhquhgvihhrrghmvghlohesghhmrghilhdrtghomhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlr
- dgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghuphdrnhgvthdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
-X-GND-Sasl: louis.chauvet@bootlin.com
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <Z70EcwNIX0KtWy36@cassiopeiae>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN0P220CA0029.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:52e::9) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|BL3PR12MB6594:EE_
+X-MS-Office365-Filtering-Correlation-Id: 881d6239-e8be-493d-5737-08dd55b470e0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXRnS240NzZpV2VJMUI2M0wyZ1djdUpKbGlvV0ZSQStMZ09LTXhOYWdWZkZV?=
+ =?utf-8?B?WURXaVBEakNFNnkxSnEzSVkrTDUrbUlpNWdVd0oza0lab09xa3RzZzlRNjBE?=
+ =?utf-8?B?VDdQb0FJeDh3Z2wrbWE5VjZmLzUwNTRDSFYyN2R6MUZReDRhQTNEVlBUSWVj?=
+ =?utf-8?B?WnRhOTVEWTFpNnR0RjFJM3B1c2RoNG9oZ0p6N3FZK2NmTnBJR25qZWpGMDZs?=
+ =?utf-8?B?VTJQbENMRVJHenJudDF2TXpKMHAwSHJKendzNHgyNmUrdkhjTnJGZGlHZGs3?=
+ =?utf-8?B?blVKZUZoV0tOditybmZ0L1NLMHVid01TOVpwejdkUThXZmhEVmJINHVsdTBt?=
+ =?utf-8?B?UXhMUHVwQ21MSUZuUUFialoyRzhucGFHaVVjdXVHeVJLeitYSnA0VjVld1M1?=
+ =?utf-8?B?WTZiRG92TnR2ZFUxRXgwM3BlaWhMVitIeVRxK0xISUtOc0pzYmN5aDlPZEZZ?=
+ =?utf-8?B?Q3RRM2NuemMybUZVWmRwTTliekppVUJCcllLNHBXZXlPbFE1QTlJSUpadTRE?=
+ =?utf-8?B?Z0VHbDNEdjR6MDF4VDRlZWx2L3JKaG1zZjRrWEdGa2tuTkp0VGV2Szc5SEtH?=
+ =?utf-8?B?TUtBRUNLRnBUQndZT0ZtQkhZWGNhUFhXeTlGaHUrOXlnTXh4Z3pIcEdEUEFY?=
+ =?utf-8?B?WE5JMTh2UnJzS295bmNZMHU2SXVib1FwMUM0VTV0YlRrSDJnWkVxcW5TRE1u?=
+ =?utf-8?B?OG00ZDl6dy9PckhaMUpwenpSWWtreE9FTVo1QzZUTUtMZWROYjArZnZsOVE3?=
+ =?utf-8?B?Yi9GY1prL20rZUlwd0xYaEFjTndnUDRVYUMrNCtsUjdPb1U1aHl4Umtqc3ZO?=
+ =?utf-8?B?M2lmUGJ2RGZMbUQ5dmZrWGZSNkUyZ29vK0xvaXZVVm9DbC8wOWRhdlhmNUNi?=
+ =?utf-8?B?dVdMYlh6R0EzMCt0L2o0elBLcDdEeDYwdk8xcjJ0NTFjajlhMmplYjBUL1h0?=
+ =?utf-8?B?YkFyR3F5bzVCZmV4THo2QmxScGxJcTJFelMxcDBRaWlxUmxHU1krZTZiN0tO?=
+ =?utf-8?B?SEo5T09SdWpqNEpGM3VMN1JMQ2EvZ3MwMTZLS3AxeldoL3duN3VoMnBrRU5S?=
+ =?utf-8?B?b25laUxWbWhJZGpVWjBVZm50U1dCV01rUmF2MWJieE04NTFtcGdNSDl2cjNu?=
+ =?utf-8?B?M1dGTzBTZWJ6cm9XT2krd1pFUTBIUmxPOHJYTDUrQ3h4WGlnTGxDempiUVc5?=
+ =?utf-8?B?ck13c3JyREpmV3NBNnhRNFA3YXRJNjBvSGxwQVBqa3NTWE42MFh6N2tIS3J0?=
+ =?utf-8?B?V1BDdVlPOUZTNkNsZ1lxcERKTHprc2QvWEFybnpuQ0ZHY3FOdHErdGFFMW53?=
+ =?utf-8?B?aTQ5YjBJcHdkcFltRDE3Vm0wQUFHdno1MmdXa0t6VHJZMVVyVEJXWVd0MVlU?=
+ =?utf-8?B?ZmtqYkZNUTd2SXUwQUdPTVVyV0ZZdExoVUU1THFyY0FVM216Wld3ZWFnd3Qr?=
+ =?utf-8?B?QnpNakt5S2ZzT1dJdXJWTjZUTmcrOVlObTRnQ21PYUJkRGtNKzI5Z3hzd1NG?=
+ =?utf-8?B?WStxQjQ5dHRWelNFcHIyTWJjMXAxditHbStsOGh1OHlZVFZUa01qQWg5emFQ?=
+ =?utf-8?B?TlRGczVMb1dteml6Ty94MFk5dnhZeG9aRlhWdm5OWGNRbVlkR3VDZGtZemVT?=
+ =?utf-8?B?cSsxSzFldWJGVGd0d1ZZZWtlclB4Wnl6S2xESEM4SGNXa0NzYnYyeTg3Skls?=
+ =?utf-8?B?UWdSMGRWc0ZkOHVZeGIxOFlHY080aHdKUUxjaXdVNG85dU0xdit4MGxCcGw4?=
+ =?utf-8?B?ZVlYajYzQlEwNDVkRzQvYkQxakFCVVRyT08wbUxoMit1RjYwNVd1RWNXSm80?=
+ =?utf-8?B?alMzT2V5b3ZZVGxJTFI0SDY5OTZUNEVRT0k1dGw0d21jaFZPbHRWTEExVTEx?=
+ =?utf-8?Q?C7PLsAaiefaQq?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dUh6ejNpL28vMUo1QU1sM1ZzM3JnanlPM1lqT1MyR2dhc08raW9sZG44KzRp?=
+ =?utf-8?B?SXFkcTVWeG5OUmNWd3RTVWxPOVRJSVVRMWM0ZmFIWjBqZW9HS3NSZTJ6dFJ0?=
+ =?utf-8?B?RlJkR2prc1Bac2pRSmt6Y3RqSit2TTJaZ3ZnM2RpeW1acXdncm43d29aUCs4?=
+ =?utf-8?B?THZ0cTdELy9SMTJSRS81OHJhU3daSTRpMDZsYVlPWTBSQi9rVWNXK0VlN2lD?=
+ =?utf-8?B?ZjhiS0FZYyszUllDL2F5cVhkL0pEeVJ6b0d1VU5lQUtsYlpwUjJxajdnMXVy?=
+ =?utf-8?B?RkY2NUd5eDdQc210VUtZaWxLcHBRUW5PNlcwbGFGSytLR3BQdTlEd08rWXBw?=
+ =?utf-8?B?SWxXZDdSK1l5OFVmckZKazllUHdWb3pRUWFVSkIvZFpETjBua3JsSnFHTFFD?=
+ =?utf-8?B?dmxtK1BCRVNKL2NnN000dlZ0NEVtOGI4Qiszb2tsYzc3WEhKVEx4KzdQSmh1?=
+ =?utf-8?B?L0VLNnNDblVzak9yV0dSNVpIeUhORkx5aTgxTjl5MElvU3dmVnJtVXZrL28v?=
+ =?utf-8?B?YWlBQzN2TUlBcmtnUzVMRytCeDI3VU0waUoyc2t1b2ZWb1JYM3dPQ1BmZHBt?=
+ =?utf-8?B?SDhNNnN0djh1QS8vV3JZTmhPWmxraSthQ1ZWbVprTmlvMVdobGlpamxMbFFn?=
+ =?utf-8?B?THMrdENqTVRNUWYxZXBMenBCUGt5b0pYTnc5MlJsUzdoNTd3NnNhRXFzQVl4?=
+ =?utf-8?B?QjdySDlsU08zYXNMaVJqcE5pMWFsei9PdTE0SDYzUkRMa24yYndFYzdYTWdR?=
+ =?utf-8?B?NHlRVFlIb3FWNVFNWlU0SjFsM3ljVUdZMjJyMkxNZ1Q4MFF4M3lYNFBtUmFH?=
+ =?utf-8?B?djVmTmtxdi9EM1dQSnN3QWE5WTd0aklWQ1lvZ1BrbU9jQ09rZzBPVHRtV1FI?=
+ =?utf-8?B?WnkzZDJ3UW5uOGxTRzkrcHh6RXkyZ1ZEcE1qVFlSUHlNZkE0NmRmY1VibFJj?=
+ =?utf-8?B?V0twc1dGL1VJanB1WWE2OEdwYXcyZUJmQmpPV2hjN29xY1VWQzhCcCs1K0wz?=
+ =?utf-8?B?aXQ4ZHQvbFN1Y2tBdGZLNGoyYVR1ZWtaY0MvM3MwRSs2dkNvMDZuZDVKcXAx?=
+ =?utf-8?B?cnE1cEJPTzhLdzl2YnBtUWgyOS9zWmM4ejRTdmhXNnllaVg4Yzg2eEdTN05u?=
+ =?utf-8?B?bDR3Uk9GUktZOFZGaFhlS1VuU2hHN1d0Q2pBNDZGTmthbUp4M1JmT1NWWThD?=
+ =?utf-8?B?aUh5bWFKQ21SUUVHZFNycS9sZXY0L0tBcGQyZWNjR2VqL0g3YUExT3p2RU1h?=
+ =?utf-8?B?ME5VMEMvNFlVS25VZURISGpLNjVORFVsYkh0Y05oRmROK0hXMnZBeU1BSFBs?=
+ =?utf-8?B?WkxpMm96MURHaEhXTXJzRDM1RGpyeFBtcVlzdUxtTXN1Q09kRGh3Yng5czdK?=
+ =?utf-8?B?MHVHVG9oZ2pVbWVqTHIzYjl2VGhXTWpjUTNMaC9qS1JWWHo1OWdMdXhKRlNL?=
+ =?utf-8?B?QTlYUXVYcFR3U2g0TFNyWURqK1AyNXpscm1zOWRnQ1c0U1d1Rk1VamJ2enYv?=
+ =?utf-8?B?U0hmOCtaWVRUWUo4SGpJeE1Tb1AzRXgvUXVVSGdaWEhCRThKQUV3a2NmS21Z?=
+ =?utf-8?B?YmlxaDhqL1hEVDByci9IN1RFMTNQaHFGMG8xaDE4dUNYcS9RS1pENXpWREk3?=
+ =?utf-8?B?TVZkczEwN0NRd2R3b3czMFFzc2hEVVo3UEVFNFNwYlp2WGc3QVhOeXV3Q1R5?=
+ =?utf-8?B?QWk2S3FlTUlHUGFJcU1NVGlBa052OXpHeUhsQVQvNWw4UHJpNXFQVDdVN3Jv?=
+ =?utf-8?B?cVNzV0JKdWNjSTVpRmlKWFVCMld3UGMybEZiZlhMQWlDSDJaTGlmR0hzcjc1?=
+ =?utf-8?B?NUpScWYrSnk3NFRPa09uZEJyZGIvTXpVZXdoS1lCN2NXVEdBWHBoYlNSMXdl?=
+ =?utf-8?B?M1BmWW1lSTEwWjNyUk85eXBUVnROTzFyWTVnRXpsc20yUFRGcmd3TTJZVjNE?=
+ =?utf-8?B?c1N5OVE5NHg5cGdndGsyRnkrRUFNOEZSblRJRVFZdUYwYTJrVWpzcWxPV0ho?=
+ =?utf-8?B?Y1dJc3dVZ2tWUGJKQWZmWExTWkROK1FCeXlDNFhjMkprZHVjWUhLelNJaEZx?=
+ =?utf-8?B?THZ3NFN4aHFMK2JKamQ0YUt5YkxHcjZ1b1lHWWNCRnZhWThsQllmMmFFZEZp?=
+ =?utf-8?Q?V1Yi3WXlUtF0kL7kYHetAAkhF?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 881d6239-e8be-493d-5737-08dd55b470e0
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 15:52:43.4390 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fppCFjPogmAqS/Tejl3Vb9MZzwDvZUm7CeTXuThnCcEqEfOQRcjPBTWMqMIBmWHZhkUH5pAkzGMOM5lO5zCSCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6594
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,285 +174,94 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le 20/02/2025 à 10:43, Simona Vetter a écrit :
-> On Wed, Feb 19, 2025 at 05:28:37PM +0100, Louis Chauvet wrote:
->> Le 19/02/2025 à 14:15, Simona Vetter a écrit :
->>> On Wed, Feb 19, 2025 at 10:28:56AM +0100, Maxime Ripard wrote:
->>>> On Tue, Dec 17, 2024 at 05:42:56PM +0100, Louis Chauvet wrote:
->>>>> Hi,
->>>>>
->>>>>>> Hi all,
->>>>>>>
->>>>>>> I am also currently working on MST emulation for VKMS. If someone can read
->>>>>>> what I already did and at tell me if my implementation seems on the right
->>>>>>> track it could be nice.
->>>>>>>
->>>>>>> The current status is not very advanced: I can emulate a mst HUB, but not
->>>>>>> a screen. I am currently working on properly emulating the HUB by using an
->>>>>>> other hub.
->>>>>>>
->>>>>>> You can find the branch for this work here:
->>>>>>> https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-mst
->>>
->>> Can't look at this because it's private.
+On 2/24/2025 6:44 PM, Danilo Krummrich wrote:
+> On Mon, Feb 24, 2025 at 01:45:02PM -0500, Joel Fernandes wrote:
+>> Hi Danilo,
 >>
->> Hi Maxime, Sima,
->>
->> Normally, those should work:
->>
-
-[1]:https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/vkms-mst[1]:https://github.com/Fomys/linux/tree/vkms-mst
-
->>
->> I just re-tested, this is broken, probably because I never had the time to
->> properly finish my last idea: simplifying vkms_connector by creating
->> vkms_mst_emulator_root. With the rest of the code (i.e.
->> vkms_mst_hub/display_emulator + vkms_connector), I was able to make this
->> config working:
->>
->> HUB1 -> HUB2 -> DISPLAY1
->>       |       -> DISPLAY2
->>       -> DISPLAY3
->>
->> (working == it was listed properly by modetest + did not report any issue
->> when using a connector with modetest -s)
->>
->> Few things to note: no ConfigFS support, no eBPF support, poorly tested
->> (there are probably multithread/recursion issues)
->>
->> I had to stop working on it because I don't have anymore time, I plan to at
->> least rebase + send an RFC once the VKMS+ConfigFS work is done.
-
-I fixed it, so now [1] contains a working mst emulation with dp-aux 
-emulation. It is far from perfect and probably have many flaws, but it 
-works.
-
-The last commit creates the following configuration:
-
-host 0->0 hub1 1->0 display1
-                2->0 hub2 1->0 display2
-                          2-> Not Connected
-                3-> NC
-                4-> NC
-
->>
->>>>>> I think this is exactly the kind of things where we'll want eBPF I
->>>>>> think. There's no way you'll be able to model each possible test
->>>>>> scenarios for MST through configfs, even more so with a stable
->>>>>> interface.
->>>>>
->>>>> I just spent some time to think about it. I agree that eBPF seems
->>>>> applicable: we want to allows userspace to emulate any MST device, and we
->>>>> don't want to create huge uAPI + whole emulation in the kernel.
->>>>>
->>>>> As most of the protocol is similar accros device kind, I currently built
->>>>> my code around the struct vkms_mst_sideband_helpers to specify only the
->>>>> changed behavior (this way the "write to registers" "parse command"... is
->>>>> only done in one place). The choice of function is not definitive at all
->>>>> (it was just practical at this moment).
->>>>>
->>>>> With eBPF, I know three different way to attach programs to the kernel:
->>>>>    - Using a kprobe/attaching to a function: I can change the behavior of
->>>>>      all the device, there is no way "attach prog1 to hub" and "attach prog2
->>>>>      to screen1", it will be "attach prog1 to the function
->>>>>      `vkms_mst_emulator_handle_transfer_write`, and all the device will be
->>>>>      affected. This should be very easy to implement (maybe it already
->>>>>      works without modification?), but very limited / make userspace stuff
->>>>>      very ugly => Not ideal at all
->>>>>    - Creating a whole architecture to attach eBPF programs in vkms: VKMS
->>>>>      manage the list of attached eBPF programs, call them when it needs...
->>>>>      This is probably the "most flexible" option (in the sense "VKMS can do
->>>>>      whatever we need to fit our usecase"). This seems not trivial to
->>>>>      implement (drm complexity + MST complexity + BPF complexity in the same
->>>>>      driver seems a bad idea, espicially because VKMS don't have a lot of
->>>>>      maintainance and I don't feel confident introducing more complexity)
->>>>>      => Can work, require some work, but may bring more complexity in VKMS
->>>>>    - Using BPF struct_ops: I can "simply" create/complete a struct ops for
->>>>>      diverse mst callbacks (see the proposition bellow). I looked at some
->>>>>      example, this seems to be "easy" to do, and the work in VKMS should be
->>>>>      limited.
->>>>>      => Can work, a bit less flexible than the previous solution, but avoid
->>>>>      a lot of complexity
->>>>>
->>>>> I don't know if I will be able to finish the implementation but I imagine
->>>>> something like that may be a nice interface (may be not possible "as is"):
->>>>>
->>>>> // vkms_mst.c struct_ops that can be filled by userspace with custom
->>>>> // functions
->>>>> // Known limitation: maximum 64 functions in this table
->>>>> struct vkms_mst_ops {
->>>>> 	// Completly overide the transfer function, so the userspace can
->>>>> 	// do whatever he wants (even emulating a complex MST tree
->>>>> 	// without using stuff in vkms)
->>>>> 	handle_transfer(drm_dp_aux_msg);
->>>>>
->>>>> 	// If default transfer function is used, those are the callback
->>>>> 	// you can use (again, they will come with default
->>>>> 	// implementation)
->>>>> 	clear_payload_id_table(..);
->>>>> 	link_address(..);
->>>>> 	enum_path_ressources(..);
->>>>> 	[...]
->>>>>
->>>>> 	// Used to identify this kind of device, in my example the
->>>>> 	// userspace could register "LG_screen", "dell dock", "HP screen",
->>>>> 	// and then configure each mst device with the correct kind
->>>>> 	name = "<unique name for this device kind>",
->>>>>
->>>>> 	// If you want to use the default "hub" implementation, but only
->>>>> 	// tweak one specific behavior, you can use this
->>>>> 	base = "<name of the other structops>"
->>>>> }
->>>>>
->>>>>
->>>>> // Needed to implement eBPF struct_ops, called when userspace registers a
->>>>> // struct_ops of type vkms_mst_ops
->>>>> void register_struct_ops(new_ops...) {
->>>>> 	vkms_registered_ops.append(new_ops).
->>>>> }
->>>>>
->>>>> // In vkms_connector.c
->>>>> // Callback called by drm core to do transfer on the connector
->>>>> void vkms_mst_transfer(aux, msg) {
->>>>> 	mst_emulator = get_mst_emulator(aux);
->>>>>
->>>>> 	ops = vkms_registered_ops.search_for(mst_emulator.name);
->>>>> 	ops->handle_transfer(msg);
->>>>> }
->>>>>
->>>>> // mst_ebpf.c In the BPF program, userspace side
->>>>> void handle_transfer(...) {
->>>>> 	[...]
->>>>> }
->>>>> struct vkms_mst_ops {
->>>>> 	handle_transfer = handle_transfer;
->>>>> 	name = "lg-screen";
->>>>> 	base = "default-screen"
->>>>> }
+>> On Mon, Feb 24, 2025 at 01:11:17PM +0100, Danilo Krummrich wrote:
+>>> On Mon, Feb 24, 2025 at 01:07:19PM +0100, Danilo Krummrich wrote:
+>>>> CC: Gary
 >>>>
->>>> I don't think MST is the right abstraction there. We should have MST
->>>> related helper functions available to eBPF programs, but we should load
->>>> them at the connector level, ie, implement a full blown connector
->>>> atomic_check for example. It's more flexible and will allow to implement
->>>> other use-cases people have been interested in (like panels).
+>>>> On Mon, Feb 24, 2025 at 10:40:00AM +0900, Alexandre Courbot wrote:
+>>>>> This inability to sleep while we are accessing registers seems very
+>>>>> constraining to me, if not dangerous. It is pretty common to have
+>>>>> functions intermingle hardware accesses with other operations that might
+>>>>> sleep, and this constraint means that in such cases the caller would
+>>>>> need to perform guard lifetime management manually:
+>>>>>
+>>>>>   let bar_guard = bar.try_access()?;
+>>>>>   /* do something non-sleeping with bar_guard */
+>>>>>   drop(bar_guard);
+>>>>>
+>>>>>   /* do something that might sleep */
+>>>>>
+>>>>>   let bar_guard = bar.try_access()?;
+>>>>>   /* do something non-sleeping with bar_guard */
+>>>>>   drop(bar_guard);
+>>>>>
+>>>>>   ...
+>>>>>
+>>>>> Failure to drop the guard potentially introduces a race condition, which
+>>>>> will receive no compile-time warning and potentialy not even a runtime
+>>>>> one unless lockdep is enabled. This problem does not exist with the
+>>>>> equivalent C code AFAICT
 >>>
->>> So since I can't look at the code I'll just drop my thoughts here.
+>>> Without klint [1] it is exactly the same as in C, where I have to remember to
+>>> not call into something that might sleep from atomic context.
 >>>
->>> - I think validating the MST helpers implementation should be done with
->>>     kunit tests. So these are out of scope for vkms testing I think
->>>     entirely.
 >>
->> Yes, I agree with this, and it joins your last comment: the full dp-aux
->> emulation does not belong only to VKMS. I had this idea only because my
->> solution only use the normal core MST implementation (no special handling in
->> VKMS, just pure dp-aux emulation), so technically you could also stress-test
->> drm core with it.
->>
->>> - Next up are the driver implementations. There we might want to be able
->>>     to inject fake mst devices to stress-test driver corner cases. But I
->>>     don't think that's a job for vkms either.
->>
->> I agree, VKMS is not here to test other drivers.
->>
->>> - Now for vkms itself, I think the interesting case here is being able to
->>>     test compositors against funny mst corner-cases, but for that we don't
->>>     really need an mst operation at all. So no dp-aux or anything like that,
->>>     we just hotplug-create connectors with names and PATH property and MST
->>>     type, without any of the kernel-internal presentations for hubs/branch
->>>     points and all that stuff. Because userspace doesn't ever see that.
->>
->> I knew that user space don't really see the MST information (apart from
->> PATH), but I did not think about this solution. This may work well to test
->> user space, I agree!
->>
->> I think we are on the good track with José, he is trying to implement
->> connector hot-creation through ConfigFS [1]. To add "MST emulation", we can
->> "simply" add the PATH property through ConfigFS.
+>> Sure, but in C, a sequence of MMIO accesses don't need to be constrained to
+>> not sleeping?
 > 
-> Yeah, I think that's the way to go. Well maybe with a change to always
-> include the PATH property, because currently that's true for all
-> hotpluggable connectors. And we probably want to keep that if we extend it
-> to hotpluggable bridges or similar.
+> It's not that MMIO needs to be constrained to not sleeping in Rust either. It's
+> just that the synchronization mechanism (RCU) used for the Revocable type
+> implies that.
 > 
->> [1]: Few discussions here
->> https://lore.kernel.org/all/Z5zJ1rEZyBEgd7DN@louis-chauvet-laptop/
+> In C we have something that is pretty similar with drm_dev_enter() /
+> drm_dev_exit() even though it is using SRCU instead and is specialized to DRM.
 > 
-> Agreeing with you, connector hotplug is something we need to tackle as an
-> extension of the basic configfs support, since it's quite complex.
-> 
->>> - Next up is expressing all the funny constraints that can result in,
->>>     across different drivers. For that I think we want ebpf to implement the
->>>     various atomic_check hooks, so that you can implement all the funny
->>>     constraints of mst link bw limitations, but also host-side display
->>>     limitations. And I concur with Maxime that this ebpf support should be
->>>     entirely agnostic and just allow you to attach atomic_check
->>>     implementations to connectors, planes and crtcs. And then maybe one for
->>>     the overall commit, so that global constraints are easier to implement.
->>
->> If I understand correctly, this has nothing to do with VKMS + MST?
->> I don't clearly understand the use case: why do we want the user space to
->> express hardware limitations? If you have already discussed this on the
->> mailing list, can you share the discussion?
-> 
-> Not sure this was discussed in-depth, but when you get into more complex
-> output configurations, there's all kinds of funny hw constraints that pop
-> up. Examples:
-> - Multiple mst outputs on the same physical port share the overall
->    bandwidth. So individually you might be able to light up each connector
->    at max resolution, but if you try to light up all of them, there's a
->    limitation. This is the mst specific case.
-> - There's also lots of display hw constraints, like a limited amount of
->    clocks (fewer than crtc), or memory bw constraints for scanout, and
->    similar things.
-> 
-> The idea is to express these constraints with ebpf programs, so that you
-> can validate that a compositor correctly handles these cases and doesn't
-> try an invalide configuration and then just fails instead of trying to
-> fall back to something that works.
-> 
-> So it's a much bigger issue, but multi-connector mst is a fairly important
-> case here.
+> In DRM this is used to prevent accesses to device resources after the device has
+> been unplugged.
 
-I think I understood. I don't think I will have the time to work on this 
-issue, but it is clearly a good idea. I submitted [2] to add it on the 
-TODO list.
+Thanks a lot for the response. Might it make more sense to use SRCU then? The
+use of RCU seems overly restrictive due to the no-sleep-while-guard-held thing.
 
-[2]:https://lore.kernel.org/all/20250225-vkms-update-todo-v1-1-afb1e6f7d714@bootlin.com/ 
-(not yet on lore)
+Another colleague told me RDMA also uses SRCU for a similar purpose as well.
 
-Thanks,
-Louis Chauvet
+>> I am fairly new to rust, could you help elaborate more about why these MMIO
+>> accesses need to have RevocableGuard in Rust? What problem are we trying to
+>> solve that C has but Rust doesn't with the aid of a RCU read-side section? I
+>> vaguely understand we are trying to "wait for an MMIO access" using
+>> synchronize here, but it is just a guest.
+> 
+> Similar to the above, in Rust it's a safety constraint to prevent MMIO accesses
+> to unplugged devices.
+> 
+> The exact type in Rust in this case is Devres<pci::Bar>. Within Devres, the
+> pci::Bar is placed in a Revocable. The Revocable is revoked when the device
+> is detached from the driver (for instance because it has been unplugged).
+
+I guess the Devres concept of revoking resources on driver detach is not a rust
+thing (even for PCI)... but correct me if I'm wrong.
+
+> By revoking the Revocable, the pci::Bar is dropped, which implies that it's also
+> unmapped; a subsequent call to try_access() would fail.
+> 
+> But yes, if the device is unplugged while holding the RCU guard, one is on their
+> own; that's also why keeping the critical sections short is desirable.
+
+I have heard some concern around whether Rust is changing the driver model when
+it comes to driver detach / driver remove.  Can you elaborate may be a bit about
+how Rust changes that mechanism versus C, when it comes to that?  Ideally we
+would not want Rust drivers to have races with user space accesses when they are
+detached/remove. But we also don't want accesses to be non-sleepable sections
+where this guard is held, it seems restrictive (though to your point the
+sections are expected to be small).
+
+thanks,
+
+ - Joel
 
 
-> Cheers, Sima
-> 
->>> So summary: MST testing in vkms only needs to look like MST to userspace.
->>> Internally we'll just hand-roll the entire connector hotplug and leave out
->>> everything else. Because testing driver dp mst implementations and the
->>> helpers is better covered through different means.
->>>
->>> Eventually we might want to implement fake i2c and dp-aux implementations
->>> for additional features like TV remote control and fun stuff like that (I
->>> forgot the CEA/HDMI name for these). But I think that's waaaayyyyyy down
->>> the road.
->>
->> I think I am not that far from a full dp-aux emulation, it is precisely what
->> I tried to do in VKMS. I don't have the time to transform it to kunit tests.
->>
->> Thanks a lot for your feedback!
->> Louis Chauvet
->>
->>> Cheers, Sima
->>
->> -- 
->> Louis Chauvet, Bootlin
->> Embedded Linux and Kernel engineering
->> https://bootlin.com
->>
-> 
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
