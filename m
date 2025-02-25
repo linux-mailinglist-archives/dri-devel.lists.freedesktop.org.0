@@ -2,90 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3870A43380
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 04:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAFCBA433A9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 04:37:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B027C10E534;
-	Tue, 25 Feb 2025 03:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE78710E53C;
+	Tue, 25 Feb 2025 03:37:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ShjVpeL4";
+	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="iF9iqF5I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97A8E10E534
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:18:05 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-54529eeb38aso4369919e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 19:18:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740453484; x=1741058284; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FCZchhqLX8uUjPFWnCBXbymsSao+hh9E/o3hFTKGn1Q=;
- b=ShjVpeL4DOQlJNcJ3/WWxsbWOidW6RUeSdF1YZ5XXOeV5PbuK5mxYpGWZLq3B/VeIH
- EH/q53BrB5GnEGpEcPz7H5Okfm9cTpiZpc0HK+YipsMy3PrUg0lrS52H4INtbUXAClCI
- jFUpT0DZrcz+BuLPsluoWrm727/VFH2sS46Hms0htecChFblhfsNGCytEycWHw8rOdsT
- 6wmySSVeSEEewdKXFSofzG9pu6OIn8ofcUVjXdis+eEqJyecdQ0T9lzAvCp7sYxYnlWu
- dACszyQOTWQDghvcAhKgng/biBBVATTR4EWs7P6nlLXMDbesbf1nt4t29BWpJX7gTBzC
- UPQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740453484; x=1741058284;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FCZchhqLX8uUjPFWnCBXbymsSao+hh9E/o3hFTKGn1Q=;
- b=g6q+zstdZyTE0S/tEoCdYKKRd06PaA90cEMiAG6sYvVtDKbYaQoV+kFJYz3BbFzPoI
- nBD7VBvl2QqUtCkNbakOp7mcqGtwSyBqzhi9WeBNnE4EzGo6AaHQBrlzxCRoBup/kMjv
- wJDz0IHx62G9a4CUgw4t27ih7yUymn4NaqdjWUXJOLsb/mlv9KtoCuXjQK35jYwtQVkY
- YkrsbUftJw+Jzyuv+xOjt16uqndY5ABHEPIQrlPwZynFqo35iocm0Uf5+aF4/a64RhHZ
- JXv1n4CiCLrFOfrcKG1CyZjx1RdbDorsdfgeB3BIZznx+Wfx+9jmi1os6/da++cNtu1S
- Mxdg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVjd69JCHKPzjgVtTrt1mUHT8utVG9fAIDAAp+WoVV1bWhEIuzL903iqZGDI/IoMmlJnvWQ2H8NQzU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw59aoGxK8ImtkFt/JlpMwu9nP/+s8MaZNUNBFsAyb/W5ud3lFQ
- 5d/xGAo8d3lezjH+vLbzBfgsSEcFz9ujDZUyVQDUWZZNKrJZeMJ/GCzj5ED0BTo=
-X-Gm-Gg: ASbGncul+HyUQU+YYMVKrT4AXeZsf1eCxXiV7DWQY6uxgbMYgACTsoIr7G66Ti2W8K9
- +h1H4ZElKtPo/WNSfK7LQdL8XcWKVnraBr+UHuIy1HkbaysChEDfqrfHntD0N/Yvd7tL026F6ur
- TQXIe4bM4Rg4sOrDS34F/ZglS+9DxgEhEp6ApkoaLgAASbCZKoh/y9PrC3j84MMhOfKnSjC7KfG
- TjpaEGQms3Qv1Td14LNxskkH1+4EGBNu/N+/MY3sa59KYvyFbFnmfHaGBPwVed2fE9CQK8stz6Y
- zt6QRqUzdRfGkFKzrIf5Oe0dGeEmyE8lC7rsCJfmJW8TxO/ww1Rq8UFCTBrjk5kHW4pZuHiRNr2
- hrl2cFQ==
-X-Google-Smtp-Source: AGHT+IFxB2QxizMw9nvjOf5qWvU6eGEcTycsMPv7lmMYbeJIpZO5aid9mAqXGRvFMkad/0CFLKqMhQ==
-X-Received: by 2002:a05:6512:e97:b0:545:c1e:6603 with SMTP id
- 2adb3069b0e04-54838f7ad45mr5175824e87.50.1740453483664; 
- Mon, 24 Feb 2025 19:18:03 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-548514fa0c4sm60528e87.225.2025.02.24.19.18.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2025 19:18:02 -0800 (PST)
-Date: Tue, 25 Feb 2025 05:17:59 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Luca Weiss <luca@lucaweiss.eu>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 2/4] dt-bindings: display: panel: Add Himax HX83112B
-Message-ID: <wo7ws3nfpniavprg55e3qchgxj4v7shra526ag7nuab57s2lxz@n6jef2ljd46t>
-References: <20250222-fp3-display-v1-0-ccd812e16952@lucaweiss.eu>
- <20250222-fp3-display-v1-2-ccd812e16952@lucaweiss.eu>
- <77wat26ggsfqwssgt5wfq6yz6w3ccqz3pmn727a4aphqv4ljhx@vrzneg2rvzfj>
- <8b67cea3-82f7-47f8-b026-fd26cfbf94b4@lucaweiss.eu>
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3FD610E53C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:37:35 +0000 (UTC)
+Received: from [172.27.1.176] ([76.133.66.138]) (authenticated bits=0)
+ by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51P3aPQT1061652
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+ Mon, 24 Feb 2025 19:36:26 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51P3aPQT1061652
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+ s=2025021701; t=1740454597;
+ bh=ISdSv8V44MsbYhNsZikfbFNm2jh7tbbEZwA+56mURdo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iF9iqF5IJij6HEIYPvvetQ6+tmIzHsh+pMTMVnu3P5ykEhZfImV1libD4devCmagC
+ 3iyNSk1XFew7r8nfwrcPOMDwT9Cet01bBs8IAXImpdZtFUNL3xujHc86QVgJiUt4X2
+ 0obQOYiKlDxXVK9eiAHHN4J1RQO+t4f6a/s1DU/qIj/jceKMbtNss8wjpWMLBt7Ymh
+ YFL/VhabUdylO/46/55nX8FOwHbYthWKv8154FTojDQ/TbamsE3xTiQ8D2e6xanXYX
+ Oq30jBmkXfmGEjBRSmTsnad5TAIoXsXj3RQH1SppbmnJ0+TSzbTmjlZvJzSgp8i1Fw
+ p0rBDMFAbZAag==
+Message-ID: <d0067e6a-a6af-4b38-ac72-f655af4d3b3d@zytor.com>
+Date: Mon, 24 Feb 2025 19:36:25 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b67cea3-82f7-47f8-b026-fd26cfbf94b4@lucaweiss.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/17] x86: Replace open-coded parity calculation with
+ parity8()
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org,
+ mingo@kernel.org, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-4-visitorckw@gmail.com>
+ <d080a2d6-9ec7-1c86-4cf4-536400221f68@gmail.com>
+ <e0b1c299-7f19-4453-a1ce-676068601213@zytor.com>
+ <CAFULd4a_AnP4iqgQs7a6xAsnUFL8oZXxFcAWLmZFMm6MPF_zDQ@mail.gmail.com>
+Content-Language: en-US
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <CAFULd4a_AnP4iqgQs7a6xAsnUFL8oZXxFcAWLmZFMm6MPF_zDQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,126 +87,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 24, 2025 at 09:40:23PM +0100, Luca Weiss wrote:
-> On 23-02-2025 7:25 p.m., Dmitry Baryshkov wrote:
-> > On Sat, Feb 22, 2025 at 06:58:05PM +0100, Luca Weiss wrote:
-> > > Himax HX83112B is a display driver IC used to drive LCD DSI panels.
-> > > Describe it and the Fairphone 3 panel from DJN using it.
-> > > 
-> > > Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
-> > > ---
-> > >   .../bindings/display/panel/himax,hx83112b.yaml     | 75 ++++++++++++++++++++++
-> > >   1 file changed, 75 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..e6bd4b33d40be98e479d84617aea6d2af0df70e4
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
-> > > @@ -0,0 +1,75 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/panel/himax,hx83112b.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Himax HX83112B-based DSI display panels
-> > > +
-> > > +maintainers:
-> > > +  - Luca Weiss <luca@lucaweiss.eu>
-> > > +
-> > > +description:
-> > > +  The Himax HX83112B is a generic DSI Panel IC used to control
-> > > +  LCD panels.
-> > > +
-> > > +allOf:
-> > > +  - $ref: panel-common.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    contains:
-> > > +      const: djn,fairphone-fp3-panel
-> > 
-> > Would you know a better name or ID for a panel?
-> 
-> Initially no, as mentioned on the cover letter.
-> 
-> But I dug a bit more in some other documents and found this number now:
-> "98-03057-6598B-I"
-> 
-> This also somewhat matches the format of the Fairphone 4 panel from DJN:
-> ("djn,9a-3r063-1102b").
-> 
-> So I'll change the compatible to "djn,98-03057-6598b-i" in the next
-> revision.
 
-Thanks!
-
+On 2/24/25 14:08, Uros Bizjak wrote:
+> On Mon, Feb 24, 2025 at 10:56 PM H. Peter Anvin <hpa@zytor.com> wrote:
+>>
+>> On 2/24/25 07:24, Uros Bizjak wrote:
+>>>
+>>>
+>>> On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:
+>>>> Refactor parity calculations to use the standard parity8() helper. This
+>>>> change eliminates redundant implementations and improves code
+>>>> efficiency.
+>>>
+>>> The patch improves parity assembly code in bootflag.o from:
+>>>
+>>>     58:    89 de                    mov    %ebx,%esi
+>>>     5a:    b9 08 00 00 00           mov    $0x8,%ecx
+>>>     5f:    31 d2                    xor    %edx,%edx
+>>>     61:    89 f0                    mov    %esi,%eax
+>>>     63:    89 d7                    mov    %edx,%edi
+>>>     65:    40 d0 ee                 shr    %sil
+>>>     68:    83 e0 01                 and    $0x1,%eax
+>>>     6b:    31 c2                    xor    %eax,%edx
+>>>     6d:    83 e9 01                 sub    $0x1,%ecx
+>>>     70:    75 ef                    jne    61 <sbf_init+0x51>
+>>>     72:    39 c7                    cmp    %eax,%edi
+>>>     74:    74 7f                    je     f5 <sbf_init+0xe5>
+>>>     76:
+>>>
+>>> to:
+>>>
+>>>     54:    89 d8                    mov    %ebx,%eax
+>>>     56:    ba 96 69 00 00           mov    $0x6996,%edx
+>>>     5b:    c0 e8 04                 shr    $0x4,%al
+>>>     5e:    31 d8                    xor    %ebx,%eax
+>>>     60:    83 e0 0f                 and    $0xf,%eax
+>>>     63:    0f a3 c2                 bt     %eax,%edx
+>>>     66:    73 64                    jae    cc <sbf_init+0xbc>
+>>>     68:
+>>>
+>>> which is faster and smaller (-10 bytes) code.
+>>>
+>>
+>> Of course, on x86, parity8() and parity16() can be implemented very simply:
+>>
+>> (Also, the parity functions really ought to return bool, and be flagged
+>> __attribute_const__.)
+>>
+>> static inline __attribute_const__ bool _arch_parity8(u8 val)
+>> {
+>>          bool parity;
+>>          asm("and %0,%0" : "=@ccnp" (parity) : "q" (val));
 > 
-> Regards
-> Luca
+> asm("test %0,%0" : "=@ccnp" (parity) : "q" (val));
 > 
-> > 
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  iovcc-supply:
-> > > +    description: I/O voltage rail
-> > > +
-> > > +  vsn-supply:
-> > > +    description: Positive source voltage rail
-> > > +
-> > > +  vsp-supply:
-> > > +    description: Negative source voltage rail
-> > > +
-> > > +  port: true
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - reset-gpios
-> > > +  - iovcc-supply
-> > > +  - vsn-supply
-> > > +  - vsp-supply
-> > > +  - port
-> > > +
-> > > +unevaluatedProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    dsi {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        panel@0 {
-> > > +            compatible = "djn,fairphone-fp3-panel";
-> > > +            reg = <0>;
-> > > +
-> > > +            reset-gpios = <&tlmm 61 GPIO_ACTIVE_LOW>;
-> > > +
-> > > +            iovcc-supply = <&pm8953_l6>;
-> > > +            vsn-supply = <&pmi632_lcdb_ncp>;
-> > > +            vsp-supply = <&pmi632_lcdb_ldo>;
-> > > +
-> > > +            port {
-> > > +                panel_in_0: endpoint {
-> > > +                    remote-endpoint = <&dsi0_out>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > 
-> > > -- 
-> > > 2.48.1
-> > > 
-> > 
+> because we are interested only in flags.
 > 
 
--- 
-With best wishes
-Dmitry
+Also, needs to be %1,%1 (my mistake, thought flags outputs didn't count.)
+
+Finally, this is kind of an obvious improvement:
+
+  static void __init sbf_write(u8 v)
+  {
+         unsigned long flags;
+
+         if (sbf_port != -1) {
+-               v &= ~SBF_PARITY;
+                 if (!parity(v))
+-                       v |= SBF_PARITY;
++                       v ^= SBF_PARITY;
+
+	-hpa
+
