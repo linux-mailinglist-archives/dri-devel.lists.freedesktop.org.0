@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D161A43602
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:19:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06AD3A4360B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:24:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D7210E031;
-	Tue, 25 Feb 2025 07:19:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3988389798;
+	Tue, 25 Feb 2025 07:24:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="n9xnlE09";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Sfk7hKFc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3753410E031
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 07:19:08 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8A7A898F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 07:24:02 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z289L4YD0z9t7J;
- Tue, 25 Feb 2025 08:19:02 +0100 (CET)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Z28H26Bq3z9sbq;
+ Tue, 25 Feb 2025 08:23:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1740467942; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ t=1740468238; h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gTqWOsuaameKwBwP2PW1oZAO/zijrhZJI/nRbm8lIX0=;
- b=n9xnlE09xFqeQXdUQ1SXlb4QeEkEBZdOcmAnl8P+r0QwpYhb3zr3SpOckymXrM5yLfffCC
- 7xNbaV/rcQMHdrnK6cGWaAxNszvVyUWN1Jobh8sGVTB5/aeeykF98AUE0KLVvopGHjqmRx
- 27AQYMXB7yLmPyhpCNzitAuCVFXLVzec4nVSmeKbPk1w/DC0qJyJxu8RNT956Q8GN6FadZ
- sG8FhlzxRkfdAhEWO5+Pb/k4h9kC8DyTQTXk29Ho2lvnSs/ubNtMYgJkynANo3MrhE0eaQ
- EeUogJH/X1jz6zPn2zrDGt0OeW35ZkorjJSyVvOULDz/iO5UPZdNquPJOFnbTQ==
-Message-ID: <141295638b73e885f51a4b82ea7e417a6b0f5140.camel@mailbox.org>
+ bh=8A1xQGcIAs2ZYkMnIQ6UYkY+g4MrxPs4QsLmhj9ARe0=;
+ b=Sfk7hKFcS8hwS4uK1NnFvZhdUfF+sO1rwNZWnm19iR7UslZzL+xpGoc+UQT8zV3+9Zd85E
+ /B6fjo5a+S5WDWLwf3CYFMSqn4GxKu75V31R3teC98xIpvorluXDw6z1mskBkbN7rWVhFS
+ DQknCLlnum81mKrrHSnGhiaLmQpyxYuh1tw3spHO6A0aMCJNZkRXixc8bOxqoHNjYtlXra
+ /HHCSd4wTqA55ir7l8KAUTKjav+rwl//f/xQhp7gBfoCQ4IJDX29VAnF+hqF4ssq6Lo8rf
+ o7CRDoN4DOBL+4xAW44T6b5ruTaTe82baq7sAWPAHZ7f/QNNQdG9dG7+8jZAQQ==
+Message-ID: <0bb7b9c428bdefe36afb43272c73da7e04a001ed.camel@mailbox.org>
 Subject: Re: [PATCH] drm/scheduler: Fix mem leak when last_scheduled signaled
 From: Philipp Stanner <phasta@mailbox.org>
-To: phasta@kernel.org, qianyi liu <liuqianyi125@gmail.com>, Danilo Krummrich
- <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 25 Feb 2025 08:18:59 +0100
-In-Reply-To: <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
-References: <20250221062702.1293754-1-liuqianyi125@gmail.com>
- <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
+To: Qianyi Liu <liuqianyi125@gmail.com>
+Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,  maarten.lankhorst@linux.intel.com,
+ matthew.brost@intel.com, mripard@kernel.org,  phasta@kernel.org,
+ tzimmermann@suse.de
+Date: Tue, 25 Feb 2025 08:23:56 +0100
+In-Reply-To: <20250225031225.44102-1-liuqianyi125@gmail.com>
+References: <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
+ <20250225031225.44102-1-liuqianyi125@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-META: d1huoh5qwmwhghcxnmkjt9ygpurkxqnf
-X-MBO-RS-ID: 04853c29170cc312e34
+X-MBO-RS-ID: 04c2cee6b44ee9cd818
+X-MBO-RS-META: w44jgfszoj8fo67om5ekqg96r1t3ojsa
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,82 +69,50 @@ Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-02-24 at 10:52 +0100, Philipp Stanner wrote:
-> Hello,
+On Tue, 2025-02-25 at 11:12 +0800, Qianyi Liu wrote:
+> Hello Philipp,
 >=20
-> subject line: please write "drm/sched" instead of "drm/scheduler". It
-> has become the norm
+> Thank you for your patient reply. Let's first clarify the issue and
+> send a new
+> patch if necessary.
 >=20
-> On Fri, 2025-02-21 at 14:27 +0800, qianyi liu wrote:
-> > Problem: If prev(last_scheduled) was already signaled I encountred
-> > a
+> As soon as it enters the drm_sched_entity_kill function, the entity
+> ->last_scheduled reference count is incremented by 1. If there are
+> still jobs in
+> the current entity, it will enter the while loop, assuming there is
+> only one job
+> left. If entity->last_scheduled has already been signaled, it will
+> enter
+> drm_sched_entity_kill_jobs_cb, but because null is passed in, the
+> last_scheduled reference count will not be correctly reduced by 1.
 >=20
-> prev(last_scheduled) almost reads like a function call. Maybe write
-> "prev / last_scheduled"?
+> Because the prev pointer has been updated to &s_fence->finished, the
+> dma_fence_put in the last line only reduces the reference count of
+> s_fence->finished.
+> The reference count of entity->last_scheduled was not reduced by
+> 1, causing a memory leak.
 >=20
-> > memory leak in drm_sched_entity_fini. This is because the
-> > prev(last_scheduled) fence is not free properly.
+> We should subtract 1 from the reference count of the prev when
+> dma_fence_add_callback
+> fails, which is called balance.
 >=20
-> s/free/freed
->=20
-> >=20
-> > Fix: Balance the prev(last_scheduled) fence refcnt when
-> > dma_fence_add_callback failed.
+> Best Regards.
+> QianYi.
 
-Oh, and importantly, I forgot:
+OK, thanks for clarification.
 
-Since this is clearly a bug fix, it needs a "Fixes: " tag and put the
-stable kernel on Cc.
+I think, next to the other feedback, it would be good to have a brief
+version of the above explanation in your commit message, since this
+clearly describes the problem and the proposed solution.
 
+Please address the feedback by Matt and myself in a v2.
+
+(and btw., please don't remove the original e-mail content when
+answering =E2=80=93 that's uncommon on-list. Only when the threads are gett=
+ing
+huge one removes parts not addressed by the answer from the quoted
+content ;)
+
+
+Thanks
 P.
-
-> >=20
-> > Signed-off-by: qianyi liu <liuqianyi125@gmail.com>
-> > ---
-> > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 7 +++++--
-> > =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
-> > b/drivers/gpu/drm/scheduler/sched_entity.c
-> > index 69bcf0e99d57..1c0c14bcf726 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> > @@ -259,9 +259,12 @@ static void drm_sched_entity_kill(struct
-> > drm_sched_entity *entity)
-> > =C2=A0		struct drm_sched_fence *s_fence =3D job->s_fence;
-> > =C2=A0
-> > =C2=A0		dma_fence_get(&s_fence->finished);
-> > -		if (!prev || dma_fence_add_callback(prev, &job-
-> > > finish_cb,
-> > -					=C2=A0=C2=A0
-> > drm_sched_entity_kill_jobs_cb))
-> > +		if (!prev ||
-> > +		=C2=A0=C2=A0=C2=A0 dma_fence_add_callback(prev, &job->finish_cb,
-> > +					=C2=A0=C2=A0
-> > drm_sched_entity_kill_jobs_cb)) {
-> > +			dma_fence_put(prev);
->=20
-> But now the fence will also be put when prev =3D=3D NULL. Is that
-> intentional? It doesn't seem correct to me from looking at the commit
-> message, which states "Balance [=E2=80=A6] refcnt when dma_fence_add_call=
-back
-> failed"
->=20
-> It didn't get clear to me immediately which dma_fence_get() your new
-> dma_fence_put() balances. Can you ellaborate on that or maybe write a
-> comment?
->=20
-> But also be handy of could share the kmemleak trace.
->=20
->=20
-> Thanks
-> P.
->=20
-> > =C2=A0			drm_sched_entity_kill_jobs_cb(NULL, &job-
-> > > finish_cb);
-> > +		}
-> > =C2=A0
-> > =C2=A0		prev =3D &s_fence->finished;
-> > =C2=A0	}
->=20
-
