@@ -2,54 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B84A440BC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 14:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD96A440C5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 14:29:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBC1A10E68F;
-	Tue, 25 Feb 2025 13:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4447110E68E;
+	Tue, 25 Feb 2025 13:29:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bhllHNYj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C5kjPW7j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F6A10E68F
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 13:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740490135;
- bh=wsU4kJ1XGzokvgOGLtJpT/bXWw/ITBLYkrSt5rEXIDo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bhllHNYj49a9OWjQdFME3L8gLMCfI5obbF6NCs1gZK3j5iB3nHqnGEKAxq/g54Fxs
- TqGOrJB7tZB4L6kxN1lMR1jnd70Ol639bgcuGeVqTDUfW2hXSnwRLBA8Imwfj8TsLl
- rOHjTds71Jd+KWfdDg8hh4J+Aeoky5HrukCyWjthchQszCtY+o5WCxXQJD9zVpJtCJ
- fH+96Ui1lyfkyX/wHy8ZbvaWKWL7ImITRJAWkdk0Q0SY4X7tWgiSBmgE4MWtNMGP5C
- zmPAGLrUo/so15DDfTtN039znY/robn4Cv/Sy3YJau+Mcd98N5aK7uLCyAH2Su0zk5
- +JMbif5vKUKmg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B2D6B17E00FC;
- Tue, 25 Feb 2025 14:28:54 +0100 (CET)
-Date: Tue, 25 Feb 2025 14:28:49 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Steven
- Price <steven.price@arm.com>, Rob Herring <robh@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com
-Subject: Re: [RFC PATCH 4/7] drm/shmem: Introduce the notion of sparse objects
-Message-ID: <20250225142849.4dcec919@collabora.com>
-In-Reply-To: <20250218232552.3450939-5-adrian.larumbe@collabora.com>
-References: <20250218232552.3450939-1-adrian.larumbe@collabora.com>
- <20250218232552.3450939-5-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5033710E68E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 13:29:52 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-2fce3b01efcso7239202a91.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 05:29:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740490192; x=1741094992; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=g+KT3KVpGLuA4u2NJNwnGzORc7aygCrbdYn7UVwmV+4=;
+ b=C5kjPW7jadKsGTXrdtAwwIEhgGVp7StBsD8sEZg1bg8c29dJLl0HPljjI30ddmFRZ8
+ qJeNS5trJWmsuH5Ra/88jqKXW7u/61V1lZTqS1KgeDlfTqZzqLmc17t+WDmMRzvNKw6C
+ HyrGPIEjO+muBJsZK25azGXo4c79QxG9IJyvkdxJbZT2u7OwaNsG/2AYNZx7rIoG8Qmf
+ Vpp5mSmVAmPyW1Tn85vw8d5da1//krZPGsUazu6tVu/OUH0dD9mrGIgoQFmWIeX1fA6Y
+ fKDww58goACOSfz53xlFu8uQFV01aqNjxTpamcY3Rk/+f1oJJ9iGFB/mV9JeHOhZ/S80
+ a8Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740490192; x=1741094992;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g+KT3KVpGLuA4u2NJNwnGzORc7aygCrbdYn7UVwmV+4=;
+ b=tE2lLyeE2NzUyTilARB/98sdd/wkekIkMftc0E+pozc0GqV8Narut6VIgbpiM8tIzZ
+ IsCiZ3eP3mY5j1+dBpyMxPzm37FjGjCseO7KxrzeJBASxIvrqDMdzKikBYlE4VE0QiPK
+ biwmNeQL7nJNLiVMel28V8a8PNDQVzzRyiWRAvDUsUODQdO+3wpOWarsHAznGk7Io+8Y
+ NAwIrprnPtYZ3WC//N61iODNBkkxCifMHiMzBcrRwxL5MEqIP4qiOa50QzgOdqSzsXlX
+ byJhn0oFVwqsaw/tXTnbdqDnYWH3VCnDTDqcqq5MuvoXye2Inhr4B9jEHcXwYURYtEHr
+ p4Lg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXRc+j1b3Z7yUhUP0wzXMCBzPF1DZldj0Dljr5Pm4a4K5/gsFIQC6aPfxQBaBb5PrFxUkLD1GX9rDU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQbGk/dYBx6Ekwsyjb6NJDc5pkoER2vfqALF7Gpaui5hGEkmAg
+ ECN8gQ8+dG5fm31276ZbEgFiYOgtvQWqm+jYSmO9IKIWwQaUfcHCbeO314vB
+X-Gm-Gg: ASbGnctxmBIjJlBfdjklOGYRMxULcqVaPG/3q0w3PZDYVFW+LqVK6c+WsjKXsMvkiLl
+ mE8iwRvMwVPV7InpoGMRnMN1sHr3BhbroeOSEoPW2alZOTt+zgFxKXbQuxBqWFCSjfM07TULAIS
+ 3388n8Zm2DDWv6WxvBcpjpKGOtTb3+GERXJs7ofJERW8eUrjPR+oruhn7IC3ro763d+DwVgrQBW
+ G1xfMkwCE2sfqYACN2Z60wnXRDHqvCTjJalvMAhFCEnPlssd+iHs9GZl0zCLN6y/zQs326IQJVq
+ +Rhh9fFqQVGPr4zlmTg29kieEt91KLZ6hK+oeSlrwaApUYSdy16sdA==
+X-Google-Smtp-Source: AGHT+IHJCYV1yTKSOK6eGDyBnxKUrcQWKWx/K+mHz5nLdmHbZ4ukNdWQzUzjXs+WMIoPjs0tLGemNA==
+X-Received: by 2002:a17:90b:3941:b0:2fa:e9b:33ab with SMTP id
+ 98e67ed59e1d1-2fce78acd26mr32192478a91.16.1740490191556; 
+ Tue, 25 Feb 2025 05:29:51 -0800 (PST)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2fceb02d51fsm8424850a91.2.2025.02.25.05.29.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 05:29:50 -0800 (PST)
+Date: Tue, 25 Feb 2025 21:29:40 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org,
+ awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <Z7zIBwH4aUA7G9MY@thinkpad>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z7zIBwH4aUA7G9MY@thinkpad>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,288 +112,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Feb 2025 23:25:34 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Hi Yury,
 
-> Sparse DRM objects will store their backing pages in an xarray, to avoid =
-the
-> overhead of preallocating a huge struct page pointer array when only a ve=
-ry
-> small range of indices might be assigned.
->=20
-> For now, only the definition of a sparse object as a union alternative to=
- a
-> 'dense' object is provided, with functions that exploit it being part of =
-later
-> commits.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+On Mon, Feb 24, 2025 at 02:27:03PM -0500, Yury Norov wrote:
+> On Mon, Feb 24, 2025 at 12:42:02AM +0800, Kuan-Wei Chiu wrote:
+> > Several parts of the kernel open-code parity calculations using
+> > different methods. Add a generic parity64() helper implemented with the
+> > same efficient approach as parity8().
+> 
+> No reason to add parity32() and parity64() in separate patches
+
+Ack.
+
+>  
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> >  include/linux/bitops.h | 22 ++++++++++++++++++++++
+> >  1 file changed, 22 insertions(+)
+> > 
+> > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > index fb13dedad7aa..67677057f5e2 100644
+> > --- a/include/linux/bitops.h
+> > +++ b/include/linux/bitops.h
+> > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+> >  	return (0x6996 >> (val & 0xf)) & 1;
+> >  }
+> >  
+> > +/**
+> > + * parity64 - get the parity of an u64 value
+> > + * @value: the value to be examined
+> > + *
+> > + * Determine the parity of the u64 argument.
+> > + *
+> > + * Returns:
+> > + * 0 for even parity, 1 for odd parity
+> > + */
+> > +static inline int parity64(u64 val)
+> > +{
+> > +	/*
+> > +	 * One explanation of this algorithm:
+> > +	 * https://funloop.org/codex/problem/parity/README.html
+> 
+> This is already referenced in sources. No need to spread it for more.
+
+Ack.
+
+> 
+> > +	 */
+> > +	val ^= val >> 32;
+> > +	val ^= val >> 16;
+> > +	val ^= val >> 8;
+> > +	val ^= val >> 4;
+> > +	return (0x6996 >> (val & 0xf)) & 1;
+> 
+> It's better to avoid duplicating the same logic again and again.
+
+Ack.
+
+> 
+> > +}
+> > +
+> 
+> So maybe make it a macro?
+> 
+> 
+> From f17a28ae3429f49825d65ebc0f7717c6a191a3e2 Mon Sep 17 00:00:00 2001
+> From: Yury Norov <yury.norov@gmail.com>
+> Date: Mon, 24 Feb 2025 14:14:27 -0500
+> Subject: [PATCH] bitops: generalize parity8()
+> 
+> The generic parity calculation approach may be easily generalized for
+> other standard types. Do that and drop sub-optimal implementation of
+> parity calculation in x86 code.
+> 
+> Signed-off-by: Yury Norov [NVIDIA] <yury.norov@gmail.com>
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 42 +++++++++++++++++++++++---
->  include/drm/drm_gem_shmem_helper.h     | 18 ++++++++++-
->  2 files changed, 54 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
-_gem_shmem_helper.c
-> index 5ab351409312..d63e42be2d72 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -10,6 +10,7 @@
->  #include <linux/shmem_fs.h>
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
-> +#include <linux/xarray.h>
-> =20
->  #ifdef CONFIG_X86
->  #include <asm/set_memory.h>
-> @@ -50,7 +51,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_=
-funcs =3D {
-> =20
->  static struct drm_gem_shmem_object *
->  __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
-> -		       struct vfsmount *gemfs)
-> +		       bool sparse, struct vfsmount *gemfs)
->  {
->  	struct drm_gem_shmem_object *shmem;
->  	struct drm_gem_object *obj;
-> @@ -90,6 +91,11 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t =
-size, bool private,
-> =20
->  	INIT_LIST_HEAD(&shmem->madv_list);
-> =20
-> +	if (unlikely(sparse))
-> +		xa_init_flags(&shmem->xapages, XA_FLAGS_ALLOC);
-> +
-> +	shmem->sparse =3D sparse;
-
-Looks like the only caller passing sparse=3Dtrue is
-drm_gem_shmem_create_sparse(), and the sparse property is not used for
-the rest of the gem_shmem object initialization, so maybe we could move
-that code to drm_gem_shmem_create_sparse() instead of modifying the
-prototype of __drm_gem_shmem_create().
-
-> +
->  	if (!private) {
->  		/*
->  		 * Our buffers are kept pinned, so allocating them
-> @@ -124,10 +130,16 @@ __drm_gem_shmem_create(struct drm_device *dev, size=
-_t size, bool private,
+>  arch/x86/kernel/bootflag.c | 14 +-----------
+>  include/linux/bitops.h     | 47 +++++++++++++++++++++++++++-----------
+>  2 files changed, 35 insertions(+), 26 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
+> index 3fed7ae58b60..4a85c69a28f8 100644
+> --- a/arch/x86/kernel/bootflag.c
+> +++ b/arch/x86/kernel/bootflag.c
+> @@ -2,6 +2,7 @@
+>  /*
+>   *	Implement 'Simple Boot Flag Specification 2.0'
 >   */
->  struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev=
-, size_t size)
+> +#include <linux/bitops.h>
+>  #include <linux/types.h>
+>  #include <linux/kernel.h>
+>  #include <linux/init.h>
+> @@ -20,19 +21,6 @@
+>  
+>  int sbf_port __initdata = -1;	/* set via acpi_boot_init() */
+>  
+> -static int __init parity(u8 v)
+> -{
+> -	int x = 0;
+> -	int i;
+> -
+> -	for (i = 0; i < 8; i++) {
+> -		x ^= (v & 1);
+> -		v >>= 1;
+> -	}
+> -
+> -	return x;
+> -}
+> -
+>  static void __init sbf_write(u8 v)
 >  {
-> -	return __drm_gem_shmem_create(dev, size, false, NULL);
-> +	return __drm_gem_shmem_create(dev, size, false, false, NULL);
+>  	unsigned long flags;
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index c1cb53cf2f0f..29601434f5f4 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -230,10 +230,10 @@ static inline int get_count_order_long(unsigned long l)
 >  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
-> =20
-> +struct drm_gem_shmem_object *drm_gem_shmem_create_sparse(struct drm_devi=
-ce *dev, size_t size)
-> +{
-> +	return __drm_gem_shmem_create(dev, size, false, true, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gem_shmem_create_sparse);
-> +
+>  
 >  /**
->   * drm_gem_shmem_create_with_mnt - Allocate an object with the given siz=
-e in a
->   * given mountpoint
-> @@ -145,7 +157,7 @@ struct drm_gem_shmem_object *drm_gem_shmem_create_wit=
-h_mnt(struct drm_device *de
->  							   size_t size,
->  							   struct vfsmount *gemfs)
->  {
-> -	return __drm_gem_shmem_create(dev, size, false, gemfs);
-> +	return __drm_gem_shmem_create(dev, size, false, false, gemfs);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
-> =20
-> @@ -173,7 +185,9 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *=
-shmem)
->  			sg_free_table(shmem->sgt);
->  			kfree(shmem->sgt);
->  		}
-> -		if (shmem->pages)
+> - * parity8 - get the parity of an u8 value
+> + * parity - get the parity of a value
+>   * @value: the value to be examined
+>   *
+> - * Determine the parity of the u8 argument.
+> + * Determine parity of the argument.
+>   *
+>   * Returns:
+>   * 0 for even parity, 1 for odd parity
+> @@ -241,24 +241,45 @@ static inline int get_count_order_long(unsigned long l)
+>   * Note: This function informs you about the current parity. Example to bail
+>   * out when parity is odd:
+>   *
+> - *	if (parity8(val) == 1)
+> + *	if (parity(val) == 1)
+>   *		return -EBADMSG;
+>   *
+>   * If you need to calculate a parity bit, you need to draw the conclusion from
+>   * this result yourself. Example to enforce odd parity, parity bit is bit 7:
+>   *
+> - *	if (parity8(val) == 0)
+> + *	if (parity(val) == 0)
+>   *		val ^= BIT(7);
+> + *
+> + * One explanation of this algorithm:
+> + * https://funloop.org/codex/problem/parity/README.html
+>   */
+> -static inline int parity8(u8 val)
+> -{
+> -	/*
+> -	 * One explanation of this algorithm:
+> -	 * https://funloop.org/codex/problem/parity/README.html
+> -	 */
+> -	val ^= val >> 4;
+> -	return (0x6996 >> (val & 0xf)) & 1;
+> -}
+> +#define parity(val)					\
+> +({							\
+> +	u64 __v = (val);				\
+> +	int __ret;					\
+> +	switch (BITS_PER_TYPE(val)) {			\
+> +	case 64:					\
+> +		__v ^= __v >> 32;			\
+> +		fallthrough;				\
+> +	case 32:					\
+> +		__v ^= __v >> 16;			\
+> +		fallthrough;				\
+> +	case 16:					\
+> +		__v ^= __v >> 8;			\
+> +		fallthrough;				\
+> +	case 8:						\
+> +		__v ^= __v >> 4;			\
+> +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
+> +		break;					\
+> +	default:					\
+> +		BUILD_BUG();				\
+> +	}						\
+> +	__ret;						\
+> +})
 > +
-> +		if ((!shmem->sparse && shmem->pages) ||
-> +		    (shmem->sparse && !xa_empty(&shmem->xapages)))
->  			drm_gem_shmem_put_pages(shmem);
+> +#define parity8(val)	parity((u8)(val))
+> +#define parity32(val)	parity((u32)(val))
+> +#define parity64(val)	parity((u64)(val))
+>  
+What do you think about using these inline functions instead of macros?
+Except for parity8(), each function is a single line and follows the
+same logic. I find inline functions more readable, and coding-style.rst
+also recommends them over macros.
 
-Can we let drm_gem_shmem_put_pages() do the is_empty() check?
+Regards,
+Kuan-Wei
 
-> =20
->  		drm_WARN_ON(obj->dev, shmem->pages_use_count);
-> @@ -191,11 +205,19 @@ static int drm_gem_shmem_get_pages(struct drm_gem_s=
-hmem_object *shmem)
->  	struct drm_gem_object *obj =3D &shmem->base;
->  	struct page **pages;
-> =20
-> +	if (drm_WARN_ON(obj->dev, shmem->sparse))
-> +		return -EINVAL;
-> +
->  	dma_resv_assert_held(shmem->base.resv);
-> =20
->  	if (shmem->pages_use_count++ > 0)
->  		return 0;
-> =20
-> +	/* We only allow increasing the user count in the case of
-> +	  sparse shmem objects with some backed pages for now */
-> +	if (shmem->sparse && xa_empty(&shmem->xapages))
-> +		return -EINVAL;
+diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+index c1cb53cf2f0f..d518a382f1fe 100644
+--- a/include/linux/bitops.h
++++ b/include/linux/bitops.h
+@@ -260,6 +260,26 @@ static inline int parity8(u8 val)
+ 	return (0x6996 >> (val & 0xf)) & 1;
+ }
+ 
++static inline parity16(u16 val)
++{
++	return parity8(val ^ (val >> 8));
++}
++
++static inline parity16(u16 val)
++{
++	return parity8(val ^ (val >> 8));
++}
++
++static inline parity32(u32)
++{
++	return parity16(val ^ (val >> 16));
++}
++
++static inline parity64(u64)
++{
++	return parity32(val ^ (val >> 32));
++}
++
+ /**
+  * __ffs64 - find first set bit in a 64 bit word
+  * @word: The 64 bit word
 
-You'll never enter this branch because you return -EINVAL early when
-sparse=3D=3Dtrue.
 
-> +
->  	pages =3D drm_gem_get_pages(obj);
->  	if (IS_ERR(pages)) {
->  		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
-> @@ -541,6 +563,8 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault=
- *vmf)
->  	struct page *page;
->  	pgoff_t page_offset;
-> =20
-> +	drm_WARN_ON(obj->dev, shmem->sparse);
-
-For all those WARN_ON()s you add, I would add a comment explaining why
-you don't expect sparse objects to enter this path. In that case, it
-has to do with the fact sparse GEMs are not mmap-able (yet?).
-And, if you don't want to populate on-demand, you should probably
-return VM_FAULT_SIGBUS here, even if that's not expected.
-
-> +
->  	/* We don't use vmf->pgoff since that has the fake offset */
->  	page_offset =3D (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> =20
-> @@ -567,6 +591,7 @@ static void drm_gem_shmem_vm_open(struct vm_area_stru=
-ct *vma)
->  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> =20
->  	drm_WARN_ON(obj->dev, obj->import_attach);
-> +	drm_WARN_ON(obj->dev, shmem->sparse);
-> =20
->  	dma_resv_lock(shmem->base.resv, NULL);
-> =20
-> @@ -666,6 +691,9 @@ void drm_gem_shmem_print_info(const struct drm_gem_sh=
-mem_object *shmem,
->  	if (shmem->base.import_attach)
->  		return;
-> =20
-> +	if (drm_WARN_ON(shmem->base.dev, shmem->sparse))
-> +		return;
-> +
-
-We probably want to print some of these in case we're dealing with a
-sparse GEM object.
-
->  	drm_printf_indent(p, indent, "pages_use_count=3D%u\n", shmem->pages_use=
-_count);
->  	drm_printf_indent(p, indent, "vmap_use_count=3D%u\n", shmem->vmap_use_c=
-ount);
->  	drm_printf_indent(p, indent, "vaddr=3D%p\n", shmem->vaddr);
-> @@ -691,6 +719,7 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct dr=
-m_gem_shmem_object *shmem)
->  	struct drm_gem_object *obj =3D &shmem->base;
-> =20
->  	drm_WARN_ON(obj->dev, obj->import_attach);
-> +	drm_WARN_ON(obj->dev, shmem->sparse);
-> =20
->  	return drm_prime_pages_to_sg(obj->dev, shmem->pages, obj->size >> PAGE_=
-SHIFT);
->  }
-> @@ -702,6 +731,9 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_l=
-ocked(struct drm_gem_shmem_
->  	int ret;
->  	struct sg_table *sgt;
-> =20
-> +	if (drm_WARN_ON(obj->dev, shmem->sparse))
-> +		return ERR_PTR(-EINVAL);
-> +
->  	if (shmem->sgt)
->  		return shmem->sgt;
-> =20
-> @@ -787,7 +819,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device=
- *dev,
->  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
->  	struct drm_gem_shmem_object *shmem;
-> =20
-> -	shmem =3D __drm_gem_shmem_create(dev, size, true, NULL);
-> +	shmem =3D __drm_gem_shmem_create(dev, size, true, false, NULL);
->  	if (IS_ERR(shmem))
->  		return ERR_CAST(shmem);
-> =20
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shm=
-em_helper.h
-> index d22e3fb53631..902039cfc4ce 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -6,6 +6,7 @@
->  #include <linux/fs.h>
->  #include <linux/mm.h>
->  #include <linux/mutex.h>
-> +#include <linux/xarray.h>
-> =20
->  #include <drm/drm_file.h>
->  #include <drm/drm_gem.h>
-> @@ -29,7 +30,11 @@ struct drm_gem_shmem_object {
->  	/**
->  	 * @pages: Page table
->  	 */
-> -	struct page **pages;
-> +	union {
-> +
-> +		struct page **pages;
-> +		struct xarray xapages;
-> +	};
-> =20
->  	/**
->  	 * @pages_use_count:
-> @@ -91,6 +96,11 @@ struct drm_gem_shmem_object {
->  	 * @map_wc: map object write-combined (instead of using shmem defaults).
->  	 */
->  	bool map_wc : 1;
-> +
-> +	/**
-> +	 * @sparse: the object's virtual memory space is only partially backed =
-by pages
-
-I would drop the "virtual memory space" part. sparse just means the
-object might be partially backed by physical memory, and that memory
-will be allocated on-demand (most likely on-GPU-demand, but there's
-nothing preventing us from doing it on-CPU-demand, as long as the fault
-handler knows the allocation granularity).
-
-> +	 */
-> +	bool sparse : 1;
->  };
-> =20
->  #define to_drm_gem_shmem_obj(obj) \
-> @@ -229,6 +239,9 @@ static inline int drm_gem_shmem_object_vmap(struct dr=
-m_gem_object *obj,
->  {
->  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> =20
-> +	if (shmem->sparse)
-> +		return -EACCES;
-> +
->  	return drm_gem_shmem_vmap(shmem, map);
-
-Do we need a WARN_ON() in drm_gem_shmem_vunmap()?
-
->  }
-> =20
-> @@ -263,6 +276,9 @@ static inline int drm_gem_shmem_object_mmap(struct dr=
-m_gem_object *obj, struct v
->  {
->  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> =20
-> +	if (shmem->sparse)
-> +		return -EACCES;
-> +
->  	return drm_gem_shmem_mmap(shmem, vma);
->  }
-> =20
-
-I guess we also need to fail in drm_gem_shmem_get_sg_table() is this is
-a sparse object.
-
+>  /**
+>   * __ffs64 - find first set bit in a 64 bit word
+> -- 
+> 2.43.0
+> 
