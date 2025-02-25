@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D2EA44695
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D975A4469A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:44:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F0610E1C8;
-	Tue, 25 Feb 2025 16:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F6C910E4C3;
+	Tue, 25 Feb 2025 16:44:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vGjkMEAV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lYunjb/i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E2D10E74A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 16:44:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94EA210E1E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 16:44:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 637ED5C72FB;
- Tue, 25 Feb 2025 16:44:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE32C4CEED;
- Tue, 25 Feb 2025 16:44:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 259135C72FB;
+ Tue, 25 Feb 2025 16:44:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCDCC4CEE6;
+ Tue, 25 Feb 2025 16:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740501880;
- bh=N9o+5lkH2lEqI5Z0LkHvN3UcudIkKdRGUvoC3mBiKdc=;
+ s=k20201202; t=1740501883;
+ bh=KeATheLJvy4KSWQ+MgWTM+CiR2EGa9nqBzJQ0G9F4FM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=vGjkMEAVHcGMpKRMUlafJAGrQmk61NTDZa4iS592v/SBnMo0S0gBsg5Wwl1EPzrnD
- UvHY1AqOn2IFB46+xAu6C0W4kU8Q0uNCpWRtTJpOBgKjC/s0SGFfOSj6watW/SgSmZ
- MTI4qntlN0sLtb3WVGrFC3Rpeh8sAA+6894IOegpgYcIkhBRkElvNuYwJ16O9Mog3i
- wOXfGTVg6GAjElUZ4GmobHBwrgjQVJbD2U7GVMvXfAdR633r1N3W7D5w17chz+71Yb
- okrtOCKI9Nn7jtxUvW2hVcXS45B6kcSiCWUs/i8ETcA73Z/OJlbqa9AJoHynax5oGJ
- 4rrMwa1NyAtaA==
+ b=lYunjb/iww9NceM8Cr/JxYE4PO0J6JqQ1Hzyrxdx9gkcYulk/qjMVWEbSuctbo7Mm
+ 2S3sM/upwiLWpiTRGKg6dvmOhjdnqqH6+BLljR94ttH+mjgXT64WXxnXt7UT5TpcZq
+ U0O9ufK1NVavv/UQuBR+2vhmRcMVbyc6/pXwpQh6Z0rC+30s4vQfvSlXmVFzoV1b3x
+ Lxme8mTJ0pEtdSBa94Cf/xG3BG2K8Rkgxd7kgPIuy59ece2fLYp0SvOcHteb3VtI6G
+ 1IgtRO4Fcn4XBH7wR0jnGL5l/Fh6TsaNQM7kghj1Q9Baa7BlamQ3xqZj8Z3zTjlRS8
+ iSEdFTRxob4wg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 25 Feb 2025 17:44:01 +0100
-Subject: [PATCH v4 13/15] drm/bridge: tc358768: Stop disabling when failing
- to enable
+Date: Tue, 25 Feb 2025 17:44:02 +0100
+Subject: [PATCH v4 14/15] drm/bridge: tc358768: Convert to atomic helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-bridge-connector-v4-13-7ecb07b09cad@kernel.org>
+Message-Id: <20250225-bridge-connector-v4-14-7ecb07b09cad@kernel.org>
 References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
 In-Reply-To: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +50,12 @@ Cc: Herve Codina <herve.codina@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2122; i=mripard@kernel.org;
- h=from:subject:message-id; bh=N9o+5lkH2lEqI5Z0LkHvN3UcudIkKdRGUvoC3mBiKdc=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOl7P/t/vmHzfumZU7O1LHzvfzkxV6C5vn+jULbWD6+EX
- 5O/XDwS2TGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmMvk9Y8M3dcNpqhVfH1k/
- +qoq0yweWxwpENVyYubmHqMrjb5nVuXXRXEEMVtsevqRNYWbZ/1ObsYqZk3Fk/uF5n5/bzO772P
- AD/uECZoSrvHy5wNfMVkLu3FKRf0+EC5eMVu84oHoXyvXZ7MA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4662; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=KeATheLJvy4KSWQ+MgWTM+CiR2EGa9nqBzJQ0G9F4FM=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOl7Pwf47crVMPsRJF8roxmm4Rw4XfLi603Btfu1JcwaU
+ 0LOnp/eMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACaibcjY0G7Gw3TBe9ZXDxad
+ m+GRWhvaf01dIP1nR/u6VLn0osi+BRXN87w6jSq3M4isW8sscuQ1Y32eeanOdbPI2pVPQ7z098z
+ +/G/XRqOJR6ttVjRw3V408Vx9lrBA8pGuP7N8WvenHZU90wAA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,64 +73,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tc358768 bridge driver, if enabling it fails, tries to disable it.
-This is pretty uncommon in bridge drivers, and also stands in the way
-for further reworks.
+The tc358768 driver follows the drm_encoder->crtc pointer that is
+deprecated and shouldn't be used by atomic drivers.
 
-Worse, since pre_enable and enable aren't expected to fail, disable and
-post_disable might be called twice: once to handle the failure, and once
-to actually disable the bridge.
-
-Since post_disable uses regulators and clocks, this would lead to enable
-count imbalances.
-
-In order to prevent that imbalance, and to allow further reworks, let's
-drop the calls to disable and post_disable, but keep the warning to let
-users know about what's going on.
+This was due to the fact that we did't have any other alternative to
+retrieve the CRTC pointer. Fortunately, the crtc pointer is now provided
+in the bridge state, so we can move to atomic callbacks and drop that
+deprecated pointer usage.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/tc358768.c | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index 6db18d1e8824dd7d387211d6d1e668645cf88bbe..6b65ba8aed86012bc0f464bd5ee44325dae677c6 100644
+index 6b65ba8aed86012bc0f464bd5ee44325dae677c6..063f217a17b6cf32e9793b8a96a5ac6128584098 100644
 --- a/drivers/gpu/drm/bridge/tc358768.c
 +++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -1075,15 +1075,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	val = TC358768_DSI_CONFW_MODE_CLR | TC358768_DSI_CONFW_ADDR_DSI_CONTROL;
- 	val |= TC358768_DSI_CONTROL_DIS_MODE; /* DSI mode */
- 	tc358768_write(priv, TC358768_DSI_CONFW, val);
+@@ -579,11 +579,12 @@ tc358768_bridge_mode_valid(struct drm_bridge *bridge,
+ 		return MODE_CLOCK_RANGE;
  
- 	ret = tc358768_clear_error(priv);
--	if (ret) {
-+	if (ret)
- 		dev_err(dev, "Bridge pre_enable failed: %d\n", ret);
--		tc358768_bridge_disable(bridge);
--		tc358768_bridge_post_disable(bridge);
--	}
+ 	return MODE_OK;
  }
  
- static void tc358768_bridge_enable(struct drm_bridge *bridge)
+-static void tc358768_bridge_disable(struct drm_bridge *bridge)
++static void tc358768_bridge_atomic_disable(struct drm_bridge *bridge,
++					   struct drm_atomic_state *state)
  {
  	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
-@@ -1099,15 +1096,12 @@ static void tc358768_bridge_enable(struct drm_bridge *bridge)
+ 	int ret;
  
- 	/* set PP_en */
- 	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(6), BIT(6));
- 
+ 	/* set FrmStop */
+@@ -601,11 +602,12 @@ static void tc358768_bridge_disable(struct drm_bridge *bridge)
  	ret = tc358768_clear_error(priv);
--	if (ret) {
-+	if (ret)
- 		dev_err(priv->dev, "Bridge enable failed: %d\n", ret);
--		tc358768_bridge_disable(bridge);
--		tc358768_bridge_post_disable(bridge);
--	}
+ 	if (ret)
+ 		dev_warn(priv->dev, "Software disable failed: %d\n", ret);
  }
  
- #define MAX_INPUT_SEL_FORMATS	1
+-static void tc358768_bridge_post_disable(struct drm_bridge *bridge)
++static void tc358768_bridge_atomic_post_disable(struct drm_bridge *bridge,
++						struct drm_atomic_state *state)
+ {
+ 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
  
- static u32 *
+ 	tc358768_hw_disable(priv);
+ }
+@@ -681,17 +683,21 @@ static u32 tc358768_dsi_bytes_to_ns(struct tc358768_priv *priv, u32 val)
+ 	u64 n = priv->dsiclk / 4 * priv->dsi_lanes;
+ 
+ 	return (u32)div_u64(m, n);
+ }
+ 
+-static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
++static void tc358768_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++					      struct drm_atomic_state *state)
+ {
+ 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+ 	struct mipi_dsi_device *dsi_dev = priv->output.dev;
+ 	unsigned long mode_flags = dsi_dev->mode_flags;
+ 	u32 val, val2, lptxcnt, hact, data_type;
+ 	s32 raw_val;
++	struct drm_crtc_state *crtc_state;
++	struct drm_connector_state *conn_state;
++	struct drm_connector *connector;
+ 	const struct drm_display_mode *mode;
+ 	u32 hsbyteclk_ps, dsiclk_ps, ui_ps;
+ 	u32 dsiclk, hsbyteclk;
+ 	int ret, i;
+ 	struct videomode vm;
+@@ -718,11 +724,14 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 		dev_err(dev, "Software reset failed: %d\n", ret);
+ 		tc358768_hw_disable(priv);
+ 		return;
+ 	}
+ 
+-	mode = &bridge->encoder->crtc->state->adjusted_mode;
++	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
++	conn_state = drm_atomic_get_new_connector_state(state, connector);
++	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
++	mode = &crtc_state->adjusted_mode;
+ 	ret = tc358768_setup_pll(priv, mode);
+ 	if (ret) {
+ 		dev_err(dev, "PLL setup failed: %d\n", ret);
+ 		tc358768_hw_disable(priv);
+ 		return;
+@@ -1079,11 +1088,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 	ret = tc358768_clear_error(priv);
+ 	if (ret)
+ 		dev_err(dev, "Bridge pre_enable failed: %d\n", ret);
+ }
+ 
+-static void tc358768_bridge_enable(struct drm_bridge *bridge)
++static void tc358768_bridge_atomic_enable(struct drm_bridge *bridge,
++					  struct drm_atomic_state *state)
+ {
+ 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+ 	int ret;
+ 
+ 	if (!priv->enabled) {
+@@ -1159,14 +1169,14 @@ static bool tc358768_mode_fixup(struct drm_bridge *bridge,
+ 
+ static const struct drm_bridge_funcs tc358768_bridge_funcs = {
+ 	.attach = tc358768_bridge_attach,
+ 	.mode_valid = tc358768_bridge_mode_valid,
+ 	.mode_fixup = tc358768_mode_fixup,
+-	.pre_enable = tc358768_bridge_pre_enable,
+-	.enable = tc358768_bridge_enable,
+-	.disable = tc358768_bridge_disable,
+-	.post_disable = tc358768_bridge_post_disable,
++	.atomic_pre_enable = tc358768_bridge_atomic_pre_enable,
++	.atomic_enable = tc358768_bridge_atomic_enable,
++	.atomic_disable = tc358768_bridge_atomic_disable,
++	.atomic_post_disable = tc358768_bridge_atomic_post_disable,
+ 
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.atomic_get_input_bus_fmts = tc358768_atomic_get_input_bus_fmts,
 
 -- 
 2.48.1
