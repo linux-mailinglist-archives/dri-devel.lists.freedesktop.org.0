@@ -2,82 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4969A4362F
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:30:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC02A43641
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14DBA10E595;
-	Tue, 25 Feb 2025 07:30:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E0410E58D;
+	Tue, 25 Feb 2025 07:39:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p7UG6gv1";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="mohV7Dk/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBCDC10E585
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 07:30:32 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-5ded51d31f1so9334374a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 23:30:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740468631; x=1741073431; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TfuM5g5b1bzsFznJjaGXX66+r8znKzFeJVWgK6VGC58=;
- b=p7UG6gv1SjP0T5PwGANjG92JPBoCV0OB82ed0p+yyAr33gc4B69w+x9JLx00HsSitQ
- NzkGZKCYCOkTQbwf5rYbjG49750paIwfW5+8EOu2AV9ALdKk/g4t02zvpgeLpMsX6Gi6
- FaOakmEI0d8rKTRWHGxhJcXKsgI04VksJ/+ENMyk8X0CsBkSvo/GqTDPdgI6BQv9cC26
- 8hkZ0p9NwmZsyLvuguV1M5AnSxQNML/DL4HN1tZcMc+zbvZs0oJKTyYMhqyQIg5yX9Gd
- DncoH3qR0ZXHTf/8q6b3VuqmQGTMSab1g6dltqsN2jvuZJQ/aFKthwMWANKVYU8FE9py
- lOBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740468631; x=1741073431;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TfuM5g5b1bzsFznJjaGXX66+r8znKzFeJVWgK6VGC58=;
- b=jl192fkhQXAto+W1ceuUonagjlAnIJdaLu/Gf2to6LRPs5qlHfE/b3Tn2DE1ZURYK6
- 5fVqjPiy6c8z2EyReNAr+MPn3c2xR1dXm394ckuwjwp0dtIswMI9VtBBRoneF9RA8coa
- suUbfbdFWYcNlh8pUnIWpiLr7yY4AgHT5Kii4CuI3I9OQDT60LJLMEHRbPEgNQ7zoHX5
- CrCu1OAOS/TRqf/xvCkPbLuSc+3l6sa07l2Pkqp9+GKdTLHEYJV3/8SCSnFgN21H+LXJ
- /vN00B3cuxkXY/FvtOFgQuwAFaNQmLkAOGENB5sk5gSvlJAld4er9ZS9HDkV6WaX5pll
- x0sA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXaBZEi4lzCy6PnOllgoRRRniGuIKXUzWsCie+gil8q0U8UG0I/glAN5kV4/B1ehQ/gEon8n8h2+vM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx2KQ21UPTDXrBoY8qcQicubk0metOaAYv/ke5G353WA0V8Zn8Y
- G9Xsr4yJ1encdsjaMp0ummhVtx6x/AMvqxh8GvCi7bIBrAlLItSXiGvp1Id7rvY=
-X-Gm-Gg: ASbGncuIm2FVMlchbQdNXo0XgG9so54ix73B4bzByZGW9CnC37eTZ8GM7rQDfLTAA+i
- q6Q4lO1a/RHfx7BeOTS4h1LxGWrtAweJyVUVJNRE/ISlpdUU2KhKw3Xo0HNA6h6NYn9GneibMRB
- 7RfxZjfYje81FoRcW0dp64SUh98n+nv3PvZcoyp/BFd9ZaLo4Re1fZ62DurI/9A9R++pjMTLo0+
- q4EK03Sdm7eSFG6+rkx8MhGPf/1iUyzIowH71lLOTgrqyE/CoqRn1y7QrfYEFoSRm5T6sk+oHnI
- 94kmsSjn9rz4p7FW4w2bU5gcVjJN52I=
-X-Google-Smtp-Source: AGHT+IF1jD1nIi0UqQ/yrLSB611MTk3aZB/2hvtf9cDDpXVP93eDIhNTWNWnPWPNHZu27Gv83YTAhQ==
-X-Received: by 2002:a05:6402:27c8:b0:5e0:8261:ebb2 with SMTP id
- 4fb4d7f45d1cf-5e0b70d6598mr16065265a12.12.1740468631260; 
- Mon, 24 Feb 2025 23:30:31 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 4fb4d7f45d1cf-5e461f3e7f8sm788694a12.69.2025.02.24.23.30.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2025 23:30:30 -0800 (PST)
-Date: Tue, 25 Feb 2025 10:30:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/msm/dpu: fix error pointer dereference in
- msm_kms_init_aspace()
-Message-ID: <3221e88c-3351-42e6-aeb1-69f4f014b509@stanley.mountain>
+X-Greylist: delayed 670 seconds by postgrey-1.36 at gabe;
+ Tue, 25 Feb 2025 07:39:52 UTC
+Received: from relay3.mymailcheap.com (relay3.mymailcheap.com
+ [217.182.119.155])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6AAE10E589;
+ Tue, 25 Feb 2025 07:39:52 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+ by relay3.mymailcheap.com (Postfix) with ESMTPS id 1B67B3E917;
+ Tue, 25 Feb 2025 07:39:51 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ by nf1.mymailcheap.com (Postfix) with ESMTPSA id 897A84023E;
+ Tue, 25 Feb 2025 07:39:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+ t=1740469190; bh=jJv616jfTn0ZGbYwwYOpX5lWgGqrU9i3HLdGP4o/yI8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mohV7Dk/6gbHatB+pznBJbKYR3zzmfXMIYKZUlHQhSxTRi+mgvypiWZ9bXfoiwWX6
+ k7UblRqmPpaPLQFUa6sR3J705ccGOtPrwf6IuUreTEd2CsQEFHGlmDOXOq8KqiqcHP
+ 7D52fpiNBtJ5v7IjRGlPXxrI7uLsabDwJAQGowkA=
+Received: from JellyNote.localdomain (unknown [203.175.14.48])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 55F72413A7;
+ Tue, 25 Feb 2025 07:39:44 +0000 (UTC)
+From: Mingcong Bai <jeffbai@aosc.io>
+To: linux-kernel@vger.kernel.org
+Cc: Kexy Biscuit <kexybiscuit@aosc.io>, stable@vger.kernel.org,
+ Mingcong Bai <jeffbai@aosc.io>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Pallavi Mishra <pallavi.mishra@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Ilia Levi <ilia.levi@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/xe/regs: remove a duplicate definition for
+ RING_CTL_SIZE(size)
+Date: Tue, 25 Feb 2025 15:31:01 +0800
+Message-ID: <20250225073104.865230-1-jeffbai@aosc.io>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Rspamd-Queue-Id: 897A84023E
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [1.40 / 10.00]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; MIME_GOOD(-0.10)[text/plain];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_TWELVE(0.00)[20];
+ ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+ RCVD_COUNT_ONE(0.00)[1]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ SPFBL_URIBL_EMAIL_FAIL(0.00)[stable.vger.kernel.org:server
+ fail,jeffbai.aosc.io:server fail]; 
+ FREEMAIL_CC(0.00)[aosc.io,vger.kernel.org,intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,28 +90,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If msm_gem_address_space_create() fails, then return right away.
-Otherwise it leads to a Oops when we dereference "aspace" on the next
-line.
+Commit b79e8fd954c4 ("drm/xe: Remove dependency on intel_engine_regs.h")
+introduced an internal set of engine registers, however, as part of this
+change, it has also introduced two duplicate `define' lines for
+`RING_CTL_SIZE(size)'. This commit was introduced to the tree in v6.8-rc1.
 
-Fixes: 2d215d440faa ("drm/msm: register a fault handler for display mmu faults")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+While this is harmless as the definitions did not change, so no compiler
+warning was observed.
+
+Drop this line anyway for the sake of correctness.
+
+Cc: <stable@vger.kernel.org> # v6.8-rc1+
+Fixes: b79e8fd954c4 ("drm/xe: Remove dependency on intel_engine_regs.h")
+Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
 ---
- drivers/gpu/drm/msm/msm_kms.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/xe/regs/xe_engine_regs.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
-index b877278888e6..35d5397e73b4 100644
---- a/drivers/gpu/drm/msm/msm_kms.c
-+++ b/drivers/gpu/drm/msm/msm_kms.c
-@@ -209,6 +209,7 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
- 	if (IS_ERR(aspace)) {
- 		dev_err(mdp_dev, "aspace create, error %pe\n", aspace);
- 		mmu->funcs->destroy(mmu);
-+		return aspace;
- 	}
+diff --git a/drivers/gpu/drm/xe/regs/xe_engine_regs.h b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
+index d86219dedde2a..b732c89816dff 100644
+--- a/drivers/gpu/drm/xe/regs/xe_engine_regs.h
++++ b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
+@@ -53,7 +53,6 @@
  
- 	msm_mmu_set_fault_handler(aspace->mmu, kms, msm_kms_fault_handler);
+ #define RING_CTL(base)				XE_REG((base) + 0x3c)
+ #define   RING_CTL_SIZE(size)			((size) - PAGE_SIZE) /* in bytes -> pages */
+-#define   RING_CTL_SIZE(size)			((size) - PAGE_SIZE) /* in bytes -> pages */
+ 
+ #define RING_START_UDW(base)			XE_REG((base) + 0x48)
+ 
 -- 
-2.47.2
+2.48.1
 
