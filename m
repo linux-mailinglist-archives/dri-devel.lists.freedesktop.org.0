@@ -2,115 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A937A43AF7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1465A43AFC
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:13:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE3310E5FE;
-	Tue, 25 Feb 2025 10:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3265B10E601;
+	Tue, 25 Feb 2025 10:13:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vca312RU";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="eUHq7RYI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C9910E5FE
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:13:17 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4398e839cd4so37218415e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 02:13:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740478395; x=1741083195; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=UIEVpBfqzlAIj3t3+p9Xkb4HBEKJwXzTRtthqqzde8o=;
- b=vca312RUPIa5GN1B3QHjAlk03RJ0BY+uZLxxd7qeqj9OCtLb/mvWbRyV0UpWWEjzAz
- cim/0XE4k2c7N+0CfmwaysT7iNDlD2bVgFd6F8i49RX6EchxFW1dXjzAjQScBKITyrr2
- ZF9KcqOha6ku0gBwEA2C/8pZuLX8XWjUSEq1Af7RyNDKPhnenagliUxjUmJXW8zIOy41
- X37NtDMHJ1Xz0pVaxFK4BLSWwHbYGPLYmX3pOfwy7DBYrrduJo/5679bakLYOtBZuPAr
- X3YKGLU5lydC2vT8jpwT4ADV9S2gFwT428D8m8eMYe4urzW+XjrGMtN0dynJQAPCjDzK
- 7ysw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740478395; x=1741083195;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=UIEVpBfqzlAIj3t3+p9Xkb4HBEKJwXzTRtthqqzde8o=;
- b=OTAyuV3XYm4Zttn17WEMbe9ea8I8FC2QmRxqh9VFNuXMOwfz2Q0lMW/yTI1d56ymN4
- VfIB6jiQlocepZ1YszWbY0DNv3qQ/t7n5GjIEYQfwVu3XNEqF++2uDtMDV9pDUF9qbjE
- 6H9tU4Q9t1eXaghzyFUbCE25u3irvcJtta47+itvZOL/vv9EOi7Jdav9heYF24ZwD9hq
- FJ7fqfPM24NnkXJjHcWtH1iOjgMXyYVEi19luiVhFpc4GoNzI/T+hw5EYYoJ5Ghx4ihh
- xtdAqrjTeINL0wz8H9X4WuzYdEwTI7GyrbuLgHf6bhyBe1ai4a/JYHxOmJn6hDv8qSR8
- YBXA==
-X-Gm-Message-State: AOJu0YxxVRUAt+RTh4huvNE6903lVVKuRYEF8OtXq8+qvTQFElknenmI
- +ErVGCaRh18wvBwH1QcBdrnmiNO7LfhqyfoHeyYd4E5BfKM95+D1fjJbeFoHsIA=
-X-Gm-Gg: ASbGncsrIsQxxhfPwvIgRCR8+CaIYrxLn3pfLdgRkQw7jPH0dpYT43q+lti1XDk5mDX
- OITcsTvEzTYADilkHdXkR3pXCksJ7ccqPyo97NSBkyh8IzZHQwdbdfDBnSqp4R9zlpalrZuarqd
- oxOHv5sXw+0CM3cAu2WVdZOMXvKsCv0VWtP3Uhr85X2K2Lu2RQ0pKBrhmETlrmbZWf0eoLivhcm
- A3tymbmsI/ZTW8d4ltfkcgYivi/DNBSYrhRxvgU4jhnkoPlGBq4NA77JgilkTsmeWy5Bz0J+aTC
- 3vydQ3G3ovZtBHZTO1Ho/HhTvuwRg2vD9pwz
-X-Google-Smtp-Source: AGHT+IHuxrFve4RrQxTJm/qq5KQxrxMVsYCL+f8dws0ADcO/Z7yzKKpEwdKKdpFUHyiamvR4ZVYVPw==
-X-Received: by 2002:a05:600c:46ca:b0:439:4b23:9e8e with SMTP id
- 5b1f17b1804b1-439ae2d1f3fmr129669155e9.3.1740478395441; 
- Tue, 25 Feb 2025 02:13:15 -0800 (PST)
-Received: from [192.168.1.100] ([37.167.173.6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-439b02ce615sm135803455e9.5.2025.02.25.02.13.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2025 02:13:15 -0800 (PST)
-Message-ID: <d4903cb5-f876-4229-b89c-c1fafd77fc3c@linaro.org>
-Date: Tue, 25 Feb 2025 11:13:12 +0100
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2004410E5FF;
+ Tue, 25 Feb 2025 10:13:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94B4F1F687;
+ Tue, 25 Feb 2025 10:13:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1740478413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=IrTcsXOK843wZBql2Mdtuhe7tKcKpT+0+mPx/hS5dLU=;
+ b=eUHq7RYIq7HTAUT7nvQkmzLt9eG348wP7ZWXTzNHIZNgbcuPB0br+hnyG5JxB0EpCOA6iK
+ Sa43TTxIDUyL0e99JLOB+XjJuFHRic9ZLym8LwBUqkJ0Kimu1IxlAUlV715JpVf75Fw+Gu
+ tXpA5BzGJJ3hc8YYyv7Lt2WuV8shPYz0z7cLuB3xq/LwkAAXG7S0mev4eks8kuzY54TKa+
+ HgaJm2mOczpyB3smCH38wxwdQ+ElI6Y4fXG8dmYpwdWaAho2ZTYDjlOp33lvQk8z9elkUU
+ e0o8CFNEMLmFfLO3qRXzdDcNCiUDIYGmeJfk0A4iG8D6tYLqoGaOMlPD+VfDYw==
+Message-ID: <423ed019-f668-433d-80e0-4018f53c31c0@bootlin.com>
+Date: Tue, 25 Feb 2025 11:13:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 08/14] drm/panel: simple: Add BOE AV123Z7M-N17 panel
-To: maudspierings@gocontroll.com, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20250224-initial_display-v1-0-5ccbbf613543@gocontroll.com>
- <20250224-initial_display-v1-8-5ccbbf613543@gocontroll.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250224-initial_display-v1-8-5ccbbf613543@gocontroll.com>
+Subject: Re: [V7 07/45] drm/colorop: Add 1D Curve subtype
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-8-alex.hung@amd.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20241220043410.416867-8-alex.hung@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudeggecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtoheprghlvgigrdhhuhhnghesrghmugdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopeifrgihlhgrnhguqdguvghvvghlsehlihhst
+ hhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhgrrhhrhidrfigvnhhtlhgrnhgusegrmhgurdgtohhm
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,70 +116,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/02/2025 14:50, Maud Spierings via B4 Relay wrote:
-> From: Maud Spierings <maudspierings@gocontroll.com>
-> 
-> Add support for the BOE AV123Z7M-N17 12.3" LVDS panel.
-> 
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++++++
->   1 file changed, 32 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index a52977ab73dc2edab0d1954c702fd797d6a5b969..232b03c1a259eb15e423b9d452d28e2ff95c70f8 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1403,6 +1403,35 @@ static const struct panel_desc boe_av101hdt_a10 = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->   };
->   
-> +static const struct display_timing boe_av123z7m_n17_timing = {
-> +	.pixelclock = { 86600000, 88000000, 90800000, },
-> +	.hactive = { 1920, 1920, 1920, },
-> +	.hfront_porch = { 10, 10, 10, },
-> +	.hback_porch = { 10, 10, 10, },
-> +	.hsync_len = { 9, 12, 25, },
-> +	.vactive = { 720, 720, 720, },
-> +	.vfront_porch = { 7, 10, 13, },
-> +	.vback_porch = { 7, 10, 13, },
-> +	.vsync_len = { 7, 11, 14, },
-> +	.flags = DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
-> +};
-> +
-> +static const struct panel_desc boe_av123z7m_n17 = {
-> +	.timings = &boe_av123z7m_n17_timing,
-> +	.bpc = 8,
-> +	.num_timings = 1,
-> +	.size = {
-> +		.width = 292,
-> +		.height = 110,
-> +	},
-> +	.delay = {
-> +		.prepare = 50,
-> +		.disable = 50,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->   static const struct drm_display_mode boe_bp101wx1_100_mode = {
->   	.clock = 78945,
->   	.hdisplay = 1280,
-> @@ -4845,6 +4874,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "boe,av101hdt-a10",
->   		.data = &boe_av101hdt_a10,
-> +	}, {
-> +		.compatible = "boe,av123z7m-n17",
-> +		.data = &boe_av123z7m_n17,
->   	}, {
->   		.compatible = "boe,bp082wx1-100",
->   		.data = &boe_bp082wx1_100,
-> 
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Le 20/12/2024 à 05:33, Alex Hung a écrit :
+> From: Harry Wentland <harry.wentland@amd.com>
+> 
+> Add a new drm_colorop with DRM_COLOROP_1D_CURVE with two subtypes:
+> DRM_COLOROP_1D_CURVE_SRGB_EOTF and DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF.
+> 
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Co-developed-by: Alex Hung <alex.hung@amd.com>
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> ---
+> v5:
+>   - Add drm_get_colorop_curve_1d_type_name in header
+>   - Add drm_colorop_init
+>   - Set default curve
+>   - Add kernel docs
+> 
+> v4:
+>   - Use drm_colorop_curve_1d_type_enum_list to get name (Pekka)
+>   - Create separate init function for 1D curve
+>   - Pass supported TFs into 1D curve init function
+> 
+>   drivers/gpu/drm/drm_atomic_uapi.c |  18 ++--
+>   drivers/gpu/drm/drm_colorop.c     | 134 ++++++++++++++++++++++++++++++
+>   include/drm/drm_colorop.h         |  60 +++++++++++++
+>   3 files changed, 207 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 59fc25b59100..9a5dbf0a1306 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -648,11 +648,17 @@ static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
+>   		struct drm_colorop_state *state, struct drm_file *file_priv,
+>   		struct drm_property *property, uint64_t val)
+>   {
+> -	drm_dbg_atomic(colorop->dev,
+> -			"[COLOROP:%d] unknown property [PROP:%d:%s]]\n",
+> -			colorop->base.id,
+> -			property->base.id, property->name);
+> -	return -EINVAL;
+> +	if (property == colorop->curve_1d_type_property) {
+> +		state->curve_1d_type = val;
+> +	} else {
+> +		drm_dbg_atomic(colorop->dev,
+> +			       "[COLOROP:%d:%d] unknown property [PROP:%d:%s]]\n",
+> +			       colorop->base.id, colorop->type,
+> +			       property->base.id, property->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+>   }
+>   
+>   static int
+> @@ -662,6 +668,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
+>   {
+>   	if (property == colorop->type_property) {
+>   		*val = colorop->type;
+> +	} else if (property == colorop->curve_1d_type_property) {
+> +		*val = state->curve_1d_type;
+>   	} else {
+>   		return -EINVAL;
+>   	}
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index 1459a28c7e7b..a42de0aa48e1 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -31,6 +31,123 @@
+>   
+>   #include "drm_crtc_internal.h"
+>   
+> +static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
+> +	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
+> +};
+> +
+> +static const char * const colorop_curve_1d_type_names[] = {
+> +	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
+> +	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] = "sRGB Inverse EOTF",
+> +};
+> +
+> +
+> +/* Init Helpers */
+> +
+> +static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			    struct drm_plane *plane, enum drm_colorop_type type)
+> +{
+> +	struct drm_mode_config *config = &dev->mode_config;
+> +	struct drm_property *prop;
+> +	int ret = 0;
+> +
+> +	ret = drm_mode_object_add(dev, &colorop->base, DRM_MODE_OBJECT_COLOROP);
+> +	if (ret)
+> +		return ret;
+> +
+> +	colorop->base.properties = &colorop->properties;
+> +	colorop->dev = dev;
+> +	colorop->type = type;
+> +	colorop->plane = plane;
+> +
+> +	list_add_tail(&colorop->head, &config->colorop_list);
+> +	colorop->index = config->num_colorop++;
+> +
+> +	/* add properties */
+> +
+> +	/* type */
+> +	prop = drm_property_create_enum(dev,
+> +					DRM_MODE_PROP_IMMUTABLE,
+> +					"TYPE", drm_colorop_type_enum_list,
+> +					ARRAY_SIZE(drm_colorop_type_enum_list));
+
+I think this function belongs to the previous patch "Add TYPE property".
+
+> +
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	colorop->type_property = prop;
+> +
+> +	drm_object_attach_property(&colorop->base,
+> +				   colorop->type_property,
+> +				   colorop->type);
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * drm_colorop_curve_1d_init - Initialize a DRM_COLOROP_1D_CURVE
+> + *
+> + * @dev: DRM device
+> + * @colorop: The drm_colorop object to initialize
+> + * @plane: The associated drm_plane
+> + * @supported_tfs: A bitfield of supported drm_colorop_curve_1d_init enum values,
+> + *                 created using BIT(curve_type) and combined with the OR '|'
+> + *                 operator.
+> + * @return zero on success, -E value on failure
+> + */
+> +int drm_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			      struct drm_plane *plane, u64 supported_tfs)
+> +{
+> +	struct drm_prop_enum_list enum_list[DRM_COLOROP_1D_CURVE_COUNT];
+> +	int i, len;
+> +
+> +	struct drm_property *prop;
+> +	int ret;
+> +
+> +	if (!supported_tfs) {
+> +		drm_err(dev,
+> +			"No supported TFs for new 1D curve colorop on [PLANE:%d:%s]\n",
+> +			plane->base.id, plane->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if ((supported_tfs & -BIT(DRM_COLOROP_1D_CURVE_COUNT)) != 0) {
+> +		drm_err(dev, "Unknown TF provided on [PLANE:%d:%s]\n",
+> +			plane->base.id, plane->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_CURVE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	len = 0;
+> +	for (i = 0; i < DRM_COLOROP_1D_CURVE_COUNT; i++) {
+> +		if ((supported_tfs & BIT(i)) == 0)
+> +			continue;
+> +
+> +		enum_list[len].type = i;
+> +		enum_list[len].name = colorop_curve_1d_type_names[i];
+> +		len++;
+> +	}
+> +
+> +	if (WARN_ON(len <= 0))
+> +		return -EINVAL;
+> +
+> +
+> +	/* initialize 1D curve only attribute */
+> +	prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC, "CURVE_1D_TYPE",
+> +					enum_list, len);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	colorop->curve_1d_type_property = prop;
+> +	drm_object_attach_property(&colorop->base, colorop->curve_1d_type_property,
+> +				   enum_list[0].type);
+> +	drm_colorop_reset(colorop);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_colorop_curve_1d_init);
+> +
+>   static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
+>   							struct drm_colorop_state *state)
+>   {
+> @@ -70,7 +187,16 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
+>   static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
+>   				      struct drm_colorop *colorop)
+>   {
+> +	u64 val;
+> +
+>   	colorop_state->colorop = colorop;
+> +
+> +	if (colorop->curve_1d_type_property) {
+> +		drm_object_property_get_default_value(&colorop->base,
+> +						colorop->curve_1d_type_property,
+> +						&val);
+> +		colorop_state->curve_1d_type = val;
+> +	}
+>   }
+>   
+>   /**
+> @@ -114,3 +240,11 @@ const char *drm_get_colorop_type_name(enum drm_colorop_type type
+>   
+>   	return colorop_type_name[type];
+
+Probably a dumb question: can't we use drm_colorop_type_enum_list 
+instead of colorop_type_name in the drm_get_colorop_type_name function? 
+So we will avoid duplicating the string "1D Curve".
+
+>   }
+
+Thanks,
+Louis Chauvet
+
+[...]
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
