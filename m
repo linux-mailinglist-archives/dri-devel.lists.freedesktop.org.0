@@ -2,71 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C59A43B6A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:25:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E21EA43B6F
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:25:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071F010E609;
-	Tue, 25 Feb 2025 10:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD24D10E60A;
+	Tue, 25 Feb 2025 10:25:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MTwC28WN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qT9VwGzl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3A310E609
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:24:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740479096; x=1772015096;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=KJi6fGx2qAW3OOyEjyDwdnC/hKQyC55feyHtoB8Hh+Q=;
- b=MTwC28WNmEVHs2sIhyVOBdvfU/QIbIrZyaoe+t+mBCu3VzkYKl8fXWV4
- HtUUf/ia7TRmGtIJFrE5dbx70e8r0mr0jjgRdRlnlqpgFL9PlwsRLQIxg
- c5zcNi19ekBx+U4z9Ahhlxy+S8fIs+NkuUVSWogQHvjsqGGN0XaYYx4dg
- QyMb0b20EA9tKv/vOU2Ldu44rwUESCxhA5kF06PCxvnVosmv0Tjxs1wn6
- yWfX1oH/yo2Gz01/0ifZKq5AfqKTbe5zSn29Cxx/bBr75cyyyjNyw/52E
- Wf5pkSCFTMmrFzFzyEuET+S4iZNcrxVnoelcKE0b+PjUGprfXUiytWP4V g==;
-X-CSE-ConnectionGUID: 0S5a5NhJTzSe4OZdEBX7pQ==
-X-CSE-MsgGUID: Bd3gxpbLRvSRRUI09XVcvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41158819"
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="41158819"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 02:24:55 -0800
-X-CSE-ConnectionGUID: xO4dWD+qS42xRL47uWu9lA==
-X-CSE-MsgGUID: 5SjyaEnGQZWpLxskDmf7FQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="121292015"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 02:24:51 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tms7M-0000000ExQ9-3UHb; Tue, 25 Feb 2025 12:24:48 +0200
-Date: Tue, 25 Feb 2025 12:24:48 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Aditya Garg <gargaditya08@live.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>, Kerem Karabay <kekrby@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 1/2] drm/format-helper: Add conversion from XRGB8888
- to BGR888
-Message-ID: <Z72acJ0MoSOK5_RI@smile.fi.intel.com>
-References: <B08444CD-38A8-4B82-94B2-4162D6D2EABD@live.com>
- <03FA573F-6D01-40E8-A666-CEA17A917036@live.com>
- <Z7yCLxBN4Cl4btQm@smile.fi.intel.com>
- <466c38c3-7f74-46db-8270-bebafacf0007@suse.de>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B6010E60A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:25:38 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-438a3216fc2so51242755e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 02:25:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740479137; x=1741083937; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jO8Oylg6YjBoTtqrf0241KPt/pqvJPTWmEtRbVr3k2w=;
+ b=qT9VwGzlxLW46oF76fKpr5nYW22rc7r6x7hkiVLyjydZ/aycKXyL9qucuFFcwuYs19
+ pCP6+OGIDYiNKgedATba/twI3JXuwQndbJl4SxTqtL+iGi2vNSHG5OBIyIpQt+ij+wxo
+ CfIVgJQ3MPIsI8U7VnZ/BSD8AnBkSZGo7m6ZXFFzi0uJ0+GcY76eBvmc/2bl76sWcQJ6
+ mr/+zrJ/f+P85PmS5uO7G17d9f09osN7lxC8ojm8s8wT/m4UIo6A6Iiy34yIEvjN6QcF
+ iFXCoykZB/Ttq4+hnJVGWu1miSLOjUbcmGk+ag9RPjx2yk/TX5jsHXa16pXSGwUl1n2E
+ IJkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740479137; x=1741083937;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jO8Oylg6YjBoTtqrf0241KPt/pqvJPTWmEtRbVr3k2w=;
+ b=KCtssP3PvLYFZtMp23oToVpAcNXW+E+9n3jDq2KncvjwooNlVmUZgtZip+UAVcmJhx
+ 8qqZ4Pg6YMiiDYeYdqn0DTGFenvrO3Fhdqd23+KMMas0ADRJjrWNBcuj6pcd70Qu6G5T
+ KtSHu2r1g/u32twl0HC7IhwP3sMjL4gGtpHNYbbI72hWErPKECS4oP4XDXsjsvaBlvu1
+ eUOfc4j5T6RlWnTPlWd98OWUYQtdaPIFDyB/1x+M4jgGy3ApbK5EN6nImyhLZ2iHwOvn
+ VBym70eQl3ls6b3DqU5rkv3X641CjcJsVG+SagBn9lR9R94/CfpvwzMQKJKBmUT0g8/q
+ DuHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQ1Q+EmtCSumXxxB1XQr61F1GtTTv9LUuUzMp85yyhHUin/zC4InNib1G7I1WrUnBhFnaxYKSV3KU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8EbTf1KamAR92FOfh2jze9afdLkzx6xHTRf0VTVDi4Rtu1Pvn
+ ltZmFJY0rww/eShc7nvYaHUIQw0KBtx73jrELTo92dfZR8A/6YKjG6WrOjWtqkM=
+X-Gm-Gg: ASbGncvmML4srcHthmvi5mSq6Gs0FFlWRkNwWLZNZYvBzKG5a/R+ykv3Aobse/KKPVn
+ 5+8UEzybC3CbsufuF9242vlGGuZ7niZx5Zz/LpSH0yox2c39zzS03A4wFxzoDYUoYL4FCgU5H09
+ B+J7yIX72vEqqo8ppMUU7jouUCSg1yeXyayNblmqDGLcYZb5tHePS5i3PPLVFpE9+GrfWdzfSOw
+ wd4W7z9h/sX5h2MaAhY6VTBih7rjeCIqpqiqhVFmJHnmTjfFqzgKBzrMvX0EvhDAppsZ2fYpza5
+ 2OD/CIPwPZ1WilEFMmhMydiZPluw7ZO69Kh5WqLkysMXwG8=
+X-Google-Smtp-Source: AGHT+IFBoBkLT3A0xWLdkZ30bRcxu5mltnumWdHZho2ezloRlAbVC4RMnE9SJiNp+9to2P/dJV/T1w==
+X-Received: by 2002:a05:600c:1910:b0:439:98f6:8bc8 with SMTP id
+ 5b1f17b1804b1-439aebcf61dmr127211825e9.26.1740479137175; 
+ Tue, 25 Feb 2025 02:25:37 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-390cd86707asm1764378f8f.5.2025.02.25.02.25.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 02:25:36 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ Tejas Vipin <tejasvipin76@gmail.com>
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250220045721.145905-1-tejasvipin76@gmail.com>
+References: <20250220045721.145905-1-tejasvipin76@gmail.com>
+Subject: Re: [PATCH v2] drm/mipi-dsi: extend "multi" functions and use them
+ in sony-td4353-jdi
+Message-Id: <174047913628.2131221.5126510455783898165.b4-ty@linaro.org>
+Date: Tue, 25 Feb 2025 11:25:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <466c38c3-7f74-46db-8270-bebafacf0007@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,73 +92,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 08:37:32AM +0100, Thomas Zimmermann wrote:
-> Am 24.02.25 um 15:29 schrieb andriy.shevchenko@linux.intel.com:
-> > On Mon, Feb 24, 2025 at 01:38:32PM +0000, Aditya Garg wrote:
+Hi,
 
-...
-
-> > > +static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, unsigned int pixels)
-> > Okay the xrgb8888 is the actual pixel format independently on
-> > the CPU endianess.
-> > 
-> > > +{
-> > > +	u8 *dbuf8 = dbuf;
-> > > +	const __le32 *sbuf32 = sbuf;
-> > But here we assume that sbuf is __le32.
-> > And I think we may benefit from the __be32 there.
+On Thu, 20 Feb 2025 10:27:21 +0530, Tejas Vipin wrote:
+> Removes mipi_dsi_dcs_set_tear_off and replaces it with a
+> multi version as after replacing it in sony-td4353-jdi, it doesn't
+> appear anywhere else. sony-td4353-jdi is converted to use multi style
+> functions, including mipi_dsi_dcs_set_tear_off_multi.
 > 
-> No, please. XRGB is the logical order. The raw physical byte order for DRM
-> formats is always* little endian, hence reversed from the logical one. sbuf
-> points to raw memory and is therefore __le32. DRM-format byte order is
-> impossible to understand, I know. But that code is correct.
+> 
 
-Okay, so it's only about the colour (top-level) layout, the input and output
-data is always in little endian?
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-> *) White lie: there's a DRM format flag signalling physical big endianess.
-> That isn't the case here. So nothing here should ever indicate big
-> endianess.
-
-But should it indicate the little? To me sounds like neither...
-
-> > > +	unsigned int x;
-> > > +	u32 pix;
-> > > +
-> > > +	for (x = 0; x < pixels; x++) {
-> > > +		pix = le32_to_cpu(sbuf32[x]);
-> > > +		/* write red-green-blue to output in little endianness */
-> > > +		*dbuf8++ = (pix & 0x00ff0000) >> 16;
-> > > +		*dbuf8++ = (pix & 0x0000ff00) >> 8;
-> > > +		*dbuf8++ = (pix & 0x000000ff) >> 0;
-> > 		pix = be32_to_cpu(sbuf[4 * x]) >> 8;
-> > 		put_unaligned_le24(pix, &dbuf[3 * x]);
-> > 
-> > > +	}
-> > Or, after all, this __le32 magic might be not needed at all. Wouldn't the below
-> > be the equivalent
-> > 
-> > static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, unsigned int pixels)
-> > {
-> > 	unsigned int x;
-> > 	u32 pix;
-> > 
-> > 	for (x = 0; x < pixels; x++) {
-> > 		/* Read red-green-blue from input in big endianess and... */
-> > 		pix = get_unaligned_be24(sbuf + x * 4 + 1);
-> > 		/* ...write it to output in little endianness. */
-> > 		put_unaligned_le24(pix, dbuf + x * 3);
-> > 	}
-> > }
-> > 
-> > The comments can even be dropped as the code quite clear about what's going on.
-> > 
-> > > +}
-> > But it's up to you. I don't know which solution gives better code generation
-> > either.
+[1/1] drm/mipi-dsi: extend "multi" functions and use them in sony-td4353-jdi
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/fb13d3497bdcf4f544be25f716b6bdf1a4f8e63a
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Neil
 
