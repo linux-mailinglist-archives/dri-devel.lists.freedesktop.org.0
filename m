@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52129A4420C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 15:12:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D0FA44215
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 15:13:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE3E10E6C5;
-	Tue, 25 Feb 2025 14:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2C2910E6D0;
+	Tue, 25 Feb 2025 14:13:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="H1Mc3L25";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="L34uO6r/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 262E910E6C5;
- Tue, 25 Feb 2025 14:12:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 53AB044430;
- Tue, 25 Feb 2025 14:12:38 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBEEA10E6CF;
+ Tue, 25 Feb 2025 14:12:58 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 382DA441A0;
+ Tue, 25 Feb 2025 14:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740492759;
+ t=1740492777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CmfZgHdY6jTWPcA0XsZVYbxYIn6A9jqbs+9Qn8P1av4=;
- b=H1Mc3L25irv7jSv/bNroxf4S+aCA3546iyR6II/Jkv84XlwLaeSDzBq98I5tXOzok/uLG6
- l45DoXxPvyskBdu/37nbqX6SG4lCB4wp+Bdry143L3CHvN+cdyYn93BcF8WDAPITw58qDh
- 8bD2wfx4eIKZyEP7xmwtzRd/561Di7+OfsfN0KyGBYJqiU1/3jMgkJM1sm8bckfLfcxtyu
- SayCn2KbQ6bQyz6Fp67LRf8f31RPubQ2J0wxTE0VIGHzASIn1aWCh3bsYzhGKyhFWd2MHU
- h5D+/SFQwxTGmhG1PpOMhzKhlvw0jFglbXFCXnp/q8h+x1nSQL0HOmFob5vB6Q==
-Date: Tue, 25 Feb 2025 15:12:37 +0100
+ bh=camQ4hVJd9PIINUG4lm5DWjwsMW9lCso6fLvApRD17I=;
+ b=L34uO6r/kxO1kT14Gon9v/Xb8uNGSPBLtBZTTHEj7mj9fYLO9UQuGqZJSpr6S6tJJE5X3K
+ uMDQ2QHWaEYBmRfMY6h5z5C9qGsuvmk226PeyVeQRFz5z9mUxXKhSN6l/JFppMgDK0E7xH
+ dbqLghVInKOX/DVcpMU0DKNHSCz5M8ESAwd+VJ/NrtNirdFTqyDWliDSUOh7QIkzNEC+gQ
+ 9uLoqu6g7gdb4TSDaVzFJtw44S0bMcsRVrPjUc1EwRZcGdr7wSTok+qy2Y01R0XRD9cAVt
+ TcCZCG1Ptqcy0rOHAygANr68VncVEYBDindzntgyDtTNOrgNF3D91C51PvUWPw==
+Date: Tue, 25 Feb 2025 15:12:54 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org
@@ -38,10 +38,12 @@ Cc: intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
- ville.syrjala@linux.intel.com
-Subject: Re: [PATCH 13/63] dyndbg: reduce verbose=3 messages in
- ddebug_add_module
-Message-ID: <d9d6c121-9c53-476e-a37c-ff6e6bfccc7f@bootlin.com>
+ ville.syrjala@linux.intel.com, Andy Whitcroft <apw@canonical.com>,
+ Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH 15/63] checkpatch: add an exception to the do-while
+ wrapper advice
+Message-ID: <270e6d31-c4e2-4c23-98f1-3ebb2d946e63@bootlin.com>
 Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>,
  linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org,
@@ -50,17 +52,20 @@ Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>,
  intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
- ville.syrjala@linux.intel.com
+ ville.syrjala@linux.intel.com, Andy Whitcroft <apw@canonical.com>,
+ Joe Perches <joe@perches.com>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
 References: <20250125064619.8305-1-jim.cromie@gmail.com>
- <20250125064619.8305-14-jim.cromie@gmail.com>
+ <20250125064619.8305-16-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250125064619.8305-14-jim.cromie@gmail.com>
+In-Reply-To: <20250125064619.8305-16-jim.cromie@gmail.com>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudeludcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudeiffduffeivdejgfejheeuudekkedvjeeuffegfefghfffkeelgffgieevudejnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehjihhmrdgtrhhomhhivgesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsggrrhhonhesrghkrghmrghirdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudeludcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudeiffduffeivdejgfejheeuudekkedvjeeuffegfefghfffkeelgffgieevudejnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedukedprhgtphhtthhopehjihhmrdgtrhhomhhivgesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsggrrhhonhesrghkrghmrghirdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnr
  dhorhhgpdhrtghpthhtohepuhhkrghsiigssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigqdhtrhihsghotheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,39 +86,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 25/01/2025 à 07:45, Jim Cromie a écrit :
-> When modprobing a module, dyndbg currently logs/says "add-module", and
-> then "skipping" if the module has no prdbgs.  Instead just check 1st
-> and return quietly.
+> Several new DYNDBG_CLASSMAP_* macros (added in following commits)
+> expand to multi-statement declarations, like module_param_named does.
+> They are invoked in file-scope, not in function scope, and cannot be
+> wrapped by a do-while, so add an exception by name for them.
 > 
-> no functional change
-> 
+> cc: Andy Whitcroft <apw@canonical.com>
+> cc: Joe Perches <joe@perches.com>
+> cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   lib/dynamic_debug.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
+>   scripts/checkpatch.pl | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index fc9bf5d80aa9..6bac5703dd41 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -1245,11 +1245,10 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
->   {
->   	struct ddebug_table *dt;
->   
-> -	v3pr_info("add-module: %s.%d sites\n", modname, di->num_descs);
-> -	if (!di->num_descs) {
-> -		v3pr_info(" skip %s\n", modname);
-> +	if (!di->num_descs)
->   		return 0;
-> -	}
-> +
-> +	v3pr_info("add-module: %s %d sites\n", modname, di->num_descs);
->   
->   	dt = kzalloc(sizeof(*dt), GFP_KERNEL);
->   	if (dt == NULL) {
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 9eed3683ad76..4a93b2ede8cd 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -5963,6 +5963,7 @@ sub process {
+>   				MODULE_PARM_DESC|
+>   				DECLARE_PER_CPU|
+>   				DEFINE_PER_CPU|
+> +				DYNDBG_CLASSMAP|
+>   				__typeof__\(|
+>   				union|
+>   				struct|
 
 -- 
 Louis Chauvet, Bootlin
