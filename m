@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AB3A43438
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 05:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F26DA4343A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 05:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE6210E537;
-	Tue, 25 Feb 2025 04:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0152E10E4A1;
+	Tue, 25 Feb 2025 04:42:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y7FMsKAK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WbDJNOoW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54D010E108;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C913110E368;
  Tue, 25 Feb 2025 04:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1740458530; x=1771994530;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=mUbCfq0J5d1w8HRPg46x7XKt+yhTJw3jm7cG+0ELz7Q=;
- b=Y7FMsKAK3upPBikQxoJ/23Hap6TJEhYc0n+V2kzVjziJxRBLojX4VBRy
- uffCiBk+kCumHoceUNtYf2xkrl7XpUOMuwxTTEtEvcG0lEQGbHIYKgTUA
- TibFJTaes0zeqJ0/BsJRcj6exUrpEGejVi787Snbb5nsfW+M5r+gHIVEQ
- Hyj+L1PywbKrQyI4/Ib8dQ16JZUl9XkTyABELiOB8xrT/i4YD5voe6TdS
- FMy3vwXCFbs2DbPtHbAE2S5PMauknQxGRy93gTn4xm9H7XhyxWoS1OTtp
- INQpBJMqgVIcgJPDodnCgyubwrMMM+wgDVn3J0/+dJtrFjC4b8FqvZaXJ A==;
-X-CSE-ConnectionGUID: UHK/k4KdRCyS7OVZwEx6QQ==
-X-CSE-MsgGUID: 3jxUAg0CRnmvTpFCP0Um+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="51884910"
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; d="scan'208";a="51884910"
+ bh=9giPGv6TFgxZcUKn82y7Ya/OBnCaL9c72V2OIGc95hU=;
+ b=WbDJNOoWx8PVNoyLSkTbuwod6iA1F7GgXoLq8mA3eoCXDYIMjt+WSFdU
+ kzxD05VKM0DWi7mXztMoq8GCKn3NNQEbV5qBRj3zIvTupjSx8MK3nMMCE
+ Xc7ixrrMSty1qJ6D23AAPDdrercuPK0EtW92eJzngU/EsHY5JyBmnBluJ
+ N+2JLJLpSKoLWn26A14Er1wLvhq8ylQytfBu3eRsRydKATP+dHUO6T1WV
+ GD/uJwM3K2znns3DfQ4S3jYTjOt7sujw0U0qwuBKmJKrVGCqmM4b7luGg
+ R+MrIxN8bdx4sntZHBjXCGmYvJzDq1eNwRu/nIlDGA3EcXACY4Jtcqxkt g==;
+X-CSE-ConnectionGUID: eQReiC+YSRu8+VaxfOTnGQ==
+X-CSE-MsgGUID: sdZI6LQqScGJRul/CWVfqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="51884916"
+X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; d="scan'208";a="51884916"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2025 20:42:09 -0800
-X-CSE-ConnectionGUID: IYAZ9kj/QRO90B4w2IJnZA==
-X-CSE-MsgGUID: kFc6C6zXQ/Goa46cMpsCLg==
+ 24 Feb 2025 20:42:10 -0800
+X-CSE-ConnectionGUID: SPxVkaZSRCOBhW2hJWtliw==
+X-CSE-MsgGUID: GFcFKE21QZK0iroEisXS6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; d="scan'208";a="116290250"
+X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; d="scan'208";a="116290253"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 Feb 2025 20:42:09 -0800
@@ -47,13 +47,14 @@ To: intel-xe@lists.freedesktop.org,
 Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
  thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
  felix.kuehling@amd.com, dakr@kernel.org
-Subject: [PATCH v6 02/32] mm/migrate: Add migrate_device_pfns
-Date: Mon, 24 Feb 2025 20:42:41 -0800
-Message-Id: <20250225044311.3178695-3-matthew.brost@intel.com>
+Subject: [PATCH v6 03/32] mm/migrate: Trylock device page in do_swap_page
+Date: Mon, 24 Feb 2025 20:42:42 -0800
+Message-Id: <20250225044311.3178695-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250225044311.3178695-1-matthew.brost@intel.com>
 References: <20250225044311.3178695-1-matthew.brost@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,118 +71,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add migrate_device_pfns which prepares an array of pre-populated device
-pages for migration. This is needed for eviction of known set of
-non-contiguous devices pages to cpu pages which is a common case for SVM
-in DRM drivers using TTM.
+Avoid multiple CPU page faults to the same device page racing by trying
+to lock the page in do_swap_page before taking an extra reference to the
+page. This prevents scenarios where multiple CPU page faults each take
+an extra reference to a device page, which could abort migration in
+folio_migrate_mapping. With the device page being locked in
+do_swap_page, the migrate_vma_* functions need to be updated to avoid
+locking the fault_page argument.
 
-v2:
- - s/migrate_device_vma_range/migrate_device_prepopulated_range
- - Drop extra mmu invalidation (Vetter)
+Prior to this change, a livelock scenario could occur in Xe's (Intel GPU
+DRM driver) SVM implementation if enough threads faulted the same device
+page.
+
 v3:
- - s/migrate_device_prepopulated_range/migrate_device_pfns (Alistar)
- - Use helper to lock device pages (Alistar)
- - Update commit message with why this is required (Alistar)
+ - Put page after unlocking page (Alistair)
+ - Warn on spliting a TPH which is fault page (Alistair)
+ - Warn on dst page == fault page (Alistair)
+v6:
+ - Add more verbose comment around THP (Alistair)
 
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: Philip Yang <Philip.Yang@amd.com>
+Cc: Felix Kuehling <felix.kuehling@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
+Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Alistair Popple <apopple@nvidia.com>
-Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Tested-by: Alistair Popple <apopple@nvidia.com>
 ---
- include/linux/migrate.h |  1 +
- mm/migrate_device.c     | 52 +++++++++++++++++++++++++++++------------
- 2 files changed, 38 insertions(+), 15 deletions(-)
+ mm/memory.c         | 13 ++++++---
+ mm/migrate_device.c | 64 ++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 55 insertions(+), 22 deletions(-)
 
-diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-index 29919faea2f1..80891120cca9 100644
---- a/include/linux/migrate.h
-+++ b/include/linux/migrate.h
-@@ -227,6 +227,7 @@ void migrate_vma_pages(struct migrate_vma *migrate);
- void migrate_vma_finalize(struct migrate_vma *migrate);
- int migrate_device_range(unsigned long *src_pfns, unsigned long start,
- 			unsigned long npages);
-+int migrate_device_pfns(unsigned long *src_pfns, unsigned long npages);
- void migrate_device_pages(unsigned long *src_pfns, unsigned long *dst_pfns,
- 			unsigned long npages);
- void migrate_device_finalize(unsigned long *src_pfns,
+diff --git a/mm/memory.c b/mm/memory.c
+index b4d3d4893267..59b804f4bf3f 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4348,10 +4348,15 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 			 * Get a page reference while we know the page can't be
+ 			 * freed.
+ 			 */
+-			get_page(vmf->page);
+-			pte_unmap_unlock(vmf->pte, vmf->ptl);
+-			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+-			put_page(vmf->page);
++			if (trylock_page(vmf->page)) {
++				get_page(vmf->page);
++				pte_unmap_unlock(vmf->pte, vmf->ptl);
++				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
++				unlock_page(vmf->page);
++				put_page(vmf->page);
++			} else {
++				pte_unmap_unlock(vmf->pte, vmf->ptl);
++			}
+ 		} else if (is_hwpoison_entry(entry)) {
+ 			ret = VM_FAULT_HWPOISON;
+ 		} else if (is_pte_marker_entry(entry)) {
 diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-index 5bd888223cc8..e85ed4ab6df2 100644
+index e85ed4ab6df2..0dc66b7a58c9 100644
 --- a/mm/migrate_device.c
 +++ b/mm/migrate_device.c
-@@ -871,6 +871,22 @@ void migrate_vma_finalize(struct migrate_vma *migrate)
+@@ -60,6 +60,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 				   struct mm_walk *walk)
+ {
+ 	struct migrate_vma *migrate = walk->private;
++	struct folio *fault_folio = migrate->fault_page ?
++		page_folio(migrate->fault_page) : NULL;
+ 	struct vm_area_struct *vma = walk->vma;
+ 	struct mm_struct *mm = vma->vm_mm;
+ 	unsigned long addr = start, unmapped = 0;
+@@ -88,11 +90,16 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 
+ 			folio_get(folio);
+ 			spin_unlock(ptl);
++			/* FIXME: we don't expect THP for fault_folio */
++			if (WARN_ON_ONCE(fault_folio == folio))
++				return migrate_vma_collect_skip(start, end,
++								walk);
+ 			if (unlikely(!folio_trylock(folio)))
+ 				return migrate_vma_collect_skip(start, end,
+ 								walk);
+ 			ret = split_folio(folio);
+-			folio_unlock(folio);
++			if (fault_folio != folio)
++				folio_unlock(folio);
+ 			folio_put(folio);
+ 			if (ret)
+ 				return migrate_vma_collect_skip(start, end,
+@@ -192,7 +199,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 		 * optimisation to avoid walking the rmap later with
+ 		 * try_to_migrate().
+ 		 */
+-		if (folio_trylock(folio)) {
++		if (fault_folio == folio || folio_trylock(folio)) {
+ 			bool anon_exclusive;
+ 			pte_t swp_pte;
+ 
+@@ -204,7 +211,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 
+ 				if (folio_try_share_anon_rmap_pte(folio, page)) {
+ 					set_pte_at(mm, addr, ptep, pte);
+-					folio_unlock(folio);
++					if (fault_folio != folio)
++						folio_unlock(folio);
+ 					folio_put(folio);
+ 					mpfn = 0;
+ 					goto next;
+@@ -363,6 +371,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+ 					  unsigned long npages,
+ 					  struct page *fault_page)
+ {
++	struct folio *fault_folio = fault_page ?
++		page_folio(fault_page) : NULL;
+ 	unsigned long i, restore = 0;
+ 	bool allow_drain = true;
+ 	unsigned long unmapped = 0;
+@@ -427,7 +437,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+ 		remove_migration_ptes(folio, folio, 0);
+ 
+ 		src_pfns[i] = 0;
+-		folio_unlock(folio);
++		if (fault_folio != folio)
++			folio_unlock(folio);
+ 		folio_put(folio);
+ 		restore--;
+ 	}
+@@ -536,6 +547,8 @@ int migrate_vma_setup(struct migrate_vma *args)
+ 		return -EINVAL;
+ 	if (args->fault_page && !is_device_private_page(args->fault_page))
+ 		return -EINVAL;
++	if (args->fault_page && !PageLocked(args->fault_page))
++		return -EINVAL;
+ 
+ 	memset(args->src, 0, sizeof(*args->src) * nr_pages);
+ 	args->cpages = 0;
+@@ -799,19 +812,13 @@ void migrate_vma_pages(struct migrate_vma *migrate)
+ }
+ EXPORT_SYMBOL(migrate_vma_pages);
+ 
+-/*
+- * migrate_device_finalize() - complete page migration
+- * @src_pfns: src_pfns returned from migrate_device_range()
+- * @dst_pfns: array of pfns allocated by the driver to migrate memory to
+- * @npages: number of pages in the range
+- *
+- * Completes migration of the page by removing special migration entries.
+- * Drivers must ensure copying of page data is complete and visible to the CPU
+- * before calling this.
+- */
+-void migrate_device_finalize(unsigned long *src_pfns,
+-			unsigned long *dst_pfns, unsigned long npages)
++static void __migrate_device_finalize(unsigned long *src_pfns,
++				      unsigned long *dst_pfns,
++				      unsigned long npages,
++				      struct page *fault_page)
+ {
++	struct folio *fault_folio = fault_page ?
++		page_folio(fault_page) : NULL;
+ 	unsigned long i;
+ 
+ 	for (i = 0; i < npages; i++) {
+@@ -824,6 +831,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
+ 
+ 		if (!page) {
+ 			if (dst) {
++				WARN_ON_ONCE(fault_folio == dst);
+ 				folio_unlock(dst);
+ 				folio_put(dst);
+ 			}
+@@ -834,6 +842,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
+ 
+ 		if (!(src_pfns[i] & MIGRATE_PFN_MIGRATE) || !dst) {
+ 			if (dst) {
++				WARN_ON_ONCE(fault_folio == dst);
+ 				folio_unlock(dst);
+ 				folio_put(dst);
+ 			}
+@@ -843,15 +852,33 @@ void migrate_device_finalize(unsigned long *src_pfns,
+ 		if (!folio_is_zone_device(dst))
+ 			folio_add_lru(dst);
+ 		remove_migration_ptes(src, dst, 0);
+-		folio_unlock(src);
++		if (fault_folio != src)
++			folio_unlock(src);
+ 		folio_put(src);
+ 
+ 		if (dst != src) {
++			WARN_ON_ONCE(fault_folio == dst);
+ 			folio_unlock(dst);
+ 			folio_put(dst);
+ 		}
+ 	}
+ }
++
++/*
++ * migrate_device_finalize() - complete page migration
++ * @src_pfns: src_pfns returned from migrate_device_range()
++ * @dst_pfns: array of pfns allocated by the driver to migrate memory to
++ * @npages: number of pages in the range
++ *
++ * Completes migration of the page by removing special migration entries.
++ * Drivers must ensure copying of page data is complete and visible to the CPU
++ * before calling this.
++ */
++void migrate_device_finalize(unsigned long *src_pfns,
++			unsigned long *dst_pfns, unsigned long npages)
++{
++	return __migrate_device_finalize(src_pfns, dst_pfns, npages, NULL);
++}
+ EXPORT_SYMBOL(migrate_device_finalize);
+ 
+ /**
+@@ -867,7 +894,8 @@ EXPORT_SYMBOL(migrate_device_finalize);
+  */
+ void migrate_vma_finalize(struct migrate_vma *migrate)
+ {
+-	migrate_device_finalize(migrate->src, migrate->dst, migrate->npages);
++	__migrate_device_finalize(migrate->src, migrate->dst, migrate->npages,
++				  migrate->fault_page);
  }
  EXPORT_SYMBOL(migrate_vma_finalize);
  
-+static unsigned long migrate_device_pfn_lock(unsigned long pfn)
-+{
-+	struct folio *folio;
-+
-+	folio = folio_get_nontail_page(pfn_to_page(pfn));
-+	if (!folio)
-+		return 0;
-+
-+	if (!folio_trylock(folio)) {
-+		folio_put(folio);
-+		return 0;
-+	}
-+
-+	return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
-+}
-+
- /**
-  * migrate_device_range() - migrate device private pfns to normal memory.
-  * @src_pfns: array large enough to hold migrating source device private pfns.
-@@ -895,29 +911,35 @@ int migrate_device_range(unsigned long *src_pfns, unsigned long start,
- {
- 	unsigned long i, pfn;
- 
--	for (pfn = start, i = 0; i < npages; pfn++, i++) {
--		struct folio *folio;
-+	for (pfn = start, i = 0; i < npages; pfn++, i++)
-+		src_pfns[i] = migrate_device_pfn_lock(pfn);
- 
--		folio = folio_get_nontail_page(pfn_to_page(pfn));
--		if (!folio) {
--			src_pfns[i] = 0;
--			continue;
--		}
-+	migrate_device_unmap(src_pfns, npages, NULL);
- 
--		if (!folio_trylock(folio)) {
--			src_pfns[i] = 0;
--			folio_put(folio);
--			continue;
--		}
-+	return 0;
-+}
-+EXPORT_SYMBOL(migrate_device_range);
- 
--		src_pfns[i] = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
--	}
-+/**
-+ * migrate_device_pfns() - migrate device private pfns to normal memory.
-+ * @src_pfns: pre-popluated array of source device private pfns to migrate.
-+ * @npages: number of pages to migrate.
-+ *
-+ * Similar to migrate_device_range() but supports non-contiguous pre-popluated
-+ * array of device pages to migrate.
-+ */
-+int migrate_device_pfns(unsigned long *src_pfns, unsigned long npages)
-+{
-+	unsigned long i;
-+
-+	for (i = 0; i < npages; i++)
-+		src_pfns[i] = migrate_device_pfn_lock(src_pfns[i]);
- 
- 	migrate_device_unmap(src_pfns, npages, NULL);
- 
- 	return 0;
- }
--EXPORT_SYMBOL(migrate_device_range);
-+EXPORT_SYMBOL(migrate_device_pfns);
- 
- /*
-  * Migrate a device coherent folio back to normal memory. The caller should have
 -- 
 2.34.1
 
