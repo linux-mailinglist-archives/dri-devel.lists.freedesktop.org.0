@@ -2,67 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F09A44B60
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 20:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4BDA44B6F
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 20:37:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A33C10E7BD;
-	Tue, 25 Feb 2025 19:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7CBB10E7C2;
+	Tue, 25 Feb 2025 19:37:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YXL9PCUH";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CHopUVH8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 981B810E7C2;
- Tue, 25 Feb 2025 19:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740512105; x=1772048105;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=Y0dgq02rrgg6GhOsq8ZPtCl2ibf+lqJ5X0BUAPIsTbA=;
- b=YXL9PCUHv9QJp9cdVpTULr5P460GbJSkh8AVaAwun/2b3qh4MVCaO8aS
- 4F69Xjp3z/+Byo+HiA0BECqv6j9ovnWBEMZL2HBzVnENnoE95qAsDOFg1
- 4E072SbIPvoqyabQh0+3dHAve6iwwA165+bCpQgS9o3yl9Y4iFCG4NO3C
- KMaI4dWJ/7GShorYl60BnwLViHzw6I3liZND8UTbBREn7sI0h8GYlae9C
- IQjA2JVa2VpIcrVYEcMtrLI8Jrzj60wkA5APj1qvWWrFU3C+g7KxENDxR
- 0Bw7P/sFV4saJaumGgTxN420xgMgsZVIQuk+U8OW597uFK9muv5rupHky Q==;
-X-CSE-ConnectionGUID: HBCyXdFnReqd4CxRrXwN6Q==
-X-CSE-MsgGUID: Nmfc5O17SLuQpE98jh7nAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41465287"
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="41465287"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 11:35:05 -0800
-X-CSE-ConnectionGUID: qrC/vWxRRZ2hkAfLY3GMYA==
-X-CSE-MsgGUID: rpKIiapzTxKqUpXFTcgExw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; d="scan'208";a="116263364"
-Received: from monicael-mobl3 (HELO localhost) ([10.245.246.246])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2025 11:35:02 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Sandy
- Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan
- <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, sam@ravnborg.org, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>
-Subject: Re:Re:[PATCH 2/5] drm/rockchip: stop passing non struct drm_device
- to drm_err() and friends
-In-Reply-To: <730ee1d4.f63.1949b97fc99.Coremail.andyshrk@163.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <f42da4c9943a2f2a9de4272b7849e72236d4c3f9.1737644530.git.jani.nikula@intel.com>
- <2c0a76c3.618c.19497bb4329.Coremail.andyshrk@163.com>
- <87plkcbfp0.fsf@intel.com>
- <730ee1d4.f63.1949b97fc99.Coremail.andyshrk@163.com>
-Date: Tue, 25 Feb 2025 21:34:58 +0200
-Message-ID: <87wmdd4y3h.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0841110E7C0;
+ Tue, 25 Feb 2025 19:37:10 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51PHsERo013305;
+ Tue, 25 Feb 2025 19:37:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=NodEt7I6mKquqqHW9X6vXf
+ RbJ/et24sQ+jaIy1bvO/8=; b=CHopUVH8pp4Jga397zRqXK3U0RQsyZPT3S5P7z
+ MNFFL/Zzr5DxUjUIapcK+/N2kt2i/s4PXawWtwq4lEiBrwEn1wZe3Eh6Azd5TSRL
+ VJ3IvAflrXjXqXfzLAcs0mlu3Rr8k1AgFkjajoRcIHoO+HpwH8/s68gEFDtMFicE
+ 0ylKqjEcGTvnKMPqm4AZ5do7w6Q6EgXFc1pa65PNSqon4QhGw+3h+tlh3+tPnKDq
+ TgCeOH6eD+lpdHdTP7fQELpqmPa3+ngnv+hgpOlaicefgnYGJBx6DN4v52AwOXFj
+ rurAP0dEmy6wkY6tKDPKUUHUZxpqpAFp8MpRWMjmJpYlUFTA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y5wgt354-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2025 19:37:05 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51PJb4QK023736
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2025 19:37:04 GMT
+Received: from [10.213.111.143] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 25 Feb
+ 2025 11:37:00 -0800
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Date: Wed, 26 Feb 2025 01:06:27 +0530
+Subject: [PATCH] drm/msm/a6xx: Fix stale rpmh votes from GPU
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250226-adreno-sys-suspend-fix-v1-1-054261bba114@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIALobvmcC/yWMQQ7CIBBFr9LMWhJAkOpVTBfADMqitDKt0TS9u
+ 8Qu3/v5bwOmmonh1m1Q6Z05T6WBOnUQn748SGRsDFpqK5WSwmOlMgn+suCVZyooUv6IaEN0gcj
+ LaKCd50pN/8P34eBKr7X1l0NC8EwiTuOYl1vnNEqfjI8RrxeL8ayTlcYYic60xaDqQ3K9gmHff
+ 1VYOkO0AAAA
+X-Change-ID: 20250110-adreno-sys-suspend-fix-c5bc7beea0c4
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Jordan Crouse <jordan@cosmicpenguin.net>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Akhil P
+ Oommen" <quic_akhilpo@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740512220; l=3990;
+ i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
+ bh=VjH9vNCiu3abfUxNaT6nINjS7akZ+Q5dBNiweXmoEpk=;
+ b=xjeoldI0qTLOM55Y/lXODIcejB2UM+RT52Zi9F1KAGY1zYhCeMv3PF61EpE+S+2nLpXBjGbb3
+ jfEjeUqdMa9B4nXL2pIy9Xy+SRPvE9a/twflug4wm4jbiUoeyauiuW0
+X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 4LJM5ITYHbAuK60lqsvi9heg-2MBJssl
+X-Proofpoint-ORIG-GUID: 4LJM5ITYHbAuK60lqsvi9heg-2MBJssl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-25_06,2025-02-25_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ clxscore=1011 adultscore=0 phishscore=0 mlxlogscore=999 spamscore=0
+ mlxscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502250120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,258 +103,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 25 Jan 2025, "Andy Yan" <andyshrk@163.com> wrote:
-> =E5=9C=A8 2025-01-24 19:43:07=EF=BC=8C"Jani Nikula" <jani.nikula@intel.co=
-m> =E5=86=99=E9=81=93=EF=BC=9A
->>On Fri, 24 Jan 2025, "Andy Yan" <andyshrk@163.com> wrote:
->>> Hi=EF=BC=8C
->>>
->>> At 2025-01-23 23:09:09, "Jani Nikula" <jani.nikula@intel.com> wrote:
->>>>The expectation is that the struct drm_device based logging helpers get
->>>>passed an actual struct drm_device pointer rather than some random
->>>>struct pointer where you can dereference the ->dev member.
->>>>
->>>>Convert drm_err(hdmi, ...) to dev_err(hdmi->dev, ...). This matches
->>>>current usage, but drops "[drm] *ERROR*" prefix from logging.
->>>
->>> Frankly, I prefer the original version of the log.
->>> It is a platform driver, so it should use its own device.
->>> It is a driver that works in drm subsystem, so it's better to use "[drm=
-] *ERROR*" prefix when logging
->>
->>If you need to do struct device based logging that is not the same
->>device as the struct drm_device dev member, you need to use dev_err()
->>and friends. You can't and must not use drm_err() and friends.
->>
->>It's as simple as that.
->>
->>The current drm_err(hdmi, ...) usage is simply abuse of the macros, and
->>must stop.
->
-> Perhaps when you initially designed this macros, you intended it to accep=
-t only drm_device,=20
-> but your code implementation didn't enforce this restriction at the begin=
-ning.
-> If that's truly what you intended, I suggest just reverting this commit t=
-hat converting to use these macros[0],=20
-> as neither drm_err nor dev_err can maintain consistency with the original=
- log of this driver.
-> Alternatively, as suggested by Sam  in the initial submission of your pat=
-ch 5 years ago,=20
-> there should also be a macro similar to drm_dev_info(device *, ..).[1]
+It was observed on sc7180 (A618 gpu) that GPU votes for GX rail and CNOC
+BCM nodes were not removed after GPU suspend. This was because we
+skipped sending 'prepare-slumber' request to gmu during suspend sequence
+in some cases. So, make sure we always call prepare-suspend hfi during
+suspend. Also, calling prepare-suspend without a prior oob-gpu handshake
+messes up gmu firmware's internal state. So, do that when required.
 
-Commit 1b8f576c6958 ("drm/rockchip: dw_hdmi: Use modern drm_device based
-logging") does not revert cleanly, and even if it did, DRM_DEV_ERROR()
-is deprecated in favour of drm_err() or dev_err(). I'm using the latter.
+Fixes: 4b565ca5a2cb ("drm/msm: Add A6XX device support")
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 72 +++++++++++++++++++----------------
+ 1 file changed, 39 insertions(+), 33 deletions(-)
 
-Ack for applying the patch at hand as-is?
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 699b0dd34b18f0ec811e975779ba95991d485098..38c94915d4c9d6d33354502651a77c1f9e4648df 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -1169,49 +1169,50 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
+ 	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+ 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+ 	u32 val;
++	int ret;
+ 
+ 	/*
+-	 * The GMU may still be in slumber unless the GPU started so check and
+-	 * skip putting it back into slumber if so
++	 * GMU firmware's internal power state gets messed up if we send "prepare_slumber" hfi when
++	 * oob_gpu handshake wasn't done after the last wake up. So do a dummy handshake here when
++	 * required
+ 	 */
+-	val = gmu_read(gmu, REG_A6XX_GPU_GMU_CX_GMU_RPMH_POWER_STATE);
++	if (adreno_gpu->base.needs_hw_init) {
++		if (a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET))
++			goto force_off;
+ 
+-	if (val != 0xf) {
+-		int ret = a6xx_gmu_wait_for_idle(gmu);
++		a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
++	}
+ 
+-		/* If the GMU isn't responding assume it is hung */
+-		if (ret) {
+-			a6xx_gmu_force_off(gmu);
+-			return;
+-		}
++	ret = a6xx_gmu_wait_for_idle(gmu);
+ 
+-		a6xx_bus_clear_pending_transactions(adreno_gpu, a6xx_gpu->hung);
++	/* If the GMU isn't responding assume it is hung */
++	if (ret)
++		goto force_off;
+ 
+-		/* tell the GMU we want to slumber */
+-		ret = a6xx_gmu_notify_slumber(gmu);
+-		if (ret) {
+-			a6xx_gmu_force_off(gmu);
+-			return;
+-		}
++	a6xx_bus_clear_pending_transactions(adreno_gpu, a6xx_gpu->hung);
+ 
+-		ret = gmu_poll_timeout(gmu,
+-			REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS, val,
+-			!(val & A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS_GPUBUSYIGNAHB),
+-			100, 10000);
++	/* tell the GMU we want to slumber */
++	ret = a6xx_gmu_notify_slumber(gmu);
++	if (ret)
++		goto force_off;
+ 
+-		/*
+-		 * Let the user know we failed to slumber but don't worry too
+-		 * much because we are powering down anyway
+-		 */
++	ret = gmu_poll_timeout(gmu,
++		REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS, val,
++		!(val & A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS_GPUBUSYIGNAHB),
++		100, 10000);
+ 
+-		if (ret)
+-			DRM_DEV_ERROR(gmu->dev,
+-				"Unable to slumber GMU: status = 0%x/0%x\n",
+-				gmu_read(gmu,
+-					REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS),
+-				gmu_read(gmu,
+-					REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS2));
+-	}
++	/*
++	 * Let the user know we failed to slumber but don't worry too
++	 * much because we are powering down anyway
++	 */
++
++	if (ret)
++		DRM_DEV_ERROR(gmu->dev,
++			"Unable to slumber GMU: status = 0%x/0%x\n",
++			gmu_read(gmu,
++				REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS),
++			gmu_read(gmu,
++				REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS2));
+ 
+ 	/* Turn off HFI */
+ 	a6xx_hfi_stop(gmu);
+@@ -1221,6 +1222,11 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
+ 
+ 	/* Tell RPMh to power off the GPU */
+ 	a6xx_rpmh_stop(gmu);
++
++	return;
++
++force_off:
++	a6xx_gmu_force_off(gmu);
+ }
+ 
+ 
 
-BR,
-Jani.
+---
+base-commit: 72d0af4accd965dc32f504440d74d0a4d18bf781
+change-id: 20250110-adreno-sys-suspend-fix-c5bc7beea0c4
 
+Best regards,
+-- 
+Akhil P Oommen <quic_akhilpo@quicinc.com>
 
-
-
->
->
-> [0]https://lore.kernel.org/linux-rockchip/20240813-dw-hdmi-rockchip-clean=
-up-v1-1-b3e73b5f4fd6@collabora.com/
-> [1]https://lore.kernel.org/dri-devel/20191212215303.GA11520@ravnborg.org/
->
->>
->>
->>BR,
->>Jani.
->>
->>
->>>
->>>>
->>>>Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>>>
->>>>---
->>>>
->>>>Looks like it's possible to hunt down the struct drm_device in most of
->>>>these cases, if that's desired. This was the simplest change.
->>>>
->>>>Cc: Sandy Huang <hjc@rock-chips.com>
->>>>Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
->>>>Cc: Andy Yan <andy.yan@rock-chips.com>
->>>>Cc: dri-devel@lists.freedesktop.org
->>>>Cc: linux-arm-kernel@lists.infradead.org
->>>>Cc: linux-rockchip@lists.infradead.org
->>>>---
->>>> drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c    | 16 ++++++++--------
->>>> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 16 ++++++++--------
->>>> 2 files changed, 16 insertions(+), 16 deletions(-)
->>>>
->>>>diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/=
-drm/rockchip/dw_hdmi-rockchip.c
->>>>index e7a6669c46b0..f737e7d46e66 100644
->>>>--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>@@ -203,7 +203,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_h=
-dmi *hdmi)
->>>>=20
->>>> 	hdmi->regmap =3D syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
->>>> 	if (IS_ERR(hdmi->regmap)) {
->>>>-		drm_err(hdmi, "Unable to get rockchip,grf\n");
->>>>+		dev_err(hdmi->dev, "Unable to get rockchip,grf\n");
->>>> 		return PTR_ERR(hdmi->regmap);
->>>> 	}
->>>>=20
->>>>@@ -214,7 +214,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_h=
-dmi *hdmi)
->>>> 	if (IS_ERR(hdmi->ref_clk)) {
->>>> 		ret =3D PTR_ERR(hdmi->ref_clk);
->>>> 		if (ret !=3D -EPROBE_DEFER)
->>>>-			drm_err(hdmi, "failed to get reference clock\n");
->>>>+			dev_err(hdmi->dev, "failed to get reference clock\n");
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>@@ -222,7 +222,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_h=
-dmi *hdmi)
->>>> 	if (IS_ERR(hdmi->grf_clk)) {
->>>> 		ret =3D PTR_ERR(hdmi->grf_clk);
->>>> 		if (ret !=3D -EPROBE_DEFER)
->>>>-			drm_err(hdmi, "failed to get grf clock\n");
->>>>+			dev_err(hdmi->dev, "failed to get grf clock\n");
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>@@ -302,16 +302,16 @@ static void dw_hdmi_rockchip_encoder_enable(struc=
-t drm_encoder *encoder)
->>>>=20
->>>> 	ret =3D clk_prepare_enable(hdmi->grf_clk);
->>>> 	if (ret < 0) {
->>>>-		drm_err(hdmi, "failed to enable grfclk %d\n", ret);
->>>>+		dev_err(hdmi->dev, "failed to enable grfclk %d\n", ret);
->>>> 		return;
->>>> 	}
->>>>=20
->>>> 	ret =3D regmap_write(hdmi->regmap, hdmi->chip_data->lcdsel_grf_reg, v=
-al);
->>>> 	if (ret !=3D 0)
->>>>-		drm_err(hdmi, "Could not write to GRF: %d\n", ret);
->>>>+		dev_err(hdmi->dev, "Could not write to GRF: %d\n", ret);
->>>>=20
->>>> 	clk_disable_unprepare(hdmi->grf_clk);
->>>>-	drm_dbg(hdmi, "vop %s output to hdmi\n", ret ? "LIT" : "BIG");
->>>>+	dev_dbg(hdmi->dev, "vop %s output to hdmi\n", ret ? "LIT" : "BIG");
->>>> }
->>>>=20
->>>> static int
->>>>@@ -574,7 +574,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev=
-, struct device *master,
->>>> 	ret =3D rockchip_hdmi_parse_dt(hdmi);
->>>> 	if (ret) {
->>>> 		if (ret !=3D -EPROBE_DEFER)
->>>>-			drm_err(hdmi, "Unable to parse OF data\n");
->>>>+			dev_err(hdmi->dev, "Unable to parse OF data\n");
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>@@ -582,7 +582,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev=
-, struct device *master,
->>>> 	if (IS_ERR(hdmi->phy)) {
->>>> 		ret =3D PTR_ERR(hdmi->phy);
->>>> 		if (ret !=3D -EPROBE_DEFER)
->>>>-			drm_err(hdmi, "failed to get phy\n");
->>>>+			dev_err(hdmi->dev, "failed to get phy\n");
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/g=
-pu/drm/rockchip/dw_hdmi_qp-rockchip.c
->>>>index f41151d49fca..3d1dddb34603 100644
->>>>--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
->>>>+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
->>>>@@ -242,7 +242,7 @@ static void dw_hdmi_qp_rk3588_hpd_work(struct work_=
-struct *work)
->>>> 	if (drm) {
->>>> 		changed =3D drm_helper_hpd_irq_event(drm);
->>>> 		if (changed)
->>>>-			drm_dbg(hdmi, "connector status changed\n");
->>>>+			dev_dbg(hdmi->dev, "connector status changed\n");
->>>> 	}
->>>> }
->>>>=20
->>>>@@ -472,7 +472,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
-dev, struct device *master,
->>>> 		}
->>>> 	}
->>>> 	if (hdmi->port_id < 0) {
->>>>-		drm_err(hdmi, "Failed to match HDMI port ID\n");
->>>>+		dev_err(hdmi->dev, "Failed to match HDMI port ID\n");
->>>> 		return hdmi->port_id;
->>>> 	}
->>>>=20
->>>>@@ -496,20 +496,20 @@ static int dw_hdmi_qp_rockchip_bind(struct device=
- *dev, struct device *master,
->>>> 	hdmi->regmap =3D syscon_regmap_lookup_by_phandle(dev->of_node,
->>>> 						       "rockchip,grf");
->>>> 	if (IS_ERR(hdmi->regmap)) {
->>>>-		drm_err(hdmi, "Unable to get rockchip,grf\n");
->>>>+		dev_err(hdmi->dev, "Unable to get rockchip,grf\n");
->>>> 		return PTR_ERR(hdmi->regmap);
->>>> 	}
->>>>=20
->>>> 	hdmi->vo_regmap =3D syscon_regmap_lookup_by_phandle(dev->of_node,
->>>> 							  "rockchip,vo-grf");
->>>> 	if (IS_ERR(hdmi->vo_regmap)) {
->>>>-		drm_err(hdmi, "Unable to get rockchip,vo-grf\n");
->>>>+		dev_err(hdmi->dev, "Unable to get rockchip,vo-grf\n");
->>>> 		return PTR_ERR(hdmi->vo_regmap);
->>>> 	}
->>>>=20
->>>> 	ret =3D devm_clk_bulk_get_all_enabled(hdmi->dev, &clks);
->>>> 	if (ret < 0) {
->>>>-		drm_err(hdmi, "Failed to get clocks: %d\n", ret);
->>>>+		dev_err(hdmi->dev, "Failed to get clocks: %d\n", ret);
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>@@ -517,7 +517,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
-dev, struct device *master,
->>>> 						    GPIOD_OUT_HIGH);
->>>> 	if (IS_ERR(hdmi->enable_gpio)) {
->>>> 		ret =3D PTR_ERR(hdmi->enable_gpio);
->>>>-		drm_err(hdmi, "Failed to request enable GPIO: %d\n", ret);
->>>>+		dev_err(hdmi->dev, "Failed to request enable GPIO: %d\n", ret);
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>@@ -525,7 +525,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
-dev, struct device *master,
->>>> 	if (IS_ERR(hdmi->phy)) {
->>>> 		ret =3D PTR_ERR(hdmi->phy);
->>>> 		if (ret !=3D -EPROBE_DEFER)
->>>>-			drm_err(hdmi, "failed to get phy: %d\n", ret);
->>>>+			dev_err(hdmi->dev, "failed to get phy: %d\n", ret);
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>@@ -564,7 +564,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
-dev, struct device *master,
->>>> 	connector =3D drm_bridge_connector_init(drm, encoder);
->>>> 	if (IS_ERR(connector)) {
->>>> 		ret =3D PTR_ERR(connector);
->>>>-		drm_err(hdmi, "failed to init bridge connector: %d\n", ret);
->>>>+		dev_err(hdmi->dev, "failed to init bridge connector: %d\n", ret);
->>>> 		return ret;
->>>> 	}
->>>>=20
->>>>--=20
->>>>2.39.5
->>>>
->>>>
->>>>_______________________________________________
->>>>Linux-rockchip mailing list
->>>>Linux-rockchip@lists.infradead.org
->>>>http://lists.infradead.org/mailman/listinfo/linux-rockchip
->>
->>--=20
->>Jani Nikula, Intel
-
---=20
-Jani Nikula, Intel
