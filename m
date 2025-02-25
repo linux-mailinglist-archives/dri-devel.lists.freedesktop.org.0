@@ -2,104 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BE8A44FD5
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 23:23:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF23CA45067
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 23:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58F0110E80E;
-	Tue, 25 Feb 2025 22:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF76D10E0BE;
+	Tue, 25 Feb 2025 22:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VddmqFil";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OLjybS5R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9F1C10E80E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1740522192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4YKTxXn5l9L/3067x1ZnZ8w6M1gB59GICvb9XtTgB0s=;
- b=VddmqFilS0xWm8Y9q2pg+Io6vMjT7WaJE2IKGNfWwfLc/ez4Wq8vTX80+/8IUyEE3SwpGn
- 4eCPiP7cincn/O5T7q3yW5hfF8J0qaTIO+jsdkoiq3GJot3imlHOl+b3vHp4VQIfoUaEaP
- dC6Oy14pIZw8eQenqiZHOj6DupRvvR4=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-513-oa49bnmHNVqMO6CG_JqJbQ-1; Tue,
- 25 Feb 2025 17:23:08 -0500
-X-MC-Unique: oa49bnmHNVqMO6CG_JqJbQ-1
-X-Mimecast-MFC-AGG-ID: oa49bnmHNVqMO6CG_JqJbQ_1740522183
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id D68F01903085; Tue, 25 Feb 2025 22:23:00 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.79])
- by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 4D5CD1800357; Tue, 25 Feb 2025 22:22:51 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 25 Feb 2025 17:20:53 -0500
-Subject: [PATCH RESEND 12/12] Documentation: Update the todo
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F1710E082;
+ Tue, 25 Feb 2025 22:42:50 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-abb7520028bso830340366b.3; 
+ Tue, 25 Feb 2025 14:42:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740523368; x=1741128168; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=b+LeoWD79JHqCNmXmfrX82I1MTihVlt4+Y014zmulIs=;
+ b=OLjybS5RLo5hnmorH2ByntxaEZ6lnQHxJPaTo9MCqgHYJ0Sp/sSOocAMYhR614q+HG
+ tgWBqlStHHVgXW2ObLgIn4hkMfySf20mfIln3bq13AeZ7yeNzs/+L99e9ZPyuuPduGkh
+ V5c5RQTr5ZwzYdm4wA7+AnW5839nBhBR4qdoDehT8WGf6YN2ZhM0gnTQQd2cHNtIlVUV
+ lElNP7OfJr3J3GTA/xQU0UnPUc3ZPjUu1CQIcbVjLn3QHxO4aVORxoDn2lKShmwM0RIG
+ r6mVTwyQ86nm3SVtRx5xoAErlgk6sjzhLPJnS9C2ToMDJDx1mj0mj45SUnHYFsGdNBg3
+ RBfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740523368; x=1741128168;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=b+LeoWD79JHqCNmXmfrX82I1MTihVlt4+Y014zmulIs=;
+ b=cwUWA+M3wlldHGyM7f/ww+f8shrnoqkL2tWacHiYtw7yt4uryoz1OOxpgblcwAThi2
+ eePsfQVClAcB20UQ5PulRmZs597Y5NmYJDpSBn2dlAeO8xohgvzazWtQLvMROiUohjOt
+ sU4Hc80TuBdT9eju7v8j7EG8iUECdcOLYfrmwI/w/t7UKis/0U9Nkfd4tB1qvmSAk7e0
+ 4J39EynUBVpyiecwMQIkTWAXwewUkbfcton6pyH2azRJ0NpoW8el3JZfLzVe8f4p8KKx
+ rNHw3XqLunGWQgzNxTYNsXUifzhbz6oHpISPYyRv3P3UMExkgZjgFX+PVNJYYjstjWi/
+ m50g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4WoR62I422RL051717xaaBpacrh/kNitRJqFECbY03tSk4tvu8c0DPfKFoPZFVC94fZqZtO4QQ/4=@lists.freedesktop.org,
+ AJvYcCXV4W2zaqkq/AKIgnEQaOEbSh6kaImFTq8fVLto5XjQcNoA6j8bmJt/fBYaFJG+QFwC7zfYVj7QAw==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXvBCMxVol27vRflyE4HLUr8ZYYCHwnM8iuYRufsCmH6W8kP1a
+ EjMbthY5dH3Fg4kDl2c4rp5AnwMT2FQJRtFJxys265wDlnPTMF6cQ/vqnsCStZA/8Sfvf4SGiE2
+ 4Tj6yDpqyY6m7z5BLhepDn8/1wfI=
+X-Gm-Gg: ASbGncttss4HkNzf8Y76DHugkiaKkSDKTVSzLdXdM51oJd5pfU6ehv4/fic3LczEVMg
+ GuI3vgkDOoG3lkg5twDReugPaStzLoTeMi0/qxVXPOh3K3f8esrIatCGheqR7EpDK7XWHur6LlU
+ /yXTCy0Q==
+X-Google-Smtp-Source: AGHT+IFifrc/55FE/o7oKNACzTd5eIPpMN3RnO7ka1K/p5yqQNOOgOOnNnXkfu+qTWAXrjJTu1ZcDxRLPqb8lMW9yYw=
+X-Received: by 2002:a17:907:7d8c:b0:ab7:d87f:665a with SMTP id
+ a640c23a62f3a-abeeef36285mr65939366b.46.1740523367894; Tue, 25 Feb 2025
+ 14:42:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-memory-drm-misc-next-v1-12-9d0e8761107a@redhat.com>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
-In-Reply-To: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
-To: Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Alexey Brodkin <abrodkin@synopsys.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
- linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740522045; l=1573;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=/15qlsboM6yCAvaydvQcsEN4W06HB6cK0UlxWA8+/dI=;
- b=ctwB++vs/uJo3W74tDO1hgYWH+/4RjK1rS8II5NkImDP6J2u1dRysoaEir8KpfcS5eR2mtRZk
- klKUEMHenKeDWvB9gJk66H8NhG2Mti3PcGp+7DJwrN0qR8FJ1Dt9Wf3
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <Z7OrKX3zzjrzZdyz@pollux>
+ <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
+ <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
+ <Z7xh5bEyh_MII4WV@pollux> <20250224184502.GA1599486@joelnvbox>
+ <Z70EcwNIX0KtWy36@cassiopeiae>
+ <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
+ <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
+ <Z7493C8_IvvYDbm8@pollux>
+In-Reply-To: <Z7493C8_IvvYDbm8@pollux>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 26 Feb 2025 08:42:35 +1000
+X-Gm-Features: AQ5f1JrXlW948cBSgISkGZ98vaN4OmpvDgQrRNGPSuFQf0Efsh9Vf4MvRVvuzKk
+Message-ID: <CAPM=9txkwr3_sdNESa9ufu1j4V-XsJ=EuLFuNLb_dLCfwhYD3w@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ Gary Guo <gary@garyguo.net>, Joel Fernandes <joel@joelfernandes.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>, 
+ Ben Skeggs <bskeggs@nvidia.com>, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, paulmck@kernel.org, 
+ Jason Gunthorpe <jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,44 +96,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the Documentation to be more precise.
+>
+> I'm saying that extending the time of critical sections is a concern, because
+> it's more likely to miss the unplug event and it's just not necessary. You grab
+> the guard, do a few I/O ops and drop it -- simple.
 
-v2: Update for clarity
-v3: Further details in Todo
+At least for nova-core I've realised I got this partly wrong,
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- Documentation/gpu/todo.rst | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+https://gitlab.freedesktop.org/nouvelles/kernel/-/blob/nova-core-experiments/drivers/gpu/nova-core/falcon.rs?ref_type=heads#L305
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 256d0d1cb2164bd94f9b610a751b907834d96a21..c57777a24e03d91b1ffe04365f7356f2d938befd 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -441,14 +441,15 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Intermediate
- 
--Request memory regions in all drivers
---------------------------------------
-+Request memory regions in all fbdev drivers
-+--------------------------------------------
- 
--Go through all drivers and add code to request the memory regions that the
--driver uses. This requires adding calls to request_mem_region(),
-+Old/ancient fbdev drivers do not request their memory properly.
-+Go through these drivers and add code to request the memory regions
-+that the driver uses. This requires adding calls to request_mem_region(),
- pci_request_region() or similar functions. Use helpers for managed cleanup
--where possible.
--
-+where possible. Problematic areas include hardware that has exclusive ranges
-+like VGA. VGA16fb does not request the range as it is expected.
- Drivers are pretty bad at doing this and there used to be conflicts among
- DRM and fbdev drivers. Still, it's the correct thing to do.
- 
+However in this case I expect the sleeps small enough to end up in
+udelay perhaps instead of actual sleeps,
 
--- 
-2.48.1
+but I wouldn't be too worried about the overhead of adding a bit of
+extra code in the wake up from sleep path, the sleep is going to take
+the time, a few extra instructions in the poll won't be noticeable.
 
+Dave.
