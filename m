@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3F0A43B0D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:15:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41366A43B3E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:21:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C546E10E600;
-	Tue, 25 Feb 2025 10:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7BB810E605;
+	Tue, 25 Feb 2025 10:21:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="a6cBFTl5";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ijOXGzVi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAA5610E600;
- Tue, 25 Feb 2025 10:15:25 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3803544365;
- Tue, 25 Feb 2025 10:15:24 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E68810E605;
+ Tue, 25 Feb 2025 10:21:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 561384340B;
+ Tue, 25 Feb 2025 10:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740478524;
+ t=1740478892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CCPCgCbyzVjvoBIdQ2piY1mV7Na5sBeFxJ31qNK2q54=;
- b=a6cBFTl5BWRSKk3aIXG+GZNF6nugqkkpDx12KHvQHnCEorNVejoXhqWRfxvuzQxeL5HCBr
- e+7OfNTLSEWQBVu3Pk2tbdaglsahpf2EP2k1GCx2XgMccsJ+y2KiX8vrRZEFjyA+EsTvWk
- VWEptnOVaisrfQr3w2ZTsijedpHbpP7phuNIpbpTc9likOIZiKGug0kcE7dgkQ3uTG+pwA
- olIW8KSrH7JFPTgvxn+AnEdyJss6gIesTxTmNbPbaXvis4jJ9BxgF63ykvzdc5Su96xEGj
- VUtQ89FqTPJ9VV3z/6KGCa1BLrQseOsXakfpXtoi/JV8Pb3mdRARfdi+V2nhgA==
-Message-ID: <4eff4218-d49c-43d4-adf1-f05b009e04c3@bootlin.com>
-Date: Tue, 25 Feb 2025 11:15:22 +0100
+ bh=Z7UiYeHlnuXQlU/CIuhLBxt1x5/F3eBqiVla+INVZi0=;
+ b=ijOXGzVidIZrzEBq7dj67n7P/JGef5/4ckx4urQT5oI/8f5P5VShNFYNLAB3Nn+UL9ozd9
+ ouvZlR2QplskYzLRBRKk+cGYjsqcb01lXnyPN4w9lyIqo5D1Yi2TYLHHFZNxSk0HQE6imG
+ 7bsQFba0tMXDlMmpwqUUj8eu6gAX34ppqyhPLhh61dvZHhz75/DbdXMXA5/k1GHzGnvSCI
+ Y9SUOn+RP6JVTKv6shLOKuJ5ZjNNLA0enZN9izqK7hnQX1Uwjfks++YrIftptju4d5+NaT
+ ZPw9SnPWL/TgrGh2pIEdNRnAY5T2kR6OLzz5jbfyG4E/QU/UjLYwSA/1Wgpw2g==
+Message-ID: <22fa00f7-a650-4087-8c6c-338a80896b95@bootlin.com>
+Date: Tue, 25 Feb 2025 11:21:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [V7 09/45] drm/colorop: Add BYPASS property
+Subject: Re: [V7 10/45] drm/colorop: Add NEXT property
 To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org
 Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
 References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-10-alex.hung@amd.com>
+ <20241220043410.416867-11-alex.hung@amd.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20241220043410.416867-10-alex.hung@amd.com>
+In-Reply-To: <20241220043410.416867-11-alex.hung@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
@@ -124,13 +124,138 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Le 20/12/2024 à 05:33, Alex Hung a écrit :
 > From: Harry Wentland <harry.wentland@amd.com>
 > 
-> We want to be able to bypass each colorop at all times.
-> Introduce a new BYPASS boolean property for this.
+> We'll construct color pipelines out of drm_colorop by
+> chaining them via the NEXT pointer. NEXT will point to
+> the next drm_colorop in the pipeline, or by 0 if we're
+> at the end of the pipeline.
 > 
 > Signed-off-by: Alex Hung <alex.hung@amd.com>
 > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+> v5:
+>   - move next comment here from Add 3x4 CTM patch (Sebastian)
+>   - Add kernel doc
+> 
+> v4:
+>   - Allow setting of NEXT property to NULL (Chaitanya Kumar Borah)
+> 
+> v3:
+>   - Add next pointer to colorop to be used by drivers
+>     and in DRM core
+> 
+>   drivers/gpu/drm/drm_colorop.c | 30 ++++++++++++++++++++++++++++++
+>   include/drm/drm_colorop.h     | 20 ++++++++++++++++++++
+>   2 files changed, 50 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index 01cbe90635e8..954acd09673a 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -89,6 +89,7 @@ static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   	colorop->dev = dev;
+>   	colorop->type = type;
+>   	colorop->plane = plane;
+> +	colorop->next = NULL;
+>   
+>   	list_add_tail(&colorop->head, &config->colorop_list);
+>   	colorop->index = config->num_colorop++;
+> @@ -121,6 +122,16 @@ static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   				   colorop->bypass_property,
+>   				   1);
+>   
+> +	/* next */
+> +	prop = drm_property_create_object(dev, DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ATOMIC,
+> +					  "NEXT", DRM_MODE_OBJECT_COLOROP);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	colorop->next_property = prop;
+> +	drm_object_attach_property(&colorop->base,
+> +				   colorop->next_property,
+> +				   0);
+> +
+>   	return ret;
+>   }
+>   
+> @@ -294,3 +305,22 @@ const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type ty
+>   
+>   	return colorop_curve_1d_type_names[type];
+>   }
+> +
+> +/**
+> + * drm_colorop_set_next_property - sets the next pointer
+> + * @colorop: drm colorop
+> + * @next: next colorop
+> + *
+> + * Should be used when constructing the color pipeline
+> + */
+> +void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next)
+> +{
+> +	if (!colorop->next_property)
+> +		return;
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+I agree with Simon, a WARN_ON seems appropriate here, the 
+colorop->next_property should always exist, and if not, it is a bug.
+
+> +
+> +	drm_object_property_set_value(&colorop->base,
+> +				      colorop->next_property,
+> +				      next ? next->base.id : 0);
+> +	colorop->next = next;
+> +}
+> +EXPORT_SYMBOL(drm_colorop_set_next_property);
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 5ed24d60a99e..2f0572be37bb 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -165,6 +165,14 @@ struct drm_colorop {
+>   	 */
+>   	enum drm_colorop_type type;
+>   
+> +	/**
+> +	 * @next:
+> +	 *
+> +	 * Read-only
+> +	 * Pointer to next drm_colorop in pipeline
+> +	 */
+> +	struct drm_colorop *next;
+> +
+>   	/**
+>   	 * @type_property:
+>   	 *
+> @@ -192,10 +200,20 @@ struct drm_colorop {
+>   	 */
+>   	struct drm_property *curve_1d_type_property;
+>   
+> +	/**
+> +	 * @next_property:
+> +	 *
+> +	 * Read-only property to next colorop in the pipeline
+> +	 */
+> +	struct drm_property *next_property;
+> +
+>   };
+>   
+>   #define obj_to_colorop(x) container_of(x, struct drm_colorop, base)
+>   
+> +
+> +
+> +
+
+Strange useless lines
+
+Thanks,
+Louis Chauvet
+
+>   /**
+>    * drm_colorop_find - look up a Colorop object from its ID
+>    * @dev: DRM device
+> @@ -268,4 +286,6 @@ const char *drm_get_colorop_type_name(enum drm_colorop_type type);
+>    */
+>   const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type);
+>   
+> +void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next);
+> +
+>   #endif /* __DRM_COLOROP_H__ */
 
 -- 
 Louis Chauvet, Bootlin
