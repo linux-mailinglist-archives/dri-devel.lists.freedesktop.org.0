@@ -2,96 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58F0A431D6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 01:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FD3A4320C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 01:47:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE0F10E032;
-	Tue, 25 Feb 2025 00:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7200710E09F;
+	Tue, 25 Feb 2025 00:47:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cxEg+9q7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ee71tfbU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2AC10E032
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 00:26:40 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-30a2cdb2b98so49986891fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 16:26:40 -0800 (PST)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0360610E09F
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 00:47:48 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-6dd15d03eacso47935476d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 16:47:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1740443198; x=1741047998;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MonBVftq71LB80zSOFj1KpiAwzenwGE0PbED6OoLK8c=;
- b=cxEg+9q7OLvCx2MrmvD8H+wiRrJTvOgMa96ISsVFgNFKqMxTZTFMkUDpOL+Q0wNkx0
- FvGBRch9JNHp+SZVloWX8IvUsb/eI/efBk444/82KpiGG6cyQrKewz2WGoX8sJWFjw9o
- G1/+N+1YQZeM2E/NxwimgIFPRq+3cPdblCmNI=
+ d=gmail.com; s=20230601; t=1740444468; x=1741049268; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=EpDv/XBjF+s4P5146GDNRKrfP1oGnV2PgjpHddvbttk=;
+ b=Ee71tfbUe81atLw8PxDDqcRZFGVmrmCbI28kzmKrmtwdFDlenwsxYwuXR8ikbd3eZS
+ ZwjE71IPL8rsjmkGisyKxUSf+DO+VehO0gDhMYcj5G5VYUqp3U/wSLdEP0KVGAD/FcSn
+ NnsZGoVvo3zPHL1CVDQn3R9PXuLLC7eT2GMiHW98PSXqXg1ioN0XyRsQNUu6smz8x+SG
+ pjAkbTgAg81038WcxeIv4n3jurPFh0XRU0tZzjy5/CP7EX5u7j0NK4vZj4YKrkef6j/z
+ kDCspgkbY4wD0trYpV9SZ5J0rS4lbzgL05nTqIw8IYQksAP0vHUx6TPg6DgPoUy06xG0
+ 9FIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740443198; x=1741047998;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MonBVftq71LB80zSOFj1KpiAwzenwGE0PbED6OoLK8c=;
- b=PT2xmwpBfeJ4xbJd67dOGJYr4QIsM9+WNBIl4x1qgZmGBRhdF53pFMADddJHvqBmRK
- XGVu5QQ2IxWeg+VlqVJr4zF6y/07Ka4yOvAeJEQte80mvc18bEN1IS8dSNhEq+SNX+le
- iewzjXYgWlGP1M0ZXbZkezjfOWAlA9txSODJAVU2BIHGiHgevz+M6+keqP5P5NNrcI81
- RuNbO7L9MKRaoYinv5mkHF5aQnuDOkZWdJsJVwaFvfR1MeXgOgPXpm73BaxJdY10rrC5
- Wot9x4PZlWLLizPY/IhBzH98SjjFmJyOulFckGaGEGjcxLUqvzNPce95nWngBGr+QMT8
- Q3Vw==
+ d=1e100.net; s=20230601; t=1740444468; x=1741049268;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EpDv/XBjF+s4P5146GDNRKrfP1oGnV2PgjpHddvbttk=;
+ b=LdB4Y3s3+ODjSCPi6mcOVHi6r8LuLvhnRoDZ85b7DNYHnQS49OfsS4PRSJO7X9cciM
+ F7Wmdh6KH7NCV7JvywNsalSlwLaHuzw/UwFablE1o40tc8QQs/jWjMD2/UlFT/GT+/3l
+ 8TlNrAPJ5EYzAI3OQ4MgEibIwhOvQ4IgLui6J9Mac3pi8up4fXPxQIzGZExsCYebXk1z
+ 4DbW7NW6o5JDAXePrez7Y2aPjiEfr6kYOAttWA9mpojzNs2giu7x3UBVTwAg/iu12VxD
+ 878JpdI3lzqFUWM3Y/tCtsFiEnFkJvL06ZASg7SwVi00YJe8UCT0SZFV7L6ILS3u/U9a
+ XC/Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVsw/HDxGFYGF2C/mhf3yNqxpdHLyEg0sO6uIqqZ/Akb66SZVCeW8L2cTyTtqDwUxkkcf0XnT3wH24=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyg4lN4ELhO9uPCnbwb+xcFXwDentb5WSagg/Msrh9uvUoUStQH
- Rc0BZXxb+DqnqbDRCs9yhLT9BpEv951Z6KGhaUSZOP7ePLUTHrxUvNo5ZV/slyhzneIsBmhVGlz
- vFQ==
-X-Gm-Gg: ASbGncsvWandFSoKMweoHSDmh1RO5xs8k5YCzbWg2tTs/GCYHbWhaK6/24Bjs56dcqs
- JlrAG8KUxP+hNyBqa0hCdp1qE4AJZyJpowKih3k67oJtYC5wtPl7YngGJO9Q8VdCPCCv/54gGg/
- tlgRcotEZWHs3O1s/7Vrt62KV5rHokDyqYQ69ZP9aCu2auRN1/NUVEhJMjh4pt2Xps93kUbXV7D
- jLXEN7igNTckMVaQooG3cpCBwZXAqX9Wm/D3QIRkVQqmjMVtM2t3UhLROsRu+f29z8XUw2A/fk/
- +v8uJrvgHbFpQMNSwFS3mVraZCQ39lyVribtG7qi6n7drOc46GyPFczypeMfABieYGXxqg==
-X-Google-Smtp-Source: AGHT+IE9PajYz377xbYKRxZdK5bN7z8UJ1I1/BBiy5MuxyCAU/x9T+6f03PEWney7cRPhggmRiNPZQ==
-X-Received: by 2002:a2e:9410:0:b0:30a:4476:b08 with SMTP id
- 38308e7fff4ca-30a5b1a7a9emr49754241fa.19.1740443197546; 
- Mon, 24 Feb 2025 16:26:37 -0800 (PST)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
- [209.85.208.180]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30a819f4aeasm738911fa.51.2025.02.24.16.26.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2025 16:26:36 -0800 (PST)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-3078fb1fa28so38593541fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 16:26:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWOs5FEy06sW2fRhznlI0jD38aiP9lIV0aflhoS5f4MF+N9mdQfMIP1LdGyt5KHvi+7hiaJSoGjqBM=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:2214:b0:545:23bb:23f4 with SMTP id
- 2adb3069b0e04-54839129a5amr5535877e87.8.1740443196300; Mon, 24 Feb 2025
- 16:26:36 -0800 (PST)
+ AJvYcCVoNmjmfOcqdTOlO/AK7Mc0hMlKpSDlqUgFaLP7dmQSaMUnKBmoqRZH2isXf/x7CoTCntC5ZNcqIc4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxI66rdpxtxTbKxWSD4tjSTeoLGwBlZ+ASjHAVDnyKXtQY3/0H/
+ nkYVCIThlPW8T59nEJbig6nre+HtBZwgo+SfJ9YCGn8HUFBZUjr1
+X-Gm-Gg: ASbGncsA9tmYrE/20hJyHWYDFHAff9x8Yx4PBghadQFtZ8fMm7j6bzrhWWUBUOCCMe1
+ iCuMvMLe0+EFVyh33HYRIz7DMKqkD3bPcG5jJwsGmrOjzeVcagYb/k2t3wfQkd9gFF5GegFDnzP
+ 671FaYbH3NxdSyeZ2ebFIPfab48gXEtvgVJuIDl2u9RC8r3r1QFkMbWToeSYuDTjhE1cIwEqIbL
+ vsU6Nx60ohQnGJXJvZdbjRdXGmtpAw6QQjky8U4ygP6QEV/SZuwS+byo1CiVRsw729FLMZHHaGB
+ kdMWACwYPfAyMZDwyKUHSvIMc5xfuDU95K/eaKyfm0w+AmPMUo4U
+X-Google-Smtp-Source: AGHT+IG+6SM+Bt5UY1qGOeuFzoM5/5BVekUTVIxeOCAtQEf994Mkci1dcvUTDHwYRZ/LzO3ZtcuihA==
+X-Received: by 2002:a05:6214:48c:b0:6d4:287d:b8d9 with SMTP id
+ 6a1803df08f44-6e6ae70a617mr221340466d6.2.1740444467841; 
+ Mon, 24 Feb 2025 16:47:47 -0800 (PST)
+Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6e87b06dc4csm3561956d6.21.2025.02.24.16.47.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2025 16:47:46 -0800 (PST)
+Date: Mon, 24 Feb 2025 19:47:44 -0500
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH] drm/repaper: fix integer overflows in repeat functions
+Message-ID: <guxzx56pabmen5gb2mauvpyazpxvod7ofmz6zmisluugrirw4v@mzs5yg6m4pox>
+References: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
 MIME-Version: 1.0
-References: <20250217174936.758420-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20250217174936.758420-2-u.kleine-koenig@baylibre.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 24 Feb 2025 16:26:24 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XhS6kaYm2FbdOcqeFTHJN=H5B3QBa2yHc-tk-E=2TJ6A@mail.gmail.com>
-X-Gm-Features: AWEUYZl2Mhiqo6raYNMP-1ZeB3LqAFThBdttHbacGYJMZcSHZ-EkeSwClwp4YDk
-Message-ID: <CAD=FV=XhS6kaYm2FbdOcqeFTHJN=H5B3QBa2yHc-tk-E=2TJ6A@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Check for CONFIG_PWM using
- IS_REACHABLE()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116134801.22067-1-n.zhandarovich@fintech.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,45 +91,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, Feb 17, 2025 at 9:49=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Currently CONFIG_PWM is a bool but I intend to change it to tristate. If
-> CONFIG_PWM=3Dm in the configuration, the cpp symbol CONFIG_PWM isn't
-> defined and so the PWM code paths in the ti-sn65dsi86 driver are not
-> used.
->
-> The correct way to check for CONFIG_PWM is using IS_REACHABLE which does
-> the right thing for all cases
-> CONFIG_DRM_TI_SN65DSI86 =E2=88=88 { y, m } x CONFIG_PWM =E2=88=88 { y, m,=
- n }.
->
-> There is no change until CONFIG_PWM actually becomes tristate.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+On Thu, Jan 16, 2025 at 05:48:01AM -0800, Nikita Zhandarovich wrote:
+> There are conditions, albeit somewhat unlikely, under which right hand
+> expressions, calculating the end of time period in functions like
+> repaper_frame_fixed_repeat(), may overflow.
+> 
+> For instance, if 'factor10x' in repaper_get_temperature() is high
+> enough (170), as is 'epd->stage_time' in repaper_probe(), then the
+> resulting value of 'end' will not fit in unsigned int expression.
+> 
+> Mitigate this by casting 'epd->factored_stage_time' to wider type before
+> any multiplication is done.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+> 
+> Fixes: 3589211e9b03 ("drm/tinydrm: Add RePaper e-ink driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 > ---
-> Hello,
->
-> even without the change to make CONFIG_PWM tristate using IS_REACHABLE()
-> is the more idiomatic way to check for CONFIG_PWM.
->
-> Note that IS_ENABLED() is wrong in the case CONFIG_DRM_TI_SN65DSI86=3Dy +
-> CONFIG_PWM=3Dm.
->
-> Best regards
-> Uwe
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/tiny/repaper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+> index 77944eb17b3c..d76c0e8e05f5 100644
+> --- a/drivers/gpu/drm/tiny/repaper.c
+> +++ b/drivers/gpu/drm/tiny/repaper.c
+> @@ -456,7 +456,7 @@ static void repaper_frame_fixed_repeat(struct repaper_epd *epd, u8 fixed_value,
+>  				       enum repaper_stage stage)
+>  {
+>  	u64 start = local_clock();
+> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+>  
+>  	do {
+>  		repaper_frame_fixed(epd, fixed_value, stage);
+> @@ -467,7 +467,7 @@ static void repaper_frame_data_repeat(struct repaper_epd *epd, const u8 *image,
+>  				      const u8 *mask, enum repaper_stage stage)
+>  {
+>  	u64 start = local_clock();
+> -	u64 end = start + (epd->factored_stage_time * 1000 * 1000);
+> +	u64 end = start + ((u64)epd->factored_stage_time * 1000 * 1000);
+>  
+>  	do {
+>  		repaper_frame_data(epd, image, mask, stage);
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Applied! Thanks for the patch.
 
-This has already been on the lists for a while and nothing here is
-controversial, so pushed to drm-misc-next:
-
-[1/1] drm/bridge: ti-sn65dsi86: Check for CONFIG_PWM using IS_REACHABLE()
-      commit: ed531feda7852de0aa702fbe3d23a0f743ccc77b
-
--Doug
+Best regards,
+Alex
