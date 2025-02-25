@@ -2,90 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263F6A43371
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 04:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3870A43380
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 04:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9633F10E52D;
-	Tue, 25 Feb 2025 03:14:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B027C10E534;
+	Tue, 25 Feb 2025 03:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a1nbdaWA";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ShjVpeL4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7A7B10E52D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:14:48 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-6fb9dae0125so42742077b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 19:14:48 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97A8E10E534
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:18:05 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-54529eeb38aso4369919e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2025 19:18:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740453288; x=1741058088; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IQVbEzx9kvB0TrPeedrtx7i8ImP/tXHPwCaZo2eyYPM=;
- b=a1nbdaWACJYh/YDrb4ekbhDGU+4I8fmGd0qVqc4RtPbXHN2DvmQKMCqHki/UvwOyqh
- TLWNvPoZLwUtoFeoN7DGC85wXK66tERGNVpjpKTJhIKYdY0+3gPMwSzCfpgvx6IVZ/Wn
- QgRlW5yCoCTyOHJ2L2Efkghey5BxAAVl8mE6uMcEPN8NXZcjJou9izOjUAlOU3U9cGOA
- WGh7UHbB4H+MjeG4vY71CJWUU1KyKtb8y4Za6mmRbFxTpU65p4X6EuM5r6dUw4OsXUrZ
- A71wcH372htrFO1CSQbkKpDFWxAKAaVdccM9DUFf3RD5cH6FrqyCBD5OY8oOefSKx0hd
- Ac7A==
+ d=linaro.org; s=google; t=1740453484; x=1741058284; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FCZchhqLX8uUjPFWnCBXbymsSao+hh9E/o3hFTKGn1Q=;
+ b=ShjVpeL4DOQlJNcJ3/WWxsbWOidW6RUeSdF1YZ5XXOeV5PbuK5mxYpGWZLq3B/VeIH
+ EH/q53BrB5GnEGpEcPz7H5Okfm9cTpiZpc0HK+YipsMy3PrUg0lrS52H4INtbUXAClCI
+ jFUpT0DZrcz+BuLPsluoWrm727/VFH2sS46Hms0htecChFblhfsNGCytEycWHw8rOdsT
+ 6wmySSVeSEEewdKXFSofzG9pu6OIn8ofcUVjXdis+eEqJyecdQ0T9lzAvCp7sYxYnlWu
+ dACszyQOTWQDghvcAhKgng/biBBVATTR4EWs7P6nlLXMDbesbf1nt4t29BWpJX7gTBzC
+ UPQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740453288; x=1741058088;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IQVbEzx9kvB0TrPeedrtx7i8ImP/tXHPwCaZo2eyYPM=;
- b=tSxHWRcTS+2P1ItZ1kzD1JRS85ppxvgjGQFwmSTEf7YfgKzpgx0b9b85Il//ykxReg
- PzVTzWeOrfScfJQ5+FH5gXyE71l+Iic81NozlQDb0YzYr0T4JkP7DM/3AxnfffHJiheP
- UbyVZ1aoicVtgw8c1o49CvU5FG9kEgbHO3D72wncSHUactjQXvcSkNf0wncTLVzCzpj8
- kEXzHnzJe4xWfSiZ21fd1+6h0zM42fB6kYRZjaSRpvWaY6xHECecRGe5SZhqnU8r9MnP
- KSN2qBWUBncUM9YTCtM5DKi4y3cvTP+CggkG3HHxUE70FPLfYg9bV4UpQH3UmRt9WuVp
- Xouw==
+ d=1e100.net; s=20230601; t=1740453484; x=1741058284;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FCZchhqLX8uUjPFWnCBXbymsSao+hh9E/o3hFTKGn1Q=;
+ b=g6q+zstdZyTE0S/tEoCdYKKRd06PaA90cEMiAG6sYvVtDKbYaQoV+kFJYz3BbFzPoI
+ nBD7VBvl2QqUtCkNbakOp7mcqGtwSyBqzhi9WeBNnE4EzGo6AaHQBrlzxCRoBup/kMjv
+ wJDz0IHx62G9a4CUgw4t27ih7yUymn4NaqdjWUXJOLsb/mlv9KtoCuXjQK35jYwtQVkY
+ YkrsbUftJw+Jzyuv+xOjt16uqndY5ABHEPIQrlPwZynFqo35iocm0Uf5+aF4/a64RhHZ
+ JXv1n4CiCLrFOfrcKG1CyZjx1RdbDorsdfgeB3BIZznx+Wfx+9jmi1os6/da++cNtu1S
+ Mxdg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOIdWe/ULuUQ6f3hAmOfB51zp2juvnFFqSAb++9d2nRHmvt8U2jmoRIke3OA2bVDcl82Je+bQ+su0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpFahURzNDl1JAD08ZXpT1+oGolJq1CxCc/VTxckmM6YJVBYcC
- H8TWaF09Gq0S49v4kWpTZUBwn0fBuUiNpgiJgfro5R3Fguhas5O7s42kSz6R0pD+R1k5dMiZkZj
- jU1BwSzaQedfwNyzG1I6UWtQ1LDybwgN9YrBZEQ==
-X-Gm-Gg: ASbGncsQGKdr7R9DXvFiRA0wzZqzBg27istd/qgyVWRIHu5LOlSKWunFbkELf0YkK7r
- hDYoF4lr0JA8PpFpntf7FQUGNEpSoQZtAVw7n4+Jyy582+nyUOY3eID9vRx4EpBATAyfoZStQgz
- /3y/P76g4S
-X-Google-Smtp-Source: AGHT+IHc41JPGJ088b37b3aIhRMn8lVQtQIt1tmL70qMB6qKKdFyKRe9bfOCM8ADQNOIRUFDSenHC0fF71QDngeKPHY=
-X-Received: by 2002:a05:6902:2e82:b0:e5d:d016:989e with SMTP id
- 3f1490d57ef6-e5e246719d8mr13282250276.39.1740453287851; Mon, 24 Feb 2025
- 19:14:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
- <20250217-b4-sm8750-display-v2-5-d201dcdda6a4@linaro.org>
- <aqpuik4zitdfuk4pahn4wyzxdvxldy4dcqjs3mhr6fqtxpoxhf@ssfzzbfce2nu>
- <2dfe466c-ad94-4683-a2e9-a49e77a61f4f@linaro.org>
- <h2shpen65r7v4in54avsez7qtlwojbt2cthyomqrsgs5ewprwb@bn53suqrzkac>
- <4e82404a-0ea5-4641-829a-bba666edd352@quicinc.com>
-In-Reply-To: <4e82404a-0ea5-4641-829a-bba666edd352@quicinc.com>
+ AJvYcCVjd69JCHKPzjgVtTrt1mUHT8utVG9fAIDAAp+WoVV1bWhEIuzL903iqZGDI/IoMmlJnvWQ2H8NQzU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw59aoGxK8ImtkFt/JlpMwu9nP/+s8MaZNUNBFsAyb/W5ud3lFQ
+ 5d/xGAo8d3lezjH+vLbzBfgsSEcFz9ujDZUyVQDUWZZNKrJZeMJ/GCzj5ED0BTo=
+X-Gm-Gg: ASbGncul+HyUQU+YYMVKrT4AXeZsf1eCxXiV7DWQY6uxgbMYgACTsoIr7G66Ti2W8K9
+ +h1H4ZElKtPo/WNSfK7LQdL8XcWKVnraBr+UHuIy1HkbaysChEDfqrfHntD0N/Yvd7tL026F6ur
+ TQXIe4bM4Rg4sOrDS34F/ZglS+9DxgEhEp6ApkoaLgAASbCZKoh/y9PrC3j84MMhOfKnSjC7KfG
+ TjpaEGQms3Qv1Td14LNxskkH1+4EGBNu/N+/MY3sa59KYvyFbFnmfHaGBPwVed2fE9CQK8stz6Y
+ zt6QRqUzdRfGkFKzrIf5Oe0dGeEmyE8lC7rsCJfmJW8TxO/ww1Rq8UFCTBrjk5kHW4pZuHiRNr2
+ hrl2cFQ==
+X-Google-Smtp-Source: AGHT+IFxB2QxizMw9nvjOf5qWvU6eGEcTycsMPv7lmMYbeJIpZO5aid9mAqXGRvFMkad/0CFLKqMhQ==
+X-Received: by 2002:a05:6512:e97:b0:545:c1e:6603 with SMTP id
+ 2adb3069b0e04-54838f7ad45mr5175824e87.50.1740453483664; 
+ Mon, 24 Feb 2025 19:18:03 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-548514fa0c4sm60528e87.225.2025.02.24.19.18.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2025 19:18:02 -0800 (PST)
+Date: Tue, 25 Feb 2025 05:17:59 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 25 Feb 2025 05:14:36 +0200
-X-Gm-Features: AWEUYZmkKWazMeNY444Pg0IY6jEqBfAoPZAv6AXrcyFb_NB6yz312AR5esudyLk
-Message-ID: <CAA8EJpoWEuqKkreUTu1gO-Pr=VFNNP_vBfNZpitJiJH728vjPA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/16] dt-bindings: display/msm: dp-controller: Add
- SM8750
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+To: Luca Weiss <luca@lucaweiss.eu>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Srini Kandagatla <srinivas.kandagatla@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 2/4] dt-bindings: display: panel: Add Himax HX83112B
+Message-ID: <wo7ws3nfpniavprg55e3qchgxj4v7shra526ag7nuab57s2lxz@n6jef2ljd46t>
+References: <20250222-fp3-display-v1-0-ccd812e16952@lucaweiss.eu>
+ <20250222-fp3-display-v1-2-ccd812e16952@lucaweiss.eu>
+ <77wat26ggsfqwssgt5wfq6yz6w3ccqz3pmn727a4aphqv4ljhx@vrzneg2rvzfj>
+ <8b67cea3-82f7-47f8-b026-fd26cfbf94b4@lucaweiss.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8b67cea3-82f7-47f8-b026-fd26cfbf94b4@lucaweiss.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,56 +101,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Feb 2025 at 20:59, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 2/19/2025 9:08 AM, Dmitry Baryshkov wrote:
-> > On Wed, Feb 19, 2025 at 06:02:20PM +0100, Krzysztof Kozlowski wrote:
-> >> On 17/02/2025 19:58, Dmitry Baryshkov wrote:
-> >>> On Mon, Feb 17, 2025 at 05:41:26PM +0100, Krzysztof Kozlowski wrote:
-> >>>> Add DisplayPort controller for Qualcomm SM8750 SoC which so far looks
-> >>>> fully compatible with earlier SM8650 variant.
-> >>>
-> >>> As that became a question for QCS8300, does SM8750 also support exactly
-> >>> two MST streams?
-> >>
-> >> v1.5 of DP (starting from SA8775p , then SM8650 and SM8750) support 4x
-> >> MST for DPTX0 and 2x MST for DPTX1.
-> >>
-> >> The DP in SM8650 and SM8750 are identical, according to datasheet (v1.5.1).
-> >
-> > Hmm. This also means that QCS8300 is compatible with SM8650. I'll let
-> > Abhinav comment here.
-> >
->
-> DP version by itself is not a good measure of whether the controller can
-> support 4 streams or not.
->
-> Firstly, sm8650/sm8750 do not have a DPTX1 so we are only discussing
-> about DP TX0.
->
-> Coming to the QCS8300 Vs sm8650/sm8750, even though the DP controller
-> version is the same, there is no HW support for more than 2 streams on
-> sm8650/sm8750 because there are no INTF blocks to drive 4 streams.
->
-> On sm8650/sm8750, only INTF_0 and INTF_3 can be used for DP. Hence 2
-> streams.
->
-> Whereas on Monaco, we have INTF_0, INTF_3, INTF_6 and INTF_7 capable of
+On Mon, Feb 24, 2025 at 09:40:23PM +0100, Luca Weiss wrote:
+> On 23-02-2025 7:25 p.m., Dmitry Baryshkov wrote:
+> > On Sat, Feb 22, 2025 at 06:58:05PM +0100, Luca Weiss wrote:
+> > > Himax HX83112B is a display driver IC used to drive LCD DSI panels.
+> > > Describe it and the Fairphone 3 panel from DJN using it.
+> > > 
+> > > Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
+> > > ---
+> > >   .../bindings/display/panel/himax,hx83112b.yaml     | 75 ++++++++++++++++++++++
+> > >   1 file changed, 75 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..e6bd4b33d40be98e479d84617aea6d2af0df70e4
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83112b.yaml
+> > > @@ -0,0 +1,75 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/panel/himax,hx83112b.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Himax HX83112B-based DSI display panels
+> > > +
+> > > +maintainers:
+> > > +  - Luca Weiss <luca@lucaweiss.eu>
+> > > +
+> > > +description:
+> > > +  The Himax HX83112B is a generic DSI Panel IC used to control
+> > > +  LCD panels.
+> > > +
+> > > +allOf:
+> > > +  - $ref: panel-common.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    contains:
+> > > +      const: djn,fairphone-fp3-panel
+> > 
+> > Would you know a better name or ID for a panel?
+> 
+> Initially no, as mentioned on the cover letter.
+> 
+> But I dug a bit more in some other documents and found this number now:
+> "98-03057-6598B-I"
+> 
+> This also somewhat matches the format of the Fairphone 4 panel from DJN:
+> ("djn,9a-3r063-1102b").
+> 
+> So I'll change the compatible to "djn,98-03057-6598b-i" in the next
+> revision.
 
-No idea what Monaco is, most likely it is some platform. Please use
-SoC names in public.
+Thanks!
 
-> driving DP. Hence 4 streams.
->
-> Let me know if there are more questions.
-
-How many stream clocks are present on those platforms? I'm asking
-because there is a small, but not non-existing difference between 'DPs
-are not completely compatible / the same' and 'DPs are fully
-compatible but different DPU blocks impose different restrictions on
-the number of MST streams'.
+> 
+> Regards
+> Luca
+> 
+> > 
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  iovcc-supply:
+> > > +    description: I/O voltage rail
+> > > +
+> > > +  vsn-supply:
+> > > +    description: Positive source voltage rail
+> > > +
+> > > +  vsp-supply:
+> > > +    description: Negative source voltage rail
+> > > +
+> > > +  port: true
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - reset-gpios
+> > > +  - iovcc-supply
+> > > +  - vsn-supply
+> > > +  - vsp-supply
+> > > +  - port
+> > > +
+> > > +unevaluatedProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    dsi {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        panel@0 {
+> > > +            compatible = "djn,fairphone-fp3-panel";
+> > > +            reg = <0>;
+> > > +
+> > > +            reset-gpios = <&tlmm 61 GPIO_ACTIVE_LOW>;
+> > > +
+> > > +            iovcc-supply = <&pm8953_l6>;
+> > > +            vsn-supply = <&pmi632_lcdb_ncp>;
+> > > +            vsp-supply = <&pmi632_lcdb_ldo>;
+> > > +
+> > > +            port {
+> > > +                panel_in_0: endpoint {
+> > > +                    remote-endpoint = <&dsi0_out>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> > > 
+> > > -- 
+> > > 2.48.1
+> > > 
+> > 
+> 
 
 -- 
 With best wishes
