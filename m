@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4667DA4468C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F6AA44690
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 17:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63FE10E752;
-	Tue, 25 Feb 2025 16:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3FE710E771;
+	Tue, 25 Feb 2025 16:44:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rn8DvynC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DBDctgLe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0528F10E752
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 16:44:31 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8772D10E752
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 16:44:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 938D2612AA;
- Tue, 25 Feb 2025 16:44:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8430C4CEEC;
- Tue, 25 Feb 2025 16:44:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 16AF95C70F7;
+ Tue, 25 Feb 2025 16:43:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 711E1C4CEED;
+ Tue, 25 Feb 2025 16:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740501870;
- bh=+MJogTu7tOkrTd6NsA3NR9fPOZkh5gM0yVERoNUn1Bw=;
+ s=k20201202; t=1740501872;
+ bh=/qYTFXPW6zCODmKFJgfLNKuZkSKrl+xBMfwcF1h+tSw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=rn8DvynCmkjScjkD2D0JlPtpW0M0oa+IGBRvuwIJN0MYo5Niz8enslJtxDQDqJl7U
- J9I2+C+gwA4+3r6cYAmIEaM4l/ENZvZhqdxfph0CLCDjLQHDfNkMmaVCvnz+mQgFpg
- mzRqrpQ5s02OBdUg7TJKXdcPLdS1Iwch9Bqbxn5lxlEodXg4bGuu+uHWcUp9tJ8bzb
- hmFudCyIt9PMWHexfaEKDy3iG7mpB6CMej68hVqMdqgIa551BOwErWW/OqI5jRZGyU
- 0pzEiRiuszmHdCG6LrGALKwvxabO2uZ6z7BqZkSjZHr+KkJUkyWG9wBy05cf4Xz+J3
- 9CCnK3IPqVmTw==
+ b=DBDctgLePdsZyZuIagtu1Y7G66OR3UerhOnAnOxk8LfHYQtsGqXvTzGCOkgOF1kcT
+ PRWoveFJYMOuAyS3HzTBpCqNt/q9lyPlPgGgI4vECd29giGul5q3FRgg/bHciKSe/t
+ 5C++mT4gNFjiYF5wcuiaKsvKoewGSF6heUrozbKbE/HpZvGH2bk6gL/uysvdLVU9En
+ 7Ze8mmIz8X8c6rTZMBzF4uLro6IklOGKcmEXpqgMqd5sBoDY2RbvX7/sR778TmrtkD
+ //VCFXqiAePXzJm1FuYFEQ65h8Sy1MYHg9AF9HDJErwbJFhlVh3SYs/CydAhu8ddMr
+ K/fi26lI/pEXA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 25 Feb 2025 17:43:57 +0100
-Subject: [PATCH v4 09/15] drm/bridge: ti-sn65dsi83: Switch to
- drm_bridge_reset_crtc
+Date: Tue, 25 Feb 2025 17:43:58 +0100
+Subject: [PATCH v4 10/15] drm/bridge: Introduce drm_bridge_is_atomic() helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-bridge-connector-v4-9-7ecb07b09cad@kernel.org>
+Message-Id: <20250225-bridge-connector-v4-10-7ecb07b09cad@kernel.org>
 References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
 In-Reply-To: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -49,14 +48,15 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Douglas Anderson <dianders@chromium.org>
 Cc: Herve Codina <herve.codina@bootlin.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@kernel.org>
+ Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2008; i=mripard@kernel.org;
- h=from:subject:message-id; bh=+MJogTu7tOkrTd6NsA3NR9fPOZkh5gM0yVERoNUn1Bw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOl7P/stnRFmVDT/7JGXbityHidN3DazLf5P0aRamYnmu
- grbOG5+7ZjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATMUtibHh57u/FfzalK3zO
- 71qsenvygR9v79wImvpkZpOqn8As0f9zix45vL7sMOf7gv+fqzYvddBjrHeK9Sr2u6HQvaJqg8c
- dN6ufsvMDk7vPLD+9d5ZR4g3fOdl9CvdtxI9KmjIc1Zv49XKNLgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1960; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=/qYTFXPW6zCODmKFJgfLNKuZkSKrl+xBMfwcF1h+tSw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOl7P/vpe3o7RaoXp2ckuZf8fhN5bauF/wGVp5+WLP1wP
+ XzflqnFHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAibEqMtSJmv16FW+9srpqb
+ +GTB1TdRvA+exn1+4ifONNVcJsAld3/ISz3jAOWJdjVCBf9v5UXdZmx497jjoUzqhTyW3zv5y+S
+ l3+1KvnTyaebjrMCLJ7/YXUtOvcaa63PcPqHa7Wbr47cL9l0FAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,71 +74,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have a helper for bridge drivers to call to reset the output
-pipeline, let's use it.
+We test for whether the bridge is atomic in several places in the source
+code, so let's consolidate them.
 
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 817ce33968d110799581b3d1f30df16c3ddf0f83..9aca91a4536ec5073c8424f10c092c19be957d99 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -369,11 +369,10 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
- 	return dsi_div - 1;
- }
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index ca894531a2042fc9296c40a1f51a6cdea6e97ed7..4d6a72f8b7d1bd1641d434f9fedbc2f087e249ac 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -279,10 +279,15 @@ drm_bridge_atomic_destroy_priv_state(struct drm_private_obj *obj,
+ static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
+ 	.atomic_duplicate_state = drm_bridge_atomic_duplicate_priv_state,
+ 	.atomic_destroy_state = drm_bridge_atomic_destroy_priv_state,
+ };
  
- static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
- {
--	struct drm_device *dev = sn65dsi83->bridge.dev;
- 	struct drm_modeset_acquire_ctx ctx;
- 	int err;
++static bool drm_bridge_is_atomic(struct drm_bridge *bridge)
++{
++	return bridge->funcs->atomic_reset != NULL;
++}
++
+ /**
+  * drm_bridge_attach - attach the bridge to an encoder's chain
+  *
+  * @encoder: DRM encoder
+  * @bridge: bridge to attach
+@@ -331,11 +336,11 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 		ret = bridge->funcs->attach(bridge, encoder, flags);
+ 		if (ret < 0)
+ 			goto err_reset_bridge;
+ 	}
  
- 	/*
- 	 * Reset active outputs of the related CRTC.
-@@ -384,30 +383,25 @@ static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
- 	 * bridge.
- 	 *
- 	 * Keep the lock during the whole operation to be atomic.
- 	 */
+-	if (bridge->funcs->atomic_reset) {
++	if (drm_bridge_is_atomic(bridge)) {
+ 		struct drm_bridge_state *state;
  
--	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
--
--	if (!sn65dsi83->bridge.encoder->crtc) {
--		/*
--		 * No CRTC attached -> No CRTC active outputs to reset
--		 * This can happen when the SN65DSI83 is reset. Simply do
--		 * nothing without returning any errors.
--		 */
--		err = 0;
--		goto end;
--	}
-+	drm_modeset_acquire_init(&ctx, 0);
+ 		state = bridge->funcs->atomic_reset(bridge);
+ 		if (IS_ERR(state)) {
+ 			ret = PTR_ERR(state);
+@@ -376,11 +381,11 @@ void drm_bridge_detach(struct drm_bridge *bridge)
+ 		return;
  
- 	dev_warn(sn65dsi83->dev, "reset the pipe\n");
+ 	if (WARN_ON(!bridge->dev))
+ 		return;
  
--	err = drm_atomic_helper_reset_crtc(sn65dsi83->bridge.encoder->crtc, &ctx);
-+retry:
-+	err = drm_bridge_reset_crtc(&sn65dsi83->bridge, &ctx);
-+	if (err == -EDEADLK) {
-+		drm_modeset_backoff(&ctx);
-+		goto retry;
-+	}
+-	if (bridge->funcs->atomic_reset)
++	if (drm_bridge_is_atomic(bridge))
+ 		drm_atomic_private_obj_fini(&bridge->base);
  
--end:
--	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
+ 	if (bridge->funcs->detach)
+ 		bridge->funcs->detach(bridge);
  
--	return err;
-+	return 0;
- }
- 
- static void sn65dsi83_reset_work(struct work_struct *ws)
- {
- 	struct sn65dsi83 *ctx = container_of(ws, struct sn65dsi83, reset_work);
 
 -- 
 2.48.1
