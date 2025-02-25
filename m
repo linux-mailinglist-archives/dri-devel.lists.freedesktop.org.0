@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58421A441DE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 15:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCE6A441E6
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 15:10:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B792310E6BA;
-	Tue, 25 Feb 2025 14:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F6710E6BD;
+	Tue, 25 Feb 2025 14:10:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RPz1VEhl";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bXvMIfYC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C14810E6BC;
- Tue, 25 Feb 2025 14:09:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 54ACE432E9;
- Tue, 25 Feb 2025 14:09:39 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D54210E6B7;
+ Tue, 25 Feb 2025 14:10:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 28C3D441B4;
+ Tue, 25 Feb 2025 14:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740492580;
+ t=1740492600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jboJZxaLiwbQZxHEn/1o4Rkr4gtd5yONqbc5i6dqnAI=;
- b=RPz1VEhlrjOesLe5sFyYR+XELdmz+YE9fkFCkHuMYEcVo4ufkeh6mZPrM06ulm/ODSgB74
- otwC7cvbjkDeR9MSiYOJIXzF0tgnwJPiAjJmiZV6dVymqp8wdwp2U7RcRvXGatcVuGH0DG
- NDZPZnPsUwVTdTTJDhpsX2fACpu1gBczFbxzjre/SFJV7dY/UetHu5FV2jsaDct9eLaxlZ
- 7mJpUBjVuJa4Z+WD2cB6zvuz4M7jDRK6QFEeceErJEEYSHrcZzjKz1eGBzlKzTsTMwKtPB
- 1BGUzb+/nhQBK1z+jLNDhvxgZE5bQxTy9HC2anQruTVqUWVbTDwj2Z4Yb57zWg==
-Date: Tue, 25 Feb 2025 15:09:38 +0100
+ bh=uytzOtSSVbGCsPo9JFb4lZ5tAcQbIsTS1AThWYB6ruk=;
+ b=bXvMIfYC3LugBAoKz5rha+iAQN2q+C3w7N4cDkVzq/br0cJOmjLVdzrcBYrJmxQaeF+XBY
+ N8Mv1QIRVYhjS/6ibfT7D4qBCdJc4oSaJlKdrI1ZSuYEBagtknSaq4Y4aOI2zvNf5qf3vf
+ F/ZX7q44HYD8zh3m/s/ZyxENiE8Sp1gl8ACCaJ69MB4FogoDNorcOl+w7zYutodshevj6D
+ hr1m+M5yQUnnXG7gewtN6VYg1DYPNeE00cPp5kCtDQSydioQu2kpGg2RabSl3iybxAQItQ
+ lBnTLZCesE7epFY7WrKfjm8Jyv/B4dldHgVIOqNDtHW8hVKbXt9EPhbMU0WLXQ==
+Date: Tue, 25 Feb 2025 15:09:57 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org
@@ -39,9 +39,8 @@ Cc: intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com
-Subject: Re: [PATCH 07/63] dyndbg: split param_set_dyndbg_classes to _module
- & wrapper fns
-Message-ID: <b1db3b24-958e-4be8-b979-7c4954a3a678@bootlin.com>
+Subject: Re: [PATCH 08/63] dyndbg: drop NUM_TYPE_ARRAY
+Message-ID: <ff609f47-f39d-454a-9222-0efe6ee8a9b3@bootlin.com>
 Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>,
  linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org,
@@ -52,15 +51,15 @@ Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com
 References: <20250125064619.8305-1-jim.cromie@gmail.com>
- <20250125064619.8305-8-jim.cromie@gmail.com>
+ <20250125064619.8305-9-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250125064619.8305-8-jim.cromie@gmail.com>
+In-Reply-To: <20250125064619.8305-9-jim.cromie@gmail.com>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudeludcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudeiffduffeivdejgfejheeuudekkedvjeeuffegfefghfffkeelgffgieevudejnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehjihhmrdgtrhhomhhivgesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsggrrhhonhesrghkrghmrghirdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudeiffduffeivdejgfejheeuudekkedvjeeuffegfefghfffkeelgffgieevudejnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehjihhmrdgtrhhomhhivgesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsggrrhhonhesrghkrghmrghirdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnr
  dhorhhgpdhrtghpthhtohepuhhkrghsiigssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigqdhtrhihsghotheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,92 +80,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 25/01/2025 à 07:45, Jim Cromie a écrit :
-> Split api-fn: param_set_dyndbg_classes(), adding modname param and
-> passing NULL in from api-fn.
+> ARRAY_SIZE works here, since array decl is complete.
 > 
-> The new arg allows caller to specify that only one module is affected
-> by a prdbgs update.  This selectivity will be used later to narrow the
-> scope of changes made.
-> 
-> no functional change.
+> no functional change
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   lib/dynamic_debug.c | 37 ++++++++++++++++++++++---------------
->   1 file changed, 22 insertions(+), 15 deletions(-)
+>   include/linux/dynamic_debug.h | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 8adb81e75a16..9adcb9fa7110 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -711,18 +711,9 @@ static int param_set_dyndbg_classnames(const char *instr, const struct kernel_pa
->   	return 0;
->   }
+> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+> index 2b0057058ecf..e458d4b838ac 100644
+> --- a/include/linux/dynamic_debug.h
+> +++ b/include/linux/dynamic_debug.h
+> @@ -106,11 +106,9 @@ struct ddebug_class_map {
+>   		.mod_name = KBUILD_MODNAME,				\
+>   		.base = _base,						\
+>   		.map_type = _maptype,					\
+> -		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
+> +		.length = ARRAY_SIZE(_var##_classnames),		\
+>   		.class_names = _var##_classnames,			\
+>   	}
+> -#define NUM_TYPE_ARGS(eltype, ...)				\
+> -        (sizeof((eltype[]){__VA_ARGS__}) / sizeof(eltype))
 >   
-> -/**
-> - * param_set_dyndbg_classes - class FOO >control
-> - * @instr: string echo>d to sysfs, input depends on map_type
-> - * @kp:    kp->arg has state: bits/lvl, map, map_type
-> - *
-> - * Enable/disable prdbgs by their class, as given in the arguments to
-> - * DECLARE_DYNDBG_CLASSMAP.  For LEVEL map-types, enforce relative
-> - * levels by bitpos.
-> - *
-> - * Returns: 0 or <0 if error.
-> - */
-> -int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
-> +static int param_set_dyndbg_module_classes(const char *instr,
-> +					   const struct kernel_param *kp,
-> +					   const char *modnm)
->   {
->   	const struct ddebug_class_param *dcp = kp->arg;
->   	const struct ddebug_class_map *map = dcp->map;
-> @@ -759,8 +750,8 @@ int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
->   				KP_NAME(kp), inrep, CLASSMAP_BITMASK(map->length));
->   			inrep &= CLASSMAP_BITMASK(map->length);
->   		}
-> -		v2pr_info("bits:%lx > %s\n", inrep, KP_NAME(kp));
-> -		totct += ddebug_apply_class_bitmap(dcp, &inrep, dcp->bits, NULL);
-> +		v2pr_info("bits:0x%lx > %s.%s\n", inrep, modnm ?: "*", KP_NAME(kp));
-> +		totct += ddebug_apply_class_bitmap(dcp, &inrep, dcp->bits, modnm);
->   		*dcp->bits = inrep;
->   		break;
->   	case DD_CLASS_TYPE_LEVEL_NUM:
-> @@ -773,7 +764,7 @@ int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
->   		old_bits = CLASSMAP_BITMASK(*dcp->lvl);
->   		new_bits = CLASSMAP_BITMASK(inrep);
->   		v2pr_info("lvl:%ld bits:0x%lx > %s\n", inrep, new_bits, KP_NAME(kp));
-> -		totct += ddebug_apply_class_bitmap(dcp, &new_bits, &old_bits, NULL);
-> +		totct += ddebug_apply_class_bitmap(dcp, &new_bits, &old_bits, modnm);
->   		*dcp->lvl = inrep;
->   		break;
->   	default:
-> @@ -782,6 +773,22 @@ int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
->   	vpr_info("%s: total matches: %d\n", KP_NAME(kp), totct);
->   	return 0;
->   }
-> +
-> +/**
-> + * param_set_dyndbg_classes - class FOO >control
-> + * @instr: string echo>d to sysfs, input depends on map_type
-> + * @kp:    kp->arg has state: bits/lvl, map, map_type
-> + *
-> + * Enable/disable prdbgs by their class, as given in the arguments to
-> + * DECLARE_DYNDBG_CLASSMAP.  For LEVEL map-types, enforce relative
-> + * levels by bitpos.
-> + *
-> + * Returns: 0 or <0 if error.
-> + */
-> +int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
-> +{
-> +	return param_set_dyndbg_module_classes(instr, kp, NULL);
-> +}
->   EXPORT_SYMBOL(param_set_dyndbg_classes);
->   
->   /**
+>   /* encapsulate linker provided built-in (or module) dyndbg data */
+>   struct _ddebug_info {
 
 -- 
 Louis Chauvet, Bootlin
