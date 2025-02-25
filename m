@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94692A44F79
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 23:02:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D068A44FA3
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 23:19:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0DF10E7F7;
-	Tue, 25 Feb 2025 22:02:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cZ/hTKOe";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0090010E7FA;
+	Tue, 25 Feb 2025 22:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91D0010E7F7;
- Tue, 25 Feb 2025 22:02:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 84C9E611F4;
- Tue, 25 Feb 2025 22:02:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 660C0C4CEDD;
- Tue, 25 Feb 2025 22:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740520930;
- bh=eNWdkHC2n1MuEFu0t27z5mGkFhYDZuXcacDZi0gjopk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cZ/hTKOeYSq0wy69PK5r26cD5SnHdlZ2OvgzPcTRe+OyH969PMVPbEMUW06ONjBsN
- DOIGZUAebolvPtZzevORdRkmxMgffsPffJ5/dNT8uN78G2VdouOWrshxlSsKYNhbs+
- +j68wJxsJdNtY29wHxgPI1nyhue1MZ4ZmMKTxzqUeV5taJmp9lWe2/059gPUw4GLbj
- ACTSjDNZSjTRCpmwhEclu8FRTBA/hAJysSWUbJrlR94ojXcNyuPHcXQWx4lhRI5DFn
- oCiuPN1Z+DWHbO4wlNuXY9zqF3wZgLL2uR+GxI5z8h6hRm2PLwZixgCaqkE6ST4PuU
- 51CCZRafHtTTQ==
-Date: Tue, 25 Feb 2025 23:02:04 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z7493C8_IvvYDbm8@pollux>
-References: <Z7OrKX3zzjrzZdyz@pollux>
- <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
- <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
- <Z7xh5bEyh_MII4WV@pollux> <20250224184502.GA1599486@joelnvbox>
- <Z70EcwNIX0KtWy36@cassiopeiae>
- <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
- <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
+ [91.218.175.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC25A10E7FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:18:49 +0000 (UTC)
+Date: Tue, 25 Feb 2025 17:18:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+ s=key1; t=1740521927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RzgOyhdKuLwcBRSLmcJJ0Jbuz6w06hvV2SnnIVn+zvE=;
+ b=HmIbJR+TaH7Wme6F4IPgbYtpzGHncrdCmBgNbeauOOAC7dPDo9n+83JhZyKZNWClyuOlQl
+ 4Yd6Y5swrftBaTXfLZ9TqMEMumfngYObl51LG3XLlMGkk3nLBjg2wARO3s+7inOWpMfdz+
+ 9BEjD65HMh9hRlIOn9GZhbw78eZ2p04pZFjupo1J238pOamFvvMrciBkX1/2num0Ki1TYh
+ fOcGw6WA01Qm5YZeXvQgPxYJZHCLkyzLYbzl0KwKZ9FdgdsdEC6m+YOm/ePvW01IzWFKsd
+ WEy23MZtEcougGgl1L1VyWuZovF6cjpx821nBtTsG/9yhVdMcht6FOW402plDg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH v2] drm: add modifiers for Apple GPU layouts
+Message-ID: <Z75BwWllrew-DIlS@blossom>
+References: <20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io>
+ <CAPj87rO3N2=3mNQg8-CUF=-XTysJHLmgArRKuvDpdk3YZ2xMvQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225210228.GA1801922@joelnvbox>
+In-Reply-To: <CAPj87rO3N2=3mNQg8-CUF=-XTysJHLmgArRKuvDpdk3YZ2xMvQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,206 +59,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 04:02:28PM -0500, Joel Fernandes wrote:
-> On Tue, Feb 25, 2025 at 05:09:35PM +0100, Danilo Krummrich wrote:
-> > On Tue, Feb 25, 2025 at 10:52:41AM -0500, Joel Fernandes wrote:
-> > > 
-> > > 
-> > > On 2/24/2025 6:44 PM, Danilo Krummrich wrote:
-> > > > On Mon, Feb 24, 2025 at 01:45:02PM -0500, Joel Fernandes wrote:
-> > > >> Hi Danilo,
-> > > >>
-> > > >> On Mon, Feb 24, 2025 at 01:11:17PM +0100, Danilo Krummrich wrote:
-> > > >>> On Mon, Feb 24, 2025 at 01:07:19PM +0100, Danilo Krummrich wrote:
-> > > >>>> CC: Gary
-> > > >>>>
-> > > >>>> On Mon, Feb 24, 2025 at 10:40:00AM +0900, Alexandre Courbot wrote:
-> > > >>>>> This inability to sleep while we are accessing registers seems very
-> > > >>>>> constraining to me, if not dangerous. It is pretty common to have
-> > > >>>>> functions intermingle hardware accesses with other operations that might
-> > > >>>>> sleep, and this constraint means that in such cases the caller would
-> > > >>>>> need to perform guard lifetime management manually:
-> > > >>>>>
-> > > >>>>>   let bar_guard = bar.try_access()?;
-> > > >>>>>   /* do something non-sleeping with bar_guard */
-> > > >>>>>   drop(bar_guard);
-> > > >>>>>
-> > > >>>>>   /* do something that might sleep */
-> > > >>>>>
-> > > >>>>>   let bar_guard = bar.try_access()?;
-> > > >>>>>   /* do something non-sleeping with bar_guard */
-> > > >>>>>   drop(bar_guard);
-> > > >>>>>
-> > > >>>>>   ...
-> > > >>>>>
-> > > >>>>> Failure to drop the guard potentially introduces a race condition, which
-> > > >>>>> will receive no compile-time warning and potentialy not even a runtime
-> > > >>>>> one unless lockdep is enabled. This problem does not exist with the
-> > > >>>>> equivalent C code AFAICT
-> > > >>>
-> > > >>> Without klint [1] it is exactly the same as in C, where I have to remember to
-> > > >>> not call into something that might sleep from atomic context.
-> > > >>>
-> > > >>
-> > > >> Sure, but in C, a sequence of MMIO accesses don't need to be constrained to
-> > > >> not sleeping?
-> > > > 
-> > > > It's not that MMIO needs to be constrained to not sleeping in Rust either. It's
-> > > > just that the synchronization mechanism (RCU) used for the Revocable type
-> > > > implies that.
-> > > > 
-> > > > In C we have something that is pretty similar with drm_dev_enter() /
-> > > > drm_dev_exit() even though it is using SRCU instead and is specialized to DRM.
-> > > > 
-> > > > In DRM this is used to prevent accesses to device resources after the device has
-> > > > been unplugged.
-> > > 
-> > > Thanks a lot for the response. Might it make more sense to use SRCU then? The
-> > > use of RCU seems overly restrictive due to the no-sleep-while-guard-held thing.
-> > 
-> > Allowing to hold on to the guard for too long is a bit contradictive to the goal
-> > of detecting hotunplug I guess.
-> > 
-> > Besides that I don't really see why we can't just re-acquire it after we sleep?
-> > Rust provides good options to implement it ergonimcally I think.
-> > 
-> > > 
-> > > Another colleague told me RDMA also uses SRCU for a similar purpose as well.
-> > 
-> > See the reasoning against SRCU from Sima [1], what's the reasoning of RDMA?
-> > 
-> > [1] https://lore.kernel.org/nouveau/Z7XVfnnrRKrtQbB6@phenom.ffwll.local/
+> > These layouts are notably not used for interchange across hardware
+> > blocks (e.g. with the display controller). There are other layouts for
+> > that but we don't support them either in userspace or kernelspace yet
+> > (even downstream), so we don't add modifiers here.
 > 
-> Hmm, so you're saying SRCU sections blocking indefinitely is a concern as per
-> that thread. But I think SRCU GPs should not be stalled in normal operation.
-> If it is, that is a bug anyway. Stalling SRCU grace periods is not really a
-> good thing anyway, you could run out of memory (even though stalling RCU is
-> even more dangerous).
+> Yeah, when those have users with good definitions matching these, we
+> can add them here, even if they are downstream. Anything the GPU would
+> share out of context, or the codec, would be good for this.
 
-I'm saying that extending the time of critical sections is a concern, because
-it's more likely to miss the unplug event and it's just not necessary. You grab
-the guard, do a few I/O ops and drop it -- simple.
+Sure. The mentioned "other layouts" are for scanout (GPU->display), and
+apparently the GPU can render but not sample them... You can imagine
+about how well that would go without a vendor extension + compositor
+patches......
 
-If you want to sleep in between just re-acquire it when you're done sleeping.
-You can easily avoid explicit drop(guard) calls by moving critical sections to
-their own function or closures.
-
-I still don't understand why you're thinking that it's crucial to sleep while
-holding the RevocableGuard?
+(Currently we use linear framebuffers for scanout and avoid that rat's
+nest.)
 
 > 
-> For RDMA, I will ask Jason Gunthorpe to chime in, I CC'd him. Jason, correct
-> me if I'm wrong about the RDMA user but this is what I recollect discussing
-> with you.
+> > +/*
+> > + * Apple GPU-tiled layout.
+> > + *
+> > + * GPU-tiled images are divided into tiles. Tiles are always 16KiB, with
+> > + * dimensions depending on the base-format. Within a tile, pixels are fully
+> > + * interleaved (Morton order). Tiles themselves are raster-order.
+> > + *
+> > + * Images must be 16-byte aligned.
+> > + *
+> > + * For more information see
+> > + * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
 > 
-> > > 
-> > > >> I am fairly new to rust, could you help elaborate more about why these MMIO
-> > > >> accesses need to have RevocableGuard in Rust? What problem are we trying to
-> > > >> solve that C has but Rust doesn't with the aid of a RCU read-side section? I
-> > > >> vaguely understand we are trying to "wait for an MMIO access" using
-> > > >> synchronize here, but it is just a guest.
-> > > > 
-> > > > Similar to the above, in Rust it's a safety constraint to prevent MMIO accesses
-> > > > to unplugged devices.
-> > > > 
-> > > > The exact type in Rust in this case is Devres<pci::Bar>. Within Devres, the
-> > > > pci::Bar is placed in a Revocable. The Revocable is revoked when the device
-> > > > is detached from the driver (for instance because it has been unplugged).
-> > > 
-> > > I guess the Devres concept of revoking resources on driver detach is not a rust
-> > > thing (even for PCI)... but correct me if I'm wrong.
-> > 
-> > I'm not sure what you mean with that, can you expand a bit?
-> 
-> I was reading the devres documentation earlier. It mentios that one of its
-> use is to clean up resources. Maybe I mixed up the meaning of "clean up" and
-> "revoke" as I was reading it.
-> 
-> Honestly, I am still confused a bit by the difference between "revoking" and
-> "cleaning up".
+> This writeup is really nice. I would prefer it was inlined here though
+> (similar to AFBC), with Mesa then referring to the kernel, but tbf
+> Vivante does have a similar external reference.
 
-The Devres [1] implementation implements the devres callback that is called when the
-device is unbound from the driver.
+Thanks :-) I wasn't sure which way would be better. Most of the
+complexity in that writeup relates to mipmapping and arrayed images,
+which I don't think WSI hits...? Also, the Mesa docs are easier for me
+to update, support tables and LaTeX, have other bits of hw writeups on
+the same page, etc... so they feel like a better home for the unabridged
+version.  And since Vivante did this, I figured it was ok.
 
-Once that happens, it revokes the underlying resource (e.g. the PCI bar mapping)
-by using a Revocable [2] internally. Once the resource is revoked, try_access()
-returns None and the resource (e.g. pci::Bar is dropped). By dropping the
-pci::Bar the mapping is unmapped and the resource region is removed (which is
-typically called cleanup).
+If people feel strongly I can of course inline it, it's just not clear
+to me that dumping all that info into the header here is actually
+desired. (And there's even more info Marge queued ...
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33743/diffs?commit_id=5ddb57ceb46d42096a34cbef1df6b4109ac2b511
+)
 
-[1] https://rust.docs.kernel.org/kernel/devres/struct.Devres.html
-[2] https://rust.docs.kernel.org/kernel/revocable/struct.Revocable.html
+> The one thing it's missing is an explicit description of how stride is
+> computed and used. I can see the 'obvious' way to do it for this and
+> compression, but it would be good to make it explicit, given some
+> misadventures in the past. CCS is probably the gold standard to refer
+> to here.
 
-> 
-> > > 
-> > > > By revoking the Revocable, the pci::Bar is dropped, which implies that it's also
-> > > > unmapped; a subsequent call to try_access() would fail.
-> > > > 
-> > > > But yes, if the device is unplugged while holding the RCU guard, one is on their
-> > > > own; that's also why keeping the critical sections short is desirable.
-> > > 
-> > > I have heard some concern around whether Rust is changing the driver model when
-> > > it comes to driver detach / driver remove.  Can you elaborate may be a bit about
-> > > how Rust changes that mechanism versus C, when it comes to that?
-> > 
-> > I think that one is simple, Rust does *not* change the driver model.
-> > 
-> > What makes you think so?
-> 
-> Well, the revocable concept for one is rust-only right?
+Ah, right -- thanks for raising that! I'll add this for v3. Indeed, I
+picked the "obvious" way, given said misadventures with AFBC ;)
 
-Yes, but that has nothing to do with changing the driver model. It is just an
-additional implementation detail to ensure safety.
+This is the relevant Mesa code:
 
-IIRC there are also have been efforts for a similar mechanism in C.
+   /*
+    * For WSI purposes, we need to associate a stride with all layouts.
+    * In the hardware, only strided linear images have an associated
+    * stride, there is no natural stride associated with twiddled
+    * images.  However, various clients assert that the stride is valid
+    * for the image if it were linear (even if it is in fact not
+    * linear). In those cases, by convention we use the minimum valid
+    * such stride.
+    */
+   static inline uint32_t
+   ail_get_wsi_stride_B(const struct ail_layout *layout, unsigned level)
+   {
+      assert(level == 0 && "Mipmaps cannot be shared as WSI");
+   
+      if (layout->tiling == AIL_TILING_LINEAR)
+         return ail_get_linear_stride_B(layout, level);
+      else
+         return util_format_get_stride(layout->format, layout->width_px);
+   }
 
-> 
-> It is also possibly just some paranoia based on discussions, but I'm not sure
-> at the moment.
+I can either copy that comment here, or to make that logic more explicit:
 
-Again there is nothing different to C, except one additional step to ensure
-safety. For instance, let's take devm_kzalloc(). Once the device is detached
-from the driver the memory allocated with this function is freed automatically.
+    Producers must set the stride to the image width in
+    pixels times the bytes per pixel. This is a software convention, the
+    hardware does not use this stride.
 
-The additional step in Rust is, that we'd not only free the memory, but also
-revoke the access to the pointer that has been returned by devm_kzalloc() for
-the driver, such that it can't be used by accident anymore.
+Thanks,
 
-Besides that, I'd be interested to what kind of discussion you're referring to.
-
-> 
-> > > Ideally we
-> > > would not want Rust drivers to have races with user space accesses when they are
-> > > detached/remove. But we also don't want accesses to be non-sleepable sections
-> > > where this guard is held, it seems restrictive (though to your point the
-> > > sections are expected to be small).
-> > 
-> > In the very extreme case, nothing prevents you from implementing a wrapper like:
-> > 
-> > 	fn my_write32(bar: &Devres<pci::Bar>, offset: usize) -> Result<u32> {
-> > 		let bar = bar.try_access()?;
-> > 		bar.read32(offset);
-> > 	}
-> > 
-> > Which limits the RCU read side critical section to my_write32().
-> > 
-> > Similarly you can have custom functions for short sequences of I/O ops, or use
-> > closures. I don't understand the concern.
-> 
-> Yeah, this is certainly possible. I think one concern is similar to what you
-> raised on the other thread you shared [1]:
-> "Maybe we even want to replace it with SRCU entirely to ensure that drivers
-> can't stall the RCU grace period for too long by accident."
-
-Yeah, I was just thinking out loud, but I think it wasn't a good idea -- we
-really do want to keep the critical sections short, so RCU is fine. Prohibit
-drivers to use RCU, just because they could mess up, wasn't a good reason.
-
-> 
-> [1] https://lore.kernel.org/nouveau/Z7XVfnnrRKrtQbB6@phenom.ffwll.local/
-> 
-> thanks,
-> 
->  - Joel
-> 
-> 
+Alyssa
