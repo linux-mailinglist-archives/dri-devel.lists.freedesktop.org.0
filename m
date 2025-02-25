@@ -2,54 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D9EA44C18
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCF0A44C49
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 21:17:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68CCB10E07E;
-	Tue, 25 Feb 2025 20:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68A3010E7C7;
+	Tue, 25 Feb 2025 20:17:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rxKxVRfA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OJWfAvqA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABAB410E07E;
- Tue, 25 Feb 2025 20:12:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id BE15C611FC;
- Tue, 25 Feb 2025 20:12:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 560F2C4CEDD;
- Tue, 25 Feb 2025 20:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740514358;
- bh=7S6m5qj19j2HH2oirUAYDNOi+Wj6A6WK3mHdMWXnPOs=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=rxKxVRfA6iOtsiT3k9Ku1jxKYLor7MNqxEi3U5vaGizZg067EjMB4y61uJojIRlAW
- UAIhecahjb9vXBcGth4vfPWKPTya25Mjx3qtTHseFZ+xs7VL4MXURYQwx104ctQO0v
- qpRWPveKcx5tNUI1QpEfSPtYA6RzYJjncIgztOLC75Btg0Uy/mgWku7SCz97COSXUZ
- jGwQu3HeWX0lRJj1LYfVgUYCYGe9Mrfn71KO9BHVaXIM8cVeea1r5qKLTATF9Mtk/e
- Ktk6uzEPhXiA9uXpWP1Z/6HCrdqNsY7hASZRortJTgG3AtQgYC7pdUjAaV0h2qtr81
- xH/ElgTCWgXkA==
-Date: Tue, 25 Feb 2025 14:12:37 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 55C9010E7CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 20:17:23 +0000 (UTC)
+Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 920F4203CDFC;
+ Tue, 25 Feb 2025 12:17:19 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 920F4203CDFC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1740514639;
+ bh=pRPTMwC85c4lYLBd5/aEkvEtme0QilCw7nKJr8ytgmI=;
+ h=From:Subject:Date:To:Cc:From;
+ b=OJWfAvqAxjSS6nUkULU00Pa8nQ9u9kKy42lXSCjyZ4ZUUOElAuQC0IJLL8YdgMxy4
+ fRHYXp6qo5lzLvyA3yVmWt3cKN1fewJPyBbSi8i8x+l37gp4hdCbMSActzutlKgtXo
+ djKAYQpE3vAmx4Iwoj2HThNeFrxgkdmyOVA8YA+8=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: [PATCH v3 00/16] Converge on using secs_to_jiffies() part two
+Date: Tue, 25 Feb 2025 20:17:14 +0000
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com, 
- quic_rajeevny@quicinc.com, krzk+dt@kernel.org, linux-kernel@vger.kernel.org, 
- freedreno@lists.freedesktop.org, neil.armstrong@linaro.org, sean@poorly.run, 
- devicetree@vger.kernel.org, robdclark@gmail.com, andersson@kernel.org, 
- dmitry.baryshkov@linaro.org, conor+dt@kernel.org, rfoss@kernel.org, 
- quic_jesszhan@quicinc.com, quic_vproddut@quicinc.com, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- marijn.suijten@somainline.org, Laurent.pinchart@ideasonboard.com, 
- andrzej.hajda@intel.com, jonas@kwiboo.se, konradybcio@kernel.org, 
- robh+dt@kernel.org
-To: Ayushi Makhija <quic_amakhija@quicinc.com>
-In-Reply-To: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
-References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
-Message-Id: <174051415386.2971902.3360853171203974622.robh@kernel.org>
-Subject: Re: [PATCH 00/11] Add DSI display support for SA8775P target
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEslvmcC/43NMRKCMBCF4aswqV1nExDQyns4FjFsZB0hThKjj
+ sPdDTY2FpT/K773FoE8UxC74i08JQ7sxhzlqhCm1+OZgLvcQqGqpJINGDcm8nkPZAJEBxe2Ngt
+ w0z5CfDiwVYWy0bq2dSOyc/Nk+fn9OBxz9xyi86/vZZLzOusblKpdoCcJCFtdk7F4UiW2+yuP9
+ +d6YONdcDaujRvE/JPUz1ZYLrFVtrsGN61GaTuk//Y0TR+h+4siOAEAAA==
+X-Change-ID: 20241217-converge-secs-to-jiffies-part-two-f44017aa6f67
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+ James Smart <james.smart@broadcom.com>, 
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, 
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
+Cc: cocci@inria.fr, linux-kernel@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org, 
+ Easwar Hariharan <eahariha@linux.microsoft.com>, 
+ Takashi Iwai <tiwai@suse.de>, Carlos Maiolino <cmaiolino@redhat.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,121 +92,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is the second series (part 1*) that converts users of msecs_to_jiffies() that
+either use the multiply pattern of either of:
+- msecs_to_jiffies(N*1000) or
+- msecs_to_jiffies(N*MSEC_PER_SEC)
 
-On Tue, 25 Feb 2025 17:48:13 +0530, Ayushi Makhija wrote:
-> This series enables the support for DSI to DP bridge ports
-> (labled as DSI0 and DSI1) of the Qualcomm's SA8775P Ride platform.
-> 
-> SA8775P SoC has DSI controller v2.5.1 and DSI PHY v4.2.
-> The Ride platform is having ANX7625 DSI to DP bridge chip from Analogix.
-> 
-> Ayushi Makhija (11):
->   dt-bindings: display: msm-dsi-phy-7nm: document the SA8775P DSI PHY
->   dt-bindings: msm: dsi-controller-main: document the SA8775P DSI CTRL
->   dt-bindings: display: msm: document DSI controller and phy on SA8775P
->   drm/msm/dsi: add DSI PHY configuration on SA8775P
->   drm/msm/dsi: add DSI support for SA8775P
->   arm64: dts: qcom: sa8775p: add Display Serial Interface device nodes
->   arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to DP bridge nodes
->   arm64: dts: qcom: sa8775p-ride: enable Display serial interface
->   drm/bridge: anx7625: enable HPD interrupts
->   drm/bridge: anx7625: update bridge_ops and sink detect logic
->   drm/bridge: anx7625: change the gpiod_set_value API
-> 
->  .../display/msm/dsi-controller-main.yaml      |   1 +
->  .../bindings/display/msm/dsi-phy-7nm.yaml     |   1 +
->  .../display/msm/qcom,sa8775p-mdss.yaml        | 170 +++++++++++++++
->  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi    | 198 +++++++++++++++++-
->  arch/arm64/boot/dts/qcom/sa8775p.dtsi         | 183 +++++++++++++++-
->  drivers/gpu/drm/bridge/analogix/anx7625.c     |  24 ++-
->  drivers/gpu/drm/msm/dsi/dsi_cfg.c             |  18 ++
->  drivers/gpu/drm/msm/dsi/dsi_cfg.h             |   1 +
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         |   2 +
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |   1 +
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     |  27 +++
->  11 files changed, 614 insertions(+), 12 deletions(-)
-> 
-> --
-> 2.34.1
-> 
-> 
-> 
+where N is a constant or an expression, to avoid the multiplication.
 
+The conversion is made with Coccinelle with the secs_to_jiffies() script
+in scripts/coccinelle/misc. Attention is paid to what the best change
+can be rather than restricting to what the tool provides.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+Andrew has kindly agreed to take the series through mm.git modulo the
+patches maintainers want to pick through their own trees.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+This series is based on next-20250225
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-  pip3 install dtschema --upgrade
+* https://lore.kernel.org/all/20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com/
 
+---
+Changes in v3:
+- Change commit message prefix from libata: zpodd to ata: libata-zpodd: in patch 8 (Damien)
+- Split up overly long line in patch 9 (Christoph)
+- Fixup unnecessary line break in patch 14 (Ilpo)
+- Combine v1 and v2
+- Fix some additional hunks in patch 2 (scsi: lpfc) which the more concise script missed
+- msecs_to_jiffies -> msecs_to_jiffies() in commit messages throughout
+- Bug in secs_to_jiffies() uncovered by LKP merged in 6.14-rc2: bb2784d9ab4958 ("jiffies: Cast to unsigned long in secs_to_jiffies() conversion")
+- Link to v2: https://lore.kernel.org/r/20250203-converge-secs-to-jiffies-part-two-v2-0-d7058a01fd0e@linux.microsoft.com
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250225121824.3869719-1-quic_amakhija@quicinc.com:
+Changes in v2:
+- Remove unneeded range checks in rbd and libceph. While there, convert some timeouts that should have been fixed in part 1. (Ilya)
+- Fixup secs_to_jiffies.cocci to be a bit more verbose
+- Link to v1: https://lore.kernel.org/r/20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com
 
-arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: gpio@74: 'gpio10_cfg', 'gpio11_cfg', 'gpio2_cfg', 'gpio3_cfg' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: gpio@74: 'gpio10_cfg', 'gpio11_cfg', 'gpio2_cfg', 'gpio3_cfg' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: gpio@74: 'gpio10_cfg', 'gpio11_cfg', 'gpio2_cfg', 'gpio3_cfg' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: gpio@74: 'gpio10_cfg', 'gpio11_cfg', 'gpio2_cfg', 'gpio3_cfg' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: anx7625@58: 'vdd10-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: anx7625@58: 'vdd18-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: anx7625@58: 'vdd33-supply' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+---
+Easwar Hariharan (16):
+      coccinelle: misc: secs_to_jiffies: Patch expressions too
+      scsi: lpfc: convert timeouts to secs_to_jiffies()
+      accel/habanalabs: convert timeouts to secs_to_jiffies()
+      ALSA: ac97: convert timeouts to secs_to_jiffies()
+      btrfs: convert timeouts to secs_to_jiffies()
+      rbd: convert timeouts to secs_to_jiffies()
+      libceph: convert timeouts to secs_to_jiffies()
+      ata: libata-zpodd: convert timeouts to secs_to_jiffies()
+      xfs: convert timeouts to secs_to_jiffies()
+      power: supply: da9030: convert timeouts to secs_to_jiffies()
+      nvme: convert timeouts to secs_to_jiffies()
+      spi: spi-fsl-lpspi: convert timeouts to secs_to_jiffies()
+      spi: spi-imx: convert timeouts to secs_to_jiffies()
+      platform/x86/amd/pmf: convert timeouts to secs_to_jiffies()
+      platform/x86: thinkpad_acpi: convert timeouts to secs_to_jiffies()
+      RDMA/bnxt_re: convert timeouts to secs_to_jiffies()
 
+ .../accel/habanalabs/common/command_submission.c   |  2 +-
+ drivers/accel/habanalabs/common/debugfs.c          |  2 +-
+ drivers/accel/habanalabs/common/device.c           |  2 +-
+ drivers/accel/habanalabs/common/habanalabs_drv.c   |  2 +-
+ drivers/ata/libata-zpodd.c                         |  3 +-
+ drivers/block/rbd.c                                |  8 ++---
+ drivers/infiniband/hw/bnxt_re/qplib_rcfw.c         |  2 +-
+ drivers/nvme/host/core.c                           |  6 ++--
+ drivers/platform/x86/amd/pmf/acpi.c                |  2 +-
+ drivers/platform/x86/thinkpad_acpi.c               |  2 +-
+ drivers/power/supply/da9030_battery.c              |  3 +-
+ drivers/scsi/lpfc/lpfc.h                           |  3 +-
+ drivers/scsi/lpfc/lpfc_els.c                       | 11 +++---
+ drivers/scsi/lpfc/lpfc_hbadisc.c                   |  2 +-
+ drivers/scsi/lpfc/lpfc_init.c                      | 10 +++---
+ drivers/scsi/lpfc/lpfc_scsi.c                      | 12 +++----
+ drivers/scsi/lpfc/lpfc_sli.c                       | 41 +++++++++-------------
+ drivers/scsi/lpfc/lpfc_vport.c                     |  2 +-
+ drivers/spi/spi-fsl-lpspi.c                        |  2 +-
+ drivers/spi/spi-imx.c                              |  2 +-
+ fs/btrfs/disk-io.c                                 |  6 ++--
+ fs/xfs/xfs_icache.c                                |  2 +-
+ fs/xfs/xfs_sysfs.c                                 |  8 ++---
+ include/linux/ceph/libceph.h                       | 12 +++----
+ net/ceph/ceph_common.c                             | 18 ++++------
+ net/ceph/osd_client.c                              |  3 +-
+ scripts/coccinelle/misc/secs_to_jiffies.cocci      | 10 ++++++
+ sound/pci/ac97/ac97_codec.c                        |  3 +-
+ 28 files changed, 82 insertions(+), 99 deletions(-)
+---
+base-commit: 0226d0ce98a477937ed295fb7df4cc30b46fc304
+change-id: 20241217-converge-secs-to-jiffies-part-two-f44017aa6f67
 
-
-
+Best regards,
+-- 
+Easwar Hariharan <eahariha@linux.microsoft.com>
 
