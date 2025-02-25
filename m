@@ -2,146 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188FDA43DEB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:41:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9979A43DFD
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:43:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6E810E649;
-	Tue, 25 Feb 2025 11:41:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0JZC0Zwt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WN3VmE+C";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0JZC0Zwt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WN3VmE+C";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55BD910E64B;
+	Tue, 25 Feb 2025 11:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23DC310E649
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:41:38 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ABE7D1F44F;
- Tue, 25 Feb 2025 11:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740483696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
- b=0JZC0ZwtsRG5PNFqFzv2uyjg0djWNy5a7Me6o6HwegoGYfepnjLFxklkIYDTQE8X9CajDM
- 51GbJv4kqWVCbaZiiu9vNE82M0zBQLZxYyuFT7rWNFzVN/sBLl/pAbjNCsIr+Lq+vHiDmP
- b2AjCEmv1kd3mZP3g/h2nCuz0tjJFcE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740483696;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
- b=WN3VmE+C0NweJ5MWe+tstnV3mrGoI5oXyjEKQQ9UOJxYaKYDaARMV+nTFXeRtBNuSh8mWR
- WTPHyxHoVZSUrnDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740483696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
- b=0JZC0ZwtsRG5PNFqFzv2uyjg0djWNy5a7Me6o6HwegoGYfepnjLFxklkIYDTQE8X9CajDM
- 51GbJv4kqWVCbaZiiu9vNE82M0zBQLZxYyuFT7rWNFzVN/sBLl/pAbjNCsIr+Lq+vHiDmP
- b2AjCEmv1kd3mZP3g/h2nCuz0tjJFcE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740483696;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
- b=WN3VmE+C0NweJ5MWe+tstnV3mrGoI5oXyjEKQQ9UOJxYaKYDaARMV+nTFXeRtBNuSh8mWR
- WTPHyxHoVZSUrnDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 24F8113332;
- Tue, 25 Feb 2025 11:41:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id My/YB3CsvWfkQAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Feb 2025 11:41:36 +0000
-Message-ID: <f1ea30fe-8cb8-41fd-bc85-d511c800e594@suse.de>
-Date: Tue, 25 Feb 2025 12:41:35 +0100
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com
+ [209.85.166.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5448710E64B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:43:37 +0000 (UTC)
+Received: by mail-il1-f205.google.com with SMTP id
+ e9e14a558f8ab-3d2b6d933baso120199935ab.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 03:43:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740483816; x=1741088616;
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gHUPwMMe6tL/hSjkxiVP3JeiNcJ8v+AqTWhilBCfmyU=;
+ b=BaiXQTc7yyo0SWx0o8xRXhnQPZirQ08AVKh4C/aNSi9pYZpBS2uc5+VuV0x0ryi+92
+ wCKsqhrlOPnTqu3t/CUGAvBAoAYMKG8PsfojvPadvXwCEl0Or5suTMba3qOZlOP/7RRY
+ HRzdSTs7rXsdj2IY5A4CqQ5HgfAHeXHYfNcL1/GHv619FPNj6RWWJjkc3nZSGJqxC+D8
+ H6uEtXYQ7LIN9hmnoMGh0NUA5reero+027Rxjt5L5jXPDjkJ7aEhbgBQ5/NQqiK57QYh
+ OciSLRfueMrGgp9JY3We97Ou7q6Dg49Ysi28Khz61bx8ILuCsk4o2/DJC692fWlFN/ka
+ I0ng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW1jMK2ZtRKCHDkJM4s8XvMxA5OCElAOGz2nkP0b3nciL/67vOM+KAU2uDm1DxKOgZCuyE+vRh/BCg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw8ewf0IcPop1zH2vUM2DFTFS8WQM0JBZEb93s2bYJXC2X3omsf
+ PbQXFcf0h9rpo8fCIaIhpfxfEMKz/gTl6OLYMS5XbPNLG66U8XKrviVHPhvfdmkln6XKg2JNjrH
+ /+NJbr5zVPZ5eXnGU+FgYqtNJKE1l4P4IMPs2gQKFw+d5L9H+7ELWAmQ=
+X-Google-Smtp-Source: AGHT+IFj1NHM3myWluJ/MLqEZZdrQqAer5LCyfIFbALYWLAaIEavN+NNUifjDGoWsNuzZvQIzUnrcyBSXJF1jPv5ha2RRM5WyYyF
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 9/9] drm/vkms: convert to use faux_device
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
- Mark Brown <broonie@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Robin Murphy <robin.murphy@arm.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Zijun Hu <quic_zijuhu@quicinc.com>,
- linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <2025021023-sandstorm-precise-9f5d@gregkh>
- <2025021029-snout-swivel-9a45@gregkh> <Z6oPNmRo4XQQVEI8@louis-chauvet-laptop>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z6oPNmRo4XQQVEI8@louis-chauvet-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[linuxfoundation.org,vger.kernel.org,redhat.com,kernel.org,intel.com,linux.intel.com,google.com,huawei.com,gmail.com,wunner.de,riseup.net,arm.com,ffwll.ch,quicinc.com,lists.freedesktop.org];
- TAGGED_RCPT(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_TWELVE(0.00)[25]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-Received: by 2002:a05:6e02:4602:b0:3d3:ce1b:5e84 with SMTP id
+ e9e14a558f8ab-3d3ce1b6053mr8414535ab.22.1740483816347; Tue, 25 Feb 2025
+ 03:43:36 -0800 (PST)
+Date: Tue, 25 Feb 2025 03:43:36 -0800
+In-Reply-To: <67bd6bef.050a0220.bbfd1.009d.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67bdace8.050a0220.bbfd1.00a6.GAE@google.com>
+Subject: Re: [syzbot] [fbdev?] KASAN: slab-out-of-bounds Read in
+ fbcon_prepare_logo
+From: syzbot <syzbot+0c815b25cdb3678e7083@syzkaller.appspotmail.com>
+To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, simona@ffwll.ch, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,53 +64,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+syzbot has found a reproducer for the following issue on:
 
-Am 10.02.25 um 15:37 schrieb Louis Chauvet:
-> On 10/02/25 - 13:30, Greg Kroah-Hartman wrote:
->> The vkms driver does not need to create a platform device, as there is
->> no real platform resources associated it,  it only did so because it was
->> simple to do that in order to get a device to use for resource
->> management of drm resources.  Change the driver to use the faux device
->> instead as this is NOT a real platform device.
->>
->> Cc: Louis Chauvet <louis.chauvet@bootlin.com>
->> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Melissa Wen <melissa.srw@gmail.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Reviewed-by: Lyude Paul <lyude@redhat.com>
->> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+HEAD commit:    d082ecbc71e9 Linux 6.14-rc4
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14f56db0580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b1635bf4c5557b92
+dashboard link: https://syzkaller.appspot.com/bug?extid=0c815b25cdb3678e7083
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=172e77f8580000
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/323a5d590eec/disk-d082ecbc.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f7c4b6e33fd9/vmlinux-d082ecbc.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c518bbd55334/bzImage-d082ecbc.xz
 
-> Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->
-> Thanks for the modification, it seems to work.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0c815b25cdb3678e7083@syzkaller.appspotmail.com
 
-Should this patch be merged through DRM trees? drm-misc-next is at 
-v6.14-rc4 and has struct faux_device.
+==================================================================
+BUG: KASAN: slab-out-of-bounds in scr_memcpyw include/linux/vt_buffer.h:38 [inline]
+BUG: KASAN: slab-out-of-bounds in fbcon_prepare_logo+0xa15/0xc80 drivers/video/fbdev/core/fbcon.c:614
+Read of size 256 at addr ffff888032edef60 by task syz.2.2428/8600
 
-Best regards
-Thomas
+CPU: 0 UID: 0 PID: 8600 Comm: syz.2.2428 Not tainted 6.14.0-rc4-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:408 [inline]
+ print_report+0xc3/0x670 mm/kasan/report.c:521
+ kasan_report+0xd9/0x110 mm/kasan/report.c:634
+ check_region_inline mm/kasan/generic.c:183 [inline]
+ kasan_check_range+0xef/0x1a0 mm/kasan/generic.c:189
+ __asan_memcpy+0x23/0x60 mm/kasan/shadow.c:105
+ scr_memcpyw include/linux/vt_buffer.h:38 [inline]
+ fbcon_prepare_logo+0xa15/0xc80 drivers/video/fbdev/core/fbcon.c:614
+ fbcon_init+0xd41/0x1890 drivers/video/fbdev/core/fbcon.c:1146
+ visual_init+0x31d/0x620 drivers/tty/vt/vt.c:1011
+ do_bind_con_driver.isra.0+0x57a/0xbf0 drivers/tty/vt/vt.c:3831
+ vt_bind drivers/tty/vt/vt.c:3987 [inline]
+ store_bind+0x61d/0x760 drivers/tty/vt/vt.c:4059
+ dev_attr_store+0x55/0x80 drivers/base/core.c:2439
+ sysfs_kf_write+0x117/0x170 fs/sysfs/file.c:139
+ kernfs_fop_write_iter+0x33d/0x500 fs/kernfs/file.c:334
+ new_sync_write fs/read_write.c:586 [inline]
+ vfs_write+0x5ae/0x1150 fs/read_write.c:679
+ ksys_write+0x12b/0x250 fs/read_write.c:731
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb44418d169
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe52f027e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007fb4443a5fa0 RCX: 00007fb44418d169
+RDX: 0000000000000002 RSI: 0000000000000000 RDI: 0000000000000003
+RBP: 00007fb44420e2a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fb4443a5fa0 R14: 00007fb4443a5fa0 R15: 0000000000000003
+ </TASK>
+
+The buggy address belongs to the physical page:
+page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x32edc
+head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000000040 0000000000000000 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+head: 00fff00000000040 0000000000000000 dead000000000122 0000000000000000
+head: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+head: 00fff00000000002 ffffea0000cbb701 ffffffffffffffff 0000000000000000
+head: 0000000000000004 0000000000000000 00000000ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 2, migratetype Unmovable, gfp_mask 0x140dc0(GFP_USER|__GFP_COMP|__GFP_ZERO), pid 8600, tgid 8600 (syz.2.2428), ts 463971995066, free_ts 463963903452
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x181/0x1b0 mm/page_alloc.c:1551
+ prep_new_page mm/page_alloc.c:1559 [inline]
+ get_page_from_freelist+0xfce/0x2f80 mm/page_alloc.c:3477
+ __alloc_frozen_pages_noprof+0x221/0x2470 mm/page_alloc.c:4739
+ __alloc_pages_noprof+0xb/0x1b0 mm/page_alloc.c:4773
+ __alloc_pages_node_noprof include/linux/gfp.h:265 [inline]
+ alloc_pages_node_noprof include/linux/gfp.h:292 [inline]
+ ___kmalloc_large_node+0x84/0x1b0 mm/slub.c:4239
+ __kmalloc_large_node_noprof+0x1c/0x70 mm/slub.c:4266
+ __do_kmalloc_node mm/slub.c:4282 [inline]
+ __kmalloc_noprof.cold+0xc/0x61 mm/slub.c:4306
+ kmalloc_noprof include/linux/slab.h:905 [inline]
+ kzalloc_noprof include/linux/slab.h:1037 [inline]
+ vc_do_resize+0x1e3/0x10f0 drivers/tty/vt/vt.c:1174
+ vc_resize include/linux/vt_kern.h:49 [inline]
+ fbcon_init+0xd1d/0x1890 drivers/video/fbdev/core/fbcon.c:1143
+ visual_init+0x31d/0x620 drivers/tty/vt/vt.c:1011
+ do_bind_con_driver.isra.0+0x57a/0xbf0 drivers/tty/vt/vt.c:3831
+ vt_bind drivers/tty/vt/vt.c:3987 [inline]
+ store_bind+0x61d/0x760 drivers/tty/vt/vt.c:4059
+ dev_attr_store+0x55/0x80 drivers/base/core.c:2439
+ sysfs_kf_write+0x117/0x170 fs/sysfs/file.c:139
+ kernfs_fop_write_iter+0x33d/0x500 fs/kernfs/file.c:334
+ new_sync_write fs/read_write.c:586 [inline]
+ vfs_write+0x5ae/0x1150 fs/read_write.c:679
+page last free pid 8600 tgid 8600 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ free_pages_prepare mm/page_alloc.c:1127 [inline]
+ free_frozen_pages+0x6db/0xfb0 mm/page_alloc.c:2660
+ __folio_put+0x32a/0x450 mm/swap.c:112
+ vc_do_resize+0xe31/0x10f0 drivers/tty/vt/vt.c:1194
+ vc_resize include/linux/vt_kern.h:49 [inline]
+ fbcon_startup+0x406/0xb70 drivers/video/fbdev/core/fbcon.c:997
+ do_bind_con_driver.isra.0+0x207/0xbf0 drivers/tty/vt/vt.c:3794
+ vt_bind drivers/tty/vt/vt.c:3987 [inline]
+ store_bind+0x61d/0x760 drivers/tty/vt/vt.c:4059
+ dev_attr_store+0x55/0x80 drivers/base/core.c:2439
+ sysfs_kf_write+0x117/0x170 fs/sysfs/file.c:139
+ kernfs_fop_write_iter+0x33d/0x500 fs/kernfs/file.c:334
+ new_sync_write fs/read_write.c:586 [inline]
+ vfs_write+0x5ae/0x1150 fs/read_write.c:679
+ ksys_write+0x12b/0x250 fs/read_write.c:731
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff888032edef00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888032edef80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff888032edf000: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+                   ^
+ ffff888032edf080: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+ ffff888032edf100: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+==================================================================
 
 
-
->
-> Louis chauvet
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
