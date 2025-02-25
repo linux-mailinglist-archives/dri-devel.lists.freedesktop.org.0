@@ -2,64 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949DCA44861
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 18:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D38A44898
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 18:42:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1549E10E697;
-	Tue, 25 Feb 2025 17:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E368810E747;
+	Tue, 25 Feb 2025 17:42:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="b1bgoAoK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jA8zV8g6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0177D10E6A0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 17:36:25 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D72644327;
- Tue, 25 Feb 2025 17:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740504984;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pET0nVdSZvklJ9U7JwmtwIZwaF754aOJaksS3akpOXw=;
- b=b1bgoAoKCCoulVZ/+hkYrikGXdLVW+PYWXdFsYAHmUtmv+7fXhORJWESQsS+FW0nXnWcJ4
- m+FzZnZGqmBhnovsC0Dm32A5o5yQGtniD1TYq95llftKOeKwLwaaUJk3NxWhV5jubYErLx
- IHq+CS6PHy2FbUxz0IJDJdCj//oiFw1PDdjbohLjWNSpVWtArHcfh2AxGA6GOvgpQZhOqn
- 1/2RbLRMuDk+Tn5XV97FMznO0VKfG6rsibEbgUKMDyGyPOcOqG5iLFV37pR29WVy8Mg5n7
- qu6D/POsD6AZG4dvNeK1bI87bgOwT3hIPBe2HiSYA1igxbCl2uxGX/06g1wxFA==
-Date: Tue, 25 Feb 2025 18:36:21 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] drm/bridge: move bridges_show logic from
- drm_debugfs.c
-Message-ID: <20250225183621.6b33684b@booty>
-In-Reply-To: <878qpu56cm.fsf@intel.com>
-References: <20250225-drm-debugfs-show-all-bridges-v7-0-8826037ada37@bootlin.com>
- <20250225-drm-debugfs-show-all-bridges-v7-1-8826037ada37@bootlin.com>
- <878qpu56cm.fsf@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E91DF10E6A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 17:41:58 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-307325f2436so58145631fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 09:41:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740505317; x=1741110117; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hGyWaQIzn0tRIGg7LsrZt14gQY4q2FyEI8TrfL/lzng=;
+ b=jA8zV8g6RkiOhdT0b7Dcrj/KuW9NT+V+yPOI0xX1J2cHYNMEVRBNhn5hAMAKgHgfUG
+ CztSy0js9Qfyk2O4WX7HPivI5AGF8vzNUg2wnYAXMUYLNDM+t8dICBqKP/E90QdjbI2/
+ 6tugNwOfmfB2ncreQQ8EuJhdces8dvBi9WiJoYaBGeKe5XAd8B1uZ9loTI2nuY7FR7Rm
+ 0nuIPpSMlvnRSEgDGhytXduwSyekA6I3Y55Qa7SV+KrdwLieYxobPf/S9ymUlaCzwfox
+ O+MmQURADOOp1szB13PfDjLEL4Ksdc2J6ylzkAhJMYBupTJKrlelPSZwCMSK5qBc4aM+
+ A8cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740505317; x=1741110117;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hGyWaQIzn0tRIGg7LsrZt14gQY4q2FyEI8TrfL/lzng=;
+ b=I881NzG20AS+RRcthRZUNnw3Q1c4+MK/8HUe5gsDPZmsv1Qc0lh6xdSGlHTWn34JZ5
+ 2gFQDpQOnziOcu0bYw6W+tk768VL/TqXKUH/pbpW0E2F4lR5MZ9dNzccncJZnbLF9Hl+
+ 6WnpnYVuqiXbeNjNzJXWyPEOeiwNsbnyizf/vXyzvE5KHDN+6lQNKShuUpeZ2A9s05V/
+ ZoURWJVqjVBJQa/Srw8k/WBx/BuisWXaaYsdXbXjdzfwlXfeAM7F+DrSaksbO0BTGn0U
+ KN1SwOSnOMDySGH19NzGGVNRb3sGXhDNfRVPU8H8UkFhCoruXk5Jg+7NdJcmV6nEfDHM
+ Oj2g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWre6A4IjaX/m9g3B3HTbBVpH4T6QNh67DuMW4IycPoKzRiLcTOMQjBjjW5LGTcXw+gdUiQL777plw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2o5nzD1XpWK1vQhZOnxMD5M83sPOvr71XKbbnvka6WoRL7CIo
+ pDOZZ9jQuXmAbirFd/l3vmFBfiQuRIakn9wnGHrsFaa9YkeP6APBrFla4PfnrpI=
+X-Gm-Gg: ASbGnculMbzM4mC6zXIlwabnUrVSwEbRMdUDb1Js56FIwwbe2B4hQq74kux1PRy7BSu
+ P7jM4K/eHFp7+2wElOUAVpbLKDhnZ//xoi1mPotVhGPPKqAPXe2XvOl+yQw+JUAce28wRCWKPxq
+ psA6iMX7lv+MIt/mp6u4R7XnXh1EG4FVsqyGefApcjmkRMJstCKhQIWjjRS2WAkZtqSjdCTSFcW
+ rLexSKKuHtVxO4IjeRXj4LfzQTDHHJEIIvVFTugGbUadNLLZxUNLWZOTBa4Mbq4EgmLKxdSrH6H
+ +HnKl7iO3hl4HR74NdYxpTLenLjT3cRDpRIxiReYDXmeVbQKRc2G9GmSBObanTUc7EkX85VnFJn
+ 2nKKNQA==
+X-Google-Smtp-Source: AGHT+IHEne9NXWRmeaKHFaxNKBm56TZDZJt9JjVGVe+iGN7IpuMXMithW5dQI52NU795ttOePGE2zg==
+X-Received: by 2002:a2e:9f47:0:b0:30a:45af:c18d with SMTP id
+ 38308e7fff4ca-30b792d7e3cmr4328091fa.25.1740505317050; 
+ Tue, 25 Feb 2025 09:41:57 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30a81ac3151sm2797611fa.68.2025.02.25.09.41.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 09:41:55 -0800 (PST)
+Date: Tue, 25 Feb 2025 19:41:53 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Ayushi Makhija <quic_amakhija@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ robdclark@gmail.com, sean@poorly.run, marijn.suijten@somainline.org, 
+ andersson@kernel.org, robh@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org, 
+ konradybcio@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com, 
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com, quic_jesszhan@quicinc.com
+Subject: Re: [PATCH 07/11] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to
+ DP bridge nodes
+Message-ID: <2jsornaajavpg6srqzjuwvzt4usvmzmwqdbzw2bydgxisfsrdy@csujibqx2zi3>
+References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
+ <20250225121824.3869719-8-quic_amakhija@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhro
- hhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250225121824.3869719-8-quic_amakhija@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,55 +98,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Jani,
-
-On Tue, 25 Feb 2025 18:36:41 +0200
-Jani Nikula <jani.nikula@linux.intel.com> wrote:
-
-> On Tue, 25 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> > In preparation to expose more info about bridges in debugfs, which will
-> > require more insight into drm_bridge data structures, move the bridges_show
-> > code to drm_bridge.c.
-> >
-> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>  
+On Tue, Feb 25, 2025 at 05:48:20PM +0530, Ayushi Makhija wrote:
+> Add anx7625 DSI to DP bridge device nodes.
 > 
-> I hate myself for doing this on a patch that's at v7... but here goes.
-
-Please don't! :-) This patch is new in v7, and a different (and
-definitely worse) approach was present in v6, but there was nothing
-before.
-
-> Perhaps consider moving the bridges debugfs creation and fops to
-> drm_bridge.c instead of just adding
-> drm_bridge_debugfs_show_encoder_bridges().
+> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 136 ++++++++++++++++++++-
+>  1 file changed, 135 insertions(+), 1 deletion(-)
 > 
-> For example, add drm_bridge_debugfs_add(struct drm_encoder *encoder),
-> which then contains the debugfs_create_file() call.
 
-I think it should go in drm_encoder.c, not drm_bridge.c, right? Here we
-are showing the bridges attached to an encoder, so the entry point is
-each encoder.
-
-On the other hand in patch 2 we should move the
-drm_debugfs_global_add() code to drm_bridge.c, as it's showing bridges
-ina encoder-independent way.
-
-And finally drm_bridge should export the common
-drm_bridge_debugfs_show_bridge() function to drm_encoder.c.
-
-Do you think this is correct?
-
-> Interestingly, this lets you drop a lot of #ifdef CONFIG_DEBUG_FS. The
-> compiler optimizes the fops struct and the functions away when
-> debugfs_create_file() becomes a stub for CONFIG_DEBUG_FS=n. It becomes
-> all around cleaner.
-
-This surely makes the idea interesting. Cleaner code is always welcome.
-
-Luca
+Missing dp-connector devices. Please add them together with the bridges.
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+With best wishes
+Dmitry
