@@ -2,83 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33A8A43AEB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:12:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECD2A43AF5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 11:13:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8631010E5FC;
-	Tue, 25 Feb 2025 10:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBEB710E5FD;
+	Tue, 25 Feb 2025 10:13:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SCvYkFrF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rtXlqRFJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BDF10E5FC
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:12:13 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-38f29a1a93bso4246022f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 02:12:13 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F92010E5FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 10:13:04 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-38f265c6cb0so2634625f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 02:13:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740478332; x=1741083132; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740478383; x=1741083183; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=J87ryWliyCl20sPUl5uI4YRMovXLiY9QCxqpI8NH9Gg=;
- b=SCvYkFrFAp6uNuDKZlX+GbRkqCEGvEI/k5k8YCybfArmWL/DcaHykW/MA86ZWUETkp
- ebZ+daywzxP+S21YMW0iEqTt6WU9eKP0Gh1uChKCU4AqMTugEL8S7HryDUotgzn0MuN9
- jX5lg7oUe/ndZs84M3U0wi5J3MMhlPE0wjlA8PobKyBNFQun1EIijfl5cCRKk6FcIFaj
- QoVo+/IPa2EWqcTvSmjFoK30TUev3afLjVStlUkMuCiL7Xheea8V5ucJXOQ1Bs6VBNfs
- WsHEt1CCRJj2hvAPlbnx42thSeLrIJINB5CySpQk/EquNZJadtOnYRxsbQS8Ye/lvdWY
- dZSg==
+ :reply-to; bh=j/CdZ+U93yCfAHM20K4VCGZK5tana82Sk9q6rPMpkaE=;
+ b=rtXlqRFJNCM6OLrWOlv7P4SVMeVmULmhb4/g1QEpWmF9GDZ1Y3dqpBiUm8R41Mcs1N
+ eGM99BFgFoxZpp5D0XtPzefx9TLiX9rjIVEkMVUequ6HM9BHuAYfw8LgvixidB3mreUw
+ 5NebVOPN9xYtO3EyYLUB6ZG7ja4CGpSD9PMa/aTvXtuH3PFEWHSezhxDsbOR+2aTlOsN
+ x//N8KORypfnn0F+2JLrC/pZIFgFqOwGAllxnS4zqtBAnj1oJuJ2AR/2mXcIyoHg2YLe
+ H60UEluzb/YJCvm3wtAZ9DGSlzDHCh3Z1RS0uMLa/qwg6y8SqQurHsHh2FMRbp57haja
+ SNww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740478332; x=1741083132;
+ d=1e100.net; s=20230601; t=1740478383; x=1741083183;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=J87ryWliyCl20sPUl5uI4YRMovXLiY9QCxqpI8NH9Gg=;
- b=vadQx4+FCDRPvusWOyQs7c7ZpY5AFfEyEj07vxMbd7CRgAiDKMVCIR4hoqsGE6j7wE
- UI17yagynbO3B6giOlkj5AvzN98fPUCKFSeMsWg5EMEc09lFGHqs2UoVm1AxWUKBoyrA
- 4oy9JJ/DN57olgtcWQnKu9kqGe/ttBxQNKaKrnVIwKPYyp6Ae7mCRc0CbJiH140RVPYi
- Xrl0UnHhyJNlUdWMt8GTnca1HMHh19+67j9iJYtOPvN0ZAvcYMr7F8gHlQsZjep6EpHG
- kojGvL7RGsLB+rvC3LiTsVHilSjkz9OjgWBJfZHjwaDnHMbNMMYiHBlGjKsIqSWHQ8uL
- /jjQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTDMfw0fUXjFComy2EPRWPFlfDfciXjgJR2EZVDjSqM0Aaro6SgCLtb2JzwQXyzo2wMNc1v3Mabsg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyd0ZFlAuqPhnK6F3v1lB/jra7k4jI9sJIhlnkcnImlcqLihBq7
- rcnJJ8LwUfSauYnm6YDIvNemRswOj9Geo/NMGkPu5S2Qsn4EMhxS3MEt5PzdbEs=
-X-Gm-Gg: ASbGncsYhdC+EVKpRDKBcGAnng+rrEoUoHIcPwInlxBv4Mft6rH3CMeUnYYTQRYGxzi
- atuxqkXKnWdcr3mY6BbjaGr6K+ROUmwcnOmkSy10M1Rj4XuCf1DZ4N0nB8e04COQjK+fMiQpVKz
- 3x8zu4huZCae4lec1v1EzaLYmuFVebVzKfxeoXhF+6gFGZ7fPcATLXUTc7Jp/vkjaoV2zxSAhDp
- qIde193OlAjroyp3vBpwg61Nf0qmj5+UokuKNZvDhww6EmCOchmyiWYYrK+/7a9cREzisYiEVhI
- ymp58wBdHlsmaNLbWSW+hF5TAv2O3bTW/0Ac
-X-Google-Smtp-Source: AGHT+IFefAdtPk51kuJgca+3l0hqlaBwIJi7vLtk9BJJqZ29dtHXUUkn4YlJcKZwqu3ntht5bnF7kg==
-X-Received: by 2002:a5d:6d8c:0:b0:38f:2224:738e with SMTP id
- ffacd0b85a97d-38f6e7573ffmr13530472f8f.1.1740478332139; 
- Tue, 25 Feb 2025 02:12:12 -0800 (PST)
+ bh=j/CdZ+U93yCfAHM20K4VCGZK5tana82Sk9q6rPMpkaE=;
+ b=VYsHJgEMJeXlYb58My115BYEy0bp7bLvy11ClSdeiR5QT34fXTSbVOyOQy4U/p19pd
+ R3ERaHiSaoUXYZw0kb9B1qMTLc1X0dZq4+bm8jJURSDFWp6C0JcnKMKW//JyhaDwI6/U
+ g7mzCl1POjjX/KsQ86V3ZQ6Rx9Kwzr33eVE+Yrd0kAPCRgG8f3V1vaxdeqPvQfV/lmkA
+ O6LZ8+fx6FXBm/oehlHbgqCgbC+N6RxQHzDkdzRr0m1gyXZRDW3vfJwtgrIA1ogxUiRb
+ Pdn5V2r2j1dvlkaiyx7W5oTwlqQJdBY3r5TiSYb/JrHblCLUKetv3Kdg4djNj6A87g9U
+ +HHA==
+X-Gm-Message-State: AOJu0YyLPO/2QTRR43ZbFHNQV32Bj9W/zQ/VphBgF2YHg4Qo7XlDF+Tx
+ Ofuy1+GjlavjPCU61vzgj4UGQqi9DoZvrEwL5uO7SXJHUef0+6DWOOh8JUO14xA=
+X-Gm-Gg: ASbGnctzlnaXoRKrSGn2U4bcexbfkDLcvyKautN0uevM5geYySkyKPiw6PuAdhBnpnA
+ CTiV2oVH9yVZjQzdGDRJRyoP0V0yYGj3VRy8QE4xvg+QKp+tbldo8boLcbu95dNXlGozpiHehIr
+ Y80jIoB+JGya3bRflnGNIPd8bQdtp9KdeT1n95AKPIJjFRVmgffbl15yl9GYOIADIwMsl5UnFwc
+ hI9Kz0o0oPLeYVer1Nn6cIyYpAYpNUbQ377HuZZrCsufXt+jNrw33d2mC+l5vjlRyEfHm5S7B89
+ hgqeYhEnaJ9dvkOggTZYSkBJasdeLRzC3eUL
+X-Google-Smtp-Source: AGHT+IFG+1rFiHyvGAdLQom1xamSgtQXx5X9EhBwiiiWXiH5ajISwOfGmcfQGL3L3N7dQSd1xz/2Pg==
+X-Received: by 2002:a05:6000:1fa3:b0:38d:d603:ff46 with SMTP id
+ ffacd0b85a97d-38f7d1ffbfemr10982478f8f.14.1740478382825; 
+ Tue, 25 Feb 2025 02:13:02 -0800 (PST)
 Received: from [192.168.1.100] ([37.167.173.6])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-390cd86cc26sm1799396f8f.30.2025.02.25.02.12.10
+ 5b1f17b1804b1-43a9d921c9csm93910385e9.11.2025.02.25.02.13.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2025 02:12:11 -0800 (PST)
-Message-ID: <a1544b83-f5b1-4e9c-a5bf-83e7019d8f3b@linaro.org>
-Date: Tue, 25 Feb 2025 11:12:10 +0100
+ Tue, 25 Feb 2025 02:13:02 -0800 (PST)
+Message-ID: <d08ce3dd-a639-4829-a9ca-c4f897336228@linaro.org>
+Date: Tue, 25 Feb 2025 11:13:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 0/2] Rockchip W552793DBA-V10 panel support
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH 07/14] drm/panel: simple: add BOE AV101HDT-A10 panel
+To: maudspierings@gocontroll.com, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Andy Yan <andyshrk@163.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250207-raydium-rm67200-v2-0-1fdc927aae82@kernel.org>
- <psmfw2znti3luu6pjyi5g22bgvylcb5lms22yakfkshnol4v4y@bhzvqjbgzhep>
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20250224-initial_display-v1-0-5ccbbf613543@gocontroll.com>
+ <20250224-initial_display-v1-7-5ccbbf613543@gocontroll.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,9 +108,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <psmfw2znti3luu6pjyi5g22bgvylcb5lms22yakfkshnol4v4y@bhzvqjbgzhep>
+In-Reply-To: <20250224-initial_display-v1-7-5ccbbf613543@gocontroll.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,34 +127,66 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/02/2025 18:07, Sebastian Reichel wrote:
-> Hi,
+On 24/02/2025 14:50, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maudspierings@gocontroll.com>
 > 
-> On Fri, Feb 07, 2025 at 05:21:46PM +0100, Sebastian Reichel wrote:
->> This has been tested in combination with the series from Heiko Stübner
->> enabling DSI support for the RK3588 [0] (DSI controller support has been
->> merged already, only the PHY support is missing) on the RK3588 EVB1.
->>
->> [0] https://lore.kernel.org/linux-rockchip/20241203164934.1500616-1-heiko@sntech.de/
->>
->> Changes since PATCHv1:
->>   * https://lore.kernel.org/all/20241210164333.121253-1-sebastian.reichel@collabora.com/
->>   * move additionalProperties below required in the DT binding
->>   * collect Reviewed-by from Krzysztof Kozlowski, Andy Yan and Jessica Zhang
->>   * improve Kconfig help text
->>
->> Thanks for having a look.
+> add support for the BOE AV101HDT-A10 10.1" LVDS panel
 > 
-> I believe this has all necessary Reviewed-by tags. Can somebody
-> merge it please? :)
-
-Can you fix the reported issues by Dmitry on patch 2 ?
-
-Thanks,
-Neil
-
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++++++
+>   1 file changed, 32 insertions(+)
 > 
-> Greetings,
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 9b2f128fd3094bfb6731fc348b91cc101f495a86..a52977ab73dc2edab0d1954c702fd797d6a5b969 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1374,6 +1374,35 @@ static const struct panel_desc bananapi_s070wv20_ct16 = {
+>   	},
+>   };
+>   
+> +static const struct display_timing boe_av101hdt_a10_timing = {
+> +	.pixelclock = { 74210000, 75330000, 76780000, },
+> +	.hactive = { 1280, 1280, 1280, },
+> +	.hfront_porch = { 10, 42, 33, },
+> +	.hback_porch = { 10, 18, 33, },
+> +	.hsync_len = { 30, 10, 30, },
+> +	.vactive = { 720, 720, 720, },
+> +	.vfront_porch = { 200, 183, 200, },
+> +	.vback_porch = { 8, 8, 8, },
+> +	.vsync_len = { 2, 19, 2, },
+> +	.flags = DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
+> +};
+> +
+> +static const struct panel_desc boe_av101hdt_a10 = {
+> +	.timings = &boe_av101hdt_a10_timing,
+> +	.num_timings = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 224,
+> +		.height = 126,
+> +	},
+> +	.delay = {
+> +		.enable = 50,
+> +		.disable = 50,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>   static const struct drm_display_mode boe_bp101wx1_100_mode = {
+>   	.clock = 78945,
+>   	.hdisplay = 1280,
+> @@ -4813,6 +4842,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "bananapi,s070wv20-ct16",
+>   		.data = &bananapi_s070wv20_ct16,
+> +	}, {
+> +		.compatible = "boe,av101hdt-a10",
+> +		.data = &boe_av101hdt_a10,
+>   	}, {
+>   		.compatible = "boe,bp082wx1-100",
+>   		.data = &boe_bp082wx1_100,
 > 
-> -- Sebastian
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
