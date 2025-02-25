@@ -2,122 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A02A44933
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 18:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DDDA44942
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 19:00:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0916D10E1A7;
-	Tue, 25 Feb 2025 17:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02D510E69E;
+	Tue, 25 Feb 2025 18:00:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="E+lPlky9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IZ++wBVS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
  [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E88410E1A7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 17:59:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F3710E4C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 17:59:46 +0000 (UTC)
 Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4394a0c65fcso60205415e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 09:59:29 -0800 (PST)
+ 5b1f17b1804b1-43995b907cfso37450395e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 09:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740506368; x=1741111168; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=hjDMnEpfyvE0/n/R7fglBpQPZZ2H1kPvQ+lYLuofLIk=;
- b=E+lPlky9VPMMkhl7IJ16j8FTC0dUQWH18gfKC6dobG6hHuPuRIPy0hGlwlXaaZHL0N
- QCSz2DutAODZqegQKTJanuIWdHL1Up9mXOIvM3WboqVk+0+5K0q3Pwa2sn8h4TlCSPff
- yoso+Xks5qSR9tTirkGNJxbBp2xfQQrI2oqk4bdRHWCrT0gersh1YwMK2KYn3O3vXgXc
- r5dj+ThSeaPrxnB1bEXkkjuJ92maH5oVUqOawkIQpBi20N5fOCBllZQgMsyFFpnIYiRC
- uetjHeJSq1Mxq1CvbIRjeSHymVlTPLNu7Jrg8xG/gytCswMSjDKAci1UGjlCOTMDI10d
- qNhA==
+ d=gmail.com; s=20230601; t=1740506385; x=1741111185; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g4KkuzN3YdsW2noIqZOCpqoqa4GrMlri4rj4Q/z0qqo=;
+ b=IZ++wBVSSzrJ6zuTMVoZMFcRo4YuWs+q7BUb6WTptS8Klgzhqd+S7Oz/3Db5j6xG5I
+ T5hlxjyg2/uhbX6Pzrfm5BX/QOJ/ycqLzFghzltTS4zsAmB5Nf+RQoYsrHjG4ADZ6so+
+ IWo/jAPFvk8b8ql051Vjy210JO9twP0rmP5NckZzUt3g8jPxLOsFoKeGzoI25rr04urF
+ Vzl45As68KqCah1hOLXu8u1r0Gw/vQ5jhoqnm9LlfIh4sz9aCgsznvr06zg7eNrYBdkk
+ t78Bst+A9cNz/unu3GMi/m4TCnoCpR8sWHPCOrmcqFKjIMZu3O3AYq/9NWwoNN5NCddy
+ 7W8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740506368; x=1741111168;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=hjDMnEpfyvE0/n/R7fglBpQPZZ2H1kPvQ+lYLuofLIk=;
- b=DP3FyCJ95aUadTIqexTlBV4hCrUwcgWROag1ND4MMFHdgWNmU4ponoYKEaxMw20MuQ
- eza8YZukDrpWtB8M65LkYOJCdYb8ERJPEtuvB599WGNwFNEqUukGcADzUyAr1j6ftnxw
- d9enWYZGRykbKtcHp0jDUzNj1YYdYjaqdD93TL9RdjHXsk4LSFH2dgFTjob2FBaqOh8p
- 7DPgCBO4gAWUDPDBpY2sZcI2KJCIeB8w9NcVPHHsCE22xqNQfjf8SdC8z3RBM2ps4AOe
- 2wiEbO/TCMimd11SLMRFHiZVfgplCsUGLDwGtwc42g170CnLrUku803CkHQF6buw6qEZ
- iJtQ==
+ d=1e100.net; s=20230601; t=1740506385; x=1741111185;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=g4KkuzN3YdsW2noIqZOCpqoqa4GrMlri4rj4Q/z0qqo=;
+ b=QDj0vbRxzbVwGhayY+P4U2/rb3FNNZ1+dy9GvLzDA1uveC0D72EpD7p1Llfat6vIms
+ UIHouLKfUk1JpGZUXWw/5pTz31nfxcP/jzQ8u6up/KdFY+n1HPEt/SALUEPMeXdEwvSJ
+ Wq/rCzRnKZG12rL/mBmhXbTtuFbJh6WoOcBQX3KaXGKHcydYDFCs/NuFrwTKlgPHRxmk
+ 7XrxnjbJ5viPmJHQ179v1W+D6MPAYizyzBi6FyrRc9Eh5i6BhuHHSR8Gq3yxVBPb4hzT
+ blxUP34PWjFRPrZJqZBrQeJZbeqTVQ8cS8lDK8VhJPpGNsSM4doKGlrSBxGvoMiGdI6w
+ lPuA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBwfCZ5LgLU6RudBi5gPL4MadhVrYsiu74ylLyEvEUYL/G0EHAjZJLY3D0agVuGwTBc7Ll60rKeVw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzh5OIl0R/zDsmiuXQyy+0WxtkN1ReFnU9Bq4R91BQS8zv2bNtq
- uWXow3ieNkB4h4F3PxBW59FoDAuAI/ZCbrUWDe7V8jnr0SGF6dQXZAOd1rK1ELg=
-X-Gm-Gg: ASbGncsxnQTi1L3ia2UuND8rl9EDbc9sEs3gBVNDScss4nrL7ev25xlTrmS9eQSAZmw
- Y7yW5/3hW7u07Dylre1Ujq0h4ZuyrCDoDpn/6P6A4a3PwDVxfms+zP0fw0ZCGgcCesjil6Tz4kP
- tNuD+M0hBY/3xvJ365Gz09Z4TsKxnAXuImZb8+jOQlnATGeaLs8YN5hS39W1AEkz0Hrc7chDTBz
- tPFDXucNe/a2ZayRw7s61fk1Z2xbltku11HCfGAPTMOLUvtwuELHiYIN54fivkRARGYDZHoSeVt
- jqxYeFntELgGZSrbme12sPLGJCPPm1qK8OGPMTnCtopMFmNyO+zsdN9bEdPhX3hob3fyP0/ZVH5
- yTaM=
-X-Google-Smtp-Source: AGHT+IHtZcIoQJsi5dScv1l8X9lcH5/APbnkiDicrQKXKhdO2SowhVhMLSTlVqGJk0pL3x+gu1om+g==
-X-Received: by 2002:a05:600c:1f90:b0:439:8544:1903 with SMTP id
- 5b1f17b1804b1-43ab0f64430mr41996155e9.20.1740506368036; 
- Tue, 25 Feb 2025 09:59:28 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:23a1:f1ec:7a08:3a2b?
- ([2a01:e0a:982:cbb0:23a1:f1ec:7a08:3a2b])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43ab2c50dcfsm21371065e9.0.2025.02.25.09.59.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2025 09:59:27 -0800 (PST)
-Message-ID: <2d51cb9e-b8c5-4cf1-bd7a-751fb633275c@linaro.org>
-Date: Tue, 25 Feb 2025 18:59:22 +0100
+ AJvYcCUN9Vpo3TxhAuRqTpY0NNLuE6mMS1XzXmi1OmHv76INinSYkTk4W/D50/ryAhp7MvxdvdePbSjEtIQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyN7+Bjqn7KM7AVUayNC4fZhZEuL0tIkrXPt+frZ5tYA2XsUAg0
+ HwRvqQVc7agpKnSBE2LodUkjwR6HJwYsrno5ITn2nMY8Rd4U+D2Y
+X-Gm-Gg: ASbGncts4YDxq1Jc5MY2OjHmhUtCXWrgbLhpAKa5tM5cu6K8QQRPu6qqj4Kx8NvSKBh
+ qfUsdqfirAlRFyRRKQ97BON3s+pwx87NTjf87uN7I/TzlWhzWUbg2CM4wG0xuCq70UjPu8HXwoA
+ NFp50bcx4S6r0549AlLTXLt/wfC3dBCoO3iEs58EOX+OBVb3fCdoKKNx3meNGKvuh1w496lignS
+ KIf7cJ0KgsqlR3syb0IckYAXuwWL7UK++LtOWszIeQ0cs00EYMgjVx4C7qqJ/XKJppaKuYvc+hH
+ +XR5orztIHD3teJJebi/8SjUQZND
+X-Google-Smtp-Source: AGHT+IHo42lY7FnvR0p1Ete6FL/ExPhlesqNSGcsVd2G9FTBSK+yI0MIu82ukvvcb1oHod4TNQdN6A==
+X-Received: by 2002:a05:600c:198e:b0:439:9e53:49d8 with SMTP id
+ 5b1f17b1804b1-43ab0f979cdmr45977615e9.30.1740506384463; 
+ Tue, 25 Feb 2025 09:59:44 -0800 (PST)
+Received: from fedora.. ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-439b02f3e15sm149063655e9.22.2025.02.25.09.59.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2025 09:59:43 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: louis.chauvet@bootlin.com
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v2 03/16] drm/vkms: Allow to configure multiple planes via
+ configfs
+Date: Tue, 25 Feb 2025 18:59:23 +0100
+Message-ID: <20250225175936.7223-4-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250225175936.7223-1-jose.exposito89@gmail.com>
+References: <20250225175936.7223-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: (subset) [PATCH v7 0/5] Driver for pre-DCP apple display
- controller.
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
- Janne Grunau <j@jannau.net>, Sasha Finkelstein <fnkl.kernel@gmail.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Alyssa Ross <hi@alyssa.is>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Neal Gompa <neal@gompa.dev>, Nick Chan <towinchenmi@gmail.com>
-References: <20250217-adpdrm-v7-0-ca2e44b3c7d8@gmail.com>
- <174047913824.2131221.6545389561298332217.b4-ty@linaro.org>
- <CAA8EJpqM8ZQ-ScEtEBXaUF2Nargtp_TBAyMYvbJ49PGbwPWjaQ@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CAA8EJpqM8ZQ-ScEtEBXaUF2Nargtp_TBAyMYvbJ49PGbwPWjaQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,30 +89,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/02/2025 12:37, Dmitry Baryshkov wrote:
-> On Tue, 25 Feb 2025 at 12:25, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->>
->> Hi,
->>
->> On Mon, 17 Feb 2025 12:39:30 +0100, Sasha Finkelstein wrote:
->>> This patch series adds support for a secondary display controller
->>> present on Apple M1/M2 chips and used to drive the display of the
->>> "touchbar" touch panel present on those.
->>>
->>>
->>
->> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
->>
->> [3/5] drm: panel: Add a panel driver for the Summit display
->>        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/40115947b59f2ca361a47615304dff0a2b69a2b4
-> 
-> Without the bindings?!
-> 
+Create a default subgroup at /config/vkms/planes to allow to create as
+many planes as required.
 
-Bindings will be funneled with the rest of the ADP driver, the panel driver can be applied individually.
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ Documentation/gpu/vkms.rst           | 16 ++++-
+ drivers/gpu/drm/vkms/vkms_configfs.c | 87 ++++++++++++++++++++++++++++
+ 2 files changed, 102 insertions(+), 1 deletion(-)
 
-Neil
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 423bdf86b5b1..bf23d0da33fe 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -71,6 +71,19 @@ By default, the instance is disabled::
+   cat /config/vkms/my-vkms/enabled
+   0
+ 
++And directories are created for each configurable item of the display pipeline::
++
++  tree /config/vkms/my-vkms
++  ├── enabled
++  └── planes
++
++To add items to the display pipeline, create one or more directories under the
++available paths.
++
++Start by creating one or more planes::
++
++  sudo mkdir /config/vkms/my-vkms/planes/plane0
++
+ Once you are done configuring the VKMS instance, enable it::
+ 
+   echo "1" | sudo tee /config/vkms/my-vkms/enabled
+@@ -79,8 +92,9 @@ Finally, you can remove the VKMS instance disabling it::
+ 
+   echo "0" | sudo tee /config/vkms/my-vkms/enabled
+ 
+-And removing the top level directory::
++And removing the top level directory and its subdirectories::
+ 
++  sudo rmdir /config/vkms/my-vkms/planes/*
+   sudo rmdir /config/vkms/my-vkms
+ 
+ Testing With IGT
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+index 92512d52ddae..4f9d3341e6c0 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.c
++++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+@@ -16,6 +16,7 @@ static bool is_configfs_registered;
+  *
+  * @group: Top level configuration group that represents a VKMS device.
+  * Initialized when a new directory is created under "/config/vkms/"
++ * @planes_group: Default subgroup of @group at "/config/vkms/planes"
+  * @lock: Lock used to project concurrent access to the configuration attributes
+  * @config: Protected by @lock. Configuration of the VKMS device
+  * @enabled: Protected by @lock. The device is created or destroyed when this
+@@ -23,16 +24,98 @@ static bool is_configfs_registered;
+  */
+ struct vkms_configfs_device {
+ 	struct config_group group;
++	struct config_group planes_group;
+ 
+ 	struct mutex lock;
+ 	struct vkms_config *config;
+ 	bool enabled;
+ };
+ 
++/**
++ * struct vkms_configfs_plane - Configfs representation of a plane
++ *
++ * @group: Top level configuration group that represents a plane.
++ * Initialized when a new directory is created under "/config/vkms/planes"
++ * @dev: The vkms_configfs_device this plane belongs to
++ * @config: Configuration of the VKMS plane
++ */
++struct vkms_configfs_plane {
++	struct config_group group;
++	struct vkms_configfs_device *dev;
++	struct vkms_config_plane *config;
++};
++
+ #define device_item_to_vkms_configfs_device(item) \
+ 	container_of(to_config_group((item)), struct vkms_configfs_device, \
+ 		     group)
+ 
++#define child_group_to_vkms_configfs_device(group) \
++	device_item_to_vkms_configfs_device((&(group)->cg_item)->ci_parent)
++
++#define plane_item_to_vkms_configfs_plane(item) \
++	container_of(to_config_group((item)), struct vkms_configfs_plane, group)
++
++static void plane_release(struct config_item *item)
++{
++	struct vkms_configfs_plane *plane;
++	struct mutex *lock;
++
++	plane = plane_item_to_vkms_configfs_plane(item);
++	lock = &plane->dev->lock;
++
++	guard(mutex)(lock);
++	vkms_config_destroy_plane(plane->config);
++	kfree(plane);
++}
++
++static struct configfs_item_operations plane_item_operations = {
++	.release	= &plane_release,
++};
++
++static const struct config_item_type plane_item_type = {
++	.ct_item_ops	= &plane_item_operations,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group *make_plane_group(struct config_group *group,
++					     const char *name)
++{
++	struct vkms_configfs_device *dev;
++	struct vkms_configfs_plane *plane;
++
++	dev = child_group_to_vkms_configfs_device(group);
++
++	guard(mutex)(&dev->lock);
++
++	if (dev->enabled)
++		return ERR_PTR(-EBUSY);
++
++	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
++	if (!plane)
++		return ERR_PTR(-ENOMEM);
++
++	plane->dev = dev;
++
++	plane->config = vkms_config_create_plane(dev->config);
++	if (IS_ERR(plane->config)) {
++		kfree(plane);
++		return ERR_CAST(plane->config);
++	}
++
++	config_group_init_type_name(&plane->group, name, &plane_item_type);
++
++	return &plane->group;
++}
++
++static struct configfs_group_operations planes_group_operations = {
++	.make_group	= &make_plane_group,
++};
++
++static const struct config_item_type plane_group_type = {
++	.ct_group_ops	= &planes_group_operations,
++	.ct_owner	= THIS_MODULE,
++};
++
+ static ssize_t device_enabled_show(struct config_item *item, char *page)
+ {
+ 	struct vkms_configfs_device *dev;
+@@ -125,6 +208,10 @@ static struct config_group *make_device_group(struct config_group *group,
+ 	config_group_init_type_name(&dev->group, name, &device_item_type);
+ 	mutex_init(&dev->lock);
+ 
++	config_group_init_type_name(&dev->planes_group, "planes",
++				    &plane_group_type);
++	configfs_add_default_group(&dev->planes_group, &dev->group);
++
+ 	return &dev->group;
+ }
+ 
+-- 
+2.48.1
+
