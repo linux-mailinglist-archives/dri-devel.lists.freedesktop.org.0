@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E50A43DD2
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:39:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188FDA43DEB
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 12:41:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E823A10E647;
-	Tue, 25 Feb 2025 11:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6E810E649;
+	Tue, 25 Feb 2025 11:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="FcL3YFbE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0qVbW/6+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FcL3YFbE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0qVbW/6+";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0JZC0Zwt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WN3VmE+C";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0JZC0Zwt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WN3VmE+C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97D7810E64F
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:38:57 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DC310E649
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 11:41:38 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 304B321166;
- Tue, 25 Feb 2025 11:38:56 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id ABE7D1F44F;
+ Tue, 25 Feb 2025 11:41:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740483536; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1740483696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9ABMn7Jnj5cUGatJDRKKEvt77TfWyRb9+YXDUVL7Yu0=;
- b=FcL3YFbELTx/aoLFqOZ24dpe6vTz+A7ywqjE2yHsCtjrT0lI3hvZuYnqDrKbGkgAvDjBsY
- g+RV8AwwEBu5/HAj84arrCNVdq7u1+lGyKJ0v+pq1pyD1FgfC7AFxxdbKvZCYxyHBlcSMe
- MXezsJCWwHjFlI1gsmnyEJrDx5P17z4=
+ bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
+ b=0JZC0ZwtsRG5PNFqFzv2uyjg0djWNy5a7Me6o6HwegoGYfepnjLFxklkIYDTQE8X9CajDM
+ 51GbJv4kqWVCbaZiiu9vNE82M0zBQLZxYyuFT7rWNFzVN/sBLl/pAbjNCsIr+Lq+vHiDmP
+ b2AjCEmv1kd3mZP3g/h2nCuz0tjJFcE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740483536;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ s=susede2_ed25519; t=1740483696;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9ABMn7Jnj5cUGatJDRKKEvt77TfWyRb9+YXDUVL7Yu0=;
- b=0qVbW/6+Xz6goX9bcZCpXGXPLU5P9zeiDr6Ny5P+j6tAHOONtpAuNmYS+iWS89F6qIYx6e
- 5SZRnnSrp0mR++CQ==
-Authentication-Results: smtp-out1.suse.de;
+ bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
+ b=WN3VmE+C0NweJ5MWe+tstnV3mrGoI5oXyjEKQQ9UOJxYaKYDaARMV+nTFXeRtBNuSh8mWR
+ WTPHyxHoVZSUrnDQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740483536; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1740483696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9ABMn7Jnj5cUGatJDRKKEvt77TfWyRb9+YXDUVL7Yu0=;
- b=FcL3YFbELTx/aoLFqOZ24dpe6vTz+A7ywqjE2yHsCtjrT0lI3hvZuYnqDrKbGkgAvDjBsY
- g+RV8AwwEBu5/HAj84arrCNVdq7u1+lGyKJ0v+pq1pyD1FgfC7AFxxdbKvZCYxyHBlcSMe
- MXezsJCWwHjFlI1gsmnyEJrDx5P17z4=
+ bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
+ b=0JZC0ZwtsRG5PNFqFzv2uyjg0djWNy5a7Me6o6HwegoGYfepnjLFxklkIYDTQE8X9CajDM
+ 51GbJv4kqWVCbaZiiu9vNE82M0zBQLZxYyuFT7rWNFzVN/sBLl/pAbjNCsIr+Lq+vHiDmP
+ b2AjCEmv1kd3mZP3g/h2nCuz0tjJFcE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740483536;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ s=susede2_ed25519; t=1740483696;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9ABMn7Jnj5cUGatJDRKKEvt77TfWyRb9+YXDUVL7Yu0=;
- b=0qVbW/6+Xz6goX9bcZCpXGXPLU5P9zeiDr6Ny5P+j6tAHOONtpAuNmYS+iWS89F6qIYx6e
- 5SZRnnSrp0mR++CQ==
+ bh=UbsGQ9aQt0jmmsDa4NSHqjZXwDsdSzxo3e8MlkHByxU=;
+ b=WN3VmE+C0NweJ5MWe+tstnV3mrGoI5oXyjEKQQ9UOJxYaKYDaARMV+nTFXeRtBNuSh8mWR
+ WTPHyxHoVZSUrnDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE0C913332;
- Tue, 25 Feb 2025 11:38:54 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 24F8113332;
+ Tue, 25 Feb 2025 11:41:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id oyCqMM6rvWfoPwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Feb 2025 11:38:54 +0000
-Message-ID: <0e6817b1-d52e-407f-bdb9-93919f849edc@suse.de>
-Date: Tue, 25 Feb 2025 12:38:54 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id My/YB3CsvWfkQAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 25 Feb 2025 11:41:36 +0000
+Message-ID: <f1ea30fe-8cb8-41fd-bc85-d511c800e594@suse.de>
+Date: Tue, 25 Feb 2025 12:41:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 8/9] drm/vgem/vgem_drv convert to use faux_device
+Subject: Re: [PATCH v4 9/9] drm/vkms: convert to use faux_device
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Bjorn Helgaas <bhelgaas@google.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
@@ -88,11 +88,13 @@ Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
  <mairacanal@riseup.net>, Robin Murphy <robin.murphy@arm.com>,
  Simona Vetter <simona.vetter@ffwll.ch>, Zijun Hu <quic_zijuhu@quicinc.com>,
  linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org
 References: <2025021023-sandstorm-precise-9f5d@gregkh>
- <2025021028-brigade-create-37de@gregkh>
+ <2025021029-snout-swivel-9a45@gregkh> <Z6oPNmRo4XQQVEI8@louis-chauvet-laptop>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -119,27 +121,27 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <2025021028-brigade-create-37de@gregkh>
+In-Reply-To: <Z6oPNmRo4XQQVEI8@louis-chauvet-laptop>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[23]; MID_RHS_MATCH_FROM(0.00)[];
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[linuxfoundation.org,vger.kernel.org,redhat.com,kernel.org,intel.com,linux.intel.com,google.com,huawei.com,gmail.com,wunner.de,riseup.net,arm.com,ffwll.ch,quicinc.com,lists.freedesktop.org];
+ TAGGED_RCPT(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_TWELVE(0.00)[25]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
  FREEMAIL_ENVRCPT(0.00)[gmail.com];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[intel.com,linux.intel.com,google.com,huawei.com,gmail.com,wunner.de,kernel.org,riseup.net,arm.com,ffwll.ch,quicinc.com,vger.kernel.org,lists.freedesktop.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:email,
- suse.de:mid]
-X-Spam-Score: -4.30
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,121 +159,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 10.02.25 um 13:30 schrieb Greg Kroah-Hartman:
-> The vgem driver does not need to create a platform device, as there is
-> no real platform resources associated it,  it only did so because it was
-> simple to do that in order to get a device to use for resource
-> management of drm resources.  Change the driver to use the faux device
-> instead as this is NOT a real platform device.
->
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Am 10.02.25 um 15:37 schrieb Louis Chauvet:
+> On 10/02/25 - 13:30, Greg Kroah-Hartman wrote:
+>> The vkms driver does not need to create a platform device, as there is
+>> no real platform resources associated it,  it only did so because it was
+>> simple to do that in order to get a device to use for resource
+>> management of drm resources.  Change the driver to use the faux device
+>> instead as this is NOT a real platform device.
+>>
+>> Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+>> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Melissa Wen <melissa.srw@gmail.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Reviewed-by: Lyude Paul <lyude@redhat.com>
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Should this patch be merged through DRM trees?
+> Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>
+> Thanks for the modification, it seems to work.
+
+Should this patch be merged through DRM trees? drm-misc-next is at 
+v6.14-rc4 and has struct faux_device.
 
 Best regards
 Thomas
 
-> ---
-> v4: - api tweaked due to parent pointer added to faux_device create
->        function.
->   v3: new patch in the series.  For an example of the api working, does
->       not have to be merged at this time, but I can take it if the
->       maintainers give an ack.
->   drivers/gpu/drm/vgem/vgem_drv.c | 30 +++++++++++++++---------------
->   1 file changed, 15 insertions(+), 15 deletions(-)
+
+
 >
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index 2752ab4f1c97..260c64733972 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -32,7 +32,7 @@
->   
->   #include <linux/dma-buf.h>
->   #include <linux/module.h>
-> -#include <linux/platform_device.h>
-> +#include <linux/device/faux.h>
->   #include <linux/shmem_fs.h>
->   #include <linux/vmalloc.h>
->   
-> @@ -52,7 +52,7 @@
->   
->   static struct vgem_device {
->   	struct drm_device drm;
-> -	struct platform_device *platform;
-> +	struct faux_device *faux_dev;
->   } *vgem_device;
->   
->   static int vgem_open(struct drm_device *dev, struct drm_file *file)
-> @@ -127,27 +127,27 @@ static const struct drm_driver vgem_driver = {
->   static int __init vgem_init(void)
->   {
->   	int ret;
-> -	struct platform_device *pdev;
-> +	struct faux_device *fdev;
->   
-> -	pdev = platform_device_register_simple("vgem", -1, NULL, 0);
-> -	if (IS_ERR(pdev))
-> -		return PTR_ERR(pdev);
-> +	fdev = faux_device_create("vgem", NULL, NULL);
-> +	if (!fdev)
-> +		return -ENODEV;
->   
-> -	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
-> +	if (!devres_open_group(&fdev->dev, NULL, GFP_KERNEL)) {
->   		ret = -ENOMEM;
->   		goto out_unregister;
->   	}
->   
-> -	dma_coerce_mask_and_coherent(&pdev->dev,
-> +	dma_coerce_mask_and_coherent(&fdev->dev,
->   				     DMA_BIT_MASK(64));
->   
-> -	vgem_device = devm_drm_dev_alloc(&pdev->dev, &vgem_driver,
-> +	vgem_device = devm_drm_dev_alloc(&fdev->dev, &vgem_driver,
->   					 struct vgem_device, drm);
->   	if (IS_ERR(vgem_device)) {
->   		ret = PTR_ERR(vgem_device);
->   		goto out_devres;
->   	}
-> -	vgem_device->platform = pdev;
-> +	vgem_device->faux_dev = fdev;
->   
->   	/* Final step: expose the device/driver to userspace */
->   	ret = drm_dev_register(&vgem_device->drm, 0);
-> @@ -157,19 +157,19 @@ static int __init vgem_init(void)
->   	return 0;
->   
->   out_devres:
-> -	devres_release_group(&pdev->dev, NULL);
-> +	devres_release_group(&fdev->dev, NULL);
->   out_unregister:
-> -	platform_device_unregister(pdev);
-> +	faux_device_destroy(fdev);
->   	return ret;
->   }
->   
->   static void __exit vgem_exit(void)
->   {
-> -	struct platform_device *pdev = vgem_device->platform;
-> +	struct faux_device *fdev = vgem_device->faux_dev;
->   
->   	drm_dev_unregister(&vgem_device->drm);
-> -	devres_release_group(&pdev->dev, NULL);
-> -	platform_device_unregister(pdev);
-> +	devres_release_group(&fdev->dev, NULL);
-> +	faux_device_destroy(fdev);
->   }
->   
->   module_init(vgem_init);
+> Louis chauvet
+>
 
 -- 
 --
