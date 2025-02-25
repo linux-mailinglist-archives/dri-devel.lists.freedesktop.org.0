@@ -2,68 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EF8A44EFC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 22:35:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AFEA44F19
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 22:43:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B6310E7FE;
-	Tue, 25 Feb 2025 21:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD8410E7F8;
+	Tue, 25 Feb 2025 21:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="NXNBRF3c";
+	dkim=pass (1024-bit key; unprotected) header.d=citrix.com header.i=@citrix.com header.b="U9LzR57r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B484610E7F7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 21:35:45 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1740519340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SQB6S+lh0hzINQjumNTIEedaSDDvME+crToOT8AlV2s=;
- b=NXNBRF3ciaiAgahfJskC2owN0RJ208InN9vyPrDN/99bHUMcg+F7Y18W+SSC8c3ymk8Wzq
- HQNxApnYwinlC0ByDlAdjSx3nNHDnA28eDZYHGT1/uQa3grlk58C6luKBAoob7rJdYhTGg
- PK3/5HuMSXHYKOHzCAmXv352eDFBAO1OLxTI7gXxYvMugMVJ5l8d6JxZUUxm6mVc/6ESrj
- g08Rrf/rBBOEAc7+izEwLGOuu3rsnOE6ZcSlM917qbwnWC+lX/IJkNxiTGivyTJyEKkVhc
- TTFhy6JXj/O9GYj/hWUh/lU/fHzwYVMKqn1dwz+Gc+I/zbaXCgBoL0EG3pgh8w==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Date: Tue, 25 Feb 2025 16:35:36 -0500
-Subject: [PATCH v2] drm: add modifiers for Apple GPU layouts
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A944A10E7F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 21:43:32 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-38f5fc33602so162477f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 13:43:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.com; s=google; t=1740519811; x=1741124611; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:subject:references:cc:to:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=v6VBRIDfPPAuGSOJ6DX9lU3J+goTuMImOESXIUQcXCg=;
+ b=U9LzR57rLi5Olg82DaGGWmm4JK1z5QHHDSOSl+dLaQKJCivVdXowZ7NhsxPJJ03jCA
+ OVLKMkynxlhXKMUro2BI9nvsjJsN6M4FxrfB+b/+SQaaooZ9rkgQVbhhovJRjbMsgJYF
+ 8sLVWgzAekmDJNcB7SiFpWTki0TCz/75uUOt4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740519811; x=1741124611;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:subject:references:cc:to:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=v6VBRIDfPPAuGSOJ6DX9lU3J+goTuMImOESXIUQcXCg=;
+ b=wkl0UHUgpjL6erR3WsTTTNukxVvXsTeZivuxggkP3rdc5iah5GcsFDj2+i8JlDHl7S
+ robT7DSC6W6WzRb/QLGAg14/BI3mSaR5QLhhhFakaPGZ1Tk8H23YHM6dp8Uo02c0nWRa
+ m8Fenc5+YL7eVKUxyhqaS32a8GzredBxcVKhQR2J+Zc9YhC7wTlgMfX+nlVkA842l+I3
+ OfdxAZPR+Yl7pe0GCX1q/L2OggXHA/ZZAZAhDX2o5oJNGOREWb8bdn3BpsK7cMqUgDZO
+ qq/T7cG/1ZPMMYxiivZ8qU2+YdjhvbRSQmjC2sVmxtYONNNoVphuMeZ81KWUPgjsN8LZ
+ oGzQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2VGKAWi3A29lD5yHLJJBX49Ue9k7TTavQWIXeYl1zRGrtgcEtszP3G3UOxyxbw//BeSZkTKeJPyQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcudHkqkNRXj2FebRuJGoOEU50ECHc5GjP+fTejwgmaP8lDFT/
+ CVMqeIQMO3RiPad69XKVkWt5Pnb6u69+3Y9/oTO0ZSLNq5Xcvu32Gc8JuxQo7QA=
+X-Gm-Gg: ASbGnctwQPHfZlnKenbJeFCNKZDHqwye9CjHP3upTI8LgsLuWq8WacGn4ZeAresEfI1
+ m+bbyG7bSBelCSCADQZEirASmopIND5ORVt0T49z41kcyFL25CQHxiwesRyuuT6SXEEnZNcOoKF
+ MpOoOWuWa3nOp+LXVSRwDqL7Sy9u1LCK1LmYQieeAk91GXUunQ9XC14mJRjWaCRsp8kAUVNj3vP
+ RFq6NbNXIhbaaCmN8kkAqyY19s7f8stcmDHz2XdzNU5JrcPoHuLQ1xU8qJvzW05IPBraQmumZl3
+ IyUPW4r7I+HP9J/SFvvY+pI4OIgoNzDSQ6lUazh5ruYFJu5E3f+9KARK21IaGUppew==
+X-Google-Smtp-Source: AGHT+IHSlhsBYfXGudlA126ARnimf5DJid2NXAt0zMRZRmjxnTP+DlMFj1fR7Dt14yukNzUQAYX1Dg==
+X-Received: by 2002:a5d:64a7:0:b0:38b:f4e6:21aa with SMTP id
+ ffacd0b85a97d-38f6f3c50b0mr11926957f8f.5.1740519810679; 
+ Tue, 25 Feb 2025 13:43:30 -0800 (PST)
+Received: from [192.168.1.10] (host-92-26-98-202.as13285.net. [92.26.98.202])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-390cd8fcf29sm3520900f8f.100.2025.02.25.13.43.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Feb 2025 13:43:30 -0800 (PST)
+Message-ID: <8052b316-9f72-42c7-9e11-e23e690d80c4@citrix.com>
+Date: Tue, 25 Feb 2025 21:43:27 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io>
-X-B4-Tracking: v=1; b=H4sIAKc3vmcC/42NQQ6CMBBFr0Jm7ZhOAUNceQ/CotApTIKUtARUw
- t2tnMDle8l/f4fIQTjCPdsh8CpR/JRAXzLoBjP1jGITg1a6VJoqNPM8Mi6bWDuyxae34oRDRGe
- ZzM0VuVIdpPkc2MnrTNdN4kHi4sP7fFrpZ/+IroSEVVlSa9oi1+QewUeePhtLfxUPzXEcXzcg6
- 3XEAAAA
-X-Change-ID: 20250218-apple-twiddled-modifiers-fde1a6f4300c
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3985; i=alyssa@rosenzweig.io; 
- h=from:subject:message-id;
- bh=FUaTnXw8Eh9mm3P9QBYvD2GKvGuQyztGJ7YcatN8jbg=; 
- b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnvjerxYTOPrAVSscpy1D7BqUFO3V2fZ1m7eL8g
- kPjZrBe/CGJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ743qwAKCRD+/lBaCvVY
- DTF5D/4osviRwizOiiPhiA2bg5pZ10GBDMFUCxokWl6xikeoD6uJT6LZYDm4Dou3M7xVdQ6iFl9
- HAY2H6r/CzPV0tkQ6nRAta/z6wu0YcUBV4RGYYOthIiWmfp7V8KZK9aCubUEW7lMEiWuntBeNo0
- kJNii0XMKO8J6DyDWw88IFtVUki3hPqv6WhQ0G/RLEbESNYRsk/oI4Z9W1r0kkDvg4aIOaPZUwF
- stbz+hVEZ+5IaY6JrUjciuLq2zMYGzrQjDf2ItZSRuKW1HCV7nSEs2VbiXE95fNE0C54NNZAV6Q
- zAWtIC1cuuFKpEJ3hGZpKU7fWeLSBBQ8wsZLCkFmQneT1wRC07dJChYSnEnR8WYMCUk3CUik/Z3
- HvBvIbnTXnKi3yaOLrlf55StzhdZbn3yzFOHj3+a5eTxrsogxiZUW8/oNJOfcIS2UShhR498WVY
- O8jhao7CE5A7+np03TZK+xMSqMDGE3CppY7OG7GVHp0PKsGn9nFCfo84aM84wXVNC26SNSlc1t4
- kpzRqS/lCoxKq+F6U7gwlKyCNrvyFBNa+K49T/YKuHOwzOLN6iHZWApBkN+8YAEpIHoQgHHhAMM
- cwKd5n0RMX/KgR1UV5A6P/gbWU7JBqgYd95Q2KofilFSl84HNJWV88rJc2xdDAE9cWEiTD04GIJ
- 7MmoebZFT0srwcA==
-X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
- fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+To: hpa@zytor.com
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ akpm@linux-foundation.org, alistair@popple.id.au, andrew+netdev@lunn.ch,
+ andrzej.hajda@intel.com, arend.vanspriel@broadcom.com,
+ awalls@md.metrocast.net, bp@alien8.de, bpf@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
+ dave.hansen@linux.intel.com, davem@davemloft.net,
+ david.laight.linux@gmail.com, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, eajames@linux.ibm.com, edumazet@google.com,
+ eleanor15x@gmail.com, gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+ jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
+ jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux@rasmusvillemoes.dk, louis.peens@corigine.com,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mingo@redhat.com,
+ miquel.raynal@bootlin.com, mripard@kernel.org, neil.armstrong@linaro.org,
+ netdev@vger.kernel.org, oss-drivers@corigine.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
+ simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de, vigneshr@ti.com,
+ visitorckw@gmail.com, x86@kernel.org, yury.norov@gmail.com
+References: <3BC57C78-1DFF-4B83-85AA-A908DBF2B958@zytor.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Content-Language: en-GB
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <3BC57C78-1DFF-4B83-85AA-A908DBF2B958@zytor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,110 +151,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apple GPUs support various non-linear image layouts. Add modifiers for
-these layouts. Mesa requires these modifiers to share non-linear buffers
-across processes, but no other userspace or kernel support is
-required/expected.
+> Incidentally, in all of this, didn't anyone notice __builtin_parity()?
 
-These layouts are notably not used for interchange across hardware
-blocks (e.g. with the display controller). There are other layouts for
-that but we don't support them either in userspace or kernelspace yet
-(even downstream), so we don't add modifiers here.
+Yes.  It it has done sane for a decade on x86, yet does things such as
+emitting a library call on other architectures.
 
-Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
----
-Changes in v2:
-- Rename "Twiddled" to "GPU-tiled" to match what I now believe is the canonical name.
-- Add modifiers for the actual "Twiddled" layouts.
-- Clarify that the body of compressed images are laid out like their
-  uncompressed counterparts.
-- Link to v1: https://lore.kernel.org/r/20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io
----
- include/uapi/drm/drm_fourcc.h | 58 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+https://godbolt.org/z/6qG3noebq
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..8668c0275677bbc0a82a1028f122bacfb44a867b 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -422,6 +422,7 @@ extern "C" {
- #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
- #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
- #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
-+#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
- 
- /* add more to the end as needed */
- 
-@@ -1494,6 +1495,63 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
- /* alias for the most common tiling format */
- #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
- 
-+/*
-+ * Apple GPU-tiled layout.
-+ *
-+ * GPU-tiled images are divided into tiles. Tiles are always 16KiB, with
-+ * dimensions depending on the base-format. Within a tile, pixels are fully
-+ * interleaved (Morton order). Tiles themselves are raster-order.
-+ *
-+ * Images must be 16-byte aligned.
-+ *
-+ * For more information see
-+ * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
-+ *
-+ * When lossless compression is impossible, this is the preferred layout.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_GPU_TILED fourcc_mod_code(APPLE, 1)
-+
-+/*
-+ * Apple compressed GPU-tiled layout.
-+ *
-+ * Compressed GPU-tiled images contain a body laid out like
-+ * DRM_FORMAT_MOD_APPLE_GPU_TILED followed by a metadata section.
-+ *
-+ * The metadata section contains 8 bytes for each 16x16 compression subtile. The
-+ * metadata section pads the image to power-of-two dimensions, and compression
-+ * subtiles are interleaved (Morton order). By convention, the metadata
-+ * immediately follows the body, after padding the body to 128-bytes.
-+ *
-+ * Images must be 16-byte aligned.
-+ *
-+ * This is the preferred layout.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED fourcc_mod_code(APPLE, 2)
-+
-+/*
-+ * Apple twiddled layout.
-+ *
-+ * Twiddled images are padded to power-of-two dimensions, with pixels fully
-+ * interleaved (Morton order).
-+ *
-+ * Images must be 16-byte aligned.
-+ *
-+ * GPU-tiling is preferred to twiddling. Twiddled images are mainly useful for
-+ * sparse images, due to a limitation of the PBE unit.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 3)
-+
-+/*
-+ * Apple compressed twiddled layout.
-+ *
-+ * Compressed twiddled images contain a body laid out like
-+ * DRM_FORMAT_MOD_APPLE_TWIDDLED layout followed by metadata laid out like
-+ * DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED metadata.
-+ *
-+ * Images must be 16-byte aligned.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 4)
-+
- /*
-  * AMD modifiers
-  *
-
----
-base-commit: 0ed1356af8f629ae807963b7db4e501e3b580bc2
-change-id: 20250218-apple-twiddled-modifiers-fde1a6f4300c
-
-Best regards,
--- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
+~Andrew
