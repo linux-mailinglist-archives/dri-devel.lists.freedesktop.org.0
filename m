@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97BDA43604
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:19:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D161A43602
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 08:19:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE4810E58C;
-	Tue, 25 Feb 2025 07:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44D7210E031;
+	Tue, 25 Feb 2025 07:19:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="IDkQE1t8";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="n9xnlE09";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
- [51.81.35.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CAC810E58C
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 07:19:16 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com
- [159.100.248.207])
- by relay-us1.mymailcheap.com (Postfix) with ESMTPS id DBBA620099;
- Tue, 25 Feb 2025 07:19:14 +0000 (UTC)
-Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.66.162])
- by relay5.mymailcheap.com (Postfix) with ESMTPS id 26405260F6;
- Tue, 25 Feb 2025 07:19:07 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
- by relay2.mymailcheap.com (Postfix) with ESMTPS id 38EE23E8A5;
- Tue, 25 Feb 2025 07:18:51 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- by nf2.mymailcheap.com (Postfix) with ESMTPSA id 0F6AC40078;
- Tue, 25 Feb 2025 07:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1740467928; bh=jJv616jfTn0ZGbYwwYOpX5lWgGqrU9i3HLdGP4o/yI8=;
- h=From:To:Cc:Subject:Date:From;
- b=IDkQE1t8xRbZN/mwwZFvUmhXPNlSQRtgAb8WAUTtEocKf5kG84sKN4Cnf9sXtvBMB
- f9zCH2gG7dtxxZmgZKFnLQjSxHb2PDXeSHCGjGqG5s/ikcm9zqdFjyXBZuliRcyz5o
- FfoFhBpkXVTPwnfaTxDkcqK7PzrfQeg1uZtaSQQs=
-Received: from JellyNote.localdomain (unknown [203.175.14.48])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3753410E031
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 07:19:08 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 239E240875;
- Tue, 25 Feb 2025 07:18:40 +0000 (UTC)
-From: Mingcong Bai <jeffbai@aosc.io>
-To: linux-kernel@vger.kernel.org
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>, stable@vger.kernel.org,
- Mingcong Bai <jeffbai@aosc.io>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Ilia Levi <ilia.levi@intel.com>, Gustavo Sousa <gustavo.sousa@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/5] drm/xe/regs: remove a duplicate definition for
- RING_CTL_SIZE(size)
-Date: Tue, 25 Feb 2025 15:18:29 +0800
-Message-ID: <20250225071832.864133-1-jeffbai@aosc.io>
-X-Mailer: git-send-email 2.48.1
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z289L4YD0z9t7J;
+ Tue, 25 Feb 2025 08:19:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1740467942; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gTqWOsuaameKwBwP2PW1oZAO/zijrhZJI/nRbm8lIX0=;
+ b=n9xnlE09xFqeQXdUQ1SXlb4QeEkEBZdOcmAnl8P+r0QwpYhb3zr3SpOckymXrM5yLfffCC
+ 7xNbaV/rcQMHdrnK6cGWaAxNszvVyUWN1Jobh8sGVTB5/aeeykF98AUE0KLVvopGHjqmRx
+ 27AQYMXB7yLmPyhpCNzitAuCVFXLVzec4nVSmeKbPk1w/DC0qJyJxu8RNT956Q8GN6FadZ
+ sG8FhlzxRkfdAhEWO5+Pb/k4h9kC8DyTQTXk29Ho2lvnSs/ubNtMYgJkynANo3MrhE0eaQ
+ EeUogJH/X1jz6zPn2zrDGt0OeW35ZkorjJSyVvOULDz/iO5UPZdNquPJOFnbTQ==
+Message-ID: <141295638b73e885f51a4b82ea7e417a6b0f5140.camel@mailbox.org>
+Subject: Re: [PATCH] drm/scheduler: Fix mem leak when last_scheduled signaled
+From: Philipp Stanner <phasta@mailbox.org>
+To: phasta@kernel.org, qianyi liu <liuqianyi125@gmail.com>, Danilo Krummrich
+ <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 25 Feb 2025 08:18:59 +0100
+In-Reply-To: <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
+References: <20250221062702.1293754-1-liuqianyi125@gmail.com>
+ <3b369e1a49b354852f361b103999673e4f7906a9.camel@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0F6AC40078
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [1.40 / 10.00]; MID_CONTAINS_FROM(1.00)[];
- R_MISSING_CHARSET(0.50)[]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_TWELVE(0.00)[20];
- ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
- RCVD_COUNT_ONE(0.00)[1]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- SPFBL_URIBL_EMAIL_FAIL(0.00)[jeffbai.aosc.io:server
- fail,stable.vger.kernel.org:server fail]; 
- FREEMAIL_CC(0.00)[aosc.io,vger.kernel.org,intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[]
-X-Rspamd-Action: no action
+X-MBO-RS-META: d1huoh5qwmwhghcxnmkjt9ygpurkxqnf
+X-MBO-RS-ID: 04853c29170cc312e34
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,38 +65,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit b79e8fd954c4 ("drm/xe: Remove dependency on intel_engine_regs.h")
-introduced an internal set of engine registers, however, as part of this
-change, it has also introduced two duplicate `define' lines for
-`RING_CTL_SIZE(size)'. This commit was introduced to the tree in v6.8-rc1.
+On Mon, 2025-02-24 at 10:52 +0100, Philipp Stanner wrote:
+> Hello,
+>=20
+> subject line: please write "drm/sched" instead of "drm/scheduler". It
+> has become the norm
+>=20
+> On Fri, 2025-02-21 at 14:27 +0800, qianyi liu wrote:
+> > Problem: If prev(last_scheduled) was already signaled I encountred
+> > a
+>=20
+> prev(last_scheduled) almost reads like a function call. Maybe write
+> "prev / last_scheduled"?
+>=20
+> > memory leak in drm_sched_entity_fini. This is because the
+> > prev(last_scheduled) fence is not free properly.
+>=20
+> s/free/freed
+>=20
+> >=20
+> > Fix: Balance the prev(last_scheduled) fence refcnt when
+> > dma_fence_add_callback failed.
 
-While this is harmless as the definitions did not change, so no compiler
-warning was observed.
+Oh, and importantly, I forgot:
 
-Drop this line anyway for the sake of correctness.
+Since this is clearly a bug fix, it needs a "Fixes: " tag and put the
+stable kernel on Cc.
 
-Cc: <stable@vger.kernel.org> # v6.8-rc1+
-Fixes: b79e8fd954c4 ("drm/xe: Remove dependency on intel_engine_regs.h")
-Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
----
- drivers/gpu/drm/xe/regs/xe_engine_regs.h | 1 -
- 1 file changed, 1 deletion(-)
+P.
 
-diff --git a/drivers/gpu/drm/xe/regs/xe_engine_regs.h b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-index d86219dedde2a..b732c89816dff 100644
---- a/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-@@ -53,7 +53,6 @@
- 
- #define RING_CTL(base)				XE_REG((base) + 0x3c)
- #define   RING_CTL_SIZE(size)			((size) - PAGE_SIZE) /* in bytes -> pages */
--#define   RING_CTL_SIZE(size)			((size) - PAGE_SIZE) /* in bytes -> pages */
- 
- #define RING_START_UDW(base)			XE_REG((base) + 0x48)
- 
--- 
-2.48.1
+> >=20
+> > Signed-off-by: qianyi liu <liuqianyi125@gmail.com>
+> > ---
+> > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 7 +++++--
+> > =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> > b/drivers/gpu/drm/scheduler/sched_entity.c
+> > index 69bcf0e99d57..1c0c14bcf726 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -259,9 +259,12 @@ static void drm_sched_entity_kill(struct
+> > drm_sched_entity *entity)
+> > =C2=A0		struct drm_sched_fence *s_fence =3D job->s_fence;
+> > =C2=A0
+> > =C2=A0		dma_fence_get(&s_fence->finished);
+> > -		if (!prev || dma_fence_add_callback(prev, &job-
+> > > finish_cb,
+> > -					=C2=A0=C2=A0
+> > drm_sched_entity_kill_jobs_cb))
+> > +		if (!prev ||
+> > +		=C2=A0=C2=A0=C2=A0 dma_fence_add_callback(prev, &job->finish_cb,
+> > +					=C2=A0=C2=A0
+> > drm_sched_entity_kill_jobs_cb)) {
+> > +			dma_fence_put(prev);
+>=20
+> But now the fence will also be put when prev =3D=3D NULL. Is that
+> intentional? It doesn't seem correct to me from looking at the commit
+> message, which states "Balance [=E2=80=A6] refcnt when dma_fence_add_call=
+back
+> failed"
+>=20
+> It didn't get clear to me immediately which dma_fence_get() your new
+> dma_fence_put() balances. Can you ellaborate on that or maybe write a
+> comment?
+>=20
+> But also be handy of could share the kmemleak trace.
+>=20
+>=20
+> Thanks
+> P.
+>=20
+> > =C2=A0			drm_sched_entity_kill_jobs_cb(NULL, &job-
+> > > finish_cb);
+> > +		}
+> > =C2=A0
+> > =C2=A0		prev =3D &s_fence->finished;
+> > =C2=A0	}
+>=20
 
