@@ -2,101 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE13DA440D5
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 14:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20541A4412C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 14:45:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35C3B10E693;
-	Tue, 25 Feb 2025 13:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D5410E699;
+	Tue, 25 Feb 2025 13:45:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VVKU5PdM";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TqAOEm8j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2AD310E692;
- Tue, 25 Feb 2025 13:31:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9D36A61262;
- Tue, 25 Feb 2025 13:31:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB604C4CEDD;
- Tue, 25 Feb 2025 13:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740490275;
- bh=/xG0T3HHO8KtJyPXienzsV4NNKgXtezz1VzjO9CjT+A=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE16510E699;
+ Tue, 25 Feb 2025 13:45:30 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B326D82E;
+ Tue, 25 Feb 2025 14:43:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1740491038;
+ bh=JFC+miNbc8z+8hh+i0aV4a/eWqJcZlJ5xtiAErPuktY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VVKU5PdM86DtqR1Wt2aF3udQDRTW9m3pMWCDfIEy+1LHDotjXi2A06KRXW2L2yeAw
- NQt5W6tMTsR+BejspVh99lgsByjeI1Eb90Vsj34PKxIewDwnUd8DmEn1t1hSNSk6VZ
- 3KBVl4uJNF6VuyyARDYs0z31c9zQ+vY5IMp3I8hvvZNqb5HkYHFyvQTxFD7SLx4t0l
- 6YaClksnZPqyyKhePfkLbQzz/+mGFfPMBEqmohv1Ja0w1jBcd1LnI+QIrWfwdZe7tQ
- AHZH++6fvRShUZiS8grCKveco/CCh1qrgcSETf9nO3/uPxnvkbMkJAoy1Xzo4PVjrj
- m5jgDb+7f8JMw==
-Message-ID: <ecdc2230-1ce1-4d70-a352-180f6cd29e61@kernel.org>
-Date: Tue, 25 Feb 2025 14:31:05 +0100
+ b=TqAOEm8jY6aGAOQ9BLN0iANHoj9EuhjvkXpBKUccldcKmyKt0NStoy2kNYhgofeYZ
+ cUbxnpnvTsSayJiVOvExLLPlDM3UqxjFgDEnVVrdk1CIPi9iMuRQtQFt1hZU3tRKsg
+ 1eg95cZ+G1uKJIo455If+sXgT6dP77C6jL2Y3A4E=
+Message-ID: <f74af5cc-bca8-45c1-9204-b362fcd6f998@ideasonboard.com>
+Date: Tue, 25 Feb 2025 15:45:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/11] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to
- DP bridge nodes
-To: Ayushi Makhija <quic_amakhija@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: robdclark@gmail.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_jesszhan@quicinc.com
-References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
- <20250225121824.3869719-8-quic_amakhija@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
+ and size
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20250218142542.438557-1-tzimmermann@suse.de>
+ <20250218142542.438557-3-tzimmermann@suse.de>
+ <dcd59a75-7945-4a2e-99f9-3abbb3e9de14@ideasonboard.com>
+ <355ed315-61fa-4a9d-b72b-8d5bc7b5a16c@suse.de>
+ <596b960e-71f8-4c2c-9abe-058206df1dfb@ideasonboard.com>
+ <87ca2b81-a67a-468b-ae2b-30d02a3a64bc@suse.de>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250225121824.3869719-8-quic_amakhija@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <87ca2b81-a67a-468b-ae2b-30d02a3a64bc@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -113,110 +113,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/02/2025 13:18, Ayushi Makhija wrote:
-> +		pinctrl-0 = <&dsi0_int_pin>,
-> +				<&dsi0_cbl_det_pin>,
-> +				<&dsi1_int_pin>,
-> +				<&dsi1_cbl_det_pin>;
-> +		pinctrl-names = "default";
-> +
-> +		dsi0_int_pin: gpio2_cfg {
+Hi,
 
+On 21/02/2025 11:19, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 20.02.25 um 11:53 schrieb Tomi Valkeinen:
+>> Hi,
+>>
+>> On 20/02/2025 12:05, Thomas Zimmermann wrote:
+>>> Hi
+>>>
+>>> Am 20.02.25 um 10:18 schrieb Tomi Valkeinen:
+>>> [...]
+>>>>> + * Color modes of 10, 12, 15, 30 and 64 are only supported for use by
+>>>>> + * legacy user space. Please don't use them in new code. Other modes
+>>>>> + * are not support.
+>>>>> + *
+>>>>> + * Do not attempt to allocate anything but linear framebuffer memory
+>>>>> + * with single-plane RGB data. Allocation of other framebuffer
+>>>>> + * layouts requires dedicated ioctls in the respective DRM driver.
+>>>>
+>>>> According to this, every driver that supports, say, NV12, should 
+>>>> implement their own custom ioctl to do the exact same thing? And, of 
+>>>> course, every userspace app that uses, say, NV12, should then add 
+>>>> code for all these platforms to call the custom ioctls?
+>>>
+>>> Yes, that's exactly the current status.
+>>>
+>>> There has been discussion about a new dumb-create ioctl that takes a 
+>>> DRM format as parameter. I'm all for it, but it's out of the scope 
+>>> for this series.
+>>>
+>>>>
+>>>> As libdrm's modetest currently supports YUV formats with dumb 
+>>>> buffers, should we remove that code, as it's not correct and I'm 
+>>>> sure people use libdrm code as a reference?
+>>>
+>>> Of course not.
+>>>
+>>>>
+>>>> Well, I'm not serious above, but I think all my points from the 
+>>>> earlier version are still valid. I don't like this. It changes the 
+>>>> parameters of the ioctl (bpp used to be bits-per-pixel, not it's 
+>>>> "color mode"), and the behavior of the ioctl, behavior that we've 
+>>>> had for a very long time, and we have no idea how many users there 
+>>>> are that will break (could be none, of course). And the 
+>>>> documentation changes make the current behavior and uses wrong or 
+>>>> legacy.
+>>>
+>>> Before I go into details about this statement, what use case exactly 
+>>> are you referring to when you say that behavior changes?
+>>
+>> For every dumb_buffer allocation with bpp that is not divisible by 8, 
+>> the result is different, i.e. instead of DIV_ROUND_UP(width * bpp, 8), 
+>> we now have width * DIV_ROUND_UP(bpp, 8). This, of course, depends on 
+>> the driver implementation. Some already do the latter.
+> 
+> The current dumb-buffer code does a stride computation at [1], which is 
+> correct for all cases; although over-allocates sometimes. It's the one 
+> you describe as "width * DIV_ROUND_UP(bpp, 8)". It's in the ioctl entry 
+> point, so it's somewhat authoritative for all driver's implementations. 
+> It's also used by several drivers.
+> 
+> The other variant, "DIV_ROUND_UP(width * bpp, 8)", is used by gem-dma, 
+> gem-shmem and others. It can give incorrect results and possibly OOBs. 
+> To give a simple example, let's allocate 15-bit XRGB1555. Bpp is 15. 
+> With a width of 1024, that would result in 1920 bytes per scanline. But 
+> because XRGB1555 has a filler bit, so the pixel is actually 16 bit and a 
+> scanline needs to be 2048 bytes. The new code fixes that. This is not 
+> just a hypothetical scenario: we do have drivers that support XRGB1555 
+> and some of them also export a preferred_depth of 15 to userspace. [2] 
+> In the nearby comment, you'll see that this value is meant for dumb 
+> buffers.
+> 
+> Rounding up the depth value in user space is possible for RGB, but not 
+> for YUV. Here different pixel planes have a different number of bits. 
+> Sometimes pixels are sharing bits. The value of bits-per-pixel becomes 
+> meaningless. That's why it's also deprecated in struct drm_format_info. 
+> The struct instead uses a more complicated per-plane calculation to 
+> compute the number of bits per plane. [3] The user-space code currently 
+> doing YUV on dumb buffers simply got lucky.
+> 
+> [1] https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/ 
+> drm_dumb_buffers.c#L77
+> [2] https://elixir.bootlin.com/linux/v6.13.3/source/include/drm/ 
+> drm_mode_config.h#L885
+> [3] https://elixir.bootlin.com/linux/v6.13.3/source/include/drm/ 
+> drm_fourcc.h#L83
+> 
+>>
+>> This change also first calls the drm_driver_color_mode_format(), which 
+>> could change the behavior even more, but afaics at the moment does not. 
+> 
+> Because currently each driver does its own thing, it can be hard to 
+> write user space that reliably allocates on all drivers. That's why it's 
+> important that parameters are not just raw numbers, but have well- 
+> defined semantics. The raw bpp is meaningless; it's also important to 
+> know which formats are associated with each value. Otherwise, you might 
+> get a dumb buffer with a bpp of 15, but it will be displayed 
+> incorrectly. This patch series finally implements this and clearly 
+> documents the assumptions behind the interfaces. The assumptions 
+> themselves have always existed.
 
-No underscores, see DTS coding style.
+This is perhaps where the biggest gap in understanding/view is: I have 
+always thought dumb-buffer's "bpp" to mean bits-per-pixel, where, for 
+more complex formats, "pixel" is not necessarily a visible pixel but a 
+container unit of some kind. So bpp * width = stride.
 
-> +			pins = "gpio2";
-> +			input-enable;
-> +			bias-disable;
-> +		};
-> +
-> +		dsi0_cbl_det_pin: gpio3_cfg {
-> +			pins = "gpio3";
-> +			bias-pull-down;
-> +		};
-> +
-> +		dsi1_int_pin: gpio10_cfg {
-> +			pins = "gpio10";
-> +			input-enable;
-> +			bias-disable;
-> +		};
-> +
-> +		dsi1_cbl_det_pin: gpio11_cfg {
-> +			pins = "gpio11";
-> +			bias-pull-down;
-> +		};
-> +	};
-> +
-> +	i2c-mux@70 {
-> +		compatible = "nxp,pca9543";
-> +		#address-cells = <1>;
-> +
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		i2c@0 {
-> +			reg = <0>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			anx_bridge_1: anx7625@58 {
+It would not occur to me to allocate XRGB1555 dumb-buffer with 15 bpp, 
+but 16 bpp, as that's what a pixel takes. I have never seen the 
+dumb-buffer bpp connected directly to the pixel format (that's what the 
+ADDFB brings in).
 
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+I may be alone with that thinking, but afaics the documentation leans a 
+bit on my interpretation (instead of considering bpp as a "color mode"), 
+although admittedly the docs also don't really say much so this may be 
+fully just my interpretation:
 
+https://man.archlinux.org/man/drm-memory.7.en
 
-> +				compatible = "analogix,anx7625";
-> +				reg = <0x58>;
-> +				interrupt-parent = <&io_expander>;
-> +				interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-> +				enable-gpios = <&io_expander 1 0>;
-> +				reset-gpios = <&io_expander 0 0>;
+https://cgit.freedesktop.org/drm/libdrm/tree/include/drm/drm_mode.h#n1055
 
-Use proper defines.
+I (mostly) understand all the complexities around here, thanks to your 
+replies, and I think I'm ok with the series as it doesn't break anything 
+(need to test the v3, though).
 
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					dsi2dp_bridge_1_in: port@0 {
-> +						reg = <0>;
-> +
-> +						anx7625_1_in: endpoint {
-> +							remote-endpoint = <&mdss0_dsi0_out>;
-> +						};
-> +					};
-> +
-> +					dsi2dp_bridge_1_out: port@1 {
-> +						reg = <1>;
-> +
-> +						anx7625_1_out: endpoint { };
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		i2c@1 {
-> +			reg = <1>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			anx_bridge_2: anx7625@58 {
+I still don't like it though =). And I would be happier with the simpler 
+"bpp" interpretation that I mentioned above, instead of it being a color 
+mode. But we can't have it both ways, and perhaps it's better to unify 
+the code and have the behavior explained explicitly as you do in this 
+series, even if the explanation only covers some RGB formats.
 
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+  Tomi
 
-
-> +				compatible = "analogix,anx7625";
-> +				reg = <0x58>;
-> +				interrupt-parent = <&io_expander>;
-> +				interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
-> +				enable-gpios = <&io_expander 9 0>;
-> +				reset-gpios = <&io_expander 8 0>;
-
-
-
-Best regards,
-Krzysztof
