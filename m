@@ -2,161 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785B5A43237
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 02:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF30A43259
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2025 02:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDC8E10E507;
-	Tue, 25 Feb 2025 01:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6267810E50E;
+	Tue, 25 Feb 2025 01:16:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="PBEkZn9l";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ni7ysPaP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010027.outbound.protection.outlook.com [52.101.228.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 315B910E507
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 01:03:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WFVE2jRMK2AsuJ0eJlQtN9w9cKy9tTTiChUmUNC/N3kGvG+jIOe70ePusDcAvdMCdSYvoe95FMopoTyNGmwSPKiqiV9tiPv3xnKCNFiZQVyxr2Tc/NDRz0l51oHnkl/c7XNUS54c1lptcnZcdpAlqAaWZyYe4RpaKI5o/CuVbUUMTOJeBNPOzKUlYyWIgJSSdLmoNMT+f0sHJH8H+AmV73dnB4oRaZQGqPn26Av73tK9ICcQabuAwqSSxEgvY8dzcvGjCwuOkx+yt+8pef1LyWEGcz+CV35m7qAxmsjli8ZYQbX5gX2oL/9X0vUIFz4sHs5XVE7M7mdo5m1p6JkcHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OclM4P3YFre4Ac2ytLDm6a6I7vf47rmzb3Q+obcjUME=;
- b=v7xiI8sCZBAi7HZoQIlfErBE/CmKCFm4/6RqsiJM+YQow0yYvyrpJgT9ikEiQjuSf2GLs0iLZmw3FAg6Ow90fk9aQj8vZKZUuOlb8PGwvPyucplbjeAz81ZRD0vnPFY2ZlytJ81F16w0rTt5vGSUPU2sHEcEmwBs8TVDxbMPzkGs9hdgo+LpCqrGnxpMfP9FikwXS6u19vwR4VRli0aXcKuI5Cxhp1BNwp9M0rRIBgTOeGubK9gtdyn28rhkuFyWPPFOCLTrYHGNJr4lbKXIHdyRtXWOJOkwg7ZGNdzeb21J1K7UPm2WwwYVuZoRxIXFycqtd97J+M0x5wBFsQmiPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OclM4P3YFre4Ac2ytLDm6a6I7vf47rmzb3Q+obcjUME=;
- b=PBEkZn9lFfvpuGqUu4nnO0J4i7o14SSXYAOGwc+1tAwZY51LeQok3p0UVdAVkoYT7hzxpn5Tu99edu2Wa05lG2GgGYVVl47TCeF8rSq7NCj/fajszPuidbwV6i1nTKklHLtpAZv6RMG/ZhO1vRVNtxsmEUndGRuGxRbhe0JsVdE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY7PR01MB14819.jpnprd01.prod.outlook.com
- (2603:1096:405:257::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Tue, 25 Feb
- 2025 01:03:36 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8466.020; Tue, 25 Feb 2025
- 01:03:36 +0000
-Message-ID: <87frk2sumw.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, linux-kernel@vger.kernel.org,
- Algea Cao <algea.cao@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, Niklas Cassel <cassel@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@collabora.com,
- David Airlie <airlied@gmail.com>, Dragan Simic <dsimic@manjaro.org>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- FUKAUMI Naoki <naoki@radxa.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Alexey Charkov <alchark@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
-In-Reply-To: <4988041.31r3eYUQgx@trenzalore>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
- <BA73C4A1-C680-4748-9CE1-4B3B19A14261@gmail.com>
- <5E535D58-AEFF-45A4-A1EA-1FA282F366AE@gmail.com>
- <4988041.31r3eYUQgx@trenzalore>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 25 Feb 2025 01:03:35 +0000
-X-ClientProxiedBy: TYBP286CA0009.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:ce::21) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38BC110E50D;
+ Tue, 25 Feb 2025 01:16:21 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-5e0452f859cso7870126a12.2; 
+ Mon, 24 Feb 2025 17:16:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740446179; x=1741050979; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=USud5gyYtWrU8U8QerFLgqPcIKFBmDezEDg0FlIDuDg=;
+ b=Ni7ysPaPJY/XUicHQck9dJaT6OdHG0xJuM+fr2NDpFQJRqmmYqYFoG/mOCEviRONfX
+ mmgF37ATt+fxRkzoGLymRGJZWXmXTwfRV2H+lX3gXBwg8E1xn5nCf06rTJ19o/cZ0fDa
+ KpJlrKNEirNfgzAi9zy5AQ3B9YLQvXW2pEKcXrGSirmNFq0VOb2zfdGcsLWs0VzdKgF3
+ FcmYj2+dfMVv9PIjMgsxXbL8vPUtGRQtgOJAMXwM9P56SkUAtuoZL7ISGwdlRmma14iX
+ 63u33jJ7+A+D0lhqgoFThOXEOz1/Ni2G1qGdJSljVdpYuwBw5I0Py+nPXRNI7x3GuVKc
+ 4sIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740446179; x=1741050979;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=USud5gyYtWrU8U8QerFLgqPcIKFBmDezEDg0FlIDuDg=;
+ b=qQzP7OshlGNLzbStuv6YUyXBuyDsk4pAIsjBXutkqHHk6aqIRdx5GrqpoobD5kgDz4
+ QExQrAsCvPd5wHXJPdr8Ekcpnkh539OmK8BKMzywKCrGGrEQfgAe2aL73gYu474MpYkm
+ NihcINnJjDVXpm9Ai0pBeys2MWLiXW4lpwfvj/zT73tct/n+J9nIwyvbDP/4BuuTWFhg
+ flAq4Oyr+XBXOo/tcxS++eEve56KND3w5gbD7mRUi/2jKoelx8fNSz4w3hjgAf/lou4K
+ phU/FXWWyyvEbIqEHhb6Ea64Se4zT8yvFaIjdUFE45/W+oRUkUeIzy0ZE46FfmhDqWdR
+ sdeg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUPHHyR+GIptzNbjM7iCgGYLKlmYJ+QmIHqPIgxJPc8cWCtArmdVj35y+cnkX2YvL3r0Ia4baetsw==@lists.freedesktop.org,
+ AJvYcCWMSwl//o1OR+MnBkEVGf4vjtGHQrxT3IB/WP0zVdD0HYifNJ9wh03456EFNxsaRH6PkQzLaZoF7Qo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyWRnRG/Th/QNSrItJ91VHALJsYCbEP41oqMY/XElW5tpP7MGC
+ xYZfwuAqaa+L8LHAJdBcAwTzsltTBs9YZM4actONPoCoqQRPVcMV9Vzcd7hSOmWjHGuCxt+VoVA
+ Txh+olRLFd9A2HoqCvJJufk6NuiA=
+X-Gm-Gg: ASbGnctLfS75J9O6n49Y6bid+D1OPv1+5a+xunV6XX+CG//PmN9g7/OTy1cvIcpuEnQ
+ MgtLeGbxRe/8xAi1DSjKs16+k4DfPPkkuASY7ehXKBeBsqLpoxvYW8HvJQ9y8HB9mxJPQgn+RON
+ SHCFSHdw==
+X-Google-Smtp-Source: AGHT+IF0RS4ftxUi/5gsMlDTZ97MqhoilTR5nbgQvR9Hbq3pJnw0GQ+UCMGT6Y+mJn5iC29yoSvinQroVFNzfU+X1OE=
+X-Received: by 2002:a17:907:9724:b0:ab7:851d:4718 with SMTP id
+ a640c23a62f3a-abc09c27044mr1736963766b.36.1740446179223; Mon, 24 Feb 2025
+ 17:16:19 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY7PR01MB14819:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e02aba0-fca4-4bd9-af6c-08dd55383b5c
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|52116014|376014|1800799024|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZRatsoYXNTSMW/LIZNIQz7lSUUUDaTBUuaALKg7T77AMFF0lEZXQBRNSL/mC?=
- =?us-ascii?Q?YEQKhvD9szgalzwROI7itWXDAaAkIBKmAsR5iocStSGSC27oLFtgL2wXduLR?=
- =?us-ascii?Q?IscWDBzKmcsyRRQ2c2aCgAJW3ARsZTIOSj4uCbRc8L3u1yQiyD6qekgBCwPF?=
- =?us-ascii?Q?RJQB9iuzrT7bDI1E8d1jR36ifissD3AU3xoVV8T5+rGdozlHOXUkoMsjftG1?=
- =?us-ascii?Q?FphGbDZVZlIQOsEbgDKHFQQk2RnmfwDqy6toFkISnfLejcz0O52xt44r769l?=
- =?us-ascii?Q?whqlP2AoX49IC4ObO0QQhG6CbhNwP5V0jy3Sw95A3VMt5LOrGSGmUgOdOA05?=
- =?us-ascii?Q?73CprYIsjZtqP1tfIKoduEm67fHg7XzYor5a+EnUsqIw7NNn6jb9jNkw8NhH?=
- =?us-ascii?Q?DsZD5skLb4b4DGU9oV/7l5DdlZt9ZSps+R4U9ahGZEJNeBczKw+q6s+pvQNl?=
- =?us-ascii?Q?5yBiqVecEAx66iIm2HwCt/QEUWlzvxGbncP/a7gPWDackrvUEMYFPzJr6dso?=
- =?us-ascii?Q?QyIEJwhcHHXSEbrbtezzeHM6eNXnFJlAexrbM7TF240cDVik776aPjkhlSeZ?=
- =?us-ascii?Q?JRAh85OB6LYWC6HXXoxwAlV5B30392fkd8KEx4FvBD7uWioHK5s32viKM4PC?=
- =?us-ascii?Q?nmSJmXufifVdzok9fvtZ5pQHTUq0lNiSJka3SHvo/YxhqP7Jmmxu5lE4R4dG?=
- =?us-ascii?Q?ZkRks2poNBuurRQzsStBBvm2p3Vp5D8aRq09xyRBGyJ0W1RKPMZfCj/cSSCK?=
- =?us-ascii?Q?RiIGN11v0ysOQe+mYF75L+NNhpmBoAdhl1wFjPeqxUJwmjk8ZMHUm5dDF0U3?=
- =?us-ascii?Q?YM5M5moMGLGdfRUeTHKxGY9/kguDdCQiFtBAvvqnL65f0tFrnxTDvm6VgxTW?=
- =?us-ascii?Q?a1oDCkuxa2rf2sb2xPqCQtf9u95bSv6PScebtdbafd8sUGW/KSU8ahEoSKni?=
- =?us-ascii?Q?obMRktqGt7Q13op1nCKTxKDicOAHETwrUujcMIFbaIwqAwDcAaUIvJFC37ET?=
- =?us-ascii?Q?1GMAT8cLVDWH9dcl29OmgkaCAXI/hA9e1ufstLgpq1ezjspDSDoXv//CuxzY?=
- =?us-ascii?Q?yjHHMIboFRii4HnYti/dCa8vGH/j+chQ17aTM6pMmtk5JUdc4xf+1GoD7Vi0?=
- =?us-ascii?Q?YX0PkVTGR5oqH+ROT5coe+uWNwt1DW5oOTrOJ4jT1abfdytKBn7t8N8ZTPoR?=
- =?us-ascii?Q?tSqDwszsrQb5Nh4qZlZhxXuVD9t4frpahznoDmH00WFAwyquUUcEHrFhLF9j?=
- =?us-ascii?Q?CSUOLQqdQvZAfms8ypPWq8Lx7UjjtdtbbNuPuUwiUEhwSm9viCII90Kv4e8n?=
- =?us-ascii?Q?elhLMb2aG5aqArQlATCcszHWxPj1Dw/o+hMq8k2e1X/b2z4laLeFqLt/W4NW?=
- =?us-ascii?Q?1WbNDxPKdHzKmZPeOluy5RnX7VAuc61OcFiV0xpFA19FdvTJi093WapoNJcK?=
- =?us-ascii?Q?W/xFOJfcIzV5hNNTE9cz8ITSsDHDCPdx?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+dB6o5K3eXor0wxaynAtvH6QMmm/gfJe56rj5bUls5Z6h6FSnIpQsar7J5P1?=
- =?us-ascii?Q?KJfFpHZIIoyQLPdBe2Wt6w4gQsxFEloJ5NY5sT2NeZHaNgrFBgclnJqS99B1?=
- =?us-ascii?Q?gh7GBU/nUlqrouDa0y2zSNnlXCJTFn2dqf+xZGzO/v7vy4TiVs0NI2Q/lMS5?=
- =?us-ascii?Q?O8mHmypwpwBQLZMlD1gDnoFzkdncRswrMMOkIMjFA0WFQeqhh9n5pQPj/89V?=
- =?us-ascii?Q?U7itp6lQZQwjneuWrnNbAUSnZ6Xh+1v6gdVTXB58BPbq0MdVEmoHXxxDQKQY?=
- =?us-ascii?Q?QgCN1f3zx/zeuETbEBEtsezf4CGHERGVfZi5jvsJcdoljHMugQ92LOwqx2o4?=
- =?us-ascii?Q?wr2yde85rnjCUfNHFW/gBuKwmEvXl52KDaqUNhpXYYCgeMKpCNGzZ2CKydOK?=
- =?us-ascii?Q?dkEvpk7CIliRshGOQJ6a3pBYQ1oVkvt88PXyxKFAGPLK9aGPmjObESSNggg6?=
- =?us-ascii?Q?gsxAUT4tNNhdZd2A5TdpjXAj4HxBOHdNp2lFkX8DIquDkxhc9nsupLLUd2U8?=
- =?us-ascii?Q?VTPhMyUWUdOvKLXIU35WLFEaMh9DFOp1ktSTHxHJP2ob2IFznJBb18n5KX7t?=
- =?us-ascii?Q?nFnk2Uo2ypaXs/uv9etq7knnnFIlm2hyauMw2/8uFFTneIWDiJIXls2ibXYC?=
- =?us-ascii?Q?PO37VE0JYTvxbZYy+fG3o20+LehyEGNEAXaVq8K85431kDI2cMThEk5wILL+?=
- =?us-ascii?Q?K8AL+KepE0RCdc8y7qhxNM2ZOwHSXM/fa2MZaZeSV9MT+IcDyPgO/2qU5nTg?=
- =?us-ascii?Q?WQ92mr2meOpGz/KrBx2O5eDxZhkgTWzNP2qK9weuGY+2B/WlJwuBKw3CZaXc?=
- =?us-ascii?Q?7lrxx7uYclY6m9oSkvODefGyWL96eUIDJ29o/gvpCGj/6pHzc+bhUcXWwpWF?=
- =?us-ascii?Q?r04u4G271DESjHo2FKwdXvLryqZZa2StR+hec2FLJTFys+N5/3K7l+l+fMfA?=
- =?us-ascii?Q?jTIQf5ANfMLTo9dIMvM2wzHUsLQX2Frcale+SQe0dMjX+2EdUWXySsRixzbI?=
- =?us-ascii?Q?oaAgnlrldsOCEdqL6+L7/zN4Yp3FC4h1eX/MsC/FnApSiINGX1rMwolpog1e?=
- =?us-ascii?Q?+udVgn37WYcRUAD0YygNlwyDPCtfgIBIRj+5dhk93cTnEsVjn7xAXJv9u+go?=
- =?us-ascii?Q?V53ep3evVvemCq0NoSPXtbyxIVTR52MGVFcFyNMDowzSQqitDwKiy//6VGRy?=
- =?us-ascii?Q?KV8wWy/X0E1coHaDjpU4uaihTQnJ/hRoV1qXWGsBZFAPDznn1sBMsy204zUl?=
- =?us-ascii?Q?y5gf5fTdugwl3PVX1rRr80bYN5kQnRyYIiRikEiLWT/U3vCdZbYnsro6UwVA?=
- =?us-ascii?Q?3YaqzL4HSqYCroJrVa7iEa+DGpN/49c8o0WaEPqGQIuQqdTRaiyowgrjDmlh?=
- =?us-ascii?Q?McecWkdJBgXan6CobHn8KuxyX8/PlfXX3TRdcj5Yp+dW3KrNv9RPLgIGvwRg?=
- =?us-ascii?Q?5oND1tYY4AhY3etXvSSjxQCIXtKawAFmrDHzPVu8p1DX9yQCb1u02VgfYtjS?=
- =?us-ascii?Q?1ns+ozhTtOLXMOW8cEHvMYuz/nQAIVciM4kl7MG3NcGL1/u+ESsom3l74ciN?=
- =?us-ascii?Q?PJoi+7vjjzRl8XfzHy643RBSw+XHzQVnewj0k0HuLukCWo2c8sKry3z1OWZ/?=
- =?us-ascii?Q?kmUl8lQhAWysV9pvvqZ/uVE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e02aba0-fca4-4bd9-af6c-08dd55383b5c
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 01:03:36.0723 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M4F9ZA1CV/DvioWJCSQxDB15mNdGOd/63snCr0/ET+ANkusrlRPWskAXxTPhO7TZenHEdVkDjHOG4AHHYGWqKebKp9+GPYluYTdyX3QxiQb2c52ojGET7805JiiVg8wR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14819
+References: <Z6xjZhHxRp4Bu_SX@kspp> <Z69UdL9zaCINQSFC@cassiopeiae>
+In-Reply-To: <Z69UdL9zaCINQSFC@cassiopeiae>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 25 Feb 2025 11:16:07 +1000
+X-Gm-Features: AWEUYZmgRiwQFNtUHE3LYO3HnyBJ0zVgwbRvgZnt3tdjjXgXcXdwfVxCgBec9ww
+Message-ID: <CAPM=9twgrjQdNCrnK2gXMckqDHRjBAwnCKx4HwAfty-Q6VZrig@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/nouveau: Avoid multiple
+ -Wflex-array-member-not-at-end warnings
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Karol Herbst <kherbst@redhat.com>, 
+ Lyude Paul <lyude@redhat.com>, Faith Ekstrand <faith.ekstrand@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,26 +87,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, 15 Feb 2025 at 00:34, Danilo Krummrich <dakr@kernel.org> wrote:
+>
+> On Wed, Feb 12, 2025 at 07:31:26PM +1030, Gustavo A. R. Silva wrote:
+> > -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+> > getting ready to enable it, globally.
+> >
+> > So, in order to avoid ending up with flexible-array members in the
+> > middle of other structs, we use the `struct_group_tagged()` helper
+> > to separate the flexible arrays from the rest of the members in the
+> > flexible structures. We then use the newly created tagged `struct
+> > nvif_ioctl_v0_hdr` and `struct nvif_ioctl_mthd_v0_hdr` to replace the
+> > type of the objects causing trouble in multiple structures.
+> >
+> > We also want to ensure that when new members need to be added to the
+> > flexible structures, they are always included within the newly created
+> > tagged structs. For this, we use `static_assert()`. This ensures that the
+> > memory layout for both the flexible structure and the new tagged struct
+> > is the same after any changes.
+> >
+> > So, with these changes, fix the following warnings:
+> > drivers/gpu/drm/nouveau/nvif/object.c:60:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> > drivers/gpu/drm/nouveau/nvif/object.c:233:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> > drivers/gpu/drm/nouveau/nvif/object.c:214:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> > drivers/gpu/drm/nouveau/nvif/object.c:152:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> > drivers/gpu/drm/nouveau/nvif/object.c:138:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> > drivers/gpu/drm/nouveau/nvif/object.c:104:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> > drivers/gpu/drm/nouveau/nouveau_svm.c:83:35: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> > drivers/gpu/drm/nouveau/nouveau_svm.c:82:30: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> >
+> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>
+> @Faith, Karol: Can I get an ACK from mesa for this one?
 
-Hi Detlev
+If we do reimport this to userspace we will have to figure it out, but for now,
 
-Thank you for Cc:ing to me.
-Sorry for my late response. Monday was holiday in Japan.
+Acked-by: Dave Airlie <airlied@redhat.com>
 
-> I'm really feel like simple_util_clean_reference(card) in simple_probe() 
-> errors path should not be called anymore, since
-(snip)
-> I'm adding Kuninori Morimoto in the to list of this thread for extra input
-(snip)
-> Especially those commits:
->       ASoC: audio-graph-card2: use __free(device_node) for device node
->       ASoC: audio-graph-card: use __free(device_node) for device node
->       ASoC: simple-card: use __free(device_node) for device node
-
-I got same report from our test team. I'm now tring to solve it.
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+>
+> > ---
+> >  drivers/gpu/drm/nouveau/include/nvif/ioctl.h | 32 +++++++++++++-------
+> >  drivers/gpu/drm/nouveau/nouveau_svm.c        |  4 +--
+> >  drivers/gpu/drm/nouveau/nvif/object.c        | 12 ++++----
+> >  3 files changed, 29 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/include/nvif/ioctl.h b/drivers/gpu/drm/nouveau/include/nvif/ioctl.h
+> > index e825c8a1d9ca..00015412cb3e 100644
+> > --- a/drivers/gpu/drm/nouveau/include/nvif/ioctl.h
+> > +++ b/drivers/gpu/drm/nouveau/include/nvif/ioctl.h
+> > @@ -3,25 +3,30 @@
+> >  #define __NVIF_IOCTL_H__
+> >
+> >  struct nvif_ioctl_v0 {
+> > -     __u8  version;
+> > +     /* New members MUST be added within the struct_group() macro below. */
+> > +     struct_group_tagged(nvif_ioctl_v0_hdr, __hdr,
+> > +             __u8  version;
+> >  #define NVIF_IOCTL_V0_SCLASS                                               0x01
+> >  #define NVIF_IOCTL_V0_NEW                                                  0x02
+> >  #define NVIF_IOCTL_V0_DEL                                                  0x03
+> >  #define NVIF_IOCTL_V0_MTHD                                                 0x04
+> >  #define NVIF_IOCTL_V0_MAP                                                  0x07
+> >  #define NVIF_IOCTL_V0_UNMAP                                                0x08
+> > -     __u8  type;
+> > -     __u8  pad02[4];
+> > +             __u8  type;
+> > +             __u8  pad02[4];
+> >  #define NVIF_IOCTL_V0_OWNER_NVIF                                           0x00
+> >  #define NVIF_IOCTL_V0_OWNER_ANY                                            0xff
+> > -     __u8  owner;
+> > +             __u8  owner;
+> >  #define NVIF_IOCTL_V0_ROUTE_NVIF                                           0x00
+> >  #define NVIF_IOCTL_V0_ROUTE_HIDDEN                                         0xff
+> > -     __u8  route;
+> > -     __u64 token;
+> > -     __u64 object;
+> > +             __u8  route;
+> > +             __u64 token;
+> > +             __u64 object;
+> > +     );
+> >       __u8  data[];           /* ioctl data (below) */
+> >  };
+> > +static_assert(offsetof(struct nvif_ioctl_v0, data) == sizeof(struct nvif_ioctl_v0_hdr),
+> > +           "struct member likely outside of struct_group()");
+> >
+> >  struct nvif_ioctl_sclass_v0 {
+> >       /* nvif_ioctl ... */
+> > @@ -51,12 +56,17 @@ struct nvif_ioctl_del {
+> >  };
+> >
+> >  struct nvif_ioctl_mthd_v0 {
+> > -     /* nvif_ioctl ... */
+> > -     __u8  version;
+> > -     __u8  method;
+> > -     __u8  pad02[6];
+> > +     /* New members MUST be added within the struct_group() macro below. */
+> > +     struct_group_tagged(nvif_ioctl_mthd_v0_hdr, __hdr,
+> > +             /* nvif_ioctl ... */
+> > +             __u8  version;
+> > +             __u8  method;
+> > +             __u8  pad02[6];
+> > +     );
+> >       __u8  data[];           /* method data (class.h) */
+> >  };
+> > +static_assert(offsetof(struct nvif_ioctl_mthd_v0, data) == sizeof(struct nvif_ioctl_mthd_v0_hdr),
+> > +           "struct member likely outside of struct_group()");
+> >
+> >  struct nvif_ioctl_map_v0 {
+> >       /* nvif_ioctl ... */
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> > index b4da82ddbb6b..fc64c3d3169e 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> > @@ -79,8 +79,8 @@ struct nouveau_svm {
+> >  #define SVM_ERR(s,f,a...) NV_WARN((s)->drm, "svm: "f"\n", ##a)
+> >
+> >  struct nouveau_pfnmap_args {
+> > -     struct nvif_ioctl_v0 i;
+> > -     struct nvif_ioctl_mthd_v0 m;
+> > +     struct nvif_ioctl_v0_hdr i;
+> > +     struct nvif_ioctl_mthd_v0_hdr m;
+> >       struct nvif_vmm_pfnmap_v0 p;
+> >  };
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nvif/object.c b/drivers/gpu/drm/nouveau/nvif/object.c
+> > index 0b87278ac0f8..70af63d70976 100644
+> > --- a/drivers/gpu/drm/nouveau/nvif/object.c
+> > +++ b/drivers/gpu/drm/nouveau/nvif/object.c
+> > @@ -57,7 +57,7 @@ int
+> >  nvif_object_sclass_get(struct nvif_object *object, struct nvif_sclass **psclass)
+> >  {
+> >       struct {
+> > -             struct nvif_ioctl_v0 ioctl;
+> > +             struct nvif_ioctl_v0_hdr ioctl;
+> >               struct nvif_ioctl_sclass_v0 sclass;
+> >       } *args = NULL;
+> >       int ret, cnt = 0, i;
+> > @@ -101,7 +101,7 @@ int
+> >  nvif_object_mthd(struct nvif_object *object, u32 mthd, void *data, u32 size)
+> >  {
+> >       struct {
+> > -             struct nvif_ioctl_v0 ioctl;
+> > +             struct nvif_ioctl_v0_hdr ioctl;
+> >               struct nvif_ioctl_mthd_v0 mthd;
+> >       } *args;
+> >       u32 args_size;
+> > @@ -135,7 +135,7 @@ void
+> >  nvif_object_unmap_handle(struct nvif_object *object)
+> >  {
+> >       struct {
+> > -             struct nvif_ioctl_v0 ioctl;
+> > +             struct nvif_ioctl_v0_hdr ioctl;
+> >               struct nvif_ioctl_unmap unmap;
+> >       } args = {
+> >               .ioctl.type = NVIF_IOCTL_V0_UNMAP,
+> > @@ -149,7 +149,7 @@ nvif_object_map_handle(struct nvif_object *object, void *argv, u32 argc,
+> >                      u64 *handle, u64 *length)
+> >  {
+> >       struct {
+> > -             struct nvif_ioctl_v0 ioctl;
+> > +             struct nvif_ioctl_v0_hdr ioctl;
+> >               struct nvif_ioctl_map_v0 map;
+> >       } *args;
+> >       u32 argn = sizeof(*args) + argc;
+> > @@ -211,7 +211,7 @@ void
+> >  nvif_object_dtor(struct nvif_object *object)
+> >  {
+> >       struct {
+> > -             struct nvif_ioctl_v0 ioctl;
+> > +             struct nvif_ioctl_v0_hdr ioctl;
+> >               struct nvif_ioctl_del del;
+> >       } args = {
+> >               .ioctl.type = NVIF_IOCTL_V0_DEL,
+> > @@ -230,7 +230,7 @@ nvif_object_ctor(struct nvif_object *parent, const char *name, u32 handle,
+> >                s32 oclass, void *data, u32 size, struct nvif_object *object)
+> >  {
+> >       struct {
+> > -             struct nvif_ioctl_v0 ioctl;
+> > +             struct nvif_ioctl_v0_hdr ioctl;
+> >               struct nvif_ioctl_new_v0 new;
+> >       } *args;
+> >       int ret = 0;
+> > --
+> > 2.43.0
+> >
