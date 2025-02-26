@@ -2,82 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFFDA45FC9
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51757A4605F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 14:11:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E753510E8E0;
-	Wed, 26 Feb 2025 12:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C093210E914;
+	Wed, 26 Feb 2025 13:11:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="bE010mBC";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="SLaeXKrr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64B110E8E0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:53:21 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-390df942558so111585f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 04:53:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1740574399; x=1741179199;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FChbZi7hEyRH3sPEKkWNAf3ZipzQfOfQ78UqxR3608A=;
- b=bE010mBCqC1wgbOdeGaMJBiC16wOACSGj+7RMK4/a4w0Vn87f6QPjHMUJs04CO7gOt
- sF2QR7akR2QFP3jVMKboeIt6LApZK1fdlrIVGwbgReMpVe7dgZlrcYKpx/pBGXqg4hPm
- TJMg1urDyvBIgBc5CFtN9BG+MRHB4b89BWc5YLMxCu6k03kqeM9XjMyYR+4uQt+d+V1Z
- JgspIqVRW+8GV+wOn2Z1FqElkNJE+qGEzMYbaZIYS1ou8xNwmbI04ShJzMo2AKy8eQIX
- Ns8WbcfZswh8O30+e1FequGWG0onUbpK4Rhu6VHqWhELPweomCNJ50axVBh0DuMGuWPR
- 1YYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740574399; x=1741179199;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FChbZi7hEyRH3sPEKkWNAf3ZipzQfOfQ78UqxR3608A=;
- b=RJd8XgCeFaXaBXD1reyoa7CGbjJXA6WvL8BAuYa9ZfkolVmrX1oc2c5MeV9f1A/Syy
- ALp0H+iIVmh8Gzbg+Qm59ucVaQHbKp0ftx0ipdXeKch9RfuM6PlcRW7x1U+J7+bDDPNA
- DSEAgjQ1w/SwbphAYJZ4oiXAnUXX9U91RoVZ4iHQTREW65dlvBrKb6jr3IVWF8QmzRNd
- ci7ppAWAxE6CGZsouHtdIswDk1r/fA+25Ar8A/c+gd1Dzy8XlDkMMp6+2ldOSliUxdKF
- WbyU6+EQ0TE4+uNRfeZw7D2RHyf/f8wMe0FSjBDD2laFW2Ae0Z8pJEmhy8u2vQSWQEpH
- 4+rw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxIw8noL46pwdoGY/6B8q9fuZ9Erlc90bzjfEQHjy7dBzySqvvl/zzLAI7ASChCHhNdcVmqdq/5lg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy58zwcOCeSpHKXOFvWvE0pFDxCQIgaM7rI3NCg4zaLAtFh3GWD
- CAkN/Sltdh/66NLqIFLWgc8ItZBtQh4mxu31SDuX/mG4h9iRyQGGpiVt41AaFTY=
-X-Gm-Gg: ASbGncteO7FkutVFENFnlVBnC+vV6n+7V8lKh1+qeLrZmzP4K5n6gR5CU/qwiBVce0R
- 7WcsrBs7KcrbrUx7fBCUebDCD2K29kLkvWK0r/xgTDEY01ODphXAPS7JsEVV10BCmvKFBXBg5wr
- 9pXcjXvkQR7QLEciXH5JOqBSAkNu1COaK28HR/UbIHHAuJB9T9Gk5FCCziqj93+egwR+yqZWiPr
- UQ2flEVkQeNIQaDbUp0ydQ7qBQfdObdy96ceE6ELuMSNkz1m0PeY8HT2LIaxEPcxo5GFu5SLiNh
- 80PV9SmPiGkf5FxF7mi7rAFGowTGMIOf1RmsTkzbfw==
-X-Google-Smtp-Source: AGHT+IHupyv+JmfiSEbikU1CSpfUFR3pjv3R2U3p5qZGCSq+GKwCsSUNTPX8qBXwf0oFbKPICgsFWw==
-X-Received: by 2002:a5d:5f8b:0:b0:38f:2856:7d9a with SMTP id
- ffacd0b85a97d-390d4f377c9mr2884499f8f.3.1740574398411; 
- Wed, 26 Feb 2025 04:53:18 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43aba549d6asm20206105e9.36.2025.02.26.04.53.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Feb 2025 04:53:17 -0800 (PST)
-Message-ID: <25dc8423-0cdf-4f8e-964b-45d7ef0212a5@ursulin.net>
-Date: Wed, 26 Feb 2025 12:53:17 +0000
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 528E010E90C;
+ Wed, 26 Feb 2025 13:11:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=VWcU7yMm2YN0QLOsb6yyKZ0nl0TCOlQKOQKYheBKv+M=; b=SLaeXKrrmUNKF6OXzyS6A8UFzR
+ 57i5ricWO1V10tV7/8HRnQaAV9XbXno14qYY7MOBPn9Dp5+EPXGHhMdEppwUuCxjOyv/SE+IPCIoW
+ Amj1KwDWNZKgc6VmmR/pZ6Yt3uvH4RSZ3FKXR4T6/scGWLVJoyChg05zD/iqyO9K8NQbuvC86mCtt
+ ciwoKfXdbuF6KggNd3y8YuQ2mTIkmUztMcdBEH8kWfgpjbNE4UuZnb4Aah4bx2u5alJMn3gmRPee6
+ i7pvDbZYKPK7LJ161YGwLKX9Jidwxr6bkEiQ89wyHyZt+iTzrgqClRLmjVCZEGk3/EHRWui8WzbPb
+ 6WNZKmtQ==;
+Received: from [191.204.194.148] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tnHC1-000yOs-3B; Wed, 26 Feb 2025 14:11:23 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, siqueira@igalia.com
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH] drm/amdgpu: Create a debug option to disable ring reset
+Date: Wed, 26 Feb 2025 10:11:18 -0300
+Message-ID: <20250226131118.1012223-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/doc: Document KUnit expectations
-To: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-References: <20250113101100.1373856-1-mripard@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250113101100.1373856-1-mripard@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,48 +60,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Prior to the addition of ring reset, the debug option
+`debug_disable_soft_recovery` could be used to force a full device
+reset. Now that we have ring reset, create a debug option to disable
+them in amdgpu, forcing the driver to go with the full device
+reset path again when both options are combined.
 
-On 13/01/2025 10:11, Maxime Ripard wrote:
-> The DRM and KMS frameworks and helpers gain more and more kunit
-> coverage, so let's document what our expectations are.
-> 
-> Suggested-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> 
-> ---
-> 
-> I'm not too sure where those guidelines should be placed. Is it the best
-> place?
-> ---
->   Documentation/gpu/drm-internals.rst | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-> index cb9ae282771c..94f93fd3b8a0 100644
-> --- a/Documentation/gpu/drm-internals.rst
-> +++ b/Documentation/gpu/drm-internals.rst
-> @@ -206,10 +206,17 @@ follows:
->   	The configuration included in ``.kunitconfig`` should be as generic as
->   	possible.
->   	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
->   	included in it because they are only required for User Mode Linux.
->   
-> +KUnit Coverage Rules
-> +~~~~~~~~~~~~~~~~~~~~
-> +
-> +KUnit support is gradually added to the DRM framework and helpers. There's no
-> +general requirement for the framework and helpers to have KUnit tests at the
-> +moment. However, patches that are affecting a function or helper already
-> +covered by KUnit tests must provide tests if the change calls for one.
->   
->   Legacy Support Code
->   ===================
->   
->   The section very briefly covers some of the old legacy support code
+This option is useful for testing and debugging purposes when one wants
+to test the full reset from userspace.
 
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h     | 1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 5 +++--
+ 3 files changed, 10 insertions(+), 2 deletions(-)
 
-Regards,
-
-Tvrtko
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 69895fccb474..75dc4b962d64 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1186,6 +1186,7 @@ struct amdgpu_device {
+ 	bool                            debug_use_vram_fw_buf;
+ 	bool                            debug_enable_ras_aca;
+ 	bool                            debug_exp_resets;
++	bool                            debug_disable_gpu_ring_reset;
+ 
+ 	bool				enforce_isolation[MAX_XCP];
+ 	/* Added this mutex for cleaner shader isolation between GFX and compute processes */
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 95a05b03f799..edeb12c816e8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -136,6 +136,7 @@ enum AMDGPU_DEBUG_MASK {
+ 	AMDGPU_DEBUG_USE_VRAM_FW_BUF = BIT(3),
+ 	AMDGPU_DEBUG_ENABLE_RAS_ACA = BIT(4),
+ 	AMDGPU_DEBUG_ENABLE_EXP_RESETS = BIT(5),
++	AMDGPU_DEBUG_DISABLE_GPU_RING_RESET = BIT(6),
+ };
+ 
+ unsigned int amdgpu_vram_limit = UINT_MAX;
+@@ -2221,6 +2222,11 @@ static void amdgpu_init_debug_options(struct amdgpu_device *adev)
+ 		pr_info("debug: enable experimental reset features\n");
+ 		adev->debug_exp_resets = true;
+ 	}
++
++	if (amdgpu_debug_mask & AMDGPU_DEBUG_DISABLE_GPU_RING_RESET) {
++		pr_info("debug: ring reset disabled\n");
++		adev->debug_disable_gpu_ring_reset = true;
++	}
+ }
+ 
+ static unsigned long amdgpu_fix_asic_type(struct pci_dev *pdev, unsigned long flags)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 7b79b0f39ba1..8ab23182127e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -137,8 +137,9 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 	dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
+ 
+ 	/* attempt a per ring reset */
+-	if (amdgpu_gpu_recovery &&
+-	    ring->funcs->reset) {
++	if (unlikely(adev->debug_disable_gpu_ring_reset)) {
++		dev_err(adev->dev, "Ring reset disabled by debug mask\n");
++	} else if (amdgpu_gpu_recovery && ring->funcs->reset) {
+ 		dev_err(adev->dev, "Starting %s ring reset\n", s_job->sched->name);
+ 		/* stop the scheduler, but don't mess with the
+ 		 * bad job yet because if ring reset fails
+-- 
+2.48.1
 
