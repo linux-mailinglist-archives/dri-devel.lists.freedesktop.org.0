@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DECA46D5B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 22:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F367BA46D5A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 22:25:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3045910E2EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0344010E2E9;
 	Wed, 26 Feb 2025 21:24:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KXVsMGRz";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bxHhQ0ho";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF90B10E2EB
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 21:24:52 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3245644359;
- Wed, 26 Feb 2025 21:24:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2570A10E2EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 21:24:54 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 903B344357;
+ Wed, 26 Feb 2025 21:24:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740605091;
+ t=1740605092;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TgXFCdjVREXcRGUE0JevXJ8e89l3cM/elkjd9RzCGfY=;
- b=KXVsMGRz0Wxm2TObr9aSrau2qKoYmUNE+2C8hol5lxYBa6QSWTA/wphd/Sl33TGMisCfoA
- beltHL40H3Vs0GViZ+kGQQaDo309XhwS2P14m8G0Iym0nFIclkv5H9XnK3h2GUGh6cfF6S
- 0iG9wh+/BnutFc1vlKQ4Yrm23RFs/3h7B2uWRaHabfffwXc2Z0Qzci+3E+yLd5EGVFO5L1
- wvadvFnb5CRxQIucNQcm9nrzQ0HNy5M39I1xG6Nl1dkb+Pb9i/uVBiys3F3AaUkfdgPiHm
- NiJeHUti0TsB4PP3/ukKorxpyq1gfRcaxro6ItmP+PEI/u0EudDO6aEcVQ7TAQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7xF27PRucwgAu9bdjrMgFWQV2T+OOnNTiIdeMX9W7Ig=;
+ b=bxHhQ0hoQqWGwiAwtRSHdZmboq9N1U6dyUkOqL7l0iaTCanFtQ3RNwTBObJaxRk8mmj263
+ i0podeQv1Kp5dSIT6vOc2z0cfSWBt+uq0JsQH6iWhUc7IVVpiO5Zex+xCX4i/JkgoQPzjm
+ PkxZ6u3Nf4Vz7Tu7WhgsjHjNjKLySA+BX1I70AV54gbgg4AtUF+nRxIZ8pwoCLbgznh/MP
+ UqFZrMSvzpUXSysJtr+XPfDK+oNbY/E+Y8e3ZC7UM0b2OAtYYXwmUQAd3g/KFZSA55sJRB
+ r86v1jap0tuDZtILBgh9SLd6IfwGsGpgkGLhm5ohQmDh+52QVO/P9ixn/4rAhg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH v8 0/2] drm: show "all" bridges in debugfs
-Date: Wed, 26 Feb 2025 22:23:51 +0100
-Message-Id: <20250226-drm-debugfs-show-all-bridges-v8-0-bb511cc49d83@bootlin.com>
+Date: Wed, 26 Feb 2025 22:23:52 +0100
+Subject: [PATCH v8 1/2] drm/bridge: move bridges_show logic from drm_debugfs.c
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGeGv2cC/43NQQ6CMBCF4auYWTumFqGNK+9hWLR0gEmAmg6ih
- nB3Kydw+b3F/1YQSkwC18MKiRYWjlOGPR6g6d3UEXLIBq10qbQuMaQRA/ln1wpKH1/ohgF94tC
- RYHXRZI3y5kwGcuKRqOX3nr/X2T3LHNNnf1vMb/0zvBhUaK2uVGFccIW5+RjngadTE0eot237A
- hzNoLfKAAAA
-X-Change-ID: 20250225-drm-debugfs-show-all-bridges-642e870b71e7
+Message-Id: <20250226-drm-debugfs-show-all-bridges-v8-1-bb511cc49d83@bootlin.com>
+References: <20250226-drm-debugfs-show-all-bridges-v8-0-bb511cc49d83@bootlin.com>
+In-Reply-To: <20250226-drm-debugfs-show-all-bridges-v8-0-bb511cc49d83@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -56,8 +54,8 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekheeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfeiteekkefgtdduveeuffeuffevkeehieduhfefvdfhueekuefhhfdttddvkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedujedprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigr
- dhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekheeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhop
+ ehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepjhgrnhhirdhnihhkuhhlrgeslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,40 +72,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds a /sys/kernel/debug/dri/bridges file showing all bridges
-between drm_bridge_add() and drm_bridge_remove(), which might not be bound
-to any encoder and thus not visible anywhere in debugfs.
+In preparation to expose more info about bridges in debugfs, which will
+require more insight into drm_bridge data structures, move the bridges_show
+code to drm_bridge.c.
 
-It also cleans up the DRM bridge debugfs code by moving code to
-drm_bridge.c.
-
-Luca
-
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
-Changes in v8:
-- moved more code to drm_bridge.c, which makes adding '#if CONFIG_DEBUG_FS' unnecessary
-- a small fix to a harmless bug
-- Link to v7: https://lore.kernel.org/r/20250225-drm-debugfs-show-all-bridges-v7-0-8826037ada37@bootlin.com
-
-This series was initially part of v6 of this other series:
-- Link to v6: https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
 
 ---
-Luca Ceresoli (2):
-      drm/bridge: move bridges_show logic from drm_debugfs.c
-      drm/debugfs: add top-level 'bridges' file showing all added bridges
 
- drivers/gpu/drm/drm_bridge.c  | 70 +++++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_debugfs.c | 38 +----------------------
- drivers/gpu/drm/drm_drv.c     |  2 ++
- include/drm/drm_bridge.h      |  3 ++
- 4 files changed, 76 insertions(+), 37 deletions(-)
+Changed in v8:
+ - add the file in drm_bridge.c, which avois the added #if CONFIG_DEBUG_FS
+
+This patch was added in v7.
 ---
-base-commit: b439ab75b6382f5c34aec6e87435cf7e58e72a35
-change-id: 20250225-drm-debugfs-show-all-bridges-642e870b71e7
+ drivers/gpu/drm/drm_bridge.c  | 42 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_debugfs.c | 38 +-------------------------------------
+ include/drm/drm_bridge.h      |  2 ++
+ 3 files changed, 45 insertions(+), 37 deletions(-)
 
-Best regards,
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 241a384ebce39b4a3db58c208af27960904fc662..a6bf1a565e3c3a8d24de60448972849f6d86ba72 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -21,6 +21,7 @@
+  * DEALINGS IN THE SOFTWARE.
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/err.h>
+ #include <linux/media-bus-format.h>
+ #include <linux/module.h>
+@@ -1335,6 +1336,47 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+ EXPORT_SYMBOL(of_drm_find_bridge);
+ #endif
+ 
++static int encoder_bridges_show(struct seq_file *m, void *data)
++{
++	struct drm_encoder *encoder = m->private;
++	struct drm_printer p = drm_seq_file_printer(m);
++	struct drm_bridge *bridge;
++	unsigned int idx = 0;
++
++	drm_for_each_bridge_in_chain(encoder, bridge) {
++		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
++		drm_printf(&p, "\ttype: [%d] %s\n",
++			   bridge->type,
++			   drm_get_connector_type_name(bridge->type));
++
++		if (bridge->of_node)
++			drm_printf(&p, "\tOF: %pOFfc\n", bridge->of_node);
++
++		drm_printf(&p, "\tops: [0x%x]", bridge->ops);
++		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
++			drm_puts(&p, " detect");
++		if (bridge->ops & DRM_BRIDGE_OP_EDID)
++			drm_puts(&p, " edid");
++		if (bridge->ops & DRM_BRIDGE_OP_HPD)
++			drm_puts(&p, " hpd");
++		if (bridge->ops & DRM_BRIDGE_OP_MODES)
++			drm_puts(&p, " modes");
++		if (bridge->ops & DRM_BRIDGE_OP_HDMI)
++			drm_puts(&p, " hdmi");
++		drm_puts(&p, "\n");
++	}
++
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(encoder_bridges);
++
++void drm_bridge_debugfs_encoder_params(struct dentry *root,
++				       struct drm_encoder *encoder)
++{
++	/* bridges list */
++	debugfs_create_file("bridges", 0444, root, encoder, &encoder_bridges_fops);
++}
++
+ MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+ MODULE_DESCRIPTION("DRM bridge infrastructure");
+ MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 6b2178864c7ee12db9aa1f562e106b2f604439f8..3dfd8b34dceb7a5b8f11e3072a1eaef430869722 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -740,40 +740,6 @@ void drm_debugfs_crtc_remove(struct drm_crtc *crtc)
+ 	crtc->debugfs_entry = NULL;
+ }
+ 
+-static int bridges_show(struct seq_file *m, void *data)
+-{
+-	struct drm_encoder *encoder = m->private;
+-	struct drm_printer p = drm_seq_file_printer(m);
+-	struct drm_bridge *bridge;
+-	unsigned int idx = 0;
+-
+-	drm_for_each_bridge_in_chain(encoder, bridge) {
+-		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
+-		drm_printf(&p, "\ttype: [%d] %s\n",
+-			   bridge->type,
+-			   drm_get_connector_type_name(bridge->type));
+-
+-		if (bridge->of_node)
+-			drm_printf(&p, "\tOF: %pOFfc\n", bridge->of_node);
+-
+-		drm_printf(&p, "\tops: [0x%x]", bridge->ops);
+-		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
+-			drm_puts(&p, " detect");
+-		if (bridge->ops & DRM_BRIDGE_OP_EDID)
+-			drm_puts(&p, " edid");
+-		if (bridge->ops & DRM_BRIDGE_OP_HPD)
+-			drm_puts(&p, " hpd");
+-		if (bridge->ops & DRM_BRIDGE_OP_MODES)
+-			drm_puts(&p, " modes");
+-		if (bridge->ops & DRM_BRIDGE_OP_HDMI)
+-			drm_puts(&p, " hdmi");
+-		drm_puts(&p, "\n");
+-	}
+-
+-	return 0;
+-}
+-DEFINE_SHOW_ATTRIBUTE(bridges);
+-
+ void drm_debugfs_encoder_add(struct drm_encoder *encoder)
+ {
+ 	struct drm_minor *minor = encoder->dev->primary;
+@@ -789,9 +755,7 @@ void drm_debugfs_encoder_add(struct drm_encoder *encoder)
+ 
+ 	encoder->debugfs_entry = root;
+ 
+-	/* bridges list */
+-	debugfs_create_file("bridges", 0444, root, encoder,
+-			    &bridges_fops);
++	drm_bridge_debugfs_encoder_params(root, encoder);
+ 
+ 	if (encoder->funcs && encoder->funcs->debugfs_init)
+ 		encoder->funcs->debugfs_init(encoder, root);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 496dbbd2ad7edff7f091adfbe62de1e33ef0cf07..0890acfe04b99b1ccbbff10b507cb8c2b2705e06 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -1108,4 +1108,6 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+ }
+ #endif
+ 
++void drm_bridge_debugfs_encoder_params(struct dentry *root, struct drm_encoder *encoder);
++
+ #endif
+
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+2.48.1
 
