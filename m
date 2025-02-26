@@ -2,53 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318C5A4527F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 02:58:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CC4A45284
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 03:00:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F10B510E02B;
-	Wed, 26 Feb 2025 01:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16CBF10E1D2;
+	Wed, 26 Feb 2025 02:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="T07tFiD8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pXvAFZjw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
- [51.81.35.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6DEF10E02B;
- Wed, 26 Feb 2025 01:58:06 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
- by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 18356205FA;
- Wed, 26 Feb 2025 01:58:05 +0000 (UTC)
-Received: from relay2.mymailcheap.com (relay2.mymailcheap.com
- [217.182.113.132])
- by relay5.mymailcheap.com (Postfix) with ESMTPS id 8F800200C0;
- Wed, 26 Feb 2025 01:58:00 +0000 (UTC)
-Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
- by relay2.mymailcheap.com (Postfix) with ESMTPS id 7101B3E8A5;
- Wed, 26 Feb 2025 01:57:53 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- by nf1.mymailcheap.com (Postfix) with ESMTPSA id 9E3634023E;
- Wed, 26 Feb 2025 01:57:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1740535072; bh=A9ejl1O+HrZTCsb9J1JPq9c6GX36Sh+YgeDcLZTKdjY=;
- h=From:Subject:Date:To:Cc:From;
- b=T07tFiD8k3l+F1ihE5Y+v9JsjZTKcsFlbU0Jt61MrK7i4nAcoTug0UrTZCcly7mnK
- zeIcc6jZR0Eu0Tc/fZWSIhjZMNhWUCOcxPKd64BKDicM44nJubx22MEMV2j5Ak3KDP
- nzdbYJt5BzXhy+FaPBgf0GyWFzEIi57WYVPclEZo=
-Received: from [172.29.0.32] (unknown [203.175.14.48])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 90274404F6;
- Wed, 26 Feb 2025 01:57:42 +0000 (UTC)
-From: Mingcong Bai <jeffbai@aosc.io>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E77F10E1D2;
+ Wed, 26 Feb 2025 02:00:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C30FA5C5401;
+ Wed, 26 Feb 2025 01:59:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3F662C4CEE7;
+ Wed, 26 Feb 2025 02:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740535220;
+ bh=A9ejl1O+HrZTCsb9J1JPq9c6GX36Sh+YgeDcLZTKdjY=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=pXvAFZjwN+HM6hznjlhTfvY6FGpDbDbVafPkehz/HHhNLimgYKdPwBzZ59NU6tgOP
+ eGEHQeGyNmgVv//FcrSJMQELzvTJU/0FpnqGjzxvbbOPJ1f3lL5iDtL9Bs7U+amPrr
+ 8f/G4l0FdIYX15nIxzkvcWrHJMZ5rx+xBpSmoQwlmeCZYULg8+XzOlKO8OvaywUSTp
+ WVfZwfuIypVTtN/dWjng/CV6cECE/KjtCBCqwck4zpMFS2ecrNMyukcMGWLjipzUCJ
+ v8EpknhRjcRlgatjQdI0p2r8iiO4LEZa/Qj+WT8hELKPLwUNV4UJVgTdvXCiHqoYjO
+ z+/UcqS94lTbQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 2DBCDC021BF;
+ Wed, 26 Feb 2025 02:00:20 +0000 (UTC)
+From: Mingcong Bai via B4 Relay <devnull+jeffbai.aosc.io@kernel.org>
 Subject: [PATCH 0/5] drm/xe: enable driver usage on non-4KiB kernels
-Date: Wed, 26 Feb 2025 09:57:31 +0800
-Message-Id: <20250226-xe-non-4k-fix-v1-0-e61660b93cc3@aosc.io>
+Date: Wed, 26 Feb 2025 10:00:17 +0800
+Message-Id: <20250226-xe-non-4k-fix-v1-0-80f23b5ee40e@aosc.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAt1vmcC/x2MQQqAIBAAvyJ7bsEW9dBXooPlVkugoRCC9Pek4
+X-B4-Tracking: v=1; b=H4sIALF1vmcC/x2MQQqAIBAAvyJ7bsEW9dBXooPlVkugoRCC9Pek4
  wzMNCichQtMqkHmR4qk2GEcFGynjwejhM5AmqwmclgZY4poLtyloluJAwftrTPQmztz1/9vXt7
  3A+VGO45fAAAA
 X-Change-ID: 20250226-xe-non-4k-fix-6b2eded0a564
@@ -73,32 +66,15 @@ Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
  stable@vger.kernel.org, Haien Liang <27873200@qq.com>, 
  Shirong Liu <lsr1024@qq.com>, Haofeng Wu <s2600cw2@126.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740535062; l=4506;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740535218; l=4506;
  i=jeffbai@aosc.io; s=20250225; h=from:subject:message-id;
  bh=A9ejl1O+HrZTCsb9J1JPq9c6GX36Sh+YgeDcLZTKdjY=;
- b=h1P5B1NsPwC752Eq4QwdLC/ar+9y08WwQAliWRHpeTAe2zGDgTLcx28irCVGWb4zz+NP3K1Vw
- UOoshffMQFlCNBgYA+DmqFPwV+PEJNnG+gn3zo/6ogCJXs4fFsl6D2A
+ b=p9NnNXi4quZqnKVTwOpkskDHDTalG5zIr5IMx0pjwy4MMb3Qu3KeRPlKHo+p2JevzvuVTYXEB
+ DJIL+X2VFm8AtaW88Z7RVxswmG86MttPx1Aixfi0/s/jptw8bLFwecj
 X-Developer-Key: i=jeffbai@aosc.io; a=ed25519;
  pk=PShXLX1m130BHsde1t/EjBugyyOjSVdzV0dYuYejXYU=
-X-Rspamd-Server: nf1.mymailcheap.com
-X-Rspamd-Queue-Id: 9E3634023E
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.14 / 10.00]; MIME_GOOD(-0.10)[text/plain];
- BAYES_HAM(-0.04)[59.07%]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- ARC_NA(0.00)[]; RCVD_COUNT_ONE(0.00)[1];
- ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
- MID_RHS_MATCH_FROM(0.00)[];
- SPFBL_URIBL_EMAIL_FAIL(0.00)[jeffbai.aosc.io:server
- fail,429839446.qq.com:server fail,kexybiscuit.aosc.io:server fail]; 
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[27];
- FREEMAIL_ENVRCPT(0.00)[126.com,gmail.com,qq.com];
- TO_MATCH_ENVRCPT_SOME(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,intel.com,lists.freedesktop.org,vger.kernel.org,aosc.io,qq.com,126.com];
- TO_DN_SOME(0.00)[]
+X-Endpoint-Received: by B4 Relay for jeffbai@aosc.io/20250225 with auth_id=349
+X-Original-From: Mingcong Bai <jeffbai@aosc.io>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,6 +87,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: jeffbai@aosc.io
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -208,4 +185,5 @@ change-id: 20250226-xe-non-4k-fix-6b2eded0a564
 Best regards,
 -- 
 Mingcong Bai <jeffbai@aosc.io>
+
 
