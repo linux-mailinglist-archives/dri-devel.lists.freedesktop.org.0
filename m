@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF3FA46899
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 18:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3BEA4689D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 18:56:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B782910E992;
-	Wed, 26 Feb 2025 17:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBB510E998;
+	Wed, 26 Feb 2025 17:56:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MqJfmxWQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="evkfVNXh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D20010E992;
- Wed, 26 Feb 2025 17:56:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42D2210E994;
+ Wed, 26 Feb 2025 17:56:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 35C506151D;
- Wed, 26 Feb 2025 17:56:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BE1C4CEE9;
- Wed, 26 Feb 2025 17:56:15 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id CD3756143A;
+ Wed, 26 Feb 2025 17:56:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39BE1C4CEE7;
+ Wed, 26 Feb 2025 17:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740592581;
- bh=BQ8xHMKrltZRFNzxJKwFtK1VAIQkorDo50VJfIqedqI=;
+ s=k20201202; t=1740592588;
+ bh=4Gh+3oEX8TH5fL4MLDUruHVYnxd9MOSXlnIxsljSNG0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MqJfmxWQBjJ7tvEUfd6uYf1PEpWYAv09MkXWzee9bKtMvDe1brA+59hTUTi7Itawj
- lICX7awqJbiC+u/jdk9ZwjwPp45oSKWBUeiurrmsrtWyeM5XP2akF5TdAPLomd9N/u
- FmfocWK7R9CApGtVfmggHmJ+PvpXT1J7nIWr7+Rx9Qfu2A2pr5KM94E5jE1hUyqrwV
- 5WUTyQ0Tqn57A5QoAEAwZRNw8sEhGYcR0BcFXqlPZXJLFBqpcBYkxUKDcHKCN/xpyU
- tC1vFxRDndUTHptxeO9xXM1rVEKE725QtUB2sJ6cPkfOV66qrxBIy+sQL2jIo4r05l
- L0D8hs9UQ8+sQ==
+ b=evkfVNXhIvColJtiW+Wka01VXgpw3bttb8XHlp6+vaq4TAsdtTG7KTQPjG28FhpYd
+ 9shdbFyZCPr90oiBLe2J6Qu/lrTSgHMuvTmx6VjtV2SF2vzZCGYzMtjUCYtPL29oez
+ WF/BLw44uZUj5i6dVtmY/NMdoBH1sLGa907B4aak2EwIEmizZpBS0Axj5KYEDM21Xu
+ gKEDVfDCIQslcn/ulB+ufmBBrqpChW7jbzryDYJaj8FwfdRxT3mKlfu0ghGvqaOUPR
+ TMu/eNcLBWIw3lTMULo10GQA4FxsPpZD+bfoLWF8Kn20nQv17iu5oWn1rZDj3sqqhu
+ K81c8SsE9PJWQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -43,9 +43,9 @@ Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v4 3/6] rust: firmware: introduce `firmware::ModInfoBuilder`
-Date: Wed, 26 Feb 2025 18:55:45 +0100
-Message-ID: <20250226175552.29381-4-dakr@kernel.org>
+Subject: [PATCH v4 4/6] rust: firmware: add `module_firmware!` macro
+Date: Wed, 26 Feb 2025 18:55:46 +0100
+Message-ID: <20250226175552.29381-5-dakr@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250226175552.29381-1-dakr@kernel.org>
 References: <20250226175552.29381-1-dakr@kernel.org>
@@ -66,131 +66,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The `firmware` field of the `module!` only accepts literal strings,
-which is due to the fact that it is implemented as a proc macro.
+Analogous to the `module!` macro `module_firmware!` adds additional
+firmware path strings to the .modinfo section.
+
+In contrast to `module!`, where path strings need to be string literals,
+path strings can be composed with the `firmware::ModInfoBuilder`.
 
 Some drivers require a lot of firmware files (such as nova-core) and
 hence benefit from more flexibility composing firmware path strings.
 
-The `firmware::ModInfoBuilder` is a helper component to flexibly compose
-firmware path strings for the .modinfo section in const context.
-
-It is meant to be used in combination with `kernel::module_firmware!`,
-which is introduced in a subsequent patch.
-
-Co-developed-by: Alice Ryhl <aliceryhl@google.com>
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/firmware.rs | 98 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
+ rust/kernel/firmware.rs | 79 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
 diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-index c5162fdc95ff..0f27dc212d6e 100644
+index 0f27dc212d6e..5cabbbc9aeb8 100644
 --- a/rust/kernel/firmware.rs
 +++ b/rust/kernel/firmware.rs
-@@ -115,3 +115,101 @@ unsafe impl Send for Firmware {}
- // SAFETY: `Firmware` only holds a pointer to a C `struct firmware`, references to which are safe to
+@@ -116,6 +116,85 @@ unsafe impl Send for Firmware {}
  // be used from any thread.
  unsafe impl Sync for Firmware {}
+ 
++/// Create firmware .modinfo entries.
++///
++/// This macro is the counterpart of the C macro `MODULE_FIRMWARE()`, but instead of taking a
++/// simple string literals, which is already covered by the `firmware` field of
++/// [`crate::prelude::module!`], it allows the caller to pass a builder type (e.g.
++/// [`ModInfoBuilder`]) which can create the firmware modinfo strings in a more flexible way.
++///
++/// Drivers should extend the [`ModInfoBuilder`] with their own driver specific builder type.
++///
++/// The `builder` argument must be a type which implements the following function.
++///
++/// `const fn create(module_name: &'static CStr) -> ModInfoBuilder`
++///
++/// `create` should pass the `module_name` to the [`ModInfoBuilder`] and, with the help of
++/// it construct the corresponding firmware modinfo.
++///
++/// Typically, such contracts would be enforced by a trait, however traits do not (yet) support
++/// const functions.
++///
++/// # Example
++///
++/// ```
++/// # mod module_firmware_test {
++/// # use kernel::firmware;
++/// # use kernel::prelude::*;
++/// #
++/// # struct MyModule;
++/// #
++/// # impl kernel::Module for MyModule {
++/// #     fn init(_module: &'static ThisModule) -> Result<Self> {
++/// #         Ok(Self)
++/// #     }
++/// # }
++/// #
++/// #
++/// struct Builder<const N: usize>;
++///
++/// impl<const N: usize> Builder<N> {
++///     const fn create(module_name: &'static kernel::str::CStr) -> firmware::ModInfoBuilder<N> {
++///         firmware::ModInfoBuilder::new(module_name)
++///             .prepare()
++///             .push(b"vendor/foo.bin")
++///             .prepare()
++///             .push(b"vendor/bar.bin")
++///     }
++/// }
++///
++/// module! {
++///    type: MyModule,
++///    name: "module_firmware_test",
++///    author: "Rust for Linux",
++///    description: "module_firmware! test module",
++///    license: "GPL",
++/// }
++///
++/// kernel::module_firmware!(Builder);
++/// # }
++/// ```
++#[macro_export]
++macro_rules! module_firmware {
++    ($($builder:tt)*) => {
 +
-+/// Builder for firmware module info.
-+///
-+/// [`ModInfoBuilder`] is a helper component to flexibly compose firmware paths strings for the
-+/// .modinfo section in const context.
-+///
-+/// It is meant to be used in combination with [`kernel::module_firmware!`].
-+///
-+/// For more details and an example, see [`kernel::module_firmware!`].
-+pub struct ModInfoBuilder<const N: usize> {
-+    buf: [u8; N],
-+    n: usize,
-+    module_name: &'static CStr,
++        #[cfg(not(MODULE))]
++        const fn __module_name() -> &'static kernel::str::CStr {
++            <LocalModule as kernel::ModuleMetadata>::NAME
++        }
++
++        #[cfg(MODULE)]
++        const fn __module_name() -> &'static kernel::str::CStr {
++            kernel::c_str!("")
++        }
++
++        #[link_section = ".modinfo"]
++        #[used]
++        static __MODULE_FIRMWARE: [u8; $($builder)*::create(__module_name()).build_length()] =
++            $($builder)*::create(__module_name()).build();
++    };
 +}
 +
-+impl<const N: usize> ModInfoBuilder<N> {
-+    /// Create an empty builder instance.
-+    pub const fn new(module_name: &'static CStr) -> Self {
-+        Self {
-+            buf: [0; N],
-+            n: 0,
-+            module_name,
-+        }
-+    }
-+
-+    const fn push_internal(mut self, bytes: &[u8]) -> Self {
-+        let mut j = 0;
-+
-+        if N == 0 {
-+            self.n += bytes.len();
-+            return self;
-+        }
-+
-+        while j < bytes.len() {
-+            if self.n < N {
-+                self.buf[self.n] = bytes[j];
-+            }
-+            self.n += 1;
-+            j += 1;
-+        }
-+        self
-+    }
-+
-+    /// Push an additional path component.
-+    ///
-+    /// After a new [`ModInfoBuilder`] instance has been created, [`ModInfoBuilder::prepare`] must
-+    /// be called before adding path components.
-+    pub const fn push(self, bytes: &[u8]) -> Self {
-+        if N != 0 && self.n == 0 {
-+            crate::build_error!("Must call prepare() before push().");
-+        }
-+
-+        self.push_internal(bytes)
-+    }
-+
-+    const fn prepare_module_name(self) -> Self {
-+        let mut this = self;
-+        let module_name = this.module_name;
-+
-+        if !this.module_name.is_empty() {
-+            this = this.push_internal(module_name.as_bytes_with_nul());
-+
-+            if N != 0 {
-+                // Re-use the space taken by the NULL terminator and swap it with the '.' separator.
-+                this.buf[this.n - 1] = b'.';
-+            }
-+        }
-+
-+        this.push_internal(b"firmware=")
-+    }
-+
-+    /// Prepare for the next module info entry.
-+    ///
-+    /// Must be called before [`ModInfoBuilder::push`] can be called.
-+    pub const fn prepare(self) -> Self {
-+        self.push_internal(b"\0").prepare_module_name()
-+    }
-+
-+    /// Build the byte array.
-+    pub const fn build(self) -> [u8; N] {
-+        // Add the final NULL terminator.
-+        let this = self.push_internal(b"\0");
-+
-+        if this.n == N {
-+            this.buf
-+        } else {
-+            crate::build_error!("Length mismatch.");
-+        }
-+    }
-+}
-+
-+impl ModInfoBuilder<0> {
-+    /// Return the length of the byte array to build.
-+    pub const fn build_length(self) -> usize {
-+        // Compensate for the NULL terminator added by `build`.
-+        self.n + 1
-+    }
-+}
+ /// Builder for firmware module info.
+ ///
+ /// [`ModInfoBuilder`] is a helper component to flexibly compose firmware paths strings for the
 -- 
 2.48.1
 
