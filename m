@@ -2,77 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212C4A45287
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 03:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895DDA4528C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 03:00:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27B6E10E830;
-	Wed, 26 Feb 2025 02:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0259E89FA7;
+	Wed, 26 Feb 2025 02:00:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="URTgDunk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lbvJaOgP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C8010E82A;
- Wed, 26 Feb 2025 02:00:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D41589FA7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 02:00:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E3B9B6121F;
- Wed, 26 Feb 2025 02:00:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C8C77C4CEDD;
- Wed, 26 Feb 2025 02:00:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1AA8D5C5675;
+ Wed, 26 Feb 2025 02:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76A4C4CEDD;
+ Wed, 26 Feb 2025 02:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740535220;
- bh=XCm0UnDl0UjwuDii1VlSg4+CB50UX9yi57hz53MV3T8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=URTgDunkhE7ZxnwQ6G530ryao16aRQ6yr6aPNQi2Mj1/GNeeS01NWF2rw1EEi7/0X
- P/YxyBB70hjT9bCUwXW0RAbLEc1aUVv8HQfVa8JkCM3gEwr/AD1iHWWkVcoX5g9+zD
- nA2lYJLi0O5kADXNC+UNE+HW5cKAWgBYNe08Tzb+CGh3Fo0CgPFNH6Rs+P344Jia4C
- kzHUTLmAWxb+sJf3sas7QNFE5S/iv/bJyzI/d24ZsA7m4643x+MnfIjzsuKpCJxR2f
- mwpfCrAxSot2upcIPC9u7AIHtQt3XvXYNWQXw0uYRqYbKwc9JkwxVAL2c4wGnonTbR
- GOt4MWtxbIXDQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id B9758C18E7C;
- Wed, 26 Feb 2025 02:00:20 +0000 (UTC)
-From: Mingcong Bai via B4 Relay <devnull+jeffbai.aosc.io@kernel.org>
-Date: Wed, 26 Feb 2025 10:00:22 +0800
-Subject: [PATCH 5/5] drm/xe/query: use PAGE_SIZE as the minimum page alignment
+ s=k20201202; t=1740535253;
+ bh=QOAgMMGKbnJ6hZHvx6ZJYTRK+iZXq18TAlHT3acDveU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lbvJaOgPkZbnkOP5hNZv3kt8F37sM5wVNdz5pQoKBOvWJpcWyMv2mVC7qw0zww0FC
+ tw0rFBZp3tLMdImqLCpGhcY34tv8uho+Lu2q/YVztsAQwyT0nOq0d2HlE+yumDi+2G
+ NnGD4V7HBDpFdEYrgDp0+8hLWBlWldNGcN9+JQ1uf7k8Z8tTkCxsl34NLWQ8Vawbdb
+ K9795FHlijgsdEKshsQNQoxr3/DEjO/bi0eHV3p1/sO3PbUu61pZGpWQwOCIptZowS
+ rIy49xymFJKzj4FXwPSz54+5ZyqnT56OBQv1abO0kJMDp0bQ7XnwlRxW3/2snteMgS
+ vdipJDYHPyQ2Q==
+Message-ID: <2632bed9-4e4a-494a-bb89-d5aac64f854e@kernel.org>
+Date: Wed, 26 Feb 2025 11:00:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 08/16] ata: libata-zpodd: convert timeouts to
+ secs_to_jiffies()
+To: Easwar Hariharan <eahariha@linux.microsoft.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Nicolas Palix <nicolas.palix@imag.fr>, James Smart
+ <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
+ Xiubo Li <xiubli@redhat.com>, Niklas Cassel <cassel@kernel.org>,
+ Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Selvin Xavier <selvin.xavier@broadcom.com>,
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ cocci@inria.fr, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+ linux-rdma@vger.kernel.org
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+ <20250225-converge-secs-to-jiffies-part-two-v3-8-a43967e36c88@linux.microsoft.com>
+ <ff51bcfc-10c8-4461-9f82-ea1d5ed784f8@linux.microsoft.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <ff51bcfc-10c8-4461-9f82-ea1d5ed784f8@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250226-xe-non-4k-fix-v1-5-80f23b5ee40e@aosc.io>
-References: <20250226-xe-non-4k-fix-v1-0-80f23b5ee40e@aosc.io>
-In-Reply-To: <20250226-xe-non-4k-fix-v1-0-80f23b5ee40e@aosc.io>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- =?utf-8?q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>, 
- Francois Dugast <francois.dugast@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Alan Previn <alan.previn.teres.alexis@intel.com>, 
- Zhanjun Dong <zhanjun.dong@intel.com>, 
- Matt Roper <matthew.d.roper@intel.com>, 
- Mateusz Naklicki <mateusz.naklicki@intel.com>
-Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>, 
- =?utf-8?q?Zbigniew_Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Shang Yatsen <429839446@qq.com>, Mingcong Bai <jeffbai@aosc.io>, 
- stable@vger.kernel.org, Haien Liang <27873200@qq.com>, 
- Shirong Liu <lsr1024@qq.com>, Haofeng Wu <s2600cw2@126.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740535218; l=2489;
- i=jeffbai@aosc.io; s=20250225; h=from:subject:message-id;
- bh=kdJ4lbdvf4bhnqSjO+QvoRJ988PIBJrpUHd4FzEvGso=;
- b=3R8diCFFhMKJlehfdNxnm+lVc0U8/QuWXTuFJtjkUklxv2W0a6BEa1EAGiD3JqlnihLtFHEIy
- CZPDU4Ib5uQCxeQzvSEP7qgt23Z1BNi2/uGSACuew5MiAADRW/OmL6l
-X-Developer-Key: i=jeffbai@aosc.io; a=ed25519;
- pk=PShXLX1m130BHsde1t/EjBugyyOjSVdzV0dYuYejXYU=
-X-Endpoint-Received: by B4 Relay for jeffbai@aosc.io/20250225 with auth_id=349
-X-Original-From: Mingcong Bai <jeffbai@aosc.io>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,61 +93,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: jeffbai@aosc.io
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mingcong Bai <jeffbai@aosc.io>
+On 2/26/25 5:24 AM, Easwar Hariharan wrote:
+> On 2/25/2025 12:17 PM, Easwar Hariharan wrote:
+>> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+>> secs_to_jiffies().  As the value here is a multiple of 1000, use
+>> secs_to_jiffies() instead of msecs_to_jiffies() to avoid the multiplication
+>>
+>> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+>> the following Coccinelle rules:
+>>
+>> @depends on patch@
+>> expression E;
+>> @@
+>>
+>> -msecs_to_jiffies
+>> +secs_to_jiffies
+>> (E
+>> - * \( 1000 \| MSEC_PER_SEC \)
+>> )
+>>
+>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+>> ---
+> 
+> This was meant to carry Damien's ack once the subject line was fixed[1], but I fixed
+> the subject line and missed adding the ack in. Damien, would you like to ack again?
 
-As this component hooks into userspace API, it should be assumed that it
-will play well with non-4K/64K pages.
+Looks like Andrew already applied the patch, which is fine.
+But nevertheless:
 
-Use `PAGE_SIZE' as the final reference for page alignment instead.
+Acked-by: Damien Le Moal <dlemoal@kernel.org>
 
-Cc: stable@vger.kernel.org
-Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
-Fixes: 801989b08aff ("drm/xe/uapi: Make constant comments visible in kernel doc")
-Tested-by: Mingcong Bai <jeffbai@aosc.io>
-Tested-by: Haien Liang <27873200@qq.com>
-Tested-by: Shirong Liu <lsr1024@qq.com>
-Tested-by: Haofeng Wu <s2600cw2@126.com>
-Link: https://github.com/FanFansfan/loongson-linux/commit/22c55ab3931c32410a077b3ddb6dca3f28223360
-Co-developed-by: Shang Yatsen <429839446@qq.com>
-Signed-off-by: Shang Yatsen <429839446@qq.com>
-Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
----
- drivers/gpu/drm/xe/xe_query.c | 2 +-
- include/uapi/drm/xe_drm.h     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
-index c059639613f7b548c168f808b7b7b354f1cf3c94..8a017c526942d1f2b401e8b9a4244e6083d7b1e5 100644
---- a/drivers/gpu/drm/xe/xe_query.c
-+++ b/drivers/gpu/drm/xe/xe_query.c
-@@ -336,7 +336,7 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
- 		config->info[DRM_XE_QUERY_CONFIG_FLAGS] =
- 			DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM;
- 	config->info[DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT] =
--		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K;
-+		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : PAGE_SIZE;
- 	config->info[DRM_XE_QUERY_CONFIG_VA_BITS] = xe->info.va_bits;
- 	config->info[DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY] =
- 		xe_exec_queue_device_get_max_priority(xe);
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index f62689ca861a4673b885629460c11d6f3bc6523d..db7cf904926ebd6789a29d620161ac051e59f13f 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -394,7 +394,7 @@ struct drm_xe_query_mem_regions {
-  *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM - Flag is set if the device
-  *      has usable VRAM
-  *  - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alignment
-- *    required by this device, typically SZ_4K or SZ_64K
-+ *    required by this device, typically PAGE_SIZE.
-  *  - %DRM_XE_QUERY_CONFIG_VA_BITS - Maximum bits of a virtual address
-  *  - %DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY - Value of the highest
-  *    available exec queue priority
 
 -- 
-2.48.1
-
-
+Damien Le Moal
+Western Digital Research
