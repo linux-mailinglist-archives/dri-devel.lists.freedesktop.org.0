@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B01BA45D33
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990F6A45D38
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:33:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA34C10E1E9;
-	Wed, 26 Feb 2025 11:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9BFF10E255;
+	Wed, 26 Feb 2025 11:33:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Td3icDVM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gl6OP3A+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7730610E1E9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 11:32:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 94DDA43427;
- Wed, 26 Feb 2025 11:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740569532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oH5TLqPmHN4KHoh4+pmfs4/A09QxMx7XTAwVuGzjhTM=;
- b=Td3icDVMjfODTdz85wp+A9sqtpo5jnYcHFQiTsczw97eA0Q8BUpWznYBtWeKUOeZYI7u5h
- w26SzXlsnJZGs+H7yLiPOWaW1eSFh0mM8HXQDroR2XzUvIkwajVVEa3pWH6cPEXFpZvAx0
- jaeXR6YmzNVBkf7T95z2pRdlRRFnLKJZ8YkepVulLaKLtn1jb4BStR4ADeAInFJnrSSfyE
- GreRQUtd5snefUyi32TrLlJLWv9r2Yt7xBNJNUFGqMtnHO/Awy6zPovYDyvoa3CZCDU8dC
- MCmF4kUJi0m5fc7Glz5TYL4qtsvRqpqfti2/r///uSXpKyCADmpUnZc+Ee9d1g==
-Date: Wed, 26 Feb 2025 12:32:08 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] drm/bridge: move bridges_show logic from
- drm_debugfs.c
-Message-ID: <20250226123208.272e7766@booty>
-In-Reply-To: <871pvl6g1t.fsf@intel.com>
-References: <20250225-drm-debugfs-show-all-bridges-v7-0-8826037ada37@bootlin.com>
- <20250225-drm-debugfs-show-all-bridges-v7-1-8826037ada37@bootlin.com>
- <878qpu56cm.fsf@intel.com> <20250225183621.6b33684b@booty>
- <871pvl6g1t.fsf@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5CE10E231;
+ Wed, 26 Feb 2025 11:33:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740569619; x=1772105619;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=bj8u/VTfvEKSVadoM6eWhJguZpmIx7UFV9zPkjdjO6o=;
+ b=Gl6OP3A+DzkiGozxjtjsnv4b/z/RP8Vp6EmLmQiWEO8R3jCDpD1ehZq9
+ opQYK6AwuVq5c+8/aZFe2jdsq/WmXAbM2yJzr1+t9Ta1dS3vOWjPhVWvn
+ +Kq3qxUJj0iSs8T3ap5LHtb5/ls7vODlhD6oXjQnsNgFiE7oqpdSU4X/b
+ ImkrFXnXCKtKomLqbqSZjM5nHEp3OjOTOZZ6HOhV6XkJ+DiJdg8aMHpNu
+ SbJ6OnzBJ3m9tjK6S/hYpe8oeHAYlnOkqWCPvwNh+Ujz3Jw50TLXWjcZ2
+ v0jv/H+k7cDx465MVztq1TEZryj5fyoJ9crVGGkX2YygkuT0oOsObbyQV A==;
+X-CSE-ConnectionGUID: lgZRT8l6S9igTm4xAd72tw==
+X-CSE-MsgGUID: fRr9QSHKS2Gh5zBXMT8wlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="66781898"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; d="scan'208";a="66781898"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2025 03:33:38 -0800
+X-CSE-ConnectionGUID: TJihvrrsRgeQybRZ0yeiSA==
+X-CSE-MsgGUID: 5L4ZB8/RTCS7cCKbWuK2zQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; d="scan'208";a="116680184"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.74])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2025 03:33:33 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Yan <andyshrk@163.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Sandy
+ Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan
+ <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, sam@ravnborg.org, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>
+Subject: Re:Re: [PATCH 2/5] drm/rockchip: stop passing non struct drm_device
+ to drm_err() and friends
+In-Reply-To: <f5dc475.a51e.19541d449c5.Coremail.andyshrk@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1737644530.git.jani.nikula@intel.com>
+ <f42da4c9943a2f2a9de4272b7849e72236d4c3f9.1737644530.git.jani.nikula@intel.com>
+ <2c0a76c3.618c.19497bb4329.Coremail.andyshrk@163.com>
+ <87plkcbfp0.fsf@intel.com>
+ <730ee1d4.f63.1949b97fc99.Coremail.andyshrk@163.com>
+ <21d7745d-8fcd-484f-b1f2-82fd87dc8079@suse.de>
+ <f5dc475.a51e.19541d449c5.Coremail.andyshrk@163.com>
+Date: Wed, 26 Feb 2025 13:33:30 +0200
+Message-ID: <87plj53ppx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekgeegiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhro
- hhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,86 +81,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Jani,
+On Wed, 26 Feb 2025, "Andy Yan" <andyshrk@163.com> wrote:
+> Hi=EF=BC=8C
+>
+> =E5=9C=A8 2025-02-26 16:33:21=EF=BC=8C"Thomas Zimmermann" <tzimmermann@su=
+se.de> =E5=86=99=E9=81=93=EF=BC=9A
+>>Hi
+>>
+>>Am 25.01.25 um 04:53 schrieb Andy Yan:
+>>>
+>>> =E5=9C=A8 2025-01-24 19:43:07=EF=BC=8C"Jani Nikula" <jani.nikula@intel.=
+com> =E5=86=99=E9=81=93=EF=BC=9A
+>>>> On Fri, 24 Jan 2025, "Andy Yan" <andyshrk@163.com> wrote:
+>>>>> Hi=EF=BC=8C
+>>>>>
+>>>>> At 2025-01-23 23:09:09, "Jani Nikula" <jani.nikula@intel.com> wrote:
+>>>>>> The expectation is that the struct drm_device based logging helpers =
+get
+>>>>>> passed an actual struct drm_device pointer rather than some random
+>>>>>> struct pointer where you can dereference the ->dev member.
+>>>>>>
+>>>>>> Convert drm_err(hdmi, ...) to dev_err(hdmi->dev, ...). This matches
+>>>>>> current usage, but drops "[drm] *ERROR*" prefix from logging.
+>>>>> Frankly, I prefer the original version of the log.
+>>>>> It is a platform driver, so it should use its own device.
+>>>>> It is a driver that works in drm subsystem, so it's better to use "[d=
+rm] *ERROR*" prefix when logging
+>>>> If you need to do struct device based logging that is not the same
+>>>> device as the struct drm_device dev member, you need to use dev_err()
+>>>> and friends. You can't and must not use drm_err() and friends.
+>>>>
+>>>> It's as simple as that.
+>>>>
+>>>> The current drm_err(hdmi, ...) usage is simply abuse of the macros, and
+>>>> must stop.
+>>> Perhaps when you initially designed this macros, you intended it to acc=
+ept only drm_device,
+>>> but your code implementation didn't enforce this restriction at the beg=
+inning.
+>>
+>>C'mon. Are we really arguing about type safety now?
+>>
+>>Patch 5 adds a little getter function that does the type check on the=20
+>>function call's argument.
+>>
+>>
+>>> If that's truly what you intended, I suggest just reverting this commit=
+ that converting to use these macros[0],
+>>> as neither drm_err nor dev_err can maintain consistency with the origin=
+al log of this driver.
+>>> Alternatively, as suggested by Sam  in the initial submission of your p=
+atch 5 years ago,
+>>> there should also be a macro similar to drm_dev_info(device *, ..).[1]
+>>
+>>DRM code tends to keep a reference to the drm_device somewhere and=20
+>>fetches it if necessary. For this patch, it should be possible to fetch=20
+>>the DRM device from struct rockchip_hdmi easily. Just do
+>>
+>> =C2=A0 drm_err(rockchip_hdmi_drm_dev(hdmi), "...");
+>>
+>>This would resolve the problem without new logging functions and keep=20
+>>the "[drm]" prefix to the messages.
+>
+> Yes, this keeps the "[drm]" prefix to the log messages, but it also chang=
+ed hdmi
+> device from drm device in the log messages.
+> For more efficient debugging, it is preferable for log entries to explici=
+tly specify which device generated them,
+> especially in DRM systems where multiple devices(bridge/encoder) may be p=
+resent."
+>
+> And I'm ok with this PATCH. However, I would also like to know your and J=
+ani's opinions on whether we can consider
+> adding an API similar to drm_dev_info=EF=BC=8Cas Sam suggested before. Of=
+ course, this could be left for future implementation
+> by others.
 
-On Tue, 25 Feb 2025 20:21:50 +0200
-Jani Nikula <jani.nikula@linux.intel.com> wrote:
+I'm not at all thrilled about adding loads of variations of drm specific
+debug macros. They just multiply.
 
-> On Tue, 25 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> > Hello Jani,
-> >
-> > On Tue, 25 Feb 2025 18:36:41 +0200
-> > Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> >  
-> >> On Tue, 25 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:  
-> >> > In preparation to expose more info about bridges in debugfs, which will
-> >> > require more insight into drm_bridge data structures, move the bridges_show
-> >> > code to drm_bridge.c.
-> >> >
-> >> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>    
-> >> 
-> >> I hate myself for doing this on a patch that's at v7... but here goes.  
-> >
-> > Please don't! :-) This patch is new in v7, and a different (and
-> > definitely worse) approach was present in v6, but there was nothing
-> > before.
-> >  
-> >> Perhaps consider moving the bridges debugfs creation and fops to
-> >> drm_bridge.c instead of just adding
-> >> drm_bridge_debugfs_show_encoder_bridges().
-> >> 
-> >> For example, add drm_bridge_debugfs_add(struct drm_encoder *encoder),
-> >> which then contains the debugfs_create_file() call.  
-> >
-> > I think it should go in drm_encoder.c, not drm_bridge.c, right? Here we
-> > are showing the bridges attached to an encoder, so the entry point is
-> > each encoder.  
-> 
-> I'm still thinking drm_bridge.c, because it's about bridges and their
-> details. The encoder shouldn't care about bridge implementation details.
+The way around that would be to use _Generic() to allow passing either
+struct drm_device (which would use drm->dev) or a more specific struct
+device to be used for dev based logging. I'd be supportive of that.
 
-Ah, I think I now get what you mean.
+However, this patch series is a dependency for implementing generics at
+a later time. I'd like to start here instead of piling on more work.
 
-Current code is:
+Furthermore, there's been talk about drm display object based
+logging. The generics could later be expanded to allow for example:
 
-drm_encoder_register_all()                             [drm_encoder.c]
- -> drm_debugfs_encoder_add                            [drm_debugfs.c]
-   -> debugfs_create_file("bridges"...  &bridges_fops) [drm_debugfs.c]
-                                    [bridges_fops is in drm_debugfs.c]
+	drm_err(connector, "Fail\n");
 
-Moving the last 2 lines to drm_bridge.c and into a new function we'd
-have:
+to translate to:
 
-drm_encoder_register_all()                             [drm_encoder.c]
- -> drm_debugfs_encoder_add [*]                        [drm_debugfs.c]
-  -> drm_bridge_debugfs_add_encoder_bridges_file (NEW) [drm_bridge.c]
-   -> debugfs_create_file("bridges"...  &bridges_fops) [drm_bridge.c]
-                                    [bridges_fops is in drm_bridge.c]
+	dev_err(connector->dev->dev, "[CONNECTOR:%d:%s] Fail\n",
+		connector->base.id, connector->name);
 
-Potentially [*] could be moved to drm_encoder.c, but that is not bridge
-related and can be done as a future step.
+This would simplify a lot of connector based logging. Similarly for
+other objects.
 
-Is this what you had in mind?
+BR,
+Jani.
 
-> > On the other hand in patch 2 we should move the
-> > drm_debugfs_global_add() code to drm_bridge.c, as it's showing bridges
-> > ina encoder-independent way.  
-> 
-> Agreed on that.
-> 
-> > And finally drm_bridge should export the common
-> > drm_bridge_debugfs_show_bridge() function to drm_encoder.c.  
-> 
-> Disagree. That will still require the EXPORT and #ifdefs around
-> CONFIG_DEBUG_FS.
 
-With the above-sketched idea I agree we wouldn't need to export
-drm_bridge_debugfs_show_bridge().
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--=20
+Jani Nikula, Intel
