@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8748BA46009
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 14:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935F5A4600A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 14:03:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A5210E8F6;
-	Wed, 26 Feb 2025 13:03:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036BB10E8EF;
+	Wed, 26 Feb 2025 13:03:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R8RRgpxi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m1fAJdVf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9258E10E8F5;
- Wed, 26 Feb 2025 13:03:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 491B910E8EF;
+ Wed, 26 Feb 2025 13:03:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740574987; x=1772110987;
+ t=1740574993; x=1772110993;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4aSoKiY8bcNuh/gRjCi8y/ohhXTu9WuIRtyqFkFWuS0=;
- b=R8RRgpxipQK0qPhoxGv2WkKNb57hwL9JIJYgK711pnRFai9KRDzPk0ho
- fZ8P/XN2JiS+fsMKaPTTk/R9WDwwaP2qOXUn74gI559g0lRNkU3y+NSL4
- uKf+qRgRYyazBvE3n1FQ5q1CQlgqUuwMwLL39OzO/sXu7L5FIIQLnkb1a
- raJSIokRJxaAwZxaVF8I5tR2ZEB6d/I3xoqFKho/wQaxUUwAVn1wc6Cq5
- 54byWsqTglKi9mLy1eKWlMZ79WaZNdZu0YJ63dxNDSWtjD8zpKji+Wkml
- U5RKHi6687J80IBxlInll4ygqI6MX8p2xhEyUZ/ya6MYGbubeONuXfygY g==;
-X-CSE-ConnectionGUID: tFzMWi1jSEKj1n8VxzYTRQ==
-X-CSE-MsgGUID: Vcu+zgmsQLaphhpRJ0Z9qg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41341504"
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="41341504"
+ bh=PGP8cFSACaa9xkHKPR1AFIWCb1MZhCkvTQXLnCSnUsM=;
+ b=m1fAJdVfoMQiwT2s31T1e9dDuxb2xBJ88HHubM7B0nb26Qd8+Sa+VLv5
+ Qkh/1VKhUQy6qT7yxJYBjAbUp3nQ9nfAFgpESKVnnRc5942VE9CFhapcT
+ CdcxSbi22HUJkUswNOsySSZjuzWcmUiKUJGiEiEHDwT4qKbkuvJ8dR3d2
+ mVLpF5GY4G98GnEu5HRUlOZo3HUVzT/tYNoR3kBHig4UZ4VxMs0yRJHie
+ OWHodxGaa7bQR6UdQhbVqLxOWVAr9WECqTnl9fc+o1iGMV0UjdB+aVrfr
+ YdVMm+9aR7nWsno640WcW+59Q++0JAdaNxIok7F2RWnL2Mj8dtmdSyPpz Q==;
+X-CSE-ConnectionGUID: QYlv2pkNQDipE1q3BFTCxw==
+X-CSE-MsgGUID: UJqafyREQMyaUiA3oR38yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41341528"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="41341528"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 05:03:07 -0800
-X-CSE-ConnectionGUID: sfzqUCNlSYuPax1xXRAVQg==
-X-CSE-MsgGUID: x4ZAdKQiQGGTMQte+F7DTw==
+ 26 Feb 2025 05:03:12 -0800
+X-CSE-ConnectionGUID: F4E0F4MERYKDT6RyaNgYwg==
+X-CSE-MsgGUID: nh1jq3BSTuSPu6jNeN8PhA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="121690516"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="121690576"
 Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 05:03:00 -0800
+ 26 Feb 2025 05:03:06 -0800
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -60,10 +60,9 @@ Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
  linux-kernel@vger.kernel.org,
  Alexander Usyskin <alexander.usyskin@intel.com>,
  Tomas Winkler <tomasw@gmail.com>
-Subject: [PATCH v5 02/11] mtd: add driver for intel graphics non-volatile
- memory device
-Date: Wed, 26 Feb 2025 14:51:34 +0200
-Message-ID: <20250226125143.3791515-3-alexander.usyskin@intel.com>
+Subject: [PATCH v5 03/11] mtd: intel-dg: implement region enumeration
+Date: Wed, 26 Feb 2025 14:51:35 +0200
+Message-ID: <20250226125143.3791515-4-alexander.usyskin@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250226125143.3791515-1-alexander.usyskin@intel.com>
 References: <20250226125143.3791515-1-alexander.usyskin@intel.com>
@@ -84,8 +83,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add auxiliary driver for intel discrete graphics
-non-volatile memory device.
+In intel-dg, there is no access to the spi controller,
+the information is extracted from the descriptor region.
 
 CC: Lucas De Marchi <lucas.demarchi@intel.com>
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
@@ -94,244 +93,235 @@ Co-developed-by: Tomas Winkler <tomasw@gmail.com>
 Signed-off-by: Tomas Winkler <tomasw@gmail.com>
 Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 ---
- MAINTAINERS                        |   7 ++
- drivers/mtd/devices/Kconfig        |  11 +++
- drivers/mtd/devices/Makefile       |   1 +
- drivers/mtd/devices/mtd-intel-dg.c | 138 +++++++++++++++++++++++++++++
- include/linux/intel_dg_nvm_aux.h   |  27 ++++++
- 5 files changed, 184 insertions(+)
- create mode 100644 drivers/mtd/devices/mtd-intel-dg.c
- create mode 100644 include/linux/intel_dg_nvm_aux.h
+ drivers/mtd/devices/mtd-intel-dg.c | 198 +++++++++++++++++++++++++++++
+ 1 file changed, 198 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 54529950ca50..04764a5d564d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11466,6 +11466,13 @@ L:	linux-kernel@vger.kernel.org
- S:	Supported
- F:	arch/x86/include/asm/intel-family.h
- 
-+INTEL DISCRETE GRAPHIC NVM MTD DRIVER
-+M:	Alexander Usyskin <alexander.usyskin@intel.com>
-+L:	linux-mtd@lists.infradead.org
-+S:	Supported
-+F:	drivers/mtd/devices/mtd-intel-dg.c
-+F:	include/linux/intel_dg_nvm_aux.h
-+
- INTEL DRM DISPLAY FOR XE AND I915 DRIVERS
- M:	Jani Nikula <jani.nikula@linux.intel.com>
- M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
-diff --git a/drivers/mtd/devices/Kconfig b/drivers/mtd/devices/Kconfig
-index ff2f9e55ef28..d93edf45c0bb 100644
---- a/drivers/mtd/devices/Kconfig
-+++ b/drivers/mtd/devices/Kconfig
-@@ -183,6 +183,17 @@ config MTD_POWERNV_FLASH
- 	  platforms from Linux. This device abstracts away the
- 	  firmware interface for flash access.
- 
-+config MTD_INTEL_DG
-+	tristate "Intel Discrete Graphic non-volatile memory driver"
-+	depends on AUXILIARY_BUS
-+	depends on MTD
-+	help
-+	  This provides MTD device to access Intel Discrete Graphic
-+	  non-volatile memory.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called mtd-intel-dg.
-+
- comment "Disk-On-Chip Device Drivers"
- 
- config MTD_DOCG3
-diff --git a/drivers/mtd/devices/Makefile b/drivers/mtd/devices/Makefile
-index d11eb2b8b6f8..77c05d269034 100644
---- a/drivers/mtd/devices/Makefile
-+++ b/drivers/mtd/devices/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_MTD_SST25L)	+= sst25l.o
- obj-$(CONFIG_MTD_BCM47XXSFLASH)	+= bcm47xxsflash.o
- obj-$(CONFIG_MTD_ST_SPI_FSM)    += st_spi_fsm.o
- obj-$(CONFIG_MTD_POWERNV_FLASH)	+= powernv_flash.o
-+obj-$(CONFIG_MTD_INTEL_DG)	+= mtd-intel-dg.o
- 
- 
- CFLAGS_docg3.o			+= -I$(src)
 diff --git a/drivers/mtd/devices/mtd-intel-dg.c b/drivers/mtd/devices/mtd-intel-dg.c
-new file mode 100644
-index 000000000000..c1dcb99b1d9a
---- /dev/null
+index c1dcb99b1d9a..2b2085bdbd64 100644
+--- a/drivers/mtd/devices/mtd-intel-dg.c
 +++ b/drivers/mtd/devices/mtd-intel-dg.c
-@@ -0,0 +1,138 @@
-+// SPDX-License-Identifier: GPL-2.0
+@@ -3,6 +3,8 @@
+  * Copyright(c) 2019-2024, Intel Corporation. All rights reserved.
+  */
+ 
++#include <linux/bitfield.h>
++#include <linux/bits.h>
+ #include <linux/device.h>
+ #include <linux/intel_dg_nvm_aux.h>
+ #include <linux/io.h>
+@@ -22,9 +24,199 @@ struct intel_dg_nvm {
+ 		u8 id;
+ 		u64 offset;
+ 		u64 size;
++		unsigned int is_readable:1;
++		unsigned int is_writable:1;
+ 	} regions[] __counted_by(nregions);
+ };
+ 
++#define NVM_TRIGGER_REG       0x00000000
++#define NVM_VALSIG_REG        0x00000010
++#define NVM_ADDRESS_REG       0x00000040
++#define NVM_REGION_ID_REG     0x00000044
 +/*
-+ * Copyright(c) 2019-2024, Intel Corporation. All rights reserved.
++ * [15:0]-Erase size = 0x0010 4K 0x0080 32K 0x0100 64K
++ * [23:16]-Reserved
++ * [31:24]-Erase MEM RegionID
 + */
++#define NVM_ERASE_REG         0x00000048
++#define NVM_ACCESS_ERROR_REG  0x00000070
++#define NVM_ADDRESS_ERROR_REG 0x00000074
 +
-+#include <linux/device.h>
-+#include <linux/intel_dg_nvm_aux.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/string.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
++/* Flash Valid Signature */
++#define NVM_FLVALSIG          0x0FF0A55A
 +
-+struct intel_dg_nvm {
-+	struct kref refcnt;
-+	void __iomem *base;
-+	size_t size;
-+	unsigned int nregions;
-+	struct {
-+		const char *name;
-+		u8 id;
-+		u64 offset;
-+		u64 size;
-+	} regions[] __counted_by(nregions);
-+};
++#define NVM_MAP_ADDR_MASK     GENMASK(7, 0)
++#define NVM_MAP_ADDR_SHIFT    0x00000004
 +
-+static void intel_dg_nvm_release(struct kref *kref)
++#define NVM_REGION_ID_DESCRIPTOR  0
++/* Flash Region Base Address */
++#define NVM_FRBA      0x40
++/* Flash Region __n - Flash Descriptor Record */
++#define NVM_FLREG(__n) (NVM_FRBA + ((__n) * 4))
++/*  Flash Map 1 Register */
++#define NVM_FLMAP1_REG  0x18
++#define NVM_FLMSTR4_OFFSET 0x00C
++
++#define NVM_ACCESS_ERROR_PCIE_MASK 0x7
++
++#define NVM_FREG_BASE_MASK GENMASK(15, 0)
++#define NVM_FREG_ADDR_MASK GENMASK(31, 16)
++#define NVM_FREG_ADDR_SHIFT 12
++#define NVM_FREG_MIN_REGION_SIZE 0xFFF
++
++static inline void idg_nvm_set_region_id(struct intel_dg_nvm *nvm, u8 region)
 +{
-+	struct intel_dg_nvm *nvm = container_of(kref, struct intel_dg_nvm, refcnt);
-+	int i;
-+
-+	pr_debug("freeing intel_dg nvm\n");
-+	for (i = 0; i < nvm->nregions; i++)
-+		kfree(nvm->regions[i].name);
-+	kfree(nvm);
++	iowrite32((u32)region, nvm->base + NVM_REGION_ID_REG);
 +}
 +
-+static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
-+			      const struct auxiliary_device_id *aux_dev_id)
++static inline u32 idg_nvm_error(struct intel_dg_nvm *nvm)
 +{
-+	struct intel_dg_nvm_dev *invm = auxiliary_dev_to_intel_dg_nvm_dev(aux_dev);
-+	struct device *device;
-+	struct intel_dg_nvm *nvm;
-+	unsigned int nregions;
-+	unsigned int i, n;
-+	char *name;
-+	int ret;
++	void __iomem *base = nvm->base;
 +
-+	device = &aux_dev->dev;
++	u32 reg = ioread32(base + NVM_ACCESS_ERROR_REG) & NVM_ACCESS_ERROR_PCIE_MASK;
 +
-+	/* count available regions */
-+	for (nregions = 0, i = 0; i < INTEL_DG_NVM_REGIONS; i++) {
-+		if (invm->regions[i].name)
-+			nregions++;
-+	}
++	/* reset error bits */
++	if (reg)
++		iowrite32(reg, base + NVM_ACCESS_ERROR_REG);
 +
-+	if (!nregions) {
-+		dev_err(device, "no regions defined\n");
++	return reg;
++}
++
++static inline u32 idg_nvm_read32(struct intel_dg_nvm *nvm, u32 address)
++{
++	void __iomem *base = nvm->base;
++
++	iowrite32(address, base + NVM_ADDRESS_REG);
++
++	return ioread32(base + NVM_TRIGGER_REG);
++}
++
++static int idg_nvm_get_access_map(struct intel_dg_nvm *nvm, u32 *access_map)
++{
++	u32 flmap1;
++	u32 fmba;
++	u32 fmstr4;
++	u32 fmstr4_addr;
++
++	idg_nvm_set_region_id(nvm, NVM_REGION_ID_DESCRIPTOR);
++
++	flmap1 = idg_nvm_read32(nvm, NVM_FLMAP1_REG);
++	if (idg_nvm_error(nvm))
++		return -EIO;
++	/* Get Flash Master Baser Address (FMBA) */
++	fmba = (FIELD_GET(NVM_MAP_ADDR_MASK, flmap1) << NVM_MAP_ADDR_SHIFT);
++	fmstr4_addr = fmba + NVM_FLMSTR4_OFFSET;
++
++	fmstr4 = idg_nvm_read32(nvm, fmstr4_addr);
++	if (idg_nvm_error(nvm))
++		return -EIO;
++
++	*access_map = fmstr4;
++	return 0;
++}
++
++static bool idg_nvm_region_readable(u32 access_map, u8 region)
++{
++	if (region < 12)
++		return access_map & BIT(region + 8); /* [19:8] */
++	else
++		return access_map & BIT(region - 12); /* [3:0] */
++}
++
++static bool idg_nvm_region_writeable(u32 access_map, u8 region)
++{
++	if (region < 12)
++		return access_map & BIT(region + 20); /* [31:20] */
++	else
++		return access_map & BIT(region - 8); /* [7:4] */
++}
++
++static int idg_nvm_is_valid(struct intel_dg_nvm *nvm)
++{
++	u32 is_valid;
++
++	idg_nvm_set_region_id(nvm, NVM_REGION_ID_DESCRIPTOR);
++
++	is_valid = idg_nvm_read32(nvm, NVM_VALSIG_REG);
++	if (idg_nvm_error(nvm))
++		return -EIO;
++
++	if (is_valid != NVM_FLVALSIG)
 +		return -ENODEV;
++
++	return 0;
++}
++
++static int intel_dg_nvm_init(struct intel_dg_nvm *nvm, struct device *device)
++{
++	int ret;
++	unsigned int i, n;
++	u32 access_map = 0;
++
++	/* clean error register, previous errors are ignored */
++	idg_nvm_error(nvm);
++
++	ret = idg_nvm_is_valid(nvm);
++	if (ret) {
++		dev_err(device, "The MEM is not valid %d\n", ret);
++		return ret;
 +	}
 +
-+	nvm = kzalloc(struct_size(nvm, regions, nregions), GFP_KERNEL);
-+	if (!nvm)
-+		return -ENOMEM;
++	if (idg_nvm_get_access_map(nvm, &access_map))
++		return -EIO;
 +
-+	kref_init(&nvm->refcnt);
++	for (i = 0, n = 0; i < nvm->nregions; i++) {
++		u32 address, base, limit, region;
++		u8 id = nvm->regions[i].id;
 +
-+	nvm->nregions = nregions;
-+	for (n = 0, i = 0; i < INTEL_DG_NVM_REGIONS; i++) {
-+		if (!invm->regions[i].name)
++		address = NVM_FLREG(id);
++		region = idg_nvm_read32(nvm, address);
++
++		base = FIELD_GET(NVM_FREG_BASE_MASK, region) << NVM_FREG_ADDR_SHIFT;
++		limit = (FIELD_GET(NVM_FREG_ADDR_MASK, region) << NVM_FREG_ADDR_SHIFT) |
++			NVM_FREG_MIN_REGION_SIZE;
++
++		dev_dbg(device, "[%d] %s: region: 0x%08X base: 0x%08x limit: 0x%08x\n",
++			id, nvm->regions[i].name, region, base, limit);
++
++		if (base >= limit || (i > 0 && limit == 0)) {
++			dev_dbg(device, "[%d] %s: disabled\n",
++				id, nvm->regions[i].name);
++			nvm->regions[i].is_readable = 0;
 +			continue;
++		}
 +
-+		name = kasprintf(GFP_KERNEL, "%s.%s",
-+				 dev_name(&aux_dev->dev), invm->regions[i].name);
-+		if (!name)
-+			continue;
-+		nvm->regions[n].name = name;
-+		nvm->regions[n].id = i;
-+		n++;
++		if (nvm->size < limit)
++			nvm->size = limit;
++
++		nvm->regions[i].offset = base;
++		nvm->regions[i].size = limit - base + 1;
++		/* No write access to descriptor; mask it out*/
++		nvm->regions[i].is_writable = idg_nvm_region_writeable(access_map, id);
++
++		nvm->regions[i].is_readable = idg_nvm_region_readable(access_map, id);
++		dev_dbg(device, "Registered, %s id=%d offset=%lld size=%lld rd=%d wr=%d\n",
++			nvm->regions[i].name,
++			nvm->regions[i].id,
++			nvm->regions[i].offset,
++			nvm->regions[i].size,
++			nvm->regions[i].is_readable,
++			nvm->regions[i].is_writable);
++
++		if (nvm->regions[i].is_readable)
++			n++;
 +	}
-+	nvm->nregions = n; /* in case where kasprintf fail */
 +
-+	nvm->base = devm_ioremap_resource(device, &invm->bar);
-+	if (IS_ERR(nvm->base)) {
-+		dev_err(device, "mmio not mapped\n");
-+		ret = PTR_ERR(nvm->base);
++	dev_dbg(device, "Registered %d regions\n", n);
++
++	/* Need to add 1 to the amount of memory
++	 * so it is reported as an even block
++	 */
++	nvm->size += 1;
++
++	return n;
++}
++
+ static void intel_dg_nvm_release(struct kref *kref)
+ {
+ 	struct intel_dg_nvm *nvm = container_of(kref, struct intel_dg_nvm, refcnt);
+@@ -88,6 +280,12 @@ static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
+ 		goto err;
+ 	}
+ 
++	ret = intel_dg_nvm_init(nvm, device);
++	if (ret < 0) {
++		dev_err(device, "cannot initialize nvm %d\n", ret);
 +		goto err;
 +	}
 +
-+	dev_set_drvdata(&aux_dev->dev, nvm);
-+
-+	return 0;
-+
-+err:
-+	kref_put(&nvm->refcnt, intel_dg_nvm_release);
-+	return ret;
-+}
-+
-+static void intel_dg_mtd_remove(struct auxiliary_device *aux_dev)
-+{
-+	struct intel_dg_nvm *nvm = dev_get_drvdata(&aux_dev->dev);
-+
-+	if (!nvm)
-+		return;
-+
-+	dev_set_drvdata(&aux_dev->dev, NULL);
-+
-+	kref_put(&nvm->refcnt, intel_dg_nvm_release);
-+}
-+
-+static const struct auxiliary_device_id intel_dg_mtd_id_table[] = {
-+	{
-+		.name = "i915.nvm",
-+	},
-+	{
-+		.name = "xe.nvm",
-+	},
-+	{
-+		/* sentinel */
-+	}
-+};
-+MODULE_DEVICE_TABLE(auxiliary, intel_dg_mtd_id_table);
-+
-+static struct auxiliary_driver intel_dg_mtd_driver = {
-+	.probe  = intel_dg_mtd_probe,
-+	.remove = intel_dg_mtd_remove,
-+	.driver = {
-+		/* auxiliary_driver_register() sets .name to be the modname */
-+	},
-+	.id_table = intel_dg_mtd_id_table
-+};
-+
-+module_auxiliary_driver(intel_dg_mtd_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Intel Corporation");
-+MODULE_DESCRIPTION("Intel DGFX MTD driver");
-diff --git a/include/linux/intel_dg_nvm_aux.h b/include/linux/intel_dg_nvm_aux.h
-new file mode 100644
-index 000000000000..2cc4179fbde2
---- /dev/null
-+++ b/include/linux/intel_dg_nvm_aux.h
-@@ -0,0 +1,27 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright(c) 2019-2024, Intel Corporation. All rights reserved.
-+ */
-+
-+#ifndef __INTEL_DG_NVM_AUX_H__
-+#define __INTEL_DG_NVM_AUX_H__
-+
-+#include <linux/auxiliary_bus.h>
-+
-+#define INTEL_DG_NVM_REGIONS 13
-+
-+struct intel_dg_nvm_region {
-+	const char *name;
-+};
-+
-+struct intel_dg_nvm_dev {
-+	struct auxiliary_device aux_dev;
-+	bool writeable_override;
-+	struct resource bar;
-+	const struct intel_dg_nvm_region *regions;
-+};
-+
-+#define auxiliary_dev_to_intel_dg_nvm_dev(auxiliary_dev) \
-+	container_of(auxiliary_dev, struct intel_dg_nvm_dev, aux_dev)
-+
-+#endif /* __INTEL_DG_NVM_AUX_H__ */
+ 	dev_set_drvdata(&aux_dev->dev, nvm);
+ 
+ 	return 0;
 -- 
 2.43.0
 
