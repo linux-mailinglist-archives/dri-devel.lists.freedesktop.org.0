@@ -2,87 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454E7A45F73
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:39:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2145EA45F7A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:40:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1F910E2D6;
-	Wed, 26 Feb 2025 12:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFAF10E2D7;
+	Wed, 26 Feb 2025 12:40:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TVokcpGW";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="JPa35gLf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456C410E2D6
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:39:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740573548;
- bh=Be98U+3nuuSPxPyag9P+ADgagKKSNdsCQD96gtP6QyM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TVokcpGW6T6rlNiHJ1PBSVs/Pu4XLYWfDKUY+5a+lNzwgyVZKfI/QCuF08TxawQfT
- aNZnWSolzvrl8qXzo8n8PL0+VSi+EnT6bxaksECCHNGLx0cWH9+KR4CuiSYs5u3Y+M
- etDWL3yql/ZsVhAWgBLlNQkrHvjZ5J1oOJurmjb3OjJD3fQSJOcZWfZVQpKndBHpWc
- 6EX/eg7UgJaPWjMuXc80TkOXXBqVEVXK3BHf9Cq/m+x5o+534iaQSaO47Ixp4nBdlU
- kpp3ucNWUGGxM2lTo8EeQqXoLeUxmNbKL2YHzNBLCdjpKsYINxdNjxH5URJGHQ7P1E
- D3LFh4MbhRc5Q==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 304A410E2D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:40:10 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 44AF317E061D;
- Wed, 26 Feb 2025 13:39:06 +0100 (CET)
-Message-ID: <17850817-123d-41d9-9b1c-41ded05e2be1@collabora.com>
-Date: Wed, 26 Feb 2025 13:39:05 +0100
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Z2vFK6VcDz9tH5;
+ Wed, 26 Feb 2025 13:40:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1740573605; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zZ+uIJiq3RhTKEA0gh5ZWipu0RfM+2RCWylSkxgmlWY=;
+ b=JPa35gLfjz9F0PVStYwlKmHjJ9E4k0AWCHhRXdZDYvnIfaMeuv1akUBer9uNAQCcsqpm0x
+ iS51R5FQ3Z1M20KjKqFaL1YQkQAt/giBv8Nv4FV2DCshI9pkqVXDFtcrRTOeXESoRNPxP0
+ lyETC7FJIB15e4qEL1Aw6KQzdK3wjVkM9GfdCRRo7DHJmwsZdF+YAYF24CS/QWbehQFX3e
+ mZIybZA4SkmML1T/0+1IFQzD8672eJ6JrchgxIa/yAM5zHex54bPEAh0QKnNcLyNzK/f7x
+ HylFjsXdhcxovtaRuiHhlTiO/wif3NStyEG5iGGLq7k2IvbNud+yUe9Okl9qwQ==
+Message-ID: <99a18daf596ca384d38e561675cf3e13a9ed3161.camel@mailbox.org>
+Subject: Re: [PATCH V3] drm/sched: Fix fence reference count leak
+From: Philipp Stanner <phasta@mailbox.org>
+To: Qianyi Liu <liuqianyi125@gmail.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+Date: Wed, 26 Feb 2025 13:40:01 +0100
+In-Reply-To: <20250226090521.473360-1-liuqianyi125@gmail.com>
+References: <20250226090521.473360-1-liuqianyi125@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 04/12] drm/mediatek: move to
- devm_platform_ioremap_resource() usage
-To: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner
- <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Marek Vasut <marex@denx.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org, CK Hu <ck.hu@mediatek.com>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
- <20250225-memory-drm-misc-next-v1-4-9d0e8761107a@redhat.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250225-memory-drm-misc-next-v1-4-9d0e8761107a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: dcpuawum54q7wqs4efgup93ayfw5tcuh
+X-MBO-RS-ID: 4711bda07a75dfb2973
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,31 +66,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 25/02/25 23:20, Anusha Srivatsa ha scritto:
-> Replace platform_get_resource + devm_ioremap_resource
-> with just devm_platform_ioremap_resource()
-> 
-> Used Coccinelle to do this change. SmPl patch:
-> @rule_1@
-> identifier res;
-> expression ioremap_res;
-> identifier pdev;
-> @@
-> -struct resource *res;
-> ...
-> -res = platform_get_resource(pdev,...);
-> -ioremap_res = devm_ioremap_resource(...);
-> +ioremap_res = devm_platform_ioremap_resource(pdev,0);
-> 
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+On Wed, 2025-02-26 at 17:05 +0800, Qianyi Liu wrote:
+> From: qianyi liu <liuqianyi125@gmail.com>
+>=20
+> The last_scheduled fence leaked when an entity was being killed and
+> adding its callback failed.
+>=20
+> Decrement the reference count of prev when dma_fence_add_callback()
+> fails, ensuring proper balance.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and
+> fini")
+> Signed-off-by: qianyi liu <liuqianyi125@gmail.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+@Matt: since you in principle agreed with this patch, could you give it
+an official RB?
 
+I could then take it [but will probably rephrase some nits in the
+commit message]
+
+
+P.
+
+> ---
+> v2 -> v3: Rework commit message (Markus)
+> v1 -> v2: Added 'Fixes:' tag and clarified commit message (Philipp
+> and Matthew)
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 7 +++++--
+> =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 69bcf0e99d57..1c0c14bcf726 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -259,9 +259,12 @@ static void drm_sched_entity_kill(struct
+> drm_sched_entity *entity)
+> =C2=A0		struct drm_sched_fence *s_fence =3D job->s_fence;
+> =C2=A0
+> =C2=A0		dma_fence_get(&s_fence->finished);
+> -		if (!prev || dma_fence_add_callback(prev, &job-
+> >finish_cb,
+> -					=C2=A0=C2=A0
+> drm_sched_entity_kill_jobs_cb))
+> +		if (!prev ||
+> +		=C2=A0=C2=A0=C2=A0 dma_fence_add_callback(prev, &job->finish_cb,
+> +					=C2=A0=C2=A0
+> drm_sched_entity_kill_jobs_cb)) {
+> +			dma_fence_put(prev);
+> =C2=A0			drm_sched_entity_kill_jobs_cb(NULL, &job-
+> >finish_cb);
+> +		}
+> =C2=A0
+> =C2=A0		prev =3D &s_fence->finished;
+> =C2=A0	}
 
