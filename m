@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D7EA45564
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 07:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6675A455BA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 07:38:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B0710E1C4;
-	Wed, 26 Feb 2025 06:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFE310E0E8;
+	Wed, 26 Feb 2025 06:38:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NsipuVRi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qNPAYkio";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 685A010E1C4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 06:17:13 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5439a6179a7so614927e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:17:13 -0800 (PST)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F43B10E0A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 06:38:44 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-3061513d353so67899621fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:38:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740550632; x=1741155432; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740551922; x=1741156722; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
  bh=vdAWglkpNWkKlfVQY0b30qa+fHtrIyjn4IdPv+J5KmY=;
- b=NsipuVRiHW77/Jw/za7aIcvfs8cae5rmVSb7jMmjoFFbiBjguQ/8FSrrW4HDYrXfPM
- fBJ9twOWCuP3NT3pGd+Loq9HU4XLY8bRna2z5qj7wY/403ng+PdqGDIhd6gFPXY8D8zh
- 55DHKLCfpR86qISznMQ/WZaDLikQqetscVnVpv2sKqaoxGcvae/2V6J4YlpoX6Sjop/B
- R68wtXJLWFlULXeIQ/n1JXElWTVO2zq+VLCxtpFBvOHES3vNJS1HT797leelvSlqVMHe
- W+9+VIJku7kBRbMD88kr5dOFq5Q6FkB6RE/XQZg89aSLhFXAGLpWJipr4XNb1OtV1bdU
- Rgng==
+ b=qNPAYkioXwBL/FnETmzn7n9srtqoCXtew+WJ1LIvnciSzXfetyXZVLtnXtaECfssBw
+ fYua0Lc5Y9PSUlEe7TNSMAhm1OkgZR59Lneoq8fnKSMbYLOvWUJerAEC7c52/YVuEUm6
+ YtWeyF+fAOqkJdJo8+TcexzzU3ZnaN4XuyhwbJkqIHgVXIqXDzswI78pdz7gb0yvFAN8
+ caXdKpln4GXQjdvsEVcSH519UPtcCujKkl8OyhjMGrD9zYHnzk8gRwgjd1IlVC0rHQXg
+ EQbfe2zKA1FNbgaBPJT/twKm/ntrfnMRfkQHK2mdQgzhamaKq/swpLJhdV/xUWhQnV4n
+ 7ZFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740550632; x=1741155432;
+ d=1e100.net; s=20230601; t=1740551922; x=1741156722;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
  bh=vdAWglkpNWkKlfVQY0b30qa+fHtrIyjn4IdPv+J5KmY=;
- b=mRKscj3XZPnM6LmremeiSU8T1vNU7jbJhJ1Seam33+nBIGBt8PhcKmSFcFCI0aFjHg
- +sLYJwWD7C1JAyyncgORx+xBGRz8MVs5VefHHiC/whYzReH850so270+T/NGV43czk8/
- 1wXXP17o+DPANr9uq/Jvnuuy5PlLH3Xlxh0bbczE2ePNJ3bSBayYsOt02fqWVrZMIKFq
- L3JHB0Jc63IJNenxGmNvM4aDUZkKjaZFN5GFUFYRKoqi9V1f7yMqsT9isFTlJYPE7Kkd
- 18cEVfsv1J3TMiWZGSoiCwYh6tdTY8Moa+M8T8yIZIDKSoADXTtVJsPpWCPT31ztJxS0
- sbzQ==
+ b=ZpK8kRJMFcwTrN0yyr+X8QR4d5R3EvF0CezvUFAEwT+OPxcxabN3RM1ij9DnXlUVu8
+ bcEvdonz2kBtPOisdbsyXZHzaQLAn0GfkwU/V9MUJFa8HVzE5SoU5ZIqsIp0kNa5/IRz
+ YGJBQK/QGXLZbOJ3KnlTEZWGtoTsB6GaYr8spRAej+Q6OHlec1BF4k+56OgbZd/Uj/Yj
+ OtZxUQEs6J3WUkzRjpYn+zsNc4GFzPUB+iQqmyXJFiJJzE6GsNdcG9H6QoTd7y09taWN
+ ecJ7lZdEZ7uWBipJZxLzGQBdKIhzvLlCbR1XRoSoEVB2qX5630AKyij+MkcrkcOJT2CS
+ kUaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXn05xJ29MW5FVxnv4M2IuZolaXwHw9sA4pi3hP86RXYjVP32RUru7eU7yZ5rNYkmb2Y8ETURn+ScA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwY+/yCAtaFXxLF5llALji8RKKR5ez2bDl4FQZVkMLoQVrqzjQ0
- wLmwpVVK6EK67c9sW6AdgHcRsQWEPGZgQ2HnwXi/E9JgIkzo2gG69wi/V5Jjb5E=
-X-Gm-Gg: ASbGncsCLHCM9f53Dk8ZUscXQ4HSYYV53aoZVrjxWELbDfwebub5hWQluP+jkMFpbeC
- B/L5ix+nh3cFiCyXtsYf7PcKGhn2KzmN7gKocrFgRolBd7Yr7vDimQceW9hoW2umTzFVRdzdGHu
- 8mxOdgotu2WyhuB4J8NovnaOy24h/k5iWBVoNnLyhfHhxMdnM++pcqlFyGyfzCB719bKSwK/2Vv
- 5PYi9lHtKb4M0SsNu0906HbvK9bqMqeCSU5g09lrLv42+bNakf54hOb/NFKPrehaNAD17M2NqF/
- tKEZwDkZQc0zABGwsfHHmrRHXpF3+zc+zz4lpzSqsG9ouvtOgW/e0J/EZ3UAqS2WqHpm5Hi9Ara
- g1BxzPg==
-X-Google-Smtp-Source: AGHT+IEs1dUcvgsmZtfFrnbSncV3gTJJg9pAfhXogUOwliuGtG6jolEBnnLRWX36IkMjWaHHwSk3BQ==
-X-Received: by 2002:a05:6512:3d8b:b0:545:81b:1516 with SMTP id
- 2adb3069b0e04-54838c73e38mr9564126e87.15.1740550631678; 
- Tue, 25 Feb 2025 22:17:11 -0800 (PST)
+ AJvYcCW0AEembhbb5TlF7GSP8e02ifTFhivi02xsGSKQclfvenrUsvwo06dq7YiiB/0mQodkAQHNSHilsms=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEzwM8KkvVHsPqXsR5ZDO5c8T++CCLQWmApBihexBO6mMLxDd+
+ uG5+PE63b5agESFtogmvcgR84Y8j6XPA+Wmk0YmXM7lve4eZv1y3LCbkG7oQ2mw=
+X-Gm-Gg: ASbGncsQnGS1VyMVLzIj9GU3osSxacNQdfsFf7aohbrW44ZLrC5xcds93V7mBWKNlP/
+ Lw4dKD77PlwEnCTgGrrGARXnXHlD/3pE1qZjLXspAkqN5Yve6ogtr/hPyjCfgMWodhAFJ8i0Tt2
+ cXnMT/PKZUrigY1lNNinxZn79cEQiw9Ix9pMpWi8x2WHh8MxZCNuU6JjH3+0TpgLR6cP9WWQh7Y
+ jq1F1PPcZRe98FL8RbAIw8Ze23FLV/k/zx6FoRqZOe7+RNmP2duMTe0hAV1rP7eJW5XtZ+zwuMq
+ L3n8QCF1VsiQW8mULHvG84Al/s4SyOfBf8rkH0c28kD73kbzj8Fzd8KVMlMvo+DXSp1aeu1kXRZ
+ nou6TDg==
+X-Google-Smtp-Source: AGHT+IGIr+d6iAad7GGGqJtdFIIrbosoSV2T/fF6VruZ1PJO3g36OWay8E3V9QE+EEdkJZgWoEXISg==
+X-Received: by 2002:a19:4314:0:b0:548:f3f5:b26a with SMTP id
+ 2adb3069b0e04-548f3f5b333mr2954664e87.50.1740551922133; 
+ Tue, 25 Feb 2025 22:38:42 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-548514f4d3asm357995e87.186.2025.02.25.22.17.09
+ 2adb3069b0e04-548514fa94bsm353388e87.249.2025.02.25.22.38.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2025 22:17:10 -0800 (PST)
-Date: Wed, 26 Feb 2025 08:17:08 +0200
+ Tue, 25 Feb 2025 22:38:40 -0800 (PST)
+Date: Wed, 26 Feb 2025 08:38:39 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -77,7 +77,7 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-kernel@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>
 Subject: Re: [PATCH v4 04/15] drm/atomic: Introduce helper to lookup
  connector by encoder
-Message-ID: <foezi4xoq6zpzcn56z465epcxifkky6cctgvujkio5v4aswuqe@jx5wv437w3k4>
+Message-ID: <qskzti5jawqioug2jw46zylnax4uxoczvqolwqgbseflqaddze@3uke3rkwbpzs>
 References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
  <20250225-bridge-connector-v4-4-7ecb07b09cad@kernel.org>
 MIME-Version: 1.0
