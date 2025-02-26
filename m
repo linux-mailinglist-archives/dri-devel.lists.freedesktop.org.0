@@ -2,103 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F9BA469D6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 19:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AC9A469E3
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 19:37:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5945B10E9B6;
-	Wed, 26 Feb 2025 18:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B739110E9A8;
+	Wed, 26 Feb 2025 18:36:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L0C7QTjs";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fIblk4NI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8423110E9B6
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 18:33:23 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-22128b7d587so963375ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 10:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740594801; x=1741199601; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8NV8NW5Mq8hnlsfnK7VYLX7Lb9iIPf134td0bPOEzZY=;
- b=L0C7QTjsIlJ+v+LEfqz6CrmAAM++oFzzAiaAaG5hvDxRQ+VwEgjq/NXNcLxdRIQZOr
- l4dEHYD/IVG3+lQyEIQEIwDmiG9aeJwa+Rsynb4aRa6Rj1EFGBw7GDTRurT6GeruqkmT
- 7OHEQocsOs6z6iMYRKy5RFsKuxo4Flim3XCqBEMgo45BY5xVbKh6ytsJGu4WVODE1SPs
- ilF1kV9dRljVNLM+JBLT31/tjM/UA6ShOMKCqh0ft5HSQ9S4OG3TJrNcsF5rH3mgVwcd
- 641/GdltNtIbnp8KvZaWPklz1DNDEvpBoSZ/q2DmSJc2bJxR5E5K5tkqrr8sa9mHZtaZ
- vSUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740594801; x=1741199601;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8NV8NW5Mq8hnlsfnK7VYLX7Lb9iIPf134td0bPOEzZY=;
- b=aPGyH2xFv4P1geyMtK0wZHtn/B7Tmiy/0Wbk4R+m1DSOHK+WQtbfnkpmOA8RmzLoIU
- xhTILVQ5bh5B/RWxDfqHD7UQk+O8BadVkVHtD36g7XJ7wzg68pDMXKJfdSEDZVMIDFaV
- U4ba92TPhoDYUow4fcrcsSpDW66hXccYvJxU20YLW/56lskOKe6WWkRBAT/oGa1zb4C/
- pje8fOd/ak/xExHuxIQf0cp6rdxE4YQcYZZAOSSCinPr8wE4fZUcyxW3+ovySGXlLZqZ
- Bp2b8VsiZ/Z9JAwvB3GjKuD7M+6XkKnda4ogdVvI+3SKMn4su2OYgcUx+6rL9pd4K35R
- qvEg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXWle5pFhG7XReL38hojAo8au2is3tYYGbVyfYFJoKvRsVtpMOMy5xBO9McoxtT3KXwT0VeapFHMho=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxoAPqCWiS3EhWQrgRqjB4PTqMcmTa4TjkZIJywv0N1ZR377nV
- 3FNFNWqWMCUE9s6PgGdCdlMorpy9g5DLcClqebXane1bH7dAAK/x
-X-Gm-Gg: ASbGncvXkIZnGfpTxkXMeLCYWXR6cMwNPOvvS1BHvPs44/9WxaGzYPKB2tnQPSfrvks
- oyAMyRcbru6S9PLREPDaC9+/dFH+WWz9LABePrpMCyqKfdFT4t27+V4nOwwx2gLVOlf62y+jQFk
- FxPGROSCS3tDoVn8kuQueMVX8Jm3t+Sv99zPiLQHzXnp6YsjZFcc6yEH7ryoswjLMGALogK9fNo
- vE9yrG+Ig5LgnAq4GFlZBHq1dPrJpDNuHc3LVAhekL1c1rQ3YpShjM4tDbqFovidDeTs1BMTM20
- g66jshnA6x/QOFp4Kw1M1u1iorWjm3d9CvHh4vDRbDM6BEUJMA==
-X-Google-Smtp-Source: AGHT+IEhO/8zynHAj/XQ8CfYcqOsDet7/XXIGYhA3zqO2mHTqzuioBsUax6Pz3NWu+JgRkwDnM6ajg==
-X-Received: by 2002:a17:90b:2d88:b0:2ee:c918:cd60 with SMTP id
- 98e67ed59e1d1-2fe7e33d442mr6780868a91.20.1740594801403; 
- Wed, 26 Feb 2025 10:33:21 -0800 (PST)
-Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2fe825eb82fsm1917776a91.32.2025.02.26.10.33.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2025 10:33:20 -0800 (PST)
-Date: Wed, 26 Feb 2025 13:33:18 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org,
- awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <Z79ebv630yuNOJKV@thinkpad>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-3-visitorckw@gmail.com>
- <Z7zIBwH4aUA7G9MY@thinkpad>
- <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
- <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB9910E9A8;
+ Wed, 26 Feb 2025 18:36:57 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51QACbh9017602;
+ Wed, 26 Feb 2025 18:35:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 15W1y3P4DrOFNj99P2Uho9amWPmNpGqqq17R4/J0xDU=; b=fIblk4NIc51f/gzr
+ iTvZdk3SWtgyhS41bj5/f+av7c79uqX/o+QNt27ZkCTfwVve9rQKp3fatDZ8bqn4
+ i7dIbyFRumkg3e2NYE1ZsJ/2PEJD7BuCaeYj+1n7Zp157MK5EsKoBVZFK0u+EUu7
+ 3D2P+kQTwZxTS4YaqNLwOLuqSkoLKuZlsiVfyRBD2WCJoy79kWxXyUnNhZjQ8uQe
+ JprQHTQ6H1aDn7CKa37mxSY0jwzuDPmuU3LkyOo+OI1MH6KKVG2qnlbujRJI4jIt
+ qNEAqinYi9+F6yDDiaQRJjfdSWE5uvMYgRlRvL2YrEnCOv40OO2xTfVtZ023wquh
+ vqZ8iw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 451prn2ykk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2025 18:35:38 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51QIZbI3022564
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2025 18:35:37 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 26 Feb
+ 2025 10:35:36 -0800
+Message-ID: <f9cbfa96-19c9-4187-a6fb-338296128c11@quicinc.com>
+Date: Wed, 26 Feb 2025 10:35:35 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] drm/msm/dpu: don't set crtc_state->mode_changed
+ from atomic_check()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>, Chandan Uddaraju
+ <chandanu@codeaurora.org>, Jeykumar Sankaran <jsanka@codeaurora.org>,
+ "Jordan Crouse" <jordan@cosmicpenguin.net>, Sravanthi Kollukuduru
+ <skolluku@codeaurora.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Archit
+ Taneja" <architt@codeaurora.org>,
+ Rajesh Yadav <ryadav@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, "Simona Vetter" <simona.vetter@ffwll.ch>
+References: <20250123-drm-dirty-modeset-v2-0-bbfd3a6cd1a4@linaro.org>
+ <20250123-drm-dirty-modeset-v2-4-bbfd3a6cd1a4@linaro.org>
+ <vn3f6jzx27twq7maamdmeqahvn4zzoxmdttkm7epg2qgn4ueov@hqzjzzzw3mog>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <vn3f6jzx27twq7maamdmeqahvn4zzoxmdttkm7epg2qgn4ueov@hqzjzzzw3mog>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: T4g1JIGXwrjoQ5jXyxU1v6m5r8jw-Oun
+X-Proofpoint-GUID: T4g1JIGXwrjoQ5jXyxU1v6m5r8jw-Oun
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-26_04,2025-02-26_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 clxscore=1011 mlxscore=0 adultscore=0 mlxlogscore=999
+ suspectscore=0 phishscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502260146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,64 +103,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2025 at 08:14:14AM +0100, Jiri Slaby wrote:
-> On 25. 02. 25, 14:29, Kuan-Wei Chiu wrote:
-> > > +#define parity(val)					\
-> > > +({							\
-> > > +	u64 __v = (val);				\
-> > > +	int __ret;					\
-> > > +	switch (BITS_PER_TYPE(val)) {			\
-> > > +	case 64:					\
-> > > +		__v ^= __v >> 32;			\
-> > > +		fallthrough;				\
-> > > +	case 32:					\
-> > > +		__v ^= __v >> 16;			\
-> > > +		fallthrough;				\
-> > > +	case 16:					\
-> > > +		__v ^= __v >> 8;			\
-> > > +		fallthrough;				\
-> > > +	case 8:						\
-> > > +		__v ^= __v >> 4;			\
-> > > +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> > > +		break;					\
-> > > +	default:					\
-> > > +		BUILD_BUG();				\
-> > > +	}						\
-> > > +	__ret;						\
-> > > +})
-> > > +
-> > > +#define parity8(val)	parity((u8)(val))
-> > > +#define parity32(val)	parity((u32)(val))
-> > > +#define parity64(val)	parity((u64)(val))
-> > What do you think about using these inline functions instead of macros?
-> > Except for parity8(), each function is a single line and follows the
-> > same logic. I find inline functions more readable, and coding-style.rst
-> > also recommends them over macros.
->
-> Not in cases where macros are inevitable. I mean, do we need parityXX() for
-> XX in (8, 16, 32, 64) at all? Isn't the parity() above enough for everybody?
 
-The existing codebase has something like:
 
-        int ret;
+On 2/26/2025 3:55 AM, Dmitry Baryshkov wrote:
+> On Thu, Jan 23, 2025 at 02:43:36PM +0200, Dmitry Baryshkov wrote:
+>> The MSM driver uses drm_atomic_helper_check() which mandates that none
+>> of the atomic_check() callbacks toggles crtc_state->mode_changed.
+>> Perform corresponding check before calling the drm_atomic_helper_check()
+>> function.
+>>
+>> Fixes: 8b45a26f2ba9 ("drm/msm/dpu: reserve cdm blocks for writeback in case of YUV output")
+>> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
+>> Closes: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
+>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 +++++++++++++++++++++++++----
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/msm_atomic.c            | 13 +++++++++++-
+>>   drivers/gpu/drm/msm/msm_kms.h               |  7 +++++++
+>>   5 files changed, 77 insertions(+), 5 deletions(-)
+>>
+> 
+> JFI, this patch generates following warnings, deferred now:
+> 
+> 10:49:07.279: [  235.096198] WARNING: CPU: 1 PID: 515 at drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:459 dpu_kms_check_mode_changed+0xb0/0xbc
+> 10:49:07.279: [  235.107375] Modules linked in:
+> 10:49:07.279: [  235.110532] CPU: 1 UID: 0 PID: 515 Comm: kms_atomic_tran Tainted: G        W          6.14.0-rc4-gd229bc98da6b #1
+> 10:49:07.279: [  235.121069] Tainted: [W]=WARN
+> 10:49:07.279: [  235.124130] Hardware name: Google Lazor Limozeen without Touchscreen (rev5 - rev8) (DT)
+> 10:49:07.279: [  235.132356] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> 10:49:07.279: [  235.139513] pc : dpu_kms_check_mode_changed+0xb0/0xbc
+> 10:49:07.279: [  235.144712] lr : msm_atomic_check+0xc0/0xe0
+> 10:49:07.279: [  235.149023] sp : ffff8000843f3960
+> 10:49:07.279: [  235.150686] usb 1-1.1: new high-speed USB device number 100 using xhci-hcd
+> 10:49:07.279: [  235.152439] x29: ffff8000843f3960 x28: ffff65a18386d080 x27: ffff65a184826a80
+> 10:49:07.279: [  235.166848] x26: 0000000000000038 x25: 0000000000000008 x24: ffff65a1866fd580
+> 10:49:07.279: [  235.174188] x23: 0000000000000028 x22: 0000000000000028 x21: 0000000000000038
+> 10:49:07.279: [  235.181527] x20: ffff65a184826a80 x19: 0000000000000000 x18: 0000000000000000
+> 10:49:07.279: [  235.188866] x17: 0000000000000000 x16: 0000000000000000 x15: 0000aaab013dfeb8
+> 10:49:07.279: [  235.196215] x14: 00000000000c0000 x13: 0040a00000400800 x12: 0000000000000000
+> 10:49:07.279: [  235.203553] x11: 0000000000000050 x10: 0000000000000000 x9 : ffffbdf7fc448530
+> 10:49:07.279: [  235.210892] x8 : 00000000ffffffff x7 : ffff65a182610400 x6 : 0000000000000038
+> 10:49:07.279: [  235.218231] x5 : ffff65a18314b000 x4 : 0000000000000000 x3 : 0000000000000001
+> 10:49:07.279: [  235.225570] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff65a18ca7a600
+> 10:49:07.279: [  235.232910] Call trace:
+> 10:49:07.279: [  235.235440]  dpu_kms_check_mode_changed+0xb0/0xbc (P)
+> 10:49:07.279: [  235.240641]  msm_atomic_check+0xc0/0xe0
+> 10:49:07.279: [  235.244594]  drm_atomic_check_only+0x498/0x934
+> 10:49:07.279: [  235.249169]  drm_atomic_commit+0x48/0xc4
+> 10:49:07.279: [  235.253209]  drm_mode_atomic_ioctl+0xa98/0xd00
+> 10:49:07.279: [  235.257791]  drm_ioctl_kernel+0xbc/0x12c
+> 10:49:07.280: [  235.261832]  drm_ioctl+0x228/0x4e4
+> 10:49:07.280: [  235.265339]  __arm64_sys_ioctl+0xb4/0xec
+> 10:49:07.280: [  235.269381]  invoke_syscall+0x48/0x110
+> 10:49:07.280: [  235.273248]  el0_svc_common.constprop.0+0x40/0xe0
+> 10:49:07.280: [  235.278090]  do_el0_svc+0x1c/0x28
+> 10:49:07.280: [  235.281512]  el0_svc+0x48/0x110
+> 10:49:07.280: [  235.284753]  el0t_64_sync_handler+0x10c/0x138
+> 10:49:07.280: [  235.289234]  el0t_64_sync+0x198/0x19c
 
-        ret = i3c_master_get_free_addr(m, last_addr + 1);
-        ret |= parity8(ret) ? 0 : BIT(7)
+Hey Dmitry,
 
-So if we'll switch it to a macro like one above, it will become a
-32-bit parity. It wouldn't be an error because i3c_master_get_free_addr()
-returns an u8 or -ENOMEM, and the error code is checked explicitly. 
+This warning is eventually dropped in the CRTC RM refactor (specifically 
+[1]).
 
-But if we decide to go with parity() only, some users will have to
-call it like parity((u8)val) explicitly. Which is not bad actually.
+Applying in this order might fix the warning:
 
-> And if not, you can have all those parityXX() as inlines as you suggest, but
-> also provide a macro such as the above to call (optimized) parityXX() as per
-> datatype len.
+1. CRTC RM refactor
+2. This mode_changed() series
+3. The rest of the CWB series
 
-Yes, if we need fixed-type parity's, they should all be one-liners
-calling the same macro. Macros or inline functions - no preference for
-me.
+This will cause some merge conflicts with the CRTC RM refactor though 
+and you'll need to move the dpu_kms changes in [1] to this patch.
+
+What do you think?
 
 Thanks,
-Yury
+
+Jessica Zhang
+
+[1] https://patchwork.freedesktop.org/patch/637487/?series=144912&rev=1
+
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
+
