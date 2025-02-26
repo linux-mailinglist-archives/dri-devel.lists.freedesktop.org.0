@@ -2,88 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDB3A45949
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 10:01:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2B2A45951
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 10:02:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF3110E376;
-	Wed, 26 Feb 2025 09:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085AC10E136;
+	Wed, 26 Feb 2025 09:02:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="tct/3mKN";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VPB/JA5J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+HAgiHnf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VPB/JA5J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+HAgiHnf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BDD210E085;
- Wed, 26 Feb 2025 09:01:43 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
- by relay4.mymailcheap.com (Postfix) with ESMTPS id DA40120317;
- Wed, 26 Feb 2025 09:01:38 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- by nf2.mymailcheap.com (Postfix) with ESMTPSA id A515340078;
- Wed, 26 Feb 2025 09:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1740560496; bh=XWgatdDE94xYQuqhi12bUnvp9t16kTQj6qIH+uVzQZU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tct/3mKN3rRuk7mbh40ymxAkO3DxdCstM7tqVKRQLY/EQbSmgIHi9f5YAoVRo40aN
- aoqZ/yjR6F8W8C/uwDFXW2leijvQ4B4umyUZ+pqTwu32VncLyFsf8Q8sY+s/pz8Yvg
- NcTOpu9amnmlIwDlZXmd4qkBMrlXlDJuqj/NWjDI=
-Received: from [172.29.0.1] (unknown [203.175.14.48])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88DDC10E085
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 09:02:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 7D5A442439;
- Wed, 26 Feb 2025 09:01:22 +0000 (UTC)
-Message-ID: <d3254fc6-0b25-4a6f-9c5a-a8025e6f2309@aosc.io>
-Date: Wed, 26 Feb 2025 17:01:17 +0800
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 39CC11F387;
+ Wed, 26 Feb 2025 09:02:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740560530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=T6GoKpixsgEUPlcsai0YSpwFFbUqfMXy4lXn7KbIxnM=;
+ b=VPB/JA5JraynMQc7CuXwh0UG+min6ms1zaOB59UlqiWSIGxY5euJA6oHLOBe5T188uBZ8I
+ QD8tqFG9PHsgpy435dpwZhWixHupPKBo5ovT3bkaqRgucfCOV7kX3LXbN7eBE0VoN37igM
+ A6MS+4NY8Fis4UyXAFN5n7WnpzpLLtw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740560530;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=T6GoKpixsgEUPlcsai0YSpwFFbUqfMXy4lXn7KbIxnM=;
+ b=+HAgiHnfbxx8RSPOBxRgXb8zlrobJ6XGrIVgIcWJOUr7S5JZLj1fcPLe3eBibQMDhXoors
+ mkmmqYAqC6LoPSBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740560530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=T6GoKpixsgEUPlcsai0YSpwFFbUqfMXy4lXn7KbIxnM=;
+ b=VPB/JA5JraynMQc7CuXwh0UG+min6ms1zaOB59UlqiWSIGxY5euJA6oHLOBe5T188uBZ8I
+ QD8tqFG9PHsgpy435dpwZhWixHupPKBo5ovT3bkaqRgucfCOV7kX3LXbN7eBE0VoN37igM
+ A6MS+4NY8Fis4UyXAFN5n7WnpzpLLtw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740560530;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=T6GoKpixsgEUPlcsai0YSpwFFbUqfMXy4lXn7KbIxnM=;
+ b=+HAgiHnfbxx8RSPOBxRgXb8zlrobJ6XGrIVgIcWJOUr7S5JZLj1fcPLe3eBibQMDhXoors
+ mkmmqYAqC6LoPSBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F27941377F;
+ Wed, 26 Feb 2025 09:02:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OA9VOZHYvmdLUgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Feb 2025 09:02:09 +0000
+Message-ID: <8eaa062a-281a-4875-be1e-a578f28982a1@suse.de>
+Date: Wed, 26 Feb 2025 10:02:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] drm/xe/query: use PAGE_SIZE as the minimum page
- alignment
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
- Francois Dugast <francois.dugast@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Zhanjun Dong <zhanjun.dong@intel.com>, Matt Roper
- <matthew.d.roper@intel.com>, Mateusz Naklicki <mateusz.naklicki@intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- =?UTF-8?Q?Zbigniew_Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Kexy Biscuit <kexybiscuit@aosc.io>,
- Shang Yatsen <429839446@qq.com>, stable@vger.kernel.org,
- Haien Liang <27873200@qq.com>, Shirong Liu <lsr1024@qq.com>,
- Haofeng Wu <s2600cw2@126.com>
-References: <20250226-xe-non-4k-fix-v1-0-80f23b5ee40e@aosc.io>
- <20250226-xe-non-4k-fix-v1-5-80f23b5ee40e@aosc.io>
- <Z76b3lgScK2gbtnG@lstrano-desk.jf.intel.com>
+Subject: Re: [PATCH] drm/nouveau: Do not override forced connector status
+To: kherbst@redhat.com, lyude@redhat.com, dakr@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20250114100214.195386-1-tzimmermann@suse.de>
 Content-Language: en-US
-From: Mingcong Bai <jeffbai@aosc.io>
-In-Reply-To: <Z76b3lgScK2gbtnG@lstrano-desk.jf.intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250114100214.195386-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A515340078
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-0.10 / 10.00]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RCVD_COUNT_ONE(0.00)[1];
- ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[26];
- MID_RHS_MATCH_FROM(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPFBL_URIBL_EMAIL_FAIL(0.00)[jeffbai.aosc.io:server
- fail,27873200.qq.com:server fail,429839446.qq.com:server
- fail,stable.vger.kernel.org:server fail,lsr1024.qq.com:server fail]; 
- FROM_EQ_ENVFROM(0.00)[];
- FREEMAIL_CC(0.00)[intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,aosc.io,qq.com,126.com];
- FREEMAIL_ENVRCPT(0.00)[126.com,gmail.com,qq.com];
- TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[redhat.com,kernel.org,gmail.com,ffwll.ch];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_COUNT_TWO(0.00)[2];
+ MID_RHS_MATCH_FROM(0.00)[]; TO_DN_NONE(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:email,
+ suse.de:mid]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,87 +141,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Ping. Are there any comments on this patch?
 
-在 2025/2/26 12:43, Matthew Brost 写道:
-> On Wed, Feb 26, 2025 at 10:00:22AM +0800, Mingcong Bai via B4 Relay wrote:
->> From: Mingcong Bai <jeffbai@aosc.io>
->>
->> As this component hooks into userspace API, it should be assumed that it
->> will play well with non-4K/64K pages.
->>
->> Use `PAGE_SIZE' as the final reference for page alignment instead.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
->> Fixes: 801989b08aff ("drm/xe/uapi: Make constant comments visible in kernel doc")
->> Tested-by: Mingcong Bai <jeffbai@aosc.io>
->> Tested-by: Haien Liang <27873200@qq.com>
->> Tested-by: Shirong Liu <lsr1024@qq.com>
->> Tested-by: Haofeng Wu <s2600cw2@126.com>
->> Link: https://github.com/FanFansfan/loongson-linux/commit/22c55ab3931c32410a077b3ddb6dca3f28223360
->> Co-developed-by: Shang Yatsen <429839446@qq.com>
->> Signed-off-by: Shang Yatsen <429839446@qq.com>
->> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
->> ---
->>   drivers/gpu/drm/xe/xe_query.c | 2 +-
->>   include/uapi/drm/xe_drm.h     | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
->> index c059639613f7b548c168f808b7b7b354f1cf3c94..8a017c526942d1f2b401e8b9a4244e6083d7b1e5 100644
->> --- a/drivers/gpu/drm/xe/xe_query.c
->> +++ b/drivers/gpu/drm/xe/xe_query.c
->> @@ -336,7 +336,7 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
->>   		config->info[DRM_XE_QUERY_CONFIG_FLAGS] =
->>   			DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM;
->>   	config->info[DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT] =
->> -		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K;
->> +		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : PAGE_SIZE;
-> 
-> We should probably assert or build a bug somewhere to ensure SZ_64K >=
-> PAGE_SIZE for future-proofing. Otherwise, I think the patch makes sense.
-> One more comment below.
-> 
->>   	config->info[DRM_XE_QUERY_CONFIG_VA_BITS] = xe->info.va_bits;
->>   	config->info[DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY] =
->>   		xe_exec_queue_device_get_max_priority(xe);
->> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
->> index f62689ca861a4673b885629460c11d6f3bc6523d..db7cf904926ebd6789a29d620161ac051e59f13f 100644
->> --- a/include/uapi/drm/xe_drm.h
->> +++ b/include/uapi/drm/xe_drm.h
->> @@ -394,7 +394,7 @@ struct drm_xe_query_mem_regions {
->>    *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM - Flag is set if the device
->>    *      has usable VRAM
->>    *  - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alignment
->> - *    required by this device, typically SZ_4K or SZ_64K
->> + *    required by this device, typically PAGE_SIZE.
-> 
-> So I think the kernel doc needs bit more updating here, how about:
-> 
-> Minimal memory alignment required by this device and the CPU. The
-> minimum page size for the device is usually SZ_4K or SZ_64K, while for
-> the CPU, it is PAGE_SIZE. This value is calculated by
-> max(min_gpu_page_size, PAGE_SIZE). This alignment is enforced on
-> buffer object allocations and VM binds.
+Am 14.01.25 um 10:57 schrieb Thomas Zimmermann:
+> Keep user-forced connector status even if it cannot be programmed. Same
+> behavior as for the rest of the drivers.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+> This patch is in preparation of
+> https://patchwork.freedesktop.org/series/139879/. The series improves
+> internal handling of the connector status. That first requires fixes in
+> several drivers; including nouveau.
+> ---
+>   drivers/gpu/drm/nouveau/nouveau_connector.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> index 6fb9719d721f7..1b10c6c12f468 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> @@ -775,7 +775,6 @@ nouveau_connector_force(struct drm_connector *connector)
+>   	if (!nv_encoder) {
+>   		NV_ERROR(drm, "can't find encoder to force %s on!\n",
+>   			 connector->name);
+> -		connector->status = connector_status_disconnected;
+>   		return;
+>   	}
+>   
 
-I will revise as such, taking into account other comments sent in before 
-I get my next revision together. Thanks!
-
-Best Regards,
-Mingcong Bai
-> 
-> Again welcome others CC'd suggestion on this updated kernel doc.
-> 
-> Matt
-> 
->>    *  - %DRM_XE_QUERY_CONFIG_VA_BITS - Maximum bits of a virtual address
->>    *  - %DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY - Value of the highest
->>    *    available exec queue priority
->>
->> -- 
->> 2.48.1
->>
->>
-> 
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
