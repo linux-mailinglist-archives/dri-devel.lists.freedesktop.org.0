@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E917A455C3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 07:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2C4A455C5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 07:40:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC2DC10E0A4;
-	Wed, 26 Feb 2025 06:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9F9410E84F;
+	Wed, 26 Feb 2025 06:40:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lnfJiIqS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iBkH+YDf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB4610E0A4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 06:40:15 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-3098088c630so61140491fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:40:15 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6A610E84F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 06:40:45 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-548430564d9so4047066e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:40:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740552014; x=1741156814; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740552044; x=1741156844; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YnlPPa2uUCO1zeFpt71gVitBbdNg+Xjk4s2scJwEBqA=;
- b=lnfJiIqSZIoSC0UqhSKjAdSoXmgL4kkw55C5X5nZddYzUTBagIJMMITsIQUxAlHXe5
- MN6MWzc5EIIEbxKp9a+pBE3Xwp7nbEAV2Q9hcWUI5pdCLGHsHVnXoKkKtwiOoGhorU9Y
- hizdpspHVV5hA2arIq3br73LN1dwN6fhcZP6TubrtdVbf38vwaCGsez51hFk4nSni/Z6
- NwymiGCickHaBTAtKuJW4EcEEzYzUrq5V0S3OybGgyHNT+DkBWELin31fOWRmK5aE8Rs
- S7P1z26xEU3mtLSgX4GURdCbWINAG82jr7QBKvKcnuZLRgYCDnutttDncYyDLKG58mZv
- RdOA==
+ bh=Lvrcxh2NOKDJoqVw96Qhct4iGfREhK0gSFGHNTyZJvg=;
+ b=iBkH+YDflTsqnpYSpbRYhwSgGCBPQBMGarBfkermTDjmY9u9KPTvd+3aQSVek+cPuJ
+ 2vL5hstwDOwPP+3DtcQwOs11U/c4mzq1gGIcRErZ/cjr0AOhhIwLA6W6YC8HHeh4KRsc
+ 5V8WG91IUMEIqtbJ0MEzW1PcyIbeAPhTQsKU/mTlGqc+VjIDUiulHYI+V1JVgEcYEZTq
+ vKgmt3S0JM+egLlmSA7uBKJbDIbKLZG/tefKZrCtSyDj1o8xvIaeaXz1IHn7UxfS+LhY
+ 4VXMP3vxBG4tLeCaLYB2F06ixut1gjv8fInjURWCTtC469sX8khFJ6fbpaAhITTvjqER
+ OndA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740552014; x=1741156814;
+ d=1e100.net; s=20230601; t=1740552044; x=1741156844;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YnlPPa2uUCO1zeFpt71gVitBbdNg+Xjk4s2scJwEBqA=;
- b=J/h42KizZIN4QiFNRpPMNlEKpXMCPous7auOZSktkiPdh9uruAZ187Jjcor3akdfQY
- Cthb+cE9f1Bl78jH0Y7+7gOQWtFv2XP0QsrE6BveWrRhN4+BcFP7gLiekYazMp+wghrV
- 6iKc7qeZgFvEKpQxNQRaD7vniww7YaUD34YgusspsXKsFQYK38lcBf7/GTvoNQkdHycm
- 8aFl/KQaEXeBQgTxnXKxTa9tzpD0ArCwph5ta2MB2AP/RXeN7cl4ez8yesjK6mfCugp9
- qUQwUFF7LnQiX+g9suI3oXprUjE5sYSkt5DqAxtDLwWCJYl15dXc/hMLJmO0hprGEzQh
- x9wA==
+ bh=Lvrcxh2NOKDJoqVw96Qhct4iGfREhK0gSFGHNTyZJvg=;
+ b=gVNcWHJO8qLGYA//F/mCiUsSRjXsS4LeIqT+ITVqOLjRwRj/Y/15vs7nY4Tn5B61yQ
+ BCBkoZ0furxKZUuZX1hz0bbyPzQs0ocemq0934ILiVIjV4c3NsC4PVNgwr/DTuwffXbe
+ CQFZgA2teEJtykOxq8NkOyjZ5kziuSGAIMvoDNo903gVH1PNJUp6+8vYiqVYXNZV3m40
+ leDH8of5daF0qxD30Mvk/WOSS+lZJB4wMs9thnr+3rOrJVEjAPdUn/LmLT7UC+mOJlmO
+ nWbSTS24rofxoWXIgJ/eaGPu5HPyk0jFVXFq0X3TTSWhi+or9ke4p6iq56kUvWbGKFFZ
+ TBFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXcErP+BcNro2+i45JkIEDdt5kdbAayulnv7aoZFE/P4nX4oJJyqiey8bVAesmf30c8wXEdS2J3zss=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBD2RGxdwGDCAzfxkehe/f8YrHM6tLGe6s2YjgpuwjLaPdL2lV
- cv6JplzRGjGAFfFWLpKdvcj19aatewu5e1cd3onAF3qek1N6+yWl5OyzDDdfMh4=
-X-Gm-Gg: ASbGncuGKEIa2SVDl4zC1A8e6ND3c4B9PPEFT+yr8PubAIgDJUcbA+k+WF2j/dh4eHn
- a7oNKol+4rZeAVuJfPPc535kIenK0nB+iopaC+suQqVg72aYM6EO6g4IXNwn7Mk2DzxY+iaH8RH
- Q6C8KUkAPI+tptp/4fQ7F0WuXF2jUwrYR6FODytaM6pbeIMj8voGS5Hwky4D+RBQWn64p68Z0y/
- QDodgsHU9+6bhfDuOOOZDzjRB0myKhPIoNrn8GTvG6U5mzc/Ju8zpkbc5a1e0tzkmQ9HOqnNrBC
- 8xStuL1JfnOsSpKBg4I49eQpm2JH9Qzw6PfOLsosE2MRhE5dLxYRjS34BCwz31SOpfmrnmVuAfV
- AuDmBOw==
-X-Google-Smtp-Source: AGHT+IE6dtc85yOD3cihprIvVpH/1esWLa6UQi+5Gc9+xFNYCSpdxtNBXemRzp8sO2ffXNDZ9U28Yw==
-X-Received: by 2002:a2e:7d0a:0:b0:308:e521:592 with SMTP id
- 38308e7fff4ca-30a80c984afmr34851781fa.30.1740552013753; 
- Tue, 25 Feb 2025 22:40:13 -0800 (PST)
+ AJvYcCUWiB+VJdmGZctNUDOCSuNma2OtuJLZpow6gT1uSmEANQsBBXlXTnpCt2TGHH2w5z796w48lWnRCx8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyrnOMIT3G5pFvowb5LTDQ/0jBq9PzeHtFyi+FXKgLRtUzAwnIh
+ l7z395IK/x/NTNExJtyI2SwvjdX9MdslDzdEpScQd2WySBeCJAKsKvkpkjbhUVw=
+X-Gm-Gg: ASbGncukTmz4A7mNeVQMe+L6LitvOFDk/N+ytV0OzE31/6ZNc2WsuSCboab4td+eJ8g
+ x4xFzELADxaJTaub0xwVidOwWWdnjMc76TSmDk3hzSqCXTskTvwmYEURfmld06mteCJsu4uedVL
+ 8VbdBpgkDydyy2n0+wvk+Pa++Gf6bkQLNcV6yfwWfz/K2+PIHEvwMzlp8eFfrJQ0kuyzKcp74/x
+ GBRpih3q0d+RC29zXN3LFTR4PkGupMRVNQzcX6McBDsLLYmru6/fj3VWQB7p/LdfdcRP87TfFDO
+ WOTjj85SYmDMuYinp+8bgN5PTLHA4e6XDiKZAFn1pkWRc4NyiVSN2051gYxF/kWCNzH/3M+Nk5o
+ t573cNg==
+X-Google-Smtp-Source: AGHT+IE+UZnvevEs1viGMTJRPBC8JRF4hWUCWXPwjS+7NIlt6UfyZslUh/zC7Mo+N1nw7oya2efNUw==
+X-Received: by 2002:ac2:4c2f:0:b0:549:2ae5:a499 with SMTP id
+ 2adb3069b0e04-5492ae5a600mr2619977e87.7.1740552044249; 
+ Tue, 25 Feb 2025 22:40:44 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30a81ac2f52sm4211421fa.65.2025.02.25.22.40.11
+ 2adb3069b0e04-548514f9e3fsm362150e87.217.2025.02.25.22.40.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2025 22:40:12 -0800 (PST)
-Date: Wed, 26 Feb 2025 08:40:10 +0200
+ Tue, 25 Feb 2025 22:40:42 -0800 (PST)
+Date: Wed, 26 Feb 2025 08:40:41 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,14 +75,14 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Douglas Anderson <dianders@chromium.org>, 
  Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/15] drm/tests: Create tests for drm_atomic
-Message-ID: <tadc6spmedblkzuuzrtg6wj4l5me4gvfdps6dmmkt7riytop4n@sbqabl3stbqv>
+Subject: Re: [PATCH v4 03/15] drm/tests: Add kunit tests for bridges
+Message-ID: <yzddmmuq4nweiat7zlt7pmac76djx2o5jw4g6rucomasbkiaek@v4hcph45qf74>
 References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
- <20250225-bridge-connector-v4-6-7ecb07b09cad@kernel.org>
+ <20250225-bridge-connector-v4-3-7ecb07b09cad@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225-bridge-connector-v4-6-7ecb07b09cad@kernel.org>
+In-Reply-To: <20250225-bridge-connector-v4-3-7ecb07b09cad@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,16 +98,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 05:43:54PM +0100, Maxime Ripard wrote:
-> We don't have a set of kunit tests for the functions under drm_atomic.h.
-> Let's use the introduction of drm_atomic_get_connector_for_encoder() to
-> create some tests for it and thus create that set.
+On Tue, Feb 25, 2025 at 05:43:51PM +0100, Maxime Ripard wrote:
+> None of the drm_bridge function have kunit tests so far. Let's change
+> that, starting with drm_bridge_get_current_state().
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
+>  drivers/gpu/drm/Kconfig                 |   1 +
 >  drivers/gpu/drm/tests/Makefile          |   1 +
->  drivers/gpu/drm/tests/drm_atomic_test.c | 153 ++++++++++++++++++++++++++++++++
->  2 files changed, 154 insertions(+)
+>  drivers/gpu/drm/tests/drm_bridge_test.c | 210 ++++++++++++++++++++++++++++++++
+>  3 files changed, 212 insertions(+)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
