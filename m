@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132D2A4593A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 09:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B4CA45938
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 09:59:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8279F10E896;
-	Wed, 26 Feb 2025 08:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98C810E894;
+	Wed, 26 Feb 2025 08:59:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cnxzbjt+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H7wSRLJS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57EC510E873
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 08:59:44 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-5461dab4bfdso7780071e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 00:59:44 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99CF910E873
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 08:59:46 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-30738a717ffso52926151fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 00:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740560383; x=1741165183; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740560385; x=1741165185; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=HxAcg2Edh0LLCX/q03x2dqp484sdB8Gfc9kAJ/WMpN4=;
- b=cnxzbjt+sJ0H2TOf/j1//T2a0MdvxzcHDn9jVkIZ5DR2iAOAGkWTUn8UBxAzV5PoZL
- u2qGktmPTMxoG42aGPMRqf74j2WiZwk9FLoMIV11oVtxOgWcKN10H669DpXOrhUXNLgb
- Io6qPJedbSdbPrV3ARm3uaLDXHqL2exM5H1vLgWw2+B4dHnVmA/GgstV65+1j/v8ZqV1
- vxkSgeSrzn/YMbDgR8RBqg5NKrhGrHrs/3h23mujaigmjs7G0nJSeXCRAKOoLcsTy5Uq
- EeudeQTh7gyliJlIdvMjzPhZijBG0kDQNDC557O4XmkNFY9fE6enDlRFUWQkXsqI3tAA
- 1ciQ==
+ :reply-to; bh=rL+D8qDRnHL8DVLPlIP7FF7uRot9P+Ldg7WswD3BRiU=;
+ b=H7wSRLJSKq2xVjDJYX0nMIwAi65oH9W/F73hAPjZwhKAqgoIJKfUNU914XJOFIIRsc
+ 4vBjoLfNliNboCZyNMlEDp3qlnMuhN44s3KiesCMysfLxyuxbRsXedfEmue9yHGsFAyL
+ hLde4PysU9IEgYyFp2Wj4nQF28Bz5D1ROLUSCyXuZbHgbJHGlH2PGNn+1MiiIGDmzIZg
+ thPZ5Xels4kQx0PMJnDzp6o0oitW1+CvFjpCfVsmBE+DrjbdCwvUPRlCICZuBakDhAGi
+ QALSLY7dX2/Ojfrx4Lk3zOwEhLpzuqWMhwll+UCYrUGs0vEX1+CJKdrHFDrr3hHhnLHA
+ GY1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740560383; x=1741165183;
+ d=1e100.net; s=20230601; t=1740560385; x=1741165185;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HxAcg2Edh0LLCX/q03x2dqp484sdB8Gfc9kAJ/WMpN4=;
- b=qenHVNFDgmVdu5g+Qfzs+afxXabEofQ7O2tAXXhiED27VVO6tx1u/Gvz/dTvLLpuVa
- clNeESiV8ezuJK09uPYJLc5fOFqRhwumC+ts2c8sM2FP9iqJUuUeE72X0h4wVuF3YEg8
- jKXX0wgrAiRO/CIjw2TEi7KmSTKXY8nBW6ZMDb6ssEht2arqOGZCQRo3IB/md7Zenpk+
- 0QM4NXxehQJclvV3R6N69PjnhiCvIXUAs6arH4RcYYXOa7TRMx5JGi2xUmK0+v9uI9o7
- B+2FOM1W8STLLxhvDclZw2PP2z21oTRevLJU4lF9+6rXdwaM7syOWkLVEoXe1GF1kT+6
- wi9Q==
-X-Gm-Message-State: AOJu0Yw8aidWLMikDin2mujvNlthilfXtvxAPmVOIIsD8Nsb1xGjVPc6
- 5w9XecopTNwAOXLnw9gVcyP4UlBoqx2hLt7BIathhr3uA41rEYUMbn/HQa8Qu68=
-X-Gm-Gg: ASbGnctMInlJWaHW4XymJhZ95h4EwWa8fx4KYqXaHqZFACPXs3vSu9PMKSHIXhRcee0
- zoBHN4t2lrWaBYN0bF4XwbRtidb5DXYeJcyB0Vsj4zsVLxnfA18LfQKnQbhSDhXaNu6Mkl5lcAF
- a1ofKU+i7wFlgTJDuU65YnCydIBCBUSFSuIEiANp6DX5G6/b6cbQhCXBa8mWAK+OLy5YQ6j0BTE
- kq6X+a0I1M7emBw3H3/ACgjbEtncgUKsSjFCkJ/89hWzVSYwco22ycneF6hjCjJC+aLioDN+El9
- mk7yb+ciAlv8Zo3elqGOptD6XDLLZEi03w==
-X-Google-Smtp-Source: AGHT+IFo+WGQZv/2HHPDxvc16/ldl7ZK79qJBQmkGWyMeSV3pDc9yvGidvBoz4ORQ7EVM5XREMFT6g==
-X-Received: by 2002:a05:6512:3b06:b0:545:2e85:c152 with SMTP id
- 2adb3069b0e04-54838f4c9d8mr11853120e87.34.1740560382489; 
- Wed, 26 Feb 2025 00:59:42 -0800 (PST)
+ bh=rL+D8qDRnHL8DVLPlIP7FF7uRot9P+Ldg7WswD3BRiU=;
+ b=pevPOEA/FlaNYpbYjE7xqvlRwSlCJyhaVi+Q8VZUbB2OQVpDvi9DTzrjvCB9SS3O2u
+ 2EhR+MwZKOAUJEbu6MTKfK/vkAfPsq8XR43e9wzc4n6hnxK0/uAULtu2SkjFqFa0tp5X
+ AMorXIIhsWS5vldf6cFhBZqkg2UYtLbVBYO0rMEHBbTSdQNRrGaaskWw3OnervbtPX2b
+ Lkpy+FXXJvlceoFUEPA/t9zdg/iUeFJ2QlSftAc0myry75n4z+h2Oyk90cpD/3oFbBii
+ nuuWCwP4pzFBbj4U5Q56YqvIzfh62sk7RhiLoOpqwukWL38szQhWt9QVJ1jgOaQRkkHz
+ lCGQ==
+X-Gm-Message-State: AOJu0YyUpB+L52Kra/ZN/cI7w63pC0SnMYU0rgaRcOGEVNcxWkRtTTnp
+ IbKILrCJVtZUE4FIrovn/L3F+sYc4KDr83VkcXtESRH1TydroMcoNecZIcQj274=
+X-Gm-Gg: ASbGnctdgKg0Ztcqv2hFTKTlW+yX5THaNHgP1QoCVmWV3qnPsjmTBmDfEuLVjdjLTXs
+ aFyf8KJjul7Oig78NZe4ZevIW0wJFCFRGkpOv7hxEC4Xh807Q1tbCW8NH57bvmdKDd+75ySRqvl
+ 42u9jn3gMGaqdlBpVzog7JLJjiPEVwZVL8N17bYEsHVs0Xa9iwDx1F8j/xfQKdYBvPP+3a+48yM
+ Pc9Px8tpWC0VEOOz8PwSKHMOquu5K7Kj3NZV/mCQFi+cmYc+CopWTDNltcc37eV4APdt6eTLu1U
+ WSDHicF2OK7wfn4aOtJWCQTWFyL4jBgPqQ==
+X-Google-Smtp-Source: AGHT+IE4CZCG624luysY8QDGSj/e+AcLpGvZaiAptFBQEJEe8XJs4qoydl6YsrRoUijs3EUGi94bkA==
+X-Received: by 2002:a2e:8e8c:0:b0:309:2012:cc5d with SMTP id
+ 38308e7fff4ca-30a59970308mr85221661fa.24.1740560384896; 
+ Wed, 26 Feb 2025 00:59:44 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30a819e0c49sm4556641fa.10.2025.02.26.00.59.40
+ 38308e7fff4ca-30a819e0c49sm4556641fa.10.2025.02.26.00.59.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2025 00:59:41 -0800 (PST)
+ Wed, 26 Feb 2025 00:59:43 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 26 Feb 2025 10:59:29 +0200
-Subject: [PATCH v8 6/7] drm/msm/hdmi: also send the SPD and HDMI Vendor
- Specific InfoFrames
+Date: Wed, 26 Feb 2025 10:59:30 +0200
+Subject: [PATCH v8 7/7] drm/msm/hdmi: use DRM HDMI Audio framework
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250226-bridge-hdmi-connector-v8-6-340af24b35cc@linaro.org>
+Message-Id: <20250226-bridge-hdmi-connector-v8-7-340af24b35cc@linaro.org>
 References: <20250226-bridge-hdmi-connector-v8-0-340af24b35cc@linaro.org>
 In-Reply-To: <20250226-bridge-hdmi-connector-v8-0-340af24b35cc@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -80,16 +79,16 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4777;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9824;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=spKKvIsUEXwYtFbU2ADRWxlKua9ZC3kOdX8BM/6IO2g=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnvtftXifKCqVrCyjGdTISkAmAEKpl+UusHqw7J
- liRrBG3F8KJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ77X7QAKCRCLPIo+Aiko
- 1YE5CACuM/zNqvGkIJ71dxbuQhP4b4ogbNqVS6jh+xo6Is38O6E90kX3zS3FVweT5SqnmJXy//0
- H0vvA5pf5YVLDM+M4m6bRTLA7XJs1eNrN9/Qw3kPoxKeR80jn8nPvECyVME3UvD47OgUjSI/3zQ
- O3RbWP6zs8/nLA6PoYyc9UvXBaDEl7qkO9Oxvmo/7paHsP2HBcdYaTUF22+x6UqC6njkPEk4oxB
- ngmCOCf16/J92GxV1qxo80XsECIruO037m+iIl6LdeL6vhKygL1AO+68VH4pgsD2hAvNqYQALTY
- uFPXleqUNTS28xjOs7Iu6tvODgjah7n6ZA5i7XX8F+ZNcqm5
+ bh=jCnB9nRWDX2Sto2qyIJmSafVo3Vaxjg8eV0IBfZcuDw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnvtftdD3IqWq+CTQLWloYFRJ87Ia/M+sufsRp1
+ gBXQGO6Z8eJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ77X7QAKCRCLPIo+Aiko
+ 1YZdB/9/2HWVKa/vpHUDYz2NdMq7UbWPPKoQW0INmMZlqTUWtSpl67gtnRqLfgXffBHZ5+o0RuL
+ zhgNcpcMZ6W5cwXk0mSpikFAJUx6wt9hR2/4tn/llsYBT4RfEPqgXafWHBAXzEQQIzVhh5hB0uu
+ L0KauDe702jDY0xaWhOchMCrzSxwzigND5bnxRrx+4pTI20Ixep++n3fyc8LpK1S9KE0MApHIO6
+ tLK7Rz5MyGtG5gcPTsQE+rlhAktBvXnjjNz1hlZYJqVf2RukceuvBPiF1/FuafX/7m6wWaSNNG+
+ uibSLLq9EAmfYTxnGNzl9oyJeYoF1GtGf04G7QfDomTYbCic
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,146 +106,313 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the driver to send SPD and HDMI Vendor Specific InfoFrames.
+In order to simplify the driver even further and to remove the
+boilerplate code, rewrite the audio interface to use the DRM HDMI Audio
+framework.
 
-While the HDMI block has special block to send HVS InfoFrame, use
-GENERIC0 block instead. VENSPEC_INFO registers pack frame data in a way
-that requires manual repacking in the driver, while GENERIC0 doesn't
-have such format requirements. The msm-4.4 kernel uses GENERIC0 to send
-HDR InfoFrame which we do not at this point anyway.
+Audio InfoFames are controlled centrally via the DRM HDMI framework.
+Correct InfoFrame data is programmed at the atomic_pre_enable() time (if
+it was set before, drm_atomic_helper_connector_hdmi_update_infoframes()
+takes care of writing all InfoFrames, including the Audio one.) or
+during msm_hdmi_bridge_audio_prepare() when the new stream is started.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+All audio data frame management is deferred to
+msm_hdmi_bridge_audio_prepare() and msm_hdmi_bridge_audio_shutdown().
+
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 93 ++++++++++++++++++++++++++++++++++
- 1 file changed, 93 insertions(+)
+ drivers/gpu/drm/msm/hdmi/hdmi.c        | 91 ----------------------------------
+ drivers/gpu/drm/msm/hdmi/hdmi.h        | 18 +++----
+ drivers/gpu/drm/msm/hdmi/hdmi_audio.c  | 68 +++++++++++++++++++++----
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c |  5 ++
+ 4 files changed, 71 insertions(+), 111 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 15ab0858105328c2f774ec1f79423614bbbaeb41..aee75eee3d4244cd95e44df46d65b8e3e53de735 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -69,6 +69,8 @@ static void power_off(struct drm_bridge *bridge)
- }
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 6b77e0fb8d5ec218dfbf58215e2e12ad1dfb1b85..248541ff449204c72cd444458dadb9ae4a0a53d1 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -14,7 +14,6 @@
+ #include <drm/drm_of.h>
+ #include <drm/display/drm_hdmi_state_helper.h>
  
- #define AVI_IFRAME_LINE_NUMBER 1
-+#define SPD_IFRAME_LINE_NUMBER 1
-+#define VENSPEC_IFRAME_LINE_NUMBER 3
+-#include <sound/hdmi-codec.h>
+ #include "hdmi.h"
  
- static int msm_hdmi_config_avi_infoframe(struct hdmi *hdmi,
- 					 const u8 *buffer, size_t len)
-@@ -142,6 +144,74 @@ static int msm_hdmi_config_audio_infoframe(struct hdmi *hdmi,
+ void msm_hdmi_set_mode(struct hdmi *hdmi, bool power_on)
+@@ -245,87 +244,6 @@ static const struct hdmi_platform_config hdmi_tx_8974_config = {
+ 		.hpd_freq      = hpd_clk_freq_8x74,
+ };
+ 
+-/*
+- * HDMI audio codec callbacks
+- */
+-static int msm_hdmi_audio_hw_params(struct device *dev, void *data,
+-				    struct hdmi_codec_daifmt *daifmt,
+-				    struct hdmi_codec_params *params)
+-{
+-	struct hdmi *hdmi = dev_get_drvdata(dev);
+-	unsigned int rate;
+-	int ret;
+-
+-	DRM_DEV_DEBUG(dev, "%u Hz, %d bit, %d channels\n", params->sample_rate,
+-		 params->sample_width, params->cea.channels);
+-
+-	switch (params->sample_rate) {
+-	case 32000:
+-		rate = HDMI_SAMPLE_RATE_32KHZ;
+-		break;
+-	case 44100:
+-		rate = HDMI_SAMPLE_RATE_44_1KHZ;
+-		break;
+-	case 48000:
+-		rate = HDMI_SAMPLE_RATE_48KHZ;
+-		break;
+-	case 88200:
+-		rate = HDMI_SAMPLE_RATE_88_2KHZ;
+-		break;
+-	case 96000:
+-		rate = HDMI_SAMPLE_RATE_96KHZ;
+-		break;
+-	case 176400:
+-		rate = HDMI_SAMPLE_RATE_176_4KHZ;
+-		break;
+-	case 192000:
+-		rate = HDMI_SAMPLE_RATE_192KHZ;
+-		break;
+-	default:
+-		DRM_DEV_ERROR(dev, "rate[%d] not supported!\n",
+-			params->sample_rate);
+-		return -EINVAL;
+-	}
+-
+-	ret = drm_atomic_helper_connector_hdmi_update_audio_infoframe(hdmi->connector,
+-								      &params->cea);
+-	if (ret)
+-		return ret;
+-
+-	msm_hdmi_audio_info_setup(hdmi, rate, params->cea.channels);
+-
+-	return 0;
+-}
+-
+-static void msm_hdmi_audio_shutdown(struct device *dev, void *data)
+-{
+-	struct hdmi *hdmi = dev_get_drvdata(dev);
+-
+-	drm_atomic_helper_connector_hdmi_clear_audio_infoframe(hdmi->connector);
+-	msm_hdmi_audio_disable(hdmi);
+-}
+-
+-static const struct hdmi_codec_ops msm_hdmi_audio_codec_ops = {
+-	.hw_params = msm_hdmi_audio_hw_params,
+-	.audio_shutdown = msm_hdmi_audio_shutdown,
+-};
+-
+-static struct hdmi_codec_pdata codec_data = {
+-	.ops = &msm_hdmi_audio_codec_ops,
+-	.max_i2s_channels = 8,
+-	.i2s = 1,
+-};
+-
+-static int msm_hdmi_register_audio_driver(struct hdmi *hdmi, struct device *dev)
+-{
+-	hdmi->audio_pdev = platform_device_register_data(dev,
+-							 HDMI_CODEC_DRV_NAME,
+-							 PLATFORM_DEVID_AUTO,
+-							 &codec_data,
+-							 sizeof(codec_data));
+-	return PTR_ERR_OR_ZERO(hdmi->audio_pdev);
+-}
+-
+ static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct msm_drm_private *priv = dev_get_drvdata(master);
+@@ -337,12 +255,6 @@ static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 		return err;
+ 	priv->hdmi = hdmi;
+ 
+-	err = msm_hdmi_register_audio_driver(hdmi, dev);
+-	if (err) {
+-		DRM_ERROR("Failed to attach an audio codec %d\n", err);
+-		hdmi->audio_pdev = NULL;
+-	}
+-
  	return 0;
  }
  
-+static int msm_hdmi_config_spd_infoframe(struct hdmi *hdmi,
-+					 const u8 *buffer, size_t len)
-+{
-+	u32 buf[7] = {};
-+	u32 val;
-+	int i;
+@@ -352,9 +264,6 @@ static void msm_hdmi_unbind(struct device *dev, struct device *master,
+ 	struct msm_drm_private *priv = dev_get_drvdata(master);
+ 
+ 	if (priv->hdmi) {
+-		if (priv->hdmi->audio_pdev)
+-			platform_device_unregister(priv->hdmi->audio_pdev);
+-
+ 		if (priv->hdmi->bridge)
+ 			msm_hdmi_hpd_disable(priv->hdmi);
+ 
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
+index cdd3bd4f37831f9a606a4c3627a48364f5d4025f..a5f481c39277631b7a19d294b086d6208be26511 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.h
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+@@ -33,7 +33,6 @@ struct hdmi_hdcp_ctrl;
+ struct hdmi {
+ 	struct drm_device *dev;
+ 	struct platform_device *pdev;
+-	struct platform_device *audio_pdev;
+ 
+ 	const struct hdmi_platform_config *config;
+ 
+@@ -205,17 +204,16 @@ static inline int msm_hdmi_pll_8998_init(struct platform_device *pdev)
+ /*
+  * audio:
+  */
+-#define	HDMI_SAMPLE_RATE_32KHZ		0
+-#define	HDMI_SAMPLE_RATE_44_1KHZ	1
+-#define	HDMI_SAMPLE_RATE_48KHZ		2
+-#define	HDMI_SAMPLE_RATE_88_2KHZ	3
+-#define	HDMI_SAMPLE_RATE_96KHZ		4
+-#define	HDMI_SAMPLE_RATE_176_4KHZ	5
+-#define	HDMI_SAMPLE_RATE_192KHZ		6
++struct hdmi_codec_daifmt;
++struct hdmi_codec_params;
+ 
+ int msm_hdmi_audio_update(struct hdmi *hdmi);
+-int msm_hdmi_audio_info_setup(struct hdmi *hdmi, int rate, int channels);
+-int msm_hdmi_audio_disable(struct hdmi *hdmi);
++int msm_hdmi_bridge_audio_prepare(struct drm_connector *connector,
++				  struct drm_bridge *bridge,
++				  struct hdmi_codec_daifmt *daifmt,
++				  struct hdmi_codec_params *params);
++void msm_hdmi_bridge_audio_shutdown(struct drm_connector *connector,
++				    struct drm_bridge *bridge);
+ 
+ /*
+  * hdmi bridge:
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_audio.c b/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
+index 0b91ed5eabd234ff3bca0c2dfaa159dd2e6a9df5..8bb975e82c17c1d77217128e9ddbd6a0575bb33d 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
+@@ -4,7 +4,12 @@
+  * Author: Rob Clark <robdclark@gmail.com>
+  */
+ 
++#include <drm/display/drm_hdmi_state_helper.h>
 +
-+	if (len != HDMI_INFOFRAME_SIZE(SPD) || len - 3 > sizeof(buf)) {
-+		DRM_DEV_ERROR(&hdmi->pdev->dev,
-+			"failed to configure SPD infoframe\n");
-+		return -EINVAL;
-+	}
+ #include <linux/hdmi.h>
 +
-+	/* checksum gets written together with the body of the frame */
-+	hdmi_write(hdmi, REG_HDMI_GENERIC1_HDR,
-+		   buffer[0] |
-+		   buffer[1] << 8 |
-+		   buffer[2] << 16);
++#include <sound/hdmi-codec.h>
 +
-+	memcpy(buf, &buffer[3], len - 3);
-+
-+	for (i = 0; i < ARRAY_SIZE(buf); i++)
-+		hdmi_write(hdmi, REG_HDMI_GENERIC1(i), buf[i]);
-+
-+	val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
-+	val |= HDMI_GEN_PKT_CTRL_GENERIC1_SEND |
-+		 HDMI_GEN_PKT_CTRL_GENERIC1_CONT |
-+		 HDMI_GEN_PKT_CTRL_GENERIC1_LINE(SPD_IFRAME_LINE_NUMBER);
-+	hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
-+
-+	return 0;
-+}
-+
-+static int msm_hdmi_config_hdmi_infoframe(struct hdmi *hdmi,
-+					  const u8 *buffer, size_t len)
-+{
-+	u32 buf[7] = {};
-+	u32 val;
-+	int i;
-+
-+	if (len < HDMI_INFOFRAME_HEADER_SIZE + HDMI_VENDOR_INFOFRAME_SIZE ||
-+	    len - 3 > sizeof(buf)) {
-+		DRM_DEV_ERROR(&hdmi->pdev->dev,
-+			"failed to configure HDMI infoframe\n");
-+		return -EINVAL;
-+	}
-+
-+	/* checksum gets written together with the body of the frame */
-+	hdmi_write(hdmi, REG_HDMI_GENERIC0_HDR,
-+		   buffer[0] |
-+		   buffer[1] << 8 |
-+		   buffer[2] << 16);
-+
-+	memcpy(buf, &buffer[3], len - 3);
-+
-+	for (i = 0; i < ARRAY_SIZE(buf); i++)
-+		hdmi_write(hdmi, REG_HDMI_GENERIC0(i), buf[i]);
-+
-+	val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
-+	val |= HDMI_GEN_PKT_CTRL_GENERIC0_SEND |
-+		 HDMI_GEN_PKT_CTRL_GENERIC0_CONT |
-+		 HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE |
-+		 HDMI_GEN_PKT_CTRL_GENERIC0_LINE(VENSPEC_IFRAME_LINE_NUMBER);
-+	hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
-+
-+	return 0;
-+}
-+
- static int msm_hdmi_bridge_clear_infoframe(struct drm_bridge *bridge,
- 					   enum hdmi_infoframe_type type)
+ #include "hdmi.h"
+ 
+ /* Supported HDMI Audio sample rates */
+@@ -192,29 +197,72 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
+ 	return 0;
+ }
+ 
+-int msm_hdmi_audio_info_setup(struct hdmi *hdmi, int rate, int channels)
++int msm_hdmi_bridge_audio_prepare(struct drm_connector *connector,
++				  struct drm_bridge *bridge,
++				  struct hdmi_codec_daifmt *daifmt,
++				  struct hdmi_codec_params *params)
  {
-@@ -176,6 +246,25 @@ static int msm_hdmi_bridge_clear_infoframe(struct drm_bridge *bridge,
- 
- 		break;
- 
-+	case HDMI_INFOFRAME_TYPE_SPD:
-+		val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
-+		val &= ~(HDMI_GEN_PKT_CTRL_GENERIC1_SEND |
-+			 HDMI_GEN_PKT_CTRL_GENERIC1_CONT |
-+			 HDMI_GEN_PKT_CTRL_GENERIC1_LINE__MASK);
-+		hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
+-	if (!hdmi)
+-		return -ENXIO;
+-
+-	if ((rate < 0) || (rate >= MSM_HDMI_SAMPLE_RATE_MAX))
++	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
++	struct hdmi *hdmi = hdmi_bridge->hdmi;
++	unsigned int rate;
++	int ret;
 +
++	drm_dbg_driver(bridge->dev, "%u Hz, %d bit, %d channels\n",
++		       params->sample_rate,
++		       params->sample_width,
++		       params->cea.channels);
++
++	switch (params->sample_rate) {
++	case 32000:
++		rate = MSM_HDMI_SAMPLE_RATE_32KHZ;
 +		break;
-+
-+	case HDMI_INFOFRAME_TYPE_VENDOR:
-+		val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
-+		val &= ~(HDMI_GEN_PKT_CTRL_GENERIC0_SEND |
-+			 HDMI_GEN_PKT_CTRL_GENERIC0_CONT |
-+			 HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE |
-+			 HDMI_GEN_PKT_CTRL_GENERIC0_LINE__MASK);
-+		hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
-+
++	case 44100:
++		rate = MSM_HDMI_SAMPLE_RATE_44_1KHZ;
 +		break;
++	case 48000:
++		rate = MSM_HDMI_SAMPLE_RATE_48KHZ;
++		break;
++	case 88200:
++		rate = MSM_HDMI_SAMPLE_RATE_88_2KHZ;
++		break;
++	case 96000:
++		rate = MSM_HDMI_SAMPLE_RATE_96KHZ;
++		break;
++	case 176400:
++		rate = MSM_HDMI_SAMPLE_RATE_176_4KHZ;
++		break;
++	case 192000:
++		rate = MSM_HDMI_SAMPLE_RATE_192KHZ;
++		break;
++	default:
++		drm_err(bridge->dev, "rate[%d] not supported!\n",
++			params->sample_rate);
+ 		return -EINVAL;
++	}
 +
- 	default:
- 		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
- 	}
-@@ -197,6 +286,10 @@ static int msm_hdmi_bridge_write_infoframe(struct drm_bridge *bridge,
- 		return msm_hdmi_config_avi_infoframe(hdmi, buffer, len);
- 	case HDMI_INFOFRAME_TYPE_AUDIO:
- 		return msm_hdmi_config_audio_infoframe(hdmi, buffer, len);
-+	case HDMI_INFOFRAME_TYPE_SPD:
-+		return msm_hdmi_config_spd_infoframe(hdmi, buffer, len);
-+	case HDMI_INFOFRAME_TYPE_VENDOR:
-+		return msm_hdmi_config_hdmi_infoframe(hdmi, buffer, len);
- 	default:
- 		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
- 		return 0;
++	ret = drm_atomic_helper_connector_hdmi_update_audio_infoframe(connector,
++								      &params->cea);
++	if (ret)
++		return ret;
+ 
+ 	hdmi->audio.rate = rate;
+-	hdmi->audio.channels = channels;
++	hdmi->audio.channels = params->cea.channels;
+ 	hdmi->audio.enabled = true;
+ 
+ 	return msm_hdmi_audio_update(hdmi);
+ }
+ 
+-int msm_hdmi_audio_disable(struct hdmi *hdmi)
++void msm_hdmi_bridge_audio_shutdown(struct drm_connector *connector,
++				    struct drm_bridge *bridge)
+ {
+-	if (!hdmi)
+-		return -ENXIO;
++	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
++	struct hdmi *hdmi = hdmi_bridge->hdmi;
++
++	drm_atomic_helper_connector_hdmi_clear_audio_infoframe(connector);
+ 
+ 	hdmi->audio.rate = 0;
+ 	hdmi->audio.channels = 2;
+ 	hdmi->audio.enabled = false;
+ 
+-	return msm_hdmi_audio_update(hdmi);
++	msm_hdmi_audio_update(hdmi);
+ }
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index aee75eee3d4244cd95e44df46d65b8e3e53de735..c6659e62594558b3c0c25de36aa8c459aa253834 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -478,6 +478,8 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
+ 	.hdmi_tmds_char_rate_valid = msm_hdmi_bridge_tmds_char_rate_valid,
+ 	.hdmi_clear_infoframe = msm_hdmi_bridge_clear_infoframe,
+ 	.hdmi_write_infoframe = msm_hdmi_bridge_write_infoframe,
++	.hdmi_audio_prepare = msm_hdmi_bridge_audio_prepare,
++	.hdmi_audio_shutdown = msm_hdmi_bridge_audio_shutdown,
+ };
+ 
+ static void
+@@ -515,6 +517,9 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
+ 		DRM_BRIDGE_OP_DETECT |
+ 		DRM_BRIDGE_OP_HDMI |
+ 		DRM_BRIDGE_OP_EDID;
++	bridge->hdmi_audio_max_i2s_playback_channels = 8;
++	bridge->hdmi_audio_dev = &hdmi->pdev->dev;
++	bridge->hdmi_audio_dai_port = -1;
+ 
+ 	ret = devm_drm_bridge_add(hdmi->dev->dev, bridge);
+ 	if (ret)
 
 -- 
 2.39.5
