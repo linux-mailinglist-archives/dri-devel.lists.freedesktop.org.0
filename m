@@ -2,52 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F405A463C3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB8DA463D6
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:56:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4614410E0BA;
-	Wed, 26 Feb 2025 14:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA1D610E1A9;
+	Wed, 26 Feb 2025 14:55:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="makalxCj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HD3ja4Au";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC1010E0BA
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:52:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=qbtbASKxIYYipFAVt3nJdzkBAoA+S1oBGjjAz/HmTSs=; b=makalxCj1yW3JmPdeqQHP7LUkK
- 9cV6Ew51HZEzMOqFNbfHrewTTrNueM1Lrq4PjOpFMvvqx1POre1yCdEZypquNilWxa6sy2AcK5ywg
- bmRrmtcGPThfHdgffg/K7+dTRvykl05JQ6E9JUyrysC51GGwgY+hKFvtfceI8hKZ0E8YaoI0usE79
- S5We6Amax75OI+tnwwdpRhO5o3lSp8PP0MGgMDEfpr4vSmArvfl3a14GQBUN86PTyKi39iqjngXw9
- nNw6tlO2gZVne5TkZf1lfLdp/9sLgSN5NW4LVzaelM+tTGOThU0iELjgt2+DeZtXldBly8M/zGiPE
- sUDe8jZQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tnIlp-0010hb-Tz; Wed, 26 Feb 2025 15:52:28 +0100
-Message-ID: <e0b3f647-ff26-45a0-9af8-16705a7b36ec@igalia.com>
-Date: Wed, 26 Feb 2025 11:52:20 -0300
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E94D10E1A9;
+ Wed, 26 Feb 2025 14:55:54 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2f9b8ef4261so1726154a91.1; 
+ Wed, 26 Feb 2025 06:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740581754; x=1741186554; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oocQ0fbbk+dYcG+8o2rJPHRghcOSBtECMM/3xI25Xs0=;
+ b=HD3ja4Au2GTJovBP0URtjLeK0AgNIlebY0m9N/cy5khJBUOFauqe6nRCHI4WwbOOc6
+ DCs3UReEk30+t1Hde1KD0ILEmHtN44jjPfJk6UqaIqzGuTme5DU7LEzqzIDeMLV9u0Co
+ I5ULf6w+4NmIP5fqdsakXaGmV2w6Oi8qe3hKuFG47N9yYm5paz7OqMOtgaUL0Ij12RbH
+ zgONVDRyKKp12qFUWXcLx1TtN5hBoOTmq/HUDwUSDDEj7Z4QtxBpWLzTts58oFaI4Zok
+ F7XZNxRorM54ilx29o0h3/QgkvYcHoHArA8xyvDf4Cax7LzAux8BJA7RI0jJiDEXD6v2
+ W9CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740581754; x=1741186554;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oocQ0fbbk+dYcG+8o2rJPHRghcOSBtECMM/3xI25Xs0=;
+ b=BmpmwnHujFkMDIdYVHdzvjXY/fsodT7ZMpS0EHTjRhP/8NgypM1MCj1YQhZsaAS9Eb
+ TjIRp1OLSCDu9UYbAg676lzVn90vrjF1iZPHrefb/K5EWCL3iJbnTHaaJs430U0cpjpK
+ gb2sImzfVN/hLoO4CDy5EWzH7zBMyY327lvoLMPM1T74QOJcol5X6lajn/CQo7u1UEkF
+ h+moxOGuaa2Pu3adW/leoIhGWLHx6nuG5aeAaIEpwtfo3ScI02pCb1K7CtynAHrTfaWL
+ 9GSDFAsgfJB/+QJusLtiKwnxbm+gwiq8ZfqYjkEb1DPSGpY5xiwQojo1yK45FlLw7q5U
+ suQg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8qd7O2GjyEfXETMSu1Ua+YAC3ZY4sBEsgcAH8vip9DwMGaQnBF/meH1NJ84P6/PiZPE8UPBE2@lists.freedesktop.org,
+ AJvYcCXHJl014kqdXVp8GD/jlV9FrDXPZndbS6gjYQsVazxknSkUl9q1g9wuRjvFkORcRShoakmckXLIbMko@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYQnyBy+Z8+UBhsKzRJLl7P2J3O2XVuWeTIH/ej+/2zpUf9IUV
+ Ewpliv9oT+uwnjgCM1q0TpmEItnJBt4cqq/dQDfgEjtZ1xqiGSsTzrI/G8ij6OUzPdxVq945ufT
+ XiWaig2ARCoonPrNBwK3rSrEenss=
+X-Gm-Gg: ASbGncuuAsu3j4sQTUU7MJaIf82unt+thcG5+EhKjUNA3usuC/YZWy7a7VkCCygEaZE
+ QUsdIEKwPwzdkI70I+VFJmXBbDXtzStDdIp4aQOCwNSjnS1ZN7RrP8g68XdZhpvxqVW6+Xw0c4g
+ 2UT3g6mTQ=
+X-Google-Smtp-Source: AGHT+IEwr1YXnoiZrxne6OHHnEmFMi5XjAExocD2439PvRUuxjM8MGlaORcc7Sw9f9Vsehx+BFssOco752kKMgOV07g=
+X-Received: by 2002:a17:90b:4c04:b0:2ee:f59a:94d3 with SMTP id
+ 98e67ed59e1d1-2fce75eed74mr14141075a91.0.1740581753615; Wed, 26 Feb 2025
+ 06:55:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/doc: Document KUnit expectations
-To: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-References: <20250113101100.1373856-1-mripard@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250113101100.1373856-1-mripard@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250226085733.230185-1-colin.i.king@gmail.com>
+ <PH7PR12MB87968F09CAC17487AD48AC0DB0C22@PH7PR12MB8796.namprd12.prod.outlook.com>
+In-Reply-To: <PH7PR12MB87968F09CAC17487AD48AC0DB0C22@PH7PR12MB8796.namprd12.prod.outlook.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 26 Feb 2025 09:55:41 -0500
+X-Gm-Features: AWEUYZlWFg3ahOUpyNGJhQerEe51HZ046Q_K1gV7V6JMdhPKUuBT6KNIpq1OACs
+Message-ID: <CADnq5_NvFJZT8y0aC_HQh4-6N8awZc97mvCHvOODxmnn2Jwq7Q@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amdgpu: Fix spelling mistake "initiailize" ->
+ "initialize" and grammar
+To: "Zhou1, Tao" <Tao.Zhou1@amd.com>
+Cc: Colin Ian King <colin.i.king@gmail.com>, 
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +92,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Applied.  Thanks!
 
-On 13/01/25 07:11, Maxime Ripard wrote:
-> The DRM and KMS frameworks and helpers gain more and more kunit
-> coverage, so let's document what our expectations are.
-> 
-> Suggested-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> 
-> ---
-> 
-> I'm not too sure where those guidelines should be placed. Is it the best
-> place?
-> ---
->   Documentation/gpu/drm-internals.rst | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-> index cb9ae282771c..94f93fd3b8a0 100644
-> --- a/Documentation/gpu/drm-internals.rst
-> +++ b/Documentation/gpu/drm-internals.rst
-> @@ -206,10 +206,17 @@ follows:
->   	The configuration included in ``.kunitconfig`` should be as generic as
->   	possible.
->   	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
->   	included in it because they are only required for User Mode Linux.
->   
-> +KUnit Coverage Rules
-> +~~~~~~~~~~~~~~~~~~~~
-> +
-> +KUnit support is gradually added to the DRM framework and helpers. There's no
-> +general requirement for the framework and helpers to have KUnit tests at the
-> +moment. However, patches that are affecting a function or helper already
-> +covered by KUnit tests must provide tests if the change calls for one.
->   
-
-Acked-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra
-
->   Legacy Support Code
->   ===================
->   
->   The section very briefly covers some of the old legacy support code
-
+On Wed, Feb 26, 2025 at 4:13=E2=80=AFAM Zhou1, Tao <Tao.Zhou1@amd.com> wrot=
+e:
+>
+> [AMD Official Use Only - AMD Internal Distribution Only]
+>
+> Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+>
+> > -----Original Message-----
+> > From: Colin Ian King <colin.i.king@gmail.com>
+> > Sent: Wednesday, February 26, 2025 4:58 PM
+> > To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+> > <Christian.Koenig@amd.com>; David Airlie <airlied@gmail.com>; Simona Ve=
+tter
+> > <simona@ffwll.ch>; Zhou1, Tao <Tao.Zhou1@amd.com>; amd-
+> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> > Cc: kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org
+> > Subject: [PATCH][next] drm/amdgpu: Fix spelling mistake "initiailize" -=
+> "initialize"
+> > and grammar
+> >
+> > There is a spelling mistake and a grammatical error in a dev_err messag=
+e. Fix it.
+> >
+> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cper.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cper.c
+> > b/drivers/gpu/drm/amd/amdgpu/amdgpu_cper.c
+> > index 5b6bdabb8012..7b9c98be5b1a 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cper.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cper.c
+> > @@ -545,7 +545,7 @@ int amdgpu_cper_init(struct amdgpu_device *adev)
+> >
+> >       r =3D amdgpu_cper_ring_init(adev);
+> >       if (r) {
+> > -             dev_err(adev->dev, "fail to initiailize cper ring, r =3D =
+%d\n", r);
+> > +             dev_err(adev->dev, "failed to initialize cper ring, r =3D=
+ %d\n", r);
+> >               return r;
+> >       }
+> >
+> > --
+> > 2.47.2
+>
