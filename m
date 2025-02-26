@@ -2,56 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E0DA457E1
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 09:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C8EA457EE
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 09:16:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328DB10E880;
-	Wed, 26 Feb 2025 08:13:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A45210E87C;
+	Wed, 26 Feb 2025 08:16:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MHWcqHs6";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="LDTLr8IA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="loDyTY05";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LDTLr8IA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="loDyTY05";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9004F10E87C;
- Wed, 26 Feb 2025 08:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=btlP+/Ibje/j/a2g04gbUyuwIMhivKCpTZS695eGk34=; b=MHWcqHs6MhB/0xrpSr3iOGigaY
- 1gEZX+Gdtt+TVTvJwU7bq1bnXbwbS0x2te1I5gmYW8KVUb7mK42Zkd4zJ5Zg3+hcEyPJFKz2OQW1U
- bdpdI51Uh2uLXb09hvqVptQ1dR/r1OGCungSlksAfTmoCd5ujGnuZaFmmVs6z9yTmtGR6FzQ2ZGkt
- utIaQWcifk9BT57IecwOjRsVsxZFyCOddOw/54rfsGgoYvGJIohg59f+JsWCaACnhR/1EU96gJOdI
- T7IqyZ7WJgKyII2KiOBlPHWJSQARDIMiUxSjp3lQb91rd/tPV5Tp3NLzLYReJFkWSx/pPksCCxwPY
- MX38r0+w==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tnCXp-000pv2-TN; Wed, 26 Feb 2025 09:13:35 +0100
-Date: Wed, 26 Feb 2025 08:13:34 +0000
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <Z77NLt2mR7SqxJ4u@linux>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D7A810E87C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 08:16:28 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1D38C1F387;
+ Wed, 26 Feb 2025 08:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740557787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZudkjdRVQNPg848x41RYi8LijSsi8vBmiAuiAX8utgc=;
+ b=LDTLr8IA+argGZIDJevpVmw+I2jbjO8uxicQUX9Zxf1UZYu/KjfKfc5sIgcHzfHfEcQotZ
+ tga8Wyi1YjR/Y4hlCqOOxOIEHAz460iwl/3ITxcVXTXDvynq5WoLYi7nMx7bZFchywI4Cq
+ JLjE+1NjFoR5iSoBs2h9nitQFoc68v4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740557787;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZudkjdRVQNPg848x41RYi8LijSsi8vBmiAuiAX8utgc=;
+ b=loDyTY05jK63KsFbF/VdpdoZup6lnBJiQes8DhqYb4Pc0Ob38XWn1a21CDRw0Z0/afgeDt
+ 2ga5x2tyCwhiHBBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740557787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZudkjdRVQNPg848x41RYi8LijSsi8vBmiAuiAX8utgc=;
+ b=LDTLr8IA+argGZIDJevpVmw+I2jbjO8uxicQUX9Zxf1UZYu/KjfKfc5sIgcHzfHfEcQotZ
+ tga8Wyi1YjR/Y4hlCqOOxOIEHAz460iwl/3ITxcVXTXDvynq5WoLYi7nMx7bZFchywI4Cq
+ JLjE+1NjFoR5iSoBs2h9nitQFoc68v4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740557787;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZudkjdRVQNPg848x41RYi8LijSsi8vBmiAuiAX8utgc=;
+ b=loDyTY05jK63KsFbF/VdpdoZup6lnBJiQes8DhqYb4Pc0Ob38XWn1a21CDRw0Z0/afgeDt
+ 2ga5x2tyCwhiHBBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D30BF1377F;
+ Wed, 26 Feb 2025 08:16:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id W60NMtrNvmd9QgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Feb 2025 08:16:26 +0000
+Message-ID: <29ecc7c4-2887-4989-a1d3-aa76b44c0387@suse.de>
+Date: Wed, 26 Feb 2025 09:16:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dummycon: only build module if there are users
+To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250225164436.56654-1-arnd@kernel.org>
+ <4d047af3-fd30-4fa4-aa3d-c0359856d750@suse.de>
+ <a2c0e681-2cdf-4dc9-82fc-be35f54ff795@app.fastmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <a2c0e681-2cdf-4dc9-82fc-be35f54ff795@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [0.20 / 50.00];
+ RSPAMD_URIBL(4.50)[arndb.de:email]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[arndb.de,kernel.org,linuxfoundation.org,gmx.de];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[7]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,arndb.de:email]
+X-Spam-Score: 0.20
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,186 +144,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
-Hi Dave, Sima,
+Am 26.02.25 um 08:55 schrieb Arnd Bergmann:
+> On Wed, Feb 26, 2025, at 08:48, Thomas Zimmermann wrote:
+>> Am 25.02.25 um 17:44 schrieb Arnd Bergmann:
+>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> Dummycon is used as a fallback conswitchp for vgacon and fbcon
+>>> in the VT code, and there are no references to it if all three
+>>> are disabled, so just leave it out of the kernel image for
+>>> configurations without those.
+>>>
+>>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>>> ---
+>>>    drivers/video/console/Kconfig | 3 +--
+>>>    1 file changed, 1 insertion(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
+>>> index bc31db6ef7d2..1c4263c164ce 100644
+>>> --- a/drivers/video/console/Kconfig
+>>> +++ b/drivers/video/console/Kconfig
+>>> @@ -47,8 +47,7 @@ config SGI_NEWPORT_CONSOLE
+>>>    	  card of your Indy.  Most people say Y here.
+>>>    
+>>>    config DUMMY_CONSOLE
+>>> -	bool
+>>> -	default y
+>>> +	def_bool VT || VGA_CONSOLE || FRAMEBUFFER_CONSOLE
+>> What about MDA_CONSOLE and STI_CONSOLE. Don't they require this as fallback?
+>>
+> MDA_CONSOLE clearly does not, because that is only the second
+> console when VGA_CONSOLE is the main one.
+>
+> For sti_console, I don't see how it would do use it: when CONFIG_VT
+> is enabled, the line above turns on DUMMY_CONSOLE, but without
+> CONFIG_VT there seems to be no reference to it after
+> 58a5c67aadde ("parisc/sticon: Always register sticon console
+> driver"). I also see that CONFIG_STI_CONSOLE is a 'bool' symbol,
+> so there is no dynamic loading/unloading of the driver.
 
-Here comes the main pull request for 6.15.
+Thanks.
 
-New sysfs UAPI for configuring the GuC power profiles is probably the most
-interesting addition. Other than that, there is one performance workaround
-for Gen12 platforms and a bunch of fixes, mostly around the GuC code. PMU
-code was consolidated to use kernel facility for CPU hotplug handling which
-required a merge during the development window.
+Here's another general question. vgacon and fbcon only seem usable with 
+CONFIG_VT=y. Wouldn't it make sense to have them depend on CONFIG_VT=y? 
+dummycon could then be implemented as part of the vt code, maybe even 
+become a vt-internal thing. The console code is complex, so I'm probably 
+missing something here?
 
-Other than those just a collection of cleanups and selftest fixes.
+Best regards
+Thomas
 
-Regards,
+>
+>      Arnd
 
-Tvrtko
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-drm-intel-gt-next-2025-02-26:
-UAPI Changes:
-
-- Add sysfs for SLPC power profiles [slpc] (Vinay Belgaumkar)
-
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Fix zero delta busyness issue [pmu] (Umesh Nerlige Ramappa)
-- Fix page cleanup on DMA remap failure (Brian Geffon)
-- Debug print LRC state entries only if the context is pinned [guc] (Daniele Ceraolo Spurio)
-- Drop custom hotplug code [pmu] (Lucas De Marchi)
-- Use spin_lock_irqsave() in interruptible context [guc] (Krzysztof Karas)
-- Add wait on depth stall done bit handling [gen12] (Juha-Pekka Heikkila)
-
-Miscellaneous:
-
-- Change throttle criteria for rps [selftest] (Raag Jadav)
-- Add debug print about hw config table size (John Harrison)
-- Include requested frequency in slow firmware load messages [uc] (John Harrison)
-- Remove i915_pmu_event_event_idx() [pmu] (Lucas De Marchi)
-- Remove unused live_context_for_engine (Dr. David Alan Gilbert)
-- Add Wa_22010465259 in its respective WA list (Ranu Maurya)
-- Correct frequency handling in RPS power measurement [selftests] (Sk Anirban)
-- Add helper function slpc_measure_power [guc/slpc] (Sk Anirban)
-- Revert "drm/i915/gt: Log reason for setting TAINT_WARN at reset" [gt] (Sebastian Brzezinka)
-- Avoid using uninitialized context [selftests] (Krzysztof Karas)
-- Use struct_size() helper in kmalloc() (luoqing)
-- Use prandom in selftest [selftests] (Markus Theil)
-- Replace kmap with its safer kmap_local_page counterpart [gt] (Andi Shyti)
-
-Merges:
-
-- Merge drm/drm-next into drm-intel-gt-next (Tvrtko Ursulin)
-The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
-
-  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2025-02-26
-
-for you to fetch changes up to 7ded94bd11d47a8ddef051aef1d1a42d8191e09f:
-
-  drm/i915/gt: add wait on depth stall done bit handling (2025-02-18 12:37:04 +0100)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- Add sysfs for SLPC power profiles [slpc] (Vinay Belgaumkar)
-
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Fix zero delta busyness issue [pmu] (Umesh Nerlige Ramappa)
-- Fix page cleanup on DMA remap failure (Brian Geffon)
-- Debug print LRC state entries only if the context is pinned [guc] (Daniele Ceraolo Spurio)
-- Drop custom hotplug code [pmu] (Lucas De Marchi)
-- Use spin_lock_irqsave() in interruptible context [guc] (Krzysztof Karas)
-- Add wait on depth stall done bit handling [gen12] (Juha-Pekka Heikkila)
-
-Miscellaneous:
-
-- Change throttle criteria for rps [selftest] (Raag Jadav)
-- Add debug print about hw config table size (John Harrison)
-- Include requested frequency in slow firmware load messages [uc] (John Harrison)
-- Remove i915_pmu_event_event_idx() [pmu] (Lucas De Marchi)
-- Remove unused live_context_for_engine (Dr. David Alan Gilbert)
-- Add Wa_22010465259 in its respective WA list (Ranu Maurya)
-- Correct frequency handling in RPS power measurement [selftests] (Sk Anirban)
-- Add helper function slpc_measure_power [guc/slpc] (Sk Anirban)
-- Revert "drm/i915/gt: Log reason for setting TAINT_WARN at reset" [gt] (Sebastian Brzezinka)
-- Avoid using uninitialized context [selftests] (Krzysztof Karas)
-- Use struct_size() helper in kmalloc() (luoqing)
-- Use prandom in selftest [selftests] (Markus Theil)
-- Replace kmap with its safer kmap_local_page counterpart [gt] (Andi Shyti)
-
-Merges:
-
-- Merge drm/drm-next into drm-intel-gt-next (Tvrtko Ursulin)
-
-----------------------------------------------------------------
-Andi Shyti (1):
-      drm/i915/gt: Replace kmap with its safer kmap_local_page counterpart
-
-Brian Geffon (1):
-      drm/i915: Fix page cleanup on DMA remap failure
-
-Daniele Ceraolo Spurio (1):
-      drm/i915/guc: Debug print LRC state entries only if the context is pinned
-
-Dr. David Alan Gilbert (1):
-      drm/i915: Remove unused live_context_for_engine
-
-John Harrison (2):
-      drm/i915: Add debug print about hw config table size
-      drm/i915/uc: Include requested frequency in slow firmware load messages
-
-Juha-Pekka Heikkila (1):
-      drm/i915/gt: add wait on depth stall done bit handling
-
-Krzysztof Karas (2):
-      drm/i915/selftests: avoid using uninitialized context
-      drm/i915/gt: Use spin_lock_irqsave() in interruptible context
-
-Lucas De Marchi (2):
-      drm/i915/pmu: Remove i915_pmu_event_event_idx()
-      drm/i915/pmu: Drop custom hotplug code
-
-Markus Theil (1):
-      drm/i915/selftests: use prandom in selftest
-
-Raag Jadav (1):
-      drm/i915/selftest: Change throttle criteria for rps
-
-Ranu Maurya (1):
-      drm/i915: Add Wa_22010465259 in its respective WA list
-
-Sebastian Brzezinka (1):
-      Revert "drm/i915/gt: Log reason for setting TAINT_WARN at reset"
-
-Sk Anirban (2):
-      drm/i915/selftests: Correct frequency handling in RPS power measurement
-      drm/i915/guc/slpc: Add helper function slpc_measure_power
-
-Tvrtko Ursulin (1):
-      Merge drm/drm-next into drm-intel-gt-next
-
-Umesh Nerlige Ramappa (1):
-      drm/i915/pmu: Fix zero delta busyness issue
-
-Vinay Belgaumkar (1):
-      drm/i915/slpc: Add sysfs for SLPC power profiles
-
-luoqing (1):
-      selftests: i915: Use struct_size() helper in kmalloc()
-
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |   6 +-
- drivers/gpu/drm/i915/gem/selftests/mock_context.c  |  38 -------
- drivers/gpu/drm/i915/gem/selftests/mock_context.h  |   3 -
- drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c   |   3 +-
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |   4 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            |   3 +
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        |  47 ++++++++
- drivers/gpu/drm/i915/gt/intel_reset.c              |   6 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |   4 +
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |  19 ++--
- drivers/gpu/drm/i915/gt/selftest_rps.c             |  13 +--
- drivers/gpu/drm/i915/gt/selftest_slpc.c            |  17 ++-
- drivers/gpu/drm/i915/gt/shmem_utils.c              |   8 +-
- .../gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h  |   5 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c          |  11 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c    |   3 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |  65 +++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h        |   1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h  |   3 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  40 +++++--
- drivers/gpu/drm/i915/gt/uc/intel_huc.c             |  12 ++-
- drivers/gpu/drm/i915/i915_module.c                 |   2 -
- drivers/gpu/drm/i915/i915_pmu.c                    | 120 +--------------------
- drivers/gpu/drm/i915/i915_pmu.h                    |  11 --
- drivers/gpu/drm/i915/selftests/i915_gem.c          |   7 +-
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   4 +-
- 26 files changed, 228 insertions(+), 227 deletions(-)
