@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF2BA455ED
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 07:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01110A455F0
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 07:46:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9889A10E859;
-	Wed, 26 Feb 2025 06:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77ED010E85B;
+	Wed, 26 Feb 2025 06:46:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EXpPTSbt";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gU0siIxm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3795E10E859
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 06:46:16 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-30a36eecb9dso66918281fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:46:16 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5D2210E85B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 06:46:40 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-545316f80beso5755748e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:46:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740552374; x=1741157174; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740552399; x=1741157199; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AWm0q5kkg5ASyqrsLf1hxDCAdhd0X/a8g8veLb66Zls=;
- b=EXpPTSbtE2wL4YGNRmYAmv4YtwZgHjxuqrjMWogFGl8Tv74dkKZRCRN9TO4NWicG/V
- eXYXyhLmJUAjqKJItMVIxGQCVReBY1lknHEicAFQUZptwkkItCg3g7Q7viblyAeJ6XxY
- AZw9SHLcghUJE3hcq7dImZeAVvwKbwLAc4s6bxyhOk0kUncmi37BA39Yjowg9w1PjB3+
- JsptpDfbP2jMiIgzu2xg4LVhRC0EFM267zecCaGTDY9cXETcHaUC+OMZYpBGRGwP8ECB
- ydQkOpoGUdKleeeGmMJyVMFIWXTW9JhC4vwR6fm+Mj75OSY9sWGhJ+WbECbz0BtlSauX
- y/cQ==
+ bh=/vfdaNHAgLU4X4v38fyX8xInLCuGf2K2NlB/6RcTL/Y=;
+ b=gU0siIxmMHJNnE0gpxliHs4vT/vZ9Y7YCHLCpyQM0NtPR9ELo9d/mCOfa53P2MnCuS
+ tNA622UvURPoFmCiQ1Fv/MkYOzrv6smYv7aC41jNQFPwRF29t99S1K0KmX2AK4/nzR1W
+ eH6fA/oRRTgvRtsWyKHgbNhV2Yex6zRLbdmPJGrC97Far2J+KO6rAChvOkCiVJbvDAA0
+ haKQk7Qv9hvDsPfnxFPnxcGgt2JhjDQucVEgzBKcV8ekXi+tNC0VN2KW3arvdup+en+9
+ pSmrA+4CWeADTz048mkJRIKum3gmeT2X6zoIE7m78V0M5lmeKlqYmhQ5KDl8nzdVoRdm
+ wj5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740552374; x=1741157174;
+ d=1e100.net; s=20230601; t=1740552399; x=1741157199;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AWm0q5kkg5ASyqrsLf1hxDCAdhd0X/a8g8veLb66Zls=;
- b=Xz60mHvivaM/CX6FAH8fvlS3cfZuCDH+37mIVHS2eeZ1Mv4ia8rWql8dAkepA2af+P
- fzlhJDP92KeFTH1D4lErPiS9lMI7ozTAN+h+9kTC0VrAh/0G2ZiD6TuGQIu3ecQbsYxW
- aSsRgJ85sVYWqO8O0o4kNAHfju5GFJ2kBLPOHrFuqbuiqi9poT7QPcR/yXjNazQU/z8F
- 1UGopPtoQFP7XL/Zz+KZO50yIhlGoRU7VfTtbgx5G2hv0NvyiQDS7h35pAiGIxCfe/c3
- dZb1/zs5+oadMduVHKHtQUm8FGPtHyHq3aEEKyjQP3hxt3TSRm25NFFKDFUJZPDQFEjV
- dpHw==
+ bh=/vfdaNHAgLU4X4v38fyX8xInLCuGf2K2NlB/6RcTL/Y=;
+ b=VOwZyraMIlvrbjjjl/mJpCYpnySPArEoMbqNgvdIYXhR4lbztzK8jHrq8FRF8+OLx3
+ VhQjvQ0/HjYF5/4CHDqS7/aOxFn0eIeNmVPp/k5A6ieFhppt3XTLNUgPcibs8d9+9qaU
+ klSTTdMtheP9QxCM/6jf5FDQlH1nR1iYUmslL53PE3kizH2XsFwFr6Pyu2hGjrt90mAT
+ FGXZIerVKPfK1WDhhtCYYO+vVRREi4rKUaGXTOSzFXsjmpppTANrVNRD3wwvSa4GGkC3
+ hwa3LG2II51nIUS73Og5vOUtDNGYb1Th4xieghL1SfhQKde19oeDSATt8iNmxtMXJoJV
+ bx+A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0g2xiVvWi9JKOAjfGX/6fu8DbF8ohwpLNQsdHY4vG0vv2vwk1ladJOs6hmFi3sVp/hbkEzLpgRXc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzROAOthNV2zPxzkzdlaiR6grPhKHw2gbyUGweZCCEC/6ZwHMrL
- qxnNqiGaiHL9JrDxjCWcDvXpvNpq/EXQSiG2+lFznuC0ia7QZGdo9VctJhnEeFU=
-X-Gm-Gg: ASbGnctZIql2oEt1fbbbnrF3sXB8EuyOCnAvlJtnvOxz2fNoTkwOCsbAtWy44o27fXl
- pfrvSmWziJY6ZLDy89/If1vcKBnDjs/M4v0ScrjMXywM613+pdYuh37mEbm139YeF6CyozyA9YP
- AQOIP2h8T8gb2FXg1PYL5uVIsowbI4ZHX74yu+UjQRwo3xnfQUzuCXHDpawwSLqpRglG6XE6QQi
- ET0i+HCxrjebIFSDhprPAQE1hckuMKxR25lgcCDo1U94W7fZNFhjGRtP5ooarycAiRG11npxf0B
- 7cEiN7Rbv4c4SF5zubxKCP+aaf1+FjbVCyhSqVM9LkNFBrB42hEf/8IxV35qQ+wUYCnMvbKF9M3
- 5xKnGkA==
-X-Google-Smtp-Source: AGHT+IESQSBp1tzujDCzQLATI4kgIcFpaXxaN5497nW7ec58c47/b6CNi+Ll6FkX3dtBSCR5Fo4K2A==
-X-Received: by 2002:a05:6512:b9d:b0:545:e2e:842b with SMTP id
- 2adb3069b0e04-54838eddd50mr8543750e87.9.1740552374224; 
- Tue, 25 Feb 2025 22:46:14 -0800 (PST)
+ AJvYcCUS21SZ90dLKPLUAR4yBA0LJjdad9JOVxnvzloSnXLYdWixZ9s/r9dkU9LLOM8rtkRGNmqDmjchncw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzQM7W1HPJKJcMBHI8eH8bAyfYRsEVQlG1EZlojn8Zhqsz2ns7
+ 9BChHoAFeda3DwgrYua87BeTHImILaIa1sAQkxIljUp2j/FfzDbcBPA85nbywTQ=
+X-Gm-Gg: ASbGncviB4gxDy66AIrTiWfd74wJDejofWcuTrMYHRHRjdeFq2xkZOVLiNe2Yx2d9D1
+ iwAq+/abhVF5GvnuZvm0RuU0MfkLsCNVTmegzaF8adTnjWMbsYIScRy3QGxhPR7Do+MQD0lhQP2
+ 5++bdX/eVbrSiwL+XIz+5Ad2Xg5qpF8XJgtXcG1x/OTgMC/QebS/+K2E8FAZzwfkuBhyq7Z+5/5
+ CWWC5RvvxsRMba0kwq4F9Pz6hlr72lUDskIxwboOyC5cNlUPUMKhwab6G8vF5keBfi6KJaN9u7y
+ 4/mZDW072t09N9Kn9JgeWvSQhQ6rcN9kaBMN6L/EPh/f94AziypjrpyO8H0hvQH6GBVNjThw9D2
+ M4QtO2Q==
+X-Google-Smtp-Source: AGHT+IFlGFPHSuOs6aKtjduRbIhUyJeMLrZ5qkVf65OGMr4mgS4XwrgCjHMmEUZahLCcnZP5OZSzgg==
+X-Received: by 2002:a05:6512:158c:b0:545:b9a:b4b8 with SMTP id
+ 2adb3069b0e04-548510ed8cfmr4069970e87.51.1740552399254; 
+ Tue, 25 Feb 2025 22:46:39 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-548514f9e3fsm363186e87.217.2025.02.25.22.46.11
+ 38308e7fff4ca-30a819f5da7sm4244041fa.62.2025.02.25.22.46.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2025 22:46:12 -0800 (PST)
-Date: Wed, 26 Feb 2025 08:46:10 +0200
+ Tue, 25 Feb 2025 22:46:37 -0800 (PST)
+Date: Wed, 26 Feb 2025 08:46:35 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,15 +75,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Douglas Anderson <dianders@chromium.org>, 
  Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 08/15] drm/tests: bridge: Provide tests for
+Subject: Re: [PATCH v4 09/15] drm/bridge: ti-sn65dsi83: Switch to
  drm_bridge_reset_crtc
-Message-ID: <w5nycbnj67yjpmxpqn7n44vjxq4tc66h3qnnzq7tplnms2cw7r@sppgyer3n4o6>
+Message-ID: <rgybsoofzkhhkfpl4ivdibv5z7eutq3wegzmliebmctklqzqif@f345drzfbhr5>
 References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
- <20250225-bridge-connector-v4-8-7ecb07b09cad@kernel.org>
+ <20250225-bridge-connector-v4-9-7ecb07b09cad@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225-bridge-connector-v4-8-7ecb07b09cad@kernel.org>
+In-Reply-To: <20250225-bridge-connector-v4-9-7ecb07b09cad@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,18 +99,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 05:43:56PM +0100, Maxime Ripard wrote:
-> Let's provide a bunch of kunit tests to make sure
-> drm_bridge_reset_crtc() works as expected.
+On Tue, Feb 25, 2025 at 05:43:57PM +0100, Maxime Ripard wrote:
+> Now that we have a helper for bridge drivers to call to reset the output
+> pipeline, let's use it.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/tests/drm_bridge_test.c | 168 +++++++++++++++++++++++++++++++-
->  1 file changed, 167 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 26 ++++++++++----------------
+>  1 file changed, 10 insertions(+), 16 deletions(-)
 > 
 
-BTW: it would be nice to verify reset of the disabled bridge for the
-disabled connector.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
