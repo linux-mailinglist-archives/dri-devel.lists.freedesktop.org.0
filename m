@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBBBA46017
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 14:03:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7342A46019
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 14:03:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3913210E903;
-	Wed, 26 Feb 2025 13:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 555BA10E906;
+	Wed, 26 Feb 2025 13:03:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y5LOmGvq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IVIJOafL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 249E410E903;
- Wed, 26 Feb 2025 13:03:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69CB510E904;
+ Wed, 26 Feb 2025 13:03:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740575022; x=1772111022;
+ t=1740575027; x=1772111027;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BV5mzWnGJqWVT6+tMv9noTMr3UiDp5q+3CjaslND8uY=;
- b=Y5LOmGvqcd4BxBsLUz3WUkj2aRYDykkakZrDBUv4gm/YYCfr799qcShy
- pju6rbRtHZkVD/c31vZekwaoAOwU+yMgGPa7aJPqh2+++6OFLgtpvjf9+
- Fyvjs1sAtGr3pdZPjicx/eSb7HttRH3hUOG9dL7QYC83JR3G2IOP5M+zR
- IBxMMA4SR9fVzID192SxHc7nQLXX5y1yEVLF4FNXVF2ENMPU+JOvUvpyl
- WI2StXrZPotgq7IpjkZnv2mhYyWVWp9BpyRTQf9N5YKvXHBbDuc6iGpjk
- lxtljxMSNzHOC4RDN02SoGLhhnuUE+PJPg8FkqavTdP1TT12uYnKR3mHe w==;
-X-CSE-ConnectionGUID: PzM8h9ckSsuP2lmbd4SzIA==
-X-CSE-MsgGUID: MDwxcm/5SXyrPHigtwDO5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41341634"
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="41341634"
+ bh=8st0GcF0LWZ1MQQer5WMDLRIdMrYVYWR9wmuvEfF6mw=;
+ b=IVIJOafLAAHxDqxtWThOtWfoPmuLT2XCfw2i79Lz4aDzN1LTqjE609Um
+ lPPUuPGH0YYl0PMO/C6Py1hAp0xv7TolRpnV2LRG5OrlLjl6VrQLiZGzH
+ W3/Kqb3xM/9w2Dl1F+9hOQmGIaznnTNpBE4XG/fe9+jcuGrfr4NM77vac
+ rD/gtLEJb5KWyUw08se4v4yC96BJ7M042bWLhz3MsdrO1zvmpiittvnkG
+ 1Mi8yfLHkEvqNwR6Ps/9cz7aRgitUVpAkoZRwmBIXZAtA/1FidM+AqRB9
+ OZSPB90PFiqbSvHaAX17A0aj//LiaLYPddgOvuo3h0Y76ucOlI+uWs3i9 w==;
+X-CSE-ConnectionGUID: msXI3pQLTz6PQfMeOKD0fA==
+X-CSE-MsgGUID: 7E1pLa6TSCqxc84eOphVgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41341644"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="41341644"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 05:03:41 -0800
-X-CSE-ConnectionGUID: o2wxEGl4SUSDAxBHlKbgwA==
-X-CSE-MsgGUID: Bqzc97qdQpezQ7DjerdxGw==
+ 26 Feb 2025 05:03:47 -0800
+X-CSE-ConnectionGUID: 9d2qnndiTPmO9BQ70bE5yQ==
+X-CSE-MsgGUID: EgZM0NLKQwGt8pd3pE+YJA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="121690966"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="121691008"
 Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 05:03:35 -0800
+ 26 Feb 2025 05:03:41 -0800
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -58,11 +58,10 @@ Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
  Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
- Alexander Usyskin <alexander.usyskin@intel.com>,
- Tomas Winkler <tomasw@gmail.com>
-Subject: [PATCH v5 08/11] drm/i915/nvm: add nvm device for discrete graphics
-Date: Wed, 26 Feb 2025 14:51:40 +0200
-Message-ID: <20250226125143.3791515-9-alexander.usyskin@intel.com>
+ Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: [PATCH v5 09/11] drm/i915/nvm: add support for access mode
+Date: Wed, 26 Feb 2025 14:51:41 +0200
+Message-ID: <20250226125143.3791515-10-alexander.usyskin@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250226125143.3791515-1-alexander.usyskin@intel.com>
 References: <20250226125143.3791515-1-alexander.usyskin@intel.com>
@@ -83,224 +82,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable access to internal non-volatile memory on
-DGFX devices via a child device.
-The nvm child device is exposed via auxiliary bus.
+Check NVM access mode from GSC FW status registers
+and overwrite access status read from SPI descriptor, if needed.
 
-CC: Lucas De Marchi <lucas.demarchi@intel.com>
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Co-developed-by: Tomas Winkler <tomasw@gmail.com>
-Signed-off-by: Tomas Winkler <tomasw@gmail.com>
 Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile      |  4 ++
- drivers/gpu/drm/i915/i915_driver.c |  6 ++
- drivers/gpu/drm/i915/i915_drv.h    |  3 +
- drivers/gpu/drm/i915/i915_reg.h    |  1 +
- drivers/gpu/drm/i915/intel_nvm.c   | 92 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/intel_nvm.h   | 15 +++++
- 6 files changed, 121 insertions(+)
- create mode 100644 drivers/gpu/drm/i915/intel_nvm.c
- create mode 100644 drivers/gpu/drm/i915/intel_nvm.h
+ drivers/gpu/drm/i915/intel_nvm.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 3dda9f0eda82..28835163a225 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -213,6 +213,10 @@ i915-y += \
- i915-y += \
- 	gt/intel_gsc.o
- 
-+# graphics nvm device (DGFX) support
-+i915-y += \
-+	intel_nvm.o
-+
- # graphics hardware monitoring (HWMON) support
- i915-$(CONFIG_HWMON) += \
- 	i915_hwmon.o
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index ce163f58fd76..c58e4ca19e1d 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -81,6 +81,8 @@
- #include "soc/intel_dram.h"
- #include "soc/intel_gmch.h"
- 
-+#include "intel_nvm.h"
-+
- #include "i915_debugfs.h"
- #include "i915_driver.h"
- #include "i915_drm_client.h"
-@@ -644,6 +646,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
- 	/* Depends on sysfs having been initialized */
- 	i915_perf_register(dev_priv);
- 
-+	intel_nvm_init(dev_priv);
-+
- 	for_each_gt(gt, dev_priv, i)
- 		intel_gt_driver_register(gt);
- 
-@@ -684,6 +688,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- 
- 	i915_hwmon_unregister(dev_priv);
- 
-+	intel_nvm_fini(dev_priv);
-+
- 	i915_perf_unregister(dev_priv);
- 	i915_pmu_unregister(dev_priv);
- 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index b96b8de12756..cdeec04a8545 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -67,6 +67,7 @@
- struct drm_i915_clock_gating_funcs;
- struct vlv_s0ix_state;
- struct intel_pxp;
-+struct intel_dg_nvm_dev;
- 
- #define GEM_QUIRK_PIN_SWIZZLED_PAGES	BIT(0)
- 
-@@ -315,6 +316,8 @@ struct drm_i915_private {
- 
- 	struct i915_perf perf;
- 
-+	struct intel_dg_nvm_dev *nvm;
-+
- 	struct i915_hwmon *hwmon;
- 
- 	struct intel_gt *gt[I915_MAX_GT];
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 765e6c0528fb..59b87737ac0c 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -321,6 +321,7 @@
- #define DG2_GSC_HECI2_BASE	0x00374000
- #define MTL_GSC_HECI1_BASE	0x00116000
- #define MTL_GSC_HECI2_BASE	0x00117000
-+#define GEN12_GUNIT_NVM_BASE	0x00102040
- 
- #define HECI_H_CSR(base)	_MMIO((base) + 0x4)
- #define   HECI_H_CSR_IE		REG_BIT(0)
 diff --git a/drivers/gpu/drm/i915/intel_nvm.c b/drivers/gpu/drm/i915/intel_nvm.c
-new file mode 100644
-index 000000000000..75d3ebe669ff
---- /dev/null
+index 75d3ebe669ff..d88f8b9b5ace 100644
+--- a/drivers/gpu/drm/i915/intel_nvm.c
 +++ b/drivers/gpu/drm/i915/intel_nvm.c
-@@ -0,0 +1,92 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright(c) 2019-2024, Intel Corporation. All rights reserved.
-+ */
-+
-+#include <linux/intel_dg_nvm_aux.h>
-+#include <linux/irq.h>
-+#include "i915_reg.h"
-+#include "i915_drv.h"
-+#include "intel_nvm.h"
-+
-+#define GEN12_GUNIT_NVM_SIZE 0x80
-+
-+static const struct intel_dg_nvm_region regions[INTEL_DG_NVM_REGIONS] = {
-+	[0] = { .name = "DESCRIPTOR", },
-+	[2] = { .name = "GSC", },
-+	[11] = { .name = "OptionROM", },
-+	[12] = { .name = "DAM", },
-+};
-+
-+static void i915_nvm_release_dev(struct device *dev)
+@@ -10,6 +10,7 @@
+ #include "intel_nvm.h"
+ 
+ #define GEN12_GUNIT_NVM_SIZE 0x80
++#define HECI_FW_STATUS_2_NVM_ACCESS_MODE BIT(3)
+ 
+ static const struct intel_dg_nvm_region regions[INTEL_DG_NVM_REGIONS] = {
+ 	[0] = { .name = "DESCRIPTOR", },
+@@ -22,6 +23,28 @@ static void i915_nvm_release_dev(struct device *dev)
+ {
+ }
+ 
++static bool i915_nvm_writeable_override(struct drm_i915_private *i915)
 +{
-+}
++	resource_size_t base;
++	bool writeable_override;
 +
-+void intel_nvm_init(struct drm_i915_private *i915)
-+{
-+	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-+	struct intel_dg_nvm_dev *nvm;
-+	struct auxiliary_device *aux_dev;
-+	int ret;
-+
-+	/* Only the DGFX devices have internal NVM */
-+	if (!IS_DGFX(i915))
-+		return;
-+
-+	/* Nvm pointer should be NULL here */
-+	if (WARN_ON(i915->nvm))
-+		return;
-+
-+	i915->nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
-+	if (!i915->nvm)
-+		return;
-+
-+	nvm = i915->nvm;
-+
-+	nvm->writeable_override = true;
-+	nvm->bar.parent = &pdev->resource[0];
-+	nvm->bar.start = GEN12_GUNIT_NVM_BASE + pdev->resource[0].start;
-+	nvm->bar.end = nvm->bar.start + GEN12_GUNIT_NVM_SIZE - 1;
-+	nvm->bar.flags = IORESOURCE_MEM;
-+	nvm->bar.desc = IORES_DESC_NONE;
-+	nvm->regions = regions;
-+
-+	aux_dev = &nvm->aux_dev;
-+
-+	aux_dev->name = "nvm";
-+	aux_dev->id = (pci_domain_nr(pdev->bus) << 16) |
-+		       PCI_DEVID(pdev->bus->number, pdev->devfn);
-+	aux_dev->dev.parent = &pdev->dev;
-+	aux_dev->dev.release = i915_nvm_release_dev;
-+
-+	ret = auxiliary_device_init(aux_dev);
-+	if (ret) {
-+		drm_err(&i915->drm, "i915-nvm aux init failed %d\n", ret);
-+		return;
++	if (IS_DG1(i915)) {
++		base = DG1_GSC_HECI2_BASE;
++	} else if (IS_DG2(i915)) {
++		base = DG2_GSC_HECI2_BASE;
++	} else {
++		drm_err(&i915->drm, "Unknown platform\n");
++		return true;
 +	}
 +
-+	ret = auxiliary_device_add(aux_dev);
-+	if (ret) {
-+		drm_err(&i915->drm, "i915-nvm aux add failed %d\n", ret);
-+		auxiliary_device_uninit(aux_dev);
-+		return;
-+	}
++	writeable_override =
++		!(intel_uncore_read(&i915->uncore, HECI_FWSTS(base, 2)) &
++		  HECI_FW_STATUS_2_NVM_ACCESS_MODE);
++	if (writeable_override)
++		drm_info(&i915->drm, "NVM access overridden by jumper\n");
++	return writeable_override;
 +}
 +
-+void intel_nvm_fini(struct drm_i915_private *i915)
-+{
-+	struct intel_dg_nvm_dev *nvm = i915->nvm;
-+
-+	/* Only the DGFX devices have internal NVM */
-+	if (!IS_DGFX(i915))
-+		return;
-+
-+	/* Nvm pointer should not be NULL here */
-+	if (WARN_ON(!nvm))
-+		return;
-+
-+	auxiliary_device_delete(&nvm->aux_dev);
-+	auxiliary_device_uninit(&nvm->aux_dev);
-+	kfree(nvm);
-+	i915->nvm = NULL;
-+}
-diff --git a/drivers/gpu/drm/i915/intel_nvm.h b/drivers/gpu/drm/i915/intel_nvm.h
-new file mode 100644
-index 000000000000..7bc3d1114a3f
---- /dev/null
-+++ b/drivers/gpu/drm/i915/intel_nvm.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright(c) 2019-2024 Intel Corporation. All rights reserved.
-+ */
-+
-+#ifndef __INTEL_NVM_H__
-+#define __INTEL_NVM_H__
-+
-+struct drm_i915_private;
-+
-+void intel_nvm_init(struct drm_i915_private *i915);
-+
-+void intel_nvm_fini(struct drm_i915_private *i915);
-+
-+#endif /* __INTEL_NVM_H__ */
+ void intel_nvm_init(struct drm_i915_private *i915)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+@@ -43,7 +66,7 @@ void intel_nvm_init(struct drm_i915_private *i915)
+ 
+ 	nvm = i915->nvm;
+ 
+-	nvm->writeable_override = true;
++	nvm->writeable_override = i915_nvm_writeable_override(i915);
+ 	nvm->bar.parent = &pdev->resource[0];
+ 	nvm->bar.start = GEN12_GUNIT_NVM_BASE + pdev->resource[0].start;
+ 	nvm->bar.end = nvm->bar.start + GEN12_GUNIT_NVM_SIZE - 1;
 -- 
 2.43.0
 
