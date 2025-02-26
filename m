@@ -2,93 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F968A45C8E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C089BA45CC8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B347A10E8C3;
-	Wed, 26 Feb 2025 11:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83ACF10E8CC;
+	Wed, 26 Feb 2025 11:11:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="UPIM+Gms";
+	dkim=pass (2048-bit key; unprotected) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="Rb7R6VuZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D07B10E8C3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 11:05:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1740567898; x=1741172698; i=wahrenst@gmx.net;
- bh=6z1xx2C1SeUR1zcFP+YxzGvFZwlZ+pbYA6k2oewlkfQ=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=UPIM+Gmsxs3lkr7lIOWfUs1KPx5kNi8YHuLSS7Q8L14Uwyi3+b146XiXIZNUv3pd
- myIYeHoKdM6bRMatoaMBt7dIjlvPRLU8CHHQrAJelabNy+NXa5wqBuGXilWNUDqOV
- Uy1s58BAW4CZJThoxoks6dlN6Td6e9WiAz36tuoi9NcgL6j5pGmeRiGfQbmmmz+gj
- MulMuRafXl4o+5vJAceGhWaF1FIRar2Cj+cDR5TQogyWCeHLN7GP5hS462rI75xOM
- ZD8a6WVcRz0F/pZzI+EKriCTfIV8dME/OXvA2FCH2hJwsxUmF8tI+GUZLnuyVy8nT
- 1JipiZQ0URIgW74hcw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.107] ([37.4.251.153]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwQTF-1tUbqJ1cwf-015VFE; Wed, 26
- Feb 2025 12:04:58 +0100
-Message-ID: <2585e14d-bb91-4d0a-b0e0-39e60b0b88bd@gmx.net>
-Date: Wed, 26 Feb 2025 12:04:56 +0100
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1770C10E8C9;
+ Wed, 26 Feb 2025 11:11:47 +0000 (UTC)
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+ by ksmg01.maxima.ru (Postfix) with ESMTP id DF666C0032;
+ Wed, 26 Feb 2025 14:11:36 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru DF666C0032
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
+ s=sl; t=1740568296; bh=p2djvdE/2JpuDcbCUzGal+sGcocVc2RKdb97Aa3KrF4=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+ b=Rb7R6VuZQBLFseAm0TUtAVzKWbL+6up8b5PHG1605ob9qHexVsirPbPnYiBMlNkHa
+ dtZn4DwfnpucJ+Zy4PL/Dqy4g9q+TUUm60HfezOxCMlduCl7Ruwlem6EuD752+aBg5
+ IeKzbJzgzWtH9f1PCHija63sKPtYawqjwSiU3g+ZIPNbKQz9KRdTrOCiYv+SylTw06
+ Kw3MFEHNmzR81T838qXd0BmzX9f3zs1HP+pubVUvwkFDRJwx0xYoLlElVx5hLnVY25
+ 8yXQ4TKVY5WB8op+f/U3Rpd3xfwZTusdB5NUIIlDGdGNNSNJxJADOmlsL0eSHOJ52T
+ JMHUReKJIvdSg==
+Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.maxima.ru",
+ Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+ by ksmg01.maxima.ru (Postfix) with ESMTPS;
+ Wed, 26 Feb 2025 14:11:36 +0300 (MSK)
+Received: from localhost.maximatelecom.ru (178.236.220.144) by
+ mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.4; Wed, 26 Feb 2025 14:11:34 +0300
+From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+To: Chaitanya Dhere <chaitanya.dhere@amd.com>
+CC: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>, Jun Lei
+ <jun.lei@amd.com>, Harry Wentland <harry.wentland@amd.com>, Leo Li
+ <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alex Hung
+ <alex.hung@amd.com>, Fangzhi Zuo <jerry.zuo@amd.com>, Aric Cyr
+ <aric.cyr@amd.com>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <lvc-project@linuxtesting.org>
+Subject: [PATCH v2] drm/amd/display: fix type mismatch in
+ CalculateDynamicMetadataParameters()
+Date: Wed, 26 Feb 2025 16:10:25 +0500
+Message-ID: <20250226111027.9528-1-v.shevtsov@mt-integration.ru>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] drm/vc4: hdmi: Add jack detection to HDMI audio driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- kernel-list@raspberrypi.com, David Turner <david.turner@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org
-References: <20250222102921.75496-1-wahrenst@gmx.net>
- <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:x3HOS9jzbIPHd+tOUa1+3KQTjvMtc9T6xurAc23BxLRgboQpRWb
- aiCIffU5ZPBN4fw57OJc6CwHmMXbMBvzdy048DD6z1vqo9kKDUg9XalJJ5nq5FOXb4qnkdf
- YyRlrn4xTLtQE8LjXlNnc7y/owbweqnExo5b5vUFOBnnD3fLlr0gTGHlYkOAHlF7kMo3lzu
- KGA83DC3bnSmq8JY8fLTg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:xGbvkLpBHU4=;W0KEZojLr0EbZR/ak4rnQCTC3U6
- OZxVIQKjyloPoy7dNKv5m6MD+C+W58FljV14ZWs9HRn3Kp0Lv7cKjAENHHHIUNl6uLEthqpvG
- 2hZqrxMlJN2OgZ2ZvVosD8nG3LG73njM0OY8gUBQqa6wGl9OLP3Dm91nkrqo7YceRAipoMpoR
- DP05Uy37q9nKTguM20rFU26aVAo6pKDI6sTjjT5Ct/OBvGFirI34yPrON+Di4b/hcuu1CAAbc
- aj1aLJvcy0J1gKQy/xekZY3WuSJra/d+Rew3ddgYjGMwQxPb93rUknNiKiUCMz1U5CkPlPMJU
- kL61G+V/7TD1UovakqsTCeBmHs+WEn2kDkhPKQsYsTAVhknOPbzw4O7nGoZUOHedmjKOoauEz
- buYjCYo0IDKLyX96MwTMhf05pP/SgNfXLOn6lk3aBE8cYEE/Tw6K0wDnraEy4Xyqn1CB1kdWy
- o9fVBl6/Kbk/Cgx0p8ryH7H9IqjhXV7pFpNTRHkYywNwA1Jwzn2AXuMS6KcchX3/merbEAx1o
- w0FXZQG/8DV2PozNzOtUR6J2AjoNiKocqPTieFy1NpjMxKzxVAqxW/xmeSkQ/gWw8YFhfiXlJ
- dBkH8Uf42YTXAnA22Mssd3KmnBDPq5TsmF6FBs3S5uNRZi1wFbhBH4kbSvW8+uo8i2nXTUcWj
- 1wHHsl2bZQvEiVNnYTtqTslLvUo6BIm1Ta4itYLv1TeynRnnfbfY+EiWuAd/r2VDMQLcf9Xzp
- XYYgzgkcr9BYq+T4N3mmcYIdT87DFTy7Xcw5m72ExjOdbnfVwt6NDQEb/g/2pK7X+50z6QaKi
- mpO2QhY5L0CjNwcgDZsHylSMNFQR1tUDrqc5lRxtHAQdr156NWB6/7k35rhJYGW2q3aSwUBLL
- RqTeDwU3SUE54KpGIWT9e5/O6Src3sJa5wba73qAC3Xu26vUewgc0ZdAEkVWIrDhdZJ95oUtp
- KUrqeOY3/f4KCOuKXkalUFRpH1FMPHVTyvIPj9DRqbe9AJTub/SMQXX9+jeRHhBzSTim/BWQs
- W3GQ1Z8XEiyqpZ+KlExOnk84t4zXQb719wKFAYHprajcIwHRh8tSBbMK7RgnfGutj+V0Pa+Gz
- 2g+bpErViqoHUbcGvLQ9B3tF2xMOVIZXBbxLLpv9IDwPtaF1fE/iLS+WLvn9VJHWr7EhXXbem
- bQmzOul/WyQ12RaSOJgWuxeChzW5Sbm04ATAYpuz3raQlnvZO9HXQWGr4oGoLZ3wXzq2DNrCc
- R0e8oFtVTk5dVu2WlbksMqrQxelPyAOjh5LxNvAAXHMv6Cc/b4b5MfzeXOYqnvoXlUUzRF9LW
- fKTvqTicfhl7PeuuL9uuEA6H4gzfRj2i9qpr7ZmIRYKGE+CvfKmpcXdATjf6GeKqvZaLABQKp
- lzsxd1ubZO97iPf0SRF5tCk8eh4lN2wTC4LoaxQJD22rL/L8Z8VbkKtgVY
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [178.236.220.144]
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;
+ spf=none smtp.mailfrom=mt-integration.ru; dkim=none
+X-KSMG-AntiSpam-Envelope-From: v.shevtsov@mt-integration.ru
+X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51
+ 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail},
+ {Tracking_from_domain_doesnt_match_to},
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; ksmg01.maxima.ru:7.1.1;
+ mt-integration.ru:7.1.1; 81.200.124.61:7.1.2;
+ 127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 191310 [Feb 26 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310,
+ bases: 2025/02/26 08:18:00 #27466298
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,89 +98,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+There is a type mismatch between what CalculateDynamicMetadataParameters()
+takes and what is passed to it. Currently this function accepts several
+args as signed long but it's called with unsigned integers. On some systems
+where long is 32 bits and one of these input params is greater than INT_MAX
+it may cause passing input params as negative values.
 
-Am 24.02.25 um 04:15 schrieb Dmitry Baryshkov:
-> On Sat, Feb 22, 2025 at 11:29:21AM +0100, Stefan Wahren wrote:
->> From: David Turner <david.turner@raspberrypi.com>
->>
->> Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
->> when to add/remove HDMI audio devices.
->>
->> Signed-off-by: David Turner <david.turner@raspberrypi.com>
->> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->> ---
->>   drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++--
->>   drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
->>   2 files changed, 31 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
->> index 47d9ada98430..d24ae86d799e 100644
->> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
->> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
->> @@ -51,6 +51,7 @@
->>   #include <linux/reset.h>
->>   #include <sound/dmaengine_pcm.h>
->>   #include <sound/hdmi-codec.h>
->> +#include <sound/jack.h>
->>   #include <sound/pcm_drm_eld.h>
->>   #include <sound/pcm_params.h>
->>   #include <sound/soc.h>
->> @@ -386,6 +387,12 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdm=
-i *vc4_hdmi,
->>   	struct drm_connector *connector =3D &vc4_hdmi->connector;
->>   	int ret;
->>
->> +	/*
->> +	 * Needs to be called for both connects and disconnects for HDMI
->> +	 * audio hotplug to work correctly.
->> +	 */
->> +	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
->> +
->>   	/*
->>   	 * NOTE: This function should really be called with vc4_hdmi->mutex
->>   	 * held, but doing so results in reentrancy issues since
->> @@ -405,8 +412,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi=
- *vc4_hdmi,
->>   		return;
->>   	}
->>
->> -	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
->> -
->>   	cec_s_phys_addr(vc4_hdmi->cec_adap,
->>   			connector->display_info.source_physical_address, false);
->>
->> @@ -2203,6 +2208,22 @@ static const struct drm_connector_hdmi_audio_fun=
-cs vc4_hdmi_audio_funcs =3D {
->>   	.shutdown =3D vc4_hdmi_audio_shutdown,
->>   };
->>
->> +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
->> +{
->> +	struct vc4_hdmi *vc4_hdmi =3D snd_soc_card_get_drvdata(rtd->card);
->> +	struct snd_soc_component *component =3D snd_soc_rtd_to_codec(rtd, 0)-=
->component;
->> +	int ret;
->> +
->> +	ret =3D snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOU=
-T,
->> +				    &vc4_hdmi->hdmi_jack);
->> +	if (ret) {
->> +		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NU=
-LL);
-> PLease excuse my ignorance, but dows this work. In other words, how is
-> the driver exporting the plugged state through this jack?
-there is no ignorance just a valid question. Unfortunately my knowledge
-here is very limited and I just wanted to minimize the delta between
-vendor and mainline tree. That's why I marked it as RFC.
+Fix this by changing these argument types from long to unsigned int. Also
+this will align the function's definition with similar functions in other
+dcn* drivers.
 
-Can someone from Raspberry Pi helps here?
+Found by Linux Verification Center (linuxtesting.org) with Svace.
 
-The patch seems to fix an issue? But I don't know the broader context.
+Fixes: 6725a88f88a7 ("drm/amd/display: Add DCN3 DML")
+Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+---
+v2: Change DynamicMetadataLinesBeforeActiveRequired type from unsigned int
+    to int as per Alex Hung's observation.
+    Add Fixes tag missed by chance.
 
-Regards
+ .../amd/display/dc/dml/dcn30/display_mode_vba_30.c   | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+index cee1b351e105..f1fe49401bc0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+@@ -281,10 +281,10 @@ static void CalculateDynamicMetadataParameters(
+ 		double DISPCLK,
+ 		double DCFClkDeepSleep,
+ 		double PixelClock,
+-		long HTotal,
+-		long VBlank,
+-		long DynamicMetadataTransmittedBytes,
+-		long DynamicMetadataLinesBeforeActiveRequired,
++		unsigned int HTotal,
++		unsigned int VBlank,
++		unsigned int DynamicMetadataTransmittedBytes,
++		int DynamicMetadataLinesBeforeActiveRequired,
+ 		int InterlaceEnable,
+ 		bool ProgressiveToInterlaceUnitInOPP,
+ 		double *Tsetup,
+@@ -3265,8 +3265,8 @@ static double CalculateWriteBackDelay(
+ 
+ 
+ static void CalculateDynamicMetadataParameters(int MaxInterDCNTileRepeaters, double DPPCLK, double DISPCLK,
+-		double DCFClkDeepSleep, double PixelClock, long HTotal, long VBlank, long DynamicMetadataTransmittedBytes,
+-		long DynamicMetadataLinesBeforeActiveRequired, int InterlaceEnable, bool ProgressiveToInterlaceUnitInOPP,
++		double DCFClkDeepSleep, double PixelClock, unsigned int HTotal, unsigned int VBlank, unsigned int DynamicMetadataTransmittedBytes,
++		int DynamicMetadataLinesBeforeActiveRequired, int InterlaceEnable, bool ProgressiveToInterlaceUnitInOPP,
+ 		double *Tsetup, double *Tdmbf, double *Tdmec, double *Tdmsks)
+ {
+ 	double TotalRepeaterDelayTime = 0;
+-- 
+2.48.1
+
