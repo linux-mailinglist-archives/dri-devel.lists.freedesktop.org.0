@@ -2,113 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEC3A45DF6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210D6A45E24
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:05:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50F2C10E8BD;
-	Wed, 26 Feb 2025 11:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3A210E1D4;
+	Wed, 26 Feb 2025 12:05:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="FgF5BQbo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hqZhxe6K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD15010E8D4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 11:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1740570931; x=1741175731; i=markus.elfring@web.de;
- bh=sTX8xi6LRWxYofvmbcRQIPwzk4BhNjim5Kc1TZCgi5I=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
- References:From:Cc:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=FgF5BQbol86RnWL2Sk24p7qdL5tQLOeT6f07Kvxk4P0VuErz4WgTRL7pn6j/9HBZ
- z+cak2KgFRXeyXt7h/+BTqXGvv0hTXqqct+9+hLjPcNj3botKQ3pCtj1zGcH4ifEh
- yFa3sBuphYKHeZZwVQaSV3wyFrLsvWanJ3Z6ukLmBSFQ8+HjJKTN807sEt43aEoUg
- HbB2HsK30RgebgKAq9z+FLUxZ7GFREklxLf4JkReYQU8HhTTePiNS5BpbM3Q4Iq3/
- /8xzXq7fVNqYLas56fa9vFIZ5anQ0OIXKnqjBE+M5zkQbuCHIU124L0CnFIHiM9E2
- ngho7wBag929Q1fQLw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.43]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M604f-1tfrLt2zXv-00E5Ph; Wed, 26
- Feb 2025 12:55:30 +0100
-Message-ID: <5495665a-774b-4bc5-8eb2-a9680d09b0be@web.de>
-Date: Wed, 26 Feb 2025 12:55:17 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5982710E8DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:05:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1740571532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZONKr8gjSUHK5a82Fy5e7G5ZxvpLwOBguDakYGue1KI=;
+ b=hqZhxe6K1tc/zcl+p2r7eKvQzXGpI7eGym6vrwLf9iRsE9aipWAsgJSeaAhARfFJjxT4PB
+ vhYpia1qSDZi5ES/kbu7T5wxYKOFAxTMofBrxVVSbImsHNpVvJzUl7Quoqd9DX6bdZgYN5
+ CeDE1eSs+MAB4w7Wrr96s+HLzocMimo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-374-hwrJGKfYNYaFQW9JjyjTDw-1; Wed, 26 Feb 2025 07:05:29 -0500
+X-MC-Unique: hwrJGKfYNYaFQW9JjyjTDw-1
+X-Mimecast-MFC-AGG-ID: hwrJGKfYNYaFQW9JjyjTDw_1740571528
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4393b6763a3so28624455e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 04:05:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740571528; x=1741176328;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZONKr8gjSUHK5a82Fy5e7G5ZxvpLwOBguDakYGue1KI=;
+ b=U7DGF9IfZjrs1tmPpgKM6ooz04q/qN9cr+tsKI2FEZ77gTnTrGo7xM7OujERz6uY1S
+ Qvh6T2t6Xv887VSj9ldgjssrVCMbFT5S+D+GP8x/AaeL2PNaT9MwxaNLUz7K6zXTtwUO
+ J7St47t21LkYH6BtO1M9qP9ZJboGNLoOBTCBqi9z4bNHx1pngOZLxPMqLbM9d63EEDCl
+ ASylSk6T9r76Is+DJwU1Cvk7/ynlNM+qVogcFeFwmXKe7TiHesJp4Hr7j10m/HqAPScQ
+ /054siqR6LvFFjjL3oF1WJOxcGdfkB1m4mxlg0ESe6DJwdOJ6sCCApuK1Xc3bD2FtX99
+ QW3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUjmjPgVQIeSk5YLp6wAhsheq8/sAnHgC/1T1+dSLVruH2N5xLZbKG0ZrQOD+65ez6UTm7hmkQNsg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyszv23f+xZSNxbVgGyx0yDsfmAfPsZHZlui4Dxtk7/B0NRFNkA
+ d9hA15lUYA2YH3/6pfAVcRLUSCQLzFsUfZbxuO6fSf+3kXqSehxGq2D0+PtD3XsW2rjJYTNWd10
+ 3YH3tqe5s0D8ejIZrtulGQz4WzV4RsKIzkmnXqeH3yzJjh9o/ldKxSwMl5Volv6i6dA==
+X-Gm-Gg: ASbGncso2wmE47KIBRKW0ZuVe5tIsSw+QoKTqXlrAT0lkiMKgN/ODSyLvpzwT2K1Z55
+ AqFmwxM59S1A9K66++D+9Q36j1XzRgCEDuYkfX5kzvvZZTs5EMva+5xNyxBlzKIuMYTqgggH8no
+ KfpFR0GnSn40DFvyqL7s/20Pqkm+p9lDKT2zurwZ1VQpEGu0YPYr2EHeyb9VYMrbdZ8YdmVyF5c
+ Ja7tgk/4LiauSSirNO2n4fdb/W+08OyhbVaYMvitv7T/ydjjJPrMHmM2UXabp0Uvya4aCAQd7CA
+ 6Zko4Xl1pvyki9LUnW0qDUqLaRq4Whk1c3XCWsKx+5n2DTIYC9Q3E1QQv75Ej7YyeIB2ZNwn5g=
+ =
+X-Received: by 2002:a05:600c:458e:b0:439:91dd:cfa3 with SMTP id
+ 5b1f17b1804b1-439ae221d72mr172909775e9.29.1740571528147; 
+ Wed, 26 Feb 2025 04:05:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFnrm0qM7DRHfCVZy3zVClFVQEZc0d79QmfHyW/xrSQhIhkvownRWDY6I4pd1YTGG105oIX1w==
+X-Received: by 2002:a05:600c:458e:b0:439:91dd:cfa3 with SMTP id
+ 5b1f17b1804b1-439ae221d72mr172909435e9.29.1740571527760; 
+ Wed, 26 Feb 2025 04:05:27 -0800 (PST)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43aba5871f4sm19373245e9.39.2025.02.26.04.05.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2025 04:05:26 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arnd Bergmann <arnd@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dummycon: only build module if there are users
+In-Reply-To: <79d35e3b-9a0d-41a5-ab07-797bfa1e19cb@app.fastmail.com>
+References: <20250225164436.56654-1-arnd@kernel.org>
+ <4d047af3-fd30-4fa4-aa3d-c0359856d750@suse.de>
+ <a2c0e681-2cdf-4dc9-82fc-be35f54ff795@app.fastmail.com>
+ <29ecc7c4-2887-4989-a1d3-aa76b44c0387@suse.de>
+ <79d35e3b-9a0d-41a5-ab07-797bfa1e19cb@app.fastmail.com>
+Date: Wed, 26 Feb 2025 13:05:23 +0100
+Message-ID: <87mse8zzb0.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [cocci] [PATCH v3 04/16] ALSA: ac97: convert timeouts to
- secs_to_jiffies()
-To: Easwar Hariharan <eahariha@linux.microsoft.com>, cocci@inria.fr,
- Andrew Morton <akpm@linux-foundation.org>,
- Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>,
- James Smart <james.smart@broadcom.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
- Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>,
- Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
- <20250225-converge-secs-to-jiffies-part-two-v3-4-a43967e36c88@linux.microsoft.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
- linux-rdma@vger.kernel.org, kernel@pengutronix.de,
- Takashi Iwai <tiwai@suse.de>
-In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-4-a43967e36c88@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ucYXuYgBQVTEWaObV/mFjtsvpzQ/KO5i5l5ZjdohfyGQ4hlxvcY
- sTVdlsTl9fld7Rgr2WyDph9nJLEmgybCGSVtuMLyhQK485ALORk88bsJZJIOfByFUNZedr7
- Tig7GhQucLbNWxtaLBapV3p7oWArgHdIII/eRzvvtip6IPoz+StdW8P4rzipPjdrxqJNq7V
- w9kH46OLKD2fAu1DJ4I4g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NqOsrw7wXz4=;wwgFpUfWgrNKqonaHrxuK0zBMVo
- mDjqDBwUTGC2TEakQ0FQpQb+jPeq8+VUsHA9FysNiUMcu9jvRYzUnVW/cePngei1HuxUi+9jB
- gzwpaGWWDjDgiqloN8NkKw7fK1k9aiq9WO2QV+FahFVJxKCiEOht1QwMKGQlNmk9KSfqrx+xY
- /ZLupqHBoI8IrXEf4BLPHHel92dIDpHQKboSzjjYqqe+D17jNVvkdG6fNPyA61KaW3VNs4cNO
- VvTz7objQwY3sXV9VVKfi5xn57PHN9mTjtQuIqd+Fkmo2WDIvSm1qZXwIHn3nMByQ+tt7svzC
- Q8spwoR/tPpS2RHogJczvjm/AJwifCv3M4zmOA7P6thgwODVRmcvR/4vF01uKQLuK9qMgFlyc
- bcgjRUxbqZme7tOe+3/skv2xiRyQEbhJKJtGN5D+YuDiSWxugE0waVrKszeAKPmktude+e3Wm
- hb6pdZnYZCt8B9GbDEP5Vb/mlwKymujzJht1qssYcn8d3Ml1SMkSc3vuwSRHDX6T7apEaslxL
- H1ldZBfcHAqqxfpa5LbXdHASW4m4p3H0K1hJHORXZqCUnOEcZxDWNffnSEspRVYifgrFqGv4y
- Kj26KhRIVUoBKuigt9Q2mdl8jTmWXytY3VzlUIiR7tUQHVdIIbUdCyTnywoOmuD6VO0yepr5x
- bLQ4dW/TIsHMfmgenog//zbU7q2CO3bneqDQJPNt+SnDmx59ilBfNjed2YgZwvn4cQlSdaI0L
- F6NIFthjhreE3/Mi2NLvYEGxVUZoOMS2U7r5bxeagKeTc2gxxXa1GQVKaGa4DKQrDpFctrZO+
- VgS1EfusE5lk8m0igJwjGV8T5jJ4yK8zBmXHUgf2B7xsqbzIVsymf73VTGRYna5d8fpSlwFol
- Z7qd+KqzL47eifD09GmZjoE4UJBGc7zuzHDS6dRLZAuI/Zl84ps/Ym32YxhbN/YAsutAmmp+v
- TOkjv6MdafHxETdnQKdh/rPigxuHdcazx7XB6EEgDKbDg3iSQfzRgSR4xQ4NJ8AZ2iLg0mWum
- 0vXgI8wXv34gMt9O2p3er2RQWDsVcZ08cX04PIZdsztxTjwu0CPkBaXXuUyTd+ZnGMu5xuqJ6
- NVigR36nr3N2Z8mQFMK5WqrimZH+EH+M90+yC79G0/T7t0PPocKOZnJL41HJTo+LovTIveleV
- HWrp9ctFsgjPDj6UJNJTykjtt8NgQ82/CLAEHggdCeEf/T9E6KPlLG59U+DvbDeDV1a/KcYk6
- oIKY/n0w1wj9RkAu6PcR+vZ6tUptSyjIto4BLBRON4Vu2xjOkAgT2n2QCgRNb4wktwpFOdB2t
- dil/Pn0qWsKxuLlEMj/YzfiGEHQVObo/J888IPK+k+5H0DLKihuIJZ57xoknHewbhE68lpmcV
- rG+nfMuo4dycdcDOCDQ3IWqIkBsiusNZFDRDG0JStERTtnEkvLAd8i/CYVJdEg4hKBw+fpLvN
- wNpIdlENtYji5zVvncyHslb0goYM=
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: QHexSMJyLAiYK19siL8LHhv_M6dKNo5vUG6f6JeparM_1740571528
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,33 +103,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci wi=
-th
-> the following Coccinelle rules:
+"Arnd Bergmann" <arnd@arndb.de> writes:
 
-Is only a single SmPL script rule relevant here?
+Hello Arnd,
 
-
-> @depends on patch@
-> expression E;
-> @@
+> On Wed, Feb 26, 2025, at 09:16, Thomas Zimmermann wrote:
+>> Am 26.02.25 um 08:55 schrieb Arnd Bergmann:
+>> Here's another general question. vgacon and fbcon only seem usable with 
+>> CONFIG_VT=y. Wouldn't it make sense to have them depend on CONFIG_VT=y? 
+>> dummycon could then be implemented as part of the vt code, maybe even 
+>> become a vt-internal thing. The console code is complex, so I'm probably 
+>> missing something here?
 >
-> -msecs_to_jiffies
-> +secs_to_jiffies
-> (E
-> - * \( 1000 \| MSEC_PER_SEC \)
-> )
+> I think in theory one may have a system use fbcon purely to get the
+> boot logo, but not actually support VT.  I had also assumed there might
+> be a way to use fbcon as the console (i.e. printk) but not register
+> the tty, but it looks like the console code still requires vt.
+>
+> After I looked at the vt and conswitchp code some more, I wonder
+> if we could go the other way and instead of integrating it more
+> make the conswitchp logic optional: most of the complexity here
+> deals with switching between text console and fbcon dynamically,
+> but having any text console support is getting very rare (vga
+> on alpha/mips/x86-32, newport on mips-ip22, sti on parisc).
+>
+> If we do this, the conswitchp code could be merged with dummycon
 
-I would miss two space characters in the first text column.
-Please avoid typos also in such SmPL code.
-Would you like to compare your contributions with a previous change sugges=
-tion
-like =E2=80=9C[PATCH v3 03/16] accel/habanalabs: convert timeouts to secs_=
-to_jiffies()=E2=80=9D
-once more?
-https://lore.kernel.org/cocci/20250225-converge-secs-to-jiffies-part-two-v=
-3-3-a43967e36c88@linux.microsoft.com/
+This sounds like a much better approach indeed.
 
-Regards,
-Markus
+> in drivers/video/console, with the simpler alternative just
+> calling into fbcon functions. I'm not sure if we can already drop
+> vgacon from normal x86-64 distro configs, i.e. if there are cases
+> that are not already covered by any of efi-earlycon, efifb,
+> vga16fb, vesafb/uvesafb or a PCI DRM driver.
+>
+
+I believe vgacon is still useful for x86 with legacy BIOS, because
+vesafb (and simpledrm) only works if the user defines a mode using
+the vga= kernel cmdline parameter.
+
+>     Arnd
+>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
