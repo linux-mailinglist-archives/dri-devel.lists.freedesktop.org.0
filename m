@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB224A45E4F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:14:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E713AA45EDF
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:26:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7DA10E8D1;
-	Wed, 26 Feb 2025 12:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72B310E11C;
+	Wed, 26 Feb 2025 12:26:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GKis/B3g";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LcmxGhq2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD67710E8D1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740572058;
- bh=rqCCBNqXwX4V8aDAu9AF4qY0OGm7CseWGja67coCy5c=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GKis/B3gCV2Up4PlhYkjHwnXjxI4wulD5+R8haxATHmM1XWM5j3pG1Oo5ecM+L7BY
- SeGBHRjt5DN7jdPAaFVvszr5Op7oi8IYYybFHxmcg2enbtntBGBJzShX8T6t1sGOKb
- oPcHLF1XDTcL3OPr6jlFfUVuQXX62MhQOa8JWGoDYxTjGBpzzXduhmsKQGtJpAkct+
- ZDdyw35Sv+uw5zvIWJB5MMf0yeRyUVLsoqHIyLHtwrrNcF2KGaNguFHV7Xb9tnO6zU
- /R6qn5KWHpBXVGPHV+T7iGG35R7UbkCdg681ly6oWWIRiuqEAIlqiaH1QU3KthG9f2
- jKDdpN7GJIHfw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D8AE17E0649;
- Wed, 26 Feb 2025 13:14:17 +0100 (CET)
-Message-ID: <cfb97821-d202-4bd6-99d6-059178b6ad00@collabora.com>
-Date: Wed, 26 Feb 2025 13:14:17 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81ABF10E11C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:26:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740572785; x=1772108785;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=nHWvsrHzl0E3PKpKoxyFzPuy69gPj6TL5GxMEdtgmYE=;
+ b=LcmxGhq2aVyFGNGma4Q5u5pVTk1vKzHBtMrZnX9i3SoTPmG5poyDGpaO
+ OsU5fvau7d9lRhIpYUXThxRgI7d7L6Uxk0qhg4G5mzTH9HVdP7aCZasst
+ vQghgfQTvTyP23gRqnX7K0Pcc4ufuNN9YVt+GV4t54TiGhS9kcaIRGtji
+ PVeOwo8jY3Uh2hrywTNIoHO6jnTaoFtP43j3xty6CvabKx8KDhpyXW2nc
+ jvuFLkncniklwl7sAx3RI0NZ2QhGp1K9hdf/QpE0wMKoNdJx7WJw1cFRM
+ 4x3MXnQwfcHdvEott2q2MCrMtHOjjP6y1coX8LhucEw1mUyqXCS1OgSYU g==;
+X-CSE-ConnectionGUID: /FR/WPGfR2a/nnE84q6FwA==
+X-CSE-MsgGUID: OthSaA3ST8eqH8AbXX2U9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="29007912"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="29007912"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2025 04:26:20 -0800
+X-CSE-ConnectionGUID: yDO3I0TZTc+YJydC1eF25A==
+X-CSE-MsgGUID: oz93/ECPRmWpqDFJr7jZLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; d="scan'208";a="147507690"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.123])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2025 04:26:12 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] drm/bridge: move bridges_show logic from
+ drm_debugfs.c
+In-Reply-To: <20250226123208.272e7766@booty>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250225-drm-debugfs-show-all-bridges-v7-0-8826037ada37@bootlin.com>
+ <20250225-drm-debugfs-show-all-bridges-v7-1-8826037ada37@bootlin.com>
+ <878qpu56cm.fsf@intel.com> <20250225183621.6b33684b@booty>
+ <871pvl6g1t.fsf@intel.com> <20250226123208.272e7766@booty>
+Date: Wed, 26 Feb 2025 14:26:09 +0200
+Message-ID: <87mse851um.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] drm/mediatek: Add CCORR component support for MT8196
-To: =?UTF-8?B?SmF5IExpdSAo5YiY5Y2aKQ==?= <Jay.Liu@mediatek.com>,
- =?UTF-8?B?WW9uZ3FpYW5nIE5pdSAo54mb5rC45by6KQ==?=
- <yongqiang.niu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "hsinyi@chromium.org" <hsinyi@chromium.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-References: <20250219092040.11227-1-jay.liu@mediatek.com>
- <20250219092040.11227-2-jay.liu@mediatek.com>
- <779b0915-f0fa-46b6-8c5b-57745114252f@collabora.com>
- <18ea04bde26b9cbc22609d621eea1cd65a0f1109.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <18ea04bde26b9cbc22609d621eea1cd65a0f1109.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,178 +81,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 26/02/25 12:36, Jay Liu (刘博) ha scritto:
-> On Wed, 2025-02-19 at 13:49 +0100, AngeloGioacchino Del Regno wrote:
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> Il 19/02/25 10:20, Jay Liu ha scritto:
->>> Add CCORR component support for MT8196.
->>>
->>> CCORR is a hardware module that optimizes the visual effects of
->>> images by adjusting the color matrix, enabling features such as
->>> night light.
->>>
->>> The 8196 hardware platform includes two CCORR (Color Correction)
->>> units.
->>> However, the `mtk_ccorr_ctm_set` API only utilizes one of these
->>> units.
->>> To prevent the unused CCORR unit from inadvertently taking effect,
->>> we need to block it by adding mandatory_ccorr flag in the
->>> driver_data.
->>>
->>> Signed-off-by: Jay Liu <jay.liu@mediatek.com>
->>
->> This is yet another thing that can be resolved by using OF Graph for
->> defining the
->> display pipeline: by using that, I don't see how can CCORR1 be used
->> instead of
->> CCORR0, if the latter is in the pipeline, but not the former.
->>
->> NACK.
->>
->> Regards,
->> Angelo
->>
-> hi Angelo, thank you for your review,
-> 
-> The 8196 IC has two CCORRs, and they must be chained together in a
-> fixed order, for example: MDP_RSZ0->DISP_TDSHP0->DISP_CCORR0-
->> DISP_CC0RR1->DISP_GAMMA0->DISP_POSTMASK0->DISP_DITHER0. Among them,
-> DISP_CCORR0 is used for ctm_set, and DISP_CCORR1 was originally for PQ
-> functions, but the current project does not have PQ functions, so relay
-> can be used. Moreover, ctm_set only needs to configure one CCORR, so
-> currently, mandatory_ccorr is set. Considering that previous ICs, such
-> as 8195, only have one CCORR, so mandatory_ccorr is set to DISP_CCORR0.
-> This is the current practice. Do you have any other suggestions to
-> achieve similar things? For example, adding a property in the dts to
+On Wed, 26 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> Hello Jani,
+>
+> On Tue, 25 Feb 2025 20:21:50 +0200
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+>> On Tue, 25 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+>> > Hello Jani,
+>> >
+>> > On Tue, 25 Feb 2025 18:36:41 +0200
+>> > Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> >  
+>> >> On Tue, 25 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:  
+>> >> > In preparation to expose more info about bridges in debugfs, which will
+>> >> > require more insight into drm_bridge data structures, move the bridges_show
+>> >> > code to drm_bridge.c.
+>> >> >
+>> >> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> >> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>    
+>> >> 
+>> >> I hate myself for doing this on a patch that's at v7... but here goes.  
+>> >
+>> > Please don't! :-) This patch is new in v7, and a different (and
+>> > definitely worse) approach was present in v6, but there was nothing
+>> > before.
+>> >  
+>> >> Perhaps consider moving the bridges debugfs creation and fops to
+>> >> drm_bridge.c instead of just adding
+>> >> drm_bridge_debugfs_show_encoder_bridges().
+>> >> 
+>> >> For example, add drm_bridge_debugfs_add(struct drm_encoder *encoder),
+>> >> which then contains the debugfs_create_file() call.  
+>> >
+>> > I think it should go in drm_encoder.c, not drm_bridge.c, right? Here we
+>> > are showing the bridges attached to an encoder, so the entry point is
+>> > each encoder.  
+>> 
+>> I'm still thinking drm_bridge.c, because it's about bridges and their
+>> details. The encoder shouldn't care about bridge implementation details.
+>
+> Ah, I think I now get what you mean.
+>
+> Current code is:
+>
+> drm_encoder_register_all()                             [drm_encoder.c]
+>  -> drm_debugfs_encoder_add                            [drm_debugfs.c]
+>    -> debugfs_create_file("bridges"...  &bridges_fops) [drm_debugfs.c]
+>                                     [bridges_fops is in drm_debugfs.c]
+>
+> Moving the last 2 lines to drm_bridge.c and into a new function we'd
+> have:
+>
+> drm_encoder_register_all()                             [drm_encoder.c]
+>  -> drm_debugfs_encoder_add [*]                        [drm_debugfs.c]
+>   -> drm_bridge_debugfs_add_encoder_bridges_file (NEW) [drm_bridge.c]
+>    -> debugfs_create_file("bridges"...  &bridges_fops) [drm_bridge.c]
+>                                     [bridges_fops is in drm_bridge.c]
+>
+> Potentially [*] could be moved to drm_encoder.c, but that is not bridge
+> related and can be done as a future step.
+>
+> Is this what you had in mind?
 
-Really, just use OF graphs to set the display controller path, you can like that
-guarantee that the exact path that you define will be respected.
+Yes!
 
-This means that you can simply:
-- Point the output endpoint of TDSHP0 to the input endpoint of CCORR0
-- Point the input endpoint of CCORR0 to TDSHP0
-- Point the output endpoint of CCORR0 to CCORR1
-- etc
+(Though I'd give drm_bridge_debugfs_add_encoder_bridges_file() a shorter
+and more generic name.)
 
-Check the upstream bindings, and also check MT8195 and MT8188 device trees on
-the current linux-next (starting from next-20250226).
+BR,
+Jani.
 
-Cheers,
-Angelo
 
-> set mandatory_ccorr, but this will inevitably change the dts of past
-> ICs, and we are worried that such changes will be significant.
-> 
-> Thanks a lot
-> JAY
-> 
-> 
->>> ---
->>>    drivers/gpu/drm/mediatek/mtk_ddp_comp.c   |  3 ++-
->>>    drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 16 ++++++++++++++++
->>>    2 files changed, 18 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
->>> b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
->>> index edc6417639e6..d7e230bac53e 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
->>> +++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
->>> @@ -457,7 +457,8 @@ static const struct mtk_ddp_comp_match
->>> mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX]
->>>        [DDP_COMPONENT_AAL0]            = {
->>> MTK_DISP_AAL,               0, &ddp_aal },
->>>        [DDP_COMPONENT_AAL1]            = {
->>> MTK_DISP_AAL,               1, &ddp_aal },
->>>        [DDP_COMPONENT_BLS]             = {
->>> MTK_DISP_BLS,               0, NULL },
->>> -     [DDP_COMPONENT_CCORR]           = {
->>> MTK_DISP_CCORR,             0, &ddp_ccorr },
->>> +     [DDP_COMPONENT_CCORR0]          = {
->>> MTK_DISP_CCORR,             0, &ddp_ccorr },
->>> +     [DDP_COMPONENT_CCORR1]          = {
->>> MTK_DISP_CCORR,             1, &ddp_ccorr },
->>>        [DDP_COMPONENT_COLOR0]          = {
->>> MTK_DISP_COLOR,             0, &ddp_color },
->>>        [DDP_COMPONENT_COLOR1]          = {
->>> MTK_DISP_COLOR,             1, &ddp_color },
->>>        [DDP_COMPONENT_DITHER0]         = {
->>> MTK_DISP_DITHER,            0, &ddp_dither },
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
->>> b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
->>> index 10d60d2c2a56..94e82b3fa2d8 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
->>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
->>> @@ -31,11 +31,13 @@
->>>
->>>    struct mtk_disp_ccorr_data {
->>>        u32 matrix_bits;
->>> +     enum mtk_ddp_comp_id mandatory_ccorr;
->>>    };
->>>
->>>    struct mtk_disp_ccorr {
->>>        struct clk *clk;
->>>        void __iomem *regs;
->>> +     enum mtk_ddp_comp_id comp_id;
->>>        struct cmdq_client_reg cmdq_reg;
->>>        const struct mtk_disp_ccorr_data        *data;
->>>    };
->>> @@ -115,6 +117,9 @@ void mtk_ccorr_ctm_set(struct device *dev,
->>> struct drm_crtc_state *state)
->>>        if (!blob)
->>>                return;
->>>
->>> +     if (ccorr->comp_id != ccorr->data->mandatory_ccorr)
->>> +             return;
->>> +
->>>        ctm = (struct drm_color_ctm *)blob->data;
->>>        input = ctm->matrix;
->>>
->>> @@ -154,6 +159,7 @@ static int mtk_disp_ccorr_probe(struct
->>> platform_device *pdev)
->>>        struct device *dev = &pdev->dev;
->>>        struct mtk_disp_ccorr *priv;
->>>        int ret;
->>> +     enum mtk_ddp_comp_id comp_id;
->>>
->>>        priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->>>        if (!priv)
->>> @@ -169,6 +175,14 @@ static int mtk_disp_ccorr_probe(struct
->>> platform_device *pdev)
->>>                return dev_err_probe(dev, PTR_ERR(priv->regs),
->>>                                     "failed to ioremap ccorr\n");
->>>
->>> +     comp_id = mtk_ddp_comp_get_id(dev->of_node, MTK_DISP_CCORR);
->>> +     if (comp_id < 0) {
->>> +             dev_err(dev, "Failed to identify by alias: %d\n",
->>> comp_id);
->>> +             return comp_id;
->>> +     }
->>> +
->>> +     priv->comp_id = comp_id;
->>> +
->>>    #if IS_REACHABLE(CONFIG_MTK_CMDQ)
->>>        ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
->>>        if (ret)
->>> @@ -192,10 +206,12 @@ static void mtk_disp_ccorr_remove(struct
->>> platform_device *pdev)
->>>
->>>    static const struct mtk_disp_ccorr_data mt8183_ccorr_driver_data
->>> = {
->>>        .matrix_bits = 10,
->>> +     .mandatory_ccorr = DDP_COMPONENT_CCORR0,
->>>    };
->>>
->>>    static const struct mtk_disp_ccorr_data mt8192_ccorr_driver_data
->>> = {
->>>        .matrix_bits = 11,
->>> +     .mandatory_ccorr = DDP_COMPONENT_CCORR0,
->>>    };
->>>
->>>    static const struct of_device_id mtk_disp_ccorr_driver_dt_match[]
->>> = {
->>
->>
+>
+>> > On the other hand in patch 2 we should move the
+>> > drm_debugfs_global_add() code to drm_bridge.c, as it's showing bridges
+>> > ina encoder-independent way.  
+>> 
+>> Agreed on that.
+>> 
+>> > And finally drm_bridge should export the common
+>> > drm_bridge_debugfs_show_bridge() function to drm_encoder.c.  
+>> 
+>> Disagree. That will still require the EXPORT and #ifdefs around
+>> CONFIG_DEBUG_FS.
+>
+> With the above-sketched idea I agree we wouldn't need to export
+> drm_bridge_debugfs_show_bridge().
+>
+> Luca
 
+-- 
+Jani Nikula, Intel
