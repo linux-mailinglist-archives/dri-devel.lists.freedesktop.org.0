@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57FBA46247
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF31EA46248
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:19:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA9FA10E933;
-	Wed, 26 Feb 2025 14:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0C010E957;
+	Wed, 26 Feb 2025 14:19:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cV+P/RRp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bx0SER4O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E53110E925
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:19:21 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFC310E911
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:19:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8074B612ED;
- Wed, 26 Feb 2025 14:19:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 985C0C4CEEE;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 914F15C554B;
+ Wed, 26 Feb 2025 14:18:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA9F0C4AF5F;
  Wed, 26 Feb 2025 14:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1740579559;
- bh=DZAIwy474BxHnWdTlinCOI4ZDC7nNWcwJwZumH78k00=;
+ bh=FJ54yO04PKk7jacqo+ONYP3+FlHuQ9rLC64gl6G9Bxw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=cV+P/RRp2xszlVr9z1Vh0ArX36PmCwNCY1byzVrJRksOTBkxsf2BI8J0AXmW8fSTt
- 65uFKdaL2LrtnAXSKQPPeAYs5xrpwZ80fDPSO92cjHVNXFSgiWUmBtbTzSEUn252fZ
- 7pvZaKzXZvbzC+p3eXFRsQj92SIuTynhQLz6HZvCPoQfrSUw/2rXHbGlDulys40Ssz
- sG/lcEag+uXZfBTkrN1QieJAER/LXlyWmGG1ectMy1qW7vtVGAyIG0LYHsmFmcHgzO
- ijlJ4jC0p29+9NPGJMbkH/HrN0oQVpaNH4xNYPgrw4VjouvZnZNfR0Mvqa4xVZCl+q
- pe8/jOzE24mdw==
+ b=Bx0SER4Oj9bgCKXX5eDGYro0by2MXI/0h1OQoxG71hJmnyv2kqLF5ubWBZoYX5U1V
+ nvlaMkW2Hj54oCNUXCob9A7K+3fLax2r2Fxxvzgzwuy9hd2Hs59YyfUl27FE9TBw2/
+ tJ9887jkP01azx9n+bS80ub2PkBMPIllNIzkTK1W65CtVz/4vdcAlP+ppsgvY6wIQD
+ TMkw4gTiWhya7MGPaaxYO1E//2glbJtWb2Ts32MEQZPZHOL2bney7q7IUcTPLHJ1Cv
+ kbi2gQzIGuA6Ek/eiVeFY2JvjlSC/yXtRqhvKd0Hr+qe8Y0SfknpnNt1LT1+flDBRJ
+ 5vqPllpsY9Shg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8281EC18E7C;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 986ABC19F2E;
  Wed, 26 Feb 2025 14:19:19 +0000 (UTC)
 From: Maud Spierings via B4 Relay
  <devnull+maudspierings.gocontroll.com@kernel.org>
-Date: Wed, 26 Feb 2025 15:19:21 +0100
-Subject: [PATCH v2 10/12] arm64: dts: freescale: Add the BOE av101hdt-a10
+Date: Wed, 26 Feb 2025 15:19:22 +0100
+Subject: [PATCH v2 11/12] arm64: dts: freescale: Add the BOE av123z7m-n17
  variant of the Moduline Display
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250226-initial_display-v2-10-23fafa130817@gocontroll.com>
+Message-Id: <20250226-initial_display-v2-11-23fafa130817@gocontroll.com>
 References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
 In-Reply-To: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -62,11 +62,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org, 
  Maud Spierings <maudspierings@gocontroll.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579556; l=3190;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579556; l=3566;
  i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
- bh=jB1HgPWOK0qbF1v4On/PUYtz6lbKCTwFh2VYt8OMzz4=;
- b=Y/ty2Qd/tgxvUGQu2YuP6KaAr2NTRWw5TQb+z6gOG+HGlQgkhlH1vOYzKDtBwgGFnNu7lI14J
- MzuYpucjN3RDDD0Gzh7KlUMmsMcV8mpSfRvzSdqFwoCM7DC2cr6Ks1B
+ bh=oTP9B5+eckemcAq7BoHH8WLYSzQY53IU8NlYcoi8TI4=;
+ b=gtKh5ZnGCMRzyf8rS5Cyu6XQpZBunDrsBYyz/LTIEp8TzUQcvNWw07RlZWPuoSDk29EIxwmAg
+ zsqb0P/UmzrB9oB+hZ0cMK6CRUcRPD7sYQqAqHr1Vwu1+gs9t0J1vQf
 X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
  pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
 X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
@@ -90,29 +90,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maud Spierings <maudspierings@gocontroll.com>
 
-Add the BOE av101hdt-a10 variant of the Moduline Display, this variant
-comes with a 10.1 1280x720 display with a touchscreen (not working in
-mainline).
+Add the BOE av123z7m-n17 variant of the Moduline Display, this variant
+comes with a 12.3" 1920x720 display.
 
 Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
 
 ---
 Currently the backlight driver is not available, this will be upstreamed
 in a future patch series. It is a Maxim max25014atg.
-
-The touchscreen has a Cypress CYAT81658-64AS48 controller which as far as
-I know is not supported upstream, the driver we currently use for this is
-a mess and I doubt we will be able to get it in an upstreamable state.
 ---
- ...tx8p-ml81-moduline-display-106-av101hdt-a10.dts | 100 +++++++++++++++++++++
- 1 file changed, 100 insertions(+)
+ ...tx8p-ml81-moduline-display-106-av123z7m-n17.dts | 133 +++++++++++++++++++++
+ 1 file changed, 133 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dts b/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dts
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dts b/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dts
 new file mode 100644
-index 0000000000000000000000000000000000000000..1917e22001a1815a6540f00cf039ff352801cda8
+index 0000000000000000000000000000000000000000..129c69598f38566460efb271628c1d1e10eb2a85
 --- /dev/null
-+++ b/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dts
-@@ -0,0 +1,100 @@
++++ b/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dts
+@@ -0,0 +1,133 @@
 +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
 +/*
 + * Copyright 2025 GOcontroll B.V.
@@ -124,86 +119,119 @@ index 0000000000000000000000000000000000000000..1917e22001a1815a6540f00cf039ff35
 +#include "imx8mp-tx8p-ml81-moduline-display-106.dtsi"
 +
 +/ {
-+	model = "GOcontroll Moduline Display with BOE av101hdt-a10 display";
++	model = "GOcontroll Moduline Display with BOE av123z7m-n17 display";
 +
 +	panel {
-+		compatible = "boe,av101hdt-a10";
++		compatible = "boe,av123z7m-n17";
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&pinctrl_panel>;
 +		enable-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
 +		reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
 +		power-supply = <&reg_3v3_per>;
 +
-+		port {
-+			panel_lvds_in: endpoint {
-+				remote-endpoint = <&ldb_lvds_ch0>;
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				dual-lvds-odd-pixels;
++
++				panel_in0: endpoint {
++					remote-endpoint = <&lvds1_out>;
++				};
 +			};
-+		};
-+	};
 +
-+	reg_vbus: regulator-vbus {
-+		compatible = "regulator-fixed";
-+		regulator-name = "usb-c-vbus";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		power-supply = <&reg_6v4>;
-+		regulator-always-on;
-+	};
-+};
++			port@1 {
++				reg = <1>;
++				dual-lvds-even-pixels;
 +
-+&lcdif2 {
-+	status = "okay";
-+};
-+
-+&usb3_1 {
-+	status = "okay";
-+};
-+
-+&usb3_phy1 {
-+	status = "okay";
-+};
-+
-+&usb_dwc3_1 {
-+	dr_mode = "host";
-+
-+	port {
-+		usb1_hs_ep: endpoint {
-+			remote-endpoint = <&high_speed_ep>;
-+		};
-+	};
-+
-+	connector {
-+		compatible = "usb-c-connector";
-+		pd-disable;
-+		data-role = "host";
-+		vbus-supply = <&reg_vbus>;
-+
-+		port {
-+			high_speed_ep: endpoint {
-+				remote-endpoint = <&usb1_hs_ep>;
++				panel_in1: endpoint {
++					remote-endpoint = <&lvds0_out>;
++				};
 +			};
 +		};
 +	};
 +};
 +
-+&lvds_bridge {
-+	assigned-clocks = <&clk IMX8MP_CLK_MEDIA_LDB>,
-+	<&clk IMX8MP_VIDEO_PLL1>;
-+	assigned-clock-parents = <&clk IMX8MP_VIDEO_PLL1_OUT>;
-+	/* IMX8MP_VIDEO_PLL1 = IMX8MP_CLK_MEDIA_DISP2_PIX * 2 * 7 */
-+	assigned-clock-rates = <0>, <1054620000>;
++&i2c4 {
++	bridge@2d { /* sn65dsi85 */
++		compatible = "ti,sn65dsi84";
++		reg = <0x2d>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_lvds_bridge>;
++		enable-gpios = <&gpio4 14 GPIO_ACTIVE_HIGH>;
++		vcc-supply = <&reg_1v8_per>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				dsi_lvds_bridge_in: endpoint {
++					remote-endpoint = <&mipi_dsi_out>;
++					data-lanes = <1 2 3 4>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				lvds0_out: endpoint {
++					remote-endpoint = <&panel_in1>;
++				};
++			};
++
++			port@3 {
++				reg = <3>;
++
++				lvds1_out: endpoint {
++					remote-endpoint = <&panel_in0>;
++				};
++			};
++		};
++	};
++
++	/* max25014 @ 0x6f */
++};
++
++&lcdif1 {
++	status = "okay";
++};
++
++&mipi_dsi {
++	samsung,esc-clock-frequency = <12000000>;
++	/*
++	 * burst has to be at least 2x dsi clock that the sn65dsi85 expects
++	 * display pixelclock * bpp / lanes / 2 = dsi clock
++	 * 88.000.000 * 24 / 4 / 2 = 264.000.000
++	 * range gets rounded up to 265.000.000 - 270.000.000
++	 * 267.500.000 * 2 = 535.000.000
++	 */
++	samsung,burst-clock-frequency = <535000000>;
 +	status = "okay";
 +
 +	ports {
 +		port@1 {
-+			ldb_lvds_ch0: endpoint {
-+				remote-endpoint = <&panel_lvds_in>;
++			mipi_dsi_out: endpoint {
++				remote-endpoint = < &dsi_lvds_bridge_in>;
++				data-lanes = <1 2 3 4>;
 +			};
 +		};
 +	};
 +};
 +
 +&iomuxc {
++	pinctrl_lvds_bridge: lvdsbridgegrp {
++		fsl,pins = <
++			MX8MP_IOMUXC_SAI1_TXD2__GPIO4_IO14 /* COM pin 113 */
++			MX8MP_DSE_X1
++		>;
++	};
++
 +	pinctrl_panel: panelgrp {
 +		fsl,pins = <
 +			MX8MP_IOMUXC_GPIO1_IO07__GPIO1_IO07 /* COM pin 157 */
