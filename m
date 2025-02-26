@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B551A46894
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 18:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367E9A46896
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 18:56:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7239310E98D;
-	Wed, 26 Feb 2025 17:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A017310E990;
+	Wed, 26 Feb 2025 17:56:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fdcn+8sR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CmJCfdLh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F4510E973;
- Wed, 26 Feb 2025 17:56:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B96710E990;
+ Wed, 26 Feb 2025 17:56:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E0397614D3;
- Wed, 26 Feb 2025 17:56:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D0E3C4CEE7;
- Wed, 26 Feb 2025 17:56:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8D4E55C7418;
+ Wed, 26 Feb 2025 17:55:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C93C4CED6;
+ Wed, 26 Feb 2025 17:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740592568;
- bh=VWb05+i6gtUm2qjEL+/as6rN5zfg3VkaaaJqFy7VfTE=;
+ s=k20201202; t=1740592575;
+ bh=hcX6vOhc/N2TdsfmPWsvTjfv/VFUxahP3QLm3YU+4SY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Fdcn+8sR+GatvUYaAZHHzLLAAGsh2UzqruwvSYy0GxcigkHLLzJYBAic8orQ9bPHU
- Ulc1VgqwoZHhxmstu5mAfkhs/LaAnAy7SFktcB+crH4tVNk9eNTuwlUcKuZOt33RSx
- LI4AW8gfQRZqaTQW9SnU8NRAbn7bTPkKH5mxI3JP7kht/93vgHdph6hanooVwbks0r
- c9N11SGk/h8FAvg+a3MlAYYk16+28JrS2/3A0Mx/gXWH2kYeQGv7Ypp2b8E6mGUpNS
- W5mMhG3jROpUjysr1dBZjNmqhh6Qodr6lxHgeh4D9Al7lMPgxalcsn9C6E3Q3rMhVx
- YRfENSG2MubiQ==
+ b=CmJCfdLhiLcwaqKbhTbzSCdKnpoPR/bTAd2nd1BfHdIiRvJkWywE91qRT3qSQw5kc
+ 9/+/9e0qLWlX5wNOaQ4wC51oHAkk735O9a7sP6TQhUHUdC05ViWD7dSS/pnwgacA/n
+ M9uDFaehiKH18bGECWJTOzjImtD6bdZ7vRO+OkpWSJR8x+3tNTNtmyaybR9ZCirCIV
+ KA1bRqW1sHlhVYeeJo4v3OM9RINHsybzIujLiBTrpZ85EFM+g5PMeCGhle5TF8l1ka
+ NwyHLEDYvU6dYvmKIZ1WAnO8annjXgb1baNvk37u0w3NxdT3YPlSULYCC0Fo6QBAEV
+ e+pgPWAUpKycg==
 From: Danilo Krummrich <dakr@kernel.org>
 To: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -43,9 +43,9 @@ Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v4 1/6] rust: module: add type `LocalModule`
-Date: Wed, 26 Feb 2025 18:55:43 +0100
-Message-ID: <20250226175552.29381-2-dakr@kernel.org>
+Subject: [PATCH v4 2/6] rust: str: provide const fn as_bytes() for BStr
+Date: Wed, 26 Feb 2025 18:55:44 +0100
+Message-ID: <20250226175552.29381-3-dakr@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250226175552.29381-1-dakr@kernel.org>
 References: <20250226175552.29381-1-dakr@kernel.org>
@@ -66,34 +66,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The `LocalModule` type is the type of the module created by `module!`,
-`module_pci_driver!`, `module_platform_driver!`, etc.
+`BStr` already dereference to `&[u8]` through the `Deref` trait,
+however, this can't be called from const context.
 
-Since the exact type of the module is sometimes generated on the fly by
-the listed macros, provide an alias.
+Hence, provide a separate const function for this.
 
-This is first used by the `module_firmware!` macro introduced in a
-subsequent patch.
+This is used in subsequent nova-core patches.
 
-Suggested-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/macros/module.rs | 2 ++
- 1 file changed, 2 insertions(+)
+ rust/kernel/str.rs | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-index cdf94f4982df..6ba9210677c5 100644
---- a/rust/macros/module.rs
-+++ b/rust/macros/module.rs
-@@ -228,6 +228,8 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
-                 kernel::ThisModule::from_ptr(core::ptr::null_mut())
-             }};
- 
-+            type LocalModule = {type_};
+diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+index 28e2201604d6..71e8a819016d 100644
+--- a/rust/kernel/str.rs
++++ b/rust/kernel/str.rs
+@@ -31,6 +31,12 @@ pub const fn from_bytes(bytes: &[u8]) -> &Self {
+         // SAFETY: `BStr` is transparent to `[u8]`.
+         unsafe { &*(bytes as *const [u8] as *const BStr) }
+     }
 +
-             impl kernel::ModuleMetadata for {type_} {{
-                 const NAME: &'static kernel::str::CStr = kernel::c_str!(\"{name}\");
-             }}
++    /// Same as `self.deref()`, but works in const context.
++    #[inline]
++    pub const fn as_bytes(&self) -> &[u8] {
++        &self.0
++    }
+ }
+ 
+ impl fmt::Display for BStr {
 -- 
 2.48.1
 
