@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367E9A46896
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 18:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF3FA46899
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 18:56:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A017310E990;
-	Wed, 26 Feb 2025 17:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B782910E992;
+	Wed, 26 Feb 2025 17:56:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CmJCfdLh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MqJfmxWQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B96710E990;
- Wed, 26 Feb 2025 17:56:16 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D20010E992;
+ Wed, 26 Feb 2025 17:56:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8D4E55C7418;
- Wed, 26 Feb 2025 17:55:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C93C4CED6;
- Wed, 26 Feb 2025 17:56:08 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 35C506151D;
+ Wed, 26 Feb 2025 17:56:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BE1C4CEE9;
+ Wed, 26 Feb 2025 17:56:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740592575;
- bh=hcX6vOhc/N2TdsfmPWsvTjfv/VFUxahP3QLm3YU+4SY=;
+ s=k20201202; t=1740592581;
+ bh=BQ8xHMKrltZRFNzxJKwFtK1VAIQkorDo50VJfIqedqI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CmJCfdLhiLcwaqKbhTbzSCdKnpoPR/bTAd2nd1BfHdIiRvJkWywE91qRT3qSQw5kc
- 9/+/9e0qLWlX5wNOaQ4wC51oHAkk735O9a7sP6TQhUHUdC05ViWD7dSS/pnwgacA/n
- M9uDFaehiKH18bGECWJTOzjImtD6bdZ7vRO+OkpWSJR8x+3tNTNtmyaybR9ZCirCIV
- KA1bRqW1sHlhVYeeJo4v3OM9RINHsybzIujLiBTrpZ85EFM+g5PMeCGhle5TF8l1ka
- NwyHLEDYvU6dYvmKIZ1WAnO8annjXgb1baNvk37u0w3NxdT3YPlSULYCC0Fo6QBAEV
- e+pgPWAUpKycg==
+ b=MqJfmxWQBjJ7tvEUfd6uYf1PEpWYAv09MkXWzee9bKtMvDe1brA+59hTUTi7Itawj
+ lICX7awqJbiC+u/jdk9ZwjwPp45oSKWBUeiurrmsrtWyeM5XP2akF5TdAPLomd9N/u
+ FmfocWK7R9CApGtVfmggHmJ+PvpXT1J7nIWr7+Rx9Qfu2A2pr5KM94E5jE1hUyqrwV
+ 5WUTyQ0Tqn57A5QoAEAwZRNw8sEhGYcR0BcFXqlPZXJLFBqpcBYkxUKDcHKCN/xpyU
+ tC1vFxRDndUTHptxeO9xXM1rVEKE725QtUB2sJ6cPkfOV66qrxBIy+sQL2jIo4r05l
+ L0D8hs9UQ8+sQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -43,9 +43,9 @@ Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v4 2/6] rust: str: provide const fn as_bytes() for BStr
-Date: Wed, 26 Feb 2025 18:55:44 +0100
-Message-ID: <20250226175552.29381-3-dakr@kernel.org>
+Subject: [PATCH v4 3/6] rust: firmware: introduce `firmware::ModInfoBuilder`
+Date: Wed, 26 Feb 2025 18:55:45 +0100
+Message-ID: <20250226175552.29381-4-dakr@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250226175552.29381-1-dakr@kernel.org>
 References: <20250226175552.29381-1-dakr@kernel.org>
@@ -66,35 +66,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`BStr` already dereference to `&[u8]` through the `Deref` trait,
-however, this can't be called from const context.
+The `firmware` field of the `module!` only accepts literal strings,
+which is due to the fact that it is implemented as a proc macro.
 
-Hence, provide a separate const function for this.
+Some drivers require a lot of firmware files (such as nova-core) and
+hence benefit from more flexibility composing firmware path strings.
 
-This is used in subsequent nova-core patches.
+The `firmware::ModInfoBuilder` is a helper component to flexibly compose
+firmware path strings for the .modinfo section in const context.
 
+It is meant to be used in combination with `kernel::module_firmware!`,
+which is introduced in a subsequent patch.
+
+Co-developed-by: Alice Ryhl <aliceryhl@google.com>
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/str.rs | 6 ++++++
- 1 file changed, 6 insertions(+)
+ rust/kernel/firmware.rs | 98 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
 
-diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-index 28e2201604d6..71e8a819016d 100644
---- a/rust/kernel/str.rs
-+++ b/rust/kernel/str.rs
-@@ -31,6 +31,12 @@ pub const fn from_bytes(bytes: &[u8]) -> &Self {
-         // SAFETY: `BStr` is transparent to `[u8]`.
-         unsafe { &*(bytes as *const [u8] as *const BStr) }
-     }
+diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+index c5162fdc95ff..0f27dc212d6e 100644
+--- a/rust/kernel/firmware.rs
++++ b/rust/kernel/firmware.rs
+@@ -115,3 +115,101 @@ unsafe impl Send for Firmware {}
+ // SAFETY: `Firmware` only holds a pointer to a C `struct firmware`, references to which are safe to
+ // be used from any thread.
+ unsafe impl Sync for Firmware {}
 +
-+    /// Same as `self.deref()`, but works in const context.
-+    #[inline]
-+    pub const fn as_bytes(&self) -> &[u8] {
-+        &self.0
++/// Builder for firmware module info.
++///
++/// [`ModInfoBuilder`] is a helper component to flexibly compose firmware paths strings for the
++/// .modinfo section in const context.
++///
++/// It is meant to be used in combination with [`kernel::module_firmware!`].
++///
++/// For more details and an example, see [`kernel::module_firmware!`].
++pub struct ModInfoBuilder<const N: usize> {
++    buf: [u8; N],
++    n: usize,
++    module_name: &'static CStr,
++}
++
++impl<const N: usize> ModInfoBuilder<N> {
++    /// Create an empty builder instance.
++    pub const fn new(module_name: &'static CStr) -> Self {
++        Self {
++            buf: [0; N],
++            n: 0,
++            module_name,
++        }
 +    }
- }
- 
- impl fmt::Display for BStr {
++
++    const fn push_internal(mut self, bytes: &[u8]) -> Self {
++        let mut j = 0;
++
++        if N == 0 {
++            self.n += bytes.len();
++            return self;
++        }
++
++        while j < bytes.len() {
++            if self.n < N {
++                self.buf[self.n] = bytes[j];
++            }
++            self.n += 1;
++            j += 1;
++        }
++        self
++    }
++
++    /// Push an additional path component.
++    ///
++    /// After a new [`ModInfoBuilder`] instance has been created, [`ModInfoBuilder::prepare`] must
++    /// be called before adding path components.
++    pub const fn push(self, bytes: &[u8]) -> Self {
++        if N != 0 && self.n == 0 {
++            crate::build_error!("Must call prepare() before push().");
++        }
++
++        self.push_internal(bytes)
++    }
++
++    const fn prepare_module_name(self) -> Self {
++        let mut this = self;
++        let module_name = this.module_name;
++
++        if !this.module_name.is_empty() {
++            this = this.push_internal(module_name.as_bytes_with_nul());
++
++            if N != 0 {
++                // Re-use the space taken by the NULL terminator and swap it with the '.' separator.
++                this.buf[this.n - 1] = b'.';
++            }
++        }
++
++        this.push_internal(b"firmware=")
++    }
++
++    /// Prepare for the next module info entry.
++    ///
++    /// Must be called before [`ModInfoBuilder::push`] can be called.
++    pub const fn prepare(self) -> Self {
++        self.push_internal(b"\0").prepare_module_name()
++    }
++
++    /// Build the byte array.
++    pub const fn build(self) -> [u8; N] {
++        // Add the final NULL terminator.
++        let this = self.push_internal(b"\0");
++
++        if this.n == N {
++            this.buf
++        } else {
++            crate::build_error!("Length mismatch.");
++        }
++    }
++}
++
++impl ModInfoBuilder<0> {
++    /// Return the length of the byte array to build.
++    pub const fn build_length(self) -> usize {
++        // Compensate for the NULL terminator added by `build`.
++        self.n + 1
++    }
++}
 -- 
 2.48.1
 
