@@ -2,58 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA5BA46D7C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 22:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43326A46E5F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 23:18:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D60510E2EF;
-	Wed, 26 Feb 2025 21:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9B3510E9E9;
+	Wed, 26 Feb 2025 22:18:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="faGsjtBD";
+	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="CqdwBf3U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 822E110E2EF;
- Wed, 26 Feb 2025 21:31:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1DF325C68BC;
- Wed, 26 Feb 2025 21:30:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA086C4CED6;
- Wed, 26 Feb 2025 21:31:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740605475;
- bh=dtdm5QCuK+ylUVFnyHD+iIwr9QzhpWvNNNqtSoMMkzs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=faGsjtBDdDxDB4wnFlsJ9twdJiu5JkhIWlfWJL61nByZSjpGEHolejTLnRVUNoPnL
- PcjvTW3LMvJhxR8Kb0ymOzHCMzc7aFt1G+xL77wo3v7pTthsbUvnxFULNTLFjIideR
- nh/31bjc5MHKX6VhxuBxA0QpYtMatNwtuHX/EQco1uhTDZw7UrK3pHuVQAP4li6OWb
- nNsvgKpV64GQTbAtDj6EzSCrFoETlDeFYGkCz5VEiNHwhl+IVZ+3VN33ISDhM5ja/B
- ZuwKtU4f76QKIOn0MPwZg8uKTZQJZKoxs6KJ9EqFfwaeac2UggGG3TE3/9g/Oh+Ht7
- iHyq2b/AqA81Q==
-Date: Wed, 26 Feb 2025 22:31:10 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z7-IHgcVVS8XBurW@cassiopeiae>
-References: <20250224184502.GA1599486@joelnvbox> <Z70EcwNIX0KtWy36@cassiopeiae>
- <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
- <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
- <20250225225756.GA4959@nvidia.com> <Z75WKSRlUVEqpysJ@cassiopeiae>
- <20250226004916.GB4959@nvidia.com> <Z75riltJo0WvOsS5@cassiopeiae>
- <20250226172120.GD28425@nvidia.com>
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC7BA10E9E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 22:18:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
+ t=1740608325; bh=6+ds0fDE230uGEJmCn7EW1JKMdx4MNGD35GrH5IvopU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=CqdwBf3UB1FYG6uHtww+aGb8/5OdgV02krxsyJZcuVQLjOzTnKnYfOuYkR1VXs7Ct
+ fZDxUrIVkjl1mUzDYTvsB8Oc6I6Ys5P/i3jX4tU8q/vCgDR4RMaJZmxmSGWlbGYbZh
+ BAiGNnPn9VpMhKhVsPuNO2/BjwTi3BESUE8Bfd8o=
+Message-ID: <ebb3d366-05a2-4ae8-9b50-4b6a76d108a0@lucaweiss.eu>
+Date: Wed, 26 Feb 2025 23:18:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226172120.GD28425@nvidia.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: display: panel: Add Himax HX83112B
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20250225-fp3-display-v2-0-0b1f05915fae@lucaweiss.eu>
+ <20250225-fp3-display-v2-2-0b1f05915fae@lucaweiss.eu>
+ <20250226-speedy-dark-mushroom-5d7c4b@krzk-bin>
+Content-Language: en-US
+From: Luca Weiss <luca@lucaweiss.eu>
+In-Reply-To: <20250226-speedy-dark-mushroom-5d7c4b@krzk-bin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,100 +60,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2025 at 01:21:20PM -0400, Jason Gunthorpe wrote:
-> On Wed, Feb 26, 2025 at 02:16:58AM +0100, Danilo Krummrich wrote:
-> > Again, the reason a pci::Bar needs to be revocable in Rust is that we can't have
-> > the driver potentially keep the pci::Bar alive (or even access it) after the
-> > device is unbound.
+On 26-02-2025 8:46 a.m., Krzysztof Kozlowski wrote:
+> On Tue, Feb 25, 2025 at 10:14:30PM +0100, Luca Weiss wrote:
+>> Himax HX83112B is a display driver IC used to drive LCD DSI panels.
+>> Describe it and the Fairphone 3 panel (98-03057-6598B-I) from DJN using
+>> it.
+>>
+>> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
+>> ---
+>>   .../bindings/display/panel/himax,hx83112b.yaml     | 75 ++++++++++++++++++++++
+>>   1 file changed, 75 insertions(+)
+>>
 > 
-> My impression is that nobody has yet come up with a Rust way to
-> implement the normal kernel design pattern of revoke threads then free
-> objects in safe rust.
+> Discussion is still going. Sending v2 after two days is hiding that
+> previous talk, so that makes me sad.
+> 
+> I am still at v1 and I am not going to review this one here.
 
-I get where you're coming from (and I agree), but that is a different issue.
+Sorry about that. I'm going to be away/not have time for kernel dev for 
+the next ~1.5 weeks so I thought I'd send v2 with the updated compatible 
+string already.
 
-Let's take a step back and look again why we have Devres (and Revocable) for
-e.g. pci::Bar.
-
-The device / driver model requires that device resources are only held by a
-driver, as long as the driver is bound to the device.
-
-For instance, in C we achieve this by calling
-
-	pci_iounmap()
-	pci_release_region()
-
-from remove().
-
-We rely on this, we trust drivers to actually do this.
-
-We also trust drivers that they don't access the pointer originally returned by
-pci_iomap() after remove(). Typically, drivers do this by shutting down all
-asynchronous execution paths, e.g. workqueues. Some other drivers might still
-run code after remove() and hence needs some synchronization, like DRM.
-
-In Rust pci_iounmap() and pci_release_region() are called when the pci::Bar
-object is dropped. But we don't want to trust the driver to actually do this.
-Instead, we want to ensure that the driver can *not* do something that is not
-allowed by the device / driver model.
-
-Therefore, we never hand out a raw pci::Bar to driver, but a Devres<pci::Bar>.
-With this a driver can't prevent the pci::Bar being dropped once the device is
-unbound.
-
-So, the main objective here is to ensure that a driver can't keep the pci::Bar
-(and hence the memory mapping) alive arbitrarily.
-
-Now, let's get back to concurrent code that might still attempt to use the
-pci::Bar. Surely, we need mechanisms to shut down all asynchronous execution
-paths (e.g. workqueues) once the device is unbound. But that's not the job of
-Devres<pci::Bar>. The job of Devres<pci::Bar> is to be robust against misuse.
-
-Again, that the revocable characteristic comes in handy for drivers that still
-run code after remove() intentionally, is a nice coincidence.
+Regards
+Luca
 
 > 
-> Yes, this is a peculiar lifetime model, but it is pretty important in
-> the kernel. I'm not convinced you can just fully ignore it in Rust as
-> a design pattern. We use it pretty much everywhere a function pointer
-> is involved.
+> Best regards,
+> Krzysztof
 > 
-> For instance, I'm looking at workqueue.rs and wondering why is it safe
-> against Execute After Free races. I see none of the C functions I
-> would expect to be used to prevent those races in the code.
-> 
-> Even the simple example:
-> 
-> //! fn print_later(val: Arc<MyStruct>) {
-> //!     let _ = workqueue::system().enqueue(val);
-> //! }
-> 
-> Seems to be missing the EAF prevention ie WorkItem::run() is in .text
-> of THIS_MODULE and I see nothing is preventing THIS_MODULE from being
-> unloaded.
-> 
-> The expectation of work queues is to follow the above revoke threads
-> then free pattern. A module should do that sequence in the driver
-> remove() or module __exit function.
 
-Fully agree with that.
-
-I guess you're referring to cancel_work_sync() and friends as well as
-destroy_workqueue(), etc.
-
-They're indeed missing, this is because the workqueue work originates from the
-Rust binder efforts and binder is only used builtin, so there was no need so
-far.
-
-But yes, once people start using workqueues for other modules, we surely need to
-extend the abstraction accordingly.
-
-Other abstractions do consider this though, e.g. the upcoming hrtimer work. [1]
-
-In terms of IOCTLs it depends on the particular subsystem, but this is (or will
-be) also reflected by the corresponding abstraction. Dropping a
-MiscDeviceRegistration [2] on module_exit() for instance will ensure that there
-are no concurrent IOCTLs, just like the corresponding C code.
-
-[1] https://lore.kernel.org/rust-for-linux/20250224-hrtimer-v3-v6-12-rc2-v9-0-5bd3bf0ce6cc@kernel.org/
-[2] https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/rust/kernel/miscdevice.rs#n50
