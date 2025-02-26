@@ -2,99 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE964A45B7D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 11:16:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F04EA45B9E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 11:21:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC5210E89E;
-	Wed, 26 Feb 2025 10:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7591910E224;
+	Wed, 26 Feb 2025 10:21:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CYhMLnp7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="py/wyHhe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CYhMLnp7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="py/wyHhe";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NBuUhnR+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1dBq1ESw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NBuUhnR+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1dBq1ESw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24BD210E224
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 10:16:38 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 187D810E224
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 10:21:21 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B800B1F388;
- Wed, 26 Feb 2025 10:16:36 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6363D21197;
+ Wed, 26 Feb 2025 10:21:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740564996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1740565276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=W7huWkA+q4tRzFzbc4OooKbD6jGNlYW/aDI0Z6LcjV8=;
- b=CYhMLnp7q0zfIxH8iu3DNheOYB4NL+Nf+4CwGTh2xeQ6XaiMe2y/w5C4nc6bW9xz7RbgAw
- 8ryL8T8ngv+vFjbcTTbAftFmRhYB2lclHddKns9vVCLWfBZDzJSvvQlUKLgV5Wmz5BH8cQ
- v3TWwB2RQtT2+I3JBCLYix3NLqlliWA=
+ bh=15oD9F9LF4ihAw9LiWAc/1ckpc1w8RXcncpMlXfhcS8=;
+ b=NBuUhnR+9yjyKCdcjlR8ffMrStU0q3O4Gn9HOXfir3Y0k09+3KZFgPX13+WkHXApGEvhUp
+ atnR0NdbNxsw1m5KZ+BsvRVICwGU63iKHuPN04yoBGyau3rq/YfWARVe/ViV+xVO3nGQSq
+ UvqN7JOUAPFqWuJrVlQduEYNiMTAaeg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740564996;
+ s=susede2_ed25519; t=1740565276;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=W7huWkA+q4tRzFzbc4OooKbD6jGNlYW/aDI0Z6LcjV8=;
- b=py/wyHhesHkF3t5R/Yc8G+Nte20Q0gW31h5UiRetlboW695aUKEXNBzADKuVjVvPuLRL9V
- oWrCKyFxSZ0u4RBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=15oD9F9LF4ihAw9LiWAc/1ckpc1w8RXcncpMlXfhcS8=;
+ b=1dBq1ESwdP+6fjZI8BtYhs8qsoSzB2F/x41N/q8fJeUZaVXxMET7HA6MsYb+i7ZNzw1PbV
+ k0RYDHPjQYTE2RDQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NBuUhnR+;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1dBq1ESw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740564996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1740565276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=W7huWkA+q4tRzFzbc4OooKbD6jGNlYW/aDI0Z6LcjV8=;
- b=CYhMLnp7q0zfIxH8iu3DNheOYB4NL+Nf+4CwGTh2xeQ6XaiMe2y/w5C4nc6bW9xz7RbgAw
- 8ryL8T8ngv+vFjbcTTbAftFmRhYB2lclHddKns9vVCLWfBZDzJSvvQlUKLgV5Wmz5BH8cQ
- v3TWwB2RQtT2+I3JBCLYix3NLqlliWA=
+ bh=15oD9F9LF4ihAw9LiWAc/1ckpc1w8RXcncpMlXfhcS8=;
+ b=NBuUhnR+9yjyKCdcjlR8ffMrStU0q3O4Gn9HOXfir3Y0k09+3KZFgPX13+WkHXApGEvhUp
+ atnR0NdbNxsw1m5KZ+BsvRVICwGU63iKHuPN04yoBGyau3rq/YfWARVe/ViV+xVO3nGQSq
+ UvqN7JOUAPFqWuJrVlQduEYNiMTAaeg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740564996;
+ s=susede2_ed25519; t=1740565276;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=W7huWkA+q4tRzFzbc4OooKbD6jGNlYW/aDI0Z6LcjV8=;
- b=py/wyHhesHkF3t5R/Yc8G+Nte20Q0gW31h5UiRetlboW695aUKEXNBzADKuVjVvPuLRL9V
- oWrCKyFxSZ0u4RBQ==
+ bh=15oD9F9LF4ihAw9LiWAc/1ckpc1w8RXcncpMlXfhcS8=;
+ b=1dBq1ESwdP+6fjZI8BtYhs8qsoSzB2F/x41N/q8fJeUZaVXxMET7HA6MsYb+i7ZNzw1PbV
+ k0RYDHPjQYTE2RDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3ED391377F;
- Wed, 26 Feb 2025 10:16:36 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 248931377F;
+ Wed, 26 Feb 2025 10:21:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 8GvYDQTqvmfDagAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Feb 2025 10:16:36 +0000
-Message-ID: <97832f2b-ea2f-4fec-990b-bbd5ccaa9a91@suse.de>
-Date: Wed, 26 Feb 2025 11:16:35 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id xdCZBxvrvmegbAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Feb 2025 10:21:15 +0000
+Message-ID: <faaf92d2-f157-48c4-af1c-7251f65e8c2d@suse.de>
+Date: Wed, 26 Feb 2025 11:21:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
- and size
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20250218142542.438557-1-tzimmermann@suse.de>
- <20250218142542.438557-3-tzimmermann@suse.de>
- <dcd59a75-7945-4a2e-99f9-3abbb3e9de14@ideasonboard.com>
- <355ed315-61fa-4a9d-b72b-8d5bc7b5a16c@suse.de>
- <596b960e-71f8-4c2c-9abe-058206df1dfb@ideasonboard.com>
- <87ca2b81-a67a-468b-ae2b-30d02a3a64bc@suse.de>
- <f74af5cc-bca8-45c1-9204-b362fcd6f998@ideasonboard.com>
+Subject: Re: [PATCH RESEND 12/12] Documentation: Update the todo
+To: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>,
+ Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Tian Tao <tiantao6@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
+ <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
+ <20250225-memory-drm-misc-next-v1-12-9d0e8761107a@redhat.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -121,23 +145,30 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <f74af5cc-bca8-45c1-9204-b362fcd6f998@ideasonboard.com>
+In-Reply-To: <20250225-memory-drm-misc-next-v1-12-9d0e8761107a@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 6363D21197
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.990]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_BLOCKED(0.00)[rspamd.com];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[20];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,jms.id.au,linux.intel.com,kernel.org,gmail.com,ffwll.ch,codeconstruct.com.au,agner.ch,nxp.com,linaro.org,hisilicon.com,google.com,pengutronix.de,collabora.com,denx.de,linux.alibaba.com,foss.st.com,nvidia.com,synopsys.com,raspberrypi.com,igalia.com,lwn.net];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ R_RATELIMIT(0.00)[to_ip_from(RL5qdohruh175rhiw1bqi96ifb)];
  TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; TO_MATCH_ENVRCPT_SOME(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCPT_COUNT_GT_50(0.00)[51];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -155,183 +186,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 25.02.25 um 14:45 schrieb Tomi Valkeinen:
-> Hi,
+
+Am 25.02.25 um 23:20 schrieb Anusha Srivatsa:
+> Update the Documentation to be more precise.
 >
-> On 21/02/2025 11:19, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 20.02.25 um 11:53 schrieb Tomi Valkeinen:
->>> Hi,
->>>
->>> On 20/02/2025 12:05, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 20.02.25 um 10:18 schrieb Tomi Valkeinen:
->>>> [...]
->>>>>> + * Color modes of 10, 12, 15, 30 and 64 are only supported for 
->>>>>> use by
->>>>>> + * legacy user space. Please don't use them in new code. Other 
->>>>>> modes
->>>>>> + * are not support.
->>>>>> + *
->>>>>> + * Do not attempt to allocate anything but linear framebuffer 
->>>>>> memory
->>>>>> + * with single-plane RGB data. Allocation of other framebuffer
->>>>>> + * layouts requires dedicated ioctls in the respective DRM driver.
->>>>>
->>>>> According to this, every driver that supports, say, NV12, should 
->>>>> implement their own custom ioctl to do the exact same thing? And, 
->>>>> of course, every userspace app that uses, say, NV12, should then 
->>>>> add code for all these platforms to call the custom ioctls?
->>>>
->>>> Yes, that's exactly the current status.
->>>>
->>>> There has been discussion about a new dumb-create ioctl that takes 
->>>> a DRM format as parameter. I'm all for it, but it's out of the 
->>>> scope for this series.
->>>>
->>>>>
->>>>> As libdrm's modetest currently supports YUV formats with dumb 
->>>>> buffers, should we remove that code, as it's not correct and I'm 
->>>>> sure people use libdrm code as a reference?
->>>>
->>>> Of course not.
->>>>
->>>>>
->>>>> Well, I'm not serious above, but I think all my points from the 
->>>>> earlier version are still valid. I don't like this. It changes the 
->>>>> parameters of the ioctl (bpp used to be bits-per-pixel, not it's 
->>>>> "color mode"), and the behavior of the ioctl, behavior that we've 
->>>>> had for a very long time, and we have no idea how many users there 
->>>>> are that will break (could be none, of course). And the 
->>>>> documentation changes make the current behavior and uses wrong or 
->>>>> legacy.
->>>>
->>>> Before I go into details about this statement, what use case 
->>>> exactly are you referring to when you say that behavior changes?
->>>
->>> For every dumb_buffer allocation with bpp that is not divisible by 
->>> 8, the result is different, i.e. instead of DIV_ROUND_UP(width * 
->>> bpp, 8), we now have width * DIV_ROUND_UP(bpp, 8). This, of course, 
->>> depends on the driver implementation. Some already do the latter.
->>
->> The current dumb-buffer code does a stride computation at [1], which 
->> is correct for all cases; although over-allocates sometimes. It's the 
->> one you describe as "width * DIV_ROUND_UP(bpp, 8)". It's in the ioctl 
->> entry point, so it's somewhat authoritative for all driver's 
->> implementations. It's also used by several drivers.
->>
->> The other variant, "DIV_ROUND_UP(width * bpp, 8)", is used by 
->> gem-dma, gem-shmem and others. It can give incorrect results and 
->> possibly OOBs. To give a simple example, let's allocate 15-bit 
->> XRGB1555. Bpp is 15. With a width of 1024, that would result in 1920 
->> bytes per scanline. But because XRGB1555 has a filler bit, so the 
->> pixel is actually 16 bit and a scanline needs to be 2048 bytes. The 
->> new code fixes that. This is not just a hypothetical scenario: we do 
->> have drivers that support XRGB1555 and some of them also export a 
->> preferred_depth of 15 to userspace. [2] In the nearby comment, you'll 
->> see that this value is meant for dumb buffers.
->>
->> Rounding up the depth value in user space is possible for RGB, but 
->> not for YUV. Here different pixel planes have a different number of 
->> bits. Sometimes pixels are sharing bits. The value of bits-per-pixel 
->> becomes meaningless. That's why it's also deprecated in struct 
->> drm_format_info. The struct instead uses a more complicated per-plane 
->> calculation to compute the number of bits per plane. [3] The 
->> user-space code currently doing YUV on dumb buffers simply got lucky.
->>
->> [1] https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/ 
->> drm_dumb_buffers.c#L77
->> [2] https://elixir.bootlin.com/linux/v6.13.3/source/include/drm/ 
->> drm_mode_config.h#L885
->> [3] https://elixir.bootlin.com/linux/v6.13.3/source/include/drm/ 
->> drm_fourcc.h#L83
->>
->>>
->>> This change also first calls the drm_driver_color_mode_format(), 
->>> which could change the behavior even more, but afaics at the moment 
->>> does not. 
->>
->> Because currently each driver does its own thing, it can be hard to 
->> write user space that reliably allocates on all drivers. That's why 
->> it's important that parameters are not just raw numbers, but have 
->> well- defined semantics. The raw bpp is meaningless; it's also 
->> important to know which formats are associated with each value. 
->> Otherwise, you might get a dumb buffer with a bpp of 15, but it will 
->> be displayed incorrectly. This patch series finally implements this 
->> and clearly documents the assumptions behind the interfaces. The 
->> assumptions themselves have always existed.
+> v2: Update for clarity
+> v3: Further details in Todo
 >
-> This is perhaps where the biggest gap in understanding/view is: I have 
-> always thought dumb-buffer's "bpp" to mean bits-per-pixel, where, for 
-> more complex formats, "pixel" is not necessarily a visible pixel but a 
-> container unit of some kind. So bpp * width = stride.
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks for the update.
+
+> ---
+>   Documentation/gpu/todo.rst | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
 >
-> It would not occur to me to allocate XRGB1555 dumb-buffer with 15 bpp, 
-> but 16 bpp, as that's what a pixel takes. I have never seen the 
-> dumb-buffer bpp connected directly to the pixel format (that's what 
-> the ADDFB brings in).
->
-> I may be alone with that thinking, but afaics the documentation leans 
-> a bit on my interpretation (instead of considering bpp as a "color 
-> mode"), although admittedly the docs also don't really say much so 
-> this may be fully just my interpretation:
->
-> https://man.archlinux.org/man/drm-memory.7.en
-
-Agreed, this could be read in the way you do. Is this being generated 
-from source somehow? The information is not incorrect, but how did they 
-get to this interpretation? It would definitely need an update with this 
-patch series applied. Citing from the man page:
-
-   "/bpp/ is the number of bits-per-pixel and must be a multiple of 8."
-
-That's what currently works on all drivers. But nothing enforces that it 
-"must by a multiple of 8". Doing so would prevent C1/C2/etc pixel 
-formats without over-allocation.  OR bpp is not bits-per-pixel but just 
-some factor that controls the buffer size. This is how you use it for 
-YUV formats.
-
-   "You most commonly want to pass 32 here."
-
-That's also just semi-true. 32 is simply what mostly works in practice 
-IFF you interpret it as XRGB8888. Userspace should read the formats from 
-the primary plane, or at least look at the driver-provided 
-preferred_depth field.
-
->
-> https://cgit.freedesktop.org/drm/libdrm/tree/include/drm/drm_mode.h#n1055
-
-This one doesn't say anything specific AFAICT. Bpp is somewhat pointless 
-information without a known pixel and framebuffer layout, as I've 
-outlined before.
-
->
-> I (mostly) understand all the complexities around here, thanks to your 
-> replies, and I think I'm ok with the series as it doesn't break 
-> anything (need to test the v3, though).
-
-Thank you so much.
-
->
-> I still don't like it though =). And I would be happier with the 
-> simpler "bpp" interpretation that I mentioned above, instead of it 
-> being a color mode. But we can't have it both ways, and perhaps it's 
-> better to unify the code and have the behavior explained explicitly as 
-> you do in this series, even if the explanation only covers some RGB 
-> formats.
-
-No worries. The intention is not to break anything and existing code 
-will continue to work.
-
-Best regards
-Thomas
-
->
->  Tomi
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 256d0d1cb2164bd94f9b610a751b907834d96a21..c57777a24e03d91b1ffe04365f7356f2d938befd 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -441,14 +441,15 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+>   
+>   Level: Intermediate
+>   
+> -Request memory regions in all drivers
+> --------------------------------------
+> +Request memory regions in all fbdev drivers
+> +--------------------------------------------
+>   
+> -Go through all drivers and add code to request the memory regions that the
+> -driver uses. This requires adding calls to request_mem_region(),
+> +Old/ancient fbdev drivers do not request their memory properly.
+> +Go through these drivers and add code to request the memory regions
+> +that the driver uses. This requires adding calls to request_mem_region(),
+>   pci_request_region() or similar functions. Use helpers for managed cleanup
+> -where possible.
+> -
+> +where possible. Problematic areas include hardware that has exclusive ranges
+> +like VGA. VGA16fb does not request the range as it is expected.
+>   Drivers are pretty bad at doing this and there used to be conflicts among
+>   DRM and fbdev drivers. Still, it's the correct thing to do.
+>   
 >
 
 -- 
