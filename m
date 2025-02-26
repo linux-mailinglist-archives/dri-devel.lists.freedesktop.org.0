@@ -2,59 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB3BA46E80
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 23:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D876A46E90
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 23:29:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD1D010E2AA;
-	Wed, 26 Feb 2025 22:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21A310E9EC;
+	Wed, 26 Feb 2025 22:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pJUentzn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QnXEX9P1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B1D10E2AA
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 22:27:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E320E612AE;
- Wed, 26 Feb 2025 22:27:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63415C4CED6;
- Wed, 26 Feb 2025 22:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740608855;
- bh=/TBxRjD+YRDof+mNKcnMf3FsANOHIzAqS1izxvRKSkA=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=pJUentzn6RXKQfY73yLb7U7Z0MOp2FRQtxkufabY66glfMQGuamgElASdmZN6R8Up
- Fvi395sNQ2Vm3XBtm0TmeE6e3pIcideJviwU+2LB88nLxQ01yfWKaLyPCHtpIqKVy1
- d2BgqnPG9pUDZ21Kh7p0VjwtBARziCYpGNKNX65q1bjyx0+F07xEcdKiPL8jSjDZM5
- SXSka8fFGgmeCDkdRvDm41GKoaNBVvKDB9e7VvobgMyQL2g2YsfzMTj184/fQHdzuE
- EFXupjHCf8dKEdq3lRmSS6ZPWsaoOCwsoEdN8/aCv0B2WBo7G0GD1Do5aQrvdXXb22
- nRbCMHTWkdkeg==
-Date: Wed, 26 Feb 2025 16:27:34 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C643B10E9EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 22:29:15 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-439ac3216dcso2198245e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:29:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740608954; x=1741213754; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TfWwQBkEse5FRQekJZuNar17CRdvAyTkX7+fO0J+m/4=;
+ b=QnXEX9P10e7htXeLUlQzA5vFXqnz6MqpXLyyKVzyLZnTRIcpC/QYHlYBzvGiEyECu+
+ B2D6uQeZmQjYNMbym1OSh3PBDcz3X69HFYPJy9WKC81iV4Qoda6vHdgMNYdeU6YdgG51
+ bevnPtj/ZMdXMN9/w3mYLI1qbbh8UE8SnCoJ+lKalGlY1aB0Vahc5IxWLE9ykoNyk183
+ v4Q4LoSHtTFghqdnxy8GJ2/WfhXMrrwzAQOBAmP/1SsvZlyWOg2KWzH+vxNJIPsozESU
+ bp8k4cAeERMNHoHZds3sAQqdWXfv98uVr0hfOO8y1ZHhw3hcvmTd2X2gUcGtf89S0XpR
+ 1ZiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740608954; x=1741213754;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TfWwQBkEse5FRQekJZuNar17CRdvAyTkX7+fO0J+m/4=;
+ b=ZyZV5sGZW5/o43gM/BuKt6BoI0fb6fYqCPBnof5a+YLdFK3ygOm/HIKUxVDzlRCoaX
+ MO4/X1Ql27y1OOzw+ZvLTYWfoJpYf8WCR4l6ONp4IKfaw8JX1d+LuvUv7623YJAggZLt
+ SIBlGeYUx9USUN5fS7Sw8o+1xwfCoNqBeRXqxouFastmePt04+kphRLW4dxQrTeoR55u
+ BU0iK5vsVGKsEPrNbNd7H57aAlcrX6X/OBpE92oE0LlJ/9k+osyWkW03F577GRppcoHl
+ aDnWjaFz83j1okAa87KJzqfpAW3ZEEd6iEoHX+jVeaalC/iON2SuNx4V4ZLc+UmvcI9B
+ XlPQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXFR5wYchKKC3Vh9ZqTuDDgOj3Wvj6y5IBtna3DbSu6uvNzlId73d3TshRvIS6Xs3SSP2h86nA4+Io=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPZTw3XYZe5P3xm8Dv6+bU1kND0PUVtFAxWcH7ePWgc4mpmh1P
+ fDcPifAPK6J6Z6pouHOZso4ILFYeczl8g1tYBew1/v+iUWS2iKhn
+X-Gm-Gg: ASbGnct9ntjI3QLrErOlAK27FaRooCgS04n8xFrkmQZ1e3KYn966hbbfv1HULcOJsQY
+ VRzMGKSicG3C05bMo377qy6Y7EDuqpe/vC4G0ekJGRVAhufszn7kxTJyjtZA0BKyB271KDE99Aj
+ bVJx0FEwSqZe9nQWP43QBDMnVVhICXMOQwMNUuGxO/D4l0wsDVihvBQfML5u86UOYQxpttdwVBq
+ EDBF0ETr7afLDJ0cJmofYAxZZLUzyVuUGfwmJfSvNqOALsXuxqLLlEhq/4pDeUVIVgxqT8IPZTh
+ OOQB2eYxRZ1vq/5SbRwYl10Gv9/hkp+sbReGHGYg3ig5Bz2Chf+v9xzH2AFvQ5vw
+X-Google-Smtp-Source: AGHT+IGOLpw4Ro1gZlLbKLPuJeugBpGxKDyhpAzWxjxf7AIm0WuOoMev7XCdFdyak+Spbs3OpN2AOA==
+X-Received: by 2002:a05:600c:4f47:b0:439:9828:c42c with SMTP id
+ 5b1f17b1804b1-439aebc27cfmr188697005e9.23.1740608953906; 
+ Wed, 26 Feb 2025 14:29:13 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43ab37403cfsm55655745e9.1.2025.02.26.14.29.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2025 14:29:13 -0800 (PST)
+Date: Wed, 26 Feb 2025 22:29:11 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <20250226222911.22cb0c18@pumpkin>
+In-Reply-To: <Z7zIBwH4aUA7G9MY@thinkpad>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <Z7zIBwH4aUA7G9MY@thinkpad>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Mark Brown <broonie@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Conor Dooley <conor+dt@kernel.org>, 
- linux-kernel@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, Simona Vetter <simona@ffwll.ch>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- linux-arm-kernel@lists.infradead.org, Liu Ying <victor.liu@nxp.com>, 
- Maxime Ripard <mripard@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- linux-spi@vger.kernel.org, David Airlie <airlied@gmail.com>, 
- imx@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Maud Spierings <maudspierings@gocontroll.com>
-In-Reply-To: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
-References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
-Message-Id: <174060863556.3857034.912870225795774413.robh@kernel.org>
-Subject: Re: [PATCH v2 00/12] arm64: dts: freescale: Add support for the
- GOcontroll Moduline Display
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,84 +112,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 24 Feb 2025 14:27:03 -0500
+Yury Norov <yury.norov@gmail.com> wrote:
+....
+> +#define parity(val)					\
+> +({							\
+> +	u64 __v = (val);				\
+> +	int __ret;					\
+> +	switch (BITS_PER_TYPE(val)) {			\
+> +	case 64:					\
+> +		__v ^= __v >> 32;			\
+> +		fallthrough;				\
+> +	case 32:					\
+> +		__v ^= __v >> 16;			\
+> +		fallthrough;				\
+> +	case 16:					\
+> +		__v ^= __v >> 8;			\
+> +		fallthrough;				\
+> +	case 8:						\
+> +		__v ^= __v >> 4;			\
+> +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
+> +		break;					\
+> +	default:					\
+> +		BUILD_BUG();				\
+> +	}						\
+> +	__ret;						\
+> +})
+> +
 
-On Wed, 26 Feb 2025 15:19:11 +0100, Maud Spierings wrote:
-> Add inital support for 2 variants of the Moduline Display controller.
-> This system is powered by the Ka-Ro Electronics tx8p-ml81 COM, which
-> features an imx8mp SoC.
-> 
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> ---
-> Changes in v2:
-> - Dropped the trivial-devices patch
-> - Added a patch with bindings for the gocontroll,moduline-module-slot
-> - Added a patch to spidev.c to enable the spidev driver for the module
->   slot
-> - Added a missing usb-c connector in the av101hdt-a10 variant dts
-> - Switched to the new bindings for the module slots in the base dts
-> - Fixed some commit typos
-> - Link to v1: https://lore.kernel.org/r/20250224-initial_display-v1-0-5ccbbf613543@gocontroll.com
-> 
-> ---
-> Maud Spierings (12):
->       dt-bindings: arm: fsl: Add GOcontroll Moduline Display
->       dt-bindings: vendor-prefixes: add GOcontroll
->       dt-bindings: connector: Add the GOcontroll Moduline module slot bindings
->       arm64: dts: imx8mp: Add pinctrl config definitions
->       MAINTAINERS: add maintainer for the Ka-Ro tx8p-ml81 COM module
->       MAINTAINERS: add maintainer for the GOcontroll Moduline module slot
->       MAINTAINERS: add maintainer for the GOcontroll Moduline controllers
->       arm64: dts: freescale: add Ka-Ro Electronics tx8p-ml81 COM
->       arm64: dts: freescale: Add the GOcontroll Moduline Display baseboard
->       arm64: dts: freescale: Add the BOE av101hdt-a10 variant of the Moduline Display
->       arm64: dts: freescale: Add the BOE av123z7m-n17 variant of the Moduline Display
->       spi: spidev: Add an entry for the gocontroll moduline module slot
-> 
->  Documentation/devicetree/bindings/arm/fsl.yaml     |   1 +
->  .../connector/gocontroll,moduline-module-slot.yaml |  88 ++++
->  .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
->  MAINTAINERS                                        |  17 +
->  arch/arm64/boot/dts/freescale/imx8mp-pinfunc.h     |  27 +
->  ...tx8p-ml81-moduline-display-106-av101hdt-a10.dts | 100 ++++
->  ...tx8p-ml81-moduline-display-106-av123z7m-n17.dts | 133 +++++
->  .../imx8mp-tx8p-ml81-moduline-display-106.dtsi     | 535 ++++++++++++++++++++
->  .../arm64/boot/dts/freescale/imx8mp-tx8p-ml81.dtsi | 547 +++++++++++++++++++++
->  drivers/spi/spidev.c                               |   2 +
->  10 files changed, 1452 insertions(+)
-> ---
-> base-commit: 2bc63dbeabecce860eb8b261bf67b97552fe7747
-> change-id: 20250224-initial_display-fa82218e06e5
-> 
-> Best regards,
-> --
-> Maud Spierings <maudspierings@gocontroll.com>
-> 
-> 
-> 
+You really don't want to do that!
+gcc makes a right hash of it for x86 (32bit).
+See https://www.godbolt.org/z/jG8dv3cvs
 
+You do better using a __v32 after the 64bit xor.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+Even the 64bit version is probably sub-optimal (both gcc and clang).
+The whole lot ends up being a bit single register dependency chain.
+You want to do:
+	mov %eax, %edx
+	shrl $n, %eax
+	xor %edx, %eax
+so that the 'mov' and 'shrl' can happen in the same clock
+(without relying on the register-register move being optimised out).
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+I dropped in the arm64 for an example of where the magic shift of 6996
+just adds an extra instruction.
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/freescale/' for 20250226-initial_display-v2-0-23fafa130817@gocontroll.com:
-
-arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dtb: usb@32f10108: usb@38200000: Unevaluated properties are not allowed ('connector' was unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/fsl,imx8mp-dwc3.yaml#
-arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dtb: usb@38200000: Unevaluated properties are not allowed ('connector' was unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-
-
-
+	David
 
 
