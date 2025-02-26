@@ -2,86 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4436FA4560D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 07:53:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F93DA4588F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 09:40:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3DBB10E85E;
-	Wed, 26 Feb 2025 06:53:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="P/gj5wy+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB7D410E891;
+	Wed, 26 Feb 2025 08:39:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3899110E85E
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 06:53:07 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-545284eac3bso6250770e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 22:53:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740552785; x=1741157585; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=28luXvOgctHQWawFquRNOLl9O0yELRtq1uClua9ph10=;
- b=P/gj5wy+550ls0O2NVIqcVCI/iwwkdQtjvyL5Lu4reF8Ox50t6oLYWudxHA9KAiXSR
- GJEhNEDIHqvNEMgkYXBiUx0msIPsnyCMdnmtVGcgJXSa4OSE7APab0Q2I5Thtj8Mocuk
- XHZybdUyhwHZW61FrWen+BSDAlRftCHAdzb0vTPJII4hGDHUqgewjreOgLaE+Rk0++1L
- n+hx3/ZLUt6nGQYdac/3IbijjvrW8hJFb0lL+xa9vZ+O047d0zEh/XNfGQR1ClWoFK30
- 4HB6Ort9NuD3cRGZJ+pGSb5oAtj4OFaUZdFUuNfgWhv1fMxVuqPnQRLkZODYGTzjM5X9
- gJMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740552785; x=1741157585;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=28luXvOgctHQWawFquRNOLl9O0yELRtq1uClua9ph10=;
- b=LN7EH1w0e8Mv641/l4704SyfpIQx3iwSNWNFIqqHKqNLFN4RYSkKbyfjORbiQdgqfp
- yE0m2xHpfhOLwM8xLNbDovh3pAFFp+t01TOKbjbNCkJyvMchb3dcm4HwmRI2QidS9Fox
- pV6/Vk81jeHu0s1g8vKJJDfxFq4njO/3FKbev8ZNmS6GGb6X7ooX16Tpk01DZhfHjBJE
- f0K4YTSuvcEZS1nulUR+c8+JHfTRvUvnFp9xJFXTlc+0vywPA+vrABJUj4Qfx3jHDxB1
- sDQ3FwfMHemZJxL+avpbqlfTnd1xwCNoZNzCRJaax7/0C/o1YTTEuacRSku6k9ZndmHC
- 5sFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWL1Oz9BcqcKZj42NX3DZidFMD95NIUj1UCcqeGIAPhDXeK1iWVcjyQRsi1PoZ/7Xh8RF5lVp7bGJo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDH5BkOkLw84ZItlKYyrcPelSEkArxbHIV1egJFD+Xj0DY40sC
- 4BP40gnd4sPa2BDkBxfD9XWelSbRKqHsDveWdI3WJPYYPJI5yX+hGrxiVODCpUk=
-X-Gm-Gg: ASbGncsNvOWKHYtoInx2i56eGnsN2DSDI1BvjexBhdCGvyKRZu3u+rSPMmK7JQK6IJX
- D3PeMfUNq1fqj5inZK6Qfb0uxr/wrArV0lrAFBdZTcR5OB/dPJeruVFXS55ydbwbDxr/PQZwOMn
- HNaamWtREhbu1m99bb4SXwuEtx37oZaSY7Z+M+llbzmqIGF1oB0FLrS4fFpQFIFWMB6gBSLC7E/
- XfhbzRGIT966WFsW5FKvyNWxKFmUiYfKPmMdSNK4tTfimimgVvMddjDro/uGbWSKTGTaromuX5Z
- sCpti2CTj8pHzV28Zp5Gfhnwn7gpGJ4kUSa4e9ZFJC1EV1lMwlAQZxPdqOVaao5lqIAj1juBLyq
- ZY7j6Xg==
-X-Google-Smtp-Source: AGHT+IFCrSAXRtytHW1OItp1zy21zcNGHfM8HjDcDTQMkPiyBILsALZmkwg/zbIgag2vjhpeWv8Dpg==
-X-Received: by 2002:a05:6512:3b87:b0:545:1166:21a with SMTP id
- 2adb3069b0e04-5493c5aea9emr2149557e87.39.1740552785496; 
- Tue, 25 Feb 2025 22:53:05 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-548514fa070sm357764e87.236.2025.02.25.22.53.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2025 22:53:04 -0800 (PST)
-Date: Wed, 26 Feb 2025 08:53:02 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>
-Subject: Re: [PATCH 1/1] drm/bridge: ti-sn65dsi83: Support negative DE polarity
-Message-ID: <j42iq7ujfbnemcwnbfihasnoirnvcdokvbxiqr23gnj7mq4jc3@tjxs5yjpli5f>
-References: <20250225135114.801884-1-alexander.stein@ew.tq-group.com>
+X-Greylist: delayed 373 seconds by postgrey-1.36 at gabe;
+ Wed, 26 Feb 2025 02:09:27 UTC
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
+ [51.81.35.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0265910E1E5;
+ Wed, 26 Feb 2025 02:09:27 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+ by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 360E8203BE;
+ Wed, 26 Feb 2025 02:03:13 +0000 (UTC)
+Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.154])
+ by relay5.mymailcheap.com (Postfix) with ESMTPS id 9F020200C0;
+ Wed, 26 Feb 2025 02:03:10 +0000 (UTC)
+Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
+ by relay4.mymailcheap.com (Postfix) with ESMTPS id 9418F20317;
+ Wed, 26 Feb 2025 02:03:06 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ by nf2.mymailcheap.com (Postfix) with ESMTPSA id A1AA74002D;
+ Wed, 26 Feb 2025 02:03:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+ t=1740535384; bh=7ZTH7oq2IoiaqJT7Ob6dFeLdBZygCMDgXFWf8c//0eI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=NOSD3O5rqygmeAV52Pgnu6LRV7B9Crhqlq6Ew0ZFI0CLtJiSW08xb6Es8CMUKuML0
+ 86XEA+du+VikmuZG3H4ObrxzAuBRIhRtye7x+/3ezEIQSdGHvPBQBRn9M5oXZqVq2m
+ Soa9XdrcgtZm2RMBjT6+w99uQLNteAnZB6BORPFQ=
+Received: from [198.18.0.1] (unknown [58.32.35.189])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 63A2E4151A;
+ Wed, 26 Feb 2025 02:03:02 +0000 (UTC)
+Message-ID: <26fc7fdb-fa43-451b-8ad9-29298e354dc5@aosc.io>
+Date: Wed, 26 Feb 2025 10:02:58 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250225135114.801884-1-alexander.stein@ew.tq-group.com>
+User-Agent: Thunderbird Daily
+Subject: Re: [PATCH 0/5] drm/xe: enable driver usage on non-4KiB kernels
+To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc: Mingcong Bai <jeffbai@aosc.io>
+References: <20250226-xe-non-4k-fix-v1-0-e61660b93cc3@aosc.io>
+Content-Language: en-US
+From: Kexy Biscuit <kexybiscuit@aosc.io>
+In-Reply-To: <20250226-xe-non-4k-fix-v1-0-e61660b93cc3@aosc.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: A1AA74002D
+X-Rspamd-Server: nf2.mymailcheap.com
+X-Spamd-Result: default: False [-0.09 / 10.00]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+ MIME_TRACE(0.00)[0:+]; RCVD_COUNT_ONE(0.00)[1];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ URIBL_BLOCKED(0.00)[mail20.mymailcheap.com:helo,mail20.mymailcheap.com:rdns]; 
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[5]
+X-Rspamd-Action: no action
+X-Mailman-Approved-At: Wed, 26 Feb 2025 08:39:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,18 +81,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2025 at 02:51:13PM +0100, Alexander Stein wrote:
-> Polarity for DE is stored in bridge state. Use this flag for setting
-> the DE polarity in the bridge.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Superseded by 
+https://lore.kernel.org/all/20250226-xe-non-4k-fix-v1-0-80f23b5ee40e@aosc.io/.
 
 -- 
-With best wishes
-Dmitry
+Best Regards,
+Kexy Biscuit
