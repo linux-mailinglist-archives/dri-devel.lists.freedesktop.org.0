@@ -2,65 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75A3A45A23
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 10:31:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C87DA45A3A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 10:37:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5575610E897;
-	Wed, 26 Feb 2025 09:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAE9D10E8A4;
+	Wed, 26 Feb 2025 09:37:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W9M72BxF";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qQxxKPbX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="isDEeJiH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qQxxKPbX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="isDEeJiH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9937510E897
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 09:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740562268; x=1772098268;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=aA4r9kRPrOXQ3QUTG85erLmJ/9y+2oi5pl5vJZHAoBc=;
- b=W9M72BxFjKGCx7PYUQXCfOUu4WRoSxaNOfC0nFKgf3Okc7qnICmgkvx4
- qehvUkt5eanFCe+f4uOjkB4yziB/aQjrKUOV66EmeiN7B2+O+leIfNtdI
- 7Ryx1yhJ5uq6RKjln8VKrVp0ny9Ptm8t6raC+nfzE5BFzO0sGJeuXCYoi
- Uo5ZEAe7y2amAy/Bh5B2SfyzdUEqG1gu3uzsEdtAdOLnOBZSui7Wa1lNC
- wX7yGBN9yX1DOvhOsU4zm3t+IClM7F2SliQ9qwrekkB1H/OZtyHrXd2EM
- NELD/qq8amKnjq14VQJ+wHZ4iwAZwSiQf1rsFMnzhc8PaLMwse41/FYH3 A==;
-X-CSE-ConnectionGUID: cc14qoEnRvOa/LD7K3uJEg==
-X-CSE-MsgGUID: GGfT3gopReeSArIgCc1gdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="66771145"
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; d="scan'208";a="66771145"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 01:31:07 -0800
-X-CSE-ConnectionGUID: sVN5g470S+ehj+gWsf2C5Q==
-X-CSE-MsgGUID: vlU7jzCmRFCNI6l159fVpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="117572913"
-Received: from avijaya-mobl2.gar.corp.intel.com (HELO [10.245.115.15])
- ([10.245.115.15])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 01:31:03 -0800
-Message-ID: <8c8fbd0a-7c5f-49e7-b02d-031e8b712883@linux.intel.com>
-Date: Wed, 26 Feb 2025 10:30:59 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6766610E8A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 09:37:46 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1DB041F388;
+ Wed, 26 Feb 2025 09:37:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740562665; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=gkSqYOM3VoLV9+IkWYMhqBbtj73nYmqh9dAI7/8y5d4=;
+ b=qQxxKPbXB7K2cissEKf9NS11JKRzaByhTPR0FJX2No6aF5leWuwYxw5Keg1/MjKxUfvYD7
+ YmgzX2tp6Va6WoaTBCTX5IejO2v84b6zkn9p5FzWFp7eJlGGP6jA5QqbvBRseORduR5FSm
+ v25NBOIRCSJc6bZo8Tc2NLsP19ox6bE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740562665;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=gkSqYOM3VoLV9+IkWYMhqBbtj73nYmqh9dAI7/8y5d4=;
+ b=isDEeJiHpP1q2WOTdsV/p1ZNLStUNlctEVDLuRyGS4WZz6LWDgSBDcdR0wviIJ6j6DGyvB
+ XXFZ8I5fcrSOErBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740562665; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=gkSqYOM3VoLV9+IkWYMhqBbtj73nYmqh9dAI7/8y5d4=;
+ b=qQxxKPbXB7K2cissEKf9NS11JKRzaByhTPR0FJX2No6aF5leWuwYxw5Keg1/MjKxUfvYD7
+ YmgzX2tp6Va6WoaTBCTX5IejO2v84b6zkn9p5FzWFp7eJlGGP6jA5QqbvBRseORduR5FSm
+ v25NBOIRCSJc6bZo8Tc2NLsP19ox6bE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740562665;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=gkSqYOM3VoLV9+IkWYMhqBbtj73nYmqh9dAI7/8y5d4=;
+ b=isDEeJiHpP1q2WOTdsV/p1ZNLStUNlctEVDLuRyGS4WZz6LWDgSBDcdR0wviIJ6j6DGyvB
+ XXFZ8I5fcrSOErBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C5E9413A53;
+ Wed, 26 Feb 2025 09:37:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mDNRLujgvmezXQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Feb 2025 09:37:44 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: lee@kernel.org, pavel@ucw.cz, danielt@kernel.org, jingoohan1@gmail.com,
+ deller@gmx.de, simona@ffwll.ch
+Cc: linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/11] backlight, lcd, led: Remove fbdev dependencies
+Date: Wed, 26 Feb 2025 10:31:49 +0100
+Message-ID: <20250226093456.147402-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/amdxdna: Check interrupt register before
- mailbox_rx_worker exits
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, Mario.Limonciello@amd.com,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, min.ma@amd.com, max.zhen@amd.com,
- sonal.santan@amd.com, king.tam@amd.com
-References: <20250225172616.3804796-1-lizhi.hou@amd.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250225172616.3804796-1-lizhi.hou@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-0.994];
+ MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[kernel.org,ucw.cz,gmail.com,gmx.de,ffwll.ch];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[10];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,79 +106,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This series removes the remaining dependencies on fbdev from the
+backlight, lcd and led subsystems. Each depends on fbdev events to
+track display state. Make fbdev inform each subsystem via a dedicated
+interface instead.
 
-On 2/25/2025 6:26 PM, Lizhi Hou wrote:
-> There is a timeout failure been found during stress tests. If the firmware
-> generates a mailbox response right after driver clears the mailbox channel
-> interrupt register, the hardware will not generate an interrupt for the
-> response. This causes the unexpected mailbox command timeout.
-> 
-> To handle this failure, driver checks the interrupt register before
-> exiting mailbox_rx_worker(). If there is a new response, driver goes back
-> to process it.
-> 
-> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-> ---
->  drivers/accel/amdxdna/amdxdna_mailbox.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> index de7bf0fb4594..efe6cbc44d14 100644
-> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> @@ -348,8 +348,6 @@ static irqreturn_t mailbox_irq_handler(int irq, void *p)
->  	trace_mbox_irq_handle(MAILBOX_NAME, irq);
->  	/* Schedule a rx_work to call the callback functions */
->  	queue_work(mb_chann->work_q, &mb_chann->rx_work);
-> -	/* Clear IOHUB register */
-> -	mailbox_reg_write(mb_chann, mb_chann->iohub_int_addr, 0);
->  
->  	return IRQ_HANDLED;
->  }
-> @@ -357,6 +355,7 @@ static irqreturn_t mailbox_irq_handler(int irq, void *p)
->  static void mailbox_rx_worker(struct work_struct *rx_work)
->  {
->  	struct mailbox_channel *mb_chann;
-> +	u32 iohub;
-There is no need for this variable. Just use if (mailbox_reg_read()).
+Patches 1 to 3 make fbdev track blank state for each display, so that
+backlight code doesn't have to.
 
->  	int ret;
->  
->  	mb_chann = container_of(rx_work, struct mailbox_channel, rx_work);
-> @@ -366,6 +365,9 @@ static void mailbox_rx_worker(struct work_struct *rx_work)
->  		return;
->  	}
->  
-> +again:
-> +	mailbox_reg_write(mb_chann, mb_chann->iohub_int_addr, 0);
-> +
->  	while (1) {
->  		/*
->  		 * If return is 0, keep consuming next message, until there is
-> @@ -380,9 +382,19 @@ static void mailbox_rx_worker(struct work_struct *rx_work)
->  			MB_ERR(mb_chann, "Unexpected ret %d, disable irq", ret);
->  			WRITE_ONCE(mb_chann->bad_state, true);
->  			disable_irq(mb_chann->msix_irq);
-> -			break;
-> +			return;
-disable_irq() should not be called here. It will be called for the second time in xdna_mailbox_stop_channel() and enable/disable calls should be balanced.
+Patches 4 to 6 remove fbdev event handling from backlight code. Patches
+7 and 8 remove fbdev event handling from lcd code and patches 9 and 10
+do the same for led's backlight trigger.
 
->  		}
->  	}
-> +
-> +	/*
-> +	 * The hardware will not generate interrupt if firmware creates a new
-> +	 * response right after driver clears interrupt register. Check
-> +	 * the interrupt register to make sure there is not any new response
-> +	 * before exiting.
-> +	 */
-> +	iohub = mailbox_reg_read(mb_chann, mb_chann->iohub_int_addr);
-> +	if (iohub)
-> +		goto again;
->  }
->  
->  int xdna_mailbox_send_msg(struct mailbox_channel *mb_chann,
+The final patch removes the event constants from fbdev.
 
-Regards,
-Jacek
+With the series applied, the three subsystems do no longer depend on
+fbdev. It's also a clean up for fbdev. Fbdev used to send out a large
+number of events. That mechanism has been deprecated for some time and
+converted call to dedicated functions instead.
+
+Testing is very welcome, as I don't have the hardware to test this
+series.
+
+Thomas Zimmermann (11):
+  fbdev: Rework fb_blank()
+  fbdev: Track display blanking state
+  fbdev: Send old blank state in FB_EVENT_BLANK
+  backlight: Implement fbdev tracking with blank state from event
+  backlight: Move blank-state handling into helper
+  backlight: Replace fb events with a dedicated function call
+  backlight: lcd: Move event handling into helpers
+  backlight: lcd: Replace fb events with a dedicated function call
+  leds: backlight trigger: Move blank-state handling into helper
+  leds: backlight trigger: Replace fb events with a dedicated function
+    call
+  fbdev: Remove constants of unused events
+
+ drivers/leds/trigger/ledtrig-backlight.c |  47 +++++-----
+ drivers/video/backlight/backlight.c      |  93 +++++---------------
+ drivers/video/backlight/lcd.c            | 107 +++++++++--------------
+ drivers/video/fbdev/core/fb_backlight.c  |  12 +++
+ drivers/video/fbdev/core/fb_info.c       |   1 +
+ drivers/video/fbdev/core/fbmem.c         |  82 ++++++++++++++---
+ drivers/video/fbdev/core/fbsysfs.c       |   8 +-
+ include/linux/backlight.h                |  22 ++---
+ include/linux/fb.h                       |  12 +--
+ include/linux/lcd.h                      |  21 ++++-
+ include/linux/leds.h                     |   6 ++
+ 11 files changed, 203 insertions(+), 208 deletions(-)
+
+-- 
+2.48.1
+
