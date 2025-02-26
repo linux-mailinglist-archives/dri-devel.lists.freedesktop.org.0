@@ -2,85 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E11A46389
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F405A463C3
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:52:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3252E10E928;
-	Wed, 26 Feb 2025 14:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4614410E0BA;
+	Wed, 26 Feb 2025 14:52:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ei0b9YtU";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="makalxCj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2832410E6B4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:48:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id BD9AC6123C;
- Wed, 26 Feb 2025 14:48:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C32C4CEEC;
- Wed, 26 Feb 2025 14:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740581303;
- bh=0kWYmB/zokqmJ9Xk1NaO2fJR2wQi5MCDrrTHi5pb4GI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ei0b9YtUHY3RZh/d2khLUG5C74xzOhBX1EAlmeWMT3qMtUbccY5JK3IHd5f+69Tjn
- U5AGfaZbZo/+Q8ZOiDWEORqcb7vBkCRsvsn4sUS9qG7d9vyDXFu//LUkIU0gcse6o0
- FU8irzW9zoTkpDzXPXiyNzuoo/5F0b+UP0Jdp3P1cykHscDpzEyDZhDqFcxErlGDP4
- QfFuISqvCfQIerRJk7hKmAkB8r3Y7CBPKWFklXXrxZmX2YHYp6wPuh2rgHo/aoDwwS
- moSj0GKQWflQP2QWx/b8IwaOrbXv3R+W2+A+4x0mJEFkQdC3GI4BTonmi0LyRp4GoB
- 55upu3YK9Edkg==
-From: Maxime Ripard <mripard@kernel.org>
-To: Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>, Anusha Srivatsa <asrivats@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- imx@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: (subset) [PATCH RESEND 11/12] drm/vc4: move to
- devm_platform_ioremap_resource() usage
-Date: Wed, 26 Feb 2025 15:47:57 +0100
-Message-ID: <174058126147.2737122.5690208783260352743.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250225-memory-drm-misc-next-v1-11-9d0e8761107a@redhat.com>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
- <20250225-memory-drm-misc-next-v1-11-9d0e8761107a@redhat.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC1010E0BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:52:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=qbtbASKxIYYipFAVt3nJdzkBAoA+S1oBGjjAz/HmTSs=; b=makalxCj1yW3JmPdeqQHP7LUkK
+ 9cV6Ew51HZEzMOqFNbfHrewTTrNueM1Lrq4PjOpFMvvqx1POre1yCdEZypquNilWxa6sy2AcK5ywg
+ bmRrmtcGPThfHdgffg/K7+dTRvykl05JQ6E9JUyrysC51GGwgY+hKFvtfceI8hKZ0E8YaoI0usE79
+ S5We6Amax75OI+tnwwdpRhO5o3lSp8PP0MGgMDEfpr4vSmArvfl3a14GQBUN86PTyKi39iqjngXw9
+ nNw6tlO2gZVne5TkZf1lfLdp/9sLgSN5NW4LVzaelM+tTGOThU0iELjgt2+DeZtXldBly8M/zGiPE
+ sUDe8jZQ==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tnIlp-0010hb-Tz; Wed, 26 Feb 2025 15:52:28 +0100
+Message-ID: <e0b3f647-ff26-45a0-9af8-16705a7b36ec@igalia.com>
+Date: Wed, 26 Feb 2025 11:52:20 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/doc: Document KUnit expectations
+To: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>
+References: <20250113101100.1373856-1-mripard@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250113101100.1373856-1-mripard@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,35 +63,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Feb 2025 17:20:52 -0500, Anusha Srivatsa wrote:
-> Replace platform_get_resource_byname + devm_ioremap_resource
-> with just devm_platform_ioremap_resource()
-> 
-> Used Coccinelle to do this change. SmPl patch:
-> //rule s/(devm_)platform_get_resource_byname +
-> //(devm_)ioremap/devm_platform_ioremap_resource.
-> @rule_3@
-> identifier res;
-> expression ioremap;
-> identifier pdev;
-> constant mem;
-> expression name;
-> @@
-> -struct resource *res;
-> <+...
-> -res = platform_get_resource_byname(pdev,mem,name);
-> <...
-> -if (!res) {
-> -...
-> -}
-> ...>
-> -ioremap = devm_ioremap(...);
-> +ioremap = devm_platform_ioremap_resource_byname(pdev,name);
-> ...+>
-> 
-> [...]
+Hi Maxime,
 
-Applied to misc/kernel.git (drm-misc-next).
+On 13/01/25 07:11, Maxime Ripard wrote:
+> The DRM and KMS frameworks and helpers gain more and more kunit
+> coverage, so let's document what our expectations are.
+> 
+> Suggested-by: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> 
+> ---
+> 
+> I'm not too sure where those guidelines should be placed. Is it the best
+> place?
+> ---
+>   Documentation/gpu/drm-internals.rst | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
+> index cb9ae282771c..94f93fd3b8a0 100644
+> --- a/Documentation/gpu/drm-internals.rst
+> +++ b/Documentation/gpu/drm-internals.rst
+> @@ -206,10 +206,17 @@ follows:
+>   	The configuration included in ``.kunitconfig`` should be as generic as
+>   	possible.
+>   	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
+>   	included in it because they are only required for User Mode Linux.
+>   
+> +KUnit Coverage Rules
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +KUnit support is gradually added to the DRM framework and helpers. There's no
+> +general requirement for the framework and helpers to have KUnit tests at the
+> +moment. However, patches that are affecting a function or helper already
+> +covered by KUnit tests must provide tests if the change calls for one.
+>   
 
-Thanks!
-Maxime
+Acked-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra
+
+>   Legacy Support Code
+>   ===================
+>   
+>   The section very briefly covers some of the old legacy support code
+
