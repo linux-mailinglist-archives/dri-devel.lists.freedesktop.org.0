@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20909A46593
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 16:53:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E2AA46594
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 16:53:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C00A10E947;
-	Wed, 26 Feb 2025 15:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051BF10E94C;
+	Wed, 26 Feb 2025 15:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
- [95.215.58.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AEC710E943
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 15:53:09 +0000 (UTC)
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4CA510E946
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 15:53:14 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1740585187;
+ t=1740585193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fLZwvUzMPwM7gs5/TU1muo/u+9TONRrQvYNi/eC2T2k=;
- b=UDsqIJ2n3SC/bgzXxizoF3+PYOXRXdnSMT3VKcVx6xz4PE+UAgvCr9eh94swHx/qjlFL/k
- CeVK3v2kmNPrm8aJ7npfGvRsDfVhZs2MYjGAL8/NbhW4D0iT2TBlmIx+nhqjIcdo0Z7Yzp
- 9Q+Ae/MANUHExJl40jsEfyZzZWkkxbo=
+ bh=tFZJ7JEMUoVvImeZ0sdnwA5+EEzG7PaBaENE6+qETI4=;
+ b=NxG+GPkraaPPTh9dS4VLw2ZGtM70laBc5shoH2Bgrzw87Y4lohSxxsM71IvvWH94ROftlr
+ Y2JIUdlLfzaSIYQhaXqV3n5mgMnayBQj3USROCbEzrPchcqgsMFRw4/5SAdOqCVp55r3fF
+ EhI4phxfb3eaQfS/345y/7DLNq8O9N0=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -42,10 +42,10 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>, stable@vger.kernel.org
-Subject: [PATCH v10 03/13] drm/bridge: cdns-dsi: Fix the clock variable for
- mode_valid()
-Date: Wed, 26 Feb 2025 21:22:18 +0530
-Message-Id: <20250226155228.564289-4-aradhya.bhatia@linux.dev>
+Subject: [PATCH v10 04/13] drm/bridge: cdns-dsi: Check return value when
+ getting default PHY config
+Date: Wed, 26 Feb 2025 21:22:19 +0530
+Message-Id: <20250226155228.564289-5-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250226155228.564289-1-aradhya.bhatia@linux.dev>
 References: <20250226155228.564289-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -68,19 +68,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-The crtc_* mode parameters do not get generated (duplicated in this
-case) from the regular parameters before the mode validation phase
-begins.
-
-The rest of the code conditionally uses the crtc_* parameters only
-during the bridge enable phase, but sticks to the regular parameters
-for mode validation. In this singular instance, however, the driver
-tries to use the crtc_clock parameter even during the mode validation,
-causing the validation to fail.
-
-Allow the D-Phy config checks to use mode->clock instead of
-mode->crtc_clock during mode_valid checks, like everywhere else in the
-driver.
+Check for the return value of the phy_mipi_dphy_get_default_config()
+call, and in case of an error, return back the same.
 
 Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
 Cc: stable@vger.kernel.org
@@ -90,29 +79,28 @@ Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index b0a1a6774ea6..19cc8734a4c8 100644
+index 19cc8734a4c8..87921a748cdb 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -568,13 +568,14 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
- 	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
- 	unsigned long dsi_hss_hsa_hse_hbp;
- 	unsigned int nlanes = output->dev->lanes;
-+	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
- 	int ret;
- 
- 	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
+@@ -575,9 +575,11 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
  	if (ret)
  		return ret;
  
--	phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
-+	phy_mipi_dphy_get_default_config(mode_clock * 1000,
- 					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
- 					 nlanes, phy_cfg);
+-	phy_mipi_dphy_get_default_config(mode_clock * 1000,
+-					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
+-					 nlanes, phy_cfg);
++	ret = phy_mipi_dphy_get_default_config(mode_clock * 1000,
++					       mipi_dsi_pixel_format_to_bpp(output->dev->format),
++					       nlanes, phy_cfg);
++	if (ret)
++		return ret;
  
+ 	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode, mode_valid_check);
+ 	if (ret)
 -- 
 2.34.1
 
