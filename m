@@ -2,93 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5419A4569D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 08:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1769A45891
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 09:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB9910E868;
-	Wed, 26 Feb 2025 07:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47F2210E892;
+	Wed, 26 Feb 2025 08:40:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="PcDHjRNC";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="bMIDavjX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 19781 seconds by postgrey-1.36 at gabe;
- Wed, 26 Feb 2025 07:27:45 UTC
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C56910E866;
- Wed, 26 Feb 2025 07:27:45 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.155])
- by relay5.mymailcheap.com (Postfix) with ESMTPS id 75511200C2;
- Wed, 26 Feb 2025 07:27:43 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
- by relay4.mymailcheap.com (Postfix) with ESMTPS id 0F4D020318;
- Wed, 26 Feb 2025 07:27:39 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- by nf2.mymailcheap.com (Postfix) with ESMTPSA id CBED040078;
- Wed, 26 Feb 2025 07:27:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1740554856; bh=FVZ11zz+9uMRbbgoxc9G6ohf2abrzH5GaK9fKCvKprQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PcDHjRNCSaB/5RifTNhwEwK0UxD0FvPgDPXQyvkDV88Du6AnI92/pD2OZl5aJR9k4
- skHB9tc3hj22PnOUTEiPCuPXdDB2B2JgybvH2m41SCbSM6d1W+I7h/6lpvro/enS0y
- eeGVtPp3+4ExDLlrxzE29PMWRVirCCl1kWsa9aU4=
-Received: from [172.29.0.1] (unknown [203.175.14.48])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 0C53840CEA;
- Wed, 26 Feb 2025 07:27:27 +0000 (UTC)
-Message-ID: <c9eb3743-cd41-4ef6-bb8b-19d049edc312@aosc.io>
-Date: Wed, 26 Feb 2025 15:27:24 +0800
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D79D810E866
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 07:29:00 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-5ded51d31f1so11633202a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2025 23:29:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1740554939; x=1741159739; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Jy5UzyKzocsSx5cSXomfjfFL//CTemBkcuebkephmC0=;
+ b=bMIDavjXG1s1cc9BFFO6sDo0FiN4dJNWtTxapC3i5VrD/ye7Gty3xR9muCRLnBjWNH
+ NVjtBxVJMWm1vwqIuqw63SWaYCVwqscRGq5jjFJA5DiGqOy6iHhi9RW4v1h9Wl1Oa9B0
+ TysllLf9pXkDaznFTvR0+9vfnfqgpvOEZDnMuGkT1VTkqmiBWgt9U6q04aCfagK4/Bks
+ 5zRU7hchzT5AdndCKDxLdYloVXuP1k7JzHgDJ99sI0SH+x+ZsgYhG7IzpBusRAjWzdXZ
+ VUCq45h0yy1BfilgkEhz/jprDpS1OZbPHCzegJgghkMDVs8RY0mA3oQQnHpLw7uONjys
+ OG/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740554939; x=1741159739;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jy5UzyKzocsSx5cSXomfjfFL//CTemBkcuebkephmC0=;
+ b=cuvTbQ54FAcY8NhqGeCDr3MiWM9L2+P3ceVSrNXP5ShDixNm00bsNjXwdZm/Wp2X4y
+ nunX+yTssrPUJMjtKmp3CTJ7LPXT91UjLLy3sOCAZOmzYEd9si37+4mM1lZFkbPsMZVO
+ Cgy1f80Wan0baTfPKibSb643Xc3V4M2/TO+iVQSDmssHkKrbjU/HkRvSIq54A2ruDgAS
+ Cu9XKbq4Prcb/pcttqCAjFerZkcsW9iy86h78qxPY2KpKY9cbjq1S2WNKVDSyPENmwal
+ iz0K22ociYyVlC4o8B+QrUhKODJ9UYZTEL84UJKPzzL3rFVoRkZ5VomagHexUvYMmIVy
+ YzTw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyhDNrMMu3DCwgGTYHEcmj9V2qQfP46at6norN5Zk08r4i35q/S23UI3ohE99sPs2g2TfNpDSXdVg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz10OCaoxgk3GiW+h0+TJOhQDz4hWhDtdl5qHjIrnLco7FgmIWh
+ 3vC7LzG2yvo88YPmXJE6Z3eO15CfwNEJ1IhkiMT3sZGRDgZ/IsiVOm0lBjHzDuDFpPCKG6jLGec
+ b33TfaAUocDX03Ik9FCKQtQd+4G1nTc+b99hAag==
+X-Gm-Gg: ASbGncuEAqcqSMc+gSPoKMzSOrdEzeqBDHqPUzRx6ximQ1f43B3ZmdYgcMVJFbNsDVg
+ HlX1W8ag8Qj+mIlkQJdhyAPFkXl6Q286Ed1lPkLXvCd39D7aPu9vMzNn5HjF+iS5F8wRAFUbxhD
+ BQh0tEDg==
+X-Google-Smtp-Source: AGHT+IFYP8Tba+z3P6zhrfLVohTtXs/BwRHQBKKRVXu59ZSzqEPbWtjoPmnK2n59Ee5Tugvqu0RIdPnu12lt6iEjWaU=
+X-Received: by 2002:a17:906:18b1:b0:ab6:ed8a:601f with SMTP id
+ a640c23a62f3a-abeeed1123amr202024966b.12.1740554939189; Tue, 25 Feb 2025
+ 23:28:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] drm/xe/query: use PAGE_SIZE as the minimum page
- alignment
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
- Francois Dugast <francois.dugast@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Zhanjun Dong <zhanjun.dong@intel.com>, Matt Roper
- <matthew.d.roper@intel.com>, Mateusz Naklicki <mateusz.naklicki@intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- =?UTF-8?Q?Zbigniew_Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Kexy Biscuit <kexybiscuit@aosc.io>,
- Shang Yatsen <429839446@qq.com>, stable@vger.kernel.org,
- Haien Liang <27873200@qq.com>, Shirong Liu <lsr1024@qq.com>,
- Haofeng Wu <s2600cw2@126.com>
-References: <20250226-xe-non-4k-fix-v1-0-80f23b5ee40e@aosc.io>
- <20250226-xe-non-4k-fix-v1-5-80f23b5ee40e@aosc.io>
- <Z76b3lgScK2gbtnG@lstrano-desk.jf.intel.com>
-Content-Language: en-US
-From: Mingcong Bai <jeffbai@aosc.io>
-In-Reply-To: <Z76b3lgScK2gbtnG@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: CBED040078
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-0.10 / 10.00]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RCVD_COUNT_ONE(0.00)[1];
- ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[26];
- MID_RHS_MATCH_FROM(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPFBL_URIBL_EMAIL_FAIL(0.00)[jeffbai.aosc.io:server
- fail,27873200.qq.com:server fail,stable.vger.kernel.org:server
- fail,lsr1024.qq.com:server fail,429839446.qq.com:server fail]; 
- FROM_EQ_ENVFROM(0.00)[];
- FREEMAIL_CC(0.00)[intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,aosc.io,qq.com,126.com];
- FREEMAIL_ENVRCPT(0.00)[126.com,gmail.com,qq.com];
- TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+ <20250225-converge-secs-to-jiffies-part-two-v3-6-a43967e36c88@linux.microsoft.com>
+ <e53d7586-b278-4338-95a2-fa768d5d8b5e@wanadoo.fr>
+In-Reply-To: <e53d7586-b278-4338-95a2-fa768d5d8b5e@wanadoo.fr>
+From: Daniel Vacek <neelx@suse.com>
+Date: Wed, 26 Feb 2025 08:28:48 +0100
+X-Gm-Features: AQ5f1JpekOKemtGu2BHsnbGs6fr563e7jHjxxRB5HZ2bESNce9YNZRbPCIKk9Cc
+Message-ID: <CAPjX3Fcr+BoMRgZGbqqgpF+w-sHU+SqGT8QJ3QCp8uvJbnaFsQ@mail.gmail.com>
+Subject: Re: [PATCH v3 06/16] rbd: convert timeouts to secs_to_jiffies()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Easwar Hariharan <eahariha@linux.microsoft.com>, Frank.Li@nxp.com, 
+ James.Bottomley@hansenpartnership.com, Julia.Lawall@inria.fr, 
+ Shyam-sundar.S-k@amd.com, akpm@linux-foundation.org, axboe@kernel.dk, 
+ broonie@kernel.org, cassel@kernel.org, cem@kernel.org, 
+ ceph-devel@vger.kernel.org, clm@fb.com, cocci@inria.fr, 
+ dick.kennedy@broadcom.com, djwong@kernel.org, dlemoal@kernel.org, 
+ dongsheng.yang@easystack.cn, dri-devel@lists.freedesktop.org, 
+ dsterba@suse.com, festevam@gmail.com, hch@lst.de, hdegoede@redhat.com, 
+ hmh@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net, idryomov@gmail.com, 
+ ilpo.jarvinen@linux.intel.com, imx@lists.linux.dev, james.smart@broadcom.com, 
+ jgg@ziepe.ca, josef@toxicpanda.com, kalesh-anakkur.purayil@broadcom.com, 
+ kbusch@kernel.org, kernel@pengutronix.de, leon@kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+ linux-btrfs@vger.kernel.org, linux-ide@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ martin.petersen@oracle.com, nicolas.palix@imag.fr, ogabbay@kernel.org, 
+ perex@perex.cz, platform-driver-x86@vger.kernel.org, s.hauer@pengutronix.de, 
+ sagi@grimberg.me, selvin.xavier@broadcom.com, shawnguo@kernel.org, 
+ sre@kernel.org, tiwai@suse.com, xiubli@redhat.com, yaron.avizrat@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Wed, 26 Feb 2025 08:39:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,90 +106,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 25 Feb 2025 at 22:10, Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> Le 25/02/2025 =C3=A0 21:17, Easwar Hariharan a =C3=A9crit :
+> > Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+> > secs_to_jiffies().  As the value here is a multiple of 1000, use
+> > secs_to_jiffies() instead of msecs_to_jiffies() to avoid the multiplica=
+tion
+> >
+> > This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci w=
+ith
+> > the following Coccinelle rules:
+> >
+> > @depends on patch@ expression E; @@
+> >
+> > -msecs_to_jiffies(E * 1000)
+> > +secs_to_jiffies(E)
+> >
+> > @depends on patch@ expression E; @@
+> >
+> > -msecs_to_jiffies(E * MSEC_PER_SEC)
+> > +secs_to_jiffies(E)
+> >
+> > While here, remove the no-longer necessary check for range since there'=
+s
+> > no multiplication involved.
+>
+> I'm not sure this is correct.
+> Now you multiply by HZ and things can still overflow.
 
+This does not deal with any additional multiplications. If there is an
+overflow, it was already there before to begin with, IMO.
 
-在 2025/2/26 12:43, Matthew Brost 写道:
-> On Wed, Feb 26, 2025 at 10:00:22AM +0800, Mingcong Bai via B4 Relay wrote:
->> From: Mingcong Bai <jeffbai@aosc.io>
->>
->> As this component hooks into userspace API, it should be assumed that it
->> will play well with non-4K/64K pages.
->>
->> Use `PAGE_SIZE' as the final reference for page alignment instead.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
->> Fixes: 801989b08aff ("drm/xe/uapi: Make constant comments visible in kernel doc")
->> Tested-by: Mingcong Bai <jeffbai@aosc.io>
->> Tested-by: Haien Liang <27873200@qq.com>
->> Tested-by: Shirong Liu <lsr1024@qq.com>
->> Tested-by: Haofeng Wu <s2600cw2@126.com>
->> Link: https://github.com/FanFansfan/loongson-linux/commit/22c55ab3931c32410a077b3ddb6dca3f28223360
->> Co-developed-by: Shang Yatsen <429839446@qq.com>
->> Signed-off-by: Shang Yatsen <429839446@qq.com>
->> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
->> ---
->>   drivers/gpu/drm/xe/xe_query.c | 2 +-
->>   include/uapi/drm/xe_drm.h     | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
->> index c059639613f7b548c168f808b7b7b354f1cf3c94..8a017c526942d1f2b401e8b9a4244e6083d7b1e5 100644
->> --- a/drivers/gpu/drm/xe/xe_query.c
->> +++ b/drivers/gpu/drm/xe/xe_query.c
->> @@ -336,7 +336,7 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
->>   		config->info[DRM_XE_QUERY_CONFIG_FLAGS] =
->>   			DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM;
->>   	config->info[DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT] =
->> -		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K;
->> +		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : PAGE_SIZE;
-> 
-> We should probably assert or build a bug somewhere to ensure SZ_64K >=
-> PAGE_SIZE for future-proofing. Otherwise, I think the patch makes sense.
-> One more comment below.
+> Hoping I got casting right:
 
-Hmm, >= 64KiB kernel pages don't seem to be a thing yet but this does 
-make sense for the sake of completeness. Will change in v2.
+Maybe not exactly? See below...
 
-> 
->>   	config->info[DRM_XE_QUERY_CONFIG_VA_BITS] = xe->info.va_bits;
->>   	config->info[DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY] =
->>   		xe_exec_queue_device_get_max_priority(xe);
->> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
->> index f62689ca861a4673b885629460c11d6f3bc6523d..db7cf904926ebd6789a29d620161ac051e59f13f 100644
->> --- a/include/uapi/drm/xe_drm.h
->> +++ b/include/uapi/drm/xe_drm.h
->> @@ -394,7 +394,7 @@ struct drm_xe_query_mem_regions {
->>    *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM - Flag is set if the device
->>    *      has usable VRAM
->>    *  - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alignment
->> - *    required by this device, typically SZ_4K or SZ_64K
->> + *    required by this device, typically PAGE_SIZE.
-> 
-> So I think the kernel doc needs bit more updating here, how about:
-> 
-> Minimal memory alignment required by this device and the CPU. The
-> minimum page size for the device is usually SZ_4K or SZ_64K, while for
-> the CPU, it is PAGE_SIZE. This value is calculated by
-> max(min_gpu_page_size, PAGE_SIZE). This alignment is enforced on
-> buffer object allocations and VM binds.
-> 
-> Again welcome others CC'd suggestion on this updated kernel doc.
+> #define MSEC_PER_SEC    1000L
+> #define HZ 100
+>
+>
+> #define secs_to_jiffies(_secs) (unsigned long)((_secs) * HZ)
+>
+> static inline unsigned long _msecs_to_jiffies(const unsigned int m)
+> {
+>         return (m + (MSEC_PER_SEC / HZ) - 1) / (MSEC_PER_SEC / HZ);
+> }
+>
+> int main() {
+>
+>         int n =3D INT_MAX - 5;
+>
+>         printf("res  =3D %ld\n", secs_to_jiffies(n));
+>         printf("res  =3D %ld\n", _msecs_to_jiffies(1000 * n));
 
-Looks good to me, will revise in v2.
+I think the format should actually be %lu giving the below results:
 
-Best Regards,
-Mingcong Bai
+res  =3D 18446744073709551016
+res  =3D 429496130
 
-> 
-> Matt
-> 
->>    *  - %DRM_XE_QUERY_CONFIG_VA_BITS - Maximum bits of a virtual address
->>    *  - %DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY - Value of the highest
->>    *    available exec queue priority
->>
->> -- 
->> 2.48.1
->>
->>
+Which is still wrong nonetheless. But here, *both* results are wrong
+as the expected output should be 214748364200 which you'll get with
+the correct helper/macro.
 
+But note another thing, the 1000 * (INT_MAX - 5) already overflows
+even before calling _msecs_to_jiffies(). See?
+
+Now, you'll get that mentioned correct result with:
+
+#define secs_to_jiffies(_secs) ((unsigned long)(_secs) * HZ)
+
+Still, why unsigned? What if you wanted to convert -5 seconds to jiffies?
+
+>         return 0;
+> }
+>
+>
+> gives :
+>
+> res  =3D -600
+> res  =3D 429496130
+>
+> with msec, the previous code would catch the overflow, now it overflows
+> silently.
+
+What compiler options are you using? I'm not getting any warnings.
+
+> untested, but maybe:
+>         if (result.uint_32 > INT_MAX / HZ)
+>                 goto out_of_range;
+>
+> ?
+>
+> CJ
+>
+>
+> >
+> > Acked-by: Ilya Dryomov <idryomov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.or=
+g>
+> > Signed-off-by: Easwar Hariharan <eahariha-1pm0nblsJy7Jp67UH1NAhkEOCMrvL=
+tNR@public.gmane.org>
+> > ---
+> >   drivers/block/rbd.c | 8 +++-----
+> >   1 file changed, 3 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+> > index faafd7ff43d6ef53110ab3663cc7ac322214cc8c..41207133e21e9203192adf3=
+b92390818e8fa5a58 100644
+> > --- a/drivers/block/rbd.c
+> > +++ b/drivers/block/rbd.c
+> > @@ -108,7 +108,7 @@ static int atomic_dec_return_safe(atomic_t *v)
+> >   #define RBD_OBJ_PREFIX_LEN_MAX      64
+> >
+> >   #define RBD_NOTIFY_TIMEOUT  5       /* seconds */
+> > -#define RBD_RETRY_DELAY              msecs_to_jiffies(1000)
+> > +#define RBD_RETRY_DELAY              secs_to_jiffies(1)
+> >
+> >   /* Feature bits */
+> >
+> > @@ -4162,7 +4162,7 @@ static void rbd_acquire_lock(struct work_struct *=
+work)
+> >               dout("%s rbd_dev %p requeuing lock_dwork\n", __func__,
+> >                    rbd_dev);
+> >               mod_delayed_work(rbd_dev->task_wq, &rbd_dev->lock_dwork,
+> > -                 msecs_to_jiffies(2 * RBD_NOTIFY_TIMEOUT * MSEC_PER_SE=
+C));
+> > +                 secs_to_jiffies(2 * RBD_NOTIFY_TIMEOUT));
+> >       }
+> >   }
+> >
+> > @@ -6283,9 +6283,7 @@ static int rbd_parse_param(struct fs_parameter *p=
+aram,
+> >               break;
+> >       case Opt_lock_timeout:
+> >               /* 0 is "wait forever" (i.e. infinite timeout) */
+> > -             if (result.uint_32 > INT_MAX / 1000)
+> > -                     goto out_of_range;
+> > -             opt->lock_timeout =3D msecs_to_jiffies(result.uint_32 * 1=
+000);
+> > +             opt->lock_timeout =3D secs_to_jiffies(result.uint_32);
+> >               break;
+> >       case Opt_pool_ns:
+> >               kfree(pctx->spec->pool_ns);
+> >
+>
+>
