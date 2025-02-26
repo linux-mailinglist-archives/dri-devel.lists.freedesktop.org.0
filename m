@@ -2,83 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38A8A4788A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 10:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C24A478BD
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 10:10:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 548B510EA69;
-	Thu, 27 Feb 2025 09:03:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D03010EA71;
+	Thu, 27 Feb 2025 09:10:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nLspYqEw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fd1JQUoJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F50C10EA69
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 09:03:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9AFD4612E1;
- Thu, 27 Feb 2025 09:02:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B7E3C4CEDD;
- Thu, 27 Feb 2025 09:02:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740646984;
- bh=NVCpCk+nbSUsNJ/EU7EEuGOPqCNbb7okhZbn+Sil+6M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nLspYqEw609cIT0ad0o594ZSe9+944oOqgtsX4PvzoyBCh2CjxvcaZKHcRlfZbkg3
- o98sgutNPNtNQvtB1V2TWfdkxk0jvPKNau6dHa8OKjnpZRzHC9C6ErL5o2r0XNXfYe
- ynD51HJPuofVM3zovm3pWhAZDAaeGPoIRj6tCVyu8o4t7sFTQlvipwFQwyRdAzsR2d
- B6voWJuIrlI+Cf1lPSYN2ZjYhqS7rvygaip7lyyFeeh6HBrO8Q/DpezIvl2iQUtyVl
- OXwKmfMuglQQ5kuzM1Q6kxE36HyfrIokC3I3woeNs2DsuZou71wXc13B0RkvyLg9Ys
- NykE1mhZbbdJQ==
-Date: Thu, 27 Feb 2025 10:02:45 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, 
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- Yaron Avizrat <yaron.avizrat@intel.com>, 
- Oded Gabbay <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, 
- Nicolas Palix <nicolas.palix@imag.fr>, James Smart <james.smart@broadcom.com>, 
- Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
- Xiubo Li <xiubli@redhat.com>, 
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, 
- Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 725B310E93B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 15:30:32 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-2fa5af6d743so10742981a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 07:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740583832; x=1741188632; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TZ/QbTWZNshBxb5hC06ZzjWtL5HiviO0RmZtIpOJ43M=;
+ b=Fd1JQUoJP5b4dp3+GUKyZ9W6D0DxB6a0GTkQOZMkOeO2W6hK8rkMOlZPPZsgSxcLmO
+ w35+eiW2/bhUHU1PVre4mUqUf0FZ2dLik2QYim4LMUALOBHtwsv2rqZmUqWYXwQgAWRC
+ b6xHS6Im88qXqzTuNF/UBO3M7spA08N3LNmTeJnjpXe9nnxUjWy0bXNbuuApwH56uSwU
+ 6t3hOGMBtaEiqXWkjm1LZhTtV/0WBgYcSAs4fkTbfhoHY9t0yvPUIZVTVJdMoOD6NSOl
+ ra2EAeESQw161cnpNXauD2md5RwFGbva34IM87HqacxSPSBOSlukZFm7AQu9wRMQKcvD
+ ocXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740583832; x=1741188632;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TZ/QbTWZNshBxb5hC06ZzjWtL5HiviO0RmZtIpOJ43M=;
+ b=i6nZZDMRZlvmD5vuONgQmesTmx6EA92VugpdCe6ewdm+ueM0N4UExGvXDU95BkPndP
+ /LIbl6CS7eDwZ6RyKCCAIkWFFhL19kqG6mtr3maPFNYBnZb5jA5ZWbMLg0AostI4/8kS
+ 0u0reSX7R1Yf65Ube0oGTPvbb4hI2Ix1Hlv3gXKF5agMz0oPD5bahnpJwvBDx22cTiD8
+ r2M/ReiS11wv0i0KvwQynuOQKHfpIVX5nckB5wYzhQvhJmhNpKrVitRgyQaJ6jPtjnRj
+ 3XvPljd+02yzUy0GvN3by+OYqjYVCIv8qGrszTD+o5fTvjZ2Ji62rr7YFvgLyYMktRR1
+ Ezow==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWIv/1NpTgSYp3oU6Vzm+50KNWq82F+tv7wFVuN863x6i5GQkN6EWtdzd89fd6RM/kc+KCVXMIkj/U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyMSgEEXyAhXaMLvxtLHssQULjiGx+gLc979HRMtf6MBjAxzlxb
+ nf9APu79HrWGCT9miJNUiUYTBSOM62gf22kOba3ywzwDLT7UGs0Cv9AwYWt+D1bfL+2ImvW5H1N
+ tEemjIPur5n9p9LheNPxTW0pECpM=
+X-Gm-Gg: ASbGnctQ0ieLjSE4Mf5p3xAMIF8cPBKl9Y4zMKz0WpAZOhMoZwa73KUbRKLU3sLEb+Z
+ PA+F1naC6CfX890CA4SZ6JhdWqzzgwwjYYlHorRcSFCYurp/IHaT+QapiHyLf2P9AFj88MDEAGz
+ 3/TMcF
+X-Google-Smtp-Source: AGHT+IFo6DOoGnTsS38LlUXMIhC0H9EtIGCJVFbM5Bu56nEtT839xcPAHtRDebmakeB9TC+KDHHS0qohqRpYH+q6d2s=
+X-Received: by 2002:a17:90a:c2c7:b0:2ee:e113:815d with SMTP id
+ 98e67ed59e1d1-2fe68ada148mr12284035a91.8.1740583831681; Wed, 26 Feb 2025
+ 07:30:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
+ <20250226-initial_display-v2-4-23fafa130817@gocontroll.com>
+In-Reply-To: <20250226-initial_display-v2-4-23fafa130817@gocontroll.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Wed, 26 Feb 2025 17:32:08 +0200
+X-Gm-Features: AWEUYZnVDiZ00SedBZ6EyKd9EOM22xcDBV6m1uAzMRnVUY2vdD1K52vvrRAuSvo
+Message-ID: <CAEnQRZDXxuviih+o-iFOtiS6j8=JqnhUOHaZf3RhGL++fg=moA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/12] arm64: dts: imx8mp: Add pinctrl config
+ definitions
+To: maudspierings@gocontroll.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
  Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>, 
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, cocci@inria.fr, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-block@vger.kernel.org, 
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org,
- Takashi Iwai <tiwai@suse.de>, Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: [PATCH v3 00/16] Converge on using secs_to_jiffies() part two
-Message-ID: <3apo7evpkvcy5mafw7zdatr3n7lytugvfmumq2zou4nifyptnc@ucbu4c5g5jrq>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
- <79b24031-5776-4eb3-960b-32b0530647fb@sirena.org.uk>
- <hJl1qb89zCHWejINoRSGGIO0m7NNi3wAmY9N_VC7royLnZoyL-ZozLkmLO-vCPlYc55-IPh76PIB_2_aKKjp1A==@protonmail.internalid>
- <20250226123851.a50e727d0a1bfe639ece4a72@linux-foundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226123851.a50e727d0a1bfe639ece4a72@linux-foundation.org>
+ Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Thu, 27 Feb 2025 09:10:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,42 +100,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2025 at 12:38:51PM -0800, Andrew Morton wrote:
-> On Wed, 26 Feb 2025 11:29:53 +0000 Mark Brown <broonie@kernel.org> wrote:
-> 
-> > On Tue, Feb 25, 2025 at 08:17:14PM +0000, Easwar Hariharan wrote:
-> > > This is the second series (part 1*) that converts users of msecs_to_jiffies() that
-> > > either use the multiply pattern of either of:
-> > > - msecs_to_jiffies(N*1000) or
-> > > - msecs_to_jiffies(N*MSEC_PER_SEC)
-> > >
-> > > where N is a constant or an expression, to avoid the multiplication.
-> >
-> > Please don't combine patches for multiple subsystems into a single
-> > series if there's no dependencies between them, it just creates
-> > confusion about how things get merged, problems for tooling and makes
-> > everything more noisy.  It's best to split things up per subsystem in
-> > that case.
-> 
-> I asked for this.  I'll merge everything, spend a few weeks gathering
-> up maintainer acks.  Anything which a subsystem maintainer merges will
-> be reported by Stephen and I'll drop that particular patch.
+On Wed, Feb 26, 2025 at 4:23=E2=80=AFPM Maud Spierings via B4 Relay
+<devnull+maudspierings.gocontroll.com@kernel.org> wrote:
+>
+> From: Maud Spierings <maudspierings@gocontroll.com>
+>
+> Currently to configure each IOMUXC_SW_PAD_CTL_PAD the raw value of this
+> register is written in the dts, these values are not obvious. Add defines
+> which describe the fields of this register which can be or-ed together to
+> produce readable settings.
+>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> ---
+> This patch has already been sent in a different group of patches: [1]
+> It was requested there to submit it along with a user, this series also
+> includes some users for it.
+>
+> [1]: https://lore.kernel.org/all/20250218-pinctrl_defines-v2-2-c554cad0e1=
+d2@gocontroll.com/
+> ---
+>  arch/arm64/boot/dts/freescale/imx8mp-pinfunc.h | 27 ++++++++++++++++++++=
+++++++
+>  1 file changed, 27 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-pinfunc.h b/arch/arm64/=
+boot/dts/freescale/imx8mp-pinfunc.h
+> index 0fef066471ba607be02d0ab15da5a048a8a213a7..0927ed11ec687d5b273c4a4a6=
+455e8d81468f676 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mp-pinfunc.h
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp-pinfunc.h
+> @@ -6,6 +6,33 @@
+>  #ifndef __DTS_IMX8MP_PINFUNC_H
+>  #define __DTS_IMX8MP_PINFUNC_H
+>
+> +//Drive Strength
 
-I'm removing this from my queue then and let it go through your tree.
-Cheers,
-
-Carlos
-
-> 
-> This way, nothing gets lost.  I take this approach often and it works.
-> 
-> If these were sent as a bunch of individual patches then it would be up
-> to the sender to keep track of what has been merged and what hasn't.
-> That person will be resending some stragglers many times.  Until they
-> give up and some patches get permanently lost.
-> 
-> Scale all that across many senders and the whole process becomes costly
-> and unreliable.  Whereas centralizing it on akpm is more efficient,
-> more reliable, more scalable, lower latency and less frustrating for
-> senders.
-> 
+Please use C-style comments /* .. */
