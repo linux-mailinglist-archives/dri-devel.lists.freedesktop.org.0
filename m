@@ -2,85 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F02A45D1A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B01BA45D33
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:32:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A16110E28C;
-	Wed, 26 Feb 2025 11:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA34C10E1E9;
+	Wed, 26 Feb 2025 11:32:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KIUlTfK2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Td3icDVM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A0310E1E9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 11:30:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 975A25C273B;
- Wed, 26 Feb 2025 11:29:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC63AC4CED6;
- Wed, 26 Feb 2025 11:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740569407;
- bh=9WiEqRQ0WC4TcHNEk0++D2oF9/1toQwtlnkrdN1ISFg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KIUlTfK2pXqaUDMpw5RIIHnVeByfDlzQfBY3+0E8d5BdAX+TUTVNIwrKJgP/FaBgf
- IjKKuUXeG5l9Ew8YeRaCGxVo6aYi0aUIrGzgwgY4+2DWcarIPntGz/9GLbyfVSNYfO
- SW67yeYI3cR0fo8n3xv0/29uJIe3dVQR5PiV8qSEWeCXl+fwqnxdcjjE7DRmUVfiOS
- 9ThhnWpo2ZcFcSSUl0fMoM6tREGrNbzEDH/ikx2VuLf8tYWdUKO61yIk6vUlP6vZME
- uzwqRVd6q4FA9sQCc3I/OUPF+zTBTE5BD6JsPh7tFiinI8MhEHoSIxhQ9UdEv6t4h/
- T5prmsk09BN7w==
-Date: Wed, 26 Feb 2025 11:29:53 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>,
- James Smart <james.smart@broadcom.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>,
- Jens Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- cocci@inria.fr, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-spi@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org,
- Takashi Iwai <tiwai@suse.de>, Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: [PATCH v3 00/16] Converge on using secs_to_jiffies() part two
-Message-ID: <79b24031-5776-4eb3-960b-32b0530647fb@sirena.org.uk>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7730610E1E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 11:32:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94DDA43427;
+ Wed, 26 Feb 2025 11:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1740569532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oH5TLqPmHN4KHoh4+pmfs4/A09QxMx7XTAwVuGzjhTM=;
+ b=Td3icDVMjfODTdz85wp+A9sqtpo5jnYcHFQiTsczw97eA0Q8BUpWznYBtWeKUOeZYI7u5h
+ w26SzXlsnJZGs+H7yLiPOWaW1eSFh0mM8HXQDroR2XzUvIkwajVVEa3pWH6cPEXFpZvAx0
+ jaeXR6YmzNVBkf7T95z2pRdlRRFnLKJZ8YkepVulLaKLtn1jb4BStR4ADeAInFJnrSSfyE
+ GreRQUtd5snefUyi32TrLlJLWv9r2Yt7xBNJNUFGqMtnHO/Awy6zPovYDyvoa3CZCDU8dC
+ MCmF4kUJi0m5fc7Glz5TYL4qtsvRqpqfti2/r///uSXpKyCADmpUnZc+Ee9d1g==
+Date: Wed, 26 Feb 2025 12:32:08 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] drm/bridge: move bridges_show logic from
+ drm_debugfs.c
+Message-ID: <20250226123208.272e7766@booty>
+In-Reply-To: <871pvl6g1t.fsf@intel.com>
+References: <20250225-drm-debugfs-show-all-bridges-v7-0-8826037ada37@bootlin.com>
+ <20250225-drm-debugfs-show-all-bridges-v7-1-8826037ada37@bootlin.com>
+ <878qpu56cm.fsf@intel.com> <20250225183621.6b33684b@booty>
+ <871pvl6g1t.fsf@intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ZCSMnIMPvhXPgIqW"
-Content-Disposition: inline
-In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
-X-Cookie: I've been there.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekgeegiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhro
+ hhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,40 +76,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Jani,
 
---ZCSMnIMPvhXPgIqW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 25 Feb 2025 20:21:50 +0200
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-On Tue, Feb 25, 2025 at 08:17:14PM +0000, Easwar Hariharan wrote:
-> This is the second series (part 1*) that converts users of msecs_to_jiffi=
-es() that
-> either use the multiply pattern of either of:
-> - msecs_to_jiffies(N*1000) or
-> - msecs_to_jiffies(N*MSEC_PER_SEC)
->=20
-> where N is a constant or an expression, to avoid the multiplication.
+> On Tue, 25 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > Hello Jani,
+> >
+> > On Tue, 25 Feb 2025 18:36:41 +0200
+> > Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> >  
+> >> On Tue, 25 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:  
+> >> > In preparation to expose more info about bridges in debugfs, which will
+> >> > require more insight into drm_bridge data structures, move the bridges_show
+> >> > code to drm_bridge.c.
+> >> >
+> >> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>    
+> >> 
+> >> I hate myself for doing this on a patch that's at v7... but here goes.  
+> >
+> > Please don't! :-) This patch is new in v7, and a different (and
+> > definitely worse) approach was present in v6, but there was nothing
+> > before.
+> >  
+> >> Perhaps consider moving the bridges debugfs creation and fops to
+> >> drm_bridge.c instead of just adding
+> >> drm_bridge_debugfs_show_encoder_bridges().
+> >> 
+> >> For example, add drm_bridge_debugfs_add(struct drm_encoder *encoder),
+> >> which then contains the debugfs_create_file() call.  
+> >
+> > I think it should go in drm_encoder.c, not drm_bridge.c, right? Here we
+> > are showing the bridges attached to an encoder, so the entry point is
+> > each encoder.  
+> 
+> I'm still thinking drm_bridge.c, because it's about bridges and their
+> details. The encoder shouldn't care about bridge implementation details.
 
-Please don't combine patches for multiple subsystems into a single
-series if there's no dependencies between them, it just creates
-confusion about how things get merged, problems for tooling and makes
-everything more noisy.  It's best to split things up per subsystem in
-that case.
+Ah, I think I now get what you mean.
 
---ZCSMnIMPvhXPgIqW
-Content-Type: application/pgp-signature; name="signature.asc"
+Current code is:
 
------BEGIN PGP SIGNATURE-----
+drm_encoder_register_all()                             [drm_encoder.c]
+ -> drm_debugfs_encoder_add                            [drm_debugfs.c]
+   -> debugfs_create_file("bridges"...  &bridges_fops) [drm_debugfs.c]
+                                    [bridges_fops is in drm_debugfs.c]
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme++zEACgkQJNaLcl1U
-h9BKXgf/Ybq0e4qGEIKGWBa7OUYTknbVxMBC/99e3FVQ0Dwf4IPl8bDlEvGCxai/
-A2UYH2niNzqAGOIs0IYUzaMIbok+phK2ifRcVyNdM2KciC1B2jGROzQplIYaq0bH
-aEBWCAEyWMlRAMVwWL66KhB7d9asaNrv9v4WCNfcV9F4pThna3PAti9AF+sX6sQh
-kvQleuahMD/hHAdTIrgBuJGgtox61kBDTFMibaWt2Moq01Wsp8YDQS3JtnnLyiE0
-Rc67if2Uvg1ZMAyO3Fvm80flyFkMHhuiaq0uTFCLt1YiqCLfzk2w+QExnv0DRECR
-mx63KFPW0WMILQcbYwjzaGgaLuTDWg==
-=UO5r
------END PGP SIGNATURE-----
+Moving the last 2 lines to drm_bridge.c and into a new function we'd
+have:
 
---ZCSMnIMPvhXPgIqW--
+drm_encoder_register_all()                             [drm_encoder.c]
+ -> drm_debugfs_encoder_add [*]                        [drm_debugfs.c]
+  -> drm_bridge_debugfs_add_encoder_bridges_file (NEW) [drm_bridge.c]
+   -> debugfs_create_file("bridges"...  &bridges_fops) [drm_bridge.c]
+                                    [bridges_fops is in drm_bridge.c]
+
+Potentially [*] could be moved to drm_encoder.c, but that is not bridge
+related and can be done as a future step.
+
+Is this what you had in mind?
+
+> > On the other hand in patch 2 we should move the
+> > drm_debugfs_global_add() code to drm_bridge.c, as it's showing bridges
+> > ina encoder-independent way.  
+> 
+> Agreed on that.
+> 
+> > And finally drm_bridge should export the common
+> > drm_bridge_debugfs_show_bridge() function to drm_encoder.c.  
+> 
+> Disagree. That will still require the EXPORT and #ifdefs around
+> CONFIG_DEBUG_FS.
+
+With the above-sketched idea I agree we wouldn't need to export
+drm_bridge_debugfs_show_bridge().
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
