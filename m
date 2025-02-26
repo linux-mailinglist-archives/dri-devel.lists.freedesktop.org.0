@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EE4A4623E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:19:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615EAA46240
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:19:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9C1310E923;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B1310E91B;
 	Wed, 26 Feb 2025 14:19:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fhrVIPGK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RTGfSV0v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C965D10E91B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDDB610E91E
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:19:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 52D995C4609;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 515845C45F9;
  Wed, 26 Feb 2025 14:18:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BEBDC4CEE8;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9C803C4CEE4;
  Wed, 26 Feb 2025 14:19:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1740579558;
- bh=yzlu7C1Ilu9dacgUhIz/BCN7V18c7nAEEfTiqq67Dk8=;
+ bh=w48Gtlgi8iO22JGBkIhg/tszWTob5ViJlyp87dlVGys=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=fhrVIPGKnahShK0SdUq7Sbdkh7HdubhTJpTxC48yA6u/GfLI5Zc0jhlEDAlF3VT2C
- qPJuCY7yI5Uc02VEXsRa1Mkg736cyW4fb9BJjM+uDxD8CZhyP0eW++0Fy8oXsPBZuR
- ulIZ1B6fzC3mTYvWqrGeSCx819G7LZkuIXJ0AN6Mpjg2+rEaz0zRNEuG7B6X3Lz3in
- UXcf0PVwNi6CV7/EroUmlXVpn36Jmo8gxBCrlMAsKEzzIY2HTatvOKJNolZT3ev1jP
- mS1EVlPWSscvYKC9srdWTjrqfjdKzDZFe3l4oOLZN3p2r+jGGV7X0IfNsRiiRafE9y
- us2/mIruN3w2w==
+ b=RTGfSV0vs4M1Te2F/O08Wv/YqQGAFXPFSIbgYnGw/8Vf2v3R4VWg3DqQmnXYj8Rt3
+ RChA4exN/zziV9DzVi4fyt2fUC+WYgDZVLDTDXD52zTlsqTE8YYvpCPGbXzI1Uebkz
+ WMwTF/kqD346tx2pG0c2Z/pkfngbr+vrZvllM2mIa3Bkd4UaPzyAyKVEExQyIOSH11
+ OsyaOgKQgZsaZwZVFsu6j31K8SUsBt5vr6ONSD3xGg7kL4BVnJ/Qygd3a1LQCj8Gtd
+ LcXsQgAwBvthSPO701JFmpTbdH36TcBfOFIIkZ+ddIsk7cZkpjczpmV9rZQhnQHuwo
+ ko/J1RKUKvWxQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 791D5C19778;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFCDC18E7C;
  Wed, 26 Feb 2025 14:19:18 +0000 (UTC)
 From: Maud Spierings via B4 Relay
  <devnull+maudspierings.gocontroll.com@kernel.org>
-Date: Wed, 26 Feb 2025 15:19:12 +0100
-Subject: [PATCH v2 01/12] dt-bindings: arm: fsl: Add GOcontroll Moduline
- Display
+Date: Wed, 26 Feb 2025 15:19:13 +0100
+Subject: [PATCH v2 02/12] dt-bindings: vendor-prefixes: add GOcontroll
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250226-initial_display-v2-1-23fafa130817@gocontroll.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250226-initial_display-v2-2-23fafa130817@gocontroll.com>
 References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
 In-Reply-To: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -62,11 +61,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org, 
  Maud Spierings <maudspierings@gocontroll.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579556; l=1224;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579556; l=1019;
  i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
- bh=XzzwrOc9xVSfmdKG+ke4olEHtzQu7fTQaSQ8cG5/qtY=;
- b=ABwoQ4wLxyHJ5tU87/yspLvaG11vwwnIv6B4L53Ie07g0oyNP6tydHs5rrMs/AN0paPKTnCna
- GOr63LBqd3TBdjdv91NmDAMexIUVEN3zcB5E57gBkdJZorPAJGVUhua
+ bh=QrUKw+1GlBeS4gjTwGekEGjOZJwzhcXs7wKcC4kZ2dY=;
+ b=Rn9xYMCCPZAaFDU37lBWjcHyXDsbSfUSWIegppwKcclLyui8/SxtoImAHTHbKS1g516Fkg9Fe
+ pSjSTd2jSfoCoR+We3nCjQ4Pw1Axj3of6sWd8Me6cRf4vgMvff8mnHC
 X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
  pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
 X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
@@ -90,26 +89,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maud Spierings <maudspierings@gocontroll.com>
 
-Document the compatible strings for the Moduline Display controller.
+GOcontroll produces embedded linux systems and IO modules to use in
+these systems, add its prefix.
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
 ---
- Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
-index db781d31569811ca241b5bd9a32a0896f7d9c3b9..40b2734f0caf3c431f05d33637a6bed8312c9d10 100644
---- a/Documentation/devicetree/bindings/arm/fsl.yaml
-+++ b/Documentation/devicetree/bindings/arm/fsl.yaml
-@@ -1099,6 +1099,7 @@ properties:
-               - gateworks,imx8mp-gw74xx   # i.MX8MP Gateworks Board
-               - gateworks,imx8mp-gw75xx-2x # i.MX8MP Gateworks Board
-               - gateworks,imx8mp-gw82xx-2x # i.MX8MP Gateworks Board
-+              - gocontroll,moduline-display # GOcontroll Moduline Display controller
-               - skov,imx8mp-skov-revb-hdmi # SKOV i.MX8MP climate control without panel
-               - skov,imx8mp-skov-revb-lt6 # SKOV i.MX8MP climate control with 7” panel
-               - skov,imx8mp-skov-revb-mi1010ait-1cp1 # SKOV i.MX8MP climate control with 10.1" panel
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index dac80c62b742fec14cd7652d9d690acc4b4b1ee6..5dc61a05de0ce907caeb60bb92018569df0d19e3 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -597,6 +597,8 @@ patternProperties:
+     description: GlobalTop Technology, Inc.
+   "^gmt,.*":
+     description: Global Mixed-mode Technology, Inc.
++  "^gocontroll,.*":
++    description: GOcontroll Modular Embedded Electronics B.V.
+   "^goldelico,.*":
+     description: Golden Delicious Computers GmbH & Co. KG
+   "^goodix,.*":
 
 -- 
 2.48.1
