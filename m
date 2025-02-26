@@ -2,59 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14B1A45BED
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 11:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4C4A45BFA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 11:39:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DECE10E22D;
-	Wed, 26 Feb 2025 10:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF3810E8BA;
+	Wed, 26 Feb 2025 10:39:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="mvwR57Kf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aoQ31c0w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5212D10E22D;
- Wed, 26 Feb 2025 10:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=Ehx4CcqBEdq2Of9FudkYfFmDh4IddNb/JKjOV41dWJg=; b=m
- vwR57KfxKUCI9v+2+8T84DFfVwc+/TGGkFyXdU1jjShrsDu7NH7RGENTV0vos8qo
- 9Ct2DozWllaD6BPXF4nhpnvY9Z+q58puq4fb/KaM0Tb+5NokOLlsMHwsVzhBrXGM
- r9m2dPk4yaFCOuolD6Ypgn260Nb8x0hPJlvnjiCI74=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-116 (Coremail) ; Wed, 26 Feb 2025 18:36:26 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Wed, 26 Feb 2025 18:36:26 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: "Jani Nikula" <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, sam@ravnborg.org,
- "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Subject: Re:Re: [PATCH 2/5] drm/rockchip: stop passing non struct drm_device
- to drm_err() and friends
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <21d7745d-8fcd-484f-b1f2-82fd87dc8079@suse.de>
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <f42da4c9943a2f2a9de4272b7849e72236d4c3f9.1737644530.git.jani.nikula@intel.com>
- <2c0a76c3.618c.19497bb4329.Coremail.andyshrk@163.com>
- <87plkcbfp0.fsf@intel.com>
- <730ee1d4.f63.1949b97fc99.Coremail.andyshrk@163.com>
- <21d7745d-8fcd-484f-b1f2-82fd87dc8079@suse.de>
-X-NTES-SC: AL_Qu2fAvmduUkj4CSbZukfmkcVgOw9UcO5v/Qk3oZXOJF8jD3pyCEAX3ZKMnvX+d2KKxC1vRGeSwBs6NRYe5BmZo4hKW6u00EgW9f9TNLEr4hqCg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08B7B10E8B9;
+ Wed, 26 Feb 2025 10:38:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740566340; x=1772102340;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=E9JjTofhn90O/RsZXEBTydRVj/UJHFP+6n5eEukIxfI=;
+ b=aoQ31c0wss6z+XqYmKtVkIR5+ihprk/SJJ4vNCscWrauu8r2Yzuw5DsI
+ /+lumIrbzzSeK8p91B1yC3Cu48UVVGguF0WFzNVb+vRQ7QtfPAu+1y07Y
+ pUaQ77Oi5UU6SWT0c340Y37+756lf8K4jJyrjBqWPSvAwh5ExLe98Akn+
+ 784lXyzKdy8yon5x80rUmXNokc8vOa8G2zcqySV78VUgPOCczVV1jEp/E
+ 4llX78Ua3YBoj9bOfpecVMrBh40zSg4SmCp+kVvW1Uma0J3LIHkEwOkBP
+ ieakAQAodOzZH9e/rpuX5QdJFwhH+3eZ5i7mBgt9OCXCR3vjYEdlDUE7t w==;
+X-CSE-ConnectionGUID: r0FXfP+oQCunpOpG+pqvNg==
+X-CSE-MsgGUID: HXhyc3m3S6K0RbpPttO1gg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="52798116"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; d="scan'208";a="52798116"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2025 02:38:53 -0800
+X-CSE-ConnectionGUID: UNFxaQ9kSxu6NoOEKCTquA==
+X-CSE-MsgGUID: 105or4XdQ+6SdiG3SsRxAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; d="scan'208";a="116680026"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.245.27])
+ ([10.245.245.27])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2025 02:38:42 -0800
+Message-ID: <af689d4b-204d-495b-a7e8-0f7632b43153@intel.com>
+Date: Wed, 26 Feb 2025 10:38:40 +0000
 MIME-Version: 1.0
-Message-ID: <f5dc475.a51e.19541d449c5.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: dCgvCgDXP_eq7r5nrXxwAA--.47203W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkAgAXme+63FNJgABsv
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] drm/xe/bo: fix alignment with non-4K kernel page sizes
+To: Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: jeffbai@aosc.io, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Zhanjun Dong <zhanjun.dong@intel.com>, Matt Roper
+ <matthew.d.roper@intel.com>, Mateusz Naklicki <mateusz.naklicki@intel.com>,
+ Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
+ =?UTF-8?Q?Zbigniew_Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kexy Biscuit <kexybiscuit@aosc.io>,
+ Shang Yatsen <429839446@qq.com>, stable@vger.kernel.org,
+ Haien Liang <27873200@qq.com>, Shirong Liu <lsr1024@qq.com>,
+ Haofeng Wu <s2600cw2@126.com>
+References: <20250226-xe-non-4k-fix-v1-0-80f23b5ee40e@aosc.io>
+ <20250226-xe-non-4k-fix-v1-1-80f23b5ee40e@aosc.io>
+ <wcfp3i6jbsmvpokvbvs5n2yxffhrgu6jyoan3e3m6tb7wbjaq6@tbsit7ignlef>
+ <Z76WIgGvvhlbYl/j@lstrano-desk.jf.intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <Z76WIgGvvhlbYl/j@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,184 +90,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ckhp77yMCgrlnKggMjAyNS0wMi0yNiAxNjozMzoyMe+8jCJUaG9tYXMgWmltbWVybWFubiIgPHR6
-aW1tZXJtYW5uQHN1c2UuZGU+IOWGmemBk++8mgo+SGkKPgo+QW0gMjUuMDEuMjUgdW0gMDQ6NTMg
-c2NocmllYiBBbmR5IFlhbjoKPj4KPj4g5ZyoIDIwMjUtMDEtMjQgMTk6NDM6MDfvvIwiSmFuaSBO
-aWt1bGEiIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+IOWGmemBk++8mgo+Pj4gT24gRnJpLCAyNCBK
-YW4gMjAyNSwgIkFuZHkgWWFuIiA8YW5keXNocmtAMTYzLmNvbT4gd3JvdGU6Cj4+Pj4gSGnvvIwK
-Pj4+Pgo+Pj4+IEF0IDIwMjUtMDEtMjMgMjM6MDk6MDksICJKYW5pIE5pa3VsYSIgPGphbmkubmlr
-dWxhQGludGVsLmNvbT4gd3JvdGU6Cj4+Pj4+IFRoZSBleHBlY3RhdGlvbiBpcyB0aGF0IHRoZSBz
-dHJ1Y3QgZHJtX2RldmljZSBiYXNlZCBsb2dnaW5nIGhlbHBlcnMgZ2V0Cj4+Pj4+IHBhc3NlZCBh
-biBhY3R1YWwgc3RydWN0IGRybV9kZXZpY2UgcG9pbnRlciByYXRoZXIgdGhhbiBzb21lIHJhbmRv
-bQo+Pj4+PiBzdHJ1Y3QgcG9pbnRlciB3aGVyZSB5b3UgY2FuIGRlcmVmZXJlbmNlIHRoZSAtPmRl
-diBtZW1iZXIuCj4+Pj4+Cj4+Pj4+IENvbnZlcnQgZHJtX2VycihoZG1pLCAuLi4pIHRvIGRldl9l
-cnIoaGRtaS0+ZGV2LCAuLi4pLiBUaGlzIG1hdGNoZXMKPj4+Pj4gY3VycmVudCB1c2FnZSwgYnV0
-IGRyb3BzICJbZHJtXSAqRVJST1IqIiBwcmVmaXggZnJvbSBsb2dnaW5nLgo+Pj4+IEZyYW5rbHks
-IEkgcHJlZmVyIHRoZSBvcmlnaW5hbCB2ZXJzaW9uIG9mIHRoZSBsb2cuCj4+Pj4gSXQgaXMgYSBw
-bGF0Zm9ybSBkcml2ZXIsIHNvIGl0IHNob3VsZCB1c2UgaXRzIG93biBkZXZpY2UuCj4+Pj4gSXQg
-aXMgYSBkcml2ZXIgdGhhdCB3b3JrcyBpbiBkcm0gc3Vic3lzdGVtLCBzbyBpdCdzIGJldHRlciB0
-byB1c2UgIltkcm1dICpFUlJPUioiIHByZWZpeCB3aGVuIGxvZ2dpbmcKPj4+IElmIHlvdSBuZWVk
-IHRvIGRvIHN0cnVjdCBkZXZpY2UgYmFzZWQgbG9nZ2luZyB0aGF0IGlzIG5vdCB0aGUgc2FtZQo+
-Pj4gZGV2aWNlIGFzIHRoZSBzdHJ1Y3QgZHJtX2RldmljZSBkZXYgbWVtYmVyLCB5b3UgbmVlZCB0
-byB1c2UgZGV2X2VycigpCj4+PiBhbmQgZnJpZW5kcy4gWW91IGNhbid0IGFuZCBtdXN0IG5vdCB1
-c2UgZHJtX2VycigpIGFuZCBmcmllbmRzLgo+Pj4KPj4+IEl0J3MgYXMgc2ltcGxlIGFzIHRoYXQu
-Cj4+Pgo+Pj4gVGhlIGN1cnJlbnQgZHJtX2VycihoZG1pLCAuLi4pIHVzYWdlIGlzIHNpbXBseSBh
-YnVzZSBvZiB0aGUgbWFjcm9zLCBhbmQKPj4+IG11c3Qgc3RvcC4KPj4gUGVyaGFwcyB3aGVuIHlv
-dSBpbml0aWFsbHkgZGVzaWduZWQgdGhpcyBtYWNyb3MsIHlvdSBpbnRlbmRlZCBpdCB0byBhY2Nl
-cHQgb25seSBkcm1fZGV2aWNlLAo+PiBidXQgeW91ciBjb2RlIGltcGxlbWVudGF0aW9uIGRpZG4n
-dCBlbmZvcmNlIHRoaXMgcmVzdHJpY3Rpb24gYXQgdGhlIGJlZ2lubmluZy4KPgo+Qydtb24uIEFy
-ZSB3ZSByZWFsbHkgYXJndWluZyBhYm91dCB0eXBlIHNhZmV0eSBub3c/Cj4KPlBhdGNoIDUgYWRk
-cyBhIGxpdHRsZSBnZXR0ZXIgZnVuY3Rpb24gdGhhdCBkb2VzIHRoZSB0eXBlIGNoZWNrIG9uIHRo
-ZSAKPmZ1bmN0aW9uIGNhbGwncyBhcmd1bWVudC4KPgo+Cj4+IElmIHRoYXQncyB0cnVseSB3aGF0
-IHlvdSBpbnRlbmRlZCwgSSBzdWdnZXN0IGp1c3QgcmV2ZXJ0aW5nIHRoaXMgY29tbWl0IHRoYXQg
-Y29udmVydGluZyB0byB1c2UgdGhlc2UgbWFjcm9zWzBdLAo+PiBhcyBuZWl0aGVyIGRybV9lcnIg
-bm9yIGRldl9lcnIgY2FuIG1haW50YWluIGNvbnNpc3RlbmN5IHdpdGggdGhlIG9yaWdpbmFsIGxv
-ZyBvZiB0aGlzIGRyaXZlci4KPj4gQWx0ZXJuYXRpdmVseSwgYXMgc3VnZ2VzdGVkIGJ5IFNhbSAg
-aW4gdGhlIGluaXRpYWwgc3VibWlzc2lvbiBvZiB5b3VyIHBhdGNoIDUgeWVhcnMgYWdvLAo+PiB0
-aGVyZSBzaG91bGQgYWxzbyBiZSBhIG1hY3JvIHNpbWlsYXIgdG8gZHJtX2Rldl9pbmZvKGRldmlj
-ZSAqLCAuLikuWzFdCj4KPkRSTSBjb2RlIHRlbmRzIHRvIGtlZXAgYSByZWZlcmVuY2UgdG8gdGhl
-IGRybV9kZXZpY2Ugc29tZXdoZXJlIGFuZCAKPmZldGNoZXMgaXQgaWYgbmVjZXNzYXJ5LiBGb3Ig
-dGhpcyBwYXRjaCwgaXQgc2hvdWxkIGJlIHBvc3NpYmxlIHRvIGZldGNoIAo+dGhlIERSTSBkZXZp
-Y2UgZnJvbSBzdHJ1Y3Qgcm9ja2NoaXBfaGRtaSBlYXNpbHkuIEp1c3QgZG8KPgo+IMKgIGRybV9l
-cnIocm9ja2NoaXBfaGRtaV9kcm1fZGV2KGhkbWkpLCAiLi4uIik7Cj4KPlRoaXMgd291bGQgcmVz
-b2x2ZSB0aGUgcHJvYmxlbSB3aXRob3V0IG5ldyBsb2dnaW5nIGZ1bmN0aW9ucyBhbmQga2VlcCAK
-PnRoZSAiW2RybV0iIHByZWZpeCB0byB0aGUgbWVzc2FnZXMuCgpZZXMsIHRoaXMga2VlcHMgdGhl
-ICJbZHJtXSIgcHJlZml4IHRvIHRoZSBsb2cgbWVzc2FnZXMsIGJ1dCBpdCBhbHNvIGNoYW5nZWQg
-aGRtaQpkZXZpY2UgZnJvbSBkcm0gZGV2aWNlIGluIHRoZSBsb2cgbWVzc2FnZXMuCkZvciBtb3Jl
-IGVmZmljaWVudCBkZWJ1Z2dpbmcsIGl0IGlzIHByZWZlcmFibGUgZm9yIGxvZyBlbnRyaWVzIHRv
-IGV4cGxpY2l0bHkgc3BlY2lmeSB3aGljaCBkZXZpY2UgZ2VuZXJhdGVkIHRoZW0sCmVzcGVjaWFs
-bHkgaW4gRFJNIHN5c3RlbXMgd2hlcmUgbXVsdGlwbGUgZGV2aWNlcyhicmlkZ2UvZW5jb2Rlcikg
-bWF5IGJlIHByZXNlbnQuIgoKQW5kIEknbSBvayB3aXRoIHRoaXMgUEFUQ0guIEhvd2V2ZXIsIEkg
-d291bGQgYWxzbyBsaWtlIHRvIGtub3cgeW91ciBhbmQgSmFuaSdzIG9waW5pb25zIG9uIHdoZXRo
-ZXIgd2UgY2FuIGNvbnNpZGVyCmFkZGluZyBhbiBBUEkgc2ltaWxhciB0byBkcm1fZGV2X2luZm/v
-vIxhcyBTYW0gc3VnZ2VzdGVkIGJlZm9yZS4gT2YgY291cnNlLCB0aGlzIGNvdWxkIGJlIGxlZnQg
-Zm9yIGZ1dHVyZSBpbXBsZW1lbnRhdGlvbgpieSBvdGhlcnMuCgoKCj4KPkJlc3QgcmVnYXJkcwo+
-VGhvbWFzCj4KPgo+Pgo+Pgo+PiBbMF1odHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yb2Nr
-Y2hpcC8yMDI0MDgxMy1kdy1oZG1pLXJvY2tjaGlwLWNsZWFudXAtdjEtMS1iM2U3M2I1ZjRmZDZA
-Y29sbGFib3JhLmNvbS8KPj4gWzFdaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsLzIw
-MTkxMjEyMjE1MzAzLkdBMTE1MjBAcmF2bmJvcmcub3JnLwo+Pgo+Pj4KPj4+IEJSLAo+Pj4gSmFu
-aS4KPj4+Cj4+Pgo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFA
-aW50ZWwuY29tPgo+Pj4+Pgo+Pj4+PiAtLS0KPj4+Pj4KPj4+Pj4gTG9va3MgbGlrZSBpdCdzIHBv
-c3NpYmxlIHRvIGh1bnQgZG93biB0aGUgc3RydWN0IGRybV9kZXZpY2UgaW4gbW9zdCBvZgo+Pj4+
-PiB0aGVzZSBjYXNlcywgaWYgdGhhdCdzIGRlc2lyZWQuIFRoaXMgd2FzIHRoZSBzaW1wbGVzdCBj
-aGFuZ2UuCj4+Pj4+Cj4+Pj4+IENjOiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMuY29tPgo+
-Pj4+PiBDYzogIkhlaWtvIFN0w7xibmVyIiA8aGVpa29Ac250ZWNoLmRlPgo+Pj4+PiBDYzogQW5k
-eSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+Pj4+PiBDYzogZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwo+Pj4+PiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRl
-YWQub3JnCj4+Pj4+IENjOiBsaW51eC1yb2NrY2hpcEBsaXN0cy5pbmZyYWRlYWQub3JnCj4+Pj4+
-IC0tLQo+Pj4+PiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hpcC5jICAg
-IHwgMTYgKysrKysrKystLS0tLS0tLQo+Pj4+PiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdf
-aGRtaV9xcC1yb2NrY2hpcC5jIHwgMTYgKysrKysrKystLS0tLS0tLQo+Pj4+PiAyIGZpbGVzIGNo
-YW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQo+Pj4+Pgo+Pj4+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMKPj4+Pj4gaW5kZXggZTdh
-NjY2OWM0NmIwLi5mNzM3ZTdkNDZlNjYgMTAwNjQ0Cj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMKPj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYwo+Pj4+PiBAQCAtMjAzLDcgKzIwMyw3IEBAIHN0
-YXRpYyBpbnQgcm9ja2NoaXBfaGRtaV9wYXJzZV9kdChzdHJ1Y3Qgcm9ja2NoaXBfaGRtaSAqaGRt
-aSkKPj4+Pj4KPj4+Pj4gCWhkbWktPnJlZ21hcCA9IHN5c2Nvbl9yZWdtYXBfbG9va3VwX2J5X3Bo
-YW5kbGUobnAsICJyb2NrY2hpcCxncmYiKTsKPj4+Pj4gCWlmIChJU19FUlIoaGRtaS0+cmVnbWFw
-KSkgewo+Pj4+PiAtCQlkcm1fZXJyKGhkbWksICJVbmFibGUgdG8gZ2V0IHJvY2tjaGlwLGdyZlxu
-Iik7Cj4+Pj4+ICsJCWRldl9lcnIoaGRtaS0+ZGV2LCAiVW5hYmxlIHRvIGdldCByb2NrY2hpcCxn
-cmZcbiIpOwo+Pj4+PiAJCXJldHVybiBQVFJfRVJSKGhkbWktPnJlZ21hcCk7Cj4+Pj4+IAl9Cj4+
-Pj4+Cj4+Pj4+IEBAIC0yMTQsNyArMjE0LDcgQEAgc3RhdGljIGludCByb2NrY2hpcF9oZG1pX3Bh
-cnNlX2R0KHN0cnVjdCByb2NrY2hpcF9oZG1pICpoZG1pKQo+Pj4+PiAJaWYgKElTX0VSUihoZG1p
-LT5yZWZfY2xrKSkgewo+Pj4+PiAJCXJldCA9IFBUUl9FUlIoaGRtaS0+cmVmX2Nsayk7Cj4+Pj4+
-IAkJaWYgKHJldCAhPSAtRVBST0JFX0RFRkVSKQo+Pj4+PiAtCQkJZHJtX2VycihoZG1pLCAiZmFp
-bGVkIHRvIGdldCByZWZlcmVuY2UgY2xvY2tcbiIpOwo+Pj4+PiArCQkJZGV2X2VycihoZG1pLT5k
-ZXYsICJmYWlsZWQgdG8gZ2V0IHJlZmVyZW5jZSBjbG9ja1xuIik7Cj4+Pj4+IAkJcmV0dXJuIHJl
-dDsKPj4+Pj4gCX0KPj4+Pj4KPj4+Pj4gQEAgLTIyMiw3ICsyMjIsNyBAQCBzdGF0aWMgaW50IHJv
-Y2tjaGlwX2hkbWlfcGFyc2VfZHQoc3RydWN0IHJvY2tjaGlwX2hkbWkgKmhkbWkpCj4+Pj4+IAlp
-ZiAoSVNfRVJSKGhkbWktPmdyZl9jbGspKSB7Cj4+Pj4+IAkJcmV0ID0gUFRSX0VSUihoZG1pLT5n
-cmZfY2xrKTsKPj4+Pj4gCQlpZiAocmV0ICE9IC1FUFJPQkVfREVGRVIpCj4+Pj4+IC0JCQlkcm1f
-ZXJyKGhkbWksICJmYWlsZWQgdG8gZ2V0IGdyZiBjbG9ja1xuIik7Cj4+Pj4+ICsJCQlkZXZfZXJy
-KGhkbWktPmRldiwgImZhaWxlZCB0byBnZXQgZ3JmIGNsb2NrXG4iKTsKPj4+Pj4gCQlyZXR1cm4g
-cmV0Owo+Pj4+PiAJfQo+Pj4+Pgo+Pj4+PiBAQCAtMzAyLDE2ICszMDIsMTYgQEAgc3RhdGljIHZv
-aWQgZHdfaGRtaV9yb2NrY2hpcF9lbmNvZGVyX2VuYWJsZShzdHJ1Y3QgZHJtX2VuY29kZXIgKmVu
-Y29kZXIpCj4+Pj4+Cj4+Pj4+IAlyZXQgPSBjbGtfcHJlcGFyZV9lbmFibGUoaGRtaS0+Z3JmX2Ns
-ayk7Cj4+Pj4+IAlpZiAocmV0IDwgMCkgewo+Pj4+PiAtCQlkcm1fZXJyKGhkbWksICJmYWlsZWQg
-dG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPj4+Pj4gKwkJZGV2X2VycihoZG1pLT5kZXYs
-ICJmYWlsZWQgdG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPj4+Pj4gCQlyZXR1cm47Cj4+
-Pj4+IAl9Cj4+Pj4+Cj4+Pj4+IAlyZXQgPSByZWdtYXBfd3JpdGUoaGRtaS0+cmVnbWFwLCBoZG1p
-LT5jaGlwX2RhdGEtPmxjZHNlbF9ncmZfcmVnLCB2YWwpOwo+Pj4+PiAJaWYgKHJldCAhPSAwKQo+
-Pj4+PiAtCQlkcm1fZXJyKGhkbWksICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAlZFxuIiwgcmV0
-KTsKPj4+Pj4gKwkJZGV2X2VycihoZG1pLT5kZXYsICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAl
-ZFxuIiwgcmV0KTsKPj4+Pj4KPj4+Pj4gCWNsa19kaXNhYmxlX3VucHJlcGFyZShoZG1pLT5ncmZf
-Y2xrKTsKPj4+Pj4gLQlkcm1fZGJnKGhkbWksICJ2b3AgJXMgb3V0cHV0IHRvIGhkbWlcbiIsIHJl
-dCA/ICJMSVQiIDogIkJJRyIpOwo+Pj4+PiArCWRldl9kYmcoaGRtaS0+ZGV2LCAidm9wICVzIG91
-dHB1dCB0byBoZG1pXG4iLCByZXQgPyAiTElUIiA6ICJCSUciKTsKPj4+Pj4gfQo+Pj4+Pgo+Pj4+
-PiBzdGF0aWMgaW50Cj4+Pj4+IEBAIC01NzQsNyArNTc0LDcgQEAgc3RhdGljIGludCBkd19oZG1p
-X3JvY2tjaGlwX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIs
-Cj4+Pj4+IAlyZXQgPSByb2NrY2hpcF9oZG1pX3BhcnNlX2R0KGhkbWkpOwo+Pj4+PiAJaWYgKHJl
-dCkgewo+Pj4+PiAJCWlmIChyZXQgIT0gLUVQUk9CRV9ERUZFUikKPj4+Pj4gLQkJCWRybV9lcnIo
-aGRtaSwgIlVuYWJsZSB0byBwYXJzZSBPRiBkYXRhXG4iKTsKPj4+Pj4gKwkJCWRldl9lcnIoaGRt
-aS0+ZGV2LCAiVW5hYmxlIHRvIHBhcnNlIE9GIGRhdGFcbiIpOwo+Pj4+PiAJCXJldHVybiByZXQ7
-Cj4+Pj4+IAl9Cj4+Pj4+Cj4+Pj4+IEBAIC01ODIsNyArNTgyLDcgQEAgc3RhdGljIGludCBkd19o
-ZG1pX3JvY2tjaGlwX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0
-ZXIsCj4+Pj4+IAlpZiAoSVNfRVJSKGhkbWktPnBoeSkpIHsKPj4+Pj4gCQlyZXQgPSBQVFJfRVJS
-KGhkbWktPnBoeSk7Cj4+Pj4+IAkJaWYgKHJldCAhPSAtRVBST0JFX0RFRkVSKQo+Pj4+PiAtCQkJ
-ZHJtX2VycihoZG1pLCAiZmFpbGVkIHRvIGdldCBwaHlcbiIpOwo+Pj4+PiArCQkJZGV2X2Vyciho
-ZG1pLT5kZXYsICJmYWlsZWQgdG8gZ2V0IHBoeVxuIik7Cj4+Pj4+IAkJcmV0dXJuIHJldDsKPj4+
-Pj4gCX0KPj4+Pj4KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9k
-d19oZG1pX3FwLXJvY2tjaGlwLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaV9x
-cC1yb2NrY2hpcC5jCj4+Pj4+IGluZGV4IGY0MTE1MWQ0OWZjYS4uM2QxZGRkYjM0NjAzIDEwMDY0
-NAo+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaV9xcC1yb2NrY2hp
-cC5jCj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pX3FwLXJvY2tj
-aGlwLmMKPj4+Pj4gQEAgLTI0Miw3ICsyNDIsNyBAQCBzdGF0aWMgdm9pZCBkd19oZG1pX3FwX3Jr
-MzU4OF9ocGRfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCj4+Pj4+IAlpZiAoZHJtKSB7
-Cj4+Pj4+IAkJY2hhbmdlZCA9IGRybV9oZWxwZXJfaHBkX2lycV9ldmVudChkcm0pOwo+Pj4+PiAJ
-CWlmIChjaGFuZ2VkKQo+Pj4+PiAtCQkJZHJtX2RiZyhoZG1pLCAiY29ubmVjdG9yIHN0YXR1cyBj
-aGFuZ2VkXG4iKTsKPj4+Pj4gKwkJCWRldl9kYmcoaGRtaS0+ZGV2LCAiY29ubmVjdG9yIHN0YXR1
-cyBjaGFuZ2VkXG4iKTsKPj4+Pj4gCX0KPj4+Pj4gfQo+Pj4+Pgo+Pj4+PiBAQCAtNDcyLDcgKzQ3
-Miw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9xcF9yb2NrY2hpcF9iaW5kKHN0cnVjdCBkZXZpY2Ug
-KmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+Pj4+PiAJCX0KPj4+Pj4gCX0KPj4+Pj4gCWlm
-IChoZG1pLT5wb3J0X2lkIDwgMCkgewo+Pj4+PiAtCQlkcm1fZXJyKGhkbWksICJGYWlsZWQgdG8g
-bWF0Y2ggSERNSSBwb3J0IElEXG4iKTsKPj4+Pj4gKwkJZGV2X2VycihoZG1pLT5kZXYsICJGYWls
-ZWQgdG8gbWF0Y2ggSERNSSBwb3J0IElEXG4iKTsKPj4+Pj4gCQlyZXR1cm4gaGRtaS0+cG9ydF9p
-ZDsKPj4+Pj4gCX0KPj4+Pj4KPj4+Pj4gQEAgLTQ5NiwyMCArNDk2LDIwIEBAIHN0YXRpYyBpbnQg
-ZHdfaGRtaV9xcF9yb2NrY2hpcF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmlj
-ZSAqbWFzdGVyLAo+Pj4+PiAJaGRtaS0+cmVnbWFwID0gc3lzY29uX3JlZ21hcF9sb29rdXBfYnlf
-cGhhbmRsZShkZXYtPm9mX25vZGUsCj4+Pj4+IAkJCQkJCSAgICAgICAicm9ja2NoaXAsZ3JmIik7
-Cj4+Pj4+IAlpZiAoSVNfRVJSKGhkbWktPnJlZ21hcCkpIHsKPj4+Pj4gLQkJZHJtX2VycihoZG1p
-LCAiVW5hYmxlIHRvIGdldCByb2NrY2hpcCxncmZcbiIpOwo+Pj4+PiArCQlkZXZfZXJyKGhkbWkt
-PmRldiwgIlVuYWJsZSB0byBnZXQgcm9ja2NoaXAsZ3JmXG4iKTsKPj4+Pj4gCQlyZXR1cm4gUFRS
-X0VSUihoZG1pLT5yZWdtYXApOwo+Pj4+PiAJfQo+Pj4+Pgo+Pj4+PiAJaGRtaS0+dm9fcmVnbWFw
-ID0gc3lzY29uX3JlZ21hcF9sb29rdXBfYnlfcGhhbmRsZShkZXYtPm9mX25vZGUsCj4+Pj4+IAkJ
-CQkJCQkgICJyb2NrY2hpcCx2by1ncmYiKTsKPj4+Pj4gCWlmIChJU19FUlIoaGRtaS0+dm9fcmVn
-bWFwKSkgewo+Pj4+PiAtCQlkcm1fZXJyKGhkbWksICJVbmFibGUgdG8gZ2V0IHJvY2tjaGlwLHZv
-LWdyZlxuIik7Cj4+Pj4+ICsJCWRldl9lcnIoaGRtaS0+ZGV2LCAiVW5hYmxlIHRvIGdldCByb2Nr
-Y2hpcCx2by1ncmZcbiIpOwo+Pj4+PiAJCXJldHVybiBQVFJfRVJSKGhkbWktPnZvX3JlZ21hcCk7
-Cj4+Pj4+IAl9Cj4+Pj4+Cj4+Pj4+IAlyZXQgPSBkZXZtX2Nsa19idWxrX2dldF9hbGxfZW5hYmxl
-ZChoZG1pLT5kZXYsICZjbGtzKTsKPj4+Pj4gCWlmIChyZXQgPCAwKSB7Cj4+Pj4+IC0JCWRybV9l
-cnIoaGRtaSwgIkZhaWxlZCB0byBnZXQgY2xvY2tzOiAlZFxuIiwgcmV0KTsKPj4+Pj4gKwkJZGV2
-X2VycihoZG1pLT5kZXYsICJGYWlsZWQgdG8gZ2V0IGNsb2NrczogJWRcbiIsIHJldCk7Cj4+Pj4+
-IAkJcmV0dXJuIHJldDsKPj4+Pj4gCX0KPj4+Pj4KPj4+Pj4gQEAgLTUxNyw3ICs1MTcsNyBAQCBz
-dGF0aWMgaW50IGR3X2hkbWlfcXBfcm9ja2NoaXBfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0
-cnVjdCBkZXZpY2UgKm1hc3RlciwKPj4+Pj4gCQkJCQkJICAgIEdQSU9EX09VVF9ISUdIKTsKPj4+
-Pj4gCWlmIChJU19FUlIoaGRtaS0+ZW5hYmxlX2dwaW8pKSB7Cj4+Pj4+IAkJcmV0ID0gUFRSX0VS
-UihoZG1pLT5lbmFibGVfZ3Bpbyk7Cj4+Pj4+IC0JCWRybV9lcnIoaGRtaSwgIkZhaWxlZCB0byBy
-ZXF1ZXN0IGVuYWJsZSBHUElPOiAlZFxuIiwgcmV0KTsKPj4+Pj4gKwkJZGV2X2VycihoZG1pLT5k
-ZXYsICJGYWlsZWQgdG8gcmVxdWVzdCBlbmFibGUgR1BJTzogJWRcbiIsIHJldCk7Cj4+Pj4+IAkJ
-cmV0dXJuIHJldDsKPj4+Pj4gCX0KPj4+Pj4KPj4+Pj4gQEAgLTUyNSw3ICs1MjUsNyBAQCBzdGF0
-aWMgaW50IGR3X2hkbWlfcXBfcm9ja2NoaXBfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVj
-dCBkZXZpY2UgKm1hc3RlciwKPj4+Pj4gCWlmIChJU19FUlIoaGRtaS0+cGh5KSkgewo+Pj4+PiAJ
-CXJldCA9IFBUUl9FUlIoaGRtaS0+cGh5KTsKPj4+Pj4gCQlpZiAocmV0ICE9IC1FUFJPQkVfREVG
-RVIpCj4+Pj4+IC0JCQlkcm1fZXJyKGhkbWksICJmYWlsZWQgdG8gZ2V0IHBoeTogJWRcbiIsIHJl
-dCk7Cj4+Pj4+ICsJCQlkZXZfZXJyKGhkbWktPmRldiwgImZhaWxlZCB0byBnZXQgcGh5OiAlZFxu
-IiwgcmV0KTsKPj4+Pj4gCQlyZXR1cm4gcmV0Owo+Pj4+PiAJfQo+Pj4+Pgo+Pj4+PiBAQCAtNTY0
-LDcgKzU2NCw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9xcF9yb2NrY2hpcF9iaW5kKHN0cnVjdCBk
-ZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+Pj4+PiAJY29ubmVjdG9yID0gZHJt
-X2JyaWRnZV9jb25uZWN0b3JfaW5pdChkcm0sIGVuY29kZXIpOwo+Pj4+PiAJaWYgKElTX0VSUihj
-b25uZWN0b3IpKSB7Cj4+Pj4+IAkJcmV0ID0gUFRSX0VSUihjb25uZWN0b3IpOwo+Pj4+PiAtCQlk
-cm1fZXJyKGhkbWksICJmYWlsZWQgdG8gaW5pdCBicmlkZ2UgY29ubmVjdG9yOiAlZFxuIiwgcmV0
-KTsKPj4+Pj4gKwkJZGV2X2VycihoZG1pLT5kZXYsICJmYWlsZWQgdG8gaW5pdCBicmlkZ2UgY29u
-bmVjdG9yOiAlZFxuIiwgcmV0KTsKPj4+Pj4gCQlyZXR1cm4gcmV0Owo+Pj4+PiAJfQo+Pj4+Pgo+
-Pj4+PiAtLSAKPj4+Pj4gMi4zOS41Cj4+Pj4+Cj4+Pj4+Cj4+Pj4+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+Pj4+IExpbnV4LXJvY2tjaGlwIG1haWxp
-bmcgbGlzdAo+Pj4+PiBMaW51eC1yb2NrY2hpcEBsaXN0cy5pbmZyYWRlYWQub3JnCj4+Pj4+IGh0
-dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtcm9ja2NoaXAK
-Pj4+IC0tIAo+Pj4gSmFuaSBOaWt1bGEsIEludGVsCj4KPi0tIAo+LS0KPlRob21hcyBaaW1tZXJt
-YW5uCj5HcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj5TVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
-ZXJtYW55IEdtYkgKPkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55
-Cj5HRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBN
-b2VybWFuCj5IUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykKPgo=
+On 26/02/2025 04:18, Matthew Brost wrote:
+> On Tue, Feb 25, 2025 at 09:13:09PM -0600, Lucas De Marchi wrote:
+>> On Wed, Feb 26, 2025 at 10:00:18AM +0800, Mingcong Bai via B4 Relay wrote:
+>>> From: Mingcong Bai <jeffbai@aosc.io>
+>>>
+>>> The bo/ttm interfaces with kernel memory mapping from dedicated GPU
+>>> memory. It is not correct to assume that SZ_4K would suffice for page
+>>> alignment as there are a few hardware platforms that commonly uses non-4K
+>>> pages - for instance, currently, Loongson 3A5000/6000 devices (of the
+>>> LoongArch architecture) commonly uses 16K kernel pages.
+>>>
+>>> Per my testing Intel Xe/Arc families of GPUs works on at least
+>>> Loongson 3A6000 platforms so long as "Above 4G Decoding" and "Resizable
+>>> BAR" were enabled in the EFI firmware settings. I tested this patch series
+>>> on my Loongson XA61200 (3A6000) motherboard with an Intel Arc A750 GPU.
+>>>
+>>> Without this fix, the kernel will hang at a kernel BUG():
+>>>
+>>> [    7.425445] ------------[ cut here ]------------
+>>> [    7.430032] kernel BUG at drivers/gpu/drm/drm_gem.c:181!
+>>> [    7.435330] Oops - BUG[#1]:
+>>> [    7.438099] CPU: 0 UID: 0 PID: 102 Comm: kworker/0:4 Tainted: G            E      6.13.3-aosc-main-00336-g60829239b300-dirty #3
+>>> [    7.449511] Tainted: [E]=UNSIGNED_MODULE
+>>> [    7.453402] Hardware name: Loongson Loongson-3A6000-HV-7A2000-1w-V0.1-EVB/Loongson-3A6000-HV-7A2000-1w-EVB-V1.21, BIOS Loongson-UDK2018-V4.0.05756-prestab
+>>> [    7.467144] Workqueue: events work_for_cpu_fn
+>>> [    7.471472] pc 9000000001045fa4 ra ffff8000025331dc tp 90000001010c8000 sp 90000001010cb960
+>>> [    7.479770] a0 900000012a3e8000 a1 900000010028c000 a2 000000000005d000 a3 0000000000000000
+>>> [    7.488069] a4 0000000000000000 a5 0000000000000000 a6 0000000000000000 a7 0000000000000001
+>>> [    7.496367] t0 0000000000001000 t1 9000000001045000 t2 0000000000000000 t3 0000000000000000
+>>> [    7.504665] t4 0000000000000000 t5 0000000000000000 t6 0000000000000000 t7 0000000000000000
+>>> [    7.504667] t8 0000000000000000 u0 90000000029ea7d8 s9 900000012a3e9360 s0 900000010028c000
+>>> [    7.504668] s1 ffff800002744000 s2 0000000000000000 s3 0000000000000000 s4 0000000000000001
+>>> [    7.504669] s5 900000012a3e8000 s6 0000000000000001 s7 0000000000022022 s8 0000000000000000
+>>> [    7.537855]    ra: ffff8000025331dc ___xe_bo_create_locked+0x158/0x3b0 [xe]
+>>> [    7.544893]   ERA: 9000000001045fa4 drm_gem_private_object_init+0xcc/0xd0
+>>> [    7.551639]  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+>>> [    7.557785]  PRMD: 00000004 (PPLV0 +PIE -PWE)
+>>> [    7.562111]  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+>>> [    7.566870]  ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
+>>> [    7.571628] ESTAT: 000c0000 [BRK] (IS= ECode=12 EsubCode=0)
+>>> [    7.577163]  PRID: 0014d000 (Loongson-64bit, Loongson-3A6000-HV)
+>>> [    7.583128] Modules linked in: xe(E+) drm_gpuvm(E) drm_exec(E) drm_buddy(E) gpu_sched(E) drm_suballoc_helper(E) drm_display_helper(E) loongson(E) r8169(E) cec(E) rc_core(E) realtek(E) i2c_algo_bit(E) tpm_tis_spi(E) led_class(E) hid_generic(E) drm_ttm_helper(E) ttm(E) drm_client_lib(E) drm_kms_helper(E) sunrpc(E) la_ow_syscall(E) i2c_dev(E)
+>>> [    7.613049] Process kworker/0:4 (pid: 102, threadinfo=00000000bc26ebd1, task=0000000055480707)
+>>> [    7.621606] Stack : 0000000000000000 3030303a6963702b 000000000005d000 0000000000000000
+>>> [    7.629563]         0000000000000001 0000000000000000 0000000000000000 8e1bfae42b2f7877
+>>> [    7.637519]         000000000005d000 900000012a3e8000 900000012a3e9360 0000000000000000
+>>> [    7.645475]         ffffffffffffffff 0000000000000000 0000000000022022 0000000000000000
+>>> [    7.653431]         0000000000000001 ffff800002533660 0000000000022022 9000000000234470
+>>> [    7.661386]         90000001010cba28 0000000000001000 0000000000000000 000000000005c300
+>>> [    7.669342]         900000012a3e8000 0000000000000000 0000000000000001 900000012a3e8000
+>>> [    7.677298]         ffffffffffffffff 0000000000022022 900000012a3e9498 ffff800002533a14
+>>> [    7.685254]         0000000000022022 0000000000000000 900000000209c000 90000000010589e0
+>>> [    7.693209]         90000001010cbab8 ffff8000027c78c0 fffffffffffff000 900000012a3e8000
+>>> [    7.701165]         ...
+>>> [    7.703588] Call Trace:
+>>> [    7.703590] [<9000000001045fa4>] drm_gem_private_object_init+0xcc/0xd0
+>>> [    7.712496] [<ffff8000025331d8>] ___xe_bo_create_locked+0x154/0x3b0 [xe]
+>>> [    7.719268] [<ffff80000253365c>] __xe_bo_create_locked+0x228/0x304 [xe]
+>>> [    7.725951] [<ffff800002533a10>] xe_bo_create_pin_map_at_aligned+0x70/0x1b0 [xe]
+>>> [    7.733410] [<ffff800002533c7c>] xe_managed_bo_create_pin_map+0x34/0xcc [xe]
+>>> [    7.740522] [<ffff800002533d58>] xe_managed_bo_create_from_data+0x44/0xb0 [xe]
+>>> [    7.747807] [<ffff80000258d19c>] xe_uc_fw_init+0x3ec/0x904 [xe]
+>>> [    7.753814] [<ffff80000254a478>] xe_guc_init+0x30/0x3dc [xe]
+>>> [    7.759553] [<ffff80000258bc04>] xe_uc_init+0x20/0xf0 [xe]
+>>> [    7.765121] [<ffff800002542abc>] xe_gt_init_hwconfig+0x5c/0xd0 [xe]
+>>> [    7.771461] [<ffff800002537204>] xe_device_probe+0x240/0x588 [xe]
+>>> [    7.777627] [<ffff800002575448>] xe_pci_probe+0x6c0/0xa6c [xe]
+>>> [    7.783540] [<9000000000e9828c>] local_pci_probe+0x4c/0xb4
+>>> [    7.788989] [<90000000002aa578>] work_for_cpu_fn+0x20/0x40
+>>> [    7.794436] [<90000000002aeb50>] process_one_work+0x1a4/0x458
+>>> [    7.800143] [<90000000002af5a0>] worker_thread+0x304/0x3fc
+>>> [    7.805591] [<90000000002bacac>] kthread+0x114/0x138
+>>> [    7.810520] [<9000000000241f64>] ret_from_kernel_thread+0x8/0xa4
+>>> [    7.816489]
+>>> [    7.817961] Code: 4c000020  29c3e2f9  53ff93ff <002a0001> 0015002c  03400000  02ff8063  29c04077  001500f7
+>>> [    7.827651]
+>>> [    7.829140] ---[ end trace 0000000000000000 ]---
+>>>
+>>> Revise all instances of `SZ_4K' with `PAGE_SIZE' and revise the call to
+>>> `drm_gem_private_object_init()' in `*___xe_bo_create_locked()' (last call
+>>> before BUG()) to use `size_t aligned_size' calculated from `PAGE_SIZE' to
+>>> fix the above error.
+>>>
+>>> Cc: <stable@vger.kernel.org>
+>>> Fixes: 4e03b584143e ("drm/xe/uapi: Reject bo creation of unaligned size")
+>>> Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
+>>> Tested-by: Mingcong Bai <jeffbai@aosc.io>
+>>> Tested-by: Haien Liang <27873200@qq.com>
+>>> Tested-by: Shirong Liu <lsr1024@qq.com>
+>>> Tested-by: Haofeng Wu <s2600cw2@126.com>
+>>> Link: https://github.com/FanFansfan/loongson-linux/commit/22c55ab3931c32410a077b3ddb6dca3f28223360
+>>> Co-developed-by: Shang Yatsen <429839446@qq.com>
+>>> Signed-off-by: Shang Yatsen <429839446@qq.com>
+>>> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
+>>> ---
+>>> drivers/gpu/drm/xe/xe_bo.c | 8 ++++----
+>>> 1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>>> index 3f5391d416d469c636d951dd6f0a2b3b5ae95dab..dd03c581441f352eff51d0eafe1298fca7d9653d 100644
+>>> --- a/drivers/gpu/drm/xe/xe_bo.c
+>>> +++ b/drivers/gpu/drm/xe/xe_bo.c
+>>> @@ -1441,9 +1441,9 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
+>>> 		flags |= XE_BO_FLAG_INTERNAL_64K;
+>>> 		alignment = align >> PAGE_SHIFT;
+>>> 	} else {
+> 
+> } else if (type == ttm_bo_type_device) {
+> 	new code /w PAGE_SIZE
+> } else {
+> 	old code /w SZ_4K (or maybe XE_PAGE_SIZE now)?
+> }
+> 
+> See below for further explaination.
+> 
+>>> -		aligned_size = ALIGN(size, SZ_4K);
+>>> +		aligned_size = ALIGN(size, PAGE_SIZE);
+>>
+>> in the very beginning of the driver we were set to use XE_PAGE_SIZE
+>> for things like this. It seems thing went side ways though.
+>>
+>> Thanks for fixing these. XE_PAGE_SIZE is always 4k, but I think we should
+>> uxe XE_PAGE_SIZE for clarity.  For others in Cc...  any thoughts?
+>>
+> 
+> It looks like you have a typo here, Lucas. Could you please clarify?
+> 
+> However, XE_PAGE_SIZE should always be 4k, as it refers to the GPU page
+> size, which is fixed.
+> 
+> I think using PAGE_SIZE makes sense in some cases. See my other
+> comments.
+> 
+>>> 		flags &= ~XE_BO_FLAG_INTERNAL_64K;
+>>> -		alignment = SZ_4K >> PAGE_SHIFT;
+>>> +		alignment = PAGE_SIZE >> PAGE_SHIFT;
+>>> 	}
+>>>
+>>> 	if (type == ttm_bo_type_device && aligned_size != size)
+>>> @@ -1457,7 +1457,7 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
+>>>
+>>> 	bo->ccs_cleared = false;
+>>> 	bo->tile = tile;
+>>> -	bo->size = size;
+>>> +	bo->size = aligned_size;
+>>
+>> the interface of this function is that the caller needs to pass the
+>> correct size, it's not really expected the function will adjust it and
+>> the check is there to gurantee to return the appropriate error. There
+> 
+> Let me expand further on Lucas's comment. We reject user BOs that are
+> unaligned here in ___xe_bo_create_locked.
+> 
+> 1490         if (type == ttm_bo_type_device && aligned_size != size)
+> 1491                 return ERR_PTR(-EINVAL);
+> 
+> What we allow are kernel BOs (!= ttm_bo_type_device), which are never
+> mapped to the CPU or the PPGTT (user GPU mappings), to be a smaller
+> size. Examples of this include memory for GPU page tables, LRC state,
+> etc. Memory for GPU page tables is always allocated in 4k blocks, so
+> changing the allocation to the CPU page size of 16k or 64k would be
+> wasteful.
+> 
+> AFAIK, kernel memory is always a VRAM allocation, so we don't have any
+> CPU page size requirements. If this is not true (I haven't checked), or
+> perhaps just to future-proof, change the snippet in my first comment to:
+> 
+> } else if (type == ttm_bo_type_device || flags & XE_BO_FLAG_SYSTEM)) {
+> 	new code /w PAGE_SIZE
+> } else {
+> 	old code /w SZ_4K
+> }
+> 
+> Then change BO assignment size too:
+> 
+> bo->size = flags & XE_BO_FLAG_SYSTEM ? aligned_size : size;
+> 
+> This should enable kernel VRAM allocations to be smaller than the CPU
+> page size (I think). Can you try out this suggestion and see if the Xe
+> boots with non-4k pages?
+
+The vram allocator chunk size is PAGE_SIZE so that would also need some 
+attention, I think.
+
+But I think we also then need to deal with the assert in: 
+https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/gpu/drm/drm_gem.c#L181.
+
+> 
+> Also others in Cc... thoughts / double check my input?
+> 
+>> are other places that would need some additional fixes leading to this
+>> function. Example:
+>>
+>> xe_gem_create_ioctl()
+>> {
+>> 	...
+>> 	if (XE_IOCTL_DBG(xe, args->size & ~PAGE_MASK))
+>> 		return -EINVAL;
+> 
+> This actually looks right, the minimum allocation size for user BOs
+> should be PAGE_SIZE aligned. The last patch in the series fixes the
+> query for this.
+> 
+> Matt
+> 
+>> 	...
+>> }
+>> 	
+>>
+>> Lucas De Marchi
+>>
+>>> 	bo->flags = flags;
+>>> 	bo->cpu_caching = cpu_caching;
+>>> 	bo->ttm.base.funcs = &xe_gem_object_funcs;
+>>> @@ -1468,7 +1468,7 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
+>>> #endif
+>>> 	INIT_LIST_HEAD(&bo->vram_userfault_link);
+>>>
+>>> -	drm_gem_private_object_init(&xe->drm, &bo->ttm.base, size);
+>>> +	drm_gem_private_object_init(&xe->drm, &bo->ttm.base, aligned_size);
+>>>
+>>> 	if (resv) {
+>>> 		ctx.allow_res_evict = !(flags & XE_BO_FLAG_NO_RESV_EVICT);
+>>>
+>>> -- 
+>>> 2.48.1
+>>>
+>>>
+
