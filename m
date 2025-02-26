@@ -2,92 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210D6A45E24
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB224A45E4F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 13:14:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3A210E1D4;
-	Wed, 26 Feb 2025 12:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7DA10E8D1;
+	Wed, 26 Feb 2025 12:14:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hqZhxe6K";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GKis/B3g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5982710E8DC
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1740571532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZONKr8gjSUHK5a82Fy5e7G5ZxvpLwOBguDakYGue1KI=;
- b=hqZhxe6K1tc/zcl+p2r7eKvQzXGpI7eGym6vrwLf9iRsE9aipWAsgJSeaAhARfFJjxT4PB
- vhYpia1qSDZi5ES/kbu7T5wxYKOFAxTMofBrxVVSbImsHNpVvJzUl7Quoqd9DX6bdZgYN5
- CeDE1eSs+MAB4w7Wrr96s+HLzocMimo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-374-hwrJGKfYNYaFQW9JjyjTDw-1; Wed, 26 Feb 2025 07:05:29 -0500
-X-MC-Unique: hwrJGKfYNYaFQW9JjyjTDw-1
-X-Mimecast-MFC-AGG-ID: hwrJGKfYNYaFQW9JjyjTDw_1740571528
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-4393b6763a3so28624455e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 04:05:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740571528; x=1741176328;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZONKr8gjSUHK5a82Fy5e7G5ZxvpLwOBguDakYGue1KI=;
- b=U7DGF9IfZjrs1tmPpgKM6ooz04q/qN9cr+tsKI2FEZ77gTnTrGo7xM7OujERz6uY1S
- Qvh6T2t6Xv887VSj9ldgjssrVCMbFT5S+D+GP8x/AaeL2PNaT9MwxaNLUz7K6zXTtwUO
- J7St47t21LkYH6BtO1M9qP9ZJboGNLoOBTCBqi9z4bNHx1pngOZLxPMqLbM9d63EEDCl
- ASylSk6T9r76Is+DJwU1Cvk7/ynlNM+qVogcFeFwmXKe7TiHesJp4Hr7j10m/HqAPScQ
- /054siqR6LvFFjjL3oF1WJOxcGdfkB1m4mxlg0ESe6DJwdOJ6sCCApuK1Xc3bD2FtX99
- QW3w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUUjmjPgVQIeSk5YLp6wAhsheq8/sAnHgC/1T1+dSLVruH2N5xLZbKG0ZrQOD+65ez6UTm7hmkQNsg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyszv23f+xZSNxbVgGyx0yDsfmAfPsZHZlui4Dxtk7/B0NRFNkA
- d9hA15lUYA2YH3/6pfAVcRLUSCQLzFsUfZbxuO6fSf+3kXqSehxGq2D0+PtD3XsW2rjJYTNWd10
- 3YH3tqe5s0D8ejIZrtulGQz4WzV4RsKIzkmnXqeH3yzJjh9o/ldKxSwMl5Volv6i6dA==
-X-Gm-Gg: ASbGncso2wmE47KIBRKW0ZuVe5tIsSw+QoKTqXlrAT0lkiMKgN/ODSyLvpzwT2K1Z55
- AqFmwxM59S1A9K66++D+9Q36j1XzRgCEDuYkfX5kzvvZZTs5EMva+5xNyxBlzKIuMYTqgggH8no
- KfpFR0GnSn40DFvyqL7s/20Pqkm+p9lDKT2zurwZ1VQpEGu0YPYr2EHeyb9VYMrbdZ8YdmVyF5c
- Ja7tgk/4LiauSSirNO2n4fdb/W+08OyhbVaYMvitv7T/ydjjJPrMHmM2UXabp0Uvya4aCAQd7CA
- 6Zko4Xl1pvyki9LUnW0qDUqLaRq4Whk1c3XCWsKx+5n2DTIYC9Q3E1QQv75Ej7YyeIB2ZNwn5g=
- =
-X-Received: by 2002:a05:600c:458e:b0:439:91dd:cfa3 with SMTP id
- 5b1f17b1804b1-439ae221d72mr172909775e9.29.1740571528147; 
- Wed, 26 Feb 2025 04:05:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFnrm0qM7DRHfCVZy3zVClFVQEZc0d79QmfHyW/xrSQhIhkvownRWDY6I4pd1YTGG105oIX1w==
-X-Received: by 2002:a05:600c:458e:b0:439:91dd:cfa3 with SMTP id
- 5b1f17b1804b1-439ae221d72mr172909435e9.29.1740571527760; 
- Wed, 26 Feb 2025 04:05:27 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43aba5871f4sm19373245e9.39.2025.02.26.04.05.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2025 04:05:26 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dummycon: only build module if there are users
-In-Reply-To: <79d35e3b-9a0d-41a5-ab07-797bfa1e19cb@app.fastmail.com>
-References: <20250225164436.56654-1-arnd@kernel.org>
- <4d047af3-fd30-4fa4-aa3d-c0359856d750@suse.de>
- <a2c0e681-2cdf-4dc9-82fc-be35f54ff795@app.fastmail.com>
- <29ecc7c4-2887-4989-a1d3-aa76b44c0387@suse.de>
- <79d35e3b-9a0d-41a5-ab07-797bfa1e19cb@app.fastmail.com>
-Date: Wed, 26 Feb 2025 13:05:23 +0100
-Message-ID: <87mse8zzb0.fsf@minerva.mail-host-address-is-not-set>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD67710E8D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 12:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1740572058;
+ bh=rqCCBNqXwX4V8aDAu9AF4qY0OGm7CseWGja67coCy5c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GKis/B3gCV2Up4PlhYkjHwnXjxI4wulD5+R8haxATHmM1XWM5j3pG1Oo5ecM+L7BY
+ SeGBHRjt5DN7jdPAaFVvszr5Op7oi8IYYybFHxmcg2enbtntBGBJzShX8T6t1sGOKb
+ oPcHLF1XDTcL3OPr6jlFfUVuQXX62MhQOa8JWGoDYxTjGBpzzXduhmsKQGtJpAkct+
+ ZDdyw35Sv+uw5zvIWJB5MMf0yeRyUVLsoqHIyLHtwrrNcF2KGaNguFHV7Xb9tnO6zU
+ /R6qn5KWHpBXVGPHV+T7iGG35R7UbkCdg681ly6oWWIRiuqEAIlqiaH1QU3KthG9f2
+ jKDdpN7GJIHfw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D8AE17E0649;
+ Wed, 26 Feb 2025 13:14:17 +0100 (CET)
+Message-ID: <cfb97821-d202-4bd6-99d6-059178b6ad00@collabora.com>
+Date: Wed, 26 Feb 2025 13:14:17 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QHexSMJyLAiYK19siL8LHhv_M6dKNo5vUG6f6JeparM_1740571528
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] drm/mediatek: Add CCORR component support for MT8196
+To: =?UTF-8?B?SmF5IExpdSAo5YiY5Y2aKQ==?= <Jay.Liu@mediatek.com>,
+ =?UTF-8?B?WW9uZ3FpYW5nIE5pdSAo54mb5rC45by6KQ==?=
+ <yongqiang.niu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "hsinyi@chromium.org" <hsinyi@chromium.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+References: <20250219092040.11227-1-jay.liu@mediatek.com>
+ <20250219092040.11227-2-jay.liu@mediatek.com>
+ <779b0915-f0fa-46b6-8c5b-57745114252f@collabora.com>
+ <18ea04bde26b9cbc22609d621eea1cd65a0f1109.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <18ea04bde26b9cbc22609d621eea1cd65a0f1109.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,52 +86,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
+Il 26/02/25 12:36, Jay Liu (刘博) ha scritto:
+> On Wed, 2025-02-19 at 13:49 +0100, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> Il 19/02/25 10:20, Jay Liu ha scritto:
+>>> Add CCORR component support for MT8196.
+>>>
+>>> CCORR is a hardware module that optimizes the visual effects of
+>>> images by adjusting the color matrix, enabling features such as
+>>> night light.
+>>>
+>>> The 8196 hardware platform includes two CCORR (Color Correction)
+>>> units.
+>>> However, the `mtk_ccorr_ctm_set` API only utilizes one of these
+>>> units.
+>>> To prevent the unused CCORR unit from inadvertently taking effect,
+>>> we need to block it by adding mandatory_ccorr flag in the
+>>> driver_data.
+>>>
+>>> Signed-off-by: Jay Liu <jay.liu@mediatek.com>
+>>
+>> This is yet another thing that can be resolved by using OF Graph for
+>> defining the
+>> display pipeline: by using that, I don't see how can CCORR1 be used
+>> instead of
+>> CCORR0, if the latter is in the pipeline, but not the former.
+>>
+>> NACK.
+>>
+>> Regards,
+>> Angelo
+>>
+> hi Angelo, thank you for your review,
+> 
+> The 8196 IC has two CCORRs, and they must be chained together in a
+> fixed order, for example: MDP_RSZ0->DISP_TDSHP0->DISP_CCORR0-
+>> DISP_CC0RR1->DISP_GAMMA0->DISP_POSTMASK0->DISP_DITHER0. Among them,
+> DISP_CCORR0 is used for ctm_set, and DISP_CCORR1 was originally for PQ
+> functions, but the current project does not have PQ functions, so relay
+> can be used. Moreover, ctm_set only needs to configure one CCORR, so
+> currently, mandatory_ccorr is set. Considering that previous ICs, such
+> as 8195, only have one CCORR, so mandatory_ccorr is set to DISP_CCORR0.
+> This is the current practice. Do you have any other suggestions to
+> achieve similar things? For example, adding a property in the dts to
 
-Hello Arnd,
+Really, just use OF graphs to set the display controller path, you can like that
+guarantee that the exact path that you define will be respected.
 
-> On Wed, Feb 26, 2025, at 09:16, Thomas Zimmermann wrote:
->> Am 26.02.25 um 08:55 schrieb Arnd Bergmann:
->> Here's another general question. vgacon and fbcon only seem usable with 
->> CONFIG_VT=y. Wouldn't it make sense to have them depend on CONFIG_VT=y? 
->> dummycon could then be implemented as part of the vt code, maybe even 
->> become a vt-internal thing. The console code is complex, so I'm probably 
->> missing something here?
->
-> I think in theory one may have a system use fbcon purely to get the
-> boot logo, but not actually support VT.  I had also assumed there might
-> be a way to use fbcon as the console (i.e. printk) but not register
-> the tty, but it looks like the console code still requires vt.
->
-> After I looked at the vt and conswitchp code some more, I wonder
-> if we could go the other way and instead of integrating it more
-> make the conswitchp logic optional: most of the complexity here
-> deals with switching between text console and fbcon dynamically,
-> but having any text console support is getting very rare (vga
-> on alpha/mips/x86-32, newport on mips-ip22, sti on parisc).
->
-> If we do this, the conswitchp code could be merged with dummycon
+This means that you can simply:
+- Point the output endpoint of TDSHP0 to the input endpoint of CCORR0
+- Point the input endpoint of CCORR0 to TDSHP0
+- Point the output endpoint of CCORR0 to CCORR1
+- etc
 
-This sounds like a much better approach indeed.
+Check the upstream bindings, and also check MT8195 and MT8188 device trees on
+the current linux-next (starting from next-20250226).
 
-> in drivers/video/console, with the simpler alternative just
-> calling into fbcon functions. I'm not sure if we can already drop
-> vgacon from normal x86-64 distro configs, i.e. if there are cases
-> that are not already covered by any of efi-earlycon, efifb,
-> vga16fb, vesafb/uvesafb or a PCI DRM driver.
->
+Cheers,
+Angelo
 
-I believe vgacon is still useful for x86 with legacy BIOS, because
-vesafb (and simpledrm) only works if the user defines a mode using
-the vga= kernel cmdline parameter.
-
->     Arnd
->
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> set mandatory_ccorr, but this will inevitably change the dts of past
+> ICs, and we are worried that such changes will be significant.
+> 
+> Thanks a lot
+> JAY
+> 
+> 
+>>> ---
+>>>    drivers/gpu/drm/mediatek/mtk_ddp_comp.c   |  3 ++-
+>>>    drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 16 ++++++++++++++++
+>>>    2 files changed, 18 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+>>> b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+>>> index edc6417639e6..d7e230bac53e 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+>>> @@ -457,7 +457,8 @@ static const struct mtk_ddp_comp_match
+>>> mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX]
+>>>        [DDP_COMPONENT_AAL0]            = {
+>>> MTK_DISP_AAL,               0, &ddp_aal },
+>>>        [DDP_COMPONENT_AAL1]            = {
+>>> MTK_DISP_AAL,               1, &ddp_aal },
+>>>        [DDP_COMPONENT_BLS]             = {
+>>> MTK_DISP_BLS,               0, NULL },
+>>> -     [DDP_COMPONENT_CCORR]           = {
+>>> MTK_DISP_CCORR,             0, &ddp_ccorr },
+>>> +     [DDP_COMPONENT_CCORR0]          = {
+>>> MTK_DISP_CCORR,             0, &ddp_ccorr },
+>>> +     [DDP_COMPONENT_CCORR1]          = {
+>>> MTK_DISP_CCORR,             1, &ddp_ccorr },
+>>>        [DDP_COMPONENT_COLOR0]          = {
+>>> MTK_DISP_COLOR,             0, &ddp_color },
+>>>        [DDP_COMPONENT_COLOR1]          = {
+>>> MTK_DISP_COLOR,             1, &ddp_color },
+>>>        [DDP_COMPONENT_DITHER0]         = {
+>>> MTK_DISP_DITHER,            0, &ddp_dither },
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+>>> b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+>>> index 10d60d2c2a56..94e82b3fa2d8 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+>>> @@ -31,11 +31,13 @@
+>>>
+>>>    struct mtk_disp_ccorr_data {
+>>>        u32 matrix_bits;
+>>> +     enum mtk_ddp_comp_id mandatory_ccorr;
+>>>    };
+>>>
+>>>    struct mtk_disp_ccorr {
+>>>        struct clk *clk;
+>>>        void __iomem *regs;
+>>> +     enum mtk_ddp_comp_id comp_id;
+>>>        struct cmdq_client_reg cmdq_reg;
+>>>        const struct mtk_disp_ccorr_data        *data;
+>>>    };
+>>> @@ -115,6 +117,9 @@ void mtk_ccorr_ctm_set(struct device *dev,
+>>> struct drm_crtc_state *state)
+>>>        if (!blob)
+>>>                return;
+>>>
+>>> +     if (ccorr->comp_id != ccorr->data->mandatory_ccorr)
+>>> +             return;
+>>> +
+>>>        ctm = (struct drm_color_ctm *)blob->data;
+>>>        input = ctm->matrix;
+>>>
+>>> @@ -154,6 +159,7 @@ static int mtk_disp_ccorr_probe(struct
+>>> platform_device *pdev)
+>>>        struct device *dev = &pdev->dev;
+>>>        struct mtk_disp_ccorr *priv;
+>>>        int ret;
+>>> +     enum mtk_ddp_comp_id comp_id;
+>>>
+>>>        priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>>>        if (!priv)
+>>> @@ -169,6 +175,14 @@ static int mtk_disp_ccorr_probe(struct
+>>> platform_device *pdev)
+>>>                return dev_err_probe(dev, PTR_ERR(priv->regs),
+>>>                                     "failed to ioremap ccorr\n");
+>>>
+>>> +     comp_id = mtk_ddp_comp_get_id(dev->of_node, MTK_DISP_CCORR);
+>>> +     if (comp_id < 0) {
+>>> +             dev_err(dev, "Failed to identify by alias: %d\n",
+>>> comp_id);
+>>> +             return comp_id;
+>>> +     }
+>>> +
+>>> +     priv->comp_id = comp_id;
+>>> +
+>>>    #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>>>        ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
+>>>        if (ret)
+>>> @@ -192,10 +206,12 @@ static void mtk_disp_ccorr_remove(struct
+>>> platform_device *pdev)
+>>>
+>>>    static const struct mtk_disp_ccorr_data mt8183_ccorr_driver_data
+>>> = {
+>>>        .matrix_bits = 10,
+>>> +     .mandatory_ccorr = DDP_COMPONENT_CCORR0,
+>>>    };
+>>>
+>>>    static const struct mtk_disp_ccorr_data mt8192_ccorr_driver_data
+>>> = {
+>>>        .matrix_bits = 11,
+>>> +     .mandatory_ccorr = DDP_COMPONENT_CCORR0,
+>>>    };
+>>>
+>>>    static const struct of_device_id mtk_disp_ccorr_driver_dt_match[]
+>>> = {
+>>
+>>
 
