@@ -2,72 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6ED7A46181
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 14:59:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5F9A46241
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 15:19:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B61CE10E225;
-	Wed, 26 Feb 2025 13:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA11C10E924;
+	Wed, 26 Feb 2025 14:19:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="BcQyzzSQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bL+z4glL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC28B10E225
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 13:59:27 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-7c0b24cc566so551328185a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 05:59:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1740578366; x=1741183166;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QnxH9uSAX9kLW2aHAnB9zwl34wSWVlyTXJAkrl1jEgk=;
- b=BcQyzzSQhs5bKmgFaKEwKtplHUnZCa0k5DCO4Fw7/lenm8ZE4m/MDUsY3AcsUGfn/k
- 3GfBqKtNUBRg3oXr/eYlB3E90JiAlFmzCKSb+JILQpfiGuynIDPixLLRFuzFIfFt3xSk
- 7ipRKwtV3GMXVFO1ZIAOYcvdEPeA5yJNd68TXm0d0cAd2/Qdu0UqIbaClZGkBTtjrJju
- MhQ99UPNXGpE3zkmJHY7n4d7lL3Ddzki9R6ioEzfGUv3qCZwFKx9B2Wcp7h8SjajQ00i
- ZnuGmRcEU52ZoekdklSmuMXgezi/ijBGF5RIUdM97psV6cZccGzflGSAvS0VSvDbXg71
- NVzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740578366; x=1741183166;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QnxH9uSAX9kLW2aHAnB9zwl34wSWVlyTXJAkrl1jEgk=;
- b=LSgp57moAPKg1YIdjw9yk8NdmehhEnrLaDr+ognO/gYVJHb99SoqclIMKF/KEM8fek
- IAvX4e0hyYqk+ClM8AedIdzosIyJUiXg5+C5zkspE34205rWWfeVopZFyAJFK2PCXm86
- zHVK/l/m1KLXHyOXhJ4XvAlJKhTF7Q6+eDt6zBt3yMuX/i5HZLcLMSayxGsQqRTjNtAu
- ndRB9XhecNPzaTNoJ3u8PBC/cIOM5uI8nKGYJm6FJ4rIlRDFMBNXxWSs5PLoc61dhBon
- tbDT1d7eGm+o34K5rppmcqvO393HNcNxR3s2fghoKtPVvWMCaPrIiBCwws8HfT8JVafJ
- nR+w==
-X-Gm-Message-State: AOJu0YwQ2IJyHrmeQdXCm7yzfebzCWS45wzu4iXJoi38Y/R5qBC3ntxm
- Vk9ENuef0n0EHX9KAQEjKxGSqW91Rtt+UOb7TBQKR0X2mNuqQwE8fiRuZMJrgrmPCCxQ85tW81J
- dzvo8gkHHB52xsN4ljU+/VFygh6ugh2CaNz4wXRrD7CR3T+zHfYg=
-X-Gm-Gg: ASbGncvSvKBsWw+4TFBZX04h04nvGrvcmUGUh3hiuDinTwFgWgr5jI/tg7xFUbTxjbb
- P0Infd3nBAvqUnFte1AXUdZMUrREW0eY0zX3t39qnm7RNl/o/u3TBwgHc5eVJWtjJIKLYJhr5z8
- bDCuFO
-X-Google-Smtp-Source: AGHT+IH3LH2E7qdLqaSbVmbd0vwQgYzSLFH3zYoBT6JZblmu5a/hbpYOUjW39/0dbNVn1kAPYr4FC5G28TPPww11BC4=
-X-Received: by 2002:a05:620a:2453:b0:7c0:7aab:9b43 with SMTP id
- af79cd13be357-7c247fcb787mr576156185a.40.1740578366648; Wed, 26 Feb 2025
- 05:59:26 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D86310E911
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 14:19:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E98B65C0416;
+ Wed, 26 Feb 2025 14:18:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 725D1C4CED6;
+ Wed, 26 Feb 2025 14:19:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740579558;
+ bh=qPNp8kJ1SPfm9hzzYuFUJ6PYED9G/nfRjZrkm1H8psw=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=bL+z4glLMLjtif7nD9V/K+zaxSZc5JKr1f6vzndjetO9s6CLSiE3EieO271ZapLua
+ w4DbabGONJtBQ1cSvWyZdKcxYMYuri+cVoFNBGE9GL1l1neZnpGDVJvmQtX9cbgpPE
+ lOeGOExJzZRd4A1YOpI4/eq7TyJG7GOzboFnZCM1G/dPHWZaCUpgLMlrgeo2yMFdxw
+ qAfj7yCnENDpX1iu52Jf2jWpMSjN4jENNcJdsPHbZWxG5v9Tt9l3KjlifPE+GzecVZ
+ h1zoPYVbK32Yj86q11vI5Wr3oKSXojO2e2y6cAFgLNR11Sm7bsA2W6tVdTGNa7fjDd
+ slxQu3SaHJwFg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 64F8CC021B8;
+ Wed, 26 Feb 2025 14:19:18 +0000 (UTC)
+From: Maud Spierings via B4 Relay
+ <devnull+maudspierings.gocontroll.com@kernel.org>
+Subject: [PATCH v2 00/12] arm64: dts: freescale: Add support for the
+ GOcontroll Moduline Display
+Date: Wed, 26 Feb 2025 15:19:11 +0100
+Message-Id: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
 MIME-Version: 1.0
-References: <20250226135415.363605-1-vignesh.raman@collabora.com>
-In-Reply-To: <20250226135415.363605-1-vignesh.raman@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 26 Feb 2025 13:59:15 +0000
-X-Gm-Features: AWEUYZmmxdS5ypGHcyPPeldS7LVaWK9H32Imx1ThxzBXN-bcd6PFnzxtamWHxx8
-Message-ID: <CAPj87rNAaPUEmk1edcuHX1+bMWysF=aOMceUsCxnk2SMJUjqKg@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/ci: fix merge request rules
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch, 
- robdclark@gmail.com, dmitry.baryshkov@linaro.org, 
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com, 
- valentine.burley@collabora.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN8iv2cC/3WNQQqDMBBFryKzbkoyGpGueg+REuOoA2kiiUhFv
+ HtT912+B//9AxJFpgSP4oBIGycOPgPeCrCz8RMJHjIDStQSsRLseWXjXgOnxZldjKZBVA3JmjT
+ k1RJp5M9VbLvMM6c1xP062NTP/m9tSkihre37sValrsrnFGzwawzO3W14Q3ee5xejftpzswAAA
+ A==
+X-Change-ID: 20250224-initial_display-fa82218e06e5
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org, 
+ Maud Spierings <maudspierings@gocontroll.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579556; l=2470;
+ i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
+ bh=qPNp8kJ1SPfm9hzzYuFUJ6PYED9G/nfRjZrkm1H8psw=;
+ b=RO2wdKrxZIYN3bZWZRvWLLnJ4q4OJ3zzHkzPM4aFfF+XjDIXbjVCFjRpeOidaQRPXZt2qJz7l
+ zFN4KACCPHFDLlu/B1Tc95xI78GkFMvm5PPtjNbTX4mec1Lj8g+V8Sc
+X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
+ pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
+X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
+ with auth_id=341
+X-Original-From: Maud Spierings <maudspierings@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,28 +87,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: maudspierings@gocontroll.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vignesh,
+Add inital support for 2 variants of the Moduline Display controller.
+This system is powered by the Ka-Ro Electronics tx8p-ml81 COM, which
+features an imx8mp SoC.
 
-On Wed, 26 Feb 2025 at 13:55, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> Merge request pipelines were only created when changes
-> were made to drivers/gpu/drm/ci/, causing MRs that didn't
-> touch this path to break. Fix MR pipeline rules to trigger
-> jobs for all changes.
+Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+---
+Changes in v2:
+- Dropped the trivial-devices patch
+- Added a patch with bindings for the gocontroll,moduline-module-slot
+- Added a patch to spidev.c to enable the spidev driver for the module
+  slot
+- Added a missing usb-c connector in the av101hdt-a10 variant dts
+- Switched to the new bindings for the module slots in the base dts
+- Fixed some commit typos
+- Link to v1: https://lore.kernel.org/r/20250224-initial_display-v1-0-5ccbbf613543@gocontroll.com
 
-Thanks a lot for fixing this up!
+---
+Maud Spierings (12):
+      dt-bindings: arm: fsl: Add GOcontroll Moduline Display
+      dt-bindings: vendor-prefixes: add GOcontroll
+      dt-bindings: connector: Add the GOcontroll Moduline module slot bindings
+      arm64: dts: imx8mp: Add pinctrl config definitions
+      MAINTAINERS: add maintainer for the Ka-Ro tx8p-ml81 COM module
+      MAINTAINERS: add maintainer for the GOcontroll Moduline module slot
+      MAINTAINERS: add maintainer for the GOcontroll Moduline controllers
+      arm64: dts: freescale: add Ka-Ro Electronics tx8p-ml81 COM
+      arm64: dts: freescale: Add the GOcontroll Moduline Display baseboard
+      arm64: dts: freescale: Add the BOE av101hdt-a10 variant of the Moduline Display
+      arm64: dts: freescale: Add the BOE av123z7m-n17 variant of the Moduline Display
+      spi: spidev: Add an entry for the gocontroll moduline module slot
 
->      # Build everything after someone bypassed the CI
->      - if: *is-direct-push
->        when: on_success
+ Documentation/devicetree/bindings/arm/fsl.yaml     |   1 +
+ .../connector/gocontroll,moduline-module-slot.yaml |  88 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ MAINTAINERS                                        |  17 +
+ arch/arm64/boot/dts/freescale/imx8mp-pinfunc.h     |  27 +
+ ...tx8p-ml81-moduline-display-106-av101hdt-a10.dts | 100 ++++
+ ...tx8p-ml81-moduline-display-106-av123z7m-n17.dts | 133 +++++
+ .../imx8mp-tx8p-ml81-moduline-display-106.dtsi     | 535 ++++++++++++++++++++
+ .../arm64/boot/dts/freescale/imx8mp-tx8p-ml81.dtsi | 547 +++++++++++++++++++++
+ drivers/spi/spidev.c                               |   2 +
+ 10 files changed, 1452 insertions(+)
+---
+base-commit: 2bc63dbeabecce860eb8b261bf67b97552fe7747
+change-id: 20250224-initial_display-fa82218e06e5
 
-Should these be when: manual? I think it would be good to align with
-the rules we have for Mesa: run automatically for marge-bot and also
-for scheduled pipelines, but in all other cases (MR context but not
-scheduled for merge, direct push to ref, etc) be manual, so we don't
-overwhelm the CI by testing everything everyone pushed.
+Best regards,
+-- 
+Maud Spierings <maudspierings@gocontroll.com>
 
-Cheers,
-Daniel
+
