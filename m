@@ -2,101 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D9AA45CEF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F968A45C8E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2025 12:05:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1DDC10E132;
-	Wed, 26 Feb 2025 11:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B347A10E8C3;
+	Wed, 26 Feb 2025 11:05:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="cAE1KzUs";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="UPIM+Gms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 3832 seconds by postgrey-1.36 at gabe;
- Wed, 26 Feb 2025 11:23:08 UTC
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 758A510E132
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 11:23:08 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51Q8gGpm004998;
- Wed, 26 Feb 2025 11:18:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- MlTVB78Bxku5VTa57kqTeAEK8EBqya2T3N8W9o9jXJc=; b=cAE1KzUseBXfhSJQ
- S1O7NDJXDSxLRYq+LMpwPw3qrr6KbywYmdEtnzSbWsluuwCuiGsK+kNow6iT3ys7
- 2tvkEHCxh+8gDlLnLQSeTvJuoPozwTNkc4ndZ2dljHNKTflXnzRC6aDGPlC4pv2M
- 8Q1RFoHhnsgmEHa/XcLdbfgmYDVcJCmcHghZKF6jN6FQRbdij1tvpFH96RpyVMWj
- s2Hzn2zKG3UIyrTyuZsP+ZwLUsHFdqcYNQ+//EJlnsl7Dt+Dn7FFqCKhGHyYGnZQ
- d9nnVCLG3bPbwDCuud27z/r9AlswNQVFC3vtu0xQVJPuqIttjaH9qEpEW8rtxQac
- DzzEcg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 451pst3am7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2025 11:18:13 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1C2BC40053;
- Wed, 26 Feb 2025 11:14:00 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6D6D757B521;
- Wed, 26 Feb 2025 10:06:16 +0100 (CET)
-Received: from [10.129.178.211] (10.129.178.211) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 26 Feb
- 2025 10:06:14 +0100
-Message-ID: <24958ae8-6153-4798-abeb-e770d66ca8e4@foss.st.com>
-Date: Wed, 26 Feb 2025 10:06:14 +0100
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D07B10E8C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 11:05:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1740567898; x=1741172698; i=wahrenst@gmx.net;
+ bh=6z1xx2C1SeUR1zcFP+YxzGvFZwlZ+pbYA6k2oewlkfQ=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=UPIM+Gmsxs3lkr7lIOWfUs1KPx5kNi8YHuLSS7Q8L14Uwyi3+b146XiXIZNUv3pd
+ myIYeHoKdM6bRMatoaMBt7dIjlvPRLU8CHHQrAJelabNy+NXa5wqBuGXilWNUDqOV
+ Uy1s58BAW4CZJThoxoks6dlN6Td6e9WiAz36tuoi9NcgL6j5pGmeRiGfQbmmmz+gj
+ MulMuRafXl4o+5vJAceGhWaF1FIRar2Cj+cDR5TQogyWCeHLN7GP5hS462rI75xOM
+ ZD8a6WVcRz0F/pZzI+EKriCTfIV8dME/OXvA2FCH2hJwsxUmF8tI+GUZLnuyVy8nT
+ 1JipiZQ0URIgW74hcw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.107] ([37.4.251.153]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwQTF-1tUbqJ1cwf-015VFE; Wed, 26
+ Feb 2025 12:04:58 +0100
+Message-ID: <2585e14d-bb91-4d0a-b0e0-39e60b0b88bd@gmx.net>
+Date: Wed, 26 Feb 2025 12:04:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 07/12] drm/sti: move to
- devm_platform_ioremap_resource() usage
-To: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, Alison Wang
- <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao
- <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Marek
- Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou
- <rgallaispou@gmail.com>, Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen
- <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, Alexey
- Brodkin <abrodkin@synopsys.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance
- <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>
-CC: <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-mediatek@lists.infradead.org>, <imx@lists.linux.dev>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
- <20250225-memory-drm-misc-next-v1-7-9d0e8761107a@redhat.com>
+Subject: Re: [PATCH RFC] drm/vc4: hdmi: Add jack detection to HDMI audio driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ kernel-list@raspberrypi.com, David Turner <david.turner@raspberrypi.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-sound@vger.kernel.org
+References: <20250222102921.75496-1-wahrenst@gmx.net>
+ <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
 Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20250225-memory-drm-misc-next-v1-7-9d0e8761107a@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.211]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-26_02,2025-02-26_01,2024-11-22_01
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:x3HOS9jzbIPHd+tOUa1+3KQTjvMtc9T6xurAc23BxLRgboQpRWb
+ aiCIffU5ZPBN4fw57OJc6CwHmMXbMBvzdy048DD6z1vqo9kKDUg9XalJJ5nq5FOXb4qnkdf
+ YyRlrn4xTLtQE8LjXlNnc7y/owbweqnExo5b5vUFOBnnD3fLlr0gTGHlYkOAHlF7kMo3lzu
+ KGA83DC3bnSmq8JY8fLTg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xGbvkLpBHU4=;W0KEZojLr0EbZR/ak4rnQCTC3U6
+ OZxVIQKjyloPoy7dNKv5m6MD+C+W58FljV14ZWs9HRn3Kp0Lv7cKjAENHHHIUNl6uLEthqpvG
+ 2hZqrxMlJN2OgZ2ZvVosD8nG3LG73njM0OY8gUBQqa6wGl9OLP3Dm91nkrqo7YceRAipoMpoR
+ DP05Uy37q9nKTguM20rFU26aVAo6pKDI6sTjjT5Ct/OBvGFirI34yPrON+Di4b/hcuu1CAAbc
+ aj1aLJvcy0J1gKQy/xekZY3WuSJra/d+Rew3ddgYjGMwQxPb93rUknNiKiUCMz1U5CkPlPMJU
+ kL61G+V/7TD1UovakqsTCeBmHs+WEn2kDkhPKQsYsTAVhknOPbzw4O7nGoZUOHedmjKOoauEz
+ buYjCYo0IDKLyX96MwTMhf05pP/SgNfXLOn6lk3aBE8cYEE/Tw6K0wDnraEy4Xyqn1CB1kdWy
+ o9fVBl6/Kbk/Cgx0p8ryH7H9IqjhXV7pFpNTRHkYywNwA1Jwzn2AXuMS6KcchX3/merbEAx1o
+ w0FXZQG/8DV2PozNzOtUR6J2AjoNiKocqPTieFy1NpjMxKzxVAqxW/xmeSkQ/gWw8YFhfiXlJ
+ dBkH8Uf42YTXAnA22Mssd3KmnBDPq5TsmF6FBs3S5uNRZi1wFbhBH4kbSvW8+uo8i2nXTUcWj
+ 1wHHsl2bZQvEiVNnYTtqTslLvUo6BIm1Ta4itYLv1TeynRnnfbfY+EiWuAd/r2VDMQLcf9Xzp
+ XYYgzgkcr9BYq+T4N3mmcYIdT87DFTy7Xcw5m72ExjOdbnfVwt6NDQEb/g/2pK7X+50z6QaKi
+ mpO2QhY5L0CjNwcgDZsHylSMNFQR1tUDrqc5lRxtHAQdr156NWB6/7k35rhJYGW2q3aSwUBLL
+ RqTeDwU3SUE54KpGIWT9e5/O6Src3sJa5wba73qAC3Xu26vUewgc0ZdAEkVWIrDhdZJ95oUtp
+ KUrqeOY3/f4KCOuKXkalUFRpH1FMPHVTyvIPj9DRqbe9AJTub/SMQXX9+jeRHhBzSTim/BWQs
+ W3GQ1Z8XEiyqpZ+KlExOnk84t4zXQb719wKFAYHprajcIwHRh8tSBbMK7RgnfGutj+V0Pa+Gz
+ 2g+bpErViqoHUbcGvLQ9B3tF2xMOVIZXBbxLLpv9IDwPtaF1fE/iLS+WLvn9VJHWr7EhXXbem
+ bQmzOul/WyQ12RaSOJgWuxeChzW5Sbm04ATAYpuz3raQlnvZO9HXQWGr4oGoLZ3wXzq2DNrCc
+ R0e8oFtVTk5dVu2WlbksMqrQxelPyAOjh5LxNvAAXHMv6Cc/b4b5MfzeXOYqnvoXlUUzRF9LW
+ fKTvqTicfhl7PeuuL9uuEA6H4gzfRj2i9qpr7ZmIRYKGE+CvfKmpcXdATjf6GeKqvZaLABQKp
+ lzsxd1ubZO97iPf0SRF5tCk8eh4lN2wTC4LoaxQJD22rL/L8Z8VbkKtgVY
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,267 +104,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dmitry,
 
-On 2/25/25 23:20, Anusha Srivatsa wrote:
-> Replace platform_get_resource/_byname + devm_ioremap
-> with just devm_platform_ioremap_resource()
->
-> Used Coccinelle to do this change. SmPl patch:
->
-> @rule@
-> identifier res;
-> expression ioremap;
-> identifier pdev;
-> constant mem;
-> expression name;
-> @@
-> -struct resource *res;
-> ...
-> -res = platform_get_resource_byname(pdev,mem,name);
-> <...
-> -if (!res) {
-> -...
-> -}
-> ...>
-> -ioremap = devm_ioremap(...);
-> +ioremap = devm_platform_ioremap_resource_byname(pdev,name);
->
-> and
-> @rule_2@
-> identifier res;
-> expression ioremap;
-> identifier pdev;
-> @@
-> -struct resource *res;
-> ...
-> -res = platform_get_resource(pdev,...);
-> <...
-> -if (!res) {
-> -...
-> -}
-> ...>
-> -ioremap = devm_ioremap(...);
-> +ioremap = devm_platform_ioremap_resource(pdev,0);
->
-> v2: Fix compilation error.
+Am 24.02.25 um 04:15 schrieb Dmitry Baryshkov:
+> On Sat, Feb 22, 2025 at 11:29:21AM +0100, Stefan Wahren wrote:
+>> From: David Turner <david.turner@raspberrypi.com>
+>>
+>> Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
+>> when to add/remove HDMI audio devices.
+>>
+>> Signed-off-by: David Turner <david.turner@raspberrypi.com>
+>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>> ---
+>>   drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++--
+>>   drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
+>>   2 files changed, 31 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
+dmi.c
+>> index 47d9ada98430..d24ae86d799e 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> @@ -51,6 +51,7 @@
+>>   #include <linux/reset.h>
+>>   #include <sound/dmaengine_pcm.h>
+>>   #include <sound/hdmi-codec.h>
+>> +#include <sound/jack.h>
+>>   #include <sound/pcm_drm_eld.h>
+>>   #include <sound/pcm_params.h>
+>>   #include <sound/soc.h>
+>> @@ -386,6 +387,12 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdm=
+i *vc4_hdmi,
+>>   	struct drm_connector *connector =3D &vc4_hdmi->connector;
+>>   	int ret;
+>>
+>> +	/*
+>> +	 * Needs to be called for both connects and disconnects for HDMI
+>> +	 * audio hotplug to work correctly.
+>> +	 */
+>> +	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+>> +
+>>   	/*
+>>   	 * NOTE: This function should really be called with vc4_hdmi->mutex
+>>   	 * held, but doing so results in reentrancy issues since
+>> @@ -405,8 +412,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi=
+ *vc4_hdmi,
+>>   		return;
+>>   	}
+>>
+>> -	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+>> -
+>>   	cec_s_phys_addr(vc4_hdmi->cec_adap,
+>>   			connector->display_info.source_physical_address, false);
+>>
+>> @@ -2203,6 +2208,22 @@ static const struct drm_connector_hdmi_audio_fun=
+cs vc4_hdmi_audio_funcs =3D {
+>>   	.shutdown =3D vc4_hdmi_audio_shutdown,
+>>   };
+>>
+>> +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
+>> +{
+>> +	struct vc4_hdmi *vc4_hdmi =3D snd_soc_card_get_drvdata(rtd->card);
+>> +	struct snd_soc_component *component =3D snd_soc_rtd_to_codec(rtd, 0)-=
+>component;
+>> +	int ret;
+>> +
+>> +	ret =3D snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOU=
+T,
+>> +				    &vc4_hdmi->hdmi_jack);
+>> +	if (ret) {
+>> +		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NU=
+LL);
+> PLease excuse my ignorance, but dows this work. In other words, how is
+> the driver exporting the plugged state through this jack?
+there is no ignorance just a valid question. Unfortunately my knowledge
+here is very limited and I just wanted to minimize the delta between
+vendor and mainline tree. That's why I marked it as RFC.
 
+Can someone from Raspberry Pi helps here?
 
-Hi Anusha, 
+The patch seems to fix an issue? But I don't know the broader context.
 
-
-You did not take into account my comment regarding the changelog. :-)
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#commentary
-
-While the commit summary do not specify the version, this changelog suggests
-that the version of your series as been incremented.
-If this is a v2, then a version descriptor should be applied to the patchset.
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#subject-line
-
-
-Regards,
-Raphaël
-
->
-> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> Cc: Alain Volmat <alain.volmat@foss.st.com>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/sti/sti_compositor.c | 10 +---------
->  drivers/gpu/drm/sti/sti_dvo.c        | 10 +---------
->  drivers/gpu/drm/sti/sti_hda.c        |  9 +--------
->  drivers/gpu/drm/sti/sti_hdmi.c       | 11 +----------
->  drivers/gpu/drm/sti/sti_hqvdp.c      | 10 +---------
->  drivers/gpu/drm/sti/sti_tvout.c      | 10 +---------
->  drivers/gpu/drm/sti/sti_vtg.c        | 10 +---------
->  7 files changed, 7 insertions(+), 63 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
-> index 063f82d23d80c4ba83624a0066a18416a2b37351..7aefce6706ba2cd7d97a33228c9b9812edecf06f 100644
-> --- a/drivers/gpu/drm/sti/sti_compositor.c
-> +++ b/drivers/gpu/drm/sti/sti_compositor.c
-> @@ -177,7 +177,6 @@ static int sti_compositor_probe(struct platform_device *pdev)
->  	struct device_node *np = dev->of_node;
->  	struct device_node *vtg_np;
->  	struct sti_compositor *compo;
-> -	struct resource *res;
->  	unsigned int i;
->  
->  	compo = devm_kzalloc(dev, sizeof(*compo), GFP_KERNEL);
-> @@ -194,14 +193,7 @@ static int sti_compositor_probe(struct platform_device *pdev)
->  
->  	memcpy(&compo->data, of_match_node(compositor_of_match, np)->data,
->  	       sizeof(struct sti_compositor_data));
-> -
-> -	/* Get Memory ressources */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (res == NULL) {
-> -		DRM_ERROR("Get memory resource failed\n");
-> -		return -ENXIO;
-> -	}
-> -	compo->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	compo->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (compo->regs == NULL) {
->  		DRM_ERROR("Register mapping failed\n");
->  		return -ENXIO;
-> diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-> index 4dcddd02629b6a1052be8fb8333bd3aa17c083c5..c877298a7f2bad171724eca4d43ea622db4c81cd 100644
-> --- a/drivers/gpu/drm/sti/sti_dvo.c
-> +++ b/drivers/gpu/drm/sti/sti_dvo.c
-> @@ -511,7 +511,6 @@ static int sti_dvo_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct sti_dvo *dvo;
-> -	struct resource *res;
->  	struct device_node *np = dev->of_node;
->  
->  	DRM_INFO("%s\n", __func__);
-> @@ -523,14 +522,7 @@ static int sti_dvo_probe(struct platform_device *pdev)
->  	}
->  
->  	dvo->dev = pdev->dev;
-> -
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dvo-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid dvo resource\n");
-> -		return -ENOMEM;
-> -	}
-> -	dvo->regs = devm_ioremap(dev, res->start,
-> -			resource_size(res));
-> +	dvo->regs = devm_platform_ioremap_resource_byname(pdev, "dvo-reg");
->  	if (!dvo->regs)
->  		return -ENOMEM;
->  
-> diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-> index 14fdc00d2ba03d4f96ba407ac8e576decb6f32c0..3ca3abb80d425901f4c031edfd327a770d624e1c 100644
-> --- a/drivers/gpu/drm/sti/sti_hda.c
-> +++ b/drivers/gpu/drm/sti/sti_hda.c
-> @@ -750,14 +750,7 @@ static int sti_hda_probe(struct platform_device *pdev)
->  		return -ENOMEM;
->  
->  	hda->dev = pdev->dev;
-> -
-> -	/* Get resources */
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hda-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid hda resource\n");
-> -		return -ENOMEM;
-> -	}
-> -	hda->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	hda->regs = devm_platform_ioremap_resource_byname(pdev, "hda-reg");
->  	if (!hda->regs)
->  		return -ENOMEM;
->  
-> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-> index 164a34d793d86f114394048667ae3189e1c39242..c64ce7a1ef58b9ce4429edd368269bea87d86984 100644
-> --- a/drivers/gpu/drm/sti/sti_hdmi.c
-> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
-> @@ -1380,7 +1380,6 @@ static int sti_hdmi_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct sti_hdmi *hdmi;
->  	struct device_node *np = dev->of_node;
-> -	struct resource *res;
->  	struct device_node *ddc;
->  	int ret;
->  
-> @@ -1399,15 +1398,7 @@ static int sti_hdmi_probe(struct platform_device *pdev)
->  	}
->  
->  	hdmi->dev = pdev->dev;
-> -
-> -	/* Get resources */
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid hdmi resource\n");
-> -		ret = -ENOMEM;
-> -		goto release_adapter;
-> -	}
-> -	hdmi->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	hdmi->regs = devm_platform_ioremap_resource_byname(pdev, "hdmi-reg");
->  	if (!hdmi->regs) {
->  		ret = -ENOMEM;
->  		goto release_adapter;
-> diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-> index 0f658709c9d0d398c4eed65202443db9d0b41f8c..420395598d119a403d531211022e6005d6a2bd59 100644
-> --- a/drivers/gpu/drm/sti/sti_hqvdp.c
-> +++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-> @@ -1356,7 +1356,6 @@ static int sti_hqvdp_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct device_node *vtg_np;
->  	struct sti_hqvdp *hqvdp;
-> -	struct resource *res;
->  
->  	DRM_DEBUG_DRIVER("\n");
->  
-> @@ -1367,14 +1366,7 @@ static int sti_hqvdp_probe(struct platform_device *pdev)
->  	}
->  
->  	hqvdp->dev = dev;
-> -
-> -	/* Get Memory resources */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (!res) {
-> -		DRM_ERROR("Get memory resource failed\n");
-> -		return -ENXIO;
-> -	}
-> -	hqvdp->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	hqvdp->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (!hqvdp->regs) {
->  		DRM_ERROR("Register mapping failed\n");
->  		return -ENXIO;
-> diff --git a/drivers/gpu/drm/sti/sti_tvout.c b/drivers/gpu/drm/sti/sti_tvout.c
-> index af6c06f448c4819def8cc0d0836e30f991529690..0bebe815f5e7567f84388af93723a6fa7d2cc7a2 100644
-> --- a/drivers/gpu/drm/sti/sti_tvout.c
-> +++ b/drivers/gpu/drm/sti/sti_tvout.c
-> @@ -838,7 +838,6 @@ static int sti_tvout_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct device_node *node = dev->of_node;
->  	struct sti_tvout *tvout;
-> -	struct resource *res;
->  
->  	DRM_INFO("%s\n", __func__);
->  
-> @@ -850,14 +849,7 @@ static int sti_tvout_probe(struct platform_device *pdev)
->  		return -ENOMEM;
->  
->  	tvout->dev = dev;
-> -
-> -	/* get memory resources */
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tvout-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid glue resource\n");
-> -		return -ENOMEM;
-> -	}
-> -	tvout->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	tvout->regs = devm_platform_ioremap_resource_byname(pdev, "tvout-reg");
->  	if (!tvout->regs)
->  		return -ENOMEM;
->  
-> diff --git a/drivers/gpu/drm/sti/sti_vtg.c b/drivers/gpu/drm/sti/sti_vtg.c
-> index 5ba469b711b5318e9e9e6d8df127fb8933d1fac1..b5353fe774d72fd629ecd3ef75a5d2817ca8617f 100644
-> --- a/drivers/gpu/drm/sti/sti_vtg.c
-> +++ b/drivers/gpu/drm/sti/sti_vtg.c
-> @@ -380,20 +380,12 @@ static int vtg_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct sti_vtg *vtg;
-> -	struct resource *res;
->  	int ret;
->  
->  	vtg = devm_kzalloc(dev, sizeof(*vtg), GFP_KERNEL);
->  	if (!vtg)
->  		return -ENOMEM;
-> -
-> -	/* Get Memory ressources */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (!res) {
-> -		DRM_ERROR("Get memory resource failed\n");
-> -		return -ENOMEM;
-> -	}
-> -	vtg->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	vtg->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (!vtg->regs) {
->  		DRM_ERROR("failed to remap I/O memory\n");
->  		return -ENOMEM;
->
+Regards
