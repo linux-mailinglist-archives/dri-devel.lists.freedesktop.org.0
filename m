@@ -2,80 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142FBA47C3E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 12:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402C6A47C45
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 12:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567A010EAAD;
-	Thu, 27 Feb 2025 11:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0A9C10EAB7;
+	Thu, 27 Feb 2025 11:32:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gOf3RlVD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fQ4h6bzH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A00F110EAAD
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 11:31:52 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7D9ED444D9;
- Thu, 27 Feb 2025 11:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740655909;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wQBR1fbUgTFIGJuy0ZeL6bl5jhpsm/4S7x+eKQJsjW8=;
- b=gOf3RlVDCB0iEix51gKo+4FwCbxqsZApCYSTE84rSmrTUvz0CR4ce3C4zNz+Apic0q76S4
- INXSesy1PzmMyNhwDPtnN9zs+S+J4WbGk3LMatBS/D2rCiyrZJKYrGI3TOraCOBoKKeTlz
- 6epNfKEzRIRqj72t8uGakHHHI+tciLaeL7otJ5GwyLWdE8fhQDyrtQ0tPq3XQLnjJI2mFc
- 3ut3NMiotZto/rOnF+Huzj7z1jj8QPjYw7xAJwTUVafk7nVmHQm+UTii+zmy8Z5jG/hqZk
- BFtnPOESGHIPZWiJQmEc6P98Gy25oH0UC3xHMdTQa48pWatoLTbasb58tFAwOA==
-Date: Thu, 27 Feb 2025 12:31:43 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski
- <contact@paulk.fr>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?B?SGVy?=
- =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
- bridges
-Message-ID: <20250227123143.54d4aa03@booty>
-In-Reply-To: <20250227-savvy-monumental-toucan-edffe2@houat>
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
- <20250207-ingenious-daffodil-dugong-51be57@houat>
- <20250210181252.5ee028d4@booty>
- <20250211-merciful-nyala-of-justice-a4fabb@houat>
- <20250226152813.4a1ad218@booty>
- <20250227-savvy-monumental-toucan-edffe2@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B672410EAB7;
+ Thu, 27 Feb 2025 11:32:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0EFE45C4885;
+ Thu, 27 Feb 2025 11:32:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67C4C4CEE4;
+ Thu, 27 Feb 2025 11:32:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740655970;
+ bh=Zty7kMcpbAjyKYQmB6FvAoqZJmoDUlOF8/pOq0j6RP0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fQ4h6bzHi6GSUpTap9SRozMpoyIeIGwusAlV23uF3LBmRLYmGfMl1d3TMotaw1Zip
+ 1oBMrYWqBf5P3ArtGBIO2CRYWmXy/Axtg1Zc4YV0I+S+JhzmiP8uBbrIvJCg5xyIUW
+ LQ0MYOOa4ig2nmI3JgSwp9YqRgQ/N5O3PAhy2rklq/rs8rmtIs+T3I4nTpx0ViWf3z
+ e2k4TlA8zM05eQtOfbq6nvUYhtB6SrcDTHYJy8CqWafVxViyeOzRYNR/Zh3+URk4n6
+ DQs6GaWwO5ZeMvKALQpue7GqmSkCrTpef9lUhkuax1KyPqdxTmJqHtp8sPnizihkk7
+ /41zvLWBq99yA==
+Date: Thu, 27 Feb 2025 12:32:45 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z8BNXdf3CgqGYjPV@pollux>
+References: <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
+ <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
+ <20250225225756.GA4959@nvidia.com> <Z75WKSRlUVEqpysJ@cassiopeiae>
+ <20250226004916.GB4959@nvidia.com> <Z75riltJo0WvOsS5@cassiopeiae>
+ <20250226172120.GD28425@nvidia.com> <Z7-IHgcVVS8XBurW@cassiopeiae>
+ <20250226234730.GC39591@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekjeefhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepj
- hgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226234730.GC39591@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,146 +69,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Thu, 27 Feb 2025 10:32:20 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
-
-> On Wed, Feb 26, 2025 at 03:28:13PM +0100, Luca Ceresoli wrote:
-> > On Tue, 11 Feb 2025 14:10:50 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:  
-> > > On Mon, Feb 10, 2025 at 06:12:52PM +0100, Luca Ceresoli wrote:  
-> > > > On Fri, 7 Feb 2025 12:47:51 +0100
-> > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > >     
-> > > > > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > > > > > index ad7ba444a13e5ecf16f996de3742e4ac67dc21f1..43cef0f6ccd36034f64ad2babfebea62db1d9e43 100644
-> > > > > > --- a/include/drm/drm_bridge.h
-> > > > > > +++ b/include/drm/drm_bridge.h
-> > > > > > @@ -31,6 +31,7 @@
-> > > > > >  #include <drm/drm_encoder.h>
-> > > > > >  #include <drm/drm_mode_object.h>
-> > > > > >  #include <drm/drm_modes.h>
-> > > > > > +#include <drm/drm_print.h>
-> > > > > >  
-> > > > > >  struct device_node;
-> > > > > >  
-> > > > > > @@ -863,6 +864,22 @@ struct drm_bridge {
-> > > > > >  	const struct drm_bridge_timings *timings;
-> > > > > >  	/** @funcs: control functions */
-> > > > > >  	const struct drm_bridge_funcs *funcs;
-> > > > > > +
-> > > > > > +	/**
-> > > > > > +	 * @container_offset: Offset of this struct within the container
-> > > > > > +	 * struct embedding it. Used for refcounted bridges to free the
-> > > > > > +	 * embeddeing struct when the refcount drops to zero. Unused on
-> > > > > > +	 * legacy bridges.
-> > > > > > +	 */
-> > > > > > +	size_t container_offset;      
-> > > > > 
-> > > > > This shouldn't be in there. You can create an intermediate structure and
-> > > > > store both pointers for the action to consume.    
-> > > > 
-> > > > You mean to store container_offset + refcount + is_refcounted?    
-> > > 
-> > > No, I meant for the private structure pointer and the drm_bridge
-> > > pointer. refcount should be in drm_bridge, and I think is_refcounted
-> > > should be dropped.  
+On Wed, Feb 26, 2025 at 07:47:30PM -0400, Jason Gunthorpe wrote:
+> On Wed, Feb 26, 2025 at 10:31:10PM +0100, Danilo Krummrich wrote:
+> > Let's take a step back and look again why we have Devres (and Revocable) for
+> > e.g. pci::Bar.
 > > 
-> > Storing the container pointer instead of the offset is a good idea, it
-> > will allow to get rid of is_refcounted: drm_bridge_is_refcounted() can
-> > just return "container != NULL" instead of "bridge->is_refcounted". So
-> > far so good.  
-> 
-> Again, I don't think the whole is_refcounted thing is a good idea. Once
-> we have the right API, we should convert all bridges to the new
-> allocation and assume that they are refcounted.
-
-Ah, thanks for clarifying, now I understand the reason you'd remove
-is_refecounted while I didn't. In my plan it's for a transition phase
-where not all bridges are converted yet. I should have added a note
-about that, indeed.
-
-While I obviously think all bridges should be converted to dynamic
-lifetime, I'm not sure it can happen all in a single run, however.
-Converting bridges to refcounting is mostly easy, but before we should
-switch all bridge users to put the pointers they have, or the bridges
-will never be freed. But the users are more in number and harder to
-convert. However I still haven't tried a real conversion of all of
-them, so it I'm going to reconsider this after I'll have tried.
-
-Generally speaking, would you be OK with having is_refcounted in a
-transition phase, or do you think we absolutely must convert all bridge
-drivers and users at once?
-
-> > I'm not sure about the intermediate struct you have in mind though.
+> > The device / driver model requires that device resources are only held by a
+> > driver, as long as the driver is bound to the device.
 > > 
-> > Do you mean:
+> > For instance, in C we achieve this by calling
 > > 
-> > struct drm_bridge_pointers {
-> >     struct drm_bridge *bridge;
-> >     void              *container;
-> > }
+> > 	pci_iounmap()
+> > 	pci_release_region()
 > > 
-> > ?  
-> 
-> Yes
-> 
-> > If that's what you mean, should it be embedded in drm_struct or
-> > allocated separately?  
-> 
-> Separately, but still as part of the bridge allocation function.
-> 
-> > If you mean to embed that struct in drm_bridge, then I the drm_bridge
-> > pointer inside the intermediate struct would be useless.
+> > from remove().
 > > 
-> > If instead you mean to embed it in drm_struct: I'm not sure I see much
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^
-For the records, I (obviously?) meant "allocated separately" here.
-
-> > benefit except maybe not exposing the container pointer to drm_bridge
-> > users, but I see a drawbacks: at the last put we need to find the
-> > container pointer to free from a struct kref pointer, which can work
-> > only if the container pointer is in the same struct as struct kref.  
+> > We rely on this, we trust drivers to actually do this.
 > 
-> Yeah, that's true. Storing the container pointer in drm_bridge makes
-> sense to solve this.
+> Right, exactly
+> 
+> But it is not just PCI bar. There are a *huge* number of kernel APIs
+> that have built in to them the same sort of requirement - teardown
+> MUST run with remove, and once done the resource cannot be used by
+> another thread.
+> 
+> Basically most things involving function pointers has this sort of
+> lifecycle requirement because it is a common process that prevents a
+> EAF of module unload.
 
-OK, so when moving the container pointer to drm_bridge, the
-drm_bridge_pointers struct will be left with the drm_bridge pointer
-only:
+You're still mixing topics, the whole Devres<pci::Bar> thing as about limiting
+object lifetime to the point where the driver is unbound.
 
-struct drm_bridge_pointer {
-    struct drm_bridge *bridge;
-}
+Shutting down asynchronous execution of things, i.e. workqueues, timers, IOCTLs
+to prevent unexpected access to the module .text section is a whole different
+topic.
 
-So while it would work, I still don't see the added value. We'd have
-one more allocation, we'd need to free both structs at the same time
-(correct?) and drm_bridge_put_void() would have an extra indirection
-step:
+You seem to imply that if we ensure the latter, we don't need to enforce the
+former, but that isn't true.
 
-     static void drm_bridge_put_void(void *data)
-     {
-        struct drm_bridge_pointer *bridge_pointer = (struct drm_bridge_pointers *)data;
-	struct drm_bridge *bridge = bridge_pointer->bridge;
+In other words, assuming that we properly enforce that there are no async
+execution paths after remove() or module_exit() (not necessarily the same),
+we still need to ensure that a pci::Bar object does not outlive remove().
 
-	drm_bridge_put(bridge);
-     }
+Device resources are a bit special, since their lifetime must be cap'd at device
+unbind, *independent* of the object lifetime they reside in. Hence the Devres
+container.
 
-Can you elaborate on the gain in having such struct, or point me to
-some code using the same pattern?
+For a memory allocation for instance (e.g. KBox<T>), this is different. If it
+outlives remove(), e.g. because it's part of the Module structure, that's fine.
+It's only important that it's dropped eventually.
 
-> I'm still not sure why we need the container offset though: if we have a
-> bridge and container pointer, then the offset is bridge - container, so
-> there's no point in storing it, right?
+> 
+> This is all incredibly subtle and driver writers never seem to
+> understand it properly.. See below for my thoughts on hrtimer bindings
+> having the same EAF issue.
 
-We need either the container_offset or the container pointer, not both.
-I had chosen the offset in v6, I'm going to convert to the pointer in
-v7.
+I don't think it has, see Boqun's reply [1].
 
-Luca
+> 
+> My fear, that is intensifying as we go through this discussion, is
+> that rust binding authors have not fully comprehended what the kernel
+> life cycle model and common design pattern actually is, and have not
+> fully thought through issues like module unload creating a lifetime
+> cycle for *function pointers*.
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I do *not* see where you take the evidence from to make such a generic
+statement.
+
+Especially because there aren't a lot of abstractions upstream yet that fall
+under this category.
+
+If you think that a particular abstraction has a design issue, you're very
+welcome to chime in on the particular mail thread and help improve things.
+
+But implying that no one considers this is not representing reality.
+
+> 
+> This stuff is really hard. C programers rarely understand it. Existing
+> drivers tend to frequenly have these bug classes. Without an obvious
+> easy to use Rust framework to, effectively, revoke function pointers
+> and synchronously destroy objects during remove, I think this will be
+> a recurring problem going forward.
+> 
+> I assume that Rust philsophy should be quite concerned if it does not
+> protect against function pointers becoming asynchronously invalid due
+> to module unload races. That sounds like a safety problem to me??
+
+Yes, it would be a safety problem. That's why HrTimer for instance implements
+the corresponding synchronization when dropped.
+
+> 
+> > We also trust drivers that they don't access the pointer originally
+> > returned by pci_iomap() after remove().
+> 
+> Yes, I get it, you are trying to use a reference tracking type design
+> pattern when the C API is giving you a fencing design pattern, they
+> are not compatible and it is hard to interwork them.
+> 
+> > Now, let's get back to concurrent code that might still attempt to use the
+> > pci::Bar. Surely, we need mechanisms to shut down all asynchronous execution
+> > paths (e.g. workqueues) once the device is unbound. But that's not the job of
+> > Devres<pci::Bar>. The job of Devres<pci::Bar> is to be robust against misuse.
+> 
+> The thing is once you have a mechanism to shutdown all the stuff you
+> don't need the overhead of this revocable checking on the normal
+> paths. What you need is a way to bring your pci::Bar into a safety
+> contract that remove will shootdown concurrency and that directly
+> denies references to pci::Bar, and the same contract will guarentee it
+> frees pci::Bar memory.
+
+This contract needs to be technically enforced, not by convention as we do in C.
+
+And with embedding the pci::Bar in Devres, such that it is automatically revoked
+when the device is unbound, we do exactly that.
+
+(Again, we don't do it primarily to protect against some concurrent access, we do
+it to forcefully ensure that a pci::Bar object can not outlive the device /
+driver binding.)
+
+If we don't do that, how else do we do it? How do we prevent a driver from
+keeping the pci::Bar (and hence the memory mapping and memory region reservation
+alive after the device has been unbound?
+
+> > But yes, once people start using workqueues for other modules, we
+> > surely need to extend the abstraction accordingly.
+> 
+> You say that like it will be easy, but it is exactly the same type of
+> lifetime issue as pci_iomap, and that seems to be quite a challenge
+> here???
+
+No, the workqueue implementation can so something similar to what Boqun
+explained for HrTimer [1].
+
+A workqueue lifetime also does not need a hard cap at device unbind, like device
+resources. If it is bound to the module lifetime for instance, that is fine too.
+
+Data that is accessed from a work item can't be freed under the workqueue by
+design in Rust.
+
+[1] https://lore.kernel.org/rust-for-linux/Z7-0pOmWO6r_KeQI@boqun-archlinux/
