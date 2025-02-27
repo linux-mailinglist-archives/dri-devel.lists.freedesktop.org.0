@@ -2,213 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E75A47545
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 06:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060FEA47549
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 06:39:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE1B10EA44;
-	Thu, 27 Feb 2025 05:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 208F110EA45;
+	Thu, 27 Feb 2025 05:39:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="fg8kMcqi";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="X4vi8hpZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sTqk/AAw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F66A10EA44
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 05:37:00 +0000 (UTC)
-X-UUID: da5e92ccf4cc11efaae1fd9735fae912-20250227
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=0bTi1EslNVBjeaF0h30EkmwF4sqEhJ2B/Mcy2/YEIxY=; 
- b=fg8kMcqiV6pQXA18ohJOH2OfLKY9lw2SJ1B3pC9WFJh4rGWdDmqDkp2tTuykQtRc/ArPm9/iKudNtwrfWMNabOEd+FHejnLnSEBDO3iv65mYuQEwqhCvOfRFkIi9XZDBLVSGJ1wiyHH5/4oiHVAbH/x1AkN5+3z03p23cRuFdO4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46, REQID:aa1af610-3e8a-4a81-af15-c748e0c91770, IP:0,
- U
- RL:12,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:12
-X-CID-META: VersionHash:60aa074, CLOUDID:aa5dfbd9-654e-41f2-8a8e-a96c1e834c64,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
- EDM:-3,IP:nil,URL:11|80|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
- I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: da5e92ccf4cc11efaae1fd9735fae912-20250227
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 993488425; Thu, 27 Feb 2025 13:36:54 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Thu, 27 Feb 2025 13:36:53 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1258.28 via Frontend Transport; Thu, 27 Feb 2025 13:36:53 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fjkXGXEhqZ7tyb7IQX+aHy2cevzW2g7D29LYECErie0eS3/IuC57dsRfS6TtV0swWzZpIAwkG+KuLloBLdA8ZNWfzwTVTyZGgbsxpHVtdZzSLxBrXsSHA6hH6r76k4+/m/uoRWV6QmAZ/OU8sX9xGat428ZZHEFz2lLfaSvjRVU70am8G4MaJjD+heYH3ydR1O+P6iCCSmrTI1M58qvIfkeFAuur/JpKA4d5HUuFjgURlcn3Tpp0/+O4ozKfJlbmTK942coWDqv0VHWm3RQK0t4nLNHKLYj5F7oGF6bsXa4silMUqJ8tEuoSIv6VV20qhrZYR28r9hZ2vs2KSALQOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+GC4OU6Z7J3eCoy1txBseTzgjxWAQVgv3m7GXHY4+Gs=;
- b=DhrEJEOrpW0SsCqgJDj2vHpNPQ5WqKawZGIN4giuxu778HWSHP21lC2LnixIfbfkW4dZrp6jrj9a73nx4LwTcxX4t6tcsDGRQDxYgedlqM9XSQYqaQrglN5QLmECMK8H8r5LyJo0K9UFGnsnM7KNEjuSmHR99kBDtT8ZV1PBnodom9ZtQB24DPgDEd5zXdBrqBPkRMlHqpsP1p5XL30x59d/mQj8K/28aW4zseqfouY3nBaj6mugutlGNXtDEnWiZlptrFEQATZHM0iPufOkPbCs1Bg1/1x/spCVEYzcRhiQiV1RJFTK0bz7z3e+OR8IBlxn46JmcGyH8dMCijizoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 287AB10EA45
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 05:39:23 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-5484fa1401cso466035e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 21:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+GC4OU6Z7J3eCoy1txBseTzgjxWAQVgv3m7GXHY4+Gs=;
- b=X4vi8hpZECyl1TgEBSyVYWVdvKMFpiJHe4wx/eZ8g9YvULddYuHMr6je1Cd9LwwAiryxRAqxLSDcDlgqR+thFUjqBq80nIZlEMvna8+QeCdvL4VAyJ7Sj6SEadSLoKK1iKyNqv0W0PpYSlVdHk6Xv/lYNbVGU6MuY1ZmIbYaw2w=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by TYSPR03MB8717.apcprd03.prod.outlook.com (2603:1096:405:93::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.19; Thu, 27 Feb
- 2025 05:36:50 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54%3]) with mapi id 15.20.8466.016; Thu, 27 Feb 2025
- 05:36:50 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-CC: "robh@kernel.org" <robh@kernel.org>, "jie.qiu@mediatek.com"
- <jie.qiu@mediatek.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>, =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
- <jitao.shi@mediatek.com>, "linux-mediatek@lists.infradead.org"
- <linux-mediatek@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "kernel@collabora.com" <kernel@collabora.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- =?utf-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>, =?utf-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?=
- <TommyYL.Chen@mediatek.com>, =?utf-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?=
- <Ives.Chenjh@mediatek.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?=
- <Jason-JH.Lin@mediatek.com>, "junzhi.zhao@mediatek.com"
- <junzhi.zhao@mediatek.com>
-Subject: Re: [PATCH v7 12/43] dt-bindings: display: mediatek: Add binding for
- MT8195 HDMI-TX v2
-Thread-Topic: [PATCH v7 12/43] dt-bindings: display: mediatek: Add binding for
- MT8195 HDMI-TX v2
-Thread-Index: AQHbgVRXXnAYLmNU4km5O/1OMNRluLNasIoA
-Date: Thu, 27 Feb 2025 05:36:50 +0000
-Message-ID: <6e301af02e349b7499f254fa618c4129cbfe8302.camel@mediatek.com>
-References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
- <20250217154836.108895-13-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250217154836.108895-13-angelogioacchino.delregno@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYSPR03MB8717:EE_
-x-ms-office365-filtering-correlation-id: 7f0a8b6f-8f2f-4639-a1d7-08dd56f0bc3f
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?Vm1pNEJKSmRRRG5DMHR1NGsrOFAyVEdHNm1XdTRuaC9zTGF3enVaMkhJcW9Y?=
- =?utf-8?B?UVdxZ1lXbWFoblAveE91czdQd3VRT2ExMTY2T3pXYi9pQUlKcFJPSmhUd1VG?=
- =?utf-8?B?Z0VRYTVHdWxITnFGbFlXYzlGeXQ2UFFxaFgvNmo0MVZaak04QTZwaGg2Q1Rv?=
- =?utf-8?B?MWkyVlhYM1FheGgvU045YSsveEZ4eGZmaEkyMk82QVMwM0lyaFZsa0NyUExm?=
- =?utf-8?B?Z0RWQ012aUZXb3UwbCtlMElNSmExTkhzZm9jU1BJTUVXSjVIWVZnaFNFREM3?=
- =?utf-8?B?cktiWkE1ak1JMUkySk9abGZmWlUzalJNOHBGcXVoZ2tqMUdpdWU2VHIrYmJt?=
- =?utf-8?B?S0dTY2hwa05YTUt5YnZzaEI3VjhwRWNhalhRZ3YxdnhHUnZ0cEgxcDZtZk9F?=
- =?utf-8?B?eDl4emtPbHNYVCtROTYwYXBKck1ZazdjWTJaNjJZQThiYkhEV0Fyb2tQR2l0?=
- =?utf-8?B?OHh3U1BHOVQ3OHNSVytzSFJ0NWk3Sk80WUdIMDl2b2hjWVhoTUJEbHJQc2U1?=
- =?utf-8?B?L1RwT2d4QmpxbVBNbE8zK1B2VFZxUzZ6a1V1NlY2QVRQeFREZjF4K1MwL3h4?=
- =?utf-8?B?RzBCdlFydVFVZjlMWGtoRTdIOUtnUjFOVS94RGxjc3k0cVlLNTFiY3VzVVlF?=
- =?utf-8?B?RW9uM0RNVThRL3ExME9EMEJjZWltY2tRUWdFTHhYMkQrQUJqczBhRDVKYXdR?=
- =?utf-8?B?SXlsREtKZXhlRHlIalh2aXRsSW5iT0tVbUlmRlJnczhaUjJtenk2NXBJTlJG?=
- =?utf-8?B?aWpQN01Cdzk2OGJVdWVUNTFHYlhHZXlickNianJnK0ZYakJUeUJzSUFrYXdW?=
- =?utf-8?B?dm9GdDlUblRxTFlaTkpxaFBzL3ZqZU1ka2RKckh4THNwc2l1SnNSTTVUUVZM?=
- =?utf-8?B?RUpINmdUMGJCZnBHNk0yUDdiUlZlL1I4azJtUnh2SGttWklsK28rQnlSY2dZ?=
- =?utf-8?B?Y2JNQlpYVFVGS3ZTZkFZczNiQnJEWThSQUFYUDJWaDhBaGxlZmVaUkxnQ3ZJ?=
- =?utf-8?B?YTUrN1V2TUQzRmEyYTMwUUVlZThkZHU3bWoxTlBtT2UzTDQyRnZOUjR3eWc0?=
- =?utf-8?B?a0txU0ZYOGU5eVZsSU5mYjBHdU5abU9aK0FoYUwwZjVZUVQ5VUxrUng4Tmtp?=
- =?utf-8?B?d3AvNkVVMTF1eWRqWGM4ZE1WY2xzY0IxVGNxZHVoanZ6WTMwWUVsNGdRS3da?=
- =?utf-8?B?SUtNV1JQVjJieHM1VSswUm1sNlVJSlNhTFlTY2h5bGY0eFBGdCs0ZlAvdkZ0?=
- =?utf-8?B?M3praCswQkdoMXEvc21MZGN6bzkzRS92VFpkb1lyalk3NWtHTVB4QlhWK3dD?=
- =?utf-8?B?d1JkMTluKzZGOE1pQ3ZpMDcrUEovNkE5aGdYMXoweHBoTnBhbDVlMk8vVThF?=
- =?utf-8?B?RVdSL2JZOENMelVSQ2J5Ri8xTGFwSHI5VHJyNW5hQlc5bEo5a1BVcVNnb25v?=
- =?utf-8?B?VSsxMGQ3UkdPRXJFZjk2QUloNmlINjkvZGdFRUliODA3VDcvWW8rWDRVL0s5?=
- =?utf-8?B?Z2pJbHFEcDUzMGc0ODhWNVJCOG1yNDJLODM2OVJCSnBneHpQb0dKcXV2MEMx?=
- =?utf-8?B?aURJTVg2T0hVbXhoNUJmUFNJRyt6bG9ocFZMSENHdmhKQUhPbC8razJaOFQ1?=
- =?utf-8?B?eFdUTjRpZDgyWEM3UmcwSnFwT2lXcUVyMkcrVG9RaTN4a1loSE1Qb3JPaW1J?=
- =?utf-8?B?OW1yeVZOc1ZmNTlvbG9kTC9WNGZJdC8vU0JCMUloQk5qTFB5aUNLOE9NbDlk?=
- =?utf-8?B?ZEpjZitOZEVGeHUyMFlyd3pxcDVmdnJpQm56cjhyd1o3UXJsZ3I0Q3A0MlRx?=
- =?utf-8?B?SExKaXBuYlJKMkhGRWFPRnhjUzZSSHQ5Ly9FSjFSNG9FTEZBUmJtWS8yUDlY?=
- =?utf-8?B?MjdMemRHZHZLeTladFdycFY4OUZLdTk2QUFnZVJkWWt5M3c9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?elYxSUtjU0Y3YWNMLzNaZTRac1ZiWnlVQlVISFVxamx4RjdZMkI4RnI1ZlZH?=
- =?utf-8?B?VG5KNHJERVFyWCtEMVBKbGUvSHFWeDV5ckwzZUx4d1FNWitubTZTUllERnQ2?=
- =?utf-8?B?NTh6SDYrYWxzamlKc2xyYlE2WU14Q1lUVjk3QytKUmRkdWJDLy9zVE5PL3Qv?=
- =?utf-8?B?VXdCaGNnOCtsL0lNaGNZTW5DUFhZcDVGdHBENHVYRTA5ZHVRMzMxY20xZXlt?=
- =?utf-8?B?TWRFb1JneXZLVkF4SFQ2MUFaeDBUYUN1ZHo2ZDk3TitvSnppSlc3UXhMaEdP?=
- =?utf-8?B?TE51YzNWc0drUTZZSHJuVmZ6em1BUUFacDRNN2JKZUJ4S0p2U1ZEOVE3TTls?=
- =?utf-8?B?U0F0dStKZ09qcnpONVpUSXJpOFBGYW1TbzZTNGMwUjRqdXFwWGcyL25wN1cv?=
- =?utf-8?B?WEZ1aXlTUE1RTFIwY2hPOWVPZG1nTjUwZk1wbkordGhCREdSQlk0T3BJYmRT?=
- =?utf-8?B?TzNENGxIVzJLaTlXVUMvMzdOaWNCdnMxcWNVSllSTmFnZGw3aDlMb0hDRU1W?=
- =?utf-8?B?WkQxRGN1c2ZFQ0EvM0VvWFNCZnp4N3ZuVmhVczdtV1NUa0hKRllIYXc4SE96?=
- =?utf-8?B?VFZHT0doQm95am4yWE1za3UzdzJmU3NVMTZCbDl1N0EwRFk2bWlqNHc2eTB1?=
- =?utf-8?B?SHFxZTBwVFhtK3gvQ09FR2xoTzdwcHB5YmRYL3dDbUp2SG8vRFdaWFA0OXB1?=
- =?utf-8?B?dDBtUjVrOS85Ylo0L2o1eFZ5MzdpNU1RSkVRalRxNm0wZmNvcHdEc3I3UUFC?=
- =?utf-8?B?bktHdmJta3ZzbmM0YlphVTNKYTgyZWhVcEpSYmptM2tlUnpuZGlIb3ZHWFIr?=
- =?utf-8?B?Wm5sMWdsOUlldm56WjQ5QTh1RkU4ZHZoVUZEZ3BxTjd4OWlDRGxwdmNjbjJn?=
- =?utf-8?B?YzJvVGdpQmFqQTVsZmxNZmNaV1dTMkFXZTZGdzZyMUpiMXo2V1BnNTJPNm9T?=
- =?utf-8?B?Ny9wcWpleWdvRHBvNWU1aUoxWkM2TTBnUW5MTDFuWmpwanh5eU5BU01jU3hG?=
- =?utf-8?B?MWJudlh2ekpLTmZwSUdSUk9oUVhRNm03V1djb1pxY3p0YnNseVBYZGd3SEo5?=
- =?utf-8?B?dTJ5L0Jqc2tNZ0l5WWNkWGNpL3dQNTZERzJXMEV5S2tBN3ZWS3NXTy82RVBW?=
- =?utf-8?B?Q29NcWZVZ3Noc1l0VXZhQW4yUlV4TFpMRU53Q2ZLL1dMUkNEWFdzRTNUZWZL?=
- =?utf-8?B?ZzBxMk9NMGZESUpHbzZVMmlwMjBCZUdCUVNJSjg1OFpUOGJQUXJqRysvZ1Bj?=
- =?utf-8?B?OHdDbXNlenZ0Vm9UbGt5TTQ5VCthS1ZTbDVnWHpPWkU1Wkt0U2FiYTg1WjJM?=
- =?utf-8?B?YXdxTkt4ZjR1VGdVeGZuMzVvUGl3TWFuSUJqanBhWTgwTFQ1T0dMRU53R01M?=
- =?utf-8?B?eGpOdDQ1OGhFdHdGRktDaFhJeWprU1lsbC9jVmRaeFJhTU5XZHNYWlUwQUJO?=
- =?utf-8?B?SWxzNjNlaUQ5RDNJUzBQbkdSN3p5bE5Dd2hKeUZxNUxrck5aTjZEUU9iOVg5?=
- =?utf-8?B?Y2swSTEwdmkrQzhKQnRiUVF6UENZQ0ZZQXhxT2hGZW9uQU1nV0VQdWJaV1VH?=
- =?utf-8?B?aEpyN2JhMkQ0S3dSeEhEMDMvdElubll5Q2xTdCtQV01UYVp1QldzNUJOTWR4?=
- =?utf-8?B?Z2V1ejRlT2lwa2pMQm53MXhtK0h5L1hiNVkzNFMyTklEOGcrSklCazhPTVZJ?=
- =?utf-8?B?OC91ajlnSHpsZ2c0VEtVSS9SUU5zQldKc1FMRWl0YjNGdHRHL3pWRFNLY3RQ?=
- =?utf-8?B?VmFvcXhOemphQzNFbTRBWXVyMStVeUIySHdNdFlrUWlyalQ2RUp0bnU1N2hF?=
- =?utf-8?B?TlpiQWl1M1czS2N5NEdnVVpNZUZhRlhTbVRDUjUzdXVxRTdXeC83VlRWdnJw?=
- =?utf-8?B?SWlUV2pyTjhEeTZWcXdnNXV5OW13dWJHTnpFOGw0OENIR1JjdUJvcDZ2Rkgz?=
- =?utf-8?B?WmtHaVlna0VScFM2cWJMQk5KNnRVL290M2FRVUVwVmU5TXcrZ1ZTS1VlUm1T?=
- =?utf-8?B?ZjB1b2N2dHVLMEhNR3o2aUNuSW1LNmxtWFFoeHR3a2RRNFRnWlhOOVRPSis2?=
- =?utf-8?B?dHpyQTZuUXFqaElNamg1YlRtaDZkYzVKZnJ3dWMvQnVONmh0eHlidmhva2hY?=
- =?utf-8?Q?NIw6R1+pBl/Y+0pOEpSGU2fYX?=
-Content-ID: <8C29FE4F8678D34FA5C0205C6B321FBD@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ d=linaro.org; s=google; t=1740634761; x=1741239561; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=M1d6rY4hzUC3r4O6nN58uO0vktUK9fRsaOEbERvDvUM=;
+ b=sTqk/AAwQgrgD9d0LRUEm1UsI+UgfcubzTTHnC27bMuElxje8SYElYhwsNGOwA+SmP
+ jiV1kjqbaeZv55ytEGLosV/cV5YqonFfxjVuo6yQGvCk7TSa+hyOZim/Qu/9xue5r9RS
+ lWI1fmoTWNd/CLBAPdyr4T0qhyYjrJEHZqP9eiirp4f+CHM/0EsCXSoLC368G7v+ZWRQ
+ 2zmp74AlQ1sLi9XWcZYIe6ZYZ0U1U2+U788UkOP6UhAEA8Zl7sPj82Y/6EauCVH3N3aL
+ +3dWG4aJT4NsBNXql+0h6irFps2DloviPct8AOK8rgWgkN6ES14XtpVdt+a4uAKflN1K
+ CvpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740634761; x=1741239561;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M1d6rY4hzUC3r4O6nN58uO0vktUK9fRsaOEbERvDvUM=;
+ b=COTRAz8/8Fyrr4upanY5PBIJfxrQPaYTMoO+N5aBuasNHX5fkndTCq2IWG6wpU27zm
+ PGv3delxDrj0CIdlnN6p0Wl/X6qJzVE9pmblu0DN0P6dvi/NtW1iNSL/iHndcW8KLUYe
+ +B3mW683CzGm/qpY7nn+ZRlIMzujlOLSfIP3pNJHggTopkY2P0WbeVFSyz+PfPjeu5aH
+ wxKYGeUReFz8F0Gdk9SSpIm5bgCTQAcHWMOeX0J5pnnB4cmi+aO2P2CJ6Z3Pm/lrjqdy
+ gpaE2ML/xWaLsK6OMLE84dTRzfG8lVmGuj2xfVIGuY35Vaf+VA/ajByH92M3FpmDIlK2
+ q01w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVhEdpBodL8mRRnLXIFLrTcdp4SKkUoogIhvRHrtfTXrc1zxcrpctfmpAxL3aEyeW6WuDwNJ9GciHA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgNTfK7YmflNwby3HQmDPeo9/jjg0lGUDDvTQo7d8IYCoc+0D2
+ wF0Oak5myUjTna1jC7414ApMhF5qnFZMf/uT43hkIoM6p8k2g4iXjUe2YMaXh5Q=
+X-Gm-Gg: ASbGnctmQiOtmxMVCMtMwOQ18DHw2VmM3IifEur0fOdOZajVbA3zl3K2PP4V4v0/soC
+ +tJxT/f3M6VKa02CcZEaRGO/K6fvXmWVPNNZKJ56P9xLOTnU1mRxFwm2u4Xqsvqm3dAaAnfkcSC
+ SKpQRa0JqPHT7LbupzXkFeXHzkW7rTdAxw3Slbg4JI3WP48ai6qz6o9KwCpmVjxhUaDuupJzl+r
+ xkOcN9nqsY1HVQteTWBV9zqNoNv8/YX75i2OOf1iiobv2saCyzOidUsO5kiGqVPMGc8pdUmVmEm
+ iqqJcBvNRPC7B6PXTjm2dap+3/46vdlry2qk0rSVF4czw2nF5r475mL8T9rKvma+3/tALEcpr9U
+ mjLXApA==
+X-Google-Smtp-Source: AGHT+IEP2wPMOsIRGJHb5KaEW27VQSqGGN90pkaIsq3T4onbi8R+hGUvcWX2pMZPGDrLbcNBPXx5Rw==
+X-Received: by 2002:a05:6512:2389:b0:545:95b:a335 with SMTP id
+ 2adb3069b0e04-5493c5786ffmr3859074e87.14.1740634761303; 
+ Wed, 26 Feb 2025 21:39:21 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30b8685f331sm747081fa.81.2025.02.26.21.39.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2025 21:39:20 -0800 (PST)
+Date: Thu, 27 Feb 2025 07:39:18 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Xin Ji <xji@analogixsemi.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Bernie Liang <bliang@analogixsemi.com>, Qilin Wen <qwen@analogixsemi.com>, 
+ "treapking@google.com" <treapking@google.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/bridge:anx7625: Enable DSC feature
+Message-ID: <7now47ze2aikepvrf66bxogsw65aid4cta7ociqgnptt5nnalk@2dhmbhf5er6a>
+References: <20250213123331.3016824-1-xji@analogixsemi.com>
+ <oi3q3xvwcdwps6vhjxubipl7oci5h74ovp4mkhzgcu6gla3zjt@m6yndg7rmp2i>
+ <BY5PR04MB6739140435C1CA211419026CC7FE2@BY5PR04MB6739.namprd04.prod.outlook.com>
+ <steyswtd6ll6bnolzes2l2k5hyg7e2ycc5bcsgrdt7zzzvpuwk@d6c5i5dbzb4j>
+ <BY5PR04MB67395797796FEB1523363931C7FE2@BY5PR04MB6739.namprd04.prod.outlook.com>
+ <ip4l55ahohygkseeem4kq5o7ygdtchvr467yfczw7qahcw7z6i@6nw5y256mu4z>
+ <BY5PR04MB67393C2835A9B1E2D088EDC1C7FE2@BY5PR04MB6739.namprd04.prod.outlook.com>
+ <7eszb6csnmdrswtbvf6cx7wraplcxclnleo7oj35mf624o43ph@yziar2frrero>
+ <BY5PR04MB673962A7C78CDE3AE605C4D2C7FB2@BY5PR04MB6739.namprd04.prod.outlook.com>
+ <BY5PR04MB673994A9BBEB1E619C7BC2BFC7C22@BY5PR04MB6739.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f0a8b6f-8f2f-4639-a1d7-08dd56f0bc3f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2025 05:36:50.6377 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cOAQExyRIjJ1CV9TbfwYoG82yJbbScALzeRhf6raOSaJ6IBQcS++onMZs7Qu+fftvyQgyzlD7Z4rcNjXBw1LEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8717
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_007_421510573.486537173"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BY5PR04MB673994A9BBEB1E619C7BC2BFC7C22@BY5PR04MB6739.namprd04.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -224,374 +108,907 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_007_421510573.486537173
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+On Wed, Feb 26, 2025 at 11:50:08AM +0000, Xin Ji wrote:
+> > > > > > > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > > > > > Sent: Thursday, February 13, 2025 9:04 PM
+> > > > > > > > > To: Xin Ji <xji@analogixsemi.com>
+> > > > > > > > > Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil
+> > > > > > > > > Armstrong <neil.armstrong@linaro.org>; Robert Foss
+> > > > > > > > > <rfoss@kernel.org>; Laurent Pinchart
+> > > > > > > > > <Laurent.pinchart@ideasonboard.com>; Jonas Karlman
+> > > > > > > > > <jonas@kwiboo.se>; Jernej Skrabec
+> > > > > > > > > <jernej.skrabec@gmail.com>; Maarten Lankhorst
+> > > > > > > > > <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+> > > > > > > > > <mripard@kernel.org>; Thomas Zimmermann
+> > > > > > > > > <tzimmermann@suse.de>;
+> > > > > > > David
+> > > > > > > > > Airlie <airlied@gmail.com>; Simona Vetter
+> > > > > > > > > <simona@ffwll.ch>; Bernie Liang <bliang@analogixsemi.com>;
+> > > > > > > > > Qilin Wen <qwen@analogixsemi.com>; treapking@google.com;
+> > > > > > > > > dri-devel@lists.freedesktop.org; linux-
+> > > > > > > > > kernel@vger.kernel.org
+> > > > > > > > > Subject: Re: [PATCH] drm/bridge:anx7625: Enable DSC
+> > > > > > > > > feature
+> > > > > > >
+> > > > > > > PLease remove such splats, use something more sensible.
+> > > > > > OK, I'll change the subject
+> > > > >
+> > > > > It's not about the subject. Compare just "ABC DEF wrote:" and your
+> > > > > quatation header.
+> > > > Sorry, these message is automatically added by Outlook, I'll remove it.
+> > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > On Thu, Feb 13, 2025 at 08:33:30PM +0800, Xin Ji wrote:
+> > > > > > > > > > As anx7625 MIPI RX bandwidth(maximum 1.5Gbps per lane)
+> > > > > > > > > > and internal pixel clock(maximum 300M) limitation.
+> > > > > > > > > > Anx7625 must enable DSC feature while MIPI source want
+> > > > > > > > > > to output 4K30
+> > > resolution.
+> > > > > > > > >
+> > > > > > > > > This commit message is pretty hard to read and understand
+> > > > > > > > > for a non-native speaker. Please consider rewriting it so
+> > > > > > > > > that it is easier to
+> > > > > > > understand it.
+> > > > > > > > >
+> > > > > > > > Thanks for the review, sorry about that, I'll rewriting the
+> > > > > > > > commit message
+> > > > > > > > > >
+> > > > > > > > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > > > > > > > > ---
+> > > > > > > > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 300
+> > > > > > > > > > ++++++++++++++++++----
+> > > > > > > > > > ++++++++++++++++++drivers/gpu/drm/bridge/analogix/anx7625.
+> > > > > > > > > > ++++++++++++++++++h
+> > > > > > > > > > ++++++++++++++++++|
+> > > > > > > > > > 32 +++
+> > > > > > > > > >  2 files changed, 284 insertions(+), 48 deletions(-)
+> > > > > > > > > >
+> > > > > > > > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > index 4be34d5c7a3b..7d86ab02f71c 100644
+> > > > > > > > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > @@ -22,6 +22,7 @@
+> > > > > > > > > >
+> > > > > > > > > >  #include <drm/display/drm_dp_aux_bus.h>  #include
+> > > > > > > > > > <drm/display/drm_dp_helper.h>
+> > > > > > > > > > +#include <drm/display/drm_dsc_helper.h>
+> > > > > > > > > >  #include <drm/display/drm_hdcp_helper.h>  #include
+> > > > > > > > > > <drm/drm_atomic_helper.h>  #include <drm/drm_bridge.h>
+> > > > > > > > > > @@
+> > > > > > > > > > -476,6
+> > > > > > > > > > +477,138 @@ static int anx7625_set_k_value(struct
+> > > > > > > > > > +anx7625_data
+> > > > > > > > > > +*ctx)
+> > > > > > > > > >                                MIPI_DIGITAL_ADJ_1,
+> > > > > > > > > > 0x3D); }
+> > > > > > > > > >
+> > > > > > > > > > +static int anx7625_set_dsc_params(struct anx7625_data *ctx) {
+> > > > > > > > > > +     int ret, i;
+> > > > > > > > > > +     u16 htotal, vtotal;
+> > > > > > > > > > +
+> > > > > > > > > > +     if (!ctx->dsc_en)
+> > > > > > > > > > +             return 0;
+> > > > > > > > > > +
+> > > > > > > > > > +     /* Htotal */
+> > > > > > > > > > +     htotal = ctx->dt.hactive.min + ctx->dt.hfront_porch.min +
+> > > > > > > > > > +             ctx->dt.hback_porch.min + ctx->dt.hsync_len.min;
+> > > > > > > > > > +     ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                             HORIZONTAL_TOTAL_PIXELS_L, htotal);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_TOTAL_PIXELS_H, htotal >> 8);
+> > > > > > > > > > +     /* Hactive */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_ACTIVE_PIXELS_L,
+> > > > > > > > > > +                              ctx->dt.hactive.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_ACTIVE_PIXELS_H,
+> > > > > > > > > > +                              ctx->dt.hactive.min >> 8);
+> > > > > > > > > > +     /* HFP */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_FRONT_PORCH_L,
+> > > > > > > > > > +                              ctx->dt.hfront_porch.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_FRONT_PORCH_H,
+> > > > > > > > > > +                              ctx->dt.hfront_porch.min >> 8);
+> > > > > > > > > > +     /* HWS */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_SYNC_WIDTH_L,
+> > > > > > > > > > +                              ctx->dt.hsync_len.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_SYNC_WIDTH_H,
+> > > > > > > > > > +                              ctx->dt.hsync_len.min >> 8);
+> > > > > > > > > > +     /* HBP */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_BACK_PORCH_L,
+> > > > > > > > > > +                              ctx->dt.hback_porch.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              HORIZONTAL_BACK_PORCH_H,
+> > > > > > > > > > +                              ctx->dt.hback_porch.min >> 8);
+> > > > > > > > > > +     /* Vtotal */
+> > > > > > > > > > +     vtotal = ctx->dt.vactive.min + ctx->dt.vfront_porch.min +
+> > > > > > > > > > +              ctx->dt.vback_porch.min + ctx->dt.vsync_len.min;
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx,
+> > > > > > > > > > + ctx->i2c.tx_p2_client,
+> > > > > TOTAL_LINES_L,
+> > > > > > > > > > +                              vtotal);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx,
+> > > > > > > > > > + ctx->i2c.tx_p2_client,
+> > > > > TOTAL_LINES_H,
+> > > > > > > > > > +                              vtotal >> 8);
+> > > > > > > > > > +     /* Vactive */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx,
+> > > > > > > > > > + ctx->i2c.tx_p2_client,
+> > > > > ACTIVE_LINES_L,
+> > > > > > > > > > +                              ctx->dt.vactive.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx,
+> > > > > > > > > > + ctx->i2c.tx_p2_client,
+> > > > > ACTIVE_LINES_H,
+> > > > > > > > > > +                              ctx->dt.vactive.min >> 8);
+> > > > > > > > > > +     /* VFP */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              VERTICAL_FRONT_PORCH,
+> > > > > > > > > > + ctx-
+> > > >dt.vfront_porch.min);
+> > > > > > > > > > +     /* VWS */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              VERTICAL_SYNC_WIDTH, ctx->dt.vsync_len.min);
+> > > > > > > > > > +     /* VBP */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > > > > > > > > > +                              VERTICAL_BACK_PORCH,
+> > > > > > > > > > + ctx->dt.vback_porch.min);
+> > > > > > > > >
+> > > > > > > > > This code mostly duplicates
+> > > > > > > > > anx7625_dsi_video_timing_config() with the I2C client
+> > > > > > > > > being the only difference. Please consider extracting a
+> > > > > > > > > common helper to
+> > > write the timings.
+> > > > > > > > It is hard to extracting a common helper, they are used
+> > > > > > > > different I2C slave address and timing register need divided
+> > > > > > > > by 3 if DSC
+> > > enabled.
+> > > > > > >
+> > > > > > > I2C client can be a parameter. Also please comment whether /3
+> > > > > > > is because of bpp/bpc ratio or due to some other reason?
+> > > > > > >
+> > > > > > > Does anx7625 support any mode other than 8bpp / 8bpc?
+> > > > > > I'll try to make a common function, anx7625 mipi only support
+> > > > > > RGB888. DSC
+> > > > > 8bpp.
+> > > > > > /3 is because of DSC ration 1:3.
+> > > > >
+> > > > > Please add this to the commit message, add a comment next to the
+> > > > > corresponding #define and use it instead of /3 all over the place.
+> > > > OK
+> > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > > +
+> > > > > > > > > > +     /* Htotal */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx,
+> > > > > > > > > > + ctx->i2c.rx_p0_client,
+> > > > > > > TOTAL_PIXEL_L_7E,
+> > > > > > > > > > +                              htotal);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx,
+> > > > > > > > > > + ctx->i2c.rx_p0_client,
+> > > > > > > TOTAL_PIXEL_H_7E,
+> > > > > > > > > > +                              htotal >> 8);
+> > > > > > > > > > +     /* Hactive */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              ACTIVE_PIXEL_L_7E, ctx->dt.hactive.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              ACTIVE_PIXEL_H_7E, ctx->dt.hactive.min >> 8);
+> > > > > > > > > > +     /* HFP */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              HORIZON_FRONT_PORCH_L_7E,
+> > > > > > > > > > +                              ctx->dt.hfront_porch.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              HORIZON_FRONT_PORCH_H_7E,
+> > > > > > > > > > +                              ctx->dt.hfront_porch.min >> 8);
+> > > > > > > > > > +     /* HWS */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              HORIZON_SYNC_WIDTH_L_7E,
+> > > > > > > > > > +                              ctx->dt.hsync_len.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              HORIZON_SYNC_WIDTH_H_7E,
+> > > > > > > > > > +                              ctx->dt.hsync_len.min >> 8);
+> > > > > > > > > > +     /* HBP */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              HORIZON_BACK_PORCH_L_7E,
+> > > > > > > > > > +                              ctx->dt.hback_porch.min);
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                              HORIZON_BACK_PORCH_H_7E,
+> > > > > > > > > > +                              ctx->dt.hback_porch.min
+> > > > > > > > > > + >> 8);
+> > > > > > > > > > +
+> > > > > > > > > > +     /* Config DSC decoder internal blank timing for
+> > > > > > > > > > + decoder to start
+> > > */
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> > > > > > > > > > +                              H_BLANK_L,
+> > > > > > > > > > +                              dsc_div(htotal - ctx->dt.hactive.min));
+> > > > > > > > > > +     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> > > > > > > > > > +                              H_BLANK_H,
+> > > > > > > > > > +                              dsc_div(htotal -
+> > > > > > > > > > + ctx->dt.hactive.min)
+> > > > > > > > > > + >> 8);
+> > > > > > > > > > +
+> > > > > > > > > > +     /* Compress ratio  RATIO bit[7:6] */
+> > > > > > > > > > +     ret |= anx7625_write_and(ctx,
+> > > > > > > > > > + ctx->i2c.rx_p0_client, R_I2C_1,
+> > > > > 0x3F);
+> > > > > > > > > > +     ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client, R_I2C_1,
+> > > > > > > > > > +                             (5 - DSC_COMPRESS_RATIO) << 6);
+> > > > > > > > > > +     /*PPS table*/
+> > > > > > > > > > +     for (i = 0; i < PPS_SIZE; i += PPS_BLOCK_SIZE)
+> > > > > > > > > > +             ret |= anx7625_reg_block_write(ctx, ctx-
+> > >i2c.rx_p2_client,
+> > > > > > > > > > +                                            R_PPS_REG_0
+> > > > > > > > > > + + i, PPS_BLOCK_SIZE,
+> > > > > > > > > > +
+> > > > > > > > > > + &ctx->pps_table[i]);
+> > > > > > > > > > +
+> > > > > > > > > > +     return ret;
+> > > > > > > > > > +}
+> > > > > > > > > > +
+> > > > > > > > > > +static int anx7625_timing_write(struct anx7625_data *ctx,
+> > > > > > > > > > +                             struct i2c_client *client,
+> > > > > > > > > > +                             u8 reg_addr, u16 reg_val,
+> > > > > > > > > > +bool
+> > > > > > > > > > +high_byte) {
+> > > > > > > > > > +     u8 reg_data;
+> > > > > > > > > > +
+> > > > > > > > > > +     if (ctx->dsc_en)
+> > > > > > > > > > +             reg_val = dsc_div(reg_val);
+> > > > > > > > > > +
+> > > > > > > > > > +     reg_data = (high_byte ? (reg_val >> 8) : reg_val)
+> > > > > > > > > > + & 0xFF;
+> > > > > > > > > > +
+> > > > > > > > > > +     return anx7625_reg_write(ctx, client, reg_addr,
+> > > > > > > > > > + reg_data); }
+> > > > > > > > >
+> > > > > > > > > Ugh, no. Calculate htotal in the calling function and call
+> > > > > > > > > anx7625_reg_write() as you were doing that before.
+> > > > > > > > >
+> > > > > > > > anx7625_timing_write() is a common function, it was called
+> > > > > > > > many times, so we cannot calculate htotal in it.
+> > > > > > >
+> > > > > > > On the caller side. I'd suggest to inline
+> > > > > > > anx7625_timing_write() to make the code more explicit.
+> > > > > > OK.
+> > > > > > >
+> > > > > > > >
+> > > > > > > > > > +
+> > > > > > > > > >  static int anx7625_dsi_video_timing_config(struct
+> > > > > > > > > > anx7625_data
+> > > > > > > > > > *ctx) {
+> > > > > > > > > >       struct device *dev = ctx->dev; @@ -506,34 +639,33
+> > > > > > > > > > @@ static int anx7625_dsi_video_timing_config(struct
+> > > > > > > > > anx7625_data *ctx)
+> > > > > > > > > >       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client,
+> > > > > > > > > >                               MIPI_LANE_CTRL_0,
+> > > > > > > > > > ctx->pdata.mipi_lanes
+> > > > > > > > > > - 1);
+> > > > > > > > > >
+> > > > > > > > > > -     /* Htotal */
+> > > > > > > > > >       htotal = ctx->dt.hactive.min + ctx->dt.hfront_porch.min +
+> > > > > > > > > > -             ctx->dt.hback_porch.min + ctx->dt.hsync_len.min;
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_TOTAL_PIXELS_L, htotal & 0xFF);
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_TOTAL_PIXELS_H, htotal >> 8);
+> > > > > > > > > > +                      ctx->dt.hback_porch.min + ctx->dt.hsync_len.min;
+> > > > > > > > > > +     /* Htotal */
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_TOTAL_PIXELS_L, htotal, false);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_TOTAL_PIXELS_H, htotal,
+> > > > > > > > > > + true);
+> > > > > > > > > >       /* Hactive */
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_ACTIVE_PIXELS_L, ctx->dt.hactive.min
+> > &
+> > > > > 0xFF);
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_ACTIVE_PIXELS_H, ctx-
+> > >dt.hactive.min >>
+> > > 8);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_ACTIVE_PIXELS_L,
+> > > > > > > > > > + ctx->dt.hactive.min,
+> > > > > false);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_ACTIVE_PIXELS_H,
+> > > > > > > > > > + ctx->dt.hactive.min, true);
+> > > > > > > > > >       /* HFP */
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_FRONT_PORCH_L, ctx-
+> > > > > >dt.hfront_porch.min);
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_FRONT_PORCH_H,
+> > > > > > > > > > -                     ctx->dt.hfront_porch.min >> 8);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_FRONT_PORCH_L,
+> > > > > > > > > > + ctx->dt.hfront_porch.min,
+> > > > > > > false);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_FRONT_PORCH_H,
+> > > > > > > > > > + ctx->dt.hfront_porch.min, true);
+> > > > > > > > >
+> > > > > > > > > Are porches also compressed? I think blanking signal
+> > > > > > > > > timings are transferred as is, without compression.
+> > > > > > > > Porches not be compressed, anx7625 internal digital block
+> > > > > > > > will multiply by 3 while enable DSC feature, so the register must
+> > divided by 3.
+> > > > > > >
+> > > > > > > Ack
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > >       /* HWS */
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_SYNC_WIDTH_L, ctx-
+> > >dt.hsync_len.min);
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_SYNC_WIDTH_H, ctx-
+> > > >dt.hsync_len.min >>
+> > > > > 8);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_SYNC_WIDTH_L,
+> > > > > > > > > > + ctx->dt.hsync_len.min,
+> > > > > false);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_SYNC_WIDTH_H,
+> > > > > > > > > > + ctx->dt.hsync_len.min, true);
+> > > > > > > > > >       /* HBP */
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_BACK_PORCH_L, ctx-
+> > > >dt.hback_porch.min);
+> > > > > > > > > > -     ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > -                     HORIZONTAL_BACK_PORCH_H, ctx-
+> > > >dt.hback_porch.min >>
+> > > > > 8);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_BACK_PORCH_L,
+> > > > > > > > > > + ctx->dt.hback_porch.min,
+> > > > > > > false);
+> > > > > > > > > > +     ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
+> > > > > > > > > > +                     HORIZONTAL_BACK_PORCH_H,
+> > > > > > > > > > + ctx->dt.hback_porch.min, true);
+> > > > > > > > > >       /* Vactive */
+> > > > > > > > > >       ret |= anx7625_reg_write(ctx,
+> > > > > > > > > > ctx->i2c.rx_p2_client,
+> > > > > ACTIVE_LINES_L,
+> > > > > > > > > >                       ctx->dt.vactive.min); @@ -663,9
+> > > > > > > > > > +795,15 @@ static int anx7625_dsi_config(struct
+> > > > > > > > > > anx7625_data *ctx)
+> > > > > > > > > >
+> > > > > > > > > >       DRM_DEV_DEBUG_DRIVER(dev, "config dsi.\n");
+> > > > > > > > > >
+> > > > > > > > > > -     /* DSC disable */
+> > > > > > > > > > -     ret = anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > -                             R_DSC_CTRL_0, ~DSC_EN);
+> > > > > > > > > > +     ret = anx7625_set_dsc_params(ctx);
+> > > > > > > > > > +     if (ctx->dsc_en)
+> > > > > > > > > > +             /* DSC enable */
+> > > > > > > > > > +             ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                                     R_DSC_CTRL_0, DSC_EN);
+> > > > > > > > > > +     else
+> > > > > > > > > > +             /* DSC disable */
+> > > > > > > > > > +             ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> > > > > > > > > > +                                      R_DSC_CTRL_0,
+> > > > > > > > > > + ~DSC_EN);
+> > > > > > > > > >
+> > > > > > > > > >       ret |= anx7625_api_dsi_config(ctx);
+> > > > > > > > > >
+> > > > > > > > > > @@ -2083,6 +2221,7 @@ static int
+> > > > > > > > > > anx7625_setup_dsi_device(struct
+> > > > > > > > > anx7625_data *ctx)
+> > > > > > > > > >               MIPI_DSI_MODE_VIDEO_HSE |
+> > > > > > > > > >               MIPI_DSI_HS_PKT_END_ALIGNED;
+> > > > > > > > > >
+> > > > > > > > > > +     dsi->dsc = &ctx->dsc;
+> > > > > > > > > >       ctx->dsi = dsi;
+> > > > > > > > > >
+> > > > > > > > > >       return 0;
+> > > > > > > > > > @@ -2186,20 +2325,68 @@ anx7625_bridge_mode_valid(struct
+> > > > > > > > > > drm_bridge
+> > > > > > > > > *bridge,
+> > > > > > > > > >       struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+> > > > > > > > > >       struct device *dev = ctx->dev;
+> > > > > > > > > >
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "drm mode checking\n");
+> > > > > > > > > > +     dev_dbg(dev, "drm mode checking\n");
+> > > > > > > > > > +     if (mode->clock > SUPPORT_PIXEL_CLOCK)
+> > > > > > > > > > +             return MODE_CLOCK_HIGH;
+> > > > > > > > > > +
+> > > > > > > > > > +     if (mode->clock < SUPPORT_MIN_PIXEL_CLOCK)
+> > > > > > > > > > +             return MODE_CLOCK_LOW;
+> > > > > > > > > >
+> > > > > > > > > > -     /* Max 1200p at 5.4 Ghz, one lane, pixel clock 300M */
+> > > > > > > > > > -     if (mode->clock > SUPPORT_PIXEL_CLOCK) {
+> > > > > > > > > > -             DRM_DEV_DEBUG_DRIVER(dev,
+> > > > > > > > > > -                                  "drm mode invalid, pixelclock too high.\n");
+> > > > > > > > > > +     if (mode->clock > DSC_PIXEL_CLOCK &&
+> > > > > > > > > > + (mode->hdisplay % 3 !=
+> > > > > > > > > > + 0))
+> > > > > > > > >
+> > > > > > > > > Magic number 3. Also is it actually required? I think DSC
+> > > > > > > > > standard has no such requirement.
+> > > > > > > > This is anx7625 limitation, if mode->hdisplay cannot be
+> > > > > > > > divided by 3, then display will have overlap/shift issue.
+> > > > > > >
+> > > > > > > Ack, add a comment or extend a commit message please.
+> > > > > > OK, I'll add a comment
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > >               return MODE_CLOCK_HIGH;
+> > > > > > > > > > -     }
+> > > > > > > > > >
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "drm mode valid.\n");
+> > > > > > > > > > +     dev_dbg(dev, "drm mode valid.\n");
+> > > > > > > > > >
+> > > > > > > > > >       return MODE_OK;
+> > > > > > > > > >  }
+> > > > > > > > > >
+> > > > > > > > > > +static void anx7625_dsc_enable(struct anx7625_data
+> > > > > > > > > > +*ctx, bool en)
+> > > {
+> > > > > > > > > > +     int ret;
+> > > > > > > > > > +     struct device *dev = ctx->dev;
+> > > > > > > > > > +
+> > > > > > > > > > +     ctx->dsc_en = en;
+> > > > > > > > > > +
+> > > > > > > > > > +     if (en) {
+> > > > > > > > > > +             ctx->dsc.dsc_version_major = 1;
+> > > > > > > > > > +             ctx->dsc.dsc_version_minor = 1;
+> > > > > > > > > > +             ctx->dsc.slice_height = 8;
+> > > > > > > > > > +             ctx->dsc.slice_width = ctx->dt.hactive.min
+> > > > > > > > > > + /
+> > > DSC_SLICE_NUM;
+> > > > > > > > > > +             ctx->dsc.slice_count = DSC_SLICE_NUM;
+> > > > > > > > > > +             ctx->dsc.bits_per_component = 8;
+> > > > > > > > > > +             ctx->dsc.bits_per_pixel = 8 << 4; /* 4 fractional bits */
+> > > > > > > > > > +             ctx->dsc.block_pred_enable = true;
+> > > > > > > > > > +             ctx->dsc.native_420 = false;
+> > > > > > > > > > +             ctx->dsc.native_422 = false;
+> > > > > > > > > > +             ctx->dsc.simple_422 = false;
+> > > > > > > > > > +             ctx->dsc.vbr_enable = false;
+> > > > > > > > > > +             ctx->dsc.rc_model_size =
+> > > > > > > > > > + DSC_RC_MODEL_SIZE_CONST;
+> > > > > > >
+> > > > > > > This one is default, please drop.
+> > > > > > OK
+> > > > > > >
+> > > > > > > > > > +             ctx->dsc.pic_width = ctx->dt.hactive.min;
+> > > > > > > > > > +             ctx->dsc.pic_height = ctx->dt.vactive.min;
+> > > > > > >
+> > > > > > > These two are set on the DSC encoder side.
+> > > > > > OK, I'll remove it
+> > > > > > >
+> > > > > > > > > > +             ctx->dsc.convert_rgb = 1;
+> > > > > > > > > > +             ctx->dsc.vbr_enable = 0;
+> > > > > > > > >
+> > > > > > > > > A lot of this params should be coming from the sink device.
+> > > > > > > > > You have to get them from the DPCD.
+> > > > > > > > These parameter is just MIPI source and anx7625 and used
+> > > > > > > > only for DSC feature,
+> > > > > > > > Anx7625 is bridge IC, sink monitor only receive normal DP
+> > > > > > > > signal from anx7625, sink device didn't know DSC
+> > > > > > > > information, no need read
+> > > > > DPCD.
+> > > > > > >
+> > > > > > > Thanks. From you commit message it is impossible to understand
+> > > > > > > whether DSC happens between the host and your bridge or
+> > > > > > > between the bridge and the monitor.
+> > > > > > I'll add more detail in commit message
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > > +
+> > > > > > > > > > +             drm_dsc_set_rc_buf_thresh(&ctx->dsc);
+> > > > > > > > > > +             drm_dsc_set_const_params(&ctx->dsc);
+> > > > > > > > > > +
+> > > > > > > > > > +             ctx->dsc.initial_scale_value =
+> > > > > > > > > > + drm_dsc_initial_scale_value(&ctx-
+> > > > > > > >dsc);
+> > > > > > > > > > +             ctx->dsc.line_buf_depth =
+> > > > > > > > > > + ctx->dsc.bits_per_component +
+> > > 1;
+> > > > > > > > > > +             ret = drm_dsc_setup_rc_params(&ctx->dsc,
+> > > > > DRM_DSC_1_2_444);
+> > > > > > > > > > +             if (ret < 0)
+> > > > > > > > > > +                     dev_warn(dev,
+> > > > > > > > > > + "drm_dsc_setup_rc_params ret %d\n", ret);
+> > > > > > > > > > +
+> > > > > > > > > > +             drm_dsc_compute_rc_parameters(&ctx->dsc);
+> > > > > > > > >
+> > > > > > > > > You have ignored return value. Please handle the function
+> > > > > > > > > returning an
+> > > > > error.
+> > > > > > > > OK
+> > > > > > >
+> > > > > > > All these functions are to be called on the DSC encoder side
+> > > > > > > as it has to be able to infer DSC params.
+> > > > > >
+> > > > > > I don't know, we co-work with MTK encoder, they need us to
+> > > > > > initial dsc data structure
+> > > > >
+> > > > > As I wrote, encoder should be able to influence some of those
+> > > > > params. As such, DSC decoder should provide some values, then DSC
+> > > > > encoder's .pre_enable should be able to update those values (e.g.
+> > > > > by setting .pic_width and .pic_height and/or disabling some of flags).
+> > > > > Then the DSC encoder should fill the rest of the params by calling
+> > > > > all these
+> > > functions. Consider how drm/msm/dsi handles it.
+> > > > OK, I'll check it.
+> > > > >
+> > > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > > +
+> > > > > > > > > > +             drm_dsc_pps_payload_pack((struct
+> > > > > > > > > > + drm_dsc_picture_parameter_set
+> > > > > > > > > *)&ctx->pps_table,
+> > > > > > > > > > +                                      &ctx->dsc);
+> > > > > > > > > > +             dev_dbg(dev, "anx7625 enable dsc\n");
+> > > > > > > > > > +     } else {
+> > > > > > > > > > +             ctx->dsc.dsc_version_major = 0;
+> > > > > > > > > > +             ctx->dsc.dsc_version_minor = 0;
+> > > > > > > > > > +             dev_dbg(dev, "anx7625 disable dsc\n");
+> > > > > > > > > > +     }
+> > > > > > > > > > +}
+> > > > > > > > > > +
+> > > > > > > > > >  static void anx7625_bridge_mode_set(struct drm_bridge *bridge,
+> > > > > > > > > >                                   const struct drm_display_mode *old_mode,
+> > > > > > > > > >                                   const struct
+> > > > > > > > > > drm_display_mode
+> > > > > > > > > > *mode) @@ -2244,6 +2431,11 @@ static void
+> > > > > > > > > > anx7625_bridge_mode_set(struct
+> > > > > > > > > drm_bridge *bridge,
+> > > > > > > > > >       DRM_DEV_DEBUG_DRIVER(dev,
+> > "vsync_end(%d),vtotal(%d).\n",
+> > > > > > > > > >                            mode->vsync_end,
+> > > > > > > > > >                            mode->vtotal);
+> > > > > > > > > > +
+> > > > > > > > > > +     if (mode->clock > DSC_PIXEL_CLOCK)
+> > > > > > > > >
+> > > > > > > > > What if the sink doesn't support DSC? The decision whether
+> > > > > > > > > to enable DSC or not should be happening in the atomic_check().
+> > > > > > > > > Likewise mode_valid should be able to check if your bridge
+> > > > > > > > > and the sink can agree on DSC params and reject modes if
+> > > > > > > > > they can
+> > > not.
+> > > > > > > > Anx7625 is bridge IC, it receive MIPI data and DP output,
+> > > > > > > > DSC only exist between SOC and Anx7625, sink monitor only
+> > > > > > > > receive normal DP signal from anx7625, there is no
+> > > > > > > > compression at DP output, so no need to
+> > > > > > > check sink device.
+> > > > > > >
+> > > > > > > Well. Then the same question applies in the other direction:
+> > > > > > > what if the host doesnt' support DSC?
+> > > > > > If SOC host doesn't support DSC, then cannot display 4K30,
+> > > > > > currently, only debug with MTK DSI encoder.
+> > > > >
+> > > > > The bridge is a generic driver. So while you test with Mediatek
+> > > > > platforms, you still have to think about a generic case and add
+> > > > > necessary
+> > > checks.
+> > > > OK, I'll check it.
+> > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > > +             anx7625_dsc_enable(ctx, true);
+> > > > > > > > > > +     else
+> > > > > > > > > > +             anx7625_dsc_enable(ctx, false);
+> > > > > > > > > >  }
+> > > > > > > > > >
+> > > > > > > > > >  static bool anx7625_bridge_mode_fixup(struct drm_bridge
+> > > > > > > > > > *bridge, @@
+> > > > > > > > > > -2258,26 +2450,33 @@ static bool
+> > > > > > > > > > anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
+> > > > > > > > > >
+> > > > > > > > > >       DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
+> > > > > > > > > >
+> > > > > > > > > > -     /* No need fixup for external monitor */
+> > > > > > > > > > -     if (!ctx->pdata.panel_bridge)
+> > > > > > > > > > -             return true;
+> > > > > > > > > > -
+> > > > > > > > > >       hsync = mode->hsync_end - mode->hsync_start;
+> > > > > > > > > >       hfp = mode->hsync_start - mode->hdisplay;
+> > > > > > > > > >       hbp = mode->htotal - mode->hsync_end;
+> > > > > > > > > >       hblanking = mode->htotal - mode->hdisplay;
+> > > > > > > > > >
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "before mode fixup\n");
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d), hfp(%d), hbp(%d),
+> > > > > > > > > clock(%d)\n",
+> > > > > > > > > > -                          hsync, hfp, hbp, adj->clock);
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d),
+> > > hsync_end(%d),
+> > > > > > > > > htot(%d)\n",
+> > > > > > > > > > -                          adj->hsync_start, adj->hsync_end, adj->htotal);
+> > > > > > > > > > -
+> > > > > > > > > > +     dev_dbg(dev, "before mode fixup\n");
+> > > > > > > > > > +     dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
+> > > > > > > > > > +             hsync, hfp, hbp, adj->clock);
+> > > > > > > > > > +     dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d)\n",
+> > > > > > > > > > +             adj->hsync_start, adj->hsync_end,
+> > > > > > > > > > + adj->htotal);
+> > > > > > > > >
+> > > > > > > > > No. Please use drm_dbg_driver(), but not dev_dbg(). And
+> > > > > > > > > anyway, this should go to a separate commit.
+> > > > > > > > OK, I'll not change it in this patch.
+> > > > > > > > >
+> > > > > > > > > >       adj_hfp = hfp;
+> > > > > > > > > >       adj_hsync = hsync;
+> > > > > > > > > >       adj_hbp = hbp;
+> > > > > > > > > >       adj_hblanking = hblanking;
+> > > > > > > > > >
+> > > > > > > > > > +     if (mode->clock > DSC_PIXEL_CLOCK) {
+> > > > > > > > > > +             adj_hsync = DSC_HSYNC_LEN;
+> > > > > > > > > > +             adj_hfp = DSC_HFP_LEN;
+> > > > > > > > > > +             adj_hbp = DSC_HBP_LEN;
+> > > > > > > > > > +             vref = (u64)adj->clock * 1000 * 1000 /
+> > > > > > > > > > + (adj->htotal * adj-
+> > > > > >vtotal);
+> > > > > > > > > > +             goto calculate_timing;
+> > > > > > > > > > +     }
+> > > > > > > > > > +
+> > > > > > > > > > +     /* No need fixup for external monitor */
+> > > > > > > > > > +     if (!ctx->pdata.panel_bridge)
+> > > > > > > > > > +             return true;
+> > > > > > > > > > +
+> > > > > > > > > >       /* HFP needs to be even */
+> > > > > > > > > >       if (hfp & 0x1) {
+> > > > > > > > > >               adj_hfp += 1; @@ -2349,16 +2548,21 @@
+> > > > > > > > > > static bool anx7625_bridge_mode_fixup(struct
+> > > > > > > > > drm_bridge *bridge,
+> > > > > > > > > >                       adj_hfp -= delta_adj;
+> > > > > > > > > >       }
+> > > > > > > > > >
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "after mode fixup\n");
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d), hfp(%d), hbp(%d),
+> > > > > > > > > clock(%d)\n",
+> > > > > > > > > > -                          adj_hsync, adj_hfp, adj_hbp, adj->clock);
+> > > > > > > > > > +calculate_timing:
+> > > > > > > > > > +
+> > > > > > > > > > +     dev_dbg(dev, "after mode fixup\n");
+> > > > > > > > > > +     dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
+> > > > > > > > > > +             adj_hsync, adj_hfp, adj_hbp, adj->clock);
+> > > > > > > > > >
+> > > > > > > > > >       /* Reconstruct timing */
+> > > > > > > > > >       adj->hsync_start = adj->hdisplay + adj_hfp;
+> > > > > > > > > >       adj->hsync_end = adj->hsync_start + adj_hsync;
+> > > > > > > > > >       adj->htotal = adj->hsync_end + adj_hbp;
+> > > > > > > > > > -     DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d),
+> > > hsync_end(%d),
+> > > > > > > > > htot(%d)\n",
+> > > > > > > > > > -                          adj->hsync_start, adj->hsync_end, adj->htotal);
+> > > > > > > > > > +     if (mode->clock > DSC_PIXEL_CLOCK)
+> > > > > > > > > > +             adj->clock = (u64)vref * adj->htotal *
+> > > > > > > > > > + adj->vtotal /
+> > > > > > > > > > + 1000 / 1000;
+> > > > > > > > > > +
+> > > > > > > > > > +     dev_dbg(dev, "hsync_start(%d), hsync_end(%d),
+> > > > > > > > > > + htot(%d),
+> > > > > clock(%d)\n",
+> > > > > > > > > > +             adj->hsync_start, adj->hsync_end,
+> > > > > > > > > > + adj->htotal,
+> > > > > > > > > > + adj->clock);
+> > > > > > > > > >
+> > > > > > > > > >       return true;
+> > > > > > > > > >  }
+> > > > > > > > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > > > > > > > > > b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > > > > > > > > > index eb5580f1ab2f..db931f5800b1 100644
+> > > > > > > > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > > > > > > > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > > > > > > > > > @@ -149,6 +149,8 @@
+> > > > > > > > > >  #define HFP_HBP_DEF          ((HBLANKING_MIN - SYNC_LEN_DEF)
+> > /
+> > > 2)
+> > > > > > > > > >  #define VIDEO_CONTROL_0      0x08
+> > > > > > > > > >
+> > > > > > > > > > +#define  TOTAL_LINES_L          0x12
+> > > > > > > > > > +#define  TOTAL_LINES_H          0x13
+> > > > > > > > > >  #define  ACTIVE_LINES_L         0x14
+> > > > > > > > > >  #define  ACTIVE_LINES_H         0x15  /* Bit[7:6] are reserved */
+> > > > > > > > > >  #define  VERTICAL_FRONT_PORCH   0x16
+> > > > > > > > > > @@ -166,6 +168,32 @@
+> > > > > > > > > >  #define  HORIZONTAL_BACK_PORCH_L      0x21
+> > > > > > > > > >  #define  HORIZONTAL_BACK_PORCH_H      0x22  /* Bit[7:4] are
+> > > > > reserved
+> > > > > > > */
+> > > > > > > > > >
+> > > > > > > > > > +#define  H_BLANK_L                    0x3E
+> > > > > > > > > > +#define  H_BLANK_H                    0x3F
+> > > > > > > > > > +#define  DSC_COMPRESS_RATIO           3
+> > > > > > > > > > +#define  dsc_div(X)                   ((X) / DSC_COMPRESS_RATIO)
+> > > > > > > > >
+> > > > > > > > > This assumes 1:3 ratio. Does anx7625 support only 8bpp / 8bpc
+> > mode?
+> > > > > > > > > Or does
+> > > > > > > > > 1:3 come from some other ratio?
+> > > > > > > > We only tested 1:3 compression ratio, 24bpp compress to 8bpp.
+> > > > > > >
+> > > > > > > What are hardware limitations?
+> > > > > > Anx7625 MIPI only support RGB888 24bpp. With DSC 3:1
+> > > > > > compression, MIPI TX output 8bpp.
+> > > > >
+> > > > > As I wrote, a comment please.
+> > > > OK
+> > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > > +#define  DSC_SLICE_NUM                2
+> > > > > > > > > > +#define  DSC_PIXEL_CLOCK              250000
+> > > > > > > > > > +#define  DSC_HSYNC_LEN                90
+> > > > > > > > > > +#define  DSC_HFP_LEN                  177
+> > > > > > > > > > +#define  DSC_HBP_LEN                  297
+> > > > > > > > > > +
+> > > > > > > > > > +#define  TOTAL_PIXEL_L_7E             0x50
+> > > > > > > > > > +#define  TOTAL_PIXEL_H_7E             0x51  /* bit[7:6] are reserved
+> > > */
+> > > > > > > > > > +#define  ACTIVE_PIXEL_L_7E            0x52
+> > > > > > > > > > +#define  ACTIVE_PIXEL_H_7E            0x53  /* bit[7:6] are reserved
+> > > */
+> > > > > > > > > > +#define  HORIZON_FRONT_PORCH_L_7E     0x54
+> > > > > > > > > > +#define  HORIZON_FRONT_PORCH_H_7E     0x55
+> > > > > > > > > > +#define  HORIZON_SYNC_WIDTH_L_7E      0x56
+> > > > > > > > > > +#define  HORIZON_SYNC_WIDTH_H_7E      0x57
+> > > > > > > > > > +#define  HORIZON_BACK_PORCH_L_7E      0x58
+> > > > > > > > > > +#define  HORIZON_BACK_PORCH_H_7E      0x59
+> > > > > > > > > > +
+> > > > > > > > > > +#define  PPS_SIZE                     128
+> > > > > > > > > > +#define  PPS_BLOCK_SIZE               32
+> > > > > > > > > > +#define  R_PPS_REG_0                  0x80
+> > > > > > > > > > +#define  R_I2C_1                      0x81
+> > > > > > > > > > +
+> > > > > > > > > >  /******** END of I2C Address 0x72 *********/
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > >
+> > > > > > >
+> > > > >
+> > >
+> > /***************************************************************/
+> > > > > > > > > > @@ -415,6 +443,7 @@ enum audio_wd_len {
+> > > > > > > > > >  #define MAX_EDID_BLOCK       3
+> > > > > > > > > >  #define EDID_TRY_CNT 3
+> > > > > > > > > >  #define SUPPORT_PIXEL_CLOCK  300000
+> > > > > > > > > > +#define SUPPORT_MIN_PIXEL_CLOCK      50000
+> > > > > > > > > >
+> > > > > > > > > >  /***************** Display End *****************/
+> > > > > > > > > >
+> > > > > > > > > > @@ -454,6 +483,7 @@ struct anx7625_data {
+> > > > > > > > > >       int hpd_high_cnt;
+> > > > > > > > > >       int dp_en;
+> > > > > > > > > >       int hdcp_cp;
+> > > > > > > > > > +     bool dsc_en;
+> > > > > > > > > >       /* Lock for work queue */
+> > > > > > > > > >       struct mutex lock;
+> > > > > > > > > >       struct device *dev; @@ -479,6 +509,8 @@ struct
+> > > > > > > > > > anx7625_data {
+> > > > > > > > > >       struct drm_connector *connector;
+> > > > > > > > > >       struct mipi_dsi_device *dsi;
+> > > > > > > > > >       struct drm_dp_aux aux;
+> > > > > > > > > > +     struct drm_dsc_config dsc;
+> > > > > > > > > > +     char pps_table[PPS_SIZE];
+> > > > > > > > >
+> > > > > > > > > pps_table and drm_dsc_config can vary depending on the
+> > > > > > > > > mode and connected sink. THey should be a part of the
+> > > > > > > > > atomic state rather than a long-living anx7625_data. So does
+> > dsc_en.
+> > > > > > > > No need to check sink monitor, because DSC only exist
+> > > > > > > > between SOC and Anx7625, sink monitor only receive normal DP
+> > > > > > > > signal from
+> > > anx7625.
+> > > > > > > > Anx7625 is responsible for decompression.
+> > > > > > >
+> > > > > > > The same way, they depend on the selected video mode, don't they?
+> > > > > > Actually it depends on pixel clock, if it is more than 250M,
+> > > > > > then need to do
+> > > DSC.
+> > > > >
+> > > > > Yes. So you should check if you can enable DSC in .atomic_check()
+> > > > > and set dsc_en correspondingly. At the same time in
+> > > > > .atomic_check() you can not modify anx7625_data as it is a check
+> > > > > time, commit can be rejected or it can be a test- only check. So
+> > > > > dsc_en should go to
+> > > drm_bridge_state-wrapping structure.
+> > > > >
+> > > > > At the same time I don't see a value in storing the packed PPS
+> > > > > table, it is a short- lived data.
+> > > > Do you mean we can maintain dsc_en flag for each timing/resolution
+> > > > in drm_bridge_state structure, and set it in .atomic_check(), and
+> > > > check the drm_bridge_state's  dsc_en  in .atomic_enable()? I don't
+> > > > know how to
+> > > make a drm_bridge_state-wrapping structure.
+> > >
+> > > Ideally yes. You should define
+> > >   struct anx7625_bridge_state {
+> > >     struct drm_bridge_state base;
+> > >     bool dsc_en;
+> > >   };
+> > >
+> > > Then define your own versions of atomic_reset and
+> > > .atomic_duplicate_state callbacks.
+> > >
+> > > Note, we currently don't have a way to check that the DSI host
+> > > actually supports DSC, you have to invent it.
+> > >
+> > 
+> > OK, got it, I'll try it and discuss with related people, thanks!
+> > 
+> 
+> Hi Dmitry, 
+> 1. I double confirmed with Mediatek encoder, they didn't have
+> such a capability which can tell us whether it can support DSC or not.
 
-T24gTW9uLCAyMDI1LTAyLTE3IGF0IDE2OjQ4ICswMTAwLCBBbmdlbG9HaW9hY2NoaW5vIERlbCBS
-ZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtz
-IG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRlciBv
-ciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBBZGQgYSBiaW5kaW5nIGZvciB0aGUgSERNSSBUWCB2
-MiBFbmNvZGVyIGZvdW5kIGluIE1lZGlhVGVrIE1UODE5NQ0KPiBhbmQgTVQ4MTg4IFNvQ3MuDQo+
-IA0KPiBUaGlzIGZ1bGx5IHN1cHBvcnRzIHRoZSBIRE1JIFNwZWNpZmljYXRpb24gMi4wYiwgaGVu
-Y2UgaXQgcHJvdmlkZXMNCj4gc3VwcG9ydCBmb3IgM0QtSERNSSwgUG9sYXJpdHkgaW52ZXJzaW9u
-LCB1cCB0byAxNiBiaXRzIERlZXAgQ29sb3IsDQo+IGNvbG9yIHNwYWNlcyBpbmNsdWRpbmcgUkdC
-NDQ0LCBZQ0JDUjQyMC80MjIvNDQ0IChJVFU2MDEvSVRVNzA5KSBhbmQNCj4geHZZQ0MsIHdpdGgg
-b3V0cHV0IHJlc29sdXRpb25zIHVwIHRvIDM4NDB4MjE2MHBANjBIei4NCj4gDQo+IE1vcmVvdmVy
-LCBpdCBhbHNvIHN1cHBvcnRzIEhEQ1AgMS40IGFuZCAyLjMsIFZhcmlhYmxlIFJlZnJlc2ggUmF0
-ZQ0KPiAoVlJSKSBhbmQgQ29uc3VtZXIgRWxlY3Ryb25pY3MgQ29udHJvbCAoQ0VDKS4NCj4gDQo+
-IFRoaXMgSVAgYWxzbyBpbmNsdWRlcyBzdXBwb3J0IGZvciBIRE1JIEF1ZGlvLCBpbmNsdWRpbmcg
-SUVDNjA5NTgNCj4gYW5kIElFQzYxOTM3IFNQRElGLCA4LWNoYW5uZWwgUENNLCBEU0QsIGFuZCBv
-dGhlciBsb3NzbGVzcyBhdWRpbw0KPiBhY2NvcmRpbmcgdG8gSERNSSAyLjAuDQo+IA0KPiBSZXZp
-ZXdlZC1ieTogUm9iIEhlcnJpbmcgKEFybSkgPHJvYmhAa2VybmVsLm9yZz4NCj4gU2lnbmVkLW9m
-Zi1ieTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVn
-bm9AY29sbGFib3JhLmNvbT4NCj4gLS0tDQo+ICAuLi4vbWVkaWF0ZWsvbWVkaWF0ZWssbXQ4MTk1
-LWhkbWkueWFtbCAgICAgICAgfCAxNTEgKysrKysrKysrKysrKysrKysrDQo+ICAxIGZpbGUgY2hh
-bmdlZCwgMTUxIGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxtdDgxOTUt
-aGRtaS55YW1sDQo+IA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssbXQ4MTk1LWhkbWkueWFtbCBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLG10
-ODE5NS1oZG1pLnlhbWwNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAw
-MDAwLi4xYjM4MmY5OWQzY2UNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxtdDgxOTUtaGRt
-aS55YW1sDQo+IEBAIC0wLDAgKzEsMTUxIEBADQo+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
-OiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkNCj4gKyVZQU1MIDEuMg0KPiArLS0tDQo+
-ICskaWQ6IGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi8vZGV2aWNldHJlZS5vcmcv
-c2NoZW1hcy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLG10ODE5NS1oZG1pLnlhbWwqX187SXch
-IUNUUk5LQTl3TWcwQVJidyFoamF3NnJXMGZHY05hZVlXR2JDSGlseWQ2ajZWMWJ5UmgxWkdpcFpm
-WWhYT3dQYzBZMlJDSTl5WUxGTnBxTkZHaVNhZ0EwVldzM1FxSnVFQkwtYlNRVkNpVVlneiQNCj4g
-KyRzY2hlbWE6IGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi8vZGV2aWNldHJlZS5v
-cmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCpfXztJdyEhQ1RSTktBOXdNZzBBUmJ3IWhqYXc2clcw
-ZkdjTmFlWVdHYkNIaWx5ZDZqNlYxYnlSaDFaR2lwWmZZaFhPd1BjMFkyUkNJOXlZTEZOcHFORkdp
-U2FnQTBWV3MzUXFKdUVCTC1iU1FYN0VTWmtTJA0KPiArDQo+ICt0aXRsZTogTWVkaWFUZWsgTVQ4
-MTk1IHNlcmllcyBIRE1JLVRYIEVuY29kZXINCj4gKw0KPiArbWFpbnRhaW5lcnM6DQo+ICsgIC0g
-QW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29s
-bGFib3JhLmNvbT4NCj4gKyAgLSBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPg0KPiArDQo+ICtk
-ZXNjcmlwdGlvbjoNCj4gKyAgVGhlIE1lZGlhVGVrIEhETUktVFggdjIgZW5jb2RlciBjYW4gZ2Vu
-ZXJhdGUgSERNSSBmb3JtYXQgZGF0YSBiYXNlZCBvbg0KDQpNZWRpYVRlayBNVDgxOTUgc2VyaWVz
-IEhETUktVFggRW5jb2Rlcg0KDQpBZnRlciB0aGlzIG1vZGlmaWNhdGlvbiwNCg0KUmV2aWV3ZWQt
-Ynk6IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+DQoNCj4gKyAgdGhlIEhETUkgU3BlY2lmaWNh
-dGlvbiAyLjBiLg0KPiArDQo+ICtwcm9wZXJ0aWVzOg0KPiArICBjb21wYXRpYmxlOg0KPiArICAg
-IGVudW06DQo+ICsgICAgICAtIG1lZGlhdGVrLG10ODE4OC1oZG1pLXR4DQo+ICsgICAgICAtIG1l
-ZGlhdGVrLG10ODE5NS1oZG1pLXR4DQo+ICsNCj4gKyAgcmVnOg0KPiArICAgIG1heEl0ZW1zOiAx
-DQo+ICsNCj4gKyAgaW50ZXJydXB0czoNCj4gKyAgICBtYXhJdGVtczogMQ0KPiArDQo+ICsgIGNs
-b2NrczoNCj4gKyAgICBpdGVtczoNCj4gKyAgICAgIC0gZGVzY3JpcHRpb246IEhETUkgUGVyaXBo
-ZXJhbCBCdXMgKEFQQikgY2xvY2sNCj4gKyAgICAgIC0gZGVzY3JpcHRpb246IEhEQ1AgYW5kIEhE
-TUlfVE9QIGNsb2NrDQo+ICsgICAgICAtIGRlc2NyaXB0aW9uOiBIRENQLCBIRE1JX1RPUCBhbmQg
-SERNSSBBdWRpbyByZWZlcmVuY2UgY2xvY2sNCj4gKyAgICAgIC0gZGVzY3JpcHRpb246IFZQUCBI
-RE1JIFNwbGl0IGNsb2NrDQo+ICsNCj4gKyAgY2xvY2stbmFtZXM6DQo+ICsgICAgaXRlbXM6DQo+
-ICsgICAgICAtIGNvbnN0OiBidXMNCj4gKyAgICAgIC0gY29uc3Q6IGhkY3ANCj4gKyAgICAgIC0g
-Y29uc3Q6IGhkY3AyNG0NCj4gKyAgICAgIC0gY29uc3Q6IGhkbWktc3BsaXQNCj4gKw0KPiArICBp
-MmM6DQo+ICsgICAgdHlwZTogb2JqZWN0DQo+ICsgICAgJHJlZjogL3NjaGVtYXMvZGlzcGxheS9t
-ZWRpYXRlay9tZWRpYXRlayxtdDgxOTUtaGRtaS1kZGMueWFtbA0KPiArICAgIHVuZXZhbHVhdGVk
-UHJvcGVydGllczogZmFsc2UNCj4gKyAgICBkZXNjcmlwdGlvbjogSERNSSBEREMgSTJDIGNvbnRy
-b2xsZXINCj4gKw0KPiArICBwaHlzOg0KPiArICAgIG1heEl0ZW1zOiAxDQo+ICsgICAgZGVzY3Jp
-cHRpb246IFBIWSBwcm92aWRpbmcgY2xvY2tpbmcgVE1EUyBhbmQgcGl4ZWwgdG8gY29udHJvbGxl
-cg0KPiArDQo+ICsgIHBoeS1uYW1lczoNCj4gKyAgICBpdGVtczoNCj4gKyAgICAgIC0gY29uc3Q6
-IGhkbWkNCj4gKw0KPiArICBwb3dlci1kb21haW5zOg0KPiArICAgIG1heEl0ZW1zOiAxDQo+ICsN
-Cj4gKyAgJyNzb3VuZC1kYWktY2VsbHMnOg0KPiArICAgIGNvbnN0OiAxDQo+ICsNCj4gKyAgcG9y
-dHM6DQo+ICsgICAgJHJlZjogL3NjaGVtYXMvZ3JhcGgueWFtbCMvcHJvcGVydGllcy9wb3J0cw0K
-PiArDQo+ICsgICAgcHJvcGVydGllczoNCj4gKyAgICAgIHBvcnRAMDoNCj4gKyAgICAgICAgJHJl
-ZjogL3NjaGVtYXMvZ3JhcGgueWFtbCMvcHJvcGVydGllcy9wb3J0DQo+ICsgICAgICAgIGRlc2Ny
-aXB0aW9uOg0KPiArICAgICAgICAgIElucHV0IHBvcnQsIHVzdWFsbHkgY29ubmVjdGVkIHRvIHRo
-ZSBvdXRwdXQgcG9ydCBvZiBhIERQSQ0KPiArDQo+ICsgICAgICBwb3J0QDE6DQo+ICsgICAgICAg
-ICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwjL3Byb3BlcnRpZXMvcG9ydA0KPiArICAgICAgICBk
-ZXNjcmlwdGlvbjoNCj4gKyAgICAgICAgICBPdXRwdXQgcG9ydCB0aGF0IG11c3QgYmUgY29ubmVj
-dGVkIGVpdGhlciB0byB0aGUgaW5wdXQgcG9ydCBvZg0KPiArICAgICAgICAgIGEgSERNSSBjb25u
-ZWN0b3Igbm9kZSBjb250YWluaW5nIGEgZGRjLWkyYy1idXMsIG9yIHRvIHRoZSBpbnB1dA0KPiAr
-ICAgICAgICAgIHBvcnQgb2YgYW4gYXR0YWNoZWQgYnJpZGdlIGNoaXAsIHN1Y2ggYXMgYSBTbGlt
-UG9ydCB0cmFuc21pdHRlci4NCj4gKw0KPiArICAgIHJlcXVpcmVkOg0KPiArICAgICAgLSBwb3J0
-QDANCj4gKyAgICAgIC0gcG9ydEAxDQo+ICsNCj4gK3JlcXVpcmVkOg0KPiArICAtIGNvbXBhdGli
-bGUNCj4gKyAgLSByZWcNCj4gKyAgLSBpbnRlcnJ1cHRzDQo+ICsgIC0gY2xvY2tzDQo+ICsgIC0g
-Y2xvY2stbmFtZXMNCj4gKyAgLSBwb3dlci1kb21haW5zDQo+ICsgIC0gcGh5cw0KPiArICAtIHBo
-eS1uYW1lcw0KPiArICAtIHBvcnRzDQo+ICsNCj4gK2FsbE9mOg0KPiArICAtICRyZWY6IC9zY2hl
-bWFzL3NvdW5kL2RhaS1jb21tb24ueWFtbCMNCj4gKw0KPiArYWRkaXRpb25hbFByb3BlcnRpZXM6
-IGZhbHNlDQo+ICsNCj4gK2V4YW1wbGVzOg0KPiArICAtIHwNCj4gKyAgICAjaW5jbHVkZSA8ZHQt
-YmluZGluZ3MvY2xvY2svbXQ4MTk1LWNsay5oPg0KPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5n
-cy9pbnRlcnJ1cHQtY29udHJvbGxlci9hcm0tZ2ljLmg+DQo+ICsgICAgI2luY2x1ZGUgPGR0LWJp
-bmRpbmdzL3Bvd2VyL210ODE5NS1wb3dlci5oPg0KPiArDQo+ICsgICAgc29jIHsNCj4gKyAgICAg
-ICAgI2FkZHJlc3MtY2VsbHMgPSA8Mj47DQo+ICsgICAgICAgICNzaXplLWNlbGxzID0gPDI+Ow0K
-PiArDQo+ICsgICAgICAgIGhkbWlAMWMzMDAwMDAgew0KPiArICAgICAgICAgICAgY29tcGF0aWJs
-ZSA9ICJtZWRpYXRlayxtdDgxOTUtaGRtaS10eCI7DQo+ICsgICAgICAgICAgICByZWcgPSA8MCAw
-eDFjMzAwMDAwIDAgMHgxMDAwPjsNCj4gKyAgICAgICAgICAgIGNsb2NrcyA9IDwmdG9wY2tnZW4g
-Q0xLX1RPUF9IRE1JX0FQQj4sDQo+ICsgICAgICAgICAgICAgICAgICAgICA8JnRvcGNrZ2VuIENM
-S19UT1BfSERDUD4sDQo+ICsgICAgICAgICAgICAgICAgICAgICA8JnRvcGNrZ2VuIENMS19UT1Bf
-SERDUF8yNE0+LA0KPiArICAgICAgICAgICAgICAgICAgICAgPCZ2cHBzeXMxIENMS19WUFAxX1ZQ
-UF9TUExJVF9IRE1JPjsNCj4gKyAgICAgICAgICAgIGNsb2NrLW5hbWVzID0gImJ1cyIsICJoZGNw
-IiwgImhkY3AyNG0iLCAiaGRtaS1zcGxpdCI7DQo+ICsgICAgICAgICAgICBpbnRlcnJ1cHRzID0g
-PEdJQ19TUEkgNjc3IElSUV9UWVBFX0xFVkVMX0hJR0ggMD47DQo+ICsgICAgICAgICAgICBwaHlz
-ID0gPCZoZG1pX3BoeT47DQo+ICsgICAgICAgICAgICBwaHktbmFtZXMgPSAiaGRtaSI7DQo+ICsg
-ICAgICAgICAgICBwb3dlci1kb21haW5zID0gPCZzcG0gTVQ4MTk1X1BPV0VSX0RPTUFJTl9IRE1J
-X1RYPjsNCj4gKyAgICAgICAgICAgIHBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+ICsgICAg
-ICAgICAgICBwaW5jdHJsLTAgPSA8JmhkbWlfcGlucz47DQo+ICsgICAgICAgICAgICAjc291bmQt
-ZGFpLWNlbGxzID0gPDE+Ow0KPiArDQo+ICsgICAgICAgICAgICBoZG1pdHhfZGRjOiBpMmMgew0K
-PiArICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTk1LWhkbWktZGRj
-IjsNCj4gKyAgICAgICAgICAgICAgICBjbG9ja3MgPSA8JmNsazI2bT47DQo+ICsgICAgICAgICAg
-ICB9Ow0KPiArDQo+ICsgICAgICAgICAgICBwb3J0cyB7DQo+ICsgICAgICAgICAgICAgICAgI2Fk
-ZHJlc3MtY2VsbHMgPSA8MT47DQo+ICsgICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47
-DQo+ICsNCj4gKyAgICAgICAgICAgICAgICBwb3J0QDAgew0KPiArICAgICAgICAgICAgICAgICAg
-ICByZWcgPSA8MD47DQo+ICsNCj4gKyAgICAgICAgICAgICAgICAgICAgaGRtaV9pbjogZW5kcG9p
-bnQgew0KPiArICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZkcGkx
-X291dD47DQo+ICsgICAgICAgICAgICAgICAgICAgIH07DQo+ICsgICAgICAgICAgICAgICAgfTsN
-Cj4gKw0KPiArICAgICAgICAgICAgICAgIHBvcnRAMSB7DQo+ICsgICAgICAgICAgICAgICAgICAg
-IHJlZyA9IDwxPjsNCj4gKw0KPiArICAgICAgICAgICAgICAgICAgICBoZG1pX291dDogZW5kcG9p
-bnQgew0KPiArICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZoZG1p
-X2Nvbm5lY3Rvcl9pbj47DQo+ICsgICAgICAgICAgICAgICAgICAgIH07DQo+ICsgICAgICAgICAg
-ICAgICAgfTsNCj4gKyAgICAgICAgICAgIH07DQo+ICsgICAgICAgIH07DQo+ICsgICAgfTsNCj4g
-LS0NCj4gMi40OC4xDQo+IA0KDQo=
+I'm not sure, what do you mean here. I'm talking a driver interface, not
+about the Mediatek encoder on its own. The ANX7625 can be used with any
+DSI host, including one of the hosts which do not support DSC. The
+ANX7625 driver needs to negotate usage of the DSC with the underlying
+bridge.
 
---__=_Part_Boundary_007_421510573.486537173
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+> 2. I tried to redefine .atomic_duplicate_state, and driver will save dsc_en in new bridge
+> state in .atomic_check(), but I found 2 issue
+>   a). As MTK driver need get DSC information before .atomic_pre_enable(), driver must
+> check dsc_en and set DSC parameters in .mode_set(). But I cannot get
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO01vbiwmIzMyOzIwMjUtMDItMTcmIzMyO2F0
-JiMzMjsxNjo0OCYjMzI7KzAxMDAsJiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
-Z25vJiMzMjt3cm90ZToNCiZndDsmIzMyO0V4dGVybmFsJiMzMjtlbWFpbCYjMzI7OiYjMzI7UGxl
-YXNlJiMzMjtkbyYjMzI7bm90JiMzMjtjbGljayYjMzI7bGlua3MmIzMyO29yJiMzMjtvcGVuJiMz
-MjthdHRhY2htZW50cyYjMzI7dW50aWwmIzMyO3lvdSYjMzI7aGF2ZSYjMzI7dmVyaWZpZWQmIzMy
-O3RoZSYjMzI7c2VuZGVyJiMzMjtvciYjMzI7dGhlJiMzMjtjb250ZW50Lg0KJmd0OyYjMzI7DQom
-Z3Q7JiMzMjsNCiZndDsmIzMyO0FkZCYjMzI7YSYjMzI7YmluZGluZyYjMzI7Zm9yJiMzMjt0aGUm
-IzMyO0hETUkmIzMyO1RYJiMzMjt2MiYjMzI7RW5jb2RlciYjMzI7Zm91bmQmIzMyO2luJiMzMjtN
-ZWRpYVRlayYjMzI7TVQ4MTk1DQomZ3Q7JiMzMjthbmQmIzMyO01UODE4OCYjMzI7U29Dcy4NCiZn
-dDsmIzMyOw0KJmd0OyYjMzI7VGhpcyYjMzI7ZnVsbHkmIzMyO3N1cHBvcnRzJiMzMjt0aGUmIzMy
-O0hETUkmIzMyO1NwZWNpZmljYXRpb24mIzMyOzIuMGIsJiMzMjtoZW5jZSYjMzI7aXQmIzMyO3By
-b3ZpZGVzDQomZ3Q7JiMzMjtzdXBwb3J0JiMzMjtmb3ImIzMyOzNELUhETUksJiMzMjtQb2xhcml0
-eSYjMzI7aW52ZXJzaW9uLCYjMzI7dXAmIzMyO3RvJiMzMjsxNiYjMzI7Yml0cyYjMzI7RGVlcCYj
-MzI7Q29sb3IsDQomZ3Q7JiMzMjtjb2xvciYjMzI7c3BhY2VzJiMzMjtpbmNsdWRpbmcmIzMyO1JH
-QjQ0NCwmIzMyO1lDQkNSNDIwLzQyMi80NDQmIzMyOyhJVFU2MDEvSVRVNzA5KSYjMzI7YW5kDQom
-Z3Q7JiMzMjt4dllDQywmIzMyO3dpdGgmIzMyO291dHB1dCYjMzI7cmVzb2x1dGlvbnMmIzMyO3Vw
-JiMzMjt0byYjMzI7Mzg0MHgyMTYwcEA2MEh6Lg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtNb3Jlb3Zl
-ciwmIzMyO2l0JiMzMjthbHNvJiMzMjtzdXBwb3J0cyYjMzI7SERDUCYjMzI7MS40JiMzMjthbmQm
-IzMyOzIuMywmIzMyO1ZhcmlhYmxlJiMzMjtSZWZyZXNoJiMzMjtSYXRlDQomZ3Q7JiMzMjsoVlJS
-KSYjMzI7YW5kJiMzMjtDb25zdW1lciYjMzI7RWxlY3Ryb25pY3MmIzMyO0NvbnRyb2wmIzMyOyhD
-RUMpLg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtUaGlzJiMzMjtJUCYjMzI7YWxzbyYjMzI7aW5jbHVk
-ZXMmIzMyO3N1cHBvcnQmIzMyO2ZvciYjMzI7SERNSSYjMzI7QXVkaW8sJiMzMjtpbmNsdWRpbmcm
-IzMyO0lFQzYwOTU4DQomZ3Q7JiMzMjthbmQmIzMyO0lFQzYxOTM3JiMzMjtTUERJRiwmIzMyOzgt
-Y2hhbm5lbCYjMzI7UENNLCYjMzI7RFNELCYjMzI7YW5kJiMzMjtvdGhlciYjMzI7bG9zc2xlc3Mm
-IzMyO2F1ZGlvDQomZ3Q7JiMzMjthY2NvcmRpbmcmIzMyO3RvJiMzMjtIRE1JJiMzMjsyLjAuDQom
-Z3Q7JiMzMjsNCiZndDsmIzMyO1Jldmlld2VkLWJ5OiYjMzI7Um9iJiMzMjtIZXJyaW5nJiMzMjso
-QXJtKSYjMzI7Jmx0O3JvYmhAa2VybmVsLm9yZyZndDsNCiZndDsmIzMyO1NpZ25lZC1vZmYtYnk6
-JiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1JlZ25vJiMzMjsmbHQ7YW5nZWxvZ2lv
-YWNjaGluby5kZWxyZWdub0Bjb2xsYWJvcmEuY29tJmd0Ow0KJmd0OyYjMzI7LS0tDQomZ3Q7JiMz
-MjsmIzMyOy4uLi9tZWRpYXRlay9tZWRpYXRlayxtdDgxOTUtaGRtaS55YW1sJiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wmIzMyOzE1MSYjMzI7KysrKysrKysrKysrKysr
-KysrDQomZ3Q7JiMzMjsmIzMyOzEmIzMyO2ZpbGUmIzMyO2NoYW5nZWQsJiMzMjsxNTEmIzMyO2lu
-c2VydGlvbnMoKykNCiZndDsmIzMyOyYjMzI7Y3JlYXRlJiMzMjttb2RlJiMzMjsxMDA2NDQmIzMy
-O0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlh
-dGVrLG10ODE5NS1oZG1pLnlhbWwNCiZndDsmIzMyOw0KJmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQm
-IzMyO2EvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsv
-bWVkaWF0ZWssbXQ4MTk1LWhkbWkueWFtbCYjMzI7Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxtdDgxOTUtaGRtaS55YW1sDQomZ3Q7
-JiMzMjtuZXcmIzMyO2ZpbGUmIzMyO21vZGUmIzMyOzEwMDY0NA0KJmd0OyYjMzI7aW5kZXgmIzMy
-OzAwMDAwMDAwMDAwMC4uMWIzODJmOTlkM2NlDQomZ3Q7JiMzMjstLS0mIzMyOy9kZXYvbnVsbA0K
-Jmd0OyYjMzI7KysrJiMzMjtiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
-bGF5L21lZGlhdGVrL21lZGlhdGVrLG10ODE5NS1oZG1pLnlhbWwNCiZndDsmIzMyO0BAJiMzMjst
-MCwwJiMzMjsrMSwxNTEmIzMyO0BADQomZ3Q7JiMzMjsrIyYjMzI7U1BEWC1MaWNlbnNlLUlkZW50
-aWZpZXI6JiMzMjsoR1BMLTIuMC1vbmx5JiMzMjtPUiYjMzI7QlNELTItQ2xhdXNlKQ0KJmd0OyYj
-MzI7KyVZQU1MJiMzMjsxLjINCiZndDsmIzMyOystLS0NCiZndDsmIzMyOysmIzM2O2lkOiYjMzI7
-aHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHA6Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFz
-L2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssbXQ4MTk1LWhkbWkueWFtbCpfXztJdyEhQ1RSTktB
-OXdNZzBBUmJ3IWhqYXc2clcwZkdjTmFlWVdHYkNIaWx5ZDZqNlYxYnlSaDFaR2lwWmZZaFhPd1Bj
-MFkyUkNJOXlZTEZOcHFORkdpU2FnQTBWV3MzUXFKdUVCTC1iU1FWQ2lVWWd6JiMzNjsNCiZndDsm
-IzMyOysmIzM2O3NjaGVtYTomIzMyO2h0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi8v
-ZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCpfXztJdyEhQ1RSTktBOXdNZzBB
-UmJ3IWhqYXc2clcwZkdjTmFlWVdHYkNIaWx5ZDZqNlYxYnlSaDFaR2lwWmZZaFhPd1BjMFkyUkNJ
-OXlZTEZOcHFORkdpU2FnQTBWV3MzUXFKdUVCTC1iU1FYN0VTWmtTJiMzNjsNCiZndDsmIzMyOysN
-CiZndDsmIzMyOyt0aXRsZTomIzMyO01lZGlhVGVrJiMzMjtNVDgxOTUmIzMyO3NlcmllcyYjMzI7
-SERNSS1UWCYjMzI7RW5jb2Rlcg0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K21haW50YWluZXJzOg0K
-Jmd0OyYjMzI7KyYjMzI7JiMzMjstJiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
-Z25vJiMzMjsmbHQ7YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJvcmEuY29tJmd0Ow0K
-Jmd0OyYjMzI7KyYjMzI7JiMzMjstJiMzMjtDSyYjMzI7SHUmIzMyOyZsdDtjay5odUBtZWRpYXRl
-ay5jb20mZ3Q7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrZGVzY3JpcHRpb246DQomZ3Q7JiMzMjsr
-JiMzMjsmIzMyO1RoZSYjMzI7TWVkaWFUZWsmIzMyO0hETUktVFgmIzMyO3YyJiMzMjtlbmNvZGVy
-JiMzMjtjYW4mIzMyO2dlbmVyYXRlJiMzMjtIRE1JJiMzMjtmb3JtYXQmIzMyO2RhdGEmIzMyO2Jh
-c2VkJiMzMjtvbg0KDQpNZWRpYVRlayYjMzI7TVQ4MTk1JiMzMjtzZXJpZXMmIzMyO0hETUktVFgm
-IzMyO0VuY29kZXINCg0KQWZ0ZXImIzMyO3RoaXMmIzMyO21vZGlmaWNhdGlvbiwNCg0KUmV2aWV3
-ZWQtYnk6JiMzMjtDSyYjMzI7SHUmIzMyOyZsdDtjay5odUBtZWRpYXRlay5jb20mZ3Q7DQoNCiZn
-dDsmIzMyOysmIzMyOyYjMzI7dGhlJiMzMjtIRE1JJiMzMjtTcGVjaWZpY2F0aW9uJiMzMjsyLjBi
-Lg0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K3Byb3BlcnRpZXM6DQomZ3Q7JiMzMjsrJiMzMjsmIzMy
-O2NvbXBhdGlibGU6DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjtlbnVtOg0KJmd0OyYj
-MzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOy0mIzMyO21lZGlhdGVrLG10ODE4OC1o
-ZG1pLXR4DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7LSYjMzI7bWVk
-aWF0ZWssbXQ4MTk1LWhkbWktdHgNCiZndDsmIzMyOysNCiZndDsmIzMyOysmIzMyOyYjMzI7cmVn
-Og0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7bWF4SXRlbXM6JiMzMjsxDQomZ3Q7JiMz
-MjsrDQomZ3Q7JiMzMjsrJiMzMjsmIzMyO2ludGVycnVwdHM6DQomZ3Q7JiMzMjsrJiMzMjsmIzMy
-OyYjMzI7JiMzMjttYXhJdGVtczomIzMyOzENCiZndDsmIzMyOysNCiZndDsmIzMyOysmIzMyOyYj
-MzI7Y2xvY2tzOg0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7aXRlbXM6DQomZ3Q7JiMz
-MjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7LSYjMzI7ZGVzY3JpcHRpb246JiMzMjtI
-RE1JJiMzMjtQZXJpcGhlcmFsJiMzMjtCdXMmIzMyOyhBUEIpJiMzMjtjbG9jaw0KJmd0OyYjMzI7
-KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOy0mIzMyO2Rlc2NyaXB0aW9uOiYjMzI7SERD
-UCYjMzI7YW5kJiMzMjtIRE1JX1RPUCYjMzI7Y2xvY2sNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjstJiMzMjtkZXNjcmlwdGlvbjomIzMyO0hEQ1AsJiMzMjtIRE1JX1RP
-UCYjMzI7YW5kJiMzMjtIRE1JJiMzMjtBdWRpbyYjMzI7cmVmZXJlbmNlJiMzMjtjbG9jaw0KJmd0
-OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOy0mIzMyO2Rlc2NyaXB0aW9uOiYj
-MzI7VlBQJiMzMjtIRE1JJiMzMjtTcGxpdCYjMzI7Y2xvY2sNCiZndDsmIzMyOysNCiZndDsmIzMy
-OysmIzMyOyYjMzI7Y2xvY2stbmFtZXM6DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjtp
-dGVtczoNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjstJiMzMjtjb25z
-dDomIzMyO2J1cw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOy0mIzMy
-O2NvbnN0OiYjMzI7aGRjcA0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-Oy0mIzMyO2NvbnN0OiYjMzI7aGRjcDI0bQ0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOy0mIzMyO2NvbnN0OiYjMzI7aGRtaS1zcGxpdA0KJmd0OyYjMzI7Kw0KJmd0OyYj
-MzI7KyYjMzI7JiMzMjtpMmM6DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjt0eXBlOiYj
-MzI7b2JqZWN0DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzM2O3JlZjomIzMyOy9z
-Y2hlbWFzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssbXQ4MTk1LWhkbWktZGRjLnlhbWwNCiZn
-dDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyO3VuZXZhbHVhdGVkUHJvcGVydGllczomIzMyO2Zh
-bHNlDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjtkZXNjcmlwdGlvbjomIzMyO0hETUkm
-IzMyO0REQyYjMzI7STJDJiMzMjtjb250cm9sbGVyDQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrJiMz
-MjsmIzMyO3BoeXM6DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjttYXhJdGVtczomIzMy
-OzENCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyO2Rlc2NyaXB0aW9uOiYjMzI7UEhZJiMz
-Mjtwcm92aWRpbmcmIzMyO2Nsb2NraW5nJiMzMjtUTURTJiMzMjthbmQmIzMyO3BpeGVsJiMzMjt0
-byYjMzI7Y29udHJvbGxlcg0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjtwaHktbmFt
-ZXM6DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjtpdGVtczoNCiZndDsmIzMyOysmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjstJiMzMjtjb25zdDomIzMyO2hkbWkNCiZndDsmIzMy
-OysNCiZndDsmIzMyOysmIzMyOyYjMzI7cG93ZXItZG9tYWluczoNCiZndDsmIzMyOysmIzMyOyYj
-MzI7JiMzMjsmIzMyO21heEl0ZW1zOiYjMzI7MQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7
-JiMzMjsmIzM5OyNzb3VuZC1kYWktY2VsbHMmIzM5OzoNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMz
-MjsmIzMyO2NvbnN0OiYjMzI7MQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjtwb3J0
-czoNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzY7cmVmOiYjMzI7L3NjaGVtYXMv
-Z3JhcGgueWFtbCMvcHJvcGVydGllcy9wb3J0cw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7
-JiMzMjsmIzMyOyYjMzI7cHJvcGVydGllczoNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjtwb3J0QDA6DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzY7cmVmOiYjMzI7L3NjaGVtYXMvZ3JhcGgueWFtbCMvcHJvcGVydGll
-cy9wb3J0DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-O2Rlc2NyaXB0aW9uOg0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7SW5wdXQmIzMyO3BvcnQsJiMzMjt1c3VhbGx5JiMzMjtjb25uZWN0
-ZWQmIzMyO3RvJiMzMjt0aGUmIzMyO291dHB1dCYjMzI7cG9ydCYjMzI7b2YmIzMyO2EmIzMyO0RQ
-SQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3Bv
-cnRAMToNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzNjtyZWY6JiMzMjsvc2NoZW1hcy9ncmFwaC55YW1sIy9wcm9wZXJ0aWVzL3BvcnQNCiZndDsm
-IzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7ZGVzY3JpcHRpb246
-DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjtPdXRwdXQmIzMyO3BvcnQmIzMyO3RoYXQmIzMyO211c3QmIzMyO2JlJiMzMjtjb25uZWN0
-ZWQmIzMyO2VpdGhlciYjMzI7dG8mIzMyO3RoZSYjMzI7aW5wdXQmIzMyO3BvcnQmIzMyO29mDQom
-Z3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjthJiMzMjtIRE1JJiMzMjtjb25uZWN0b3ImIzMyO25vZGUmIzMyO2NvbnRhaW5pbmcmIzMyO2Em
-IzMyO2RkYy1pMmMtYnVzLCYjMzI7b3ImIzMyO3RvJiMzMjt0aGUmIzMyO2lucHV0DQomZ3Q7JiMz
-MjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtwb3J0
-JiMzMjtvZiYjMzI7YW4mIzMyO2F0dGFjaGVkJiMzMjticmlkZ2UmIzMyO2NoaXAsJiMzMjtzdWNo
-JiMzMjthcyYjMzI7YSYjMzI7U2xpbVBvcnQmIzMyO3RyYW5zbWl0dGVyLg0KJmd0OyYjMzI7Kw0K
-Jmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7cmVxdWlyZWQ6DQomZ3Q7JiMzMjsrJiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7LSYjMzI7cG9ydEAwDQomZ3Q7JiMzMjsrJiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7LSYjMzI7cG9ydEAxDQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsr
-cmVxdWlyZWQ6DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOy0mIzMyO2NvbXBhdGlibGUNCiZndDsmIzMy
-OysmIzMyOyYjMzI7LSYjMzI7cmVnDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOy0mIzMyO2ludGVycnVw
-dHMNCiZndDsmIzMyOysmIzMyOyYjMzI7LSYjMzI7Y2xvY2tzDQomZ3Q7JiMzMjsrJiMzMjsmIzMy
-Oy0mIzMyO2Nsb2NrLW5hbWVzDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOy0mIzMyO3Bvd2VyLWRvbWFp
-bnMNCiZndDsmIzMyOysmIzMyOyYjMzI7LSYjMzI7cGh5cw0KJmd0OyYjMzI7KyYjMzI7JiMzMjst
-JiMzMjtwaHktbmFtZXMNCiZndDsmIzMyOysmIzMyOyYjMzI7LSYjMzI7cG9ydHMNCiZndDsmIzMy
-OysNCiZndDsmIzMyOythbGxPZjoNCiZndDsmIzMyOysmIzMyOyYjMzI7LSYjMzI7JiMzNjtyZWY6
-JiMzMjsvc2NoZW1hcy9zb3VuZC9kYWktY29tbW9uLnlhbWwjDQomZ3Q7JiMzMjsrDQomZ3Q7JiMz
-MjsrYWRkaXRpb25hbFByb3BlcnRpZXM6JiMzMjtmYWxzZQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7
-K2V4YW1wbGVzOg0KJmd0OyYjMzI7KyYjMzI7JiMzMjstJiMzMjt8DQomZ3Q7JiMzMjsrJiMzMjsm
-IzMyOyYjMzI7JiMzMjsjaW5jbHVkZSYjMzI7Jmx0O2R0LWJpbmRpbmdzL2Nsb2NrL210ODE5NS1j
-bGsuaCZndDsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyNpbmNsdWRlJiMzMjsmbHQ7
-ZHQtYmluZGluZ3MvaW50ZXJydXB0LWNvbnRyb2xsZXIvYXJtLWdpYy5oJmd0Ow0KJmd0OyYjMzI7
-KyYjMzI7JiMzMjsmIzMyOyYjMzI7I2luY2x1ZGUmIzMyOyZsdDtkdC1iaW5kaW5ncy9wb3dlci9t
-dDgxOTUtcG93ZXIuaCZndDsNCiZndDsmIzMyOysNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsm
-IzMyO3NvYyYjMzI7ew0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsjYWRkcmVzcy1jZWxscyYjMzI7PSYjMzI7Jmx0OzImZ3Q7Ow0KJmd0OyYjMzI7KyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsjc2l6ZS1jZWxscyYjMzI7PSYj
-MzI7Jmx0OzImZ3Q7Ow0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjtoZG1pQDFjMzAwMDAwJiMzMjt7DQomZ3Q7JiMzMjsrJiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Y29t
-cGF0aWJsZSYjMzI7PSYjMzI7JnF1b3Q7bWVkaWF0ZWssbXQ4MTk1LWhkbWktdHgmcXVvdDs7DQom
-Z3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7cmVnJiMzMjs9JiMzMjsmbHQ7MCYjMzI7MHgxYzMwMDAwMCYjMzI7MCYjMzI7
-MHgxMDAwJmd0OzsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtjbG9ja3MmIzMyOz0mIzMyOyZsdDsmYW1wO3RvcGNr
-Z2VuJiMzMjtDTEtfVE9QX0hETUlfQVBCJmd0OywNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmbHQ7JmFtcDt0b3Bja2dlbiYjMzI7Q0xL
-X1RPUF9IRENQJmd0OywNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmbHQ7JmFtcDt0b3Bja2dlbiYjMzI7Q0xLX1RPUF9IRENQXzI0TSZn
-dDssDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7Jmx0OyZhbXA7dnBwc3lzMSYjMzI7Q0xLX1ZQUDFfVlBQX1NQTElUX0hETUkmZ3Q7Ow0K
-Jmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyO2Nsb2NrLW5hbWVzJiMzMjs9JiMzMjsmcXVvdDtidXMmcXVvdDssJiMzMjsm
-cXVvdDtoZGNwJnF1b3Q7LCYjMzI7JnF1b3Q7aGRjcDI0bSZxdW90OywmIzMyOyZxdW90O2hkbWkt
-c3BsaXQmcXVvdDs7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aW50ZXJydXB0cyYjMzI7PSYjMzI7Jmx0O0dJQ19T
-UEkmIzMyOzY3NyYjMzI7SVJRX1RZUEVfTEVWRUxfSElHSCYjMzI7MCZndDs7DQomZ3Q7JiMzMjsr
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7cGh5cyYjMzI7PSYjMzI7Jmx0OyZhbXA7aGRtaV9waHkmZ3Q7Ow0KJmd0OyYjMzI7KyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3Bo
-eS1uYW1lcyYjMzI7PSYjMzI7JnF1b3Q7aGRtaSZxdW90OzsNCiZndDsmIzMyOysmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtwb3dlci1k
-b21haW5zJiMzMjs9JiMzMjsmbHQ7JmFtcDtzcG0mIzMyO01UODE5NV9QT1dFUl9ET01BSU5fSERN
-SV9UWCZndDs7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cGluY3RybC1uYW1lcyYjMzI7PSYjMzI7JnF1b3Q7ZGVm
-YXVsdCZxdW90OzsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtwaW5jdHJsLTAmIzMyOz0mIzMyOyZsdDsmYW1wO2hk
-bWlfcGlucyZndDs7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7I3NvdW5kLWRhaS1jZWxscyYjMzI7PSYjMzI7Jmx0
-OzEmZ3Q7Ow0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2hkbWl0eF9kZGM6JiMzMjtpMmMmIzMy
-O3sNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2NvbXBhdGlibGUmIzMyOz0mIzMy
-OyZxdW90O21lZGlhdGVrLG10ODE5NS1oZG1pLWRkYyZxdW90OzsNCiZndDsmIzMyOysmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyO2Nsb2NrcyYjMzI7PSYjMzI7Jmx0OyZhbXA7Y2xrMjZtJmd0OzsNCiZn
-dDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjt9Ow0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3BvcnRzJiMzMjt7DQomZ3Q7
-JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsjYWRkcmVzcy1jZWxscyYjMzI7PSYjMzI7Jmx0
-OzEmZ3Q7Ow0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7I3NpemUtY2VsbHMmIzMy
-Oz0mIzMyOyZsdDswJmd0OzsNCiZndDsmIzMyOysNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyO3BvcnRAMCYjMzI7ew0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjtyZWcmIzMyOz0mIzMyOyZsdDswJmd0OzsNCiZndDsmIzMyOysNCiZn
-dDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aGRtaV9p
-bjomIzMyO2VuZHBvaW50JiMzMjt7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmVtb3RlLWVuZHBvaW50JiMz
-Mjs9JiMzMjsmbHQ7JmFtcDtkcGkxX291dCZndDs7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO307DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjt9Ow0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-cG9ydEAxJiMzMjt7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyO3JlZyYjMzI7PSYjMzI7Jmx0OzEmZ3Q7Ow0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7
-KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtoZG1pX291dDomIzMy
-O2VuZHBvaW50JiMzMjt7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmVtb3RlLWVuZHBvaW50JiMzMjs9JiMz
-MjsmbHQ7JmFtcDtoZG1pX2Nvbm5lY3Rvcl9pbiZndDs7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO307DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjt9Ow0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO307DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO307DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMz
-Mjt9Ow0KJmd0OyYjMzI7LS0NCiZndDsmIzMyOzIuNDguMQ0KJmd0OyYjMzI7DQoNCg0KPC9wcmU+
-DQo8L3A+PC9ib2R5PjwvaHRtbD48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioq
-KioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZQ0KICoqKioqKioqKioqKioqKioq
-KioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGlu
-Y2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRh
-cnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRl
-ciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0
-byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0K
-ZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1h
-aWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQo
-cykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBh
-cmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZQ0K
-IA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5v
-dGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWls
-KSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNsdWRpbmcg
-YW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNjbG9zZSB0
-aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFuayB5b3Uh
-DQo8L3ByZT48IS0tfS0tPg==
+By the 'set' do you mean 'calculate' or 'program to the hardware'?
 
---__=_Part_Boundary_007_421510573.486537173--
+> drm_bridge_state data structure int .mode_set() interface.
 
+Don't use .mode_set() at all. Calculate parameters in .atomic_check()
+and then write them in .atomic_enable(). You should be able to fold
+.mode_set() into .atomic_enable() anyway.
+
+> 
+>   b). Driver cannot get correctly dsc_en value from new bridge state in
+> .atomic_pre_enable() or .atomic_enable().
+
+I don't get this. Why can it not?
+
+> 
+> Thanks,
+> Xin
+> 
+> > > >
+> > > > Based on the design, anx7625 chip needs 128 bytes pps table, without
+> > > > it, chip cannot decompress DSC data.
+> > >
+> > > Yes, that's clear. But it doesn't have to be a part of the anx7625_data.
+> > > Allocate it on stack, fill it, program it, forget it.
+> > OK
+> > 
+> > >
+> > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > >  };
+> > > > > > > > > >
+> > > > > > > > > >  #endif  /* __ANX7625_H__ */
+> > > > > > > > > > --
+> > > > > > > > > > 2.25.1
+> > > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > --
+> > > > > > > > > With best wishes
+> > > > > > > > > Dmitry
+> > > > > > >
+> > > > > > > --
+> > > > > > > With best wishes
+> > > > > > > Dmitry
+> > > > >
+> > > > > --
+> > > > > With best wishes
+> > > > > Dmitry
+> > >
+> > > --
+> > > With best wishes
+> > > Dmitry
+
+-- 
+With best wishes
+Dmitry
