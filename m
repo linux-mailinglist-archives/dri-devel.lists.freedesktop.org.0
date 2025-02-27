@@ -2,62 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5BDA48278
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 16:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E128A482BB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 16:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C118210EB1F;
-	Thu, 27 Feb 2025 15:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D065910EB31;
+	Thu, 27 Feb 2025 15:18:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eYqTzljC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J4f72sBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFC710EB1F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 15:08:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740668931; x=1772204931;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=VTYx76++dzcn8BzXVhqS4x1bVjLz23b5NeDAfO0U3KQ=;
- b=eYqTzljCupWijmM7Vrs/1fpuZ2o85ibL3uyNG8+amYZWfOyYXer+nsoy
- anRLkOpO+iQ3t8de8w05IygDjY+B5lmsrIXYFiXgTyxCIeS6xEwDkMES0
- 5ww0+4sXh9qKbiOolYlw7KQeucozWOKXzphtetQpVDSlEL8JoZtN9dS0a
- VVeNd70hsQ7dE3xs0G2yxQ0Fg4V/GAhPqpmh0+XxjUKGHnEJ4Ow9IOL8J
- Z3J2Fd6bhDi/dFChn4nsAV+dThDgB4qmhJXlUnYwPoSBH98rl298ewpDb
- 33ZmFeQRcnOPHwbWzyecCHS8LRMYbZjDs00KeiavPLEtcrgU/g/PQIRzG g==;
-X-CSE-ConnectionGUID: 6OAgDEdTSzulZoLJr5ORDQ==
-X-CSE-MsgGUID: JaejAj8DTbCnJQ43+cQoRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40739979"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; d="scan'208";a="40739979"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2025 07:08:50 -0800
-X-CSE-ConnectionGUID: lzSmMiRCQsSr1Xkh9GBnZg==
-X-CSE-MsgGUID: 4C9V2n+WRe6ipXkVa7j12g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; d="scan'208";a="116823280"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
- by orviesa009.jf.intel.com with ESMTP; 27 Feb 2025 07:08:47 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tnfV5-000DXa-0O;
- Thu, 27 Feb 2025 15:08:36 +0000
-Date: Thu, 27 Feb 2025 23:07:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org, pavel@ucw.cz,
- danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 08/11] backlight: lcd: Replace fb events with a
- dedicated function call
-Message-ID: <202502272207.A1uo13Zf-lkp@intel.com>
-References: <20250226093456.147402-9-tzimmermann@suse.de>
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F9010EB2A;
+ Thu, 27 Feb 2025 15:18:06 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id
+ af79cd13be357-7c0ac2f439eso120931185a.0; 
+ Thu, 27 Feb 2025 07:18:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740669485; x=1741274285; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RGggIkK/XZzPteLqAYumoxClI9/TZi6ilC7vijsxqiM=;
+ b=J4f72sBbQ1su/Pk2KbirSx0YdGz8nDV8uRwXmE8EpRL8M6geYwa3tsm/rSLHCiKYql
+ 2edxvGLHqn0/1xRwQPnNHMsRFRj112wM8f+MqdjD/Km/3FoNxl1s1AdiMRS521Y7Zeyt
+ OWnET4siuNefKZU6dAKm3VpO/zD0u+tjUwQvLuhKWExgcC59EBQf2bblUTaXhAvOmqln
+ IiZmvkSEEcGQ0bz3aJzcbJVqr7WFgOvKfgxbxkXwkqAfJTQOrVKYyAkCoPouyWcgGR9P
+ 6Ri+JopJ7iNRgwC7Z4bppqlve5UN5+I+bRo6xX0g8GD6Xbe3yGuYnYzKSF7YoZT2Zrxd
+ oiZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740669485; x=1741274285;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RGggIkK/XZzPteLqAYumoxClI9/TZi6ilC7vijsxqiM=;
+ b=r2mxgD2bX9dG/+PBTyx2aeRxOCh/oNkoakAZampUcNOtom1R0Jq5hZupqEcKG99fKZ
+ 5GsUgl8ylu6dRYBQUE2Yw058oUTDcFOVGFzCcEogR6MIOdbqZSlJrTt7/Kemb+1ypMKa
+ VXmft7kkU8J9UgaDka4n2feczbVFBKht3ZBOOaXB+AWRR1L5e/TeOsteDo8jEJBEABFJ
+ YeVeO2NMaPqZ26z/i74s+IHwF6oQAtlV9siGMLRWpWhv4qEI8uGgdTURuXGjcMEpvFlQ
+ fe4SqmqT9aAmAKhXuiIpfSwNJWyuEua4NGYEk8cGwHsWxUILLFYGXE4pnOhbcOchx1iv
+ qP2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOypScD8xzCTuxyMdgPzsfMJL+/H0obeijLbhjfY8szunBwjzxrc7QeQ2+i6oG1Qb/jS/YSaFtzLs=@lists.freedesktop.org,
+ AJvYcCWq7Lj2uWtiJzrl7vnuLFOFerk75xR3rPNreF4sofzi6b4+OCz/gePC58Q68IgIjYiMaR7PAe5uxg==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeD+2htpJ9hlQG5CPdVZsLTVWFDc+7uuLhZxsP4LXobflSsQZB
+ EAOTIj/1YHneAVKN++h1zYn8AJIMbsg4c/Q70GIvqazg2GPLbT0R
+X-Gm-Gg: ASbGncuKSiSt8hElIxtAwDcl9Y+5TxYySK0jz5iix91KUHDp76VlpVjNkpz2/8Yf3cD
+ TtWFX6tynj4vGqXmi8yq4eMsMD67L7D4JXbidF6XTEKkqCFJZ5WEzz7/PH9LXP4FDG7atiUr8so
+ RIhiARarspUGEQeob1vnZfItxibqeGiSGGfuoeNZwBeLiucGyEJbQizxRidWeRCoTyyQJ/Cre+l
+ NqIV4tRYjrINbXQ4uezEC8Nm0uaAOjG998o/e/I26SfvKGSWNfitMTUsNte/cqtO2421zRzg3Om
+ XPojl3cCrg30qeCM7XhlQt+dga04x1AJ0C+Eh1srwGvmnTfC2Pw7nbiN2ecmbYASXgpQh0pTHVC
+ vBs5G9WOsRxt/ps3s
+X-Google-Smtp-Source: AGHT+IEq6UiJGiAn5J8WLSyd0NSIn0Gz699g7En/BXC3Xd/QEAVezFlMxxou7MPtwiZYDc1OaY4iKg==
+X-Received: by 2002:a05:620a:4508:b0:7c0:b7ca:70ec with SMTP id
+ af79cd13be357-7c0cef4853emr3674139285a.41.1740669485263; 
+ Thu, 27 Feb 2025 07:18:05 -0800 (PST)
+Received: from fauth-a1-smtp.messagingengine.com
+ (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7c378d9fe36sm115572385a.83.2025.02.27.07.18.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Feb 2025 07:18:04 -0800 (PST)
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal
+ [10.202.2.48])
+ by mailfauth.phl.internal (Postfix) with ESMTP id 46794120006D;
+ Thu, 27 Feb 2025 10:18:04 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-08.internal (MEProxy); Thu, 27 Feb 2025 10:18:04 -0500
+X-ME-Sender: <xms:LILAZ_0n7FGmGJITqMKE32EJqDyy7Mzle5qLOF40jUOUKhGz5PUfZQ>
+ <xme:LILAZ-FwrJixiSMy0LZApN6iZ3P5tpinDuFaAS_OzCXV9t5zpdL3s4A-476yKgaoC
+ PPcnauyTW5KvJH0jQ>
+X-ME-Received: <xmr:LILAZ_6NohMDVnPg6nF5cxXv5QjESw3A_S6s5LSYVBgruahHifKY8yP9UQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekjeekudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+ necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
+ drtghomheqnecuggftrfgrthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleel
+ ieevtdeguefhgeeuveeiudffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+ hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
+ ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
+ hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopeduhedpmhho
+ uggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhgghesnhhvihguihgrrdgtohhmpdhrtg
+ hpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohgvlhgrghhn
+ vghlfhesnhhvihguihgrrdgtohhmpdhrtghpthhtoheprggtohhurhgsohhtsehnvhhiug
+ hirgdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghp
+ thhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtohepjhhovghlsehjoh
+ gvlhhfvghrnhgrnhguvghsrdhorhhgpdhrtghpthhtohepjhhhuhgssggrrhgusehnvhhi
+ ughirgdrtghomhdprhgtphhtthhopegsshhkvghgghhssehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:LILAZ00V1NaJ4mvj1-dwMWGjY-pTlO3NLGn9enWCsVKsRyR1AXVXDQ>
+ <xmx:LILAZyEEsKioUNzF4sPKjWl06vG3bhu69SMl19pvBls-9V4UOFYQuw>
+ <xmx:LILAZ18E-uNORxHsgOKOQ3JOtrZTzPTOr4UiT0IRx0C6WLcEXbJZkA>
+ <xmx:LILAZ_nHko2mGSrMEiqf4tOvdP9950Gc_aexl4qnzS1hufAHlKN0-w>
+ <xmx:LILAZ-GnZXcGVrbFPYhz1nd--0hhGxQeONVznQF9J2ZrcQii6wBtc808>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Feb 2025 10:18:03 -0500 (EST)
+Date: Thu, 27 Feb 2025 07:18:02 -0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z8CCKl_yA74WjpQ1@Mac.home>
+References: <20250225210228.GA1801922@joelnvbox>
+ <20250225225756.GA4959@nvidia.com> <Z75WKSRlUVEqpysJ@cassiopeiae>
+ <20250226004916.GB4959@nvidia.com> <Z75riltJo0WvOsS5@cassiopeiae>
+ <20250226172120.GD28425@nvidia.com> <Z7-IHgcVVS8XBurW@cassiopeiae>
+ <20250226234730.GC39591@nvidia.com>
+ <Z7-0pOmWO6r_KeQI@boqun-archlinux>
+ <20250227144618.GE39591@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250226093456.147402-9-tzimmermann@suse.de>
+In-Reply-To: <20250227144618.GE39591@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,35 +139,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Thu, Feb 27, 2025 at 10:46:18AM -0400, Jason Gunthorpe wrote:
+> On Wed, Feb 26, 2025 at 04:41:08PM -0800, Boqun Feng wrote:
+> > And if you don't store the HrTimerHandle anywhere, like you drop() it
+> > right after start a hrtimer, it will immediately stop the timer. Does
+> > this make sense?
+> 
+> Oh, I understand that, but it is not sufficient in the kernel.
+> 
+> You are making an implicit argument that something external to the
+> rust universe will hold the module alive until all rust destructors
+> are run. That is trivialy obvious in your example above.
+> 
 
-kernel test robot noticed the following build errors:
+The question in your previous email is about function pointer of hrtimer
+EAF because of module unload, are you moving to a broader topic here?
+If no, the for module unload, the argument is not implicit because in
+rust/macro/module.rs the module __exit() function is generated by Rust,
+and in that function, `assume_init_drop()` will call these destructors.
 
-[auto build test ERROR on lee-backlight/for-backlight-next]
-[also build test ERROR on lee-leds/for-leds-next linus/master v6.14-rc4 next-20250227]
-[cannot apply to lee-backlight/for-backlight-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> However, make it more complex. Run the destructor call for your
+> hrtimer in a workqueue thread. Use workqueue.rs. Now you don't have
+> this implicit argument anymore, and it will EAF things.
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Rework-fb_blank/20250226-174013
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
-patch link:    https://lore.kernel.org/r/20250226093456.147402-9-tzimmermann%40suse.de
-patch subject: [PATCH v2 08/11] backlight: lcd: Replace fb events with a dedicated function call
-config: i386-buildonly-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272207.A1uo13Zf-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272207.A1uo13Zf-lkp@intel.com/reproduce)
+Note that HrTimerHandle holds a "reference" (could be a normal
+reference, or an refcounted reference, like Arc) to the hrtimer (and the
+struct contains it), therefore as long as HrTimerHandle exists, the
+destructor call of the hrtimer won't be call. Hence the argument is not
+implicit, it literally is:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272207.A1uo13Zf-lkp@intel.com/
+* If a HrTimerHandle exists, it means the timer has been started, and
+  since the timer has been started, the existence of HrTimerHandle will
+  prevent the destructors of the hrtimer.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+* drop() on HrTimerHandle will 1) stop the timer and 2) release the
+  reference to the hrtimer, so then the destructors could be called.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/exportfs/exportfs.o
->> ERROR: modpost: "lcd_notify_mode_change_all" [drivers/video/fbdev/core/fb.ko] undefined!
+> Danilo argues this is a bug in workqueue.rs.
+> 
+> Regardless, it seems like EAF is an overlooked topic in the safety
+> analysis.
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Well, no. See above.
+
+> Further, you and Danilo are making opposing correctness arguments:
+> 
+>  1) all rust destructors run before module __exit completes
+
+What do you mean by "all rust destructor"? In my previous email, I was
+talking about the particular destructors of fields in module struct,
+right?
+
+>  2) rust destructors can run after driver removal completes
+> 
+
+I will defer this to Danilo, because I'm not sure that's what he was
+talking about.
+
+Regards,
+Boqun
+
+> I understand the technical underpinnings why these are different, but
+> I feel that if you can make #1 reliably true for __exit then it is
+> highly desirable to use the same techniques to make it true for
+> remove() too.
+> 
+> Jason
