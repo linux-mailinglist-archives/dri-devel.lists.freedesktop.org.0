@@ -2,113 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0115A47605
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 07:39:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8818DA4760E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 07:47:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB7B10E237;
-	Thu, 27 Feb 2025 06:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5427210EA58;
+	Thu, 27 Feb 2025 06:47:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ttZ2TVNB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ejttHyfC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DE910E237
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 06:39:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C6D26612D0;
- Thu, 27 Feb 2025 06:39:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067D1C4CEDD;
- Thu, 27 Feb 2025 06:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740638350;
- bh=2VpGmHtpvddjKHb3CzB9R1qKMNlVQ7QPUa53zp9viUI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ttZ2TVNBJZYxZ+s5GNHb10pG79Z9pg35Hdd7j1MxYovJup4of3OlLXb5fn0ZRRwvO
- qkngDZV6QH0DB1oGCeC69PjXudGdVZPnxilq3VbBx8Ea46vpHwTVFLglnRGaLrWOI8
- Hv44ss5oa5uF9n7VdfssWKsjkgrsavMRbuG6Fextdtwzfsn9CxhZOpwigNBYTDJEz7
- jmlYqRLIPpkClEhVg16s6NWuvVyF+IV8txsvtpW/JbX4SiBtzeluBOvoOq00TnIuqi
- ef90a72XayOByLY3mBcKOB/yw/RFDiEo/WpWtPKtvQ6/iGpyGLrB90+ZiF2vev0TC8
- ODi1vvSIejB4A==
-Message-ID: <a8c29dec-6178-4f8f-80f5-aece636c410b@kernel.org>
-Date: Thu, 27 Feb 2025 07:38:58 +0100
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44C8210EA3B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 06:47:20 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-54838cd334cso673115e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 22:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740638838; x=1741243638; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uXLsGNXwM63LVmn4MvDLtpepLIPBf52F5maI2gCJVyo=;
+ b=ejttHyfCtxcz6heqh1ZHw+V4yoLLf3gYb7xrl20zVlUodF5zawc+A0++Hobs+FgofE
+ NQ1nf4S3yBNZAIAzshJZ3PkzLUVTW2gZicx/yeiJCuwzkUg1/6VoQjA8yAVZyzomNF0B
+ HRiz+rFWWJc+XmUxxQiNHi/sszOcKJVgf7VCUy3OcyXBPvvlQh6tlaKCwi2forxDbb8d
+ qAYIv1e739BW9X84/8J1vAfMih2p5WHJ6kcEfKtAdD0nfAZ9xIveij9uRjRMbZXPjfTF
+ f6W7CVsOj+lDwPzOCPHJIK4wMxXZsRP14Pv3J+4jgF/IEeZz75YOCRUoAKCjkUs9qut0
+ HePQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740638838; x=1741243638;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uXLsGNXwM63LVmn4MvDLtpepLIPBf52F5maI2gCJVyo=;
+ b=scBShcfva0nmeD3dk/NWvdqACm8fz7nC4f7ZEeDvbrMiot8zqKAhVOG2iYjDkJwR3V
+ vcIiwOTcPPLvEW953m4dAbD6jDMMn/OKOtGpJ9rNIAZhVJA6ECmiO9ye1r26BZVgVoLw
+ Qr0c+HkcakYxE4VKcqxnGaW42FVXSE2pOAxVAt3Xc0SD+uIl6F4lYrmJxrxeLLrTIqlr
+ ByhRoX1MlHv2HrvW30vpIiJgYG5oS5oQSkIN/Nj7O24W+SYKyAJUXOhB/zdvl/erZqbn
+ /HToq6tiJLTLo8qaYUF8aMqJVYd0sb/gyVBM4YUwMDC7T8Kkhc7mPZjQ356IMEGBkHXn
+ yXFg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVhDT0PA0uiVrrS451Xyw6PN6JwohmZXfh0t8SRcqg19XcbZ9lwaiQYPRe5R76LrON/6JkpW7my5rY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCAk7INTodJnZwjiIXuCLYT7OHUZ7i+/P9rnKqS7DpVYyb2g4l
+ kgjOHDm5K3tw54wjlATuSSsqiV9phQM0+dWcOfKUGcnRDD0NMAgcy6ZQ3MdRVvc=
+X-Gm-Gg: ASbGncvJL+e19+pbZwZ8jgmicRCdD3aRVdS/3rUEFxqUeqF0gxDlwIOaeHDMMjovhLm
+ ZokIE+ZokySFugLSVNeTUVbDBLsPlEPjmjYXrPla4arifr6rbCWfSbbKyKv2Ev/Y76Exg5Urh1/
+ 6i7w0uRxgdT11t8IECZ3pdXD+g0hfZkQb2j2FH5Ev3idZNzAhkbEX/6+I93Ky7CFlbAjZvg9MQM
+ fAn3L7Tj2jyNhJeuUm4uhnC5xTmf10fRgZ3eKcuc+NMpzKk650KG0PkFDR+NAAp9UiwQ7snh6H+
+ ktDbRiigV22hWhPqEYhhaj5w5qRTqNM2G5327499pvSNh1iR3Xrx0+lYP7kSL8/xurRHe6KOCt0
+ 4W9p0WA==
+X-Google-Smtp-Source: AGHT+IG9t70T74qBx7CnC8jbRQLKhKqSlCT5clW047lLHMojYBxAlx+j31tvWwzmtDkV/C7tQU0QOQ==
+X-Received: by 2002:a05:6512:15a6:b0:545:b28:2fa9 with SMTP id
+ 2adb3069b0e04-5493c56f238mr3743928e87.16.1740638838376; 
+ Wed, 26 Feb 2025 22:47:18 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-549443be5c1sm89087e87.175.2025.02.26.22.47.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2025 22:47:17 -0800 (PST)
+Date: Thu, 27 Feb 2025 08:47:15 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: kernel-list@raspberrypi.com, 
+ David Turner <david.turner@raspberrypi.com>, Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH RFC] drm/vc4: hdmi: Add jack detection to HDMI audio driver
+Message-ID: <kyoyebkotesmmwtonp3xp5tl6m5rd7bcmceaebbwsazmos5t2j@jh3yzmoaoi5z>
+References: <20250222102921.75496-1-wahrenst@gmx.net>
+ <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
+ <2585e14d-bb91-4d0a-b0e0-39e60b0b88bd@gmx.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
- arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
- gregkh@linuxfoundation.org, akpm@linux-foundation.org, hpa@zytor.com,
- alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-3-visitorckw@gmail.com> <Z7zIBwH4aUA7G9MY@thinkpad>
- <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
- <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org> <Z79ebv630yuNOJKV@thinkpad>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <Z79ebv630yuNOJKV@thinkpad>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2585e14d-bb91-4d0a-b0e0-39e60b0b88bd@gmx.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,36 +97,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26. 02. 25, 19:33, Yury Norov wrote:
->> Not in cases where macros are inevitable. I mean, do we need parityXX() for
->> XX in (8, 16, 32, 64) at all? Isn't the parity() above enough for everybody?
+On Wed, Feb 26, 2025 at 12:04:56PM +0100, Stefan Wahren wrote:
+> Hi Dmitry,
 > 
-> The existing codebase has something like:
+> Am 24.02.25 um 04:15 schrieb Dmitry Baryshkov:
+> > On Sat, Feb 22, 2025 at 11:29:21AM +0100, Stefan Wahren wrote:
+> > > From: David Turner <david.turner@raspberrypi.com>
+> > > 
+> > > Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
+> > > when to add/remove HDMI audio devices.
+> > > 
+> > > Signed-off-by: David Turner <david.turner@raspberrypi.com>
+> > > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> > > ---
+> > >   drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++--
+> > >   drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
+> > >   2 files changed, 31 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > index 47d9ada98430..d24ae86d799e 100644
+> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > @@ -51,6 +51,7 @@
+> > >   #include <linux/reset.h>
+> > >   #include <sound/dmaengine_pcm.h>
+> > >   #include <sound/hdmi-codec.h>
+> > > +#include <sound/jack.h>
+> > >   #include <sound/pcm_drm_eld.h>
+> > >   #include <sound/pcm_params.h>
+> > >   #include <sound/soc.h>
+> > > @@ -386,6 +387,12 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+> > >   	struct drm_connector *connector = &vc4_hdmi->connector;
+> > >   	int ret;
+> > > 
+> > > +	/*
+> > > +	 * Needs to be called for both connects and disconnects for HDMI
+> > > +	 * audio hotplug to work correctly.
+> > > +	 */
+> > > +	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+> > > +
+> > >   	/*
+> > >   	 * NOTE: This function should really be called with vc4_hdmi->mutex
+> > >   	 * held, but doing so results in reentrancy issues since
+> > > @@ -405,8 +412,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+> > >   		return;
+> > >   	}
+> > > 
+> > > -	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+> > > -
+> > >   	cec_s_phys_addr(vc4_hdmi->cec_adap,
+> > >   			connector->display_info.source_physical_address, false);
+> > > 
+> > > @@ -2203,6 +2208,22 @@ static const struct drm_connector_hdmi_audio_funcs vc4_hdmi_audio_funcs = {
+> > >   	.shutdown = vc4_hdmi_audio_shutdown,
+> > >   };
+> > > 
+> > > +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
+> > > +{
+> > > +	struct vc4_hdmi *vc4_hdmi = snd_soc_card_get_drvdata(rtd->card);
+> > > +	struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
+> > > +	int ret;
+> > > +
+> > > +	ret = snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOUT,
+> > > +				    &vc4_hdmi->hdmi_jack);
+> > > +	if (ret) {
+> > > +		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NULL);
+> > PLease excuse my ignorance, but dows this work. In other words, how is
+> > the driver exporting the plugged state through this jack?
+> there is no ignorance just a valid question. Unfortunately my knowledge
+> here is very limited and I just wanted to minimize the delta between
+> vendor and mainline tree. That's why I marked it as RFC.
 > 
->          int ret;
-> 
->          ret = i3c_master_get_free_addr(m, last_addr + 1);
->          ret |= parity8(ret) ? 0 : BIT(7)
-> 
-> So if we'll switch it to a macro like one above, it will become a
-> 32-bit parity. It wouldn't be an error because i3c_master_get_free_addr()
-> returns an u8 or -ENOMEM, and the error code is checked explicitly.
-> 
-> But if we decide to go with parity() only, some users will have to
-> call it like parity((u8)val) explicitly. Which is not bad actually.
+> Can someone from Raspberry Pi helps here?
 
-That cast looks ugly -- we apparently need parityXX(). (In this 
-particular case we could do parity8(last_addr), but I assume there are 
-more cases like this.) Thanks for looking up the case for this.
+Okay, I found it, the hdmi-codec calls snd_soc_jack_report() when
+plugged_cb() is called by the HDMI driver.
 
->> And if not, you can have all those parityXX() as inlines as you suggest, but
->> also provide a macro such as the above to call (optimized) parityXX() as per
->> datatype len.
+Please split the patch into two pieces:
+- one which moves a call to drm_atomic_helper_connector_hdmi_hotplug()
+  to a proper place. The "Needs to be called" comment should go to the
+  commit message insteads of the source code.
+
+- another one which adds a jack to the sound card.
+
 > 
-> Yes, if we need fixed-type parity's, they should all be one-liners
-> calling the same macro. Macros or inline functions - no preference for
-> me.
+> The patch seems to fix an issue? But I don't know the broader context.
+> 
+> Regards
 
 -- 
-js
-suse labs
+With best wishes
+Dmitry
