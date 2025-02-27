@@ -2,68 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281DEA47875
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 09:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2A7A47881
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 10:01:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69DBF10EA6B;
-	Thu, 27 Feb 2025 08:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF28B10EA65;
+	Thu, 27 Feb 2025 09:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bg3w/7sr";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bc+JZOuz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNWT+R7E";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jfL7SxB6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K7vjKmly";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA5F10EA6B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 08:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740646791; x=1772182791;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=+0w5pxZl6eu5LUe9m4QPfCY8rfPht4lXtsBkbK6WTpY=;
- b=Bg3w/7srKH/X9GcFh4uwV+Gi4uoN/CFGGVvvC8gbzYwJ3wjXJvsP7NbU
- B3kpaoFrijz2oPkXFFKrRi8qMSwFYalJ1egltwhvvedk2xyFYFxizgi+7
- 40d1KMBs8Bp8lgigV/tRJHIRYq0QGpdkMe7lS81fxK672ksMeGNLvTIB5
- 8F9Pirn4DAyXFPsZV0FadWvvGANcXLUmnjXk14DFpd8oc7qEDs6m9i4YW
- AddJ60sjudEDjxiHU7x5gemIRMy0vbFlADQso4aW1h4K2InU+Gs2SU3Hx
- VgdqagFtavUbU5P8Ll8IRgZVyHAqiwffwY9zwuwuPjlbQsZHJ7zx0j8sL w==;
-X-CSE-ConnectionGUID: 0kan6iW3SwSK8n0UsCKFVA==
-X-CSE-MsgGUID: imd4bsNbTt6UQPRCFsisWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52939401"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="52939401"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2025 00:59:51 -0800
-X-CSE-ConnectionGUID: lue+0kPXQ+2uMDYapBVZqg==
-X-CSE-MsgGUID: 7WfixO/GRYiG4T6NyakPHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="147786129"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.181])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2025 00:59:45 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v8 2/2] drm/debugfs: add top-level 'bridges' file
- showing all added bridges
-In-Reply-To: <20250226-drm-debugfs-show-all-bridges-v8-2-bb511cc49d83@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250226-drm-debugfs-show-all-bridges-v8-0-bb511cc49d83@bootlin.com>
- <20250226-drm-debugfs-show-all-bridges-v8-2-bb511cc49d83@bootlin.com>
-Date: Thu, 27 Feb 2025 10:59:41 +0200
-Message-ID: <877c5b4vb6.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6E5910EA65
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 09:01:38 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3D1D11F38A;
+ Thu, 27 Feb 2025 09:01:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740646897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=U0jnjOlTwNM/eDNzI+261ff3PbKfT8p5rqqRp8agbl8=;
+ b=bc+JZOuz2nlAjeivEm4wZjvsykbU+CBWp2pNRj4+aLtO2afdsZVUFWVj/7cK8iyGg4FiSy
+ 8i0Gn/j/8TKGgxK9qVQBTOiwoeu8iXYI7pGcJ/t0WdflqoDvbcIdUBYawQifdpzqTaNZCN
+ QteAiSGzp2ID7h5R821cOgHkPIH7uRE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740646897;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=U0jnjOlTwNM/eDNzI+261ff3PbKfT8p5rqqRp8agbl8=;
+ b=MNWT+R7EV2022VyFbYq1czP9EYqh8ybfk+y+HsS5OSlvFjl5OP4fhbjxJiK4XUE9JTL7JU
+ 6y7XT+CdVa21c9Cg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1740646896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=U0jnjOlTwNM/eDNzI+261ff3PbKfT8p5rqqRp8agbl8=;
+ b=jfL7SxB6hGbWoberPj/X6pwfLIMvdBHggdyl1fFC3S39q3LjiDKAXp7AwLp4yG6UT3GCFb
+ N2+Lj+Yyt5MNauCr5mCJNqerieU9TwpCwfEQSkYNEdPd1CjaOtrpV6m4K8FTS5n7NBXZuN
+ DBZItNcosqYQ/1mh9yKDjkYW3zYICIM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1740646896;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=U0jnjOlTwNM/eDNzI+261ff3PbKfT8p5rqqRp8agbl8=;
+ b=K7vjKmly4VGwM7RSe36byfn+r+QN0vxYwzO5bIyKcIZAMqCnI8QvjVfJUXxO1oG/kutcbX
+ 2LELLhqYemzaKFBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F50A13888;
+ Thu, 27 Feb 2025 09:01:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id llZ0AvApwGccCwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 27 Feb 2025 09:01:36 +0000
+Message-ID: <5d13fad0-c5d2-4816-b71a-fceeb03589c3@suse.de>
+Date: Thu, 27 Feb 2025 10:01:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm/fbdev-dma: regression
+To: =?UTF-8?Q?Nuno_Gon=C3=A7alves?= <nunojpg@gmail.com>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ Linux Framebuffer <linux-fbdev@vger.kernel.org>
+References: <20220621104617.8817-1-tzimmermann@suse.de>
+ <CAEXMXLR55DziAMbv_+2hmLeH-jP96pmit6nhs6siB22cpQFr9w@mail.gmail.com>
+ <d2562174-eebe-4462-9a9a-03936b3bcf89@leemhuis.info>
+ <b4d28b98-a85c-4095-9c1b-8ebdfa13861c@suse.de>
+ <CAEXMXLQEJPVPyqLpH6C7R6iqhhKBpdNS9QeESbEdcmxB70goSA@mail.gmail.com>
+ <da4288a6-96cc-4095-bd73-d66b68e9ed01@suse.de>
+ <CAEXMXLQw1yqUGbWcrKZdOuGvA4eZMG0utiyQ2PVRvTeuFedGbA@mail.gmail.com>
+ <9c902ac0-a94d-4465-98ff-840132e482b1@suse.de>
+ <CAEXMXLSLau0sEy8WSZ3=ofK97xP8aPcDQEnT=JFkkt7K=Rzivw@mail.gmail.com>
+ <900b873f-6eba-4dba-b155-dc5f7594becf@suse.de>
+ <CAEXMXLTT5m0Po_wz0ywRHFetV6e080AJwy8f99Zb9R_afzafRw@mail.gmail.com>
+ <844f1fa4-6f47-4386-878f-739d2819605e@suse.de>
+ <CAEXMXLQyOY=dXcYoSc9=LVVWb1BjXLd3_Lo3LRNor_STT+H+WQ@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAEXMXLQyOY=dXcYoSc9=LVVWb1BjXLd3_Lo3LRNor_STT+H+WQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.26
+X-Spamd-Result: default: False [-4.26 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.16)[-0.819]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_TO(0.00)[gmail.com];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[6]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,172 +155,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> The global bridges_list holding all the bridges between drm_bridge_add()
-> and drm_bridge_remove() cannot be inspected via debugfs. Add a file showing
-> it.
+Hi
+
+Am 26.02.25 um 23:57 schrieb Nuno Gonçalves:
+> Dear Thomas,
 >
-> To avoid code duplication, move the code printing a bridge info to a common
-> function.
+> Could you check if the patch got lost in review?
+>
+> I can confirm that mainline is still broken since this 2024/May regression.
 
-Going forward, please separate refactoring (extracting the function)
-from the functional changes (adding the new debugfs) to independent
-patches. It's just easier to review.
+You're right. The patch got reviewed and then I forgot to merge it. It's 
+now on its way into the upstream kernel. Thanks for the note. Apologies 
+for the delay.
 
-Anyway, I reviewed this one, so no need to roll another version.
-
-And thanks for doing this; I believe the end result is better.
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Best regards
+Thomas
 
 >
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Thanks,
+> Nuno
 >
-> ---
->
-> Changed in v8:
-> - add the file in drm_bridge.c, which avois the added #if CONFIG_DEBUG_FS
-> - fix incorrect (but harmless) idx increment in
->   drm_bridge_debugfs_show_bridge()
->
-> Changed in v7:
-> - move implementation to drm_bridge.c to avoid exporting bridge_list and
->   bridge_mutex
->
-> This patch was added in v6.
-> ---
->  drivers/gpu/drm/drm_bridge.c | 72 ++++++++++++++++++++++++++++++--------------
->  drivers/gpu/drm/drm_drv.c    |  2 ++
->  include/drm/drm_bridge.h     |  1 +
->  3 files changed, 53 insertions(+), 22 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index a6bf1a565e3c3a8d24de60448972849f6d86ba72..9c6e35d41ed54a14d5745e684a341c907ed84d6b 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1336,6 +1336,49 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  EXPORT_SYMBOL(of_drm_find_bridge);
->  #endif
->  
-> +static void drm_bridge_debugfs_show_bridge(struct drm_printer *p,
-> +					   struct drm_bridge *bridge,
-> +					   unsigned int idx)
-> +{
-> +	drm_printf(p, "bridge[%u]: %ps\n", idx, bridge->funcs);
-> +	drm_printf(p, "\ttype: [%d] %s\n",
-> +		   bridge->type,
-> +		   drm_get_connector_type_name(bridge->type));
-> +
-> +	if (bridge->of_node)
-> +		drm_printf(p, "\tOF: %pOFfc\n", bridge->of_node);
-> +
-> +	drm_printf(p, "\tops: [0x%x]", bridge->ops);
-> +	if (bridge->ops & DRM_BRIDGE_OP_DETECT)
-> +		drm_puts(p, " detect");
-> +	if (bridge->ops & DRM_BRIDGE_OP_EDID)
-> +		drm_puts(p, " edid");
-> +	if (bridge->ops & DRM_BRIDGE_OP_HPD)
-> +		drm_puts(p, " hpd");
-> +	if (bridge->ops & DRM_BRIDGE_OP_MODES)
-> +		drm_puts(p, " modes");
-> +	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
-> +		drm_puts(p, " hdmi");
-> +	drm_puts(p, "\n");
-> +}
-> +
-> +static int allbridges_show(struct seq_file *m, void *data)
-> +{
-> +	struct drm_printer p = drm_seq_file_printer(m);
-> +	struct drm_bridge *bridge;
-> +	unsigned int idx = 0;
-> +
-> +	mutex_lock(&bridge_lock);
-> +
-> +	list_for_each_entry(bridge, &bridge_list, list)
-> +		drm_bridge_debugfs_show_bridge(&p, bridge, idx++);
-> +
-> +	mutex_unlock(&bridge_lock);
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(allbridges);
-> +
->  static int encoder_bridges_show(struct seq_file *m, void *data)
->  {
->  	struct drm_encoder *encoder = m->private;
-> @@ -1343,33 +1386,18 @@ static int encoder_bridges_show(struct seq_file *m, void *data)
->  	struct drm_bridge *bridge;
->  	unsigned int idx = 0;
->  
-> -	drm_for_each_bridge_in_chain(encoder, bridge) {
-> -		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
-> -		drm_printf(&p, "\ttype: [%d] %s\n",
-> -			   bridge->type,
-> -			   drm_get_connector_type_name(bridge->type));
-> -
-> -		if (bridge->of_node)
-> -			drm_printf(&p, "\tOF: %pOFfc\n", bridge->of_node);
-> -
-> -		drm_printf(&p, "\tops: [0x%x]", bridge->ops);
-> -		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
-> -			drm_puts(&p, " detect");
-> -		if (bridge->ops & DRM_BRIDGE_OP_EDID)
-> -			drm_puts(&p, " edid");
-> -		if (bridge->ops & DRM_BRIDGE_OP_HPD)
-> -			drm_puts(&p, " hpd");
-> -		if (bridge->ops & DRM_BRIDGE_OP_MODES)
-> -			drm_puts(&p, " modes");
-> -		if (bridge->ops & DRM_BRIDGE_OP_HDMI)
-> -			drm_puts(&p, " hdmi");
-> -		drm_puts(&p, "\n");
-> -	}
-> +	drm_for_each_bridge_in_chain(encoder, bridge)
-> +		drm_bridge_debugfs_show_bridge(&p, bridge, idx++);
->  
->  	return 0;
->  }
->  DEFINE_SHOW_ATTRIBUTE(encoder_bridges);
->  
-> +void drm_bridge_debugfs_params(struct dentry *root)
-> +{
-> +	debugfs_create_file("bridges", 0444, root, NULL, &allbridges_fops);
-> +}
-> +
->  void drm_bridge_debugfs_encoder_params(struct dentry *root,
->  				       struct drm_encoder *encoder)
->  {
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 3cf440eee8a2ab3de134d925db8f1d2ce68062b7..22e8cd0a6a37a0ac25535e9d570da25571b0b2bc 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -38,6 +38,7 @@
->  #include <linux/xarray.h>
->  
->  #include <drm/drm_accel.h>
-> +#include <drm/drm_bridge.h>
->  #include <drm/drm_cache.h>
->  #include <drm/drm_client_event.h>
->  #include <drm/drm_color_mgmt.h>
-> @@ -1120,6 +1121,7 @@ static int __init drm_core_init(void)
->  	}
->  
->  	drm_debugfs_root = debugfs_create_dir("dri", NULL);
-> +	drm_bridge_debugfs_params(drm_debugfs_root);
->  
->  	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
->  	if (ret < 0)
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 0890acfe04b99b1ccbbff10b507cb8c2b2705e06..2a99d70865571f24db0ca75c758cfd09d3a5d459 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -1108,6 +1108,7 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
->  }
->  #endif
->  
-> +void drm_bridge_debugfs_params(struct dentry *root);
->  void drm_bridge_debugfs_encoder_params(struct dentry *root, struct drm_encoder *encoder);
->  
->  #endif
+> On Wed, Dec 11, 2024 at 9:07 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Hi
+>>
+>>
+>> Am 09.12.24 um 14:56 schrieb Nuno Gonçalves:
+>>> On Mon, Dec 9, 2024 at 1:43 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>>> Thanks you so much for testing. I'll prepare a real patch. Can I add
+>>>> your Reported-by and Tested-by tags?
+>>> Reported-by: Nuno Gonçalves <nunojpg@gmail.com>
+>>> Tested-by: Nuno Gonçalves <nunojpg@gmail.com>
+>> Thanks a lot. I've sent out the patch for review. Apologies if this took
+>> a bit longer than expected.
+>>
+>> Best regards
+>> Thomas
+>>
+>>> Thanks,
+>>> Nuno
+>> --
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> HRB 36809 (AG Nuernberg)
+>>
 
 -- 
-Jani Nikula, Intel
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
