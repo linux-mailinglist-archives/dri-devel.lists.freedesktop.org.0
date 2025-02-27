@@ -2,79 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60340A47FD2
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 14:48:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105D7A4804B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 15:02:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02A6E10EAE4;
-	Thu, 27 Feb 2025 13:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8E310EAF0;
+	Thu, 27 Feb 2025 14:02:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u7PEQG2j";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="bQZIi9oE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1275410EAE4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 13:48:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 42E7761F30;
- Thu, 27 Feb 2025 13:48:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E80BC4CEDD;
- Thu, 27 Feb 2025 13:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740664103;
- bh=+0o56Rl9c9XlxO66ciG8cF7751qtwRokbDOXu3oKKI4=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=u7PEQG2j83U1EUgccAsv7ZZeyzoXGP5E3eyEnhw4NoElI1P1PQduAFpk3Aw26XQga
- MU1FsSM2xWeVk3888IvozG2rU0czOy6ksHQKL+ms88vEKd69Oz3Wn/JfI5RXTFTwNk
- wfGNc/kEM3DNOFtXZ34ZRYeTDGKQ9rq2QA/8JJ070MZrbICKSyOueWiZTR8CewZk/4
- YNa2OgN5lkcQjeMyprtE571tUFUuQFiRLywSCD55mJu1bl6w3MNEN7o1f2vw9759LK
- TWM2LHQPLAcDuMVzwA6GP/6GMrZpDf8H3uZGfG3Gq2L3gj60l5E8fYaRb6MO8wqJWV
- z16TlfgV2NvRQ==
-From: Mark Brown <broonie@kernel.org>
-To: heiko@sntech.de, Kever Yang <kever.yang@rock-chips.com>
-Cc: linux-rockchip@lists.infradead.org, Simon Xue <xxm@rock-chips.com>, 
- Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org, 
- Chris Morgan <macromorgan@hotmail.com>, 
- Frank Wang <frank.wang@rock-chips.com>, Jamie Iles <jamie@jamieiles.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org, 
- Jonas Karlman <jonas@kwiboo.se>, Johan Jonker <jbx6244@gmail.com>, 
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-i2c@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>, 
- Simona Vetter <simona@ffwll.ch>, Elaine Zhang <zhangqing@rock-chips.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Finley Xiao <finley.xiao@rock-chips.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- FUKAUMI Naoki <naoki@radxa.com>, linux-pwm@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-serial@vger.kernel.org, 
- Michael Riesch <michael.riesch@wolfvision.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ulf.hansson@linaro.org, 
- Jiri Slaby <jirislaby@kernel.org>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Andi Shyti <andi.shyti@kernel.org>, devicetree@vger.kernel.org, 
- Diederik de Haas <didi.debian@cknow.org>, linux-watchdog@vger.kernel.org, 
- Rob Herring <robh@kernel.org>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Shresth Prasad <shresthprasad7@gmail.com>, Tim Lunn <tim@feathertop.org>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- linux-arm-kernel@lists.infradead.org, Jisheng Zhang <jszhang@kernel.org>, 
- Dragan Simic <dsimic@manjaro.org>, linux-mmc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-In-Reply-To: <20250227111913.2344207-1-kever.yang@rock-chips.com>
-References: <20250227111913.2344207-1-kever.yang@rock-chips.com>
-Subject: Re: (subset) [PATCH v3 00/15] rockchip: Add rk3562 SoC and evb support
-Message-Id: <174066409262.43847.18143301735398340521.b4-ty@kernel.org>
-Date: Thu, 27 Feb 2025 13:48:12 +0000
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CE4110EAF0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 14:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gl2YGr8BLw/wNus1iEMG6KY7DRu+t64YQRFArFZ0uP0=; b=bQZIi9oEBCJISZINLmrQvKI0d7
+ 4NQ27FI0uRR5OcXcSNQ4h4j7WAHVabJpGI0/LWHCO9fqwIqcG83F0XHpL0blaiLZNtl9BBdBMJNg6
+ 68lTa1OULh4hvJVJZlfl20dg6uqkW0M1lL9hvuSAtabL8hgXBGcjbkAus+lLVSEroIo+ZPQEgawvV
+ E8GEXGgC/AnEVaegAG8vy2YomFZmgTNCc2EH70JpZTfBeCS5biT9jm7J+KxE0ytXPrNxWycTziuYk
+ +nLf6HQi2SSmPQjzBvvf9fb27jpD1mG+ll37fXeKxo7vksc8A72irQdCR+z4F26gcU6buiQ7LHlzf
+ WJABAuNw==;
+Received: from i53875b47.versanet.de ([83.135.91.71]
+ helo=localhost.localdomain)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tneT4-0001In-99; Thu, 27 Feb 2025 15:02:26 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: gregkh@linuxfoundation.org,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: rafael@kernel.org, dakr@kernel.org, hjc@rock-chips.com,
+ andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, quentin.schulz@cherry.de
+Subject: Re: [PATCH 0/2] Fix the shutdown callback of a drm component device
+Date: Thu, 27 Feb 2025 15:02:15 +0100
+Message-ID: <174066492648.11813.12373419424939960288.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250220234141.2788785-1-heiko@sntech.de>
+References: <20250220234141.2788785-1-heiko@sntech.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,43 +66,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Feb 2025 19:18:58 +0800, Kever Yang wrote:
-> This patch set adds rk3562 SoC and its evb support.
+
+On Fri, 21 Feb 2025 00:41:39 +0100, Heiko Stuebner wrote:
+> Probe deferral can cause the platform-data we access to be freed already
+> causing ugly splats on system shutdown.
 > 
-> I have split out patches need driver change for different subsystem.
-> And all the modules with dt-binding document update in this patch set
-> do not need any driver change. I put them together to make it clear we
-> have a new SoC and board to use the new compatible. Please pick up the
-> patch for your subsystem, or please let me know if the patch has to
-> send separate.
+> Fix this via a small component-helper and adapting the rockchip-drm
+> shutdown handler.
+> 
+> Heiko Stuebner (2):
+>   drivers: base: component: add function to query the bound status
+>   drm/rockchip: Fix shutdown when no drm-device is set up
 > 
 > [...]
 
-Applied to
+Applied, thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+[1/2] drivers: base: component: add function to query the bound status
+      commit: a6ba2dad0aa4f623ab0def8b6e6888ac00639055
+[2/2] drm/rockchip: Fix shutdown when no drm-device is set up
+      commit: 4444e4d789d64f053435713e5984f0ef31a7633b
 
-Thanks!
-
-[07/15] dt-bindings: spi: Add rk3562 support
-        commit: 825687c1662c53ecda991adf0ecfd8dd3d864043
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
