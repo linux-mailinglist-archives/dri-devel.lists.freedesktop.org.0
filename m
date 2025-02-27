@@ -2,62 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC89A4730B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 03:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A803CA4730D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 03:37:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDC110EA13;
-	Thu, 27 Feb 2025 02:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4DC10EA15;
+	Thu, 27 Feb 2025 02:37:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PZr1vxA4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="m8j1/lhN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6133C10EA10;
- Thu, 27 Feb 2025 02:37:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740623831; x=1772159831;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=WHMi6LGNT8va9hoBVA6YvjNYhXhJ3jYhOqYG7oiKxbI=;
- b=PZr1vxA4kfs3OUx5HFBlVsMwzt9WnO3OCwMkobXXwoeJQaG8SSPJ2lER
- XdT1dK07y5hsP/CULVwLkBUOufwv0q65OdFQWl5+50fZp4b92hGhvNEYz
- /f31PuCDRIypbW8OVp9MNOTOf8N7WwoDgjZ09bQTLgZDpZG3Wb6vIIVW0
- hufsFPmodCM4wzRhWrPvcBc7rRole4bpQkZEMhBPbkuMCuwWAKf/UzS9T
- kuPvGhrCKWnry3XTjYc+DAeksmSdSmN1jtREtIDGXacZKjb4bBvlOYNT4
- UFPWUneGa5IeNqO2XZdH8N6X1wRfsWTDhki95nV/+NuAw5PF9Q1TSyEQ+ Q==;
-X-CSE-ConnectionGUID: iN2WEahASgSfiEjOuwiCdQ==
-X-CSE-MsgGUID: hKw5Ck4XTgaBl5m+rzk3Xw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="63966076"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="63966076"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 18:37:05 -0800
-X-CSE-ConnectionGUID: cAPCEPPdRvWuJkuM7CVX1w==
-X-CSE-MsgGUID: Dntb8cdETPWhN0cz1LQHJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="117806392"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
- by orviesa008.jf.intel.com with ESMTP; 26 Feb 2025 18:37:03 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tnTlk-000CkE-16;
- Thu, 27 Feb 2025 02:37:00 +0000
-Date: Thu, 27 Feb 2025 10:36:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>, intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- saurabhg.gupta@intel.com, alex.zuo@intel.com,
- jonathan.cavitt@intel.com, joonas.lahtinen@linux.intel.com,
- matthew.brost@intel.com, jianxun.zhang@intel.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Message-ID: <202502271029.67aYhWm6-lkp@intel.com>
-References: <20250226225557.133076-7-jonathan.cavitt@intel.com>
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4A410EA21
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 02:37:18 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-6f77b9e0a34so3762307b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 18:37:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740623837; x=1741228637; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w2/JikIOXuq+9YZgvX/I0sOxCDWRqOTZNtQmLEPFnPo=;
+ b=m8j1/lhNfAAcG8bXP5ckqnd9RBBi2PFlkX3VJ/DhasG+/MhuFrC1Bmnn9RPpOrTyPO
+ TBCPhPB20l7kepZTGL1PgUq77eKPj6noTS0PLPvsuQwTcxaChmgumpE9wtEUgPZQdAIa
+ w2yhDh8yRJgM675QW9RmWIF/sJyJE5+2QSJbZG4yZwHM6solXbdkmTUaVmUgxJ57Fo9H
+ T0lo15xbLAEpoKDq52pCOmichuVVDOpw4U6NL/YfPrnJIPyloRqsMlNCJOygL+oH5sue
+ iiF44+WxDpVRLafm+DO8mbNs7qIIJHQUygRuqkUaRUWKaJpF25V88WU3DqY06Da1WQQv
+ 5ANg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740623837; x=1741228637;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=w2/JikIOXuq+9YZgvX/I0sOxCDWRqOTZNtQmLEPFnPo=;
+ b=lDovt//EXbmzaR93fmLK1eSMugu3pRXIOH7b7ZRfyAxDRl/JeZbKRsFfmoGHbVE6lz
+ iS/jKCIZ6C/2cjARvKMBqJXUJ0/XcJo+cuRcaSXBURM7d2BPdomMKuLvUZixe8Bl4SIH
+ zrvjwDzAug1H2+IpOUwM69IILb9/D4lcYDY4LMaS2x8M9eJX7xx/hArsPP/ll5sRq2Nd
+ b1ED/s3slAf4a404b335VwR0TzMIWOlksdLt29u3C7nxWzF50WaHHl5+CKkqRlS1sldy
+ 4NGHVRPFTtDAsCqXqVtYDKYA9okR+Socvca0eTv/0U1F3FA5DzDhPt65kF0y+IXC98rt
+ 3e8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+/IB8e8ArFsFwQ8q6dK8xy1sWm2sR7JWhkw8xmO3PIDMaepd7N7xx9mFnNaN4ijSxv+b4zHvncgI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyd+chZmd/+XDjKPB1Ga9RHtyozUEn3TF9A/40upX1o98f06Ny3
+ fu8zj/0BAXYb/xYxJOUOUstZffD7pVsQRVixbvas1RzSKEe3WeVkiGkaODaV+c/KeX/rrZHwQFK
+ be+/YudA3QyBw7A49nnNgMwQGyw+6W2zTF8VSQw==
+X-Gm-Gg: ASbGncuztdvtC95ChYI6o2LamsEPf+3822Hm3Mlt0YEuXoe7qBkZwV9WRkr6cyVsI04
+ eQx7ChZ0BsTL8xGH7uLgIAiCvLcSgv2t7i35ytNhQ5EaxZkII2TlRqOtpVgtK/ixHNSixCVzlFn
+ cDPh9i06iUtjRx
+X-Google-Smtp-Source: AGHT+IGSw0gtdKcK4e/gjlWOJp54+6uLHAkVBNTZI2SEuatfi8tmEUqUfZLol5dS7eJGj3x1CROAqXjTXvG9Xlr25R0=
+X-Received: by 2002:a05:690c:4512:b0:6f9:ac35:4483 with SMTP id
+ 00721157ae682-6fd2207a924mr52773417b3.25.1740623837083; Wed, 26 Feb 2025
+ 18:37:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226225557.133076-7-jonathan.cavitt@intel.com>
+References: <20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-0-8d5f5f426eb2@linaro.org>
+ <20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-11-8d5f5f426eb2@linaro.org>
+ <f7a1a1ef-bab7-4024-bfca-a9fa33f189b5@quicinc.com>
+In-Reply-To: <f7a1a1ef-bab7-4024-bfca-a9fa33f189b5@quicinc.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Thu, 27 Feb 2025 10:37:06 +0800
+X-Gm-Features: AQ5f1JpajceI_JjtWnScexhP25AZZx5gURBP9Id9s4kjX02P38LidJgsE8Muoks
+Message-ID: <CABymUCNgwWf8cvNB0thWP3AmHYK5WDv9AwyhhE1q5X7sYCArsA@mail.gmail.com>
+Subject: Re: [PATCH v7 11/15] drm/msm/dpu: split PIPES_PER_STAGE definition
+ per plane and mixer
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,80 +91,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+Jessica Zhang <quic_jesszhan@quicinc.com> =E4=BA=8E2025=E5=B9=B42=E6=9C=882=
+7=E6=97=A5=E5=91=A8=E5=9B=9B 09:38=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
+>
+> On 2/26/2025 4:31 AM, Jun Nie wrote:
+> > The stage contains configuration for a mixer pair. Currently the plane
+> > supports just one stage and 2 pipes. Quad-pipe support will require
+> > handling 2 stages and 4 pipes at the same time. In preparation for that
+> > add a separate define, PIPES_PER_PLANE, to denote number of pipes that
+> > can be used by the plane.
+> >
+> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  2 +-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 14 +++++++-------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h   |  4 ++--
+> >   4 files changed, 11 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm=
+/msm/disp/dpu1/dpu_crtc.c
+> > index 193818b02197d0737c86de7765d98732fa914e8e..81474823e6799132db71c97=
+12046d359e3535d90 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > @@ -463,7 +463,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_=
+crtc *crtc,
+> >               if (pstate->stage =3D=3D DPU_STAGE_BASE && format->alpha_=
+enable)
+> >                       bg_alpha_enable =3D true;
+> >
+> > -             for (i =3D 0; i < PIPES_PER_STAGE; i++) {
+> > +             for (i =3D 0; i < PIPES_PER_PLANE; i++) {
+> >                       if (!pstate->pipe[i].sspp)
+> >                               continue;
+> >                       set_bit(pstate->pipe[i].sspp->idx, fetch_active);
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/=
+drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > index ba7bb05efe9b8cac01a908e53121117e130f91ec..5f010d36672cc6440c69779=
+908b315aab285eaf0 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > @@ -34,6 +34,7 @@
+> >   #define DPU_MAX_PLANES                      4
+> >   #endif
+> >
+> > +#define PIPES_PER_PLANE                      2
+> >   #define PIPES_PER_STAGE                     2
+> >   #ifndef DPU_MAX_DE_CURVES
+> >   #define DPU_MAX_DE_CURVES           3
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/dr=
+m/msm/disp/dpu1/dpu_plane.c
+> > index ef44af5ab681c8f526333fa92531a2225983aa09..d67f2ad20b4754ca4bcb759=
+a65a39628b7236b0f 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -1078,7 +1078,7 @@ static int dpu_plane_virtual_atomic_check(struct =
+drm_plane *plane,
+> >                * resources are freed by dpu_crtc_assign_plane_resources=
+(),
+> >                * but clean them here.
+> >                */
+> > -             for (i =3D 0; i < PIPES_PER_STAGE; i++)
+> > +             for (i =3D 0; i < PIPES_PER_PLANE; i++)
+> >                       pstate->pipe[i].sspp =3D NULL;
+> >
+> >               return 0;
+> > @@ -1129,7 +1129,7 @@ static int dpu_plane_virtual_assign_resources(str=
+uct drm_crtc *crtc,
+> >       pipe_cfg =3D &pstate->pipe_cfg[0];
+> >       r_pipe_cfg =3D &pstate->pipe_cfg[1];
+> >
+> > -     for (i =3D 0; i < PIPES_PER_STAGE; i++)
+> > +     for (i =3D 0; i < PIPES_PER_PLANE; i++)
+> >               pstate->pipe[i].sspp =3D NULL;
+> >
+> >       if (!plane_state->fb)
+> > @@ -1241,7 +1241,7 @@ void dpu_plane_flush(struct drm_plane *plane)
+> >               /* force 100% alpha */
+> >               _dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
+> >       else {
+> > -             for (i =3D 0; i < PIPES_PER_STAGE; i++)
+> > +             for (i =3D 0; i < PIPES_PER_PLANE; i++)
+>
+> Hi Jun,
+>
+> Is there a reason why only this case was changed to PIPES_PER_PLANE but
+> _dpu_plane_color_fill() only loops over PIPES_PER_STAGE?
+>
+> Similarly, I see that dpu_plane_danger_signal_ctrl() also only loops
+> over PIPES_PER_STAGE.
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+It is missed and should be converted to PIPES_PER_PLANE in
+_dpu_plane_color_fill.
+Thanks for pointing this out!
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on next-20250226]
-[cannot apply to linus/master v6.14-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-xe-xe_gt_pagefault-Migrate-lookup_vma-to-xe_vm-h/20250227-070008
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250226225557.133076-7-jonathan.cavitt%40intel.com
-patch subject: [PATCH 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-config: s390-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271029.67aYhWm6-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271029.67aYhWm6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271029.67aYhWm6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/xe/xe_vm.c:3288:2: error: use of undeclared identifier 'vma'; did you mean 'vm'?
-    3288 |         vma = lookup_vma(vm, pf->page_addr);
-         |         ^~~
-         |         vm
-   drivers/gpu/drm/xe/xe_vm.c:3283:56: note: 'vm' declared here
-    3283 | xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-         |                                                        ^
->> drivers/gpu/drm/xe/xe_vm.c:3288:8: error: call to undeclared function 'lookup_vma'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3288 |         vma = lookup_vma(vm, pf->page_addr);
-         |               ^
->> drivers/gpu/drm/xe/xe_vm.c:3288:6: error: incompatible integer to pointer conversion assigning to 'struct xe_vm *' from 'int' [-Wint-conversion]
-    3288 |         vma = lookup_vma(vm, pf->page_addr);
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_vm.c:3289:7: error: use of undeclared identifier 'vma'; did you mean 'vm'?
-    3289 |         if (!vma)
-         |              ^~~
-         |              vm
-   drivers/gpu/drm/xe/xe_vm.c:3283:56: note: 'vm' declared here
-    3283 | xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-         |                                                        ^
-   drivers/gpu/drm/xe/xe_vm.c:3291:23: error: use of undeclared identifier 'vma'; did you mean 'vm'?
-    3291 |         if (xe_vma_read_only(vma) && pf->access_type != XE_PAGEFAULT_ACCESS_TYPE_READ)
-         |                              ^~~
-         |                              vm
-   drivers/gpu/drm/xe/xe_vm.c:3283:56: note: 'vm' declared here
-    3283 | xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-         |                                                        ^
-   5 errors generated.
-
-
-vim +3288 drivers/gpu/drm/xe/xe_vm.c
-
-  3281	
-  3282	static enum drm_xe_fault_address_type
-  3283	xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-  3284	{
-  3285		if (!pf)
-  3286			return 0;
-  3287	
-> 3288		vma = lookup_vma(vm, pf->page_addr);
-  3289		if (!vma)
-  3290			return DRM_XE_FAULT_ADDRESS_TYPE_NONE_EXT;
-  3291		if (xe_vma_read_only(vma) && pf->access_type != XE_PAGEFAULT_ACCESS_TYPE_READ)
-  3292			return DRM_XE_FAULT_ADDRESS_TYPE_WRITE_INVALID_EXT;
-  3293		return 0;
-  3294	}
-  3295	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Jun
