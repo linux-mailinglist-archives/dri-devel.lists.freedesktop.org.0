@@ -2,56 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEB5A4734E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 04:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1032A473F1
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 05:05:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8BE210EA18;
-	Thu, 27 Feb 2025 03:06:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XKOIEVIt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDA3110EA23;
+	Thu, 27 Feb 2025 04:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E4E10EA18
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 03:06:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5977461155;
- Thu, 27 Feb 2025 03:06:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC92BC4CED6;
- Thu, 27 Feb 2025 03:06:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740625610;
- bh=q2ghoz1pWJEIqwjf30Ucg7t93D2Nrvj2VISWKXWFeS0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XKOIEVItYrAj/NHvNuhYHb1TLQ0uWUr6Cfms8KX4vn/wJBClj/nY8frxgb/Uc4f9F
- eBPOTrxKFeK0bhW86VnrG78WQXS614b953FFfZEnwXD+vynPLg2MdMKDLDhqrNw9Lb
- gL87zVRHdia/yyl5wGrhI4dcgu4aux5HeF/km2dVwo8F0fh6Jou02XLsO503f3ZTuf
- MgZxMB+pYdH+zLZFVQtJsf3WE31XgskWhHJ6J7114z31SqyGdDmyhdrwZ5nSxJ5NVM
- 8je6WFfjt3CYVTVckaoBkvxKLMHK+6crHGpgiRVQOMYs9GTnyvw9bhltXv66apH9XT
- xXxJC0D5wudzQ==
-Received: by venus (Postfix, from userid 1000)
- id ADF6718066B; Thu, 27 Feb 2025 04:06:47 +0100 (CET)
-Date: Thu, 27 Feb 2025 04:06:47 +0100
-From: Sebastian Reichel <sre@kernel.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Abel Vesa <abel.vesa@linaro.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Johan Hovold <johan@kernel.org>, linux-pwm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] backlight: pwm_bl: Read back PWM period from provider
-Message-ID: <cmjyaveolhjtfhqbjpc6ghh7g2f5jmeyavoms5lqup6dyidngl@ljvxgoyw57md>
-References: <20250226-pwm-bl-read-back-period-from-hw-v1-1-ccd1df656b23@linaro.org>
- <xltamao27utfrsax2pc6mh5tthanmrqszz4k7gyw3knqkm24xp@4tydmhfh6g4j>
+X-Greylist: delayed 2344 seconds by postgrey-1.36 at gabe;
+ Thu, 27 Feb 2025 04:05:54 UTC
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F65410EA23;
+ Thu, 27 Feb 2025 04:05:54 +0000 (UTC)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51R3L8oi015977;
+ Wed, 26 Feb 2025 19:26:40 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com
+ [147.11.82.252])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 451ptmhmej-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Wed, 26 Feb 2025 19:26:40 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 26 Feb 2025 19:26:39 -0800
+Received: from pek-lpg-core1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 26 Feb 2025 19:26:34 -0800
+From: <jianqi.ren.cn@windriver.com>
+To: <stable@vger.kernel.org>
+CC: <patches@lists.linux.dev>, <alexander.deucher@amd.com>,
+ <daniel.wheeler@amd.com>, <mario.limonciello@amd.com>,
+ <josip.pavic@amd.com>, <aurabindo.pillai@amd.com>,
+ <sohaib.nadeem@amd.com>, <gregkh@linuxfoundation.org>,
+ <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <Rodrigo.Siqueira@amd.com>, <christian.koenig@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <wayne.lin@amd.com>, <sashal@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <charlene.liu@amd.com>, <gabe.teeger@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <Nicholas.Kazlauskas@amd.com>
+Subject: [PATCH 6.1.y] drm/amd/display: fixed integer types and null check
+ locations
+Date: Thu, 27 Feb 2025 11:26:33 +0800
+Message-ID: <20250227032633.4176866-1-jianqi.ren.cn@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="a5rbsad7opocfj4r"
-Content-Disposition: inline
-In-Reply-To: <xltamao27utfrsax2pc6mh5tthanmrqszz4k7gyw3knqkm24xp@4tydmhfh6g4j>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: aMIR4xxGOCX5NeqdwxXpYEWFVpqL_Trx
+X-Authority-Analysis: v=2.4 cv=TuEchCXh c=1 sm=1 tr=0 ts=67bfdb70 cx=c_pps
+ a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17
+ a=T2h4t0Lz3GQA:10 a=zd2uoN0lAAAA:8 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8
+ a=fmNT8XcYnNex_eyvA98A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: aMIR4xxGOCX5NeqdwxXpYEWFVpqL_Trx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-27_01,2025-02-26_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ adultscore=0 phishscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
+ clxscore=1011 impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502100000
+ definitions=main-2502270025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,112 +82,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Sohaib Nadeem <sohaib.nadeem@amd.com>
 
---a5rbsad7opocfj4r
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC] backlight: pwm_bl: Read back PWM period from provider
-MIME-Version: 1.0
+[ Upstream commit 0484e05d048b66d01d1f3c1d2306010bb57d8738 ]
 
-Hi,
+[why]:
+issues fixed:
+- comparison with wider integer type in loop condition which can cause
+infinite loops
+- pointer dereference before null check
 
-On Wed, Feb 26, 2025 at 05:34:50PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Wed, Feb 26, 2025 at 05:31:08PM +0200, Abel Vesa wrote:
-> > The current implementation assumes that the PWM provider will be able to
-> > meet the requested period, but that is not always the case. Some PWM
-> > providers have limited HW configuration capabilities and can only
-> > provide a period that is somewhat close to the requested one. This
-> > simply means that the duty cycle requested might either be above the
-> > PWM's maximum value or the 100% duty cycle is never reached.
->=20
-> If you request a state with 100% relative duty cycle you should get 100%
-> unless the hardware cannot do that. Which PWM hardware are you using?
-> Which requests are you actually doing that don't match your expectation?
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
+Reviewed-by: Josip Pavic <josip.pavic@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+[ To fix CVE-2024-26767, delete changes made in drivers/gpu/drm/amd/display/dc/link/link_validation.c
+ for this file is deleted in linux-6.1 ]
+Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+Verified the build test.
+---
+ .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-drivers/leds/rgb/leds-qcom-lpg.c (which probably should at least get
-a MAINTAINERS entry to have you CC'd considering all the PWM bits in
-it). See the following discussion (I point you to my message in the
-middle of a thread, which has a summary and probably is a good
-starting point):
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index 4d2590964a20..75e44d8a7b40 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -1862,19 +1862,21 @@ static enum bp_result get_firmware_info_v3_2(
+ 		/* Vega12 */
+ 		smu_info_v3_2 = GET_IMAGE(struct atom_smu_info_v3_2,
+ 							DATA_TABLES(smu_info));
+-		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
+ 		if (!smu_info_v3_2)
+ 			return BP_RESULT_BADBIOSTABLE;
+ 
++		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
++
+ 		info->default_engine_clk = smu_info_v3_2->bootup_dcefclk_10khz * 10;
+ 	} else if (revision.minor == 3) {
+ 		/* Vega20 */
+ 		smu_info_v3_3 = GET_IMAGE(struct atom_smu_info_v3_3,
+ 							DATA_TABLES(smu_info));
+-		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
+ 		if (!smu_info_v3_3)
+ 			return BP_RESULT_BADBIOSTABLE;
+ 
++		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
++
+ 		info->default_engine_clk = smu_info_v3_3->bootup_dcefclk_10khz * 10;
+ 	}
+ 
+@@ -2439,10 +2441,11 @@ static enum bp_result get_integrated_info_v11(
+ 	info_v11 = GET_IMAGE(struct atom_integrated_system_info_v1_11,
+ 					DATA_TABLES(integratedsysteminfo));
+ 
+-	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
+ 	if (info_v11 == NULL)
+ 		return BP_RESULT_BADBIOSTABLE;
+ 
++	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
++
+ 	info->gpu_cap_info =
+ 	le32_to_cpu(info_v11->gpucapinfo);
+ 	/*
+@@ -2654,11 +2657,12 @@ static enum bp_result get_integrated_info_v2_1(
+ 
+ 	info_v2_1 = GET_IMAGE(struct atom_integrated_system_info_v2_1,
+ 					DATA_TABLES(integratedsysteminfo));
+-	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
+ 
+ 	if (info_v2_1 == NULL)
+ 		return BP_RESULT_BADBIOSTABLE;
+ 
++	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
++
+ 	info->gpu_cap_info =
+ 	le32_to_cpu(info_v2_1->gpucapinfo);
+ 	/*
+@@ -2816,11 +2820,11 @@ static enum bp_result get_integrated_info_v2_2(
+ 	info_v2_2 = GET_IMAGE(struct atom_integrated_system_info_v2_2,
+ 					DATA_TABLES(integratedsysteminfo));
+ 
+-	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
+-
+ 	if (info_v2_2 == NULL)
+ 		return BP_RESULT_BADBIOSTABLE;
+ 
++	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
++
+ 	info->gpu_cap_info =
+ 	le32_to_cpu(info_v2_2->gpucapinfo);
+ 	/*
+-- 
+2.25.1
 
-https://lore.kernel.org/all/vc7irlp7nuy5yvkxwb5m7wy7j7jzgpg73zmajbmq2zjcd67=
-pd2@cz2dcracta6w/
-
-Greetings,
-
--- Sebastian
-
-> > This could be easily fixed if the pwm_apply*() API family would allow
-> > overriding the period within the PWM state that's used for providing the
-> > duty cycle. But that is currently not the case.
->=20
-> I don't understand what you mean here.
->=20
-> > So easiest fix here is to read back the period from the PWM provider via
-> > the provider's ->get_state() op, if implemented, which should provide t=
-he
-> > best matched period. Do this on probe after the first ->pwm_apply() op =
-has
-> > been done, which will allow the provider to determine the best match
-> > period based on available configuration knobs. From there on, the
-> > backlight will use the best matched period, since the driver's internal
-> > PWM state is now synced up with the one from provider.
-> > [...]
-> > diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight=
-/pwm_bl.c
-> > index 237d3d3f3bb1a6d713c5f6ec3198af772bf1268c..71a3e9cd8844095e85c01b1=
-94d7466978f1ca78e 100644
-> > --- a/drivers/video/backlight/pwm_bl.c
-> > +++ b/drivers/video/backlight/pwm_bl.c
-> > @@ -525,6 +525,17 @@ static int pwm_backlight_probe(struct platform_dev=
-ice *pdev)
-> >  		goto err_alloc;
-> >  	}
-> > =20
-> > +	/*
-> > +	 * The actual period might differ from the requested one due to HW
-> > +	 * limitations, so sync up the period with one determined by the
-> > +	 * provider driver.
-> > +	 */
-> > +	ret =3D pwm_get_state_hw(pb->pwm, &pb->pwm->state);
->=20
-> As a consumer you're not supposed to write to &pb->pwm->state. That's a
-> layer violation. Please call pwm_get_state_hw() with a struct pwm_state
-> that you own and save the relevant parts in your driver data.
->=20
-> > +	if (ret && ret !=3D -EOPNOTSUPP) {
-> > +		dev_err(&pdev->dev, "failed to get PWM HW state");
-> > +		goto err_alloc;
-> > +	}
-> > +
-> >  	memset(&props, 0, sizeof(struct backlight_properties));
-> > =20
-> >  	if (data->levels) {
->=20
-> Best regards
-> Uwe
-
-
-
---a5rbsad7opocfj4r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAme/1sMACgkQ2O7X88g7
-+pp2axAAjUk/lD0Uk4ltqhBQwfAEUqmFf1DoyH07Pzeqgx00DfAcBr2cL/Nae/by
-vz0CXq2TrsiJG9tYNV/YzQfTq21f6xNhg+HYVqRnw4M6N5NEubL3FFxDUG7aug5r
-vJsbi/ZMqRla7FtyH6fVC2r51AZqI1/+BdB1zuN5k8TB8t7NHWe6gSTcxTL++TfS
-EzOrvlAwTyFJkGCbLw5laeXQ7OdZCdPF0ASms+r6p4FTASs0351udCRSy6wWSvg5
-oRrY8U59bkjRB9r8/0LiT6k3eQkvhlNpknYqwdDAZc4DK/X9Pg2ssHBDKjOxJNyP
-fymMw/yRJ/yGBMlzcdRJhmEZUc6ruDWmAi6GaNOCndslanwZUDge+dalgtyYa6HQ
-JzIDINQM4r4hDnNXSrAL/JIXNUpbldjJzR4gbz9rmDcFyf7MovcBOY/FspXHSxZA
-L6D/DEF1HeMVl/qIJJGDQvJ35hUcGE9C6oFA+pEz0IxDyi1kUmYPVdZNmJ9nriYM
-k9OZmU/C8Mqch9E0cQFceRbE+/U0PyZZ2Mafv2Aju99OqV9vplUCDHyNqu82tdZW
-IXRvpWgf5qk5SzXLS8TkNyfkDGofP4JN6SbT/te1gCRHOi1oOs05kYjtb4xpCB51
-MMjrboCZedmzGwmsM3Evbw+e0W04zIwNiEeDBUElo20hdw9Idjw=
-=dIdK
------END PGP SIGNATURE-----
-
---a5rbsad7opocfj4r--
