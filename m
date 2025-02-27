@@ -2,52 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BF1A477DB
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 09:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EB8A477ED
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 09:36:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92DCE10EA56;
-	Thu, 27 Feb 2025 08:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA4210EA5D;
+	Thu, 27 Feb 2025 08:36:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Ie/o9m7q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LrREfj5D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12AB10EA63
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 08:32:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740645172;
- bh=zUkbTcy+OeYJQZxEC3Qi5I+EyNPXyUtugXUZ1t3DquI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Ie/o9m7qM9wSdBM2nAQwZ0bE8/AZ0Q4Qhml/8+XAyjuzslLRQfBU01aPZjG/lBKD8
- M62dQj6HuhOa+E50irBLe5q4hCL8AZdgJZCTBBSYxczDE7kBbMg8aHe/yzQGK27iEf
- aQygXfsSW/htdUoHbXaKZt8rOBDTAhRkDheqADyv8pUBBXuiVP2d4Q98xbug85H/Z4
- 4c57BdAkx5IYVs8u0Yhq1Uj+AuTqNwVs+HHxwbCgt84Dc/PmF/PuzqioqFh62XRwEr
- ugKiQ6bfK9ckP35xFt9qXcQj3PSw3xjBXUbOYs8GnrNkX99dgQvzpG3SBujEZ7uRCy
- eRiz2ZLbGYQxg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EC10417E0605;
- Thu, 27 Feb 2025 09:32:51 +0100 (CET)
-Date: Thu, 27 Feb 2025 09:32:37 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Subject: Re: [RFC PATCH 3/4] drm/panfrost: Support ARM_64_LPAE_S1 page table
-Message-ID: <20250227093237.33aaf496@collabora.com>
-In-Reply-To: <20250227093030.1a45b4b7@collabora.com>
-References: <20250226183043.140773-1-ariel.dalessandro@collabora.com>
- <20250226183043.140773-4-ariel.dalessandro@collabora.com>
- <20250227093030.1a45b4b7@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E45E10EA5D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 08:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740645415; x=1772181415;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=2fgm/t8SmQha9aOuyc63QP2w702ksgRACwKPM3V0uN8=;
+ b=LrREfj5DiQwhVhXffllWWtK1C2cJ9daspVoAci2bRjnpZl72QoD3S+Nd
+ C1dHeDQlx0k1IULMU5mCkCxlSJSQXZAIXCI67DFz6TLjX+ab2TPLOb0cY
+ bew5Aksl2EDypNzEoioyjzBXFJMvM5os7DIWOylIRI32syemFrPSHuef9
+ hmy8TxXq/4kwmJueI62LadFHRtrhJcpPD4y+O7dY+Jfy7m6yj9t3ikfqv
+ EFqAHHNW+MEafkD8YY6W4sNJFhmmwSPWneSricLIxabzlSodJT+7okKLP
+ JGQqqH5qYvqQZGPq2IdKoD8uN3EdJU50hS9zo8visWmNJtDQsG9T7Dfhx g==;
+X-CSE-ConnectionGUID: YVYyggFlT7a+dZX2nJfi9Q==
+X-CSE-MsgGUID: n4aWc8BaQ0SNTWDyeUCuQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45436096"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="45436096"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2025 00:36:55 -0800
+X-CSE-ConnectionGUID: CWHXJ9ImRgSnInY7jL3gyQ==
+X-CSE-MsgGUID: kIHcHcaHTSiywuCyrqMY1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="121969913"
+Received: from akadakia-mobl2.amr.corp.intel.com (HELO [10.246.17.153])
+ ([10.246.17.153])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2025 00:36:51 -0800
+Message-ID: <41667dcc-b57d-44ff-99cf-5a91dbec1e56@linux.intel.com>
+Date: Thu, 27 Feb 2025 09:36:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] accel/amdxdna: Check interrupt register before
+ mailbox_rx_worker exits
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ quic_jhugo@quicinc.com, Mario.Limonciello@amd.com,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, min.ma@amd.com, max.zhen@amd.com,
+ sonal.santan@amd.com, king.tam@amd.com
+References: <20250226161810.4188334-1-lizhi.hou@amd.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20250226161810.4188334-1-lizhi.hou@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,49 +76,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Feb 2025 09:30:30 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-> > Bifrost MMUs support AArch64 4kB granule specification. However,
-> > panfrost only enables MMU in legacy mode, despite the presence of the
-> > HW_FEATURE_AARCH64_MMU feature flag.
-> > 
-> > This commit adds support to use page tables according to AArch64 4kB
-> > granule specification. This feature is enabled conditionally based on
-> > the GPU model's HW_FEATURE_AARCH64_MMU feature flag.
-> > 
-> > Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
-> >  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 118 +++++++++++++++++----
-> >  drivers/gpu/drm/panfrost/panfrost_regs.h   |  29 +++++
-> >  3 files changed, 128 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> > index cffcb0ac7c11..dea252f43c58 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> > @@ -153,6 +153,7 @@ struct panfrost_device {
-> >  };
-> >  
-> >  struct panfrost_mmu {
-> > +	void (*enable)(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);  
+On 2/26/2025 5:18 PM, Lizhi Hou wrote:
+> There is a timeout failure been found during stress tests. If the firmware
+> generates a mailbox response right after driver clears the mailbox channel
+> interrupt register, the hardware will not generate an interrupt for the
+> response. This causes the unexpected mailbox command timeout.
 > 
-> The enable sequence is the same, it's just the transtab, memattr and
-> transcfg values that differ depending on the format, so let's prepare
-> them at panfrost_mmu init time, and cache them here.
-
-Just to be clear, I meant replace this ->enable() function pointer by a
-
-	struct {
-		u64 transtab;
-		u64 memattr;
-		u64 transcfg;
-	} cfg;
-
-field.
-
+> To handle this failure, driver checks the interrupt register before
+> exiting mailbox_rx_worker(). If there is a new response, driver goes back
+> to process it.
 > 
-> >  	struct panfrost_device *pfdev;
-> >  	struct kref refcount;
-> >  	struct io_pgtable_cfg pgtbl_cfg;
+> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+> ---
+>  drivers/accel/amdxdna/amdxdna_mailbox.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> index de7bf0fb4594..8651b1d3c3ab 100644
+> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> @@ -348,8 +348,6 @@ static irqreturn_t mailbox_irq_handler(int irq, void *p)
+>  	trace_mbox_irq_handle(MAILBOX_NAME, irq);
+>  	/* Schedule a rx_work to call the callback functions */
+>  	queue_work(mb_chann->work_q, &mb_chann->rx_work);
+> -	/* Clear IOHUB register */
+> -	mailbox_reg_write(mb_chann, mb_chann->iohub_int_addr, 0);
+>  
+>  	return IRQ_HANDLED;
+>  }
+> @@ -366,6 +364,9 @@ static void mailbox_rx_worker(struct work_struct *rx_work)
+>  		return;
+>  	}
+>  
+> +again:
+> +	mailbox_reg_write(mb_chann, mb_chann->iohub_int_addr, 0);
+> +
+>  	while (1) {
+>  		/*
+>  		 * If return is 0, keep consuming next message, until there is
+> @@ -379,10 +380,18 @@ static void mailbox_rx_worker(struct work_struct *rx_work)
+>  		if (unlikely(ret)) {
+>  			MB_ERR(mb_chann, "Unexpected ret %d, disable irq", ret);
+>  			WRITE_ONCE(mb_chann->bad_state, true);
+> -			disable_irq(mb_chann->msix_irq);
+> -			break;
+> +			return;
+>  		}
+>  	}
+> +
+> +	/*
+> +	 * The hardware will not generate interrupt if firmware creates a new
+> +	 * response right after driver clears interrupt register. Check
+> +	 * the interrupt register to make sure there is not any new response
+> +	 * before exiting.
+> +	 */
+> +	if (mailbox_reg_read(mb_chann, mb_chann->iohub_int_addr))
+> +		goto again;
+>  }
+>  
+>  int xdna_mailbox_send_msg(struct mailbox_channel *mb_chann,
+
