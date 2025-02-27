@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402C6A47C45
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 12:32:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E9AA47C5D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 12:39:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A9C10EAB7;
-	Thu, 27 Feb 2025 11:32:53 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fQ4h6bzH";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9019F10EAC0;
+	Thu, 27 Feb 2025 11:38:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B672410EAB7;
- Thu, 27 Feb 2025 11:32:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0EFE45C4885;
- Thu, 27 Feb 2025 11:32:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67C4C4CEE4;
- Thu, 27 Feb 2025 11:32:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740655970;
- bh=Zty7kMcpbAjyKYQmB6FvAoqZJmoDUlOF8/pOq0j6RP0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fQ4h6bzHi6GSUpTap9SRozMpoyIeIGwusAlV23uF3LBmRLYmGfMl1d3TMotaw1Zip
- 1oBMrYWqBf5P3ArtGBIO2CRYWmXy/Axtg1Zc4YV0I+S+JhzmiP8uBbrIvJCg5xyIUW
- LQ0MYOOa4ig2nmI3JgSwp9YqRgQ/N5O3PAhy2rklq/rs8rmtIs+T3I4nTpx0ViWf3z
- e2k4TlA8zM05eQtOfbq6nvUYhtB6SrcDTHYJy8CqWafVxViyeOzRYNR/Zh3+URk4n6
- DQs6GaWwO5ZeMvKALQpue7GqmSkCrTpef9lUhkuax1KyPqdxTmJqHtp8sPnizihkk7
- /41zvLWBq99yA==
-Date: Thu, 27 Feb 2025 12:32:45 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z8BNXdf3CgqGYjPV@pollux>
-References: <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
- <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
- <20250225225756.GA4959@nvidia.com> <Z75WKSRlUVEqpysJ@cassiopeiae>
- <20250226004916.GB4959@nvidia.com> <Z75riltJo0WvOsS5@cassiopeiae>
- <20250226172120.GD28425@nvidia.com> <Z7-IHgcVVS8XBurW@cassiopeiae>
- <20250226234730.GC39591@nvidia.com>
+Received: from mail.nfschina.com (unknown [42.101.60.213])
+ by gabe.freedesktop.org (Postfix) with SMTP id 635BA10EAA6;
+ Thu, 27 Feb 2025 11:38:55 +0000 (UTC)
+Received: from [172.30.20.101] (unknown [180.167.10.98])
+ by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 2B7B8609B18F0; 
+ Thu, 27 Feb 2025 19:38:49 +0800 (CST)
+Message-ID: <28f9ca0e-136f-2cd6-0dba-4e3b7d172759@nfschina.com>
+Date: Thu, 27 Feb 2025 19:38:48 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226234730.GC39591@nvidia.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: ilpo.jarvinen@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ michael.j.ruhl@intel.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From: Su Hui <suhui@nfschina.com>
+In-Reply-To: <87senz3br3.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,142 +51,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2025 at 07:47:30PM -0400, Jason Gunthorpe wrote:
-> On Wed, Feb 26, 2025 at 10:31:10PM +0100, Danilo Krummrich wrote:
-> > Let's take a step back and look again why we have Devres (and Revocable) for
-> > e.g. pci::Bar.
-> > 
-> > The device / driver model requires that device resources are only held by a
-> > driver, as long as the driver is bound to the device.
-> > 
-> > For instance, in C we achieve this by calling
-> > 
-> > 	pci_iounmap()
-> > 	pci_release_region()
-> > 
-> > from remove().
-> > 
-> > We rely on this, we trust drivers to actually do this.
-> 
-> Right, exactly
-> 
-> But it is not just PCI bar. There are a *huge* number of kernel APIs
-> that have built in to them the same sort of requirement - teardown
-> MUST run with remove, and once done the resource cannot be used by
-> another thread.
-> 
-> Basically most things involving function pointers has this sort of
-> lifecycle requirement because it is a common process that prevents a
-> EAF of module unload.
+On 2025/2/27 18:47, Jani Nikula wrote:
+> On Thu, 27 Feb 2025, Su Hui <suhui@nfschina.com> wrote:
+>> When build randconfig, there is an error:
+>> ld: drivers/gpu/drm/xe/xe_vsec.o: in function `xe_vsec_init':
+>> xe_vsec.c:(.text+0x182): undefined reference to `intel_vsec_register'
+>>
+>> When CONFIG_DRM_XE=y and CONFIG_INTEL_VSEC=m is set, ld couldn't find
+>> 'intel_vsec_register'. Select INTEL_VSEC to fix this error.
+> Documentation/kbuild/kconfig-language.rst:
+>
+>    Note:
+> 	select should be used with care. select will force
+> 	a symbol to a value without visiting the dependencies.
+> 	By abusing select you are able to select a symbol FOO even
+> 	if FOO depends on BAR that is not set.
+> 	In general use select only for non-visible symbols
+> 	(no prompts anywhere) and for symbols with no dependencies.
+> 	That will limit the usefulness but on the other hand avoid
+> 	the illegal configurations all over.
+>
+> This should likely be either
+>
+> 	depends on INTEL_VSEC || INTEL_VSEC=n
+>
+> or
+>
+> 	depends on INTEL_VSEC
 
-You're still mixing topics, the whole Devres<pci::Bar> thing as about limiting
-object lifetime to the point where the driver is unbound.
+Hi, Jani:
 
-Shutting down asynchronous execution of things, i.e. workqueues, timers, IOCTLs
-to prevent unexpected access to the module .text section is a whole different
-topic.
+I tried to use 'depends on' at first. But there is a recursive dependency:
 
-You seem to imply that if we ensure the latter, we don't need to enforce the
-former, but that isn't true.
+     error: recursive dependency detected!
+         symbol DRM_XE depends on INTEL_VSEC
+         symbol INTEL_VSEC depends on X86_PLATFORM_DEVICES
+         symbol X86_PLATFORM_DEVICES is selected by DRM_XE
+         For a resolution refer to 
+Documentation/kbuild/kconfig-language.rst
+     subsection "Kconfig recursive dependency limitations".
 
-In other words, assuming that we properly enforce that there are no async
-execution paths after remove() or module_exit() (not necessarily the same),
-we still need to ensure that a pci::Bar object does not outlive remove().
 
-Device resources are a bit special, since their lifetime must be cap'd at device
-unbind, *independent* of the object lifetime they reside in. Hence the Devres
-container.
+I will try it again with 'depends on', need some time to check this 
+recursive
+dependency problem.
 
-For a memory allocation for instance (e.g. KBox<T>), this is different. If it
-outlives remove(), e.g. because it's part of the Module structure, that's fine.
-It's only important that it's dropped eventually.
+Su Hui
 
-> 
-> This is all incredibly subtle and driver writers never seem to
-> understand it properly.. See below for my thoughts on hrtimer bindings
-> having the same EAF issue.
-
-I don't think it has, see Boqun's reply [1].
-
-> 
-> My fear, that is intensifying as we go through this discussion, is
-> that rust binding authors have not fully comprehended what the kernel
-> life cycle model and common design pattern actually is, and have not
-> fully thought through issues like module unload creating a lifetime
-> cycle for *function pointers*.
-
-I do *not* see where you take the evidence from to make such a generic
-statement.
-
-Especially because there aren't a lot of abstractions upstream yet that fall
-under this category.
-
-If you think that a particular abstraction has a design issue, you're very
-welcome to chime in on the particular mail thread and help improve things.
-
-But implying that no one considers this is not representing reality.
-
-> 
-> This stuff is really hard. C programers rarely understand it. Existing
-> drivers tend to frequenly have these bug classes. Without an obvious
-> easy to use Rust framework to, effectively, revoke function pointers
-> and synchronously destroy objects during remove, I think this will be
-> a recurring problem going forward.
-> 
-> I assume that Rust philsophy should be quite concerned if it does not
-> protect against function pointers becoming asynchronously invalid due
-> to module unload races. That sounds like a safety problem to me??
-
-Yes, it would be a safety problem. That's why HrTimer for instance implements
-the corresponding synchronization when dropped.
-
-> 
-> > We also trust drivers that they don't access the pointer originally
-> > returned by pci_iomap() after remove().
-> 
-> Yes, I get it, you are trying to use a reference tracking type design
-> pattern when the C API is giving you a fencing design pattern, they
-> are not compatible and it is hard to interwork them.
-> 
-> > Now, let's get back to concurrent code that might still attempt to use the
-> > pci::Bar. Surely, we need mechanisms to shut down all asynchronous execution
-> > paths (e.g. workqueues) once the device is unbound. But that's not the job of
-> > Devres<pci::Bar>. The job of Devres<pci::Bar> is to be robust against misuse.
-> 
-> The thing is once you have a mechanism to shutdown all the stuff you
-> don't need the overhead of this revocable checking on the normal
-> paths. What you need is a way to bring your pci::Bar into a safety
-> contract that remove will shootdown concurrency and that directly
-> denies references to pci::Bar, and the same contract will guarentee it
-> frees pci::Bar memory.
-
-This contract needs to be technically enforced, not by convention as we do in C.
-
-And with embedding the pci::Bar in Devres, such that it is automatically revoked
-when the device is unbound, we do exactly that.
-
-(Again, we don't do it primarily to protect against some concurrent access, we do
-it to forcefully ensure that a pci::Bar object can not outlive the device /
-driver binding.)
-
-If we don't do that, how else do we do it? How do we prevent a driver from
-keeping the pci::Bar (and hence the memory mapping and memory region reservation
-alive after the device has been unbound?
-
-> > But yes, once people start using workqueues for other modules, we
-> > surely need to extend the abstraction accordingly.
-> 
-> You say that like it will be easy, but it is exactly the same type of
-> lifetime issue as pci_iomap, and that seems to be quite a challenge
-> here???
-
-No, the workqueue implementation can so something similar to what Boqun
-explained for HrTimer [1].
-
-A workqueue lifetime also does not need a hard cap at device unbind, like device
-resources. If it is bound to the module lifetime for instance, that is fine too.
-
-Data that is accessed from a work item can't be freed under the workqueue by
-design in Rust.
-
-[1] https://lore.kernel.org/rust-for-linux/Z7-0pOmWO6r_KeQI@boqun-archlinux/
+>
+>
+>
+>> Fixes: 0c45e76fcc62 ("drm/xe/vsec: Support BMG devices")
+>> Signed-off-by: Su Hui <suhui@nfschina.com>
+>> ---
+>>   drivers/gpu/drm/xe/Kconfig | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
+>> index b51a2bde73e2..7a60d96d2dd6 100644
+>> --- a/drivers/gpu/drm/xe/Kconfig
+>> +++ b/drivers/gpu/drm/xe/Kconfig
+>> @@ -44,6 +44,7 @@ config DRM_XE
+>>   	select WANT_DEV_COREDUMP
+>>   	select AUXILIARY_BUS
+>>   	select HMM_MIRROR
+>> +	select INTEL_VSEC
+>>   	help
+>>   	  Experimental driver for Intel Xe series GPUs
