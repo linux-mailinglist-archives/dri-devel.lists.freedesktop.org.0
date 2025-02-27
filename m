@@ -2,52 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90C5A4987D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 12:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F16DA49882
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 12:42:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D08FC10EC73;
-	Fri, 28 Feb 2025 11:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A09110EC7A;
+	Fri, 28 Feb 2025 11:42:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rz.uni-freiburg.de header.i=@rz.uni-freiburg.de header.b="U+Nn/b4v";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ld3wTpDH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 435 seconds by postgrey-1.36 at gabe;
- Thu, 27 Feb 2025 11:11:15 UTC
-Received: from c1422.mx.srv.dfn.de (c1422.mx.srv.dfn.de [194.95.239.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF0310EA64
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 11:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- rz.uni-freiburg.de; h=content-transfer-encoding:content-type
- :content-type:in-reply-to:from:from:content-language:references
- :subject:subject:user-agent:mime-version:date:date:message-id
- :received; s=s1; t=1740654672; x=1742469073; bh=/xAu52AlyTT122fI
- o+tPNvaTaRlBWq+OBKJq32xWrbk=; b=U+Nn/b4vlBPRfciwk/kKKtCepIQfE+93
- tsk47BLmNLWsIszJpF8aHauo35EX1F3Vci9SvZWJBct169dk4svnue3NxLYrmEKl
- mB1UzICE2HW7dyM7kuy5OkZ9ut73b0zAkCEn4l7KMIPZy0A+EXg+nYqXpeeIHrhq
- A4I9WkyUQVo=
-Received: from fe1.uni-freiburg.de (fe1.uni-freiburg.de [132.230.2.221])
- by c1422.mx.srv.dfn.de (Postfix) with ESMTP id 947552C0177
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 12:11:12 +0100 (CET)
-Received: from [2001:7c0:2517:a:4b56:9ec4:d188:b1a0] (account
- michael.scherle@rz.uni-freiburg.de HELO
- [IPV6:2001:7c0:2517:a:4b56:9ec4:d188:b1a0])
- by mail.uni-freiburg.de (CommuniGate Pro SMTP 6.3.19)
- with ESMTPSA id 46276879 for dri-devel@lists.freedesktop.org;
- Thu, 27 Feb 2025 12:11:12 +0100
-Message-ID: <44561290-469a-45bb-b8ce-22891d5a9690@rz.uni-freiburg.de>
-Date: Thu, 27 Feb 2025 12:11:12 +0100
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6BF310EADE;
+ Thu, 27 Feb 2025 13:40:00 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-30b8cbbac91so961611fa.1; 
+ Thu, 27 Feb 2025 05:40:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740663598; x=1741268398; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X0QqIj+Xj2KKd5yOn9wT3FKv7ilH/QlR+xG09MXlqr0=;
+ b=Ld3wTpDHM4GT4VyPEzoEECli3JpCifiJ2iMYJQ8/vbvAMr7t+088atf8tGC9TuIxdq
+ ti36blqijPBURLg2LXv+HztT/AxJ6fAeGau9RvvzUeyz8ueoNCz1H1KWj+xxPtp56gV3
+ qURabzbpw8CIT1Z4FyHsM7XRoiHFqoxt83m5j4rtXJNzqYU8CdGxjSaf26CrLbOejQxF
+ v56oaGKZxk1D4yCvipn4TaAx0/DswBqM6IU8Vd44Pgd7LIfh6vXDIWGV9rDZ3LIeztH4
+ EU8jRUO4zSdp7R2dKYvxU5UaA5+6ZVG9eYfbzY9tK+9RzkzVC38jWE90wx38iX4EfaMo
+ QXNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740663598; x=1741268398;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=X0QqIj+Xj2KKd5yOn9wT3FKv7ilH/QlR+xG09MXlqr0=;
+ b=HjKfN4fu4RXLPpIDRTxLjsSw/flOo8kRCSb8Ug0AGb/DkJiD7icCQASje8njAPlU9t
+ 5lkv8MyXFjiAxbzbviGX3XN/LL0vmZd8gxv42aThNTLmgAE89Kk1iI7KQJGZRQ0cvtjU
+ YQUHOUmoz9X8hQ4t7UKDHgX4HWjFewccYEToGodIFPOB6Z0nOr8+F6aW5grb6jTa2eTH
+ 84yGsBALR77ratXLhj+MjscA5EQXMim1X6HUOczIlrCk/V3ppqGjwWMsHwi2YtVhGipI
+ 8vNTPXVY5B7a+/JbevJjOxA7k3EBaQagTWPZ60RI4MDWG5mi3Xbi68t9QN+lWxjITJPu
+ MY8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWbUL4rVkmgv2aGX0mvGWXGeito0q6ty2cgsBt/57nDfF1rka6InKnqPAm7mymdI5ovvAes9m4wJ8E=@lists.freedesktop.org,
+ AJvYcCXiSTJDju24t4Kc2iDZM20Oo4YD4tpNHFMJdSLmCRr56YSm3GdPQLcMTpzu+jh6/kA36CWZP4FAmbQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxOJYRfjdLUpEZNwYlHSTf5dsiX7RQitO0Ny67N5d+4fZANhgD9
+ T1xTYaYt8z10h2Ub2IyZuiUFkqCphvK+dj+frjWpytAdTbQNLvjlibLLXMXMZ89rEbKDKz+m6QF
+ 37C153a7gP0pTr5yT2oyl2dPH6Ag=
+X-Gm-Gg: ASbGncvWIIaPzL02oeDy9WmJo1CTvKyGeY6MSYwA4JgvJs7wByVUvhoFVW74yr6/v4r
+ K+j1vxqLtRy2qXZxsX6UoGBAvqU0ZzTq90Lq1k3AXc3IfgY04BFq69otJmuG5tfczygH/84h9c4
+ sYEcjNI+q4u1vwsHSzMgK+DWjQtgedwXWOT7y4gG7P
+X-Google-Smtp-Source: AGHT+IFv8UCQLBFW+HmySTIopoV3gqxaBg5wvtyqxsA9/SWPF9AXdxTyZjDvJBXPJMy/X/nEAbqTXjvKUANVm2PlmXw=
+X-Received: by 2002:a05:651c:50e:b0:308:e54d:61aa with SMTP id
+ 38308e7fff4ca-30b8464a2bamr20649531fa.2.1740663598018; Thu, 27 Feb 2025
+ 05:39:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH 00/10] dcc: Create a stream for non-gl/remote clients that
- want to use dmabuf (v9)
-To: dri-devel@lists.freedesktop.org
-References: <cover.1740651328.git.michael.scherle@rz.uni-freiburg.de>
-Content-Language: en-US
-From: Michael Scherle <michael.scherle@rz.uni-freiburg.de>
-In-Reply-To: <cover.1740651328.git.michael.scherle@rz.uni-freiburg.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250224-macos-build-support-xe-v3-1-d2c9ed3a27cc@samsung.com>
+ <be5abg6u6wm62nhak7xrhtlkqxcekael6ztnkatwqxcil44x5y@p6yrbfingm4e>
+In-Reply-To: <be5abg6u6wm62nhak7xrhtlkqxcekael6ztnkatwqxcil44x5y@p6yrbfingm4e>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Thu, 27 Feb 2025 08:39:21 -0500
+X-Gm-Features: AQ5f1JrvujnQrNdPwimNUvnOfF-Py3f8kwIyufq_KgAHEzKnySZFBMMWJGb3ArY
+Message-ID: <CAJ-ks9=gaxW2191c+K0E0MgjsQWLYoKxJZLxGb6RMbPRVHc4tQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3] drm/xe: xe_gen_wa_oob: replace
+ program_invocation_short_name
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: da.gomez@kernel.org, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Justin Stitt <justinstitt@google.com>, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ Klaus Jensen <k.jensen@samsung.com>, "Theodore Ts'o" <tytso@mit.edu>,
+ gost.dev@samsung.com, 
+ Barry Song <baohua@kernel.org>, Daniel Gomez <da.gomez@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Fri, 28 Feb 2025 11:42:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,127 +97,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oh I made a mistake and send this to the wrong mailing list, I'm
-so sorry, I wanted to send it to the spice devel.
+Hi Lucas, chiming in here since I also care about building on macOS.
 
+On Mon, Feb 24, 2025 at 10:05=E2=80=AFAM Lucas De Marchi
+<lucas.demarchi@intel.com> wrote:
+>
+> Is this the approach taken for other similar issues you had? Note that
+> argv[0] and program_invocation_short_name are not the same thing. For
+> this particular binary I don't really care and if it's the approach
+> taken in other places, I'm ok using it.
 
-On 27.02.25 12:03, Michael Scherle wrote:
-> This merge request is based on Vivek Kasireddy's
-> [PATCH v8 0/6] dcc: Create a stream for non-gl/remote clients that
-> want to use dmabuf (v8), who gave me the permission to pursue the
-> merge request. I also submitted this directly on gitlab but but I'm
-> now also submitting it via the mailing list .I have made my changes
-> in separate commits, should I merge them with the existing commits?
-> 
-> Original Description:
-> For clients that cannot accept a dmabuf fd directly (such as those
-> running on a remote system), this patch series provides a way for
-> the Spice server to stream the gl/dmabuf data/buffer instead. This
-> is mostly done by enabling the creation of Gst memory using a dmabuf
-> fd as the source. This ability is useful given that dmabuf is the
-> standard mechanism for sharing buffers between various drivers and
-> userspace in many Graphics and Media usecases. Currently, this is
-> tested with Qemu and remote-viewer using the x264enc/avdec_h264
-> and msdkh264enc/dec plugins to stream the Guest/VM desktop but it
-> can be easily extended to other plugins and applications.
-> Here is roughly how things work:
-> 
-> The application (e.g, Qemu) chooses its preferred codec (a Gstreamer
-> one) and calls gl_scanout (to update the fd) followed by gl_draw.
-> In response, the Spice server checks to see if the client is capable
-> of accepting a dmabuf fd directly or not. If yes, the fd is forwarded
-> directly to the client; otherwise, a new stream is created.
-> The Spice server then sends the dmabuf fd to the Gstreamer encoder
-> which uses it as an input for creating an encoded buffer which is then
-> sent to the client.
-> Once the encoding process is done, an async completion cookie is sent
-> to the application.
-> 
-> Here is a link to the previous version that used a drawable to share
-> the dmabuf fd with the Gstreamer encoder:
-> https://lists.freedesktop.org/archives/spice-devel/2023-January/052948.html
-> This version is tested together with following (required) patches in qemu:
-> https://gitlab.freedesktop.org/Vivek/qemu/-/commits/spice_gl_on_v4
-> 
-> Changelog:
-> v9:
-> 
-> updated the spice-common submodule, which is needed for udev helper to identify GPU vendor
-> include dmabuf encoding only if dmabuf supported and gstreamer >= 1.24
-> fix a race condition when the video stream is stopped while encoding a frame
-> 
-> v8:
-> 
-> Added a new gstreamer-encoder patch to this series to convert drm format
-> shared by the VMM to the appropriate Gstreamer format.
-> 
-> v7:
-> 
-> Revert back to the previous design where we do not share fd with the stream
-> and scanout is the sole owner of the fd. This is because sharing fd ownership
-> opens up a lot of corner cases.
-> 
-> v6: (Frediano)
-> 
-> Properly share ownership of the dmabuf fd between stream and scanout
-> Ensure that a newly created stream is associated with all connected clients
-> 
-> v5:
-> 
-> Addressed review comments from Frediano mainly regarding adding autoconf
-> support for gstreamer-allocators dependency and not needing to access
-> scanout as part of gl draw operation
-> 
-> v4:
-> 
-> Test with Virgl enabled
-> Associate dmabuf's y0_top with stream's top_down variable
-> 
-> v3:
-> 
-> Updated the second patch to have a new primary surface created
-> whenever a new stream gets created. This will avoid having to
-> trigger primary surface creation from Qemu. And, this change
-> also fixes the following error seen with v2:
-> ../server/display-channel.cpp:2074:display_channel_create_surface:
-> condition `!display->priv->surfaces[surface_id]' failed
-> Rebase all patches on master
-> 
-> v2:
-> 
-> Update all patches to address review comments from Frediano
-> Tested this series with msdkh264enc/dec plugins that will be added
-> in another patch series
-> 
-> Michael Scherle (3):
->   Update spice-common submodule
->   gstreamer-encoder: Include dmabuf encoding conditionally for Linux
->   dcc-send: Fix freeze when video stream is stopped during ongoing draw
-> 
-> Vivek Kasireddy (7):
->   gstreamer-encoder: Use a h/w based encoder with Intel GPUs if possible
->     (v5)
->   dcc: Check to see if the client supports multiple codecs (v2)
->   dcc: Create a stream associated with gl_draw for non-gl clients (v6)
->   dcc-send: Encode and send gl_draw stream data to the remote client
->     (v4)
->   gstreamer-encoder: Add an encoder function that takes dmabuf fd as
->     input (v3)
->   video-stream: Don't stop a stream associated with gl_draw (v2)
->   gstreamer-encoder: Map the drm format to appropriate Gstreamer format
-> 
->  configure.ac                     |   2 +-
->  meson.build                      |  12 +-
->  server/dcc-send.cpp              | 163 ++++++++++---
->  server/dcc.cpp                   |  31 ++-
->  server/dcc.h                     |   6 +
->  server/display-channel-private.h |   1 +
->  server/display-channel.cpp       |   1 +
->  server/gstreamer-encoder.c       | 389 ++++++++++++++++++++++++++++---
->  server/video-encoder.h           |  14 ++
->  server/video-stream.cpp          | 201 +++++++++++++---
->  server/video-stream.h            |   4 +
->  subprojects/spice-common         |   2 +-
->  12 files changed, 717 insertions(+), 109 deletions(-)
-> 
+Believe it or not, this is the only place that
+program_invocation_short_name has ever been used in the kernel. There
+have been numerous instances of:
 
+#define _GNU_SOURCE /* for program_invocation_short_name */
+
+but never any actual callers (that I could find in the git history)
+other than this one.
+
+> I was expecting you'd take the acks and merge it all through a single
+> tree since you received push back on the need to build the kernel in
+> macOS.  Is this the only thing missing and you'd want it to go through
+> drm?
+
+I believe the other patches have been applied or dropped. When I last
+tested building allmodconfig this was the only issue I ran into (macOS
+arm64), so I asked Daniel for this resend.
+
+Cheers.
+Tamir
