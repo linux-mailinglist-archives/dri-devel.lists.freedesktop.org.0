@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58636A48665
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D902FA48688
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:26:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A51C10EB54;
-	Thu, 27 Feb 2025 17:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4535B10EB52;
+	Thu, 27 Feb 2025 17:26:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RJwb/Ot9";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="I52RF/4R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE7510EB4E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 17:17:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740676673;
- bh=hxQY0yRqvwsxj3tZRp3k9/6ZjAfhlAbWVvGg1ApCM6k=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=RJwb/Ot9/XVpXFQbOQONVL2lxfhSIHxSMuRaCA7wbnbRRd4QhyuwwcuiyJ/b3O7fu
- xf3NijODTeJPp5kGhdpbmh2SyUb1dq/pAfaxC3KFltwu0HLz04g09ttKOcrhh7spWP
- oOtEdYDqLMKgxLEB7uUb15U7a08j2sfdXchhqtf26Cv2bgfphx7fe3J6EpiN9h8Cp5
- ajYFB9pvhAS0soCEHDTLEehUB3ZfBYksXmRMBjAvINTavwIzDEUC+gGZ4wEs/PVjK3
- RrTn2RbqYuUitPcwPiyfoq+IvAMpqOelH2uz4iuvg3NIXLPfRrgQIGomDZbNbYwbaI
- yhToA1UEgbdwA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 160A117E061D;
- Thu, 27 Feb 2025 18:17:53 +0100 (CET)
-Date: Thu, 27 Feb 2025 18:17:48 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Marek Vasut <marex@denx.de>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley
- <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, Fabio Estevam
- <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>, Steven Price
- <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED2D10EB50
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 17:26:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id B722510382F24; Thu, 27 Feb 2025 18:26:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1740677178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z4OqO0DlmHTyAuXAgYbGzIkXg36xy2WA6u8k/uPoPPA=;
+ b=I52RF/4RmJii3MfN1/Z74h9+4oa9hwjgxOCPH+oHDZwj4E3b6qEDxXRqbxa3A2GutMSz8n
+ e8pIozchEVC9K2kZKq13KKYtSmYYsXuA8t4yBFhQ+XfVYVJ/TZHobjR1HIis418UoIV8dQ
+ iR7Lz9ep20PlsCmzbPxEZd5J0FzLQSHo5f4sF8whxei2m6WiAgUoH/eLFzfHD/mNuVstvs
+ drAsgJd5vut8VFuOo0wAP663gFSltxq+xcAK2wOR/n7CoHaSmAHjFAUte5ljno2pvTp5op
+ +AC4aFkDRUlXO1mPjEoMS5GWeBaQcbNtVOBzY5PAW4WRrItNNjkTN10FKmziwA==
+Message-ID: <601055ff-6a19-4d89-b4ae-fb437d3f1670@denx.de>
+Date: Thu, 27 Feb 2025 18:26:04 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Marek Vasut <marex@denx.de>
 Subject: Re: [PATCH 6/9] drm/panthor: Reset GPU after L2 cache power off
-Message-ID: <20250227181748.3f99d67e@collabora.com>
-In-Reply-To: <20250227170012.124768-7-marex@denx.de>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
 References: <20250227170012.124768-1-marex@denx.de>
  <20250227170012.124768-7-marex@denx.de>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ <20250227181748.3f99d67e@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250227181748.3f99d67e@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,61 +71,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Feb 2025 17:58:06 +0100
-Marek Vasut <marex@denx.de> wrote:
+On 2/27/25 6:17 PM, Boris Brezillon wrote:
 
-> This seems necessary on Freescale i.MX95 Mali G310 to reliably resume
-> from runtime PM suspend. Without this, if only the L2 is powered down
-> on RPM entry, the GPU gets stuck and does not indicate the firmware is
-> booted after RPM resume.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  drivers/gpu/drm/panthor/panthor_gpu.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 671049020afaa..0f07ef7d9aea7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -470,11 +470,12 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
->   */
->  void panthor_gpu_suspend(struct panthor_device *ptdev)
->  {
-> -	/* On a fast reset, simply power down the L2. */
-> -	if (!ptdev->reset.fast)
-> -		panthor_gpu_soft_reset(ptdev);
-> -	else
-> -		panthor_gpu_power_off(ptdev, L2, 1, 20000);
-> +	/*
-> +	 * Power off the L2 and soft reset the GPU, that makes
-> +	 * iMX95 Mali G310 resume without firmware boot timeout.
-> +	 */
-> +	panthor_gpu_power_off(ptdev, L2, 1, 20000);
-> +	panthor_gpu_soft_reset(ptdev);
+[...]
 
-Unfortunately, if you do that unconditionally we no longer have a
-fast-reset. Would be good to figure out why the fast-reset doesn't work
-on this platform.
+>> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+>> index 671049020afaa..0f07ef7d9aea7 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+>> @@ -470,11 +470,12 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+>>    */
+>>   void panthor_gpu_suspend(struct panthor_device *ptdev)
+>>   {
+>> -	/* On a fast reset, simply power down the L2. */
+>> -	if (!ptdev->reset.fast)
+>> -		panthor_gpu_soft_reset(ptdev);
+>> -	else
+>> -		panthor_gpu_power_off(ptdev, L2, 1, 20000);
+>> +	/*
+>> +	 * Power off the L2 and soft reset the GPU, that makes
+>> +	 * iMX95 Mali G310 resume without firmware boot timeout.
+>> +	 */
+>> +	panthor_gpu_power_off(ptdev, L2, 1, 20000);
+>> +	panthor_gpu_soft_reset(ptdev);
+> 
+> Unfortunately, if you do that unconditionally we no longer have a
+> fast-reset. Would be good to figure out why the fast-reset doesn't work
+> on this platform.
+
+I was hoping to get some hint on this one, I spent quite a while trying 
+to narrow this down, finally got it down to this particular bit.
+
+The NXP downstream vendor kernel vendor Mali driver does not seem to 
+have anything interesting regarding the L2 power handling, but I might 
+have missed it, the code is difficult to read.
+
+Have you ever seen anything problematic in this specific L2 department ?
+
+Do you have any hints how I can debug this further ?
