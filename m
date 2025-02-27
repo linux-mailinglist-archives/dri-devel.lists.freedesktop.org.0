@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2DFA47AD9
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 11:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DF9A47ADB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 11:56:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 961A210EA66;
-	Thu, 27 Feb 2025 10:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526E110EA90;
+	Thu, 27 Feb 2025 10:56:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="BtlIf09N";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="mZCQsiU8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3D010EA55
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 10:55:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7849810EA90
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 10:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:
@@ -22,38 +22,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WAw3zkvChaokZP/EIQV/XtYpCHOZ+jZa4e8VVZ5rP1E=; b=BtlIf09N8Z01zGJauVBo20e/ic
- lj9FcGghUcxKjgDzdvU9VqJ+tXybxXHe9L9WmuX9W+9h/mIhiOfrcygo4I/IFc9KtNEA7J+sTIYan
- mVfF5e6muJRdMsllk7UfHDdCE3TE2kXNIKcdifaGQC7b4LHHTXYwXH9oBl24944q4S/75vqTtswZu
- +gR6ZlHFHAEbhiLeL7mIZUMYLwfnS8GrbchupZFxERLhOgSvFTJ3Q4F2IGZQEjBXdy9dm0gp2Wn7T
- XuBabPUGxa443riihq9Oajkg8659gs3TwoGjf4tyCauVAkJAFmlOAxEQzUF3qNdlZCxjpx6p0IMqG
- DUWUHvmQ==;
+ bh=gCe2jlYqgmYdsKTqxHV+zNuMNWku2qaKvILRO2g7d1k=; b=mZCQsiU8HZvV7jkLzjo+lal+WH
+ LsfjYGypihPdUloXEmpXdNrHBkHWx9rYAq4f8TF1eTVSj7VY4Q1KjO+X+Z2EkHhmgZcP0UaPQt9N1
+ v5++30LaFz2OlWbladXzqwhkDsgVmWTNnxK92HabyCIKYJ5eTwwTkeIS/eKmcojIPANyirlFBkJBH
+ vc/uGbfRUMyKCSd5BYWHDzqP2ybgkSq6aZvdB+mYX1aw9DSVbpIkWLvLDiDQlCJsF+Z/kjmkQ+iiW
+ DyLqTeK0saCCFZJJnm+i2I5BzFRl+yHjRK8cFs76X8UuqWOIjTY9PXmb9aQVKZODZspjqIaBmJvmm
+ 0d+221uQ==;
 Received: from i53875b47.versanet.de ([83.135.91.71]
  helo=localhost.localdomain)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1tnbY7-00008f-5I; Thu, 27 Feb 2025 11:55:27 +0100
+ id 1tnbY8-00008f-2X; Thu, 27 Feb 2025 11:55:28 +0100
 From: Heiko Stuebner <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/5] Improve Rockchip VOP2 display modes
- handling on RK3588 HDMI1
-Date: Thu, 27 Feb 2025 11:55:14 +0100
-Message-ID: <174065370896.4124124.16006853478934870173.b4-ty@sntech.de>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, andy.yan@rock-chips.com,
+ hjc@rock-chips.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org,
+ dianders@chromium.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, boris.brezillon@collabora.com,
+ l.stach@pengutronix.de, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v7 00/15] Add eDP support for RK3588
+Date: Thu, 27 Feb 2025 11:55:15 +0100
+Message-ID: <174065370895.4124124.17821350735219515790.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250223-vop2-hdmi1-disp-modes-v2-0-f4cec5e06fbe@collabora.com>
-References: <20250223-vop2-hdmi1-disp-modes-v2-0-f4cec5e06fbe@collabora.com>
+In-Reply-To: <20250224081325.96724-1-damon.ding@rock-chips.com>
+References: <20250224081325.96724-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -73,26 +71,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sun, 23 Feb 2025 11:31:36 +0200, Cristian Ciocaltea wrote:
-> As a followup to getting basic HDMI1 output support [1] merged upstream,
-> make use of the HDMI1 PHY PLL to provide better VOP2 display modes
-> handling for the second HDMI output port on RK3588 SoC, similarly to
-> what has been achieved recently for HDMI0 [2].
+On Mon, 24 Feb 2025 16:13:10 +0800, Damon Ding wrote:
+> Picked from:
+> https://patchwork.kernel.org/project/linux-rockchip/list/?series=927765
 > 
-> Please note Heiko's fix [3] in of_clk_get_hw_from_clkspec() is also
-> required for boards that do not provide HDMI0 output, that is to ensure
-> devm_clk_get_optional() returns NULL instead of ERR_PTR(-EPROBE_DEFER),
-> which otherwise would put rockchip-drm module in a permanent deferred
-> probe mode.
+> These patchs have been tested with a 1536x2048p60 eDP panel on
+> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+> on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
+> on RK3399 sapphire excavator board.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/5] drm/rockchip: vop2: Improve display modes handling on RK3588 HDMI1
-      commit: f8dd7fc9ba88bc4a6ea85269287a51fb756440e2
-[2/5] drm/rockchip: vop2: Consistently use dev_err_probe()
-      commit: b06d1ef3355571383cdb463cf0195b7a02efdfbf
+[01/15] drm/rockchip: analogix_dp: Use formalized struct definition for grf field
+        commit: 2bf9f610494d75cfaf3c8a0cef93135ce83f7254
+[02/15] drm/rockchip: analogix_dp: Expand device data to support multiple edp display
+        commit: 718b3bb9c0ab87bc90914799e6999bf4b1ecc67b
 
 Best regards,
 -- 
