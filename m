@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA6DA48AA9
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 22:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3288A48AB8
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 22:42:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0CB310EB9D;
-	Thu, 27 Feb 2025 21:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFABB10EB9A;
+	Thu, 27 Feb 2025 21:42:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WvB0f0/8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jG/QPvbT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F201C10EB9D;
- Thu, 27 Feb 2025 21:37:15 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-abb86beea8cso257107166b.1; 
- Thu, 27 Feb 2025 13:37:15 -0800 (PST)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC18B10EB96;
+ Thu, 27 Feb 2025 21:42:29 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-5ded69e6134so2363091a12.0; 
+ Thu, 27 Feb 2025 13:42:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740692234; x=1741297034; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740692548; x=1741297348; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8OPiXI+rd/MrzDn/nDWKXlSzbv1AQvFkOB93Td3FkH4=;
- b=WvB0f0/8YTcs9VAh9BOXXorrUv3XRZJejF0YX31tMfIWKXt38ps9Ntc8icvCkcQiYF
- NHBXgNT7V/mP2lkINVaAQLMq7R19oNwArMecsMS48Hn2HdmtFg9d1gM2rnxJ/v30CPyO
- j99hsHMh616Ly+DKUUhqpBUnHBAt9ZeJ9TWm6XMQfiK2AdrXgaSWyaoeLI5SNQ3RGTNu
- HXY5QsWvQNv9gzgiDHpXMklSt2FCJD2V2vI24bXXTOU+0bI1VKdqzzs+xWp1PC0LFCZG
- Z6g2C5f50ZvE1a+thm0DuPYaBnPKcOMoeLQvCA1uK7bCnFBOsbuKUYwBOSW6rLc5W6De
- 673A==
+ bh=F7A7Tz7g2FCUPie3WKQ6N05ixy8h/zaSxwfvjnOeJGU=;
+ b=jG/QPvbTAFfOAB6KlcX6yJBQp5mZAKpWquwBPoyYQiWIvFNorPjn8zSJDapbQFaULV
+ GlKHtzITensKVVqtwB6Lp9vv1auLjaVjJDh9HfIUWB0cbba7FSS8A01wWVbdF+ZKJxaQ
+ /PEpI4teIzCvPWe3gXn5uK3Hxe+jEw2cBMBOM5aDELwlNmR3AuB9pxXhl/cCXAVt8ZPH
+ 48ivBLz3xmYffQdeYutDsNcds3aGWLSJpF2Sf+4cVXqZu0JlJwNdisagp1hivq6aqAVU
+ WD3K4wm26ynv41fpPvbD+30uZbk1HK5bK1Pisuqq+pfb6nrEa6QEuPsZ8yWejs+YnJT+
+ Mcmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740692234; x=1741297034;
+ d=1e100.net; s=20230601; t=1740692548; x=1741297348;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=8OPiXI+rd/MrzDn/nDWKXlSzbv1AQvFkOB93Td3FkH4=;
- b=PxypjIMVx1uDF6Sy7hnQDo93OOsAdUhZCI8NBexia3rQ63pttkaPhEKTm4fA4pcNCW
- NHRyc01Wzg2Se+ZcI6B/Glk8uDyiuR3os5wzPbHmg+54tZ3wc6ABrQFf0KOyhpMK2ZPL
- Z4jsPBSIdUubScwn/3Ey7CjVDuiMNOz4FTvza8c0daukNAxxqoCotTd+SFetllbtDy4k
- upijRLGHJSkX6PXsIHXEhcRYmxN7g4YWoVuSFbSIJKvasvNlvJtcSnYROep8doC7wbFb
- hKawrFa6SzhL1JSKlTXUNawayZ8RP6clbKMOozFSm0clx0aKxlLFqgNu7IcLM2mFbj6v
- uQkw==
+ bh=F7A7Tz7g2FCUPie3WKQ6N05ixy8h/zaSxwfvjnOeJGU=;
+ b=pwA7DKmesp0tKMPLfjSvv15t4XeZ7mf2L1Y2lgrMzhyi93DjcP/AaXjkcyzYS9rdsB
+ lymKb4IBkEOvV0ng5NEY40iOk4jzaygkTbpVgUxlF5CX1FLojj5Mz/v7Nm9d6gYhDphP
+ eHtHEtiWmOb5d9w0Igqwen7aKE3c9U/l/79AZKeJpYCAiIhH4U4BvLmyWiGrK8foCtQd
+ HAez+n8fplXfk6Y0ydjw01ViBqFIdHcoHg5wVyOlRBBzZMua59707joejoi3pMCfBCdW
+ nA8hChkmC9xTCqhZcdziVPP/4C4FTd/fq+9/DHcaLrTJGu2+n0ELw4gm4DnOyaFXBb44
+ +Qxw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyhVR+/oEJ7k2ZDPW7+J7b5e7+C8IL0OYR+6mH06ra8wYa00+odLZs6BpAuOyps8eSFbUn4monyVcwqKJf9AtA@lists.freedesktop.org,
- AJvYcCXcxUALTVBruWvaCOWlUNmwz4hx6HuSYuF/rrLChbRyJE5/SNZ08Bwsry2edRtfNN+TcBr/25GaMVY=@lists.freedesktop.org,
- AJvYcCXfWNQJuhOBkusoPr5r50GagwRDBfGGPJjd+y4RBMhH1FvN907lE8Rxp1pS5s9p419wROIN4LyVrQ==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSnQX1mGLv/tIoB7ggF/8Mv82oVV9hFcB+g9pLSZbWwr/AxuEu
- 3vp7vsRARFb0uMxRr5C8I9McU+JL3RMPjoKfdwoD2qp5gggSGVKvVXHmDQyO1TjbyQqfFICERv+
- PPSayKz3IwlEcnNvfbK688p16/g0=
-X-Gm-Gg: ASbGncuIzindCe6XKNQB47SYppJ8m8C0+RkF15EI/vuAqt1WCc07SgBHBNp4cv3XtnU
- NHe+hHOtRJyFZLhCKjDfHP6mvGIqPwywpsLo+gKdqTqkQKk8f10HzJnjknPLEdCdPLBnFAY7uHe
- +kJn5NFA==
-X-Google-Smtp-Source: AGHT+IGdlWC7jyxJ9UtgZj3x1oxVxEs/GQ8X4nwvawPLmqnQBdoM5j8QxGLMU77XPGVkRIdrYErK0UE7a6Dq68dnnT0=
-X-Received: by 2002:a17:906:d542:b0:ab7:beeb:d1f1 with SMTP id
- a640c23a62f3a-abf26837fcemr115485966b.51.1740692234080; Thu, 27 Feb 2025
- 13:37:14 -0800 (PST)
+ AJvYcCXhILIQQ9L8v4dPjpppbeYkamOl8Kz8CgL7tB7sgsBMNx8wRSFr2ZrK6JUhooJ4El9giGVENdNLW6g=@lists.freedesktop.org,
+ AJvYcCXsgaj1rq8aXoJqIhLhwyj35abOoxh2/ztUN0Dh+Wx5eqRKA/29dDa/9tQiL3nW4DR7Eqs/yDbM+w==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWxVcd5iRjoByZbVHZTTfLNKzJIoznBhkz5NCDFY746diQqeRs
+ Q/ycGs9aDfKn7Jx6PoXS+P9bJLGxp8sWwjtNblzthyStYRJVVU/AF5hitdAispXKIYb19/sOSRo
+ f0qeOnpqZQBbJYjP+42CYvvPzDq8=
+X-Gm-Gg: ASbGncuABNK8vitFAT+XnK5Q2r7ok9Ph2xL81tWjowyZcd3jx3BTOtoTjJKCE67EzgI
+ 8M/h7Tq35hRqicn7+nLcnc8LHBzOx2PAlN/7nCVnI5hA4W8S5chmUbOY0STm2ZbPAxHJyvVqHxg
+ 75Do9gXQ==
+X-Google-Smtp-Source: AGHT+IEyUR259zBhUCHDJy65pOw87s0pkKQrEtcK41k9OYzWAulpVoau3ShqRLX/t8YhweziRQmpCp+v5WFZxhtaqsM=
+X-Received: by 2002:a17:906:f59f:b0:aae:fb7c:50df with SMTP id
+ a640c23a62f3a-abf265e903emr103365066b.36.1740692547826; Thu, 27 Feb 2025
+ 13:42:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
- <Z7OrKX3zzjrzZdyz@pollux>
- <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
- <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
- <D81L5PE1SPWC.O56MB6SRS0XK@nvidia.com>
-In-Reply-To: <D81L5PE1SPWC.O56MB6SRS0XK@nvidia.com>
+References: <2f062199-8d69-48a2-baa6-abb755479a16@nvidia.com>
+ <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
+ <20250225225756.GA4959@nvidia.com> <Z75WKSRlUVEqpysJ@cassiopeiae>
+ <20250226004916.GB4959@nvidia.com> <Z75riltJo0WvOsS5@cassiopeiae>
+ <20250226172120.GD28425@nvidia.com> <Z7-IHgcVVS8XBurW@cassiopeiae>
+ <20250226234730.GC39591@nvidia.com> <2025022644-fleshed-petite-a944@gregkh>
+ <D82UB3V6NZ55.3OEPPW2W8MFZV@nvidia.com>
+In-Reply-To: <D82UB3V6NZ55.3OEPPW2W8MFZV@nvidia.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 28 Feb 2025 07:37:01 +1000
-X-Gm-Features: AQ5f1JrqDxEQ56EhqKKjLvOBDjGfULXzUH0GjV45l8xFwzjJgSzflFTOZ8R4_g4
-Message-ID: <CAPM=9tw=8WtR9093EThr0aY6yTYtef9SBgjN5S1xZUXaWN8aWQ@mail.gmail.com>
+Date: Fri, 28 Feb 2025 07:42:15 +1000
+X-Gm-Features: AQ5f1JrLTmtHkCd1E06gAqOr7bQnTtzsccZk8EDXt2lxV9P7KCyAhTQQP23iQ0Q
+Message-ID: <CAPM=9txrRFOb6Uzm=e0S6Tfxmskm4zwAZgsWnkvCzxN=XCZ6Vw@mail.gmail.com>
 Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
  implementation
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, 
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Jason Gunthorpe <jgg@nvidia.com>, 
+ Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, 
+ Alexandre Courbot <acourbot@nvidia.com>, Gary Guo <gary@garyguo.net>, 
  Joel Fernandes <joel@joelfernandes.org>, Boqun Feng <boqun.feng@gmail.com>, 
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, 
+ Ben Skeggs <bskeggs@nvidia.com>, linux-kernel@vger.kernel.org, 
  rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, 
- Nouveau <nouveau-bounces@lists.freedesktop.org>
+ dri-devel@lists.freedesktop.org, paulmck@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,71 +94,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Feb 2025 at 00:11, Alexandre Courbot <acourbot@nvidia.com> wrote:
+On Thu, 27 Feb 2025 at 11:34, John Hubbard <jhubbard@nvidia.com> wrote:
 >
-> On Mon Feb 24, 2025 at 9:07 PM JST, Danilo Krummrich wrote:
-> > CC: Gary
+> On Wed Feb 26, 2025 at 5:02 PM PST, Greg KH wrote:
+> > On Wed, Feb 26, 2025 at 07:47:30PM -0400, Jason Gunthorpe wrote:
+> >> The way misc device works you can't unload the module until all the
+> >> FDs are closed and the misc code directly handles races with opening
+> >> new FDs while modules are unloading. It is quite a different scheme
+> >> than discussed in this thread.
 > >
-> > On Mon, Feb 24, 2025 at 10:40:00AM +0900, Alexandre Courbot wrote:
-> >> This inability to sleep while we are accessing registers seems very
-> >> constraining to me, if not dangerous. It is pretty common to have
-> >> functions intermingle hardware accesses with other operations that might
-> >> sleep, and this constraint means that in such cases the caller would
-> >> need to perform guard lifetime management manually:
-> >>
-> >>   let bar_guard = bar.try_access()?;
-> >>   /* do something non-sleeping with bar_guard */
-> >>   drop(bar_guard);
-> >>
-> >>   /* do something that might sleep */
-> >>
-> >>   let bar_guard = bar.try_access()?;
-> >>   /* do something non-sleeping with bar_guard */
-> >>   drop(bar_guard);
-> >>
-> >>   ...
-> >>
-> >> Failure to drop the guard potentially introduces a race condition, which
-> >> will receive no compile-time warning and potentialy not even a runtime
-> >> one unless lockdep is enabled. This problem does not exist with the
-> >> equivalent C code AFAICT, which makes the Rust version actually more
-> >> error-prone and dangerous, the opposite of what we are trying to achieve
-> >> with Rust. Or am I missing something?
-> >
-> > Generally you are right, but you have to see it from a different perspective.
-> >
-> > What you describe is not an issue that comes from the design of the API, but is
-> > a limitation of Rust in the kernel. People are aware of the issue and with klint
-> > [1] there are solutions for that in the pipeline, see also [2] and [3].
-> >
-> > [1] https://rust-for-linux.com/klint
-> > [2] https://github.com/Rust-for-Linux/klint/blob/trunk/doc/atomic_context.md
-> > [3] https://www.memorysafety.org/blog/gary-guo-klint-rust-tools/
+> > And I would argue that is it the _right_ scheme to be following overall
+> > here.  Removing modules with in-flight devices/drivers is to me is odd,
+> > and only good for developers doing work, not for real systems, right?
 >
-> Thanks, I wasn't aware of klint and it looks indeed cool, even if not perfect by
-> its own admission. But even if the ignore the safety issue, the other one
-> (ergonomics) is still there.
+> Right...I think. I'm not experienced with misc, but I do know that the
+> "run driver code after driver release" is very, very concerning.
 >
-> Basically this way of accessing registers imposes quite a mental burden on its
-> users. It requires a very different (and harsher) discipline than when writing
-> the same code in C, and the correct granularity to use is unclear to me.
->
-> For instance, if I want to do the equivalent of Nouveau's nvkm_usec() to poll a
-> particular register in a busy loop, should I call try_access() once before the
-> loop? Or every time before accessing the register? I'm afraid having to check
-> that the resource is still alive before accessing any register is going to
-> become tedious very quickly.
->
-> I understand that we want to protect against accessing the IO region of an
-> unplugged device ; but still there is no guarantee that the device won't be
-> unplugged in the middle of a critical section, however short. Thus the driver
-> code should be able to recognize that the device has fallen off the bus when it
-> e.g. gets a bunch of 0xff instead of a valid value. So do we really need to
-> extra protection that AFAICT isn't used in C?
+> I'm quite new to drivers/gpu/drm, so this is the first time I've learned
+> about this DRM behavior...
 
-Yes.
+> >
+> > Yes, networking did add that functionality to allow modules to be
+> > unloaded with network connections open, and I'm guessing RDMA followed
+> > that, but really, why?
+> >
+> > What is the requirement that means that you have to do this for function
+> > pointers?  I can understand the disconnect issue between devices and
+> > drivers and open file handles (or sockets), as that is a normal thing,
+> > but not removing code from the system, that is not normal.
+> >
+>
+> I really hope that this "run after release" is something that Rust for
+> Linux drivers, and in particular, the gpu/nova*, gpu/drm/nova* drivers,
+> can *leave behind*.
+>
+> DRM may have had ${reasons} for this approach, but this nova effort is
+> rebuilding from the ground up. So we should avoid just blindly following
+> this aspect of the original DRM design.
+>
 
-I've tried to retrofit checking 0xffffffff to drivers a lot, I'd
-prefer not to. Drivers getting stuck in wait for clear bits for ever.
+nova is just a drm driver, it's not a rewrite of the drm subsystem,
+that sort of effort would entail a much larger commitment.
+
+DRM has reasons for doing what drm does, that is a separate discussion
+of how a rust driver fits into the DRM. The rust code has to conform
+to the C expectations for the subsystems they are fitting into.
+
+The drm has spent years moving things to devm/drmm type constructs,
+adding hotplug with the unplug mechanisms, but it's a long journey and
+certainly not something nova would want to wait to reconstruct from
+scratch.
 
 Dave.
