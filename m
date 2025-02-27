@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7F9A4862E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58636A48665
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:18:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5327210EB3C;
-	Thu, 27 Feb 2025 17:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A51C10EB54;
+	Thu, 27 Feb 2025 17:18:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="QUM6ZqO5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RJwb/Ot9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B886910EB42
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 17:07:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 011E1103718C9; Thu, 27 Feb 2025 18:00:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1740675660;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=80ISeY7DDf1yy5uWTMBnUjkKTvDUwesh5b01Bc/k5X0=;
- b=QUM6ZqO5tHSNtzDnhtd4p5ZL4LiWkQdSQZexHRrS83MopTiyTlhNNjjMzIy/oLeixVlZdd
- uUpx49bGRzb0kHs52yiVWMd6PCsO5w3eQhTmv7cyQy4NscTCyKuoVeA1dN4iWxF+NOqpcJ
- VWl48Xg6FSruutDN5v8q8ulOwqHfPXaHY3ozDlHvVpDGQEUsxAItjObsVqmvKMgDA1nMPh
- qbXJlxAj9tyEXl4kjcojBauMrvSprBvYnXpuxcUoRqOuwx+zyzKb+bwox5ems5+N2iFb9b
- v/Weo9c+N5xzhiHYInpXtZNhpF5w4RjtseNW4eOv97nRt57f00Y626VC7h0X1w==
-From: Marek Vasut <marex@denx.de>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marek Vasut <marex@denx.de>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-Subject: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
-Date: Thu, 27 Feb 2025 17:58:09 +0100
-Message-ID: <20250227170012.124768-10-marex@denx.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250227170012.124768-1-marex@denx.de>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE7510EB4E
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 17:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1740676673;
+ bh=hxQY0yRqvwsxj3tZRp3k9/6ZjAfhlAbWVvGg1ApCM6k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RJwb/Ot9/XVpXFQbOQONVL2lxfhSIHxSMuRaCA7wbnbRRd4QhyuwwcuiyJ/b3O7fu
+ xf3NijODTeJPp5kGhdpbmh2SyUb1dq/pAfaxC3KFltwu0HLz04g09ttKOcrhh7spWP
+ oOtEdYDqLMKgxLEB7uUb15U7a08j2sfdXchhqtf26Cv2bgfphx7fe3J6EpiN9h8Cp5
+ ajYFB9pvhAS0soCEHDTLEehUB3ZfBYksXmRMBjAvINTavwIzDEUC+gGZ4wEs/PVjK3
+ RrTn2RbqYuUitPcwPiyfoq+IvAMpqOelH2uz4iuvg3NIXLPfRrgQIGomDZbNbYwbaI
+ yhToA1UEgbdwA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 160A117E061D;
+ Thu, 27 Feb 2025 18:17:53 +0100 (CET)
+Date: Thu, 27 Feb 2025 18:17:48 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Marek Vasut <marex@denx.de>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley
+ <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, Fabio Estevam
+ <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liviu Dudau
+ <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>, Shawn Guo
+ <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>, Steven Price
+ <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev
+Subject: Re: [PATCH 6/9] drm/panthor: Reset GPU after L2 cache power off
+Message-ID: <20250227181748.3f99d67e@collabora.com>
+In-Reply-To: <20250227170012.124768-7-marex@denx.de>
 References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-7-marex@denx.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,118 +72,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The instance of the GPU populated in i.MX95 is the G310,
-describe this GPU in the DT. Include description of the
-GPUMIX block controller, which can be operated as a simple
-reset. Include dummy GPU voltage regulator and OPP tables.
+On Thu, 27 Feb 2025 17:58:06 +0100
+Marek Vasut <marex@denx.de> wrote:
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Sebastian Reichel <sre@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Steven Price <steven.price@arm.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: imx@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
----
- arch/arm64/boot/dts/freescale/imx95.dtsi | 62 ++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+> This seems necessary on Freescale i.MX95 Mali G310 to reliably resume
+> from runtime PM suspend. Without this, if only the L2 is powered down
+> on RPM entry, the GPU gets stuck and does not indicate the firmware is
+> booted after RPM resume.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  drivers/gpu/drm/panthor/panthor_gpu.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 671049020afaa..0f07ef7d9aea7 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -470,11 +470,12 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+>   */
+>  void panthor_gpu_suspend(struct panthor_device *ptdev)
+>  {
+> -	/* On a fast reset, simply power down the L2. */
+> -	if (!ptdev->reset.fast)
+> -		panthor_gpu_soft_reset(ptdev);
+> -	else
+> -		panthor_gpu_power_off(ptdev, L2, 1, 20000);
+> +	/*
+> +	 * Power off the L2 and soft reset the GPU, that makes
+> +	 * iMX95 Mali G310 resume without firmware boot timeout.
+> +	 */
+> +	panthor_gpu_power_off(ptdev, L2, 1, 20000);
+> +	panthor_gpu_soft_reset(ptdev);
 
-diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
-index 3af13173de4bd..36bad211e5558 100644
---- a/arch/arm64/boot/dts/freescale/imx95.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
-@@ -249,6 +249,37 @@ dummy: clock-dummy {
- 		clock-output-names = "dummy";
- 	};
- 
-+	gpu_fixed_reg: fixed-gpu-reg {
-+		compatible = "regulator-fixed";
-+		regulator-min-microvolt = <920000>;
-+		regulator-max-microvolt = <920000>;
-+		regulator-name = "vdd_gpu";
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+
-+	gpu_opp_table: opp_table {
-+		compatible = "operating-points-v2";
-+
-+		opp-500000000 {
-+			opp-hz = /bits/ 64 <500000000>;
-+			opp-hz-real = /bits/ 64 <500000000>;
-+			opp-microvolt = <920000>;
-+		};
-+
-+		opp-800000000 {
-+			opp-hz = /bits/ 64 <800000000>;
-+			opp-hz-real = /bits/ 64 <800000000>;
-+			opp-microvolt = <920000>;
-+		};
-+
-+		opp-1000000000 {
-+			opp-hz = /bits/ 64 <1000000000>;
-+			opp-hz-real = /bits/ 64 <1000000000>;
-+			opp-microvolt = <920000>;
-+		};
-+	};
-+
- 	clk_ext1: clock-ext1 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
-@@ -1846,6 +1877,37 @@ netc_emdio: mdio@0,0 {
- 			};
- 		};
- 
-+		gpu_blk_ctrl: reset-controller@4d810000 {
-+			compatible = "fsl,imx95-gpu-blk-ctrl";
-+			reg = <0x0 0x4d810000 0x0 0xc>;
-+			#reset-cells = <1>;
-+			clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
-+			assigned-clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
-+			assigned-clock-parents = <&scmi_clk IMX95_CLK_SYSPLL1_PFD1_DIV2>;
-+			assigned-clock-rates = <133333333>;
-+			power-domains = <&scmi_devpd IMX95_PD_GPU>;
-+			status = "disabled";
-+		};
-+
-+		gpu: gpu@4d900000 {
-+			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
-+			reg = <0 0x4d900000 0 0x480000>;
-+			clocks = <&scmi_clk IMX95_CLK_GPU>;
-+			clock-names = "core";
-+			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "gpu", "job", "mmu";
-+			mali-supply = <&gpu_fixed_reg>;
-+			operating-points-v2 = <&gpu_opp_table>;
-+			power-domains = <&scmi_devpd IMX95_PD_GPU>, <&scmi_perf IMX95_PERF_GPU>;
-+			power-domain-names = "mix", "perf";
-+			resets = <&gpu_blk_ctrl 0>;
-+			#cooling-cells = <2>;
-+			dynamic-power-coefficient = <1013>;
-+			status = "disabled";
-+		};
-+
- 		ddr-pmu@4e090dc0 {
- 			compatible = "fsl,imx95-ddr-pmu", "fsl,imx93-ddr-pmu";
- 			reg = <0x0 0x4e090dc0 0x0 0x200>;
--- 
-2.47.2
-
+Unfortunately, if you do that unconditionally we no longer have a
+fast-reset. Would be good to figure out why the fast-reset doesn't work
+on this platform.
