@@ -2,72 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB8AA47F56
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 14:38:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DAEA47FC3
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 14:46:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9459710EAE3;
-	Thu, 27 Feb 2025 13:38:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="GFEjVF6Z";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3EE10EADE;
+	Thu, 27 Feb 2025 13:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE2B510EAE3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 13:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=meVcx23r/r7Dytz72YqeRZuHInvAetvSfHOgo60wpy0=; b=GFEjVF6ZyupV+W2QCWTF/Utl7O
- OgQTRNZSJUwppxQptsnxIyzoPnuntHdT7WgyzUD4CkcAl6USJGFTmLpdZ/tz74XVbyfjBeK5PVB8y
- 0hNKQaRQzJYxypYzSM1xgSOFhfX6CZ+UuUetDCtXpKz8ueb+DuvP2mWQfsRLeJ4cLM0HJAwZ4PiJ4
- vUooOewyVgpD4ivZJyI6I3cOiMjwSKjWewiRIcb7U5FZAVqdfbNMsOtwjayDkOg4dkM0TcJ3g9tSv
- pEc7yNRYplHFBKsFXE5hpDqZLN08+/MRsbFu1tFadAfS91BTShdk8v1jVlLuE76cWtgaWbmdgPtBB
- 2JN7VILA==;
-Received: from i53875b47.versanet.de ([83.135.91.71]
- helo=localhost.localdomain)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tne5Y-00018T-RH; Thu, 27 Feb 2025 14:38:08 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-kernel@vger.kernel.org,
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Niklas Cassel <cassel@kernel.org>, Dragan Simic <dsimic@manjaro.org>,
- FUKAUMI Naoki <naoki@radxa.com>, Johan Jonker <jbx6244@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Algea Cao <algea.cao@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: (subset) [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
-Date: Thu, 27 Feb 2025 14:37:52 +0100
-Message-ID: <174066344874.4164500.18360075305644085277.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250217215641.372723-1-detlev.casanova@collabora.com>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F295510EADE
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 13:46:17 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Z3Xgn5FfjzpkHP;
+ Thu, 27 Feb 2025 21:46:45 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id 41CD91A0188;
+ Thu, 27 Feb 2025 21:46:13 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Thu, 27 Feb 2025 21:46:11 +0800
+Message-ID: <ade54ddd-79ea-4335-9058-c17e4525e83f@huawei.com>
+Date: Thu, 27 Feb 2025 21:46:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
+ detect of irq feature
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250222025102.1519798-1-shiyongbang@huawei.com>
+ <20250222025102.1519798-8-shiyongbang@huawei.com>
+ <reqpxlbvlz5qssgy6gbjuou33h4zevo4xeztqbsr4keehplyhx@utv22a5ihohx>
+ <eef68fc7-30f4-4246-a82e-4f90cd6a665d@huawei.com>
+ <6jx5ldpidy2ycrqognfiv5ttqr5ia4dtbryta3kc2mkndrvvgo@qzuakucz765k>
+ <6634386b-afc1-4e31-a2f4-9c1afed2d1d8@huawei.com>
+ <CAA8EJpqHmhUxLE57XNeh-nVtSP7WvtBE=FiFWk9kqM_P+AC=0A@mail.gmail.com>
+ <5af62fa9-e71b-412f-8640-502f03fcaa52@huawei.com>
+ <vrsy4hao4qu3hlcbmjyfyibeearhhjgtik3e6o3v2eyzkatdve@kdb7cyvl45tu>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <vrsy4hao4qu3hlcbmjyfyibeearhhjgtik3e6o3v2eyzkatdve@kdb7cyvl45tu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,24 +69,54 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 17 Feb 2025 16:47:39 -0500, Detlev Casanova wrote:
-> To support HDMI audio on the rk3588 based devices, the generic HDMI
-> Codec framework is used in the dw-hdmi-qp DRM bridge driver.
-> 
-> The implementation is mainly based on the downstream driver, ported to the
-> generic HDMI Codec framework [1] recently merged in the master branch.
-> The parameters computation has been kept as is and the data stored in the
-> dw_hdmi_qp struct as been cleaned up.
-> 
-> [...]
+> On Tue, Feb 25, 2025 at 09:57:17PM +0800, Yongbang Shi wrote:
+>>> On Mon, 24 Feb 2025 at 16:03, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>>>> On Sat, Feb 22, 2025 at 06:35:48PM +0800, Yongbang Shi wrote:
+>>>>>>>> +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
+>>>>>>>> +{
+>>>>>>>> +  struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
+>>>>>>>> +  struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
+>>>>>>>> +  struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
+>>>>>>>> +  int ret;
+>>>>>>>> +
+>>>>>>>> +  if (dp->hpd_status) {
+>>>>>>>> +          hibmc_dp_hpd_cfg(&priv->dp);
+>>>>>>>> +          ret = hibmc_dp_prepare(dp, mode);
+>>>>>>>> +          if (ret)
+>>>>>>>> +                  return ret;
+>>>>>>>> +
+>>>>>>>> +          hibmc_dp_display_en(dp, true);
+>>>>>>>> +  } else {
+>>>>>>>> +          hibmc_dp_display_en(dp, false);
+>>>>>>>> +          hibmc_dp_reset_link(&priv->dp);
+>>>>>>>> +  }
+>>>>>>> If I understand this correctly, you are using a separate drm_client to
+>>>>>>> enable and disable the link & display. Why is it necessary? Existing
+>>>>>>> drm_clients and userspace compositors use drm framework, they should be
+>>>>>>> able to turn the display on and off as required.
+>>>>>>>
+>>>>>> Thanks for your asking, there are cfg/reset process when the connector 's pluging in/out.
+>>>>>> We want to cfg DP registers again when the connector changes. Not only dp link training, but also cfg
+>>>>>> the different video modes into DP registers.
+>>>>> Why? The link training and mode programming should happen during
+>>>>> pre_enable / enable stage (legacy or atomic).
+>>>> Hi Dmitry,
+>>>>
+>>>> Right, that's what I'm curious about. It won't call encoder enble/disable functions when I triggered HPD.
+>>>> And I'm sure the drm_connector_helper_hpd_irq_event() is called. So I add a drm_client for it.I
+>>> It should be userspace, who triggers the enable/disable (or it should
+>>> be the in-kernel fbdev / fbcon, which interface through the generic
+>>> drm_fbdev client).
+>> Right, I knew it. When I insmode my driver firstly (or restart display service), it will call disable, modeset and enable,
+>> by user, but it won't call when HPD triggered .
+> - Is HPD even properly delivered to userspace? What kind of compsitor
+>    are you using? Is .detect working properly and reporting a correct
+>    plug-in state?
 
-Applied, thanks!
+Thanks for your answering. I'm not very good understanding about userspace in framework. In my opinion, when I call
+this drm_connector_helper_hpd_irq_event(), the HPD will deliver to userspace.
+I use Xorg, and the display service is GDM.
+The .detect is called and the getting modes info is correct.
+I find that it would only trigger(disable, modeset and enable), when I changed resolutions, restart display service and insmod driver.
 
-[2/3] arm64: dts: rockchip: Add HDMI audio outputs for rk3588 SoC
-      commit: b8c6c136971c0e9750eec89f367529b2854d3a3c
-[3/3] arm64: dts: rockchip: Enable HDMI audio outputs for Rock 5B
-      commit: 97aa62ed1e970bf8aa9f57e87c946a95fa3d5bef
 
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
