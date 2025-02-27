@@ -2,127 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090D7A48A6D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 22:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C86A48A77
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 22:28:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5524410E0AB;
-	Thu, 27 Feb 2025 21:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A23310EB91;
+	Thu, 27 Feb 2025 21:28:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SiIha4CF";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="CMl1l9Xf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB6510E0AB;
- Thu, 27 Feb 2025 21:26:00 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-6dd15d03eacso14510856d6.0; 
- Thu, 27 Feb 2025 13:26:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740691559; x=1741296359; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2UF7O2o8LV3sBQN2Z5pMzAnL0OBwN8vfx4Qu6oNc5dM=;
- b=SiIha4CFYllxuDar1yUgao/ABXEl5h2OkWdwaGpHmY0j0b6T9azY0If5X73rjmqb11
- IBkXa6QZi/Eb/3VQviJ0/MZWBy4a0rwqm1K6wxtfK05noMtz3jB5NR4FsmP/gPQjhw+m
- aTzeudm0q8mWpfSyHGt7mHWEX1LU/+TSn1xQbtwvXnjWiRPuF+FKwnnEGYMlmMgXMopj
- 1PWHlw85zFnjjMTRpjhMopayQ1QR0Lx0BaZPDv5+IEudbzaP/YwlUBnCrKJrzQJf4unH
- qs/thxRN0IIkKrWtnzdFIwrzrllXqN472GtNjAQTED84XAuNAziJW4qlv03hbB7AEZFo
- UIOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740691559; x=1741296359;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2UF7O2o8LV3sBQN2Z5pMzAnL0OBwN8vfx4Qu6oNc5dM=;
- b=cWyTwtu0BU+jOiZV0TZG/bLX7cfbUsAsLgNd27y81rf/U8q6xONVAhqdHs+UFUgZ9n
- xH+SQl10VselkuhlO+uOq42GtE7OQr+AUwgPIFJ/K3PsjMfYxmEOb1tRdE+e3xLW9xvg
- aUtgPBUD7SgS9WiE1zFMUfbAitcZTaMPezZrhKR8Ba5zUflL2xCo4t8DypZxqEmuW766
- 8/HTJUPDNb67CveRApAuuR9b2ZAIZDd1ybO5dFWh3eZ2P61bhSfRdOjiSvs9/T7vGGBF
- +s5cBWjjtbQJx0VhEnTRTc+Qk2PwUEmivhuMuRJQ2XbRwFX7L1w8clhm76oO1FH1Ent0
- ZJkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFrCkGilJQssmdRfNf5QB8BeQ5laJx1LWIkhiQo8byzxo9T7VdV+C1QS5A+NfnbqX4hcGXgAfZIwA=@lists.freedesktop.org,
- AJvYcCX0Zp0w2ffpQzunVT8S7hDqgU6wS9p6q+dDsGF2/96BPnNSlyTyO8bSCLVV7Kss5sVm80fyHaTPeA==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxF7D1VZoNMsuOMyphdTkNgqs5eYk9MBDbrPGikvPM/UR9+1ieE
- g7DU4gfM5ukHWUG0p+9IxsDnP9//0JV7M+iM9N5L2fzdwAwBpfir
-X-Gm-Gg: ASbGncsXNwPC7SbgrZARXnz3iSXWhydhn1NgXQMnMzHV9xFSLfsRS2sqgvLucj24D7X
- vhwbV0vDdTAiGrPXoQw+pt0Np9t2cE2OuTt92e0/Y8w/s0HbMq0IFP47c0kTYHUrmAy+w2DybMP
- XzoPCp5Qtfpo4h6IRWRAGe4MOyV4nalCXCDddC5l3nZDz6Cq3E+0/owdI5zgxn9mV02CufY9MPq
- 41th9A8duWifCVWyDjMvolZcOr62cn3d1qH3LXbZSbWVABV1aDEdelxBcPqNr/jNrOSRuJxvFgh
- XsHIc0Jav0BmNm4j7y/oe6FQ8PEwlxQijkNXwB2dxVMVvRtDTWZG6RpSXSSSHu4Hjne18efhknJ
- nMuZggiy+Ql94F0SM
-X-Google-Smtp-Source: AGHT+IEPDOQ7BZ2Sbx86St0jP2+DOKauK3d9nYm7k7AYGnZ2YAad8o5P61Ob7AwAw8Bjzh+SoVipww==
-X-Received: by 2002:a05:6214:2aa8:b0:6e4:5a38:dd0f with SMTP id
- 6a1803df08f44-6e895798e25mr78217746d6.4.1740691559215; 
- Thu, 27 Feb 2025 13:25:59 -0800 (PST)
-Received: from fauth-a1-smtp.messagingengine.com
- (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6e89766087dsm14124836d6.52.2025.02.27.13.25.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2025 13:25:58 -0800 (PST)
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal
- [10.202.2.42])
- by mailfauth.phl.internal (Postfix) with ESMTP id 32F7C120006A;
- Thu, 27 Feb 2025 16:25:58 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-02.internal (MEProxy); Thu, 27 Feb 2025 16:25:58 -0500
-X-ME-Sender: <xms:ZtjAZ5xiCQj1tMhaxghzhrNFsXc0VYP-45C8hZJpzVts_mPyzLI6ZA>
- <xme:ZtjAZ5RAXVI0ln7niV2HDes9T-ndIGX57kNI1tqAbzP8GHwsmqvmH2T21mfxi9onf
- SPhQawZhkLrnSwV9Q>
-X-ME-Received: <xmr:ZtjAZzXPibEUnw8gs_pK9FWxq3GpZvvNGu8T6Xre1aa3fhtObNNT_UHYQs4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekkeehhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
- necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
- drtghomheqnecuggftrfgrthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleel
- ieevtdeguefhgeeuveeiudffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
- ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
- hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopeduhedpmhho
- uggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhgghesnhhvihguihgrrdgtohhmpdhrtg
- hpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohgvlhgrghhn
- vghlfhesnhhvihguihgrrdgtohhmpdhrtghpthhtoheprggtohhurhgsohhtsehnvhhiug
- hirgdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghp
- thhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtohepjhhovghlsehjoh
- gvlhhfvghrnhgrnhguvghsrdhorhhgpdhrtghpthhtohepjhhhuhgssggrrhgusehnvhhi
- ughirgdrtghomhdprhgtphhtthhopegsshhkvghgghhssehnvhhiughirgdrtghomh
-X-ME-Proxy: <xmx:ZtjAZ7hDlqdN1I5R7i4hpxdt_QE8BVIdqpH1m4SFCGUhSpHlUsdb-g>
- <xmx:ZtjAZ7DptZWXmZMeZ6xDEnwJV0DYHrTujc3EL3aRFuW56V2GXN0DCw>
- <xmx:ZtjAZ0I8j70c-gvzPmtP21DJefEBUeHAtRm7OYjzNOS14hgzgbCDVw>
- <xmx:ZtjAZ6CFlaGMj7OZ24M6YZ6jF3FgQ3jFPnAVwHVbLwl3HX70SVON9w>
- <xmx:ZtjAZ_xx6BrgASXaWs5JOVwRlPZp3ATVyj0YMbg6d_eL6dsONWdXTO-S>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Feb 2025 16:25:57 -0500 (EST)
-Date: Thu, 27 Feb 2025 13:25:10 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z8DYNszfONdsKZsl@boqun-archlinux>
-References: <20250226172120.GD28425@nvidia.com> <Z7-IHgcVVS8XBurW@cassiopeiae>
- <20250226234730.GC39591@nvidia.com>
- <Z7-0pOmWO6r_KeQI@boqun-archlinux>
- <20250227144618.GE39591@nvidia.com> <Z8CCKl_yA74WjpQ1@Mac.home>
- <20250227161733.GH39591@nvidia.com> <Z8CY7fqbtbO4v1jv@Mac.home>
- <Z8ChnwPC0UwM8xBe@cassiopeiae> <20250227192321.GA67615@nvidia.com>
-MIME-Version: 1.0
+Received: from PA4PR04CU001.outbound.protection.outlook.com
+ (mail-francecentralazon11013058.outbound.protection.outlook.com
+ [40.107.162.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E799710EB95
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 21:28:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dUkFq9GwPNj2atVHCRQFWO59iWeMLT+1Ztuol+cu4C1ueTjPdtrh4xVK+Z10pKzW1/pCpMPWqpULtVlF4OmwWlW6KHGOCSkGAmIWSNR4rgBWXDS9tY2uP7syE41mLajAxXpFnDDWXuIeUJnIJgwhR1o1pbvEp2i8Vqs6jEtAVXozkjfOg4ZQ5SbsHQjmJMUm6VtE/bYTs7vCW4qLUqWLSxZbw5taFisTU8gOYAK0WYRA/LKAf9vVq5JY4OnZmWnm+sZb3qh+tY1xyWL1KtZTPKHMAXpMaV4ZFAp6Atis3Vpz4VBNHP+M9oUBz/W5vtwIPXWMYbhV79OJa/EooKYRrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=damlPDJsZLmQG7t9L3wRPou5FFv/7BUhgBmDt9d9rXQ=;
+ b=n5/ralQyVa1l7zZJHogJwjwgitsKzmZuMlpOzpnwQD2DGaiOV3+cCE6eC3MhCASPSoyLJZaYo9r3qtdIG3y+yM3xZWM6d4+S0nSPFNhyQFpz/jqMdbe2kjOS3J7ZV/C5Qai3vDLHmyAJ+YUZP+RLg0fPMomt4fysEl+4HVnt3kWKswq/53uuWQERS0XzXiOl6XxuKzYM1h2E9kXFjQiLwX0Cf7Ed08zg5GJPMIF37onvJztJ7Jjhtm9GDeTduHS9FfjS9TCqdsYjtlksaoaB12pp0Xy8KfrN5xQ/FScHHe5MGVGmUDNdLDTG9YogIEIXAO1ArC5uMZFn8+/zQo7zow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=damlPDJsZLmQG7t9L3wRPou5FFv/7BUhgBmDt9d9rXQ=;
+ b=CMl1l9Xf72B9eIaW9WtbVQJEEmpT3mdqvc9DkSFk0EjJyNu53xgj+YXqaWqI+Iz9F+mnfRPF80DR6ByBes49oEQz3+QawB8aJgYTp/If0KRKNAqI7ETqjEWmp+TqvyT3Qc4dLkrl6tjAQDn0nHT5NIzDzR8VCEyvP3Wdr+1AkXOJJ08viYJUEwLrocd1eQvV7k+QsZ9vnab2Ejy8Pcx8jRZorUo+m7gxi98xvWoz+rhlM3DTS+t2N1VOgalmMXhcQe2z5yOQZ72ZMqjAYp0KErQoCWjNP2qUOqzhk8WD+zdXGsxxvVpZ3cZRoBpUw2ki1HDmBKpTFMZArvc+8WXOzQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DB8PR04MB6857.eurprd04.prod.outlook.com (2603:10a6:10:114::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.23; Thu, 27 Feb
+ 2025 21:28:02 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8466.016; Thu, 27 Feb 2025
+ 21:28:01 +0000
+Date: Thu, 27 Feb 2025 16:27:51 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Marek Vasut <marex@denx.de>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+Subject: Re: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
+Message-ID: <Z8DY14NJYXjwKz7Z@lizhi-Precision-Tower-5810>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-10-marex@denx.de>
+ <Z8CkSUry5puMu6Mx@lizhi-Precision-Tower-5810>
+ <d41c9cf5-9ec4-4b9a-b281-653873fb8df0@denx.de>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227192321.GA67615@nvidia.com>
+In-Reply-To: <d41c9cf5-9ec4-4b9a-b281-653873fb8df0@denx.de>
+X-ClientProxiedBy: BYAPR08CA0001.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::14) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DB8PR04MB6857:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f8d6cdc-9838-4a6b-24ac-08dd57759d1b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|52116014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fh38/w0XcL93TzXpHnfGwKgVHYjoflENYf1/FLgNJu+YaoipGAY1DN8++rlP?=
+ =?us-ascii?Q?zj+vf/blwE/U66e3sX4fQ2ncqe0TVr+4jQsuEw2UqA1oGMzmR+VAjBbMNkfm?=
+ =?us-ascii?Q?5hNk2gSn8qZedItMkaWMX3zBEY/D3zH1ET5cMbdBKSJHYj2TT89FB8DhyffJ?=
+ =?us-ascii?Q?eT6cFrJeJoUhh2qZ92NLXRgiT2t4bKMrB2dSsE4SGIT+KK2O05FZkVvPK3bd?=
+ =?us-ascii?Q?ENM/LVgmBuo5zEvM2au3HC3i9lGO4u6LqpWlr/A/Pj8Etzq6CCykL+TrwtpF?=
+ =?us-ascii?Q?D/aqYWU0C2nkS7Dcs+w3JERVtxN+akeBBLX0CHlxK8e7VGTx49utPqotOI5M?=
+ =?us-ascii?Q?XY6spOCldi2d1wdXELzLqKjAl57D1mSC2ToG+jccqdtZiyCsT94F1rewLQUR?=
+ =?us-ascii?Q?PepI9x3s6Ppt4cyWHkIy3cuPuIxIXjRPFwayHpWJwszMqaDfVkSI6/p3GMuN?=
+ =?us-ascii?Q?yahZxkI/p8OxGrZ9R07N+ZB21lTLQrCRzt6oNwlGdTQ5/R3VtjkATN2+4ij3?=
+ =?us-ascii?Q?2gqFXifQK/AxVkidHzoXDV8joZkq2OOTIaHsJ3nvcfpH920Q18lTeNChaohW?=
+ =?us-ascii?Q?RkP99zKvcxeWe2uCFhCA+Y0Z9PFk+frKiJ0CJQSD6iwQcswr8Kr3QS8HcZp9?=
+ =?us-ascii?Q?0ZuptydSd7F7Hq/dCEjYVwnnLwCK4VHqup+5+GXmJ1fWfr27NpTz9rvsVg4j?=
+ =?us-ascii?Q?6PtEpFZit3FtA6ohac7gcef36nTjn4av1gtYz+B2QFYyJfK47z9hvQNGVTzI?=
+ =?us-ascii?Q?1WB4lkpndSzHvCVjHl8wU31q3jF4xnRcHz0zqUyDX8CTQYMPiHvOUdMJsS2l?=
+ =?us-ascii?Q?BEKIzo1cK04NS5kwct8ruEeNJdwSLFmnoTRFl+PfqYfUZVPFZKRqBTpMkvvA?=
+ =?us-ascii?Q?tjAoIKWWs0bbetETBDlXfVPed8mOf9b44Gnh4fxFY7PZC019Xz2HlfsyZVnQ?=
+ =?us-ascii?Q?mGATtTMjoFjCIaagDmFlpKFpEXEg99AYomzb1knGlYexWiSG3bV8C2DvmUyr?=
+ =?us-ascii?Q?D0WvaryrwNtgcOaL/ptW+va3MuyFwpcuBy/yjWjwGIz2bwAoSgwoMhLJq9qF?=
+ =?us-ascii?Q?K3Z1fVKpQsqDvy/3blw6N3x/x2cB40w72R+RB43+QesLUQzImct0Z96PGZU5?=
+ =?us-ascii?Q?iO+m+3dVLLxeU5+FC+qv42IRuURkbm5FvRtcaBg/imRTqBKI6vU62nyK3l/C?=
+ =?us-ascii?Q?zP/+JEONWKrJR7MiAF8C/qylzgsk9Mk5LMiPGlchbpBp+hbM3pFjOH9zdK/c?=
+ =?us-ascii?Q?8k0H7GhXAnZdzyM7xlzG9oX1VbXXwJv2cd8vD/6k3P7UGQm5zkLfGHGX+xBk?=
+ =?us-ascii?Q?1lGVIIay6fvChhFtMiiszmvW0oia4uDDrfosQxFaCoKb2F5j2eXssji9ONiV?=
+ =?us-ascii?Q?vr8+6fys9WAshAq9lCNYw1MPg7FNJAn4aWXWnwT35XLQlp8L5fCsnBSHB8r8?=
+ =?us-ascii?Q?v/fJoNxq7s6OzJNxqxzZchlLVVkhe1VH?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ji0B6jcHuhihUFRvPrEvCYAV8f57SBShJxnEjcVuozp2YU8v060b3e9pxgr+?=
+ =?us-ascii?Q?DEqB7iCx+PBpYDSO1r0Ek0JH+RrVeK0vC0xTfixhQRPMG/zeeTc9TZrhBOtb?=
+ =?us-ascii?Q?TG2PMlmehFO4KUBCOoQbwY9z4JNvww8hFemaPWRs6qWi2WiDH7pvws/eUZM5?=
+ =?us-ascii?Q?gs8XEnsnaWPCWbYUpcrPyZ95TohSlGlmFZAE635+N1LBscAxOetjJTGw4fh1?=
+ =?us-ascii?Q?Tlo03vzstRG0QRwyKdhwDj0EJ4HbWbHsKJsXVFEA8JTfKPKO0VTCv1T8SJ1H?=
+ =?us-ascii?Q?paUs4Y2EnmwrAZ2DABI7v0gjsrsTgfh8PFoTevkluKonBXt2Qy6myzwkAydA?=
+ =?us-ascii?Q?JuDHIna8I+YHXs+PlRcPHZRo87qhpL62NSpVB1V3CjpKCGO2X/ibbX0WWJp1?=
+ =?us-ascii?Q?AHDAjUWMB7kIOuPkp9FO1G+MxPwBsnbsUrAyNoveCEDljbnOukVkE0X82v0a?=
+ =?us-ascii?Q?sfXkkVLutwCWA5arI2ToDkLo4aOVxjC4cHT7LCc2Gq11cenwrZUj9VFTjuw/?=
+ =?us-ascii?Q?9Ry1ij2pb/sMYpcZVaS7ImlTrdiC/OZ7zdKJ029kddP2Yaf5/X6AX8OxUg7m?=
+ =?us-ascii?Q?3AV2PNOiOpPpPZa6aZFxunG14hfRTeCQm/qorZ0P81tAreOqvXxD4vcG6cCN?=
+ =?us-ascii?Q?sknGGJuWoIuKVd6IBPXofQvD/eM8QwCct0TPTJUdSnEpPNY/5u0oflSZpvNF?=
+ =?us-ascii?Q?GUuXSDCWWRaPkInFc52j1E4tVDyblRTa1p/CLj41WyaRUDmXMnOilz0PgB2r?=
+ =?us-ascii?Q?qN4wq8Gh6/iR6anNCDGg2h7GPNHhYH45zSEsF/48FK+QdBOqhAOR8lPTK+n2?=
+ =?us-ascii?Q?b+l26t0PIbdFIT8jnmmkDKaib+TRXePyj/E5AIjaYlDJOLscl9Ps4XCAnvcK?=
+ =?us-ascii?Q?Z1JkLmdmX35IvPguFCsNke2WJDVUPw+pvAiMEK3Um2HK5DS5VkEuFGK/WDPH?=
+ =?us-ascii?Q?8Ut0oQJfKUTgp9zwSVZhej6faS7N6/ZlMbqNbJTkScB8NMJqdBqu4GqysfS4?=
+ =?us-ascii?Q?O//U/Oi4nKUgUZAEYb21o3Q4Ydxu0sCnfshsKdctCtOnaLStOEAkPHp80t72?=
+ =?us-ascii?Q?mvtJh+0dGmWOFh9jL3Zpht7o0Bu+8IjcR0KagyTqct24z4l7VKOa7AQ8YFkh?=
+ =?us-ascii?Q?kW4yZjo7pyNO/MAbrkN/ZQKfFr/xkBkdVq3rgUyhIT3rHGIlWzQIjUwEpG2R?=
+ =?us-ascii?Q?sQJjIvOsCdFUE8aTW00uE6x63E9i4JqK+MgU/WGorhMjUtAsaeuDfF7XKA7l?=
+ =?us-ascii?Q?xNsqJ+DXH+HBxrKBfoEtKQtqegis6akqlA4Q8KYBWq1BrdzicEfzkxnUDPtB?=
+ =?us-ascii?Q?b7tJCaI3tJf3LgxaULpQuxe8ndf+8aBkCx4gBKITIYJJzykpBeNcaJcEQefg?=
+ =?us-ascii?Q?ChEyItd06FwhxhzMnfFXZptBk0CB49FCtX9zI069ZyV2HEl2Wdk1Zh9sxBhC?=
+ =?us-ascii?Q?SMokRJJcfcIiYRhobDku2ZGxgj5YRQekXoMAP3Ay0Faiw/KIaF5La1wEI7eG?=
+ =?us-ascii?Q?5Pac48JqOmr3QEAWRrXToYgswmHRHHHxxCcHxxJtHmVuRf1fC8Ed4wnh2yNY?=
+ =?us-ascii?Q?XvInhMpXTxapXXo/I1o=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f8d6cdc-9838-4a6b-24ac-08dd57759d1b
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2025 21:28:01.7775 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YaM5stdJ1VlO4valKsSX+tGVJgrZnFlWjZ/iZbNhX0VlrbDz6TKjQIFXCr6VBQ+9HlIzRItMeETqVS8b4K0xTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6857
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,91 +162,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2025 at 03:23:21PM -0400, Jason Gunthorpe wrote:
-> On Thu, Feb 27, 2025 at 06:32:15PM +0100, Danilo Krummrich wrote:
-> > On Thu, Feb 27, 2025 at 08:55:09AM -0800, Boqun Feng wrote:
-> > > On Thu, Feb 27, 2025 at 12:17:33PM -0400, Jason Gunthorpe wrote:
-> > > 
-> > > > I still wonder why you couldn't also have these reliable reference
-> > > > counts rooted on the device driver instead of only on the module.
-> > > > 
-> > > 
-> > > You could put reliable reference counts anywhere you want, as long as it
-> > > reflects the resource dependencies.
-> > 
-> > Right, as I explained in a different reply, the signature for PCI driver probe()
-> > looks like this:
-> > 
-> > 	fn probe(pdev: &mut pci::Device, _info: &Self::IdInfo) -> Result<Pin<KBox<Self>>>
-> > 
-> > The returned Pin<KBox<Self>> has the lifetime of the driver being bound to the
-> > device.
-> > 
-> > Which means a driver can bind things to this lifetime. But, it isn't forced to,
-> > it can also put things into an Arc and share it with the rest of the world.
-> 
-> This statement right here seems to be the fundamental problem.
-> 
-> The design pattern says that 'share it with the rest of the world' is
-> a bug. A driver following the pattern cannot do that, it must contain
-> the driver objects within the driver scope and free them. In C we
+On Thu, Feb 27, 2025 at 09:36:55PM +0100, Marek Vasut wrote:
+> On 2/27/25 6:43 PM, Frank Li wrote:
+> [...]
+>
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > index 3af13173de4bd..36bad211e5558 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > @@ -249,6 +249,37 @@ dummy: clock-dummy {
+> > >   		clock-output-names = "dummy";
+> > >   	};
+> > >
+> > > +	gpu_fixed_reg: fixed-gpu-reg {
+> > > +		compatible = "regulator-fixed";
+> > > +		regulator-min-microvolt = <920000>;
+> > > +		regulator-max-microvolt = <920000>;
+> > > +		regulator-name = "vdd_gpu";
+> > > +		regulator-always-on;
+> > > +		regulator-boot-on;
+> >
+> > Does really need regulator-boot-on and regulator-always-on ?
+>
+> I don't think so, this is a development remnant, fixed, thanks.
+>
+> [...]
+>
+> > > +		gpu: gpu@4d900000 {
+> > > +			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
+> > > +			reg = <0 0x4d900000 0 0x480000>;
+> > > +			clocks = <&scmi_clk IMX95_CLK_GPU>;
+> > > +			clock-names = "core";
+> > > +			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
+> > > +				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+> > > +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+> > > +			interrupt-names = "gpu", "job", "mmu";
+> > > +			mali-supply = <&gpu_fixed_reg>;
+> > > +			operating-points-v2 = <&gpu_opp_table>;
+> > > +			power-domains = <&scmi_devpd IMX95_PD_GPU>, <&scmi_perf IMX95_PERF_GPU>;
+> > > +			power-domain-names = "mix", "perf";
+> > > +			resets = <&gpu_blk_ctrl 0>;
+> > > +			#cooling-cells = <2>;
+> > > +			dynamic-power-coefficient = <1013>;
+> > > +			status = "disabled";
+> >
+> > GPU is internal module, which have not much dependence with other module
+> > such as pinmux. why not default status is "disabled". Supposed gpu driver
+> > will turn off clock and power if not used.
+> My thinking was that there are MX95 SoC with GPU fused off, hence it is
+> better to keep the GPU disabled in DT by default. But I can also keep it
+> enabled and the few boards which do not have MX95 SoC with GPU can
+> explicitly disable it in board DT.
+>
+> What do you think ?
 
-I cannot speak for Danilo, but IIUC, the 'share it with the rest of the
-world' things are the ones that drivers can share, for example, I
-suppose (not a network expert) a NIC driver can share the packet object
-with the upper layer of netowrk.
+GPU Fuse off should use access-control, see thread
+https://lore.kernel.org/imx/20250207120213.GD14860@localhost.localdomain/
 
-> inspect for this manually, and check for it with kmemleak
-
-In Rust, it's better (of course, depending on your PoV ;-)), because
-your driver or module data structures need to track the things they use
-(otherwise they will be cancelled and maybe freed, e.g. the hrtimer
-case). So you have that part covered by compiler. But could there be
-corner cases? Probably. We will just resolve that case by case.
-
-> progamatically.
-> 
-> It appears to me that the main issue here is that nobody has figured
-> out how to make rust have rules that can enforce that design pattern.
-> 
-
-Most of the cases, it should be naturally achieved, because you already
-bind the objects into your module or driver, otherwise they would be
-already cancelled and freed. Handwavingly, it provides a
-"data/type-oriented" resource management instead of "oh I have to
-remember to call this function before module unload". Again, I believe
-there are and will be corner cases, but happy to look into them.
-
-> Have the compiler prevent the driver author from incorrectly extending
-> the lifetime of a driver-object beyond the driver's inherent scope, ie
-> that Self object above.
-> 
-
-Compilers can help in the cases where they know which objects are belong
-to a driver/module.
-
-So I think in Rust you can have the "design pattern", the difference is
-instead of putting cancel/free functions carefully in some remove()
-function, you will need to (still!) carefully arrange the fields in your
-driver/module data structure, and you can have more fine grained control
-by writting the drop() function for the driver/module data structure.
-
-> Instead we get this:
-> 
-> > If something is crucial to be bound to the lifetime of a driver being bound to a
-> > device (i.e. device resources), you have to expose it as Devres<T>.
-> 
-
-I feel I'm still missing some contexts why Devres<T> is related to the
-"design pattern", so I will just skip this part for now... Hope we are
-on the same page of the "design pattern" in Rust?
-
-Regards,
-Boqun
-
-> Which creates a costly way to work around this missing design pattern
-> by adding runtime checks to every single access of T in all the
-> operational threads. Failable rcu_lock across every batch of register
-> access.
-> 
-[...]
+Frank
