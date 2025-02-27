@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DF6A47EDF
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 14:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10AC2A47F50
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 14:38:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69B7C10EAE6;
-	Thu, 27 Feb 2025 13:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0962D10E369;
+	Thu, 27 Feb 2025 13:38:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QpjlQW8z";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="HPp+4I/X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E981910EAF2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 13:20:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 52FD95C5777;
- Thu, 27 Feb 2025 13:20:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DAE0C4CEDD;
- Thu, 27 Feb 2025 13:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740662441;
- bh=FLYX4MtQxNdE09SlMrP22m+WXbicdAzLZnnz94YMMU8=;
- h=From:To:Cc:Subject:Date:From;
- b=QpjlQW8zNpmJ08WB9JTBJqlF36PognoNnSxjJT4tKa/l4ZaFM4w5dpNn+VhYJjU5s
- OEotBr056p3g1inqlXhP9bDQpWQ9686G5QktZbrtWl/m0Fi2c3OGLt1gHEUmuqqzyW
- 7M2nS6lvIxRpR6Kus5NMH92N8IDOYpiX+fF00t3gvEn7Bx+0k83cm5qeRokiID3461
- 3EBuBvfN/aEO8C3a/C10HFjRnfka4BhCcUdtH1r4OnDqVeLg1nXJ9Go8txXaqCZS5B
- MMuls9Q5smhRdLfS+6lbTeGPVAiA9jHTeu/9uFKMMmDSVqQqNxUmTuG6PHSVYO70or
- rE82cHC1EXnPQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9D810E369
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 13:38:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=xM2HHa44z/uki5r/XsN4Skql5oqMCUJnloS/h7yO+wo=; b=HPp+4I/XmV10tmTEqe+vSHO4Tp
+ ovIKFdNQLJxv6we0V7bj5VN1W3sLawocwFpQhBUoGba7W0m3Aaz2mjbnXehXJQ9u5U6V+1amJkm0A
+ KDSwDp0eQmqSLsfyrLxm1iCQ4G7WS2DeqywTzVqL7XCAwejqNAUMh6SR7VMdC47iy3VgYJ9Vl73Oh
+ mg2mHkcSjSXWO3NeH19wmEHAXbuLou6V0BbsSD8gtEF4a9MswAK+doGnoICisvZNuyXmdZxEz4qWi
+ TOBfoRWjCU0CDgFOZONWo2sksyJDo1bGDK+r7GQEvJUi90hiyqH6zXZkHPh5vQvZxK/bSVylCpVPm
+ DvUniP9Q==;
+Received: from i53875b47.versanet.de ([83.135.91.71]
+ helo=localhost.localdomain)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tne5X-00018T-Ix; Thu, 27 Feb 2025 14:38:07 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Vishal Sagar <vishal.sagar@amd.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jani Nikula <jani.nikula@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: xlnx: zynqmp_dpsub: fix Kconfig dependencies for ASoC
-Date: Thu, 27 Feb 2025 14:20:32 +0100
-Message-Id: <20250227132036.1136600-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/5] Improve Rockchip VOP2 display modes
+ handling on RK3588 HDMI1
+Date: Thu, 27 Feb 2025 14:37:51 +0100
+Message-ID: <174066344868.4164500.9088227108064466339.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250223-vop2-hdmi1-disp-modes-v2-0-f4cec5e06fbe@collabora.com>
+References: <20250223-vop2-hdmi1-disp-modes-v2-0-f4cec5e06fbe@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,37 +72,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-The new audio code fails to build when sounds support is in a loadable
-module but the GPU driver is built-in:
+On Sun, 23 Feb 2025 11:31:36 +0200, Cristian Ciocaltea wrote:
+> As a followup to getting basic HDMI1 output support [1] merged upstream,
+> make use of the HDMI1 PHY PLL to provide better VOP2 display modes
+> handling for the second HDMI output port on RK3588 SoC, similarly to
+> what has been achieved recently for HDMI0 [2].
+> 
+> Please note Heiko's fix [3] in of_clk_get_hw_from_clkspec() is also
+> required for boards that do not provide HDMI0 output, that is to ensure
+> devm_clk_get_optional() returns NULL instead of ERR_PTR(-EPROBE_DEFER),
+> which otherwise would put rockchip-drm module in a permanent deferred
+> probe mode.
+> 
+> [...]
 
-x86_64-linux-ld: zynqmp_dp_audio.c:(.text+0x6a8): undefined reference to `devm_snd_soc_register_card'
-x86_64-linux-ld: drivers/gpu/drm/xlnx/zynqmp_dp_audio.o:(.rodata+0x1bc): undefined reference to `snd_soc_info_volsw'
-x86_64-linux-ld: drivers/gpu/drm/xlnx/zynqmp_dp_audio.o:(.rodata+0x1f0): undefined reference to `snd_soc_get_volsw'
-x86_64-linux-ld: drivers/gpu/drm/xlnx/zynqmp_dp_audio.o:(.rodata+0x1f4): undefined reference to `snd_soc_put_volsw'
+Applied, thanks!
 
-Change the Kconfig dependency to disallow the sound support in this
-configuration.
+[3/5] arm64: dts: rockchip: Enable HDMI1 PHY clk provider on RK3588
+      commit: aadaa27956e3430217d9e6b8af5880e39b05b961
+[4/5] arm64: dts: rockchip: Add HDMI1 PHY PLL clock source to VOP2 on RK3588
+      commit: b2e668a60ed866ba960acb5310d1fb6bf81d154f
+[5/5] arm64: dts: rockchip: Enable HDMI1 on rk3588-evb1
+      commit: 5c2d6181ae830e02856c603b8c08e80e9d419874
 
-Fixes: 3ec5c1579305 ("drm: xlnx: zynqmp_dpsub: Add DP audio support")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/xlnx/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
-index dbecca9bdd54..cfabf5e2a0bb 100644
---- a/drivers/gpu/drm/xlnx/Kconfig
-+++ b/drivers/gpu/drm/xlnx/Kconfig
-@@ -22,6 +22,7 @@ config DRM_ZYNQMP_DPSUB_AUDIO
- 	bool "ZynqMP DisplayPort Audio Support"
- 	depends on DRM_ZYNQMP_DPSUB
- 	depends on SND && SND_SOC
-+	depends on SND_SOC=y || DRM_ZYNQMP_DPSUB=m
- 	select SND_SOC_GENERIC_DMAENGINE_PCM
- 	help
- 	  Choose this option to enable DisplayPort audio support in the ZynqMP
+Best regards,
 -- 
-2.39.5
-
+Heiko Stuebner <heiko@sntech.de>
