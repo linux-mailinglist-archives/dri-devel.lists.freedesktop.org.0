@@ -2,80 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A803CA4730D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 03:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEB5A4734E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 04:06:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4DC10EA15;
-	Thu, 27 Feb 2025 02:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BE210EA18;
+	Thu, 27 Feb 2025 03:06:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="m8j1/lhN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XKOIEVIt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4A410EA21
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 02:37:18 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-6f77b9e0a34so3762307b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 18:37:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740623837; x=1741228637; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w2/JikIOXuq+9YZgvX/I0sOxCDWRqOTZNtQmLEPFnPo=;
- b=m8j1/lhNfAAcG8bXP5ckqnd9RBBi2PFlkX3VJ/DhasG+/MhuFrC1Bmnn9RPpOrTyPO
- TBCPhPB20l7kepZTGL1PgUq77eKPj6noTS0PLPvsuQwTcxaChmgumpE9wtEUgPZQdAIa
- w2yhDh8yRJgM675QW9RmWIF/sJyJE5+2QSJbZG4yZwHM6solXbdkmTUaVmUgxJ57Fo9H
- T0lo15xbLAEpoKDq52pCOmichuVVDOpw4U6NL/YfPrnJIPyloRqsMlNCJOygL+oH5sue
- iiF44+WxDpVRLafm+DO8mbNs7qIIJHQUygRuqkUaRUWKaJpF25V88WU3DqY06Da1WQQv
- 5ANg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740623837; x=1741228637;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w2/JikIOXuq+9YZgvX/I0sOxCDWRqOTZNtQmLEPFnPo=;
- b=lDovt//EXbmzaR93fmLK1eSMugu3pRXIOH7b7ZRfyAxDRl/JeZbKRsFfmoGHbVE6lz
- iS/jKCIZ6C/2cjARvKMBqJXUJ0/XcJo+cuRcaSXBURM7d2BPdomMKuLvUZixe8Bl4SIH
- zrvjwDzAug1H2+IpOUwM69IILb9/D4lcYDY4LMaS2x8M9eJX7xx/hArsPP/ll5sRq2Nd
- b1ED/s3slAf4a404b335VwR0TzMIWOlksdLt29u3C7nxWzF50WaHHl5+CKkqRlS1sldy
- 4NGHVRPFTtDAsCqXqVtYDKYA9okR+Socvca0eTv/0U1F3FA5DzDhPt65kF0y+IXC98rt
- 3e8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX+/IB8e8ArFsFwQ8q6dK8xy1sWm2sR7JWhkw8xmO3PIDMaepd7N7xx9mFnNaN4ijSxv+b4zHvncgI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyd+chZmd/+XDjKPB1Ga9RHtyozUEn3TF9A/40upX1o98f06Ny3
- fu8zj/0BAXYb/xYxJOUOUstZffD7pVsQRVixbvas1RzSKEe3WeVkiGkaODaV+c/KeX/rrZHwQFK
- be+/YudA3QyBw7A49nnNgMwQGyw+6W2zTF8VSQw==
-X-Gm-Gg: ASbGncuztdvtC95ChYI6o2LamsEPf+3822Hm3Mlt0YEuXoe7qBkZwV9WRkr6cyVsI04
- eQx7ChZ0BsTL8xGH7uLgIAiCvLcSgv2t7i35ytNhQ5EaxZkII2TlRqOtpVgtK/ixHNSixCVzlFn
- cDPh9i06iUtjRx
-X-Google-Smtp-Source: AGHT+IGSw0gtdKcK4e/gjlWOJp54+6uLHAkVBNTZI2SEuatfi8tmEUqUfZLol5dS7eJGj3x1CROAqXjTXvG9Xlr25R0=
-X-Received: by 2002:a05:690c:4512:b0:6f9:ac35:4483 with SMTP id
- 00721157ae682-6fd2207a924mr52773417b3.25.1740623837083; Wed, 26 Feb 2025
- 18:37:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-0-8d5f5f426eb2@linaro.org>
- <20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-11-8d5f5f426eb2@linaro.org>
- <f7a1a1ef-bab7-4024-bfca-a9fa33f189b5@quicinc.com>
-In-Reply-To: <f7a1a1ef-bab7-4024-bfca-a9fa33f189b5@quicinc.com>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 27 Feb 2025 10:37:06 +0800
-X-Gm-Features: AQ5f1JpajceI_JjtWnScexhP25AZZx5gURBP9Id9s4kjX02P38LidJgsE8Muoks
-Message-ID: <CABymUCNgwWf8cvNB0thWP3AmHYK5WDv9AwyhhE1q5X7sYCArsA@mail.gmail.com>
-Subject: Re: [PATCH v7 11/15] drm/msm/dpu: split PIPES_PER_STAGE definition
- per plane and mixer
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E4E10EA18
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 03:06:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 5977461155;
+ Thu, 27 Feb 2025 03:06:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC92BC4CED6;
+ Thu, 27 Feb 2025 03:06:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740625610;
+ bh=q2ghoz1pWJEIqwjf30Ucg7t93D2Nrvj2VISWKXWFeS0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XKOIEVItYrAj/NHvNuhYHb1TLQ0uWUr6Cfms8KX4vn/wJBClj/nY8frxgb/Uc4f9F
+ eBPOTrxKFeK0bhW86VnrG78WQXS614b953FFfZEnwXD+vynPLg2MdMKDLDhqrNw9Lb
+ gL87zVRHdia/yyl5wGrhI4dcgu4aux5HeF/km2dVwo8F0fh6Jou02XLsO503f3ZTuf
+ MgZxMB+pYdH+zLZFVQtJsf3WE31XgskWhHJ6J7114z31SqyGdDmyhdrwZ5nSxJ5NVM
+ 8je6WFfjt3CYVTVckaoBkvxKLMHK+6crHGpgiRVQOMYs9GTnyvw9bhltXv66apH9XT
+ xXxJC0D5wudzQ==
+Received: by venus (Postfix, from userid 1000)
+ id ADF6718066B; Thu, 27 Feb 2025 04:06:47 +0100 (CET)
+Date: Thu, 27 Feb 2025 04:06:47 +0100
+From: Sebastian Reichel <sre@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: Abel Vesa <abel.vesa@linaro.org>, Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Johan Hovold <johan@kernel.org>, linux-pwm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC] backlight: pwm_bl: Read back PWM period from provider
+Message-ID: <cmjyaveolhjtfhqbjpc6ghh7g2f5jmeyavoms5lqup6dyidngl@ljvxgoyw57md>
+References: <20250226-pwm-bl-read-back-period-from-hw-v1-1-ccd1df656b23@linaro.org>
+ <xltamao27utfrsax2pc6mh5tthanmrqszz4k7gyw3knqkm24xp@4tydmhfh6g4j>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="a5rbsad7opocfj4r"
+Content-Disposition: inline
+In-Reply-To: <xltamao27utfrsax2pc6mh5tthanmrqszz4k7gyw3knqkm24xp@4tydmhfh6g4j>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,107 +67,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jessica Zhang <quic_jesszhan@quicinc.com> =E4=BA=8E2025=E5=B9=B42=E6=9C=882=
-7=E6=97=A5=E5=91=A8=E5=9B=9B 09:38=E5=86=99=E9=81=93=EF=BC=9A
->
->
->
-> On 2/26/2025 4:31 AM, Jun Nie wrote:
-> > The stage contains configuration for a mixer pair. Currently the plane
-> > supports just one stage and 2 pipes. Quad-pipe support will require
-> > handling 2 stages and 4 pipes at the same time. In preparation for that
-> > add a separate define, PIPES_PER_PLANE, to denote number of pipes that
-> > can be used by the plane.
-> >
-> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  2 +-
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 14 +++++++-------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h   |  4 ++--
-> >   4 files changed, 11 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm=
-/msm/disp/dpu1/dpu_crtc.c
-> > index 193818b02197d0737c86de7765d98732fa914e8e..81474823e6799132db71c97=
-12046d359e3535d90 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > @@ -463,7 +463,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_=
-crtc *crtc,
-> >               if (pstate->stage =3D=3D DPU_STAGE_BASE && format->alpha_=
-enable)
-> >                       bg_alpha_enable =3D true;
-> >
-> > -             for (i =3D 0; i < PIPES_PER_STAGE; i++) {
-> > +             for (i =3D 0; i < PIPES_PER_PLANE; i++) {
-> >                       if (!pstate->pipe[i].sspp)
-> >                               continue;
-> >                       set_bit(pstate->pipe[i].sspp->idx, fetch_active);
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_hw_mdss.h
-> > index ba7bb05efe9b8cac01a908e53121117e130f91ec..5f010d36672cc6440c69779=
-908b315aab285eaf0 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> > @@ -34,6 +34,7 @@
-> >   #define DPU_MAX_PLANES                      4
-> >   #endif
-> >
-> > +#define PIPES_PER_PLANE                      2
-> >   #define PIPES_PER_STAGE                     2
-> >   #ifndef DPU_MAX_DE_CURVES
-> >   #define DPU_MAX_DE_CURVES           3
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/dr=
-m/msm/disp/dpu1/dpu_plane.c
-> > index ef44af5ab681c8f526333fa92531a2225983aa09..d67f2ad20b4754ca4bcb759=
-a65a39628b7236b0f 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > @@ -1078,7 +1078,7 @@ static int dpu_plane_virtual_atomic_check(struct =
-drm_plane *plane,
-> >                * resources are freed by dpu_crtc_assign_plane_resources=
-(),
-> >                * but clean them here.
-> >                */
-> > -             for (i =3D 0; i < PIPES_PER_STAGE; i++)
-> > +             for (i =3D 0; i < PIPES_PER_PLANE; i++)
-> >                       pstate->pipe[i].sspp =3D NULL;
-> >
-> >               return 0;
-> > @@ -1129,7 +1129,7 @@ static int dpu_plane_virtual_assign_resources(str=
-uct drm_crtc *crtc,
-> >       pipe_cfg =3D &pstate->pipe_cfg[0];
-> >       r_pipe_cfg =3D &pstate->pipe_cfg[1];
-> >
-> > -     for (i =3D 0; i < PIPES_PER_STAGE; i++)
-> > +     for (i =3D 0; i < PIPES_PER_PLANE; i++)
-> >               pstate->pipe[i].sspp =3D NULL;
-> >
-> >       if (!plane_state->fb)
-> > @@ -1241,7 +1241,7 @@ void dpu_plane_flush(struct drm_plane *plane)
-> >               /* force 100% alpha */
-> >               _dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
-> >       else {
-> > -             for (i =3D 0; i < PIPES_PER_STAGE; i++)
-> > +             for (i =3D 0; i < PIPES_PER_PLANE; i++)
->
-> Hi Jun,
->
-> Is there a reason why only this case was changed to PIPES_PER_PLANE but
-> _dpu_plane_color_fill() only loops over PIPES_PER_STAGE?
->
-> Similarly, I see that dpu_plane_danger_signal_ctrl() also only loops
-> over PIPES_PER_STAGE.
->
-> Thanks,
->
-> Jessica Zhang
->
-It is missed and should be converted to PIPES_PER_PLANE in
-_dpu_plane_color_fill.
-Thanks for pointing this out!
 
-Regards,
-Jun
+--a5rbsad7opocfj4r
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC] backlight: pwm_bl: Read back PWM period from provider
+MIME-Version: 1.0
+
+Hi,
+
+On Wed, Feb 26, 2025 at 05:34:50PM +0100, Uwe Kleine-K=F6nig wrote:
+> On Wed, Feb 26, 2025 at 05:31:08PM +0200, Abel Vesa wrote:
+> > The current implementation assumes that the PWM provider will be able to
+> > meet the requested period, but that is not always the case. Some PWM
+> > providers have limited HW configuration capabilities and can only
+> > provide a period that is somewhat close to the requested one. This
+> > simply means that the duty cycle requested might either be above the
+> > PWM's maximum value or the 100% duty cycle is never reached.
+>=20
+> If you request a state with 100% relative duty cycle you should get 100%
+> unless the hardware cannot do that. Which PWM hardware are you using?
+> Which requests are you actually doing that don't match your expectation?
+
+drivers/leds/rgb/leds-qcom-lpg.c (which probably should at least get
+a MAINTAINERS entry to have you CC'd considering all the PWM bits in
+it). See the following discussion (I point you to my message in the
+middle of a thread, which has a summary and probably is a good
+starting point):
+
+https://lore.kernel.org/all/vc7irlp7nuy5yvkxwb5m7wy7j7jzgpg73zmajbmq2zjcd67=
+pd2@cz2dcracta6w/
+
+Greetings,
+
+-- Sebastian
+
+> > This could be easily fixed if the pwm_apply*() API family would allow
+> > overriding the period within the PWM state that's used for providing the
+> > duty cycle. But that is currently not the case.
+>=20
+> I don't understand what you mean here.
+>=20
+> > So easiest fix here is to read back the period from the PWM provider via
+> > the provider's ->get_state() op, if implemented, which should provide t=
+he
+> > best matched period. Do this on probe after the first ->pwm_apply() op =
+has
+> > been done, which will allow the provider to determine the best match
+> > period based on available configuration knobs. From there on, the
+> > backlight will use the best matched period, since the driver's internal
+> > PWM state is now synced up with the one from provider.
+> > [...]
+> > diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight=
+/pwm_bl.c
+> > index 237d3d3f3bb1a6d713c5f6ec3198af772bf1268c..71a3e9cd8844095e85c01b1=
+94d7466978f1ca78e 100644
+> > --- a/drivers/video/backlight/pwm_bl.c
+> > +++ b/drivers/video/backlight/pwm_bl.c
+> > @@ -525,6 +525,17 @@ static int pwm_backlight_probe(struct platform_dev=
+ice *pdev)
+> >  		goto err_alloc;
+> >  	}
+> > =20
+> > +	/*
+> > +	 * The actual period might differ from the requested one due to HW
+> > +	 * limitations, so sync up the period with one determined by the
+> > +	 * provider driver.
+> > +	 */
+> > +	ret =3D pwm_get_state_hw(pb->pwm, &pb->pwm->state);
+>=20
+> As a consumer you're not supposed to write to &pb->pwm->state. That's a
+> layer violation. Please call pwm_get_state_hw() with a struct pwm_state
+> that you own and save the relevant parts in your driver data.
+>=20
+> > +	if (ret && ret !=3D -EOPNOTSUPP) {
+> > +		dev_err(&pdev->dev, "failed to get PWM HW state");
+> > +		goto err_alloc;
+> > +	}
+> > +
+> >  	memset(&props, 0, sizeof(struct backlight_properties));
+> > =20
+> >  	if (data->levels) {
+>=20
+> Best regards
+> Uwe
+
+
+
+--a5rbsad7opocfj4r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAme/1sMACgkQ2O7X88g7
++pp2axAAjUk/lD0Uk4ltqhBQwfAEUqmFf1DoyH07Pzeqgx00DfAcBr2cL/Nae/by
+vz0CXq2TrsiJG9tYNV/YzQfTq21f6xNhg+HYVqRnw4M6N5NEubL3FFxDUG7aug5r
+vJsbi/ZMqRla7FtyH6fVC2r51AZqI1/+BdB1zuN5k8TB8t7NHWe6gSTcxTL++TfS
+EzOrvlAwTyFJkGCbLw5laeXQ7OdZCdPF0ASms+r6p4FTASs0351udCRSy6wWSvg5
+oRrY8U59bkjRB9r8/0LiT6k3eQkvhlNpknYqwdDAZc4DK/X9Pg2ssHBDKjOxJNyP
+fymMw/yRJ/yGBMlzcdRJhmEZUc6ruDWmAi6GaNOCndslanwZUDge+dalgtyYa6HQ
+JzIDINQM4r4hDnNXSrAL/JIXNUpbldjJzR4gbz9rmDcFyf7MovcBOY/FspXHSxZA
+L6D/DEF1HeMVl/qIJJGDQvJ35hUcGE9C6oFA+pEz0IxDyi1kUmYPVdZNmJ9nriYM
+k9OZmU/C8Mqch9E0cQFceRbE+/U0PyZZ2Mafv2Aju99OqV9vplUCDHyNqu82tdZW
+IXRvpWgf5qk5SzXLS8TkNyfkDGofP4JN6SbT/te1gCRHOi1oOs05kYjtb4xpCB51
+MMjrboCZedmzGwmsM3Evbw+e0W04zIwNiEeDBUElo20hdw9Idjw=
+=dIdK
+-----END PGP SIGNATURE-----
+
+--a5rbsad7opocfj4r--
