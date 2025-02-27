@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA36A48A02
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 21:40:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DAAA48A0C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 21:42:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB01810EB8C;
-	Thu, 27 Feb 2025 20:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 890E110EB8E;
+	Thu, 27 Feb 2025 20:42:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="YF9CFEjf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K5q9/glj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D536910EB89
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 20:40:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 13D7910382F1A; Thu, 27 Feb 2025 21:40:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1740688827;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4C6upIGFa4XgnfpHiJyhy0wCYQaINcoL0tKBcZ5m38U=;
- b=YF9CFEjfZ0GpxPpqRJ6j5xaHMHPMjF1sd+yJPbXRk7QwKCt+htPCR9INIggWUbetdqYnxI
- jp9IfS3azj0kSTKEpSFBq39BOKenqAD/VeYiNpXA3lUVAfYNBRI+B1tJh6vlTyaf05fYIP
- 1ethbF4yEYSJiOKCxtqxowbWBGzWmw8WAGF43opmSFFDdBonAt6r4wQ1tAJgcS79mi3Ij0
- TBCFHsUDYqUCAUxzmocgWHUo6ykI/0sQUmcVVWRYvU/7tgRzV/usYKXrcr+bn81RN79PuU
- N7KGp7fiQgL9tPyv3sPJwGioCj5O0Ff9LDsh2Hr/JFThXGHr6UbpkPm8jv0bbQ==
-Message-ID: <8bc7e55d-7a8d-436b-ad6f-f7cb8caa28a0@denx.de>
-Date: Thu, 27 Feb 2025 21:39:44 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0632910EB8D;
+ Thu, 27 Feb 2025 20:42:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740688957; x=1772224957;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=/6f+n0PEa1PJRAyTWxSuLzZ1xxzmZSWh1hTCLk2GLbI=;
+ b=K5q9/gljeXPLQH7HxEFSVJjNWcVp5L8pbYEpbvNCqoMpgl2zzqSpbPbU
+ KfiKAZGIHj3m2ymHENwuGrA0Gj/8RqdMO/7F6YHa5FgMqlP8r68HtvyYX
+ MpZNSmZT3VyOLfyJvG5WD4TP0kIhEY1KU8jd8D7MNTqZjrz6P8CZEskLH
+ 9W/yMT9nxwpIIOBe7mRb4AA9BloKiPB/Y5k1Qw7PHJRi9Y377I/CKqdh+
+ Bf/hY5CZy00jziN4wLBzuCH68Bqgbt2QVwlZ/KjuXxZWYIVW2ac19Q1fN
+ MeVkdu+o6wwK+0JJ1TMYzOqxIkhVhGVKUA/fxdHodmDXXYWL65UjWKyLK w==;
+X-CSE-ConnectionGUID: 6THHTd8tShehO+AXmeSeBw==
+X-CSE-MsgGUID: 6HdoecwGTiqOAUj5C4Tx1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52244060"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; d="scan'208";a="52244060"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2025 12:42:36 -0800
+X-CSE-ConnectionGUID: jPSfeu74Q4WtLQSrWEPcaA==
+X-CSE-MsgGUID: 4/MvH6IkR0mvqMj89808TQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="122365967"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orviesa005.jf.intel.com with SMTP; 27 Feb 2025 12:42:33 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 27 Feb 2025 22:42:32 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/9] drm/dp: Add definitions for POST_LT_ADJ training
+ sequence
+Date: Thu, 27 Feb 2025 22:42:32 +0200
+Message-ID: <20250227204232.15624-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.45.3
+In-Reply-To: <20250224172645.15763-2-ville.syrjala@linux.intel.com>
+References: <20250224172645.15763-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/9] drm/panthor: Add i.MX95 support
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Simona Vetter <simona@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
- Sebastian Reichel <sre@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Steven Price <steven.price@arm.com>, imx@lists.linux.dev,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Fabio Estevam <festevam@gmail.com>
-References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-9-marex@denx.de>
- <20250227201709.2diz57xv2tntw36q@pengutronix.de>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20250227201709.2diz57xv2tntw36q@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,23 +71,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/27/25 9:17 PM, Marco Felsch wrote:
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-[...]
+Add the bit definitions needed for POST_LT_ADJ sequence.
 
->> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
->> index 06fe46e320738..2504a456d45c4 100644
->> --- a/drivers/gpu/drm/panthor/panthor_drv.c
->> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
->> @@ -1591,6 +1591,7 @@ static struct attribute *panthor_attrs[] = {
->>   ATTRIBUTE_GROUPS(panthor);
->>   
->>   static const struct of_device_id dt_match[] = {
->> +	{ .compatible = "fsl,imx95-mali" },	/* G310 */
-> 			  ^
-> 			 nxp?
-> 
-> Can we switch to nxp instead?
-We can ... is that the current recommendation ?
+v2: DP_POST_LT_ADJ_REQ_IN_PROGRESS is bit 1 not 5 (Jani)
 
-Why not stick with fsl , is that deprecated now ?
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ include/drm/display/drm_dp.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index c413ef68f9a3..e2d2ae573d8b 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -115,6 +115,7 @@
+ 
+ #define DP_MAX_LANE_COUNT                   0x002
+ # define DP_MAX_LANE_COUNT_MASK		    0x1f
++# define DP_POST_LT_ADJ_REQ_SUPPORTED	    (1 << 5) /* 1.3 */
+ # define DP_TPS3_SUPPORTED		    (1 << 6) /* 1.2 */
+ # define DP_ENHANCED_FRAME_CAP		    (1 << 7)
+ 
+@@ -571,6 +572,7 @@
+ 
+ #define DP_LANE_COUNT_SET	            0x101
+ # define DP_LANE_COUNT_MASK		    0x0f
++# define DP_POST_LT_ADJ_REQ_GRANTED         (1 << 5) /* 1.3 */
+ # define DP_LANE_COUNT_ENHANCED_FRAME_EN    (1 << 7)
+ 
+ #define DP_TRAINING_PATTERN_SET	            0x102
+@@ -788,6 +790,7 @@
+ 
+ #define DP_LANE_ALIGN_STATUS_UPDATED                    0x204
+ #define  DP_INTERLANE_ALIGN_DONE                        (1 << 0)
++#define  DP_POST_LT_ADJ_REQ_IN_PROGRESS                 (1 << 1) /* 1.3 */
+ #define  DP_128B132B_DPRX_EQ_INTERLANE_ALIGN_DONE       (1 << 2) /* 2.0 E11 */
+ #define  DP_128B132B_DPRX_CDS_INTERLANE_ALIGN_DONE      (1 << 3) /* 2.0 E11 */
+ #define  DP_128B132B_LT_FAILED                          (1 << 4) /* 2.0 E11 */
+-- 
+2.45.3
+
