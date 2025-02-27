@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23AEA4785E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 09:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281DEA47875
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 09:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDAE10EA74;
-	Thu, 27 Feb 2025 08:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DBF10EA6B;
+	Thu, 27 Feb 2025 08:59:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bcVSPr5A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bg3w/7sr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B58D10EA74
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 08:56:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA5F10EA6B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 08:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740646579; x=1772182579;
+ t=1740646791; x=1772182791;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=NmyNVpOEA4NZSPEjTXVxjMre3p87YQf4hY+AnwQy/MU=;
- b=bcVSPr5AlY4LJ1oOBxKArH/KegLn4rY5KO4syL8ij1qd1cAF0qHmoj2k
- tY/ofNRkLeuIlU8eUz8BSBQDjsj90e92pxQwuakFgQnRfeD0S+beYc96B
- GkCGLm7lFWa8Yw8ta1YoV7okKHUm7SlYgMHy2O5i/6ZYxGlLNiRW6jL/N
- TYWQpt8MHO2lm8YSq6pnSfyOenWqD3d/wdooV0oUdVSdwx0cAZG1UxVTQ
- 0+F+46lEphhifC8dBMwhLmR0qA7nZf2Ihjt3fj1wbamQovMPaQeYxfF97
- 48o0a1503PQT+5t185vCQY9xA6H21H0NWIl8S/2GEoeNlSU87PpS/6WSp g==;
-X-CSE-ConnectionGUID: T/lkUUqfSw6XI7gOljCQlQ==
-X-CSE-MsgGUID: daXQgLxeQlS93dcmi/YQlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45438626"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="45438626"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2025 00:56:19 -0800
-X-CSE-ConnectionGUID: NZGzfWmKQyqX2S402WngRw==
-X-CSE-MsgGUID: 3oh0WbbgTpWB3Vs/QIfuiw==
+ bh=+0w5pxZl6eu5LUe9m4QPfCY8rfPht4lXtsBkbK6WTpY=;
+ b=Bg3w/7srKH/X9GcFh4uwV+Gi4uoN/CFGGVvvC8gbzYwJ3wjXJvsP7NbU
+ B3kpaoFrijz2oPkXFFKrRi8qMSwFYalJ1egltwhvvedk2xyFYFxizgi+7
+ 40d1KMBs8Bp8lgigV/tRJHIRYq0QGpdkMe7lS81fxK672ksMeGNLvTIB5
+ 8F9Pirn4DAyXFPsZV0FadWvvGANcXLUmnjXk14DFpd8oc7qEDs6m9i4YW
+ AddJ60sjudEDjxiHU7x5gemIRMy0vbFlADQso4aW1h4K2InU+Gs2SU3Hx
+ VgdqagFtavUbU5P8Ll8IRgZVyHAqiwffwY9zwuwuPjlbQsZHJ7zx0j8sL w==;
+X-CSE-ConnectionGUID: 0kan6iW3SwSK8n0UsCKFVA==
+X-CSE-MsgGUID: imd4bsNbTt6UQPRCFsisWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52939401"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="52939401"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2025 00:59:51 -0800
+X-CSE-ConnectionGUID: lue+0kPXQ+2uMDYapBVZqg==
+X-CSE-MsgGUID: 7WfixO/GRYiG4T6NyakPHg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="121973960"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="147786129"
 Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
  ([10.245.246.181])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2025 00:56:13 -0800
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2025 00:59:45 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -54,14 +54,14 @@ To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Thomas Petazzoni
  <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v8 1/2] drm/bridge: move bridges_show logic from
- drm_debugfs.c
-In-Reply-To: <20250226-drm-debugfs-show-all-bridges-v8-1-bb511cc49d83@bootlin.com>
+Subject: Re: [PATCH v8 2/2] drm/debugfs: add top-level 'bridges' file
+ showing all added bridges
+In-Reply-To: <20250226-drm-debugfs-show-all-bridges-v8-2-bb511cc49d83@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20250226-drm-debugfs-show-all-bridges-v8-0-bb511cc49d83@bootlin.com>
- <20250226-drm-debugfs-show-all-bridges-v8-1-bb511cc49d83@bootlin.com>
-Date: Thu, 27 Feb 2025 10:56:09 +0200
-Message-ID: <87a5a74vh2.fsf@intel.com>
+ <20250226-drm-debugfs-show-all-bridges-v8-2-bb511cc49d83@bootlin.com>
+Date: Thu, 27 Feb 2025 10:59:41 +0200
+Message-ID: <877c5b4vb6.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,107 +80,102 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 26 Feb 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> In preparation to expose more info about bridges in debugfs, which will
-> require more insight into drm_bridge data structures, move the bridges_show
-> code to drm_bridge.c.
+> The global bridges_list holding all the bridges between drm_bridge_add()
+> and drm_bridge_remove() cannot be inspected via debugfs. Add a file showing
+> it.
 >
-> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> To avoid code duplication, move the code printing a bridge info to a common
+> function.
+
+Going forward, please separate refactoring (extracting the function)
+from the functional changes (adding the new debugfs) to independent
+patches. It's just easier to review.
+
+Anyway, I reviewed this one, so no need to roll another version.
+
+And thanks for doing this; I believe the end result is better.
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+>
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >
 > ---
 >
 > Changed in v8:
->  - add the file in drm_bridge.c, which avois the added #if CONFIG_DEBUG_FS
+> - add the file in drm_bridge.c, which avois the added #if CONFIG_DEBUG_FS
+> - fix incorrect (but harmless) idx increment in
+>   drm_bridge_debugfs_show_bridge()
 >
-> This patch was added in v7.
+> Changed in v7:
+> - move implementation to drm_bridge.c to avoid exporting bridge_list and
+>   bridge_mutex
+>
+> This patch was added in v6.
 > ---
->  drivers/gpu/drm/drm_bridge.c  | 42 ++++++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_debugfs.c | 38 +-------------------------------------
->  include/drm/drm_bridge.h      |  2 ++
->  3 files changed, 45 insertions(+), 37 deletions(-)
+>  drivers/gpu/drm/drm_bridge.c | 72 ++++++++++++++++++++++++++++++--------------
+>  drivers/gpu/drm/drm_drv.c    |  2 ++
+>  include/drm/drm_bridge.h     |  1 +
+>  3 files changed, 53 insertions(+), 22 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 241a384ebce39b4a3db58c208af27960904fc662..a6bf1a565e3c3a8d24de60448972849f6d86ba72 100644
+> index a6bf1a565e3c3a8d24de60448972849f6d86ba72..9c6e35d41ed54a14d5745e684a341c907ed84d6b 100644
 > --- a/drivers/gpu/drm/drm_bridge.c
 > +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -21,6 +21,7 @@
->   * DEALINGS IN THE SOFTWARE.
->   */
->  
-> +#include <linux/debugfs.h>
->  #include <linux/err.h>
->  #include <linux/media-bus-format.h>
->  #include <linux/module.h>
-> @@ -1335,6 +1336,47 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+> @@ -1336,6 +1336,49 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
 >  EXPORT_SYMBOL(of_drm_find_bridge);
 >  #endif
 >  
-> +static int encoder_bridges_show(struct seq_file *m, void *data)
+> +static void drm_bridge_debugfs_show_bridge(struct drm_printer *p,
+> +					   struct drm_bridge *bridge,
+> +					   unsigned int idx)
 > +{
-> +	struct drm_encoder *encoder = m->private;
+> +	drm_printf(p, "bridge[%u]: %ps\n", idx, bridge->funcs);
+> +	drm_printf(p, "\ttype: [%d] %s\n",
+> +		   bridge->type,
+> +		   drm_get_connector_type_name(bridge->type));
+> +
+> +	if (bridge->of_node)
+> +		drm_printf(p, "\tOF: %pOFfc\n", bridge->of_node);
+> +
+> +	drm_printf(p, "\tops: [0x%x]", bridge->ops);
+> +	if (bridge->ops & DRM_BRIDGE_OP_DETECT)
+> +		drm_puts(p, " detect");
+> +	if (bridge->ops & DRM_BRIDGE_OP_EDID)
+> +		drm_puts(p, " edid");
+> +	if (bridge->ops & DRM_BRIDGE_OP_HPD)
+> +		drm_puts(p, " hpd");
+> +	if (bridge->ops & DRM_BRIDGE_OP_MODES)
+> +		drm_puts(p, " modes");
+> +	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
+> +		drm_puts(p, " hdmi");
+> +	drm_puts(p, "\n");
+> +}
+> +
+> +static int allbridges_show(struct seq_file *m, void *data)
+> +{
 > +	struct drm_printer p = drm_seq_file_printer(m);
 > +	struct drm_bridge *bridge;
 > +	unsigned int idx = 0;
 > +
-> +	drm_for_each_bridge_in_chain(encoder, bridge) {
-> +		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
-> +		drm_printf(&p, "\ttype: [%d] %s\n",
-> +			   bridge->type,
-> +			   drm_get_connector_type_name(bridge->type));
+> +	mutex_lock(&bridge_lock);
 > +
-> +		if (bridge->of_node)
-> +			drm_printf(&p, "\tOF: %pOFfc\n", bridge->of_node);
+> +	list_for_each_entry(bridge, &bridge_list, list)
+> +		drm_bridge_debugfs_show_bridge(&p, bridge, idx++);
 > +
-> +		drm_printf(&p, "\tops: [0x%x]", bridge->ops);
-> +		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
-> +			drm_puts(&p, " detect");
-> +		if (bridge->ops & DRM_BRIDGE_OP_EDID)
-> +			drm_puts(&p, " edid");
-> +		if (bridge->ops & DRM_BRIDGE_OP_HPD)
-> +			drm_puts(&p, " hpd");
-> +		if (bridge->ops & DRM_BRIDGE_OP_MODES)
-> +			drm_puts(&p, " modes");
-> +		if (bridge->ops & DRM_BRIDGE_OP_HDMI)
-> +			drm_puts(&p, " hdmi");
-> +		drm_puts(&p, "\n");
-> +	}
+> +	mutex_unlock(&bridge_lock);
 > +
 > +	return 0;
 > +}
-> +DEFINE_SHOW_ATTRIBUTE(encoder_bridges);
+> +DEFINE_SHOW_ATTRIBUTE(allbridges);
 > +
-> +void drm_bridge_debugfs_encoder_params(struct dentry *root,
-> +				       struct drm_encoder *encoder)
-> +{
-> +	/* bridges list */
-> +	debugfs_create_file("bridges", 0444, root, encoder, &encoder_bridges_fops);
-
-The function could look at encoder->debugfs_entry instead of requiring
-the root parameter, but that's neither here nor there.
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-> +}
-> +
->  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
->  MODULE_DESCRIPTION("DRM bridge infrastructure");
->  MODULE_LICENSE("GPL and additional rights");
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index 6b2178864c7ee12db9aa1f562e106b2f604439f8..3dfd8b34dceb7a5b8f11e3072a1eaef430869722 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -740,40 +740,6 @@ void drm_debugfs_crtc_remove(struct drm_crtc *crtc)
->  	crtc->debugfs_entry = NULL;
->  }
+>  static int encoder_bridges_show(struct seq_file *m, void *data)
+>  {
+>  	struct drm_encoder *encoder = m->private;
+> @@ -1343,33 +1386,18 @@ static int encoder_bridges_show(struct seq_file *m, void *data)
+>  	struct drm_bridge *bridge;
+>  	unsigned int idx = 0;
 >  
-> -static int bridges_show(struct seq_file *m, void *data)
-> -{
-> -	struct drm_encoder *encoder = m->private;
-> -	struct drm_printer p = drm_seq_file_printer(m);
-> -	struct drm_bridge *bridge;
-> -	unsigned int idx = 0;
-> -
 > -	drm_for_each_bridge_in_chain(encoder, bridge) {
 > -		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
 > -		drm_printf(&p, "\ttype: [%d] %s\n",
@@ -203,35 +198,52 @@ Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 > -			drm_puts(&p, " hdmi");
 > -		drm_puts(&p, "\n");
 > -	}
-> -
-> -	return 0;
-> -}
-> -DEFINE_SHOW_ATTRIBUTE(bridges);
-> -
->  void drm_debugfs_encoder_add(struct drm_encoder *encoder)
+> +	drm_for_each_bridge_in_chain(encoder, bridge)
+> +		drm_bridge_debugfs_show_bridge(&p, bridge, idx++);
+>  
+>  	return 0;
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(encoder_bridges);
+>  
+> +void drm_bridge_debugfs_params(struct dentry *root)
+> +{
+> +	debugfs_create_file("bridges", 0444, root, NULL, &allbridges_fops);
+> +}
+> +
+>  void drm_bridge_debugfs_encoder_params(struct dentry *root,
+>  				       struct drm_encoder *encoder)
 >  {
->  	struct drm_minor *minor = encoder->dev->primary;
-> @@ -789,9 +755,7 @@ void drm_debugfs_encoder_add(struct drm_encoder *encoder)
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 3cf440eee8a2ab3de134d925db8f1d2ce68062b7..22e8cd0a6a37a0ac25535e9d570da25571b0b2bc 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -38,6 +38,7 @@
+>  #include <linux/xarray.h>
 >  
->  	encoder->debugfs_entry = root;
+>  #include <drm/drm_accel.h>
+> +#include <drm/drm_bridge.h>
+>  #include <drm/drm_cache.h>
+>  #include <drm/drm_client_event.h>
+>  #include <drm/drm_color_mgmt.h>
+> @@ -1120,6 +1121,7 @@ static int __init drm_core_init(void)
+>  	}
 >  
-> -	/* bridges list */
-> -	debugfs_create_file("bridges", 0444, root, encoder,
-> -			    &bridges_fops);
-> +	drm_bridge_debugfs_encoder_params(root, encoder);
+>  	drm_debugfs_root = debugfs_create_dir("dri", NULL);
+> +	drm_bridge_debugfs_params(drm_debugfs_root);
 >  
->  	if (encoder->funcs && encoder->funcs->debugfs_init)
->  		encoder->funcs->debugfs_init(encoder, root);
+>  	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
+>  	if (ret < 0)
 > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 496dbbd2ad7edff7f091adfbe62de1e33ef0cf07..0890acfe04b99b1ccbbff10b507cb8c2b2705e06 100644
+> index 0890acfe04b99b1ccbbff10b507cb8c2b2705e06..2a99d70865571f24db0ca75c758cfd09d3a5d459 100644
 > --- a/include/drm/drm_bridge.h
 > +++ b/include/drm/drm_bridge.h
-> @@ -1108,4 +1108,6 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+> @@ -1108,6 +1108,7 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
 >  }
 >  #endif
 >  
-> +void drm_bridge_debugfs_encoder_params(struct dentry *root, struct drm_encoder *encoder);
-> +
+> +void drm_bridge_debugfs_params(struct dentry *root);
+>  void drm_bridge_debugfs_encoder_params(struct dentry *root, struct drm_encoder *encoder);
+>  
 >  #endif
 
 -- 
