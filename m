@@ -2,98 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F00A47278
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 03:25:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E68A472B2
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 03:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1378B10EA1E;
-	Thu, 27 Feb 2025 02:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B82E610E1A0;
+	Thu, 27 Feb 2025 02:28:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="acGYGp3T";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hG8HPBJT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F62E10EA1C
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 02:25:33 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30761be8fcfso5127391fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 18:25:32 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1E9010E0B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 02:28:26 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6f4b266d333so3843067b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 18:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740623131; x=1741227931; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qq9MmRx9UTHcwOJg2plfoPnrstGHmU+KXfgGIfhmApo=;
- b=acGYGp3TCmAHWR7R2SNlwn/6PtOYryVZEg0Px2yIy0p3slcqGOgs7kKRZ0UDOapJPz
- OCYYeFZNT+XkErGqlIOlqkD+0RiDLUtsHYjWjrQB6kCpnHxkVaBqY7djw5HFttRh19TT
- D7m5UdowQ7SeqxArMGWq6+EO4NJjQ2lNOGyKdGctRmp5+4yLEP9sCbtbCm2Tyf0ou/ei
- NJubSu/dMnsi94srYeUQzOTzuyXs7K3Y0+xN9VsWp4zbIHUMHK0dbyiOQ3FYlSwM+D74
- bGwHb201c1gQJy/XXqnDbT5mFXTtAnLMW3HwNUO8e/+P+jGiMngBk/DU71iiCCgMa/RK
- MYBg==
+ d=linaro.org; s=google; t=1740623305; x=1741228105; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=c+EB7jWQq3Iu7TdeP82WsXONnAIkEWSfpBjeFLTA7Wo=;
+ b=hG8HPBJTIuCjMDE31HThOAhSarpReXiWpD0bd5q0g8E2gpSAQxt61gWlvsYrhsFn97
+ ZXibOIgATD2zz4x0ivjll/8YAc858itvc0A3grlXHsCfDAVJmWNcPR3gEa1RhRz5L2gA
+ srxoEX5EPoDg9JLMDE6uFkuMB6FUHVXKJEgt9Tk+FG2HDVgPeTKb2WXUghIL/ETVul0g
+ NNjWZwYg+Xbar7v6CrkibTrit70FMM/opX+3qdhDc/xP6LykxAXi77vMg5q5Pwn0xJb3
+ pLwumKHLEoKKvfrWr/Oc0lp2mbFG1X1PTTGw8msgx6BldDhbSFlFK84GybvdFpkuHx0s
+ B4PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740623131; x=1741227931;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1740623305; x=1741228105;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qq9MmRx9UTHcwOJg2plfoPnrstGHmU+KXfgGIfhmApo=;
- b=sT0w3D3IuR0vgj9ccQjomnVP5T0TJeO2G+HaifKfzgsRnUYoJLIKGTpEkh9vrHYmKN
- PZ82jbqubHLBGeRIQOR3Kdvu1LaQR/D9n3OjiUfk3EtWzgnhLk1V9fvcRFQGN4J3bP9W
- TFSCIcwVJ2tFB+9uYjbkxfq+CxC/z4gm3gTcxXvQkSgoc6UH+uUvl56jUXOXhG7o3vly
- BiXWviMbBKrf3S63pr6lxCIQUKFyoBuPd4qsjgTlw1cHwlihrMN+80uIlrPnIcaeMi/H
- D8YiUXjFibf1HPu+RRAjpgKLq/GipMkNNCZ+q03kezdB+kOosH2R64gVBNkhFBlhsR40
- r16g==
+ bh=c+EB7jWQq3Iu7TdeP82WsXONnAIkEWSfpBjeFLTA7Wo=;
+ b=b30TqCxZyjlMQ5lFPAUJnA6rCj1WKmOOXmLi4yXt+BspclZIhFhazw6HYF4DZQs9Zb
+ CY/rCY9c9mw61VvAAMcNBT03ywlmyTwUYpRoWxZYyvM/X2QXdAHOCbcGjX5zNVZ/PAgM
+ ZF+1spLk79UTeKAP/Hz1S8RyZg8NXD9YZfdrYqeo63ZCACgpm6AQCQR3ZnX1SIRkq7OR
+ nlkkMtaV5RLnHQuH3MDXmsD4ihggw4xlyjwhqbiGtWcSEN0HOCoQnWOObkkUHlto3i6r
+ Z06ZcY1sD6BEkiJTVNm76VSwai+oa1OJ2mjki0AG25eElSY49L5UmRw/Kvn5MZxFEk4G
+ J/jg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWeyu08iOps+7dAWrCNVKPxC/0YNLK7xIJVhhVYHMje07m9EammUzwcw0HW2dX0I8G8RAFyA1EoML0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypmXSsq68G6l5r2qGcH+UtH6XFR659VbGLI8jVPgpjujeYACpt
- De6xdnR9s/XJ8fZoeELU2QudRa8oDkIR1AmZ2id4FBItf+0e4Tr1FmStLkfuO70=
-X-Gm-Gg: ASbGncvaG4YdMx35B44UJrw+PE/NpMD3mUy5cDKNrEDUn2kX7kSZg2KEOCLDcZfhydW
- qxZ1vslp3igYhodzwnJ9RfNLycolhWKyuAlUIEm9PxGqZtbe7enA63gj2eyyC3blh4Ms9Iweb2U
- aGLJ5A+JuNBnu8M2YECyntRwISxf7pACC/Jpa1x9x3OzHmlJL3QNGBbvIFWhjiV4btCqn3fl6Ep
- LPcWo7+mVO6ZIGiu6zEbfR+mbp5jqit/BnPN6o1lYzYZ353wBhYriFNC4vCAf2BlRGTDVOchpVn
- zpWC1LKNP6mrrTY9OwDbwDJ12K0pJiKDxQ==
-X-Google-Smtp-Source: AGHT+IEfNBpBj/ziCw82ad5v30aNPQAqE97K5Ze93xNXV4raP7uNtPDw2CsgCTSSUsjHK8YDRWNp3g==
-X-Received: by 2002:a05:6512:114d:b0:546:2ea9:6662 with SMTP id
- 2adb3069b0e04-54851109c6emr5818345e87.51.1740623131341; 
- Wed, 26 Feb 2025 18:25:31 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549441742a0sm48067e87.5.2025.02.26.18.25.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2025 18:25:30 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 27 Feb 2025 04:25:15 +0200
-Subject: [PATCH v3 7/7] arm: dts: qcom: apq8064: link LVDS clocks
+ AJvYcCXmZVK8fnK+DPWZxre7pUSYu/hiS8R0rB1+n/V1jIzPTir+kC0r0TjEeHW/DVZAq8J4BZSFxQw/UAk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoTJ1tVXyrtFRcJjTTZ0qKIqnYAom8Kn/5uRy+vrZoqalZ9yzj
+ 0Cxqpav34xfoJPLqPJ4AaAhI7gtBhIUWm0L6HKliJj4nvWCAYsfcDwibha/h6ZrpsHB5xaKaxlJ
+ 4VuZxYsIzQNqtn0KzG4tgWTsVMOpv8m8xgbZ83A==
+X-Gm-Gg: ASbGncsYfQLvHYvG210hI7C3sfDBiXvXQ1bagoZoipuCS2w3iVA/bJI4p9GEJ4Tqj/f
+ Zt3eUN6hpKVZk4/9iFxQb4roxSDjenrUr04toC5SUJnIQsLQTmQq5nMOR6aDiVKpHqIOZwY5kcT
+ 3JeiU2/WKDJ+zp
+X-Google-Smtp-Source: AGHT+IHhKVv5dpkq2UeaSqfSnOfcnlnL6TuQCTD4cvyqPrVQAnRggzlLiwOq7tVlPrhQrKcF2Ctgc6WlCJhUeowZ8ds=
+X-Received: by 2002:a05:690c:6c10:b0:6fd:3f9e:b7d6 with SMTP id
+ 00721157ae682-6fd3f9eb9c3mr2401957b3.19.1740623305059; Wed, 26 Feb 2025
+ 18:28:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250227-fd-mdp4-lvds-v3-7-c983788987ae@linaro.org>
-References: <20250227-fd-mdp4-lvds-v3-0-c983788987ae@linaro.org>
-In-Reply-To: <20250227-fd-mdp4-lvds-v3-0-c983788987ae@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1695;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=gTQKG0fLWpD8Mjgk4DoVlbsZZVw4cfaJYQqKJoHiGbg=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnv80HWgZt9T8wm96Mnxu2uLkRoQ+p08Vp+8VBB
- DjQRLaZ80yJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ7/NBwAKCRCLPIo+Aiko
- 1ftqB/45YhkzEZkAfeOFiXyfNAE94XiLoA1jUXvCiK6882ceMMQbxiQuvNpui7zQpA6uvNM9zi5
- 8lJvqdPEbKx+jgF9481iin0lE+yv7k0HqBf4GhTPfb/6dQCCYdtAXtAIJOQLAOZ/lvD8QSQ+G/Q
- pYsckfnly5UpsZLhIjafPx5mAZzVQBxup6O1PjZeERDQJm5UJlPaO+CCWGSvbb8UrqmH41M9u8x
- 7jnsmXpjy5UD49Sx9S3SI0tv1jgw2Qi64uj4s9afgN30VfwTSLE19phN038/IBCYcRrqEuAFXf/
- jmRndD8vaNxweMA++NIyVi8MRVVYgBGgsyJ8/Vi7Qx3PETtr
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+References: <20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-0-8d5f5f426eb2@linaro.org>
+ <20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-13-8d5f5f426eb2@linaro.org>
+ <ca42d2b4-4b0c-48a8-abd5-d34486e62d8e@quicinc.com>
+In-Reply-To: <ca42d2b4-4b0c-48a8-abd5-d34486e62d8e@quicinc.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Thu, 27 Feb 2025 10:28:14 +0800
+X-Gm-Features: AQ5f1JowVzqP1uaVaUOXlAlEzt4gxmePpg27yhK9u6HxV3R8B1XKq0mTgeziKYc
+Message-ID: <CABymUCMLH7Sk4fcyAXFXiYN=egfNvEjtJgrUWgeN2+dMpHPdBw@mail.gmail.com>
+Subject: Re: [PATCH v7 13/15] drm/msm/dpu: support SSPP assignment for
+ quad-pipe case
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,62 +91,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Link LVDS clocks to the from MDP4 to the MMCC and back from the MMCC
-to the MDP4 display controller.
+Jessica Zhang <quic_jesszhan@quicinc.com> =E4=BA=8E2025=E5=B9=B42=E6=9C=882=
+7=E6=97=A5=E5=91=A8=E5=9B=9B 02:10=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
+>
+> On 2/26/2025 4:31 AM, Jun Nie wrote:
+> > Currently, SSPPs are assigned to a maximum of two pipes. However,
+> > quad-pipe usage scenarios require four pipes and involve configuring
+> > two stages. In quad-pipe case, the first two pipes share a set of
+> > mixer configurations and enable multi-rect mode when certain
+> > conditions are met. The same applies to the subsequent two pipes.
+> >
+> > Assign SSPPs to the pipes in each stage using a unified method and
+> > to loop the stages accordingly.
+> >
+> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 11 +++++
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  |  2 +
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 71 ++++++++++++++++++++--=
+---------
+> >   3 files changed, 58 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm=
+/msm/disp/dpu1/dpu_crtc.c
+> > index 0a053c5888262d863a1e549e14e3aa40a80c3f06..9405453cbf5d852e72a5f95=
+4cd8c6aed3a222723 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > @@ -1366,6 +1366,17 @@ int dpu_crtc_vblank(struct drm_crtc *crtc, bool =
+en)
+> >       return 0;
+> >   }
+> >
+> > +/**
+> > + * dpu_crtc_get_num_lm - Get mixer number in this CRTC pipeline
+> > + * @state: Pointer to drm crtc state object
+> > + */
+> > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state)
+> > +{
+> > +     struct dpu_crtc_state *cstate =3D to_dpu_crtc_state(state);
+> > +
+> > +     return cstate->num_mixers;
+> > +}
+> > +
+> >   #ifdef CONFIG_DEBUG_FS
+> >   static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+> >   {
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm=
+/msm/disp/dpu1/dpu_crtc.h
+> > index 0b148f3ce0d7af80ec4ffcd31d8632a5815b16f1..b14bab2754635953da402d0=
+9e11a43b9b4cf4153 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > @@ -264,4 +264,6 @@ static inline enum dpu_crtc_client_type dpu_crtc_ge=
+t_client_type(
+> >
+> >   void dpu_crtc_frame_event_cb(struct drm_crtc *crtc, u32 event);
+> >
+> > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state);
+> > +
+> >   #endif /* _DPU_CRTC_H_ */
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/dr=
+m/msm/disp/dpu1/dpu_plane.c
+> > index d67f2ad20b4754ca4bcb759a65a39628b7236b0f..d1d6c91ed0f8e1c62b757ca=
+42546fbc421609f72 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -1112,11 +1112,10 @@ static int dpu_plane_virtual_assign_resources(s=
+truct drm_crtc *crtc,
+> >       struct dpu_rm_sspp_requirements reqs;
+> >       struct dpu_plane_state *pstate;
+> >       struct dpu_sw_pipe *pipe;
+> > -     struct dpu_sw_pipe *r_pipe;
+> >       struct dpu_sw_pipe_cfg *pipe_cfg;
+> > -     struct dpu_sw_pipe_cfg *r_pipe_cfg;
+> > +     struct dpu_plane *pdpu =3D to_dpu_plane(plane);
+> >       const struct msm_format *fmt;
+> > -     int i;
+> > +     int i, num_lm, stage_id, num_stages;
+> >
+> >       if (plane_state->crtc)
+> >               crtc_state =3D drm_atomic_get_new_crtc_state(state,
+> > @@ -1124,11 +1123,6 @@ static int dpu_plane_virtual_assign_resources(st=
+ruct drm_crtc *crtc,
+> >
+> >       pstate =3D to_dpu_plane_state(plane_state);
+> >
+> > -     pipe =3D &pstate->pipe[0];
+> > -     r_pipe =3D &pstate->pipe[1];
+> > -     pipe_cfg =3D &pstate->pipe_cfg[0];
+> > -     r_pipe_cfg =3D &pstate->pipe_cfg[1];
+> > -
+> >       for (i =3D 0; i < PIPES_PER_PLANE; i++)
+> >               pstate->pipe[i].sspp =3D NULL;
+> >
+> > @@ -1142,24 +1136,49 @@ static int dpu_plane_virtual_assign_resources(s=
+truct drm_crtc *crtc,
+> >
+> >       reqs.rot90 =3D drm_rotation_90_or_270(plane_state->rotation);
+> >
+> > -     pipe->sspp =3D dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, cr=
+tc, &reqs);
+> > -     if (!pipe->sspp)
+> > -             return -ENODEV;
+> > -
+> > -     if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_p=
+ipe_cfg,
+> > -                                           pipe->sspp,
+> > -                                           msm_framebuffer_format(plan=
+e_state->fb),
+> > -                                           dpu_kms->catalog->caps->max=
+_linewidth)) {
+> > -             /* multirect is not possible, use two SSPP blocks */
+> > -             r_pipe->sspp =3D dpu_rm_reserve_sspp(&dpu_kms->rm, global=
+_state, crtc, &reqs);
+> > -             if (!r_pipe->sspp)
+> > -                     return -ENODEV;
+> > -
+> > -             pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
+> > -             pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NONE;
+> > -
+> > -             r_pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
+> > -             r_pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NONE;
+> > +     num_lm =3D dpu_crtc_get_num_lm(crtc_state);
+>
+> Hi Jun,
+>
+> Just wondering, why not use dpu_rm_get_assigned_resources() here instead
+> of adding a new *_get_num_lm() API?
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+It is overkill to loop over allocated resource to just get the number.
+That's comments
+from Dmitry if I am not wrong.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm/boot/dts/qcom/qcom-apq8064.dtsi | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-index 5f1a6b4b764492486df1a2610979f56c0a37b64a..b884900716464b6291869ff50825762a55099982 100644
---- a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-+++ b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-@@ -737,7 +737,8 @@ mmcc: clock-controller@4000000 {
- 				 <&dsi0_phy 0>,
- 				 <&dsi1_phy 1>,
- 				 <&dsi1_phy 0>,
--				 <&hdmi_phy>;
-+				 <&hdmi_phy>,
-+				 <&mdp>;
- 			clock-names = "pxo",
- 				      "pll3",
- 				      "pll8_vote",
-@@ -745,7 +746,8 @@ mmcc: clock-controller@4000000 {
- 				      "dsi1pllbyte",
- 				      "dsi2pll",
- 				      "dsi2pllbyte",
--				      "hdmipll";
-+				      "hdmipll",
-+				      "lvdspll";
- 		};
- 
- 		l2cc: clock-controller@2011000 {
-@@ -1404,13 +1406,19 @@ mdp: display-controller@5100000 {
- 				 <&mmcc MDP_AXI_CLK>,
- 				 <&mmcc MDP_LUT_CLK>,
- 				 <&mmcc HDMI_TV_CLK>,
--				 <&mmcc MDP_TV_CLK>;
-+				 <&mmcc MDP_TV_CLK>,
-+				 <&mmcc LVDS_CLK>,
-+				 <&rpmcc RPM_PXO_CLK>;
- 			clock-names = "core_clk",
- 				      "iface_clk",
- 				      "bus_clk",
- 				      "lut_clk",
- 				      "hdmi_clk",
--				      "tv_clk";
-+				      "tv_clk",
-+				      "lcdc_clk",
-+				      "pxo";
-+
-+			#clock-cells = <0>;
- 
- 			iommus = <&mdp_port0 0
- 				  &mdp_port0 2
-
--- 
-2.39.5
-
+Regards,
+Jun
