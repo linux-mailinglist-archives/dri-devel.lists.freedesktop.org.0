@@ -2,82 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B24CA474A0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 05:38:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20352A474A5
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 05:38:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBAB010EA33;
-	Thu, 27 Feb 2025 04:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62B3010EA3A;
+	Thu, 27 Feb 2025 04:38:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cFXF4Bbl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H073G/s0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4326A10EA34
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 04:37:59 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5461cb12e39so458502e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 20:37:59 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B314B10EA2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 04:38:01 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5461f2ca386so416198e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 20:38:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740631077; x=1741235877; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740631080; x=1741235880; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7UXkglY36wWDlWtl/BHCk6udvb24Qtv5ABZXv7WU9qc=;
- b=cFXF4BblF0u2tB3R+7vl6zFcWpKyd06EFZSMH8Z2e/gtd3gQLF+TMwt2j4SpZjm4cS
- l9u2xQ9aUHILm35PRpr7uAUfgrj1UQ28XnaFkubGYsvwHeoYZsbIcT81tODI0k3WXruj
- QWLQbV0VW4P8inNOSZc66aR4ZWZw656ZRNWxREdsMPcWgfembeXPn+0bhlkakb8I1jyD
- lAtvCKMXpKr/TbnLnKwflAlIsm4qWgevZZSHh3vwcnJroD9vwaXGYSWkEbZuVo8CrQpd
- yLMArltVRGgmh4MRA1CPiVm5EtAJrevPCCz1EpP8+6qpXcPYgcStuquYzgTVTnMXTp1p
- l1nA==
+ bh=HzmKzyqYbo3hawEWPEGsqia1eprcAJ4Ylg+Lj6WDtUQ=;
+ b=H073G/s0ifQy7tsXgJ208ZELkUlMkxukeETEAp7XP9t77hBCHTLsGcRBviaiuTFtqq
+ EVnfcGMrVNCTA8nio+dWONCA4jOpg84oIbQXUTcSNi3juPBIG0km9YzOwIAke1QyKttg
+ 9jKTbUH5sArQvgqLLgOfFLgk57XEWhVQGC+rGLqoaEWAq43XUkpr0ezkWD80fWOCVTdz
+ uNLBUh/TpTC69ejkW+4qEl5IefNgq9EAvmNai4wsBQcnx2A8K2BLhN2sNqJnzaSH5PSQ
+ V9wPBb+XgbCQ1Li3m+dQxkJW8lgIzKSEJean5/VntyJ5nZWvJmnPNyTX2nLNCi78fP4u
+ rlKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740631077; x=1741235877;
+ d=1e100.net; s=20230601; t=1740631080; x=1741235880;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7UXkglY36wWDlWtl/BHCk6udvb24Qtv5ABZXv7WU9qc=;
- b=Hy6EC79m6AxXUYie2kW+6+p+ApIMC5KxI5+gVWNPmQsMGfcO4BsyZ2DQiUThdOlBwe
- 6mXMM8Y93vPmioKrpb2PgIQBvP/KqKdicHsfhaKuH3sXKxEYs1TTNGNhP/kN4An+7k9P
- KRvGMWWXl6HpsdyWAKpIVZ5bRu2L2fPrDk06S2Q9w1VQObMkgdw0OG8LS0xc9hQ5QZTr
- WjqJxhmboAbHdj96jVDoYdIjgQpoThmirRu762TVW9gU4032jCnP708GTcAl6nrcV0Yh
- HNXLBQDAbKRockm8kHdeeMPNaqri79IEM3/a3vSy+QIRrVYHzMi5oUAmrM/1bYrBS0Ji
- 9MQg==
+ bh=HzmKzyqYbo3hawEWPEGsqia1eprcAJ4Ylg+Lj6WDtUQ=;
+ b=IlWmzBhtqbMMDq5Uev4583ZnUXee1cX5+bBcU1kxoGmvwvR3FMMD0YxiERLkzfJhnR
+ Pp1xc19cU/aE/u7BZCJfITHwcLgk+7KUR9S8UeYnyWfdvHj4/43PLLPsLu/37GWtRDyW
+ 3mzRDDwACVAN3LgyGkCNWDtr24lDet75iWsKLkEAINNDDwd0KGm5ue52AnNXEG9W8I0z
+ TSxYAIfUmc+pIwWiArWuslUZ8bxQdv4/Y8n9UtnnHOnjLg2L1gAomcUhnaDrnvwDi3jQ
+ 99J34LI3I8SZ7IDqc4h/slHK4ZBRLYrO/GzNdUqMgTfJNznJCyNNVWYaAikdKvMII+rN
+ BTiQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXeSYuVy8Wf97aOgSNdlyvPuI3tnMbCvkEWFRZvvGO8Pl5XKYP1BmfEQVfgguEy2ll/dNRFVbNyX+w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzAsUBFPurTylbgo645iE9l9GnOBqWwlv+lIJTeijSyN1XjK53E
- 7qyrL7F46lc2SUHCFJsoj2DwJBD+CoqK72ZEC+Y4+oo+a1LGNWqbA7pcCZ2iopo=
-X-Gm-Gg: ASbGncu/EGNLgTiL+kjuq/fyuY/d0k6WxDPWjvBzYCyNT3tkYMGtMUsif/5JfkQAB5b
- vD3JWJE8vcCuZh8t79fk1PADa8Axuxmmrk8tegpv7RbSPHeXPLXj8NAPqofHgcci03JOf6aPdzZ
- TXZFAQHMZbteej75N7HUCxHcg1rvAWwL9gMMax/f+EpNujCVkiC8bFger4HhAfHfqLy+cN6tPCq
- IOF4ftSlGQUZqlBkThYeQ0JBU84tQFbkH92q+L9VbY+xdgHU6LdpdtridvP8lKH41sPBA9ZF749
- 9OR1DfyNFlxjfkWaGG9gvLM0mUqQdglg1GYto6XfBQ==
-X-Google-Smtp-Source: AGHT+IFGmZMN8HiHF0dUQ37JUE6cIWIJ4a/etc3Mst5jjknmhWL9hK7goaPc0rslMBYFrA3hJCn4bg==
-X-Received: by 2002:ac2:4c4b:0:b0:545:76e:322 with SMTP id
- 2adb3069b0e04-54838ef895emr12381337e87.31.1740631077556; 
- Wed, 26 Feb 2025 20:37:57 -0800 (PST)
+ AJvYcCVd8rcKJkq13aaoDPL7o/MWT666bcQjZpeQCF8bd9tJOG5GcB/rn9hJJWD7i1QMftKFpxgtvq1Wuso=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YygM7YcSVDwO1cHl2NLnQ4bhq6tMZeV0H9yWk7/T6AiS3Ip16Rc
+ 3QlH3rYN532MBaHj/cf8w3G8/pDKby4Su9+sZ5Spe0TJpQ4yW3+zEEpnLyaaMFE=
+X-Gm-Gg: ASbGncsVMZOcb/t2RQDBiFpGzZBxwinkPJNKKJEX8Dox2c9NfMRT4TawTfVvgA9bnjX
+ 2aYSnYwGxQ9K0SCKfNrddH/gFKsdv6tg5KEULbxPce2zbDMF756saO0NSEB4BXb4+E6x3avw97g
+ 7uRjvWn42uzu4ApzIJ66dlTZ/eA1jK8uGaBmwKoIMQBOl2+rwz3Wq18rk6VnHw0RHSqa6+PVEbr
+ YkKLKz9GeBLPlawjgbtFAoimYAeVGoNrhKN+6u+OR2hH5GSFeLdn9R2xCcPZPvHyLNKoUQw8f7t
+ IA3vCLQs3g6Iuh+CH5+sHJf4US/ewnx7DlA9R47BBw==
+X-Google-Smtp-Source: AGHT+IGJyfv5tGen846vyQRMebF2qwsXcYi2q7UIL/kDESpfQBWqyP/hiC9cUT0/ZbRg3Tu8CrhGDg==
+X-Received: by 2002:a05:6512:10c4:b0:545:93b:30bf with SMTP id
+ 2adb3069b0e04-54839259932mr11279171e87.41.1740631080047; 
+ Wed, 26 Feb 2025 20:38:00 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.90])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549443ccf45sm63485e87.229.2025.02.26.20.37.55
+ 2adb3069b0e04-549443ccf45sm63485e87.229.2025.02.26.20.37.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2025 20:37:56 -0800 (PST)
+ Wed, 26 Feb 2025 20:37:58 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH v5 0/2] drm/msm/dsi/phy: Improvements around concurrent
- PHY_CMN_CLK_CFG[01]
-Date: Thu, 27 Feb 2025 06:37:30 +0200
-Message-Id: <174063096227.3733075.7538565845819141467.b4-ty@linaro.org>
+ Luca Weiss <luca.weiss@fairphone.com>
+Subject: Re: [PATCH v2] drm/msm/dpu: Fall back to a single DSC encoder (1:1:1)
+ on small SoCs
+Date: Thu, 27 Feb 2025 06:37:31 +0200
+Message-Id: <174063096235.3733075.3774428548713459070.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250219-drm-msm-phy-pll-cfg-reg-v5-0-d28973fa513a@linaro.org>
-References: <20250219-drm-msm-phy-pll-cfg-reg-v5-0-d28973fa513a@linaro.org>
+In-Reply-To: <20250122-dpu-111-topology-v2-1-505e95964af9@somainline.org>
+References: <20250122-dpu-111-topology-v2-1-505e95964af9@somainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -97,27 +100,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 19 Feb 2025 17:23:31 +0100, Krzysztof Kozlowski wrote:
-> Changes in v5:
-> - Drop applied patches 1-3
-> - Split part touching pll_7nm_register() from last (#4) patch to new patch
->    - Thus: new patch #1 in new numbering.
-> - Link to v4: https://lore.kernel.org/r/20250217-drm-msm-phy-pll-cfg-reg-v4-0-106b0d1df51e@linaro.org
+On Wed, 22 Jan 2025 17:23:44 +0100, Marijn Suijten wrote:
+> Some SoCs such as SC7280 (used in the Fairphone 5) have only a single
+> DSC "hard slice" encoder.  The current hardcoded use of 2:2:1 topology
+> (2 LM and 2 DSC for a single interface) make it impossible to use
+> Display Stream Compression panels with mainline, which is exactly what's
+> installed on the Fairphone 5.
 > 
-> Changes in v4:
-> - Add tags
-> - Patch #4: Add mising bitfield.h include
-> - One more FIELD_GET and DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL (Dmitry)
-> - Link to v3: https://lore.kernel.org/r/20250214-drm-msm-phy-pll-cfg-reg-v3-0-0943b850722c@linaro.org
+> By loosening the hardcoded `num_dsc = 2` to fall back to `num_dsc =
+> 1` when the catalog only contains one entry, we can trivially support
+> this phone and unblock further panel enablement on mainline.  A few
+> more supporting changes in this patch ensure hardcoded constants of 2
+> DSC encoders are replaced to count or read back the actual number of
+> DSC hardware blocks that are enabled for the given virtual encoder.
+> Likewise DSC_MODE_SPLIT_PANEL can no longer be unconditionally enabled.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] drm/msm/dsi/phy: Use dsi_pll_cmn_clk_cfg1_update() when registering PLL
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/de36ea80b303
-[2/2] drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01] bitfields and simplify saving
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/0699018b41d7
+[1/1] drm/msm/dpu: Fall back to a single DSC encoder (1:1:1) on small SoCs
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/b6090ffb30f3
 
 Best regards,
 -- 
