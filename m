@@ -2,39 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F0FA481CC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 15:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659E8A481DB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 15:46:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9526510EB0B;
-	Thu, 27 Feb 2025 14:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C211B10EAFB;
+	Thu, 27 Feb 2025 14:46:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="hwsq2dzj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1816110EB0B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 14:44:31 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 588172BCA;
- Thu, 27 Feb 2025 06:44:46 -0800 (PST)
-Received: from [10.1.30.50] (e122027.cambridge.arm.com [10.1.30.50])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DC5D03F673;
- Thu, 27 Feb 2025 06:44:28 -0800 (PST)
-Message-ID: <6cdaafa2-68f9-4d5b-abe5-5c9c549e3c6e@arm.com>
-Date: Thu, 27 Feb 2025 14:44:24 +0000
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A7F110EB0E;
+ Thu, 27 Feb 2025 14:46:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wCY31bOsZm/F/LZ3dThdG4psCCGGcNKInLxii+vFrXDHKS6S+C7HLF8kuqsagVAOINB24f3Mto6IsbPwRJEHR9c+HVUgVsAJLXW0F94QpoT/iRexnce8WxT9nMjcQUmZ/M1uoPi8tu14Jzmt4GqKDEclDjlirLa3o0QL+0r2QfRTYtjxTKj6s/NK2uuKuJRGlyi26LzwxM8YKSQ9e2wBXbE65SNNU+jlEmCiWvnmck7GjiRPAjDuZW9YZVd4eDLA6afPbHsb4yGNsOFSs8na2Eu0qJV8PZXASJncGZKIPASuXfu6+Gsh9yUouW25l9k/yQuYC/CTsPviws3zaFgCOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nDbFB+WMiEAipLGt3S+rCLyf9Hl8l7CM9tquJRH/gmg=;
+ b=taUxAw6+eyFvS1LDAWky+YU7LnoVuZ4hxxtVJcx13upwQ3eNU7em1L0K0n4WW//yEWSyAiObimdzlz5bqTxfkJ6+1XoTq14C2vqkHYo3sZ/LkfnHqhXI2vXEZqfgT+89sJdCMSImoCoqo61V6xRNt9X0nKNEviSlAm2jBN6qvjM0PgsnxsIk292kPH4ZqTHr8EzsCI/n+h/ed8RADv+0gnMN5QCmiVSi7Gs/YkBDAyIQxV7gi1dVdsV0RdZucCT/gAL1kZ3Uf9dhl9oS6qmRjEmADpCE16VdT/LPIV4HTf3LLul3/Pv1m/0eiZ45vZf9N/NPYXaLeU7Q4Mt1yLHWBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nDbFB+WMiEAipLGt3S+rCLyf9Hl8l7CM9tquJRH/gmg=;
+ b=hwsq2dzjyfrBwcI2F9Ql2Ir7vswVtgI7kqcD2TS4vPwqj/LmnZleWvJKphDmJ+dhKUy08twZj5ug+zVbrBJ5T6ORyp1yno6ksBIlOCJA7poZFbaX6shk55vU5kQrgodvHIblsAurOSGGjAj3miJT+vX5o6EPbpQvJWOvXu/YufNr38YPBNK1sZYmMlmTlWWtrx00pPQyHlHl694e9FIQ9X3ECtAadSiX3hAi5jCcFAtvH14K30zjl32wasZpasIFgClUQIjxnAhYnlnLZ0H0iJVjNfZUmqpjXYay146VvcHiYQqhu9zPKYOotP068e0ZjuGdinizw0vdtUj8YaNpOw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com (2603:10b6:303:240::9)
+ by SA5PPF9BB0D8619.namprd12.prod.outlook.com
+ (2603:10b6:80f:fc04::8d8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.18; Thu, 27 Feb
+ 2025 14:46:20 +0000
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f]) by MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f%2]) with mapi id 15.20.8489.018; Thu, 27 Feb 2025
+ 14:46:20 +0000
+Date: Thu, 27 Feb 2025 10:46:18 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <20250227144618.GE39591@nvidia.com>
+References: <Z73rP4secPlUMIoS@cassiopeiae> <20250225210228.GA1801922@joelnvbox>
+ <20250225225756.GA4959@nvidia.com> <Z75WKSRlUVEqpysJ@cassiopeiae>
+ <20250226004916.GB4959@nvidia.com> <Z75riltJo0WvOsS5@cassiopeiae>
+ <20250226172120.GD28425@nvidia.com> <Z7-IHgcVVS8XBurW@cassiopeiae>
+ <20250226234730.GC39591@nvidia.com>
+ <Z7-0pOmWO6r_KeQI@boqun-archlinux>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z7-0pOmWO6r_KeQI@boqun-archlinux>
+X-ClientProxiedBy: BN9PR03CA0662.namprd03.prod.outlook.com
+ (2603:10b6:408:10e::7) To MW6PR12MB8663.namprd12.prod.outlook.com
+ (2603:10b6:303:240::9)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/4] drm/panfrost: Support ARM_64_LPAE_S1 page table
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: boris.brezillon@collabora.com, robh@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-References: <20250226183043.140773-1-ariel.dalessandro@collabora.com>
- <20250226183043.140773-4-ariel.dalessandro@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250226183043.140773-4-ariel.dalessandro@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW6PR12MB8663:EE_|SA5PPF9BB0D8619:EE_
+X-MS-Office365-Filtering-Correlation-Id: f382f39a-6ec8-44a2-aa22-08dd573d7f22
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?52SwforIz2ccPqEyxuHGdDMsFk941LfXkrA8tFOWWtPdNWQ5yAZAYVcQvY9h?=
+ =?us-ascii?Q?cAPcaZXZlvRCweEe81Rroe9z82SCNV/sZKz4ZcqRtztMzTbVc3YoYF86byq5?=
+ =?us-ascii?Q?as9sZzCZiuh7ndcRjof5y9F9TKcTAAkQ6aXX8ikU0aqmM9yQ/ZkiBaZnKf8X?=
+ =?us-ascii?Q?XS3jd4OHim2/s9NTOg6NfjJFyAWDQofnb3WVpVHXX/z6yYsJniGi6Wf8iw3y?=
+ =?us-ascii?Q?VV3RN34dWnl0apk+j9vsrwyXUVlN+4X1HBXmn/a+rl0vPr83kJErSMy8Ruq6?=
+ =?us-ascii?Q?q0u4/MCDk3whkhsnRjGaqhqB51BovML2kshfRGJCy3JKEVtnR57qIrT/7hB5?=
+ =?us-ascii?Q?QH3aHmXJIEwWEKBjOunLJ/jjDfmndQEoo3QTMCFJV8PHyv/JzCleC8kn2/Wx?=
+ =?us-ascii?Q?bj7DD4stDfxwv+Z+/ZLbAy9vcyBNomu1LL3k1pPy2vI0xVNx4kJWMuEsnqqE?=
+ =?us-ascii?Q?OOnHPg6eqoTN1ZvUSMbWE7Dgt/c/e6a1jPnksa3Vc1iuM7Qio6qxbvtyhrMA?=
+ =?us-ascii?Q?KBF3yfxo3Rz0D1FJTPaMt5+7u0Zzuid9Hz/CQZuGN1q44oSg6pKi2b4/STPs?=
+ =?us-ascii?Q?aVETqpt8nx83U6TPf/A4Tqs9YJKLNUF+5refxys3URzvP9ZLUsxt3f9IeW1D?=
+ =?us-ascii?Q?hwjWFA/pFMJAR9OFeiZ0ez/SbzBsXVRzHDJtEF3aBtDemV0ndjz+CcGIUYgo?=
+ =?us-ascii?Q?QgpbfflWNozql/lB0tNjWZfz/P+SWcTE0xddMm1zabzF4wVDIUl19YNocYxm?=
+ =?us-ascii?Q?pX1bvqy3DiLxn5WIjwiCJy1UCieu2VA5oPdviTJk4RnxP4dLNx7CiPmHKSls?=
+ =?us-ascii?Q?hkr7MLal1BmxO6nYOH/sT3/y4vjyc31PRZu+kSGeDE+mpx27OHgXRhVPKMrq?=
+ =?us-ascii?Q?cmn8rlwEAYOIQnGXp2PVeT429s3NEXeJp1yMRKpO0cH3s5tfQnjUGcpwAMuH?=
+ =?us-ascii?Q?Pzs+VD+/c4WHJnzG+y6NruhsKPFu2kzvkPE+86/91lQ32m+NXZ/Dt2ailC63?=
+ =?us-ascii?Q?N+2+mtIEU1xM5Tp34xCoCnGX9cVZACbuDzVsmMqO7Clujlq/7poEzE+R9uxN?=
+ =?us-ascii?Q?oqpo2uG0pgXx/b94peZP7IRltOxP6HwMWIq13UyCeL+ESNJEknUCidDYc3LP?=
+ =?us-ascii?Q?PuEpd9XcMmq8ezO34A6pwvxRbqevVYDOkgQq4wI9mT6TfvigqEt+QC2gBD/8?=
+ =?us-ascii?Q?B/sn7+YCblihKsgxUTAehkplbqqC9AGW1Z/uBOlzea0o2YcZp0U2WgqrkTaD?=
+ =?us-ascii?Q?zv3gIomtr9RjRIE50bkW1Fx9hhrxQRFO9vtwL7IKgQlYWq13bUGIwy78ma7H?=
+ =?us-ascii?Q?g4Gf7XC/rXhZ4exmR/jRP5JOcACb49CwE8+qsChxbowsFUAETOyHXmazHHvR?=
+ =?us-ascii?Q?eIZh/l+8MRIyUNV8VngqIFSVv0qP?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW6PR12MB8663.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q4WawejWMzwrGk2uKAEanEE88/USitM8qLdHzQ6GZyAHuoa9d945wEhJsA5l?=
+ =?us-ascii?Q?ftpcXrXyJdY0s5W9IpwiWh44eZCiWMHBnnu6REdj3QaHjkneSUGZhmw8tv2X?=
+ =?us-ascii?Q?G7bXsyqocg6UWXEM29yxLWayGgJcjhrXYTW5tdMe1e+53Pm65mcWSdkJo3A7?=
+ =?us-ascii?Q?bqSx3CgxhjW9EnnvL/YMf2sc4rjSvVrKSPwHrKJj+e1Fyk74HjqqnqFCssrx?=
+ =?us-ascii?Q?IuuNxxyo996XYJFeYlheaCdE8ZKkADFHovmktI4YSjLAjZt6icALgtLYKR3W?=
+ =?us-ascii?Q?Tdhl7uDpbN6/EjxHUCQxu8S+PBsd+GtO4Ssk/NX9kFFOQzi6KhZtJRUYvucs?=
+ =?us-ascii?Q?aSpntUxOwc0CdzssoH8mXGA0UVMwxV3Zax/Jo2sWkfEZ2QcQ8ZnhbsvnO5OZ?=
+ =?us-ascii?Q?5eHRcYm7+yL3HPDZplMNxpcup3yfSXI6ar5QRT7BvFr5eyiewActNSNgNUsM?=
+ =?us-ascii?Q?bbxhjfe708vILUzz2t0Kq0//Iv6rxCJ+e9okiWaNw6gzz/1bAAO2YP9WBV9E?=
+ =?us-ascii?Q?FKV4FEI2WlVuWn6VOKlGghT6QeuyQ8KCVnZlAM9CFV02QqHR2CRCecQ5y9OW?=
+ =?us-ascii?Q?z94JgBasf5DZ7DgekwRQpgJRHqU/UcpTzsEHFx85aL7WAl7QNBv2pLerzAkL?=
+ =?us-ascii?Q?i/sWfozhiHZpqsavTXwX7wyFBIpVEvZQD+rBRnS/H5loCCRBm7SpZwDmDC0Q?=
+ =?us-ascii?Q?UVgKR3Uw3w1nVzkCHBdrPsV+sFUTkWWHEdJJSg+2305iH7m/Tn0W7Fj5hAm4?=
+ =?us-ascii?Q?7W/7CwN4NR920y4OKdQ6YK8im71m6uUuuawiMla17p4nn+82HpCNPhB5eM1B?=
+ =?us-ascii?Q?BeIu9bLwaIjZJLvoMpRfdUmHabMrBpgJ7owiOQAIJtMJeRX+qVsL8yN2ZbVZ?=
+ =?us-ascii?Q?uiIOSMv6EIfTyOdavoiDokbN3T99vubCL0dxS+A2QAC15wh2CvMrkHF5jcHj?=
+ =?us-ascii?Q?8DKyHJY78/u8LMacH/BYdWhhFAu51owea53n4Gv1OUfqehLemmZ4wtTuFTm/?=
+ =?us-ascii?Q?1++lo+UdAtQB6Il725ZRdu6zYpggSD428/MwwPaDzs0ExewFg+PrdBrphwfJ?=
+ =?us-ascii?Q?sBAIh7IkCKD3BXPUZT7pVPqWO36oVLjehvZ4tZzXuAncJXRejs/vSvGYe7E2?=
+ =?us-ascii?Q?ukWeCm1G8KxwNAsmHTVe+1VmZaVhY4C9qg6Y6MHI5DobXAJT59ivSK93UcId?=
+ =?us-ascii?Q?crq3/L7bnCo/+o70NCFeRhwZb2QfctPiYV145A+lIefmLWcgCt6zih5LeQN3?=
+ =?us-ascii?Q?ZhhVZwCWJ0xZ4VWEKQG4LtFGJ5VJ8ZnqM70o5O9G+O5HGBaEt8YfGLob98uO?=
+ =?us-ascii?Q?DuuqIZiiRnZYIEjiWtf0mtEaW86H9+ZryxopWlNcpaAyMHeY5zxwOpOHJ27r?=
+ =?us-ascii?Q?EJFdf972YcR2uNu6hlXekFL9ZKbq1llMvfw9iwzwJt1Poao3HjykpNnRjJwZ?=
+ =?us-ascii?Q?CRP16v4CNJCJ/tuwAAU8leWH33KS7+9P3Wg9ZH5Y83SQ2R0NdauYA/HxCU/C?=
+ =?us-ascii?Q?H0q2Loh3Ru5cX3HB95/idQ5R9qQ6LaSMP751cW7i9wc7KI+n7iKUnnHfB78R?=
+ =?us-ascii?Q?fuBp1q6WTjJdTQPgWHc=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f382f39a-6ec8-44a2-aa22-08dd573d7f22
+X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8663.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2025 14:46:19.9389 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HG7+qCeIKyz6P/nKKwKbsv2REGEhppFnIwiekO1YI3ktWIKjMwcpoEbg8S1+zHUh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF9BB0D8619
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,280 +155,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/02/2025 18:30, Ariel D'Alessandro wrote:
-> Bifrost MMUs support AArch64 4kB granule specification. However,
-> panfrost only enables MMU in legacy mode, despite the presence of the
-> HW_FEATURE_AARCH64_MMU feature flag.
-> 
-> This commit adds support to use page tables according to AArch64 4kB
-> granule specification. This feature is enabled conditionally based on
-> the GPU model's HW_FEATURE_AARCH64_MMU feature flag.
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+On Wed, Feb 26, 2025 at 04:41:08PM -0800, Boqun Feng wrote:
+> And if you don't store the HrTimerHandle anywhere, like you drop() it
+> right after start a hrtimer, it will immediately stop the timer. Does
+> this make sense?
 
-I find some of the naming confusing here. The subject calls it
-'ARM_64_LPAE_S1' which in an unfortunate name from the iommu code.
+Oh, I understand that, but it is not sufficient in the kernel.
 
-AIUI, LPAE is the "Large Physical Address Extension" and is a v7 feature
-for 32 bit. "LEGACY" (as Bifrost calls it) mode is a (modified) version
-of LPAE, which in Linux we've called "mali_lpae".
+You are making an implicit argument that something external to the
+rust universe will hold the module alive until all rust destructors
+are run. That is trivialy obvious in your example above.
 
-What you're adding support for is AARCH64_4K which is the v8 64 bit
-mode. So I think it's worth including the "64" part of the name of the
-mmu_lpae_s1_enable() function. Personally I'd be tempted to drop the
-"_s1" part, but I guess there's a small chance someone will find a use
-for the second stage one day.
+However, make it more complex. Run the destructor call for your
+hrtimer in a workqueue thread. Use workqueue.rs. Now you don't have
+this implicit argument anymore, and it will EAF things.
 
-Note also that it's not necessarily a clear-cut improvement to use
-AARCH64_4K over LEGACY. I wouldn't be surprised if this actually causes
-(minor) performance regressions on some platforms. Sadly I don't have
-access to a range of hardware to test this on.
+Danilo argues this is a bug in workqueue.rs.
 
-Steve
+Regardless, it seems like EAF is an overlooked topic in the safety
+analysis.
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
->  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 118 +++++++++++++++++----
->  drivers/gpu/drm/panfrost/panfrost_regs.h   |  29 +++++
->  3 files changed, 128 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index cffcb0ac7c11..dea252f43c58 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -153,6 +153,7 @@ struct panfrost_device {
->  };
->  
->  struct panfrost_mmu {
-> +	void (*enable)(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
->  	struct panfrost_device *pfdev;
->  	struct kref refcount;
->  	struct io_pgtable_cfg pgtbl_cfg;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 7df2c8d5b0ae..30b8e2723254 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -26,6 +26,48 @@
->  #define mmu_write(dev, reg, data) writel(data, dev->iomem + reg)
->  #define mmu_read(dev, reg) readl(dev->iomem + reg)
->  
-> +static u64 mair_to_memattr(u64 mair, bool coherent)
-> +{
-> +	u64 memattr = 0;
-> +	u32 i;
-> +
-> +	for (i = 0; i < 8; i++) {
-> +		u8 in_attr = mair >> (8 * i), out_attr;
-> +		u8 outer = in_attr >> 4, inner = in_attr & 0xf;
-> +
-> +		/* For caching to be enabled, inner and outer caching policy
-> +		 * have to be both write-back, if one of them is write-through
-> +		 * or non-cacheable, we just choose non-cacheable. Device
-> +		 * memory is also translated to non-cacheable.
-> +		 */
-> +		if (!(outer & 3) || !(outer & 4) || !(inner & 4)) {
-> +			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_NC |
-> +				   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER |
-> +				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(false, false);
-> +		} else {
-> +			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_WB |
-> +				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(inner & 1, inner & 2);
-> +			/* Use SH_MIDGARD_INNER mode when device isn't coherent,
-> +			 * so SH_IS, which is used when IOMMU_CACHE is set, maps
-> +			 * to Mali's internal-shareable mode. As per the Mali
-> +			 * Spec, inner and outer-shareable modes aren't allowed
-> +			 * for WB memory when coherency is disabled.
-> +			 * Use SH_CPU_INNER mode when coherency is enabled, so
-> +			 * that SH_IS actually maps to the standard definition of
-> +			 * inner-shareable.
-> +			 */
-> +			if (!coherent)
-> +				out_attr |= AS_MEMATTR_AARCH64_SH_MIDGARD_INNER;
-> +			else
-> +				out_attr |= AS_MEMATTR_AARCH64_SH_CPU_INNER;
-> +		}
-> +
-> +		memattr |= (u64)out_attr << (8 * i);
-> +	}
-> +
-> +	return memattr;
-> +}
-> +
->  static int wait_ready(struct panfrost_device *pfdev, u32 as_nr)
->  {
->  	int ret;
-> @@ -121,38 +163,66 @@ static int mmu_hw_do_operation(struct panfrost_device *pfdev,
->  	return ret;
->  }
->  
-> -static void panfrost_mmu_enable(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
-> +static void
-> +_panfrost_mmu_as_control_write(struct panfrost_device *pfdev, u32 as_nr,
-> +			       u64 transtab, u64 memattr, u64 transcfg)
->  {
-> -	int as_nr = mmu->as;
-> -	struct io_pgtable_cfg *cfg = &mmu->pgtbl_cfg;
-> -	u64 transtab = cfg->arm_mali_lpae_cfg.transtab;
-> -	u64 memattr = cfg->arm_mali_lpae_cfg.memattr;
-> -
->  	mmu_hw_do_operation_locked(pfdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
->  
->  	mmu_write(pfdev, AS_TRANSTAB_LO(as_nr), lower_32_bits(transtab));
->  	mmu_write(pfdev, AS_TRANSTAB_HI(as_nr), upper_32_bits(transtab));
->  
-> -	/* Need to revisit mem attrs.
-> -	 * NC is the default, Mali driver is inner WT.
-> -	 */
->  	mmu_write(pfdev, AS_MEMATTR_LO(as_nr), lower_32_bits(memattr));
->  	mmu_write(pfdev, AS_MEMATTR_HI(as_nr), upper_32_bits(memattr));
->  
-> +	mmu_write(pfdev, AS_TRANSCFG_LO(as_nr), lower_32_bits(transcfg));
-> +	mmu_write(pfdev, AS_TRANSCFG_HI(as_nr), upper_32_bits(transcfg));
-> +
->  	write_cmd(pfdev, as_nr, AS_COMMAND_UPDATE);
-> +
-> +	dev_dbg(pfdev->dev, "mmu_as_control: as=%d, transtab=0x%016llx, memattr=0x%016llx, transcfg=0x%016llx",
-> +		as_nr, transtab, memattr, transcfg);
->  }
->  
-> -static void panfrost_mmu_disable(struct panfrost_device *pfdev, u32 as_nr)
-> +static void mmu_lpae_s1_enable(struct panfrost_device *pfdev,
-> +			       struct panfrost_mmu *mmu)
->  {
-> -	mmu_hw_do_operation_locked(pfdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
-> +	struct io_pgtable_cfg *cfg = &mmu->pgtbl_cfg;
-> +	int as_nr = mmu->as;
->  
-> -	mmu_write(pfdev, AS_TRANSTAB_LO(as_nr), 0);
-> -	mmu_write(pfdev, AS_TRANSTAB_HI(as_nr), 0);
-> +	u64 transtab =
-> +		cfg->arm_lpae_s1_cfg.ttbr & AS_TRANSTAB_LPAE_ADDR_SPACE_MASK;
-> +	u64 memattr =
-> +		mair_to_memattr(cfg->arm_lpae_s1_cfg.mair, pfdev->coherent);
-> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(pfdev->features.mmu_features);
-> +	u64 transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
-> +		       AS_TRANSCFG_PTW_RA |
-> +		       AS_TRANSCFG_ADRMODE_AARCH64_4K |
-> +		       AS_TRANSCFG_INA_BITS(55 - va_bits);
->  
-> -	mmu_write(pfdev, AS_MEMATTR_LO(as_nr), 0);
-> -	mmu_write(pfdev, AS_MEMATTR_HI(as_nr), 0);
-> +	if (pfdev->coherent)
-> +		transcfg |= AS_TRANSCFG_PTW_SH_OS;
->  
-> -	write_cmd(pfdev, as_nr, AS_COMMAND_UPDATE);
-> +	_panfrost_mmu_as_control_write(pfdev, as_nr, transtab, memattr,
-> +				       transcfg);
-> +}
-> +
-> +static void mmu_mali_lpae_enable(struct panfrost_device *pfdev,
-> +				 struct panfrost_mmu *mmu)
-> +{
-> +	struct io_pgtable_cfg *cfg = &mmu->pgtbl_cfg;
-> +	int as_nr = mmu->as;
-> +
-> +	_panfrost_mmu_as_control_write(pfdev, as_nr,
-> +				       cfg->arm_mali_lpae_cfg.transtab,
-> +				       cfg->arm_mali_lpae_cfg.memattr,
-> +				       AS_TRANSCFG_ADRMODE_LEGACY);
-> +}
-> +
-> +static void panfrost_mmu_disable(struct panfrost_device *pfdev, u32 as_nr)
-> +{
-> +	_panfrost_mmu_as_control_write(pfdev, as_nr, 0, 0,
-> +				       AS_TRANSCFG_ADRMODE_UNMAPPED);
->  }
->  
->  u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
-> @@ -182,7 +252,7 @@ u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
->  			mmu_write(pfdev, MMU_INT_CLEAR, mask);
->  			mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
->  			pfdev->as_faulty_mask &= ~mask;
-> -			panfrost_mmu_enable(pfdev, mmu);
-> +			mmu->enable(pfdev, mmu);
->  		}
->  
->  		goto out;
-> @@ -214,7 +284,7 @@ u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
->  
->  	dev_dbg(pfdev->dev, "Assigned AS%d to mmu %p, alloc_mask=%lx", as, mmu, pfdev->as_alloc_mask);
->  
-> -	panfrost_mmu_enable(pfdev, mmu);
-> +	mmu->enable(pfdev, mmu);
->  
->  out:
->  	spin_unlock(&pfdev->as_lock);
-> @@ -618,6 +688,7 @@ struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
->  	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(pfdev->features.mmu_features);
->  	u32 pa_bits = GPU_MMU_FEATURES_PA_BITS(pfdev->features.mmu_features);
->  	struct panfrost_mmu *mmu;
-> +	enum io_pgtable_fmt fmt;
->  
->  	mmu = kzalloc(sizeof(*mmu), GFP_KERNEL);
->  	if (!mmu)
-> @@ -642,8 +713,15 @@ struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
->  		.iommu_dev	= pfdev->dev,
->  	};
->  
-> -	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
-> -					      mmu);
-> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_AARCH64_MMU)) {
-> +		fmt = ARM_64_LPAE_S1;
-> +		mmu->enable = mmu_lpae_s1_enable;
-> +	} else {
-> +		fmt = ARM_MALI_LPAE;
-> +		mmu->enable = mmu_mali_lpae_enable;
-> +	}
-> +	mmu->pgtbl_ops = alloc_io_pgtable_ops(fmt, &mmu->pgtbl_cfg, mmu);
-> +
->  	if (!mmu->pgtbl_ops) {
->  		kfree(mmu);
->  		return ERR_PTR(-EINVAL);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index 4e6064d5feaa..a5ca36f583ff 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -301,6 +301,17 @@
->  #define AS_TRANSTAB_HI(as)		(MMU_AS(as) + 0x04) /* (RW) Translation Table Base Address for address space n, high word */
->  #define AS_MEMATTR_LO(as)		(MMU_AS(as) + 0x08) /* (RW) Memory attributes for address space n, low word. */
->  #define AS_MEMATTR_HI(as)		(MMU_AS(as) + 0x0C) /* (RW) Memory attributes for address space n, high word. */
-> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
-> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
-> +							 ((w) ? BIT(0) : 0) | \
-> +							 ((r) ? BIT(1) : 0))
-> +#define   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER		(0 << 4)
-> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER		(1 << 4)
-> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER_SHADER_COH	(2 << 4)
-> +#define   AS_MEMATTR_AARCH64_SHARED			(0 << 6)
-> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
-> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
-> +#define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
->  #define AS_LOCKADDR_LO(as)		(MMU_AS(as) + 0x10) /* (RW) Lock region address for address space n, low word */
->  #define AS_LOCKADDR_HI(as)		(MMU_AS(as) + 0x14) /* (RW) Lock region address for address space n, high word */
->  #define AS_COMMAND(as)			(MMU_AS(as) + 0x18) /* (WO) MMU command register for address space n */
-> @@ -311,6 +322,24 @@
->  /* Additional Bifrost AS registers */
->  #define AS_TRANSCFG_LO(as)		(MMU_AS(as) + 0x30) /* (RW) Translation table configuration for address space n, low word */
->  #define AS_TRANSCFG_HI(as)		(MMU_AS(as) + 0x34) /* (RW) Translation table configuration for address space n, high word */
-> +#define   AS_TRANSCFG_ADRMODE_LEGACY			(0 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_AARCH64_64K		(8 << 0)
-> +#define   AS_TRANSCFG_INA_BITS(x)			((x) << 6)
-> +#define   AS_TRANSCFG_OUTA_BITS(x)			((x) << 14)
-> +#define   AS_TRANSCFG_SL_CONCAT				BIT(22)
-> +#define   AS_TRANSCFG_PTW_MEMATTR_NC			(1 << 24)
-> +#define   AS_TRANSCFG_PTW_MEMATTR_WB			(2 << 24)
-> +#define   AS_TRANSCFG_PTW_SH_NS				(0 << 28)
-> +#define   AS_TRANSCFG_PTW_SH_OS				(2 << 28)
-> +#define   AS_TRANSCFG_PTW_SH_IS				(3 << 28)
-> +#define   AS_TRANSCFG_PTW_RA				BIT(30)
-> +#define   AS_TRANSCFG_DISABLE_HIER_AP			BIT(33)
-> +#define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
-> +#define   AS_TRANSCFG_WXN				BIT(35)
-> +#define   AS_TRANSCFG_XREADABLE				BIT(36)
->  #define AS_FAULTEXTRA_LO(as)		(MMU_AS(as) + 0x38) /* (RO) Secondary fault address for address space n, low word */
->  #define AS_FAULTEXTRA_HI(as)		(MMU_AS(as) + 0x3C) /* (RO) Secondary fault address for address space n, high word */
->  
+Further, you and Danilo are making opposing correctness arguments:
 
+ 1) all rust destructors run before module __exit completes
+ 2) rust destructors can run after driver removal completes
+
+I understand the technical underpinnings why these are different, but
+I feel that if you can make #1 reliably true for __exit then it is
+highly desirable to use the same techniques to make it true for
+remove() too.
+
+Jason
