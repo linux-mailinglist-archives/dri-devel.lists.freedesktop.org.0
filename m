@@ -2,61 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFA7A47E46
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 13:52:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C166FA47E8D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 14:07:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1403510EAD3;
-	Thu, 27 Feb 2025 12:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2EB10E1C1;
+	Thu, 27 Feb 2025 13:07:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nu42kpYw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FvPPQpgv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A5410EAD1;
- Thu, 27 Feb 2025 12:52:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740660732; x=1772196732;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=R6MMQu2AZRMRuQ0dtbOMOmZNE3Aka9+JqMmJzd78dF8=;
- b=Nu42kpYwlcwSqkvkzGTHQq7E5kiJatz1t5U0rrXBtvZn6+YPdxihscQ+
- 0ssYJI5RJtotKsGPwECG1A82w+9XgqR0BgUcX/31Q+/Qy6psFhdtGgM+y
- 4Jcpfu306epTifAiO8ah2rK0qEMlJx9uUzjBl7HOHLVJhzWUeriQEK2AA
- 5VWVsf6qf96lCXt0YsacFwU2rLbuBCMx17MRMjiZNwzNhmfWtWs8kOQM+
- lZPK1FyjFZzUt1OEi518f3QHeQlYFrwPlmSYbJ+arzFfa48yvwSgVqajx
- HXeqLGdIw4ZeExbCXKKVm7Wt6+/JEIYp4rIAAMzDwXHi4XqLNMig2C62d Q==;
-X-CSE-ConnectionGUID: O/RGT+KPQNS0GgJs9VBQMw==
-X-CSE-MsgGUID: pd61RwdNSAaGUE/yXJfhrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41431021"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="41431021"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2025 04:52:10 -0800
-X-CSE-ConnectionGUID: zLvUGEIiTl2zcqkYiZSzyg==
-X-CSE-MsgGUID: EDiYznRWSGK72saQNvxr0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="116816098"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.201])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2025 04:52:07 -0800
-Date: Thu, 27 Feb 2025 13:52:04 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nitin Gote <nitin.r.gote@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
-Message-ID: <Z8Bf9HRqOg7B3W79@ashyti-mobl2.lan>
-References: <20250226155534.1099538-1-nitin.r.gote@intel.com>
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C602C10E1C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 13:07:26 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-5e08064b4ddso1106679a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 05:07:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740661645; x=1741266445; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=JTyMrNqruIfN80FNenPnWbn1JyAg6VWCPasiwyXp9FI=;
+ b=FvPPQpgvOSWOZ3tjaW5fNEqBleDlAYFCQK5ijmD1y3DMSrKuVGKBPfmq94v12HK4xt
+ Hfj8QHIDiZh2B7x4k9U0yEfJxmAhVIDstMQQxuCFwrniItPq3PjjWu3gfT8lF1aTv0i/
+ ZlPMDVOJcLazp8Ks3/R7pI/oG5WM17vstxy+4WPYjyZM/zbB81FaIoVSShLI3eucQ3PR
+ kfc31yAQbMN1eNDnKJCHrAWW4UStm41UA97GpwdPQ6aCNpdEN4MgZm2vEObWRSqGdCIP
+ dvWfMYHTimb/ZzMi6bzobiXgK9Nhiqqk7qWRTmXtFK8++4JSSN9dF77iLazzj5TGXNjL
+ R1gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740661645; x=1741266445;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JTyMrNqruIfN80FNenPnWbn1JyAg6VWCPasiwyXp9FI=;
+ b=nAhzE8zyiqoXkiMjMmmWUm2gnhPiZ1GFKg/BzVOf6J46XqbFcolEkWCy+iBEcQztYL
+ L4AEkfHiz9ErGmZeyxndsnLm8873dqNkkKPJV5wBV5nxh6fuK5W9FIYZOVSK54/jV5XJ
+ lnx0qafgYaR8q/ngTO2XRLIkpmttc5KtZrEVO0NGCVAAE8dNTb23Ra5jBfh7lmiifDcQ
+ A5tJW9T/L2H2i0PrRzPjK7cnOuG1rOiYZn5H9NIrvju8P3nLytpfCj/SGC7gdNWwYkQj
+ AWsTN49mSdKJH6pV9dFS3Kmez8MeUedNLrts4q8LqlNzb49zgE0yqAeNqiOoOBvtONy7
+ 9oVg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXspnJWvyeQd38Pzii0hhLI53czpXLi87VzxghClu7cLfOX5L0QyLTjlpEa0kQ/gb+MH6rlzFh+JbE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXR92YhzC9cD9igmgMiIxmvlE1mQHZrsR8mv9rfvvDh/A9iJEn
+ wGMkUwkVPun8Al+aeNP2dntHejhDHE8Gk3VSS19cNl9dMXMwp6x5Vfiicfa5Y3E=
+X-Gm-Gg: ASbGnctZ0VWVSpsQrS2LWvoBb2qy2qw9VkAbXKBq3AzlpPQaFBjFw6MnMsSmLzGkGXA
+ Bb1He0Nbh8wSTYOm6002SNlnaWQ+u1eeFAkrvQF99TQasztEOPK/NKAhBBhCtL37Q5zZrZW3OwK
+ dcAYa1F7vw4+7La4d444e+efTK8+ZF1VB7UcHGKLCsojlTMrCZjJYcAghfA4Ef971F1EBQEyPXn
+ LXK35YBmxS/Ve1VElyKPTtRwcQdx23RkfeVmLwf6XFpe9XPRei+BeJzu6ndoBVWfy8cYFRwRH9c
+ bGMFjMssxo4cirXgoG+JMUs=
+X-Google-Smtp-Source: AGHT+IGjfWHYiaAXdrqA594SKctf+/MPGNFwOKZ2m/oLfiL1GNAvt9xOlxqJ0+a9h6IWKjELe4604Q==
+X-Received: by 2002:a05:6402:2b86:b0:5d9:a54:f8b4 with SMTP id
+ 4fb4d7f45d1cf-5e0b70dc05emr25956467a12.11.1740661645077; 
+ Thu, 27 Feb 2025 05:07:25 -0800 (PST)
+Received: from linaro.org ([62.231.96.41]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5e4c43a6ab7sm1071222a12.74.2025.02.27.05.07.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Feb 2025 05:07:24 -0800 (PST)
+Date: Thu, 27 Feb 2025 15:07:21 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] backlight: pwm_bl: Read back PWM period from provider
+Message-ID: <Z8BjiRjLin8jTE8j@linaro.org>
+References: <20250226-pwm-bl-read-back-period-from-hw-v1-1-ccd1df656b23@linaro.org>
+ <xltamao27utfrsax2pc6mh5tthanmrqszz4k7gyw3knqkm24xp@4tydmhfh6g4j>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250226155534.1099538-1-nitin.r.gote@intel.com>
+In-Reply-To: <xltamao27utfrsax2pc6mh5tthanmrqszz4k7gyw3knqkm24xp@4tydmhfh6g4j>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,180 +95,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nitin,
-
-On Wed, Feb 26, 2025 at 09:25:34PM +0530, Nitin Gote wrote:
-> Give the scheduler a chance to breath by calling cond_resched()
-> as some of the loops may take some time on old machines (like apl/bsw/pnv),
-> and so catch the attention of the watchdogs.
+On 25-02-26 17:34:50, Uwe Kleine-König wrote:
+> Hello,
 > 
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
-> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
-
-This patch goes beyond the intel-gfx domain so that you need to
-add some people in Cc. By running checkpatch, you should add:
-
-Sumit Semwal <sumit.semwal@linaro.org> (maintainer:DMA BUFFER SHARING FRAMEWORK)
-"Christian König" <christian.koenig@amd.com> (maintainer:DMA BUFFER SHARING FRAMEWORK)
-linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK)
-dri-devel@lists.freedesktop.org (open list:DMA BUFFER SHARING FRAMEWORK)
-
-I added them now, but you might still be asked to resend.
-
-Said that, at a first glance, I don't have anything against this
-patch.
-
-Andi
-
-> ---
-> Hi,
+> On Wed, Feb 26, 2025 at 05:31:08PM +0200, Abel Vesa wrote:
+> > The current implementation assumes that the PWM provider will be able to
+> > meet the requested period, but that is not always the case. Some PWM
+> > providers have limited HW configuration capabilities and can only
+> > provide a period that is somewhat close to the requested one. This
+> > simply means that the duty cycle requested might either be above the
+> > PWM's maximum value or the 100% duty cycle is never reached.
 > 
-> For reviewer reference, adding here watchdog issue seen on old machines
-> during dma-fence-chain subtests testing. This log is retrieved from device
-> pstore log while testing dam-buf@all-tests:
+> If you request a state with 100% relative duty cycle you should get 100%
+> unless the hardware cannot do that. Which PWM hardware are you using?
+> Which requests are you actually doing that don't match your expectation?
+
+The PWM hardware is Qualcomm PMK8550 PMIC. The way the duty cycle is
+controlled is described in the following comment found in lpg_calc_freq
+of the leds-qcom-lpg driver:
+
+/*
+ * The PWM period is determined by:
+ *
+ *          resolution * pre_div * 2^M
+ * period = --------------------------
+ *                   refclk
+ *
+ * Resolution = 2^9 bits for PWM or
+ *              2^{8, 9, 10, 11, 12, 13, 14, 15} bits for high resolution PWM
+ * pre_div = {1, 3, 5, 6} and
+ * M = [0..7].
+ *
+ * This allows for periods between 27uS and 384s for PWM channels and periods between
+ * 3uS and 24576s for high resolution PWMs.
+ * The PWM framework wants a period of equal or lower length than requested,
+ * reject anything below minimum period.
+ */
+
+So if we request a period of 5MHz, that will not ever be reached no matter what config
+is used. Instead, the 4.26 MHz is selected as closest possible.
+
+Now, the pwm_bl is not aware of this limitation and will request duty cycle values that
+go above 4.26MHz.
+
+>  
+> > This could be easily fixed if the pwm_apply*() API family would allow
+> > overriding the period within the PWM state that's used for providing the
+> > duty cycle. But that is currently not the case.
 > 
-> dma-buf: Running dma_fence_chain
-> Panic#1 Part7
-> <6> sizeof(dma_fence_chain)=184
-> <6> dma-buf: Running dma_fence_chain/sanitycheck
-> <6> dma-buf: Running dma_fence_chain/find_seqno
-> <6> dma-buf: Running dma_fence_chain/find_signaled
-> <6> dma-buf: Running dma_fence_chain/find_out_of_order
-> <6> dma-buf: Running dma_fence_chain/find_gap
-> <6> dma-buf: Running dma_fence_chain/find_race
-> <6> Completed 4095 cycles
-> <6> dma-buf: Running dma_fence_chain/signal_forward
-> <6> dma-buf: Running dma_fence_chain/signal_backward
-> <6> dma-buf: Running dma_fence_chain/wait_forward
-> <6> dma-buf: Running dma_fence_chain/wait_backward
-> <0> watchdog: BUG: soft lockup - CPU#2 stuck for 26s! [dmabuf:2263]
-> Panic#1 Part6
-> <4> irq event stamp: 415735
-> <4> hardirqs last  enabled at (415734): [<ffffffff813d3a1b>] handle_softirqs+0xab/0x4d0
-> <4> hardirqs last disabled at (415735): [<ffffffff827c7e31>] sysvec_apic_timer_interrupt+0x11/0xc0
-> <4> softirqs last  enabled at (415728): [<ffffffff813d3f8f>] __irq_exit_rcu+0x13f/0x160
-> <4> softirqs last disabled at (415733): [<ffffffff813d3f8f>] __irq_exit_rcu+0x13f/0x160
-> <4> CPU: 2 UID: 0 PID: 2263 Comm: dmabuf Not tainted 6.14.0-rc2-drm-next_483-g7b91683e7de7+ #1
-> <4> Hardware name: Intel corporation NUC6CAYS/NUC6CAYB, BIOS AYAPLCEL.86A.0056.2018.0926.1100 09/26/2018
-> <4> RIP: 0010:handle_softirqs+0xb1/0x4d0
-> <4> RSP: 0018:ffffc90000154f60 EFLAGS: 00000246
-> <4> RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
-> <4> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> <4> RBP: ffffc90000154fb8 R08: 0000000000000000 R09: 0000000000000000
-> <4> R10: 0000000000000000 R11: 0000000000000000 R12: 000000000000000a
-> <4> R13: 0000000000000200 R14: 0000000000000200 R15: 0000000000400100
-> <4> FS:  000077521c5cd940(0000) GS:ffff888277900000(0000) knlGS:0000000000000000
-> Panic#1 Part5
-> <4> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> <4> CR2: 00005dbfee8c00c4 CR3: 0000000133d38000 CR4: 00000000003526f0
-> <4> Call Trace:
-> <4>  <IRQ>
-> <4>  ? show_regs+0x6c/0x80
-> <4>  ? watchdog_timer_fn+0x247/0x2d0
-> <4>  ? __pfx_watchdog_timer_fn+0x10/0x10
-> <4>  ? __hrtimer_run_queues+0x1d0/0x420
-> <4>  ? hrtimer_interrupt+0x116/0x290
-> <4>  ? __sysvec_apic_timer_interrupt+0x70/0x1e0
-> <4>  ? sysvec_apic_timer_interrupt+0x47/0xc0
-> <4>  ? asm_sysvec_apic_timer_interrupt+0x1b/0x20
-> <4>  ? handle_softirqs+0xb1/0x4d0
-> <4>  __irq_exit_rcu+0x13f/0x160
-> <4>  irq_exit_rcu+0xe/0x20
-> <4>  sysvec_irq_work+0xa0/0xc0
-> <4>  </IRQ>
-> <4>  <TASK>
-> <4>  asm_sysvec_irq_work+0x1b/0x20
-> <4> RIP: 0010:_raw_spin_unlock_irqrestore+0x57/0x80
-> <4> RSP: 0018:ffffc9000292b8f0 EFLAGS: 00000246
-> <4> RAX: 0000000000000000 RBX: ffff88810f235480 RCX: 0000000000000000
-> <4> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> <4> RBP: ffffc9000292b900 R08: 0000000000000000 R09: 0000000000000000
-> <4> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000246
-> <4> R13: 0000000000000000 R14: 0000000000000246 R15: 000000000003828c
-> Panic#1 Part4
-> <4> dma_fence_signal+0x49/0xb0
-> <4> wait_backward+0xf8/0x140 [dmabuf_selftests]
-> <4> __subtests+0x75/0x1f0 [dmabuf_selftests]
-> <4> dma_fence_chain+0x94/0xe0 [dmabuf_selftests]
-> <4> st_init+0x6a/0xff0 [dmabuf_selftests]
-> <4> ? __pfx_st_init+0x10/0x10 [dmabuf_selftests]
-> <4> do_one_initcall+0x79/0x400
-> <4> do_init_module+0x97/0x2a0
-> <4> load_module+0x2c23/0x2f60
-> <4> init_module_from_file+0x97/0xe0
-> <4> ? init_module_from_file+0x97/0xe0
-> <4> idempotent_init_module+0x134/0x350
-> <4> __x64_sys_finit_module+0x77/0x100
-> <4> x64_sys_call+0x1f37/0x2650
-> <4> do_syscall_64+0x91/0x180
-> <4> ? trace_hardirqs_off+0x5d/0xe0
-> <4> ? syscall_exit_to_user_mode+0x95/0x260
-> <4> ? do_syscall_64+0x9d/0x180
-> <4> ? do_syscall_64+0x9d/0x180
-> <4> ? irqentry_exit+0x77/0xb0
-> <4> ? sysvec_apic_timer_interrupt+0x57/0xc0
-> <4> entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> <4> RIP: 0033:0x77521e72725d
+> I don't understand what you mean here.
+
+What I was trying to say is that the PWM generic framework currently doesn't
+allow overriding the PWM state's period with one provided by the consumer,
+when calling pwm_apply_might_sleep().
+
+Also, the pwm_get_state_hw() doesn't cache the state either.
+
+This results in always having to call pwm_get_state_hw() before calling
+pwm_apply_might_sleep().
+
+On top of that, pwm_get_state_hw() doesn't default to the cached value if the
+provider doesn't implement the ->get_state() op.
+
+Please correct me if I'm wrong about these.
+
 > 
+> > So easiest fix here is to read back the period from the PWM provider via
+> > the provider's ->get_state() op, if implemented, which should provide the
+> > best matched period. Do this on probe after the first ->pwm_apply() op has
+> > been done, which will allow the provider to determine the best match
+> > period based on available configuration knobs. From there on, the
+> > backlight will use the best matched period, since the driver's internal
+> > PWM state is now synced up with the one from provider.
+> > [...]
+> > diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+> > index 237d3d3f3bb1a6d713c5f6ec3198af772bf1268c..71a3e9cd8844095e85c01b194d7466978f1ca78e 100644
+> > --- a/drivers/video/backlight/pwm_bl.c
+> > +++ b/drivers/video/backlight/pwm_bl.c
+> > @@ -525,6 +525,17 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+> >  		goto err_alloc;
+> >  	}
+> >  
+> > +	/*
+> > +	 * The actual period might differ from the requested one due to HW
+> > +	 * limitations, so sync up the period with one determined by the
+> > +	 * provider driver.
+> > +	 */
+> > +	ret = pwm_get_state_hw(pb->pwm, &pb->pwm->state);
 > 
->  drivers/dma-buf/st-dma-fence-chain.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
+> As a consumer you're not supposed to write to &pb->pwm->state. That's a
+> layer violation. Please call pwm_get_state_hw() with a struct pwm_state
+> that you own and save the relevant parts in your driver data.
+
+Yep, that is indeed wrong. Maybe making the pwm opaque might be a good idea as well.
+
+[1] Calling pwm_get_state_hw() would be wrong if the provider doesn't implement the ->get_state(),
+as I mentioned above.
+
+But are you suggesting we replace all calls to pwm_get_state() with
+pwm_get_state_hw() in pwm_bl?
+
+I can do that, but the concern from [1] still stands.
+
 > 
-> diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
-> index ed4b323886e4..328a66ed59e5 100644
-> --- a/drivers/dma-buf/st-dma-fence-chain.c
-> +++ b/drivers/dma-buf/st-dma-fence-chain.c
-> @@ -505,6 +505,7 @@ static int signal_forward(void *arg)
->  
->  	for (i = 0; i < fc.chain_length; i++) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
->  
->  		if (!dma_fence_is_signaled(fc.chains[i])) {
->  			pr_err("chain[%d] not signaled!\n", i);
-> @@ -537,6 +538,7 @@ static int signal_backward(void *arg)
->  
->  	for (i = fc.chain_length; i--; ) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
->  
->  		if (i > 0 && dma_fence_is_signaled(fc.chains[i])) {
->  			pr_err("chain[%d] is signaled!\n", i);
-> @@ -587,8 +589,10 @@ static int wait_forward(void *arg)
->  	get_task_struct(tsk);
->  	yield_to(tsk, true);
->  
-> -	for (i = 0; i < fc.chain_length; i++)
-> +	for (i = 0; i < fc.chain_length; i++) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
-> +	}
->  
->  	err = kthread_stop_put(tsk);
->  
-> @@ -616,8 +620,10 @@ static int wait_backward(void *arg)
->  	get_task_struct(tsk);
->  	yield_to(tsk, true);
->  
-> -	for (i = fc.chain_length; i--; )
-> +	for (i = fc.chain_length; i--; ) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
-> +	}
->  
->  	err = kthread_stop_put(tsk);
->  
-> @@ -663,8 +669,10 @@ static int wait_random(void *arg)
->  	get_task_struct(tsk);
->  	yield_to(tsk, true);
->  
-> -	for (i = 0; i < fc.chain_length; i++)
-> +	for (i = 0; i < fc.chain_length; i++) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
-> +	}
->  
->  	err = kthread_stop_put(tsk);
->  
-> -- 
-> 2.25.1
+> > +	if (ret && ret != -EOPNOTSUPP) {
+> > +		dev_err(&pdev->dev, "failed to get PWM HW state");
+> > +		goto err_alloc;
+> > +	}
+> > +
+> >  	memset(&props, 0, sizeof(struct backlight_properties));
+> >  
+> >  	if (data->levels) {
+> 
+> Best regards
+> Uwe
+
+Thanks for reviewing,
+Abel
