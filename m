@@ -2,42 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C4FA4987F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 12:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0D3A4987A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 12:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD0D10EC70;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783E310EC6E;
 	Fri, 28 Feb 2025 11:42:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rz.uni-freiburg.de header.i=@rz.uni-freiburg.de header.b="nauiVRXM";
+	dkim=pass (1024-bit key; unprotected) header.d=rz.uni-freiburg.de header.i=@rz.uni-freiburg.de header.b="GftgFe1I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from c1422.mx.srv.dfn.de (c1422.mx.srv.dfn.de [194.95.239.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFCD210EA9F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 11:13:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60CD710EAA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 11:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  rz.uni-freiburg.de; h=content-transfer-encoding:content-type
- :content-type:mime-version:x-mailer:message-id:date:date:subject
- :subject:from:from:received; s=s1; t=1740654230; x=1742468631;
- bh=aWo7Yk0ZW/7bGkj9MoNAIr2LrMIcTx7MiVBdk+ZlePg=; b=nauiVRXMdXnU
- 8OhXvZeHJEA0vbKIR/zSy16l1Y7kJY8IJGs/y/2GZqdbj2nDSKWmuqLxpv/gVTd1
- IV/CynnauoA+gYFnbaunIyeNs9oq4j+OPbF4LC45Gd+02pKh+P/Kd0DCNP95IEDS
- A0WuCgipVK4Ku5KyzykiovyVG5IuhvY=
+ :content-type:mime-version:references:in-reply-to:x-mailer
+ :message-id:date:date:subject:subject:from:from:received; s=s1;
+ t=1740654231; x=1742468632; bh=phxh/JgzX4NWg7lRuEb+hes0uG8A2Nrn
+ YcWnGVlVQMQ=; b=GftgFe1IOePSB28Wu/9WJfYQT5kD2ShxqaSj8sxBcnElDrEV
+ lvTPjTRKZYgl/yHRBOBOdfwlfePlV1zwYB8Mxa1H5BQydH0RbHtPrBobe/yimzLc
+ yI3gdJtyWey1++3ugc2ub7U40N5dNQKRVVhAQcZcBK5g/nO8WMZrkpHb/GM=
 Received: from fe1.uni-freiburg.de (fe1.uni-freiburg.de [132.230.2.221])
- by c1422.mx.srv.dfn.de (Postfix) with ESMTP id 711552C0121
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 12:03:50 +0100 (CET)
+ by c1422.mx.srv.dfn.de (Postfix) with ESMTP id 2DE542C012D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 12:03:51 +0100 (CET)
 Received: from [2001:7c0:2517:a:4b56:9ec4:d188:b1a0] (account
  michael.scherle@rz.uni-freiburg.de HELO rz-10-126-20-105.eduroam-rz.privat)
  by mail.uni-freiburg.de (CommuniGate Pro SMTP 6.3.19)
- with ESMTPSA id 46276630; Thu, 27 Feb 2025 12:03:50 +0100
+ with ESMTPSA id 46276272; Thu, 27 Feb 2025 12:03:50 +0100
 From: Michael Scherle <michael.scherle@rz.uni-freiburg.de>
 To: dri-devel@lists.freedesktop.org
-Cc: Michael Scherle <michael.scherle@rz.uni-freiburg.de>
-Subject: [PATCH 00/10] dcc: Create a stream for non-gl/remote clients that
- want to use dmabuf (v9)
-Date: Thu, 27 Feb 2025 12:03:22 +0100
-Message-ID: <cover.1740651328.git.michael.scherle@rz.uni-freiburg.de>
+Cc: Michael Scherle <michael.scherle@rz.uni-freiburg.de>,
+ Frediano Ziglio <freddy77@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Dongwon Kim <dongwon.kim@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Jin Chung Teng <jin.chung.teng@intel.com>,
+ Hazwan Arif Mazlan <hazwan.arif.mazlan@intel.com>
+Subject: [PATCH 01/10] gstreamer-encoder: Use a h/w based encoder with Intel
+ GPUs if possible (v5)
+Date: Thu, 27 Feb 2025 12:03:23 +0100
+Message-ID: <f99d272c67a1e76fa47b62c550461e0492d87c94.1740651328.git.michael.scherle@rz.uni-freiburg.de>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <cover.1740651328.git.michael.scherle@rz.uni-freiburg.de>
+References: <cover.1740651328.git.michael.scherle@rz.uni-freiburg.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -57,124 +65,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This merge request is based on Vivek Kasireddy's
-[PATCH v8 0/6] dcc: Create a stream for non-gl/remote clients that
-want to use dmabuf (v8), who gave me the permission to pursue the
-merge request. I also submitted this directly on gitlab but but I'm
-now also submitting it via the mailing list .I have made my changes
-in separate commits, should I merge them with the existing commits?
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 
-Original Description:
-For clients that cannot accept a dmabuf fd directly (such as those
-running on a remote system), this patch series provides a way for
-the Spice server to stream the gl/dmabuf data/buffer instead. This
-is mostly done by enabling the creation of Gst memory using a dmabuf
-fd as the source. This ability is useful given that dmabuf is the
-standard mechanism for sharing buffers between various drivers and
-userspace in many Graphics and Media usecases. Currently, this is
-tested with Qemu and remote-viewer using the x264enc/avdec_h264
-and msdkh264enc/dec plugins to stream the Guest/VM desktop but it
-can be easily extended to other plugins and applications.
-Here is roughly how things work:
+Once it is determined that an Intel GPU is available/active (after
+looking into udev's database), we try to see if there is a h/w
+based encoder (element) available (in Gstreamer's registry cache)
+for the user selected video codec. In other words, if we find that
+the Intel Media SDK Gstreamer plugin (libgstmsdk.so) and associated
+libraries (such as va or vaapi) are all installed properly, we add
+the appropriate h/w based encoder and post-processor/converter
+elements to the pipeline (along with any relevant options) instead
+of the s/w based elements.
 
-The application (e.g, Qemu) chooses its preferred codec (a Gstreamer
-one) and calls gl_scanout (to update the fd) followed by gl_draw.
-In response, the Spice server checks to see if the client is capable
-of accepting a dmabuf fd directly or not. If yes, the fd is forwarded
-directly to the client; otherwise, a new stream is created.
-The Spice server then sends the dmabuf fd to the Gstreamer encoder
-which uses it as an input for creating an encoded buffer which is then
-sent to the client.
-Once the encoding process is done, an async completion cookie is sent
-to the application.
+For example, if the user selects h264 as the preferred codec format,
+msdkh264enc and vapostproc will be preferred instead of x264enc
+and videoconvert.
 
-Here is a link to the previous version that used a drawable to share
-the dmabuf fd with the Gstreamer encoder:
-https://lists.freedesktop.org/archives/spice-devel/2023-January/052948.html
-This version is tested together with following (required) patches in qemu:
-https://gitlab.freedesktop.org/Vivek/qemu/-/commits/spice_gl_on_v4
+v2: (addressed some review comments from Frediano)
+- Moved the udev helper into spice-common
+- Refactored the code to choose plugins in order msdk > va > vaapi
 
-Changelog:
-v9:
+v3: (Frediano)
+- Added relevant encoder options for mjpeg and vp9 codecs (Jin Chung)
 
-updated the spice-common submodule, which is needed for udev helper to identify GPU vendor
-include dmabuf encoding only if dmabuf supported and gstreamer >= 1.24
-fix a race condition when the video stream is stopped while encoding a frame
+v4: (Fixups from Frediano)
+- Free the encoder when we cannot find vpp
+- Change type and find plugins array length using G_N_ELEMENTS
+- Fix gstenc_name UAF by freeing it at the end of the function
+- Use g_str_has_prefix instead of strstr
+- Include the string "_hw_" in function names that deal with
+  h/w based plugins
+- Rebase on master
 
-v8:
+v5: rebase on master
 
-Added a new gstreamer-encoder patch to this series to convert drm format
-shared by the VMM to the appropriate Gstreamer format.
+Cc: Frediano Ziglio <freddy77@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Co-developed-by: Jin Chung Teng <jin.chung.teng@intel.com>
+Co-developed-by: Hazwan Arif Mazlan <hazwan.arif.mazlan@intel.com>
+---
+ server/gstreamer-encoder.c | 123 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 122 insertions(+), 1 deletion(-)
 
-v7:
-
-Revert back to the previous design where we do not share fd with the stream
-and scanout is the sole owner of the fd. This is because sharing fd ownership
-opens up a lot of corner cases.
-
-v6: (Frediano)
-
-Properly share ownership of the dmabuf fd between stream and scanout
-Ensure that a newly created stream is associated with all connected clients
-
-v5:
-
-Addressed review comments from Frediano mainly regarding adding autoconf
-support for gstreamer-allocators dependency and not needing to access
-scanout as part of gl draw operation
-
-v4:
-
-Test with Virgl enabled
-Associate dmabuf's y0_top with stream's top_down variable
-
-v3:
-
-Updated the second patch to have a new primary surface created
-whenever a new stream gets created. This will avoid having to
-trigger primary surface creation from Qemu. And, this change
-also fixes the following error seen with v2:
-../server/display-channel.cpp:2074:display_channel_create_surface:
-condition `!display->priv->surfaces[surface_id]' failed
-Rebase all patches on master
-
-v2:
-
-Update all patches to address review comments from Frediano
-Tested this series with msdkh264enc/dec plugins that will be added
-in another patch series
-
-Michael Scherle (3):
-  Update spice-common submodule
-  gstreamer-encoder: Include dmabuf encoding conditionally for Linux
-  dcc-send: Fix freeze when video stream is stopped during ongoing draw
-
-Vivek Kasireddy (7):
-  gstreamer-encoder: Use a h/w based encoder with Intel GPUs if possible
-    (v5)
-  dcc: Check to see if the client supports multiple codecs (v2)
-  dcc: Create a stream associated with gl_draw for non-gl clients (v6)
-  dcc-send: Encode and send gl_draw stream data to the remote client
-    (v4)
-  gstreamer-encoder: Add an encoder function that takes dmabuf fd as
-    input (v3)
-  video-stream: Don't stop a stream associated with gl_draw (v2)
-  gstreamer-encoder: Map the drm format to appropriate Gstreamer format
-
- configure.ac                     |   2 +-
- meson.build                      |  12 +-
- server/dcc-send.cpp              | 163 ++++++++++---
- server/dcc.cpp                   |  31 ++-
- server/dcc.h                     |   6 +
- server/display-channel-private.h |   1 +
- server/display-channel.cpp       |   1 +
- server/gstreamer-encoder.c       | 389 ++++++++++++++++++++++++++++---
- server/video-encoder.h           |  14 ++
- server/video-stream.cpp          | 201 +++++++++++++---
- server/video-stream.h            |   4 +
- subprojects/spice-common         |   2 +-
- 12 files changed, 717 insertions(+), 109 deletions(-)
-
+diff --git a/server/gstreamer-encoder.c b/server/gstreamer-encoder.c
+index 40882f69..be8e3111 100644
+--- a/server/gstreamer-encoder.c
++++ b/server/gstreamer-encoder.c
+@@ -38,6 +38,7 @@
+ #include "red-common.h"
+ #include "video-encoder.h"
+ #include "utils.h"
++#include "common/udev.h"
+ 
+ 
+ #define SPICE_GST_DEFAULT_FPS 30
+@@ -861,6 +862,116 @@ static const gchar* get_gst_codec_name(const SpiceGstEncoder *encoder)
+     }
+ }
+ 
++static const char video_codecs[][8] = {
++    { "" },
++    { "mjpeg" },
++    { "vp8" },
++    { "h264" },
++    { "vp9" },
++    { "h265" },
++};
++
++static bool gst_features_lookup(const gchar *feature_name)
++{
++    GstRegistry *registry;
++    GstPluginFeature *feature;
++
++    registry = gst_registry_get();
++    if (!registry) {
++        return false;
++    }
++
++    feature = gst_registry_lookup_feature(registry, feature_name);
++    if (!feature) {
++        return false;
++    }
++
++    gst_object_unref(feature);
++    return true;
++}
++
++static gchar *find_best_hw_plugin(const gchar *codec_name)
++{
++    static const char plugins[][8] = {"msdk", "va", "vaapi"};
++    gchar *feature_name;
++    int i;
++
++    for (i = 0; i < G_N_ELEMENTS(plugins); i++) {
++        feature_name = !codec_name ? g_strconcat(plugins[i], "postproc", NULL) :
++                       g_strconcat(plugins[i], codec_name, "enc", NULL);
++        if (!gst_features_lookup(feature_name)) {
++            g_free(feature_name);
++            feature_name = NULL;
++            continue;
++        }
++        break;
++    }
++    return feature_name;
++}
++
++static gchar *get_hw_gstenc_opts(gchar *encoder, const gchar *codec_name)
++{
++    gchar *gstenc_opts;
++
++    if (strcmp(codec_name, "mjpeg") == 0) {
++        return g_strdup("");
++    }
++
++    if (g_str_has_prefix(encoder, "msdk")) {
++        if (strcmp(codec_name, "vp9") == 0) {
++            gstenc_opts = g_strdup("async-depth=1 b-frames=0 rate-control=3 target-usage=7");
++        } else {
++            gstenc_opts = g_strdup("async-depth=1 rate-control=3 gop-size=1 tune=16 b-frames=0 target-usage=7 min-qp=15 max-qp=35");
++        }
++    } else if (g_str_has_prefix(encoder, "vaapi")) {
++        if (strcmp(codec_name, "vp9") == 0) {
++            gstenc_opts = g_strdup("tune=3 rate-control=1");
++        } else {
++            gstenc_opts = g_strdup("rate-control=cqp max-bframes=0 min-qp=15 max-qp=35");
++        }
++    } else {
++        if (strcmp(codec_name, "vp9") == 0) {
++            gstenc_opts = g_strdup("min-qp=15 max-qp=35 rate-control=16 ref-frames=0 target-usage=7");
++        } else {
++            gstenc_opts = g_strdup("rate-control=16 b-frames=0 target-usage=7 min-qp=15 max-qp=35");
++        }
++    }
++    return gstenc_opts;
++}
++
++static void try_intel_hw_plugins(const gchar *codec_name, gchar **converter,
++                                 gchar **gstenc_name, gchar **gstenc_opts)
++{
++    gchar *encoder, *vpp;
++
++    if (strcmp(codec_name, "vp8") == 0) {
++        return;
++    }
++
++    encoder = find_best_hw_plugin(codec_name);
++    if (!encoder) {
++        return;
++    }
++    vpp = find_best_hw_plugin(NULL);
++    if (!vpp) {
++        g_free(encoder);
++        return;
++    }
++
++    g_free(*converter);
++    g_free(*gstenc_name);
++    g_free(*gstenc_opts);
++    *gstenc_name = encoder;
++    *gstenc_opts = get_hw_gstenc_opts(encoder, codec_name);
++
++    if (g_str_has_prefix(vpp, "vaapi")) {
++        *converter = g_strconcat(vpp, " ! video/x-raw(memory:VASurface),format=NV12", NULL);
++    } else {
++        *converter = g_strconcat(vpp, " ! video/x-raw(memory:VAMemory),format=NV12", NULL);
++    }
++    g_free(vpp);
++}
++
+ /* At this time, only the following formats are supported by x264enc. */
+ static const char valid_formats[][10] = {
+     { "Y444" },
+@@ -900,7 +1011,7 @@ static gchar *get_gst_converter(void)
+ 
+ static gboolean create_pipeline(SpiceGstEncoder *encoder)
+ {
+-    const gchar* gstenc_name = get_gst_codec_name(encoder);
++    gchar* gstenc_name = g_strdup(get_gst_codec_name(encoder));
+     if (!gstenc_name) {
+         return FALSE;
+     }
+@@ -947,10 +1058,18 @@ static gboolean create_pipeline(SpiceGstEncoder *encoder)
+     default:
+         /* gstreamer_encoder_new() should have rejected this codec type */
+         spice_warning("unsupported codec type %d", encoder->base.codec_type);
++        g_free(gstenc_name);
+         g_free(converter);
+         return FALSE;
+     }
+ 
++    const char *codec_name = video_codecs[encoder->base.codec_type];
++    GpuVendor vendor = spice_udev_detect_gpu(INTEL_VENDOR_ID);
++    if (vendor == VENDOR_GPU_DETECTED) {
++        try_intel_hw_plugins(codec_name, &converter, &gstenc_name,
++                             &gstenc_opts);
++    }
++
+     GError *err = NULL;
+     gchar *desc = g_strdup_printf("appsrc is-live=true format=time do-timestamp=true name=src !"
+                                   " %s ! %s name=encoder %s ! appsink name=sink",
+@@ -967,6 +1086,7 @@ static gboolean create_pipeline(SpiceGstEncoder *encoder)
+             gst_object_unref(encoder->pipeline);
+             encoder->pipeline = NULL;
+         }
++        g_free(gstenc_name);
+         return FALSE;
+     }
+     encoder->appsrc = GST_APP_SRC(gst_bin_get_by_name(GST_BIN(encoder->pipeline), "src"));
+@@ -1003,6 +1123,7 @@ static gboolean create_pipeline(SpiceGstEncoder *encoder)
+                                   SPICE_GST_VIDEO_PIPELINE_BITRATE |
+                                   SPICE_GST_VIDEO_PIPELINE_CAPS);
+ 
++    g_free(gstenc_name);
+     return TRUE;
+ }
+ 
 -- 
 2.48.1
 
