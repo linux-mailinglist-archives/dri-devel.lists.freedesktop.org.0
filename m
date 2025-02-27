@@ -2,42 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17A4A47B0D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 11:59:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B31A47B11
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 12:00:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 859E910E26D;
-	Thu, 27 Feb 2025 10:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7006F10EA8D;
+	Thu, 27 Feb 2025 11:00:14 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Y+ylQJK6";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.dudau.co.uk (dliviu.plus.com [80.229.23.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32CCB10E26D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 10:59:44 +0000 (UTC)
-Received: from mail.dudau.co.uk (bart.dudau.co.uk [192.168.14.2])
- by smtp.dudau.co.uk (Postfix) with SMTP id F2A5651E5202;
- Thu, 27 Feb 2025 10:59:41 +0000 (GMT)
-Received: by mail.dudau.co.uk (sSMTP sendmail emulation);
- Thu, 27 Feb 2025 10:59:41 +0000
-Date: Thu, 27 Feb 2025 10:59:41 +0000
-From: Liviu Dudau <liviu@dudau.co.uk>
-To: Shixiong Ou <oushixiong1025@163.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-Subject: Re: [PATCH] drm/arm/komeda: Add a condition check before removing
- sysfs attribute
-Message-ID: <Z8BFnQonHik5Sxr7@bart.dudau.co.uk>
-References: <20250220085358.232883-1-oushixiong1025@163.com>
- <Z72bMsXmoQv1UVv0@bart.dudau.co.uk>
- <9ec1ac6c-903e-9605-e8ad-3e555db4625c@163.com>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49DAC10EA8D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 11:00:08 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 43EB44429A;
+ Thu, 27 Feb 2025 11:00:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1740654006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kRtGr3AFG7KYIerjmFHKE39XTlw5yCSP9o9cNC/e55o=;
+ b=Y+ylQJK6jEUYgk4HhJZ+aDr4x08e3Nzao/YHmoxpwPs3Ut59XOsUE1JoF5A22Y49jrZ+wN
+ qygMytWr2FoeYEEifwnMkIqKquvZLDyDIRbpxKFEQXTXafRgoc1dRXgTNIKPv6klFcYIL/
+ tXxrA2FRBpbSXYJRspnNBrVP1BoR//ifTzBAuaS4vC5NII8LxPY0EkQuYdzBmZvLQFxG2+
+ MY1WqwE9UDwRorQoMnckswzMFfeIQqIX4m2qgiGk4m6v8H2A8CntuBvgJFge5bsn+EyfmW
+ RT4kz+DgEcsdRQYsX3kmjcF1yzanU/w0Y1afIH0JlMHMvKKBCxKHV6HTNQ7WnQ==
+Date: Thu, 27 Feb 2025 12:00:04 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Douglas
+ Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v4 00/15] drm/bridge: Various quality of life improvements
+Message-ID: <20250227120004.77814e09@bootlin.com>
+In-Reply-To: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
+References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9ec1ac6c-903e-9605-e8ad-3e555db4625c@163.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekjedvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeviefffeegiedtleelieeghfejleeuueevkeevteegffehledtkeegudeigffgvdenucfkphepvdgrtddumegvtdgrmedvgeeimeejjeeltdemvdeitgegmegvvddvmeeitdefugemheekrgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdegieemjeejledtmedviegtgeemvgdvvdemiedtfegumeehkegrpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvu
+ gesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,92 +71,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2025 at 10:52:56AM +0800, Shixiong Ou wrote:
-> 
-> Hello,
-> 
-> In my opinion, the corresponding error handling has already been implemented
-> in
-> sysfs_create_group(), so we do not need to call sysfs_remove_group() if
-> sysfs_create_group() fails.
+Hi Maxime,
 
-You are right, I stand corrected.
+On Tue, 25 Feb 2025 17:43:48 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> Hi,
+> 
+> Here's a series of changes after to the KMS helpers and bridge API
+> following a bunch of reviews I did.
+> 
+> It's mostly centered across providing an easier time to deal with bridge
+> states, and a somewhat consistent with the other entities API.
+> 
+> It's build tested only, with arm64 allmodconfig.
+> 
+> Maxime
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+
+I Tried to test this series on my system but I've got a compilation issue.
+     depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
+     depmod: ERROR: Found 2 modules in dependency cycles!
+
+CONFIG_DRM=m in my configuration.
+
+Tested to move to CONFIG_DRM=y but in that case, I've got
+     aarch64-buildroot-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+     aarch64-buildroot-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+     aarch64-buildroot-linux-gnu-ld: drivers/gpu/drm/drm_bridge.o: in function `drm_bridge_reset_crtc':
+     drivers/gpu/drm/drm_bridge.c:1413: undefined reference to `drm_atomic_helper_reset_crtc'
 
 Best regards,
-Liviu
-
-> 
-> 
-> Thanks and Regards,
-> Shixiong Ou.
-> 
-> 
-> 在 2025/2/25 18:28, Liviu Dudau 写道:
-> > Hello,
-> > 
-> > Replying from my personal email as the corporate system seems to have blackholed your emails
-> > while I was on holiday.
-> > 
-> > Can you tell me more why you think that if sysfs_create_group() fails we should not call
-> > sysfs_remove_group()? After all, we don't know how far sysfs_create_group() has progressed before
-> > it encountered an error, so we still need to do some cleanup.
-> > 
-> > Best regards,
-> > Liviu
-> > 
-> > On Thu, Feb 20, 2025 at 04:53:58PM +0800,oushixiong1025@163.com  wrote:
-> > > From: Shixiong Ou<oushixiong@kylinos.cn>
-> > > 
-> > > [WHY] If the call to sysfs_create_group() fails, there is
-> > >        no need to call function sysfs_remove_group().
-> > > 
-> > > [HOW] Add a condition check before removing sysfs attribute.
-> > > 
-> > > Signed-off-by: Shixiong Ou<oushixiong@kylinos.cn>
-> > > ---
-> > >   drivers/gpu/drm/arm/display/komeda/komeda_dev.c | 7 ++++++-
-> > >   drivers/gpu/drm/arm/display/komeda/komeda_dev.h | 2 ++
-> > >   2 files changed, 8 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> > > index 5ba62e637a61..7d646f978640 100644
-> > > --- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> > > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> > > @@ -259,6 +259,8 @@ struct komeda_dev *komeda_dev_create(struct device *dev)
-> > >   		goto err_cleanup;
-> > >   	}
-> > > +	mdev->sysfs_attr_enabled = true;
-> > > +
-> > >   	mdev->err_verbosity = KOMEDA_DEV_PRINT_ERR_EVENTS;
-> > >   	komeda_debugfs_init(mdev);
-> > > @@ -278,7 +280,10 @@ void komeda_dev_destroy(struct komeda_dev *mdev)
-> > >   	const struct komeda_dev_funcs *funcs = mdev->funcs;
-> > >   	int i;
-> > > -	sysfs_remove_group(&dev->kobj, &komeda_sysfs_attr_group);
-> > > +	if (mdev->sysfs_attr_enabled) {
-> > > +		sysfs_remove_group(&dev->kobj, &komeda_sysfs_attr_group);
-> > > +		mdev->sysfs_attr_enabled = false;
-> > > +	}
-> > >   	debugfs_remove_recursive(mdev->debugfs_root);
-> > > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
-> > > index 5b536f0cb548..af087540325c 100644
-> > > --- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
-> > > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
-> > > @@ -216,6 +216,8 @@ struct komeda_dev {
-> > >   #define KOMEDA_DEV_PRINT_DUMP_STATE_ON_EVENT BIT(8)
-> > >   	/* Disable rate limiting of event prints (normally one per commit) */
-> > >   #define KOMEDA_DEV_PRINT_DISABLE_RATELIMIT BIT(12)
-> > > +
-> > > +	bool sysfs_attr_enabled;
-> > >   };
-> > >   static inline bool
-> > > -- 
-> > > 2.17.1
-> > > 
-
--- 
-Everyone who uses computers frequently has had, from time to time,
-a mad desire to attack the precocious abacus with an axe.
-       	   	      	     	  -- John D. Clark, Ignition!
+Hervé
