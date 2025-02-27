@@ -2,48 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CBCA48A9C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 22:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008E2A48A9D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 22:34:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A6A10EB9B;
-	Thu, 27 Feb 2025 21:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4C510EB9C;
+	Thu, 27 Feb 2025 21:34:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="jdFrtzEU";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="IIX2xnYo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76C110EB9B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 21:34:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=uHZuuz0IVdaWI7A2r3gR44iE1/btqOd/7KwGlKdv5sI=; b=jdFrtzEUfaFAzTI9
- BJ8cCJoE1TwRf58Eu7+tc5sa3fEyoHA9qWklQvSLpqFMg61A/jQYwXJCuUH1EKRAOkRb81x2jpj+Q
- Vn/6Ge4D61oCnoP/lyM7JRLGb+xDNZkqsXvhgh+IXdI55vNFJQpkL0icNSfGX/Y6223lo6n/L2ATa
- rNM8p8th8Wf0T7WEX9+gHzEbJ9iHQeGEHYn0pKXk/4PkLg/zWIaYNUroa5HDFi9fXarYZtHuQtxH1
- xU44NNGG4tRbmr4mJkPyCHLDN/Ea5i/Y/z8S6pfZb8oN5y4n8YB2SfSzHsKqf7YdxyOncIwEgYZv/
- KxrAYc4ENdzcXhv8Sw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1tnlWH-001TD8-1R;
- Thu, 27 Feb 2025 21:34:13 +0000
-Date: Thu, 27 Feb 2025 21:34:13 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: airlied@gmail.com, simona@ffwll.ch
-Cc: hdegoede@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/vboxvideo: Remove unused hgsmi_cursor_position
-Message-ID: <Z8DaVW_U-QtBVSMf@gallifrey>
-References: <20241215220014.452537-1-linux@treblig.org>
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1E910EBA2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 21:34:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 1153510382D2E; Thu, 27 Feb 2025 22:34:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1740692067;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4Ei55hHQ021/CG2gC2SB779fvno3iOq9Gp5jc0y30Cw=;
+ b=IIX2xnYocnR0usuE0QUIEzYItei0KwpmpeAEr6qiBKQ3jFlE33i2A4FK+m+JvfMD8Gh2xX
+ 7Pp+Udg0DydQYPPkhaKWu2yDeGZU4ccySMLCK+bCNw2YZv+HqCV0kROVqxvst5fzPUCpZ5
+ TQNR4ohdJr9bpK+6FTsxA5HERBDIHeXl92kh8qV3fwHq1C8Z3+E+jleNfm90CeceWxH5+e
+ QbHpz0MDqhsl4Ou2Mixv87hygr/yPYmbxTWZxhVcD/AIZ2HvDuGm/qGxFeXjfhsfxBmfs0
+ PzFDkrfr7faeRuAxs4BVySc/tp9WUUdMuSHOpNtkzpG4Ty5irIXcqBmhQXRy6w==
+Message-ID: <db903f36-e897-42ed-be46-f0b035303233@denx.de>
+Date: Thu, 27 Feb 2025 22:34:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20241215220014.452537-1-linux@treblig.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 21:31:52 up 295 days,  8:45,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
+To: Frank Li <Frank.li@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-10-marex@denx.de>
+ <Z8CkSUry5puMu6Mx@lizhi-Precision-Tower-5810>
+ <d41c9cf5-9ec4-4b9a-b281-653873fb8df0@denx.de>
+ <Z8DY14NJYXjwKz7Z@lizhi-Precision-Tower-5810>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <Z8DY14NJYXjwKz7Z@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,94 +76,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* linux@treblig.org (linux@treblig.org) wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> hgsmi_cursor_position() has been unused since 2018's
-> commit 35f3288c453e ("staging: vboxvideo: Atomic phase 1: convert cursor to
-> universal plane")
-> 
-> Remove it.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+On 2/27/25 10:27 PM, Frank Li wrote:
 
-Hi David, Simona,
-  Will this one be picked up by drm-next?  It got Hans's
-review back on 16 Dec.
-( in 2513e942-6391-4a96-b487-1e4ba19b7aeb@redhat.com )
+[...]
 
-  Thanks,
-
-Dave
-
-> ---
->  drivers/gpu/drm/vboxvideo/hgsmi_base.c      | 37 ---------------------
->  drivers/gpu/drm/vboxvideo/vboxvideo_guest.h |  2 --
->  2 files changed, 39 deletions(-)
+>>>> +		gpu: gpu@4d900000 {
+>>>> +			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
+>>>> +			reg = <0 0x4d900000 0 0x480000>;
+>>>> +			clocks = <&scmi_clk IMX95_CLK_GPU>;
+>>>> +			clock-names = "core";
+>>>> +			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
+>>>> +				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+>>>> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+>>>> +			interrupt-names = "gpu", "job", "mmu";
+>>>> +			mali-supply = <&gpu_fixed_reg>;
+>>>> +			operating-points-v2 = <&gpu_opp_table>;
+>>>> +			power-domains = <&scmi_devpd IMX95_PD_GPU>, <&scmi_perf IMX95_PERF_GPU>;
+>>>> +			power-domain-names = "mix", "perf";
+>>>> +			resets = <&gpu_blk_ctrl 0>;
+>>>> +			#cooling-cells = <2>;
+>>>> +			dynamic-power-coefficient = <1013>;
+>>>> +			status = "disabled";
+>>>
+>>> GPU is internal module, which have not much dependence with other module
+>>> such as pinmux. why not default status is "disabled". Supposed gpu driver
+>>> will turn off clock and power if not used.
+>> My thinking was that there are MX95 SoC with GPU fused off, hence it is
+>> better to keep the GPU disabled in DT by default. But I can also keep it
+>> enabled and the few boards which do not have MX95 SoC with GPU can
+>> explicitly disable it in board DT.
+>>
+>> What do you think ?
 > 
-> diff --git a/drivers/gpu/drm/vboxvideo/hgsmi_base.c b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-> index 87dccaecc3e5..db994aeaa0f9 100644
-> --- a/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-> +++ b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-> @@ -181,40 +181,3 @@ int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
->  
->  	return rc;
->  }
-> -
-> -/**
-> - * hgsmi_cursor_position - Report the guest cursor position.  The host may
-> - *                         wish to use this information to re-position its
-> - *                         own cursor (though this is currently unlikely).
-> - *                         The current host cursor position is returned.
-> - * Return: 0 or negative errno value.
-> - * @ctx:              The context containing the heap used.
-> - * @report_position:  Are we reporting a position?
-> - * @x:                Guest cursor X position.
-> - * @y:                Guest cursor Y position.
-> - * @x_host:           Host cursor X position is stored here.  Optional.
-> - * @y_host:           Host cursor Y position is stored here.  Optional.
-> - */
-> -int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
-> -			  u32 x, u32 y, u32 *x_host, u32 *y_host)
-> -{
-> -	struct vbva_cursor_position *p;
-> -
-> -	p = hgsmi_buffer_alloc(ctx, sizeof(*p), HGSMI_CH_VBVA,
-> -			       VBVA_CURSOR_POSITION);
-> -	if (!p)
-> -		return -ENOMEM;
-> -
-> -	p->report_position = report_position;
-> -	p->x = x;
-> -	p->y = y;
-> -
-> -	hgsmi_buffer_submit(ctx, p);
-> -
-> -	*x_host = p->x;
-> -	*y_host = p->y;
-> -
-> -	hgsmi_buffer_free(ctx, p);
-> -
-> -	return 0;
-> -}
-> diff --git a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-> index 55fcee3a6470..643c4448bdcb 100644
-> --- a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-> +++ b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-> @@ -34,8 +34,6 @@ int hgsmi_query_conf(struct gen_pool *ctx, u32 index, u32 *value_ret);
->  int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
->  			       u32 hot_x, u32 hot_y, u32 width, u32 height,
->  			       u8 *pixels, u32 len);
-> -int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
-> -			  u32 x, u32 y, u32 *x_host, u32 *y_host);
->  
->  bool vbva_enable(struct vbva_buf_ctx *vbva_ctx, struct gen_pool *ctx,
->  		 struct vbva_buffer *vbva, s32 screen);
-> -- 
-> 2.47.1
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+> GPU Fuse off should use access-control, see thread
+> https://lore.kernel.org/imx/20250207120213.GD14860@localhost.localdomain/
+Did that thread ever go anywhere ? It seems there is no real conclusion, 
+is there ? +Cc Alex .
