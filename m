@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5AFA4764D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 08:08:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3269A47650
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 08:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2B910E303;
-	Thu, 27 Feb 2025 07:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D3B10E247;
+	Thu, 27 Feb 2025 07:08:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O7ipVkAZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Hr92AC/d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA7710E152
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 07:08:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE3F10E152
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 07:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740640106; x=1772176106;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VLD9AGYPVrzIRyGKCwkTW7NwmELi6gc28QkKz9UEbYo=;
- b=O7ipVkAZhmLsXPCvK1+0d9gRmH8L6PJuDetno7DSvqfms3cWqM4wy4A/
- JJTZne91pnjfMym+3YNT53OIGnIi0UKA0twSNv3D+eZ/bDim3rPbNPpHD
- Zdf7kVuq+Ub96/Q+Rp+/kA2zvnWLub3xQ8dAVMoX82rsQDp/tPzoMganh
- 33fGjUpQT/+OGoP6Bld6a8yLTyczPIl+IHyApXDtnhMu4j7bZBHV0SL2L
- M70nwqqbCGmbqvysSeMkbL4v718X8tTJm9uDIdpytzC3R8GvWlsxumAQ3
- gAu1sAKiSygKVPFVABnZJgCI6d3icXyWAj5py9mKSELLfkr6an5U7Yr75 Q==;
-X-CSE-ConnectionGUID: cReyqYnBRCKppwfzmF9qwA==
-X-CSE-MsgGUID: 00xy1FOTRmCoVcETfOKbyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52505364"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="52505364"
+ t=1740640107; x=1772176107;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ITwkKu7/jE4M2GGDC8Gq0PXRGW8IylfszRaf/ug78Vw=;
+ b=Hr92AC/dZ4qcG6fJdM+yDt1M0lEzeEzKB864RMV/C90a/6m6oqAm26dk
+ VUL666gGz+Scs44Vwio4Io+zbqW4MsPD3by3IBKgCbBqn9ZFsNyb5YaTW
+ 7xfYawRIVExoOYRBmxz1W+Zlr/SKJdF2RnLj/3vBseKeSp5D4OXQ2nI9D
+ 7wPEpfJKIIsNt9ncsxjV4A+EB/jXkOvSOPnXmbdWXoVPY6wayBPkKIYW1
+ c0E17+GbeRdzhW8Xge0XOGxcripAzoPLotQF3kgPdjqpu2cFlu9X2ivf/
+ A37JJ3lje/qCBy+OZlCqHyafQoTFzTAsA64lBD7A0XnPTauBU5MoK0aNG g==;
+X-CSE-ConnectionGUID: sZ3TxP4xSS+FwLmyNh1wzA==
+X-CSE-MsgGUID: C3ulWaODQuKP9WIBkr6uKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52505370"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; d="scan'208";a="52505370"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2025 23:08:24 -0800
-X-CSE-ConnectionGUID: NKBHePo0THW+Nc1WzaPAdA==
-X-CSE-MsgGUID: oNZ/3igYTZCjER70cxN2iQ==
+ 26 Feb 2025 23:08:27 -0800
+X-CSE-ConnectionGUID: 4oh7oMzAQzyc0T0iOEV00Q==
+X-CSE-MsgGUID: y/LQkAcrQ2G+eeVi0tTkoQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="154125491"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="154125499"
 Received: from jraag-z790m-itx-wifi.iind.intel.com ([10.190.239.23])
- by orviesa001.jf.intel.com with ESMTP; 26 Feb 2025 23:08:22 -0800
+ by orviesa001.jf.intel.com with ESMTP; 26 Feb 2025 23:08:24 -0800
 From: Raag Jadav <raag.jadav@intel.com>
 To: arnd@arndb.de, gregkh@linuxfoundation.org,
  andriy.shevchenko@linux.intel.com, airlied@gmail.com, simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v3 0/2] Cleanup io.h
-Date: Thu, 27 Feb 2025 12:37:45 +0530
-Message-Id: <20250227070747.3105451-1-raag.jadav@intel.com>
+ Raag Jadav <raag.jadav@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [PATCH v3 1/2] drm/draw: include missing headers
+Date: Thu, 27 Feb 2025 12:37:46 +0530
+Message-Id: <20250227070747.3105451-2-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250227070747.3105451-1-raag.jadav@intel.com>
+References: <20250227070747.3105451-1-raag.jadav@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,35 +68,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series attempts to cleanup io.h with "include what you use" approach.
-This depends on changes available on immutable tag[1].
+Include headers for the symbols directly used in this file instead of
+relying on intermediate headers.
 
-Although this series is too trivial in the grand scheme of things, it is
-still a tiny step towards untangling core headers. I have success results
-from LKP for this series but there can still be corner cases. So perhaps
-we can queue this on a temporary branch which we can use to submit fixes
-in case of fallout.
-
-Future plan is to use the excellent analysis[2][3] by Arnd to cleanup other
-headers.
-
-[1] https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com
-[2] https://lore.kernel.org/r/2342b516-2c6e-42e5-b4f4-579b280823ba@app.fastmail.com
-[3] https://lore.kernel.org/r/f6eb011b-40fb-409a-b2b2-a09d0e770bbd@app.fastmail.com
-
-v2: Fix sparc build errors
-v3: Fix nios2 build errors and re-order patches
-
-Raag Jadav (2):
-  drm/draw: include missing headers
-  io.h: drop unused headers
-
+Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+---
  drivers/gpu/drm/drm_draw.c | 2 ++
- include/linux/io.h         | 3 ---
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ 1 file changed, 2 insertions(+)
 
-
-base-commit: b8c38ccb2ca52b9a38cfeb9f89abab5d6e713221
+diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
+index cb2ad12bce57..385eb5e10047 100644
+--- a/drivers/gpu/drm/drm_draw.c
++++ b/drivers/gpu/drm/drm_draw.c
+@@ -5,6 +5,8 @@
+  */
+ 
+ #include <linux/bits.h>
++#include <linux/bug.h>
++#include <linux/export.h>
+ #include <linux/iosys-map.h>
+ #include <linux/types.h>
+ 
 -- 
 2.34.1
 
