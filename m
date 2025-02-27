@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F4BA48634
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69E3A48633
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF0110EB4A;
-	Thu, 27 Feb 2025 17:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B6910EB45;
+	Thu, 27 Feb 2025 17:07:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="C9u7OYl/";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="RyGTCHUJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F34BC10EB45
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 004F610EB48
  for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 17:07:21 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 3656710382F22; Thu, 27 Feb 2025 18:00:49 +0100 (CET)
+ with ESMTPSA id 6439A10382F24; Thu, 27 Feb 2025 18:00:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1740675650;
+ t=1740675652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cr2T/qLGB0lwW96DWD8/vn79iF6uSlhDoMgeSvZtY94=;
- b=C9u7OYl/kCgGFNXv4fgqJPN5xUljK3pSWs9pfuRzXI7Z2Ok0IBxAIkJopoHgkFZgm6oqU3
- RCT16E2KiWU/pBZFZtinFrdrOjU4CwXCJ79ddZzqAMPLHKQbhE8Rp3StAkdrXd1XhudYkR
- 8qmj+dtW3bJRAPRzmWkRKEKPfeBzPvH6kvZoJncJslrOSam6RzGrFcCpRo7DqQzUKgZ0ic
- 18ZNB0MGmhVymPTifxaRH30Sh2K4PEQ1iWAgjRoTwMpo+lbc0iw1xK0q+A61eShDVoy4Hn
- GLmr37DUmqNoMpgGNpAqK/Crt1lqH8WDAX1KoeoFZqhJHp2F8ys6kyFrv9dOjw==
+ bh=jAy9BJopIfDRaRGU70xDkuGWNXBYiG90Up6CXvmcxjc=;
+ b=RyGTCHUJxyfRnUoIyaSrH53V2swypwkm65CKxKetYqOBRW3syANw3cWlunyEebUq5VoHiz
+ 42P9966TRmUgufEazL8bs9P5HRwPXh0eWqiwgMpQqAY0SDRjbdhaQYanatU9EggL1VzIks
+ rn/2Pn3PBguFlZOj6b/nxEisVdEOZ6ifF/WyC2I6pUf2c8zGaOKh/8OpAnY2Z4tYEKQxGD
+ PlB+2RlPxLAmjo7In1Sdqeqw+QSqJcjaIbzk4eCQb7HblxkISnCZw9jtgmrxwtEZ3Qknw2
+ V9rWieZQwsjLAnnJPEWCXHZZcSLxYj4aXecCWk2WYYZducR6Gnt5EnWmGDfFQg==
 From: Marek Vasut <marex@denx.de>
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marex@denx.de>,
@@ -46,9 +46,9 @@ Cc: Marek Vasut <marex@denx.de>,
  Steven Price <steven.price@arm.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-Subject: [PATCH 4/9] drm/panthor: Implement optional reset
-Date: Thu, 27 Feb 2025 17:58:04 +0100
-Message-ID: <20250227170012.124768-5-marex@denx.de>
+Subject: [PATCH 5/9] drm/panthor: Implement support for multiple power domains
+Date: Thu, 27 Feb 2025 17:58:05 +0100
+Message-ID: <20250227170012.124768-6-marex@denx.de>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250227170012.124768-1-marex@denx.de>
 References: <20250227170012.124768-1-marex@denx.de>
@@ -70,9 +70,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The instance of the GPU populated in Freescale i.MX95 does require
-release from reset by writing into a single GPUMIX block controller
-GPURESET register bit 0. Implement support for one optional reset.
+The driver code power domain binding to driver instances only works
+for single power domain, in case there are multiple power domains,
+it is necessary to explicitly attach via dev_pm_domain_attach*().
+As DT bindings list support for up to 5 power domains, add support
+for attaching them all. This is useful on Freescale i.MX95 which
+does have two power domains.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -98,95 +101,96 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: imx@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/gpu/drm/panthor/Kconfig          |  1 +
- drivers/gpu/drm/panthor/panthor_device.c | 23 +++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_device.h |  3 +++
- 3 files changed, 27 insertions(+)
+ drivers/gpu/drm/panthor/panthor_device.c | 56 ++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_device.h |  5 +++
+ 2 files changed, 61 insertions(+)
 
-diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
-index 55b40ad07f3b0..ab62bd6a0750f 100644
---- a/drivers/gpu/drm/panthor/Kconfig
-+++ b/drivers/gpu/drm/panthor/Kconfig
-@@ -14,6 +14,7 @@ config DRM_PANTHOR
- 	select IOMMU_IO_PGTABLE_LPAE
- 	select IOMMU_SUPPORT
- 	select PM_DEVFREQ
-+	select RESET_SIMPLE if SOC_IMX9
- 	help
- 	  DRM driver for ARM Mali CSF-based GPUs.
- 
 diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index a9da1d1eeb707..51ee9cae94504 100644
+index 51ee9cae94504..4348b7e917b64 100644
 --- a/drivers/gpu/drm/panthor/panthor_device.c
 +++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -64,6 +64,17 @@ static int panthor_clk_init(struct panthor_device *ptdev)
+@@ -75,6 +75,58 @@ static int panthor_reset_init(struct panthor_device *ptdev)
  	return 0;
  }
  
-+static int panthor_reset_init(struct panthor_device *ptdev)
++/* Generic power domain handling code, see drivers/gpu/drm/tiny/simpledrm.c */
++static void panthor_detach_genpd(void *res)
 +{
-+	ptdev->resets = devm_reset_control_get_optional_exclusive_deasserted(ptdev->base.dev, NULL);
-+	if (IS_ERR(ptdev->resets))
-+		return dev_err_probe(ptdev->base.dev,
-+				     PTR_ERR(ptdev->resets),
-+				     "get reset failed");
++	struct panthor_device *ptdev = res;
++	int i;
 +
-+	return 0;
++	if (ptdev->pwr_dom_count <= 1)
++		return;
++
++	for (i = ptdev->pwr_dom_count - 1; i >= 0; i--)
++		dev_pm_domain_detach(ptdev->pwr_dom_devs[i], true);
++}
++
++static int panthor_genpd_init(struct panthor_device *ptdev)
++{
++	struct device *dev = ptdev->base.dev;
++	int i, ret;
++
++	ptdev->pwr_dom_count = of_count_phandle_with_args(dev->of_node, "power-domains",
++							  "#power-domain-cells");
++	/*
++	 * Single power-domain devices are handled by driver core nothing to do
++	 * here. The same for device nodes without "power-domains" property.
++	 */
++	if (ptdev->pwr_dom_count <= 1)
++		return 0;
++
++	if (ptdev->pwr_dom_count > ARRAY_SIZE(ptdev->pwr_dom_devs)) {
++		drm_warn(&ptdev->base, "Too many power domains (%d) for this device\n",
++			 ptdev->pwr_dom_count);
++		return -EINVAL;
++	}
++
++	for (i = 0; i < ptdev->pwr_dom_count; i++) {
++		ptdev->pwr_dom_devs[i] = dev_pm_domain_attach_by_id(dev, i);
++		if (!IS_ERR(ptdev->pwr_dom_devs[i]))
++			continue;
++
++		ret = PTR_ERR(ptdev->pwr_dom_devs[i]);
++		if (ret != -EPROBE_DEFER) {
++			drm_warn(&ptdev->base, "pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
++			continue;
++		}
++
++		/* Missing dependency, try again. */
++		panthor_detach_genpd(ptdev);
++		return ret;
++	}
++
++	return devm_add_action_or_reset(dev, panthor_detach_genpd, ptdev);
 +}
 +
  void panthor_device_unplug(struct panthor_device *ptdev)
  {
  	/* This function can be called from two different path: the reset work
-@@ -217,6 +228,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+@@ -232,6 +284,10 @@ int panthor_device_init(struct panthor_device *ptdev)
  	if (ret)
  		return ret;
  
-+	ret = panthor_reset_init(ptdev);
++	ret = panthor_genpd_init(ptdev);
 +	if (ret)
 +		return ret;
 +
  	ret = panthor_devfreq_init(ptdev);
  	if (ret)
  		return ret;
-@@ -470,6 +485,10 @@ int panthor_device_resume(struct device *dev)
- 	if (ret)
- 		goto err_disable_stacks_clk;
- 
-+	ret = reset_control_deassert(ptdev->resets);
-+	if (ret)
-+		goto err_disable_coregroup_clk;
-+
- 	panthor_devfreq_resume(ptdev);
- 
- 	if (panthor_device_is_initialized(ptdev) &&
-@@ -512,6 +531,9 @@ int panthor_device_resume(struct device *dev)
- 
- err_suspend_devfreq:
- 	panthor_devfreq_suspend(ptdev);
-+	reset_control_assert(ptdev->resets);
-+
-+err_disable_coregroup_clk:
- 	clk_disable_unprepare(ptdev->clks.coregroup);
- 
- err_disable_stacks_clk:
-@@ -563,6 +585,7 @@ int panthor_device_suspend(struct device *dev)
- 
- 	panthor_devfreq_suspend(ptdev);
- 
-+	reset_control_assert(ptdev->resets);
- 	clk_disable_unprepare(ptdev->clks.coregroup);
- 	clk_disable_unprepare(ptdev->clks.stacks);
- 	clk_disable_unprepare(ptdev->clks.core);
 diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index da6574021664b..fea3a05778e2e 100644
+index fea3a05778e2e..7fb65447253e9 100644
 --- a/drivers/gpu/drm/panthor/panthor_device.h
 +++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -111,6 +111,9 @@ struct panthor_device {
- 		struct clk *coregroup;
- 	} clks;
+@@ -114,6 +114,11 @@ struct panthor_device {
+ 	/** @resets: GPU reset. */
+ 	struct reset_control *resets;
  
-+	/** @resets: GPU reset. */
-+	struct reset_control *resets;
++	/** @pwr_dom_count: Power domain count */
++	int pwr_dom_count;
++	/** @pwr_dom_dev: Power domain devices */
++	struct device *pwr_dom_devs[5];
 +
  	/** @coherent: True if the CPU/GPU are memory coherent. */
  	bool coherent;
