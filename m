@@ -2,80 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC1AA474AF
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECEEA474AE
 	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 05:38:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1478310EA35;
-	Thu, 27 Feb 2025 04:38:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F230710EA2F;
+	Thu, 27 Feb 2025 04:38:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kHvMsi0a";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pPe2TzGh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1374D10EA2F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 04:38:09 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5485646441cso497240e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 20:38:08 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2C110EA3F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 04:38:11 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-54622e97753so555805e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2025 20:38:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740631087; x=1741235887; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740631090; x=1741235890; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7NuhwZJbo550PrQsjB4y/he3bzDbUt6ahCDwi8PkPv8=;
- b=kHvMsi0aVYXxIW9YwgJtgEnVKHpdGIY+LqvynU6K5FASZ4HpmfTuLhndk8Qvpy7ArF
- fmL4pnPMBZePk0Zou2KkhhfhGqwUDwSJiJ2ZJowTF1oVXKWFwvTjYGN09WmkAnLYG/yB
- h+UOj+iFgUg7DtF7bFNKSYDVGlQPnuMMEGsNKwiqbwnb7tW9gxEniGKp9XkfKO1wQ+TP
- vyfoZ5zQOnx3XIvU/Q4bs0iRcAz6WXDUNJ6PF/aDtZlJxdSIelY5o7IAEWZwScqG2kln
- AGtRKVzwt60PxbW+W6XETXkArPNdeIJyA9JYLpQItUH1FdOKTNuoNSPErAf/Ka40ftNo
- vkBA==
+ bh=n+xNvurO8U1WVGtMu3d7j2YgOZ/XCG9UaC+fiCOcukg=;
+ b=pPe2TzGhtYcjXCuNpjtQI56uMsUW0zIo8dfYFnLqszWngPMAzxTSxOPc5o7pSZrFV0
+ pUjQOnumtjv9BKNI4fFlVN7UbEDANyNmkU/Pimc9DcQB+iatAlD68Ueh6UnP7yOR9tWq
+ Ojg8gwzr8fi1sCPXzktaFQiu/CQudFpiGDItFoPx7gt/4s97NfsiqgyzrOr4sJctmny1
+ sb1ZBBf2KW+sYJhu9YGVQoeT36cDCEjqHu0jrd1XjrGVeIv0ojhbeZhL2yEYQvSwJwM2
+ EivmO4SrLQNvTr9KBjK/BdrrLLEJqSUwkWVok3Qbg6XS2LQ9tyEjEWqyWhGJzQ/qFFcY
+ LtQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740631087; x=1741235887;
+ d=1e100.net; s=20230601; t=1740631090; x=1741235890;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7NuhwZJbo550PrQsjB4y/he3bzDbUt6ahCDwi8PkPv8=;
- b=Ma+jjlwFxDY0Iyyc354G/S4mpMA1+WpheZoODkb3G1HQFGAWVyG+i6ghcTXFAuL+AE
- lSvmU6RpJ2x+UKk6JrolHzonHcHPkpK9d9hDl9KqQk8l2zQK+cknLKtHoyRjN62KLpUO
- lG/pzgL0Dubqzo4E0LoNPrKwF0fG9ioZGkjyQBo8iQRi2fp/sjM1rQLzVZfobvmsVH/v
- pGZ5xKI98CfvQU4HkBhHdWQSqx83o4boo6gK0zPqYiw1d8pVmln6qZcS+F1s7RLGmwQx
- /kRhQ0Zr39F2BS5gfLMSZgdNyJ3VDmECbgih6c/RrC2RoEoQZT4PjjY84idzBYm4lerQ
- jgHA==
+ bh=n+xNvurO8U1WVGtMu3d7j2YgOZ/XCG9UaC+fiCOcukg=;
+ b=qSMS3VsnlY7ymiSZlgB2y2A36gWG4Xl9e6iU9x52iFzHrcHHAZgQXIp46y8ZLe8kxE
+ rwDkp6LXtK0u6CQnUmKvUMF4r1EH+cMg2l99I1pI4PUpVURsF3H/XPdKaz2cGcfxPyKA
+ p1UaT7HACaVQZW6ixXiXU6Dd8baix01f2EiKlBjEvJAiZHFYH8MARSYoHlT1oMKlRUdE
+ wY4shS8i0KvEZGYQYzz+Mr/P+HW4WUyRIrpRcPPQ9ZsHu0EQtrbhod/wHbw7bRkZRUtr
+ KPg3ixSVlvFeVSWq4Jp7j7QL+WEjOrFS5kk0oLhCOABfxBodJSQ/vBDOZJlg0A6VQekl
+ /14Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIRFf7seuSXI4+PtcxCN0AbSypn9ctBx02D0ggZlGqDE0Z2PFaOqNQwihZgTG5YU2TVb/rE5v1R6I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxfEm6pDupUTs6EFIzKntHjhaIdgl9IuQCuo1+sCP7h+HK62yCF
- 4t3XLDA9CWIYxvuPETH1GxIlwrls2wZWKGQNPxeQEO1qWLqoFu33iy99tRb26LE=
-X-Gm-Gg: ASbGncvGsttbQdqR0QNz9jfRCXSHgPG80zuvHF2dM5Maepb5zt5hS7ZJ1TN6l78MmvO
- T5ZeRRnZwd7J09VjLZPwC8smiYGRLkx8oTKSTJHkI66u3vBFvWJfilgsuvJz0HvCSWJQg5x7tr4
- rgT/hYcS04YwvkZZGhjYV+xyFznOWYhGVtDg6TL0j2HMkdStp8BVoiq7USqU53x70WhiKaXMqZD
- qk/1UaUgE1ocYaUJdS+9RRg5Uh/1WmMYS9upOUP6PkIPLQKvkLq6wi5yn5k6FuioOy4Hsn/eWpO
- D9g66BxT+LE76sH876/MFduW/p7eD+du++2dQP/7Eg==
-X-Google-Smtp-Source: AGHT+IGRIdnpgZp6aVSnIAMxXRNTRhCc98UJKotB+jjdDT229PrZTyGg2gjdq/20fQUotbRi1XPCKQ==
-X-Received: by 2002:a05:6512:3f19:b0:545:81b:1510 with SMTP id
- 2adb3069b0e04-548510ce665mr5171090e87.2.1740631087427; 
- Wed, 26 Feb 2025 20:38:07 -0800 (PST)
+ AJvYcCVWic7SMIMPLJeCTfsds501EX7pyxkRbK8stJMGg3EhDF2kNfr54/B33cCCdJasMce0K/YyR9B7cS0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsW92Q9KWcaKcQE7mbbTkCHP75jYleQr4GXOFiHcfnhRw6rbva
+ 8zkhdV0cpWGDWZA3CtgTdZ7DZV5qTlEA2J2cF23+cSxYWDRCvvOGjr404VQuLz4=
+X-Gm-Gg: ASbGncuhJ5RzoT34qcyNzWrW56IouFimgcKUStvCH37X2d9c24/j8ex1+zIa9AeKPRg
+ 5yTwMV+R8Ayvp3twqVZ8OxYpbybmrGkItfG8GViyPs8p5jx0iMPW6r7YS2Avo/+9XjDv4cTgO2L
+ gPIaVhzO99Y/cttCI7wKQgNjEutXvwAIZbsZvOaUWEBe05RXgS+FxEGTOysYUIRjsmL7b5Ovx2O
+ 3S+DEORpei50NvxvBAxHxx8JL0xnzo74n2PB9nmgTDzcvx0+Gf8iu5cq6iuETBNC0obOprx4ZZj
+ V48O+Tte5zrRB7764Gmtg/toU1ePPwwk1vOfglE6Jw==
+X-Google-Smtp-Source: AGHT+IG4FmEa2E6Vnd3n6pmL4LIRNjCw5Yr6bPCVueD2ge1UqqUmi9/g9dZciGxkaPkoSh2/W32iag==
+X-Received: by 2002:a05:6512:31d0:b0:545:240:55ba with SMTP id
+ 2adb3069b0e04-549433167b7mr678503e87.26.1740631089878; 
+ Wed, 26 Feb 2025 20:38:09 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.90])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549443ccf45sm63485e87.229.2025.02.26.20.38.05
+ 2adb3069b0e04-549443ccf45sm63485e87.229.2025.02.26.20.38.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2025 20:38:06 -0800 (PST)
+ Wed, 26 Feb 2025 20:38:08 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Fange Zhang <quic_fangez@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Li Liu <quic_lliu6@quicinc.com>, Xiangxu Yin <quic_xiangxuy@quicinc.com>
-Subject: Re: [PATCH v2] drm/msm/dpu: Add writeback support for SM6150
-Date: Thu, 27 Feb 2025 06:37:34 +0200
-Message-Id: <174063096236.3733075.3181882897632312941.b4-ty@linaro.org>
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] drm/msm: add a display mmu fault handler
+Date: Thu, 27 Feb 2025 06:37:35 +0200
+Message-Id: <174063096226.3733075.7759942352504243411.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250114-add-writeback-support-for-sm6150-v2-1-d707b31aad5c@quicinc.com>
-References: <20250114-add-writeback-support-for-sm6150-v2-1-d707b31aad5c@quicinc.com>
+In-Reply-To: <20250219-abhinavk-smmu-fault-handler-v3-0-aa3f0bf4434a@quicinc.com>
+References: <20250219-abhinavk-smmu-fault-handler-v3-0-aa3f0bf4434a@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -95,15 +94,26 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 14 Jan 2025 16:55:24 +0800, Fange Zhang wrote:
-> On the SM6150 platform there is WB_2 block. Add it to the SM6150 catalog.
+On Wed, 19 Feb 2025 11:49:16 -0800, Jessica Zhang wrote:
+> To debug display mmu faults, this series introduces a display fault
+> handler similar to the gpu one.
 > 
+> This series has been tested on sc7280 chromebook by using triggering
+> a smmu fault by forcing an incorrect stride on the planes.
 > 
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: Add writeback support for SM6150
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/23c0a9d36f78
+[1/5] drm/msm: register a fault handler for display mmu faults
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/eabba31a839a
+[2/5] drm/msm/iommu: rename msm_fault_handler to msm_gpu_fault_handler
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/f66f3cf6bc42
+[3/5] drm/msm/iommu: introduce msm_iommu_disp_new() for msm_kms
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/c37d9f0b1a18
+[4/5] drm/msm: switch msm_kms to use msm_iommu_disp_new()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/85bdbd8306d8
+[5/5] drm/msm/dpu: rate limit snapshot capture for mmu faults
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/89839e69f615
 
 Best regards,
 -- 
