@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20594A47C07
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 12:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D37CA47BE4
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 12:21:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 899CB10EACC;
-	Thu, 27 Feb 2025 11:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6876E10EAAA;
+	Thu, 27 Feb 2025 11:21:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="DzLSVsRp";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Dze0FuYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Thu, 27 Feb 2025 11:24:37 UTC
-Received: from mail-m3295.qiye.163.com (mail-m3295.qiye.163.com
- [220.197.32.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF6110EAB7
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 11:24:37 +0000 (UTC)
-Received: from localhost.localdomain (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id c65f97db;
- Thu, 27 Feb 2025 19:19:27 +0800 (GMT+08:00)
-From: Kever Yang <kever.yang@rock-chips.com>
-To: heiko@sntech.de
-Cc: linux-rockchip@lists.infradead.org, Kever Yang <kever.yang@rock-chips.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v3 05/15] dt-bindings: gpu: Add rockchip,
- rk3562-mali compatible
-Date: Thu, 27 Feb 2025 19:19:03 +0800
-Message-Id: <20250227111913.2344207-6-kever.yang@rock-chips.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250227111913.2344207-1-kever.yang@rock-chips.com>
-References: <20250227111913.2344207-1-kever.yang@rock-chips.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5D8510EAAA
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 11:21:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C58915C4A38;
+ Thu, 27 Feb 2025 11:20:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45D8AC4CEDD;
+ Thu, 27 Feb 2025 11:21:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1740655284;
+ bh=bF3bvoCvsJ6ElRLIsgG+zyDMBrm+a5kCvyQlSQ6eyZQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Dze0FuYMlh2Qw4IBL6eaaSz99/fEsu8+R2Dh5+adaYZ1fzvLz93L0RVRVFpxjwAYi
+ qBsQlWRl3br84j5sOMTUT0GKX0720eIB8lP+AWI5rUbqGrv9OwaRrSYJZmmNoOZTVr
+ WEYVo650sBdfFOwpkJX9vvW/wMAhS2zOm4RYQP7o=
+Date: Thu, 27 Feb 2025 03:20:15 -0800
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc: rafael@kernel.org, dakr@kernel.org, hjc@rock-chips.com,
+ andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, quentin.schulz@cherry.de
+Subject: Re: [PATCH 1/2] drivers: base: component: add function to query the
+ bound status
+Message-ID: <2025022705-boat-overhaul-0ed3@gregkh>
+References: <20250220234141.2788785-1-heiko@sntech.de>
+ <20250220234141.2788785-2-heiko@sntech.de>
+ <2025022153-outdoors-snugly-3967@gregkh>
+ <12995210.iMDcRRXYNz@diego>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUJMHVYeTEhDS0weT0xDH0pWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a95472208e903afkunmc65f97db
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OjY6Hgw6HjIUCQ0xOENMHktI
- EQJPCj9VSlVKTE9LTU5OSk1CSklIVTMWGhIXVRAeDR4JVQIaFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKSk5PNwY+
-DKIM-Signature: a=rsa-sha256;
- b=DzLSVsRpWeADSEV57EPeMbbJY6NTmrx3RdNlMsoWRh6hB7DEhOEGMN4J4THsgXp84/1MXepE6w8XR75n0iNPlqrfhqPjGkBPMdGKweBpOk1TXWbaXV8yI+3r4/gMtIoKbNjDzUnUn1KKmgWrRg0Ck+2Rfe8JMfmvXJrBePAE1ms=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=Z9sDSJlttd2n0D1mkrX2Tzu/ncWJMZn7YZjMBONHk/o=;
- h=date:mime-version:subject:message-id:from;
+In-Reply-To: <12995210.iMDcRRXYNz@diego>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +63,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Rockchip RK3562 GPU is ARM Mali-G52, use the same driver with
-"arm,mali-bifrost". Extend the binding accordingly to allow
+On Thu, Feb 27, 2025 at 09:44:23AM +0100, Heiko Stübner wrote:
+> Hi Greg,
+> 
+> Am Freitag, 21. Februar 2025, 07:14:07 MEZ schrieb Greg KH:
+> > On Fri, Feb 21, 2025 at 12:41:40AM +0100, Heiko Stuebner wrote:
+> > > The component helpers already expose the bound status in debugfs, but at
+> > > times it might be necessary to also check that state in the kernel and
+> > > act differently depending on the result.
+> > > 
+> > > For example the shutdown handler of a drm-driver might need to stop
+> > > a whole output pipeline if the drm device is up and running, but may
+> > > run into problems if that drm-device has never been set up before,
+> > > for example because the binding deferred.
+> > > 
+> > > So add a little helper that returns the bound status for a componet
+> > > device.
+> > > 
+> > > Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> > > ---
+> > >  drivers/base/component.c  | 14 ++++++++++++++
+> > >  include/linux/component.h |  4 +++-
+> > >  2 files changed, 17 insertions(+), 1 deletion(-)
+> > 
+> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> just for safety and not stepping on people's toes, does the Acked-by mean
+> that this patch can go together with its user through the drm-misc tree?
 
-	compatible = "rockchip,rk3562-mali", "arm,mali-bifrost";
-
-Signed-off-by: Kever Yang <kever.yang@rock-chips.com>
----
-
-Changes in v3:
-- Update the commit message,
-- remove the change for clock maxItems
-
-Changes in v2: None
-
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 735c7f06c24e..fc8e82cb28a9 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -25,6 +25,7 @@ properties:
-               - renesas,r9a07g044-mali
-               - renesas,r9a07g054-mali
-               - rockchip,px30-mali
-+              - rockchip,rk3562-mali
-               - rockchip,rk3568-mali
-               - rockchip,rk3576-mali
-           - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
--- 
-2.25.1
-
+Yup, merge away!
