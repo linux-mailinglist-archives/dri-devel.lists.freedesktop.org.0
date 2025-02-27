@@ -2,105 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95400A486CA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FFAA486E0
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 18:43:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E326110E040;
-	Thu, 27 Feb 2025 17:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B56A710E0AA;
+	Thu, 27 Feb 2025 17:43:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d9wNSUmU";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="A5pXjeUM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78E6610E040
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 17:37:06 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-2234e4b079cso23684245ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 09:37:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740677826; x=1741282626; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=VUAFuA6WyxlqIwMao9P+DyP+C2TxjteBYJ1MyyDLQfw=;
- b=d9wNSUmURZ/zNEISyefDYi9+Uz3rjXHPepvnwmaEGYMbz56oMk5X2aSlblUvrCgi8i
- 3+itDKBjsWGSFDcLoSZXSDb8MhFo8Wk7H5H8UAd3OZPl8CA85ZwMJKi7brpLriPlZ7xj
- cP5sjkxG4xVRyQz8QU+MmZDLEzd5zo0NobFdIagD4TSaNtF3wfkqD9uLbajV3qiCwUy9
- 6row8zIc40/2nW4c1XDJj2TuBdgXjhBuUrTMfw8HggmgKOkomORPDdiA5izMa3wUNjl2
- /nN+O++GndEdIT/rndRex2wPx16sj37FuSZVZdlNIw6EqRugFcezYDP7aNGRO2RGuOxT
- I8+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740677826; x=1741282626;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VUAFuA6WyxlqIwMao9P+DyP+C2TxjteBYJ1MyyDLQfw=;
- b=C2v/YwnEM0Bm7rIw1gd+Rpd0sg8ohbcS8ZTKHpzHJLFkOgps4CdqPml7dA0sNkhA06
- G3GXISCXAsgTtND3wjqDupfIquY2LqRidxA/z2B+cWV0mCPwCvoyGLmX5NHShf5DrLKC
- QFnISuFujF2B7hGk3WlfJQOET0OlovhtAhjxLAtmWEZbfoAxB89fnrBhWKwduaHxJ6yc
- SNl5vII6o5rWlmxaWxcz3hLjryfaQUcWMGY4vqHbIncFfI9jTzJ4zSS5dcQ60n5sGfoD
- rvpVEPHSnQwVwlEky2vANfhjjpxInkUA02S88MtI0XJMUMAOGP8s0tbLagdNdYcpGBH4
- UqsA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX2PUSWjHdiWuyYdNPKCPhgniiPJT2SFlMmA3lCX+kF7Yv7x7CdUEGuDhC2xWKT/qRPBhLUQlQowQ8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5XamApp3XSGpLnE4sihiWG6xArXQOBbMqlDxRa8BkgY/R/nwe
- 1neCz2cScVbz/gFiCuzmFpePYnji4fzboZsZaESs1ph2aSHmyR0O
-X-Gm-Gg: ASbGncusGuZK/PIqcpB4CyvkzQEJjq2NZvWSJ52S1D3ZeqByhzjJHkAgETE9eQasyPX
- QvYp/IpDL/C5bnsomMxJkvkrpkXK1jjJlwaz99LGIavvwFQcp4sSI1B0bxyeXu/MpPjuWuOu46O
- gUfXLopzcTGRgUuhSF+/AWh7ZI40YJJyo9Fs1pxzQBpYunLn02mvQxhzBp7J752XfhKA/6jqVnG
- p+RRnifmQI9LDe4jdF1tRpmH77Pbs2XfikVqwWT3v1fgfLeg+wTKXA3Itx6elA6+kTwwHUp/xGQ
- 8kAnXsY8gvKJAxpEehXgqIvR7Z/XaQ2aGayd0v5/wq/Z0wkZLQ==
-X-Google-Smtp-Source: AGHT+IGK2yvXxMwGzFuS4qAPXT9dc4oLUeTze+y8wAtciDVfBiItiQouqHwlR4imml9fxjD4qYJfDg==
-X-Received: by 2002:a05:6a20:9146:b0:1ee:d6da:b651 with SMTP id
- adf61e73a8af0-1f0fc993ffdmr22305716637.35.1740677825727; 
- Thu, 27 Feb 2025 09:37:05 -0800 (PST)
-Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-aee7de19d3fsm1745501a12.18.2025.02.27.09.37.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2025 09:37:05 -0800 (PST)
-Date: Thu, 27 Feb 2025 12:37:02 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org,
- awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <Z8Civv0QaBzmFPTq@thinkpad>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-3-visitorckw@gmail.com>
- <Z7zIBwH4aUA7G9MY@thinkpad>
- <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
- <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org>
- <Z79ebv630yuNOJKV@thinkpad>
- <a8c29dec-6178-4f8f-80f5-aece636c410b@kernel.org>
-MIME-Version: 1.0
+Received: from AS8PR03CU001.outbound.protection.outlook.com
+ (mail-westeuropeazon11012037.outbound.protection.outlook.com [52.101.71.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8BB110E0AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 17:43:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=emjgMNTGa0YzAvgL7oSSvot16fiFGmsh4pXtSccPkrnMXCN8/Po82QVZZ9aq7o3hfsycE36n0+mDY5gw3CoCITsiSyeJqeXGwy+rvHzbKXoEAsaadAsCNdELkEbwyMidxaiRXs0vXfeg/fdD99GUju3DlEdQ/8WZyE40Z1UNVsjzLFAHUrDeJfTAPCdNtUSwWtMY/GREaDED/41U2CoV+oc18Z046HDu3qRZkXhhd+i9rTSnkUz6BaQModVNBR/ZZug3kCVX/trPQWOUTkb8antK27kzFi+i+8ITSjDo7UnGN12RhizBF6xQ8cwbexXzq+n/KWxHFY/LqWfq5KExLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CiVRQjPWW2H0Nocpg5xLIO2Md1QMkhz6T0WohFmNoCc=;
+ b=zOluwRlvR6Nc6YDB612pLdHQq2dQp2wlUQcQSmKch9wErvocBlqCG5djVkkPYPaPeKWH9HXU5RKrenw/CGdkHPWElRHIf8eu4Sfk7IsyqCB3VJ/D8/5uqsVpNIXURaWdzMK9KecCeYXBhVl6A5scGn+kFs/xw9E+JUsLaTcJE+oWmzqxRhDB0glG1T5pQpzTF3IT800x/lVxjt1uZm+hO/mtoMdR+BiHAxUigxyq48mjGQyeoSbhyuxSJ8Enx0T4O5LIRVGiUvlQthWfWy3DtjVTq6uNH3Dwq5pIbYleol7HrJ4+IvCDPROB6/xPbpZAYA4a/4MsETeYavJyqIRPxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CiVRQjPWW2H0Nocpg5xLIO2Md1QMkhz6T0WohFmNoCc=;
+ b=A5pXjeUMQwv0JvDnXQF1DwGyfH8IL2kNMnIBbc8bUSyjM1Xv3goqsvuBSXeK6Qek3RMY2T7+8+v+5QwDeGHJ9JlxYOKhpvBMjcQXmWEghreQm2N30P/NKsXlXEPifD4sg7r/b1ImtacfKrhL2G7qMlGgvWKFMsjwk6M51ciVXZ5rwYgVGE43KjR4lYS+UvQm0qVZASDpli/r3clol7NUWyDIikpyg2NH5qbPmMnHSUhtwt4dUf0hbLJiCG8EexThoFNqbk6O2HLgRzLHNa2czFar0ujcN0eugrm5Ibrctp8Zk4Vn4mU6BUJVY2lMN6lLyDAXxuITSUjc2rrkqi5U5Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by AS8PR04MB7639.eurprd04.prod.outlook.com (2603:10a6:20b:23e::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.22; Thu, 27 Feb
+ 2025 17:43:47 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8466.016; Thu, 27 Feb 2025
+ 17:43:47 +0000
+Date: Thu, 27 Feb 2025 12:43:37 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Marek Vasut <marex@denx.de>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+Subject: Re: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
+Message-ID: <Z8CkSUry5puMu6Mx@lizhi-Precision-Tower-5810>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-10-marex@denx.de>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a8c29dec-6178-4f8f-80f5-aece636c410b@kernel.org>
+In-Reply-To: <20250227170012.124768-10-marex@denx.de>
+X-ClientProxiedBy: SJ0PR05CA0010.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::15) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AS8PR04MB7639:EE_
+X-MS-Office365-Filtering-Correlation-Id: 749c9952-9c57-477f-aa34-08dd5756498a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|52116014|7416014|376014|1800799024|366016|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?EheXE7nqdKrtUjwnggSxjAsJ47nlwQxE7SwNApHX3xSrGRR8PxtjPYjoAhu3?=
+ =?us-ascii?Q?I04do9lNxtZVZUBqrwveD72lKxgsm8PEx0TQUJ+KyEeIwIJppJ/MkNjg+bnJ?=
+ =?us-ascii?Q?B5CH64Sv2/m6VmZuMujSXXDcdzCaqldAbD4y/Emv4AQCFyGp/gtjb/Rq+xRA?=
+ =?us-ascii?Q?foCbByZnIF3yvj71zc8CeERqrkk7HlTZkdRunK69b3rS8Ygq8sn/XBW8pLCR?=
+ =?us-ascii?Q?q22LhNME2cqJFSdi2XrCeARi1KjqEYyxlohFBm2hrAXr6TRtfGOesiHV4o3u?=
+ =?us-ascii?Q?MajFstNRwBzhswkwWTA0ewuDXX8Q7qTZelz88AHNlwpls6edQFoRYUuaASw9?=
+ =?us-ascii?Q?5A06Lk/KLVdmdYVIzZ/D/D1y8nivToR46WoMk6XQkRJO3aeTt1bXL06GdZHR?=
+ =?us-ascii?Q?fGkujw29nlOoVq/WyGaenkNk8yxuvBo/y+biK3ocRpXqB0cGQZUKnK1T8qk8?=
+ =?us-ascii?Q?61N3iTLr9EY6EWX7PNHoB9wLVCJeyGtHkbbLx+DEo5yOw3Segb4LX+k+NkR+?=
+ =?us-ascii?Q?f2I1AzyqF1paDO8OJBUzSkbw1QeuN+eAnZMf97i+441vwslKntA0AKUaY9hY?=
+ =?us-ascii?Q?Una5C0sBLcxCth5dw5BX0piD8mHaSAPoW7atIYY/qMzRLwDkEl95Be+U5E73?=
+ =?us-ascii?Q?wKvJcTeF0YRUWzyEyGu3JCbK7n5nMXJ+Vf9532niwxUIjRwmz95H1zBz2hmC?=
+ =?us-ascii?Q?lLAY5/k55//jX2Opz8rAGxCVgLji9L5YAcG54xY/4+J6wcbKpYxTjj4AJi7S?=
+ =?us-ascii?Q?dGEtdK8X2lRMpWSxGwLSPVMMwUxo+qikLpfjZViCJ4S+gJwqO44TD/YRy0gJ?=
+ =?us-ascii?Q?f/fWwpv+osqw2n5FZyrb+x19B4C5SKEx4CPMJA6OwXxOz8aBGQI29t2iGetz?=
+ =?us-ascii?Q?NomKdM/dANCdsiVvRO8MG7hfv5UqZuSpvkIz76ATGG9z/NK8YpUqDtcPgOha?=
+ =?us-ascii?Q?RkwjkbvLd5nsRMQPdPHRaWAlFcMouugvyi6/oroBHxfdgB1KxTVpBlTmzzo1?=
+ =?us-ascii?Q?c03lLNB7u9LENQ4p8pukvfbrghLaMhxoD7HJF3M2V46J0KhHev+uzQfPnSTU?=
+ =?us-ascii?Q?4vLu/PrJizrjG/hgEnpzQgVbYIUbDdssZ/EdJQVpeLwHCMO2Cod5FF76S3Rv?=
+ =?us-ascii?Q?+LacFo4k38FfZ3ALI2ZoqL78KkL9uEdsL7g+s2qX4azFUfyoj8Q8rcX3XelK?=
+ =?us-ascii?Q?8lHcCWfGdLbm/kikLxsZGaei1qw/4Fr3r8QOn8cjGLs63an9s8UUtQbzMZ6T?=
+ =?us-ascii?Q?CpcV7dIE++qJYDqtLB5doXZeo1H0ilnSHhFkz4i0ozurgv0YwAZOMR6lU+pJ?=
+ =?us-ascii?Q?AdyBDtvwbR7Hx1td0cGF7VbguAQQBE1a9p5lSN5M5pKWrCgH8nUGOAEzhe7b?=
+ =?us-ascii?Q?bM07JJ7vhkQ7tjCTSTbPIJm01E1HHD+DUdsabbLEeirnH/c6tDrGFrNx5dVV?=
+ =?us-ascii?Q?T9SnEiLKGJociA3wdF9BqNgyAeON9hu5?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(52116014)(7416014)(376014)(1800799024)(366016)(7053199007)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ieX0MMLDMcNny5BIfrzHJNcU1b1TZ3Va12X2Z9N5jNB1/AYzDipjoZm/lhBH?=
+ =?us-ascii?Q?TmFp0sKkA0RoqbkmIESaiGT8KR05DQF82pXK9gxhYh+VjEyBX1Z7ghg/fNMD?=
+ =?us-ascii?Q?MqhZ1In4p+6JFyUJ3IOn8Q/OGqI9yHsMYGkuOHhWj6D3WOm6BCFOfRv0mdc2?=
+ =?us-ascii?Q?C66m6nxCdgCvlUkYTRFQKH05iKmYc1ktn1moSv1QMMb4qSBxkomNroGe6epF?=
+ =?us-ascii?Q?3Waadsn5X61M3dpeZu61+T7npMyACzkvAJkuIQHcTckRJ3H6y/1rOlHXku7q?=
+ =?us-ascii?Q?kOdKwEdf86tj/1zJwSF16a6rkYGIgKRM5nD7cZg0OQ75u3Q9vc0VgZkT07RC?=
+ =?us-ascii?Q?ks5yo5/Mjez5CT9mE2+LF/YNiwycjVCE8sMwRs/SO3XndA97CyNWr6VdBaAT?=
+ =?us-ascii?Q?38Bn11vMbCLgC8CRfYDdlCBbuIgQxYiNIAtAGEIn2Ug86W9k/aeEGaRJKcCX?=
+ =?us-ascii?Q?LlbHEuqbaIzpOvrVR3w3WXdtOJoX9zlavQQHGmIIxiyJW4ns0BY01YgSe9Wj?=
+ =?us-ascii?Q?zOurRisJ5J7VUuClgvjZobQGr0tq8jpi+4w7cY15Ib4S5NhBZH+YBz3bXvMS?=
+ =?us-ascii?Q?PzcXxk8vM1Lr7v32omMfSCc+f50H84O0qdU58GMdMF4SG9seiJGTyC/V/vjw?=
+ =?us-ascii?Q?MBc7q8uIovVwrWTlXiwxrxZM9x7nvbM1wl8W7vMriHRQUGCUBcJ5WlYFUwhG?=
+ =?us-ascii?Q?QCbXZgOs7uLJFpZktGlL9Rw0Ee2LzShnBkC3A5/5o7MCQE2yQSGirY5id2jW?=
+ =?us-ascii?Q?GdeA9GaWHPuxOdrVa3x5lZZ3LA61zVNMuVF8qCNg1QypoMCgjt1USM+MMZUv?=
+ =?us-ascii?Q?zUPecZdFHuf3GKoeREtkhsZ9mdOYqCnj3arh4DFDiCFAZYsRyo3MBI2Dxje6?=
+ =?us-ascii?Q?HYpgAr473l8pvviDgJ4BLOspU7MwDl94AsWdAwcKAm4qAHjV9KRJ9cM/wEDO?=
+ =?us-ascii?Q?szS3CT5/r0NDOVgR7R1LtisdEqRt4aCahQfizUrio6GHCpp520TiQ12B/g+7?=
+ =?us-ascii?Q?PhXvzy7mE6IBqgRUgDRI1TBm0ES+zKxVtYFeB46wp5bosZW+Gthu2Ye0WiqY?=
+ =?us-ascii?Q?pgbAvDkw7z7qd8pAVO6y2T5z5+g4BJgwiFqJ8FBEqGq77k41ILuhimXYszz1?=
+ =?us-ascii?Q?5HtpODDWP6nWmVl8XRZAvHeqoPFGIQupt5MRYyPLU5osmemfAlaCKyfqgHtu?=
+ =?us-ascii?Q?+O+eAzQMWbAMqey7aQa5rXk2uPstNuBB3NlP2ywZ6On22o2cbpidvOBRZ6XY?=
+ =?us-ascii?Q?nW/2pYNAXUN+cPblXsTFr7QMAqnWS9oxEpQl7YOpQ5cvCaNPS9YZc/mIamzg?=
+ =?us-ascii?Q?k3fL0+tOvl8mB6TsxhNNMvYJeFY0niWZDrgsE+U+E7EygfiIhYoDbVnI9sX2?=
+ =?us-ascii?Q?vnMFLM/G7sv3Ez5MMpG6p7Bu6YxIc9bfCO5rhkYnhX5PTO/zoOVfOb0q8cSw?=
+ =?us-ascii?Q?EusZynbwMPW6bMd4xKbDcdva/vbii/f3Tsthc8jzl6rQaxvlBe7NbstLFBWR?=
+ =?us-ascii?Q?kQM/PyI/1Dl3Emd/ebNfs1hucHvS/thhdW5UFm2LiHRoNiRuJE8Y1dS4Ktv8?=
+ =?us-ascii?Q?gYAdK7xVZ4Aklg/COhY6WsBv5Nv657/L9pmDBQU5?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 749c9952-9c57-477f-aa34-08dd5756498a
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2025 17:43:47.1532 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /2vG5eeaCXcmVY69WijHGDsjjiG4F0bUoZnYJ6D9dTKw4LfH4oveFxZBvHPbIudx8uPOAbpuz3LnooPYpir/8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7639
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,35 +159,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2025 at 07:38:58AM +0100, Jiri Slaby wrote:
-> On 26. 02. 25, 19:33, Yury Norov wrote:
-> > > Not in cases where macros are inevitable. I mean, do we need parityXX() for
-> > > XX in (8, 16, 32, 64) at all? Isn't the parity() above enough for everybody?
-> > 
-> > The existing codebase has something like:
-> > 
-> >          int ret;
-> > 
-> >          ret = i3c_master_get_free_addr(m, last_addr + 1);
-> >          ret |= parity8(ret) ? 0 : BIT(7)
-> > 
-> > So if we'll switch it to a macro like one above, it will become a
-> > 32-bit parity. It wouldn't be an error because i3c_master_get_free_addr()
-> > returns an u8 or -ENOMEM, and the error code is checked explicitly.
-> > 
-> > But if we decide to go with parity() only, some users will have to
-> > call it like parity((u8)val) explicitly. Which is not bad actually.
-> 
-> That cast looks ugly -- we apparently need parityXX(). (In this particular
-> case we could do parity8(last_addr), but I assume there are more cases like
-> this.) Thanks for looking up the case for this.
+On Thu, Feb 27, 2025 at 05:58:09PM +0100, Marek Vasut wrote:
+> The instance of the GPU populated in i.MX95 is the G310,
+> describe this GPU in the DT. Include description of the
+> GPUMIX block controller, which can be operated as a simple
+> reset. Include dummy GPU voltage regulator and OPP tables.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  arch/arm64/boot/dts/freescale/imx95.dtsi | 62 ++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> index 3af13173de4bd..36bad211e5558 100644
+> --- a/arch/arm64/boot/dts/freescale/imx95.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> @@ -249,6 +249,37 @@ dummy: clock-dummy {
+>  		clock-output-names = "dummy";
+>  	};
+>
+> +	gpu_fixed_reg: fixed-gpu-reg {
+> +		compatible = "regulator-fixed";
+> +		regulator-min-microvolt = <920000>;
+> +		regulator-max-microvolt = <920000>;
+> +		regulator-name = "vdd_gpu";
+> +		regulator-always-on;
+> +		regulator-boot-on;
 
-This parity8() is used in just 2 drivers - i3c and hwmon/spd5118. The hwmon
-driver looks good. I3C, yeah, makes this implied typecast, which is nasty
-regardless.
+Does really need regulator-boot-on and regulator-always-on ?
 
-This is the new code, and I think if we all agree that generic parity()
-would be a better API, it's a good time to convert existing users now.
+> +	};
+> +
+> +	gpu_opp_table: opp_table {
+> +		compatible = "operating-points-v2";
+> +
+> +		opp-500000000 {
+> +			opp-hz = /bits/ 64 <500000000>;
+> +			opp-hz-real = /bits/ 64 <500000000>;
+> +			opp-microvolt = <920000>;
+> +		};
+> +
+> +		opp-800000000 {
+> +			opp-hz = /bits/ 64 <800000000>;
+> +			opp-hz-real = /bits/ 64 <800000000>;
+> +			opp-microvolt = <920000>;
+> +		};
+> +
+> +		opp-1000000000 {
+> +			opp-hz = /bits/ 64 <1000000000>;
+> +			opp-hz-real = /bits/ 64 <1000000000>;
+> +			opp-microvolt = <920000>;
+> +		};
+> +	};
+> +
+>  	clk_ext1: clock-ext1 {
+>  		compatible = "fixed-clock";
+>  		#clock-cells = <0>;
+> @@ -1846,6 +1877,37 @@ netc_emdio: mdio@0,0 {
+>  			};
+>  		};
+>
+> +		gpu_blk_ctrl: reset-controller@4d810000 {
+> +			compatible = "fsl,imx95-gpu-blk-ctrl";
+> +			reg = <0x0 0x4d810000 0x0 0xc>;
+> +			#reset-cells = <1>;
+> +			clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
+> +			assigned-clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
+> +			assigned-clock-parents = <&scmi_clk IMX95_CLK_SYSPLL1_PFD1_DIV2>;
+> +			assigned-clock-rates = <133333333>;
+> +			power-domains = <&scmi_devpd IMX95_PD_GPU>;
+> +			status = "disabled";
+> +		};
+> +
+> +		gpu: gpu@4d900000 {
+> +			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
+> +			reg = <0 0x4d900000 0 0x480000>;
+> +			clocks = <&scmi_clk IMX95_CLK_GPU>;
+> +			clock-names = "core";
+> +			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "gpu", "job", "mmu";
+> +			mali-supply = <&gpu_fixed_reg>;
+> +			operating-points-v2 = <&gpu_opp_table>;
+> +			power-domains = <&scmi_devpd IMX95_PD_GPU>, <&scmi_perf IMX95_PERF_GPU>;
+> +			power-domain-names = "mix", "perf";
+> +			resets = <&gpu_blk_ctrl 0>;
+> +			#cooling-cells = <2>;
+> +			dynamic-power-coefficient = <1013>;
+> +			status = "disabled";
 
-Thanks,
-Yury
+GPU is internal module, which have not much dependence with other module
+such as pinmux. why not default status is "disabled". Supposed gpu driver
+will turn off clock and power if not used.
+
+Frank
+
+> +		};
+> +
+>  		ddr-pmu@4e090dc0 {
+>  			compatible = "fsl,imx95-ddr-pmu", "fsl,imx93-ddr-pmu";
+>  			reg = <0x0 0x4e090dc0 0x0 0x200>;
+> --
+> 2.47.2
+>
