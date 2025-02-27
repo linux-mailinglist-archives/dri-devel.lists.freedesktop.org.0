@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01ACA488BA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 20:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E345A488BD
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 20:15:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FABE10EB81;
-	Thu, 27 Feb 2025 19:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81AF910EB82;
+	Thu, 27 Feb 2025 19:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LzvSOOgF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cKs1Dssz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E625110EB6D;
- Thu, 27 Feb 2025 19:15:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 235BF10EB62;
+ Thu, 27 Feb 2025 19:15:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1740683703; x=1772219703;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9JhWOlwu+I9akc8a0zb5UZRnO2vhqdbuO+hgivhNSek=;
- b=LzvSOOgFfe5eWqE8zOltoWz8eRBLRo8qpAxB+rzJ6th6QHkistqV7HOG
- NoEixfijBKStodcQZ6qeujn3CnoczonuAawqWX8K/GogVGlnU4L1Z63Kx
- rmwY8HTZyWLDdeNlY3BBf0mC7SvMoyo/MY+jUNvm4Jp6Tdd/hgzmxoybd
- cPuAb5whR1o6o+7ybmUF5/i4uYY/4Oxyoiwgd98mzYiY8mFj4GmjBn2dS
- KzYSYhpvFj5ELkWf3/tWG7T3HF779FdyJUidb1ATSVqFZT1K4tS8u185x
- Z9MCcapwpdmwfMWTpGPvrZxG0YXjnq4bGY2jo44oC8WOnDouHT0rF7s+n A==;
-X-CSE-ConnectionGUID: 5FMjh7gMTMakMFZTYmb8Mg==
-X-CSE-MsgGUID: BWeZLAmIR2mMc8vfJ5qOuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41850058"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; d="scan'208";a="41850058"
+ bh=fhJDyCQIq5HBEy73uVphiB7N/lAkwPKcUznH0/AGzXo=;
+ b=cKs1DsszHqp35mytQmAxOhjQFG1wM8Ymx/dlUtM2IRGOgJw4iDEedsau
+ O8nDuNGs4UHw2Qfh0oqnbqLshIFrmvrZ9B8rBeBmQh0WokwF8Y3UHrfKL
+ 50Leh9t3zSDoIkvAtjccNgUs4j6AX1lD4iJT+jpxejuH6P5XpSsO/2aRX
+ rrvp2BR36Ke72r52AIQUomhUozg7HY8G4kPIv0IywQ55xLt0B3usofVZ4
+ raBMDoAG/8B9jmYIeH2Dr1OKfEKpDMxcfEXE2MyG7cGKCW/ucIiX3ah5w
+ qm07fxcAYUHAX8GMr3iuj/8psFLqt3O0ZgIqyEAhP0/Q6zRO4/ALxYWkn g==;
+X-CSE-ConnectionGUID: g1lOyuTFTYSSvcxswrO08A==
+X-CSE-MsgGUID: fEzkLpIoROe9sFtBZQn0AA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41850059"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; d="scan'208";a="41850059"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Feb 2025 11:15:00 -0800
-X-CSE-ConnectionGUID: tN3LV413S9mjsMcSzekeSA==
-X-CSE-MsgGUID: 4X87uiUESMaYy8q3XhT1Pg==
+X-CSE-ConnectionGUID: K6L8F3KTQUy6hBP/F3jhMQ==
+X-CSE-MsgGUID: YAj3Rh1WTT2huP5z9d3EXw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; d="scan'208";a="117775294"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; d="scan'208";a="117775298"
 Received: from dut4025lnl.fm.intel.com ([10.105.8.176])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Feb 2025 11:15:00 -0800
@@ -46,9 +46,9 @@ To: intel-xe@lists.freedesktop.org
 Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
  jianxun.zhang@intel.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 5/8] drm/xe/xe_vm: Add per VM reset stats
-Date: Thu, 27 Feb 2025 19:14:54 +0000
-Message-ID: <20250227191457.84035-6-jonathan.cavitt@intel.com>
+Subject: [PATCH v2 6/8] drm/xe/uapi: Define drm_xe_vm_get_property
+Date: Thu, 27 Feb 2025 19:14:55 +0000
+Message-ID: <20250227191457.84035-7-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250227191457.84035-1-jonathan.cavitt@intel.com>
 References: <20250227191457.84035-1-jonathan.cavitt@intel.com>
@@ -69,42 +69,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a counter to xe_vm that tracks the number of times an engine reset
-has been observed with respect to the VM since creation.
+Add initial declarations for the drm_xe_vm_get_property ioctl.
 
 Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 ---
- drivers/gpu/drm/xe/xe_guc_submit.c | 2 ++
- drivers/gpu/drm/xe/xe_vm_types.h   | 3 +++
- 2 files changed, 5 insertions(+)
+ include/uapi/drm/xe_drm.h | 67 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index f0bfc9d109cb..e4c2413ed47e 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -1990,6 +1990,8 @@ int xe_guc_exec_queue_reset_handler(struct xe_guc *guc, u32 *msg, u32 len)
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index 76a462fae05f..78a5285bc5f8 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -81,6 +81,7 @@ extern "C" {
+  *  - &DRM_IOCTL_XE_EXEC
+  *  - &DRM_IOCTL_XE_WAIT_USER_FENCE
+  *  - &DRM_IOCTL_XE_OBSERVATION
++ *  - %DRM_IOCTL_XE_VM_GET_PROPERTY
+  */
  
- 	trace_xe_exec_queue_reset(q);
+ /*
+@@ -102,6 +103,7 @@ extern "C" {
+ #define DRM_XE_EXEC			0x09
+ #define DRM_XE_WAIT_USER_FENCE		0x0a
+ #define DRM_XE_OBSERVATION		0x0b
++#define DRM_XE_VM_GET_PROPERTY		0x0c
  
-+	atomic_inc(&q->vm->reset_count);
+ /* Must be kept compact -- no holes */
+ 
+@@ -117,6 +119,7 @@ extern "C" {
+ #define DRM_IOCTL_XE_EXEC			DRM_IOW(DRM_COMMAND_BASE + DRM_XE_EXEC, struct drm_xe_exec)
+ #define DRM_IOCTL_XE_WAIT_USER_FENCE		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_WAIT_USER_FENCE, struct drm_xe_wait_user_fence)
+ #define DRM_IOCTL_XE_OBSERVATION		DRM_IOW(DRM_COMMAND_BASE + DRM_XE_OBSERVATION, struct drm_xe_observation_param)
++#define DRM_IOCTL_XE_VM_GET_PROPERTY		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_VM_GET_PROPERTY, struct drm_xe_vm_get_property)
+ 
+ /**
+  * DOC: Xe IOCTL Extensions
+@@ -1166,6 +1169,70 @@ struct drm_xe_vm_bind {
+ 	__u64 reserved[2];
+ };
+ 
++struct drm_xe_ban {
++	/** @exec_queue_id: ID of banned exec queue */
++	__u32 exec_queue_id;
++	/** @faulted: Whether or not the ban has an associated pagefault.  0 is no, 1 is yes */
++	__u32 faulted;
++	/** @address: Address of the fault, if relevant */
++	__u64 address;
++#define DRM_XE_FAULT_ADDRESS_TYPE_NONE_EXT		0
++#define DRM_XE_FAULT_ADDRESS_TYPE_READ_INVALID_EXT	1
++#define DRM_XE_FAULT_ADDRESS_TYPE_WRITE_INVALID_EXT	2
++	/** @address_type: , if relevant */
++	__u32 address_type;
++	/**
++	 * @address_precision: Precision of faulted address, if relevant.
++	 * Currently only SZ_4K.
++	 */
++	__u32 address_precision;
++	/** @reserved: MBZ */
++	__u64 reserved[3];
++};
 +
- 	/*
- 	 * A banned engine is a NOP at this point (came from
- 	 * guc_exec_queue_timedout_job). Otherwise, kick drm scheduler to cancel
-diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-index e7e2d682b1b6..a448402250e5 100644
---- a/drivers/gpu/drm/xe/xe_vm_types.h
-+++ b/drivers/gpu/drm/xe/xe_vm_types.h
-@@ -305,6 +305,9 @@ struct xe_vm {
- 		spinlock_t lock;
- 	} pf;
- 
-+	/** @reset_count: number of times this VM has seen an engine reset */
-+	atomic_t reset_count;
++/**
++ * struct drm_xe_vm_get_property - Input of &DRM_IOCTL_XE_VM_GET_PROPERTY
++ *
++ * The user provides a VM ID and a property to query to this ioctl,
++ * and the ioctl returns the size of the return value.  Calling the
++ * ioctl again with memory reserved for the data will save the
++ * requested property data to the data pointer.
++ *
++ * The valid properties are:
++ *  - %DRM_XE_VM_GET_PROPERTY_FAULTS : List of all pagefaults that resulted in exec queue bans
++ *  - %DRM_XE_VM_GET_PROPERTY_BANS : List of all exec queue bans
++ *  - %DRM_XE_VM_GET_PROPERTY_NUM_RESETS : Number of engine resets seen by VM.
++ */
++struct drm_xe_vm_get_property {
++	/** @extensions: Pointer to the first extension struct, if any */
++	__u64 extensions;
 +
- 	/**
- 	 * @tlb_flush_seqno: Required TLB flush seqno for the next exec.
- 	 * protected by the vm resv.
++	/** @vm_id: The ID of the VM to query the properties of */
++	__u32 vm_id;
++
++#define DRM_XE_VM_GET_PROPERTY_FAULTS		0
++#define DRM_XE_VM_GET_PROPERTY_BANS		1
++#define DRM_XE_VM_GET_PROPERTY_NUM_RESETS	2
++	/** @property: The property to get */
++	__u32 property;
++
++	/** @size: Size of returned property @data */
++	__u32 size;
++
++	/** @pad: MBZ */
++	__u32 pad;
++
++	union {
++		/** @data: Return for scalar data values */
++		__u64 data;
++		/** @ptr: Pointer to user structs when required */
++		__u64 ptr;
++	};
++
++	/** @reserved: MBZ */
++	__u64 reserved[2];
++};
++
+ /**
+  * struct drm_xe_exec_queue_create - Input of &DRM_IOCTL_XE_EXEC_QUEUE_CREATE
+  *
 -- 
 2.43.0
 
