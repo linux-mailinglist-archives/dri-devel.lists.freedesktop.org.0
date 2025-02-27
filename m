@@ -2,72 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B69A47AE6
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 11:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17A4A47B0D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2025 11:59:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A32DD10EA55;
-	Thu, 27 Feb 2025 10:56:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="HUfv/1kr";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 859E910E26D;
+	Thu, 27 Feb 2025 10:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D1210EA55
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 10:56:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PiGv4eKvzFP8GKMacfTTM7wI8HoQk+tFnB/wXXe8oC8=; b=HUfv/1krv0CyQhz1z4QDZFRZsv
- Ew44NpgikJfUrQxB7Vc9O1guk+n0kGcoRVa3acgN5p4v7hrCMY4/+ExEqYKbjsInQnS2MEgy9SbDN
- vvtcJZ/t9l9TeDcTFOdoMLxj+G4kfePEb4mjrm5yjzhTCPGVo3aqHLqj05FzGtZZKxITpaA+RcdzU
- Ja7FlvKQV5aYI1OgyS9nYWgYNp3ligoqMqnKyX0VtRehMtrO5VBaMxJUEcIquKyDIy1qs5ndZRvsA
- Itcz9Rl9q0cJAwZ5CIQU7c0F+8DFBBZq3VDzB+cksbXm3HPO4WTxQfWzvKW5Nql2qg2UzdCwHOLhr
- +ckAx6zQ==;
-Received: from i53875b47.versanet.de ([83.135.91.71]
- helo=localhost.localdomain)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tnbY9-00008f-Av; Thu, 27 Feb 2025 11:55:29 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-kernel@vger.kernel.org,
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from smtp.dudau.co.uk (dliviu.plus.com [80.229.23.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32CCB10E26D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2025 10:59:44 +0000 (UTC)
+Received: from mail.dudau.co.uk (bart.dudau.co.uk [192.168.14.2])
+ by smtp.dudau.co.uk (Postfix) with SMTP id F2A5651E5202;
+ Thu, 27 Feb 2025 10:59:41 +0000 (GMT)
+Received: by mail.dudau.co.uk (sSMTP sendmail emulation);
+ Thu, 27 Feb 2025 10:59:41 +0000
+Date: Thu, 27 Feb 2025 10:59:41 +0000
+From: Liviu Dudau <liviu@dudau.co.uk>
+To: Shixiong Ou <oushixiong1025@163.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Niklas Cassel <cassel@kernel.org>, Dragan Simic <dsimic@manjaro.org>,
- FUKAUMI Naoki <naoki@radxa.com>, Johan Jonker <jbx6244@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Algea Cao <algea.cao@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: (subset) [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
-Date: Thu, 27 Feb 2025 11:55:16 +0100
-Message-ID: <174065370894.4124124.10616312809882779303.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250217215641.372723-1-detlev.casanova@collabora.com>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: Re: [PATCH] drm/arm/komeda: Add a condition check before removing
+ sysfs attribute
+Message-ID: <Z8BFnQonHik5Sxr7@bart.dudau.co.uk>
+References: <20250220085358.232883-1-oushixiong1025@163.com>
+ <Z72bMsXmoQv1UVv0@bart.dudau.co.uk>
+ <9ec1ac6c-903e-9605-e8ad-3e555db4625c@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <9ec1ac6c-903e-9605-e8ad-3e555db4625c@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,23 +53,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Mon, 17 Feb 2025 16:47:39 -0500, Detlev Casanova wrote:
-> To support HDMI audio on the rk3588 based devices, the generic HDMI
-> Codec framework is used in the dw-hdmi-qp DRM bridge driver.
+On Wed, Feb 26, 2025 at 10:52:56AM +0800, Shixiong Ou wrote:
 > 
-> The implementation is mainly based on the downstream driver, ported to the
-> generic HDMI Codec framework [1] recently merged in the master branch.
-> The parameters computation has been kept as is and the data stored in the
-> dw_hdmi_qp struct as been cleaned up.
+> Hello,
 > 
-> [...]
+> In my opinion, the corresponding error handling has already been implemented
+> in
+> sysfs_create_group(), so we do not need to call sysfs_remove_group() if
+> sysfs_create_group() fails.
 
-Applied, thanks!
+You are right, I stand corrected.
 
-[1/3] drm/bridge: synopsys: Add audio support for dw-hdmi-qp
-      commit: fd0141d1a8a2a26675ee88df75615c05a55044de
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Best regards,
+Liviu
+
+> 
+> 
+> Thanks and Regards,
+> Shixiong Ou.
+> 
+> 
+> 在 2025/2/25 18:28, Liviu Dudau 写道:
+> > Hello,
+> > 
+> > Replying from my personal email as the corporate system seems to have blackholed your emails
+> > while I was on holiday.
+> > 
+> > Can you tell me more why you think that if sysfs_create_group() fails we should not call
+> > sysfs_remove_group()? After all, we don't know how far sysfs_create_group() has progressed before
+> > it encountered an error, so we still need to do some cleanup.
+> > 
+> > Best regards,
+> > Liviu
+> > 
+> > On Thu, Feb 20, 2025 at 04:53:58PM +0800,oushixiong1025@163.com  wrote:
+> > > From: Shixiong Ou<oushixiong@kylinos.cn>
+> > > 
+> > > [WHY] If the call to sysfs_create_group() fails, there is
+> > >        no need to call function sysfs_remove_group().
+> > > 
+> > > [HOW] Add a condition check before removing sysfs attribute.
+> > > 
+> > > Signed-off-by: Shixiong Ou<oushixiong@kylinos.cn>
+> > > ---
+> > >   drivers/gpu/drm/arm/display/komeda/komeda_dev.c | 7 ++++++-
+> > >   drivers/gpu/drm/arm/display/komeda/komeda_dev.h | 2 ++
+> > >   2 files changed, 8 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+> > > index 5ba62e637a61..7d646f978640 100644
+> > > --- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+> > > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+> > > @@ -259,6 +259,8 @@ struct komeda_dev *komeda_dev_create(struct device *dev)
+> > >   		goto err_cleanup;
+> > >   	}
+> > > +	mdev->sysfs_attr_enabled = true;
+> > > +
+> > >   	mdev->err_verbosity = KOMEDA_DEV_PRINT_ERR_EVENTS;
+> > >   	komeda_debugfs_init(mdev);
+> > > @@ -278,7 +280,10 @@ void komeda_dev_destroy(struct komeda_dev *mdev)
+> > >   	const struct komeda_dev_funcs *funcs = mdev->funcs;
+> > >   	int i;
+> > > -	sysfs_remove_group(&dev->kobj, &komeda_sysfs_attr_group);
+> > > +	if (mdev->sysfs_attr_enabled) {
+> > > +		sysfs_remove_group(&dev->kobj, &komeda_sysfs_attr_group);
+> > > +		mdev->sysfs_attr_enabled = false;
+> > > +	}
+> > >   	debugfs_remove_recursive(mdev->debugfs_root);
+> > > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
+> > > index 5b536f0cb548..af087540325c 100644
+> > > --- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
+> > > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
+> > > @@ -216,6 +216,8 @@ struct komeda_dev {
+> > >   #define KOMEDA_DEV_PRINT_DUMP_STATE_ON_EVENT BIT(8)
+> > >   	/* Disable rate limiting of event prints (normally one per commit) */
+> > >   #define KOMEDA_DEV_PRINT_DISABLE_RATELIMIT BIT(12)
+> > > +
+> > > +	bool sysfs_attr_enabled;
+> > >   };
+> > >   static inline bool
+> > > -- 
+> > > 2.17.1
+> > > 
+
 -- 
-Heiko Stuebner <heiko@sntech.de>
+Everyone who uses computers frequently has had, from time to time,
+a mad desire to attack the precocious abacus with an axe.
+       	   	      	     	  -- John D. Clark, Ignition!
