@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E52A49C4E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 15:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454EAA49C50
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 15:43:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8060610ECC5;
-	Fri, 28 Feb 2025 14:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF67A10ECC7;
+	Fri, 28 Feb 2025 14:43:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ktbtWaB+";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DIeGCUAq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6118710ECCE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 14:43:30 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BDCFA442AA;
- Fri, 28 Feb 2025 14:43:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B75F910ECC7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 14:43:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6627043F53;
+ Fri, 28 Feb 2025 14:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740753809;
+ t=1740753814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=twlckA53Q1SfLTsCgI6ibhtUXyLR1dm8yI/9V1Bzbxk=;
- b=ktbtWaB+QICDiVbgtxBv1dgJ21IjbpPhihpPHZ7+tY3LfSunx2ejd3+qdgVDnhFd0M3Fo/
- 3zNghQiDniq+z5skJ4VuQN5lagv77MnRaMdMyBMDhn6kZa5xq3omha9QRP+viT9OVvkogY
- eTJX4oJhgJJ7RHH4H7QU5h7RhnTkS9Rv0k8oVdHxnqRSLIBu8o/2iACp16Q2b5hmRUk84Z
- mKdBu8XEuyQ/XFAVZa1gD1AQVm/fPQxFFw2tbDHsIqVb3ClMg4KKQnDs/OEF6wRdkmTo+T
- d0zUdmIrvopFpuEhyJ7zI/z1JhTsAVX1/C62suJYujGFNLtso/wgZwEKOkII8Q==
-Message-ID: <b163d92b-5d5a-42fb-bc49-5e55953db795@bootlin.com>
-Date: Fri, 28 Feb 2025 15:43:27 +0100
+ bh=5ZUCy55q9KblG6Yxl4AgPFOIbNt0FWb6Pj37J+0otzM=;
+ b=DIeGCUAqFRTpPyBbO+R87SECdQgCVQsyPwGUVf8BIj8fzQGAjvj1nM2s37yz0kyR6Sophj
+ V7+c6BIH4XU/vKfDmgKjjEnCxMwSpUNvoKDKmLDNAsFrgMR6zFwZ0a9ATgCNAJVMgCyJFF
+ hqNAfKlgTzddkuBvUpmNXNZO0XYBw6lmuiJKBC/1oEYD82xki2X9P3VsvtRGLfbRAA5LbF
+ C1VxZkNKiXRd78Vy4+KXmSZ6z2xJuJcdJTsnEVljyl0Gp88dc8Zi/kgk8KloPhhybdcbeP
+ 2zVzlHoUUAyUyFzo3vBmUTvKAScvQphegxGtiA5NmCT8VnCDinkw2Fnd+07e+w==
+Message-ID: <b027d66d-c021-4a95-af1f-b5bc2b9b4c33@bootlin.com>
+Date: Fri, 28 Feb 2025 15:43:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 2/2] configfs: Add mechanism to prevent item/group deletion
+Subject: [PATCH 1/2] configfs: Add mechanism to prevent symlink deletion
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -122,35 +122,37 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Introduce a new mechanism in configfs to prevent the deletion of certain 
-item/group.
+symlink.
 This is particularly useful in scenarios where userspace should not be 
 allowed
 to modify the configfs structure under some conditions, such as in VKMS.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
-  drivers/gpu/drm/vkms/vkms_configfs.c | 21 +++++++++++++++++++++
-  fs/configfs/dir.c                    |  8 +++++++-
+  drivers/gpu/drm/vkms/vkms_configfs.c | 20 ++++++++++++++++++++
+  fs/configfs/symlink.c                | 12 +++++++++---
   include/linux/configfs.h             |  1 +
-  3 files changed, 29 insertions(+), 1 deletion(-)
+  3 files changed, 30 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c 
 b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 8a7d954399e9..0a196a28ed4a 100644
+index f0813536be12..8a7d954399e9 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -393,9 +393,30 @@ static struct configfs_item_operations 
-plane_item_operations = {
-  	.release	= &plane_release,
-  };
+@@ -295,8 +295,28 @@ static void plane_possible_crtcs_drop_link(struct 
+config_item *src,
+  	mutex_unlock(&plane->dev->lock);
+  }
 
-+int allow_drop_plane_group(struct config_group *group, struct 
-config_item *item)
++static int plane_possible_crtcs_allow_drop_link(struct config_item *src,
++					   struct config_item *target)
 +{
 +	struct vkms_configfs_plane *plane;
++	struct vkms_configfs_crtc *crtc;
 +	bool enabled;
 +
-+	plane = plane_item_to_vkms_configfs_plane(item);
++	plane = plane_possible_crtcs_item_to_vkms_configfs_plane(src);
++	crtc = crtc_item_to_vkms_configfs_crtc(target);
 +
 +	mutex_lock(&plane->dev->lock);
 +	enabled = plane->dev->enabled;
@@ -161,58 +163,61 @@ config_item *item)
 +	return 0;
 +}
 +
-+static struct configfs_group_operations plane_group_operation ={
-+	.allow_drop_item = &allow_drop_plane_group,
-+};
-+
-  static const struct config_item_type plane_item_type = {
-  	.ct_attrs	= plane_item_attrs,
-  	.ct_item_ops	= &plane_item_operations,
-+	.ct_group_ops   = &plane_group_operation,
-  	.ct_owner	= THIS_MODULE,
+  static struct configfs_item_operations 
+plane_possible_crtcs_item_operations = {
+  	.allow_link	= plane_possible_crtcs_allow_link,
++	.allow_drop_link = plane_possible_crtcs_allow_drop_link,
+  	.drop_link	= plane_possible_crtcs_drop_link,
   };
 
-diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index 7d10278db30d..a103196af0f9 100644
---- a/fs/configfs/dir.c
-+++ b/fs/configfs/dir.c
-@@ -1544,7 +1544,13 @@ static int configfs_rmdir(struct inode *dir, 
-struct dentry *dentry)
+diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
+index 69133ec1fac2..925e2e15eb9b 100644
+--- a/fs/configfs/symlink.c
++++ b/fs/configfs/symlink.c
+@@ -233,6 +233,13 @@ int configfs_unlink(struct inode *dir, struct 
+dentry *dentry)
+  	parent_item = configfs_get_config_item(dentry->d_parent);
+  	type = parent_item->ci_type;
 
-  	/* Drop reference from above, item already holds one. */
-  	config_item_put(parent_item);
--
-+	if (item->ci_type && item->ci_type->ct_group_ops && 
-item->ci_type->ct_group_ops->allow_drop_item) {
-+		ret = 
-item->ci_type->ct_group_ops->allow_drop_item(to_config_group(parent_item), 
-item);
-+		if (ret) {
-+			config_item_put(item);
-+			return ret;
-+		}
++	if (type && type->ct_item_ops &&
++	    type->ct_item_ops->allow_drop_link) {
++		ret = type->ct_item_ops->allow_drop_link(parent_item, 
+target_sd->s_element);
++		if (ret)
++			goto out_put;
 +	}
-  	if (item->ci_type)
-  		dead_item_owner = item->ci_type->ct_owner;
++
+  	spin_lock(&configfs_dirent_lock);
+  	list_del_init(&sd->s_sibling);
+  	spin_unlock(&configfs_dirent_lock);
+@@ -255,10 +262,9 @@ int configfs_unlink(struct inode *dir, struct 
+dentry *dentry)
+  	spin_unlock(&configfs_dirent_lock);
+  	configfs_put(target_sd);
 
+-	config_item_put(parent_item);
+-
+  	ret = 0;
+-
++out_put:
++	config_item_put(parent_item);
+  out:
+  	return ret;
+  }
 diff --git a/include/linux/configfs.h b/include/linux/configfs.h
-index 7fc52a78d6cd..92933397590d 100644
+index c771e9d0d0b9..7fc52a78d6cd 100644
 --- a/include/linux/configfs.h
 +++ b/include/linux/configfs.h
-@@ -216,6 +216,7 @@ struct configfs_group_operations {
-  	struct config_item *(*make_item)(struct config_group *group, const 
-char *name);
-  	struct config_group *(*make_group)(struct config_group *group, const 
-char *name);
-  	void (*disconnect_notify)(struct config_group *group, struct 
-config_item *item);
-+	int (*allow_drop_item)(struct config_group *group, struct config_item 
-*item);
-  	void (*drop_item)(struct config_group *group, struct config_item *item);
-  	bool (*is_visible)(struct config_item *item, struct 
-configfs_attribute *attr, int n);
-  	bool (*is_bin_visible)(struct config_item *item, struct 
-configfs_bin_attribute *attr,
+@@ -208,6 +208,7 @@ static struct configfs_bin_attribute 
+_pfx##attr_##_name = {	\
+  struct configfs_item_operations {
+  	void (*release)(struct config_item *);
+  	int (*allow_link)(struct config_item *src, struct config_item *target);
++	int (*allow_drop_link)(struct config_item *src, struct config_item 
+*target);
+  	void (*drop_link)(struct config_item *src, struct config_item *target);
+  };
+
 -- 
 2.48.1
 
