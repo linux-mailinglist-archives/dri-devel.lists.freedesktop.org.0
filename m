@@ -2,56 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7366A49333
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC131A4934B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:20:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA35E10E24D;
-	Fri, 28 Feb 2025 08:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26BE810EC17;
+	Fri, 28 Feb 2025 08:20:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="il+YwljU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jeU5cj7S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F065E10E24D
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740730708;
- bh=g791kg9Jj13cPSH7pEkjvldmLvRdZOxf2VzDKwaVK74=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=il+YwljUM0dzlAlgcvtUcIG4r4cvos9WFqe7HoNh0VX1GyA4btPUFpWu7ZMgbHLb6
- ZN1hYL1Xt+Gdg+iMwGHJyMjmEqrf6k/++MMmMLHRG7S0Ya15ubPmv26qrumBc0TONC
- c+4zlo+nD9LgfuYloQ+cPB9vnsYQS1ifZV8KSHJ7OL1C+93j8FZIXAwTJ/F8JMKQuO
- DND1cv3VH2OleNf/+NveRO8ywJvpWOyiv+mloyBGrBrkarQmSPExqsb5hnI0zkGsOI
- 6c12Z53GIl9f9egDkiCaiD0jmpE8sVPS50nOH1YdJshvXvo3IVm7sHAsHBRqaICZd1
- B06/IDCm+GsBQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DBD6E17E017D;
- Fri, 28 Feb 2025 09:18:27 +0100 (CET)
-Date: Fri, 28 Feb 2025 09:18:21 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Mihail Atanassov
- <mihail.atanassov@arm.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] drm/panthor: Avoid sleep locking in the internal
- BO size path
-Message-ID: <20250228091821.75d4d436@collabora.com>
-In-Reply-To: <20250227231628.4048738-2-adrian.larumbe@collabora.com>
-References: <20250227231628.4048738-1-adrian.larumbe@collabora.com>
- <20250227231628.4048738-2-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6CE10EC19
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:20:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2574761F42;
+ Fri, 28 Feb 2025 08:20:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59394C4CED6;
+ Fri, 28 Feb 2025 08:20:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740730844;
+ bh=Hh6xAuD3HXXAX7xVHgeSLNoZ820BDLmImelYuFIHamc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=jeU5cj7SvHEomQXTyTZfgDIc3J/9qALS6mkywPEvgStfFYzyV7/7hu3lmKtQtLuI9
+ gG2omLRMU4XKSo8zhkZXseDaoVK8jFFrNHDrIpDqDsbXsRVz2aqjrRUHCq2D7foWvq
+ 0sratA8YQPu2hdazJzhUanUP8Wa/jRdB6rqH+y1UqqrE+b5/6oqxafK8yBW4WWZWjU
+ c1qQSzdFSWO7XQyHlCm96onGtt+UGoXVzNKrpDV0O1SzmMaQ1bEY6k0hycWggRRi+U
+ MTY1DlG0YRFETfyv7ko1R/rc2NH4HYNiy9YV0u/ETUYmsOYWY//FYhyS3RyNrBpdxO
+ lDHZarQHi4lxQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan+linaro@kernel.org>) id 1tnvcA-000000001G7-2I9n;
+ Fri, 28 Feb 2025 09:20:58 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J . Wysocki " <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH] component: do not try to unbind unbound components
+Date: Fri, 28 Feb 2025 09:18:24 +0100
+Message-ID: <20250228081824.4640-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.45.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,15 +59,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Feb 2025 23:16:26 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Error handling is apparently hard and driver authors often get it wrong.
 
-> -static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
-> +static int panthor_alloc_heap_chunk(struct panthor_heap_pool *pool,
->  				    struct panthor_vm *vm,
->  				    struct panthor_heap *heap,
->  				    bool initial_chunk)
+Continue to warn but do not try to unbind components that have never
+been bound in order to avoid crashing systems where such a buggy
+teardown path is hit.
 
-The pool has a ptdev and a vm, so we can get rid of the vm field and
-make the panthor_alloc_heap_chunk() and panthor_fre_heap_chunk() helpers
-consistent.
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+
+I've been sitting on this one for too long now after I ran into such an
+issue while fixing up the MDM DRM driver which triggered all sorts
+problems on probe deferral.
+
+Here's a recent example of where a return here would have a avoided a
+double free:
+
+	https://lore.kernel.org/lkml/6089322f3d5f2e56f4d7a5899d70da2bc45978f7.1702509741.git.soyer@irl.hu/
+
+Arguably, crashing the system is more noticeable, but not very nice for
+users.
+
+Johan
+
+
+ drivers/base/component.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/base/component.c b/drivers/base/component.c
+index 741497324d78..3faa92d26be3 100644
+--- a/drivers/base/component.c
++++ b/drivers/base/component.c
+@@ -572,7 +572,8 @@ EXPORT_SYMBOL_GPL(component_master_del);
+ static void component_unbind(struct component *component,
+ 	struct aggregate_device *adev, void *data)
+ {
+-	WARN_ON(!component->bound);
++	if (WARN_ON(!component->bound))
++		return;
+ 
+ 	if (component->ops && component->ops->unbind)
+ 		component->ops->unbind(component->dev, adev->parent, data);
+-- 
+2.45.3
+
