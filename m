@@ -2,174 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4739CA48E2A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 02:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E09A48E31
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 02:52:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F05B10E105;
-	Fri, 28 Feb 2025 01:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8406210E03F;
+	Fri, 28 Feb 2025 01:52:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="AEgTbo6a";
+	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="hc1Wnley";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2066.outbound.protection.outlook.com [40.107.223.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B44210E105;
- Fri, 28 Feb 2025 01:49:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zBAsWJ0RFcMlM/w4YDBFI0VsDqFSvtZrR532qHfaNdArmg8x8AcSnICKsuE8DeDPTfBKFZ3x6/i6T3TcYoaaDnHsTuUE2Vd4GVIVwYNR9JTW5uF5kyMaTd4zo5aUxWjEeeDHL5ryVwgLv/gd7Nu5dYpkIHa0fcD/j81CJlMIhE/nJVftLE2yMx9TqMzgp+otZ2L6CQ6r2eQyQlpbsZoObFND11fGfVrWRH+tGH9QfNbJakgpzT6/77JGT5NXi7MUG2njjfsRx+ZY2s9HAjIBEnA6+GAumiCG4oncNuKnl0V74fu3p/xvMOLxvD6exvcWWN+FBZEVB+fL0OYu/P81cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vQYk5yD/a6BkzlTeJcPmW3CRAB/049S2JTFHuXaTAnk=;
- b=oj3k+jN8+4eOyBO4awocWpHHOFKoXw7NL/ej95qz9pYMyoPs5ofjDTel042LvknCcdKMSb3IhwMqfhsd6Qy/OAVhM0M0gGRLt0q6DN48A7RL8KtIOVpXTxeChm8xd9DJffasAJo0yHWmcJ3Gd3sN1tif+7vU8YEWOm45b1qQButb9e1vyaunU9LU0YfIaR3kAwgrdavaOBKaEaDUuVdDnWn85RS8Fd3A8WhRChkslYjfNMB23HIzmNBtqmPZWmHqZkJDwbrWV1H1DcFWlGfFJY7w1MgeohZHvBjBROyUynf4OQjdVjWFUSmt09avW0C63uPwdNfHN3LXoU2l74NA8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vQYk5yD/a6BkzlTeJcPmW3CRAB/049S2JTFHuXaTAnk=;
- b=AEgTbo6a/U/K53daRtRgnbHUt3/AXJFPOvMllsVCQv1xB4AOi12k1Trbxm3eOwmU01gbqjpoDheMBNAEwaxa7ImCdO+2JiBL8sQNDf1oIxiZ9rV+b36JBQ1V9ZH60jdKLFGAovSHm2NIf+SGO+fmnGOnn4lnFWZGBx37Mu7ms2EBE2fi3hHjGe6WqgJBk0bYowjFIIvJ6vnbuQu+EMKfjVnePOOC30mMUpSBA7s0pC54Geg0S2tjvEiV+ke5ZjIDC8mjCV+k8lNEKZzxLq3AWU9tYb+o0lMy6ycWFKEuMbwnEeeAhrXUTuVsrs2tnmknX8ZEuXG5l+ycJ7XS5dwkjQ==
-Received: from CY5PR12MB6526.namprd12.prod.outlook.com (2603:10b6:930:31::20)
- by IA1PR12MB6435.namprd12.prod.outlook.com (2603:10b6:208:3ad::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.22; Fri, 28 Feb
- 2025 01:49:31 +0000
-Received: from CY5PR12MB6526.namprd12.prod.outlook.com
- ([fe80::e420:4e37:166:9c56]) by CY5PR12MB6526.namprd12.prod.outlook.com
- ([fe80::e420:4e37:166:9c56%4]) with mapi id 15.20.8466.016; Fri, 28 Feb 2025
- 01:49:31 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: Alexandre Courbot <acourbot@nvidia.com>, "airlied@gmail.com"
- <airlied@gmail.com>
-CC: "nouveau-bounces@lists.freedesktop.org"
- <nouveau-bounces@lists.freedesktop.org>, John Hubbard <jhubbard@nvidia.com>,
- "gary@garyguo.net" <gary@garyguo.net>, "rust-for-linux@vger.kernel.org"
- <rust-for-linux@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "boqun.feng@gmail.com"
- <boqun.feng@gmail.com>, "dakr@kernel.org" <dakr@kernel.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "joel@joelfernandes.org" <joel@joelfernandes.org>, Ben Skeggs
- <bskeggs@nvidia.com>
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Thread-Topic: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Thread-Index: AQHbgUTvmeYidffAF0KVP6y8BIp7/7NMBKGAgABGrACACWwxAIAArz8AgAG08oCAA6E/gIAARoqA
-Date: Fri, 28 Feb 2025 01:49:30 +0000
-Message-ID: <d9c7e8ff4b32f06650b2ad4e3b993d217b286aa9.camel@nvidia.com>
-References: <20250217-nova_timer-v1-0-78c5ace2d987@nvidia.com>
- <Z7OrKX3zzjrzZdyz@pollux>
- <CAPM=9tyu84z4Xk5X0fykO3Dazby2UqRgwtN4woNKe4Z2yMyDZg@mail.gmail.com>
- <D80AK2CLL4AZ.1G6R7OBHOF08O@nvidia.com> <Z7xg8uArPlr2gQBU@pollux>
- <D81L5PE1SPWC.O56MB6SRS0XK@nvidia.com>
- <CAPM=9tw=8WtR9093EThr0aY6yTYtef9SBgjN5S1xZUXaWN8aWQ@mail.gmail.com>
-In-Reply-To: <CAPM=9tw=8WtR9093EThr0aY6yTYtef9SBgjN5S1xZUXaWN8aWQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR12MB6526:EE_|IA1PR12MB6435:EE_
-x-ms-office365-filtering-correlation-id: d52e2d71-227a-4750-272c-08dd579a24d0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|366016|10070799003|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?NVArS29wemJxRnNqWTN3SmNpRVRITDhjOHRXOXJVbmg5SnZZNWhrY3NXZW5G?=
- =?utf-8?B?ZmJBS2MxS3E4L2pLZW8wTVRhOWY5Q3I2OUxZcjhvNjNhUkIrZDM3ZW9Pajd5?=
- =?utf-8?B?VUFWdGxtZTZFZ1BCT25yYkFIUFJoZDNiMHN5NnB0RkRBWU1BOTNIMnhVenhm?=
- =?utf-8?B?Ly9DZHlmZ1l0dUlleUZzYkVNOW13anZnaGVGdXR2YVZPZDJIUXpzNVpnQ2Vp?=
- =?utf-8?B?UVdrVktZSHIvM0RNaEx6bE0ra0pMaDFuTGhRQnBFTXdQbzFmY3lyM0EvZkRz?=
- =?utf-8?B?QzZBdGNtSUZzZjFrRUxvbWxXR0k5R2NlclAxZ0ZCSjNvejJOTlhLYUxIZmhi?=
- =?utf-8?B?aHNwYlB6SEx3Q3M0N0xBNFcyTEhYa0NieVR3QTFjMngrcU5IeC9OQVJFLzNJ?=
- =?utf-8?B?MnVILzBzOXpZaFg4cEhKZndIaVJqTEVwSmdyMTJTdGdaTGNaV3l2bG8xQzY2?=
- =?utf-8?B?ZFk5UHZLNytQOWh6alBDL0VWY0RVcUt2MlJWbng3V0VLOWJPUUhDTnhHRlVK?=
- =?utf-8?B?d2JMd1VaejVNTmdPZ1lmOE1CamVWTXplS003emM5d255amIydGFiMXptSndD?=
- =?utf-8?B?aGZGVDZFLzZwNWVaczRGL1VzK3dIeHZVMXgxR0Q1QkxZeG1lMFdtY0pveWRw?=
- =?utf-8?B?aUdFekRWZWRkZFZxWWd3NHcwa1VkMVFKTVlxd0Y1Y2p6TVJETDE1UEhMOEdD?=
- =?utf-8?B?N0p3UitGTjdrc09lQTZGN2RHV1ZOM29UUFpKbGF6a1RWVmdQVThBcmdiYmNv?=
- =?utf-8?B?dXdjd0pIMDIrVmNjdGpteDNVUG9KZ3Y2VVl6QmRkQmNIWENoL1lsNUNRQnhM?=
- =?utf-8?B?Q1I0cGZXTnJBd2NtRjVHb1RCcHZpZzNhNDBsakpxdGZYZm5MK1hpUUZ1T3Nq?=
- =?utf-8?B?SlZ6U0FSVW4rRi90bHZSUVFXU1RiOHBvbEhFV1lkR280REg3VnFzWng2Yll2?=
- =?utf-8?B?azNyb1RWZDdjL1V5VHpMVDhUTkVyMFJCQzJRdUU0MzQ2bHRvcEw1VytmTDBN?=
- =?utf-8?B?NCtMQ3czKzhwWkZQMDU1RHBUTUR1Tlpabjhuc1c2R2FJMExrQ0xCYklhOU1H?=
- =?utf-8?B?MkNOMGl1bERuS0ZiVW45R21kQkJSajFKdndzWTBQVWNTYitvVktIQXRRcWJ0?=
- =?utf-8?B?TUVXMGJmazJEc2R2dWdZSVVkOE8wcVgwTTdUM2FpajI0YmRjYXJsbjc3aTFI?=
- =?utf-8?B?QXVvRy9FZmdnWDN4RndVTm56VnE2NWI3TW1rK3pYc1ZwYkNLSlFNb2dMR2Uz?=
- =?utf-8?B?WDZDTzBGdTVxTXE0ZXpGVWZTa0o1M29ZbnNkUWlFK3BLRFFhNXVoTDdsOVlr?=
- =?utf-8?B?WXhqNEx0RVREMG1NSFR5bXh4VmtZYUJ0QW5PeS9zeGFkYmRtWUpiUlI1d0Nn?=
- =?utf-8?B?TGdmY2RIbHQxMUkrK3UzTTRQMVFFK1d0TmZmUkJhY0tBblQvNEROZVF0cnU3?=
- =?utf-8?B?aUowZjYyRm1zdlpyOStQRVo3anlIdkJXNitmeUs0bytpUXJpV2VoeVFFVGVK?=
- =?utf-8?B?Q1FxUytsbDZMWTJuc2ZQYzZxMmNCbVFsS2c1aGc5UWZieFlIeStidXNkcTJC?=
- =?utf-8?B?cVZrdnNza2N3R3NPdEJ5bER2dXh2aGF6UEY3TDlTZGU4eHorcDROcXV2T2NV?=
- =?utf-8?B?dHhsTmRzekE4QzJzMWx0MjBsWksrWGtDRVAweDdPeXM5Vk8xVHhsb1RmU09D?=
- =?utf-8?B?TnFFUGhaKzJOZUVTSzVWOStPcXlYS3JMS0V2aURKV2RQNkRaM2VKQlUyR2l0?=
- =?utf-8?B?OFdFTGdKL01oMFh6R3JwYTRvdkVHNk43N2NXbjdoUmg5ck1oN3dNRnFCL1VV?=
- =?utf-8?B?YjlPZUZSd0lpajVUUzNTbkJzb3hEaFd0SGo2QzdLb0FKUTRsdXdPSW9BL2JC?=
- =?utf-8?B?WUkzU3E4ci94UnVuSWJ2SGR2dHFjOG1HMnZnUkZNMlFjTGFGL0lSd29pOThO?=
- =?utf-8?Q?H8kNh+9lfb3KUgQy2ZUJ34ysfWtTwS4K?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR12MB6526.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003)(38070700018);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z0txR1lCb09LOWZIcWltZUE0MGtGekx3L1Qzd3BkRmxvRVdwUTZ1bHVacnBT?=
- =?utf-8?B?ZUhxS3FCT2x0KzBMcjhJZjJLVC9mcHY1cGg3VWIzYldJT2FyMkhGb3BOc2l5?=
- =?utf-8?B?cDd5eFJXZmlIQVh3YmlzMXhuclNxdGpmcDRCbjZNV2VYcGJFZmxOU3FVY3ZC?=
- =?utf-8?B?ZnhyUVo0bnN0WkFqRk8zeTdhS2ZYUEwwZGFNTG9uMG9NOHVjSHJrUmM3cncr?=
- =?utf-8?B?SWE2RzJyY3c0Z1Y4YklweTMwMWdwN2k5MlRRalpDWHNYbWV4TG0zWHVSWnoz?=
- =?utf-8?B?QjhDRTF3bXBHN0hLNlpFdE1rUGt0SURnOGdiMXhsQnJqL3BHMTA2M0ZkejNO?=
- =?utf-8?B?Ymo3Zk1RRmNXK1FiK01LSWRpejdVVlEwTUhlVE4yL1J0aGs1STlkd3VDcFFi?=
- =?utf-8?B?SjR6blJhN0pVSkRJZXhXSmhWZ0RvS1ZGZ3NBcDh3dGp3enVFZEF6QTZVODBH?=
- =?utf-8?B?cmNDY3JNYmg1clRkaFRzTUFmWGpGeUtka3krbmVlQjBuTWk4L3hzT3Z5eUZn?=
- =?utf-8?B?NlRmZmtvSDVRM0FUSGFWTFk4TnMxVFJCMUNBVG5rUHJLM0RzbWVnaEdsVWJS?=
- =?utf-8?B?OGY5SDd0UVZQemR3Wm9FQ1B3QWxSRVNzNkZHL1hMVGpiVUhZbXdWYzhkMnY3?=
- =?utf-8?B?aVN4bVRmVkN4RUg2bFhDMDlTemF3M01od1lBWEJIUEVKWm42VEwzSjNVNnFh?=
- =?utf-8?B?MEgrcGlGV2VMc2paU2dvczFSdTNjRlMzYnovc0FUVmlBc3IwWHZ1TE0xNEpU?=
- =?utf-8?B?dm1XVm1CMVBXZEdFOE5peThZaGtKZXFHSlFleUJhaEo2QmlhaWg4MC9aNytq?=
- =?utf-8?B?b3ozR21VQW5lRk43T200MGo3NlhGTkliQzhZZGRHN2RNbERwUkN2d05YZEZB?=
- =?utf-8?B?cUYzRFdJbVRmRG0rZ05RUmttbEdMY0YrZEVBYVZEbHJXbjVsaUJPOW5XNTQ5?=
- =?utf-8?B?d1M1U21HT3NWZFFtYXpqRktzRmc4aTJaT3lwclJjaTBzQWVFdERoMmxPd1pI?=
- =?utf-8?B?Z051Q2xlVWJETWlKM0h4UGI0czZseGZ0TURUOXM1MTlXYUhwaHV6OUpKSGNa?=
- =?utf-8?B?Umg2UjlpbklmQ0NOcDdQSkNFcDN2a0Rzdzl6a2dKTW4yYzZ4RzN6OGk3cHha?=
- =?utf-8?B?UGsvWVRrbG42Q2tSR0FrUTJ5TTlXOXFxSUlUS1dZTUNuNEZxQy85YjR5OVpn?=
- =?utf-8?B?cWI0NjBGdm1pL0NnVkhuL3o1eldvek1PODJGZFFuM25na0tjNHJpbTNoVElE?=
- =?utf-8?B?NGM1Tmd1UHVUNkl1bDVDQldRZ0dnR1gyS0N0Z2FnUWxIeDk3dlJ0Vzllc0Zl?=
- =?utf-8?B?bzJadVUzcU1BcWk3d2d3Q2M3NjBtc25CNzBQSnkyWnFGd0Y1eGxxZEpkQWZi?=
- =?utf-8?B?SENlT0w5VFlRdXN3a3NGQTFiU0tOQ25kU0o5YjZEWG94S05GczhUSXdGK2E5?=
- =?utf-8?B?M2ZjcXdaZDR0QXZUempodzBka1BWMkZXRTF5TTZzdk96eUZTd0dma250aGxz?=
- =?utf-8?B?RFVMZnY5MVVPaTNTQ2R6a1A2aEF2NFdpYkpERmMwYm5lWkVwZkhxVG1wU2Nh?=
- =?utf-8?B?UDNTcTAyUSt4SVlwQ1pEK2V0Q21wOG1HZU1iblpwbnh6RGhnTllmak5DMTZL?=
- =?utf-8?B?Y3FINzd0YzB2OWFRcEtudWE0VXBGNkl4RGw5b3o3dUlkcmdjcXFXOXNzbE41?=
- =?utf-8?B?bjBFNmFGWUlTa1RMTUNiWkVnV1lsQytINXlIVmwvS3RrRTM5amxYWll5VWN2?=
- =?utf-8?B?cmhDMkxkd3dFUG5IcFJDMkxHUDc1QXNqWTJsUXdEMGFUYWpOM1V2L1prd1c3?=
- =?utf-8?B?Q3VNanMwUlpxaExHZSttTHZsNGhMS3RXRnFnZUNQek1GN1kwQ3Vyc01wWUYv?=
- =?utf-8?B?dUNjcnBZQXRaTTdxWmZCWUx3a21Cc0EyeFhORU5WcHo0QmRmaVl4MTVLc2ZH?=
- =?utf-8?B?UXMvTFA2NmpzUnA3ajF3ejVIblJlaThWa2RqSDhUTi8wcmJDRzJFNjlqb3hl?=
- =?utf-8?B?MWRoRklDc0E2UmJaSS80blkxSGc0K0RNaGo5Q2tzdXpYUGFxZVR4akR2Rm1Z?=
- =?utf-8?B?Z2RKajVDSmVKb1phN3M4NzVqMDlRTHFjbk9nMXhOTHNGZytoMEFtUTBlRUlX?=
- =?utf-8?B?V25DTlhWRk11bmFiWFdSMk1SdU94ZEwwb3JoVEFpckZxZmNRcm94UTArTWRD?=
- =?utf-8?Q?DKp4gRBQPXuRoIfXlFlVl/WakOyUTim2TzCof6wKMJwH?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <892CC9B9194DCB45AAAA1B85B2739AA2@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61DB010E03F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 01:51:58 +0000 (UTC)
+Received: from [127.0.0.1] ([76.133.66.138]) (authenticated bits=0)
+ by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51S1ouig2394050
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+ Thu, 27 Feb 2025 17:50:57 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51S1ouig2394050
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+ s=2025021701; t=1740707463;
+ bh=zdxlCZN7qRmiM8/WMWaSChORmP5U1+mg9Dd2GNfsbGA=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=hc1WnleyPiNvmeMgkj0Fbb3sTWrGCmnnaxiRXiZvVvO6Is3ZJKu6mp+YJv2Dbs05X
+ aVxT1zsm98Egcx7g7dDapGUM1ppk6QkyAa2wZSKXLVi8I4OeDG/xzxwpW4dEA2MBFx
+ T1ntM64Z768sGTrScS8Wa6oiWHo2Bu8akRlkAIPTgcwVRV0sgRtvWguE9SobXFYNdw
+ ClhsdUIvwPyfzfAd+XeT/JQ5MtCRtjegffTL4YeiMAwTwSfCb9k77v5gFOVLmhUpKy
+ VYHzzZXLAdv9xzXZj/lrKYrLB5diO6XmkXYCixEjE5jI7GVtxQxUpXMNKybtxiJAEr
+ DXDmmmDy5eD+w==
+Date: Thu, 27 Feb 2025 17:50:55 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: David Laight <david.laight.linux@gmail.com>,
+ Yury Norov <yury.norov@gmail.com>
+CC: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, alistair@popple.id.au,
+ linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250227215741.1c2e382f@pumpkin>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com> <Z7zIBwH4aUA7G9MY@thinkpad>
+ <20250226222911.22cb0c18@pumpkin> <Z8CpaaHv0ahHFVuK@thinkpad>
+ <20250227215741.1c2e382f@pumpkin>
+Message-ID: <EF874FA4-2719-44EA-B0DB-93A0980142BE@zytor.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6526.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d52e2d71-227a-4750-272c-08dd579a24d0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2025 01:49:31.0211 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aUO95rs/m8iTaj9SVz6jsYDBu7qBb9BTlHIYimpjFq9UbKYxsnXFAlLNZBzL+JBKan6+itLFrPZdPPPzH/rO3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6435
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,8 +84,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDI1LTAyLTI4IGF0IDA3OjM3ICsxMDAwLCBEYXZlIEFpcmxpZSB3cm90ZToNCj4g
-SSd2ZSB0cmllZCB0byByZXRyb2ZpdCBjaGVja2luZyAweGZmZmZmZmZmIHRvIGRyaXZlcnMgYSBs
-b3QsIEknZA0KPiBwcmVmZXIgbm90IHRvLiBEcml2ZXJzIGdldHRpbmcgc3R1Y2sgaW4gd2FpdCBm
-b3IgY2xlYXIgYml0cyBmb3IgZXZlci4NCg0KVGhhdCdzIHdoYXQgcmVhZF9wb2xsX3RpbWVvdXQo
-KSBpcyBmb3IuICBJJ20gc3VycHJpc2VkIE5vdXZlYXUgZG9lc24ndCB1c2UgaXQuDQo=
+On February 27, 2025 1:57:41 PM PST, David Laight <david=2Elaight=2Elinux@g=
+mail=2Ecom> wrote:
+>On Thu, 27 Feb 2025 13:05:29 -0500
+>Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
+>
+>> On Wed, Feb 26, 2025 at 10:29:11PM +0000, David Laight wrote:
+>> > On Mon, 24 Feb 2025 14:27:03 -0500
+>> > Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
+>> > =2E=2E=2E=2E =20
+>> > > +#define parity(val)					\
+>> > > +({							\
+>> > > +	u64 __v =3D (val);				\
+>> > > +	int __ret;					\
+>> > > +	switch (BITS_PER_TYPE(val)) {			\
+>> > > +	case 64:					\
+>> > > +		__v ^=3D __v >> 32;			\
+>> > > +		fallthrough;				\
+>> > > +	case 32:					\
+>> > > +		__v ^=3D __v >> 16;			\
+>> > > +		fallthrough;				\
+>> > > +	case 16:					\
+>> > > +		__v ^=3D __v >> 8;			\
+>> > > +		fallthrough;				\
+>> > > +	case 8:						\
+>> > > +		__v ^=3D __v >> 4;			\
+>> > > +		__ret =3D  (0x6996 >> (__v & 0xf)) & 1;	\
+>> > > +		break;					\
+>> > > +	default:					\
+>> > > +		BUILD_BUG();				\
+>> > > +	}						\
+>> > > +	__ret;						\
+>> > > +})
+>> > > + =20
+>> >=20
+>> > You really don't want to do that!
+>> > gcc makes a right hash of it for x86 (32bit)=2E
+>> > See https://www=2Egodbolt=2Eorg/z/jG8dv3cvs =20
+>>=20
+>> GCC fails to even understand this=2E Of course, the __v should be an
+>> __auto_type=2E But that way GCC fails to understand that case 64 is
+>> a dead code for all smaller type and throws a false-positive=20
+>> Wshift-count-overflow=2E This is a known issue, unfixed for 25 years!
+>
+>Just do __v ^=3D __v >> 16 >> 16
+>
+>>=20
+>> https://gcc=2Egnu=2Eorg/bugzilla/show_bug=2Ecgi?id=3D4210
+>> =20
+>> > You do better using a __v32 after the 64bit xor=2E =20
+>>=20
+>> It should be an __auto_type=2E I already mentioned=2E So because of tha=
+t,
+>> we can either do something like this:
+>>=20
+>>   #define parity(val)					\
+>>   ({							\
+>>   #ifdef CLANG                                          \
+>>   	__auto_type __v =3D (val);			\
+>>   #else /* GCC; because of this and that */             \
+>>   	u64 __v =3D (val);			        \
+>>   #endif                                                \
+>>   	int __ret;					\
+>>=20
+>> Or simply disable Wshift-count-overflow for GCC=2E
+>
+>For 64bit values on 32bit it is probably better to do:
+>int p32(unsigned long long x)
+>{
+>    unsigned int lo =3D x;
+>    lo ^=3D x >> 32;
+>    lo ^=3D lo >> 16;
+>    lo ^=3D lo >> 8;
+>    lo ^=3D lo >> 4;
+>    return (0x6996 >> (lo & 0xf)) & 1;
+>}
+>That stops the compiler doing 64bit shifts (ok on x86, but probably not e=
+lsewhere)=2E
+>It is likely to be reasonably optimal for most 64bit cpu as well=2E
+>(For x86-64 it probably removes a load of REX prefix=2E)
+>(It adds an extra instruction to arm because if its barrel shifter=2E)
+>
+>
+>>=20
+>> > Even the 64bit version is probably sub-optimal (both gcc and clang)=
+=2E
+>> > The whole lot ends up being a bit single register dependency chain=2E
+>> > You want to do: =20
+>>=20
+>> No, I don't=2E I want to have a sane compiler that does it for me=2E
+>>=20
+>> > 	mov %eax, %edx
+>> > 	shrl $n, %eax
+>> > 	xor %edx, %eax
+>> > so that the 'mov' and 'shrl' can happen in the same clock
+>> > (without relying on the register-register move being optimised out)=
+=2E
+>> >=20
+>> > I dropped in the arm64 for an example of where the magic shift of 699=
+6
+>> > just adds an extra instruction=2E =20
+>>=20
+>> It's still unclear to me that this parity thing is used in hot paths=2E
+>> If that holds, it's unclear that your hand-made version is better than
+>> what's generated by GCC=2E
+>
+>I wasn't seriously considering doing that optimisation=2E
+>Perhaps just hoping is might make a compiler person think :-)
+>
+>	David
+>
+>>=20
+>> Do you have any perf test?
+>>=20
+>> Thanks,
+>> Yury
+>
+
+What the compiler people need to do is to not make __builtin_parity*() gen=
+erate crap=2E
