@@ -2,84 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0097A496C3
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:16:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8A5A496D5
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:17:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C45E10E290;
-	Fri, 28 Feb 2025 10:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7B910EC56;
+	Fri, 28 Feb 2025 10:17:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sPi4kJMp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xchn3jwI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5CA10E290
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:16:20 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-548878c6a5aso2037632e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 02:16:20 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADF910EC57
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:17:55 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-54838cd334cso2185060e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 02:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740737778; x=1741342578; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740737874; x=1741342674; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Wat92wf7UjNd1anwYmYBV9KhWwXM1sob582ltedV7ts=;
- b=sPi4kJMp3WCFNoH4WI1ghqi3mqdE0DiH2KE99YBrD6DMdW2EpqmbSFL4Vx9RZD70pN
- PgltyfVeJ3iBx2EJToc7V8yt4SJcjdo2HtP5sHK9S1Okm9iuXEPcloSELTkAtTXXBOoK
- /SEcO6ty2+9MBDcH2F+BLfk/CUevx91nSw0iIujaM7k13d8UqFUQhFtmtOPq/xKj5HZC
- lwQNbQGdKcYqwjLJ0Sn5c6xm7jC3vlNeBhP/J3CCaHhRrQwmDhDFNWhpx+0UhEMjzeWB
- skXP2FBV1g9IzEVF8SqsvHEgVa/QmXOq3tb1gT/HMh8YNa0Vwa+gTf5Fn2rV5Az+X1vM
- A/YA==
+ bh=CqCAMLKDFMDmg/J9XlohF5SNVValJDhS7J4k1e5y8j8=;
+ b=xchn3jwIBYXMm4Ra2xOUP7Q5sOktJZaQ7Pwb6eKIJhsAoWRPUtHlDQo/Co07eAwvgF
+ i2mlwdsycnpX3r30rkLFdlzoTznr96qXq/enOrZKnuprYkRxVaRlomRCu6KJsWiKMBIK
+ fQos+AetAaSNS5eREFzsKH8BHISmvv6WK7mexExv6Tt8hjvOK/0DF3moaq9uRcFfl/g2
+ QrbOTkhuPttq+JY2LkxLtSnHSp4pz+Gn8SY4Sg6EWFfKYlr5pWt3MoS7mIFY5zJ+7wQb
+ Twfynt6IcGk0gMaOab0dgpfL7MQA0x0CGA25GOcPb0do6gqagUTCeagmPbKnSyUYaJgU
+ qtSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740737778; x=1741342578;
+ d=1e100.net; s=20230601; t=1740737874; x=1741342674;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Wat92wf7UjNd1anwYmYBV9KhWwXM1sob582ltedV7ts=;
- b=XSECHlvVrms5cTKNfEh4b8JmxUXyo6SlaXbSJrhq6RZHYQGGPKTHiVqjo2CdJDRz/H
- acnc5z0vMl7GzCmaKEwT6bBzww0PZORbLPnvi4GWymDQrwrzsRX6RfZOeAZ2t/GqBq3Q
- Xma20M6Oh+vIMOvzda5SY3jh1K09AS4wSRmVklxZvfWLeUx/x/Q+mrExf293+rCas3xo
- HgvXEhV4IMICh4GQFacdgNp5TFBaUPQJt3rAwor0x5FRs4waqvA/Bk8Uqwh7/LfNXz8d
- /ZCOxb9li9xApLIp9PqJCz2Ud0bIQVOgIxNATi+inJID2f6d6Pq8cFraHgWvFj0tVefH
- cmtg==
+ bh=CqCAMLKDFMDmg/J9XlohF5SNVValJDhS7J4k1e5y8j8=;
+ b=WjrZz7lDK3OvKQUL0F2tavBa1SE/LARCkT6j/S1eXK7POndmISVoQt24ArK2Y1DYCH
+ xAZaDvkdg/zWyJpVrqCraKXtSov01g6Nm7XgptNQgzcP0goVpBC8WfHU2ln2Tr0b0o1N
+ WzYi7mN6FV13pHWHs5DurehRvM/9ioHw/8agyyH4S5wwaiQQFdczvV+FF2T2kYqgsY6S
+ lBMNK29PHBE/mwHoThFQ2KbYJ03QNGeTL//0Up2sAu1GoeMzCzDgno5whYxoJ8KXdp3U
+ 28Zdy+ZQoG99kZJJSFwbcqz4dZ/HGIu7xG93f3WNBYSin0JsYM0AcrnR9UBEQ8UHKNQB
+ onvA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWYVZ+yHD/MNlJioyXkVToMm8N5iNs07CKCFdluXU5RZjI88qAgA1d71RBd6hYUyaHh1bbOOKC0imk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTWkDJcsl2Bcy4BFz5Nx2fuyRkrfb20mwz7Q0ky7hpzRTl1hHm
- hVxMjeEjf9xqZ3ldS+L5CPQgw0dTCyBDxMdlkjezma4vns18sxrumQ2gOUNHjqE=
-X-Gm-Gg: ASbGnctXIId9yKRejT16kFKLn1n0h1Q4BSAjJDEpPvLP1K9ryUOr5HPu8mJiPLt238c
- +67Cd90eR2CzZneAjkp8yFkfMiBEdIEL82ZGZBDW1eeiNMG74yhBWAjgFAwuCI8ziR6/3Jl8/lA
- e9t9cRQ4swfFRXgS9WJAMAGHfQ5s5HqiG0olCjL3Ua4HicQpob+sevYavvB8lnHf4/HKSIFb2B5
- lqDAF3SjSK0IIBtP+2pOc7JjMwhOOzoNoIYDKWHBVBcsWXs7aoB7XhNdttOLdLBoXAv17JRILp3
- MuUMmgI+vjkBbW/FxRu7DJLoKsnEVROjRud4wpGpyQrG+wm8ZINdShysvvs+HcXjYSRsVVDK0/7
- +oi2sTw==
-X-Google-Smtp-Source: AGHT+IGBfL2RkQl+kxLXV/hMApga37HIH6Rl9s2LmnykJ9ZsNHMREbfcwnGOHv1Q2EhRdw2KuDyx9g==
-X-Received: by 2002:a05:6512:1047:b0:545:a1a:5576 with SMTP id
- 2adb3069b0e04-5494c32905fmr1113184e87.22.1740737778531; 
- Fri, 28 Feb 2025 02:16:18 -0800 (PST)
+ AJvYcCV3etV/eCXs/QEEv035i5xpg0ZJg2YmCMmzzY7WJ0JXuoO6HWzAMV6J1nZhhU98xppUgjGibYEPOeM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKYD5WP5Lj4Bve4ducmp68LGPHITHQgDM7KejJH6VwSUWISs4W
+ 4NSxJPMLErJblRkDICxkDQMKIu/XceqYYUzLcSBkKDoOerO2XPOkA7bWHrbjqdY=
+X-Gm-Gg: ASbGnctkFlHOvjwSJKakGc0wTFqBpe7cbkifGg6uadXuYHQp+8vficgrkLyz/5iJyoT
+ pNQoERy+3ZPrtO1xstYqibv+WMcQynYyIwyUg7PjlirOhR/0NB4853IqZ5BFEbRPRDDvMkQqdfC
+ 5hVGeHTJ5K4Z8hApFmwHq4AGtL+Jj2BCwmUV7FkzJ0lw7BDKWkWJ/M8PXI/DepUGH6vwFsdIYCI
+ Uy1xkrktg1VjJ4berg6SXd5Eq45A/WNAL5CyDz52+TVg3K2K/J1CuQTm+fh2OueZAAhGStcLo7R
+ SvdMt9XPBIGk0YH6PcmGgZhDAHr+5p7L4e5JZM6ZmFNuUOtNwnsUdofM5q/wF/UVkYDTznGh5/1
+ UtkgPBg==
+X-Google-Smtp-Source: AGHT+IF3N0HBb4ltf2zBecIFj5x7J4NwmcVlVNLZd7wW8E14jB9yl9ngbFhq5O6DA0Qg+LTZLwm3ww==
+X-Received: by 2002:a05:6512:3d19:b0:545:ea9:1a19 with SMTP id
+ 2adb3069b0e04-5494c10c72bmr1255712e87.5.1740737873802; 
+ Fri, 28 Feb 2025 02:17:53 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549443cb6ccsm445728e87.212.2025.02.28.02.16.15
+ 2adb3069b0e04-5494417b62asm441359e87.85.2025.02.28.02.17.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2025 02:16:17 -0800 (PST)
-Date: Fri, 28 Feb 2025 12:16:14 +0200
+ Fri, 28 Feb 2025 02:17:52 -0800 (PST)
+Date: Fri, 28 Feb 2025 12:17:49 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/8] drm/msm/dpu: program master INTF value
-Message-ID: <r6lkyug64endt2oos4anz4lqven3rstw3oupfywnrwd3i6qece@zt36tm33lqc2>
-References: <20250228-dpu-active-ctl-v2-0-9a9df2ee5193@linaro.org>
- <20250228-dpu-active-ctl-v2-2-9a9df2ee5193@linaro.org>
- <CAACA6C8-441A-4B6E-AC07-A46094A02126@somainline.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Jie Zhang <quic_jiezh@quicinc.com>
+Subject: Re: [PATCH v2 3/6] drm/msm/a6xx: Add support for Adreno 623
+Message-ID: <fje7r73olswfx5kbkvnlyvlhv3oqnj3ki26i2brb5fbuewfc3x@jsaz73zsd6rc>
+References: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
+ <20250228-a623-gpu-support-v2-3-aea654ecc1d3@quicinc.com>
+ <67jiudy4bopd3mzoylj47stuxwc5jdt63akxwn5qqo4dov47za@xcece4v2k3m5>
+ <4c81f193-a1d0-4abc-8be5-07c862de8937@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAACA6C8-441A-4B6E-AC07-A46094A02126@somainline.org>
+In-Reply-To: <4c81f193-a1d0-4abc-8be5-07c862de8937@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,96 +103,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 10:23:54AM +0100, Marijn Suijten wrote:
-> On 28 February 2025 05:14:06 CET, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> >If several interfaces are being handled through a single CTL, a main
-> >('master') INTF needs to be programmed into a separate register. Write
-> >corresponding value into that register.
-> >
-> >Co-developed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> >Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> >Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >---
-> > drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 12 ++++++++++++
-> > drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h |  2 ++
-> > 2 files changed, 14 insertions(+)
-> >
-> >diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >index 32ab33b314fc44e12ccb935c1695d2eea5c7d9b2..ffff60c4206c6f2833293fdcc56b653f7d3124a5 100644
-> >--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >@@ -583,6 +583,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
-> > 	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
-> > 	DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE, merge_3d_active);
+On Fri, Feb 28, 2025 at 01:43:12PM +0530, Akhil P Oommen wrote:
+> On 2/28/2025 4:56 AM, Dmitry Baryshkov wrote:
+> > On Fri, Feb 28, 2025 at 01:37:51AM +0530, Akhil P Oommen wrote:
+> >> From: Jie Zhang <quic_jiezh@quicinc.com>
+> >>
+> >> Add support for Adreno 623 GPU found in QCS8300 chipsets.
+> >>
+> >> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+> >> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> >> ---
+> >>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c   | 29 +++++++++++++++++++++++++++++
+> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |  8 ++++++++
+> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  2 +-
+> >>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  5 +++++
+> >>  4 files changed, 43 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> index 0ae29a7c8a4d3f74236a35cc919f69d5c0a384a0..1820c167fcee609deee3d49e7b5dd3736da23d99 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> @@ -616,6 +616,14 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+> >>  		gpu->ubwc_config.uavflagprd_inv = 2;
+> >>  	}
+> >>  
+> >> +	if (adreno_is_a623(gpu)) {
+> >> +		gpu->ubwc_config.highest_bank_bit = 16;
 > > 
-> >+	if (cfg->intf_master)
-> >+		DPU_REG_WRITE(c, CTL_INTF_MASTER, BIT(cfg->intf_master - INTF_0));
-> >+
-> > 	if (cfg->cdm)
-> > 		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
-> > }
-> >@@ -625,6 +628,7 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
-> > {
-> > 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> > 	u32 intf_active = 0;
-> >+	u32 intf_master = 0;
-> > 	u32 wb_active = 0;
-> > 	u32 merge3d_active = 0;
-> > 	u32 dsc_active;
-> >@@ -651,6 +655,14 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
-> > 		intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
-> > 		intf_active &= ~BIT(cfg->intf - INTF_0);
-> > 		DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
-> >+
-> >+		intf_master = DPU_REG_READ(c, CTL_INTF_MASTER);
-> >+
-> >+		/* Unset this intf as master, if it is the current master */
-> >+		if (intf_master == BIT(cfg->intf - INTF_0)) {
-> >+			DPU_DEBUG_DRIVER("Unsetting INTF_%d master\n", cfg->intf - INTF_0);
+> > Just to doublecheck, the MDSS patch for QCS8300 used HBB=2, which
+> > means 15. Is 16 correct here? Or might the be a mistake in the MDSS
+> > patch?
 > 
-> Don't think you want to include my testing ramblings here: we didn't print a message either when the master was _set_, and don't print messages for other register writes either.
+> https://patchwork.freedesktop.org/patch/632957/
+> I see HBB=3 here.
 
-Okay, I'll drop it.
+Indeed. Excuse me for the noise.
 
 > 
-> After that:
+> -Akhil
 > 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
-> >+			DPU_REG_WRITE(c, CTL_INTF_MASTER, 0);
-> >+		}
-> > 	}
 > > 
-> > 	if (cfg->wb) {
-> >diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> >index 85c6c835cc8780e6cb66f3a262d9897c91962935..e95989a2fdda6344d0cb9d3036e6ed22a0458675 100644
-> >--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> >+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> >@@ -36,6 +36,7 @@ struct dpu_hw_stage_cfg {
-> > /**
-> >  * struct dpu_hw_intf_cfg :Describes how the DPU writes data to output interface
-> >  * @intf :                 Interface id
-> >+ * @intf_master:           Master interface id in the dual pipe topology
-> 
-> Not sure if you've seen my comment in v1 about the dual word; maybe the quadpipe series can update it since they might need a master (or two?) as well?
-
-Yes, it should be updated by the quad-pipe series.
-
-> 
-> - Marijn
-> 
-> >  * @mode_3d:               3d mux configuration
-> >  * @merge_3d:              3d merge block used
-> >  * @intf_mode_sel:         Interface mode, cmd / vid
-> >@@ -45,6 +46,7 @@ struct dpu_hw_stage_cfg {
-> >  */
-> > struct dpu_hw_intf_cfg {
-> > 	enum dpu_intf intf;
-> >+	enum dpu_intf intf_master;
-> > 	enum dpu_wb wb;
-> > 	enum dpu_3d_blend_mode mode_3d;
-> > 	enum dpu_merge_3d merge_3d;
-> >
+> >> +		gpu->ubwc_config.amsbc = 1;
+> >> +		gpu->ubwc_config.rgb565_predicator = 1;
+> >> +		gpu->ubwc_config.uavflagprd_inv = 2;
+> >> +		gpu->ubwc_config.macrotile_mode = 1;
+> >> +	}
+> >> +
+> >>  	if (adreno_is_a640_family(gpu))
+> >>  		gpu->ubwc_config.amsbc = 1;
+> >>  
 > 
 
 -- 
