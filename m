@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0BDA49931
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46654A49936
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:27:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62E3510EC95;
-	Fri, 28 Feb 2025 12:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A7F10E295;
+	Fri, 28 Feb 2025 12:27:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fb4WxOI+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EbtW7YjC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B51B10EC93
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:26:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79F5910E295
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:27:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740745619; x=1772281619;
+ t=1740745655; x=1772281655;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XTJ5YcY4zwZRIsaVC73ZiUNIWKHOD1EZR96gfev93xY=;
- b=fb4WxOI+gnQ3DOypvu3U77fve9hhHO3m/Z63u4eB9I08TaJkAcn+wPcO
- Fv1zkUOABxk1wrl0BOBEN/aSSiMmKg2PSzWTk751nbr+rZDnSuBnwT0YT
- /OWv3R+NefBRCxmn9kQbKKvopK6JIVd4szVxCsxkdvdGyXeox+wPy4Cbs
- pSef2VdQJE/bPy9mkbbcQTwuR827DNcsZyNuyKum4/x3mYZ/z9prflyjo
- tGtHfuaIJEEinOOQLFGUt2s4BsbxqJeulJ7uIfNjLvUZTyk509hIqEdw2
- +APrze7MMGWnSkxfICJg4esYonKGkARlaaiS7PgHhveaRLH8XWqOGoJq6 A==;
-X-CSE-ConnectionGUID: gsgtYAj2RDisYifdHN2neg==
-X-CSE-MsgGUID: t/+ZPARSQbuAJuZCbU0bQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41923239"
-X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="41923239"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 04:26:58 -0800
-X-CSE-ConnectionGUID: 9xS020aiSyGbIWM9zSPWCw==
-X-CSE-MsgGUID: X4pxYDX/TLi+1cgb9ccxow==
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=D7zHHQU8x/t+aPG7jNWtRdAX0S65Ib4QP2cl0EV7yWk=;
+ b=EbtW7YjCn0lV3NrdjI7Ks6zn2txMYkBZ4uVTQb1h4B8KuGltRV66ZZqP
+ f0mMQzZwGtticuTBeP8Tsj4/WUFXJ3Z7O7vj94qAycz8L/BIJ6QUkFC3B
+ 0E1Yz+hZN/OQ1MnE/fRa3hMAyMfyLTUFhUmGtOPGuygwdF1e99bILQcuG
+ tEcUdyNk7lndmJsIHgbBdtD7W6cNB2NemcucWrWiA+THRzNYQvwod0ome
+ VphEXW+00gnU4r832QZZl1euYVhcVi+8i/D689VMkZU8lFk/ucr+Ro6kE
+ XkGY+INVEJNs8JMiqPkrjbEFarwEuZYvOxB9OorB2NyHfvYq6MxQM5cAK A==;
+X-CSE-ConnectionGUID: ca5mLks3S/6rmtUXlF6gAw==
+X-CSE-MsgGUID: cljohTiGQ2acjN8RLLPrgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="53082889"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="53082889"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 04:27:35 -0800
+X-CSE-ConnectionGUID: 5e0OC6KWQ4WRvAvDygPQkw==
+X-CSE-MsgGUID: g4+/gMxaQvq+26wuw/LZfQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="118245544"
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="122273689"
 Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 04:26:54 -0800
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 04:27:29 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tnzS5-0000000FwX6-1aq9; Fri, 28 Feb 2025 14:26:49 +0200
-Date: Fri, 28 Feb 2025 14:26:49 +0200
+ id 1tnzSf-0000000FwXh-37W4; Fri, 28 Feb 2025 14:27:25 +0200
+Date: Fri, 28 Feb 2025 14:27:25 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Alice Ryhl <aliceryhl@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Andreas Hindborg <a.hindborg@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>, Petr Mladek <pmladek@suse.com>,
  Steven Rostedt <rostedt@goodmis.org>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -55,8 +56,7 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Benno Lossin <benno.lossin@proton.me>, Trevor Gross <tmgross@umich.edu>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -64,12 +64,16 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH 0/4] Check Rust signatures at compile time
-Message-ID: <Z8GriWN4C-e3583T@smile.fi.intel.com>
-References: <20250227-export-macro-v1-0-948775fc37aa@google.com>
+Message-ID: <Z8Grrb80WOf99qoX@smile.fi.intel.com>
+References: <UXTosjUFv_CKOV-K4oqNGBhMEv64tds9NgXWhHEYdCHuKM2qSPFrpBnTqhFGkcbv5_KXYERykIXhn-sYnEeuUg==@protonmail.internalid>
+ <20250227-export-macro-v1-0-948775fc37aa@google.com>
+ <877c5apmdi.fsf@kernel.org>
+ <CAH5fLgiNs-VKEQduL16eymSPnqA0_6aR8WDRYm68SE8FXGDHRw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250227-export-macro-v1-0-948775fc37aa@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH5fLgiNs-VKEQduL16eymSPnqA0_6aR8WDRYm68SE8FXGDHRw@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,12 +90,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2025 at 05:01:58PM +0000, Alice Ryhl wrote:
+On Fri, Feb 28, 2025 at 09:46:32AM +0100, Alice Ryhl wrote:
+> On Fri, Feb 28, 2025 at 8:19 AM Andreas Hindborg <a.hindborg@kernel.org> wrote:
+> >
+> > "Alice Ryhl" <aliceryhl@google.com> writes:
+> >
+> > > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> >
+> > What is going on with the cover letter of this one?
+> 
+> It's empty.
 
-This is unfortunate. What does this mean?
-Can you, please, provide a meaningful cover letter?
-
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+So, it means nothing to review, sorry.
 
 -- 
 With Best Regards,
