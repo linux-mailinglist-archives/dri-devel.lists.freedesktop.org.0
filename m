@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A46A490E8
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 06:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AB0A490EB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 06:37:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4981410E1A6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49EF310EC00;
 	Fri, 28 Feb 2025 05:37:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="AOf9GvU4";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="foVV7CDc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 381CF10E1A6
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8925E10E1A6
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 05:37:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UCFwa+Os7usxJgnGFBW1TYtTS8dNTi4u1JE6TvxX5HD9azH0U9is76DkrbeCmyIp9Qz3q5NXZutNH0YyG4X8nWoS1ELoc54HH1Mbt0x9KYRZzhBxPf2sKH6lRhokKQwc/ab3OmSeRMDSZMXskppHQUtRNliXIdwNCKKxgpB+kpknC8qD8gDWGZOGAR02zyzc+c+kIyitGhkPcHl7uM8sUxDMPpk/+OrdRuRZGOYSVkzl0/C8514n5Y3bDgeVL47Awer6v5FDhlPuiugMnLTKoV41ZNuKZ8Vegxzqgb+RzitDGpwUxaBIrGhnELqr4ikeKLAcmSbuI+qmFgdcmgTeJg==
+ b=naX07gDTYFyy/woS7MPpNm5VA5DXNDOTH4THKTS8GTgfH1elSeUgncTIyZAw5hKxgO9XMcvUxnW0VR47JHUMeERe3C5ZkVrXvymqov+pUjJNC3/rCKXY7dAPoUHq6pNpQ7m9AgdLDuj1WCodp/Y/kqQDjusDBxx5LamuEfdCiUZGygCtbDGdKRVYBFCiXWrXnhO9VR0IYp6uI/NyJYIfO1+qZLzi6U0d+tz4gi7NknknrFErLITM/vNLn6pzDYvOTOEhp1nNjNoqs3/MDjDSqnaYvLyc2fxIUCTpCOnkPVZgM2hL6GqnssdSbTajtfAu3xuR5ReQ+SUDgwGSSixP4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nmQMzHaPT+AFChfqh2hnU/4wHB+4l2KksWgLwDTZ9lA=;
- b=y2H9szEvn3mnUnvw5kF79siFSnC0K4TuK2q9TG7gcO2oo4IIsfeSfNK29jFSUv6YjftcEzlzksue2SFEgZzJSz7wn4r93Ximu4g5oxyPRHaIu+zsARiT0nIoJlnPD6fYnX2mCLT4WwDJiRJnx4VeNOHApdpjMQDak+901pgVBWYtfrnwFfMP1HKq7TmUiRjfEIxSW3X7LZCz3c0t4GgJJuk0q78J/nLf/kHANOl7NFPJZEI0ktoojts0hy/Wz9lMIdrB+AW60un6B9ooYrtOqKmPM/t2f1tmqzhfa48ifjnxpt2jFKXH7Wo/nMYtr7KOxdXIKV0dJHEnVmJhyM0Sug==
+ bh=vlUDLO9Mv0KbxxxVePrVKYrp3a2hwUSkyptytu0GRuA=;
+ b=wDS22Iczl0KBPEc+oCJhHZ+VTrgRMt/7bnnwZiyMOv3HGcGDLdiB94DfeEaLFL2OUHrbNze/OfQNk6Bv2GGqek+3z7oiNhHU45S+Ug6G49HdDA7zM1aLsbL9n3YZuIeOpaq+kCFNRtrg3h7hVGW6Gm+CI4LAsZP76RfXeBgHfDfjCcpf6a93zsWljM00BrHyBBIAKOlyer86aA0n0hB8fq6PO7MEzMFDMVrwj0S/FtOPEA0ZCLjRLaT4rlTpB7BPUjVTWhaPv4ngaPxRxKoWMvvQdN5xP0fWthB21a6BpN6ITqpyoi6kS4U9UN0oH5qy30mMcW7E0K6c5gEtAsUYww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nmQMzHaPT+AFChfqh2hnU/4wHB+4l2KksWgLwDTZ9lA=;
- b=AOf9GvU4a6lAF41PLeb20tPm4bQhfU4h604WmAdwJhvbKobr0pjm6NqfJCG2kQtPegKNftueZXJgoO3W4e+C/iVACwVJee/WMf2gaZ81IB4QuhTxiln1yypL1Ob8z5mKkhd7889H9cCJ5x54gS4PzJpt2Yr4drQKr5PazRv/dFM=
-Received: from BLAPR03CA0116.namprd03.prod.outlook.com (2603:10b6:208:32a::31)
- by PH7PR12MB9067.namprd12.prod.outlook.com (2603:10b6:510:1f5::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.22; Fri, 28 Feb
- 2025 05:37:18 +0000
-Received: from BN3PEPF0000B074.namprd04.prod.outlook.com
- (2603:10b6:208:32a:cafe::2) by BLAPR03CA0116.outlook.office365.com
- (2603:10b6:208:32a::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8489.21 via Frontend Transport; Fri,
- 28 Feb 2025 05:37:17 +0000
+ bh=vlUDLO9Mv0KbxxxVePrVKYrp3a2hwUSkyptytu0GRuA=;
+ b=foVV7CDchBFR6Haw0Y/5p7nNW0CLuQkqUg7J2eB9Qely6CbZDSeEL4c5STeuouPG56FBGgp0kMgcEyFbLCvpbaE+GcUCYjHjvTGI1fFQC/pU/QgndRo3xp4KMTX96Bz4hHIMQ1m0ZGAts+uRRDz8EvstmhamgRITvXpD7YESjM4=
+Received: from MN2PR01CA0059.prod.exchangelabs.com (2603:10b6:208:23f::28) by
+ DS0PR12MB7607.namprd12.prod.outlook.com (2603:10b6:8:13f::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8489.21; Fri, 28 Feb 2025 05:37:22 +0000
+Received: from BN3PEPF0000B075.namprd04.prod.outlook.com
+ (2603:10b6:208:23f:cafe::bd) by MN2PR01CA0059.outlook.office365.com
+ (2603:10b6:208:23f::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8489.23 via Frontend Transport; Fri,
+ 28 Feb 2025 05:37:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B074.mail.protection.outlook.com (10.167.243.119) with Microsoft
+ BN3PEPF0000B075.mail.protection.outlook.com (10.167.243.120) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8489.16 via Frontend Transport; Fri, 28 Feb 2025 05:37:17 +0000
+ 15.20.8489.16 via Frontend Transport; Fri, 28 Feb 2025 05:37:21 +0000
 Received: from jenkins-honglei.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 27 Feb
- 2025 23:37:13 -0600
+ 2025 23:37:17 -0600
 From: Honglei Huang <honglei1.huang@amd.com>
 To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
@@ -66,10 +66,12 @@ CC: <dri-devel@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
  <linux-kernel@vger.kernel.org>, Demi Marie Obenour <demiobenour@gmail.com>,
  Dmitry Osipenko <dmitry.osipenko@collabora.com>, Honglei Huang
  <Honglei1.Huang@amd.com>
-Subject: [PATCH v1 0/7] Add virtio gpu userptr support
-Date: Fri, 28 Feb 2025 13:36:43 +0800
-Message-ID: <20250228053650.393646-1-honglei1.huang@amd.com>
+Subject: [PATCH v1 1/7] virtio-gpu api: add blob userptr resource
+Date: Fri, 28 Feb 2025 13:36:44 +0800
+Message-ID: <20250228053650.393646-2-honglei1.huang@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250228053650.393646-1-honglei1.huang@amd.com>
+References: <20250228053650.393646-1-honglei1.huang@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -78,52 +80,52 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B074:EE_|PH7PR12MB9067:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d2b5522-d074-4bd3-ebc9-08dd57b9f6df
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B075:EE_|DS0PR12MB7607:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86d67615-22b4-4fde-a209-08dd57b9f931
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?PlTOfL5wtzlEG3SbJOhWZPI0P7ISiB87WVuYWF/BEjJcKJtgVNp5SqXL4EtT?=
- =?us-ascii?Q?AIG6bElffIu+2ywoLPQWKvzLclUp8PeZDvumpNmbys3vr7t3IeEiww9uhWqE?=
- =?us-ascii?Q?0co7S6URI+zO2uFSeYQLN74LpM/5/Co0ag0Ipf8G0tBGqJ/sxFygXazoAAcr?=
- =?us-ascii?Q?7tfVoQTNnKy3iT8F9vO8bVGXY4DUP1vAViAVKL1aKq+r3mp+lm0/EVIXZ0m0?=
- =?us-ascii?Q?OHJsunnbXS60K5J2IKlEyAKeGYAWo4cBg7eN0KRV8rFRc0+majkIzfryapsA?=
- =?us-ascii?Q?weZV9TntHqRXb0qUX8tJvpnUoQLojVpao+eO7WVeU+Niagna8+YSzVhZDZdC?=
- =?us-ascii?Q?kjOyYGOSd5O2ceAA9XWbESL+2WMz2UIWzsC91LJQAImcHg8UAPmKcMRYOInV?=
- =?us-ascii?Q?ynFKwlgveRIaf3yHtgLctPo7qHKpftSi7Dc+teTEzRqPtmsvL+XPUk7YLasM?=
- =?us-ascii?Q?p2EEzt8tJ6P8dtrividgoRU497Nrnm9UavpU2gwQyGqOJwpPMPQjZMJiZvGg?=
- =?us-ascii?Q?5tXn5cdIjZAUtOYx/L6324pgsPBVrOVP6cy3V2fv1JhsHVkQmS9xK+MBEzpP?=
- =?us-ascii?Q?ye9MWyU4q0WWsaaq7WEjpJmU2pm7DLO7waF5MqOh2Kd9BvXJnpLYZeZ2Z5CK?=
- =?us-ascii?Q?fI0Tr3vlXyg1IthduTQWVJszmj0DHLypY8MFALMAt1elRXTf8lA9cycbwh3b?=
- =?us-ascii?Q?rhcE/DIv+NVKrtn8YOdDTr5XGYHjvWjw4xasGg0QtJ938+g6YFADs6Go2016?=
- =?us-ascii?Q?Qq70OFPCZ/S/z5AVk6rrG+0lJZJmZLh03u0O/e4x+Erw3JXBAZgo8d7b3uGb?=
- =?us-ascii?Q?RXCcHzJgxAgML+1qwERB8IrXUfY9GMCVltDpGDrDBhz0B6OMg4A7On/SdZ0H?=
- =?us-ascii?Q?nfgR12VkmPlEqJLiv7t67ylRb2MyUYef2ZCD0TKilkeIUYYRIMQgZoB27f3y?=
- =?us-ascii?Q?7ISGUgvNB0yJiFaT8DNRUmeqM010zCPs+kADsD8Da8M7jIOlHnV02JPlTj5V?=
- =?us-ascii?Q?1Elme8SW1OCwdNwNjEmAJxyPn/XxvDmR9DaKJ/ThvXL8p+hq/6U3NEA+L0HG?=
- =?us-ascii?Q?8m8jPzCfN18W7cK8kNfhgugxjk8XCqxPLxdOusNyEl2SlH/qVvFDkxHo+jJO?=
- =?us-ascii?Q?Pw0oS4aQRi0UItWQYD6qDiJvSuNclKS0ct+hIOukhoPrGH4xkhbfq+bU2L4V?=
- =?us-ascii?Q?0oqkqtElZ5CkXCIZYEkjQfOgsz6wiEIq9hGFZll18MoS3CZuG2+VlUYZNyDG?=
- =?us-ascii?Q?6mHef2SRlVVcYDclNe7GbzUMNjLmeu3abHnYQKZOGr5xqGthivP53H5tZ80C?=
- =?us-ascii?Q?o/IXtXbSuKfl+tyVXzzKdvtkinxvP7OQTbKvgLlsJ6K4kGt63tKEm45eEJNk?=
- =?us-ascii?Q?PIRmV/6cRBQ1T/v5TF0sQsWoBoBu02rHdpY/NgcmeYl5YCjNi7G7ggOnaYIr?=
- =?us-ascii?Q?SNkehYxsBFQDs1o/qmMLAhPoLTlqrwt6ZXCpwpxeAq/OBNmNnvcKTLq3uOKk?=
- =?us-ascii?Q?qu/Tu6LQmvEAbvLTgk40Zs2Mzsqp7xC25hre?=
+ ARA:13230040|82310400026|1800799024|36860700013|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ar7ETty8yJ1I6ZTFBCFbhak4U9FykKpfRJ9M/Vgt+ztJgvocLNxhenTy78cN?=
+ =?us-ascii?Q?4tkEjit3QTS1Px/Gfc5QzcUjhBZ2Tw47fNjmJk6zTiaMbV8HK7FlGzxQMuDn?=
+ =?us-ascii?Q?tg3jaqJfhq41Tk5OlsSp/t6xuilwz5Q+LVShtWH+wnwWSYXDsbJm+xUFbdKM?=
+ =?us-ascii?Q?43c7qjMBBY2dIOmFsMG3d6XHRFniTbKhhNJUcVcEsB7Dq3IJcADY8aCBZ3e/?=
+ =?us-ascii?Q?/0uOz4GdoLEEeYuCUCpX+FwXbdK2m6xWFAIL7uqJQnLKYTrpb2k+bKdf28dV?=
+ =?us-ascii?Q?VLtbEFbdPnAr2nvpsAZ8lMQck47jtELQJv5LtuYxiiykc8vg79zjPBv69rHz?=
+ =?us-ascii?Q?x/hlilPWpU0U027YNFFbzhayFHhmeETMSNXIG3XhFrS/2lEDvTtB79ZyV0la?=
+ =?us-ascii?Q?JDMhC7c7/4f+ox9QUeQKVT/Mh+/uPMUKRv/e3oRM8tTvjVGMKQ9ia2DR5g7u?=
+ =?us-ascii?Q?BV6q0jp+R3NPVKbwBYxqMnuXPszvNzWD2Q2ne3zkMWD+3SJxpotRAUWDNs5y?=
+ =?us-ascii?Q?LJnbKTnGpkx72ParPjW9d4a2Nmhnp2ueJSgT1JW27LJskXPrkRTfs4r4zD/u?=
+ =?us-ascii?Q?ZB3G5LZbYzyx727o0vrUBld9okzbzHG2n2G5dWj/yy4Zu0raXekGQJir8Ihc?=
+ =?us-ascii?Q?lQH5vZswFSwxqI8BanpabyLifR4dQpi4MJRsL1cM4kz8KFKHeki0pWyR+uPL?=
+ =?us-ascii?Q?RCmDOoGTgma2mKzK74tJ8GlpiLU1X+Fxsa1R1xDTKBiABlmUb/bcONkr1AdN?=
+ =?us-ascii?Q?4Eu0LALgniGYSbemTroayROGl56u2Mf7vWIvxFX+ZUb58M+B1xWVcRhJLeVk?=
+ =?us-ascii?Q?JfWCr76WHe9PZvykbwVJSmNV1jandwlM5gNKnNlTe1jeOSxsVMgTQEb6GlH+?=
+ =?us-ascii?Q?xx9r/yG5gb0y7LMn76aA5pjmzUPTjRq1iAw8RCVfwvagxLE7VoMi55Aik6OG?=
+ =?us-ascii?Q?ineMfOdv+1UYoPeUmADtCClBHZseiWu8a+9JAHi76GiAMquF5konoCKxhWEh?=
+ =?us-ascii?Q?WIT4py2UcutsHElq+BWhyexFHcRwyzkoaHsic9RVanDsA3Edxr5lX6p1Zuop?=
+ =?us-ascii?Q?OxYnibDCzT8wCBuct2ksEIbDDGVrnDlpvBmGgs8jYuDU1exn0kD7U93LjhZA?=
+ =?us-ascii?Q?H/WkYhAaWXMzby7uTWJZ0cIqiG5OLbN4PtMjmLmJ0vjZO2ov1qLu7RT3TmW0?=
+ =?us-ascii?Q?AvNRtv+kzrsvHuaELZoBE7+HzDg5UrNtTlajfINutUHDKPdZh+GzZP9I4Pps?=
+ =?us-ascii?Q?RoTh27p+vhdUO6OX6ws6W0QyWK5y+5mX3kyVo1udHaEukmSotz1nXJGdSaZe?=
+ =?us-ascii?Q?EmRJiIlcldAAwaKbe9VGj2itNa8X60z+fuubLvar9KPub7Q5RWPqMO13HSVm?=
+ =?us-ascii?Q?I+KZFD0NrAmcOnKislZXpvnI7z5pNRgb4WcZrLDQS0hG006EO8Y6r//q0tHb?=
+ =?us-ascii?Q?6jqKK0ZXGzAlIEJgC/yeky3ZttwSiA9+jCKdFK109H0iqv/VfzGn98/gr0Ft?=
+ =?us-ascii?Q?+xkXLohxhg7+g+Q=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014)(921020);
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2025 05:37:17.8446 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d2b5522-d074-4bd3-ebc9-08dd57b9f6df
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2025 05:37:21.7355 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86d67615-22b4-4fde-a209-08dd57b9f931
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B074.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B075.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9067
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7607
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,46 +143,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Honglei Huang <Honglei1.Huang@amd.com>
 
-Hello,
+Add a new resource for blob resource, called userptr, used for let
+host access guest user space memory, to acquire buffer based userptr
+feature in virtio GPU.
 
-This series add virtio gpu userptr support and add libhsakmt capset.
-The userptr feature is used for let host access guest user space memory,
-this feature is used for GPU compute use case, to enable ROCm/OpenCL native
-context. It should be pointed out that we are not to implement SVM here, 
-this is just a buffer based userptr implementation.
-The libhsakmt capset is used for ROCm context, libhsakmt is like the role 
-of libdrm in Mesa.
+- The capset VIRTIO_GPU_CAPSET_HSAKMT used for context init,
+in this series patches only HSAKMT context can use the userptr
+feature. HSAKMT is a GPU compute library in HSA stack, like
+the role libdrm in mesa stack.
+- New flag VIRTIO_GPU_BLOB_FLAG_USE_USERPTR used in blob create
+to indicate the blob create ioctl is used for create a userptr
+blob resource.
 
-Patches 1-2 add libhsakmt capset and userptr blob resource flag.
-Patches 3-5 implement basic userptr feature, in some popular bench marks,
-it has an efficiency of about 70% compared to bare metal in OpenCL API.
-Patche 6 adds interval tree.
-Patche 7 adds MMU notifier, let UMD do not need to manage userptr and
-increase efficiency by 20% to 30%. With this patch, OpenCL in ROCm can
-achieve 95%+ efficiency compared to bare metal in some popular bench marks.
+Signed-off-by: Honglei Huang <Honglei1.Huang@amd.com>
+---
+ include/uapi/linux/virtio_gpu.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Honglei Huang (7):
-  virtio-gpu api: add blob userptr resource
-  drm/virtgpu api: add blob userptr resource
-  drm/virtio: implement userptr: probe for the feature
-  drm/virtio: implement userptr: add userptr obj
-  drm/virtio: advertise base userptr feature to userspace
-  drm/virtio: implement userptr: add interval tree
-  drm/virtio: implement userptr: add mmu notifier
-
- drivers/gpu/drm/virtio/Makefile          |   3 +-
- drivers/gpu/drm/virtio/virtgpu_debugfs.c |   1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c     |   1 +
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  91 +++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c   |  22 +-
- drivers/gpu/drm/virtio/virtgpu_kms.c     |  10 +-
- drivers/gpu/drm/virtio/virtgpu_object.c  |   5 +
- drivers/gpu/drm/virtio/virtgpu_userptr.c | 766 +++++++++++++++++++++++
- include/uapi/drm/virtgpu_drm.h           |   5 +-
- include/uapi/linux/virtio_gpu.h          |   7 +
- 10 files changed, 905 insertions(+), 6 deletions(-)
- create mode 100644 drivers/gpu/drm/virtio/virtgpu_userptr.c
-
+diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
+index bf2c9cabd207..4da36a1e62c4 100644
+--- a/include/uapi/linux/virtio_gpu.h
++++ b/include/uapi/linux/virtio_gpu.h
+@@ -65,6 +65,11 @@
+  */
+ #define VIRTIO_GPU_F_CONTEXT_INIT        4
+ 
++/*
++ * VIRTGPU_BLOB_FLAG_USE_USERPTR
++ */
++#define VIRTIO_GPU_F_RESOURCE_USERPTR    5
++
+ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_UNDEFINED = 0,
+ 
+@@ -312,6 +317,7 @@ struct virtio_gpu_cmd_submit {
+ /* 3 is reserved for gfxstream */
+ #define VIRTIO_GPU_CAPSET_VENUS 4
+ #define VIRTIO_GPU_CAPSET_DRM 6
++#define VIRTIO_GPU_CAPSET_HSAKMT 8
+ 
+ /* VIRTIO_GPU_CMD_GET_CAPSET_INFO */
+ struct virtio_gpu_get_capset_info {
+@@ -404,6 +410,7 @@ struct virtio_gpu_resource_create_blob {
+ #define VIRTIO_GPU_BLOB_FLAG_USE_MAPPABLE     0x0001
+ #define VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE    0x0002
+ #define VIRTIO_GPU_BLOB_FLAG_USE_CROSS_DEVICE 0x0004
++#define VIRTIO_GPU_BLOB_FLAG_USE_USERPTR      0x0008
+ 	/* zero is invalid blob mem */
+ 	__le32 blob_mem;
+ 	__le32 blob_flags;
 -- 
 2.34.1
 
