@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C15A4A17E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 19:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6369A4A0BF
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 18:45:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2023410E2DE;
-	Fri, 28 Feb 2025 18:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44F5510ED1F;
+	Fri, 28 Feb 2025 17:45:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="FwveDW+W";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="pdiHPkkE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E374F10E284
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 18:27:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id ED201102901CC; Fri, 28 Feb 2025 19:27:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1740767250;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UtwTjTpw0Vr5sz6bdwu5/AqqBhdI7OSOUmgECWI+xPM=;
- b=FwveDW+W0Zn4acPWayV/4P1UVN2P1khcGzVmkJVhGS101XEfdWPoOyh8+AG7WIaKam633t
- uDzHhOiDp0imrWhBZMmUREAaLwQdPgPKem8CyvX2T1ZrRDRe1Mh6UsbhOpxE7oH0udlcGc
- IIVEaPn8mfY+5hQHRP7W0n+D3mOSzEocFwefXjspugKDwozTtccc8HXC+FfAY5lxhPEmEw
- MTz7HZz5M7QuqPn20F3ZKC60ni935e0zwSsB3X1fyqFQFFaZUsTJAElVz15dHQATRW/48P
- IIyfxRvvG/LYHhzcD3AEZDxSs/4Onu5JlLRMjcv1dU5uTYt6gWvzKDdvxgC7dA==
-Message-ID: <4a27b6bf-aca8-4f29-9561-609a42eb81a0@denx.de>
-Date: Fri, 28 Feb 2025 18:43:53 +0100
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF45E10ED1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 17:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=2sRrVQmgK0R2z5wr+aIoaoWSaXv+nBUPnIdA1TCMyRA=; b=pdiHPkkEaE+yoXVffSrekcrk2V
+ UceJy7SUF5Xqf9FVYJVBFcEljZXjL6AzMHraNIeHXyC57VQJr2RbKWuxDhqzlcAWUZM/Hi8/8jClL
+ p8hMC5A3Wi0Hny1px+xu7OJlmwfsnmVM7Hr4TUTKeZJP5MEinS2qX5h1v1tRLoR9W+nO4nXTBen0M
+ CBq3GRbWZNcikLjc39IpKeN3aB7grOAwCjD+AVg7sylF3V9csGTviacBu6KhOsQ79S0FHpkAl/vvy
+ thDh212CzjTRYjY/DLxfNz+itc5hwTtOtqE6+T3cIppLTZCAfGXFWWgezZqs3S3jgg466v8JLXXcB
+ UPvwwgSA==;
+Received: from i53875b47.versanet.de ([83.135.91.71] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1to4QV-0002Po-0K; Fri, 28 Feb 2025 18:45:31 +0100
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Heiko Stuebner <heiko.stuebner@cherry.de>
+Subject: Re: [PATCH 2/2] drm/rockchip: lvds: Hide scary error messages on probe
+ deferral
+Date: Fri, 28 Feb 2025 18:45:30 +0100
+Message-ID: <3032732.6M6d0yLqnL@diego>
+In-Reply-To: <b09e5470-2392-4557-9f13-62b6586e5c7b@cherry.de>
+References: <20250228165755.405138-1-heiko@sntech.de>
+ <20250228165755.405138-3-heiko@sntech.de>
+ <b09e5470-2392-4557-9f13-62b6586e5c7b@cherry.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, devicetree@vger.kernel.org, imx@lists.linux.dev
-References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-10-marex@denx.de> <2153305.bB369e8A3T@steina-w>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2153305.bB369e8A3T@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,79 +65,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/28/25 11:36 AM, Alexander Stein wrote:
-> Hi Marek,
-
-Hi,
-
->> diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
->> index 3af13173de4bd..36bad211e5558 100644
->> --- a/arch/arm64/boot/dts/freescale/imx95.dtsi
->> +++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
->> @@ -249,6 +249,37 @@ dummy: clock-dummy {
->>   		clock-output-names = "dummy";
->>   	};
->>   
->> +	gpu_fixed_reg: fixed-gpu-reg {
->> +		compatible = "regulator-fixed";
->> +		regulator-min-microvolt = <920000>;
->> +		regulator-max-microvolt = <920000>;
->> +		regulator-name = "vdd_gpu";
->> +		regulator-always-on;
->> +		regulator-boot-on;
->> +	};
+Am Freitag, 28. Februar 2025, 18:42:32 MEZ schrieb Quentin Schulz:
+> Hi Heiko,
 > 
-> Is this an internal voltage?
+> On 2/28/25 5:57 PM, Heiko Stuebner wrote:
+> > From: Heiko Stuebner <heiko.stuebner@cherry.de>
+> > 
+> > Commit 52d11c863ac9 ("drm/rockchip: lvds: do not print scary message when
+> > probing defer") already started hiding scary messages that are not relevant
+> > if the requested supply just returned EPROBE_DEFER, but there are more
+> > possible sources - like the phy.
+> > 
+> > So modernize the whole logging in the probe path by replacing the
+> > remaining deprecated DRM_DEV_ERROR with appropriate dev_err(_probe)
+> > and drm_err calls.
+> > 
+> > The distinction here is that all messages talking about mishaps of the
+> > lvds element use dev_err(_probe) while messages caused by interaction
+> > with the main Rockchip drm-device use drm_err.
+> > 
+> > Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
 
-I think so.
-
->> +
->> +	gpu_opp_table: opp_table {
+> > @@ -604,8 +602,8 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
+> >   
+> >   	ret = drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_LVDS);
+> >   	if (ret < 0) {
+> > -		DRM_DEV_ERROR(drm_dev->dev,
+> > -			      "failed to initialize encoder: %d\n", ret);
+> > +		drm_err(drm_dev,
+> > +			"failed to initialize encoder: %d\n", ret);
 > 
-> Node-Names use dash instead of underscore.
+> All the above are using dev_err, but starting here, it's drm_err, is 
+> that on purpose?
 
-Fixed, thanks.
+The last paragraph of the commit message was supposed to explain that
+(which it seemingly did poorly :-) ) :
 
-[...]
+> > The distinction here is that all messages talking about mishaps of the
+> > lvds element use dev_err(_probe) while messages caused by interaction
+> > with the main Rockchip drm-device use drm_err.
 
->> @@ -1846,6 +1877,37 @@ netc_emdio: mdio@0,0 {
->>   			};
->>   		};
->>   
->> +		gpu_blk_ctrl: reset-controller@4d810000 {
->> +			compatible = "fsl,imx95-gpu-blk-ctrl";
->> +			reg = <0x0 0x4d810000 0x0 0xc>;
-> 
-> Mh, GPU_BLK_CTRL is /just a bit) more than the GPU reset. Does it make sense
-> to make this an gpu-reset-only node, located at 0x4d810008?
 
-The block controller itself is larger, it spans 3 or 4 registers, so 
-this should describe the entire block controller here.
 
->> +			#reset-cells = <1>;
->> +			clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
->> +			assigned-clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
->> +			assigned-clock-parents = <&scmi_clk IMX95_CLK_SYSPLL1_PFD1_DIV2>;
->> +			assigned-clock-rates = <133333333>;
->> +			power-domains = <&scmi_devpd IMX95_PD_GPU>;
->> +			status = "disabled";
->> +		};
->> +
->> +		gpu: gpu@4d900000 {
->> +			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
->> +			reg = <0 0x4d900000 0 0x480000>;
->> +			clocks = <&scmi_clk IMX95_CLK_GPU>;
-> 
-> There is also IMX95_CLK_GPUAPB. Is this only required for the rese control above?
-
-I think I have to describe those clock here too, possibly as 'coregroup' 
-clock ?
-
->> +			clock-names = "core";
->> +			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
->> +				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
->> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
->> +			interrupt-names = "gpu", "job", "mmu";
-> 
-> DT bindings say this order: job, mmu, gpu
-Yes, currently it is sorted by IRQ number, fixed.
