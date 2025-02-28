@@ -2,79 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C00A49414
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:54:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A5FA4941B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:56:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71B1A10E1B9;
-	Fri, 28 Feb 2025 08:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3B6A10E26B;
+	Fri, 28 Feb 2025 08:56:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aFIwnjzr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HBf2vB95";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 438A410E1B9
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:54:27 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-43984e9cc90so18339175e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 00:54:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740732866; x=1741337666; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4PU3VROE0VC3jFwJOOb4ASIIAwndMW9ZvNWHPQLq2Hc=;
- b=aFIwnjzrM4N9dtqmxQnnlwPSqeM/boS4DGvQUL9xMubSpip557KxpLnxUSRCz4spUu
- wruX29Q/bK/Ir2aCNs50hwPezVSPBS/Xihwej3m4LcJR7TjslnOZsiBw3eLMaEdsezjv
- 0KIALpPR+ZGsl+YttOGEM/AILaeKCRvA4dm3U/4g9aYv7SFfNnemFDEth1rxBhoJeYn/
- yrZ08/sHsz3w4kz5Hz/oxSNQRZj+0FhXwn6hlVT5YA5Mi1HmS4YTsMt+j8sLYUq4M2fV
- PwNJBtx4eERDURrcUvJTqJthXOGu9DZLEMIgpyQHjk2LzUvN3DTLAocDxmWpLblhvuZp
- H3Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740732866; x=1741337666;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4PU3VROE0VC3jFwJOOb4ASIIAwndMW9ZvNWHPQLq2Hc=;
- b=sel97Zm63Sac+6fZmcZ4lUAJEP+V3j+5dS5d+HSav9P+RTJtbKQL/QbxfO2SORbn6k
- KHs4uMMkjDR3oRJT4dW+H5e4eHYq5kALcHQKzKQyPIeeiQRtZLa2kYI8S8uBlyeNC/Fw
- wALXZgu9Qv7w13+8j4JjPr+nPgIpxPs3+Mt6MpIYZQGga5PWjyFbewdtcE7CAV095kXh
- PE652Ih83n3c1phkE0y1wwUYs8V3pDQFM7gxBX8Yux2d8ro7YNR6QoZQwQ5DMbJwyak9
- hlg6TbwLitOYaAaEEDEOvl1K4sb3HPE1Lz5GqIXu6AljcCEZnrIZ8ZpEr3UJWWwuh4mr
- jeUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXodz6QKi+9kbD6NJ4xTAhZsyQxjV4cXq5+voIhH8wNyqn8FYUhUAnDxzgg7GlGYoF1ClnMnFD7x88=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNzMVDa8zg4AqGusLGhaA4l87yEMLn1+3GXY30MJVq9EIvJXLY
- dZRFMePa4OYU7k5xM1xNtyJPKQTzFao2AFAT3UYM42JgDNKeNBPl
-X-Gm-Gg: ASbGncsAO0hq7WG4RimDvj2I+CEF9XOSLZchYwI4iUzKctoMudoeqWsbnlWWG7JjTAe
- bAW6TBit9EIP5hlOlYgBalK6lh6d+j/qcVOajHHTbc6SkcuhI0gEFQ8URj4q+aYHRXpKyRZB8kq
- 9M/O+LTJCF4+Fd4h4wOq0TUuUmUOJCWOueDJdLe1uVJg0qj/jvX2RteuWfiaLPkGjL1lZ0PBnlZ
- fGjgFPA9+8vj4i+M2l+iIs1sGliEQDKaZyDFcBscYNUxY7AiwERc1hEVg1qpxJBgulV4s4SD01c
- CSFJr19g609J5lUNPCzrPrFIv5I=
-X-Google-Smtp-Source: AGHT+IFdN9QWjQoWfvRrcmLYLHSNfLWzrvfKg1j1asn0+L35lErLU+3cgXYWH8XIqwOdFUt4mobwmQ==
-X-Received: by 2002:a05:600c:4193:b0:439:9384:7d08 with SMTP id
- 5b1f17b1804b1-43afdd934eemr55383815e9.2.1740732865675; 
- Fri, 28 Feb 2025 00:54:25 -0800 (PST)
-Received: from localhost ([194.120.133.72])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-43aba5871d8sm79843175e9.37.2025.02.28.00.54.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2025 00:54:25 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/connector: Fix spelling mistake "provded" ->
- "provided"
-Date: Fri, 28 Feb 2025 08:53:50 +0000
-Message-ID: <20250228085350.678446-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.47.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFD010E26B;
+ Fri, 28 Feb 2025 08:56:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B00875C05A4;
+ Fri, 28 Feb 2025 08:53:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5087C4CED6;
+ Fri, 28 Feb 2025 08:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740732959;
+ bh=y/U8R/NI0d97IbZrAfpBI+n/RgNShiZ1WGVlLVetEEY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HBf2vB95qVdn4uCpncA6IMNyEnCFFNT3NTU+2Vn2efqGCs3/Ob4irZV2N4F7i4zcS
+ 8LJTkm8WxrAIc0NyAeve9MU9ATmDig1dABT3IF0dYEzWCVCm0WKMFngvFyKwPQDtqc
+ oJWOJ8VYcV1p/2Kq7VZQ3TWILNnbpqARCr0REVUEimc5KYgUZWohgdPgGD+onHORxg
+ 66040lriCNKbfmY5okqm6T4RQuNo6KEYyRZgpsmdtNTT7vOV6WrQT5nXDS+oa+ij2S
+ 6Hv2pAtkn9xBAMfQQ3LnTYFl/2kM4Xz1TGujYxGdO//zPlNx99BAYjb3ZPtlXsTglM
+ mPUiCijsX8+/A==
+Date: Fri, 28 Feb 2025 09:55:57 +0100
+From: Daniel Gomez <da.gomez@kernel.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Tamir Duberstein <tamird@gmail.com>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Justin Stitt <justinstitt@google.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ Klaus Jensen <k.jensen@samsung.com>, 
+ Theodore Ts'o <tytso@mit.edu>, gost.dev@samsung.com,
+ Barry Song <baohua@kernel.org>, Daniel Gomez <da.gomez@samsung.com>
+Subject: Re: [PATCH RESEND v3] drm/xe: xe_gen_wa_oob: replace
+ program_invocation_short_name
+Message-ID: <4ghuhfcasawko7ultvuou3dhfzvb4fm4kazdd6ld5aquwvpzyh@xg2tdw5zi37j>
+References: <20250224-macos-build-support-xe-v3-1-d2c9ed3a27cc@samsung.com>
+ <be5abg6u6wm62nhak7xrhtlkqxcekael6ztnkatwqxcil44x5y@p6yrbfingm4e>
+ <CAJ-ks9=gaxW2191c+K0E0MgjsQWLYoKxJZLxGb6RMbPRVHc4tQ@mail.gmail.com>
+ <fzigsonsdbtvo6aorgvzlh4mvbpvikbz6iwh6h5jx53e7zd7m4@munr3ea5nbme>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <fzigsonsdbtvo6aorgvzlh4mvbpvikbz6iwh6h5jx53e7zd7m4@munr3ea5nbme>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,33 +73,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are spelling mistakes in drm_err messages. Fix them.
+On Thu, Feb 27, 2025 at 01:09:55PM +0100, Lucas De Marchi wrote:
+> On Thu, Feb 27, 2025 at 08:39:21AM -0500, Tamir Duberstein wrote:
+> > Hi Lucas, chiming in here since I also care about building on macOS.
+> > 
+> > On Mon, Feb 24, 2025 at 10:05 AM Lucas De Marchi
+> > <lucas.demarchi@intel.com> wrote:
+> > > 
+> > > Is this the approach taken for other similar issues you had? Note that
+> > > argv[0] and program_invocation_short_name are not the same thing. For
+> > > this particular binary I don't really care and if it's the approach
+> > > taken in other places, I'm ok using it.
+> > 
+> > Believe it or not, this is the only place that
+> > program_invocation_short_name has ever been used in the kernel. There
+> > have been numerous instances of:
+> > 
+> > #define _GNU_SOURCE /* for program_invocation_short_name */
+> > 
+> > but never any actual callers (that I could find in the git history)
+> > other than this one.
+> > 
+> > > I was expecting you'd take the acks and merge it all through a single
+> > > tree since you received push back on the need to build the kernel in
+> > > macOS.  Is this the only thing missing and you'd want it to go through
+> > > drm?
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/drm_connector.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Yes, this is the only one missing.
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 5f24d6b41cc6..9cf347f70643 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2525,13 +2525,13 @@ static int drm_mode_create_colorspace_property(struct drm_connector *connector,
- 		return 0;
- 
- 	if (!supported_colorspaces) {
--		drm_err(dev, "No supported colorspaces provded on [CONNECTOR:%d:%s]\n",
-+		drm_err(dev, "No supported colorspaces provided on [CONNECTOR:%d:%s]\n",
- 			    connector->base.id, connector->name);
- 		return -EINVAL;
- 	}
- 
- 	if ((supported_colorspaces & -BIT(DRM_MODE_COLORIMETRY_COUNT)) != 0) {
--		drm_err(dev, "Unknown colorspace provded on [CONNECTOR:%d:%s]\n",
-+		drm_err(dev, "Unknown colorspace provided on [CONNECTOR:%d:%s]\n",
- 			    connector->base.id, connector->name);
- 		return -EINVAL;
- 	}
--- 
-2.47.2
+> > 
+> > I believe the other patches have been applied or dropped. When I last
+> > tested building allmodconfig this was the only issue I ran into (macOS
+> > arm64), so I asked Daniel for this resend.
 
+That is correct.
+
+In my opinion, the support for building the Linux kernel on macOS is primarily
+supported by LLVM/Clang and the Linux kernel build system. The merged patches
+were merely minor tweaks such this one (and refactors from Masahiro), intended
+to enable users to configure the build system on these platforms. Patches
+dropped led to the creation of the bee-headers project, which allows users
+customize their build setup, which seems to be a common practice when people
+requires to tweak the build environment.
+
+> 
+> fair enough.  Pushed to drm-xe-next since nobody ever reads the
+> usage for this helper tool and it doesn't really matter if now it's ugly.
+
+Thanks!
+
+With this, we can now build arm64 in macOS defconfig, allyesconfig and
+allmodconfig targets even with Rust support!
+
+Daniel
+
+> 
+> Lucas De Marchi
+> 
+> > 
+> > Cheers.
+> > Tamir
