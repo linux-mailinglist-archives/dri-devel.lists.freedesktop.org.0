@@ -2,77 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1D2A49D9B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 16:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0EB8A49DBB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 16:42:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF8DA10ECD4;
-	Fri, 28 Feb 2025 15:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D6A10ECD8;
+	Fri, 28 Feb 2025 15:42:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JF7pfihr";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="JLtXwvZY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED88F10ECD4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 15:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740757036; x=1772293036;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pYvYZydkvZyDUBQoc2Wqc7vvt3FYWdqgKN6w6ZhbzpE=;
- b=JF7pfihrP2OAvJ8gd5jTCHxyLc3zjIbbe/zJj0bFRO6Lw3cYfbBK7L0N
- IDZZ3dTv5CqyE14LK9G8yCj0fpl4csUbtnSHP7hRDzX5dE5K3FjUzUtrj
- Z+Sa+4o0mwNRL3Yt5RPUtKUWArIL5p7DokWgdFrjTG/iq4swDWS91qECO
- cvnGohC0GTB5plB2+Z8J3xXA9kclf5EW6hxZqLUz1zz2ddbFlkwsARnID
- J/nUSlV+5606iBwVhZX3UoAxxl6yDZnLMynLHZFthS63974U+ab/UlC+J
- N2Y4sKlz8Y4CJXUw64utHaR2lWrQLDQ1OG7USf/gc4DKmS1kjrytkHBFZ A==;
-X-CSE-ConnectionGUID: 4+8Fm64fRLCTZ2OEhpa7zQ==
-X-CSE-MsgGUID: LW+n+YhdRzWwsZ9Wi5lhdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="64151164"
-X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="64151164"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 07:37:07 -0800
-X-CSE-ConnectionGUID: eDyQtdH7RxmRehcf50MUtw==
-X-CSE-MsgGUID: JLpfhLruRj+5n/rUVyD6yg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="122375715"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 07:37:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1to2Q5-0000000Fz6n-43o0; Fri, 28 Feb 2025 17:36:57 +0200
-Date: Fri, 28 Feb 2025 17:36:57 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 4/5] print: use new #[export] macro for
- rust_fmt_argument
-Message-ID: <Z8HYGTewVatzRJ34@smile.fi.intel.com>
-References: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
- <20250228-export-macro-v2-4-569cc7e8926c@google.com>
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61FBA10ECD8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 15:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=QzjgdiXNQn2lVM94vvC1YOjh1DnAuEwZM6OUPbLdXjw=; b=JLtXwvZY9rod+vN/
+ 6zix4+Vc9e0yIA9MhNtdoGNIHovyFlBBn8P4lF9sMuFQ9qVwfCWkNPBpfz15TMrGpY6Vo7/Cezb9L
+ ox2oOdEjwzmJTvgPqUezZT6aN9i0pYPsJmEEFp4PsBXl+nudrh8B+fvMxDR792jSBLMOdHLiTFF3L
+ DihJk7VwIfSzKhdRAWh8/+U4jT2ywSaj1DsNVTUnNAJ8LCPNJpA8KZc5yXU2vdavYnbbyV1d8G+Cy
+ PzWqlc7Qn7IrthdfZqlZbNpXS6rc2FdK6Rjsjr+N/jzMAtGZD91OfXNTsRUED08EwU7q90hbm5zT4
+ UxVAQ7K8X2/euUVlxA==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1to2VD-001g24-2A;
+ Fri, 28 Feb 2025 15:42:15 +0000
+Date: Fri, 28 Feb 2025 15:42:15 +0000
+From: "Dr. David Alan Gilbert" <dave@treblig.org>
+To: tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, p.zabel@pengutronix.de,
+ deller@gmx.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] gpu: ipu-v3: Remove unused functions
+Message-ID: <Z8HZV3RuIeTtcd3a@gallifrey>
+References: <20241226022752.219399-1-linux@treblig.org>
+ <gugwtvw6qqknstlscr4hxfrvcgfa4gfwwgxdosr24mf7huk433@oh7axkbesrjs>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250228-export-macro-v2-4-569cc7e8926c@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <gugwtvw6qqknstlscr4hxfrvcgfa4gfwwgxdosr24mf7huk433@oh7axkbesrjs>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 15:40:47 up 296 days,  2:54,  1 user,  load average: 0.01, 0.02, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,19 +63,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 12:39:33PM +0000, Alice Ryhl wrote:
-> This moves the rust_fmt_argument function over to use the new #[export]
-> macro, which will verify at compile-time that the function signature
-> matches what is in the header file.
+Hi All,
 
-...
+* Dmitry Baryshkov (dmitry.baryshkov@linaro.org) wrote:
+> On Thu, Dec 26, 2024 at 02:27:45AM +0000, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > Hi,
+> >   This set removes a bunch of functions in ipu-v3 that
+> > have been unused for a long time (since 2012-2017).
+> > 
+> >   No changes to functions are made, just full deletions.
+> > 
+> >   Build tested only.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> > 
+> 
+> 
+> For the series:
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> I'm not sure which header file to put this in. Any advice?
+Could this be picked up for drm please?
 
-I believe you found the right place.
+Thanks,
 
+Dave
+
+> -- 
+> With best wishes
+> Dmitry
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
