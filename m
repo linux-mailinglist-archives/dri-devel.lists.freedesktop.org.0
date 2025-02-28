@@ -2,79 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46654A49936
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:27:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FF5A4993E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A7F10E295;
-	Fri, 28 Feb 2025 12:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E49B10E297;
+	Fri, 28 Feb 2025 12:28:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EbtW7YjC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QvCon2Gx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79F5910E295
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740745655; x=1772281655;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=D7zHHQU8x/t+aPG7jNWtRdAX0S65Ib4QP2cl0EV7yWk=;
- b=EbtW7YjCn0lV3NrdjI7Ks6zn2txMYkBZ4uVTQb1h4B8KuGltRV66ZZqP
- f0mMQzZwGtticuTBeP8Tsj4/WUFXJ3Z7O7vj94qAycz8L/BIJ6QUkFC3B
- 0E1Yz+hZN/OQ1MnE/fRa3hMAyMfyLTUFhUmGtOPGuygwdF1e99bILQcuG
- tEcUdyNk7lndmJsIHgbBdtD7W6cNB2NemcucWrWiA+THRzNYQvwod0ome
- VphEXW+00gnU4r832QZZl1euYVhcVi+8i/D689VMkZU8lFk/ucr+Ro6kE
- XkGY+INVEJNs8JMiqPkrjbEFarwEuZYvOxB9OorB2NyHfvYq6MxQM5cAK A==;
-X-CSE-ConnectionGUID: ca5mLks3S/6rmtUXlF6gAw==
-X-CSE-MsgGUID: cljohTiGQ2acjN8RLLPrgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="53082889"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="53082889"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 04:27:35 -0800
-X-CSE-ConnectionGUID: 5e0OC6KWQ4WRvAvDygPQkw==
-X-CSE-MsgGUID: g4+/gMxaQvq+26wuw/LZfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="122273689"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 04:27:29 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tnzSf-0000000FwXh-37W4; Fri, 28 Feb 2025 14:27:25 +0200
-Date: Fri, 28 Feb 2025 14:27:25 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>, Trevor Gross <tmgross@umich.edu>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0287710E297
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:28:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 22C6E60008;
+ Fri, 28 Feb 2025 12:28:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39577C4CEEC;
+ Fri, 28 Feb 2025 12:28:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740745709;
+ bh=mTxyB5LfIETi+uJvOVDQqxXR+KxU8npM8MnbMmEt/n0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QvCon2GxURZLGP41UlqCFBsm/k6EHWKtK8TKpZwIps0xE3JxVpXYPf6Idk0a1xcxm
+ OMwKPb5n2jzmPix3DVoA5xuVJkSxqzhK/zcoYynXQP1WMZh5MKWITEmC1bvVnMvUFb
+ jBUV46WR0Tdekr+Mme41JFuwt+PyAumTEjJ1pUkw75nbpfEAwjmeEF1TgJJZ28JvRa
+ 6XrfTi4203h9GmQYf0apk3u1o9TZYhPbyV9/tTaYwXwDQ2sm9rENEEczzL3J+fz37f
+ aJzzs3zRkqn1JKGlRIhGK+QpPEfUXq8vipSlLS7fPPTXE71U4uZDKx81xyCEsloq/F
+ WJtfQ2NhJOctg==
+Date: Fri, 28 Feb 2025 06:28:22 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, imx@lists.linux.dev,
+ David Airlie <airlied@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ devicetree@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ Shawn Guo <shawnguo@kernel.org>, dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, Steven Price <steven.price@arm.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 0/4] Check Rust signatures at compile time
-Message-ID: <Z8Grrb80WOf99qoX@smile.fi.intel.com>
-References: <UXTosjUFv_CKOV-K4oqNGBhMEv64tds9NgXWhHEYdCHuKM2qSPFrpBnTqhFGkcbv5_KXYERykIXhn-sYnEeuUg==@protonmail.internalid>
- <20250227-export-macro-v1-0-948775fc37aa@google.com>
- <877c5apmdi.fsf@kernel.org>
- <CAH5fLgiNs-VKEQduL16eymSPnqA0_6aR8WDRYm68SE8FXGDHRw@mail.gmail.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sebastian Reichel <sre@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 7/9] dt-bindings: gpu: mali-valhall-csf: Document i.MX95
+ support
+Message-ID: <20250228122822.GA2321092-robh@kernel.org>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-8-marex@denx.de>
+ <174068152164.3906545.6393185343383919273.robh@kernel.org>
+ <77585efa-29f0-47ef-af02-d927a512b9ae@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH5fLgiNs-VKEQduL16eymSPnqA0_6aR8WDRYm68SE8FXGDHRw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <77585efa-29f0-47ef-af02-d927a512b9ae@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,21 +73,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 09:46:32AM +0100, Alice Ryhl wrote:
-> On Fri, Feb 28, 2025 at 8:19 AM Andreas Hindborg <a.hindborg@kernel.org> wrote:
-> >
-> > "Alice Ryhl" <aliceryhl@google.com> writes:
-> >
-> > > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> >
-> > What is going on with the cover letter of this one?
-> 
-> It's empty.
+On Thu, Feb 27, 2025 at 09:31:48PM +0100, Marek Vasut wrote:
+> On 2/27/25 7:38 PM, Rob Herring (Arm) wrote:
+> > 
+> > On Thu, 27 Feb 2025 17:58:07 +0100, Marek Vasut wrote:
+> > > The instance of the GPU populated in Freescale i.MX95 is the
+> > > Mali G310, document support for this variant.
+> > > 
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > ---
+> > > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Cc: Conor Dooley <conor+dt@kernel.org>
+> > > Cc: David Airlie <airlied@gmail.com>
+> > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> > > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > Cc: Rob Herring <robh@kernel.org>
+> > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > Cc: Sebastian Reichel <sre@kernel.org>
+> > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > Cc: Simona Vetter <simona@ffwll.ch>
+> > > Cc: Steven Price <steven.price@arm.com>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: devicetree@vger.kernel.org
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Cc: imx@lists.linux.dev
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > > ---
+> > >   Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > > 
+> > 
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> > 
+> > yamllint warnings/errors:
+> > 
+> > dtschema/dtc warnings/errors:
+> > 
+> > 
+> > doc reference errors (make refcheckdocs):
+> > 
+> > See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250227170012.124768-8-marex@denx.de
+> It seems there are no errors in this list ?
 
-So, it means nothing to review, sorry.
+That's an artifact that a prior patch in this series failed.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Rob
