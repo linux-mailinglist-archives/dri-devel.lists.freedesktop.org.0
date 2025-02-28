@@ -2,88 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3257A49A5D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 14:17:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6A4A49A80
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 14:26:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CADD10EC9F;
-	Fri, 28 Feb 2025 13:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF9610ECB1;
+	Fri, 28 Feb 2025 13:26:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="d+SDfC9H";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dCaAeNoZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 096DD10EC9F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:17:16 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-390e3b3d432so1452646f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 05:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740748634; x=1741353434;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z74qB8i0rvA9VyRTivjkgYMWcLCNlIOQtcyUnYqz2Kk=;
- b=d+SDfC9HNNGphC4CJ27BxYlPZx1WrgKVCcI72KQi81YFgOgqbPziNnjjQrDsLGf23e
- ob7GxsJKl19JenFb7BHcPdENMbezRfNKP0vAR3dAnH4NKGOioA/28wQaSfr218D83MtW
- 45/tWRyVsX8z5GBZ4eC1lK2qJ7IUDBc28iOpjY7HXp7hUg5DL6nZmloRAKixKC9MMqvL
- tI24ef1+5Ij9+AKC0M8kkkMfEL/DUGjiVVqf7RS+wySD0Lq4ruENJEZi9DRt+dyL1T6J
- 6BOnlULwpBxaWsnymGHARUEnE2JCiQSDosibYKhq4wZb5nlgt6Q/wOtoVScEUmxb/VTe
- +m5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740748634; x=1741353434;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z74qB8i0rvA9VyRTivjkgYMWcLCNlIOQtcyUnYqz2Kk=;
- b=QSTi6W9MpbcyqWAUHpbFY2si7+xc/xEtRO4FDWPAcWH/UOarvjY89NEP9tqT6Ymwg+
- CIU0gG3TrQKmHqaE5TeYNEFi6coLuvXTLiAyIR04CYzEQ47G2k3s0MYRlUCZ2ULNJuyq
- c2nnd+9cmDcc14T5ZvA+cgZq4cR233i7DpbDlUTs5gRm3yiifJh6YtWAIhQdn9lHnCu9
- Z+9R+L8a48Yl7kB+WElehO48L4mcAUVLPhYb9y4oV5F5XjFFoL7Nv7iC4l8XZLRBamoV
- kFOn82D9N056+Qyx59VHZyxD/FiMU3m+HAA0cWAI5G9w8rX5Phzl/O/vGEasarREnxrV
- uxEw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkUG3g3uU2xPYntf7f5KoaAiLfiraQUdYkeR1ycLHuhKNcvFEoWfE509+Wc3NgAlT4ROGeYQi157Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnwpZjQ/xJNBnn2vmBfXqVAyo5F27B2jkfUv2fv5wngNjzUVXg
- JIcXk6fLoyEkBS599HIROYvoGmFFtxW4nyDVF+XvOKIiN06EX6UWVU3WeuCI3wOLWSdmqCdoYDh
- /5YdCYlAeaadEqbR5p6c2h8nZ+bNReC8WlsMt
-X-Gm-Gg: ASbGncvyFxqYt1hhZMhQ4xa0a1kKJRYmA4ziub0vTHLCe+mahZQhob1MXswp+ER/r+F
- 0kFyBYGjDvMULAYyV8eEkm2xtyjcQZdJiEz8ml2XwkkPVoXtvWeiubWtaJQW17ZR+OVRrVsc/ck
- wBW6xcK/T+8cWvdV/6r/Xk25IcacwVR34ZSqFbjg==
-X-Google-Smtp-Source: AGHT+IEWGx/WwYtfUYQZ979bVUDfjNZK1fjqNbS7i6AAh1HtcGFLDExsO/1IMIidMX2d20ad5heqFWsZlYme6TiA82o=
-X-Received: by 2002:a05:6000:18a3:b0:38f:516b:5429 with SMTP id
- ffacd0b85a97d-390ec7d2722mr3114115f8f.25.1740748634158; Fri, 28 Feb 2025
- 05:17:14 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760D310E2AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1740749191;
+ bh=kGFidxujuu/5E6/w43jD7cIkQM+gr//1Z9nzVC3249w=;
+ h=From:To:Cc:Subject:Date:From;
+ b=dCaAeNoZeU54zDefZlcSRbx/qgWHWaR8ZjNOK4VSPFUWCMKacfX5AWbpoYe4ZPzgQ
+ yJZl7kTFzok4PNFV6fxZut36Vc3ALn/tZFqao1ln37ZyJ+QhFekZQBKFEiS7ElzkuI
+ c1dWqWlQ8eVKTZH+sV1hb4TbLR74ujLJLupczbqnKUH7NebkONedaqPBluTFvTsczj
+ Fhl2yk9sGxTA0vIU506ZTQpc0O8cswh0FghgtXpqc2jNCGFR3fLteVEYbByhAE2EkR
+ 1dQSoWrxJdAb+SRsz4l2gbQVV9u6DmmO6blVgCDvZZzox62XcWeu6z+QJikLRBShWH
+ Qk9CJq9JwY3Zg==
+Received: from localhost.localdomain (unknown [171.76.85.20])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 445A517E07F8;
+ Fri, 28 Feb 2025 14:26:29 +0100 (CET)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
+ simona.vetter@ffwll.ch, robdclark@gmail.com, dmitry.baryshkov@linaro.org,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/ci: fix merge request rules
+Date: Fri, 28 Feb 2025 18:56:18 +0530
+Message-ID: <20250228132620.556079-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-References: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
- <CANiq72mF46p7f=G8WsnajwZfg--wTNESp7xQEsWUaiumOyfW5w@mail.gmail.com>
-In-Reply-To: <CANiq72mF46p7f=G8WsnajwZfg--wTNESp7xQEsWUaiumOyfW5w@mail.gmail.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 28 Feb 2025 14:17:02 +0100
-X-Gm-Features: AQ5f1JrjOiLJdIMtVt0XIg52XCAYwVyxmrWrAy5Rs4benpI1u1UEF0yyTG-Vs2Y
-Message-ID: <CAH5fLgj0CHpUW=-Os4gMqJxyoCAg8izFG9Q47DLt1cOJi9m4tQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Check Rust signatures at compile time
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,23 +59,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 2:12=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Fri, Feb 28, 2025 at 1:40=E2=80=AFPM Alice Ryhl <aliceryhl@google.com>=
- wrote:
-> >
-> > This is because cbindgen assumes a
-> > cargo-based buildsystem, so it is not compatible with the kernel's buil=
-d
-> > system.
->
-> I don't think this is true (checking is already a very good
-> justification, so we don't need this to justify the series):
->
->     https://lore.kernel.org/rust-for-linux/CANiq72mHVbnmA_G1Fx3rz06RXA+=
-=3DK5ERoWKjH-UDJ9cKxvKQ1g@mail.gmail.com/
+Merge request pipelines were only created when changes
+were made to drivers/gpu/drm/ci/, causing MRs that
+didn't touch this path to break. Fix MR pipeline rules
+to trigger jobs for all changes.
 
-Huh, I thought for sure it did.
+Run jobs automatically for marge-bot and scheduled
+pipelines, but in all other cases run manually. Also
+remove CI_PROJECT_NAMESPACE checks specific to mesa.
 
-Alice
+Fixes: df54f04f2020 ("drm/ci: update gitlab rules")
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
+
+v2:
+  - Run jobs automatically for marge-bot and scheduled
+    pipelines, but in all other cases run manually. Also
+    remove CI_PROJECT_NAMESPACE checks specific to mesa.
+
+v3:
+  - Fix yaml syntax
+
+---
+ drivers/gpu/drm/ci/gitlab-ci.yml | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+index f04aabe8327c..b06b9e7d3d09 100644
+--- a/drivers/gpu/drm/ci/gitlab-ci.yml
++++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+@@ -143,11 +143,11 @@ stages:
+     # Pre-merge pipeline
+     - if: &is-pre-merge $CI_PIPELINE_SOURCE == "merge_request_event"
+     # Push to a branch on a fork
+-    - if: &is-fork-push $CI_PROJECT_NAMESPACE != "mesa" && $CI_PIPELINE_SOURCE == "push"
++    - if: &is-fork-push $CI_PIPELINE_SOURCE == "push"
+     # nightly pipeline
+     - if: &is-scheduled-pipeline $CI_PIPELINE_SOURCE == "schedule"
+     # pipeline for direct pushes that bypassed the CI
+-    - if: &is-direct-push $CI_PROJECT_NAMESPACE == "mesa" && $CI_PIPELINE_SOURCE == "push" && $GITLAB_USER_LOGIN != "marge-bot"
++    - if: &is-direct-push $CI_PIPELINE_SOURCE == "push" && $GITLAB_USER_LOGIN != "marge-bot"
+ 
+ 
+ # Rules applied to every job in the pipeline
+@@ -170,26 +170,15 @@ stages:
+     - !reference [.disable-farm-mr-rules, rules]
+     # Never run immediately after merging, as we just ran everything
+     - !reference [.never-post-merge-rules, rules]
+-    # Build everything in merge pipelines, if any files affecting the pipeline
+-    # were changed
++    # Build everything in merge pipelines
+     - if: *is-merge-attempt
+-      changes: &all_paths
+-      - drivers/gpu/drm/ci/**/*
+       when: on_success
+     # Same as above, but for pre-merge pipelines
+     - if: *is-pre-merge
+-      changes:
+-        *all_paths
+       when: manual
+-    # Skip everything for pre-merge and merge pipelines which don't change
+-    # anything in the build
+-    - if: *is-merge-attempt
+-      when: never
+-    - if: *is-pre-merge
+-      when: never
+     # Build everything after someone bypassed the CI
+     - if: *is-direct-push
+-      when: on_success
++      when: manual
+     # Build everything in scheduled pipelines
+     - if: *is-scheduled-pipeline
+       when: on_success
+-- 
+2.47.2
+
