@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388C7A4A181
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 19:27:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A69A4A17A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 19:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76FD110E2DA;
-	Fri, 28 Feb 2025 18:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7538B10E2BE;
+	Fri, 28 Feb 2025 18:27:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Yn/pbPf6";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="MMAOQyq8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9CE610E284
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 18:27:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 553FD10E284
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 18:27:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 930B3102901D5; Fri, 28 Feb 2025 19:27:21 +0100 (CET)
+ with ESMTPSA id AC5A8102901CB; Fri, 28 Feb 2025 19:27:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1740767244;
+ t=1740767247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z3P4A7H/pIr+jleCoPMgEMcaVPouLltqtMNXMLxu5kU=;
- b=Yn/pbPf6niThiIhbQzwSlsQAx5hB/NDoJGFpZc8wSLnfHNpC+RiGVUci9CMXSsvuTnP/4b
- OypJjEppUUe9/XDs46qsuXC6vOeQGkBU3OKi7cN64S8cxK6McaGK27YVyhWsDCuStpnP42
- YKk+4rxTVXPr5BFO9fiTTJPl+DAGSO9nWqObAjLE/WlAq7YmMR96lt+yL4AXmaSoigr+7J
- GCDgtrcTqzLnfPQIRzeAVPO/CLXhf4Kon6zJZMyKkP0QLVHgFqSPJXsrlvrqPvGH0WLwPc
- lGf0wS6F90jDptPiRZzu1ad7gsFFO9qTTAIATD2zRPKOlyhxgSt/u2WusQjrKg==
-Message-ID: <980075f9-5ad2-430e-b139-7e9477bf415c@denx.de>
-Date: Fri, 28 Feb 2025 18:26:43 +0100
+ bh=sZS4nj+6CXdvnwv7q5KXp5Uz0YuvWKS25Z4+jZ2AtgM=;
+ b=MMAOQyq8fDfYlgTpZqC/M+BGzgpy9ow1BJurDp10ybzZ0pWTxNGhGN3rhcaGG0+P7rjhit
+ mDM7zuoPQRTg0KVG0DhAmQp7kRrYuhbq+XMiu/iJ2VYPyRysu/zG21jO/2q1URP/DayWDr
+ TJrERFxmPTvwFlEM5fHjwvd+nZfq7j7BRbBSFEH3CkUu3oMopCHWUTVJhM/gGo33C+jlBs
+ QIvO0o1lQRG5q1f5Gx0R9jbHy+Xpsm6ZPIOcTYY+mSjcCWphqBUnAb7D6L4HalOXZLTY7t
+ elNTV2H+836UoG1zNCm6E1IMRT4k/FzSGlcRKKHtAifZja6oqOUsuTAjtiWOiA==
+Message-ID: <52f42263-d40e-449a-80f5-145a87fdfdd1@denx.de>
+Date: Fri, 28 Feb 2025 18:33:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/9] drm/panthor: Add i.MX95 support
-To: Florent Tomasin <florent.tomasin@arm.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+Subject: Re: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Frank Li <Frank.li@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
  Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
  Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
  <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -48,13 +48,14 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
  Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
  Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
  Steven Price <steven.price@arm.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, devicetree@vger.kernel.org, imx@lists.linux.dev
+ <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
 References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-9-marex@denx.de> <4658624.cEBGB3zze1@steina-w>
- <887a6d8d-9eab-44ed-9fd0-9197598231f4@arm.com>
+ <db903f36-e897-42ed-be46-f0b035303233@denx.de>
+ <Z8DlYjq+87sjS9cU@lizhi-Precision-Tower-5810> <3332618.oiGErgHkdL@steina-w>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <887a6d8d-9eab-44ed-9fd0-9197598231f4@arm.com>
+In-Reply-To: <3332618.oiGErgHkdL@steina-w>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -73,62 +74,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/28/25 12:23 PM, Florent Tomasin wrote:
-
-Hi,
-
->>> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
->>> index 06fe46e320738..2504a456d45c4 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_drv.c
->>> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
->>> @@ -1591,6 +1591,7 @@ static struct attribute *panthor_attrs[] = {
->>>   ATTRIBUTE_GROUPS(panthor);
->>>   
->>>   static const struct of_device_id dt_match[] = {
->>> +	{ .compatible = "fsl,imx95-mali" },	/* G310 */
-> No sure the comment about G310 is needed.
-> 
->>>   	{ .compatible = "rockchip,rk3588-mali" },
->>>   	{ .compatible = "arm,mali-valhall-csf" },
->>>   	{}
->>> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
->>> index 0f07ef7d9aea7..2371ab8e50627 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
->>> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
->>> @@ -67,6 +67,7 @@ struct panthor_model {
->>>   }
->>>   
->>>   static const struct panthor_model gpu_models[] = {
->>> +	GPU_MODEL(g310, 0, 0),	/* NXP i.MX95 */
-> We can remove the comment about the SoC. This GPU model could be found
-> in other vendor platforms.
-
-Maybe it is a good idea to keep track of which GPU is in which SoC at 
-least this way ?
-
->> Are you sure about 0, 0? With this I get
->>> [drm] mali-unknown id 0xac74 major 0x0 minor 0x0 status 0x1
+On 2/28/25 11:39 AM, Alexander Stein wrote:
+> Am Donnerstag, 27. Februar 2025, 23:21:22 CET schrieb Frank Li:
+>> On Thu, Feb 27, 2025 at 10:34:20PM +0100, Marek Vasut wrote:
+>>> On 2/27/25 10:27 PM, Frank Li wrote:
+>>>
+>>> [...]
+>>>
+>>>>>>> +		gpu: gpu@4d900000 {
+>>>>>>> +			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
+>>>>>>> +			reg = <0 0x4d900000 0 0x480000>;
+>>>>>>> +			clocks = <&scmi_clk IMX95_CLK_GPU>;
+>>>>>>> +			clock-names = "core";
+>>>>>>> +			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
+>>>>>>> +				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+>>>>>>> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+>>>>>>> +			interrupt-names = "gpu", "job", "mmu";
+>>>>>>> +			mali-supply = <&gpu_fixed_reg>;
+>>>>>>> +			operating-points-v2 = <&gpu_opp_table>;
+>>>>>>> +			power-domains = <&scmi_devpd IMX95_PD_GPU>, <&scmi_perf IMX95_PERF_GPU>;
+>>>>>>> +			power-domain-names = "mix", "perf";
+>>>>>>> +			resets = <&gpu_blk_ctrl 0>;
+>>>>>>> +			#cooling-cells = <2>;
+>>>>>>> +			dynamic-power-coefficient = <1013>;
+>>>>>>> +			status = "disabled";
+>>>>>>
+>>>>>> GPU is internal module, which have not much dependence with other module
+>>>>>> such as pinmux. why not default status is "disabled". Supposed gpu driver
+>>>>>> will turn off clock and power if not used.
+>>>>> My thinking was that there are MX95 SoC with GPU fused off, hence it is
+>>>>> better to keep the GPU disabled in DT by default. But I can also keep it
+>>>>> enabled and the few boards which do not have MX95 SoC with GPU can
+>>>>> explicitly disable it in board DT.
+>>>>>
+>>>>> What do you think ?
+>>>>
+>>>> GPU Fuse off should use access-control, see thread
+>>>> https://lore.kernel.org/imx/20250207120213.GD14860@localhost.localdomain/
+>>> Did that thread ever go anywhere ? It seems there is no real conclusion, is
+>>> there ? +Cc Alex .
 >>
->> Using GPU_MODEL(g310, 10, 4) I get:
->>> [drm] mali-g310 id 0xac74 major 0x0 minor 0x0 status 0x1
+>> The direction is use access-control to indicate fuse disable. Only
+>> implement detail is under discussion.
 > 
-> I'd agree it should be GPU_MODEL(g310, 10, 4). Unless the GPU
-> version has been changed by the vendor?
-With the fix suggested by Alexander, I get the following output on boot, 
-so I think 10/4 is OK ?
+> Well, the discussion ended up to be more complicated for i.MX8M.
 
-panthor 4d900000.gpu: [drm] clock rate = 1000000000
-panthor 4d900000.gpu: EM: created perf domain
-panthor 4d900000.gpu: [drm] mali-g310 id 0xac74 major 0x0 minor 0x0 
-status 0x1
-panthor 4d900000.gpu: [drm] Features: L2:0x7110306 Tiler:0x809 Mem:0x1 
-MMU:0x2830 AS:0xff
-panthor 4d900000.gpu: [drm] shader_present=0x1 l2_present=0x1 
-tiler_present=0x1
-panthor 4d900000.gpu: [drm] Firmware protected mode entry not be 
-supported, ignoring
-panthor 4d900000.gpu: [drm] Firmware git sha: 
-8e5cfcfec20cc8aff8509d37e72babc935d34a3b
-panthor 4d900000.gpu: [drm] CSF FW using interface v1.1.0, Features 0x0 
-Instrumentation features 0x71
-[drm] Initialized panthor 1.3.0 for 4d900000.gpu on minor 0
+Aren't we missing the access controller in MX95 DT so far ?
+And maybe some driver to match ?
+
+> For i.MX95
+> things are a bit easier, as fuses and clocks are controlled by System
+> Manager (SM), accessed using SCMI. [1] is more important for imx95.
+I think SCMI is replacing GPL code in kernel with stubs that call 
+non-free firmware, which removes flexibility and makes long term (or 
+any) maintenance much more complicated.
