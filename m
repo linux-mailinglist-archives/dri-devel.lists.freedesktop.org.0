@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC33A498D9
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCACEA498E2
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:14:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79F6C10EC68;
-	Fri, 28 Feb 2025 12:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC7510E034;
+	Fri, 28 Feb 2025 12:14:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="eAW5u2N7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PyqvFv/7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9604210EC68
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:12:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=G9cZKFxW4oLU983sOFab31be+2wQdCOOeWwGe3gB4bQ=; b=eAW5u2N7Z2g0hcGe
- gJgITOVoeZ7woxeI0C/ECMrFQ2iWbEKDJmBcuRQy/0adXTR9qguodqsLi7naIHx7Og3qbWP8JlpTn
- 4NPc0B5bz6Dz7/tE7zPMi44p/zVQEFj2riutUcUIgkhofPvDCE/pq65TOJ1d+R+rgtigPkNYsrYXw
- FmDCadJYV7jnwaUNIe/jLXV/TpIPECSP81rFY2V9yqRtAvjsKNrQIK0E8T1yrKptY5GVCYJJSkHcU
- vxin1GiLq/0arByDHxVbF14LqlVA354MX30lTTh3KYTyh+N96mYXwoj46tIvKrogdCXPVHYs4f69A
- TE7HO+t2rhNZ4Ee/Lg==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1tnzEP-001cNB-0w;
- Fri, 28 Feb 2025 12:12:41 +0000
-Date: Fri, 28 Feb 2025 12:12:41 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@gmail.com, simona@ffwll.ch, hdegoede@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/vboxvideo: Remove unused hgsmi_cursor_position
-Message-ID: <Z8GoOUjgtq-1WCiw@gallifrey>
-References: <20241215220014.452537-1-linux@treblig.org>
- <Z8DaVW_U-QtBVSMf@gallifrey>
- <f853d48f-f0aa-45af-89f3-4081a620f234@suse.de>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E46489CF6;
+ Fri, 28 Feb 2025 12:14:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=J65RRpxzb2SHooTTNoAw0STRLJLE33DZng+YcfjggC0=; b=PyqvFv/7LJyyQCRfrOsTrOvuTw
+ 0zqciE9e4QXUpSMMj0/0um9CPDkP/q8Kd8lwRL5nkEFyD2ej1eRM7ZJ4RFHKJVSBoC0WSekqGy1fi
+ 82Hb8cl0l/5PkEddxCUjqFzH9NFgJJpsNzuBhVlmcWb4iHyRv+ZV0qn8PvL4HOoabd+A0rLXp08vv
+ yvsP4vQSNe+tfUb4SGOon1kQjYDgTLNWLpovaOcP9MqEVk1qcjVttxnFpp2Cc/rc7IPt48lvkFL3X
+ 7J8DQetkl+diifwr4IUIQF7KszskN7DiAj0INiZUFY9GaBVQa6n3qkqeZRlGAczXjK9ku3TKzzKLs
+ UtWq1opg==;
+Received: from [191.204.194.148] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tnzFb-0021Hz-LL; Fri, 28 Feb 2025 13:14:01 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
+ siqueira@igalia.com, airlied@gmail.com, simona@ffwll.ch,
+ Raag Jadav <raag.jadav@intel.com>, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH 0/2] drm: Create an app info option for wedge events
+Date: Fri, 28 Feb 2025 09:13:51 -0300
+Message-ID: <20250228121353.1442591-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <f853d48f-f0aa-45af-89f3-4081a620f234@suse.de>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 12:12:03 up 295 days, 23:26,  1 user,  load average: 0.01, 0.01, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,116 +64,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Thomas Zimmermann (tzimmermann@suse.de) wrote:
-> Hi
-> 
-> Am 27.02.25 um 22:34 schrieb Dr. David Alan Gilbert:
-> > * linux@treblig.org (linux@treblig.org) wrote:
-> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > > 
-> > > hgsmi_cursor_position() has been unused since 2018's
-> > > commit 35f3288c453e ("staging: vboxvideo: Atomic phase 1: convert cursor to
-> > > universal plane")
-> > > 
-> > > Remove it.
-> > > 
-> > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > Hi David, Simona,
-> >    Will this one be picked up by drm-next?  It got Hans's
-> > review back on 16 Dec.
-> > ( in 2513e942-6391-4a96-b487-1e4ba19b7aeb@redhat.com )
-> 
-> Merged into drm-misc-next now. Apologies for the delay.
+This patchset implements a request made by Xaver Hugl about wedge events:
 
-Thanks; I've got a bunch of other old ones with reviews I'll also ping
-soon.
+"I'd really like to have the PID of the client that triggered the GPU
+reset, so that we can kill it if multiple resets are triggered in a
+row (or switch to software rendering if it's KWin itself) and show a
+user-friendly notification about why their app(s) crashed, but that
+can be added later."
 
-Dave
+From https://lore.kernel.org/dri-devel/CAFZQkGwJ4qgHV8WTp2=svJ_VXhb-+Y8_VNtKB=jLsk6DqMYp9w@mail.gmail.com/
 
-> Best regards
-> Thomas
-> 
-> > 
-> >    Thanks,
-> > 
-> > Dave
-> > 
-> > > ---
-> > >   drivers/gpu/drm/vboxvideo/hgsmi_base.c      | 37 ---------------------
-> > >   drivers/gpu/drm/vboxvideo/vboxvideo_guest.h |  2 --
-> > >   2 files changed, 39 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/vboxvideo/hgsmi_base.c b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-> > > index 87dccaecc3e5..db994aeaa0f9 100644
-> > > --- a/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-> > > +++ b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-> > > @@ -181,40 +181,3 @@ int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
-> > >   	return rc;
-> > >   }
-> > > -
-> > > -/**
-> > > - * hgsmi_cursor_position - Report the guest cursor position.  The host may
-> > > - *                         wish to use this information to re-position its
-> > > - *                         own cursor (though this is currently unlikely).
-> > > - *                         The current host cursor position is returned.
-> > > - * Return: 0 or negative errno value.
-> > > - * @ctx:              The context containing the heap used.
-> > > - * @report_position:  Are we reporting a position?
-> > > - * @x:                Guest cursor X position.
-> > > - * @y:                Guest cursor Y position.
-> > > - * @x_host:           Host cursor X position is stored here.  Optional.
-> > > - * @y_host:           Host cursor Y position is stored here.  Optional.
-> > > - */
-> > > -int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
-> > > -			  u32 x, u32 y, u32 *x_host, u32 *y_host)
-> > > -{
-> > > -	struct vbva_cursor_position *p;
-> > > -
-> > > -	p = hgsmi_buffer_alloc(ctx, sizeof(*p), HGSMI_CH_VBVA,
-> > > -			       VBVA_CURSOR_POSITION);
-> > > -	if (!p)
-> > > -		return -ENOMEM;
-> > > -
-> > > -	p->report_position = report_position;
-> > > -	p->x = x;
-> > > -	p->y = y;
-> > > -
-> > > -	hgsmi_buffer_submit(ctx, p);
-> > > -
-> > > -	*x_host = p->x;
-> > > -	*y_host = p->y;
-> > > -
-> > > -	hgsmi_buffer_free(ctx, p);
-> > > -
-> > > -	return 0;
-> > > -}
-> > > diff --git a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-> > > index 55fcee3a6470..643c4448bdcb 100644
-> > > --- a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-> > > +++ b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-> > > @@ -34,8 +34,6 @@ int hgsmi_query_conf(struct gen_pool *ctx, u32 index, u32 *value_ret);
-> > >   int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
-> > >   			       u32 hot_x, u32 hot_y, u32 width, u32 height,
-> > >   			       u8 *pixels, u32 len);
-> > > -int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
-> > > -			  u32 x, u32 y, u32 *x_host, u32 *y_host);
-> > >   bool vbva_enable(struct vbva_buf_ctx *vbva_ctx, struct gen_pool *ctx,
-> > >   		 struct vbva_buffer *vbva, s32 screen);
-> > > -- 
-> > > 2.47.1
-> > > 
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-> 
+This patchset depends on https://lore.kernel.org/dri-devel/20250225010221.537059-1-andrealmeid@igalia.com/
+
+For testing, I've used amdgpu's debug_mask options debug_disable_soft_recovery
+and debug_disable_gpu_ring_reset to test both wedge event paths in the driver.
+To trigger a ring timeout, I used this app:
+https://gitlab.freedesktop.org/andrealmeid/gpu-timeout
+
+Thanks!
+
+André Almeida (2):
+  drm: Create an app info option for wedge events
+  drm/amdgpu: Make use of drm_wedge_app_info
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 19 +++++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    |  4 ++++
+ drivers/gpu/drm/drm_drv.c                  | 16 +++++++++++++---
+ drivers/gpu/drm/i915/gt/intel_reset.c      |  3 ++-
+ drivers/gpu/drm/xe/xe_device.c             |  3 ++-
+ include/drm/drm_device.h                   |  8 ++++++++
+ include/drm/drm_drv.h                      |  3 ++-
+ 7 files changed, 48 insertions(+), 8 deletions(-)
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+2.48.1
+
