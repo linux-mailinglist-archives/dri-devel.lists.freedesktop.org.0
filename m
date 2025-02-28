@@ -2,110 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A812FA494CB
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41787A494D3
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:25:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85AAC10EC26;
-	Fri, 28 Feb 2025 09:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9F8010EC29;
+	Fri, 28 Feb 2025 09:25:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GIWLbqI1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XUgg2vpg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A89610EC26;
- Fri, 28 Feb 2025 09:24:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C4A2844363;
- Fri, 28 Feb 2025 09:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740734653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=uRl/Zkz9QqAAlkrUnWYCeXTVHRYrAM1QSzBoMcMiOuw=;
- b=GIWLbqI1+R50rKdPIqzOfJnFW8i2Jd675dJXNIjbgBnGxWlVzLP/addvFilGAeHGF7hXwl
- gz+Q2tmwavlOOsaycMRawc29tf+YJcAuDKl+MKSybsx4ce5/qi90M5ZNpJVgVwj+kb1rzN
- RLLQKSmRaWZloEfScAcUJ6KafXd4HRw5GrMW/6xV+lCCptNwtTs5JEOvtS8+tGkWXrquKp
- kIO7/qtbgtI58nN6b0OKm2LqJNFAO5UZbSCizqOcRRWyVP7moJjW8PgNLqjZ+2Aff4xDQt
- JrPpFm8ZdBfO86T+h75FtTRGT/oYboPL7KQUzk7PE311aixTbb5mNLQ2J4UmTA==
-Message-ID: <6b791e8a-9b38-44f1-bd6f-ac8eef9962c9@bootlin.com>
-Date: Fri, 28 Feb 2025 10:24:12 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F68410EC30
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 09:25:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 8C43461F45;
+ Fri, 28 Feb 2025 09:25:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF43AC4CED6;
+ Fri, 28 Feb 2025 09:25:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740734710;
+ bh=UWsfIKGRckRFyb0P8JHyv3MDBXglaE5uP8q0o2dx604=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=XUgg2vpgWyB2yeY6UgpHlQvsV2DJj1GzsFCqUCSEnm6MQR0VzEq7E4uySUhcgMbGN
+ tP7Z2NLyFl/WQ8rTUKCQmIkB9w2mrQj91rVycbRlI9J+zgmWxMdn+TWzcc2kLWVq6Y
+ A82um9fRBV+h/aLBMH4uORt5PSNsxyeRGTbKklXSuM7yVp0hH/i0H/Pankx8b9jvc+
+ BkebSHr+yEcaZ++Nnl8idQNjR+/7ga55SFuRTBqiCQUy8jxGoRR4MHBiwmyQ/tzMcv
+ D3Qh6eQd765DpEO8zgKpapEcSj7tVFBWJaBLW/lcIa1aCIiPqIy28byxINiQjWnkyX
+ xKHxrn9CYveHw==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,  "Miguel Ojeda"
+ <ojeda@kernel.org>,  "Petr Mladek" <pmladek@suse.com>,  "Steven Rostedt"
+ <rostedt@goodmis.org>,  "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>,  "Rasmus Villemoes"
+ <linux@rasmusvillemoes.dk>,  "Sergey Senozhatsky"
+ <senozhatsky@chromium.org>,  "Andrew Morton" <akpm@linux-foundation.org>,
+ "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,  "Benno
+ Lossin"
+ <benno.lossin@proton.me>,  "Trevor Gross" <tmgross@umich.edu>,  "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>,  "Maxime Ripard"
+ <mripard@kernel.org>,  "Thomas Zimmermann" <tzimmermann@suse.de>,  "David
+ Airlie" <airlied@gmail.com>,  "Simona Vetter" <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>,  <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 2/4] rust: add #[export] macro
+In-Reply-To: <CAH5fLggu+-Fw-4Z02xS3qSdhJAcSyNXaMn+CQ0XkBvqvgeAbGQ@mail.gmail.com>
+ (Alice Ryhl's message of "Fri, 28 Feb 2025 10:04:11 +0100")
+References: <20250227-export-macro-v1-0-948775fc37aa@google.com>
+ <CKneQ3Au7Fx5Uc7AM_RTi5BXRNnOUcrfnqI0fuWO5M7QIosWye4LhdM7bf9zqqzC5dCISrLHE9OgvVeVSla54Q==@protonmail.internalid>
+ <20250227-export-macro-v1-2-948775fc37aa@google.com>
+ <871pvipjxe.fsf@kernel.org>
+ <09wV2B1K7GvpVYdB-P4QG9vnkK4dmVu_Qwnc6_K2wLZUrjatv3o9FDJW0V94dJOfOhNIDVEuXkqKY-VXnZcTUA==@protonmail.internalid>
+ <CAH5fLggu+-Fw-4Z02xS3qSdhJAcSyNXaMn+CQ0XkBvqvgeAbGQ@mail.gmail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Fri, 28 Feb 2025 10:24:42 +0100
+Message-ID: <8734fyo205.fsf@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [V7 07/45] drm/colorop: Add 1D Curve subtype
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
-References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-8-alex.hung@amd.com>
- <423ed019-f668-433d-80e0-4018f53c31c0@bootlin.com>
- <570ad01a-ef15-476e-851d-ee78973fd79d@amd.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <570ad01a-ef15-476e-851d-ee78973fd79d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeltddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtoheprghlvgigrdhhuhhnghesrghmugdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopeifrgihlhgrnhguqdguvghvvghlsehlihhst
- hhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhgrrhhrhidrfigvnhhtlhgrnhgusegrmhgurdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,283 +77,272 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+"Alice Ryhl" <aliceryhl@google.com> writes:
 
-
-Le 28/02/2025 à 02:07, Alex Hung a écrit :
-> 
-> 
-> On 2/25/25 03:13, Louis Chauvet wrote:
+> On Fri, Feb 28, 2025 at 9:20=E2=80=AFAM Andreas Hindborg <a.hindborg@kern=
+el.org> wrote:
 >>
+>> "Alice Ryhl" <aliceryhl@google.com> writes:
 >>
->> Le 20/12/2024 à 05:33, Alex Hung a écrit :
->>> From: Harry Wentland <harry.wentland@amd.com>
->>>
->>> Add a new drm_colorop with DRM_COLOROP_1D_CURVE with two subtypes:
->>> DRM_COLOROP_1D_CURVE_SRGB_EOTF and DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF.
->>>
->>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
->>> Co-developed-by: Alex Hung <alex.hung@amd.com>
->>> Signed-off-by: Alex Hung <alex.hung@amd.com>
->>> ---
->>> v5:
->>>    - Add drm_get_colorop_curve_1d_type_name in header
->>>    - Add drm_colorop_init
->>>    - Set default curve
->>>    - Add kernel docs
->>>
->>> v4:
->>>    - Use drm_colorop_curve_1d_type_enum_list to get name (Pekka)
->>>    - Create separate init function for 1D curve
->>>    - Pass supported TFs into 1D curve init function
->>>
->>>    drivers/gpu/drm/drm_atomic_uapi.c |  18 ++--
->>>    drivers/gpu/drm/drm_colorop.c     | 134 ++++++++++++++++++++++++++++++
->>>    include/drm/drm_colorop.h         |  60 +++++++++++++
->>>    3 files changed, 207 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/
->>> drm_atomic_uapi.c
->>> index 59fc25b59100..9a5dbf0a1306 100644
->>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->>> @@ -648,11 +648,17 @@ static int
->>> drm_atomic_colorop_set_property(struct drm_colorop *colorop,
->>>            struct drm_colorop_state *state, struct drm_file *file_priv,
->>>            struct drm_property *property, uint64_t val)
->>>    {
->>> -    drm_dbg_atomic(colorop->dev,
->>> -            "[COLOROP:%d] unknown property [PROP:%d:%s]]\n",
->>> -            colorop->base.id,
->>> -            property->base.id, property->name);
->>> -    return -EINVAL;
->>> +    if (property == colorop->curve_1d_type_property) {
->>> +        state->curve_1d_type = val;
->>> +    } else {
->>> +        drm_dbg_atomic(colorop->dev,
->>> +                   "[COLOROP:%d:%d] unknown property [PROP:%d:%s]]\n",
->>> +                   colorop->base.id, colorop->type,
->>> +                   property->base.id, property->name);
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    return 0;
->>>    }
->>>    static int
->>> @@ -662,6 +668,8 @@ drm_atomic_colorop_get_property(struct drm_colorop
->>> *colorop,
->>>    {
->>>        if (property == colorop->type_property) {
->>>            *val = colorop->type;
->>> +    } else if (property == colorop->curve_1d_type_property) {
->>> +        *val = state->curve_1d_type;
->>>        } else {
->>>            return -EINVAL;
->>>        }
->>> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/
->>> drm_colorop.c
->>> index 1459a28c7e7b..a42de0aa48e1 100644
->>> --- a/drivers/gpu/drm/drm_colorop.c
->>> +++ b/drivers/gpu/drm/drm_colorop.c
->>> @@ -31,6 +31,123 @@
->>>    #include "drm_crtc_internal.h"
->>> +static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
->>> +    { DRM_COLOROP_1D_CURVE, "1D Curve" },
->>> +};
->>> +
->>> +static const char * const colorop_curve_1d_type_names[] = {
->>> +    [DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
->>> +    [DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] = "sRGB Inverse EOTF",
->>> +};
->>> +
->>> +
->>> +/* Init Helpers */
->>> +
->>> +static int drm_colorop_init(struct drm_device *dev, struct
->>> drm_colorop *colorop,
->>> +                struct drm_plane *plane, enum drm_colorop_type type)
->>> +{
->>> +    struct drm_mode_config *config = &dev->mode_config;
->>> +    struct drm_property *prop;
->>> +    int ret = 0;
->>> +
->>> +    ret = drm_mode_object_add(dev, &colorop->base,
->>> DRM_MODE_OBJECT_COLOROP);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    colorop->base.properties = &colorop->properties;
->>> +    colorop->dev = dev;
->>> +    colorop->type = type;
->>> +    colorop->plane = plane;
->>> +
->>> +    list_add_tail(&colorop->head, &config->colorop_list);
->>> +    colorop->index = config->num_colorop++;
->>> +
->>> +    /* add properties */
->>> +
->>> +    /* type */
->>> +    prop = drm_property_create_enum(dev,
->>> +                    DRM_MODE_PROP_IMMUTABLE,
->>> +                    "TYPE", drm_colorop_type_enum_list,
->>> +                    ARRAY_SIZE(drm_colorop_type_enum_list));
+>> > This macro behaves like #[no_mangle], but also performs an assertion
+>> > that the Rust function has the same signature as what is declared in t=
+he
+>> > C header.
+>> >
+>> > If the signatures don't match, you will get errors that look like this:
+>> >
+>> > error[E0308]: `if` and `else` have incompatible types
+>> >   --> <linux>/rust/kernel/print.rs:22:22
+>> >    |
+>> > 21 | #[export]
+>> >    | --------- expected because of this
+>> > 22 | unsafe extern "C" fn rust_fmt_argument(
+>> >    |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
+>> >    |
+>> >    =3D note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, =
+*mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
+>> >               found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *c=
+onst c_void) -> *mut i8 {print::rust_fmt_argument}`
+>> >
+>> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+>> > ---
+>> >  rust/kernel/prelude.rs |  2 +-
+>> >  rust/macros/export.rs  | 25 +++++++++++++++++++++++++
+>> >  rust/macros/helpers.rs | 19 ++++++++++++++++++-
+>> >  rust/macros/lib.rs     | 18 ++++++++++++++++++
+>> >  rust/macros/quote.rs   | 21 +++++++++++++++++++--
+>> >  5 files changed, 81 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
+>> > index dde2e0649790..889102f5a81e 100644
+>> > --- a/rust/kernel/prelude.rs
+>> > +++ b/rust/kernel/prelude.rs
+>> > @@ -17,7 +17,7 @@
+>> >  pub use crate::alloc::{flags::*, Box, KBox, KVBox, KVVec, KVec, VBox,=
+ VVec, Vec};
+>> >
+>> >  #[doc(no_inline)]
+>> > -pub use macros::{module, pin_data, pinned_drop, vtable, Zeroable};
+>> > +pub use macros::{export, module, pin_data, pinned_drop, vtable, Zeroa=
+ble};
+>> >
+>> >  pub use super::{build_assert, build_error};
+>> >
+>> > diff --git a/rust/macros/export.rs b/rust/macros/export.rs
+>> > new file mode 100644
+>> > index 000000000000..3398e1655124
+>> > --- /dev/null
+>> > +++ b/rust/macros/export.rs
+>> > @@ -0,0 +1,25 @@
+>> > +// SPDX-License-Identifier: GPL-2.0
+>> > +
+>> > +use crate::helpers::function_name;
+>> > +use proc_macro::TokenStream;
+>> > +
+>> > +pub(crate) fn export(_attr: TokenStream, ts: TokenStream) -> TokenStr=
+eam {
 >>
->> I think this function belongs to the previous patch "Add TYPE property".
-> 
-> This function is only called by the first colorop. Some pieces of the
-> code in this function are introduced with the first colorop (1D curve)
-> so it makes sense to include it here.
+>> This function is documented in macros/lib.rs. Could you insert a
+>> docstring with a link to the function that carries the docs?
+>
+> These functions are not visible in the docs, and no other macro does that.
 
-True! I did not saw it, you can keep it here indeed
+I do realize that. I don't think it is ever too late to start improving.
+Don't you think it would be overall net positive to have
 
+/// Please see [`crate::export`] for documentation.
+
+attached to this function?
+
+>
+>> Please describe how the function operates and what mechanics it uses to
+>> achieve its goal in a implementation detail comment.
 >>
->>> +
->>> +    if (!prop)
->>> +        return -ENOMEM;
->>> +
->>> +    colorop->type_property = prop;
->>> +
->>> +    drm_object_attach_property(&colorop->base,
->>> +                   colorop->type_property,
->>> +                   colorop->type);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +/**
->>> + * drm_colorop_curve_1d_init - Initialize a DRM_COLOROP_1D_CURVE
->>> + *
->>> + * @dev: DRM device
->>> + * @colorop: The drm_colorop object to initialize
->>> + * @plane: The associated drm_plane
->>> + * @supported_tfs: A bitfield of supported drm_colorop_curve_1d_init
->>> enum values,
->>> + *                 created using BIT(curve_type) and combined with
->>> the OR '|'
->>> + *                 operator.
->>> + * @return zero on success, -E value on failure
->>> + */
->>> +int drm_colorop_curve_1d_init(struct drm_device *dev, struct
->>> drm_colorop *colorop,
->>> +                  struct drm_plane *plane, u64 supported_tfs)
->>> +{
->>> +    struct drm_prop_enum_list enum_list[DRM_COLOROP_1D_CURVE_COUNT];
->>> +    int i, len;
->>> +
->>> +    struct drm_property *prop;
->>> +    int ret;
->>> +
->>> +    if (!supported_tfs) {
->>> +        drm_err(dev,
->>> +            "No supported TFs for new 1D curve colorop on [PLANE:%d:
->>> %s]\n",
->>> +            plane->base.id, plane->name);
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    if ((supported_tfs & -BIT(DRM_COLOROP_1D_CURVE_COUNT)) != 0) {
->>> +        drm_err(dev, "Unknown TF provided on [PLANE:%d:%s]\n",
->>> +            plane->base.id, plane->name);
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_CURVE);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    len = 0;
->>> +    for (i = 0; i < DRM_COLOROP_1D_CURVE_COUNT; i++) {
->>> +        if ((supported_tfs & BIT(i)) == 0)
->>> +            continue;
->>> +
->>> +        enum_list[len].type = i;
->>> +        enum_list[len].name = colorop_curve_1d_type_names[i];
->>> +        len++;
->>> +    }
->>> +
->>> +    if (WARN_ON(len <= 0))
->>> +        return -EINVAL;
->>> +
->>> +
->>> +    /* initialize 1D curve only attribute */
->>> +    prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
->>> "CURVE_1D_TYPE",
->>> +                    enum_list, len);
->>> +    if (!prop)
->>> +        return -ENOMEM;
->>> +
->>> +    colorop->curve_1d_type_property = prop;
->>> +    drm_object_attach_property(&colorop->base, colorop-
->>>> curve_1d_type_property,
->>> +                   enum_list[0].type);
->>> +    drm_colorop_reset(colorop);
->>> +
->>> +    return 0;
->>> +}
->>> +EXPORT_SYMBOL(drm_colorop_curve_1d_init);
->>> +
->>>    static void __drm_atomic_helper_colorop_duplicate_state(struct
->>> drm_colorop *colorop,
->>>                                struct drm_colorop_state *state)
->>>    {
->>> @@ -70,7 +187,16 @@ void drm_colorop_atomic_destroy_state(struct
->>> drm_colorop *colorop,
->>>    static void __drm_colorop_state_reset(struct drm_colorop_state
->>> *colorop_state,
->>>                          struct drm_colorop *colorop)
->>>    {
->>> +    u64 val;
->>> +
->>>        colorop_state->colorop = colorop;
->>> +
->>> +    if (colorop->curve_1d_type_property) {
->>> +        drm_object_property_get_default_value(&colorop->base,
->>> +                        colorop->curve_1d_type_property,
->>> +                        &val);
->>> +        colorop_state->curve_1d_type = val;
->>> +    }
->>>    }
->>>    /**
->>> @@ -114,3 +240,11 @@ const char *drm_get_colorop_type_name(enum
->>> drm_colorop_type type
->>>        return colorop_type_name[type];
+>> > +    let Some(name) =3D function_name(ts.clone()) else {
+>> > +        return "::core::compile_error!(\"The #[export] attribute must=
+ be used on a function.\");"
+>> > +            .parse::<TokenStream>()
+>> > +            .unwrap();
+>> > +    };
+>> > +
+>> > +    let signature_check =3D quote!(
+>> > +        const _: () =3D {
+>> > +            if true {
+>> > +                ::kernel::bindings::#name
+>> > +            } else {
+>> > +                #name
+>> > +            };
+>> > +        };
+>> > +    );
+>> > +
+>> > +    let no_mangle =3D "#[no_mangle]".parse::<TokenStream>().unwrap();
+>> > +    TokenStream::from_iter([signature_check, no_mangle, ts])
+>> > +}
+>> > diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
+>> > index 563dcd2b7ace..3e04f8ecfc74 100644
+>> > --- a/rust/macros/helpers.rs
+>> > +++ b/rust/macros/helpers.rs
+>> > @@ -1,6 +1,6 @@
+>> >  // SPDX-License-Identifier: GPL-2.0
+>> >
+>> > -use proc_macro::{token_stream, Group, TokenStream, TokenTree};
+>> > +use proc_macro::{token_stream, Group, Ident, TokenStream, TokenTree};
+>> >
+>> >  pub(crate) fn try_ident(it: &mut token_stream::IntoIter) -> Option<St=
+ring> {
+>> >      if let Some(TokenTree::Ident(ident)) =3D it.next() {
+>> > @@ -215,3 +215,20 @@ pub(crate) fn parse_generics(input: TokenStream) =
+-> (Generics, Vec<TokenTree>) {
+>> >          rest,
+>> >      )
+>> >  }
+>> > +
+>> > +/// Given a function declaration, finds the name of the function.
+>> > +pub(crate) fn function_name(input: TokenStream) -> Option<Ident> {
 >>
->> Probably a dumb question: can't we use drm_colorop_type_enum_list
->> instead of colorop_type_name in the drm_get_colorop_type_name function?
->> So we will avoid duplicating the string "1D Curve".
-> 
-> Using drm_colorop_type_enum_list in drm_get_colorop_type_name needs
-> enumerating the list every time (extra CPU cycles) unlike using
-> colorop_type_name[].
+>> It would be great with a few tests for this function.
+>
+> I don't think we have a mechanism for tests in the macro crate?
 
-Why do you want to iterate over the list? See [1]/[2], it seems to be a 
-common patter to simply order the enum list and use the index in it.
+Ah, I didn't realize. I'll create an issue for that if it is so.
 
-Furthermore, I don't expect this function to be called often, so a list 
-enumeration doesn't seem expensive (maybe called almost never? The only 
-usage I found in your series is __drm_state_dump).
-
-I don't have a strong opinion on this, so:
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>
+>> > +    let mut input =3D input.into_iter();
+>> > +    while let Some(token) =3D input.next() {
+>> > +        match token {
+>> > +            TokenTree::Ident(i) if i.to_string() =3D=3D "fn" =3D> {
+>> > +                if let Some(TokenTree::Ident(i)) =3D input.next() {
+>> > +                    return Some(i);
+>> > +                }
+>> > +                return None;
+>> > +            }
+>> > +            _ =3D> continue,
+>> > +        }
+>> > +    }
+>> > +    None
+>> > +}
+>> > diff --git a/rust/macros/lib.rs b/rust/macros/lib.rs
+>> > index d61bc6a56425..3cbf7705c4c1 100644
+>> > --- a/rust/macros/lib.rs
+>> > +++ b/rust/macros/lib.rs
+>> > @@ -9,6 +9,7 @@
+>> >  #[macro_use]
+>> >  mod quote;
+>> >  mod concat_idents;
+>> > +mod export;
+>> >  mod helpers;
+>> >  mod module;
+>> >  mod paste;
+>> > @@ -174,6 +175,23 @@ pub fn vtable(attr: TokenStream, ts: TokenStream)=
+ -> TokenStream {
+>> >      vtable::vtable(attr, ts)
+>> >  }
+>> >
+>> > +/// Export a function so that C code can call it.
+>> > +///
+>> > +/// This macro has the following effect:
+>> > +///
+>> > +/// * Disables name mangling for this function.
+>> > +/// * Verifies at compile-time that the function signature matches wh=
+at's in the header file.
+>> > +///
+>> > +/// This macro requires that the function is mentioned in a C header =
+file, and that the header file
+>> > +/// is included in `rust/bindings/bindings_helper.h`.
+>> > +///
+>> > +/// This macro is *not* the same as the C macro `EXPORT_SYMBOL*`, sin=
+ce all Rust symbols are
+>> > +/// currently automatically exported with `EXPORT_SYMBOL_GPL`.
+>>
+>> Perhaps add the following:
+>>
+>> This macro is useful when rust code is providing a function symbol whose
+>> signature is dictated by a C header file.
+>
+> I do think this could use more info about when to use it. E.g., you
+> don't use it if C calls it via a vtable, but only if C calls it via a
+> declaration in a header file. I'll add more info.
+>
+>> > +#[proc_macro_attribute]
+>> > +pub fn export(attr: TokenStream, ts: TokenStream) -> TokenStream {
+>> > +    export::export(attr, ts)
+>> > +}
+>> > +
+>> >  /// Concatenate two identifiers.
+>> >  ///
+>> >  /// This is useful in macros that need to declare or reference items =
+with names
+>> > diff --git a/rust/macros/quote.rs b/rust/macros/quote.rs
+>> > index 33a199e4f176..c18960a91082 100644
+>> > --- a/rust/macros/quote.rs
+>> > +++ b/rust/macros/quote.rs
+>> > @@ -20,6 +20,12 @@ fn to_tokens(&self, tokens: &mut TokenStream) {
+>> >      }
+>> >  }
+>> >
+>> > +impl ToTokens for proc_macro::Ident {
+>> > +    fn to_tokens(&self, tokens: &mut TokenStream) {
+>> > +        tokens.extend([TokenTree::from(self.clone())]);
+>> > +    }
+>> > +}
+>> > +
+>> >  impl ToTokens for TokenTree {
+>> >      fn to_tokens(&self, tokens: &mut TokenStream) {
+>> >          tokens.extend([self.clone()]);
+>> > @@ -40,7 +46,7 @@ fn to_tokens(&self, tokens: &mut TokenStream) {
+>> >  /// `quote` crate but provides only just enough functionality needed =
+by the current `macros` crate.
+>> >  macro_rules! quote_spanned {
+>> >      ($span:expr =3D> $($tt:tt)*) =3D> {{
+>> > -        let mut tokens;
+>> > +        let mut tokens: ::std::vec::Vec<::proc_macro::TokenTree>;
+>> >          #[allow(clippy::vec_init_then_push)]
+>> >          {
+>> >              tokens =3D ::std::vec::Vec::new();
+>> > @@ -65,7 +71,8 @@ macro_rules! quote_spanned {
+>> >          quote_spanned!(@proc $v $span $($tt)*);
+>> >      };
+>> >      (@proc $v:ident $span:ident ( $($inner:tt)* ) $($tt:tt)*) =3D> {
+>> > -        let mut tokens =3D ::std::vec::Vec::new();
+>> > +        #[allow(unused_mut)]
+>> > +        let mut tokens =3D ::std::vec::Vec::<::proc_macro::TokenTree>=
+::new();
+>> >          quote_spanned!(@proc tokens $span $($inner)*);
+>> >          $v.push(::proc_macro::TokenTree::Group(::proc_macro::Group::n=
+ew(
+>> >              ::proc_macro::Delimiter::Parenthesis,
+>> > @@ -136,6 +143,16 @@ macro_rules! quote_spanned {
+>> >          ));
+>> >          quote_spanned!(@proc $v $span $($tt)*);
+>> >      };
+>> > +    (@proc $v:ident $span:ident =3D $($tt:tt)*) =3D> {
+>> > +        $v.push(::proc_macro::TokenTree::Punct(
+>> > +                ::proc_macro::Punct::new('=3D', ::proc_macro::Spacing=
+::Alone)
+>> > +        ));
+>> > +        quote_spanned!(@proc $v $span $($tt)*);
+>> > +    };
+>> > +    (@proc $v:ident $span:ident _ $($tt:tt)*) =3D> {
+>> > +        $v.push(::proc_macro::TokenTree::Ident(::proc_macro::Ident::n=
+ew("_", $span)));
+>> > +        quote_spanned!(@proc $v $span $($tt)*);
+>> > +    };
+>> >      (@proc $v:ident $span:ident $id:ident $($tt:tt)*) =3D> {
+>> >          $v.push(::proc_macro::TokenTree::Ident(::proc_macro::Ident::n=
+ew(stringify!($id), $span)));
+>> >          quote_spanned!(@proc $v $span $($tt)*);
+>>
+>> The update to `impl ToTokens for TokenTree` should be split out in a
+>> separate patch and should carry some explanation of the change.
+>
+> I think this case is borderline for whether it's necessary to split
+> up, but okay.
 
 Thanks!
-Louis Chauvet
 
-[1]:https://elixir.bootlin.com/linux/v6.13.4/source/drivers/gpu/drm/drm_connector.c#L1238-L1259
-[2]:https://elixir.bootlin.com/linux/v6.13.4/source/drivers/gpu/drm/drm_connector.c#L972-L994
 
->>
->>>    }
->>
->> Thanks,
->> Louis Chauvet
->>
->> [...]
->>
-> 
+Best regards,
+Andreas Hindborg
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
 
