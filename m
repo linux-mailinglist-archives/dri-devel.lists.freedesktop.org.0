@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F5EA4955F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:38:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E66EA49564
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:38:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E6110EC41;
-	Fri, 28 Feb 2025 09:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71CFD10EC4C;
+	Fri, 28 Feb 2025 09:38:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jxzwqZJp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iT3xxYLW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD9210EC49;
- Fri, 28 Feb 2025 09:38:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8486310EC49;
+ Fri, 28 Feb 2025 09:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740735522; x=1772271522;
+ t=1740735526; x=1772271526;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nGCzX2qWHh25W+R4yPOb+zcrNWhZB6fLBoL2alcpJsg=;
- b=jxzwqZJpAmNhMlYMcSUSSzYujJUOLV8igoWc0WFfnudflOqxDEqz5Msk
- RNMRFS+hDkYHUWqFtRWJykQUN84jWj82e+5mjazL4O7LGv399cvbDKJ7Y
- YMuOkKYpEwc8ojRYKd4O/uLm5zk8Kwim4bTiUszPbG9nNuUzkkS6/VeLF
- z5M6g2By/N5mFOnfV+vUI4kwH12MUD9fzdjug9GHb6EG1qQfNHcVH2xOq
- mGrClVNHevtjWpixORcexvU5ZU8r7Nbdngy43R+KIM51TnhWwBEBiXw6J
- JJZxgcJbuWDZPViZ4dWLdEIz60Lm8+UtcMQYdAIvZBNZLPAaJdCQykVZD Q==;
-X-CSE-ConnectionGUID: g04bnaJwREGTAJ0uJMXcHQ==
-X-CSE-MsgGUID: 9pUMoeIGRQmJwu+5BHWCxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52293092"
-X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="52293092"
+ bh=Q/WLPl+7tZ9syP7+8hW8I4ho5QoP0emXFl/HyJuN2bk=;
+ b=iT3xxYLWu+iVO/q9Spb5ZXSr2Wtea2Fj6gSXxizvi6RlEbM7OMUbMXpg
+ k+f+fM+3XK4pxPymFwyODyxv8hsjzjp/5elrjQbGYLI3NSAgWUO5BSl1e
+ yNCbsgekrkyh1OHQT85s9U+syNiwgDDkBP03oOhErnyF3gmGsv4GyUxSr
+ 58lH0Bs6niabGnPvqx5YfUuxSD7N9hG7Ed28BIMUU0CgQ8pOKMeN1vAVb
+ pCs/wZPxYMavhKZXC9G1O5X2/tN/utzeu5I+MQhbXqIPYTYLF4INMb099
+ r4rf1YnRc+o+sM3IRcAXS5DH9c20aOr3RDPP3VQf8Cm6xWHLFZZas0Jza Q==;
+X-CSE-ConnectionGUID: VWd1oib8SluWdSLB2fuWZA==
+X-CSE-MsgGUID: UP9Mw1e5T4OJJXQmBLEn1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52293095"
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="52293095"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 01:38:42 -0800
-X-CSE-ConnectionGUID: m7pRa5qoQDyXDcfvdqzJPQ==
-X-CSE-MsgGUID: +HBHPMwYTFGVlBw9ux9fCw==
+ 28 Feb 2025 01:38:45 -0800
+X-CSE-ConnectionGUID: KQKEru1qS4WxLr53RWlxGg==
+X-CSE-MsgGUID: Gq5IK2D1SFGCOfV5YjtLEA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="154466534"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="154466562"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO
  vgovind2-mobl3.intel.com) ([10.245.246.23])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 01:38:39 -0800
+ 28 Feb 2025 01:38:43 -0800
 From: Vinod Govindapillai <vinod.govindapillai@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, vinod.govindapillai@intel.com,
  jani.nikula@intel.com, jani.saarinen@intel.com
-Subject: [PATCH v10 5/9] drm/i915/fbc: introduce HAS_FBC_DIRTY_RECT() for FBC
- dirty rect support
-Date: Fri, 28 Feb 2025 11:37:58 +0200
-Message-ID: <20250228093802.27091-6-vinod.govindapillai@intel.com>
+Subject: [PATCH v10 6/9] drm/i915/fbc: avoid calling fbc activate if fbc is
+ active
+Date: Fri, 28 Feb 2025 11:37:59 +0200
+Message-ID: <20250228093802.27091-7-vinod.govindapillai@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250228093802.27091-1-vinod.govindapillai@intel.com>
 References: <20250228093802.27091-1-vinod.govindapillai@intel.com>
@@ -73,29 +73,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a macro to check if the platform supports FBC dirty
-rect capability.
+If FBC is already active, we don't need to call FBC activate
+routine again unless there are changes to the fences. So skip
+this on all platforms that don't have fences. Any FBC register
+updates done after enabling the dirty rect support in xe3 will
+trigger nuke by FBC which is counter productive to the fbc
+dirty rect feature.
 
-v2: - update to the patch subject
+The front buffer rendering sequence will call intel_fbc_flush()
+and which will call intel_fbc_nuke() or intel_fbc_activate()
+based on FBC status explicitly and won't get impacted by this
+change.
+
+v2: use HAS_FBC_DIRTY_RECT()
+    move this functionality within intel_fbc_activate()
+
+v3: update to intel_fbc_activate logic (Ville)
+    update to the patch description
 
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display_device.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/display/intel_fbc.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_device.h b/drivers/gpu/drm/i915/display/intel_display_device.h
-index fc33791f02b9..717286981687 100644
---- a/drivers/gpu/drm/i915/display/intel_display_device.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_device.h
-@@ -163,6 +163,7 @@ struct intel_display_platforms {
- #define HAS_DSC(__display)		(DISPLAY_RUNTIME_INFO(__display)->has_dsc)
- #define HAS_DSC_MST(__display)		(DISPLAY_VER(__display) >= 12 && HAS_DSC(__display))
- #define HAS_FBC(__display)		(DISPLAY_RUNTIME_INFO(__display)->fbc_mask != 0)
-+#define HAS_FBC_DIRTY_RECT(__display)	(DISPLAY_VER(__display) >= 30)
- #define HAS_FPGA_DBG_UNCLAIMED(__display)	(DISPLAY_INFO(__display)->has_fpga_dbg)
- #define HAS_FW_BLC(__display)		(DISPLAY_VER(__display) >= 3)
- #define HAS_GMBUS_IRQ(__display)	(DISPLAY_VER(__display) >= 4)
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+index 33142427f121..ca44cec73fd2 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.c
++++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+@@ -734,8 +734,19 @@ static void intel_fbc_nuke(struct intel_fbc *fbc)
+ 
+ static void intel_fbc_activate(struct intel_fbc *fbc)
+ {
++	struct intel_display *display = fbc->display;
++
+ 	lockdep_assert_held(&fbc->lock);
+ 
++	/* only the fence can change for a flip nuke */
++	if (fbc->active && !intel_fbc_has_fences(display))
++		return;
++	/*
++	 * In case of FBC dirt rect, any updates to the FBC registers will
++	 * trigger the nuke.
++	 */
++	drm_WARN_ON(display->drm, fbc->active && HAS_FBC_DIRTY_RECT(display));
++
+ 	intel_fbc_hw_activate(fbc);
+ 	intel_fbc_nuke(fbc);
+ 
 -- 
 2.43.0
 
