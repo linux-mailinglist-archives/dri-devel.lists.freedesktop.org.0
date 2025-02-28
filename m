@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C02A49C4F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 15:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E52A49C4E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 15:43:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8927110ECC4;
-	Fri, 28 Feb 2025 14:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8060610ECC5;
+	Fri, 28 Feb 2025 14:43:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Vc+5emaq";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ktbtWaB+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48C610ECBE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 14:43:27 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 90893442A3;
- Fri, 28 Feb 2025 14:43:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6118710ECCE
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 14:43:30 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BDCFA442AA;
+ Fri, 28 Feb 2025 14:43:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740753806;
+ t=1740753809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BsPCLTZEaCquIBOJ6vNMgDVwuqLSKXr8k7CRbICgeWA=;
- b=Vc+5emaqJROq9y5q07LkEaSsjq/8OqCz/SNgX3Wuzehoy+In7/X5+4j3MA/49haYEbnREA
- pUD/YgRYHUWpptjzHwsDLgg6fg++vv4Us0Zb3Q6tu3njmZ50Brnx4lg9qDe5tKqDKSTnCv
- Y6U24wE8HvdRMhVrFYMWYXfISySvL2KtyZI2xiiNaAlj82LkoEcqanD/FaTnHvTPmQH0E3
- mzPESVPTOCRZ4XBw34Ezm0Pw9Ux0MyxfwGifESWiNENvh91tx9+h8q/OWi6mNzjeDcVmW7
- w5Esd9cD5zNQQ63gx1zcu0LY/CePwnQQEe2wd6hLDH3R5wS2l6P++bav564QwA==
-Message-ID: <52bc3f15-28da-4b40-917f-981f1f10d9b8@bootlin.com>
-Date: Fri, 28 Feb 2025 15:43:25 +0100
+ bh=twlckA53Q1SfLTsCgI6ibhtUXyLR1dm8yI/9V1Bzbxk=;
+ b=ktbtWaB+QICDiVbgtxBv1dgJ21IjbpPhihpPHZ7+tY3LfSunx2ejd3+qdgVDnhFd0M3Fo/
+ 3zNghQiDniq+z5skJ4VuQN5lagv77MnRaMdMyBMDhn6kZa5xq3omha9QRP+viT9OVvkogY
+ eTJX4oJhgJJ7RHH4H7QU5h7RhnTkS9Rv0k8oVdHxnqRSLIBu8o/2iACp16Q2b5hmRUk84Z
+ mKdBu8XEuyQ/XFAVZa1gD1AQVm/fPQxFFw2tbDHsIqVb3ClMg4KKQnDs/OEF6wRdkmTo+T
+ d0zUdmIrvopFpuEhyJ7zI/z1JhTsAVX1/C62suJYujGFNLtso/wgZwEKOkII8Q==
+Message-ID: <b163d92b-5d5a-42fb-bc49-5e55953db795@bootlin.com>
+Date: Fri, 28 Feb 2025 15:43:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/16] drm/vkms: Allow to configure multiple planes via
- configfs
+Subject: [PATCH 2/2] configfs: Add mechanism to prevent item/group deletion
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -101,11 +100,11 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
 In-Reply-To: <20250225175936.7223-4-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeltdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmr
- ggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeltdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfffveeuudeuhfekteeuhefhhedtleejgeehheduheeigfejteetueeifeehveevnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnu
+ higrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -122,224 +121,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Introduce a new mechanism in configfs to prevent the deletion of certain 
+item/group.
+This is particularly useful in scenarios where userspace should not be 
+allowed
+to modify the configfs structure under some conditions, such as in VKMS.
 
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+  drivers/gpu/drm/vkms/vkms_configfs.c | 21 +++++++++++++++++++++
+  fs/configfs/dir.c                    |  8 +++++++-
+  include/linux/configfs.h             |  1 +
+  3 files changed, 29 insertions(+), 1 deletion(-)
 
-Le 25/02/2025 à 18:59, José Expósito a écrit :
-> Create a default subgroup at /config/vkms/planes to allow to create as
-> many planes as required.
-> 
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> ---
->   Documentation/gpu/vkms.rst           | 16 ++++-
->   drivers/gpu/drm/vkms/vkms_configfs.c | 87 ++++++++++++++++++++++++++++
->   2 files changed, 102 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 423bdf86b5b1..bf23d0da33fe 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -71,6 +71,19 @@ By default, the instance is disabled::
->     cat /config/vkms/my-vkms/enabled
->     0
->   
-> +And directories are created for each configurable item of the display pipeline::
-> +
-> +  tree /config/vkms/my-vkms
-> +  ├── enabled
-> +  └── planes
-> +
-> +To add items to the display pipeline, create one or more directories under the
-> +available paths.
-> +
-> +Start by creating one or more planes::
-> +
-> +  sudo mkdir /config/vkms/my-vkms/planes/plane0
-> +
->   Once you are done configuring the VKMS instance, enable it::
->   
->     echo "1" | sudo tee /config/vkms/my-vkms/enabled
-> @@ -79,8 +92,9 @@ Finally, you can remove the VKMS instance disabling it::
->   
->     echo "0" | sudo tee /config/vkms/my-vkms/enabled
->   
-> -And removing the top level directory::
-> +And removing the top level directory and its subdirectories::
->   
-> +  sudo rmdir /config/vkms/my-vkms/planes/*
->     sudo rmdir /config/vkms/my-vkms
->   
->   Testing With IGT
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index 92512d52ddae..4f9d3341e6c0 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -16,6 +16,7 @@ static bool is_configfs_registered;
->    *
->    * @group: Top level configuration group that represents a VKMS device.
->    * Initialized when a new directory is created under "/config/vkms/"
-> + * @planes_group: Default subgroup of @group at "/config/vkms/planes"
->    * @lock: Lock used to project concurrent access to the configuration attributes
->    * @config: Protected by @lock. Configuration of the VKMS device
->    * @enabled: Protected by @lock. The device is created or destroyed when this
-> @@ -23,16 +24,98 @@ static bool is_configfs_registered;
->    */
->   struct vkms_configfs_device {
->   	struct config_group group;
-> +	struct config_group planes_group;
->   
->   	struct mutex lock;
->   	struct vkms_config *config;
->   	bool enabled;
->   };
->   
-> +/**
-> + * struct vkms_configfs_plane - Configfs representation of a plane
-> + *
-> + * @group: Top level configuration group that represents a plane.
-> + * Initialized when a new directory is created under "/config/vkms/planes"
-> + * @dev: The vkms_configfs_device this plane belongs to
-> + * @config: Configuration of the VKMS plane
-> + */
-> +struct vkms_configfs_plane {
-> +	struct config_group group;
-> +	struct vkms_configfs_device *dev;
-> +	struct vkms_config_plane *config;
-> +};
-> +
->   #define device_item_to_vkms_configfs_device(item) \
->   	container_of(to_config_group((item)), struct vkms_configfs_device, \
->   		     group)
->   
-> +#define child_group_to_vkms_configfs_device(group) \
-> +	device_item_to_vkms_configfs_device((&(group)->cg_item)->ci_parent)
-> +
-> +#define plane_item_to_vkms_configfs_plane(item) \
-> +	container_of(to_config_group((item)), struct vkms_configfs_plane, group)
-> +
-> +static void plane_release(struct config_item *item)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +	struct mutex *lock;
-> +
-> +	plane = plane_item_to_vkms_configfs_plane(item);
-> +	lock = &plane->dev->lock;
-> +
-> +	guard(mutex)(lock);
-> +	vkms_config_destroy_plane(plane->config);
-> +	kfree(plane);
-> +}
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c 
+b/drivers/gpu/drm/vkms/vkms_configfs.c
+index 8a7d954399e9..0a196a28ed4a 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.c
++++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+@@ -393,9 +393,30 @@ static struct configfs_item_operations 
+plane_item_operations = {
+  	.release	= &plane_release,
+  };
 
-I just found a flaw in our work: there is currently no way to forbid the 
-deletion of item/symlinks...
++int allow_drop_plane_group(struct config_group *group, struct 
+config_item *item)
++{
++	struct vkms_configfs_plane *plane;
++	bool enabled;
++
++	plane = plane_item_to_vkms_configfs_plane(item);
++
++	mutex_lock(&plane->dev->lock);
++	enabled = plane->dev->enabled;
++	mutex_unlock(&plane->dev->lock);
++
++	if (enabled)
++		return -EBUSY;
++	return 0;
++}
++
++static struct configfs_group_operations plane_group_operation ={
++	.allow_drop_item = &allow_drop_plane_group,
++};
++
+  static const struct config_item_type plane_item_type = {
+  	.ct_attrs	= plane_item_attrs,
+  	.ct_item_ops	= &plane_item_operations,
++	.ct_group_ops   = &plane_group_operation,
+  	.ct_owner	= THIS_MODULE,
+  };
 
-If you do:
+diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+index 7d10278db30d..a103196af0f9 100644
+--- a/fs/configfs/dir.c
++++ b/fs/configfs/dir.c
+@@ -1544,7 +1544,13 @@ static int configfs_rmdir(struct inode *dir, 
+struct dentry *dentry)
 
-modprobe vkms
-cd /sys/kernel/config/vkms/
-mkdir DEV
-mkdir DEV/connectors/CON
-mkdir DEV/planes/PLA
-mkdir DEV/crtcs/CRT
-mkdir DEV/encoders/ENC
-ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
-ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
-ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
-echo 1 > DEV/planes/PLA/type
-tree
-echo 1 > DEV/enabled
-modetest -M vkms
-=> everything fine
+  	/* Drop reference from above, item already holds one. */
+  	config_item_put(parent_item);
+-
++	if (item->ci_type && item->ci_type->ct_group_ops && 
+item->ci_type->ct_group_ops->allow_drop_item) {
++		ret = 
+item->ci_type->ct_group_ops->allow_drop_item(to_config_group(parent_item), 
+item);
++		if (ret) {
++			config_item_put(item);
++			return ret;
++		}
++	}
+  	if (item->ci_type)
+  		dead_item_owner = item->ci_type->ct_owner;
 
-rm DEV/connectors/CON/possible_encoders/ENC
-rmdir DEV/connectors/CON
-modetest -M vkms
-=> BUG: KASAN: slab-use-after-free
-
-
-I see two solutions:
-- we don't care and keep as is: if the device is enabled, and you delete 
-link/groups, it is your fault. As shown above: it can crash the kernel, 
-so it is a no-go.
-
-- we care and we don't want to touch configfs: we need to implement a 
-kind of refcount for all vkms_config elements. Issue: non-trivial work, 
-may allow memory leaks/use after free...
-
-- we care and we want to touch configfs: see my two patches (they apply 
-on the v1 of this series). This solution allows adding a check before 
-removing configfs item/group/link. I found it cleaner and way easier to 
-understand.
-
-What do you think about my proposition? Do you have another idea?
-
-> +static struct configfs_item_operations plane_item_operations = {
-> +	.release	= &plane_release,
-> +};
-> +
-> +static const struct config_item_type plane_item_type = {
-> +	.ct_item_ops	= &plane_item_operations,
-> +	.ct_owner	= THIS_MODULE,
-> +};
-> +
-> +static struct config_group *make_plane_group(struct config_group *group,
-> +					     const char *name)
-> +{
-> +	struct vkms_configfs_device *dev;
-> +	struct vkms_configfs_plane *plane;
-> +
-> +	dev = child_group_to_vkms_configfs_device(group);
-> +
-> +	guard(mutex)(&dev->lock);
-> +
-> +	if (dev->enabled)
-> +		return ERR_PTR(-EBUSY);
-> +
-> +	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
-> +	if (!plane)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	plane->dev = dev;
-> +
-> +	plane->config = vkms_config_create_plane(dev->config);
-> +	if (IS_ERR(plane->config)) {
-> +		kfree(plane);
-> +		return ERR_CAST(plane->config);
-> +	}
-> +
-> +	config_group_init_type_name(&plane->group, name, &plane_item_type);
-> +
-> +	return &plane->group;
-> +}
-> +
-> +static struct configfs_group_operations planes_group_operations = {
-> +	.make_group	= &make_plane_group,
-> +};
-> +
-> +static const struct config_item_type plane_group_type = {
-> +	.ct_group_ops	= &planes_group_operations,
-> +	.ct_owner	= THIS_MODULE,
-> +};
-> +
->   static ssize_t device_enabled_show(struct config_item *item, char *page)
->   {
->   	struct vkms_configfs_device *dev;
-> @@ -125,6 +208,10 @@ static struct config_group *make_device_group(struct config_group *group,
->   	config_group_init_type_name(&dev->group, name, &device_item_type);
->   	mutex_init(&dev->lock);
->   
-> +	config_group_init_type_name(&dev->planes_group, "planes",
-> +				    &plane_group_type);
-> +	configfs_add_default_group(&dev->planes_group, &dev->group);
-> +
->   	return &dev->group;
->   }
->   
-
+diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+index 7fc52a78d6cd..92933397590d 100644
+--- a/include/linux/configfs.h
++++ b/include/linux/configfs.h
+@@ -216,6 +216,7 @@ struct configfs_group_operations {
+  	struct config_item *(*make_item)(struct config_group *group, const 
+char *name);
+  	struct config_group *(*make_group)(struct config_group *group, const 
+char *name);
+  	void (*disconnect_notify)(struct config_group *group, struct 
+config_item *item);
++	int (*allow_drop_item)(struct config_group *group, struct config_item 
+*item);
+  	void (*drop_item)(struct config_group *group, struct config_item *item);
+  	bool (*is_visible)(struct config_item *item, struct 
+configfs_attribute *attr, int n);
+  	bool (*is_bin_visible)(struct config_item *item, struct 
+configfs_bin_attribute *attr,
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.48.1
 
