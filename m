@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B917AA49BDA
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 15:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89EAA49BD8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 15:24:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D51F10ECBD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71EE710ECBC;
 	Fri, 28 Feb 2025 14:24:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q3ts9Dl0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J4f3okZz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B1610ECBC
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 14:23:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B869510ECBB;
+ Fri, 28 Feb 2025 14:23:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 57F7F61F51;
- Fri, 28 Feb 2025 14:23:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65801C4CED6;
- Fri, 28 Feb 2025 14:23:53 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D730461F6C;
+ Fri, 28 Feb 2025 14:23:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19873C4CED6;
+ Fri, 28 Feb 2025 14:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740752633;
- bh=ajCu9g41SZnPeTte9fd4UeergPTy5SPY1Z6qHX4P4pQ=;
+ s=k20201202; t=1740752637;
+ bh=kbCWeMKmYUCMjknkwLpFQ4vOZhr06uyQ6A8L6Y6j3cA=;
  h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=q3ts9Dl08IFf5rhKdIW+MNOY0rlMe6p4eBaL5wod/m0ILfNKfYjppJPsRR4+1xj4Q
- J5vIPEt9jvt5fyiT3+hcte/iUh9GvRPgT+ePyod+bGrfUHgUI8sCmp4jNzn6K4vYZX
- k5JNVEvFDtlvUMEPSx4mAhi2JMVE6VkaVsngwt2YAWaWO1b38DxRdoBPDi5v/XpR5D
- D6nmjGeZZL/xgRhFbLVtg5ZhQ/dSOICCOyMh/Jj78FBYw6T7FMh20xlBUwxid9qDe3
- SEUlLXtZxOJe6qxl1sxLG0Nu4gR/9s9XjRJgTuyfUmkywfdzwAAhcSFIQtAOao7rpf
- XPlCG6RXZXf0g==
-Date: Fri, 28 Feb 2025 08:23:51 -0600
+ b=J4f3okZzEW756AuEQGKk7lNHCr0rV9x4HUiSPHdbrH79q2OMaEG15g+F9fjCZwRAy
+ 1ec/689S42x9Ffi1ic8yUwKt7/FP5dyzSkOvGyFNW5HM/NRq52XWCg3PrinV4TsJ0J
+ CbkaQ2xVseBR8CmnlXfB48YqG8VwTK+N+uc3+Xw69v3zzRUOk0vvOGQhSPPU4XOcJZ
+ bYQsbsYcS+ZOnkPzyS4IorM6ElTBaSCH33WXdR3z7p5Wr25sfKrsmoScfWWfV66T0B
+ qX049SjwbGE5N5ZNQ1EtTx58pd/fmSlu4cC2UYPINuB4+6fBznGZMM/8YfGgbW5JVi
+ L5tiHwAuWdAlg==
+Date: Fri, 28 Feb 2025 08:23:55 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
- Philipp Zabel <p.zabel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
- linux-arm-kernel@lists.infradead.org, 
+Cc: linux-arm-msm@vger.kernel.org, Simona Vetter <simona@ffwll.ch>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Jie Zhang <quic_jiezh@quicinc.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ freedreno@lists.freedesktop.org, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, Simona Vetter <simona@ffwll.ch>, 
- Sascha Hauer <s.hauer@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Steven Price <steven.price@arm.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, imx@lists.linux.dev, 
- Shawn Guo <shawnguo@kernel.org>
-To: Marek Vasut <marex@denx.de>
-In-Reply-To: <20250227170012.124768-1-marex@denx.de>
-References: <20250227170012.124768-1-marex@denx.de>
-Message-Id: <174075232481.2756018.16964908012353216483.robh@kernel.org>
-Subject: Re: [PATCH 0/9] arm64: dts: imx95: Add support for Mali G310 GPU
+ Rob Clark <robdclark@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, devicetree@vger.kernel.org
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
+References: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
+Message-Id: <174075232770.2756163.15128447349702656600.robh@kernel.org>
+Subject: Re: [PATCH v2 0/6] Support for Adreno 623 GPU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +70,49 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 27 Feb 2025 17:58:00 +0100, Marek Vasut wrote:
-> The instance of the GPU populated in i.MX95 is the G310.
-> Add support for the GPUMIX reset via simple-reset driver,
-> add reset and multiple power domains support into panthor
-> GPU driver, add iMX95 GPU support into panthor driver and
-> describe the iMX95 GPU in imx95.dtsi DT.
+On Fri, 28 Feb 2025 01:37:48 +0530, Akhil P Oommen wrote:
+> This series adds support for A623 GPU found in QCS8300 chipsets. This
+> GPU IP is very similar to A621 GPU, except for the UBWC configuration
+> and the GMU firmware.
 > 
-> Marek Vasut (9):
->   dt-bindings: reset: imx95-gpu-blk-ctrl: Document Freescale i.MX95 GPU
->     reset
->   reset: simple: Add support for Freescale i.MX95 GPU reset
->   dt-bindings: gpu: mali-valhall-csf: Document optional reset
->   drm/panthor: Implement optional reset
->   drm/panthor: Implement support for multiple power domains
->   drm/panthor: Reset GPU after L2 cache power off
->   dt-bindings: gpu: mali-valhall-csf: Document i.MX95 support
->   drm/panthor: Add i.MX95 support
->   arm64: dts: imx95: Describe Mali G310 GPU
-> 
->  .../bindings/gpu/arm,mali-valhall-csf.yaml    |  4 +
->  .../reset/fsl,imx95-gpu-blk-ctrl.yaml         | 49 ++++++++++++
->  arch/arm64/boot/dts/freescale/imx95.dtsi      | 62 +++++++++++++++
->  drivers/gpu/drm/panthor/Kconfig               |  1 +
->  drivers/gpu/drm/panthor/panthor_device.c      | 79 +++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_device.h      |  8 ++
->  drivers/gpu/drm/panthor/panthor_drv.c         |  1 +
->  drivers/gpu/drm/panthor/panthor_gpu.c         | 12 +--
->  drivers/reset/reset-simple.c                  |  8 ++
->  9 files changed, 219 insertions(+), 5 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/reset/fsl,imx95-gpu-blk-ctrl.yaml
+> Both DT patches are for Bjorn and rest of the patches for Rob Clark to
+> pick up.
 > 
 > ---
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
+> Changes in v2:
+> - Fix hwcg config (Konrad)
+> - Split gpucc reg list patch (Rob)
+> - Rebase on msm-next tip
+> - Link to v1: https://lore.kernel.org/r/20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com
 > 
+> ---
+> Jie Zhang (6):
+>       drm/msm/a6xx: Split out gpucc register block
+>       drm/msm/a6xx: Fix gpucc register block for A621
+>       drm/msm/a6xx: Add support for Adreno 623
+>       dt-bindings: display/msm/gmu: Add Adreno 623 GMU
+>       arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
+>       arm64: dts: qcom: qcs8300-ride: Enable Adreno 623 GPU
+> 
+>  .../devicetree/bindings/display/msm/gmu.yaml       |  1 +
+>  arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |  8 ++
+>  arch/arm64/boot/dts/qcom/qcs8300.dtsi              | 93 ++++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c          | 29 +++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  8 ++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        | 13 ++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        | 17 ++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  5 ++
+>  8 files changed, 171 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 89839e69f6154feecd79bd01171375225b0296e9
+> change-id: 20250213-a623-gpu-support-f6698603fb85
+> prerequisite-change-id: 20250131-b4-branch-gfx-smmu-b03261963064:v5
+> prerequisite-patch-id: f8fd1a2020c940e595e58a8bd3c55d00d3d87271
+> prerequisite-patch-id: 08a0540f75b0f95fd2018b38c9ed5c6f96433b4d
+> 
+> Best regards,
 > --
-> 2.47.2
+> Akhil P Oommen <quic_akhilpo@quicinc.com>
 > 
 > 
 > 
@@ -144,19 +132,20 @@ make sure dt-schema is up to date:
   pip3 install dtschema --upgrade
 
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/freescale/' for 20250227170012.124768-1-marex@denx.de:
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com:
 
-arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: opp_table: $nodename:0: 'opp_table' does not match '^opp-table(-[a-z0-9]+)?$'
-	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
-arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: opp_table: Unevaluated properties are not allowed ('opp-1000000000', 'opp-500000000', 'opp-800000000' were unexpected)
-	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
-arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: /soc/reset-controller@4d810000: failed to match any schema with compatible: ['fsl,imx95-gpu-blk-ctrl']
-arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpu@4d900000: interrupt-names:0: 'job' was expected
-	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-valhall-csf.yaml#
-arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpu@4d900000: interrupt-names:1: 'mmu' was expected
-	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-valhall-csf.yaml#
-arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpu@4d900000: interrupt-names:2: 'gpu' was expected
-	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-valhall-csf.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:0: 'gcc_gpu_memnoc_gfx_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:1: 'gcc_gpu_snoc_dvm_gfx_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:2: 'gpu_cc_ahb_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:3: 'gpu_cc_hlos1_vote_gpu_smmu_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:4: 'gpu_cc_cx_gmu_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:5: 'gpu_cc_hub_cx_int_clk' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
 
 
 
