@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2553A49625
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773AFA49660
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:06:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96B6610E0D2;
-	Fri, 28 Feb 2025 09:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD34A10E220;
+	Fri, 28 Feb 2025 10:06:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="HsKJiJjf";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="L5ZuJXus";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="XHmHzp4v";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Fvx1hIAI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBF3C10E0D2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 09:58:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E0810E220
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:06:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1740736726; x=1772272726;
+ t=1740737211; x=1772273211;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=R6z8SNGAWbPtFx1cjvVtRebtMxEHnuUbliJJnBLpEBQ=;
- b=HsKJiJjf5ZAuJEegB3wZFDzQAPLFpujRgsNftcOSpN1zesj5JYQ6o6Wl
- brM5rFn0OvektEHyDjvlk3aLkCtYPguCVRAzpZqBU/Ul99vPG+pjvsP2r
- +yHo31twOBes1Bk/NUsMNFc2NeQPHQTJoPhXgLJ/r3CxnbPiZygPDD86+
- aH9JGaNsAvtmET3Ayoay6tX5EdDFqzre2RiOHAIN7frGw/C0EHl/Xa5G9
- DobDOhoJ5AHjxDNi4l2AhJHE2+B5r5p+GegXYvOKFceTJS2bFZw5F/2OE
- MHLwUik+bj8qilZ2wI0W0rLR0a43sA944JYinibfPGihAkKfXuPTodNnz Q==;
-X-CSE-ConnectionGUID: xE6yXvstTFm0gqqdqTCQMg==
-X-CSE-MsgGUID: gUwUTOczSCiyYZXoY2pg6Q==
-X-IronPort-AV: E=Sophos;i="6.13,322,1732575600"; d="scan'208";a="42170542"
+ bh=7UjylcZhDrHqEfo7yqLi8Yfpye96d9C9gSDdjBw2v0w=;
+ b=XHmHzp4vuWI7/eYQemryPTomZ9wEuZZUufC2WGYK4SlPMI3BOF2bpZTf
+ 8FTis+IaRxBWnWEvm4cftDaPVmzKokOm+aetoCcmEmnoe531ySXS0NnGi
+ /UHH7jxQ4WtzmGPH62cbbYQOj9eFwagkoOlXSc3Wf8FdScU7NA7afhg2c
+ YG3GehtDwoj2uvZy4eazKnRxDlplgfLmV8xm5HPnttkDFB++6GRnjdEaW
+ zspGdNAkf3rKGJyraZq/QZZENtP5PkC6iF4EADJT9EYxyKwjtXbi4GnkH
+ Fl6Oi8Kmh5NCdjMb7CFyDZzHDS766cd7N5prJ0nCK16WiaJ0two8GIZYk A==;
+X-CSE-ConnectionGUID: dLZ25iIRRtiBj98dxD8a4g==
+X-CSE-MsgGUID: UcAor732TXyFThfCnesRdw==
+X-IronPort-AV: E=Sophos;i="6.13,322,1732575600"; d="scan'208";a="42171062"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 28 Feb 2025 10:58:41 +0100
-X-CheckPoint: {67C188D0-2D-2895743E-CD1E7AB7}
-X-MAIL-CPID: C994950F3C3B4C450EBA4E647F15245F_4
-X-Control-Analysis: str=0001.0A00211B.67C188D2.0005, ss=1, re=0.000, recu=0.000,
+ by mx1.tq-group.com with ESMTP; 28 Feb 2025 11:06:49 +0100
+X-CheckPoint: {67C18AB9-1E-A2FC2151-C3FA4B33}
+X-MAIL-CPID: E78A661758568EAC10083EAA25773422_0
+X-Control-Analysis: str=0001.0A002111.67C18AB9.00C7, ss=1, re=0.000, recu=0.000,
  reip=0.000, cl=1, cld=1, fgs=0
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id AACD01688B1; Fri, 28 Feb 2025 10:58:33 +0100 (CET)
+ with ESMTPSA id EB12316449D; Fri, 28 Feb 2025 11:06:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1740736716;
+ s=dkim; t=1740737205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R6z8SNGAWbPtFx1cjvVtRebtMxEHnuUbliJJnBLpEBQ=;
- b=L5ZuJXustp8emNgt0u+lkzIHHqx8ZnNQLz4D3Z97r5lDnHurm3e0ouRN9W4Trljbi8/4jb
- rwyVFcqkZSzS5BmvDvsc/5LvOdJKVyFIdVBzUWZkc4Z3rm8cDPydzbKf/o5AIER4SqTIso
- 8c+bYF7qDKfvcHHqWtOP/DiA/5sbPQnknCJ57xzfqewwBe3KXhY84iAzfptY/JcNeIl6zA
- VHX+eH6j0v016n51NCkEK3Lw8G+JkvTTGGCYWZNWNaNI+ylX2KYwXzyyQrXNqRZsBKgVSF
- uljFLINGhoUbFi9bEBVFHqVzgOHRUFe8FTLOOeHZcU5mpEzFLAc49cq8WXQ0SA==
+ bh=7UjylcZhDrHqEfo7yqLi8Yfpye96d9C9gSDdjBw2v0w=;
+ b=Fvx1hIAIK68mVmmpZGImxQ4O3hNXVAcYOeWyZ0eO6+DtyqEEdI1UvlKfxbzLlrnBEWfyxk
+ g9CzVxIlIJnOxREDc0rkb2ouxGaipcRUYVSAJaYwpAig2trTgXevR2B3TQYXOmcnrw1gHl
+ Y+Ff62oDsqGIacwNVuHNO+QaVdKK8keDiNnspxsQz+nAqz77AiuskLZwOxNhSEo4eokn5W
+ XgwCVw+2ViLz5plRnbRdUMbxab0grgcTfwlvb9SQzgs0w6KJ8cSGx9/tQz4DIFRuaVygcp
+ fDMlmpWevShFQjVrLnAJqsl0jZuqBkfdDJlJrCLjsy8tlfThE5US0CF9fbeUaA==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>,
@@ -67,14 +67,13 @@ Cc: Marek Vasut <marex@denx.de>,
  Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 2/9] reset: simple: Add support for Freescale i.MX95 GPU
- reset
-Date: Fri, 28 Feb 2025 10:58:33 +0100
-Message-ID: <2425297.NG923GbCHz@steina-w>
+Subject: Re: [PATCH 4/9] drm/panthor: Implement optional reset
+Date: Fri, 28 Feb 2025 11:06:43 +0100
+Message-ID: <2180166.OBFZWjSADL@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20250227170012.124768-3-marex@denx.de>
+In-Reply-To: <20250227170012.124768-5-marex@denx.de>
 References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-3-marex@denx.de>
+ <20250227170012.124768-5-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -96,10 +95,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Marek,
 
-Am Donnerstag, 27. Februar 2025, 17:58:02 CET schrieb Marek Vasut:
+Am Donnerstag, 27. Februar 2025, 17:58:04 CET schrieb Marek Vasut:
 > The instance of the GPU populated in Freescale i.MX95 does require
 > release from reset by writing into a single GPUMIX block controller
-> GPURESET register bit 0. Implement support for this reset register.
+> GPURESET register bit 0. Implement support for one optional reset.
 >=20
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > ---
@@ -125,46 +124,118 @@ Am Donnerstag, 27. Februar 2025, 17:58:02 CET schrieb Marek Vasut:
 > Cc: imx@lists.linux.dev
 > Cc: linux-arm-kernel@lists.infradead.org
 > ---
->  drivers/reset/reset-simple.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/gpu/drm/panthor/Kconfig          |  1 +
+>  drivers/gpu/drm/panthor/panthor_device.c | 23 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_device.h |  3 +++
+>  3 files changed, 27 insertions(+)
 >=20
-> diff --git a/drivers/reset/reset-simple.c b/drivers/reset/reset-simple.c
-> index 2760678398308..1415a941fd6eb 100644
-> --- a/drivers/reset/reset-simple.c
-> +++ b/drivers/reset/reset-simple.c
-> @@ -133,9 +133,17 @@ static const struct reset_simple_devdata reset_simpl=
-e_active_low =3D {
->  	.status_active_low =3D true,
->  };
+> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kc=
+onfig
+> index 55b40ad07f3b0..ab62bd6a0750f 100644
+> --- a/drivers/gpu/drm/panthor/Kconfig
+> +++ b/drivers/gpu/drm/panthor/Kconfig
+> @@ -14,6 +14,7 @@ config DRM_PANTHOR
+>  	select IOMMU_IO_PGTABLE_LPAE
+>  	select IOMMU_SUPPORT
+>  	select PM_DEVFREQ
+> +	select RESET_SIMPLE if SOC_IMX9
+>  	help
+>  	  DRM driver for ARM Mali CSF-based GPUs.
 > =20
-> +static const struct reset_simple_devdata reset_simple_fsl_imx95_gpu_blk_=
-ctrl =3D {
-> +	.reg_offset =3D 0x8,
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
+anthor/panthor_device.c
+> index a9da1d1eeb707..51ee9cae94504 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -64,6 +64,17 @@ static int panthor_clk_init(struct panthor_device *ptd=
+ev)
+>  	return 0;
+>  }
+> =20
+> +static int panthor_reset_init(struct panthor_device *ptdev)
+> +{
+> +	ptdev->resets =3D devm_reset_control_get_optional_exclusive_deasserted(=
+ptdev->base.dev, NULL);
 
-Shouldn't you add ".nr_resets =3D 1"? Otherwise this will have 8 resets
-(resource_size(res) * BITS_PER_BYTE).
+If the description as a write-once register is true, wouldn't this
+already write to it?
 
-On a side note: RM says this is a write-once register. Do we consider writi=
-ng
-this register again?
-BTW: Would it be possible to disable it completely (until reset) by writing=
- 1?
+> +	if (IS_ERR(ptdev->resets))
+> +		return dev_err_probe(ptdev->base.dev,
+> +				     PTR_ERR(ptdev->resets),
+> +				     "get reset failed");
+> +
+> +	return 0;
+> +}
+> +
+>  void panthor_device_unplug(struct panthor_device *ptdev)
+>  {
+>  	/* This function can be called from two different path: the reset work
+> @@ -217,6 +228,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		return ret;
+> =20
+> +	ret =3D panthor_reset_init(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret =3D panthor_devfreq_init(ptdev);
+>  	if (ret)
+>  		return ret;
+> @@ -470,6 +485,10 @@ int panthor_device_resume(struct device *dev)
+>  	if (ret)
+>  		goto err_disable_stacks_clk;
+> =20
+> +	ret =3D reset_control_deassert(ptdev->resets);
+> +	if (ret)
+> +		goto err_disable_coregroup_clk;
+> +
+
+This wouldn't work at all on a write-once register, no? Same for resume.
 
 Best regards
 Alexander
 
-> +	.active_low =3D true,
-> +	.status_active_low =3D true,
-> +};
+>  	panthor_devfreq_resume(ptdev);
+> =20
+>  	if (panthor_device_is_initialized(ptdev) &&
+> @@ -512,6 +531,9 @@ int panthor_device_resume(struct device *dev)
+> =20
+>  err_suspend_devfreq:
+>  	panthor_devfreq_suspend(ptdev);
+> +	reset_control_assert(ptdev->resets);
 > +
->  static const struct of_device_id reset_simple_dt_ids[] =3D {
->  	{ .compatible =3D "altr,stratix10-rst-mgr",
->  		.data =3D &reset_simple_socfpga },
-> +	{ .compatible =3D "fsl,imx95-gpu-blk-ctrl",
-> +		.data =3D &reset_simple_fsl_imx95_gpu_blk_ctrl },
->  	{ .compatible =3D "st,stm32-rcc", },
->  	{ .compatible =3D "allwinner,sun6i-a31-clock-reset",
->  		.data =3D &reset_simple_active_low },
+> +err_disable_coregroup_clk:
+>  	clk_disable_unprepare(ptdev->clks.coregroup);
+> =20
+>  err_disable_stacks_clk:
+> @@ -563,6 +585,7 @@ int panthor_device_suspend(struct device *dev)
+> =20
+>  	panthor_devfreq_suspend(ptdev);
+> =20
+> +	reset_control_assert(ptdev->resets);
+>  	clk_disable_unprepare(ptdev->clks.coregroup);
+>  	clk_disable_unprepare(ptdev->clks.stacks);
+>  	clk_disable_unprepare(ptdev->clks.core);
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
+anthor/panthor_device.h
+> index da6574021664b..fea3a05778e2e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -111,6 +111,9 @@ struct panthor_device {
+>  		struct clk *coregroup;
+>  	} clks;
+> =20
+> +	/** @resets: GPU reset. */
+> +	struct reset_control *resets;
+
+Your commit message says "one optional reset", so I would name this just
+reset.
+
+> +
+>  	/** @coherent: True if the CPU/GPU are memory coherent. */
+>  	bool coherent;
+> =20
 >=20
 
 
