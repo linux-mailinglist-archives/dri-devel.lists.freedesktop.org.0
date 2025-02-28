@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0D7A49550
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0C9A49598
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:44:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3EFF10EC31;
-	Fri, 28 Feb 2025 09:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98DE10EC43;
+	Fri, 28 Feb 2025 09:44:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HZ9j7NrH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h5UBlL3x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA44910EC32
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 09:38:22 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5e0373c7f55so2822950a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 01:38:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740735501; x=1741340301; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kAbBHBzTpenwYQ3xIDx+RFfsaRXN6FerVlZhMl5YALM=;
- b=HZ9j7NrHKdT8K1gRi3UhSFgkDeLHXnUE2Sqh0zj9Q2N0uLCNoHsbfcj0putJfC8ykf
- ZYuWZawjDEwix4+1zKBvuRAusSzj45BUlNlRWCgGwvbBIPPt5wvs2JLJJXPs15QXpCfY
- zvV5l/0wjTHtmgwxMuYgi39gmX//ID+YUaH29k7HB3XnG0jc249sET7KybH3WajQlkLU
- wnQxF7qiHJoHXdTjo8osHzwACHd4xRFZ6PlZYBkHY3PUBfzP4UNd/l1hcCDV77X9W1Cs
- Zuu8k5DkrwRE4evnN+KIWrBOUywUqvlIB07ozfHfFqCuxEr+Hv+7wvrxk+lE8bEdetCE
- yYbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740735501; x=1741340301;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kAbBHBzTpenwYQ3xIDx+RFfsaRXN6FerVlZhMl5YALM=;
- b=R82FqUTpDzBE9Tm2Q5PtDJGQlqTkGEm2jmVM/TjV7b1pybld00BVDfgOoU0vc1Kr6A
- q0BoIDn3q9KgNBV8aUcExgkIJ7A+YwRsl6VchMxs7gCEGOOIMO43PZCBv6ZBdEKQNMDj
- gqB6Cs7RgvdAONko/kYn8Pa8Oyg8PxJl0OjU7REJwVWdDjDiBAsSmMkIaDm0d2zgUX3/
- IqXeGHgSwI4awTY7ix52vYvcIKM3aRs9vny7fRIrrViq348kkTrd8YXPeLrS6qqiO7r2
- YPJqbkovNVLb1Ohn/X+d0OzfJvLmJzdchsoKg0wJyNQnZWpwJML9tZGGIswO+06mcSS4
- +c6Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXiqhT14+P/bODbozcxSLY9UmfWQpMf6MRcgluOpMrh0BiQfiyF7z/FuPlw1MmzOkrCkU54QCTpoFY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4La0V5d/pM9W5iNxGQ2dQL8YPjIFZoo2OOhr0fpfeDEj3iJ1Q
- S4Nftumv+S5emSS4waB5dIxe6Hh2/sbf+xRaGAd74iFgd0gSy/b1UgH2jhM5P7k=
-X-Gm-Gg: ASbGncs/P+hjD5qdGGTrfd/RExjUgB9XvAbpJ9jM8IDB7X6MNbFhM/6fHszzqHR/94R
- ctyTiu6uEEzpe1KbfrFMdyi+5d2VI+xlUknT24DdrmLBMbFEpCRBJer8+13WFf+C3+C327z35rx
- c30GcTme5T6EIVifvYPnyeuXjjzgsujqXA15Ip/EtH+k3+wyLmz97crESJb1TqbGWzXdb9+11Or
- UauVPe+2t146XcosLdQxqRnPiliGioLBYTzifnuogtjQvIyZQoV/BZ7ruimb+joOtt0HNGASASX
- zPR9PlVaJSjIO7SWBZejWIhC16qX/5c=
-X-Google-Smtp-Source: AGHT+IFG/wAFc+7a3BTiB3lyA+ckJ1OhlFHzEfmEQnuDRhG6Sr2tZqzqalibYqvITqld8TmExotXDg==
-X-Received: by 2002:a17:907:2d8a:b0:aab:9430:40e9 with SMTP id
- a640c23a62f3a-abf2659d531mr240459266b.32.1740735501401; 
- Fri, 28 Feb 2025 01:38:21 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- a640c23a62f3a-abf0c0dc5ebsm263013666b.73.2025.02.28.01.38.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2025 01:38:20 -0800 (PST)
-Date: Fri, 28 Feb 2025 12:38:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/vc4: hdmi: Fix some NULL vs IS_ERR() bugs
-Message-ID: <a952e2b4-d4b8-49ac-abd9-9967c50f4a80@stanley.mountain>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74AD410EC43;
+ Fri, 28 Feb 2025 09:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740735843; x=1772271843;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=QID8NpX170ELrC0HaYoORlWMpM5ERhgKyzAxvDirRFg=;
+ b=h5UBlL3xCtIUmVVC39pSchLqVNP8EB8dM8ehXcfwRfYdvOe326M43mr9
+ w5jGaRifFkzeKhILesgPqk5rtiLY07mCA13nPveIlxCy23IEMU+p/6ZZ8
+ OO5VVrHdZOMEr16IudZvavOFVWQk3FZH8l9Q9Y+HU8Lr3+NQj7E7YJlpt
+ zWqL7txX/6Zi8ah5QxEjz/oJCGS0lWO9j723RccjpPtXeyawY3La9wMdE
+ O+QaApBAACL40WACumr98qI/RpqNEv/K1IuYV7rh3erXo88t+8HKcFOTO
+ 0TlQx3ATwIFSZG+uHDR1+3FcMCJ0FMeumCxyyr1ksGgr/k6I6UZk2fOBH w==;
+X-CSE-ConnectionGUID: kNlmPakoQL6yVU4bFttClg==
+X-CSE-MsgGUID: OC48cQIzSTS0t4OjDvWUGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41506355"
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="41506355"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 01:44:03 -0800
+X-CSE-ConnectionGUID: Ix0yo7TMRRqv42n1pvdN9w==
+X-CSE-MsgGUID: ITIQt7eoQO+w5IYYjgn2aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121408326"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.24])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 01:44:01 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Vinod Govindapillai <vinod.govindapillai@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, vinod.govindapillai@intel.com,
+ jani.saarinen@intel.com
+Subject: Re: [PATCH v10 1/9] drm/i915/fbc: remove one duplicate forward
+ declaration
+In-Reply-To: <20250228093802.27091-2-vinod.govindapillai@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250228093802.27091-1-vinod.govindapillai@intel.com>
+ <20250228093802.27091-2-vinod.govindapillai@intel.com>
+Date: Fri, 28 Feb 2025 11:43:58 +0200
+Message-ID: <878qpq2yld.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,76 +72,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The devm_platform_ioremap_resource_byname() function doesn't return NULL,
-it returns error pointers.  Update the checking to match.
+On Fri, 28 Feb 2025, Vinod Govindapillai <vinod.govindapillai@intel.com> wrote:
+> Remove the duplicate "intel_display"declaration from intel_fbc.h
+>
+> Signed-off-by: Vinod Govindapillai <vinod.govindapillai@intel.com>
 
-Fixes: b93f07cf090a ("drm/vc4: move to devm_platform_ioremap_resource() usage")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+Mea culpa,
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index d20e5c53ba75..37238a12baa5 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2928,8 +2928,8 @@ static int vc5_hdmi_init_resources(struct drm_device *drm,
- 
- 	vc4_hdmi->hdmicore_regs = devm_platform_ioremap_resource_byname(pdev,
- 									"hdmi");
--	if (!vc4_hdmi->hdmicore_regs)
--		return -ENOMEM;
-+	if (IS_ERR(vc4_hdmi->hdmicore_regs))
-+		return PTR_ERR(vc4_hdmi->hdmicore_regs);
- 
- 	/* This is shared between both HDMI controllers. Cannot
- 	 * claim for both instances. Lets not convert to using
-@@ -2946,33 +2946,33 @@ static int vc5_hdmi_init_resources(struct drm_device *drm,
- 
- 	vc4_hdmi->cec_regs = devm_platform_ioremap_resource_byname(pdev,
- 								   "cec");
--	if (!vc4_hdmi->cec_regs)
--		return -ENOMEM;
-+	if (IS_ERR(vc4_hdmi->cec_regs))
-+		return PTR_ERR(vc4_hdmi->cec_regs);
- 
- 	vc4_hdmi->csc_regs = devm_platform_ioremap_resource_byname(pdev,
- 								   "csc");
--	if (!vc4_hdmi->csc_regs)
--		return -ENOMEM;
-+	if (IS_ERR(vc4_hdmi->csc_regs))
-+		return PTR_ERR(vc4_hdmi->csc_regs);
- 
- 	vc4_hdmi->dvp_regs = devm_platform_ioremap_resource_byname(pdev,
- 								   "dvp");
--	if (!vc4_hdmi->dvp_regs)
--		return -ENOMEM;
-+	if (IS_ERR(vc4_hdmi->dvp_regs))
-+		return PTR_ERR(vc4_hdmi->dvp_regs);
- 
- 	vc4_hdmi->phy_regs = devm_platform_ioremap_resource_byname(pdev,
- 								   "phy");
- 
--	if (!vc4_hdmi->phy_regs)
--		return -ENOMEM;
-+	if (IS_ERR(vc4_hdmi->phy_regs))
-+		return PTR_ERR(vc4_hdmi->phy_regs);
- 
- 	vc4_hdmi->ram_regs = devm_platform_ioremap_resource_byname(pdev,
- 								   "packet");
--	if (!vc4_hdmi->ram_regs)
--		return -ENOMEM;
-+	if (IS_ERR(vc4_hdmi->ram_regs))
-+		return PTR_ERR(vc4_hdmi->ram_regs);
- 
- 	vc4_hdmi->rm_regs = devm_platform_ioremap_resource_byname(pdev, "rm");
--	if (!vc4_hdmi->rm_regs)
--		return -ENOMEM;
-+	if (IS_ERR(vc4_hdmi->rm_regs))
-+		return PTR_ERR(vc4_hdmi->rm_regs);
- 
- 	vc4_hdmi->hsm_clock = devm_clk_get(dev, "hdmi");
- 	if (IS_ERR(vc4_hdmi->hsm_clock)) {
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_fbc.h | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbc.h b/drivers/gpu/drm/i915/display/intel_fbc.h
+> index df20e63d6102..2e1dd7e8a18f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbc.h
+> +++ b/drivers/gpu/drm/i915/display/intel_fbc.h
+> @@ -13,7 +13,6 @@ struct intel_atomic_state;
+>  struct intel_crtc;
+>  struct intel_crtc_state;
+>  struct intel_display;
+> -struct intel_display;
+>  struct intel_fbc;
+>  struct intel_plane;
+>  struct intel_plane_state;
+
 -- 
-2.47.2
-
+Jani Nikula, Intel
