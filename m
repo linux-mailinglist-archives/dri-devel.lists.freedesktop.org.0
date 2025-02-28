@@ -2,112 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A49A49EB0
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 17:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60BAA49EBC
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 17:27:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9AE10ECF7;
-	Fri, 28 Feb 2025 16:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDB410ECFE;
+	Fri, 28 Feb 2025 16:27:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="edC3LwA3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HA000p/+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC8810ECF3;
- Fri, 28 Feb 2025 16:24:22 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9B54A43209;
- Fri, 28 Feb 2025 16:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1740759861;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D707910ECF5
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 16:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1740760024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Z1IKkm6+PnFpEAaGDs3hByJh2w/s4OJvKkdhV8BI7pE=;
- b=edC3LwA3ZOzxlMbNW5jOkj/xKOgxgvLzgon2Z/ebWjzgQUi58Dkjm/75rkhuUGW7SpC0tk
- AHwhVudHAxwtfIIwdBRbKUYUr3evh2KHEQGqlBhZHvVKDTcQP31xiSRZ7lY0wJrEXFxfCv
- lJt0YEvz3TtNcLkjPIdQbbfiBPBo5WWqoj+msms2+B1B2ptPR0zLFhDPAXhWeB96HSNtGF
- LTlEob23gTpAc+ul+1YioTJA4xPVxWSq94OfJ1AjOX2OSoOW0uMbOqqdADilVSfoCI+MrK
- Yk9Erg0FLMROh/6gTe0YXmDEwLNQCctTGAA2eX2VW3FNkLxysdHQhi1Z26eOlA==
-Message-ID: <caba927a-b71b-40bf-96b6-d15418ed705a@bootlin.com>
-Date: Fri, 28 Feb 2025 17:24:17 +0100
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pKER4kzbm9UtoCdB2Z9lFkUQuLXb5H7tj/VZtnMrAjY=;
+ b=HA000p/+JcnaLy8kFHVzj8XIIJUlT5jMvvWERJwaHryflj++yhCupFDwIO1ap6v8i2Zzye
+ vdfrpJL85QvEWcz73Smyr2WqWPQQPBOWtMSdbsEqdHMK8h7OydhTJrTXCb1yuRWb1nVsyv
+ LJ0atL6vaam3sKPoo14BeHI2J+4qPcE=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-688-d_sP0GXwO2WBgw5e1Zk7vw-1; Fri, 28 Feb 2025 11:27:02 -0500
+X-MC-Unique: d_sP0GXwO2WBgw5e1Zk7vw-1
+X-Mimecast-MFC-AGG-ID: d_sP0GXwO2WBgw5e1Zk7vw_1740760022
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-6fd010df0f4so36570967b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:27:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740760022; x=1741364822;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pKER4kzbm9UtoCdB2Z9lFkUQuLXb5H7tj/VZtnMrAjY=;
+ b=jRzpAsnwat3ZPg1QY8EJEAuQjbX1cf04yIiBrURs+781bLNbRnG397EXRWLaCf5uQd
+ Vt+cZs9+Qmo3V98o2/vVzaLG5NTDEiOxPwRgVuwLtYBxrgJFncB8qlesmEn4C/ZYVeLZ
+ 4CQ4bSXJYiVHPjNvjGgJMVq5oA2elde6G1pjJIHaqO8PmHbnjwc4DOvX/2aN6ibORxT1
+ kOufFnwsSu4kdp2ov30TlIpjMlOrRUryMaEjg/NwlUsrCeEIcHaB8EBGId8zjgefgbDg
+ vgY/LE9g6XGFYWuWcyuIkpLyg4vFgVw6aD7zUXbvH6+FbgSxCDFEu9BHNoSFCwSei3A4
+ 9ydw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUybl1bbfvpta+8VTC7YPkKQrrLzG613+M7/oPDj3WPjaEIgzvzARRsTE2tnOCr3owdjMBvlU4VCvE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYY2WHA6eEz3dva6meIy2ReEqKBqq5DwsmwFB3G7AwTTcYE1Lu
+ baFiI9ETDHFu/M2tnAafapUoWMQJR+JZM7+nttAFZDxhus4pHQrXCJASuojSxhFwP/58cTwJE54
+ mf7UneA/i4idB8aNQ/u7Gir4iHjJKj/tTDt0UCNRbrC5rQH1wFYCJRqXWMk9JeDElfpYgH8pz3m
+ fcLMZNPRGryu76M1m3p9+iwbYXo6NGTjybgRpL132H
+X-Gm-Gg: ASbGnctOEddsKxgLc21O08ho1rVkWqO3bRsTOtnYyyL34AuXLCNAmSP4DgOncv2zhhj
+ aRLayoE/2ffxby4mNF442Rkrl3dXt/ifFB+Fk34xptmXr1u/OO1yeBYJY8a+tCnQJOhdWQrA=
+X-Received: by 2002:a05:690c:3708:b0:6f9:447d:d1a2 with SMTP id
+ 00721157ae682-6fd4a1b56d0mr54407007b3.29.1740760021774; 
+ Fri, 28 Feb 2025 08:27:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHT2O6YUB+A2cao4TvxGimuD22gnK3sLBLsCrkLnO/OZWJ8vKkmBVWAoJ2/CHGTA0nuEqPoPbAU1ihV4w3RMic=
+X-Received: by 2002:a05:690c:3708:b0:6f9:447d:d1a2 with SMTP id
+ 00721157ae682-6fd4a1b56d0mr54406727b3.29.1740760021535; Fri, 28 Feb 2025
+ 08:27:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/63] Fix CONFIG_DRM_USE_DYNAMIC_DEBUG=y
-To: Greg KH <gregkh@linuxfoundation.org>, Jim Cromie <jim.cromie@gmail.com>,
- linux-kernel@vger.kernel.org, jbaron@akamai.com, ukaszb@chromium.org,
- intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com
-References: <20250125064619.8305-1-jim.cromie@gmail.com>
- <2025022012-viscous-cringing-bf88@gregkh>
- <Z7b50rGRA4RuybgC@phenom.ffwll.local>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <Z7b50rGRA4RuybgC@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeltdekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetueetjedtudegtdeftdevtedtgeehhefftdejheduvdfhlefhveekheethfffueenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepghhrvghgkhhhsehlihhnu
- higfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
-X-GND-Sasl: louis.chauvet@bootlin.com
+References: <20250226172457.217725-1-tzimmermann@suse.de>
+ <20250226172457.217725-6-tzimmermann@suse.de>
+In-Reply-To: <20250226172457.217725-6-tzimmermann@suse.de>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Fri, 28 Feb 2025 11:26:50 -0500
+X-Gm-Features: AQ5f1Jo-G3iEnuDsBJIQsw-QJow-l8A9JvivJbttZudPMk5n4hZ3PBavUmRARuA
+Message-ID: <CAN9Xe3QU_goD8ca9_dCew3V=U22SUbVmOri1p+fwiicJKNa6wQ@mail.gmail.com>
+Subject: Re: [PATCH 05/10] drm/gem-shmem: Use dma_buf from GEM object instance
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: simona@ffwll.ch, javierm@redhat.com, airlied@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ sumit.semwal@linaro.org, christian.koenig@amd.com, 
+ dri-devel@lists.freedesktop.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 0UROoCEjnz3scwjqrc75kEPzXjsEb3KkE-fgGsrfrhY_1740760022
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000b92bc3062f3646b4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,130 +94,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--000000000000b92bc3062f3646b4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
 
 
-Le 20/02/2025 à 10:45, Simona Vetter a écrit :
-> On Thu, Feb 20, 2025 at 09:31:41AM +0100, Greg KH wrote:
->> On Fri, Jan 24, 2025 at 11:45:14PM -0700, Jim Cromie wrote:
->>> This series fixes dynamic-debug's support for DRM debug-categories.
->>> Classmaps-v1 evaded full review, and got committed in 2 chunks:
->>>
->>>    b7b4eebdba7b..6ea3bf466ac6	# core dyndbg changes
->>>    0406faf25fb1..ee7d633f2dfb	# drm adoption
->>>
->>> DRM-CI found a regression during init with drm.debug=<initval>; the
->>> static-keys under the drm-dbgs in drm.ko got enabled, but those in
->>> drivers & helpers did not.
->>>
->>> Root Problem:
->>>
->>> DECLARE_DYNDBG_CLASSMAP violated a K&R rule "define once, refer
->>> afterwards".  Replace it with DYNDBG_CLASSMAP_DEFINE (invoked once in
->>> drm-core) and DYNDBG_CLASSMAP_USE (invoked repeatedly, in drivers &
->>> helpers).
->>>
->>> _DEFINE exports the classmap it creates (in drm.ko), other modules
->>> _USE the classmap.  The _USE adds a record ref'g the _DEFINEd (&
->>> exported) classmap, in a 2nd __dyndbg_class_users section.
->>>
->>> So now at modprobe, dyndbg scans the new section after the 1st
->>> __dyndbg_class_maps section, follows the linkage to the _DEFINEr
->>> module, finds the (optional) kernel-param controlling the classmap,
->>> examines its drm.debug=<initval>, and applies it to the module being
->>> initialized.
->>>
->>> To recapitulate the multi-module problem wo DRM involvement, Add:
->>>
->>> A. tools/testing/selftests/dynamic_debug/*
->>>
->>> This alters pr_debugs in the test-modules, counts the results and
->>> checks them against expectations.  It uses this formula to test most
->>> of the control grammar, including the new class keyword.
->>>
->>> B. test_dynamic_debug_submod.ko
->>>
->>> This alters the test-module to build both parent & _submod ko's, with
->>> _DEFINE and _USE inside #if/#else blocks.  This recap's DRM's 2 module
->>> failure scenario, allowing A to exersize several cases.
->>>
->>> The #if/#else puts the 2 macro uses together for clarity, and gives
->>> the 2 modules identical sets of debugs.
->>>
->>> Recent DRM-CI tests are here:
->>>    https://patchwork.freedesktop.org/series/139147/
->>>
->>> Previous rev:
->>>    https://lore.kernel.org/lkml/20240716185806.1572048-1-jim.cromie@gmail.com/
->>>
->>> Noteworthy Additions:
->>>
->>> 1- drop class "protection" special case, per JBaron's preference.
->>>     only current use is marked BROKEN so nobody to affect.
->>>     now framed as policy-choice:
->>>     #define ddebug_client_module_protects_classes() false
->>>     subsystems wanting protection can change this.
->>>
->>> 2- compile-time arg-tests in DYNDBG_CLASSMAP_DEFINE
->>>     implement several required constraints, and fail obviously.
->>>
->>> 3- modprobe time check of conflicting class-id reservations
->>>     only affects 2+classmaps users.
->>>     compile-time solution not apparent.
->>>
->>> 4- dyndbg can now cause modprobe to fail.
->>>     needed to catch 3.
->>>     maybe some loose ends here on failure.
->>>
->>> 5- refactor & rename ddebug_attach_*module_classes
->>>     reduce repetetive boilerplate on 2 types: maps, users.
->>>     rework mostly brought forward in patchset to reduce churn
->>>     TBD: maybe squash more.
->>>
->>> Several recent trybot submissions (against drm-tip) have been passing
->>> CI.BAT, and failing one or few CI.IGT tests randomly; re-tests do not
->>> reliably repeat the failures.
->>>
->>> its also at github.com:jimc/linux.git
->>>    dd-fix-9[st]-ontip  &  dd-fix-9-13
->>>
->>> Ive been running it on my desktop w/o issues.
->>>
->>> The drivers/gpu/drm patches are RFC, I think there might be a single
->>> place to call DRM_CLASSMAP_USE(drm_dedbug_classes) to replace the
->>> sprinkling of _USEs in drivers and helpers.  IIRC, I tried adding a
->>> _DEFINE into drm_drv.c, that didn't do it, so I punted for now.
->>>
->>> I think the dyndbg core additions are ready for review and merging
->>> into a (next-next) test/integration tree.
->>
->> So whose tree should this go through?
-> 
-> I'm trying to get some drm folks to review/test this, but thus far not
-> much success :-/ I think it's good stuff, but I'm somewhat hesitant if no
+On Wed, Feb 26, 2025 at 12:28=E2=80=AFPM Thomas Zimmermann <tzimmermann@sus=
+e.de>
+wrote:
 
-I tested the VKMS driver with this, and it works!
+> Avoid dereferencing struct drm_gem_object.import_attach for the
+> imported dma-buf. The dma_buf field in the GEM object instance refers
+> to the same buffer. Prepares to make import_attach optional.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 7722cd720248..d99dee67353a 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -339,10 +339,10 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object
+> *shmem,
+>         int ret =3D 0;
+>
+>         if (drm_gem_is_imported(obj)) {
+> -               ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
+> +               ret =3D dma_buf_vmap(obj->dma_buf, map);
+>                 if (!ret) {
+>                         if (drm_WARN_ON(obj->dev, map->is_iomem)) {
+> -                               dma_buf_vunmap(obj->import_attach->dmabuf=
+,
+> map);
+> +                               dma_buf_vunmap(obj->dma_buf, map);
+>                                 return -EIO;
+>                         }
+>                 }
+> @@ -405,7 +405,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object
+> *shmem,
+>         struct drm_gem_object *obj =3D &shmem->base;
+>
+>         if (drm_gem_is_imported(obj)) {
+> -               dma_buf_vunmap(obj->import_attach->dmabuf, map);
+> +               dma_buf_vunmap(obj->dma_buf, map);
+>         } else {
+>                 dma_resv_assert_held(shmem->base.resv);
+>
+> --
+> 2.48.1
+>
+>
 
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
+--000000000000b92bc3062f3646b4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> one else agrees that it's useful for CI or in-field crash-recording or
-> whatever ...
-> 
-> I guess worst case we can land it and hope it attracts more folks?
-> 
-> Wrt tree I don't care, but I guess we should then also land the drm side
-> too.
-> -Sima
-> 
->> And I think the last patch in this series isn't correct, it looks like a
->> 000 email somehow.
->>
->> thanks,
->>
->> greg k-h
-> 
+<div dir=3D"ltr"><div>Reviewed-by: Anusha Srivatsa &lt;<a href=3D"mailto:as=
+rivats@redhat.com">asrivats@redhat.com</a>&gt;</div><div><br></div><br><div=
+ class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Wed, Feb 26, 2025 at 12:28=E2=80=AFPM Thomas Zimmermann &lt;<a h=
+ref=3D"mailto:tzimmermann@suse.de">tzimmermann@suse.de</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">Avoid dereferencing s=
+truct drm_gem_object.import_attach for the<br>
+imported dma-buf. The dma_buf field in the GEM object instance refers<br>
+to the same buffer. Prepares to make import_attach optional.<br>
+<br>
+Signed-off-by: Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de"=
+ target=3D"_blank">tzimmermann@suse.de</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/drm_gem_shmem_helper.c | 6 +++---<br>
+=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_g=
+em_shmem_helper.c<br>
+index 7722cd720248..d99dee67353a 100644<br>
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c<br>
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c<br>
+@@ -339,10 +339,10 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *s=
+hmem,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret =3D 0;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (drm_gem_is_imported(obj)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_vma=
+p(obj-&gt;import_attach-&gt;dmabuf, map);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_vma=
+p(obj-&gt;dma_buf, map);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!ret) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (drm_WARN_ON(obj-&gt;dev, map-&gt;is_iomem)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-&gt;import_attach-=
+&gt;dmabuf, map);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-&gt;dma_buf, map);=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EIO;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+@@ -405,7 +405,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *=
+shmem,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_gem_object *obj =3D &amp;shmem-&gt;b=
+ase;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (drm_gem_is_imported(obj)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-=
+&gt;import_attach-&gt;dmabuf, map);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-=
+&gt;dma_buf, map);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_resv_assert_hel=
+d(shmem-&gt;base.resv);<br>
+<br>
+-- <br>
+2.48.1<br>
+<br>
+</blockquote></div></div>
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--000000000000b92bc3062f3646b4--
 
