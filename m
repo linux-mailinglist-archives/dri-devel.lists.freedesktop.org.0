@@ -2,134 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45FEA49662
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:06:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C56A49680
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:10:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D8F10E28A;
-	Fri, 28 Feb 2025 10:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E35A410E06E;
+	Fri, 28 Feb 2025 10:10:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="u7qLVLL1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T6xwJ8UD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RHqxjtWX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1Lmgxdyz";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="DdLQEyKf";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="aSZkHu5t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F18D010E03A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:06:50 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ECE911F37E;
- Fri, 28 Feb 2025 10:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740737207; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8EE10E06E
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:10:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1740737412; x=1772273412;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=YE6bnB+P2s7EJv1Gtcomzzk1XsCHf5FrUL6+zsepQYk=;
+ b=DdLQEyKf0DOYWB4H3fVeh3/D8GYTeRLYTc2sNaI+/ufOAcDN+UKI7ccG
+ YQ3YZFvYlj5j5j7tMz/s9ZOfHq15iZ0NXUxu8pmfVDoGT7Q14DV/zSaMP
+ Y2zVFwX0TixKC8nk/0dL+MnnB3ddOn3wMeoupUnRPdPFwHXTRcnfjk4kE
+ dzfKb6XcQ8JG5AdUS81wf38nvxcZrNfd6IcJMDMMUYY5tDUSxqzu5lla7
+ FlHC6lnUuIGXV72eC8jTNzkPX8BcXHbKakbJUfOIDRGMI57ELHBltO8TO
+ 7NuW0/QNme1L066ENX42K64bblqwln1exyPpK1wZNm2SgQntfSZKpIQi9 g==;
+X-CSE-ConnectionGUID: ndNCYhvjTbuOSgEIVnFkiw==
+X-CSE-MsgGUID: +mz72M5PRRe7iLQCZsA0pg==
+X-IronPort-AV: E=Sophos;i="6.13,322,1732575600"; d="scan'208";a="42171166"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 28 Feb 2025 11:10:08 +0100
+X-CheckPoint: {67C18B80-0-3D6C4912-C3EB4537}
+X-MAIL-CPID: 5608D6895C0C0D3CBFCC709C8A1F7455_5
+X-Control-Analysis: str=0001.0A002109.67C18B7D.005A, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 82F04168CC3; Fri, 28 Feb 2025 11:10:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1740737403;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=og9fBlERlEHLfSsfHLE0uHFRa+KANOIrzTatA07qqMo=;
- b=u7qLVLL193TQSN69eHeLsBG0pOYa6in1ccekAxcBFnTgByjsN7M1aoFwWoZmE4UXu5+paN
- 6S4YD/GVghnB5gpIIB/mR/DtpzIrIX4bOe4acNr7SQhc6h9CTMdPRerkdekGQJq7LI5RHd
- rqmPGn88TdJnS+x/AP5oxISxjMiyftg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740737207;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=og9fBlERlEHLfSsfHLE0uHFRa+KANOIrzTatA07qqMo=;
- b=T6xwJ8UDZvNAiNRSt8r2a5krkYMZ3xAYePA8IgYSFjt64B0cNhIqD+jYfejAeCzlLmx6b8
- pdjYfhlON/LqehAg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RHqxjtWX;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1Lmgxdyz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740737205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=og9fBlERlEHLfSsfHLE0uHFRa+KANOIrzTatA07qqMo=;
- b=RHqxjtWXEDXQ+nK/7lcFhGCcRKXysJLvBuQRJFYSISmTeMBNhQK8zPGd4TPgRVJHDawgcT
- Js+FkG6fgMTF9AWGDnprtZAu9kvkW+pxrjyWU8SP6MvOTtwdQddaT0yok883+KHauuKRmx
- Qh+iaym795Q7Xz4EFwIgChjTVpGvJEQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740737205;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=og9fBlERlEHLfSsfHLE0uHFRa+KANOIrzTatA07qqMo=;
- b=1LmgxdyzhH/cueLUIDHbXmqNCp5TM58zg3Go1isLcJzvijtqJklhWzgLbH6/7vx2OI5IJJ
- wL33oJLZyeZiGFDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C7688137AC;
- Fri, 28 Feb 2025 10:06:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id l9k6L7WKwWcdWwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Feb 2025 10:06:45 +0000
-Message-ID: <bc089e81-2e09-41e9-a9d1-68b2f4372e7f@suse.de>
-Date: Fri, 28 Feb 2025 11:06:45 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=YE6bnB+P2s7EJv1Gtcomzzk1XsCHf5FrUL6+zsepQYk=;
+ b=aSZkHu5tBl4BOPhn0gC5Txm/SbBCY5/5rfv7waBQSlP+aMm8/Um9qsAoVXwaoSUZtOnUyP
+ pDaeTg3ofEWR6FfOgnx0shiC3Ri8BdesYNBINYPB4FBuDBJDJqNdrGM3Cn0wv9YooXlD4u
+ h33CGkpNjaeK9WGLItWAL4Fc3a1e/31YD5cK3B3pONEoqlV/SPN2jFb7uJ76n0xeRS2ubI
+ rgLNhI5OeczxVDpC4uZOSAc372VjNgL9S2XodOeIi/PkxvEOptci76rjnM2LmGada6K0+S
+ SXtWqzD16qzwth9UCSg1zpac/U6Il/LxEV5jXqyyLbP+92xq7XupA80hhp2mmA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 5/9] drm/panthor: Implement support for multiple power
+ domains
+Date: Fri, 28 Feb 2025 11:10:02 +0100
+Message-ID: <2848587.BEx9A2HvPv@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250227170012.124768-6-marex@denx.de>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-6-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
-To: Nicolas Baranger <nicolas.baranger@3xo.fr>, dri-devel@lists.freedesktop.org
-Cc: airlied@redhat.com
-References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: ECE911F37E
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[3]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,70 +94,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Am Donnerstag, 27. Februar 2025, 17:58:05 CET schrieb Marek Vasut:
+> The driver code power domain binding to driver instances only works
+> for single power domain, in case there are multiple power domains,
+> it is necessary to explicitly attach via dev_pm_domain_attach*().
+> As DT bindings list support for up to 5 power domains, add support
+> for attaching them all. This is useful on Freescale i.MX95 which
+> does have two power domains.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 56 ++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_device.h |  5 +++
+>  2 files changed, 61 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
+anthor/panthor_device.c
+> index 51ee9cae94504..4348b7e917b64 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -75,6 +75,58 @@ static int panthor_reset_init(struct panthor_device *p=
+tdev)
+>  	return 0;
+>  }
+> =20
+> +/* Generic power domain handling code, see drivers/gpu/drm/tiny/simpledr=
+m.c */
+> +static void panthor_detach_genpd(void *res)
+> +{
+> +	struct panthor_device *ptdev =3D res;
+> +	int i;
+> +
+> +	if (ptdev->pwr_dom_count <=3D 1)
+> +		return;
+> +
+> +	for (i =3D ptdev->pwr_dom_count - 1; i >=3D 0; i--)
+> +		dev_pm_domain_detach(ptdev->pwr_dom_devs[i], true);
+> +}
+> +
+> +static int panthor_genpd_init(struct panthor_device *ptdev)
+> +{
+> +	struct device *dev =3D ptdev->base.dev;
+> +	int i, ret;
+> +
+> +	ptdev->pwr_dom_count =3D of_count_phandle_with_args(dev->of_node, "powe=
+r-domains",
+> +							  "#power-domain-cells");
+> +	/*
+> +	 * Single power-domain devices are handled by driver core nothing to do
+> +	 * here. The same for device nodes without "power-domains" property.
+> +	 */
+> +	if (ptdev->pwr_dom_count <=3D 1)
+> +		return 0;
+> +
+> +	if (ptdev->pwr_dom_count > ARRAY_SIZE(ptdev->pwr_dom_devs)) {
+> +		drm_warn(&ptdev->base, "Too many power domains (%d) for this device\n",
+> +			 ptdev->pwr_dom_count);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i =3D 0; i < ptdev->pwr_dom_count; i++) {
+> +		ptdev->pwr_dom_devs[i] =3D dev_pm_domain_attach_by_id(dev, i);
+> +		if (!IS_ERR(ptdev->pwr_dom_devs[i]))
+> +			continue;
+> +
+> +		ret =3D PTR_ERR(ptdev->pwr_dom_devs[i]);
+> +		if (ret !=3D -EPROBE_DEFER) {
+> +			drm_warn(&ptdev->base, "pm_domain_attach_by_id(%u) failed: %d\n", i, =
+ret);
+> +			continue;
 
-Am 11.02.25 um 19:15 schrieb Nicolas Baranger:
-> Dear maintener
->
-> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video 
-> driver on mainline kernel (6.13.0 + 6.13.1).
->
-> ASPEED video driver is availiable here:
-> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
->
-> But it only work for LTS kernel
-> So I modify the DKMS package and I build a new Debian DKMS package 
-> with the adapted  source.
-> My patch can be find here :
-> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
-> See the README:
-> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
->
-> Using this new 'ast 1.15.1' driver, performance are amazing compared 
-> to the 'ast' driver include in kernel tree, specially when using a 
-> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card 
-> as the main video card and as the main and only video output (the 
-> discrete GPU is used only for offloading 3D or for cuda/opencl)
-
-You are using NVidia's proprietary driver, right? Did you reach out to 
-them wrt this problem? Or searched their support forums, online help, 
-etc? If so, what are the results?
+Is it a good idea to continue if a power-domain is missing? Any access might
+stuck completely. IMHO returning an error is more sensible.
+Also some dev_err_probe() should be added here.
 
 Best regards
-Thomas
+Alexander
 
->
->
-> So to make things easier, I include the new 'ast 1.15.1' driver in 
-> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
-> It's working fine as you can see on this video :
-> https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm 
->
->
-> I upload all the work I've done here :
-> https://xba.soartist.net/ast-drm_nba_20250211/
->
-> See the global README :
-> https://xba.soartist.net/ast-drm_nba_20250211/README
->
-> and the README in nba-kernel sub-directory :
-> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
->
-> I'm not a developer so please let me know if I made the things the 
-> right way and if this new 'ast 1.15.1' driver can be ported to 
-> linux-next or linux-? ?
-> If you need more explanations, do not hesitate to contact me, I would 
-> be happy to help
->
-> Kind regards
-> Nicolas Baranger
+> +		}
+> +
+> +		/* Missing dependency, try again. */
+> +		panthor_detach_genpd(ptdev);
+> +		return ret;
+> +	}
+> +
+> +	return devm_add_action_or_reset(dev, panthor_detach_genpd, ptdev);
+> +}
+> +
+>  void panthor_device_unplug(struct panthor_device *ptdev)
+>  {
+>  	/* This function can be called from two different path: the reset work
+> @@ -232,6 +284,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		return ret;
+> =20
+> +	ret =3D panthor_genpd_init(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret =3D panthor_devfreq_init(ptdev);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
+anthor/panthor_device.h
+> index fea3a05778e2e..7fb65447253e9 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -114,6 +114,11 @@ struct panthor_device {
+>  	/** @resets: GPU reset. */
+>  	struct reset_control *resets;
+> =20
+> +	/** @pwr_dom_count: Power domain count */
+> +	int pwr_dom_count;
+> +	/** @pwr_dom_dev: Power domain devices */
+> +	struct device *pwr_dom_devs[5];
+> +
+>  	/** @coherent: True if the CPU/GPU are memory coherent. */
+>  	bool coherent;
+> =20
+>=20
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
