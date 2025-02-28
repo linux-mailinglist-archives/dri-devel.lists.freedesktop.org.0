@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6390A49925
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:25:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7A7A49926
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:25:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96FD510E09B;
-	Fri, 28 Feb 2025 12:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29D0010E293;
+	Fri, 28 Feb 2025 12:25:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f+LfRLrw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CBh8kvP+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 182E710E293
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:25:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BFCC65C6684;
- Fri, 28 Feb 2025 12:22:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C7A1C4CED6;
- Fri, 28 Feb 2025 12:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740745512;
- bh=8xUimPw6k9q65+hF485fj/0AqnwZJKhGHir+ktIZLPI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f+LfRLrw+TXG2vm0sDdtVDrAtD/TQmOeDHr4QC8Whf1R2tJuFBvXnzIycRY2KJF0K
- z33WOOtp+MXMqPWAm1KMVhF5iQOqQfdtdVft7rT5PsVWQDWTUS88CiIoimBX2Erjdf
- mZ8AUHJcObU9AdODGCdsOuA0nnli58kvWj/YNM1Q7K8RhECd+BZNgXz1krZzsGnhML
- 7DbB8Uy7zReNcDgDTZ/rpNDuT1vKVnTePpQ9RMXCGRAPzVM9+VBSaIj3KacGC6TvTI
- dG4jYsZIyOLj2vv153M0Dfiw/RrH7GM8pmpz3DgOrYpqMced1CKUiOMDXHqAW+oAee
- zZTDI8Iv8OSPg==
-Date: Fri, 28 Feb 2025 06:25:10 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Fabio Estevam <festevam@gmail.com>, Steven Price <steven.price@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- imx@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- devicetree@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- Maxime Ripard <mripard@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 3/9] dt-bindings: gpu: mali-valhall-csf: Document
- optional reset
-Message-ID: <174074550945.2320385.13428412876070691467.robh@kernel.org>
-References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-4-marex@denx.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E17610E29A
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740745538; x=1772281538;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=XqM5WqihnbemKDDciIHF4nQMqthqgTkWOa0BRrNtGzY=;
+ b=CBh8kvP+hvkb1/8WDpFp6tHffhLCoBucu1HTnLuajNg+AKk9iYZsv9y2
+ fYaULizb54flibejOFwncMq2TzOIhbhYPdMQkv68kpxvvcEXrWJ+zgfxX
+ ywQohxofl7iBUjPkRUqC782ikt9iBqqIFVsd0HdOeNPNojuf0m6HjTAnj
+ DK6t7BmvwDzSjUQXhAMkQT3bfhyo4hzCfWO6G+r8mfJj7+nJSylaoGnUQ
+ syL2gFtIyCr+W31SJio0mA4EJ4EM/YjG1fgbDPmZ07sqjdVv2O5a4Vt3Q
+ PivZWGDKFlpVfzOmfOBWWvIwEPRxQFqR1iyEygqqcNjbSZ7E8qCVZG+GA w==;
+X-CSE-ConnectionGUID: CIp4xccEQp+fbCRFrwv53A==
+X-CSE-MsgGUID: DuZ3YhBdQWeeQJjfLoCBZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="53082764"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="53082764"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 04:25:38 -0800
+X-CSE-ConnectionGUID: +vEAD0khTHaoviOwOBaRTA==
+X-CSE-MsgGUID: NHIA2YbBRnSkulEVCiO8IQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; d="scan'208";a="122337530"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 04:25:35 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tnzQo-0000000FwW8-3xEu; Fri, 28 Feb 2025 14:25:30 +0200
+Date: Fri, 28 Feb 2025 14:25:30 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: kernel test robot <lkp@intel.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+ Kerem Karabay <kekrby@gmail.com>, Atharva Tiwari <evepolonium@gmail.com>,
+ Aun-Ali Zaidi <admin@kodeit.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <Z8GrOhRRsCvD_UtB@smile.fi.intel.com>
+References: <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
+ <202502280028.1Y9QMcR0-lkp@intel.com>
+ <PN3PR01MB9597926E81D2787F2210B84CB8CD2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250227170012.124768-4-marex@denx.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3PR01MB9597926E81D2787F2210B84CB8CD2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +86,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Thu, 27 Feb 2025 17:58:03 +0100, Marek Vasut wrote:
-> The instance of the GPU populated in Freescale i.MX95 does require
-> release from reset by writing into a single GPUMIX block controller
-> GPURESET register bit 0. Document support for one optional reset.
+On Thu, Feb 27, 2025 at 05:28:33PM +0000, Aditya Garg wrote:
+> > On 27 Feb 2025, at 10:24 PM, kernel test robot <lkp@intel.com> wrote:
+> > ﻿Hi Aditya,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on linus/master]
+> > [also build test WARNING on v6.14-rc4 next-20250227]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  .../devicetree/bindings/gpu/arm,mali-valhall-csf.yaml          | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+> A version 7 of this patch has already been submitted, not sure why kernel test robot tested version 4
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Because you are too fast to send a new versions. Whenever patch appears in ML
+it is seconds/minutes to trigger a bot build, which takes hours. I recommend
+spend more time on thinking and discussing, than issuing versions like from
+a machine gun.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
