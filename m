@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2ADA49993
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:40:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15B6A49994
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:40:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E9F10EC8D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22BE10EC90;
 	Fri, 28 Feb 2025 12:40:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="SkLdAA40";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="On5MA0JI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
- [209.85.221.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5047210EC91
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:40:09 +0000 (UTC)
-Received: by mail-wr1-f73.google.com with SMTP id
- ffacd0b85a97d-38f3bac2944so975159f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 04:40:09 -0800 (PST)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57FEF10EC88
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:40:11 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-43998ec3733so11289925e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 04:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740746408; x=1741351208;
+ d=google.com; s=20230601; t=1740746410; x=1741351210;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=7pofL3PjyOttZbsi+AAPKYxkRFtjnFNjm+r6OKyU3Jc=;
- b=SkLdAA40S81OLjTzIMjMEJxvKl7Y93VzRR76im1+uU37QlDya/K5Y6P2Uokq1/Kszk
- VJZ8SEd8ycgq3Cv7TKp73ygJ/HpJGKwqpSzZMZieTOWhH0zUgzowqz38fLbv+1z/4+1Q
- dCCtn7XVpbyeaj8wfSuaBJv6KkdT7jXgYg25TGSkQgQz0iyPzMv5ozExW4AVDd0xVINr
- 2Mktp4T9+kmQ3b6f11BAaYT9JwoijTO0hW0vh59UrZRYCe3YMnB8WMm4FsT9xCcyABfJ
- fB1fjYR6X+0fAbrcluFcQCeFgjZh01KH891uG/U0M1m5X4uMp0AfY492DvUDelKUFrTS
- ktxw==
+ bh=ihZxooYknzT0g7MIwrtZdZDoHsnETfvcwFPVB5oE20g=;
+ b=On5MA0JIcTLZ4+tuONdwLmk9neBbR/Hsaval9/v5tEZSAPh9Xigaa9WO0dKZf3M4eN
+ DHxFoYv4cxhN9mcGBpr2FH3qNTYw1x6jO5xaMdcyV7EymKD5YpRlOrpcWX/3wafn+24w
+ VZMOP+eH7U5zQkJxnNtJx/7dqTsTi6oitW40A82g+qMGGfGBNXhf1+7Ny0lzDcC6xjTC
+ cQHJSQ0mUDJOLEKdtGX4MgB3d3SedkjTUnaMCS217IjBd/KJT74+uT5SN2SWVw+NwUhm
+ 2Y74PyxJPf4urC4a8eKQuWgp8m/md+QE+/UpytktF4ywh4UdJa609O24i5/vzKuMSe8G
+ wNTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740746408; x=1741351208;
+ d=1e100.net; s=20230601; t=1740746410; x=1741351210;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7pofL3PjyOttZbsi+AAPKYxkRFtjnFNjm+r6OKyU3Jc=;
- b=Je8MOPT9Hs9uhuRskUpkf9MHH0QFjezdKQUA7QYPQUxoq2vDhKz1QbT8vslK4f5Xzt
- qOiYY2Qftex6tyQ6sDSqlRovf0LwzbffxvXAmRXJ77VBKYGthRdYZaGA/vXqD60nM9W0
- M1BAWmmViZkOH2MqltqYjBbJhY7Yu0626k7NKIp1HE1+2qiSIxtvkjO38Pg1+wFy3G18
- T4CsVl/Ggodkn1Ev2/by+wbGe67HGn28WEEvxJlDvq5ZZfTTTgwhKxDrGfqftp/ULaMl
- maDMls8TUq1vkjmd4k2PNFuzkI1knjvqc6VJZsSOp9PJvhMV+P5QFh3MtOzxRmwdK+y7
- 7vbw==
+ bh=ihZxooYknzT0g7MIwrtZdZDoHsnETfvcwFPVB5oE20g=;
+ b=TFUdEcQ5XS/P1EexQak0GvfHvmfYpCu76YH9TBQ5q17pB9YkCwAo1fSIOrJLaAMiRm
+ wef9rrRviwj+QL3CecXK+L04LjRDeP3AeQi9NSOGvEiDdmsyOe7lmx1TloRurmJ9JWMs
+ rITX9whWZJ+nImLzPN4oJAT/T4OXb9JT6v/IFi4nfXxqugoLAkypbF1qcTpiKqC4yb2h
+ 4112ARVYu/tv071Yf9MJ3szFALDYt52o6O1ewfcRGDcGROjeuc/m/lMoenCoCv145scl
+ wdDRHPEZzJZEEnNagY/waUxfBHgVcBF2VkJu3u2XRFUrqNBz+9kY45auydsucoiZBmm6
+ t5Vw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW/AFf4iu8MDpY2dy+/EkG9yXHsj3wBmuPdys28WSBIsb2pMdmaNbD4zjB4QfyIbRjeIgnrRsmXRIY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLuvJT9nhI73NtQG9vfc9Dme+S3/TNF55Fm/j45SW2N9fRRK4W
- l5RiZ3x3E85sxO2oqQzlhXPypSL0DkifgyviYVz7XFK167s3VF+volOzTvtxjItJdghQ1VrYgfe
- Bx1EuJLoI/z6CRA==
-X-Google-Smtp-Source: AGHT+IEB4CLEaJ+qcbV7KVAUJWH8lLFxAEU0yznQEm575/JtfTpZwy4AyFvnI6lctCz2coNH3yp6bCwEPD/9KY0=
-X-Received: from wmbgx24.prod.google.com
- ([2002:a05:600c:8598:b0:439:4366:35c2])
+ AJvYcCUoJFXPzKca++W9NPJYHQTUmKPjk4GgkOhNUFaeVTWTDPB3v5UV8cKMJ6Eek24tbP/SMhbue8vMTPY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9zLjmq8qYk7uKSOfqqs1oEObSiGqBrRDY5tMBkm5ZWakj+WTp
+ mssWiMyR50eC4vPH3XkeukB12Xf6qvjJdd/9PdsVG7VEHkkVsdlQm3H37T8nVMi3PGmepo+ifZL
+ zaoKLz+cPLMj2iA==
+X-Google-Smtp-Source: AGHT+IGMEITDLjU4ASlaZS6GD8Wn7exwSBzOaUHr7x/3v0wRj0xk5+dqwptvCzuTjq4s4FptkTDfbSPgA1O7jVk=
+X-Received: from wmbjg14.prod.google.com
+ ([2002:a05:600c:a00e:b0:439:942c:b180])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a5d:64c8:0:b0:38f:452f:9fa9 with SMTP id
- ffacd0b85a97d-390ec7c999fmr2855371f8f.2.1740746407926; 
- Fri, 28 Feb 2025 04:40:07 -0800 (PST)
-Date: Fri, 28 Feb 2025 12:39:30 +0000
+ 2002:a05:600c:a03:b0:439:9b19:9e2d with SMTP id
+ 5b1f17b1804b1-43ba6702becmr29268005e9.16.1740746410006; 
+ Fri, 28 Feb 2025 04:40:10 -0800 (PST)
+Date: Fri, 28 Feb 2025 12:39:31 +0000
 In-Reply-To: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
 Mime-Version: 1.0
 References: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
  fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2129; i=aliceryhl@google.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3131; i=aliceryhl@google.com; 
  h=from:subject:message-id;
- bh=ZcOD6O+e4opbd5kCSvi62otmJFeNmwXLjRXcW+if/rs=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnwa6gD60PImwfkkxa2KFpiXq9/w2BWpeDHAYuF
- HY9+9v6Jo6JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8GuoAAKCRAEWL7uWMY5
- RlA/D/4xOjjAKDHvotub7uSZH7J7bXp09wrMC83XiONmJ8ooDIBNM40VRIhnD9fsRBHxwRlyWJ2
- Kwti5p3Z3nl4+yLiulPukfaUxTp/Rb3vmImVzX+bcZj4my8iKDQzyA36aQssqbbtH1noQHBC+pG
- Lk4eSHE+kem98SXqPQ6mM+++r5oFHZp7XmddA4VFXjm/RNWheJCcVxddh4pIZaFR0gkCzgKjaoM
- F6ebM3hEUH3i4mk3LT+89cVLV6pUlQ0YeFPIpDmLySdH6qOzv7RPYzVc7D5opfVFo2OkzvUJqah
- eeWLqrufXB1afblwaqI3xSx40Hde+wthgNEmd+wHFJTCM45s+KJNs9q885dspBKBRJSk9qH1qJM
- GM3BDXno6f4+/IlcpjoDqhJxZJiaqLhn6UKP1JRg+YNjvxvmtbaE9zquS5W/zJkF7mr4OvHYzT4
- JTQs3MmMxVtWLjEIpqFUz1sbZFuW1u7QTDUE2xVEtjdupnXBP+dP+geMGIOMK2kHtQOV86Ez2IQ
- OTdEASyuSSy95MldW9457o32AKMWM4/K1TZUlf3XITFOlxrXHn2dzoo6DNZDHS2RejEWdc6kYIU
- UK+N55oBRhryIBOLjNK8l9oNxn+vZ23Bi+oiULFoeSfygjizwNEEZQlxlAhrzXdN3SAlL6I5xNe
- KMISLLVgrNS99XA==
+ bh=2kxCqgatimm9DkO+86c5Mx3XyGNaZZFNb0jwXIeUduQ=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnwa6gi4HcYLwOcjP1+4ywczOPXPU6Ct2zzIOxr
+ Bd2hpe101yJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8GuoAAKCRAEWL7uWMY5
+ RpM/D/4hjhqbZcF9DblDJ2gtwYChZ7TjKidwXbqaZS2uFBN1bIFeweV0YoVoeZcFHADd8cv7bfs
+ Ub11cChO1fW+ZTL0mjSIyMS040tnKhjG6eRgkq2emew0vBTo8K1FVrJYcTQIA0HJMfogwOWexr8
+ oA/kxR+bUlhTOJn1fXdositwbuiBsu+2ZDkkeocob8oFDkfgsGoctAU30UKauDwdE2HNAytT2TS
+ 7eGXelDyCe2HCYBuY7N2f1j/sInwm+eudSi+6jJynDQUg0RNUrGYmTb1zPrX6AZN8jeAMfsegQY
+ zpw3e3lIYu/augysePE1HG95uNFNL9fYvh8jFr72nuLlP7qtpu3/fcB3wpHhxcSkv+lyG9Cpjbu
+ alfvEgF26SVpdND0F5ng4XtNROT/ZLKYOnUPJLHrroAO3N5m0dvhfu1/D164xIzvZymhyeEByiF
+ x3rYz8qQNqJOvypQ2PpcTciMJshzHlraOEoMtpONn7C1Dnk6nG8tSNquB9ffhF9xhY8yGajyNKV
+ uJck4NUgxNadRWg4JrHJS/X5uSChoHCZmqsG0028wjlDhRGu/B3dvBOhRrhFWX4kpVbxTqyK3Os
+ 01jSp9gEmFWSGRJhaJROwxY88GQyKPhXJkqTlFZMyW/lq+4ypr52F/jJcmp3V/S+L9/O5uSKxhJ
+ 0wTtrurvO1EjnWA==
 X-Mailer: b4 0.14.1
-Message-ID: <20250228-export-macro-v2-1-569cc7e8926c@google.com>
-Subject: [PATCH v2 1/5] rust: fix signature of rust_fmt_argument
+Message-ID: <20250228-export-macro-v2-2-569cc7e8926c@google.com>
+Subject: [PATCH v2 2/5] rust: macros: support additional tokens in quote!
 From: Alice Ryhl <aliceryhl@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>
@@ -112,66 +112,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Without this change, the rest of this series will emit the following
-error message:
+This gives the quote! macro support for the following additional tokens:
 
-error[E0308]: `if` and `else` have incompatible types
-  --> <linux>/rust/kernel/print.rs:22:22
-   |
-21 | #[export]
-   | --------- expected because of this
-22 | unsafe extern "C" fn rust_fmt_argument(
-   |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
-   |
-   = note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
-              found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *const c_void) -> *mut i8 {print::rust_fmt_argument}`
+* The = token.
+* The _ token.
+* Using #my_var with variables of type Ident.
 
-The error may be different depending on the architecture.
+Additionally, some type annotations are added to allow cases where
+groups are empty. For example, quote! does support () in the input, but
+only when it is *not* empty. When it is empty, the compiler cannot infer
+the item type of `tokens`.
 
-To fix this, change the void pointer argument to use a const pointer,
-and change the imports to use crate::ffi instead of core::ffi for
-integer types.
+These additional quote! features are used by a new proc macro that
+generates code looking like this:
 
-Fixes: 787983da7718 ("vsprintf: add new `%pA` format specifier")
+	const _: () = {
+	    if true {
+	        ::kernel::bindings::#name
+	    } else {
+	        #name
+	    };
+	};
+
+where #name has type Ident.
+
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- lib/vsprintf.c       | 2 +-
- rust/kernel/print.rs | 7 +++----
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ rust/macros/quote.rs | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 56fe96319292..a8ac4c4fffcf 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -2285,7 +2285,7 @@ int __init no_hash_pointers_enable(char *str)
- early_param("no_hash_pointers", no_hash_pointers_enable);
+diff --git a/rust/macros/quote.rs b/rust/macros/quote.rs
+index 33a199e4f176..c18960a91082 100644
+--- a/rust/macros/quote.rs
++++ b/rust/macros/quote.rs
+@@ -20,6 +20,12 @@ fn to_tokens(&self, tokens: &mut TokenStream) {
+     }
+ }
  
- /* Used for Rust formatting ('%pA'). */
--char *rust_fmt_argument(char *buf, char *end, void *ptr);
-+char *rust_fmt_argument(char *buf, char *end, const void *ptr);
- 
- /*
-  * Show a '%p' thing.  A kernel extension is that the '%p' is followed
-diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
-index b19ee490be58..61ee36c5e5f5 100644
---- a/rust/kernel/print.rs
-+++ b/rust/kernel/print.rs
-@@ -6,12 +6,11 @@
- //!
- //! Reference: <https://docs.kernel.org/core-api/printk-basics.html>
- 
--use core::{
-+use crate::{
-     ffi::{c_char, c_void},
--    fmt,
-+    str::RawFormatter,
- };
--
--use crate::str::RawFormatter;
-+use core::fmt;
- 
- // Called from `vsprintf` with format specifier `%pA`.
- #[expect(clippy::missing_safety_doc)]
++impl ToTokens for proc_macro::Ident {
++    fn to_tokens(&self, tokens: &mut TokenStream) {
++        tokens.extend([TokenTree::from(self.clone())]);
++    }
++}
++
+ impl ToTokens for TokenTree {
+     fn to_tokens(&self, tokens: &mut TokenStream) {
+         tokens.extend([self.clone()]);
+@@ -40,7 +46,7 @@ fn to_tokens(&self, tokens: &mut TokenStream) {
+ /// `quote` crate but provides only just enough functionality needed by the current `macros` crate.
+ macro_rules! quote_spanned {
+     ($span:expr => $($tt:tt)*) => {{
+-        let mut tokens;
++        let mut tokens: ::std::vec::Vec<::proc_macro::TokenTree>;
+         #[allow(clippy::vec_init_then_push)]
+         {
+             tokens = ::std::vec::Vec::new();
+@@ -65,7 +71,8 @@ macro_rules! quote_spanned {
+         quote_spanned!(@proc $v $span $($tt)*);
+     };
+     (@proc $v:ident $span:ident ( $($inner:tt)* ) $($tt:tt)*) => {
+-        let mut tokens = ::std::vec::Vec::new();
++        #[allow(unused_mut)]
++        let mut tokens = ::std::vec::Vec::<::proc_macro::TokenTree>::new();
+         quote_spanned!(@proc tokens $span $($inner)*);
+         $v.push(::proc_macro::TokenTree::Group(::proc_macro::Group::new(
+             ::proc_macro::Delimiter::Parenthesis,
+@@ -136,6 +143,16 @@ macro_rules! quote_spanned {
+         ));
+         quote_spanned!(@proc $v $span $($tt)*);
+     };
++    (@proc $v:ident $span:ident = $($tt:tt)*) => {
++        $v.push(::proc_macro::TokenTree::Punct(
++                ::proc_macro::Punct::new('=', ::proc_macro::Spacing::Alone)
++        ));
++        quote_spanned!(@proc $v $span $($tt)*);
++    };
++    (@proc $v:ident $span:ident _ $($tt:tt)*) => {
++        $v.push(::proc_macro::TokenTree::Ident(::proc_macro::Ident::new("_", $span)));
++        quote_spanned!(@proc $v $span $($tt)*);
++    };
+     (@proc $v:ident $span:ident $id:ident $($tt:tt)*) => {
+         $v.push(::proc_macro::TokenTree::Ident(::proc_macro::Ident::new(stringify!($id), $span)));
+         quote_spanned!(@proc $v $span $($tt)*);
 
 -- 
 2.48.1.711.g2feabab25a-goog
