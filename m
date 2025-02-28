@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3833A4A4C2
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 22:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A54A4A4C3
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 22:15:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCDCD10ED4E;
-	Fri, 28 Feb 2025 21:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD1CE10ED52;
+	Fri, 28 Feb 2025 21:15:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GYMhQRa4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bqkLPLOB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07ED710ED4A;
- Fri, 28 Feb 2025 21:15:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56D9910ED50;
+ Fri, 28 Feb 2025 21:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740777309; x=1772313309;
+ t=1740777312; x=1772313312;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=l7oCQFTV7k8lDDCRxbk6zzQ6EefvDW8p6MzecEeSw24=;
- b=GYMhQRa4V2xnsr1wLoAEKpfJoscMuBdE3ZhyN4hhNWnxBCt1E6tFvIdC
- XMUQuPonc+5ieDK+RZo+PS2XpgLhxBt3+0u15BbQDn2maWCqhLrXpGsuN
- qQfjva/ns2IZ4tTulBut5OiQi1Ck2PQLfxrmIA1muB4itG/tcp+8A2XMU
- C5pufZv8CONx99axeGzoaDaOb+GhqvMZmeJ9i3Qk8FIaHiCQs5xg8poxh
- op/JwImpNZMqU+BcuQZUaNqMFU7gf1l2gsl4AMHx1JHOIUu56YnsTiEGn
- CEi6N35AMggajSJ6b2MxSUaT2Soo0oiYdI14C8aBRDArbsn8WpnDyNq1K Q==;
-X-CSE-ConnectionGUID: Ov4rvku/R7WxNbRH4z7NNQ==
-X-CSE-MsgGUID: Y2lfYuuyTZKZ6pohDDqk7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52352313"
-X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="52352313"
+ bh=LwDPpP/Od2VODLPdCVQtTN3jJru5UTC3AM6y89UOVaQ=;
+ b=bqkLPLOBFeqixni9iBgoqj9GK07NJAXVwIM5Fxq9vOE0QrvS6J8EQZAX
+ YrorT6bsB/iG38xC3r2xL+nFiSJqzDoIxh+Op3nG+8rnCTNzIF6C36qsI
+ oAKIScb7Xbc62ySWKd9beHdbMVT8YLNlWUoDOPzslOsTT7xgYEwbIPTYV
+ NDMJg1HX1XsrX5cqG4GWLtgAMc/wgAb2kQnRzp1V0Y4/nZzZ5JwZA/+e2
+ 8fZfzf46EgnzK4PCdZYJuj/GPcgjBypb70LbHGMnDI4UDA+2a2yw/b3pQ
+ yrYWmsQ1WXAwtQJVjIm2uvnfHsg+YbxoFmPWDUuib/sCbO3OG9eVgWNqL A==;
+X-CSE-ConnectionGUID: +8slSLHMROCtJOAjQOGUug==
+X-CSE-MsgGUID: kIwgSulqSumIaKzgroyOsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52352322"
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="52352322"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 13:15:09 -0800
-X-CSE-ConnectionGUID: ItdpcqhXRlWt6o2ePwUpqA==
-X-CSE-MsgGUID: 8w5xE7GlRpirmkQZdBTuiw==
+ 28 Feb 2025 13:15:12 -0800
+X-CSE-ConnectionGUID: o4ozXOPtRQqfPKpKYg7txQ==
+X-CSE-MsgGUID: DhmMuzlRS8i7rvs9PG78CQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="122684836"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="122684867"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 28 Feb 2025 13:15:06 -0800
+ by orviesa005.jf.intel.com with SMTP; 28 Feb 2025 13:15:10 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 28 Feb 2025 23:15:05 +0200
+ Fri, 28 Feb 2025 23:15:08 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 3/8] drm/client: Streamline mode selection debugs
-Date: Fri, 28 Feb 2025 23:14:49 +0200
-Message-ID: <20250228211454.8138-4-ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 4/8] drm/client: Make copies of modes
+Date: Fri, 28 Feb 2025 23:14:50 +0200
+Message-ID: <20250228211454.8138-5-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.3
 In-Reply-To: <20250228211454.8138-1-ville.syrjala@linux.intel.com>
 References: <20250228211454.8138-1-ville.syrjala@linux.intel.com>
@@ -72,166 +71,198 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Get rid of all the redundant debugs and just wait until the end
-to print which mode (and of which type) we picked.
+drm_client_firmware_config() is currently picking up the current
+mode of the crtc via the legacy crtc->mode, which is not supposed
+to be used by atomic drivers at all. We can't simply switch over
+to the proper crtc->state->mode because we drop the crtc->mutex
+(which protects crtc->state) before the mode gets used.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+The most straightforward solution to extend the lifetime of
+modes[] seem to be to make full copies of the modes.
+
+And with this we can undo also commit 3eadd887dbac
+("drm/client:Fully protect modes[] with dev->mode_config.mutex")
+as the lifetime of modes[] no longer has anything to do with
+that lock.
+
+v2: Don't try to copy NULL modes
+v3: Keep storing pointers and use drm_mode_{duplicate,destroy}()
+
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_client_modeset.c | 70 +++++++++++++---------------
- 1 file changed, 33 insertions(+), 37 deletions(-)
+ drivers/gpu/drm/drm_client_modeset.c | 62 +++++++++++++++++++++-------
+ 1 file changed, 47 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index bdd4078e62ad..148257287ae4 100644
+index 148257287ae4..ff034359f063 100644
 --- a/drivers/gpu/drm/drm_client_modeset.c
 +++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -408,6 +408,8 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+@@ -265,6 +265,25 @@ static void drm_client_connectors_enabled(struct drm_connector *connectors[],
+ 		enabled[i] = drm_connector_enabled(connectors[i], false);
+ }
  
- retry:
++static void mode_replace(struct drm_device *dev,
++			 const struct drm_display_mode **dst,
++			 const struct drm_display_mode *src)
++{
++	drm_mode_destroy(dev, (struct drm_display_mode *)*dst);
++
++	*dst = src ? drm_mode_duplicate(dev, src) : NULL;
++}
++
++static void modes_destroy(struct drm_device *dev,
++			  const struct drm_display_mode *modes[],
++			  int count)
++{
++	int i;
++
++	for (i = 0; i < count; i++)
++		mode_replace(dev, &modes[i], NULL);
++}
++
+ static bool drm_client_target_cloned(struct drm_device *dev,
+ 				     struct drm_connector *connectors[],
+ 				     unsigned int connector_count,
+@@ -296,7 +315,9 @@ static bool drm_client_target_cloned(struct drm_device *dev,
  	for (i = 0; i < connector_count; i++) {
-+		const char *mode_type;
+ 		if (!enabled[i])
+ 			continue;
+-		modes[i] = drm_connector_pick_cmdline_mode(connectors[i]);
 +
- 		connector = connectors[i];
- 
- 		if (conn_configured & BIT_ULL(i))
-@@ -441,20 +443,20 @@ static bool drm_client_target_preferred(struct drm_device *dev,
- 						    modes, offsets, i,
- 						    connector->tile_h_loc, connector->tile_v_loc);
- 		}
--		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] looking for cmdline mode\n",
--			    connector->base.id, connector->name);
- 
--		/* got for command line mode first */
-+		mode_type = "cmdline";
- 		modes[i] = drm_connector_pick_cmdline_mode(connector);
-+
++		mode_replace(dev, &modes[i],
++			     drm_connector_pick_cmdline_mode(connectors[i]));
  		if (!modes[i]) {
--			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] looking for preferred mode, tile %d\n",
--				    connector->base.id, connector->name,
--				    connector->tile_group ? connector->tile_group->id : 0);
-+			mode_type = "preferred";
- 			modes[i] = drm_connector_preferred_mode(connector, width, height);
+ 			can_clone = false;
+ 			break;
+@@ -335,7 +356,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+ 					   DRM_MODE_MATCH_CLOCK |
+ 					   DRM_MODE_MATCH_FLAGS |
+ 					   DRM_MODE_MATCH_3D_FLAGS))
+-				modes[i] = mode;
++				mode_replace(dev, &modes[i], mode);
  		}
--		/* No preferred modes, pick one off the list */
--		if (!modes[i])
-+
-+		if (!modes[i]) {
-+			mode_type = "first";
- 			modes[i] = drm_connector_first_mode(connector);
-+		}
-+
+ 		if (!modes[i])
+ 			can_clone = false;
+@@ -445,16 +466,19 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+ 		}
+ 
+ 		mode_type = "cmdline";
+-		modes[i] = drm_connector_pick_cmdline_mode(connector);
++		mode_replace(dev, &modes[i],
++			     drm_connector_pick_cmdline_mode(connector));
+ 
+ 		if (!modes[i]) {
+ 			mode_type = "preferred";
+-			modes[i] = drm_connector_preferred_mode(connector, width, height);
++			mode_replace(dev, &modes[i],
++				     drm_connector_preferred_mode(connector, width, height));
+ 		}
+ 
+ 		if (!modes[i]) {
+ 			mode_type = "first";
+-			modes[i] = drm_connector_first_mode(connector);
++			mode_replace(dev, &modes[i],
++				     drm_connector_first_mode(connector));
+ 		}
+ 
  		/*
- 		 * In case of tiled mode if all tiles not present fallback to
- 		 * first available non tiled mode.
-@@ -469,18 +471,22 @@ static bool drm_client_target_preferred(struct drm_device *dev,
- 			    (connector->tile_h_loc == 0 &&
+@@ -472,10 +496,12 @@ static bool drm_client_target_preferred(struct drm_device *dev,
  			     connector->tile_v_loc == 0 &&
  			     !drm_connector_get_tiled_mode(connector))) {
--				drm_dbg_kms(dev,
--					    "[CONNECTOR:%d:%s] Falling back to non-tiled mode\n",
--					    connector->base.id, connector->name);
-+				mode_type = "non tiled";
- 				modes[i] = drm_connector_fallback_non_tiled_mode(connector);
+ 				mode_type = "non tiled";
+-				modes[i] = drm_connector_fallback_non_tiled_mode(connector);
++				mode_replace(dev, &modes[i],
++					     drm_connector_fallback_non_tiled_mode(connector));
  			} else {
-+				mode_type = "tiled";
- 				modes[i] = drm_connector_get_tiled_mode(connector);
+ 				mode_type = "tiled";
+-				modes[i] = drm_connector_get_tiled_mode(connector);
++				mode_replace(dev, &modes[i],
++					     drm_connector_get_tiled_mode(connector));
  			}
  		}
  
--		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Found mode %s\n",
--			    connector->base.id, connector->name,
--			    modes[i] ? modes[i]->name : "none");
-+		if (modes[i])
-+			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] found %s mode: %s\n",
-+				    connector->base.id, connector->name,
-+				    mode_type, modes[i]->name);
-+		else
-+			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] no mode found\n",
-+				    connector->base.id, connector->name);
-+
- 		conn_configured |= BIT_ULL(i);
- 	}
- 
-@@ -627,6 +633,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
- 		struct drm_connector *connector;
- 		struct drm_encoder *encoder;
- 		struct drm_crtc *new_crtc;
-+		const char *mode_type;
- 
- 		connector = connectors[i];
- 
-@@ -676,30 +683,22 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
- 		 */
- 		for (j = 0; j < count; j++) {
- 			if (crtcs[j] == new_crtc) {
--				drm_dbg_kms(dev, "fallback: cloned configuration\n");
-+				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] fallback: cloned configuration\n",
-+					    connector->base.id, connector->name);
- 				goto bail;
- 			}
+@@ -690,16 +716,19 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
  		}
  
--		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] looking for cmdline mode\n",
--			    connector->base.id, connector->name);
--
--		/* go for command line mode first */
-+		mode_type = "cmdline";
- 		modes[i] = drm_connector_pick_cmdline_mode(connector);
+ 		mode_type = "cmdline";
+-		modes[i] = drm_connector_pick_cmdline_mode(connector);
++		mode_replace(dev, &modes[i],
++			     drm_connector_pick_cmdline_mode(connector));
  
--		/* try for preferred next */
  		if (!modes[i]) {
--			drm_dbg_kms(dev,
--				    "[CONNECTOR:%d:%s] looking for preferred mode, has tile: %s\n",
--				    connector->base.id, connector->name,
--				    str_yes_no(connector->has_tile));
-+			mode_type = "preferred";
- 			modes[i] = drm_connector_preferred_mode(connector, width, height);
+ 			mode_type = "preferred";
+-			modes[i] = drm_connector_preferred_mode(connector, width, height);
++			mode_replace(dev, &modes[i],
++				     drm_connector_preferred_mode(connector, width, height));
  		}
  
--		/* No preferred mode marked by the EDID? Are there any modes? */
--		if (!modes[i] && !list_empty(&connector->modes)) {
--			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] using first listed mode\n",
--				    connector->base.id, connector->name);
-+		if (!modes[i]) {
-+			mode_type = "first";
- 			modes[i] = drm_connector_first_mode(connector);
+ 		if (!modes[i]) {
+ 			mode_type = "first";
+-			modes[i] = drm_connector_first_mode(connector);
++			mode_replace(dev, &modes[i],
++				     drm_connector_first_mode(connector));
  		}
  
-@@ -716,28 +715,25 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
- 			 * This is crtc->mode and not crtc->state->mode for the
+ 		/* last resort: use current mode */
+@@ -716,7 +745,8 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
  			 * fastboot check to work correctly.
  			 */
--			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] looking for current mode\n",
--				    connector->base.id, connector->name);
-+			mode_type = "current";
- 			modes[i] = &connector->state->crtc->mode;
+ 			mode_type = "current";
+-			modes[i] = &connector->state->crtc->mode;
++			mode_replace(dev, &modes[i],
++				     &connector->state->crtc->mode);
  		}
-+
+ 
  		/*
- 		 * In case of tiled modes, if all tiles are not present
- 		 * then fallback to a non tiled mode.
- 		 */
+@@ -726,7 +756,8 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
  		if (connector->has_tile &&
  		    num_tiled_conns < connector->num_h_tile * connector->num_v_tile) {
--			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Falling back to non-tiled mode\n",
--				    connector->base.id, connector->name);
-+			mode_type = "non tiled";
- 			modes[i] = drm_connector_fallback_non_tiled_mode(connector);
+ 			mode_type = "non tiled";
+-			modes[i] = drm_connector_fallback_non_tiled_mode(connector);
++			mode_replace(dev, &modes[i],
++				     drm_connector_fallback_non_tiled_mode(connector));
  		}
  		crtcs[i] = new_crtc;
  
--		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] on [CRTC:%d:%s]: %dx%d%s\n",
-+		drm_dbg_kms(dev, "[CONNECTOR::%d:%s] on [CRTC:%d:%s] using %s mode: %s\n",
- 			    connector->base.id, connector->name,
--			    connector->state->crtc->base.id,
--			    connector->state->crtc->name,
--			    modes[i]->hdisplay, modes[i]->vdisplay,
--			    modes[i]->flags & DRM_MODE_FLAG_INTERLACE ? "i" : "");
-+			    new_crtc->base.id, new_crtc->name,
-+			    mode_type, modes[i]->name);
+@@ -798,7 +829,6 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 	unsigned int total_modes_count = 0;
+ 	struct drm_client_offset *offsets;
+ 	unsigned int connector_count = 0;
+-	/* points to modes protected by mode_config.mutex */
+ 	const struct drm_display_mode **modes;
+ 	struct drm_crtc **crtcs;
+ 	int i, ret = 0;
+@@ -850,7 +880,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
  
- 		fallback = false;
- 		conn_configured |= BIT(i);
+ 	if (!drm_client_firmware_config(client, connectors, connector_count, crtcs,
+ 					modes, offsets, enabled, width, height)) {
+-		memset(modes, 0, connector_count * sizeof(*modes));
++		modes_destroy(dev, modes, connector_count);
+ 		memset(crtcs, 0, connector_count * sizeof(*crtcs));
+ 		memset(offsets, 0, connector_count * sizeof(*offsets));
+ 
+@@ -867,6 +897,8 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 				      crtcs, modes, 0, width, height);
+ 	}
+ 
++	mutex_unlock(&dev->mode_config.mutex);
++
+ 	drm_client_modeset_release(client);
+ 
+ 	for (i = 0; i < connector_count; i++) {
+@@ -901,11 +933,11 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 			modeset->y = offset->y;
+ 		}
+ 	}
+-	mutex_unlock(&dev->mode_config.mutex);
+ 
+ 	mutex_unlock(&client->modeset_mutex);
+ out:
+ 	kfree(crtcs);
++	modes_destroy(dev, modes, connector_count);
+ 	kfree(modes);
+ 	kfree(offsets);
+ 	kfree(enabled);
 -- 
 2.45.3
 
