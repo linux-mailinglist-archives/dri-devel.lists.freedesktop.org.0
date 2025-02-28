@@ -2,130 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88130A490F4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 06:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3C8A49130
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 06:53:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0705110EC09;
-	Fri, 28 Feb 2025 05:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B5D10EC0A;
+	Fri, 28 Feb 2025 05:53:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="U6qxqz4v";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="UoGPYHvc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2082.outbound.protection.outlook.com [40.107.243.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD7F10EC0C
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 05:37:56 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2054.outbound.protection.outlook.com [40.107.244.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70F210EC0A;
+ Fri, 28 Feb 2025 05:53:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RqqLbdKsWoIIYt0ZpMebq9l740CABzrEUtrXcAyrpelfbA4cLuA+bmyytfX16iQxUSgcG0EWywpf/Hxl2VYs6Xij4Ty4saCDFL8h6Rp9xaKiqlWDK1uUwsuFP0wkuhSEJi/K16hPHXvSWiAlJZ6elX+DlNJ4wUbfwyOimWWhuZcNQbvnT+yBPBn483cNBqbXF1VqSu/F4bRtbl7rDPOA7C2bs2hLRFAOhAZwHipdL01Fm/5n84doqd45lwmafXRjIrzc8Rhu1puMq0lR8cZD30UUR7IVT9dgREGqMhzjEsYdYjuHUSjCvyufs2k72nOktmECrcsygB46GMWt2NSu6Q==
+ b=j4G+ztzRcW4BhqZaHu5mT1MWXnWFLE5MLXGr3qy/GCXWoasEMBbomW+v3SRu8bi1zePd155x/N+VkVnSIxwbfJiqFINVXHRl6x6SDjf3hVaWVYM1use+l2o7NIv03cCGhk/NedjsOpNuExdO0qxDQuYlZf7sX+r3ZIxrJgmYExj420t58vog3ZhZ2BdjgHzU674bN+hcAalJ6JTKmRb2GVvqBwF+PIw/z28Fqyl3boaKe6ud4YLuqoSzh9DYRiwI4ZnLJGb9vK+SwJnceofPhnwEKTZy4gNNntnl6ATscAVKFKDKti0O6p2s3rGaeeapXM0oqEgvpmfOLxhKjqQK7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IENX2icIAE/2alZm2gjaUEnCoOPizoTbRyZf94wWu4w=;
- b=cZbTMDNqCBCa16bN6KgMFFbWGEVxzgSWzYr35FvoWoZ9JAe3c0FSqM00451u5DPOj3vnVGAcCy2Kb62B1nQEECBtSxUn0gYYAh0HNchFcMx3Nw+6wQ8mZKKmvj8kxs7vqxb2fNZCNNAkntvpKkWUogazi5CgimIx9bpswHFSh+Z1qRIjELSzgI6KtF4XRp66sqoXlH+HAaLzU07UHzoPfhEKn1Z5VQW1D3jk5uMYLvRdnqmzVZZQT2A/axxrqXcVSBLO9t8bAtVpyR5KF6qLUwYAwktYO39qjXZcmX8SPJrWavpNJRwbvTeNKNVmSME/HIFy307Mp2+ko5CGYijAwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=f5Zd+kswfVNIa1a77GpdFaGNUmI0IHfcrjCuUiUOtI4=;
+ b=PARv5imqzi0gcmyPXBKE/zFwuF8SkCSUJYqJFUk4iVVOQ4iLcljX5ntLtsIXFNiL48htJuOtJUl1w9PDeYwUAjOOn0KkSmkc6BWToF41Rab3oxr0OTjqm9Hn/ju/LNgbFoVeMdFXYbgE3z3WM2RfSKMcUn97QKbou5VdYuDs7OaA4sw0FuwkP4Bvn5TOBa8gRL6jifH1ibAhXo/PsGPF6u4fMt4Eja5qzlaUZ0VPr9OrxsReSOEErYZdTHvkN15erF+aHnBqn9YdcTtdJ0nhT04Bxmab4HEU8ErbuALpNFSyZptV4lHk0nkloSHOjqF4ZI6/1N2VevDZQiM60+r+XA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IENX2icIAE/2alZm2gjaUEnCoOPizoTbRyZf94wWu4w=;
- b=U6qxqz4v+f2f9bU0Ar0PK1Ap2xsslSCXr3JuF6dzvPAqa3naJB/HP14c+VDFf2fBQM9mVb+6bIsHp1BcOMlPBjq2Anj6QLtrVmGYD38cGkIr6xtxMqCOGMEXY1yIor5Kks0gqa/1z4H65YSKgZlrfKRnvor1pPvqmujvpN/cono=
-Received: from BN9PR03CA0181.namprd03.prod.outlook.com (2603:10b6:408:f9::6)
- by DM6PR12MB4204.namprd12.prod.outlook.com (2603:10b6:5:212::23) with
+ bh=f5Zd+kswfVNIa1a77GpdFaGNUmI0IHfcrjCuUiUOtI4=;
+ b=UoGPYHvcqYvP7Op7cglDr+5x+3yHvEPaYOF+FnhhVNqCbxmm5M6PZkrYhp3WTatTVgQAPUJ1op0cHcHBzPfqDT8+xYcRB4OzIUA4sPwsnm9lSPmCfkNjnprWYxT33nloBTJDkuw36KgYh/synql4VdeUHGZGio7yXzjN8nACNFuG19fwWc9OXyuWZ9riY5JE9MonAa/iKv7XD+VSrUeYVHK5Cf3IyA7VQJga/8VSj17Bi40MRxL0VR3JQumocm15D29fjraKwitJzuseYBscDUXY2dC7McdwN0wJuJV2pN7/zsV7Uz/SSHSX5i9ABZHC6DzZiFZuIkl5Z1q1iG0gAw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ SJ0PR12MB6734.namprd12.prod.outlook.com (2603:10b6:a03:478::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.23; Fri, 28 Feb
- 2025 05:37:52 +0000
-Received: from BN3PEPF0000B071.namprd04.prod.outlook.com
- (2603:10b6:408:f9:cafe::23) by BN9PR03CA0181.outlook.office365.com
- (2603:10b6:408:f9::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8489.23 via Frontend Transport; Fri,
- 28 Feb 2025 05:37:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B071.mail.protection.outlook.com (10.167.243.116) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8489.16 via Frontend Transport; Fri, 28 Feb 2025 05:37:51 +0000
-Received: from jenkins-honglei.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 27 Feb
- 2025 23:37:47 -0600
-From: Honglei Huang <honglei1.huang@amd.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter
- <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>, Huang Rui
- <ray.huang@amd.com>
-CC: <dri-devel@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, Demi Marie Obenour <demiobenour@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, Honglei Huang
- <Honglei1.Huang@amd.com>
-Subject: [PATCH v1 7/7] drm/virtio: implement userptr: add mmu notifier
-Date: Fri, 28 Feb 2025 13:36:50 +0800
-Message-ID: <20250228053650.393646-8-honglei1.huang@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250228053650.393646-1-honglei1.huang@amd.com>
-References: <20250228053650.393646-1-honglei1.huang@amd.com>
-MIME-Version: 1.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Fri, 28 Feb
+ 2025 05:53:15 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8489.018; Fri, 28 Feb 2025
+ 05:53:15 +0000
+Date: Fri, 28 Feb 2025 16:53:11 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ himal.prasad.ghimiray@intel.com, airlied@gmail.com,
+ thomas.hellstrom@linux.intel.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Subject: Re: [PATCH v6 32/32] drm/doc: gpusvm: Add GPU SVM documentation
+Message-ID: <7vzwp4ouidxfoyu2qehkezy56tt52e4vjbthr6cc4ezr5iaw7b@plxyy7hf46dm>
+References: <20250225044311.3178695-1-matthew.brost@intel.com>
+ <20250225044311.3178695-33-matthew.brost@intel.com>
+ <cnt7o3wvgv37cfxsdothxv6agwi7nkqfqn37mafsyhl64h4lnv@rw7rbaha3au4>
+ <Z8E9U7u8uV8rOlTO@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
+In-Reply-To: <Z8E9U7u8uV8rOlTO@lstrano-desk.jf.intel.com>
+X-ClientProxiedBy: SY5P282CA0028.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:202::14) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B071:EE_|DM6PR12MB4204:EE_
-X-MS-Office365-Filtering-Correlation-Id: b945154c-cc7e-4018-6603-08dd57ba0b16
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|SJ0PR12MB6734:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0da15dae-23e1-4d90-bb35-08dd57bc316a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|36860700013|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DApX7MH1Wn0I5WArArp4V6jKBe5V/M3594Gp81ojVS0cNoIM+gmruHhBKb47?=
- =?us-ascii?Q?H5/YyBfHWVC1m/eGoakuWMKQRIxC6CWAOTjP1F16z1pWxgidS9ctG3Ulya9V?=
- =?us-ascii?Q?ih8jEQDR64y8BBkEEahCdmiI9gHWgrBgsBWGkag08DzDhMJu157DdS5PAuJo?=
- =?us-ascii?Q?KWueVU3uh6CiXI59OFppV31ixDstT7OBODfY8qV+cdXw0DrWzh4urECJ00nA?=
- =?us-ascii?Q?9XwXgpY0oPzEm1u443dPtuuMCD5jyPHcvK1EjKGC6GRDW85Z4btmHJaYur1f?=
- =?us-ascii?Q?s3uIWG3yt/jmv5c8VWuCdIF4aKm/Not+kV1VWMwDK6hQ76OMCL/zlcjf5diX?=
- =?us-ascii?Q?FRixK7dXBJkLJWeMVt5vJinidqD6epib74Zjsjr7uvittjg0YxpLUzghK57K?=
- =?us-ascii?Q?2LzFA5SVZj3pISTujoM3oJkSV4kG0DdU0VmK/aXl5Ig8NI5vpg+VlVvCxs8u?=
- =?us-ascii?Q?+zf9Yv/aTh+loTuscMFdB7GAPwE0WqgAtronCWHn5T8BYRXoIQsUEbF2RLmp?=
- =?us-ascii?Q?eVKqGu7+D9JOYHWK9F9k635xzF/GtbdccSy1gwEiVnH+thLW2VZ2mVvqKeeb?=
- =?us-ascii?Q?gSUlBW/f2oWVMFxJV46+CD1KEij9MF9oqQShhxWVG6wa8vGj2X/kOym6KCbg?=
- =?us-ascii?Q?jOJ5fq7gRhSRANy4BRFdONj6qZCSxTJf++28qT0m417TCP6uC7eOVEsSSBrT?=
- =?us-ascii?Q?eBho+Igwjh1A5hXgzxRHEERm+pVqTCIUsWmRGTtW8Xsj4XdCxdGXHJoclVYu?=
- =?us-ascii?Q?KqElri+665AaPd0nxAw+bAQnSkT2vT+XWIwUCP8pqHLyEqT7/86Is3Xlsf1w?=
- =?us-ascii?Q?qfwH7UX9gFzfTvxvoRJ9y0cHXd65yBNV+2E/w6DF8ZsMBnpHk46pcF8S24Ym?=
- =?us-ascii?Q?lK7jaT4QRIr4xJGdMcPhURGM324r+XoCH5kUTWji2CHxPK89IeBZ8jjjg3VU?=
- =?us-ascii?Q?8GbLvKE1/T2QJRth1CCubIohiTRtxkWspclAAueEdUY/0Ep2legsEs+WFYiD?=
- =?us-ascii?Q?I6oElJP0K/f8Ux++MO5wfg5pd8+uN0eP+wsOjwErTtcUF6FDinGt1e50o/Un?=
- =?us-ascii?Q?XBMy7MRK272Zz+RNog0YW/OyFRY7TQ0Fu4gW/1qOB8QTYaCL7pbH6mTmeTT8?=
- =?us-ascii?Q?ubywRIGS/qU0aWSHhHUkWTtjr13+8T+4AEngJm1j5BrYiozXGrfVMdlvFiav?=
- =?us-ascii?Q?N4+lnwP/9A6Y5+E3Yyd+XmCrbBGBjizoB8BU8I0vLd16WClSBDeKGx9tHDWg?=
- =?us-ascii?Q?9kqd4bBfFlsyQ82K7mDasvcVu2/jhXdXPeurShRLkwIOpvfuCEzTV6mm7O9M?=
- =?us-ascii?Q?MMPfkwdeZhD4393Mk9g8134/jYKmbqXMOQu1HRTnODcCBRa/PxejWgonFJQh?=
- =?us-ascii?Q?b/0+1O76kONM6aL/61464UYsuV9KGiNZ/AE/ISGCgxh/1kol6pmrq9F9nqEw?=
- =?us-ascii?Q?Pn63kgQ1KqymfMlNMrV1PxEuENN+nDCvz5XcVxi43xXRliYTP/Ev7RctkkZs?=
- =?us-ascii?Q?PdI1GB8xooxhtJjWWUww1pUAEgP3wpUdzDho?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(36860700013)(7416014)(376014)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2025 05:37:51.7560 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b945154c-cc7e-4018-6603-08dd57ba0b16
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B071.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4204
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SXFFdFZPcktna1gxLzhSS1pLN0dFeW9TQzd3S0VXRy83YWwzNm1zNFd2ZHF6?=
+ =?utf-8?B?R0laZ3lFV2MrcGh0YTBQdHd3SmcybEo2eVdtYmZRL1lCMWZzVC85TVMrSGV1?=
+ =?utf-8?B?aU9STWhwU2hFbjFLMVhDYUEwRzVEVDVKZWdKYnBFY0VWbDhUN3ZUUWNmeTJ1?=
+ =?utf-8?B?RWF6Y0Z2aFJmQUtjdlJZTWdVN3BiMXZ0cUJ0SGUzWmlJMmxkbU45TUQza2pr?=
+ =?utf-8?B?bS9TMVMzU085VDlOOEcwTEZCOFQ4VVZWY2QxOWxWVXFQMzVPNmo2bVlEMkl0?=
+ =?utf-8?B?M2NsbHZQUEZFNXBGeTB1U0xrb2FoUDEzNDdGYldkVXJzcDlYU0cwT0RGWTR3?=
+ =?utf-8?B?dmo3YmtYWDI1Zm9aYnc3alhOTVJubyt3QjhXSGlQWGZ2NzFBUytUekJqYXdU?=
+ =?utf-8?B?MW13bmxuOGdpQXQrbElyR25XN1V2V2NLbm9OZitzWkJJeERhSjlMQ01iYnlp?=
+ =?utf-8?B?WnZNQTZUMFBEL2pSWnNjbzVSakFXQm80cWZsbFZKRzNHQ3FBdkRrS0loNTF6?=
+ =?utf-8?B?VDI1VkV3Y1BHb1lRcXB1OE9jcFQzc1JOSEJEcU1keitiTENKdUZXL0J3TERU?=
+ =?utf-8?B?cDdMVk8wSzVzUEt6UTdqclN6T08wQ2wrWCtIM1d3M3gxeGlidWRVRlJoakFs?=
+ =?utf-8?B?dkhDb3oyc0tKY0tGbWNJNHRRZVdldFdUM1AxZGtvdGc0N3RDNjZ4U2x1Nm5U?=
+ =?utf-8?B?RzI1Q21aSHhNZW9HeTNEWTIvZTYrOUV3V25jbkF1bnFWdjVPY2RIZjZ0UHpJ?=
+ =?utf-8?B?WU9WQUpiTkZCbzY1L3pjL21xOW92VEhVcTU0SHo3emwwUDg5clJsSHhqcWd6?=
+ =?utf-8?B?OUNFeHBnZ2ZKYUNYK01JL1plMVpBK05SM0NIaEhBdU1DQzZUZkZXU0c0TFEw?=
+ =?utf-8?B?WDh3M1gzSzNFTlNveE5OMXlyQmp2RDBNNndqUmsybmVOQ1BNeFdiS2kxUy96?=
+ =?utf-8?B?T2U2a05oQlhMeHY1RUFUVFNPMGNYeVAwNXRRN2o5TVZLU2MwUFdSZkVxQWRU?=
+ =?utf-8?B?YTE1UnlkK0FyYTloL2NETEpWS0RjNElWY3VlMDlzTlpJOTQvdGhiWmRzSnBL?=
+ =?utf-8?B?aW5MbS9TUS95VDNtbm5CaVdUdFU0RndDWE1nU0psdUhQS3hoaDZWUENaR3o2?=
+ =?utf-8?B?Vk15d1g5VGxJK09VakhobDUyZFZnRXdqYnFSbTRFM0huZksyd1FRNDcvRmZX?=
+ =?utf-8?B?WnJ6d3RRUldQSWJGZnRUUmxMc0lyNFhCMEdYNXpSQkNBMEtIM084ODd2Q2tN?=
+ =?utf-8?B?Z0Jmbnd1eTUyQXREclJZUHp1S2VLRU5zV3VQc0doUGhpd2RMa1ZYZjdvMVRU?=
+ =?utf-8?B?VHBMNmhSaCtYWkxZTUpOMVZLdk5aRXN4cDFHWm1NWHNwbXcvNURrUWJZeEV1?=
+ =?utf-8?B?MXI5M2FBUGFQREhJTXEyWnlRSnE4V0dVUlBNNFQ2OWxycEdFMkNmVnlJc2tS?=
+ =?utf-8?B?N0pyaTNwREY5QVYxNGdvMkFzMFk5M2Fyd0RsRUFjL3d3Y2p2R1UxcFFsV2pY?=
+ =?utf-8?B?U3VjSU5JU0Npb3J4ejlmK2lXTnlTdyt2R2FWOGxWb3U4RE0wblVkMGpneVdV?=
+ =?utf-8?B?WWdkV1hlcThNTzU3M3BBREZMOUNyeTJYc1ROWnljNnV1dXlqSVZHSWppWTUx?=
+ =?utf-8?B?dENYemRCYTNoUzdyalpWaTFBcnlaWW0xZzloWTd1OG1HalhzbDduQjd6d3B5?=
+ =?utf-8?B?b0Rsa3V0RmpTUGVFeWJIRzF2V0R5UWdaSlBod0hhaitmT1R5MnRQUWJYaGlY?=
+ =?utf-8?B?ZnAzRjg3c2dQVnZrYXFISHQ0ZFA2cVErVXZkd25iWnVlWU4rVE9zQ1pQWXZJ?=
+ =?utf-8?B?cXI1M3d1d0ptMm10elF0UzdwWUpUU0hFd0VUZnh2Uy9sekpLMC8rTGVKSGN1?=
+ =?utf-8?Q?UJQecvHKGNo3o?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eG1jUEMwRWt3VXprZzNjbTN2d3ZITjl4dm82d0g0V3dIYVNRZGpFdU14Wlln?=
+ =?utf-8?B?eHR0ZlFvMEJ5c1RPK3I2UDdaOTMwWldQT082Y2ExR1NuVWpJU1FQblE1Yk1C?=
+ =?utf-8?B?WmUwOWJJeURvd1JvWFhwNnFRT3RuRUdDRERIZVhFV3BMcitOMG9rUlZadm1I?=
+ =?utf-8?B?R1kyWDB0ampORWc1OUxuS21KdFNxSTVsR0pPWGtQRkZXbnVpWU0wSVc0eWJP?=
+ =?utf-8?B?WkFJV0FoTGRnVXFHaXhjZHZldjhFb05ieVpNb25lMVdOZldrZGl0QjBuUllx?=
+ =?utf-8?B?QTFDTE9wRHUzcWJJbWx3SjFBcTNvRk11d09GamRnQ1lRNTFodllSYTNVVnYr?=
+ =?utf-8?B?QnBORVRqd3BhaDR4SFY1ZUdGdnAwVGw5dUREM3ViSEtKTUEyMVpVa1RDM2hS?=
+ =?utf-8?B?VG54SFU3WFRuVGx1RlRaQ2VPb013dXUydktkQitvSmRGRzdsclpnV3oyb3Rw?=
+ =?utf-8?B?OTNnSnppazZGZVFQNjFwcTloakR1WGZISTZXLzFRL3VDb3Z2dnYzMWxtMWNh?=
+ =?utf-8?B?d0FlSnhFQm4zbWZTQTdUS0hwK09uUllRbkUvRXMybEJ1TWZIeXEwOGkxVDFr?=
+ =?utf-8?B?Y2VwNzhnMmY2Q3Y5UUJacm42MGEvWW5TQjNOcDU2cCtXeWl3bnErYS94NFhl?=
+ =?utf-8?B?bUVsNDJVUWhGVzNjNUlmV2dIZEJIelc4N1lMSXFCRjA4VGtzRDJKTzVjUkNk?=
+ =?utf-8?B?eFQ0ekx4NWYrRU55b3FFQWZOVEd4cDlGS01hc0NvUytPcjk2SGtBaUFtL25q?=
+ =?utf-8?B?TmR6aHhlZ09icjFBaWN2VXIxR2diMlp3TWdHbHU4SWhmc3orM3VoU2xJUkk1?=
+ =?utf-8?B?alVSWS9xZldMVFloSmQ4UjJsTHdTWDh3K1VOQWRVYWFsc2FBa28vUm1Ia0cx?=
+ =?utf-8?B?SWgwUTdqUG5MeEZub0hSS3ROVDJVcnllczYySjFwSmtDcmpSNWU2QU41eFov?=
+ =?utf-8?B?blpCV1owQTVvYVVTVGlGM3BySFlyd3pIWEpFYTVsdElUdXFzMGpQZjBoNWwz?=
+ =?utf-8?B?WXcxTTBscXcvQTBGU0NHL0ttdUJJN25IN1Z4MGkyaTVseitKM2hKY00wOW55?=
+ =?utf-8?B?M2FvZnJWbVhlVnBmTFVXUDJGaGdVRGdUYllyNGFPejRham50czNrNUd5aEZ6?=
+ =?utf-8?B?WkpwU2I0cXZvYkZkYVJpekNpOFN3a21zQTRlRzdHL1pGdkRBdWxqZDNOMEFO?=
+ =?utf-8?B?MmliaTFUUEIvTFN6ZVVRK0RsUDA4RHN0SmdNaHZwcXU5OGdjYlVHeng1NW9k?=
+ =?utf-8?B?eVZENWJhOEhxaDNweWJaQkMxdlZPQnNYWjdWRXFtWnBBYnBXanpPbFNNci9U?=
+ =?utf-8?B?NXRzVSt2T1lsYWJpTzEwMDFvQ1VTdGprL1RiZDRNMU9acVVzSnJtdXRTbkpC?=
+ =?utf-8?B?NU5iVHgycGZTUHBLNVlURmdWYnlnek9rN1FiRkovYnYxdnhvNnVqNWRZVExv?=
+ =?utf-8?B?R1JodHo0aUJvZ1AwQ1NmaUhtQnF2UDU1YXVrN2x5cm5aQ2dkS2lpMVdrZDU1?=
+ =?utf-8?B?SmgrUG0yWHZpZHZaM2hsREEyNnJTdVFlWWc0TTVScTVjWndQck1YbEZvNm8y?=
+ =?utf-8?B?Y3VrYjlkbmY3SERzb09lQlQ3S25YNnp0am50UnhmcXRtMGVBdEtML3pZRDdP?=
+ =?utf-8?B?Yk02V1NMaWtXeUdoaG43VlduMjRhQldOQnpQQ2dqS29UYUJPMHFoblpWYngw?=
+ =?utf-8?B?OXR3b2w5OFFqVFBOblRSaVlKQmVjMUYxMlVsdVdnMmkyWm9WQ0ZBaytrbGtM?=
+ =?utf-8?B?MlR2aDJBdlMvd285L21WTjgrRUt3OWVtVlRPKzVLZUJRclM1L1A3OWp1YXMy?=
+ =?utf-8?B?MWJMbTc3S2pzdWNDS2REbC81cFFiL3p2aWk1SGJmL1F4dEI2RjRmQVJzNjRL?=
+ =?utf-8?B?YWVzM3FDSzVqS0E2QkpMaWdjL1VpWS9EVEpGMFR0dnBnYnQwQlpZUTUzZEt3?=
+ =?utf-8?B?dm11Tk9PYVJOdjNFMUlVLzl0UTBJVFkrcTlhdnVCSnFINzVQSXl0elV0SDJ3?=
+ =?utf-8?B?TDBmV1BUaUJhdE01NGM0VjZ0TmNkc3p2MDJNNzNWQjBNaWFnWDhwV3dtbnRQ?=
+ =?utf-8?B?UlNXaGZiUWZESWZaVmxJRG5ZS05SdDZzU2R6eFZnMmZyMXJ3VVNIa3JPci9Y?=
+ =?utf-8?Q?A5XLo9vYMhsft7YL/+VML5ssb?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0da15dae-23e1-4d90-bb35-08dd57bc316a
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2025 05:53:15.2717 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /VJHwRy63dLU5Hb1+62P3uqwMsMvxeVLO3wdQ4UPGZOq0Icdb+Rt3r8o1O3N9TkP6NPya1tmXxOzJqhajvvYJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6734
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,626 +166,305 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Honglei Huang <Honglei1.Huang@amd.com>
+On Thu, Feb 27, 2025 at 08:36:35PM -0800, Matthew Brost wrote:
+> On Fri, Feb 28, 2025 at 01:34:42PM +1100, Alistair Popple wrote:
+> > On Mon, Feb 24, 2025 at 08:43:11PM -0800, Matthew Brost wrote:
+> > > Add documentation for agree upon GPU SVM design principles, current
+> > > status, and future plans.
+> > 
+> > Thanks for writing this up. In general I didn't see anything too controversial
+> > but added a couple of comments below.
+> > 
+> > > 
+> > > v4:
+> > >  - Address Thomas's feedback
+> > > v5:
+> > >  - s/Current/Basline (Thomas)
+> > > 
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > > ---
+> > >  Documentation/gpu/rfc/gpusvm.rst | 84 ++++++++++++++++++++++++++++++++
+> > >  Documentation/gpu/rfc/index.rst  |  4 ++
+> > >  2 files changed, 88 insertions(+)
+> > >  create mode 100644 Documentation/gpu/rfc/gpusvm.rst
+> > > 
+> > > diff --git a/Documentation/gpu/rfc/gpusvm.rst b/Documentation/gpu/rfc/gpusvm.rst
+> > > new file mode 100644
+> > > index 000000000000..063412160685
+> > > --- /dev/null
+> > > +++ b/Documentation/gpu/rfc/gpusvm.rst
+> > > @@ -0,0 +1,84 @@
+> > > +===============
+> > > +GPU SVM Section
+> > > +===============
+> > > +
+> > > +Agreed upon design principles
+> > > +=============================
+> > 
+> > As a general comment I think it would be nice if we could add some rational/
+> > reasons for these design principals. Things inevitably change and if/when
+> > we need to violate or update these principals it would be good to have some
+> > documented rational for why we decided on them in the first place because the
+> > reasoning may have become invalid by then.
+> > 
+> 
+> Let me try to add somethings to the various cases.
 
-Add mmu notifier, there are some benefits:
-- UMD do not need manage the userptrs, just alloc and free user space
-memory, with the MMU notifier userpters can be managed by kernel.
-- Can achieve a performance improvement of 20%~30%. With the MMU notifier
-UMD like OpenCL can achieve 98% performance compared to bare metal in
-some bench marks like Geekbench and CLpeak.
+Thanks!
 
-Signed-off-by: Honglei Huang <Honglei1.Huang@amd.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  47 ++-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c   |   4 +-
- drivers/gpu/drm/virtio/virtgpu_kms.c     |   2 +
- drivers/gpu/drm/virtio/virtgpu_userptr.c | 423 ++++++++++++++++++++++-
- 4 files changed, 469 insertions(+), 7 deletions(-)
+> > > +* migrate_to_ram path
+> > > +	* Rely only on core MM concepts (migration PTEs, page references, and
+> > > +	  page locking).
+> > > +	* No driver specific locks other than locks for hardware interaction in
+> > > +	  this path. These are not required and generally a bad idea to
+> > > +	  invent driver defined locks to seal core MM races.
+> > 
+> > In principal I agree. The problem I think you will run into is the analogue of
+> > what adding a trylock_page() to do_swap_page() fixes. Which is that a concurrent
+> > GPU fault (which is higly likely after handling a CPU fault due to the GPU PTEs
+> > becoming invalid) may, depending on your design, kick off a migration of the
+> > page to the GPU via migrate_vma_setup().
+> > 
+> > The problem with that is migrate_vma_setup() will temprarily raise the folio
+> > refcount, which can cause the migrate_to_ram() callback to fail but the elevated
+> > refcount from migrate_to_ram() can also cause the GPU migration to fail thus
+> > leading to a live-lock when both CPU and GPU fault handlers just keep retrying.
+> > 
+> > This was particularly problematic for us on multi-GPU setups, and our solution
+> > was to introduce a migration critical section in the form of a mutex to ensure
+> > only one thread was calling migrate_vma_setup() at a time.
+> > 
+> > And now that I've looked at UVM development history, and remembered more
+> > context, this is why I had a vague recollection that adding a migration entry
+> > in do_swap_page() would be better than taking a page lock. Doing so fixes the
+> > issue with concurrent GPU faults blocking migrate_to_ram() because it makes
+> > migrate_vma_setup() ignore the page.
+> > 
+> 
+> Ok, this is something to keep an eye on. In the current Xe code, we try
+> to migrate a chunk of memory from the CPU to the GPU in our GPU fault
+> handler once per fault. If it fails due to racing CPU access, we simply
+> leave it in CPU memory and move on. We don't have any real migration
+> policies in Xe yet—that is being worked on as a follow-up to my series.
+> However, if we had a policy requiring a memory region to 'must be in
+> GPU,' this could conceivably lead to a livelock with concurrent CPU and
+> GPU access. I'm still not fully convinced that a driver-side lock is the
+> solution here, but without encountering the issue on our side, I can't
+> be completely certain what the solution is.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index fa5dd46e3732..6fa6dd9d1738 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -42,6 +42,7 @@
- #include <drm/drm_ioctl.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/virtgpu_drm.h>
-+#include <linux/mmu_notifier.h>
- 
- #define DRIVER_NAME "virtio_gpu"
- #define DRIVER_DESC "virtio GPU"
-@@ -121,9 +122,33 @@ struct virtio_gpu_object_userptr_ops {
- 	int (*get_pages)(struct virtio_gpu_object_userptr *userptr);
- 	void (*put_pages)(struct virtio_gpu_object_userptr *userptr);
- 	void (*release)(struct virtio_gpu_object_userptr *userptr);
--	int (*insert)(struct virtio_gpu_object_userptr *userptr, struct virtio_gpu_fpriv *fpriv);
--	int (*remove)(struct virtio_gpu_object_userptr *userptr, struct virtio_gpu_fpriv *fpriv);
-+	int (*insert)(struct virtio_gpu_object_userptr *userptr,
-+		      struct virtio_gpu_fpriv *fpriv);
-+	int (*remove)(struct virtio_gpu_object_userptr *userptr,
-+		      struct virtio_gpu_fpriv *fpriv);
-+	bool (*valid)(struct virtio_gpu_object_userptr *userptr);
-+	void (*notifier_init)(struct virtio_gpu_object_userptr *userptr,
-+			      struct mm_struct *mm);
-+	int (*notifier_add)(struct virtio_gpu_object_userptr *userptr,
-+			    unsigned long start, unsigned long length);
-+	void (*notifier_remove)(struct virtio_gpu_object_userptr *userptr);
-+	int (*split)(struct virtio_gpu_object_userptr *userptr,
-+		     unsigned long start, unsigned long last,
-+		     struct virtio_gpu_object_userptr **pnew);
-+	void (*evict)(struct virtio_gpu_object_userptr *userptr);
-+	void (*update)(struct virtio_gpu_object_userptr *userptr);
-+	struct virtio_gpu_object_userptr *(*split_new)(
-+		struct virtio_gpu_object_userptr *userptr, unsigned long start,
-+		unsigned long last);
- };
-+
-+enum userptr_work_list_ops {
-+	USERPTR_OP_NULL,
-+	USERPTR_OP_UNMAP,
-+	USERPTR_OP_UPDATE,
-+	USERPTR_OP_EVICT,
-+};
-+
- struct virtio_gpu_object_userptr {
- 	struct virtio_gpu_object base;
- 	const struct virtio_gpu_object_userptr_ops *ops;
-@@ -142,6 +167,16 @@ struct virtio_gpu_object_userptr {
- 	struct sg_table *sgt;
- 
- 	struct interval_tree_node it_node;
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	struct list_head work_list;
-+	enum userptr_work_list_ops op;
-+	atomic_t in_release;
-+	struct mm_struct *mm;
-+	uint64_t notifier_start;
-+	uint64_t notifier_last;
-+	struct mmu_interval_notifier notifier;
-+#endif
- };
- 
- #define to_virtio_gpu_shmem(virtio_gpu_object) \
-@@ -317,6 +352,12 @@ struct virtio_gpu_fpriv {
- 	bool explicit_debug_name;
- 	struct rb_root_cached userptrs_tree;
- 	struct mutex userptrs_tree_lock;
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	struct work_struct userptr_work;
-+	struct list_head userptr_work_list;
-+	spinlock_t userptr_work_list_lock;
-+#endif
- };
- 
- /* virtgpu_ioctl.c */
-@@ -536,4 +577,6 @@ bool virtio_gpu_is_userptr(struct virtio_gpu_object *bo);
- void virtio_gpu_userptr_interval_tree_init(struct virtio_gpu_fpriv *vfpriv);
- void virtio_gpu_userptr_set_handle(struct virtio_gpu_object *qobj,
- 				   uint32_t handle);
-+uint32_t virtio_gpu_userptr_get_handle(struct virtio_gpu_object *qobj);
-+void virtio_gpu_userptr_list_work_init(struct virtio_gpu_fpriv *vfpriv);
- #endif
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index ad1ac8d0eadf..14326fd8fee9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -697,8 +697,10 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
- 		}
- 	}
- 
--	if (vfpriv->context_init & VIRTIO_GPU_CAPSET_HSAKMT)
-+	if (vfpriv->context_init & VIRTIO_GPU_CAPSET_HSAKMT) {
-+		virtio_gpu_userptr_list_work_init(vfpriv);
- 		virtio_gpu_userptr_interval_tree_init(vfpriv);
-+	}
- 
- 	virtio_gpu_create_context_locked(vgdev, vfpriv);
- 	virtio_gpu_notify(vgdev);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 3d5158caef46..3dc44eb16fb8 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -345,6 +345,8 @@ void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file)
- 		return;
- 
- 	if (vfpriv->context_created) {
-+		if (vfpriv->context_init & VIRTIO_GPU_CAPSET_HSAKMT)
-+			flush_work(&vfpriv->userptr_work);
- 		virtio_gpu_cmd_context_destroy(vgdev, vfpriv->ctx_id);
- 		virtio_gpu_notify(vgdev);
- 	}
-diff --git a/drivers/gpu/drm/virtio/virtgpu_userptr.c b/drivers/gpu/drm/virtio/virtgpu_userptr.c
-index 03398c3b9f30..10264227f3e7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_userptr.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_userptr.c
-@@ -3,6 +3,7 @@
- #include <linux/mm.h>
- #include <linux/pid.h>
- #include <linux/vmalloc.h>
-+#include <linux/mmu_notifier.h>
- 
- #include "virtgpu_drv.h"
- #include "drm/drm_gem.h"
-@@ -13,21 +14,422 @@ virtio_gpu_userptr_get_sg_table(struct drm_gem_object *obj);
- static int virtio_gpu_userptr_insert(struct virtio_gpu_object_userptr *userptr,
- 				     struct virtio_gpu_fpriv *vfpriv)
- {
-+	int ret;
-+
- 	if (!userptr->ops->insert)
- 		return -EINVAL;
- 
--	return userptr->ops->insert(userptr, vfpriv);
-+	ret = userptr->ops->insert(userptr, vfpriv);
-+	if (ret)
-+		return ret;
-+
-+	if (userptr->ops->notifier_add)
-+		ret = userptr->ops->notifier_add(userptr, userptr->start,
-+						 userptr->last -
-+							 userptr->start + 1UL);
-+
-+	return ret;
- }
- 
- static int virtio_gpu_userptr_remove(struct virtio_gpu_object_userptr *userptr,
- 				     struct virtio_gpu_fpriv *vfpriv)
- {
-+	int ret;
-+
- 	if (!userptr->ops->remove)
- 		return -EINVAL;
- 
--	return userptr->ops->remove(userptr, vfpriv);
-+	ret = userptr->ops->remove(userptr, vfpriv);
-+	if (ret)
-+		return ret;
-+
-+	if (userptr->ops->notifier_remove)
-+		userptr->ops->notifier_remove(userptr);
-+
-+	return ret;
-+}
-+
-+static bool virtio_gpu_userptr_valid(struct virtio_gpu_object_userptr *userptr)
-+{
-+	if (userptr->ops->valid)
-+		return userptr->ops->valid(userptr);
-+
-+	return true;
-+}
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+
-+static bool
-+virtio_gpu_userptr_invalidate(struct mmu_interval_notifier *mn,
-+			      const struct mmu_notifier_range *range,
-+			      unsigned long cur_seq);
-+
-+static const struct mmu_interval_notifier_ops virtio_gpu_userptr_mn_ops = {
-+	.invalidate = virtio_gpu_userptr_invalidate,
-+};
-+
-+static int
-+virtio_gpu_userptr_add_notifier(struct virtio_gpu_object_userptr *userptr,
-+				unsigned long start, unsigned long length)
-+{
-+	if (!start || !length)
-+		return -EINVAL;
-+
-+	return mmu_interval_notifier_insert(&userptr->notifier, userptr->mm,
-+					    start, length,
-+					    &virtio_gpu_userptr_mn_ops);
-+}
-+
-+static void
-+virtio_gpu_userptr_remove_notifier(struct virtio_gpu_object_userptr *userptr)
-+{
-+	mmu_interval_notifier_remove(&userptr->notifier);
-+}
-+
-+static void virtio_gpu_userptr_unmap(struct virtio_gpu_object_userptr *userptr)
-+{
-+	drm_gem_handle_delete(userptr->file, userptr->bo_handle);
-+}
-+
-+static void virtio_gpu_userptr_update_notifier_and_interval_tree(
-+	struct virtio_gpu_object_userptr *userptr)
-+{
-+	unsigned long start = userptr->notifier.interval_tree.start;
-+	unsigned long last = userptr->notifier.interval_tree.last;
-+
-+	if (userptr->start == start && userptr->last == last)
-+		return;
-+
-+	if (start != 0 && last != 0)
-+		virtio_gpu_userptr_remove(userptr, userptr->file->driver_priv);
-+
-+	virtio_gpu_userptr_insert(userptr, userptr->file->driver_priv);
-+	userptr->op = 0;
- }
- 
-+static int virtio_gpu_userptr_split(struct virtio_gpu_object_userptr *userptr,
-+				    unsigned long valid_start,
-+				    unsigned long valid_last,
-+				    struct virtio_gpu_object_userptr **new)
-+{
-+	uint64_t old_start = userptr->start;
-+	uint64_t old_last = userptr->last;
-+
-+	if (old_start != valid_start && old_last != valid_last)
-+		return -EINVAL;
-+	if (valid_start < old_start || valid_last > old_last)
-+		return -EINVAL;
-+
-+	if (userptr->ops->split_new)
-+		*new = userptr->ops->split_new(userptr, valid_start,
-+					       valid_last);
-+
-+	userptr->start = valid_start;
-+	userptr->last = valid_last;
-+
-+	return 0;
-+}
-+
-+static void
-+virtio_gpu_userptr_update_split(struct virtio_gpu_object_userptr *userptr,
-+				unsigned long mn_start, unsigned long mn_last)
-+{
-+	struct virtio_gpu_object_userptr *head;
-+	struct virtio_gpu_object_userptr *tail;
-+
-+	if (!userptr->ops->split)
-+		return;
-+	if (userptr->op == USERPTR_OP_UNMAP)
-+		return;
-+
-+	if (mn_start > userptr->last || mn_last < userptr->start)
-+		return;
-+
-+	head = tail = userptr;
-+	if (mn_start > userptr->start)
-+		userptr->ops->split(userptr, userptr->start, mn_start - 1UL,
-+				    &tail);
-+	else if (mn_last < userptr->last)
-+		userptr->ops->split(userptr, mn_last + 1UL, userptr->last,
-+				    &head);
-+}
-+
-+static void
-+virtio_gpu_userptr_add_list_work(struct virtio_gpu_object_userptr *userptr,
-+				 int op)
-+{
-+	struct virtio_gpu_fpriv *vfpriv = userptr->file->driver_priv;
-+
-+	spin_lock(&vfpriv->userptr_work_list_lock);
-+
-+	if (!list_empty(&userptr->work_list)) {
-+		if (op != USERPTR_OP_NULL && userptr->op != USERPTR_OP_UNMAP)
-+			userptr->op = op;
-+	} else {
-+		userptr->op = op;
-+		list_add_tail(&userptr->work_list, &vfpriv->userptr_work_list);
-+	}
-+
-+	spin_unlock(&vfpriv->userptr_work_list_lock);
-+}
-+
-+static int virtio_gpu_follow_pfn(struct vm_area_struct *vma, uint64_t addr,
-+				 unsigned long *pfn)
-+{
-+	struct follow_pfnmap_args args = { .vma = vma, .address = addr };
-+
-+	if (follow_pfnmap_start(&args))
-+		return -EINVAL;
-+
-+	*pfn = args.pfn;
-+	follow_pfnmap_end(&args);
-+
-+	return 0;
-+}
-+
-+static int virtio_gpu_userptr_check(struct virtio_gpu_object_userptr *userptr,
-+				    struct vm_area_struct *vma, uint64_t start,
-+				    uint64_t end)
-+{
-+	uint64_t addr;
-+	int ret;
-+	unsigned long pfn;
-+
-+	for (addr = start; addr < end; addr += PAGE_SIZE) {
-+		ret = virtio_gpu_follow_pfn(vma, addr, &pfn);
-+		if (ret)
-+			return -EINVAL;
-+
-+		if (page_to_pfn(userptr->pages[(addr - userptr->start) >>
-+					       PAGE_SHIFT]) != pfn)
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+virtio_gpu_userptr_check_range(struct virtio_gpu_object_userptr *userptr,
-+			       uint64_t notifier_start, uint64_t notifier_last)
-+{
-+	uint64_t start, end, addr;
-+	int r = 0;
-+
-+	start = notifier_start;
-+	end = notifier_last + (1UL << PAGE_SHIFT);
-+
-+	for (addr = start; !r && addr < end;) {
-+		struct vm_area_struct *vma;
-+		uint64_t next = 0;
-+
-+		vma = vma_lookup(userptr->mm, addr);
-+
-+		if (vma) {
-+			next = min(vma->vm_end, end);
-+			r = virtio_gpu_userptr_check(userptr, vma, start, next);
-+			if (r)
-+				break;
-+		} else {
-+			r = -EFAULT;
-+			break;
-+		}
-+
-+		addr = next;
-+	}
-+
-+	return r;
-+}
-+
-+static void
-+virtio_gpu_update_or_remove_userptr(struct virtio_gpu_object_userptr *userptr,
-+				    unsigned long start, unsigned long last)
-+{
-+	if ((userptr->start) >= start && (userptr->last) <= last) {
-+		if (atomic_xchg(&userptr->in_release, 1) == 0) {
-+			virtio_gpu_userptr_add_list_work(userptr,
-+							 USERPTR_OP_UNMAP);
-+		}
-+	} else {
-+		virtio_gpu_userptr_update_split(userptr, start, last);
-+		virtio_gpu_userptr_add_list_work(userptr, USERPTR_OP_UPDATE);
-+	}
-+}
-+
-+static void virtio_gpu_userptr_evict(struct virtio_gpu_object_userptr *userptr)
-+{
-+	if (!userptr->notifier_start || !userptr->notifier_last)
-+		return;
-+
-+	if (userptr->notifier_start < userptr->start ||
-+	    userptr->notifier_last > userptr->last)
-+		return;
-+
-+	if (virtio_gpu_userptr_check_range(userptr, userptr->notifier_start,
-+					   userptr->notifier_last)) {
-+		virtio_gpu_update_or_remove_userptr(
-+			userptr, userptr->notifier_start,
-+			userptr->notifier_last + (1UL << PAGE_SHIFT) - 1UL);
-+	}
-+
-+	userptr->notifier_start = 0;
-+	userptr->notifier_last = 0;
-+}
-+
-+static void
-+virtio_gpu_userptr_handle_list_work(struct virtio_gpu_object_userptr *userptr)
-+{
-+	switch (userptr->op) {
-+	case USERPTR_OP_NULL:
-+		break;
-+	case USERPTR_OP_UNMAP:
-+		virtio_gpu_userptr_unmap(userptr);
-+		break;
-+	case USERPTR_OP_UPDATE:
-+		if (userptr->ops->update)
-+			userptr->ops->update(userptr);
-+		break;
-+	case USERPTR_OP_EVICT:
-+		if (userptr->ops->evict)
-+			userptr->ops->evict(userptr);
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static void virtio_gpu_userptr_invalidate_work(struct work_struct *work)
-+{
-+	struct virtio_gpu_fpriv *vfpriv;
-+	struct virtio_gpu_object_userptr *userptr;
-+
-+	vfpriv = container_of(work, struct virtio_gpu_fpriv, userptr_work);
-+
-+	spin_lock(&vfpriv->userptr_work_list_lock);
-+	while (!list_empty(&vfpriv->userptr_work_list)) {
-+		userptr = list_first_entry(&vfpriv->userptr_work_list,
-+					   struct virtio_gpu_object_userptr,
-+					   work_list);
-+		spin_unlock(&vfpriv->userptr_work_list_lock);
-+
-+		mmap_write_lock(userptr->mm);
-+
-+		spin_lock(&vfpriv->userptr_work_list_lock);
-+		list_del_init(&userptr->work_list);
-+		spin_unlock(&vfpriv->userptr_work_list_lock);
-+
-+		mutex_lock(&vfpriv->userptrs_tree_lock);
-+
-+		virtio_gpu_userptr_handle_list_work(userptr);
-+
-+		mutex_unlock(&vfpriv->userptrs_tree_lock);
-+		mmap_write_unlock(userptr->mm);
-+
-+		spin_lock(&vfpriv->userptr_work_list_lock);
-+	}
-+	spin_unlock(&vfpriv->userptr_work_list_lock);
-+}
-+
-+void virtio_gpu_userptr_list_work_init(struct virtio_gpu_fpriv *vfpriv)
-+{
-+	INIT_WORK(&vfpriv->userptr_work, virtio_gpu_userptr_invalidate_work);
-+	INIT_LIST_HEAD(&vfpriv->userptr_work_list);
-+	spin_lock_init(&vfpriv->userptr_work_list_lock);
-+}
-+
-+static void
-+virtio_gpu_userptr_schedule_list_work(struct virtio_gpu_fpriv *vfpriv)
-+{
-+	spin_lock(&vfpriv->userptr_work_list_lock);
-+	if (!list_empty(&vfpriv->userptr_work_list))
-+		schedule_work(&vfpriv->userptr_work);
-+	spin_unlock(&vfpriv->userptr_work_list_lock);
-+}
-+
-+static bool
-+virtio_gpu_userptr_invalidate(struct mmu_interval_notifier *mn,
-+			      const struct mmu_notifier_range *range,
-+			      unsigned long cur_seq)
-+{
-+	struct virtio_gpu_object_userptr *userptr;
-+	unsigned long start;
-+	unsigned long last;
-+
-+	if (range->event == MMU_NOTIFY_RELEASE)
-+		return true;
-+	if (!mmget_not_zero(mn->mm))
-+		return true;
-+
-+	start = mn->interval_tree.start;
-+	last = mn->interval_tree.last;
-+	start = (max(start, range->start) >> PAGE_SHIFT) << PAGE_SHIFT;
-+	last = (min(last, range->end - 1UL) >> PAGE_SHIFT) << PAGE_SHIFT;
-+
-+	userptr = container_of(mn, struct virtio_gpu_object_userptr, notifier);
-+	userptr->mm = mn->mm;
-+
-+	mutex_lock(&userptr->lock);
-+	mmu_interval_set_seq(mn, cur_seq);
-+
-+	if (userptr->op != USERPTR_OP_UNMAP) {
-+		switch (range->event) {
-+		case MMU_NOTIFY_UNMAP:
-+			virtio_gpu_update_or_remove_userptr(
-+				userptr, start,
-+				last + (1UL << PAGE_SHIFT) - 1UL);
-+			break;
-+		default:
-+			userptr->notifier_start = start;
-+			userptr->notifier_last = last;
-+			virtio_gpu_userptr_add_list_work(userptr,
-+							 USERPTR_OP_EVICT);
-+			break;
-+		}
-+	}
-+
-+	virtio_gpu_userptr_schedule_list_work(userptr->file->driver_priv);
-+
-+	mutex_unlock(&userptr->lock);
-+	mmput(mn->mm);
-+	return true;
-+}
-+
-+static void
-+virtio_gpu_userptr_lock_and_flush_work(struct virtio_gpu_fpriv *vfpriv)
-+{
-+retry_flush_work:
-+	flush_work(&vfpriv->userptr_work);
-+
-+	if (list_empty(&vfpriv->userptr_work_list))
-+		return;
-+
-+	goto retry_flush_work;
-+}
-+
-+static bool virtio_gpu_userptr_valid_with_notifier(
-+	struct virtio_gpu_object_userptr *userptr)
-+{
-+	return (!atomic_read(&userptr->in_release)) && (!userptr->op);
-+}
-+
-+static void
-+virtio_gpu_userptr_notifier_init(struct virtio_gpu_object_userptr *userptr,
-+				 struct mm_struct *mm)
-+{
-+	userptr->notifier_start = 0;
-+	userptr->notifier_last = 0;
-+	atomic_set(&userptr->in_release, 0);
-+	INIT_LIST_HEAD(&userptr->work_list);
-+	mutex_init(&userptr->lock);
-+	userptr->mm = mm;
-+}
-+
-+#else
-+static void
-+virtio_gpu_userptr_lock_and_flush_work(struct virtio_gpu_fpriv *vfpriv)
-+{
-+}
-+#endif /* CONFIG_MMU_NOTIFIER */
-+
- static uint64_t virtio_gpu_userptr_get_offset(struct virtio_gpu_object *qobj,
- 					      uint64_t addr)
- {
-@@ -52,7 +454,8 @@ virtio_gpu_userptr_from_addr_range(struct virtio_gpu_fpriv *vfpriv,
- 		userptr = container_of(node, struct virtio_gpu_object_userptr,
- 				       it_node);
- 
--		if (start >= userptr->start && last <= userptr->last) {
-+		if (start >= userptr->start && last <= userptr->last &&
-+		    virtio_gpu_userptr_valid(userptr)) {
- 			ret = userptr;
- 			return ret;
- 		}
-@@ -92,7 +495,6 @@ void virtio_gpu_userptr_set_handle(struct virtio_gpu_object *qobj,
- 				   uint32_t handle)
- {
- 	struct virtio_gpu_object_userptr *userptr = to_virtio_gpu_userptr(qobj);
--
- 	userptr->bo_handle = handle;
- }
- 
-@@ -254,6 +656,9 @@ virtio_gpu_userptr_init(struct drm_device *dev, struct drm_file *file,
- 	obj = &userptr->base.base.base;
- 	obj->funcs = &virtio_gpu_userptr_funcs;
- 
-+	if (userptr->ops->notifier_init)
-+		userptr->ops->notifier_init(userptr, current->mm);
-+
- 	drm_gem_private_object_init(dev, obj, aligned_size);
- 
- 	ret = virtio_gpu_resource_id_get(userptr->vgdev,
-@@ -268,6 +673,15 @@ static const struct virtio_gpu_object_userptr_ops virtio_gpu_userptr_ops = {
- 	.release = virtio_gpu_userptr_release,
- 	.insert = virtio_gpu_userptr_insert_interval_tree,
- 	.remove = virtio_gpu_userptr_remove_interval_tree,
-+#ifdef CONFIG_MMU_NOTIFIER
-+	.valid = virtio_gpu_userptr_valid_with_notifier,
-+	.notifier_init = virtio_gpu_userptr_notifier_init,
-+	.notifier_add = virtio_gpu_userptr_add_notifier,
-+	.notifier_remove = virtio_gpu_userptr_remove_notifier,
-+	.split = virtio_gpu_userptr_split,
-+	.update = virtio_gpu_userptr_update_notifier_and_interval_tree,
-+	.evict = virtio_gpu_userptr_evict,
-+#endif
- };
- 
- int virtio_gpu_userptr_create(struct virtio_gpu_device *vgdev,
-@@ -290,6 +704,7 @@ int virtio_gpu_userptr_create(struct virtio_gpu_device *vgdev,
- 		       params->size))
- 		return -EFAULT;
- 
-+	virtio_gpu_userptr_lock_and_flush_work(vfpriv);
- 	mutex_lock(&vfpriv->userptrs_tree_lock);
- 
- 	userptr = virtio_gpu_userptr_from_addr_range(
--- 
-2.34.1
+Right - we have migration policies that can cause us to try harder to migrate.
+Also I agree with you that a driver-side lock might not be the best solution
+here. It's what we did due to various limiations we have, but they are
+unimportant for this discussion.
 
+I agree the ideal solution wouldn't involve locks and would instead be to fix
+the migration interfaces up such that one thread attempting to migrate doesn't
+cause another thread which has started a migration to fail. The solution to that
+isn't obvious, but I don't think it would be impossible either.
+
+> > > +	* Partial migration is supported (i.e., a subset of pages attempting to
+> > > +	  migrate can actually migrate, with only the faulting page guaranteed
+> > > +	  to migrate).
+> > > +	* Driver handles mixed migrations via retry loops rather than locking.
+> > >
+> > > +* Eviction
+> > 
+> > This is a term that seems be somewhat overloaded depending on context so a
+> > definition would be nice. Is your view of eviction migrating data from GPU back
+> > to CPU without a virtual address to free up GPU memory? (that's what I think of,
+> > but would be good to make sure we're in sync).
+> > 
+> 
+> Yes. When GPU memory is oversubscribed, we find the physical backing in
+> an LRU list to evict. In Xe, this is a TTM BO.
+
+Sounds good. So eviction is just migration of physical memory. 
+
+> > > +	* Only looking at physical memory data structures and locks as opposed to
+> > > +	  looking at virtual memory data structures and locks.
+
+Except of course whatever virtual memory data structures the core-MM needs to
+touch in order to do the migration right? Agree that the driver shouldn't be
+touching any driver data structures that concern themselves with virtual memory
+addresses though. Except what about any data structures that are required as
+part of GPU PTE/TLB invalidation?
+
+> > > +	* No looking at mm/vma structs or relying on those being locked.
+> > 
+> > Agree with the above points.
+> > 
+> > > +* GPU fault side
+> > > +	* mmap_read only used around core MM functions which require this lock
+> > > +	  and should strive to take mmap_read lock only in GPU SVM layer.
+> > > +	* Big retry loop to handle all races with the mmu notifier under the gpu
+> > > +	  pagetable locks/mmu notifier range lock/whatever we end up calling
+> > > +          those.
+> > 
+> > Again, one of the issues here (particularly with multi-GPU setups) is that it's
+> > very easy to live-lock with rety loops because even attempting a migration that
+> > fails can cause migration/fault handling in other threads to fail, either by
+> > calling mmu_notifiers or taking a page reference.
+> > 
+> > Those are probably things that we should fix on the MM side, but for now UVM at
+> > least uses a lock to ensure forward progress.
+> >
+> 
+> Again, see above. Right now, migration in Xe is more of a best-case
+> scenario rather than a mandatory process, and perhaps this is masking an
+> issue.
+> 
+> Maybe I should add a comment here stating your possible concerns and that
+> Xe will be implementing real migration policies and multi-GPU support
+> soon. If this issue arises, we can revisit the locking guidelines or
+> perhaps help contribute to the necessary core changes to make this work
+> properly.
+
+Yeah, that could be good. Something along the lines of core-MM code may need
+fixing in the way I described above (one thread attempting a migration shouldn't
+cause another thread that's already started one to fail).
+
+> > > +	* Races (especially against concurrent eviction or migrate_to_ram)
+> > > +	  should not be handled on the fault side by trying to hold locks;
+> > > +	  rather, they should be handled using retry loops. One possible
+> > > +	  exception is holding a BO's dma-resv lock during the initial migration
+> > > +	  to VRAM, as this is a well-defined lock that can be taken underneath
+> > > +	  the mmap_read lock.
+> > 
+> > See my earlier comments. Although note I agree with this in principal, and we do
+> > just retry if taking the lock fails.
+> > 
+> > > +* Physical memory to virtual backpointer
+> > > +	* Does not work, no pointers from physical memory to virtual should
+> > > +	  exist.
+> > 
+> > Agree. And my rational is because core-MM can update the virtual address for a
+> > page without notifying a driver of the new address. For example with mremap().
+> > So it's impossible to keep any backpointer to a virtual address up to date.
+> > 
+> 
+> Yep, this is good example and will include this in my next rev.
+> 
+> > > +	* Physical memory backpointer (page->zone_device_data) should be stable
+> > > +	  from allocation to page free.
+> > 
+> > Agree. And presumably the rational is because it is very difficult to safely
+> > update page->zone_device_data and ensure there aren't concurrent users of it
+> > unless the page is free (ie. has a 0 refcount)?
+> > 
+> 
+> Yes, exactly.
+> 
+> > > +* GPU pagetable locking
+> > > +	* Notifier lock only protects range tree, pages valid state for a range
+> > > +	  (rather than seqno due to wider notifiers), pagetable entries, and
+> > > +	  mmu notifier seqno tracking, it is not a global lock to protect
+> > > +          against races.
+> > > +	* All races handled with big retry as mentioned above.
+> > 
+> > Sounds reasonable.
+> > 
+> > > +Overview of current design
+> > > +==========================
+> > > +
+> > > +Baseline design is simple as possible to get a working basline in which can be
+> > > +built upon.
+> > > +
+> > > +.. kernel-doc:: drivers/gpu/drm/xe/drm_gpusvm.c
+> > > +   :doc: Overview
+> > > +   :doc: Locking
+> > > +   :doc: Migrataion
+> > > +   :doc: Partial Unmapping of Ranges
+> > > +   :doc: Examples
+> > > +
+> > > +Possible future design features
+> > > +===============================
+> > > +
+> > > +* Concurrent GPU faults
+> > > +	* CPU faults are concurrent so makes sense to have concurrent GPU
+> > > +	  faults.
+> > > +	* Should be possible with fined grained locking in the driver GPU
+> > > +	  fault handler.
+> > > +	* No expected GPU SVM changes required.
+> > > +* Ranges with mixed system and device pages
+> > > +	* Can be added if required to drm_gpusvm_get_pages fairly easily.
+> > 
+> > I don't see much of a need, but also don't see any barriers on the MM side for
+> > doing that.
+> >
+> 
+> I don't see any barriers either, I think it would work in Xe with slight
+> tweak to our VM bind code.
+> 
+> I'm unsure the use case though too.
+> 
+> > > +* Multi-GPU support
+> > > +	* Work in progress and patches expected after initially landing on GPU
+> > > +	  SVM.
+> > > +	* Ideally can be done with little to no changes to GPU SVM.
+> > 
+> > See above, but I mostly agree.
+> > 
+> > > +* Drop ranges in favor of radix tree
+> > > +	* May be desirable for faster notifiers.
+> > > +* Compound device pages
+> > > +	* Nvidia, AMD, and Intel all have agreed expensive core MM functions in
+> > > +	  migrate device layer are a performance bottleneck, having compound
+> > > +	  device pages should help increase performance by reducing the number
+> > > +	  of these expensive calls.
+> > 
+> > I'm hoping my patch series[1] to allow for compound device pages will land in v6.15
+> 
+> Cool! I was not aware of this ongoing series. Let me look.
+
+There's probably not much of direct interest to you there at the moment. It's a
+prerequisite in that it allows current (and therefore future) users of compound
+ZONE_DEVICE pages to have them ref-counted normally, instead of the funky scheme
+DAX uses at the moment. Our changes will build on top of that.
+
+> > as well. The next steps are extending that to DEVICE_PRIVATE pages with
+> > migrate_vma_setup() and migrate_to_ram() and we have been making some good
+> > progress on this internally. I hope to have something posted before LSFMM.
+> > 
+> 
+> Also cool. If you think you have something working, let me know and will
+> pull in changes to test out.
+
+Will do!
+
+> > The other thing we have been looking at here is being able to migrate
+> > file-backed pages to GPU memory.
+> 
+> Also can test this one out too.
+
+Thanks.
+
+ - Alistair
+
+> Matt
+> 
+> > 
+> > [1] - https://lore.kernel.org/linux-mm/cover.a782e309b1328f961da88abddbbc48e5b4579021.1739850794.git-series.apopple@nvidia.com/
+> > 
+> > > +* Higher order dma mapping for migration
+> > > +	* 4k dma mapping adversely affects migration performance on Intel
+> > > +	  hardware, higher order (2M) dma mapping should help here.
+> > > +* Build common userptr implementation on top of GPU SVM
+> > > diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+> > > index 476719771eef..396e535377fb 100644
+> > > --- a/Documentation/gpu/rfc/index.rst
+> > > +++ b/Documentation/gpu/rfc/index.rst
+> > > @@ -16,6 +16,10 @@ host such documentation:
+> > >  * Once the code has landed move all the documentation to the right places in
+> > >    the main core, helper or driver sections.
+> > >  
+> > > +.. toctree::
+> > > +
+> > > +    gpusvm.rst
+> > > +
+> > >  .. toctree::
+> > >  
+> > >      i915_gem_lmem.rst
+> > > -- 
+> > > 2.34.1
+> > > 
