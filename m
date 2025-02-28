@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60BAA49EBC
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 17:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F005A49EC2
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 17:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDB410ECFE;
-	Fri, 28 Feb 2025 16:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B2110ECF6;
+	Fri, 28 Feb 2025 16:28:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HA000p/+";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WTin4uE4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D707910ECF5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 16:27:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 039CE10ECF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 16:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1740760024;
+ s=mimecast20190719; t=1740760116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pKER4kzbm9UtoCdB2Z9lFkUQuLXb5H7tj/VZtnMrAjY=;
- b=HA000p/+JcnaLy8kFHVzj8XIIJUlT5jMvvWERJwaHryflj++yhCupFDwIO1ap6v8i2Zzye
- vdfrpJL85QvEWcz73Smyr2WqWPQQPBOWtMSdbsEqdHMK8h7OydhTJrTXCb1yuRWb1nVsyv
- LJ0atL6vaam3sKPoo14BeHI2J+4qPcE=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2jvTSCB1Zvo+t6Y+On0YfNf1Uk5+D33UHPs4eU3gaLA=;
+ b=WTin4uE4Y2XkvxfDZdJ94+SxK2WdA9uHr2X39oWPI0eXlu3g9nZl3U53ZK1u2jqixf0awO
+ xw29DRjqB/1B2nwcknvfgJpLeAJ3Hx0fHOqtbDF3pcAb+UPNS8G3ckjDVdIQKKmunvG/DE
+ nyosbfgIT2J48FR2rv8VBR0OY9vACls=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-d_sP0GXwO2WBgw5e1Zk7vw-1; Fri, 28 Feb 2025 11:27:02 -0500
-X-MC-Unique: d_sP0GXwO2WBgw5e1Zk7vw-1
-X-Mimecast-MFC-AGG-ID: d_sP0GXwO2WBgw5e1Zk7vw_1740760022
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-6fd010df0f4so36570967b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:27:02 -0800 (PST)
+ us-mta-448-r4J6WptwORmTykvVfwBGtw-1; Fri, 28 Feb 2025 11:28:35 -0500
+X-MC-Unique: r4J6WptwORmTykvVfwBGtw-1
+X-Mimecast-MFC-AGG-ID: r4J6WptwORmTykvVfwBGtw_1740760113
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-6f2c7746509so34554407b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:28:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740760022; x=1741364822;
+ d=1e100.net; s=20230601; t=1740760113; x=1741364913;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=pKER4kzbm9UtoCdB2Z9lFkUQuLXb5H7tj/VZtnMrAjY=;
- b=jRzpAsnwat3ZPg1QY8EJEAuQjbX1cf04yIiBrURs+781bLNbRnG397EXRWLaCf5uQd
- Vt+cZs9+Qmo3V98o2/vVzaLG5NTDEiOxPwRgVuwLtYBxrgJFncB8qlesmEn4C/ZYVeLZ
- 4CQ4bSXJYiVHPjNvjGgJMVq5oA2elde6G1pjJIHaqO8PmHbnjwc4DOvX/2aN6ibORxT1
- kOufFnwsSu4kdp2ov30TlIpjMlOrRUryMaEjg/NwlUsrCeEIcHaB8EBGId8zjgefgbDg
- vgY/LE9g6XGFYWuWcyuIkpLyg4vFgVw6aD7zUXbvH6+FbgSxCDFEu9BHNoSFCwSei3A4
- 9ydw==
+ bh=2jvTSCB1Zvo+t6Y+On0YfNf1Uk5+D33UHPs4eU3gaLA=;
+ b=PzVZ3ZNMEGTfyP81AMu9kXXtCeNKQyn+Ewd7+3OGkAFNBnGDbVkwBXb73+U6LL3Bni
+ jNNwU3zizu2mvYbFjV7vpeNrBuuxzO3VdjBsx5iIx5WxOGyc60xztFRAoVR1VxruJZYB
+ W4wXdp1mKskeDuqaDOpERyLb2Rqs3I9e2MaE4gBuCi8HP3M+p2Jzk/pYCiXWhw8LzMds
+ x3uGFKaLTLIKVK9GJFv/Ksjzcdw09QGhhOqmJF6gTolxD6ZxZHY0wn6vqHg+7SvZJb+H
+ Cet0Z04c5NHK3qiBfvHUQ6mCua/BBLZR46L0IUDRgWDEVSWfhJZQ3lfR3lY1vtQ546Vc
+ 8SAQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUybl1bbfvpta+8VTC7YPkKQrrLzG613+M7/oPDj3WPjaEIgzvzARRsTE2tnOCr3owdjMBvlU4VCvE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwYY2WHA6eEz3dva6meIy2ReEqKBqq5DwsmwFB3G7AwTTcYE1Lu
- baFiI9ETDHFu/M2tnAafapUoWMQJR+JZM7+nttAFZDxhus4pHQrXCJASuojSxhFwP/58cTwJE54
- mf7UneA/i4idB8aNQ/u7Gir4iHjJKj/tTDt0UCNRbrC5rQH1wFYCJRqXWMk9JeDElfpYgH8pz3m
- fcLMZNPRGryu76M1m3p9+iwbYXo6NGTjybgRpL132H
-X-Gm-Gg: ASbGnctOEddsKxgLc21O08ho1rVkWqO3bRsTOtnYyyL34AuXLCNAmSP4DgOncv2zhhj
- aRLayoE/2ffxby4mNF442Rkrl3dXt/ifFB+Fk34xptmXr1u/OO1yeBYJY8a+tCnQJOhdWQrA=
-X-Received: by 2002:a05:690c:3708:b0:6f9:447d:d1a2 with SMTP id
- 00721157ae682-6fd4a1b56d0mr54407007b3.29.1740760021774; 
- Fri, 28 Feb 2025 08:27:01 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHT2O6YUB+A2cao4TvxGimuD22gnK3sLBLsCrkLnO/OZWJ8vKkmBVWAoJ2/CHGTA0nuEqPoPbAU1ihV4w3RMic=
-X-Received: by 2002:a05:690c:3708:b0:6f9:447d:d1a2 with SMTP id
- 00721157ae682-6fd4a1b56d0mr54406727b3.29.1740760021535; Fri, 28 Feb 2025
- 08:27:01 -0800 (PST)
+ AJvYcCW8Hgm0wkyFU1L4kX3Ihw9rIUq05MZSMptzMPzS1v3DFPgwSAsjKPdjGL7j7aybafTcRcqNUY0ldJQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZAn9yiqYmMILqHtGcCCNbEUGL0pr5PYy3Mb/nMi+XFjQdeMBE
+ 8flIf7WgJ0HsuO9KL+JJ7vRXrK9pTrohH2QBsgzuEFF2LjeEjxROio1sf0++7vnMZg9ktoQvnpm
+ R5ey7Mb0ITnAhlsrPeJSyAL5OQYPyfS3hgp12QkY47reAusrpOe7Gj10Cxpto1pOd8uiDY8AvhW
+ vg/9PqUvJQTR9IfAYzaIOFCmKK70PToZJSmcnJ0CY6
+X-Gm-Gg: ASbGncsSc+ry19I8U3DspdnMrDhq/Og2tBqFFoqCjWX8f+8WC/GM4tuy4ciYinJnPC7
+ rob/aRdaa5Rs3IbNxHre3Z2yKiHFPYlGDM7bIdqIlPA+EJlOyvGDluR0OjPPVnLAedIydcDs=
+X-Received: by 2002:a05:690c:6912:b0:6fb:9389:3cde with SMTP id
+ 00721157ae682-6fd49f9f4d7mr54416667b3.3.1740760112853; 
+ Fri, 28 Feb 2025 08:28:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHU2sup9GNK1LWwwBqjdwItjNq7pnXhiurqbTWlEnyDa/HUS9FkJ8ETHeM/vdAcMRk/Fgejo9bTujtuSkB6A8E=
+X-Received: by 2002:a05:690c:6912:b0:6fb:9389:3cde with SMTP id
+ 00721157ae682-6fd49f9f4d7mr54415677b3.3.1740760111667; Fri, 28 Feb 2025
+ 08:28:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20250226172457.217725-1-tzimmermann@suse.de>
- <20250226172457.217725-6-tzimmermann@suse.de>
-In-Reply-To: <20250226172457.217725-6-tzimmermann@suse.de>
+ <20250226172457.217725-8-tzimmermann@suse.de>
+In-Reply-To: <20250226172457.217725-8-tzimmermann@suse.de>
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Fri, 28 Feb 2025 11:26:50 -0500
-X-Gm-Features: AQ5f1Jo-G3iEnuDsBJIQsw-QJow-l8A9JvivJbttZudPMk5n4hZ3PBavUmRARuA
-Message-ID: <CAN9Xe3QU_goD8ca9_dCew3V=U22SUbVmOri1p+fwiicJKNa6wQ@mail.gmail.com>
-Subject: Re: [PATCH 05/10] drm/gem-shmem: Use dma_buf from GEM object instance
+Date: Fri, 28 Feb 2025 11:28:20 -0500
+X-Gm-Features: AQ5f1Jp_u5F0r8PukJ813zLg5UrkPRK89MfjPOWspyqG0di6jE3nBSzSCvSOU8g
+Message-ID: <CAN9Xe3Thzs9BYdd9zKh3oK+TozLQt5gE7hOE1fxPqLOBuGG7bg@mail.gmail.com>
+Subject: Re: [PATCH 07/10] drm/gem-framebuffer: Use dma_buf from GEM object
+ instance
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: simona@ffwll.ch, javierm@redhat.com, airlied@gmail.com, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
  sumit.semwal@linaro.org, christian.koenig@amd.com, 
  dri-devel@lists.freedesktop.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 0UROoCEjnz3scwjqrc75kEPzXjsEb3KkE-fgGsrfrhY_1740760022
+X-Mimecast-MFC-PROC-ID: g4ZM2DSyPaQ9L0m7ZgJjIFmQ2ZXH1NNj2m0wjRaII_o_1740760113
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b92bc3062f3646b4"
+Content-Type: multipart/alternative; boundary="000000000000186bce062f364c5d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,7 +95,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000b92bc3062f3646b4
+--000000000000186bce062f364c5d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -111,46 +112,68 @@ wrote:
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 7722cd720248..d99dee67353a 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -339,10 +339,10 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object
-> *shmem,
->         int ret =3D 0;
+> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> index 2bf606ba24cd..0fbeb686e561 100644
+> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> @@ -419,7 +419,6 @@ EXPORT_SYMBOL(drm_gem_fb_vunmap);
+>  static void __drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum
+> dma_data_direction dir,
+>                                         unsigned int num_planes)
+>  {
+> -       struct dma_buf_attachment *import_attach;
+>         struct drm_gem_object *obj;
+>         int ret;
 >
->         if (drm_gem_is_imported(obj)) {
-> -               ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
-> +               ret =3D dma_buf_vmap(obj->dma_buf, map);
->                 if (!ret) {
->                         if (drm_WARN_ON(obj->dev, map->is_iomem)) {
-> -                               dma_buf_vunmap(obj->import_attach->dmabuf=
-,
-> map);
-> +                               dma_buf_vunmap(obj->dma_buf, map);
->                                 return -EIO;
->                         }
+> @@ -428,10 +427,9 @@ static void __drm_gem_fb_end_cpu_access(struct
+> drm_framebuffer *fb, enum dma_dat
+>                 obj =3D drm_gem_fb_get_obj(fb, num_planes);
+>                 if (!obj)
+>                         continue;
+> -               import_attach =3D obj->import_attach;
+>                 if (!drm_gem_is_imported(obj))
+>                         continue;
+> -               ret =3D dma_buf_end_cpu_access(import_attach->dmabuf, dir=
+);
+> +               ret =3D dma_buf_end_cpu_access(obj->dma_buf, dir);
+>                 if (ret)
+>                         drm_err(fb->dev, "dma_buf_end_cpu_access(%u, %d)
+> failed: %d\n",
+>                                 ret, num_planes, dir);
+> @@ -454,7 +452,6 @@ static void __drm_gem_fb_end_cpu_access(struct
+> drm_framebuffer *fb, enum dma_dat
+>   */
+>  int drm_gem_fb_begin_cpu_access(struct drm_framebuffer *fb, enum
+> dma_data_direction dir)
+>  {
+> -       struct dma_buf_attachment *import_attach;
+>         struct drm_gem_object *obj;
+>         unsigned int i;
+>         int ret;
+> @@ -465,10 +462,9 @@ int drm_gem_fb_begin_cpu_access(struct
+> drm_framebuffer *fb, enum dma_data_direct
+>                         ret =3D -EINVAL;
+>                         goto err___drm_gem_fb_end_cpu_access;
 >                 }
-> @@ -405,7 +405,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object
-> *shmem,
->         struct drm_gem_object *obj =3D &shmem->base;
->
->         if (drm_gem_is_imported(obj)) {
-> -               dma_buf_vunmap(obj->import_attach->dmabuf, map);
-> +               dma_buf_vunmap(obj->dma_buf, map);
->         } else {
->                 dma_resv_assert_held(shmem->base.resv);
->
+> -               import_attach =3D obj->import_attach;
+>                 if (!drm_gem_is_imported(obj))
+>                         continue;
+> -               ret =3D dma_buf_begin_cpu_access(import_attach->dmabuf, d=
+ir);
+> +               ret =3D dma_buf_begin_cpu_access(obj->dma_buf, dir);
+>                 if (ret)
+>                         goto err___drm_gem_fb_end_cpu_access;
+>         }
 > --
 > 2.48.1
 >
 >
 
---000000000000b92bc3062f3646b4
+--000000000000186bce062f364c5d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -168,55 +191,83 @@ to the same buffer. Prepares to make import_attach optional.<br>
 Signed-off-by: Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de"=
  target=3D"_blank">tzimmermann@suse.de</a>&gt;<br>
 ---<br>
-=C2=A0drivers/gpu/drm/drm_gem_shmem_helper.c | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+=C2=A0drivers/gpu/drm/drm_gem_framebuffer_helper.c | 8 ++------<br>
+=C2=A01 file changed, 2 insertions(+), 6 deletions(-)<br>
 <br>
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_g=
-em_shmem_helper.c<br>
-index 7722cd720248..d99dee67353a 100644<br>
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c<br>
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c<br>
-@@ -339,10 +339,10 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *s=
-hmem,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret =3D 0;<br>
+diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm=
+/drm_gem_framebuffer_helper.c<br>
+index 2bf606ba24cd..0fbeb686e561 100644<br>
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c<br>
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c<br>
+@@ -419,7 +419,6 @@ EXPORT_SYMBOL(drm_gem_fb_vunmap);<br>
+=C2=A0static void __drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, e=
+num dma_data_direction dir,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned=
+ int num_planes)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dma_buf_attachment *import_attach;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_gem_object *obj;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (drm_gem_is_imported(obj)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_vma=
-p(obj-&gt;import_attach-&gt;dmabuf, map);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_vma=
-p(obj-&gt;dma_buf, map);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!ret) {<br>
+@@ -428,10 +427,9 @@ static void __drm_gem_fb_end_cpu_access(struct drm_fra=
+mebuffer *fb, enum dma_dat<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 obj =3D drm_gem_fb_=
+get_obj(fb, num_planes);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!obj)<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if (drm_WARN_ON(obj-&gt;dev, map-&gt;is_iomem)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-&gt;import_attach-=
-&gt;dmabuf, map);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-&gt;dma_buf, map);=
-<br>
+=A0 =C2=A0 continue;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import_attach =3D o=
+bj-&gt;import_attach;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!drm_gem_is_imp=
+orted(obj))<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EIO;<br>
+=A0 =C2=A0 continue;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_end=
+_cpu_access(import_attach-&gt;dmabuf, dir);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_end=
+_cpu_access(obj-&gt;dma_buf, dir);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 }<br>
+=A0 =C2=A0 drm_err(fb-&gt;dev, &quot;dma_buf_end_cpu_access(%u, %d) failed:=
+ %d\n&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret, num_planes, dir);<br>
+@@ -454,7 +452,6 @@ static void __drm_gem_fb_end_cpu_access(struct drm_fram=
+ebuffer *fb, enum dma_dat<br>
+=C2=A0 */<br>
+=C2=A0int drm_gem_fb_begin_cpu_access(struct drm_framebuffer *fb, enum dma_=
+data_direction dir)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dma_buf_attachment *import_attach;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_gem_object *obj;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int i;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
+@@ -465,10 +462,9 @@ int drm_gem_fb_begin_cpu_access(struct drm_framebuffer=
+ *fb, enum dma_data_direct<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ret =3D -EINVAL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 goto err___drm_gem_fb_end_cpu_access;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-@@ -405,7 +405,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *=
-shmem,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_gem_object *obj =3D &amp;shmem-&gt;b=
-ase;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (drm_gem_is_imported(obj)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-=
-&gt;import_attach-&gt;dmabuf, map);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_vunmap(obj-=
-&gt;dma_buf, map);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_resv_assert_hel=
-d(shmem-&gt;base.resv);<br>
-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import_attach =3D o=
+bj-&gt;import_attach;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!drm_gem_is_imp=
+orted(obj))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 continue;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_beg=
+in_cpu_access(import_attach-&gt;dmabuf, dir);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_beg=
+in_cpu_access(obj-&gt;dma_buf, dir);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 goto err___drm_gem_fb_end_cpu_access;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 -- <br>
 2.48.1<br>
 <br>
 </blockquote></div></div>
 
---000000000000b92bc3062f3646b4--
+--000000000000186bce062f364c5d--
 
