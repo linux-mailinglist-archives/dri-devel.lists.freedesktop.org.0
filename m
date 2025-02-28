@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23EBA4A247
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 19:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B479A4A232
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 19:52:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7155110ED25;
-	Fri, 28 Feb 2025 18:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9061610ED24;
+	Fri, 28 Feb 2025 18:52:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fh564Eqx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d6tXwGJN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C3710ED2A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 18:58:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B5A0B6115C;
- Fri, 28 Feb 2025 18:58:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82186C4CED6;
- Fri, 28 Feb 2025 18:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740769127;
- bh=CIA17vKj86QZVvcuBdGngR2g3nwrDmSjGoJQOl2IIs4=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=Fh564EqxRGkM4ET1BYBiFfp6RT69LGTwBPr/GQ/PAMqX3Y0D2RN+/ad6M4RZL1gGi
- 5/DSOCyVblBbt7bHCOG0S5g6FYcuHeDOvCdkWdKnx1ZnXvE2vMAaSL9zReGjcS5u8F
- s4zl61WKhzRfdn0Y+v5pRIZaP4SbfRL0/NaA/noarNaUCP4GN6uRjB9ZND9LEaRzhQ
- /BmP1DcWGYEua/HEb3alrccBqVw+oW4yyr/xDF8BuLXdJ2moQy8aHED3KzfzE7rRPG
- 4DIkfeMY+SJJh2uBaLG9HhKIjrmxhBbUPHGe8tFIOP7FLqcd6fwuJ5Ygpi53x9OCD+
- J79qRh6kVuGMQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,  "Miguel Ojeda"
- <ojeda@kernel.org>,  "Petr Mladek" <pmladek@suse.com>,  "Steven Rostedt"
- <rostedt@goodmis.org>,  "Andy Shevchenko"
- <andriy.shevchenko@linux.intel.com>,  "Rasmus Villemoes"
- <linux@rasmusvillemoes.dk>,  "Sergey Senozhatsky"
- <senozhatsky@chromium.org>,  "Andrew Morton" <akpm@linux-foundation.org>,
- "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo" <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,  "Benno
- Lossin"
- <benno.lossin@proton.me>,  "Trevor Gross" <tmgross@umich.edu>,  "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>,  "Maxime Ripard"
- <mripard@kernel.org>,  "Thomas Zimmermann" <tzimmermann@suse.de>,  "David
- Airlie" <airlied@gmail.com>,  "Simona Vetter" <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>,  <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 2/5] rust: macros: support additional tokens in quote!
-In-Reply-To: <20250228-export-macro-v2-2-569cc7e8926c@google.com> (Alice
- Ryhl's message of "Fri, 28 Feb 2025 12:39:31 +0000")
-References: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
- <2uURW8_Sq6S8VV2UoJJ6bmoH71NWq1X6b1niImKX2mpjudmVM5tNapWA4OLWXoZ8nmcM--z2XtAdgKiNPx8qQg==@protonmail.internalid>
- <20250228-export-macro-v2-2-569cc7e8926c@google.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Fri, 28 Feb 2025 19:51:21 +0100
-Message-ID: <874j0dnbrq.fsf@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DEAA10ED2C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 18:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740768776; x=1772304776;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4Q0hw/ajRFKVPitC4Ch9KNn7FeeRH/hNMXpUNvC+1Cc=;
+ b=d6tXwGJNNrGLFgCuyr4IKIP7qEqJ78s8NTv4KaodFzqog3qhTyKtXBDN
+ ndpmVUPyO0PqSf9ThJded2zxy+Fv460PhrSFBWztepspg1ijwpRypYLtV
+ FSbY7iTnIFiDVeEhgc6OTOxghPE91guO5E0kC//0TOzsjJBfNZLg9f5mj
+ W3NLQHgluOyfee6TmMyIfPWIxE3B+WpirVDnUyPsD4IQnR5M8WdXLsVSo
+ +FtF9ZN4abE+xW6wHHgS42qdEjHKBTFM+Sw9WNYX8l7Ab8SONPD/WWjvs
+ ndORfM0BkHEimsH1RkhIyEOKtJlzjpDoA2RSHW/Y+8ZgaL1XDc1goU1Lq g==;
+X-CSE-ConnectionGUID: z+hr78JLTUesq/gGrTnc2w==
+X-CSE-MsgGUID: kHtGfCTBT4CU9UutxAHZhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41593417"
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="41593417"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 10:52:56 -0800
+X-CSE-ConnectionGUID: H2zszMg5SVWhBGdpTtACbg==
+X-CSE-MsgGUID: SRQuiKOdRe6jElvpX27CPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="122549103"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 10:52:54 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1to5Tf-0000000G3oN-1QEH; Fri, 28 Feb 2025 20:52:51 +0200
+Date: Fri, 28 Feb 2025 20:52:51 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Cleanup io.h
+Message-ID: <Z8IGA821OAgYN-K1@smile.fi.intel.com>
+References: <20250227070747.3105451-1-raag.jadav@intel.com>
+ <Z8CD33_OWK2LB6IZ@smile.fi.intel.com>
+ <0011035a-5816-48c4-9fe4-c0b9db3c8e72@app.fastmail.com>
+ <Z8H1Y2_RlFnXeNEa@black.fi.intel.com>
+ <Z8IDXD2bkO1t71yB@smile.fi.intel.com>
+ <Z8IDgmrLx5DQADxJ@smile.fi.intel.com>
+ <Z8IERmwHXUuJoD4S@black.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8IERmwHXUuJoD4S@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +80,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Alice Ryhl" <aliceryhl@google.com> writes:
+On Fri, Feb 28, 2025 at 08:45:26PM +0200, Raag Jadav wrote:
+> On Fri, Feb 28, 2025 at 08:42:10PM +0200, Andy Shevchenko wrote:
+> > On Fri, Feb 28, 2025 at 08:41:33PM +0200, Andy Shevchenko wrote:
+> > > On Fri, Feb 28, 2025 at 07:41:55PM +0200, Raag Jadav wrote:
+> > > > On Fri, Feb 28, 2025 at 06:11:16PM +0100, Arnd Bergmann wrote:
+> > > > > On Thu, Feb 27, 2025, at 16:25, Andy Shevchenko wrote:
+> > > > > > On Thu, Feb 27, 2025 at 12:37:45PM +0530, Raag Jadav wrote:
+> > > > > >> This series attempts to cleanup io.h with "include what you use" approach.
+> > > > > >> This depends on changes available on immutable tag[1].
+> > > > > >> 
+> > > > > >> Although this series is too trivial in the grand scheme of things, it is
+> > > > > >> still a tiny step towards untangling core headers. I have success results
+> > > > > >> from LKP for this series but there can still be corner cases. So perhaps
+> > > > > >> we can queue this on a temporary branch which we can use to submit fixes
+> > > > > >> in case of fallout.
+> > > > > >> 
+> > > > > >> Future plan is to use the excellent analysis[2][3] by Arnd to cleanup other
+> > > > > >> headers.
+> > > > > >> 
+> > > > > >> [1] https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com
+> > > > > >> [2] https://lore.kernel.org/r/2342b516-2c6e-42e5-b4f4-579b280823ba@app.fastmail.com
+> > > > > >> [3] https://lore.kernel.org/r/f6eb011b-40fb-409a-b2b2-a09d0e770bbd@app.fastmail.com
+> > > > > >
+> > > > > > I believe Arnd can take it through his tree for headers as DRM part is 
+> > > > > > Acked already.
+> > > > > 
+> > > > > I've applied it yesterday and not seen any regression reports so far.
+> > > > 
+> > > > Probably because the immutable tag is already in -next?
+> > > 
+> > > Is there any?
+> > 
+> > Ah, you mean devres related?
+> 
+> Yeah, couldn't find it on Arnd's tree and I'm not sure if this series
+> works without it.
 
-> This gives the quote! macro support for the following additional tokens:
->
-> * The = token.
-> * The _ token.
-> * Using #my_var with variables of type Ident.
->
-> Additionally, some type annotations are added to allow cases where
-> groups are empty. For example, quote! does support () in the input, but
-> only when it is *not* empty. When it is empty, the compiler cannot infer
-> the item type of `tokens`.
->
-> These additional quote! features are used by a new proc macro that
-> generates code looking like this:
->
-> 	const _: () = {
-> 	    if true {
-> 	        ::kernel::bindings::#name
-> 	    } else {
-> 	        #name
-> 	    };
-> 	};
->
-> where #name has type Ident.
->
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+But err.h is included in the io.h, no? Or did I misunderstand the point?
 
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-
-
-Best regards,
-Andreas Hindborg
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
