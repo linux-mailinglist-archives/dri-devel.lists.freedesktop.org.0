@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE67A49704
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:21:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C07A49711
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:22:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42A810EC57;
-	Fri, 28 Feb 2025 10:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD2F810EC5A;
+	Fri, 28 Feb 2025 10:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="ZupeaTG4";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="euyd0mwT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dQlsPG/D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6CD10EC57
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:21:30 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 636E510EC61
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:22:32 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-30b909f0629so8433641fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 02:22:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1740738090; x=1772274090;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=/QhhlC9uU19V9J88cHdgykY4awBetTHBnxL1KmQ0R5Y=;
- b=ZupeaTG4OeHu8EVbdmbDNaHBOIH7Hce+14R68dj00LJeSrjbif6gxNEL
- tXmuROx00Mrjr0MdIi/z8P5od3Xclan1IE3n0CkZP9zryyIU773Ce+mKB
- eGIftYxkqzMe/Bw/Y67/vj71uASY34qd3sXDKVRBIvQg+asTrVswon9Oi
- 1MlKk14oZSY9NcTXlFlUkBmbIu4ljLG0quRe1sQ1ZZKqw/pTPUmBe8qIr
- S5bwCCtUvZKwZfsRKTfjxBSf6KobtXZJoXcw4DhfYZMq9Uq7ghNL5rPfT
- olsSJW5p8qhrJLo8fkxBGwA8RarH1I5PjPulfc5Cq3nn9PpcJ78fmYzcC A==;
-X-CSE-ConnectionGUID: iRr4JPuoTGmOPgXGpB/sWw==
-X-CSE-MsgGUID: /XNPAa7+SRufdkOdkliC7A==
-X-IronPort-AV: E=Sophos;i="6.13,322,1732575600"; d="scan'208";a="42171468"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 28 Feb 2025 11:21:28 +0100
-X-CheckPoint: {67C18E28-2-2895743E-CD1E7AB7}
-X-MAIL-CPID: EA36C0BEDADF546230EE4332BB39D6D7_4
-X-Control-Analysis: str=0001.0A002112.67C18E28.0040, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 9B9E8168CC3; Fri, 28 Feb 2025 11:21:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1740738083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/QhhlC9uU19V9J88cHdgykY4awBetTHBnxL1KmQ0R5Y=;
- b=euyd0mwTUQC8rghcISeYrvLp+e7Pnfs8TQ7r5JTkCNqvnyw0ANilA7BZoghCHFXpeopLTR
- momj1MWbV7jthBuGgRyi9sHlWesBOHTym4XU7zGDW8AhMsqmiwVkixCQr77vwqBYddE9Zh
- pKpz0kQ7taADcCxGzvDNuHJg3jMaX4QSuomEjGTA14ylL1UpUXTM1GvdR4iAflpUoIKM7v
- 3Ig4gUAI+gPhdMKPmSfmBLhZ7AHPIDRaGEnNt55UEgLkNkEXvz1efsvQke52dxzSNKE4Rd
- k/61BxrVWSQCvVWsonKTLQtICKW/M3d2h3+ilzVX/Sa1yXYY7ecJX5rG/jeXLQ==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 8/9] drm/panthor: Add i.MX95 support
-Date: Fri, 28 Feb 2025 11:21:21 +0100
-Message-ID: <4658624.cEBGB3zze1@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250227170012.124768-9-marex@denx.de>
-References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-9-marex@denx.de>
+ d=linaro.org; s=google; t=1740738150; x=1741342950; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z5R1GwEARUIu4D0vBS31y0VlPu/BaWoEI502D8t7cc8=;
+ b=dQlsPG/DxfKJoOGs0eNx4Vrh/AvyXcnYyEHqMy8bIJDc2NPkeTIKV1Xn510FR6Detr
+ dp7SfFssJm5P4JsS2UVsIW1x+ADnkjsMUTO1evY2KXGq/TNxEFVByIE96zZEIcj9ZUU4
+ vsuRASpRJo4kmNGxvy0PaZ8wMDl+jifvlf+KMU1j/HBr/R/NWVCNh9vyezfF84+9Rp3g
+ qe8te/tZV12RncoEJl5mn63esdQ98o0hfYhok3tuvq6VKoYxRKOQwRyV/6CNm5CdpE4g
+ BjkdIsdUoRVTuOTO41kBHgJ5Z0KC8PmG7woLdeHlD3WzXUSV/IyUk0Pxbl4J80LnV2p9
+ 0F1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740738150; x=1741342950;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Z5R1GwEARUIu4D0vBS31y0VlPu/BaWoEI502D8t7cc8=;
+ b=GDcUOLeTmKdlx1plp4kfQGNi48256EdYXA/4PE9qZaahKcYj4ekZRkJZeMJ5rdFVdP
+ aFJe1DojVlvE1X8Z7fEZG9IIcPmEPWk+YR9PzjAy37GgDT80pjv52qW18XqWejSjlsCZ
+ RPv22wUBDqj3kov1tz6lJAmpocEaEuVCJCbXZNIGZIdpRRpcLy5JYB44XNti+iTEXLOw
+ +FsC5ccNdmPNyolwY75IGowp+0lN3yxalVrrVNXYNwLy/Bt/LmmUjZYP3LQz+cjYrrhZ
+ Uh6glf9coUjGsRML4wIB7bp/679Ivjs6gSM2Xa2qLgN9z1sglQ6DPCwPpyOYU/VFPLor
+ tZ4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2JCr4XTTFXlXS4tDLOxg7vtLzY3Tfllf1Ma0av7HsN307p++MkZW4pjcOz5l4fEj2zx9mRpQrXW0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWwCGzscc9coYwRQxIEEJZJzLb476jE012TydZS8nmXqnitYRW
+ zZFu/UT+BOnF2lzUy0GWe4XmqeEUAYVaMMgMCm/RtbnWwvfjKcEQle0t2hDk9kY=
+X-Gm-Gg: ASbGncvx5l81URmLXe6UwM64uwNz/Wj3c2JWIKaRpJK2ucENH7pTNBSWg4UidXX7183
+ f6uyyymjMs2jJAKc4h1tYNu+T5fjRNbWzrGK2G4SAJGI5BN+g4hrapScusNr4DkkZlMzlV+QQIR
+ tHIJzxmw8ApWEHMvA6608sfIt5AhSIz8G2iL3MqV3g8M9hAkklQXLTrNnD5rFO3JZ1jpU5cEY7o
+ jxG9pt+7wyWcjaQ/D2qMKdvQl+FoCW77JB2mwNgthns+7LchEbtkWnb4FfhzvXEp8HTMVG/QrRv
+ NTyR7eyZDpRD86WM3IGQOaEZ9qAYorjEUWWzoepjxa8oyzKVAS+TZWpH9M/nRYh+fsExlNUOxw2
+ tjFmHwg==
+X-Google-Smtp-Source: AGHT+IEcFPCTorTFbzvj3XxGZ+gp0Pdf9edgu6c5mZ8c9NQpwr+CURuqlRmoz1kSiZZiiCQv03r7hA==
+X-Received: by 2002:a05:6512:3b99:b0:545:c51:4a03 with SMTP id
+ 2adb3069b0e04-5494c125ad5mr998344e87.11.1740738150508; 
+ Fri, 28 Feb 2025 02:22:30 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5494e8399c4sm197441e87.213.2025.02.28.02.22.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2025 02:22:29 -0800 (PST)
+Date: Fri, 28 Feb 2025 12:22:26 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] drm/connector: Fix spelling mistake "provded" ->
+ "provided"
+Message-ID: <57owgwkyiaxw7xckoug6tsrzk3g3z5yb74wp47av42rrvhxqby@tzr5aapdua4k>
+References: <20250228085350.678446-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250228085350.678446-1-colin.i.king@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,86 +93,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-Am Donnerstag, 27. Februar 2025, 17:58:08 CET schrieb Marek Vasut:
-> The instance of the GPU populated in Freescale i.MX95 is the
-> Mali G310, add support for this variant.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
+On Fri, Feb 28, 2025 at 08:53:50AM +0000, Colin Ian King wrote:
+> There are spelling mistakes in drm_err messages. Fix them.
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 > ---
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 1 +
->  drivers/gpu/drm/panthor/panthor_gpu.c | 1 +
->  2 files changed, 2 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> index 06fe46e320738..2504a456d45c4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1591,6 +1591,7 @@ static struct attribute *panthor_attrs[] =3D {
->  ATTRIBUTE_GROUPS(panthor);
-> =20
->  static const struct of_device_id dt_match[] =3D {
-> +	{ .compatible =3D "fsl,imx95-mali" },	/* G310 */
->  	{ .compatible =3D "rockchip,rk3588-mali" },
->  	{ .compatible =3D "arm,mali-valhall-csf" },
->  	{}
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/pant=
-hor/panthor_gpu.c
-> index 0f07ef7d9aea7..2371ab8e50627 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -67,6 +67,7 @@ struct panthor_model {
->  }
-> =20
->  static const struct panthor_model gpu_models[] =3D {
-> +	GPU_MODEL(g310, 0, 0),	/* NXP i.MX95 */
+>  drivers/gpu/drm/drm_connector.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-Are you sure about 0, 0? With this I get
-> [drm] mali-unknown id 0xac74 major 0x0 minor 0x0 status 0x1
+Fixes: c627087cb164 ("drm/connector: Use common colorspace_names array")
 
-Using GPU_MODEL(g310, 10, 4) I get:
-> [drm] mali-g310 id 0xac74 major 0x0 minor 0x0 status 0x1
-
-Note the output is GPU_VER_MAJOR() but this table is for GPU_ARCH_MAJOR()
-(and the corresponding minor).
-
-Best regards,
-Alexander
-
->  	GPU_MODEL(g610, 10, 7),
->  	{},
->  };
->=20
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+-- 
+With best wishes
+Dmitry
