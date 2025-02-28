@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D371A49ACF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 14:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A853A49ADE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 14:45:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC36A10ECA9;
-	Fri, 28 Feb 2025 13:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7DF10ECA4;
+	Fri, 28 Feb 2025 13:45:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D74YUx0M";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UXkX3BIf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51BA710ECAA
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:43:30 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51SAXMKV011828
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:43:29 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 511A010ECAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:45:54 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51SAXJhl031961
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:45:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- uK7XPFL9iClFWAeim23sLhZiHmmfyDn3gazcoBk2iEs=; b=D74YUx0MGKkLqrsn
- plW6U5fatD9Sbz8W3JEK8uNcX54S7V0YQiMTX8G5pMmVi4cCd16z0b609MWeZ00P
- 3nezOn4EIrtoBkaLJD+2lBYeMYUqLneevM8qHRGU0sz6hWrmuiFKZL6YFRWtC5T8
- YrLI6phohOguy3bQjB6jKTafAteWHSzJagG477EWpD/vHNRncNS1ic50tTLlLzYA
- 2mkOPSxvXHT1nryaD/b7qjfKeCxwCrlXVyIvHvr91xVjNXJMfWLgBDMseP9OkT1N
- OKjvpxlMMKlTSUb5XYqBeB7wwv4xfudSRUKvETzBmSdTK5cmNMnomkbot0YzKQ8f
- bBwxYA==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4522skykgt-1
+ ElMZp3aj8XCvzAukLCtSsmNgNkzLrnbLNXvaEBzIL4g=; b=UXkX3BIfY/8M396a
+ UjCat4hwQmhGG02/WSx8S+HWbe4kRMf4khRfSnMsd4Fq5yu7g32oYs60fGFhDZNW
+ DDx0fix8cntcU7/vxKYpaliQblncMDiwdZjs03hXXdYwQ60t4BAv5UdCbvm9tU7f
+ IqjHLJd2Y1XziwX9z1Zo1Gk3THuxtoBVUT9APaTEpBx7bop6IXvFrxzVtmHbbcT2
+ fWbq8WSVUAyfRPSS5Km+KC3onj9zrfMBH+encQAd1pRLSELGiGcVu0YPYNgDuo6F
+ gqrQYwsK1ziqnjVhDR0FqVbeF51BfdMTkyhWCIkxegLrbNUzp/O+o3ZKXs4IysLc
+ 0zy03A==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 451prksmnm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:43:29 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6e19bfc2025so3867366d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 05:43:29 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:45:53 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6e249d117b7so2500296d6.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 05:45:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740750208; x=1741355008;
+ d=1e100.net; s=20230601; t=1740750352; x=1741355152;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uK7XPFL9iClFWAeim23sLhZiHmmfyDn3gazcoBk2iEs=;
- b=eI/GvXf2kqyXgXsLPAuPU9nNfjdjE2kzEat6WPybUbidL45+H/nF28L+bKNgZCo8cs
- pKxt22sdUj/j6slwYrNkkXynGhxHRt95VgPiV2yg05uN5hDdH1Q9+LxdNI0GLw3sATh7
- b1Ra8yx9NoVBNPvS+qBuAFLUyx9GkbX6yYr8LoTxW4yLmBS0K94YI3bhPe8S3okz2DY2
- XmQFAOK4gbHvWtQzL7fDFb/OhEuYdkr3qAOxJwKpVOBH46CTAN+YDC1e7oRB15rji+1E
- ybrtpxYngxkHMWHdujj2FQfUO4CrFru5lrTiSwWQhyvdOopvkwvI418fvcfIwdUUDGqj
- p2og==
+ bh=ElMZp3aj8XCvzAukLCtSsmNgNkzLrnbLNXvaEBzIL4g=;
+ b=KgZ4sGFB8mdDzjo7mF3fd02fIZzHn7hQN4xm5HcL/kRsUpb+xyGGBKuxnVMknPrDPP
+ UhjgCsi/1G9+kc0pdQEwVC80hyJf+qi9Vy4sOwt96Kw81Y2j2hYHDpm03VG7B6fs+Ypw
+ cbS6rw+ys9lZ9TY9Eagt5vp1MHSI6hf7wvFd1KZhukf4rUdupDZqlAWgMtDrKe7wgipW
+ t2k3iN7K/ZFOdXPXtaPNNJ+TDDlznnDEDjjUwwrNwuQAuL7y6SrJSd85SBkbCR9IErss
+ wLcGKrtp60XOIQ0cOMZfHk2igfbnEG3a6MMMiyZGyTY05L5umwvFLp2rVm3Uao3BPDeN
+ ug4w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVjlseuJbK9bYLPWXbqeoi0nozBcYuRZt1DMpPShiBvRacd6WL7pff2HUFmIjByOGQfr3de6PgQUYc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzvt8yC6l9X3lx5jNmxiCdxJwxcBsOFB7zNdK8szxV0hlCq9h3J
- LtTV9cbmKxrnIk3mgp7oP10Ebh6mh68tvOUJ6dVChkQ2S/ZyYhJu0QfCC+ZFKa+bDcWuKnZWTFZ
- aROVlxK/VZX25EIcOkz7syoxodHePhBihJScUm43q4EhX5W8dvKUoGFI2BHTb+ToFNLg=
-X-Gm-Gg: ASbGncsg1CoO9HeIGJF/0ZuRbHEXy57I95hIbj2RoRRhfrx+VLVQB09xJkvF0Ztyr/u
- rCFV114ODFs4TudqUTbpnC0PGBFg44nPu4LHEjjbUyS3ci+M+zQUOUKzxRcArY/e9T4YGXWfRht
- Jg2YQ6e4/24lA8TmERKv5pf8dLEQm7pJj8nOWLCVI+Jf6wkjIDSdDDLN1ea+/n1XCvNxHUs1msc
- mrfYtqQ/wnqGnHy/Y7mMJeIfiU/yTQmFKQTT8W7liaInrxlZoPFUAcJoV7oOmaI1N+40V1mbXjS
- kkh0DfV6VORxAWrge3H4TZg7xQN2Ld23yGw3N6svmemx4Gr+gzeNLfu61kdzK4RdGIGxVw==
-X-Received: by 2002:ad4:4eeb:0:b0:6e8:9c91:227a with SMTP id
- 6a1803df08f44-6e8a0acfacdmr20127946d6.0.1740750208593; 
- Fri, 28 Feb 2025 05:43:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH6LsgtGwg0dHHSjda+X6QBa3Lh1LM3XCxwbSPqdc++bbG/PxqnrKamtHXvnvNs9sSIfeIs0Q==
-X-Received: by 2002:ad4:4eeb:0:b0:6e8:9c91:227a with SMTP id
- 6a1803df08f44-6e8a0acfacdmr20127616d6.0.1740750208096; 
- Fri, 28 Feb 2025 05:43:28 -0800 (PST)
+ AJvYcCXvM7rPQKbgqEzpXcgBI4kIZoPwC0NyeI8VULSTNWYtRJrsGlTTODYlD/8z1kiCu+1HSwSxrLtSu8Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzPSfSiTZNT2W2j4aIiUxrRKQT7iOgqkz+UtesM/PNTPUPpYFRm
+ mTXPaiZig21MSxciakxMvgt6Etbj9pJAteE8lV7O4iRl7QkoeoFFUdCogBOuK36xpZ2oDjUfd/3
+ dqvYqwpGnx8q5FXL3Cb/hLMohENG3Eizh8lRab9CIChTU9mNnpn8Roma63Gn9/1MIncc=
+X-Gm-Gg: ASbGncvi2/uQDzmcmnXRbuaONCwgsNP7rIaqny8YOyK/ieSEPT/CfvDxd1SXyv0w3JV
+ gZ5EmZw4l1fNncp8yCKZeUc0oq0uC9jlVZP1yQqImhuu0tbhjjRrGNvJ3Joa0Am4f/EHAfgTHTy
+ 3l0fZIesr5+XXMi5gfAzQ0BXCiUXpVjBfYey5lVR9pxjnhIJ7IzrSO4zG5qH0DS3R0ZwY5IDXXh
+ 83z724dj6P4yG/te1PsLYbV/biYup/JlSb1meV1iYa8Aag5wlzSaWqjAfGciTjYP3kWC6BpCvl8
+ 2npEZ/acgJqBd4PLJLAcnwwNJ3PDWlrtIssU+yYrWk1CA7IB7FBn23xHurz9t6ezmh2AhQ==
+X-Received: by 2002:ad4:5f87:0:b0:6d9:2fe3:bf0c with SMTP id
+ 6a1803df08f44-6e8a0d390bdmr16624706d6.4.1740750352302; 
+ Fri, 28 Feb 2025 05:45:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE/oCApv/Y5ObRZE/KFXdLu0bmSyua0FoUMda3K2Tbcj+Kjc3wCxjh+pxAlMy7QurbrRXWsqw==
+X-Received: by 2002:ad4:5f87:0:b0:6d9:2fe3:bf0c with SMTP id
+ 6a1803df08f44-6e8a0d390bdmr16624436d6.4.1740750351841; 
+ Fri, 28 Feb 2025 05:45:51 -0800 (PST)
 Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abf0c0dd6ccsm294572366b.57.2025.02.28.05.43.26
+ 4fb4d7f45d1cf-5e4c3b6d702sm2484342a12.17.2025.02.28.05.45.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Feb 2025 05:43:27 -0800 (PST)
-Message-ID: <aca6056f-cb53-4879-81b8-3d9f0913c571@oss.qualcomm.com>
-Date: Fri, 28 Feb 2025 14:43:25 +0100
+ Fri, 28 Feb 2025 05:45:51 -0800 (PST)
+Message-ID: <602c58bd-ae4b-4af9-acd1-ef4f1bde5f70@oss.qualcomm.com>
+Date: Fri, 28 Feb 2025 14:45:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] drm/msm/dpu: remove DSC feature bit for PINGPONG on
- MSM8953
+Subject: Re: [PATCH 4/4] drm/msm/dpu: remove DSC feature bit for PINGPONG on
+ SDM630
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
@@ -87,23 +87,23 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20250228-dpu-fix-catalog-v1-0-b05d22fbc2b4@linaro.org>
- <20250228-dpu-fix-catalog-v1-3-b05d22fbc2b4@linaro.org>
+ <20250228-dpu-fix-catalog-v1-4-b05d22fbc2b4@linaro.org>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250228-dpu-fix-catalog-v1-3-b05d22fbc2b4@linaro.org>
+In-Reply-To: <20250228-dpu-fix-catalog-v1-4-b05d22fbc2b4@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: sxhpx3qv6AHOcdIvZ-6dDX7I_qwbPf6R
-X-Proofpoint-ORIG-GUID: sxhpx3qv6AHOcdIvZ-6dDX7I_qwbPf6R
+X-Proofpoint-GUID: qUEZ0PPJvOtQnubUwd-_Ws2kumz2TQaT
+X-Proofpoint-ORIG-GUID: qUEZ0PPJvOtQnubUwd-_Ws2kumz2TQaT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-28_03,2025-02-27_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0 priorityscore=1501
- mlxscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2502280100
+ bulkscore=0 impostorscore=0
+ adultscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ clxscore=1015 malwarescore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502280100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,16 +122,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 28.02.2025 3:40 AM, Dmitry Baryshkov wrote:
 > The MSM8937 platform doesn't have DSC blocks nor does have it DSC
 > registers in the PINGPONG block. Drop the DPU_PINGPONG_DSC feature bit
-> from the PINGPONG's feature mask and, as it is the only remaining bit,
-> drop the .features assignment completely.
+> from the PINGPONG's feature mask, replacing PINGPONG_SDM845_MASK and
+> PINGPONG_SDM845_TE2_MASK with proper bitmasks.
 > 
-> Fixes: 7a6109ce1c2c ("drm/msm/dpu: Add support for MSM8953")
+> Fixes: 7204df5e7e68 ("drm/msm/dpu: add support for SDM660 and SDM630 platforms")
 > Reported-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
+> index df01227fc36468f4945c03e767e1409ea4fc0896..4fdc9c19a74a0c52ae502b77fb8697a53bef0f97 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
+> @@ -115,14 +115,15 @@ static const struct dpu_pingpong_cfg sdm630_pp[] = {
+>  	{
+>  		.name = "pingpong_0", .id = PINGPONG_0,
+>  		.base = 0x70000, .len = 0xd4,
+> -		.features = PINGPONG_SDM845_TE2_MASK,
+> +		.features = BIT(DPU_PINGPONG_DITHER) |
+> +			    BIT(DPU_PINGPONG_TE2),
 
-With the commit message fixed:
-
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Neither are advertised downstream
 
 Konrad
