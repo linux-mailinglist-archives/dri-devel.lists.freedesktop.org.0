@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89464A49EF8
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 17:37:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5100AA49F3D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 17:46:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9290B10ECFA;
-	Fri, 28 Feb 2025 16:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8A7310ED06;
+	Fri, 28 Feb 2025 16:46:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="crjVsU99";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bbngr86Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3F1F10ECFA;
- Fri, 28 Feb 2025 16:36:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1740760611; x=1741365411; i=markus.elfring@web.de;
- bh=P3aAi1K30diMwcSyotdSLBi8iQUEl+hDB2tmHvN4WgM=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
- Subject:Content-Type:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=crjVsU99nW/CZBMET6nlxo5P5Ve71G2x3ctFqiGmxnvi7FsxwgfQXyv5sn6OWVsb
- x4qIMcrgrPve+oNy2UrDX5r6tSg0n1lSWr+zn5uco0QIgDtF+27/LMp+dXSoSRyS2
- 5CMin+pvn3H63SnHPS1vPtrLOaEIURSr+hsFC5kieFfAA0rPDZpeH+tb67yq+02AJ
- SLaehROwWbAceE2iVSDbnQ/l6015TwXCK9FmDiRiYd7eQsnK2PUIcHEMlfCfZN7uk
- 5MQQwEL21T+XVl81aMuZRHZZK8OcXMkSw42rTjlB9PBChlON+Ylqkpj/KEjiVzmt6
- D946/tidGDGJjMRPYQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.27]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MSZHv-1th5Lf3hO5-00Hx7y; Fri, 28
- Feb 2025 17:36:50 +0100
-Message-ID: <225be170-472d-40c1-95ed-71b452740ae7@web.de>
-Date: Fri, 28 Feb 2025 17:36:49 +0100
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D67CE10ED06
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 16:46:42 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-390f5556579so302587f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:46:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740761201; x=1741366001; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=bIuiU4XrhfkhWXOTfdn2ANWaE+TYEkq8GIKO0W429gE=;
+ b=bbngr86YUV42EDOT2gMN8YapbyPelNncaP3nLmMDOlwrQi9tjX3froS3MNgWgZ9pPm
+ BBD9hgzL64nsLkO1E4nEc/B/G0NjEMUu9mks4RJMhw5Jnvc/P0X+TXvmX7CSDrA2dIPi
+ 0mgxGCogmuBjHq+9dBabU0TGhGHSxsok4aX9GptjK+uWi2g2EIxAv9P5grrfSChcd52c
+ M6W18hy1GGRergMAr3F2JebQ5ergJ+/qZB9TqGR6qxXLBh+8n5DgLzlxb8aP+BhGHOg/
+ 2ib/5JUhSZAaKoV2Kaf9M03xVQk+XUWxhDBFnPMLwrWut8w8WLrPoX2w1sTPjPlimHHg
+ VEQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740761201; x=1741366001;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bIuiU4XrhfkhWXOTfdn2ANWaE+TYEkq8GIKO0W429gE=;
+ b=VN1V0nBCCDhiSOMfNatYwouLGZG8khEOxw3xmuzxp4Jg+jbJtQYyWhD9F/mongU5Bd
+ pByGl5gc9lwxcH+HHGuZM5jAbdlMoKmYhDHSuc5YGFScjAl+5Lbu4NMxv4GNlEXdPaVy
+ Zw7Q8w1diWLTXRMZhTkAjMAmV8ahaBgjPRFtOWVa5dYRtZmL92vxl1TUhuatx9yD8gHp
+ PWxG4VI1CiIugULjdL/uuVORJ2ff/rnV35vC32MEu98fXKyYTwwBv8pEAc7iemZMSbrC
+ 5bTPi8lnVvh/aIh/G6vQ7yfnHIx2APmb/FlTnqPN2vRkjLEIaegt48VZZAFhvKCguAh0
+ paXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHaBCE1aZM/wp6hOa2IrAXDmtDoxEYSFc85ZAIAqTmgFmFqxX6Aff3xIqvThOCwEZh0VCxp4W8wRU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywpvrmfg3eaBddocGdgc7tQmc7jV9n4Ff7lfj1wIyK8HtYrwRIt
+ qY4r9MqjpJlQisDdgykJsbif8avtzmuhH34rHATesvYH2+EC9ltr
+X-Gm-Gg: ASbGncsmPKuUAqAyDArSgWRe3pnp1t7OZRodwwyoz1xqsoqlCMTUH7jFzlffRRfulFt
+ D6LkNgpu6zXThCxMxdeqwwowm8s4NcGDQZCJMiw0q5YU4ecl6/r7z4Ad2uHQ35zSVTSppL1oEEd
+ 4jTHNT+tb3H3E4eto3654ibglqWLqJTG7x+toTQgn7Hlpv1EmFup3izys2CGBhcvwqXmPB4IwKW
+ kOCr9WdY12csQ0GlG96iQzcCGfRPCJHUYAOGss5R2RgpSpp+bnc1n0226B+7TOwBlABtK2SRJ1n
+ +v8Y79/Nodfw0V+WmrSOmEWZUL2JVuzgCXX07FhK+cZ6nSuH+4kkHbIESbejHpdM2Var7OAJBUF
+ gdUwlNdIIBqfY
+X-Google-Smtp-Source: AGHT+IER1+rSFFUu3fp8H0Ep8h3KR4BZHOPdnn2CHy633ABSD7noywrDfjqO6v6gIHCs9lWQwwrr3Q==
+X-Received: by 2002:a05:6000:42c9:b0:38f:43c8:f765 with SMTP id
+ ffacd0b85a97d-390ec7d2e69mr2382920f8f.26.1740761201038; 
+ Fri, 28 Feb 2025 08:46:41 -0800 (PST)
+Received: from orome (p200300e41f187700f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f18:7700:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-390e485d785sm5717708f8f.83.2025.02.28.08.46.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2025 08:46:39 -0800 (PST)
+Date: Fri, 28 Feb 2025 17:46:37 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: linux@treblig.org
+Cc: mperttunen@nvidia.com, linux-tegra@vger.kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gpu: host1x: Remove unused host1x_debug_dump_syncpts
+Message-ID: <vukpbuvuyfljqtexnimsrfozt64pfrjc33a4ojb7lht7fke45a@g4afdjrz6u52>
+References: <20241215214750.448209-1-linux@treblig.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Qasim Ijaz <qasdev00@gmail.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] drm/radeon: Simplify maximum determination in
- radeon_uvd_calc_upll_dividers()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pQnRLfx8v4G9J+knpTzjK8SoUNS8MlolvSv3lkROWsw5FtuoZvC
- jejqbXK5eiAEUA/Wy3nz448SRf7fWzTID2DWCqDZk4gpGPTOppr9sNw80VIGYfnyk/hBve/
- MNEtXyvm5MDb4NTUi0brMno2VkKUjZLkPkSn3SG1mbtIUZ6Zc5zQUgAJJVWUt6893KWyP0h
- fhxSENApa2wuLnjbLweRA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IoqzqYMsVKE=;8IMPCWVo7UO+jbp8zxoV4K9CIxH
- WUT5+Lqmgwmg9nmcLw7B62FBoZSApUZoLbTAR08MqOnYrR8NIPjp9H3hVMDqGbXcF1aZWmfh4
- 9DJRGCpInmZXDQmzmF0QLWtBhjeD7nZcwTabq/nthTdMszLW7jtGpixi9g+/UIradL1uPk+Un
- 8CKHNaCau95MOeD2QdI31+1Xu4OopBONfv5QhYKzH4qRYuBxuIAdhKzAtrRmgS6uVIatXLvy1
- zFN0nJHP/Xf8ouS4JzlVspTzNCQjen8K7495sn52gU4Q8xdZ+35q+Qk8/8tFxvW0hB849yGHs
- nPyZd0yxVJl9X3u9gdxtXibEeVrth5sUHVCRspdBF9JVAwuafg+Tjm0/6afVMYgvZx3ifCir1
- i11NcSYwA1Do044NNc0slPpIenXy9SOClbe+MzyyhZhRJRURrsXs+cPbzilwO6g1z0y2mFroS
- g8RTkPjpNf0+bjVyjtZPNNrMzRQmdmxGtL4LAeMRGksCAW6z1DlglCcGLGGSrXC84QabDukpQ
- vLcbn/izySG8Em5eBzNFfD5eRctBnH5fjY0Rq1BJHpSO9kv9hUr2o/tvTR94rXGsC0qpdA0y0
- IXNMY7vDiW3TCoOFiSAaQiXVagS3lEyW9af+Vm5LtntRizcm/Bi0/r0U3yomEQpOrHTP1N82V
- Dwzdht/SZUWDz85cvDj9AbGj9UZAnMkuD0SPaJY4KlreyIqDM4Dgjd8g7OAKKNZ3Vex3oMpM5
- OTunsUnTg4uj7+QG5wlcPmn3AZQ4Ui5dpMWdUdCO9NYHoSi9+VCL60J4VoCqGWdP1/dV+H771
- a7+wyQSedToNCdNfc3/VuWxVdqcXEvxMKmvD3Y50JONzJyV7cdnZ3R4swNo4qA2bp/MMdixZC
- 1xz2af6rOp4rtK/wUT5mfbk2Re1wpccXrZXl42RPI+T+S8o01DuUcZ4sqOfc2cwB8xQlzL2Fd
- +OxUKL0u1lap4P71NQ9Ff2MnMgLtCoT408b4/7nTl8KF0evcN3GZsn5T/N7WL9Dg8dvrUj7va
- vBEivYCkNtF23WB2PttWtQZMS0LwiDZ4DyyWdpGsGPg1tNRsvPBxoAb5L4zFJ93IQ2PcYMdsq
- rXrKccO9wGsLZI47/FUf0ClRHNfUpVJO5yRJ/G26YdvBXb2Dxg9aFnGA6bOrEOdN1VRWlfa/6
- QXg87qVTASNpsvb1iuSXUadOGUDMl0/rUumy6IWUTffs5ySH9FBAwMyx01meX2y2gcBQLE2GC
- LxpIO/8N5+ammdtWZLxtb1+xzFZ82eusr4uMbyOFatsQZbX//2IEWCJU/u85y4YCqrb/StABr
- NUGd5KblsU8y+nFupKcH72vo+HijS5+6PV5Mwc0lVH49vg2HHA006eDF7X0fxqqFkLG27+Y2a
- vnvANt8zRWDhTpU8NZO0aY2CyJCoS6Xhqg1r5qDMgmjS4bU0lzcdsPndYTV4ifzBIXZH2hY0b
- 3x+GMY8rBnsiXlSRihqzpU2pUyUs=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ff7apm55vn4rtl67"
+Content-Disposition: inline
+In-Reply-To: <20241215214750.448209-1-linux@treblig.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,34 +90,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Fri, 28 Feb 2025 17:32:45 +0100
 
-Replace nested max() calls by single max3() call in this
-function implementation.
+--ff7apm55vn4rtl67
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] gpu: host1x: Remove unused host1x_debug_dump_syncpts
+MIME-Version: 1.0
 
-This issue was transformed by using the Coccinelle software.
+On Sun, Dec 15, 2024 at 09:47:50PM +0000, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>=20
+> host1x_debug_dump_syncpts() has been unused since
+> commit f0fb260a0cdb ("gpu: host1x: Implement syncpoint wait using DMA
+> fences")
+>=20
+> Remove it.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  drivers/gpu/host1x/debug.c | 9 ---------
+>  drivers/gpu/host1x/debug.h | 1 -
+>  2 files changed, 10 deletions(-)
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/gpu/drm/radeon/radeon_uvd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to drm-misc-next, thanks.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/=
-radeon_uvd.c
-index 058a1c8451b2..ded5747a58d1 100644
-=2D-- a/drivers/gpu/drm/radeon/radeon_uvd.c
-+++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-@@ -961,7 +961,7 @@ int radeon_uvd_calc_upll_dividers(struct radeon_device=
- *rdev,
- 	unsigned optimal_score =3D ~0;
+Thierry
 
- 	/* loop through vco from low to high */
--	vco_min =3D max(max(vco_min, vclk), dclk);
-+	vco_min =3D max3(vco_min, vclk, dclk);
- 	for (vco_freq =3D vco_min; vco_freq <=3D vco_max; vco_freq +=3D 100) {
+--ff7apm55vn4rtl67
+Content-Type: application/pgp-signature; name="signature.asc"
 
- 		uint64_t fb_div =3D (uint64_t)vco_freq * fb_factor;
-=2D-
-2.48.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmfB6G0ACgkQ3SOs138+
+s6EUBBAAgLDSAD8aYvQjGaTHJQTUm8gK7TeixY0nqbT9LFALAgJU1wA3DvmRvfIt
+vzHyaekT29Okc3NKZSu7YOCkn/JjwDDJXEcOphZ4HZG4PLk+SPXYNdqOIFShLdNe
+ikZLlAytLGgoxw7yBNzm/8p1xdLCSREKuXgkYY0q7FyCyRwA3r8iNJZoHTEB4TmY
+nVrE51yJDvZZIOGGA/YUcAcnMEArYlmUm9uZnb2hK8UUOzCWYwllMHS7ZCb1IrQ+
+k8Td/dD/IWowQVu0MEExSj/5hepdf0wn5FB5ooy+FXaJFvn6Nag4E1JtsDuxRZcL
+UiVfP7+RYC2w4DuqRU7bv2K/+ac7twINlGEK/j4qTi3HJ2wFKvaCpCHCV2vGzfpj
+BNDhrEby/eUuJurYZ9ySmE+yhJFcA6Yp0spzaNwa0bzRN4ivyQvaKh7mnQkpxbhg
+WXvEPRnf/F/Y2u2aPstbCjAeQK/DVTNhmSl8j3KIn6LVWm1/dncZvNkUjL2orxdn
+fg1f4sa7pbsV07DunFwCQNNLe6PXSeMyIA2mSbKoSYt2BqCw9sQDFMUbH90qCYiB
+6qblTxCNFyUL4G5GM8pvaKJfTTr0Uik3+wXCFjYE2O4KYuUP3plBzgmpZqnSIdLb
+ysAGN03PV5Dc2y91Fd1xNlYB0VqxK1KN4N5CMKK3oITMSdjR8lQ=
+=cUVd
+-----END PGP SIGNATURE-----
+
+--ff7apm55vn4rtl67--
