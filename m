@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BF6A4A44C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 21:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D268A4A470
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 21:55:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C5510E02C;
-	Fri, 28 Feb 2025 20:37:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7381E10E06F;
+	Fri, 28 Feb 2025 20:55:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dnaXFuUN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com
- [209.85.166.208])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 299A710E02C
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 20:37:25 +0000 (UTC)
-Received: by mail-il1-f208.google.com with SMTP id
- e9e14a558f8ab-3cfb20d74b5so24513445ab.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:37:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740775044; x=1741379844;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=do92xcNC0WFQw/Ce4Jou7iOdOxAiPDFL0QRYd03MRmc=;
- b=KLXr7eD7MU8XViah8VTZ056+SE0a4QgIg2rHge1VOlWcxlFcr4cw/j6DHzoE7fOF8o
- K5JeQUxKwy/bQAQhrABGQk6Fcpqk4qGYeZtavQkqkeRoidVz1Ka7t6uHzKHaK9kWUTw1
- fz6LfEgsUENZgEyC9DjoO9WlpdsXUa2JPVVzvXDwkDQ0Cmgqb7N0CEnfg2im493aqdQf
- C2wToe2UkILyqo0WXysxI08h+zkJ2e0TtNk5K8L/jCXfzkn+N8ClEe2jiV4KdEY87Un2
- n2vE7z2Mfej4KpdiGSZONHMEwTjFF6k8FoliLZ4yiOdfTF5jTw5nH2ztVxikcdAOo+qr
- flvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWdfWa22+oUZt8EKdsvtxUUNW7zOEaPtcZQqwZg88mIYU1SceXX00jgCywRe0kAefoDbh+wJvP5vhc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCLgN6s2V2h3IZpdtyVzCTCJfLPvxgm4b6gmxSAx81oaNHUOAa
- 7nBHV4HqpyPDkJanAixwwlwMYbWKkK+79xhHjRrk1a+AyqGIH4T2/N6PqygbMoj8RPE2DXS9Y+K
- IniPoQx0Oj++oKUomknBP5IvbNzc9TFc9uHAxOSUAk8reoTamXqpvROQ=
-X-Google-Smtp-Source: AGHT+IHqBkfoR8i6w/+tls7TWCjrAcTvjAR2poqDZFJnZwHhvPVKnHVB5XKg+dX40lgp78juIZg0UgbAjVmei839Qm5EwcMJPMir
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A7A910E06F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 20:55:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DFBA95C0466;
+ Fri, 28 Feb 2025 20:53:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 60A10C4CED6;
+ Fri, 28 Feb 2025 20:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740776148;
+ bh=DVOXdCV9GkKYKxJB6M6Kf40iX3b9h5JojSMUwEOoEC0=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=dnaXFuUNQqz0wHQwxbaushLVMexq5C5PgypAKDW428FXp/185OwGsEhnCMNeUqRS2
+ ASM+MbzhVAvQK1kQ4mw1rTct9OPfb8buRc8pFeYejFUiGLJydIkdVWirdQFxLq5quD
+ 3k5AoNhk6W5JlN8drQuRKIB3WzOMPw+fK74nDFN/lhLX8uIlQlly4mqVxJPRJfabNv
+ q1QvALJtPP9t6WEluTRaQjkcoAXEQnIBdh/gwn9taPucd5YoeZRZc4v/U/OdbdahlJ
+ 0Op49tNlCuVMX9t0W2xJMvsSzey85+pyhGMqUjWd6FEeGLR1Vsof0kUhehWKz1x369
+ sjeEY/rd52lYA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 49037C282C5;
+ Fri, 28 Feb 2025 20:55:48 +0000 (UTC)
+From: Mark Dietzer via B4 Relay <devnull+git.doridian.net@kernel.org>
+Date: Fri, 28 Feb 2025 12:55:38 -0800
+Subject: [PATCH v2] drm: panel-backlight-quirks: Add Framework 16 panel
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:216c:b0:3cf:bc71:94f5 with SMTP id
- e9e14a558f8ab-3d3e6f4aaecmr46976555ab.22.1740775044496; Fri, 28 Feb 2025
- 12:37:24 -0800 (PST)
-Date: Fri, 28 Feb 2025 12:37:24 -0800
-In-Reply-To: <000000000000e39b37061e898704@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67c21e84.050a0220.dc10f.0151.GAE@google.com>
-Subject: Re: [syzbot] [fbdev?] KASAN: global-out-of-bounds Read in bit_putcs
- (3)
-From: syzbot <syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com>
-To: daniel@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, simona@ffwll.ch, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250228-framework16-drm-quirks-v2-1-c7faf86f5e9d@doridian.net>
+X-B4-Tracking: v=1; b=H4sIAMkiwmcC/x3MSw6DIBSF4a0Yxr0GqCJ01H00HaBcKrGIvdhHY
+ tx7iZOTfIPzbywjBczsUm2M8BNySHOBPFVsGO38QAiumEkuWy6lBk824jfRJBQ4ivB6B5oydE3
+ fasd5d9aKlfNC6MPvCN/uxZ5ShHUktEdODEZpIRAa1zbQaG6hH7gp46QxBjUqdbXLUnub12jDs
+ x5SZPv+B37kwIywAAAA
+X-Change-ID: 20250228-framework16-drm-quirks-74b58d007386
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Mark Dietzer <git@doridian.net>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740776148; l=1790;
+ i=git@doridian.net; s=20250228; h=from:subject:message-id;
+ bh=VIZraXEVgTCwedadhMfL61upUk+4zJ3L3psT7F1eUjI=;
+ b=o/XjDTdr9X8LVhvkYI397hOp1cceapWrnvZWHE/45brOGko4VU0lqtnkEU26kUdr2mikXI7Xk
+ RgqPAOhD16NBWb3cl1lzUpg/Yr0y89XlI2h9MqEMBovyEUZGxzn8DHr
+X-Developer-Key: i=git@doridian.net; a=ed25519;
+ pk=XY9bZ7EBhoLNoRt6zd2/vutpAXC3tsX6OytpZHjbUsQ=
+X-Endpoint-Received: by B4 Relay for git@doridian.net/20250228 with auth_id=353
+X-Original-From: Mark Dietzer <git@doridian.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,95 +74,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: git@doridian.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has found a reproducer for the following issue on:
+From: Mark Dietzer <git@doridian.net>
 
-HEAD commit:    017f704fbfb1 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=12128864580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d6b7e15dc5b5e776
-dashboard link: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1643dba0580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16128864580000
+Similarly for the Framework 13 panels already handled in those quirks,
+the 16 can be helped by the same kind of patch.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d34fb306468f/disk-017f704f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6f1126558a26/vmlinux-017f704f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6d9d912bee27/Image-017f704f.gz.xz
+I have run this on my own 16 for multiple months (hard coding the value to
+0 before the quirks made it upstream) and it has resulted in a darker
+minimum brightness (as expected) and no issues.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+The Framework community threads between the 13 and 16 for this improvement
+are the same one, so user reports in the link below will be mixed and
+likely more focused on the 13.
 
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
- el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
- el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-==================================================================
-BUG: KASAN: global-out-of-bounds in __fb_pad_aligned_buffer include/linux/fb.h:644 [inline]
-BUG: KASAN: global-out-of-bounds in bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
-BUG: KASAN: global-out-of-bounds in bit_putcs+0x9b8/0xe30 drivers/video/fbdev/core/bitblit.c:185
-Read of size 1 at addr ffff80008be20810 by task syz-executor101/6448
+Link: https://community.frame.work/t/solved-even-lower-screen-brightness/25711/60
 
-CPU: 1 UID: 0 PID: 6448 Comm: syz-executor101 Not tainted 6.14.0-rc4-syzkaller-g017f704fbfb1 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 12/27/2024
-Call trace:
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:466 (C)
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0xe4/0x150 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:408 [inline]
- print_report+0x198/0x550 mm/kasan/report.c:521
- kasan_report+0xd8/0x138 mm/kasan/report.c:634
- __asan_report_load1_noabort+0x20/0x2c mm/kasan/report_generic.c:378
- __fb_pad_aligned_buffer include/linux/fb.h:644 [inline]
- bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
- bit_putcs+0x9b8/0xe30 drivers/video/fbdev/core/bitblit.c:185
- fbcon_putcs+0x390/0x5a0 drivers/video/fbdev/core/fbcon.c:1308
- do_update_region+0x1e8/0x3d0 drivers/tty/vt/vt.c:609
- update_region+0x1e0/0x478 drivers/tty/vt/vt.c:633
- vcs_write+0x9e8/0x1180 drivers/tty/vt/vc_screen.c:698
- do_loop_readv_writev fs/read_write.c:843 [inline]
- vfs_writev+0x494/0x92c fs/read_write.c:1052
- do_writev+0x178/0x304 fs/read_write.c:1096
- __do_sys_writev fs/read_write.c:1164 [inline]
- __se_sys_writev fs/read_write.c:1161 [inline]
- __arm64_sys_writev+0x80/0x94 fs/read_write.c:1161
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
- el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
- el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
+Signed-off-by: Mark Dietzer <git@doridian.net>
+Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/gpu/drm/drm_panel_backlight_quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-The buggy address belongs to the variable:
- fontdata_8x16+0x1010/0x1480
-
-The buggy address belongs to the virtual mapping at
- [ffff80008b810000, ffff80008f6b0000) created by:
- declare_kernel_vmas+0x58/0xb8 arch/arm64/mm/mmu.c:771
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1a1820
-flags: 0x5ffc00000002000(reserved|node=0|zone=2|lastcpupid=0x7ff)
-raw: 05ffc00000002000 fffffdffc5860808 fffffdffc5860808 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff80008be20700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff80008be20780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff80008be20800: 00 00 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
-                         ^
- ffff80008be20880: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
- ffff80008be20900: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
-==================================================================
-
+diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+index c477d98ade2b41314d4218281ced7d3c4d087769..52aa2a7fa63e5b0fefc1d94bf1f9ace8e2af8962 100644
+--- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
++++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+@@ -41,6 +41,14 @@ static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks
+ 		.ident.name = "NE135A1M-NY1",
+ 		.min_brightness = 0,
+ 	},
++	/* 16 inch panel */
++	{
++		.dmi_match.field = DMI_BOARD_VENDOR,
++		.dmi_match.value = "Framework",
++		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x0cb4),
++		.ident.name = "NE160QDM-NZ6",
++		.min_brightness = 0,
++	},
+ };
+ 
+ static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_backlight_quirk *quirk,
 
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+base-commit: 76544811c850a1f4c055aa182b513b7a843868ea
+change-id: 20250228-framework16-drm-quirks-74b58d007386
+
+Best regards,
+-- 
+Mark Dietzer <git@doridian.net>
+
+
