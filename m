@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCDEA49990
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2ADA49993
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:40:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C9C10EC8C;
-	Fri, 28 Feb 2025 12:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97E9F10EC8D;
+	Fri, 28 Feb 2025 12:40:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="gXa/82KP";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="SkLdAA40";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2C810EC90
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:40:07 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-4394040fea1so10903535e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 04:40:07 -0800 (PST)
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
+ [209.85.221.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5047210EC91
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:40:09 +0000 (UTC)
+Received: by mail-wr1-f73.google.com with SMTP id
+ ffacd0b85a97d-38f3bac2944so975159f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 04:40:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740746406; x=1741351206;
+ d=google.com; s=20230601; t=1740746408; x=1741351208;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=7pTdW8PK+uCDfeP8CraTwZfQg74lm/uFIg+fx5O10BM=;
- b=gXa/82KPDcX0kKopUATuPG3Cz6lvK5+MK6GlI8g2PNBK//cXetDU1KaouQNWFhu9QI
- Njgc4NMSO1i/wFP0uPwGL/Vj33OLSZryoLF4sgYyynJU7J16LS5TFwlyX5FW6SVSW5J4
- ouosIR7gVDxP9mbgs4MdWgl7s9aCYREIxoIjoaUo4q9SsI/IYGij+1TKZnwisiSUNs5c
- c1+wz7NMxqkfcWS/wImjdXepTjc3Ut99gVJJwZYPISwcRLi4uyUZlX+XcwQBn72y+3j1
- 0sy67zNabbRYO42QlvCnBI8Ayqf67CKTW1rwoiMULK8i01cMKdDMS1f5/3Ut8lG/xx31
- rVhw==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=7pofL3PjyOttZbsi+AAPKYxkRFtjnFNjm+r6OKyU3Jc=;
+ b=SkLdAA40S81OLjTzIMjMEJxvKl7Y93VzRR76im1+uU37QlDya/K5Y6P2Uokq1/Kszk
+ VJZ8SEd8ycgq3Cv7TKp73ygJ/HpJGKwqpSzZMZieTOWhH0zUgzowqz38fLbv+1z/4+1Q
+ dCCtn7XVpbyeaj8wfSuaBJv6KkdT7jXgYg25TGSkQgQz0iyPzMv5ozExW4AVDd0xVINr
+ 2Mktp4T9+kmQ3b6f11BAaYT9JwoijTO0hW0vh59UrZRYCe3YMnB8WMm4FsT9xCcyABfJ
+ fB1fjYR6X+0fAbrcluFcQCeFgjZh01KH891uG/U0M1m5X4uMp0AfY492DvUDelKUFrTS
+ ktxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740746406; x=1741351206;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7pTdW8PK+uCDfeP8CraTwZfQg74lm/uFIg+fx5O10BM=;
- b=Siu7B/BvxMwBmXWbg6+3fTD0nKhsy2RTkbIO0oKpuKMaAuxS4k8/KEraHJEnDdTS/Z
- Zpn76MnfDBRPK+zxSFjc3s9YGhXiJLuUOtf19/QQ+YasqA7mTtedZfo6aw3OHdaic3KM
- bUHwXXh2dfTmgNB3qZV3gwWZwxxPZzUlXY/HvP+qNPtr5fzKg4WEI3LbZYOgfJ8oBuxf
- LdRIefYoUDh6B1kJwSy+MNVj+LXEpjpeS1jNgn6Ln1hAYQFIXcVDnjBKsIn3aTsurCwt
- cQBlQFiXvjaOwFmGAJW+i9ckQ0FRYlObWJlcflK5zrXRENDunuX9LCWngiBYw7gEnaRZ
- YgCQ==
+ d=1e100.net; s=20230601; t=1740746408; x=1741351208;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7pofL3PjyOttZbsi+AAPKYxkRFtjnFNjm+r6OKyU3Jc=;
+ b=Je8MOPT9Hs9uhuRskUpkf9MHH0QFjezdKQUA7QYPQUxoq2vDhKz1QbT8vslK4f5Xzt
+ qOiYY2Qftex6tyQ6sDSqlRovf0LwzbffxvXAmRXJ77VBKYGthRdYZaGA/vXqD60nM9W0
+ M1BAWmmViZkOH2MqltqYjBbJhY7Yu0626k7NKIp1HE1+2qiSIxtvkjO38Pg1+wFy3G18
+ T4CsVl/Ggodkn1Ev2/by+wbGe67HGn28WEEvxJlDvq5ZZfTTTgwhKxDrGfqftp/ULaMl
+ maDMls8TUq1vkjmd4k2PNFuzkI1knjvqc6VJZsSOp9PJvhMV+P5QFh3MtOzxRmwdK+y7
+ 7vbw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW6yhG7sDVbfC1QKGIvL9T0NVyb2UcHWFeuKfTEJ3TUfPlmS4O7l7ZKkjpUEu+jce0D1+RBQ4cHBek=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yym17Xlk0gdfrXqAEQcDBkj42L0h+vGewOvI0KXqcMmM8ZAZCvU
- PgCgb5aaOM7R/uTVV/gKHFs5RK034p8tIY5DHX4QBgiTVTkSpkG3YRjsRoqwpcSpxoA7CC0FwDI
- yiefUmkfl1JBAxA==
-X-Google-Smtp-Source: AGHT+IFEAv6xKo0a0vIbw4/G69A8H8krQW13rE7XRkdpA2cYXMlLXGdQj1+W9BdcKKZjWZpEvcVhucpeSr3CYy8=
-X-Received: from wmbep23.prod.google.com
- ([2002:a05:600c:8417:b0:439:95b9:9200])
+ AJvYcCW/AFf4iu8MDpY2dy+/EkG9yXHsj3wBmuPdys28WSBIsb2pMdmaNbD4zjB4QfyIbRjeIgnrRsmXRIY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwLuvJT9nhI73NtQG9vfc9Dme+S3/TNF55Fm/j45SW2N9fRRK4W
+ l5RiZ3x3E85sxO2oqQzlhXPypSL0DkifgyviYVz7XFK167s3VF+volOzTvtxjItJdghQ1VrYgfe
+ Bx1EuJLoI/z6CRA==
+X-Google-Smtp-Source: AGHT+IEB4CLEaJ+qcbV7KVAUJWH8lLFxAEU0yznQEm575/JtfTpZwy4AyFvnI6lctCz2coNH3yp6bCwEPD/9KY0=
+X-Received: from wmbgx24.prod.google.com
+ ([2002:a05:600c:8598:b0:439:4366:35c2])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4f51:b0:43b:4829:8067 with SMTP id
- 5b1f17b1804b1-43b4829817amr51521165e9.6.1740746405761; 
- Fri, 28 Feb 2025 04:40:05 -0800 (PST)
-Date: Fri, 28 Feb 2025 12:39:29 +0000
+ 2002:a5d:64c8:0:b0:38f:452f:9fa9 with SMTP id
+ ffacd0b85a97d-390ec7c999fmr2855371f8f.2.1740746407926; 
+ Fri, 28 Feb 2025 04:40:07 -0800 (PST)
+Date: Fri, 28 Feb 2025 12:39:30 +0000
+In-Reply-To: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAIGuwWcC/3XMQQ6DIBCF4auYWZcGaC3iqvdoXBAckKQ6BgyxM
- dy91H2X/0ved0DCGDBB3xwQMYcUaKkhLw3YySweWRhrg+Sy5VIqhvtKcWOzsZGYNkY7wcVj7Cz
- UyxrRhf3kXkPtKaSN4ufUs/itf6AsGGf63inVOntTxjw9kX/j1dIMQynlC+PMihWpAAAA
+References: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
  fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2311; i=aliceryhl@google.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2129; i=aliceryhl@google.com; 
  h=from:subject:message-id;
- bh=f4F5ENySuuzTW13FLThOl99dyKMXA8tvaC3KtUU/46E=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnwa6HYies8d8W+vofsAmaaagCFfM0KznRJPlkQ
- bljWwLQeAKJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8GuhwAKCRAEWL7uWMY5
- RsbbD/4k34jEhPxhPU2TpjINZJrCX+hzqaKUEueUixT1oETdYXEbkKIoL+qzDQ8hcm7U0cS+bcK
- ca1QBfyXm2WUi+hjb69vXRwkN49bhCNcJWxu0/KzCJUgw7tKdNxpG78AKmj8oEH8VXC71ndQ6xw
- Fj1X2YPlz4Vqc8TgcWbb7Sxveyc5fHwA4OBpjSjJPGa2qizE22QSj/wCLOkvqo/g2mk+GxpjVj0
- 3GYT/YxqHiGfK2xHslVDc/FZ1DSn74rnnXqNhqn7brcJ+10hK4M7AWqGwYeD6cisJ6f23UgI0bG
- 3B0FTrGH+E5uWycU8ObgQWz1twUUYcIlNb4ftQe1pCjr1lOOt6f67NN1WIU7n+eUwIposZdwvpf
- XE4T4/xoaTDRquh0vhq6m7tekwjY20FbAFcSXOvxy7Ezr7Y/GVMEXlPXH4RKH+JoDdQbsiTkvBL
- 0uSwvvip+e/3MsOfU8gsfSYHOSw6Xc1+Hcf+ZaR7KxvhBzOnigeYi8E73Mht4Z1O6r36puYZBhI
- Lg3d1TobsqMsGq2SMXqC0L1ZLVMUqzek6+bEOzZfOwffQMY7E8fnT38sfockn/Yl9pchQZdiGDh
- mcQtARbW4jezVmMEOOqi962yXdzGOACBt8iRewWXLbm5Hg/ofgjxl8Py8lyvNquKktPP0ItoGfw
- aua1wRpwI0xbyvg==
+ bh=ZcOD6O+e4opbd5kCSvi62otmJFeNmwXLjRXcW+if/rs=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnwa6gD60PImwfkkxa2KFpiXq9/w2BWpeDHAYuF
+ HY9+9v6Jo6JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8GuoAAKCRAEWL7uWMY5
+ RlA/D/4xOjjAKDHvotub7uSZH7J7bXp09wrMC83XiONmJ8ooDIBNM40VRIhnD9fsRBHxwRlyWJ2
+ Kwti5p3Z3nl4+yLiulPukfaUxTp/Rb3vmImVzX+bcZj4my8iKDQzyA36aQssqbbtH1noQHBC+pG
+ Lk4eSHE+kem98SXqPQ6mM+++r5oFHZp7XmddA4VFXjm/RNWheJCcVxddh4pIZaFR0gkCzgKjaoM
+ F6ebM3hEUH3i4mk3LT+89cVLV6pUlQ0YeFPIpDmLySdH6qOzv7RPYzVc7D5opfVFo2OkzvUJqah
+ eeWLqrufXB1afblwaqI3xSx40Hde+wthgNEmd+wHFJTCM45s+KJNs9q885dspBKBRJSk9qH1qJM
+ GM3BDXno6f4+/IlcpjoDqhJxZJiaqLhn6UKP1JRg+YNjvxvmtbaE9zquS5W/zJkF7mr4OvHYzT4
+ JTQs3MmMxVtWLjEIpqFUz1sbZFuW1u7QTDUE2xVEtjdupnXBP+dP+geMGIOMK2kHtQOV86Ez2IQ
+ OTdEASyuSSy95MldW9457o32AKMWM4/K1TZUlf3XITFOlxrXHn2dzoo6DNZDHS2RejEWdc6kYIU
+ UK+N55oBRhryIBOLjNK8l9oNxn+vZ23Bi+oiULFoeSfygjizwNEEZQlxlAhrzXdN3SAlL6I5xNe
+ KMISLLVgrNS99XA==
 X-Mailer: b4 0.14.1
-Message-ID: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
-Subject: [PATCH v2 0/5] Check Rust signatures at compile time
+Message-ID: <20250228-export-macro-v2-1-569cc7e8926c@google.com>
+Subject: [PATCH v2 1/5] rust: fix signature of rust_fmt_argument
 From: Alice Ryhl <aliceryhl@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>
@@ -113,59 +112,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rust has two different tools for generating function declarations to
-call across the FFI boundary:
+Without this change, the rest of this series will emit the following
+error message:
 
-* bindgen. Generates Rust declarations from a C header.
-* cbindgen. Generates C headers from Rust declarations.
+error[E0308]: `if` and `else` have incompatible types
+  --> <linux>/rust/kernel/print.rs:22:22
+   |
+21 | #[export]
+   | --------- expected because of this
+22 | unsafe extern "C" fn rust_fmt_argument(
+   |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
+   |
+   = note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
+              found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *const c_void) -> *mut i8 {print::rust_fmt_argument}`
 
-In the kernel, we only use bindgen. This is because cbindgen assumes a
-cargo-based buildsystem, so it is not compatible with the kernel's build
-system. This means that when C code calls a Rust function by name, its
-signature must be duplicated in both Rust code and a C header, and the
-signature needs to be kept in sync manually.
+The error may be different depending on the architecture.
 
-To eliminate this manual checking, introduce a new macro that verifies
-at compile time that the two function declarations use the same
-signature. The idea is to run the C declaration through bindgen, and
-then have rustc verify that the function pointers have the same type.
+To fix this, change the void pointer argument to use a const pointer,
+and change the imports to use crate::ffi instead of core::ffi for
+integer types.
 
-The main commit of this series is "rust: add #[export] macro". Please
-see its commit message for more details.
-
+Fixes: 787983da7718 ("vsprintf: add new `%pA` format specifier")
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
-Changes in v2:
-- Various improvements to documentation.
-- Split out quote! changes into its own commit.
-- Link to v1: https://lore.kernel.org/r/20250227-export-macro-v1-0-948775fc37aa@google.com
+ lib/vsprintf.c       | 2 +-
+ rust/kernel/print.rs | 7 +++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
----
-Alice Ryhl (5):
-      rust: fix signature of rust_fmt_argument
-      rust: macros: support additional tokens in quote!
-      rust: add #[export] macro
-      print: use new #[export] macro for rust_fmt_argument
-      panic_qr: use new #[export] macro
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 56fe96319292..a8ac4c4fffcf 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2285,7 +2285,7 @@ int __init no_hash_pointers_enable(char *str)
+ early_param("no_hash_pointers", no_hash_pointers_enable);
+ 
+ /* Used for Rust formatting ('%pA'). */
+-char *rust_fmt_argument(char *buf, char *end, void *ptr);
++char *rust_fmt_argument(char *buf, char *end, const void *ptr);
+ 
+ /*
+  * Show a '%p' thing.  A kernel extension is that the '%p' is followed
+diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
+index b19ee490be58..61ee36c5e5f5 100644
+--- a/rust/kernel/print.rs
++++ b/rust/kernel/print.rs
+@@ -6,12 +6,11 @@
+ //!
+ //! Reference: <https://docs.kernel.org/core-api/printk-basics.html>
+ 
+-use core::{
++use crate::{
+     ffi::{c_char, c_void},
+-    fmt,
++    str::RawFormatter,
+ };
+-
+-use crate::str::RawFormatter;
++use core::fmt;
+ 
+ // Called from `vsprintf` with format specifier `%pA`.
+ #[expect(clippy::missing_safety_doc)]
 
- drivers/gpu/drm/drm_panic.c     |  5 -----
- drivers/gpu/drm/drm_panic_qr.rs | 15 +++++++++++----
- include/drm/drm_panic.h         |  7 +++++++
- include/linux/sprintf.h         |  3 +++
- lib/vsprintf.c                  |  3 ---
- rust/bindings/bindings_helper.h |  4 ++++
- rust/kernel/prelude.rs          |  2 +-
- rust/kernel/print.rs            | 10 +++++-----
- rust/macros/export.rs           | 28 ++++++++++++++++++++++++++++
- rust/macros/helpers.rs          | 19 ++++++++++++++++++-
- rust/macros/lib.rs              | 24 ++++++++++++++++++++++++
- rust/macros/quote.rs            | 21 +++++++++++++++++++--
- 12 files changed, 120 insertions(+), 21 deletions(-)
----
-base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
-change-id: 20250227-export-macro-9aa9f1016d8c
-
-Best regards,
 -- 
-Alice Ryhl <aliceryhl@google.com>
+2.48.1.711.g2feabab25a-goog
 
