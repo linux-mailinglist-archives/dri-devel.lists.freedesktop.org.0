@@ -2,40 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A28EA494C7
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:24:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A812FA494CB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:24:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6B610EC22;
-	Fri, 28 Feb 2025 09:23:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85AAC10EC26;
+	Fri, 28 Feb 2025 09:24:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GIWLbqI1";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF4310EC26
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 09:23:56 +0000 (UTC)
-Received: from [127.0.0.1] (161-51-78-170.static.ef-service.nl [161.51.78.170])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 6CDB03F26F;
- Fri, 28 Feb 2025 10:23:55 +0100 (CET)
-Date: Fri, 28 Feb 2025 10:23:54 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-CC: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/8] drm/msm/dpu: program master INTF value
-User-Agent: Thunderbird for Android
-In-Reply-To: <20250228-dpu-active-ctl-v2-2-9a9df2ee5193@linaro.org>
-References: <20250228-dpu-active-ctl-v2-0-9a9df2ee5193@linaro.org>
- <20250228-dpu-active-ctl-v2-2-9a9df2ee5193@linaro.org>
-Message-ID: <CAACA6C8-441A-4B6E-AC07-A46094A02126@somainline.org>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A89610EC26;
+ Fri, 28 Feb 2025 09:24:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C4A2844363;
+ Fri, 28 Feb 2025 09:24:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1740734653;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uRl/Zkz9QqAAlkrUnWYCeXTVHRYrAM1QSzBoMcMiOuw=;
+ b=GIWLbqI1+R50rKdPIqzOfJnFW8i2Jd675dJXNIjbgBnGxWlVzLP/addvFilGAeHGF7hXwl
+ gz+Q2tmwavlOOsaycMRawc29tf+YJcAuDKl+MKSybsx4ce5/qi90M5ZNpJVgVwj+kb1rzN
+ RLLQKSmRaWZloEfScAcUJ6KafXd4HRw5GrMW/6xV+lCCptNwtTs5JEOvtS8+tGkWXrquKp
+ kIO7/qtbgtI58nN6b0OKm2LqJNFAO5UZbSCizqOcRRWyVP7moJjW8PgNLqjZ+2Aff4xDQt
+ JrPpFm8ZdBfO86T+h75FtTRGT/oYboPL7KQUzk7PE311aixTbb5mNLQ2J4UmTA==
+Message-ID: <6b791e8a-9b38-44f1-bd6f-ac8eef9962c9@bootlin.com>
+Date: Fri, 28 Feb 2025 10:24:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [V7 07/45] drm/colorop: Add 1D Curve subtype
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-8-alex.hung@amd.com>
+ <423ed019-f668-433d-80e0-4018f53c31c0@bootlin.com>
+ <570ad01a-ef15-476e-851d-ee78973fd79d@amd.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
+ 5K81kIWbtQX91pD/wH5UapRF4kwMXTAqof8+m3XfYcEDVG31Kf8QkJTG/gLBi1UfJgGBahbY
+ hjP40kuUR/mr7M7bKoBP9Uh0uaEM+DuKl6bSXMSrJ6fOtEPOtnfBY0xVPmqIKfLFEkjh800v
+ jD1fdwWKtAIXf+cQtC9QWvcdzAmQIwmyFBmbg+ccqao1OIXTgu+qMAHfgKDjYctESvo+Szmb
+ DFBZudPbyTAlf2mVKpoHKMGy3ndPZ19RboKUP0wjrF+Snif6zRFisHK7D/mqpgUftoV4HjEH
+ bQO9bTJZXIoPJMSb+Lyds0m83/LYfjcWP8w889bNyD4Lzzzu+hWIu/OObJeGEQqY01etOLMh
+ deuSuCG9tFr0DY6l37d4VK4dqq4Snmm87IRCb3AHAEMJ5SsO8WmRYF8ReLIk0tJJPrALv8DD
+ lnLnwadBJ9H8djZMj24+GC6MJjN8dDNWctpBXgGZKuCM7Ggaex+RLHP/+14Vl+lSLdFiUb3U
+ ljBXuc9v5/9+D8fWlH03q+NCa1dVgUtsP2lpolOV3EE85q1HdMyt5K91oB0hLNFdTFYwn1bW
+ WJ2FaRhiC1yV4kn/z8g7fAp57VyIb6lQfS1Wwuj5/53XYjdipQARAQABzSlMb3VpcyBDaGF1
+ dmV0IDxsb3Vpcy5jaGF1dmV0QGJvb3RsaW4uY29tPsLBlAQTAQgAPgIbAwULCQgHAgYVCgkI
+ CwIEFgIDAQIeAQIXgBYhBItxBK6aJy1mk/Un8uwYg/VeC0ClBQJmlnw+BQkH8MsdAAoJEOwY
+ g/VeC0ClyhwP/Ra6H+5F2NEW6/IMVHeXmhuly8CcZ3kyoKeGNowghIcTBo59dFh0atGCvr+y
+ K9YD5Pyg9aX4Ropw1R1RVIMrWoUNZUKebRTu6iNHkE6tmURJaKLzR+9la+789jznQvbV+9gM
+ YTBppX4/0cWY58jiDiDV4aJ77JDo7aWNK4hz8mZsB+Y7ezMuS4jy2r4b7dZ+YL/T9/k3/emO
+ PkAuFkVhkNhytMEyOBsT7SjL4IUBeYWvOw9MIaXEl4qW/5HLGtMuNhS94NsviDXZquoOHOby
+ 2uuRAI0bLz1qcsnY90yyPlDJ0pMuJHbi0DBzPTIYkyuwoyplfWxnUPp1wfsjiy/B6mRKTbdE
+ a/K6jNzdVC1LLjTD4EjwnCE8IZBRWH1NVC1suOkw3Sr1FYcHFSYqNDrrzO+RKtR1JMrIe8/3
+ Xhe2/UNUhppsK3SaFaIsu98mVQY3bA/Xn9wYcuAAzRzhEHgrbp8LPzYdi6Qtlqpt4HcPV3Ya
+ H9BkCacgyLHcdeQbBXaup9JbF5oqbdtwev3waAmNfhWhrQeqQ0tkrpJ46l9slEGEdao5Dcct
+ QDRjmJz7Gx/rKJngQrbboOQz+rhiHPoJc/n75lgOqtHRePNEf9xmtteHYpiAXh/YNooXJvdA
+ tgR1jAsCsxuXZnW2DpVClm1WSHNfLSWona8cTkcoSTeYCrnXzsFNBGCG6KUBEADZhvm9TZ25
+ JZa7wbKMOpvSH36K8wl74FhuVuv7ykeFPKH2oC7zmP1oqs1IF1UXQQzNkCHsBpIZq+TSE74a
+ mG4sEhZP0irrG/w3JQ9Vbxds7PzlQzDarJ1WJvS2KZ4AVnwc/ucirNuxinAuAmmNBUNF8w6o
+ Y97sdgFuIZUP6h972Tby5bu7wmy1hWL3+2QV+LEKmRpr0D9jDtJrKfm25sLwoHIojdQtGv2g
+ JbQ9Oh9+k3QG9Kh6tiQoOrzgJ9pNjamYsnti9M2XHhlX489eXq/E6bWOBRa0UmD0tuQKNgK1
+ n8EDmFPW3L0vEnytAl4QyZEzPhO30GEcgtNkaJVQwiXtn4FMw4R5ncqXVvzR7rnEuXwyO9RF
+ tjqhwxsfRlORo6vMKqvDxFfgIkVnlc2KBa563qDNARB6caG6kRaLVcy0pGVlCiHLjl6ygP+G
+ GCNfoh/PADQz7gaobN2WZzXbsVS5LDb9w/TqskSRhkgXpxt6k2rqNgdfeyomlkQnruvkIIjs
+ Sk2X68nwHJlCjze3IgSngS2Gc0NC/DDoUBMblP6a2LJwuF/nvaW+QzPquy5KjKUO2UqIO9y+
+ movZqE777uayqmMeIy4cd/gg/yTBBcGvWVm0Dh7dE6G6WXJUhWIUtXCzxKMmkvSmZy+gt1rN
+ OyCd65HgUXPBf+hioCzGVFSoqQARAQABwsOyBBgBCAAmAhsuFiEEi3EErponLWaT9Sfy7BiD
+ 9V4LQKUFAmaWfGYFCQfwx0ECQAkQ7BiD9V4LQKXBdCAEGQEIAB0WIQRPj7g/vng8MQxQWQQg
+ rS7GWxAs4gUCYIbopQAKCRAgrS7GWxAs4gfGEACcA0XVNesbVIyvs5SJpJy+6csrH4yy233o
+ GclX2P7pcCls55wiV6ywCtRaXWFjztYmklQieaZ/zq+pUuUDtBZo95rUP20E56gYV2XFB18W
+ YeekTwH5d2d/j++60iHExWTB+sgMEv3CEGikUBj7iaMX2KtaB1k9K+3K6dx/s1KWxOClFkbJ
+ EV/tmeq7Ta8LiytQM9b4yY550tzC0pEEeFcLFXo1m5KcJauYnAqrlOVY48NFpFUd9oAZf/Pz
+ p3oEs+zn/8zK2PBrZZCD6AhrbotRy7irE5eimhxcsFm1+MG5ufnaQUWHrRYXVuFhvkSoqZ8j
+ GPgPEpFor4NjRyX/PMLglQ7S5snkvKcr3Lun44aybXEHq/1FTzW2kOh6kFHFFOPbMv1voJKM
+ IzrmDoDS+xANt/La7OwpCylCgF6t9oHHTTGfAfwtfYZbiepC66FDe/Jt/QLwkIXeIoeSS1O4
+ 6rJdGWG2kHthUM+uIbUbaRJW8AkJpzP1Mz7TieR/9jO4YPeUm9tGL5kP2yyNtzFilcoOeox1
+ NSFNAPz+zPcovVmxAaSDGcSzhQVJVlk8xPib8g4fnI8qJ3Gj7xyw8D9dzxhCR2DIFmZL84En
+ N7Rj+k4VIGY7M/cVvxL81jlbMGMERMmb96Cua9z1ROviGA1He2gbHOcp6qmLNu3nprleG8PL
+ ZRNdEAC0iZapoyiXlVCKLFIwUPnxUz5iarqIfQU8sa1VXYYd/AAAFI6Wv3zfNtGicjgHP8rN
+ CIegqm2Av1939XXGZJVI9f3hEoUn04rvxCgcDcUvn7I0WTZ4JB9G5qAGvQLXeXK6Byu77qTx
+ eC7PUIIEKN3X47e8xTSj2reVTlanDr8yeqZhxpKHaS0laF8RbD85geZtAK67qEByX2KC9DUo
+ eHBFuXpYMzGQnf2SG105ePI2f4h5iAfbTW9VWH989fx4f2hVlDwTe08/NhPdwq/Houov9f/+
+ uPpYEMlHCNwE8GRV7aEjd/dvu87PQPm4zFtC3jgQaUKCbYYlHmYYRlrLQenX3QSorrQNPbfz
+ uQkNLDVcjgD2fxBpemT7EhHYBz+ugsfbtdsH+4jVCo5WLb/HxE6o5zvSIkXknWh1DhFj/qe9
+ Zb9PGmfp8T8Ty+c/hjE5x6SrkRCX8qPXIvfSWLlb8M0lpcpFK+tB+kZlu5I3ycQDNLTk3qmf
+ PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
+ ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
+ qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
+In-Reply-To: <570ad01a-ef15-476e-851d-ee78973fd79d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeltddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtoheprghlvgigrdhhuhhnghesrghmugdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopeifrgihlhgrnhguqdguvghvvghlsehlihhst
+ hhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhgrrhhrhidrfigvnhhtlhgrnhgusegrmhgurdgtohhm
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,100 +121,283 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28 February 2025 05:14:06 CET, Dmitry Baryshkov <dmitry=2Ebaryshkov@lina=
-ro=2Eorg> wrote:
->If several interfaces are being handled through a single CTL, a main
->('master') INTF needs to be programmed into a separate register=2E Write
->corresponding value into that register=2E
->
->Co-developed-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
->Signed-off-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
->Signed-off-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
->---
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec | 12 ++++++++++++
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh |  2 ++
-> 2 files changed, 14 insertions(+)
->
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_hw_ctl=2Ec
->index 32ab33b314fc44e12ccb935c1695d2eea5c7d9b2=2E=2Effff60c4206c6f2833293=
-fdcc56b653f7d3124a5 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec
->@@ -583,6 +583,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl =
-*ctx,
-> 	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
-> 	DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE, merge_3d_active);
->=20
->+	if (cfg->intf_master)
->+		DPU_REG_WRITE(c, CTL_INTF_MASTER, BIT(cfg->intf_master - INTF_0));
->+
-> 	if (cfg->cdm)
-> 		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
-> }
->@@ -625,6 +628,7 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_h=
-w_ctl *ctx,
-> {
-> 	struct dpu_hw_blk_reg_map *c =3D &ctx->hw;
-> 	u32 intf_active =3D 0;
->+	u32 intf_master =3D 0;
-> 	u32 wb_active =3D 0;
-> 	u32 merge3d_active =3D 0;
-> 	u32 dsc_active;
->@@ -651,6 +655,14 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_=
-hw_ctl *ctx,
-> 		intf_active =3D DPU_REG_READ(c, CTL_INTF_ACTIVE);
-> 		intf_active &=3D ~BIT(cfg->intf - INTF_0);
-> 		DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
->+
->+		intf_master =3D DPU_REG_READ(c, CTL_INTF_MASTER);
->+
->+		/* Unset this intf as master, if it is the current master */
->+		if (intf_master =3D=3D BIT(cfg->intf - INTF_0)) {
->+			DPU_DEBUG_DRIVER("Unsetting INTF_%d master\n", cfg->intf - INTF_0);
 
-Don't think you want to include my testing ramblings here: we didn't print=
- a message either when the master was _set_, and don't print messages for o=
-ther register writes either=2E
 
-After that:
+Le 28/02/2025 à 02:07, Alex Hung a écrit :
+> 
+> 
+> On 2/25/25 03:13, Louis Chauvet wrote:
+>>
+>>
+>> Le 20/12/2024 à 05:33, Alex Hung a écrit :
+>>> From: Harry Wentland <harry.wentland@amd.com>
+>>>
+>>> Add a new drm_colorop with DRM_COLOROP_1D_CURVE with two subtypes:
+>>> DRM_COLOROP_1D_CURVE_SRGB_EOTF and DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF.
+>>>
+>>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+>>> Co-developed-by: Alex Hung <alex.hung@amd.com>
+>>> Signed-off-by: Alex Hung <alex.hung@amd.com>
+>>> ---
+>>> v5:
+>>>    - Add drm_get_colorop_curve_1d_type_name in header
+>>>    - Add drm_colorop_init
+>>>    - Set default curve
+>>>    - Add kernel docs
+>>>
+>>> v4:
+>>>    - Use drm_colorop_curve_1d_type_enum_list to get name (Pekka)
+>>>    - Create separate init function for 1D curve
+>>>    - Pass supported TFs into 1D curve init function
+>>>
+>>>    drivers/gpu/drm/drm_atomic_uapi.c |  18 ++--
+>>>    drivers/gpu/drm/drm_colorop.c     | 134 ++++++++++++++++++++++++++++++
+>>>    include/drm/drm_colorop.h         |  60 +++++++++++++
+>>>    3 files changed, 207 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/
+>>> drm_atomic_uapi.c
+>>> index 59fc25b59100..9a5dbf0a1306 100644
+>>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>>> @@ -648,11 +648,17 @@ static int
+>>> drm_atomic_colorop_set_property(struct drm_colorop *colorop,
+>>>            struct drm_colorop_state *state, struct drm_file *file_priv,
+>>>            struct drm_property *property, uint64_t val)
+>>>    {
+>>> -    drm_dbg_atomic(colorop->dev,
+>>> -            "[COLOROP:%d] unknown property [PROP:%d:%s]]\n",
+>>> -            colorop->base.id,
+>>> -            property->base.id, property->name);
+>>> -    return -EINVAL;
+>>> +    if (property == colorop->curve_1d_type_property) {
+>>> +        state->curve_1d_type = val;
+>>> +    } else {
+>>> +        drm_dbg_atomic(colorop->dev,
+>>> +                   "[COLOROP:%d:%d] unknown property [PROP:%d:%s]]\n",
+>>> +                   colorop->base.id, colorop->type,
+>>> +                   property->base.id, property->name);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    return 0;
+>>>    }
+>>>    static int
+>>> @@ -662,6 +668,8 @@ drm_atomic_colorop_get_property(struct drm_colorop
+>>> *colorop,
+>>>    {
+>>>        if (property == colorop->type_property) {
+>>>            *val = colorop->type;
+>>> +    } else if (property == colorop->curve_1d_type_property) {
+>>> +        *val = state->curve_1d_type;
+>>>        } else {
+>>>            return -EINVAL;
+>>>        }
+>>> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/
+>>> drm_colorop.c
+>>> index 1459a28c7e7b..a42de0aa48e1 100644
+>>> --- a/drivers/gpu/drm/drm_colorop.c
+>>> +++ b/drivers/gpu/drm/drm_colorop.c
+>>> @@ -31,6 +31,123 @@
+>>>    #include "drm_crtc_internal.h"
+>>> +static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
+>>> +    { DRM_COLOROP_1D_CURVE, "1D Curve" },
+>>> +};
+>>> +
+>>> +static const char * const colorop_curve_1d_type_names[] = {
+>>> +    [DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
+>>> +    [DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] = "sRGB Inverse EOTF",
+>>> +};
+>>> +
+>>> +
+>>> +/* Init Helpers */
+>>> +
+>>> +static int drm_colorop_init(struct drm_device *dev, struct
+>>> drm_colorop *colorop,
+>>> +                struct drm_plane *plane, enum drm_colorop_type type)
+>>> +{
+>>> +    struct drm_mode_config *config = &dev->mode_config;
+>>> +    struct drm_property *prop;
+>>> +    int ret = 0;
+>>> +
+>>> +    ret = drm_mode_object_add(dev, &colorop->base,
+>>> DRM_MODE_OBJECT_COLOROP);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    colorop->base.properties = &colorop->properties;
+>>> +    colorop->dev = dev;
+>>> +    colorop->type = type;
+>>> +    colorop->plane = plane;
+>>> +
+>>> +    list_add_tail(&colorop->head, &config->colorop_list);
+>>> +    colorop->index = config->num_colorop++;
+>>> +
+>>> +    /* add properties */
+>>> +
+>>> +    /* type */
+>>> +    prop = drm_property_create_enum(dev,
+>>> +                    DRM_MODE_PROP_IMMUTABLE,
+>>> +                    "TYPE", drm_colorop_type_enum_list,
+>>> +                    ARRAY_SIZE(drm_colorop_type_enum_list));
+>>
+>> I think this function belongs to the previous patch "Add TYPE property".
+> 
+> This function is only called by the first colorop. Some pieces of the
+> code in this function are introduced with the first colorop (1D curve)
+> so it makes sense to include it here.
 
-Reviewed-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
+True! I did not saw it, you can keep it here indeed
 
->+			DPU_REG_WRITE(c, CTL_INTF_MASTER, 0);
->+		}
-> 	}
->=20
-> 	if (cfg->wb) {
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_hw_ctl=2Eh
->index 85c6c835cc8780e6cb66f3a262d9897c91962935=2E=2Ee95989a2fdda6344d0cb9=
-d3036e6ed22a0458675 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh
->@@ -36,6 +36,7 @@ struct dpu_hw_stage_cfg {
-> /**
->  * struct dpu_hw_intf_cfg :Describes how the DPU writes data to output i=
-nterface
->  * @intf :                 Interface id
->+ * @intf_master:           Master interface id in the dual pipe topology
+>>
+>>> +
+>>> +    if (!prop)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    colorop->type_property = prop;
+>>> +
+>>> +    drm_object_attach_property(&colorop->base,
+>>> +                   colorop->type_property,
+>>> +                   colorop->type);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +/**
+>>> + * drm_colorop_curve_1d_init - Initialize a DRM_COLOROP_1D_CURVE
+>>> + *
+>>> + * @dev: DRM device
+>>> + * @colorop: The drm_colorop object to initialize
+>>> + * @plane: The associated drm_plane
+>>> + * @supported_tfs: A bitfield of supported drm_colorop_curve_1d_init
+>>> enum values,
+>>> + *                 created using BIT(curve_type) and combined with
+>>> the OR '|'
+>>> + *                 operator.
+>>> + * @return zero on success, -E value on failure
+>>> + */
+>>> +int drm_colorop_curve_1d_init(struct drm_device *dev, struct
+>>> drm_colorop *colorop,
+>>> +                  struct drm_plane *plane, u64 supported_tfs)
+>>> +{
+>>> +    struct drm_prop_enum_list enum_list[DRM_COLOROP_1D_CURVE_COUNT];
+>>> +    int i, len;
+>>> +
+>>> +    struct drm_property *prop;
+>>> +    int ret;
+>>> +
+>>> +    if (!supported_tfs) {
+>>> +        drm_err(dev,
+>>> +            "No supported TFs for new 1D curve colorop on [PLANE:%d:
+>>> %s]\n",
+>>> +            plane->base.id, plane->name);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    if ((supported_tfs & -BIT(DRM_COLOROP_1D_CURVE_COUNT)) != 0) {
+>>> +        drm_err(dev, "Unknown TF provided on [PLANE:%d:%s]\n",
+>>> +            plane->base.id, plane->name);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_CURVE);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    len = 0;
+>>> +    for (i = 0; i < DRM_COLOROP_1D_CURVE_COUNT; i++) {
+>>> +        if ((supported_tfs & BIT(i)) == 0)
+>>> +            continue;
+>>> +
+>>> +        enum_list[len].type = i;
+>>> +        enum_list[len].name = colorop_curve_1d_type_names[i];
+>>> +        len++;
+>>> +    }
+>>> +
+>>> +    if (WARN_ON(len <= 0))
+>>> +        return -EINVAL;
+>>> +
+>>> +
+>>> +    /* initialize 1D curve only attribute */
+>>> +    prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
+>>> "CURVE_1D_TYPE",
+>>> +                    enum_list, len);
+>>> +    if (!prop)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    colorop->curve_1d_type_property = prop;
+>>> +    drm_object_attach_property(&colorop->base, colorop-
+>>>> curve_1d_type_property,
+>>> +                   enum_list[0].type);
+>>> +    drm_colorop_reset(colorop);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +EXPORT_SYMBOL(drm_colorop_curve_1d_init);
+>>> +
+>>>    static void __drm_atomic_helper_colorop_duplicate_state(struct
+>>> drm_colorop *colorop,
+>>>                                struct drm_colorop_state *state)
+>>>    {
+>>> @@ -70,7 +187,16 @@ void drm_colorop_atomic_destroy_state(struct
+>>> drm_colorop *colorop,
+>>>    static void __drm_colorop_state_reset(struct drm_colorop_state
+>>> *colorop_state,
+>>>                          struct drm_colorop *colorop)
+>>>    {
+>>> +    u64 val;
+>>> +
+>>>        colorop_state->colorop = colorop;
+>>> +
+>>> +    if (colorop->curve_1d_type_property) {
+>>> +        drm_object_property_get_default_value(&colorop->base,
+>>> +                        colorop->curve_1d_type_property,
+>>> +                        &val);
+>>> +        colorop_state->curve_1d_type = val;
+>>> +    }
+>>>    }
+>>>    /**
+>>> @@ -114,3 +240,11 @@ const char *drm_get_colorop_type_name(enum
+>>> drm_colorop_type type
+>>>        return colorop_type_name[type];
+>>
+>> Probably a dumb question: can't we use drm_colorop_type_enum_list
+>> instead of colorop_type_name in the drm_get_colorop_type_name function?
+>> So we will avoid duplicating the string "1D Curve".
+> 
+> Using drm_colorop_type_enum_list in drm_get_colorop_type_name needs
+> enumerating the list every time (extra CPU cycles) unlike using
+> colorop_type_name[].
 
-Not sure if you've seen my comment in v1 about the dual word; maybe the qu=
-adpipe series can update it since they might need a master (or two?) as wel=
-l?
+Why do you want to iterate over the list? See [1]/[2], it seems to be a 
+common patter to simply order the enum list and use the index in it.
 
-- Marijn
+Furthermore, I don't expect this function to be called often, so a list 
+enumeration doesn't seem expensive (maybe called almost never? The only 
+usage I found in your series is __drm_state_dump).
 
->  * @mode_3d:               3d mux configuration
->  * @merge_3d:              3d merge block used
->  * @intf_mode_sel:         Interface mode, cmd / vid
->@@ -45,6 +46,7 @@ struct dpu_hw_stage_cfg {
->  */
-> struct dpu_hw_intf_cfg {
-> 	enum dpu_intf intf;
->+	enum dpu_intf intf_master;
-> 	enum dpu_wb wb;
-> 	enum dpu_3d_blend_mode mode_3d;
-> 	enum dpu_merge_3d merge_3d;
->
+I don't have a strong opinion on this, so:
+
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+Thanks!
+Louis Chauvet
+
+[1]:https://elixir.bootlin.com/linux/v6.13.4/source/drivers/gpu/drm/drm_connector.c#L1238-L1259
+[2]:https://elixir.bootlin.com/linux/v6.13.4/source/drivers/gpu/drm/drm_connector.c#L972-L994
+
+>>
+>>>    }
+>>
+>> Thanks,
+>> Louis Chauvet
+>>
+>> [...]
+>>
+> 
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
