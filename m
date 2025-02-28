@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22464A4A4CC
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 22:15:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19954A4A4CD
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 22:15:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82AAF10ED56;
-	Fri, 28 Feb 2025 21:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA42C10ED4D;
+	Fri, 28 Feb 2025 21:15:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jP0JZzRQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mud5l11F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FCA710ED4B;
- Fri, 28 Feb 2025 21:15:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA6F910ED5B;
+ Fri, 28 Feb 2025 21:15:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740777315; x=1772313315;
+ t=1740777319; x=1772313319;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bULcN5viyy0C1hLt2e4R+uly163iYAmhTg0lzJ8LsWw=;
- b=jP0JZzRQl0VFeyFjaugil6k4waB4F1rO4o5vyWGMaxNt403FABikuU9w
- Igy3YZV6Jd38n/ONZDUuHnc3WAyNIG+H9XgMytK4+1047kgAzJexKnyZy
- l4KUuApbzAh1Skb8RqMF8c4K3OmyhdQYptnfnu4ybH6dTpZMzNAfbbCyo
- bg3WLHZ8Us1uacbwQvLvzh4zBkCHye8kENGVoCcJE2ezUY6jm0F2/IiQs
- 4QBif3UAGwqkXbSIFATgNl1txAH1gV/v9I3oWVdLJ6eexghZ5eWyd6JNC
- 0ZFQRfavEoth7WVIvlmrtbT1PTuqSMLg2yUDHDXS2L+4uGsrpGZA5pwLY Q==;
-X-CSE-ConnectionGUID: BkCVrkqzSeKt1ZLVHQcvQA==
-X-CSE-MsgGUID: FYhC1MqVSryBSwmltC5DfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52352329"
-X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="52352329"
+ bh=ayCzSfXOBQ49h2iuqpmIcDKnMGz1UH6AV4XjAJXUbiU=;
+ b=Mud5l11Ftp+/xvtQvXXfdaYORC6Cp0b6jVOxRoE/Bb3Lj/YwIT31esAI
+ wAjoKXWbBVtfBfcjMq5Uf8iAurwkbuQwMj00JY9HNpIiJBBEeJwpAXU+y
+ uLNTC+QZFGlHI5hFqKh2yViMWDuVafrg72ctj/7CO+Sjw6uE0dhzJbq9R
+ KuiyUbLhpGAYmDMYuQNzUxIDdB4vWwbu3Xz4e9Cl/vkSgt2YVluWvPr3F
+ r+xS2MmuL0MxwDqmeBH3tXhbMK1x4pMPRWTlAh7OhXVZF4852f3h5Lic9
+ brgwXxTgO9UC+r5U4Ynh6NU+nCZC5Ceq/KZCD3wItVzuJ3kzti74Hxu4T Q==;
+X-CSE-ConnectionGUID: sMw6vAPgSTiX9UGKr20f1g==
+X-CSE-MsgGUID: j7CIcgJFQQSYCDZ6vqufEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52352342"
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="52352342"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 13:15:15 -0800
-X-CSE-ConnectionGUID: e89fWaxdSk2kS2PRUZyADQ==
-X-CSE-MsgGUID: +bDzgA0cTDWM2Sj8vsFu5Q==
+ 28 Feb 2025 13:15:18 -0800
+X-CSE-ConnectionGUID: b3+xOILrSda0hd6C000Usw==
+X-CSE-MsgGUID: 6BLtQardTdCdFBQUr7PJMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="122684887"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="122684913"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 28 Feb 2025 13:15:13 -0800
+ by orviesa005.jf.intel.com with SMTP; 28 Feb 2025 13:15:16 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 28 Feb 2025 23:15:12 +0200
+ Fri, 28 Feb 2025 23:15:15 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 5/8] drm/client: Stop using the legacy crtc->mode
-Date: Fri, 28 Feb 2025 23:14:51 +0200
-Message-ID: <20250228211454.8138-6-ville.syrjala@linux.intel.com>
+Subject: [PATCH v2 6/8] drm/client: s/new_crtc/crtc/
+Date: Fri, 28 Feb 2025 23:14:52 +0200
+Message-ID: <20250228211454.8138-7-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.3
 In-Reply-To: <20250228211454.8138-1-ville.syrjala@linux.intel.com>
 References: <20250228211454.8138-1-ville.syrjala@linux.intel.com>
@@ -71,49 +71,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-crtc->mode is legacy junk and shouldn't really be used with
-atomic drivers.
-
-Most (all?) atomic drivers do end up still calling
-drm_atomic_helper_update_legacy_modeset_state() at some
-point, so crtc->mode does still get populated, and this
-does work for now. But now that the modes[] lifetime issues
-have been sorted out we can just switch over to the
-proper crtc->state->mode.
+Rename the 'new_crtc' variable to just 'crtc' in
+drm_client_firmware_config(). We don't call any of the other
+stuff in here new or old so this feels out of place.
 
 v2: Rebase
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_client_modeset.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ drivers/gpu/drm/drm_client_modeset.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index ff034359f063..4c64535fb82c 100644
+index 4c64535fb82c..a0caa2b229dd 100644
 --- a/drivers/gpu/drm/drm_client_modeset.c
 +++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -733,20 +733,9 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+@@ -658,7 +658,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 	for (i = 0; i < count; i++) {
+ 		struct drm_connector *connector;
+ 		struct drm_encoder *encoder;
+-		struct drm_crtc *new_crtc;
++		struct drm_crtc *crtc;
+ 		const char *mode_type;
  
- 		/* last resort: use current mode */
+ 		connector = connectors[i];
+@@ -700,7 +700,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 
+ 		num_connectors_enabled++;
+ 
+-		new_crtc = connector->state->crtc;
++		crtc = connector->state->crtc;
+ 
+ 		/*
+ 		 * Make sure we're not trying to drive multiple connectors
+@@ -708,7 +708,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 		 * match the BIOS.
+ 		 */
+ 		for (j = 0; j < count; j++) {
+-			if (crtcs[j] == new_crtc) {
++			if (crtcs[j] == crtc) {
+ 				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] fallback: cloned configuration\n",
+ 					    connector->base.id, connector->name);
+ 				goto bail;
+@@ -735,7 +735,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
  		if (!modes[i]) {
--			/*
--			 * IMPORTANT: We want to use the adjusted mode (i.e.
--			 * after the panel fitter upscaling) as the initial
--			 * config, not the input mode, which is what crtc->mode
--			 * usually contains. But since our current
--			 * code puts a mode derived from the post-pfit timings
--			 * into crtc->mode this works out correctly.
--			 *
--			 * This is crtc->mode and not crtc->state->mode for the
--			 * fastboot check to work correctly.
--			 */
  			mode_type = "current";
  			mode_replace(dev, &modes[i],
--				     &connector->state->crtc->mode);
-+				     &new_crtc->state->mode);
+-				     &new_crtc->state->mode);
++				     &crtc->state->mode);
  		}
  
  		/*
+@@ -748,11 +748,11 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 			mode_replace(dev, &modes[i],
+ 				     drm_connector_fallback_non_tiled_mode(connector));
+ 		}
+-		crtcs[i] = new_crtc;
++		crtcs[i] = crtc;
+ 
+ 		drm_dbg_kms(dev, "[CONNECTOR::%d:%s] on [CRTC:%d:%s] using %s mode: %s\n",
+ 			    connector->base.id, connector->name,
+-			    new_crtc->base.id, new_crtc->name,
++			    crtc->base.id, crtc->name,
+ 			    mode_type, modes[i]->name);
+ 
+ 		fallback = false;
 -- 
 2.45.3
 
