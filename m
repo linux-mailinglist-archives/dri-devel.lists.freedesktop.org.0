@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91479A49950
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:30:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29313A49982
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:38:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0448110E29A;
-	Fri, 28 Feb 2025 12:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7F510EC84;
+	Fri, 28 Feb 2025 12:38:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TOCQpJlY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qIH0mDlE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D727B10E29A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:30:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8597A60008;
- Fri, 28 Feb 2025 12:30:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C8B7C4CED6;
- Fri, 28 Feb 2025 12:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740745812;
- bh=rS106VtMPb1KbJZduI0sp/CcUh0CsKV3sOXYVMNfj4g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TOCQpJlYFxbd/ZR/kW+lCWGmgETx68IuB3zjrfexJbn9FlmIhomoD95s5psT0RImm
- /JhE0P89cN9hHgSwukDIjAYhLXiJ8NocdJR1EcG7R+TE66VU+/op/b7PCzWZ3EQ2iB
- bY9UwDSqoA4JRq3YyCIbD84nonSs7drvgWGWQliDvS6Q+lrUBty+IHEMK0kB6FumgR
- 4EAi30ZxVMWlvEXsynyiV1SkDUjed9hztalLRCBW9sN0FmgDsUscfAOYrE8zIBTVcf
- dmo3wg86j5ctxqwRhZl984iz27LmdhHsEySxsfXInH7Ct9fRzThDBAqcPHIkbVOXi1
- Fyv0rfyotqwbw==
-Date: Fri, 28 Feb 2025 06:30:10 -0600
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Cc: linux-arm-kernel@lists.infradead.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-Subject: Re: [PATCH 7/9] dt-bindings: gpu: mali-valhall-csf: Document i.MX95
- support
-Message-ID: <20250228123010.GB2321092-robh@kernel.org>
-References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-8-marex@denx.de>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C92010EC94
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1740746298;
+ bh=YiXSMEs1WmqmVHd09AJ85IwIatOEb4iEeGZ8qUBwlQY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=qIH0mDlEzvSZ+tfY8AXSKv4grR/j0uFU5EEsHKijdSUeXskyfoe8l6fp2CpdpVjjY
+ uGc2GZdgSFhCqH/m5AeiAqZqCmJOlY5S1V2PaPpI6nTWJYwXIy7CLQDaWHhJOH8zRh
+ 1vxsQUqI/wzpARKmP4kN25MB1KVZHlvIUEOhwcPNqAd4Z6Oqx6Rjwd85yPsRZCuNV9
+ G2IEJeB2l48p25WbrVkK/RXn0rFHW5Hrnw1wy26Xdfartkv1ucYmNqVU37C1gtVomm
+ jomU1xvEYqYv22KPFKsuot7EeJQ/dq7KqM0NsCBot/qAgCHNjmmBRWLpRFBZ3adSqS
+ CtYV8nLfjc7ng==
+Received: from [192.168.50.250] (unknown [171.76.85.20])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E30CF17E017D;
+ Fri, 28 Feb 2025 13:38:15 +0100 (CET)
+Message-ID: <e8e7de99-ade8-48ca-804c-58ce3fedad4b@collabora.com>
+Date: Fri, 28 Feb 2025 18:08:04 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227170012.124768-8-marex@denx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/ci: fix merge request rules
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch,
+ robdclark@gmail.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
+ linux-kernel@vger.kernel.org
+References: <20250227042058.409003-1-vignesh.raman@collabora.com>
+ <ondpwjsgujhk7wo3gaajoeamcf4gkp424cxmyslwsybrlkzo5f@xh3yx2r2mp6k>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <ondpwjsgujhk7wo3gaajoeamcf4gkp424cxmyslwsybrlkzo5f@xh3yx2r2mp6k>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,53 +65,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2025 at 05:58:07PM +0100, Marek Vasut wrote:
-> The instance of the GPU populated in Freescale i.MX95 is the
-> Mali G310, document support for this variant.
+Hi Dmitry,
 
-You should combine patch 4 with this one and make resets required for 
-imx95 since you said it is required.
+On 28/02/25 12:28, Dmitry Baryshkov wrote:
+> On Thu, Feb 27, 2025 at 09:50:50AM +0530, Vignesh Raman wrote:
+>> Merge request pipelines were only created when changes
+>> were made to drivers/gpu/drm/ci/, causing MRs that
+>> didn't touch this path to break. Fix MR pipeline rules
+>> to trigger jobs for all changes.
+>>
+>> Run jobs automatically for marge-bot and scheduled
+>> pipelines, but in all other cases run manually. Also
+>> remove CI_PROJECT_NAMESPACE checks specific to mesa.
+>>
+>> Fixes: df54f04f2020 ("drm/ci: update gitlab rules")
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>
+>> v2:
+>>    - Run jobs automatically for marge-bot and scheduled
+>>      pipelines, but in all other cases run manually. Also
+>>      remove CI_PROJECT_NAMESPACE checks specific to mesa.
+>>
+>> ---
+>>   drivers/gpu/drm/ci/gitlab-ci.yml | 21 +++++----------------
+>>   1 file changed, 5 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+>> index f04aabe8327c..f4e324e156db 100644
+>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+>> @@ -143,11 +143,11 @@ stages:
+>>       # Pre-merge pipeline
+>>       - if: &is-pre-merge $CI_PIPELINE_SOURCE == "merge_request_event"
+>>       # Push to a branch on a fork
+>> -    - if: &is-fork-push $CI_PROJECT_NAMESPACE != "mesa" && $CI_PIPELINE_SOURCE == "push"
+>> +    - if: &is-fork-push $CI_PIPELINE_SOURCE == "push"
+>>       # nightly pipeline
+>>       - if: &is-scheduled-pipeline $CI_PIPELINE_SOURCE == "schedule"
+>>       # pipeline for direct pushes that bypassed the CI
+>> -    - if: &is-direct-push $CI_PROJECT_NAMESPACE == "mesa" && $CI_PIPELINE_SOURCE == "push" && $GITLAB_USER_LOGIN != "marge-bot"
+>> +    - if: &is-direct-push $CI_PIPELINE_SOURCE == "push" && $GITLAB_USER_LOGIN != "marge-bot"
+>>   
+>>   
+>>   # Rules applied to every job in the pipeline
+>> @@ -170,26 +170,15 @@ stages:
+>>       - !reference [.disable-farm-mr-rules, rules]
+>>       # Never run immediately after merging, as we just ran everything
+>>       - !reference [.never-post-merge-rules, rules]
+>> -    # Build everything in merge pipelines, if any files affecting the pipeline
+>> -    # were changed
+>> +    # Build everything in merge pipelines
+>>       - if: *is-merge-attempt
+>> -      changes: &all_paths
+>> -      - drivers/gpu/drm/ci/**/*
+>>         when: on_success
+>>       # Same as above, but for pre-merge pipelines
+>>       - if: *is-pre-merge
+>> -      changes:
+>> -        *all_paths
+>> -      when: manual
+>> -    # Skip everything for pre-merge and merge pipelines which don't change
+>> -    # anything in the build
+>> -    - if: *is-merge-attempt
+>> -      when: never
+>> -    - if: *is-pre-merge
+>> -      when: never
+>> +    - when: manual
+> 
+> I believe there should be no dash on this line
+> 
+>>       # Build everything after someone bypassed the CI
+>>       - if: *is-direct-push
+>> -      when: on_success
+>> +    - when: manual
+> 
+> And on this line too.
+
+Thanks for spotting this. Will fix and send v3.
+
+Regards,
+Vignesh
 
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>>       # Build everything in scheduled pipelines
+>>       - if: *is-scheduled-pipeline
+>>         when: on_success
+>> -- 
+>> 2.47.2
+>>
 > 
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-> index 0efa06822a543..3ab62bd424e41 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-> @@ -18,6 +18,7 @@ properties:
->      oneOf:
->        - items:
->            - enum:
-> +              - fsl,imx95-mali            # G310
->                - rockchip,rk3588-mali
->            - const: arm,mali-valhall-csf   # Mali Valhall GPU model/revision is fully discoverable
->  
-> -- 
-> 2.47.2
-> 
+
