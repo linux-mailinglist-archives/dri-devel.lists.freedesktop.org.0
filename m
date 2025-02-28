@@ -2,92 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8A5A496D5
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:17:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE67A49704
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 11:21:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7B910EC56;
-	Fri, 28 Feb 2025 10:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E42A810EC57;
+	Fri, 28 Feb 2025 10:21:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xchn3jwI";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="ZupeaTG4";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="euyd0mwT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADF910EC57
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:17:55 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-54838cd334cso2185060e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 02:17:55 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6CD10EC57
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 10:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740737874; x=1741342674; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CqCAMLKDFMDmg/J9XlohF5SNVValJDhS7J4k1e5y8j8=;
- b=xchn3jwIBYXMm4Ra2xOUP7Q5sOktJZaQ7Pwb6eKIJhsAoWRPUtHlDQo/Co07eAwvgF
- i2mlwdsycnpX3r30rkLFdlzoTznr96qXq/enOrZKnuprYkRxVaRlomRCu6KJsWiKMBIK
- fQos+AetAaSNS5eREFzsKH8BHISmvv6WK7mexExv6Tt8hjvOK/0DF3moaq9uRcFfl/g2
- QrbOTkhuPttq+JY2LkxLtSnHSp4pz+Gn8SY4Sg6EWFfKYlr5pWt3MoS7mIFY5zJ+7wQb
- Twfynt6IcGk0gMaOab0dgpfL7MQA0x0CGA25GOcPb0do6gqagUTCeagmPbKnSyUYaJgU
- qtSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740737874; x=1741342674;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CqCAMLKDFMDmg/J9XlohF5SNVValJDhS7J4k1e5y8j8=;
- b=WjrZz7lDK3OvKQUL0F2tavBa1SE/LARCkT6j/S1eXK7POndmISVoQt24ArK2Y1DYCH
- xAZaDvkdg/zWyJpVrqCraKXtSov01g6Nm7XgptNQgzcP0goVpBC8WfHU2ln2Tr0b0o1N
- WzYi7mN6FV13pHWHs5DurehRvM/9ioHw/8agyyH4S5wwaiQQFdczvV+FF2T2kYqgsY6S
- lBMNK29PHBE/mwHoThFQ2KbYJ03QNGeTL//0Up2sAu1GoeMzCzDgno5whYxoJ8KXdp3U
- 28Zdy+ZQoG99kZJJSFwbcqz4dZ/HGIu7xG93f3WNBYSin0JsYM0AcrnR9UBEQ8UHKNQB
- onvA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3etV/eCXs/QEEv035i5xpg0ZJg2YmCMmzzY7WJ0JXuoO6HWzAMV6J1nZhhU98xppUgjGibYEPOeM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKYD5WP5Lj4Bve4ducmp68LGPHITHQgDM7KejJH6VwSUWISs4W
- 4NSxJPMLErJblRkDICxkDQMKIu/XceqYYUzLcSBkKDoOerO2XPOkA7bWHrbjqdY=
-X-Gm-Gg: ASbGnctkFlHOvjwSJKakGc0wTFqBpe7cbkifGg6uadXuYHQp+8vficgrkLyz/5iJyoT
- pNQoERy+3ZPrtO1xstYqibv+WMcQynYyIwyUg7PjlirOhR/0NB4853IqZ5BFEbRPRDDvMkQqdfC
- 5hVGeHTJ5K4Z8hApFmwHq4AGtL+Jj2BCwmUV7FkzJ0lw7BDKWkWJ/M8PXI/DepUGH6vwFsdIYCI
- Uy1xkrktg1VjJ4berg6SXd5Eq45A/WNAL5CyDz52+TVg3K2K/J1CuQTm+fh2OueZAAhGStcLo7R
- SvdMt9XPBIGk0YH6PcmGgZhDAHr+5p7L4e5JZM6ZmFNuUOtNwnsUdofM5q/wF/UVkYDTznGh5/1
- UtkgPBg==
-X-Google-Smtp-Source: AGHT+IF3N0HBb4ltf2zBecIFj5x7J4NwmcVlVNLZd7wW8E14jB9yl9ngbFhq5O6DA0Qg+LTZLwm3ww==
-X-Received: by 2002:a05:6512:3d19:b0:545:ea9:1a19 with SMTP id
- 2adb3069b0e04-5494c10c72bmr1255712e87.5.1740737873802; 
- Fri, 28 Feb 2025 02:17:53 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5494417b62asm441359e87.85.2025.02.28.02.17.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2025 02:17:52 -0800 (PST)
-Date: Fri, 28 Feb 2025 12:17:49 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jie Zhang <quic_jiezh@quicinc.com>
-Subject: Re: [PATCH v2 3/6] drm/msm/a6xx: Add support for Adreno 623
-Message-ID: <fje7r73olswfx5kbkvnlyvlhv3oqnj3ki26i2brb5fbuewfc3x@jsaz73zsd6rc>
-References: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
- <20250228-a623-gpu-support-v2-3-aea654ecc1d3@quicinc.com>
- <67jiudy4bopd3mzoylj47stuxwc5jdt63akxwn5qqo4dov47za@xcece4v2k3m5>
- <4c81f193-a1d0-4abc-8be5-07c862de8937@quicinc.com>
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1740738090; x=1772274090;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=/QhhlC9uU19V9J88cHdgykY4awBetTHBnxL1KmQ0R5Y=;
+ b=ZupeaTG4OeHu8EVbdmbDNaHBOIH7Hce+14R68dj00LJeSrjbif6gxNEL
+ tXmuROx00Mrjr0MdIi/z8P5od3Xclan1IE3n0CkZP9zryyIU773Ce+mKB
+ eGIftYxkqzMe/Bw/Y67/vj71uASY34qd3sXDKVRBIvQg+asTrVswon9Oi
+ 1MlKk14oZSY9NcTXlFlUkBmbIu4ljLG0quRe1sQ1ZZKqw/pTPUmBe8qIr
+ S5bwCCtUvZKwZfsRKTfjxBSf6KobtXZJoXcw4DhfYZMq9Uq7ghNL5rPfT
+ olsSJW5p8qhrJLo8fkxBGwA8RarH1I5PjPulfc5Cq3nn9PpcJ78fmYzcC A==;
+X-CSE-ConnectionGUID: iRr4JPuoTGmOPgXGpB/sWw==
+X-CSE-MsgGUID: /XNPAa7+SRufdkOdkliC7A==
+X-IronPort-AV: E=Sophos;i="6.13,322,1732575600"; d="scan'208";a="42171468"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 28 Feb 2025 11:21:28 +0100
+X-CheckPoint: {67C18E28-2-2895743E-CD1E7AB7}
+X-MAIL-CPID: EA36C0BEDADF546230EE4332BB39D6D7_4
+X-Control-Analysis: str=0001.0A002112.67C18E28.0040, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 9B9E8168CC3; Fri, 28 Feb 2025 11:21:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1740738083;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/QhhlC9uU19V9J88cHdgykY4awBetTHBnxL1KmQ0R5Y=;
+ b=euyd0mwTUQC8rghcISeYrvLp+e7Pnfs8TQ7r5JTkCNqvnyw0ANilA7BZoghCHFXpeopLTR
+ momj1MWbV7jthBuGgRyi9sHlWesBOHTym4XU7zGDW8AhMsqmiwVkixCQr77vwqBYddE9Zh
+ pKpz0kQ7taADcCxGzvDNuHJg3jMaX4QSuomEjGTA14ylL1UpUXTM1GvdR4iAflpUoIKM7v
+ 3Ig4gUAI+gPhdMKPmSfmBLhZ7AHPIDRaGEnNt55UEgLkNkEXvz1efsvQke52dxzSNKE4Rd
+ k/61BxrVWSQCvVWsonKTLQtICKW/M3d2h3+ilzVX/Sa1yXYY7ecJX5rG/jeXLQ==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 8/9] drm/panthor: Add i.MX95 support
+Date: Fri, 28 Feb 2025 11:21:21 +0100
+Message-ID: <4658624.cEBGB3zze1@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250227170012.124768-9-marex@denx.de>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-9-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4c81f193-a1d0-4abc-8be5-07c862de8937@quicinc.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,57 +93,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 01:43:12PM +0530, Akhil P Oommen wrote:
-> On 2/28/2025 4:56 AM, Dmitry Baryshkov wrote:
-> > On Fri, Feb 28, 2025 at 01:37:51AM +0530, Akhil P Oommen wrote:
-> >> From: Jie Zhang <quic_jiezh@quicinc.com>
-> >>
-> >> Add support for Adreno 623 GPU found in QCS8300 chipsets.
-> >>
-> >> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-> >> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> >> ---
-> >>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c   | 29 +++++++++++++++++++++++++++++
-> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |  8 ++++++++
-> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  2 +-
-> >>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  5 +++++
-> >>  4 files changed, 43 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> index 0ae29a7c8a4d3f74236a35cc919f69d5c0a384a0..1820c167fcee609deee3d49e7b5dd3736da23d99 100644
-> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> @@ -616,6 +616,14 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
-> >>  		gpu->ubwc_config.uavflagprd_inv = 2;
-> >>  	}
-> >>  
-> >> +	if (adreno_is_a623(gpu)) {
-> >> +		gpu->ubwc_config.highest_bank_bit = 16;
-> > 
-> > Just to doublecheck, the MDSS patch for QCS8300 used HBB=2, which
-> > means 15. Is 16 correct here? Or might the be a mistake in the MDSS
-> > patch?
-> 
-> https://patchwork.freedesktop.org/patch/632957/
-> I see HBB=3 here.
+Hi Marek,
 
-Indeed. Excuse me for the noise.
+Am Donnerstag, 27. Februar 2025, 17:58:08 CET schrieb Marek Vasut:
+> The instance of the GPU populated in Freescale i.MX95 is the
+> Mali G310, add support for this variant.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 1 +
+>  drivers/gpu/drm/panthor/panthor_gpu.c | 1 +
+>  2 files changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index 06fe46e320738..2504a456d45c4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1591,6 +1591,7 @@ static struct attribute *panthor_attrs[] =3D {
+>  ATTRIBUTE_GROUPS(panthor);
+> =20
+>  static const struct of_device_id dt_match[] =3D {
+> +	{ .compatible =3D "fsl,imx95-mali" },	/* G310 */
+>  	{ .compatible =3D "rockchip,rk3588-mali" },
+>  	{ .compatible =3D "arm,mali-valhall-csf" },
+>  	{}
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/pant=
+hor/panthor_gpu.c
+> index 0f07ef7d9aea7..2371ab8e50627 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -67,6 +67,7 @@ struct panthor_model {
+>  }
+> =20
+>  static const struct panthor_model gpu_models[] =3D {
+> +	GPU_MODEL(g310, 0, 0),	/* NXP i.MX95 */
 
-> 
-> -Akhil
-> 
-> > 
-> >> +		gpu->ubwc_config.amsbc = 1;
-> >> +		gpu->ubwc_config.rgb565_predicator = 1;
-> >> +		gpu->ubwc_config.uavflagprd_inv = 2;
-> >> +		gpu->ubwc_config.macrotile_mode = 1;
-> >> +	}
-> >> +
-> >>  	if (adreno_is_a640_family(gpu))
-> >>  		gpu->ubwc_config.amsbc = 1;
-> >>  
-> 
+Are you sure about 0, 0? With this I get
+> [drm] mali-unknown id 0xac74 major 0x0 minor 0x0 status 0x1
 
--- 
-With best wishes
-Dmitry
+Using GPU_MODEL(g310, 10, 4) I get:
+> [drm] mali-g310 id 0xac74 major 0x0 minor 0x0 status 0x1
+
+Note the output is GPU_VER_MAJOR() but this table is for GPU_ARCH_MAJOR()
+(and the corresponding minor).
+
+Best regards,
+Alexander
+
+>  	GPU_MODEL(g610, 10, 7),
+>  	{},
+>  };
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
