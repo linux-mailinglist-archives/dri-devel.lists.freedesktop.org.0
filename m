@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A69A4A17A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 19:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12134A4A082
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 18:34:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7538B10E2BE;
-	Fri, 28 Feb 2025 18:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1EC10ED14;
+	Fri, 28 Feb 2025 17:34:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="MMAOQyq8";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="OI3GlODT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 553FD10E284
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 18:27:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id AC5A8102901CB; Fri, 28 Feb 2025 19:27:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1740767247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sZS4nj+6CXdvnwv7q5KXp5Uz0YuvWKS25Z4+jZ2AtgM=;
- b=MMAOQyq8fDfYlgTpZqC/M+BGzgpy9ow1BJurDp10ybzZ0pWTxNGhGN3rhcaGG0+P7rjhit
- mDM7zuoPQRTg0KVG0DhAmQp7kRrYuhbq+XMiu/iJ2VYPyRysu/zG21jO/2q1URP/DayWDr
- TJrERFxmPTvwFlEM5fHjwvd+nZfq7j7BRbBSFEH3CkUu3oMopCHWUTVJhM/gGo33C+jlBs
- QIvO0o1lQRG5q1f5Gx0R9jbHy+Xpsm6ZPIOcTYY+mSjcCWphqBUnAb7D6L4HalOXZLTY7t
- elNTV2H+836UoG1zNCm6E1IMRT4k/FzSGlcRKKHtAifZja6oqOUsuTAjtiWOiA==
-Message-ID: <52f42263-d40e-449a-80f5-145a87fdfdd1@denx.de>
-Date: Fri, 28 Feb 2025 18:33:16 +0100
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D02610ED14
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 17:34:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1740764030; x=1741368830; i=markus.elfring@web.de;
+ bh=qFyTk6UI9vQkUT0Y0SbdN5aOZAMFszIFkYavvczvjdM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+ Subject:Content-Type:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=OI3GlODT7nu2SWH5SZy83uUVQU8+5tFb7uB4py2fClEPknvKBpuS2PfOyDKWB0er
+ BZKTUlQmtYwhjjAK6OFptGcTO9qO6kc1BAtsKWoL9AapFWvRN+UhcORdpUdULxPXd
+ 2veGeKFT5rRqljtUPCNBf9iIMLBGda+HmRgfFFEg4qcMy7XlnKOgy02GV3HYskvsf
+ aIitWWKNug7hIcurV1ua/qbGqHVSGOPI3lu0dfT07t2rSnSaW44Ru+mCV7ieZO+cP
+ SRCM+oLEvRQR0vLAz65GSRLRiA2VxUfLJMwhNGdmIkBmPPNg7MxmIvsaZ0doh5L1Y
+ WUr7g7jKMALPJbk0Lg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.27]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MKMA1-1tZz4D0ku7-00KqlH; Fri, 28
+ Feb 2025 18:33:50 +0100
+Message-ID: <8b046033-0f97-49e0-afdd-a3a3a3c23ec4@web.de>
+Date: Fri, 28 Feb 2025 18:33:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- Frank Li <Frank.li@nxp.com>
-Cc: linux-arm-kernel@lists.infradead.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+To: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-References: <20250227170012.124768-1-marex@denx.de>
- <db903f36-e897-42ed-be46-f0b035303233@denx.de>
- <Z8DlYjq+87sjS9cU@lizhi-Precision-Tower-5810> <3332618.oiGErgHkdL@steina-w>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <3332618.oiGErgHkdL@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Qasim Ijaz <qasdev00@gmail.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] drm/sun4i: dsi: Simplify maximum determination in
+ sun6i_dsi_setup_timings()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:lA+yt6XQXGbHJA8i/dPHH3qngpTXFeGZNQWLvKtVckTh6A0dFKR
+ VvIKo0ilo4K7DBjZeXE4QoS4qwWtxJPnmt0+dUesQA0s5PJMlJP6zleg1N54VKHLbJTKQha
+ HiudkuSGSYTNxDpWe0Xla/n+IJxm8E7UcxoeMqX3F1547PEFeOQFUfV7ixoOQH0wJn1/NzA
+ /JXSU0t61PkVg1S59unew==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8JS2gQELrJA=;gJeX7bdK3jHXeCd39Zg45iaR7Gt
+ N5Rje24aQ61qqxH+g1IjROCZuJF4VscVGomPjF61aogbFXUU28SeHsRqyv3FWDWeXvDUjNIni
+ vt/ccojul41zlduG8GlSXJ2Q1339FKuIcQDAkNlRuzi7jSE5oOHfKCYs7gxxdW96wAGg3w1U+
+ Ihx+okmz8+lNa5uvwVb2GB4KBeRWLgvDaCaJe1IzDvc5Dy+swyvwDnGHFpBqEP76xFNqQgSxK
+ Dft1doLFmwj12LXzNU1sXa5Yn/5ToilbzQFiwVrJzIc3oh3RmXqCbZtiXf55rT+l0p48xGEDH
+ 0qTuiwNhMfDrFUQV1S2ohAScQY4Yy8cNBYaDUtvuVklWkzJsaTG09Ld0tsNSFpgUK2OEQMBSH
+ dz8g4QMOEnS6jTiXYbF+gQFchy2N8V7OY/fpr1QJpdcQyp5oT1yido+VO2JEhuwTw06iofq6h
+ OlO0nylfacgE/Xy/uWiGHXUXUuaEbCQcRerbpieWv1MeW+NFuvl53F7TCma+Qt7J+EDUVoQp5
+ Oo+rNropgVEn2fI4Ls1vN3D4iif9JWl2Y093cnc4a/IfTyw8gG3p2KALcYz9ERYdB2vuA/Ex4
+ n0EMqsc9kwgKl4X6uDoJOuUsdf3slrEsOgJordmfY2qZQT7/ky4UQ6OqU+EYSst/yCTDco1co
+ jWMAr0+XnrF5MOb8jvYpC4Afe9IpdmqOboSISsM2M4Ru1j3nnj6kZa/UNJgKDT0kOfTfL3KfO
+ QVopsnd8fGgUWI17zRBv9WxYhtoJ5SC15o392Xuzbk+oV+jyZKK+FJoBa8j+IzujDN1u1VmgL
+ DNbBpWckDYzVJkr9TTV1QH/w1OrixRWlrOTEiUNZfnttY5auDCFgxQ/uglCYjagPdcgKZ2vu3
+ 9CxWBNeoWJCj9SKvVU+iNNoQTF1lbx/eRYffs3qrO7P0Y/B0pSSmaN5sFmO2tFLq/vd0r8EBq
+ XC0XJ9JQdZuLSQTVopmNyawcf7Y7whf00c/xOrHUz6mbxyVJGjlVQ5Qo2kqOiKNuOA7OKWXep
+ /Av8XdIYOcGfyYJTPY2BZTRbEmMG4Ub6Bcf1jH+07aDIJ9uGRc20rrp+/cORxBhA3/28uqAHn
+ QfbvPnNyq4ezBG4Q5QS4MLmldlAp9xURS4jRM2b7DKxQF4KHYpLws9E12N/pw/+fPtFx1dNbz
+ BXCXfwunD+qjGzvZdG2lDyDfbS4Ehc6kbB9+5q0TmwUG4NmqA25pgjOPbpnpu8VtD0f9rU+Y/
+ utnMYnvnUiOoqXCh3gC8ubk9oss3wG44KDHs9srVBEvX9/+wH2wEg9lBohIK9oIb+t/a6Swgc
+ NXEzr0jAQK9OeccjJJdNJDAJXaobhRC2x1EbbEHdyVAYvaHYbAzEQtqvH2hBI46hhkgco0jOo
+ pa1YN+7WIVxF6xXR/sqIydC1VQ5UAq0XquTWahAAdM9S97zNUkzRM7LZtvvmk7fwY8/TruN/b
+ /DP7220xsKFeKDIhAS3mbkTO0Io4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,57 +92,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/28/25 11:39 AM, Alexander Stein wrote:
-> Am Donnerstag, 27. Februar 2025, 23:21:22 CET schrieb Frank Li:
->> On Thu, Feb 27, 2025 at 10:34:20PM +0100, Marek Vasut wrote:
->>> On 2/27/25 10:27 PM, Frank Li wrote:
->>>
->>> [...]
->>>
->>>>>>> +		gpu: gpu@4d900000 {
->>>>>>> +			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
->>>>>>> +			reg = <0 0x4d900000 0 0x480000>;
->>>>>>> +			clocks = <&scmi_clk IMX95_CLK_GPU>;
->>>>>>> +			clock-names = "core";
->>>>>>> +			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
->>>>>>> +				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
->>>>>>> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
->>>>>>> +			interrupt-names = "gpu", "job", "mmu";
->>>>>>> +			mali-supply = <&gpu_fixed_reg>;
->>>>>>> +			operating-points-v2 = <&gpu_opp_table>;
->>>>>>> +			power-domains = <&scmi_devpd IMX95_PD_GPU>, <&scmi_perf IMX95_PERF_GPU>;
->>>>>>> +			power-domain-names = "mix", "perf";
->>>>>>> +			resets = <&gpu_blk_ctrl 0>;
->>>>>>> +			#cooling-cells = <2>;
->>>>>>> +			dynamic-power-coefficient = <1013>;
->>>>>>> +			status = "disabled";
->>>>>>
->>>>>> GPU is internal module, which have not much dependence with other module
->>>>>> such as pinmux. why not default status is "disabled". Supposed gpu driver
->>>>>> will turn off clock and power if not used.
->>>>> My thinking was that there are MX95 SoC with GPU fused off, hence it is
->>>>> better to keep the GPU disabled in DT by default. But I can also keep it
->>>>> enabled and the few boards which do not have MX95 SoC with GPU can
->>>>> explicitly disable it in board DT.
->>>>>
->>>>> What do you think ?
->>>>
->>>> GPU Fuse off should use access-control, see thread
->>>> https://lore.kernel.org/imx/20250207120213.GD14860@localhost.localdomain/
->>> Did that thread ever go anywhere ? It seems there is no real conclusion, is
->>> there ? +Cc Alex .
->>
->> The direction is use access-control to indicate fuse disable. Only
->> implement detail is under discussion.
-> 
-> Well, the discussion ended up to be more complicated for i.MX8M.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Fri, 28 Feb 2025 18:25:31 +0100
 
-Aren't we missing the access controller in MX95 DT so far ?
-And maybe some driver to match ?
+Reduce nested max() calls by a single max3() call in this
+function implementation.
 
-> For i.MX95
-> things are a bit easier, as fuses and clocks are controlled by System
-> Manager (SM), accessed using SCMI. [1] is more important for imx95.
-I think SCMI is replacing GPL code in kernel with stubs that call 
-non-free firmware, which removes flexibility and makes long term (or 
-any) maintenance much more complicated.
+This issue was transformed by using the Coccinelle software.
+
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4=
+i/sun6i_mipi_dsi.c
+index c35b70d83e53..7765a29e2ef6 100644
+=2D-- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -597,7 +597,7 @@ static void sun6i_dsi_setup_timings(struct sun6i_dsi *=
+dsi,
+ 	}
+
+ 	/* How many bytes do we need to send all payloads? */
+-	bytes =3D max_t(size_t, max(max(hfp, hblk), max(hsa, hbp)), vblk);
++	bytes =3D max_t(size_t, max3(hfp, hblk, max(hsa, hbp)), vblk);
+ 	buffer =3D kmalloc(bytes, GFP_KERNEL);
+ 	if (WARN_ON(!buffer))
+ 		return;
+=2D-
+2.48.1
+
