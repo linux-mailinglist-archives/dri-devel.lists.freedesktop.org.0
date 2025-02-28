@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7CEA4A271
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 20:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EEFA4A2E9
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 20:47:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFCE010ED2B;
-	Fri, 28 Feb 2025 19:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00F410E33E;
+	Fri, 28 Feb 2025 19:47:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YQ+C1HQm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e6Oc8mqi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 721A110ED2A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 19:08:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC96710ED2A;
+ Fri, 28 Feb 2025 19:47:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740769716; x=1772305716;
+ t=1740772029; x=1772308029;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7iBUy5XRdqi0Lt6+biyiEgUZswAs5L9wj02kyKQRgKQ=;
- b=YQ+C1HQmL8JCssIMFCAuWNt7iwdphxDNSXhFYoMNAjU4SASCngp+AHJd
- txVgqyeSHTr4gjcoVAGrLyyyz6fcwJB+yrU+xhN2yZry+/1eHp2lGXFvI
- hGnEv/RELHYvL1vWqZbvpJ/fOg+SB9jCiyzi14dUzb0QmtzqpUUsX4/OP
- 05g4E84fvCfcWIpqCN1DRKKVsKsq9XxQ/rI80XAsK10NHgEDHOpbRiTKN
- +IAdqBbj8MH00c/M9IsJLYeB2cCkL3OQYe2OQxqY+RzJO081NHQ74JSmV
- 0aQUGGcIiHR4Q4tXz0D9R00fXGFt1TTDI9TqEMie7PkVS0DWHjQfH7g/f g==;
-X-CSE-ConnectionGUID: 1rK16glARTeA01bwgOWueQ==
-X-CSE-MsgGUID: L0zXUk6BT1Wk0ya9uQPOUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52343224"
-X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="52343224"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 11:08:19 -0800
-X-CSE-ConnectionGUID: kQPz+B6eR+CVGIaFucMWUw==
-X-CSE-MsgGUID: RtjfC60kQUOO2c8NreyKPg==
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=QAkzxGNM1gfcRLSdEdADHdTZjxCmVR3HvEf46OPpmrY=;
+ b=e6Oc8mqimZX5PLL9klV8BpeoplP2m3UJyU0qrM98n1Lk7FFhgYvmHxr6
+ EHlkJm4c9rvP4AuU9Q6AbqlMyvhstu2CZNIsCw0WT/tfBLUBbkMg+5EJh
+ sbWcTjlkwZ1JnzBUonRjiEi+YNAPyGF2ehVXK1cVlnuA8QgPnLK+Vqfn+
+ gK94nB0UJ6e+CCTTO6ssSOj6fuysUIan3BbGvkMhyzALI3bWdyr8yVstn
+ vPZQwDPCCxMILS8wZC03AOroGGtZwfeWFAn4S3hFmMiH7TB2nN29g0isz
+ IUJ/cuWIgmhaen4Fs0tH0nI8mYoL0aWAoupiuFbAHFxJnBzoiP3VM8SC/ g==;
+X-CSE-ConnectionGUID: RwoIokMeQIiv+Y21ub18Aw==
+X-CSE-MsgGUID: Wa0YZKVvQR6tGmdG+GW7VQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41415570"
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; d="scan'208";a="41415570"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2025 11:47:08 -0800
+X-CSE-ConnectionGUID: CXQ7JbJIRFmneUcXojF2kg==
+X-CSE-MsgGUID: ZGje/74sTXGzvwwKxfr9Bg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="121544074"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 11:08:18 -0800
-Date: Fri, 28 Feb 2025 21:08:15 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Cleanup io.h
-Message-ID: <Z8IJn7dp4gypnoyz@black.fi.intel.com>
-References: <20250227070747.3105451-1-raag.jadav@intel.com>
- <Z8CD33_OWK2LB6IZ@smile.fi.intel.com>
- <0011035a-5816-48c4-9fe4-c0b9db3c8e72@app.fastmail.com>
- <Z8H1Y2_RlFnXeNEa@black.fi.intel.com>
- <Z8IDXD2bkO1t71yB@smile.fi.intel.com>
- <Z8IDgmrLx5DQADxJ@smile.fi.intel.com>
- <Z8IERmwHXUuJoD4S@black.fi.intel.com>
- <Z8IGA821OAgYN-K1@smile.fi.intel.com>
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="122660125"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orviesa005.jf.intel.com with SMTP; 28 Feb 2025 11:47:06 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 28 Feb 2025 21:47:05 +0200
+Date: Fri, 28 Feb 2025 21:47:05 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/atomic: Filter out redundant DPMS calls
+Message-ID: <Z8ISuRz2l9Om9tC_@intel.com>
+References: <20250219160239.17502-1-ville.syrjala@linux.intel.com>
+ <Z7b7tSabXeLe1ovT@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Z8IGA821OAgYN-K1@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z7b7tSabXeLe1ovT@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +71,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 08:52:51PM +0200, Andy Shevchenko wrote:
-> On Fri, Feb 28, 2025 at 08:45:26PM +0200, Raag Jadav wrote:
-> > On Fri, Feb 28, 2025 at 08:42:10PM +0200, Andy Shevchenko wrote:
-> > > On Fri, Feb 28, 2025 at 08:41:33PM +0200, Andy Shevchenko wrote:
-> > > > On Fri, Feb 28, 2025 at 07:41:55PM +0200, Raag Jadav wrote:
-> > > > > On Fri, Feb 28, 2025 at 06:11:16PM +0100, Arnd Bergmann wrote:
-> > > > > > On Thu, Feb 27, 2025, at 16:25, Andy Shevchenko wrote:
-> > > > > > > On Thu, Feb 27, 2025 at 12:37:45PM +0530, Raag Jadav wrote:
-> > > > > > >> This series attempts to cleanup io.h with "include what you use" approach.
-> > > > > > >> This depends on changes available on immutable tag[1].
-> > > > > > >> 
-> > > > > > >> Although this series is too trivial in the grand scheme of things, it is
-> > > > > > >> still a tiny step towards untangling core headers. I have success results
-> > > > > > >> from LKP for this series but there can still be corner cases. So perhaps
-> > > > > > >> we can queue this on a temporary branch which we can use to submit fixes
-> > > > > > >> in case of fallout.
-> > > > > > >> 
-> > > > > > >> Future plan is to use the excellent analysis[2][3] by Arnd to cleanup other
-> > > > > > >> headers.
-> > > > > > >> 
-> > > > > > >> [1] https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com
-> > > > > > >> [2] https://lore.kernel.org/r/2342b516-2c6e-42e5-b4f4-579b280823ba@app.fastmail.com
-> > > > > > >> [3] https://lore.kernel.org/r/f6eb011b-40fb-409a-b2b2-a09d0e770bbd@app.fastmail.com
-> > > > > > >
-> > > > > > > I believe Arnd can take it through his tree for headers as DRM part is 
-> > > > > > > Acked already.
-> > > > > > 
-> > > > > > I've applied it yesterday and not seen any regression reports so far.
-> > > > > 
-> > > > > Probably because the immutable tag is already in -next?
-> > > > 
-> > > > Is there any?
-> > > 
-> > > Ah, you mean devres related?
+On Thu, Feb 20, 2025 at 10:53:57AM +0100, Simona Vetter wrote:
+> On Wed, Feb 19, 2025 at 06:02:39PM +0200, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > > 
-> > Yeah, couldn't find it on Arnd's tree and I'm not sure if this series
-> > works without it.
+> > Video players (eg. mpv) do periodic XResetScreenSaver() calls to
+> > keep the screen on while the video playing. The modesetting ddx
+> > plumbs these straight through into the kernel as DPMS setproperty
+> > ioctls, without any filtering whatsoever. When implemented via
+> > atomic these end up as full commits on the crtc, which leads to a
+> > dropped frame every time XResetScreenSaver() is called.
 > 
-> But err.h is included in the io.h, no? Or did I misunderstand the point?
+> I think you should add here that it's just an empty commit, because we do
+> filter out redundant commits where crtc->active_changed does nothing.
+> Except we still run the entire machinery with timestamps and drm_event and
+> everything.
+> 
+> And I don't think it's worth to filter that out at the atomic level,
+> because it's really only legacy ioctl that had this "complete noop"
+> behaviour.
+> 
+> With the commit message augmented:
+> 
+> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> 
+> Might also be nice to have a igt for this?
 
-First patch on the immutable tag moves IOMEM_ERR_PTR() to err.h and here
-we're dropping err.h from io.h. So without the tag this series will probably
-break IOMEM_ERR_PTR().
+kms_flip was basically doing everything we want already,
+so added one more subtest for this:
+https://lore.kernel.org/igt-dev/20250228194240.20023-1-ville.syrjala@linux.intel.com/T/#u
 
-Raag
+> Plus also wondering whether we
+> should cc: stable it.
+
+I guess we could. I've been running this for who knows how long
+anyway (just never got around to sending it), so should be fairly
+safe.
+
+-- 
+Ville Syrjälä
+Intel
