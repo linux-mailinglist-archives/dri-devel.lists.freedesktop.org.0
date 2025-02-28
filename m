@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B21BA4A17C
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C467A4A17B
 	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 19:27:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1FF010E2D1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B1610E284;
 	Fri, 28 Feb 2025 18:27:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="eyjUPMFJ";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="UqAzTE1p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB1F10E0EA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A0B10E284
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 18:27:17 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id A7701102901CC; Fri, 28 Feb 2025 19:27:06 +0100 (CET)
+ with ESMTPSA id D5774102901CF; Fri, 28 Feb 2025 19:27:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1740767229;
+ t=1740767232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9CdXt1sb9hF/qYyFIBouuUvILgc0/orYH3chQLK7vwg=;
- b=eyjUPMFJu4kjE7nYaUGe20Yi4pGLvofEGSGrl2a4zZ+qOpdwtlKK7OYWtHit0AQxK/HRqW
- ozBA5MxABrvrPpKBXm+/w+s0q/UK8o04Dw/AobKVUe02mD+QsLplvF1ZCLHpXNyaUaquyL
- SYIKM06o/qT+Y7e7dTZJjFYQjAmHKQA8ZisFc/LIlxKQrPqkZgMK+KAk6dFghkNmVTWZEa
- gwxChUGoL5Muj2rnO0cPohjYWeEc4l+vy6MwqnnRJb87FOTb+naAW52MZYqjv5ea99IkMG
- ir3tVFvuzA0EDKKuK/zM0G0Vjayrocw/hNCOGyGKJOSMm26UTbeZCCVQNuLLqw==
-Message-ID: <39351f48-04be-4659-8b3b-9a4ef6030efd@denx.de>
-Date: Fri, 28 Feb 2025 18:00:57 +0100
+ bh=OzwK/2ndWQXM//wMkO3/Qdh0k5btOjmnwFacXzTF3kk=;
+ b=UqAzTE1pv0PeVxUpgwyNifM7y00xjUNJN4kveqUsZWhjsvv9BBZ/tGHxzkOoxlIagi7zng
+ Sx4XYnp+RdTovBJqeY9uBOfrB6cvIojqmjjf/En0Mb4VGAbwK3WsQTzGtuB5z/Hsrk1H9s
+ W+CK1HF9pIltglnooTASo/kHxjrTcNLW9ohEW4eWvXiwKcm95QcGUm6sXD9p2vzyv2w/Rh
+ fYEWNEKW4MSKNGiqwkH6T8W6P8p+JNgNmn3mGaW/sPLGGioHH3EASHuLB/2Lqhed/mGqE0
+ XzIVf6/L1g6loiGJaZ0HRNe+GEwu/XGwqEfHlhEUkAoGpxM/uQGx0QJ1ZeB3WQ==
+Message-ID: <fa88c1c1-89ba-4a10-bd57-0819d7740c0a@denx.de>
+Date: Fri, 28 Feb 2025 18:05:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] drm/panthor: Implement support for multiple power
- domains
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+Subject: Re: [PATCH 6/9] drm/panthor: Reset GPU after L2 cache power off
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
  Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
  Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ <krzk+dt@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
  Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
  Steven Price <steven.price@arm.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, devicetree@vger.kernel.org, imx@lists.linux.dev
+ <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
 References: <20250227170012.124768-1-marex@denx.de>
- <20250227170012.124768-6-marex@denx.de> <2848587.BEx9A2HvPv@steina-w>
+ <20250227170012.124768-7-marex@denx.de>
+ <Z8GY0nWXOxCKF-XL@e110455-lin.cambridge.arm.com>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2848587.BEx9A2HvPv@steina-w>
+In-Reply-To: <Z8GY0nWXOxCKF-XL@e110455-lin.cambridge.arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -72,62 +72,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/28/25 11:10 AM, Alexander Stein wrote:
+On 2/28/25 12:06 PM, Liviu Dudau wrote:
+> Hi Marek,
 
 Hi,
 
->> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
->> index 51ee9cae94504..4348b7e917b64 100644
->> --- a/drivers/gpu/drm/panthor/panthor_device.c
->> +++ b/drivers/gpu/drm/panthor/panthor_device.c
->> @@ -75,6 +75,58 @@ static int panthor_reset_init(struct panthor_device *ptdev)
->>   	return 0;
->>   }
->>   
->> +/* Generic power domain handling code, see drivers/gpu/drm/tiny/simpledrm.c */
->> +static void panthor_detach_genpd(void *res)
->> +{
->> +	struct panthor_device *ptdev = res;
->> +	int i;
->> +
->> +	if (ptdev->pwr_dom_count <= 1)
->> +		return;
->> +
->> +	for (i = ptdev->pwr_dom_count - 1; i >= 0; i--)
->> +		dev_pm_domain_detach(ptdev->pwr_dom_devs[i], true);
->> +}
->> +
->> +static int panthor_genpd_init(struct panthor_device *ptdev)
->> +{
->> +	struct device *dev = ptdev->base.dev;
->> +	int i, ret;
->> +
->> +	ptdev->pwr_dom_count = of_count_phandle_with_args(dev->of_node, "power-domains",
->> +							  "#power-domain-cells");
->> +	/*
->> +	 * Single power-domain devices are handled by driver core nothing to do
->> +	 * here. The same for device nodes without "power-domains" property.
->> +	 */
->> +	if (ptdev->pwr_dom_count <= 1)
->> +		return 0;
->> +
->> +	if (ptdev->pwr_dom_count > ARRAY_SIZE(ptdev->pwr_dom_devs)) {
->> +		drm_warn(&ptdev->base, "Too many power domains (%d) for this device\n",
->> +			 ptdev->pwr_dom_count);
->> +		return -EINVAL;
->> +	}
->> +
->> +	for (i = 0; i < ptdev->pwr_dom_count; i++) {
->> +		ptdev->pwr_dom_devs[i] = dev_pm_domain_attach_by_id(dev, i);
->> +		if (!IS_ERR(ptdev->pwr_dom_devs[i]))
->> +			continue;
->> +
->> +		ret = PTR_ERR(ptdev->pwr_dom_devs[i]);
->> +		if (ret != -EPROBE_DEFER) {
->> +			drm_warn(&ptdev->base, "pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
->> +			continue;
+> On Thu, Feb 27, 2025 at 05:58:06PM +0100, Marek Vasut wrote:
+>> This seems necessary on Freescale i.MX95 Mali G310 to reliably resume
+>> from runtime PM suspend. Without this, if only the L2 is powered down
+>> on RPM entry, the GPU gets stuck and does not indicate the firmware is
+>> booted after RPM resume.
 > 
-> Is it a good idea to continue if a power-domain is missing? Any access might
-> stuck completely. IMHO returning an error is more sensible.
-> Also some dev_err_probe() should be added here.
-Fixed both, thanks .
+> That doesn't sound right. Can you tell me what GPU firmware are you running
+> (we are now printing the git sha of the image at boot time).
+Please see below. It could be some sort of NXP firmware fork ?
+
+It comes from the NXP firmware repo , mali-imx-r50.2-710cfb6 .
+
+panthor 4d900000.gpu: [drm] clock rate = 1000000000
+panthor 4d900000.gpu: EM: created perf domain
+panthor 4d900000.gpu: [drm] mali-unknown id 0xac74 major 0x0 minor 0x0 
+status 0x1
+panthor 4d900000.gpu: [drm] Features: L2:0x7110306 Tiler:0x809 Mem:0x1 
+MMU:0x2830 AS:0xff
+panthor 4d900000.gpu: [drm] shader_present=0x1 l2_present=0x1 
+tiler_present=0x1
+panthor 4d900000.gpu: [drm] Firmware protected mode entry not be 
+supported, ignoring
+panthor 4d900000.gpu: [drm] Firmware git sha: 
+8e5cfcfec20cc8aff8509d37e72babc935d34a3b
+panthor 4d900000.gpu: [drm] CSF FW using interface v1.1.0, Features 0x0 
+Instrumentation features 0x71
+[drm] Initialized panthor 1.3.0 for 4d900000.gpu on minor 0
+
+$ sha256sum mali_csffw.bin
+befd23b9279b26010ebf35c835cc3aa7d0f50758930c7306ff4f5abbe5218624 
+mali_csffw.bin
+
+[...]
