@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15B6A49994
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F17A49995
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 13:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22BE10EC90;
-	Fri, 28 Feb 2025 12:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0579B10EC92;
+	Fri, 28 Feb 2025 12:40:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="On5MA0JI";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ox5WVdyx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
  [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57FEF10EC88
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:40:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB9C10EC90
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 12:40:13 +0000 (UTC)
 Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-43998ec3733so11289925e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 04:40:11 -0800 (PST)
+ 5b1f17b1804b1-4399d2a1331so10801245e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 04:40:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740746410; x=1741351210;
+ d=google.com; s=20230601; t=1740746412; x=1741351212;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=ihZxooYknzT0g7MIwrtZdZDoHsnETfvcwFPVB5oE20g=;
- b=On5MA0JIcTLZ4+tuONdwLmk9neBbR/Hsaval9/v5tEZSAPh9Xigaa9WO0dKZf3M4eN
- DHxFoYv4cxhN9mcGBpr2FH3qNTYw1x6jO5xaMdcyV7EymKD5YpRlOrpcWX/3wafn+24w
- VZMOP+eH7U5zQkJxnNtJx/7dqTsTi6oitW40A82g+qMGGfGBNXhf1+7Ny0lzDcC6xjTC
- cQHJSQ0mUDJOLEKdtGX4MgB3d3SedkjTUnaMCS217IjBd/KJT74+uT5SN2SWVw+NwUhm
- 2Y74PyxJPf4urC4a8eKQuWgp8m/md+QE+/UpytktF4ywh4UdJa609O24i5/vzKuMSe8G
- wNTQ==
+ bh=l3jVWPGGKqLCvuenpCukdw2BdIHWqKd1uEI4muVogSg=;
+ b=ox5WVdyx6DuQ73+Z8ziYPO9dXILseMsO8jBr7oKc3QZCnZ7tC5C5P+ZKPeiGXgu6cH
+ U9ogUXdx7NqfLJBDnxL79SXyI45XfTMEkEEo1IpD5OW/rxic31YweaByxQN/ycuD4vuA
+ u+HiQ6aKiiUflDUVdw21sDInibIj5CsTcfnnLzYtKW86LWBGlP2dYdBAe6kTh9qibGX/
+ ulkLBDErQzaA7ff1i8gZgsWymfisX8F69sFNGzD0Em3pIxk/1ww3JGOSBwqUlZeHLYIL
+ s/OV0L1QLpV2e12h0ei3BkOUNyPIgCl8pbO6vCVhSynM5pgppQV0bLAdweFgQrB+JM6t
+ la9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740746410; x=1741351210;
+ d=1e100.net; s=20230601; t=1740746412; x=1741351212;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ihZxooYknzT0g7MIwrtZdZDoHsnETfvcwFPVB5oE20g=;
- b=TFUdEcQ5XS/P1EexQak0GvfHvmfYpCu76YH9TBQ5q17pB9YkCwAo1fSIOrJLaAMiRm
- wef9rrRviwj+QL3CecXK+L04LjRDeP3AeQi9NSOGvEiDdmsyOe7lmx1TloRurmJ9JWMs
- rITX9whWZJ+nImLzPN4oJAT/T4OXb9JT6v/IFi4nfXxqugoLAkypbF1qcTpiKqC4yb2h
- 4112ARVYu/tv071Yf9MJ3szFALDYt52o6O1ewfcRGDcGROjeuc/m/lMoenCoCv145scl
- wdDRHPEZzJZEEnNagY/waUxfBHgVcBF2VkJu3u2XRFUrqNBz+9kY45auydsucoiZBmm6
- t5Vw==
+ bh=l3jVWPGGKqLCvuenpCukdw2BdIHWqKd1uEI4muVogSg=;
+ b=FAw7lMud83BmUh7yd602k3KNJXl7m+B+SboLsM1QmWmCuMCoxhhaOtrLNPrybrHejm
+ 3NAqQlHcDZCOQdrjulW4SJj1z9wzWPlI9Xfpmhfsd8YIIZpNqdfcR+qmgTqW9GgvShDi
+ 6vNW1OmGtIvwjlD5ujeMFYySB9IYZEc3B8lVjwtB2ILGUBl0l130dTGZ9dxzpvAyoto7
+ J6AQgiqBYTfkERCTwYIQi90ENEIHn04RqLCx8urLGZtRVhsszfgBgp0aGQ7OoR5Oy0JG
+ mtriJFbj8ZnBTBjbFGZvO2wevoQe2v3F2BORQZAtVB/Zbsv1Por0n9IOhMTDbAgCm75L
+ bpqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUoJFXPzKca++W9NPJYHQTUmKPjk4GgkOhNUFaeVTWTDPB3v5UV8cKMJ6Eek24tbP/SMhbue8vMTPY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9zLjmq8qYk7uKSOfqqs1oEObSiGqBrRDY5tMBkm5ZWakj+WTp
- mssWiMyR50eC4vPH3XkeukB12Xf6qvjJdd/9PdsVG7VEHkkVsdlQm3H37T8nVMi3PGmepo+ifZL
- zaoKLz+cPLMj2iA==
-X-Google-Smtp-Source: AGHT+IGMEITDLjU4ASlaZS6GD8Wn7exwSBzOaUHr7x/3v0wRj0xk5+dqwptvCzuTjq4s4FptkTDfbSPgA1O7jVk=
-X-Received: from wmbjg14.prod.google.com
- ([2002:a05:600c:a00e:b0:439:942c:b180])
+ AJvYcCW6jQ4mbi/cKfEzWiw99Abtm49/HhOz/B0AKN6CLEkbFTPgFgKz9x0B/iFvXOFlVsMyI+JQDZiXGlU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzUp9yF5CvzEPNdI8chIeCrOaOhwYU9GtyU4FxdWGhDazr5zi4
+ dAZjQamArN5Xc0QDROCF8oMZ9o2pHu4lYe13HQnOv7O7KJHGR97GtlMLs5GgJXtymnvYwXy6SOp
+ GCYj+aeqLdpDUaQ==
+X-Google-Smtp-Source: AGHT+IGiO67Lsqlqu2zH4k6evB04PeH28TLpEEsqPRIVHE93/W85JAQLdE41QCH630255Ni8glO+u11+ewCTl8g=
+X-Received: from wmsd10.prod.google.com ([2002:a05:600c:3aca:b0:439:9541:1cf5])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:a03:b0:439:9b19:9e2d with SMTP id
- 5b1f17b1804b1-43ba6702becmr29268005e9.16.1740746410006; 
- Fri, 28 Feb 2025 04:40:10 -0800 (PST)
-Date: Fri, 28 Feb 2025 12:39:31 +0000
+ 2002:a05:600c:1c9f:b0:434:9e17:190c with SMTP id
+ 5b1f17b1804b1-43ba6188e94mr26636865e9.0.1740746412195; 
+ Fri, 28 Feb 2025 04:40:12 -0800 (PST)
+Date: Fri, 28 Feb 2025 12:39:32 +0000
 In-Reply-To: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
 Mime-Version: 1.0
 References: <20250228-export-macro-v2-0-569cc7e8926c@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
  fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3131; i=aliceryhl@google.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6541; i=aliceryhl@google.com; 
  h=from:subject:message-id;
- bh=2kxCqgatimm9DkO+86c5Mx3XyGNaZZFNb0jwXIeUduQ=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnwa6gi4HcYLwOcjP1+4ywczOPXPU6Ct2zzIOxr
- Bd2hpe101yJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8GuoAAKCRAEWL7uWMY5
- RpM/D/4hjhqbZcF9DblDJ2gtwYChZ7TjKidwXbqaZS2uFBN1bIFeweV0YoVoeZcFHADd8cv7bfs
- Ub11cChO1fW+ZTL0mjSIyMS040tnKhjG6eRgkq2emew0vBTo8K1FVrJYcTQIA0HJMfogwOWexr8
- oA/kxR+bUlhTOJn1fXdositwbuiBsu+2ZDkkeocob8oFDkfgsGoctAU30UKauDwdE2HNAytT2TS
- 7eGXelDyCe2HCYBuY7N2f1j/sInwm+eudSi+6jJynDQUg0RNUrGYmTb1zPrX6AZN8jeAMfsegQY
- zpw3e3lIYu/augysePE1HG95uNFNL9fYvh8jFr72nuLlP7qtpu3/fcB3wpHhxcSkv+lyG9Cpjbu
- alfvEgF26SVpdND0F5ng4XtNROT/ZLKYOnUPJLHrroAO3N5m0dvhfu1/D164xIzvZymhyeEByiF
- x3rYz8qQNqJOvypQ2PpcTciMJshzHlraOEoMtpONn7C1Dnk6nG8tSNquB9ffhF9xhY8yGajyNKV
- uJck4NUgxNadRWg4JrHJS/X5uSChoHCZmqsG0028wjlDhRGu/B3dvBOhRrhFWX4kpVbxTqyK3Os
- 01jSp9gEmFWSGRJhaJROwxY88GQyKPhXJkqTlFZMyW/lq+4ypr52F/jJcmp3V/S+L9/O5uSKxhJ
- 0wTtrurvO1EjnWA==
+ bh=5WVJDDoOMWVTToGZqS6EzXIOd2Gz+/3HoUezV/SekI8=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnwa6hUITYWJl/dPCaT3DkAHUJoqZpyVu6b2hRy
+ /7EqajnYoyJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8GuoQAKCRAEWL7uWMY5
+ Rn6GD/9qthSYpENpEq926mPspcUYP5BVOc1VoMWtdTSk2Gbc6ytG9cgiVWr1qh6h0pis4Rlv6GE
+ iCys28XgoAwtyPwUJyouL5vLN69zhjQ9A1bG5/7KdlWu+PQKpeQijeufFnt7VTAOceVE0soo3bm
+ 3UDNjaK/RMuBntw1pkOn7e2gXLdrlsGQEiMGQZTDaoWzKOYjtC7aUCzyJ53a2K0L64Zluk2+5in
+ akMOnB5ywQbnvsWaf9ax7ZC7JA2k2jJxUq32ECwTd7qu4uoHqFaY7Shxryvxp8GCCioblbZPgo9
+ NNOqSrDW4++cffxUog3Zfq0j81QgGUkio4nl6k5kJwsjdW38+79IkwkM3HgS+Rz8SeMvDvquLFQ
+ XvD6OLEgRXVbnBfURzwDufAhpHElGq10OMT1txFrxc7RgQgpES+HqNZ33JsoMir2ROLhMgn0SAA
+ 2cAHKLJwlunm84rd7ZcPt9o+Glm/Ar0oUksZpbEOI5z+HNsgYF2jE/gg9fLzq+VkzWxKLnEzLGx
+ ahs9Rlp4WfyhfriizEC0Dp1oHst/0VsBpOEJL7olDIl+WCAZ8hnlG6ABHeJ4B0sY12z31QFzICL
+ 73Mg4qh8RVEd0TlTS+ZKthzzkWyJx+bKVkddrJeRGkruXRN6cXuYeZO+Wpo4FXMpQxXzItHZuFa
+ Mav3YeJON9IyQuQ==
 X-Mailer: b4 0.14.1
-Message-ID: <20250228-export-macro-v2-2-569cc7e8926c@google.com>
-Subject: [PATCH v2 2/5] rust: macros: support additional tokens in quote!
+Message-ID: <20250228-export-macro-v2-3-569cc7e8926c@google.com>
+Subject: [PATCH v2 3/5] rust: add #[export] macro
 From: Alice Ryhl <aliceryhl@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>
@@ -112,88 +111,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This gives the quote! macro support for the following additional tokens:
+Rust has two different tools for generating function declarations to
+call across the FFI boundary:
 
-* The = token.
-* The _ token.
-* Using #my_var with variables of type Ident.
+* bindgen. Generates Rust declarations from a C header.
+* cbindgen. Generates C headers from Rust declarations.
 
-Additionally, some type annotations are added to allow cases where
-groups are empty. For example, quote! does support () in the input, but
-only when it is *not* empty. When it is empty, the compiler cannot infer
-the item type of `tokens`.
+In the kernel, we only use bindgen. This is because cbindgen assumes a
+cargo-based buildsystem, so it is not compatible with the kernel's build
+system. This means that when C code calls a Rust function by name, its
+signature must be duplicated in both Rust code and a C header, and the
+signature needs to be kept in sync manually.
 
-These additional quote! features are used by a new proc macro that
-generates code looking like this:
+To eliminate this manual checking, introduce a new macro that verifies
+at compile time that the two function declarations use the same
+signature. The idea is to run the C declaration through bindgen, and
+then have rustc verify that the function pointers have the same type.
 
-	const _: () = {
-	    if true {
-	        ::kernel::bindings::#name
-	    } else {
-	        #name
-	    };
-	};
+The signature must still be written twice, but at least you can no
+longer get it wrong. If the signatures don't match, you will get errors
+that look like this:
 
-where #name has type Ident.
+error[E0308]: `if` and `else` have incompatible types
+  --> <linux>/rust/kernel/print.rs:22:22
+   |
+21 | #[export]
+   | --------- expected because of this
+22 | unsafe extern "C" fn rust_fmt_argument(
+   |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
+   |
+   = note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
+              found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *const c_void) -> *mut i8 {print::rust_fmt_argument}`
+
+It is unfortunate that the error message starts out by saying "`if` and
+`else` have incompatible types", but I believe the rest of the error
+message is reasonably clear and not too confusing.
 
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- rust/macros/quote.rs | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ rust/kernel/prelude.rs |  2 +-
+ rust/macros/export.rs  | 28 ++++++++++++++++++++++++++++
+ rust/macros/helpers.rs | 19 ++++++++++++++++++-
+ rust/macros/lib.rs     | 24 ++++++++++++++++++++++++
+ 4 files changed, 71 insertions(+), 2 deletions(-)
 
-diff --git a/rust/macros/quote.rs b/rust/macros/quote.rs
-index 33a199e4f176..c18960a91082 100644
---- a/rust/macros/quote.rs
-+++ b/rust/macros/quote.rs
-@@ -20,6 +20,12 @@ fn to_tokens(&self, tokens: &mut TokenStream) {
-     }
+diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
+index dde2e0649790..889102f5a81e 100644
+--- a/rust/kernel/prelude.rs
++++ b/rust/kernel/prelude.rs
+@@ -17,7 +17,7 @@
+ pub use crate::alloc::{flags::*, Box, KBox, KVBox, KVVec, KVec, VBox, VVec, Vec};
+ 
+ #[doc(no_inline)]
+-pub use macros::{module, pin_data, pinned_drop, vtable, Zeroable};
++pub use macros::{export, module, pin_data, pinned_drop, vtable, Zeroable};
+ 
+ pub use super::{build_assert, build_error};
+ 
+diff --git a/rust/macros/export.rs b/rust/macros/export.rs
+new file mode 100644
+index 000000000000..c5ec75f2b07f
+--- /dev/null
++++ b/rust/macros/export.rs
+@@ -0,0 +1,28 @@
++// SPDX-License-Identifier: GPL-2.0
++
++use crate::helpers::function_name;
++use proc_macro::TokenStream;
++
++/// Please see [`crate::export`] for documentation.
++pub(crate) fn export(_attr: TokenStream, ts: TokenStream) -> TokenStream {
++    let Some(name) = function_name(ts.clone()) else {
++        return "::core::compile_error!(\"The #[export] attribute must be used on a function.\");"
++            .parse::<TokenStream>()
++            .unwrap();
++    };
++
++    // This verifies that the function has the same signature as the declaration generated by
++    // bindgen. It makes use of the fact that all branches of an if/else must have the same type.
++    let signature_check = quote!(
++        const _: () = {
++            if true {
++                ::kernel::bindings::#name
++            } else {
++                #name
++            };
++        };
++    );
++
++    let no_mangle = "#[no_mangle]".parse::<TokenStream>().unwrap();
++    TokenStream::from_iter([signature_check, no_mangle, ts])
++}
+diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
+index 563dcd2b7ace..3e04f8ecfc74 100644
+--- a/rust/macros/helpers.rs
++++ b/rust/macros/helpers.rs
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+-use proc_macro::{token_stream, Group, TokenStream, TokenTree};
++use proc_macro::{token_stream, Group, Ident, TokenStream, TokenTree};
+ 
+ pub(crate) fn try_ident(it: &mut token_stream::IntoIter) -> Option<String> {
+     if let Some(TokenTree::Ident(ident)) = it.next() {
+@@ -215,3 +215,20 @@ pub(crate) fn parse_generics(input: TokenStream) -> (Generics, Vec<TokenTree>) {
+         rest,
+     )
+ }
++
++/// Given a function declaration, finds the name of the function.
++pub(crate) fn function_name(input: TokenStream) -> Option<Ident> {
++    let mut input = input.into_iter();
++    while let Some(token) = input.next() {
++        match token {
++            TokenTree::Ident(i) if i.to_string() == "fn" => {
++                if let Some(TokenTree::Ident(i)) = input.next() {
++                    return Some(i);
++                }
++                return None;
++            }
++            _ => continue,
++        }
++    }
++    None
++}
+diff --git a/rust/macros/lib.rs b/rust/macros/lib.rs
+index d61bc6a56425..fbb2860e991f 100644
+--- a/rust/macros/lib.rs
++++ b/rust/macros/lib.rs
+@@ -9,6 +9,7 @@
+ #[macro_use]
+ mod quote;
+ mod concat_idents;
++mod export;
+ mod helpers;
+ mod module;
+ mod paste;
+@@ -174,6 +175,29 @@ pub fn vtable(attr: TokenStream, ts: TokenStream) -> TokenStream {
+     vtable::vtable(attr, ts)
  }
  
-+impl ToTokens for proc_macro::Ident {
-+    fn to_tokens(&self, tokens: &mut TokenStream) {
-+        tokens.extend([TokenTree::from(self.clone())]);
-+    }
++/// Export a function so that C code can call it via a header file.
++///
++/// Functions exported using this macro can be called from C code using the declaration in the
++/// appropriate header file. It should only be used in cases where C calls the function through a
++/// header file; cases where C calls into Rust via a function pointer in a vtable (such as
++/// `file_operations`) should not use this macro.
++///
++/// This macro has the following effect:
++///
++/// * Disables name mangling for this function.
++/// * Verifies at compile-time that the function signature matches the declaration in the header
++///   file.
++///
++/// You must declare the signature of the Rust function in a header file that is included by
++/// `rust/bindings/bindings_helper.h`.
++///
++/// This macro is *not* the same as the C macros `EXPORT_SYMBOL_*`, since all Rust symbols are
++/// currently automatically exported with `EXPORT_SYMBOL_GPL`.
++#[proc_macro_attribute]
++pub fn export(attr: TokenStream, ts: TokenStream) -> TokenStream {
++    export::export(attr, ts)
 +}
 +
- impl ToTokens for TokenTree {
-     fn to_tokens(&self, tokens: &mut TokenStream) {
-         tokens.extend([self.clone()]);
-@@ -40,7 +46,7 @@ fn to_tokens(&self, tokens: &mut TokenStream) {
- /// `quote` crate but provides only just enough functionality needed by the current `macros` crate.
- macro_rules! quote_spanned {
-     ($span:expr => $($tt:tt)*) => {{
--        let mut tokens;
-+        let mut tokens: ::std::vec::Vec<::proc_macro::TokenTree>;
-         #[allow(clippy::vec_init_then_push)]
-         {
-             tokens = ::std::vec::Vec::new();
-@@ -65,7 +71,8 @@ macro_rules! quote_spanned {
-         quote_spanned!(@proc $v $span $($tt)*);
-     };
-     (@proc $v:ident $span:ident ( $($inner:tt)* ) $($tt:tt)*) => {
--        let mut tokens = ::std::vec::Vec::new();
-+        #[allow(unused_mut)]
-+        let mut tokens = ::std::vec::Vec::<::proc_macro::TokenTree>::new();
-         quote_spanned!(@proc tokens $span $($inner)*);
-         $v.push(::proc_macro::TokenTree::Group(::proc_macro::Group::new(
-             ::proc_macro::Delimiter::Parenthesis,
-@@ -136,6 +143,16 @@ macro_rules! quote_spanned {
-         ));
-         quote_spanned!(@proc $v $span $($tt)*);
-     };
-+    (@proc $v:ident $span:ident = $($tt:tt)*) => {
-+        $v.push(::proc_macro::TokenTree::Punct(
-+                ::proc_macro::Punct::new('=', ::proc_macro::Spacing::Alone)
-+        ));
-+        quote_spanned!(@proc $v $span $($tt)*);
-+    };
-+    (@proc $v:ident $span:ident _ $($tt:tt)*) => {
-+        $v.push(::proc_macro::TokenTree::Ident(::proc_macro::Ident::new("_", $span)));
-+        quote_spanned!(@proc $v $span $($tt)*);
-+    };
-     (@proc $v:ident $span:ident $id:ident $($tt:tt)*) => {
-         $v.push(::proc_macro::TokenTree::Ident(::proc_macro::Ident::new(stringify!($id), $span)));
-         quote_spanned!(@proc $v $span $($tt)*);
+ /// Concatenate two identifiers.
+ ///
+ /// This is useful in macros that need to declare or reference items with names
 
 -- 
 2.48.1.711.g2feabab25a-goog
