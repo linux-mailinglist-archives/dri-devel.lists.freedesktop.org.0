@@ -2,48 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6A4A49A80
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 14:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53087A49ABE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 14:41:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF9610ECB1;
-	Fri, 28 Feb 2025 13:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A631610E29B;
+	Fri, 28 Feb 2025 13:41:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dCaAeNoZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OFVvvKO5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760D310E2AB
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1740749191;
- bh=kGFidxujuu/5E6/w43jD7cIkQM+gr//1Z9nzVC3249w=;
- h=From:To:Cc:Subject:Date:From;
- b=dCaAeNoZeU54zDefZlcSRbx/qgWHWaR8ZjNOK4VSPFUWCMKacfX5AWbpoYe4ZPzgQ
- yJZl7kTFzok4PNFV6fxZut36Vc3ALn/tZFqao1ln37ZyJ+QhFekZQBKFEiS7ElzkuI
- c1dWqWlQ8eVKTZH+sV1hb4TbLR74ujLJLupczbqnKUH7NebkONedaqPBluTFvTsczj
- Fhl2yk9sGxTA0vIU506ZTQpc0O8cswh0FghgtXpqc2jNCGFR3fLteVEYbByhAE2EkR
- 1dQSoWrxJdAb+SRsz4l2gbQVV9u6DmmO6blVgCDvZZzox62XcWeu6z+QJikLRBShWH
- Qk9CJq9JwY3Zg==
-Received: from localhost.localdomain (unknown [171.76.85.20])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 445A517E07F8;
- Fri, 28 Feb 2025 14:26:29 +0100 (CET)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
- simona.vetter@ffwll.ch, robdclark@gmail.com, dmitry.baryshkov@linaro.org,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- valentine.burley@collabora.com, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/ci: fix merge request rules
-Date: Fri, 28 Feb 2025 18:56:18 +0530
-Message-ID: <20250228132620.556079-1-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.47.2
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19AAA10E2A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:41:27 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51SAXJ0l011094
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:41:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ nxMCwl4XpxYnWA6xmBkQbDigvX+AcrDze/AyDFhTQLo=; b=OFVvvKO50iAK6F4O
+ 7oBdGSE93x+vZbkODA6AyP+uDUwURPPWquO3ElfzXrZ6xUagG/WUH23epzsHHELG
+ k4Brn0xhLfkPJ75YDEpFQmLXPCGbUJBbMELT7aXfoL/hxROIaXGa6IjQb8QOilaP
+ NYfDrJauA0CtPVZwBTCg1zoLaiD/Fc/fMTOsLScChCS9Vgjmoqy2xZ0jUOCHV061
+ gMbgZvOhWFk8wfGQZMTV6eY4yn7EIiRUuF+88oY143hoD0u3vxktCcB+IzVVjmdo
+ XX8OCjgmNFJX/SFyamIU4OveawDJPN6xvv1nGXUWe9mJe77RaI0NIClIZjYtac/0
+ 4QKIfw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 451prk9her-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 13:41:23 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-6e89902aaa5so3229896d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 05:41:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740750083; x=1741354883;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nxMCwl4XpxYnWA6xmBkQbDigvX+AcrDze/AyDFhTQLo=;
+ b=j0cQj+w6/rN4uK8QU2Mxxo1zMVdHKnfe5EmlmQFGkCV2D57/rev9/qgjYa0EstldWU
+ +1/ZGbdUhC+0I0i2921yLykDT/YTF6+PImmLz3/ZLKvLtDtZnZZJvqqc5dqqG2XLkcci
+ Pwmlp22BTje1JwXpQ1Rk+WpU0HGmIPUzODbIubdQ2fyq3EPLfALRNFyCNTi6r2xYXMHc
+ akAwxr3gnYO/SG+KNXCZBQfRe+9N8W1Fh+XILdyD7d/eBsqnVIznwOaUOUMZGj6/Fzvo
+ HOMgpWe1Qjjhl7uSZfg6L6veABaeyp5iRHpMObX5MioEAjAC23CyyjnhqM7l4uYb9yGy
+ m2sA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9u1i0HXEfmYPRx+zVmTomkNPGBFD+ZPwC5ACTdiANhL6fjMChuWtKX4ML47E/KR1q9fxoA4KU3Wg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+ckb2ni0nklFzZBhwR+YeDi7wY0LafA9dVFczSqsSBGWwaTdX
+ LkgKGDLIANIVQZn3cetcPQaEh0TgCxppfdrQCEyddtvkZ8jLC2aWrOUUyK5w1cmkYs1CfXCnpnN
+ 7FFnIPDYg0yDFkw+pCqnnhV4h7Sp9v1ioIn5INKGaLzGcK3hjs95i76kHA3Nxy0OxhtI=
+X-Gm-Gg: ASbGncvUaDdp8d+OAMj+LdcJmFuRuKWu+a7r+iS9ikgXf5cXW6ks1f2uoDV+tEOmL0o
+ Eh2FU0klqGvOhS6oxslZDpynv0HSIh352JKYOHLOJ8mgGn/LT8bYnZBRmAIcm9OuGgSecX/zHT/
+ 30oDz2dhZ/mdXS3o+hUw8TbDuCbwZYKepmRfcSLpWP1xhUeT2HuOsDlPnsS/sSG/3kkbulRfbhV
+ Q/Mu75/TbwpKGQ8/ZYg1O1lL7nhpaH/HHViufBt5lACd6ZWnMBeOIzpnja2j3ZSxKQjQ7IUaQ4w
+ ZHP2QcWHNBgB4XJXrOGc3hhn16x0uSGS0q0wuUsxCWN+UelQCHkOFHO0LZQusrUD12f8Gg==
+X-Received: by 2002:ad4:5f87:0:b0:6e6:5d99:d1a5 with SMTP id
+ 6a1803df08f44-6e8a0ace905mr19202256d6.0.1740750082787; 
+ Fri, 28 Feb 2025 05:41:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEjQWfIes2GbLXuXvq0DgihsoT/bAGgb6fDqf/KTL8rxJT7bL7aWTL0JdWW7i7ONoFuTU1Q7A==
+X-Received: by 2002:ad4:5f87:0:b0:6e6:5d99:d1a5 with SMTP id
+ 6a1803df08f44-6e8a0ace905mr19202076d6.0.1740750082389; 
+ Fri, 28 Feb 2025 05:41:22 -0800 (PST)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-abf42c16af2sm30308466b.116.2025.02.28.05.41.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Feb 2025 05:41:21 -0800 (PST)
+Message-ID: <9325e4cf-425d-4fca-a458-20cdee6e4111@oss.qualcomm.com>
+Date: Fri, 28 Feb 2025 14:41:19 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] drm/msm/dpu: remove DSC feature bit for PINGPONG on
+ SDM630
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250228-dpu-fix-catalog-v1-0-b05d22fbc2b4@linaro.org>
+ <20250228-dpu-fix-catalog-v1-4-b05d22fbc2b4@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250228-dpu-fix-catalog-v1-4-b05d22fbc2b4@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: XFiIfZS4xBoEtvgadHggzdBw3uIs_WnL
+X-Proofpoint-ORIG-GUID: XFiIfZS4xBoEtvgadHggzdBw3uIs_WnL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-28_03,2025-02-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ phishscore=0 spamscore=0 mlxscore=0 mlxlogscore=960 malwarescore=0
+ adultscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502280098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,78 +119,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Merge request pipelines were only created when changes
-were made to drivers/gpu/drm/ci/, causing MRs that
-didn't touch this path to break. Fix MR pipeline rules
-to trigger jobs for all changes.
+On 28.02.2025 3:40 AM, Dmitry Baryshkov wrote:
+> The MSM8937 platform doesn't have DSC blocks nor does have it DSC
+      ^
+in all patches
 
-Run jobs automatically for marge-bot and scheduled
-pipelines, but in all other cases run manually. Also
-remove CI_PROJECT_NAMESPACE checks specific to mesa.
-
-Fixes: df54f04f2020 ("drm/ci: update gitlab rules")
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
-
-v2:
-  - Run jobs automatically for marge-bot and scheduled
-    pipelines, but in all other cases run manually. Also
-    remove CI_PROJECT_NAMESPACE checks specific to mesa.
-
-v3:
-  - Fix yaml syntax
-
----
- drivers/gpu/drm/ci/gitlab-ci.yml | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index f04aabe8327c..b06b9e7d3d09 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -143,11 +143,11 @@ stages:
-     # Pre-merge pipeline
-     - if: &is-pre-merge $CI_PIPELINE_SOURCE == "merge_request_event"
-     # Push to a branch on a fork
--    - if: &is-fork-push $CI_PROJECT_NAMESPACE != "mesa" && $CI_PIPELINE_SOURCE == "push"
-+    - if: &is-fork-push $CI_PIPELINE_SOURCE == "push"
-     # nightly pipeline
-     - if: &is-scheduled-pipeline $CI_PIPELINE_SOURCE == "schedule"
-     # pipeline for direct pushes that bypassed the CI
--    - if: &is-direct-push $CI_PROJECT_NAMESPACE == "mesa" && $CI_PIPELINE_SOURCE == "push" && $GITLAB_USER_LOGIN != "marge-bot"
-+    - if: &is-direct-push $CI_PIPELINE_SOURCE == "push" && $GITLAB_USER_LOGIN != "marge-bot"
- 
- 
- # Rules applied to every job in the pipeline
-@@ -170,26 +170,15 @@ stages:
-     - !reference [.disable-farm-mr-rules, rules]
-     # Never run immediately after merging, as we just ran everything
-     - !reference [.never-post-merge-rules, rules]
--    # Build everything in merge pipelines, if any files affecting the pipeline
--    # were changed
-+    # Build everything in merge pipelines
-     - if: *is-merge-attempt
--      changes: &all_paths
--      - drivers/gpu/drm/ci/**/*
-       when: on_success
-     # Same as above, but for pre-merge pipelines
-     - if: *is-pre-merge
--      changes:
--        *all_paths
-       when: manual
--    # Skip everything for pre-merge and merge pipelines which don't change
--    # anything in the build
--    - if: *is-merge-attempt
--      when: never
--    - if: *is-pre-merge
--      when: never
-     # Build everything after someone bypassed the CI
-     - if: *is-direct-push
--      when: on_success
-+      when: manual
-     # Build everything in scheduled pipelines
-     - if: *is-scheduled-pipeline
-       when: on_success
--- 
-2.47.2
-
+Konrad
