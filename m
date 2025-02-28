@@ -2,87 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C5DA493E9
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329ECA493F1
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:49:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27CD210EC1A;
-	Fri, 28 Feb 2025 08:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C594110E27B;
+	Fri, 28 Feb 2025 08:49:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="eouDypAC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iOoYcs4M";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eouDypAC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iOoYcs4M";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NeeBqIVf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sWvmScyw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NeeBqIVf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sWvmScyw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E81610EC1A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:47:47 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF1FB10EC1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:49:44 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B251B1F38F;
- Fri, 28 Feb 2025 08:47:45 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 44F9C2116F;
+ Fri, 28 Feb 2025 08:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740732465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1740732583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=r5If7arQhwOzI5vcI8gvkSKGFBxrGqK8T2dKZQWOqaY=;
- b=eouDypACCHhxu+DI3Ca9bQINU098CZ4ISQ+MfwqXvY3i8WJY9SAU2N9FE39gBHJrdBdIUk
- +UM+frt3bnxH6O0+fq19OM1Y9xyP1esH9mTbtumvHYdP2p/JJryvYepObedm8kUdOiDuVj
- dFmCkA6glsRPaXOJA3qxL+G4K/v+JJw=
+ bh=cRbPOAjYGYE/WOqs1cTr4mXa/3y0++fgPgo2znHLpY4=;
+ b=NeeBqIVfWJvV0hVsd7FAzn12s4z6jB6r30f3Z3BvJS5GbwvbBcagW2CNN+u36tPqCs1pc/
+ jbvbNEAbMlxUasY4wrgoFAq+ZYFk+uafbZJN4ylA10YHUzDP929IYnYssJPH01oW7sDaxG
+ U4Nf6ANihFFcycp8E0LkGUcR0PSDirM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740732465;
+ s=susede2_ed25519; t=1740732583;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=r5If7arQhwOzI5vcI8gvkSKGFBxrGqK8T2dKZQWOqaY=;
- b=iOoYcs4MmvDtpRnqRXGAadP4GuFIxX9qnvM6RlkrGxhIzUJiFuxkNVnZYqZ+JDQNd32Utz
- 3++z2yC3uQUbRICw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=cRbPOAjYGYE/WOqs1cTr4mXa/3y0++fgPgo2znHLpY4=;
+ b=sWvmScywwIr6j1uIYwlNBtc1k6q5dUdvhIIdP1ey2piDrt7+zBpLpBbaj8HtD3bkMHTV84
+ nQHg4wQw/xqtPQAg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NeeBqIVf;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sWvmScyw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1740732465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1740732583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=r5If7arQhwOzI5vcI8gvkSKGFBxrGqK8T2dKZQWOqaY=;
- b=eouDypACCHhxu+DI3Ca9bQINU098CZ4ISQ+MfwqXvY3i8WJY9SAU2N9FE39gBHJrdBdIUk
- +UM+frt3bnxH6O0+fq19OM1Y9xyP1esH9mTbtumvHYdP2p/JJryvYepObedm8kUdOiDuVj
- dFmCkA6glsRPaXOJA3qxL+G4K/v+JJw=
+ bh=cRbPOAjYGYE/WOqs1cTr4mXa/3y0++fgPgo2znHLpY4=;
+ b=NeeBqIVfWJvV0hVsd7FAzn12s4z6jB6r30f3Z3BvJS5GbwvbBcagW2CNN+u36tPqCs1pc/
+ jbvbNEAbMlxUasY4wrgoFAq+ZYFk+uafbZJN4ylA10YHUzDP929IYnYssJPH01oW7sDaxG
+ U4Nf6ANihFFcycp8E0LkGUcR0PSDirM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1740732465;
+ s=susede2_ed25519; t=1740732583;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=r5If7arQhwOzI5vcI8gvkSKGFBxrGqK8T2dKZQWOqaY=;
- b=iOoYcs4MmvDtpRnqRXGAadP4GuFIxX9qnvM6RlkrGxhIzUJiFuxkNVnZYqZ+JDQNd32Utz
- 3++z2yC3uQUbRICw==
+ bh=cRbPOAjYGYE/WOqs1cTr4mXa/3y0++fgPgo2znHLpY4=;
+ b=sWvmScywwIr6j1uIYwlNBtc1k6q5dUdvhIIdP1ey2piDrt7+zBpLpBbaj8HtD3bkMHTV84
+ nQHg4wQw/xqtPQAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7451213888;
- Fri, 28 Feb 2025 08:47:45 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4CC913888;
+ Fri, 28 Feb 2025 08:49:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id bWIQGzF4wWeKQAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Feb 2025 08:47:45 +0000
-Message-ID: <f853d48f-f0aa-45af-89f3-4081a620f234@suse.de>
-Date: Fri, 28 Feb 2025 09:47:45 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OUafMqZ4wWc1QQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Feb 2025 08:49:42 +0000
+Message-ID: <084ab2f7-240c-45c5-8bde-7c551546d1ca@suse.de>
+Date: Fri, 28 Feb 2025 09:49:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vboxvideo: Remove unused hgsmi_cursor_position
-To: "Dr. David Alan Gilbert" <linux@treblig.org>, airlied@gmail.com,
- simona@ffwll.ch
-Cc: hdegoede@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241215220014.452537-1-linux@treblig.org>
- <Z8DaVW_U-QtBVSMf@gallifrey>
+Subject: Re: [PATCH 00/12] drm/{i915,xe}: Convert to DRM client setup
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, simona@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, jfalempe@redhat.com,
+ javierm@redhat.com
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20241212170913.185939-1-tzimmermann@suse.de>
+ <de8325a9-49b2-48ec-ba56-4349140564b1@suse.de>
+ <7ca7be00-f6d9-43b7-b3d0-0984306ac302@linux.intel.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -109,22 +115,29 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z8DaVW_U-QtBVSMf@gallifrey>
+In-Reply-To: <7ca7be00-f6d9-43b7-b3d0-0984306ac302@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 44F9C2116F
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[treblig.org,gmail.com,ffwll.ch];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[8]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[linux.intel.com,intel.com,ursulin.net,ffwll.ch,gmail.com,kernel.org,redhat.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[15]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; MID_RHS_MATCH_FROM(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
  TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -142,100 +155,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Maarten
 
-Am 27.02.25 um 22:34 schrieb Dr. David Alan Gilbert:
-> * linux@treblig.org (linux@treblig.org) wrote:
->> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->>
->> hgsmi_cursor_position() has been unused since 2018's
->> commit 35f3288c453e ("staging: vboxvideo: Atomic phase 1: convert cursor to
->> universal plane")
->>
->> Remove it.
->>
->> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> Hi David, Simona,
->    Will this one be picked up by drm-next?  It got Hans's
-> review back on 16 Dec.
-> ( in 2513e942-6391-4a96-b487-1e4ba19b7aeb@redhat.com )
+Am 12.02.25 um 08:28 schrieb Maarten Lankhorst:
+> Hey,
+>
+> I'll give it a spin on xe today. It seems someone already tried on i915,
+> so I expect no issues.
 
-Merged into drm-misc-next now. Apologies for the delay.
+Did you get to test the series?
 
 Best regards
 Thomas
 
 >
->    Thanks,
+> The only question I have is do we still inherit the BIOS fb on boot
+> for fbdev?
 >
-> Dave
+> The really active bit seems to be replacing the fbdev stuff with
+> drm_client_setup_with_color_mode
 >
->> ---
->>   drivers/gpu/drm/vboxvideo/hgsmi_base.c      | 37 ---------------------
->>   drivers/gpu/drm/vboxvideo/vboxvideo_guest.h |  2 --
->>   2 files changed, 39 deletions(-)
+> Patches themselves look good.
+>
+> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>
+> On 2025-02-11 08:17, Thomas Zimmermann wrote:
+>> ping for a review
 >>
->> diff --git a/drivers/gpu/drm/vboxvideo/hgsmi_base.c b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
->> index 87dccaecc3e5..db994aeaa0f9 100644
->> --- a/drivers/gpu/drm/vboxvideo/hgsmi_base.c
->> +++ b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
->> @@ -181,40 +181,3 @@ int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
->>   
->>   	return rc;
->>   }
->> -
->> -/**
->> - * hgsmi_cursor_position - Report the guest cursor position.  The host may
->> - *                         wish to use this information to re-position its
->> - *                         own cursor (though this is currently unlikely).
->> - *                         The current host cursor position is returned.
->> - * Return: 0 or negative errno value.
->> - * @ctx:              The context containing the heap used.
->> - * @report_position:  Are we reporting a position?
->> - * @x:                Guest cursor X position.
->> - * @y:                Guest cursor Y position.
->> - * @x_host:           Host cursor X position is stored here.  Optional.
->> - * @y_host:           Host cursor Y position is stored here.  Optional.
->> - */
->> -int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
->> -			  u32 x, u32 y, u32 *x_host, u32 *y_host)
->> -{
->> -	struct vbva_cursor_position *p;
->> -
->> -	p = hgsmi_buffer_alloc(ctx, sizeof(*p), HGSMI_CH_VBVA,
->> -			       VBVA_CURSOR_POSITION);
->> -	if (!p)
->> -		return -ENOMEM;
->> -
->> -	p->report_position = report_position;
->> -	p->x = x;
->> -	p->y = y;
->> -
->> -	hgsmi_buffer_submit(ctx, p);
->> -
->> -	*x_host = p->x;
->> -	*y_host = p->y;
->> -
->> -	hgsmi_buffer_free(ctx, p);
->> -
->> -	return 0;
->> -}
->> diff --git a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
->> index 55fcee3a6470..643c4448bdcb 100644
->> --- a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
->> +++ b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
->> @@ -34,8 +34,6 @@ int hgsmi_query_conf(struct gen_pool *ctx, u32 index, u32 *value_ret);
->>   int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
->>   			       u32 hot_x, u32 hot_y, u32 width, u32 height,
->>   			       u8 *pixels, u32 len);
->> -int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
->> -			  u32 x, u32 y, u32 *x_host, u32 *y_host);
->>   
->>   bool vbva_enable(struct vbva_buf_ctx *vbva_ctx, struct gen_pool *ctx,
->>   		 struct vbva_buffer *vbva, s32 screen);
->> -- 
->> 2.47.1
+>> Am 12.12.24 um 18:08 schrieb Thomas Zimmermann:
+>>> i915 and xe are the last remaining drivers that still implement their
+>>> own fbdev client. All other clients have been mass converted to DRM's
+>>> client setup in in the series at [1]. As Intel drivers require more
+>>> effort than others, their changes have been moved into this separate
+>>> series.
+>>>
+>>> With DRM's client setup, DRM picks the in-kernel client from the
+>>> kernel's config and parameters. Besides fbdev there's also drm_log
+>>> available. For fbdev support, the driver only has to implement struct
+>>> drm_driver.fbdev_probe, a callback that allocates a compatible
+>>> framebuffer.
+>>>
+>>> At first, some details of the Intel implementation have to be rebuild
+>>> for the generic client and fbdev handling. Patches 1 to 6 do that.
+>>> Hotplugging and suspend/resume are then hidden behind callbacks. Some
+>>> Intel-specifics in the restore and suspend code get their own hooks.
+>>>
+>>> Patches 7 to 9 prepare Intel's fbdev implementation ot get things
+>>> out of the way.
+>>>
+>>> Patch 10 converts i915 and xe to DRM's client setup. Patches 11 and
+>>> 12 clean up the remaining code.
+>>>
+>>> Tested with i915 and xe hardware.
+>>>
+>>> [1] https://patchwork.freedesktop.org/series/137391/
+>>>
+>>> Thomas Zimmermann (12):
+>>>    drm/{i915,xe}: Suspend/resume fbdev emulation via client interfaces
+>>>    drm/client: Add client-hotplug helper
+>>>    drm/client: Send pending hotplug events after resume
+>>>    drm/i915/display: Remove fbdev suspend and hotplug tracking
+>>>    drm/i915/display: fbdev: Move custom restore code to new callback
+>>>    drm/i915/display: fbdev: Move custom suspend code to new callback
+>>>    drm/i915/display: Remove preferred_bpp from struct intel_fbdev
+>>>    drm/i915/display: Remove struct drm_fb_helper from struct 
+>>> intel_fbdev
+>>>    drm/i915/display: Move fbdev code around
+>>>    drm/{i915,xe}: Run DRM default client setup
+>>>    drm/i915/display: Remove compile guard around fbdev debugfs output
+>>>    drm/fb-helper: Remove struct drm_fb_helper.fb_probe
+>>>
+>>>   drivers/gpu/drm/drm_client_event.c            |  41 ++-
+>>>   drivers/gpu/drm/drm_fb_helper.c               |  20 +-
+>>>   .../gpu/drm/i915/display/intel_display_core.h |   1 -
+>>>   .../drm/i915/display/intel_display_debugfs.c  |   2 -
+>>>   drivers/gpu/drm/i915/display/intel_fbdev.c    | 338 
+>>> ++++--------------
+>>>   drivers/gpu/drm/i915/display/intel_fbdev.h    |  17 +-
+>>>   drivers/gpu/drm/i915/i915_driver.c            |  10 +-
+>>>   drivers/gpu/drm/xe/display/xe_display.c       |  12 +-
+>>>   include/drm/drm_client.h                      |   8 +
+>>>   include/drm/drm_fb_helper.h                   |  44 ++-
+>>>   10 files changed, 176 insertions(+), 317 deletions(-)
+>>>
+>>>
+>>> base-commit: 7bbcd7df9387f0d9004f997df33f7a9472d9c080
 >>
+>
 
 -- 
 --
