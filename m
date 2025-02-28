@@ -2,64 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F81A494A4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A28EA494C7
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 10:24:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C449A10EC2F;
-	Fri, 28 Feb 2025 09:19:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SQ9n4SuA";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6B610EC22;
+	Fri, 28 Feb 2025 09:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6CC710EC29
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 09:19:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 67E055C58C0;
- Fri, 28 Feb 2025 09:16:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56ABCC4CEE4;
- Fri, 28 Feb 2025 09:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740734342;
- bh=A25tAOF8LWK1knSivsYAeHkV8bvcON0THzor7i3KpNE=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=SQ9n4SuAbYUG5cK3GuLC6Jw53T9Fk7t5QzujB7vK7BFIV3+rgPTYCRGB6Oru3uuin
- 4FnrbMCgNN2QZMzHpgW7Qo15+ZI7cTSOkpKtqo815rNxoCeEm8BPlpliWNDvl5W/bO
- KxUGxS8YWm1KagDqsuezs3xthzpMNRaaBhwiNI7hNU9sB/SaTgXQ7W6v90DIp8Q/lv
- ccEJhs0z5eH/OOM8U7n42azhnvqsBEHGjAWImyEtzVPSiKEhh6qYvFm5OnavYvPrK8
- GaewI4/0qms4BZqqnJ5fmhFw5yDaDv5GnHA3X92nC/RlbtNb1ckjR5I6ID/rzLd7By
- 6vyFqEJlh+mHQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,  "Miguel Ojeda"
- <ojeda@kernel.org>,  "Petr Mladek" <pmladek@suse.com>,  "Steven Rostedt"
- <rostedt@goodmis.org>,  "Andy Shevchenko"
- <andriy.shevchenko@linux.intel.com>,  "Rasmus Villemoes"
- <linux@rasmusvillemoes.dk>,  "Sergey Senozhatsky"
- <senozhatsky@chromium.org>,  "Andrew Morton" <akpm@linux-foundation.org>,
- "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo" <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,  "Benno
- Lossin"
- <benno.lossin@proton.me>,  "Trevor Gross" <tmgross@umich.edu>,  "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>,  "Maxime Ripard"
- <mripard@kernel.org>,  "Thomas Zimmermann" <tzimmermann@suse.de>,  "David
- Airlie" <airlied@gmail.com>,  "Simona Vetter" <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>,  <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 0/4] Check Rust signatures at compile time
-In-Reply-To: <CAH5fLgiNs-VKEQduL16eymSPnqA0_6aR8WDRYm68SE8FXGDHRw@mail.gmail.com>
- (Alice Ryhl's message of "Fri, 28 Feb 2025 09:46:32 +0100")
-References: <UXTosjUFv_CKOV-K4oqNGBhMEv64tds9NgXWhHEYdCHuKM2qSPFrpBnTqhFGkcbv5_KXYERykIXhn-sYnEeuUg==@protonmail.internalid>
- <20250227-export-macro-v1-0-948775fc37aa@google.com>
- <877c5apmdi.fsf@kernel.org>
- <n_SgeABndEnm2Yl1urxt15OBDGbfaY4y8M_DCt06Cwoql_kH-ErUfE48HL1gXbCy0eTa7sKHXdHmhyfuJteS-A==@protonmail.internalid>
- <CAH5fLgiNs-VKEQduL16eymSPnqA0_6aR8WDRYm68SE8FXGDHRw@mail.gmail.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Fri, 28 Feb 2025 10:18:14 +0100
-Message-ID: <878qpqo2ax.fsf@kernel.org>
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF4310EC26
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 09:23:56 +0000 (UTC)
+Received: from [127.0.0.1] (161-51-78-170.static.ef-service.nl [161.51.78.170])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 6CDB03F26F;
+ Fri, 28 Feb 2025 10:23:55 +0100 (CET)
+Date: Fri, 28 Feb 2025 10:23:54 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+CC: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] drm/msm/dpu: program master INTF value
+User-Agent: Thunderbird for Android
+In-Reply-To: <20250228-dpu-active-ctl-v2-2-9a9df2ee5193@linaro.org>
+References: <20250228-dpu-active-ctl-v2-0-9a9df2ee5193@linaro.org>
+ <20250228-dpu-active-ctl-v2-2-9a9df2ee5193@linaro.org>
+Message-ID: <CAACA6C8-441A-4B6E-AC07-A46094A02126@somainline.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,24 +51,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Alice Ryhl" <aliceryhl@google.com> writes:
-
-> On Fri, Feb 28, 2025 at 8:19=E2=80=AFAM Andreas Hindborg <a.hindborg@kern=
-el.org> wrote:
->>
->> "Alice Ryhl" <aliceryhl@google.com> writes:
->>
->> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
->>
->> What is going on with the cover letter of this one?
+On 28 February 2025 05:14:06 CET, Dmitry Baryshkov <dmitry=2Ebaryshkov@lina=
+ro=2Eorg> wrote:
+>If several interfaces are being handled through a single CTL, a main
+>('master') INTF needs to be programmed into a separate register=2E Write
+>corresponding value into that register=2E
 >
-> It's empty.
+>Co-developed-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
+>Signed-off-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
+>Signed-off-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
+>---
+> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec | 12 ++++++++++++
+> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh |  2 ++
+> 2 files changed, 14 insertions(+)
+>
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec b/drivers/gpu/d=
+rm/msm/disp/dpu1/dpu_hw_ctl=2Ec
+>index 32ab33b314fc44e12ccb935c1695d2eea5c7d9b2=2E=2Effff60c4206c6f2833293=
+fdcc56b653f7d3124a5 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec
+>@@ -583,6 +583,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl =
+*ctx,
+> 	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
+> 	DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE, merge_3d_active);
+>=20
+>+	if (cfg->intf_master)
+>+		DPU_REG_WRITE(c, CTL_INTF_MASTER, BIT(cfg->intf_master - INTF_0));
+>+
+> 	if (cfg->cdm)
+> 		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
+> }
+>@@ -625,6 +628,7 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_h=
+w_ctl *ctx,
+> {
+> 	struct dpu_hw_blk_reg_map *c =3D &ctx->hw;
+> 	u32 intf_active =3D 0;
+>+	u32 intf_master =3D 0;
+> 	u32 wb_active =3D 0;
+> 	u32 merge3d_active =3D 0;
+> 	u32 dsc_active;
+>@@ -651,6 +655,14 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_=
+hw_ctl *ctx,
+> 		intf_active =3D DPU_REG_READ(c, CTL_INTF_ACTIVE);
+> 		intf_active &=3D ~BIT(cfg->intf - INTF_0);
+> 		DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
+>+
+>+		intf_master =3D DPU_REG_READ(c, CTL_INTF_MASTER);
+>+
+>+		/* Unset this intf as master, if it is the current master */
+>+		if (intf_master =3D=3D BIT(cfg->intf - INTF_0)) {
+>+			DPU_DEBUG_DRIVER("Unsetting INTF_%d master\n", cfg->intf - INTF_0);
 
-I can see that =F0=9F=98=86 Would you consider making it not empty?
+Don't think you want to include my testing ramblings here: we didn't print=
+ a message either when the master was _set_, and don't print messages for o=
+ther register writes either=2E
 
+After that:
 
-Best regards,
-Andreas Hindborg
+Reviewed-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
 
+>+			DPU_REG_WRITE(c, CTL_INTF_MASTER, 0);
+>+		}
+> 	}
+>=20
+> 	if (cfg->wb) {
+>diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh b/drivers/gpu/d=
+rm/msm/disp/dpu1/dpu_hw_ctl=2Eh
+>index 85c6c835cc8780e6cb66f3a262d9897c91962935=2E=2Ee95989a2fdda6344d0cb9=
+d3036e6ed22a0458675 100644
+>--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh
+>+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh
+>@@ -36,6 +36,7 @@ struct dpu_hw_stage_cfg {
+> /**
+>  * struct dpu_hw_intf_cfg :Describes how the DPU writes data to output i=
+nterface
+>  * @intf :                 Interface id
+>+ * @intf_master:           Master interface id in the dual pipe topology
 
+Not sure if you've seen my comment in v1 about the dual word; maybe the qu=
+adpipe series can update it since they might need a master (or two?) as wel=
+l?
+
+- Marijn
+
+>  * @mode_3d:               3d mux configuration
+>  * @merge_3d:              3d merge block used
+>  * @intf_mode_sel:         Interface mode, cmd / vid
+>@@ -45,6 +46,7 @@ struct dpu_hw_stage_cfg {
+>  */
+> struct dpu_hw_intf_cfg {
+> 	enum dpu_intf intf;
+>+	enum dpu_intf intf_master;
+> 	enum dpu_wb wb;
+> 	enum dpu_3d_blend_mode mode_3d;
+> 	enum dpu_merge_3d merge_3d;
+>
 
