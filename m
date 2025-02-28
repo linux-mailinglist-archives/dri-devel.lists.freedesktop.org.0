@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B070AA493D4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:44:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67B8A493DF
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2025 09:46:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5D6B10E246;
-	Fri, 28 Feb 2025 08:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045F910E280;
+	Fri, 28 Feb 2025 08:46:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="psg+7QqE";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="PAR+xUmH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
  [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14A1710E246
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:44:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB0E10E280
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 08:46:46 +0000 (UTC)
 Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-38f504f087eso1306407f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 00:44:35 -0800 (PST)
+ ffacd0b85a97d-38dcac27bcbso2036231f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2025 00:46:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740732274; x=1741337074;
+ d=google.com; s=20230601; t=1740732405; x=1741337205;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GOxiVL/4Is0kUFnkic7+UTCC19Fblnv5O4EMApXB9Gc=;
- b=psg+7QqE3ccmEzvfIyeeBNLAFY8WbG7qky5FTXSb9NDDhP9ONJkK1D49BmmmD80Pw0
- o9suLfYFVO+9JC4bNWN7UDMhQ4KEFBLHYQXZgI5P4NkwMDW2tv4LMqzwn8uZbm7uW77S
- zld+/upPVqTKhAQRB0+HXnIdUkY+Dn37vR5U/O+jSZVlJrvdhOVt4F6yyqgCW4/E6sa/
- oSMtA0+7y1JOl1RjoQC5eB8rIxJEf0Z6p+tqAObu1mLYBCsJIsdxxmYCpcChkNMRhtjO
- /itFCy42pSojWNIxLbZAT4i+GSEkyznfGr17EqgIxyyjEzW8WtE0KMXxq47M7+9ZqFm+
- pgLA==
+ bh=tMZPZGCZCdalLb1ZDnMoCsbeWqjCj2h9ReJgi+pJbok=;
+ b=PAR+xUmHuhGkHOvx7gcf+KwdayfMzXt5+wtd9/kEBJomvmjhN6FXjI2nLeNIEVznXx
+ L1T95u3cN+hr9PC5GUf4DwIebmWZXsO/FM+XwT1YiHGNk5mp/nDSn4f/JWnT2NfIL7fK
+ 66ZleT19EDVV25CS8IKbLAVnJ+8nW/0mhmsKKDWmzq+xyI2K31mDam7+/Hae3LdD57Vx
+ 98zwrPt45ihM4X04yw7pV/5wATaSL5hnkLgOTzuq1pZHicfqyoXGdvN1ONXDcTZiIEma
+ YJa2GgIzq85fsdUsLq8fvXYNwA+rfPr0jJBO7DWfeew++uJxurcLxOV0URNF0yMepyZz
+ q23A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740732274; x=1741337074;
+ d=1e100.net; s=20230601; t=1740732405; x=1741337205;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GOxiVL/4Is0kUFnkic7+UTCC19Fblnv5O4EMApXB9Gc=;
- b=tKkaB2nClkBGgkwg36BRI+S8KUf2V/B9dKTr24lWYpLMDbQLYeCWfts+HbDRLi4ozC
- xv14v0HkSvIwVFNtkP+eHxq1PyzLJb1EM4IorkuhJ0uHNosYGRcfI+JjQWJaaxIu/Z6M
- wk/uph/CEKd2Hvqisswfim3Zb0R0usCHYCC7exXqk7ac4NT8bOIA50/zuFZfYapAtq90
- aKewTte4j6cHXbdiPqSiF3JuFkVkaoDAUczh1I5WK/q40TYdZGD1qsObwQ9wMP9vxgl2
- Hq4mNd40AAJf9NkhBF0UEalAL9TsdOPGp/GcvIBjsfyhfAHlAGDrQcYxsr3hzLZUdbD/
- a/TQ==
+ bh=tMZPZGCZCdalLb1ZDnMoCsbeWqjCj2h9ReJgi+pJbok=;
+ b=i4dJWDRd0b1T7nkQ/mgbe3G/GEm/TD50AQ7Wvt0HHQoqSX654D56lAaHJiJ43Z8DLe
+ qtyFbHW7Q744UtKCqiBxNnqnxpTOB2l0Vv56q+hm3AAIVD8K/H8j7gR3YHio0m7MS5a6
+ MKa19oLC1md58JCijZi1jjclgkds507ImYDWSYC7l6kPpHnUxAdBbZ6k2laXG7bHc9ep
+ OzQnSjFqPpkzZiJLO19gEXox0tL9I/aLBv0ujIiH5gAUgzR3+dXyJP1YqacXBP98kMnH
+ 6wcPXfs6UBEqI4BROjVNaAmxnKwq8/gBjjZgwtngu3crYGxB0FdytcxjvltcXxWe19A1
+ brVg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVncadgcU5kqU2IPHke7x26n9OLsDpZrH7Vuy51nynyRjCuopdYFvAFjqcRpGd0N4TyxCQUkbAYKYo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoUOFYO6gs4t1Gohkcv0fT3kBzf7QB4SzWJ/veNmpxQUWT9Hn5
- Su7Ax1L4qJEKejPKpU7c+3sRan6Rp++ekQE7fBeCa6q5iXmd7tkdihDbbi2T2Fq/EOmaa6FECJY
- Qkb7mXeOJ//oh986X46UZtt0wsb8R8ZX/ZDWX
-X-Gm-Gg: ASbGnctQ2mQ3mil3ivOXiMP+/0LsxrYfv3aYJjU2UYXPiLiMvJHcC4AZ/zVHwp4Iryd
- bk24LBgzA8acSRUgLhtSR8JTP9I0x/wtl9dLbOrfcZn0vGbuBUb2tbGHTbRGs+3JIqe520CjdeG
- wjp2HvaiAGUg0sb1iVtYXoTxMHDCaqQTyX/TDF
-X-Google-Smtp-Source: AGHT+IHDCpdDmfH+NBkGICBqBloSnUKkAJpf/2fdReBq9ra852m/4DtL/k3NCUS+ytHHNljzKRaE7KY5cj/F7p1b24c=
-X-Received: by 2002:a5d:5983:0:b0:390:e822:46de with SMTP id
- ffacd0b85a97d-390ec9dad21mr2091104f8f.33.1740732274407; Fri, 28 Feb 2025
- 00:44:34 -0800 (PST)
+ AJvYcCUk1t91gx6wYId2EehCkVYErh0jG7ar5CW6x+FtSyO3BJDEaUw71fBObGIqvTauwKEPtQ1HK23cWzE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQP8E5L1PF849o2EIiPZ0dtpa7rFJX6Yst1vRpDUx2ZLhWOiij
+ tYDGLY90tz+ImDIcSUfrH97g6DM/MlwryJymYMT7gUW2RekheUZ22TtHQB5Yamx7UWkhnz/NKYx
+ tfWYpUpiEqUxUlGAtdwxX3+6aH9ig0KqVMe7e
+X-Gm-Gg: ASbGncvmjQNwiYh7gqAetIAHtGKJNy9pxc/PBr0Z+LhtZdMHkQX001m6v0YvzAirhLZ
+ U/xbJOutzdjDzCzS9n/unuzZL1Yjz0ixAiRaUxfeRptkym6RdsSOewk5c9y9V5MLh0jFLDnw2LD
+ Miyg3v1kfpdRlsX8rLE/p62WOgkeHaqao1qg/0
+X-Google-Smtp-Source: AGHT+IG/k3NIGd/8FVwXUX32UgEbYb5vZSEJFNoxaOeJplH4sY0amksfvxnLVl8qgMZGASNGrpS8AnfrJSj2egec+Ig=
+X-Received: by 2002:a5d:5847:0:b0:38d:e3da:8b4f with SMTP id
+ ffacd0b85a97d-390ebf7f818mr2114448f8f.0.1740732404732; Fri, 28 Feb 2025
+ 00:46:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20250227-export-macro-v1-0-948775fc37aa@google.com>
- <qxbD5y-rJZMJDMN1wtODJBCAdNtNdQFsYIDhZUex7KcbPiUvABElh5V8c9EFoAPZ7xQe_L8JS6MzAIqciAb12w==@protonmail.internalid>
- <20250227-export-macro-v1-1-948775fc37aa@google.com>
- <87v7suo5ay.fsf@kernel.org>
-In-Reply-To: <87v7suo5ay.fsf@kernel.org>
+References: <UXTosjUFv_CKOV-K4oqNGBhMEv64tds9NgXWhHEYdCHuKM2qSPFrpBnTqhFGkcbv5_KXYERykIXhn-sYnEeuUg==@protonmail.internalid>
+ <20250227-export-macro-v1-0-948775fc37aa@google.com>
+ <877c5apmdi.fsf@kernel.org>
+In-Reply-To: <877c5apmdi.fsf@kernel.org>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 28 Feb 2025 09:44:21 +0100
-X-Gm-Features: AQ5f1JrXknBQCJv4d6JEhXtJTXzizHml9Tfu42Up3Etyslc_lFl3VblDtZu0QMs
-Message-ID: <CAH5fLgjKoHpGS9ugxawwJJbb68trHEVvBCCNWFcNSbScGKpuDA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] rust: fix signature of rust_fmt_argument
+Date: Fri, 28 Feb 2025 09:46:32 +0100
+X-Gm-Features: AQ5f1JorcdutYNMgivy-Uv4SQylBN7HJTx4rHapLRH5N-Y1f0Jcuxa3LHpGUCrk
+Message-ID: <CAH5fLgiNs-VKEQduL16eymSPnqA0_6aR8WDRYm68SE8FXGDHRw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Check Rust signatures at compile time
 To: Andreas Hindborg <a.hindborg@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>, 
@@ -101,76 +100,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 9:20=E2=80=AFAM Andreas Hindborg <a.hindborg@kernel=
+On Fri, Feb 28, 2025 at 8:19=E2=80=AFAM Andreas Hindborg <a.hindborg@kernel=
 .org> wrote:
 >
 > "Alice Ryhl" <aliceryhl@google.com> writes:
 >
-> > Without this change, the rest of this series will emit the following
-> > error message:
-> >
-> > error[E0308]: `if` and `else` have incompatible types
-> >   --> <linux>/rust/kernel/print.rs:22:22
-> >    |
-> > 21 | #[export]
-> >    | --------- expected because of this
-> > 22 | unsafe extern "C" fn rust_fmt_argument(
-> >    |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
-> >    |
-> >    =3D note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *=
-mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
-> >               found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *co=
-nst c_void) -> *mut i8 {print::rust_fmt_argument}`
-> >
-> > The error may be different depending on the architecture.
-> >
-> > Fixes: 787983da7718 ("vsprintf: add new `%pA` format specifier")
 > > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> > ---
-> >  lib/vsprintf.c       | 2 +-
-> >  rust/kernel/print.rs | 8 ++++----
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> > index 56fe96319292..a8ac4c4fffcf 100644
-> > --- a/lib/vsprintf.c
-> > +++ b/lib/vsprintf.c
-> > @@ -2285,7 +2285,7 @@ int __init no_hash_pointers_enable(char *str)
-> >  early_param("no_hash_pointers", no_hash_pointers_enable);
-> >
-> >  /* Used for Rust formatting ('%pA'). */
-> > -char *rust_fmt_argument(char *buf, char *end, void *ptr);
-> > +char *rust_fmt_argument(char *buf, char *end, const void *ptr);
-> >
-> >  /*
-> >   * Show a '%p' thing.  A kernel extension is that the '%p' is followed
-> > diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
-> > index b19ee490be58..8551631dedf1 100644
-> > --- a/rust/kernel/print.rs
-> > +++ b/rust/kernel/print.rs
-> > @@ -6,13 +6,13 @@
-> >  //!
-> >  //! Reference: <https://docs.kernel.org/core-api/printk-basics.html>
-> >
-> > -use core::{
-> > +use core::fmt;
-> > +
-> > +use crate::{
-> >      ffi::{c_char, c_void},
-> > -    fmt,
-> > +    str::RawFormatter,
-> >  };
-> >
-> > -use crate::str::RawFormatter;
-> > -
-> >  // Called from `vsprintf` with format specifier `%pA`.
-> >  #[expect(clippy::missing_safety_doc)]
-> >  #[no_mangle]
 >
-> The changes in this last hunk is not mentioned in the commit message.
+> What is going on with the cover letter of this one?
 
-The diff is rendered pretty poorly, but this is just importing
-integers from crate::ffi instead of core::ffi, and I do believe that
-the commit message makes it clear that this is needed.
+It's empty.
 
 Alice
