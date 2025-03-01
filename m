@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5B2A4ADE3
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 21:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E59A4ADE5
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 21:40:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC96310E273;
-	Sat,  1 Mar 2025 20:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E8310E2C7;
+	Sat,  1 Mar 2025 20:40:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VdZHNdxJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xcWqmUA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5284810E2C5
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 20:39:57 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30797730cbdso31362041fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 12:39:57 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D21C710E2C7
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 20:39:59 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-30795988ebeso35340921fa.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 12:39:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740861596; x=1741466396; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740861598; x=1741466398; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=lm0hqPFeMjlAJa0zmvxvNTEk2emtnpzkaRSrh6He2DY=;
- b=VdZHNdxJ2EczcadhqZhd+Ea5NCA5cpTmgn8084gpXzs5UMgkhZzaaeMDlZNeOTNrX1
- p1GL8qlLttPdhuz3OiVD77g9hQbN7BWZFHMfu3d8mKj59MwVMCHnZi51Ne8lLPriz+XD
- zASz1qbrSEsGRRNu3uzNET0ZmY+MCqb4A9qoC5jlQDztSresE/NYluok12vdgECBxOSk
- 57p6U90E8cJc0wDDSn2uuEVLYS1rYPmBQiclgnxfVDZU3A6i+x1xzvAevsPl9MWy+/oF
- Voh3hEZy5A9BPgoj1LqwLOmCJmCjQ47PEH6GO4TrwfADCu7gBpdNG6qWH1BlxVgt+aI6
- GTfw==
+ :reply-to; bh=+KYAVzCtQbStD8nd5x330qtBncZeukDl4XD7BtrnUDw=;
+ b=xcWqmUA5YLE1ifwntIloyQ54zehZPCYJwe8qtUELOf8b40Wp7brgUFt0iN8Fs7grgq
+ ZuPP4oJfU5e8PvL6uxsHhY1/L4glZnsEzkTbWhgPh82QCujQzxJ6K7kva0flJ3tN5oTR
+ WkqxJg4QtF+TJJ02RqZbTimgGWd31XOq3Sbawuia9fy7Y99fiMD5cTJPZOk2Sm7GjYBN
+ yRK1EoNvh0Rk3VaUWgsFEaRJOy2lKV/BiJQN9FoF8Uqg4eMg/PoXQC9Utv9JxuVhlRiE
+ pKtfdQdnXhrjMNDYeDg9/TiTdctiM8/7GGpZMcwpbT/2cInxmHBOOTgzsJ58g/ruNX0z
+ 6maA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740861596; x=1741466396;
+ d=1e100.net; s=20230601; t=1740861598; x=1741466398;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lm0hqPFeMjlAJa0zmvxvNTEk2emtnpzkaRSrh6He2DY=;
- b=WHdpvlAzSKiXCtxXufa6xLwRZDqDlF1tAgQ7MXOHFxP7M/1eZf2AqPCAlWXdejNNAg
- 8pPvHSJc6YE4yVzeTZvGlKqLDBxtZVV7nFt73/pMHPH2gakqIsoiIOUeOisan9kKUx2H
- WeziC00OUlnZfrCseNMtELRqxifqSWWV2J1n3iWwfrovIjEvnVF04KyiJNDIbr9FVnuw
- 0Ix5nWHEEoCLncF66qR/bEvvq5c6M9RCFurI/3gc3PtkQLGJyvfmkC+0c8QNJqEG518O
- egZp+FD1hTaGo69K4z9ChSJ9EcfZWTxYV40+/cFNFLd3RL9nIXDZaLiVMHuUuayZAZFI
- JWQQ==
-X-Gm-Message-State: AOJu0YzhK7vqyBR7whoQNC3NKFOi/XTCVGGjF2zx87/xEICKKNQHUqro
- Gk76xjvuElqZvcF9hAq4qPASITaSqTq7y64cKa3+hVp0QeUXlK3LmAhQupbi7bk=
-X-Gm-Gg: ASbGnctCeAPfRjUVQQ1Gh6fEQchaz9J8BXA0vqEw4Uwg4AB1pIa3Q/qJy2xz1Np5FAU
- rKaPClubyCMAu2Vw8eCJFlGrWsw4rbk3+E2LsPIhWL2SeMtoSPUOpU2g5fsAK85E/CVjHzYIxfP
- m5/LmY1dLlyscHMZFDjpuEcKWiOAZoceyVceoz+LbzyzNWbvzglI3Lml/9qhNUqhFC0zGB50stI
- skXXGjgqIM6OO6cdhAVNRh9awXzC31xhma+0y1JaZCSa6WbMHSX4AHy/UuOmsOlKnH8tbR4Uej8
- kAP7EPc13ITXkr6f5V24sjkkF0vQQOy9/Lj6jQeUR2RHlOLKiuOo
-X-Google-Smtp-Source: AGHT+IEmTXK0sA2OkUpupOigZVSjmXwjzqW3fKRIwNjJwyTslP6vQRr4qY7BVPOJdFvgcDcjK+gOIA==
-X-Received: by 2002:a2e:b896:0:b0:302:1cdd:73c6 with SMTP id
- 38308e7fff4ca-30b9326af9bmr30502271fa.20.1740861595853; 
- Sat, 01 Mar 2025 12:39:55 -0800 (PST)
+ bh=+KYAVzCtQbStD8nd5x330qtBncZeukDl4XD7BtrnUDw=;
+ b=txUgvRFWBpK7M3etUBWOXTJCMzGFFDSug1EQRvxGtbEUhOi7FkDZxVpkbmkqbjIXxT
+ 2VciSITJYpmiL4T6eFCfj4oHqUqcgCnNbiEdIgkrFe3CXuMutV49HIaUtNzdLeSaQOjy
+ quAeW92B2MyCMvx5JYDGCWF3auQ/S7+ehs80Qg95dpboLbBW0tOBtVHwWwHKtvRbbqup
+ 8ytJNUP7Kp/oh5IWvg8ranQwiXKI4LEkjrf09OpoFoWZRpEnlWoQNCzzrB8EiscZShsO
+ 9A2I+qbDItQ7ppM+x1B8sjZ2KdhAz7cHJiI0bA1//ZvBVbxGS3Te+2Cwh90PQpwgviCS
+ 0zng==
+X-Gm-Message-State: AOJu0Yxn8JViUoU0MtDrPabQW2vzs7TSZs4Rs4feddqIbVbnZy0XdxlZ
+ vjdFw+HsZtJfgpU6vFSQ3ZyGOQrqOctACMjWYBk9XOfy1b3lL0mD+oYG/sT4a1A=
+X-Gm-Gg: ASbGncvgfHmSXTkW/BXaLcmHDJ1Ly7TuDHb5rFCykN7P1pWHogqko3eBOGNB/M37HtN
+ IQ2muLPxZzFlHrpdwT+uyhmFqxR0/y/pMWiQgggrC2v5OxqT/jU/5Om9AolL3+1wiKJh3YqcTbm
+ NaRheIpvIGbJrbcw9+4vUdBZ9k4dd9jF69nA1bPLrbuQachEWhQqd30NZvNzbNcEkoRuruQa/ex
+ 0pYcKoyMMftefXrUMwPNNa2xpC3o/4BWvLXsWNIIN8CzdBOdH82SVg5yvDO6F0+eqPC6hK1ELuJ
+ yIRPghs0gfoxOuM3rb0UThU2shWCpka1fddAjH/Mqd+HoKBH6Bff
+X-Google-Smtp-Source: AGHT+IHxZfB6SghQHsusUYOTNL1ECjTrYfrGSlYEryujzcygjrlIUcuUbjvIxIs3D+BDVy6OsdCGJg==
+X-Received: by 2002:a2e:91c3:0:b0:30b:9813:b00c with SMTP id
+ 38308e7fff4ca-30b9813b714mr28338221fa.27.1740861598162; 
+ Sat, 01 Mar 2025 12:39:58 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30b931524efsm6668921fa.60.2025.03.01.12.39.54
+ 38308e7fff4ca-30b931524efsm6668921fa.60.2025.03.01.12.39.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 12:39:54 -0800 (PST)
+ Sat, 01 Mar 2025 12:39:56 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 01 Mar 2025 22:39:39 +0200
-Subject: [PATCH RFC v2 4/7] drm/display: dp-aux-dev: use new DCPD access
+Date: Sat, 01 Mar 2025 22:39:40 +0200
+Subject: [PATCH RFC v2 5/7] drm/display: dp-cec: use new DCPD access
  helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250301-drm-rework-dpcd-access-v2-4-4d92602fc7cd@linaro.org>
+Message-Id: <20250301-drm-rework-dpcd-access-v2-5-4d92602fc7cd@linaro.org>
 References: <20250301-drm-rework-dpcd-access-v2-0-4d92602fc7cd@linaro.org>
 In-Reply-To: <20250301-drm-rework-dpcd-access-v2-0-4d92602fc7cd@linaro.org>
 To: Lyude Paul <lyude@redhat.com>, 
@@ -78,16 +78,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
  Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1430;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5086;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=oiT3XieBMSIfrzEMIa7+tHW3r4Yaol9yvhPjl0hzeR0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnw3CQKEcLkja2c5fPc4XKGOP4nL47TK+u5bXfS
- KNn90N+yo2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8NwkAAKCRCLPIo+Aiko
- 1UG6CACk3GBifF0q/szx7lNrtLDJrKctDw1YTztUYefU9Y3YIjzg+oBXe4rU31154ET5jAIQEhc
- vUr+oWgIA+hJOAmPNkXvYWBYhXOBMfO6jpjerRnGOTA3mArW7GX+cc1EckkIb+hVgai/PVo/g7o
- OAFQBhPJTA/A67N7ugFi/EqD+Irbp4Ya1yt6VKSkwftQLg5UjPDF4HqBDv9cfM3GFAKi19ageVt
- xGfPppiBwqlSMyq5AFXeuI49x4SSB1fayq9tjEvss07cQfWjtXK6VR7C5eFGXEmKvkA6REGiCra
- m1aBW/rjjQ/Km0TKrKP2ALBrLsxGnA9DkvZzmBAH4Bo9IJCq
+ bh=d/g0s+1RbkEZsu0cFrspMKQl16Oh0pnUASV91YvLy1M=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnw3CQpuBjfWf1ph1dU/ixVfTg4s3wl/60OKV3z
+ mC89EVT/3mJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8NwkAAKCRCLPIo+Aiko
+ 1TIxB/4t1ePhX9avgprXgUgmpU68WSKMtTmG2iChwAgh6sPQkNXYgKv7IsPU6RuBiaXtJ15sXrF
+ Cqm1/tWcbxu2A4DvwxMmmEdd+iLm+60VfUqsywiku/wd6h+ikr36rBdQT8YgN5ilzX8doK+aiut
+ 0ZWKsdEEghFrxjpMWaxIL+fdjOtU3OuwkrKfrf56okHueVa/uswjeJ/RMjCPqvqMTLpWusgrHY2
+ Nn5ZjZzvwee78uYsOfae96nNkmfgUnNkqHa/p01qWtqav3wu4X+meWrNKnin3qCs4N9TM3tlR94
+ tOL/B4wjxjVgt+CDJ2i+Nf+C284BTMBk+3pSWXjEilLHlkck
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,54 +105,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch drm_dp_aux_dev.c to use new set of DPCD read / write helpers.
+Switch drm_dp_cec.c to use new set of DPCD read / write helpers.
 
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/display/drm_dp_aux_dev.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/display/drm_dp_cec.c | 37 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_aux_dev.c b/drivers/gpu/drm/display/drm_dp_aux_dev.c
-index 29555b9f03c8c42681c17c4a01e74a966cf8611f..a31ab3f41efb71fd5f936c24ba5c3b8ebea68a5e 100644
---- a/drivers/gpu/drm/display/drm_dp_aux_dev.c
-+++ b/drivers/gpu/drm/display/drm_dp_aux_dev.c
-@@ -163,17 +163,16 @@ static ssize_t auxdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 			break;
- 		}
+diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
+index 56a4965e518cc237c992a2e31b9f6de05c14766a..ed31471bd0e28826254ecedac48c5c126729d470 100644
+--- a/drivers/gpu/drm/display/drm_dp_cec.c
++++ b/drivers/gpu/drm/display/drm_dp_cec.c
+@@ -96,7 +96,7 @@ static int drm_dp_cec_adap_enable(struct cec_adapter *adap, bool enable)
+ 	u32 val = enable ? DP_CEC_TUNNELING_ENABLE : 0;
+ 	ssize_t err = 0;
  
--		res = drm_dp_dpcd_read(aux_dev->aux, pos, buf, todo);
--
-+		res = drm_dp_dpcd_read_data(aux_dev->aux, pos, buf, todo);
- 		if (res <= 0)
- 			break;
+-	err = drm_dp_dpcd_writeb(aux, DP_CEC_TUNNELING_CONTROL, val);
++	err = drm_dp_dpcd_write_byte(aux, DP_CEC_TUNNELING_CONTROL, val);
+ 	return (enable && err < 0) ? err : 0;
+ }
  
--		if (copy_to_iter(buf, res, to) != res) {
-+		if (copy_to_iter(buf, todo, to) != todo) {
- 			res = -EFAULT;
- 			break;
- 		}
+@@ -112,7 +112,7 @@ static int drm_dp_cec_adap_log_addr(struct cec_adapter *adap, u8 addr)
+ 		la_mask |= adap->log_addrs.log_addr_mask | (1 << addr);
+ 	mask[0] = la_mask & 0xff;
+ 	mask[1] = la_mask >> 8;
+-	err = drm_dp_dpcd_write(aux, DP_CEC_LOGICAL_ADDRESS_MASK, mask, 2);
++	err = drm_dp_dpcd_write_data(aux, DP_CEC_LOGICAL_ADDRESS_MASK, mask, 2);
+ 	return (addr != CEC_LOG_ADDR_INVALID && err < 0) ? err : 0;
+ }
  
--		pos += res;
-+		pos += todo;
+@@ -123,15 +123,14 @@ static int drm_dp_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+ 	unsigned int retries = min(5, attempts - 1);
+ 	ssize_t err;
+ 
+-	err = drm_dp_dpcd_write(aux, DP_CEC_TX_MESSAGE_BUFFER,
+-				msg->msg, msg->len);
++	err = drm_dp_dpcd_write_data(aux, DP_CEC_TX_MESSAGE_BUFFER,
++				     msg->msg, msg->len);
+ 	if (err < 0)
+ 		return err;
+ 
+-	err = drm_dp_dpcd_writeb(aux, DP_CEC_TX_MESSAGE_INFO,
+-				 (msg->len - 1) | (retries << 4) |
+-				 DP_CEC_TX_MESSAGE_SEND);
+-	return err < 0 ? err : 0;
++	return drm_dp_dpcd_write_byte(aux, DP_CEC_TX_MESSAGE_INFO,
++				      (msg->len - 1) | (retries << 4) |
++				      DP_CEC_TX_MESSAGE_SEND);
+ }
+ 
+ static int drm_dp_cec_adap_monitor_all_enable(struct cec_adapter *adap,
+@@ -144,13 +143,13 @@ static int drm_dp_cec_adap_monitor_all_enable(struct cec_adapter *adap,
+ 	if (!(adap->capabilities & CEC_CAP_MONITOR_ALL))
+ 		return 0;
+ 
+-	err = drm_dp_dpcd_readb(aux, DP_CEC_TUNNELING_CONTROL, &val);
+-	if (err >= 0) {
++	err = drm_dp_dpcd_read_byte(aux, DP_CEC_TUNNELING_CONTROL, &val);
++	if (!err) {
+ 		if (enable)
+ 			val |= DP_CEC_SNOOPING_ENABLE;
+ 		else
+ 			val &= ~DP_CEC_SNOOPING_ENABLE;
+-		err = drm_dp_dpcd_writeb(aux, DP_CEC_TUNNELING_CONTROL, val);
++		err = drm_dp_dpcd_write_byte(aux, DP_CEC_TUNNELING_CONTROL, val);
  	}
+ 	return (enable && err < 0) ? err : 0;
+ }
+@@ -194,7 +193,7 @@ static int drm_dp_cec_received(struct drm_dp_aux *aux)
+ 	u8 rx_msg_info;
+ 	ssize_t err;
  
- 	if (pos != iocb->ki_pos)
-@@ -211,12 +210,11 @@ static ssize_t auxdev_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 			break;
- 		}
+-	err = drm_dp_dpcd_readb(aux, DP_CEC_RX_MESSAGE_INFO, &rx_msg_info);
++	err = drm_dp_dpcd_read_byte(aux, DP_CEC_RX_MESSAGE_INFO, &rx_msg_info);
+ 	if (err < 0)
+ 		return err;
  
--		res = drm_dp_dpcd_write(aux_dev->aux, pos, buf, todo);
--
-+		res = drm_dp_dpcd_write_data(aux_dev->aux, pos, buf, todo);
- 		if (res <= 0)
- 			break;
+@@ -202,7 +201,7 @@ static int drm_dp_cec_received(struct drm_dp_aux *aux)
+ 		return 0;
  
--		pos += res;
-+		pos += todo;
- 	}
+ 	msg.len = (rx_msg_info & DP_CEC_RX_MESSAGE_LEN_MASK) + 1;
+-	err = drm_dp_dpcd_read(aux, DP_CEC_RX_MESSAGE_BUFFER, msg.msg, msg.len);
++	err = drm_dp_dpcd_read_data(aux, DP_CEC_RX_MESSAGE_BUFFER, msg.msg, msg.len);
+ 	if (err < 0)
+ 		return err;
  
- 	if (pos != iocb->ki_pos)
+@@ -215,7 +214,7 @@ static void drm_dp_cec_handle_irq(struct drm_dp_aux *aux)
+ 	struct cec_adapter *adap = aux->cec.adap;
+ 	u8 flags;
+ 
+-	if (drm_dp_dpcd_readb(aux, DP_CEC_TUNNELING_IRQ_FLAGS, &flags) < 0)
++	if (drm_dp_dpcd_read_byte(aux, DP_CEC_TUNNELING_IRQ_FLAGS, &flags) < 0)
+ 		return;
+ 
+ 	if (flags & DP_CEC_RX_MESSAGE_INFO_VALID)
+@@ -230,7 +229,7 @@ static void drm_dp_cec_handle_irq(struct drm_dp_aux *aux)
+ 		 (DP_CEC_TX_ADDRESS_NACK_ERROR | DP_CEC_TX_DATA_NACK_ERROR))
+ 		cec_transmit_attempt_done(adap, CEC_TX_STATUS_NACK |
+ 						CEC_TX_STATUS_MAX_RETRIES);
+-	drm_dp_dpcd_writeb(aux, DP_CEC_TUNNELING_IRQ_FLAGS, flags);
++	drm_dp_dpcd_write_byte(aux, DP_CEC_TUNNELING_IRQ_FLAGS, flags);
+ }
+ 
+ /**
+@@ -253,13 +252,13 @@ void drm_dp_cec_irq(struct drm_dp_aux *aux)
+ 	if (!aux->cec.adap)
+ 		goto unlock;
+ 
+-	ret = drm_dp_dpcd_readb(aux, DP_DEVICE_SERVICE_IRQ_VECTOR_ESI1,
+-				&cec_irq);
++	ret = drm_dp_dpcd_read_byte(aux, DP_DEVICE_SERVICE_IRQ_VECTOR_ESI1,
++				    &cec_irq);
+ 	if (ret < 0 || !(cec_irq & DP_CEC_IRQ))
+ 		goto unlock;
+ 
+ 	drm_dp_cec_handle_irq(aux);
+-	drm_dp_dpcd_writeb(aux, DP_DEVICE_SERVICE_IRQ_VECTOR_ESI1, DP_CEC_IRQ);
++	drm_dp_dpcd_write_byte(aux, DP_DEVICE_SERVICE_IRQ_VECTOR_ESI1, DP_CEC_IRQ);
+ unlock:
+ 	mutex_unlock(&aux->cec.lock);
+ }
+@@ -269,7 +268,7 @@ static bool drm_dp_cec_cap(struct drm_dp_aux *aux, u8 *cec_cap)
+ {
+ 	u8 cap = 0;
+ 
+-	if (drm_dp_dpcd_readb(aux, DP_CEC_TUNNELING_CAPABILITY, &cap) != 1 ||
++	if (drm_dp_dpcd_read_byte(aux, DP_CEC_TUNNELING_CAPABILITY, &cap) < 0 ||
+ 	    !(cap & DP_CEC_TUNNELING_CAPABLE))
+ 		return false;
+ 	if (cec_cap)
 
 -- 
 2.39.5
