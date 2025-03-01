@@ -2,71 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBAEA4A98F
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 08:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA9CA4A9D4
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 09:45:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC47C10E13A;
-	Sat,  1 Mar 2025 07:46:44 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N3i25GKd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF28110E151;
+	Sat,  1 Mar 2025 08:45:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEF810E139;
- Sat,  1 Mar 2025 07:46:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4F6C15C060E;
- Sat,  1 Mar 2025 07:44:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFF6C4CEDD;
- Sat,  1 Mar 2025 07:46:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740815198;
- bh=T+ZH6Z4xoVhm2ILQyatQsfA4AMSbIyFGfcFpAnT/ieA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N3i25GKdnVaDdTmjSfJpe2iMJNj55lWgOKVg3AlcRj9lhyMMYyOHb2aJHl39UATns
- jLr3VqN7kuijX1JwFfBHMsksWI63V2TZ322h8opfiTgkFOMBHW7KwnegB4mbsT5a7m
- V6yQNJcUOLnnLCQIzXoSj+vw3Na9BOOehaMoyjh/9HGnf5+zgH8R02DeDRzGQX1vZQ
- yPKi3u/LgCd/QS5uyrcJsFlpLT2WHDcgSL/h+ilR42xTmBzjwuHNKi+AjaXZZ7nvr/
- nV4+EkEFDwHolP0WJCbMCESuiWLAWFSFJmZdPFvz0f1tFg0nLjyy87hgUohKXO9NP/
- Bt3mP81UxrADA==
-From: Will Deacon <will@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
- =?UTF-8?q?Otto=20Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
- Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-Cc: catalin.marinas@arm.com, kernel-team@android.com,
- Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Daniil Titov <daniilt971@gmail.com>,
- Dang Huynh <danct12@riseup.net>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Adam Skladowski <a39.skl@gmail.com>
-Subject: Re: [PATCH v3 0/8] Initial support of MSM8937 and Xiaomi Redmi 3S
-Date: Sat,  1 Mar 2025 07:46:25 +0000
-Message-Id: <174081358091.1616995.4166112946005132135.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20250224-msm8937-v3-0-dad7c182cccb@mainlining.org>
-References: <20250224-msm8937-v3-0-dad7c182cccb@mainlining.org>
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B36F10E151
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 08:45:48 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Z4dqV6B47zCs6g;
+ Sat,  1 Mar 2025 16:42:14 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id C029C140203;
+ Sat,  1 Mar 2025 16:45:42 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Sat, 1 Mar 2025 16:45:41 +0800
+Message-ID: <6506e448-3851-436f-9354-42f9ef844d27@huawei.com>
+Date: Sat, 1 Mar 2025 16:45:40 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
+ detect of irq feature
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250222025102.1519798-1-shiyongbang@huawei.com>
+ <20250222025102.1519798-8-shiyongbang@huawei.com>
+ <reqpxlbvlz5qssgy6gbjuou33h4zevo4xeztqbsr4keehplyhx@utv22a5ihohx>
+ <eef68fc7-30f4-4246-a82e-4f90cd6a665d@huawei.com>
+ <6jx5ldpidy2ycrqognfiv5ttqr5ia4dtbryta3kc2mkndrvvgo@qzuakucz765k>
+ <6634386b-afc1-4e31-a2f4-9c1afed2d1d8@huawei.com>
+ <CAA8EJpqHmhUxLE57XNeh-nVtSP7WvtBE=FiFWk9kqM_P+AC=0A@mail.gmail.com>
+ <5af62fa9-e71b-412f-8640-502f03fcaa52@huawei.com>
+ <vrsy4hao4qu3hlcbmjyfyibeearhhjgtik3e6o3v2eyzkatdve@kdb7cyvl45tu>
+ <ade54ddd-79ea-4335-9058-c17e4525e83f@huawei.com>
+ <4hicem4rbz5l7wnzaaz3krrl3euh2dmvlah2rb7errrdq5fann@44dvdxirkuzh>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <4hicem4rbz5l7wnzaaz3krrl3euh2dmvlah2rb7errrdq5fann@44dvdxirkuzh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,27 +70,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Feb 2025 02:56:15 +0100, Barnabás Czémán wrote:
-> This patch series add initial support for MSM8937 SoC
-> and Xiaomi Redmi 3S (land).
-> 
-> The series is extending the MSM8917 gcc and pinctrl drivers
-> because they are sibling SoCs.
-> MSM8937 have 4 more A53 cores and have one more dsi port then
-> MSM8917.
-> It implements little-big architecture and uses Adreno 505.
-> 
-> [...]
 
-Applied SMMU bindings change to iommu (arm/smmu/bindings), thanks!
+> On Thu, Feb 27, 2025 at 09:46:10PM +0800, Yongbang Shi wrote:
+>>> On Tue, Feb 25, 2025 at 09:57:17PM +0800, Yongbang Shi wrote:
+>>>>> On Mon, 24 Feb 2025 at 16:03, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>>>>>> On Sat, Feb 22, 2025 at 06:35:48PM +0800, Yongbang Shi wrote:
+>>>>>>>>>> +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
+>>>>>>>>>> +{
+>>>>>>>>>> +  struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
+>>>>>>>>>> +  struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
+>>>>>>>>>> +  struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
+>>>>>>>>>> +  int ret;
+>>>>>>>>>> +
+>>>>>>>>>> +  if (dp->hpd_status) {
+>>>>>>>>>> +          hibmc_dp_hpd_cfg(&priv->dp);
+>>>>>>>>>> +          ret = hibmc_dp_prepare(dp, mode);
+>>>>>>>>>> +          if (ret)
+>>>>>>>>>> +                  return ret;
+>>>>>>>>>> +
+>>>>>>>>>> +          hibmc_dp_display_en(dp, true);
+>>>>>>>>>> +  } else {
+>>>>>>>>>> +          hibmc_dp_display_en(dp, false);
+>>>>>>>>>> +          hibmc_dp_reset_link(&priv->dp);
+>>>>>>>>>> +  }
+>>>>>>>>> If I understand this correctly, you are using a separate drm_client to
+>>>>>>>>> enable and disable the link & display. Why is it necessary? Existing
+>>>>>>>>> drm_clients and userspace compositors use drm framework, they should be
+>>>>>>>>> able to turn the display on and off as required.
+>>>>>>>>>
+>>>>>>>> Thanks for your asking, there are cfg/reset process when the connector 's pluging in/out.
+>>>>>>>> We want to cfg DP registers again when the connector changes. Not only dp link training, but also cfg
+>>>>>>>> the different video modes into DP registers.
+>>>>>>> Why? The link training and mode programming should happen during
+>>>>>>> pre_enable / enable stage (legacy or atomic).
+>>>>>> Hi Dmitry,
+>>>>>>
+>>>>>> Right, that's what I'm curious about. It won't call encoder enble/disable functions when I triggered HPD.
+>>>>>> And I'm sure the drm_connector_helper_hpd_irq_event() is called. So I add a drm_client for it.I
+>>>>> It should be userspace, who triggers the enable/disable (or it should
+>>>>> be the in-kernel fbdev / fbcon, which interface through the generic
+>>>>> drm_fbdev client).
+>>>> Right, I knew it. When I insmode my driver firstly (or restart display service), it will call disable, modeset and enable,
+>>>> by user, but it won't call when HPD triggered .
+>>> - Is HPD even properly delivered to userspace? What kind of compsitor
+>>>     are you using? Is .detect working properly and reporting a correct
+>>>     plug-in state?
+>> Thanks for your answering. I'm not very good understanding about userspace in framework. In my opinion, when I call
+>> this drm_connector_helper_hpd_irq_event(), the HPD will deliver to userspace.
+>> I use Xorg, and the display service is GDM.
+>> The .detect is called and the getting modes info is correct.
+>> I find that it would only trigger(disable, modeset and enable), when I changed resolutions, restart display service and insmod driver.
+> You can go to the display settings in GDM. It would be interesting to
+> observe if it notes the second monitor or not. Last, but not least, you
+> can use a simple tool like 'xrandr' under your XOrg session to set the
+> display resolution.
 
-[4/8] dt-bindings: iommu: qcom,iommu: Add MSM8937 IOMMU to SMMUv1 compatibles
-      https://git.kernel.org/iommu/c/7506be7d253f
+Thank you for your advice!
+Right, there are DP and VGA two monitors. I tried to totally remove the vga connector in driver, the problem is gone.
+So do I need to clear the vga connector, if dp is plugged in?
+And also, I used xrandr to set modes after 'startx'. Changing resolutions works,
+but there are errs when set some low resolutions.
 
-Cheers,
--- 
-Will
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
