@@ -2,66 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81BDA4A936
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 07:04:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBAEA4A98F
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 08:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA02E10E104;
-	Sat,  1 Mar 2025 06:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC47C10E13A;
+	Sat,  1 Mar 2025 07:46:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iVWfETdy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N3i25GKd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC3F10E104;
- Sat,  1 Mar 2025 06:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740809069; x=1772345069;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=c3on3RmOuYQNzLqfDmHQArk971VhgmNpJQD9KcEGlcA=;
- b=iVWfETdyBjJ/Jb2/juyeG6MerzgCDGpquDgYt10ei5jlh1+4wGIZPlaM
- cVt8kVrvzNQ2y7Byyo50Y8vnbR+FlU0DTnerKFLhA7DysvbguLvEYirxh
- tYF2EPSyvJmh6bT5aw9q3H7Sr2EtH0hSdysMJf8vu80l20a1kpyzpcMDn
- pReEWiJHkLhFSO2D131AlhRTTO9KCROFdcAqgZ7zYO286lyGycXuk3HgF
- TWqIp3XMIhvyZsapG7/6ViwstlNTdvZnyC6H04monE2ksOATJaxMoXLMg
- y/y1/+m42Y825qTDSjv5KQB/tBq1rivmZODNoXYd82rwSM3MUSH7cciIA g==;
-X-CSE-ConnectionGUID: Fq5S+5+ORa+8te6y0kwGZA==
-X-CSE-MsgGUID: Q6LSdm9gQ7OXF3ph8+3png==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="59283256"
-X-IronPort-AV: E=Sophos;i="6.13,324,1732608000"; d="scan'208";a="59283256"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 22:04:27 -0800
-X-CSE-ConnectionGUID: 1l0M562iQ7u6+0aBrCEQxw==
-X-CSE-MsgGUID: sQ+TNsB6TRG0lvoNNCBkdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,324,1732608000"; d="scan'208";a="117308986"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2025 22:04:24 -0800
-Date: Sat, 1 Mar 2025 08:04:21 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- 'Christian =?iso-8859-1?Q?K=F6nig'?= <christian.koenig@amd.com>,
- siqueira@igalia.com, airlied@gmail.com, simona@ffwll.ch,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com
-Subject: Re: [PATCH 2/2] drm/amdgpu: Make use of drm_wedge_app_info
-Message-ID: <Z8KjZfLYjH6ehYwy@black.fi.intel.com>
-References: <20250228121353.1442591-1-andrealmeid@igalia.com>
- <20250228121353.1442591-3-andrealmeid@igalia.com>
- <Z8HO-s_otb2u44V7@black.fi.intel.com>
- <38b9cc8b-2a55-4815-a19f-f5bdf0f7687c@igalia.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEF810E139;
+ Sat,  1 Mar 2025 07:46:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4F6C15C060E;
+ Sat,  1 Mar 2025 07:44:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFF6C4CEDD;
+ Sat,  1 Mar 2025 07:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740815198;
+ bh=T+ZH6Z4xoVhm2ILQyatQsfA4AMSbIyFGfcFpAnT/ieA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=N3i25GKdnVaDdTmjSfJpe2iMJNj55lWgOKVg3AlcRj9lhyMMYyOHb2aJHl39UATns
+ jLr3VqN7kuijX1JwFfBHMsksWI63V2TZ322h8opfiTgkFOMBHW7KwnegB4mbsT5a7m
+ V6yQNJcUOLnnLCQIzXoSj+vw3Na9BOOehaMoyjh/9HGnf5+zgH8R02DeDRzGQX1vZQ
+ yPKi3u/LgCd/QS5uyrcJsFlpLT2WHDcgSL/h+ilR42xTmBzjwuHNKi+AjaXZZ7nvr/
+ nV4+EkEFDwHolP0WJCbMCESuiWLAWFSFJmZdPFvz0f1tFg0nLjyy87hgUohKXO9NP/
+ Bt3mP81UxrADA==
+From: Will Deacon <will@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
+ =?UTF-8?q?Otto=20Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
+ Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Cc: catalin.marinas@arm.com, kernel-team@android.com,
+ Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Daniil Titov <daniilt971@gmail.com>,
+ Dang Huynh <danct12@riseup.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Adam Skladowski <a39.skl@gmail.com>
+Subject: Re: [PATCH v3 0/8] Initial support of MSM8937 and Xiaomi Redmi 3S
+Date: Sat,  1 Mar 2025 07:46:25 +0000
+Message-Id: <174081358091.1616995.4166112946005132135.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20250224-msm8937-v3-0-dad7c182cccb@mainlining.org>
+References: <20250224-msm8937-v3-0-dad7c182cccb@mainlining.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <38b9cc8b-2a55-4815-a19f-f5bdf0f7687c@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,59 +82,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2025 at 06:49:43PM -0300, André Almeida wrote:
-> Hi Raag,
+On Mon, 24 Feb 2025 02:56:15 +0100, BarnabÃ¡s CzÃ©mÃ¡n wrote:
+> This patch series add initial support for MSM8937 SoC
+> and Xiaomi Redmi 3S (land).
 > 
-> On 2/28/25 11:58, Raag Jadav wrote:
-> > On Fri, Feb 28, 2025 at 09:13:53AM -0300, André Almeida wrote:
-> > > To notify userspace about which app (if any) made the device get in a
-> > > wedge state, make use of drm_wedge_app_info parameter, filling it with
-> > > the app PID and name.
-> > > 
-> > > Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 19 +++++++++++++++++--
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    |  6 +++++-
-> > >   2 files changed, 22 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > index 00b9b87dafd8..e06adf6f34fd 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > @@ -6123,8 +6123,23 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
-> > >   	atomic_set(&adev->reset_domain->reset_res, r);
-> > > -	if (!r)
-> > > -		drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE, NULL);
-> > > +	if (!r) {
-> > > +		struct drm_wedge_app_info aux, *info = NULL;
-> > > +
-> > > +		if (job) {
-> > > +			struct amdgpu_task_info *ti;
-> > > +
-> > > +			ti = amdgpu_vm_get_task_info_pasid(adev, job->pasid);
-> > > +			if (ti) {
-> > > +				aux.pid = ti->pid;
-> > > +				aux.comm = ti->process_name;
-> > > +				info = &aux;
-> > > +				amdgpu_vm_put_task_info(ti);
-> > > +			}
-> > > +		}
-> > Is this guaranteed to be guilty app and not some scheduled worker?
+> The series is extending the MSM8917 gcc and pinctrl drivers
+> because they are sibling SoCs.
+> MSM8937 have 4 more A53 cores and have one more dsi port then
+> MSM8917.
+> It implements little-big architecture and uses Adreno 505.
 > 
-> This is how amdgpu decides which app is the guilty one earlier in the code
-> as in the print:
-> 
->     ti = amdgpu_vm_get_task_info_pasid(ring->adev, job->pasid);
-> 
->     "Process information: process %s pid %d thread %s pid %d\n"
-> 
-> So I think it's consistent with what the driver thinks it's the guilty
-> process.
+> [...]
 
-Sure, but with something like app_info we're kind of hinting to userspace
-that an application was _indeed_ involved with reset. Is that also guaranteed?
+Applied SMMU bindings change to iommu (arm/smmu/bindings), thanks!
 
-Is it possible that an application needlessly suffers from a false positive
-scenario (reset due to other factors)?
+[4/8] dt-bindings: iommu: qcom,iommu: Add MSM8937 IOMMU to SMMUv1 compatibles
+      https://git.kernel.org/iommu/c/7506be7d253f
 
-Raag
+Cheers,
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
