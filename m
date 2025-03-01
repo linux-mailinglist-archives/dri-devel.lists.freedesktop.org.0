@@ -2,105 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A012A4A9E7
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 10:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A10A4A9EF
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 10:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A52D10E157;
-	Sat,  1 Mar 2025 09:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A5610E153;
+	Sat,  1 Mar 2025 09:25:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d7fgroTo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pBnxe+wx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 775D010E157
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 09:12:09 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-5e50d491f69so753651a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 01:12:09 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21DDA10E153
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 09:25:01 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-54527a7270eso2875471e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 01:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740820328; x=1741425128; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=62M00yAg51rrJZ04g8zC95EvNZ84F8x3AjdAvJoHunw=;
- b=d7fgroToaPcOmXa39pg5f71exwNwId7D+ucfbKqECe2I+sxfayF42bZLg51KRYXnlj
- p4BexCEzLHONi5AsFXaKT5lnOMpap3hQ0Sd5qraA0/+0B0SCE2uX/Rd5Qspkz8QSjkQS
- 66ctl9CBpI0s4vzJzfpm1q/xPzEyDzlGrY4WoGd2Hoi5dhtvURkLkI2Jo6LDsX5Ba4lH
- f1MpYSByAUPnaYOR6DSVXfuggzIV/a/RUwvz8wQMy1NxF7LpA/jP29wSuZ0x8WWvlrkg
- ubA4JV5h6ID18sKcCaGBVhPO4mV8xLHD4dlhF1EpDPSokeQe3Bv6VKj6PUp1a/rNGhoW
- sNJA==
+ d=linaro.org; s=google; t=1740821099; x=1741425899; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ypB915vJqmRaH63cKoFbSo3grjRFws/DTwU9I0cazvs=;
+ b=pBnxe+wxv6ILj09Kg1bEifsHkdke3NfU7FciiXXKne3vrgm6gPpuLKYInSX9+N08eW
+ cIrxFYjZ8h6y83yXi99Wj+CbphLmUN/7Jd9OVgigRkvGoVUMWd1jZFeuJE/3oQIsGVVt
+ /k8g1fDOCaeKH/FQbegVfkg944sXLsdsOBsIg7Y6uCd921EMjzZ+Ws+2mqk/nqum/by/
+ ZJe/1zmoCqfDxwZ2623vBOI+kqQaS5FIrh10fFgiEkrsh2DHFF6t94MQcRYjI0cqCN0X
+ VB25+DWGpc70sC+q18eTO2esBH08ezhcjOTToA+o077KSATdXhw/kPcquJqD+IigRGOp
+ 9Y0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740820328; x=1741425128;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=62M00yAg51rrJZ04g8zC95EvNZ84F8x3AjdAvJoHunw=;
- b=jhxENE6lsS0iIYOfb1W+XuHHmRe74HxJg0vwqMl6RcXQON7PHf87xV9TDG2ktHa59v
- diLL2LY8lxPG5r90xTqCbjiKUIeG7fDrUQ/xC0E82D46Iuz8QvUgiFVy4qN+3Usu1qO/
- 5Hil6aUSflkbs3encuLwTY5+kHmd+QsJCVZOY3Qg7UpkYmL9Y+aD/EBX/X057Qp4SdyQ
- RHUP2LCpEZKxOXCJnNS+uj3XQ5aJnEhvIW/JWBGbh9O0wg6IcTVsISQte2nLfkZ7Ma2n
- kuViUdEoThOb8A/c++V0jfhm9D57iFhCsvD5+t9t6+r/NHsffu2YcIqGht/opLHgFe4z
- msag==
+ d=1e100.net; s=20230601; t=1740821099; x=1741425899;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ypB915vJqmRaH63cKoFbSo3grjRFws/DTwU9I0cazvs=;
+ b=sK2x3TYy+X216Po5Rx5EtTGlPrQ7kMld2TiKV7wuvMxj6dLvojEtD6tghc75blA+Ic
+ I2FlllPbSsvLPkzBpcL4nwBpaeYJWoNIn81yWnt4L1rH4LchuKer9YP5HwZuJSO/C11G
+ ut15xmCuffb6kU1UtJ6g9XSyIwfA4XUoRXmPbrsVs35XjvnjRXpllz7HqZdsV0h8g8Ga
+ KBUbfN53v4SxWVCS9psdlbk7XbTcfGblCu8o4ab3K2yMBPewdDJiiA7MYA228SKiV7jS
+ 17V6GYs7ev+hPi7KEUea2Se4VBtzk2vD7FEpphGhY1qV/LpjpRGwi54Xs4puJXht5VNV
+ Ch6A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXZ5d9/cuCdbxo63sdlHuyTXCUGuauZQ7qxk8MXLBSRQboj5EevnOdX5qmA0P1RQL1xQ4wyGnVyRsQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWZzac//rvo+HjlsHfq3BGrCygNfDEvW8nm1xxk1t8V0dcYPxV
- 1+MTffYxZuDGZb586UsFqmvpwfX/CSH/ayolsHIqrXRKe8ldXk+z
-X-Gm-Gg: ASbGnctlczT1XnluXzL/7LOjyXN+36SP3sp8a4agwhKin7ipe6LX/NnsCG1Mzi9A9Qe
- YZ/gm+BIsCpBgZntp2LStqsZFmU3fuXgZUr1OwENgtNgmfQ4EiTTN3I+NtMYtW3voC71lnv8wW6
- JKeh5WGJydj0OkTuhUhgrDOffdIsDxUEeDckqrIZf6v8agMDSjI8EXU/nYoaQ2UM83qi+pmR7ox
- WlyFjr3FTKjXj66nkClFN1sMZkMEVdGn43uefR3TAUzvCLKaQIk24Rh6BxgZXrKx/Q2SAXN6do/
- dhnmPCtZUXbb+rdvOpCgvzw1ZymQ79C8Znk4H6EAdihUu5rh9xyxHQSW5BQUKrY/1e8dSrovDNW
- zJWmlRA4el4LlgqD3X0LJDSgOHg==
-X-Google-Smtp-Source: AGHT+IEV8xcpINPWUe49yXpBYPm3MtVspqPFUx6SBprxmJEllwjfLWfeeFh1xeuz1VE+t2lFH6t06w==
-X-Received: by 2002:a17:907:7288:b0:abf:5922:b7a8 with SMTP id
- a640c23a62f3a-abf5922dccamr135545766b.41.1740820327515; 
- Sat, 01 Mar 2025 01:12:07 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl.
- [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abf0c0b98b5sm436358366b.3.2025.03.01.01.12.05
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 01 Mar 2025 01:12:07 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH v7 0/3] Add HDMI audio on the rk3588 SoC
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <3337030.aeNJFYEL58@trenzalore>
-Date: Sat, 1 Mar 2025 10:11:54 +0100
-Cc: linux-kernel@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, Niklas Cassel <cassel@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@collabora.com,
- David Airlie <airlied@gmail.com>, Dragan Simic <dsimic@manjaro.org>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- FUKAUMI Naoki <naoki@radxa.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Alexey Charkov <alchark@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0A30138B-183E-4816-80FF-AACDCFE3B3A6@gmail.com>
-References: <20250217215641.372723-1-detlev.casanova@collabora.com>
- <87frk2sumw.wl-kuninori.morimoto.gx@renesas.com>
- <8734g2sg4t.wl-kuninori.morimoto.gx@renesas.com>
- <3337030.aeNJFYEL58@trenzalore>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+ AJvYcCVD1AA8zzTtqRjyr3Z3nz2snHJ7OSodXXzmLOi8sRCKwbqPtSP3jquK5f1zkU9MDpbMRzwqYasyD0Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2u6Kg4JX5t0qIcowvAvQkETZEFvoJoVlWJQrUwQi9CBefKsTL
+ LlJznx3GQIujlpqT62nrdJVw6GBADa8UN361JccUeDsQi2KFhpRNjNLZHN/YuaA=
+X-Gm-Gg: ASbGncvmZzCiQcLD4crHDXKAqcAVmwucTUYpxnQb/gW7S7sDkWlDIHIS4BYI6iyP8it
+ g4wjAnPym7/BdrIZ726HDmPTKjnbd/XNjH944qVmMbkI55P2cIunugq/KXNROfhHgbKCAZ1HtMv
+ 5lFek/snfESQ3JkGzGtfKqBs+HO8gRPGZU3h+W3+bt83v854rU1gkQ9V7Q1/dut7mVj4gGo2QY7
+ zzwX7+QKlJyGe5Pn+/gXnc9U8Tl4Dzy8fNc69qQWs2pj2+gIE6raXvzEueukiNjTAVOPkL0Nkxf
+ WlG5RDezQtU06tmXoBFp/LdVUTmtTDZNrBUrhV9dljA8tzb/Yo5L
+X-Google-Smtp-Source: AGHT+IG/1AayJVp+qm5RXrxUhbjPYPpH8uNl8/6SF/4ZZfwJzrYVs2UolooqjFryoLYeJuDT1/fK0g==
+X-Received: by 2002:a05:6512:3a90:b0:545:441:52d4 with SMTP id
+ 2adb3069b0e04-5494c33089emr2269458e87.26.1740821099342; 
+ Sat, 01 Mar 2025 01:24:59 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5494417432csm738406e87.52.2025.03.01.01.24.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Mar 2025 01:24:57 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 0/5] drm/msm/dpu: disable DSC on some of old DPU models
+Date: Sat, 01 Mar 2025 11:24:53 +0200
+Message-Id: <20250301-dpu-fix-catalog-v2-0-498271be8b50@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGXSwmcC/3WNzQqDMBCEX0X23C3JolJ76nsUD/lTFySRjZUW8
+ d2beu/xm2G+2SEH4ZDhXu0gYePMKRagSwVuMnEMyL4wkKJGEd3QLy8c+I3OrGZOI7Z1560eHHW
+ mhbJaJJT6ND77whPnNcnnPNj0L/3v2jQqtKrxRIN1ZOvHzNFIuiYZoT+O4wurkalurwAAAA==
+X-Change-ID: 20250228-dpu-fix-catalog-649db1fc29a6
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1769;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=GqOq9rkDu6v4PggutY2CL3RwcYuHkk2cBFFkYzV4MYY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnwtJn2qMf0VS7G3JEN+uWvtBRgvvIOldnrQcYS
+ k7crSZsssOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8LSZwAKCRCLPIo+Aiko
+ 1e0HB/sHdFdwVnCgI6jz4PMEGkIyskrbhGqY3Hqwu8/2I5ecn5HgHXqKgNxEmhAwseUs8bRMoym
+ 4fn8fkRTrsmTSihzFm8rom7vUKX8po4+Dh13YIGBfhBugH0Uvsb42HOAOq6bCOJ6YVJnl5u8SkM
+ Yv9QaHmoQKWeLG+PsJck7cp5GRXF41+7G6rN02fpQ0QaP0lv/NjfbtSEUV3OEHUPv3HYSgVTqjz
+ 8M3RhzQQACJhts2u77bNT9Zm2N915NZFfph69mY6YiOYdtljBt5LCoftEdUaYtxZxW5+AlHG3eA
+ 1NwcGGLIHnLk/CndkDteu7KMYCaQ6G7oG3gfKRv8Ic01evLE
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,33 +107,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+During one of the chats Abhinav pointed out that in the 1.x generation
+most of the DPU/MDP5 instances didn't have DSC support. Also SDM630
+didn't provide DSC support. Disable DSC on those platforms.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v2:
+- Fixed commit messages (Konrad)
+- Dropped TE2 bits and pieces, they are unused in the upstream driver.
+- Link to v1: https://lore.kernel.org/r/20250228-dpu-fix-catalog-v1-0-b05d22fbc2b4@linaro.org
 
-> Wiadomo=C5=9B=C4=87 napisana przez Detlev Casanova =
-<detlev.casanova@collabora.com> w dniu 25 lut 2025, o godz. 15:58:
->=20
-> =46rom what I see, the error is not present anymore on linux 6.14-rc4. =
-I tried=20
-> reverting your patch "ASoC: simple-card-utils.c: add missing =
-dlc->of_node"=20
-> (dabbd325b25edb5cdd99c94391817202dd54b651) and the error reappears.
+---
+Dmitry Baryshkov (5):
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on MSM8937
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on MSM8917
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on MSM8953
+      drm/msm/dpu: drop TE2 definitions
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on SDM630
 
-Guys,
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h    |  2 --
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h    |  1 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h    |  2 --
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h |  8 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h |  8 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h  |  8 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h  |  6 +++---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h  |  8 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c          | 17 -----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          |  6 +-----
+ 10 files changed, 20 insertions(+), 46 deletions(-)
+---
+base-commit: be5c7bbb3a64baf884481a1ba0c2f8fb2f93f7c3
+change-id: 20250228-dpu-fix-catalog-649db1fc29a6
 
-Just FYI:
-
-On 6.14-rc4 without =
-0001-ASoC-simple-card-utils-Don-t-use-__free-device_node-.patch - i =
-still have oops like this: =
-https://gist.github.com/warpme/ed75c05d3b68f995d429dbd9097005ba
-They are happening not every boot - but still happening.
-
-However applying =
-0001-ASoC-simple-card-utils-Don-t-use-__free-device_node-.patch (with =
-some adaptations as it not applies cleanly on 6.140rc4) - dmesg becomes =
-clean (10 boots; all ok)
-
-
-
-
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
