@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A360BA4AE5A
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 00:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2A7A4AE5B
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 00:17:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7712710E033;
-	Sat,  1 Mar 2025 23:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A41910E037;
+	Sat,  1 Mar 2025 23:17:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kDyu2F3x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FnHXiQ2x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8345C10E033
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 23:17:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B75010E037
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 23:17:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1D6F06115A;
- Sat,  1 Mar 2025 23:17:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1B32C4CEDD;
- Sat,  1 Mar 2025 23:17:33 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 1AC9E611C2;
+ Sat,  1 Mar 2025 23:17:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5B59C4CEE6;
+ Sat,  1 Mar 2025 23:17:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740871058;
- bh=GhbeATzCXl+lMmnbqB+zXHJ3ZcWvW3mX2kTV/3tkedM=;
- h=From:To:Cc:Subject:Date:From;
- b=kDyu2F3xfqwJ+zBTUWwQdm0HaXMy7TpxSqHGkgBAm1vqD8jnPzf+r0ISkzxcTNBQC
- GIagU5WrvTeVuqgvJACZJ+Sub0iC1ydudzCId/ticfN8pIvnJt2lhGlLdPLs4FYcuZ
- 9jnu6Ytq4HQqTwB1IAl7n48mJ4LO7fZj57Wz8jaTjzBR7/gUdXSNYynXMnhMv4YeYj
- e0X1yqIpUdNtkTu+gAuzYsib7WAg0X4mM/DNxdEIRDfily+Zmc0bnykvPV2E14Ewhg
- fU41iUdECVpNhyhPp3vGSVgT24qkkpRzE1CUDHAqQEcmy1Pga4aRVmUTEA6G8visYy
- wCRbTiuD3F6sw==
+ s=k20201202; t=1740871063;
+ bh=7z62IPkiSO6NRrH3JPArIZUmv34+1yiL4Zr/2/1Cx0w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=FnHXiQ2xEbRr5F3YpSu1XLm5w8OYyZv5x8jnSWDq+LVHj3dJiW00wljMWKbWWTxuF
+ DhniRqvOQwN3MOjANmDN15zTbDyQA9ohuU3FrC957csOl/zsm2XJVhS05Hf0M2C+ub
+ Hy/GGKKvTpxhC8lsToXIFRcAsCAtmp+yW9hGEkIpwKXnHr8MK7+uESyEk9gPHmXg0X
+ DK0hAD6vnWvqMtbUuJQ1skcIIGS5rnPvpTklgUqsr/Zvs4uF8rZ+L8FmvMUKpavPas
+ QrjzeTbFs6gJF54VSbVm3LzzLjOsZ6zSfbj9/ZDObJmVrr4C2AXr7i7CCdGMNgXfhO
+ MncgUNTk7BpFw==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Jocelyn Falempe <jfalempe@redhat.com>,
  =?UTF-8?q?Thomas=20B=C3=B6hler?= <witcher@wiredspace.de>,
@@ -46,9 +46,11 @@ Cc: dri-devel@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  patches@lists.linux.dev
-Subject: [PATCH 1/2] drm/panic: use `div_ceil` to clean Clippy warning
-Date: Sun,  2 Mar 2025 00:16:01 +0100
-Message-ID: <20250301231602.917580-1-ojeda@kernel.org>
+Subject: [PATCH 2/2] drm/panic: fix overindented list items in documentation
+Date: Sun,  2 Mar 2025 00:16:02 +0100
+Message-ID: <20250301231602.917580-2-ojeda@kernel.org>
+In-Reply-To: <20250301231602.917580-1-ojeda@kernel.org>
+References: <20250301231602.917580-1-ojeda@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,51 +71,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Starting with the upcoming Rust 1.86.0 (to be released 2025-04-03),
 Clippy warns:
 
-    error: manually reimplementing `div_ceil`
-       --> drivers/gpu/drm/drm_panic_qr.rs:548:26
+    error: doc list item overindented
+       --> drivers/gpu/drm/drm_panic_qr.rs:914:5
         |
-    548 |         let pad_offset = (offset + 7) / 8;
-        |                          ^^^^^^^^^^^^^^^^ help: consider using `.div_ceil()`: `offset.div_ceil(8)`
+    914 | ///    will be encoded as binary segment, otherwise it will be encoded
+        |     ^^^ help: try using `  ` (2 spaces)
         |
-        = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_div_ceil
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#doc_overindented_list_items
 
-And similarly for `stride`. Thus apply the suggestion to both.
+The overindentation is slightly hard to notice, since all the items
+start with a backquote that makes it look OK, but it is there.
 
-The behavior (and thus codegen) is not exactly equivalent [1][2], since
-`div_ceil()` returns the right value for the values that currently
-would overflow.
+Thus fix it.
 
-Link: https://github.com/rust-lang/rust-clippy/issues/14333 [1]
-Link: https://godbolt.org/z/dPq6nGnv3 [2]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- drivers/gpu/drm/drm_panic_qr.rs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_panic_qr.rs | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index bcf248f69252..8bb5e52d75cc 100644
+index 8bb5e52d75cc..6903e2010cb9 100644
 --- a/drivers/gpu/drm/drm_panic_qr.rs
 +++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -545,7 +545,7 @@ fn add_segments(&mut self, segments: &[&Segment<'_>]) {
-         }
-         self.push(&mut offset, (MODE_STOP, 4));
- 
--        let pad_offset = (offset + 7) / 8;
-+        let pad_offset = offset.div_ceil(8);
-         for i in pad_offset..self.version.max_data() {
-             self.data[i] = PADDING[(i & 1) ^ (pad_offset & 1)];
-         }
-@@ -659,7 +659,7 @@ struct QrImage<'a> {
- impl QrImage<'_> {
-     fn new<'a, 'b>(em: &'b EncodedMsg<'b>, qrdata: &'a mut [u8]) -> QrImage<'a> {
-         let width = em.version.width();
--        let stride = (width + 7) / 8;
-+        let stride = width.div_ceil(8);
-         let data = qrdata;
- 
-         let mut qr_image = QrImage {
-
-base-commit: d082ecbc71e9e0bf49883ee4afd435a77a5101b6
+@@ -911,16 +911,16 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
+ ///
+ /// * `url`: The base URL of the QR code. It will be encoded as Binary segment.
+ /// * `data`: A pointer to the binary data, to be encoded. if URL is NULL, it
+-///    will be encoded as binary segment, otherwise it will be encoded
+-///    efficiently as a numeric segment, and appended to the URL.
++///   will be encoded as binary segment, otherwise it will be encoded
++///   efficiently as a numeric segment, and appended to the URL.
+ /// * `data_len`: Length of the data, that needs to be encoded, must be less
+-///    than data_size.
++///   than data_size.
+ /// * `data_size`: Size of data buffer, it should be at least 4071 bytes to hold
+-///    a V40 QR code. It will then be overwritten with the QR code image.
++///   a V40 QR code. It will then be overwritten with the QR code image.
+ /// * `tmp`: A temporary buffer that the QR code encoder will use, to write the
+-///    segments and ECC.
++///   segments and ECC.
+ /// * `tmp_size`: Size of the temporary buffer, it must be at least 3706 bytes
+-///    long for V40.
++///   long for V40.
+ ///
+ /// # Safety
+ ///
 -- 
 2.48.1
 
