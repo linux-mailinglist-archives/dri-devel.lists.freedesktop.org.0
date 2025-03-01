@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EACF0A4ABBF
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CAAA4ABC2
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:26:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1797D10E221;
-	Sat,  1 Mar 2025 14:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E4D110E242;
+	Sat,  1 Mar 2025 14:26:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZDfEA0sb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZWbzG3kd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B05010E221
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:26:17 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2234bec7192so28677555ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:26:17 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA7510E239
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:26:27 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-223378e2b0dso44910255ad.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740839177; x=1741443977; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740839187; x=1741443987; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TZw0QJRtM6IhR4KZmh2KNqroHre3ebnX5GDU+1y6qXk=;
- b=ZDfEA0sb4ZD+mtnAbrz3TR8CHuolqwOoN5ZN9exib6RKrJT4ewZz4Cb5IpUOn/KoG6
- KB5gvcKQ+afmBMywU4GTwu7qrw8vxgJc3FJsK2UW04fYzCOkCzSg7m3dKilCr8znvP55
- pQAYEEsBwgKutDN3oFoBoz6cMEqoxGYazduXX9sz2a0MiE3HLK0PROl0BDOpMpLXOgut
- NWeK6tIpyhbR+yNFjmAcnUgmXlL1z3BlAZ3QfxNGUnjUL2mOBOkQOwhwm8cuKH9+WjyR
- cqxUxZSqlhyJR3qSWSd6lGY6PyM2jmoow5BpK24GItctBNgSRITHD2UNtPFI+K6Y1mVi
- ezFw==
+ bh=hp3kGqc16FF01of4e/8WmkeqsdCblTk7qrBu9qHKlh8=;
+ b=ZWbzG3kd7/3B+MSnmM/gWeczsEQmG5k2LyxuB/JFve4f82ZH5JNxEf2zFYPOx+WnT4
+ 7GXqc+qDU7l/8zTNPgPIpPSPqifrrzJ4TkgWoSUvJ0v/B/CX4raAUYJP6Ra9fdVCdSpz
+ KXevJnARE6eFarp4Hj6oCLkLEcUbjwX5Z+VPjShspe6UeaRgTPkDSFB1lrcd+7uqzuI3
+ 5uZ0812/KwYXyaejgmKODV4Rj9RZrF6gaJnjgH3vjyd4FdmsZWf2JJ8F6ZCPzpYwLecU
+ zHvqtHFxsA8W2X+WoZHYfRhA5LMgsdBfXY671GlIdMrvlh4F5Sm2zLCrrB18519BcxAA
+ b91g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740839177; x=1741443977;
+ d=1e100.net; s=20230601; t=1740839187; x=1741443987;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TZw0QJRtM6IhR4KZmh2KNqroHre3ebnX5GDU+1y6qXk=;
- b=jYTkvJwHoyYfs9m+ngUyTFWMzwAB/zI/hTe8tp/2WzuHypnSgoado4a4Mls6wfSjnO
- JJSXoTPa+JC8Qt8ZSIQJC6ynZfsEohGnN5qRW3aqKrmmwKlU7POzEORnQEV8aOVfqCup
- 55BRv7Em3G2Avm8TJp/7DRMfMnUjPtBXq3+jaAYVv4TRTaQ2LSvnhYzuezbRpdvdNIhc
- 0gTnKp8WYO5jKjVjTVV1uLO5lHbRhvN3oa+bTvtJxrg5f+u9gkPF8OrWiXIevm0NCHzQ
- AcHQemumny33X9YVsVB8Wn042jjeh8plgvts8Vf9BCtrX0TXMIXTxnT59NHXcSByVUsT
- LwVQ==
+ bh=hp3kGqc16FF01of4e/8WmkeqsdCblTk7qrBu9qHKlh8=;
+ b=aJokKQn6W/soSr1JV12Jr+YVONGW3EYgSO50T4oO7boOQMbQQai96RJ2VZV9/Ucshs
+ r637AruKdFKDpnEbTx/66bHHPmUKQ+3PY6tuF+vwEPSgisDK3PDTHQURlYI0sPAbZEyL
+ ncOZzjzRbV3Kf6jkHTlC8x1UPMJ0K/DJX0PISOb79xK/MwIBrmdZwe7kK7wI8yo50Vji
+ p5v2yRqOfx2xP+Yyc0y/8Y+f6ybWJzqC93wv0mi98IWcdNAtD0f/QLi0Gkev0nP62Chr
+ pMGKulJkKOXIUKDWtYt454n6tF2dkdxI0cKKOjBu8Qkc4NwSlhZueibNZoZDj5Q+BzV6
+ 5rBQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWaTNG2+NF0obFcJKjPTwxyVHLPrxQkhGwsP5lIEqqr2NrFEEgBPCo7LNAoq3ADCxjBZ29/YS/O/es=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxu7rfuGZLxp3+If5dQqVZjkR8XTFQWqHjiU7cZPgudGSzWgUkp
- IRhnAUeNLwQgAj+Gs+8HhL7mYlJ6Gr+m8yjKqKgCX7gVaLiwwv9l
-X-Gm-Gg: ASbGncvMpHIH7sVvJADKTfPYgwbxWD9k3inQZ9P9Ncb+jUl9XvzlAW/uCd4R0IfzBMs
- lgyVYdP3Ht52er/CdiDzO67bIz02nRuHucR+5rtc9tRu1pkO04FOOJsKQrXF0G8GKwuPbQtgM/a
- vODKpSNQ8g7rLgjhKACLGgLQYNL8JQOIpbhgy/LljHA6vj3moNEe3ocaf+pYRuMmIY1FMt2bCAc
- mbM1yGCRKSfgBWLacy+4orJClvKugg/7tPXaIzcrJbVyssReHI6z6D1cT0vFNZlw+kM4iu3eweu
- fwImmATM7fK+Wsn05y7J8UEoT19B64Gw2tYmIv14EtNK/j5P0oXh5xJfaxPuqfB2mMGm+R57L04
+ AJvYcCVTMV19aDyEodePVz3PygTb6iUSzfUufn+X2yNEfHggepcdis2JURW1s+s1XgFcKlxyw7WCn/8+jDc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxyYbE15WekDzTZXGiCAG9tYht7NhahJcmAWthPonXWWjsXSsxD
+ wdWUx82bTflIop1JnKlVXjLJ2AQEj1RNo5IdSIsS+UawHvP3WcpW
+X-Gm-Gg: ASbGncvg6jORWbQioEp1DATPt/sIR5TAKmnMr4oH+UgmYo747pAfI6WDsp5Cs4ukdg/
+ KZ+cFouv8jHYfeAziDWgUTNdp/zVZSAR18QhbG1SAHYl474DjY/rEccL6wj76E8+ke8G6I71Ggu
+ 4p7G/5EcGkqBKED5UHRw+QvXxxUvXApSBBp5xibdiuVHADn/v1yJvu6m38aA70Wykq7ZFU8ktpZ
+ SAKWJw/TRNdL0oGbvm16BhiinvVi4gmFWFAEtuuMj+58ez3FVW/k5ZgZl0EdLnLOGICcTD+7Qpa
+ bJO65Iz8i9JUHGlLfWpDCZsEnxodTOOywIwHmhHvxwUZjCRqKwZR6Hw75K6+2e33IYpbqvZ+FRc
  =
-X-Google-Smtp-Source: AGHT+IHr7/bNocCASgkhvMFxO0zdSkmZKMBxSgSw4TIYugdqe+gxkfqzHvRXHP0fkW72YV0RkO2YNg==
-X-Received: by 2002:a17:903:2ca:b0:223:4b88:780f with SMTP id
- d9443c01a7336-22368f7558dmr109533355ad.17.1740839177198; 
- Sat, 01 Mar 2025 06:26:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGHEYprq9u4C7FchZ9I6Y/Ibnse4qNPj1GVk/AdnINX25zgN7NgXyYUydYVyaa9stUlYFgdnA==
+X-Received: by 2002:a17:903:198c:b0:220:e1e6:4457 with SMTP id
+ d9443c01a7336-22368fc987fmr121177295ad.26.1740839187181; 
+ Sat, 01 Mar 2025 06:26:27 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.26.08
+ d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.26.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 06:26:16 -0800 (PST)
+ Sat, 01 Mar 2025 06:26:26 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -86,10 +86,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v2 06/18] media: saa7115: Replace open-coded parity
+Subject: [PATCH v2 07/18] serial: max3100: Replace open-coded parity
  calculation with parity8()
-Date: Sat,  1 Mar 2025 22:23:57 +0800
-Message-Id: <20250301142409.2513835-7-visitorckw@gmail.com>
+Date: Sat,  1 Mar 2025 22:23:58 +0800
+Message-Id: <20250301142409.2513835-8-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250301142409.2513835-1-visitorckw@gmail.com>
 References: <20250301142409.2513835-1-visitorckw@gmail.com>
@@ -118,46 +118,30 @@ Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/media/i2c/saa7115.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ drivers/tty/serial/max3100.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/saa7115.c b/drivers/media/i2c/saa7115.c
-index a1c71187e773..b8b8f206ec3a 100644
---- a/drivers/media/i2c/saa7115.c
-+++ b/drivers/media/i2c/saa7115.c
-@@ -25,6 +25,7 @@
- 
- #include "saa711x_regs.h"
+diff --git a/drivers/tty/serial/max3100.c b/drivers/tty/serial/max3100.c
+index cde5f1c86353..3b05ed113a67 100644
+--- a/drivers/tty/serial/max3100.c
++++ b/drivers/tty/serial/max3100.c
+@@ -16,6 +16,7 @@
+ /* 4 MAX3100s should be enough for everyone */
+ #define MAX_MAX3100 4
  
 +#include <linux/bitops.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -664,15 +665,6 @@ static const unsigned char saa7115_init_misc[] = {
- 	0x00, 0x00
- };
+ #include <linux/container_of.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -133,7 +134,7 @@ static int max3100_do_parity(struct max3100_port *s, u16 c)
+ 	else
+ 		c &= 0xff;
  
--static int saa711x_odd_parity(u8 c)
--{
--	c ^= (c >> 4);
--	c ^= (c >> 2);
--	c ^= (c >> 1);
--
--	return c & 1;
--}
--
- static int saa711x_decode_vps(u8 *dst, u8 *p)
- {
- 	static const u8 biphase_tbl[] = {
-@@ -1227,7 +1219,7 @@ static int saa711x_decode_vbi_line(struct v4l2_subdev *sd, struct v4l2_decode_vb
- 		vbi->type = V4L2_SLICED_TELETEXT_B;
- 		break;
- 	case 4:
--		if (!saa711x_odd_parity(p[0]) || !saa711x_odd_parity(p[1]))
-+		if (!parity8(p[0]) || !parity8(p[1]))
- 			return 0;
- 		vbi->type = V4L2_SLICED_CAPTION_525;
- 		break;
+-	parity = parity ^ (hweight8(c) & 1);
++	parity = parity ^ parity8(c);
+ 	return parity;
+ }
+ 
 -- 
 2.34.1
 
