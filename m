@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CAAA4ABC2
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:26:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA119A4ABC6
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:26:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E4D110E242;
-	Sat,  1 Mar 2025 14:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F32010E230;
+	Sat,  1 Mar 2025 14:26:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZWbzG3kd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CueFDhT7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA7510E239
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:26:27 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-223378e2b0dso44910255ad.0
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:26:27 -0800 (PST)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B843410E230
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:26:39 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2239c066347so1364345ad.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:26:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740839187; x=1741443987; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740839199; x=1741443999; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hp3kGqc16FF01of4e/8WmkeqsdCblTk7qrBu9qHKlh8=;
- b=ZWbzG3kd7/3B+MSnmM/gWeczsEQmG5k2LyxuB/JFve4f82ZH5JNxEf2zFYPOx+WnT4
- 7GXqc+qDU7l/8zTNPgPIpPSPqifrrzJ4TkgWoSUvJ0v/B/CX4raAUYJP6Ra9fdVCdSpz
- KXevJnARE6eFarp4Hj6oCLkLEcUbjwX5Z+VPjShspe6UeaRgTPkDSFB1lrcd+7uqzuI3
- 5uZ0812/KwYXyaejgmKODV4Rj9RZrF6gaJnjgH3vjyd4FdmsZWf2JJ8F6ZCPzpYwLecU
- zHvqtHFxsA8W2X+WoZHYfRhA5LMgsdBfXY671GlIdMrvlh4F5Sm2zLCrrB18519BcxAA
- b91g==
+ bh=EcXJ496C/2+0qa2GsfTbiscKGioWO59ZW48/kJd6oSs=;
+ b=CueFDhT7smyEylYaFEqc2a4jSbm/7J8OmDVsH1L4tH14Jb6wnZFrfVVAYf6MuD0VqE
+ jwF9gPph6I1v69cF9v0TbPkr7ObenszmvRUWQm6z74np6hJwZttpfum6lTu4+D1jCldu
+ JdDcTKwyZrHWIDwk5rBf2QGWEnJx6XvGqa+r50df+a+fNL5ghM+0bwr8IQ3uE0ES8TWm
+ feWoCX69Qe7/K8tu6WQANZOKuZSYiNhpuTvCS0jD1JYs1pAHCyb7KqqA97J2/4qclj7e
+ dxaE0q2LULJqMcH2secUGSQ7WY1jaWIuj5dVKAoH+da05vzxZ1VGDvXySSzsNJb767rn
+ M9aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740839187; x=1741443987;
+ d=1e100.net; s=20230601; t=1740839199; x=1741443999;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hp3kGqc16FF01of4e/8WmkeqsdCblTk7qrBu9qHKlh8=;
- b=aJokKQn6W/soSr1JV12Jr+YVONGW3EYgSO50T4oO7boOQMbQQai96RJ2VZV9/Ucshs
- r637AruKdFKDpnEbTx/66bHHPmUKQ+3PY6tuF+vwEPSgisDK3PDTHQURlYI0sPAbZEyL
- ncOZzjzRbV3Kf6jkHTlC8x1UPMJ0K/DJX0PISOb79xK/MwIBrmdZwe7kK7wI8yo50Vji
- p5v2yRqOfx2xP+Yyc0y/8Y+f6ybWJzqC93wv0mi98IWcdNAtD0f/QLi0Gkev0nP62Chr
- pMGKulJkKOXIUKDWtYt454n6tF2dkdxI0cKKOjBu8Qkc4NwSlhZueibNZoZDj5Q+BzV6
- 5rBQ==
+ bh=EcXJ496C/2+0qa2GsfTbiscKGioWO59ZW48/kJd6oSs=;
+ b=AJorpqRnXE1cE59MPlJeM6UCx3W0XX74YpqmXqWBd3JTqRnxHBgOEaAEHKQm5SvGYt
+ WeeLlpo+4AOz3QPaj3OsC7+oivIG2K/yHak1zdnQrUT/wuyrphARRy5CarkN34KomvxX
+ 0+WM6nq/9FxBJm17Q4zLQejNlhsCYMCSrCa+vnaDsO48ulSVA42GKkpTSb3ZPsxZPE4f
+ zZIHCVckymypIQ1o8oUiuSjHGIty1hjqVVdXErdBbx5i4m8gHWdu4oEfh4J2w6L5/NpN
+ iKDmVPWnjj6dcmOdKO7ZtLkqQe+wNXN0tj1s6luHbmZCE+c46UApUJ3K0YBd4bsi65cp
+ HKkQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTMV19aDyEodePVz3PygTb6iUSzfUufn+X2yNEfHggepcdis2JURW1s+s1XgFcKlxyw7WCn/8+jDc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxyYbE15WekDzTZXGiCAG9tYht7NhahJcmAWthPonXWWjsXSsxD
- wdWUx82bTflIop1JnKlVXjLJ2AQEj1RNo5IdSIsS+UawHvP3WcpW
-X-Gm-Gg: ASbGncvg6jORWbQioEp1DATPt/sIR5TAKmnMr4oH+UgmYo747pAfI6WDsp5Cs4ukdg/
- KZ+cFouv8jHYfeAziDWgUTNdp/zVZSAR18QhbG1SAHYl474DjY/rEccL6wj76E8+ke8G6I71Ggu
- 4p7G/5EcGkqBKED5UHRw+QvXxxUvXApSBBp5xibdiuVHADn/v1yJvu6m38aA70Wykq7ZFU8ktpZ
- SAKWJw/TRNdL0oGbvm16BhiinvVi4gmFWFAEtuuMj+58ez3FVW/k5ZgZl0EdLnLOGICcTD+7Qpa
- bJO65Iz8i9JUHGlLfWpDCZsEnxodTOOywIwHmhHvxwUZjCRqKwZR6Hw75K6+2e33IYpbqvZ+FRc
+ AJvYcCVL5/xzTtjmvETvJQbhPmylYVaFTWBxId6aYO93O10AIe7LytuE9cGsmHBI3hEhJpNq0cFOfSqgcFo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8e4RHsXDTzYiDMJ0PeQrop2Rdxyct8ljLTpwhjSEIRBPOQVUB
+ jZ0CKcaz2rs6V/nbOoEsz1ubSwLOr5ioNW5TPMrT3cSlJbPWG6ynZFXkj0yHuS8=
+X-Gm-Gg: ASbGncu0X/Glk90CxnFmMgmj+YbuGi+3mB6KKiPfPK1W3nQwvRzuqIf9timNJqXOoix
+ s37uPRfsFIpec8YWA8ntHOE8ARiv+K4KlfqR7XxodgBkT+gM25YNpBjtt6PyWNlmpZhH4auAbzT
+ HQYzlfB+xrTOxLeeq7nOOeElLLn0QsRV3r7vMmAXbNAvF0mbvYlDVyivQeUHpp/K9bhhaunMnOa
+ x2eyDGA3EqCiczn57UohWOs4iKJkYIwkd8S78eQhDQDOyttg32LcnpPk6RUGl/Sz4hN3AUIGNEx
+ 6/dqbHHxvj9eu6INAafTVfqwiuq5d7Pp3CI+I/qAkll3wOkSi0OTjTisGOh82AwXHkMvmHQ/XnY
  =
-X-Google-Smtp-Source: AGHT+IGHEYprq9u4C7FchZ9I6Y/Ibnse4qNPj1GVk/AdnINX25zgN7NgXyYUydYVyaa9stUlYFgdnA==
-X-Received: by 2002:a17:903:198c:b0:220:e1e6:4457 with SMTP id
- d9443c01a7336-22368fc987fmr121177295ad.26.1740839187181; 
- Sat, 01 Mar 2025 06:26:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF0PsFOHNYq2JTljPhmrhYVkAKjdgh1XZeXstNsMDq6/4mtC72Fp39DdqLibOGQ7FEZk2iiHA==
+X-Received: by 2002:a17:902:da8d:b0:215:9bc2:42ec with SMTP id
+ d9443c01a7336-22369260956mr94926455ad.47.1740839199131; 
+ Sat, 01 Mar 2025 06:26:39 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.26.18
+ d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.26.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 06:26:26 -0800 (PST)
+ Sat, 01 Mar 2025 06:26:38 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -86,10 +86,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v2 07/18] serial: max3100: Replace open-coded parity
- calculation with parity8()
-Date: Sat,  1 Mar 2025 22:23:58 +0800
-Message-Id: <20250301142409.2513835-8-visitorckw@gmail.com>
+Subject: [PATCH v2 08/18] lib/bch: Replace open-coded parity calculation with
+ parity32()
+Date: Sat,  1 Mar 2025 22:23:59 +0800
+Message-Id: <20250301142409.2513835-9-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250301142409.2513835-1-visitorckw@gmail.com>
 References: <20250301142409.2513835-1-visitorckw@gmail.com>
@@ -110,38 +110,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactor parity calculations to use the standard parity8() helper. This
-change eliminates redundant implementations and improves code
+Refactor parity calculations to use the standard parity32() helper.
+This change eliminates redundant implementations and improves code
 efficiency.
 
 Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/tty/serial/max3100.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ lib/bch.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/drivers/tty/serial/max3100.c b/drivers/tty/serial/max3100.c
-index cde5f1c86353..3b05ed113a67 100644
---- a/drivers/tty/serial/max3100.c
-+++ b/drivers/tty/serial/max3100.c
-@@ -16,6 +16,7 @@
- /* 4 MAX3100s should be enough for everyone */
- #define MAX_MAX3100 4
- 
-+#include <linux/bitops.h>
- #include <linux/container_of.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -133,7 +134,7 @@ static int max3100_do_parity(struct max3100_port *s, u16 c)
- 	else
- 		c &= 0xff;
- 
--	parity = parity ^ (hweight8(c) & 1);
-+	parity = parity ^ parity8(c);
- 	return parity;
+diff --git a/lib/bch.c b/lib/bch.c
+index 1c0cb07cdfeb..769459749982 100644
+--- a/lib/bch.c
++++ b/lib/bch.c
+@@ -311,18 +311,6 @@ static inline int deg(unsigned int poly)
+ 	return fls(poly)-1;
  }
  
+-static inline int parity(unsigned int x)
+-{
+-	/*
+-	 * public domain code snippet, lifted from
+-	 * http://www-graphics.stanford.edu/~seander/bithacks.html
+-	 */
+-	x ^= x >> 1;
+-	x ^= x >> 2;
+-	x = (x & 0x11111111U) * 0x11111111U;
+-	return (x >> 28) & 1;
+-}
+-
+ /* Galois field basic operations: multiply, divide, inverse, etc. */
+ 
+ static inline unsigned int gf_mul(struct bch_control *bch, unsigned int a,
+@@ -524,7 +512,7 @@ static int solve_linear_system(struct bch_control *bch, unsigned int *rows,
+ 		tmp = 0;
+ 		for (r = m-1; r >= 0; r--) {
+ 			mask = rows[r] & (tmp|1);
+-			tmp |= parity(mask) << (m-r);
++			tmp |= parity32(mask) << (m-r);
+ 		}
+ 		sol[p] = tmp >> 1;
+ 	}
 -- 
 2.34.1
 
