@@ -2,45 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9323FA4ACCA
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 17:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25CAAA4AD05
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 18:11:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02E0910E03D;
-	Sat,  1 Mar 2025 16:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8791710E190;
+	Sat,  1 Mar 2025 17:11:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hadrIRIn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UnrMWTv/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id C071C10E030
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 16:16:44 +0000 (UTC)
-Received: from
- linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
- (linux.microsoft.com [13.77.154.182])
- by linux.microsoft.com (Postfix) with ESMTPSA id 1C4E72038A40;
- Sat,  1 Mar 2025 08:16:39 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1C4E72038A40
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1740845799;
- bh=8gqAcMLnchdt5cB0aO9gsMnZQpWztt0YAxo1ANaGVKM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hadrIRIn2gZ30Xw12Fa87w8bx4DQEfoRmfgICzUQYqP9zX4vdO9IhVDkXKnilYRBE
- EI/B/wuXhZTdzADIPNIAb8ANnWYE5g2e2PN+eg/7JqWTTSm/yVSjmGjq7f2gZB1uUp
- +WZ13FEXqGGxHhNjEC/t8+aKNYcLksQJAMHUcTME=
-From: Saurabh Sengar <ssengar@linux.microsoft.com>
-To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, deller@gmx.de, akpm@linux-foundation.org,
- linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: ssengar@microsoft.com,
-	mhklinux@outlook.com
-Subject: [PATCH v3 2/2] fbdev: hyperv_fb: Allow graceful removal of framebuffer
-Date: Sat,  1 Mar 2025 08:16:31 -0800
-Message-Id: <1740845791-19977-3-git-send-email-ssengar@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1740845791-19977-1-git-send-email-ssengar@linux.microsoft.com>
-References: <1740845791-19977-1-git-send-email-ssengar@linux.microsoft.com>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5F8D10E09A
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 17:11:02 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5462ea9691cso3527411e87.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 09:11:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740849061; x=1741453861; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gTSOh+6vc0fDAR7E7U91UFAeOUujh+ZpJVLlLuHs1jA=;
+ b=UnrMWTv/sjXiBOwltR9iLH3V9n1ns0jIhsOtB3AiAJ2nJ2U0Zyo7xoPlmTWhgQjHZQ
+ mS/0jGSeaTFZwV/PJ01MvqIWtE/uNHoQsUXcOQiNS5uslZbGN8S87sgiq6Pg1qe/NVf6
+ KCJznC+W7OIu3eGYrSJsXU+e8jby0CoUysFkG7AIjwOtl+4IKGyjzgOkGa954pkX4ObH
+ vL9cXqMVSZg48bfi3Zywjkiw4fbRsUAfiOZObsbABgnGFNCojJ94qS7as6qvhw8SdA9u
+ +U+qS1VCKMSSidj9uwuXAHu+bu5J3GP13Q5AWcxZ04rV+hP/GIKXI6v1OAAAotC6ry5I
+ Q7Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740849061; x=1741453861;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gTSOh+6vc0fDAR7E7U91UFAeOUujh+ZpJVLlLuHs1jA=;
+ b=qprkNMsY2Tkuig8PaIjVwaoCNkb8y77juhK5YkgRPZUwGQ2rVt11NOVtGqCVluCyNT
+ uWY9G/ab4aPHUl3U9L5pv4EFyOp4u3f95HVSgbqUx7I5R8zZ2t27aWTpW6mCHIryJB4T
+ FC4JATZPjNIsRY/WO3SKbhwvWudqxkq9fnoWnQXg8EApOc/3jOFv/mpk+x9X1P0qb3R+
+ 9IOE2taPRNwhSlCnvSPXxsEu3aYEqbmP/Hg2b4+X9Xlq2Wg98m8DLGVLcB7/QdL2eX1r
+ Rz9uIY30VR0LGsMn+/d8166JDD87if+2Cy7ZA9YCEN18YfJQ4z6h/ux8APRprFXPgKEG
+ Ptjg==
+X-Gm-Message-State: AOJu0YwJFudMEOaLSMik/XdeFECBxLTe75DfaSgdb80lPSQgmUwPeL8E
+ fjf/C9fsBhoALJYseU2Z9cipVwQjnSWSVy2plsKMLUc50wk8UqF9xGXh2cFOmxf5lWrJkv8GhsN
+ /eYk=
+X-Gm-Gg: ASbGncu3iSbf9QUUkPGmhyEBA8b70/IZoefJpyhaMdpyhv+x5vXnykmkIitpaH9Phc5
+ PVDjs6VDG3EGAQkMwP/VaGTF/+2FSGD6vbB8AS8FvljHdvnvZSRkpOsXHne1f77GCuBZjh+bXxW
+ T/V6IfpxqLNN1F+TMFODHv82T+VQ+1Q+2Kgf8JQ9SmduH+I3lhgtUhfhlGWDNQblVCC5IY7K7io
+ lPqG7Fimh1ZUyRzuSjsgSrfDs5VvGfDDRWXv0YNwM0w7ZA8ValkDs35jH1/jd3MYer9oqdzxwFA
+ oW8ba8FAo9ynWB4CPz0DVw78PEjmfAPxZ3/NGVl0p4wNcic2KFTa
+X-Google-Smtp-Source: AGHT+IGjfTP3M1nC+JbXSe2IaduGP60EMXDnTNEYi01oiNBZO4gw8RM8QJ/UJEMcz87+6uNQsTJatw==
+X-Received: by 2002:a05:6512:3f19:b0:545:c08:e17b with SMTP id
+ 2adb3069b0e04-5494c328c3dmr2817722e87.23.1740849060798; 
+ Sat, 01 Mar 2025 09:11:00 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5494e52a47asm585313e87.152.2025.03.01.09.10.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Mar 2025 09:10:59 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 0/2] drm/bridge: reuse DRM HDMI Audio helpers for
+ DisplayPort bridges
+Date: Sat, 01 Mar 2025 19:10:54 +0200
+Message-Id: <20250301-dp-hdmi-audio-v4-0-82739daf28cc@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJ4/w2cC/3XMQQ6CMBCF4auQrq2ZlkLAlfcwLlqmhUmUklaJh
+ nB3CyuUuHwv+f6JRRvIRnbKJhbsSJF8n4Y6ZKzpdN9aTpg2kyALkFByHHiHd+L6ieS5KLB2aKw
+ xtWPJDME6eq29yzXtjuLDh/eaH8Xy/iuNggOvtBZKVw2gwvONeh380YeWLalRbnn9y2XiokRTW
+ uOkdG7H8w0XO54nrmQN4CBXRsEXn+f5AzSqXcopAQAA
+X-Change-ID: 20250206-dp-hdmi-audio-15d9fdbebb9f
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Hermes Wu <Hermes.wu@ite.com.tw>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2562;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=S5OuChTXe8RHWTOOd2rYoBZZVbvzR+cAiAR/WVy1ROk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnwz+hDFEtA8PzYi0XDQQscdSYGMSloFEiiE+wO
+ wBuAM+tGneJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8M/oQAKCRCLPIo+Aiko
+ 1RKbB/9yAM+aFQr7rcGvek4nWGz6fp6p7m+5TGAd3H10HnDGv9SrKPgyABE60xmFii+QLYK4YSz
+ Y/CSGbOpBjMRJCSSmFnNa0Wm1hKX8luykI0PUe2DIbScy0lN4sV8fFWglwrYwqp1xyaD0yVR3F/
+ foFeKAR8IFx9NmHQ6eK0AnFtzp0Wik6lp3vOAM0QoWdvp+F7k6I27b9MZCg3jTfe9sDj4eLfhuX
+ JSkKgtxP5AkELE2kZ34NaMYvtgRE87EiifLrhbK6yTHml3V7NP916I6KAMrKVDUn87vylJiDPaP
+ jIP3/ELrIcEaI3CpxIebsfg1aLyxcRXEW71TE7mBCPPoHL1+
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,108 +111,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a Hyper-V framebuffer device is unbind, hyperv_fb driver tries to
-release the framebuffer forcefully. If this framebuffer is in use it
-produce the following WARN and hence this framebuffer is never released.
+A lot of DisplayPort bridges use HDMI Codec in order to provide audio
+support. Present DRM HDMI Audio support has been written with the HDMI
+and in particular DRM HDMI Connector framework support, however those
+audio helpers can be easily reused for DisplayPort drivers too.
 
-[   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
-< snip >
-[   44.111289] Call Trace:
-[   44.111290]  <TASK>
-[   44.111291]  ? show_regs+0x6c/0x80
-[   44.111295]  ? __warn+0x8d/0x150
-[   44.111298]  ? framebuffer_release+0x2c/0x40
-[   44.111300]  ? report_bug+0x182/0x1b0
-[   44.111303]  ? handle_bug+0x6e/0xb0
-[   44.111306]  ? exc_invalid_op+0x18/0x80
-[   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
-[   44.111311]  ? framebuffer_release+0x2c/0x40
-[   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
-[   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
-[   44.111323]  device_remove+0x40/0x80
-[   44.111325]  device_release_driver_internal+0x20b/0x270
-[   44.111327]  ? bus_find_device+0xb3/0xf0
+Patches by Hermes Wu that targeted implementing HDMI Audio support in
+the iTE IT6506 driver pointed out the necessity of allowing one to use
+generic audio helpers for DisplayPort drivers, as otherwise each driver
+has to manually (and correctly) implement the get_eld() and plugged_cb
+support.
 
-Fix this by moving the release of framebuffer and assosiated memory
-to fb_ops.fb_destroy function, so that framebuffer framework handles
-it gracefully.
+Implement necessary integration in drm_bridge_connector and provide an
+example implementation in the msm/dp driver.
 
-While we fix this, also replace manual registrations/unregistration of
-framebuffer with devm_register_framebuffer.
+The plan is to land core parts via the drm-misc-next tree and msm patch
+via the msm-next tree.
 
-Fixes: 68a2d20b79b1 ("drivers/video: add Hyper-V Synthetic Video Frame Buffer Driver")
-
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-[V3]
- - using simplified hvfb_putmem()
+Changes in v4:
+- Rebased on linux-next, adding DRM_BRIDGE_OP_HDMI_AUDIO to Synopsys QP
+  HDMI driver.
+- Drop outdated comment regarding subconnector from the commit message.
+- Link to v3: https://lore.kernel.org/r/20250219-dp-hdmi-audio-v3-0-42900f034b40@linaro.org
 
- drivers/video/fbdev/hyperv_fb.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+Changes in v3:
+- Dropped DRM_BRIDGE_OP_DisplayPort, added DRM_BRIDGE_OP_HDMI_AUDIO
+  (Laurent, Maxime)
+- Dropped the subconnector patch (again)
+- Link to v2: https://lore.kernel.org/r/20250209-dp-hdmi-audio-v2-0-16db6ebf22ff@linaro.org
 
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 09fb025477f7..76a42379c8df 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -282,6 +282,8 @@ static uint screen_depth;
- static uint screen_fb_size;
- static uint dio_fb_size; /* FB size for deferred IO */
- 
-+static void hvfb_putmem(struct fb_info *info);
-+
- /* Send message to Hyper-V host */
- static inline int synthvid_send(struct hv_device *hdev,
- 				struct synthvid_msg *msg)
-@@ -862,6 +864,17 @@ static void hvfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width,
- 		hvfb_ondemand_refresh_throttle(par, x, y, width, height);
- }
- 
-+/*
-+ * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
-+ * of unregister_framebuffer() or fb_release(). Do any cleanup related to
-+ * framebuffer here.
-+ */
-+static void hvfb_destroy(struct fb_info *info)
-+{
-+	hvfb_putmem(info);
-+	framebuffer_release(info);
-+}
-+
- /*
-  * TODO: GEN1 codepaths allocate from system or DMA-able memory. Fix the
-  *       driver to use the _SYSMEM_ or _DMAMEM_ helpers in these cases.
-@@ -877,6 +890,7 @@ static const struct fb_ops hvfb_ops = {
- 	.fb_set_par = hvfb_set_par,
- 	.fb_setcolreg = hvfb_setcolreg,
- 	.fb_blank = hvfb_blank,
-+	.fb_destroy	= hvfb_destroy,
- };
- 
- /* Get options from kernel paramenter "video=" */
-@@ -1172,7 +1186,7 @@ static int hvfb_probe(struct hv_device *hdev,
- 	if (ret)
- 		goto error;
- 
--	ret = register_framebuffer(info);
-+	ret = devm_register_framebuffer(&hdev->device, info);
- 	if (ret) {
- 		pr_err("Unable to register framebuffer\n");
- 		goto error;
-@@ -1220,14 +1234,10 @@ static void hvfb_remove(struct hv_device *hdev)
- 
- 	fb_deferred_io_cleanup(info);
- 
--	unregister_framebuffer(info);
- 	cancel_delayed_work_sync(&par->dwork);
- 
- 	vmbus_close(hdev->channel);
- 	hv_set_drvdata(hdev, NULL);
--
--	hvfb_putmem(info);
--	framebuffer_release(info);
- }
- 
- static int hvfb_suspend(struct hv_device *hdev)
+Changes in v2:
+- Added drm_connector_attach_dp_subconnector_property() patches
+- Link to v1: https://lore.kernel.org/r/20250206-dp-hdmi-audio-v1-0-8aa14a8c0d4d@linaro.org
+
+---
+Dmitry Baryshkov (2):
+      drm/bridge: split HDMI Audio from DRM_BRIDGE_OP_HDMI
+      drm/msm/dp: reuse generic HDMI codec implementation
+
+ drivers/gpu/drm/bridge/lontium-lt9611.c        |   2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   |   1 +
+ drivers/gpu/drm/display/drm_bridge_connector.c |  59 +++++++----
+ drivers/gpu/drm/msm/Kconfig                    |   1 +
+ drivers/gpu/drm/msm/dp/dp_audio.c              | 131 +++----------------------
+ drivers/gpu/drm/msm/dp/dp_audio.h              |  27 ++---
+ drivers/gpu/drm/msm/dp/dp_display.c            |  28 +-----
+ drivers/gpu/drm/msm/dp/dp_display.h            |   6 --
+ drivers/gpu/drm/msm/dp/dp_drm.c                |   8 ++
+ include/drm/drm_bridge.h                       |  23 ++++-
+ 10 files changed, 91 insertions(+), 195 deletions(-)
+---
+base-commit: 5299e75907dcd85c906bd58fb6226e72c36742fe
+change-id: 20250206-dp-hdmi-audio-15d9fdbebb9f
+
+Best regards,
 -- 
-2.43.0
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
