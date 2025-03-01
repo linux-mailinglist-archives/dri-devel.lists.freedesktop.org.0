@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE8EA4ABDD
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58532A4ABE1
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:28:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E22F10E267;
-	Sat,  1 Mar 2025 14:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB61510E26C;
+	Sat,  1 Mar 2025 14:28:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZRlMajAy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q9Cd+zzQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8660910E267
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:27:52 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-2234bec7192so28695235ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:27:52 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 495E510E26C
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:28:02 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-2232aead377so58835075ad.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:28:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740839272; x=1741444072; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740839282; x=1741444082; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=H92cNXD8ivdLBJu7PZvS/WlFHsCPSxa0jaZByFXEmx4=;
- b=ZRlMajAysbOSQ91j4xtYU9PSGHrFBoRzAANBMHhOsGif0hd95ZJwKdCvyPracZFf+8
- wzvFtZ5A1w731xsHxL1A1WmYC6VX6HYV0G2rPVtNlJat2ShSjlQAYicQPsk/WBeJCpHD
- 6qMgjfompak6FOQ7SKQAN6Jc9fKHrNOPlC4f7+1etOXqfNExreCUZbFx2aahikli87o1
- PO5F0QjtLX6gOpHzpJsKACYjHxgbsYMuMqYQpXWfke/RPWAoAMNyUIJqlUlzfl4QY+sS
- Cdf4/stok0NLSUJQlMN0xmQJt4ayEvAgFGqnXPZTae4blRSVbQPPVi5vvnqSw64/vmp5
- SY1g==
+ bh=rykqQnwPkGRFwR5KILLeuUxXhWjh1d/Lo2VO4W9LQtQ=;
+ b=Q9Cd+zzQrC+W203SyNKbAjGP//Z3ubmXlAYM54RB5iXWsuvGAxwgw/rzbclrZkCjnt
+ j6i8DS6qE1IroRm2nIUKmsPtHq3+6EOjG0ebwIk96OgJI8p0gW+sFCCrG1PuUdWJ0A33
+ MwUgk6XAIi9igzBBBapceCw8ADFX8eDt0gvyOmyJycJj5PgNEJko5Sq2pAh1tb7xUIff
+ JAiiw7dyfnlDMJiHdh7zvvdoa1aW2hhCcPJLtmUaYqSVEMA+eMgkvyqK1EMxM4T58o3L
+ 0EZSd4xr3nSiOGStSTVmuvFI51g+wEsJMxjcm/FTqW/qBXVyVEVoTn9b9oJGUzCRIzIP
+ zF0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740839272; x=1741444072;
+ d=1e100.net; s=20230601; t=1740839282; x=1741444082;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=H92cNXD8ivdLBJu7PZvS/WlFHsCPSxa0jaZByFXEmx4=;
- b=LYDQ/RforLqF66x95eXIU1kkhdvpU2ZFbegSaFhmuxZ0M77K3yf8u+eYvRNmQ8nQXx
- ZgWLln6l7EjkCfI6IsoAx2JT4sXNRBxvEi6roxC/damq8A4QdlX2hadWP1SrDyl5+E8q
- YQijSaBF7tJfuZRm0Iz1ENfaVvHRnf2On6uvy2RvtBBEt4taYU5yt2RsHymdLbdm1Yj7
- MV3Sv1H32YPuaDK4zJnFBCq2UCgvje2yoHkq/WN27h0oz6BynYsQJSKcVVwMIZZwMvR0
- 1x3B8q0FFHucQPbt0bwycdl8RnqIv6WMdQ+Xh9qwKPX8JACoUlL3j1qiMleKi9pOd/g/
- H6hA==
+ bh=rykqQnwPkGRFwR5KILLeuUxXhWjh1d/Lo2VO4W9LQtQ=;
+ b=ulKbYS2rNYWupiyIlLUIHS6mscBGhwq9W8lTR3pmmL7wHjQ9TobZNXQ6LuVtrIo40J
+ hSyJCa6xsjyvlPLI/2+ffQKXXxPE6Jzg0AAjjXC9xPdGMI+2fi1G1M4IL3V/ruNRjyz5
+ YPu2RJbTvG//PMI7eeMG1U3KucOvE1egAwDjBoYEWmLurBTB8R2s17tUUbDe9iq+hTqp
+ F19XamsOxYYMEqBEqhBIha9BxvR7KtlfBKQhZ+/MxdXO8P8QGGZXqIbk4hiQonY1UvLr
+ yze+OhVAwN1mr6cOELnf50NVXwB00hPj0xp7oOsJQtkxNjhu9ZOwbdrQ5Mcg7L6FKBwe
+ pyDA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNcXh2fFkrZPxz1k8v81dIdDGDrHVCOOZy1s00K+mtDRHyIUCegKgDtVYRicQBWe91pDhQbTA+zSA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzan17p7lOkrWZFAW9ZtoW3hI2DJcGFTPQQCLgaY4ridpJIyyM8
- GeWvDTbc2jHazbGrp9uqtDfYJMb2ZnG+rTfhGe2HKN1yJzvG0pjy
-X-Gm-Gg: ASbGncs3nJaVpAQpIQn9H7cHE6JXJL1HZ+w+O1BQhbkVGYNS+cH10LXeE9AF8vH5526
- o4nYUMTxmpiUKw167NiIPJzJLkYbco0gbkb+biwHxuj1h/PipXJagmR0LDmRDWH2qPtuqY3YfLD
- OTVUureTaToxXSDH8xeI2MV8XJWJ0uWFS0hrM+Zjs4PBEu0cjBXUGYxhs4OGuP4n3tWJ3wssSh/
- otkQXqphhs32504Kx5s6Z31/Ka7uImipZzq9bFlwWsrglLXayY+bOdrAOiR3gdIChjLeO8mTFdp
- 9ji0CjsBDKYQiXecINYoLl/vW+mr1/zvPAH8uHrucxsFvEocUSy1JFejZgcmqGSH84r4Vk7ogUI
+ AJvYcCXw9VwraWRjxqRNc+mlaYyns3Au0J4DSybSTYAxvAXPY0ar5TLfUc0D+ZcDOgyzfuKFjoB8M6zKA0M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlDpJ2V3AHfB5VjEjkXlFC4HprujqBEI7axJ64VYF2vxGYHnbZ
+ P0PZpS0mN8/HdtjvuYqAEHGW185U6bj0MxqN7vhBCJ3WBDgh20vJ
+X-Gm-Gg: ASbGncuT8MKPyIZEtodGfWC+O4ZeUV0Mm7qlFpFxWwpTwwap+TgZm7U7kw+4aCtdgIG
+ ycSh9gxDDuX3yJUyud7MalkT13VHZuSon8NIG84JcQ9RpODChOJ2Xfbfgt9vdEQnninkQhikNAw
+ CN7Q5Tadta5UROr9Kfy1R1rBZ2LoLVmzZCyvO27k2oqRYqdhXWkqB3FMW7iE9Uq3DmquFUT43m/
+ xuR1oExt0LjoYCFgwxY+qLDV6Ku+hvxjBVQ4e5/xwuxHTrQjE16FDXhJucHxMoRMCY0mE7oOk8j
+ OSUQguoXwyX2hHErh+HNPv9duhJgReGUJz+QsUhk3IwYr4tjwwNkmN8cP/WxSeeH2THmlBMOtRY
  =
-X-Google-Smtp-Source: AGHT+IFJ7v56//ubfe5SZfIgarRaf2kt414B71bZC0lL5Jm/hhEy1S8FPvdkgRl1jpN6UW8NLO4j1Q==
-X-Received: by 2002:a17:902:e5ca:b0:223:894e:4376 with SMTP id
- d9443c01a7336-223894e454dmr21360135ad.43.1740839272112; 
- Sat, 01 Mar 2025 06:27:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE6Wlnx/zKBNSK8vHDH90VpNnFUcC/6AIsKwE//R5+rZAZsk6Mdwf+K5eJJM57bLHOOu0BXag==
+X-Received: by 2002:a17:903:f86:b0:223:536d:f67b with SMTP id
+ d9443c01a7336-2236920780dmr123851985ad.38.1740839281880; 
+ Sat, 01 Mar 2025 06:28:01 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.27.43
+ d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.27.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 06:27:51 -0800 (PST)
+ Sat, 01 Mar 2025 06:28:01 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -86,10 +86,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v2 15/18] fsi: i2cr: Replace open-coded parity calculation
- with parity64()
-Date: Sat,  1 Mar 2025 22:24:06 +0800
-Message-Id: <20250301142409.2513835-16-visitorckw@gmail.com>
+Subject: [PATCH v2 16/18] Input: joystick - Replace open-coded parity
+ calculation with parity64()
+Date: Sat,  1 Mar 2025 22:24:07 +0800
+Message-Id: <20250301142409.2513835-17-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250301142409.2513835-1-visitorckw@gmail.com>
 References: <20250301142409.2513835-1-visitorckw@gmail.com>
@@ -118,30 +118,79 @@ Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/fsi/fsi-master-i2cr.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/input/joystick/sidewinder.c | 24 +++++-------------------
+ 1 file changed, 5 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/fsi/fsi-master-i2cr.c b/drivers/fsi/fsi-master-i2cr.c
-index 8212b99ab2f9..8f558b7c6dbc 100644
---- a/drivers/fsi/fsi-master-i2cr.c
-+++ b/drivers/fsi/fsi-master-i2cr.c
-@@ -44,15 +44,9 @@ static bool i2cr_check_parity32(u32 v, bool parity)
+diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
+index 3a5873e5fcb3..9fe980096f70 100644
+--- a/drivers/input/joystick/sidewinder.c
++++ b/drivers/input/joystick/sidewinder.c
+@@ -7,6 +7,7 @@
+  * Microsoft SideWinder joystick family driver for Linux
+  */
  
- static bool i2cr_check_parity64(u64 v)
- {
--	u32 i;
- 	bool parity = I2CR_INITIAL_PARITY;
- 
--	for (i = 0; i < 64; ++i) {
--		if (v & (1llu << i))
--			parity = !parity;
--	}
--
--	return parity;
-+	return parity ^ parity64(v);
++#include <linux/bitops.h>
+ #include <linux/delay.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+@@ -240,21 +241,6 @@ static void sw_init_digital(struct gameport *gameport)
+ 	local_irq_restore(flags);
  }
  
- static u32 i2cr_get_command(u32 address, bool parity)
+-/*
+- * sw_parity() computes parity of __u64
+- */
+-
+-static int sw_parity(__u64 t)
+-{
+-	int x = t ^ (t >> 32);
+-
+-	x ^= x >> 16;
+-	x ^= x >> 8;
+-	x ^= x >> 4;
+-	x ^= x >> 2;
+-	x ^= x >> 1;
+-	return x & 1;
+-}
+ 
+ /*
+  * sw_ccheck() checks synchronization bits and computes checksum of nibbles.
+@@ -316,7 +302,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
+ 
+ 			for (i = 0; i < sw->number; i ++) {
+ 
+-				if (sw_parity(GB(i*15,15)))
++				if (parity64(GB(i*15,15)))
+ 					return -1;
+ 
+ 				input_report_abs(sw->dev[i], ABS_X, GB(i*15+3,1) - GB(i*15+2,1));
+@@ -333,7 +319,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
+ 		case SW_ID_PP:
+ 		case SW_ID_FFP:
+ 
+-			if (!sw_parity(GB(0,48)) || (hat = GB(42,4)) > 8)
++			if (!parity64(GB(0,48)) || (hat = GB(42,4)) > 8)
+ 				return -1;
+ 
+ 			dev = sw->dev[0];
+@@ -354,7 +340,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
+ 
+ 		case SW_ID_FSP:
+ 
+-			if (!sw_parity(GB(0,43)) || (hat = GB(28,4)) > 8)
++			if (!parity64(GB(0,43)) || (hat = GB(28,4)) > 8)
+ 				return -1;
+ 
+ 			dev = sw->dev[0];
+@@ -379,7 +365,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
+ 
+ 		case SW_ID_FFW:
+ 
+-			if (!sw_parity(GB(0,33)))
++			if (!parity64(GB(0,33)))
+ 				return -1;
+ 
+ 			dev = sw->dev[0];
 -- 
 2.34.1
 
