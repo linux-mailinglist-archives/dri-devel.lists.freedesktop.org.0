@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1ECA4ABE4
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:28:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B844A4ABE6
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6021710E271;
-	Sat,  1 Mar 2025 14:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADEF10E270;
+	Sat,  1 Mar 2025 14:28:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hdrL3RfT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="euEh2UzZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DEF310E270
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:28:12 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-22339936bbfso46315495ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:28:12 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C9C10E273
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:28:23 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-2235908a30aso28682815ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:28:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740839292; x=1741444092; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740839303; x=1741444103; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nzBrmzWckDIJwY51QBb0mQJ5Dqo6Ldx+jMH0V0Ck8/w=;
- b=hdrL3RfT1Wx+jVb2/QGxJgURqe8vzRgzzmiRAyGyjv51jiLJTShEZssakby/Ypd3fb
- hoE8t9+kJ8Yr83TF2qvI6987gjCflbbBzOs0vcckMbKsQx12G49W60VGhhbJ/MXNNvNS
- LOJIwD0mvaKBxIX77GIYMFQ9X5mYuqbMPZpiJZ3aFVJyGJhR9EhxTmHZHopW4Oyh0M4a
- KjwrUb5JR42MKEcKrQcfrUh8evpyPdwIKoPbEWZWp+XhtvwlI0e6ttXfoxTRPlvMi3Cq
- x6QKGBlLOlTfQChplpvb09vEhBSXyVPnE4bUgaG+CuCxwynRjEWa9KLvFJJC0oKwdEMq
- 7qIw==
+ bh=U+YDx3nsS23nFYRYOsOtDL2pw2M9KWSnqwRamUvuzKU=;
+ b=euEh2UzZVHxMcAS8JVv+eJjBSUB0oiJlpDwV7C2Qh1gp2SzUGQ6mCmS5vgXIrgUgYw
+ ECt67P5aVfDV66BG+pfva86wPvum/1zEdZa+cF+wq3pPigzPGzqG0XbVT2/sbnNpU/lf
+ SWFVRbD0X/bFMc4V6RjORYv1VAcmXdcI4MJaFClWceOYhKsBmZMW60QSuBliErR4/xcY
+ XDdHkIemE8CZpdaofy1HylDcVphH8q3oqjfNdbLZzVl+PwAHuDZaIUDeFbSMONIOEa3+
+ aVotEC+eWWsiz5HrvyhMrJDiWe3g4HKuCcai24KUXQ3SaGpNNLZbW3aX01rw7/q/6Sqs
+ +M1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740839292; x=1741444092;
+ d=1e100.net; s=20230601; t=1740839303; x=1741444103;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nzBrmzWckDIJwY51QBb0mQJ5Dqo6Ldx+jMH0V0Ck8/w=;
- b=CNaMMWMBGO6VRPqnxqt718C5mw3y/mGd4s1gOY6Gx9u39735Adj32R19RP8Eye9hkQ
- SVhmZxqVje3r+dLQROT4IHzm30EEvexKJ+iCRs8sN/1Mvjbkg1ZGPg8WKarsQkV3s7vW
- SSWEu82No74i87J2X03nnQ1W8+wi8jkZ+JDrRb3Hog6aKeJdOwbxmaxmKd3IIy9J08x+
- DLxwk+Sc0dIwYyphEAcz8cEL3qrJt7JyrGPKrtBRq++aoPgjb+ufIOAnIf5QMxCCdfbY
- xbMQg7ZUc3eOBlJ1pcg2GoF/Ben+piOAyi340lNkA1NA2uToIfbqQnT/qwv6flK54QVj
- ghjQ==
+ bh=U+YDx3nsS23nFYRYOsOtDL2pw2M9KWSnqwRamUvuzKU=;
+ b=Iz6wWPK+jor4TDrGqr4FS5yRZZt/Jws2Jii3WJ0jw00ikBouWgHReL02fIh+Dmw15O
+ jwu1EdLOiiwWxasrKJHlgUQsp72Tnx51CybCyIen0Z43GUBzm3u9t+ifKQOkKWAtGHqj
+ 9feE8FdREt1A6fUekcyYAag5u+g+ZHVchtiIGeWPhvKVqhsWGt8cnLfmMtMHxxJvwxRX
+ TzAQ8Si0G9n6CUdNF7hH4GICSeBad9/+WfBjWkBUm52Yi5oaAmUp1ZLT6t8SSutoxNPW
+ 0nJQ8QfSi82DNK5nwlXGUNMwXHle50XhCGQ+bYTN6Ob8nJcg8z2DRNCgMDbenaLzUUQs
+ 3+xA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRk8P63kabdylN4S9nxSEYEZ/ggFup3Q7Jf663orTyMnkbWctbMgpK2Mxrako6yUGqz3Cikiko9Bc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHVtpnr6phYu29pICxSMagkYulKbTNuYDDw7ziaELCwsqGAXAa
- saD/tF2Zn6GAqAf4C/B8UgC8aZ5EhJPgaRNE+sbKt5fIENGtbuvn
-X-Gm-Gg: ASbGnctFsJJ4Gj9YIQYZrZWPOcBu1xCXumkcIgl5GaVJMO4h9ebW5Jfa8UHj591ApGx
- XhP+RvmiEzLZ5a5zFLkY/DS6U8W4esvHxUixt8CeFoaOsRwwbPw6awqMyqk5VxmtVfYBPwpoS0P
- M/9gkYxsisRVa6AxsyePEOME5Po5CmDEhZCcBfOFwkZopnQ2iFwl1zBN+yxyTZS23guDW0EvIU+
- dlIbXtidmR+VhgP6k9/Vuz8DWQNoh28Y0XjsMSxXuQrk7dvtF84WLLvwhAo/ASc1B2Ekzti/W+s
- ti1NdWriUvL7vdjeAVHyP6xMKSQ+syRD+HVczX8sdwro/NsGbH3AeXo8PZT/9zt2vrgW355SBS8
+ AJvYcCUlymAospOlY7ViY858Bwjdet9Ckudtfaqsj8X4em2XBuFv1zM611A3AjwxidJfn2D4+WDmSJyFTOI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyh0/j6VogUa9ZZseDpUWHb7Yc9bt12YkmlbfxmtnoNIVVhjIL4
+ 6XMyDvhu7heUGTIY5Hy3PYYAAiukLaa/9w5A3RV/2QiZwwB5DuBc
+X-Gm-Gg: ASbGncuBV/4Cr/y1rHc7GbDn2uwPOVKhxt6sPGe/VWyMqcbHyCFrrD5d1JnvC1Gcmdx
+ HD3owD2NdrGVe3bMKXUEy5P10kct2ieSnrj43DJTee/nJO1PSJMT/yRMv3pZRbUAxbT5J7/ep1l
+ 7oY6gUzFlkU4RFwFBJ4T2I73F/vigC8zSdO4bQwlkv+1uW7kFSrVZ6AZd1rGdsnT91sp2EYAnup
+ FrdxykaZnR2SZuvHTjEc3Dekbw3O6eJfjGbFYbfhjte4ELteU6OWASQJDbyw0ZzS27tVGGP2D6J
+ 3c4xqf849QJRazx2GjXMYxK/9xQoTIjBa2MucC2ITk3DuiMa5au9PGyVJA+zk+87Rx09/FblpVo
  =
-X-Google-Smtp-Source: AGHT+IHOy6Wv/sKHhRUGc/3EBAQcCBF/SI4YUeW7LDGDR7+GStKywND2M264p9e2dxtzneP/WiNrxQ==
-X-Received: by 2002:a17:903:fa5:b0:220:f40c:71e9 with SMTP id
- d9443c01a7336-22368f71f0dmr96371785ad.9.1740839291945; 
- Sat, 01 Mar 2025 06:28:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGhHD61bMoj/kNCGfxuoRIMfZUbm2G8Vzi7r2Cl3xtga31v9ygF/WbFM3AD1XuJUCHC8w75/Q==
+X-Received: by 2002:a17:903:41cf:b0:21f:164d:93fe with SMTP id
+ d9443c01a7336-2236922174bmr117354565ad.53.1740839303516; 
+ Sat, 01 Mar 2025 06:28:23 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.28.03
+ d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.28.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 06:28:11 -0800 (PST)
+ Sat, 01 Mar 2025 06:28:22 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -86,10 +86,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v2 17/18] nfp: bpf: Replace open-coded parity calculation with
- parity64()
-Date: Sat,  1 Mar 2025 22:24:08 +0800
-Message-Id: <20250301142409.2513835-18-visitorckw@gmail.com>
+Subject: [PATCH v2 18/18] bitops: Add parity() macro for automatic type-based
+ selection
+Date: Sat,  1 Mar 2025 22:24:09 +0800
+Message-Id: <20250301142409.2513835-19-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250301142409.2513835-1-visitorckw@gmail.com>
 References: <20250301142409.2513835-1-visitorckw@gmail.com>
@@ -110,42 +110,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactor parity calculations to use the standard parity64() helper.
-This change eliminates redundant implementations and improves code
-efficiency.
+Introduce the parity() macro, which selects the appropriate parity
+function (parity8(), parity16(), parity32(), or parity64()) based on
+the size of the input type. This improves usability by allowing a
+generic parity calculation without requiring explicit function
+selection.
+
+If the input type does not match the supported sizes, BUILD_BUG() is
+triggered to catch invalid usage at compile time.
 
 Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/net/ethernet/netronome/nfp/nfp_asm.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+Place this patch last in the series to avoid compilation errors.
 
-diff --git a/drivers/net/ethernet/netronome/nfp/nfp_asm.c b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-index 154399c5453f..3646f84a6e8c 100644
---- a/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-+++ b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-@@ -295,11 +295,6 @@ static const u64 nfp_ustore_ecc_polynomials[NFP_USTORE_ECC_POLY_WORDS] = {
- 	0x0daf69a46910ULL,
- };
- 
--static bool parity(u64 value)
--{
--	return hweight64(value) & 1;
--}
--
- int nfp_ustore_check_valid_no_ecc(u64 insn)
- {
- 	if (insn & ~GENMASK_ULL(NFP_USTORE_OP_BITS, 0))
-@@ -314,7 +309,7 @@ u64 nfp_ustore_calc_ecc_insn(u64 insn)
- 	int i;
- 
- 	for (i = 0; i < NFP_USTORE_ECC_POLY_WORDS; i++)
--		ecc |= parity(nfp_ustore_ecc_polynomials[i] & insn) << i;
-+		ecc |= parity64(nfp_ustore_ecc_polynomials[i] & insn) << i;
- 
- 	return insn | (u64)ecc << NFP_USTORE_OP_BITS;
+ include/linux/bitops.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+index 41e9e7fb894b..fa4e45741dff 100644
+--- a/include/linux/bitops.h
++++ b/include/linux/bitops.h
+@@ -339,6 +339,28 @@ static inline __attribute_const__ int parity64(u64 val)
+ 	return __builtin_constant_p(val) ? _parity_const(val) : _parity64(val);
  }
+ 
++#define parity(val)			\
++({					\
++	int __ret;			\
++	switch (BITS_PER_TYPE(val)) {	\
++	case 64:			\
++		__ret = parity64(val);	\
++		break;			\
++	case 32:			\
++		__ret = parity32(val);	\
++		break;			\
++	case 16:			\
++		__ret = parity16(val);	\
++		break;			\
++	case 8:				\
++		__ret = parity8(val);	\
++		break;			\
++	default:			\
++		BUILD_BUG();		\
++	}				\
++	__ret;				\
++})
++
+ /**
+  * __ffs64 - find first set bit in a 64 bit word
+  * @word: The 64 bit word
 -- 
 2.34.1
 
