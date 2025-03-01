@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965D9A4A9F1
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 10:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA31FA4A9F3
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 10:25:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB2210E16D;
-	Sat,  1 Mar 2025 09:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4672010E175;
+	Sat,  1 Mar 2025 09:25:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RkeNhkfO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qbrxD453";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DAB10E167
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 09:25:03 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-5494bc4d796so2168246e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 01:25:03 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4D310E175
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 09:25:06 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-309311e7b39so29217421fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 01:25:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740821102; x=1741425902; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1740821104; x=1741425904; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=0JVwBbchrlGfLWd7zeEe09mlkUBfIcbBf0ReoU16PUE=;
- b=RkeNhkfOfJSdVJu/uzlhQ19S75M1pSOHlsw5iinR/4l9gQTTdDnPI0QkiU7Ac3or4Q
- z82lROBjzIX49S/cEC/jVGV2VLEnvSRYppDDl9cwmWUqnf1mlu1r+OYslKXowqf0v4wf
- H7lClAWsFqJPlMzgWrjtvOPCiL02FN6eSvRdBu2dQ9id000P4ii2gocadVLzp+iG/iz1
- 2txVb1Ay4JXl1iggN3xm3Q617sFSU9dFhZF5fQ4WuwmW9OzAxsQ1VRp4LNVNFZeF/ysv
- C6PThbUwSID+NnAr4SnXEE7NpJf8K/+WEk9mg0lSxj3721NA3JAjHVbs4+I+YyeuyMSg
- Bf2Q==
+ :reply-to; bh=h5L/pucqd7w1XEPp1X1sTPz+Fsqhsm/pl7T20lV9Gm8=;
+ b=qbrxD45321mWOyfokqWnxB9R4KfaiB6WqpLA8qBV1yb6GUUQu4e1TnoSoVGub4Vbw3
+ SVKx0ctVKW8dNU/kneYp3YMeGDljTRtGLKGh4ePFhiuMzJg5BXxpXO1HQagqvudEOCUz
+ FB2sZmKc7pkSHhwc7f6FWlPpynzK6+pN1LW5ZcwuTNQl11CMwmC4dDbGKDWNE0F41wM4
+ rG77N5u/jbF0iVCYZe5e9PDsVHeGT7fsbBXPQfNz9NoZDvOSe8chWtSWZfKbpbYPh2pf
+ GTh3CjyBd/ywJdrKepzBvD8Pv/chuv3ucwKn1GeWzmyxv76bVmT9jB/7wMaR40cZZpES
+ b35w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740821102; x=1741425902;
+ d=1e100.net; s=20230601; t=1740821104; x=1741425904;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0JVwBbchrlGfLWd7zeEe09mlkUBfIcbBf0ReoU16PUE=;
- b=CGViiH4/nb2olnC8eyGkQPasP9gBh9rtr+N8aRSjTGpjE90jl97VcNUitANP+awOnU
- 9L+YYnHqOWaF5erW4E95yI/4tQjOtWp0HVojlXDpCbz8PM2EpxZXEejcClyX53/zBfE4
- 6Acwz63qYZimuCejbEAml4TDvM3mL6R9qWQxPS1vKHRXIb06pOyi9QVjCeWVV65e2rmG
- sCc7v23TMmyZcEIsc+3vLD7Eb1kumfmP0ZQMWSSv39fV2MeqFMxeiR8l2LAO9ANzZQgy
- Gpr6/lFNU36Nsp5EB5B1Zl3sM1j/wjUWLSy2pBi70MuDQ/rOWJ3agdJtLMnPzbv8HM2a
- MSbQ==
+ bh=h5L/pucqd7w1XEPp1X1sTPz+Fsqhsm/pl7T20lV9Gm8=;
+ b=czrgwI0cFoJV23O2b31byzZF+qiV0UPxB95p9vH1jXjywzZMoFnUTMb4pMks0KNB3z
+ I7XtepG4BqLUiHcU7Yos6Lt46cOQcteZAg1zwzRp5dhxdXkbfnWNEPrSXDS5bNkTLff6
+ yFbei4B5ZqtDSlKDsI6bWGgW3wmffTgFyKNrk6KYVkwvlvTMUrktyYxh0l2fjeGkIYBv
+ Yt0JPJm96ltW23hfUsmVhKSnKzVaxJ9qambojAmmN/PUZrj7Q817EZQLkE1fGXp3n+f6
+ 3KQsTH5/sorQW/7DsP5nA0pp8G1TVTWisrq06cKcnFRW9naulkDx0govPrUKx15+1K+G
+ atVw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVpZJYVhSUCBNRYWS7RFNlRMJ3bma8U4KY7DU/O0i6TP+2QD7hkkOdQN/DGR7VFrNithLLF+JXmeYA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzViWcHgSdpjYSGNo1N1u41ONVLR15zj6xWPm+cg1VB6QGcnjrx
- wVvtryB5DAH7Xb6qOFJUJjtA4HzaE+ycI5iYVB1RtWyX3JsEXGPoMlulHZBGt40=
-X-Gm-Gg: ASbGnct3pQ2dnjN0LyEGm2ICwYIqHBVrozUnoXYv0u3aYWiUOiZNVtppu6pLY0JhnvW
- vSH/d28jCf3zrmBSJdmKGc6hbZCeKpEi6XSZC8oUf0VPAvUBCMC/hY3lZoXcoBvgYZIBJbOigyF
- +bKtNWl7C3uhpqhatisck56aCJayzRmg6RdYwCEfKYtKNqCvJpPD3rZxmlM3AawD8dpI2W/znpU
- GQNqGb9Po4CRZfMGyH3MJ2OrJ8pR3bjVvkdNsKdRdYKLNVEvFkDEpefFNKJTiqOKVa9tp7k59cE
- ffYMdI+blNjI0ZcNJV8cNOum/vat2okA7wjf2XQxnkXxeoy4Dkrd
-X-Google-Smtp-Source: AGHT+IFyI4K4ofy4rt283J1E493B2LFgM14L99NpHlb5eH+sLu5qjueAHc56DM5e2fZC/5lr7A1fIQ==
-X-Received: by 2002:a05:6512:158f:b0:546:2ea9:6666 with SMTP id
- 2adb3069b0e04-5494c37d8b1mr2545975e87.34.1740821101846; 
- Sat, 01 Mar 2025 01:25:01 -0800 (PST)
+ AJvYcCXcLq7Bd1CdXSG3xPlaflaYgWWbpx5hCHgovPDz+kKS30hty1JVw7tWM+VDb5k01s564SAKU0HAHaU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWByvQCWqnMIaT2ZBjOZJjAHtLKMNumhX7WjfPVIr2bl8983b0
+ LTlL+fjN5HVQivFQkAnI86obClAB/xmXCbkWGduLMBE1XeNc3LAljxub2XP0RdM=
+X-Gm-Gg: ASbGncs55V9B2iWNub/ZKelBLzJ4bDkit9u4AEr/RyUcWobX1fL26onnHo72uUMsQ+D
+ fZR3rO+Abo9Xa97TDbEesvpF5GpgYBmISMHQoxZAwdULsD258gn7zSQB9Y+vg3qbaUneXpQaO2X
+ cbu8h+kp/GF3hSxsqxySDXDZttV1V5sUBx9sdLYM/aHWzAeeZoA9oH2LyD9agM/U/eW/WlBNZg6
+ yONA98XE7jPh8i5U9YNkZbQ/+z01drAWuCxD6Q1z/rSj+wAri62wBcbs3SrTHVNh6ubtfZvfUJ+
+ 6Y7t11XTXvL5j/ElYpxVM/wSJgJTGuwJlqFRVTm8CB5gHvyJv+8w
+X-Google-Smtp-Source: AGHT+IF6bPkXh6K3Q11IgVbCAEx/raWQukTULWZwW0cWZdP4xoy62YD1VO5brez04BzTxzWt6zMIbA==
+X-Received: by 2002:a2e:9d16:0:b0:308:eb58:6591 with SMTP id
+ 38308e7fff4ca-30b93310978mr18756901fa.25.1740821104442; 
+ Sat, 01 Mar 2025 01:25:04 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5494417432csm738406e87.52.2025.03.01.01.24.59
+ 2adb3069b0e04-5494417432csm738406e87.52.2025.03.01.01.25.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 01:25:00 -0800 (PST)
+ Sat, 01 Mar 2025 01:25:03 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 01 Mar 2025 11:24:54 +0200
-Subject: [PATCH v2 1/5] drm/msm/dpu: remove DSC feature bit for PINGPONG on
- MSM8937
+Date: Sat, 01 Mar 2025 11:24:55 +0200
+Subject: [PATCH v2 2/5] drm/msm/dpu: remove DSC feature bit for PINGPONG on
+ MSM8917
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250301-dpu-fix-catalog-v2-1-498271be8b50@linaro.org>
+Message-Id: <20250301-dpu-fix-catalog-v2-2-498271be8b50@linaro.org>
 References: <20250301-dpu-fix-catalog-v2-0-498271be8b50@linaro.org>
 In-Reply-To: <20250301-dpu-fix-catalog-v2-0-498271be8b50@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -79,16 +79,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1574;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1305;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=6iPuaAjsYMeQVkUS24obUEbYrmaOHTnqfR5LGKvkJrI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnwtJn4QALW4Yp9jHaAiSTff5oWqqXJrWsumAXS
- yBUql9GT86JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8LSZwAKCRCLPIo+Aiko
- 1bKaB/0TSkQtXBypTrGIYYMHCArbLA2WM5wcSRk1VeH/6Oy/jD6i8npth08Pb7n3qqv42TSGdFP
- 9Ah5kV7z1VZiMxs16n5Zqq/sUNCXg4gVnuuNUTp/Q0RQGDZdwMyhANgV7PFR//V6/UVDw0BKhub
- t8ehERkXMhY00pPHTnpuTRlqvUkbpsWNx8xy801MR0qAm4NSJ9PFmWbiaa7+zbDlpSxoU3g6kog
- AlLCfhbQ1mQpBiCGvxrFEvOayxMX+Qra03tg/D9jtulkr8Qyn52sfGmKsoMENLpc7PBh5isfGBE
- w1iRAIAElUBfHMniHEFWvPnwro0GxfbQZM5s+GTcwVjZCYk6
+ bh=MfIfb1GLue9MerIIR2rhWjY6rmZBoFPVe5vbiAysvVc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnwtJobSugy0kB0JIsHODpjBT4yZPMEcMtlazNt
+ TTJpig19bCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8LSaAAKCRCLPIo+Aiko
+ 1VQ0B/9QjGsUEpb+DwWLNz/fIYKFPwXC7E2uGmZ4Yredir90cNDR1OI3lNMPAxYFaM6qoQOcRjk
+ WHdMYESn1aXu0fSNpX0hxt3d7J29pPQL7AsmolGiYRLsx7b4ioytiHfzQPqpveYeIp3UHcjrfSo
+ fghL+fxJZ755HA3xa/g4tia4Djz6aKIp5opjOkNZXxi9oy3y6DUDoimd4GFk071lq3uxox9vmqI
+ XDqnMFtuQ0Igx3CHoEOCW5cJLpu+sDu+Xa0gy+pMis6++f/Vz+F5GFANsvu7KxEDzTe0A8pLOm9
+ AkvmZBtxY/piGB36iX2mR/pJTxjinj661+YqhnTvu+St/Kv1
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,24 +106,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MSM8937 platform doesn't have DSC blocks nor does have it DSC
+The MSM8917 platform doesn't have DSC blocks nor does have it DSC
 registers in the PINGPONG block. Drop the DPU_PINGPONG_DSC feature bit
 from the PINGPONG's feature mask and, as it is the only remaining bit,
 drop the .features assignment completely.
 
-Fixes: c079680bb0fa ("drm/msm/dpu: Add support for MSM8937")
+Fixes: 62af6e1cb596 ("drm/msm/dpu: Add support for MSM8917")
 Reported-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
-index ab3dfb0b374ead36c7f07b0a77c703fb2c09ff8a..a848f825c5948c5819758e131af60b83b543b15a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
-@@ -100,14 +100,12 @@ static const struct dpu_pingpong_cfg msm8937_pp[] = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
+index 6bdaecca676144f9162ab1839d99f3e2e3386dc7..6f2c40b303e2b017fc3f913563a1a251779a9124 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
+@@ -93,7 +93,6 @@ static const struct dpu_pingpong_cfg msm8917_pp[] = {
  	{
  		.name = "pingpong_0", .id = PINGPONG_0,
  		.base = 0x70000, .len = 0xd4,
@@ -131,13 +131,6 @@ index ab3dfb0b374ead36c7f07b0a77c703fb2c09ff8a..a848f825c5948c5819758e131af60b83
  		.sblk = &msm8996_pp_sblk,
  		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
  		.intr_rdptr = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
- 	}, {
- 		.name = "pingpong_1", .id = PINGPONG_1,
- 		.base = 0x70800, .len = 0xd4,
--		.features = PINGPONG_MSM8996_MASK,
- 		.sblk = &msm8996_pp_sblk,
- 		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
- 		.intr_rdptr = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13),
 
 -- 
 2.39.5
