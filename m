@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B097A4ABD0
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B48A4ABD2
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:27:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033A510E24E;
-	Sat,  1 Mar 2025 14:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F3B10E25A;
+	Sat,  1 Mar 2025 14:27:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PRWBh1gC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a8aeFZ00";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAE6D10E24E
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:27:09 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-22113560c57so59390145ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:27:09 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18B710E25A
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:27:20 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-2239c066347so1368565ad.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:27:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740839229; x=1741444029; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740839240; x=1741444040; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ih00TRqmhmd1Mh0sl7zFiAmpBAeBPMq/8Nno4TrvKu8=;
- b=PRWBh1gCSOdii42vNtti7cVPVEmiUnjmvGI3bf1E24Ykg8Cs3PA2Zyr9nQ+gPPxJoo
- fkTMUHEyu3xA3d4SZ57z7KIAvtDD1HKpCIWl9tPUPXmtGwWDLo4TtMyDOcnqBjlCFscl
- S9Th9ZXdSOeRti4AgFoyK5a+lbbw4oDqkD5JWFxkJ5Dpo68MoEV1yLDJnuAO5UixmGTP
- dF0Tp94/3qazS1zCxW9Mli/0wP0Usco3k0PARP91akQGwx7njc7coQrzr3cE+CJh8aWp
- B4E2W4Mz+50wmCnnZMXS3iS6Huao8r5VQkRohRUckxdlQiIg2KDF9VCXb9r2bRpnslg+
- 7RwQ==
+ bh=HQRFKAla41Ay10wYFnrS+X/WAyPF0gKgODKhC/FC/AE=;
+ b=a8aeFZ00bzZ/3bsZudLofSFD9E4hxUfofcgKXbVCDKaP6U9fWTfB6OUTfj4W31pihx
+ /Z6IFVLOXPCHmVeVJlJRoKgBdm4uO4jmXAanTYqODyn3mv/YOZ2OMfAlPDlGvG5MCyTh
+ PMVmTwescr9HfWg+U7dAB8fcfskvHTqpl8D96Uz25e0SsmWxym3K8SaBkMgHKcEdjtJf
+ h8iJYRUle1SgWuUGMpPUlI7ojcgo59bCrSvZjkf2oX4AaZn7++rlrkqgfMDiw392B8i0
+ qrnJ6Z7iD7j1xN04cribhE9wjTsv7L3EDJwv2+ZNStwh75eb2zC96m74ee4nDyMu/w7W
+ gE4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740839229; x=1741444029;
+ d=1e100.net; s=20230601; t=1740839240; x=1741444040;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ih00TRqmhmd1Mh0sl7zFiAmpBAeBPMq/8Nno4TrvKu8=;
- b=v3iVEtEY+Vnk/BHaNAJ9HlQDkhrebmRapNOrA5auSRHyySDJ9Vf+DRV6oHDjTbkk90
- qlWx4EJEjB0MgQOMn+1isjmk4LYlZ30tRWJnw4NSYGQGIwSaJigR6gt/PDNtQnHk56Us
- +TyF2VQ6sbehdyGHif+hzlFFK88uB8Qa+d7RgUlzBZr47ANm5Ob0Y9dlORtdOvJi6fHn
- IA6KWGuKOj+j2sIxD96WX0EWpyO+SXKDM/danFnQ660ckSedY9sFn9eJ6CP7bdsrSuWu
- 6L2bxvD4tsg1e2vxcmz2bGVy8d5nqBW9kFMV5DMe0I9xNMhikGRpo/7JBICh4wtNkEZr
- NRXw==
+ bh=HQRFKAla41Ay10wYFnrS+X/WAyPF0gKgODKhC/FC/AE=;
+ b=ihis0pn7WTg9gBItImLSc6msaWcdL8kViAIKCrtsxO401O9CaqbbvIX4siAEhwaWYi
+ ySV0XVzipr+sUnQ/DsCl0HAGRmaCMV5lWukuX0Wcq0gJ9CkNDHDHNzuh1Ssr1BlwAs8a
+ MSwVjN/gL0uTHMBrze4dvIKJlEa4H/tTMGZfOJ1F13EB5qbGSPIJk0gZCcNHOzS6U0bG
+ BOKSQUJbhvYD1JdnizngVKq/G6ez6+3U//vQqqmmKhojiO0QDbmcWRgcqDVQQLUtjppu
+ l6WA/9Au0FcXGNJZuS7r8Xgh7yjcqB6UQtwif4rh22Epg2DfPxK8al77Y7k7Wr19RgwG
+ OfOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWdMHwhTxcMJdgTC4Ru8HhnylwXkDny+F4bi0nqWn7vLEWJLTrdGpV01xiepUuRwv0+d+PXbmPpDVw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxkV0z0oeVFMGzYGZiB7MLv/RXz3KUXG7Fh2iN9Caj8vB/siWgn
- v6IWypkGU+eKI7Ogua9hctEfh4plu9iA8JIypMVziQnwjOWE5+4b
-X-Gm-Gg: ASbGncvE063w+QcJnzU3KuBWN3mb3XY9kgzw6FXP94yTX8Yq0mhAM8QVATgGSLopc1p
- KN6Fx9hsPuBAAue40Zp8Q/l9fURdiqisAfv0j4CobSZYO/ZJcIzZsVeXRvghZgh4hsxEnVrbNU9
- a9/cm/Ft3vdDlLwphf0Slx6e72k9k50PjFurzKuvdpIGTtqzQRAWZhRWJy6dnzBJRFQexwWsG/P
- ei0KTXFR1J/OWffHI9LtTStvcGVTDrVzsa6KSYd0IAaqAKQzSjsPbn9x4+OUVmEAtgfQhhh+Eb9
- nzE863yrVkajeDX3+il/8nkYwg4Avj45MC/0ck/jbjfYWWYtA1fT0+QcFjkTQcB0DAY8VmOLUAc
+ AJvYcCV/chvlOv87ttaMH23+6al8TFjoq93ZxKPD0DpLXI+C0LK8tZZmYy2uHLs1v0yksCJn8dLUuoj+5ek=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsHSNidOBJ3oYl9KkOw4eGTN2WJZkJvrHv1NgRkOXIM3Mg7V12
+ T76hF2kpEQQu2hMCqouhbFc1AtRK7u+cNbrHyG2SOSa4/qzpNlvk
+X-Gm-Gg: ASbGnctH7CJcprtGyZfh8HxJpDKhQ73t6bk6yjc6BbLOrToi9r/wYVpDkMGR1B5GPe6
+ JHK7heBi7uf4lPBVxVvV7pVClWh3se9nrnTwCmj3ZqDt0X1LebCUUiN9o4RvVG1rkKbeNSXLH9n
+ pzDE5D1Tr6bLRc5l1Fo0ui3PjfQWmVwkTBBrb3rFLDV6ftAk6t/LsyCX8Iv2C5hhZ/lYySTit1r
+ Usp43KpxKCbeHD2Ye4IUhaLJJI+Oyu0PD/WzTbB4txIStDLyKmBrSONVOwYnq0dpOhfWb4cv0qE
+ zwYy7eagAp2hQkSnrwIuDjjG41Uyw1trGOij80I7Y/aWwXouoNiH/sDNkYDptiElvT7hx/8RorE
  =
-X-Google-Smtp-Source: AGHT+IEWIU2a96xKy97Vw2OZbiqRo6ZsV5By1mOyMKGEerXJ25OnWhIdagB26u20PcByLRXKVw2xEw==
-X-Received: by 2002:a17:903:32c8:b0:223:2744:cb32 with SMTP id
- d9443c01a7336-22368f732b3mr142906935ad.5.1740839229452; 
- Sat, 01 Mar 2025 06:27:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFWKqiV0JEURaPP9WsTXinyvBYz5p+Da6Z0sy2B13n/BlJ3FGZeHRzY7pPlUCpj+eVU13KkqQ==
+X-Received: by 2002:a17:902:d4c6:b0:215:7446:2151 with SMTP id
+ d9443c01a7336-22368f61abbmr99234975ad.4.1740839240264; 
+ Sat, 01 Mar 2025 06:27:20 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.27.01
+ d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.27.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 06:27:08 -0800 (PST)
+ Sat, 01 Mar 2025 06:27:18 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -86,10 +86,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v2 11/18] wifi: brcm80211: Replace open-coded parity
+Subject: [PATCH v2 12/18] drm/bridge: dw-hdmi: Replace open-coded parity
  calculation with parity32()
-Date: Sat,  1 Mar 2025 22:24:02 +0800
-Message-Id: <20250301142409.2513835-12-visitorckw@gmail.com>
+Date: Sat,  1 Mar 2025 22:24:03 +0800
+Message-Id: <20250301142409.2513835-13-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250301142409.2513835-1-visitorckw@gmail.com>
 References: <20250301142409.2513835-1-visitorckw@gmail.com>
@@ -117,45 +117,36 @@ efficiency.
 Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>
 ---
- .../wireless/broadcom/brcm80211/brcmsmac/dma.c   | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c
-index 80c35027787a..d1a1ecd97d42 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c
-@@ -17,6 +17,7 @@
- #include <linux/slab.h>
- #include <linux/delay.h>
- #include <linux/pci.h>
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+index cf1f66b7b192..833e65f33483 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+@@ -4,6 +4,7 @@
+  *
+  * Written and tested against the Designware HDMI Tx found in iMX6.
+  */
 +#include <linux/bitops.h>
- #include <net/cfg80211.h>
- #include <net/mac80211.h>
+ #include <linux/io.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+@@ -171,12 +172,7 @@ static void dw_hdmi_reformat_iec958(struct snd_dw_hdmi *dw,
  
-@@ -283,21 +284,6 @@ struct dma_info {
- 	bool aligndesc_4k;
- };
- 
--/* Check for odd number of 1's */
--static u32 parity32(__le32 data)
--{
--	/* no swap needed for counting 1's */
--	u32 par_data = *(u32 *)&data;
--
--	par_data ^= par_data >> 16;
--	par_data ^= par_data >> 8;
--	par_data ^= par_data >> 4;
--	par_data ^= par_data >> 2;
--	par_data ^= par_data >> 1;
--
--	return par_data & 1;
--}
--
- static bool dma64_dd_parity(struct dma64desc *dd)
+ static u32 parity(u32 sample)
  {
- 	return parity32(dd->addrlow ^ dd->addrhigh ^ dd->ctrl1 ^ dd->ctrl2);
+-	sample ^= sample >> 16;
+-	sample ^= sample >> 8;
+-	sample ^= sample >> 4;
+-	sample ^= sample >> 2;
+-	sample ^= sample >> 1;
+-	return (sample & 1) << 27;
++	return parity32(sample) << 27;
+ }
+ 
+ static void dw_hdmi_reformat_s24(struct snd_dw_hdmi *dw,
 -- 
 2.34.1
 
