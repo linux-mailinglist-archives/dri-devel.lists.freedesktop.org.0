@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6572A4ABAE
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDFBA4ABB1
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 15:25:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFCF10E057;
-	Sat,  1 Mar 2025 14:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 199B310E17A;
+	Sat,  1 Mar 2025 14:25:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ecumfcU1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hCyfHsfA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D9A10E057
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:25:15 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-223959039f4so3584445ad.3
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:25:15 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69A4910E17A
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 14:25:26 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-223480ea43aso77685045ad.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 06:25:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740839115; x=1741443915; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DNP1gcd9iHRxzh69rYhVl4jkjT7XmE00fWzfP312xis=;
- b=ecumfcU1z8RjJwcA70MSDY1y/wNxw7nFV5UX7PBNKkG0gmBxxgf8GvtVUjveF2dIP0
- EnDVl1k7ASK/SxmnmLldmyQjC9IwaFlSxmmPvquXNo2hoxaJZwi5v57tasF6q1t4M1/d
- 8sU4o83rJ/6mBdHzSKbKVAuph1g8nLXzdCwWcWE2hLzQdnrggcqBTZ69ebEvp3zYk097
- zUJwsVCVljfzbi4XLsCrryxnRHKiFzh2M6BdViEZekueWmG2K6J90hB01tn9PzUTTsAD
- 5gDKeZ9zcqjXZ3JfhtRmpg9fPPycnfb8yK1fIobPq3sw1fkr96MIiLQeZ5dtyNf3xYsi
- 50JA==
+ d=gmail.com; s=20230601; t=1740839126; x=1741443926; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JXn6GKhF5PCrQUxpPI6cKx6cLS6wqLkAI6AcaLhK77k=;
+ b=hCyfHsfA73doXTvPqPrvN/pxsUqnh03EeWz0xh+YFqTowNdzFcMqEpGxWQyWtxcOjx
+ 6qp0tBKG/lT5nzlnYtCsFfHKT8snIeXcLDme4fxvQI1YIY2VB9u3pPErE2aF1fKnDNRI
+ riwokhyt1YFpxTpoiS7qQR4cUI1Raq2iC1S8ZwSISDq6xpkx3/pVi8ogjeWUesJVvD1y
+ gk9Ym3e8GC361BxhTAQEn3vs4Q2xJmc7fv1eTOk0oSxCyXt0TafEq/n54dvUATeFzHMi
+ stmed4i5f4j978KzPUVsxZDMiolyoZRlQH+kwCh+dLLBfJ1xCkmE+pIAPRATtrK7itr+
+ 37jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740839115; x=1741443915;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DNP1gcd9iHRxzh69rYhVl4jkjT7XmE00fWzfP312xis=;
- b=XJAmT99OFs/iQX/wGnE1/8LS3wO239EnvF/OPD+N/toRSAlGDYacTUBaJA4EKVQ2HJ
- iNNy5qcM02CJKdUczxXPBsBT3/6xvMeSw340qUsTQtymfZerJcGMCWO1K9Im4FRZc4Qc
- zKlRLqHERc5ahuII/+j8uSr40qa5gu/XSsVOrliqIDXF/GJKtClD/txWZYUyk8urqTOX
- kBrQfieyPCBLUm+IDExhK/xilsP9vN+x4CcjrK7dSv33wmA4WHK1tKc/nCPQVvFdZ1qu
- CjNCe9W/Wvyc+O7FDCkwzbNE0wWj3b8nImtYFJKvRtOidN1VDXBU2RDtQtYIHni4LOAH
- mLCA==
+ d=1e100.net; s=20230601; t=1740839126; x=1741443926;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JXn6GKhF5PCrQUxpPI6cKx6cLS6wqLkAI6AcaLhK77k=;
+ b=sK2k/jVnSzBUwPDeECcRcZ+3En1ip79jIdqRKDOSljOxkzuP0c747IpwVnUJfof3mv
+ gvjg9z0NXoWXNaOlq4ejOx/GBnfgTYr5isj021S81V2fXCUgYovFBLw6hrk1KepZ3DKj
+ +EPigjDi6vc86h5YfDcCBzmrJ98cZZOSft1KU0utZFkStY4p5BB//ds6UpbC4V26XG4S
+ X5K7Il6VbYv7+LOImDo9I4e5uW242xz/cQ9rFaZmsY5OG3MtQpqJssjb2Wmab7dlQyEY
+ T9N/5CnRyQFnv4fAKyZkGAdzZGIhDCqjIeKGBn4foXfTgkws40mwN3Lz8e4KSzOAFtuB
+ xSUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVC8v4ZPUUvDxWQrfgE01vvhC4fKtfAMbgGOnYesjzHe4ZMTWWpYXMhxixMAgt10w05IGon9MV8KXo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+FMTDg6STbNCy8J3f4lVKe9eMxjtCC/hgXwI8G95Dk5fZTQjk
- ZVmkf37+Q5yYk9rkwzG1I82z8xqrbs6SMwUmjWECvm6APAOBvoXQ
-X-Gm-Gg: ASbGncujrJh5lJyl6+lp2bMBDAiaagUkBv0Aq/C46oFkh+oTrx2JqkZlcnLsSV6Qnyr
- PnJ3tPNiO+MMLBnVgUE2ZQT9DhMSnCx+V898Y7FKH31MObyFNmf5iAMK1BIyw03Nx//zJ0D/l3g
- 6asIxf7I5ZcdkG8E2DW1tlFJPhjtysi7okWb1cYkX60vYVi4Jw5JyxarAg07xTr1EYaMnXb0LP/
- kJ7oFU4rNJwBxXzNJulAOlnUa34sO6mlnkEatC4yRv5GhgdnvfneG8xK6Q7emcRPLCk/MPFSCwb
- OtfDmanVWDXzMYpjrKwMRCcL1sLsUcrMxv2sbfvQQQbEQ++1LTd+bDOFdRPc2OVQ2P4m5QNQnNc
+ AJvYcCUOkw2VYsPww6AkXIHjhJ8LdBeMzXLmn2hpaz6y3c4q2I8MXm9rUg2NGXGVMKNcHtPIKjSSZByVAyk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy3sEbS5zEXs0ttFiApToDFJu0Yjbd1SVcx8VOfDPSaHtODVXOW
+ wATpHjsaBL2WmBzUND7X/WZuBao3eEKoMPRTjLa1+7RpYXkL+Y3U
+X-Gm-Gg: ASbGnctUCkztzzIh1wEiMdBZlzUdwaIf40q6Q5IuGXVHZC13/X3CVVSvE/26+OLpinE
+ nATKpTVbEnMbk9hmHXPmGP5PFxiHCt/uAgi0vgR5hnpcVnH1KI4UHaPpZReShQtfVUpAFeK1FRK
+ FlA+L84iAFEwHJmzklRHd2iMRWU2lSHkxMZRCt+R9BV3YEF0/1AipbjVNgax3CewGg6wRTxkXR7
+ 9YbJdGKIYy5NQ0NVa23yqkX+3PbUtPOOGrsyq7fdLuiOxrGpGrU+KeqT6MOeqawMysOHF2UFDGS
+ XprjmKLoDyIIZE9xKhND0j1c72x3Q9pa63Qz3ZsFcH0x+eHfE66jzrg3kaM3Oqin7AZckEdCL0s
  =
-X-Google-Smtp-Source: AGHT+IFmQ7+Wt4EJx82M81pMqmqG6vjS1UaCqAsjmQIBhBcvOofXBIwpdWFf7GWkoh7LWsBn9NTlfg==
-X-Received: by 2002:a17:902:c948:b0:220:d79f:60f1 with SMTP id
- d9443c01a7336-2236920765bmr101611195ad.42.1740839114994; 
- Sat, 01 Mar 2025 06:25:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF5pURPLoHQQUwY6iobOMXaj/n4QtZUV4ZbycQ+e8lZRNMONMXX28RkgoVRrFQeanZPW34ebQ==
+X-Received: by 2002:a17:903:2346:b0:223:635d:3e38 with SMTP id
+ d9443c01a7336-22368fa24bemr111392555ad.15.1740839125810; 
+ Sat, 01 Mar 2025 06:25:25 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.25.06
+ d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.25.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 06:25:14 -0800 (PST)
+ Sat, 01 Mar 2025 06:25:25 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -85,10 +86,13 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v2 00/18] Introduce and use generic parity16/32/64 helper
-Date: Sat,  1 Mar 2025 22:23:51 +0800
-Message-Id: <20250301142409.2513835-1-visitorckw@gmail.com>
+Subject: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
+ implementations
+Date: Sat,  1 Mar 2025 22:23:52 +0800
+Message-Id: <20250301142409.2513835-2-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250301142409.2513835-1-visitorckw@gmail.com>
+References: <20250301142409.2513835-1-visitorckw@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,77 +110,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several parts of the kernel contain redundant implementations of parity
-calculations for 16/32/64-bit values. Introduces generic
-parity16/32/64() helpers in bitops.h, providing a standardized
-and optimized implementation.  
+Add generic C implementations of __paritysi2(), __paritydi2(), and
+__parityti2() as fallback functions in lib/parity.c. These functions
+compute the parity of a given integer using a bitwise approach and are
+marked with __weak, allowing architecture-specific implementations to
+override them.
 
-Subsequent patches refactor various kernel components to replace
-open-coded parity calculations with the new helpers, reducing code
-duplication and improving maintainability.
+This patch serves as preparation for using __builtin_parity() by
+ensuring a fallback mechanism is available when the compiler does not
+inline the __builtin_parity().
 
 Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
-
-This patch series is based on next-20250228.
-
-Changes in v2:
-- Provide fallback functions for __builtin_parity() when the compiler
-  decides not to inline it
-- Use __builtin_parity() when no architecture-specific implementation
-  is available
-- Optimize for constant folding when val is a compile-time constant
-- Add a generic parity() macro
-- Drop the x86 bootflag conversion patch since it has been merged into
-  the tip tree
-
-Kuan-Wei Chiu (18):
-  lib/parity: Add __builtin_parity() fallback implementations
-  bitops: Optimize parity8() using __builtin_parity()
-  bitops: Add parity16(), parity32(), and parity64() helpers
-  media: media/test_drivers: Replace open-coded parity calculation with
-    parity8()
-  media: pci: cx18-av-vbi: Replace open-coded parity calculation with
-    parity8()
-  media: saa7115: Replace open-coded parity calculation with parity8()
-  serial: max3100: Replace open-coded parity calculation with parity8()
-  lib/bch: Replace open-coded parity calculation with parity32()
-  Input: joystick - Replace open-coded parity calculation with
-    parity32()
-  net: ethernet: oa_tc6: Replace open-coded parity calculation with
-    parity32()
-  wifi: brcm80211: Replace open-coded parity calculation with parity32()
-  drm/bridge: dw-hdmi: Replace open-coded parity calculation with
-    parity32()
-  mtd: ssfdc: Replace open-coded parity calculation with parity32()
-  fsi: i2cr: Replace open-coded parity calculation with parity32()
-  fsi: i2cr: Replace open-coded parity calculation with parity64()
-  Input: joystick - Replace open-coded parity calculation with
-    parity64()
-  nfp: bpf: Replace open-coded parity calculation with parity64()
-  bitops: Add parity() macro for automatic type-based selection
-
- drivers/fsi/fsi-master-i2cr.c                 |  18 +--
- .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   |   8 +-
- drivers/input/joystick/grip_mp.c              |  17 +--
- drivers/input/joystick/sidewinder.c           |  24 +---
- drivers/media/i2c/saa7115.c                   |  12 +-
- drivers/media/pci/cx18/cx18-av-vbi.c          |  12 +-
- .../media/test-drivers/vivid/vivid-vbi-gen.c  |   8 +-
- drivers/mtd/ssfdc.c                           |  17 +--
- drivers/net/ethernet/netronome/nfp/nfp_asm.c  |   7 +-
- drivers/net/ethernet/oa_tc6.c                 |  19 +--
- .../broadcom/brcm80211/brcmsmac/dma.c         |  16 +--
- drivers/tty/serial/max3100.c                  |   3 +-
- include/linux/bitops.h                        | 115 ++++++++++++++++--
- lib/Makefile                                  |   2 +-
- lib/bch.c                                     |  14 +--
- lib/parity.c                                  |  48 ++++++++
- 16 files changed, 185 insertions(+), 155 deletions(-)
+ lib/Makefile |  2 +-
+ lib/parity.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+), 1 deletion(-)
  create mode 100644 lib/parity.c
 
+diff --git a/lib/Makefile b/lib/Makefile
+index 7bab71e59019..45affad85ee4 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -51,7 +51,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
+ 	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
+ 	 percpu-refcount.o rhashtable.o base64.o \
+ 	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
+-	 generic-radix-tree.o bitmap-str.o
++	 generic-radix-tree.o bitmap-str.o parity.o
+ obj-y += string_helpers.o
+ obj-y += hexdump.o
+ obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
+diff --git a/lib/parity.c b/lib/parity.c
+new file mode 100644
+index 000000000000..a83ff8d96778
+--- /dev/null
++++ b/lib/parity.c
+@@ -0,0 +1,48 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * lib/parity.c
++ *
++ * Copyright (C) 2025 Kuan-Wei Chiu <visitorckw@gmail.com>
++ * Copyright (C) 2025 Yu-Chun Lin <eleanor15x@gmail.com>
++ *
++ * __parity[sdt]i2 can be overridden by linking arch-specific versions.
++ */
++
++#include <linux/export.h>
++#include <linux/kernel.h>
++
++/*
++ * One explanation of this algorithm:
++ * https://funloop.org/codex/problem/parity/README.html
++ */
++int __weak __paritysi2(u32 val);
++int __weak __paritysi2(u32 val)
++{
++	val ^= val >> 16;
++	val ^= val >> 8;
++	val ^= val >> 4;
++	return (0x6996 >> (val & 0xf)) & 1;
++}
++EXPORT_SYMBOL(__paritysi2);
++
++int __weak __paritydi2(u64 val);
++int __weak __paritydi2(u64 val)
++{
++	val ^= val >> 32;
++	val ^= val >> 16;
++	val ^= val >> 8;
++	val ^= val >> 4;
++	return (0x6996 >> (val & 0xf)) & 1;
++}
++EXPORT_SYMBOL(__paritydi2);
++
++int __weak __parityti2(u64 val);
++int __weak __parityti2(u64 val)
++{
++	val ^= val >> 32;
++	val ^= val >> 16;
++	val ^= val >> 8;
++	val ^= val >> 4;
++	return (0x6996 >> (val & 0xf)) & 1;
++}
++EXPORT_SYMBOL(__parityti2);
 -- 
 2.34.1
 
