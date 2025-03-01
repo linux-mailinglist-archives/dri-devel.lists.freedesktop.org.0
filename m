@@ -2,94 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AC7A4A9FB
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 10:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06109A4AA14
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Mar 2025 10:54:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5504D10E167;
-	Sat,  1 Mar 2025 09:25:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OzWJprgB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 058CC10E07A;
+	Sat,  1 Mar 2025 09:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E04810E1A1
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 09:25:13 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30613802a6bso31836011fa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 01:25:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1740821112; x=1741425912; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=URwOcNjnz6PkMJ2QDjvaSLAsGLbSDP+kGsc1C7zaZt0=;
- b=OzWJprgB48RskC+QJhiQ/thQgeALx3F9ngmFSv7ECg2FtcD6eG802KlzU32DeWfDPG
- VOaLHzUzccYqbUyuTJgHZ/rANjWRZrKZtGNWWgXrlVl7YY4a4quzhpXkMUGJrehWSLVf
- iYUUmvqXk1Mf81wLzmUGlJF5aG63kVHSgnt2DdwQQAkRpa0ir8L+R0OVMC5l4jI+GTaO
- aeqS2K76EO0w1vwYY2S9d3F0DFoEH61DXJG1BO/SLUIT0Y+LBNzajuM0w4KbjTrsxTmG
- 5yN0QQN2RFQvnqVTG9uZ63WgOCkgRkSCQ1WFYGFqq84xIgNq1j8POe5HHychTjV+afYU
- z6bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740821112; x=1741425912;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=URwOcNjnz6PkMJ2QDjvaSLAsGLbSDP+kGsc1C7zaZt0=;
- b=pgfwFrmP/IgTq48FZTg85tnhO44KIWMbnkKeO7XVKYMFzYUygXHXkjce0WAlMbWgfY
- Cv6WPmbqVFjtLrufulRzgIjGvM3oq1OjC0ykRNiuUMUJaYhohov6tjmXpcqQ2zTUVGg7
- JrDxEJdGuqybqGNAxYsuVE7VoDpwZmpifJSZJH2wlyYlx4Irs1nKm/aHI90npmX5InZT
- Fmhea5hrWB4N7FABgK/GcAlgCJcq6I4GijQz01wZughGkL+U82lhNac36qmgjwz3kdTm
- /e+tnewxWTGk6EwsFSZOihu5IlvDYC4gtuT9m0P4ZbsRzGJoLZsNdOv5rTFMoOhn5svl
- WKGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVVPaXYl4uauh2jHEPwWk6iH4/GJxsOyzfNJ48RhyuIgeFj/s0v8yUWrNdFqJSo5r52L1Xvw5ZM5Ns=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBpgc//xevPxhWss1+/jch9O4wjXi90EenFD6oHjm672WXmN9B
- AdvvR/nS1o2sF5wPtkvIFMdZXPVPximYlMrA3pLf9brnWfFuqHNyIpZ27dQd52U=
-X-Gm-Gg: ASbGncuXqkCavB5CvyJbVVu9Xs+t912PG8NNjVqqbzK4thAV3R5IEK8qjIfl4SQLyYY
- SjOFL0+Kn+SvV7zz7I9s60TbzGWmFSTbcxxXDFBTR5j4p6ut4JtBfAy41istiJQdh7rX3n4SOZB
- uAYqh3+tW2u8xzl8RGUzKlOV4PgYWjnaKyP4QaEJ17qLyi7oHeS5pnSEWQyCNoSS04Emp2d0w9L
- N2pwieHf938pT5bZXQWWWpXsgIaqh4mU06LrvWp/0XUWQRpH+CQ86RkhxpcANPWdPTVUa9y8qQ2
- fGJLysuUKHVpU+UFzu9akI7LjX5gUkZ43c00VPZ7iopAS7JmK2m/
-X-Google-Smtp-Source: AGHT+IEh8A2sl1pAlOlMCHBvb8v6txd7ryhkeXioo/K+sIwr784pk95XMok+4SarSyMfmUmdP9cUsw==
-X-Received: by 2002:a05:6512:128e:b0:545:9e4:ca91 with SMTP id
- 2adb3069b0e04-5494c38072bmr2929372e87.39.1740821111736; 
- Sat, 01 Mar 2025 01:25:11 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5494417432csm738406e87.52.2025.03.01.01.25.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Mar 2025 01:25:10 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 01 Mar 2025 11:24:58 +0200
-Subject: [PATCH v2 5/5] drm/msm/dpu: remove DSC feature bit for PINGPONG on
- SDM630
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBC810E07A
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Mar 2025 09:54:54 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Z4gLV3xfGz2CprZ;
+ Sat,  1 Mar 2025 17:50:42 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id 0ED81180044;
+ Sat,  1 Mar 2025 17:54:50 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Sat, 1 Mar 2025 17:54:48 +0800
+Message-ID: <c87613aa-1d17-4a88-acce-269ea9eddc22@huawei.com>
+Date: Sat, 1 Mar 2025 17:54:47 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
+ detect of irq feature
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <reqpxlbvlz5qssgy6gbjuou33h4zevo4xeztqbsr4keehplyhx@utv22a5ihohx>
+ <eef68fc7-30f4-4246-a82e-4f90cd6a665d@huawei.com>
+ <6jx5ldpidy2ycrqognfiv5ttqr5ia4dtbryta3kc2mkndrvvgo@qzuakucz765k>
+ <6634386b-afc1-4e31-a2f4-9c1afed2d1d8@huawei.com>
+ <CAA8EJpqHmhUxLE57XNeh-nVtSP7WvtBE=FiFWk9kqM_P+AC=0A@mail.gmail.com>
+ <5af62fa9-e71b-412f-8640-502f03fcaa52@huawei.com>
+ <vrsy4hao4qu3hlcbmjyfyibeearhhjgtik3e6o3v2eyzkatdve@kdb7cyvl45tu>
+ <ade54ddd-79ea-4335-9058-c17e4525e83f@huawei.com>
+ <4hicem4rbz5l7wnzaaz3krrl3euh2dmvlah2rb7errrdq5fann@44dvdxirkuzh>
+ <6506e448-3851-436f-9354-42f9ef844d27@huawei.com>
+ <njnz5hxumrvqrgsfq7zlunle3jgfan3be34ao5xtkmzczpi6af@waywds2ww6qw>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <njnz5hxumrvqrgsfq7zlunle3jgfan3be34ao5xtkmzczpi6af@waywds2ww6qw>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250301-dpu-fix-catalog-v2-5-498271be8b50@linaro.org>
-References: <20250301-dpu-fix-catalog-v2-0-498271be8b50@linaro.org>
-In-Reply-To: <20250301-dpu-fix-catalog-v2-0-498271be8b50@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1811;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=xfJndy0LJ6tSYaPs6OPWvlHfde8Gt+RzIdnKqXQJW2A=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnwtJouDh1p63euLoMf/eO1Aa1kaVi4m9jHe64K
- bORUvpxw0GJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8LSaAAKCRCLPIo+Aiko
- 1Q2wB/9+J8HcIzLcD4Z54mCSlyjwkQ3C2RZjJ0uAwHKstzXjx0uAq015I1fXZN787warvOm3j3L
- ig0302evj00WTzKaZrN10rzDnrgNK02AHwxv8GzoFst4YwaX6cEHT+KdUdURGSwS9ZTrJiTxTLw
- mxpz/opigMTdni3hSRSAGrPYop6rS3y8nVJ4FaFfXPptbG/RBr0iOlIfL8rgqK6DWb0bw7vYMJm
- xlMPF66WvRaTDGCudXLahAGjGqT4ggHR+p03OVjhQdOyCGRscvTvI7Q3JwqN09qFwJSKR/+y78n
- vU7sLNkNz1VHMK+BKtoWqHFza6tec6uBRWhHiKh9KtHSCX/W
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,45 +70,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SDM630 platform doesn't have DSC blocks nor does have it DSC
-registers in the PINGPONG block. Drop the DPU_PINGPONG_DSC feature bit
-from the PINGPONG's feature mask, replacing PINGPONG_SDM845_MASK with
-BIT(DPU_PINGPONG_DITHER).
 
-Fixes: 7204df5e7e68 ("drm/msm/dpu: add support for SDM660 and SDM630 platforms")
-Reported-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> On Sat, Mar 01, 2025 at 04:45:40PM +0800, Yongbang Shi wrote:
+>>> On Thu, Feb 27, 2025 at 09:46:10PM +0800, Yongbang Shi wrote:
+>>>>> On Tue, Feb 25, 2025 at 09:57:17PM +0800, Yongbang Shi wrote:
+>>>>>>> On Mon, 24 Feb 2025 at 16:03, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>>>>>>>> On Sat, Feb 22, 2025 at 06:35:48PM +0800, Yongbang Shi wrote:
+>>>>>>>>>>>> +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
+>>>>>>>>>>>> +{
+>>>>>>>>>>>> +  struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
+>>>>>>>>>>>> +  struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
+>>>>>>>>>>>> +  struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
+>>>>>>>>>>>> +  int ret;
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +  if (dp->hpd_status) {
+>>>>>>>>>>>> +          hibmc_dp_hpd_cfg(&priv->dp);
+>>>>>>>>>>>> +          ret = hibmc_dp_prepare(dp, mode);
+>>>>>>>>>>>> +          if (ret)
+>>>>>>>>>>>> +                  return ret;
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +          hibmc_dp_display_en(dp, true);
+>>>>>>>>>>>> +  } else {
+>>>>>>>>>>>> +          hibmc_dp_display_en(dp, false);
+>>>>>>>>>>>> +          hibmc_dp_reset_link(&priv->dp);
+>>>>>>>>>>>> +  }
+>>>>>>>>>>> If I understand this correctly, you are using a separate drm_client to
+>>>>>>>>>>> enable and disable the link & display. Why is it necessary? Existing
+>>>>>>>>>>> drm_clients and userspace compositors use drm framework, they should be
+>>>>>>>>>>> able to turn the display on and off as required.
+>>>>>>>>>>>
+>>>>>>>>>> Thanks for your asking, there are cfg/reset process when the connector 's pluging in/out.
+>>>>>>>>>> We want to cfg DP registers again when the connector changes. Not only dp link training, but also cfg
+>>>>>>>>>> the different video modes into DP registers.
+>>>>>>>>> Why? The link training and mode programming should happen during
+>>>>>>>>> pre_enable / enable stage (legacy or atomic).
+>>>>>>>> Hi Dmitry,
+>>>>>>>>
+>>>>>>>> Right, that's what I'm curious about. It won't call encoder enble/disable functions when I triggered HPD.
+>>>>>>>> And I'm sure the drm_connector_helper_hpd_irq_event() is called. So I add a drm_client for it.I
+>>>>>>> It should be userspace, who triggers the enable/disable (or it should
+>>>>>>> be the in-kernel fbdev / fbcon, which interface through the generic
+>>>>>>> drm_fbdev client).
+>>>>>> Right, I knew it. When I insmode my driver firstly (or restart display service), it will call disable, modeset and enable,
+>>>>>> by user, but it won't call when HPD triggered .
+>>>>> - Is HPD even properly delivered to userspace? What kind of compsitor
+>>>>>      are you using? Is .detect working properly and reporting a correct
+>>>>>      plug-in state?
+>>>> Thanks for your answering. I'm not very good understanding about userspace in framework. In my opinion, when I call
+>>>> this drm_connector_helper_hpd_irq_event(), the HPD will deliver to userspace.
+>>>> I use Xorg, and the display service is GDM.
+>>>> The .detect is called and the getting modes info is correct.
+>>>> I find that it would only trigger(disable, modeset and enable), when I changed resolutions, restart display service and insmod driver.
+>>> You can go to the display settings in GDM. It would be interesting to
+>>> observe if it notes the second monitor or not. Last, but not least, you
+>>> can use a simple tool like 'xrandr' under your XOrg session to set the
+>>> display resolution.
+>> Thank you for your advice!
+>> Right, there are DP and VGA two monitors. I tried to totally remove the vga connector in driver, the problem is gone.
+>> So do I need to clear the vga connector, if dp is plugged in?
+> Unless your hardware can not manage two outputs at the same time, no,
+> you don't have to. Just check how it behaves on x86 systems. Ideally
+> your driver should have the same behaviour.
 
----
-Note, Konrad pointed out that vendor DT doesn't define DIPTHER support
-for this platform, however I believe this is because support for this
-platform predates DITHER support in the vendor kernels.
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Our hardware cannot support two outputs with different timing, so I used the one crtc and one plane that DP and VGA share. And just add a new DP connector
+with a encoder, just like the previous VGA's code logic. But the HPD problem makes me feel confused, should I change the framwork structure to slove this problem?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
-index 3aed9aa4c533f167ece7b4a5eb84fe49c4929df5..99c0f824d8f00474812bde12e7d83ba3de1834f1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
-@@ -115,14 +115,14 @@ static const struct dpu_pingpong_cfg sdm630_pp[] = {
- 	{
- 		.name = "pingpong_0", .id = PINGPONG_0,
- 		.base = 0x70000, .len = 0xd4,
--		.features = PINGPONG_SDM845_MASK,
-+		.features = BIT(DPU_PINGPONG_DITHER),
- 		.sblk = &sdm845_pp_sblk,
- 		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
- 		.intr_rdptr = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
- 	}, {
- 		.name = "pingpong_2", .id = PINGPONG_2,
- 		.base = 0x71000, .len = 0xd4,
--		.features = PINGPONG_SDM845_MASK,
-+		.features = BIT(DPU_PINGPONG_DITHER),
- 		.sblk = &sdm845_pp_sblk,
- 		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
- 		.intr_rdptr = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14),
+And also, I will check whether this driver works good on the x86 server. Right now, I'm testing on arm64 server.
 
--- 
-2.39.5
+>> And also, I used xrandr to set modes after 'startx'. Changing resolutions works,
+>> but there are errs when set some low resolutions.
+> That's a separate topic, most likely related to timing or to some other
+> issues. You can fix that separately (but please do, switching modes
+> should work).
+
+Okay!
+
 
