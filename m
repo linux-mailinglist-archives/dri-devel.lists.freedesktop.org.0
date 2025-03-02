@@ -2,98 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DADA4B2F5
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 17:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED725A4B2D3
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 17:07:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4769810E0FF;
-	Sun,  2 Mar 2025 16:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D8910E18F;
+	Sun,  2 Mar 2025 16:07:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="IVLFCY1G";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="yIJqDKWv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TLEwWNmR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 470 seconds by postgrey-1.36 at gabe;
- Sun, 02 Mar 2025 16:11:08 UTC
-Received: from fout-b2-smtp.messagingengine.com
- (fout-b2-smtp.messagingengine.com [202.12.124.145])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2DF10E0FF
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 16:11:07 +0000 (UTC)
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal
- [10.202.2.43])
- by mailfout.stl.internal (Postfix) with ESMTP id 43CA911400CE;
- Sun,  2 Mar 2025 11:03:13 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
- by phl-compute-03.internal (MEProxy); Sun, 02 Mar 2025 11:03:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
- h=cc:cc:content-transfer-encoding:content-type:content-type
- :date:date:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:subject:subject:to:to; s=fm2;
- t=1740931393; x=1741017793; bh=thNHmiSH9lOAN4/tLKeVEhGP0Bb23KHy
- 19mDsCcWSTg=; b=IVLFCY1G/xsblzXzUy2/v2Kb7vuyiA2nr40zwe2Z/OsIdrc6
- qHauS2ALh8zX3P/nIP2seV3RXdPXqiX3fV6AmhJkCpZaHLqY/QtLU8ZrQ6kNr0wK
- qdb4mjwhC2A0g+iJ0hMTAnhr59SQXbZkXVzuH8Cq5DpytOM2i8uwJo/RX75cKRHA
- sLx93nxs2vfnmBdgyztlKRgkYIChX0HW7gLqYqn821pOgVHIB3Uab6cjxkSJo64W
- nV75FyJBCRJlo1N5TiXINfLQEg2JAnsWki4wmUZ/o/FQTGJHRhJs7tFAg6n+woa4
- gkH8NADvEjYWIttKgGUjrcHIeXp0LKZPo2GdaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740931393; x=
- 1741017793; bh=thNHmiSH9lOAN4/tLKeVEhGP0Bb23KHy19mDsCcWSTg=; b=y
- IJqDKWvigtwF1a2znq7lujVcD2q3u5cGq+7InAMEVJ6L8QVrVVKGqn5i960ZJhwM
- bbh9fk4+by25IYUa5SVgKV7pzYvHfap71ytCpmZzdx27uXKK+jTddhJY6wrtenWJ
- i7xTNBCJOhTZsvUQqY+4ckkAuZPX/Su5xMcNI75nncNZseoE3hAkcl1Pko5i4o1t
- qxnjJKx0xtk8RX25xSdcxpRjEPs4tLxug40wsAO/uHaukhSG4u2JrswNgVgzEDYv
- giLNi4Vyp6QyTvW/CocaQw0mKkSTosCB/df+BVaXpuKfl3zs6c2SqIQ3iREhbZeO
- bZp2xUNUeaRZoq4era2XA==
-X-ME-Sender: <xms:P4HEZ3pP3ImPHfArXRawB3WpOLJaws0FOixegN5jGytL4Us9reeOHw>
- <xme:P4HEZxqPo_qzHrX2A3rEWvJYwKG01K0_QJKYyxhAToRPtozzaZKv8D-_4LVx-FuHG
- zYFlrBh-b7t6PjVWWg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelieeigecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
- tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
- hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
- feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
- tghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehfrghithhhrd
- gvkhhsthhrrghnugestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopehsihhmohhn
- rgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
- dprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehm
- rggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtg
- hpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhr
- ghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpth
- htoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtohepthiiihhm
- mhgvrhhmrghnnhesshhushgvrdguvg
-X-ME-Proxy: <xmx:P4HEZ0OijRnMMx1GAxE0ztt0u43gknFQZZcWyfLQgS_TSQXJexFcRA>
- <xmx:P4HEZ660vRX94AI_yJR2WtI4bN9v3nEaD_ubxw8PxrLwXffeuVUsYw>
- <xmx:P4HEZ24GxmKqJGihORpIUiu0LrM4nNRXEdPzr6QbtxlhAaD9sgbbfg>
- <xmx:P4HEZygtZsr-y18jBti2mikR2WPf-XLQMuPpEmtBf0QF22f0uKvDsg>
- <xmx:QYHEZ_FcgTwIiDlILWchsQ_ApNybee3AuLzNTpQZGmHu8PgvWdPWC79->
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 9E84ABA0070; Sun,  2 Mar 2025 11:03:11 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC4B10E18F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 16:07:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 755E4611C3
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 16:06:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60B2FC4CEE6
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 16:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740931621;
+ bh=6Z1K2XeEqTJ+PjSTHPmZvbQCAwrBgXMnsTzeuQ32us4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=TLEwWNmRzoxu50gGetzLmCrV55ix9FhhrsO+ah2335y0pn9Qi3RFBfkZYkYOMS2ab
+ j9TjFANBQb+7XL6fMzePFbbvwAN7fMzd+fPngIunbIpQ5mhvfdDzuEFiBkS9YU4WVs
+ zpJ38yLhwZYTN79b/EvKXeFBpHgyPRR1LG8yei1iV882TMyauEBkHI0lhsvb9Udwhj
+ khewVtukix9yqVAnPHB5w3JAXCfWS0Vtx3NR/1vcQp8NkoOoZZ97hBHfMdKuOTWxK3
+ MpXDyRlc4Btp+XN74DkPAyeUa0/j+hd/C0QFzKjkDfGb4Ke4tQ/96asbH8mU6mELPR
+ oVWCFltGcEQvg==
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2feae794508so4835212a91.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 08:07:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUr/tnQJW2f4Tk8S5Ydi5uI6ehWl6kY8LfvVR7SwIV43vZscH1xMp4GpUh2/dgM1AdeZNB/I7D8Cfo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzH76LL6WzL0STHexSyhNwUhfkGkmTDw5+mS5+Q1Hv87b51tPbv
+ 2//NVfC9ut1qJ8nxKbXonD78j6qsxM9a1Jg95ypkJvBTZmmgW6n6TihHCJ3pw6tqaUmwiR2yk/j
+ lsuDv2s1edBKaJnxIrni9zybHwg==
+X-Google-Smtp-Source: AGHT+IGgpVK4aKVTw1AYLTQHunnH0lP0Xo7e0HySRK7+dlps4YjnoiELgWFMnKkx9EIddZ2irPPWBjpXbYwY6LnMy7Q=
+X-Received: by 2002:a17:90b:3511:b0:2fa:1f1b:3db2 with SMTP id
+ 98e67ed59e1d1-2febabcfedfmr14936364a91.25.1740931620948; Sun, 02 Mar 2025
+ 08:07:00 -0800 (PST)
 MIME-Version: 1.0
-Date: Sun, 02 Mar 2025 17:02:51 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, "Faith Ekstrand" <faith.ekstrand@collabora.com>
-Message-Id: <5a4b80f3-c121-4d5e-ae88-442a8480d285@app.fastmail.com>
-In-Reply-To: <20250301-apple-twiddled-modifiers-v3-1-4b9bb79825fe@rosenzweig.io>
-References: <20250301-apple-twiddled-modifiers-v3-1-4b9bb79825fe@rosenzweig.io>
-Subject: Re: [PATCH v3] drm: add modifiers for Apple GPU layouts
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20250218090427.20318-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250218090427.20318-1-angelogioacchino.delregno@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 3 Mar 2025 00:07:48 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__aFqL=LnE5vU2RP9JHmQEgkrvPmiYjxmETWo9CvwiwLA@mail.gmail.com>
+X-Gm-Features: AQ5f1JrHQ_avSblgi4HZQ7x19rsI4_LP2M6FFBaV9IRM5Ur_SJsfW7MiHzcF_cw
+Message-ID: <CAAOTY__aFqL=LnE5vU2RP9JHmQEgkrvPmiYjxmETWo9CvwiwLA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: mediatek: dsc: Add MT8188 compatible
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kernel@collabora.com, pablo.sun@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,26 +76,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 1, 2025, at 23:01, Alyssa Rosenzweig wrote:
-> Apple GPUs support various non-linear image layouts. Add modifiers for
-> these layouts. Mesa requires these modifiers to share non-linear buffers
-> across processes, but no other userspace or kernel support is
-> required/expected.
+Hi, Angelo:
+
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
+=BC
+2025=E5=B9=B42=E6=9C=8818=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=885:0=
+4=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> These layouts are notably not used for interchange across hardware
-> blocks (e.g. with the display controller). There are other layouts for
-> that but we don't support them either in userspace or kernelspace yet
-> (even downstream), so we don't add modifiers here.
+> Add compatible for Display Stream Compression (DSC) IP found in
+> the display controller of the MT8188 SoC.
 >
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> This IP is fully compatible with the one found on MT8195.
+
+Applied to mediatek-drm-next [1], thanks.
+
+[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
+git/log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
+
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 > ---
-
-I don't understand much about GPUs but the explanation here is clear enough even for me.
-
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-
-
-Best,
-
-
-Sven
+>  .../devicetree/bindings/display/mediatek/mediatek,dsc.yaml     | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+dsc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.=
+yaml
+> index 846de6c17d93..a5b88eb97e3b 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yam=
+l
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yam=
+l
+> @@ -22,6 +22,9 @@ properties:
+>      oneOf:
+>        - enum:
+>            - mediatek,mt8195-disp-dsc
+> +      - items:
+> +          - const: mediatek,mt8188-disp-dsc
+> +          - const: mediatek,mt8195-disp-dsc
+>
+>    reg:
+>      maxItems: 1
+> --
+> 2.48.1
+>
