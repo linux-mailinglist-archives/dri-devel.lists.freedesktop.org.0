@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307BFA4B0F7
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 11:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F3BA4B102
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 11:52:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7FBD10E12C;
-	Sun,  2 Mar 2025 10:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E087A10E119;
+	Sun,  2 Mar 2025 10:52:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EClvfmWK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r4V5gwnt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C100C10E12C
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:37:15 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5367610E119
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:52:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 58A965C555F
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:34:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D65C4CEEA
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:37:14 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id DBD5D611C8
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:52:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45E7C4CEF0
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740911834;
- bh=JlohdMVnyQ/+Ez/P/y22XElWn/u+LvWChNZCG+JtZUQ=;
+ s=k20201202; t=1740912759;
+ bh=L6vzNNhxmQqFNHiJKjZnyLTkOupTCwtG+9t7ypvjb0A=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=EClvfmWKafT5nW+SWifcEbL0MfoDA95Lu4aOjXK/7tec7ebyRZKhU900AV2FJxUaz
- qkzTkMAwv5DeNvDxINI0GeC0LHiExjW+xIUhkHnpi/YOaFQNvcvqkkeCcYl0jLENrp
- xLC7CZllD/MbKry2/7dIT3Dm2k3NQMbRShoZX+SpsgSgEHvdwVRw2Z+f+DJlsRPyCa
- 3edWA94CMETO43Cv/fmt0AmLNHBOwZSwTNg7bgjFY6OiHSnZUd68SQRCE7EC1QbeD9
- h/NJUC14UeXqv5FAVifMQ7pqdn6PDGnI5lKazekkdhsCvRkAHXHVHEJCIw2Svk1Xw0
- wesupiymER7vQ==
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2feb9076a1cso5124019a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 02:37:14 -0800 (PST)
+ b=r4V5gwnto8CpFK5ArrwDkkKkSTz3mKb0QPswSkQA9AASsw6jc8LyXtnnz0oBzOx6k
+ 62t8im88syweB4l8dxVwfm57Fp+SoZSNZSyI47ECufCgVEc0lTh1Yk9zK/fNKUWlEr
+ Q4P3DpGoxV2mhrJ62ytVjzvkiAdKrlpq2v2RHE8JfTCx4LX/2pPq2BYhgoqWieHmks
+ 4Wv86ycHkBf5gx0onr/wqI4dkXsChnFVDcvfCjy4ogYkVCNAfLOGg7GUyJGoYXrHvc
+ kvu0R5eK9Nh1eqjJhTO/8c3tvhrp3C5Zvs0HGesByxV5BvLQaEbBBkIw+64NKLoUyf
+ jjdm0b/OK7W+w==
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2fee05829edso1621063a91.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 02:52:39 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvsLrHiXCZTg3e1v3Wy1DZxCWBp6fmXZ82J82QqBpQy3rl056GUVZhty7JP1ssbFBGLGsrWu5QyLc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPKgzhrx2aTyVd2VglzqcQ7q43qt3OvVdbOTicjPsyE8TJEa2l
- FeJuoATIomHBwirt4lX9SmUcpfGgNkn9GkcYr+c1B7hAwZzhnSmGfoRb+eCbUsLZLuFPtIK6Wif
- ivJtgygPvNmxRTrdj+4Gho9qKQw==
-X-Google-Smtp-Source: AGHT+IECuNO+cLo9RaRwNYsz+RqAixzhNovU5aV5xtQa1KFE9PEc8PNBOvT8hp8OYymIgmgIZdenWZ4vWRbBtbMZOQs=
-X-Received: by 2002:a17:90b:3511:b0:2ee:8427:4b02 with SMTP id
- 98e67ed59e1d1-2febabd9c82mr14184256a91.28.1740911834367; Sun, 02 Mar 2025
- 02:37:14 -0800 (PST)
+ AJvYcCXWwMkOWOWMYEpz+Lvdwo+9Jce3j5VgrzQhp/N62H6l8RZLNQsjLO+fjD/t8jHh5Thm2SqSNccM/U0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywjtVbtKXA9Zp1+IXU2tWFXz/pPa5k080wMeuPyGfHfCXUcJkZ
+ kEiGEI5kg8vZNsRi88Wi8rLQ/DeEIPL6OMpG6BK7hWyPWEbfKv3JW9j8zNiHYsHe4SXUvMrDvLd
+ rE+YU0rOuW/VdWuTiVgKK2GQRzA==
+X-Google-Smtp-Source: AGHT+IFr0JxiHOLXjlsSslQCDKpP7+qH21b5sizYcPxUilNNHlN/637COD/xsyczcRFpKdal6JWqc5TIwge0h2N6mRI=
+X-Received: by 2002:a17:90b:4fd0:b0:2ee:aed6:9ec2 with SMTP id
+ 98e67ed59e1d1-2febab5e11dmr16532631a91.14.1740912759320; Sun, 02 Mar 2025
+ 02:52:39 -0800 (PST)
 MIME-Version: 1.0
 References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
- <20250217154836.108895-3-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250217154836.108895-3-angelogioacchino.delregno@collabora.com>
+ <20250217154836.108895-4-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250217154836.108895-4-angelogioacchino.delregno@collabora.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 2 Mar 2025 18:38:01 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-dk8qtn_uHifQs3Gcgkh=1LZ1K6YNK+37tuDzNgNyn6A@mail.gmail.com>
-X-Gm-Features: AQ5f1Jp32-133VEcwKRU6i5w8wjyNjENu9U_sKf5xUa7Fef2g7VV85UQ150m7NI
-Message-ID: <CAAOTY_-dk8qtn_uHifQs3Gcgkh=1LZ1K6YNK+37tuDzNgNyn6A@mail.gmail.com>
-Subject: Re: [PATCH v7 02/43] drm/mediatek: mtk_dpi: Add support for Pattern
- Generator in debugfs
+Date: Sun, 2 Mar 2025 18:53:26 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_97vGqWn93-esp3H-41Z4bHoBXoBOmKRnOFCCOU8LXnqA@mail.gmail.com>
+X-Gm-Features: AQ5f1Joi7NG6PI75qSK41aTo_9uAi-C384Ig7I_HASZnBhU-eUquttae1Ga-uVI
+Message-ID: <CAAOTY_97vGqWn93-esp3H-41Z4bHoBXoBOmKRnOFCCOU8LXnqA@mail.gmail.com>
+Subject: Re: [PATCH v7 03/43] drm/mediatek: mtk_dpi: Use an array for pixclk
+ factor calculation
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
  simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
@@ -89,36 +89,35 @@ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
 2025=E5=B9=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:=
 49=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> This IP includes a Pattern Generator which is useful for debugging
-> and testing purposes: add the relevant register and bits to the
-> mtk_dpi_regs.h header, and implement support for it in mtk_dpi.
+> Setting the TVD PLL clock requires to multiply the target pixel
+> clock by a specific constant factor to achieve the target PLL
+> frequency, and this is done to reduce jitter to acceptable levels.
 >
-> Adding this required to introduce a .debugfs_init() callback for
-> the DPI bridge, which creates a "dpi_test_pattern" file in the
-> directory of the appropriate connector.
+> On all MediaTek SoCs, the factor is not retrieved by any real kind
+> of calculation but rather by checking if the target pixel clock
+> is less than a specified frequency, hence assigning a function
+> pointer for just a bunch of if branches does enlarge the code
+> size for little reason.
 >
-> The pattern generator can generate various internal patterns and
-> this submission includes support for:
->  - 256 or 1024 shades of gray in a Vertical or Horizontal Pattern
->  - Vertical Color Bars
->  - Frame border
->  - Dot Moire
+> Remove all SoC-specific functions, add a structure `mtk_dpi_factor`
+> that holds a clock frequency and corresponding PLL factor, and
+> declare the constraints for each SoC in form of an array of said
+> structure.
+> Instead of function pointers, this structure (and its size) is then
+> assigned to each SoC's platform data.
 >
-> This generator also supports filling the entire screen with one
-> custom color, but support for that is not included in this commit.
+> The "calculation" is then performed with a new static function
+> mtk_dpi_calculate_factor(dpi, mode_clk) that iterates through all
+> of the entries of the aforementioned array and returns the right
+> factor.
 >
-> Enabling and disabling this generator can be done by sending a
-> string to the dpi_test_pattern debugfs file; the pattern is
-> expected to be formatted as follows:
+> If no factor is found, the lowest possible factor is returned,
+> mimicking the same flow as all of the old per-SoC calculation
+> functions.
 >
->          <enable (1) or disable (0)> <pattern number>
->
-> where the pattern number can be a number from 0 to 7, excluding 5.
->
-> Of course 5 is excluded because that activates custom color fill
-> which, again, is not supported in this commit.
+> This commit brings no functional change.
 
-Applied to mediatek-drm-next [1], thanks.
+After fix build error, applied to mediatek-drm-next [1], thanks.
 
 [1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
 git/log/?h=3Dmediatek-drm-next
@@ -131,176 +130,203 @@ Chun-Kuang.
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c      | 108 ++++++++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   4 +
->  2 files changed, 112 insertions(+)
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 103 +++++++++++++++--------------
+>  1 file changed, 52 insertions(+), 51 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
 k/mtk_dpi.c
-> index 1864eb02dbf5..fc937490feda 100644
+> index fc937490feda..41fdc193891a 100644
 > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -4,8 +4,10 @@
->   * Author: Jie Qiu <jie.qiu@mediatek.com>
->   */
->
-> +#include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/component.h>
-> +#include <linux/debugfs.h>
->  #include <linux/interrupt.h>
->  #include <linux/kernel.h>
->  #include <linux/media-bus-format.h>
-> @@ -166,6 +168,18 @@ static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 of=
-fset, u32 val, u32 mask)
->         writel(tmp, dpi->regs + offset);
->  }
->
-> +static void mtk_dpi_test_pattern_en(struct mtk_dpi *dpi, u8 type, bool e=
-nable)
-> +{
-> +       u32 val;
-> +
-> +       if (enable)
-> +               val =3D FIELD_PREP(DPI_PAT_SEL, type) | DPI_PAT_EN;
-> +       else
-> +               val =3D 0;
-> +
-> +       mtk_dpi_mask(dpi, DPI_PATTERN0, val, DPI_PAT_SEL | DPI_PAT_EN);
-> +}
-> +
->  static void mtk_dpi_sw_reset(struct mtk_dpi *dpi, bool reset)
->  {
->         mtk_dpi_mask(dpi, DPI_RET, reset ? RST : 0, RST);
-> @@ -767,6 +781,99 @@ mtk_dpi_bridge_mode_valid(struct drm_bridge *bridge,
->         return MODE_OK;
->  }
->
-> +static int mtk_dpi_debug_tp_show(struct seq_file *m, void *arg)
-> +{
-> +       struct mtk_dpi *dpi =3D m->private;
-> +       bool en;
-> +       u32 val;
-> +
-> +       if (!dpi)
-> +               return -EINVAL;
-> +
-> +       val =3D readl(dpi->regs + DPI_PATTERN0);
-> +       en =3D val & DPI_PAT_EN;
-> +       val =3D FIELD_GET(DPI_PAT_SEL, val);
-> +
-> +       seq_printf(m, "DPI Test Pattern: %s\n", en ? "Enabled" : "Disable=
-d");
-> +
-> +       if (en) {
-> +               seq_printf(m, "Internal pattern %d: ", val);
-> +               switch (val) {
-> +               case 0:
-> +                       seq_puts(m, "256 Vertical Gray\n");
-> +                       break;
-> +               case 1:
-> +                       seq_puts(m, "1024 Vertical Gray\n");
-> +                       break;
-> +               case 2:
-> +                       seq_puts(m, "256 Horizontal Gray\n");
-> +                       break;
-> +               case 3:
-> +                       seq_puts(m, "1024 Horizontal Gray\n");
-> +                       break;
-> +               case 4:
-> +                       seq_puts(m, "Vertical Color bars\n");
-> +                       break;
-> +               case 6:
-> +                       seq_puts(m, "Frame border\n");
-> +                       break;
-> +               case 7:
-> +                       seq_puts(m, "Dot moire\n");
-> +                       break;
-> +               default:
-> +                       seq_puts(m, "Invalid selection\n");
-> +                       break;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static ssize_t mtk_dpi_debug_tp_write(struct file *file, const char __us=
-er *ubuf,
-> +                                     size_t len, loff_t *offp)
-> +{
-> +       struct seq_file *m =3D file->private_data;
-> +       u32 en, type;
-> +       char buf[6];
-> +
-> +       if (!m || !m->private || *offp || len > sizeof(buf) - 1)
-> +               return -EINVAL;
-> +
-> +       memset(buf, 0, sizeof(buf));
-> +       if (copy_from_user(buf, ubuf, len))
-> +               return -EFAULT;
-> +
-> +       if (sscanf(buf, "%u %u", &en, &type) !=3D 2)
-> +               return -EINVAL;
-> +
-> +       if (en < 0 || en > 1 || type < 0 || type > 7)
-> +               return -EINVAL;
-> +
-> +       mtk_dpi_test_pattern_en((struct mtk_dpi *)m->private, type, en);
-> +       return len;
-> +}
-> +
-> +static int mtk_dpi_debug_tp_open(struct inode *inode, struct file *file)
-> +{
-> +       return single_open(file, mtk_dpi_debug_tp_show, inode->i_private)=
-;
-> +}
-> +
-> +static const struct file_operations mtk_dpi_debug_tp_fops =3D {
-> +       .owner =3D THIS_MODULE,
-> +       .open =3D mtk_dpi_debug_tp_open,
-> +       .read =3D seq_read,
-> +       .write =3D mtk_dpi_debug_tp_write,
-> +       .llseek =3D seq_lseek,
-> +       .release =3D single_release,
-> +};
-> +
-> +static void mtk_dpi_debugfs_init(struct drm_bridge *bridge, struct dentr=
-y *root)
-> +{
-> +       struct mtk_dpi *dpi =3D bridge_to_dpi(bridge);
-> +
-> +       debugfs_create_file("dpi_test_pattern", 0640, root, dpi, &mtk_dpi=
-_debug_tp_fops);
-> +}
-> +
->  static const struct drm_bridge_funcs mtk_dpi_bridge_funcs =3D {
->         .attach =3D mtk_dpi_bridge_attach,
->         .mode_set =3D mtk_dpi_bridge_mode_set,
-> @@ -779,6 +886,7 @@ static const struct drm_bridge_funcs mtk_dpi_bridge_f=
-uncs =3D {
->         .atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_st=
-ate,
->         .atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
->         .atomic_reset =3D drm_atomic_helper_bridge_reset,
-> +       .debugfs_init =3D mtk_dpi_debugfs_init,
+> @@ -118,9 +118,15 @@ struct mtk_dpi_yc_limit {
+>         u16 c_bottom;
 >  };
 >
->  void mtk_dpi_start(struct device *dev)
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/me=
-diatek/mtk_dpi_regs.h
-> index 62bd4931b344..a0b1d18bbbf7 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> @@ -235,4 +235,8 @@
->  #define MATRIX_SEL_RGB_TO_JPEG         0
->  #define MATRIX_SEL_RGB_TO_BT601                2
->
-> +#define DPI_PATTERN0           0xf00
-> +#define DPI_PAT_EN                     BIT(0)
-> +#define DPI_PAT_SEL                    GENMASK(6, 4)
+> +struct mtk_dpi_factor {
+> +       u32 clock;
+> +       u8 factor;
+> +};
 > +
->  #endif /* __MTK_DPI_REGS_H */
+>  /**
+>   * struct mtk_dpi_conf - Configuration of mediatek dpi.
+> - * @cal_factor: Callback function to calculate factor value.
+> + * @dpi_factor: SoC-specific pixel clock PLL factor values.
+> + * @num_dpi_factor: Number of pixel clock PLL factor values.
+>   * @reg_h_fre_con: Register address of frequency control.
+>   * @max_clock_khz: Max clock frequency supported for this SoCs in khz un=
+its.
+>   * @edge_sel_en: Enable of edge selection.
+> @@ -141,7 +147,8 @@ struct mtk_dpi_yc_limit {
+>   * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs =
+to be set in MMSYS.
+>   */
+>  struct mtk_dpi_conf {
+> -       unsigned int (*cal_factor)(int clock);
+> +       const struct mtk_dpi_factor *dpi_factor;
+> +       const u8 num_dpi_factor;
+>         u32 reg_h_fre_con;
+>         u32 max_clock_khz;
+>         bool edge_sel_en;
+> @@ -516,6 +523,20 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+>         return ret;
+>  }
+>
+> +static unsigned int mtk_dpi_calculate_factor(struct mtk_dpi *dpi, int mo=
+de_clk)
+> +{
+> +       const struct mtk_dpi_factor *dpi_factor =3D dpi->conf->dpi_factor=
+;
+> +       int i;
+> +
+> +       for (i =3D 0; i < dpi->conf->num_dpi_factor; i++) {
+> +               if (mode_clk <=3D dpi_factor[i].clock)
+> +                       return dpi_factor[i].factor;
+> +       }
+> +
+> +       /* If no match try the lowest possible factor */
+> +       return dpi_factor[dpi->conf->num_dpi_factor - 1].factor;
+> +}
+> +
+>  static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>                                     struct drm_display_mode *mode)
+>  {
+> @@ -530,7 +551,7 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *d=
+pi,
+>         unsigned int factor;
+>
+>         /* let pll_rate can fix the valid range of tvdpll (1G~2GHz) */
+> -       factor =3D dpi->conf->cal_factor(mode->clock);
+> +       factor =3D mtk_dpi_calculate_factor(dpi, mode_clk);
+>         drm_display_mode_to_videomode(mode, &vm);
+>         pll_rate =3D vm.pixelclock * factor;
+>
+> @@ -965,48 +986,6 @@ static const struct component_ops mtk_dpi_component_=
+ops =3D {
+>         .unbind =3D mtk_dpi_unbind,
+>  };
+>
+> -static unsigned int mt8173_calculate_factor(int clock)
+> -{
+> -       if (clock <=3D 27000)
+> -               return 3 << 4;
+> -       else if (clock <=3D 84000)
+> -               return 3 << 3;
+> -       else if (clock <=3D 167000)
+> -               return 3 << 2;
+> -       else
+> -               return 3 << 1;
+> -}
+> -
+> -static unsigned int mt2701_calculate_factor(int clock)
+> -{
+> -       if (clock <=3D 64000)
+> -               return 4;
+> -       else if (clock <=3D 128000)
+> -               return 2;
+> -       else
+> -               return 1;
+> -}
+> -
+> -static unsigned int mt8183_calculate_factor(int clock)
+> -{
+> -       if (clock <=3D 27000)
+> -               return 8;
+> -       else if (clock <=3D 167000)
+> -               return 4;
+> -       else
+> -               return 2;
+> -}
+> -
+> -static unsigned int mt8195_dpintf_calculate_factor(int clock)
+> -{
+> -       if (clock < 70000)
+> -               return 4;
+> -       else if (clock < 200000)
+> -               return 2;
+> -       else
+> -               return 1;
+> -}
+> -
+>  static const u32 mt8173_output_fmts[] =3D {
+>         MEDIA_BUS_FMT_RGB888_1X24,
+>  };
+> @@ -1021,8 +1000,25 @@ static const u32 mt8195_output_fmts[] =3D {
+>         MEDIA_BUS_FMT_YUYV8_1X16,
+>  };
+>
+> +static const struct mtk_dpi_factor dpi_factor_mt2701[] =3D {
+> +       { 64000, 4 }, { 128000, 2 }, { U32_MAX, 1 }
+> +};
+> +
+> +static const struct mtk_dpi_factor dpi_factor_mt8173[] =3D {
+> +       { 27000, 48 }, { 84000, 24 }, { 167000, 12 }, { U32_MAX, 6 }
+> +};
+> +
+> +static const struct mtk_dpi_factor dpi_factor_mt8183[] =3D {
+> +       { 27000, 8 }, { 167000, 4 }, { U32_MAX, 2 }
+> +};
+> +
+> +static const struct mtk_dpi_factor dpi_factor_mt8195_dp_intf[] =3D {
+> +       { 70000 - 1, 4 }, { 200000 - 1, 2 }, { U32_MAX, 1 }
+> +};
+> +
+>  static const struct mtk_dpi_conf mt8173_conf =3D {
+> -       .cal_factor =3D mt8173_calculate_factor,
+> +       .dpi_factor =3D dpi_factor_mt8173,
+> +       .num_dpi_factor =3D ARRAY_SIZE(dpi_factor_mt8173),
+>         .reg_h_fre_con =3D 0xe0,
+>         .max_clock_khz =3D 300000,
+>         .output_fmts =3D mt8173_output_fmts,
+> @@ -1039,7 +1035,8 @@ static const struct mtk_dpi_conf mt8173_conf =3D {
+>  };
+>
+>  static const struct mtk_dpi_conf mt2701_conf =3D {
+> -       .cal_factor =3D mt2701_calculate_factor,
+> +       .dpi_factor =3D dpi_factor_mt2701,
+> +       .num_dpi_factor =3D ARRAY_SIZE(dpi_factor_mt2701),
+>         .reg_h_fre_con =3D 0xb0,
+>         .edge_sel_en =3D true,
+>         .max_clock_khz =3D 150000,
+> @@ -1057,7 +1054,8 @@ static const struct mtk_dpi_conf mt2701_conf =3D {
+>  };
+>
+>  static const struct mtk_dpi_conf mt8183_conf =3D {
+> -       .cal_factor =3D mt8183_calculate_factor,
+> +       .dpi_factor =3D dpi_factor_mt8183,
+> +       .num_dpi_factor =3D ARRAY_SIZE(dpi_factor_mt8183),
+>         .reg_h_fre_con =3D 0xe0,
+>         .max_clock_khz =3D 100000,
+>         .output_fmts =3D mt8183_output_fmts,
+> @@ -1074,7 +1072,8 @@ static const struct mtk_dpi_conf mt8183_conf =3D {
+>  };
+>
+>  static const struct mtk_dpi_conf mt8186_conf =3D {
+> -       .cal_factor =3D mt8183_calculate_factor,
+> +       .dpi_factor =3D dpi_factor_mt8183,
+> +       .num_dpi_factor =3D ARRAY_SIZE(dpi_factor_mt8183),
+>         .reg_h_fre_con =3D 0xe0,
+>         .max_clock_khz =3D 150000,
+>         .output_fmts =3D mt8183_output_fmts,
+> @@ -1092,7 +1091,8 @@ static const struct mtk_dpi_conf mt8186_conf =3D {
+>  };
+>
+>  static const struct mtk_dpi_conf mt8192_conf =3D {
+> -       .cal_factor =3D mt8183_calculate_factor,
+> +       .dpi_factor =3D dpi_factor_mt8183,
+> +       .num_dpi_factor =3D ARRAY_SIZE(dpi_factor_mt8183),
+>         .reg_h_fre_con =3D 0xe0,
+>         .max_clock_khz =3D 150000,
+>         .output_fmts =3D mt8183_output_fmts,
+> @@ -1109,7 +1109,8 @@ static const struct mtk_dpi_conf mt8192_conf =3D {
+>  };
+>
+>  static const struct mtk_dpi_conf mt8195_dpintf_conf =3D {
+> -       .cal_factor =3D mt8195_dpintf_calculate_factor,
+> +       .dpi_factor =3D dpi_factor_mt8195_dp_intf,
+> +       .num_dpi_factor =3D ARRAY_SIZE(dpi_factor_mt8195_dp_intf),
+>         .max_clock_khz =3D 600000,
+>         .output_fmts =3D mt8195_output_fmts,
+>         .num_output_fmts =3D ARRAY_SIZE(mt8195_output_fmts),
 > --
 > 2.48.1
 >
