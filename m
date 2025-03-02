@@ -2,55 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250E1A4B0FA
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 11:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307BFA4B0F7
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 11:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E45210E133;
-	Sun,  2 Mar 2025 10:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7FBD10E12C;
+	Sun,  2 Mar 2025 10:37:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="OIL6kKff";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EClvfmWK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 62CCE10E119
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:37:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=497kL+xtPg3fPgIEwcU7Z+GwAyTQU5Twe6pDjigzSXY=; b=O
- IL6kKffWST6IDwS6XuUvnKyuFFypFA0H4PagM7jQMLsVRw5W+XVGK6eDauuThcj2
- A4CYMZ2QWnIBU/l5i+sr9jUugM/6n7dqANSf2Wp2sCuQUUuu4XejVLO0UEloi/dX
- VrXqbiGbqN+Zkom3hSKdLeqPRW1DohrlrpxNInlR0s=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-100 (Coremail) ; Sun, 2 Mar 2025 18:37:25 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Sun, 2 Mar 2025 18:37:25 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org,
- cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, robh@kernel.org,
- sebastian.reichel@collabora.com, "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:Re: [PATCH 3/6] drm/rockchip: Add RK3588 DPTX output support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <63xbqyzdlv7jssbmvoeicz4gech3di6nr3tsyvhbhxrmvthh3f@tlf73esqcwgt>
-References: <20250223113036.74252-1-andyshrk@163.com>
- <20250223113036.74252-4-andyshrk@163.com>
- <63xbqyzdlv7jssbmvoeicz4gech3di6nr3tsyvhbhxrmvthh3f@tlf73esqcwgt>
-X-NTES-SC: AL_Qu2fAvWavkAv4ySaYukfmkcVgOw9UcO5v/Qk3oZXOJF8jCrp+T4yXHBTF1zd3fCDBzi2nQiHVRZJ0dhgcY1zcacMk8gGG+NL431nSU9Bs/JPxg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C100C10E12C
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:37:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 58A965C555F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:34:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D65C4CEEA
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:37:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740911834;
+ bh=JlohdMVnyQ/+Ez/P/y22XElWn/u+LvWChNZCG+JtZUQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=EClvfmWKafT5nW+SWifcEbL0MfoDA95Lu4aOjXK/7tec7ebyRZKhU900AV2FJxUaz
+ qkzTkMAwv5DeNvDxINI0GeC0LHiExjW+xIUhkHnpi/YOaFQNvcvqkkeCcYl0jLENrp
+ xLC7CZllD/MbKry2/7dIT3Dm2k3NQMbRShoZX+SpsgSgEHvdwVRw2Z+f+DJlsRPyCa
+ 3edWA94CMETO43Cv/fmt0AmLNHBOwZSwTNg7bgjFY6OiHSnZUd68SQRCE7EC1QbeD9
+ h/NJUC14UeXqv5FAVifMQ7pqdn6PDGnI5lKazekkdhsCvRkAHXHVHEJCIw2Svk1Xw0
+ wesupiymER7vQ==
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-2feb9076a1cso5124019a91.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 02:37:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvsLrHiXCZTg3e1v3Wy1DZxCWBp6fmXZ82J82QqBpQy3rl056GUVZhty7JP1ssbFBGLGsrWu5QyLc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPKgzhrx2aTyVd2VglzqcQ7q43qt3OvVdbOTicjPsyE8TJEa2l
+ FeJuoATIomHBwirt4lX9SmUcpfGgNkn9GkcYr+c1B7hAwZzhnSmGfoRb+eCbUsLZLuFPtIK6Wif
+ ivJtgygPvNmxRTrdj+4Gho9qKQw==
+X-Google-Smtp-Source: AGHT+IECuNO+cLo9RaRwNYsz+RqAixzhNovU5aV5xtQa1KFE9PEc8PNBOvT8hp8OYymIgmgIZdenWZ4vWRbBtbMZOQs=
+X-Received: by 2002:a17:90b:3511:b0:2ee:8427:4b02 with SMTP id
+ 98e67ed59e1d1-2febabd9c82mr14184256a91.28.1740911834367; Sun, 02 Mar 2025
+ 02:37:14 -0800 (PST)
 MIME-Version: 1.0
-Message-ID: <7be797ff.219d.195566ea038.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: ZCgvCgCXX2HlNMRnrZ8ZAA--.14866W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqAgEXmfEKbC67wABsU
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
+ <20250217154836.108895-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250217154836.108895-3-angelogioacchino.delregno@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 2 Mar 2025 18:38:01 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-dk8qtn_uHifQs3Gcgkh=1LZ1K6YNK+37tuDzNgNyn6A@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp32-133VEcwKRU6i5w8wjyNjENu9U_sKf5xUa7Fef2g7VV85UQ150m7NI
+Message-ID: <CAAOTY_-dk8qtn_uHifQs3Gcgkh=1LZ1K6YNK+37tuDzNgNyn6A@mail.gmail.com>
+Subject: Re: [PATCH v7 02/43] drm/mediatek: mtk_dpi: Add support for Pattern
+ Generator in debugfs
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com, 
+ jie.qiu@mediatek.com, junzhi.zhao@mediatek.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com, 
+ dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com, 
+ ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com, 
+ jason-jh.lin@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,175 +82,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERtaXRyeSwKCkF0IDIwMjUtMDMtMDIgMDI6MTk6MjQsICJEbWl0cnkgQmFyeXNoa292IiA8
-ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnPiB3cm90ZToKPk9uIFN1biwgRmViIDIzLCAyMDI1
-IGF0IDA3OjMwOjI2UE0gKzA4MDAsIEFuZHkgWWFuIHdyb3RlOgo+PiBGcm9tOiBBbmR5IFlhbiA8
-YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4+IAo+PiBBZGQgZHJpdmVyIGV4dGVuc2lvbiBmb3Ig
-U3lub3BzeXMgRGVzaWduV2FyZSBEUFRYIElQIHVzZWQKPj4gb24gUm9ja2NoaXAgUkszNTg4IFNv
-Qy4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNv
-bT4KPj4gLS0tCj4+IAo+PiAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcgICAgICAg
-ICAgICB8ICAgNyArCj4+ICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvTWFrZWZpbGUgICAgICAg
-ICAgIHwgICAxICsKPj4gIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19kcC1yb2NrY2hpcC5j
-ICAgfCAxNjIgKysrKysrKysrKysrKysrKysrKysKPj4gIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hp
-cC9yb2NrY2hpcF9kcm1fZHJ2LmMgfCAgIDEgKwo+PiAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
-L3JvY2tjaGlwX2RybV9kcnYuaCB8ICAgMSArCj4+ICA1IGZpbGVzIGNoYW5nZWQsIDE3MiBpbnNl
-cnRpb25zKCspCj4+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
-L2R3X2RwLXJvY2tjaGlwLmMKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9j
-a2NoaXAvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9LY29uZmlnCj4+IGluZGV4
-IDI2YzQ0MTBiMjQwNy4uYzg2MzhiYWY5NjQxIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcm9ja2NoaXAvS2NvbmZpZwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2Nv
-bmZpZwo+PiBAQCAtOCw2ICs4LDcgQEAgY29uZmlnIERSTV9ST0NLQ0hJUAo+PiAgCXNlbGVjdCBE
-Uk1fUEFORUwKPj4gIAlzZWxlY3QgVklERU9NT0RFX0hFTFBFUlMKPj4gIAlzZWxlY3QgRFJNX0FO
-QUxPR0lYX0RQIGlmIFJPQ0tDSElQX0FOQUxPR0lYX0RQCj4+ICsJc2VsZWN0IERSTV9EV19EUCBp
-ZiBST0NLQ0hJUF9EV19EUAo+PiAgCXNlbGVjdCBEUk1fRFdfSERNSSBpZiBST0NLQ0hJUF9EV19I
-RE1JCj4+ICAJc2VsZWN0IERSTV9EV19IRE1JX1FQIGlmIFJPQ0tDSElQX0RXX0hETUlfUVAKPj4g
-IAlzZWxlY3QgRFJNX0RXX01JUElfRFNJIGlmIFJPQ0tDSElQX0RXX01JUElfRFNJCj4+IEBAIC01
-OCw2ICs1OSwxMiBAQCBjb25maWcgUk9DS0NISVBfQ0ROX0RQCj4+ICAJICBSSzMzOTkgYmFzZWQg
-U29DLCB5b3Ugc2hvdWxkIHNlbGVjdCB0aGlzCj4+ICAJICBvcHRpb24uCj4+ICAKPj4gK2NvbmZp
-ZyBST0NLQ0hJUF9EV19EUAo+PiArCWJvb2wgIlJvY2tjaGlwIHNwZWNpZmljIGV4dGVuc2lvbnMg
-Zm9yIFN5bm9wc3lzIERXIERQIgo+PiArCWhlbHAKPj4gKwkgIENob29zZSB0aGlzIG9wdGlvbiBm
-b3IgU3lub3BzeXMgRGVzaWduV2FyZSBDb3JlcyBEaXNwbGF5UG9ydAo+PiArCSAgdHJhbnNtaXQg
-Y29udHJvbGxlciBzdXBwb3J0IG9uIFJvY2tjaGlwIFNvQy4KPj4gKwo+PiAgY29uZmlnIFJPQ0tD
-SElQX0RXX0hETUkKPj4gIAlib29sICJSb2NrY2hpcCBzcGVjaWZpYyBleHRlbnNpb25zIGZvciBT
-eW5vcHN5cyBEVyBIRE1JIgo+PiAgCWhlbHAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9NYWtlZmlsZQo+
-PiBpbmRleCAyYjg2N2NlYmJjMTIuLjA5N2YwNjIzOTljNyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL01ha2VmaWxlCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2Nr
-Y2hpcC9NYWtlZmlsZQo+PiBAQCAtMTQsNiArMTQsNyBAQCByb2NrY2hpcGRybS0kKENPTkZJR19S
-T0NLQ0hJUF9EV19IRE1JKSArPSBkd19oZG1pLXJvY2tjaGlwLm8KPj4gIHJvY2tjaGlwZHJtLSQo
-Q09ORklHX1JPQ0tDSElQX0RXX0hETUlfUVApICs9IGR3X2hkbWlfcXAtcm9ja2NoaXAubwo+PiAg
-cm9ja2NoaXBkcm0tJChDT05GSUdfUk9DS0NISVBfRFdfTUlQSV9EU0kpICs9IGR3LW1pcGktZHNp
-LXJvY2tjaGlwLm8KPj4gIHJvY2tjaGlwZHJtLSQoQ09ORklHX1JPQ0tDSElQX0RXX01JUElfRFNJ
-MikgKz0gZHctbWlwaS1kc2kyLXJvY2tjaGlwLm8KPj4gK3JvY2tjaGlwZHJtLSQoQ09ORklHX1JP
-Q0tDSElQX0RXX0RQKSArPSBkd19kcC1yb2NrY2hpcC5vCj4+ICByb2NrY2hpcGRybS0kKENPTkZJ
-R19ST0NLQ0hJUF9JTk5PX0hETUkpICs9IGlubm9faGRtaS5vCj4+ICByb2NrY2hpcGRybS0kKENP
-TkZJR19ST0NLQ0hJUF9MVkRTKSArPSByb2NrY2hpcF9sdmRzLm8KPj4gIHJvY2tjaGlwZHJtLSQo
-Q09ORklHX1JPQ0tDSElQX1JHQikgKz0gcm9ja2NoaXBfcmdiLm8KPj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19kcC1yb2NrY2hpcC5jIGIvZHJpdmVycy9ncHUvZHJt
-L3JvY2tjaGlwL2R3X2RwLXJvY2tjaGlwLmMKPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPj4gaW5k
-ZXggMDAwMDAwMDAwMDAwLi5iNDFhNDFlYjc0ZDcKPj4gLS0tIC9kZXYvbnVsbAo+PiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfZHAtcm9ja2NoaXAuYwo+PiBAQCAtMCwwICsxLDE2
-MiBAQAo+PiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKPj4gKy8qCj4+ICsg
-KiBDb3B5cmlnaHQgKGMpIDIwMjAgUm9ja2NoaXAgRWxlY3Ryb25pY3MgQ28uLCBMdGQuCj4+ICsg
-Kgo+PiArICogQXV0aG9yOiBaaGFuZyBZdWJpbmcgPHl1YmluZy56aGFuZ0Byb2NrLWNoaXBzLmNv
-bT4KPj4gKyAqIEF1dGhvcjogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+PiAr
-ICovCj4+ICsKPj4gKyNpbmNsdWRlIDxsaW51eC9jb21wb25lbnQuaD4KPj4gKyNpbmNsdWRlIDxs
-aW51eC9vZl9kZXZpY2UuaD4KPj4gKyNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4K
-Pj4gKyNpbmNsdWRlIDxkcm0vYnJpZGdlL2R3X2RwLmg+Cj4+ICsjaW5jbHVkZSA8ZHJtL2RybV9h
-dG9taWNfaGVscGVyLmg+Cj4+ICsjaW5jbHVkZSA8ZHJtL2RybV9icmlkZ2UuaD4KPj4gKyNpbmNs
-dWRlIDxkcm0vZHJtX2JyaWRnZV9jb25uZWN0b3IuaD4KPj4gKyNpbmNsdWRlIDxkcm0vZHJtX29m
-Lmg+Cj4+ICsjaW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPgo+PiArI2luY2x1ZGUgPGRybS9kcm1f
-cHJvYmVfaGVscGVyLmg+Cj4+ICsjaW5jbHVkZSA8ZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5o
-Pgo+PiArCj4+ICsjaW5jbHVkZSA8dWFwaS9saW51eC9tZWRpYS1idXMtZm9ybWF0Lmg+Cj4+ICsj
-aW5jbHVkZSA8dWFwaS9saW51eC92aWRlb2RldjIuaD4KPgo+SSdkIHNheSwgaW5jbHVkZSB0aG9z
-ZSB0d28gaGVhZGVycyBkaXJlY3RseS4gUm9ja2NoaXAgLyBTeW5vcHN5cyBhcmUgdGhlCj5vbmx5
-IGRyaXZlcnMgaW5jbHVkaW5nIHRoZXNlIHVhcGkgaGVhZGVycyBkaXJlY3RseS4KCk9rYXksIEkg
-d2lsbCBpbmNsdWRlIHRoZW0gZGlyZWN0bHkgaW4gVjIgbGlrZSB0aGlzOgoKKyNpbmNsdWRlIDxs
-aW51eC9tZWRpYS1idXMtZm9ybWF0Lmg+CisjaW5jbHVkZSA8bGludXgvdmlkZW9kZXYyLmg+Cgo+
-Cj4+ICsKPj4gKyNpbmNsdWRlICJyb2NrY2hpcF9kcm1fZHJ2LmgiCj4+ICsjaW5jbHVkZSAicm9j
-a2NoaXBfZHJtX3ZvcC5oIgo+PiArCj4+ICtzdHJ1Y3Qgcm9ja2NoaXBfZHdfZHAgewo+PiArCXN0
-cnVjdCBkd19kcCAqYmFzZTsKPj4gKwlzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4+ICsJc3RydWN0IHJv
-Y2tjaGlwX2VuY29kZXIgZW5jb2RlcjsKPj4gK307Cj4+ICsKPj4gK3N0YXRpYyBpbmxpbmUgc3Ry
-dWN0IHJvY2tjaGlwX2R3X2RwICplbmNvZGVyX3RvX2RwKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5j
-b2RlcikKPj4gK3sKPj4gKwlzdHJ1Y3Qgcm9ja2NoaXBfZW5jb2RlciAqcmtlbmNvZGVyID0gdG9f
-cm9ja2NoaXBfZW5jb2RlcihlbmNvZGVyKTsKPj4gKwo+PiArCXJldHVybiBjb250YWluZXJfb2Yo
-cmtlbmNvZGVyLCBzdHJ1Y3Qgcm9ja2NoaXBfZHdfZHAsIGVuY29kZXIpOwo+PiArfQo+PiArCj4+
-ICtzdGF0aWMgaW50IGR3X2RwX2VuY29kZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fZW5jb2Rl
-ciAqZW5jb2RlciwKPj4gKwkJCQkgICAgICBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKmNydGNfc3Rh
-dGUsCj4+ICsJCQkJICAgICAgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5fc3RhdGUp
-Cj4+ICt7Cj4+ICsJc3RydWN0IHJvY2tjaGlwX2NydGNfc3RhdGUgKnMgPSB0b19yb2NrY2hpcF9j
-cnRjX3N0YXRlKGNydGNfc3RhdGUpOwo+PiArCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
-ZSA9IGNvbm5fc3RhdGUtPnN0YXRlOwo+PiArCXN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICpkaSA9
-ICZjb25uX3N0YXRlLT5jb25uZWN0b3ItPmRpc3BsYXlfaW5mbzsKPj4gKwlzdHJ1Y3QgZHJtX2Jy
-aWRnZSAqYnJpZGdlICA9IGRybV9icmlkZ2VfY2hhaW5fZ2V0X2ZpcnN0X2JyaWRnZShlbmNvZGVy
-KTsKPj4gKwlzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZSAqYnJpZGdlX3N0YXRlID0gZHJtX2F0b21p
-Y19nZXRfbmV3X2JyaWRnZV9zdGF0ZShzdGF0ZSwgYnJpZGdlKTsKPj4gKwl1MzIgYnVzX2Zvcm1h
-dCA9IGJyaWRnZV9zdGF0ZS0+aW5wdXRfYnVzX2NmZy5mb3JtYXQ7Cj4+ICsKPj4gKwlzd2l0Y2gg
-KGJ1c19mb3JtYXQpIHsKPj4gKwljYXNlIE1FRElBX0JVU19GTVRfVVlZVllZMTBfMF81WDMwOgo+
-PiArCWNhc2UgTUVESUFfQlVTX0ZNVF9VWVlWWVk4XzBfNVgyNDoKPj4gKwkJcy0+b3V0cHV0X21v
-ZGUgPSBST0NLQ0hJUF9PVVRfTU9ERV9ZVVY0MjA7Cj4+ICsJCWJyZWFrOwo+PiArCWNhc2UgTUVE
-SUFfQlVTX0ZNVF9ZVVlWMTBfMVgyMDoKPj4gKwljYXNlIE1FRElBX0JVU19GTVRfWVVZVjhfMVgx
-NjoKPj4gKwkJcy0+b3V0cHV0X21vZGUgPSBST0NLQ0hJUF9PVVRfTU9ERV9TODg4X0RVTU1ZOwo+
-PiArCQlicmVhazsKPj4gKwljYXNlIE1FRElBX0JVU19GTVRfUkdCMTAxMDEwXzFYMzA6Cj4+ICsJ
-Y2FzZSBNRURJQV9CVVNfRk1UX1JHQjg4OF8xWDI0Ogo+PiArCWNhc2UgTUVESUFfQlVTX0ZNVF9S
-R0I2NjZfMVgyNF9DUEFESEk6Cj4+ICsJY2FzZSBNRURJQV9CVVNfRk1UX1lVVjEwXzFYMzA6Cj4+
-ICsJY2FzZSBNRURJQV9CVVNfRk1UX1lVVjhfMVgyNDoKPj4gKwlkZWZhdWx0Ogo+PiArCQlzLT5v
-dXRwdXRfbW9kZSA9IFJPQ0tDSElQX09VVF9NT0RFX0FBQUE7Cj4+ICsJCWJyZWFrOwo+PiArCX0K
-Pj4gKwo+PiArCXMtPm91dHB1dF90eXBlID0gRFJNX01PREVfQ09OTkVDVE9SX0Rpc3BsYXlQb3J0
-Owo+PiArCXMtPmJ1c19mb3JtYXQgPSBidXNfZm9ybWF0Owo+PiArCXMtPmJ1c19mbGFncyA9IGRp
-LT5idXNfZmxhZ3M7Cj4+ICsJcy0+Y29sb3Jfc3BhY2UgPSBWNEwyX0NPTE9SU1BBQ0VfREVGQVVM
-VDsKPj4gKwo+PiArCXJldHVybiAwOwo+PiArfQo+PiArCj4+ICtzdGF0aWMgY29uc3Qgc3RydWN0
-IGRybV9lbmNvZGVyX2hlbHBlcl9mdW5jcyBkd19kcF9lbmNvZGVyX2hlbHBlcl9mdW5jcyA9IHsK
-Pj4gKwkuYXRvbWljX2NoZWNrCQk9IGR3X2RwX2VuY29kZXJfYXRvbWljX2NoZWNrLAo+PiArfTsK
-Pj4gKwo+PiArc3RhdGljIGludCBkd19kcF9yb2NrY2hpcF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRl
-diwgc3RydWN0IGRldmljZSAqbWFzdGVyLCB2b2lkICpkYXRhKQo+PiArewo+PiArCXN0cnVjdCBk
-d19kcF9wbGF0X2RhdGEgcGxhdF9kYXRhOwo+PiArCXN0cnVjdCBkcm1fZGV2aWNlICpkcm1fZGV2
-ID0gZGF0YTsKPj4gKwlzdHJ1Y3Qgcm9ja2NoaXBfZHdfZHAgKmRwOwo+PiArCXN0cnVjdCBkcm1f
-ZW5jb2RlciAqZW5jb2RlcjsKPj4gKwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOwo+
-PiArCWludCByZXQ7Cj4+ICsKPj4gKwlkcCA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqZHAp
-LCBHRlBfS0VSTkVMKTsKPj4gKwlpZiAoIWRwKQo+PiArCQlyZXR1cm4gLUVOT01FTTsKPj4gKwo+
-PiArCWRwLT5kZXYgPSBkZXY7Cj4+ICsJcGxhdF9kYXRhLm1heF9saW5rX3JhdGUgPSA4MTAwMDA7
-Cj4+ICsJZW5jb2RlciA9ICZkcC0+ZW5jb2Rlci5lbmNvZGVyOwo+PiArCWVuY29kZXItPnBvc3Np
-YmxlX2NydGNzID0gZHJtX29mX2ZpbmRfcG9zc2libGVfY3J0Y3MoZHJtX2RldiwgZGV2LT5vZl9u
-b2RlKTsKPj4gKwlyb2NrY2hpcF9kcm1fZW5jb2Rlcl9zZXRfY3J0Y19lbmRwb2ludF9pZCgmZHAt
-PmVuY29kZXIsIGRldi0+b2Zfbm9kZSwgMCwgMCk7Cj4+ICsKPj4gKwlkcm1fc2ltcGxlX2VuY29k
-ZXJfaW5pdChkcm1fZGV2LCBlbmNvZGVyLCBEUk1fTU9ERV9FTkNPREVSX1RNRFMpOwo+Cj5kcm1t
-X2VuY29kZXJfaW5pdCgpID8gVGhpcyB3aWxsIGFsbG93IHlvdSB0byBnZXQgcmlkIG9mCj5kcm1f
-ZW5jb2Rlcl9jbGVhbnVwKCkgY2FsbHMuCgpPa2F5LCBJIHdpbGwgdHJ5IGluIFYyLgoKCj4KPj4g
-Kwlkcm1fZW5jb2Rlcl9oZWxwZXJfYWRkKGVuY29kZXIsICZkd19kcF9lbmNvZGVyX2hlbHBlcl9m
-dW5jcyk7Cj4+ICsKPj4gKwlkcC0+YmFzZSA9IGR3X2RwX2JpbmQoZGV2LCBlbmNvZGVyLCAmcGxh
-dF9kYXRhKTsKPj4gKwlpZiAoSVNfRVJSKGRwLT5iYXNlKSkgewo+PiArCQlyZXQgPSBQVFJfRVJS
-KGRwLT5iYXNlKTsKPj4gKwkJZHJtX2VuY29kZXJfY2xlYW51cChlbmNvZGVyKTsKPj4gKwkJcmV0
-dXJuIHJldDsKPj4gKwl9Cj4+ICsKPj4gKwljb25uZWN0b3IgPSBkcm1fYnJpZGdlX2Nvbm5lY3Rv
-cl9pbml0KGRybV9kZXYsIGVuY29kZXIpOwo+PiArCWlmIChJU19FUlIoY29ubmVjdG9yKSkgewo+
-PiArCQlyZXQgPSBQVFJfRVJSKGNvbm5lY3Rvcik7Cj4+ICsJCWRldl9lcnIoZGV2LCAiRmFpbGVk
-IHRvIGluaXQgYnJpZGdlIGNvbm5lY3RvcjogJWRcbiIsIHJldCk7Cj4+ICsJCXJldHVybiByZXQ7
-Cj4+ICsJfQo+PiArCj4+ICsJZHJtX2Nvbm5lY3Rvcl9hdHRhY2hfZW5jb2Rlcihjb25uZWN0b3Is
-IGVuY29kZXIpOwo+PiArCj4+ICsJcmV0dXJuIDA7Cj4+ICt9Cj4+ICsKPj4gK3N0YXRpYyB2b2lk
-IGR3X2RwX3JvY2tjaGlwX3VuYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2Ug
-Km1hc3Rlciwgdm9pZCAqZGF0YSkKPj4gK3sKPj4gKwlzdHJ1Y3Qgcm9ja2NoaXBfZHdfZHAgKmRw
-ID0gZGV2X2dldF9kcnZkYXRhKGRldik7Cj4+ICsKPj4gKwlkcm1fZW5jb2Rlcl9jbGVhbnVwKCZk
-cC0+ZW5jb2Rlci5lbmNvZGVyKTsKPj4gK30KPj4gKwo+PiArc3RhdGljIGNvbnN0IHN0cnVjdCBj
-b21wb25lbnRfb3BzIGR3X2RwX3JvY2tjaGlwX2NvbXBvbmVudF9vcHMgPSB7Cj4+ICsJLmJpbmQg
-PSBkd19kcF9yb2NrY2hpcF9iaW5kLAo+PiArCS51bmJpbmQgPSBkd19kcF9yb2NrY2hpcF91bmJp
-bmQsCj4+ICt9Owo+PiArCj4+ICtzdGF0aWMgaW50IGR3X2RwX3Byb2JlKHN0cnVjdCBwbGF0Zm9y
-bV9kZXZpY2UgKnBkZXYpCj4+ICt7Cj4+ICsJc3RydWN0IGRldmljZSAqZGV2ID0gJnBkZXYtPmRl
-djsKPj4gKwo+PiArCXJldHVybiBjb21wb25lbnRfYWRkKGRldiwgJmR3X2RwX3JvY2tjaGlwX2Nv
-bXBvbmVudF9vcHMpOwo+PiArfQo+PiArCj4+ICtzdGF0aWMgdm9pZCBkd19kcF9yZW1vdmUoc3Ry
-dWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPj4gK3sKPj4gKwlzdHJ1Y3Qgcm9ja2NoaXBfZHdf
-ZHAgKmRwID0gcGxhdGZvcm1fZ2V0X2RydmRhdGEocGRldik7Cj4+ICsKPj4gKwljb21wb25lbnRf
-ZGVsKGRwLT5kZXYsICZkd19kcF9yb2NrY2hpcF9jb21wb25lbnRfb3BzKTsKPj4gK30KPj4gKwo+
-PiArc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgZHdfZHBfb2ZfbWF0Y2hbXSA9IHsK
-Pj4gKwl7IC5jb21wYXRpYmxlID0gInJvY2tjaGlwLHJrMzU4OC1kcCIsIH0sCj4+ICsJe30KPj4g
-K307Cj4+ICtNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBkd19kcF9vZl9tYXRjaCk7Cj4+ICsKPj4g
-K3N0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgZHdfZHBfZHJpdmVyID0gewo+PiArCS5wcm9iZQk9IGR3
-X2RwX3Byb2JlLAo+PiArCS5yZW1vdmUgPSBkd19kcF9yZW1vdmUsCj4+ICsJLmRyaXZlciA9IHsK
-Pj4gKwkJLm5hbWUgPSAiZHctZHAiLAo+PiArCQkub2ZfbWF0Y2hfdGFibGUgPSBkd19kcF9vZl9t
-YXRjaCwKPj4gKwl9LAo+PiArfTsKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2Nr
-Y2hpcC9yb2NrY2hpcF9kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2No
-aXBfZHJtX2Rydi5jCj4+IGluZGV4IDljZjMxMWI1ZGVjMS4uMmIyNDU0OTFjNzFkIDEwMDY0NAo+
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5jCj4+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZHJ2LmMKPj4gQEAgLTUy
-OSw2ICs1MjksNyBAQCBzdGF0aWMgaW50IF9faW5pdCByb2NrY2hpcF9kcm1faW5pdCh2b2lkKQo+
-PiAgCUFERF9ST0NLQ0hJUF9TVUJfRFJJVkVSKHJvY2tjaGlwX2RwX2RyaXZlciwKPj4gIAkJCQlD
-T05GSUdfUk9DS0NISVBfQU5BTE9HSVhfRFApOwo+PiAgCUFERF9ST0NLQ0hJUF9TVUJfRFJJVkVS
-KGNkbl9kcF9kcml2ZXIsIENPTkZJR19ST0NLQ0hJUF9DRE5fRFApOwo+PiArCUFERF9ST0NLQ0hJ
-UF9TVUJfRFJJVkVSKGR3X2RwX2RyaXZlciwgQ09ORklHX1JPQ0tDSElQX0RXX0RQKTsKPj4gIAlB
-RERfUk9DS0NISVBfU1VCX0RSSVZFUihkd19oZG1pX3JvY2tjaGlwX3BsdGZtX2RyaXZlciwKPj4g
-IAkJCQlDT05GSUdfUk9DS0NISVBfRFdfSERNSSk7Cj4+ICAJQUREX1JPQ0tDSElQX1NVQl9EUklW
-RVIoZHdfaGRtaV9xcF9yb2NrY2hpcF9wbHRmbV9kcml2ZXIsCj4+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5oIGIvZHJpdmVycy9ncHUvZHJt
-L3JvY2tjaGlwL3JvY2tjaGlwX2RybV9kcnYuaAo+PiBpbmRleCBjMTgzZTgyYTQyYTUuLjJlODZh
-ZDAwOTc5YyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlw
-X2RybV9kcnYuaAo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJt
-X2Rydi5oCj4+IEBAIC04Nyw2ICs4Nyw3IEBAIGludCByb2NrY2hpcF9kcm1fZW5jb2Rlcl9zZXRf
-Y3J0Y19lbmRwb2ludF9pZChzdHJ1Y3Qgcm9ja2NoaXBfZW5jb2RlciAqcmVuY29kZXIsCj4+ICAJ
-CQkJCSAgICAgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAsIGludCBwb3J0LCBpbnQgcmVnKTsKPj4g
-IGludCByb2NrY2hpcF9kcm1fZW5kcG9pbnRfaXNfc3ViZHJpdmVyKHN0cnVjdCBkZXZpY2Vfbm9k
-ZSAqZXApOwo+PiAgZXh0ZXJuIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgY2RuX2RwX2RyaXZlcjsK
-Pj4gK2V4dGVybiBzdHJ1Y3QgcGxhdGZvcm1fZHJpdmVyIGR3X2RwX2RyaXZlcjsKPj4gIGV4dGVy
-biBzdHJ1Y3QgcGxhdGZvcm1fZHJpdmVyIGR3X2hkbWlfcm9ja2NoaXBfcGx0Zm1fZHJpdmVyOwo+
-PiAgZXh0ZXJuIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgZHdfaGRtaV9xcF9yb2NrY2hpcF9wbHRm
-bV9kcml2ZXI7Cj4+ICBleHRlcm4gc3RydWN0IHBsYXRmb3JtX2RyaXZlciBkd19taXBpX2RzaV9y
-b2NrY2hpcF9kcml2ZXI7Cj4+IC0tIAo+PiAyLjM0LjEKPj4gCj4KPi0tIAo+V2l0aCBiZXN0IHdp
-c2hlcwo+RG1pdHJ5Cg==
+Hi, Angelo:
+
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
+=BC
+2025=E5=B9=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:=
+49=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> This IP includes a Pattern Generator which is useful for debugging
+> and testing purposes: add the relevant register and bits to the
+> mtk_dpi_regs.h header, and implement support for it in mtk_dpi.
+>
+> Adding this required to introduce a .debugfs_init() callback for
+> the DPI bridge, which creates a "dpi_test_pattern" file in the
+> directory of the appropriate connector.
+>
+> The pattern generator can generate various internal patterns and
+> this submission includes support for:
+>  - 256 or 1024 shades of gray in a Vertical or Horizontal Pattern
+>  - Vertical Color Bars
+>  - Frame border
+>  - Dot Moire
+>
+> This generator also supports filling the entire screen with one
+> custom color, but support for that is not included in this commit.
+>
+> Enabling and disabling this generator can be done by sending a
+> string to the dpi_test_pattern debugfs file; the pattern is
+> expected to be formatted as follows:
+>
+>          <enable (1) or disable (0)> <pattern number>
+>
+> where the pattern number can be a number from 0 to 7, excluding 5.
+>
+> Of course 5 is excluded because that activates custom color fill
+> which, again, is not supported in this commit.
+
+Applied to mediatek-drm-next [1], thanks.
+
+[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
+git/log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
+
+>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dpi.c      | 108 ++++++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   4 +
+>  2 files changed, 112 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
+k/mtk_dpi.c
+> index 1864eb02dbf5..fc937490feda 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -4,8 +4,10 @@
+>   * Author: Jie Qiu <jie.qiu@mediatek.com>
+>   */
+>
+> +#include <linux/bitfield.h>
+>  #include <linux/clk.h>
+>  #include <linux/component.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/kernel.h>
+>  #include <linux/media-bus-format.h>
+> @@ -166,6 +168,18 @@ static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 of=
+fset, u32 val, u32 mask)
+>         writel(tmp, dpi->regs + offset);
+>  }
+>
+> +static void mtk_dpi_test_pattern_en(struct mtk_dpi *dpi, u8 type, bool e=
+nable)
+> +{
+> +       u32 val;
+> +
+> +       if (enable)
+> +               val =3D FIELD_PREP(DPI_PAT_SEL, type) | DPI_PAT_EN;
+> +       else
+> +               val =3D 0;
+> +
+> +       mtk_dpi_mask(dpi, DPI_PATTERN0, val, DPI_PAT_SEL | DPI_PAT_EN);
+> +}
+> +
+>  static void mtk_dpi_sw_reset(struct mtk_dpi *dpi, bool reset)
+>  {
+>         mtk_dpi_mask(dpi, DPI_RET, reset ? RST : 0, RST);
+> @@ -767,6 +781,99 @@ mtk_dpi_bridge_mode_valid(struct drm_bridge *bridge,
+>         return MODE_OK;
+>  }
+>
+> +static int mtk_dpi_debug_tp_show(struct seq_file *m, void *arg)
+> +{
+> +       struct mtk_dpi *dpi =3D m->private;
+> +       bool en;
+> +       u32 val;
+> +
+> +       if (!dpi)
+> +               return -EINVAL;
+> +
+> +       val =3D readl(dpi->regs + DPI_PATTERN0);
+> +       en =3D val & DPI_PAT_EN;
+> +       val =3D FIELD_GET(DPI_PAT_SEL, val);
+> +
+> +       seq_printf(m, "DPI Test Pattern: %s\n", en ? "Enabled" : "Disable=
+d");
+> +
+> +       if (en) {
+> +               seq_printf(m, "Internal pattern %d: ", val);
+> +               switch (val) {
+> +               case 0:
+> +                       seq_puts(m, "256 Vertical Gray\n");
+> +                       break;
+> +               case 1:
+> +                       seq_puts(m, "1024 Vertical Gray\n");
+> +                       break;
+> +               case 2:
+> +                       seq_puts(m, "256 Horizontal Gray\n");
+> +                       break;
+> +               case 3:
+> +                       seq_puts(m, "1024 Horizontal Gray\n");
+> +                       break;
+> +               case 4:
+> +                       seq_puts(m, "Vertical Color bars\n");
+> +                       break;
+> +               case 6:
+> +                       seq_puts(m, "Frame border\n");
+> +                       break;
+> +               case 7:
+> +                       seq_puts(m, "Dot moire\n");
+> +                       break;
+> +               default:
+> +                       seq_puts(m, "Invalid selection\n");
+> +                       break;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static ssize_t mtk_dpi_debug_tp_write(struct file *file, const char __us=
+er *ubuf,
+> +                                     size_t len, loff_t *offp)
+> +{
+> +       struct seq_file *m =3D file->private_data;
+> +       u32 en, type;
+> +       char buf[6];
+> +
+> +       if (!m || !m->private || *offp || len > sizeof(buf) - 1)
+> +               return -EINVAL;
+> +
+> +       memset(buf, 0, sizeof(buf));
+> +       if (copy_from_user(buf, ubuf, len))
+> +               return -EFAULT;
+> +
+> +       if (sscanf(buf, "%u %u", &en, &type) !=3D 2)
+> +               return -EINVAL;
+> +
+> +       if (en < 0 || en > 1 || type < 0 || type > 7)
+> +               return -EINVAL;
+> +
+> +       mtk_dpi_test_pattern_en((struct mtk_dpi *)m->private, type, en);
+> +       return len;
+> +}
+> +
+> +static int mtk_dpi_debug_tp_open(struct inode *inode, struct file *file)
+> +{
+> +       return single_open(file, mtk_dpi_debug_tp_show, inode->i_private)=
+;
+> +}
+> +
+> +static const struct file_operations mtk_dpi_debug_tp_fops =3D {
+> +       .owner =3D THIS_MODULE,
+> +       .open =3D mtk_dpi_debug_tp_open,
+> +       .read =3D seq_read,
+> +       .write =3D mtk_dpi_debug_tp_write,
+> +       .llseek =3D seq_lseek,
+> +       .release =3D single_release,
+> +};
+> +
+> +static void mtk_dpi_debugfs_init(struct drm_bridge *bridge, struct dentr=
+y *root)
+> +{
+> +       struct mtk_dpi *dpi =3D bridge_to_dpi(bridge);
+> +
+> +       debugfs_create_file("dpi_test_pattern", 0640, root, dpi, &mtk_dpi=
+_debug_tp_fops);
+> +}
+> +
+>  static const struct drm_bridge_funcs mtk_dpi_bridge_funcs =3D {
+>         .attach =3D mtk_dpi_bridge_attach,
+>         .mode_set =3D mtk_dpi_bridge_mode_set,
+> @@ -779,6 +886,7 @@ static const struct drm_bridge_funcs mtk_dpi_bridge_f=
+uncs =3D {
+>         .atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_st=
+ate,
+>         .atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
+>         .atomic_reset =3D drm_atomic_helper_bridge_reset,
+> +       .debugfs_init =3D mtk_dpi_debugfs_init,
+>  };
+>
+>  void mtk_dpi_start(struct device *dev)
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/me=
+diatek/mtk_dpi_regs.h
+> index 62bd4931b344..a0b1d18bbbf7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
+> @@ -235,4 +235,8 @@
+>  #define MATRIX_SEL_RGB_TO_JPEG         0
+>  #define MATRIX_SEL_RGB_TO_BT601                2
+>
+> +#define DPI_PATTERN0           0xf00
+> +#define DPI_PAT_EN                     BIT(0)
+> +#define DPI_PAT_SEL                    GENMASK(6, 4)
+> +
+>  #endif /* __MTK_DPI_REGS_H */
+> --
+> 2.48.1
+>
