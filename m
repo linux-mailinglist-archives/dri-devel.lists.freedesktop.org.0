@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014E3A4B11C
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 12:14:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE68CA4B128
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 12:23:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FBB10E183;
-	Sun,  2 Mar 2025 11:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D182B10E15F;
+	Sun,  2 Mar 2025 11:23:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p2PYUixk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e8P+hjlt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C84710E2FF
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:14:03 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D30C10E15F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:23:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A87B8611C6
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:13:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E08ABC4CEEB
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:14:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 08CFB5C558F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:20:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1896DC4CEF0
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:23:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740914041;
- bh=v/ma3IQHSnM+5ud0dShiwB+ncbp4M9rgz628up8ZOkA=;
+ s=k20201202; t=1740914595;
+ bh=88iTC3VCTOJkXkwpEcxod0WPhai7pUMfCO6THaRxiz0=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=p2PYUixk1Am9QalwwYyF2GaEFbCYaqRVuPbfG+n8JuQ59p/aG1I0T8htcVMF8hoUb
- lPmDYHN/tiQbjOEbChNi4BbmFmqD4wxwaMW26lC+JiBPKs2fWqQLfdRSIDicix3Ouy
- gPfC0KYV9i5g6r1oie50EYE/tu2V2RDj1JUChuafhKEIb0mQP+jiiRDFV8X6FvMU27
- r/eJyCjoLdCPUGAPdNSxCIQ4hgRXyQhDcKb1DzEaWXFiBtLfXBc+TwE/t4BQM8HOTc
- YJlaPJKB3YpBzGThPPK3aPqZcvDZo1roa92em+YvsqpRMOGc5a3hrmJ2pggQe4+ehO
- fQyTqz7Dgardw==
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-2fea795bafeso5247058a91.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 03:14:01 -0800 (PST)
+ b=e8P+hjltOkA3uUaWCeGA+L9nKuJRQEkZkf/iy8iuR6mPo8s/BCWYzoHn2zvNTTv40
+ sb79LxEzwQG3iBHcKFxul6zfX0ruYmCtYUeumswGt4+mG3BM5XgUXl5BazVBnCENha
+ TQI0Sh/zdkYzUQs45W4kLPxN4/kfOWd4OAKqKUGH0xXqzFcy2Be/ZL0X48iyLQus7i
+ cepteP6YWQjvMxy87RwpCczasv9dYAZ3Goh3uSSju4aF6xn0X8MXP3CufkO5LdJcOq
+ oUtOrxSVxpU0AwgMFq6tedRLipvJScf539jOkY3MJim30cTD3pcLY0B4kIuQco3RXh
+ FlFAFCAysIapA==
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-22359001f1aso77946835ad.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 03:23:15 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU+ugPZ0fyYGqSF3Qms3PDG/zqerylmTYSAPXd1JVhcskG84gWfW7slx8I5hRZ0NJprlRmWP7MOWt8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzDn7gr5cqNRzQgFomg8ezFCHh7nZrEqGbl3Q7sZ095WRST9Z/o
- BWLHq/l8WrUC+mn0JTk1rT2+PKB9aRc60RNgf60TRC56Gq6CqGJCS/YeK5lscZ+haaKs3tLznrW
- LWQm3QWjncDOppsLt2OOImPqfCg==
-X-Google-Smtp-Source: AGHT+IGZksfSFwIbEcmNOhwDcGlaG+7/hc4R9GwB7WRzfYExI+bHgZUCSKMFME5+ViazM2T3gLoc2AcWZathoQG804E=
-X-Received: by 2002:a17:90b:5550:b0:2fa:6793:e860 with SMTP id
- 98e67ed59e1d1-2fea0c70b0emr22779361a91.0.1740914041329; Sun, 02 Mar 2025
- 03:14:01 -0800 (PST)
+ AJvYcCXEEObRGRMzJrDdVl6DRENsmZtM9B2ods3WSEHphEf50WPY//UeTxTE+lI6jaKYj+Bc076uK5HBBl4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNi7/mvdfXfsIIFOxqBOZh4vo/S9G7AObtekqiAIzRgGK2mjE7
+ 3lBS1fBsLMbOZMTdnbkRbfFLxK5NKG14Y90mrQNzC7YQF5sRQ0WYaiaM/wsSgY+hNszeK166VCu
+ Ikl/I4Q15XA8EzRh9HdKNu507Iw==
+X-Google-Smtp-Source: AGHT+IFpcs+J1xAyfK06/O6FF1+X82uEcHTSqmEDT4XqGI/sksYkVpLwFKzYZ1+KMrLF9RKJkiWsDGoNBEQOX9vfehk=
+X-Received: by 2002:a17:902:dacf:b0:215:a179:14ca with SMTP id
+ d9443c01a7336-22368f73284mr153333585ad.2.1740914594460; Sun, 02 Mar 2025
+ 03:23:14 -0800 (PST)
 MIME-Version: 1.0
 References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
- <20250217154836.108895-7-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250217154836.108895-7-angelogioacchino.delregno@collabora.com>
+ <20250217154836.108895-8-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250217154836.108895-8-angelogioacchino.delregno@collabora.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 2 Mar 2025 19:14:48 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8ztRjpES-JVYeznG6ZjutYiifQSX3poyZoSqbqXYJ+aw@mail.gmail.com>
-X-Gm-Features: AQ5f1JqxhG4uqsABhT4weE72XZJ0MWxPfONUK4l6x3goUDKT1KHLjbb0-IMiCn0
-Message-ID: <CAAOTY_8ztRjpES-JVYeznG6ZjutYiifQSX3poyZoSqbqXYJ+aw@mail.gmail.com>
-Subject: Re: [PATCH v7 06/43] drm/mediatek: mtk_dpi: Move the input_2p_en bit
- to platform data
+Date: Sun, 2 Mar 2025 19:24:02 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8LmRTabeuwXnwDxxodiPRkRD4P9diCO=5CHrwtT4h2QA@mail.gmail.com>
+X-Gm-Features: AQ5f1JqaQEl0KFCViPa_ifgKV1VqZysAJMdPHTFuV6fAg_m9uoS6AEjQCuQA1_8
+Message-ID: <CAAOTY_8LmRTabeuwXnwDxxodiPRkRD4P9diCO=5CHrwtT4h2QA@mail.gmail.com>
+Subject: Re: [PATCH v7 07/43] drm/mediatek: mtk_dpi: Add support for DPI input
+ clock from HDMI
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
  simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
@@ -89,14 +89,23 @@ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
 2025=E5=B9=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:=
 49=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> In preparation for adding support for MT8195's HDMI reserved DPI
-> instance, move the input_2p_en bit for DP_INTF to platform data.
+> On some SoCs, like MT8195 and MT8188, the DPI instance that is
+> reserved to the HDMI Transmitter uses a different clock topology.
 >
-> While at it, remove the input_2pixel member from platform data as
-> having this bit implies that the 2pixel feature must be enabled.
+> In this case, the DPI is clocked by the HDMI IP, and this outputs
+> its clock to the MM input of dpi_pixel_clk, which is essential to
+> enable register access to the DPI IP.
+>
+> Add a `clocked_by_hdmi` member to struct mtk_dpi_conf, and check
+> it to avoid enabling the DPI clocks in the mediatek-drm internal
+> .start() callback (and avoid disabing in the .stop() component
+> callback): this will make sure that the clock configuration
+> sequence is respected during display pipeline setup by following
+> the bridge ops between DPI and HDMI, where the HDMI driver is
+> expected to enable the clocks in the bridge's pre_enable(), and
+> DPI in the enable() cb.
 
-Remember to run check patch, after fix check patch error, applied to
-mediatek-drm-next [1], thanks.
+After fix conflicts, applied to mediatek-drm-next [1], thanks.
 
 [1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
 git/log/?h=3Dmediatek-drm-next
@@ -105,82 +114,69 @@ Regards,
 Chun-Kuang.
 
 >
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
 k/mtk_dpi.c
-> index bb1a17f1384b..9a6c0f75f764 100644
+> index 9a6c0f75f764..9f83e82437dd 100644
 > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -135,14 +135,14 @@ struct mtk_dpi_factor {
->   * @is_ck_de_pol: Support CK/DE polarity.
->   * @swap_input_support: Support input swap function.
->   * @support_direct_pin: IP supports direct connection to dpi panels.
-> - * @input_2pixel: Input pixel of dp_intf is 2 pixel per round, so enable=
- this
-> - *               config to enable this feature.
->   * @dimension_mask: Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_=
-PORCH
->   *                 (no shift).
->   * @hvsize_mask: Mask of HSIZE and VSIZE mask (no shift).
->   * @channel_swap_shift: Shift value of channel swap.
->   * @yuv422_en_bit: Enable bit of yuv422.
->   * @csc_enable_bit: Enable bit of CSC.
-> + * @input_2p_en_bit: Enable bit for input two pixel per round feature.
-> +                     If present, implies that the feature must be enable=
+> @@ -145,6 +145,8 @@ struct mtk_dpi_factor {
+>                       If present, implies that the feature must be enable=
 d.
 >   * @pixels_per_iter: Quantity of transferred pixels per iteration.
 >   * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs =
 to be set in MMSYS.
+> + * @clocked_by_hdmi: HDMI IP outputs clock to dpi_pixel_clk input clock,=
+ needed
+> + *                  for DPI registers access.
 >   */
-> @@ -157,12 +157,12 @@ struct mtk_dpi_conf {
->         bool is_ck_de_pol;
->         bool swap_input_support;
->         bool support_direct_pin;
-> -       bool input_2pixel;
->         u32 dimension_mask;
->         u32 hvsize_mask;
->         u32 channel_swap_shift;
->         u32 yuv422_en_bit;
->         u32 csc_enable_bit;
-> +       u32 input_2p_en_bit;
+>  struct mtk_dpi_conf {
+>         const struct mtk_dpi_factor *dpi_factor;
+> @@ -165,6 +167,7 @@ struct mtk_dpi_conf {
+>         u32 input_2p_en_bit;
 >         u32 pixels_per_iter;
 >         bool edge_cfg_in_mmsys;
+> +       bool clocked_by_hdmi;
 >  };
-> @@ -651,9 +651,9 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *d=
+>
+>  static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val, u32 m=
+ask)
+> @@ -585,7 +588,9 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *d=
 pi,
->                 mtk_dpi_dual_edge(dpi);
->                 mtk_dpi_config_disable_edge(dpi);
->         }
-> -       if (dpi->conf->input_2pixel) {
-> -               mtk_dpi_mask(dpi, DPI_CON, DPINTF_INPUT_2P_EN,
-> -                            DPINTF_INPUT_2P_EN);
-> +       if (dpi->conf->input_2p_en_bit) {
-> +               mtk_dpi_mask(dpi, DPI_CON, dpi->conf->input_2p_en_bit,
-> +                            dpi->conf->input_2p_en_bit);
->         }
->         mtk_dpi_sw_reset(dpi, false);
+>         struct videomode vm =3D { 0 };
 >
-> @@ -1121,12 +1121,12 @@ static const struct mtk_dpi_conf mt8195_dpintf_co=
-nf =3D {
->         .output_fmts =3D mt8195_output_fmts,
->         .num_output_fmts =3D ARRAY_SIZE(mt8195_output_fmts),
->         .pixels_per_iter =3D 4,
-> -       .input_2pixel =3D true,
->         .dimension_mask =3D DPINTF_HPW_MASK,
->         .hvsize_mask =3D DPINTF_HSIZE_MASK,
->         .channel_swap_shift =3D DPINTF_CH_SWAP,
->         .yuv422_en_bit =3D DPINTF_YUV422_EN,
->         .csc_enable_bit =3D DPINTF_CSC_ENABLE,
-> +       .input_2p_en_bit =3D DPINTF_INPUT_2P_EN,
->  };
+>         drm_display_mode_to_videomode(mode, &vm);
+> -       mtk_dpi_set_pixel_clk(dpi, &vm, mode->clock);
+> +
+> +       if (!dpi->conf->clocked_by_hdmi)
+> +               mtk_dpi_set_pixel_clk(dpi, &vm, mode->clock);
 >
->  static int mtk_dpi_probe(struct platform_device *pdev)
+>         dpi_pol.ck_pol =3D MTK_DPI_POLARITY_FALLING;
+>         dpi_pol.de_pol =3D MTK_DPI_POLARITY_RISING;
+> @@ -920,14 +925,16 @@ void mtk_dpi_start(struct device *dev)
+>  {
+>         struct mtk_dpi *dpi =3D dev_get_drvdata(dev);
+>
+> -       mtk_dpi_power_on(dpi);
+> +       if (!dpi->conf->clocked_by_hdmi)
+> +               mtk_dpi_power_on(dpi);
+>  }
+>
+>  void mtk_dpi_stop(struct device *dev)
+>  {
+>         struct mtk_dpi *dpi =3D dev_get_drvdata(dev);
+>
+> -       mtk_dpi_power_off(dpi);
+> +       if (!dpi->conf->clocked_by_hdmi)
+> +               mtk_dpi_power_off(dpi);
+>  }
+>
+>  unsigned int mtk_dpi_encoder_index(struct device *dev)
 > --
 > 2.48.1
 >
