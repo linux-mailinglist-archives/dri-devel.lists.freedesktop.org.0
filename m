@@ -2,69 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23B6A4AFB5
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 07:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B4FA4AFB0
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 07:54:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22A8810E0DA;
-	Sun,  2 Mar 2025 06:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7642F10E023;
+	Sun,  2 Mar 2025 06:54:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G6T8VLv1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T1anNLol";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 415AE10E0DA
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 06:54:44 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-2fe9fd5e7f8so1003031a91.3
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 22:54:44 -0800 (PST)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F76C10E023
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 06:54:19 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2f74e6c6cbcso1003470a91.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 22:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740898484; x=1741503284; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1740898459; x=1741503259; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RH50xcsm3w9EAvFEKvX4IOD4cvYkCw20gTdnoq0oYts=;
- b=G6T8VLv1XphXJ9HIQjiXbXVzChJD6MqmZbx6ILXZ5u1Am4ViejxrxsOgudvkysKrKQ
- vooAUM7/DhpamVPm5sRlDH4qCETZSgjscCy8hRLHHCyOuk0ecK5b0Upt5rguBU1yQ3w3
- L4ST5vKy5P6tIVsqA/4j1ICfnH8oxC613aB075+HW2Ca1YxavPkCXZGTMHtLTttZNtdH
- ueE6WlWNVMh/mUebnYKrnRkaYKxBVhj4VIgsoSCBAh3oj4U3nQL7FNX5Oh8a+AJUdvTr
- fEJH+/fX/HUdv8BV49iRk6FA3BaGV0hVU4HeoLV664E2AkgEU3wAbwkkdbf1T0BL9gV1
- Wcqg==
+ bh=NLVLObx6uS9bBjmY8f5wb7+n2yEgDTNv1aQqp5H8/BY=;
+ b=T1anNLolA3tKXb1CZ/2Al+2BoKhDAlAP+GP4VfpkmAvqbHkFebH2rxyJCDPgPgxMKb
+ XdHKlQa/+5Z/rwwZBwJqDLudKxJs3sr04ZIBoBac2sQJS4acmxudFdNy41Zwg5knT8sl
+ 1P+xVCMKoASrf9oVXckR/Gsa6y/35EzJHWbN6+v4mHepAxUDyH3uf9mhrc7DwBvsPeih
+ ikB696gj9W5IalFpj1it5kUb/mVY8H9bM4DM4FFnygauavOrYCezMyVTWOcI1yRTCInV
+ 9dbZ7KBJkG0cKMtQAxbUD0yn+rvKMqBNmgzxTICsNvwtEmli27RouEm87Sz8IftqbaEZ
+ 5eDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740898484; x=1741503284;
+ d=1e100.net; s=20230601; t=1740898459; x=1741503259;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RH50xcsm3w9EAvFEKvX4IOD4cvYkCw20gTdnoq0oYts=;
- b=VpcpkutDl22CF3SXzWpKdX1RIDelhyOQLMbATffDFD5314n4diEj1yVJDCjg8lNaDG
- h2NUEl4/STwYH4/o44nCW4351yTmjmmQzmqV9YA6HfftW97lxUfVfpXOAHiDaBuIabQ3
- 6ZhuXLBU03/RhflpYjqEXFJcqqfXewr9c+isSgAXNTkPkpEeU2VEEK91uYNyxYWrFtHk
- qQF44ieevsqtlczSpBdSyduUv3LYpSMWG+SSAYifSIvPCN+ezO/IvxQb7IZXFK8f8RAu
- G88ELSqVX1TctCYGGAIwOvbJMbcsaWUqvK/BuqMAFMkaYn9prnDZacJYX5CtRhqFyfnH
- x5Hg==
+ bh=NLVLObx6uS9bBjmY8f5wb7+n2yEgDTNv1aQqp5H8/BY=;
+ b=Loz+in6mV7E7hsrCO0b7oyhHIfxGpu95Qxbu9hQHR3uGFSLdAYNC1gPq7aoZC9DJA9
+ qZBrJ+ePT1MsoHqgC8wMTPys5gPoASLZvkX0S/PNUY4dMt4dh1/yF1OQ5UJ1Lkj/6BOB
+ kK9YPqTaHzxzv/IcnhgqwjDVHCiQptcNH4cweU9sO/KsJmlmp4xX2Xog7JxxIxY/xJhy
+ tnnQwR57etGIsqhlfZqw7DlbO9a3/LYLZxxwEOTP8A+vRO804JduB+vAF9ITqF5Lf1P0
+ NVP32ssjFjdd7mKnKfTAdm6hns27ocLxQAWG9MPjqDOIHi765F+33rIr3vBawMBCLkCM
+ B2TA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKoavCHil4FeVPuRSat2hs53A8Gc0aZnu+c7jH/8NhICVTuqr+VW+QJH9Q2+xkknd0hMVQfnXu85A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmRwNW7lC2ySaWZtTzt8aLtg9R8aKp5RSlU8U7SSTIDmwu83gt
- FKvuA5InkWgrWjJVqz1C3BMHmFURY5/oNPflIiY0ItfxfghqZuUay18XTSq2zY6OFt0k+XYzUgJ
- tKKrtNWfhVMAlr4ppXQK78D/AO08=
-X-Gm-Gg: ASbGnctxfSRfbxiaVKTDtmabXvlXybf9hZ5JtJVuIKZIRplyEfWzBT+aBBrVL/kn1Df
- VzQiVYhmfydqcuKaSshx/EuBtEMTDGm56nef4EIcQgUXuNUMhZZhcWZEhfJn3oGqabVIq683NPW
- 23EU+gbB6dh4xqRoRcz/6jhm6JMw==
-X-Google-Smtp-Source: AGHT+IH/HpdC5c2ntwoUexbl3FGQdhO1VQIGXrZoFJRa7qJpy5glII83KoHTFhfyZpEgHHy3fYGiMf0NHxFD6DEEMQo=
+ AJvYcCXF66nm/nqjKi3LXxsamnwK21W4fYOcMAAdG4+GDUCH1jFsPg7A3L84wbx3Bc90cJZ4rAS3QUKM6HA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxHnIog9Ie1vk/u/epnrVoFMMBxzCBCSHPo25ej0456S3hnJ8Un
+ b6Jzel7+sgboCQmMwOfSsG58/98WCyenO9ap+60/ypUXhYmkMVp68VXDIWlmSZ9ObyqP1cbzEGD
+ 0Sm8Y3PzZh0hYf+CF/Dd2BTazZ7A=
+X-Gm-Gg: ASbGncuEo2jYEY6hLLSpCL3/jVzF2rImMB8U0/h2iMDsN5zGsrukj9SkwTCFsqqW5Gi
+ dUvDIyYf+D2XGccyj2EgMhuhdJJ7/AjAWsHIIPSnB1mBb236l8b7kn9/xOtU4qzuNqo5vxgHkLl
+ nKDKecryjJ5SA1Wrse8TXnxQ48jw==
+X-Google-Smtp-Source: AGHT+IHh1k5f2tWxMNYSe/y3kE7Ra5Zf6Er2pwX6coXwO+JW2sI9aLEqs9LceEvDYhdwv4wseu00qX6LVvsx+04aHts=
 X-Received: by 2002:a17:90b:1d8a:b0:2ee:6db1:21dc with SMTP id
- 98e67ed59e1d1-2febab2bdf7mr5608814a91.1.1740898482556; Sat, 01 Mar 2025
- 22:54:42 -0800 (PST)
+ 98e67ed59e1d1-2febab2bdf7mr5608489a91.1.1740898459164; Sat, 01 Mar 2025
+ 22:54:19 -0800 (PST)
 MIME-Version: 1.0
 References: <20250301231602.917580-1-ojeda@kernel.org>
- <20250301231602.917580-2-ojeda@kernel.org>
-In-Reply-To: <20250301231602.917580-2-ojeda@kernel.org>
+In-Reply-To: <20250301231602.917580-1-ojeda@kernel.org>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Date: Sun, 2 Mar 2025 07:54:00 +0100
-X-Gm-Features: AQ5f1JqlzIC1SFXpGOf9WwRIHGTxmhHtxxGET_lxoSbzWK3HdSahnru-4p4t798
-Message-ID: <CANiq72=69XAOapYBurbwsQOEaw2uamZ6ta=DT6cC-om9XK3dvA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panic: fix overindented list items in
- documentation
+X-Gm-Features: AQ5f1JrtjtdA7vxoGkxnJQQ2oihRlgLnRnvB1-jZWod_EJ2aQH_uVcVqeA0S0x8
+Message-ID: <CANiq72ne57qiwgWSDE=C1bvBuYGsUg9f8PooM+V_nZFo1Z5ogQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/panic: use `div_ceil` to clean Clippy warning
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Jocelyn Falempe <jfalempe@redhat.com>,
  =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>, 
@@ -102,24 +100,26 @@ te:
 > Starting with the upcoming Rust 1.86.0 (to be released 2025-04-03),
 > Clippy warns:
 >
->     error: doc list item overindented
->        --> drivers/gpu/drm/drm_panic_qr.rs:914:5
+>     error: manually reimplementing `div_ceil`
+>        --> drivers/gpu/drm/drm_panic_qr.rs:548:26
 >         |
->     914 | ///    will be encoded as binary segment, otherwise it will be =
-encoded
->         |     ^^^ help: try using `  ` (2 spaces)
+>     548 |         let pad_offset =3D (offset + 7) / 8;
+>         |                          ^^^^^^^^^^^^^^^^ help: consider using =
+`.div_ceil()`: `offset.div_ceil(8)`
 >         |
 >         =3D help: for further information visit https://rust-lang.github.=
-io/rust-clippy/master/index.html#doc_overindented_list_items
+io/rust-clippy/master/index.html#manual_div_ceil
 >
-> The overindentation is slightly hard to notice, since all the items
-> start with a backquote that makes it look OK, but it is there.
+> And similarly for `stride`. Thus apply the suggestion to both.
 >
-> Thus fix it.
+> The behavior (and thus codegen) is not exactly equivalent [1][2], since
+> `div_ceil()` returns the right value for the values that currently
+> would overflow.
 >
+> Link: https://github.com/rust-lang/rust-clippy/issues/14333 [1]
+> Link: https://godbolt.org/z/dPq6nGnv3 [2]
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
 Cc: stable@vger.kernel.org # Needed in 6.12.y and 6.13.y only (Rust is
 pinned in older LTSs).
 
