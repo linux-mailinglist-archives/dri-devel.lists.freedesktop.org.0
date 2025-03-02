@@ -2,62 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0E5A4B01C
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 08:15:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD6BA4B074
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 09:20:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4CD10E0DE;
-	Sun,  2 Mar 2025 07:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5AD10E101;
+	Sun,  2 Mar 2025 08:20:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Aqh6ofGa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ToqgfmkJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3288.qiye.163.com (mail-m3288.qiye.163.com
- [220.197.32.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7081C10E0DE
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 07:15:35 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id ca138e88;
- Sun, 2 Mar 2025 15:15:30 +0800 (GMT+08:00)
-Message-ID: <f835a852-24b8-4279-8e4b-42517d694493@rock-chips.com>
-Date: Sun, 2 Mar 2025 15:15:30 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 04/15] drm/bridge: analogix_dp: Remove the unnecessary
- calls to clk_disable_unprepare() during probing
-To: Doug Anderson <dianders@chromium.org>
-Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E2510E031
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 08:20:14 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2fe848040b1so7273797a91.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 00:20:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1740903613; x=1741508413; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hvRvdsHloY5BTybtl092nj/Kn8Sd866ni5GmAJ3o96M=;
+ b=ToqgfmkJbE3JmWCN2CluCrSKkw4znlYgHe71lnJBECp6aG0X4ab7t3utVxHpO0OKQ2
+ +0skeo9Vci3YthX+qY0WkelyAE9v6JScPrkSc4M+q6HdcIIygyxnYuwoiDU/BJ++G3hB
+ sS+JK6sXlQqk6BwL5/SsidrGSpqDT2RX4BoML14Jh+JLr9ZTcjziLBZ6Jkn9htivkQBl
+ +iAEhQCja+nA9owTcbim3ZraaLesYMU/qVRwOGn33ojSg6I+0wAf2T+2yc/DDmvrPxp8
+ appgwzfUhQtfKd5IkFIO/vX9hkcxqOsKBji9DA7TpvQfH/bdnIVRFmR4boOgj23B/UR2
+ wnhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740903613; x=1741508413;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hvRvdsHloY5BTybtl092nj/Kn8Sd866ni5GmAJ3o96M=;
+ b=nGgfzH7Vp4KATBVXH4NRTVSKMv9WDsyD1RwEpXZAedA9JJEm1Y0s40EB9yhmUJX57n
+ 5Rc6gLLzGQxR+PDuFjnDP0luWIVD+ce7lRonZ88cx/K05u7V4CJYhI2Wm1hoEBKli+Ej
+ MZHIIeB4XDYiWHtRPDSaiVw0qiN3Wsf5g1+6fJhRaqyI7q2eQePhFXvN/8XmZPowKxvA
+ +ojLKIfx3eJFcNLInimQtxQ8td6CPqsDfwGRDbscCLBiuVVK9m2LH2N7j36trTtj3ndz
+ vA5g24wSotxIDJDsSlJYnh1PUeFH2kI5BH6t+OGvSCVYhmQqzd1uGcmap5d3E97+ikdJ
+ nZCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUsHC51JkFyXtY4RgGKR2+v5TsoRGu3rXDB95b3tfXUZMcereb+Z1FKE5ejh5zpsGoeU8A7ZaVLEIQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwPc6BKdy9quGNSJr3r6WgLpH0LhXmChcESp1orNBvzyJHvJOmn
+ Tr8OAheQXx5vxVchlbi894z+Xawv6JyCqEMT265p1Cx1qej78cry
+X-Gm-Gg: ASbGncsgQIWMcv4GZdI7l5FLgXw3x1ktmc3l6ZBeGSB4mbLBxX2tSAmFeT1XvAaXTMj
+ LJ8yTP9PvRSza2gHorxY7/GXqXJdUR0vL+B3Q+9fJPd4gQ5sfuXirSM8lG0vRsqLEmclUAmM0I1
+ 3041eww77RJUsx8D0snkKhZqH9QR1u/huoKc32gl7b5t6RVkZAgTBiZuF23wBSnlazPA5cXx7Qd
+ WAIkqiY5FVrgVsGJ31oQdksKz/T2abzBJUcCOstAWY/ndJn0ZCrwy0yw3tMHdmxA4BkbSg4G64x
+ ylixtRP+Hx3FFJa29cBB6cTzTT9aSahyiUt3vKSXurLUhXuqtfKm4OQYLJEV5kihHRvsN9sx
+X-Google-Smtp-Source: AGHT+IEhxHA+kpP3f6IyyP7qeoU3p0FUjq/2+GkVz3d5MRAoSIvjaHiRGY0TomgRz3SF6T/LAIMe2Q==
+X-Received: by 2002:a17:90b:17d2:b0:2ee:aef4:2c5d with SMTP id
+ 98e67ed59e1d1-2febabdede3mr12777219a91.26.1740903613420; 
+ Sun, 02 Mar 2025 00:20:13 -0800 (PST)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2235052a622sm58034965ad.231.2025.03.02.00.20.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 02 Mar 2025 00:20:12 -0800 (PST)
+Date: Sun, 2 Mar 2025 16:20:02 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org,
+ awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org,
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- boris.brezillon@collabora.com, l.stach@pengutronix.de,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250224081325.96724-1-damon.ding@rock-chips.com>
- <20250224081325.96724-5-damon.ding@rock-chips.com>
- <CAD=FV=X7iWOyAvdfRDyFA9kdr+utU_aAaJ5F7nAsaHp2fMQgVw@mail.gmail.com>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <CAD=FV=X7iWOyAvdfRDyFA9kdr+utU_aAaJ5F7nAsaHp2fMQgVw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUhPQlYZTx9PSh0YTx4ZSUJWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a9555b5c2df03a3kunmca138e88
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pjo6Lgw6CzIKHUsaFQsLF0tL
- OBUKCU9VSlVKTE9LQ0JCTEhKQ01CVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJS0hJNwY+
-DKIM-Signature: a=rsa-sha256;
- b=Aqh6ofGacuT+B/WiOkyQRxEZYkd5NWw7bNn++OmrLNSFR5Y2zQSQ6S4knhbwrlYkwPve/ppWG4WrEx6B3hdO/jgE+1l3hEYxMT3Ah6BXdq2v3svwOMcgcj3L9US+GjHWVgNzBiTwKuNOceJpI6UFEEg1IWwgUjUnBrgLUK7S/mM=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=8d5ejZu4ZY9Y9Zh2+eVlwxl7XvRzlgNDw9s/Y5LNOs0=;
- h=date:mime-version:subject:message-id:from;
+ jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
+ implementations
+Message-ID: <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
+References: <20250301142409.2513835-1-visitorckw@gmail.com>
+ <20250301142409.2513835-2-visitorckw@gmail.com>
+ <Z8PMHLYHOkCZJpOh@thinkpad>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8PMHLYHOkCZJpOh@thinkpad>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,54 +114,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+Hi Yury,
 
-On 2025/2/25 9:40, Doug Anderson wrote:
-> Hi,
+On Sat, Mar 01, 2025 at 10:10:20PM -0500, Yury Norov wrote:
+> On Sat, Mar 01, 2025 at 10:23:52PM +0800, Kuan-Wei Chiu wrote:
+> > Add generic C implementations of __paritysi2(), __paritydi2(), and
+> > __parityti2() as fallback functions in lib/parity.c. These functions
+> > compute the parity of a given integer using a bitwise approach and are
+> > marked with __weak, allowing architecture-specific implementations to
+> > override them.
+> > 
+> > This patch serves as preparation for using __builtin_parity() by
+> > ensuring a fallback mechanism is available when the compiler does not
+> > inline the __builtin_parity().
+> > 
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> >  lib/Makefile |  2 +-
+> >  lib/parity.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 49 insertions(+), 1 deletion(-)
+> >  create mode 100644 lib/parity.c
+> > 
+> > diff --git a/lib/Makefile b/lib/Makefile
+> > index 7bab71e59019..45affad85ee4 100644
+> > --- a/lib/Makefile
+> > +++ b/lib/Makefile
+> > @@ -51,7 +51,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
+> >  	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
+> >  	 percpu-refcount.o rhashtable.o base64.o \
+> >  	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
+> > -	 generic-radix-tree.o bitmap-str.o
+> > +	 generic-radix-tree.o bitmap-str.o parity.o
+> >  obj-y += string_helpers.o
+> >  obj-y += hexdump.o
+> >  obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
+> > diff --git a/lib/parity.c b/lib/parity.c
+> > new file mode 100644
+> > index 000000000000..a83ff8d96778
+> > --- /dev/null
+> > +++ b/lib/parity.c
+> > @@ -0,0 +1,48 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * lib/parity.c
+> > + *
+> > + * Copyright (C) 2025 Kuan-Wei Chiu <visitorckw@gmail.com>
+> > + * Copyright (C) 2025 Yu-Chun Lin <eleanor15x@gmail.com>
+> > + *
+> > + * __parity[sdt]i2 can be overridden by linking arch-specific versions.
+> > + */
+> > +
+> > +#include <linux/export.h>
+> > +#include <linux/kernel.h>
+> > +
+> > +/*
+> > + * One explanation of this algorithm:
+> > + * https://funloop.org/codex/problem/parity/README.html
 > 
-> On Mon, Feb 24, 2025 at 12:14 AM Damon Ding <damon.ding@rock-chips.com> wrote:
->>
->> With the commit f37952339cc2 ("drm/bridge: analogix_dp: handle clock via
->> runtime PM"), the PM operations can help enable/disable the clock. The
->> err_disable_clk label and clk_disable_unprepare() operations are no
->> longer necessary because the analogix_dp_resume() will not be called
->> during probing.
->>
->> Fixes: f37952339cc2 ("drm/bridge: analogix_dp: handle clock via runtime PM")
+> I already asked you not to spread this link. Is there any reason to
+> ignore it?
 > 
-> When possible "Fixes" should be pushed to the start of your series so
-> it's obvious they have no dependencies when being picked to stable
-> kernels. That should be possible here.
-> 
->> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
->> ---
->>   .../gpu/drm/bridge/analogix/analogix_dp_core.c | 18 +++++-------------
->>   1 file changed, 5 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> index e23af674d91c..d9dafb038e7a 100644
->> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> @@ -1608,10 +1608,8 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
->>          res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->>
->>          dp->reg_base = devm_ioremap_resource(&pdev->dev, res);
-> 
-> There is a context conflict when I apply to drm-misc-next because of
-> commit 43c00fb1a518 ("drm/bridge: analogix_dp: Use
-> devm_platform_ioremap_resource()"). You probably should rebase and
-> re-apply.
-> 
-> Aside from the context conflict, this looks great to me:
-> 
-> Suggested-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> 
-> 
+In v2, this algorithm was removed from bitops.h, so I moved the link
+here instead. I'm sorry if it seemed like I ignored your comment.
 
-After rebasing, I found the conflict. I will move this patch to a 
-separate series and ensure it has no dependencies.
+> > + */
+> > +int __weak __paritysi2(u32 val);
+> > +int __weak __paritysi2(u32 val)
+> > +{
+> > +	val ^= val >> 16;
+> > +	val ^= val >> 8;
+> > +	val ^= val >> 4;
+> > +	return (0x6996 >> (val & 0xf)) & 1;
+> > +}
+> > +EXPORT_SYMBOL(__paritysi2);
+> > +
+> > +int __weak __paritydi2(u64 val);
+> > +int __weak __paritydi2(u64 val)
+> > +{
+> > +	val ^= val >> 32;
+> > +	val ^= val >> 16;
+> > +	val ^= val >> 8;
+> > +	val ^= val >> 4;
+> > +	return (0x6996 >> (val & 0xf)) & 1;
+> > +}
+> > +EXPORT_SYMBOL(__paritydi2);
+> > +
+> > +int __weak __parityti2(u64 val);
+> > +int __weak __parityti2(u64 val)
+> > +{
+> > +	val ^= val >> 32;
+> > +	val ^= val >> 16;
+> > +	val ^= val >> 8;
+> > +	val ^= val >> 4;
+> > +	return (0x6996 >> (val & 0xf)) & 1;
+> > +}
+> > +EXPORT_SYMBOL(__parityti2);
+> 
+> OK, it seems I wasn't clear enough on the previous round, so I'll try
+> to be very straightforward now.
+> 
+> To begin with, the difference between __parityti2 and __paritydi2 
+> doesn't exist. I'm seriously. I put them side by side, and there's
+> no difference at all.
+> 
+> Next, this all is clearly an overengineering. You bake all those weak,
+> const and (ironically, missing) high-efficient arch implementations.
+> But you show no evidence that:
+>  - it improves on code generation,
+>  - the drivers care about parity()'s performance, and
+>  - show no perf tests at all.
+> 
+> So you end up with +185/-155 LOCs.
+> 
+> Those +30 lines add no new functionality. You copy-paste the same
+> algorithm again and again in very core kernel files. This is a no-go
+> for a nice consolidation series.
+> 
+> In the previous round reviewers gave you quite a few nice suggestions.
+> H. Peter Anvin suggested to switch the function to return a boolean, I
+> suggested to make it a macro and even sent you a patch, Jiri and David
+> also spent their time trying to help you, and became ignored.
+> 
+> Nevertheless. NAK for the series. Whatever you end up, if it comes to
+> v3, please make it simple, avoid code duplication and run checkpatch.
+> 
+In v1, I used the same approach as parity8() because I couldn't justify
+the performance impact in a specific driver or subsystem. However,
+multiple people commented on using __builtin_parity or an x86 assembly
+implementation. I'm not ignoring their feedback-I want to address these
+comments. Before submitting, I sent an email explaining my current
+approach: using David's suggested method along with __builtin_parity,
+but no one responded. So, I decided to submit v2 for discussion
+instead.
 
-Best regards
-Damon
+To avoid mistakes in v3, I want to confirm the following changes before
+sending it:
+
+(a) Change the return type from int to bool.
+(b) Avoid __builtin_parity and use the same approach as parity8().
+(c) Implement parity16/32/64() as single-line inline functions that
+    call the next smaller variant after xor.
+(d) Add a parity() macro that selects the appropriate parityXX() based
+    on type size.
+(e) Update users to use this parity() macro.
+
+However, (d) may require a patch affecting multiple subsystems at once
+since some places that already include bitops.h have functions named
+parity(), causing conflicts. Unless we decide not to add this macro in
+the end.
+
+As for checkpatch.pl warnings, they are mostly pre-existing coding
+style issues in this series. I've kept them as-is, but if preferred,
+I'm fine with fixing them.
+
+If anything is incorrect or if there are concerns, please let me know.
+
+Regards,
+Kuan-Wei
+
+diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+index c1cb53cf2f0f..47b7eca8d3b7 100644
+--- a/include/linux/bitops.h
++++ b/include/linux/bitops.h
+@@ -260,6 +260,43 @@ static inline int parity8(u8 val)
+ 	return (0x6996 >> (val & 0xf)) & 1;
+ }
+
++static inline bool parity16(u16 val)
++{
++	return parity8(val ^ (val >> 8));
++}
++
++static inline bool parity32(u32 val)
++{
++	return parity16(val ^ (val >> 16));
++}
++
++static inline bool parity64(u64 val)
++{
++	return parity32(val ^ (val >> 32));
++}
++
++#define parity(val)			\
++({					\
++	bool __ret;			\
++	switch (BITS_PER_TYPE(val)) {	\
++	case 64:			\
++		__ret = parity64(val);	\
++		break;			\
++	case 32:			\
++		__ret = parity32(val);	\
++		break;			\
++	case 16:			\
++		__ret = parity16(val);	\
++		break;			\
++	case 8:				\
++		__ret = parity8(val);	\
++		break;			\
++	default:			\
++		BUILD_BUG();		\
++	}				\
++	__ret;				\
++})
++
+ /**
+  * __ffs64 - find first set bit in a 64 bit word
+  * @word: The 64 bit word
 
