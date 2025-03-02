@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A80A4B212
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 15:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE70A4B214
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 15:20:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAFB710E149;
-	Sun,  2 Mar 2025 14:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35B2A10E163;
+	Sun,  2 Mar 2025 14:20:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nZKjg75R";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n+ZNWd+E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3950510E145;
- Sun,  2 Mar 2025 14:20:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925D710E163;
+ Sun,  2 Mar 2025 14:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740925235; x=1772461235;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=gZGTtbqq2qnhVu8l+PwzIYuXEaqfEuYxDLRJMmFSJNw=;
- b=nZKjg75RxirDUmWY80VSvXH8qnLFDUmKvtgP2OYTzhmPBRCHSverAPSC
- dcTEHAlbRYj6GrSf7a0gGKMmwebT6greFj+X0UsG6KM9v+QwWIEhojVU4
- s56I6F5SvB8k0bZR+SU6BrEbvYtVGtC9zLx84GHhVw+r75NoLtllob1sC
- 1HWUSnvTqVCeuc4Yr4k38kjxCE1+K6n1kcMpx9nnL4ZLUyWAiAnY8VuBg
- H/UV/nx9Ezs1VHfnq8q+17tmsUHdOyo0YuEaG9SyKnvVEfpD2LdzfrErn
- 2SxIhkeNBacDV8dpQbklpi8rpVJZisH86relMa76vi5UaSvGloM6My+Rf g==;
-X-CSE-ConnectionGUID: uBPNbhZITamBbzAwlg9Z6g==
-X-CSE-MsgGUID: ASMHfa8YQKOwG2nYzsi/7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="67176361"
-X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; d="scan'208";a="67176361"
+ t=1740925241; x=1772461241;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=l70KLgYLIyv4aSEcSxo3W5vkTl81a0q5W5XdNZ8aaR8=;
+ b=n+ZNWd+EsP/gJLVghCRzuTB6zlNDzpfi3bXSMnoqUmeYO5Jj/WOc5WFh
+ zyK2Y63HlsYWP5PrSOMe8S5LUrTTP0BSg8BaPIawCGRzupqH2ZfT5Lydp
+ eOYRVul9lbgrThpllKeH0WGIkMrRs7EVnYooYoh3iwHrCDaB4fb+JnPNv
+ +4lM+/BTVy7vGCYH8cUFntSd1PGvHUbqDpKtE8nwzxTTTHlp8o5nm/ztY
+ Y8kg1JlHIQntxM68VngPm1W5kXKDjUAa6L04IXcnH1MU98i4aWxYVDhjY
+ /V2Ak2RLeMADl5T9KDbFnwIZmIJ9JE6xe1hZLUVsg4EQV6kaw4NL5Y5wq A==;
+X-CSE-ConnectionGUID: IcZyacUbQ4KC6GlLkL+34A==
+X-CSE-MsgGUID: sEgh6njMTXSsY2NUADb2Sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="67176369"
+X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; d="scan'208";a="67176369"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2025 06:20:34 -0800
-X-CSE-ConnectionGUID: VwqWPvMQRw+tt9aUceDjUg==
-X-CSE-MsgGUID: cGXPVdFVSH+PfmZ0qdiszQ==
+ 02 Mar 2025 06:20:40 -0800
+X-CSE-ConnectionGUID: U8iCNKiPRq2g5cr5uwOaPQ==
+X-CSE-MsgGUID: Aeln2kwwSp2PyXb7Sx3gQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; d="scan'208";a="122737265"
+X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; d="scan'208";a="122737277"
 Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2025 06:20:28 -0800
+ 02 Mar 2025 06:20:34 -0800
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -59,10 +59,12 @@ Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: [PATCH v6 00/11] mtd: add driver for Intel discrete graphics
-Date: Sun,  2 Mar 2025 16:09:10 +0200
-Message-ID: <20250302140921.504304-1-alexander.usyskin@intel.com>
+Subject: [PATCH v6 01/11] mtd: core: always create master device
+Date: Sun,  2 Mar 2025 16:09:11 +0200
+Message-ID: <20250302140921.504304-2-alexander.usyskin@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250302140921.504304-1-alexander.usyskin@intel.com>
+References: <20250302140921.504304-1-alexander.usyskin@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,82 +82,396 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver for access to Intel discrete graphics card
-internal NVM device.
-Expose device on auxiliary bus by i915 and Xe drivers and
-provide mtd driver to register this device with MTD framework.
+Create master device without partition when
+CONFIG_MTD_PARTITIONED_MASTER flag is unset.
 
-This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
-and "spi: add driver for Intel discrete graphics"
-series with connection to the Xe driver and splitting
-the spi driver part to separate module in mtd subsystem.
+This streamlines device tree and allows to anchor
+runtime power management on master device in all cases.
 
-This series intended to be pushed through drm-xe-next.
+Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+---
+ drivers/mtd/mtdcore.c | 141 +++++++++++++++++++++++++++++-------------
+ drivers/mtd/mtdcore.h |   2 +-
+ drivers/mtd/mtdpart.c |  17 ++---
+ 3 files changed, 110 insertions(+), 50 deletions(-)
 
-V2: Replace dev_* prints with drm_* prints in drm (xe and i915) patches.
-    Enable NVM device on Battlemage HW (xe driver patch)
-    Fix overwrite register address (xe driver patch)
-    Add Rodrigo's r-b
-
-V3: Use devm_pm_runtime_enable to simplify flow.
-    Drop print in i915 unload that was accidentally set as error.
-    Drop HAS_GSC_NVM macro in line with latest Xe changes.
-    Add more Rodrigo's r-b and Miquel's ack.
-
-V4: Add patch that always creates mtd master device
-    and adjust mtd-intel-dg power management to use this device.
-
-V5: Fix master device creation to accomodate for devices without
-    partitions (create partitoned master in this case)
-    Rebase over latest drm-xe-next
-    Add ack's
-V6: Fix master device release (use rigth idr in release)
-    Rebase over latest drm-xe-next
-    Grammar and style fixes
-
-Alexander Usyskin (11):
-  mtd: core: always create master device
-  mtd: add driver for intel graphics non-volatile memory device
-  mtd: intel-dg: implement region enumeration
-  mtd: intel-dg: implement access functions
-  mtd: intel-dg: register with mtd
-  mtd: intel-dg: align 64bit read and write
-  mtd: intel-dg: wake card on operations
-  drm/i915/nvm: add nvm device for discrete graphics
-  drm/i915/nvm: add support for access mode
-  drm/xe/nvm: add on-die non-volatile memory device
-  drm/xe/nvm: add support for access mode
-
- MAINTAINERS                           |   7 +
- drivers/gpu/drm/i915/Makefile         |   4 +
- drivers/gpu/drm/i915/i915_driver.c    |   6 +
- drivers/gpu/drm/i915/i915_drv.h       |   3 +
- drivers/gpu/drm/i915/i915_reg.h       |   1 +
- drivers/gpu/drm/i915/intel_nvm.c      | 115 ++++
- drivers/gpu/drm/i915/intel_nvm.h      |  15 +
- drivers/gpu/drm/xe/Makefile           |   1 +
- drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   4 +
- drivers/gpu/drm/xe/xe_device.c        |   5 +
- drivers/gpu/drm/xe/xe_device_types.h  |   6 +
- drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
- drivers/gpu/drm/xe/xe_nvm.c           | 136 +++++
- drivers/gpu/drm/xe/xe_nvm.h           |  15 +
- drivers/gpu/drm/xe/xe_pci.c           |   6 +
- drivers/mtd/devices/Kconfig           |  11 +
- drivers/mtd/devices/Makefile          |   1 +
- drivers/mtd/devices/mtd_intel_dg.c    | 845 ++++++++++++++++++++++++++
- drivers/mtd/mtdcore.c                 | 141 +++--
- drivers/mtd/mtdcore.h                 |   2 +-
- drivers/mtd/mtdpart.c                 |  17 +-
- include/linux/intel_dg_nvm_aux.h      |  27 +
- 22 files changed, 1319 insertions(+), 54 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/intel_nvm.c
- create mode 100644 drivers/gpu/drm/i915/intel_nvm.h
- create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
- create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
- create mode 100644 drivers/mtd/devices/mtd_intel_dg.c
- create mode 100644 include/linux/intel_dg_nvm_aux.h
-
+diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+index 724f917f91ba..d0e7fb027eb6 100644
+--- a/drivers/mtd/mtdcore.c
++++ b/drivers/mtd/mtdcore.c
+@@ -68,7 +68,13 @@ static struct class mtd_class = {
+ 	.pm = MTD_CLS_PM_OPS,
+ };
+ 
++static struct class mtd_master_class = {
++	.name = "mtd_master",
++	.pm = MTD_CLS_PM_OPS,
++};
++
+ static DEFINE_IDR(mtd_idr);
++static DEFINE_IDR(mtd_master_idr);
+ 
+ /* These are exported solely for the purpose of mtd_blkdevs.c. You
+    should not use them for _anything_ else */
+@@ -83,8 +89,9 @@ EXPORT_SYMBOL_GPL(__mtd_next_device);
+ 
+ static LIST_HEAD(mtd_notifiers);
+ 
+-
++#define MTD_MASTER_DEVS 255
+ #define MTD_DEVT(index) MKDEV(MTD_CHAR_MAJOR, (index)*2)
++static dev_t mtd_master_devt;
+ 
+ /* REVISIT once MTD uses the driver model better, whoever allocates
+  * the mtd_info will probably want to use the release() hook...
+@@ -104,6 +111,17 @@ static void mtd_release(struct device *dev)
+ 	device_destroy(&mtd_class, index + 1);
+ }
+ 
++static void mtd_master_release(struct device *dev)
++{
++	struct mtd_info *mtd = dev_get_drvdata(dev);
++
++	idr_remove(&mtd_master_idr, mtd->index);
++	of_node_put(mtd_get_of_node(mtd));
++
++	if (mtd_is_partition(mtd))
++		release_mtd_partition(mtd);
++}
++
+ static void mtd_device_release(struct kref *kref)
+ {
+ 	struct mtd_info *mtd = container_of(kref, struct mtd_info, refcnt);
+@@ -367,6 +385,11 @@ static const struct device_type mtd_devtype = {
+ 	.release	= mtd_release,
+ };
+ 
++static const struct device_type mtd_master_devtype = {
++	.name		= "mtd_master",
++	.release	= mtd_master_release,
++};
++
+ static bool mtd_expert_analysis_mode;
+ 
+ #ifdef CONFIG_DEBUG_FS
+@@ -634,13 +657,13 @@ static void mtd_check_of_node(struct mtd_info *mtd)
+ /**
+  *	add_mtd_device - register an MTD device
+  *	@mtd: pointer to new MTD device info structure
++ *	@partitioned: create partitioned device
+  *
+  *	Add a device to the list of MTD devices present in the system, and
+  *	notify each currently active MTD 'user' of its arrival. Returns
+  *	zero on success or non-zero on failure.
+  */
+-
+-int add_mtd_device(struct mtd_info *mtd)
++int add_mtd_device(struct mtd_info *mtd, bool partitioned)
+ {
+ 	struct device_node *np = mtd_get_of_node(mtd);
+ 	struct mtd_info *master = mtd_get_master(mtd);
+@@ -687,10 +710,17 @@ int add_mtd_device(struct mtd_info *mtd)
+ 	ofidx = -1;
+ 	if (np)
+ 		ofidx = of_alias_get_id(np, "mtd");
+-	if (ofidx >= 0)
+-		i = idr_alloc(&mtd_idr, mtd, ofidx, ofidx + 1, GFP_KERNEL);
+-	else
+-		i = idr_alloc(&mtd_idr, mtd, 0, 0, GFP_KERNEL);
++	if (partitioned) {
++		if (ofidx >= 0)
++			i = idr_alloc(&mtd_idr, mtd, ofidx, ofidx + 1, GFP_KERNEL);
++		else
++			i = idr_alloc(&mtd_idr, mtd, 0, 0, GFP_KERNEL);
++	} else {
++		if (ofidx >= 0)
++			i = idr_alloc(&mtd_master_idr, mtd, ofidx, ofidx + 1, GFP_KERNEL);
++		else
++			i = idr_alloc(&mtd_master_idr, mtd, 0, 0, GFP_KERNEL);
++	}
+ 	if (i < 0) {
+ 		error = i;
+ 		goto fail_locked;
+@@ -738,15 +768,23 @@ int add_mtd_device(struct mtd_info *mtd)
+ 	/* Caller should have set dev.parent to match the
+ 	 * physical device, if appropriate.
+ 	 */
+-	mtd->dev.type = &mtd_devtype;
+-	mtd->dev.class = &mtd_class;
+-	mtd->dev.devt = MTD_DEVT(i);
+-	dev_set_name(&mtd->dev, "mtd%d", i);
++	if (partitioned) {
++		mtd->dev.type = &mtd_devtype;
++		mtd->dev.class = &mtd_class;
++		mtd->dev.devt = MTD_DEVT(i);
++		dev_set_name(&mtd->dev, "mtd%d", i);
++	} else {
++		mtd->dev.type = &mtd_master_devtype;
++		mtd->dev.class = &mtd_master_class;
++		mtd->dev.devt = MKDEV(MAJOR(mtd_master_devt), i);
++		dev_set_name(&mtd->dev, "mtd_master%d", i);
++	}
+ 	dev_set_drvdata(&mtd->dev, mtd);
+ 	mtd_check_of_node(mtd);
+ 	of_node_get(mtd_get_of_node(mtd));
+ 	error = device_register(&mtd->dev);
+ 	if (error) {
++		pr_err("mtd: %s device_register fail %d\n", mtd->name, error);
+ 		put_device(&mtd->dev);
+ 		goto fail_added;
+ 	}
+@@ -758,10 +796,13 @@ int add_mtd_device(struct mtd_info *mtd)
+ 
+ 	mtd_debugfs_populate(mtd);
+ 
+-	device_create(&mtd_class, mtd->dev.parent, MTD_DEVT(i) + 1, NULL,
+-		      "mtd%dro", i);
++	if (partitioned) {
++		device_create(&mtd_class, mtd->dev.parent, MTD_DEVT(i) + 1, NULL,
++			      "mtd%dro", i);
++	}
+ 
+-	pr_debug("mtd: Giving out device %d to %s\n", i, mtd->name);
++	pr_debug("mtd: Giving out %spartitioned device %d to %s\n",
++		 partitioned ? "" : "un-", i, mtd->name);
+ 	/* No need to get a refcount on the module containing
+ 	   the notifier, since we hold the mtd_table_mutex */
+ 	list_for_each_entry(not, &mtd_notifiers, list)
+@@ -769,13 +810,16 @@ int add_mtd_device(struct mtd_info *mtd)
+ 
+ 	mutex_unlock(&mtd_table_mutex);
+ 
+-	if (of_property_read_bool(mtd_get_of_node(mtd), "linux,rootfs")) {
+-		if (IS_BUILTIN(CONFIG_MTD)) {
+-			pr_info("mtd: setting mtd%d (%s) as root device\n", mtd->index, mtd->name);
+-			ROOT_DEV = MKDEV(MTD_BLOCK_MAJOR, mtd->index);
+-		} else {
+-			pr_warn("mtd: can't set mtd%d (%s) as root device - mtd must be builtin\n",
+-				mtd->index, mtd->name);
++	if (partitioned) {
++		if (of_property_read_bool(mtd_get_of_node(mtd), "linux,rootfs")) {
++			if (IS_BUILTIN(CONFIG_MTD)) {
++				pr_info("mtd: setting mtd%d (%s) as root device\n",
++					mtd->index, mtd->name);
++				ROOT_DEV = MKDEV(MTD_BLOCK_MAJOR, mtd->index);
++			} else {
++				pr_warn("mtd: can't set mtd%d (%s) as root device - mtd must be builtin\n",
++					mtd->index, mtd->name);
++			}
+ 		}
+ 	}
+ 
+@@ -790,7 +834,10 @@ int add_mtd_device(struct mtd_info *mtd)
+ 	device_unregister(&mtd->dev);
+ fail_added:
+ 	of_node_put(mtd_get_of_node(mtd));
+-	idr_remove(&mtd_idr, i);
++	if (partitioned)
++		idr_remove(&mtd_idr, i);
++	else
++		idr_remove(&mtd_master_idr, i);
+ fail_locked:
+ 	mutex_unlock(&mtd_table_mutex);
+ 	return error;
+@@ -808,12 +855,14 @@ int add_mtd_device(struct mtd_info *mtd)
+ 
+ int del_mtd_device(struct mtd_info *mtd)
+ {
+-	int ret;
+ 	struct mtd_notifier *not;
++	struct idr *idr;
++	int ret;
+ 
+ 	mutex_lock(&mtd_table_mutex);
+ 
+-	if (idr_find(&mtd_idr, mtd->index) != mtd) {
++	idr = mtd->dev.class == &mtd_class ? &mtd_idr : &mtd_master_idr;
++	if (idr_find(idr, mtd->index) != mtd) {
+ 		ret = -ENODEV;
+ 		goto out_error;
+ 	}
+@@ -1061,12 +1110,6 @@ int mtd_device_parse_register(struct mtd_info *mtd, const char * const *types,
+ 	if (ret)
+ 		goto out;
+ 
+-	if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER)) {
+-		ret = add_mtd_device(mtd);
+-		if (ret)
+-			goto out;
+-	}
+-
+ 	/* Prefer parsed partitions over driver-provided fallback */
+ 	ret = parse_mtd_partitions(mtd, types, parser_data);
+ 	if (ret == -EPROBE_DEFER)
+@@ -1076,10 +1119,8 @@ int mtd_device_parse_register(struct mtd_info *mtd, const char * const *types,
+ 		ret = 0;
+ 	else if (nr_parts)
+ 		ret = add_mtd_partitions(mtd, parts, nr_parts);
+-	else if (!device_is_registered(&mtd->dev))
+-		ret = add_mtd_device(mtd);
+ 	else
+-		ret = 0;
++		ret = add_mtd_device(mtd, true);
+ 
+ 	if (ret)
+ 		goto out;
+@@ -1099,13 +1140,14 @@ int mtd_device_parse_register(struct mtd_info *mtd, const char * const *types,
+ 		register_reboot_notifier(&mtd->reboot_notifier);
+ 	}
+ 
++	return 0;
+ out:
+-	if (ret) {
+-		nvmem_unregister(mtd->otp_user_nvmem);
+-		nvmem_unregister(mtd->otp_factory_nvmem);
+-	}
++	nvmem_unregister(mtd->otp_user_nvmem);
++	nvmem_unregister(mtd->otp_factory_nvmem);
+ 
+-	if (ret && device_is_registered(&mtd->dev))
++	del_mtd_partitions(mtd);
++
++	if (device_is_registered(&mtd->dev))
+ 		del_mtd_device(mtd);
+ 
+ 	return ret;
+@@ -1261,8 +1303,7 @@ int __get_mtd_device(struct mtd_info *mtd)
+ 		mtd = mtd->parent;
+ 	}
+ 
+-	if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER))
+-		kref_get(&master->refcnt);
++	kref_get(&master->refcnt);
+ 
+ 	return 0;
+ }
+@@ -1356,8 +1397,7 @@ void __put_mtd_device(struct mtd_info *mtd)
+ 		mtd = parent;
+ 	}
+ 
+-	if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER))
+-		kref_put(&master->refcnt, mtd_device_release);
++	kref_put(&master->refcnt, mtd_device_release);
+ 
+ 	module_put(master->owner);
+ 
+@@ -2524,6 +2564,16 @@ static int __init init_mtd(void)
+ 	if (ret)
+ 		goto err_reg;
+ 
++	ret = class_register(&mtd_master_class);
++	if (ret)
++		goto err_reg2;
++
++	ret = alloc_chrdev_region(&mtd_master_devt, 0, MTD_MASTER_DEVS, "mtd_master");
++	if (ret < 0) {
++		pr_err("unable to allocate char dev region\n");
++		goto err_chrdev;
++	}
++
+ 	mtd_bdi = mtd_bdi_init("mtd");
+ 	if (IS_ERR(mtd_bdi)) {
+ 		ret = PTR_ERR(mtd_bdi);
+@@ -2548,6 +2598,10 @@ static int __init init_mtd(void)
+ 	bdi_unregister(mtd_bdi);
+ 	bdi_put(mtd_bdi);
+ err_bdi:
++	unregister_chrdev_region(mtd_master_devt, MTD_MASTER_DEVS);
++err_chrdev:
++	class_unregister(&mtd_master_class);
++err_reg2:
+ 	class_unregister(&mtd_class);
+ err_reg:
+ 	pr_err("Error registering mtd class or bdi: %d\n", ret);
+@@ -2561,9 +2615,12 @@ static void __exit cleanup_mtd(void)
+ 	if (proc_mtd)
+ 		remove_proc_entry("mtd", NULL);
+ 	class_unregister(&mtd_class);
++	class_unregister(&mtd_master_class);
++	unregister_chrdev_region(mtd_master_devt, MTD_MASTER_DEVS);
+ 	bdi_unregister(mtd_bdi);
+ 	bdi_put(mtd_bdi);
+ 	idr_destroy(&mtd_idr);
++	idr_destroy(&mtd_master_idr);
+ }
+ 
+ module_init(init_mtd);
+diff --git a/drivers/mtd/mtdcore.h b/drivers/mtd/mtdcore.h
+index b014861a06a6..2258d31c5aa6 100644
+--- a/drivers/mtd/mtdcore.h
++++ b/drivers/mtd/mtdcore.h
+@@ -8,7 +8,7 @@ extern struct mutex mtd_table_mutex;
+ extern struct backing_dev_info *mtd_bdi;
+ 
+ struct mtd_info *__mtd_next_device(int i);
+-int __must_check add_mtd_device(struct mtd_info *mtd);
++int __must_check add_mtd_device(struct mtd_info *mtd, bool partitioned);
+ int del_mtd_device(struct mtd_info *mtd);
+ int add_mtd_partitions(struct mtd_info *, const struct mtd_partition *, int);
+ int del_mtd_partitions(struct mtd_info *);
+diff --git a/drivers/mtd/mtdpart.c b/drivers/mtd/mtdpart.c
+index 6811a714349d..97505b132313 100644
+--- a/drivers/mtd/mtdpart.c
++++ b/drivers/mtd/mtdpart.c
+@@ -86,8 +86,7 @@ static struct mtd_info *allocate_partition(struct mtd_info *parent,
+ 	 * parent conditional on that option. Note, this is a way to
+ 	 * distinguish between the parent and its partitions in sysfs.
+ 	 */
+-	child->dev.parent = IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER) || mtd_is_partition(parent) ?
+-			    &parent->dev : parent->dev.parent;
++	child->dev.parent = &parent->dev;
+ 	child->dev.of_node = part->of_node;
+ 	child->parent = parent;
+ 	child->part.offset = part->offset;
+@@ -276,7 +275,7 @@ int mtd_add_partition(struct mtd_info *parent, const char *name,
+ 	list_add_tail(&child->part.node, &parent->partitions);
+ 	mutex_unlock(&master->master.partitions_lock);
+ 
+-	ret = add_mtd_device(child);
++	ret = add_mtd_device(child, true);
+ 	if (ret)
+ 		goto err_remove_part;
+ 
+@@ -402,6 +401,12 @@ int add_mtd_partitions(struct mtd_info *parent,
+ 	printk(KERN_NOTICE "Creating %d MTD partitions on \"%s\":\n",
+ 	       nbparts, parent->name);
+ 
++	if (!mtd_is_partition(parent)) {
++		ret = add_mtd_device(parent, IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER));
++		if (ret)
++			return ret;
++	}
++
+ 	for (i = 0; i < nbparts; i++) {
+ 		child = allocate_partition(parent, parts + i, i, cur_offset);
+ 		if (IS_ERR(child)) {
+@@ -413,7 +418,7 @@ int add_mtd_partitions(struct mtd_info *parent,
+ 		list_add_tail(&child->part.node, &parent->partitions);
+ 		mutex_unlock(&master->master.partitions_lock);
+ 
+-		ret = add_mtd_device(child);
++		ret = add_mtd_device(child, true);
+ 		if (ret) {
+ 			mutex_lock(&master->master.partitions_lock);
+ 			list_del(&child->part.node);
+@@ -590,9 +595,6 @@ static int mtd_part_of_parse(struct mtd_info *master,
+ 	int ret, err = 0;
+ 
+ 	dev = &master->dev;
+-	/* Use parent device (controller) if the top level MTD is not registered */
+-	if (!IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER) && !mtd_is_partition(master))
+-		dev = master->dev.parent;
+ 
+ 	np = mtd_get_of_node(master);
+ 	if (mtd_is_partition(master))
+@@ -712,6 +714,7 @@ int parse_mtd_partitions(struct mtd_info *master, const char *const *types,
+ 		if (ret < 0 && !err)
+ 			err = ret;
+ 	}
++
+ 	return err;
+ }
+ 
 -- 
 2.43.0
 
