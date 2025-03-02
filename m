@@ -2,83 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B4FA4AFB0
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 07:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0E5A4B01C
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 08:15:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7642F10E023;
-	Sun,  2 Mar 2025 06:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4CD10E0DE;
+	Sun,  2 Mar 2025 07:15:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T1anNLol";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Aqh6ofGa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F76C10E023
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 06:54:19 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-2f74e6c6cbcso1003470a91.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Mar 2025 22:54:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1740898459; x=1741503259; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NLVLObx6uS9bBjmY8f5wb7+n2yEgDTNv1aQqp5H8/BY=;
- b=T1anNLolA3tKXb1CZ/2Al+2BoKhDAlAP+GP4VfpkmAvqbHkFebH2rxyJCDPgPgxMKb
- XdHKlQa/+5Z/rwwZBwJqDLudKxJs3sr04ZIBoBac2sQJS4acmxudFdNy41Zwg5knT8sl
- 1P+xVCMKoASrf9oVXckR/Gsa6y/35EzJHWbN6+v4mHepAxUDyH3uf9mhrc7DwBvsPeih
- ikB696gj9W5IalFpj1it5kUb/mVY8H9bM4DM4FFnygauavOrYCezMyVTWOcI1yRTCInV
- 9dbZ7KBJkG0cKMtQAxbUD0yn+rvKMqBNmgzxTICsNvwtEmli27RouEm87Sz8IftqbaEZ
- 5eDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740898459; x=1741503259;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NLVLObx6uS9bBjmY8f5wb7+n2yEgDTNv1aQqp5H8/BY=;
- b=Loz+in6mV7E7hsrCO0b7oyhHIfxGpu95Qxbu9hQHR3uGFSLdAYNC1gPq7aoZC9DJA9
- qZBrJ+ePT1MsoHqgC8wMTPys5gPoASLZvkX0S/PNUY4dMt4dh1/yF1OQ5UJ1Lkj/6BOB
- kK9YPqTaHzxzv/IcnhgqwjDVHCiQptcNH4cweU9sO/KsJmlmp4xX2Xog7JxxIxY/xJhy
- tnnQwR57etGIsqhlfZqw7DlbO9a3/LYLZxxwEOTP8A+vRO804JduB+vAF9ITqF5Lf1P0
- NVP32ssjFjdd7mKnKfTAdm6hns27ocLxQAWG9MPjqDOIHi765F+33rIr3vBawMBCLkCM
- B2TA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXF66nm/nqjKi3LXxsamnwK21W4fYOcMAAdG4+GDUCH1jFsPg7A3L84wbx3Bc90cJZ4rAS3QUKM6HA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHnIog9Ie1vk/u/epnrVoFMMBxzCBCSHPo25ej0456S3hnJ8Un
- b6Jzel7+sgboCQmMwOfSsG58/98WCyenO9ap+60/ypUXhYmkMVp68VXDIWlmSZ9ObyqP1cbzEGD
- 0Sm8Y3PzZh0hYf+CF/Dd2BTazZ7A=
-X-Gm-Gg: ASbGncuEo2jYEY6hLLSpCL3/jVzF2rImMB8U0/h2iMDsN5zGsrukj9SkwTCFsqqW5Gi
- dUvDIyYf+D2XGccyj2EgMhuhdJJ7/AjAWsHIIPSnB1mBb236l8b7kn9/xOtU4qzuNqo5vxgHkLl
- nKDKecryjJ5SA1Wrse8TXnxQ48jw==
-X-Google-Smtp-Source: AGHT+IHh1k5f2tWxMNYSe/y3kE7Ra5Zf6Er2pwX6coXwO+JW2sI9aLEqs9LceEvDYhdwv4wseu00qX6LVvsx+04aHts=
-X-Received: by 2002:a17:90b:1d8a:b0:2ee:6db1:21dc with SMTP id
- 98e67ed59e1d1-2febab2bdf7mr5608489a91.1.1740898459164; Sat, 01 Mar 2025
- 22:54:19 -0800 (PST)
+Received: from mail-m3288.qiye.163.com (mail-m3288.qiye.163.com
+ [220.197.32.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7081C10E0DE
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 07:15:35 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id ca138e88;
+ Sun, 2 Mar 2025 15:15:30 +0800 (GMT+08:00)
+Message-ID: <f835a852-24b8-4279-8e4b-42517d694493@rock-chips.com>
+Date: Sun, 2 Mar 2025 15:15:30 +0800
 MIME-Version: 1.0
-References: <20250301231602.917580-1-ojeda@kernel.org>
-In-Reply-To: <20250301231602.917580-1-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 2 Mar 2025 07:54:00 +0100
-X-Gm-Features: AQ5f1JrtjtdA7vxoGkxnJQQ2oihRlgLnRnvB1-jZWod_EJ2aQH_uVcVqeA0S0x8
-Message-ID: <CANiq72ne57qiwgWSDE=C1bvBuYGsUg9f8PooM+V_nZFo1Z5ogQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panic: use `div_ceil` to clean Clippy warning
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Alex Gaynor <alex.gaynor@gmail.com>, dri-devel@lists.freedesktop.org, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 04/15] drm/bridge: analogix_dp: Remove the unnecessary
+ calls to clk_disable_unprepare() during probing
+To: Doug Anderson <dianders@chromium.org>
+Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org,
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ boris.brezillon@collabora.com, l.stach@pengutronix.de,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250224081325.96724-1-damon.ding@rock-chips.com>
+ <20250224081325.96724-5-damon.ding@rock-chips.com>
+ <CAD=FV=X7iWOyAvdfRDyFA9kdr+utU_aAaJ5F7nAsaHp2fMQgVw@mail.gmail.com>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <CAD=FV=X7iWOyAvdfRDyFA9kdr+utU_aAaJ5F7nAsaHp2fMQgVw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUhPQlYZTx9PSh0YTx4ZSUJWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+X-HM-Tid: 0a9555b5c2df03a3kunmca138e88
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pjo6Lgw6CzIKHUsaFQsLF0tL
+ OBUKCU9VSlVKTE9LQ0JCTEhKQ01CVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJS0hJNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=Aqh6ofGacuT+B/WiOkyQRxEZYkd5NWw7bNn++OmrLNSFR5Y2zQSQ6S4knhbwrlYkwPve/ppWG4WrEx6B3hdO/jgE+1l3hEYxMT3Ah6BXdq2v3svwOMcgcj3L9US+GjHWVgNzBiTwKuNOceJpI6UFEEg1IWwgUjUnBrgLUK7S/mM=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=8d5ejZu4ZY9Y9Zh2+eVlwxl7XvRzlgNDw9s/Y5LNOs0=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,34 +73,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 2, 2025 at 12:17=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Starting with the upcoming Rust 1.86.0 (to be released 2025-04-03),
-> Clippy warns:
->
->     error: manually reimplementing `div_ceil`
->        --> drivers/gpu/drm/drm_panic_qr.rs:548:26
->         |
->     548 |         let pad_offset =3D (offset + 7) / 8;
->         |                          ^^^^^^^^^^^^^^^^ help: consider using =
-`.div_ceil()`: `offset.div_ceil(8)`
->         |
->         =3D help: for further information visit https://rust-lang.github.=
-io/rust-clippy/master/index.html#manual_div_ceil
->
-> And similarly for `stride`. Thus apply the suggestion to both.
->
-> The behavior (and thus codegen) is not exactly equivalent [1][2], since
-> `div_ceil()` returns the right value for the values that currently
-> would overflow.
->
-> Link: https://github.com/rust-lang/rust-clippy/issues/14333 [1]
-> Link: https://godbolt.org/z/dPq6nGnv3 [2]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Hi Doug,
 
-Cc: stable@vger.kernel.org # Needed in 6.12.y and 6.13.y only (Rust is
-pinned in older LTSs).
+On 2025/2/25 9:40, Doug Anderson wrote:
+> Hi,
+> 
+> On Mon, Feb 24, 2025 at 12:14 AM Damon Ding <damon.ding@rock-chips.com> wrote:
+>>
+>> With the commit f37952339cc2 ("drm/bridge: analogix_dp: handle clock via
+>> runtime PM"), the PM operations can help enable/disable the clock. The
+>> err_disable_clk label and clk_disable_unprepare() operations are no
+>> longer necessary because the analogix_dp_resume() will not be called
+>> during probing.
+>>
+>> Fixes: f37952339cc2 ("drm/bridge: analogix_dp: handle clock via runtime PM")
+> 
+> When possible "Fixes" should be pushed to the start of your series so
+> it's obvious they have no dependencies when being picked to stable
+> kernels. That should be possible here.
+> 
+>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>> ---
+>>   .../gpu/drm/bridge/analogix/analogix_dp_core.c | 18 +++++-------------
+>>   1 file changed, 5 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> index e23af674d91c..d9dafb038e7a 100644
+>> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> @@ -1608,10 +1608,8 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+>>          res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>>
+>>          dp->reg_base = devm_ioremap_resource(&pdev->dev, res);
+> 
+> There is a context conflict when I apply to drm-misc-next because of
+> commit 43c00fb1a518 ("drm/bridge: analogix_dp: Use
+> devm_platform_ioremap_resource()"). You probably should rebase and
+> re-apply.
+> 
+> Aside from the context conflict, this looks great to me:
+> 
+> Suggested-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> 
 
-Cheers,
-Miguel
+After rebasing, I found the conflict. I will move this patch to a 
+separate series and ensure it has no dependencies.
+
+Best regards
+Damon
+
