@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F3BA4B102
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 11:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72598A4B10D
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Mar 2025 12:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E087A10E119;
-	Sun,  2 Mar 2025 10:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3136610E138;
+	Sun,  2 Mar 2025 11:02:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r4V5gwnt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dI/jUzxo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5367610E119
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:52:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0668510E138
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:02:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DBD5D611C8
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:52:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45E7C4CEF0
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 10:52:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 582115C556C
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:00:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7230BC4CEF1
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Mar 2025 11:02:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1740912759;
- bh=L6vzNNhxmQqFNHiJKjZnyLTkOupTCwtG+9t7ypvjb0A=;
+ s=k20201202; t=1740913343;
+ bh=0dYRopgj7MY9Fono+yLkck1yirLmhq10431jfhctt4M=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=r4V5gwnto8CpFK5ArrwDkkKkSTz3mKb0QPswSkQA9AASsw6jc8LyXtnnz0oBzOx6k
- 62t8im88syweB4l8dxVwfm57Fp+SoZSNZSyI47ECufCgVEc0lTh1Yk9zK/fNKUWlEr
- Q4P3DpGoxV2mhrJ62ytVjzvkiAdKrlpq2v2RHE8JfTCx4LX/2pPq2BYhgoqWieHmks
- 4Wv86ycHkBf5gx0onr/wqI4dkXsChnFVDcvfCjy4ogYkVCNAfLOGg7GUyJGoYXrHvc
- kvu0R5eK9Nh1eqjJhTO/8c3tvhrp3C5Zvs0HGesByxV5BvLQaEbBBkIw+64NKLoUyf
- jjdm0b/OK7W+w==
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-2fee05829edso1621063a91.3
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 02:52:39 -0800 (PST)
+ b=dI/jUzxoVB0jnsLae/FQlzvjQ7CYnYsIB3MwnXWvGhhR3jBsOy9Lne55sQfA2mJ3+
+ PbIU6YS43nQwBKgXeh48GADc9RgU6+S623HOQWg/Vddyswo0yiw5y5eKK2daBf+UN8
+ Hb938BynaEL8+4HPJwafxhEfLIpvhWmkQ2wgLW9YADDFMxHEOAAGIsI6c9MEdqdVTD
+ m574t5Se7YXMPz7iXVTCH460eyXEdF+elO9Qz4AoT8Wsmm+I5AzZ+sr0GE33j0yLa5
+ tjZs5yYHkBB+bR7Z4gom2yJLZO+gDrwnu2Jfx5bJTIqO34/RpHp29Xx2F8PvTM0tzk
+ eham8rPTPCdgA==
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2fea8d8c322so6314289a91.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Mar 2025 03:02:23 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXWwMkOWOWMYEpz+Lvdwo+9Jce3j5VgrzQhp/N62H6l8RZLNQsjLO+fjD/t8jHh5Thm2SqSNccM/U0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YywjtVbtKXA9Zp1+IXU2tWFXz/pPa5k080wMeuPyGfHfCXUcJkZ
- kEiGEI5kg8vZNsRi88Wi8rLQ/DeEIPL6OMpG6BK7hWyPWEbfKv3JW9j8zNiHYsHe4SXUvMrDvLd
- rE+YU0rOuW/VdWuTiVgKK2GQRzA==
-X-Google-Smtp-Source: AGHT+IFr0JxiHOLXjlsSslQCDKpP7+qH21b5sizYcPxUilNNHlN/637COD/xsyczcRFpKdal6JWqc5TIwge0h2N6mRI=
-X-Received: by 2002:a17:90b:4fd0:b0:2ee:aed6:9ec2 with SMTP id
- 98e67ed59e1d1-2febab5e11dmr16532631a91.14.1740912759320; Sun, 02 Mar 2025
- 02:52:39 -0800 (PST)
+ AJvYcCVMEie5+6hPHCcx8oUBVjCvda70u6VtKRFh1CpeiwuLR/N+sqxgGyV59UhvEDkpuQXDYKl3XQu1XA0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEDnwoWKgej8tEvLj8w27FOeQoCG52oy+3NH28a2qu+YU1CTAG
+ av8earOMcIm4zVn1/bsGk4dccsRtea2Wq5u9BCGX0JT9A3Vfx03HY2ZhnC/ERusrj9t1uFuzwk7
+ GV6+SZ00VSB6X/TGMrlQXVQrV4w==
+X-Google-Smtp-Source: AGHT+IGXak0wWZcnO2fYe/U4V7W9M9ejGxSMKy2z27wcwQtCwsLxiJAGJVNg9RMSEfsiEk3SDeQMvuh7fJRecjo++dU=
+X-Received: by 2002:a17:90b:5745:b0:2f2:a664:df1a with SMTP id
+ 98e67ed59e1d1-2febab2e065mr15533413a91.2.1740913342866; Sun, 02 Mar 2025
+ 03:02:22 -0800 (PST)
 MIME-Version: 1.0
 References: <20250217154836.108895-1-angelogioacchino.delregno@collabora.com>
  <20250217154836.108895-4-angelogioacchino.delregno@collabora.com>
 In-Reply-To: <20250217154836.108895-4-angelogioacchino.delregno@collabora.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 2 Mar 2025 18:53:26 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_97vGqWn93-esp3H-41Z4bHoBXoBOmKRnOFCCOU8LXnqA@mail.gmail.com>
-X-Gm-Features: AQ5f1Joi7NG6PI75qSK41aTo_9uAi-C384Ig7I_HASZnBhU-eUquttae1Ga-uVI
-Message-ID: <CAAOTY_97vGqWn93-esp3H-41Z4bHoBXoBOmKRnOFCCOU8LXnqA@mail.gmail.com>
+Date: Sun, 2 Mar 2025 19:03:09 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8KFgSQEYC7v+6Asi_KdYjdsj==fOt6LR1FnOvFF+-BvA@mail.gmail.com>
+X-Gm-Features: AQ5f1JrgOeeHmf3p3iP0Zim-UptMlcZ6hRTIjGx7ZXATj_NZLe_or-pJTLaht-g
+Message-ID: <CAAOTY_8KFgSQEYC7v+6Asi_KdYjdsj==fOt6LR1FnOvFF+-BvA@mail.gmail.com>
 Subject: Re: [PATCH v7 03/43] drm/mediatek: mtk_dpi: Use an array for pixclk
  factor calculation
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
@@ -117,7 +117,7 @@ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
 >
 > This commit brings no functional change.
 
-After fix build error, applied to mediatek-drm-next [1], thanks.
+After fix conflicts, applied to mediatek-drm-next [1], thanks.
 
 [1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
 git/log/?h=3Dmediatek-drm-next
