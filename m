@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AC0A4B9B1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:45:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3064BA4B9B2
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:45:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F18410E379;
-	Mon,  3 Mar 2025 08:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2DC10E37B;
+	Mon,  3 Mar 2025 08:45:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="1knVeDeU";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="O6ZBdOmp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
- [209.85.221.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD6210E379
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:45:54 +0000 (UTC)
-Received: by mail-wr1-f73.google.com with SMTP id
- ffacd0b85a97d-390ddebcbd1so2593823f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:45:54 -0800 (PST)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D905910E37A
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:45:56 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-43ab456333aso35869955e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:45:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740991553; x=1741596353;
+ d=google.com; s=20230601; t=1740991555; x=1741596355;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=dgRB7R3QxdYuF4ALv/yYMTfwUqi5oUHSBNOS9q0wOcQ=;
- b=1knVeDeUKUfwr5Jsbj75E5MBSwEdcQNV0hV0ty6lK1F1cybhUYGG62qKjRwxhxTcYU
- FIytLQhK6hLHsSR26jtxtgOd9pDW1gyQnzeqKlrmQwyyX9oMwgWS+viF4yd6xLeAaZGJ
- rAalDSd3D3O5QXQxYoUBhmnDfBy4SptjvWUt6M4KzRlDtvytr5458zDLB7aSjqnlFCol
- e56I6OKcFDdbXcvg3m/XPZHcxa7bzN7AcJsFq3p3VXL9xUoCPUUsJDGJDrvp6AHxulDl
- /CwtP0AuYTiRyDKBGWw03FOsdjtPP62qV/DBw06UeIo/78J5Xk9BAHHW66guvJx2KC02
- TvwA==
+ bh=TlZATerwOi5j8gaqWad51my4T/CPZsM36wEeCkoHEk0=;
+ b=O6ZBdOmpYvik1LmyjLhq/0o/1u/sZYJ3RrEN6sgi4Z0OEh92eN5x7T4jPFWBbzWKQB
+ nJt7aQ5x5aCwNkHtjgUjvCi5USxMiAuNlu4lO8tKWejXFsGZLG+bm3QeiPIB6GU29yLe
+ /WREUjZ9dgXJYOspSVAaMl8MZy4E83BXVSJCrEmL6x0n6AEYnGy94kNnShfP+jZGxeRn
+ 9z/8KtTFYrMIGypgn6jOv9CqX14LeUArWxwKkrMTbib1I175KIpOvq7KCbTVQd09eYMn
+ S03u7kzoezuOKEzXaA4sTAMTTeinhqpv6ifFhYSw5S5VGMRiIWFtBlZdFDsImT77Si5L
+ RPSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740991553; x=1741596353;
+ d=1e100.net; s=20230601; t=1740991555; x=1741596355;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dgRB7R3QxdYuF4ALv/yYMTfwUqi5oUHSBNOS9q0wOcQ=;
- b=fUgLIiBo/AmPstD4WHh5+2zd3W3LN7GOwGkgXcC3AZpAG8MtYp1nBggYPCMw0YTX16
- fpg92ij4fy29oh7fooooilkB8zSRw97aEEyIRxmdNAIA4Y5pllPW41s/ouqdyX0zQjQZ
- yKay/N+0st137sYwB62YZqLTuYSd3UUxonEtQwv8OpELkxgx+O2TsHLAFW0tkHucf2FC
- A2bZ3Q+mD+DpimDlwioWw0tLXdwMs3E4wM4eCTXYaH7YN6dnMBmuSoBpCbAUiHpmi79D
- Kva8NM9q59fhuwpP4TbU/08/ke4w4SDl7eey2mOxDGLWMfD0vUKHNCLFaFA+lp+9DKmI
- ynNA==
+ bh=TlZATerwOi5j8gaqWad51my4T/CPZsM36wEeCkoHEk0=;
+ b=eRq6IjUYQl7XpjNxp/1R4cCM4q1iuR9PND+D0nVUNSuwZBYGW+qROac2kS/+HGeUcR
+ YMb8XXQHUpwYUfB9CiD/IAfpRinr2XuNqVH/8bgkBBp7jh4gLLPgBBDy2sInen6WL6Jm
+ TKT/Zfqv/2vMV55mml27DpRgHz0Pngw2FOoY2YFEySk8sI9m5irYK5lPqoVWLAGdb2lV
+ JRLGYrkL31UZ4C7V/cUQ3Qy3M4yZvZ626S59ZG414c2FogRVEE2fd81/8PUDnLDLaLmN
+ sBUCQey953NxdkS9IwxZ/ElJLUgDY4kn4bigFbzrywX5Uzep7KOYssCZ2Who5Cnj1BiR
+ VGxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlJuA9IVK1dE5g38Zco3Y0DaZ/8R4iVmkDt2gk5NzubePCbRW1o2C4clRJrIvkpyiX1Yd+KTq3FI4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw3WTM9L/g31wUFLgNnVHkV9z7N8ajuNNVVwb6F6oK3yWMVs5Ut
- 68cA08iU9oaxe9LS82OI8wMKXI1kctUwCgnsgHm3RsrGcruT4cPRJLL/ZRx4kq+0jbCDSaz5rs+
- 44yE0CuqM68e52w==
-X-Google-Smtp-Source: AGHT+IEbagZM/EJ0D/zs3j/Sycg3tpD2lbmYa29N6g/8/oZyQL05ic4DnohKXYym9qS/gDiNrS+7p/b4SDKBM28=
-X-Received: from wmsd10.prod.google.com ([2002:a05:600c:3aca:b0:439:9541:1cf5])
+ AJvYcCW7LtG23SS3CJlshcwfu38/7nKuA7pfMzMkCMD306BDzM9LWAP5ofQFlkpBuf8ycw25Xb8m45lM7FQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBWFpWc32FNJv5On+BEMIs0ooXdVy95r6jHV8u2oRv8gYh4OVY
+ hRWL3yWs+oVqHtG2RVfoF3F8iZMf8zHiRf7ynbZ5lDK7EdQEqkMUMIhh9vUD6txgfoNaoJlU+t4
+ vX06pvg2aJ1O+KA==
+X-Google-Smtp-Source: AGHT+IF/OlL6SSDUrA711Q70XX+2KHCrfpkEqlIN+HJZdKgaK09VyIf3il1gLPXIbqk4NQNUA9/BHyQB6JirT4I=
+X-Received: from wmbhc11.prod.google.com
+ ([2002:a05:600c:870b:b0:43b:6943:f013])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a5d:588c:0:b0:390:df02:47f0 with SMTP id
- ffacd0b85a97d-390eca414c6mr7792866f8f.42.1740991553493; 
- Mon, 03 Mar 2025 00:45:53 -0800 (PST)
-Date: Mon, 03 Mar 2025 08:45:14 +0000
+ 2002:a05:600c:154f:b0:43b:b933:33e4 with SMTP id
+ 5b1f17b1804b1-43bb9333572mr39999305e9.15.1740991555606; 
+ Mon, 03 Mar 2025 00:45:55 -0800 (PST)
+Date: Mon, 03 Mar 2025 08:45:15 +0000
 In-Reply-To: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
 Mime-Version: 1.0
 References: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
  fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6732; i=aliceryhl@google.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2101; i=aliceryhl@google.com; 
  h=from:subject:message-id;
- bh=1SNAXOe9oyT3qRvAmlmyXdBbsP3AQD5dhDmNwYVOio8=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnxWw2t+6Dxj44koarvcgY9JDKUuMhLzySqp2yS
- kaGfNpNK3eJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8VsNgAKCRAEWL7uWMY5
- RgwPD/9IdLzG+1nDOK5S9Nc3Wnyk6K1CZNtu7cX/HaCmzPhgLgoTKD3RncHw/rHaM0HaQpwUC0p
- wyoHfvjTiJB7C+/wx+uF3UJygcVabx1GU9ri9ZtkoRWaTcAbKXXB56Dr/a2N7nUKiDqTg8QSvR6
- efpNr+G5neqz+5RF7eN75GEIVYv1K3VTK5KzOslfmVBYybYNVFIXDtbbOaFvMgdHCRInkE79H/f
- 3BaBPmUIvFHIKwTxBZIcGjaQpYopL6TdaM2Vn21eTxPsCWtowuJg91TGsrDFvBE1canWkG1Ie3C
- WswfS09Hr1ZX+ab0L/uTjunIWwi+2rkeeaceEAp023ESvo1Ei1Kd2LpVmsHL6/62BpDN85cp853
- I/6Y8sTLQheFSozz5bfOneb+Q4xfM+rfyaw8/bN33JkEUPbrXSb0XK/4JWFNuRnCQ45xk5rBjyD
- V0vRrVwLugEKOApFh7opcO1uovnWsmI2CzzvGv8+q45n0vqNIvnoWiwOyiBk60OHZFHb/yvCIQq
- 5ntMZslk52d5qT9WCJefLx0JsmjeBhRyE8Kkj7qCrAeO1Mr85OFau9BnHRfm8bZ1sutuHaSiOYR
- GB4IuLgfwEc7zUOUmaDeGQ2IheDFUE9g+UnUgflSXUZUUF1q/tZCdoR22R8YrcnN835DzntiJZm
- Qo6fUXFEi7wHgrw==
+ bh=27rIJnpKMgqp3S9uOE1r8d3kMA+evBJFEj9qZVD/zkk=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnxWw2Tay53acZ34Qn0eFiLPW+Lb9vqKq4R/vG+
+ fx9bpMrWpmJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8VsNgAKCRAEWL7uWMY5
+ RnTbD/9YsPVC7+afuFs+98V5aJHhzrUsrsUFek7EYVLlN7anvgFXZxC5zDoVi/nKouxeYNlUrkc
+ nfExRYI0ZxQ54u4GfOXQlinasxJJwgXnwcymxJNwO4mg0St1dJaIgInwn4tvjtASj5I9aEOwcXE
+ u45D6rRKGtyWOJkwGSh76n3mNuwWSLejj6TrTQeItBP2dK1djpNdyvqjWE1NT6bijf79nFgDOCG
+ b5rQ/f253UATffkklrsB+DVFQ2C3Qwke3eDB9sZsNNlOUzX2FPFxuUhc/g0iMsp74jbh+mPLauc
+ MDp6YC0mvqDWt9VykZdmjb9WhvgOQxktmuMMmszdOBgpu2Q1zJ0yXZ7bEqtwPgLzGS2e3RfUvII
+ QSGkt4/jG/5vCO7daJ6gnQJrOHdK6oh5SvbjPLOhOnDqo6ZiQ94EBhmdnc9lZXFFLLixX57HALS
+ hxF+9lS0IGeqfadsMhaBnBU2iKF7M5zcIv2GP4xS93UMUuDLv9zXn6jR8tdAxHnRVPwlzvb3LQ2
+ kljkwSsO+yYAsFZogs2EyYIs3myE57AmrK5QsztGscSBm0GmYx75alc7vCq2XKeDsVVa3Ysmn4G
+ 22cKUJot+xuuQtxOslAt3ovEaDbED+emWSenu2ChOBo+AvJ6KAl2UMB5JzN3ejJFsF7d3X4oQJz
+ dmH/R6fzrwpBmvg==
 X-Mailer: b4 0.14.1
-Message-ID: <20250303-export-macro-v3-3-41fbad85a27f@google.com>
-Subject: [PATCH v3 3/5] rust: add #[export] macro
+Message-ID: <20250303-export-macro-v3-4-41fbad85a27f@google.com>
+Subject: [PATCH v3 4/5] print: use new #[export] macro for rust_fmt_argument
 From: Alice Ryhl <aliceryhl@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>
@@ -112,178 +113,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rust has two different tools for generating function declarations to
-call across the FFI boundary:
+This moves the rust_fmt_argument function over to use the new #[export]
+macro, which will verify at compile-time that the function signature
+matches what is in the header file.
 
-* bindgen. Generates Rust declarations from a C header.
-* cbindgen. Generates C headers from Rust declarations.
-
-However, we only use bindgen in the kernel. This means that when C code
-calls a Rust function by name, its signature must be duplicated in both
-Rust code and a C header, and the signature needs to be kept in sync
-manually.
-
-Introducing cbindgen as a mandatory dependency to build the kernel would
-be a rather complex and large change, so we do not consider that at this
-time. Instead, to eliminate this manual checking, introduce a new macro
-that verifies at compile time that the two function declarations use the
-same signature. The idea is to run the C declaration through bindgen,
-and then have rustc verify that the function pointers have the same
-type.
-
-The signature must still be written twice, but at least you can no
-longer get it wrong. If the signatures don't match, you will get errors
-that look like this:
-
-error[E0308]: `if` and `else` have incompatible types
-  --> <linux>/rust/kernel/print.rs:22:22
-   |
-21 | #[export]
-   | --------- expected because of this
-22 | unsafe extern "C" fn rust_fmt_argument(
-   |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
-   |
-   = note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
-              found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *const c_void) -> *mut i8 {print::rust_fmt_argument}`
-
-It is unfortunate that the error message starts out by saying "`if` and
-`else` have incompatible types", but I believe the rest of the error
-message is reasonably clear and not too confusing.
-
-Reviewed-by: Tamir Duberstein <tamird@gmail.com>
 Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+Reviewed-by: Tamir Duberstein <tamird@gmail.com>
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- rust/kernel/prelude.rs |  2 +-
- rust/macros/export.rs  | 29 +++++++++++++++++++++++++++++
- rust/macros/helpers.rs | 19 ++++++++++++++++++-
- rust/macros/lib.rs     | 24 ++++++++++++++++++++++++
- 4 files changed, 72 insertions(+), 2 deletions(-)
+ include/linux/sprintf.h | 3 +++
+ lib/vsprintf.c          | 3 ---
+ rust/kernel/print.rs    | 3 ++-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
-index dde2e0649790..889102f5a81e 100644
---- a/rust/kernel/prelude.rs
-+++ b/rust/kernel/prelude.rs
-@@ -17,7 +17,7 @@
- pub use crate::alloc::{flags::*, Box, KBox, KVBox, KVVec, KVec, VBox, VVec, Vec};
+diff --git a/include/linux/sprintf.h b/include/linux/sprintf.h
+index 33dcbec71925..029ad83efd74 100644
+--- a/include/linux/sprintf.h
++++ b/include/linux/sprintf.h
+@@ -24,4 +24,7 @@ __scanf(2, 0) int vsscanf(const char *, const char *, va_list);
+ extern bool no_hash_pointers;
+ int no_hash_pointers_enable(char *str);
  
- #[doc(no_inline)]
--pub use macros::{module, pin_data, pinned_drop, vtable, Zeroable};
-+pub use macros::{export, module, pin_data, pinned_drop, vtable, Zeroable};
- 
- pub use super::{build_assert, build_error};
- 
-diff --git a/rust/macros/export.rs b/rust/macros/export.rs
-new file mode 100644
-index 000000000000..a08f6337d5c8
---- /dev/null
-+++ b/rust/macros/export.rs
-@@ -0,0 +1,29 @@
-+// SPDX-License-Identifier: GPL-2.0
++/* Used for Rust formatting ('%pA'). */
++char *rust_fmt_argument(char *buf, char *end, const void *ptr);
 +
-+use crate::helpers::function_name;
-+use proc_macro::TokenStream;
-+
-+/// Please see [`crate::export`] for documentation.
-+pub(crate) fn export(_attr: TokenStream, ts: TokenStream) -> TokenStream {
-+    let Some(name) = function_name(ts.clone()) else {
-+        return "::core::compile_error!(\"The #[export] attribute must be used on a function.\");"
-+            .parse::<TokenStream>()
-+            .unwrap();
-+    };
-+
-+    // This verifies that the function has the same signature as the declaration generated by
-+    // bindgen. It makes use of the fact that all branches of an if/else must have the same type.
-+    let signature_check = quote!(
-+        const _: () = {
-+            if true {
-+                ::kernel::bindings::#name
-+            } else {
-+                #name
-+            };
-+        };
-+    );
-+
-+    let no_mangle = quote!(#[no_mangle]);
-+
-+    TokenStream::from_iter([signature_check, no_mangle, ts])
-+}
-diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
-index 563dcd2b7ace..3e04f8ecfc74 100644
---- a/rust/macros/helpers.rs
-+++ b/rust/macros/helpers.rs
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- 
--use proc_macro::{token_stream, Group, TokenStream, TokenTree};
-+use proc_macro::{token_stream, Group, Ident, TokenStream, TokenTree};
- 
- pub(crate) fn try_ident(it: &mut token_stream::IntoIter) -> Option<String> {
-     if let Some(TokenTree::Ident(ident)) = it.next() {
-@@ -215,3 +215,20 @@ pub(crate) fn parse_generics(input: TokenStream) -> (Generics, Vec<TokenTree>) {
-         rest,
-     )
+ #endif	/* _LINUX_KERNEL_SPRINTF_H */
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index a8ac4c4fffcf..1da61c3e011f 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2284,9 +2284,6 @@ int __init no_hash_pointers_enable(char *str)
  }
-+
-+/// Given a function declaration, finds the name of the function.
-+pub(crate) fn function_name(input: TokenStream) -> Option<Ident> {
-+    let mut input = input.into_iter();
-+    while let Some(token) = input.next() {
-+        match token {
-+            TokenTree::Ident(i) if i.to_string() == "fn" => {
-+                if let Some(TokenTree::Ident(i)) = input.next() {
-+                    return Some(i);
-+                }
-+                return None;
-+            }
-+            _ => continue,
-+        }
-+    }
-+    None
-+}
-diff --git a/rust/macros/lib.rs b/rust/macros/lib.rs
-index d61bc6a56425..a52443a3dbb9 100644
---- a/rust/macros/lib.rs
-+++ b/rust/macros/lib.rs
-@@ -9,6 +9,7 @@
- #[macro_use]
- mod quote;
- mod concat_idents;
-+mod export;
- mod helpers;
- mod module;
- mod paste;
-@@ -174,6 +175,29 @@ pub fn vtable(attr: TokenStream, ts: TokenStream) -> TokenStream {
-     vtable::vtable(attr, ts)
- }
+ early_param("no_hash_pointers", no_hash_pointers_enable);
  
-+/// Export a function so that C code can call it via a header file.
-+///
-+/// Functions exported using this macro can be called from C code using the declaration in the
-+/// appropriate header file. It should only be used in cases where C calls the function through a
-+/// header file; cases where C calls into Rust via a function pointer in a vtable (such as
-+/// `file_operations`) should not use this macro.
-+///
-+/// This macro has the following effect:
-+///
-+/// * Disables name mangling for this function.
-+/// * Verifies at compile-time that the function signature matches the declaration in the header
-+///   file.
-+///
-+/// You must declare the signature of the Rust function in a header file that is included by
-+/// `rust/bindings/bindings_helper.h`.
-+///
-+/// This macro is *not* the same as the C macros `EXPORT_SYMBOL_*`. All Rust symbols are currently
-+/// automatically exported with `EXPORT_SYMBOL_GPL`.
-+#[proc_macro_attribute]
-+pub fn export(attr: TokenStream, ts: TokenStream) -> TokenStream {
-+    export::export(attr, ts)
-+}
-+
- /// Concatenate two identifiers.
- ///
- /// This is useful in macros that need to declare or reference items with names
+-/* Used for Rust formatting ('%pA'). */
+-char *rust_fmt_argument(char *buf, char *end, const void *ptr);
+-
+ /*
+  * Show a '%p' thing.  A kernel extension is that the '%p' is followed
+  * by an extra set of alphanumeric characters that are extended format
+diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
+index 61ee36c5e5f5..cf4714242e14 100644
+--- a/rust/kernel/print.rs
++++ b/rust/kernel/print.rs
+@@ -8,13 +8,14 @@
+ 
+ use crate::{
+     ffi::{c_char, c_void},
++    prelude::*,
+     str::RawFormatter,
+ };
+ use core::fmt;
+ 
+ // Called from `vsprintf` with format specifier `%pA`.
+ #[expect(clippy::missing_safety_doc)]
+-#[no_mangle]
++#[export]
+ unsafe extern "C" fn rust_fmt_argument(
+     buf: *mut c_char,
+     end: *mut c_char,
 
 -- 
 2.48.1.711.g2feabab25a-goog
