@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE75DA4BFD0
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 13:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C40A4BFE0
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 13:09:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B6310E3DD;
-	Mon,  3 Mar 2025 12:06:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mop+3CMW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DCA10E27F;
+	Mon,  3 Mar 2025 12:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4498310E289;
- Mon,  3 Mar 2025 12:06:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B0CC25C5851;
- Mon,  3 Mar 2025 12:03:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0EFC4CED6;
- Mon,  3 Mar 2025 12:06:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741003566;
- bh=BYPlchQD1kkhJTSgYF2JWG5FBh+0zfFkLJMP1egeKqQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Mop+3CMWPRnWsZr+pBsrheco5VByfHkYQVZWucMP9x+bAF+AIyzmPYdsgIVIKx/Xi
- M1qK2qVUb/Zkykj9bol4N7uLcOtenupw5flQkLaIhPyf81LMt19tJP0yhoIQ9s2KgE
- tADfhHLOUrpih9KH/R9zobmyvAtZeFVZovf5ykzujM/nakUbTSj174DwAwkWwc6OhY
- D1KG7KmmEIf0K1K6e93y0DOo1VHM3c3/HT0GrtHVYZcJKQDVV+bi1O3HOjQT9EdybJ
- h1Lss6ct+5HEiRUzfHbd6/Xnhk0rfKapCw3QklEFyLEP/xoc23/vlEjjLpA/zVkrrx
- gePdE9yWvfP8A==
-Date: Mon, 3 Mar 2025 13:06:03 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH] drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
-Message-ID: <20250303-silent-brave-degu-c0cec0@houat>
-References: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E747910E27F
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 12:09:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9389A106F
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 04:09:28 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 448B03F673
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 04:09:14 -0800 (PST)
+Date: Mon, 3 Mar 2025 12:08:51 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Marek Vasut <marex@denx.de>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+Subject: Re: [PATCH 6/9] drm/panthor: Reset GPU after L2 cache power off
+Message-ID: <Z8Wb05rmGW0ORnJB@e110455-lin.cambridge.arm.com>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-7-marex@denx.de>
+ <Z8GY0nWXOxCKF-XL@e110455-lin.cambridge.arm.com>
+ <fa88c1c1-89ba-4a10-bd57-0819d7740c0a@denx.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="fllvtl4gnemddhfe"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fa88c1c1-89ba-4a10-bd57-0819d7740c0a@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,37 +62,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Feb 28, 2025 at 06:05:36PM +0100, Marek Vasut wrote:
+> On 2/28/25 12:06 PM, Liviu Dudau wrote:
+> > Hi Marek,
+> 
+> Hi,
+> 
+> > On Thu, Feb 27, 2025 at 05:58:06PM +0100, Marek Vasut wrote:
+> > > This seems necessary on Freescale i.MX95 Mali G310 to reliably resume
+> > > from runtime PM suspend. Without this, if only the L2 is powered down
+> > > on RPM entry, the GPU gets stuck and does not indicate the firmware is
+> > > booted after RPM resume.
+> > 
+> > That doesn't sound right. Can you tell me what GPU firmware are you running
+> > (we are now printing the git sha of the image at boot time).
+> Please see below. It could be some sort of NXP firmware fork ?
+> 
+> It comes from the NXP firmware repo , mali-imx-r50.2-710cfb6 .
+> 
+> panthor 4d900000.gpu: [drm] clock rate = 1000000000
+> panthor 4d900000.gpu: EM: created perf domain
+> panthor 4d900000.gpu: [drm] mali-unknown id 0xac74 major 0x0 minor 0x0
+> status 0x1
+> panthor 4d900000.gpu: [drm] Features: L2:0x7110306 Tiler:0x809 Mem:0x1
+> MMU:0x2830 AS:0xff
+> panthor 4d900000.gpu: [drm] shader_present=0x1 l2_present=0x1
+> tiler_present=0x1
+> panthor 4d900000.gpu: [drm] Firmware protected mode entry not be supported,
+> ignoring
+> panthor 4d900000.gpu: [drm] Firmware git sha:
+> 8e5cfcfec20cc8aff8509d37e72babc935d34a3b
 
---fllvtl4gnemddhfe
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
-MIME-Version: 1.0
+This looks like it has been part of a R50 release of the DDK, which is recent
+enough to consider it up-to-date. The issues you're seeing with fast resume are
+probably due to some integration issues or other quirks.
 
-On Mon, Mar 03, 2025 at 11:48:08AM +0200, Ville Syrjala wrote:
-> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
->=20
-> Use IS_ENABLED() to check for CONFIG_DRM_KUNIT_TEST so
-> that it picks up the modular case as well.
->=20
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+Boris has the most recent experience with playing with fast resume, maybe
+he can share some tips on where to add messages in Panthor to try to debug
+your problem.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Best regards,
+Liviu
 
-Maxime
+> panthor 4d900000.gpu: [drm] CSF FW using interface v1.1.0, Features 0x0
+> Instrumentation features 0x71
+> [drm] Initialized panthor 1.3.0 for 4d900000.gpu on minor 0
+> 
+> $ sha256sum mali_csffw.bin
+> befd23b9279b26010ebf35c835cc3aa7d0f50758930c7306ff4f5abbe5218624
+> mali_csffw.bin
+> 
+> [...]
 
---fllvtl4gnemddhfe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ8WbJQAKCRAnX84Zoj2+
-duUIAX9QZI9AFQ0K8i4nx/R2xjTCLEJHH+JkCNbJcxfj8D9Tjbhr7GrV9CbL4m5l
-1AOwzi4BgOTYyD6l6hp1jjfTOlI4fG2E/LSwnHspC9670a0rNv1T+uJzak8pz3Os
-DcX2zxxJ/Q==
-=vZE3
------END PGP SIGNATURE-----
-
---fllvtl4gnemddhfe--
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
