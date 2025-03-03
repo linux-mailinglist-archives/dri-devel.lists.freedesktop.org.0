@@ -2,104 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37568A4CA07
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 18:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07C2A4CA39
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 18:49:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECD0D10E4B4;
-	Mon,  3 Mar 2025 17:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 260EE10E4B8;
+	Mon,  3 Mar 2025 17:49:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lp+87tJ1";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="iHEXoSgx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9EF110E4B4
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 17:44:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 28548A44E15;
- Mon,  3 Mar 2025 17:38:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7731DC4CED6;
- Mon,  3 Mar 2025 17:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741023844;
- bh=FHg++nb6XcLn2zgnWJ6wuRvYeN22ZPHDJ3B02BRO+xE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lp+87tJ1pi10b59/2fo4zE/m+B8T1RtewpFqEzPZY6XT4dfGHus33dn7K2pt2UnRQ
- owxQjnYrV8ML8dFPKDg3JXOWp7FEvHq/tq+jrhhek7t2YZTGl4VlCTQzscO0rH5FW9
- 0OPPt0RryywgAzJ+kfaXB2QcKwH+YW3zi49qbXKWqJXZZJhJnD6TnlJrpSX1okcyGs
- 2A5p557v4r56tHjf9UV5jjBhcf91Tsf2dvQM8nCC0pZeVyBH8a3GnqgrQ1Zzfy79Jt
- IzvHl/Oso22RN7LmdGEXDrsye8ZNvWBRMfrVvc5bEMgqlON9Hcaf5H0dDWuHxYVxgJ
- KYVoL93if/z6g==
-Message-ID: <7ba53937-7922-41da-a7ed-909ce620db1f@kernel.org>
-Date: Mon, 3 Mar 2025 18:43:56 +0100
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B9210E4BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 17:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1741024148; x=1741628948; i=markus.elfring@web.de;
+ bh=BYfX7ahdAx14xenhiSbgtax3duc93F62obxPkYvV944=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
+ Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=iHEXoSgxSkWYaxNEftQfb60FZ3dHehjWa130JFI5+xqgwqsgzXDpHyjdUp6QHdMG
+ 3mQqWWoHtLQ5FeA4e82ZxP5z6jL1/NCgCRdQFxlKPYLkrRQUfPv0WT7iMQJ3JtA9R
+ lCRRwf+/9avb+EPhM/vwj7OkAfwLIex6hW57sn1DPaSd5rOBTjv+7mVLBVPe4GuqU
+ nWg2eUttDZKyuyU0azchzYmbhkEOoTO12ftSzF0HRuWacyvmtwQbht3juOALsMYGy
+ Ax5chNSrQHR30CTC3GXbUiaPwrl1LJklUPGQT7U1oVUlecRZBaAqxSVdH/tsyVEU7
+ DIQR0UFvE/agd7KX1A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.19]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MuVGA-1syhgU02a2-00vk09; Mon, 03
+ Mar 2025 18:49:08 +0100
+Message-ID: <684bfc0d-7e1d-40f1-b1b7-d6ed64fcd8b7@web.de>
+Date: Mon, 3 Mar 2025 18:49:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/21] Enable drm/imagination BXM-4-64 Support for
- LicheePi 4A
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
- m.szyprowski@samsung.com, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-References: <CGME20250219140249eucas1p1291eb86c932373c847a3314ae54789d5@eucas1p1.samsung.com>
- <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <20250221-eminent-squirrel-of-honor-dee80d@krzk-bin>
- <90d0d409-f374-4e06-bc69-b9bf0622959d@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <90d0d409-f374-4e06-bc69-b9bf0622959d@samsung.com>
+Subject: [PATCH RESEND] drm/nouveau: Add a jump label in
+ nouveau_gem_ioctl_pushbuf()
+From: Markus Elfring <Markus.Elfring@web.de>
+To: kernel-janitors@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Simona Vetter <simona@ffwll.ch>
+Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
+References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
+ <8f785de5-ebe2-edd9-2155-f440acacc643@web.de>
+ <809905c6-73c0-75a6-1226-048d8cb8dfda@web.de>
+Content-Language: en-GB
+In-Reply-To: <809905c6-73c0-75a6-1226-048d8cb8dfda@web.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:E/k+Xgzr03sFsIQP6/rLbeZ9jBhiTPWWxBW6gyeBMvI3JQbgT9I
+ +Y4HgV3wwul18HU6cxSHtB8d2/74o/f4jJeELUakevzSrfaT/yrefYE+E69JzCmstH3zI9B
+ yCXvBjH/00Ethv40lD4gvrb27rewWNHvaVZD8rEcm6QJqUD39A6qXWVCQM/2UAZMD6auaU/
+ Bo+9LSx5ABwtoAYcX8jDw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bCQY/gSiTXQ=;NrnBi0ajv0riYdZVXn2UBWmn5ea
+ M82WcDJ4E/ee4P/thkOyeYYVcChOy6tBfYIORjnJ+WkomlUTPak3+AU3bO7h0jI2gOnXzd7Jj
+ hPlcusnKwPXN3NwslXFcJQk7aTN3ZIO3tMIcD+7Ydmc2Y617hJRiRLivLSdgYMcXr71v8a56O
+ GNKzkwshWPd8607X9m1vrI9zUmtICtFIgWyGbud4/YWSw+ZwizFiM15d4RYo89eIocHZUFKB8
+ nw/JLJs23W169Enq1R/yGeK0deAJ6lcJP+UZ5fIrhkatEcUjQRBGXu8qp0FmsjJxK67begUje
+ 9Px9nW5cOCUeO+B+tueW+PfC37/ePfewRfRCYxe4KQa/KO4ipC1wVWVmHIckrQxD6gH8q/3Ly
+ u5b90ixqgOjkFMn2Uvp8YvF7w2YNdVMtfJ1LWpOj5unkHuJKdCNi+w3eJtIlUc75jLPlXZ0hJ
+ 9vwcicSUF4surrmDbV+4e+FNaAnEDZgo/FNn0A+yQzMx6YsIfHGe1W+HSHAss7sBM9xwH6vbu
+ c5qY9EU49WyD3Ay1Gim2CntSow4Yg7HVq7+rzx1uWqh0155zPT+k1AUxViQvnBzEcIUhaq57j
+ WW2/lMMCsTCaihI7etFgBEF9WwNc/YhfpNh5gTIobXjcl3v+b3DGHS27/XdlgFkxg9o15XeWp
+ VV+eklQzrVyTy4YqI6H/HJFY2Uuf1GAPdWP2U5AKDZDWya/LIvOwqpqbCCyLSiC/TcPTS8cQq
+ 1XK3mst42oeSXog9tCktRFDnHMkDPobERTTz6fgPluYhCla8OXueIieDuzURlE7NkR2r7hILF
+ 9Isayjln6IEF7+1DcF5l5amZuiTjCwg/o16396OfatSC7MVqKltQqNj88Zlbt34JvRXas0t/0
+ JAsRi3RNHdb+xHNcootnMZILnt7giqutnUi6GEzFtQKN0NvFvheGisMozARhC0tYJWMEuqs0B
+ EXtrOEEll2D8+WkP3onpQnO3oEZxPr/dx8ezhceq7HlXEhLGLl9rSgFEuRFZW05XmYd1GK8ur
+ 21wfdvxF4eQzOu+Eara2WDoRTb1ciZ9JlMZa0ZKKS0RuvEBcf0q+ufctkz3DoCdAgtLgbuq32
+ 1D49SwOCB+VfBsXjluLhg81hrb0s0inxWt4kFePmt9vP5180WtOVHyEC4KGiBgMjHzWSCu/qI
+ ZTGAgL8li12HjjW3eAtwJSmKHESyr+3aLMTBagLkLbtZZblgEx1H4sL22NaC1nQKbc4TEwry1
+ w5yxsVyW3uvlnnwP+ySuAIGbpdtMKVZY9zoWpp2D73gVpGQu2kF3HeJ8hsEfMGGJP7OFlrCuM
+ go08a/YhtFNuWP3ULkCGZUdgNlVMD3ovNPG/ZH5lXfB9vNFV+vtxGNu1E2/rtmbYfXmfovCB5
+ 9ckjVMfYdTJKsdz58F8bBjEc2xdRsbyeVzBxu0I5TN1YtxrFFJa3JvMgbSR15LoCyAhbu2NM7
+ hEuoQSnekcH7za5vUZ96XWIUMLZk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,37 +94,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/03/2025 09:38, Michal Wilczynski wrote:
-> 
-> 
-> On 2/21/25 10:12, Krzysztof Kozlowski wrote:
->> On Wed, Feb 19, 2025 at 03:02:18PM +0100, Michal Wilczynski wrote:
->>> The LicheePi 4A board, featuring the T-HEAD TH1520 SoC, includes an Imagination
->>> Technologies BXM-4-64 GPU. Initial support for this GPU was provided through a
->>> downstream driver [1]. Recently, efforts have been made to upstream support for
->>> the Rogue family GPUs, which the BXM-4-64 is part of [2].
->>>
->>> While the initial upstream driver focused on the AXE-1-16 GPU, newer patches
->>> have introduced support for the BXS-4-64 GPU [3]. The modern upstream
->>> drm/imagination driver is expected to support the BXM-4-64 as well [4][5]. As
->>> this support is being developed, it's crucial to upstream the necessary glue
->>> code including clock and power-domain drivers so they're ready for integration
->>> with the drm/imagination driver.
->>>
->>
->> This is v5 of big patchset which became huge. I understand you did like
->> that for v1 which was RFC. But it stopped being RFC.
->>
->> Split your patchset, keeping versioning and changelog, per subsystem.
-> 
-> Sorry for the late reply—I didn't have access to email. I agree with
-> your suggestion and will send the clock changes, firmware/power domain,
-> reset, and drm/imagination updates as separate patchsets for merging.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Wed, 5 Apr 2023 18:38:54 +0200
+
+The label =E2=80=9Cout_prevalid=E2=80=9D was used to jump to another point=
+er check
+despite of the detail in the implementation of the function
+=E2=80=9Cnouveau_gem_ioctl_pushbuf=E2=80=9D that it was determined already=
+ in one case
+that the corresponding variable contained an error pointer
+because of a failed call of the function =E2=80=9Cu_memcpya=E2=80=9D.
+
+Thus use an additional label.
+
+This issue was detected by using the Coccinelle software.
+
+Fixes: 2be65641642e ("drm/nouveau: fix relocations applying logic and a do=
+uble-free")
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/nouveau/nouveau_gem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouve=
+au/nouveau_gem.c
+index f77e44958037..d87e1cb2c933 100644
+=2D-- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -814,7 +814,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void=
+ *data,
+ 			reloc =3D u_memcpya(req->relocs, req->nr_relocs, sizeof(*reloc));
+ 			if (IS_ERR(reloc)) {
+ 				ret =3D PTR_ERR(reloc);
+-				goto out_prevalid;
++				goto out_free_bo;
+ 			}
+
+ 			goto revalidate;
+@@ -929,6 +929,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void=
+ *data,
+ out_prevalid:
+ 	if (!IS_ERR(reloc))
+ 		u_free(reloc);
++out_free_bo:
+ 	u_free(bo);
+ 	u_free(push);
+
+=2D-
+2.40.0
 
 
-How did you implement above comment? You did the split, right? Where is
-versioning and where are changelogs?
-
-
-Best regards,
-Krzysztof
