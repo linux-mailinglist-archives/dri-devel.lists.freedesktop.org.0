@@ -2,92 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2882CA4BC90
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 11:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40010A4BCEF
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 11:53:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9826110E222;
-	Mon,  3 Mar 2025 10:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD1210E3C2;
+	Mon,  3 Mar 2025 10:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="YE3xbJ0i";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WKnMkQWT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BE310E222
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 10:40:34 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-abf42913e95so358323566b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 02:40:34 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E27410E3C2
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 10:53:45 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-ab78e6edb99so593766766b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 02:53:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1740998433; x=1741603233; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=5a9h6+RNdDno0AFoqzH4L74Ntb9x5So7/S1R2/2cyIA=;
- b=YE3xbJ0iw3wIZ5vqH615X4TihtRtifKmAAfzJQeN0S1eSmONin+sJUkX+fUxOTbIZH
- aBtcljqCGe14/o0+rARXUQHYmv+ElxWdP8HFhe7/5Qd8ch2zkKSBhLlvmMigu5oUa58/
- gr/i43nZAzxc62892CVMDAizOGIbYH2OA+MtVk+a0hzLL1EDrHgIONAD2+z3PNkJfT54
- iwzA1e+MQf8FQcp7ulDVGnEppg/qspHSGYrxr9kkZxgwGvCLRM0FTl2c9wFdxKDVF9Kz
- +b0v37+5xXhxNIsMeFynNG8alS31gzb8MqA8FDVbR0+JLbXCeCzDXqHVlON2wzI4qsgr
- Xs2Q==
+ d=linaro.org; s=google; t=1740999223; x=1741604023; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=gSR1fSju11GwT3CmV4RSTFrBeqMpZeqjsL4Nu+lUL6I=;
+ b=WKnMkQWTQP4LvpZ+wzAkfQsjLeNDQQ38c6rO46MKaK7MzmKDjPTKHSUv3WmZnznvdC
+ n2IHsv3IlO0qD02yC9rp/c2KgALD90IEnHBq8osoU46B5c/RxKcLS141Uz5hUNeeq9qo
+ 2s+3e+2kF8CFOIL+eX/Dq8SgBqA5ocMMt4PvOSmhkZatiKz+44VmWGZbe/p4yM64j+eh
+ Hrz92BLW57liCEbGvvZ7ogZ7K1wSVczJyrw/ZZbhFL+qkT6nCeI47KLW7GCHRR1PkzhF
+ czAUulXL6MMdoFe7Dp3p80rGn/t1TsnQUbtb2i0xnHJZ/wOwep+kdQvDgEWwaBVdx8g6
+ uyAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740998433; x=1741603233;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5a9h6+RNdDno0AFoqzH4L74Ntb9x5So7/S1R2/2cyIA=;
- b=OfS4yRi+wHN5gdRRQjF4z9PpaMWSXPyeJU3keyjqNkJC0WCU8g35Exz5XDHzPOCft5
- lklfjYJN77+8DgBN/uAGhgaECM2CucWfqO1/kaNXmBawaVN1unmmSULNFdiEpjxUIOgC
- WwOSxNjOG4Iq4Vp0evOOc95xACMfgCJIs9c+e6mb35Wyq9cg2Zk6lQZfSUHnwYt6BsnL
- 5ko22dcM4cM8+85QL+T69vuOvaAGtsDrlHCItVkLMxRuv3KSaYQW8af99gBzSs/Qqwq1
- RtqHM4oIbc3QhFj6WulBE3DLG5RrlzMfIvpXbl5yBWGsbvCqKYM9KaaJWAuzA6XPbkVm
- +PDw==
+ d=1e100.net; s=20230601; t=1740999223; x=1741604023;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gSR1fSju11GwT3CmV4RSTFrBeqMpZeqjsL4Nu+lUL6I=;
+ b=V6Ft7kSP1zPy6Nd9DFTntW5o/yM+ctFm7TOWWAKjivDjKVtgMlci7AUAP0lSPUuOJR
+ aPp8bWAFMHG5CCB044RZxbpbMu5r+oId4Oazvq8LhgbuAU3gz1oS80piN9+clauexRhQ
+ XYOjPlfGj3BTfIpnzOP2IMMtsEG37TItueGFniludr/gsdtRIC/JeHDQNSVYYlnZM5ia
+ ysb7AroM9bEccTHpAE08nN/jervB7L4FCWj7DtEXOio4INY5yOeh5kMrAldpBPREgAyY
+ odh81pn0/DPeiIJGChuJa6jSuZNWjI1/qVkQkowM7r+Be4aYshqq2CXRTVwm/Ia55We0
+ G9kQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUE+BfUALwIZU2gSANlcsoWyO9WSXVIKkgD1gUXif84FZ4eCo7M9e0jqdAe1BX0h8/jsFi+8h8emAA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxi9rc01TXfO9bNOySHzbT+h3rmPLk5MMQNHYXmX7KY2d62FxY5
- +aP2DQSDYTK6D8E7CnCjufP/dRQUHHQOn0H9hViiDVTHZBCocnBdqjPRICPrkIY=
-X-Gm-Gg: ASbGncsDuH54Jh3DOHPg6twiPAB3kFOvE2gdPaoTi/eGQrYWWi1XIGxIODFnf7QbVby
- FZ+1001pjyqyLBXq7vJSbMbUjXStzKrJOZqbOk5UNgFMpEonNN4CTsTylbKMwccgkf2/btZ+DYc
- K04MbdEtxiL1fWeWHj9xnoES7o1SLHalC5+0GjNZ3OKuK7x5ugMv0S3ipGKb5BwHltjxizJUlGA
- OXqPgmM79NnviQySPdNqTFGUhEIe6HHddJl+zQ3ei1/Q/z3xk/AaaCaK02Cb0guAWUaKfetl1fM
- vbspLccPMO7jBgBWAk/9oeUhh7gLituVx2Am4qb7sv2WdeE=
-X-Google-Smtp-Source: AGHT+IFdxe1UliGedp4UVoTzjvVx7nmKJ02BWHR9cvVprp2v8Ja1Mccur8mOERuQ9+frcz5n+hpjGg==
-X-Received: by 2002:a17:907:3ea9:b0:ab7:bac4:b321 with SMTP id
- a640c23a62f3a-abf2656bcefmr1434681866b.29.1740998433246; 
- Mon, 03 Mar 2025 02:40:33 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abf75481eb4sm207346566b.83.2025.03.03.02.40.32
+ AJvYcCXKv9mgzGaEeX2DTKTj12oS0jCVbVbx0UNk7zJRtKktGkfZsTEmpjqGT3KBQft5ujGURtw2ON8+5Iw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7mNUbyT3qgXontsUKXwSzrg37Pf9cs4M2y0HhdtpEcBzr+rTU
+ hf2GS0pE4PSzk4oQWOhvM0eSVEIC8Y/VVdQ4g0/PhXV/jTitlo0lpeZPV/GtK9s=
+X-Gm-Gg: ASbGncv2cvzXCy1V8I5LPxZdWf/aHZgX3hARlBLc5lb9VwxEW6+ImwGInXKvsXKbanu
+ x1cbyQhW4rqvfNekeo27dYJLtGImYPbxcIGnQZIYLng/YzmaMHPKZOFsdzRsS3r3ZQmONCP6rSl
+ Buq77Ncb2TJp16Uyw3rCtgnGQ6N1yr2046HTOQ9/nq8uG/upTpIfdJwcdIc/HdteGAcqegk8qWs
+ uwQ/JPrllEByjci+ZLvz0+nl1kPjLE7PcxE0kFDlr/ZcnEHs/jaRq1XKIdm6WzQK4DysltDFtq9
+ NW00grZAh6bVlf1oIGeS4FVUaPTOH1waqWQgOK9eePbilcFy6w==
+X-Google-Smtp-Source: AGHT+IF878WM4Ac0lwU3U8jWhqiDwhdQ1OhLRZrdD2ubBpWef4yPS0ciLaeLOsRMTVQEjBD/4tiTTg==
+X-Received: by 2002:a17:906:7310:b0:abf:13cb:c411 with SMTP id
+ a640c23a62f3a-abf25fabbaemr1560894766b.18.1740999223509; 
+ Mon, 03 Mar 2025 02:53:43 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ a640c23a62f3a-abf55e88748sm421511766b.54.2025.03.03.02.53.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Mar 2025 02:40:32 -0800 (PST)
-Date: Mon, 3 Mar 2025 11:40:30 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+ Mon, 03 Mar 2025 02:53:43 -0800 (PST)
+Date: Mon, 3 Mar 2025 13:53:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Antonino Daplas <adaplas@pol.net>, Helge Deller <deller@gmx.de>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tamir Duberstein <tamird@gmail.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 4/5] print: use new #[export] macro for
- rust_fmt_argument
-Message-ID: <Z8WHHs8eGcV2mCAw@pathway.suse.cz>
-References: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
- <20250303-export-macro-v3-4-41fbad85a27f@google.com>
+ Yihao Han <hanyihao@vivo.com>, cocci@inria.fr,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RESEND] video: au1100fb: Move a variable assignment
+ behind a null pointer check in au1100fb_setmode()
+Message-ID: <47c37d1a-5740-4f48-ac0f-635d8b6f51b2@stanley.mountain>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <86551e6f-d529-1ff6-6ce6-b9669d10e6cb@web.de>
+ <3f1e7aaa-501a-44f1-8122-28e9efa0a33c@web.de>
+ <ugymllbkcsg22ffgyofvkquh5afbvoyv2nna5udmy3xfhv2rjz@jhgghzldzm4u>
+ <eebf8c0c-7a6a-405f-aaab-2a8a8c2bd91f@stanley.mountain>
+ <hwk2nf62owdo3olxrwt5tu7nwfpjkrr3yawizfpb3xn6ydeekx@xwz7nh5ece2c>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250303-export-macro-v3-4-41fbad85a27f@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <hwk2nf62owdo3olxrwt5tu7nwfpjkrr3yawizfpb3xn6ydeekx@xwz7nh5ece2c>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,17 +100,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 2025-03-03 08:45:15, Alice Ryhl wrote:
-> This moves the rust_fmt_argument function over to use the new #[export]
-> macro, which will verify at compile-time that the function signature
-> matches what is in the header file.
+On Mon, Mar 03, 2025 at 11:30:46AM +0100, Uwe Kleine-König wrote:
+> On Mon, Mar 03, 2025 at 01:08:29PM +0300, Dan Carpenter wrote:
+> > On Mon, Mar 03, 2025 at 10:19:06AM +0100, Uwe Kleine-König wrote:
+> > > Hello,
+> > > 
+> > > On Sun, Mar 02, 2025 at 07:02:12PM +0100, Markus Elfring wrote:
+> > > > From: Markus Elfring <elfring@users.sourceforge.net>
+> > > > Date: Thu, 13 Apr 2023 21:35:36 +0200
+> > > > 
+> > > > The address of a data structure member was determined before
+> > > > a corresponding null pointer check in the implementation of
+> > > > the function “au1100fb_setmode”.
+> > > > 
+> > > > Thus avoid the risk for undefined behaviour by moving the assignment
+> > > > for the variable “info” behind the null pointer check.
+> > > > 
+> > > > This issue was detected by using the Coccinelle software.
+> > > > 
+> > > > Fixes: 3b495f2bb749 ("Au1100 FB driver uplift for 2.6.")
+> > > > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> > > 
+> > > Acked-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+> > > 
+> > > Should also get
+> > > 
+> > > Cc: stable@vger.kernel.org
+> > > 
+> > > to ensure this is backported to stable.
+> > 
+> > It's not a bugfix, it's a cleanup.  That's not a dereference, it's
+> > just pointer math.  It shouldn't have a Fixes tag.
+> > 
+> > Real bugs where we dereference a pointer and then check for NULL don't
+> > last long in the kernel.  Most of the stuff Markus is sending is false
+> > positives like this.
 > 
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Reviewed-by: Tamir Duberstein <tamird@gmail.com>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> I thought a compiler translating the code
+> 
+> 	struct fb_info *info = &fbdev->info;
+> 
+> 	if (!fbdev)
+> 		return -EINVAL;
+> 
+> is free (and expected) to just drop the if block.
 
-Acked-by: Petr Mladek <pmladek@suse.com>
+If you dereference a pointer then it doesn't make sense to have a NULL
+check after that because the kernel would already have crashed.
 
-Best Regards,
-Petr
+In 2009, we had the famous tun.c bug where there was a dereference
+followed by a NULL check and the compiler deleted it as you say.
+And then, it turned out that you could remap the NULL pointer to and so
+the NULL dereference didn't lead to a crash and the missing NULL meant
+the kernel kept running happily.  The remapped memory was full of
+function pointers to get root.
+
+We changed min_mmap_addr so that we can't remap the NULL pointer and
+we started using the -fno-delete-null-pointer-checks compiler option so
+that it wouldn't remove the NULL check even in places where it didn't
+make sense.  We also started doing more static analysis.  We've also
+tried to randomize where functions are in the memory so it's trickier
+to hardcode function pointers.
+
+A couple years later we had another bug where it turned out you could
+still remap NULL.  I forget how the details.  No one wrote an exploit
+and it wasn't publicized as much.
+
+Anyway, none of that applies here, because this is just pointer math.
+
+regards,
+dan carpenter
