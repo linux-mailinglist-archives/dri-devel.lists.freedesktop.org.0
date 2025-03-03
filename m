@@ -2,57 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC6FA4BB24
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 10:48:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0B8A4BB29
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 10:49:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D328510E3AC;
-	Mon,  3 Mar 2025 09:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B905E10E265;
+	Mon,  3 Mar 2025 09:49:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W1AbTbTr";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="VtgWdjE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D4210E265;
- Mon,  3 Mar 2025 09:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740995292; x=1772531292;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tdQaaENsWJdVr6hH4KbkruhOlxCer1viA1qztXaHCRg=;
- b=W1AbTbTr1Qicb1QWYJt4lGR2ubduKq/jt0C+Gb3UGjhss4yR+Tz0IplP
- qAbLXNTQJXIAB/b9hpvrRBBaHchhuavYJREXm4jd5G2j4DCBol7nxc2Do
- CIt1pAa/2RSLMQZdHmWomBHLepIZCy9TXyZxSoQSS929VIqGK7pdW9Klg
- FogdfPhPPnNYJOcyrOfjpR6uyVw5KV44q9eId7VN53ULrl7xBcZD/klZ8
- PWj+2sodj8VvTGU75JsKOFpUUcNOMo5gfW2BZx9ehh0pEftweQzq9KP6p
- q1MoX3tPS6ExNAlKcjT+xzWWUQe5XRxFT51djp3xTocyZk7EnIUMKqPGy Q==;
-X-CSE-ConnectionGUID: Aod96dy8QlG6I+Ih23/BdA==
-X-CSE-MsgGUID: TZtfE0CLR5KeD3PITmP2rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="59407286"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="59407286"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2025 01:48:12 -0800
-X-CSE-ConnectionGUID: y6BZH9aAQzCpQWMTCVKgqA==
-X-CSE-MsgGUID: rc5+/UDBS6e5Gh/cJrCbeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="123172792"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 03 Mar 2025 01:48:09 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 03 Mar 2025 11:48:08 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH] drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
-Date: Mon,  3 Mar 2025 11:48:08 +0200
-Message-ID: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.45.3
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F69C10E265
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 09:49:23 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-39104c1cbbdso457518f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 01:49:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1740995361; x=1741600161;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SnL9Hz24S3kNKDp8b2cNl9jZ/3k9Ss4gpw9SmsSpB2g=;
+ b=VtgWdjE85mRpp8aITnLQC4gOmH/0S5Fco446OeBxD2w5Kx1u7QnUiUTLUo/XXeMCd5
+ cUeCHz3HwKj0MQTD0UmlvSA0eVnXbqLcUiVu3SQeqUG4SFD6fVaDcMx6d5mF9jsz/1sF
+ Am5aZwDDCbfFB2HaczD9CuxuZ2S8AjB6d7fFOO/9T9prQwmhopggmeK7paiJJ5RhlSr3
+ 1RCFQ096HjWohBNFoFhmoUPgn6kL20RUExS9nJn8TxXeTSrFcF2U1mXo1X5+gocan6ok
+ RIOeltUPpAqGAmwe9cnrWNwYsN2dP6G0S+Xt5M/rmGsxAuXxobF+FbE/7e/Ocm/ETV8i
+ i0kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740995361; x=1741600161;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SnL9Hz24S3kNKDp8b2cNl9jZ/3k9Ss4gpw9SmsSpB2g=;
+ b=gtd2Qu1zbP0QxtLQJT1T6/sX8WNHwtS4bHIextlpmteoGQEDm86WCRLWwg+5f0kALb
+ gqfPdM5jryxDtI5ReFRZDyiIWo8nkVhVpVGeBCL4RDolVpMM06i0FOvQIypnQO6SDfa4
+ cAXygCYEJ7Vlqre9fLo4YWOgjnWJlEz9U9ME0lWTZeIWOyOFSrnZ8Icypck4Z/QI5J8y
+ tDWzI7H0ulsspaf8rq49bPjCIxeH3GWYBrtcqSA4a4SuMpuA+qiBPx/0WZgX2nLwJV3E
+ 1LqBBWdv2c+PT5J6YgNaMyaT0jiWcnIY50MdNiIJDuPJqHjeCeINlduuj7vD6a906c4N
+ cD4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX50HOAGHU+BqaqB5BxXOrDft5Cy3wTVB34FkB24lEgJeN3b+HunC5jcFfRXveyJnt/Oam4U+Pa43o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsojwMbikB8nEmxysp40eriJnOCpMZrHmORXa5dci6KWrPAiiU
+ McjNEqK+4C5tdkfWR00jmhtaEn+cpYR1a1JbZUP4VJF6MivYnCGOBdwhN9JKETlugDgwxsMAeh3
+ k581zCJg8uYD5P/vlLL4QIKfZnJnzpP1h5ez9
+X-Gm-Gg: ASbGncvD+mnSdYcy//tHlVrUir+KSGcStBr2FPK7zvOLlo6fnbMQiT2LpH9ABP1P4yo
+ 44P2IB5MMp/oJtfDvfkfwkjaafzCEo2frjYCs7xT3lR0BYPx3nwRhlnhc3B/idpd2ockL2GdUhd
+ AZHHqbOe7daDRbPyetrsb7g4k8qiqr30yf/doe69lixUcDV3NwlvKvbZXI
+X-Google-Smtp-Source: AGHT+IGTVr2JIj2NM1dARmHjx2Q20a0Sj+PRO/QysiCo1gjTEuQGm9OoWgT0wK6Y1r6W2Tsdd+R6BGWXSNz0RLNl2NM=
+X-Received: by 2002:a05:6000:270f:b0:390:ea34:7d83 with SMTP id
+ ffacd0b85a97d-390ec9c166cmr8927299f8f.31.1740995361321; Mon, 03 Mar 2025
+ 01:49:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
+ <20250303-export-macro-v3-4-41fbad85a27f@google.com>
+ <Z8V6XafrTyrB4z8D@smile.fi.intel.com>
+In-Reply-To: <Z8V6XafrTyrB4z8D@smile.fi.intel.com>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 3 Mar 2025 10:49:09 +0100
+X-Gm-Features: AQ5f1JoxwuAGeit50aUfVN8jQmqWDDJZmGrbhn2c83aPm7MkhBxBt-nYtmFZSyw
+Message-ID: <CAH5fLgimM6gL2v4z_x717iYU8LYTfypEi=wkj3mXS4uu8Raq0A@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] print: use new #[export] macro for
+ rust_fmt_argument
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Tamir Duberstein <tamird@gmail.com>, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,29 +101,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Mon, Mar 3, 2025 at 10:46=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Mar 03, 2025 at 08:45:15AM +0000, Alice Ryhl wrote:
+> > This moves the rust_fmt_argument function over to use the new #[export]
+> > macro, which will verify at compile-time that the function signature
+> > matches what is in the header file.
+>
+> ...
+>
+> >  extern bool no_hash_pointers;
+> >  int no_hash_pointers_enable(char *str);
+> >
+> > +/* Used for Rust formatting ('%pA'). */
+>
+> In case you need a new version, please drop a period at the end as this i=
+s the
+> style used in the sprintf.h already.
 
-Use IS_ENABLED() to check for CONFIG_DRM_KUNIT_TEST so
-that it picks up the modular case as well.
+Sure, I will remove the period if I send a new version.
 
-Cc: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_client_modeset.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index aca442c25209..27471a4eef21 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -1268,6 +1268,6 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
- }
- EXPORT_SYMBOL(drm_client_modeset_dpms);
- 
--#ifdef CONFIG_DRM_KUNIT_TEST
-+#if IS_ENABLED(CONFIG_DRM_KUNIT_TEST)
- #include "tests/drm_client_modeset_test.c"
- #endif
--- 
-2.45.3
-
+Alice
