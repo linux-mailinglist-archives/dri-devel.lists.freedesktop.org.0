@@ -2,47 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFF1A4C368
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB272A4C395
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:39:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F71F10E15A;
-	Mon,  3 Mar 2025 14:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A663310E439;
+	Mon,  3 Mar 2025 14:39:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jAoz5s06";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="BFTjdSeE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58D4010E15A
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 14:33:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8C8F75C41A4;
- Mon,  3 Mar 2025 14:31:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16AAC4CED6;
- Mon,  3 Mar 2025 14:33:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741012400;
- bh=TLJcdtQW1Rth17BYwR4KsHskPkHEeMJQb+Hqg3Z/4WU=;
- h=From:To:Cc:Subject:Date:From;
- b=jAoz5s06lNLYzKqFNXp0yF0SGi3lsK5bOjsDsY6Rjs4ghZFmgnzMaHavcEwmqpn6t
- yL7hBTElXoNj3hIjYFlxC1IO1rNQhXq/wTFKcl4tNpCf+hxDsVe+fQdqs5ZQW6+98z
- KtjNQVn25R8VNt4OnSEMH8DUwjRPAc2EntNrSxuZaDSDnacnOxndYpYGshDG0F0BU4
- S/wB004C7Id+EgSa4qH6EcCpve7osNLetV9sjc0At5PSmoB4AlNzSjqhZCZ0K/r1Vh
- 54ozwV89rX9SYwOAMw3KJlKHvCZuESsm1otb+PNG+7aIghV34UGQNkBiWnkQ5L2gSQ
- r17JMsAfW3hEw==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sched: drm_sched_job_cleanup(): correct false doc
-Date: Mon,  3 Mar 2025 15:32:52 +0100
-Message-ID: <20250303143251.43793-2-phasta@kernel.org>
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799AF10E439;
+ Mon,  3 Mar 2025 14:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+ :Subject; bh=CBFiAgytTxTQzTWMXsbcqZJFBhGc1VYrDgGawtSz/iY=; b=BFTjdSeEgK4c28ta
+ CTOaJI+TwzcWTtltpn9xrH72Bb74PgKNoXDyANk3kQ28NwgUlUdl8U+spQNYy7LEClHxumLQ1LGy+
+ hJnczPrRqSsU/N8MbX/zpGHrbC0aWh/ICABgmi3Uk67+lVtDk9tM0vEAlehKRn3Q+IOVwXE/zGZf7
+ EN0JHzmEbd+fMX3qKDZCRor+Fgvr9Nyc8TK9iJZrWtxAZ3EBR1GAGC1Gat0AZ/FiYqGhoptKf/0wX
+ ccnvURrCf3Kg2SzV/BCP8/Q1bozIYWbhjPO0NnL1lVeDERzx0rPcVRoGdS9gnKJcy7U3UU3WlmuXC
+ V+qQqn+nUv9JlUQjhg==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+ by mx.treblig.org with esmtp (Exim 4.96)
+ (envelope-from <linux@treblig.org>) id 1tp6x1-0028PG-0V;
+ Mon, 03 Mar 2025 14:39:23 +0000
+From: linux@treblig.org
+To: alexander.deucher@amd.com, Felix.Kuehling@amd.com,
+ christian.koenig@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+ siqueira@igalia.com, austin.zheng@amd.com, jun.lei@amd.com,
+ kenneth.feng@amd.com, linux-kernel@vger.kernel.org
+Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH 0/6] drm/amdgpu: Deadcode - the P's
+Date: Mon,  3 Mar 2025 14:39:16 +0000
+Message-ID: <20250303143922.36342-1-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,44 +57,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_job_cleanup()'s documentation claims that calling
-drm_sched_job_arm() is a "point of no return", implying that afterwards
-a job cannot be cancelled anymore.
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-This is not correct, as proven by the function's code itself, which
-takes a previous call to drm_sched_job_arm() into account. In truth, the
-decisive factors are whether fences have been shared (e.g., with other
-processes) and if the job has been submitted to an entity already.
+Hi,
+  Here's another blob of deadcoding in the amdgpu's;
+this set is all the symbols I noticed that start with 'P'.
+  Most, as normal are whole function removals,
+  but I also nuke the powerdown_uvd member in one patch.
 
-Correct the wrong docstring.
+Dave
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index c634993f1346..db9e08e6e455 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1013,11 +1013,13 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
-  * Cleans up the resources allocated with drm_sched_job_init().
-  *
-  * Drivers should call this from their error unwind code if @job is aborted
-- * before drm_sched_job_arm() is called.
-+ * before it was submitted to an entity with drm_sched_entity_push_job().
-  *
-- * After that point of no return @job is committed to be executed by the
-- * scheduler, and this function should be called from the
-- * &drm_sched_backend_ops.free_job callback.
-+ * Since calling drm_sched_job_arm() causes the job's fences to be initialized,
-+ * it is up to the driver to ensure that fences that were exposed to external
-+ * parties get signaled. drm_sched_job_cleanup() does not ensure this.
-+ *
-+ * This function must also be called in &struct drm_sched_backend_ops.free_job
-  */
- void drm_sched_job_cleanup(struct drm_sched_job *job)
- {
+
+Dr. David Alan Gilbert (6):
+  drm/amdgpu: Remove ppatomfwctrl deadcode
+  drm/amdgpu: Remove phm_powerdown_uvd
+  drm/amdgpu: Remove powerdown_uvd member
+  drm/amdgpu: Remove unused pre_surface_trace
+  drm/amdgpu: Remove unused print__rq_dlg_params_st
+  drm/amdgpu: Remove unused pqm_get_kernel_queue
+
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   2 -
+ .../amd/amdkfd/kfd_process_queue_manager.c    |  13 --
+ .../gpu/drm/amd/display/dc/core/dc_debug.c    | 120 ------------------
+ .../display/dc/dml/display_rq_dlg_helpers.c   |  11 --
+ .../display/dc/dml/display_rq_dlg_helpers.h   |   1 -
+ .../amd/display/include/logger_interface.h    |   5 -
+ .../amd/pm/powerplay/hwmgr/hardwaremanager.c  |  10 --
+ .../drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.c |  78 ------------
+ .../drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.h |   3 -
+ .../drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c  |   1 -
+ .../powerplay/hwmgr/smu7_clockpowergating.c   |   2 +-
+ .../powerplay/hwmgr/smu7_clockpowergating.h   |   1 -
+ .../drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c   |   1 -
+ .../drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c   |   1 -
+ .../amd/pm/powerplay/inc/hardwaremanager.h    |   1 -
+ drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h  |   1 -
+ 16 files changed, 1 insertion(+), 250 deletions(-)
+
 -- 
 2.48.1
 
