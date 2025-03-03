@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1634A4BC89
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 11:38:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2882CA4BC90
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 11:40:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6F510E178;
-	Mon,  3 Mar 2025 10:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9826110E222;
+	Mon,  3 Mar 2025 10:40:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="AkzaOg0n";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="YE3xbJ0i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 223D210E3C6
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 10:38:48 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-ab78e6edb99so591834566b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 02:38:48 -0800 (PST)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8BE310E222
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 10:40:34 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-abf42913e95so358323566b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 02:40:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1740998325; x=1741603125; darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1740998433; x=1741603233; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=WWO2EgXbq+zvviCN6nQ8SuxKO9LcyLd8SMLZLc5FWnc=;
- b=AkzaOg0nMx9MKfQOupqNp5Nks195mR9+uuUcOZwSbgtwi+BqgPdUqXTt7nEGQ7F53C
- sco2KGPQymLdm4z6SenH+wq8Z7Nrk8N8UqEAPOWkE8N28b++mrK4+VBPubJ2d2TjOPJt
- Jzjbcb0qz1KhrmN5u4KnRkn4OfkjuD6K887ziqg7JIhe5TiwPi0/VcO3yCkgKRV4yYHX
- 25xmUU7+PHgenAA+n9Ah8Fvk0+scLc0MR02sH/lJZ5K2/MCZwTgCEHRz9X/jA9Es8rdS
- zEV+Tr0Sf0tT+/3akIsn5WH8g96o4xV62Nf26rSSpjEg1l5EdIuFYIEGPv80m2eTpcaF
- m1Cg==
+ bh=5a9h6+RNdDno0AFoqzH4L74Ntb9x5So7/S1R2/2cyIA=;
+ b=YE3xbJ0iw3wIZ5vqH615X4TihtRtifKmAAfzJQeN0S1eSmONin+sJUkX+fUxOTbIZH
+ aBtcljqCGe14/o0+rARXUQHYmv+ElxWdP8HFhe7/5Qd8ch2zkKSBhLlvmMigu5oUa58/
+ gr/i43nZAzxc62892CVMDAizOGIbYH2OA+MtVk+a0hzLL1EDrHgIONAD2+z3PNkJfT54
+ iwzA1e+MQf8FQcp7ulDVGnEppg/qspHSGYrxr9kkZxgwGvCLRM0FTl2c9wFdxKDVF9Kz
+ +b0v37+5xXhxNIsMeFynNG8alS31gzb8MqA8FDVbR0+JLbXCeCzDXqHVlON2wzI4qsgr
+ Xs2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740998325; x=1741603125;
+ d=1e100.net; s=20230601; t=1740998433; x=1741603233;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WWO2EgXbq+zvviCN6nQ8SuxKO9LcyLd8SMLZLc5FWnc=;
- b=YifdJIq0SO16yHmdmcOxF/IMdc9HM2hoZVvIkIcZHEkS5ZbOK4ZxSOoQWEE/e+5Sib
- EWbQ/M4Nzp39At+2R+jdoyZzXY7FglbecvNu8tRYAYzqfiwi0QlmBuD/tI3vsAF15RrO
- neSSPVeL3UihqnqYKRD8fHs3avQCE7PxUwDe7fDyvPjqcGba21BFavKu/PapZ/hNtCF/
- gMZNaw6ZHn6IphFlB3oETyZrlv29hpZKs1Td7bqWGaJu04pNpsDIuL8Ya6JdBhHzQny8
- Ih5IWqlmdZ9He2nXzdT6LaACHOEssq999USvMuNn5yhTxm3XkL22Lqvcr+bfR27dGR76
- fbzA==
+ bh=5a9h6+RNdDno0AFoqzH4L74Ntb9x5So7/S1R2/2cyIA=;
+ b=OfS4yRi+wHN5gdRRQjF4z9PpaMWSXPyeJU3keyjqNkJC0WCU8g35Exz5XDHzPOCft5
+ lklfjYJN77+8DgBN/uAGhgaECM2CucWfqO1/kaNXmBawaVN1unmmSULNFdiEpjxUIOgC
+ WwOSxNjOG4Iq4Vp0evOOc95xACMfgCJIs9c+e6mb35Wyq9cg2Zk6lQZfSUHnwYt6BsnL
+ 5ko22dcM4cM8+85QL+T69vuOvaAGtsDrlHCItVkLMxRuv3KSaYQW8af99gBzSs/Qqwq1
+ RtqHM4oIbc3QhFj6WulBE3DLG5RrlzMfIvpXbl5yBWGsbvCqKYM9KaaJWAuzA6XPbkVm
+ +PDw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUzAigXcEx3YnFNR4XzEHuJZmT+Ma3OkQ00ZijeIzZvUR3rD5JYDs4vjI9D7lltN9mxrGddW79Lg2Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5urmlYekLDt5g8JXZL4+XUC03W8RmU6drYMKF+y7fV5L77NHa
- IcYMPT5T7WCwaH0QPnwV4IiK5OTwYBlVfyHgT05PQc6BdTHkVSgfA61O6vMimjc=
-X-Gm-Gg: ASbGncu7tODDBRiP966FS1P7PWXe3sMJO/nPKt9YNHaemkrnSwAmd52AVppoeqhR0tV
- uzj3NF+M5RXaytq3vsSxWEypwOmD2VTynf3y/Ea8GkHPofAdaXz+j+eLRRtE77/wbsDSlfa8kZj
- yHINJC6GQgWpBFwUUajuND9Dx2GTw/KX1Z/qncNEKQV2b+JAeEPOW7dIb67JPUUAF0K6dytUWJS
- AxBdQPSTgiiMn7xZG9M/QCLP/irfLzZCdn40qjdMH9y1D0djsGyIenz+lUBkpqQ5ai0m+s7C+cq
- E6rsYhKkAnU8JKwoWDBOGsLLpofI4hqpQhARCY0Kco8tmc0=
-X-Google-Smtp-Source: AGHT+IEc717PDdGk4gN5GFyTbXEJWA7c/lYSctH5VoUkyx7imqa5/ZkaLkBrdFhlx2/vtXyNY8DZ4A==
-X-Received: by 2002:a17:907:7288:b0:abf:5922:b7a8 with SMTP id
- a640c23a62f3a-abf5922dccamr1161597766b.41.1740998324968; 
- Mon, 03 Mar 2025 02:38:44 -0800 (PST)
+ AJvYcCUE+BfUALwIZU2gSANlcsoWyO9WSXVIKkgD1gUXif84FZ4eCo7M9e0jqdAe1BX0h8/jsFi+8h8emAA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxi9rc01TXfO9bNOySHzbT+h3rmPLk5MMQNHYXmX7KY2d62FxY5
+ +aP2DQSDYTK6D8E7CnCjufP/dRQUHHQOn0H9hViiDVTHZBCocnBdqjPRICPrkIY=
+X-Gm-Gg: ASbGncsDuH54Jh3DOHPg6twiPAB3kFOvE2gdPaoTi/eGQrYWWi1XIGxIODFnf7QbVby
+ FZ+1001pjyqyLBXq7vJSbMbUjXStzKrJOZqbOk5UNgFMpEonNN4CTsTylbKMwccgkf2/btZ+DYc
+ K04MbdEtxiL1fWeWHj9xnoES7o1SLHalC5+0GjNZ3OKuK7x5ugMv0S3ipGKb5BwHltjxizJUlGA
+ OXqPgmM79NnviQySPdNqTFGUhEIe6HHddJl+zQ3ei1/Q/z3xk/AaaCaK02Cb0guAWUaKfetl1fM
+ vbspLccPMO7jBgBWAk/9oeUhh7gLituVx2Am4qb7sv2WdeE=
+X-Google-Smtp-Source: AGHT+IFdxe1UliGedp4UVoTzjvVx7nmKJ02BWHR9cvVprp2v8Ja1Mccur8mOERuQ9+frcz5n+hpjGg==
+X-Received: by 2002:a17:907:3ea9:b0:ab7:bac4:b321 with SMTP id
+ a640c23a62f3a-abf2656bcefmr1434681866b.29.1740998433246; 
+ Mon, 03 Mar 2025 02:40:33 -0800 (PST)
 Received: from pathway.suse.cz ([176.114.240.130])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac052702e83sm131063866b.21.2025.03.03.02.38.43
+ a640c23a62f3a-abf75481eb4sm207346566b.83.2025.03.03.02.40.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Mar 2025 02:38:44 -0800 (PST)
-Date: Mon, 3 Mar 2025 11:38:42 +0100
+ Mon, 03 Mar 2025 02:40:32 -0800 (PST)
+Date: Mon, 3 Mar 2025 11:40:30 +0100
 From: Petr Mladek <pmladek@suse.com>
 To: Alice Ryhl <aliceryhl@google.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -79,14 +79,15 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Tamir Duberstein <tamird@gmail.com>, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 1/5] rust: fix signature of rust_fmt_argument
-Message-ID: <Z8WGslnV1i1l822H@pathway.suse.cz>
+Subject: Re: [PATCH v3 4/5] print: use new #[export] macro for
+ rust_fmt_argument
+Message-ID: <Z8WHHs8eGcV2mCAw@pathway.suse.cz>
 References: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
- <20250303-export-macro-v3-1-41fbad85a27f@google.com>
+ <20250303-export-macro-v3-4-41fbad85a27f@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303-export-macro-v3-1-41fbad85a27f@google.com>
+In-Reply-To: <20250303-export-macro-v3-4-41fbad85a27f@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,28 +103,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 2025-03-03 08:45:12, Alice Ryhl wrote:
-> Without this change, the rest of this series will emit the following
-> error message:
+On Mon 2025-03-03 08:45:15, Alice Ryhl wrote:
+> This moves the rust_fmt_argument function over to use the new #[export]
+> macro, which will verify at compile-time that the function signature
+> matches what is in the header file.
 > 
-> error[E0308]: `if` and `else` have incompatible types
->   --> <linux>/rust/kernel/print.rs:22:22
->    |
-> 21 | #[export]
->    | --------- expected because of this
-> 22 | unsafe extern "C" fn rust_fmt_argument(
->    |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
->    |
->    = note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
->               found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *const c_void) -> *mut i8 {print::rust_fmt_argument}`
-> 
-> The error may be different depending on the architecture.
-> 
-> To fix this, change the void pointer argument to use a const pointer,
-> and change the imports to use crate::ffi instead of core::ffi for
-> integer types.
-> 
-> Fixes: 787983da7718 ("vsprintf: add new `%pA` format specifier")
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 > Reviewed-by: Tamir Duberstein <tamird@gmail.com>
 > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
