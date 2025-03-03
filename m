@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BF4A4C13E
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 14:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD15BA4C15A
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 14:11:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E6010E40A;
-	Mon,  3 Mar 2025 13:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B7710E40B;
+	Mon,  3 Mar 2025 13:11:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dv5Qnutq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fiO7yk6W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43BA10E40A
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 13:06:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C64AA10E40B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 13:11:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 35BCB5C03DF;
- Mon,  3 Mar 2025 13:03:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 966F3C4CED6;
- Mon,  3 Mar 2025 13:06:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6AD345C5887;
+ Mon,  3 Mar 2025 13:08:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99D86C4CED6;
+ Mon,  3 Mar 2025 13:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741007169;
- bh=U7M2Y7GgfOD5FgmP0/yeWr/zLGKqkQ7WQ1NWRxr7fog=;
+ s=k20201202; t=1741007468;
+ bh=u+X9SKWkfe/2MAlFWd/PUqWxSiWY2RlGsvB38Uys+ws=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dv5QnutqMhY/XAsekkSXJrY0588QyXsYiwaE4fbDhCSBEv8wYviT7sFDWqcwMkMvG
- 5WYxCeIKo+vzFS0/MRNQ7D0vi4xByN+gsxwykOE5AwjiXKyC0ra2FSNTEJy4h0Exmu
- koOMNTwS60k2KkGXB3XuJkif9Ehyr7jog06uaxGZoWS9Q67Td6sVlkQYxllVDhPiWU
- 4GsK0KohBvshnKe6WFRTqV4SEA75XO0T60eMzJvdiijxHp6M/Dm1kF5RUUJgJ0eMu3
- PTKXmwFIgGZMn5S93JhvdKJyK1sjOMqrp1lSNoh/cO3zHTFw1fZ7h0eFNI4VwYn+v+
- jULFpATjJI67A==
-Date: Mon, 3 Mar 2025 07:06:07 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Hironori KIKUCHI <kikuchan98@gmail.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add hothmi vendor
- prefix
-Message-ID: <174100716718.1436781.17169517427487760851.robh@kernel.org>
-References: <20250226112552.52494-1-kikuchan98@gmail.com>
- <20250226112552.52494-2-kikuchan98@gmail.com>
+ b=fiO7yk6WFCkp5XAHvs0ZEydMfZKskSOX1c+hcaCRvOkuTzjGhzB7/hSzHayzjUWbd
+ LCv8lHnpL0TzcUaUgaEeHKy16fQSbNG9YQwtggaFE6+IwItajHskOZqHBtPgIMmMuT
+ noP4wEmwwDjaPAAbA1ESrQBRnGXRvpmAyngUI1AGG/JJPVguBwEg8I6+RdMQXtNVJ9
+ oZOn1y2MuEEdQC6rvtj3y1L9Un28uM1Bne8S599BESVt9tgcREU+l/nI26npcuKb65
+ Dc4e6M2LQwBlWvgQa/OEExJi+FVm2Yu9UwF+CHuGDkAa5TyrjOmUqOocDAQ0WkwD7Z
+ +G1u2tipjQ/cg==
+Date: Mon, 3 Mar 2025 14:11:05 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v4 00/15] drm/bridge: Various quality of life improvements
+Message-ID: <20250303-urban-trout-of-vastness-f8d0e7@houat>
+References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
+ <20250227120004.77814e09@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="6ogcuu3aoimpjkf7"
 Content-Disposition: inline
-In-Reply-To: <20250226112552.52494-2-kikuchan98@gmail.com>
+In-Reply-To: <20250227120004.77814e09@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,14 +69,55 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 26 Feb 2025 20:25:48 +0900, Hironori KIKUCHI wrote:
-> Add prefix for Hotdisplay Technology Co.Ltd
-> 
-> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+--6ogcuu3aoimpjkf7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 00/15] drm/bridge: Various quality of life improvements
+MIME-Version: 1.0
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+On Thu, Feb 27, 2025 at 12:00:04PM +0100, Herve Codina wrote:
+> Hi Maxime,
+>=20
+> On Tue, 25 Feb 2025 17:43:48 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > Hi,
+> >=20
+> > Here's a series of changes after to the KMS helpers and bridge API
+> > following a bunch of reviews I did.
+> >=20
+> > It's mostly centered across providing an easier time to deal with bridge
+> > states, and a somewhat consistent with the other entities API.
+> >=20
+> > It's build tested only, with arm64 allmodconfig.
+> >=20
+> > Maxime
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+>=20
+> I Tried to test this series on my system but I've got a compilation issue.
+>      depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
+>      depmod: ERROR: Found 2 modules in dependency cycles!
+>=20
+> CONFIG_DRM=3Dm in my configuration.
 
+Could you share your configuration? it doesn't happen with allmodconfig.
+
+Thanks!
+Maxime
+
+--6ogcuu3aoimpjkf7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ8WqaAAKCRAnX84Zoj2+
+dl44AX48FfLtjeWPDYOrJjaK7AmFHqbLJVJ/+oSpco54gcXJ9+H7Qr8QWPAgLL00
+tV3msvABf2WYTbjD4nVOHP0Mn828ZtNNPjod/zsu6d3Q/Rw5xaDFjUenEIHvQi5E
+W2A0IVrirQ==
+=V5Ne
+-----END PGP SIGNATURE-----
+
+--6ogcuu3aoimpjkf7--
