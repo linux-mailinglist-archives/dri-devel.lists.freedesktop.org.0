@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF5EA4CC4F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 20:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0457A4CC54
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 20:58:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6240210E16C;
-	Mon,  3 Mar 2025 19:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C02C10E4CB;
+	Mon,  3 Mar 2025 19:58:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="SxGYl812";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YA6DB4Cq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8188910E4E1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 19:57:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1741031800; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=HQWvSc/f39OcTpTkPbe2apQLGvn9VQQdVSGuYxqaTgAyIkN1+nEkadPmha1BHzQkudg/wQwOBpl45zTCb5zyczlOZ27n9x8FIASBIeYigale13XRsKIrboTi1imS5vtSQh9+rsxmDRL0aP9zGquo4KL5kMR4FT8qo6+FNo5LVU8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1741031800;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Gs+I0KFW62vE7fKYGPv4JeP1QHoVwlF8yI1f32icm2Y=; 
- b=m0HBI4YsVmU88LYlzydXdtZnFbZ2giJXW5drwWApzIoV24nbI8C1pmW+fzKkME0hH2SSNUYW59zPAkXLkMEWe12DdIERhgZJEj4iCpsTcS3MGSzPmj5X8u729O1Bvf6sfZQTr7ZMutw3IHqCtaX5pSFPi4aCx+zpIUc5M1hNHVw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741031800; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=Gs+I0KFW62vE7fKYGPv4JeP1QHoVwlF8yI1f32icm2Y=;
- b=SxGYl812GQ79Rlw/UUAmtI1AjYl+917MuPPYDnMfY32wiNNBddHhlzx/cmLL5MHF
- 8OkP8TednaBR0TZVVNbYEh3YhpaIHoG8mSywfB2Pw8VeltEXC7X7VY+AqZ0lG8Y12Sc
- pbC25cZF5rAnP8odav8T8V4fbAJopSlUPIzxzFBg=
-Received: by mx.zohomail.com with SMTPS id 1741031798061293.2349304120286;
- Mon, 3 Mar 2025 11:56:38 -0800 (PST)
-Date: Mon, 3 Mar 2025 19:56:29 +0000
-From: Adrian Larumbe <adrian.larumbe@collabora.com>
-To: Ashley Smith <ashley.smith@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>,
- kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/panthor: Update CS_STATUS_ defines to correct
- values
-Message-ID: <amz6ao3hshb4j2qorirasipksjrzl43rj6qmogg6dnntou3jfm@tgyds6mlnthr>
-References: <20250303180444.3768993-1-ashley.smith@collabora.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D267610E4CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 19:58:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 232365C0152
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 19:56:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3AC0C4CED6
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 19:58:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741031934;
+ bh=WPhLum+tB+L090LjcqjrYi3ShR9HK+luym1IegtOLao=;
+ h=From:To:Subject:Date:From;
+ b=YA6DB4CqJsfblw6HCmrUr4zfTzE755WRaZPSOL7GgOSNNm0uD0uDotTFA2IdQCDjn
+ uqZ8cEZ8NZkcKO+zxJ5kay7hfZJPCrWFLQL3qjUSM2vrIeKBSMJoj5DprN7S1hwEZH
+ D6e3lTEPKIX6p0ScTczChq07mbjtefRrwFgqkL6SRxyTqxBoSLVLW3ik5KeFjPY4oB
+ L0nflnEkC6bWlUuY4gGYjFwrWXJVUairtKNSM4a7kFqyvRdfoUHMoiwel8SIj+t7Qj
+ fNg1pKAZrUfgXbHV7cOk74Z2BVHJRLIvOHAGTuthtIcB2OtnmyYyjyGhGCKgTvt6Im
+ 90IgnxivMTZqw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 98C46C41613; Mon,  3 Mar 2025 19:58:54 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 219834] New: amdgpu: kernel oops dce_aux_transfer_raw
+Date: Mon, 03 Mar 2025 19:58:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: atiqcx@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-219834-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250303180444.3768993-1-ashley.smith@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +74,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On 03.03.2025 18:04, Ashley Smith wrote:
-> Values for SC_STATUS_BLOCKED_REASON_ are documented in the G610 "Odin"
-> GPU specification (CS_STATUS_BLOCKED_REASON register).
->
-> This change updates the defines to the correct values.
->
-> Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
-> Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219834
 
-Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+            Bug ID: 219834
+           Summary: amdgpu: kernel oops dce_aux_transfer_raw
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: atiqcx@gmail.com
+        Regression: No
 
-> ---
-> Changes in v2:
->   - Rename _RES to _RESOURCE
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
-> index 22448abde992..6598d96c6d2a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.h
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
-> @@ -102,9 +102,9 @@ struct panthor_fw_cs_output_iface {
->  #define CS_STATUS_BLOCKED_REASON_SB_WAIT	1
->  #define CS_STATUS_BLOCKED_REASON_PROGRESS_WAIT	2
->  #define CS_STATUS_BLOCKED_REASON_SYNC_WAIT	3
-> -#define CS_STATUS_BLOCKED_REASON_DEFERRED	5
-> -#define CS_STATUS_BLOCKED_REASON_RES		6
-> -#define CS_STATUS_BLOCKED_REASON_FLUSH		7
-> +#define CS_STATUS_BLOCKED_REASON_DEFERRED	4
-> +#define CS_STATUS_BLOCKED_REASON_RESOURCE	5
-> +#define CS_STATUS_BLOCKED_REASON_FLUSH		6
->  #define CS_STATUS_BLOCKED_REASON_MASK		GENMASK(3, 0)
->  	u32 status_blocked_reason;
->  	u32 status_wait_sync_value_hi;
->
-> base-commit: 16e57a72780931c3c70dbc928aeee4a0518075de
-> --
-> 2.43.0
+Created attachment 307734
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D307734&action=3Dedit
+amdgpu_oops_dce_aux_transfer_raw
 
-Adrian Larumbe
+On AMD Ryzen AI 9 HX 370 w/ Radeon 890M, seeing this oops on kernel-6.13.5,
+fedora 41.
+
+OOPS trace is attached.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
