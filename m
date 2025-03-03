@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5FFA4C411
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 16:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED1FA4C428
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 16:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB6D10E22F;
-	Mon,  3 Mar 2025 15:00:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lNj/pod5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2613C10E43C;
+	Mon,  3 Mar 2025 15:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B72710E43C
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 15:00:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A43915C46EE;
- Mon,  3 Mar 2025 14:58:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB54BC4CED6;
- Mon,  3 Mar 2025 15:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741014036;
- bh=mbiIUj4/EVUrMF8Ts2vQ2M6GWTdgcmnzN/tc58xgIt8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lNj/pod5Qt5IJeia9n3u9LWgap4a9MOon1FelHi80RE3+JAgmRc1OY2rXm1PaPZIo
- dQ/9J6Cka5/r5k7xpLl5Xsc2qN27oKnHzWCKb7TrxIKXWC10crQyT0yZl6vUVNAcSf
- 4CNVKV6bjnr6rb2qajbvHleV1ulLoiUax3O90AUZkGZd0b3i2rcd+OF422ClMCZog0
- ckXRW2TbN+0FyUuAEre+rbt0u+zrhxYHQ3+Tlop6lFMLaGVHl95hBgYgdmccwXNLVJ
- UB5w+NDE0kTd2oRHOkV5EIAWah1v1aeyUEfq04mDzk2NINY6QCG6YBnN9XteKNSs5W
- eE3RJEVmklKrQ==
-Date: Mon, 3 Mar 2025 16:00:33 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v4 00/15] drm/bridge: Various quality of life improvements
-Message-ID: <20250303-idealistic-camouflaged-mandrill-4fb5f8@houat>
-References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
- <20250227120004.77814e09@bootlin.com>
- <20250303-urban-trout-of-vastness-f8d0e7@houat>
- <20250303143404.623a3178@bootlin.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1D18D10E43C
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 15:04:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF83B1BCA
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 07:05:00 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A91993F5A1
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 07:04:46 -0800 (PST)
+Date: Mon, 3 Mar 2025 15:04:42 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev
+Subject: Re: [PATCH 9/9] arm64: dts: imx95: Describe Mali G310 GPU
+Message-ID: <Z8XFCv6ku6mG1_x5@e110455-lin.cambridge.arm.com>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-10-marex@denx.de>
+ <2153305.bB369e8A3T@steina-w>
+ <4a27b6bf-aca8-4f29-9561-609a42eb81a0@denx.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="cogn5gh4bnpmv6p3"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250303143404.623a3178@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4a27b6bf-aca8-4f29-9561-609a42eb81a0@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,69 +63,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Feb 28, 2025 at 06:43:53PM +0100, Marek Vasut wrote:
+> On 2/28/25 11:36 AM, Alexander Stein wrote:
+> > Hi Marek,
+> 
+> Hi,
+> 
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > index 3af13173de4bd..36bad211e5558 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > @@ -249,6 +249,37 @@ dummy: clock-dummy {
+> > >   		clock-output-names = "dummy";
+> > >   	};
+> > > +	gpu_fixed_reg: fixed-gpu-reg {
+> > > +		compatible = "regulator-fixed";
+> > > +		regulator-min-microvolt = <920000>;
+> > > +		regulator-max-microvolt = <920000>;
+> > > +		regulator-name = "vdd_gpu";
+> > > +		regulator-always-on;
+> > > +		regulator-boot-on;
+> > > +	};
+> > 
+> > Is this an internal voltage?
+> 
+> I think so.
+> 
+> > > +
+> > > +	gpu_opp_table: opp_table {
+> > 
+> > Node-Names use dash instead of underscore.
+> 
+> Fixed, thanks.
+> 
+> [...]
+> 
+> > > @@ -1846,6 +1877,37 @@ netc_emdio: mdio@0,0 {
+> > >   			};
+> > >   		};
+> > > +		gpu_blk_ctrl: reset-controller@4d810000 {
+> > > +			compatible = "fsl,imx95-gpu-blk-ctrl";
+> > > +			reg = <0x0 0x4d810000 0x0 0xc>;
+> > 
+> > Mh, GPU_BLK_CTRL is /just a bit) more than the GPU reset. Does it make sense
+> > to make this an gpu-reset-only node, located at 0x4d810008?
+> 
+> The block controller itself is larger, it spans 3 or 4 registers, so this
+> should describe the entire block controller here.
+> 
+> > > +			#reset-cells = <1>;
+> > > +			clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
+> > > +			assigned-clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
+> > > +			assigned-clock-parents = <&scmi_clk IMX95_CLK_SYSPLL1_PFD1_DIV2>;
+> > > +			assigned-clock-rates = <133333333>;
+> > > +			power-domains = <&scmi_devpd IMX95_PD_GPU>;
+> > > +			status = "disabled";
+> > > +		};
+> > > +
+> > > +		gpu: gpu@4d900000 {
+> > > +			compatible = "fsl,imx95-mali", "arm,mali-valhall-csf";
+> > > +			reg = <0 0x4d900000 0 0x480000>;
+> > > +			clocks = <&scmi_clk IMX95_CLK_GPU>;
+> > 
+> > There is also IMX95_CLK_GPUAPB. Is this only required for the rese control above?
+> 
+> I think I have to describe those clock here too, possibly as 'coregroup'
+> clock ?
 
---cogn5gh4bnpmv6p3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 00/15] drm/bridge: Various quality of life improvements
-MIME-Version: 1.0
+The 'coregroup' clock does indeed control the MMU and L2$ blocks as well as the AXI interface,
+so if that is indeed a separate external clock source it should be defined. Could it be why
+you're seeing issues with L2$ resume on the fast reset path?
 
-On Mon, Mar 03, 2025 at 02:34:04PM +0100, Herve Codina wrote:
-> Hi Maxime,
->=20
-> On Mon, 3 Mar 2025 14:11:05 +0100
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > On Thu, Feb 27, 2025 at 12:00:04PM +0100, Herve Codina wrote:
-> > > Hi Maxime,
-> > >=20
-> > > On Tue, 25 Feb 2025 17:43:48 +0100
-> > > Maxime Ripard <mripard@kernel.org> wrote:
-> > >  =20
-> > > > Hi,
-> > > >=20
-> > > > Here's a series of changes after to the KMS helpers and bridge API
-> > > > following a bunch of reviews I did.
-> > > >=20
-> > > > It's mostly centered across providing an easier time to deal with b=
-ridge
-> > > > states, and a somewhat consistent with the other entities API.
-> > > >=20
-> > > > It's build tested only, with arm64 allmodconfig.
-> > > >=20
-> > > > Maxime
-> > > >=20
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > --- =20
-> > >=20
-> > > I Tried to test this series on my system but I've got a compilation i=
-ssue.
-> > >      depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
-> > >      depmod: ERROR: Found 2 modules in dependency cycles!
-> > >=20
-> > > CONFIG_DRM=3Dm in my configuration. =20
-> >=20
-> > Could you share your configuration? it doesn't happen with allmodconfig.
-> >=20
->=20
-> Here is a defconfig that leads to the issue on my side:
+Best regards,
+Liviu
 
-I still can't reproduce it, sorry. Is this based on linux-next /
-drm-misc-next, or a private branch?
+> 
+> > > +			clock-names = "core";
+> > > +			interrupts = <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
+> > > +				     <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+> > > +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+> > > +			interrupt-names = "gpu", "job", "mmu";
+> > 
+> > DT bindings say this order: job, mmu, gpu
+> Yes, currently it is sorted by IRQ number, fixed.
 
-Maxime
-
---cogn5gh4bnpmv6p3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ8XEDQAKCRAnX84Zoj2+
-dg0uAX0WvqRhLb/HZAkDURiKptJwT/cCV4cvWXvhwevHn99+9y2MbewgRPnDXQAD
-WRpELIIBfA98EqeQ6CPJ5vopALVEFTKGw5yAzuxR8RwfzvRHaac58eNTlLZYuxYE
-9WqcJ9Ho8Q==
-=qrxN
------END PGP SIGNATURE-----
-
---cogn5gh4bnpmv6p3--
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
