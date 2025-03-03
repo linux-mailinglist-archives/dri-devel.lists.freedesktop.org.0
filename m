@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01BEA4CDD1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 23:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0993A4CE59
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 23:35:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1304610E4E2;
-	Mon,  3 Mar 2025 22:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4839610E1D0;
+	Mon,  3 Mar 2025 22:35:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BT7LVy97";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="QA68lz2y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3CCA10E235;
- Mon,  3 Mar 2025 22:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741039225; x=1772575225;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lHwPBZU9aKV2X113eOYO0nvEsFC2XVqWIAMVWthByPQ=;
- b=BT7LVy97KTstB4NMELdbF8A6iDRKQrbFrUeyiZ6OsdsWwgEWHl2v17mA
- Am706n6H2VSCNwwp/bYj8agdpAl3UkezQwj+L/EPt+mF5iMrJwxhK4VSH
- 46qikDzIvAVX1NGytcuBH32jFFD7FFwInisgI5SwfPQV83OWDBho54lJ0
- HTOkbdOle7wpH/tFFI5fgtORi9GrSXkR4+Bx+3cY/at3a9oIxGK4p8CJ6
- 16LzH5Qu3Gw/utAHFpRHYBK5zzmo3gKSqhvT1U/+nMq1yRFP4FXcC2pkZ
- 24EDLBwYZrkVZFgzqSL9Cqj98LNn59lMpwaJwzx3hCpexMPXL2BIQVdGy g==;
-X-CSE-ConnectionGUID: F117q73YRIaO3YNFr/9viA==
-X-CSE-MsgGUID: pO8OGBYWR1ehkV4j0grWOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41846109"
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; d="scan'208";a="41846109"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2025 14:00:25 -0800
-X-CSE-ConnectionGUID: ZeBQ1HcFQtSuQg74KiLzoQ==
-X-CSE-MsgGUID: RtxNwbLtQ0mFXNcAvN5thg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="118020907"
-Received: from dut4025lnl.fm.intel.com ([10.105.8.176])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2025 14:00:24 -0800
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Mon,  3 Mar 2025 22:00:22 +0000
-Message-ID: <20250303220022.67200-7-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250303220022.67200-1-jonathan.cavitt@intel.com>
-References: <20250303220022.67200-1-jonathan.cavitt@intel.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE7110E1D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 22:34:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741041289; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GejOG25tOtoCkI+YE4XWkXsIJPTBWqb+UgfAZAhzlcVlFx9TguIJRiy9aXih8TMNzNXFoykF46L1KF5uZzmPH67AFFvZGfVGOyKq9Icxm1FNk9WPJKL42JFMvK1yyKWSfxwhDxSWwGef6Ha5YdFqL7L+H1VF5CHYgB1OBaQgG30=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1741041289;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=PlUzblDYEjYCS98Pl5aItUlNWLm0f3R52njwTiqqC3s=; 
+ b=kLzuwD/FsZ3wdDjrs1pSvD1Fzroo3ViwPQTfll2/3Ks3yAKQqwCqOou5tngdoqL3E6VlfzJ7S4EfIOfTi4Q8i331OGfGoDRiZ4T45XzuIhuKQoyGgwDoxVbUOnri+0cq2YxANGAe9g2+bhHPlvjjSI/vPcsoSP4EGdSQYXwTS9w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741041289; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=PlUzblDYEjYCS98Pl5aItUlNWLm0f3R52njwTiqqC3s=;
+ b=QA68lz2y9nqvEmAh+PsVrmbG1C6sVQ9Fr4ZjpmixXoldvaSqhRo2v2gOpq/7iP+M
+ rDXhD4MZ8svoTj4rlqTHuSqOneFkzzv3bR5SyG86l2MXv62MffBHzeNr6s30/hZzAij
+ YGmZU4qFolK0P1sJv+jRZHVciMzR1j03uEgziYaM=
+Received: by mx.zohomail.com with SMTPS id 1741041286829334.02204399221273;
+ Mon, 3 Mar 2025 14:34:46 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+ id 1766918065C; Mon, 03 Mar 2025 23:34:42 +0100 (CET)
+Date: Mon, 3 Mar 2025 23:34:42 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: hjc@rock-chips.com, andy.yan@rock-chips.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/rockchip: vop2: add missing bitfield.h include
+Message-ID: <quj727pq3oc4xruatx7s5hob7jtcpw6zhe3wv6fhammxhejcem@eois3su6izj7>
+References: <20250303182256.1727178-1-heiko@sntech.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="uxnpfa7xaeh6coyf"
+Content-Disposition: inline
+In-Reply-To: <20250303182256.1727178-1-heiko@sntech.de>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.2/241.32.4
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,144 +73,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed failed
-pagefaults from a specified VM.
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+--uxnpfa7xaeh6coyf
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/rockchip: vop2: add missing bitfield.h include
+MIME-Version: 1.0
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+Hi,
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-CC: Jainxun Zhang <jianxun.zhang@intel.com>
----
- drivers/gpu/drm/xe/xe_device.c |  3 ++
- drivers/gpu/drm/xe/xe_vm.c     | 77 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |  2 +
- 3 files changed, 82 insertions(+)
+On Mon, Mar 03, 2025 at 07:22:56PM +0100, Heiko Stuebner wrote:
+> Commit 328e6885996c ("drm/rockchip: vop2: Add platform specific callback")
+> moved per soc configuration code to the other per-soc data into
+> rockchip_vop2_reg.c, but forgot to also include bitfield.h for the used
+> FIELD_PREP macro. Add this missing include.
+>=20
+> Fixes: 328e6885996c ("drm/rockchip: vop2: Add platform specific callback")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202503040135.fgoyWdLB-lkp@i=
+ntel.com/
+> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> ---
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 9454b51f7ad8..43accae152ff 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -193,6 +193,9 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
-+
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 6211b971bbbd..139fcecf56c6 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3234,6 +3234,83 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+static u32 xe_vm_get_property_size(struct xe_vm *vm, u32 property)
-+{
-+	switch (property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		return MAX_PFS * sizeof(struct drm_xe_pf);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int fill_property_pfs(struct xe_vm *vm,
-+			     struct drm_xe_vm_get_property *args)
-+{
-+	struct drm_xe_pf __user *usr_ptr = u64_to_user_ptr(args->ptr);
-+	struct drm_xe_pf *fault_list;
-+	struct drm_xe_pf *fault;
-+	struct xe_vm_pf_entry *entry;
-+	u32 size = args->size;
-+	int i = 0;
-+
-+	fault_list = kzalloc(size, GFP_KERNEL);
-+	if (!fault_list)
-+		return -ENOMEM;
-+
-+	spin_lock(&vm->pfs.lock);
-+	list_for_each_entry(entry, &vm->pfs.list, list) {
-+		struct xe_pagefault *pf = entry->pf;
-+
-+		fault = &fault_list[i++];
-+		fault->address = pf->page_addr;
-+		fault->address_type = pf->address_type;
-+		fault->address_precision = 1;
-+	}
-+	args->value = vm->pfs.len;
-+	spin_unlock(&vm->pfs.lock);
-+
-+	if (copy_to_user(usr_ptr, &fault_list, size))
-+		return -EFAULT;
-+	kfree(fault_list);
-+
-+	return 0;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	u32 size;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	size = xe_vm_get_property_size(vm, args->property);
-+	if (size < 0) {
-+		return size;
-+	} else if (args->size != size) {
-+		if (args->size)
-+			return -EINVAL;
-+		args->size = size;
-+		return 0;
-+	}
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		return fill_property_pfs(vm, args);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 4d94ab5c8ea4..bf6604465aa3 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -184,6 +184,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file);
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
- 
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
--- 
-2.43.0
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
+Greetings,
+
+-- Sebastian
+
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/d=
+rm/rockchip/rockchip_vop2_reg.c
+> index 0afef24db144..f86a30df94aa 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -4,6 +4,7 @@
+>   * Author: Andy Yan <andy.yan@rock-chips.com>
+>   */
+> =20
+> +#include <linux/bitfield.h>
+>  #include <linux/kernel.h>
+>  #include <linux/component.h>
+>  #include <linux/mod_devicetable.h>
+> --=20
+> 2.47.2
+>=20
+
+--uxnpfa7xaeh6coyf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmfGLnsACgkQ2O7X88g7
++prXag/+MoxGEPpemJ0hBwdSLvlh08UR3FhUgUQ07dWpX+Jn/qz1RSQi2zxlnFqp
+gizw7mzUOFbi0+dXZhXOKCKmTa4jdP+SGujt0DBs4psQHQPMRrtokVb+N4IKKKDd
+zH7hfzTI/FFEXjU4ayhYVsezc/5ilTrOcax9WDFuEeFVm8ORr8ntdg+vOYoXEPVa
+kADBpAn23oPmHbHZCrtRUCN5eomaWiUxYJAW6vBAZs24D8Ne+JmvC2oekhasY1V+
+5S9eVwkDncNSyipWAzFBSV2GM4NLKDXnurNc1GqOFJlH4R6o8dhGpTHxagizkba5
+JmYqI8+Kc+FO3NyXL0mSOvMVduXJEqPFetIhn9KC4B0UDPoK63I1bXmAgh0wdyK8
+Ge5heyM4TD6/L0Mu57aCZJjAwCyW2+ImB9EyXlN6pG8vyd5K7FDY3nEBPf7Pm+Y4
+msgCWZmYeTMPYvKhoY1bvF8io19wFOATKNJZAiyFwGYKea3F53QWF7dSNahmq8Pj
+PepbbEE20SxuKfK+ceiOb4KlzsRA2z5lL2+f04rej8AANsU6EPFkhNjRsruy26wL
+dXocafGEvZChcpqS8EnJDjwVreEdUjFJbFca9E+LVEI259RAczoiv5fYkZhWuNag
+23oy+R6C5o1LqVMmkLc7n0j4hzKNRzpfxDiRc7kzWLLSZb4Q4C4=
+=zYzt
+-----END PGP SIGNATURE-----
+
+--uxnpfa7xaeh6coyf--
