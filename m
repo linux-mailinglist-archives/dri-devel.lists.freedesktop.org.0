@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DA4A4C204
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 14:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00C0A4C242
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 14:42:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D97910E1DE;
-	Mon,  3 Mar 2025 13:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0E6F10E415;
+	Mon,  3 Mar 2025 13:42:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="B3z90Gpe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JyGo1T/T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C109610E412
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 13:34:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C203A440F4;
- Mon,  3 Mar 2025 13:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741008846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bKf+PNKr2lnJDC6ElPe+zilWw9FIi18fnsrAyj9a2eA=;
- b=B3z90GpeKzPBUeLDwTRwmqRuasDR/yfj0PdpJHnyTczCb8+O9pOIwVHeqzIVUqaDX81HY4
- 6WtSCoTLA+DzZOMCujZqi7DK6qXfLmeTt4Hun9TgCw1M3ZkQvkKn2wxnNzQV7JAD+i288q
- 3ZITZEaJIZMH8vXO8POOf3cfZbK2/St2s6b/raxGOZafJiQioBcsSiJ2D/K4XLZDO4fKz6
- ihP8DLZIgoDhzF/vNmP5wLnEqRIGaJKDWETgopmDxe1V7KsmfYaUuFJz1DwEjmGBEI209S
- XJH0uy90wuLQsmpe4OXoggyIbb3Ghm/LRtq6eSkTEleadre+YByh+/+ivVekTQ==
-Date: Mon, 3 Mar 2025 14:34:04 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Douglas
- Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v4 00/15] drm/bridge: Various quality of life improvements
-Message-ID: <20250303143404.623a3178@bootlin.com>
-In-Reply-To: <20250303-urban-trout-of-vastness-f8d0e7@houat>
-References: <20250225-bridge-connector-v4-0-7ecb07b09cad@kernel.org>
- <20250227120004.77814e09@bootlin.com>
- <20250303-urban-trout-of-vastness-f8d0e7@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB33610E14C;
+ Mon,  3 Mar 2025 13:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741009346; x=1772545346;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=JGVVfQ3VupI7IJUoPfF2V8z0J7v1Nc0wRYy5WCZBnnM=;
+ b=JyGo1T/TFDx8r/1li3lItKQp3cdyByx5FOTQXp7czyVxlxWz3j5waP1o
+ mH8Kp7YMoKJaC4Vvn9GHziIoyy5cDugzcSxlegr8EIl6MxcNMeVLXhqGp
+ qIXWOld6R4Wjv8EioUz/2FQNA69yglMuaH4qCM684QQkWcikQDuFvl/n7
+ 0tVhBvsz/7JRK+frq645WxGsp44EZkC3m+GR/HX6dD8oFcG/W1zV+/0Hr
+ 8fRXcTUt8GPWELRauoMBRtmVaR9aASkniedltktnI+GKcyUQjsj1Smkgk
+ 992vM7UXORsECTOTdbrqqyoVHlP3LjLONlfT4jM7xd4beJeuJ3K4KLHmE g==;
+X-CSE-ConnectionGUID: gG8oIP3VQXOPipmoXdoVSg==
+X-CSE-MsgGUID: TikdntflSru0U74cMOQu7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41590718"
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="41590718"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2025 05:42:17 -0800
+X-CSE-ConnectionGUID: 5JuCmvbWROiG2DgaoCTPdQ==
+X-CSE-MsgGUID: ZCXP2DHaRW2hYtzZ15J12Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="118703997"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+ by fmviesa009.fm.intel.com with ESMTP; 03 Mar 2025 05:42:15 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tp62v-000IY7-1D;
+ Mon, 03 Mar 2025 13:41:43 +0000
+Date: Mon, 3 Mar 2025 21:41:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
+Message-ID: <202503032114.TQkZ0b7R-lkp@intel.com>
+References: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelledviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeviefffeegiedtleelieeghfejleeuueevkeevteegffehledtkeegudeigffgvdenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnu
- ghriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,562 +71,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi Ville,
 
-On Mon, 3 Mar 2025 14:11:05 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+kernel test robot noticed the following build errors:
 
-> On Thu, Feb 27, 2025 at 12:00:04PM +0100, Herve Codina wrote:
-> > Hi Maxime,
-> > 
-> > On Tue, 25 Feb 2025 17:43:48 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >   
-> > > Hi,
-> > > 
-> > > Here's a series of changes after to the KMS helpers and bridge API
-> > > following a bunch of reviews I did.
-> > > 
-> > > It's mostly centered across providing an easier time to deal with bridge
-> > > states, and a somewhat consistent with the other entities API.
-> > > 
-> > > It's build tested only, with arm64 allmodconfig.
-> > > 
-> > > Maxime
-> > > 
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---  
-> > 
-> > I Tried to test this series on my system but I've got a compilation issue.
-> >      depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
-> >      depmod: ERROR: Found 2 modules in dependency cycles!
-> > 
-> > CONFIG_DRM=m in my configuration.  
-> 
-> Could you share your configuration? it doesn't happen with allmodconfig.
-> 
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on linus/master v6.14-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Here is a defconfig that leads to the issue on my side:
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-client-Build-the-tests-with-CONFIG_DRM_KUNIT_TEST-m/20250303-175715
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250303094808.11860-1-ville.syrjala%40linux.intel.com
+patch subject: [PATCH] drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
+config: riscv-randconfig-002-20250303 (https://download.01.org/0day-ci/archive/20250303/202503032114.TQkZ0b7R-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503032114.TQkZ0b7R-lkp@intel.com/reproduce)
 
---- 8< ---
-# CONFIG_LOCALVERSION_AUTO is not set
-CONFIG_SYSVIPC=y
-CONFIG_POSIX_MQUEUE=y
-CONFIG_AUDIT=y
-CONFIG_NO_HZ_IDLE=y
-CONFIG_HIGH_RES_TIMERS=y
-CONFIG_PREEMPT=y
-CONFIG_IRQ_TIME_ACCOUNTING=y
-CONFIG_BSD_PROCESS_ACCT=y
-CONFIG_BSD_PROCESS_ACCT_V3=y
-CONFIG_TASKSTATS=y
-CONFIG_TASK_XACCT=y
-CONFIG_TASK_IO_ACCOUNTING=y
-CONFIG_IKCONFIG=y
-CONFIG_IKCONFIG_PROC=y
-CONFIG_LOG_BUF_SHIFT=20
-CONFIG_LOG_CPU_MAX_BUF_SHIFT=15
-CONFIG_NUMA_BALANCING=y
-CONFIG_MEMCG=y
-CONFIG_BLK_CGROUP=y
-CONFIG_CGROUP_PIDS=y
-CONFIG_CGROUP_FREEZER=y
-CONFIG_CGROUP_HUGETLB=y
-CONFIG_CPUSETS=y
-CONFIG_CGROUP_DEVICE=y
-CONFIG_CGROUP_CPUACCT=y
-CONFIG_CGROUP_PERF=y
-CONFIG_USER_NS=y
-CONFIG_SCHED_AUTOGROUP=y
-CONFIG_BLK_DEV_INITRD=y
-# CONFIG_RD_BZIP2 is not set
-# CONFIG_RD_LZMA is not set
-# CONFIG_RD_XZ is not set
-# CONFIG_RD_LZO is not set
-# CONFIG_RD_LZ4 is not set
-# CONFIG_RD_ZSTD is not set
-# CONFIG_INITRAMFS_PRESERVE_MTIME is not set
-CONFIG_PROFILING=y
-CONFIG_KEXEC_FILE=y
-CONFIG_ARCH_NXP=y
-CONFIG_ARCH_MXC=y
-CONFIG_ARM64_VA_BITS_48=y
-CONFIG_SCHED_MC=y
-CONFIG_SCHED_SMT=y
-CONFIG_NUMA=y
-CONFIG_PARAVIRT=y
-CONFIG_COMPAT=y
-CONFIG_RANDOMIZE_BASE=y
-CONFIG_HIBERNATION=y
-CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
-CONFIG_ENERGY_MODEL=y
-CONFIG_CPU_IDLE=y
-CONFIG_ARM_PSCI_CPUIDLE=y
-CONFIG_CPU_FREQ=y
-CONFIG_CPU_FREQ_STAT=y
-CONFIG_CPU_FREQ_GOV_POWERSAVE=m
-CONFIG_CPU_FREQ_GOV_USERSPACE=y
-CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=m
-CONFIG_CPUFREQ_DT=y
-CONFIG_ARM_IMX_CPUFREQ_DT=m
-CONFIG_ARM_SCMI_CPUFREQ=y
-CONFIG_JUMP_LABEL=y
-CONFIG_MODULES=y
-CONFIG_MODULE_UNLOAD=y
-CONFIG_BLK_DEV_BSGLIB=y
-CONFIG_BLK_DEV_INTEGRITY=y
-# CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
-# CONFIG_COMPAT_BRK is not set
-CONFIG_MEMORY_HOTPLUG=y
-CONFIG_MEMORY_HOTREMOVE=y
-CONFIG_PAGE_REPORTING=y
-CONFIG_KSM=y
-CONFIG_MEMORY_FAILURE=y
-CONFIG_TRANSPARENT_HUGEPAGE=y
-CONFIG_CMA=y
-CONFIG_NET=y
-CONFIG_PACKET=y
-CONFIG_UNIX=y
-CONFIG_INET=y
-CONFIG_IP_MULTICAST=y
-CONFIG_IP_PNP=y
-CONFIG_IP_PNP_DHCP=y
-CONFIG_IP_PNP_BOOTP=y
-# CONFIG_IPV6 is not set
-# CONFIG_WIRELESS is not set
-CONFIG_FAILOVER=y
-CONFIG_PCI=y
-CONFIG_PCIEPORTBUS=y
-CONFIG_PCIEAER=y
-CONFIG_PCI_IOV=y
-CONFIG_PCI_PASID=y
-CONFIG_HOTPLUG_PCI=y
-CONFIG_PCI_HOST_GENERIC=y
-CONFIG_PCI_IMX6_HOST=y
-CONFIG_DEVTMPFS=y
-CONFIG_DEVTMPFS_MOUNT=y
-CONFIG_FW_LOADER_USER_HELPER=y
-CONFIG_ARM_SCMI_PROTOCOL=y
-CONFIG_ARM_SCPI_PROTOCOL=y
-# CONFIG_DMIID is not set
-# CONFIG_EFI_ARMSTUB_DTB_LOADER is not set
-CONFIG_IMX_SCU=y
-CONFIG_MTD=y
-CONFIG_MTD_BLOCK=y
-CONFIG_MTD_SPI_NOR=y
-CONFIG_OF_OVERLAY=y
-CONFIG_BLK_DEV_LOOP=y
-CONFIG_BLK_DEV_NBD=m
-CONFIG_VIRTIO_BLK=y
-CONFIG_BLK_DEV_NVME=m
-CONFIG_SRAM=y
-CONFIG_EEPROM_AT24=y
-CONFIG_EEPROM_AT25=y
-CONFIG_UACCE=m
-CONFIG_SCSI=y
-# CONFIG_SCSI_PROC_FS is not set
-CONFIG_BLK_DEV_SD=y
-# CONFIG_BLK_DEV_BSG is not set
-# CONFIG_SCSI_LOWLEVEL is not set
-CONFIG_MD=y
-CONFIG_BLK_DEV_MD=m
-CONFIG_BLK_DEV_DM=m
-CONFIG_DM_CRYPT=m
-CONFIG_DM_MIRROR=m
-CONFIG_DM_ZERO=m
-CONFIG_NETDEVICES=y
-# CONFIG_NET_VENDOR_3COM is not set
-# CONFIG_NET_VENDOR_ADAPTEC is not set
-# CONFIG_NET_VENDOR_AGERE is not set
-# CONFIG_NET_VENDOR_ALACRITECH is not set
-# CONFIG_NET_VENDOR_ALTEON is not set
-# CONFIG_NET_VENDOR_AMAZON is not set
-# CONFIG_NET_VENDOR_AMD is not set
-# CONFIG_NET_VENDOR_AQUANTIA is not set
-# CONFIG_NET_VENDOR_ARC is not set
-# CONFIG_NET_VENDOR_ASIX is not set
-# CONFIG_NET_VENDOR_ATHEROS is not set
-# CONFIG_NET_VENDOR_BROADCOM is not set
-# CONFIG_NET_VENDOR_CADENCE is not set
-# CONFIG_NET_VENDOR_CAVIUM is not set
-# CONFIG_NET_VENDOR_CHELSIO is not set
-# CONFIG_NET_VENDOR_CISCO is not set
-# CONFIG_NET_VENDOR_CORTINA is not set
-# CONFIG_NET_VENDOR_DAVICOM is not set
-# CONFIG_NET_VENDOR_DEC is not set
-# CONFIG_NET_VENDOR_DLINK is not set
-# CONFIG_NET_VENDOR_EMULEX is not set
-# CONFIG_NET_VENDOR_ENGLEDER is not set
-# CONFIG_NET_VENDOR_EZCHIP is not set
-CONFIG_FEC=y
-CONFIG_FSL_ENETC_MDIO=y
-# CONFIG_NET_VENDOR_FUNGIBLE is not set
-# CONFIG_NET_VENDOR_GOOGLE is not set
-# CONFIG_NET_VENDOR_HISILICON is not set
-# CONFIG_NET_VENDOR_HUAWEI is not set
-# CONFIG_NET_VENDOR_INTEL is not set
-# CONFIG_NET_VENDOR_ADI is not set
-# CONFIG_NET_VENDOR_LITEX is not set
-# CONFIG_NET_VENDOR_MARVELL is not set
-# CONFIG_NET_VENDOR_MELLANOX is not set
-# CONFIG_NET_VENDOR_MICREL is not set
-# CONFIG_NET_VENDOR_MICROCHIP is not set
-# CONFIG_NET_VENDOR_MICROSEMI is not set
-# CONFIG_NET_VENDOR_MICROSOFT is not set
-# CONFIG_NET_VENDOR_MYRI is not set
-# CONFIG_NET_VENDOR_NI is not set
-# CONFIG_NET_VENDOR_NATSEMI is not set
-# CONFIG_NET_VENDOR_NETERION is not set
-# CONFIG_NET_VENDOR_NETRONOME is not set
-# CONFIG_NET_VENDOR_NVIDIA is not set
-# CONFIG_NET_VENDOR_OKI is not set
-# CONFIG_NET_VENDOR_PACKET_ENGINES is not set
-# CONFIG_NET_VENDOR_PENSANDO is not set
-# CONFIG_NET_VENDOR_QLOGIC is not set
-# CONFIG_NET_VENDOR_BROCADE is not set
-# CONFIG_NET_VENDOR_QUALCOMM is not set
-# CONFIG_NET_VENDOR_RDC is not set
-# CONFIG_NET_VENDOR_REALTEK is not set
-# CONFIG_NET_VENDOR_RENESAS is not set
-# CONFIG_NET_VENDOR_ROCKER is not set
-# CONFIG_NET_VENDOR_SAMSUNG is not set
-# CONFIG_NET_VENDOR_SEEQ is not set
-# CONFIG_NET_VENDOR_SILAN is not set
-# CONFIG_NET_VENDOR_SIS is not set
-# CONFIG_NET_VENDOR_SOLARFLARE is not set
-# CONFIG_NET_VENDOR_SMSC is not set
-# CONFIG_NET_VENDOR_SOCIONEXT is not set
-CONFIG_STMMAC_ETH=m
-# CONFIG_NET_VENDOR_SUN is not set
-# CONFIG_NET_VENDOR_SYNOPSYS is not set
-# CONFIG_NET_VENDOR_TEHUTI is not set
-# CONFIG_NET_VENDOR_TI is not set
-# CONFIG_NET_VENDOR_VERTEXCOM is not set
-# CONFIG_NET_VENDOR_VIA is not set
-# CONFIG_NET_VENDOR_WANGXUN is not set
-# CONFIG_NET_VENDOR_WIZNET is not set
-# CONFIG_NET_VENDOR_XILINX is not set
-CONFIG_SMSC_PHY=m
-CONFIG_DP83867_PHY=y
-CONFIG_MDIO_BITBANG=y
-CONFIG_MDIO_BCM_UNIMAC=m
-CONFIG_MDIO_THUNDER=y
-CONFIG_MDIO_BUS_MUX_MULTIPLEXER=y
-CONFIG_MDIO_BUS_MUX_MMIOREG=y
-# CONFIG_WLAN is not set
-CONFIG_INPUT_MATRIXKMAP=y
-CONFIG_INPUT_EVDEV=y
-CONFIG_KEYBOARD_ADC=m
-CONFIG_KEYBOARD_GPIO=y
-CONFIG_KEYBOARD_SNVS_PWRKEY=m
-CONFIG_KEYBOARD_IMX_SC_KEY=m
-CONFIG_INPUT_TOUCHSCREEN=y
-CONFIG_TOUCHSCREEN_ATMEL_MXT=m
-CONFIG_TOUCHSCREEN_EXC3000=m
-CONFIG_INPUT_MISC=y
-CONFIG_INPUT_PWM_BEEPER=m
-CONFIG_INPUT_PWM_VIBRA=m
-# CONFIG_SERIO_SERPORT is not set
-CONFIG_SERIO_AMBAKMI=y
-CONFIG_LEGACY_PTY_COUNT=16
-CONFIG_SERIAL_IMX=y
-CONFIG_SERIAL_IMX_CONSOLE=y
-CONFIG_SERIAL_DEV_BUS=y
-CONFIG_HW_RANDOM_CN10K=m
-# CONFIG_DEVPORT is not set
-CONFIG_I2C=y
-CONFIG_I2C_CHARDEV=y
-CONFIG_I2C_MUX=y
-CONFIG_I2C_MUX_PCA954x=y
-CONFIG_I2C_CADENCE=m
-CONFIG_I2C_DESIGNWARE_CORE=y
-CONFIG_I2C_GPIO=m
-CONFIG_I2C_IMX=y
-CONFIG_I2C_IMX_LPI2C=y
-CONFIG_I2C_RK3X=y
-CONFIG_SPI=y
-CONFIG_SPI_CADENCE_QUADSPI=y
-CONFIG_SPI_DESIGNWARE=m
-CONFIG_SPI_DW_DMA=y
-CONFIG_SPI_DW_MMIO=m
-CONFIG_SPI_FSL_LPSPI=y
-CONFIG_SPI_FSL_QUADSPI=y
-CONFIG_SPI_NXP_FLEXSPI=y
-CONFIG_SPI_IMX=m
-CONFIG_SPI_PL022=y
-CONFIG_SPI_SPIDEV=m
-# CONFIG_PTP_1588_CLOCK is not set
-CONFIG_PINCTRL=y
-CONFIG_PINCTRL_MAX77620=y
-CONFIG_PINCTRL_SINGLE=y
-CONFIG_PINCTRL_IMX8MM=y
-CONFIG_PINCTRL_IMX8MN=y
-CONFIG_PINCTRL_IMX8MP=y
-CONFIG_PINCTRL_IMX8MQ=y
-CONFIG_PINCTRL_IMX8QM=y
-CONFIG_PINCTRL_IMX8QXP=y
-CONFIG_PINCTRL_IMX8DXL=y
-CONFIG_PINCTRL_IMX8ULP=y
-CONFIG_PINCTRL_IMX93=y
-CONFIG_GPIOLIB=y
-CONFIG_GPIO_GENERIC_PLATFORM=y
-CONFIG_GPIO_MXC=y
-CONFIG_GPIO_MAX732X=y
-CONFIG_GPIO_PCA953X=y
-CONFIG_GPIO_PCA953X_IRQ=y
-CONFIG_GPIO_BD9571MWV=m
-CONFIG_GPIO_MAX77620=y
-CONFIG_BATTERY_SBS=m
-CONFIG_BATTERY_BQ27XXX=y
-CONFIG_BATTERY_MAX17042=m
-CONFIG_CHARGER_GPIO=m
-CONFIG_CHARGER_MT6360=m
-CONFIG_CHARGER_BQ25890=m
-CONFIG_CHARGER_BQ25980=m
-CONFIG_SENSORS_ARM_SCMI=y
-CONFIG_SENSORS_ARM_SCPI=y
-CONFIG_SENSORS_IIO_HWMON=m
-CONFIG_SENSORS_JC42=m
-CONFIG_SENSORS_LTC4151=m
-CONFIG_SENSORS_LM75=m
-CONFIG_SENSORS_LM90=m
-CONFIG_SENSORS_TMP103=m
-CONFIG_THERMAL=y
-CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
-CONFIG_CPU_THERMAL=y
-CONFIG_DEVFREQ_THERMAL=y
-CONFIG_THERMAL_EMULATION=y
-CONFIG_IMX_SC_THERMAL=m
-CONFIG_IMX8MM_THERMAL=m
-CONFIG_QORIQ_THERMAL=m
-CONFIG_GENERIC_ADC_THERMAL=m
-CONFIG_WATCHDOG=y
-CONFIG_ARM_SP805_WATCHDOG=y
-CONFIG_ARM_SBSA_WATCHDOG=y
-CONFIG_DW_WATCHDOG=y
-CONFIG_IMX2_WDT=y
-CONFIG_IMX_SC_WDT=m
-CONFIG_ARM_SMC_WATCHDOG=y
-CONFIG_MFD_BD9571MWV=y
-CONFIG_MFD_AXP20X_I2C=y
-CONFIG_MFD_HI6421_PMIC=y
-CONFIG_MFD_MAX77620=y
-CONFIG_MFD_MT6360=y
-CONFIG_MFD_MT6397=y
-CONFIG_MFD_SEC_CORE=y
-CONFIG_MFD_ROHM_BD718XX=y
-CONFIG_REGULATOR_FIXED_VOLTAGE=y
-CONFIG_REGULATOR_AXP20X=y
-CONFIG_REGULATOR_BD718XX=y
-CONFIG_REGULATOR_BD9571MWV=y
-CONFIG_REGULATOR_FAN53555=y
-CONFIG_REGULATOR_GPIO=y
-CONFIG_REGULATOR_HI6421V530=y
-CONFIG_REGULATOR_MAX77620=y
-CONFIG_REGULATOR_MAX8973=y
-CONFIG_REGULATOR_MP8859=y
-CONFIG_REGULATOR_MT6358=y
-CONFIG_REGULATOR_MT6359=y
-CONFIG_REGULATOR_MT6360=y
-CONFIG_REGULATOR_MT6397=y
-CONFIG_REGULATOR_PCA9450=y
-CONFIG_REGULATOR_PF8X00=y
-CONFIG_REGULATOR_PFUZE100=y
-CONFIG_REGULATOR_PWM=y
-CONFIG_REGULATOR_S2MPS11=y
-CONFIG_REGULATOR_TPS65132=m
-CONFIG_REGULATOR_VCTRL=m
-CONFIG_DRM=m
-CONFIG_DRM_PANEL_SIMPLE=m
-CONFIG_DRM_DISPLAY_CONNECTOR=m
-CONFIG_DRM_FSL_LDB=m
-CONFIG_DRM_I2C_NXP_TDA998X=m
-CONFIG_DRM_SAMSUNG_DSIM=m
-CONFIG_DRM_SIMPLE_BRIDGE=m
-CONFIG_DRM_TI_SN65DSI83=m
-CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE=m
-CONFIG_DRM_MXSFB=m
-CONFIG_DRM_IMX_LCDIF=m
-CONFIG_BACKLIGHT_CLASS_DEVICE=y
-CONFIG_BACKLIGHT_PWM=m
-CONFIG_BACKLIGHT_LP855X=m
-CONFIG_BACKLIGHT_LED=m
-CONFIG_HID_MULTITOUCH=m
-CONFIG_I2C_HID_OF=m
-# CONFIG_USB_SUPPORT is not set
-CONFIG_MMC=y
-CONFIG_MMC_BLOCK_MINORS=32
-CONFIG_MMC_ARMMMCI=y
-CONFIG_MMC_SDHCI=y
-CONFIG_MMC_SDHCI_PLTFM=y
-CONFIG_MMC_SDHCI_OF_ARASAN=y
-CONFIG_MMC_SDHCI_OF_ESDHC=y
-CONFIG_MMC_SDHCI_OF_DWCMSHC=y
-CONFIG_MMC_SDHCI_CADENCE=y
-CONFIG_MMC_SDHCI_ESDHC_IMX=y
-CONFIG_MMC_SDHCI_F_SDH30=y
-CONFIG_MMC_SPI=y
-CONFIG_MMC_DW=y
-CONFIG_MMC_DW_EXYNOS=y
-CONFIG_MMC_DW_HI3798CV200=y
-CONFIG_MMC_DW_K3=y
-CONFIG_MMC_MTK=y
-CONFIG_MMC_SDHCI_XENON=y
-CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=y
-CONFIG_LEDS_CLASS_MULTICOLOR=m
-CONFIG_LEDS_LM3692X=m
-CONFIG_LEDS_PCA9532=m
-CONFIG_LEDS_GPIO=y
-CONFIG_LEDS_PCA963X=m
-CONFIG_LEDS_PWM=y
-CONFIG_LEDS_SYSCON=y
-CONFIG_LEDS_TRIGGERS=y
-CONFIG_LEDS_TRIGGER_TIMER=y
-CONFIG_LEDS_TRIGGER_HEARTBEAT=y
-CONFIG_LEDS_TRIGGER_CPU=y
-CONFIG_LEDS_TRIGGER_DEFAULT_ON=y
-CONFIG_LEDS_TRIGGER_PANIC=y
-CONFIG_EDAC=y
-CONFIG_RTC_CLASS=y
-CONFIG_RTC_DRV_RS5C372=m
-CONFIG_RTC_DRV_M41T80=m
-CONFIG_RTC_DRV_S35390A=m
-CONFIG_RTC_DRV_RX8010=m
-CONFIG_RTC_DRV_SNVS=m
-CONFIG_RTC_DRV_IMX_SC=m
-CONFIG_DMADEVICES=y
-CONFIG_FSL_EDMA=y
-CONFIG_IMX_SDMA=m
-CONFIG_MV_XOR_V2=y
-CONFIG_PL330_DMA=y
-CONFIG_QCOM_HIDMA_MGMT=y
-CONFIG_QCOM_HIDMA=y
-# CONFIG_VIRTIO_MENU is not set
-# CONFIG_VHOST_MENU is not set
-# CONFIG_SURFACE_PLATFORMS is not set
-CONFIG_CLK_IMX8MM=y
-CONFIG_CLK_IMX8MN=y
-CONFIG_CLK_IMX8MP=y
-CONFIG_CLK_IMX8MQ=y
-CONFIG_CLK_IMX8QXP=y
-CONFIG_CLK_IMX8ULP=y
-CONFIG_HWSPINLOCK=y
-CONFIG_MAILBOX=y
-CONFIG_ARM_MHU=y
-CONFIG_IMX_MBOX=y
-CONFIG_PLATFORM_MHU=y
-CONFIG_IOMMU_IO_PGTABLE_ARMV7S=y
-CONFIG_IOMMU_IO_PGTABLE_DART=y
-CONFIG_ARM_SMMU=y
-CONFIG_ARM_SMMU_V3=y
-CONFIG_REMOTEPROC=y
-CONFIG_RPMSG_CHAR=m
-CONFIG_RPMSG_CTRL=m
-CONFIG_RPMSG_QCOM_GLINK_RPM=y
-CONFIG_FSL_RCPM=y
-CONFIG_SOC_TI=y
-CONFIG_IMX_SCU_PD=y
-CONFIG_PM_DEVFREQ=y
-CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=y
-CONFIG_DEVFREQ_GOV_PASSIVE=m
-CONFIG_ARM_IMX_BUS_DEVFREQ=m
-CONFIG_ARM_IMX8M_DDRC_DEVFREQ=m
-CONFIG_EXTCON=y
-CONFIG_EXTCON_PTN5150=m
-CONFIG_EXTCON_USB_GPIO=y
-CONFIG_IIO=y
-CONFIG_IIO_ST_ACCEL_3AXIS=m
-# CONFIG_IIO_ST_ACCEL_SPI_3AXIS is not set
-CONFIG_LTC2497=m
-CONFIG_IIO_ST_LSM6DSX=m
-CONFIG_SENSORS_ISL29018=m
-CONFIG_OPT3001=m
-CONFIG_VCNL4000=m
-CONFIG_IIO_ST_MAGN_3AXIS=m
-CONFIG_MPL3115=m
-CONFIG_IIO_ST_PRESS=m
-CONFIG_PWM=y
-CONFIG_PWM_IMX27=m
-CONFIG_RESET_IMX7=y
-CONFIG_PHY_FSL_IMX8M_PCIE=y
-CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY=y
-CONFIG_ARM_CCI_PMU=m
-CONFIG_ARM_CCN=m
-CONFIG_ARM_CMN=m
-CONFIG_ARM_DSU_PMU=m
-CONFIG_FSL_IMX8_DDR_PMU=m
-CONFIG_ARM_SPE_PMU=m
-CONFIG_NVMEM_IMX_OCOTP=y
-CONFIG_NVMEM_IMX_OCOTP_SCU=y
-CONFIG_NVMEM_RMEM=m
-CONFIG_NVMEM_SNVS_LPGPR=y
-CONFIG_STM=m
-CONFIG_MUX_MMIO=y
-CONFIG_INTERCONNECT=y
-CONFIG_INTERCONNECT_IMX=m
-CONFIG_INTERCONNECT_IMX8MM=m
-CONFIG_INTERCONNECT_IMX8MN=m
-CONFIG_INTERCONNECT_IMX8MQ=m
-CONFIG_INTERCONNECT_IMX8MP=m
-CONFIG_EXT2_FS=y
-CONFIG_EXT3_FS=y
-CONFIG_EXT4_FS_POSIX_ACL=y
-CONFIG_FANOTIFY=y
-CONFIG_QUOTA=y
-CONFIG_VFAT_FS=m
-CONFIG_TMPFS=y
-CONFIG_TMPFS_POSIX_ACL=y
-CONFIG_HUGETLBFS=y
-CONFIG_EFIVAR_FS=y
-CONFIG_NFS_FS=y
-CONFIG_ROOT_NFS=y
-CONFIG_NLS_CODEPAGE_437=y
-CONFIG_NLS_ISO8859_1=y
-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,bpf"
-CONFIG_CRYPTO_NULL=y
-CONFIG_CRYPTO_RSA=y
-CONFIG_CRYPTO_DH=m
-CONFIG_CRYPTO_ECDH=m
-CONFIG_CRYPTO_CURVE25519=m
-CONFIG_CRYPTO_DES=m
-CONFIG_CRYPTO_CRC32C=y
-CONFIG_CRYPTO_CRCT10DIF=y
-CONFIG_CRYPTO_DEFLATE=y
-CONFIG_CRYPTO_ANSI_CPRNG=y
-CONFIG_CRYPTO_DRBG_MENU=y
-CONFIG_CRYPTO_USER_API_RNG=m
-# CONFIG_CRYPTO_USER_API_ENABLE_OBSOLETE is not set
-CONFIG_CRYPTO_CHACHA20_NEON=m
-CONFIG_CRYPTO_GHASH_ARM64_CE=y
-CONFIG_CRYPTO_SHA1_ARM64_CE=y
-CONFIG_CRYPTO_SHA2_ARM64_CE=y
-CONFIG_CRYPTO_SHA512_ARM64_CE=m
-CONFIG_CRYPTO_SHA3_ARM64=m
-CONFIG_CRYPTO_SM3_ARM64_CE=m
-CONFIG_CRYPTO_AES_ARM64_BS=m
-CONFIG_CRYPTO_AES_ARM64_CE_CCM=y
-CONFIG_CRYPTO_DEV_FSL_CAAM=m
-CONFIG_CRYPTO_DEV_CCREE=m
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL=m
-CONFIG_PACKING=y
-CONFIG_INDIRECT_PIO=y
-CONFIG_CRC_CCITT=m
-CONFIG_LIBCRC32C=y
-CONFIG_DMA_CMA=y
-CONFIG_CMA_SIZE_MBYTES=32
-CONFIG_IRQ_POLL=y
-CONFIG_PRINTK_TIME=y
-CONFIG_DEBUG_KERNEL=y
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
-CONFIG_DEBUG_FS=y
-CONFIG_FUNCTION_TRACER=y
-CONFIG_FUNCTION_GRAPH_RETVAL=y
-CONFIG_FTRACE_SYSCALLS=y
-CONFIG_USER_EVENTS=y
-CONFIG_MEMTEST=y
---- 8< ---
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503032114.TQkZ0b7R-lkp@intel.com/
 
-Best regards
-Hervé
+All errors (new ones prefixed by >>):
+
+   riscv32-linux-ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_client_modeset_test_init':
+>> drivers/gpu/drm/tests/drm_client_modeset_test.c:59:(.text.drm_client_modeset_test_init+0xa4): undefined reference to `drm_kunit_helper_alloc_device'
+   riscv32-linux-ld: drivers/gpu/drm/drm_client_modeset.o: in function `__drm_kunit_helper_alloc_drm_device':
+>> include/drm/drm_kunit_helpers.h:63:(.text.drm_client_modeset_test_init+0x198): undefined reference to `__drm_kunit_helper_alloc_drm_device_with_driver'
+
+
+vim +59 drivers/gpu/drm/tests/drm_client_modeset_test.c
+
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  52  
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  53  static int drm_client_modeset_test_init(struct kunit *test)
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  54  {
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  55  	struct drm_client_modeset_test_priv *priv;
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  56  	int ret;
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  57  
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  58  	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14 @59  	KUNIT_ASSERT_NOT_NULL(test, priv);
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  60  
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  61  	test->priv = priv;
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  62  
+9ecd8045bf64f8 Maxime Ripard 2022-12-01  63  	priv->dev = drm_kunit_helper_alloc_device(test);
+9ecd8045bf64f8 Maxime Ripard 2022-12-01  64  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->dev);
+9ecd8045bf64f8 Maxime Ripard 2022-12-01  65  
+a9143c5852a7a1 Maxime Ripard 2022-12-01  66  	priv->drm = __drm_kunit_helper_alloc_drm_device(test, priv->dev,
+a9143c5852a7a1 Maxime Ripard 2022-12-01  67  							sizeof(*priv->drm), 0,
+a9143c5852a7a1 Maxime Ripard 2022-12-01  68  							DRIVER_MODESET);
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  69  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  70  
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  71  	ret = drmm_connector_init(priv->drm, &priv->connector,
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  72  				  &drm_client_modeset_connector_funcs,
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  73  				  DRM_MODE_CONNECTOR_Unknown,
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  74  				  NULL);
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  75  	KUNIT_ASSERT_EQ(test, ret, 0);
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  76  
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  77  	drm_connector_helper_add(&priv->connector, &drm_client_modeset_connector_helper_funcs);
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  78  
+fedcaf726f542b Maxime Ripard 2022-11-17  79  	priv->connector.interlace_allowed = true;
+fedcaf726f542b Maxime Ripard 2022-11-17  80  	priv->connector.doublescan_allowed = true;
+fedcaf726f542b Maxime Ripard 2022-11-17  81  
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  82  	return 0;
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  83  }
+8fc0380f6ba7e9 Maxime Ripard 2022-11-14  84  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
