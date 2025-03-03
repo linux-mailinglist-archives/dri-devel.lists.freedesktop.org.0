@@ -2,201 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB70A4E9B2
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 18:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1934CA4EAFF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 19:17:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D36710E389;
-	Tue,  4 Mar 2025 17:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD33C10E67E;
+	Tue,  4 Mar 2025 18:17:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="iOuR5pQS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eUtUsixN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from beeline2.cc.itu.edu.tr (beeline2.cc.itu.edu.tr [160.75.25.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1A7B10E389
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 17:46:26 +0000 (UTC)
+Received: from beeline1.cc.itu.edu.tr (beeline1.cc.itu.edu.tr [160.75.25.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98D3510E67E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 18:16:59 +0000 (UTC)
 Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr
  [10.146.128.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by beeline2.cc.itu.edu.tr (Postfix) with ESMTPS id 5053A40891B5
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 20:46:25 +0300 (+03)
+ by beeline1.cc.itu.edu.tr (Postfix) with ESMTPS id E8DAC40D9772
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 21:16:57 +0300 (+03)
 X-Envelope-From: <root@cc.itu.edu.tr>
-Authentication-Results: lesvatest1.cc.itu.edu.tr; dkim=pass (1024-bit key,
- unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256
- header.s=mail20170921 header.b=iOuR5pQS
+Authentication-Results: lesvatest1.cc.itu.edu.tr; dkim=pass (2048-bit key,
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=eUtUsixN
 Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
- by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6gQQ1xcyzG28Q
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 19:01:02 +0300 (+03)
+ by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6gZb6ZYqzG2Rr
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 19:08:07 +0300 (+03)
 Received: by le1 (Postfix, from userid 0)
- id 0153242725; Tue,  4 Mar 2025 19:00:21 +0300 (+03)
+ id 1F7D24273B; Tue,  4 Mar 2025 19:08:01 +0300 (+03)
 Authentication-Results: lesva1.cc.itu.edu.tr;
- dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com
- header.b=iOuR5pQS
-X-Envelope-From: <linux-kernel+bounces-541317-bozkiru=itu.edu.tr@vger.kernel.org>
+ dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
+ header.b=eUtUsixN
+X-Envelope-From: <linux-kernel+bounces-541345-bozkiru=itu.edu.tr@vger.kernel.org>
 Authentication-Results: lesva2.cc.itu.edu.tr;
- dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com
- header.b=iOuR5pQS
-Received: from fgw2.itu.edu.tr (fgw2.itu.edu.tr [160.75.25.104])
- by le2 (Postfix) with ESMTP id A874841B84
- for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:56:52 +0300 (+03)
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
- by fgw2.itu.edu.tr (Postfix) with SMTP id 5CD2C2DCDE
- for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:56:52 +0300 (+03)
+ dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
+ header.b=eUtUsixN
+Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
+ by le2 (Postfix) with ESMTP id B4E5441C85
+ for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 13:15:14 +0300 (+03)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+ by fgw1.itu.edu.tr (Postfix) with SMTP id 839DF3064C0B
+ for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 13:15:14 +0300 (+03)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89ABA171B30
- for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 09:56:12 +0000 (UTC)
+ by am.mirrors.kernel.org (Postfix) with ESMTPS id 789F91893595
+ for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 10:15:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
- by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F1101F30CC;
- Mon,  3 Mar 2025 09:55:29 +0000 (UTC)
+ by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D3F1F2BA9;
+ Mon,  3 Mar 2025 10:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
- dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com
- header.b="iOuR5pQS"
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
+ header.b="eUtUsixN"
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B2B1F1520
- for <linux-kernel@vger.kernel.org>; Mon,  3 Mar 2025 09:55:24 +0000 (UTC)
+ by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04E51DFD95
+ for <linux-kernel@vger.kernel.org>; Mon,  3 Mar 2025 10:14:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
- arc=none smtp.client-ip=210.118.77.12
+ arc=none smtp.client-ip=209.85.218.45
 ARC-Seal: i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
- t=1740995726; cv=none;
- b=TBqoNOc/v7J4tfj7mcAmtIsmAsP9IRNrA0ahuQhq3SMRftueNBn1p0YOdZZy/uYjoradSoOb108GT8HjNV2jQZOrwE0lTYscGEv97kEop5BL3562wpWNoeImVEIDhiwwEQRjP9/cb5047Yft+ht8Mhle8m1f29ggZKth9cKCZxI=
+ t=1740996896; cv=none;
+ b=monXYdi2lIbT+et/Wso9iUT1frcEZL1K6aP7F9bOKuVf/mv5bsWpQvz2WL0ved8okHU4kyUyaOKdFkNgqe9uxC3GjFfzMEQBavTrrZv6dx/TpXp6GGmthpWBKm96tTV1NHl/ZBTF5IbC7Q18t6mpnsGrcHXdztE/s9OcCwifuTA=
 ARC-Message-Signature: i=1; a=rsa-sha256; d=subspace.kernel.org;
- s=arc-20240116; t=1740995726; c=relaxed/simple;
- bh=6dFKW+lioLDu60dHVNyKGbg+VYbzqtMUAtM10HSxmKE=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
- Content-Type:References;
- b=mFhGcmHfoOMfqM+eTOU6EuPzTDKrliDUNVJLItPnRsTXyYJOsUi9l6Oi7PTSHVgeCPgNUln26uCbDUCyr4RESSck23wTaM/0vM4VecTzksQ1t+4oYv7tUVNMa93ZjuCAnb3QhXRTAgJoCUs9d0I4K/F7geP+pRB+NOWAQjeXHnk=
+ s=arc-20240116; t=1740996896; c=relaxed/simple;
+ bh=+nGCzjyR8rgspLDbLXmX9G17MFRKxZXjvbJk+rBSpA0=;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+ Content-Type:Content-Disposition:In-Reply-To;
+ b=WE3vrXGz7LyfkxpLBfRgOtLW1gToEgH1iWUfYgeHSsFoDOI60tPgmBr6NCXMdAWWmPYDuS73MoynnOIW3NziFxdrqUmIovxEFPqXGfcHWKLmd7dunAs2YjOC8/xxgYbUBn7n+Xu87AkEKecgX1saENq1UzOonxJJ3sZ5hLPDolY=
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org;
  dmarc=pass (p=none dis=none)
- header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com;
- dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com
- header.b=iOuR5pQS; arc=none smtp.client-ip=210.118.77.12
+ header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org;
+ dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
+ header.b=eUtUsixN; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org;
- dmarc=pass (p=none dis=none) header.from=samsung.com
+ dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
- spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250303095522euoutp029734b3b1c192f40d4c435687fcde8bfb~pQmK1sciJ2969329693euoutp02h
- for <linux-kernel@vger.kernel.org>; Mon,  3 Mar 2025 09:55:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250303095522euoutp029734b3b1c192f40d4c435687fcde8bfb~pQmK1sciJ2969329693euoutp02h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1740995722;
- bh=jkAx3oP1ERyW9hpWianokfe1kkMolVE+K5Ndsqy3gk0=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=iOuR5pQS7+qqFtOPV46S4Hy6dQuMPQhYuid5Ci7LELDTRFVkVQug3gKvcpxU135Mo
- 1APKhmYi1jvFdS8DZZ/67aOStH8U6ztnCndaJuOAHa4dQZFCKwOmoY85IYUA/NvaMC
- bd9i0Z0/cgaARw/1oYfXFSJWfWfZ6M2GHxn1D95E=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20250303095521eucas1p18b3e85146d3b4e58d374ee65443f510c~pQmKDy2hP1876818768eucas1p1H;
- Mon,  3 Mar 2025 09:55:21 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id A3.CF.20397.98C75C76; Mon,  3
- Mar 2025 09:55:21 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250303095521eucas1p24b0494320e01283259315a138346d672~pQmJhIYUQ1753017530eucas1p2w;
- Mon,  3 Mar 2025 09:55:21 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20250303095521eusmtrp2a5ece5c802ffd421b11eeb5d30ebd786~pQmJgJtYD1593015930eusmtrp2I;
- Mon,  3 Mar 2025 09:55:21 +0000 (GMT)
-X-AuditID: cbfec7f5-e59c770000004fad-c5-67c57c899582
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id A8.7F.19920.98C75C76; Mon,  3
- Mar 2025 09:55:21 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250303095519eusmtip10a4185fb739894007312f6777ae0b061~pQmIDKL-s0171201712eusmtip1D;
- Mon,  3 Mar 2025 09:55:19 +0000 (GMT)
-Message-ID: <4deba4d6-b82d-4e57-bd27-f4e1523b38ea@samsung.com>
-Date: Mon, 3 Mar 2025 10:55:19 +0100
+ spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-abf45d8db04so331524666b.1
+ for <linux-kernel@vger.kernel.org>; Mon, 03 Mar 2025 02:14:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1740996893; x=1741601693; darn=vger.kernel.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ilhtkExKi2tY4D8JNLGZRRECs+rUrn5LWH8Gtc8O4iU=;
+ b=eUtUsixNjggmH22ZinByqDiVJL0VhQN71Os/HnbtTG/9Yf8mYSgYovs+L7tXhxDfVj
+ NgWg9hQftwVBsM3+OKVwJ0LmjyGrmBgxbe8qTR17V3SNhBCic5C2S0EjnjAud9tBYjf4
+ qVOnoevbDp5ij7pyDO+spcJV5hhf7axxuCoJqgxH5Cn38LN028t1ZJI6Ud+uMfRauvP9
+ 5/vfHZvHfOjZeI1LJQT+4oTPdm0Q+6W8cjFR8wcP/X2qUdwVLVlAxugfN+gMzwJYspWk
+ k5RAuw1pN6d7UCVrbHVZCQ51BchQyEjdAQlnwHgoN8M7Ucy6YKDbZwBJToCc+0i6GBWS
+ Niwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740996893; x=1741601693;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ilhtkExKi2tY4D8JNLGZRRECs+rUrn5LWH8Gtc8O4iU=;
+ b=TqohfEYPzrHwF1vuWA+0XIzcfNkz52f04FEOcs4uf3eapTVlxSugkjdA+W6u2ezri/
+ /rZXA9hZBHNK4ZclFzh+54eBLRqxKCvDyRWF9JQ1YpcgpXy5ucrVSws+4cc9jKeP9/Cw
+ XXftJnmDO6ZquLiuM7eNI9ciQAfU08jMD8pKoULxdQD1Z0BSKgGxnZAjXqfovtkpnQ5Z
+ U2fqlFetbqopw2gk3RlIIXuCVoK7PRUTa0lgqgLm5BI39IcecFsHgVxoMUx1W6kzjDCc
+ faKMrlyGPsssN17zpa19f8y6KRPHM2gFg/krPa9s+Hp8dCBhx7PRRWYKW4v7ILOhEcXK
+ BjPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXKEl0KqtZtpi6xJoVxTj1Va8GbsvjUSNq5kg0nwAlCISAe3uDrIQUtGqOFUbY15KjkledcWhDxR/UIbPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtGWQhXo87KgHrXcwbphWVbc1j1UV+B/RBP0qcKJ8EVpHNo3Og
+ Kre44g0uB2TOOIvZnZAMNwCRt8V08fD3Da9MsiNrHGOiHm7qoYphO2g+9XtD9Us=
+X-Gm-Gg: ASbGnctRqCvCkAc4xE/bud7QaE8n9yCMBIk4FEJkr+O+0L/6UlKhffljX/CsOh+q1RC
+ c1qK4+DF02rS7l9vy+DIdmPFbIRK6lyXly/d1XIGawrMqCdD/t6qXCcv+aGBzRpTsFRSIyiKnLr
+ B5aR0XjMc7UejN5DvUP2ei83xifPMw1TQtu+G7x/y4X8ijo/HqoGWRGaM0tNgej6HZ1XWQKE/A0
+ 6pBvZvmnCvXdDmINL8SYO67su/BvmsxX4SrATuq+wk0xHZQyAG0VWY+L4wEltwki6s68KgulWwW
+ VWITUsYarfeyghTZOcJQIk9i8XAAcyxPm08ijikmax5F1RbQJw==
+X-Google-Smtp-Source: AGHT+IFW5wW8s+H3cYQVcYMHCSk5m4LiYMR29KDD3mNnUTMxiFYWqtZIptENOVNp/zPSrPbHfZFy4w==
+X-Received: by 2002:a17:907:7207:b0:abf:769a:d3b7 with SMTP id
+ a640c23a62f3a-abf769ad59cmr416122766b.57.1740996892823; 
+ Mon, 03 Mar 2025 02:14:52 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ a640c23a62f3a-ac1e3ef2f9dsm40040166b.45.2025.03.03.02.14.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Mar 2025 02:14:52 -0800 (PST)
+Date: Mon, 3 Mar 2025 13:14:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Antonino Daplas <adaplas@pol.net>, Helge Deller <deller@gmx.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Yihao Han <hanyihao@vivo.com>, cocci@inria.fr,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RESEND] video: au1100fb: Move a variable assignment
+ behind a null pointer check in au1100fb_setmode()
+Message-ID: <15b7c1ee-4541-4732-8189-79397ae45b68@stanley.mountain>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <86551e6f-d529-1ff6-6ce6-b9669d10e6cb@web.de>
+ <3f1e7aaa-501a-44f1-8122-28e9efa0a33c@web.de>
+ <ugymllbkcsg22ffgyofvkquh5afbvoyv2nna5udmy3xfhv2rjz@jhgghzldzm4u>
+ <eebf8c0c-7a6a-405f-aaab-2a8a8c2bd91f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-kernel@vger.kernel.org
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 09/21] dt-bindings: clock: thead: Add GPU clkgen
- reset property
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
- m.szyprowski@samsung.com, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <df625379-b472-45d9-87a4-8bf52a87ea1e@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTVxzHc+69vffSCFyqC2dgZOsIi4sCKrKTsZnBILlbjI+5OLcxt0Zv
- ihsUbGE4ZzIYyKxWZA5BO4TizEQUYawUigUmsNYK8lRKeBSz1QYqyKuCG6+1XN347/P7/h7f
- 3+/k0LioifSjD8mSOblMEi8mhYTO+Hf7RuWxP6Sh47c2otuWSxiqmlNT6HpdG4aKmtsEyNql
- xdC9J+MkuvGwg0LDdekE6im5SKEMYzmJRtRWErW3V1BoUmUVoO7aAhJNn24GSDedSaKy5kEK
- FU9WEehyTS1AWcpfBKjzTgwatN4m0Ei3CkdZam+0ZKih0GLPrwT66XEDhbSjPwiQqexDlNmQ
- S7y9jh3vPU6xoyMjBNt0wkmxdTMagtWrBylWpW8FbGWpkmQHegwkW2jezQ6dMmHsb5e/ZTPL
- jBh7ZiGUHa+/T7LZ2lLAdmVYqF2ij4VvHuTiD33FyUO2fS6M+9HyO5l0njoydyedTAMVgpPA
- g4ZMGGydzXOxkBYxJQA6G3MBHzgBtOWMknwwDaA120A8b+m351F84gqAmefsGB+MAWgqMAJ3
- lSezDRqvGnE3E0wgrHfMULzuA80XbMuTXmAC4FDf+WV9NbMP3l3KX9bXMOuhZWF2eSmcMQhg
- Xi6/Lc74wj5bEeZmktkMH1wpWtY9XGaVZ0wYXxMAq8cKcHczZDqF8OS9689OjYYdT/tInldD
- h0lL8bwWLun5oZBJhA+qpnCej0G9yvSMI+BA2z+uXtplsB6W14bwciS0VbsPoF3sBXvHfPgV
- vOBZXT7Oy57wRJaIrw6C51Sn/zNtK9FhOUCsXvEq6hVHqlcco/7fVwOIUuDLpSgSpJxii4xL
- DVZIEhQpMmnwgcSESuD65y2Lpic1oMQxGdwIMBo0Akjj4jWeh99vloo8D0q+PsrJEz+Tp8Rz
- ikbgTxNiX89LDcelIkYqSea+5LgkTv48i9EefmkYvraw0JY7ry9XGu3K+Zc3KIOkZSETX+ze
- OewRTcTZHeaKIFwYle7YsXi3r+7G94GzHRHGv0IiU9Nl/rGf5Gzfs+Vp/l5zhKg7ZuujiMG6
- AIet18/of9PLkISNbR/3i+xUWcM+iMqeeGnDq4oU7d6jh4vN9c5rpaF77Kcy9s8syg6E3Wrw
- xi500Nc+zRLtiC23pD6O0UX/+XpAt05T9lHez5p5b5vw4bubO4db1r2zqvq7qy9i4RrDe4Fn
- fWUgdml4zrkT739lf/SmNxxF/lt9ar2akiam9EcGxNmOFt+09igf+9D8o/urrN+ET7U2dV0c
- DZ/u17+F7Vu4OVcVkF+cPLhLKyYUcZJNr+FyheRfLoBNOFYEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKKsWRmVeSWpSXmKPExsVy+t/xu7qdNUfTDS6dYLc4cX0Rk8XW37PY
- LdbsPcdkMf/IOVaLe5e2MFlc+fqezWLd0wvsFi/2NrJYXFsxl92i+dh6NouXs+6xWZw/v4Hd
- 4mPPPVaLy7vmsFl87j3CaLHtcwubxdojd9ktFn7cymKxZMcuRou2zmWsFhdPuVrcvXeCxeLl
- 5R5mi7ZZ/Bb/9+xgt/h3bSOLxex3+9kttryZyGpxfG24Rcv+KSwOch7vb7Sye7x5+ZLF43DH
- F3aPvd8WsHjsnHWX3aNn5xlGj02rOtk87lzbw+Yx72Sgx/3u40wem5fUe7SsPcbk0f/XwOP9
- vqtsHn1bVjF6XGq+zh4gFKVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9n
- k5Kak1mWWqRvl6CXMfn6AbaCGewVv081sjUwbmDtYuTkkBAwkbj9bBp7FyMXh5DAUkaJy1sW
- QCVkJK51v2SBsIUl/lzrYoMoes0oceVpJxtIglfATuLYymPMIDaLgIrEvlff2CHighInZz4B
- axYVkJe4f2sGWFxYIELi9px7YLaIgKbE9b/fWUGGMgvsYZU4vPkz1IYXTBITJrwB28AsIC5x
- 68l8JhCbTcBI4sHy+WDncQJt3tR/HCjOAVSjLrF+nhBEubzE9rdzmCcwCs1CcscsJJNmIXTM
- QtKxgJFlFaNIamlxbnpusaFecWJucWleul5yfu4mRmD62nbs5+YdjPNefdQ7xMjEwXiIUYKD
- WUmEtzDoSLoQb0piZVVqUX58UWlOavEhRlNgWExklhJNzgcm0LySeEMzA1NDEzNLA1NLM2Ml
- cV63y+fThATSE0tSs1NTC1KLYPqYODilGpjWZbgu4amz51zbvclj01cdjUnB7xdYVmeqrsja
- lHJliV3H+hP8nxQuRrvencq9k2vizncTfDeoHDXxEroaIDXvaVrAp50rXHLqeb1YD5dXV65r
- OnP2V0SUxt1/7U2vJDZNPiWQeWI2v6KlFPOXpx+c/rTf3Cmafr15/9VDZ1t3Pc5kT2itOHtv
- gi/PQ9aDUk9vnv2anRFst4T7z5o7Sp8fr+TScqlPaLc6/t9e6P7aFRd4jHcy/wxgWhj587da
- MPPRuJc274uC26W89PNKEmaLttVONk4XNL0ntLT1Q6jM/EDbr4GLe9Ojj889anB45bzO3cdm
- M561sA2U4Ei78O/s/RbH6QqT/ry5Ujf/L6O0EktxRqKhFnNRcSIACJJKEugDAAA=
-X-CMS-MailID: 20250303095521eucas1p24b0494320e01283259315a138346d672
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639
-References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <CGME20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639@eucas1p2.samsung.com>
- <20250219140239.1378758-10-m.wilczynski@samsung.com>
- <20250221-imaginary-ebony-macaque-aace8d@krzk-bin>
- <7296ddb3-2096-4414-bfa4-28fc5bb8ec86@samsung.com>
- <df625379-b472-45d9-87a4-8bf52a87ea1e@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eebf8c0c-7a6a-405f-aaab-2a8a8c2bd91f@stanley.mountain>
 X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for
  more information
-X-ITU-Libra-ESVA-ID: 4Z6gQQ1xcyzG28Q
+X-ITU-Libra-ESVA-ID: 4Z6gZb6ZYqzG2Rr
 X-ITU-Libra-ESVA: No virus found
 X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741715097.34757@b9Ic/+gcwNFRhNquGfUXyw
+X-ITU-Libra-ESVA-Watermark: 1741716908.47009@+NuHWekCE3cJL4KxGLSV7g
 X-ITU-MailScanner-SpamCheck: not spam
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -212,35 +170,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Mar 03, 2025 at 01:08:29PM +0300, Dan Carpenter wrote:
+> Real bugs where we dereference a pointer and then check for NULL don't
+> last long in the kernel.  Most of the stuff Markus is sending is false
+> positives like this.
 
+Maybe I was too optimistic.  Here are the Smatch warnings from the
+Friday's linux-next.
 
-On 3/3/25 09:52, Krzysztof Kozlowski wrote:
-> On 03/03/2025 09:42, Michal Wilczynski wrote:
->>>> +allOf:
->>>> +  - if:
->>>> +      properties:
->>>> +        compatible:
->>>> +          contains:
->>>> +            const: thead,th1520-clk-vo
->>>> +    then:
->>>> +      required:
->>>> +        - resets
->>>
->>> else:
->>> ? What's there? Also reset or no?
->>
->> If the else: case the reset is not required, as it's only required in
->> the th1520clk-vo, so there is no need for else:.
-> That's not the question. I know it is not required, I can read code.
-> What is in the hardware?
+Common false positives are that the pointer can sometimes be NULL but
+there are other ways to determine without checking explicitly.  For
+example, maybe the caller passes a flag which means it's non-NULL.
 
-I noticed the register SW_GMAC1_GRST_N in section 5.4.2.2.66 of the
-manual (GMAC1_SWRST [2]), which indicates a GMAC1 CLKGEN soft reset.
-Although this could theoretically reset part of the AP clock, it is not
-actually used by the AP clock driver or needed for initialization.
+regards,
+dan carpenter
 
-> 
-> Best regards,
-> Krzysztof
-> 
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1639 kvm_prepare_memory_region() warn: variable dereferenced before check 'new' (see line 1622)
+arch/x86/kernel/fpu/xstate.c:1567 fpstate_realloc() warn: variable dereferenced before check 'curfps' (see line 1546)
+arch/x86/kvm/../../../virt/kvm/kvm_main.c:1639 kvm_prepare_memory_region() warn: variable dereferenced before check 'new' (see line 1622)
+drivers/base/dd.c:696 really_probe() warn: variable dereferenced before check 'dev->bus' (see line 640)
+drivers/base/dd.c:720 really_probe() warn: variable dereferenced before check 'dev->bus' (see line 640)
+drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn: variable dereferenced before check 'peer_device' (see line 587)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:12341 parse_edid_displayid_vrr() warn: variable dereferenced before check 'edid_ext' (see line 12337)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn21/rn_clk_mgr.c:775 rn_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 743)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn301/vg_clk_mgr.c:734 vg_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 720)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c:899 dcn314_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 838)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c:715 dcn315_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 654)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c:655 dcn316_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 634)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c:789 dcn31_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 728)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:1380 dcn35_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 1307)
+drivers/gpu/drm/i915/gem/i915_gem_shmem.c:174 shmem_sg_alloc_table() warn: variable dereferenced before check 'sg' (see line 163)
+drivers/gpu/drm/i915/gt/gen6_ppgtt.c:274 gen6_ppgtt_cleanup() warn: variable dereferenced before check 'ppgtt->base.pd' (see line 271)
+drivers/gpu/drm/i915/gt/intel_execlists_submission.c:3649 rcu_virtual_context_destroy() warn: variable dereferenced before check 've->base.sched_engine' (see line 3623)
+drivers/gpu/drm/nouveau/nouveau_dp.c:494 nouveau_dp_irq() warn: variable dereferenced before check 'outp' (see line 489)
+drivers/hid/hid-debug.c:3727 hid_debug_events_read() warn: variable dereferenced before check 'list->hdev' (see line 3713)
+drivers/net/ethernet/amd/pcnet32.c:1923 pcnet32_probe1() warn: variable dereferenced before check 'pdev' (see line 1843)
+drivers/net/ethernet/apm/xgene/xgene_enet_main.c:267 xgene_enet_tx_completion() warn: variable dereferenced before check 'skb' (see line 243)
+drivers/net/ethernet/natsemi/ns83820.c:884 rx_irq() warn: variable dereferenced before check 'skb' (see line 883)
+drivers/net/ethernet/pensando/ionic/ionic_txrx.c:205 ionic_rx_build_skb() warn: variable dereferenced before check 'buf_info->page' (see line 188)
+drivers/net/wireless/intel/iwlwifi/dvm/mac80211.c:1236 iwl_setup_interface() warn: variable dereferenced before check 'priv->lib->bt_params' (see line 1229)
+drivers/net/wireless/intel/iwlwifi/dvm/main.c:1114 iwl_init_drv() warn: variable dereferenced before check 'priv->lib->bt_params' (see line 1109)
+drivers/net/wireless/mediatek/mt76/mt76_connac_mac.c:307 mt76_connac2_mac_tx_rate_val() warn: variable dereferenced before check 'conf' (see line 300)
+drivers/net/wireless/mediatek/mt76/mt7925/mac.c:851 mt7925_tx_check_aggr() warn: variable dereferenced before check 'sta' (see line 847)
+drivers/nvme/host/ioctl.c:173 nvme_map_user_request() warn: variable dereferenced before check 'bio' (see line 162)
+drivers/platform/mellanox/mlxreg-lc.c:903 mlxreg_lc_probe() warn: variable dereferenced before check 'data->notifier' (see line 828)
+drivers/scsi/aacraid/commsup.c:2344 aac_command_thread() warn: variable dereferenced before check 'dev->queues' (see line 2332)
+drivers/scsi/aic7xxx/aic79xx_osm.c:1837 ahd_done() warn: variable dereferenced before check 'cmd' (see line 1793)
+drivers/scsi/csiostor/csio_mb.c:932 csio_fcoe_vnp_alloc_init_mb() warn: variable dereferenced before check 'vnport_wwnn' (see line 929)
+drivers/scsi/ips.c:2560 ips_next() warn: variable dereferenced before check 'scb->scsi_cmd' (see line 2554)
+drivers/scsi/ips.c:2568 ips_next() warn: variable dereferenced before check 'scb->scsi_cmd' (see line 2554)
+drivers/scsi/ips.c:2593 ips_next() warn: variable dereferenced before check 'scb->scsi_cmd' (see line 2554)
+drivers/scsi/libsas/sas_scsi_host.c:119 sas_scsi_task_done() warn: variable dereferenced before check 'sc' (see line 110)
+drivers/scsi/lpfc/lpfc_bsg.c:1332 lpfc_bsg_hba_get_event() warn: variable dereferenced before check 'evt_dat' (see line 1299)
+drivers/slimbus/qcom-ngd-ctrl.c:884 qcom_slim_ngd_xfer_msg() warn: variable dereferenced before check 'txn->msg' (see line 808)
+drivers/spi/spi-offload.c:186 spi_offload_trigger_get() warn: variable dereferenced before check 'trigger->ops' (see line 176)
+drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c:58 ia_css_output_config() warn: variable dereferenced before check 'from->info' (see line 53)
+drivers/usb/gadget/udc/tegra-xudc.c:2681 tegra_xudc_handle_transfer_completion() warn: variable dereferenced before check 'ep->desc' (see line 2679)
+drivers/usb/musb/musb_core.c:964 musb_handle_intr_disconnect() warn: variable dereferenced before check 'musb->hcd' (see line 963)
+fs/bcachefs/journal.c:1187 __bch2_set_nr_journal_buckets() warn: variable dereferenced before check 'c' (see line 1184)
+fs/efs/inode.c:299 efs_map_block() warn: variable dereferenced before check 'bh' (see line 292)
+fs/efs/inode.c:304 efs_map_block() warn: variable dereferenced before check 'bh' (see line 292)
+fs/efs/inode.c:309 efs_map_block() warn: variable dereferenced before check 'bh' (see line 292)
+fs/nfs/write.c:808 nfs_inode_remove_request() warn: variable dereferenced before check 'folio' (see line 805)
+fs/ocfs2/dlm/dlmrecovery.c:1590 dlm_mig_lockres_worker() warn: variable dereferenced before check 'res' (see line 1563)
+fs/ocfs2/move_extents.c:322 ocfs2_defrag_extent() warn: variable dereferenced before check 'context->data_ac' (see line 279)
+fs/ocfs2/namei.c:1455 ocfs2_rename() warn: variable dereferenced before check 'newfe_bh' (see line 1452)
+fs/ocfs2/namei.c:1637 ocfs2_rename() warn: variable dereferenced before check 'old_dir_bh' (see line 1618)
+fs/smb/client/file.c:3085 cifs_oplock_break() warn: variable dereferenced before check 'inode' (see line 3056)
+lib/reed_solomon/decode_rs.c:315 decode_rs16() warn: variable dereferenced before check 'par' (see line 81)
+net/core/failover.c:85 failover_slave_register() warn: variable dereferenced before check 'fops' (see line 66)
+net/mpls/mpls_iptunnel.c:156 mpls_xmit() warn: variable dereferenced before check 'out_dev' (see line 56)
+
 
