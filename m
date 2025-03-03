@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF745A4C120
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 14:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3052A4C134
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 14:04:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F83410E410;
-	Mon,  3 Mar 2025 13:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1320410E1D4;
+	Mon,  3 Mar 2025 13:04:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nchwyBUw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YDRHU65A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BACE010E40C;
- Mon,  3 Mar 2025 13:00:12 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D53210E1D4
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 13:04:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 234D661195;
- Mon,  3 Mar 2025 13:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531B8C4AF0B;
- Mon,  3 Mar 2025 13:00:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 695585C5883
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 13:02:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F2CC4CEEE
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 13:04:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741006811;
- bh=RVOfscREw4GtPB4azPGZinG7tSiPuv/uEy+UwtEpZQo=;
+ s=k20201202; t=1741007093;
+ bh=Kc67sUpClxemt8Xxy2aFwoflyMsGfUhh3kfftx68WzA=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=nchwyBUwicCSYaNel8bwyqk++4HG9lq6UyVsa3Yt5G8sVfsqdOlDxIVPoyBGNjAY1
- 6Fyz0tkHgx7CPxWbjD8oV6a0c6j86yNWPzRNoVt1s1aj5pYa5XGQKglltX2YAMefzT
- 1K1+KH8Bn3DnNpE/HpmZ/2xpHfDKpKOrq6A/U6/rAubeS0XvoU/djnPmZmgtnR6FXp
- 0n3RaP5Z2aFcqk/BsfsOyZKArzD3s6COrbV1Za511dMxae/fewcZ9WY+0VEU+RA4sE
- nh9j7a6thKqmnNrbigkiZh4sB8f8xF06FpOcd6+pBe++Boi4iDapluZFemeVum5Csb
- s8maBu1zLlbZA==
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54298ec925bso6657864e87.3; 
- Mon, 03 Mar 2025 05:00:11 -0800 (PST)
+ b=YDRHU65A1Zoh3hw1p3HsOJsSkqBvhXSHfah9Wlq5+a88AV942SLRoCzZy0pmV6NXf
+ Qu7+Iac3vuoEI7P/cuKNYGcVIEqg3Rp1KpCKtdDnkDqhwdisDWSRtAeIa468AbqBT2
+ 48epWenhmUO9x3U1IjuiI1eJxV5x5CKAWo8hqcux0/VFCdgciN9DY6QMcsZEfsOGB9
+ Wx7NYPSdS/UDjgCcdsw4fwQPDfEbbBRCe7Nr5BZH0o2AbckyTQhxBeIJHSNVHgGFE0
+ k94UiVDiMOmX2TLm5hsXZnk4OsBX5zV21tYr6zL2Mlbx6AdB/GrQsAwMqj3FbxSUgm
+ 0/MeS2k4ccSgQ==
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-2fea795bafeso6521435a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 05:04:53 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXo4UwyujLvMkg7tC9ZGszsPvVsmizFKU2rLDhrrDfE7syV4qdH3KMkDoHsEM4o0XpbF7oiWKwJ1RQ=@lists.freedesktop.org,
- AJvYcCXuaQu6rK+qv2E9hWwcFC53w89bq0o/EldJWoSiQkmqrrITKtNIzAieRVU8xP1LMvr4bstKXj5ze7Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywl28CtYjyWqUX8z7TsbiuVl9+jF3fSH/ucXI1SQ2YEK/QI9cyP
- WYdXcWxeofLUCE2YxMJMZjEzus5QPErB3KZpOy3LQqW5xMxpAJK2Evew5Gmf6jDnd/g5xe4xxus
- zE8tQ4eq14Bb/AXNYU7PQdMpEDpQ=
-X-Google-Smtp-Source: AGHT+IETebjLZgobBPu92rQ56cmnkFN8aUcSOW9fFKm5LgbF9Yc/aA2hoLDU95Na24bCBQRb/Eb0MDiwk5krC3W5jHs=
-X-Received: by 2002:a05:6512:308f:b0:549:6cac:6717 with SMTP id
- 2adb3069b0e04-5496cac6755mr962478e87.53.1741006809916; Mon, 03 Mar 2025
- 05:00:09 -0800 (PST)
+ AJvYcCV+aPYTTS/XG9NCQh/WDrZYu0emuSmVbuuqnhUEL+9IK3vc9OJlrFSYPidIO/fr5rVaWMaAo7CxX2E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/T7fBEdtTBRI48xkA1WjnHRPCMANGss8wz0jhHWlO42d8kger
+ Wsn10izAepkW7UPPiPgcfzmSIY2ENjVHBWkCxlQqbyJOsEPDHBiTKm5zRVzIpv42+fgVniSRIsk
+ EbiE0kfed3bbrZVj/wSiphd/sqg==
+X-Google-Smtp-Source: AGHT+IH02/n0X6E1gCWCCjIwiDiMBCCog908/wSy8glvpxrUWG7zl9UbjAuOmobw7eTHtsiFGSu1wTms11iI4ft0D/Q=
+X-Received: by 2002:a17:90a:d408:b0:2fa:603e:905c with SMTP id
+ 98e67ed59e1d1-2fea12683b9mr27834691a91.2.1741007093217; Mon, 03 Mar 2025
+ 05:04:53 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1737556766.git.jani.nikula@intel.com>
- <d8ad1c6d707f38a55987f616cb9650aef30b84e1.1737556766.git.jani.nikula@intel.com>
- <CAK7LNATHXwEkjJHP7b-ZmhzLfyyuOdsyimna-=r-sJk+DxigrA@mail.gmail.com>
- <87r03e1lft.fsf@intel.com>
-In-Reply-To: <87r03e1lft.fsf@intel.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 3 Mar 2025 21:59:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARYBtpwkJxbf84+bzBYn05Kk2zvdVLDZMMBg=B_zzFokg@mail.gmail.com>
-X-Gm-Features: AQ5f1Jp-xOt0Zjm6RgkHvxBJFiKhzMczkhCsDSwP_YDiPua8QVxnAvviV1MQ_fI
-Message-ID: <CAK7LNARYBtpwkJxbf84+bzBYn05Kk2zvdVLDZMMBg=B_zzFokg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm: ensure drm headers are self-contained and pass
- kernel-doc
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, simona.vetter@ffwll.ch, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Linus Torvalds <torvalds@linux-foundation.org>
+References: <20250116094249.1.I29b0b621abb613ddc70ab4996426a3909e1aa75f@changeid>
+In-Reply-To: <20250116094249.1.I29b0b621abb613ddc70ab4996426a3909e1aa75f@changeid>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 3 Mar 2025 21:05:40 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__Ka-RD1=XmaAuEjrhkQMQQ7Mg+rgXaNe8ka-VGeRZ4JQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JoCI49gG24ADeeYR9aiQBSlqnUG9YwDaVyfJzTrVZzFPkF3TWLMSnf3T2w
+Message-ID: <CAAOTY__Ka-RD1=XmaAuEjrhkQMQQ7Mg+rgXaNe8ka-VGeRZ4JQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: dp: drm_err => dev_err in HPD path to avoid
+ NULL ptr
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, 
+ David Airlie <airlied@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,233 +79,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 3, 2025 at 7:02=E2=80=AFPM Jani Nikula <jani.nikula@intel.com> =
-wrote:
+Hi, Douglas:
+
+Douglas Anderson <dianders@chromium.org> =E6=96=BC 2025=E5=B9=B41=E6=9C=881=
+7=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=881:43=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> On Mon, 03 Mar 2025, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > +CC: Linus
-> >
-> > On Wed, Jan 22, 2025 at 11:41=E2=80=AFPM Jani Nikula <jani.nikula@intel=
-.com> wrote:
-> >>
-> >> Ensure drm headers build, are self-contained, have header guards, and
-> >> have no kernel-doc warnings, when CONFIG_DRM_HEADER_TEST=3Dy.
-> >>
-> >> The mechanism follows similar patters used in i915, xe, and usr/includ=
-e.
-> >>
-> >> To cover include/drm, we need to recurse there using the top level
-> >> Kbuild and the new include/Kbuild files.
-> >
-> > NACK.
-> >
-> > I replied here:
-> > https://lore.kernel.org/all/CAK7LNARJgqADxnOXAX49XzDFD4zT=3D7i8yTB0o=3D=
-EmNtxmScq8jA@mail.gmail.com/T/#u
+> The function mtk_dp_wait_hpd_asserted() may be called before the
+> `mtk_dp->drm_dev` pointer is assigned in mtk_dp_bridge_attach().
+> Specifically it can be called via this callpath:
+>  - mtk_edp_wait_hpd_asserted
+>  - [panel probe]
+>  - dp_aux_ep_probe
 >
-> I really don't find it fair to completely ignore several pings over an
-> extended period of time, and then show up to NAK after the patches have
-> been merged.
-
-
-Sorry, I didn't mean to ignore it - I simply didn't notice it.
-
-I regularly check linux-kbuild and linux-kernel MLs (though I still miss
-responding to many emails).
-However, I don't check the drm ML at all.
-I need to reconsider my email filtering rules, but in reality,
-I can't respond to all emails in time.
-
-I believe you are re-adding something Linus was negative about:
-https://lore.kernel.org/all/87a7982hwc.fsf@intel.com/
-
-
-
-
-> > I CCed Linus to avoid him accidentally pulling this.
-> > He disliked this misfeature.
+> Using "drm" level prints anywhere in this callpath causes a NULL
+> pointer dereference. Change the error message directly in
+> mtk_dp_wait_hpd_asserted() to dev_err() to avoid this. Also change the
+> error messages in mtk_dp_parse_capabilities(), which is called by
+> mtk_dp_wait_hpd_asserted().
 >
-> I believe being able to statically check the headers at build time, both
-> by the developers and CI, depending on a config option, makes for a more
-> pleasant development experience.
->
-> We've had this in i915 and xe for a long time, and we avoid a lot of
-> build breakage due to missing includes e.g. while refactoring, and we
-> don't get reports about kernel-doc issues either. Because they all fail
-> at build, and we catch the issues pre-merge. We skip a whole class of
-> merge->dammit->fix cycles with this.
->
-> All of the drm headers are clean and pass. We don't add any exception
-> lists. It's not enabled by default.
+> While touching these prints, also add the error code to them to make
+> future debugging easier.
 
-I'm not a big fan of the header tests in i915 and xe.
-However, you've built a fence and you are dong what you want
-in driver-local Makefiles, so I can't avoid them.
+Applied to mediatek-drm-next [1], thanks.
 
+[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
+git/log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
 
 >
-> I can appreciate this might not be the best approach for all of
-> include/linux, but for include/drm, I think it's definitely a win.
+> Fixes: 7eacba9a083b ("drm/mediatek: dp: Add .wait_hpd_asserted() for AUX =
+bus")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> Unfortunately, I have only been able to compile-time test this code. I
+> hit the NULL pointer dereference on a device that's nowhere near
+> upstream and it was running (sigh) a heavily modified copy of this
+> code where the eDP stuff has been forked out of DP. Specifically, you
+> can see <https://crrev.com/c/6073744>. It's pretty easy to understand
+> that the same problem affects both codebases though, so I'm posting
+> this "blind" in the hopes to at least fix upstream.
 >
-> And one of the underlying goals is to make for minimal headers with
-> minimal includes and minimal dependencies, preferring forward
-> declarations over includes, splitting functionality by header, etc. It's
-> just that doing that often leads to broken headers, unless you actually
-> build test them... and here we are.
-
-
-What I learned from my last attempt is that we cannot avoid
-false positives without adding a lot of exceptions.
-
-We can never be certain whether you are making DRM headers
-self-contained for valid reasons or for hypothetical, invalid ones.
-
-
-
-
-
-
-
+> I'll also note that the fact that mtk_edp_wait_hpd_asserted() calls
+> mtk_dp_parse_capabilities() feels weird/wrong to me based on other eDP
+> code I've worked on, but I've only barely looked at the Mediatek
+> driver and perhaps others have already debated this. In any case,
+> that's not directly related to this patch.
 >
-> BR,
-> Jani.
+>  drivers/gpu/drm/mediatek/mtk_dp.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
+/mtk_dp.c
+> index 0687672f0e52..ccd104d8851f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -1763,7 +1763,7 @@ static int mtk_dp_parse_capabilities(struct mtk_dp =
+*mtk_dp)
 >
-> >
-> >
-> >
-> >
-> >>
-> >> v4: check for CONFIG_WERROR in addition to CONFIG_DRM_WERROR
-> >>
-> >> v3: adapt to upstream build changes
-> >>
-> >> v2: make DRM_HEADER_TEST depend on DRM
-> >>
-> >> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> >> Cc: David Airlie <airlied@gmail.com>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >> Cc: Maxime Ripard <mripard@kernel.org>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> >> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >> ---
-> >>  Kbuild                   |  1 +
-> >>  drivers/gpu/drm/Kconfig  | 11 +++++++++++
-> >>  drivers/gpu/drm/Makefile | 18 ++++++++++++++++++
-> >>  include/Kbuild           |  1 +
-> >>  include/drm/Makefile     | 18 ++++++++++++++++++
-> >>  5 files changed, 49 insertions(+)
-> >>  create mode 100644 include/Kbuild
-> >>  create mode 100644 include/drm/Makefile
-> >>
-> >> diff --git a/Kbuild b/Kbuild
-> >> index 464b34a08f51..f327ca86990c 100644
-> >> --- a/Kbuild
-> >> +++ b/Kbuild
-> >> @@ -97,3 +97,4 @@ obj-$(CONFIG_SAMPLES) +=3D samples/
-> >>  obj-$(CONFIG_NET)      +=3D net/
-> >>  obj-y                  +=3D virt/
-> >>  obj-y                  +=3D $(ARCH_DRIVERS)
-> >> +obj-$(CONFIG_DRM_HEADER_TEST)  +=3D include/
-> >> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> >> index fbef3f471bd0..f9b3ebf63fa9 100644
-> >> --- a/drivers/gpu/drm/Kconfig
-> >> +++ b/drivers/gpu/drm/Kconfig
-> >> @@ -494,6 +494,17 @@ config DRM_WERROR
-> >>
-> >>           If in doubt, say N.
-> >>
-> >> +config DRM_HEADER_TEST
-> >> +       bool "Ensure DRM headers are self-contained and pass kernel-do=
-c"
-> >> +       depends on DRM && EXPERT
-> >> +       default n
-> >> +       help
-> >> +         Ensure the DRM subsystem headers both under drivers/gpu/drm =
-and
-> >> +         include/drm compile, are self-contained, have header guards,=
- and have
-> >> +         no kernel-doc warnings.
-> >> +
-> >> +         If in doubt, say N.
-> >> +
-> >>  endif
-> >>
-> >>  # Separate option because drm_panel_orientation_quirks.c is shared wi=
-th fbdev
-> >> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> >> index 85af94bb907d..42901f877bf2 100644
-> >> --- a/drivers/gpu/drm/Makefile
-> >> +++ b/drivers/gpu/drm/Makefile
-> >> @@ -222,3 +222,21 @@ obj-y                      +=3D solomon/
-> >>  obj-$(CONFIG_DRM_SPRD) +=3D sprd/
-> >>  obj-$(CONFIG_DRM_LOONGSON) +=3D loongson/
-> >>  obj-$(CONFIG_DRM_POWERVR) +=3D imagination/
-> >> +
-> >> +# Ensure drm headers are self-contained and pass kernel-doc
-> >> +hdrtest-files :=3D \
-> >> +       $(shell cd $(src) && find . -maxdepth 1 -name 'drm_*.h') \
-> >> +       $(shell cd $(src) && find display lib -name '*.h')
-> >> +
-> >> +always-$(CONFIG_DRM_HEADER_TEST) +=3D \
-> >> +       $(patsubst %.h,%.hdrtest, $(hdrtest-files))
-> >> +
-> >> +# Include the header twice to detect missing include guard.
-> >> +quiet_cmd_hdrtest =3D HDRTEST $(patsubst %.hdrtest,%.h,$@)
-> >> +      cmd_hdrtest =3D \
-> >> +               $(CC) $(c_flags) -fsyntax-only -x c /dev/null -include=
- $< -include $<; \
-> >> +               $(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERR=
-OR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-> >> +               touch $@
-> >> +
-> >> +$(obj)/%.hdrtest: $(src)/%.h FORCE
-> >> +       $(call if_changed_dep,hdrtest)
-> >> diff --git a/include/Kbuild b/include/Kbuild
-> >> new file mode 100644
-> >> index 000000000000..5e76a599e2dd
-> >> --- /dev/null
-> >> +++ b/include/Kbuild
-> >> @@ -0,0 +1 @@
-> >> +obj-$(CONFIG_DRM_HEADER_TEST)  +=3D drm/
-> >> diff --git a/include/drm/Makefile b/include/drm/Makefile
-> >> new file mode 100644
-> >> index 000000000000..a7bd15d2803e
-> >> --- /dev/null
-> >> +++ b/include/drm/Makefile
-> >> @@ -0,0 +1,18 @@
-> >> +# SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +# Ensure drm headers are self-contained and pass kernel-doc
-> >> +hdrtest-files :=3D \
-> >> +       $(shell cd $(src) && find * -name '*.h' 2>/dev/null)
-> >> +
-> >> +always-$(CONFIG_DRM_HEADER_TEST) +=3D \
-> >> +       $(patsubst %.h,%.hdrtest, $(hdrtest-files))
-> >> +
-> >> +# Include the header twice to detect missing include guard.
-> >> +quiet_cmd_hdrtest =3D HDRTEST $(patsubst %.hdrtest,%.h,$@)
-> >> +      cmd_hdrtest =3D \
-> >> +               $(CC) $(c_flags) -fsyntax-only -x c /dev/null -include=
- $< -include $<; \
-> >> +               $(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERR=
-OR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-> >> +               touch $@
-> >> +
-> >> +$(obj)/%.hdrtest: $(src)/%.h FORCE
-> >> +       $(call if_changed_dep,hdrtest)
-> >> --
-> >> 2.39.5
-> >>
+>         ret =3D drm_dp_dpcd_readb(&mtk_dp->aux, DP_MSTM_CAP, &val);
+>         if (ret < 1) {
+> -               drm_err(mtk_dp->drm_dev, "Read mstm cap failed\n");
+> +               dev_err(mtk_dp->dev, "Read mstm cap failed: %zd\n", ret);
+>                 return ret =3D=3D 0 ? -EIO : ret;
+>         }
+>
+> @@ -1773,7 +1773,7 @@ static int mtk_dp_parse_capabilities(struct mtk_dp =
+*mtk_dp)
+>                                         DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0=
+,
+>                                         &val);
+>                 if (ret < 1) {
+> -                       drm_err(mtk_dp->drm_dev, "Read irq vector failed\=
+n");
+> +                       dev_err(mtk_dp->dev, "Read irq vector failed: %zd=
+\n", ret);
+>                         return ret =3D=3D 0 ? -EIO : ret;
+>                 }
+>
+> @@ -2056,7 +2056,7 @@ static int mtk_dp_wait_hpd_asserted(struct drm_dp_a=
+ux *mtk_aux, unsigned long wa
+>
+>         ret =3D mtk_dp_parse_capabilities(mtk_dp);
+>         if (ret) {
+> -               drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
+> +               dev_err(mtk_dp->dev, "Can't parse capabilities: %d\n", re=
+t);
+>                 return ret;
+>         }
 >
 > --
-> Jani Nikula, Intel
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+> 2.48.0.rc2.279.g1de40edade-goog
+>
