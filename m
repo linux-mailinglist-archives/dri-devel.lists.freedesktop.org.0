@@ -2,120 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B39A4C806
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 17:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC164A4C81E
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 17:50:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36BE10E3D6;
-	Mon,  3 Mar 2025 16:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4911810E4AA;
+	Mon,  3 Mar 2025 16:50:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Cea/g+7T";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="AtFOJ68a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B3610E3D6
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 16:48:38 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-43690d4605dso30126475e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 08:48:38 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA5410E4AA
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 16:50:19 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id
+ a1e0cc1a2514c-860f0e91121so5313940241.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 08:50:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741020517; x=1741625317; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=f6twUH0//ksDRm2f064XsJv+UZF+J+plN/dZHzNZ8hs=;
- b=Cea/g+7TwuaXCoIKfRn2mKOYFp1helmaUkZqBQVNotqe1CuolmPEU0pORc6DEXH6gH
- Fgof6qLjg+TFeb5u6VLlgAoJ+A43o55SL787WSLderTfCQfw/Fap+TMFFImYVcJO37cX
- zJDq/GB5gpL05VLNnefWyARA1Z4Ymxw0A9mS8oSF7qaDYLnlN7IreJtLz4Hg8jyaMR2m
- CuncTPglSdDxdG3O2DDZDtkAq75cG3nkL22g0u2Bh0CLE+jkZNy2XI4At7M4w4MDvAXJ
- LfPJI31IsEt7O59jU0dM0d/OWzxSRjQ3nMcYGYALrmsRTHV42sJ1Uz63F9B0ImB2y5aG
- lhAQ==
+ d=broadcom.com; s=google; t=1741020618; x=1741625418;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2ZyVKdgKj2NHGD5cokeTWWAWdea5A7NHNkFxqA2FqLI=;
+ b=AtFOJ68aT8aWzuVYV2UuixWbdLq6MyP8aPjPuQkpEHDYIsqH9n5CLYrAQ/GhVe5Q9l
+ ZsN+MQBDYI8GV95ewef8Zr+JlodJYkILoeLVfqnkiUVcRCFM1bLZEqzNz96AYLytZlC6
+ w9nhjC6kPyQHpaXe1GLzVckIArg2vHd14wSlU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741020517; x=1741625317;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=f6twUH0//ksDRm2f064XsJv+UZF+J+plN/dZHzNZ8hs=;
- b=SdcpyYfLi3X41SxbSAO8xbldSYdVLjeOwQ+rzDe9RTWTwsak8Byhq50IYfNgWXg/8P
- 6tZKn/0LeBkxQeNf8Yso+gM0rRk1E05V+kaTXhqiQT99Fn1OGghFLOqH0/EliHebV1Bc
- WD/vH7+suFqrXicsti1VMJQEAdP1YZNppmTtmmGQeanLu1Uf8AMYoDH7oIr5z+8xAjOH
- pAI+8ie0RY/flusKV5XkxV3E2ikZnLxvL+dy2btONKbspUojtpqBPDR6nAGn9RcNrmtU
- j/jtVUjuXFYRvuaaO/ccI8ZRHoGz3fbl5/t1+i885zHwvnYBX0nLtz43SIOmNHDnBS29
- K+cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8efp4BVEjX9e+Y1+Q/egFNoZafTlCP8X0r3VYQyZcS2RRkmVqVT8wCB4z61Ke0EvYGw6/teQAHsw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwHkegWRkZjdhwVYRtoPZXkqsUQrFZOdy26KGT+/Dw2cYKN+KaW
- hGJr+B24oM+ZaErhYI/kKVjLK8rO9HQCFJ6kP9BszgVZIyweo7L10kEhQyDnOEo=
-X-Gm-Gg: ASbGncuo2aftEw332Osvf0vzFLTD1LRbZw323yE0bC/bYy1ZsudGl0EtEE+jM2osvLb
- oScXL7wLrSo1bE+LaMJLlyWBc5zqjBdEf+lpqVjBn4AKB4175Iujb4+RbC7ajePl9G/BOAFPNgD
- qhK+zDj5TQP6EsarUe7Tty57tDzZPK97O7xACfZxARr3IMFWF8hKg30VP8dr2A2sp3K1P0uQxnd
- 1fVS71zLy2KzkISInM1hZ8rEUazl9vKaMTkYKvXfFqbfhKsBO+KzIWF3cn3UCLncF3PX0fgJcdH
- 7GelN/CJGOao6DAmlUqWtFWDaUDhY1SqCAvne/ryJJZNc7DFSWwb1nuUQXMeW0Bc6yv6o+XikLs
- iYR1l0Xw5nuzdoDt81pvkxQ==
-X-Google-Smtp-Source: AGHT+IHuX0Dyyj2drftfOnysc3kce8KOWtX0dSt1AKvY/DMf+bm0V8XjPV4RbCnMrW3lKy8qr5E0yQ==
-X-Received: by 2002:a05:600c:1387:b0:439:a138:20 with SMTP id
- 5b1f17b1804b1-43ba675d737mr105069055e9.20.1741020516721; 
- Mon, 03 Mar 2025 08:48:36 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:1c49:dea2:d749:5015?
- ([2a01:e0a:982:cbb0:1c49:dea2:d749:5015])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43bbf2edf84sm52318185e9.40.2025.03.03.08.48.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Mar 2025 08:48:36 -0800 (PST)
-Message-ID: <7a84f5fa-7128-4b51-8b05-e557e21663d8@linaro.org>
-Date: Mon, 3 Mar 2025 17:48:35 +0100
+ d=1e100.net; s=20230601; t=1741020618; x=1741625418;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2ZyVKdgKj2NHGD5cokeTWWAWdea5A7NHNkFxqA2FqLI=;
+ b=OLmV9lq3pYeTut3cxpGXr1ajULrKHBtb8m/4dxsSUzN1LkAHfWMshqiOjtrzCr99Ek
+ PKH6q+JaTJAG6aWxoG05VcOlXD7ERCTjvmlHkHSj0KWVrr2y//yWt9kypfwC7ngZPgCt
+ 1fPyKs2jkqykVZUvX2C2REyFdWY6DAWUgDU/JnluecgGVa63wBBhSDBrAyRQewpqRFk0
+ FWrwCac38cHXAoDFf2HkO/6r3H+a54PG7feRIQCXJ5rh5h2/kfgo/8lNLH1bwZlr6zFp
+ HiRJ1H+fPNIVfithiuXs4071YwHqBEV8MCn0u7eD0T4QQnAmhu0FjngGZR33yqNFeJuT
+ GoOQ==
+X-Gm-Message-State: AOJu0Yy6o69NWf6TzppZTnRZPj/wtbhhVxV37HuLcfrov4nm0Hy+0xWx
+ LFkeyk9fvLKjH/QVEhCYOFxdohFeyGMcDQFWRdZyP4+wBXsB/wV/L00F2F/s/STE0jhG4Cz9bfc
+ 4pxRjJLXuUDSfe1ol8Qn9qNJdXS89jTUUBnrx
+X-Gm-Gg: ASbGncvkTKR9UnHzB33LuaS8KdNxC06bNnkgEQm0I1z82Z99jxmP2/pRELhL488VcyS
+ MwrGzFg747LVDGJ5jxkvx9S7VKjAP7XZfTdSopeNdrTUyhVWjmzm/AHC0Gwv0NxB6qNJ7dGPtvv
+ V8a57ZToYq/GOA3KidzZCzetzNchs=
+X-Google-Smtp-Source: AGHT+IH5Qn7HpyGDPQIL/jO1onus9IlICSSEYZwx29DLYJb2JQZL7tXSYcjN8K1Z6x7D94glRHk0+4gH7kt5uWPp7vE=
+X-Received: by 2002:a05:6102:1808:b0:4c1:492a:d75b with SMTP id
+ ada2fe7eead31-4c1492ad966mr6013809137.2.1741020618157; Mon, 03 Mar 2025
+ 08:50:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v7 0/5] Driver for pre-DCP apple display controller.
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Maxime Ripard <mripard@kernel.org>, fnkl.kernel@gmail.com,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- asahi@lists.linux.dev, Janne Grunau <j@jannau.net>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Alyssa Ross <hi@alyssa.is>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Nick Chan <towinchenmi@gmail.com>
-References: <20250217-adpdrm-v7-0-ca2e44b3c7d8@gmail.com>
- <c3927b51-55ef-4a38-8931-18ff00caa8d8@linaro.org> <Z8XcH7xoDC7TA7ZC@blossom>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <Z8XcH7xoDC7TA7ZC@blossom>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250115044954.2496547-1-zack.rusin@broadcom.com>
+ <20250115044954.2496547-2-zack.rusin@broadcom.com>
+ <CAKLwHdUXzzC1nygXrJXCVEgTjqEkRc0e1csb_6-2CGydrByUNQ@mail.gmail.com>
+In-Reply-To: <CAKLwHdUXzzC1nygXrJXCVEgTjqEkRc0e1csb_6-2CGydrByUNQ@mail.gmail.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Mon, 3 Mar 2025 11:50:06 -0500
+X-Gm-Features: AQ5f1Jrg5yrhqwUPJ2DGDbrMXfeMtgec0uQ667lmwRU_-i9-hLJTnWQyOaqptwM
+Message-ID: <CABQX2QMWg+RBf7aMeTqmnDet0knOgenY_57PR1tawbBJGU4JQQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/vmwgfx: Refactor cursor handling
+To: Martin Krastev <martin.krastev@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ ian.forbes@broadcom.com, maaz.mombasawala@broadcom.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="000000000000825801062f72f3f0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,46 +78,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/03/2025 17:43, Alyssa Rosenzweig wrote:
->>> Sasha Finkelstein (5):
->>>         dt-bindings: display: Add Apple pre-DCP display controller
->>>         drm: adp: Add Apple Display Pipe driver
->>>         drm: panel: Add a panel driver for the Summit display
->>>         arm64: dts: apple: Add touchbar screen nodes
->>>         MAINTAINERS: Add entries for touchbar display driver
->>>
->>>    .../display/apple,h7-display-pipe-mipi.yaml        |  83 +++
->>>    .../bindings/display/apple,h7-display-pipe.yaml    |  88 +++
->>>    .../bindings/display/panel/apple,summit.yaml       |  58 ++
->>>    MAINTAINERS                                        |  16 +
->>>    arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
->>>    arch/arm64/boot/dts/apple/t8103.dtsi               |  61 ++
->>>    arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
->>>    arch/arm64/boot/dts/apple/t8112.dtsi               |  61 ++
->>>    drivers/gpu/drm/Kconfig                            |   2 +
->>>    drivers/gpu/drm/Makefile                           |   1 +
->>>    drivers/gpu/drm/adp/Kconfig                        |  17 +
->>>    drivers/gpu/drm/adp/Makefile                       |   5 +
->>>    drivers/gpu/drm/adp/adp-mipi.c                     | 276 +++++++++
->>>    drivers/gpu/drm/adp/adp_drv.c                      | 617 +++++++++++++++++++++
->>>    drivers/gpu/drm/panel/Kconfig                      |   9 +
->>>    drivers/gpu/drm/panel/Makefile                     |   1 +
->>>    drivers/gpu/drm/panel/panel-summit.c               | 132 +++++
->>>    17 files changed, 1489 insertions(+)
->>> ---
->>> base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
->>> change-id: 20241124-adpdrm-25fce3dd8a71
->>>
->>>
->>
->> All patches are reviewed, can we funnel patches 1, 2 & 5 via drm-misc-next now ?
-> 
-> I'm planning to do so today, just need to get dim setup first :)
+--000000000000825801062f72f3f0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Nice, go ahead then !
+Sorry, I didn't see this before because the email formatting got
+really butchered, I only found the underneath comment in it. Please
+let me know if there were more.
 
-Neil
+On Tue, Feb 11, 2025 at 9:33=E2=80=AFAM Martin Krastev
+<martin.krastev@broadcom.com> wrote:
+> On Wed, Jan 15, 2025 at 6:50=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.c=
+om> wrote:
+...
+> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c b/drivers/gpu=
+/drm/vmwgfx/vmwgfx_cursor_plane.c
+> > new file mode 100644
+> > index 000000000000..05a1ea1f83e9
+...
+> > +void *vmw_cursor_snooper_create(struct drm_file *file_priv,
+> > +                               struct vmw_surface_metadata *metadata)
+> > +{
+> > +       if (!file_priv->atomic && metadata->scanout &&
+> > +           metadata->num_sizes =3D=3D 1 &&
+> > +           metadata->sizes[0].width =3D=3D VMW_CURSOR_SNOOP_WIDTH &&
+> > +           metadata->sizes[0].height =3D=3D VMW_CURSOR_SNOOP_HEIGHT &&
+> > +           metadata->format =3D=3D VMW_CURSOR_SNOOP_FORMAT) {
+> > +               const struct SVGA3dSurfaceDesc *desc =3D
+> > +                       vmw_surface_get_desc(VMW_CURSOR_SNOOP_FORMAT);
+> > +               const u32 cursor_size_bytes =3D VMW_CURSOR_SNOOP_WIDTH =
+*
+> > +                                             VMW_CURSOR_SNOOP_HEIGHT *
+> > +                                             desc->pitchBytesPerBlock;
+> > +               void *image =3D kzalloc(cursor_size_bytes, GFP_KERNEL);
+> > +
+> > +               if (!image) {
+> > +                       DRM_ERROR("Failed to allocate cursor_image\n");
+> > +                       return ERR_PTR(-ENOMEM);
+> > +               }
+> > +               return image;
+> > +       }
+> > +       return NULL;
+>
+> If vmw_cursor_snooper_create() implies an IS_ERR ret-val check by
+> caller, as demonstrated in vmw_surface_define_ioctl() below,
+> are we sure we want to return a NULL value here and not some ERR_PTR?
+> A NULL could surprise some callers down the line.
+
+No, the null is a valid (and in fact ideal) return from this function.
+So ideally we don't want the snooper, i.e. it should be NULL. Under
+some circumstances (specified by that conditional in
+vmw_cursor_snooper_create) we do require a cursor snooper. If we
+require it and we're unable to create it that's an error. But if we
+don't need it we won't create it and that's not an error.
+
+
+> LGTM, with one remark -- see the one inlined comment above.
+>
+> Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+
+Thanks!
+
+z
+
+--000000000000825801062f72f3f0
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJkMIICYAIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIKOS
+H0DWVsngGBydwqyqOAZKtb16p2vXj9D/HmwQ/k4tMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MDMwMzE2NTAxOFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJ
+KoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCqHfzOTgIeCcgl+pbf5OII
+s3SHT440eJ/Ww8UnmcH4Ahwjamc1rFSN8jiTtpJAT/KWcYauFtsJv8BXmuSI5dofmw+U1ecDPN+K
+IhLFDCRMd/a8ccm41fq3c0ut07DRy9haObtGNtKFSjw1IsGyZz29zCKMZvTGTZf7MqsI7lWJT5dD
+/v3hF22h4QAcU5G8ACJR3YnUcZ9Ej7Ndm7z5g33eH5NE7sfbfaxfczbVStZf0k7Xty7Hc/3JPlcX
+xMd5p8klDHtFwMkVdejhyATDZCV+CYjAM6UDGkmZJ2XEE5060tgc8+gKJ6K3SnhAmJqu9A+PBRy6
+f2AFjOZ192yDby6h
+--000000000000825801062f72f3f0--
