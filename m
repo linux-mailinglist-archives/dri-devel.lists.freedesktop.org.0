@@ -2,57 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24B8A4C43F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 16:08:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7759BA4C475
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 16:14:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2BF10E447;
-	Mon,  3 Mar 2025 15:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E14F10E0BA;
+	Mon,  3 Mar 2025 15:14:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="elETcbPU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yBXG9twc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E800D10E447
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 15:07:53 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Z62HT1VSpz9smd;
- Mon,  3 Mar 2025 16:07:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741014469; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iBPG7n3y2ClZ2gcQ+yvlN/v5j78/gLYozFYU3F5P0Y0=;
- b=elETcbPUqQjzpuHyP6HpebsY9gnWeh3HERipnbBAhNYo9sQstsrwakLHdSTDKKp16wdTo8
- qeL3DWFbwyrneUCCk3OYiFu4V3PhGceZXbOoc9nLnDa3O9CORAcNb7OA6klv3k3XNhuxVg
- bfGHf2cF00+Z4cwdx5c/077twrzjpHKsWNvh4UDjyACWgStQQcbqwd0+AXwCRheHiLyCJ4
- LuYtA49atdNOWRYAsmxsqkWtC0T7tClSM37rjsurV+eDxvXMR4p2yCToKsMCQnbWPm/6Dh
- ywR/ZWfrpe3UqiiESoUf7N7IU0v7oh7zQ6npAm+8j3SGzsS1Nu9U15PgERDGlg==
-Message-ID: <3d4fc7d979ef0b22422f18de073be87e69ad92b5.camel@mailbox.org>
-Subject: Re: [RFC PATCH] drm/sched: Fix preprocessor guard
-From: Philipp Stanner <phasta@mailbox.org>
-To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Mon, 03 Mar 2025 16:07:45 +0100
-In-Reply-To: <20250218124149.118002-2-phasta@kernel.org>
-References: <20250218124149.118002-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D76E10E0BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 15:14:47 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-22185cddbffso93777975ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 07:14:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1741014887; x=1741619687; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9P5ntA4Pdscf2TI4VTvqsQt0sGqmIO+SzteIpMMDQGU=;
+ b=yBXG9twcRmGFFZ8A1KOKPZVpud7eLGjpl+AjLzsek1psij+W2BqMuCMwMRJ1sKt+HB
+ 03KCGhkykukjKmGKZtoRKWwSErRVEofARzckkqiMhvZp3yFI5WnWir43sarbAIRDB707
+ lNft41JShxZjCNa6Kzae92cK7g0YK9sgdCuIbNPHVnlDb9RUPZ/7UmCGd3Ted2Gt3BrY
+ nDwJHHGS36qii9p9R9MYPbRayu4gDPUtMY+xWriGlUOEu+g/9s9cL62r+/+HpYguXkMJ
+ ek5pHhRAnW5guwA3wgtL7hpfYzsCpyUbitfWgy18hL8hMfG0+tXt4fo+CAqInH1cQvq5
+ OdLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741014887; x=1741619687;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9P5ntA4Pdscf2TI4VTvqsQt0sGqmIO+SzteIpMMDQGU=;
+ b=mAi3CLmudx/eRAxoamTzV9zZORMhvVm7cU2dn/R7UVQc6O6Mq8SmYazF70C+GVaZEr
+ Y0q8ua+GEx+ICj7y7X1Z4aiXSXTvklpXqq+PdWjUn6HNveyTVvm8kqdtD3RjED4J9TEp
+ ooRDNWRbd3KtwfN744wI0NFUbzPX+IuZBLSLISp4k/ssSRr9gQPQiMXcF6cKOuetu+Cq
+ iD0O5WkJ54wB80HbFWUb+lCtXwuDA5flThaBMDiKShuVY2pixRp4NDNe3HMRSUJtkb03
+ Js/rlmIzf2mEeaS3tI5HQSY5pRB2o9Yop4NX7X94+7VOHOXmnDeBGvo43gRSWDCuPHpd
+ efTw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV19ZZ2KmnDnK9dChpl6/DmAj8eZrLVVey5EdM1gJ/KsxsyvXoaYwmeTPYsNU1rOhVVUDjhIZbv9Gs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxj/onj5zr8RuH5BKEniKV6gGNwAX+p79lSsUg71ZVw/Upj4sK0
+ 4NzNNBp2f20CbgLV2z/Yhc1cdOW4i0Pw+sjCqGVr4stowZ/ZkCwIFeT2VxENLwI=
+X-Gm-Gg: ASbGncupdtJbc8G1wKYMaW5QZETtiJbtl1st/1myCSKgChHnfZEIPlmpJlqKAGnv0pp
+ CjRrQAZamxjMb8Pv9fo0MuXuSrPUjfd2yqHWSWFdyvD76sPsp0nm+6QUn02kgZiz4Cfd7UxKG3T
+ Sa7d+bQK4jN9khrKjIxbt8FjG2GpdCngcyku9FqVPRHioEV9GDTDeeSbRu/zPIMabl51dD+c4Ap
+ pa+zLhrA4i95rrDjoMQsvtwE+QZNRO7/+Yi37j+m/SAS2fWGF99lSWusoYVsnPXkcdSxasO1Iw0
+ 2X06W+IyX5og1HZQchymRfyDqZ9ucTdK3Uw2vXecfA==
+X-Google-Smtp-Source: AGHT+IFe6fVcPQmj+gJ0NXf8CdcwYqg9UtNnUZce37u8e4vpO7GXlKW0Ech1Rzk0wTUuGfL8eCwAiQ==
+X-Received: by 2002:a17:902:ef81:b0:223:4dab:97e1 with SMTP id
+ d9443c01a7336-2234dab9800mr209819245ad.24.1741014886968; 
+ Mon, 03 Mar 2025 07:14:46 -0800 (PST)
+Received: from [127.0.1.1] ([112.64.60.252]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-736584b3cffsm1851984b3a.4.2025.03.03.07.14.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Mar 2025 07:14:46 -0800 (PST)
+From: Jun Nie <jun.nie@linaro.org>
+Subject: [PATCH v8 00/15] drm/msm/dpu: Support quad pipe with dual-DSI
+Date: Mon, 03 Mar 2025 23:14:29 +0800
+Message-Id: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-0-eb5df105c807@linaro.org>
 MIME-Version: 1.0
-X-MBO-RS-META: jomof6fq3cjhps7rdk5urqj9ef731461
-X-MBO-RS-ID: 56e81f524ec96604943
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFXHxWcC/63OQQ7CIBAF0KsY1o6h0EJ15T2MCyyDJdqCQ62ap
+ neXutK9y/+TmfcnlpA8JrZbTYxw9MmHPod6vWJNa/ozgrc5M8FFxUWhIXW1qjiMCooS2s6CxeZ
+ iyEJnU4Lb3Vi4xzQQmg7C1Z5CGB5kYkQCqSASRkDJt27raimVYRnKpfPPz4jDMefWpyHQ67NpV
+ Ev7Vz7fcmiKosw/dSmV3l99byhsAp3Z4o/6yxTqL6bOZm0rV7lSKDyJH3Oe5zfxekogiQEAAA=
+ =
+X-Change-ID: 20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-e309f9f8336a
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Jun Nie <jun.nie@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741014878; l=5837;
+ i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
+ bh=1G9+v+xHSV6e/Cc3fWuThPAWhwSF7iYoH/iluRyVxpM=;
+ b=lnFFMORGnWu/x1BqCoAxxyw9PYcRBIteWY9/UwYrdm15EPnAs32HoqEaAGPbgIWvY5DC7goGp
+ iSCzZ6IDgdPA4y6RSiw9Y9Pd+TyyKCD2x8+/X/JnUp7zYJsxvYxy8pZ
+X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
+ pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,58 +101,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-02-18 at 13:41 +0100, Philipp Stanner wrote:
-> When writing the header guard for gpu_scheduler_trace.h, a typo,
-> apparently, occurred.
->=20
-> Fix the typo and document the scope of the guard.
->=20
-> Fixes: 353da3c520b4 ("drm/amdgpu: add tracepoint for scheduler (v2)")
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+2 or more SSPPs and dual-DSI interface are need for super wide panel.
+And 4 DSC are preferred for power optimal in this case due to width
+limitation of SSPP and MDP clock rate constrain. This patch set
+extends number of pipes to 4 and revise related mixer blending logic
+to support quad pipe. All these changes depends on the virtual plane
+feature to split a super wide drm plane horizontally into 2 or more sub
+clip. Thus DMA of multiple SSPPs can share the effort of fetching the
+whole drm plane.
 
-Applied to drm-misc-fixes with Tvrtko's RB
+The first pipe pair co-work with the first mixer pair to cover the left
+half of screen and 2nd pair of pipes and mixers are for the right half
+of screen. If a plane is only for the right half of screen, only one
+or two of pipes in the 2nd pipe pair are valid, and no SSPP or mixer is
+assinged for invalid pipe.
 
-> ---
-> I just discovered this. But I have little understanding of what is
-> going
-> on in this header in the first place, so I kindly ask for comments on
-> this entire guard line with its logical or ||
->=20
-> The code hasn't been touched since 2015. So it seems it at least
-> didn't
-> cause bugs.
->=20
-> P.
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/gpu_scheduler_trace.h | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index c75302ca3427..f56e77e7f6d0 100644
-> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -21,7 +21,7 @@
-> =C2=A0 *
-> =C2=A0 */
-> =C2=A0
-> -#if !defined(_GPU_SCHED_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#if !defined(_GPU_SCHED_TRACE_H_) ||
-> defined(TRACE_HEADER_MULTI_READ)
-> =C2=A0#define _GPU_SCHED_TRACE_H_
-> =C2=A0
-> =C2=A0#include <linux/stringify.h>
-> @@ -106,7 +106,7 @@ TRACE_EVENT(drm_sched_job_wait_dep,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->seqno)
-> =C2=A0);
-> =C2=A0
-> -#endif
-> +#endif /* _GPU_SCHED_TRACE_H_ */
-> =C2=A0
-> =C2=A0/* This part must be outside protection */
-> =C2=A0#undef TRACE_INCLUDE_PATH
+For those panel that does not require quad-pipe, only 1 or 2 pipes in
+the 1st pipe pair will be used. There is no concept of right half of
+screen.
+
+For legacy non virtual plane mode, the first 1 or 2 pipes are used for
+the single SSPP and its multi-rect mode.
+
+To test bonded DSI on SM8650, the 5 patches for active-CTL improvement
+are needed:
+https://gitlab.freedesktop.org/lumag/msm/-/commits/dpu-4k?ref_type=heads
+
+Changes in v8:
+- Fix looping pipes of a plane in _dpu_plane_color_fill()
+- Improve pipe assignment with deleting pipes loop in stage.
+- Define PIPES_PER_PLANE properly when it appears fisrt.
+- rename lms_in_pair to lms_in_stage to avoid confusion.
+- Add review tags.
+- Link to v7: https://lore.kernel.org/r/20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-0-8d5f5f426eb2@linaro.org
+
+Changes in v7:
+- Improve pipe assignment to avoid point to invalid memory.
+- Define STAGES_PER_PLANE as 2 only when quad-pipe is introduced.
+- Polish LM number when blending pipes with min() and pull up to caller func.
+- Add review tags.
+- Link to v6: https://lore.kernel.org/r/20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-0-c11402574367@linaro.org
+
+Changes in v6:
+- Replace LM number with PP number to calculate PP number per encoder.
+- Rebase to Linux v6.14-rc2.
+- Add review tags.
+- Link to v5: https://lore.kernel.org/r/20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-0-9701a16340da@linaro.org
+
+Changes in v5:
+- Iterate SSPP flushing within the required mixer pair, instead of all
+  active mixers or specific mixer.
+- Limit qaud-pipe usage case to SoC with 4 or more DSC engines and 2
+  interfaces case.
+- Remove valid flag and use width for pipe validation.
+- Polish commit messages and code comments.
+- Link to v4: https://lore.kernel.org/r/20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org
+
+Changes in v4:
+- Restrict SSPP flushing to the required mixer, instead of all active mixers.
+- Polish commit messages and code comments.
+- Rebase to latest msm/drm-next branch.
+- Move pipe checking patch to the top of patch set.
+- Link to v3: https://lore.kernel.org/dri-devel/20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org
+
+Changes in v3:
+- Split change in trace into a separate patch.
+- Rebase to latest msm-next branch.
+- Reorder patch sequence to make sure valid flag is set in earlier patch
+- Rectify rewrite patch to move logic change into other patch
+- Polish commit messages and code comments.
+- Link to v2: https://lore.kernel.org/dri-devel/20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org
+
+Changes in v2:
+- Revise the patch sequence with changing to 2 pipes topology first. Then
+  prepare for quad-pipe setup, then enable quad-pipe at last.
+- Split DSI patches into other patch set.
+- Link to v1: https://lore.kernel.org/all/20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org
+    
+
+Signed-off-by: Jun Nie <jun.nie@linaro.org>
+---
+Jun Nie (15):
+      drm/msm/dpu: check every pipe per capability
+      drm/msm/dpu: Do not fix number of DSC
+      drm/msm/dpu: configure DSC per number in use
+      drm/msm/dpu: polish log for resource allocation
+      drm/msm/dpu: decide right side per last bit
+      drm/msm/dpu: fix mixer number counter on allocation
+      drm/msm/dpu: switch RM to use crtc_id rather than enc_id for allocation
+      drm/msm/dpu: bind correct pingpong for quad pipe
+      drm/msm/dpu: Add pipe as trace argument
+      drm/msm/dpu: handle pipes as array
+      drm/msm/dpu: split PIPES_PER_STAGE definition per plane and mixer
+      drm/msm/dpu: blend pipes per mixer pairs config
+      drm/msm/dpu: support SSPP assignment for quad-pipe case
+      drm/msm/dpu: support plane splitting in quad-pipe case
+      drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  89 +++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      |  70 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h          |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c        | 404 ++++++++++++++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h        |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c           | 215 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h           |  32 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h        |  10 +-
+ 12 files changed, 516 insertions(+), 342 deletions(-)
+---
+base-commit: b44251a8c179381b9f3ed3aa49be04fe1d516903
+change-id: 20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-e309f9f8336a
+
+Best regards,
+-- 
+Jun Nie <jun.nie@linaro.org>
 
