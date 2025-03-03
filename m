@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A5DA4CA98
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 19:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6F5A4CAB4
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 19:05:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC7710E28D;
-	Mon,  3 Mar 2025 18:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0C4510E4B5;
+	Mon,  3 Mar 2025 18:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ashley.smith@collabora.com header.b="O2J12IMs";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ashley.smith@collabora.com header.b="BzC9/P8z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A149410E28D
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 18:00:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1741024809; cv=none; 
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9019710E4B5
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 18:05:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741025103; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=Jc8yJLnnw3/licG75aO2k3F7+R2qGKnOXgsmDpbWQO3T1aUG7U+U74BnG1TUTq9jjFHk79hW/gvKzTaTNgK8/7I3moW4PFnH4V1moOpBNUUk0J7iBo+FvsNtnwusMxDJRW+xnkMe+aoJBHHJjAbf/PN4F/4l5wON1FkwycMJOmw=
+ b=h0aPE23bAR5Rmn6tvnzAbKi2/ynilRCM3ErqPJ0NeAITr+Et8/S/TBnDjORFs8wmn15WYRg8/v0jeY8n7Mb8if7lweAYr94Aw08hFQOJtnr3joBk44SoJxvZ99B10GMcer0yBF6ZHKaLCKEShSng9hERNkYkIbl/viMrrgKodEM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1741024809;
- h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=Z/FwdtTXq18wZffN/PhVu0JBqufMskZbU2ZZXRcfFP8=; 
- b=kvA86wlr77SwIctQ2008V9ENoz5ZXivEfxqSwxK4SgoaqGnIfyJa0hovy2SHE3Kaqr9/T4iAR2V3hxYwuJq/rRED/uZIwXPdfTDU53L3H9blDK+n3xTC+wliLamcAcXHZLw6OSIlSCnBOHyl9KGbbgcA4pP9KGpBsy2s1OREBoo=
+ s=zohoarc; t=1741025103;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=STsojHn/FtIOgZ7OHhHBsckQARPuAh3DtPMiHKIURsY=; 
+ b=PoPsHtlLNaLy4adzbsBh7fRW8mprucya8dPiRbgGkLruFPLs3dgrPWSP5CIJg/0C8DfIN+To5Ij8Q50lO4WWnfpHoRb3OiVgvvjzK8D8ViPV5Oo/CamzcYcevwElxG72XSuBPZ8hnWIlucnH8buTYhn74g+e9xc2pwlKNmmwMko=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ashley.smith@collabora.com;
  dmarc=pass header.from=<ashley.smith@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741024809; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741025103; 
  s=zohomail; d=collabora.com; i=ashley.smith@collabora.com;
- h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
- bh=Z/FwdtTXq18wZffN/PhVu0JBqufMskZbU2ZZXRcfFP8=;
- b=O2J12IMsecctdWjCMaFBjzVIqMYOm6zdWDRtNjF1elBkJizfmKh7rTQwltlYpFvb
- ZteOYNWFSC4obP+KLMj5j6KR8NKwe/TFEZQN5jh6US/BZrcJDiV4VDeIq3xFWG6qk2D
- EW8fa4AWQ+R3hquUaZbAU6ULD/v+v6kfOdlYU07Y=
-Received: from mail.zoho.com by mx.zohomail.com
- with SMTP id 1741024806947554.5249012316598;
- Mon, 3 Mar 2025 10:00:06 -0800 (PST)
-Date: Mon, 03 Mar 2025 18:00:06 +0000
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=STsojHn/FtIOgZ7OHhHBsckQARPuAh3DtPMiHKIURsY=;
+ b=BzC9/P8zO7cgNdeplsHi0xf9aiFRFiRMh1rfSRr/2kEkyzs3OrH8DX/yh1H3F1gt
+ HZltaRRwkV+nay0LerXpWDPkSAfPHH+WKKV3Ofcn866mJvYlCM3lF9LptQpT8ulasPR
+ V5j2DoVu7x0LH8GxBQ/xq80sto13X2x8Yl7ZOrls=
+Received: by mx.zohomail.com with SMTPS id 1741025102723800.0365885276387;
+ Mon, 3 Mar 2025 10:05:02 -0800 (PST)
 From: Ashley Smith <ashley.smith@collabora.com>
-To: "dri-devel" <dri-devel@lists.freedesktop.org>
-Message-ID: <1955d2a4808.c0483b872158199.4704203031354961686@collabora.com>
-In-Reply-To: <f82b0996-77ea-4b1e-81c5-c3c8a48b4f95@arm.com>
-References: <20250303151840.3669656-1-ashley.smith@collabora.com>
- <f82b0996-77ea-4b1e-81c5-c3c8a48b4f95@arm.com>
-Subject: Re: [PATCH] drm/panthor: Update CS_STATUS_ defines to correct values
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>
+Cc: kernel@collabora.com, Ashley Smith <ashley.smith@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/panthor: Update CS_STATUS_ defines to correct values
+Date: Mon,  3 Mar 2025 18:04:32 +0000
+Message-ID: <20250303180444.3768993-1-ashley.smith@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,22 +68,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Please don't reference a URL which isn't accessible to 'normal' people
-> ;) Something like...
->
-> as documented in the G610 "Odin" GPU specification
-> (CS_STATUS_BLOCKED_REASON register)
->
-> ...would hopefully be enough to find the relevant documentation for
-> those of us that have it.
+Values for SC_STATUS_BLOCKED_REASON_ are documented in the G610 "Odin"
+GPU specification (CS_STATUS_BLOCKED_REASON register).
 
-You are correct, apologies for that! I will send a v2 with the renamed _RES as you correctly mentioned it isn't used yet.
+This change updates the defines to the correct values.
 
-> You might also want:
->
-> Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
+---
+Changes in v2:
+  - Rename _RES to _RESOURCE
+---
+ drivers/gpu/drm/panthor/panthor_fw.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I will add this also.
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
+index 22448abde992..6598d96c6d2a 100644
+--- a/drivers/gpu/drm/panthor/panthor_fw.h
++++ b/drivers/gpu/drm/panthor/panthor_fw.h
+@@ -102,9 +102,9 @@ struct panthor_fw_cs_output_iface {
+ #define CS_STATUS_BLOCKED_REASON_SB_WAIT	1
+ #define CS_STATUS_BLOCKED_REASON_PROGRESS_WAIT	2
+ #define CS_STATUS_BLOCKED_REASON_SYNC_WAIT	3
+-#define CS_STATUS_BLOCKED_REASON_DEFERRED	5
+-#define CS_STATUS_BLOCKED_REASON_RES		6
+-#define CS_STATUS_BLOCKED_REASON_FLUSH		7
++#define CS_STATUS_BLOCKED_REASON_DEFERRED	4
++#define CS_STATUS_BLOCKED_REASON_RESOURCE	5
++#define CS_STATUS_BLOCKED_REASON_FLUSH		6
+ #define CS_STATUS_BLOCKED_REASON_MASK		GENMASK(3, 0)
+ 	u32 status_blocked_reason;
+ 	u32 status_wait_sync_value_hi;
 
-Thanks,
-Ash
+base-commit: 16e57a72780931c3c70dbc928aeee4a0518075de
+-- 
+2.43.0
+
