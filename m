@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA93A4C38E
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:39:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6DEA4C390
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:39:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F53910E1D9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8592D10E33D;
 	Mon,  3 Mar 2025 14:39:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="rlZZuBnk";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="Vawew98O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D1110E33D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83C010E432;
  Mon,  3 Mar 2025 14:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=txe/FCPWRDijIRM2J14dylswI3oOXHv8ky3SGbNbIgE=; b=rlZZuBnkzyt7ZRBK
- UJhcYmaIGcN34uExHJWZiEVDTy9IHDpVje+oEdAM8PhH79alsdHMRT+fVVpuaIE6DLYc5Sfjvm1kF
- 4KnE766bfqoojTDSnSvfGxO3PvF9m81LqFUhnC0MzyJ5Nr4Jvz1zLkpDqlQD8siA2+MQ6GDv7t7gF
- weVDLqeVVmJ81AHpd+7B6nWuCReFEqgHK3VMuqtya3eXvRUmQojn2mqc8NNe8lg+SpBc1WsYkdL35
- ZnJLQcs8xYs9yYmVpxqj2tGOl5axCuxNh78fHJc5OEw4nyaZBpVGMEjNkOghGporvJ5NTH9uxq5VD
- O6QuHGamPTtU2PirEg==;
+ :Subject; bh=om6Pe7ZZ4TBnXEpqWdlBwdRqDe/1mArlAqj9LsmmXJo=; b=Vawew98OoN6iqkCZ
+ 3SymbqPYpKg9wEpCizX63v5Jpc1MWJgAKrKvvBcrG9/LDsQB+zMiF+7jJrolzuCoYimZ29qwK24DK
+ SUzGbFgyEW/fZBmOXt881aEN1Y04Nxk7XdTMzb48hjbzWQOzrSVjtILKDVfQ2yftTk1ZRC/79eb8V
+ BHqRigfOfBQ8f9bWEsNFJzRuCulRHUwkkeB0nFH9jBZeb6AvMIm1v/uYqNpCCYL2ctZgDucWgUgVD
+ WGd3vdOV163eoWsY5lxSA7zqx2i29qH/fdJCmQA4DJIn1SeuvbWH9DH+yUjIZmEJI99Iq1u/EkiXR
+ LfnhT+1PScUJxL0RVQ==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1tp6x5-0028PG-1c;
- Mon, 03 Mar 2025 14:39:27 +0000
+ (envelope-from <linux@treblig.org>) id 1tp6x6-0028PG-0i;
+ Mon, 03 Mar 2025 14:39:28 +0000
 From: linux@treblig.org
 To: alexander.deucher@amd.com, Felix.Kuehling@amd.com,
  christian.koenig@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
@@ -36,9 +36,9 @@ To: alexander.deucher@amd.com, Felix.Kuehling@amd.com,
 Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 5/6] drm/amdgpu: Remove unused print__rq_dlg_params_st
-Date: Mon,  3 Mar 2025 14:39:21 +0000
-Message-ID: <20250303143922.36342-6-linux@treblig.org>
+Subject: [PATCH 6/6] drm/amdgpu: Remove unused pqm_get_kernel_queue
+Date: Mon,  3 Mar 2025 14:39:22 +0000
+Message-ID: <20250303143922.36342-7-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250303143922.36342-1-linux@treblig.org>
 References: <20250303143922.36342-1-linux@treblig.org>
@@ -61,52 +61,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-print__rq_dlg_params_st() was added in 2017 by
-commit 061bfa06a42a ("drm/amdgpu/display: Add dml support for DCN")
-but has remained unused.
+pqm_get_kernel_queue() has been unused since 2022's
+commit 5bdd3eb25354 ("drm/amdkfd: Remove unused old debugger
+implementation")
 
 Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- .../drm/amd/display/dc/dml/display_rq_dlg_helpers.c   | 11 -----------
- .../drm/amd/display/dc/dml/display_rq_dlg_helpers.h   |  1 -
- 2 files changed, 12 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h               |  2 --
+ .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c  | 13 -------------
+ 2 files changed, 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.c b/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.c
-index 412e75eb4704..12ff65b6a7e5 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.c
-@@ -122,17 +122,6 @@ void print__data_rq_misc_params_st(struct display_mode_lib *mode_lib, const stru
- 	dml_print("DML_RQ_DLG_CALC: =====================================\n");
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index 2c22e335a02e..bc26a2609f64 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -1363,8 +1363,6 @@ int pqm_update_mqd(struct process_queue_manager *pqm, unsigned int qid,
+ 			struct mqd_update_info *minfo);
+ int pqm_set_gws(struct process_queue_manager *pqm, unsigned int qid,
+ 			void *gws);
+-struct kernel_queue *pqm_get_kernel_queue(struct process_queue_manager *pqm,
+-						unsigned int qid);
+ struct queue *pqm_get_user_queue(struct process_queue_manager *pqm,
+ 						unsigned int qid);
+ int pqm_get_wave_state(struct process_queue_manager *pqm,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+index bd36a75309e1..2b30ed0cecb6 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+@@ -652,19 +652,6 @@ int pqm_update_mqd(struct process_queue_manager *pqm,
+ 	return 0;
  }
  
--void print__rq_dlg_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_rq_dlg_params_st *rq_dlg_param)
+-struct kernel_queue *pqm_get_kernel_queue(
+-					struct process_queue_manager *pqm,
+-					unsigned int qid)
 -{
--	dml_print("DML_RQ_DLG_CALC: =====================================\n");
--	dml_print("DML_RQ_DLG_CALC: DISPLAY_RQ_DLG_PARAM_ST\n");
--	dml_print("DML_RQ_DLG_CALC:  <LUMA>\n");
--	print__data_rq_dlg_params_st(mode_lib, &rq_dlg_param->rq_l);
--	dml_print("DML_RQ_DLG_CALC:  <CHROMA>\n");
--	print__data_rq_dlg_params_st(mode_lib, &rq_dlg_param->rq_c);
--	dml_print("DML_RQ_DLG_CALC: =====================================\n");
+-	struct process_queue_node *pqn;
+-
+-	pqn = get_queue_by_qid(pqm, qid);
+-	if (pqn && pqn->kq)
+-		return pqn->kq;
+-
+-	return NULL;
 -}
 -
- void print__dlg_sys_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_dlg_sys_params_st *dlg_sys_param)
+ struct queue *pqm_get_user_queue(struct process_queue_manager *pqm,
+ 					unsigned int qid)
  {
- 	dml_print("DML_RQ_DLG_CALC: =====================================\n");
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.h b/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.h
-index ebcd717744e5..2bc64c4081dc 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.h
-+++ b/drivers/gpu/drm/amd/display/dc/dml/display_rq_dlg_helpers.h
-@@ -35,7 +35,6 @@ void print__rq_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dp
- void print__data_rq_sizing_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_data_rq_sizing_params_st *rq_sizing);
- void print__data_rq_dlg_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_data_rq_dlg_params_st *rq_dlg_param);
- void print__data_rq_misc_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_data_rq_misc_params_st *rq_misc_param);
--void print__rq_dlg_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_rq_dlg_params_st *rq_dlg_param);
- void print__dlg_sys_params_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_dlg_sys_params_st *dlg_sys_param);
- 
- void print__data_rq_regs_st(struct display_mode_lib *mode_lib, const struct _vcs_dpi_display_data_rq_regs_st *rq_regs);
 -- 
 2.48.1
 
