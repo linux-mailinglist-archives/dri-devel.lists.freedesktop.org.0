@@ -2,84 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBA7A4C0F6
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 13:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFE3A4C10B
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 13:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5636910E407;
-	Mon,  3 Mar 2025 12:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5CEF10E1DD;
+	Mon,  3 Mar 2025 12:56:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="qilV5SWc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FV9xelpT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60E4C10E407
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 12:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1741006105; x=1741610905; i=markus.elfring@web.de;
- bh=gqKAvU34fJc3/7+256tAvca+dZqwxT9FoB+Y/pUL0JA=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
- Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=qilV5SWcI/niSBpj5G75O5iTuDg/+Cb6KbdV2T0WQCshsFiqyiqkzRDE9gPKkSW1
- 6jOH7qZxOuoAGBBcp6Jn9JfvZ7dQmpYUczsO43MOXRva3c9WYIoKEeF0npdGBTYTA
- 9ep884/FmR82+HHgx1MLmVU9zBxzexzIAAUqN/51xCSxybbiAB+dCQMuVFO+BbA7c
- 16bdmYjCqnLvIqcyq1x02jzj2WWnEFeprQ5TvFhjo+RHw4Q7keyZgQba/KDvBeFli
- RWRUKN6Xt21EX9vQrMB/AZMKYHpO0OXk5KpnwXeTZFZ5gmbsYjzFiwH35OESxp5qm
- 7Mrtbdt2rqr3JhVXiQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.19]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Md6tr-1tG1aE02d9-00lOxD; Mon, 03
- Mar 2025 13:48:25 +0100
-Message-ID: <6ce29de5-7b94-483e-973e-0c3834609281@web.de>
-Date: Mon, 3 Mar 2025 13:48:23 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B650A10E1DD
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 12:56:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 091585C58CF
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 12:54:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFBAC4CEE6
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 12:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741006602;
+ bh=UX3HfbY9NrbOd9tpd2P7hFNQCeHdeWclU4P4j4yWbwI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=FV9xelpTeEOVh2F9LLHt7cZEamR97RqTHhg+X8WoBEYkAdzKYDoMPFGtFf8M90C3D
+ TKgWlwqQHfV9WGMud0bBw2UL2qbO5ucIGnrIH98qUmbbmVpcNd09anXw7cMKWrYT9C
+ xgsT0eOnRDvogmt97w/5hTiDGDBb4QDrgD0AcjuZD2W2vQV8Zt5itjsBOfSVnOEkDz
+ u1V0SEBZvaUbFO0watcpspU5ainokC0giq5omDV1ZcV20THn1iLL/F1LeXjaAyJt+M
+ 8VCklBlAsyFYjeFHSOAowTLy2dqy+W20cxyVfJkhIw1AKmlvdPpprIuf32RtQgeEJB
+ MXlpfnsRQml6A==
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-2fee05829edso3230952a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 04:56:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5ATJ9PhoB1PfXM70/1xhKrPYVLfJbePgCNjzpERtVKf5IdDhHU4lxCcdEgJkYP4Rqgp1J0RGIlo8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxs4BD/01X4ZBUzK/1zPESz1cPN/OVMgIkVOxrKGNDqIpwVAbpR
+ NArcNGJ9Cgdp7OJXXt1TaaqFXkOtSEibZF0wImYAd7bDB9VSsPpbcHAGV2jERb9sLOT3e7KNMJa
+ i6XGB6134+UIi8zxZs6Ts5urPWw==
+X-Google-Smtp-Source: AGHT+IGSSgSzh55HSnQ1lVjwMdzp28MHDOUOnEh8kdGeJHmMnwiYf8Q6NzYRnemJliLplJUfJXLVhNNZXMjP1z0RvT8=
+X-Received: by 2002:a17:90b:3511:b0:2ee:8427:4b02 with SMTP id
+ 98e67ed59e1d1-2febabd9c82mr19809852a91.28.1741006602131; Mon, 03 Mar 2025
+ 04:56:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH RESEND] drm/mm: Adjust input parameter validation in
- DECLARE_NEXT_HOLE_ADDR()
-From: Markus Elfring <Markus.Elfring@web.de>
-To: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Nirmoy Das <nirmoy.das@amd.com>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <a3329002-827e-d53b-8a4e-860342eb18f7@web.de>
-Content-Language: en-GB
-In-Reply-To: <a3329002-827e-d53b-8a4e-860342eb18f7@web.de>
-Content-Type: text/plain; charset=UTF-8
+References: <20250224051301.3538484-1-jason-jh.lin@mediatek.com>
+In-Reply-To: <20250224051301.3538484-1-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 3 Mar 2025 20:57:29 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8cGVEYV2v6oAHHnVqfjk3jp_a1QtaYJRqDf1Hg4vY0UA@mail.gmail.com>
+X-Gm-Features: AQ5f1Jred4c1pw-7JgOxVG6xQG08SC8yxuC59gWdugp16YcFov8bdecIzf41xyo
+Message-ID: <CAAOTY_8cGVEYV2v6oAHHnVqfjk3jp_a1QtaYJRqDf1Hg4vY0UA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Fix config_updating flag never false when
+ no mbox channel
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>, 
+ Xavier Chang <xavier.chang@mediatek.com>, Fei Shao <fshao@chromium.org>, 
+ Chen-yu Tsai <wenst@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:D38SucaZNBKs7tEQhlDqhSG7xYr9j5tje3qi3M1lHirwvz9lNK/
- EEaa206Azua6NNlfPGrZrEiGp4siO0BjKscbAtEyG2Hady6vziJAZ7ob0J9lqT6pMmJe6Te
- KsYjsHlNRoLULY+K3S85k1qsd9tWyzDM1iEsd3FgOeP4UAr7s1RLdhipjJ1IWeQLoL6QE7d
- tUDSD3PRGWFQ08mJXUOeQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eVhm+A3HKkY=;fxGNwlYvbjWv7R7tyd29xzeVelY
- t//nfjhtpE/AURKbpEmGeGRBM+ezia+BS/KlGiuhTRgB3f6MqSg7qLTdOWAi7hplisfv0ATkU
- cGEGdvjDzYmpy7ZLrQlNDCIfpZ9eiOP5qT5BHbnG7YVsKA4gOOj3UIF4xNJZRpoB9yvyLP4rj
- 15IvO9UjwCqnnCRtBAw8BhuuptiphgX86ByR277M2ZizjFabGCCbY39M7aZO+rQaSlw4MbsER
- 27vJ9RcCMFTH8yZuTutuIMJCLxMJWC9uQFKbDhUZbre1QWst100ZcY7B1X7jDxEkUGeOh7Ba7
- EG0NsEDeaH0coNrnYrad54qo8RvJNTX9ET9vNWkE36QQX006W3k89CNYpg479EJO0OFHtmm4P
- o3TWINb1F5DcxAziX/K9OD8QSoZEmuY/brcinjxJ/l7QQwsleAVFDHVvU9eNfCK2zHsuwjY07
- LOHjgEOWrjqsrAldaYI8RrqN+ti9+uTO6+leW8TDlren4KttSAeHxXqJbBAtpuSSJv+TPpMzh
- /JqvcL+YzQUv56pUWSUAgiGBp64Y9oulq/Q0GquNl/1qA5ohyKsnas00M/dGWbWh7mOOvBwUd
- eHofm6uZiJPXZv2kqbf/3edzoP53TGodOjI0LtGU0A+eIhym6ebpRL1/OmyDfGsVXd/DQMl3P
- /Vs6m9afMLCB002iqWTT2EqdenHKb/DzrtZfVhe9WD7Z0Hs4Z1vTKUtTHx1ZKmu/jivOFxmrL
- 8UfWA07NDbfdFW8voUiP5J7POoBcmUjpxaO8PabCe51n87JjcDWC3YkGV+VJBwkmZeUi2arGY
- gNsupFFoCLOpP5glv453kPx3i9onBH12QY6yRDPWEW5YHkrm9H+xkSl3eOE3Ic/RTtb1v8Ctp
- dCvndEjhaWA6yBDLFlYh0DjmEbnXn2xHJrSu1GArIeSjXmnw2SypWAvqIgvSL1SWOlSpZ9y6a
- ocHx18s2fIRb3g6vnG7kwlg0kcQFn4M9fzTbAgjdeQ8JagsgdnKgtG0fJBWSeCAplVWES+5JD
- ayNzLvavZHZtC8IusgX9PMYLBXM9yNBJJIxLTP7yBvgnRhxObIqcA3ESE216KwD7ze2ODprGl
- w1b6OaLvG8CfKWHEjNME/4cI7l7YbU90Zl8Op6nspYhnYVKS+/P7AV+y7Tohl0QVsEbzBpBh+
- LxBNK8F5iQ20o0WCNz/OCUwp89oDzsqSlrBLCWxHnY9JH6I6JlYTir+WZHJk2af7Pt154JZUM
- KBunt+7j482Ia26x80efTJpP6Ouzc+O/QlLPE00YVJCrL6LXVXKxdBWD6gxK1qKIXVD7Vwbuv
- N07rRm+vyAKDb2i+6VEfmU9YWYIftbtxw2GqOe92B5QnEMkmX7tVryr+cqP/KYqoNxnGMq42a
- Mnh3oA+mJpSasCf704f9zdBCjkqED+vyrk+h1sOQsqd2veBVbl5QokTh8O1/0p+83Gt0k/I6P
- 25+970WbwPWrgsaUW3kOQXhWir4g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,44 +80,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Mon, 17 Apr 2023 11:26:34 +0200
+Hi, Jason:
 
-The address of a data structure member was determined before
-a corresponding null pointer check in the implementation of
-the macro =E2=80=9CDECLARE_NEXT_HOLE_ADDR=E2=80=9D.
+Jason-JH Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2025=E5=B9=B42=E6=9C=882=
+4=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=881:13=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> When CONFIG_MTK_CMDQ is enabled, if the display is controlled by the CPU
+> while other hardware is controlled by the GCE, the display will encounter
+> a mbox request channel failure.
+> However, it will still enter the CONFIG_MTK_CMDQ statement, causing the
+> config_updating flag to never be set to false. As a result, no page flip
+> event is sent back to user space, and the screen does not update.
 
-Thus avoid the risk for undefined behaviour by moving the assignment
-for the variable =E2=80=9Cnode=E2=80=9D behind the null pointer check.
+Applied to mediatek-drm-next [1], thanks.
 
-This issue was detected by using the Coccinelle software.
+[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
+git/log/?h=3Dmediatek-drm-next
 
-Fixes: 5fad79fd66ff ("drm/mm: cleanup and improve next_hole_*_addr()")
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/gpu/drm/drm_mm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Regards,
+Chun-Kuang.
 
-diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-index 8257f9d4f619..95c316aa36e5 100644
-=2D-- a/drivers/gpu/drm/drm_mm.c
-+++ b/drivers/gpu/drm/drm_mm.c
-@@ -389,9 +389,13 @@ first_hole(struct drm_mm *mm,
- #define DECLARE_NEXT_HOLE_ADDR(name, first, last)			\
- static struct drm_mm_node *name(struct drm_mm_node *entry, u64 size)	\
- {									\
--	struct rb_node *parent, *node =3D &entry->rb_hole_addr;		\
-+	struct rb_node *parent, *node;					\
- 									\
--	if (!entry || RB_EMPTY_NODE(node))				\
-+	if (!entry)							\
-+		return NULL;						\
-+									\
-+	node =3D &entry->rb_hole_addr;					\
-+	if (RB_EMPTY_NODE(node))					\
- 		return NULL;						\
- 									\
- 	if (usable_hole_addr(node->first, size)) {			\
-=2D-
-2.40.0
-
+>
+> Fixes: da03801ad08f ("drm/mediatek: Move mtk_crtc_finish_page_flip() to d=
+dp_cmdq_cb()")
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_crtc.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediat=
+ek/mtk_crtc.c
+> index 5674f5707cca..cfc4867296b8 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
+> @@ -620,13 +620,14 @@ static void mtk_crtc_update_config(struct mtk_crtc =
+*mtk_crtc, bool needs_vblank)
+>
+>                 mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_handle=
+);
+>                 mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
+> +               goto update_config_out;
+>         }
+> -#else
+> +#endif
+>         spin_lock_irqsave(&mtk_crtc->config_lock, flags);
+>         mtk_crtc->config_updating =3D false;
+>         spin_unlock_irqrestore(&mtk_crtc->config_lock, flags);
+> -#endif
+>
+> +update_config_out:
+>         mutex_unlock(&mtk_crtc->hw_lock);
+>  }
+>
+> --
+> 2.43.0
+>
