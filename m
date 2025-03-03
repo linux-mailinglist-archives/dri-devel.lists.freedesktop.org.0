@@ -2,98 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560F5A4CD70
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 22:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EC6A4CDA6
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 22:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A4810E4D4;
-	Mon,  3 Mar 2025 21:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E884010E23F;
+	Mon,  3 Mar 2025 21:48:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Cdex1G6L";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="KMTGTLTs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BDC610E23F;
- Mon,  3 Mar 2025 21:24:00 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 523AP2bf019978;
- Mon, 3 Mar 2025 21:23:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7ty50yskNa4pYew6F6vyuvTbJ7taysYiM7S/eCucEBE=; b=Cdex1G6Lyyx8+TYb
- sSrzs1L/nSugkKtyoYxe3JSPFDJXiPs/4kRV4wJ11U0jiyHUcuU1CbyVvILem9RO
- /TlFhRHdoltrCZTM00SzFqj9VMOhwglNEKlJ2Shc7kHyP1gjFhBX/6UsccXPXN4i
- vLZQtsq1L6LYAAIg7CLG+v9rEJ8VqCs6ZICshH3ncYa8oGn8oNSMP6OJhZMWY1iK
- j+FXiyj6rE3z54ErXmVFDKm6VcUFs0yNyJpsIbPyEVQQ/fGELLvp+pFmBMTDnwiz
- mkp6v/14DWylOwNao9k1k+0LS4EAUYH4gFtix1c9IHgnu1c04bmHMbqgsbjVGmER
- ntpFnA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 453t95x5vm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Mar 2025 21:23:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 523LNqnR001016
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 3 Mar 2025 21:23:52 GMT
-Received: from [10.110.69.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Mar 2025
- 13:23:51 -0800
-Message-ID: <8c0c0935-3a20-4c6a-a6fb-556e14ecedda@quicinc.com>
-Date: Mon, 3 Mar 2025 13:23:11 -0800
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 070E210E23F
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 21:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oZS9W6LWueZRel5mHElMEY/qHM3otop7VBPbgcAUBlI=; b=KMTGTLTs3m3xBOfDSyeVo65kNA
+ MklFXt7AU/oF3hgMY6RFmAOYW2t1GIy9Ofz7UVoHICWq4Yeiq4FK/shpr8o7RN0rWk7SKrAyRAWco
+ hGzvO/A6wC4QkmCHbR4SIEaB4bn1f2VxirBb3Uf+g9yiTQfUJjR0c1oZa5pzVY3F3JabsN+v/fsHk
+ 7B+pwn0gUgEZpjMUF9fWXUY5deuoJDOq/Wv/eaDs5bDNdeou33NQSYnL8IFQEW7NJtFnLkqzoenKt
+ syTwCcY4WwL+RfwU4fIL5bAuqGZ3Jw3euggXx9Uyfr8NGHg3GreoV+WW3Q6XhhQpOiFcgi83bhyO1
+ 79V4oveg==;
+Received: from i53875a38.versanet.de ([83.135.90.56]
+ helo=localhost.localdomain)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tpDdl-0005hg-LD; Mon, 03 Mar 2025 22:47:57 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, hjc@rock-chips.com, krzk+dt@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
+ detlev.casanova@collabora.com, robh@kernel.org,
+ sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v16 0/7] VOP Support for rk3576
+Date: Mon,  3 Mar 2025 22:47:47 +0100
+Message-ID: <174103845739.1823374.12191535922821188431.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250303034436.192400-1-andyshrk@163.com>
+References: <20250303034436.192400-1-andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/16] dt-bindings: display/msm: dp-controller: Add
- SM8750
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Jonathan Marek
- <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Srini
- Kandagatla" <srinivas.kandagatla@linaro.org>
-References: <20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org>
- <20250217-b4-sm8750-display-v2-5-d201dcdda6a4@linaro.org>
- <aqpuik4zitdfuk4pahn4wyzxdvxldy4dcqjs3mhr6fqtxpoxhf@ssfzzbfce2nu>
- <2dfe466c-ad94-4683-a2e9-a49e77a61f4f@linaro.org>
- <h2shpen65r7v4in54avsez7qtlwojbt2cthyomqrsgs5ewprwb@bn53suqrzkac>
- <4e82404a-0ea5-4641-829a-bba666edd352@quicinc.com>
- <CAA8EJpoWEuqKkreUTu1gO-Pr=VFNNP_vBfNZpitJiJH728vjPA@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpoWEuqKkreUTu1gO-Pr=VFNNP_vBfNZpitJiJH728vjPA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: U0A0gXsukuszRPuGJAxn_2wPnvZt7M3G
-X-Proofpoint-GUID: U0A0gXsukuszRPuGJAxn_2wPnvZt7M3G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-03_10,2025-03-03_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- phishscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 spamscore=0 malwarescore=0 suspectscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2503030165
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,66 +67,35 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 2/24/2025 7:14 PM, Dmitry Baryshkov wrote:
-> On Mon, 24 Feb 2025 at 20:59, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 2/19/2025 9:08 AM, Dmitry Baryshkov wrote:
->>> On Wed, Feb 19, 2025 at 06:02:20PM +0100, Krzysztof Kozlowski wrote:
->>>> On 17/02/2025 19:58, Dmitry Baryshkov wrote:
->>>>> On Mon, Feb 17, 2025 at 05:41:26PM +0100, Krzysztof Kozlowski wrote:
->>>>>> Add DisplayPort controller for Qualcomm SM8750 SoC which so far looks
->>>>>> fully compatible with earlier SM8650 variant.
->>>>>
->>>>> As that became a question for QCS8300, does SM8750 also support exactly
->>>>> two MST streams?
->>>>
->>>> v1.5 of DP (starting from SA8775p , then SM8650 and SM8750) support 4x
->>>> MST for DPTX0 and 2x MST for DPTX1.
->>>>
->>>> The DP in SM8650 and SM8750 are identical, according to datasheet (v1.5.1).
->>>
->>> Hmm. This also means that QCS8300 is compatible with SM8650. I'll let
->>> Abhinav comment here.
->>>
->>
->> DP version by itself is not a good measure of whether the controller can
->> support 4 streams or not.
->>
->> Firstly, sm8650/sm8750 do not have a DPTX1 so we are only discussing
->> about DP TX0.
->>
->> Coming to the QCS8300 Vs sm8650/sm8750, even though the DP controller
->> version is the same, there is no HW support for more than 2 streams on
->> sm8650/sm8750 because there are no INTF blocks to drive 4 streams.
->>
->> On sm8650/sm8750, only INTF_0 and INTF_3 can be used for DP. Hence 2
->> streams.
->>
->> Whereas on Monaco, we have INTF_0, INTF_3, INTF_6 and INTF_7 capable of
+On Mon, 03 Mar 2025 11:44:14 +0800, Andy Yan wrote:
+> Here is the v16
+> Patches that have already been merged in drm-misc-next are dropped.
 > 
-> No idea what Monaco is, most likely it is some platform. Please use
-> SoC names in public.
+> I test it with a 1080P/4K HDMI output with modetest and weston
+> output.
 > 
-
-Monaco is indeed QCS8300. I usually do use SoC names, in this instance 
-just intuitively ended up using the internal one as I use it often.
-
->> driving DP. Hence 4 streams.
->>
->> Let me know if there are more questions.
+> If there are some one want to have a try, I have a tree based on
+> Linux 6.14-rc1 here[0]
 > 
-> How many stream clocks are present on those platforms? I'm asking
-> because there is a small, but not non-existing difference between 'DPs
-> are not completely compatible / the same' and 'DPs are fully
-> compatible but different DPU blocks impose different restrictions on
-> the number of MST streams'.
-> 
+> [...]
 
-I have confirmed this internally. sm8650/sm8750 have only 2 stream 
-clocks and not 4.
+Applied, thanks!
 
+[1/7] drm/rockchip: vop2: Register the primary plane and overlay plane separately
+      commit: 6fd4f8a26a21dd2075cfcc7eae3b9d440d886571
+[2/7] drm/rockchip: vop2: Set plane possible crtcs by possible vp mask
+      commit: b90fa71a11600276c993e620abea8ca9f2045401
+[3/7] drm/rockchip: vop2: Add uv swap for cluster window
+      commit: e7aae9f6d762139f8d2b86db03793ae0ab3dd802
+[4/7] dt-bindings: display: vop2: describe constraint SoC by SoC
+      commit: 1803bfb59656d41c4f9f7e5f23188248b649e1a4
+[5/7] dt-bindings: display: vop2: Add missing rockchip,grf property for rk3566/8
+      commit: 47d31e6598e4fda1433e747ef031cb972c57c5ae
+[6/7] dt-bindings: display: vop2: Add rk3576 support
+      commit: c3b7c5a4d7c17afb158ba5a41222e95a32886ada
+[7/7] drm/rockchip: vop2: Add support for rk3576
+      commit: 944757a4cba62b1b50fb51933d0608117599db71
 
-
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
