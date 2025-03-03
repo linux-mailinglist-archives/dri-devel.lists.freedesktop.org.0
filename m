@@ -2,56 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90204A4B8B2
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571B0A4B8F1
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:15:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A08210E363;
-	Mon,  3 Mar 2025 08:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7281710E383;
+	Mon,  3 Mar 2025 08:15:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=3xo.fr header.i=@3xo.fr header.b="FpfaxVS/";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="sa3oqQFX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C90A10E363
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:07:52 +0000 (UTC)
-Received: from localhost (mail.3xo.fr [212.129.21.66])
- by mail.3xo.fr (Postfix) with ESMTP id EF1E08D;
- Mon,  3 Mar 2025 09:07:50 +0100 (CET)
-X-Virus-Scanned: Debian amavis at nxo2.3xo.fr
-Received: from mail.3xo.fr ([212.129.21.66])
- by localhost (mail.3xo.fr [212.129.21.66]) (amavis, port 10024) with ESMTP
- id xQLi-Wig6E5k; Mon,  3 Mar 2025 09:07:48 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.3xo.fr 8C25411
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xo.fr; s=3xo;
- t=1740989268; bh=ToHzVhkdVTPmSzNAtlGo2WzPGuHBt0bpKXkf3V6EJPA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FpfaxVS/dRPAIdTvUr9GNdlbH+rBFgV79BJbHKifNv7JMliRQbQY7P1xqq6FaqUIE
- JVLJOy2ARjW+r36vV/Pkm/yxZWPC/1+ARgekBD8Bd+QklhUshaPLBxnc1U2f4xxP4N
- aySfxdBDqSa89jGToLkEg/SHHHDImMozaoEdPQXTLB+QrHKmL98/ShXvS8dmCspGRk
- O+kjxy9t2dy5D3iZAKl7eSLsyvx5vhYFQjbfsva8BRh4EMCVHgPP4VDHdSRWb1M6a2
- wphxL/rEpS0owjeYxy8OoRjQfimuiNHwU+q5ZVNNFbrKq75+4QRCtzGmg1sbl5cRff
- r/fJVmCwcrWmw==
-Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
- (No client certificate requested)
- by mail.3xo.fr (Postfix) with ESMTPSA id 8C25411;
- Mon,  3 Mar 2025 09:07:48 +0100 (CET)
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4C3310E373;
+ Mon,  3 Mar 2025 08:15:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1740989726; x=1741594526; i=markus.elfring@web.de;
+ bh=C+FdRvhtkVZnGaaa2bGtGDngNfD2yjN7+GvSLwFeCRQ=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=sa3oqQFX1K2fQENnZAtmV2Ls/aPlRJf7KVvq08Kbwdu8bhEu9tt2+Vdm8x2FeHov
+ a5xtfQ+T1eBzrnW6sLurLTKrV+wbphXYHxzBLePh3vSS3+1Fo17+k7melT+wTeoDe
+ dHwq+iLPhgRsRCmA0oj6wwVYTL2J/lIq9TpjdinHNI8C593aSG1Oeyxdh+XSagV6x
+ V9okUZEw5t9MkcxIzsQz/+wyuBXYJGuRyT+CMfuQ/gjKIiDwSMVGmV1ARN+gldLvB
+ CdIZt+PToF26Byj3YVlZ4+xbUBgubl1BGOC3GgNHW861FSln4UPnDsW4PyFrOZERU
+ IMs4eCavpmBGVLLR6w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.19]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M9ISh-1tsbSD388V-0019Kz; Mon, 03
+ Mar 2025 09:15:26 +0100
+Message-ID: <12050afd-ab60-4bac-bd25-0c3cc925b38b@web.de>
+Date: Mon, 3 Mar 2025 09:15:14 +0100
 MIME-Version: 1.0
-Date: Mon, 03 Mar 2025 09:07:48 +0100
-From: Nicolas Baranger <nicolas.baranger@3xo.fr>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com
-Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
-In-Reply-To: <bc089e81-2e09-41e9-a9d1-68b2f4372e7f@suse.de>
-References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
- <bc089e81-2e09-41e9-a9d1-68b2f4372e7f@suse.de>
-Message-ID: <183881a57671db7eebada5ac8cbcb8cf@3xo.fr>
-X-Sender: nicolas.baranger@3xo.fr
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND] drm/msm/dpu: Delete a variable initialisation before a
+ null pointer check in two functions
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Archit Taneja <architt@codeaurora.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Simona Vetter <simona@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+ cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
+ <54c30a69-71cf-4582-9086-50eb0d39f273@web.de>
+ <k7un3bjavyt4ogscgc7jn7thfobegaguqqiy7gtypmq6vq7zox@l4bsevbsjrud>
+ <29b32b0d-312d-4848-9e26-9e5e76e527a7@stanley.mountain>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <29b32b0d-312d-4848-9e26-9e5e76e527a7@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:l61V0/AxxnfLP2CwSsghwK08nUFAsuRp8A9xZrnTeiVv24ZQ/3i
+ G3RqnUSDyuxhHQZurimb7PiKwXU+E3AYQdbSIZXeIB08KV04ZaIwwV6knwRGWgTrx/XbTMg
+ CBbyohY7P+EBXFxvTLfoNgfYBAMIogVtGwuVEb013+xJ6c0saMHuLXFWDU4EPclYOhKB/Ey
+ tGrwZLuNRsk+/ZLmwQalw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+dEdQWoQ7kU=;IasLY5SUCezkQ/oK2dlxCFJnD1K
+ EJ01spAXIy6+nudFKoE9Ket7tA810fP2bclD61wzlHRGOv4tQIHAjxmFEE2d8kFXsN+a/mPkG
+ FEVtu9wjQZHMXgKSMoC5BPZoDpkzD/U1ZXB1CUWPUuDB0pv7RJq5r/R6B12AP1OMXzCfTU9JD
+ HQKL7MyACkb/xotarJowiXBcVEu/6aHj1Zp36NpLfQeCQEVhsprW05XRB6zJS5J5Glc6AS3Ie
+ uc4MkOzsy8XU3/HU4AS+inJMduJnuSWrdSxzFrNSMYND/jnPk5zOirakBHoh1yny/3+M6oDeY
+ 9Atayo8H9W9OCjxR6DcXcnhUTdAlzZrMlUm9pZKpxtatC3AgFgv1XDDOKcf4yaidQ9xLSr/rn
+ +GqCxAvIKhT+dR3vCubnYfZPN8xmkJxyPgqRYueCCKSBxhqvTzfYv7IKEMxImJWM5wpQvo5fz
+ mgt/io8nxznlCpVV1uZl7qtzsUkOrletjiSuj0aOdQp87vlnvem0wTUWyqLiITCi6Y2NFcZgY
+ +OASaJoFYY3kXCTYlhJWCHe6qXguImSMFZ4YobohpinTpKWiZbTw2cZikfKH6z1fCdTrMd/xA
+ 2jj47hfyTHRDcT1ViLdRrZrNumqNOBggSDj/wCDaLFVXlGV/vZIqRvo5SfOZqDiWj2KMmQnJL
+ bwM0Wis7oqvKHx4WWYMpArgPX9Yv4aNySc+wg4M689OM3e+3vDQBUG+N9LF1C3MC7LGGyoG5f
+ N7xOGsxwTbTlwpJiRk3BjZjdOFgdZgLfzg6gkZQSG6ABrJrKTP6l/K0Po2QG61tOmeRXILOoy
+ 5r1UjE9ozIkmxKQhxRgrZn44y1hHW6/Sx+wb0hm402OQx/ZQ6aA6dlhiYdGICGYHGpcTlmExg
+ 9K8IAbsr4QQpm7X1hHLtmrxfU7NoUzLGnU5twl0X2YskzuQlhbprv4pq3PliEkqOKgWHKnYaI
+ uxDhPlHk3d0UbaV9ognngBO09PQe20k8Cv0i9JB9PkWhY7LySQe01zHatFls93m4uTyZDBkx7
+ ButtyGSLIyuqZrDn32SlKwjM/H3LhvbD/nAVfC0nDv5QxMgrPd9jQXhi2vAmsm7j/5rveS5ut
+ 4zIqLIODlafpEp/zwlGAqFZBpXsHIDgfS+HgKLLI3wzft0e46RCZ07BYVVN8aJSC54MVKdORR
+ 5DOOgieAt6BNAtTj8hAXKQas//8niv2v7DbX2AFyatHBiySgO2uhFDUnOrXGlgvVoQPMgOdFm
+ xNgbzehk63lnxFNhe3Y2yOuKjXmbhUFzrz4Ojv0zdX7bZdZXJwJM+SklDknLXtWtfkHvT57jt
+ Qs2Q0HSAVP2jzgt785f8S4Woib/Cznidc0aV/A9Zb9zQJ0H8XYRoAUMO83x4+9gEFPgIXeDOP
+ ZbqiAAcogIiZv76m3m2cgXepNh/SPn4ffLOmgAUFkyH/UmqOi7sgcs3Zv1buxi1Si7rTdgDOH
+ +r3VzdjatZdYYDqtQCigjk2oylo8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,111 +105,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Thomas
+>>> The address of a data structure member was determined before
+>>> a corresponding null pointer check in the implementation of
+>>> the functions =E2=80=9Cdpu_hw_pp_enable_te=E2=80=9D and =E2=80=9Cdpu_h=
+w_pp_get_vsync_info=E2=80=9D.
+>>>
+>>> Thus avoid the risk for undefined behaviour by removing extra
+>>> initialisations for the variable =E2=80=9Cc=E2=80=9D (also because it =
+was already
+>>> reassigned with the same value behind this pointer check).
+>
+> There is no undefined behavior here.
+Will any software development concerns evolve further also according to
+undesirable null pointer dereferences?
+https://wiki.sei.cmu.edu/confluence/display/c/EXP34-C.+Do+not+dereference+=
+null+pointers
 
-> You are using NVidia's proprietary driver, right? Did you reach out to 
-> them wrt this problem? Or searched their support forums, online help, 
-> etc? If so, what are the results?
-
-Yes I'm using NVidia propriétary driver.
-Maybe I'm wrong but I did not ask their support directly because first, 
-for me it seems that there is no issue with the NVidia driver and 
-unfortunately NVidia is not as opensource mind as Linux kernel community 
-(as an example you can have a look on my last PR here 
-https://github.com/NVIDIA/open-gpu-kernel-modules/pull/783 which had not 
-been reviewed since 3+ weeks... and without this PR, it's impossible to 
-build open or closed source NVidia drivers on mainline)
-
-Second, I thought I already report it here but on my system using a 
-recent kernel and embeded ast 0.1.0 driver has a very poor rendering and 
-graphic is very slow, twinkle is high, had poor colors and it's 
-happenning even if the NVidia driver is unloaded
-The screen flickering is high too and it's like if I was using an old 
-cathode ray tube monitor (I'm using an LCD monitor which display a nice 
-and eyes confortable picture when using ast 1.15.1 driver or when 
-displaying directly the video output of the Nvidia GPU(using HDMI 
-output)).
-Third, approximately from Linux 6.10+ using the embeded ast driver I 
-have some lag when sliding a window on Gnome desktop (Xorg not Wayland) 
-and CPU is highly used (some coreS at 100%), but I do not have those lag 
-with ast 1.15.1 and CPU is less used (1 core at less than 80% max)
-For the moment, I think Linux 6.12.9 is the worst I constat
-
-Last, I found that Linux 6.1.128 is working perfectly out of the box 
-with embeded ast 0.1.0 driver and there is a manifest lost of 
-performances with Vulkan and Nvidia prime render offload when upgrading 
-to Linux 6.2 (using same NVidia driver version, I did test those 3 
-versions  535.216.01, 550.142, and 550.144.03 with similar results).
-But in Linux 6.2, except the lost of performances, I did not constat the 
-poor rendering and twinkle on the screen nor lag when sliding a window 
-on the desktop or too high CPU usage.
-
-So I suspect there is something else introduced between Linux 6.2 and 
-mainline which cause this behavior.
-
-I'm continuing bissection and I'm sorry, it's not as fast as I would as 
-each tests tooks some times and I must never tell something wrong to git 
-if I don't want to restart all the work...
-
-Thanks again for answer and help
-
-Kind regards
-Nicolas Baranger
-
-
-Le 2025-02-28 11:06, Thomas Zimmermann a écrit :
-
-> Hi
-> 
-> Am 11.02.25 um 19:15 schrieb Nicolas Baranger:
-> 
->> Dear maintener
->> 
->> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video 
->> driver on mainline kernel (6.13.0 + 6.13.1).
->> 
->> ASPEED video driver is availiable here:
->> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
->> 
->> But it only work for LTS kernel
->> So I modify the DKMS package and I build a new Debian DKMS package 
->> with the adapted  source.
->> My patch can be find here :
->> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
->> See the README:
->> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
->> 
->> Using this new 'ast 1.15.1' driver, performance are amazing compared 
->> to the 'ast' driver include in kernel tree, specially when using a 
->> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card 
->> as the main video card and as the main and only video output (the 
->> discrete GPU is used only for offloading 3D or for cuda/opencl)
-> 
-> You are using NVidia's proprietary driver, right? Did you reach out to 
-> them wrt this problem? Or searched their support forums, online help, 
-> etc? If so, what are the results?
-> 
-> Best regards
-> Thomas
-> 
->> So to make things easier, I include the new 'ast 1.15.1' driver in 
->> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
->> It's working fine as you can see on this video :
->> https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm 
->> I upload all the work I've done here :
->> https://xba.soartist.net/ast-drm_nba_20250211/
->> 
->> See the global README :
->> https://xba.soartist.net/ast-drm_nba_20250211/README
->> 
->> and the README in nba-kernel sub-directory :
->> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
->> 
->> I'm not a developer so please let me know if I made the things the 
->> right way and if this new 'ast 1.15.1' driver can be ported to 
->> linux-next or linux-? ?
->> If you need more explanations, do not hesitate to contact me, I would 
->> be happy to help
->> 
->> Kind regards
->> Nicolas Baranger
+Regards,
+Markus
