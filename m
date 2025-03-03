@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E1EA4C04B
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 13:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA329A4C071
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 13:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83CBD10E132;
-	Mon,  3 Mar 2025 12:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C0710E404;
+	Mon,  3 Mar 2025 12:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UZY6Anrz";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lJfhqijB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279538951B;
- Mon,  3 Mar 2025 12:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741004812; x=1772540812;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=TdQIbsH8mqQaDHag5Y+cfV7DxcUvccLSzgI7CxU6a1k=;
- b=UZY6AnrzpPz6FDF3v91W3zJz9CcBS5ECl9dsT6fY8r7FUYHDePfNafvf
- j0kAYYkwOfw3ms8qZU+ix6r+DjHNqoZ7mp6SZ0vPfR45HDE9/jyuwl+jR
- ECQFflYJR1xvxXtDvJM0cZUVI6rKU3FfZ5JKIh/RCBbo9FjiCzqcQggDy
- J2tA5QPyDC1xzOFYimgJqvqi/0PFOIxPazsNxCaV6dmrAWxr80FLhU3yx
- N5pAFILo5pSPGgVaUVZ84nSa6PrlDUvt3+RwOBWhHZqzgpUtMpjj5pZsn
- G+YMral1bq3VLtJFve0pXYeX2G960U+/xYIdGbDuXAH90QXX0zyRO6gLf Q==;
-X-CSE-ConnectionGUID: eFF9WfE2SKq+7S4Og40YlA==
-X-CSE-MsgGUID: hxSEysDGSpSLwFVHFm+69A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41730178"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="41730178"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2025 04:26:51 -0800
-X-CSE-ConnectionGUID: oPHnG1+lQ3yesmC6+1fm6w==
-X-CSE-MsgGUID: kV+xYlv9QB656lMJgu8BnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="123208499"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 03 Mar 2025 04:26:49 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 03 Mar 2025 14:26:47 +0200
-Date: Mon, 3 Mar 2025 14:26:47 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: =?utf-8?B?4pyXIEZpLkNJLkJVSUxEOiBmYWls?= =?utf-8?Q?ur?=
- =?utf-8?Q?e?= for drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
-Message-ID: <Z8WgBx5sVVcoLYsk@intel.com>
-References: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
- <174100275212.118223.16006543455148366118@b555e5b46a47>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA13F10E405
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 12:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741005328;
+ bh=glM8HnRBpbjggci7dgcesL2SapPah0cTwpevxpY1ovM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=lJfhqijB/q7asCs/XRPjiLjWBv5C3nKVtgn0+R4DqUELIAidEQ9WmCiK9X+KkjW6y
+ HcYoEcQu7soIq/iYJUcBK+08wfkVZM7B6+Nc+lOUA4+Fx24KPbDtJ3YDtYRzj20j8r
+ SBXsTldqCl2kqYRB7Zfrs6M04B7FvaPfCzzsymq6b8P8ni8KY+1+/3Q/SdaFd6TFdJ
+ RTxJY4MuqUqV3xb4KUj+O++f7nyiqfQUa1oSpXFcOxz9dMOTwb+Z7KayOQtjTgsAez
+ GXHbsQrq9YujNCoON8Wdy2mzvqj9KY6Y4s3Sz5+YYjeEq3vnBLAZXHOZmG/j09ei5o
+ xxeh+9XCUrwYA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A1A4617E0881;
+ Mon,  3 Mar 2025 13:35:27 +0100 (CET)
+Date: Mon, 3 Mar 2025 13:35:23 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Marek Vasut <marex@denx.de>, linux-arm-kernel@lists.infradead.org, Conor
+ Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>, Steven
+ Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev
+Subject: Re: [PATCH 6/9] drm/panthor: Reset GPU after L2 cache power off
+Message-ID: <20250303133523.2c5153ed@collabora.com>
+In-Reply-To: <Z8Wb05rmGW0ORnJB@e110455-lin.cambridge.arm.com>
+References: <20250227170012.124768-1-marex@denx.de>
+ <20250227170012.124768-7-marex@denx.de>
+ <Z8GY0nWXOxCKF-XL@e110455-lin.cambridge.arm.com>
+ <fa88c1c1-89ba-4a10-bd57-0819d7740c0a@denx.de>
+ <Z8Wb05rmGW0ORnJB@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <174100275212.118223.16006543455148366118@b555e5b46a47>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,37 +74,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 03, 2025 at 11:52:32AM -0000, Patchwork wrote:
-> == Series Details ==
+On Mon, 3 Mar 2025 12:08:51 +0000
+Liviu Dudau <liviu.dudau@arm.com> wrote:
+
+> On Fri, Feb 28, 2025 at 06:05:36PM +0100, Marek Vasut wrote:
+> > On 2/28/25 12:06 PM, Liviu Dudau wrote:  
+> > > Hi Marek,  
+> > 
+> > Hi,
+> >   
+> > > On Thu, Feb 27, 2025 at 05:58:06PM +0100, Marek Vasut wrote:  
+> > > > This seems necessary on Freescale i.MX95 Mali G310 to reliably resume
+> > > > from runtime PM suspend. Without this, if only the L2 is powered down
+> > > > on RPM entry, the GPU gets stuck and does not indicate the firmware is
+> > > > booted after RPM resume.  
+> > > 
+> > > That doesn't sound right. Can you tell me what GPU firmware are you running
+> > > (we are now printing the git sha of the image at boot time).  
+> > Please see below. It could be some sort of NXP firmware fork ?
+> > 
+> > It comes from the NXP firmware repo , mali-imx-r50.2-710cfb6 .
+> > 
+> > panthor 4d900000.gpu: [drm] clock rate = 1000000000
+> > panthor 4d900000.gpu: EM: created perf domain
+> > panthor 4d900000.gpu: [drm] mali-unknown id 0xac74 major 0x0 minor 0x0
+> > status 0x1
+> > panthor 4d900000.gpu: [drm] Features: L2:0x7110306 Tiler:0x809 Mem:0x1
+> > MMU:0x2830 AS:0xff
+> > panthor 4d900000.gpu: [drm] shader_present=0x1 l2_present=0x1
+> > tiler_present=0x1
+> > panthor 4d900000.gpu: [drm] Firmware protected mode entry not be supported,
+> > ignoring
+> > panthor 4d900000.gpu: [drm] Firmware git sha:
+> > 8e5cfcfec20cc8aff8509d37e72babc935d34a3b  
 > 
-> Series: drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
-> URL   : https://patchwork.freedesktop.org/series/145707/
-> State : failure
+> This looks like it has been part of a R50 release of the DDK, which is recent
+> enough to consider it up-to-date. The issues you're seeing with fast resume are
+> probably due to some integration issues or other quirks.
 > 
-> == Summary ==
-> 
-> Error: make failed
->   CALL    scripts/checksyscalls.sh
->   DESCEND objtool
->   INSTALL libsubcmd_headers
->   CHK     kernel/kheaders_data.tar.xz
->   HDRTEST drivers/gpu/drm/xe/generated/xe_wa_oob.h
->   UPD     include/generated/utsversion.h
->   CC      init/version-timestamp.o
->   KSYMS   .tmp_vmlinux0.kallsyms.S
->   AS      .tmp_vmlinux0.kallsyms.o
->   LD      .tmp_vmlinux1
-> ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_test_pick_cmdline_named':
-> /home/kbuild/kernel/drivers/gpu/drm/tests/drm_client_modeset_test.c:142:(.text+0x3c9): undefined reference to `drm_helper_probe_single_connector_modes'
+> Boris has the most recent experience with playing with fast resume, maybe
+> he can share some tips on where to add messages in Panthor to try to debug
+> your problem.
 
-That comes from drm_kms_helper.ko, but drm_client* goes into
-drm.ko. So this looks like a circular dependency :/
+If you end up with fast_reset=true, that means the FW claims it entered
+a suspend state from which is can resume quickly (fast-reset), and in
+that case, we're only supposed to power on the L2 block at resume time
+AFAIK. If there's a component that can tell us more, it's probably the
+FW, unfortunately, it doesn't tell us much through the FW interface,
+especially if it's not booting properly. Do you hit this error [1]
+without this patch, and if you do, what's the status reported there?
 
-> ld: /home/kbuild/kernel/drivers/gpu/drm/tests/drm_client_modeset_test.c:136:(.text+0x4b1): undefined reference to `kunit_unary_assert_format'
-
-No idea what is going on with these. Should be coming via CONFIG_KUNT
-and we do seem to depend on that.
-
--- 
-Ville Syrjälä
-Intel
+[1]https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/gpu/drm/panthor/panthor_fw.c#L1051
