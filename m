@@ -2,83 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FC3A4B8AF
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:06:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90204A4B8B2
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F67810E146;
-	Mon,  3 Mar 2025 08:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A08210E363;
+	Mon,  3 Mar 2025 08:07:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="P2Vyh8T8";
+	dkim=pass (2048-bit key; unprotected) header.d=3xo.fr header.i=@3xo.fr header.b="FpfaxVS/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC59E10E146
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:06:03 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-390effd3e85so2744466f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:06:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740989162; x=1741593962;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X0iUVs2ZQh+M1rl5kLkJ/YPcqr6UkD+Cttj33+uPFnc=;
- b=P2Vyh8T8gSIsEEy+kfFdY8mtlHLUeNTgaYDaN+dBI5QOqFnx8tGnE97yA/NrIHfCmu
- j4PlT36MNM2SouMK5rB2DXnO55O3jDUrIhuGA2C0gRhStIFxNKjRjjBZ148i2zar5RtY
- kg1+47B3LRGu/f8XmEIH7mcmQZvIL5azEPa/zhns0NCpmk3BWBkc67uIHVH3jUkQ2qb5
- eihp0HlBElgEQgH4wODej/7VOQG+TfX5HF8BZk3D5AQ9VHZ4xdHEp/dj7V64ikWMl62r
- s9pg/hFRtx+JWcLl08pnRnggyV5wjIdVh6GntAD7i40Tnu2l0t9oZHOam6KtDeaHTh+K
- guAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740989162; x=1741593962;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X0iUVs2ZQh+M1rl5kLkJ/YPcqr6UkD+Cttj33+uPFnc=;
- b=w3VlA8rNRD0/PbxreIFvbj6vkJcWeEReVJXeEQA+WIKaAJNixmF+yMLh0dKQCvlJVJ
- NbYcnunLDiIXOda+yxnkOaVXUiAyUbw+1qCvAe54MjY19Zj9PR+bCB21PWLDEGFH7W04
- GYrWjifBJlLfILcUsvJfpLBe7TZ65GIuICBzR9PbMlYMZ7B/UAbKr0gLB7b3g3JMEfOh
- WesT8xOsJSXfY178EdkVDLrCAiX/iQHL6PvKZXidHdTeZOq2xGaeUj/56yEr3s0pCvbE
- 0CCdDmCNbim3TKYxbnVwoPdH1PKGQ+EucwAhOTUdkgG6sQtzckbQlL74yOI4OdqKXza7
- 5U0w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtC+tZfPyCJ619qQQ6mclijpLY4QtLxuUQ+2Cn026xAxm3B0NhCQnkJ049CicwF3GNCg0vACbei4Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz36yIp848e7HGievzy0erPz3iE1D5Og9cnI9sWN/V0y7wPfxXW
- Bw/L/Y0G5gA/BGq60Eg+8Xp/z2ovqdiuTxg64ztz9zYpGka6RAQnPsKxTPcUDeEML9Jrd7BKEEJ
- V25/0pk80DKtjWqNtzlCy6LEtq5wSSUxOxjre
-X-Gm-Gg: ASbGncsdNunujdrVsyG044O7wygQs49CS3oU43OkgMjCEz0o4/h0g/vbSFKzwxCIL23
- ybrWxLcHq4FGfd6QEB4RrZEv+vqu4mVeEZKFLNpD+WQXnrp+GGoqxZR+NNAb+Ho4KSDRV8q3qSk
- 54ZNRwUFDTE9UcmkDJ4fH2exM9uHLUC6DYILvUjBy6vM4KCdvr4On3Q/EP
-X-Google-Smtp-Source: AGHT+IEk6318AFfc1LcVsJJ84wt3g9PnbPRWzDdM7m2/xTI/OwzWoyIK3cmNaUT7+G0p9cZPZuhg9T+sy8bKgxhf/+k=
-X-Received: by 2002:a5d:5f91:0:b0:38f:3c8a:4bf4 with SMTP id
- ffacd0b85a97d-390ec7cd27fmr9441896f8f.6.1740989162420; Mon, 03 Mar 2025
- 00:06:02 -0800 (PST)
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C90A10E363
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:07:52 +0000 (UTC)
+Received: from localhost (mail.3xo.fr [212.129.21.66])
+ by mail.3xo.fr (Postfix) with ESMTP id EF1E08D;
+ Mon,  3 Mar 2025 09:07:50 +0100 (CET)
+X-Virus-Scanned: Debian amavis at nxo2.3xo.fr
+Received: from mail.3xo.fr ([212.129.21.66])
+ by localhost (mail.3xo.fr [212.129.21.66]) (amavis, port 10024) with ESMTP
+ id xQLi-Wig6E5k; Mon,  3 Mar 2025 09:07:48 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.3xo.fr 8C25411
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xo.fr; s=3xo;
+ t=1740989268; bh=ToHzVhkdVTPmSzNAtlGo2WzPGuHBt0bpKXkf3V6EJPA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=FpfaxVS/dRPAIdTvUr9GNdlbH+rBFgV79BJbHKifNv7JMliRQbQY7P1xqq6FaqUIE
+ JVLJOy2ARjW+r36vV/Pkm/yxZWPC/1+ARgekBD8Bd+QklhUshaPLBxnc1U2f4xxP4N
+ aySfxdBDqSa89jGToLkEg/SHHHDImMozaoEdPQXTLB+QrHKmL98/ShXvS8dmCspGRk
+ O+kjxy9t2dy5D3iZAKl7eSLsyvx5vhYFQjbfsva8BRh4EMCVHgPP4VDHdSRWb1M6a2
+ wphxL/rEpS0owjeYxy8OoRjQfimuiNHwU+q5ZVNNFbrKq75+4QRCtzGmg1sbl5cRff
+ r/fJVmCwcrWmw==
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3xo.fr (Postfix) with ESMTPSA id 8C25411;
+ Mon,  3 Mar 2025 09:07:48 +0100 (CET)
 MIME-Version: 1.0
-References: <20250301231602.917580-1-ojeda@kernel.org>
-In-Reply-To: <20250301231602.917580-1-ojeda@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 3 Mar 2025 09:05:49 +0100
-X-Gm-Features: AQ5f1JrxAQw0Rq7Ilhd1yFsj2dY9VjMUraWB3QJMgYSvaEWDQVWq8PuNQusYF1c
-Message-ID: <CAH5fLgjhMfk1vZCc242vKYnTN13Ss23VhVhaAjwU67Z5qhP9mA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panic: use `div_ceil` to clean Clippy warning
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Alex Gaynor <alex.gaynor@gmail.com>, dri-devel@lists.freedesktop.org, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Mar 2025 09:07:48 +0100
+From: Nicolas Baranger <nicolas.baranger@3xo.fr>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com
+Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
+In-Reply-To: <bc089e81-2e09-41e9-a9d1-68b2f4372e7f@suse.de>
+References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
+ <bc089e81-2e09-41e9-a9d1-68b2f4372e7f@suse.de>
+Message-ID: <183881a57671db7eebada5ac8cbcb8cf@3xo.fr>
+X-Sender: nicolas.baranger@3xo.fr
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,30 +67,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 2, 2025 at 12:17=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Starting with the upcoming Rust 1.86.0 (to be released 2025-04-03),
-> Clippy warns:
->
->     error: manually reimplementing `div_ceil`
->        --> drivers/gpu/drm/drm_panic_qr.rs:548:26
->         |
->     548 |         let pad_offset =3D (offset + 7) / 8;
->         |                          ^^^^^^^^^^^^^^^^ help: consider using =
-`.div_ceil()`: `offset.div_ceil(8)`
->         |
->         =3D help: for further information visit https://rust-lang.github.=
-io/rust-clippy/master/index.html#manual_div_ceil
->
-> And similarly for `stride`. Thus apply the suggestion to both.
->
-> The behavior (and thus codegen) is not exactly equivalent [1][2], since
-> `div_ceil()` returns the right value for the values that currently
-> would overflow.
->
-> Link: https://github.com/rust-lang/rust-clippy/issues/14333 [1]
-> Link: https://godbolt.org/z/dPq6nGnv3 [2]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Dear Thomas
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> You are using NVidia's proprietary driver, right? Did you reach out to 
+> them wrt this problem? Or searched their support forums, online help, 
+> etc? If so, what are the results?
+
+Yes I'm using NVidia propriétary driver.
+Maybe I'm wrong but I did not ask their support directly because first, 
+for me it seems that there is no issue with the NVidia driver and 
+unfortunately NVidia is not as opensource mind as Linux kernel community 
+(as an example you can have a look on my last PR here 
+https://github.com/NVIDIA/open-gpu-kernel-modules/pull/783 which had not 
+been reviewed since 3+ weeks... and without this PR, it's impossible to 
+build open or closed source NVidia drivers on mainline)
+
+Second, I thought I already report it here but on my system using a 
+recent kernel and embeded ast 0.1.0 driver has a very poor rendering and 
+graphic is very slow, twinkle is high, had poor colors and it's 
+happenning even if the NVidia driver is unloaded
+The screen flickering is high too and it's like if I was using an old 
+cathode ray tube monitor (I'm using an LCD monitor which display a nice 
+and eyes confortable picture when using ast 1.15.1 driver or when 
+displaying directly the video output of the Nvidia GPU(using HDMI 
+output)).
+Third, approximately from Linux 6.10+ using the embeded ast driver I 
+have some lag when sliding a window on Gnome desktop (Xorg not Wayland) 
+and CPU is highly used (some coreS at 100%), but I do not have those lag 
+with ast 1.15.1 and CPU is less used (1 core at less than 80% max)
+For the moment, I think Linux 6.12.9 is the worst I constat
+
+Last, I found that Linux 6.1.128 is working perfectly out of the box 
+with embeded ast 0.1.0 driver and there is a manifest lost of 
+performances with Vulkan and Nvidia prime render offload when upgrading 
+to Linux 6.2 (using same NVidia driver version, I did test those 3 
+versions  535.216.01, 550.142, and 550.144.03 with similar results).
+But in Linux 6.2, except the lost of performances, I did not constat the 
+poor rendering and twinkle on the screen nor lag when sliding a window 
+on the desktop or too high CPU usage.
+
+So I suspect there is something else introduced between Linux 6.2 and 
+mainline which cause this behavior.
+
+I'm continuing bissection and I'm sorry, it's not as fast as I would as 
+each tests tooks some times and I must never tell something wrong to git 
+if I don't want to restart all the work...
+
+Thanks again for answer and help
+
+Kind regards
+Nicolas Baranger
+
+
+Le 2025-02-28 11:06, Thomas Zimmermann a écrit :
+
+> Hi
+> 
+> Am 11.02.25 um 19:15 schrieb Nicolas Baranger:
+> 
+>> Dear maintener
+>> 
+>> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video 
+>> driver on mainline kernel (6.13.0 + 6.13.1).
+>> 
+>> ASPEED video driver is availiable here:
+>> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
+>> 
+>> But it only work for LTS kernel
+>> So I modify the DKMS package and I build a new Debian DKMS package 
+>> with the adapted  source.
+>> My patch can be find here :
+>> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
+>> See the README:
+>> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
+>> 
+>> Using this new 'ast 1.15.1' driver, performance are amazing compared 
+>> to the 'ast' driver include in kernel tree, specially when using a 
+>> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card 
+>> as the main video card and as the main and only video output (the 
+>> discrete GPU is used only for offloading 3D or for cuda/opencl)
+> 
+> You are using NVidia's proprietary driver, right? Did you reach out to 
+> them wrt this problem? Or searched their support forums, online help, 
+> etc? If so, what are the results?
+> 
+> Best regards
+> Thomas
+> 
+>> So to make things easier, I include the new 'ast 1.15.1' driver in 
+>> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
+>> It's working fine as you can see on this video :
+>> https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm 
+>> I upload all the work I've done here :
+>> https://xba.soartist.net/ast-drm_nba_20250211/
+>> 
+>> See the global README :
+>> https://xba.soartist.net/ast-drm_nba_20250211/README
+>> 
+>> and the README in nba-kernel sub-directory :
+>> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
+>> 
+>> I'm not a developer so please let me know if I made the things the 
+>> right way and if this new 'ast 1.15.1' driver can be ported to 
+>> linux-next or linux-? ?
+>> If you need more explanations, do not hesitate to contact me, I would 
+>> be happy to help
+>> 
+>> Kind regards
+>> Nicolas Baranger
