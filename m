@@ -2,84 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D77A4B9AE
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA42A4B9AF
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:45:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F4010E14F;
-	Mon,  3 Mar 2025 08:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 339FE10E367;
+	Mon,  3 Mar 2025 08:45:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="3Prf+w+n";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mbhdAvfs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
  [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27AFC10E14F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:45:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 843E610E367
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:45:50 +0000 (UTC)
 Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-4399a5afc95so15591475e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:45:49 -0800 (PST)
+ 5b1f17b1804b1-43ba50406fbso28470335e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:45:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740991547; x=1741596347;
+ d=google.com; s=20230601; t=1740991549; x=1741596349;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=DYh/tabkIBU+qEEozteNgGAzw7miJ+u0L3IImQNu48A=;
- b=3Prf+w+nTMBhK7YEaK90yc4zJy2QlmXM7eRCz1qlCFK3OxMwBzddDLlpbes9CVc/ai
- ZtiBdNLMH0xV3ipVGFv+Rd+1zDZFYD8GXgqn5vaAPMjDNvCyQnVVp2KArung06xzcW0H
- zp88MN6MsfIaIAGi+asPLDr0SUPM8y0Ltms0pzT8gi2dWgWo1cqjWEAerAcQmD/mXS3Z
- or22NbhH7xgn0o+RW9EtorYEKw6AFmJeYpGRaBFaSs860QRYQtbWWiWo6YjEgf55M061
- r5m9wL9x/6U7GzSjr0osXKkiFyQsvKVn6vxgdY9mhOfR1wC8GDUghUU5mFgI0dpfop6x
- e0jA==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uszf9jNzimaGC7A+MjcMbFfOoksGjtwuorOL4my3lD8=;
+ b=mbhdAvfseQVtVaRYw4eAFHXiV8Y1KC6t6ic/e8QfPanVV46tk/RHfPq2jc/9Gzj04h
+ 6F+utpfwaudPFQYPPgMFbuMzHM1Dm7PpXh2Gs/on0w/biNznfKoinjc0g2Y8so6Khooc
+ jbCFyPzQ4oGPj38iaw4mExqebjajQxT73NxRxDordsHxhZ8w5J67D7p/m+6lI5QWoWwq
+ tTNzLEUDQfWxQ+8PiqgxbdMcj4HrxX3Kyc9kGhlgLJ4+yICm5eSdQ1Lj+VJTGrLbWmVV
+ Sb8UcfES+Kdgt6f2Li5Tp6mtzDPbIFzpwpiFGzcc1GQTPNICqV6K/IZYuRsIK18COhhA
+ wTzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740991547; x=1741596347;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DYh/tabkIBU+qEEozteNgGAzw7miJ+u0L3IImQNu48A=;
- b=tNNGdcf+mW8kIY6Dv+yXh3ZQR7wPyVcY1wFgF/nE+UIKIOZdulXvwtoQNE23b6L/Ua
- 54XEakx5cItHkxqSnxpDnvcn1wRWlwWRiDtJMh+yFzuQvzAyMdU4oOhbWN0aDtOpoul0
- zo1lHZgX/LRCbWLMxr7KDm40grT50rML9FNk++SGs9OoK08lBvJMs1lSR7P3/+DhN6ey
- WMB3BqLMN843LCFA1K2DiCi3nBsj9KoptfalX9gB8ABY4q1HXuc5pnRIJbNZpr8Nqn4b
- cHMrZtvDQ+xdvq1aMrALwd9b74/7sKFlDPoiyYDjdgmDVDo9/8aSmOpOviwoNj8qI3Zv
- X61Q==
+ d=1e100.net; s=20230601; t=1740991549; x=1741596349;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uszf9jNzimaGC7A+MjcMbFfOoksGjtwuorOL4my3lD8=;
+ b=asq1HQVrysMsLvXDoKWk9tDrL9L9KlyCcC8nMSW/BIDVGhEotbCG4cVL5nFMSijvgq
+ kViPdGA3kNH95UifJq3t4dGXgYl2INlBJ/LpBdILNwhNeN2rTjXDi45X9XBu7AAdcm/n
+ bSatHsFP+KZc+1/1MenbInUL6CmuzXSHd8iRHFuwmdc4QzaUK+MxNXxRZwx3FUiRmHRd
+ x+266ToHzE5yVuuQ5lISUQ7tk1UfmxyEMinmzo7Wd5vx0hLu/u1GR5xIi+XRsv7rh1e5
+ orazm5EpBhEMwGBcl6JgXFi140+dqINbYjjy5Ajd54a5OU1nZQ00+WddIRGoJyf7w9eH
+ E9vA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXhOKogneFaK8Az5uWoMJw0fPT0N5blLa1L+ka3/CgnR9Cl94Y7OJsoF8TnTK6W24mGBWlwNXd7ZLI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyYnrvnawXQFGtuDdoKlipFR/AN7ggIiU04HELLcPmNmx+mNt9/
- f9FrxkYgg2aCOx9aa953roPD3vPForSZ7/39n7B5oQ4IwrmC1hLu+d+0Q+Yx+/OZaIfXy/Oq+Ra
- 4C+qwjxovTkA21A==
-X-Google-Smtp-Source: AGHT+IFmqw4UbJRnAxWOF/CCPg0pJy+REFK0/XB06eG3qGGCxRsn3vY5ejkeGCpS1Z/tDA6VnHB5nKKppGUUZbw=
-X-Received: from wmby11-n1.prod.google.com
- ([2002:a05:600c:c04b:10b0:43b:b3bb:a157])
+ AJvYcCVJiYloId+Bu/s8hWxSdGSLJvZXJVD6D8LU0OzLZN+n9+Szlf2+oFkycH1ZgO3nMiFAZA4gWD7vNKs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzpd2Orxv01TpvgDdgTHcZlurKd7+WXuZRrT099vi/xtF8RAy+c
+ JT4dXdFUf1H/diWRa4gkuBY9ZswePQV4Rqg2oxUNBGEsVi7z2Ff/qSEto1onEuJUFDKKBXp2wC8
+ V9yyWNynm+yRmWg==
+X-Google-Smtp-Source: AGHT+IECCbQDp007YY5H9TzV4VTf2BNZ8iJKkXWl3w/rGfL/ku4+FSGRABIL2DQ9M+TCDMAM8FaLElccEauucog=
+X-Received: from wmpz20.prod.google.com ([2002:a05:600c:a14:b0:439:80fc:8bce])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:5119:b0:439:a25b:e7d3 with SMTP id
- 5b1f17b1804b1-43ba67047c9mr101624845e9.14.1740991547025; 
- Mon, 03 Mar 2025 00:45:47 -0800 (PST)
-Date: Mon, 03 Mar 2025 08:45:11 +0000
+ 2002:a05:600c:3ca8:b0:439:9424:1b70 with SMTP id
+ 5b1f17b1804b1-43ba675caafmr134644415e9.30.1740991549163; 
+ Mon, 03 Mar 2025 00:45:49 -0800 (PST)
+Date: Mon, 03 Mar 2025 08:45:12 +0000
+In-Reply-To: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIABdsxWcC/3XMQQqDMBCF4atI1k1JYjVJV71H6SKMowaqI4kEi
- 3j3Rldtocv34PtXFjF4jOxarCxg8tHTmEd5Khj0buyQ+yZvpoSqhFKa4zJRmPngIBC3ztlWClk
- 3BlgmU8DWL0fu/si793Gm8DrqSe7vn1CSXHB7MVpXLZTauVtH1D3xDDSwvZTUpzY/WmVd1RZAo
- 7Gqhi+9bdsbP0D1TecAAAA=
+References: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
  fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3761; i=aliceryhl@google.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2238; i=aliceryhl@google.com; 
  h=from:subject:message-id;
- bh=XSadD9QdYJXXkkA+j9SkTugvzm8YkfIPAOAXziKNvY4=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnxWwcAkFZ406niQYuJKOAySGk+oWjSWs0I3Fh0
- ok2nKx19rSJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8VsHAAKCRAEWL7uWMY5
- Rti8EACRQPC2zHJp3GDFyYGJqI+4nrsuB5oQ+lNboNPv2qNhWsn09WyJNMU+WzMLp+LKIDoxTyB
- Kn48A+KiJfCIBwv0ouAWfOSS70nP0ljroURRA7iY/TfXiw/5w0hT/TpMLFDdamBZGAZWCaZFZzH
- H6jlSdEmse4sPtyKOysR50rayzE/YUVIhkfC0H+TXCHkIrJC/PuxEo9zBTr6UWIkhpET1JSm6xY
- ywHtbeT8+ANwwJpU95C9gBBdbLnACkxPLYDXsZwJP2pYf/vr2NP8I/v+479JUhvUqfmwuUIp4vk
- HYHT8E1txLzcKoqykb2C7JqDt7Q3vaXnDhIAbUe98Nxz2H/S5VfOu554U5ZaIAc0dw8kr2cJKTo
- BfNquJxfEc7l5vNtnpGBMHOhzopfMuCzjegVHOYB8h5sbdjRsk3PddOEJOwnyJK6oi9oDAbjoy5
- sm3HIXwaq4WWHGDdXCnKGFpqQTkd6U6j8UmilrJz6PrDhYqT0c4o81h5EgscETjhM4wAaDqcqDi
- GhzbOLMYx3KdzLwDeN8hGaNqB2vcrbDJrAag7ybpstECJM4qQNkUjsj2LiP3lmJLJ+T8cMVWpio
- 6PqjwOvrowEXiVfYk6M60GPpb3uRfdGWPpAlTkgXocdVcDWeuRmgpo+3o9f7G0cukEo5ZG08lUa
- ySxlf3m+JxXweWQ==
+ bh=rXOlJP2KwbZg6HLcbrBJs+P0GV/Go4oAq5PQVguOe0Q=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnxWw0XCXyKCpx73jSQ2riTrt89M1w4DSLnlZ1+
+ Cb235TozJGJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8VsNAAKCRAEWL7uWMY5
+ RgRRD/9PrC+8ReqGY3MVcspxlBxm4PzYImTmwadXxvv6K8NDFtqSgszoxEfNsDJXIFFzYRHYa+N
+ mJdl98HU7r6JRSNL6VV/+oRKhnoHhYbIAna1gFnE/RYTvvWwyUeyO/3CFv7nowjzYM2AnjxOWtM
+ OOmg43zFRY6b/s1XnuR8F/qR30rygGjeSdK7pbE+PygOwoeoXMLh7Yr/UQ0him2uoJXBP0F/4Jt
+ NhUEJHPhJV2Uts4nr2e42HpL35fnn8SH+eaBo+nrTG3wXgOEK3ItExaFsD8x6eYCRN9tONisJjH
+ xBz+9+5gzepyskX2bOZ0ZhqRPhCSdiZBHxPdJAqs30uzVl7n2MQW5GzBrqu06sCxQ3iY4km60MC
+ QkK3CQsguGeSvbMPuYpoIKd+Ld7jxqM27Pe8XJHI2H+nVz+/C5Ps7rZriN2QV4HCqc93vLTtGpB
+ bfT33fQo4J5G/ediSmFwtU9NbUEyDlI3/LNY8azVt58TysT3PPWfLU/jtyifkjgDeFs1Tzwlv58
+ AoTz7LeIRR8/ZK/Y4q/Nq9NF8+vnZf9gm4eXxu81s7bnfqXUiKc/+UoLzwpoBElajRnbah8+nQ/
+ 6A9eT6t+gCWE1hGbbP3vLG1gJgVICGT/4nZEhu8Ujark/AVtP1xoIh0B/sjLHEAQDPC8Rc5IGkh
+ NtML/q9eIA2gOFg==
 X-Mailer: b4 0.14.1
-Message-ID: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
-Subject: [PATCH v3 0/5] Check Rust signatures at compile time
+Message-ID: <20250303-export-macro-v3-1-41fbad85a27f@google.com>
+Subject: [PATCH v3 1/5] rust: fix signature of rust_fmt_argument
 From: Alice Ryhl <aliceryhl@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Miguel Ojeda <ojeda@kernel.org>
@@ -98,7 +95,7 @@ Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
  Simona Vetter <simona@ffwll.ch>, 
  Tamir Duberstein <tamird@gmail.com>, linux-kernel@vger.kernel.org, 
  rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Alice Ryhl <aliceryhl@google.com>, Simona Vetter <simona.vetter@ffwll.ch>
+ Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,28 +112,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rust has two different tools for generating function declarations to
-call across the FFI boundary:
-
-* bindgen. Generates Rust declarations from a C header.
-* cbindgen. Generates C headers from Rust declarations.
-
-However, we only use bindgen in the kernel. This means that when C code
-calls a Rust function by name, its signature must be duplicated in both
-Rust code and a C header, and the signature needs to be kept in sync
-manually.
-
-Introducing cbindgen as a mandatory dependency to build the kernel would
-be a rather complex and large change, so we do not consider that at this
-time. Instead, to eliminate this manual checking, introduce a new macro
-that verifies at compile time that the two function declarations use the
-same signature. The idea is to run the C declaration through bindgen,
-and then have rustc verify that the function pointers have the same
-type.
-
-The signature must still be written twice, but at least you can no
-longer get it wrong. If the signatures don't match, you will get errors
-that look like this:
+Without this change, the rest of this series will emit the following
+error message:
 
 error[E0308]: `if` and `else` have incompatible types
   --> <linux>/rust/kernel/print.rs:22:22
@@ -149,56 +126,55 @@ error[E0308]: `if` and `else` have incompatible types
    = note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
               found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *const c_void) -> *mut i8 {print::rust_fmt_argument}`
 
-It is unfortunate that the error message starts out by saying "`if` and
-`else` have incompatible types", but I believe the rest of the error
-message is reasonably clear and not too confusing.
+The error may be different depending on the architecture.
 
-The main commit of this series is "rust: add #[export] macro".
+To fix this, change the void pointer argument to use a const pointer,
+and change the imports to use crate::ffi instead of core::ffi for
+integer types.
 
+Fixes: 787983da7718 ("vsprintf: add new `%pA` format specifier")
+Reviewed-by: Tamir Duberstein <tamird@gmail.com>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
-Changes in v3:
-- Reword commit message about cbindgen to remove cargo comment.
-- Add # token to quote! macro and mention allow(unused_mut) warning.
-- Use quote! macro for #[no_mangle] in #[export].
-- Reword "since" in `export` last line of docs.
-- Drop extern from drm_panic_qr function declarations.
-- Add comment about drm_panic_qr_max_data_size being unsafe.
-- Add comment to drm/drm_panic.h include.
-- Pick up tags to commit trailers.
-- Link to v2: https://lore.kernel.org/r/20250228-export-macro-v2-0-569cc7e8926c@google.com
+ lib/vsprintf.c       | 2 +-
+ rust/kernel/print.rs | 7 +++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-Changes in v2:
-- Various improvements to documentation.
-- Split out quote! changes into its own commit.
-- Link to v1: https://lore.kernel.org/r/20250227-export-macro-v1-0-948775fc37aa@google.com
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 56fe96319292..a8ac4c4fffcf 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2285,7 +2285,7 @@ int __init no_hash_pointers_enable(char *str)
+ early_param("no_hash_pointers", no_hash_pointers_enable);
+ 
+ /* Used for Rust formatting ('%pA'). */
+-char *rust_fmt_argument(char *buf, char *end, void *ptr);
++char *rust_fmt_argument(char *buf, char *end, const void *ptr);
+ 
+ /*
+  * Show a '%p' thing.  A kernel extension is that the '%p' is followed
+diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
+index b19ee490be58..61ee36c5e5f5 100644
+--- a/rust/kernel/print.rs
++++ b/rust/kernel/print.rs
+@@ -6,12 +6,11 @@
+ //!
+ //! Reference: <https://docs.kernel.org/core-api/printk-basics.html>
+ 
+-use core::{
++use crate::{
+     ffi::{c_char, c_void},
+-    fmt,
++    str::RawFormatter,
+ };
+-
+-use crate::str::RawFormatter;
++use core::fmt;
+ 
+ // Called from `vsprintf` with format specifier `%pA`.
+ #[expect(clippy::missing_safety_doc)]
 
----
-Alice Ryhl (5):
-      rust: fix signature of rust_fmt_argument
-      rust: macros: support additional tokens in quote!
-      rust: add #[export] macro
-      print: use new #[export] macro for rust_fmt_argument
-      panic_qr: use new #[export] macro
-
- drivers/gpu/drm/drm_panic.c     |  5 -----
- drivers/gpu/drm/drm_panic_qr.rs | 15 +++++++++++----
- include/drm/drm_panic.h         |  7 +++++++
- include/linux/sprintf.h         |  3 +++
- lib/vsprintf.c                  |  3 ---
- rust/bindings/bindings_helper.h |  5 +++++
- rust/kernel/prelude.rs          |  2 +-
- rust/kernel/print.rs            | 10 +++++-----
- rust/macros/export.rs           | 29 +++++++++++++++++++++++++++++
- rust/macros/helpers.rs          | 19 ++++++++++++++++++-
- rust/macros/lib.rs              | 24 ++++++++++++++++++++++++
- rust/macros/quote.rs            | 27 +++++++++++++++++++++++++--
- 12 files changed, 128 insertions(+), 21 deletions(-)
----
-base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
-change-id: 20250227-export-macro-9aa9f1016d8c
-
-Best regards,
 -- 
-Alice Ryhl <aliceryhl@google.com>
+2.48.1.711.g2feabab25a-goog
 
