@@ -2,90 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5DAA4C4A0
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 16:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B65A4C48C
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 16:15:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3AE510E45E;
-	Mon,  3 Mar 2025 15:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26B2C10E45B;
+	Mon,  3 Mar 2025 15:15:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OL2JDteP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UN5dMWkc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1582510E46A
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 15:16:35 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-22349bb8605so87849325ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 07:16:35 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
+ [209.85.128.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1047410E2D4
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 15:15:44 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-6efe4e3d698so39775247b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 07:15:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741014994; x=1741619794; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MS7z2kKTQMha/2re0nvvr2SV5BXsIJZSh7OQaRN4Das=;
- b=OL2JDtePz+rWqCWhpruhVmu/WDjv204gClOssASwvqiIMiU4IChRMorSt4Kon02EaA
- bnJ9unHMbSn3C9vmx5RZpgrLThFptGsACwNlyOws1ybS+kGvpM/RAz8AGE+1iXbm4FoU
- Y+H7OwkzqXxhebskq24hx0uEdNzW8s4LOGA4+9nh/hX4gdgfzSPEKUyYW9R9xde03Bih
- ilzaxC6VB35syW/ed/hnZ29piIhdOn8pBijxVT1uhKUrdjVmAR+MIpWD2HAM6aAOK0Tb
- 8FH0wKkgxm+samoQWfQHZ7eVkZbqh0c4VWP5MeZRR2zc/uvzqs8Z+zQnlkjrenKUF5N5
- dfdg==
+ d=gmail.com; s=20230601; t=1741014943; x=1741619743; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vnZYfHRjSrDXnbFHbwXoqUV2Rvz3Z3oSLKKN3IWdcq0=;
+ b=UN5dMWkcQYtc4rHbNLhTZBZ/AVOpJW6vj0srjeCGoIYfmx79NrfkrBVgLQVu9AJpsk
+ m/OVwgnh+cUvHevdKzwKtc8PNzL5wp6O6fa2ImIOpVYSqRpJs8tysA7dWhJ9mH1Pg2/v
+ wngr/fyR8STRMR7dZiBmyWb3ztsxoXD4WXwp7luwjdjOpBrlPmN2pcxS6jUX92FhCj99
+ XNhBJzT8okB30XLj/QDSqKdFTFVTPrPh0MPij9TSTD8+V6TO72Kc1nlceUgOg5qG2tEn
+ 48psOa11/8bPDewdBsb9KPUKrajTXSG83bl7gODQC0TD/zifL4oixivs6FZkss6i3t1i
+ Yymw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741014994; x=1741619794;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MS7z2kKTQMha/2re0nvvr2SV5BXsIJZSh7OQaRN4Das=;
- b=ifNWq7R1oDpc6+KsuhapC9aYxyRKqb9XqtgaPd5gkW1CLDbo8lHNX6pbcAbW5cFvh4
- sd67l/UZUX4b7Rskr5l+Excu2SLcn9qwgoa89Wh5fI9FMVB8bKY9/Uxq5nWt7R2OXqzv
- TXizDrTU1einKZsoCCXw212dkYB66Svq7pQ0XP/9EhXZORdId2eADiILymE9sSjYJKWR
- asK/AaH4ReUmYZOnTH0Jf8NxBP53T0xqgJVrQU8AVgs1+5wwH+PK1WeEIWiRfWjr+v/A
- S8QSoPTScq3aZD/US7rPVRXQOqTBXfVuPs1pels9tLSsAHCFbQzPcrHI3Wo2jLUnqPUs
- zkKw==
+ d=1e100.net; s=20230601; t=1741014943; x=1741619743;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vnZYfHRjSrDXnbFHbwXoqUV2Rvz3Z3oSLKKN3IWdcq0=;
+ b=J8iAgciSgjLcwoID+I/I6eYOEq+8wYqOajI+sl9CTrO0HoRMGYpEcWW8ZM/oHKXz+t
+ hXMGYt9VcOQWv1X1M/bgRlVufhbeXaMXc5LYkV9c9BIxab/UZWFVB9HcqfW664+1zZb7
+ tmTMpyMmnL8dbMkW6RZ28IykyNAa+DfKKppp7laddx7BG4BG38SIELhKQI1sOPpfDcLd
+ SX3REVTAXowFTiqU83Kk78GjGqlNRl9D7kbV+1OgNid+X92Xc30bsyedZEytWqYAJjYX
+ gvP/ImeBsoXhUGvysmaC8OyeyJ6+va0TXououzLPsKeSkltDjYPPqMHzLokrdARDe1Ll
+ Z0TQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWmFIXgv3/Kdc2VLTpxBkugjXGUuhpXYAZ0rzXlxOqHsHpygjmIVgMjIQt2orYCQgdlubFDNWt+dfA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGUEpK+gkldp9gkDhbNJZmHIMdvV3F4aTnZG1Uuf//QBqrlEws
- JBYnJgWPROwM0H2ZtC/GlY7PrEU+Xlj/Re4navjTVmNk3Up9rW8xlHzsW6rWEhA=
-X-Gm-Gg: ASbGncvWmuq6ongfvxU9cmLiez50b79kKJBdtkND5vX/5gbHlO3VwZPTa8agnj0Ghxj
- zl02+YXVK9l/bJhCEr447rZYJQNZ0bYSYV4nfnW6E/mNp1BLNB5XXxTnwRysnoV7F2OXcfUq8ra
- nN9ltQ3STnGItoCTGUhkSzBdHOa4y6em6RpiMXZGWUCQUG92RHwVndv7AaW0e7G0M5UqNafOLvC
- AiXoLLHnn81ajrM8UBoKiZxTH0xypi+RDVmdTUPDCcNAhsT/xJN6W8s7T2asJyelKaCH6I4zJeB
- S0XqVYRu7u/DYeVE9+LNzrWT9+kDj6UjhQ/LofF66g==
-X-Google-Smtp-Source: AGHT+IGqsUIgxn0VTNpF19GsGLIer8kpx9wejYDX5o6ypocdMcDRG9DFSFFgDQK2xCjfWuXX2Z073g==
-X-Received: by 2002:a17:902:da8d:b0:215:9bc2:42ec with SMTP id
- d9443c01a7336-22369260956mr180094215ad.47.1741014994609; 
- Mon, 03 Mar 2025 07:16:34 -0800 (PST)
-Received: from [127.0.1.1] ([112.64.60.252]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-736584b3cffsm1851984b3a.4.2025.03.03.07.16.27
+ AJvYcCWar/bgRvG4+Z8wq/S6/EQqUxFUEzevJ6KlPMiNY0rkLVotb7gvpbjNIEk0mSjYS6LZ00FqmZFHDG0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxD5yjjJDK/NnhEMj1YXBXggRJFNlAFAhOjx2E49cxRDN+CmjcL
+ WWM6wyv0l6ACbE5gMFUFm9tji9FrmuDwbk+hXx+GOwo2CRlTd6Zl
+X-Gm-Gg: ASbGncsQZlFuToYzNxiV8hAHSnF9xefCd8s94Mi0DUnxrSpuCCYDFZENyJKsU4oN7Za
+ EvX1DiTnZ80sU8F5ztiYOJmBcqPqHqRcGI/PXZx/O3HkrNEfZP1Qj/vuMLkJT1MmVO8HSb6V5/y
+ WJCurBBimFgT2HzEhsK+p26rmeho4uZulUfu/+7VM/5kMsZ18rg3SHW5NlgaVWLfxhv10EhrVQW
+ nynNhY7G9NMsrufuTJ3JiEUPJoEKhkG2olZnFJjkmNRBJdlWu4xc+Es89AR3jMTFmq0R8REEl4M
+ YyLQAI9iiExp6+abpt9pEylhQInGIaPdJAuQXfSOjNCdyssendSKMxfy2S77T3vJpurJ0qF5rCQ
+ YRkHZ
+X-Google-Smtp-Source: AGHT+IEY4hJ4+y0MnSwcin/X5yMbfMX2rlPGrxXj2stWp9C4NMGoZplIcoPGEYKHHfJxM+PTRJ4GqA==
+X-Received: by 2002:a05:690c:3686:b0:6f9:ad48:a3c7 with SMTP id
+ 00721157ae682-6fd4a0acc71mr190341807b3.21.1741014942895; 
+ Mon, 03 Mar 2025 07:15:42 -0800 (PST)
+Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6fd6b9619c5sm9708167b3.75.2025.03.03.07.15.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Mar 2025 07:16:34 -0800 (PST)
-From: Jun Nie <jun.nie@linaro.org>
-Date: Mon, 03 Mar 2025 23:14:44 +0800
-Subject: [PATCH v8 15/15] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
+ Mon, 03 Mar 2025 07:15:42 -0800 (PST)
+Date: Mon, 3 Mar 2025 10:15:41 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org,
+ awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
+ implementations
+Message-ID: <Z8XHnToOV03hiQKu@thinkpad>
+References: <20250301142409.2513835-1-visitorckw@gmail.com>
+ <20250301142409.2513835-2-visitorckw@gmail.com>
+ <Z8PMHLYHOkCZJpOh@thinkpad>
+ <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
+ <Z8SBBM_81wyHfvC0@thinkpad>
+ <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-15-eb5df105c807@linaro.org>
-References: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-0-eb5df105c807@linaro.org>
-In-Reply-To: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-0-eb5df105c807@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741014878; l=6430;
- i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=rX4nJ3PHyeb9gnK5N+cxWYOBB+Jzkkre8ByfC3xgFBE=;
- b=9UZ4kRU7Qe3va1BaKQBnLEfFqWWUCBKjhv6fByihkWOdhAiMfzx9LyYLeSaGKDjgDcOGEd/qm
- nZPYWQnu/wVBHtKJD4K0/RfHVJvZg7184CAx0USfoxd9XSg+xCQPlEx
-X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
- pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,168 +118,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To support high-resolution cases that exceed the width limitation of
-a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
-additional pipes are necessary to enable parallel data processing
-within the SSPP width constraints and MDP clock rate.
+On Mon, Mar 03, 2025 at 01:29:19AM +0800, Kuan-Wei Chiu wrote:
+> Hi Yury,
+> 
+> On Sun, Mar 02, 2025 at 11:02:12AM -0500, Yury Norov wrote:
+> > On Sun, Mar 02, 2025 at 04:20:02PM +0800, Kuan-Wei Chiu wrote:
+> > > Hi Yury,
+> > > 
+> > > On Sat, Mar 01, 2025 at 10:10:20PM -0500, Yury Norov wrote:
+> > > > On Sat, Mar 01, 2025 at 10:23:52PM +0800, Kuan-Wei Chiu wrote:
+> > > > > Add generic C implementations of __paritysi2(), __paritydi2(), and
+> > > > > __parityti2() as fallback functions in lib/parity.c. These functions
+> > > > > compute the parity of a given integer using a bitwise approach and are
+> > > > > marked with __weak, allowing architecture-specific implementations to
+> > > > > override them.
+> > > > > 
+> > > > > This patch serves as preparation for using __builtin_parity() by
+> > > > > ensuring a fallback mechanism is available when the compiler does not
+> > > > > inline the __builtin_parity().
+> > > > > 
+> > > > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > > > ---
+> > > > >  lib/Makefile |  2 +-
+> > > > >  lib/parity.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+> > > > >  2 files changed, 49 insertions(+), 1 deletion(-)
+> > > > >  create mode 100644 lib/parity.c
+> > > > > 
+> > > > > diff --git a/lib/Makefile b/lib/Makefile
+> > > > > index 7bab71e59019..45affad85ee4 100644
+> > > > > --- a/lib/Makefile
+> > > > > +++ b/lib/Makefile
+> > > > > @@ -51,7 +51,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
+> > > > >  	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
+> > > > >  	 percpu-refcount.o rhashtable.o base64.o \
+> > > > >  	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
+> > > > > -	 generic-radix-tree.o bitmap-str.o
+> > > > > +	 generic-radix-tree.o bitmap-str.o parity.o
+> > > > >  obj-y += string_helpers.o
+> > > > >  obj-y += hexdump.o
+> > > > >  obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
+> > > > > diff --git a/lib/parity.c b/lib/parity.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..a83ff8d96778
+> > > > > --- /dev/null
+> > > > > +++ b/lib/parity.c
+> > > > > @@ -0,0 +1,48 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > > > +/*
+> > > > > + * lib/parity.c
+> > > > > + *
+> > > > > + * Copyright (C) 2025 Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > > > + * Copyright (C) 2025 Yu-Chun Lin <eleanor15x@gmail.com>
+> > > > > + *
+> > > > > + * __parity[sdt]i2 can be overridden by linking arch-specific versions.
+> > > > > + */
+> > > > > +
+> > > > > +#include <linux/export.h>
+> > > > > +#include <linux/kernel.h>
+> > > > > +
+> > > > > +/*
+> > > > > + * One explanation of this algorithm:
+> > > > > + * https://funloop.org/codex/problem/parity/README.html
+> > > > 
+> > > > I already asked you not to spread this link. Is there any reason to
+> > > > ignore it?
+> > > > 
+> > > In v2, this algorithm was removed from bitops.h, so I moved the link
+> > > here instead. I'm sorry if it seemed like I ignored your comment.
+> > 
+> > Yes, it is.
+> >  
+> > > In v1, I used the same approach as parity8() because I couldn't justify
+> > > the performance impact in a specific driver or subsystem. However,
+> > > multiple people commented on using __builtin_parity or an x86 assembly
+> > > implementation. I'm not ignoring their feedback-I want to address these
+> > 
+> > Please ask those multiple people: are they ready to maintain all that
+> > zoo of macros, weak implementations, arch implementations and stubs
+> > for no clear benefit? Performance is always worth it, but again I see
+> > not even a hint that the drivers care about performance. You don't
+> > measure it, so don't care as well. Right?
+> > 
+> > > comments. Before submitting, I sent an email explaining my current
+> > > approach: using David's suggested method along with __builtin_parity,
+> > > but no one responded. So, I decided to submit v2 for discussion
+> > > instead.
+> > 
+> > For discussion use tag RFC.
+> > 
+> > > 
+> > > To avoid mistakes in v3, I want to confirm the following changes before
+> > > sending it:
+> > > 
+> > > (a) Change the return type from int to bool.
+> > > (b) Avoid __builtin_parity and use the same approach as parity8().
+> > > (c) Implement parity16/32/64() as single-line inline functions that
+> > >     call the next smaller variant after xor.
+> > > (d) Add a parity() macro that selects the appropriate parityXX() based
+> > >     on type size.
+> > > (e) Update users to use this parity() macro.
+> > > 
+> > > However, (d) may require a patch affecting multiple subsystems at once
+> > > since some places that already include bitops.h have functions named
+> > > parity(), causing conflicts. Unless we decide not to add this macro in
+> > > the end.
+> > > 
+> > > As for checkpatch.pl warnings, they are mostly pre-existing coding
+> > > style issues in this series. I've kept them as-is, but if preferred,
+> > > I'm fine with fixing them.
+> > 
+> > Checkpatch only complains on new lines. Particularly this patch should
+> > trigger checkpatch warning because it adds a new file but doesn't touch
+> > MAINTAINERS. 
+> > 
+> For example, the following warning:
+> 
+> ERROR: space required after that ',' (ctx:VxV)
+> #84: FILE: drivers/input/joystick/sidewinder.c:368:
+> +                       if (!parity64(GB(0,33)))
+>                                           ^
+> 
+> This issue already existed before this series, and I'm keeping its
+> style unchanged for now.
+> 
+> > > If anything is incorrect or if there are concerns, please let me know.
+> > > 
+> > > Regards,
+> > > Kuan-Wei
+> > > 
+> > > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > > index c1cb53cf2f0f..47b7eca8d3b7 100644
+> > > --- a/include/linux/bitops.h
+> > > +++ b/include/linux/bitops.h
+> > > @@ -260,6 +260,43 @@ static inline int parity8(u8 val)
+> > >  	return (0x6996 >> (val & 0xf)) & 1;
+> > >  }
+> > > 
+> > > +static inline bool parity16(u16 val)
+> > > +{
+> > > +	return parity8(val ^ (val >> 8));
+> > > +}
+> > > +
+> > > +static inline bool parity32(u32 val)
+> > > +{
+> > > +	return parity16(val ^ (val >> 16));
+> > > +}
+> > > +
+> > > +static inline bool parity64(u64 val)
+> > > +{
+> > > +	return parity32(val ^ (val >> 32));
+> > > +}
+> > 
+> > That was discussed between Jiri and me in v2. Fixed types functions
+> > are needed only in a few very specific cases. With the exception of
+> > I3C driver (which doesn't look good for both Jiri and me), all the
+> > drivers have the type of variable passed to the parityXX() matching 
+> > the actual variable length. It means that fixed-type versions of the
+> > parity() are simply not needed. So if we don't need them, please don't
+> > introduce it.
+> >
+> So, I should add the following parity() macro in v3, remove parity8(),
+> and update all current parity8() users to use this macro, right?
 
-Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-and dual interfaces are enabled. More use cases can be incorporated
-later if quad-pipe capabilities are required.
+If you go with macro, please apply my patch and modify it in-place
+with this __auto_type thing and GCC hack. Feel free to add your
+co-developed-by, or tested, or whatever.
 
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
- 6 files changed, 28 insertions(+), 14 deletions(-)
+> I changed u64 to __auto_type and applied David's suggestion to replace
+> the >> 32 with >> 16 >> 16 to avoid compiler warnings.
+> 
+> Regards,
+> Kuan-Wei
+> 
+> #define parity(val)					\
+> ({							\
+> 	__auto_type __v = (val);			\
+> 	bool __ret;					\
+> 	switch (BITS_PER_TYPE(val)) {			\
+> 	case 64:					\
+> 		__v ^= __v >> 16 >> 16;			\
+> 		fallthrough;				\
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index fa487d625dde5cbd9a83ceb5163c049da45163f7..14b08f11a567b3747101fdbffa36ff5701db7a83 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
- 		struct dpu_crtc_state *crtc_state)
- {
- 	struct dpu_crtc_mixer *m;
--	u32 crcs[CRTC_DUAL_MIXERS];
-+	u32 crcs[CRTC_QUAD_MIXERS];
- 
- 	int rc = 0;
- 	int i;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-index b14bab2754635953da402d09e11a43b9b4cf4153..38820d05edb8b3003971dc6dc675ba8ede847be8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-@@ -210,7 +210,7 @@ struct dpu_crtc_state {
- 
- 	bool bw_control;
- 	bool bw_split_vote;
--	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
-+	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
- 
- 	uint64_t input_fence_timeout_ns;
- 
-@@ -218,10 +218,10 @@ struct dpu_crtc_state {
- 
- 	/* HW Resources reserved for the crtc */
- 	u32 num_mixers;
--	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
-+	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
- 
- 	u32 num_ctls;
--	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
-+	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
- 
- 	enum dpu_crtc_crc_source crc_source;
- 	int crc_frame_skip_count;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index c89a5da0fa8321e9082d5aee304fa16402bb4ad9..d4719b45f4cdd5d1f0bd585283c0c16f1df2f1f2 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -54,7 +54,7 @@
- #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
- 	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
- 
--#define MAX_CHANNELS_PER_ENC 2
-+#define MAX_CHANNELS_PER_ENC 4
- 
- #define IDLE_SHORT_TIMEOUT	1
- 
-@@ -664,9 +664,13 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 
- 	/* Datapath topology selection
- 	 *
--	 * Dual display
-+	 * Dual display without DSC
- 	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
- 	 *
-+	 * Dual display with DSC
-+	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
-+	 * 4 LM, 2 INTF ( Split display using 2 interfaces)
-+	 *
- 	 * Single display
- 	 * 1 LM, 1 INTF
- 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
-@@ -691,10 +695,20 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 		 * 2 DSC encoders, 2 layer mixers and 1 interface
- 		 * this is power optimal and can drive up to (including) 4k
- 		 * screens
-+		 * But for dual display case, we prefer 4 layer mixers. Because
-+		 * the resolution is always high in the case and 4 DSCs are more
-+		 * power optimal.
- 		 */
--		topology.num_dsc = 2;
--		topology.num_lm = 2;
--		topology.num_intf = 1;
-+
-+		if (intf_count == 2 && dpu_kms->catalog->dsc_count >= 4) {
-+			topology.num_dsc = 4;
-+			topology.num_lm = 4;
-+			topology.num_intf = 2;
-+		} else {
-+			topology.num_dsc = 2;
-+			topology.num_lm = 2;
-+			topology.num_intf = 1;
-+		}
- 	}
- 
- 	return topology;
-@@ -2189,8 +2203,8 @@ static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
- 	struct dpu_hw_mixer_cfg mixer;
- 	int i, num_lm;
- 	struct dpu_global_state *global_state;
--	struct dpu_hw_blk *hw_lm[2];
--	struct dpu_hw_mixer *hw_mixer[2];
-+	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
- 
- 	memset(&mixer, 0, sizeof(mixer));
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 63f09857025c2004dcb56bd33e9c51f8e0f80e48..a9e122243dce9006aaa582a1537980c86b6203a4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -302,7 +302,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
- 
- 	/* Use merge_3d unless DSC MERGE topology is used */
- 	if (phys_enc->split_role == ENC_ROLE_SOLO &&
--	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
-+	    (dpu_cstate->num_mixers != 1) &&
- 	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
- 		return BLEND_3D_H_ROW_INT;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 4cea19e1a20380c56ae014f2d33a6884a72e0ca0..77a7a5375d545483edb316e8428df12212191362 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -24,7 +24,7 @@
- #define DPU_MAX_IMG_WIDTH 0x3fff
- #define DPU_MAX_IMG_HEIGHT 0x3fff
- 
--#define CRTC_DUAL_MIXERS	2
-+#define CRTC_QUAD_MIXERS	4
- 
- #define MAX_XIN_COUNT 16
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index 74bf3ab9d6cfb8152b32d89a6c66e4d92d5cee1d..804858e69e7da1c8c67c725aa462c1a558d1b402 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -34,7 +34,7 @@
- #define DPU_MAX_PLANES			4
- #endif
- 
--#define STAGES_PER_PLANE		1
-+#define STAGES_PER_PLANE		2
- #define PIPES_PER_STAGE			2
- #define PIPES_PER_PLANE			(PIPES_PER_STAGE * STAGES_PER_PLANE)
- #ifndef DPU_MAX_DE_CURVES
+This hack should be GCC-only, and well documented.
+For clang it should be 
+ 		__v ^= __v >> 32;			\
 
--- 
-2.34.1
-
+> 	case 32:					\
+> 		__v ^= __v >> 16;			\
+> 		fallthrough;				\
+> 	case 16:					\
+> 		__v ^= __v >> 8;			\
+> 		fallthrough;				\
+> 	case 8:						\
+> 		__v ^= __v >> 4;			\
+> 		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
+> 		break;					\
+> 	default:					\
+> 		BUILD_BUG();				\
+> 	}						\
+> 	__ret;						\
+> })
