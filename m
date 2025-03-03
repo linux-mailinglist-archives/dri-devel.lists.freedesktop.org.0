@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34088A4BD4A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 12:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770FCA4BE46
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 12:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF1510E3CA;
-	Mon,  3 Mar 2025 11:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 611D910E224;
+	Mon,  3 Mar 2025 11:24:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cT6A15mV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EShFM9A4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB1E610E3CA;
- Mon,  3 Mar 2025 11:03:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1740999820; x=1772535820;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=xAS5fvkLfxtRNDq8VHykz3LpQZJ3FusAhofwYD1xGQ4=;
- b=cT6A15mVSVVQDrH8Jy1ScIoUzCSL2Bxk9ksm5kltTynlA+Q3TBthdWhM
- m3tvASOaVMFwQJxzLWyKxbTspCjKLNIWqdfTu54xJCNzqktuwq3/K2w2y
- RFhG2P70TIaQ0sDAJNCi2PeGhvHoG+HVQfP7FPOK2Y4tx2SEV0gl/y6Fi
- NFQ6AVWUQqYw1h+WELsgCs70GUzM+mkPtTRUC5l2KAkW7x8G60mq0eQ/A
- k5eBbu1X/+/m/MdHtg9Cdwh1rUT9h+W1tnVGIUjTByw5xGtY6rBxw+BeM
- Mzhhlkc2BZv0/l35STsVSvIaPdfpS5f9GJx4vPTyvXUr4m28mldp4WOqY A==;
-X-CSE-ConnectionGUID: 6vUbJMOeRD6RgrwGf6IfJQ==
-X-CSE-MsgGUID: TG/tN27aS9SJCNYcjOopyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41045044"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="41045044"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2025 03:03:39 -0800
-X-CSE-ConnectionGUID: kgBw7iYrRy2dZLmYIFk6RA==
-X-CSE-MsgGUID: txAARF4qS1uF0BFTKX/L7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="122579440"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.122])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2025 03:03:37 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Maxime
- Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] drm/client: Build the tests with CONFIG_DRM_KUNIT_TEST=m
-In-Reply-To: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250303094808.11860-1-ville.syrjala@linux.intel.com>
-Date: Mon, 03 Mar 2025 13:03:33 +0200
-Message-ID: <87h64a1im2.fsf@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1318110E224
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 11:24:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741001041;
+ bh=b11YAUOR3ELvh8yV5kuXlG74Flyo1oLkSgGTNOWxpHM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=EShFM9A42uZ7Vz4T9j3Jmo+iyh7kxW7mRYbjM75c6oD5HNR3/XHMP7w/mYWLe0+DT
+ XmVdN2tHNPxPv35oenT/KsaJsRZObXeKzFOm3+DHYfUIyz3aAKdZYjM41iaAr5hw7M
+ Ykffl/Fz0cKV8LmmrurltgAzNnq6IiYG/VqBGPwEOMKf6H5XGFvpC+2Y0TEVrGTY0g
+ vOESWMMWGajsI34F5l3GwXU5nOTgurpPYU0+mR8lbkA+WwT60rr67pT3SgU2O3DSBx
+ 9lpAsGY+Tu4NgwP/PfgVIjPltJxCp73P2AwuQfBFYSq7Wa9c+kTNNbmbn/jYWIFXYd
+ yaYJj+E5qmhYA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 85B9817E0881;
+ Mon,  3 Mar 2025 12:24:00 +0100 (CET)
+Message-ID: <c48b28a3-3277-475a-aca2-c55b9b67e4f5@collabora.com>
+Date: Mon, 3 Mar 2025 12:24:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] Add driver for Himax HX8279 DriverIC panels
+To: neil.armstrong@linaro.org
+Cc: quic_jesszhan@quicinc.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com, pablo.sun@mediatek.com,
+ christophe.jaillet@wanadoo.fr
+References: <20250218143952.84261-1-angelogioacchino.delregno@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250218143952.84261-1-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +66,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 03 Mar 2025, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Use IS_ENABLED() to check for CONFIG_DRM_KUNIT_TEST so
-> that it picks up the modular case as well.
->
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+Il 18/02/25 15:39, AngeloGioacchino Del Regno ha scritto:
+> Changes in v2:
+>   - Removed unneeded mipi_dsi_device_unregister() call for secondary
+>     DSI: as the driver is using devm, that's not necessary (CJ)
+>   - Removed superfluous if branch as pointed out by CJ
+> 
+> This series adds a driver for DSI panels using the Himax HX8279 and
+> HX8279-D DriverICs, and introduces one panel using such a configuration,
+> the Startek KX070FHFID078.
+> 
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Hello,
 
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_c=
-lient_modeset.c
-> index aca442c25209..27471a4eef21 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -1268,6 +1268,6 @@ int drm_client_modeset_dpms(struct drm_client_dev *=
-client, int mode)
->  }
->  EXPORT_SYMBOL(drm_client_modeset_dpms);
->=20=20
-> -#ifdef CONFIG_DRM_KUNIT_TEST
-> +#if IS_ENABLED(CONFIG_DRM_KUNIT_TEST)
->  #include "tests/drm_client_modeset_test.c"
->  #endif
+friendly ping for this series - need to know if this gets pulled in for this
+merge cycle as to understand if I can take devicetree commits enabling display
+on MediaTek Genio boards.
 
---=20
-Jani Nikula, Intel
+Thanks!
+Angelo
+
+> This panel is found on the latest hardware revisions of some MediaTek
+> Genio Evaluation Kits, and specifically, at least:
+>   - Genio 510 EVK
+>   - Genio 700 EVK
+>   - Genio 1200 EVK
+> 
+> This driver was tested on all of the aforementioned boards.
+> 
+> AngeloGioacchino Del Regno (2):
+>    dt-bindings: display: panel: Add Himax HX8279/HX8279-D
+>    drm: panel: Add driver for Himax HX8279 and Startek KD070FHFID078
+> 
+>   .../bindings/display/panel/himax,hx8279.yaml  |  74 ++
+>   drivers/gpu/drm/panel/Kconfig                 |  11 +
+>   drivers/gpu/drm/panel/Makefile                |   1 +
+>   drivers/gpu/drm/panel/panel-himax-hx8279.c    | 905 ++++++++++++++++++
+>   4 files changed, 991 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx8279.yaml
+>   create mode 100644 drivers/gpu/drm/panel/panel-himax-hx8279.c
+> 
+
+
+
