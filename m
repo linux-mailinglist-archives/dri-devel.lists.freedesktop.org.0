@@ -2,126 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9B3A4B99F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6ABA4B9A7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:44:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4551D10E072;
-	Mon,  3 Mar 2025 08:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54E510E375;
+	Mon,  3 Mar 2025 08:44:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="D8WBJnEo";
+	dkim=pass (2048-bit key; unprotected) header.d=3xo.fr header.i=@3xo.fr header.b="Y4YALrAm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 290A610E072
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:42:10 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250303084208euoutp0277a6f40a8d669dca64685e469dc90bb8~pPmOt72U61539715397euoutp02P
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:42:08 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250303084208euoutp0277a6f40a8d669dca64685e469dc90bb8~pPmOt72U61539715397euoutp02P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1740991328;
- bh=AHzYo2Ru4n9BfduEfPoM21VtgML3aRIm0P2jGenVxNY=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=D8WBJnEoW0Mx2Wegv6NF7hQPi2B++lufV+EkivYweUaE7WogMyjecETFlGKxLgjy/
- u8t67JjCiWQXGgpkQbHX+l87SnG+p/N0UNFer/olvaYnhadlbo3TieVb0RYK7EDbDH
- PTPeBqB2bvPS69Ga00BK/cniNSFKYHRtlzUADQ18=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20250303084208eucas1p16a28fcf739d34b3864789af971ae7de5~pPmOOios61873218732eucas1p1G;
- Mon,  3 Mar 2025 08:42:08 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id EE.D7.20821.06B65C76; Mon,  3
- Mar 2025 08:42:08 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250303084207eucas1p1f947b4d89277675981f8fb8a42fb2a13~pPmNbQoZl0772407724eucas1p1x;
- Mon,  3 Mar 2025 08:42:07 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20250303084207eusmtrp207ce82c07d64ce0f17a062330b575469~pPmNZ9iak0677306773eusmtrp2f;
- Mon,  3 Mar 2025 08:42:07 +0000 (GMT)
-X-AuditID: cbfec7f2-b09c370000005155-1d-67c56b60b96f
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id C0.99.19654.F5B65C76; Mon,  3
- Mar 2025 08:42:07 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250303084205eusmtip1c24745e8c9084816642c784905e3a325~pPmL4zWWQ1255112551eusmtip1H;
- Mon,  3 Mar 2025 08:42:05 +0000 (GMT)
-Message-ID: <7296ddb3-2096-4414-bfa4-28fc5bb8ec86@samsung.com>
-Date: Mon, 3 Mar 2025 09:42:05 +0100
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 584FD10E375
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:44:38 +0000 (UTC)
+Received: from localhost (mail.3xo.fr [212.129.21.66])
+ by mail.3xo.fr (Postfix) with ESMTP id 29D348D;
+ Mon,  3 Mar 2025 09:44:37 +0100 (CET)
+X-Virus-Scanned: Debian amavis at nxo2.3xo.fr
+Received: from mail.3xo.fr ([212.129.21.66])
+ by localhost (mail.3xo.fr [212.129.21.66]) (amavis, port 10024) with ESMTP
+ id qIFhuvQoNfWX; Mon,  3 Mar 2025 09:44:34 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.3xo.fr BF1AB11
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xo.fr; s=3xo;
+ t=1740991474; bh=Ffy2jdYX6W/yK8yMVlhnlHc2uh5K9uAvMTGPAD99Y7E=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Y4YALrAmlhFxcS/WesAd23TQyTdWe70BVG8FMUz29/6SFXViPGH756veZKasZxjw3
+ PRvferDcmekIXLYroVcAFGlPS84PZbbmUfuPkSlNyTG2/9DLeiXODvlT3eh4XkMWk0
+ E2SNewIbZ4oMdhNdVmU+c2k4yXEh+/RS04+nbHm6n2Ov5g0xxqPm7j/H3jVvdp2R95
+ DZWuFWIWly6cjyeP/zN93FgkpFVneofTABJFabsipsMs2QTwaRiOuTYX6WU/qqj1wI
+ 7XVIj+mMclKvQrOdd3g823gaX+yxu1RJwRCL1pR9PRVt3h2J8qKrVWnFpLkxD3UG94
+ 1ETZTzxf6+A8Q==
+Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3xo.fr (Postfix) with ESMTPSA id BF1AB11;
+ Mon,  3 Mar 2025 09:44:34 +0100 (CET)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 09/21] dt-bindings: clock: thead: Add GPU clkgen
- reset property
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
- m.szyprowski@samsung.com, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <20250221-imaginary-ebony-macaque-aace8d@krzk-bin>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0xTZxj2Oz09pzTADlXCN7bArLiNbdwMJt/Cwlg25tkM4eIWN5MhDZyU
- BgqshQ0dTA3lIlaZ6HAWGBcJl2onMMCWcXGAtCADB3KRcE0gUhEJ0G6KK4z24Ma/533e533e
- 9/ny8TiCTsKVJ0lIZmQJonghwcebup8NeEXF3RH7/pZNIMNoOYYan6tIdKO1H0MlXf1cNDXY
- gKH75mUC/TJ/j0QLrWdwNFJdTKKM7psEMqqmCDQwUEuiFeUUFw01FxFo7XwXQE1rCgJpuiZJ
- VLbSiKMKbTNAWWcruejP3mA0OWXAkXFIyUFZqpfQZouWRBsjdTgqfNJOoobHF7lIrzmKFO2X
- 8SA3enksk6QfG4043ZljIunWv0pxWqeaJGmlrg/Q9eqzBD0x0kLQP/eE09Pn9Bj9a8UpWqHp
- xug8iy+93DZM0Bca1IAezBglwwTH+O/FMPGSbxiZT2AUPzaj6CGWpKFSn5rywWkwYJ8L7HiQ
- 8ofFg5V4LuDzBFQ1gKqqGowtTABujBpJtlgD8HlLKfliRJF3G7CNKgBL2lQEWywBmL1o4lpV
- DlQgnB7O5VgxTnnA2wYLxvJOsOfqHG7FzpQ7nB7/yea6m/oC/rF5xcbvoTzhqOVvrtWUQ7Vw
- YcHlWpsph3KB43MlNiOCOgBnqkpsvB31PizOytrWuMNbS0Uc6zCkhvnQ8mSew979EexbXsRZ
- vBs+0jds53kVbupYU0glwpnG1W19GtQp9ds4AE70r2/F5G0t8IQ3m31Y+gM4d8sagLeFHeHY
- khN7giPMb7rCYWkHmJMlYNWvwx+V5/9b2l/dhP0AhKodr6LaEVK1I4zq/72lAFcDFyZFLhUz
- cr8E5ltvuUgqT0kQe0cnSuvB1j+/u6Ff1YLiRyveHQDjgQ4AeRzhHoevI7rEAocY0YmTjCzx
- uCwlnpF3gFd4uNDFobw9UyygxKJkJo5hkhjZiy7Gs3M9jYW+Eb6+UJhwxByXmZqrGf9cmi7J
- jLa/fm2iz+/3gPlL5Fc+ofqwtkhFZJB8OVKtjZ0o3HVyKDnCLYRainANivtQ8cA/JGpvufBS
- qGdYwDvpbzeU9dX1jN2QasckGftnUrVE4amnc5ULdS1No4U1Ff4Hy1Zfrq01tcmffem1y+/T
- Q9ejZ2dzvB46l+md72zMFNfnjTxQm9wO5QdXEnvDLOBaY9+i5pPa3u/TsNQ35zyKDLPxeTpj
- 9nfhr/1z5L6hX+2oPx4cyBxIchpWVt8ruHtu37vOB/nHzJ+ZsTPBR+WExGPIzr1m7YLvvrqP
- T4RI07xieg/rOg1jvWb7+XSvglbx+n4hLo8V+b3FkclF/wIWiPr2VgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKKsWRmVeSWpSXmKPExsVy+t/xu7rx2UfTDZ584rE4cX0Rk8XW37PY
- LdbsPcdkMf/IOVaLe5e2MFlc+fqezWLd0wvsFi/2NrJYXFsxl92i+dh6NouXs+6xWZw/v4Hd
- 4mPPPVaLy7vmsFl87j3CaLHtcwubxdojd9ktFn7cymKxZMcuRou2zmWsFhdPuVrcvXeCxeLl
- 5R5mi7ZZ/Bb/9+xgt/h3bSOLxex3+9kttryZyGpxfG24Rcv+KSwOch7vb7Sye7x5+ZLF43DH
- F3aPvd8WsHjsnHWX3aNn5xlGj02rOtk87lzbw+Yx72Sgx/3u40wem5fUe7SsPcbk0f/XwOP9
- vqtsHn1bVjF6XGq+zh4gFKVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9n
- k5Kak1mWWqRvl6CX0TznOVPBWoGKH18mMTYwnufpYuTkkBAwkWjpP8DYxcjFISSwlFFi0vcJ
- bBAJGYlr3S9ZIGxhiT/Xutggil4zSizdtZMVJMErYCdx/2oXM4jNIqAiceDEXyaIuKDEyZlP
- wJpFBeQl7t+awQ5iCwtESNyecw/MFhHQlLj+9zsryFBmgT2sEoc3f4ba8J9R4vyly2BnMAuI
- S9x6Mh9sKpuAkcSD5fPBNnMK2EvMbWsDsjmAatQl1s8TgiiXl9j+dg7zBEahWUjumIVk0iyE
- jllIOhYwsqxiFEktLc5Nzy020itOzC0uzUvXS87P3cQITF/bjv3csoNx5auPeocYmTgYDzFK
- cDArifAWBh1JF+JNSaysSi3Kjy8qzUktPsRoCgyLicxSosn5wASaVxJvaGZgamhiZmlgamlm
- rCTOy3blfJqQQHpiSWp2ampBahFMHxMHp1QDkxJL8Kt30xWUrnPsnfFuR2RNcYGAzH5Nk6st
- H01vsorZVDW66O4XD9pt+03qb7fHOV+GnZsu1iXbpC7ReZxjfT2J/ZabWeFO5nOvowoPylr+
- 3OYXauFyb96BFSI/23/G8zz7t3LeuVa5ySsPO5S+rVjSayaz1so4bsWs3oBnx9NYliUuOXuG
- 90XngjTBU9W+a+pnxt/y01VfcMlQ8tz6XX9nflkm+Wkpl43fqWNz723dXXVl7WQHwXdHNjex
- fbpl1K+6fMKfmRFH2O23yVoLT092nWXmcyj2VvqJpbVx/ktSNtwr/V//Vzj985P9mosa3ONF
- uzbu7Vha3N/kbl8oMvX+KXaJmk9PuyeKuNVfOavEUpyRaKjFXFScCADr3ZuJ6AMAAA==
-X-CMS-MailID: 20250303084207eucas1p1f947b4d89277675981f8fb8a42fb2a13
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639
-References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <CGME20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639@eucas1p2.samsung.com>
- <20250219140239.1378758-10-m.wilczynski@samsung.com>
- <20250221-imaginary-ebony-macaque-aace8d@krzk-bin>
+Date: Mon, 03 Mar 2025 09:44:34 +0100
+From: Nicolas Baranger <nicolas.baranger@3xo.fr>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com
+Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
+In-Reply-To: <17888ffd-4311-436b-9fec-dfb041268643@suse.de>
+References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
+ <bc089e81-2e09-41e9-a9d1-68b2f4372e7f@suse.de>
+ <183881a57671db7eebada5ac8cbcb8cf@3xo.fr>
+ <17888ffd-4311-436b-9fec-dfb041268643@suse.de>
+Message-ID: <aceb4e94f0a08ce62879a5b976407507@3xo.fr>
+X-Sender: nicolas.baranger@3xo.fr
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,67 +69,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas
 
+> I do have an idea what might be happening here. You are using 6.13.1, 
+> right?  If I give you a patch file for this kernel, are you able to 
+> apply it (with 'git am') for testing and report the kernel's logging 
+> output?
 
-On 2/21/25 10:11, Krzysztof Kozlowski wrote:
-> On Wed, Feb 19, 2025 at 03:02:27PM +0100, Michal Wilczynski wrote:
->> Add a mandatory reset property for the TH1520 VO clock controller that
->> handles the GPU clocks. This reset line controls the GPU CLKGEN reset,
->> which is required for proper GPU clock operation.
->>
->> The reset property is only required for the "thead,th1520-clk-vo"
->> compatible, as it specifically handles the GPU-related clocks.
->>
->> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
->> ---
->>  .../bindings/clock/thead,th1520-clk-ap.yaml      | 16 ++++++++++++++++
->>  1 file changed, 16 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->> index 9d058c00ab3d..6ea8202718d0 100644
->> --- a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->> +++ b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->> @@ -40,6 +40,12 @@ properties:
->>              (integer PLL) typically running at 792 MHz (FOUTPOSTDIV), with
->>              a maximum FOUTVCO of 2376 MHz.
->>  
->> +  resets:
->> +    maxItems: 1
->> +    description:
->> +      Required for "thead,th1520-clk-vo". This reset line controls the
-> 
-> You just added the compatible in other patch, so are you saying you
-> added knowingly incomplete code?
-> 
-> No, this must be squashed.
-> 
->> +      GPU CLKGEN reset which is required for proper GPU clock operation.
->> +
->>    "#clock-cells":
->>      const: 1
->>      description:
->> @@ -51,6 +57,16 @@ required:
->>    - clocks
->>    - "#clock-cells"
->>  
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: thead,th1520-clk-vo
->> +    then:
->> +      required:
->> +        - resets
-> 
-> else:
-> ? What's there? Also reset or no?
+Yes I'm using Linux 6.13.1 but I can also test with the latest 
+linux-stable 6.13.5 or on mainline, whatever help you the best.
+The only thing is I cannot go before Linux 6.13+ because it it fix DIO 
+write on netfs (regression introduced in 6.10) and I'm using this 
+feature for backups.
 
-If the else: case the reset is not required, as it's only required in
-the th1520clk-vo, so there is no need for else:.
+I think I should be able to patch and use 'git am' (In the worst there's 
+always https://git-scm.com/docs/git-am), and I would be happy to report 
+the kernel logging output
 
+Thanks again for help
+
+Kind regards
+Nicolas Baranger
+
+Le 2025-03-03 09:19, Thomas Zimmermann a écrit :
+
+> Hi
 > 
-> Best regards,
-> Krzysztof
+> Am 03.03.25 um 09:07 schrieb Nicolas Baranger: Dear Thomas
 > 
+> You are using NVidia's proprietary driver, right? Did you reach out to 
+> them wrt this problem? Or searched their support forums, online help, 
+> etc? If so, what are the results?
+> Yes I'm using NVidia propriétary driver.
+> Maybe I'm wrong but I did not ask their support directly because first, 
+> for me it seems that there is no issue with the NVidia driver and 
+> unfortunately NVidia is not as opensource mind as Linux kernel 
+> community (as an example you can have a look on my last PR here 
+> https://github.com/NVIDIA/open-gpu-kernel-modules/pull/783 which had 
+> not been reviewed since 3+ weeks... and without this PR, it's 
+> impossible to build open or closed source NVidia drivers on mainline)
+
+I see.
+
+I do have an idea what might be happening here. You are using 6.13.1, 
+right?  If I give you a patch file for this kernel, are you able to 
+apply it (with 'git am') for testing and report the kernel's logging 
+output?
+
+Best regards
+Thomas
+
+> Second, I thought I already report it here but on my system using a 
+> recent kernel and embeded ast 0.1.0 driver has a very poor rendering 
+> and graphic is very slow, twinkle is high, had poor colors and it's 
+> happenning even if the NVidia driver is unloaded
+> The screen flickering is high too and it's like if I was using an old 
+> cathode ray tube monitor (I'm using an LCD monitor which display a nice 
+> and eyes confortable picture when using ast 1.15.1 driver or when 
+> displaying directly the video output of the Nvidia GPU(using HDMI 
+> output)).
+> Third, approximately from Linux 6.10+ using the embeded ast driver I 
+> have some lag when sliding a window on Gnome desktop (Xorg not Wayland) 
+> and CPU is highly used (some coreS at 100%), but I do not have those 
+> lag with ast 1.15.1 and CPU is less used (1 core at less than 80% max)
+> For the moment, I think Linux 6.12.9 is the worst I constat
 > 
+> Last, I found that Linux 6.1.128 is working perfectly out of the box 
+> with embeded ast 0.1.0 driver and there is a manifest lost of 
+> performances with Vulkan and Nvidia prime render offload when upgrading 
+> to Linux 6.2 (using same NVidia driver version, I did test those 3 
+> versions  535.216.01, 550.142, and 550.144.03 with similar results).
+> But in Linux 6.2, except the lost of performances, I did not constat 
+> the poor rendering and twinkle on the screen nor lag when sliding a 
+> window on the desktop or too high CPU usage.
+> 
+> So I suspect there is something else introduced between Linux 6.2 and 
+> mainline which cause this behavior.
+> 
+> I'm continuing bissection and I'm sorry, it's not as fast as I would as 
+> each tests tooks some times and I must never tell something wrong to 
+> git if I don't want to restart all the work...
+> 
+> Thanks again for answer and help
+> 
+> Kind regards
+> Nicolas Baranger
+> 
+> Le 2025-02-28 11:06, Thomas Zimmermann a écrit :
+> 
+> Hi
+> 
+> Am 11.02.25 um 19:15 schrieb Nicolas Baranger:
+> 
+> Dear maintener
+> 
+> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video 
+> driver on mainline kernel (6.13.0 + 6.13.1).
+> 
+> ASPEED video driver is availiable here:
+> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
+> 
+> But it only work for LTS kernel
+> So I modify the DKMS package and I build a new Debian DKMS package with 
+> the adapted  source.
+> My patch can be find here :
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
+> See the README:
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
+> 
+> Using this new 'ast 1.15.1' driver, performance are amazing compared to 
+> the 'ast' driver include in kernel tree, specially when using a 
+> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card as 
+> the main video card and as the main and only video output (the discrete 
+> GPU is used only for offloading 3D or for cuda/opencl)
+> You are using NVidia's proprietary driver, right? Did you reach out to 
+> them wrt this problem? Or searched their support forums, online help, 
+> etc? If so, what are the results?
+> 
+> Best regards
+> Thomas
+> 
+> So to make things easier, I include the new 'ast 1.15.1' driver in 
+> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
+> It's working fine as you can see on this video :
+> https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm 
+> I upload all the work I've done here :
+> https://xba.soartist.net/ast-drm_nba_20250211/
+> 
+> See the global README :
+> https://xba.soartist.net/ast-drm_nba_20250211/README
+> 
+> and the README in nba-kernel sub-directory :
+> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
+> 
+> I'm not a developer so please let me know if I made the things the 
+> right way and if this new 'ast 1.15.1' driver can be ported to 
+> linux-next or linux-? ?
+> If you need more explanations, do not hesitate to contact me, I would 
+> be happy to help
+> 
+> Kind regards
+> Nicolas Baranger
