@@ -2,43 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A63A4CB75
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 19:57:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AB2A4CBA3
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 20:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C96410E216;
-	Mon,  3 Mar 2025 18:56:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA35A10E486;
+	Mon,  3 Mar 2025 19:10:15 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="d1mmUFuY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3E8C910E216
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 18:56:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C636106F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 10:57:09 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C91623F5A1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 10:56:54 -0800 (PST)
-Date: Mon, 3 Mar 2025 18:56:42 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Ashley Smith <ashley.smith@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC88A10E486
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 19:10:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741028997; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=enqQTsUYQQxPkqjyvGXFaXPyKtm3bW2Vw9YwAFtXIM7bV/+zQD9qclR4nryMtqfCWVEUfppTOqixbfXNohNRV5ERI9/OOwQSSXbD4vYlKW59xxqSKZetkdgzmLREXmP5p6FUElDg+zH1PhDKh7h4vM8G1Mw8nDtlp2E3CdJ+xFI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1741028997;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=79EEq7MORaFKGZQS0e0YLJcDbCdzpAcNRQ48gbyQtz0=; 
+ b=dQkPQnkVqkY9cy+D3H7VkA/uELGBuR1kKksxWMG6D5ejF58V9TGMYT9Biue+3myJNZpoOqSiLsOj4eHQCtuscRIqtVOmJTXUW6Hgd0fA2t8vdzIR4HNyZb3WWuw7MXCyA6SBjlqeiH6SqWMB2xRidxRCi9evTQziKRXQ7ELh1TA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741028997; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=79EEq7MORaFKGZQS0e0YLJcDbCdzpAcNRQ48gbyQtz0=;
+ b=d1mmUFuYH+G3X4MbNOHcxlSCq5+THv3xRXcEkHVB/GrGweEgMsUcui5kS9vpP90R
+ 9fU+seUWCTsDAP0fpRc78XAmr7p0Pcfh3j9DGm3nugWPbeTGozSxIJosZj3yHZvsuum
+ 8NEb+IaasptSQckzRFptdh+upY/dI4sJfvlmOXQk=
+Received: by mx.zohomail.com with SMTPS id 1741028995020517.922490709406;
+ Mon, 3 Mar 2025 11:09:55 -0800 (PST)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/panthor: Update CS_STATUS_ defines to correct
- values
-Message-ID: <Z8X7aj3VmL10TQx7@e110455-lin.cambridge.arm.com>
-References: <20250303180444.3768993-1-ashley.smith@collabora.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/2] drm/panthor: Replace sleep locks with spinlocks in
+ fdinfo path
+Date: Mon,  3 Mar 2025 19:08:45 +0000
+Message-ID: <20250303190923.1639985-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250303180444.3768993-1-ashley.smith@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,59 +70,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 03, 2025 at 06:04:32PM +0000, Ashley Smith wrote:
-> Values for SC_STATUS_BLOCKED_REASON_ are documented in the G610 "Odin"
-> GPU specification (CS_STATUS_BLOCKED_REASON register).
-> 
-> This change updates the defines to the correct values.
-> 
-> Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
-> Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
+Commit 0590c94c3596 ("drm/panthor: Fix race condition when gathering fdinfo
+group samples") introduced an xarray lock to deal with potential
+use-after-free errors when accessing groups fdinfo figures. However, this
+toggles the kernel's atomic context status, so the next nested mutex lock
+will raise a warning when the kernel is compiled with mutex debug options:
 
+CONFIG_DEBUG_RT_MUTEXES=y
+CONFIG_DEBUG_MUTEXES=y
+
+Replace Panthor's group fdinfo data mutex with a guarded spinlock.
+
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Fixes: 0590c94c3596 ("drm/panthor: Fix race condition when gathering fdinfo group samples")
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_sched.c | 26 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-You could also add Steven's r-b, as per his email if you send another version,
-otherwise it will need to be edited by whomever merges it.
-
-Best regards,
-Liviu
-
-> ---
-> Changes in v2:
->   - Rename _RES to _RESOURCE
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
-> index 22448abde992..6598d96c6d2a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.h
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
-> @@ -102,9 +102,9 @@ struct panthor_fw_cs_output_iface {
->  #define CS_STATUS_BLOCKED_REASON_SB_WAIT	1
->  #define CS_STATUS_BLOCKED_REASON_PROGRESS_WAIT	2
->  #define CS_STATUS_BLOCKED_REASON_SYNC_WAIT	3
-> -#define CS_STATUS_BLOCKED_REASON_DEFERRED	5
-> -#define CS_STATUS_BLOCKED_REASON_RES		6
-> -#define CS_STATUS_BLOCKED_REASON_FLUSH		7
-> +#define CS_STATUS_BLOCKED_REASON_DEFERRED	4
-> +#define CS_STATUS_BLOCKED_REASON_RESOURCE	5
-> +#define CS_STATUS_BLOCKED_REASON_FLUSH		6
->  #define CS_STATUS_BLOCKED_REASON_MASK		GENMASK(3, 0)
->  	u32 status_blocked_reason;
->  	u32 status_wait_sync_value_hi;
-> 
-> base-commit: 16e57a72780931c3c70dbc928aeee4a0518075de
-> -- 
-> 2.43.0
-> 
-
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 1a276db095ff..4d31d1967716 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -9,6 +9,7 @@
+ #include <drm/panthor_drm.h>
+ 
+ #include <linux/build_bug.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+@@ -631,10 +632,10 @@ struct panthor_group {
+ 		struct panthor_gpu_usage data;
+ 
+ 		/**
+-		 * @lock: Mutex to govern concurrent access from drm file's fdinfo callback
+-		 * and job post-completion processing function
++		 * @fdinfo.lock: Spinlock to govern concurrent access from drm file's fdinfo
++		 * callback and job post-completion processing function
+ 		 */
+-		struct mutex lock;
++		spinlock_t lock;
+ 
+ 		/** @fdinfo.kbo_sizes: Aggregate size of private kernel BO's held by the group. */
+ 		size_t kbo_sizes;
+@@ -910,8 +911,6 @@ static void group_release_work(struct work_struct *work)
+ 						   release_work);
+ 	u32 i;
+ 
+-	mutex_destroy(&group->fdinfo.lock);
+-
+ 	for (i = 0; i < group->queue_count; i++)
+ 		group_free_queue(group, group->queues[i]);
+ 
+@@ -2861,12 +2860,12 @@ static void update_fdinfo_stats(struct panthor_job *job)
+ 	struct panthor_job_profiling_data *slots = queue->profiling.slots->kmap;
+ 	struct panthor_job_profiling_data *data = &slots[job->profiling.slot];
+ 
+-	mutex_lock(&group->fdinfo.lock);
+-	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+-		fdinfo->cycles += data->cycles.after - data->cycles.before;
+-	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+-		fdinfo->time += data->time.after - data->time.before;
+-	mutex_unlock(&group->fdinfo.lock);
++	scoped_guard(spinlock, &group->fdinfo.lock) {
++		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
++			fdinfo->cycles += data->cycles.after - data->cycles.before;
++		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
++			fdinfo->time += data->time.after - data->time.before;
++	}
+ }
+ 
+ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+@@ -2880,12 +2879,11 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+ 
+ 	xa_lock(&gpool->xa);
+ 	xa_for_each(&gpool->xa, i, group) {
+-		mutex_lock(&group->fdinfo.lock);
++		guard(spinlock)(&group->fdinfo.lock);
+ 		pfile->stats.cycles += group->fdinfo.data.cycles;
+ 		pfile->stats.time += group->fdinfo.data.time;
+ 		group->fdinfo.data.cycles = 0;
+ 		group->fdinfo.data.time = 0;
+-		mutex_unlock(&group->fdinfo.lock);
+ 	}
+ 	xa_unlock(&gpool->xa);
+ }
+@@ -3537,7 +3535,7 @@ int panthor_group_create(struct panthor_file *pfile,
+ 	mutex_unlock(&sched->reset.lock);
+ 
+ 	add_group_kbo_sizes(group->ptdev, group);
+-	mutex_init(&group->fdinfo.lock);
++	spin_lock_init(&group->fdinfo.lock);
+ 
+ 	return gid;
+ 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.47.1
+
