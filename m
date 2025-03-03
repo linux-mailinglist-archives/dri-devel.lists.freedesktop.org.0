@@ -2,58 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6ABA4B9A7
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D77A4B9AE
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:45:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54E510E375;
-	Mon,  3 Mar 2025 08:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56F4010E14F;
+	Mon,  3 Mar 2025 08:45:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=3xo.fr header.i=@3xo.fr header.b="Y4YALrAm";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="3Prf+w+n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 584FD10E375
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:44:38 +0000 (UTC)
-Received: from localhost (mail.3xo.fr [212.129.21.66])
- by mail.3xo.fr (Postfix) with ESMTP id 29D348D;
- Mon,  3 Mar 2025 09:44:37 +0100 (CET)
-X-Virus-Scanned: Debian amavis at nxo2.3xo.fr
-Received: from mail.3xo.fr ([212.129.21.66])
- by localhost (mail.3xo.fr [212.129.21.66]) (amavis, port 10024) with ESMTP
- id qIFhuvQoNfWX; Mon,  3 Mar 2025 09:44:34 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.3xo.fr BF1AB11
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xo.fr; s=3xo;
- t=1740991474; bh=Ffy2jdYX6W/yK8yMVlhnlHc2uh5K9uAvMTGPAD99Y7E=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Y4YALrAmlhFxcS/WesAd23TQyTdWe70BVG8FMUz29/6SFXViPGH756veZKasZxjw3
- PRvferDcmekIXLYroVcAFGlPS84PZbbmUfuPkSlNyTG2/9DLeiXODvlT3eh4XkMWk0
- E2SNewIbZ4oMdhNdVmU+c2k4yXEh+/RS04+nbHm6n2Ov5g0xxqPm7j/H3jVvdp2R95
- DZWuFWIWly6cjyeP/zN93FgkpFVneofTABJFabsipsMs2QTwaRiOuTYX6WU/qqj1wI
- 7XVIj+mMclKvQrOdd3g823gaX+yxu1RJwRCL1pR9PRVt3h2J8qKrVWnFpLkxD3UG94
- 1ETZTzxf6+A8Q==
-Received: from mail.3xo.fr (mail.3xo.fr [212.129.21.66])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
- (No client certificate requested)
- by mail.3xo.fr (Postfix) with ESMTPSA id BF1AB11;
- Mon,  3 Mar 2025 09:44:34 +0100 (CET)
-MIME-Version: 1.0
-Date: Mon, 03 Mar 2025 09:44:34 +0100
-From: Nicolas Baranger <nicolas.baranger@3xo.fr>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com
-Subject: Re: Include ASPEED ast-drm 1.15.1 video driver in kernel tree
-In-Reply-To: <17888ffd-4311-436b-9fec-dfb041268643@suse.de>
-References: <d507f6268ea3158b5af82b6860ca7b71@3xo.fr>
- <bc089e81-2e09-41e9-a9d1-68b2f4372e7f@suse.de>
- <183881a57671db7eebada5ac8cbcb8cf@3xo.fr>
- <17888ffd-4311-436b-9fec-dfb041268643@suse.de>
-Message-ID: <aceb4e94f0a08ce62879a5b976407507@3xo.fr>
-X-Sender: nicolas.baranger@3xo.fr
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27AFC10E14F
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:45:49 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-4399a5afc95so15591475e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:45:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1740991547; x=1741596347;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=DYh/tabkIBU+qEEozteNgGAzw7miJ+u0L3IImQNu48A=;
+ b=3Prf+w+nTMBhK7YEaK90yc4zJy2QlmXM7eRCz1qlCFK3OxMwBzddDLlpbes9CVc/ai
+ ZtiBdNLMH0xV3ipVGFv+Rd+1zDZFYD8GXgqn5vaAPMjDNvCyQnVVp2KArung06xzcW0H
+ zp88MN6MsfIaIAGi+asPLDr0SUPM8y0Ltms0pzT8gi2dWgWo1cqjWEAerAcQmD/mXS3Z
+ or22NbhH7xgn0o+RW9EtorYEKw6AFmJeYpGRaBFaSs860QRYQtbWWiWo6YjEgf55M061
+ r5m9wL9x/6U7GzSjr0osXKkiFyQsvKVn6vxgdY9mhOfR1wC8GDUghUU5mFgI0dpfop6x
+ e0jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1740991547; x=1741596347;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DYh/tabkIBU+qEEozteNgGAzw7miJ+u0L3IImQNu48A=;
+ b=tNNGdcf+mW8kIY6Dv+yXh3ZQR7wPyVcY1wFgF/nE+UIKIOZdulXvwtoQNE23b6L/Ua
+ 54XEakx5cItHkxqSnxpDnvcn1wRWlwWRiDtJMh+yFzuQvzAyMdU4oOhbWN0aDtOpoul0
+ zo1lHZgX/LRCbWLMxr7KDm40grT50rML9FNk++SGs9OoK08lBvJMs1lSR7P3/+DhN6ey
+ WMB3BqLMN843LCFA1K2DiCi3nBsj9KoptfalX9gB8ABY4q1HXuc5pnRIJbNZpr8Nqn4b
+ cHMrZtvDQ+xdvq1aMrALwd9b74/7sKFlDPoiyYDjdgmDVDo9/8aSmOpOviwoNj8qI3Zv
+ X61Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhOKogneFaK8Az5uWoMJw0fPT0N5blLa1L+ka3/CgnR9Cl94Y7OJsoF8TnTK6W24mGBWlwNXd7ZLI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYnrvnawXQFGtuDdoKlipFR/AN7ggIiU04HELLcPmNmx+mNt9/
+ f9FrxkYgg2aCOx9aa953roPD3vPForSZ7/39n7B5oQ4IwrmC1hLu+d+0Q+Yx+/OZaIfXy/Oq+Ra
+ 4C+qwjxovTkA21A==
+X-Google-Smtp-Source: AGHT+IFmqw4UbJRnAxWOF/CCPg0pJy+REFK0/XB06eG3qGGCxRsn3vY5ejkeGCpS1Z/tDA6VnHB5nKKppGUUZbw=
+X-Received: from wmby11-n1.prod.google.com
+ ([2002:a05:600c:c04b:10b0:43b:b3bb:a157])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:5119:b0:439:a25b:e7d3 with SMTP id
+ 5b1f17b1804b1-43ba67047c9mr101624845e9.14.1740991547025; 
+ Mon, 03 Mar 2025 00:45:47 -0800 (PST)
+Date: Mon, 03 Mar 2025 08:45:11 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIABdsxWcC/3XMQQqDMBCF4atI1k1JYjVJV71H6SKMowaqI4kEi
+ 3j3Rldtocv34PtXFjF4jOxarCxg8tHTmEd5Khj0buyQ+yZvpoSqhFKa4zJRmPngIBC3ztlWClk
+ 3BlgmU8DWL0fu/si793Gm8DrqSe7vn1CSXHB7MVpXLZTauVtH1D3xDDSwvZTUpzY/WmVd1RZAo
+ 7Gqhi+9bdsbP0D1TecAAAA=
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
+ fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3761; i=aliceryhl@google.com; 
+ h=from:subject:message-id;
+ bh=XSadD9QdYJXXkkA+j9SkTugvzm8YkfIPAOAXziKNvY4=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnxWwcAkFZ406niQYuJKOAySGk+oWjSWs0I3Fh0
+ ok2nKx19rSJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZ8VsHAAKCRAEWL7uWMY5
+ Rti8EACRQPC2zHJp3GDFyYGJqI+4nrsuB5oQ+lNboNPv2qNhWsn09WyJNMU+WzMLp+LKIDoxTyB
+ Kn48A+KiJfCIBwv0ouAWfOSS70nP0ljroURRA7iY/TfXiw/5w0hT/TpMLFDdamBZGAZWCaZFZzH
+ H6jlSdEmse4sPtyKOysR50rayzE/YUVIhkfC0H+TXCHkIrJC/PuxEo9zBTr6UWIkhpET1JSm6xY
+ ywHtbeT8+ANwwJpU95C9gBBdbLnACkxPLYDXsZwJP2pYf/vr2NP8I/v+479JUhvUqfmwuUIp4vk
+ HYHT8E1txLzcKoqykb2C7JqDt7Q3vaXnDhIAbUe98Nxz2H/S5VfOu554U5ZaIAc0dw8kr2cJKTo
+ BfNquJxfEc7l5vNtnpGBMHOhzopfMuCzjegVHOYB8h5sbdjRsk3PddOEJOwnyJK6oi9oDAbjoy5
+ sm3HIXwaq4WWHGDdXCnKGFpqQTkd6U6j8UmilrJz6PrDhYqT0c4o81h5EgscETjhM4wAaDqcqDi
+ GhzbOLMYx3KdzLwDeN8hGaNqB2vcrbDJrAag7ybpstECJM4qQNkUjsj2LiP3lmJLJ+T8cMVWpio
+ 6PqjwOvrowEXiVfYk6M60GPpb3uRfdGWPpAlTkgXocdVcDWeuRmgpo+3o9f7G0cukEo5ZG08lUa
+ ySxlf3m+JxXweWQ==
+X-Mailer: b4 0.14.1
+Message-ID: <20250303-export-macro-v3-0-41fbad85a27f@google.com>
+Subject: [PATCH v3 0/5] Check Rust signatures at compile time
+From: Alice Ryhl <aliceryhl@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>
+Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Tamir Duberstein <tamird@gmail.com>, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Alice Ryhl <aliceryhl@google.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,144 +115,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas
+Rust has two different tools for generating function declarations to
+call across the FFI boundary:
 
-> I do have an idea what might be happening here. You are using 6.13.1, 
-> right?  If I give you a patch file for this kernel, are you able to 
-> apply it (with 'git am') for testing and report the kernel's logging 
-> output?
+* bindgen. Generates Rust declarations from a C header.
+* cbindgen. Generates C headers from Rust declarations.
 
-Yes I'm using Linux 6.13.1 but I can also test with the latest 
-linux-stable 6.13.5 or on mainline, whatever help you the best.
-The only thing is I cannot go before Linux 6.13+ because it it fix DIO 
-write on netfs (regression introduced in 6.10) and I'm using this 
-feature for backups.
+However, we only use bindgen in the kernel. This means that when C code
+calls a Rust function by name, its signature must be duplicated in both
+Rust code and a C header, and the signature needs to be kept in sync
+manually.
 
-I think I should be able to patch and use 'git am' (In the worst there's 
-always https://git-scm.com/docs/git-am), and I would be happy to report 
-the kernel logging output
+Introducing cbindgen as a mandatory dependency to build the kernel would
+be a rather complex and large change, so we do not consider that at this
+time. Instead, to eliminate this manual checking, introduce a new macro
+that verifies at compile time that the two function declarations use the
+same signature. The idea is to run the C declaration through bindgen,
+and then have rustc verify that the function pointers have the same
+type.
 
-Thanks again for help
+The signature must still be written twice, but at least you can no
+longer get it wrong. If the signatures don't match, you will get errors
+that look like this:
 
-Kind regards
-Nicolas Baranger
+error[E0308]: `if` and `else` have incompatible types
+  --> <linux>/rust/kernel/print.rs:22:22
+   |
+21 | #[export]
+   | --------- expected because of this
+22 | unsafe extern "C" fn rust_fmt_argument(
+   |                      ^^^^^^^^^^^^^^^^^ expected `u8`, found `i8`
+   |
+   = note: expected fn item `unsafe extern "C" fn(*mut u8, *mut u8, *mut c_void) -> *mut u8 {bindings::rust_fmt_argument}`
+              found fn item `unsafe extern "C" fn(*mut i8, *mut i8, *const c_void) -> *mut i8 {print::rust_fmt_argument}`
 
-Le 2025-03-03 09:19, Thomas Zimmermann a écrit :
+It is unfortunate that the error message starts out by saying "`if` and
+`else` have incompatible types", but I believe the rest of the error
+message is reasonably clear and not too confusing.
 
-> Hi
-> 
-> Am 03.03.25 um 09:07 schrieb Nicolas Baranger: Dear Thomas
-> 
-> You are using NVidia's proprietary driver, right? Did you reach out to 
-> them wrt this problem? Or searched their support forums, online help, 
-> etc? If so, what are the results?
-> Yes I'm using NVidia propriétary driver.
-> Maybe I'm wrong but I did not ask their support directly because first, 
-> for me it seems that there is no issue with the NVidia driver and 
-> unfortunately NVidia is not as opensource mind as Linux kernel 
-> community (as an example you can have a look on my last PR here 
-> https://github.com/NVIDIA/open-gpu-kernel-modules/pull/783 which had 
-> not been reviewed since 3+ weeks... and without this PR, it's 
-> impossible to build open or closed source NVidia drivers on mainline)
+The main commit of this series is "rust: add #[export] macro".
 
-I see.
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v3:
+- Reword commit message about cbindgen to remove cargo comment.
+- Add # token to quote! macro and mention allow(unused_mut) warning.
+- Use quote! macro for #[no_mangle] in #[export].
+- Reword "since" in `export` last line of docs.
+- Drop extern from drm_panic_qr function declarations.
+- Add comment about drm_panic_qr_max_data_size being unsafe.
+- Add comment to drm/drm_panic.h include.
+- Pick up tags to commit trailers.
+- Link to v2: https://lore.kernel.org/r/20250228-export-macro-v2-0-569cc7e8926c@google.com
 
-I do have an idea what might be happening here. You are using 6.13.1, 
-right?  If I give you a patch file for this kernel, are you able to 
-apply it (with 'git am') for testing and report the kernel's logging 
-output?
+Changes in v2:
+- Various improvements to documentation.
+- Split out quote! changes into its own commit.
+- Link to v1: https://lore.kernel.org/r/20250227-export-macro-v1-0-948775fc37aa@google.com
 
-Best regards
-Thomas
+---
+Alice Ryhl (5):
+      rust: fix signature of rust_fmt_argument
+      rust: macros: support additional tokens in quote!
+      rust: add #[export] macro
+      print: use new #[export] macro for rust_fmt_argument
+      panic_qr: use new #[export] macro
 
-> Second, I thought I already report it here but on my system using a 
-> recent kernel and embeded ast 0.1.0 driver has a very poor rendering 
-> and graphic is very slow, twinkle is high, had poor colors and it's 
-> happenning even if the NVidia driver is unloaded
-> The screen flickering is high too and it's like if I was using an old 
-> cathode ray tube monitor (I'm using an LCD monitor which display a nice 
-> and eyes confortable picture when using ast 1.15.1 driver or when 
-> displaying directly the video output of the Nvidia GPU(using HDMI 
-> output)).
-> Third, approximately from Linux 6.10+ using the embeded ast driver I 
-> have some lag when sliding a window on Gnome desktop (Xorg not Wayland) 
-> and CPU is highly used (some coreS at 100%), but I do not have those 
-> lag with ast 1.15.1 and CPU is less used (1 core at less than 80% max)
-> For the moment, I think Linux 6.12.9 is the worst I constat
-> 
-> Last, I found that Linux 6.1.128 is working perfectly out of the box 
-> with embeded ast 0.1.0 driver and there is a manifest lost of 
-> performances with Vulkan and Nvidia prime render offload when upgrading 
-> to Linux 6.2 (using same NVidia driver version, I did test those 3 
-> versions  535.216.01, 550.142, and 550.144.03 with similar results).
-> But in Linux 6.2, except the lost of performances, I did not constat 
-> the poor rendering and twinkle on the screen nor lag when sliding a 
-> window on the desktop or too high CPU usage.
-> 
-> So I suspect there is something else introduced between Linux 6.2 and 
-> mainline which cause this behavior.
-> 
-> I'm continuing bissection and I'm sorry, it's not as fast as I would as 
-> each tests tooks some times and I must never tell something wrong to 
-> git if I don't want to restart all the work...
-> 
-> Thanks again for answer and help
-> 
-> Kind regards
-> Nicolas Baranger
-> 
-> Le 2025-02-28 11:06, Thomas Zimmermann a écrit :
-> 
-> Hi
-> 
-> Am 11.02.25 um 19:15 schrieb Nicolas Baranger:
-> 
-> Dear maintener
-> 
-> For my own usage, I did make work the ASPEED ast-drm 1.15.1 video 
-> driver on mainline kernel (6.13.0 + 6.13.1).
-> 
-> ASPEED video driver is availiable here:
-> https://www.aspeedtech.com/file/support/Linux_DRM_1.15.1_4.tar.gz
-> 
-> But it only work for LTS kernel
-> So I modify the DKMS package and I build a new Debian DKMS package with 
-> the adapted  source.
-> My patch can be find here :
-> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/astdiff.patch
-> See the README:
-> https://xba.soartist.net/ast-drm_nba_20250211/nba-dkms/README
-> 
-> Using this new 'ast 1.15.1' driver, performance are amazing compared to 
-> the 'ast' driver include in kernel tree, specially when using a 
-> discrete GPU and offloading VULKAN / 3D on it but using AST VGA card as 
-> the main video card and as the main and only video output (the discrete 
-> GPU is used only for offloading 3D or for cuda/opencl)
-> You are using NVidia's proprietary driver, right? Did you reach out to 
-> them wrt this problem? Or searched their support forums, online help, 
-> etc? If so, what are the results?
-> 
-> Best regards
-> Thomas
-> 
-> So to make things easier, I include the new 'ast 1.15.1' driver in 
-> kernel tree as AST_NEW : linux-6.13.1-ast/drivers/gpu/drm/ast_new'
-> It's working fine as you can see on this video :
-> https://xba.soartist.net/ast-drm_nba_20250211/vulcan_nvidia_prime_render_offload_on_ast_vga_card.webm 
-> I upload all the work I've done here :
-> https://xba.soartist.net/ast-drm_nba_20250211/
-> 
-> See the global README :
-> https://xba.soartist.net/ast-drm_nba_20250211/README
-> 
-> and the README in nba-kernel sub-directory :
-> https://xba.soartist.net/ast-drm_nba_20250211/nba-kernel/README
-> 
-> I'm not a developer so please let me know if I made the things the 
-> right way and if this new 'ast 1.15.1' driver can be ported to 
-> linux-next or linux-? ?
-> If you need more explanations, do not hesitate to contact me, I would 
-> be happy to help
-> 
-> Kind regards
-> Nicolas Baranger
+ drivers/gpu/drm/drm_panic.c     |  5 -----
+ drivers/gpu/drm/drm_panic_qr.rs | 15 +++++++++++----
+ include/drm/drm_panic.h         |  7 +++++++
+ include/linux/sprintf.h         |  3 +++
+ lib/vsprintf.c                  |  3 ---
+ rust/bindings/bindings_helper.h |  5 +++++
+ rust/kernel/prelude.rs          |  2 +-
+ rust/kernel/print.rs            | 10 +++++-----
+ rust/macros/export.rs           | 29 +++++++++++++++++++++++++++++
+ rust/macros/helpers.rs          | 19 ++++++++++++++++++-
+ rust/macros/lib.rs              | 24 ++++++++++++++++++++++++
+ rust/macros/quote.rs            | 27 +++++++++++++++++++++++++--
+ 12 files changed, 128 insertions(+), 21 deletions(-)
+---
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
+change-id: 20250227-export-macro-9aa9f1016d8c
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
