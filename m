@@ -2,128 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC184A4BB4C
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 10:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B7EA4BB68
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 10:57:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E52810E180;
-	Mon,  3 Mar 2025 09:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0FA710E3B4;
+	Mon,  3 Mar 2025 09:57:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="iOuR5pQS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pMATi7pg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C3010E180
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 09:55:24 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250303095522euoutp012ea2270d5757193cbd0ef8870237fdba~pQmK3dznD1510115101euoutp01e
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 09:55:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250303095522euoutp012ea2270d5757193cbd0ef8870237fdba~pQmK3dznD1510115101euoutp01e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1740995722;
- bh=jkAx3oP1ERyW9hpWianokfe1kkMolVE+K5Ndsqy3gk0=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=iOuR5pQS7+qqFtOPV46S4Hy6dQuMPQhYuid5Ci7LELDTRFVkVQug3gKvcpxU135Mo
- 1APKhmYi1jvFdS8DZZ/67aOStH8U6ztnCndaJuOAHa4dQZFCKwOmoY85IYUA/NvaMC
- bd9i0Z0/cgaARw/1oYfXFSJWfWfZ6M2GHxn1D95E=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20250303095521eucas1p18b3e85146d3b4e58d374ee65443f510c~pQmKDy2hP1876818768eucas1p1H;
- Mon,  3 Mar 2025 09:55:21 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id A3.CF.20397.98C75C76; Mon,  3
- Mar 2025 09:55:21 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250303095521eucas1p24b0494320e01283259315a138346d672~pQmJhIYUQ1753017530eucas1p2w;
- Mon,  3 Mar 2025 09:55:21 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20250303095521eusmtrp2a5ece5c802ffd421b11eeb5d30ebd786~pQmJgJtYD1593015930eusmtrp2I;
- Mon,  3 Mar 2025 09:55:21 +0000 (GMT)
-X-AuditID: cbfec7f5-e59c770000004fad-c5-67c57c899582
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id A8.7F.19920.98C75C76; Mon,  3
- Mar 2025 09:55:21 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250303095519eusmtip10a4185fb739894007312f6777ae0b061~pQmIDKL-s0171201712eusmtip1D;
- Mon,  3 Mar 2025 09:55:19 +0000 (GMT)
-Message-ID: <4deba4d6-b82d-4e57-bd27-f4e1523b38ea@samsung.com>
-Date: Mon, 3 Mar 2025 10:55:19 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4BB610E3B4
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 09:57:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 6114C611EB;
+ Mon,  3 Mar 2025 09:57:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C52CC4CEE4;
+ Mon,  3 Mar 2025 09:57:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1740995850;
+ bh=masdkjIvRxkSHVpoGmD/vxKS9OGmtwfKgMWJNuBko8M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pMATi7pgtFHEMF95Ep8Hq/lRVkYkPMKrdoJat2qzXzK3PD+NxGWZMI92zkhZl4QpX
+ zQ5UjTb2GB3Ia8IbHD2IkLk+KHYmTJa5rAaoqeqbSpuQqprLOT9JTQcKNefuynuj3q
+ FOq+P4ddLtdRMmWJ+pzGQNnsl3Jf/ju0PX7T9h8B2JlbAm/O2UQz14dit12rjzt9wf
+ k4Sop0uBgUrOqgmB3OeuCrGeS5REAgA5WbRDUxz+CwQQFPEjy2chm1vxyvWiLY+XpX
+ n+wqUubPD1CpSMY0nDAq8w3vyNIsrGQXYrm3XFP525Azg/pCMYwCgbAlEKoQql3Lfq
+ 07oGYxbBTdSiw==
+Date: Mon, 3 Mar 2025 10:57:28 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: simona@ffwll.ch, javierm@redhat.com, airlied@gmail.com, 
+ maarten.lankhorst@linux.intel.com, hdegoede@redhat.com, airlied@redhat.com,
+ sean@poorly.run, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/4] drm/prime: Support dedicated DMA device for dma-buf
+ imports
+Message-ID: <20250303-lyrical-cherry-goose-c871d1@houat>
+References: <20250228094457.239442-1-tzimmermann@suse.de>
+ <20250228094457.239442-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 09/21] dt-bindings: clock: thead: Add GPU clkgen
- reset property
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
- m.szyprowski@samsung.com, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <df625379-b472-45d9-87a4-8bf52a87ea1e@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTVxzHc+69vffSCFyqC2dgZOsIi4sCKrKTsZnBILlbjI+5OLcxt0Zv
- ihsUbGE4ZzIYyKxWZA5BO4TizEQUYawUigUmsNYK8lRKeBSz1QYqyKuCG6+1XN347/P7/h7f
- 3+/k0LioifSjD8mSOblMEi8mhYTO+Hf7RuWxP6Sh47c2otuWSxiqmlNT6HpdG4aKmtsEyNql
- xdC9J+MkuvGwg0LDdekE6im5SKEMYzmJRtRWErW3V1BoUmUVoO7aAhJNn24GSDedSaKy5kEK
- FU9WEehyTS1AWcpfBKjzTgwatN4m0Ei3CkdZam+0ZKih0GLPrwT66XEDhbSjPwiQqexDlNmQ
- S7y9jh3vPU6xoyMjBNt0wkmxdTMagtWrBylWpW8FbGWpkmQHegwkW2jezQ6dMmHsb5e/ZTPL
- jBh7ZiGUHa+/T7LZ2lLAdmVYqF2ij4VvHuTiD33FyUO2fS6M+9HyO5l0njoydyedTAMVgpPA
- g4ZMGGydzXOxkBYxJQA6G3MBHzgBtOWMknwwDaA120A8b+m351F84gqAmefsGB+MAWgqMAJ3
- lSezDRqvGnE3E0wgrHfMULzuA80XbMuTXmAC4FDf+WV9NbMP3l3KX9bXMOuhZWF2eSmcMQhg
- Xi6/Lc74wj5bEeZmktkMH1wpWtY9XGaVZ0wYXxMAq8cKcHczZDqF8OS9689OjYYdT/tInldD
- h0lL8bwWLun5oZBJhA+qpnCej0G9yvSMI+BA2z+uXtplsB6W14bwciS0VbsPoF3sBXvHfPgV
- vOBZXT7Oy57wRJaIrw6C51Sn/zNtK9FhOUCsXvEq6hVHqlcco/7fVwOIUuDLpSgSpJxii4xL
- DVZIEhQpMmnwgcSESuD65y2Lpic1oMQxGdwIMBo0Akjj4jWeh99vloo8D0q+PsrJEz+Tp8Rz
- ikbgTxNiX89LDcelIkYqSea+5LgkTv48i9EefmkYvraw0JY7ry9XGu3K+Zc3KIOkZSETX+ze
- OewRTcTZHeaKIFwYle7YsXi3r+7G94GzHRHGv0IiU9Nl/rGf5Gzfs+Vp/l5zhKg7ZuujiMG6
- AIet18/of9PLkISNbR/3i+xUWcM+iMqeeGnDq4oU7d6jh4vN9c5rpaF77Kcy9s8syg6E3Wrw
- xi500Nc+zRLtiC23pD6O0UX/+XpAt05T9lHez5p5b5vw4bubO4db1r2zqvq7qy9i4RrDe4Fn
- fWUgdml4zrkT739lf/SmNxxF/lt9ar2akiam9EcGxNmOFt+09igf+9D8o/urrN+ET7U2dV0c
- DZ/u17+F7Vu4OVcVkF+cPLhLKyYUcZJNr+FyheRfLoBNOFYEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKKsWRmVeSWpSXmKPExsVy+t/xu7qdNUfTDS6dYLc4cX0Rk8XW37PY
- LdbsPcdkMf/IOVaLe5e2MFlc+fqezWLd0wvsFi/2NrJYXFsxl92i+dh6NouXs+6xWZw/v4Hd
- 4mPPPVaLy7vmsFl87j3CaLHtcwubxdojd9ktFn7cymKxZMcuRou2zmWsFhdPuVrcvXeCxeLl
- 5R5mi7ZZ/Bb/9+xgt/h3bSOLxex3+9kttryZyGpxfG24Rcv+KSwOch7vb7Sye7x5+ZLF43DH
- F3aPvd8WsHjsnHWX3aNn5xlGj02rOtk87lzbw+Yx72Sgx/3u40wem5fUe7SsPcbk0f/XwOP9
- vqtsHn1bVjF6XGq+zh4gFKVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9n
- k5Kak1mWWqRvl6CXMfn6AbaCGewVv081sjUwbmDtYuTkkBAwkbj9bBp7FyMXh5DAUkaJy1sW
- QCVkJK51v2SBsIUl/lzrYoMoes0oceVpJxtIglfATuLYymPMIDaLgIrEvlff2CHighInZz4B
- axYVkJe4f2sGWFxYIELi9px7YLaIgKbE9b/fWUGGMgvsYZU4vPkz1IYXTBITJrwB28AsIC5x
- 68l8JhCbTcBI4sHy+WDncQJt3tR/HCjOAVSjLrF+nhBEubzE9rdzmCcwCs1CcscsJJNmIXTM
- QtKxgJFlFaNIamlxbnpusaFecWJucWleul5yfu4mRmD62nbs5+YdjPNefdQ7xMjEwXiIUYKD
- WUmEtzDoSLoQb0piZVVqUX58UWlOavEhRlNgWExklhJNzgcm0LySeEMzA1NDEzNLA1NLM2Ml
- cV63y+fThATSE0tSs1NTC1KLYPqYODilGpjWZbgu4amz51zbvclj01cdjUnB7xdYVmeqrsja
- lHJliV3H+hP8nxQuRrvencq9k2vizncTfDeoHDXxEroaIDXvaVrAp50rXHLqeb1YD5dXV65r
- OnP2V0SUxt1/7U2vJDZNPiWQeWI2v6KlFPOXpx+c/rTf3Cmafr15/9VDZ1t3Pc5kT2itOHtv
- gi/PQ9aDUk9vnv2anRFst4T7z5o7Sp8fr+TScqlPaLc6/t9e6P7aFRd4jHcy/wxgWhj587da
- MPPRuJc274uC26W89PNKEmaLttVONk4XNL0ntLT1Q6jM/EDbr4GLe9Ojj889anB45bzO3cdm
- M561sA2U4Ei78O/s/RbH6QqT/ry5Ujf/L6O0EktxRqKhFnNRcSIACJJKEugDAAA=
-X-CMS-MailID: 20250303095521eucas1p24b0494320e01283259315a138346d672
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639
-References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <CGME20250219140301eucas1p249b17ca44832eb8caad2e9ad0e4f8639@eucas1p2.samsung.com>
- <20250219140239.1378758-10-m.wilczynski@samsung.com>
- <20250221-imaginary-ebony-macaque-aace8d@krzk-bin>
- <7296ddb3-2096-4414-bfa4-28fc5bb8ec86@samsung.com>
- <df625379-b472-45d9-87a4-8bf52a87ea1e@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="dn55hlm57r2rsjj3"
+Content-Disposition: inline
+In-Reply-To: <20250228094457.239442-2-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,33 +63,115 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--dn55hlm57r2rsjj3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/4] drm/prime: Support dedicated DMA device for dma-buf
+ imports
+MIME-Version: 1.0
 
-On 3/3/25 09:52, Krzysztof Kozlowski wrote:
-> On 03/03/2025 09:42, Michal Wilczynski wrote:
->>>> +allOf:
->>>> +  - if:
->>>> +      properties:
->>>> +        compatible:
->>>> +          contains:
->>>> +            const: thead,th1520-clk-vo
->>>> +    then:
->>>> +      required:
->>>> +        - resets
->>>
->>> else:
->>> ? What's there? Also reset or no?
->>
->> If the else: case the reset is not required, as it's only required in
->> the th1520clk-vo, so there is no need for else:.
-> That's not the question. I know it is not required, I can read code.
-> What is in the hardware?
+Hi Thomas,
 
-I noticed the register SW_GMAC1_GRST_N in section 5.4.2.2.66 of the
-manual (GMAC1_SWRST [2]), which indicates a GMAC1 CLKGEN soft reset.
-Although this could theoretically reset part of the AP clock, it is not
-actually used by the AP clock driver or needed for initialization.
+On Fri, Feb 28, 2025 at 10:32:51AM +0100, Thomas Zimmermann wrote:
+> Importing dma-bufs via PRIME requires a DMA-capable device. Devices on
+> peripheral busses, such as USB, often cannot perform DMA by themselves.
+> Without DMA-capable device PRIME import fails. DRM drivers for USB
+> devices already use a separate DMA device for dma-buf imports. Make the
+> mechanism generally available.
+>=20
+> Add the field dma_dev to struct drm_device to refer to the device's DMA
+> device. For USB this should be the USB controller. Use dma_dev in the
+> PRIME import helpers, if set.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_drv.c   |  2 ++
+>  drivers/gpu/drm/drm_prime.c |  2 +-
+>  include/drm/drm_device.h    | 37 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 40 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 17fc5dc708f4..f8c3c9f77d22 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -654,6 +654,8 @@ static void drm_dev_init_release(struct drm_device *d=
+ev, void *res)
+>  {
+>  	drm_fs_inode_free(dev->anon_inode);
+> =20
+> +	put_device(dev->dma_dev);
+> +	dev->dma_dev =3D NULL;
+>  	put_device(dev->dev);
+>  	/* Prevent use-after-free in drm_managed_release when debugging is
+>  	 * enabled. Slightly awkward, but can't really be helped. */
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 32a8781cfd67..258858f2f8dd 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -1004,7 +1004,7 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
+>  struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
+>  					    struct dma_buf *dma_buf)
+>  {
+> -	return drm_gem_prime_import_dev(dev, dma_buf, dev->dev);
+> +	return drm_gem_prime_import_dev(dev, dma_buf, drm_dev_dma_dev(dev));
+>  }
+>  EXPORT_SYMBOL(drm_gem_prime_import);
+> =20
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 6ea54a578cda..a24cac4b2077 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -64,6 +64,23 @@ struct drm_device {
+>  	/** @dev: Device structure of bus-device */
+>  	struct device *dev;
+> =20
+> +	/**
+> +	 * @dma_dev:
+> +	 *
+> +	 * Device for DMA operations. Only required if the device @dev
+> +	 * cannot perform DMA by itself. Should be NULL otherwise.
+> +	 *
+> +	 * Devices on USB and other peripheral busses cannot perform DMA
+> +	 * by themselves. The @dma_dev field should point the bus controller
+> +	 * that does DMA on behalve of such a device. Required for importing
+> +	 * buffers via dma-buf.
+> +	 *
+> +	 * If set, the DRM driver has to acquire a reference on the DMA
+> +	 * device, which will be owned and released automatically by the
+> +	 * DRM core.
+> +	 */
+> +	struct device *dma_dev;
+> +
 
-> 
-> Best regards,
-> Krzysztof
-> 
+It looks good to me in general, but this is also useful with ARM
+platform is general. On those, the DRM device is bound to a virtual
+device (and thus can't do DMA), but the HW accesses will be done by
+one or more HW controllers that are part of the overall DRM driver.
+
+Thus, we typically have to make hacks to copy to the virtual device DMA
+setup from the actual device doing the DMA accesses.
+
+See for example
+https://elixir.bootlin.com/linux/v6.13.5/source/drivers/gpu/drm/vc4/vc4_drv=
+=2Ec#L313
+https://elixir.bootlin.com/linux/v6.13.5/source/drivers/gpu/drm/sun4i/sun4i=
+_backend.c#L797
+
+It's probably worth documenting.
+
+Maxime
+
+--dn55hlm57r2rsjj3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ8V9AwAKCRAnX84Zoj2+
+dqBsAX9kn3/xsjTRvbTS3WrcDIcggrH6OzfK+2SqmnITOVo/W5nda+3VCnVq2wKx
+dX3tLKkBf0TxOT/J+oR6vaxKUmoFQV3IXLpypiKL0Yn3GJigDs5iOfVBUZ987pZ2
+GRu90IBfxg==
+=ZZvI
+-----END PGP SIGNATURE-----
+
+--dn55hlm57r2rsjj3--
