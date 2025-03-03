@@ -2,118 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13199A4C3FB
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00251A4C3F9
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B2AF10E44F;
-	Mon,  3 Mar 2025 14:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D8610E454;
+	Mon,  3 Mar 2025 14:59:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bvoRfvuE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q5Rk4Id6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bvoRfvuE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q5Rk4Id6";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oKyukOdS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Wz+x+Vh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oKyukOdS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Wz+x+Vh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90F0310E469
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9781A10E46A
  for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 14:59:14 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0BC1D1F441;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5294221185;
  Mon,  3 Mar 2025 14:59:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1741013953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tftgnaYHJ96pUX7y2DceVjHnF0HhU2S9vfRntZKblAM=;
- b=bvoRfvuEMfGOsoeZgowNTX+gb8FGAHkNWjdPboHQqDdQGJfx8ZweyUiVk4KAJZZsJ2G0dh
- MWp9WXTzTHB6H2Ls+em/qi+YWVp6ktgMKckyvOx7H4jf8PMW4OmT7iobbzZl23HotsDc4e
- +rE8TWZGaqGrS70DxZSTOfnTCl+EJXU=
+ bh=6pRiGR6sIHKoczOyAcunlUHo67BsSlpI5AatA7C08KM=;
+ b=oKyukOdSvS8Fd7c+6c0HZvdoqq5hNTqRhgRSdoC/hO2NGG7UaVvL0SzSpHQXi8Dlnt19Tx
+ l1TaShLTRtjFDF9HrKlIBqoCSw8UIY4gHp8v8fpOgpFk9DBee0a/dZ3sPE8COL0W8iAx1a
+ fMwXt+i223UXJQlKc+B9i6QTPzsOk/M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1741013953;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tftgnaYHJ96pUX7y2DceVjHnF0HhU2S9vfRntZKblAM=;
- b=q5Rk4Id6inrwGi0hcB7hFkG1subcgHmWsJrlA6hDugoZtag+zL69iJ2HUmZw9ujZB22BnJ
- L6Ji6wKfVGfUH3BQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bvoRfvuE;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q5Rk4Id6
+ bh=6pRiGR6sIHKoczOyAcunlUHo67BsSlpI5AatA7C08KM=;
+ b=3Wz+x+VhAVKR00k+WAmH4S66z+UESrLDfR/62MEFQ+7Cwy174C/McnnS/FKJ2X9vW7A5m2
+ Ov2GvBd9HnfB+QBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oKyukOdS;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3Wz+x+Vh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1741013953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tftgnaYHJ96pUX7y2DceVjHnF0HhU2S9vfRntZKblAM=;
- b=bvoRfvuEMfGOsoeZgowNTX+gb8FGAHkNWjdPboHQqDdQGJfx8ZweyUiVk4KAJZZsJ2G0dh
- MWp9WXTzTHB6H2Ls+em/qi+YWVp6ktgMKckyvOx7H4jf8PMW4OmT7iobbzZl23HotsDc4e
- +rE8TWZGaqGrS70DxZSTOfnTCl+EJXU=
+ bh=6pRiGR6sIHKoczOyAcunlUHo67BsSlpI5AatA7C08KM=;
+ b=oKyukOdSvS8Fd7c+6c0HZvdoqq5hNTqRhgRSdoC/hO2NGG7UaVvL0SzSpHQXi8Dlnt19Tx
+ l1TaShLTRtjFDF9HrKlIBqoCSw8UIY4gHp8v8fpOgpFk9DBee0a/dZ3sPE8COL0W8iAx1a
+ fMwXt+i223UXJQlKc+B9i6QTPzsOk/M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1741013953;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tftgnaYHJ96pUX7y2DceVjHnF0HhU2S9vfRntZKblAM=;
- b=q5Rk4Id6inrwGi0hcB7hFkG1subcgHmWsJrlA6hDugoZtag+zL69iJ2HUmZw9ujZB22BnJ
- L6Ji6wKfVGfUH3BQ==
+ bh=6pRiGR6sIHKoczOyAcunlUHo67BsSlpI5AatA7C08KM=;
+ b=3Wz+x+VhAVKR00k+WAmH4S66z+UESrLDfR/62MEFQ+7Cwy174C/McnnS/FKJ2X9vW7A5m2
+ Ov2GvBd9HnfB+QBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B51A613A61;
- Mon,  3 Mar 2025 14:59:12 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F6CA13A71;
+ Mon,  3 Mar 2025 14:59:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id aDflKsDDxWeZBAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 03 Mar 2025 14:59:12 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id WA9zAsHDxWeZBAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 03 Mar 2025 14:59:13 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, simona@ffwll.ch, jfalempe@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  sean@poorly.run
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- stable@vger.kernel.org
-Subject: [PATCH 1/3] drm/udl: Unregister device before cleaning up on
- disconnect
-Date: Mon,  3 Mar 2025 15:52:56 +0100
-Message-ID: <20250303145604.62962-2-tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 2/3] drm/udl: Switch poll helpers to managed cleanup
+Date: Mon,  3 Mar 2025 15:52:57 +0100
+Message-ID: <20250303145604.62962-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250303145604.62962-1-tzimmermann@suse.de>
 References: <20250303145604.62962-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0BC1D1F441
-X-Spam-Level: 
+X-Rspamd-Queue-Id: 5294221185
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  R_MISSING_CHARSET(0.50)[];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,linux.intel.com,kernel.org,gmail.com,poorly.run];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
  RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[10];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,linux.intel.com,kernel.org,gmail.com,poorly.run];
  RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
  SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[9];
+ R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,44 +128,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disconnecting a DisplayLink device results in the following kernel
-error messages
-
-[   93.041748] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.055299] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
-[   93.065363] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.078207] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
-
-coming from KMS poll helpers. Shutting down poll helpers runs them
-one final time when the USB device is already gone.
-
-Run drm_dev_unplug() first in udl's USB disconnect handler. Udl's
-polling code already handles disconnects gracefully if the device has
-been marked as unplugged.
+Call drmm_kms_helper_poll_init() to set up managed cleanup for
+connector polling.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b1a981bd5576 ("drm/udl: drop drm_driver.release hook")
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.8+
 ---
- drivers/gpu/drm/udl/udl_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/udl/udl_drv.c     | 1 -
+ drivers/gpu/drm/udl/udl_main.c    | 2 --
+ drivers/gpu/drm/udl/udl_modeset.c | 1 +
+ 3 files changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 05b3a152cc33..7e7d704be0c0 100644
+index 7e7d704be0c0..29f34b4a732d 100644
 --- a/drivers/gpu/drm/udl/udl_drv.c
 +++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -127,9 +127,9 @@ static void udl_usb_disconnect(struct usb_interface *interface)
- {
+@@ -128,7 +128,6 @@ static void udl_usb_disconnect(struct usb_interface *interface)
  	struct drm_device *dev = usb_get_intfdata(interface);
  
-+	drm_dev_unplug(dev);
- 	drm_kms_helper_poll_fini(dev);
+ 	drm_dev_unplug(dev);
+-	drm_kms_helper_poll_fini(dev);
  	udl_drop_usb(dev);
--	drm_dev_unplug(dev);
  }
  
- /*
+diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+index 3ebe2ce55dfd..a76b8f57917e 100644
+--- a/drivers/gpu/drm/udl/udl_main.c
++++ b/drivers/gpu/drm/udl/udl_main.c
+@@ -336,8 +336,6 @@ int udl_init(struct udl_device *udl)
+ 	if (ret)
+ 		goto err;
+ 
+-	drm_kms_helper_poll_init(dev);
+-
+ 	return 0;
+ 
+ err:
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index bbb04f98886a..3b65e93ea0ae 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -535,6 +535,7 @@ int udl_modeset_init(struct drm_device *dev)
+ 		return ret;
+ 
+ 	drm_mode_config_reset(dev);
++	drmm_kms_helper_poll_init(dev);
+ 
+ 	return 0;
+ }
 -- 
 2.48.1
 
