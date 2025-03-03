@@ -2,109 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FD2A4C846
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 17:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62049A4C86A
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 17:58:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFCFB10E2A4;
-	Mon,  3 Mar 2025 16:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B94310E4A7;
+	Mon,  3 Mar 2025 16:58:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Me655Nxl";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="HhOkGXS9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6BC710E2A4
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 16:54:40 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-2239c066347so30745105ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 08:54:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741020880; x=1741625680; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=snQ/FfGFpVYJtbb054yayRa/GPJB9+XLRVNWjcRf72o=;
- b=Me655Nxlnf6gqlMQ7MPjpDoZb7ChjqaNXUQMVtopALyoMBLLHyDZt+nE4EpN+ygiB8
- 6rD+rVbiLfavLgsrgfYAS9itpdDNbOFvpNcANMBp+YVI2TWtbXHoeG8Q82c+arsHrpKS
- yw+PYzLSqlmqRIDULk+fFJGb6oX2jPfIc4RNCAtty/PzzthoYu8SH/HE/T6v4EaH3sR9
- ZgxGy1AOjF0qYCaGsfKZwttPNKeubyAxUa8w43BaZbX9ADISofBEYZS502fn67hTBgG6
- Z3o9t5mzLZDOor21A3TbRpT4sOtA54di3+YL/n65CJRia4QolfS7LAC0WRoZ0Lme0+8E
- rpbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741020880; x=1741625680;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=snQ/FfGFpVYJtbb054yayRa/GPJB9+XLRVNWjcRf72o=;
- b=lEm6VxKYQ3SLC7JMiqUuAK8qRSk87rpA35mU/hyTUjCQoN/d1zJ1xm4WRtML7Jzs/G
- iME63OQ7rJmTwfb1yOSgsTt4blLFKGrQLPag0KiWvHXNT91BYXx2bKHRVIeFLS+Tc+Qs
- /L361nuP+54xJFOeoDx+hKVfoP6PhH8iKbFVqBnV0wxtbBCbh01vMZxl/5t7QpQnRLR2
- IcPKdzR+hRSmN+fVPG1lz5L3JINebYk5LI3iD8xZkt5G5s0nkNw1VOy0WsGH5Po5AXI6
- aafXMgJNo2HnJZtcdg7xSpOTLmnCE6BbEXkqxu2ogifWS1wUsZ3uZ16aDivbh0RDOjhK
- 0ojw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+VsrWPHJTekczkQfXXutYSYavHKnCNQpVpNC7bex+ddXKi65ZV7Q4bfF787eExoRp5WcCIMT2TB0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCA9pZtH3v24AqSZColKKv+xIyjboTwizV05ym0MpaHA7Nsu34
- ZECiUu/QfrMBcMc99NgjoqzduvBkLWF/P099bCSvS5MFX+0X0XBj
-X-Gm-Gg: ASbGncsL1wjoUrWNOhYmI8+ZHtqM0FukLYjBJNl87jTVDRGXsjWAQXFOquM2U30UyKW
- /5tZKFzxhU3BxrJvg2ZruS8DeN6YtJ6O+5ADlu/AFJPtRLMeX7Jn2Swz7iFkaVPLls/K/HCmkFC
- MS0B4/SU6JFygoMFdYkI2pazrNal8iPCcCVLe3mMp6gi7Fwgn5wlw7f/SmuYvE4uHimaR6MUTlr
- dkGoX+Bieafzbp7rUURClicEYeE7kwhu37Rd3vRhDsDesuegIyvrZvLMcQogjAriYycWacOAKN1
- cDqTTD1XztKh/vi5gLBmwTY68yzAx5mcH6T5hPlJTo78z1cSMTH02HRxFIXS/3KVbfCLZOlo
-X-Google-Smtp-Source: AGHT+IERzXXFV1wY4JOTqL7FEPHOnAzKcBtkbh1MW/f1V7zUkt/V5lVcottzvfcf37UkL0y23/7mVg==
-X-Received: by 2002:a17:902:fc8d:b0:223:44dc:3f36 with SMTP id
- d9443c01a7336-2236925eef4mr232091065ad.43.1741020880198; 
- Mon, 03 Mar 2025 08:54:40 -0800 (PST)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-223504c59ecsm80088085ad.123.2025.03.03.08.54.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Mar 2025 08:54:39 -0800 (PST)
-Date: Tue, 4 Mar 2025 00:54:30 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: David Laight <david.laight.linux@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org,
- awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
- alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
- implementations
-Message-ID: <Z8XexgomsveMWK2U@visitorckw-System-Product-Name>
-References: <20250301142409.2513835-1-visitorckw@gmail.com>
- <20250301142409.2513835-2-visitorckw@gmail.com>
- <Z8PMHLYHOkCZJpOh@thinkpad>
- <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
- <Z8SBBM_81wyHfvC0@thinkpad>
- <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
- <20250302190954.2d7e068f@pumpkin>
- <Z8UYOD2tyjS25gIc@visitorckw-System-Product-Name>
- <Z8XOF2DMMRKqam6R@thinkpad>
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEC7F10E4A7
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 16:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=eify1ppexQzLZIydQf1js6wBEcaTPRspfLPDS+j4sgM=; b=HhOkGXS9hzrPnBgG
+ js0R3iDuM827LR2ODfImua1CO958uEBMOAST+8q+d2jCg+JA9Dn/4xk52j8Yt8imzwo40/QDKTvIm
+ /9Qiw9DrKkmvN32vYK0M7qmcYQnFVtZ2Ja1qsp+ZXtrfBKwqfA0TGgHsCr+fZPPoWgAeVhyFVoi69
+ q4yhC8y3nXluzbdXXjEmFUJP1Wt97s1RTIYNZ/NkrO2R53mfR65TGeacKpZe/OQr5zKkR0bsEkx6u
+ 2pJbxV5a3xOBLihnQNicSxMWvuhhB1NlfvlSx6aZnqQuevwJOeBE8LxoYvyh2vQ0ioeKzyv30ozRk
+ K5+iA/7THNCyJW28aQ==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1tp97a-002BjV-2Q;
+ Mon, 03 Mar 2025 16:58:26 +0000
+Date: Mon, 3 Mar 2025 16:58:26 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: ville.syrjala@linux.intel.com, jfalempe@redhat.com,
+ tomi.valkeinen@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] Revert "drm/client: Add drm_client_modeset_check()"
+Message-ID: <Z8Xfst88r_M_RZ3v@gallifrey>
+References: <20241029234706.285087-1-linux@treblig.org>
+ <20241029234706.285087-4-linux@treblig.org>
+ <4ysvn7vcynvmjc53frgj2nwuctf6kd6xdphgfjm3ulgfaxwngm@mod6oqvfmxav>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Z8XOF2DMMRKqam6R@thinkpad>
+In-Reply-To: <4ysvn7vcynvmjc53frgj2nwuctf6kd6xdphgfjm3ulgfaxwngm@mod6oqvfmxav>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 16:57:31 up 299 days,  4:11,  1 user,  load average: 0.06, 0.05, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,77 +63,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 03, 2025 at 10:43:28AM -0500, Yury Norov wrote:
-> On Mon, Mar 03, 2025 at 10:47:20AM +0800, Kuan-Wei Chiu wrote:
-> > > > #define parity(val)					\
-> > > > ({							\
-> > > > 	__auto_type __v = (val);			\
-> > > > 	bool __ret;					\
-> > > > 	switch (BITS_PER_TYPE(val)) {			\
-> > > > 	case 64:					\
-> > > > 		__v ^= __v >> 16 >> 16;			\
-> > > > 		fallthrough;				\
-> > > > 	case 32:					\
-> > > > 		__v ^= __v >> 16;			\
-> > > > 		fallthrough;				\
-> > > > 	case 16:					\
-> > > > 		__v ^= __v >> 8;			\
-> > > > 		fallthrough;				\
-> > > > 	case 8:						\
-> > > > 		__v ^= __v >> 4;			\
-> > > > 		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> > > > 		break;					\
-> > > > 	default:					\
-> > > > 		BUILD_BUG();				\
-> > > > 	}						\
-> > > > 	__ret;						\
-> > > > })
-> > > 
-> > > I'm seeing double-register shifts for 64bit values on 32bit systems.
-> > > And gcc is doing 64bit double-register maths all the way down.
-> > > 
-> > > That is fixed by changing the top of the define to
-> > > #define parity(val)					\
-> > > ({							\
-> > > 	unsigned int __v = (val);			\
-> > > 	bool __ret;					\
-> > > 	switch (BITS_PER_TYPE(val)) {			\
-> > > 	case 64:					\
-> > > 		__v ^= val >> 16 >> 16;			\
-> > > 		fallthrough;				\
-> > > 
-> > > But it's need changing to only expand 'val' once.
-> > > Perhaps:
-> > > 	auto_type _val = (val);
-> > > 	u32 __ret = val;
-> > > and (mostly) s/__v/__ret/g
-> > >
-> > I'm happy to make this change, though I'm a bit confused about how much
-> > we care about the code generated by gcc. So this is the macro expected
-> > in v3:
+* Dmitry Baryshkov (dmitry.baryshkov@linaro.org) wrote:
+> On Tue, Oct 29, 2024 at 11:47:05PM +0000, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > drm_client_modeset_check() was explicitly added in 2020 by
+> > commit 64593f2a6fc9 ("drm/client: Add drm_client_modeset_check()")
+> > but has never been used.
+> > 
+> > This reverts commit 64593f2a6fc933bb9a410bc3f8c261f3e57a9601.
 > 
-> We do care about code generated by any compiler. But we don't spread
-> hacks here and there just to make GCC happy. This is entirely broken
-> strategy. Things should work the other way: compiler people should
-> collect real-life examples and learn from them.
+> Nit: Usually this comes before the commit message.  No need for repost
+> though.
 > 
-> I'm not happy even with this 'v >> 16 >> 16' hack, I just think that
-> disabling Wshift-count-overflow is the worse option. Hacking the macro
-> to optimize parity64() on 32-bit arch case doesn't worth it entirely.
 > 
-> In your patchset, you have only 3 drivers using parity64(). For each
-> of them, please in the commit message refer that calling generic
-> parity() with 64-bit argument may lead to sub-optimal code generation
-> with a certain compiler against 32-bit arches. If you'll get a
-> feedback that it's a real problem for somebody, we'll think about
-> mitigating it. 
->
-How about reconsidering using parity8/16/32/64() instead of adding a
-parity() macro? They allow compiler to generate correct code without
-any hacks, and each implementation is simple and just one line. Jiri
-also agreed in the previous thread that we need parity8() in cases like
-the i3c driver. I think this might be the easiest solution to satisfy
-most people?
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Regards,
-Kuan-Wei
+Hi,
+  Can drm pick this up please?
+
+Thanks,
+
+Dave
+> 
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> > ---
+> >  drivers/gpu/drm/drm_client_modeset.c | 35 ++++------------------------
+> >  include/drm/drm_client.h             |  1 -
+> >  2 files changed, 4 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> > index cee5eafbfb81..39201c11eaac 100644
+> > --- a/drivers/gpu/drm/drm_client_modeset.c
+> > +++ b/drivers/gpu/drm/drm_client_modeset.c
+> > @@ -995,7 +995,7 @@ bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation)
+> >  }
+> >  EXPORT_SYMBOL(drm_client_rotation);
+> >  
+> > -static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool active, bool check)
+> > +static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool active)
+> >  {
+> >  	struct drm_device *dev = client->dev;
+> >  	struct drm_plane *plane;
+> > @@ -1062,10 +1062,7 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
+> >  		}
+> >  	}
+> >  
+> > -	if (check)
+> > -		ret = drm_atomic_check_only(state);
+> > -	else
+> > -		ret = drm_atomic_commit(state);
+> > +	ret = drm_atomic_commit(state);
+> >  
+> >  out_state:
+> >  	if (ret == -EDEADLK)
+> > @@ -1126,30 +1123,6 @@ static int drm_client_modeset_commit_legacy(struct drm_client_dev *client)
+> >  	return ret;
+> >  }
+> >  
+> > -/**
+> > - * drm_client_modeset_check() - Check modeset configuration
+> > - * @client: DRM client
+> > - *
+> > - * Check modeset configuration.
+> > - *
+> > - * Returns:
+> > - * Zero on success or negative error code on failure.
+> > - */
+> > -int drm_client_modeset_check(struct drm_client_dev *client)
+> > -{
+> > -	int ret;
+> > -
+> > -	if (!drm_drv_uses_atomic_modeset(client->dev))
+> > -		return 0;
+> > -
+> > -	mutex_lock(&client->modeset_mutex);
+> > -	ret = drm_client_modeset_commit_atomic(client, true, true);
+> > -	mutex_unlock(&client->modeset_mutex);
+> > -
+> > -	return ret;
+> > -}
+> > -EXPORT_SYMBOL(drm_client_modeset_check);
+> > -
+> >  /**
+> >   * drm_client_modeset_commit_locked() - Force commit CRTC configuration
+> >   * @client: DRM client
+> > @@ -1168,7 +1141,7 @@ int drm_client_modeset_commit_locked(struct drm_client_dev *client)
+> >  
+> >  	mutex_lock(&client->modeset_mutex);
+> >  	if (drm_drv_uses_atomic_modeset(dev))
+> > -		ret = drm_client_modeset_commit_atomic(client, true, false);
+> > +		ret = drm_client_modeset_commit_atomic(client, true);
+> >  	else
+> >  		ret = drm_client_modeset_commit_legacy(client);
+> >  	mutex_unlock(&client->modeset_mutex);
+> > @@ -1246,7 +1219,7 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
+> >  
+> >  	mutex_lock(&client->modeset_mutex);
+> >  	if (drm_drv_uses_atomic_modeset(dev))
+> > -		ret = drm_client_modeset_commit_atomic(client, mode == DRM_MODE_DPMS_ON, false);
+> > +		ret = drm_client_modeset_commit_atomic(client, mode == DRM_MODE_DPMS_ON);
+> >  	else
+> >  		drm_client_modeset_dpms_legacy(client, mode);
+> >  	mutex_unlock(&client->modeset_mutex);
+> > diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+> > index bc0e66f9c425..ead3c3526ee3 100644
+> > --- a/include/drm/drm_client.h
+> > +++ b/include/drm/drm_client.h
+> > @@ -177,7 +177,6 @@ int drm_client_modeset_create(struct drm_client_dev *client);
+> >  void drm_client_modeset_free(struct drm_client_dev *client);
+> >  int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
+> >  bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
+> > -int drm_client_modeset_check(struct drm_client_dev *client);
+> >  int drm_client_modeset_commit_locked(struct drm_client_dev *client);
+> >  int drm_client_modeset_commit(struct drm_client_dev *client);
+> >  int drm_client_modeset_dpms(struct drm_client_dev *client, int mode);
+> > -- 
+> > 2.47.0
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
