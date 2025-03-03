@@ -2,78 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF020A4C7A5
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 17:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1085EA4C7AD
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 17:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA4F10E203;
-	Mon,  3 Mar 2025 16:41:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l8eZ8Q18";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82CE910E48E;
+	Mon,  3 Mar 2025 16:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE29C10E1D8;
- Mon,  3 Mar 2025 16:41:40 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-2fe99d5f1e8so1127763a91.1; 
- Mon, 03 Mar 2025 08:41:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741020100; x=1741624900; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=47bsIKlcqHp5H3TD9jYyEu2X6naolmhs59XvhjHuXVI=;
- b=l8eZ8Q18Y6f+g/KRqstDTWdMc6REQoxaf0ND+wiEFyEIF7j2rwUedlS62263QaxDcp
- mowlfP1/X/r3PsQ2MagRP1LOM6MKbiSHQaAf5tKBwXYjz/oUmRIzAehSDkKApHw/refR
- eu+LRXVmZrlnfhk55I39bQhx6gYOoZSXW+XTjLeZ0eYi5UZjakvOvtlwFmKQpTKsyb8s
- 2VpNiFaGaf48htq5CTqxgXDDauzlYZmQLsKz4BcUgfmZ6jjO5rcslcC2sofx3PFLqHmz
- lR49/nEdGcPfOQ4iKE2tWkqDFUGBEBbd1OqxAarHERlOOBPyrJZZN314VfIaH0bCMgpm
- qvdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741020100; x=1741624900;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=47bsIKlcqHp5H3TD9jYyEu2X6naolmhs59XvhjHuXVI=;
- b=qsYzB5HsKehGJpTstvTz+VtN62bnnUjDu5EqiDf3g7nlLgrC0s5ZzwUEBjFKnCc+ZI
- ebwgv+tBCF4uVe2lSF7B97w+qqoejtC9Gx+3P8Y7Gw3huUc8cCaCvwgizT4dG+sVP2Np
- 3dqnIJgxQGw5WNeeN0eWD0mUSKqJnrWLkXUwkE9K+xlctWNd/oKWi/A41b/pNaxsbZrx
- UDa9D/zDDHaJsSz2W1l33PQ9xmUiIlk4fJFlmkQ9lDa9YvN0jlw9WUgSkj9InEdJhG6w
- +2MyAhQFioTt9yMcrpyPGcht8KyzYNkoBSsTOYfVPOQZkNFxn76dlpdzyNY4trgVX6mv
- Te+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXNc0tIcwjkKnoABIBH8U+8Tfrlb+ntR9InLOip9RnGU0MGOEDy+WXFUULLIbDFgmjvSFhURzHi@lists.freedesktop.org,
- AJvYcCXsof4w8nKamw6P8sbjNBiCGE7jy7yRxncQshHjsVndpe5sSmP3+r/sKdTAXgL151XELzJoLbEHobQA@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzatGUMOx/mEkjfQp1dpKdMljWawjHhy+yGk5C7pApO4FYfyuUv
- VHx5Z+2Gnr8o/0CnWe7q95W5x1w7mT1amHrg02tAICNQOoKpeQcuSBnL9oTqRQ/aiDqaaARyeuI
- OaluNR2JySY0aM4C5fRxv2r3nwzQkkw==
-X-Gm-Gg: ASbGnctxXk0OpcyyWt8oetkOKweHMjhpbNoattV2Onxputm+Gzr+5xXoV+dC5V/vcxv
- m0cZpuFNVSSD6/sJUM7V4LRGanLsvePp2L3SoGXAry0Rhz8mDGmi1qbDESO6V7D0DXzQSK8nguM
- G69g+Z8jg08qghmLKb38E7vyeWnw==
-X-Google-Smtp-Source: AGHT+IEAJzJpNaIfKrGq6gWR/l/GrV12fhRWU68m5gj94YkVE5KNJFVW5RIOxT9G5mqyQ2NgSg+1fySiP9uwEYuDi6s=
-X-Received: by 2002:a17:90b:38c4:b0:2fe:8fa0:e7a1 with SMTP id
- 98e67ed59e1d1-2febab2b8dcmr8430918a91.2.1741020100399; Mon, 03 Mar 2025
- 08:41:40 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F306710E48E
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 16:42:06 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93EB41BCA;
+ Mon,  3 Mar 2025 08:42:20 -0800 (PST)
+Received: from [10.1.39.33] (e122027.cambridge.arm.com [10.1.39.33])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 762113F673;
+ Mon,  3 Mar 2025 08:42:04 -0800 (PST)
+Message-ID: <f82b0996-77ea-4b1e-81c5-c3c8a48b4f95@arm.com>
+Date: Mon, 3 Mar 2025 16:42:02 +0000
 MIME-Version: 1.0
-References: <20250303143922.36342-1-linux@treblig.org>
- <20250303143922.36342-7-linux@treblig.org>
-In-Reply-To: <20250303143922.36342-7-linux@treblig.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 3 Mar 2025 11:41:28 -0500
-X-Gm-Features: AQ5f1JqMkiUo-EtSFJEpEP0sLmjYwcpl5M0qfR0G_2Hgs53cXx-WZsW_hzhnm8o
-Message-ID: <CADnq5_MmWqwgXQ5DVyp435ziPbpTE_EOhqgN6L4ZTWVXvVYtiQ@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/amdgpu: Remove unused pqm_get_kernel_queue
-To: linux@treblig.org
-Cc: alexander.deucher@amd.com, Felix.Kuehling@amd.com, 
- christian.koenig@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com, 
- siqueira@igalia.com, austin.zheng@amd.com, jun.lei@amd.com, 
- kenneth.feng@amd.com, linux-kernel@vger.kernel.org, airlied@gmail.com, 
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Update CS_STATUS_ defines to correct values
+To: Ashley Smith <ashley.smith@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250303151840.3669656-1-ashley.smith@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250303151840.3669656-1-ashley.smith@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,69 +52,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
+On 03/03/2025 15:18, Ashley Smith wrote:
+> Values for SC_STATUS_BLOCKED_REASON_ are documented at https://arm.pages.collabora.com/mali-docs/g610-odin-csf/register/CS_KERNEL_OUTPUT_BLOCK.htm#rp_CS_KERNEL_OUTPUT_BLOCK/CS_STATUS_BLOCKED_REASON
 
-Alex
+Please don't reference a URL which isn't accessible to 'normal' people
+;) Something like...
 
-On Mon, Mar 3, 2025 at 9:49=E2=80=AFAM <linux@treblig.org> wrote:
->
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> pqm_get_kernel_queue() has been unused since 2022's
-> commit 5bdd3eb25354 ("drm/amdkfd: Remove unused old debugger
-> implementation")
->
-> Remove it.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+  as documented in the G610 "Odin" GPU specification
+  (CS_STATUS_BLOCKED_REASON register)
+
+...would hopefully be enough to find the relevant documentation for
+those of us that have it.
+
+> 
+> This change updates the defines to the correct values.
+> 
+> Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
 > ---
->  drivers/gpu/drm/amd/amdkfd/kfd_priv.h               |  2 --
->  .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c  | 13 -------------
->  2 files changed, 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/=
-amdkfd/kfd_priv.h
-> index 2c22e335a02e..bc26a2609f64 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-> @@ -1363,8 +1363,6 @@ int pqm_update_mqd(struct process_queue_manager *pq=
-m, unsigned int qid,
->                         struct mqd_update_info *minfo);
->  int pqm_set_gws(struct process_queue_manager *pqm, unsigned int qid,
->                         void *gws);
-> -struct kernel_queue *pqm_get_kernel_queue(struct process_queue_manager *=
-pqm,
-> -                                               unsigned int qid);
->  struct queue *pqm_get_user_queue(struct process_queue_manager *pqm,
->                                                 unsigned int qid);
->  int pqm_get_wave_state(struct process_queue_manager *pqm,
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/dri=
-vers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-> index bd36a75309e1..2b30ed0cecb6 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-> @@ -652,19 +652,6 @@ int pqm_update_mqd(struct process_queue_manager *pqm=
-,
->         return 0;
->  }
->
-> -struct kernel_queue *pqm_get_kernel_queue(
-> -                                       struct process_queue_manager *pqm=
-,
-> -                                       unsigned int qid)
-> -{
-> -       struct process_queue_node *pqn;
-> -
-> -       pqn =3D get_queue_by_qid(pqm, qid);
-> -       if (pqn && pqn->kq)
-> -               return pqn->kq;
-> -
-> -       return NULL;
-> -}
-> -
->  struct queue *pqm_get_user_queue(struct process_queue_manager *pqm,
->                                         unsigned int qid)
->  {
-> --
-> 2.48.1
->
+>  drivers/gpu/drm/panthor/panthor_fw.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
+> index 22448abde992..4d3c8b585dcb 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
+> @@ -102,9 +102,9 @@ struct panthor_fw_cs_output_iface {
+>  #define CS_STATUS_BLOCKED_REASON_SB_WAIT	1
+>  #define CS_STATUS_BLOCKED_REASON_PROGRESS_WAIT	2
+>  #define CS_STATUS_BLOCKED_REASON_SYNC_WAIT	3
+> -#define CS_STATUS_BLOCKED_REASON_DEFERRED	5
+> -#define CS_STATUS_BLOCKED_REASON_RES		6
+> -#define CS_STATUS_BLOCKED_REASON_FLUSH		7
+> +#define CS_STATUS_BLOCKED_REASON_DEFERRED	4
+> +#define CS_STATUS_BLOCKED_REASON_RES		5
+
+NIT: The actual name is RESOURCE not RES. So if we're updating to match
+the spec we could rename it (it isn't currently used by the driver).
+
+The actual updated values are correct, so with the above fixed:
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+You might also want:
+
+Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+
+Thanks,
+Steve
+
+> +#define CS_STATUS_BLOCKED_REASON_FLUSH		6
+>  #define CS_STATUS_BLOCKED_REASON_MASK		GENMASK(3, 0)
+>  	u32 status_blocked_reason;
+>  	u32 status_wait_sync_value_hi;
+> 
+> base-commit: 16e57a72780931c3c70dbc928aeee4a0518075de
+
