@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F05EA4C397
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F642A4C393
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 15:39:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB8F10E43A;
-	Mon,  3 Mar 2025 14:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0890810E432;
+	Mon,  3 Mar 2025 14:39:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="LaFLFzVF";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ljOeIPFo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE5A10E43B;
- Mon,  3 Mar 2025 14:39:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F54710E2E5;
+ Mon,  3 Mar 2025 14:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=NCcGpHSW32vENYyHk+1Go1rb3MBFVM15qU2VwPxGLTQ=; b=LaFLFzVFca63tNHt
- MFHhSQTdHARen5gH5yOeqOLa3VG6YqaBHlCXpqlPLlpoxWXOSIn8kbhLof3VXLRZvdmv+8gQyk4rm
- 8Cc6AoVCi442tCpUZDIaJYcRReofzgvKEJUPyOL84WCBPmzUGmac9QPMCKp5tiiw87PmNiXtZ/J65
- AYiuxY5I5LdHPZmDoUTtaIplSoP9xF5ToT7bZHRYsXIqC1XHTnW3eFgADE9VLPx6ODx+CLZ9jldM1
- QhT3LP6VBaYQcPqsXL2kjaqpF4E1dt6tiZikN4RcJ3XEgZFdFwBdY/CSI4sSzTMbRSBsBJLERL68b
- +nunWdvbPnbLp6Px9g==;
+ :Subject; bh=zcWTq0+tIXCR7i1Bn8SpUwbeuy7hHsMrsLtvUfkNYic=; b=ljOeIPFoWhayaeSJ
+ rHzpOtXpgkuRPEiKmG2zVC85wjomyNbcZ6lGe2Luo+7Vs5YvEcwxRqVn3fNs+ZJ048QDCVk7+g22f
+ bvlZCLpvIaz19Atyeix5qtly+EMyojwJOzjHhe+gzVPNPPsvK3w7QHwE0c/fBu3Q7iwYLIQXVWp7z
+ 0KLfyg1j5o6Zrt1p5GBJ0r3x76+D/r8wRSWGJEZFaRSYxtcvVtMIm7U3RTwtDeGnYaEQUEf6PbpVe
+ g7LjIQQ1uvnHNRfpSwXhfbs1Gx+Q/yGZoHUrxFdF7/tRdKv2nQzRpBPxp2r0cnn70NqZvnWLo0vjE
+ rNw364LqKRK1RqZdlA==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1tp6x2-0028PG-19;
- Mon, 03 Mar 2025 14:39:24 +0000
+ (envelope-from <linux@treblig.org>) id 1tp6x3-0028PG-0W;
+ Mon, 03 Mar 2025 14:39:25 +0000
 From: linux@treblig.org
 To: alexander.deucher@amd.com, Felix.Kuehling@amd.com,
  christian.koenig@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
@@ -36,9 +36,9 @@ To: alexander.deucher@amd.com, Felix.Kuehling@amd.com,
 Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 1/6] drm/amdgpu: Remove ppatomfwctrl deadcode
-Date: Mon,  3 Mar 2025 14:39:17 +0000
-Message-ID: <20250303143922.36342-2-linux@treblig.org>
+Subject: [PATCH 2/6] drm/amdgpu: Remove phm_powerdown_uvd
+Date: Mon,  3 Mar 2025 14:39:18 +0000
+Message-ID: <20250303143922.36342-3-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250303143922.36342-1-linux@treblig.org>
 References: <20250303143922.36342-1-linux@treblig.org>
@@ -61,123 +61,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-pp_atomfwctrl_get_pp_assign_pin() and pp_atomfwctrl_get_pp_assign_pin()
-were added in 2017 by
-commit 0d2c7569e196 ("drm/amdgpu: add new atomfirmware based helpers for
-powerplay")
-but have remained unused.
+phm_powerdown_uvd() has been unused since 2017's
+commit 47047263c527 ("drm/amd/powerplay: delete eventmgr related files.")
 
-Remove them, and the helper functions they used.
+Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- .../drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.c | 78 -------------------
- .../drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.h |  3 -
- 2 files changed, 81 deletions(-)
+ .../gpu/drm/amd/pm/powerplay/hwmgr/hardwaremanager.c   | 10 ----------
+ drivers/gpu/drm/amd/pm/powerplay/inc/hardwaremanager.h |  1 -
+ 2 files changed, 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.c
-index 82d540334318..6120f14caab0 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.c
-@@ -158,84 +158,6 @@ int pp_atomfwctrl_get_voltage_table_v4(struct pp_hwmgr *hwmgr,
- 	return result;
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/hardwaremanager.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/hardwaremanager.c
+index 90452b66e107..a59677cf8dfc 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/hardwaremanager.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/hardwaremanager.c
+@@ -149,16 +149,6 @@ int phm_apply_clock_adjust_rules(struct pp_hwmgr *hwmgr)
+ 	return 0;
  }
  
-- 
--static struct atom_gpio_pin_lut_v2_1 *pp_atomfwctrl_get_gpio_lookup_table(
--		struct pp_hwmgr *hwmgr)
+-int phm_powerdown_uvd(struct pp_hwmgr *hwmgr)
 -{
--	const void *table_address;
--	uint16_t idx;
+-	PHM_FUNC_CHECK(hwmgr);
 -
--	idx = GetIndexIntoMasterDataTable(gpio_pin_lut);
--	table_address =	smu_atom_get_data_table(hwmgr->adev,
--			idx, NULL, NULL, NULL);
--	PP_ASSERT_WITH_CODE(table_address,
--			"Error retrieving BIOS Table Address!",
--			return NULL);
--
--	return (struct atom_gpio_pin_lut_v2_1 *)table_address;
--}
--
--static bool pp_atomfwctrl_lookup_gpio_pin(
--		struct atom_gpio_pin_lut_v2_1 *gpio_lookup_table,
--		const uint32_t pin_id,
--		struct pp_atomfwctrl_gpio_pin_assignment *gpio_pin_assignment)
--{
--	unsigned int size = le16_to_cpu(
--			gpio_lookup_table->table_header.structuresize);
--	unsigned int offset =
--			offsetof(struct atom_gpio_pin_lut_v2_1, gpio_pin[0]);
--	unsigned long start = (unsigned long)gpio_lookup_table;
--
--	while (offset < size) {
--		const struct  atom_gpio_pin_assignment *pin_assignment =
--				(const struct  atom_gpio_pin_assignment *)(start + offset);
--
--		if (pin_id == pin_assignment->gpio_id)  {
--			gpio_pin_assignment->uc_gpio_pin_bit_shift =
--					pin_assignment->gpio_bitshift;
--			gpio_pin_assignment->us_gpio_pin_aindex =
--					le16_to_cpu(pin_assignment->data_a_reg_index);
--			return true;
--		}
--		offset += offsetof(struct atom_gpio_pin_assignment, gpio_id) + 1;
--	}
--	return false;
--}
--
--/*
-- * Returns TRUE if the given pin id find in lookup table.
-- */
--bool pp_atomfwctrl_get_pp_assign_pin(struct pp_hwmgr *hwmgr,
--		const uint32_t pin_id,
--		struct pp_atomfwctrl_gpio_pin_assignment *gpio_pin_assignment)
--{
--	bool ret = false;
--	struct atom_gpio_pin_lut_v2_1 *gpio_lookup_table =
--			pp_atomfwctrl_get_gpio_lookup_table(hwmgr);
--
--	/* If we cannot find the table do NOT try to control this voltage. */
--	PP_ASSERT_WITH_CODE(gpio_lookup_table,
--			"Could not find GPIO lookup Table in BIOS.",
--			return false);
--
--	ret = pp_atomfwctrl_lookup_gpio_pin(gpio_lookup_table,
--			pin_id, gpio_pin_assignment);
--
--	return ret;
--}
--
--/*
-- * Enter to SelfRefresh mode.
-- * @param hwmgr
-- */
--int pp_atomfwctrl_enter_self_refresh(struct pp_hwmgr *hwmgr)
--{
--	/* 0 - no action
--	 * 1 - leave power to video memory always on
--	 */
+-	if (hwmgr->hwmgr_func->powerdown_uvd != NULL)
+-		return hwmgr->hwmgr_func->powerdown_uvd(hwmgr);
 -	return 0;
 -}
 -
- /** pp_atomfwctrl_get_gpu_pll_dividers_vega10().
-  *
-  * @param hwmgr       input parameter: pointer to HwMgr
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.h
-index e86e05c786d9..0d62903d5676 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.h
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomfwctrl.h
-@@ -217,9 +217,6 @@ struct pp_atomfwctrl_smc_dpm_parameters {
- int pp_atomfwctrl_get_gpu_pll_dividers_vega10(struct pp_hwmgr *hwmgr,
- 		uint32_t clock_type, uint32_t clock_value,
- 		struct pp_atomfwctrl_clock_dividers_soc15 *dividers);
--int pp_atomfwctrl_enter_self_refresh(struct pp_hwmgr *hwmgr);
--bool pp_atomfwctrl_get_pp_assign_pin(struct pp_hwmgr *hwmgr, const uint32_t pin_id,
--		struct pp_atomfwctrl_gpio_pin_assignment *gpio_pin_assignment);
+-
+ int phm_disable_clock_power_gatings(struct pp_hwmgr *hwmgr)
+ {
+ 	PHM_FUNC_CHECK(hwmgr);
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/hardwaremanager.h b/drivers/gpu/drm/amd/pm/powerplay/inc/hardwaremanager.h
+index f4f9a104d170..915f1b8e4dba 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/inc/hardwaremanager.h
++++ b/drivers/gpu/drm/amd/pm/powerplay/inc/hardwaremanager.h
+@@ -396,7 +396,6 @@ struct phm_odn_clock_levels {
+ };
  
- int pp_atomfwctrl_get_voltage_table_v4(struct pp_hwmgr *hwmgr, uint8_t voltage_type,
- 		uint8_t voltage_mode, struct pp_atomfwctrl_voltage_table *voltage_table);
+ extern int phm_disable_clock_power_gatings(struct pp_hwmgr *hwmgr);
+-extern int phm_powerdown_uvd(struct pp_hwmgr *hwmgr);
+ extern int phm_setup_asic(struct pp_hwmgr *hwmgr);
+ extern int phm_enable_dynamic_state_management(struct pp_hwmgr *hwmgr);
+ extern int phm_disable_dynamic_state_management(struct pp_hwmgr *hwmgr);
 -- 
 2.48.1
 
