@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905C8A4B8AA
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FC3A4B8AF
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 09:06:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC06C10E0F3;
-	Mon,  3 Mar 2025 08:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F67810E146;
+	Mon,  3 Mar 2025 08:06:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="DdEDcw+m";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="P2Vyh8T8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D6D10E0F3
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:05:04 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4398ec2abc2so36815415e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:05:04 -0800 (PST)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC59E10E146
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 08:06:03 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-390effd3e85so2744466f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 00:06:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1740989103; x=1741593903;
+ d=google.com; s=20230601; t=1740989162; x=1741593962;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pBB9+bS3IdAEw2Zo9wy+KIRO8+GAYmgN6Dv1bAKxGKQ=;
- b=DdEDcw+mkPy+mr1dnXCCzzkIZEVZ9HZy9ARFsvo6yU0M8Un5t9s/EqCdFyQ4ZtWDjJ
- TGJZ6GINDHobJQXyq+IbT9K1fG1KvfVkNoNm8jDDmTDU+2dnatk8jVanceji3oLlm+jY
- ZfulAXIdZOCf2S9FNbWXXZ118UheIwVmh8yfpaqpql0a6FMT94Czb3sKlBiMjVr2Me4Q
- /VHTxaFX3NYWmSM2i6JXUscMPqZfB67cQrpcGgg1h47oIHhkiWsj/3HLFvP5He9RMOfH
- odWygml5GGJd+NoUYCertQ43Vc970qA+7BlrAcBqlwLYGbMz+VcblnfSG731K8BWng7f
- t92g==
+ bh=X0iUVs2ZQh+M1rl5kLkJ/YPcqr6UkD+Cttj33+uPFnc=;
+ b=P2Vyh8T8gSIsEEy+kfFdY8mtlHLUeNTgaYDaN+dBI5QOqFnx8tGnE97yA/NrIHfCmu
+ j4PlT36MNM2SouMK5rB2DXnO55O3jDUrIhuGA2C0gRhStIFxNKjRjjBZ148i2zar5RtY
+ kg1+47B3LRGu/f8XmEIH7mcmQZvIL5azEPa/zhns0NCpmk3BWBkc67uIHVH3jUkQ2qb5
+ eihp0HlBElgEQgH4wODej/7VOQG+TfX5HF8BZk3D5AQ9VHZ4xdHEp/dj7V64ikWMl62r
+ s9pg/hFRtx+JWcLl08pnRnggyV5wjIdVh6GntAD7i40Tnu2l0t9oZHOam6KtDeaHTh+K
+ guAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740989103; x=1741593903;
+ d=1e100.net; s=20230601; t=1740989162; x=1741593962;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pBB9+bS3IdAEw2Zo9wy+KIRO8+GAYmgN6Dv1bAKxGKQ=;
- b=Ovdj38X9QJMXsIHG74ZUxOUqpT9HdDrDdMD/kB03RYSorljsZ6soqC+Egms+YA2QVN
- aYqYXGshVESyO6nxzgIDET7brhplY9JksmxaSWyPu7qxakQyHfBZXpi4w4yojuoh9kuW
- WkOB3WeEE3ScbG5GALL1578qyk9BLRTTPWYyHdMg5MJzt5fgOzRIkSRxOwWV4+o02AYE
- JKIjdrXCh0N7xMJ6ky5k9tY4SnUzklbRBOAmfEal/lt0YwqndvyOo2tR7G7UksyqC8+J
- M+Zz4vvZxKCxAP2UU9XGOzWDRLSaJiUGsXr30aKWJd2IcIrMQJMYnHRzx1V0HHtxMKkp
- OcRw==
+ bh=X0iUVs2ZQh+M1rl5kLkJ/YPcqr6UkD+Cttj33+uPFnc=;
+ b=w3VlA8rNRD0/PbxreIFvbj6vkJcWeEReVJXeEQA+WIKaAJNixmF+yMLh0dKQCvlJVJ
+ NbYcnunLDiIXOda+yxnkOaVXUiAyUbw+1qCvAe54MjY19Zj9PR+bCB21PWLDEGFH7W04
+ GYrWjifBJlLfILcUsvJfpLBe7TZ65GIuICBzR9PbMlYMZ7B/UAbKr0gLB7b3g3JMEfOh
+ WesT8xOsJSXfY178EdkVDLrCAiX/iQHL6PvKZXidHdTeZOq2xGaeUj/56yEr3s0pCvbE
+ 0CCdDmCNbim3TKYxbnVwoPdH1PKGQ+EucwAhOTUdkgG6sQtzckbQlL74yOI4OdqKXza7
+ 5U0w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/kGgphbuUosUTaziWkghkCdaBctEZz2BHs+g1WegF/MspFEt8nuMDpFHhHdQOHU51ZMlK2wtnfdI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVcjg92p9fRNB6oCXZBlnk95pABJBt1J7RiOMNkQaWfilSKmTN
- hxxLeukZsRWgyH2zQ3km9eqh0NE58jJSQ0t7/NKexiZOoxQJMnRzpJqHCA88ItKMoId3fQ4T5Su
- DMWnLzQpcFDkvCw77iT0dw+PI1OM/hvirhzGe
-X-Gm-Gg: ASbGncuBa4IRwZXzMnBv46zI8H680LdCdiIJvxPEmOmpKJcMKIVxxW05b5Un9y1My00
- 81pXdoa2AXxWLgIULJ9iVy7K7q8QJdvF7FHhahBKicgqPkjpDT2/TzdILjbQnBQ7B7GDLkIrjiq
- 1975vM7+VyGsmRF0bqghZYVpS8JoHySYA8kiIu90QNlUBnqYbNTSLcu+sc
-X-Google-Smtp-Source: AGHT+IGpdxgjf0gkSNOiBqhKXbQc9hRhwlo2W/nTX9MqGqqFdt/JgT25MM6r5uWJ1chlgrzzP+QlZYMm6vZ2gmLXFNk=
-X-Received: by 2002:a05:600c:3b24:b0:439:9496:17df with SMTP id
- 5b1f17b1804b1-43ba66fee15mr102753595e9.13.1740989102617; Mon, 03 Mar 2025
- 00:05:02 -0800 (PST)
+ AJvYcCWtC+tZfPyCJ619qQQ6mclijpLY4QtLxuUQ+2Cn026xAxm3B0NhCQnkJ049CicwF3GNCg0vACbei4Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz36yIp848e7HGievzy0erPz3iE1D5Og9cnI9sWN/V0y7wPfxXW
+ Bw/L/Y0G5gA/BGq60Eg+8Xp/z2ovqdiuTxg64ztz9zYpGka6RAQnPsKxTPcUDeEML9Jrd7BKEEJ
+ V25/0pk80DKtjWqNtzlCy6LEtq5wSSUxOxjre
+X-Gm-Gg: ASbGncsdNunujdrVsyG044O7wygQs49CS3oU43OkgMjCEz0o4/h0g/vbSFKzwxCIL23
+ ybrWxLcHq4FGfd6QEB4RrZEv+vqu4mVeEZKFLNpD+WQXnrp+GGoqxZR+NNAb+Ho4KSDRV8q3qSk
+ 54ZNRwUFDTE9UcmkDJ4fH2exM9uHLUC6DYILvUjBy6vM4KCdvr4On3Q/EP
+X-Google-Smtp-Source: AGHT+IEk6318AFfc1LcVsJJ84wt3g9PnbPRWzDdM7m2/xTI/OwzWoyIK3cmNaUT7+G0p9cZPZuhg9T+sy8bKgxhf/+k=
+X-Received: by 2002:a5d:5f91:0:b0:38f:3c8a:4bf4 with SMTP id
+ ffacd0b85a97d-390ec7cd27fmr9441896f8f.6.1740989162420; Mon, 03 Mar 2025
+ 00:06:02 -0800 (PST)
 MIME-Version: 1.0
 References: <20250301231602.917580-1-ojeda@kernel.org>
- <20250301231602.917580-2-ojeda@kernel.org>
-In-Reply-To: <20250301231602.917580-2-ojeda@kernel.org>
+In-Reply-To: <20250301231602.917580-1-ojeda@kernel.org>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 3 Mar 2025 09:04:50 +0100
-X-Gm-Features: AQ5f1Jo80hSF1L-_KjqVRtXigJWOzdDSnpQhkOp567xZ9U8afL5p9lZs6wbyFLU
-Message-ID: <CAH5fLggKXw-SCtR_vAOAU8KJaAvmNP20egmtV8KmX0xV0DA0dA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panic: fix overindented list items in
- documentation
+Date: Mon, 3 Mar 2025 09:05:49 +0100
+X-Gm-Features: AQ5f1JrxAQw0Rq7Ilhd1yFsj2dY9VjMUraWB3QJMgYSvaEWDQVWq8PuNQusYF1c
+Message-ID: <CAH5fLgjhMfk1vZCc242vKYnTN13Ss23VhVhaAjwU67Z5qhP9mA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/panic: use `div_ceil` to clean Clippy warning
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Jocelyn Falempe <jfalempe@redhat.com>,
  =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>, 
@@ -102,21 +100,24 @@ te:
 > Starting with the upcoming Rust 1.86.0 (to be released 2025-04-03),
 > Clippy warns:
 >
->     error: doc list item overindented
->        --> drivers/gpu/drm/drm_panic_qr.rs:914:5
+>     error: manually reimplementing `div_ceil`
+>        --> drivers/gpu/drm/drm_panic_qr.rs:548:26
 >         |
->     914 | ///    will be encoded as binary segment, otherwise it will be =
-encoded
->         |     ^^^ help: try using `  ` (2 spaces)
+>     548 |         let pad_offset =3D (offset + 7) / 8;
+>         |                          ^^^^^^^^^^^^^^^^ help: consider using =
+`.div_ceil()`: `offset.div_ceil(8)`
 >         |
 >         =3D help: for further information visit https://rust-lang.github.=
-io/rust-clippy/master/index.html#doc_overindented_list_items
+io/rust-clippy/master/index.html#manual_div_ceil
 >
-> The overindentation is slightly hard to notice, since all the items
-> start with a backquote that makes it look OK, but it is there.
+> And similarly for `stride`. Thus apply the suggestion to both.
 >
-> Thus fix it.
+> The behavior (and thus codegen) is not exactly equivalent [1][2], since
+> `div_ceil()` returns the right value for the values that currently
+> would overflow.
 >
+> Link: https://github.com/rust-lang/rust-clippy/issues/14333 [1]
+> Link: https://godbolt.org/z/dPq6nGnv3 [2]
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
