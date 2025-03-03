@@ -2,98 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42734A4BAFC
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 10:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7691FA4BB08
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Mar 2025 10:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6C8810E3A8;
-	Mon,  3 Mar 2025 09:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568FA10E3AB;
+	Mon,  3 Mar 2025 09:44:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ad9CTKT1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VMM5U53P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F19910E3A8
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 09:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1740994944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MBVVdo3tOVYaEl+zgFn8dQqxk+vyBv3FmhJQbHVALgc=;
- b=Ad9CTKT1C5RNt5mN31DOPTZzsar50zRlv0pcZ+VOnvDXxFVSIFfwwLKW856GCSZVRjwq1Q
- GoVnG4LL8xzvN6fCFb89ZHwULgmKLciW8OCCFZc2jyQWxMmVdaWNuLzvAFKj9K0wkcvID6
- By2DgvootjDcTylkagJrPRoYvqQk2zY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-316-HKWpuq4lN9uzTZjXR_5Amw-1; Mon, 03 Mar 2025 04:42:13 -0500
-X-MC-Unique: HKWpuq4lN9uzTZjXR_5Amw-1
-X-Mimecast-MFC-AGG-ID: HKWpuq4lN9uzTZjXR_5Amw_1740994932
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-4394040fea1so20467935e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 01:42:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1740994932; x=1741599732;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MBVVdo3tOVYaEl+zgFn8dQqxk+vyBv3FmhJQbHVALgc=;
- b=vbnqkaeMcNoE6a8XU1fal/+bE/wEs8b2BQsL0frdUDW/bL5np8VfsXYkh78S3WM/4B
- O3/qALhWmF+m6ZO+e5kfnPDd88v/i/0mLB7YFSxg7jrnTkkoSaYQqEcO+JQ7YrGDG+WL
- ASwCZ88U6+8iEoDW2Zq6xwTqqWO0wlk4OvjgTcKRnJuvJa1ufFDYqffX7Bm8WF5VaWbR
- p+rzq8Eu+hdrWy34r6Ohc1hYVBiDr2WS//jEMNCaa3clwMX8KmkxvoD3evh8EWbcv4js
- mTJb0KLvsSvzv12sTXLr5+xon+Io3XI4hXKknml2ZKg4KgSkTAU0omBnyaA1aqm0An1y
- k3XA==
-X-Gm-Message-State: AOJu0Yxezh2I+3gm/eFm73Atvj41szhxji9g7bBQMBBJOqLLFYqQlv50
- CDeXp0lHtUSvkANJF2AkwyL1UdhX6PQxlQXmEVEoqvFeCDxrUBm5fqbqQphSl6ZfRIdc1Pl61g2
- IGx3kLGfdnGDmYIOGX6cLP7e1nlaJDNfsyNWyYbcMOQ5W0J5oh2OROLU0ex2tigB6zg==
-X-Gm-Gg: ASbGncuU6+bb8jdhgOdqCSFitLNEv1+T5O740zVinPKZaBO6BZsoTMIPyAu3UIMXfOm
- NngQYCVCiJ9W31W+oryWdgo+XO+QQlN5OYJkfz+mfygcrzkAWvKvWVX6lg6LWj5fHurlNLAuUF7
- 4M457bHKt8jv4478ICD8mKcsU6PGvvFYEuAbyKaIkhjTvoZEJ/ztQnfXUHcS53X2UkNOCKLMZY4
- jV67IsdElpu9AalVzT8LwBbywYqkbfY0UCzAyVYOqPNdpj+wtnKrvgEBq9AFZ+kTIkhQtudHJaV
- DeShVEUETEooSf9gU2laVEOf1h1Ewy0P+CUNH075jAqBt1gkTnRu0mk=
-X-Received: by 2002:a05:600c:b4f:b0:43b:c638:3433 with SMTP id
- 5b1f17b1804b1-43bc63837a3mr9723125e9.12.1740994932369; 
- Mon, 03 Mar 2025 01:42:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFDYmizeCfEPwnub6ZUt8HoyBNoVBgCgnBfss7JKJMNfK/DcWCCY9SyISgPNOR5yKhrWm25LA==
-X-Received: by 2002:a05:600c:b4f:b0:43b:c638:3433 with SMTP id
- 5b1f17b1804b1-43bc63837a3mr9722845e9.12.1740994931899; 
- Mon, 03 Mar 2025 01:42:11 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-390e47a6a6csm14062502f8f.30.2025.03.03.01.42.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Mar 2025 01:42:11 -0800 (PST)
-Message-ID: <739acf08-6978-41f3-a4db-724acc03ba06@redhat.com>
-Date: Mon, 3 Mar 2025 10:42:10 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C31F10E3AB
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Mar 2025 09:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1740995065; x=1772531065;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=kmhsLwMr92wvj2tVECupC4kokl7bd6tIGb3uxMKfJE8=;
+ b=VMM5U53PGgU1mK4TIncwmAlqkAo8P2voFeFoYNWMAYZjsb5pwBPtqcYd
+ FnFZootROl7CpiC0Tkp80BNAKYSHggGfSWMsMgfIzHDnuqgmxHBTEEL6S
+ wmpcy4k06tvphB4fJSDbaN6TYlSxZqI/+yG+JJHPSqDVxdukw+p24m0I2
+ 2L79DyiF/+r6SFjJaQTWSVh1kFSwi+MpR2YNKM09xL6J2NAaIwV3Qn4rq
+ 6ZUar4jLcPlIRTafG8cU9DYFNK2eCVpAGfP4Dmf3oCu6LvIG4VOHqPfzx
+ kJZIwi5kEKwIr3A5jsCGK8L5664u2r4dCtvYvVcbWmYGguDQAAfk5878S A==;
+X-CSE-ConnectionGUID: 722eRrhySeCty/5u14Z9sQ==
+X-CSE-MsgGUID: hJHmfWRiT5qr7vb4EO4AVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="42053474"
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="42053474"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2025 01:44:24 -0800
+X-CSE-ConnectionGUID: ROUhzQPRTdCNvSTFl2lcFA==
+X-CSE-MsgGUID: VPLDbsH0QDCXq7V8Ys0EwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; d="scan'208";a="117754741"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2025 01:44:22 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tp2LU-0000000Glpd-08fZ; Mon, 03 Mar 2025 11:44:20 +0200
+Date: Mon, 3 Mar 2025 11:44:19 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Raag Jadav <raag.jadav@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Cleanup io.h
+Message-ID: <Z8V587DSa1VE_BO3@smile.fi.intel.com>
+References: <Z8CD33_OWK2LB6IZ@smile.fi.intel.com>
+ <0011035a-5816-48c4-9fe4-c0b9db3c8e72@app.fastmail.com>
+ <Z8H1Y2_RlFnXeNEa@black.fi.intel.com>
+ <Z8IDXD2bkO1t71yB@smile.fi.intel.com>
+ <Z8IDgmrLx5DQADxJ@smile.fi.intel.com>
+ <Z8IERmwHXUuJoD4S@black.fi.intel.com>
+ <Z8IGA821OAgYN-K1@smile.fi.intel.com>
+ <Z8IJn7dp4gypnoyz@black.fi.intel.com>
+ <Z8Ve1CQQQAz2le0a@smile.fi.intel.com>
+ <fa3b2ef5-e2f8-473f-9e9c-c855d70230cf@app.fastmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panic: clean Clippy warning
-To: Miguel Ojeda <ojeda@kernel.org>, =?UTF-8?Q?Thomas_B=C3=B6hler?=
- <witcher@wiredspace.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Gaynor <alex.gaynor@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev
-References: <20250303093242.1011790-1-ojeda@kernel.org>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250303093242.1011790-1-ojeda@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 6cf7TURz0k82H8wIV4yQ7NOzXo77JxdTvEplJbYuUxU_1740994932
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fa3b2ef5-e2f8-473f-9e9c-c855d70230cf@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,43 +83,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/03/2025 10:32, Miguel Ojeda wrote:
-> Clippy warns:
+On Mon, Mar 03, 2025 at 09:31:06AM +0100, Arnd Bergmann wrote:
+> On Mon, Mar 3, 2025, at 08:48, Andy Shevchenko wrote:
+> > On Fri, Feb 28, 2025 at 09:08:15PM +0200, Raag Jadav wrote:
+> >> > > > Ah, you mean devres related?
+> >> > > 
+> >> > > Yeah, couldn't find it on Arnd's tree and I'm not sure if this series
+> >> > > works without it.
+> >> > 
+> >> > But err.h is included in the io.h, no? Or did I misunderstand the point?
+> >> 
+> >> First patch on the immutable tag moves IOMEM_ERR_PTR() to err.h and here
+> >> we're dropping err.h from io.h. So without the tag this series will probably
+> >> break IOMEM_ERR_PTR().
+> >
+> > I see, I think it might be due to some other includes that make this happen.
+> > Whatever, I assume that Arnd heavily tested this anyway, so it's good to go
+> > independently on the immutable tag..
 > 
->      error: manual implementation of an assign operation
->         --> drivers/gpu/drm/drm_panic_qr.rs:418:25
->          |
->      418 |                         self.carry = self.carry % pow;
->          |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: replace it with: `self.carry %= pow`
->          |
->          = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#assign_op_pattern
+> I see that err.h gets included through at least linux/string.h,
+> linux/logic_pio.h and (depending on the architecture architectures)
+> asm/page.h, so there is no huge risk of something breaking here ;-)
 > 
-> Thus clean it up.
+> Ideally all of the above should be removed here, but to do
+> it right, the linux/pgtable.h dependency needs to also be replaced
+> with a smaller pgprot_t specific one, which takes a bit of
+> cross-platform work as the definition is not in a consistent
+> place at the moment.
+> 
+> The change below still builds fine, and that likely indicates
+> that the same headers are still included from either asm/io.h
+> or asm/pgtable.h on the architectures I'm testing.
 
-Thanks, it looks good to me.
+Sounds even better. Can you submit a formal patch that other CIs will have
+a chance to go through this?
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> 
-> Fixes: dbed4a797e00 ("drm/panic: Better binary encoding in QR code")
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->   drivers/gpu/drm/drm_panic_qr.rs | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-> index 62cb8a162483..3b0dd59781d4 100644
-> --- a/drivers/gpu/drm/drm_panic_qr.rs
-> +++ b/drivers/gpu/drm/drm_panic_qr.rs
-> @@ -415,7 +415,7 @@ fn next(&mut self) -> Option<Self::Item> {
->                           self.carry_len -= out_len;
->                           let pow = u64::pow(10, self.carry_len as u32);
->                           let out = (self.carry / pow) as u16;
-> -                        self.carry = self.carry % pow;
-> +                        self.carry %= pow;
->                           Some((out, NUM_CHARS_BITS[out_len]))
->                       }
->                   }
-> 
-> base-commit: c0eb65494e59d9834af7cbad983629e9017b25a1
 
