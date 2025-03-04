@@ -2,103 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358E8A4D493
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 08:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29A3A4D4BC
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 08:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D8310E232;
-	Tue,  4 Mar 2025 07:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05C1910E508;
+	Tue,  4 Mar 2025 07:20:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A6JYNGcl";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="MOu4Ok1I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5AE910E232
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 07:17:36 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-60029342c98so113803eaf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 23:17:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741072656; x=1741677456; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zzHbHM5F2Rwe7GWQtoT/vBL3j3IgEpxjxlyoiFn8SsI=;
- b=A6JYNGclXna3pODxdQk5VoLhxUiO2qq0xgthDrbg8/jeNoVALzkg4u4+a9RGUwyYfU
- dsyLU6Pdtoj7xa4gkc8avr7swCtNV+EWGZpkwF41U5Qn4tDnCFwtUqikUoP9sTHV9SxI
- 4rvk7spUdMOhsDYl7jfzvnsVazNtYX/eE1ZrCt/7QSR2rkGHnIpkZD0mMOTRU3FrFTo2
- pJ9TvOO4B9FUQ9SgJimxggOG/orVLdB5t3kNjCQeQTfGPggSXJ1XdES7OI5RNGwkMaj5
- cNQk4N3pcsEx84oeA/V7gqAViDHWWLM05lGsc4qZOvZ2kwiVNWTa32zJ6MLMig0OMUey
- uHHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741072656; x=1741677456;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zzHbHM5F2Rwe7GWQtoT/vBL3j3IgEpxjxlyoiFn8SsI=;
- b=aas6TtkklTH8fCfx00ZwTS6wjYq3fEFNiap5MJ5PDglZEXpWMXv6P7XjhMaxCvQRci
- L9PcKPeqnGFy3Or2hci2KusOMA0NbJNmQDOlVug3WDBv9AYPR5TWf0Ki9qjatFg0yiqB
- 81Kcb0+5A9/UPLNY/mBJmb2oiccIXSLrUPM5x8Liz8JN2znAlxaMUCsTSyWquBUHKTXZ
- 92qyTyPthckl6OarEqRvZhyZVNJwI+Q5ljSeM+TZ/aE6I/7Pmr61J4x0p85KDb6i2QCv
- mXZ+f8rDV2kvg0eB+PZissPoa1QFo2Ecfq0XGoZpyJqSOvkRjgApEWAbk/d6LruPYMBu
- tDjA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVTP3mSALHHncxlR9UWzkjVlzA8ivH/07PXKrUy/EKkAvefW8mS7MxnQkXCe4RQ2DZrrUr0R3FKvDc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzU/OXRljLhGD+cKInLnf7VvAD449XJB1nGd9u3NP7xTfnrRfH8
- m2bBSKBwk78Iw6mWxqs8p4r328jjN8+exFh+LFdcVrZRiUQtCKw9DIg2jaIf/kWk5YDzUb1NeSa
- 6/xTobUbwYTNoda4Ul9Ad/yhpX2neZDZ0zOeUmg==
-X-Gm-Gg: ASbGncucZFtmamvNXLz8OOPNf1/df8cSXYWYDJhlbefxOSqAAHYM++1ZwzBGD1WHAtr
- cICshFX1CBsuZEbJF8+WGvfk4UgaJrqrt7iG+TYQ2JJ3VVGTDQhZIh0HR48iqhJ0aqyNnlJPXDu
- DWKjnJUKSX/JZjT0UyKFilqS5jnYM=
-X-Google-Smtp-Source: AGHT+IGeWth+Ec7HvnFz4HF064DwKqNeMXOfgif6GoecOEfs8x2Q7Fc7PxDdZ1yzepEKq7Z5LS0hsWXFxueHCzU4cFY=
-X-Received: by 2002:a05:6820:2217:b0:5fc:e323:785e with SMTP id
- 006d021491bc7-5feb360c2c2mr8620716eaf.5.1741072655731; Mon, 03 Mar 2025
- 23:17:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20250212205613.4400a888@collabora.com>
- <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
- <20250213093557.278f5d19@collabora.com>
- <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
- <20250213134008.4cbef142@collabora.com>
- <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
- <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
- <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
- <CAHUa44Gs0D1fBD0=+EDgcQUMeDv4knci9trUkYEc1J98qFV7HQ@mail.gmail.com>
- <CAFA6WYOuTwRPEh3L7+hMyARB_E73xmp+OwhKyS-r4+ryS7=9sw@mail.gmail.com>
- <20250214164856.0d2ead8a@collabora.com>
- <CAFA6WYPc6EHQwcPuMZRm4C1P6SoDrCzEPUmju_meupB6NXQ1sg@mail.gmail.com>
- <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
- <CAFA6WYMLLLSuz3y5J+DuRFAGrmwpZoWax5sasfAUhXoQXmrNNA@mail.gmail.com>
- <CAPj87rN7J6u9NsviAdw8=OenEYc8t719Lds6u6-BhFKrtkLZ-A@mail.gmail.com>
-In-Reply-To: <CAPj87rN7J6u9NsviAdw8=OenEYc8t719Lds6u6-BhFKrtkLZ-A@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 4 Mar 2025 08:17:23 +0100
-X-Gm-Features: AQ5f1JrEtCh2L2kJC0WD3IbY9SZ2HYIAKqjRP2-ff7KQiuotp3pduZ0dOaK3kQU
-Message-ID: <CAHUa44FkG1NAWpoW8UVBywv44XW_mjAJa32PcC9mcmiOLdiRqw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Sumit Garg <sumit.garg@linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8858010E237
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 07:20:48 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Z6Rt51s64z9smW;
+ Tue,  4 Mar 2025 08:20:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1741072845; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=16VzzGwJw+vlypPew6Lma6H1CAwePCVYAS7VBqnGBEI=;
+ b=MOu4Ok1I85gNmht38GtFiVpG9JYQFCvdFqp/c7J8lD5mEI5yASxT3T0Y9jUWxfD+iGOKu6
+ whbqbXs6oniS2go2veFcC8ZUif+vE37Gbb0a0kxxMDXY8+NuL6eltv2COqvizSwmOKuSDQ
+ 1ta5SHwjXUdY23LOZ6gtma1rzPU28rNTC2dW8enTSfdGSalz2YTugNlGQ08E22pP+cD+yo
+ jM9MomzKWUSN1uu0q1ooFvI5XByPkdi1V1bwVu1y3F9AG2zAtfd2x8+m062lw5O1Ee9XN1
+ jQH2rimBqvMWNFrfZETGEliGAkDntP+AbtSjFIrQRWiqi+uiS/9hEL1ew0QEnQ==
+Message-ID: <d9b5c6935021e29de611df77f61955fa0497a249.camel@mailbox.org>
+Subject: Re: [PATCH v2 2/5] drm/scheduler: Add scheduler unit testing
+ infrastructure and some basic tests
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, 
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>
+Date: Tue, 04 Mar 2025 08:20:41 +0100
+In-Reply-To: <c7734929-9a9c-4f10-a8ff-1c5391e6e60d@igalia.com>
+References: <20250221120917.80617-1-tvrtko.ursulin@igalia.com>
+ <20250221120917.80617-3-tvrtko.ursulin@igalia.com>
+ <3bac3046d3d6b4c7debfe5d822cd8bc5015b3f32.camel@mailbox.org>
+ <c7734929-9a9c-4f10-a8ff-1c5391e6e60d@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-ID: a8cdf5cf154f5a19ef6
+X-MBO-RS-META: 5nxtpesusi9uk9gn75gstjeu6q4hmezz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,159 +66,1133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Mon, 2025-03-03 at 15:53 +0000, Tvrtko Ursulin wrote:
+>=20
+> On 03/03/2025 11:38, Philipp Stanner wrote:
+> > Sry for being late to the party, am a bit busy with defusing my own
+> > dynamite <.<
+> >=20
+> > On Fri, 2025-02-21 at 12:09 +0000, Tvrtko Ursulin wrote:
+> > > Implement a mock scheduler backend and add some basic test to
+> > > exercise the
+> > > core scheduler code paths.
+> > >=20
+> > > Mock backend (kind of like a very simple mock GPU) can either
+> > > process
+> > > jobs
+> > > by tests manually advancing the "timeline" job at a time, or
+> > > alternatively
+> > > jobs can be configured with a time duration in which case they
+> > > get
+> > > completed asynchronously from the unit test code.
+> > >=20
+> > > Core scheduler classes are subclassed to support this mock
+> > > implementation.
+> > >=20
+> > > The tests added are just a few simple submission patterns.
+> > >=20
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Suggested-by: Philipp Stanner <phasta@kernel.org>
+> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > > =C2=A0=C2=A0drivers/gpu/drm/Kconfig.debug=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 12 +
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/.kunitconfig=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 +
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/Makefile=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/tests/Makefile=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +
+> > > =C2=A0=C2=A0.../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 317
+> > > ++++++++++++++++++
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/tests/sched_tests.h | 218
+> > > ++++++++++++
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/tests/tests_basic.c | 197 +++++=
+++++++
+> > > =C2=A0=C2=A07 files changed, 764 insertions(+)
+> > > =C2=A0=C2=A0create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
+> > > =C2=A0=C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/Makefi=
+le
+> > > =C2=A0=C2=A0create mode 100644
+> > > drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > =C2=A0=C2=A0create mode 100644
+> > > drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > > =C2=A0=C2=A0create mode 100644
+> > > drivers/gpu/drm/scheduler/tests/tests_basic.c
+> > >=20
+> > > diff --git a/drivers/gpu/drm/Kconfig.debug
+> > > b/drivers/gpu/drm/Kconfig.debug
+> > > index 601d7e07d421..6fd4c5669400 100644
+> > > --- a/drivers/gpu/drm/Kconfig.debug
+> > > +++ b/drivers/gpu/drm/Kconfig.debug
+> > > @@ -99,5 +99,17 @@ config DRM_TTM_KUNIT_TEST
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	=C2=A0 If in doubt, say "N".
+> > > =C2=A0=20
+> > > +config DRM_SCHED_KUNIT_TEST
+> > > +	tristate "KUnit tests for the DRM scheduler" if
+> > > !KUNIT_ALL_TESTS
+> > > +	select DRM_SCHED
+> > > +	depends on DRM && KUNIT
+> > > +	default KUNIT_ALL_TESTS
+> > > +	help
+> > > +	=C2=A0 Choose this option to build unit tests for the DRM
+> > > scheduler.
+> > > +
+> > > +	=C2=A0 Recommended for driver developers only.
+> > > +
+> > > +	=C2=A0 If in doubt, say "N".
+> > > +
+> > > =C2=A0=C2=A0config DRM_EXPORT_FOR_TESTS
+> > > =C2=A0=C2=A0	bool
+> > > diff --git a/drivers/gpu/drm/scheduler/.kunitconfig
+> > > b/drivers/gpu/drm/scheduler/.kunitconfig
+> > > new file mode 100644
+> > > index 000000000000..cece53609fcf
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/scheduler/.kunitconfig
+> > > @@ -0,0 +1,12 @@
+> > > +CONFIG_KUNIT=3Dy
+> > > +CONFIG_DRM=3Dy
+> > > +CONFIG_DRM_SCHED_KUNIT_TEST=3Dy
+> > > +CONFIG_EXPERT=3Dy
+> > > +CONFIG_DEBUG_SPINLOCK=3Dy
+> > > +CONFIG_DEBUG_MUTEXES=3Dy
+> > > +CONFIG_DEBUG_ATOMIC_SLEEP=3Dy
+> > > +CONFIG_LOCK_DEBUGGING_SUPPORT=3Dy
+> > > +CONFIG_PROVE_LOCKING=3Dy
+> > > +CONFIG_LOCKDEP=3Dy
+> > > +CONFIG_DEBUG_LOCKDEP=3Dy
+> > > +CONFIG_DEBUG_LIST=3Dy
+> > > diff --git a/drivers/gpu/drm/scheduler/Makefile
+> > > b/drivers/gpu/drm/scheduler/Makefile
+> > > index 53863621829f..6e13e4c63e9d 100644
+> > > --- a/drivers/gpu/drm/scheduler/Makefile
+> > > +++ b/drivers/gpu/drm/scheduler/Makefile
+> > > @@ -23,3 +23,5 @@
+> > > =C2=A0=C2=A0gpu-sched-y :=3D sched_main.o sched_fence.o sched_entity.=
+o
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0obj-$(CONFIG_DRM_SCHED) +=3D gpu-sched.o
+> > > +
+> > > +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) +=3D tests/
+> > > diff --git a/drivers/gpu/drm/scheduler/tests/Makefile
+> > > b/drivers/gpu/drm/scheduler/tests/Makefile
+> > > new file mode 100644
+> > > index 000000000000..51d275a18cf4
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/scheduler/tests/Makefile
+> > > @@ -0,0 +1,6 @@
+> > > +
+> > > +drm-sched-tests-y :=3D \
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mock_scheduler.o \
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tests_basic.o
+> > > +
+> > > +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) +=3D drm-sched-tests.o
+> > > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > new file mode 100644
+> > > index 000000000000..d73a9f0337da
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > @@ -0,0 +1,317 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +
+> > > +#include "sched_tests.h"
+> > > +
+> > > +/*
+> > > + * Here we implement the mock "GPU" (or the scheduler backend)
+> > > which
+> > > is used by
+> > > + * the DRM scheduler unit tests in order to exercise the core
+> > > functionality.
+> > > + *
+> > > + * Test cases are implemented in a separate file.
+> > > + */
+> > > +
+> > > +/**
+> > > + * drm_mock_new_sched_entity - Create a new mock scheduler
+> > > entity
+> > > + *
+> > > + * @test: KUnit test owning the entity
+> > > + * @priority: Scheduling priority
+> > > + * @sched: Mock scheduler on which the entity can be scheduled
+> > > + *
+> > > + * Returns: New mock scheduler entity with allocation managed by
+> > > the
+> > > test
+> > > + */
+> > > +struct drm_mock_sched_entity *
+> > > +drm_mock_new_sched_entity(struct kunit *test,
+> >=20
+> > This naming seems to be inconsistent with its counterpart,
+> > drm_mock_sched_entity_free().
+> >=20
+> > Better drm_mock_sched_entity_new()
+>=20
+> Yes this is the only incosistent one and it was deliberate (somehow
+> it=20
+> read better to me when looking at the final code) but if you insist I
+> can swap it around. Let me know.
 
-On Fri, Feb 21, 2025 at 3:12=E2=80=AFPM Daniel Stone <daniel@fooishbar.org>=
- wrote:
->
-> Hi Sumit,
->
-> On Fri, 21 Feb 2025 at 11:24, Sumit Garg <sumit.garg@linaro.org> wrote:
-> > On Tue, 18 Feb 2025 at 21:52, Daniel Stone <daniel@fooishbar.org> wrote=
-:
-> > > dma-heaps was created to solve the problem of having too many
-> > > 'allocate $n bytes from $specialplace' uAPIs. The proliferation was
-> > > painful and making it difficult for userspace to do what it needed to
-> > > do. Userspace doesn't _yet_ make full use of it, but the solution is
-> > > to make userspace make full use of it, not to go create entirely
-> > > separate allocation paths for unclear reasons.
-> > >
-> > > Besides, I'm writing this from a platform that implements SVP not via
-> > > TEE. I've worked on platforms which implement SVP without any TEE,
-> > > where the TEE implementation would be at best a no-op stub, and at
-> > > worst flat-out impossible.
-> >
-> > Can you elaborate the non-TEE use-case for Secure Video Path (SVP) a
-> > bit more? As to how the protected/encrypted media content pipeline
-> > works? Which architecture support does your use-case require? Is there
-> > any higher privileged level firmware interaction required to perform
-> > media content decryption into restricted memory? Do you plan to
-> > upstream corresponding support in near future?
->
-> You can see the MTK SVP patches on list which use the MTK SMC to mediate =
-it.
->
-> There are TI Jacinto platforms which implement a 'secure' area
-> configured statically by (IIRC) BL2, with static permissions defined
-> for each AXI endpoint, e.g. CPU write + codec RW + dispc read. I've
-> heard of another SoC vendor doing the same, but I don't think I can
-> share those details. There is no TEE interaction.
->
-> I'm writing this message from an AMD laptop which implements
-> restricted content paths outside of TEE. I don't have the full picture
-> of how SVP is implemented on AMD systems, but I do know that I don't
-> have any TEE devices exposed.
->
-> > Let me try to elaborate on the Secure Video Path (SVP) flow requiring
-> > a TEE implementation (in general terms a higher privileged firmware
-> > managing the pipeline as the kernel/user-space has no access
-> > permissions to the plain text media content):
-> >
-> > - [...]
->
-> Yeah, I totally understand the TEE usecase. I think that TEE is a good
-> design to implement this. I think that TEE should be used for SVP
-> where it makes sense.
->
-> Please understand that I am _not_ arguing that no-one should use TEE for =
-SVP!
->
-> > > So, again, let's
-> > > please turn this around: _why_ TEE? Who benefits from exposing this a=
-s
-> > > completely separate to the more generic uAPI that we specifically
-> > > designed to handle things like this?
-> >
-> > The bridging between DMA heaps and TEE would still require user-space
-> > to perform an IOCTL into TEE to register the DMA-bufs as you can see
-> > here [1]. Then it will rather be two handles for user-space to manage.
->
-> Yes, the decoder would need to do this. That's common though: if you
-> want to share a buffer between V4L2 and DRM, you have three handles:
-> the V4L2 buffer handle, the DRM GEM handle, and the dmabuf you use to
-> bridge the two.
->
-> > Similarly during restricted memory allocation/free we need another
-> > glue layer under DMA heaps to TEE subsystem.
->
-> Yep.
->
-> > The reason is simply which has been iterated over many times in the
-> > past threads that:
-> >
-> >     "If user-space has to interact with a TEE device for SVP use-case
-> > then why it's not better to ask TEE to allocate restricted DMA-bufs
-> > too"
->
-> The first word in your proposition is load-bearing.
->
-> Build out the usecase a little more here. You have a DRMed video
-> stream coming in, which you need to decode (involving TEE for this
-> usecase). You get a dmabuf handle to the decoded frame. You need to
-> pass the dmabuf across to the Wayland compositor. The compositor needs
-> to pass it to EGL/Vulkan to import and do composition, which in turn
-> passes it to the GPU DRM driver. The output of the composition is in
-> turn shared between the GPU DRM driver and the separate KMS DRM
-> driver, with the involvement of GBM.
->
-> For the platforms I'm interested in, the GPU DRM driver needs to
-> switch into protected mode, which has no involvement at all with TEE -
-> it's architecturally impossible to have TEE involved without moving
-> most of the GPU driver into TEE and destroying performance. The
-> display hardware also needs to engage protected mode, which again has
-> no involvement with TEE and again would need to have half the driver
-> moved into TEE for no benefit in order to do so. The Wayland
-> compositor also has no interest in TEE: it tells the GPU DRM driver
-> about the protected status of its buffers, and that's it.
->
-> What these components _are_ opinionated about, is the way buffers are
-> allocated and managed. We built out dmabuf modifiers for this usecase,
-> and we have a good negotiation protocol around that. We also really
-> care about buffer placement in some usecases - e.g. some display/codec
-> hardware requires buffers to be sourced from contiguous memory, other
-> hardware needs to know that when it shares buffers with another
-> device, it needs to place the buffers outside of inaccessible/slow
-> local RAM. So we built out dma-heaps, so every part of the component
-> in the stack can communicate their buffer-placement needs in the same
-> way as we do modifiers, and negotiate an acceptable allocation.
->
-> That's my starting point for this discussion. We have a mechanism to
-> deal with the fact that buffers need to be shared between different IP
-> blocks which have their own constraints on buffer placement, avoiding
-> the current problem of having every subsystem reinvent their own
-> allocation uAPI which was burying us in impedance mismatch and
-> confusion. That mechanism is dma-heaps. It seems like your starting
-> point from this discussion is that you've implemented a TEE-centric
-> design for SVP, and so all of userspace should bypass our existing
-> cross-subsystem special-purpose allocation mechanism, and write
-> specifically to one implementation. I believe that is a massive step
-> backwards and an immediate introduction of technical debt.
->
-> Again, having an implementation of SVP via TEE makes a huge amount of
-> sense. Having _most_ SVP implementations via TEE still makes a lot of
-> sense. Having _all_ SVP implementations eventually be via TEE would
-> still make sense. But even if we were at that point - which we aren't
-> - it still doesn't justify telling userspace 'use the generic dma-heap
-> uAPI for every device-specific allocation constraint, apart from SVP
-> which has a completely different way to allocate some bytes'.
+I think it is worth it having that consistent, yes
 
-I must admit that I don't see how this makes a significant difference,
-but then I haven't hacked much in the stacks you're talking about, so
-I'm going to take your word for it.
+>=20
+> >=20
+> >=20
+> > > +			=C2=A0 enum drm_sched_priority priority,
+> > > +			=C2=A0 struct drm_mock_scheduler *sched)
+> > > +{
+> > > +	struct drm_mock_sched_entity *entity;
+> > > +	struct drm_gpu_scheduler *drm_sched;
+> > > +	int ret;
+> > > +
+> > > +	entity =3D kunit_kzalloc(test, sizeof(*entity),
+> > > GFP_KERNEL);
+> > > +	KUNIT_ASSERT_NOT_NULL(test, entity);
+> > > +
+> > > +	drm_sched =3D &sched->base;
+> > > +	ret =3D drm_sched_entity_init(&entity->base,
+> > > +				=C2=A0=C2=A0=C2=A0 priority,
+> > > +				=C2=A0=C2=A0=C2=A0 &drm_sched, 1,
+> > > +				=C2=A0=C2=A0=C2=A0 NULL);
+> > > +	KUNIT_ASSERT_EQ(test, ret, 0);
+> > > +
+> > > +	entity->test =3D test;
+> > > +
+> > > +	return entity;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_sched_entity_free - Destroys a mock scheduler entity
+> > > + *
+> > > + * @entity: Entity to destroy
+> > > + *
+> > > + * To be used from the test cases once done with the entity.
+> > > + */
+> > > +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> > > *entity)
+> > > +{
+> > > +	drm_sched_entity_destroy(&entity->base);
+> > > +}
+> > > +
+> > > +static enum hrtimer_restart
+> > > +drm_mock_sched_job_signal_timer(struct hrtimer *hrtimer)
+> > > +{
+> > > +	struct drm_mock_sched_job *job =3D
+> > > +		container_of(hrtimer, typeof(*job), timer);
+> > > +	struct drm_mock_scheduler *sched =3D
+> > > +		drm_sched_to_mock_sched(job->base.sched);
+> > > +	struct drm_mock_sched_job *next;
+> > > +	ktime_t now =3D ktime_get();
+> > > +	unsigned long flags;
+> > > +	LIST_HEAD(signal);
+> > > +
+> > > +	spin_lock_irqsave(&sched->lock, flags);
+> > > +	list_for_each_entry_safe(job, next, &sched->job_list,
+> > > link)
+> > > {
+> > > +		if (!job->duration_us)
+> > > +			break;
+> > > +
+> > > +		if (ktime_before(now, job->finish_at))
+> > > +			break;
+> > > +
+> > > +		list_move_tail(&job->link, &signal);
+> > > +		sched->hw_timeline.cur_seqno =3D job-
+> > > >hw_fence.seqno;
+> > > +	}
+> > > +	spin_unlock_irqrestore(&sched->lock, flags);
+> > > +
+> > > +	list_for_each_entry(job, &signal, link) {
+> > > +		dma_fence_signal(&job->hw_fence);
+> > > +		dma_fence_put(&job->hw_fence);
+> > > +	}
+> > > +
+> > > +	return HRTIMER_NORESTART;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_new_sched_job - Create a new mock scheduler job
+> > > + *
+> > > + * @test: KUnit test owning the job
+> > > + * @entity: Scheduler entity of the job
+> > > + *
+> > > + * Returns: New mock scheduler job with allocation managed by
+> > > the
+> > > test
+> > > + */
+> > > +struct drm_mock_sched_job *
+> > > +drm_mock_new_sched_job(struct kunit *test,
+> >=20
+> > IMO we could even think about establishing this style
+> >=20
+> > return type stuff *
+> > function_foo()
+> > {
+> >=20
+> > for all scheduler unit test files. Would always be consistent.
+> > WDYT?
+>=20
+> I prefer a single line when it fits. I can change it, although in=20
+> general I don't think being as strict on this detail is very
+> important=20
+> if that would be a rule applicable just to this sub-directory.
+>=20
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity =
+*entity)
+> > > +{
+> > > +	struct drm_mock_sched_job *job;
+> > > +	int ret;
+> > > +
+> > > +	job =3D kunit_kzalloc(test, sizeof(*job), GFP_KERNEL);
+> > > +	KUNIT_ASSERT_NOT_NULL(test, job);
+> > > +
+> > > +	ret =3D drm_sched_job_init(&job->base,
+> > > +				 &entity->base,
+> > > +				 1,
+> > > +				 NULL);
+> > > +	KUNIT_ASSERT_EQ(test, ret, 0);
+> > > +
+> > > +	job->test =3D test;
+> > > +
+> > > +	spin_lock_init(&job->lock);
+> > > +	INIT_LIST_HEAD(&job->link);
+> > > +	hrtimer_init(&job->timer, CLOCK_MONOTONIC,
+> > > HRTIMER_MODE_ABS);
+> > > +	job->timer.function =3D drm_mock_sched_job_signal_timer;
+> > > +
+> > > +	return job;
+> > > +}
+> > > +
+> > > +static const char *drm_mock_sched_hw_fence_driver_name(struct
+> > > dma_fence *fence)
+> >=20
+> > here for example; see comment above.
+> >=20
+> > > +{
+> > > +	return "drm_mock_sched";
+> > > +}
+> > > +
+> > > +static const char *
+> > > +drm_mock_sched_hw_fence_timeline_name(struct dma_fence *fence)
+> > > +{
+> > > +	struct drm_mock_sched_job *job =3D
+> > > +		container_of(fence, typeof(*job), hw_fence);
+> > > +
+> > > +	return (const char *)job->base.sched->name;
+> > > +}
+> > > +
+> > > +static void drm_mock_sched_hw_fence_release(struct dma_fence
+> > > *fence)
+> > > +{
+> > > +	struct drm_mock_sched_job *job =3D
+> > > +		container_of(fence, typeof(*job), hw_fence);
+> > > +
+> > > +	hrtimer_cancel(&job->timer);
+> > > +
+> > > +	/* Freed by the kunit framework */
+> > > +}
+> > > +
+> > > +static const struct dma_fence_ops drm_mock_sched_hw_fence_ops =3D
+> > > {
+> > > +	.get_driver_name =3D drm_mock_sched_hw_fence_driver_name,
+> > > +	.get_timeline_name =3D
+> > > drm_mock_sched_hw_fence_timeline_name,
+> > > +	.release =3D drm_mock_sched_hw_fence_release,
+> > > +};
+> > > +
+> > > +static struct dma_fence *mock_sched_run_job(struct drm_sched_job
+> > > *sched_job)
+> > > +{
+> > > +	struct drm_mock_scheduler *sched =3D
+> > > +		drm_sched_to_mock_sched(sched_job->sched);
+> > > +	struct drm_mock_sched_job *job =3D
+> > > drm_sched_job_to_mock_job(sched_job);
+> > > +
+> > > +	dma_fence_init(&job->hw_fence,
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &drm_mock_sched_hw_fence_ops,
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &job->lock,
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched->hw_timeline.context,
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_inc_return(&sched-
+> > > > hw_timeline.next_seqno));
+> > > +
+> > > +	dma_fence_get(&job->hw_fence); /* Reference for the
+> > > job_list
+> > > */
+> > > +
+> > > +	spin_lock_irq(&sched->lock);
+> > > +	if (job->duration_us) {
+> > > +		ktime_t prev_finish_at =3D 0;
+> > > +
+> > > +		if (!list_empty(&sched->job_list)) {
+> > > +			struct drm_mock_sched_job *prev =3D
+> > > +				list_last_entry(&sched-
+> > > >job_list,
+> > > typeof(*prev),
+> > > +						link);
+> > > +
+> > > +			prev_finish_at =3D prev->finish_at;
+> > > +		}
+> > > +
+> > > +		if (!prev_finish_at)
+> > > +			prev_finish_at =3D ktime_get();
+> > > +
+> > > +		job->finish_at =3D ktime_add_us(prev_finish_at,
+> > > job-
+> > > > duration_us);
+> > > +	}
+> > > +	list_add_tail(&job->link, &sched->job_list);
+> > > +	if (job->finish_at)
+> > > +		hrtimer_start(&job->timer, job->finish_at,
+> > > HRTIMER_MODE_ABS);
+> > > +	spin_unlock_irq(&sched->lock);
+> > > +
+> > > +	return &job->hw_fence;
+> > > +}
+> > > +
+> > > +static enum drm_gpu_sched_stat
+> > > +mock_sched_timedout_job(struct drm_sched_job *sched_job)
+> > > +{
+> > > +	return DRM_GPU_SCHED_STAT_ENODEV;
+> > > +}
+> > > +
+> > > +static void mock_sched_free_job(struct drm_sched_job *sched_job)
+> > > +{
+> > > +	drm_sched_job_cleanup(sched_job);
+> > > +}
+> > > +
+> > > +static const struct drm_sched_backend_ops drm_mock_scheduler_ops
+> > > =3D {
+> > > +	.run_job =3D mock_sched_run_job,
+> > > +	.timedout_job =3D mock_sched_timedout_job,
+> > > +	.free_job =3D mock_sched_free_job
+> > > +};
+> > > +
+> > > +/**
+> > > + * drm_mock_new_scheduler - Create a new mock scheduler
+> > > + *
+> > > + * @test: KUnit test owning the job
+> > > + *
+> > > + * Returns: New mock scheduler with allocation managed by the
+> > > test
+> > > + */
+> > > +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
+> > > *test)
+> > > +{
+> > > +	struct drm_sched_init_args args =3D {
+> > > +		.ops		=3D &drm_mock_scheduler_ops,
+> > > +		.num_rqs	=3D DRM_SCHED_PRIORITY_COUNT,
+> > > +		.credit_limit	=3D U32_MAX,
+> > > +		.hang_limit	=3D UINT_MAX,
 
-I've experimented with providing a dma-heap replacing the TEE API. The
-implementation is more complex than I first anticipated, adding about
-400 lines to the patch set. From user space, it looks like another
-dma-heap. I'm using the names you gave earlier,
-protected,secure-video, protected,trusted-ui, and
-protected,secure-video-record. However, I wonder if we shouldn't use
-"restricted" instead of "protected" since we had agreed to call it
-restricted memory earlier.
+Another question =E2=80=93 I think we are in the process of deprecating the
+hang limit since submitting the same broken job again and again and
+expecting it suddenly to work is the classic definition of madness.
 
-I'll soon post this in a v6 and an updated demo.
+My feeling would be that it should be 1, since that is what we expect
+drivers to do.
 
-Cheers,
-Jens
+Or is there a specific reason why you set it to MAX anyways?
+
+
+> > > +		.timeout	=3D MAX_SCHEDULE_TIMEOUT,
+> > > +		.name		=3D "drm-mock-scheduler",
+> > > +	};
+> > > +	struct drm_mock_scheduler *sched;
+> > > +	int ret;
+> > > +
+> > > +	sched =3D kunit_kzalloc(test, sizeof(*sched), GFP_KERNEL);
+> > > +	KUNIT_ASSERT_NOT_NULL(test, sched);
+> > > +
+> > > +	ret =3D drm_sched_init(&sched->base, &args);
+> > > +	KUNIT_ASSERT_EQ(test, ret, 0);
+> > > +
+> > > +	sched->test =3D test;
+> > > +	sched->hw_timeline.context =3D dma_fence_context_alloc(1);
+> > > +	atomic_set(&sched->hw_timeline.next_seqno, 0);
+> > > +	INIT_LIST_HEAD(&sched->job_list);
+> > > +	spin_lock_init(&sched->lock);
+> > > +
+> > > +	return sched;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_scheduler_fini - Destroys a mock scheduler
+> > > + *
+> > > + * @sched: Scheduler to destroy
+> > > + *
+> > > + * To be used from the test cases once done with the scheduler.
+> > > + */
+> > > +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched)
+> > > +{
+> > > +	struct drm_mock_sched_job *job, *next;
+> > > +	unsigned long flags;
+> > > +	LIST_HEAD(signal);
+> > > +
+> > > +	spin_lock_irqsave(&sched->lock, flags);
+> > > +	list_for_each_entry_safe(job, next, &sched->job_list,
+> > > link)
+> > > +		list_move_tail(&job->link, &signal);
+> > > +	spin_unlock_irqrestore(&sched->lock, flags);
+> > > +
+> > > +	list_for_each_entry(job, &signal, link) {
+> > > +		hrtimer_cancel(&job->timer);
+> > > +		dma_fence_put(&job->hw_fence);
+> > > +	}
+> > > +
+> > > +	drm_sched_fini(&sched->base);
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_sched_advance - Advances the mock scheduler timeline
+> > > + *
+> > > + * @sched: Scheduler timeline to advance
+> > > + * @num: By how many jobs to advance
+> > > + *
+> > > + * Advancing the scheduler timeline by a number of seqnos will
+> > > trigger
+> > > + * signalling of the hardware fences and unlinking the jobs from
+> > > the
+> > > internal
+> > > + * scheduler tracking.
+> > > + *
+> > > + * This can be used from test cases which want complete control
+> > > of
+> > > the simulated
+> > > + * job execution timing. For example submitting one job with no
+> > > set
+> > > duration
+> > > + * would never complete it before test cases advances the
+> > > timeline
+> > > by one.
+> > > + */
+> > > +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
+> > > *sched,
+> > > +				=C2=A0=C2=A0=C2=A0 unsigned int num)
+> > > +{
+> > > +	struct drm_mock_sched_job *job, *next;
+> > > +	unsigned int found =3D 0;
+> > > +	unsigned long flags;
+> > > +	LIST_HEAD(signal);
+> > > +
+> > > +	spin_lock_irqsave(&sched->lock, flags);
+> > > +	if (WARN_ON_ONCE(sched->hw_timeline.cur_seqno + num <
+> > > +			 sched->hw_timeline.cur_seqno))
+> > > +		goto unlock;
+> > > +	sched->hw_timeline.cur_seqno +=3D num;
+> > > +	list_for_each_entry_safe(job, next, &sched->job_list,
+> > > link)
+> > > {
+> > > +		if (sched->hw_timeline.cur_seqno < job-
+> > > > hw_fence.seqno)
+> > > +			break;
+> > > +
+> > > +		list_move_tail(&job->link, &signal);
+> > > +		found++;
+> > > +	}
+> > > +unlock:
+> > > +	spin_unlock_irqrestore(&sched->lock, flags);
+> > > +
+> > > +	list_for_each_entry(job, &signal, link) {
+> > > +		dma_fence_signal(&job->hw_fence);
+> > > +		dma_fence_put(&job->hw_fence);
+> > > +	}
+> > > +
+> > > +	return found;
+> > > +}
+> > > +
+> > > +MODULE_DESCRIPTION("DRM mock scheduler and tests");
+> > > +MODULE_LICENSE("GPL");
+> > > diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > > b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > > new file mode 100644
+> > > index 000000000000..0614bc901dd1
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > > @@ -0,0 +1,218 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +
+> > > +#ifndef _SCHED_TESTS_H_
+> > > +#define _SCHED_TESTS_H_
+> > > +
+> > > +#include <kunit/test.h>
+> > > +#include <linux/atomic.h>
+> > > +#include <linux/dma-fence.h>
+> > > +#include <linux/hrtimer.h>
+> > > +#include <linux/ktime.h>
+> > > +#include <linux/list.h>
+> > > +#include <linux/atomic.h>
+> > > +#include <linux/mutex.h>
+> > > +#include <linux/types.h>
+> > > +
+> > > +#include <drm/gpu_scheduler.h>
+> > > +
+> > > +/*
+> > > + * DOC: Mock DRM scheduler data structures
+> > > + *
+> > > + * drm_mock_* data structures are used to implement a mock
+> > > "GPU".
+> > > + *
+> > > + * They subclass the core DRM scheduler objects and add their
+> > > data
+> > > on top, which
+> > > + * enables tracking the submitted jobs and simulating their
+> > > execution with the
+> > > + * attributes as specified by the test case.
+> > > + */
+> > > +
+> > > +/**
+> > > + * struct drm_mock_scheduler - implements a trivial mock GPU
+> > > execution engine
+> > > + *
+> > > + * @base: DRM scheduler base class
+> > > + * @test: Backpointer to owning the kunit test case
+> > > + * @lock: Lock to protect the simulated @hw_timeline and the
+> > > @job_list
+> > > + * @job_list: List of jobs submitted to the mock GPU
+> > > + * @hw_timeline: Simulated hardware timeline has a @context,
+> > > @next_seqno and
+> > > + *		 @cur_seqno for implementing a struct dma_fence
+> > > signaling the
+> > > + *		 simulated job completion.
+> > > + *
+> > > + * Trivial mock GPU execution engine tracks submitted jobs and
+> > > enables
+> > > + * completing them strictly in submission order.
+> > > + */
+> > > +struct drm_mock_scheduler {
+> > > +	struct drm_gpu_scheduler base;
+> > > +
+> > > +	struct kunit		*test;
+> > > +
+> > > +	spinlock_t		lock;
+> > > +	struct list_head	job_list;
+> > > +
+> > > +	struct {
+> > > +		u64		context;
+> > > +		atomic_t	next_seqno;
+> > > +		unsigned int	cur_seqno;
+> > > +	} hw_timeline;
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct drm_mock_sched_entity - implements a mock GPU sched
+> > > entity
+> > > + *
+> > > + * @base: DRM scheduler entity base class
+> > > + * @test: Backpointer to owning the kunit test case
+> > > + *
+> > > + * Mock GPU sched entity is used by the test cases to submit
+> > > jobs to
+> > > the mock
+> > > + * scheduler.
+> > > + */
+> > > +struct drm_mock_sched_entity {
+> > > +	struct drm_sched_entity base;
+> > > +
+> > > +	struct kunit		*test;
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct drm_mock_sched_job - implements a mock GPU job
+> > > + *
+> > > + * @base: DRM sched job base class
+> > > + * @link: List head element used by job tracking by the
+> > > drm_mock_scheduler
+> > > + * @timer: Timer used for simulating job execution duration
+> > > + * @duration_us: Simulated job duration in micro seconds, or
+> > > zero if
+> > > in manual
+> > > + *		 timeline advance mode
+> > > + * @finish_at: Absolute time when the jobs with set duration
+> > > will
+> > > complete
+> > > + * @lock: Lock used for @hw_fence
+> > > + * @hw_fence: Fence returned to DRM scheduler as the hardware
+> > > fence
+> >=20
+> > Can you ellaborate a bit more about lock's purpose (here in the
+> > thread
+> > at first)?
+> >=20
+> > The hw_fence has its own internal lock for adding callbacks and the
+> > like, so why is this one here necessary?
+>=20
+> It _is_ the internal fence lock, the one that is passed to
+> dma_fence_init().
+
+Ah, right
+
+>=20
+> > Furthermore, at least in this patch here, it seems that whenever
+> > hw_fence is changed, its being protected by the scheduler's lock.
+> > Why
+> > is that?
+>=20
+> I don't follow - what do you consider "hw_fence is changed"?
+>=20
+> Hw_fence is initialized in the ->run_job() callback and is signalled=20
+> outside the mock_sched->lock.
+
+I meant when it's used. Forget about it, makes sense now.
+
+>=20
+> >=20
+> > > + * @test: Backpointer to owning the kunit test case
+> > > + *
+> > > + * Mock GPU sched job is used by the test cases to submit jobs
+> > > to
+> > > the mock
+> > > + * scheduler.
+> > > + */
+> > > +struct drm_mock_sched_job {
+> > > +	struct drm_sched_job	base;
+> > > +
+> > > +	struct list_head	link;
+> > > +	struct hrtimer		timer;
+> > > +
+> > > +	unsigned int		duration_us;
+> > > +	ktime_t			finish_at;
+> > > +
+> > > +	spinlock_t		lock;
+> > > +	struct dma_fence	hw_fence;
+> > > +
+> > > +	struct kunit		*test;
+> > > +};
+> > > +
+> > > +static inline struct drm_mock_scheduler *
+> > > +drm_sched_to_mock_sched(struct drm_gpu_scheduler *sched)
+> > > +{
+> > > +	return container_of(sched, struct drm_mock_scheduler,
+> > > base);
+> > > +};
+> > > +
+> > > +static inline struct drm_mock_sched_entity *
+> > > +drm_sched_entity_to_mock_entity(struct drm_sched_entity
+> > > *sched_entity)
+> > > +{
+> > > +	return container_of(sched_entity, struct
+> > > drm_mock_sched_entity, base);
+> > > +};
+> > > +
+> > > +static inline struct drm_mock_sched_job *
+> > > +drm_sched_job_to_mock_job(struct drm_sched_job *sched_job)
+> > > +{
+> > > +	return container_of(sched_job, struct
+> > > drm_mock_sched_job,
+> > > base);
+> > > +};
+> > > +
+> > > +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
+> > > *test);
+> > > +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched);
+> > > +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
+> > > *sched,
+> > > +				=C2=A0=C2=A0=C2=A0 unsigned int num);
+> > > +
+> > > +struct drm_mock_sched_entity *
+> > > +drm_mock_new_sched_entity(struct kunit *test,
+> > > +			=C2=A0 enum drm_sched_priority priority,
+> > > +			=C2=A0 struct drm_mock_scheduler *sched);
+> > > +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> > > *entity);
+> > > +
+> > > +struct drm_mock_sched_job *
+> > > +drm_mock_new_sched_job(struct kunit *test,
+> > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity =
+*entity);
+> > > +
+> > > +/**
+> > > + * drm_mock_sched_job_submit - Arm and submit a job in one go
+> > > + *
+> > > + * @job: Job to arm and submit
+> > > + */
+> > > +static inline void drm_mock_sched_job_submit(struct
+> > > drm_mock_sched_job *job)
+> > > +{
+> > > +	drm_sched_job_arm(&job->base);
+> > > +	drm_sched_entity_push_job(&job->base);
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_sched_job_set_duration_us - Set a job duration
+> > > + *
+> > > + * @job: Job to set the duration for
+> > > + * @duration_us: Duration in micro seconds
+> > > + *
+> > > + * Jobs with duration set will be automatically completed by the
+> > > mock scheduler
+> > > + * as the timeline progress, unless a job without a set duration
+> > > is
+> >=20
+> > s/progress/progresses
+> >=20
+> > > encountered
+> > > + * in the timelime in which case calling drm_mock_sched_advance
+> > > will
+> >=20
+> > s/drm_mock_sched_advance/drm_mock_sched_advanace()
+> >=20
+> > As I learned recently, the brackets are what actually teaches the
+> > doc
+> > generator that this is a function that shall be linked in the docu.
+>=20
+> Both done.
+>=20
+> >=20
+> > > be required
+> > > + * to bump the timeline.
+> > > + */
+> > > +static inline void
+> > > +drm_mock_sched_job_set_duration_us(struct drm_mock_sched_job
+> > > *job,
+> > > +				=C2=A0=C2=A0 unsigned int duration_us)
+> > > +{
+> > > +	job->duration_us =3D duration_us;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_sched_job_is_finished - Check if a job is finished
+> > > + *
+> > > + * @job: Job to check
+> > > + *
+> > > + * Returns: true if finished
+> > > + */
+> > > +static inline bool
+> > > +drm_mock_sched_job_is_finished(struct drm_mock_sched_job *job)
+> > > +{
+> > > +	return dma_fence_is_signaled(&job->base.s_fence-
+> > > >finished);
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_sched_job_wait_finished - Wait until a job is
+> > > finished
+> > > + *
+> > > + * @job: Job to wait for
+> > > + * @timeout: Wait time in jiffies
+> > > + *
+> > > + * Returns: true if finished within the timeout provided,
+> > > otherwise
+> > > false
+> > > + */
+> > > +static inline bool
+> > > +drm_mock_sched_job_wait_finished(struct drm_mock_sched_job *job,
+> > > long timeout)
+> > > +{
+> > > +	long ret;
+> > > +
+> > > +	ret =3D dma_fence_wait_timeout(&job->base.s_fence-
+> > > >finished,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0 false,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
+> > > +
+> > > +	return ret !=3D 0;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_mock_sched_job_wait_finished - Wait until a job is
+> > > scheduled
+> > > + *
+> > > + * @job: Job to wait for
+> > > + * @timeout: Wait time in jiffies
+> > > + *
+> > > + * Returns: true if scheduled within the timeout provided,
+> > > otherwise
+> > > false
+> > > + */
+> > > +static inline long
+> > > +drm_mock_sched_job_wait_scheduled(struct drm_mock_sched_job
+> > > *job,
+> > > long timeout)
+> > > +{
+> > > +	long ret;
+> > > +
+> > > +	ret =3D dma_fence_wait_timeout(&job->base.s_fence-
+> > > >scheduled,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0 false,
+> > > +				=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
+> > > +
+> > > +	return ret !=3D 0;
+> > > +}
+> > > +
+> > > +#endif
+> > > diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> > > b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> > > new file mode 100644
+> > > index 000000000000..c12368a22a39
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> > > @@ -0,0 +1,197 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +
+> > > +#include "sched_tests.h"
+> > > +
+> > > +/*
+> > > + * DRM scheduler basic tests should check the basic functional
+> > > correctness of
+> > > + * the scheduler, including some very light smoke testing. More
+> > > targeted tests,
+> > > + * for example focusing on testing specific bugs and other more
+> > > complicated test
+> > > + * scenarios, should be implemented in a separate source units.
+> >=20
+> > s/a//
+>=20
+> Done.
+>=20
+> >=20
+> > > + */
+> > > +
+> > > +static int drm_sched_basic_init(struct kunit *test)
+> > > +{
+> > > +	test->priv =3D drm_mock_new_scheduler(test);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static void drm_sched_basic_exit(struct kunit *test)
+> > > +{
+> > > +	struct drm_mock_scheduler *sched =3D test->priv;
+> > > +
+> > > +	drm_mock_scheduler_fini(sched);
+> > > +}
+> > > +
+> > > +static void drm_sched_basic_submit(struct kunit *test)
+> > > +{
+> > > +	struct drm_mock_scheduler *sched =3D test->priv;
+> > > +	struct drm_mock_sched_entity *entity;
+> > > +	struct drm_mock_sched_job *job;
+> > > +	unsigned int i;
+> > > +	bool done;
+> > > +
+> > > +	/*
+> > > +	 * Submit one job to the scheduler and verify that it
+> > > gets
+> > > scheduled
+> > > +	 * and completed only when the mock hw backend processes
+> > > it.
+> > > +	 */
+> >=20
+> > That seems to be the description of the entire function? If yes, we
+> > probably want it above the function's begin.
+>=20
+> I find it more useful closer to the action so would prefer to keep it
+> as=20
+> is. But if you insist I can move.
+
+It's not a dealbreaker
+
+
+Greetings,
+P.
+
+
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> >=20
+> >=20
+> > Thx
+> > P.
+> >=20
+> > > +
+> > > +	entity =3D drm_mock_new_sched_entity(test,
+> > > +				=09
+> > > DRM_SCHED_PRIORITY_NORMAL,
+> > > +					=C2=A0=C2=A0 sched);
+> > > +	job =3D drm_mock_new_sched_job(test, entity);
+> > > +
+> > > +	drm_mock_sched_job_submit(job);
+> > > +
+> > > +	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
+> > > +	KUNIT_ASSERT_EQ(test, done, true);
+> > > +
+> > > +	done =3D drm_mock_sched_job_wait_finished(job, HZ / 2);
+> > > +	KUNIT_ASSERT_EQ(test, done, false);
+> > > +
+> > > +	i =3D drm_mock_sched_advance(sched, 1);
+> > > +	KUNIT_ASSERT_EQ(test, i, 1);
+> > > +
+> > > +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> > > +	KUNIT_ASSERT_EQ(test, done, true);
+> > > +
+> > > +	drm_mock_sched_entity_free(entity);
+> > > +}
+> > > +
+> > > +struct drm_sched_basic_params {
+> > > +	const char *description;
+> > > +	unsigned int queue_depth;
+> > > +	unsigned int num_entities;
+> > > +	unsigned int job_us;
+> > > +	bool dep_chain;
+> > > +};
+> > > +
+> > > +static const struct drm_sched_basic_params
+> > > drm_sched_basic_cases[] =3D
+> > > {
+> > > +	{
+> > > +		.description =3D "A queue of jobs in a single
+> > > entity",
+> > > +		.queue_depth =3D 100,
+> > > +		.job_us =3D 1000,
+> > > +		.num_entities =3D 1,
+> > > +	},
+> > > +	{
+> > > +		.description =3D "A chain of dependent jobs across
+> > > multiple entities",
+> > > +		.queue_depth =3D 100,
+> > > +		.job_us =3D 1000,
+> > > +		.num_entities =3D 1,
+> > > +		.dep_chain =3D true,
+> > > +	},
+> > > +	{
+> > > +		.description =3D "Multiple independent job
+> > > queues",
+> > > +		.queue_depth =3D 100,
+> > > +		.job_us =3D 1000,
+> > > +		.num_entities =3D 4,
+> > > +	},
+> > > +	{
+> > > +		.description =3D "Multiple inter-dependent job
+> > > queues",
+> > > +		.queue_depth =3D 100,
+> > > +		.job_us =3D 1000,
+> > > +		.num_entities =3D 4,
+> > > +		.dep_chain =3D true,
+> > > +	},
+> > > +};
+> > > +
+> > > +static void
+> > > +drm_sched_basic_desc(const struct drm_sched_basic_params
+> > > *params,
+> > > char *desc)
+> > > +{
+> > > +	strscpy(desc, params->description,
+> > > KUNIT_PARAM_DESC_SIZE);
+> > > +}
+> > > +
+> > > +KUNIT_ARRAY_PARAM(drm_sched_basic, drm_sched_basic_cases,
+> > > drm_sched_basic_desc);
+> > > +
+> > > +static void drm_sched_basic_test(struct kunit *test)
+> > > +{
+> > > +	const struct drm_sched_basic_params *params =3D test-
+> > > > param_value;
+> > > +	struct drm_mock_scheduler *sched =3D test->priv;
+> > > +	struct drm_mock_sched_job *job, *prev =3D NULL;
+> > > +	struct drm_mock_sched_entity **entity;
+> > > +	unsigned int i, cur_ent =3D 0;
+> > > +	bool done;
+> > > +
+> > > +	entity =3D kunit_kcalloc(test, params->num_entities,
+> > > sizeof(*entity),
+> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GFP_KERNEL);
+> > > +	KUNIT_ASSERT_NOT_NULL(test, entity);
+> > > +
+> > > +	for (i =3D 0; i < params->num_entities; i++)
+> > > +		entity[i] =3D drm_mock_new_sched_entity(test,
+> > > +					=09
+> > > DRM_SCHED_PRIORITY_NORMAL,
+> > > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> > > +
+> > > +	for (i =3D 0; i < params->queue_depth; i++) {
+> > > +		job =3D drm_mock_new_sched_job(test,
+> > > entity[cur_ent++]);
+> > > +		cur_ent %=3D params->num_entities;
+> > > +		drm_mock_sched_job_set_duration_us(job, params-
+> > > > job_us);
+> > > +		if (params->dep_chain && prev)
+> > > +			drm_sched_job_add_dependency(&job->base,
+> > > +					=09
+> > > dma_fence_get(&prev->base.s_fence->finished));
+> > > +		drm_mock_sched_job_submit(job);
+> > > +		prev =3D job;
+> > > +	}
+> > > +
+> > > +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> > > +	KUNIT_ASSERT_EQ(test, done, true);
+> > > +
+> > > +	for (i =3D 0; i < params->num_entities; i++)
+> > > +		drm_mock_sched_entity_free(entity[i]);
+> > > +}
+> > > +
+> > > +static void drm_sched_basic_entity_cleanup(struct kunit *test)
+> > > +{
+> > > +	struct drm_mock_sched_job *job, *mid, *prev =3D NULL;
+> > > +	struct drm_mock_scheduler *sched =3D test->priv;
+> > > +	struct drm_mock_sched_entity *entity[4];
+> > > +	const unsigned int qd =3D 100;
+> > > +	unsigned int i, cur_ent =3D 0;
+> > > +	bool done;
+> > > +
+> > > +	/*
+> > > +	 * Submit a queue of jobs across different entities with
+> > > an
+> > > explicit
+> > > +	 * chain of dependencies between them and trigger entity
+> > > cleanup while
+> > > +	 * the queue is still being processed.
+> > > +	 */
+> > > +
+> > > +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> > > +		entity[i] =3D drm_mock_new_sched_entity(test,
+> > > +					=09
+> > > DRM_SCHED_PRIORITY_NORMAL,
+> > > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> > > +
+> > > +	for (i =3D 0; i < qd; i++) {
+> > > +		job =3D drm_mock_new_sched_job(test,
+> > > entity[cur_ent++]);
+> > > +		cur_ent %=3D ARRAY_SIZE(entity);
+> > > +		drm_mock_sched_job_set_duration_us(job, 1000);
+> > > +		if (prev)
+> > > +			drm_sched_job_add_dependency(&job->base,
+> > > +					=09
+> > > dma_fence_get(&prev->base.s_fence->finished));
+> > > +		drm_mock_sched_job_submit(job);
+> > > +		if (i =3D=3D qd / 2)
+> > > +			mid =3D job;
+> > > +		prev =3D job;
+> > > +	}
+> > > +
+> > > +	done =3D drm_mock_sched_job_wait_finished(mid, HZ);
+> > > +	KUNIT_ASSERT_EQ(test, done, true);
+> > > +
+> > > +	/* Exit with half of the queue still pending to be
+> > > executed.
+> > > */
+> > > +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> > > +		drm_mock_sched_entity_free(entity[i]);
+> > > +}
+> > > +
+> > > +static struct kunit_case drm_sched_basic_tests[] =3D {
+> > > +	KUNIT_CASE(drm_sched_basic_submit),
+> > > +	KUNIT_CASE_PARAM(drm_sched_basic_test,
+> > > drm_sched_basic_gen_params),
+> > > +	KUNIT_CASE(drm_sched_basic_entity_cleanup),
+> > > +	{}
+> > > +};
+> > > +
+> > > +static struct kunit_suite drm_sched_basic =3D {
+> > > +	.name =3D "drm_sched_basic_tests",
+> > > +	.init =3D drm_sched_basic_init,
+> > > +	.exit =3D drm_sched_basic_exit,
+> > > +	.test_cases =3D drm_sched_basic_tests,
+> > > +};
+> > > +
+> > > +kunit_test_suite(drm_sched_basic);
+> >=20
+>=20
+
