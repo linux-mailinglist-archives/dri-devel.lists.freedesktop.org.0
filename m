@@ -2,92 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9870EA4EEBC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 21:48:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C05A4EF08
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 22:06:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAF910E6B3;
-	Tue,  4 Mar 2025 20:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1773B10E6B5;
+	Tue,  4 Mar 2025 21:06:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hVmo3Do7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eKVimhi/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A14E410E15E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 20:48:16 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-54965898051so2744367e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 12:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741121295; x=1741726095; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/oAPJle7igvkCOj9wNSaohLqS/9lmDq/1xSw1olJhfs=;
- b=hVmo3Do7udqhocPSMmLDDICMftfOPp/X+/rAuj05OdUQp7xZH6UoVB5YEyTivGBxHy
- QnoYFNboytNoqnyWxW93A7oe7/w6qnYyuBkj7PB6O2LcXdmtNElGbcP1+r1SJe6w7pR/
- umipDVKGwmwzn9N0twa3CG+pHYtwKY+Jh3tEk9IcKI0ZnAoKZNBCVPFEVd0wFEQ7PUOd
- 02u/88jYxMjeJx++l009mU2+6cAqsSi/re+CynDQamr3JkcKITDodfC957nDBddPSv7b
- EZbr8XMwaUBxUVznZsWK1o/wESVbAMr17W2+pt648iQM1xSmqqyFWynEkfGLUFosDmeN
- FhgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741121295; x=1741726095;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/oAPJle7igvkCOj9wNSaohLqS/9lmDq/1xSw1olJhfs=;
- b=IeQKPRpUEK2RlofxHeYQAN34mvQ30xGp//Hvq5LsQvJRVSYun7mxCBo393Vhky5SBB
- gks1uxyKRsfVCUkkLbnctFs/ctgHWu8pAzJlYuitOrY0eRheJzMxVg9vzvwtqbmsYJeg
- Y0HmdGJy3SgBAOv/O6ZjT1s6wi95mlxB+GSskoVR+4dX6v7XT4G4qV95M0NAhFzrkxf1
- RIDwgsK8/d4te29zjeogGvY7c2MtUj8vXvvEmhsdWnV8tsuWBqYKPQHuWmkvv5+PaRPZ
- KLZzhrmtRdSCvWRkoI5Y/M2ALVh1zkA6P9EY8AcTZnAB0H6V16uqUkfd2rhxUzC/OdxE
- eL5Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWWbnZ0/ACYjaqH3BVq7UgR294vazxviwKkp54ACUw/vb+f1Bexbtf+3kY7H6fKYoDFl5+kiZc5i4A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1L6nggzRrDWQ5DqSStYxFxPxSpH8h0GgxHjtnWbEvsx+TTSkE
- EyUxyKI3NX6799zJjNgCi192Hq8K7pntzwr6Pcnxw5xlCxU7Rk8SjbP4bt/J/jk=
-X-Gm-Gg: ASbGncut+10gf5p8AQ2zWwX7vz5sVipt0nvSYQLuBG1EiuewhC7IceZAMzcKkD5kMvj
- ZrYJf9YX+R6jZOQi9OIlB1B+Vj/05SyK5p5qtJLERYalxDb+vQy+QviRczPuu8+IyC5qN7Rjn9r
- 7RbmLyHROxaCAlV9gr56u8K9jeb+y6A56lpC+Lja7cN3xxOBCW+l4qpuulQZTIvT+f0RVsDlp0L
- ChXqIbPrunuV6fdYiKWE+szYSMTlipMXui/fj4HmNuBoC7GJuJmO0cOplk5nafy6Ve5Pc/4oJjC
- xZ9FwLqg9Leex60ImlFmdJRaIhyWHsf8LTOHMmo6EdvGZechOI9UNg2P587jrsJWb3A2eyssUfe
- IFI2+8wHQmTelJ4hfHY4tlDHV
-X-Google-Smtp-Source: AGHT+IH5VMC586i36hYasuRbMAJ6daWnnollvxQ5ODQDmTBEMUXbbXzEafbSoZ2SOMQnxMX8oAh9Jg==
-X-Received: by 2002:a05:6512:304e:b0:545:e19:ba24 with SMTP id
- 2adb3069b0e04-5497d37e371mr237109e87.48.1741121294899; 
- Tue, 04 Mar 2025 12:48:14 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549443be587sm1667436e87.177.2025.03.04.12.48.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Mar 2025 12:48:13 -0800 (PST)
-Date: Tue, 4 Mar 2025 22:48:12 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B718896EC
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 21:06:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741122361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6KWLJdJ5fiIb930pUJLqgFqnld1vEloL0BCIsYX5tKU=;
+ b=eKVimhi/4eGOhdH4VSlGPFw5W8DJcAiuW9N84zGy4cxDgfdai8A0F/gJ8lXZyO/WJB8pPO
+ tUa/4DqAD0End6mElm3a4U6dC6tsSXTYkwAhqM/Et0sYbK1Dx4FGKyiWeQzc453wkxpupq
+ NO8p+aPupM+Lj7baFklDJ8dh5DbqQzk=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-104-8p-Y_gSbPemwfxF2TVQ7pw-1; Tue,
+ 04 Mar 2025 16:05:56 -0500
+X-MC-Unique: 8p-Y_gSbPemwfxF2TVQ7pw-1
+X-Mimecast-MFC-AGG-ID: 8p-Y_gSbPemwfxF2TVQ7pw_1741122350
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 20205196E078; Tue,  4 Mar 2025 21:05:49 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.107])
+ by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 863E5180035F; Tue,  4 Mar 2025 21:05:40 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Subject: [PATCH v5 0/7] drm: Move to using devm_platform_ioremap_resource
+Date: Tue, 04 Mar 2025 16:05:30 -0500
+Message-Id: <20250304-mem-fixes-v1-0-fb3dab8d901f@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABprx2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDYwMT3dzUXN20zIrUYl1jk5Q0c8MUQ4skSwsloPqColSwBFB5tFKZqVJ
+ sbS0AVVYK2l8AAAA=
+X-Change-ID: 20250304-mem-fixes-34df71d18b98
+To: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, 
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v6 03/14] drm/msm/dpu: switch RM to use crtc_id rather
- than enc_id for allocation
-Message-ID: <cqpqtuh2tztdhsg3nrvxnobxmsytsxthcd5wybiuzyefurkme2@hvv5zjiqczyb>
-References: <20250214-concurrent-wb-v6-0-a44c293cf422@quicinc.com>
- <20250214-concurrent-wb-v6-3-a44c293cf422@quicinc.com>
- <se4b4kzp3vej4b6albecdc2t65ueiuba4kidutwvrv2rcfyjwr@e62fn225jwcr>
- <8c727bd6-94f1-4ee3-9bf3-793899038895@quicinc.com>
- <da6e2hygdv6ewdr5hqeks2ocsxwvfvozby4b53unk5ckyqvu7t@wh3y4jnucapl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <da6e2hygdv6ewdr5hqeks2ocsxwvfvozby4b53unk5ckyqvu7t@wh3y4jnucapl>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741122340; l=4017;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=tTzktltTbp+f/YuZQWlOZqnNOLQ0oDxFl3zFfOzmDuE=;
+ b=tLxkFhbjw7T7MpPQYdS80+nQqIVDddH0gSbIMbiohOArqEncZj1ftcdpm/JGZ6GFdJ1dhbNll
+ zZTUamGjMv5C/C0Xon0mjVY0BqUtVSB/5VCcFwcg+kMfQBGgVc0MkWq
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,124 +102,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 04, 2025 at 01:43:09AM +0200, Dmitry Baryshkov wrote:
-> On Mon, Mar 03, 2025 at 10:45:19AM -0800, Jessica Zhang wrote:
-> > 
-> > 
-> > On 2/27/2025 7:07 AM, Dmitry Baryshkov wrote:
-> > > On Fri, Feb 14, 2025 at 04:14:26PM -0800, Jessica Zhang wrote:
-> > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > 
-> > > > Up to now the driver has been using encoder to allocate hardware
-> > > > resources. Switch it to use CRTC id in preparation for the next step.
-> > > > 
-> > > > Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > > ---
-> > > > Changes in v6:
-> > > > - Drop duplicate cstate initialization code and unnecessary memset
-> > > > Changes in v5:
-> > > > - Reordered to prevent breaking CI and upon partial application
-> > > > 
-> > > > Changes in v4 (due to rebase):
-> > > > - moved *_get_assigned_resources() changes for DSPP and LM from
-> > > >    encoder *_virt_atomic_mode_set() to *_assign_crtc_resources()
-> > > > ---
-> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  18 +--
-> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  10 +-
-> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  12 +-
-> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 189 ++++++++++++++--------------
-> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |   7 +-
-> > > >   5 files changed, 110 insertions(+), 126 deletions(-)
-> > > 
-> > > This commit breaks several tests in CI:
-> > > - sc7180-trogdor-kingoftown:
-> > >    - kms_cursor_crc@cursor-dpms
-> > >    - kms_pipe_crc_basic@disable-crc-after-crtc
-> > > - sc7180-trogdor-lazor-limozeen
-> > >    - kms_cursor_crc@cursor-dpms
-> > >    - kms_pipe_crc_basic@disable-crc-after-crtc
-> > 
-> > Hey Dmitry,
-> > 
-> > Thanks for catching this. Looks like this was exposed due to a recent IGT
-> > uprev that included  dc2d7fb4f978 ("lib/igt_kms: move setting
-> > DRM_CLIENT_CAP_WRITEBACK_CONNECTORS to kms_writeback").
-> > 
-> > The issue itself is that when DPMS is toggled, it is possible for RM to
-> > reserve new HW resources but skip the atomic_enable() due to the checks here
-> > [1]. This means that the change in HW block reservation won't be propagated
-> > to encoder if DPMS is set to off.
-> 
-> Could you possibly clarify this. What is the state change that causes
-> the issue (describe CRTC / connectors / encoders and active / enabled
-> state). Why does the issue manifest only after switching to the CRTC id
-> for resource allocation (the tests run successfully before this patch,
-> i.e. with the resource allocation being moved to CRTC, but using the
-> encoder ID for allocation).
-> 
-> Note, the CRTC won't re-allocate resources if
-> drm_atomic_crtc_needs_modeset() is not true. So I'm not sure how can we
-> end up in a situation when the resources are reallocated _and_ we need
-> to raise the mode_changed flag.
+Start replacing the below occurences with the newer API:
+- (devm_)platform_get_resource + devm_ioremap_resource
+- (devm_)platform_get_resource + (devm_)ioremap
+- platform_get_resource_byname + devm_ioremap
+Move all these occurences to uses devm_platform_ioremap_resource
+instead.
 
-I'm going to apply the following fixup on top of your series (to the
-previous patch), fixing the DPMS issue. It makes all SC7180 tests pass
-in CI.
+This is v5 of the series.
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes in v5:
+- Some patches already merged, leave them out.
+- Handle return properly. The new API returns a error pointers
+and not NULL. While this is taken care of in most drivers in
+the series, the sprd and sti needed changes. Thanks to Dan
+for pointing this out with his fix:
+https://lore.kernel.org/dri-devel/a952e2b4-d4b8-49ac-abd9-9967c50f4a80@stanley.mountain/
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index ba5c60296e17..10653bd52885 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1373,7 +1373,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
- 
--	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
-+	/* don't reallocate resources if only ACTIVE has beeen changed */
-+	if (crtc_state->mode_changed || crtc_state->connectors_changed) {
- 		rc = dpu_crtc_assign_resources(crtc, crtc_state);
- 		if (rc < 0)
- 			return rc;
+Changes in v4:
+- Address vc4 driver compilation error
+
+Changes in v3:
+- Keep the old snippet of documentation and add further
+clarification (Thomas)
+- change in vc4 driver for the a resource is not needed.
+Add a comment to clarify why that is left behind (Maxime)
+
+Changes in v2:
+- Fix compilation errors
+
+Used Coccinelle to make the code changes.Semantic patch:
+
+//First Case
+//rule s/platform_get_resource + devm_ioremap_resource/devm_platform_ioremap_resource
+@rule_1@
+identifier res;
+expression ioremap_res;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+-ioremap_res = devm_ioremap_resource(...);
++ioremap_res = devm_platform_ioremap_resource(pdev,0);
+
+//Second case
+//rule s/(devm_)platform_get_resource + (devm_)ioremap/devm_platform_ioremap_resource.
+@rule_2@
+identifier res;
+expression ioremap;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource(pdev,0);
+
+//Third case
+//rule s/(devm_)platform_get_resource_byname + (devm_)ioremap/devm_platform_ioremap_resource_byname.
+@rule_3@
+identifier res;
+expression ioremap;
+identifier pdev;
+constant mem;
+expression name;
+@@
+-struct resource *res;
+<+...
+-res = platform_get_resource_byname(pdev,mem,name);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource_byname(pdev,name);
+...+>
+
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Anusha Srivatsa (7):
+      drm/fsl-dcu: move to devm_platform_ioremap_resource() usage
+      drm/hisilicon: move to devm_platform_ioremap_resource() usage
+      drm/mxsfb: move to devm_platform_ioremap_resource() usage
+      drm/sprd: move to devm_platform_ioremap_resource() usage
+      drm/sti: move to devm_platform_ioremap_resource() usage
+      drm/tegra: move to devm_platform_ioremap_resource() usage
+      Documentation: Update the todo
+
+ Documentation/gpu/todo.rst                      | 13 +++++++------
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       |  4 +---
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    |  4 +---
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c |  4 +---
+ drivers/gpu/drm/mxsfb/lcdif_drv.c               |  4 +---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c               |  4 +---
+ drivers/gpu/drm/sprd/sprd_dpu.c                 | 13 +++----------
+ drivers/gpu/drm/sprd/sprd_dsi.c                 | 13 +++----------
+ drivers/gpu/drm/sti/sti_compositor.c            | 14 +++-----------
+ drivers/gpu/drm/sti/sti_dvo.c                   | 14 +++-----------
+ drivers/gpu/drm/sti/sti_hda.c                   | 13 +++----------
+ drivers/gpu/drm/sti/sti_hdmi.c                  | 15 +++------------
+ drivers/gpu/drm/sti/sti_hqvdp.c                 | 14 +++-----------
+ drivers/gpu/drm/sti/sti_tvout.c                 | 14 +++-----------
+ drivers/gpu/drm/sti/sti_vtg.c                   | 14 +++-----------
+ drivers/gpu/drm/tegra/dsi.c                     |  4 +---
+ 16 files changed, 40 insertions(+), 121 deletions(-)
+---
+base-commit: 0670c2f56e45b3f4541985a9ebe06d04308e43b0
+change-id: 20250304-mem-fixes-34df71d18b98
+
+Best regards,
 -- 
-2.39.5
+Anusha Srivatsa <asrivats@redhat.com>
 
-
-> 
-> > I've posted a fix for this here [2].
-> > 
-> > Thanks,
-> > 
-> > Jessica Zhang
-> > 
-> > [1] https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/gpu/drm/drm_atomic_helper.c#L1502
-> > [2] https://patchwork.freedesktop.org/series/145735/
-> > 
-> > > 
-> > > Corresponding pipeline is available at [1]
-> > > 
-> > > As I had to rebase your changes on top of msm-next, corresponding tree
-> > > is available at [2]. It might be possible that the regression is
-> > > introduced by my rebase.
-> > > 
-> > > [1] https://gitlab.freedesktop.org/drm/msm/-/pipelines/1374165
-> > > 
-> > > [2] https://gitlab.freedesktop.org/lumag/msm/-/commits/msm-next-lumag-cwb
-> > > 
-> > > -- 
-> > > With best wishes
-> > > Dmitry
-> > 
-> 
-> -- 
-> With best wishes
-> Dmitry
-
--- 
-With best wishes
-Dmitry
