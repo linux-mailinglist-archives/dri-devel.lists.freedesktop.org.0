@@ -2,145 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44270A4D62E
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 09:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDAEA4D6BC
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 09:41:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBAD710E513;
-	Tue,  4 Mar 2025 08:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0F1C10E073;
+	Tue,  4 Mar 2025 08:41:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="DAcIK8LT";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hQGF0H9b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n3Dgw0/6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hQGF0H9b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n3Dgw0/6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11012011.outbound.protection.outlook.com [52.101.66.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32C610E513
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 08:24:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=abIIPGam456NQWNIAW8AUhq8AmJGz4K2B2GkCv4sJSJBpmzWicUlNuy1+zil3z/rzxINe95pGFVdaO/YAwGVzO4xQs4drHCm2LNT60/ntv8FO4zl5IHawoFX4LpNy1jOmyFICldxkezJ1+x5io15dLd9v7TukbSShjWQsBgk/8U9OQXzBOwu/mfPs3lV/clKH5UOmK9QO6hdNCejZK+Jjc3Jx1mcjJqTwR4TR1xJtInj48I0Tmni6Q+orWA0wUYr8Pf2Bw/viQ+XFNQCV27JznM6STj0ZkkxkW3Qqu59BaUWzu0DxsDHGJfMmep8Rll2UxetkcJtREky9PEdFUUPxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lx+ewCEYz5pGnVNc0ec9dUYSLkKdcarWZyqc+1qGA60=;
- b=EdaJYwjdaOgMRl3AyRLzFq6lKm+tBSN+xr59RLtqHUawSfl3aUgnxc0cMtYpTrKyMYsLnbwFZSK1jOWtmkQXlpyXUzxfPD+YQWrIHQxVG63vZjWE+bGlC34Y4ik5t0fcLpYO5I3wZ5rb8AcIx/xYk8TpgXfJTucOBjpg7ZIT95oDIHq9oi3omf6cWxGqvzbv9/N5erzGz42pUyQcAkJhfH8hJvtsmbVytiKOuEpRT1Eko/+LsRQH9vbrEA2wfOiymYxgq9MdobEJf7VfZAIGXG4c8VY1LgPEzgmuN2HC1p44ldHtbl0POQVk3HjDsrijp2sGwYUbiS2J7QW7FvBzoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lx+ewCEYz5pGnVNc0ec9dUYSLkKdcarWZyqc+1qGA60=;
- b=DAcIK8LTEwHpf4/dDFQ1QwglBLXn4F1pBPxtckuFXsS3QqT6GOqHMx5MCN3aHBr3AtIAQH++n2hfP1FAT8B2KN8gUwsXnHPwPQCaJvrKBNi99a9e60AIRFEiZ56acsndHiyNw3h7mMffi1LcakhNg0u1zzNEllGKb5Gl8aWZf3fd5ToklPEvtdpHp5e4o2f73rpT3/1Fvgzpx2eA45ejw6oAmTni/ywWGrb4zjT6GTjRsygRmFMJ4buQRtJE914jPjXd2FJciMHdvvSbLODMrPfgdX6CdEsPQ/VGYZBVNOkAI2eApSgFY6thRyyT84KP+pmR5W7lKqp/+pjeyni5fg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by PAWPR04MB9720.eurprd04.prod.outlook.com (2603:10a6:102:38d::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.27; Tue, 4 Mar
- 2025 08:24:02 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
- 08:24:02 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, victor.liu@nxp.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, peng.fan@nxp.com, alexander.stein@ew.tq-group.com
-Subject: [PATCH v5 2/2] drm/bridge: imx: Add i.MX93 parallel display format
- configuration support
-Date: Tue,  4 Mar 2025 16:24:34 +0800
-Message-Id: <20250304082434.834031-3-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250304082434.834031-1-victor.liu@nxp.com>
-References: <20250304082434.834031-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SGAP274CA0006.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::18)
- To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 643D810E142
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 08:40:58 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 121662116F;
+ Tue,  4 Mar 2025 08:40:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741077657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WcxpS6qKLwQnlWO+lXiY8CtbrH8YWv1Suk2TLeKCleQ=;
+ b=hQGF0H9bxFlP49CoyGMcqw5UtnNYb43t+YYarDhgcD7lYUgvA0fPYxYdZ1rXGvEELmUdAy
+ TgI6JA9se2e0IuNAZE3+7gc8hZDSIILynVc5WWBHZ/LyvCxmvhzwCJkxWcxnn9z1uJo4DA
+ ghyLexw5HawtHqPzQ+73bicQJeGpvhg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741077657;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WcxpS6qKLwQnlWO+lXiY8CtbrH8YWv1Suk2TLeKCleQ=;
+ b=n3Dgw0/6azz2OHlMl4ReEmiylY6D5qpaVR1IFYNDDA9Z4boJ8MV+IZKVs/sjO1hU2PyNt3
+ z79ImA9LlFptlwDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741077657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WcxpS6qKLwQnlWO+lXiY8CtbrH8YWv1Suk2TLeKCleQ=;
+ b=hQGF0H9bxFlP49CoyGMcqw5UtnNYb43t+YYarDhgcD7lYUgvA0fPYxYdZ1rXGvEELmUdAy
+ TgI6JA9se2e0IuNAZE3+7gc8hZDSIILynVc5WWBHZ/LyvCxmvhzwCJkxWcxnn9z1uJo4DA
+ ghyLexw5HawtHqPzQ+73bicQJeGpvhg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741077657;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WcxpS6qKLwQnlWO+lXiY8CtbrH8YWv1Suk2TLeKCleQ=;
+ b=n3Dgw0/6azz2OHlMl4ReEmiylY6D5qpaVR1IFYNDDA9Z4boJ8MV+IZKVs/sjO1hU2PyNt3
+ z79ImA9LlFptlwDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D6E6C1393C;
+ Tue,  4 Mar 2025 08:40:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sCvNMpi8xmeVPQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 04 Mar 2025 08:40:56 +0000
+Message-ID: <5314b1bb-5208-4342-a7a4-5c985ea0ce52@suse.de>
+Date: Tue, 4 Mar 2025 09:40:56 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PAWPR04MB9720:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67f67970-7113-4fe6-8bcc-08dd5af5eb87
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|52116014|366016|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?sLq4fOiEdGPKoGwqjE6BmSJuHznt65IxwmGRbv3lT9HCQC/saY3mJ2e1lNjO?=
- =?us-ascii?Q?rXARPI9BjS4Pqfi9SkouztfJ/n919trBJM/SuNkcrDW70yCw2uIjenNr/N95?=
- =?us-ascii?Q?2ahQ5woUJozBTCZ4V6Gm/IxPOb99jA8MaZ8Q4H45E1zdEKsdpw4yClwRDqvl?=
- =?us-ascii?Q?vBJCq4J2lXlLqR7H7vm/BfYFzB61Ejv9BkhTzPe04jFBWOoFZHWchnAiXrAf?=
- =?us-ascii?Q?P0XR/TuqANqefKefPWoFjT9LB3xpWQ47X+SeSJbjAS7TSPFzoJIAPLG9ESCS?=
- =?us-ascii?Q?6fV+dodSIJIeyUuV5XJHP9JiFJudazXafIvNWjxgB1sHyCJKos2IC/HODeOy?=
- =?us-ascii?Q?KMXzv0IGdfdGwxTkTqw9odFPN4JFHbx3yGQcCUbGY/DAC7OBDwhWFEA2Z00W?=
- =?us-ascii?Q?6sMoxT+UXdJuGaLYrk5xGtBDzBucv5HEK6J8FMBejhEm1tIeKDaECUwhWF6A?=
- =?us-ascii?Q?O8EvUFG0NSMxvG1LmgCWGzoN6k12HCv8OLYq0t2UwOKCc+TQ3jfvZY4hALCx?=
- =?us-ascii?Q?nmghWP7839I3woeW6rQMPBO43BR9et3wcKPqSD8HcU6K5BArvDkkaE0igx9P?=
- =?us-ascii?Q?rERbpjLGITGw3oXeBcPZ8+/hjjXv6T4YdVjlGh0VwPOjwRq+SEXo+H6zRMiU?=
- =?us-ascii?Q?t8ireUS+uHXXGBBVpM+d6YOJ+f7uQPe/NduYaaqVASwenwF/ise5Rjd21Sfv?=
- =?us-ascii?Q?JCxx9EzS+7TzDnnlKQ0eUk+l3VOWLAlTu77J4033/3SvEHfQcctoAC3HTan/?=
- =?us-ascii?Q?6DXR9JFvN2XrDD2ZOIm2kNxN5mFcRjJCuKUJLU+Nc2FUW+P3xaekn5kpeBnh?=
- =?us-ascii?Q?Q6G5/BDtYmO2Rqs3xURlvQuX5hAV4/RUdNhYvEY4bK75bzvh4hxSYDZFdaY0?=
- =?us-ascii?Q?hxyel7o58cwTEioXZB6HWvbshguIpHaTRkjP9CKfSFuIlATOv3OGSuj7HxG5?=
- =?us-ascii?Q?xagbRYFzbJdapWhiJw+LSFu+2tV+WXplBmN1GIf6vMYax11uQjAYt6csP06P?=
- =?us-ascii?Q?CjM7WyyNOiPRqIpyXrEe/7O8hgEOwEViDfC40pugNw5x6ddmwJEK4jvj0e40?=
- =?us-ascii?Q?RAPl2CDwWhmHQEuUjDk6Pwo2LnLLQEmu69V+L4c55dyjV4FQo+e3S5wNqD02?=
- =?us-ascii?Q?58c02oimCeVtrL6Y1XtEh8ZYibrgCYlzjWqgNUzRf7S0/14GNiSfyjMXcPEt?=
- =?us-ascii?Q?QyqAON2tXU01Sf4OmUz27ja5e2R9yip1YAcJMDvLxrVTYy99Ba11CO08zxNd?=
- =?us-ascii?Q?84ZrLQh3aPWS5Xb8jxnJJDw38nNBV8+ppCzzpYfhaaVDpzWCqhwLgRj/wNDT?=
- =?us-ascii?Q?HZeNLvyMsbLv8lZ6UrR2wfg4xHvV476pjeQekpfYWYKq7Y0GmK5duTC7ve5A?=
- =?us-ascii?Q?XMiBKT3eLlrEg+kawJbmclisDA4TtG+Urs/Vb7CXgX2qILxECUGmyId68DH3?=
- =?us-ascii?Q?CKDf7fxGB1KDgWZOGMPT3UqvsbSKAJIN?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(52116014)(366016)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fzPYmP9P5G8SLG26dHwnBlaVB4yLzsAyMsoMXIT2y9k0DzRDZ2uix2drLaBi?=
- =?us-ascii?Q?f7Z0WYGWon8sWKqQ1u0ojBmFIJ+j5FllWnqs7BpmpyOzLJI+C7WZEr8CRYg3?=
- =?us-ascii?Q?GNUF15Hoow+Sbh7zhqXSH7kVfDNhc+shbfH6UjYQWGAhEnFF9P6t10AdOngP?=
- =?us-ascii?Q?2Z04ZmOcMdPeKoQGSAZHQEICRr+M59CDJFD2AQb8L6qc18FTq+LX9PVhWJag?=
- =?us-ascii?Q?LQSFm1a7czWUs9UcmaPe4amJOuv88PZve831SK7/sr5CllR2R89H2qzYqoED?=
- =?us-ascii?Q?T2+diwtylKasQzSCSomrul49zLdxrxP/PQGh6qmVhVEZFQ45BY1TRpnQTRYb?=
- =?us-ascii?Q?SqYSPxqwIZMSKoRRetwHq0bBcWtNnDVFkA9qS8erOUWPkaRB7SghNbjmNyVG?=
- =?us-ascii?Q?r2wsOTAB/Ko2DsqFv0yJZ0UbrkoHw1quNRWIrPP1TlzS8TOczPuabMolk3r1?=
- =?us-ascii?Q?YKp/D0+P1Q/uVMV4X9x2KmT/RQ4eeBBg0nMXG3R1EhFhil1lCaFSzUgTNsqS?=
- =?us-ascii?Q?MZzWck4sr+R7r1nlTBo/u+RAsCul8BzqCIAvk0vEg2Git42J4sElimn+fIXJ?=
- =?us-ascii?Q?SkSGikkVAD1DbdM7rgLQA3jasfDghySYmiU5OfhjZZe7xzKYSreI3T2C62w4?=
- =?us-ascii?Q?CyBQWn5bdexF6K3sJYhCgM1zjqJrsMt000KzEj6PM6f/kdaXUg78qkhSh8UY?=
- =?us-ascii?Q?5t2uUusCQmtO0Le+cDDf/+2ole0wqGFGoVLn7+lR+ALrBwJNe6LKuM5yHIX7?=
- =?us-ascii?Q?JlnO3exdJXCwCLFf6CYf0bpvXNXkKa3ywEGsPzZuT6k6R/J+oTuyGENzTSTp?=
- =?us-ascii?Q?FaKe6xOujb1KzO8g/iDczsNeRQZHjH3G0b44dXifPLmQcKTzW5lTVsnlY8jS?=
- =?us-ascii?Q?lNL1r7FKHY2ova2jKWnNdDaeejgkT8JTfAdf4QJN/MuIFTIGjy9xgc+rPe1J?=
- =?us-ascii?Q?irh3LC5fhZ9wCvLcUww8wMob9WiGqrc0Vdw7HUUCeHHlbp2lwVc84UMv0nPe?=
- =?us-ascii?Q?LUaw/f0T3jJhFZsPPcudnun8S1PmAER5Ej9hKld5/tiBMukwxVdj75K/5siD?=
- =?us-ascii?Q?/sRb+qARc8POicK2YT4o0IXP5fAoZ/KruvA/bPe7eFcfU8PsGICVXnGegZMv?=
- =?us-ascii?Q?61ubZhFnJoPE1Ts1PuO9CK1OMLNx4h9R0soaunVU7dC1sp26jjz1mqVmwNwf?=
- =?us-ascii?Q?tXH701WsMu7jZIjfZ5XDK5YOMMpdJoblOQJQMMNHo38IyXj/qAJsGhOSSSS0?=
- =?us-ascii?Q?s1GQP3K8UnnvjlqJbqQvfY8buHH6aOvLm+Vgv9Ypm/ny4d/Q9kZh+qx0vuIR?=
- =?us-ascii?Q?46+wI0aNnQRpJCMsajHZbrzv9p2Ym4ELdXMTj3yfyLSqfMj/UF22kSCkJTGE?=
- =?us-ascii?Q?ltAHG45gkjwBARNSCT3QEXTwRVWYIlAAjyTiVDoJKc8jj4qbaew2aER3IOlV?=
- =?us-ascii?Q?oVlxF9qb6KjLQvLMecaCWPQuAiVMrfPObOocusFsncDlQVfUHUEOEe9KM7pZ?=
- =?us-ascii?Q?Dw8XMa2hstLJhRzxhtqMpATVP+UtgbD1pRAy9LuNlGux9k349usdD4t3fHCx?=
- =?us-ascii?Q?hCDgReywAW1LyH/+IafRhVC2Y08ezeTCnrI+bbZ7?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67f67970-7113-4fe6-8bcc-08dd5af5eb87
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 08:24:02.3514 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kgo+CnOONjejkm2D4NuYnrg4249Ff3J8Y6HkYmeM+/1A6uBROoYLOzFp5XHUZL8WmSPka1CT2exBhg1Q/qlFxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9720
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ast: Support both SHMEM helper and VRAM helper
+To: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@gmail.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Huacai Chen <chenhuacai@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+References: <20250304063351.3975323-1-chenhuacai@loongson.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250304063351.3975323-1-chenhuacai@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[loongson.cn,gmail.com,redhat.com,kernel.org];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[5]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,257 +141,427 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
-configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-field. Add a DRM bridge driver to support the display format configuration.
+Hi
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v4->v5:
-* Rebase upon next-20250303.  This causes the drop of .remove_new by using
-  devm_drm_bridge_add().  Also, this causes API change for
-  imx93_pdfc_bridge_atomic_enable().
-* Update year of copyright.
+Am 04.03.25 um 07:33 schrieb Huacai Chen:
+> Commit f2fa5a99ca81ce105653 ("drm/ast: Convert ast to SHMEM") converts
+> ast from VRAM helper to SHMEM helper. The convertion makesast support
+> higher display resolutions, but the performance decreases significantly
+> on platforms which don't support writecombine (fallback to uncached).
+>
+> This patch implements both SHMEM helper and VRAM helper for ast driver
+> at the same time. A module parameter ast.shmem is added, 1 means SHMEM
+> hepler, 0 means VRAM helper, and the default (-1) means auto selection
+> according to drm_arch_can_wc_memory().
 
-v3->v4:
-* Use dev_err_probe() in imx93_pdfc_bridge_probe(). (Krzysztof)
-* Drop MODULE_ALIAS(). (Krzysztof)
-* Update year of Copyright.
+Sorry won't happen. There's one memory manager and that's it.
 
-v2->v3:
-* No change.
-* Resend with the patch rebased upon v6.11-rc1.
+The question is why there is a difference between the two. Because 
+conceptually, it's both software rendering that copies the final image 
+into video ram. Why is that much faster with VRAM helpers?
 
-v1->v2:
-* Set *num_input_fmts to zero in case
-  imx93_pdfc_bridge_atomic_get_input_bus_fmts() returns NULL.
-* Replace .remove callback with .remove_new callback in
-  imx93_pdfc_bridge_driver.
+Best regards
+Thomas
 
- drivers/gpu/drm/bridge/imx/Kconfig      |   8 +
- drivers/gpu/drm/bridge/imx/Makefile     |   1 +
- drivers/gpu/drm/bridge/imx/imx93-pdfc.c | 186 ++++++++++++++++++++++++
- 3 files changed, 195 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/imx/imx93-pdfc.c
+>
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> ---
+>   drivers/gpu/drm/ast/Kconfig    |   3 +
+>   drivers/gpu/drm/ast/ast_drv.c  |  31 ++++++++--
+>   drivers/gpu/drm/ast/ast_drv.h  |   6 +-
+>   drivers/gpu/drm/ast/ast_mm.c   |  11 +++-
+>   drivers/gpu/drm/ast/ast_mode.c | 105 +++++++++++++++++++++++++--------
+>   5 files changed, 124 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kconfig
+> index da0663542e8a..ed07ef70072f 100644
+> --- a/drivers/gpu/drm/ast/Kconfig
+> +++ b/drivers/gpu/drm/ast/Kconfig
+> @@ -5,6 +5,9 @@ config DRM_AST
+>   	select DRM_CLIENT_SELECTION
+>   	select DRM_GEM_SHMEM_HELPER
+>   	select DRM_KMS_HELPER
+> +	select DRM_TTM
+> +	select DRM_TTM_HELPER
+> +	select DRM_VRAM_HELPER
+>   	select I2C
+>   	select I2C_ALGOBIT
+>   	help
+> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+> index ff3bcdd1cff2..a0c693844f1e 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.c
+> +++ b/drivers/gpu/drm/ast/ast_drv.c
+> @@ -33,9 +33,12 @@
+>   
+>   #include <drm/clients/drm_client_setup.h>
+>   #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_cache.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fbdev_shmem.h>
+> +#include <drm/drm_fbdev_ttm.h>
+>   #include <drm/drm_gem_shmem_helper.h>
+> +#include <drm/drm_gem_vram_helper.h>
+>   #include <drm/drm_module.h>
+>   #include <drm/drm_probe_helper.h>
+>   
+> @@ -46,13 +49,18 @@ static int ast_modeset = -1;
+>   MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+>   module_param_named(modeset, ast_modeset, int, 0400);
+>   
+> +int ast_shmem = -1;
+> +
+> +MODULE_PARM_DESC(shmem, "1 = SHMEM helper, 0 = VRAM helper, -1 = Auto");
+> +module_param_named(shmem, ast_shmem, int, 0400);
+> +
+>   /*
+>    * DRM driver
+>    */
+>   
+>   DEFINE_DRM_GEM_FOPS(ast_fops);
+>   
+> -static const struct drm_driver ast_driver = {
+> +static struct drm_driver ast_driver = {
+>   	.driver_features = DRIVER_ATOMIC |
+>   			   DRIVER_GEM |
+>   			   DRIVER_MODESET,
+> @@ -63,9 +71,6 @@ static const struct drm_driver ast_driver = {
+>   	.major = DRIVER_MAJOR,
+>   	.minor = DRIVER_MINOR,
+>   	.patchlevel = DRIVER_PATCHLEVEL,
+> -
+> -	DRM_GEM_SHMEM_DRIVER_OPS,
+> -	DRM_FBDEV_SHMEM_DRIVER_OPS,
+>   };
+>   
+>   /*
+> @@ -280,6 +285,24 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>   	struct drm_device *drm;
+>   	bool need_post = false;
+>   
+> +	if (ast_shmem == -1)
+> +		ast_shmem = drm_arch_can_wc_memory() ? 1 : 0;
+> +
+> +	if (ast_shmem) {
+> +		ast_driver.dumb_create = drm_gem_shmem_dumb_create;
+> +		ast_driver.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table;
+> +#ifdef CONFIG_DRM_FBDEV_EMULATION
+> +		ast_driver.fbdev_probe = drm_fbdev_shmem_driver_fbdev_probe;
+> +#endif
+> +	} else {
+> +		ast_driver.dumb_create = drm_gem_vram_driver_dumb_create;
+> +		ast_driver.dumb_map_offset = drm_gem_ttm_dumb_map_offset;
+> +		ast_driver.debugfs_init = drm_vram_mm_debugfs_init;
+> +#ifdef CONFIG_DRM_FBDEV_EMULATION
+> +		ast_driver.fbdev_probe = drm_fbdev_ttm_driver_fbdev_probe;
+> +#endif
+> +	}
+> +
+>   	ret = aperture_remove_conflicting_pci_devices(pdev, ast_driver.name);
+>   	if (ret)
+>   		return ret;
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index 6b4305ac07d4..3fcf6717ad8a 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -29,6 +29,7 @@
+>   #define __AST_DRV_H__
+>   
+>   #include <linux/io.h>
+> +#include <linux/iosys-map.h>
+>   #include <linux/types.h>
+>   
+>   #include <drm/drm_connector.h>
+> @@ -53,6 +54,8 @@
+>   
+>   #define __AST_CHIP(__gen, __index)	((__gen) << 16 | (__index))
+>   
+> +extern int ast_shmem;
+> +
+>   enum ast_chip {
+>   	/* 1st gen */
+>   	AST1000 = __AST_CHIP(1, 0), // unused
+> @@ -130,7 +133,8 @@ enum ast_config_mode {
+>   struct ast_plane {
+>   	struct drm_plane base;
+>   
+> -	void __iomem *vaddr;
+> +	struct drm_gem_vram_object *gbo;
+> +	struct iosys_map map;
+>   	u64 offset;
+>   	unsigned long size;
+>   };
+> diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
+> index 6dfe6d9777d4..588326b7d53e 100644
+> --- a/drivers/gpu/drm/ast/ast_mm.c
+> +++ b/drivers/gpu/drm/ast/ast_mm.c
+> @@ -28,6 +28,7 @@
+>   
+>   #include <linux/pci.h>
+>   
+> +#include <drm/drm_gem_vram_helper.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_print.h>
+>   
+> @@ -87,9 +88,13 @@ int ast_mm_init(struct ast_device *ast)
+>   
+>   	vram_size = ast_get_vram_size(ast);
+>   
+> -	ast->vram = devm_ioremap_wc(dev->dev, base, vram_size);
+> -	if (!ast->vram)
+> -		return -ENOMEM;
+> +	if (!ast_shmem)
+> +		drmm_vram_helper_init(dev, base, vram_size);
+> +	else {
+> +		ast->vram = devm_ioremap_wc(dev->dev, base, vram_size);
+> +		if (!ast->vram)
+> +			return -ENOMEM;
+> +	}
+>   
+>   	ast->vram_base = base;
+>   	ast->vram_size = vram_size;
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 9d5321c81e68..0744d1ac5dfb 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -41,6 +41,7 @@
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_gem_shmem_helper.h>
+> +#include <drm/drm_gem_vram_helper.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_panic.h>
+>   #include <drm/drm_probe_helper.h>
+> @@ -566,8 +567,7 @@ static void ast_wait_for_vretrace(struct ast_device *ast)
+>    */
+>   
+>   static int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
+> -			  void __iomem *vaddr, u64 offset, unsigned long size,
+> -			  uint32_t possible_crtcs,
+> +			  u64 offset, unsigned long size, uint32_t possible_crtcs,
+>   			  const struct drm_plane_funcs *funcs,
+>   			  const uint32_t *formats, unsigned int format_count,
+>   			  const uint64_t *format_modifiers,
+> @@ -575,7 +575,6 @@ static int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
+>   {
+>   	struct drm_plane *plane = &ast_plane->base;
+>   
+> -	ast_plane->vaddr = vaddr;
+>   	ast_plane->offset = offset;
+>   	ast_plane->size = size;
+>   
+> @@ -630,7 +629,7 @@ static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src
+>   			      struct drm_framebuffer *fb,
+>   			      const struct drm_rect *clip)
+>   {
+> -	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane->vaddr);
+> +	struct iosys_map dst = ast_plane->map;
+>   
+>   	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+>   	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
+> @@ -650,6 +649,7 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   	struct drm_crtc *crtc = plane_state->crtc;
+>   	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+>   	struct drm_rect damage;
+> +	struct drm_gem_vram_object *gbo;
+>   	struct drm_atomic_helper_damage_iter iter;
+>   
+>   	if (!old_fb || (fb->format != old_fb->format) || crtc_state->mode_changed) {
+> @@ -660,9 +660,15 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
+>   	}
+>   
+> -	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+> -	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> -		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
+> +	if (!ast_shmem) {
+> +		gbo = drm_gem_vram_of_gem(fb->obj[0]);
+> +		ast_plane->offset = drm_gem_vram_offset(gbo);
+> +		ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
+> +	} else {
+> +		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+> +		drm_atomic_for_each_plane_damage(&iter, &damage) {
+> +			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
+> +		}
+>   	}
+>   
+>   	/*
+> @@ -704,19 +710,18 @@ static int ast_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
+>   {
+>   	struct ast_plane *ast_plane = to_ast_plane(plane);
+>   
+> -	if (plane->state && plane->state->fb && ast_plane->vaddr) {
+> +	if (plane->state && plane->state->fb && ast_plane->map.vaddr_iomem) {
+>   		sb->format = plane->state->fb->format;
+>   		sb->width = plane->state->fb->width;
+>   		sb->height = plane->state->fb->height;
+>   		sb->pitch[0] = plane->state->fb->pitches[0];
+> -		iosys_map_set_vaddr_iomem(&sb->map[0], ast_plane->vaddr);
+> +		iosys_map_set_vaddr_iomem(&sb->map[0], ast_plane->map.vaddr_iomem);
+>   		return 0;
+>   	}
+>   	return -ENODEV;
+>   }
+>   
+> -static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+> -	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+> +static struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+>   	.atomic_check = ast_primary_plane_helper_atomic_check,
+>   	.atomic_update = ast_primary_plane_helper_atomic_update,
+>   	.atomic_enable = ast_primary_plane_helper_atomic_enable,
+> @@ -724,11 +729,10 @@ static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+>   	.get_scanout_buffer = ast_primary_plane_helper_get_scanout_buffer,
+>   };
+>   
+> -static const struct drm_plane_funcs ast_primary_plane_funcs = {
+> +static struct drm_plane_funcs ast_primary_plane_funcs = {
+>   	.update_plane = drm_atomic_helper_update_plane,
+>   	.disable_plane = drm_atomic_helper_disable_plane,
+>   	.destroy = drm_plane_cleanup,
+> -	DRM_GEM_SHADOW_PLANE_FUNCS,
+>   };
+>   
+>   static int ast_primary_plane_init(struct ast_device *ast)
+> @@ -737,12 +741,28 @@ static int ast_primary_plane_init(struct ast_device *ast)
+>   	struct ast_plane *ast_primary_plane = &ast->primary_plane;
+>   	struct drm_plane *primary_plane = &ast_primary_plane->base;
+>   	void __iomem *vaddr = ast->vram;
+> -	u64 offset = 0; /* with shmem, the primary plane is always at offset 0 */
+> +	u64 offset = 0; /* the primary plane is initially at offset 0 */
+>   	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+>   	unsigned long size = ast->vram_fb_available - cursor_size;
+>   	int ret;
+>   
+> -	ret = ast_plane_init(dev, ast_primary_plane, vaddr, offset, size,
+> +	if (ast_shmem) {
+> +		ast_primary_plane_funcs.reset = drm_gem_reset_shadow_plane;
+> +		ast_primary_plane_funcs.atomic_duplicate_state = drm_gem_duplicate_shadow_plane_state;
+> +		ast_primary_plane_funcs.atomic_destroy_state = drm_gem_destroy_shadow_plane_state;
+> +		ast_primary_plane_helper_funcs.begin_fb_access = drm_gem_begin_shadow_fb_access;
+> +		ast_primary_plane_helper_funcs.end_fb_access = drm_gem_end_shadow_fb_access;
+> +	} else {
+> +		ast_primary_plane_funcs.reset = drm_atomic_helper_plane_reset;
+> +		ast_primary_plane_funcs.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state;
+> +		ast_primary_plane_funcs.atomic_destroy_state = drm_atomic_helper_plane_destroy_state;
+> +		ast_primary_plane_helper_funcs.prepare_fb = drm_gem_vram_plane_helper_prepare_fb;
+> +		ast_primary_plane_helper_funcs.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb;
+> +	}
+> +
+> +	iosys_map_set_vaddr_iomem(&ast_primary_plane->map, vaddr);
+> +
+> +	ret = ast_plane_init(dev, ast_primary_plane, offset, size,
+>   			     0x01, &ast_primary_plane_funcs,
+>   			     ast_primary_plane_formats, ARRAY_SIZE(ast_primary_plane_formats),
+>   			     NULL, DRM_PLANE_TYPE_PRIMARY);
+> @@ -902,10 +922,11 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+>   	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+>   	struct ast_device *ast = to_ast_device(plane->dev);
+>   	struct iosys_map src_map = shadow_plane_state->data[0];
+> +	struct iosys_map dst_map = ast_plane->map;
+>   	struct drm_rect damage;
+>   	const u8 *src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
+>   	u64 dst_off = ast_plane->offset;
+> -	u8 __iomem *dst = ast_plane->vaddr; /* TODO: Use mapping abstraction properly */
+> +	u8 __iomem *dst = dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
+>   	u8 __iomem *sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
+>   	unsigned int offset_x, offset_y;
+>   	u16 x, y;
+> @@ -967,10 +988,22 @@ static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
+>   	.atomic_disable = ast_cursor_plane_helper_atomic_disable,
+>   };
+>   
+> -static const struct drm_plane_funcs ast_cursor_plane_funcs = {
+> +static void ast_cursor_plane_destroy(struct drm_plane *plane)
+> +{
+> +	struct ast_plane *ast_plane = to_ast_plane(plane);
+> +	struct drm_gem_vram_object *gbo = ast_plane->gbo;
+> +	struct iosys_map map = ast_plane->map;
+> +
+> +	drm_gem_vram_vunmap(gbo, &map);
+> +	drm_gem_vram_unpin(gbo);
+> +	drm_gem_vram_put(gbo);
+> +
+> +	drm_plane_cleanup(plane);
+> +}
+> +
+> +static struct drm_plane_funcs ast_cursor_plane_funcs = {
+>   	.update_plane = drm_atomic_helper_update_plane,
+>   	.disable_plane = drm_atomic_helper_disable_plane,
+> -	.destroy = drm_plane_cleanup,
+>   	DRM_GEM_SHADOW_PLANE_FUNCS,
+>   };
+>   
+> @@ -979,6 +1012,8 @@ static int ast_cursor_plane_init(struct ast_device *ast)
+>   	struct drm_device *dev = &ast->base;
+>   	struct ast_plane *ast_cursor_plane = &ast->cursor_plane;
+>   	struct drm_plane *cursor_plane = &ast_cursor_plane->base;
+> +	struct drm_gem_vram_object *gbo;
+> +	struct iosys_map map;
+>   	size_t size;
+>   	void __iomem *vaddr;
+>   	u64 offset;
+> @@ -994,10 +1029,25 @@ static int ast_cursor_plane_init(struct ast_device *ast)
+>   	if (ast->vram_fb_available < size)
+>   		return -ENOMEM;
+>   
+> -	vaddr = ast->vram + ast->vram_fb_available - size;
+> -	offset = ast->vram_fb_available - size;
+> +	if (ast_shmem) {
+> +		vaddr = ast->vram + ast->vram_fb_available - size;
+> +		offset = ast->vram_fb_available - size;
+> +		iosys_map_set_vaddr_iomem(&ast_cursor_plane->map, vaddr);
+> +		ast_cursor_plane_funcs.destroy = drm_plane_cleanup;
+> +	} else {
+> +		gbo = drm_gem_vram_create(dev, size, 0);
+> +		if (IS_ERR(gbo))
+> +			return PTR_ERR(gbo);
+> +
+> +		drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM | DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
+> +		drm_gem_vram_vmap(gbo, &map);
+> +		offset = drm_gem_vram_offset(gbo);
+> +		ast_cursor_plane->gbo = gbo;
+> +		ast_cursor_plane->map = map;
+> +		ast_cursor_plane_funcs.destroy = ast_cursor_plane_destroy;
+> +	}
+>   
+> -	ret = ast_plane_init(dev, ast_cursor_plane, vaddr, offset, size,
+> +	ret = ast_plane_init(dev, ast_cursor_plane, offset, size,
+>   			     0x01, &ast_cursor_plane_funcs,
+>   			     ast_cursor_plane_formats, ARRAY_SIZE(ast_cursor_plane_formats),
+>   			     NULL, DRM_PLANE_TYPE_CURSOR);
+> @@ -1348,9 +1398,7 @@ static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
+>   	return MODE_OK;
+>   }
+>   
+> -static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+> -	.fb_create = drm_gem_fb_create_with_dirty,
+> -	.mode_valid = ast_mode_config_mode_valid,
+> +static struct drm_mode_config_funcs ast_mode_config_funcs = {
+>   	.atomic_check = drm_atomic_helper_check,
+>   	.atomic_commit = drm_atomic_helper_commit,
+>   };
+> @@ -1372,6 +1420,15 @@ int ast_mode_config_init(struct ast_device *ast)
+>   	dev->mode_config.min_width = 0;
+>   	dev->mode_config.min_height = 0;
+>   	dev->mode_config.preferred_depth = 24;
+> +	dev->mode_config.prefer_shadow = !ast_shmem;
+> +
+> +	if (!ast_shmem) {
+> +		ast_mode_config_funcs.fb_create = drm_gem_fb_create;
+> +		ast_mode_config_funcs.mode_valid = drm_vram_helper_mode_valid;
+> +	} else {
+> +		ast_mode_config_funcs.fb_create = drm_gem_fb_create_with_dirty;
+> +		ast_mode_config_funcs.mode_valid = ast_mode_config_mode_valid;
+> +	}
+>   
+>   	if (ast->chip == AST2100 || // GEN2, but not AST1100 (?)
+>   	    ast->chip == AST2200 || // GEN3, but not AST2150 (?)
 
-diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-index 9a480c6abb85..51138d74ddfb 100644
---- a/drivers/gpu/drm/bridge/imx/Kconfig
-+++ b/drivers/gpu/drm/bridge/imx/Kconfig
-@@ -88,4 +88,12 @@ config DRM_IMX93_MIPI_DSI
- 	  Choose this to enable MIPI DSI controller found in Freescale i.MX93
- 	  processor.
- 
-+config DRM_IMX93_PARALLEL_DISP_FMT_CONFIG
-+	tristate "NXP i.MX93 parallel display format configuration"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  Choose this to enable parallel display format configuration
-+	  found in NXP i.MX93 processor.
-+
- endif # ARCH_MXC || COMPILE_TEST
-diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-index dd5d48584806..f4ccc5cbef72 100644
---- a/drivers/gpu/drm/bridge/imx/Makefile
-+++ b/drivers/gpu/drm/bridge/imx/Makefile
-@@ -8,3 +8,4 @@ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
- obj-$(CONFIG_DRM_IMX93_MIPI_DSI) += imx93-mipi-dsi.o
-+obj-$(CONFIG_DRM_IMX93_PARALLEL_DISP_FMT_CONFIG) += imx93-pdfc.o
-diff --git a/drivers/gpu/drm/bridge/imx/imx93-pdfc.c b/drivers/gpu/drm/bridge/imx/imx93-pdfc.c
-new file mode 100644
-index 000000000000..7dfb87e64197
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/imx/imx93-pdfc.c
-@@ -0,0 +1,186 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+/*
-+ * Copyright 2022-2025 NXP
-+ */
-+
-+#include <linux/media-bus-format.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_print.h>
-+
-+#define DISPLAY_MUX		0x60
-+#define  PARALLEL_DISP_FORMAT	0x700
-+
-+enum imx93_pdfc_format {
-+	RGB888_TO_RGB888 = 0x0,
-+	RGB888_TO_RGB666 = 0x1 << 8,
-+	RGB565_TO_RGB565 = 0x2 << 8,
-+};
-+
-+struct imx93_pdfc {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct device *dev;
-+	struct regmap *regmap;
-+	u32 format;
-+};
-+
-+static int imx93_pdfc_bridge_attach(struct drm_bridge *bridge,
-+				    enum drm_bridge_attach_flags flags)
-+{
-+	struct imx93_pdfc *pdfc = bridge->driver_private;
-+
-+	return drm_bridge_attach(bridge->encoder, pdfc->next_bridge, bridge, flags);
-+}
-+
-+static void imx93_pdfc_bridge_atomic_enable(struct drm_bridge *bridge,
-+					    struct drm_atomic_state *state)
-+{
-+	struct imx93_pdfc *pdfc = bridge->driver_private;
-+
-+	regmap_update_bits(pdfc->regmap, DISPLAY_MUX, PARALLEL_DISP_FORMAT,
-+			   pdfc->format);
-+}
-+
-+static const u32 imx93_pdfc_bus_output_fmts[] = {
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+	MEDIA_BUS_FMT_RGB666_1X18,
-+	MEDIA_BUS_FMT_RGB565_1X16,
-+	MEDIA_BUS_FMT_FIXED
-+};
-+
-+static bool imx93_pdfc_bus_output_fmt_supported(u32 fmt)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(imx93_pdfc_bus_output_fmts); i++) {
-+		if (imx93_pdfc_bus_output_fmts[i] == fmt)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static u32 *
-+imx93_pdfc_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+					    struct drm_bridge_state *bridge_state,
-+					    struct drm_crtc_state *crtc_state,
-+					    struct drm_connector_state *conn_state,
-+					    u32 output_fmt,
-+					    unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	*num_input_fmts = 0;
-+
-+	if (!imx93_pdfc_bus_output_fmt_supported(output_fmt))
-+		return NULL;
-+
-+	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	switch (output_fmt) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB565_1X16:
-+		input_fmts[0] = output_fmt;
-+		break;
-+	case MEDIA_BUS_FMT_RGB666_1X18:
-+	case MEDIA_BUS_FMT_FIXED:
-+		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+		break;
-+	}
-+
-+	*num_input_fmts = 1;
-+
-+	return input_fmts;
-+}
-+
-+static int imx93_pdfc_bridge_atomic_check(struct drm_bridge *bridge,
-+					  struct drm_bridge_state *bridge_state,
-+					  struct drm_crtc_state *crtc_state,
-+					  struct drm_connector_state *conn_state)
-+{
-+	struct imx93_pdfc *pdfc = bridge->driver_private;
-+
-+	switch (bridge_state->output_bus_cfg.format) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+		pdfc->format = RGB888_TO_RGB888;
-+		break;
-+	case MEDIA_BUS_FMT_RGB666_1X18:
-+		pdfc->format = RGB888_TO_RGB666;
-+		break;
-+	case MEDIA_BUS_FMT_RGB565_1X16:
-+		pdfc->format = RGB565_TO_RGB565;
-+		break;
-+	default:
-+		DRM_DEV_DEBUG_DRIVER(pdfc->dev, "Unsupported output bus format: 0x%x\n",
-+				     bridge_state->output_bus_cfg.format);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct drm_bridge_funcs imx93_pdfc_bridge_funcs = {
-+	.attach			= imx93_pdfc_bridge_attach,
-+	.atomic_enable		= imx93_pdfc_bridge_atomic_enable,
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_get_input_bus_fmts	= imx93_pdfc_bridge_atomic_get_input_bus_fmts,
-+	.atomic_check		= imx93_pdfc_bridge_atomic_check,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+};
-+
-+static int imx93_pdfc_bridge_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct imx93_pdfc *pdfc;
-+
-+	pdfc = devm_kzalloc(dev, sizeof(*pdfc), GFP_KERNEL);
-+	if (!pdfc)
-+		return -ENOMEM;
-+
-+	pdfc->regmap = syscon_node_to_regmap(dev->of_node->parent);
-+	if (IS_ERR(pdfc->regmap))
-+		return dev_err_probe(dev, PTR_ERR(pdfc->regmap),
-+				     "failed to get regmap\n");
-+
-+	pdfc->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-+	if (IS_ERR(pdfc->next_bridge))
-+		return dev_err_probe(dev, PTR_ERR(pdfc->next_bridge),
-+				     "failed to get next bridge\n");
-+
-+	pdfc->dev = dev;
-+	pdfc->bridge.driver_private = pdfc;
-+	pdfc->bridge.funcs = &imx93_pdfc_bridge_funcs;
-+	pdfc->bridge.of_node = dev->of_node;
-+
-+	return devm_drm_bridge_add(dev, &pdfc->bridge);
-+}
-+
-+static const struct of_device_id imx93_pdfc_dt_ids[] = {
-+	{ .compatible = "nxp,imx93-pdfc", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx93_pdfc_dt_ids);
-+
-+static struct platform_driver imx93_pdfc_bridge_driver = {
-+	.probe	= imx93_pdfc_bridge_probe,
-+	.driver	= {
-+		.of_match_table = imx93_pdfc_dt_ids,
-+		.name = "imx93_pdfc",
-+	},
-+};
-+module_platform_driver(imx93_pdfc_bridge_driver);
-+
-+MODULE_DESCRIPTION("NXP i.MX93 parallel display format configuration driver");
-+MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-+MODULE_LICENSE("GPL v2");
 -- 
-2.34.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
