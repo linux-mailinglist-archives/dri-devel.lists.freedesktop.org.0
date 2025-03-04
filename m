@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820F1A4E11D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 15:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D3BA4E11B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 15:36:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F6B10E5FA;
-	Tue,  4 Mar 2025 14:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0C2010E5F8;
+	Tue,  4 Mar 2025 14:36:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WnnqUW7W";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oxJwVlpA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FD6810E5F7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10BAB10E5FA
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 14:36:36 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 06406442E6;
- Tue,  4 Mar 2025 14:36:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 44681442FE;
+ Tue,  4 Mar 2025 14:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
  t=1741098995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=itW/Kdo3+beQ75wEt1HlHRfjEyJMbCzo+HOagsl1x3c=;
- b=WnnqUW7WrPa44nGffs7tuZGvKYME1C+0FYDIzwKbEvWTjI5gojVBY/T55BZUwYc9XTdbdX
- n0gCKLRVU8LIC2Ha0jUzJ0qR2vUlkibvp3Y2+WWRswafjleUSoGo32EAxOSFymbYB5dqVC
- OdqJvTzhSIezcVruzy6DEA+h/6zfZ5dXUYFTTSbnL8mC2GlVkK1j9pt5qYp00zcqBl/ziX
- 5qOrobAnfn01Li9+7T1lyF9ICigs9BrUlAho+yLLfNuJk5n7sXjkx7q769Bcf3+xSFvvU7
- /+di/U29QY9D37u9buhXp5YwBFFvqjf/b9WOcs/8Y3DaQs//DMSzmiB4VZ+m3Q==
+ bh=OlI4pYP2rRQ0BJi3/bVqtCID19Cb9zPWADed9QQPtuE=;
+ b=oxJwVlpA33ybk3fquxhR6LkD5wxclaWtz/Qhk19epmxmZjXrnOGLe7cJ5AA0lRQQEcKTaH
+ 3vZXPBsxKmglvHM4F9KqbB7wXLnHTCALRqVL040Kq06y8hcXctka/j/4OuYmmd23m+51rU
+ RQgu8sVj+e5abiw5U3sS6+DLiw/iWjurx3RzWcQM9/ZKtqaHl12mC2SgKURHhrFTYRALHu
+ BOmoS3Fh208QqKRs99DXcLk1ciU/jajChXJuQzeyu2mMrSXDOKe/rt2fvh5hdg9WjWBsl0
+ cOkx9hCwmKxFmN5KskoMekTRNWD8afu8jITGJ6tX4bNpmo0ME8br1tn+xZz46w==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 04 Mar 2025 15:36:29 +0100
-Subject: [PATCH libdrm 1/2] util: Add option to change the color for plain
- pattern
+Date: Tue, 04 Mar 2025 15:36:30 +0100
+Subject: [PATCH libdrm 2/2] modetest: Add color configuration for plain pattern
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250304-color-option-v1-1-be521604fbff@bootlin.com>
+Message-Id: <20250304-color-option-v1-2-be521604fbff@bootlin.com>
 References: <20250304-color-option-v1-0-be521604fbff@bootlin.com>
 In-Reply-To: <20250304-color-option-v1-0-be521604fbff@bootlin.com>
 To: dri-devel@lists.freedesktop.org
 Cc: thomas.petazzoni@bootlin.com, miquel.raynal@bootlin.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3104;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4994;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=sibSiAxJT/m859YBtOQWxFKJ1oNO+vAY85231p1B2rI=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnxw/xsMpJjyRfg7IUTHr+8kveMNnijosvrhcGF
- Hahc1j9wGeJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ8cP8QAKCRAgrS7GWxAs
- 4v53EACu0e8nkk5OFA8PjJ908y64xoNrRJNZTr9Ek239K4ba7a6goNwrrEteTDKlYfB/ovNMPtt
- 8n456vP2dHOUxHwL6ujOXFfjQbvU4hvTMhyHHqb1zORkZOMp1hRFAmP+anM6Mc1yUo2ZvRqmeh4
- vMoHdwh3xs6SyLkno1cHubxZMOSbg2E5Dlyi9zwkd9xPfa5aOpPr2uOaC/0aLa4INqPHGz24EQo
- wcqpP8fXX3GpYMTnx/U55852sdZ/C47n7MaXkSiek1fFnZnPoHcpVJrFOaTDF05I0n5ML9xQPZI
- MGUgmmSUkElK+OweTgigt4A+tPcI5CVZgMPgeCIfh4tp2fGq/OiHfd68c8O3HpybFlgW3Sagwvn
- XhUCWGAMRk4ktNfVxpzQX3PDWkmnJKHKnggY+XvYl7o9mIcD/pLPEfbxiyd10KNaqy0YGBTG9fF
- q3lfsu6csFnYcZjukaMgTffBXF7dteEGGWnLdZsWw+V4xXzq4VkbPVGLeIXKAQ5IHg79vprOPMw
- qBfAxqIMwnWsnU2Sd7si9++inkvvgQF1yWL7Fg0Px3QhRcu3L3M2oqwNuSP1onJCr+CM2VYPvWn
- Em9V8zvQrrHvh5e+QeiDUg6rJYRKguamNX+X98O7+Ci5ORn0egGUC5yigSqwRx6MADyYZf3ed9S
- 837hfVFooWA7lug==
+ bh=pKTPDvLW6awP7wRPgLyLAavNSfntx5I5sxb2I/VJR4c=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnxw/ygbvbk33vefP3mj366JC+nmWgrXwyIA6mk
+ pFJIS7g9hyJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ8cP8gAKCRAgrS7GWxAs
+ 4ubsEACaKvDCFp7f8WRmhxfdHIDOmpcQVS+BXo4y4itbyAI1T1g02kaCO7XTu+faPn9T/60S64M
+ UCM8/N60X32Pgu0hnq3b2BpzSx19decugcpYOlOhMFQALnBEa4XbOPtwOy7B5SmyCme+mho9//E
+ yelf0aQk61kqZNs4I0IdVB447Xvg90Qsc0pkd/0T2mWdxdEY2Bk/purWcd+dWdhNDh4A7U+sNKC
+ iVy03mI885DPaBzQQrjPGbpayrqpPmRIfQ1dePFqt6nSNxtCADZPz3r7EbbSD7sSi/b45hZY5gW
+ KRCOKYBuymDIXJf01vZ18R1Nxs8o8yHNPrstACEIIYND49Hiy/yc4KDPGpoqKp+uEE7cL9s42Bs
+ egLGRIa2pi/VPKnHaXFxPnc8xw8lBnV2YCfDojEnDcOkNNlrTbrrvSOafRCgLzpUbhhHvCWKGDt
+ cNvr6i4bZzqNpw6+nTV6yFQ5ydWEO0fsKlkxvlDzmDNtpIDOC/Iq/4Pg6NNq1wz5u9UI0h+fjNq
+ ua107CtWGDF0ycZWp2FkPBeOOzO1if4dWcczwupCDQP5yLv2p7wuqPdil4HeoftQYCmQpp2wqrC
+ XEhQjWrq0jyXx7zxmnA1kZrvor2i3yPXQgTGuzTymJQ9K2FVKJiWZJ0h4cAWp3F+R9xhcG8ARxD
+ iLEbWYvWjDVwvGg==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
@@ -80,94 +79,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The plain pattern can be useful to debug some color issues. Add an option
-to configure the color for the plain pattern.
+The plain pattern is useful to debug display issues. Unfortunatly this
+pattern is not configurable. Add a new option '-V' for this.
 
 Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- tests/modetest/buffers.c |  2 +-
- tests/util/pattern.c     | 19 +++++++++++++------
- tests/util/pattern.h     |  1 +
- 3 files changed, 15 insertions(+), 7 deletions(-)
+ tests/modetest/buffers.c  |  5 +++--
+ tests/modetest/buffers.h  |  3 ++-
+ tests/modetest/modetest.c | 22 +++++++++++++++++-----
+ 3 files changed, 22 insertions(+), 8 deletions(-)
 
 diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
-index 165b95295644..03a6d424f102 100644
+index 03a6d424f102..328370ce2cfc 100644
 --- a/tests/modetest/buffers.c
 +++ b/tests/modetest/buffers.c
-@@ -386,7 +386,7 @@ bo_create(int fd, unsigned int format,
+@@ -114,7 +114,8 @@ struct bo *
+ bo_create(int fd, unsigned int format,
+ 	  unsigned int width, unsigned int height,
+ 	  unsigned int handles[4], unsigned int pitches[4],
+-	  unsigned int offsets[4], enum util_fill_pattern pattern)
++	  unsigned int offsets[4], enum util_fill_pattern pattern,
++	  unsigned int color)
+ {
+ 	unsigned int virtual_height, xsub, ysub;
+ 	struct bo *bo;
+@@ -386,7 +387,7 @@ bo_create(int fd, unsigned int format,
  		break;
  	}
  
--	util_fill_pattern(format, pattern, planes, width, height, pitches[0]);
-+	util_fill_pattern(format, pattern, 0x38383838, planes, width, height, pitches[0]);
+-	util_fill_pattern(format, pattern, 0x38383838, planes, width, height, pitches[0]);
++	util_fill_pattern(format, pattern, color, planes, width, height, pitches[0]);
  	bo_unmap(bo);
  
  	return bo;
-diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index e5f20c50b5d8..e2847c5457af 100644
---- a/tests/util/pattern.c
-+++ b/tests/util/pattern.c
-@@ -1719,18 +1719,24 @@ static void fill_tiles(const struct util_format_info *info, void *planes[3],
+diff --git a/tests/modetest/buffers.h b/tests/modetest/buffers.h
+index cbd54e9ed386..3e2aa14796cb 100644
+--- a/tests/modetest/buffers.h
++++ b/tests/modetest/buffers.h
+@@ -34,7 +34,8 @@ struct bo;
+ struct bo *bo_create(int fd, unsigned int format,
+ 		   unsigned int width, unsigned int height,
+ 		   unsigned int handles[4], unsigned int pitches[4],
+-		   unsigned int offsets[4], enum util_fill_pattern pattern);
++		   unsigned int offsets[4], enum util_fill_pattern pattern,
++		   unsigned int color);
+ void bo_destroy(struct bo *bo);
+ void bo_dump(struct bo *bo, const char *filename);
  
- static void fill_plain(const struct util_format_info *info, void *planes[3],
- 		       unsigned int height,
--		       unsigned int stride)
-+		       unsigned int stride, unsigned int color)
- {
-+	int i;
-+	char *p;
-+
- 	switch (info->format) {
- 	case DRM_FORMAT_XRGB16161616F:
- 	case DRM_FORMAT_XBGR16161616F:
- 	case DRM_FORMAT_ARGB16161616F:
- 	case DRM_FORMAT_ABGR16161616F:
--		/* 0x3838 = 0.5273 */
--		memset(planes[0], 0x38, stride * height);
--		break;
- 	default:
--		memset(planes[0], 0x77, stride * height);
-+		for (i = 0; i <  height * stride; i += 4) {
-+			int j;
-+
-+			p = planes[0] + i;
-+			for (j = 0; j < 4; j++)
-+				p[j] = (color >> (j * 8)) & 0xFF;
-+		}
- 		break;
+diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+index d9e761e6cfa0..d98fe3c98dfb 100644
+--- a/tests/modetest/modetest.c
++++ b/tests/modetest/modetest.c
+@@ -70,6 +70,7 @@
+ 
+ static enum util_fill_pattern primary_fill = UTIL_PATTERN_SMPTE;
+ static enum util_fill_pattern secondary_fill = UTIL_PATTERN_TILES;
++static unsigned long color = 0x308830;
+ static drmModeModeInfo user_mode;
+ 
+ struct crtc {
+@@ -1199,7 +1200,7 @@ bo_fb_create(int fd, unsigned int fourcc, const uint32_t w, const uint32_t h,
+ 	struct bo *bo;
+ 	unsigned int fb_id;
+ 
+-	bo = bo_create(fd, fourcc, w, h, handles, pitches, offsets, pat);
++	bo = bo_create(fd, fourcc, w, h, handles, pitches, offsets, pat, color);
+ 
+ 	if (bo == NULL)
+ 		return -1;
+@@ -1240,7 +1241,7 @@ static int atomic_set_plane(struct device *dev, struct plane_arg *p,
+ 
+ 	if (!plane_bo) {
+ 		if (bo_fb_create(dev->fd, p->fourcc, p->w, p->h,
+-                         pattern, &plane_bo, &p->fb_id))
++				 pattern, &plane_bo, &p->fb_id))
+ 			return -1;
  	}
+ 
+@@ -1665,7 +1666,7 @@ static unsigned int set_mode(struct device *dev, struct pipe_arg **pipe_args, un
+ 		}
+ 
+ 		if (bo_fb_create(dev->fd, pipes[0].fourcc, dev->mode.width, dev->mode.height,
+-			             primary_fill, &dev->mode.bo, &dev->mode.fb_id))
++				 primary_fill, &dev->mode.bo, &dev->mode.fb_id))
+ 			return 0;
+ 	}
+ 
+@@ -1857,7 +1858,7 @@ static void set_cursors(struct device *dev, struct pipe_arg *pipes, unsigned int
+ 	 * translucent alpha
+ 	 */
+ 	bo = bo_create(dev->fd, DRM_FORMAT_ARGB8888, cw, ch, handles, pitches,
+-		       offsets, UTIL_PATTERN_PLAIN);
++		       offsets, UTIL_PATTERN_PLAIN, color);
+ 	if (bo == NULL)
+ 		return;
+ 
+@@ -2126,6 +2127,13 @@ static void parse_fill_patterns(char *arg)
+ 	secondary_fill = util_pattern_enum(fill);
  }
-@@ -1862,6 +1868,7 @@ static void fill_gradient(const struct util_format_info *info, void *planes[3],
-  * Supported formats vary depending on the selected pattern.
-  */
- void util_fill_pattern(uint32_t format, enum util_fill_pattern pattern,
-+		       unsigned int color,
- 		       void *planes[3], unsigned int width,
- 		       unsigned int height, unsigned int stride)
+ 
++static void parse_fill_value(char *arg)
++{
++	char *end;
++
++	color = strtoul(arg, &end, 16);
++}
++
+ static void usage(char *name)
  {
-@@ -1879,7 +1886,7 @@ void util_fill_pattern(uint32_t format, enum util_fill_pattern pattern,
- 		return fill_smpte(info, planes, width, height, stride);
+ 	fprintf(stderr, "usage: %s [-acDdefMoPpsCvrw]\n", name);
+@@ -2149,6 +2157,7 @@ static void usage(char *name)
+ 	fprintf(stderr, "\t-w <obj_id>:<prop_name>:<value>\tset property, see 'property'\n");
+ 	fprintf(stderr, "\t-a \tuse atomic API\n");
+ 	fprintf(stderr, "\t-F pattern1,pattern2\tspecify fill patterns\n");
++	fprintf(stderr, "\t-V <RRGGBB hex value>\tspecify RGB hex color for plain pattern\n");
+ 	fprintf(stderr, "\t-o <desired file path> \t Dump writeback output buffer to file\n");
  
- 	case UTIL_PATTERN_PLAIN:
--		return fill_plain(info, planes, height, stride);
-+		return fill_plain(info, planes, height, stride, color);
+ 	fprintf(stderr, "\n Generic options:\n\n");
+@@ -2179,7 +2188,7 @@ static void usage(char *name)
+ 	exit(0);
+ }
  
- 	case UTIL_PATTERN_GRADIENT:
- 		return fill_gradient(info, planes, width, height, stride);
-diff --git a/tests/util/pattern.h b/tests/util/pattern.h
-index e500aba3b468..23e11c0f58b8 100644
---- a/tests/util/pattern.h
-+++ b/tests/util/pattern.h
-@@ -36,6 +36,7 @@ enum util_fill_pattern {
- };
+-static char optstr[] = "acdD:efF:M:P:ps:Cvrw:o:";
++static const char optstr[] = "acdD:efF:V:M:P:ps:Cvrw:o:";
  
- void util_fill_pattern(uint32_t format, enum util_fill_pattern pattern,
-+		       unsigned int color,
- 		       void *planes[3], unsigned int width,
- 		       unsigned int height, unsigned int stride);
- 
+ int main(int argc, char **argv)
+ {
+@@ -2236,6 +2245,9 @@ int main(int argc, char **argv)
+ 		case 'F':
+ 			parse_fill_patterns(optarg);
+ 			break;
++		case 'V':
++			parse_fill_value(optarg);
++			break;
+ 		case 'M':
+ 			module = optarg;
+ 			/* Preserve the default behaviour of dumping all information. */
 
 -- 
 2.48.1
