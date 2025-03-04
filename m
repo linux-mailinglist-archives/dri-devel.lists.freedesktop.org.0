@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E9BA4E0CF
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 15:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51938A4E0DF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 15:29:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3152B10E5F1;
-	Tue,  4 Mar 2025 14:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F89010E60C;
+	Tue,  4 Mar 2025 14:29:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EjG16xKn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gU/b9v4A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 190EE10E602
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 14:27:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3594D10E5FD
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 14:29:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8F44BA45615;
- Tue,  4 Mar 2025 14:21:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80CCC4CEE5;
- Tue,  4 Mar 2025 14:27:13 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 87444A455D7;
+ Tue,  4 Mar 2025 14:23:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B88EC4CEE5;
+ Tue,  4 Mar 2025 14:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741098436;
- bh=2Au5twRhQNpRl3N3lvaKrD+Ua/A/kyLQZmS2YDyTLdw=;
+ s=k20201202; t=1741098553;
+ bh=khdG65bPlGvNQL4Lss2vc1W5hJeqULPsPGO4kSfUOOE=;
  h=From:To:Cc:Subject:Date:From;
- b=EjG16xKn/AtxzKmrjZqFjYiTeT+NW1IrqUNWbmmj5F9aiEttvCAs7ZflsW94exvRP
- OvBxc7Nuwmd6AKeP35DIIVZGnN+kUTZDP+txloWvPinT7WOdwK/aMJ4v8H3X4zNveJ
- 5XR4ghZMQunpy/7CPsuMkVLM89dTrvuI+36HQ5lMAbhaLKd92il9joVMsTZMeO/Awp
- z0v388Y1QD1IezObGWxCekSXEKtStXDDV4mGUsqON43FA/A2LXDYp7otz1uQiPwQIm
- FmA0IOZM0MFveO8iduOODA9LIdr9kccea4MWHrFFxiVfgp9jOKl/o811jLGh2Aslht
- y1Up8kdrAFavA==
+ b=gU/b9v4AVvPUXBnn+BB6c9u5mTLIBgVJoceQLI2ZCuGQdIjqsF4IsNKGyDbPsR/Xu
+ YrPfLzGU24s7tVZ+/dF7z3Lbg1ph+6zA1C7yCsJq/giRpTO/kWtfVa2xIy3ZQb91sO
+ qRxHyYlYO/bvOlTK1Q11NlbIY9Gx9RfVsznsnqzfOVftiTuUWszFI1b4OxWpFm7M8y
+ xNeQtb3+tVdcovbE1Fghmuduid5JsUnpCScStMN94RAkm7NqnFkKre6mefEJ6lyTxt
+ uz8qK0CHewetnlN1CEV0PNj2204xS7CjBjBuOhE4Qt+tTUVOyezJbU3xZk7jCQREgo
+ rEYWCh1E30+vQ==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Aun-Ali Zaidi <admin@kodeit.net>, Aditya Garg <gargaditya08@live.com>,
+To: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Atharva Tiwari <evepolonium@gmail.com>,
- Kerem Karabay <kekrby@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, Danila Tikhonov <danila@jiaxyga.com>,
+ Eugene Lepshy <fekz115@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Wronek <david@mainlining.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tiny: fix printk format string for 32-bit
-Date: Tue,  4 Mar 2025 15:27:02 +0100
-Message-Id: <20250304142711.621330-1-arnd@kernel.org>
+Subject: [PATCH] drm/panel: fix Visionox RM692E5 dependencies
+Date: Tue,  4 Mar 2025 15:29:02 +0100
+Message-Id: <20250304142907.732196-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,50 +66,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-A size_t must be printed with the %z modifier instead of %l:
+The newly added driver uses the DSC helpers, so the corresponding
+Kconfig option must be enabled:
 
-In file included from include/linux/device.h:15,
-                 from include/linux/usb.h:19,
-                 from drivers/gpu/drm/tiny/appletbdrm.c:19:
-drivers/gpu/drm/tiny/appletbdrm.c: In function 'appletbdrm_send_request':
-include/drm/drm_print.h:589:54: error: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
-drivers/gpu/drm/tiny/appletbdrm.c:170:17: note: in expansion of macro 'drm_err'
-  170 |                 drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-      |                 ^~~~~~~
-drivers/gpu/drm/tiny/appletbdrm.c: In function 'appletbdrm_read_response':
-include/drm/drm_print.h:589:54: error: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
-drivers/gpu/drm/tiny/appletbdrm.c:211:17: note: in expansion of macro 'drm_err'
-  211 |                 drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-      |                 ^~~~~~~
+ERROR: modpost: "drm_dsc_pps_payload_pack" [drivers/gpu/drm/panel/panel-visionox-rm692e5.ko] undefined!
 
-Fixes: 0670c2f56e45 ("drm/tiny: add driver for Apple Touch Bars in x86 Macs")
+Fixes: 7cb3274341bf ("drm/panel: Add Visionox RM692E5 panel driver")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/tiny/appletbdrm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/appletbdrm.c
-index f5d177e234e4..394c8f9bd41a 100644
---- a/drivers/gpu/drm/tiny/appletbdrm.c
-+++ b/drivers/gpu/drm/tiny/appletbdrm.c
-@@ -167,7 +167,7 @@ static int appletbdrm_send_request(struct appletbdrm_device *adev,
- 	}
- 
- 	if (actual_size != size) {
--		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-+		drm_err(drm, "Actual size (%d) doesn't match expected size (%zu)\n",
- 			actual_size, size);
- 		return -EIO;
- 	}
-@@ -208,7 +208,7 @@ static int appletbdrm_read_response(struct appletbdrm_device *adev,
- 	}
- 
- 	if (actual_size != size) {
--		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-+		drm_err(drm, "Actual size (%d) doesn't match expected size (%zu)\n",
- 			actual_size, size);
- 		return -EBADMSG;
- 	}
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 5927806cb4a9..e059b06e0239 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -1020,6 +1020,8 @@ config DRM_PANEL_VISIONOX_RM692E5
+ 	depends on OF
+ 	depends on DRM_MIPI_DSI
+ 	depends on BACKLIGHT_CLASS_DEVICE
++	select DRM_DISPLAY_DSC_HELPER
++	select DRM_DISPLAY_HELPER
+ 	help
+ 	  Say Y here if you want to enable support for Visionox RM692E5 amoled
+ 	  display panels, such as the one found in the Nothing Phone (1)
 -- 
 2.39.5
 
