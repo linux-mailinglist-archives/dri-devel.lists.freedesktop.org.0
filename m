@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339BEA4D948
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:52:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24F2A4D96D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:57:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB65E10E546;
-	Tue,  4 Mar 2025 09:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C55E10E557;
+	Tue,  4 Mar 2025 09:57:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="SkyKF0MN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wfela3jy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68BB10E546
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 09:52:48 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Z6WFS4n4Bz9swL;
- Tue,  4 Mar 2025 10:52:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741081964; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IumFkgj5RXyBW8xkXtlbiJZO0EHE6ceqR/JFdelIahs=;
- b=SkyKF0MNJcEVTZH/QGvnEM8iI5WauYugSv5Tx4AdTgHTQ4KuFv0J6k2FmrYh1OgcgQyPGO
- j6+fnhmiGuaZWagC3HlX0LkVtWuWnK8NRFbu2yUjHA/qcOD6s6QMuve1h3BmDI/zwX800W
- TcKdTDRzJ2cVdRwBs9rBomin9fqk2Kk0LG1W9X32ast76npXJV617VJ0uGkGQAEWKPTWdI
- HuOvVuRsqtMsa7FOToR3zCYi2cOwrlA3quJyrlEEW0aRn51GflMHlwiwt1sSSsSEGzjCST
- TrqTY8+geC5g9LOiJG8jSme0iKIc5BM1b62WDCxSClSVQSPNUfz8V6j2I5ptBQ==
-Message-ID: <6c44f2140ebaf9a3b82fa186b939baa2a605556f.camel@mailbox.org>
-Subject: Re: [PATCH v5 2/3] drm/sched: Adjust outdated docu for run_job()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>
-Cc: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, phasta@kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>,  dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Date: Tue, 04 Mar 2025 10:52:39 +0100
-In-Reply-To: <688b5665-496d-470d-9835-0c6eadfa5569@gmail.com>
-References: <20250220112813.87992-2-phasta@kernel.org>
- <20250220112813.87992-4-phasta@kernel.org>
- <12c53d41-21c4-443d-a572-fd22c3cc56ad@igalia.com>
- <1457e985f88e02cd04b2152d2468a65b7a513e63.camel@mailbox.org>
- <cfef8bd7-f335-4796-9d4f-93197bb3fc2d@igalia.com>
- <Z7yFpZMCFINhEht7@cassiopeiae> <Z7ydaE4JmNcvzjJw@lstrano-desk.jf.intel.com>
- <688b5665-496d-470d-9835-0c6eadfa5569@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D9B10E311;
+ Tue,  4 Mar 2025 09:57:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AC7E45C5406;
+ Tue,  4 Mar 2025 09:55:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5728AC4CEE5;
+ Tue,  4 Mar 2025 09:57:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741082260;
+ bh=JCpnB2cwQ/OfOpNm6zKEPewB/fS1/cePt/IPMtfsJtY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wfela3jyONID+2sSXqcrsgf1EK+GswngYsCeHlO2XlmUJro+A7BAEnJ6pdhnqGT4m
+ lJRzGCET/OrxSe8xULTxQvA9ewV/Oa/v4KnzYlRbCzQyV8fDMS9HvnWb+2RCQK40/T
+ QHYIlKE03ReQ5t+WPYK6+F1owUq9aA3SYuGI9wDFyoL6TMfdaMW4DkvpocuajTKgeG
+ euEwCTMot9rvCsgaDJ1bwSmRwNqDjplkI294FkRUI1Tge8CBzCvnvgw8pleHNeOKwQ
+ /+U+d9NzETIVIZ8Ih9v5GLOMBY0okjj1/UZXSgMGOvS+V2ThcNAzP9urv07kTcbMba
+ rwaepzBp2GfQQ==
+Date: Tue, 4 Mar 2025 10:57:34 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z8bOjiQ3KXw-CkPo@pollux>
+References: <20250227161733.GH39591@nvidia.com> <Z8CY7fqbtbO4v1jv@Mac.home>
+ <Z8ChnwPC0UwM8xBe@cassiopeiae> <20250227192321.GA67615@nvidia.com>
+ <Z8DYNszfONdsKZsl@boqun-archlinux>
+ <20250227220013.GQ39591@nvidia.com> <Z8Dp9dM1MxhzuvmR@pollux>
+ <20250228185534.GH39591@nvidia.com> <Z8YEwrBJyLYL6sci@cassiopeiae>
+ <20250303215002.GF133783@nvidia.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 7246108e307df21d31a
-X-MBO-RS-META: sxa17rsmkj3ri8xf4pyc99hdpc73t5p3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250303215002.GF133783@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,192 +66,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-03-04 at 10:05 +0100, Christian K=C3=B6nig wrote:
-> Am 24.02.25 um 17:25 schrieb Matthew Brost:
-> > On Mon, Feb 24, 2025 at 03:43:49PM +0100, Danilo Krummrich wrote:
-> > > On Mon, Feb 24, 2025 at 10:29:26AM -0300, Ma=C3=ADra Canal wrote:
-> > > > On 20/02/25 12:28, Philipp Stanner wrote:
-> > > > > On Thu, 2025-02-20 at 10:28 -0300, Ma=C3=ADra Canal wrote:
-> > > > > > Would it be possible to add a comment that `run_job()` must
-> > > > > > check if
-> > > > > > `s_fence->finished.error` is different than 0? If you
-> > > > > > increase the
-> > > > > > karma
-> > > > > > of a job and don't check for `s_fence->finished.error`, you
-> > > > > > might run
-> > > > > > a
-> > > > > > cancelled job.
-> > > > > s_fence->finished is only signaled and its error set once the
-> > > > > hardware
-> > > > > fence got signaled; or when the entity is killed.
-> > > > If you have a timeout, increase the karma of that job with
-> > > > `drm_sched_increase_karma()` and call
-> > > > `drm_sched_resubmit_jobs()`, the
-> > > > latter will flag an error in the dma fence. If you don't check
-> > > > for it in
-> > > > `run_job()`, you will run the guilty job again.
-> > > Considering that drm_sched_resubmit_jobs() is deprecated I don't
-> > > think we need
-> > > to add this hint to the documentation; the drivers that are still
-> > > using the API
-> > > hopefully got it right.
-> > >=20
-> > > > I'm still talking about `drm_sched_resubmit_jobs()`, because
-> > > > I'm
-> > > > currently fixing an issue in V3D with the GPU reset and we
-> > > > still use
-> > > > `drm_sched_resubmit_jobs()`. I read the documentation of
-> > > > `run_job()` and
-> > > > `timeout_job()` and the information I commented here (which was
-> > > > crucial
-> > > > to fix the bug) wasn't available there.
-> > > Well, hopefully... :-)
-> > >=20
-> > > > `drm_sched_resubmit_jobs()` was deprecated in 2022, but Xe
-> > > > introduced a
-> > > > new use in 2023
-> > > Yeah, that's a bit odd, since Xe relies on a firmware scheduler
-> > > and uses a 1:1
-> > > scheduler - entity setup. I'm a bit surprised Xe does use this
-> > > function.
-> > >=20
-> > To clarify Xe's usage. We use this function to resubmit jobs after
-> > device reset for queues which had nothing to do with the device
-> > reset.
-> > In practice, a device should never occur as we have per-queue
-> > resets in
-> > our harwdare. If a per-queue reset occurs, we ban the queue rather
-> > than
-> > doing a resubmit.
->=20
-> That's still invalid usage. Re-submitting jobs by the scheduler is a
-> completely broken concept in general.
->=20
-> What you can do is to re-create the queue content after device reset
-> inside your driver, but *never* use drm_sched_resubmit_jobs() for
-> that.
->=20
-> >=20
-> > Matt=C2=A0=20
-> >=20
-> > > > for example. The commit that deprecated it just
-> > > > mentions AMD's case, but do we know if the function works as
-> > > > expected
-> > > > for the other users?
-> > > I read the comment [1] you're referring to differently. It says
-> > > that
-> > > "Re-submitting jobs was a concept AMD came up as cheap way to
-> > > implement recovery
-> > > after a job timeout".
-> > >=20
-> > > It further explains that "there are many problem with the
-> > > dma_fence
-> > > implementation and requirements. Either the implementation is
-> > > risking deadlocks
-> > > with core memory management or violating documented
-> > > implementation details of
-> > > the dma_fence object", which doesn't give any hint to me that the
-> > > conceptual
-> > > issues are limited to amdgpu.
-> > >=20
-> > > > For V3D, it does. Also, we need to make it clear which
-> > > > are the dma fence requirements that the functions violates.
-> > > This I fully agree with, unfortunately the comment does not
-> > > explain what's the
-> > > issue at all.
-> > >=20
-> > > While I do think I have a vague idea of what's the potential
-> > > issue with this
-> > > approach, I think it would be way better to get Christian, as the
-> > > expert for DMA
-> > > fence rules to comment on this.
-> > >=20
-> > > @Christian: Can you please shed some light on this?
-> > >=20
-> > > > If we shouldn't use `drm_sched_resubmit_jobs()`, would it be
-> > > > possible to
-> > > > provide a common interface for job resubmission?
-> > > I wonder why this question did not come up when
-> > > drm_sched_resubmit_jobs() was
-> > > deprecated two years ago, did it?
->=20
-> Exactly that's the point why drm_sched_resubmit_jobs() was
-> deprecated.
->=20
-> It is not possible to provide a common interface to re-submit jobs
-> (with switching of hardware dma_fences) without breaking dma_fence
-> rules.
->=20
-> The idea behind the scheduler is that you pack your submission state
-> into a job object which as soon as it is picked up is converted into
-> a hardware dma_fence for execution. This hardware dma_fence is then
-> the object which represents execution of the submission on the
-> hardware.
->=20
-> So on re-submission you either use the same dma_fence multiple times
-> which results in a *horrible* kref_init() on an already initialized
-> reference (It's a wonder that this doesn't crashes all the time in
-> amdgpu). Or you do things like starting to allocate memory while the
-> memory management potentially waits for the reset to complete.
->=20
-> What we could do is to provide a helper for the device drivers in the
-> form of an iterator which gives you all the hardware fences the
-> scheduler is waiting for, but in general device drivers should have
-> this information by themselves.
+On Mon, Mar 03, 2025 at 05:50:02PM -0400, Jason Gunthorpe wrote:
+> On Mon, Mar 03, 2025 at 08:36:34PM +0100, Danilo Krummrich wrote:
+> > > > And yes, for *device resources* it is unsound if we do not ensure that the
+> > > > device resource is actually dropped at device unbind.
+> > > 
+> > > Why not do a runtime validation then?
+> > > 
+> > > It would be easy to have an atomic counting how many devres objects
+> > > are still alive.
+> > 
+> > (1) It would not be easy at all, if not impossible.
+> > 
+> > A Devres object doesn't know whether it's embedded in an Arc<Devres>, nor does
+> > it know whether it is embedded in subsequent Arc containers, e.g.
+> > Arc<Arc<Devres>>.
+> 
+> You aren't tracking that. If Rust has a problem, implement it in C:
 
-What we should work out in this patch series first is some lines of
-documentation telling the drivers what the current state is and what
-they should do.
+Rust does not have a problem here. Arc is implemented as:
 
-Maira is not OK with me just removing mention of
-drm_sched_resubmit_jobs().
+	pub struct Arc<T: ?Sized> {
+	    ptr: NonNull<ArcInner<T>>,
+	    _p: PhantomData<ArcInner<T>>,
+	}
 
-So the question is what they should do instead and thus, what, e.g.,
-amdgpu does instead. See also below
+	#[repr(C)]
+	struct ArcInner<T: ?Sized> {
+	    refcount: Opaque<bindings::refcount_t>,
+	    data: T,
+	}
 
->=20
-> > >=20
-> > > Anyway, let's shed some light on the difficulties with
-> > > drm_sched_resubmit_jobs()
-> > > and then we can figure out how we can do better.
-> > >=20
-> > > I think it would also be interesting to know how amdgpu handles
-> > > job from
-> > > unrelated entities being discarded by not re-submitting them when
-> > > a job from
-> > > another entitiy hangs the HW ring.
->=20
-> Quite simple this case never happens in the first place.
->=20
-> When you have individual queues for each process (e.g. like Xe and
-> upcomming amdgpu HW generation)
+Which simply means that 'data' can't access its reference count.
 
-If amdgpu's *current* HW generation does not have individual queues,
-why then can it never happen currently?
+You did identify this as a problem, since you think the correct solution is to
+WARN() if an object is held alive across a certain boundary by previously taken
+references. Where the actual solution (in Rust) would be to design things in a
+way that this isn't possible in the first place.
 
-How does amdgpu make sure that jobs from innocent entities get
-rescheduled after a GPU reset? AFAIK AMD cards currently have 4 run
-queues, which are shared by many entities by many processes.
+Let me also point out that the current solution in Rust is perfectly aligned
+with what you typically do in C conceptually.
 
-P.
+In C you would call
 
->  you should always be able to reset the device without loosing
-> everything.
->=20
-> Otherwise things like userspace queues also doesn't work at all
-> because then neither the kernel nor the DRM scheduler is involved in
-> the submission any more.
->=20
-> Regards,
-> Christian.
->=20
-> > >=20
-> > > [1]
-> > > https://patchwork.freedesktop.org/patch/msgid/20221109095010.141189-5=
--christian.koenig@amd.com
->=20
+	devm_request_region()
+	devm_ioremap()
 
+and you would store the resulting pointer in some driver private structure.
+
+This structure may be reference counted and may outlive remove(). However, if
+that's the case it doesn't prevent that the memory region is freed and the
+memory mapping is unmapped by the corresponding devres callbacks.
+
+We're following the exact same semantics in Rust, except that we don't leave the
+driver private structure with an invalid pointer.
+
+In contrast you keep proposing to turn that into some kind of busy loop in
+remove(). If you think that's better, why don't you try to introduce this design
+in C first?
+
+> 
+>   devm_rsgc_start(struct device *)
+>   devm_rsgc_pci_iomap(struct device *,..)
+>   devm_rsgc_pci_iounmap(struct device *,..)
+>   devm_rsgc_fence(struct device *)
+> 
+> Surely that isn't a problem for bindings?
+
+Wrapping those functions? Yes, that's not a problem in general.
+
+But obviously I don't know what they're doing, i.e. how is devm_rsgc_pci_iomap()
+different from pcim_iomap()?
+
+I also don't know how you would encode them into an abstraction and how this
+abstraction fits into the device / driver lifecycle.
+
+Neither can I guess that from four function names, nor can I tell you whether
+that results in a safe, sound and reasonable API.
+
+And given that you don't seem to know about at least some Rust fundamentals
+(i.e. how Arc works), I highly doubt that you can predict that either without
+coding it up entirely, can you?
+
+I explained the reasons for going with the current upstream design in detail,
+and I'm happy to explain further if there are more questions.
+
+But, if you just want to change the existing design, this isn't the place.
+Instead, please follow the usual process, i.e. write up some patches, explain
+how they improve the existing code and then we can discuss them.
+
+> > The practical problem: Buggy drivers could (as you propose) stall the
+> > corresponding task forever, never releasing the device resource. 
+> 
+> Should't be never. Rust never leaks memory? It will eventually be
+> unstuck when Rust frees the memory in the concurrent context that is
+> holding it.
+
+We're passing Arc objects as ForeignOwnable to C code. If the C code leaks
+memory, the corresponding memory allocated in Rust leaks too.
+
+For the definition of "safe" in Rust we assume that C code used underneath is
+never buggy, but the reality is different.
+
+> 
+> > Not releasing the device resource may stall subsequent drivers
+> > trying to probe the device, or, if the physical memory region has
+> > been reassigned to another device, prevent another device from
+> > probing. This is *not* what I would call "function safely".
+> 
+> It didn't create a security problem.
+> 
+> The driver could also write 
+> 
+>  while (true)
+>     sleep(1)
+
+Seriously? Are you really arguing "My potentially infinite loop is not a problem
+because a driver could also write the above"?
+
+> In the remove function and achieve all of the above bad things, should
+> you try to statically prevent that too?
+
+Absolutely.
