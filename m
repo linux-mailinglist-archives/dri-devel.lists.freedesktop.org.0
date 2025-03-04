@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1BBA4D9E7
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 11:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5EAA4D9E9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 11:15:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3BD10E55B;
-	Tue,  4 Mar 2025 10:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2F810E562;
+	Tue,  4 Mar 2025 10:15:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="dJNqTMjS";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="e3MnPn0r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2066.outbound.protection.outlook.com [40.107.22.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A6210E55B
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 10:14:57 +0000 (UTC)
+ (mail-am6eur05on2055.outbound.protection.outlook.com [40.107.22.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7864210E562
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 10:15:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xmVPQ/2qaTzS4qm2IDhAQXO+an0WePoeji/r0u95HXpuVp4jBM5yieBez9vH9BiRtb8R/rbtgD8yxi1NTUFWkY8Lmgk9la5dHjNTgMq84f9agsJy0p2+R/wvyckoqiy+k3qz/Y3sUtEmbPP1GyJZUgmAKi8fFz3SLsnfL3eSjPBgNmUCz96KxUcoN2XJToTMo2AV7kdcHotO8zc9bjMilkyzoxQjLiPhdo/LWGxzXGxfEN4dbfVkiyZlu9ZQJw/QxHYV+GOjYSzBjCH13ONgLXZpE5BHbEHTyHX6wV8sb4Cyk8aT4AjBoMZu98OR6kjx14jceznhrqu4tAf+366tEA==
+ b=bHrzSHmbVEKj/FZSxTDwl6GWpG38rUlWG2euuRHy97rxxOWLpwIEtL82DFdh5G6v/phOvKIkNFZT81zOUJzw4xkE+EgI3byTUBsg1U4eBJkXs9Jfx96WEdHrSkvykiRdVH/tz9i+9VE6YVJidljONrgqMrLyHi8UIIe7cC3hVfMI+ZSZZcl9vUzL02WP/gtMvIpPo6ePh1/iq3FyDUe4ykAntC//qZWD70kqhsI8alzggSP7gcluHmk+f2zJqVct8e96jtyOraZKpAuLoNL7dosVUh9xbJ/8yh0XZJg97NrZ2ns2v+x9GZmSgsNjD2AJ0qpNNsQKtIs5/c7JSyWACg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zmOF40n0foEyJJGtkAGLeeNuAeyqcsbAHS+FneWPCQw=;
- b=JLC9EIkHAoWDUzmV862hUpLWZ0QkLwXufzoIssqEApD4hpcW/ksoQFiRXWeZaApCRJ7lpX68xdOx8doUsC2Tb2x4Bh0t/REHGFbPxe38dTFmyxUJ2zpiZUJnXq/rXo382MZt6BTGEhfjovOkW8NRQ+hnT/62VBSx3EmrPmZJYSqn+a7HtdJ2H6cAwmzeqhTo4fMFJQGkqmpzhqs9ZAxCV6xEFpu3JWpnbJjRXUNQWSgopDv12TodPvRG049lIGyUGQ1OHMHm6ojIkDTLBpRwUSB2OHml44TxUHTtT8TWTPd3Uh6AB8JiNZH9i+m5+VCJxwUDIWwOh3O2ZRGXW7IxfQ==
+ bh=mJSDHRgqIhAV5McM9Ea4GDHgePdURwrsqUQF6kOTf0Y=;
+ b=GgzMaEyudvE4jU9eJn5JsMg7YVuYdQ/sfK8G8QxwHDpVAmkO0fwiiWs0aWpMmLoqo/kkzJXPHNEFUT+3Ohm0yRkfOBUaO0HFcKsITRnBPLO5vuaqrO9vMzdR/IIuDikbb5hiaNq43zth1NHDuoby2CUvNnm0s6JfwBxULw7xyaL85v9DCMhIg6Wr5ZYRj/3SvU6Df1eV99D9b6TBQzt+8XfXmFhoLeeK0hjmojyK9do/AqTKogILrFuqJBhdyrQTp1ZCqB2ky0yOZ1kQXo91MxE9wG/G06Svh2j5vQ+3PwHxOVedYpUtjIkHelKz+a0BXA+cQHeSKvTwo6mxuCWo6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zmOF40n0foEyJJGtkAGLeeNuAeyqcsbAHS+FneWPCQw=;
- b=dJNqTMjS0o81bj+e+GWXXnIM/XhH04v/0+e35bRI3dme8C3XJrgNDziAydff02fFShGi9D3HzqFMKd9Ev2W5eOkc6XmYbBWbfbGrDS/atHSE0sRZCFVIS9PNMGPRdvhsYODlIeJZhxHIRwcJiu+PcK1sBo+tEBU9TNfnG8mOun2mYDp0j37+lwxSUGR98fNV9gQFqIM6m/pkYygXFI44ZUvrZwKcW5WDFvqjJOPoa2BJx3g9q7yUkrrCla7c3JqIcJLRAlyzSOzGvMmJ2NpunTgJRCx2N2gTyKbPrhPbliOBQLAEhxTd/MhnQNoTfR02+4etdSs5IQI3GZuJqdccgg==
+ bh=mJSDHRgqIhAV5McM9Ea4GDHgePdURwrsqUQF6kOTf0Y=;
+ b=e3MnPn0rmGjgjFgZ2gEq/UPD29pq6YBRMqSYekKVi+uym4sUE/fzQKoEaHO2pxVnDSRIRrYHQIvLNo2thzd0Is3HI2PaZwXN1x5tin6qKUr+0g+4vUlmsGYtcqQu2qV209fAI6BwTMonRnhst/o4EtEnh2U4NNVpJa2Xr1iGSiZ0l0ljAbGYL1NhLsTFXaWSi0V4cRQ8sF0BlDt08N+DuZhNfFt1fyZMkuqWJfvZpQYcyht+IbHeKd33luLzUbN40fMISYMM4gbx4zIGQ1+HwYdbLH5NgX73KsVqTQf3t4bwinruc+6VcUDNeU3REIJrfDwAu9rXaEB/UziB/+1JVw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by DB9PR04MB9868.eurprd04.prod.outlook.com (2603:10a6:10:4c3::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Tue, 4 Mar
- 2025 10:14:54 +0000
+ 2025 10:14:59 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
- 10:14:54 +0000
+ 10:14:59 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
@@ -49,9 +49,9 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Subject: [PATCH 4/5] drm/bridge: simple-bridge: Add DPI color encoder support
-Date: Tue,  4 Mar 2025 18:15:29 +0800
-Message-Id: <20250304101530.969920-5-victor.liu@nxp.com>
+Subject: [PATCH 5/5] drm/bridge: simple-bridge: Add next panel support
+Date: Tue,  4 Mar 2025 18:15:30 +0800
+Message-Id: <20250304101530.969920-6-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250304101530.969920-1-victor.liu@nxp.com>
 References: <20250304101530.969920-1-victor.liu@nxp.com>
@@ -63,77 +63,78 @@ X-ClientProxiedBy: SG2PR04CA0188.apcprd04.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB9PR04MB9868:EE_
-X-MS-Office365-Filtering-Correlation-Id: 443931be-a59b-4772-ca04-08dd5b056845
+X-MS-Office365-Filtering-Correlation-Id: 1e06c5a3-bc35-4302-d5f1-08dd5b056b70
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|52116014|366016|7416014|1800799024|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?4Jrj4ML7qb8W6lG7JoBJ2O0odMfGB6K2mGjJpt89XX5yG1W7c+heZNQLxEj2?=
- =?us-ascii?Q?Wnh9etin4CxnKAxwBG71Of0P0IUt4jiiUq74rRIStVvEU97XuTV69z6C5Elt?=
- =?us-ascii?Q?JmfdzT7b0NcUCUWKUlCFeeS0SqZmJ4sBCyZB/OreVZDMXLL+sj5dx6ANE3BJ?=
- =?us-ascii?Q?LT6Hom9o14DyFdVlwAie9fx6ASJoLUTpWssgH0qkCy3H1AGUIXrTVOSaepec?=
- =?us-ascii?Q?rX5H3C2UvCUdxesFs7Vf/fMIfD0lQveQb0CdZwS7bhBzm1dUuHlgMTM09Fmr?=
- =?us-ascii?Q?X+MAg//VTjWfDV6t3NTGg5WEWtw6FxJb3WVsLwQVwxjp9FRn7CNaTwlHdrs0?=
- =?us-ascii?Q?qKDYHV5x0yhmlaTRaOYxfS3KfSlI4qd0nsYwqP9SfLYXf69DYvIPHHiZrt/q?=
- =?us-ascii?Q?lQAEmpDQDLGJp0EVYV+gcQzFG+CRXRfzg3xOUxPWpQQXBX4j0oe+Wfa2omHa?=
- =?us-ascii?Q?Df/UTtAiEZDrKGY6/Q5DMDLKlY3SJmYWS7ni5SgMXkZs7G5p6Bryg+Hi8PPu?=
- =?us-ascii?Q?Fw1Jw+v0/aAZ7bEqUmV1uj094B0rC6dDcZLkPzraT1oiyQiXo+DzDmLSy5VT?=
- =?us-ascii?Q?VzvDi3B23MBnrCkdEMqewEeR/4n4u1VVO7nBTV0tQXbB92BWid66EsJIx+Hm?=
- =?us-ascii?Q?x5qyH9xMWauiMPj9tBy//NQj54+x+eX1a0CDPBUBGLJTIPAyWEv7dBlobB09?=
- =?us-ascii?Q?UT/cgCWfs45rxmMC5H/uFJe8UUMb5g0vJJmLjhpPPKONah06eFOvC7Gk2AV4?=
- =?us-ascii?Q?tV77D/lnHr+aznwxGAavhGszO8kjUBJB/AS7tQMGLmi8tmjcDwQrYz8zoggF?=
- =?us-ascii?Q?hZrMVAETP2TCVjm1JUJVUdgdhgb9hsK5am6PoW63oqVOFO9MRwELcbUf59Wf?=
- =?us-ascii?Q?XB/Q9TQNedAjEmaw/AgEzzPHAseLki+96R93Hd1/R8Rrc2dK/RnTl16/O7vy?=
- =?us-ascii?Q?GcTZlBapDTvyKUsyhPls/I1zcbyNpW6C79h9sA21oW3yfFCR41Np6tvBztwe?=
- =?us-ascii?Q?bRlsWLc4kGXiehZCzacAkAkhyN34Y5jKwZSmmCgZ45CsSy1Qx9kZ/e8Ql+tC?=
- =?us-ascii?Q?g1lVi4sdx0eejwY0JJMXdssENVJ70IxpX4yuiW+QhrOFOu6p+dKNXi+DGEPp?=
- =?us-ascii?Q?1Q+94T3bGH7xQ4/f2LKXhdbc+8X8AeOKLg3h4kN5ZX2uhz0Yof9knrY3Zu0C?=
- =?us-ascii?Q?z336T9kYRRmi0t/F4dnshTAGhJvmhI9bBCN9Gu87bclK9lINaY6ZfLdiNT0G?=
- =?us-ascii?Q?tgaNaHcomHbsvFsDIf1PZkmGyEJojoeQ3PhLVY5avk+vxlis9IveD2RCh5Po?=
- =?us-ascii?Q?yvQhfpmGsMckoPyEa6IRBlbkjbMINiUolInW36PaGTkLZD+C91XLJrFEddbn?=
- =?us-ascii?Q?tln3q2XSgYHczdcDGUYfDKCCw3Eq?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mmi1NxmNmAb6RDhuFt19ZQVliSAphHE64y+eRC8flGLPiMDIwdo6/+A6K3XB?=
+ =?us-ascii?Q?Nkuv45tYa9BMrvDDrnMNqtFpi19WdyLQTvQAHELveeRRZUpG6yKpVlN0ysO5?=
+ =?us-ascii?Q?cUdjtqI9ctCpEDlsAPHxFuDqVDKS6UTx84l1COvScROwp09NYiD/QulpgWLs?=
+ =?us-ascii?Q?FVQ3NCDnkV2bVAgWvV/xnoWYgoxBro1DAVhfwL+vXUNXmzGXwOTTML9nXkDM?=
+ =?us-ascii?Q?S7UdsSB+TuZMieSj1DPt6tIJ85J0qDP1Nl2yYEQA/YcktDMud4W06p5W6sDI?=
+ =?us-ascii?Q?MwMWFVtAV8B0esWoM+wDbccxNV8UOWgQVfnH3C1kbV1Gz5sjzjo4XEDnSJT2?=
+ =?us-ascii?Q?9Tru5ByWfCEw+nXDjnJGQYyKAA/YX6fmX66eFDK9y5LM6hY/6VxdnF0Q20dD?=
+ =?us-ascii?Q?Ac/WWXoKDJXE6oAE+a4Y8qkFLK3nUF5gyL/niA36M4/KgdAxMJx9ZA+/dBWY?=
+ =?us-ascii?Q?rmw1XVy+JvwrChqaDpZSyRC/zLvxsmhENv38Gd3eN1IefqYcU1+yr39bbRKn?=
+ =?us-ascii?Q?FyGUSTi78yw78sy4B+EJq1ZYkzbsyrCleD3AKwHxL9leFkHBQYnOk6SFMdUP?=
+ =?us-ascii?Q?67j6/SRCrfZWEwsa3SgESHOp9JI5RDJH+78ImdkFlgqjKutG0I5IISVxWGet?=
+ =?us-ascii?Q?wWRUIfbw/rqKioF3RIxD8xkoemHySXtyNXOm74UQJKjb+c6XRvaFHhKiItLx?=
+ =?us-ascii?Q?oCRpgJMlJHevwf4DYTiDYW3yl4fLqCpOI/sxTfdmzxHT/c0KYbH0s0vxdU5n?=
+ =?us-ascii?Q?lnXsPUJmVStaHlvM6i+2RlzzhykdZtX9teiTt3yi3DTqAeDVgdLPyAD/moLW?=
+ =?us-ascii?Q?7Qsn+oVWJiTue2YQKSVhMkBvqD2D5j8zeE/q7kLxJVDXwGP1k+id91A5Ivs1?=
+ =?us-ascii?Q?6Jg2dvxlwSQpXTMdeE/jl7ac1bPleQFAGy1u9PJvchBTxFWW2UKs60aLbLqq?=
+ =?us-ascii?Q?M53w0Dna+Kbgz/9PUczQVXYIcVF5cPo7Ed8QzXWGnRZDBj5ZR7wmMwrTMZB2?=
+ =?us-ascii?Q?NogO2SO7usxLaDhTFrBSF8xbT5om7LEhu+Ehp/zV5Hi+vIHMpij3m6JXqvNj?=
+ =?us-ascii?Q?kmZSK/0II+mcKlsM+QDwXRzvrdM3fwyMOZtq9wqdi27Re17yreRwN2To6GYA?=
+ =?us-ascii?Q?79V9klkLPDhhHjkWUraJv/A5B48dKJBJGUDXx2OYPenrq9C56HZDFC3Gvxor?=
+ =?us-ascii?Q?ZZQEcn1JVKmaYSfAHGX1+jObaG9VvsnZFjrfmDKfoJo9vuEvASJNIhHynpLt?=
+ =?us-ascii?Q?1TcdRHq8C58NXmp2N51Q3SRuM3c2v4uX+AI7gXY/5YY3/JXLHqN5AzSoqZmw?=
+ =?us-ascii?Q?G0MLbE7BkZFx2s6aR+CIj5wTi2RoquFrPf2isjSXetCRkkKa63iDVeA+vPvj?=
+ =?us-ascii?Q?vgJdmEZQXqAv3DdrpUOkPsp5YT/if2YHhOExxaEEW54rev3bNeOeYP0IYfmb?=
+ =?us-ascii?Q?cTojLQLdPXm9fJrHwlRlB01DD3Uz3F7/?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(52116014)(366016)(7416014)(1800799024)(376014)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lqKQXak1S6sADSJ69sRKQv7iwH2HpVqhKQhw2vDtYe9X/hRPqXDB7rch9NaR?=
- =?us-ascii?Q?laq/EMBebV1FAbJBZtYAp5AmlR6xZBD2uSl/VQDKTdthNO7xbNupiOeJMHs5?=
- =?us-ascii?Q?IOm5wqxjl2QykYqKLhgytI/6sd3usURo6LTuB1TBYGmGYSJn1cqfxtx8exBH?=
- =?us-ascii?Q?nJkS89swVotrGcd8nbtiszyi2wIHvE43pLV5HGGvTA6oNhdPiDBl2xhUkhIi?=
- =?us-ascii?Q?yK7t+xiJY6QNAZdKzypgKpohMuxPFbWDspHcY4DCpbDcZRvxlh0QHIQCDkSk?=
- =?us-ascii?Q?k4exQPbym8ZxxLbx+XTRZ/JAvK6qMneG6k/IfJR1XFrPo8K0eJhyrOKnvdvj?=
- =?us-ascii?Q?y4WsITm+wuhq1Lv7kgSwAI+qcDKXEnLEJ0A4KFP7SA/eAgShAj5AlhBC2N2h?=
- =?us-ascii?Q?abPE9ABeE/b28RYjCY61QDyh/Q6nKv+14/vIX+QESMxGjBtlepeu9wzHS9SA?=
- =?us-ascii?Q?XWpfRwJdTL+002VfA8DsSrGxlYIH2UXst0yMWY73DlZUgfYdfREOWkUbj1Og?=
- =?us-ascii?Q?6jKAytGQuYpqJwyrcoNsakBjO6hFhD0ifTaQkvFAUKu7+S0iajfxSJQwI0oD?=
- =?us-ascii?Q?FXmJrdWbxOu3xHjQNL3dZ1JRM9OwwTQ75kdUrGjfpmc4pIeVPTF+m9MEl8ku?=
- =?us-ascii?Q?7wVPpPnFMWR1gTTP8cw+1ehGrFrdKZXesYJpifcDYbIeF05tfk1LxbyMpKmr?=
- =?us-ascii?Q?MMWxu85QpB8WQTNEZL9lcGdLujodfoq1ynDguueIjBb54n2HucdoJY9Sl+RP?=
- =?us-ascii?Q?QZKgjojFEtvSDKmwRmTceAF3H9m0sEzK6CO1BgdTRivm/XLlnJhhNfGSKUpK?=
- =?us-ascii?Q?2NyGkHlW2x9RFFhF0Eq7nZ5QnSYf3Rt3QFTDfVeWr7ltT6c3DCfl+AEXvdG3?=
- =?us-ascii?Q?yNA8qctD8VT1eAVvUVdQDo8k56F4Ko0Toz50SLN9COXrxBSuw+J/6urRg9bx?=
- =?us-ascii?Q?EyoMDYvZUf4RTC22VAT2K+Ty+6xKvCeLeHMztKEAU0ubkjyPKvKLoenLyMTX?=
- =?us-ascii?Q?AqsmneLs8vEeld52q4cRBjUggV2BKmRHgFz0eVlDHbFFJZQ7LYDwP9pNYGOM?=
- =?us-ascii?Q?adtPcFTsnl4zJIyZrtRIpKRfToKoBJdTWsY55VZ10YBxe/qaTDdvtFH0lfE9?=
- =?us-ascii?Q?KQYgfDOylUZGTm7QdKf0hfQmG8ElM/1PRQO/Lw6Itf/rCCGix7zcDCu9SDJ5?=
- =?us-ascii?Q?EHdZvZ/s/f7Cmkw0KVbOiFoRFbA7frVVDC1es6xqxDFkZQO+ayA4j9vjOeg6?=
- =?us-ascii?Q?WLjQNU8BLqzv1fdriZm+BavJLSA2tkINsgr5Y4Jd3Sg0WctJtRgPuXGp4WBU?=
- =?us-ascii?Q?U/5IluSb8625pheDShtVnZFmfiZpayT1ueJ2S0CWM73mVxijsa5OOiZinWGJ?=
- =?us-ascii?Q?fVpMxpa6j8PwULPW4lHY10uAza7Z4aWSfR1yGsbMcb8G/pJPlbC/EzECvf9t?=
- =?us-ascii?Q?70R9Panbs8QVIbjYU23EKtqv45I7nTQHKT2uneIvCj3LviPgfv04OTFb0519?=
- =?us-ascii?Q?QcopLMygoWWDyCMI3/FdYrwI7DWjqVu/oNSrJRnCMWNchUx3hsznfmNMjt/G?=
- =?us-ascii?Q?6gxKuc4YhHpJzq8ax4qJO1YVB3FucIpIELZl63ew?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9emBCAUYFQNYUdvF22VpUWcNcEmfTQHfxVtxfAfKOBll1X5b3sms+iFwOhjb?=
+ =?us-ascii?Q?Ffk+JE8YsdmfCS3XttlE9T0xGSZ2j8CPpbDe10IeFmerDym+hEYyqZpHhIxn?=
+ =?us-ascii?Q?qCpAP0auD2ijHxcUspuQSiNw5Iz3eOquVoYwDpybyQdJ6zFqC+ZQvkVnPXV/?=
+ =?us-ascii?Q?6+YQCMP/5dehSbDWr/90v05yobtT9/1pWdF8aGcx2WBi5ZYCPUyCmuAG19fV?=
+ =?us-ascii?Q?46RX8O4acVDZky4HVV7zBe+OduPiq4mUMMK+v1RsYg/yuXIm3q54SQt+ncVR?=
+ =?us-ascii?Q?4bF4hW7GLRzF3LShBx0UtN03PuY5qEaI50xzQ7wSym0sf4Kqb+QTrHTS+vUr?=
+ =?us-ascii?Q?ozpOxqwYhbt07Ezt586YN+71ssKeq35Ok2JEfET5baJheox45cNi8nTkUb98?=
+ =?us-ascii?Q?t6rQrW/5R+/mvO9yqiYs3BVrVuuJ+POpD9hTVa8C8WSpntX0ldjI2pn6k109?=
+ =?us-ascii?Q?JZsObB3yRUphhrz5mqQszHsjlZtG+1HLcm+stmdxZM9GYOy1HBcaMJNLsyz6?=
+ =?us-ascii?Q?dLW6gwEGrEcxEEzghvqwCQcO4NpsL7rOCBmVpj6aDHhk4FgjpSdbfJ2EZUpH?=
+ =?us-ascii?Q?/INb6mRLBlvT0D8wv/G24LfKn9k++ZldpwX+GDIIjwlqhJVI9lqO51065eD6?=
+ =?us-ascii?Q?bZvM7b4u5Pgx+uVpcaw3prheDG16tvjTlp/JJhTtUNtPYdp6xH28dKQpJjGk?=
+ =?us-ascii?Q?YV9O9OvFjkYDvcc6gu01zuY7h9FanqYj/LRexpqGplsbVirx1SozuK/KyHJh?=
+ =?us-ascii?Q?paxNyAUNqH5UKrPltzSKD0HiC5k9Vs7qcvRbJHBdFc4f4SzS0fsbUOCaUUVJ?=
+ =?us-ascii?Q?n2HNW+1mGMU+1z7pcT87XPrpJ6+saDUUxw5OQKCnMT6h/KO2ziAo72urcnvC?=
+ =?us-ascii?Q?cK4RMucFHdylejKisZgpjSag+YJm1MwXiM28BAwhP9iPlRWPOjYLemGwXQYY?=
+ =?us-ascii?Q?frcY6feRGe8X0Hy+WxkMjvIBq0EUmAhnDq1M9BM7fLpdZ+L5q8IZ1hzs/Q4d?=
+ =?us-ascii?Q?hKNg/siF/6TlxazVG3GCePOO8P3qPkcS1XA7S/dOhOm0qgZwMHjVSug9OCM3?=
+ =?us-ascii?Q?s2Ufs+D0pXhOQwOKt22PeCKa+3dEtmV5b9KpMLAKzDamX2V1VhrjgihiNI8Y?=
+ =?us-ascii?Q?GgSzVCyEHqBbElJGorHNSyZVzJKLaAT2aI6fcvEFhUfKZsWY5nOI0F7HPU51?=
+ =?us-ascii?Q?7pj78zY1QImF3SuF+LJHUGDssYZxWDEkSB40ZPHUF+g4Cju3TWd0sCFpwDob?=
+ =?us-ascii?Q?pPJ3lFjJFH+LT8Qsq8N3oc0i+RfJpe55qAW+yms+1fRZTCLZb/fl/8EIKlTA?=
+ =?us-ascii?Q?LJ6e2CKFRuu82hx+3xbbuuMn378lWg5+Av4SmyvoBIYaAzWuhC24SKBFLG1E?=
+ =?us-ascii?Q?1yRm33B3zgH3aO0r8nYg8WluCnDtZtiMUFNXpfleFDUkz9UyF55IQjUKRCxT?=
+ =?us-ascii?Q?hQvCwnQGzyQ6h/+DojUj33upxrFXadxbUHNTLbQ64aDutRdxDch/8gK3L/JN?=
+ =?us-ascii?Q?9rCEE1mwSCjQZkM7TbJD+9CaDDgX3IvYz7L2eKDdH4Tc73ejKqwEuautMGg9?=
+ =?us-ascii?Q?V3M+4XAsukePN07qkFRhX3xo/wSiK47sxEgk4/X5?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 443931be-a59b-4772-ca04-08dd5b056845
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e06c5a3-bc35-4302-d5f1-08dd5b056b70
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 10:14:54.1908 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 10:14:59.4277 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DZRz4CLw7Hvicnr2+PCZCi4g86MChdjvGRF5w7KTdRqGQyCQcYipy7AoWXOKJrj+a3ww6Odz9I0NBq9Ti2vw5A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: /uFJXMpH3BJRZe0AaWQpMgYGiGfVcU2tQO72mMtBvmDI9p1mDQ/m38jUSbzGeB4h3Z16PZWhk11Fes5DaMonvw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9868
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -150,208 +151,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A DPI color encoder, as a simple display bridge, converts input DPI color
-coding to output DPI color coding, like Adafruit Kippah DPI hat[1] which
-converts input 18-bit pixel data to 24-bit pixel data(with 2 low padding
-bits in every color component though). Add the DPI color encoder support
-in the simple bridge driver.
-
-[1] https://learn.adafruit.com/adafruit-dpi-display-kippah-ttl-tft/downloads
+The next bridge connected to a simple bridge could be a panel, e.g.,
+a DPI panel connected to a DPI color encoder. Add the next panel support,
+instead of supporting non-panel next bridge only.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
- drivers/gpu/drm/bridge/simple-bridge.c | 104 ++++++++++++++++++++++++-
- 1 file changed, 102 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/Kconfig         |  1 +
+ drivers/gpu/drm/bridge/simple-bridge.c | 32 ++++++++++++++++----------
+ 2 files changed, 21 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index d20f1646dac2..92187dbdd32b 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -310,6 +310,7 @@ config DRM_SIMPLE_BRIDGE
+ 	tristate "Simple DRM bridge support"
+ 	depends on OF
+ 	select DRM_KMS_HELPER
++	select DRM_PANEL_BRIDGE
+ 	help
+ 	  Support for non-programmable DRM bridges, such as ADI ADV7123, TI
+ 	  THS8134 and THS8135 or passive resistor ladder DACs.
 diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index ab0b0e36e97a..c0445bd20e07 100644
+index c0445bd20e07..4c585e5583ca 100644
 --- a/drivers/gpu/drm/bridge/simple-bridge.c
 +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/gpio/consumer.h>
-+#include <linux/media-bus-format.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
-@@ -17,12 +18,14 @@
- #include <drm/drm_bridge.h>
+@@ -19,6 +19,7 @@
  #include <drm/drm_crtc.h>
  #include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
+ #include <drm/drm_of.h>
++#include <drm/drm_panel.h>
  #include <drm/drm_print.h>
  #include <drm/drm_probe_helper.h>
  
- struct simple_bridge_info {
- 	const struct drm_bridge_timings *timings;
- 	unsigned int connector_type;
-+	const struct drm_bridge_funcs *bridge_funcs;
- };
+@@ -35,6 +36,7 @@ struct simple_bridge {
+ 	const struct simple_bridge_info *info;
  
- struct simple_bridge {
-@@ -34,6 +37,9 @@ struct simple_bridge {
  	struct drm_bridge	*next_bridge;
++	struct drm_panel	*next_panel;
  	struct regulator	*vdd;
  	struct gpio_desc	*enable;
-+
-+	int			dpi_color_coding_input;
-+	int			dpi_color_coding_output;
- };
  
- static inline struct simple_bridge *
-@@ -156,16 +162,93 @@ static void simple_bridge_disable(struct drm_bridge *bridge)
- 		regulator_disable(sbridge->vdd);
- }
+@@ -114,6 +116,10 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+ 	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
+ 	int ret;
  
--static const struct drm_bridge_funcs simple_bridge_bridge_funcs = {
-+static const struct drm_bridge_funcs default_simple_bridge_bridge_funcs = {
- 	.attach		= simple_bridge_attach,
- 	.enable		= simple_bridge_enable,
- 	.disable	= simple_bridge_disable,
- };
- 
-+static u32 *
-+dpi_color_encoder_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+					    struct drm_bridge_state *bridge_state,
-+					    struct drm_crtc_state *crtc_state,
-+					    struct drm_connector_state *conn_state,
-+					    u32 output_fmt,
-+					    unsigned int *num_input_fmts)
-+{
-+	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
-+	u32 *input_fmts;
++	if (sbridge->next_panel)
++		return drm_bridge_attach(bridge->encoder, sbridge->next_bridge,
++					 bridge, flags);
 +
-+	*num_input_fmts = 0;
-+
-+	if (sbridge->dpi_color_coding_output != output_fmt)
-+		return NULL;
-+
-+	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+	input_fmts[0] = sbridge->dpi_color_coding_input;
-+	return input_fmts;
-+}
-+
-+static const struct drm_bridge_funcs dpi_color_encoder_bridge_funcs = {
-+	.attach				= simple_bridge_attach,
-+	.enable				= simple_bridge_enable,
-+	.disable			= simple_bridge_disable,
-+	.atomic_reset			= drm_atomic_helper_bridge_reset,
-+	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_get_input_bus_fmts	= dpi_color_encoder_atomic_get_input_bus_fmts,
-+};
-+
-+static int simple_bridge_get_dpi_color_coding(struct simple_bridge *sbridge,
-+					      struct device *dev)
-+{
-+	struct device_node *ep0, *ep1 = NULL;
-+	int ret = 0;
-+
-+	ep0 = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-+	if (!ep0) {
-+		dev_err(dev, "failed to get port@0 endpoint\n");
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	ep1 = of_graph_get_endpoint_by_regs(dev->of_node, 1, 0);
-+	if (!ep1) {
-+		dev_err(dev, "failed to get port@1 endpoint\n");
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	sbridge->dpi_color_coding_input = drm_of_dpi_get_color_coding(ep0);
-+	if (sbridge->dpi_color_coding_input < 0) {
-+		dev_err(dev, "failed to get DPI input media bus format\n");
-+		ret = sbridge->dpi_color_coding_input;
-+		goto out;
-+	}
-+
-+	sbridge->dpi_color_coding_output = drm_of_dpi_get_color_coding(ep1);
-+	if (sbridge->dpi_color_coding_output < 0) {
-+		dev_err(dev, "failed to get DPI output media bus format\n");
-+		ret = sbridge->dpi_color_coding_output;
-+		goto out;
-+	}
-+
-+out:
-+	of_node_put(ep1);
-+	of_node_put(ep0);
-+
-+	return ret;
-+}
-+
+ 	ret = drm_bridge_attach(bridge->encoder, sbridge->next_bridge, bridge,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 	if (ret < 0)
+@@ -247,7 +253,6 @@ static int simple_bridge_get_dpi_color_coding(struct simple_bridge *sbridge,
  static int simple_bridge_probe(struct platform_device *pdev)
  {
  	struct simple_bridge *sbridge;
- 	struct device_node *remote;
-+	int ret;
+-	struct device_node *remote;
+ 	int ret;
  
  	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
- 	if (!sbridge)
-@@ -202,8 +285,14 @@ static int simple_bridge_probe(struct platform_device *pdev)
- 		return dev_err_probe(&pdev->dev, PTR_ERR(sbridge->enable),
- 				     "Unable to retrieve enable GPIO\n");
+@@ -257,17 +262,20 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 	sbridge->info = of_device_get_match_data(&pdev->dev);
  
-+	if (of_device_is_compatible(pdev->dev.of_node, "dpi-color-encoder")) {
-+		ret = simple_bridge_get_dpi_color_coding(sbridge, &pdev->dev);
-+		if (ret)
-+			return ret;
-+	}
+ 	/* Get the next bridge in the pipeline. */
+-	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
+-	if (!remote)
+-		return -EINVAL;
+-
+-	sbridge->next_bridge = of_drm_find_bridge(remote);
+-	of_node_put(remote);
+-
+-	if (!sbridge->next_bridge) {
+-		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
+-		return -EPROBE_DEFER;
+-	}
++	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, -1,
++					  &sbridge->next_panel,
++					  &sbridge->next_bridge);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Next panel or bridge not found\n");
 +
- 	/* Register the bridge. */
--	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
-+	sbridge->bridge.funcs = sbridge->info->bridge_funcs;
- 	sbridge->bridge.of_node = pdev->dev.of_node;
- 	sbridge->bridge.timings = sbridge->info->timings;
++	if (sbridge->next_panel)
++		sbridge->next_bridge = devm_drm_panel_bridge_add(&pdev->dev,
++								 sbridge->next_panel);
++
++	if (IS_ERR(sbridge->next_bridge))
++		return dev_err_probe(&pdev->dev, PTR_ERR(sbridge->next_bridge),
++				     "Next bridge not found\n");
  
-@@ -253,29 +342,40 @@ static const struct of_device_id simple_bridge_match[] = {
- 		.compatible = "dumb-vga-dac",
- 		.data = &(const struct simple_bridge_info) {
- 			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+			.bridge_funcs = &default_simple_bridge_bridge_funcs,
- 		},
- 	}, {
- 		.compatible = "adi,adv7123",
- 		.data = &(const struct simple_bridge_info) {
- 			.timings = &default_bridge_timings,
- 			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+			.bridge_funcs = &default_simple_bridge_bridge_funcs,
-+		},
-+	}, {
-+		.compatible = "dpi-color-encoder",
-+		.data = &(const struct simple_bridge_info) {
-+			.connector_type = DRM_MODE_CONNECTOR_DPI,
-+			.bridge_funcs = &dpi_color_encoder_bridge_funcs,
- 		},
- 	}, {
- 		.compatible = "ti,opa362",
- 		.data = &(const struct simple_bridge_info) {
- 			.connector_type = DRM_MODE_CONNECTOR_Composite,
-+			.bridge_funcs = &default_simple_bridge_bridge_funcs,
- 		},
- 	}, {
- 		.compatible = "ti,ths8135",
- 		.data = &(const struct simple_bridge_info) {
- 			.timings = &ti_ths8135_bridge_timings,
- 			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+			.bridge_funcs = &default_simple_bridge_bridge_funcs,
- 		},
- 	}, {
- 		.compatible = "ti,ths8134",
- 		.data = &(const struct simple_bridge_info) {
- 			.timings = &ti_ths8134_bridge_timings,
- 			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+			.bridge_funcs = &default_simple_bridge_bridge_funcs,
- 		},
- 	},
- 	{},
+ 	/* Get the regulator and GPIO resources. */
+ 	sbridge->vdd = devm_regulator_get_optional(&pdev->dev, "vdd");
 -- 
 2.34.1
 
