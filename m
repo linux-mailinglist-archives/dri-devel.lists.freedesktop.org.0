@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4186FA4D97B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F873A4D9DB
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 11:14:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7EB110E55C;
-	Tue,  4 Mar 2025 09:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88E510E519;
+	Tue,  4 Mar 2025 10:14:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="I/ucUq7m";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="aJhuQXFt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A923910E55E;
- Tue,  4 Mar 2025 09:58:54 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5249t5o8017322;
- Tue, 4 Mar 2025 09:58:43 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D0A10E519;
+ Tue,  4 Mar 2025 10:14:04 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524ACQH4005995;
+ Tue, 4 Mar 2025 10:13:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- XaKME3qV1Kg76zd5EjKy7antbBVtuWC78krGEB2xPew=; b=I/ucUq7mZ944MWww
- BpyPu8dTBxf5y+OtaELtGgPuWew02t76dUCd0z9A4YJtpuR/ucvCoLR81tJ6Y9pe
- C1NNIN0Q9IJakVPyzXO0jFksXxZj0SgP+uswcTfL+znIZs2K6WkuhcoJcnJPBqJg
- INIuOjkgd/AzEAHG5lI6k5WJ82sWGsrGqK7d7i+m1QsbVtIU5cbgI0/YILMOpwqY
- Tl3ul9dnkOE+TJrLJ4cSIIpGfNxYnbPdIWy1CocKnNufRvJ0pnlP3N8kU8cEZHRQ
- xAY+gkJ9v3BjyGT60LG+hpmqiakcIPNbEa5OkO9dHznuIX/0Gi7rtOKmX2viEO/9
- FSyPJw==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ BhKtjnk1MeKajNiWxKWlMEudNu9Ky7L1pBQ8CJDBqEI=; b=aJhuQXFtajRB/mow
+ 7/8veCSnSPKW0DgBHYOKB3dhn/H5lB4xG3QFezdWknALC+SCbJdpXm0X1dwppP+p
+ U01CzBmi0+gT4worMTp9GbnEW+qeEtG8NEhxytUZINQPJAfidWdYdbyMeXcdp3XB
+ NRtKa2M54ocjl79dmUvNQbrP3i+Did7cTn+LcXUCnZpD9dpAM4hWr5htJAmXSKKk
+ FgWkI1NG37NdjFITxINXMSvGaFu/lve02WFiUP3bEfDANwHBm3Bi1hH+Of4LXXFg
+ TxU/O/GwDDJ3IRRcQEYfCoz21ZbQHi1N5NVmMCdmLd8Z0hHUEHJElfjr1AdK5kau
+ 9PpnZQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6thfkq-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6thfv4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Mar 2025 09:58:43 +0000 (GMT)
+ Tue, 04 Mar 2025 10:13:48 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5249wgBG017419
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 524ADlSp009962
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 4 Mar 2025 09:58:42 GMT
-Received: from [10.204.66.137] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ Tue, 4 Mar 2025 10:13:47 GMT
+Received: from [10.206.97.61] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Mar 2025
- 01:58:35 -0800
-Message-ID: <963915a3-819f-46f7-88eb-f3420d9660d5@quicinc.com>
-Date: Tue, 4 Mar 2025 15:28:32 +0530
+ 02:13:38 -0800
+Message-ID: <42fe61c5-4552-406d-b698-aa766f57cfb3@quicinc.com>
+Date: Tue, 4 Mar 2025 15:43:35 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/11] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to
- DP bridge nodes
-To: Krzysztof Kozlowski <krzk@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <robdclark@gmail.com>, <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <andersson@kernel.org>,
- <robh@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
- <konradybcio@kernel.org>, <conor+dt@kernel.org>,
+Subject: Re: [PATCH 08/11] arm64: dts: qcom: sa8775p-ride: enable Display
+ serial interface
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <marijn.suijten@somainline.org>,
+ <andersson@kernel.org>, <robh@kernel.org>, <robh+dt@kernel.org>,
+ <krzk+dt@kernel.org>, <konradybcio@kernel.org>, <conor+dt@kernel.org>,
  <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
  <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
  <quic_abhinavk@quicinc.com>, <quic_rajeevny@quicinc.com>,
  <quic_vproddut@quicinc.com>, <quic_jesszhan@quicinc.com>
 References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
- <20250225121824.3869719-8-quic_amakhija@quicinc.com>
- <ecdc2230-1ce1-4d70-a352-180f6cd29e61@kernel.org>
- <20250226-futuristic-messy-rook-e9f85c@krzk-bin>
+ <20250225121824.3869719-9-quic_amakhija@quicinc.com>
+ <tfd27qk543dt4sqcawogoszsjax3cqxmi6mcy3qd2mwzauedpf@l6xmy5okswrd>
+ <5293f723-2a27-4d2a-8939-059226d460c3@quicinc.com>
+ <CAA8EJpoTQ5cg-rM=A3C8-VKbd973vMEKDbrkNFpbB9soCgewzQ@mail.gmail.com>
 Content-Language: en-US
 From: Ayushi Makhija <quic_amakhija@quicinc.com>
-In-Reply-To: <20250226-futuristic-messy-rook-e9f85c@krzk-bin>
+In-Reply-To: <CAA8EJpoTQ5cg-rM=A3C8-VKbd973vMEKDbrkNFpbB9soCgewzQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -76,21 +77,22 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Authority-Analysis: v=2.4 cv=PMb1+eqC c=1 sm=1 tr=0 ts=67c6ced3 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=HZbuTjE8 c=1 sm=1 tr=0 ts=67c6d25c cx=c_pps
  a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10
- a=Oh48bqpFvL8qWIr0kS4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: kLHL-FOeG01MCscaXHFCJbfQsm80sH-m
-X-Proofpoint-GUID: kLHL-FOeG01MCscaXHFCJbfQsm80sH-m
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8
+ a=KMNGZfKfLVgBrRNt_q4A:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: CFNBxu6vzxY5_n2jeI7G68lK64u25Qw3
+X-Proofpoint-ORIG-GUID: CFNBxu6vzxY5_n2jeI7G68lK64u25Qw3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-04_04,2025-03-03_04,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- phishscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
- mlxscore=0 adultscore=0 spamscore=0 suspectscore=0 impostorscore=0
- clxscore=1011 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2503040084
+ lowpriorityscore=0
+ adultscore=0 mlxscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2502100000 definitions=main-2503040086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,36 +108,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/26/2025 2:05 PM, Krzysztof Kozlowski wrote:
-> On Tue, Feb 25, 2025 at 02:31:05PM +0100, Krzysztof Kozlowski wrote:
->> On 25/02/2025 13:18, Ayushi Makhija wrote:
->>> +		pinctrl-0 = <&dsi0_int_pin>,
->>> +				<&dsi0_cbl_det_pin>,
->>> +				<&dsi1_int_pin>,
->>> +				<&dsi1_cbl_det_pin>;
->>> +		pinctrl-names = "default";
->>> +
->>> +		dsi0_int_pin: gpio2_cfg {
+On 3/4/2025 3:18 PM, Dmitry Baryshkov wrote:
+> On Tue, 4 Mar 2025 at 10:45, Ayushi Makhija <quic_amakhija@quicinc.com> wrote:
 >>
+>> On 2/25/2025 11:25 PM, Dmitry Baryshkov wrote:
+>>> On Tue, Feb 25, 2025 at 05:48:21PM +0530, Ayushi Makhija wrote:
+>>>> Enable both DSI to DP bridge ports on SA8775P Ride plaftrom.
+>>>>
+>>>> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+>>>> ---
+>>>>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 66 +++++++++++++++++++++-
+>>>>  1 file changed, 64 insertions(+), 2 deletions(-)
+>>>
+>>> Please squash into the previous patch. It doesn't make a lot of sense separately.
+>>>
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+>>>> index 151f66512303..02d8a9c2c909 100644
+>>>> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+>>>> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+>>>> @@ -128,6 +128,30 @@ dp1_connector_in: endpoint {
+>>>>                      };
+>>>>              };
+>>>>      };
+>>>> +
+>>>> +    dsi0-connector {
+>>>
+>>> dpN-connector. It is not DSI.
 >>
->> No underscores, see DTS coding style.
+>> Hi Dmitry, Konrad
+>>
+>> Thanks, for the review.
+>>
+>> I will change dsi0-connector -> dp2-connector and dsi1-connector -> dp3-connector respectively.
 > 
-> And as Rob's bot pointed out: insufficient testing. :(
+> Why? It's then dp-dsi0-connector. I think the board has DP2 and DP3
+> (please correct me if I'm wrong). How would you name those if you use
+> those indices for DSI connectors?
 > 
-> Please be 100% sure everything is tested before you post new version.
-> You shouldn't use reviewers for the job of tools, that's quite waste of
-> our time.
-> 
-> Best regards,
-> Krzysztof
 
-Hi Krzysztof,
+Hi Dmitry,
 
 Thanks, for the review.
 
-Sorry for the mistake. I will post the clean patch in my next patchset.
+yes, you are correct there are total 4 DP connectors and 2 DSI to DP connectors on the device, better to keep the node name as
+dp-dsi0-connector and dp-dsi1-connector respectively.
 
-Thank,
+Thanks,
 Ayushi
 
 
