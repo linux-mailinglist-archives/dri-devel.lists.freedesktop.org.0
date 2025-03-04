@@ -2,58 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24F2A4D96D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4186FA4D97B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C55E10E557;
-	Tue,  4 Mar 2025 09:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7EB110E55C;
+	Tue,  4 Mar 2025 09:58:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wfela3jy";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="I/ucUq7m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D9B10E311;
- Tue,  4 Mar 2025 09:57:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AC7E45C5406;
- Tue,  4 Mar 2025 09:55:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5728AC4CEE5;
- Tue,  4 Mar 2025 09:57:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741082260;
- bh=JCpnB2cwQ/OfOpNm6zKEPewB/fS1/cePt/IPMtfsJtY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wfela3jyONID+2sSXqcrsgf1EK+GswngYsCeHlO2XlmUJro+A7BAEnJ6pdhnqGT4m
- lJRzGCET/OrxSe8xULTxQvA9ewV/Oa/v4KnzYlRbCzQyV8fDMS9HvnWb+2RCQK40/T
- QHYIlKE03ReQ5t+WPYK6+F1owUq9aA3SYuGI9wDFyoL6TMfdaMW4DkvpocuajTKgeG
- euEwCTMot9rvCsgaDJ1bwSmRwNqDjplkI294FkRUI1Tge8CBzCvnvgw8pleHNeOKwQ
- /+U+d9NzETIVIZ8Ih9v5GLOMBY0okjj1/UZXSgMGOvS+V2ThcNAzP9urv07kTcbMba
- rwaepzBp2GfQQ==
-Date: Tue, 4 Mar 2025 10:57:34 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z8bOjiQ3KXw-CkPo@pollux>
-References: <20250227161733.GH39591@nvidia.com> <Z8CY7fqbtbO4v1jv@Mac.home>
- <Z8ChnwPC0UwM8xBe@cassiopeiae> <20250227192321.GA67615@nvidia.com>
- <Z8DYNszfONdsKZsl@boqun-archlinux>
- <20250227220013.GQ39591@nvidia.com> <Z8Dp9dM1MxhzuvmR@pollux>
- <20250228185534.GH39591@nvidia.com> <Z8YEwrBJyLYL6sci@cassiopeiae>
- <20250303215002.GF133783@nvidia.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A923910E55E;
+ Tue,  4 Mar 2025 09:58:54 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5249t5o8017322;
+ Tue, 4 Mar 2025 09:58:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ XaKME3qV1Kg76zd5EjKy7antbBVtuWC78krGEB2xPew=; b=I/ucUq7mZ944MWww
+ BpyPu8dTBxf5y+OtaELtGgPuWew02t76dUCd0z9A4YJtpuR/ucvCoLR81tJ6Y9pe
+ C1NNIN0Q9IJakVPyzXO0jFksXxZj0SgP+uswcTfL+znIZs2K6WkuhcoJcnJPBqJg
+ INIuOjkgd/AzEAHG5lI6k5WJ82sWGsrGqK7d7i+m1QsbVtIU5cbgI0/YILMOpwqY
+ Tl3ul9dnkOE+TJrLJ4cSIIpGfNxYnbPdIWy1CocKnNufRvJ0pnlP3N8kU8cEZHRQ
+ xAY+gkJ9v3BjyGT60LG+hpmqiakcIPNbEa5OkO9dHznuIX/0Gi7rtOKmX2viEO/9
+ FSyPJw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6thfkq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Mar 2025 09:58:43 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5249wgBG017419
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 4 Mar 2025 09:58:42 GMT
+Received: from [10.204.66.137] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Mar 2025
+ 01:58:35 -0800
+Message-ID: <963915a3-819f-46f7-88eb-f3420d9660d5@quicinc.com>
+Date: Tue, 4 Mar 2025 15:28:32 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250303215002.GF133783@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/11] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to
+ DP bridge nodes
+To: Krzysztof Kozlowski <krzk@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <robdclark@gmail.com>, <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <andersson@kernel.org>,
+ <robh@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
+ <konradybcio@kernel.org>, <conor+dt@kernel.org>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <quic_abhinavk@quicinc.com>, <quic_rajeevny@quicinc.com>,
+ <quic_vproddut@quicinc.com>, <quic_jesszhan@quicinc.com>
+References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
+ <20250225121824.3869719-8-quic_amakhija@quicinc.com>
+ <ecdc2230-1ce1-4d70-a352-180f6cd29e61@kernel.org>
+ <20250226-futuristic-messy-rook-e9f85c@krzk-bin>
+Content-Language: en-US
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+In-Reply-To: <20250226-futuristic-messy-rook-e9f85c@krzk-bin>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=PMb1+eqC c=1 sm=1 tr=0 ts=67c6ced3 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10
+ a=Oh48bqpFvL8qWIr0kS4A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: kLHL-FOeG01MCscaXHFCJbfQsm80sH-m
+X-Proofpoint-GUID: kLHL-FOeG01MCscaXHFCJbfQsm80sH-m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_04,2025-03-03_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=999
+ phishscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ mlxscore=0 adultscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ clxscore=1011 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2503040084
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,125 +106,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 03, 2025 at 05:50:02PM -0400, Jason Gunthorpe wrote:
-> On Mon, Mar 03, 2025 at 08:36:34PM +0100, Danilo Krummrich wrote:
-> > > > And yes, for *device resources* it is unsound if we do not ensure that the
-> > > > device resource is actually dropped at device unbind.
-> > > 
-> > > Why not do a runtime validation then?
-> > > 
-> > > It would be easy to have an atomic counting how many devres objects
-> > > are still alive.
-> > 
-> > (1) It would not be easy at all, if not impossible.
-> > 
-> > A Devres object doesn't know whether it's embedded in an Arc<Devres>, nor does
-> > it know whether it is embedded in subsequent Arc containers, e.g.
-> > Arc<Arc<Devres>>.
+On 2/26/2025 2:05 PM, Krzysztof Kozlowski wrote:
+> On Tue, Feb 25, 2025 at 02:31:05PM +0100, Krzysztof Kozlowski wrote:
+>> On 25/02/2025 13:18, Ayushi Makhija wrote:
+>>> +		pinctrl-0 = <&dsi0_int_pin>,
+>>> +				<&dsi0_cbl_det_pin>,
+>>> +				<&dsi1_int_pin>,
+>>> +				<&dsi1_cbl_det_pin>;
+>>> +		pinctrl-names = "default";
+>>> +
+>>> +		dsi0_int_pin: gpio2_cfg {
+>>
+>>
+>> No underscores, see DTS coding style.
 > 
-> You aren't tracking that. If Rust has a problem, implement it in C:
-
-Rust does not have a problem here. Arc is implemented as:
-
-	pub struct Arc<T: ?Sized> {
-	    ptr: NonNull<ArcInner<T>>,
-	    _p: PhantomData<ArcInner<T>>,
-	}
-
-	#[repr(C)]
-	struct ArcInner<T: ?Sized> {
-	    refcount: Opaque<bindings::refcount_t>,
-	    data: T,
-	}
-
-Which simply means that 'data' can't access its reference count.
-
-You did identify this as a problem, since you think the correct solution is to
-WARN() if an object is held alive across a certain boundary by previously taken
-references. Where the actual solution (in Rust) would be to design things in a
-way that this isn't possible in the first place.
-
-Let me also point out that the current solution in Rust is perfectly aligned
-with what you typically do in C conceptually.
-
-In C you would call
-
-	devm_request_region()
-	devm_ioremap()
-
-and you would store the resulting pointer in some driver private structure.
-
-This structure may be reference counted and may outlive remove(). However, if
-that's the case it doesn't prevent that the memory region is freed and the
-memory mapping is unmapped by the corresponding devres callbacks.
-
-We're following the exact same semantics in Rust, except that we don't leave the
-driver private structure with an invalid pointer.
-
-In contrast you keep proposing to turn that into some kind of busy loop in
-remove(). If you think that's better, why don't you try to introduce this design
-in C first?
-
+> And as Rob's bot pointed out: insufficient testing. :(
 > 
->   devm_rsgc_start(struct device *)
->   devm_rsgc_pci_iomap(struct device *,..)
->   devm_rsgc_pci_iounmap(struct device *,..)
->   devm_rsgc_fence(struct device *)
+> Please be 100% sure everything is tested before you post new version.
+> You shouldn't use reviewers for the job of tools, that's quite waste of
+> our time.
 > 
-> Surely that isn't a problem for bindings?
+> Best regards,
+> Krzysztof
 
-Wrapping those functions? Yes, that's not a problem in general.
+Hi Krzysztof,
 
-But obviously I don't know what they're doing, i.e. how is devm_rsgc_pci_iomap()
-different from pcim_iomap()?
+Thanks, for the review.
 
-I also don't know how you would encode them into an abstraction and how this
-abstraction fits into the device / driver lifecycle.
+Sorry for the mistake. I will post the clean patch in my next patchset.
 
-Neither can I guess that from four function names, nor can I tell you whether
-that results in a safe, sound and reasonable API.
+Thank,
+Ayushi
 
-And given that you don't seem to know about at least some Rust fundamentals
-(i.e. how Arc works), I highly doubt that you can predict that either without
-coding it up entirely, can you?
 
-I explained the reasons for going with the current upstream design in detail,
-and I'm happy to explain further if there are more questions.
-
-But, if you just want to change the existing design, this isn't the place.
-Instead, please follow the usual process, i.e. write up some patches, explain
-how they improve the existing code and then we can discuss them.
-
-> > The practical problem: Buggy drivers could (as you propose) stall the
-> > corresponding task forever, never releasing the device resource. 
-> 
-> Should't be never. Rust never leaks memory? It will eventually be
-> unstuck when Rust frees the memory in the concurrent context that is
-> holding it.
-
-We're passing Arc objects as ForeignOwnable to C code. If the C code leaks
-memory, the corresponding memory allocated in Rust leaks too.
-
-For the definition of "safe" in Rust we assume that C code used underneath is
-never buggy, but the reality is different.
-
-> 
-> > Not releasing the device resource may stall subsequent drivers
-> > trying to probe the device, or, if the physical memory region has
-> > been reassigned to another device, prevent another device from
-> > probing. This is *not* what I would call "function safely".
-> 
-> It didn't create a security problem.
-> 
-> The driver could also write 
-> 
->  while (true)
->     sleep(1)
-
-Seriously? Are you really arguing "My potentially infinite loop is not a problem
-because a driver could also write the above"?
-
-> In the remove function and achieve all of the above bad things, should
-> you try to statically prevent that too?
-
-Absolutely.
