@@ -2,140 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5EAA4D9E9
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 11:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8BBA4D9F7
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 11:16:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2F810E562;
-	Tue,  4 Mar 2025 10:15:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF68010E261;
+	Tue,  4 Mar 2025 10:16:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="e3MnPn0r";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Qf3VhK8r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2055.outbound.protection.outlook.com [40.107.22.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7864210E562
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 10:15:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bHrzSHmbVEKj/FZSxTDwl6GWpG38rUlWG2euuRHy97rxxOWLpwIEtL82DFdh5G6v/phOvKIkNFZT81zOUJzw4xkE+EgI3byTUBsg1U4eBJkXs9Jfx96WEdHrSkvykiRdVH/tz9i+9VE6YVJidljONrgqMrLyHi8UIIe7cC3hVfMI+ZSZZcl9vUzL02WP/gtMvIpPo6ePh1/iq3FyDUe4ykAntC//qZWD70kqhsI8alzggSP7gcluHmk+f2zJqVct8e96jtyOraZKpAuLoNL7dosVUh9xbJ/8yh0XZJg97NrZ2ns2v+x9GZmSgsNjD2AJ0qpNNsQKtIs5/c7JSyWACg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mJSDHRgqIhAV5McM9Ea4GDHgePdURwrsqUQF6kOTf0Y=;
- b=GgzMaEyudvE4jU9eJn5JsMg7YVuYdQ/sfK8G8QxwHDpVAmkO0fwiiWs0aWpMmLoqo/kkzJXPHNEFUT+3Ohm0yRkfOBUaO0HFcKsITRnBPLO5vuaqrO9vMzdR/IIuDikbb5hiaNq43zth1NHDuoby2CUvNnm0s6JfwBxULw7xyaL85v9DCMhIg6Wr5ZYRj/3SvU6Df1eV99D9b6TBQzt+8XfXmFhoLeeK0hjmojyK9do/AqTKogILrFuqJBhdyrQTp1ZCqB2ky0yOZ1kQXo91MxE9wG/G06Svh2j5vQ+3PwHxOVedYpUtjIkHelKz+a0BXA+cQHeSKvTwo6mxuCWo6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mJSDHRgqIhAV5McM9Ea4GDHgePdURwrsqUQF6kOTf0Y=;
- b=e3MnPn0rmGjgjFgZ2gEq/UPD29pq6YBRMqSYekKVi+uym4sUE/fzQKoEaHO2pxVnDSRIRrYHQIvLNo2thzd0Is3HI2PaZwXN1x5tin6qKUr+0g+4vUlmsGYtcqQu2qV209fAI6BwTMonRnhst/o4EtEnh2U4NNVpJa2Xr1iGSiZ0l0ljAbGYL1NhLsTFXaWSi0V4cRQ8sF0BlDt08N+DuZhNfFt1fyZMkuqWJfvZpQYcyht+IbHeKd33luLzUbN40fMISYMM4gbx4zIGQ1+HwYdbLH5NgX73KsVqTQf3t4bwinruc+6VcUDNeU3REIJrfDwAu9rXaEB/UziB/+1JVw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB9PR04MB9868.eurprd04.prod.outlook.com (2603:10a6:10:4c3::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Tue, 4 Mar
- 2025 10:14:59 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
- 10:14:59 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Subject: [PATCH 5/5] drm/bridge: simple-bridge: Add next panel support
-Date: Tue,  4 Mar 2025 18:15:30 +0800
-Message-Id: <20250304101530.969920-6-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250304101530.969920-1-victor.liu@nxp.com>
-References: <20250304101530.969920-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR04CA0188.apcprd04.prod.outlook.com
- (2603:1096:4:14::26) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CA50010E261
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 10:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=GE3NtQzxGoEbY7sh1mp1PtR9a3XDU5STFXm+a0uxTJ8=; b=Q
+ f3VhK8rVsZC9doAldFp0bX/M/2nDFybh6zxEYPKXTW3Vhy4MKaZGKO1OEjtFYnkx
+ OSKUUybIkTN/FBB1U/aMD0pJHHDQ5GfgjlshB+GEF9SffYQBjPoLjqwqpH1HYN19
+ JhlN13Qztvko1I1aH6eCH5hS6x1YtWgB18MeHZxRw0=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-100 (Coremail) ; Tue, 4 Mar 2025 18:16:19 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Tue, 4 Mar 2025 18:16:19 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org,
+ cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
+ yubing.zhang@rock-chips.com, krzk+dt@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, robh@kernel.org,
+ sebastian.reichel@collabora.com, "Andy Yan" <andy.yan@rock-chips.com>
+Subject: Re:Re: [PATCH 2/6] drm/bridge: synopsys: Add DW DPTX Controller
+ support library
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <5g6qv47ufjfy4yvzpw3rw7xopyuikzi7k4n2habxoexor4kyb2@f7pwawo75kqu>
+References: <20250223113036.74252-1-andyshrk@163.com>
+ <20250223113036.74252-3-andyshrk@163.com>
+ <563i7xcbbsxfezkgs4txsa6lar5tb5folp7zk7dc7sbvf54n6y@vqbtuwvj3fcw>
+ <6046d805.2173.195566bd4cf.Coremail.andyshrk@163.com>
+ <5g6qv47ufjfy4yvzpw3rw7xopyuikzi7k4n2habxoexor4kyb2@f7pwawo75kqu>
+X-NTES-SC: AL_Qu2fA/yTvEss7yCdbekfmkcVgOw9UcO5v/Qk3oZXOJF8jCrp+T4yXHBTF1zd3fCDBzi2nQiHVRZJ0dhgcY1zcacMWpEhTnjlgbHYIAwAYR9Cjw==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB9PR04MB9868:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e06c5a3-bc35-4302-d5f1-08dd5b056b70
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|52116014|366016|7416014|1800799024|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mmi1NxmNmAb6RDhuFt19ZQVliSAphHE64y+eRC8flGLPiMDIwdo6/+A6K3XB?=
- =?us-ascii?Q?Nkuv45tYa9BMrvDDrnMNqtFpi19WdyLQTvQAHELveeRRZUpG6yKpVlN0ysO5?=
- =?us-ascii?Q?cUdjtqI9ctCpEDlsAPHxFuDqVDKS6UTx84l1COvScROwp09NYiD/QulpgWLs?=
- =?us-ascii?Q?FVQ3NCDnkV2bVAgWvV/xnoWYgoxBro1DAVhfwL+vXUNXmzGXwOTTML9nXkDM?=
- =?us-ascii?Q?S7UdsSB+TuZMieSj1DPt6tIJ85J0qDP1Nl2yYEQA/YcktDMud4W06p5W6sDI?=
- =?us-ascii?Q?MwMWFVtAV8B0esWoM+wDbccxNV8UOWgQVfnH3C1kbV1Gz5sjzjo4XEDnSJT2?=
- =?us-ascii?Q?9Tru5ByWfCEw+nXDjnJGQYyKAA/YX6fmX66eFDK9y5LM6hY/6VxdnF0Q20dD?=
- =?us-ascii?Q?Ac/WWXoKDJXE6oAE+a4Y8qkFLK3nUF5gyL/niA36M4/KgdAxMJx9ZA+/dBWY?=
- =?us-ascii?Q?rmw1XVy+JvwrChqaDpZSyRC/zLvxsmhENv38Gd3eN1IefqYcU1+yr39bbRKn?=
- =?us-ascii?Q?FyGUSTi78yw78sy4B+EJq1ZYkzbsyrCleD3AKwHxL9leFkHBQYnOk6SFMdUP?=
- =?us-ascii?Q?67j6/SRCrfZWEwsa3SgESHOp9JI5RDJH+78ImdkFlgqjKutG0I5IISVxWGet?=
- =?us-ascii?Q?wWRUIfbw/rqKioF3RIxD8xkoemHySXtyNXOm74UQJKjb+c6XRvaFHhKiItLx?=
- =?us-ascii?Q?oCRpgJMlJHevwf4DYTiDYW3yl4fLqCpOI/sxTfdmzxHT/c0KYbH0s0vxdU5n?=
- =?us-ascii?Q?lnXsPUJmVStaHlvM6i+2RlzzhykdZtX9teiTt3yi3DTqAeDVgdLPyAD/moLW?=
- =?us-ascii?Q?7Qsn+oVWJiTue2YQKSVhMkBvqD2D5j8zeE/q7kLxJVDXwGP1k+id91A5Ivs1?=
- =?us-ascii?Q?6Jg2dvxlwSQpXTMdeE/jl7ac1bPleQFAGy1u9PJvchBTxFWW2UKs60aLbLqq?=
- =?us-ascii?Q?M53w0Dna+Kbgz/9PUczQVXYIcVF5cPo7Ed8QzXWGnRZDBj5ZR7wmMwrTMZB2?=
- =?us-ascii?Q?NogO2SO7usxLaDhTFrBSF8xbT5om7LEhu+Ehp/zV5Hi+vIHMpij3m6JXqvNj?=
- =?us-ascii?Q?kmZSK/0II+mcKlsM+QDwXRzvrdM3fwyMOZtq9wqdi27Re17yreRwN2To6GYA?=
- =?us-ascii?Q?79V9klkLPDhhHjkWUraJv/A5B48dKJBJGUDXx2OYPenrq9C56HZDFC3Gvxor?=
- =?us-ascii?Q?ZZQEcn1JVKmaYSfAHGX1+jObaG9VvsnZFjrfmDKfoJo9vuEvASJNIhHynpLt?=
- =?us-ascii?Q?1TcdRHq8C58NXmp2N51Q3SRuM3c2v4uX+AI7gXY/5YY3/JXLHqN5AzSoqZmw?=
- =?us-ascii?Q?G0MLbE7BkZFx2s6aR+CIj5wTi2RoquFrPf2isjSXetCRkkKa63iDVeA+vPvj?=
- =?us-ascii?Q?vgJdmEZQXqAv3DdrpUOkPsp5YT/if2YHhOExxaEEW54rev3bNeOeYP0IYfmb?=
- =?us-ascii?Q?cTojLQLdPXm9fJrHwlRlB01DD3Uz3F7/?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(52116014)(366016)(7416014)(1800799024)(376014)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9emBCAUYFQNYUdvF22VpUWcNcEmfTQHfxVtxfAfKOBll1X5b3sms+iFwOhjb?=
- =?us-ascii?Q?Ffk+JE8YsdmfCS3XttlE9T0xGSZ2j8CPpbDe10IeFmerDym+hEYyqZpHhIxn?=
- =?us-ascii?Q?qCpAP0auD2ijHxcUspuQSiNw5Iz3eOquVoYwDpybyQdJ6zFqC+ZQvkVnPXV/?=
- =?us-ascii?Q?6+YQCMP/5dehSbDWr/90v05yobtT9/1pWdF8aGcx2WBi5ZYCPUyCmuAG19fV?=
- =?us-ascii?Q?46RX8O4acVDZky4HVV7zBe+OduPiq4mUMMK+v1RsYg/yuXIm3q54SQt+ncVR?=
- =?us-ascii?Q?4bF4hW7GLRzF3LShBx0UtN03PuY5qEaI50xzQ7wSym0sf4Kqb+QTrHTS+vUr?=
- =?us-ascii?Q?ozpOxqwYhbt07Ezt586YN+71ssKeq35Ok2JEfET5baJheox45cNi8nTkUb98?=
- =?us-ascii?Q?t6rQrW/5R+/mvO9yqiYs3BVrVuuJ+POpD9hTVa8C8WSpntX0ldjI2pn6k109?=
- =?us-ascii?Q?JZsObB3yRUphhrz5mqQszHsjlZtG+1HLcm+stmdxZM9GYOy1HBcaMJNLsyz6?=
- =?us-ascii?Q?dLW6gwEGrEcxEEzghvqwCQcO4NpsL7rOCBmVpj6aDHhk4FgjpSdbfJ2EZUpH?=
- =?us-ascii?Q?/INb6mRLBlvT0D8wv/G24LfKn9k++ZldpwX+GDIIjwlqhJVI9lqO51065eD6?=
- =?us-ascii?Q?bZvM7b4u5Pgx+uVpcaw3prheDG16tvjTlp/JJhTtUNtPYdp6xH28dKQpJjGk?=
- =?us-ascii?Q?YV9O9OvFjkYDvcc6gu01zuY7h9FanqYj/LRexpqGplsbVirx1SozuK/KyHJh?=
- =?us-ascii?Q?paxNyAUNqH5UKrPltzSKD0HiC5k9Vs7qcvRbJHBdFc4f4SzS0fsbUOCaUUVJ?=
- =?us-ascii?Q?n2HNW+1mGMU+1z7pcT87XPrpJ6+saDUUxw5OQKCnMT6h/KO2ziAo72urcnvC?=
- =?us-ascii?Q?cK4RMucFHdylejKisZgpjSag+YJm1MwXiM28BAwhP9iPlRWPOjYLemGwXQYY?=
- =?us-ascii?Q?frcY6feRGe8X0Hy+WxkMjvIBq0EUmAhnDq1M9BM7fLpdZ+L5q8IZ1hzs/Q4d?=
- =?us-ascii?Q?hKNg/siF/6TlxazVG3GCePOO8P3qPkcS1XA7S/dOhOm0qgZwMHjVSug9OCM3?=
- =?us-ascii?Q?s2Ufs+D0pXhOQwOKt22PeCKa+3dEtmV5b9KpMLAKzDamX2V1VhrjgihiNI8Y?=
- =?us-ascii?Q?GgSzVCyEHqBbElJGorHNSyZVzJKLaAT2aI6fcvEFhUfKZsWY5nOI0F7HPU51?=
- =?us-ascii?Q?7pj78zY1QImF3SuF+LJHUGDssYZxWDEkSB40ZPHUF+g4Cju3TWd0sCFpwDob?=
- =?us-ascii?Q?pPJ3lFjJFH+LT8Qsq8N3oc0i+RfJpe55qAW+yms+1fRZTCLZb/fl/8EIKlTA?=
- =?us-ascii?Q?LJ6e2CKFRuu82hx+3xbbuuMn378lWg5+Av4SmyvoBIYaAzWuhC24SKBFLG1E?=
- =?us-ascii?Q?1yRm33B3zgH3aO0r8nYg8WluCnDtZtiMUFNXpfleFDUkz9UyF55IQjUKRCxT?=
- =?us-ascii?Q?hQvCwnQGzyQ6h/+DojUj33upxrFXadxbUHNTLbQ64aDutRdxDch/8gK3L/JN?=
- =?us-ascii?Q?9rCEE1mwSCjQZkM7TbJD+9CaDDgX3IvYz7L2eKDdH4Tc73ejKqwEuautMGg9?=
- =?us-ascii?Q?V3M+4XAsukePN07qkFRhX3xo/wSiK47sxEgk4/X5?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e06c5a3-bc35-4302-d5f1-08dd5b056b70
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 10:14:59.4277 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /uFJXMpH3BJRZe0AaWQpMgYGiGfVcU2tQO72mMtBvmDI9p1mDQ/m38jUSbzGeB4h3Z16PZWhk11Fes5DaMonvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9868
+Message-ID: <17a6bdcc.a22e.19560a80576.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: ZCgvCgBnLF7z0sZnj7sbAA--.21137W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBUGXmfG0HZF5wABsB
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,99 +69,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The next bridge connected to a simple bridge could be a panel, e.g.,
-a DPI panel connected to a DPI color encoder. Add the next panel support,
-instead of supporting non-panel next bridge only.
-
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/bridge/Kconfig         |  1 +
- drivers/gpu/drm/bridge/simple-bridge.c | 32 ++++++++++++++++----------
- 2 files changed, 21 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index d20f1646dac2..92187dbdd32b 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -310,6 +310,7 @@ config DRM_SIMPLE_BRIDGE
- 	tristate "Simple DRM bridge support"
- 	depends on OF
- 	select DRM_KMS_HELPER
-+	select DRM_PANEL_BRIDGE
- 	help
- 	  Support for non-programmable DRM bridges, such as ADI ADV7123, TI
- 	  THS8134 and THS8135 or passive resistor ladder DACs.
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index c0445bd20e07..4c585e5583ca 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -19,6 +19,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -35,6 +36,7 @@ struct simple_bridge {
- 	const struct simple_bridge_info *info;
- 
- 	struct drm_bridge	*next_bridge;
-+	struct drm_panel	*next_panel;
- 	struct regulator	*vdd;
- 	struct gpio_desc	*enable;
- 
-@@ -114,6 +116,10 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
- 	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
- 	int ret;
- 
-+	if (sbridge->next_panel)
-+		return drm_bridge_attach(bridge->encoder, sbridge->next_bridge,
-+					 bridge, flags);
-+
- 	ret = drm_bridge_attach(bridge->encoder, sbridge->next_bridge, bridge,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret < 0)
-@@ -247,7 +253,6 @@ static int simple_bridge_get_dpi_color_coding(struct simple_bridge *sbridge,
- static int simple_bridge_probe(struct platform_device *pdev)
- {
- 	struct simple_bridge *sbridge;
--	struct device_node *remote;
- 	int ret;
- 
- 	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
-@@ -257,17 +262,20 @@ static int simple_bridge_probe(struct platform_device *pdev)
- 	sbridge->info = of_device_get_match_data(&pdev->dev);
- 
- 	/* Get the next bridge in the pipeline. */
--	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
--	if (!remote)
--		return -EINVAL;
--
--	sbridge->next_bridge = of_drm_find_bridge(remote);
--	of_node_put(remote);
--
--	if (!sbridge->next_bridge) {
--		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
--		return -EPROBE_DEFER;
--	}
-+	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, -1,
-+					  &sbridge->next_panel,
-+					  &sbridge->next_bridge);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Next panel or bridge not found\n");
-+
-+	if (sbridge->next_panel)
-+		sbridge->next_bridge = devm_drm_panel_bridge_add(&pdev->dev,
-+								 sbridge->next_panel);
-+
-+	if (IS_ERR(sbridge->next_bridge))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(sbridge->next_bridge),
-+				     "Next bridge not found\n");
- 
- 	/* Get the regulator and GPIO resources. */
- 	sbridge->vdd = devm_regulator_get_optional(&pdev->dev, "vdd");
--- 
-2.34.1
-
+SGkgRG1pdHJ5LAoK5ZyoIDIwMjUtMDMtMDMgMDA6MjE6MDbvvIwiRG1pdHJ5IEJhcnlzaGtvdiIg
+PGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz4g5YaZ6YGT77yaCj5PbiBTdW4sIE1hciAwMiwg
+MjAyNSBhdCAwNjozNDoyMlBNICswODAwLCBBbmR5IFlhbiB3cm90ZToKPj4gCj4+IAo+PiBIaSBE
+bWl0cnnvvIwKPj4gICAgVGhhbmsgeW91IGZvciB5b3VyIHJldmlld+OAggo+PiAgICBQbGVhc2Ug
+YWxzbyByZXZpZXcgbXkgaW5saW5lIHJlcGx5Lgo+PiAgICAgICAKPj4g5ZyoIDIwMjUtMDMtMDIg
+MDI6MTQ6MTnvvIwiRG1pdHJ5IEJhcnlzaGtvdiIgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9y
+Zz4g5YaZ6YGT77yaCj4+ID5PbiBTdW4sIEZlYiAyMywgMjAyNSBhdCAwNzozMDoyNVBNICswODAw
+LCBBbmR5IFlhbiB3cm90ZToKPj4gPj4gRnJvbTogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hp
+cHMuY29tPgo+PiA+PiAKPj4gPj4gVGhlIERXIERQIFRYIENvbnRyb2xsZXIgaXMgY29tcGxpYW50
+IHdpdGggdGhlIERpc3BsYXlQb3J0IFNwZWNpZmljYXRpb24KPj4gPj4gVmVyc2lvbiAxLjQgd2l0
+aCB0aGUgZm9sbG93aW5nIGZlYXR1cmVzOgo+PiA+PiAKPj4gPj4gKiBEaXNwbGF5UG9ydCAxLjRh
+Cj4+ID4+ICogTWFpbiBMaW5rOiAxLzIvNCBsYW5lcwo+PiA+PiAqIE1haW4gTGluayBTdXBwb3J0
+IDEuNjJHYnBzLCAyLjdHYnBzLCA1LjRHYnBzIGFuZCA4LjFHYnBzCj4+ID4+ICogQVVYIGNoYW5u
+ZWwgMU1icHMKPj4gPj4gKiBTaW5nbGUgU3RyZWFtIFRyYW5zcG9ydChTU1QpCj4+ID4+ICogTXVs
+dGlzdHJlYW0gVHJhbnNwb3J0IChNU1QpCj4+ID4+ICrvga5UeXBlLUMgc3VwcG9ydCAoYWx0ZXJu
+YXRlIG1vZGUpCj4+ID4+ICogSERDUCAyLjIsIEhEQ1AgMS4zCj4+ID4+ICogU3VwcG9ydHMgdXAg
+dG8gOC8xMCBiaXRzIHBlciBjb2xvciBjb21wb25lbnQKPj4gPj4gKiBTdXBwb3J0cyBSQkcsIFlD
+YkNyNDo0OjQsIFlDYkNyNDoyOjIsIFlDYkNyNDoyOjAKPj4gPj4gKiBQaXhlbCBjbG9jayB1cCB0
+byA1OTRNSHoKPj4gPj4gKiBJMlMsIFNQRElGIGF1ZGlvIGludGVyZmFjZQo+PiA+PiAKPj4gPj4g
+QWRkIGxpYnJhcnkgd2l0aCBjb21tb24gaGVscGVycyB0byBtYWtlIGl0IGNhbiBiZSBzaGFyZWQg
+d2l0aAo+PiA+PiBvdGhlciBTb0MuCj4+ID4+IAo+PiA+PiBTaWduZWQtb2ZmLWJ5OiBBbmR5IFlh
+biA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4+ID4+IAo+PiA+PiBkcm0vYnJpZGdlOiBjbGVh
+bnVwCj4+ID4KPj4gPlN0cmF5IGxpbmU/Cj4+IAo+PiBTb3JyeSwgd2lsbCBiZSByZW1vdmVkLgo+
+PiAKPj4gPgo+PiA+PiAKPj4gPj4gLS0tCj4+ID4+IAo+PiA+PiAgZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9zeW5vcHN5cy9LY29uZmlnICB8ICAgIDcgKwo+PiA+PiAgZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9zeW5vcHN5cy9NYWtlZmlsZSB8ICAgIDEgKwo+PiA+PiAgZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9zeW5vcHN5cy9kdy1kcC5jICB8IDIxNTUgKysrKysrKysrKysrKysrKysrKysrKwo+PiA+
+PiAgaW5jbHVkZS9kcm0vYnJpZGdlL2R3X2RwLmggICAgICAgICAgICAgICB8ICAgMTkgKwo+PiA+
+PiAgNCBmaWxlcyBjaGFuZ2VkLCAyMTgyIGluc2VydGlvbnMoKykKPj4gPj4gIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWRwLmMKPj4gPj4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2RybS9icmlkZ2UvZHdfZHAuaAo+PiA+PiAKPj4gPj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvS2NvbmZpZyBiL2Ry
+aXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvS2NvbmZpZwo+PiA+PiBpbmRleCBmM2FiMmY5
+ODVmOGMuLjJjNWU1MzI0MTBkZSAxMDA2NDQKPj4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9zeW5vcHN5cy9LY29uZmlnCj4+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
+c3lub3BzeXMvS2NvbmZpZwo+PiA+PiBAQCAtMSw0ICsxLDExIEBACj4+ID4+ICAjIFNQRFgtTGlj
+ZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkKPj4gPj4gK2NvbmZpZyBEUk1fRFdfRFAKPj4g
+Pj4gKwl0cmlzdGF0ZQo+PiA+PiArCXNlbGVjdCBEUk1fRElTUExBWV9IRUxQRVIKPj4gPj4gKwlz
+ZWxlY3QgRFJNX0RJU1BMQVlfRFBfSEVMUEVSCj4+ID4+ICsJc2VsZWN0IERSTV9LTVNfSEVMUEVS
+Cj4+ID4+ICsJc2VsZWN0IFJFR01BUF9NTUlPCj4+ID4+ICsKPj4gPj4gIGNvbmZpZyBEUk1fRFdf
+SERNSQoKCi4uLi4uLi4uLi4uLi4uCgo+PiA+PiArCQl2c2MucGl4ZWxmb3JtYXQgPSBEUF9QSVhF
+TEZPUk1BVF9SR0I7Cj4+ID4+ICsJCWJyZWFrOwo+PiA+PiArCX0KPj4gPj4gKwo+PiA+PiArCWlm
+ICh2aWRlby0+Y29sb3JfZm9ybWF0ID09IERSTV9DT0xPUl9GT1JNQVRfUkdCNDQ0KSB7Cj4+ID4+
+ICsJCXZzYy5jb2xvcmltZXRyeSA9IERQX0NPTE9SSU1FVFJZX0RFRkFVTFQ7Cj4+ID4+ICsJCXZz
+Yy5keW5hbWljX3JhbmdlID0gRFBfRFlOQU1JQ19SQU5HRV9WRVNBOwo+PiA+PiArCX0gZWxzZSB7
+Cj4+ID4+ICsJCXZzYy5jb2xvcmltZXRyeSA9IERQX0NPTE9SSU1FVFJZX0JUNzA5X1lDQzsKPj4g
+Pj4gKwkJdnNjLmR5bmFtaWNfcmFuZ2UgPSBEUF9EWU5BTUlDX1JBTkdFX0NUQTsKPj4gPj4gKwl9
+Cj4+ID4+ICsKPj4gPj4gKwl2c2MuYnBjID0gdmlkZW8tPmJwYzsKPj4gPj4gKwl2c2MuY29udGVu
+dF90eXBlID0gRFBfQ09OVEVOVF9UWVBFX05PVF9ERUZJTkVEOwo+PiA+PiArCj4+ID4+ICsJZHdf
+ZHBfdnNjX3NkcF9wYWNrKCZ2c2MsICZzZHApOwo+PiA+PiArCj4+ID4+ICsJcmV0dXJuIGR3X2Rw
+X3NlbmRfc2RwKGRwLCAmc2RwKTsKPj4gPj4gK30KPj4gPj4gKwo+PiA+PiArc3RhdGljIGludCBk
+d19kcF92aWRlb19zZXRfcGl4ZWxfbW9kZShzdHJ1Y3QgZHdfZHAgKmRwLCB1OCBwaXhlbF9tb2Rl
+KQo+PiA+PiArewo+PiA+PiArCXN3aXRjaCAocGl4ZWxfbW9kZSkgewo+PiA+PiArCWNhc2UgRFdf
+RFBfTVBfU0lOR0xFX1BJWEVMOgo+PiA+PiArCWNhc2UgRFdfRFBfTVBfRFVBTF9QSVhFTDoKPj4g
+Pj4gKwljYXNlIERXX0RQX01QX1FVQURfUElYRUw6Cj4+ID4+ICsJCWJyZWFrOwo+PiA+PiArCWRl
+ZmF1bHQ6Cj4+ID4+ICsJCXJldHVybiAtRUlOVkFMOwo+PiA+Cj4+ID5JcyBpdCBwb3NzaWJsZT8K
+Pj4gCj4+IFRoaXMgSVAgaXMgY29uZmlndXJhYmxlIGZvciBzaW5nbGUvZHVhbC9xdWFkIHBpeGVs
+IG1vZGVz44CCCj4+IEl0J3MgIHF1YWQgcGl4ZWwgbW9kZSBvbiByazM1ODggYW5kIGR1YWwgcGl4
+ZWwgbW9kZSBvbiByazM1NzYsCj4+IHNvIHdlIGFkZCB0aGlzIGNoZWNrIGhlcmUuCj4KPk15IHF1
+ZXN0aW9uIHdhcyBzbGlnaHRseSBkaWZmZXJlbnQ6IGlzIGl0IHBvc3NpYmxlIHRvIGVuZCB1cCBo
+ZXJlIGluIHRoZQo+J2RlZmF1bHQnIGJyYW5jaD8KClNvcnJ5LCBJIHRoaW5rIEkgZGlkbid0IGdl
+dCB5b3VyIGtleSBwb2ludCBoZXJlLgpJZiBzb21lb25lIGdpdmVzIGFuIGludmFsaWQgcGl4ZWwg
+bW9kZShub3QgYW55IG9mIFNJTkdMRS9EVUFML1FVQURfUElYRUwgKSwgCnRoZW4gd2UgZ28gdG8g
+dGhlIGRlZmF1bHQgYnJhbmNoIHJldHVybiAtRU5WSUFMLCAgdGhlbiB0aGUgZHBfYnJpZGdlX2Vu
+YWJsZSAgY2FsbCBzdG9wLgpUaGlzIGlzIHdoYXQgd2Ugd2FudCBoZXJlLgoKPgo+PiAKPj4gCj4+
+ID4KPj4gPj4gKwl9Cgo+PiA+PiArI2VuZGlmIC8qIF9fRFdfRFBfXyAqLwo+PiA+PiAtLSAKPj4g
+Pj4gMi4zNC4xCj4+ID4+IAo+PiA+Cj4+ID4tLSAKPj4gPldpdGggYmVzdCB3aXNoZXMKPj4gPkRt
+aXRyeQo+Cj4tLSAKPldpdGggYmVzdCB3aXNoZXMKPkRtaXRyeQo=
