@@ -2,67 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14907A4D3B2
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 07:21:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19382A4D401
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 07:43:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA9410E3FB;
-	Tue,  4 Mar 2025 06:21:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="eMH4hSRD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6ADD10E1BE;
+	Tue,  4 Mar 2025 06:42:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE1710E004
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 06:21:15 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-e589c258663so5714008276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 22:21:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1741069274; x=1741674074;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vo5FyrGDdmJZzYoU8biobeRhzdtH+gbyMXJwYOjfHwM=;
- b=eMH4hSRDnnTOzxdW5TnEINWNudNEBkQxR0IYUWJK+xglIS4CtZfCdGEzSBb75xYtO4
- EXbG8/dYU8KEbaiQQ0XCesSaDzKGrw2dU9Ts3vG1iTstCn8UGeWw+u8AfZZQzkaCiG93
- kqVOoCmJL5wl2jaDWdRMAqapgZlrD5cMDakNg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741069274; x=1741674074;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vo5FyrGDdmJZzYoU8biobeRhzdtH+gbyMXJwYOjfHwM=;
- b=S+7uA7JJvRsxhlwQCZb4vvNUdgieBCIhQLiNS+PRtc0ru+3hgB5F63NVouTnL94FiW
- 46ahwYSxogimFmzo8HIud3ZeK0G6pD+tLWNp8Dyz8UX/SRvRgWwqnjvLUOYVU2RIYONk
- y8g1HDiwAWtxm48FtOtCCOGAfAjlDj54tSMteErqDcvPxqGlYxqNcYNa4JATCzIe1i8Q
- INYv4WTrCaFk/A5GXqDrklmGwVSfbYuaZ/Ds5JCoxwHPt/aQqiXCj0xswNh+4j/YYfX1
- MpKK7nidHi4otTsOrn1t2gwQ5BhQSGT9VgGq9kgm4BPG4CuPfRecBRRwBB/hq+i9nw8H
- DAqw==
-X-Gm-Message-State: AOJu0YyFmrhyRgdhjkT+6ON3grE1MAueqQAPdxD6pHspUpbaa7bzrWcm
- anrtz6/pd3QJy0ZZA8B9j1mc5rn/wgIOvVdPxPtCtlTDNvS1x2wnm3nnjEUkjzyjb/l3di51frH
- n2r5gYxHtMdoJzZrMirzHktO8RjQjVUZv1siC
-X-Gm-Gg: ASbGnct365WFS6r0NS4B7rfpi8o9jjebmpg6N9lNYH12v5Ljhm/RBQWUJ12ZHYqDEc4
- aFYipX2UEEgeb+K8fTjnDGtD4n3X2fqcUX8Eiq+dsrIVhA86G/qEGyQ0U5kLfSVEWkeTYQJAY6z
- X10QR91rlhvGAz4rm9tKuvzQn4V/A=
-X-Google-Smtp-Source: AGHT+IHQMxlqTcck1YsOY55qAowuYgEG0ruELyTGI0OmHjPTI8Zg/nakWSkfGyxEDwLzR+xLbdWvV3yRqlqVIMOlWX4=
-X-Received: by 2002:a05:6902:2006:b0:e5d:eba5:b87f with SMTP id
- 3f1490d57ef6-e60b2f5e15fmr18410147276.41.1741069274688; Mon, 03 Mar 2025
- 22:21:14 -0800 (PST)
+X-Greylist: delayed 524 seconds by postgrey-1.36 at gabe;
+ Tue, 04 Mar 2025 06:42:57 UTC
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B4CF710E1BE
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 06:42:57 +0000 (UTC)
+Received: from loongson.cn (unknown [223.64.68.156])
+ by gateway (Coremail) with SMTP id _____8BxjazbnsZngdiJAA--.6235S3;
+ Tue, 04 Mar 2025 14:34:03 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.156])
+ by front1 (Coremail) with SMTP id qMiowMBxWsTWnsZnwBY1AA--.12324S2;
+ Tue, 04 Mar 2025 14:34:01 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Huacai Chen <chenhuacai@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH] drm/ast: Support both SHMEM helper and VRAM helper
+Date: Tue,  4 Mar 2025 14:33:51 +0800
+Message-ID: <20250304063351.3975323-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-References: <20250228200633.642417-1-ian.forbes@broadcom.com>
-In-Reply-To: <20250228200633.642417-1-ian.forbes@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 4 Mar 2025 01:21:03 -0500
-X-Gm-Features: AQ5f1Jr9Ir6PIU_wZ2v-VFEUsxJscjoesiJQ9TXY4NvPVp7as5GY-7tqS1_d0l8
-Message-ID: <CABQX2QNZKC6MPd177ZqxTOGTLKjBHz_g9D9wWC0CWUJuHWND2Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Add seqno waiter for sync_files
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000aa28fb062f7e4746"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qMiowMBxWsTWnsZnwBY1AA--.12324S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj9fXoW3uFy8AF4kuryxCFyDAw4fZwc_yoW8Wr4kGo
+ WxtF1fJay8Xw1Sq34SyF1kKas7ZFZ7Cw45G3y5Wr4q9ay7Xw1YkF47tw1YyFWfJr1rta98
+ Xw1jv3W7tF1UWFs7l-sFpf9Il3svdjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf
+ 9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+ UjIYCTnIWjp_UUU5R7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+ 8IcIk0rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+ Y2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+ v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
+ xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64
+ vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+ jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
+ x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
+ 8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+ 0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07URa0PUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,204 +64,407 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000aa28fb062f7e4746
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Commit f2fa5a99ca81ce105653 ("drm/ast: Convert ast to SHMEM") converts
+ast from VRAM helper to SHMEM helper. The convertion makesast support
+higher display resolutions, but the performance decreases significantly
+on platforms which don't support writecombine (fallback to uncached).
 
-On Fri, Feb 28, 2025 at 3:06=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
-> wrote:
->
-> Because sync_files are passive waiters they do not participate in
-> the processing of fences like the traditional vmw_fence_wait IOCTL.
-> If userspace exclusively uses sync_files for synchronization then
-> nothing in the kernel actually processes fence updates as interrupts
-> for fences are masked and ignored if the kernel does not indicate to the
-> SVGA device that there are active waiters.
->
-> This oversight results in a bug where the entire GUI can freeze waiting
-> on a sync_file that will never be signalled as we've masked the interrupt=
-s
-> to signal its completion. This bug is incredibly racy as any process whic=
-h
-> interacts with the fencing code via the 3D stack can process the stuck
-> fences on behalf of the stuck process causing it to run again. Even a
-> simple app like eglinfo is enough to resume the stuck process. Usually
-> this bug is seen at a login screen like GDM because there are no other
-> 3D apps running.
->
-> By adding a seqno waiter we re-enable interrupt based processing of the
-> dma_fences associated with the sync_file which is signalled as part of a
-> dma_fence_callback.
->
-> This has likely been broken since it was initially added to the kernel in
-> 2017 but has gone unnoticed until mutter recently started using sync_file=
-s
-> heavily over the course of 2024 as part of their explicit sync support.
->
-> Fixes: c906965dee22 ("drm/vmwgfx: Add export fence to file descriptor sup=
-port")
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 26 +++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_execbuf.c
-> index 2e52d73eba48..ea741bc4ac3f 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> @@ -4086,6 +4086,23 @@ static int vmw_execbuf_tie_context(struct vmw_priv=
-ate *dev_priv,
->         return 0;
->  }
->
-> +/*
-> + * DMA fence callback to remove a seqno_waiter
-> + */
-> +struct seqno_waiter_rm_context {
-> +       struct dma_fence_cb base;
-> +       struct vmw_private *dev_priv;
-> +};
-> +
-> +static void seqno_waiter_rm_cb(struct dma_fence *f, struct dma_fence_cb =
-*cb)
-> +{
-> +       struct seqno_waiter_rm_context *ctx =3D
-> +               container_of(cb, struct seqno_waiter_rm_context, base);
-> +
-> +       vmw_seqno_waiter_remove(ctx->dev_priv);
-> +       kfree(ctx);
-> +}
-> +
->  int vmw_execbuf_process(struct drm_file *file_priv,
->                         struct vmw_private *dev_priv,
->                         void __user *user_commands, void *kernel_commands=
-,
-> @@ -4266,6 +4283,15 @@ int vmw_execbuf_process(struct drm_file *file_priv=
-,
->                 } else {
->                         /* Link the fence with the FD created earlier */
->                         fd_install(out_fence_fd, sync_file->file);
-> +                       struct seqno_waiter_rm_context *ctx =3D
-> +                               kmalloc(sizeof(*ctx), GFP_KERNEL);
-> +                       ctx->dev_priv =3D dev_priv;
-> +                       vmw_seqno_waiter_add(dev_priv);
-> +                       if (dma_fence_add_callback(&fence->base, &ctx->ba=
-se,
-> +                                                  seqno_waiter_rm_cb) < =
-0) {
-> +                               vmw_seqno_waiter_remove(dev_priv);
-> +                               kfree(ctx);
-> +                       }
->                 }
->         }
+This patch implements both SHMEM helper and VRAM helper for ast driver
+at the same time. A module parameter ast.shmem is added, 1 means SHMEM
+hepler, 0 means VRAM helper, and the default (-1) means auto selection
+according to drm_arch_can_wc_memory().
 
-Great catch. Thanks!
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ drivers/gpu/drm/ast/Kconfig    |   3 +
+ drivers/gpu/drm/ast/ast_drv.c  |  31 ++++++++--
+ drivers/gpu/drm/ast/ast_drv.h  |   6 +-
+ drivers/gpu/drm/ast/ast_mm.c   |  11 +++-
+ drivers/gpu/drm/ast/ast_mode.c | 105 +++++++++++++++++++++++++--------
+ 5 files changed, 124 insertions(+), 32 deletions(-)
 
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kconfig
+index da0663542e8a..ed07ef70072f 100644
+--- a/drivers/gpu/drm/ast/Kconfig
++++ b/drivers/gpu/drm/ast/Kconfig
+@@ -5,6 +5,9 @@ config DRM_AST
+ 	select DRM_CLIENT_SELECTION
+ 	select DRM_GEM_SHMEM_HELPER
+ 	select DRM_KMS_HELPER
++	select DRM_TTM
++	select DRM_TTM_HELPER
++	select DRM_VRAM_HELPER
+ 	select I2C
+ 	select I2C_ALGOBIT
+ 	help
+diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+index ff3bcdd1cff2..a0c693844f1e 100644
+--- a/drivers/gpu/drm/ast/ast_drv.c
++++ b/drivers/gpu/drm/ast/ast_drv.c
+@@ -33,9 +33,12 @@
+ 
+ #include <drm/clients/drm_client_setup.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_cache.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fbdev_shmem.h>
++#include <drm/drm_fbdev_ttm.h>
+ #include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_gem_vram_helper.h>
+ #include <drm/drm_module.h>
+ #include <drm/drm_probe_helper.h>
+ 
+@@ -46,13 +49,18 @@ static int ast_modeset = -1;
+ MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+ module_param_named(modeset, ast_modeset, int, 0400);
+ 
++int ast_shmem = -1;
++
++MODULE_PARM_DESC(shmem, "1 = SHMEM helper, 0 = VRAM helper, -1 = Auto");
++module_param_named(shmem, ast_shmem, int, 0400);
++
+ /*
+  * DRM driver
+  */
+ 
+ DEFINE_DRM_GEM_FOPS(ast_fops);
+ 
+-static const struct drm_driver ast_driver = {
++static struct drm_driver ast_driver = {
+ 	.driver_features = DRIVER_ATOMIC |
+ 			   DRIVER_GEM |
+ 			   DRIVER_MODESET,
+@@ -63,9 +71,6 @@ static const struct drm_driver ast_driver = {
+ 	.major = DRIVER_MAJOR,
+ 	.minor = DRIVER_MINOR,
+ 	.patchlevel = DRIVER_PATCHLEVEL,
+-
+-	DRM_GEM_SHMEM_DRIVER_OPS,
+-	DRM_FBDEV_SHMEM_DRIVER_OPS,
+ };
+ 
+ /*
+@@ -280,6 +285,24 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	struct drm_device *drm;
+ 	bool need_post = false;
+ 
++	if (ast_shmem == -1)
++		ast_shmem = drm_arch_can_wc_memory() ? 1 : 0;
++
++	if (ast_shmem) {
++		ast_driver.dumb_create = drm_gem_shmem_dumb_create;
++		ast_driver.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table;
++#ifdef CONFIG_DRM_FBDEV_EMULATION
++		ast_driver.fbdev_probe = drm_fbdev_shmem_driver_fbdev_probe;
++#endif
++	} else {
++		ast_driver.dumb_create = drm_gem_vram_driver_dumb_create;
++		ast_driver.dumb_map_offset = drm_gem_ttm_dumb_map_offset;
++		ast_driver.debugfs_init = drm_vram_mm_debugfs_init;
++#ifdef CONFIG_DRM_FBDEV_EMULATION
++		ast_driver.fbdev_probe = drm_fbdev_ttm_driver_fbdev_probe;
++#endif
++	}
++
+ 	ret = aperture_remove_conflicting_pci_devices(pdev, ast_driver.name);
+ 	if (ret)
+ 		return ret;
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 6b4305ac07d4..3fcf6717ad8a 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -29,6 +29,7 @@
+ #define __AST_DRV_H__
+ 
+ #include <linux/io.h>
++#include <linux/iosys-map.h>
+ #include <linux/types.h>
+ 
+ #include <drm/drm_connector.h>
+@@ -53,6 +54,8 @@
+ 
+ #define __AST_CHIP(__gen, __index)	((__gen) << 16 | (__index))
+ 
++extern int ast_shmem;
++
+ enum ast_chip {
+ 	/* 1st gen */
+ 	AST1000 = __AST_CHIP(1, 0), // unused
+@@ -130,7 +133,8 @@ enum ast_config_mode {
+ struct ast_plane {
+ 	struct drm_plane base;
+ 
+-	void __iomem *vaddr;
++	struct drm_gem_vram_object *gbo;
++	struct iosys_map map;
+ 	u64 offset;
+ 	unsigned long size;
+ };
+diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
+index 6dfe6d9777d4..588326b7d53e 100644
+--- a/drivers/gpu/drm/ast/ast_mm.c
++++ b/drivers/gpu/drm/ast/ast_mm.c
+@@ -28,6 +28,7 @@
+ 
+ #include <linux/pci.h>
+ 
++#include <drm/drm_gem_vram_helper.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
+ 
+@@ -87,9 +88,13 @@ int ast_mm_init(struct ast_device *ast)
+ 
+ 	vram_size = ast_get_vram_size(ast);
+ 
+-	ast->vram = devm_ioremap_wc(dev->dev, base, vram_size);
+-	if (!ast->vram)
+-		return -ENOMEM;
++	if (!ast_shmem)
++		drmm_vram_helper_init(dev, base, vram_size);
++	else {
++		ast->vram = devm_ioremap_wc(dev->dev, base, vram_size);
++		if (!ast->vram)
++			return -ENOMEM;
++	}
+ 
+ 	ast->vram_base = base;
+ 	ast->vram_size = vram_size;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 9d5321c81e68..0744d1ac5dfb 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -41,6 +41,7 @@
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_gem_vram_helper.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_panic.h>
+ #include <drm/drm_probe_helper.h>
+@@ -566,8 +567,7 @@ static void ast_wait_for_vretrace(struct ast_device *ast)
+  */
+ 
+ static int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
+-			  void __iomem *vaddr, u64 offset, unsigned long size,
+-			  uint32_t possible_crtcs,
++			  u64 offset, unsigned long size, uint32_t possible_crtcs,
+ 			  const struct drm_plane_funcs *funcs,
+ 			  const uint32_t *formats, unsigned int format_count,
+ 			  const uint64_t *format_modifiers,
+@@ -575,7 +575,6 @@ static int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
+ {
+ 	struct drm_plane *plane = &ast_plane->base;
+ 
+-	ast_plane->vaddr = vaddr;
+ 	ast_plane->offset = offset;
+ 	ast_plane->size = size;
+ 
+@@ -630,7 +629,7 @@ static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src
+ 			      struct drm_framebuffer *fb,
+ 			      const struct drm_rect *clip)
+ {
+-	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane->vaddr);
++	struct iosys_map dst = ast_plane->map;
+ 
+ 	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+ 	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
+@@ -650,6 +649,7 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_crtc *crtc = plane_state->crtc;
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_rect damage;
++	struct drm_gem_vram_object *gbo;
+ 	struct drm_atomic_helper_damage_iter iter;
+ 
+ 	if (!old_fb || (fb->format != old_fb->format) || crtc_state->mode_changed) {
+@@ -660,9 +660,15 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
+ 	}
+ 
+-	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+-	drm_atomic_for_each_plane_damage(&iter, &damage) {
+-		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
++	if (!ast_shmem) {
++		gbo = drm_gem_vram_of_gem(fb->obj[0]);
++		ast_plane->offset = drm_gem_vram_offset(gbo);
++		ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
++	} else {
++		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
++		drm_atomic_for_each_plane_damage(&iter, &damage) {
++			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
++		}
+ 	}
+ 
+ 	/*
+@@ -704,19 +710,18 @@ static int ast_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
+ {
+ 	struct ast_plane *ast_plane = to_ast_plane(plane);
+ 
+-	if (plane->state && plane->state->fb && ast_plane->vaddr) {
++	if (plane->state && plane->state->fb && ast_plane->map.vaddr_iomem) {
+ 		sb->format = plane->state->fb->format;
+ 		sb->width = plane->state->fb->width;
+ 		sb->height = plane->state->fb->height;
+ 		sb->pitch[0] = plane->state->fb->pitches[0];
+-		iosys_map_set_vaddr_iomem(&sb->map[0], ast_plane->vaddr);
++		iosys_map_set_vaddr_iomem(&sb->map[0], ast_plane->map.vaddr_iomem);
+ 		return 0;
+ 	}
+ 	return -ENODEV;
+ }
+ 
+-static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+-	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
++static struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+ 	.atomic_check = ast_primary_plane_helper_atomic_check,
+ 	.atomic_update = ast_primary_plane_helper_atomic_update,
+ 	.atomic_enable = ast_primary_plane_helper_atomic_enable,
+@@ -724,11 +729,10 @@ static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+ 	.get_scanout_buffer = ast_primary_plane_helper_get_scanout_buffer,
+ };
+ 
+-static const struct drm_plane_funcs ast_primary_plane_funcs = {
++static struct drm_plane_funcs ast_primary_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+ 	.destroy = drm_plane_cleanup,
+-	DRM_GEM_SHADOW_PLANE_FUNCS,
+ };
+ 
+ static int ast_primary_plane_init(struct ast_device *ast)
+@@ -737,12 +741,28 @@ static int ast_primary_plane_init(struct ast_device *ast)
+ 	struct ast_plane *ast_primary_plane = &ast->primary_plane;
+ 	struct drm_plane *primary_plane = &ast_primary_plane->base;
+ 	void __iomem *vaddr = ast->vram;
+-	u64 offset = 0; /* with shmem, the primary plane is always at offset 0 */
++	u64 offset = 0; /* the primary plane is initially at offset 0 */
+ 	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+ 	unsigned long size = ast->vram_fb_available - cursor_size;
+ 	int ret;
+ 
+-	ret = ast_plane_init(dev, ast_primary_plane, vaddr, offset, size,
++	if (ast_shmem) {
++		ast_primary_plane_funcs.reset = drm_gem_reset_shadow_plane;
++		ast_primary_plane_funcs.atomic_duplicate_state = drm_gem_duplicate_shadow_plane_state;
++		ast_primary_plane_funcs.atomic_destroy_state = drm_gem_destroy_shadow_plane_state;
++		ast_primary_plane_helper_funcs.begin_fb_access = drm_gem_begin_shadow_fb_access;
++		ast_primary_plane_helper_funcs.end_fb_access = drm_gem_end_shadow_fb_access;
++	} else {
++		ast_primary_plane_funcs.reset = drm_atomic_helper_plane_reset;
++		ast_primary_plane_funcs.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state;
++		ast_primary_plane_funcs.atomic_destroy_state = drm_atomic_helper_plane_destroy_state;
++		ast_primary_plane_helper_funcs.prepare_fb = drm_gem_vram_plane_helper_prepare_fb;
++		ast_primary_plane_helper_funcs.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb;
++	}
++
++	iosys_map_set_vaddr_iomem(&ast_primary_plane->map, vaddr);
++
++	ret = ast_plane_init(dev, ast_primary_plane, offset, size,
+ 			     0x01, &ast_primary_plane_funcs,
+ 			     ast_primary_plane_formats, ARRAY_SIZE(ast_primary_plane_formats),
+ 			     NULL, DRM_PLANE_TYPE_PRIMARY);
+@@ -902,10 +922,11 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct ast_device *ast = to_ast_device(plane->dev);
+ 	struct iosys_map src_map = shadow_plane_state->data[0];
++	struct iosys_map dst_map = ast_plane->map;
+ 	struct drm_rect damage;
+ 	const u8 *src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
+ 	u64 dst_off = ast_plane->offset;
+-	u8 __iomem *dst = ast_plane->vaddr; /* TODO: Use mapping abstraction properly */
++	u8 __iomem *dst = dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
+ 	u8 __iomem *sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
+ 	unsigned int offset_x, offset_y;
+ 	u16 x, y;
+@@ -967,10 +988,22 @@ static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
+ 	.atomic_disable = ast_cursor_plane_helper_atomic_disable,
+ };
+ 
+-static const struct drm_plane_funcs ast_cursor_plane_funcs = {
++static void ast_cursor_plane_destroy(struct drm_plane *plane)
++{
++	struct ast_plane *ast_plane = to_ast_plane(plane);
++	struct drm_gem_vram_object *gbo = ast_plane->gbo;
++	struct iosys_map map = ast_plane->map;
++
++	drm_gem_vram_vunmap(gbo, &map);
++	drm_gem_vram_unpin(gbo);
++	drm_gem_vram_put(gbo);
++
++	drm_plane_cleanup(plane);
++}
++
++static struct drm_plane_funcs ast_cursor_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+-	.destroy = drm_plane_cleanup,
+ 	DRM_GEM_SHADOW_PLANE_FUNCS,
+ };
+ 
+@@ -979,6 +1012,8 @@ static int ast_cursor_plane_init(struct ast_device *ast)
+ 	struct drm_device *dev = &ast->base;
+ 	struct ast_plane *ast_cursor_plane = &ast->cursor_plane;
+ 	struct drm_plane *cursor_plane = &ast_cursor_plane->base;
++	struct drm_gem_vram_object *gbo;
++	struct iosys_map map;
+ 	size_t size;
+ 	void __iomem *vaddr;
+ 	u64 offset;
+@@ -994,10 +1029,25 @@ static int ast_cursor_plane_init(struct ast_device *ast)
+ 	if (ast->vram_fb_available < size)
+ 		return -ENOMEM;
+ 
+-	vaddr = ast->vram + ast->vram_fb_available - size;
+-	offset = ast->vram_fb_available - size;
++	if (ast_shmem) {
++		vaddr = ast->vram + ast->vram_fb_available - size;
++		offset = ast->vram_fb_available - size;
++		iosys_map_set_vaddr_iomem(&ast_cursor_plane->map, vaddr);
++		ast_cursor_plane_funcs.destroy = drm_plane_cleanup;
++	} else {
++		gbo = drm_gem_vram_create(dev, size, 0);
++		if (IS_ERR(gbo))
++			return PTR_ERR(gbo);
++
++		drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM | DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
++		drm_gem_vram_vmap(gbo, &map);
++		offset = drm_gem_vram_offset(gbo);
++		ast_cursor_plane->gbo = gbo;
++		ast_cursor_plane->map = map;
++		ast_cursor_plane_funcs.destroy = ast_cursor_plane_destroy;
++	}
+ 
+-	ret = ast_plane_init(dev, ast_cursor_plane, vaddr, offset, size,
++	ret = ast_plane_init(dev, ast_cursor_plane, offset, size,
+ 			     0x01, &ast_cursor_plane_funcs,
+ 			     ast_cursor_plane_formats, ARRAY_SIZE(ast_cursor_plane_formats),
+ 			     NULL, DRM_PLANE_TYPE_CURSOR);
+@@ -1348,9 +1398,7 @@ static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
+ 	return MODE_OK;
+ }
+ 
+-static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+-	.fb_create = drm_gem_fb_create_with_dirty,
+-	.mode_valid = ast_mode_config_mode_valid,
++static struct drm_mode_config_funcs ast_mode_config_funcs = {
+ 	.atomic_check = drm_atomic_helper_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+@@ -1372,6 +1420,15 @@ int ast_mode_config_init(struct ast_device *ast)
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
+ 	dev->mode_config.preferred_depth = 24;
++	dev->mode_config.prefer_shadow = !ast_shmem;
++
++	if (!ast_shmem) {
++		ast_mode_config_funcs.fb_create = drm_gem_fb_create;
++		ast_mode_config_funcs.mode_valid = drm_vram_helper_mode_valid;
++	} else {
++		ast_mode_config_funcs.fb_create = drm_gem_fb_create_with_dirty;
++		ast_mode_config_funcs.mode_valid = ast_mode_config_mode_valid;
++	}
+ 
+ 	if (ast->chip == AST2100 || // GEN2, but not AST1100 (?)
+ 	    ast->chip == AST2200 || // GEN3, but not AST2150 (?)
+-- 
+2.47.1
 
-z
-
---000000000000aa28fb062f7e4746
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJkMIICYAIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEILiJ
-2AiqNMlTwXw0jd6ewF91ObOYlLYEOj2UM6dSx+CpMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDMwNDA2MjExNFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJ
-KoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBCKCTeg8X7jFkVh9f20b1H
-qqBotXD20BbtZgjLXo2UHnFSuDInvJgF2732sEsTFIM/6jjuYa6j3UdhlYJPoRTxwwFVs4hwjGra
-3Rooqt3iQ9btLVvorRUgrs6/XvycrRTEhU+2ZO8QD0SIdkEvMvE1NPfLozeohOhlnprJ7mbdQ39E
-XvxO5hsYTYVvsC5dKsQHRrGAvfcAbwBDfCsckGPz9R1gxiDL4mjUy4JD/XD7ioFQiMdIcGxaTc6J
-+//9W3EVW3PR0Ck1h7JQ704L5OdepUAKD9n5PXarzAAh/nxsTIWF6nezxLNS1A2hrWtahyiBYWIQ
-gFrqou+9UBh4ZJez
---000000000000aa28fb062f7e4746--
