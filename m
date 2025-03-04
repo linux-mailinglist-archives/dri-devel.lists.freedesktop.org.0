@@ -2,88 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF328A4EE94
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 21:42:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9870EA4EEBC
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 21:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC1D10E6AB;
-	Tue,  4 Mar 2025 20:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAF910E6B3;
+	Tue,  4 Mar 2025 20:48:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MO4Sqbxa";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hVmo3Do7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5AF10E6AB
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 20:42:29 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5439a6179a7so208786e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 12:42:29 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A14E410E15E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 20:48:16 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-54965898051so2744367e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 12:48:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741120948; x=1741725748; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741121295; x=1741726095; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZoTdlqcw6wcTXlWG/Em6UMsBHz7Z+aNoiE8O6gjrQws=;
- b=MO4SqbxawjG5Ufo9yHxBWaJkko0kUdWsY2veIOvGaWTWr0hgN0iGZD7rqhaJGVlxk3
- KBhphkxtJl/E05DIcd2kIDbNOvZHPSSiQ81T0/N3PhqXtgMCBNwtaBxAQwUXMBODuKKu
- wX7OPmZQRTIdQ4/PEGXsvokZwQocOiD0i1AB6I+/C3Mb1sAqqINN09geI9NXyJLufAdi
- MK1yutzFYWrjYg7JNpXDKg+JVYGLHXZCo0fmzBs7MThrGSQlgtog04Li2h3Wa89hIdvj
- x9cedSijXTnH4ayZ5SUibEUAzCROuRUGqv3UK1pf5gq19+h1vWNIOZOpovjsjPDz2P7O
- 2EcQ==
+ bh=/oAPJle7igvkCOj9wNSaohLqS/9lmDq/1xSw1olJhfs=;
+ b=hVmo3Do7udqhocPSMmLDDICMftfOPp/X+/rAuj05OdUQp7xZH6UoVB5YEyTivGBxHy
+ QnoYFNboytNoqnyWxW93A7oe7/w6qnYyuBkj7PB6O2LcXdmtNElGbcP1+r1SJe6w7pR/
+ umipDVKGwmwzn9N0twa3CG+pHYtwKY+Jh3tEk9IcKI0ZnAoKZNBCVPFEVd0wFEQ7PUOd
+ 02u/88jYxMjeJx++l009mU2+6cAqsSi/re+CynDQamr3JkcKITDodfC957nDBddPSv7b
+ EZbr8XMwaUBxUVznZsWK1o/wESVbAMr17W2+pt648iQM1xSmqqyFWynEkfGLUFosDmeN
+ FhgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741120948; x=1741725748;
+ d=1e100.net; s=20230601; t=1741121295; x=1741726095;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZoTdlqcw6wcTXlWG/Em6UMsBHz7Z+aNoiE8O6gjrQws=;
- b=DZY1bzeHsTqb+75Bl7gFEyp3PTlXkLW82wPogxwOj23mbUwb1+CrCsLyI161rqzMPl
- tjcNH1vvIOJA2gNe915UPKQa06UsHMGNXpcHwPo7IvwIUo4m1zxX68eCnUukSjpM3JkE
- Vla0kz7SmGQhGdSHKaan5W3mKHh7Hyj2k72zkg7BhogL0RCHidp2tCXDQrbnECS3zaPA
- mGpgyxqvXBhClXPYLbKKdRfkPyfMLn1cXRRLqavp7y2mVdORPecIsNfKidq4uTRn1EpB
- 4xYMG6SDMsf2cu2q0GhB3cYMiV3yu8yiLQqlQlBnyQlT7NEwZg6UWrHJ7L3jNZLbgSal
- maPw==
+ bh=/oAPJle7igvkCOj9wNSaohLqS/9lmDq/1xSw1olJhfs=;
+ b=IeQKPRpUEK2RlofxHeYQAN34mvQ30xGp//Hvq5LsQvJRVSYun7mxCBo393Vhky5SBB
+ gks1uxyKRsfVCUkkLbnctFs/ctgHWu8pAzJlYuitOrY0eRheJzMxVg9vzvwtqbmsYJeg
+ Y0HmdGJy3SgBAOv/O6ZjT1s6wi95mlxB+GSskoVR+4dX6v7XT4G4qV95M0NAhFzrkxf1
+ RIDwgsK8/d4te29zjeogGvY7c2MtUj8vXvvEmhsdWnV8tsuWBqYKPQHuWmkvv5+PaRPZ
+ KLZzhrmtRdSCvWRkoI5Y/M2ALVh1zkA6P9EY8AcTZnAB0H6V16uqUkfd2rhxUzC/OdxE
+ eL5Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXsl0p7pTYfwtTU5ik8wMhXBXNJwiV/LEU5BMDsFhXt2O7HmvnnqJEM7ELqEMbcL3S7Gt33IOqeUjw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxazgpSM0O1Ufvkom37GjDBO/RNLwO3ZSD+miKK99XBjlvPExrd
- Wr69igDJv3f4IlpuLTXcxl0RkFy2dMCrrUnxR74qrhR9q8GveW5SqudHF38Sr3o=
-X-Gm-Gg: ASbGncsN5YuSeaodrMgd1StgEeuOwm8mW6MvMhlmpCTWeaTO4ClX/7+8tOG5K5bQkP4
- zMzFgyqHqWW28+1uV53dH6Ea4h5HXlvtT3ylJUVt+UH3abuVLRGwMnVEWI37sNnejRkK2dI+9mu
- tvS58Va9pAp6dzp9HUrETvfTePSRZu2vTaZk908O78K+Dsh/+BXzEBKGUlzcbvsEhuxYcE/02xJ
- VGpt7NxjnKbE6gkHAeW49+qWIpRFofeEh448bkhWbvdxncrr6Is6unGFlftm6vm7mLbC0Yaaokg
- tOThmkzOGjfICfH3n9fn6UZUqjr2zae0Jf9JCoDVfM2Jy/fpVfYCI1R+PyX55JKbmPzvNQUbRv+
- T/dYAoxThkR3sNwXu8/10FH34
-X-Google-Smtp-Source: AGHT+IHShnKNDydmjewtXjteVCKnFzIueDXZLJW1w6tSlsDu97sap95NxJ7wlQcNQex1dZVLUm3Uyw==
-X-Received: by 2002:a05:6512:b0d:b0:545:5d:a5c7 with SMTP id
- 2adb3069b0e04-5497d58ce76mr149150e87.21.1741120947594; 
- Tue, 04 Mar 2025 12:42:27 -0800 (PST)
+ AJvYcCWWbnZ0/ACYjaqH3BVq7UgR294vazxviwKkp54ACUw/vb+f1Bexbtf+3kY7H6fKYoDFl5+kiZc5i4A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1L6nggzRrDWQ5DqSStYxFxPxSpH8h0GgxHjtnWbEvsx+TTSkE
+ EyUxyKI3NX6799zJjNgCi192Hq8K7pntzwr6Pcnxw5xlCxU7Rk8SjbP4bt/J/jk=
+X-Gm-Gg: ASbGncut+10gf5p8AQ2zWwX7vz5sVipt0nvSYQLuBG1EiuewhC7IceZAMzcKkD5kMvj
+ ZrYJf9YX+R6jZOQi9OIlB1B+Vj/05SyK5p5qtJLERYalxDb+vQy+QviRczPuu8+IyC5qN7Rjn9r
+ 7RbmLyHROxaCAlV9gr56u8K9jeb+y6A56lpC+Lja7cN3xxOBCW+l4qpuulQZTIvT+f0RVsDlp0L
+ ChXqIbPrunuV6fdYiKWE+szYSMTlipMXui/fj4HmNuBoC7GJuJmO0cOplk5nafy6Ve5Pc/4oJjC
+ xZ9FwLqg9Leex60ImlFmdJRaIhyWHsf8LTOHMmo6EdvGZechOI9UNg2P587jrsJWb3A2eyssUfe
+ IFI2+8wHQmTelJ4hfHY4tlDHV
+X-Google-Smtp-Source: AGHT+IH5VMC586i36hYasuRbMAJ6daWnnollvxQ5ODQDmTBEMUXbbXzEafbSoZ2SOMQnxMX8oAh9Jg==
+X-Received: by 2002:a05:6512:304e:b0:545:e19:ba24 with SMTP id
+ 2adb3069b0e04-5497d37e371mr237109e87.48.1741121294899; 
+ Tue, 04 Mar 2025 12:48:14 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5495d268a42sm990011e87.175.2025.03.04.12.42.25
+ 2adb3069b0e04-549443be587sm1667436e87.177.2025.03.04.12.48.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Mar 2025 12:42:26 -0800 (PST)
-Date: Tue, 4 Mar 2025 22:42:23 +0200
+ Tue, 04 Mar 2025 12:48:13 -0800 (PST)
+Date: Tue, 4 Mar 2025 22:48:12 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] drm/msm/dpu: Force modeset if new CTLs have been
- reserved
-Message-ID: <imxktwztfjyh4v6yuldgsluwv7wrx7qhvhgzsllnz3hnmmbc23@pnrfmdnjxg3b>
-References: <20250303-force-modeset-hw-ctl-v1-1-9cbf6d4fbf8e@quicinc.com>
- <flc3cyky4wxfin7dlxhukwmhonze3napmuyhl2s6jbsgepco7a@q4l2ndh23lus>
- <4bb1d4a7-dd0b-4565-8d5d-ff8fd4cda20a@quicinc.com>
- <CAA8EJppMV7uj6w1_qr2AMVT7KYJiVqPRWBibqXtf3adLpRKcrw@mail.gmail.com>
- <a098b6f9-547d-42c7-b4f5-91762dc7c631@quicinc.com>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v6 03/14] drm/msm/dpu: switch RM to use crtc_id rather
+ than enc_id for allocation
+Message-ID: <cqpqtuh2tztdhsg3nrvxnobxmsytsxthcd5wybiuzyefurkme2@hvv5zjiqczyb>
+References: <20250214-concurrent-wb-v6-0-a44c293cf422@quicinc.com>
+ <20250214-concurrent-wb-v6-3-a44c293cf422@quicinc.com>
+ <se4b4kzp3vej4b6albecdc2t65ueiuba4kidutwvrv2rcfyjwr@e62fn225jwcr>
+ <8c727bd6-94f1-4ee3-9bf3-793899038895@quicinc.com>
+ <da6e2hygdv6ewdr5hqeks2ocsxwvfvozby4b53unk5ckyqvu7t@wh3y4jnucapl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a098b6f9-547d-42c7-b4f5-91762dc7c631@quicinc.com>
+In-Reply-To: <da6e2hygdv6ewdr5hqeks2ocsxwvfvozby4b53unk5ckyqvu7t@wh3y4jnucapl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,281 +103,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 04, 2025 at 11:38:24AM -0800, Abhinav Kumar wrote:
-> 
-> 
-> On 3/3/2025 9:32 PM, Dmitry Baryshkov wrote:
-> > On Tue, 4 Mar 2025 at 03:44, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> > > 
-> > > 
-> > > 
-> > > On 3/3/2025 3:49 PM, Dmitry Baryshkov wrote:
-> > > > On Mon, Mar 03, 2025 at 10:28:00AM -0800, Jessica Zhang wrote:
-> > > > > If new CTLs are reserved by CRTC but atomic_enable() is skipped, the
-> > > > > encoders will configure the stale CTL instead of the newly reserved one.
+On Tue, Mar 04, 2025 at 01:43:09AM +0200, Dmitry Baryshkov wrote:
+> On Mon, Mar 03, 2025 at 10:45:19AM -0800, Jessica Zhang wrote:
+> > 
+> > 
+> > On 2/27/2025 7:07 AM, Dmitry Baryshkov wrote:
+> > > On Fri, Feb 14, 2025 at 04:14:26PM -0800, Jessica Zhang wrote:
+> > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > > > 
-> > > > The CTLs are propagates in .atomic_mode_set(), not in .atomic_enable().
-> > > 
-> > > Hi Dmitry,
-> > > 
-> > > Yes, sorry mixed up the two function ops here and in my reply in the CWB
-> > > thread.
-> > > 
+> > > > Up to now the driver has been using encoder to allocate hardware
+> > > > resources. Switch it to use CRTC id in preparation for the next step.
 > > > > 
-> > > > > 
-> > > > > Avoid this by setting mode_changed to true if new CTLs have been
-> > > > > reserved by CRTC.
+> > > > Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> > > > ---
+> > > > Changes in v6:
+> > > > - Drop duplicate cstate initialization code and unnecessary memset
+> > > > Changes in v5:
+> > > > - Reordered to prevent breaking CI and upon partial application
 > > > > 
-> > > > This looks very strange. First we reserve new CTLs when there is a
-> > > > modeset requested. Then on one of the next commits we detect that
-> > > > encoder has stale CTLs and try to upgrade the commit to full modeset
-> > > > (while the user might not have .allow_modeset set to true for whatever
-> > > > reason, e.g. because only ACTIVE is changed).
+> > > > Changes in v4 (due to rebase):
+> > > > - moved *_get_assigned_resources() changes for DSPP and LM from
+> > > >    encoder *_virt_atomic_mode_set() to *_assign_crtc_resources()
+> > > > ---
+> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  18 +--
+> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  10 +-
+> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  12 +-
+> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 189 ++++++++++++++--------------
+> > > >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |   7 +-
+> > > >   5 files changed, 110 insertions(+), 126 deletions(-)
 > > > 
-> > > Ah I see what you mean. I think this is an issue with how/when we're
-> > > calling dpu_rm_reserve(). Since RM reservation is tied to
-> > > atomic_check(), we aren't able to force a modeset based on HW block
-> > > reservation. The only reason we were able to avoid this issue with
-> > > needs_cdm is because needs_cdm didn't depend on the CDM HW block index.
-> > > 
-> > > I think there's not really a good way to avoid this other than flipping
-> > > the order of the msm_atomic_check to drm_helper_atomic_check ->
-> > > dpu_kms.check_mode_changed -> drm_atomic_helper_check_modeset().
+> > > This commit breaks several tests in CI:
+> > > - sc7180-trogdor-kingoftown:
+> > >    - kms_cursor_crc@cursor-dpms
+> > >    - kms_pipe_crc_basic@disable-crc-after-crtc
+> > > - sc7180-trogdor-lazor-limozeen
+> > >    - kms_cursor_crc@cursor-dpms
+> > >    - kms_pipe_crc_basic@disable-crc-after-crtc
 > > 
-> > No-no-no. This would require a full drm_atomic_helper_check() call
-> > again, after the check_mode_changed() callback. But again, this should
-> > not be required at all. The whole point of .check_mode_changed() is to
-> > be called before performing full atomic_check() chains.
+> > Hey Dmitry,
 > > 
+> > Thanks for catching this. Looks like this was exposed due to a recent IGT
+> > uprev that included  dc2d7fb4f978 ("lib/igt_kms: move setting
+> > DRM_CLIENT_CAP_WRITEBACK_CONNECTORS to kms_writeback").
+> > 
+> > The issue itself is that when DPMS is toggled, it is possible for RM to
+> > reserve new HW resources but skip the atomic_enable() due to the checks here
+> > [1]. This means that the change in HW block reservation won't be propagated
+> > to encoder if DPMS is set to off.
 > 
-> Right but the documentation also allows calling
-> drm_atomic_helper_check_modeset() again. We are looking at all options even
-> moving forward and not just this issue.
-
-It does. But I'd rather not do it. Especially not in this case: we
-perfectly know in advance if hw resources were reallocated or not.
-
+> Could you possibly clarify this. What is the state change that causes
+> the issue (describe CRTC / connectors / encoders and active / enabled
+> state). Why does the issue manifest only after switching to the CRTC id
+> for resource allocation (the tests run successfully before this patch,
+> i.e. with the resource allocation being moved to CRTC, but using the
+> encoder ID for allocation).
 > 
-> > > 
-> > > What do you think? It seems to be valid given the examples in the DRM
-> > > docs [1]
-> > > 
-> > > [1]
-> > > https://elixir.bootlin.com/linux/v6.13.5/source/drivers/gpu/drm/drm_atomic_helper.c#L610
-> > > 
-> > > > 
-> > > > Could you please check if the following change fixes the issue: in
-> > > > crtc_set_mode() replace the raw !new_crtc_state->mode_changed check with
-> > > > the drm_atomic_crtc_needs_modeset() call?
-> > > 
-> > > This also fixes the DPMS failures. IIRC Abhinav had suggested a similar
-> > > change to fix a different issue [2] and you gave some feedback on
-> > > avoiding mode_set() for enable/disable calls which don't have mode_changed.
-> > 
-> > After reading the documentation for
-> > drm_encoder_helper_funcs.atomic_mode_set() and looking around, I think
-> > the issue is in the handling of the DPMS functions. I might have a fix
-> > for the issue.
-> > 
-> > > Also, while this may fix the CWB CI failures, wouldn't the issue still
-> > > remain regarding how to force modeset for changes in HW block reservation?
-> > 
-> > I think it is the other way around: HW block reservation is only
-> > changed if there is a modeset. I'm currently testing my theory :-) We
-> > were performing HW reassignment if drm_atomic_crtc_needs_modeset() was
-> > true. However this function returns true in one of the cases, where
-> > there is no actual modeset happening (and it's even documented this
-> > way) - when only DPMS call has happened (in other words, when
-> > .active_changed = true, but two other bits are false). It is required
-> > not to reassign HW resources in such a case. So, I think, a correct
-> > fix is to change the condition in dpu_crtc_atomic_check().
-> > 
-> 
-> Yes, Jessica had also suggested this option. This will work because now the
-> resource re-assignment will not happen and hence will avoid the issue. The
-> documentation of DPMS was not fully clear. So it said, the same thing you
-> mentioned, that when active has changed there is no need to reassign
-> hardware resources but I was not sure if that would impact normal
-> suspend/resume because across suspend/resume hardware resources need to be
-> cleared / re-assigned.
+> Note, the CRTC won't re-allocate resources if
+> drm_atomic_crtc_needs_modeset() is not true. So I'm not sure how can we
+> end up in a situation when the resources are reallocated _and_ we need
+> to raise the mode_changed flag.
 
-Suspend / resume is handled via the helpers, which commit an
-all-disabled state and then commit a previous state. Other than that,
-there is no need to clear resource assignments during suspend resume.
-They should be disabled, but there is no need to drop the assignment.
+I'm going to apply the following fixup on top of your series (to the
+previous patch), fixing the DPMS issue. It makes all SC7180 tests pass
+in CI.
 
-> I do still think that, even if this also works, we
-> will still run into issues when we will need to force a mode_changed based
-> on resource assignment of other encoder based blocks such as DSC or PP etc.
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This is what dpu_encoder_needs_modeset() is for. On the other hand,
-note, if we reassigned resources, it means that either mode_changes or
-connectors_changed is set. And the DRM framework will call encoder's
-atomic_mode_set() in such a case.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index ba5c60296e17..10653bd52885 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1373,7 +1373,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 
+ 	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
+ 
+-	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
++	/* don't reallocate resources if only ACTIVE has beeen changed */
++	if (crtc_state->mode_changed || crtc_state->connectors_changed) {
+ 		rc = dpu_crtc_assign_resources(crtc, crtc_state);
+ 		if (rc < 0)
+ 			return rc;
+-- 
+2.39.5
+
 
 > 
-> > > 
-> > > [2] https://gitlab.freedesktop.org/drm/msm/-/issues/59
-> > > 
-> > > Thanks,
-> > > 
-> > > Jessica Zhang
-> > > 
-> > > > 
-> > > > > 
-> > > > > Note: This patch only adds tracking for the CTL reservation, but eventually
-> > > > > all HW blocks used by encoders (i.e. DSC, PINGPONG, CWB) should have a
-> > > > > similar check to avoid the same issue.
-> > > > > 
-> > > > > Suggested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > > > > Closes: https://lists.freedesktop.org/archives/freedreno/2025-February/036719.html
-> > > > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > > > ---
-> > > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 13 +++++++++++++
-> > > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 12 ++++++++++++
-> > > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  1 +
-> > > > >    3 files changed, 26 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > index 4073d821158c0..a1a8be8f5ab9f 100644
-> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > @@ -1406,19 +1406,32 @@ int dpu_crtc_check_mode_changed(struct drm_crtc_state *old_crtc_state,
-> > > > >       struct drm_crtc *crtc = new_crtc_state->crtc;
-> > > > >       bool clone_mode_enabled = drm_crtc_in_clone_mode(old_crtc_state);
-> > > > >       bool clone_mode_requested = drm_crtc_in_clone_mode(new_crtc_state);
-> > > > > +    struct dpu_crtc_state *cstate = to_dpu_crtc_state(new_crtc_state);
-> > > > > +    uint32_t enc_ctl_mask = 0;
-> > > > > +    uint32_t crtc_ctl_mask = 0;
-> > > > > +    struct dpu_crtc_mixer *m;
-> > > > > 
-> > > > >       DRM_DEBUG_ATOMIC("%d\n", crtc->base.id);
-> > > > > 
-> > > > > +    for (int i = 0; i < cstate->num_mixers; i++) {
-> > > > > +            m = &cstate->mixers[i];
-> > > > > +            crtc_ctl_mask |= BIT(m->lm_ctl->idx - CTL_0);
-> > > > > +    }
-> > > > > +
-> > > > >       /* there might be cases where encoder needs a modeset too */
-> > > > >       drm_for_each_encoder_mask(drm_enc, crtc->dev, new_crtc_state->encoder_mask) {
-> > > > >               if (dpu_encoder_needs_modeset(drm_enc, new_crtc_state->state))
-> > > > >                       new_crtc_state->mode_changed = true;
-> > > > > +            enc_ctl_mask |= dpu_encoder_get_ctls(drm_enc);
-> > > > >       }
-> > > > > 
-> > > > >       if ((clone_mode_requested && !clone_mode_enabled) ||
-> > > > >           (!clone_mode_requested && clone_mode_enabled))
-> > > > >               new_crtc_state->mode_changed = true;
-> > > > > 
-> > > > > +    if (crtc_ctl_mask != enc_ctl_mask)
-> > > > > +            new_crtc_state->mode_changed = true;
-> > > > > +
-> > > > >       return 0;
-> > > > >    }
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > > > index a61598710acda..2f3101caeba91 100644
-> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > > > @@ -188,6 +188,7 @@ struct dpu_encoder_virt {
-> > > > > 
-> > > > >       unsigned int dsc_mask;
-> > > > >       unsigned int cwb_mask;
-> > > > > +    unsigned int ctl_mask;
-> > > > > 
-> > > > >       bool intfs_swapped;
-> > > > > 
-> > > > > @@ -707,6 +708,13 @@ void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
-> > > > >       }
-> > > > >    }
-> > > > > 
-> > > > > +uint32_t dpu_encoder_get_ctls(struct drm_encoder *drm_enc)
-> > > > > +{
-> > > > > +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
-> > > > > +
-> > > > > +    return dpu_enc->ctl_mask;
-> > > > > +}
-> > > > > +
-> > > > >    bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_state *state)
-> > > > >    {
-> > > > >       struct drm_connector *connector;
-> > > > > @@ -1155,6 +1163,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
-> > > > >       bool is_cwb_encoder;
-> > > > >       unsigned int dsc_mask = 0;
-> > > > >       unsigned int cwb_mask = 0;
-> > > > > +    unsigned int ctl_mask = 0;
-> > > > >       int i;
-> > > > > 
-> > > > >       if (!drm_enc) {
-> > > > > @@ -1245,11 +1254,14 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
-> > > > >                               "no ctl block assigned at idx: %d\n", i);
-> > > > >                       return;
-> > > > >               }
-> > > > > +            ctl_mask |= BIT(phys->hw_ctl->idx - CTL_0);
-> > > > > 
-> > > > >               phys->cached_mode = crtc_state->adjusted_mode;
-> > > > >               if (phys->ops.atomic_mode_set)
-> > > > >                       phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
-> > > > >       }
-> > > > > +
-> > > > > +    dpu_enc->ctl_mask = ctl_mask;
-> > > > >    }
-> > > > > 
-> > > > >    static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
-> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> > > > > index ca1ca2e51d7ea..70b03743dc346 100644
-> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> > > > > @@ -91,6 +91,7 @@ bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_st
-> > > > > 
-> > > > >    void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
-> > > > >               struct drm_writeback_job *job);
-> > > > > +uint32_t dpu_encoder_get_ctls(struct drm_encoder *drm_enc);
-> > > > > 
-> > > > >    void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
-> > > > >               struct drm_writeback_job *job);
-> > > > > 
-> > > > > ---
-> > > > > base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
-> > > > > change-id: 20250228-force-modeset-hw-ctl-d02b80a2bb4c
-> > > > > prerequisite-change-id: 20241222-drm-dirty-modeset-88079bd27ae6:v2
-> > > > > prerequisite-patch-id: 0c61aabfcd13651203f476985380cbf4d3c299e6
-> > > > > prerequisite-patch-id: c6026f08011c288fd301676e9fa6f46d0cc1dab7
-> > > > > prerequisite-patch-id: b0cb06d5c88791d6e4755d879ced0d5050aa3cbf
-> > > > > prerequisite-patch-id: fd72ddde9dba0df053113bc505c213961a9760da
-> > > > > prerequisite-change-id: 20250209-dpu-c3fac78fc617:v2
-> > > > > prerequisite-patch-id: c84d2b4b06be06384968429085d1e8ebae23a583
-> > > > > prerequisite-patch-id: fb8ea7b9e7c85fabd27589c6551108382a235002
-> > > > > prerequisite-change-id: 20250211-dither-disable-b77b1e31977f:v1
-> > > > > prerequisite-patch-id: 079e04296212b4b83d51394b5a9b5eea6870d98a
-> > > > > prerequisite-change-id: 20240618-concurrent-wb-97d62387f952:v6
-> > > > > prerequisite-patch-id: b52034179741dc182aea9411fd446e270fdc69d1
-> > > > > prerequisite-patch-id: bc472765a7d5214691f3d92696cc8b0119f3252e
-> > > > > prerequisite-patch-id: c959bc480e96b04297ebaf30fea3a68bbac69da6
-> > > > > prerequisite-patch-id: f7db8449b241a41faac357d9257f8c7cb16503ec
-> > > > > prerequisite-patch-id: 7beb73131d0ab100f266fcd3c1f67c818a3263f4
-> > > > > prerequisite-patch-id: c08cbb5cf4e67e308afd61fdad6684b89429d3b6
-> > > > > prerequisite-patch-id: a4e343143b8fbe98ae4aa068cc459c750105eb9d
-> > > > > prerequisite-patch-id: 1d09edcf12ef7e7ab43547eefacae5b604b698e9
-> > > > > prerequisite-patch-id: 0008f9802bfd3c5877267666cceb7608203e5830
-> > > > > prerequisite-patch-id: 49402eb767c97915faf2378c5f5d05ced2dcfdac
-> > > > > prerequisite-patch-id: 522be2a6b5fe4e3a2d609526bb1539f9bc6f828f
-> > > > > prerequisite-patch-id: 031da00d0fffd522f74d682a551362f3ecda0c71
-> > > > > prerequisite-patch-id: 9454cec22231a8f3f01c33d52a5df3e26dd88287
-> > > > > prerequisite-patch-id: 7edbeaace3549332e581bee3183a76b0e4d18163
-> > > > > 
-> > > > > Best regards,
-> > > > > --
-> > > > > Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > > > 
-> > > > 
-> > > > --
-> > > > With best wishes
-> > > > Dmitry
-> > > 
+> > I've posted a fix for this here [2].
 > > 
+> > Thanks,
+> > 
+> > Jessica Zhang
+> > 
+> > [1] https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/gpu/drm/drm_atomic_helper.c#L1502
+> > [2] https://patchwork.freedesktop.org/series/145735/
+> > 
+> > > 
+> > > Corresponding pipeline is available at [1]
+> > > 
+> > > As I had to rebase your changes on top of msm-next, corresponding tree
+> > > is available at [2]. It might be possible that the regression is
+> > > introduced by my rebase.
+> > > 
+> > > [1] https://gitlab.freedesktop.org/drm/msm/-/pipelines/1374165
+> > > 
+> > > [2] https://gitlab.freedesktop.org/lumag/msm/-/commits/msm-next-lumag-cwb
+> > > 
+> > > -- 
+> > > With best wishes
+> > > Dmitry
 > > 
 > 
+> -- 
+> With best wishes
+> Dmitry
 
 -- 
 With best wishes
