@@ -2,113 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C91CA4E392
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 16:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08A0A4E3C8
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 16:40:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA3EE10E2D0;
-	Tue,  4 Mar 2025 15:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C25EA10E1CD;
+	Tue,  4 Mar 2025 15:40:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Uq/vYyDC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tfom5hsa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C50C110E1CD
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 15:35:53 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 67C6744327;
- Tue,  4 Mar 2025 15:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741102551;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=v5eDZmBWe7K26EFzulkfQB+TGvAIpuPH7bySSym5Amk=;
- b=Uq/vYyDCA7A1KK9Ur1ueQxbrt//Qng+F1vDlaoG5TrVAafU/yGEHpP92EsEKxQL+ft3tdE
- W22KoHiNvla0fTenbxWzZNl/dlaUfSavpiF3FHwGeCfJXBHgPiWB9zHeLcht6WMRP//OVq
- 1YtYM0ol5bwYaetACS+fMCWwieo5/wLwjWCObRTVCFTjcMef9AaVXqmQMmER/BMrHn/bYg
- DdZrboSr+kkloD8tNzg1WZQ/FTdwq5QQyMDknpxmRAaFebPjY3D/veRLAw6i922rMUEI3C
- 7db2YcCLEcFPmioOwGv/URDXnGLod4Am//mlXH/u+rAEdlkm0K2hdX8o1Mwsjw==
-Message-ID: <fa4f4d3d-6a3e-4659-8a59-4928c2285d55@bootlin.com>
-Date: Tue, 4 Mar 2025 16:35:50 +0100
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F9810E1CD
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 15:40:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741102826; x=1772638826;
+ h=message-id:date:subject:from:to:cc:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=fowOwkKdqr+FLuqkrtzYLeLhnL8UedJWC5ozNDC5LWc=;
+ b=Tfom5hsaEqwom8fTt1xaRMv+ZKvA+e0Mvb9GqG6KriLk4apSvvICjuZ5
+ 38W72f9P9azA+LEORGanyQ4Q16ZWY0PxGhYYHUxgOsp5h3cw2wZDVTkuL
+ bOinfs4LAt38mzn+DsDJ7Mb+dffiujstYKv2QtKeswqqQxfzHM4sA988L
+ NJGVcQirY4IU9ktTtfAAYhyO+zcS+lBwUVSvphcmUFX/tlRQSpB/SgTY6
+ LTXTBPcGhQ9J1T6Ek5lkM6r+abxjiGBdBcq7laSWclJhp/PwdbVDq+5QX
+ NbbfU2BngsOS4Wfs/WF5DZEZjY20T/f6W+iZnm80ipEedw1erJUjaGSMa A==;
+X-CSE-ConnectionGUID: B4RIQiisRy2tPagcHzWfAQ==
+X-CSE-MsgGUID: t+4IK1FsRF+8+Y/69WopxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41204054"
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; d="scan'208";a="41204054"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2025 07:40:25 -0800
+X-CSE-ConnectionGUID: tSlFhdOiQZGGjWku9YXyaA==
+X-CSE-MsgGUID: p5mUfJrgRpqKoCi3kGqVdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; d="scan'208";a="119090007"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2025 07:40:19 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 4 Mar 2025 07:40:18 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 07:40:18 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 4 Mar 2025 07:40:09 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LPObu4fgpcODt98kr2JPMfyuL9FdkjwZ37m7/nzZAaMb19GmoUU4D6HGrT4B9OvfqEQcVwxX0vacnz/r2VFfWzKZUyASzib6sTfVVPAPrMpD3nQU20aX2dfrp+3/1SsuBwOUqNgVfmoWiQLmJyl6yp6TkuGq7mtx0ibhExKbTbTIFb+03+x8cAxI3t8J0lS3P0mPetsBSXhLZsqX3FFI9pnDPEdwohfZYQ/exHIRZaas9/lbqxPqc1hdV5x8gWP8ldoq/ZlnJWLlwOIua5zYZ3KLb40ndRquuvZAhCu1mWGdDSVGRZ0fsH3JzXNP1BJf766B5cjLiP049z+83LmLBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MwhMlh3vo2ub/8eXSKGvASXYobD2ORX3Lxonr2v/BSo=;
+ b=nIAYWUu3FoyTWe1b8odu1eI8qO5ajI90mfuHOrkGvnlDF5XNg5eGGOk2jCM1VmxOji+QExWG+TR5vk3mg7YStg3fcKRFUVAVlDrRkXfpZRBUmiRPduamwouB8NO6K6CYDhsbBVBfZZDIjDjrAiciEDsIdGffNHftXJZJuME6iVgMlU3tIK7sON700V8H6U6qfHWhBLrajSEn6NbLo86QWDTRn9nk/Xv4rhiuyDqpJjBrXfIRczLvip/G3WHu2s+EhFXUNLRv+qmZjCjBt/jaahraCsdaSDYyNLvwnIqE5f/H21pCIuY4qBjOIx38n5xXsokOVKUaWu+i2Z5lhLvVLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MW4PR11MB6714.namprd11.prod.outlook.com (2603:10b6:303:20f::20)
+ by IA0PR11MB7281.namprd11.prod.outlook.com (2603:10b6:208:43b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.27; Tue, 4 Mar
+ 2025 15:39:54 +0000
+Received: from MW4PR11MB6714.namprd11.prod.outlook.com
+ ([fe80::e8c7:f61:d9d6:32a2]) by MW4PR11MB6714.namprd11.prod.outlook.com
+ ([fe80::e8c7:f61:d9d6:32a2%3]) with mapi id 15.20.8489.028; Tue, 4 Mar 2025
+ 15:39:53 +0000
+Message-ID: <8ad4e4cf-1b4a-4e08-b880-266399c3e5b0@intel.com>
+Date: Tue, 4 Mar 2025 16:39:46 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/16] drm/vkms: Allow to configure multiple planes via
- configfs
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250225175936.7223-1-jose.exposito89@gmail.com>
- <20250225175936.7223-4-jose.exposito89@gmail.com>
- <52bc3f15-28da-4b40-917f-981f1f10d9b8@bootlin.com> <Z8VtPMzuZOYqjraQ@fedora>
- <e813ac5b-298c-4863-b0b6-e9ac7fec1da0@bootlin.com> <Z8cUN8Q4L0VE-bVm@fedora>
+Subject: Re: [RFC 0/1] drm/mm: Introduce address space shifting
+From: "Lis, Tomasz" <tomasz.lis@intel.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: Nirmoy Das <nirmoy.das@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, =?UTF-8?Q?Micha=C5=82_Winiarski?=
+ <michal.winiarski@intel.com>, =?UTF-8?Q?Micha=C5=82_Wajdeczko?=
+ <michal.wajdeczko@intel.com>, =?UTF-8?Q?Piotr_Pi=C3=B3rkowski?=
+ <piotr.piorkowski@intel.com>
+References: <20250204224136.3183710-1-tomasz.lis@intel.com>
 Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <Z8cUN8Q4L0VE-bVm@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutddvgeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffveejueevtdfhffekvdelfefhvedtgeduudfhvedtvdejveejhfeukeehhfdvueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmr
- ggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <20250204224136.3183710-1-tomasz.lis@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1P190CA0050.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:800:1bb::15) To MW4PR11MB6714.namprd11.prod.outlook.com
+ (2603:10b6:303:20f::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB6714:EE_|IA0PR11MB7281:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1006aa3-e692-4d6c-fd8a-08dd5b32ceff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VkVpalhkWjllTjZKbmhvNjEyU0ZnS1VyQVRkREV2akV1V3Z0YWlmUjdEY0NH?=
+ =?utf-8?B?WUJNL0E4ak9lYVRzU0xJd0hjQzJTUFN5ZjRIYjZLUE5ZVFNsbEplbzBCOWFj?=
+ =?utf-8?B?UHBpeXYxS1R6ODJUZjk2L1ptZFFkZjVKeXlZaSsvY214UnFKZTMrM2kwUmVZ?=
+ =?utf-8?B?MXFQNndCVVJaQy9lUzRNWVJyd3Ard3hGYXF0czBUbGJranMxd2tDZmovRVJt?=
+ =?utf-8?B?TDM1czBFSzN4WnhSQk95YjJYd2ZOdGlpd01HYlNEeldicWtTdkw3NHRPQWZU?=
+ =?utf-8?B?a3k3eWZPcDNlcGlaQzZqZUVpejhOYTYreGs3LzJiQ2dVaFlIS2tRZmRlYXRt?=
+ =?utf-8?B?QTBEK292MXJGclUyVkJwelFSRENBdWlaVTlxN0trdnF0U045cE1KRXl4T1kw?=
+ =?utf-8?B?d0Jra1BzZkhnVzhUNUNsM2ErMU1TZ3pHenZwaXJjTlR1NGNoNXgveXZsUjl6?=
+ =?utf-8?B?VG15cWNhNjYvRm1pM3ZhM1RBUlFORXN3S0wrQUNpSzNTOExMeU53MndmWlhP?=
+ =?utf-8?B?d1ZUZDJQQ1ZCajR0ZjRuTFRxb0Y2MEg0THNhZWpRRWJXU3RvbmpGREhRTHlE?=
+ =?utf-8?B?U0tSMlRFSXBhK0x5K3BoV1ZRZ0ZNdTRReUlwYllvcmlyc2N4dVM5V2w5N2Y1?=
+ =?utf-8?B?WElrTVd2anZ3aW51aEZNWGpYQ0J0SFRCUUVBKzhUZ1pNMUNBRnF2czV2RU00?=
+ =?utf-8?B?cXhFdjVjQktFeklxWGh5QzlVSmNZOS9yY3F4NUJCQWRzeEJFNitpSjlqSXRz?=
+ =?utf-8?B?U0xKczJVUlJGcy8vdWlHSDhnSjBUclUzVnA2NnFSeEppbDE4aFdvVWlWZ3ZK?=
+ =?utf-8?B?elZNcUFYU1dXS08zM1RzekFQakkwZEl6djV6ZzBaRXpYNHhyQzA1eW5vRnNQ?=
+ =?utf-8?B?VHgwM3dCTG5pa1h2akY1eWF0K2ltMEZYQW1WdVV6cmxWaEpLWmtWRUlXaUMw?=
+ =?utf-8?B?cUxudkxrUkJ4NWg5dVdOOHQwNGNIdCs5N244Mys4NmVCcW02eWhUQUpPYldP?=
+ =?utf-8?B?U21WYm1tR0x6cnVpWmJ0aXR5MTV1a3J6WmsvQ05qVlMyUDUzN0I2dm5jUWVC?=
+ =?utf-8?B?TnZybFFlTWNWemdvSm5nZ216QmNzQjBuOXJNdEI4SXVnaWJ1MzJLVGtDQXJi?=
+ =?utf-8?B?alpvTDJ4ZkRsam1YM05hSnN4QVV2c3NhSFN4RjUweWZZZ2hLZnJteGVlbFJk?=
+ =?utf-8?B?ZEkyeGtXSGFzZUM1VXpsWFlHYi9UM0RVdHRHVHFNdERhZlY4ckF2RFlxRDFW?=
+ =?utf-8?B?UU1ETW9tbm9vUVpZeXpFYnlMZzhDYkRacFVkYnE5Y0Z2OFdkTkh5dVJoWnRa?=
+ =?utf-8?B?MzVJaWNvN1oyaUEwL1g0NkFVcVhMNGE3WWtZVzFnajhlbThneksrRDdYcXVh?=
+ =?utf-8?B?S0JnNGlvaEdpcERtZXVqYUVXdUxDRkw1cDloZWQ1eWQyRlBMRFNQMktSMmdW?=
+ =?utf-8?B?akNnRnFjc2tST0IwSGd1eUdsaTRFSlZDZEFiUkdWNUVJbGRLd1Vzd21oMG11?=
+ =?utf-8?B?blZtci8xT2N0OS95cit2bk1RY2dQVjRiZ0dYMXFJREtaT3ZEcUVucEg4RTRT?=
+ =?utf-8?B?ZzJrK1lxOTVPTklVczJNdW9lL2FLdkxlZE1ZSUhUcGhvSUxJb0JieGdXOUFS?=
+ =?utf-8?B?S0pzQnJSMTI0Snc1QU9rZjA0YTdKVldWdlRzN0dlS0lpUUNETnkxcXI3Ly9p?=
+ =?utf-8?B?ZGh0Y0NSMWdrcXhoTFNEQWtYSG14TiszMm02NTRIc3h1L1I4TVBjUXoyRHQ5?=
+ =?utf-8?B?MHRsL01JVW1VcnFldnFOTk5qY2JDdTNYTDRmZjk1RzhidURud2h5SDBiT0VV?=
+ =?utf-8?B?RlV6VGtCemM3aHNDWVdod05xREtGUFVGbU4rQnAzYUxKbnVEYVZKUGo4d0V5?=
+ =?utf-8?Q?6qiP39fPYOzQR?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR11MB6714.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MDY2R1U4WlpxSGl4NkJsRGtXWllURERuY2E0S3M4Wm8rVE1YeVV0a3VJaUpy?=
+ =?utf-8?B?T3UxamxqZTVnK2FudVh3UVZuZ1VIRUVYdWZ2QjJsWmFOR2dTdnNaUjFEeVUw?=
+ =?utf-8?B?eXFZdHIwNXVPSHJmOFJFR1hWTTNqakVtcGt2Z3hObVZuQlBjVlhWS2FmZ3Ro?=
+ =?utf-8?B?dmU1V1R6S0JyZXFGeW9ZbzFxZHlBRmRDcGo5U3ArSWwrKzRSQWpaOWEvejZv?=
+ =?utf-8?B?Q0lwSk1YTmxYMWgrWTBRRy9sUldxQ3p1eTM4WWpVdU9mc3JwVmZUZTlxeFR5?=
+ =?utf-8?B?dmduMEQwcCtZdXJjazdaVjFvQnBMcDVLUlQxWEF4OFRmUWV6YklWZms0Mk85?=
+ =?utf-8?B?ME96WUNnTU5ISmVqd01pSnNuMmg4VUpvSTFVK20zT0pnVm1ud1hHNXBQT21V?=
+ =?utf-8?B?NkYxY25ITEdmbnV6aGE2REcyTjB3OVJlNmZUN1BNOXVTd2hqQ0xUenJITzZS?=
+ =?utf-8?B?MU16MGNVTEtFUWowV24zRU1UK2o4bDRLbzIvSDVKNEtwRjN3Zkx0S1VLdzcz?=
+ =?utf-8?B?N0JybWRBY282RWJQRjF6VGkvQzhOOUNjNXYydzlESE01R1phQ3RFY01JWXow?=
+ =?utf-8?B?cmdaNjJ4UzhaV2tQWnNueHVKckFZNHFFYzBSem5FSUJJTXFsdk5HZm5aWUpx?=
+ =?utf-8?B?QTRFVE1Qay9LdHFTWmVGeHVrc2NtY2x4RFN2UXJqcjBvUUVFQlNlTytuMlEy?=
+ =?utf-8?B?dXBlZTJINXRSYUp1dDc2aVhqbXczV0hMbGYwUERnMUx6MEUvaGdmTmF0dTNG?=
+ =?utf-8?B?T3phOUsvdHdCUDlWNVZLa0pYZnhUeDVZbWhmUXphMzVrQjhCeHlEUDRtT0JP?=
+ =?utf-8?B?dWMzdU5NeTE2YmUyVHpkVVRlWlRjK040Tm11c3NXT1BIZ2VzZm9TbVA0akVq?=
+ =?utf-8?B?NnRFSDNIaFBLekZrUUY5VmgybFh6MGluR3hmZ3lSV0l2bzk2R1dhUEVGdGVs?=
+ =?utf-8?B?WkV0UlU1QndTVDdwV1Y5M1JPV0NIZ0pFdkVYQ0wrYmUvU2JqNXpoK0xndmJw?=
+ =?utf-8?B?YmVGWC8zWFlVOHUwWEJpcG12RUFtcGFaYTV1SmM1VXNHRHpiUnRTVThMYmNM?=
+ =?utf-8?B?aFZyRUVESk8zaHB3TkFuU3Y2TGE5N3dRNHZMTG9KWTJQY0t5TDZnKzh1ZCsy?=
+ =?utf-8?B?YkE3RUtvb0VRamJsK1k3S0pNTGNmdCtJaXlJWmJwUjd3cEU2RkxBTGdkaFN5?=
+ =?utf-8?B?SW41ZEIrNmFWSlJXRmgxTU1vbUxua3crUUxDN3M3MHVoMXQ3K0pDSXpIVXdo?=
+ =?utf-8?B?VWozSXRxNzluckRSZlNCQU5YYU5PeVVEUGg3VnIxcDdwMWxVeGpoT0xHVDYz?=
+ =?utf-8?B?Sm9TWGRJM1o1ZytrVXZWVFJwaFhYRlh4eTBlUWo5UHN6aldIdXJWOW8yYVlv?=
+ =?utf-8?B?SlV1VzZJNGhOam1mS29rL2pZNDRWYlllajNmMUNvOEZtVmRLNTZUazZGK3Z2?=
+ =?utf-8?B?Sy9LamJsR3VEY3orTlNSY0JLZXpRZzZaN0svYWJva25NSHJycVhzRjVkdzZm?=
+ =?utf-8?B?dWNBa0cvOFZtcVJDNmM0bHJueFhxS3lkWGMyUXRuYXRQc3ZYeE9tTGxlWC8w?=
+ =?utf-8?B?RW5kOXpGTysrZWMvRlVvVE0rVlhGVHJqbkZmNnZNb1dya1RITEllRjRFLy9m?=
+ =?utf-8?B?MFR5aHRGaktjTytBVFc4MmFKQW5RdktHVmJoRHQyVXdaTTJ6WnN0M0dtWFZI?=
+ =?utf-8?B?dks5SDJCL2tmL0h6VlJUaWE0ODEzMFdOblp0YWs1YjlieVNZK1B2dmlycitR?=
+ =?utf-8?B?M0xDaGlqdVJiZTEvdmg3bnpobUU0NTQveGxBZ2diUUlLMmdmOGVHVFErdmMw?=
+ =?utf-8?B?blZEblptRFVnOVlZZm5IOTdiM05kbzBzYWQyWUpuOE02YVVyZFdzREFwdmNW?=
+ =?utf-8?B?UDNCQkVsMjVrRTkwK1RYSkRmc2VMb0NKbHZyb1hyWG5xeGZiOFpVYXVtM3Z2?=
+ =?utf-8?B?aDN0TmZEYzA0am14a2wra0JRNHpQdkY3bTREOGpRWnZoRXkzc1hQM1IrQjV2?=
+ =?utf-8?B?eHU2THJSaC9NUUwwcWQ5SEZYOWVlZjdkTDFpQjhyNDJkMURtZzZxdlg1ZkxS?=
+ =?utf-8?B?UDFsU0JZNzZOS09xektURFFOS1ZuVGhOK3NZT1hXWkdDRURDUFVaZkw1K011?=
+ =?utf-8?Q?fLUmeCjH7c2ELLOfFZSQwN8l4?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1006aa3-e692-4d6c-fd8a-08dd5b32ceff
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB6714.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 15:39:53.7241 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nxzziOB6ouPtAL/ozTW3n+X8FLzKu0BjaDejfc2L7qQsx26sxiAhEZhjWBpeA7O/ntuYCn/ThVYrLbGtp/E0hA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7281
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,217 +198,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There was no NACK, and no further questions/comments for a month.
 
+ From that, we conclude that the proposed change is considered acceptable.
 
-Le 04/03/2025 à 15:54, José Expósito a écrit :
-> Hi Louis,
-> 
-> On Mon, Mar 03, 2025 at 11:34:50AM +0100, Louis Chauvet wrote:
->>
->>
->> Le 03/03/2025 à 09:50, José Expósito a écrit :
->>> Hi Louis,
->>>
->>> On Fri, Feb 28, 2025 at 03:43:25PM +0100, Louis Chauvet wrote:
->>>>
->>>>
->>>> Le 25/02/2025 à 18:59, José Expósito a écrit :
->>>>> Create a default subgroup at /config/vkms/planes to allow to create as
->>>>> many planes as required.
->>>>>
->>>>> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>> Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
->>>>> [...]
->>>>> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
->>>>> index 92512d52ddae..4f9d3341e6c0 100644
->>>>> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
->>>>> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
->>>>> [...]
->>>>> +static void plane_release(struct config_item *item)
->>>>> +{
->>>>> +	struct vkms_configfs_plane *plane;
->>>>> +	struct mutex *lock;
->>>>> +
->>>>> +	plane = plane_item_to_vkms_configfs_plane(item);
->>>>> +	lock = &plane->dev->lock;
->>>>> +
->>>>> +	guard(mutex)(lock);
->>>>> +	vkms_config_destroy_plane(plane->config);
->>>>> +	kfree(plane);
->>>>> +}
->>>>
->>>> I just found a flaw in our work: there is currently no way to forbid the
->>>> deletion of item/symlinks...
->>>>
->>>> If you do:
->>>>
->>>> modprobe vkms
->>>> cd /sys/kernel/config/vkms/
->>>> mkdir DEV
->>>> mkdir DEV/connectors/CON
->>>> mkdir DEV/planes/PLA
->>>> mkdir DEV/crtcs/CRT
->>>> mkdir DEV/encoders/ENC
->>>> ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
->>>> ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
->>>> ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
->>>> echo 1 > DEV/planes/PLA/type
->>>> tree
->>>> echo 1 > DEV/enabled
->>>> modetest -M vkms
->>>> => everything fine
->>>>
->>>> rm DEV/connectors/CON/possible_encoders/ENC
->>>> rmdir DEV/connectors/CON
->>>> modetest -M vkms
->>>> => BUG: KASAN: slab-use-after-free
-> 
-> I'm trying to reproduce this issue, but those commands don't show any BUG
-> in dmesg. This is my Kasan .config:
-> 
->      CONFIG_HAVE_ARCH_KASAN=y
->      CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
->      CONFIG_CC_HAS_KASAN_GENERIC=y
->      CONFIG_CC_HAS_KASAN_SW_TAGS=y
->      CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
->      CONFIG_KASAN=y
->      CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX=y
->      CONFIG_KASAN_GENERIC=y
->      # CONFIG_KASAN_OUTLINE is not set
->      CONFIG_KASAN_INLINE=y
->      CONFIG_KASAN_STACK=y
->      CONFIG_KASAN_VMALLOC=y
->      # CONFIG_KASAN_KUNIT_TEST is not set
->      CONFIG_KASAN_EXTRA_INFO=y
-> 
-> I tryed to delete even more items:
-> 
->      root@kernel-dev:/sys/kernel/config/vkms# tree
->      .
->      └── DEV
->          ├── connectors
->          ├── crtcs
->          ├── enabled
->          ├── encoders
->          └── planes
-> 
->      root@kernel-dev:/sys/kernel/config/vkms# cat DEV/enabled
->      1
-> 
-> And I still don't see any errors. Is it possible that we are running different
-> branches? Asking because of the failing IGT tests you reported. There seems to
-> be a difference in our code or setup that is creating these differences.
+In case anyone disagrees, please respond now.
 
-I just re-applied your last vkms-config version and this series on top 
-of drm-misc-next. See [1] for the exact commits.
+We are starting work on a series which will use the proposed drm_mm 
+function.
 
-Argg sorry, I just noticed something: you need to disable the default 
-vkms device (I had this option in my kernel command line...), otherwise 
-modetest only use the first vkms gpu...
+-Tomasz
 
-I will check again the igt tests, but I don't think this is the same 
-issue (it should not use the default device to test)
-
-So, with [1] and the defconfig below, I have this:
-
-
-     1  modprobe vkms create_default_dev=0
-     2  cd /sys/kernel/config/vkms/
-     3  mkdir DEV
-     4  mkdir DEV/connectors/CON
-     5  mkdir DEV/planes/PLA
-     6  mkdir DEV/crtcs/CRT
-     7  mkdir DEV/encoders/ENC
-     8  ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
-     9  ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
-    10  ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
-    11  echo 1 > DEV/planes/PLA/type
-    12  tree
-    13  echo 1 > DEV/enabled
-    14  modetest -M vkms
-    15  rm DEV/connectors/CON/possible_encoders/ENC
-    16  rmdir DEV/connectors/CON
-    17  modetest -M vkms
-KASAN: slab-use-after-free
-
-
-[1]:https://github.com/Fomys/linux/tree/20250225175936.7223-1-jose.exposito89%40gmail.com
-
-
-===== defconfig =====
-
-CONFIG_SYSVIPC=y
-CONFIG_CGROUPS=y
-CONFIG_KALLSYMS_ALL=y
-CONFIG_SMP=y
-CONFIG_HYPERVISOR_GUEST=y
-CONFIG_PARAVIRT=y
-# CONFIG_VIRTUALIZATION is not set
-CONFIG_JUMP_LABEL=y
-CONFIG_MODULES=y
-CONFIG_MODULE_UNLOAD=y
-CONFIG_NET=y
-CONFIG_PACKET=y
-# CONFIG_WIRELESS is not set
-CONFIG_NET_9P=y
-CONFIG_NET_9P_VIRTIO=y
-CONFIG_PCI=y
-CONFIG_DEVTMPFS=y
-CONFIG_DEVTMPFS_MOUNT=y
-CONFIG_VIRTIO_BLK=y
-# CONFIG_INTEL_MEI is not set
-CONFIG_NETDEVICES=y
-CONFIG_VIRTIO_NET=y
-# CONFIG_ETHERNET is not set
-# CONFIG_WLAN is not set
-CONFIG_INPUT_EVDEV=y
-CONFIG_SERIAL_8250=y
-CONFIG_SERIAL_8250_CONSOLE=y
-CONFIG_VIRTIO_CONSOLE=y
-CONFIG_HW_RANDOM_VIRTIO=m
-CONFIG_PTP_1588_CLOCK=y
-# CONFIG_HWMON is not set
-CONFIG_THERMAL_GOV_USER_SPACE=y
-CONFIG_DRM=y
-CONFIG_DRM_KUNIT_TEST=m
-CONFIG_DRM_VKMS=m
-CONFIG_DRM_VKMS_KUNIT_TEST=m
-# CONFIG_USB_SUPPORT is not set
-CONFIG_VIRTIO_PCI=y
-CONFIG_VIRTIO_BALLOON=y
-CONFIG_VIRTIO_INPUT=y
-CONFIG_VIRTIO_MMIO=y
-CONFIG_VIRTIO_MMIO_CMDLINE_DEVICES=y
-# CONFIG_SURFACE_PLATFORMS is not set
-CONFIG_EXT4_FS=y
-CONFIG_FUSE_FS=y
-CONFIG_VIRTIO_FS=y
-CONFIG_OVERLAY_FS=y
-CONFIG_TMPFS=y
-CONFIG_TMPFS_POSIX_ACL=y
-CONFIG_CONFIGFS_FS=y
-CONFIG_9P_FS=y
-CONFIG_CRYPTO=y
-CONFIG_CRYPTO_CRC32C=y
-CONFIG_DYNAMIC_DEBUG=y
-CONFIG_DEBUG_KERNEL=y
-CONFIG_DEBUG_INFO_DWARF5=y
-CONFIG_MAGIC_SYSRQ=y
-CONFIG_DEBUG_FS=y
-CONFIG_DEBUG_PAGEALLOC=y
-CONFIG_DEBUG_PAGEALLOC_ENABLE_DEFAULT=y
-CONFIG_PAGE_POISONING=y
-CONFIG_DEBUG_OBJECTS=y
-CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
-CONFIG_SCHED_STACK_END_CHECK=y
-CONFIG_KASAN=y
-CONFIG_KASAN_VMALLOC=y
-CONFIG_KASAN_EXTRA_INFO=y
-CONFIG_KFENCE=y
-# CONFIG_FTRACE is not set
-CONFIG_UNWINDER_FRAME_POINTER=y
-CONFIG_KUNIT=y
-CONFIG_TEST_DYNAMIC_DEBUG=m
-
+On 04.02.2025 23:41, Tomasz Lis wrote:
+> This RFC asks for introduction of an interface which allows to shift
+> a range managed by drm_mm instance without repeating the node list
+> creation.
+>
+> The long explanation:
+>
+> Single Root I/O Virtualization is becoming a standard GFX feature
+> in server environments. Virtual Machines provided with direct access
+> to virtualized GFX hardware, in form of VFs, need to support the
+> standard set of features expected by Virtual Machine Managers.
+> These standard features include ability to save the VM state, and
+> later restore the VM, possibly on another machine with different
+> setup. For the restore to succeed, the GFX hardware model must match;
+> but for its configuration, some differences are often allowed. Such
+> alterations may include a different range of non-virtualized
+> resources assigned to the VF, including global address spaces.
+>
+> If any non-virtualized address space is saved, as part of VM state,
+> on one machine and restored on another, it may happen that the target
+> range differs from source range. To shift the address space,
+> currently creating a new drm_mm object is required, and moving all
+> nodes to the new object while adding the shift.
+>
+> GFX hardware handled by Xe driver contains Global Graphics
+> Translation Table, which is an example of such non-virtualized
+> resource. Should this interface change be accepted, a series which
+> utilizes this interface in Xe driver will be prepared.
+>
+> Signed-off-by: Tomasz Lis <tomasz.lis@intel.com>
+>
+> Tomasz Lis (1):
+>    drm_mm: Introduce address space shifting
+>
+>   drivers/gpu/drm/drm_mm.c | 24 ++++++++++++++++++++++++
+>   include/drm/drm_mm.h     |  1 +
+>   2 files changed, 25 insertions(+)
+>
