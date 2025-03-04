@@ -2,65 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BC6A4D8DC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85BFA4D8EF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:43:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23E4D10E54F;
-	Tue,  4 Mar 2025 09:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E02FB10E55D;
+	Tue,  4 Mar 2025 09:43:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GKMDyYch";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GaO7AbEY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1BCA10E54E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 09:41:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1741081305;
- bh=V4CnTDDJt6NGOGhGQPS8FC6bzc1LOyrks5JjjZ6wzOQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GKMDyYchTQRfBI32tSx1RcUARGgdtMy+exmv+qg0+7lEZCz8pU7SvRBil6cC8qK19
- 1d/019YaI/311Wosb2lYFvlb1AMHl8V91mpgHWWZX7I9ChFdOm3Q0NcpEru7wwjtZh
- oZDxPWwQExqFox7dC0VQaFe0/yFNpwwYvuoGBEVjRZVUcuQ8vtg0FAKNhNj8IVCK8x
- tIiAK1leEEM/Fs9gfiGUseX5HQti7AUDjjYggRL0EPiNahhOWxmXRnNbNOYzTn3nh4
- i/KATrUmS4CbfT2dTHc5t9KzEBt4b6kO05iRCSjjGF61j5CwBSmIk5Bfs/XwWMwlDL
- chmjovx/CDYeg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5612617E087F;
- Tue,  4 Mar 2025 10:41:44 +0100 (CET)
-Message-ID: <c52b132b-fc08-4d1c-8276-1771f7457014@collabora.com>
-Date: Tue, 4 Mar 2025 10:41:43 +0100
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8147210E551
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 09:43:16 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9D44F43284;
+ Tue,  4 Mar 2025 09:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1741081394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=crDLL2GXtfOejp4EJCkj3Z+BGJtGWzuSVXp69qOLGpQ=;
+ b=GaO7AbEYOeiUDuSiSsVS7uVhRNfDBhQaULG7tETydzqI9b3y8pW6mc1tRjycRKQlM63aLN
+ QtCtho6hWsLr9Z0p8Ze05LooMxEr+kgM5oFbVEoBu5dohWWUapGxXvk1D9aE0Utz9jdmF1
+ ay1WQgnyrG9AJJk8sP3R+WN3jGusUo6r8OevFlfnysvk5FbsM1evf3kSy6iEu/DiWKNwqT
+ p93z0NKdOYRbAsj4cBcoigac/cmdVugx4TDgGmM8BUQDL+DVGy3cfVkdF6pfCu4RA36/HT
+ tB1KAu/KMHLpIydYEvSa2kluWapfySVfp+Jp3SxwZG1e9iKN6ts/FxHItv4MZQ==
+Message-ID: <36c37aae-244f-48f8-8f88-c46b58a9e8b1@bootlin.com>
+Date: Tue, 4 Mar 2025 10:43:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/8] soc: mediatek: Add programming flow for
- unsupported subsys ID hardware
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
- Moudy Ho <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>,
- Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
- <20250218054405.2017918-7-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v4 00/14] drm/vkms: Allow to configure device
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250218101214.5790-1-jose.exposito89@gmail.com>
 Content-Language: en-US
-In-Reply-To: <20250218054405.2017918-7-jason-jh.lin@mediatek.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20250218101214.5790-1-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutddujedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeefleejleelhfeiuddvveeikeevudekgffhkeeggfdukeetgfetleetuefgudeuueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhdpfhhrvggvuggvshhkthhophdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgth
+ hdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,85 +120,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 18/02/25 06:41, Jason-JH Lin ha scritto:
-> To support hardware without subsys IDs on new SoCs, add a programming
-> flow that checks whether the subsys ID is valid. If the subsys ID is
-> invalid, the flow will call 2 alternative CMDQ APIs:
-> cmdq_pkt_assign() and cmdq_pkt_write_s_value() to achieve the same
-> functionality.
+
+
+Le 18/02/2025 à 11:12, José Expósito a écrit :
+> Hi everyone,
 > 
-> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
-> ---
->   drivers/soc/mediatek/mtk-mmsys.c | 14 +++++++++++---
->   drivers/soc/mediatek/mtk-mutex.c | 11 +++++++++--
->   2 files changed, 20 insertions(+), 5 deletions(-)
+> In preparation for ConfigFS support, a flexible way to configure VKMS device(s)
+> is required.
+> This series adds the required APIs to create a configuration, the code changes
+> required to apply it and KUnit test validating the changes.
 > 
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> index bb4639ca0b8c..ce949b863b05 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -167,9 +167,17 @@ static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask,
->   	u32 tmp;
->   
->   	if (mmsys->cmdq_base.size && cmdq_pkt) {
-> -		ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
-> -					  mmsys->cmdq_base.offset + offset, val,
-> -					  mask);
-> +		offset += mmsys->cmdq_base.offset;
-> +		if (mmsys->cmdq_base.subsys != CMDQ_SUBSYS_INVALID) {
+> Louis Chauvet and I are working on ConfigFS support. In this series I tried to
+> merge his changes [1] with mine [2].
+> I kept his Signed-off-by to reflect that, even if I show up as the author of
+> some/most of the patches, this was a joint effort.
+> 
+> I'll send the ConfigFS code [3] and its IGT tests [4] code this week.
+> Meanwhile, the IGT tests also exercise this series and can be used for
+> additional test coverage.
+> 
+> Best wishes,
+> José Expósito
 
-You're still anyway passing the subsys to cmdq_pkt_write_mask(), right?!
-Why don't you just handle this in cmdq_pkt_write_mask() then? ;-)
+Hi all,
 
-I can see this pattern being repeated over and over in both drm/mediatek and MDP3
-drivers, and it's not necessary to duplicate this many times when you can write it
-just once.
+I am trying to apply this series but I am encountering some issues. Most 
+of the patches have the following trailers:
 
-Would've also been faster for you to implement... :-D
+Co-developed-by: Louis Chauvet
+Signed-off-by: Louis Chauvet
+Signed-off-by: José Exposito
 
-Cheers,
-Angelo
+When I use dim b4-shazam, the result is:
 
-> +			ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
-> +						  offset, val, mask);
-> +		} else {
-> +			/* only MMIO access, no need to check mminfro_offset */
-> +			ret = cmdq_pkt_assign(cmdq_pkt, CMDQ_THR_SPR_IDX0,
-> +					      CMDQ_ADDR_HIGH(mmsys->cmdq_base.pa_base));
-> +			ret |= cmdq_pkt_write_s_mask_value(cmdq_pkt, CMDQ_THR_SPR_IDX0,
-> +							   CMDQ_ADDR_LOW(offset), val, mask);
-> +		}
->   		if (ret)
->   			pr_debug("CMDQ unavailable: using CPU write\n");
->   		else
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index 5250c1d702eb..3788b16efbf4 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -963,6 +963,7 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
->   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
->   						 mutex[mutex->id]);
->   	struct cmdq_pkt *cmdq_pkt = (struct cmdq_pkt *)pkt;
-> +	dma_addr_t en_addr = mtx->addr + DISP_REG_MUTEX_EN(mutex->id);
->   
->   	WARN_ON(&mtx->mutex[mutex->id] != mutex);
->   
-> @@ -971,8 +972,14 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
->   		return -ENODEV;
->   	}
->   
-> -	cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys,
-> -		       mtx->addr + DISP_REG_MUTEX_EN(mutex->id), 1);
-> +	if (mtx->cmdq_reg.subsys != CMDQ_SUBSYS_INVALID) {
-> +		cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, 1);
-> +	} else {
-> +		/* only MMIO access, no need to check mminfro_offset */
-> +		cmdq_pkt_assign(cmdq_pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_HIGH(en_addr));
-> +		cmdq_pkt_write_s_value(cmdq_pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_LOW(en_addr), 1);
-> +	}
-> +
->   	return 0;
->   }
->   EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
+Co-developed-by: Louis Chauvet
+Signed-off-by: José Exposito
+Signed-off-by: Louis Chauvet
 
+However, checkpatch is not happy with this because it removes my 
+Signed-off-by line immediately after Co-developed-by.
+
+I then tried to add it myself:
+
+Co-developed-by: Louis Chauvet
+Signed-off-by: Louis Chauvet
+Signed-off-by: José Exposito
+Signed-off-by: Louis Chauvet
+
+But this time, checkpatch complains that I have my Signed-off-by line twice.
+
+And if I don't add the last Signed-off-by, checkpatch is indeed not 
+happy too:
+
+Co-developed-by: Louis Chauvet
+Signed-off-by: Louis Chauvet
+Signed-off-by: José Exposito
+
+How should I proceed in this situation? Should I ignore some warnings? 
+If so, what are the expected trailers?
+
+Thanks!
+
+> [1] https://patchwork.kernel.org/project/dri-devel/cover/20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com/
+> [2] https://patchwork.kernel.org/project/dri-devel/cover/20240813105134.17439-1-jose.exposito89@gmail.com/
+> [3] https://github.com/JoseExposito/linux/commits/patch-vkms-configfs/
+> [4] https://gitlab.freedesktop.org/jexposit/igt-gpu-tools/-/commits/vkms-configfs
+> 
+> Changes in v4:
+> 
+>    - Applied review comments by Louis Chauvet: (thanks!!)
+>      - Do not access "private" struct fields in tests
+>      - Reviewed-by in all patches
+>    - Rebased on top of drm-misc-next
+>    - Link to v3: https://lore.kernel.org/dri-devel/20250217100120.7620-1-jose.exposito89@gmail.com/T/
+> 
+> Changes in v3:
+> 
+>    - Applied review comments by Louis Chauvet:
+>      - Moved drm_vblank_init(..., vkms_config_get_num_crtcs()) to a different patch
+>      - Improved error handling in vkms_config_*_attach_*() functions
+>      - Fixed compilation errors when CONFIG_DRM_VKMS_KUNIT_TEST=m
+>      - Used for_each iterators in vkms_config_test_default_config(). A leftover
+>        from the removed connector hot-add code
+>      - Validated that vkms_config.dev wasn't NULL before calling drm_info()
+>      - Kept vkms_device.config as a const pointer (at the cost of casting in
+>        list_count_nodes())
+>    - Renamed "CONFIG_DRM_VKMS_KUNIT_TESTS" to "CONFIG_DRM_VKMS_KUNIT_TEST" for
+>      consistency with other options
+>    - Rebased on top of drm-misc-next
+>    - Link to v2: https://lore.kernel.org/all/20250211110912.15409-1-jose.exposito89@gmail.com/
+> 
+> Changes in v2:
+> 
+>    - Applied review comments by Louis Chauvet:
+>      - Added Co-developped-by tags where required
+>      - Split the first patch in 2: vkms_connector.h/c creation and struct
+>        vkms_connector creation
+>      - Fixes a user after free/double free bug. The bug is already present
+>        in drm-misc-next and the fix could be merged independently
+>      - Implemented for_each macros for the config
+>      - Other naming fixes
+>    - Link to v1: https://lore.kernel.org/all/20250129110059.12199-1-jose.exposito89@gmail.com/
+> 
+> José Expósito (13):
+>    drm/vkms: Extract vkms_connector header
+>    drm/vkms: Create vkms_connector struct
+>    drm/vkms: Add KUnit test scaffolding
+>    drm/vkms: Extract vkms_config header
+>    drm/vkms: Move default_config creation to its own function
+>    drm/vkms: Set device name from vkms_config
+>    drm/vkms: Allow to configure multiple planes
+>    drm/vkms: Allow to configure multiple CRTCs
+>    drm/vkms: Allow to attach planes and CRTCs
+>    drm/vkms: Allow to configure multiple encoders
+>    drm/vkms: Allow to attach encoders and CRTCs
+>    drm/vkms: Allow to configure multiple connectors
+>    drm/vkms: Allow to attach connectors and encoders
+> 
+> Louis Chauvet (1):
+>    drm/vkms: Add a validation function for VKMS configuration
+> 
+>   .clang-format                                 |   7 +
+>   drivers/gpu/drm/vkms/Kconfig                  |  15 +
+>   drivers/gpu/drm/vkms/Makefile                 |   5 +-
+>   drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+>   drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+>   drivers/gpu/drm/vkms/tests/vkms_config_test.c | 951 ++++++++++++++++++
+>   drivers/gpu/drm/vkms/vkms_config.c            | 640 ++++++++++++
+>   drivers/gpu/drm/vkms/vkms_config.h            | 437 ++++++++
+>   drivers/gpu/drm/vkms/vkms_connector.c         |  61 ++
+>   drivers/gpu/drm/vkms/vkms_connector.h         |  26 +
+>   drivers/gpu/drm/vkms/vkms_drv.c               |  45 +-
+>   drivers/gpu/drm/vkms/vkms_drv.h               |  17 +-
+>   drivers/gpu/drm/vkms/vkms_output.c            | 176 ++--
+>   13 files changed, 2246 insertions(+), 141 deletions(-)
+>   create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
+>   create mode 100644 drivers/gpu/drm/vkms/tests/Makefile
+>   create mode 100644 drivers/gpu/drm/vkms/tests/vkms_config_test.c
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_config.c
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_config.h
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_connector.c
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_connector.h
+> 
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
