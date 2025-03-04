@@ -2,114 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37C3A4EB0F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 19:18:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6157FA4EC5C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 19:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 320EE10E684;
-	Tue,  4 Mar 2025 18:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36EBF10E69A;
+	Tue,  4 Mar 2025 18:49:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RsztHzfz";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="CzqAHkUp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED10410E652
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 18:17:56 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 236AD432ED;
- Tue,  4 Mar 2025 18:17:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741112275;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0gkePGFKsuHUwJeu12dnW6ruut+15ff/Wjf+PYImSFU=;
- b=RsztHzfz7aNoIHw+2/5hATwvH1qiGroI+hcqXlXEyl5fUBaChSgj8sd6jWN45uq36w6sPH
- WjnDfsBS8zHo/OKhw+LYUdyBJvhzZ9rsQhXfIiPLGf8CvK+WhwtTT6VxoDji2pAveB7ne7
- 3SX0E5E99LpsLnNKGoKqXD12PBn0B+J+WrLMw1PRcLrue3imFPREypHije3+NUC6SC0KCl
- deyXFNTmBTDcLlIdyfd/pxOFtTSTcIqgrOAo9UJoUgkJV1/+IaMv1OojM5ay2dqUbqoI3m
- aZUNp6KB5PtnkoJHPveyqKtkZa3G1JmQNDBL+hworOAd7wDoYTm7G4tC80pAVg==
-Message-ID: <fd63f9c0-d5da-438c-b307-5b9a9f97f1d2@bootlin.com>
-Date: Tue, 4 Mar 2025 19:17:53 +0100
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+ [209.85.167.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE70010E6B3
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 18:49:51 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id
+ 5614622812f47-3f3f149c334so4117924b6e.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 10:49:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1741114191; x=1741718991;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AEntj6N5k9AT9J54KnODOl6Ll8jQ7tHU8hxve1ZvKHs=;
+ b=CzqAHkUpdqJgqmTotA9IApurGDnumZs+IsRael7Q2NZVCUUwFZYqRKgU6SMIJjZl/O
+ 2T/N1A8kEzBrLw3maHjuxR5jInfKW237rTWJMI6w1OdWrwk2FVtSCvQa7FoUTTK2jaf6
+ vuH/4ISK/A7405DluUkeP5mb/J1C2H1XqO7wM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741114191; x=1741718991;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AEntj6N5k9AT9J54KnODOl6Ll8jQ7tHU8hxve1ZvKHs=;
+ b=C0bDUuBawZF4SgMTtWGfFPCuRiC6RU5PEKUG4mdHVqFYyF3HVhW1YA1hHAZm0t8NED
+ RiLl1RS8g8nhTOiMHi3t8T7f/ORil/b8c23SKBiebMRw6RsSAfLyzL2vNgffGs1+HAwL
+ FcYsrVpKnfIsewPKvtljm1zhKEPHCmBm+I0p6QOcFLnXMhpbMfFJS9n+YTN+sn+cOzLy
+ zuvOpKoJknBwHahQgHTVkl5yDX63YtZc17WdUgRVIUguafmaX44jQc+AhkgQcbBqCz4V
+ hFxkoxWV6GVGb4HAkoSKP7A9POBa3X/H6S3rOvTwHZZ1ZC5SiF7lg1rFIasQAossBrXT
+ FjRw==
+X-Gm-Message-State: AOJu0YzgJCT4ok4S0sgLs8yRHNugyb49w7ko0tqw6NXQ1D9dee02y6gP
+ +xJY6BBf5Z0X3wuSbGRe1GFKcOX2vW7aELK3lotKzdJTyJLWL4vci88UskWsPudAAFxQI8MPnQC
+ uHPGnoVkDuvJ2i4HRkBTT4W5q68fbXqPgolI+o1/nIdRztLToouTGpDzORsJNRPncrpF6XolxMZ
+ xCNNKLGSB5FGCquDHp5P2Jgf0QvrJBRMa8mlrh6MW04u+NZJX3Tw==
+X-Gm-Gg: ASbGnct3zOZEsbpD1hEYhbvUgRDuv2UHHkFLQDLAnsNX6mAsjml48TBokE0sQU6t8zr
+ d95vNz2dIxfwMidmhOCws4JGhRcKZsPtwx/HZ1efPN5EbT/2ZjdpzDBrp6ahw9Ye8tDiLTQzCH2
+ LGNxMqCCl93lNsw9H0LFRDksCzyydxpkbqxrIKVULlTBtE/z0v+GJwi0RreexiBXj008om+nSa/
+ bgjrgQWZuAzX6bzHsz+x12zjuV5dWN2/2IWCK09+CqDZ6Qedxtpz+4171jyDYCC63LksodGlxL8
+ mqqI5uO4Gf+ZeVP/F2rQNCIxeLV+/6Kgrhhw+WwTACHdmikodQuA34yh7riiYlI5M4Cz4DQ4Cuq
+ j5Rbz4n42VYVj9f473v7fJgM6FuQho98fZypp
+X-Google-Smtp-Source: AGHT+IEI24y3yUjWAG98Qw/8+Fpq9zUyItFzg9CID7h3yEpPaK7CIsKqyJycVhj0RwQThDTaAeRq0w==
+X-Received: by 2002:a05:6808:3c89:b0:3f3:f89d:356d with SMTP id
+ 5614622812f47-3f68315d0bbmr13417b6e.15.1741114190945; 
+ Tue, 04 Mar 2025 10:49:50 -0800 (PST)
+Received: from localhost.localdomain
+ (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
+ by smtp.gmail.com with ESMTPSA id
+ 5614622812f47-3f67b0bfa85sm354939b6e.13.2025.03.04.10.49.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Mar 2025 10:49:50 -0800 (PST)
+From: Zack Rusin <zack.rusin@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ Zack Rusin <zack.rusin@broadcom.com>
+Subject: [PATCH] drm/vmwgfx: Make sure the dirty tracker is released on
+ surfaces
+Date: Tue,  4 Mar 2025 13:49:42 -0500
+Message-ID: <20250304184942.2127704-1-zack.rusin@broadcom.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/16] drm/vkms: Allow to configure multiple planes via
- configfs
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250225175936.7223-1-jose.exposito89@gmail.com>
- <20250225175936.7223-4-jose.exposito89@gmail.com>
- <52bc3f15-28da-4b40-917f-981f1f10d9b8@bootlin.com> <Z8VtPMzuZOYqjraQ@fedora>
- <e813ac5b-298c-4863-b0b6-e9ac7fec1da0@bootlin.com> <Z8cUN8Q4L0VE-bVm@fedora>
- <fa4f4d3d-6a3e-4659-8a59-4928c2285d55@bootlin.com> <Z8cpH3twrgmR0TxI@fedora>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <Z8cpH3twrgmR0TxI@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutddvjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffveejueevtdfhffekvdelfefhvedtgeduudfhvedtvdejveejhfeukeehhfdvueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmr
- ggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,377 +88,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Free all the dirty trackers associated with the surface when the
+parent framebuffer is destroyed.
 
+The buffers backing framebuffers are explicitly made coherent. Code
+separates buffers from surfaces. Buffers only require a dirty tracker
+which is released during the framebuffer cleanup. Surfaces, which can
+be coherent to begin with, require a dirty tracker in the backing buffer
+and in the resource. Neither was properly cleaned up. Make sure they're
+correctly cleaned up when the parent framebuffer is destroyed.
 
-Le 04/03/2025 à 17:23, José Expósito a écrit :
-> On Tue, Mar 04, 2025 at 04:35:50PM +0100, Louis Chauvet wrote:
->>
->>
->> Le 04/03/2025 à 15:54, José Expósito a écrit :
->>> Hi Louis,
->>>
->>> On Mon, Mar 03, 2025 at 11:34:50AM +0100, Louis Chauvet wrote:
->>>>
->>>>
->>>> Le 03/03/2025 à 09:50, José Expósito a écrit :
->>>>> Hi Louis,
->>>>>
->>>>> On Fri, Feb 28, 2025 at 03:43:25PM +0100, Louis Chauvet wrote:
->>>>>>
->>>>>>
->>>>>> Le 25/02/2025 à 18:59, José Expósito a écrit :
->>>>>>> Create a default subgroup at /config/vkms/planes to allow to create as
->>>>>>> many planes as required.
->>>>>>>
->>>>>>> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>>>> Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>>>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
->>>>>>> [...]
->>>>>>> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
->>>>>>> index 92512d52ddae..4f9d3341e6c0 100644
->>>>>>> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
->>>>>>> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
->>>>>>> [...]
->>>>>>> +static void plane_release(struct config_item *item)
->>>>>>> +{
->>>>>>> +	struct vkms_configfs_plane *plane;
->>>>>>> +	struct mutex *lock;
->>>>>>> +
->>>>>>> +	plane = plane_item_to_vkms_configfs_plane(item);
->>>>>>> +	lock = &plane->dev->lock;
->>>>>>> +
->>>>>>> +	guard(mutex)(lock);
->>>>>>> +	vkms_config_destroy_plane(plane->config);
->>>>>>> +	kfree(plane);
->>>>>>> +}
->>>>>>
->>>>>> I just found a flaw in our work: there is currently no way to forbid the
->>>>>> deletion of item/symlinks...
->>>>>>
->>>>>> If you do:
->>>>>>
->>>>>> modprobe vkms
->>>>>> cd /sys/kernel/config/vkms/
->>>>>> mkdir DEV
->>>>>> mkdir DEV/connectors/CON
->>>>>> mkdir DEV/planes/PLA
->>>>>> mkdir DEV/crtcs/CRT
->>>>>> mkdir DEV/encoders/ENC
->>>>>> ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
->>>>>> ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
->>>>>> ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
->>>>>> echo 1 > DEV/planes/PLA/type
->>>>>> tree
->>>>>> echo 1 > DEV/enabled
->>>>>> modetest -M vkms
->>>>>> => everything fine
->>>>>>
->>>>>> rm DEV/connectors/CON/possible_encoders/ENC
->>>>>> rmdir DEV/connectors/CON
->>>>>> modetest -M vkms
->>>>>> => BUG: KASAN: slab-use-after-free
->>>
->>> I'm trying to reproduce this issue, but those commands don't show any BUG
->>> in dmesg. This is my Kasan .config:
->>>
->>>       CONFIG_HAVE_ARCH_KASAN=y
->>>       CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
->>>       CONFIG_CC_HAS_KASAN_GENERIC=y
->>>       CONFIG_CC_HAS_KASAN_SW_TAGS=y
->>>       CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
->>>       CONFIG_KASAN=y
->>>       CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX=y
->>>       CONFIG_KASAN_GENERIC=y
->>>       # CONFIG_KASAN_OUTLINE is not set
->>>       CONFIG_KASAN_INLINE=y
->>>       CONFIG_KASAN_STACK=y
->>>       CONFIG_KASAN_VMALLOC=y
->>>       # CONFIG_KASAN_KUNIT_TEST is not set
->>>       CONFIG_KASAN_EXTRA_INFO=y
->>>
->>> I tryed to delete even more items:
->>>
->>>       root@kernel-dev:/sys/kernel/config/vkms# tree
->>>       .
->>>       └── DEV
->>>           ├── connectors
->>>           ├── crtcs
->>>           ├── enabled
->>>           ├── encoders
->>>           └── planes
->>>
->>>       root@kernel-dev:/sys/kernel/config/vkms# cat DEV/enabled
->>>       1
->>>
->>> And I still don't see any errors. Is it possible that we are running different
->>> branches? Asking because of the failing IGT tests you reported. There seems to
->>> be a difference in our code or setup that is creating these differences.
->>
->> I just re-applied your last vkms-config version and this series on top of
->> drm-misc-next. See [1] for the exact commits.
->>
->> Argg sorry, I just noticed something: you need to disable the default vkms
->> device (I had this option in my kernel command line...), otherwise modetest
->> only use the first vkms gpu...
->>
->> I will check again the igt tests, but I don't think this is the same issue
->> (it should not use the default device to test)
->>
->> So, with [1] and the defconfig below, I have this:
->>
->>
->>      1  modprobe vkms create_default_dev=0
->>      2  cd /sys/kernel/config/vkms/
->>      3  mkdir DEV
->>      4  mkdir DEV/connectors/CON
->>      5  mkdir DEV/planes/PLA
->>      6  mkdir DEV/crtcs/CRT
->>      7  mkdir DEV/encoders/ENC
->>      8  ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
->>      9  ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
->>     10  ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
->>     11  echo 1 > DEV/planes/PLA/type
->>     12  tree
->>     13  echo 1 > DEV/enabled
->>     14  modetest -M vkms
->>     15  rm DEV/connectors/CON/possible_encoders/ENC
->>     16  rmdir DEV/connectors/CON
->>     17  modetest -M vkms
->> KASAN: slab-use-after-free
->>
->>
->> [1]:https://github.com/Fomys/linux/tree/20250225175936.7223-1-jose.exposito89%40gmail.com
-> 
-> Aha! Are you testing without a desktop environment running?
+Fixes: 609023571ff2 ("drm/vmwgfx: Refactor cursor handling")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Yes! I run a minimal VM (virtme-ng), so no services are started.
-> 
->      $ sudo systemctl isolate multi-user.target
-> 
-> Running that (^) command before yours gives me this use after free:
-> 
->      BUG: KASAN: slab-use-after-free in vkms_connector_detect+0x61/0x70 [vkms]
-> 
-> Is the same one you are seeing?
-
-Yes!
-
-> Looking at the connector_release() function in vkms_configfs.c, I see
-> that I'm freeing the configuration:
-> 
->      vkms_config_destroy_connector(connector->config);
-> 
-> And I don't think there is a reason to do it. vkms_config_destroy() in
-> device_release() will free everything once we are done.
-
-Yes, but if you don't free it will always remain in the config, which 
-means that:
-
-modprobe vkms create_default_dev=0
-cd /sys/kernel/config/vkms/
-mkdir DEV
-mkdir DEV/connectors/CON
-mkdir DEV/crtcs/CRT
-mkdir DEV/planes/PLA
-mkdir DEV/encoders/ENC
-ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
-ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
-ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
-echo 1 > DEV/planes/PLA/type
-echo 1 > DEV/enabled
-echo 0 > DEV/enabled
-rm DEV/connectors/CON/possible_encoders/ENC
-rmdir DEV/connectors/CON
-echo 1 > DEV/enabled
-
-Expected (and current) result:
-
-(NULL device *): [drm] The number of connectors must be between 1 and 31
-
-Result with the diff:
-- vkms_config_destroy_connector(connector->config);
-+ //vkms_config_destroy_connector(connector->config);
-
-(NULL device *): [drm] All connectors must have at least one possible 
-encoder
-
-This is because the connector list in vkms_config contains the deleted 
-CON connector. If you also remove the connector from the list, it will 
-be a memory leak.
-
-The solution I proposed with get/put should solve this: once the device 
-is disabled, all the release functions (and the corresponding 
-vkms_config_destroy) will be called, so no issue there.
-
-I attempted to do it, but it looks a bit more complex than I expected:
-- config_item_get works as expected, if you get all the items in 
-device_enabled_store they are not released, even if the directory is 
-deleted;
-- but as the directory is deleted, you can't use cg_children to put your 
-last reference on it.
-
-I think a solution could be to add refcounting in vkms_config, it seems 
-to work, and it is even better, the refcounting is done in the vkms 
-driver, not in configfs (I did it only for connector, see below). It 
-seems to work as expected and doesn't increase the complexity of the code.
-
-Do you think this is sufficient/clear enough?
-
-Have a nice day,
-Louis Chauvet
-
-diff --git a/drivers/gpu/drm/vkms/vkms_config.c 
-b/drivers/gpu/drm/vkms/vkms_config.c
-index f8394a063ecf..4dc65ab15517 100644
---- a/drivers/gpu/drm/vkms/vkms_config.c
-+++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -1,5 +1,6 @@
-  // SPDX-License-Identifier: GPL-2.0+
-
-+#include <linux/kref.h>
-  #include <linux/slab.h>
-
-  #include <drm/drm_print.h>
-@@ -123,7 +124,7 @@ void vkms_config_destroy(struct vkms_config *config)
-  		vkms_config_destroy_encoder(config, encoder_cfg);
-
-  	list_for_each_entry_safe(connector_cfg, connector_tmp, 
-&config->connectors, link)
--		vkms_config_destroy_connector(connector_cfg);
-+		vkms_config_connector_put(connector_cfg);
-
-  	kfree_const(config->dev_name);
-  	kfree(config);
-@@ -596,17 +597,32 @@ struct vkms_config_connector 
-*vkms_config_create_connector(struct vkms_config *c
-
-  	list_add_tail(&connector_cfg->link, &config->connectors);
-
-+	kref_init(&connector_cfg->ref);
-  	return connector_cfg;
-  }
-  EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_connector);
-
--void vkms_config_destroy_connector(struct vkms_config_connector 
-*connector_cfg)
-+static void vkms_config_destroy_connector(struct vkms_config_connector 
-*connector_cfg)
-  {
-  	xa_destroy(&connector_cfg->possible_encoders);
-  	list_del(&connector_cfg->link);
-  	kfree(connector_cfg);
-  }
--EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
-+// EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
-+
-+static void vkms_config_destroy_connector_kref(struct kref *kref)
-+{
-+	struct vkms_config_connector *connector = container_of(kref, struct 
-vkms_config_connector, ref);
-+
-+	vkms_config_destroy_connector(connector);
-+}
-+
-+void vkms_config_connector_get(struct vkms_config_connector *connector) {
-+	kref_get(&connector->ref);
-+}
-+void vkms_config_connector_put(struct vkms_config_connector *connector) {
-+	kref_put(&connector->ref, vkms_config_destroy_connector_kref);
-+}
-
-  int __must_check vkms_config_connector_attach_encoder(struct 
-vkms_config_connector *connector_cfg,
-  						      struct vkms_config_encoder *encoder_cfg)
-diff --git a/drivers/gpu/drm/vkms/vkms_config.h 
-b/drivers/gpu/drm/vkms/vkms_config.h
-index e202b5a84ddd..30e6c6bf34f4 100644
---- a/drivers/gpu/drm/vkms/vkms_config.h
-+++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -3,6 +3,7 @@
-  #ifndef _VKMS_CONFIG_H_
-  #define _VKMS_CONFIG_H_
-
-+#include <linux/kref.h>
-  #include <linux/list.h>
-  #include <linux/types.h>
-  #include <linux/xarray.h>
-@@ -109,6 +110,7 @@ struct vkms_config_encoder {
-   *             configuration and must be managed by other means.
-   */
-  struct vkms_config_connector {
-+	struct kref ref;
-  	struct list_head link;
-  	struct vkms_config *config;
-
-@@ -416,11 +418,8 @@ void vkms_config_encoder_detach_crtc(struct 
-vkms_config_encoder *encoder_cfg,
-   */
-  struct vkms_config_connector *vkms_config_create_connector(struct 
-vkms_config *config);
-
--/**
-- * vkms_config_destroy_connector() - Remove and free a connector 
-configuration
-- * @connector_cfg: Connector configuration to destroy
-- */
--void vkms_config_destroy_connector(struct vkms_config_connector 
-*connector_cfg);
-+void vkms_config_connector_get(struct vkms_config_connector *connector);
-+void vkms_config_connector_put(struct vkms_config_connector *connector);
-
-  /**
-   * vkms_config_connector_attach_encoder - Attach a connector to an encoder
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c 
-b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 76afb0245388..ae929a084feb 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -550,7 +550,7 @@ static void connector_release(struct config_item *item)
-  	lock = &connector->dev->lock;
-
-  	guard(mutex)(lock);
--	vkms_config_destroy_connector(connector->config);
-+	vkms_config_connector_put(connector->config);
-  	kfree(connector);
-  }
-
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.c 
-b/drivers/gpu/drm/vkms/vkms_connector.c
-index ed99270c590f..c15451b50440 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.c
-+++ b/drivers/gpu/drm/vkms/vkms_connector.c
-@@ -20,6 +20,15 @@ static enum drm_connector_status 
-vkms_connector_detect(struct drm_connector *con
-  	return status;
-  }
-
-+static void vkms_connector_destroy(struct drm_device *dev, void *raw)
-+{
-+	struct vkms_connector *vkms_connector = raw;
-+
-+	vkms_config_connector_put(vkms_connector->connector_cfg);
-+
-+	return;
-+}
-+
-  static const struct drm_connector_funcs vkms_connector_funcs = {
-  	.detect = vkms_connector_detect,
-  	.fill_modes = drm_helper_probe_single_connector_modes,
-@@ -65,8 +74,13 @@ struct vkms_connector *vkms_connector_init(struct 
-vkms_device *vkmsdev,
-  	if (!connector)
-  		return ERR_PTR(-ENOMEM);
-
-+	vkms_config_connector_get(connector->connector_cfg);
-  	connector->connector_cfg = connector_cfg;
-
-+	ret = drmm_add_action_or_reset(dev, &vkms_connector_destroy, connector);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-  	ret = drmm_connector_init(dev, &connector->base, &vkms_connector_funcs,
-  				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
-  	if (ret)
-
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index d8937f3de514..339ed2ddb717 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -438,7 +438,20 @@ static void vmw_framebuffer_surface_destroy(struct drm_framebuffer *framebuffer)
+ {
+ 	struct vmw_framebuffer_surface *vfbs =
+ 		vmw_framebuffer_to_vfbs(framebuffer);
++	struct vmw_bo *bo = vmw_user_object_buffer(&vfbs->uo);
++	struct vmw_surface *surf = vmw_user_object_surface(&vfbs->uo);
+ 
++	if (bo) {
++		vmw_bo_dirty_release(bo);
++		/*
++		 * bo->dirty is reference counted so it being NULL
++		 * means that the surface wasn't coherent to begin
++		 * with and so we have to free the dirty tracker
++		 * in the vmw_resource
++		 */
++		if (!bo->dirty && surf && surf->res.dirty)
++			surf->res.func->dirty_free(&surf->res);
++	}
+ 	drm_framebuffer_cleanup(framebuffer);
+ 	vmw_user_object_unref(&vfbs->uo);
+ 
+-- 
+2.45.2
 
