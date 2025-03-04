@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E6BA4CFCC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 01:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD11A4CFCF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 01:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD3810E4E1;
-	Tue,  4 Mar 2025 00:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2382F10E4EC;
+	Tue,  4 Mar 2025 00:17:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UG94CFF3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qL4IrRf6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8E010E4E1
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 00:16:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48BF810E4EC
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 00:17:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 66F36A45187
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 00:11:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 02412C4CEEB
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 00:16:53 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 90007A45187
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 00:11:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 50D3FC4CEEB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 00:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741047414;
- bh=Kq4ommsGV+OJpfVohTm70zG7F+d5F4ysRUrqMnZ4hxE=;
+ s=k20201202; t=1741047425;
+ bh=1f2BrYBmGHkp14arsGwQ6G723A9NPwPY2OuGAugyWwI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=UG94CFF3j8uKzS2Bitne3hdy2yw75cM/MP1xSA6qgihXKce3tNr4a5cksoLqRWv9D
- RyhmSBTEnaFJ6tL9N2nvx8amlX3rdp4QNJ06bhmajQNDN2WC0TgaOmVROxDoq7gj77
- X+yHbMF2/snvDLCZS04shfHpRjcdTVr+aOtLecxhO8YrSuZ3a94f6NHSvt/0MHfjn+
- H1Umc++LLa38fnF4jYlDs/sZJqx4/wbgI0IPesGPQJFohO5JOVvp2xeWIaapbiZvUE
- 3qG7r5EWOefnbkkfAnZrGkzHpgO+0qt4zTm7eygKTkHdHfFGlGpDKfzATsyGnTNr6l
- /ZEowNJ2WQUYA==
+ b=qL4IrRf6EAzIGal84f5IXtIeVfL8SLbxNaLubO/3cC/xgpEBJzRtiNV5dc+8ndk6o
+ hZby4xWAe+QbkggFFsvAa9io1rbtSYU8CbiGrcgGxegwxuu4m5weRLAwqHGlnRUAH4
+ VuWFwJLBf5JG+stmRlOn5x1EYL85pDH7iS3Md9e+UzqtmtLu3JFK4+FSKhdRHgmD6F
+ aEOOHKyXogcY03nrHm2yABPReFkL3r80y+KyvPZRrEehQF2HNtM8NiWRTTu1cCc8pZ
+ wylbl64+nvvDlob+Ulwfx8o6hmfjXPtQccv6QLsse2UWJLVG8G5WHoM3Qn/HMczGOj
+ qBa+RHet9A3hA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E2539C53BC5; Tue,  4 Mar 2025 00:16:53 +0000 (UTC)
+ from userid 48) id 47BEBC4160E; Tue,  4 Mar 2025 00:17:05 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219835] amdgpu: kernel oops
- dc_dmub_srv_apply_idle_power_optimizations
-Date: Tue, 04 Mar 2025 00:16:53 +0000
+Subject: [Bug 219834] amdgpu: kernel oops dce_aux_transfer_raw
+Date: Tue, 04 Mar 2025 00:17:04 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,9 +51,9 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-219835-2300-t1m07iZpfB@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219835-2300@https.bugzilla.kernel.org/>
-References: <bug-219835-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-219834-2300-cHdLE6tz7Q@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219834-2300@https.bugzilla.kernel.org/>
+References: <bug-219834-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -75,7 +74,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219835
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219834
 
 Artem S. Tashkinov (aros@gmx.com) changed:
 
@@ -84,7 +83,7 @@ Artem S. Tashkinov (aros@gmx.com) changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |ANSWERED
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+--- Comment #2 from Artem S. Tashkinov (aros@gmx.com) ---
 Please repost here:
 
 https://gitlab.freedesktop.org/drm/amd/-/issues
