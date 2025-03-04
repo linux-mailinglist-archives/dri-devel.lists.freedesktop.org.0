@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F46A4DF0D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 14:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E5DA4DF7F
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 14:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D0110E382;
-	Tue,  4 Mar 2025 13:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D935210E5CB;
+	Tue,  4 Mar 2025 13:42:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DW/VXPNU";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="j74GWCPR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kbWyiGTU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j74GWCPR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kbWyiGTU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3AD010E5D5
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 13:19:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 49223A45482;
- Tue,  4 Mar 2025 13:14:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8058C4CEE5;
- Tue,  4 Mar 2025 13:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741094376;
- bh=D9U5wSLXcGoXFicNQjhFQpJvDTOL9WtTvIIjU/ZDEfk=;
- h=From:Date:Subject:To:Cc:From;
- b=DW/VXPNUpSwsAOd4EvyEBTE4zbF1xH6ykt0jsnAt8TNngYAFP82iF7TF0wT2vQVFt
- Gg2G1LJEwJgbBrG5AzEiC5h2V6UQs82q3mZ73c1ab/CJASOXtZUJjLt8zmJTDBbH4a
- nuOSe+pUrh3qmr9Gu4wvAXoJWSIQ6qxqeaRL54DKCeRgLeFlBNYtvNe0QtTMQs6Cdt
- aRKnw+ypEWn86Jv/DrRpq+dOsrAUU5FK2xcg/ifj8fG5dl2W1Z0cVyOq9QsT75y/PR
- SDs5bqaggjcuV3G3oNBctOzaAcosXlSEsI4kPU1MgUWVVVrVSe+8Qm7fT+XxDUwUMN
- 24xSnBEBXJqsg==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 04 Mar 2025 14:19:21 +0100
-Subject: [PATCH] drm/appletbdrm: Fix format specifier for size_t variables
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6177B10E5CB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 13:42:16 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C87F71F74C;
+ Tue,  4 Mar 2025 13:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741095731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nyc6J/gksMhLhuBouY5xml3nE5EEMor2jUfF0ZTd8DU=;
+ b=j74GWCPRpYz4zVw2x8/0H9aqWSI25IIQFAnNLLlx2WvUQlTz5Ds14UCSt3IHqvvpqKrkeI
+ B7kyL+eUFn94wRmVqdREAMQBekAYKAzQiirg1cpfNGI00qBpU/ien359JBdu2BnsPwYi3u
+ kKKyjGEehyTM2VVx0eiSc4piyoK2AZs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741095731;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nyc6J/gksMhLhuBouY5xml3nE5EEMor2jUfF0ZTd8DU=;
+ b=kbWyiGTU6+GQhDxR3HzAaJMzkDtXYNKGC5u1G3Si5DAnCVDqB2THNdevcJk6hI/ltfxMrT
+ moihjhh498C+XjBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741095731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nyc6J/gksMhLhuBouY5xml3nE5EEMor2jUfF0ZTd8DU=;
+ b=j74GWCPRpYz4zVw2x8/0H9aqWSI25IIQFAnNLLlx2WvUQlTz5Ds14UCSt3IHqvvpqKrkeI
+ B7kyL+eUFn94wRmVqdREAMQBekAYKAzQiirg1cpfNGI00qBpU/ien359JBdu2BnsPwYi3u
+ kKKyjGEehyTM2VVx0eiSc4piyoK2AZs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741095731;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nyc6J/gksMhLhuBouY5xml3nE5EEMor2jUfF0ZTd8DU=;
+ b=kbWyiGTU6+GQhDxR3HzAaJMzkDtXYNKGC5u1G3Si5DAnCVDqB2THNdevcJk6hI/ltfxMrT
+ moihjhh498C+XjBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A9D5E13967;
+ Tue,  4 Mar 2025 13:42:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id LmDXKDMDx2eNIgAAD6G6ig
+ (envelope-from <tiwai@suse.de>); Tue, 04 Mar 2025 13:42:11 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, virtualization@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bochs: Fix DPMS regression
+Date: Tue,  4 Mar 2025 14:41:57 +0100
+Message-ID: <20250304134203.20534-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250304-appletbdrm-fix-size_t-specifier-v1-1-94fe1d2c91f8@kernel.org>
-X-B4-Tracking: v=1; b=H4sIANj9xmcC/x2NUQrCMBAFr1L224WYNJR6FRFpk1e7oDXsFhFL7
- 97g58Aws5FBBUaXZiPFR0zeS4XzqaE0D8sDLLkyeeejC67loZQn1jHriyf5sskP95WtIMkkUM4
- hxbaL3oeup1opiur9D9fbvh91zE23cQAAAA==
-X-Change-ID: 20250304-appletbdrm-fix-size_t-specifier-d3c547522379
-To: Aun-Ali Zaidi <admin@kodeit.net>, Aditya Garg <gargaditya08@live.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Atharva Tiwari <evepolonium@gmail.com>, 
- Kerem Karabay <kekrby@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2653; i=nathan@kernel.org;
- h=from:subject:message-id; bh=D9U5wSLXcGoXFicNQjhFQpJvDTOL9WtTvIIjU/ZDEfk=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDOnH/j7TmSfmtTWD3Th3pu5Nz5fzg3dWFuhGf5mTF7gmR
- d9feZVuRykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZjIT2OG/15pJ1YwOyyZeKiT
- /b5r8eqAB+ea/u2a/9cnUfvcpFwVAweG/2XuHfV8V6NmvPr2R25C3r5Tm3LnPNhyQObi1INvF+l
- M5+IHAA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_SEVEN(0.00)[7];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,suse.com:url];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,60 +105,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When building for a 32-bit platform, there are some warnings (or errors
-with CONFIG_WERROR=y) due to an incorrect specifier for 'size_t'
-variables, which is typedef'd as 'unsigned int' for these architectures:
+The recent rewrite with the use of regular atomic helpers broke the
+DPMS unblanking on X11.  Fix it by moving the call of
+bochs_hw_blank(false) from CRTC mode_set_nofb() to atomic_enable().
 
-  drivers/gpu/drm/tiny/appletbdrm.c:171:17: error: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
-    170 |                 drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-        |                                                                             ~~~
-        |                                                                             %zu
-    171 |                         actual_size, size);
-        |                                      ^~~~
-  ...
-  drivers/gpu/drm/tiny/appletbdrm.c:212:17: error: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
-    211 |                 drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-        |                                                                             ~~~
-        |                                                                             %zu
-    212 |                         actual_size, size);
-        |                                      ^~~~
-
-Use '%zu' as suggested, clearing up the warnings.
-
-Fixes: 0670c2f56e45 ("drm/tiny: add driver for Apple Touch Bars in x86 Macs")
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Fixes: 2037174993c8 ("drm/bochs: Use regular atomic helpers")
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1238209
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- drivers/gpu/drm/tiny/appletbdrm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tiny/bochs.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/appletbdrm.c
-index f5d177e234e4..394c8f9bd41a 100644
---- a/drivers/gpu/drm/tiny/appletbdrm.c
-+++ b/drivers/gpu/drm/tiny/appletbdrm.c
-@@ -167,7 +167,7 @@ static int appletbdrm_send_request(struct appletbdrm_device *adev,
- 	}
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index 76e29950a807..c1c7d6c9e85f 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -323,8 +323,6 @@ static void bochs_hw_setmode(struct bochs_device *bochs, struct drm_display_mode
+ 			 bochs->xres, bochs->yres, bochs->bpp,
+ 			 bochs->yres_virtual);
  
- 	if (actual_size != size) {
--		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-+		drm_err(drm, "Actual size (%d) doesn't match expected size (%zu)\n",
- 			actual_size, size);
- 		return -EIO;
- 	}
-@@ -208,7 +208,7 @@ static int appletbdrm_read_response(struct appletbdrm_device *adev,
- 	}
+-	bochs_hw_blank(bochs, false);
+-
+ 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,      0);
+ 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BPP,         bochs->bpp);
+ 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_XRES,        bochs->xres);
+@@ -494,6 +492,9 @@ static int bochs_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ static void bochs_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 					    struct drm_atomic_state *state)
+ {
++	struct bochs_device *bochs = to_bochs_device(crtc->dev);
++
++	bochs_hw_blank(bochs, false);
+ }
  
- 	if (actual_size != size) {
--		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
-+		drm_err(drm, "Actual size (%d) doesn't match expected size (%zu)\n",
- 			actual_size, size);
- 		return -EBADMSG;
- 	}
-
----
-base-commit: 95a5c9d197bb22a506913acb330a926d4e51aa95
-change-id: 20250304-appletbdrm-fix-size_t-specifier-d3c547522379
-
-Best regards,
+ static void bochs_crtc_helper_atomic_disable(struct drm_crtc *crtc,
 -- 
-Nathan Chancellor <nathan@kernel.org>
+2.43.0
 
