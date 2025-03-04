@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890DAA4EDB4
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 20:45:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C300A4ED92
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 20:39:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E13E610E096;
-	Tue,  4 Mar 2025 19:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1993610E6A5;
+	Tue,  4 Mar 2025 19:39:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="s0goX98w";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Kvh9gWt3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 315 seconds by postgrey-1.36 at gabe;
- Tue, 04 Mar 2025 19:44:57 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB18F10E096
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 19:44:57 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89A1610E287
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 19:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1741117496; x=1741722296; i=wahrenst@gmx.net;
- bh=+PVDCSaWd7kj6AUbyv1/Qq32zBkkvCXfE2mJfsi7wrs=;
+ s=s31663417; t=1741117160; x=1741721960; i=wahrenst@gmx.net;
+ bh=YKYjKZx8w3A6sLa5TEwXKwSikZb7/+1yvyI0VrVHj+I=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=s0goX98w9ODcvDsuSDA4uWMdnT4fhcY1z1zqG+tlffRNYUzsvCCpQPdjOnvHy6K9
- zMQ4PQ3coXO9uEw46u15onLmODbCbUPJBIbR8ZYdAefsXL+hsrRLWSahcfNBayuR+
- pXbcVx1BTl+Bgp048HfHgLbo1L18JWdCEdKryhC9fY+IbA2yfwRFjCZD8P8EcwjEn
- KzyIYdgalAPKjFMNEYeLmHpYBG64yhH0jj1UZq/DBkAxx1d+8itKkuJHjQsbxuHs6
- RKHzJcxF8Ik+1g9XJPk1yzHFYwTN6niuzR4PNESCes992bsiDLm4SgSQUYTNMzqzh
- 5voLBGPBU4Y/9xhchA==
+ b=Kvh9gWt3yOtA3ZMI3qfi/M0rBNHLL3+sqZzi5VXsv4UVqEFja9mxeecsn1TqA8Nh
+ DkgLZG7+zURJfltqereB0wBVFQCPGL4UebNDQuWGBdkLhnoCUYjbqaUf4caazabts
+ 9RU/7774HgbS3bJdX+ozkl/5NJ0wkUtLCid1TmUBBfBOr3YUDY1tsoIv4q7aHeciy
+ vKsaryWx3Qyy5kVeU1DNrD3+upRDhqyjm/5xfPN3z2e7ZhtBDu1OOzVXa6WSemMQE
+ dFeG/1AFCoQfDeZw4afzujhkMR0y8wnMVojFJeH0uUSGD6bpsqZ9jBXOvvqehPl+q
+ VeTh3AjWs+zaTx6Kgw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M59C2-1toRe71588-00GgkX; Tue, 04
- Mar 2025 20:39:19 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MjS5A-1tQyir3ySA-00eBFr; Tue, 04
+ Mar 2025 20:39:20 +0100
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Maxime Ripard <mripard@kernel.org>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -45,40 +43,40 @@ Cc: David Turner <david.turner@raspberrypi.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com,
  linux-sound@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 1/2] drm/vc4: hdmi: Call HDMI hotplug helper on disconnect
-Date: Tue,  4 Mar 2025 20:39:11 +0100
-Message-Id: <20250304193912.5696-2-wahrenst@gmx.net>
+Subject: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio driver
+Date: Tue,  4 Mar 2025 20:39:12 +0100
+Message-Id: <20250304193912.5696-3-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250304193912.5696-1-wahrenst@gmx.net>
 References: <20250304193912.5696-1-wahrenst@gmx.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:RjemSbaKMcCEugHtgOSazUH8ZnN5EEJ+J5iWJvUZxT8gBhx38Tl
- MJ2LBdXiyt3mk3ivdWslL6Bdeo02Jt7nnXIyVRmFXHxAz0ym8Av4osOif8aREtArWieRlJy
- QKiG1sPFGUkuqPH7iQz+42fOJGJCUNfZarQvACsy6bNfbdG2/IRufEd8XdlnqdrH98E9aYI
- +ZqqGIyxkBE6LDT7cXomw==
+X-Provags-ID: V03:K1:828YawoCgxuPpSR9+9qJ96Z7jzk9roP007an1KW9tb+BK/LDHaY
+ bjobejWuaK0fCgpdvbBqmi6cn8yXVO2SpZ/iJS/fh9ef+fYjiSZE1E7u33zMvm+WyNglG/Q
+ wKgPxB10TirdtT/tFXxPHvTly/BwIV+dt+ZKG3Sy2/JBpHvvZxT+vwpmgTFm2aJLL+jXyrl
+ TD0bPMeytBB3xkmJ0+3xQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:+/YBCjGFQok=;CETDPRQQgp0M53tL5098wNVy2Ub
- BH114tewVbmsk5qu9OArpmQQ4tMhE2MkL8gL5jzqVHLe4N4r6FRUj07QJPud3pecmpRf/qstR
- xxuuK11MJEHE+7XIB2Xz7fna6ldqUMqR8tMXrV9bF39GQSjDAvIQXsN306sP5c04uSW4njj7A
- XB/GM5gu70IHQlc07LZ9nTRijUf//UQT/FDIj5vVond5wrM8z3M3D1s9D5kBp9DiIqNRZc6HR
- V3o/bBZ7tGudyNmGbyLmu1RuESCjy7wbJ5AYXB8HIY1/4EsUi7BQ+BGsNHbrAGYjHXmw9xCkx
- 8IXUFXCkXdGY+UKTkEMywK8TVz/ukQrv2rVRr+qG4QB/y9zhRNejiTsYZQ80pwPw73Fsg5IYE
- vmodwf656dnF36rxvEohio2uRkJvCm95ES3n8wuPT5z4Qpk9tRKdCzDa2pHTJIixPAb17pGE3
- eG9Kae3tAYi4ApMDYBHSzF19NCuJYrcUCKhwQVzWTL+84zSEI7oK4VsN3vmoELCFb/QOjcIMT
- 9WOjZEQ4aRmtCxoTQ2XUWe+RccGnjSfGXy/q4vA6BR+8rrxnwk5ouqiDxNEFZyeR+RsCgpylf
- LyvZk5X32RZF9gu/4PV+90LMsVrSpyLaxkvIuPXkCm7aKTwy7p76H8meoDzieJoPnL4KkELH6
- 5isz3uLOp84wXee6T2bpc7MiSEHmmXE7lp5GJ2pqTmv+QicxUwl71Tf1tTNtF1C2dPetf+qko
- 2EhBNGvYAjsYCqxFnspCvGdu9QVcOBXG7EO4iHzVzGcpltDICCStOPBBr3qs39VZW/YMSR0re
- tAzdkMOOpH726IqxijKqWeJZH+SVM26+WOObecDmxr7s95XMRTBRLfkuuUlJM2pK2RXN3GNHr
- s8iGsFDZNfYeooMxdpZLmr2u/JgbmaYimUQJuwmCmZh/Y6OASEQ2yYTQgFT9ZywggfhDpSVw0
- YOeNUfQnOVll2SYtSGv2AtfVFUI5NASdH3q0JA2um+0gI9aEl9/JXqx7/poPygpD1Sx9hKfUo
- QcUBkC3hUdIUVg3ykHJkC/dxXtS10dIHiat7nnfRkE0xAjtuYv0gt9JNUa/PyzLe7zcQysphC
- k6v3/h14cyr3z4VD6k1vy33mQXWEmtrzv/1bU/W2ItFr0XojLoxTxrgWSiEfBu8JB41H3Qfwt
- Yy5aSSL95fAlvwTiYmfLGcTpA2J+lFIZumk9m493hr9i5g23vg1WTEh8svBUIRTo1XLZbNiGc
- WWlATz0HgjhwRlVQxzbsHxYofhKM40/afdt59o/yC7WBqvncO46+BgAbw0v/ebrXqmNu5Quj/
- 4+lM6RicUk0tAflvhHUIGhUTlygXUgmM+iJGDDGfaZ0eoIvUnqAfDt03hHtoKqPTpyOBiT3BF
- vWYUPQIpFLwUi3QrQ2LKBGv/DHDST/hyyQy2P1uEwXzvIyju5it+J1ucSB
+UI-OutboundReport: notjunk:1;M01:P0:8KsM8bDU6D0=;7cnyxoolrgQ8aLz45XRKIRtzeba
+ rusVi5mA0zHkdWCG7KWMOThWvxKqeGQhuM4/dgleXqqlA4IWgvnMPWbJAXqUQIlBZjBIMd184
+ 6H4eZXkuEArd+ZSsWI+dyJZEd+O5e9C1agz9loz760JC9aU2foDvpSJ0nsLJ/2CQYCtHj96Wb
+ RcstZiRxsPM4MvcTtJjDD8iivaXQ6L+bZ4Hx/W4hmP4LckSUsMHQ74/CdsBwVyqX7VLHhxC/r
+ mOGQoaqfH6CyoOB1SaqKeuBpUSXM4bKoGFxvXP6fnSa1CJzCA7x+WaFizQXLXY1d2F2HCz3Ku
+ iKt1wtsh3l75bXoLBZgiJCmrgX9CytR01AkiZTYSoByqU4U/DtMSHyi/6YRKYqU4tHgmZlpgY
+ mUBErJnKI9Mjtmf39oZf8/NXiG9xyMklCd3MbvqINxbfyuThFOZQoSupCvwS3TO/pmakdTz29
+ keShw8qRggglsO8iQ36pbO9FE/uxuJW/fUFqdiAWbC0vD06szt2TyWK5J0VekiNkFyl4z6Cqc
+ uc228Wbxy0Z5LWSpSMLCDc9j+//bmy/gKhc30WgnZuQBBYxiCl9rRcmhoCzX00wsfdKGrSFFF
+ 6J6tcMvJjJOmIXofB6P+WW1uB/GI5oNjmpyGfiDlTgL+iIL71hLHUAYr+GSkVWQvsPzH+gg7o
+ jZ2Nq3uEwF9HlsTbimH7891WOF4IJL880VT15ES/uC0m5YNYzfCv7QHEmCdlOeBvM6wqP4TwK
+ s9DHUezlLcrk4NbA0Lu89BNCfm89GNStAEW5g8sBy64wTZDIHp+X+qpFSX0sMI925v4sqM33A
+ HtVOpIY4tPu24dXnqcNtIrBk0zL6rQ5v2mwzpkvoVMnFuW4i9iYJ/ckCir6RK0I9fb9FgbUn/
+ rhQqBLV8mhkoVw4aCiujiB3XcnBQ1XMv/CgdpH0c2bQvzx5yh99OQ/qFSLYPGCN5ELk8QGXCB
+ fMcwSR5zVRzypai1sZ3Tf/jFD4mzXdlNwf5GmkAZfV4CPhZCuUQYFgzImQ39Ivs8wNVTKrhRT
+ +m8R1aykJJWZ6vCqDF6OET401ATI+HZ942Vqp9Jjo8CYHSQIjHDAoaaWkwjkZ1TEWd550zpGZ
+ dKWJqq35jsq0yb9mTwE08Qh/b0StUGiG7YrdAPlFiaqyJz7JtApq9br6B0RVnVgwRzNFQsLur
+ I9Qr09UTPUcDtfJ+4o63a9W7AaGFafxDVn7R30DFuuDe18v1JXySaDAMHEB3ljVZK3JnTqqB9
+ uwz5/0pY13FCPjpw5FChZdYcA77TTwZOcQMY4Q1eE6pBqP+8YM7FOQObDzgvRFKxwBHrIs5ea
+ 39K+YDYaCXKFkguQrrbhVl5nnXxZyoo9/oiyyF1zhb2HInNRcPlSnggTecEyofe/+LRcSdSKb
+ m8449zMtWikQVOxm730V4u3wXJLCX1alY4BALPr5LxFXZvvb5HRgDl3MWH
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,40 +92,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_connector_hdmi_hotplug() must be called
-regardless of the connection status, otherwise the HDMI audio
-disconnect event won't be notified.
+From: David Turner <david.turner@raspberrypi.com>
 
-Fixes: 2ea9ec5d2c20 ("drm/vc4: hdmi: use drm_atomic_helper_connector_hdmi_=
-hotplug()")
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
+when to add/remove HDMI audio devices.
+
+Signed-off-by: David Turner <david.turner@raspberrypi.com>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 =2D--
- drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 18 ++++++++++++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
+ 2 files changed, 25 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi=
 .c
-index 47d9ada98430..e4b027616d04 100644
+index e4b027616d04..f46a135568b2 100644
 =2D-- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -400,13 +400,13 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi =
-*vc4_hdmi,
- 	 * the lock for now.
- 	 */
+@@ -51,6 +51,7 @@
+ #include <linux/reset.h>
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/hdmi-codec.h>
++#include <sound/jack.h>
+ #include <sound/pcm_drm_eld.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+@@ -2203,6 +2204,22 @@ static const struct drm_connector_hdmi_audio_funcs =
+vc4_hdmi_audio_funcs =3D {
+ 	.shutdown =3D vc4_hdmi_audio_shutdown,
+ };
 
-+	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
++static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
++{
++	struct vc4_hdmi *vc4_hdmi =3D snd_soc_card_get_drvdata(rtd->card);
++	struct snd_soc_component *component =3D snd_soc_rtd_to_codec(rtd, 0)->co=
+mponent;
++	int ret;
 +
- 	if (status =3D=3D connector_status_disconnected) {
- 		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
- 		return;
- 	}
++	ret =3D snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOUT,
++				    &vc4_hdmi->hdmi_jack);
++	if (ret) {
++		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
++		return ret;
++	}
++
++	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NULL)=
+;
++}
++
+ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ {
+ 	const struct vc4_hdmi_register *mai_data =3D
+@@ -2316,6 +2333,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_=
+hdmi)
+ 	dai_link->cpus->dai_name =3D dev_name(dev);
+ 	dai_link->codecs->name =3D dev_name(&vc4_hdmi->connector.hdmi_audio.code=
+c_pdev->dev);
+ 	dai_link->platforms->name =3D dev_name(dev);
++	dai_link->init =3D vc4_hdmi_codec_init;
 
--	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
--
- 	cec_s_phys_addr(vc4_hdmi->cec_adap,
- 			connector->display_info.source_physical_address, false);
+ 	card->dai_link =3D dai_link;
+ 	card->num_links =3D 1;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi=
+.h
+index e3d989ca302b..a31157c99bee 100644
+=2D-- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -4,6 +4,7 @@
+ #include <drm/drm_connector.h>
+ #include <media/cec.h>
+ #include <sound/dmaengine_pcm.h>
++#include <sound/hdmi-codec.h>
+ #include <sound/soc.h>
 
+ #include "vc4_drv.h"
+@@ -211,6 +212,12 @@ struct vc4_hdmi {
+ 	 * KMS hooks. Protected by @mutex.
+ 	 */
+ 	enum hdmi_colorspace output_format;
++
++	/**
++	 * @hdmi_jack: Represents the connection state of the HDMI plug, for
++	 * ALSA jack detection.
++	 */
++	struct snd_soc_jack hdmi_jack;
+ };
+
+ #define connector_to_vc4_hdmi(_connector)				\
 =2D-
 2.34.1
 
