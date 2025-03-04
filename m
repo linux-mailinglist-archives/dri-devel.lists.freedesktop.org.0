@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150B1A4E7B4
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 18:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1338FA4E91D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 18:36:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F237D10E668;
-	Tue,  4 Mar 2025 17:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BDD910E659;
+	Tue,  4 Mar 2025 17:36:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jEhKNwhz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PExqiomM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1526310E673;
- Tue,  4 Mar 2025 17:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741108139; x=1772644139;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=KdnhfwyWohLw6HAA2L8UgdQYZiSZwDR412bDcRBey/E=;
- b=jEhKNwhzjsz9gLa4c/Z49GCSDVHGvYXxO4rL0zMBYj22STTK7keSl4mM
- FZf9qDymAWR8T1QWJ+DARyuyJKpAf5lsIP3qdkR1ZsMXX86Jr6DoPBjy2
- echQVSv60h/c1h3r1oQkOJWIPtslazCfDOe6JUV598KYfEPm8pXLH2KAG
- wMgWsDApbsoGpPSLxd5dPOPwSezJFNn1ru3OeFbb0APwZipUFEHHrktgo
- 5pxTNhfaKaR2X6/LmUJn31qNBa6rF2ilsjTQpTcDDwtHavAASFhk01kwy
- A6xkPkHsV8tnSnivSgNG4CZYkWmyOKlREEVaS/Y96I8t5cuan1hnDqRzv A==;
-X-CSE-ConnectionGUID: OETusArHSUy1DaDP3mIh4A==
-X-CSE-MsgGUID: SastkfLZRCi5kF7R3tG5aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="44847575"
-X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; d="scan'208";a="44847575"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2025 09:08:58 -0800
-X-CSE-ConnectionGUID: pUwgQf+8TpGchvwQyOUf6g==
-X-CSE-MsgGUID: LYQNed2cTtizrGWkWUzfyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; d="scan'208";a="123036943"
-Received: from dut4025lnl.fm.intel.com ([10.105.8.176])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2025 09:08:58 -0800
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Tue,  4 Mar 2025 17:08:54 +0000
-Message-ID: <20250304170854.67195-7-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250304170854.67195-1-jonathan.cavitt@intel.com>
-References: <20250304170854.67195-1-jonathan.cavitt@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 684F410E046;
+ Tue,  4 Mar 2025 17:36:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B518BA45ACB;
+ Tue,  4 Mar 2025 17:30:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31225C4CEE8;
+ Tue,  4 Mar 2025 17:35:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741109764;
+ bh=9NzHeomlf+Nv1BhOgJmO2czzW6I5BiHvH358DPrPLGY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PExqiomMamFh2EJ9lGxHd/1D2oolzwvnyCKcOkvuazmzN1Ct5aWwUPk3H080auBcn
+ ofJLRPqUqs3NyXc+8e8JAy/lPKK/QFIJVrC3zlUG78zfarJJoMTvaK81ykPF7kORle
+ QmXV5KFrWdHkn4s/S2xdoJiITIhpWrQ+cTS7+0Vs2Q4izGxXKudql4i3m3qe6wJllj
+ wYdAEjHxVOKISGH1acerLWe4Xm03IfdsM2TJDgONc0zg2OCJbPldWybpG7Goh7uS7c
+ Oza5S6pUZPVzWj4RPDCx0ukMUOpmIZTXLSpAe1T+OJrkw69Zu/fuI02RbGgKwEMDEp
+ 2G6SUJhXh0bGg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ ajanulgu@redhat.com, lyude@redhat.com, pstanner@redhat.com,
+ zhiw@nvidia.com, cjia@nvidia.com, jhubbard@nvidia.com, bskeggs@nvidia.com,
+ acurrid@nvidia.com
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ gregkh@linuxfoundation.org, mcgrof@kernel.org, russ.weight@linux.dev,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v5 0/5] Initial Nova Core series
+Date: Tue,  4 Mar 2025 18:34:47 +0100
+Message-ID: <20250304173555.2496-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,148 +64,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed failed
-pagefaults from a specified VM.
+This is the initial series for the nova-core stub driver.
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+nova-core is intended to serve as a common base for nova-drm (the
+corresponding DRM driver) and the vGPU manager VFIO driver, serving as a
+hard- and firmware abstraction layer for GSP-based NVIDIA GPUs.
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+The Nova project, including nova-core and nova-drm, in the long term,
+is intended to serve as the successor of Nouveau for all GSP-based GPUs.
 
-v4:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
+The motivation for both, starting a successor project for Nouveau and
+doing so using the Rust programming language, is documented in detail
+through a previous post on the mailing list [1], an LWN article [2] and a
+talk from LPC '24.
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-CC: Jainxun Zhang <jianxun.zhang@intel.com>
-CC: Shuicheng Lin <shuicheng.lin@intel.com>
----
- drivers/gpu/drm/xe/xe_device.c |  3 ++
- drivers/gpu/drm/xe/xe_vm.c     | 75 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |  2 +
- 3 files changed, 80 insertions(+)
+In order to avoid the chicken and egg problem to require a user to
+upstream Rust abstractions, but at the same time require the Rust
+abstractions to implement the driver, nova-core kicks off as a driver
+stub and is subsequently developed upstream.
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 9454b51f7ad8..43accae152ff 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -193,6 +193,9 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
-+
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 6211b971bbbd..1e78103fb0f6 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3234,6 +3234,81 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+static int xe_vm_get_property_size(struct xe_vm *vm, u32 property)
-+{
-+	switch (property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		return MAX_PFS * sizeof(struct drm_xe_pf);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int fill_property_pfs(struct xe_vm *vm,
-+			     struct drm_xe_vm_get_property *args)
-+{
-+	struct drm_xe_pf __user *usr_ptr = u64_to_user_ptr(args->ptr);
-+	struct drm_xe_pf *fault_list;
-+	struct drm_xe_pf *fault;
-+	struct xe_vm_pf_entry *entry;
-+	int ret, i = 0;
-+
-+	fault_list = kzalloc(args->size, GFP_KERNEL);
-+	if (!fault_list)
-+		return -ENOMEM;
-+
-+	spin_lock(&vm->pfs.lock);
-+	list_for_each_entry(entry, &vm->pfs.list, list) {
-+		struct xe_pagefault *pf = entry->pf;
-+
-+		fault = &fault_list[i++];
-+		fault->address = pf->page_addr;
-+		fault->address_type = pf->address_type;
-+		fault->address_precision = 1;
-+	}
-+	args->value = vm->pfs.len;
-+	spin_unlock(&vm->pfs.lock);
-+
-+	ret = copy_to_user(usr_ptr, &fault_list, args->size);
-+	kfree(fault_list);
-+
-+	return ret ? -EFAULT : 0;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	int size;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	size = xe_vm_get_property_size(vm, args->property);
-+	if (size < 0) {
-+		return size;
-+	} else if (args->size != size) {
-+		if (args->size)
-+			return -EINVAL;
-+		args->size = size;
-+		return 0;
-+	}
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		return fill_property_pfs(vm, args);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 4d94ab5c8ea4..bf6604465aa3 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -184,6 +184,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file);
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
- 
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
+Besides the driver itself and the corresponding documentation, i.e. guidelines,
+task list, etc., this series also carries a few more patches to more flexibly
+compose firmware path strings for the .modinfo section.
+
+Link: https://lore.kernel.org/dri-devel/Zfsj0_tb-0-tNrJy@cassiopeiae/T/#u [1]
+Link: https://lwn.net/Articles/990736/ [2]
+Link: https://youtu.be/3Igmx28B3BQ?si=sBdSEer4tAPKGpOs [3]
+
+Changes in v5:
+  - change `ModInfoBuilder::push()` to take a `&str` instead of `&[u8]`
+  - drop patch "rust: str: provide const fn as_bytes() for BStr"
+  - embedd `impl TryFrom<u32> for Chipset` in `define_chipset!` (Alexandre)
+  - switch `Chipset::NAMES` from `[&BStr; N]` to `[&str; N]`
+  - introduce `const_bytes_to_str()` helper
+  - move `to_lowercase_bytes()` to util.rs
+
+Changes in v4:
+  - in `regs::Boot0` take a `&Bar0` and let deref coercion do its thing
+    (Alexandre)
+  - add missing firmware path string to the .modinfo section (Greg)
+  - add some infrastructure to compose firmware path strings more flexibly
+
+Changes in v3:
+  - impl TryFrom<u32> for Chipset
+  - add Chipset::arch()
+  - initialize revision from Boot0
+  - in Firmware, eliminate repeating code pattern using a closure (thanks to
+    Alexandre)
+  - use #[expect(dead_code)] for Firmware
+  - Replace some Rust specific rules with links to existing R4L documentation.
+  - Link in R4L submit checklist.
+  - Update task entry "Page abstraction for foreign pages" with Lina's work.
+
+Changes in v2:
+  - Fix module name in Kconfig description. (John)
+  - Expand Kconfig description a bit. (John)
+  - Expand name for PCI BAR0 region.
+  - Do not store / print boot0 raw register value. (John)
+  - Rename CardType to Architecture, rename enum names to represent the
+    architecture name and adjust enum values according to the register
+    definition. (John)
+  - Add an abstraction for register accesses.
+  - Print chipset, architecture and revision.
+  - Load bootloader firmware. (Timur)
+  - Add task "Generic register abstraction".
+  - Change complexity of "Debugfs abstractions".
+
+
+Danilo Krummrich (5):
+  rust: module: add type `LocalModule`
+  rust: firmware: introduce `firmware::ModInfoBuilder`
+  rust: firmware: add `module_firmware!` macro
+  gpu: nova-core: add initial driver stub
+  gpu: nova-core: add initial documentation
+
+ Documentation/gpu/drivers.rst              |   1 +
+ Documentation/gpu/nova/core/guidelines.rst |  24 ++
+ Documentation/gpu/nova/core/todo.rst       | 446 +++++++++++++++++++++
+ Documentation/gpu/nova/guidelines.rst      |  69 ++++
+ Documentation/gpu/nova/index.rst           |  30 ++
+ MAINTAINERS                                |  11 +
+ drivers/gpu/Makefile                       |   1 +
+ drivers/gpu/nova-core/Kconfig              |  14 +
+ drivers/gpu/nova-core/Makefile             |   3 +
+ drivers/gpu/nova-core/driver.rs            |  47 +++
+ drivers/gpu/nova-core/firmware.rs          |  45 +++
+ drivers/gpu/nova-core/gpu.rs               | 199 +++++++++
+ drivers/gpu/nova-core/nova_core.rs         |  20 +
+ drivers/gpu/nova-core/regs.rs              |  55 +++
+ drivers/gpu/nova-core/util.rs              |  21 +
+ drivers/video/Kconfig                      |   1 +
+ rust/kernel/firmware.rs                    | 177 ++++++++
+ rust/macros/module.rs                      |   2 +
+ 18 files changed, 1166 insertions(+)
+ create mode 100644 Documentation/gpu/nova/core/guidelines.rst
+ create mode 100644 Documentation/gpu/nova/core/todo.rst
+ create mode 100644 Documentation/gpu/nova/guidelines.rst
+ create mode 100644 Documentation/gpu/nova/index.rst
+ create mode 100644 drivers/gpu/nova-core/Kconfig
+ create mode 100644 drivers/gpu/nova-core/Makefile
+ create mode 100644 drivers/gpu/nova-core/driver.rs
+ create mode 100644 drivers/gpu/nova-core/firmware.rs
+ create mode 100644 drivers/gpu/nova-core/gpu.rs
+ create mode 100644 drivers/gpu/nova-core/nova_core.rs
+ create mode 100644 drivers/gpu/nova-core/regs.rs
+ create mode 100644 drivers/gpu/nova-core/util.rs
+
+
+base-commit: 99fa936e8e4f117d62f229003c9799686f74cebc
 -- 
-2.43.0
+2.48.1
 
