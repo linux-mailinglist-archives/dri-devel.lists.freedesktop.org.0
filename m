@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23CCA4D945
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339BEA4D948
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:52:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6534C10E537;
-	Tue,  4 Mar 2025 09:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB65E10E546;
+	Tue,  4 Mar 2025 09:52:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="Tfba2XTR";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="qCvDIahd";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="SkyKF0MN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1379110E537
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 09:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1741081948; x=1772617948;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=/VD/a98yyCDfU0SnOMU0rBxOeXhg52QvUZEBAyqv8Bw=;
- b=Tfba2XTRwMERmunJ+eiJj86R1XU/3zRZ7jPEpfP2BH47ghwfU3LCNzCb
- 8z74FJFmFiqVDBPKmBqFYcZTCiFKN5QLOkG82DxkdZ+bZt4wa0HBxVl/l
- G8Uj9QbJkzYpDRlswXja0vJVc3U+VVWT/iDu0/9jn8D0KGK2njxCVtioV
- k4s5tVgpLYTV1Y2CdfLjzkGzm8a7AC1rSR9U6zfL+w5L7hl/fCarX92nu
- JXdpZhOvuoB+QrUXMOfa6LE0foJji5inRDKP4uJsgDoRWygSKMZnAE36m
- cwyP4A2skzOlzLdX+BtjxQQ4bRy43GIakOPMYz90luzFycmZz7to0NwNq A==;
-X-CSE-ConnectionGUID: Ydj/0GUmRGm2UMVXtfd5xQ==
-X-CSE-MsgGUID: ppoVPoayTkquX4t30HAVZA==
-X-IronPort-AV: E=Sophos;i="6.13,331,1732575600"; d="scan'208";a="42262166"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 04 Mar 2025 10:52:27 +0100
-X-CheckPoint: {67C6CD5B-11-18B7E41A-CF5803A6}
-X-MAIL-CPID: 03A005A869DADFCCF1CB15E663175D25_1
-X-Control-Analysis: str=0001.0A00211E.67C6CD5B.0007, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6AFB016CC2F; Tue,  4 Mar 2025 10:52:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1741081942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C68BB10E546
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 09:52:48 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Z6WFS4n4Bz9swL;
+ Tue,  4 Mar 2025 10:52:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1741081964; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/VD/a98yyCDfU0SnOMU0rBxOeXhg52QvUZEBAyqv8Bw=;
- b=qCvDIahdzX+SI9KvpR3VjuFNf2v8ygK6rm5b4WI4uiagdFEMJ3BKXKJ7tAeCOfAaC2H2Bi
- 5J/yNARaER9ZBAahmx7Ocjvf9tFwGcXMRRqFvwSYKb5X6c8VJEJmuZLJVEWfOI7IKsnl9A
- DBZ8buHQn/Ar03UfdoZ4tjpPLJhalyCtiJyr7i1tX0wCw3IAq27WMgY0VzmNfDanfl0voM
- 2D/T1xIJ7Ucito2jwMA7Sq4/IZXbSohWQCORBgNW7wOD68CivjL6oTj/YBXTQ3D9Fxk7N/
- tkrSOhRYS4ubrlnF3wAYEzUgCXvygUNuuIrSVAncXcBYDov+QEoPlSiLDFx5MQ==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Liu Ying <victor.liu@nxp.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, victor.liu@nxp.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, peng.fan@nxp.com
-Subject: Re: [PATCH v5 2/2] drm/bridge: imx: Add i.MX93 parallel display format
- configuration support
-Date: Tue, 04 Mar 2025 10:52:21 +0100
-Message-ID: <8499738.T7Z3S40VBb@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250304082434.834031-3-victor.liu@nxp.com>
-References: <20250304082434.834031-1-victor.liu@nxp.com>
- <20250304082434.834031-3-victor.liu@nxp.com>
-MIME-Version: 1.0
+ bh=IumFkgj5RXyBW8xkXtlbiJZO0EHE6ceqR/JFdelIahs=;
+ b=SkyKF0MNJcEVTZH/QGvnEM8iI5WauYugSv5Tx4AdTgHTQ4KuFv0J6k2FmrYh1OgcgQyPGO
+ j6+fnhmiGuaZWagC3HlX0LkVtWuWnK8NRFbu2yUjHA/qcOD6s6QMuve1h3BmDI/zwX800W
+ TcKdTDRzJ2cVdRwBs9rBomin9fqk2Kk0LG1W9X32ast76npXJV617VJ0uGkGQAEWKPTWdI
+ HuOvVuRsqtMsa7FOToR3zCYi2cOwrlA3quJyrlEEW0aRn51GflMHlwiwt1sSSsSEGzjCST
+ TrqTY8+geC5g9LOiJG8jSme0iKIc5BM1b62WDCxSClSVQSPNUfz8V6j2I5ptBQ==
+Message-ID: <6c44f2140ebaf9a3b82fa186b939baa2a605556f.camel@mailbox.org>
+Subject: Re: [PATCH v5 2/3] drm/sched: Adjust outdated docu for run_job()
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>
+Cc: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, phasta@kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Date: Tue, 04 Mar 2025 10:52:39 +0100
+In-Reply-To: <688b5665-496d-470d-9835-0c6eadfa5569@gmail.com>
+References: <20250220112813.87992-2-phasta@kernel.org>
+ <20250220112813.87992-4-phasta@kernel.org>
+ <12c53d41-21c4-443d-a572-fd22c3cc56ad@igalia.com>
+ <1457e985f88e02cd04b2152d2468a65b7a513e63.camel@mailbox.org>
+ <cfef8bd7-f335-4796-9d4f-93197bb3fc2d@igalia.com>
+ <Z7yFpZMCFINhEht7@cassiopeiae> <Z7ydaE4JmNcvzjJw@lstrano-desk.jf.intel.com>
+ <688b5665-496d-470d-9835-0c6eadfa5569@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+X-MBO-RS-ID: 7246108e307df21d31a
+X-MBO-RS-META: sxa17rsmkj3ri8xf4pyc99hdpc73t5p3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,304 +71,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-thanks for the update.
-
-Am Dienstag, 4. M=E4rz 2025, 09:24:34 CET schrieb Liu Ying:
-> NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
-> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> field. Add a DRM bridge driver to support the display format configuratio=
-n.
+On Tue, 2025-03-04 at 10:05 +0100, Christian K=C3=B6nig wrote:
+> Am 24.02.25 um 17:25 schrieb Matthew Brost:
+> > On Mon, Feb 24, 2025 at 03:43:49PM +0100, Danilo Krummrich wrote:
+> > > On Mon, Feb 24, 2025 at 10:29:26AM -0300, Ma=C3=ADra Canal wrote:
+> > > > On 20/02/25 12:28, Philipp Stanner wrote:
+> > > > > On Thu, 2025-02-20 at 10:28 -0300, Ma=C3=ADra Canal wrote:
+> > > > > > Would it be possible to add a comment that `run_job()` must
+> > > > > > check if
+> > > > > > `s_fence->finished.error` is different than 0? If you
+> > > > > > increase the
+> > > > > > karma
+> > > > > > of a job and don't check for `s_fence->finished.error`, you
+> > > > > > might run
+> > > > > > a
+> > > > > > cancelled job.
+> > > > > s_fence->finished is only signaled and its error set once the
+> > > > > hardware
+> > > > > fence got signaled; or when the entity is killed.
+> > > > If you have a timeout, increase the karma of that job with
+> > > > `drm_sched_increase_karma()` and call
+> > > > `drm_sched_resubmit_jobs()`, the
+> > > > latter will flag an error in the dma fence. If you don't check
+> > > > for it in
+> > > > `run_job()`, you will run the guilty job again.
+> > > Considering that drm_sched_resubmit_jobs() is deprecated I don't
+> > > think we need
+> > > to add this hint to the documentation; the drivers that are still
+> > > using the API
+> > > hopefully got it right.
+> > >=20
+> > > > I'm still talking about `drm_sched_resubmit_jobs()`, because
+> > > > I'm
+> > > > currently fixing an issue in V3D with the GPU reset and we
+> > > > still use
+> > > > `drm_sched_resubmit_jobs()`. I read the documentation of
+> > > > `run_job()` and
+> > > > `timeout_job()` and the information I commented here (which was
+> > > > crucial
+> > > > to fix the bug) wasn't available there.
+> > > Well, hopefully... :-)
+> > >=20
+> > > > `drm_sched_resubmit_jobs()` was deprecated in 2022, but Xe
+> > > > introduced a
+> > > > new use in 2023
+> > > Yeah, that's a bit odd, since Xe relies on a firmware scheduler
+> > > and uses a 1:1
+> > > scheduler - entity setup. I'm a bit surprised Xe does use this
+> > > function.
+> > >=20
+> > To clarify Xe's usage. We use this function to resubmit jobs after
+> > device reset for queues which had nothing to do with the device
+> > reset.
+> > In practice, a device should never occur as we have per-queue
+> > resets in
+> > our harwdare. If a per-queue reset occurs, we ban the queue rather
+> > than
+> > doing a resubmit.
 >=20
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v4->v5:
-> * Rebase upon next-20250303.  This causes the drop of .remove_new by using
->   devm_drm_bridge_add().  Also, this causes API change for
->   imx93_pdfc_bridge_atomic_enable().
-> * Update year of copyright.
+> That's still invalid usage. Re-submitting jobs by the scheduler is a
+> completely broken concept in general.
 >=20
-> v3->v4:
-> * Use dev_err_probe() in imx93_pdfc_bridge_probe(). (Krzysztof)
-> * Drop MODULE_ALIAS(). (Krzysztof)
-> * Update year of Copyright.
+> What you can do is to re-create the queue content after device reset
+> inside your driver, but *never* use drm_sched_resubmit_jobs() for
+> that.
 >=20
-> v2->v3:
-> * No change.
-> * Resend with the patch rebased upon v6.11-rc1.
+> >=20
+> > Matt=C2=A0=20
+> >=20
+> > > > for example. The commit that deprecated it just
+> > > > mentions AMD's case, but do we know if the function works as
+> > > > expected
+> > > > for the other users?
+> > > I read the comment [1] you're referring to differently. It says
+> > > that
+> > > "Re-submitting jobs was a concept AMD came up as cheap way to
+> > > implement recovery
+> > > after a job timeout".
+> > >=20
+> > > It further explains that "there are many problem with the
+> > > dma_fence
+> > > implementation and requirements. Either the implementation is
+> > > risking deadlocks
+> > > with core memory management or violating documented
+> > > implementation details of
+> > > the dma_fence object", which doesn't give any hint to me that the
+> > > conceptual
+> > > issues are limited to amdgpu.
+> > >=20
+> > > > For V3D, it does. Also, we need to make it clear which
+> > > > are the dma fence requirements that the functions violates.
+> > > This I fully agree with, unfortunately the comment does not
+> > > explain what's the
+> > > issue at all.
+> > >=20
+> > > While I do think I have a vague idea of what's the potential
+> > > issue with this
+> > > approach, I think it would be way better to get Christian, as the
+> > > expert for DMA
+> > > fence rules to comment on this.
+> > >=20
+> > > @Christian: Can you please shed some light on this?
+> > >=20
+> > > > If we shouldn't use `drm_sched_resubmit_jobs()`, would it be
+> > > > possible to
+> > > > provide a common interface for job resubmission?
+> > > I wonder why this question did not come up when
+> > > drm_sched_resubmit_jobs() was
+> > > deprecated two years ago, did it?
 >=20
-> v1->v2:
-> * Set *num_input_fmts to zero in case
->   imx93_pdfc_bridge_atomic_get_input_bus_fmts() returns NULL.
-> * Replace .remove callback with .remove_new callback in
->   imx93_pdfc_bridge_driver.
+> Exactly that's the point why drm_sched_resubmit_jobs() was
+> deprecated.
 >=20
->  drivers/gpu/drm/bridge/imx/Kconfig      |   8 +
->  drivers/gpu/drm/bridge/imx/Makefile     |   1 +
->  drivers/gpu/drm/bridge/imx/imx93-pdfc.c | 186 ++++++++++++++++++++++++
->  3 files changed, 195 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx93-pdfc.c
+> It is not possible to provide a common interface to re-submit jobs
+> (with switching of hardware dma_fences) without breaking dma_fence
+> rules.
 >=20
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/=
-imx/Kconfig
-> index 9a480c6abb85..51138d74ddfb 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -88,4 +88,12 @@ config DRM_IMX93_MIPI_DSI
->  	  Choose this to enable MIPI DSI controller found in Freescale i.MX93
->  	  processor.
-> =20
-> +config DRM_IMX93_PARALLEL_DISP_FMT_CONFIG
-> +	tristate "NXP i.MX93 parallel display format configuration"
-> +	depends on OF
-> +	select DRM_KMS_HELPER
-> +	help
-> +	  Choose this to enable parallel display format configuration
-> +	  found in NXP i.MX93 processor.
-> +
->  endif # ARCH_MXC || COMPILE_TEST
-> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge=
-/imx/Makefile
-> index dd5d48584806..f4ccc5cbef72 100644
-> --- a/drivers/gpu/drm/bridge/imx/Makefile
-> +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> @@ -8,3 +8,4 @@ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) +=3D imx8qxp-pix=
-el-combiner.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) +=3D imx8qxp-pixel-link.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) +=3D imx8qxp-pxl2dpi.o
->  obj-$(CONFIG_DRM_IMX93_MIPI_DSI) +=3D imx93-mipi-dsi.o
-> +obj-$(CONFIG_DRM_IMX93_PARALLEL_DISP_FMT_CONFIG) +=3D imx93-pdfc.o
-> diff --git a/drivers/gpu/drm/bridge/imx/imx93-pdfc.c b/drivers/gpu/drm/br=
-idge/imx/imx93-pdfc.c
-> new file mode 100644
-> index 000000000000..7dfb87e64197
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/imx/imx93-pdfc.c
-> @@ -0,0 +1,186 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +/*
-> + * Copyright 2022-2025 NXP
-> + */
-> +
-> +#include <linux/media-bus-format.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_print.h>
-> +
-> +#define DISPLAY_MUX		0x60
-> +#define  PARALLEL_DISP_FORMAT	0x700
-> +
-> +enum imx93_pdfc_format {
-> +	RGB888_TO_RGB888 =3D 0x0,
-> +	RGB888_TO_RGB666 =3D 0x1 << 8,
-> +	RGB565_TO_RGB565 =3D 0x2 << 8,
-> +};
-
-How about?
-#define  PARALLEL_DISP_FORMAT          GENMASK(10, 8)
-#define  FORMAT_RGB888_TO_RGB888       FIELD_PREP(PARALLEL_DISP_FORMAT, 0)
-#define  FORMAT_RGB888_TO_RGB666       FIELD_PREP(PARALLEL_DISP_FORMAT, 1)
-#define  FORMAT_RGB565_TO_RGB565       FIELD_PREP(PARALLEL_DISP_FORMAT, 2)
-#define  FORMAT_RGB555_TO_RGB555       FIELD_PREP(PARALLEL_DISP_FORMAT, 3)
-#define  FORMAT_YUV_TO_YCBCR24         FIELD_PREP(PARALLEL_DISP_FORMAT, 4)
-#define  FORMAT_YUV_TO_YUV444          FIELD_PREP(PARALLEL_DISP_FORMAT, 5)
-
-> +
-> +struct imx93_pdfc {
-> +	struct drm_bridge bridge;
-> +	struct drm_bridge *next_bridge;
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	u32 format;
-> +};
-> +
-> +static int imx93_pdfc_bridge_attach(struct drm_bridge *bridge,
-> +				    enum drm_bridge_attach_flags flags)
-> +{
-> +	struct imx93_pdfc *pdfc =3D bridge->driver_private;
-> +
-> +	return drm_bridge_attach(bridge->encoder, pdfc->next_bridge, bridge, fl=
-ags);
-> +}
-> +
-> +static void imx93_pdfc_bridge_atomic_enable(struct drm_bridge *bridge,
-> +					    struct drm_atomic_state *state)
-> +{
-> +	struct imx93_pdfc *pdfc =3D bridge->driver_private;
-> +
-> +	regmap_update_bits(pdfc->regmap, DISPLAY_MUX, PARALLEL_DISP_FORMAT,
-> +			   pdfc->format);
-> +}
-> +
-> +static const u32 imx93_pdfc_bus_output_fmts[] =3D {
-> +	MEDIA_BUS_FMT_RGB888_1X24,
-> +	MEDIA_BUS_FMT_RGB666_1X18,
-> +	MEDIA_BUS_FMT_RGB565_1X16,
-> +	MEDIA_BUS_FMT_FIXED
-> +};
-> +
-> +static bool imx93_pdfc_bus_output_fmt_supported(u32 fmt)
-> +{
-> +	int i;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(imx93_pdfc_bus_output_fmts); i++) {
-> +		if (imx93_pdfc_bus_output_fmts[i] =3D=3D fmt)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static u32 *
-> +imx93_pdfc_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					    struct drm_bridge_state *bridge_state,
-> +					    struct drm_crtc_state *crtc_state,
-> +					    struct drm_connector_state *conn_state,
-> +					    u32 output_fmt,
-> +					    unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts =3D 0;
-> +
-> +	if (!imx93_pdfc_bus_output_fmt_supported(output_fmt))
-> +		return NULL;
-> +
-> +	input_fmts =3D kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	switch (output_fmt) {
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		input_fmts[0] =3D output_fmt;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> +	case MEDIA_BUS_FMT_FIXED:
-> +		input_fmts[0] =3D MEDIA_BUS_FMT_RGB888_1X24;
-> +		break;
-> +	}
-> +
-> +	*num_input_fmts =3D 1;
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static int imx93_pdfc_bridge_atomic_check(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *bridge_state,
-> +					  struct drm_crtc_state *crtc_state,
-> +					  struct drm_connector_state *conn_state)
-> +{
-> +	struct imx93_pdfc *pdfc =3D bridge->driver_private;
-> +
-> +	switch (bridge_state->output_bus_cfg.format) {
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +		pdfc->format =3D RGB888_TO_RGB888;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> +		pdfc->format =3D RGB888_TO_RGB666;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		pdfc->format =3D RGB565_TO_RGB565;
-
-Do really need to store the bus format in device struct?
-It's possible to access the bridge state in atomic_enable using
-drm_atomic_get_bridge_state, no? TBH I don't know what are the best
-practices though.
-> +		break;
-> +	default:
-> +		DRM_DEV_DEBUG_DRIVER(pdfc->dev, "Unsupported output bus format: 0x%x\n=
-",
-> +				     bridge_state->output_bus_cfg.format);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_bridge_funcs imx93_pdfc_bridge_funcs =3D {
-> +	.attach			=3D imx93_pdfc_bridge_attach,
-> +	.atomic_enable		=3D imx93_pdfc_bridge_atomic_enable,
-> +	.atomic_duplicate_state	=3D drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state	=3D drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_get_input_bus_fmts	=3D imx93_pdfc_bridge_atomic_get_input_bus_f=
-mts,
-> +	.atomic_check		=3D imx93_pdfc_bridge_atomic_check,
-> +	.atomic_reset		=3D drm_atomic_helper_bridge_reset,
-> +};
-> +
-> +static int imx93_pdfc_bridge_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct imx93_pdfc *pdfc;
-> +
-> +	pdfc =3D devm_kzalloc(dev, sizeof(*pdfc), GFP_KERNEL);
-> +	if (!pdfc)
-> +		return -ENOMEM;
-> +
-> +	pdfc->regmap =3D syscon_node_to_regmap(dev->of_node->parent);
-> +	if (IS_ERR(pdfc->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(pdfc->regmap),
-> +				     "failed to get regmap\n");
-> +
-> +	pdfc->next_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> +	if (IS_ERR(pdfc->next_bridge))
-> +		return dev_err_probe(dev, PTR_ERR(pdfc->next_bridge),
-> +				     "failed to get next bridge\n");
-> +
-> +	pdfc->dev =3D dev;
-> +	pdfc->bridge.driver_private =3D pdfc;
-> +	pdfc->bridge.funcs =3D &imx93_pdfc_bridge_funcs;
-> +	pdfc->bridge.of_node =3D dev->of_node;
-
-pdfc->bridge.type =3D DRM_MODE_CONNECTOR_DPI;
-
-Despite that looks god to me.
-
-Best regards
-Alexander
-
-> +
-> +	return devm_drm_bridge_add(dev, &pdfc->bridge);
-> +}
-> +
-> +static const struct of_device_id imx93_pdfc_dt_ids[] =3D {
-> +	{ .compatible =3D "nxp,imx93-pdfc", },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, imx93_pdfc_dt_ids);
-> +
-> +static struct platform_driver imx93_pdfc_bridge_driver =3D {
-> +	.probe	=3D imx93_pdfc_bridge_probe,
-> +	.driver	=3D {
-> +		.of_match_table =3D imx93_pdfc_dt_ids,
-> +		.name =3D "imx93_pdfc",
-> +	},
-> +};
-> +module_platform_driver(imx93_pdfc_bridge_driver);
-> +
-> +MODULE_DESCRIPTION("NXP i.MX93 parallel display format configuration dri=
-ver");
-> +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-> +MODULE_LICENSE("GPL v2");
+> The idea behind the scheduler is that you pack your submission state
+> into a job object which as soon as it is picked up is converted into
+> a hardware dma_fence for execution. This hardware dma_fence is then
+> the object which represents execution of the submission on the
+> hardware.
 >=20
+> So on re-submission you either use the same dma_fence multiple times
+> which results in a *horrible* kref_init() on an already initialized
+> reference (It's a wonder that this doesn't crashes all the time in
+> amdgpu). Or you do things like starting to allocate memory while the
+> memory management potentially waits for the reset to complete.
+>=20
+> What we could do is to provide a helper for the device drivers in the
+> form of an iterator which gives you all the hardware fences the
+> scheduler is waiting for, but in general device drivers should have
+> this information by themselves.
 
+What we should work out in this patch series first is some lines of
+documentation telling the drivers what the current state is and what
+they should do.
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+Maira is not OK with me just removing mention of
+drm_sched_resubmit_jobs().
 
+So the question is what they should do instead and thus, what, e.g.,
+amdgpu does instead. See also below
+
+>=20
+> > >=20
+> > > Anyway, let's shed some light on the difficulties with
+> > > drm_sched_resubmit_jobs()
+> > > and then we can figure out how we can do better.
+> > >=20
+> > > I think it would also be interesting to know how amdgpu handles
+> > > job from
+> > > unrelated entities being discarded by not re-submitting them when
+> > > a job from
+> > > another entitiy hangs the HW ring.
+>=20
+> Quite simple this case never happens in the first place.
+>=20
+> When you have individual queues for each process (e.g. like Xe and
+> upcomming amdgpu HW generation)
+
+If amdgpu's *current* HW generation does not have individual queues,
+why then can it never happen currently?
+
+How does amdgpu make sure that jobs from innocent entities get
+rescheduled after a GPU reset? AFAIK AMD cards currently have 4 run
+queues, which are shared by many entities by many processes.
+
+P.
+
+>  you should always be able to reset the device without loosing
+> everything.
+>=20
+> Otherwise things like userspace queues also doesn't work at all
+> because then neither the kernel nor the DRM scheduler is involved in
+> the submission any more.
+>=20
+> Regards,
+> Christian.
+>=20
+> > >=20
+> > > [1]
+> > > https://patchwork.freedesktop.org/patch/msgid/20221109095010.141189-5=
+-christian.koenig@amd.com
+>=20
 
