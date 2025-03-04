@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6368FA4DED8
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 14:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4A5A4DED9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 14:10:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3478510E5C5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E82610E5C3;
 	Tue,  4 Mar 2025 13:10:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mAuetVXa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gFy9n1pj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A21C10E5BC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A15E10E5B5
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 13:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=C5I5p1AurK3QtemUoM+FCq3FmQPiNexE6LKBdFmnnrU=; b=mAuetVXabGVerjfHeuMoU3ckz0
- hnP9BEk7Fsg/iZrTUwsah03AWl+K496JpiKbQ0eiA7WuDSJYKI9qr2BpHH1B0LNqUvDk/OxmG66H9
- EVSlX7QTTcZica1AY61Kd50im7OCiXJYYlglpRTGPvqzwPcsv1HPGkWJCMlfTVCWS5+WrEJ8Odjx9
- z3vZDTrygLTit8HVVlzw/EwWh0B4Dq20wMj6/+wgPHCEyCxtfDw+rS4Ki25kg6YDZWEVLbOsLx1nU
- 1fzBMYOYQB868NG9VCr7Rltxaih9dZZOCQaWB9/V6Jc3hMXKYr+C02xvNHm+YSAoIkqRkMBUfXnav
- OTGnVLFQ==;
+ bh=qbjxC1MKzybIQRaEOQdIRrZVH43BbOImRRB1eTOgLek=; b=gFy9n1pjbZFhTcEYelV7rUyubf
+ 4iP/SOPsQMaJuSgq3eC6DDOhkV8rvsOuNA0ovkg8WW+eqtdFQxf85Tgplnof1XJcwo8faMAonqL5F
+ y1OlYVsNGfoiJvyIrxAE86HQug3RUblUEYKbFd/q+gMtM8EWKkFGJeh6cDlj4zlDVP/OkVzFGBeXX
+ gpZb//5paYmvoWvOlTrzcVQOA1KRk7WNxkC/Pda6wX0aY6AV+BZWb/00lRTN4tqLiKGwJx1jnlxTe
+ al6l7V3RgeWTF0rodI8jcxPq+cG1G1x5QyKTOljg7s0N+96DyzgwaKrHINHv8Bn110G/9oxepPb/J
+ sedYtgPw==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tpS2Y-003inZ-7N; Tue, 04 Mar 2025 14:10:36 +0100
+ id 1tpS2Y-003ine-UC; Tue, 04 Mar 2025 14:10:36 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
@@ -39,9 +39,9 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Danilo Krummrich <dakr@kernel.org>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v3 3/5] drm/scheduler: Add a simple timeout test
-Date: Tue,  4 Mar 2025 13:10:28 +0000
-Message-ID: <20250304131030.52850-4-tvrtko.ursulin@igalia.com>
+Subject: [PATCH v3 4/5] drm/scheduler: Add basic priority tests
+Date: Tue,  4 Mar 2025 13:10:29 +0000
+Message-ID: <20250304131030.52850-5-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250304131030.52850-1-tvrtko.ursulin@igalia.com>
 References: <20250304131030.52850-1-tvrtko.ursulin@igalia.com>
@@ -63,9 +63,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a very simple timeout test which submits a single job and verifies
-that the timeout handling will run if the backend failed to complete the
-job in time.
+Add some basic tests for exercising entity priority handling.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -73,159 +71,124 @@ Cc: Danilo Krummrich <dakr@kernel.org>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <phasta@kernel.org>
 ---
- .../gpu/drm/scheduler/tests/mock_scheduler.c  | 11 +++-
- drivers/gpu/drm/scheduler/tests/sched_tests.h |  6 +-
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 64 ++++++++++++++++++-
- 3 files changed, 75 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/scheduler/tests/tests_basic.c | 99 ++++++++++++++++++-
+ 1 file changed, 98 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-index 945829df33dc..c2b166d6569b 100644
---- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-+++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-@@ -194,7 +194,11 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
- static enum drm_gpu_sched_stat
- mock_sched_timedout_job(struct drm_sched_job *sched_job)
- {
--	return DRM_GPU_SCHED_STAT_ENODEV;
-+	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
-+
-+	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
-+
-+	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
- 
- static void mock_sched_free_job(struct drm_sched_job *sched_job)
-@@ -212,17 +216,18 @@ static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
-  * drm_mock_sched_new - Create a new mock scheduler
-  *
-  * @test: KUnit test owning the job
-+ * @timeout: Job timeout to set
-  *
-  * Returns: New mock scheduler with allocation managed by the test
-  */
--struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test)
-+struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
- {
- 	struct drm_sched_init_args args = {
- 		.ops		= &drm_mock_scheduler_ops,
- 		.num_rqs	= DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit	= U32_MAX,
- 		.hang_limit	= UINT_MAX,
--		.timeout	= MAX_SCHEDULE_TIMEOUT,
-+		.timeout	= timeout,
- 		.name		= "drm-mock-scheduler",
- 	};
- 	struct drm_mock_scheduler *sched;
-diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-index db4488faa513..f48d055a5380 100644
---- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-+++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-@@ -89,6 +89,9 @@ struct drm_mock_sched_entity {
- struct drm_mock_sched_job {
- 	struct drm_sched_job	base;
- 
-+#define DRM_MOCK_SCHED_JOB_TIMEDOUT 0x1
-+	unsigned long		flags;
-+
- 	struct list_head	link;
- 	struct hrtimer		timer;
- 
-@@ -119,7 +122,8 @@ drm_sched_job_to_mock_job(struct drm_sched_job *sched_job)
- 	return container_of(sched_job, struct drm_mock_sched_job, base);
- };
- 
--struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test);
-+struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test,
-+					      long timeout);
- void drm_mock_sched_fini(struct drm_mock_scheduler *sched);
- unsigned int drm_mock_sched_advance(struct drm_mock_scheduler *sched,
- 				    unsigned int num);
 diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index 599dc687ab47..ed22c4870c8b 100644
+index ed22c4870c8b..37797b06fd6e 100644
 --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
 +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -12,7 +12,7 @@
+@@ -1,6 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Copyright (c) 2025 Valve Corporation */
  
- static int drm_sched_basic_init(struct kunit *test)
- {
--	test->priv = drm_mock_sched_new(test);
-+	test->priv = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
- 
- 	return 0;
- }
-@@ -24,6 +24,13 @@ static void drm_sched_basic_exit(struct kunit *test)
- 	drm_mock_sched_fini(sched);
- }
- 
-+static int drm_sched_timeout_init(struct kunit *test)
-+{
-+	test->priv = drm_mock_sched_new(test, HZ);
++#include <linux/delay.h>
 +
-+	return 0;
-+}
-+
- static void drm_sched_basic_submit(struct kunit *test)
- {
- 	struct drm_mock_scheduler *sched = test->priv;
-@@ -195,4 +202,57 @@ static struct kunit_suite drm_sched_basic = {
- 	.test_cases = drm_sched_basic_tests,
+ #include "sched_tests.h"
+ 
+ /*
+@@ -254,5 +256,100 @@ static struct kunit_suite drm_sched_timeout = {
+ 	.test_cases = drm_sched_timeout_tests,
  };
  
--kunit_test_suite(drm_sched_basic);
-+static void drm_sched_basic_timeout(struct kunit *test)
++static void drm_sched_priorities(struct kunit *test)
 +{
++	struct drm_mock_sched_entity *entity[DRM_SCHED_PRIORITY_COUNT];
 +	struct drm_mock_scheduler *sched = test->priv;
-+	struct drm_mock_sched_entity *entity;
 +	struct drm_mock_sched_job *job;
++	const unsigned int qd = 100;
++	unsigned int i, cur_ent = 0;
++	enum drm_sched_priority p;
 +	bool done;
 +
 +	/*
-+	 * Submit a single job against a scheduler with the timeout configured
-+	 * and verify that the timeout handling will run if the backend fails
-+	 * to complete it in time.
++	 * Submit a bunch of jobs against entities configured with different
++	 * priorities.
 +	 */
 +
-+	entity = drm_mock_sched_entity_new(test,
-+					   DRM_SCHED_PRIORITY_NORMAL,
-+					   sched);
-+	job = drm_mock_sched_job_new(test, entity);
++	BUILD_BUG_ON(DRM_SCHED_PRIORITY_KERNEL > DRM_SCHED_PRIORITY_LOW);
++	BUILD_BUG_ON(ARRAY_SIZE(entity) != DRM_SCHED_PRIORITY_COUNT);
 +
-+	drm_mock_sched_job_submit(job);
++	for (p = DRM_SCHED_PRIORITY_KERNEL; p <= DRM_SCHED_PRIORITY_LOW; p++)
++		entity[p] = drm_mock_sched_entity_new(test, p, sched);
 +
-+	done = drm_mock_sched_job_wait_scheduled(job, HZ);
-+	KUNIT_ASSERT_EQ(test, done, true);
-+
-+	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
-+	KUNIT_ASSERT_EQ(test, done, false);
-+
-+	KUNIT_ASSERT_EQ(test,
-+			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
-+			0);
++	for (i = 0; i < qd; i++) {
++		job = drm_mock_sched_job_new(test, entity[cur_ent++]);
++		cur_ent %= ARRAY_SIZE(entity);
++		drm_mock_sched_job_set_duration_us(job, 1000);
++		drm_mock_sched_job_submit(job);
++	}
 +
 +	done = drm_mock_sched_job_wait_finished(job, HZ);
-+	KUNIT_ASSERT_EQ(test, done, false);
++	KUNIT_ASSERT_EQ(test, done, true);
 +
-+	KUNIT_ASSERT_EQ(test,
-+			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
-+			DRM_MOCK_SCHED_JOB_TIMEDOUT);
-+
-+	drm_mock_sched_entity_free(entity);
++	for (i = 0; i < ARRAY_SIZE(entity); i++)
++		drm_mock_sched_entity_free(entity[i]);
 +}
 +
-+static struct kunit_case drm_sched_timeout_tests[] = {
-+	KUNIT_CASE(drm_sched_basic_timeout),
++static void drm_sched_change_priority(struct kunit *test)
++{
++	struct drm_mock_sched_entity *entity[DRM_SCHED_PRIORITY_COUNT];
++	struct drm_mock_scheduler *sched = test->priv;
++	struct drm_mock_sched_job *job;
++	const unsigned int qd = 1000;
++	unsigned int i, cur_ent = 0;
++	enum drm_sched_priority p;
++	bool done;
++
++	/*
++	 * Submit a bunch of jobs against entities configured with different
++	 * priorities and while waiting for them to complete, periodically keep
++	 * changing their priorities.
++	 *
++	 * We set up the queue-depth (qd) and job duration so the priority
++	 * changing loop has some time to interact with submissions to the
++	 * backend and job completions as they progress.
++	 */
++
++	for (p = DRM_SCHED_PRIORITY_KERNEL; p <= DRM_SCHED_PRIORITY_LOW; p++)
++		entity[p] = drm_mock_sched_entity_new(test, p, sched);
++
++	for (i = 0; i < qd; i++) {
++		job = drm_mock_sched_job_new(test, entity[cur_ent++]);
++		cur_ent %= ARRAY_SIZE(entity);
++		drm_mock_sched_job_set_duration_us(job, 1000);
++		drm_mock_sched_job_submit(job);
++	}
++
++	do {
++		drm_sched_entity_set_priority(&entity[cur_ent]->base,
++					      (entity[cur_ent]->base.priority + 1) %
++					      DRM_SCHED_PRIORITY_COUNT);
++		cur_ent++;
++		cur_ent %= ARRAY_SIZE(entity);
++		usleep_range(200, 500);
++	} while (!drm_mock_sched_job_is_finished(job));
++
++	done = drm_mock_sched_job_wait_finished(job, HZ);
++	KUNIT_ASSERT_EQ(test, done, true);
++
++	for (i = 0; i < ARRAY_SIZE(entity); i++)
++		drm_mock_sched_entity_free(entity[i]);
++}
++
++static struct kunit_case drm_sched_priority_tests[] = {
++	KUNIT_CASE(drm_sched_priorities),
++	KUNIT_CASE(drm_sched_change_priority),
 +	{}
 +};
 +
-+static struct kunit_suite drm_sched_timeout = {
-+	.name = "drm_sched_basic_timeout_tests",
-+	.init = drm_sched_timeout_init,
++static struct kunit_suite drm_sched_priority = {
++	.name = "drm_sched_basic_priority_tests",
++	.init = drm_sched_basic_init,
 +	.exit = drm_sched_basic_exit,
-+	.test_cases = drm_sched_timeout_tests,
++	.test_cases = drm_sched_priority_tests,
 +};
 +
-+kunit_test_suites(&drm_sched_basic,
-+		  &drm_sched_timeout);
+ kunit_test_suites(&drm_sched_basic,
+-		  &drm_sched_timeout);
++		  &drm_sched_timeout,
++		  &drm_sched_priority);
 -- 
 2.48.0
 
