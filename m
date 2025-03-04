@@ -2,93 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60135A4D31B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 06:43:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32867A4D39B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 07:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8EF10E13C;
-	Tue,  4 Mar 2025 05:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0F6892EA;
+	Tue,  4 Mar 2025 06:16:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HpONk8nm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="paDrIVQU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F1610E13C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 05:43:46 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5494bc4d796so4614485e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 21:43:46 -0800 (PST)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65F66892EA
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 06:16:39 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-390e3b3d3bcso6215590f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Mar 2025 22:16:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741067023; x=1741671823; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AKTXFIAdwYgvuh07rZ1NyeKtb1x4g4EP7f5OZK492cc=;
- b=HpONk8nmJdUBbTd2aHfErIVaMRvgZzrXTPOdrAMji6pu8cNvhEsu+Iff0yCZ0KqbZX
- pot/Ewb/g5nR0YCk+GNB/d8mq+afHueYvHOadPfbStavwx2FhbblWcQLZOpv2qVAqXqe
- MpIpPkerb4Lyh+ivQfP0Lpj6B1DTag5/9Mc2EVRqAjBm4KY3nIBFgu/GzEplGvdduKUh
- J5bWXcgE0Fm7lmb2sD9GvHG7GriKSkwH2XL0rIhKsPF05OHHrZIiD9d6NY1Lf6r1NVKv
- 5ZlOEelmztJRZ0KvFemSYWRVByFQqlna+TDLnA53NhTDI6CTwQOv5OOVpb3uP1JjcL3H
- VqXA==
+ d=linaro.org; s=google; t=1741068995; x=1741673795; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=/nKPX6DIjshEMAUl1KOyqAjGkCUe+ICt9ye1bUSmbrI=;
+ b=paDrIVQUHdbC0vTnDBNYI2oIuSGavPdwxH/fevqBM2Df/WrMYwNDVUD7dViqJhp2rV
+ q2Nli0qE15D3GWv1cVjKwm2/40tsMtt/DTt8KRTkuDT5cv/IM71YI2sPHwqLW62X/BSA
+ kGLr2R0RjlSDLnWyTgNRVCFe+zQCQxkzi1Q2Uq6QFTK4kAXdAefp2FjmP2onteP/1P3c
+ PhuvDK2wfRrLGcVR85+ISTavdaQO8APXhQkERmCBknjC0PYERbDgDu1jPZ7lhYCFkaEs
+ jeloej22GNmfbeHtmYVKUxiOGpjje9VSO6j1ZwJIhzBJjHjt+HFM1JIYXiQGwm5gpOYL
+ KA8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741067023; x=1741671823;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AKTXFIAdwYgvuh07rZ1NyeKtb1x4g4EP7f5OZK492cc=;
- b=kvgzF0Rw0bRXrxjGLGNbl3lEMjdN2dyw6ciHhMFkbOjFRW7mtJh8yKAWJEQbJgUsFE
- Ws3qVXOTwolBxsBBhJRJhxCtz978FkmvuKnqB8rIJ9xDoUBWao30mDRnJqIOgcx6OIdY
- Zp8X45QYBHzGe3ZPWKTDzEnjS8RMzqzR/KrQXH42OQMxIRm2aLfq+qgrzGCGGqfp8x+p
- nkxY73z47xdOXCB7IEjtQMkZf1xbY82W2jcc8As3wYJV2U2M4u8XhTgZP6KQJkj+JZ3U
- h/VPynUMouYbyP8d5HuJysEXetL0tm5y7S+bkvPeO0bVyXZnf6J0QTdsBXjaIam5OcMg
- 6iSg==
+ d=1e100.net; s=20230601; t=1741068995; x=1741673795;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/nKPX6DIjshEMAUl1KOyqAjGkCUe+ICt9ye1bUSmbrI=;
+ b=pFtYexffskuhB5c7LGEApAWxsomIE8yNhh9+fJE7zhZmXooGkcYTTyLSRuLXNP0Mwt
+ c8+XF2WzUD7/pWkpRq9sNKrsWwpyVqgDQaZvNkN1TsDVdaPjgrbfxc0vwpi2z7TUHjtp
+ JiukzG7tbrX28CAr2b5o04se1EFXZjDVd17b/3rkzdme6u1H4yupI9dvTcc/R/Eidccv
+ wcHMj4U5FcDQVZ2zLPohCORnuD15V4oDoAf1c972f0R7hpNb8K6sHegUzizEWm+nn9AH
+ yL8Tt21Ql/GAjK1TZhSQDh3w1HLvuZUiBlCHqgxM21pwzMGEoqL2iGKAel3Zzpwh2P9C
+ ifFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWfkl14DZV4fy49e4MpMxHZqj3dIMbRFLWnaw7XNAQr2UlTQNrfA2JG8+ab4jXuBrRdWVBW1Y6mxBU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxxtO/ZGbdmcUb0QM8YXhqG+HtWecrf/fLpHj94Jm4ioSFuLNb
- MwH9MP7oF7WUXKK9evOZ8Eznyglqp82/n/ooxISdECCchQVMLfHvZw39twAmW6U=
-X-Gm-Gg: ASbGncuYNJPKuBR4ihineXZcbCJtfTYjO3i0SjSg2dVBOBNCChIbJTpsGs3jtZsBc8m
- 13JRsJxZbCSZRdgt/Ic7pUGj7jAyGtMS7EQSj3a18W6yuKELB4O4cN0z2m5NcSvspYNT8cK25u0
- lA2vUNqBQBaZ3lYwZ96aySBvset2NhWLeA97044JnUfniK+SLQIsHlI+buqKEsyZ0pNAVCjMPCc
- eQPvO4EyWQB0plRc/62HXCUM9T8RPSC19WQi8iGMFL3U1hLUj+7jxV0MOvwQ1buBtR/vNRpI1iu
- ax6IvivROUSIEjm/2aebcNjQi5ZExyQfGhQb03zWos6Xs3E2hhdpupdnR+gYSGDtptXTztTitbD
- 3vOTQCOp46SZ03LQ5puErLzBm
-X-Google-Smtp-Source: AGHT+IFl/XhxWgK5jjaVHGYT1do5OUCGy7ZZK0LuSUnLvpBu8eiZJ80JLtemF9/oM7QJHl7X6Sj2qQ==
-X-Received: by 2002:a05:6512:3d19:b0:545:5d:a5e2 with SMTP id
- 2adb3069b0e04-5494c129f56mr5433163e87.10.1741067023442; 
- Mon, 03 Mar 2025 21:43:43 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5494f5a7c23sm1203370e87.142.2025.03.03.21.43.41
+ AJvYcCXGKWAfBt9ioCdfWixSoPuzUk3fBYPDySEpMBrSwAc1dNhbo1XjvX8c/H8fXv1YdFXX3od7YMYjnn4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcmkGL4zHB38iNKKytfFDa64ZhFnB6/d+CXPkRP6NdpazysdvJ
+ x8251n8iDwYZshRzI/RtfOVTsbozkm/LXMurra1zaNJjtHm0fRLd86p8DAdaUz8=
+X-Gm-Gg: ASbGncvtzPOKGjwL6n9ecTqoSzDZYHcSUHsGf9sz13ykQZRfFSzLjkbSwd1qTNag0ji
+ yxQarCA4Z2VGtgVMrhue9oD8PkZMWhJurEuUHvUr0WnQ9rbWtO9CG1M2FkelQReUrbs5AV2rZO5
+ nSfO1JGKYoPKJ3fcGif5wBTWVRt5/OsnXsM9T31b3R6YW5+2hTWbPNaVYLalRlWb/WVID9WfTdY
+ WmDamvKD1mP5zLM1rZldNc0LQVpZdvEIoTbt1y41INZKJhq39g7PfNpBK+o+71EZkVqUH01yX9G
+ E6sicQGgZ2J/UGh6ou4PEF3ado7I8AX984fpWnFjY7PZi16AGA==
+X-Google-Smtp-Source: AGHT+IHGIpUcpblova9lskxdumW2y8lPrejnCbvxgbQgqTl6SZZm6j7C3FFjt6dcr0CvmsmXKYeMQQ==
+X-Received: by 2002:a05:6000:186d:b0:391:13ef:1b35 with SMTP id
+ ffacd0b85a97d-39113ef1da9mr2356446f8f.29.1741068994861; 
+ Mon, 03 Mar 2025 22:16:34 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-390e479608fsm16819421f8f.14.2025.03.03.22.16.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Mar 2025 21:43:42 -0800 (PST)
-Date: Tue, 4 Mar 2025 07:43:39 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
- chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
- shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
- detect of irq feature
-Message-ID: <kdk7p6yhuvby2nyqriufj3jo7kkyxv4ml4awdhszkehv2r2om3@cvho3j27hmwx>
-References: <vrsy4hao4qu3hlcbmjyfyibeearhhjgtik3e6o3v2eyzkatdve@kdb7cyvl45tu>
- <ade54ddd-79ea-4335-9058-c17e4525e83f@huawei.com>
- <4hicem4rbz5l7wnzaaz3krrl3euh2dmvlah2rb7errrdq5fann@44dvdxirkuzh>
- <6506e448-3851-436f-9354-42f9ef844d27@huawei.com>
- <njnz5hxumrvqrgsfq7zlunle3jgfan3be34ao5xtkmzczpi6af@waywds2ww6qw>
- <c87613aa-1d17-4a88-acce-269ea9eddc22@huawei.com>
- <CAA8EJpo71m_ae9siT7f4Tsfr0C4XeoraqPYPsPp0gz-N+oMOjw@mail.gmail.com>
- <6e54c88f-dfaf-462d-b66b-c237d19faec6@huawei.com>
- <zzi2h52xiernm32h7i7xtrlnjwaqc3n2tx33ypmhw6quoi5qyg@pilzj5zantii>
- <fce2e5e8-ba38-474d-891c-f8ab0de8d07e@huawei.com>
+ Mon, 03 Mar 2025 22:16:34 -0800 (PST)
+Date: Tue, 4 Mar 2025 09:16:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Simona Vetter <simona@ffwll.ch>,
+ cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RESEND] drm/nouveau: Add a jump label in
+ nouveau_gem_ioctl_pushbuf()
+Message-ID: <bd5220d3-e2f5-4688-919c-bd65f4a41eb2@stanley.mountain>
+References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
+ <8f785de5-ebe2-edd9-2155-f440acacc643@web.de>
+ <809905c6-73c0-75a6-1226-048d8cb8dfda@web.de>
+ <684bfc0d-7e1d-40f1-b1b7-d6ed64fcd8b7@web.de>
+ <Z8YF0kkYLlh1m5ys@pollux>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <fce2e5e8-ba38-474d-891c-f8ab0de8d07e@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z8YF0kkYLlh1m5ys@pollux>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,105 +98,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 04, 2025 at 10:23:14AM +0800, Yongbang Shi wrote:
-> > On Mon, Mar 03, 2025 at 01:02:44PM +0800, Yongbang Shi wrote:
-> > > > On Sat, 1 Mar 2025 at 11:54, Yongbang Shi <shiyongbang@huawei.com> wrote:
-> > > > > > On Sat, Mar 01, 2025 at 04:45:40PM +0800, Yongbang Shi wrote:
-> > > > > > > > On Thu, Feb 27, 2025 at 09:46:10PM +0800, Yongbang Shi wrote:
-> > > > > > > > > > On Tue, Feb 25, 2025 at 09:57:17PM +0800, Yongbang Shi wrote:
-> > > > > > > > > > > > On Mon, 24 Feb 2025 at 16:03, Yongbang Shi <shiyongbang@huawei.com> wrote:
-> > > > > > > > > > > > > > On Sat, Feb 22, 2025 at 06:35:48PM +0800, Yongbang Shi wrote:
-> > > > > > > > > > > > > > > > > +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
-> > > > > > > > > > > > > > > > > +{
-> > > > > > > > > > > > > > > > > +  struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
-> > > > > > > > > > > > > > > > > +  struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
-> > > > > > > > > > > > > > > > > +  struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
-> > > > > > > > > > > > > > > > > +  int ret;
-> > > > > > > > > > > > > > > > > +
-> > > > > > > > > > > > > > > > > +  if (dp->hpd_status) {
-> > > > > > > > > > > > > > > > > +          hibmc_dp_hpd_cfg(&priv->dp);
-> > > > > > > > > > > > > > > > > +          ret = hibmc_dp_prepare(dp, mode);
-> > > > > > > > > > > > > > > > > +          if (ret)
-> > > > > > > > > > > > > > > > > +                  return ret;
-> > > > > > > > > > > > > > > > > +
-> > > > > > > > > > > > > > > > > +          hibmc_dp_display_en(dp, true);
-> > > > > > > > > > > > > > > > > +  } else {
-> > > > > > > > > > > > > > > > > +          hibmc_dp_display_en(dp, false);
-> > > > > > > > > > > > > > > > > +          hibmc_dp_reset_link(&priv->dp);
-> > > > > > > > > > > > > > > > > +  }
-> > > > > > > > > > > > > > > > If I understand this correctly, you are using a separate drm_client to
-> > > > > > > > > > > > > > > > enable and disable the link & display. Why is it necessary? Existing
-> > > > > > > > > > > > > > > > drm_clients and userspace compositors use drm framework, they should be
-> > > > > > > > > > > > > > > > able to turn the display on and off as required.
-> > > > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > > Thanks for your asking, there are cfg/reset process when the connector 's pluging in/out.
-> > > > > > > > > > > > > > > We want to cfg DP registers again when the connector changes. Not only dp link training, but also cfg
-> > > > > > > > > > > > > > > the different video modes into DP registers.
-> > > > > > > > > > > > > > Why? The link training and mode programming should happen during
-> > > > > > > > > > > > > > pre_enable / enable stage (legacy or atomic).
-> > > > > > > > > > > > > Hi Dmitry,
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > Right, that's what I'm curious about. It won't call encoder enble/disable functions when I triggered HPD.
-> > > > > > > > > > > > > And I'm sure the drm_connector_helper_hpd_irq_event() is called. So I add a drm_client for it.I
-> > > > > > > > > > > > It should be userspace, who triggers the enable/disable (or it should
-> > > > > > > > > > > > be the in-kernel fbdev / fbcon, which interface through the generic
-> > > > > > > > > > > > drm_fbdev client).
-> > > > > > > > > > > Right, I knew it. When I insmode my driver firstly (or restart display service), it will call disable, modeset and enable,
-> > > > > > > > > > > by user, but it won't call when HPD triggered .
-> > > > > > > > > > - Is HPD even properly delivered to userspace? What kind of compsitor
-> > > > > > > > > >        are you using? Is .detect working properly and reporting a correct
-> > > > > > > > > >        plug-in state?
-> > > > > > > > > Thanks for your answering. I'm not very good understanding about userspace in framework. In my opinion, when I call
-> > > > > > > > > this drm_connector_helper_hpd_irq_event(), the HPD will deliver to userspace.
-> > > > > > > > > I use Xorg, and the display service is GDM.
-> > > > > > > > > The .detect is called and the getting modes info is correct.
-> > > > > > > > > I find that it would only trigger(disable, modeset and enable), when I changed resolutions, restart display service and insmod driver.
-> > > > > > > > You can go to the display settings in GDM. It would be interesting to
-> > > > > > > > observe if it notes the second monitor or not. Last, but not least, you
-> > > > > > > > can use a simple tool like 'xrandr' under your XOrg session to set the
-> > > > > > > > display resolution.
-> > > > > > > Thank you for your advice!
-> > > > > > > Right, there are DP and VGA two monitors. I tried to totally remove the vga connector in driver, the problem is gone.
-> > > > > > > So do I need to clear the vga connector, if dp is plugged in?
-> > > > > > Unless your hardware can not manage two outputs at the same time, no,
-> > > > > > you don't have to. Just check how it behaves on x86 systems. Ideally
-> > > > > > your driver should have the same behaviour.
-> > > > > Our hardware cannot support two outputs with different timing, so I used the one crtc and one plane that DP and VGA share. And just add a new DP connector
-> > > > > with a encoder, just like the previous VGA's code logic. But the HPD problem makes me feel confused, should I change the framwork structure to slove this problem?
-> > > > I think registering a single CRTC is a correct way. Then it is logical
-> > > > that there is no mode set on the DP when you connect it. The userspace
-> > > > can not output any data. However if you disconnect VGA and connect DP
-> > > > then it should become active and should output your desktop
-> > > > environment.
-> > > Okay, Thank you for your guidance. So I need to disconnect VGA when I get the HPD (plugged in) , then
-> > > userapce will active and enanble DP, right?
-> > Yes.
+On Mon, Mar 03, 2025 at 08:41:06PM +0100, Danilo Krummrich wrote:
+> On Mon, Mar 03, 2025 at 06:49:07PM +0100, Markus Elfring wrote:
+> > From: Markus Elfring <elfring@users.sourceforge.net>
+> > Date: Wed, 5 Apr 2023 18:38:54 +0200
+> > 
+> > The label “out_prevalid” was used to jump to another pointer check
+> > despite of the detail in the implementation of the function
+> > “nouveau_gem_ioctl_pushbuf” that it was determined already in one case
+> > that the corresponding variable contained an error pointer
+> > because of a failed call of the function “u_memcpya”.
+> > 
+> > Thus use an additional label.
+> > 
+> > This issue was detected by using the Coccinelle software.
+> > 
+> > Fixes: 2be65641642e ("drm/nouveau: fix relocations applying logic and a double-free")
+> > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 > 
-> I'm sorry for that, just wanna make sure one more thing. I found if I only set the VGA connector's status to disconnected when HPD plugged in, it won't be active.
-
-Huh? You should implement hibmc_connector_funcs.detect() or
-.detect_ctx() to report VGA connector's status. Use
-ast_vga_connector_helper_detect_ctx() as an inspiration.
-
-> And If I add drm_cleanup_connector() for VGA, it work. So is this okay that I use this cleanup in HPD?
-
-drm_connector_cleanup() should only be callsed if the connector is going
-to be destroyed. You should not be callign that function.
-
+> I'm not entirely sure, but I remember that we had this discussion already.
 > 
-> 
-> > > 
-> > > > > And also, I will check whether this driver works good on the x86 server. Right now, I'm testing on arm64 server.
-> > > > > 
-> > > > > > > And also, I used xrandr to set modes after 'startx'. Changing resolutions works,
-> > > > > > > but there are errs when set some low resolutions.
-> > > > > > That's a separate topic, most likely related to timing or to some other
-> > > > > > issues. You can fix that separately (but please do, switching modes
-> > > > > > should work).
-> > > > > Okay!
-> > > > > 
-> > > > > 
+> Can you please send patches from the same address as indicated by your SoB?
 
--- 
-With best wishes
-Dmitry
+This is not a bug fix so it shouldn't have a Fixes tag.
+
+regards,
+dan carpenter
