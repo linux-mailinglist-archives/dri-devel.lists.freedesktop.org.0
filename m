@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD2EA4DC02
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 12:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4EFA4DC03
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 12:11:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F376C10E306;
-	Tue,  4 Mar 2025 11:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE80310E57F;
+	Tue,  4 Mar 2025 11:11:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MK+NjEmm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kh3DeSTY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B76D810E592
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 11:11:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 661CF10E58F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 11:11:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 502095C5AF4;
- Tue,  4 Mar 2025 11:09:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A02C4CEEC;
- Tue,  4 Mar 2025 11:11:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0EF0B5C5B29;
+ Tue,  4 Mar 2025 11:09:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 522DFC4CEEA;
+ Tue,  4 Mar 2025 11:11:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741086684;
- bh=Xt3tyJYOhvKRkneUvpuVFBQt7kxeuH06uiim8XR86PY=;
+ s=k20201202; t=1741086687;
+ bh=ftdIwsjmLXoIk6CM48IyctmPnT/90xD8ZSeUkKWs8ug=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=MK+NjEmm/Dw4ZX3fI1zVULGQFMfi2ghzwqaqWDkQEZrdT1Wwb3mOqlH1MDPQQ1CgZ
- ijbeqw/G5nkKnWMZG1oyCK6FDyUFMUDLDGy2C62bfu0TVx9x8MOSyGkYe1E/a1IXsF
- LbzApN17PjjX5abvl0VkO3uIDCPAIyPOIFJ+6+detlyxhGEfPZSXmecwzfpN4xF33E
- dAdbHHO1uuuQAxa6JQ4cIzSBnlZlntVBpf9CgRGXdQPvlyZihHrT5JVRly6GMa3mSO
- dyfjjtUb38xKvFwkZ22NoCKayMrcL7RZtD15Yi20IOJY5yyrP5DVw0L8TYKqZo6Cxj
- ql3rgj3i/eLng==
+ b=Kh3DeSTYdf3XrAqR5WpDHWTKSffwuzYcgs7mosDZ8aU5Lz31xN4ZX9VFNAPEY8s3X
+ DpBa6v01p0vukrJQwOXuohX3bMFOaAl/Ja9tirQPaMPl3HANXf7yiVHIqQ38qSHxpp
+ ne2cptOT/+m+WMo5P6oo7X9pydk3hAjzT13cl+Jo51ySJDMTMspfBFtYSFNUBAU70V
+ c2GawfLutMH0UNu9muD42OgQySXNl9C+g4mcr3OYHSJAu2Y1D+sf1t7wIxdGwI61y5
+ X2y6N843tsftm82ukZ/j4gFigCAHSLNmECk8WkO7zViD3oORRkX2oEMsfDEb5mzm1d
+ 6i7jqmC7Cqtaw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Mar 2025 12:10:51 +0100
-Subject: [PATCH v5 08/16] drm/bridge: Add helper to reset bridge pipeline
+Date: Tue, 04 Mar 2025 12:10:52 +0100
+Subject: [PATCH v5 09/16] drm/tests: bridge: Provide tests for
+ drm_bridge_helper_reset_crtc
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250304-bridge-connector-v5-8-aacf461d2157@kernel.org>
+Message-Id: <20250304-bridge-connector-v5-9-aacf461d2157@kernel.org>
 References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
 In-Reply-To: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -48,14 +49,15 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Douglas Anderson <dianders@chromium.org>
 Cc: Herve Codina <herve.codina@bootlin.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>
+ Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3565; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Xt3tyJYOhvKRkneUvpuVFBQt7kxeuH06uiim8XR86PY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnH7u+3iAu7/J7B4azGRXfN1H0r120t4PkreXBeZfmPS
- n2+jd2XOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEzixhbLjJciVtpe3OHx19
- 80RPFF4V2LR9TVDlSWX/QlZp5z5fX46+ivrkl4yL+sqlNpZI354ayVjvKiAb+cB4+9k6b/+TlU9
- U7k8MWZ33SDv35L2cKNN/q3y5U3rZ4nTbYzuO3bQ/YWJ96h4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7995; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=ftdIwsjmLXoIk6CM48IyctmPnT/90xD8ZSeUkKWs8ug=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOnH7h949sRml1lnxr28NefibsiX2c8WrLxoOM+ya/fnh
+ Y55CXIFHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAi7UGMDWsvd8/KPrX3SP2v
+ v+bP699duiI/W1jhC6dA9Dq2HZOVN8r2v+pSbFbKZy7wO6ZQKZpkzVjv8Prsldb9Mr/rTcXDvVr
+ 1qwt1w6yu3Oyp7VGdqbixp/aG6HzxNUmTI3u7D30Su8Ewwx8A
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,117 +75,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's provide an helper to make it easier for bridge drivers to
-power-cycle their bridge.
+Let's provide a bunch of kunit tests to make sure
+drm_bridge_helper_reset_crtc() works as expected.
 
-In order to avoid a circular dependency between that new helper and
-drm_atomic_helper_reset_crtc(), this new helper will be in a
-drm_bridge_helper.c file to follow the pattern we have for other
-objects.
-
-Co-developed-by: Simona Vetter <simona.vetter@ffwll.ch>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/Makefile            |  1 +
- drivers/gpu/drm/drm_bridge_helper.c | 55 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_bridge_helper.h     | 12 ++++++++
- 3 files changed, 68 insertions(+)
+ drivers/gpu/drm/tests/drm_bridge_test.c | 209 +++++++++++++++++++++++++++++++-
+ 1 file changed, 208 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 4cd054188faf0b3dec442efd99ae52604541bce1..5a332f7d3ecccb6e5e1fb9fb811eab7aa5a84a21 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -131,10 +131,11 @@ obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
- #
- 
- drm_kms_helper-y := \
- 	drm_atomic_helper.o \
- 	drm_atomic_state_helper.o \
-+	drm_bridge_helper.o \
- 	drm_crtc_helper.o \
- 	drm_damage_helper.o \
- 	drm_flip_work.o \
- 	drm_format_helper.o \
- 	drm_gem_atomic_helper.o \
-diff --git a/drivers/gpu/drm/drm_bridge_helper.c b/drivers/gpu/drm/drm_bridge_helper.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..521df9d5dcb3fef842a95cdb2865a8b8d09b0fbe
---- /dev/null
-+++ b/drivers/gpu/drm/drm_bridge_helper.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
+diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/tests/drm_bridge_test.c
+index c0a05c459d957c3f9d281957f002f6bd36cce367..ff88ec2e911c9cc9a718483f09d4c764f45f991a 100644
+--- a/drivers/gpu/drm/tests/drm_bridge_test.c
++++ b/drivers/gpu/drm/tests/drm_bridge_test.c
+@@ -3,10 +3,11 @@
+  * Kunit test for drm_bridge functions
+  */
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
 +#include <drm/drm_bridge_helper.h>
-+#include <drm/drm_modeset_lock.h>
-+
-+/**
-+ * drm_bridge_helper_reset_crtc - Reset the pipeline feeding a bridge
-+ * @bridge: DRM bridge to reset
-+ * @ctx: lock acquisition context
-+ *
-+ * Reset a @bridge pipeline. It will power-cycle all active components
-+ * between the CRTC and connector that bridge is connected to.
-+ *
-+ * Returns:
-+ *
-+ * 0 on success or a negative error code on failure. If the error
-+ * returned is EDEADLK, the whole atomic sequence must be restarted.
-+ */
-+int drm_bridge_helper_reset_crtc(struct drm_bridge *bridge,
-+				 struct drm_modeset_acquire_ctx *ctx)
+ #include <drm/drm_kunit_helpers.h>
+ 
+ #include <kunit/test.h>
+ 
+ struct drm_bridge_init_priv {
+@@ -14,16 +15,56 @@ struct drm_bridge_init_priv {
+ 	struct drm_plane *plane;
+ 	struct drm_crtc *crtc;
+ 	struct drm_encoder encoder;
+ 	struct drm_bridge bridge;
+ 	struct drm_connector *connector;
++	unsigned int enable_count;
++	unsigned int disable_count;
+ };
+ 
++static void drm_test_bridge_enable(struct drm_bridge *bridge)
 +{
-+	struct drm_connector *connector;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_device *dev = encoder->dev;
-+	struct drm_crtc *crtc;
++	struct drm_bridge_init_priv *priv =
++		container_of(bridge, struct drm_bridge_init_priv, bridge);
++
++	priv->enable_count++;
++}
++
++static void drm_test_bridge_disable(struct drm_bridge *bridge)
++{
++	struct drm_bridge_init_priv *priv =
++		container_of(bridge, struct drm_bridge_init_priv, bridge);
++
++	priv->disable_count++;
++}
++
+ static const struct drm_bridge_funcs drm_test_bridge_legacy_funcs = {
++	.enable			= drm_test_bridge_enable,
++	.disable		= drm_test_bridge_disable,
+ };
+ 
++static void drm_test_bridge_atomic_enable(struct drm_bridge *bridge,
++					  struct drm_atomic_state *state)
++{
++	struct drm_bridge_init_priv *priv =
++		container_of(bridge, struct drm_bridge_init_priv, bridge);
++
++	priv->enable_count++;
++}
++
++static void drm_test_bridge_atomic_disable(struct drm_bridge *bridge,
++					   struct drm_atomic_state *state)
++{
++	struct drm_bridge_init_priv *priv =
++		container_of(bridge, struct drm_bridge_init_priv, bridge);
++
++	priv->disable_count++;
++}
++
+ static const struct drm_bridge_funcs drm_test_bridge_atomic_funcs = {
++	.atomic_enable		= drm_test_bridge_atomic_enable,
++	.atomic_disable		= drm_test_bridge_atomic_disable,
+ 	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_reset		= drm_atomic_helper_bridge_reset,
+ };
+ 
+@@ -201,10 +242,176 @@ static struct kunit_case drm_bridge_get_current_state_tests[] = {
+ static struct kunit_suite drm_bridge_get_current_state_test_suite = {
+ 	.name = "drm_test_bridge_get_current_state",
+ 	.test_cases = drm_bridge_get_current_state_tests,
+ };
+ 
+-kunit_test_suite(drm_bridge_get_current_state_test_suite);
++/*
++ * Test that an atomic bridge is properly power-cycled when calling
++ * drm_bridge_helper_reset_crtc().
++ */
++static void drm_test_drm_bridge_helper_reset_crtc_atomic(struct kunit *test)
++{
++	struct drm_modeset_acquire_ctx ctx;
++	struct drm_bridge_init_priv *priv;
++	struct drm_display_mode *mode;
++	struct drm_bridge *bridge;
 +	int ret;
 +
-+	ret = drm_modeset_lock(&dev->mode_config.connection_mutex, ctx);
-+	if (ret)
-+		return ret;
++	priv = drm_test_bridge_init(test, &drm_test_bridge_atomic_funcs);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
 +
-+	connector = drm_atomic_get_connector_for_encoder(encoder, ctx);
-+	if (IS_ERR(connector)) {
-+		ret = PTR_ERR(connector);
-+		goto out;
++	mode = drm_kunit_display_mode_from_cea_vic(test, &priv->drm, 16);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
++
++	drm_modeset_acquire_init(&ctx, 0);
++
++retry_commit:
++	ret = drm_kunit_helper_enable_crtc_connector(test,
++						     &priv->drm, priv->crtc,
++						     priv->connector,
++						     mode,
++						     &ctx);
++	if (ret == -EDEADLK) {
++		drm_modeset_backoff(&ctx);
++		goto retry_commit;
 +	}
++	KUNIT_ASSERT_EQ(test, ret, 0);
 +
-+	if (!connector->state) {
-+		ret = -EINVAL;
-+		goto out;
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
++
++	bridge = &priv->bridge;
++	KUNIT_ASSERT_EQ(test, priv->enable_count, 1);
++	KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
++
++	drm_modeset_acquire_init(&ctx, 0);
++
++retry_reset:
++	ret = drm_bridge_helper_reset_crtc(bridge, &ctx);
++	if (ret == -EDEADLK) {
++		drm_modeset_backoff(&ctx);
++		goto retry_reset;
 +	}
++	KUNIT_ASSERT_EQ(test, ret, 0);
 +
-+	crtc = connector->state->crtc;
-+	ret = drm_atomic_helper_reset_crtc(crtc, ctx);
-+	if (ret)
-+		goto out;
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
 +
-+out:
-+	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-+	return ret;
++	KUNIT_EXPECT_EQ(test, priv->enable_count, 2);
++	KUNIT_EXPECT_EQ(test, priv->disable_count, 1);
 +}
-+EXPORT_SYMBOL(drm_bridge_helper_reset_crtc);
-diff --git a/include/drm/drm_bridge_helper.h b/include/drm/drm_bridge_helper.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..6c35b479ec2a84aa43283351a6f18e49a9f9c177
---- /dev/null
-+++ b/include/drm/drm_bridge_helper.h
-@@ -0,0 +1,12 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
 +
-+#ifndef __DRM_BRIDGE_HELPER_H_
-+#define __DRM_BRIDGE_HELPER_H_
++/*
++ * Test that calling drm_bridge_helper_reset_crtc() on a disabled atomic
++ * bridge will fail and not call the enable / disable callbacks
++ */
++static void drm_test_drm_bridge_helper_reset_crtc_atomic_disabled(struct kunit *test)
++{
++	struct drm_modeset_acquire_ctx ctx;
++	struct drm_bridge_init_priv *priv;
++	struct drm_display_mode *mode;
++	struct drm_bridge *bridge;
++	int ret;
 +
-+struct drm_bridge;
-+struct drm_modeset_acquire_ctx;
++	priv = drm_test_bridge_init(test, &drm_test_bridge_atomic_funcs);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
 +
-+int drm_bridge_helper_reset_crtc(struct drm_bridge *bridge,
-+				 struct drm_modeset_acquire_ctx *ctx);
++	mode = drm_kunit_display_mode_from_cea_vic(test, &priv->drm, 16);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
 +
-+#endif // __DRM_BRIDGE_HELPER_H_
++	bridge = &priv->bridge;
++	KUNIT_ASSERT_EQ(test, priv->enable_count, 0);
++	KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
++
++	drm_modeset_acquire_init(&ctx, 0);
++
++retry_reset:
++	ret = drm_bridge_helper_reset_crtc(bridge, &ctx);
++	if (ret == -EDEADLK) {
++		drm_modeset_backoff(&ctx);
++		goto retry_reset;
++	}
++	KUNIT_EXPECT_LT(test, ret, 0);
++
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
++
++	KUNIT_EXPECT_EQ(test, priv->enable_count, 0);
++	KUNIT_EXPECT_EQ(test, priv->disable_count, 0);
++}
++
++/*
++ * Test that a non-atomic bridge is properly power-cycled when calling
++ * drm_bridge_helper_reset_crtc().
++ */
++static void drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
++{
++	struct drm_modeset_acquire_ctx ctx;
++	struct drm_bridge_init_priv *priv;
++	struct drm_display_mode *mode;
++	struct drm_bridge *bridge;
++	int ret;
++
++	priv = drm_test_bridge_init(test, &drm_test_bridge_legacy_funcs);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
++
++	mode = drm_kunit_display_mode_from_cea_vic(test, &priv->drm, 16);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
++
++	drm_modeset_acquire_init(&ctx, 0);
++
++retry_commit:
++	ret = drm_kunit_helper_enable_crtc_connector(test,
++						     &priv->drm, priv->crtc,
++						     priv->connector,
++						     mode,
++						     &ctx);
++	if (ret == -EDEADLK) {
++		drm_modeset_backoff(&ctx);
++		goto retry_commit;
++	}
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
++
++	bridge = &priv->bridge;
++	KUNIT_ASSERT_EQ(test, priv->enable_count, 1);
++	KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
++
++	drm_modeset_acquire_init(&ctx, 0);
++
++retry_reset:
++	ret = drm_bridge_helper_reset_crtc(bridge, &ctx);
++	if (ret == -EDEADLK) {
++		drm_modeset_backoff(&ctx);
++		goto retry_reset;
++	}
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
++
++	KUNIT_EXPECT_EQ(test, priv->enable_count, 2);
++	KUNIT_EXPECT_EQ(test, priv->disable_count, 1);
++}
++
++static struct kunit_case drm_bridge_helper_reset_crtc_tests[] = {
++	KUNIT_CASE(drm_test_drm_bridge_helper_reset_crtc_atomic),
++	KUNIT_CASE(drm_test_drm_bridge_helper_reset_crtc_atomic_disabled),
++	KUNIT_CASE(drm_test_drm_bridge_helper_reset_crtc_legacy),
++	{ }
++};
++
++static struct kunit_suite drm_bridge_helper_reset_crtc_test_suite = {
++	.name = "drm_test_bridge_helper_reset_crtc",
++	.test_cases = drm_bridge_helper_reset_crtc_tests,
++};
++
++kunit_test_suites(
++	&drm_bridge_get_current_state_test_suite,
++	&drm_bridge_helper_reset_crtc_test_suite,
++);
+ 
+ MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
+ MODULE_DESCRIPTION("Kunit test for drm_bridge functions");
+ MODULE_LICENSE("GPL");
 
 -- 
 2.48.1
