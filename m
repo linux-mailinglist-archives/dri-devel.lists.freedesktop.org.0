@@ -2,82 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF57A4D928
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC2DA4D944
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 10:52:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E31210E551;
-	Tue,  4 Mar 2025 09:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB3A110E147;
+	Tue,  4 Mar 2025 09:52:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NyQHqIu1";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="j5kSk69s";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="koFWoSw0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07EF710E556
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 09:49:02 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-e60b75f8723so2758964276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 01:49:02 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBE810E147
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 09:52:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741081741; x=1741686541; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xAFeC7v0K/Wf/c7Ozud0jqrvhCdvL6NyonulbYWM8i4=;
- b=NyQHqIu11HqoooyNxFyEsDYR0vu3WTXEUu1KmtQOQluX1fCKEv2iqGiuc4MsGK1d6L
- uIYoQnvGDH9aYrr5WqfvePZS/aSWbDV9NXyks+KLIRM01uCTQ3DhswAwHzlRsQdmWQZn
- neEUQA0L928OJ26NuHvMQwfapiRh0qbDaWywhNtRxnZhRiiuXMdxN47sJ8IQTC/m6d0K
- Vw/QAs+cPXAbYTUEs8VCkClTMuzfAeSz8InHgFiV+lduULu4R79YPagulKepeSmhtu60
- mpeuRMUuinLw5++N9m60Va/HpCd4h+jz3CSADaqbNC6fkr8oVjF6sLVPdPagUTz+d0jl
- +nFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741081741; x=1741686541;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xAFeC7v0K/Wf/c7Ozud0jqrvhCdvL6NyonulbYWM8i4=;
- b=TiNJqPPIc9Z7hDyqdtINrVLq63dXFAU6Zc7pybvnJEXMzq7aab7DirMYcHY0zgmo1i
- 7UpdmOqG74aaT5mYMv81gNGhiu5ldrUotcXx1M6JSs/guM5ZAjMvOqkRSBmjrbQEB8oa
- SxlQ6cI0g4WccKLXcrTSaYkJmhE7hZopk3Ro5rXv8ISSjV3VtA9yqyvvzWIFWovkKBaO
- K+otFQwo7VDtSdWC7wXa4tbFAfhqbZkfMln/jy/pn8cLof9RZkcPmZd0l3hIHrlpmnuE
- c8PV+hOOy0OFTxFVTA9SpYi6FUhWJLq/9vO2nhCcP9oGjEOxyIP9q4tEg4tZUqt9ZnOj
- k3Bw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZfMl1lEq5is28dIZAoeISWdGa4u+liQ6MHyrMyLBpd36q5vhbURhATQsLSDTFhNNm7FBpQED70Dc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwaNFXuY8RsSBMrULS7UdQywndhtx+oDbB7373QYBKsB8VLIlfm
- Z3BsChf5KicJTepu2xhDkmJM00RTTMA2fnVvuEzkU2yg8VrbR+YSwpec8JQP6G8iK/HFCimBmUK
- a9wRk8aDKFartRGxQAjOKGOfiIF4yoqYUp5douw==
-X-Gm-Gg: ASbGnctlQVr0ar2k6e0oJphsiKeO4QZh6NU5ba6f3YIXn2kSrI+0n1vkaxr+6eQMnCK
- TiyR9vXYWYreNrx4yZNBxBtiPAamt28h1/q6g9PCSxfg+H+33OvI4efbLwzCKVatAVcb9gEJn5R
- UoL1NijIz4ltvvfXryV0FcFXBR
-X-Google-Smtp-Source: AGHT+IH/3wcPaD28Oev/VK7lwAdhAYZD7JpdPaR8LyOphfZ0NEOtUEyEWzQ0aF4wOq/ViWPq3UF+ppzxkbbdoIKe3xM=
-X-Received: by 2002:a05:6902:1502:b0:e5d:c798:146f with SMTP id
- 3f1490d57ef6-e60b2e91f9dmr19189965276.2.1741081741421; Tue, 04 Mar 2025
- 01:49:01 -0800 (PST)
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1741081941; x=1772617941;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=iUsHT7BkvvVZ2doNOAGllF0BwQPdhpWqLZzk/yD8Vrc=;
+ b=j5kSk69sUWEzvQI26HCoflhvXybqZKEA2S1T+FGv+UEFXwN5CZWJfzh+
+ Z12wJd0ZWlUaG+jrS/xxyqZ4Ck1ELcbayhvOT7eOm70xNNcQL+/aZNMpT
+ cZ3Btph8NDd5cJyQGG/z65BIOoK+pj3hgA8KymRbFeaiMzssEhnKQo2Wu
+ r1KLeFF6TeRYpAfRuB51gp0vr7Du5puJnu3BiIljrWeZJbdXcm4FngsQ7
+ VPUupg4h/FopK9yyVHyVbqnFl0QEP9fhXzOG51/a5WdvHYwzaClQlFXlX
+ Wi+8M/PbopNnm5kqzAUFXSWDo/tSJ3L9yaCvZcn7aGd0vLZpWVjNT6fvA g==;
+X-CSE-ConnectionGUID: /bl8OXK5RaaGQPX/3aiVLQ==
+X-CSE-MsgGUID: REU/aoFmSIOpOSZV6HugPg==
+X-IronPort-AV: E=Sophos;i="6.13,331,1732575600"; d="scan'208";a="42262157"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 04 Mar 2025 10:52:14 +0100
+X-CheckPoint: {67C6CD4E-28-97089932-E672704E}
+X-MAIL-CPID: 628BE1DE09BC53C991B85770F1670AD8_3
+X-Control-Analysis: str=0001.0A002111.67C6CD4E.00B4, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 54FF116CC2F; Tue,  4 Mar 2025 10:52:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1741081930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iUsHT7BkvvVZ2doNOAGllF0BwQPdhpWqLZzk/yD8Vrc=;
+ b=koFWoSw09WVbwOj8YlQRnL11S9C72pwazdD9v2+cQHPuYzuVo+7ciykwETxJbylbU/Ycqg
+ f82kmBhNIDF917h/CPFJcpQKdQJbCU6qE0fcNKX7/b9V0rLpz3jd3Vf72OBDBD0H3rqY7d
+ muwWJfuGQpHWrhWNHbaqNtC2GGp2rBte7V8a3c6Gr9eGxM16HXtHGA3BRJRaBgdcr11rfK
+ RDYryUbgqEOsN473Gj3/2gvVt49FEB6cgoJxboRSj4/vIC6EaLIEb2D2os2BL7VQ+tmvYu
+ tX9akweDqLrAk/X0RVLQBIw6RJrY3bv5OaF7g5j/YA0NO7yBQaknRVhoxdRs2Q==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liu Ying <victor.liu@nxp.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, victor.liu@nxp.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, peng.fan@nxp.com,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
+ subnode to schema and example
+Date: Tue, 04 Mar 2025 10:52:05 +0100
+Message-ID: <3348463.44csPzL39Z@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250304082434.834031-2-victor.liu@nxp.com>
+References: <20250304082434.834031-1-victor.liu@nxp.com>
+ <20250304082434.834031-2-victor.liu@nxp.com>
 MIME-Version: 1.0
-References: <20250225121824.3869719-1-quic_amakhija@quicinc.com>
- <20250225121824.3869719-9-quic_amakhija@quicinc.com>
- <tfd27qk543dt4sqcawogoszsjax3cqxmi6mcy3qd2mwzauedpf@l6xmy5okswrd>
- <5293f723-2a27-4d2a-8939-059226d460c3@quicinc.com>
-In-Reply-To: <5293f723-2a27-4d2a-8939-059226d460c3@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 4 Mar 2025 10:48:50 +0100
-X-Gm-Features: AQ5f1JruB_dwDjDw-42xWSBYe86aTlm19wISZt5Y85qlOfGWNvQ3_K00_1IWvio
-Message-ID: <CAA8EJpoTQ5cg-rM=A3C8-VKbd973vMEKDbrkNFpbB9soCgewzQ@mail.gmail.com>
-Subject: Re: [PATCH 08/11] arm64: dts: qcom: sa8775p-ride: enable Display
- serial interface
-To: Ayushi Makhija <quic_amakhija@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, robdclark@gmail.com, sean@poorly.run, 
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org, 
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org, 
- conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com, 
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com, 
- quic_jesszhan@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,55 +90,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Mar 2025 at 10:45, Ayushi Makhija <quic_amakhija@quicinc.com> wrote:
->
-> On 2/25/2025 11:25 PM, Dmitry Baryshkov wrote:
-> > On Tue, Feb 25, 2025 at 05:48:21PM +0530, Ayushi Makhija wrote:
-> >> Enable both DSI to DP bridge ports on SA8775P Ride plaftrom.
-> >>
-> >> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
-> >> ---
-> >>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 66 +++++++++++++++++++++-
-> >>  1 file changed, 64 insertions(+), 2 deletions(-)
-> >
-> > Please squash into the previous patch. It doesn't make a lot of sense separately.
-> >
-> >>
-> >> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-> >> index 151f66512303..02d8a9c2c909 100644
-> >> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-> >> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-> >> @@ -128,6 +128,30 @@ dp1_connector_in: endpoint {
-> >>                      };
-> >>              };
-> >>      };
-> >> +
-> >> +    dsi0-connector {
-> >
-> > dpN-connector. It is not DSI.
->
-> Hi Dmitry, Konrad
->
-> Thanks, for the review.
->
-> I will change dsi0-connector -> dp2-connector and dsi1-connector -> dp3-connector respectively.
+Hi,
 
-Why? It's then dp-dsi0-connector. I think the board has DP2 and DP3
-(please correct me if I'm wrong). How would you name those if you use
-those indices for DSI connectors?
+thanks for the update.
 
->
-> >
-> >> +            compatible = "dp-connector";
-> >> +            label = "DSI0";
-> >
-> > Is it an actual label on it?
->
-> The label for DSI to DP bridge ports itself on the device is DSI0 and DSI1 respectively.
+Am Dienstag, 4. M=E4rz 2025, 09:24:33 CET schrieb Liu Ying:
+> i.MX93 SoC mediamix blk-ctrl contains one DISPLAY_MUX register which
+> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
+> field. Document the Parallel Display Format Configuration(PDFC) subnode
+> and add the subnode to example.
+>=20
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> v3->v5:
+> * No change.
+>=20
+> v2->v3:
+> * Newly introduced to replace the standalone dt-binding in v1 and v2. (Ro=
+b)
+> * Resend with Conor's R-b tag and with the patch rebased upon v6.11-rc1.
+>=20
+>  .../soc/imx/fsl,imx93-media-blk-ctrl.yaml     | 68 +++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-bl=
+k-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk=
+=2Dctrl.yaml
+> index b3554e7f9e76..3f550c30d93d 100644
+> --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.=
+yaml
+> +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.=
+yaml
+> @@ -24,6 +24,12 @@ properties:
+>    reg:
+>      maxItems: 1
+> =20
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 1
+> +
+>    '#power-domain-cells':
+>      const: 1
+> =20
+> @@ -46,9 +52,43 @@ properties:
+>        - const: csi
+>        - const: dsi
+> =20
+> +  bridge@60:
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      compatible:
+> +        const: nxp,imx93-pdfc
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      ports:
+> +        $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +        properties:
+> +          port@0:
+> +            $ref: /schemas/graph.yaml#/properties/port
+> +            description: Input port node to receive pixel data.
+> +
+> +          port@1:
+> +            $ref: /schemas/graph.yaml#/properties/port
+> +            description: Output port node to downstream pixel data recei=
+vers.
+> +
+> +        required:
+> +          - port@0
+> +          - port@1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - ports
+> +
+>  required:
+>    - compatible
+>    - reg
+> +  - '#address-cells'
+> +  - '#size-cells'
+>    - power-domains
+>    - clocks
+>    - clock-names
+> @@ -76,5 +116,33 @@ examples:
+>                 <&clk IMX93_CLK_MIPI_DSI_GATE>;
+>                 clock-names =3D "apb", "axi", "nic", "disp", "cam",
+>                               "pxp", "lcdif", "isi", "csi", "dsi";
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <1>;
+>        #power-domain-cells =3D <1>;
+> +
+> +      bridge@60 {
 
-Ack
+Given that you add a subnode, I would assume Rob's comment from [1]
+also applies to you here.
+
+Despite that, looks good to me. With that fixed:
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+[1] https://lore.kernel.org/all/20250225145833.GB2361434-robh@kernel.org/
+
+> +        compatible =3D "nxp,imx93-pdfc";
+> +        reg =3D <0x60 0x4>;
+> +
+> +        ports {
+> +          #address-cells =3D <1>;
+> +          #size-cells =3D <0>;
+> +
+> +          port@0 {
+> +            reg =3D <0>;
+> +
+> +            pdfc_from_lcdif: endpoint {
+> +              remote-endpoint =3D <&lcdif_to_pdfc>;
+> +            };
+> +          };
+> +
+> +          port@1 {
+> +            reg =3D <1>;
+> +
+> +            pdfc_to_panel: endpoint {
+> +              remote-endpoint =3D <&panel_from_pdfc>;
+> +            };
+> +          };
+> +        };
+> +      };
+>      };
+>=20
 
 
--- 
-With best wishes
-Dmitry
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
