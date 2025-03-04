@@ -2,84 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14537A4E1DE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 15:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4623DA4E20C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 15:59:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A6910E60B;
-	Tue,  4 Mar 2025 14:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5C9210E0B9;
+	Tue,  4 Mar 2025 14:59:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g6ETG95V";
+	dkim=pass (1024-bit key; unprotected) header.d=cherry.de header.i=@cherry.de header.b="Rn0dzO4l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F32D10E60B
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 14:54:51 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43995b907cfso37151345e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 06:54:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741100090; x=1741704890; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=i74ylUYul443xP2JQWweLVkWow7t0ukLS/STJNyyPWA=;
- b=g6ETG95VgVqtbLrZkHgGvwxgpwDAzX8Nxy8j2K6E66hNHP5de0GYaonPRUVc9pUNc4
- Q137gjuOfp1XYRS3foaCqQ7YFfn2PUiTCpCeZxckwAUUr3Ks+FUBP2zCUGrLwccXU7Cn
- LZvnvxLNrtiR43o+JyTILb41FyWtZngOXJrnb/V6C2giaMg2NRXK0eM9HpQ3BOEz0nkF
- VdEqRSn3DoFWCHzwhi9fQQ3azFv2iaVLTKnxQS2JSFQeAPTm0mBRh9Fc1lAN4BtC2OBe
- kDWH72PZ/EEuc9xIddxGZOcXiZiniN/arZmf+aDxrxRvorpzREVYHLXj+XBSPfe8NpS8
- /Opg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741100090; x=1741704890;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=i74ylUYul443xP2JQWweLVkWow7t0ukLS/STJNyyPWA=;
- b=Gfm2ym7zE6OorZ7JKZDXGvIdWP8bs+xX+z7lUqiDLS9RHmNJ5Nt2Yii90NTbBY6vEG
- UD13U53KSxdsxM5MTSF6i1DDpqsLkQ3qaAPLea0v8m0G7dTDLdBxohrtmyusjaFqDaU3
- o1/yCdvMlD7deqxYiGPQxp+jOjUX3jLV03dVXn5ZHZd3skG8o78CrN8lO7eknG6rzoyg
- selcSLhQKQ4t56bSe+SyBaxWCF7BzsJlNE4iFL2CbLzpC/vtMGVuFreGCzb5liZHnChh
- i0QoRPr1zOKWoxs9GowfUVNxDzcgq1/y1LpxLV84HVTg/wDbAANyEDk0OU3h3OTMHjob
- z7kA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVBujrGNEctoRX+3f9QO32UGehkIWtZGz3/ENLVzAtevo30z1x1VH264lb1V5bRVGRtekPW2KppIyw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnBY+mg1SdIC7J2Yztk09OODlXLmh7PAp5qrTcfXLtTjK1/2YV
- cgZlgcHIVufX6yC2qKQ+8fYPdaGl3RG3DFpp/uihTb4Epo2vyH8G
-X-Gm-Gg: ASbGncvSfT6zaE3soE6AseQJIwqpvivkDH7plnLEgNxlxq04oeag44faNDnDVBIKTvL
- pd6i9v6KzvxftrDhNl9DPrZdpDEe+BMHdkOnIux6aiwE4a7ruyDJFh1Mmj7tu4G5InPPtX3mew0
- yjiwTkT7BffKCwK42otmpU2UylFKDZZjCJunWlyBhjCJQHY1YTABjkhMYoSeGhj0vzcFgXgkqcD
- L+w7E9Ij9xnuU+KpoaqxEfU+imla+jsLpvAAQjaSAbb1rUKqBIy4G92lgTeFDZMVp+j9mb39D3U
- ZqwyXYubIYWCAW4otiO/feqegvW7HjjaCcXcrBJklBJb
-X-Google-Smtp-Source: AGHT+IFAEYC+yD2ohSsBl2DHWVS6qkCmJlXjLiKt8/TekXbuu8bmQNv7syDLOzq0161JH0zj+UkAzw==
-X-Received: by 2002:a05:600c:4693:b0:439:a1ad:6851 with SMTP id
- 5b1f17b1804b1-43ba675d773mr135841085e9.23.1741100089804; 
- Tue, 04 Mar 2025 06:54:49 -0800 (PST)
-Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-390e479596dsm17870059f8f.7.2025.03.04.06.54.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Mar 2025 06:54:49 -0800 (PST)
-Date: Tue, 4 Mar 2025 15:54:47 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/16] drm/vkms: Allow to configure multiple planes
- via configfs
-Message-ID: <Z8cUN8Q4L0VE-bVm@fedora>
-References: <20250225175936.7223-1-jose.exposito89@gmail.com>
- <20250225175936.7223-4-jose.exposito89@gmail.com>
- <52bc3f15-28da-4b40-917f-981f1f10d9b8@bootlin.com>
- <Z8VtPMzuZOYqjraQ@fedora>
- <e813ac5b-298c-4863-b0b6-e9ac7fec1da0@bootlin.com>
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+ (mail-northeuropeazon11011051.outbound.protection.outlook.com [52.101.65.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9DA10E0B9
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 14:59:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Dq0RHyWsbnNSZtUo9Do9JwLAvyAtBHHZTWuikaS4OzTP1uHLAG9vCns5ZCZcKCbHXqE+18ARtlaqtaegVI4NFzv9zQf+Gj3DzrYxhy7B3MEZc/7W6944NdBOhaC4SqZP04yjVBTbwO7i+M4SSRLWcUjzFEfzNYF4g3VBUhGhA+jlFVduTbCYFgKdmkdzToI0nQhi+EnbhIb/4x9ZigJFxYz3jjZiKETlK00RwQCco2id6aP7HahNJQOjwurikRSJX7oR9BEhAQLtiKNLSKju5WCKsq7TpxBb0OEaabEXJfS5CyBFyWT+YfHb0E7g3w+l4aZ344t1MulsCjAGROGX7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+qRYErZuh/5nu8DU8GvOWimxZn4aHpAYt1U1K8bZhzY=;
+ b=wG5glbCZPhNiu1kRZPZQLBF3kngdmKmD2H8LMY/WpHZzWwNMt05Y1gEkO2HyP/4gjg7nT4vPONaiK2iMHLw94595H+6mpZ99RQgqX9DSU9kdvlnA7eQsuwvMnVRf/yj+uuXCG8VxugqO34sdXH1ePN24g6HRdCpH6lo7a2AT3GwcaE/YaYRz1nzKRuVc4G1ACS2sfcvUZRw7nH7E5tu3JDPl8Dl09mexrV7FWZEx2kGaUIsEAidFU8e37HiK0ka8E1DWI63GhkvrLubLDJjRb+hWavPsJaYIdmO8EiCf2dLZAOL1MqcgIu8faFeSIn2/qJIgUKPhY3vE9gVVcug7ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+qRYErZuh/5nu8DU8GvOWimxZn4aHpAYt1U1K8bZhzY=;
+ b=Rn0dzO4lIF2Z/3qEt3AcPsLhpxmX39HtdxyPp5qp6/1+p1qJoa06/DARC8dsSnChTdP81TUDSJD8IY9FHbOGVam91haFNabjy/0GKgAVlQ/G+90Aeg3+DTHswSXj8SOwuE/SsAYoNQ02yybE9skRxa1mMT+8sdgb+/T8Or9SU1I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by VI0PR04MB10210.eurprd04.prod.outlook.com (2603:10a6:800:245::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.26; Tue, 4 Mar
+ 2025 14:59:10 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a%6]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
+ 14:59:10 +0000
+Message-ID: <cd001ccb-41a8-4204-8945-8ea00006ef0c@cherry.de>
+Date: Tue, 4 Mar 2025 15:59:09 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] drm/rockchip: lvds: Hide scary error messages on
+ probe deferral
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Heiko Stuebner <heiko.stuebner@cherry.de>
+References: <20250304124418.111061-1-heiko@sntech.de>
+ <20250304124418.111061-3-heiko@sntech.de>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20250304124418.111061-3-heiko@sntech.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0059.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::7) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e813ac5b-298c-4863-b0b6-e9ac7fec1da0@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|VI0PR04MB10210:EE_
+X-MS-Office365-Filtering-Correlation-Id: d07d5766-f900-4413-324d-08dd5b2d1ec8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bElYWlBta0VZTkpvMGlhMjJUbmRQbEdaLzBaNWlZU3liekxZamVJQ0pQbG0v?=
+ =?utf-8?B?QmdtQWpTSy9kb1FMWGNuaDZMdSt6ZmtQMHRYQ1dRdWsvQ01SaGhIQU9XcWNE?=
+ =?utf-8?B?RDRNRFdhZDVPS1YzeVova2preUdDMFAzU3haV1c1MmQyZ3JibUFwdEdMbXlu?=
+ =?utf-8?B?RGxxdzZNdDB1QkExK0N5Tnd3ZldNeDVFTGIwZ04yamZZdzZMc2Fmb3l4VXpy?=
+ =?utf-8?B?bkIrQ0c2bmp2MVdjdjBjWkNtYnpmSUJrODNyT3R4UGFWZDh2alNqV3VJUGNE?=
+ =?utf-8?B?V0FuZ2ptVlh5dnpWNDNmaS9BUXdhMEthS1NXMEFZK3NycUV5SmU4R0Y5cE9y?=
+ =?utf-8?B?aUJ5ck91anJHSXNGNHdmbEFqeE1aTm1uRVhUT2lKY085RVJ6bHNrWklsMnMx?=
+ =?utf-8?B?ZWlFbmNFY0tBVlB3djI3N2lCUDZhV2pGWEg1Rk0xWHljb01wRmMxd0s2MGlu?=
+ =?utf-8?B?QXFEVWJjYjk0dGlmT3AxUHFDMDV3Y3d6bGgxakxIc1hhdjVJNVpjbXpLcWIz?=
+ =?utf-8?B?bTdQT0xzNDZnOFFSWG90bXJuVGEvd0pXK0o1dXFQb1pydndkWVBqNWlxKy9u?=
+ =?utf-8?B?Nis2SXBqWG9YVi9FemtLRTJGNGNCdzlEemtlcU1ENmJMOXk0TWpmdUVHMG05?=
+ =?utf-8?B?RDZ5czZvNTFVMTBzNWdpMVF4NnQ4cVlIMVFpNW9jQUtFU2l0TFRyeEpydGVS?=
+ =?utf-8?B?aGR3UEd6NWtFb0tlelpVQmpLbmJUUnpxWHQ2dzJXZjhFd0lUV1lHaFRQSHZ6?=
+ =?utf-8?B?dDE0L2ZvSzlBNW1nQ01Uei8rR0owK0w4MXptYi9iWXpvL05wbVM5Y2E5cjlS?=
+ =?utf-8?B?VnkwV0djTXh5S0RTeTlJNGl3eGpoSzdDZ1VQZm8ydm93ekNyaHdHa2F2WVNR?=
+ =?utf-8?B?dmhkajhHbERkU0h0TU5uam1UWWF4dyt6dy9OTk83N1VLa0djOUZMUzBNdHdG?=
+ =?utf-8?B?UGhVeVdpS1VMOW9NbWhKVGdacHR1blBwQXlvbkhtL1ZuTG5iN2pIeEJOaGZC?=
+ =?utf-8?B?TXRvTWRFREIyekI3Y3htTE5PR2ZORk1RZnhNajhMdjhuSGE3ZWRWWUVHbUVm?=
+ =?utf-8?B?djNoTWhMalpSVU9xUmNsR1JBdGlpSnNhRXA1SU05Tmp5K3d3SmNVSmhIYzRI?=
+ =?utf-8?B?dnpCVWwxSHZVKzdJT1d1OStWYU5mamN5eE5YNlAvRE02dVExSTcyT3ExTWJF?=
+ =?utf-8?B?b1pEZi9aVFQyVWxQb1NTTnpuSVpjS0M0NlBhVnJRS2lUQTM3VnRtYWhsWVhj?=
+ =?utf-8?B?Ky92b1ArbjhkcGJDR3dTeURwYTdCbFBzems2bE9qeWNhaHdzek1jQkkxZXdC?=
+ =?utf-8?B?d0dnVk4wZ1RzcG5mNjBpV2FWeGp0VnZnTDA0WTk4UjNXL0ZlMnpVSm5oRnVk?=
+ =?utf-8?B?ejdTL0NOeWl0YU95aEhJeWJ6VWpCUHYzblE3NGhEVllMMFQrK1BzMmxtSm91?=
+ =?utf-8?B?SVl4Y2g3bmdPaWZIa0Rva3JvSCt5UkI5dzJKaytkQU9Rem1PTkwvSUNkRTBk?=
+ =?utf-8?B?Qng1ZzNYbVdFeU1UbU15Rlg3UlF6cGh2Y2VaTE5Gd293bytnMnRiaWlpLzhv?=
+ =?utf-8?B?MFh2VldmSDg3UFlOeHFNck5peWFWK0dFaVBraWFFbUhSeGNBcWdqWDFRcy8y?=
+ =?utf-8?B?OW5KQ1I1NW51OXROMGdjYjdqTnMwVnc0anhxT2UxQzNSQ0N3Z1cySzcxU0s5?=
+ =?utf-8?B?STlOTjdvalI1eERoTTVrWGtZN0xQMnZEcmNGY0pLT0xzVzZYWVRGVi9KNkNl?=
+ =?utf-8?B?ZEZSTTE0bnhqbUxYNlpLS0JtbXJ2bzF3c21VNUl6akNYVHlxTDV5Q2JXS3p6?=
+ =?utf-8?B?RkY0NmQ3cS9zL2puVGdDSHZIemtQZklxdHdZWnBIM1ZRRnRmNkdLbTZEWEFO?=
+ =?utf-8?Q?vCq4YMf+UofDB?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR04MB8897.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UDEzZlZUNEdMb1hqSEpFMnNBQitEc0ROM1BUaFBob2l6L0xuRzJxQk5pWHJK?=
+ =?utf-8?B?b2tHb2xObitlN1gvRGQ2a1p1TFVFL2ZoZzJhdzFuUG1UVHppRjJrRzNxS2pL?=
+ =?utf-8?B?bk1xVTA3NFE2NHhFWDB5OVF3Rzhod0NVU21PMzA3cWRnajI4a2htTm5hbldT?=
+ =?utf-8?B?U2I5cTM4c05pRFBhdHNhUkQ0bVNQQnhXSVZDTmQ0NE8weFVCWGFNanFRdVdL?=
+ =?utf-8?B?M3RaU2F2MXdQYWRRbU50WkwzaWpOcVZ3am9EZTFsY1ROYllEZ25VdEk2NDhw?=
+ =?utf-8?B?M0JVSHVhR2I1T1IrVGxKYlp3dDBiYmxXZnhyYW9lYitlRXJBT2I1Zk9QNWxu?=
+ =?utf-8?B?V2JNbDN6SmtVYXpVbDd4eE9ZTDUzOStidlUvc3J4YjR3b1RUVWhrV3NuWmxL?=
+ =?utf-8?B?N09ubWlkNGhnSjFhcVhRK2RqUW91M1pmcU1kSWJSQTdleldmTHNNRUFpblNJ?=
+ =?utf-8?B?bnFUMHk4YTF6TVp2dGlNc0Z2VCtLM1RnMnNpUHlNeGtWZ04zNXl4aG5kWFpq?=
+ =?utf-8?B?RmhaR1ZaUWVPTkV1Wm16aFFBdEN0RHFhL2xpd28yN05lUDMyQ3FUSzl2dy9S?=
+ =?utf-8?B?cWtjZ2srZFFVOElLQUhNVEQ0b0RTdFNMR0JtR0tOSWZ1SGZSNVUyOTB5a0pt?=
+ =?utf-8?B?L1VzT3N1eWkyWUlmc2NLd3k0T1d1c2psc1pTelRhNE9IWkxCcU1ieXQydHlj?=
+ =?utf-8?B?SjNjMXRuTjBzYm4zRUNQNlRPeVdhUk9hM1ZlVVg2NllWUUZRUFNnS0N1cUIz?=
+ =?utf-8?B?M1piQUR5Z0VmdXo2SEprT2pXTURNT29zS2QxcmZIZlNyQk9WU0dNUTR1aGxy?=
+ =?utf-8?B?ZkE2R1BzZnFnZ0FtSFFPY3hPeElGMVJsVUFsR2tVOERhbHdWYk41T3JKVkV1?=
+ =?utf-8?B?VGZoUlFmRnVjRzBVTmFrUjZaWWxETm5rcU5LRTQ0Z20yUFNJVWlnVit2ZG5m?=
+ =?utf-8?B?YVh1YlNDOTBQZU5vMVQ5eXJrMVR1WGJDSkMrMXdCcEVFeGxOOWRGWGg4OFdX?=
+ =?utf-8?B?WG12QTlpaE0vNGxCS1V3cEoyc21JckF2MC83RGJzeElzUkYzQnVMd1M0dkxy?=
+ =?utf-8?B?bXZlYmp5SHlMT05CbjIycDNhdjVXeFh0ZFFnT1lHNnV5Q0VjY3ZhbXFQQ3gw?=
+ =?utf-8?B?TmJURURvVXN1VDhlZDJFRWczRjEwT3crL29CbGhNZDBBR0hpVjlNUElkVXRt?=
+ =?utf-8?B?Sm9QblpEaVNSM1kwSDRzSkI3Mmt2TnFOYXQ3SDBIRFlacGtjUlJKWk0yaWFC?=
+ =?utf-8?B?UnEyWEZZcjE1SjJVRk9RSFBKNW9tVHZIdjJCbkxJNVhlaFl3dnZHRmtZOTRw?=
+ =?utf-8?B?U1lHUk1Rc3h0aC9UR3JTd1pydm4zdDcxOGticnBobTVYanZZR09yZFRkSGtn?=
+ =?utf-8?B?cnRoc2lnakVCNWtYK2JDcXpJOERJWDd6SkRtU0wrQkIxSzlvRlF6YmpwbkNY?=
+ =?utf-8?B?bU1CaVJ3ZjU0Rys4dmFRanVYQ0MwajV6WmxpTEYxS3RGR2dGVVNKdlBVOHU4?=
+ =?utf-8?B?MG8yZWVQRTZ1aUR4eU0zMG12ZTZsLzFmeGljNzUxWmFBTCtPSDlaaDFyMTZJ?=
+ =?utf-8?B?NlN5N1NadSs3a3IzUFE3L0ZERXNWeGs1NnFqcDBxZnlpSG53dHd4Y0ZvaGFw?=
+ =?utf-8?B?Q0JyRG9vREFHb1BKaGRmb0MyRWhnYTc2YjhMdXVFYlZRVjJJaTVlYmZ2Qkxu?=
+ =?utf-8?B?M1hDSDUzK050bmUyeVNyOXEzY1loU0Y0UzFTeW03RmZheUs3VkNtdGw5bEVy?=
+ =?utf-8?B?OUtSbmR2ZHJxeWVUR1hKYk1zRThvV1NRMlFqbzVnNUJKVlE0R1RCV2N3NGhH?=
+ =?utf-8?B?bTVyaGRNNkRTa0c5djRsbzE5OHNQY2duZGU2enNjT2FXVVZqL1o3d2lVem1I?=
+ =?utf-8?B?NHh6SVZ3enJQV3NUUmRQejF2S2NjM3hldnZPNkFHdzRMenNNVW56ai9Ib0ZN?=
+ =?utf-8?B?YXVoMU1HS3hRTmlYQ3pmL1RZQnUyeXFwYzBJS3ZoU1lCM0pUbUlyL3MyZFd1?=
+ =?utf-8?B?Y1FITlVQOWg1ZTF2SDI3V1VMcHJHeS81Z1gvOHpDUEd6T1BjRG9uZVp2aS9k?=
+ =?utf-8?B?N3NoTzY3TmlXcFBscmNlMzRrQk5LdVBXUWJsRUUzUXZwT2JEbUhxUzc4R2FD?=
+ =?utf-8?B?d1cxNW1QV3NvTVNncDhWU0JvU3hmVEgzZjZwMzkvSHMvSFJCUTJoaVVuRFp4?=
+ =?utf-8?B?WHc9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: d07d5766-f900-4413-324d-08dd5b2d1ec8
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 14:59:10.7157 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jeHP3RCe0DjsSw+3PIw8cjz94txdyuJFmnhdz6yJGNG280TBwzeh43tvwEvl5ngIL3JRjOPmUb9SoO5N8z1e83uAQXxBwPhJb2e9xPfr0bQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10210
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,254 +166,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+Hi Heiko,
 
-On Mon, Mar 03, 2025 at 11:34:50AM +0100, Louis Chauvet wrote:
+On 3/4/25 1:44 PM, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@cherry.de>
 > 
+> Commit 52d11c863ac9 ("drm/rockchip: lvds: do not print scary message when
+> probing defer") already started hiding scary messages that are not relevant
+> if the requested supply just returned EPROBE_DEFER, but there are more
+> possible sources - like the phy.
 > 
-> Le 03/03/2025 à 09:50, José Expósito a écrit :
-> > Hi Louis,
-> > 
-> > On Fri, Feb 28, 2025 at 03:43:25PM +0100, Louis Chauvet wrote:
-> > > 
-> > > 
-> > > Le 25/02/2025 à 18:59, José Expósito a écrit :
-> > > > Create a default subgroup at /config/vkms/planes to allow to create as
-> > > > many planes as required.
-> > > > 
-> > > > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > > > [...]
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > > index 92512d52ddae..4f9d3341e6c0 100644
-> > > > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > > [...]
-> > > > +static void plane_release(struct config_item *item)
-> > > > +{
-> > > > +	struct vkms_configfs_plane *plane;
-> > > > +	struct mutex *lock;
-> > > > +
-> > > > +	plane = plane_item_to_vkms_configfs_plane(item);
-> > > > +	lock = &plane->dev->lock;
-> > > > +
-> > > > +	guard(mutex)(lock);
-> > > > +	vkms_config_destroy_plane(plane->config);
-> > > > +	kfree(plane);
-> > > > +}
-> > > 
-> > > I just found a flaw in our work: there is currently no way to forbid the
-> > > deletion of item/symlinks...
-> > > 
-> > > If you do:
-> > > 
-> > > modprobe vkms
-> > > cd /sys/kernel/config/vkms/
-> > > mkdir DEV
-> > > mkdir DEV/connectors/CON
-> > > mkdir DEV/planes/PLA
-> > > mkdir DEV/crtcs/CRT
-> > > mkdir DEV/encoders/ENC
-> > > ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
-> > > ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
-> > > ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
-> > > echo 1 > DEV/planes/PLA/type
-> > > tree
-> > > echo 1 > DEV/enabled
-> > > modetest -M vkms
-> > > => everything fine
-> > > 
-> > > rm DEV/connectors/CON/possible_encoders/ENC
-> > > rmdir DEV/connectors/CON
-> > > modetest -M vkms
-> > > => BUG: KASAN: slab-use-after-free
+> So modernize the whole logging in the probe path by replacing the
+> remaining deprecated DRM_DEV_ERROR with appropriate dev_err(_probe)
+> and drm_err calls.
+> 
+> The distinction here is that all messages talking about mishaps of the
+> lvds element use dev_err(_probe) while messages caused by interaction
+> with the main Rockchip drm-device use drm_err.
+> 
+> Reviewed-by: Andy Yan <andy.yan@rock-chips.com>
 
-I'm trying to reproduce this issue, but those commands don't show any BUG
-in dmesg. This is my Kasan .config:
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 
-    CONFIG_HAVE_ARCH_KASAN=y
-    CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
-    CONFIG_CC_HAS_KASAN_GENERIC=y
-    CONFIG_CC_HAS_KASAN_SW_TAGS=y
-    CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
-    CONFIG_KASAN=y
-    CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX=y
-    CONFIG_KASAN_GENERIC=y
-    # CONFIG_KASAN_OUTLINE is not set
-    CONFIG_KASAN_INLINE=y
-    CONFIG_KASAN_STACK=y
-    CONFIG_KASAN_VMALLOC=y
-    # CONFIG_KASAN_KUNIT_TEST is not set
-    CONFIG_KASAN_EXTRA_INFO=y
-
-I tryed to delete even more items:
-
-    root@kernel-dev:/sys/kernel/config/vkms# tree
-    .
-    └── DEV
-        ├── connectors
-        ├── crtcs
-        ├── enabled
-        ├── encoders
-        └── planes
-
-    root@kernel-dev:/sys/kernel/config/vkms# cat DEV/enabled 
-    1
-
-And I still don't see any errors. Is it possible that we are running different
-branches? Asking because of the failing IGT tests you reported. There seems to
-be a difference in our code or setup that is creating these differences.
-
-Best wishes,
-Jose
-
-> > > I see two solutions:
-> > > - we don't care and keep as is: if the device is enabled, and you delete
-> > > link/groups, it is your fault. As shown above: it can crash the kernel, so
-> > > it is a no-go.
-> > 
-> > I was aware of this limitation and, since the configfs is clear about
-> > deleting items: [1]
-> > 
-> >      Important:
-> >      drop_item() is void, and as such cannot fail. When rmdir(2) is called,
-> >      configfs WILL remove the item from the filesystem tree (assuming that
-> >      it has no children to keep it busy).
-> >      The subsystem is responsible for responding to this. [...]
-> 
-> Thanks for pointing out. I read it and I think you're right, they clearly
-> want the user space to be able to delete any item at any time.
-> 
-> > I decided to follow this approach, i.e., allowing the user to delete the items.
-> 
-> I think a simple fix would be to have something like that:
-> 
-> int device_enabled_store(...) {
-> 	if enabled == True:
-> 		for item in configfs_items:
-> 			configfs_get_item(item);
-> 		vkms_device_enable(...)
-> 	else:
-> 		vkms_device_disable(...)
-> 		for item in configfs_items:
-> 			configfs_put_item(item)
-> }
-> 
-> void device_release(...) {
-> 	if enable == True:
-> 		vkms_device_disable(...)
-> 		for item in configfs_items:
-> 			configfs_put_item(item)
-> }
-> 
-> This way:
-> - no change in VKMS code
-> - no ConfigFS change
-> - we never have use-after-free (at least in my head)
-> - we never "lose" a DRM device
-> 
-> I did not test it, there is maybe some issue in this implementation (the
-> "for item in configfs_items" may be a bit complex to write for example).
-> 
-> > However, that use-after-free is a bug I need to fix. I was wondering how I didn't
-> > catch it with IGT... Turns out, I didn't enable Kasan in my QEMU .config (ops!).
-> > 
-> > Do you agree on folowing this solution? If so, I'll send v3 fixing the memory
-> > issues.
-> 
-> Indeed yes! If possible, I would like to avoid "complex" refcount/mutex in
-> vkms_config structure, but if my proposition does not work, feel free to add
-> whatever you think relevant!
-> 
-> Thanks a lot,
-> Louis Chauvet
-> 
-> > Best wishes,
-> > Jose
-> > 
-> > [1] https://docs.kernel.org/filesystems/configfs.html
-> > 
-> > > - we care and we don't want to touch configfs: we need to implement a kind
-> > > of refcount for all vkms_config elements. Issue: non-trivial work, may allow
-> > > memory leaks/use after free...
-> > > 
-> > > - we care and we want to touch configfs: see my two patches (they apply on
-> > > the v1 of this series). This solution allows adding a check before removing
-> > > configfs item/group/link. I found it cleaner and way easier to understand.
-> > > 
-> > > What do you think about my proposition? Do you have another idea?
-> > > 
-> > > > +static struct configfs_item_operations plane_item_operations = {
-> > > > +	.release	= &plane_release,
-> > > > +};
-> > > > +
-> > > > +static const struct config_item_type plane_item_type = {
-> > > > +	.ct_item_ops	= &plane_item_operations,
-> > > > +	.ct_owner	= THIS_MODULE,
-> > > > +};
-> > > > +
-> > > > +static struct config_group *make_plane_group(struct config_group *group,
-> > > > +					     const char *name)
-> > > > +{
-> > > > +	struct vkms_configfs_device *dev;
-> > > > +	struct vkms_configfs_plane *plane;
-> > > > +
-> > > > +	dev = child_group_to_vkms_configfs_device(group);
-> > > > +
-> > > > +	guard(mutex)(&dev->lock);
-> > > > +
-> > > > +	if (dev->enabled)
-> > > > +		return ERR_PTR(-EBUSY);
-> > > > +
-> > > > +	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
-> > > > +	if (!plane)
-> > > > +		return ERR_PTR(-ENOMEM);
-> > > > +
-> > > > +	plane->dev = dev;
-> > > > +
-> > > > +	plane->config = vkms_config_create_plane(dev->config);
-> > > > +	if (IS_ERR(plane->config)) {
-> > > > +		kfree(plane);
-> > > > +		return ERR_CAST(plane->config);
-> > > > +	}
-> > > > +
-> > > > +	config_group_init_type_name(&plane->group, name, &plane_item_type);
-> > > > +
-> > > > +	return &plane->group;
-> > > > +}
-> > > > +
-> > > > +static struct configfs_group_operations planes_group_operations = {
-> > > > +	.make_group	= &make_plane_group,
-> > > > +};
-> > > > +
-> > > > +static const struct config_item_type plane_group_type = {
-> > > > +	.ct_group_ops	= &planes_group_operations,
-> > > > +	.ct_owner	= THIS_MODULE,
-> > > > +};
-> > > > +
-> > > >    static ssize_t device_enabled_show(struct config_item *item, char *page)
-> > > >    {
-> > > >    	struct vkms_configfs_device *dev;
-> > > > @@ -125,6 +208,10 @@ static struct config_group *make_device_group(struct config_group *group,
-> > > >    	config_group_init_type_name(&dev->group, name, &device_item_type);
-> > > >    	mutex_init(&dev->lock);
-> > > > +	config_group_init_type_name(&dev->planes_group, "planes",
-> > > > +				    &plane_group_type);
-> > > > +	configfs_add_default_group(&dev->planes_group, &dev->group);
-> > > > +
-> > > >    	return &dev->group;
-> > > >    }
-> > > 
-> > > -- 
-> > > Louis Chauvet, Bootlin
-> > > Embedded Linux and Kernel engineering
-> > > https://bootlin.com
-> > > 
-> 
-> -- 
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-> 
+Thanks!
+Quentin
