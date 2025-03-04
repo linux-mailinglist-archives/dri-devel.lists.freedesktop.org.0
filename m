@@ -2,53 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E550EA4DED7
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 14:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F40A4DEF0
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Mar 2025 14:13:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6844310E5C1;
-	Tue,  4 Mar 2025 13:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A26310E5B5;
+	Tue,  4 Mar 2025 13:13:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kbDsAFuk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eZZb7XS2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DEBC10E5C2
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 13:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=UKV4HkrJoQgiLLIZi9e8wID2LjLcuBoZ6g2TPzPv3ZI=; b=kbDsAFuk68QWWnl0ZcKtT5Ac9l
- qk6TL9l8WRg/U1q+Yxq5pZoizghndBL9hIrjpyHFONeEL3pi6ttS1Bff/p7XMo22z0APLvFbfaMdU
- 8dmv6NMdGu+5n2AXuW09BnnKEL8LSFAdpEiKDi5cOjT4tfMrX5CPoArj39LK4L9S2XdXL4QfzR7L1
- YDKJYnNVfidALfzEZaEdvonZg2pnucYZSLo0tFnGFMf8DEXm+dYjvO6qKTskoB6eU3Tk2UBbHr6G1
- Q/spmfmmVhhXvS0Bv01MF00gHeb09AMmOF9szUhXog2jGKIUU/TV4uaQtuZ7ceQkyOtEzqQrvS5hG
- gl253sfw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tpS2Z-003inn-L3; Tue, 04 Mar 2025 14:10:37 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v3 5/5] drm/scheduler: Add a basic test for modifying entities
- scheduler list
-Date: Tue,  4 Mar 2025 13:10:30 +0000
-Message-ID: <20250304131030.52850-6-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250304131030.52850-1-tvrtko.ursulin@igalia.com>
-References: <20250304131030.52850-1-tvrtko.ursulin@igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6AB10E5CB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Mar 2025 13:13:08 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5e4bed34bccso7858075a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 05:13:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741093986; x=1741698786; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mLbCdf5ydhGRwAPCjiKPFxPNXbtTOCnpAyz9+gFbv3Y=;
+ b=eZZb7XS2h5T+DHRy2ZodvegOtFXT0EnByzPv/h9JT2iAJST6kd54ucI/rLBdq+Xb6d
+ EfrzoTQGx2hud04Z4fOIb3D3YSIorvLMQU5JRnl+q1AZADLhcvbxhY9xd6b/SCbYsQsY
+ DKvv8HJop+4Ys1fMZMy4c1W3z9u5a0yP85ZR7oGptbICWP2F+zhtbozA8/dttLjGVysq
+ mbfvP+xHiIGVavFaeHmTrkpKijKjN1V6Txj8KxM5sSYrQzI7YFSKKkNw4woZ84uvTAd7
+ DJOUirmBAAUn2zGctGeKJ+KQZwZ6oxsZh7WJ5a2jhFVDTDjL6Qog6oD4wuGiK9J8Uhpy
+ CPEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741093986; x=1741698786;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mLbCdf5ydhGRwAPCjiKPFxPNXbtTOCnpAyz9+gFbv3Y=;
+ b=vJc5JiTWqQJv7vk/1Wo7jQlYrI6gIJZzApfVTATObvHplxPn4FKQ6j3aAMW8Edqzuc
+ qpGvcZbgtJiaw/Fb5qSWBTc4BONRrQ7/KV9KWKvdN91SUXWSu8hd5AJSvtZoPmJGiFSn
+ bLDcbIJSZ8LF83u+OboqTeFf+WKgoGVkwtVRvPQMaG8NZ0Uxtt3TM/nZZR1BUVe5jCQY
+ 6lu1LviaW//dI23x3JOCsF3aALhfT8cKj0KX80dWFJCjAplUl1i1J/1ubXHmjmM67zNq
+ E2/4d9qEzNLP1P8CCFFRtufMnsZgAQT29EyPQ3lzMd7z4Uvjp1dqdnpZjmOwPzZ8tz2A
+ QYGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2kLCZBcsKog51EmvtC3dW+ISuyXYWJYc/i8o+o5GgFXBG7EbSz1i4kcWDM+P5E7W9bSL24vhxq2E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4D9x5mkUwxv8+AbgkyZ/ttxkeC/2SAtccyA6sHMM06lLC6HxS
+ GyJr+KN+fTBE+Gbpldzb+fFoYp1dPe0NY/o4Ibpywh5eWad0awD7
+X-Gm-Gg: ASbGnctcK9qFkMpBg/JZCuHfetM2UZwdwmUqVAvEja8UflHpF0OyPl0KSDf7h2Na0KK
+ PSex1EOcUHd3J5rRQTapCvnaKD5QA3Hs9XXV3DbOqVEBFZzGXXMO1pcxfd2FlOU7SMQq3AaQS3q
+ jAB2UFvCJkb2SVP9+odaUWZFOuy8HesrWZl7xg6/9pKjBLuC5NC9MHGcEAcglts2Mg02VrpFqOn
+ zYNcuKL9KVoch8YMeE58zoaWE/Kwrd2bmxVVL5JbqXmCWabSP1wjtcfc8PgccIUMBVhjupvbYRy
+ +5D2+RIleFpStKhnUB26X7T9abkTtQihNgjBQzG8Zv9Uip0rEYSgjuYcIxiYtv9HWfrC8iYkzDH
+ 5IyC513nvpbyxXTnZjdvM3k2UEg==
+X-Google-Smtp-Source: AGHT+IFoaUg9Nkh97ooIflZaTgzJMVg2UFR+7WPJFlk7BUC+KoSF3yd0IR8of6FOHQwHK0CM0VOg2A==
+X-Received: by 2002:a17:906:6a24:b0:ab7:6fa9:b0a9 with SMTP id
+ a640c23a62f3a-abf25d94191mr2160998666b.11.1741093985833; 
+ Tue, 04 Mar 2025 05:13:05 -0800 (PST)
+Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl.
+ [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5e4c2f408cdsm8118489a12.0.2025.03.04.05.13.02
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 04 Mar 2025 05:13:04 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
+Subject: Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+X-Priority: 3
+In-Reply-To: <7b8767fc.3607.19551aa5f74.Coremail.andyshrk@163.com>
+Date: Tue, 4 Mar 2025 14:12:50 +0100
+Cc: heiko@sntech.de, neil.armstrong@linaro.org,
+ sebastian.reichel@collabora.com, devicetree@vger.kernel.org,
+ hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, yubing.zhang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, Andy Yan <andy.yan@rock-chips.com>,
+ krzk+dt@kernel.org, robh@kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <047EECFC-7E55-44EC-896F-13FE04333E4D@gmail.com>
+References: <20250223113036.74252-1-andyshrk@163.com>
+ <AC3DE87B-64B1-4C34-8E1B-3900E2C53AA3@gmail.com>
+ <7b8767fc.3607.19551aa5f74.Coremail.andyshrk@163.com>
+To: Andy Yan <andyshrk@163.com>
+X-Mailer: Apple Mail (2.3826.400.131.1.6)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,101 +98,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic test for exercising modifying the entities scheduler list at
-runtime.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
----
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 73 ++++++++++++++++++-
- 1 file changed, 72 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index 37797b06fd6e..9b90a8798436 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -350,6 +350,77 @@ static struct kunit_suite drm_sched_priority = {
- 	.test_cases = drm_sched_priority_tests,
- };
- 
-+static void drm_sched_test_modify_sched(struct kunit *test)
-+{
-+	unsigned int i, cur_ent = 0, cur_sched = 0;
-+	struct drm_mock_sched_entity *entity[13];
-+	struct drm_mock_scheduler *sched[3];
-+	struct drm_mock_sched_job *job;
-+	const unsigned int qd = 1000;
-+	bool done;
-+
-+	/*
-+	 * Submit a bunch of jobs against entities configured with different
-+	 * schedulers and while waiting for them to complete, periodically keep
-+	 * changing schedulers associated with each entity.
-+	 *
-+	 * We set up the queue-depth (qd) and job duration so the sched modify
-+	 * loop has some time to interact with submissions to the backend and
-+	 * job completions as they progress.
-+	 *
-+	 * For the number of schedulers and entities we use primes in order to
-+	 * perturb the entity->sched assignments with less of a regular pattern.
-+	 */
-+
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		sched[i] = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		entity[i] = drm_mock_sched_entity_new(test,
-+						      DRM_SCHED_PRIORITY_NORMAL,
-+						      sched[i % ARRAY_SIZE(sched)]);
-+
-+	for (i = 0; i < qd; i++) {
-+		job = drm_mock_sched_job_new(test, entity[cur_ent++]);
-+		cur_ent %= ARRAY_SIZE(entity);
-+		drm_mock_sched_job_set_duration_us(job, 1000);
-+		drm_mock_sched_job_submit(job);
-+	}
-+
-+	do {
-+		struct drm_gpu_scheduler *modify;
-+
-+		usleep_range(200, 500);
-+		cur_ent++;
-+		cur_ent %= ARRAY_SIZE(entity);
-+		cur_sched++;
-+		cur_sched %= ARRAY_SIZE(sched);
-+		modify = &sched[cur_sched]->base;
-+		drm_sched_entity_modify_sched(&entity[cur_ent]->base, &modify,
-+					      1);
-+	} while (!drm_mock_sched_job_is_finished(job));
-+
-+	done = drm_mock_sched_job_wait_finished(job, HZ);
-+	KUNIT_ASSERT_EQ(test, done, true);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		drm_mock_sched_entity_free(entity[i]);
-+
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		drm_mock_sched_fini(sched[i]);
-+}
-+
-+static struct kunit_case drm_sched_modify_sched_tests[] = {
-+	KUNIT_CASE(drm_sched_test_modify_sched),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_modify_sched = {
-+	.name = "drm_sched_basic_modify_sched_tests",
-+	.test_cases = drm_sched_modify_sched_tests,
-+};
-+
- kunit_test_suites(&drm_sched_basic,
- 		  &drm_sched_timeout,
--		  &drm_sched_priority);
-+		  &drm_sched_priority,
-+		  &drm_sched_modify_sched);
--- 
-2.48.0
+> Wiadomo=C5=9B=C4=87 napisana przez Andy Yan <andyshrk@163.com> w dniu =
+1 mar 2025, o godz. 13:24:
+>=20
+>=20
+> Hi Piotr,
+>=20
+>>=20
+>> is it worth to play with this or it is too early?
+>=20
+> I think you could give it a try if it using the Standard DP=EF=BC=88non-=
+ALT mode=EF=BC=89 port for output.=20
+> Since I don't currently have a development board with DP1 output =
+available, I haven't been
+> able to test it yet. As for the Type-C Alternate Mode output, some =
+patches are still required=20
+> I'll  send it with V2 tomorrow or next week.
+> Feel free to let me know if If you encounter any issues=E3=80=82
+>=20
+
+Andy,
+I added dp1 enablement in rock5 itx like this: =
+https://gist.github.com/warpme/bddf75912193f57724c49216d5d85d4a
+Unfortunately it not works.
+For /sys/kernel/debug/dri/0/state - pls see above link=E2=80=A6
+I=E2=80=99m not sure: do i missed something in dt or rather issue issue  =
+is in dp code...
+
+FYI: schematic: =
+https://dl.radxa.com/rock5/5itx/v1110/radxa_rock_5itx_v1110_schematic.pdf
+
+
 
