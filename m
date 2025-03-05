@@ -2,39 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5B7A54439
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 09:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5EAA54437
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 09:07:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4264710E910;
-	Thu,  6 Mar 2025 08:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A478F10E90E;
+	Thu,  6 Mar 2025 08:07:53 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="qGvzD8SY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 465 seconds by postgrey-1.36 at gabe;
- Tue, 04 Mar 2025 21:16:30 UTC
-Received: from rudorff.com (rudorff.com [193.31.26.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B871B10E6B6;
- Tue,  4 Mar 2025 21:16:30 +0000 (UTC)
-Received: from [127.0.0.1]
- (dynamic-2a02-3102-8418-1620-0000-0000-0000-04cc.310.pool.telefonica.de
- [IPv6:2a02:3102:8418:1620::4cc])
- by rudorff.com (Postfix) with ESMTPSA id 06AF5406E5;
- Tue,  4 Mar 2025 22:08:40 +0100 (CET)
-From: "chr[]" <chris@rudorff.com>
-Date: Tue, 04 Mar 2025 22:08:19 +0100
-Subject: [PATCH] drm/nouveau: fix hibernate on disabled GPU
+X-Greylist: delayed 531 seconds by postgrey-1.36 at gabe;
+ Wed, 05 Mar 2025 11:29:57 UTC
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECEB10E0B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 11:29:57 +0000 (UTC)
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+ by ksmg01.maxima.ru (Postfix) with ESMTP id A3D94C001C;
+ Wed,  5 Mar 2025 14:20:52 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru A3D94C001C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
+ s=sl; t=1741173652; bh=n/KI5uq203cxGaXCTBoOYd74pMZghtHUgweaiwsP5CM=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+ b=qGvzD8SYK1o2oZhlbWPxGIX3jPXDzxyVFHTOdtIIKrdYnn1B2VjCnJjJemm7i6BwK
+ YleXo1DnHkWlFt3rC3xOwG6/lPtOXewRVCHYOvw95Nb2/omM+JAcgaxnvGMwWRgC6t
+ MM3VRWK/e0j9S+x/Km5WKtazi/H/XFh6nhqbGOxI6FdPR++bkVBe9Fp5S6LinUEOXO
+ F+OfYIotAj2hH9ymrNG9yW8+b/+cVz6265dRzDwMSdF8KIFre+onEPftpP0Oh2qSC1
+ 5A/r033cWvOmyrnSJmfqmdX1Q+5YaycBeK9e3aSFwpjX4V7CRB1bumctKCIzYBGtMa
+ toJJP97cr/DbA==
+Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.maxima.ru",
+ Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+ by ksmg01.maxima.ru (Postfix) with ESMTPS;
+ Wed,  5 Mar 2025 14:20:52 +0300 (MSK)
+Received: from saturerate.maximatelecom.ru (10.0.247.123) by
+ mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.4; Wed, 5 Mar 2025 14:20:50 +0300
+From: Ivan Abramov <i.abramov@mt-integration.ru>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+CC: Ivan Abramov <i.abramov@mt-integration.ru>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>, Sinan
+ Kaya <okaya@codeaurora.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH] drm/gma500: Add NULL check for pci_gfx_root in
+ mid_get_vbt_data()
+Date: Wed, 5 Mar 2025 14:20:37 +0300
+Message-ID: <20250305112038.43852-1-i.abramov@mt-integration.ru>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250304-nouveau-fix-hibernate-v1-1-ee4433546030@rudorff.com>
-X-B4-Tracking: v=1; b=H4sIAMJrx2cC/x2MSQqAMAwAvyI5G6ixrl8RD61GzaVKa0UQ/27xO
- DAzDwT2wgH67AHPlwTZXYIiz2DajFsZZU4MpKhSpdLo9nixibjIjZtY9s6cjKS7lupZU2MtpPb
- wnIT/O4zv+wFYq6LKZwAAAA==
-X-Change-ID: 20250304-nouveau-fix-hibernate-249826d427bb
-To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.247.123]
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;
+ spf=none smtp.mailfrom=mt-integration.ru; dkim=none
+X-KSMG-AntiSpam-Envelope-From: i.abramov@mt-integration.ru
+X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51
+ 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail},
+ {Tracking_from_domain_doesnt_match_to}, mt-integration.ru:7.1.1;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; 127.0.0.199:7.1.2;
+ 81.200.124.61:7.1.2;
+ ksmg01.maxima.ru:7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 191499 [Mar 05 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310,
+ bases: 2025/03/05 09:56:00 #27614020
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 7
 X-Mailman-Approved-At: Thu, 06 Mar 2025 08:07:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,68 +97,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hibernate bricks the machine if a discrete GPU was disabled via
+Since pci_get_domain_bus_and_slot() can return NULL, add NULL check for
+pci_gfx_root in the mid_get_vbt_data().
 
-echo IGD > /sys/kernel/debug/vgaswitcheroo/switch
+This change is similar to the checks implemented in mid_get_fuse_settings()
+and mid_get_pci_revID(), which were introduced by commit 0cecdd818cd7
+("gma500: Final enables for Oaktrail") as "additional minor
+bulletproofing".
 
-The freeze and thaw handler lacks checking the GPU power state,
-as suspend and resume do.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-This patch add the checks and fix this issue.
+Fixes: ba99d8348864 ("drm/gma500: Deprecate pci_get_bus_and_slot()")
 
-Signed-off-by: chr[] <chris@rudorff.com>
+Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
 ---
-I got an old MacBook having a defective nvidia GPU
+ drivers/gpu/drm/gma500/mid_bios.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-So I put this in the initrd scripts to turn it off asap:
-
-mount -t debugfs none /sys/kernel/debug
-echo IGD > /sys/kernel/debug/vgaswitcheroo/switch
-
-which powers down the nouveau.
-
-Suspend and resume works,
-but hibernate locks up the machine.
-
-The handlers are not checking the GPU state.
-
-Signed-off-by:
----
- drivers/gpu/drm/nouveau/nouveau_drm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 5664c4c71faf1ced30f38d9874244db80d58194a..0958d1b940c2533bfadc29e098045db6f0170c79 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -1079,6 +1079,10 @@ nouveau_pmops_freeze(struct device *dev)
- {
- 	struct nouveau_drm *drm = dev_get_drvdata(dev);
+diff --git a/drivers/gpu/drm/gma500/mid_bios.c b/drivers/gpu/drm/gma500/mid_bios.c
+index 7e76790c6a81..cba97d7db131 100644
+--- a/drivers/gpu/drm/gma500/mid_bios.c
++++ b/drivers/gpu/drm/gma500/mid_bios.c
+@@ -279,6 +279,11 @@ static void mid_get_vbt_data(struct drm_psb_private *dev_priv)
+ 					    0, PCI_DEVFN(2, 0));
+ 	int ret = -1;
  
-+	if (drm->dev->switch_power_state == DRM_SWITCH_POWER_OFF ||
-+	    drm->dev->switch_power_state == DRM_SWITCH_POWER_DYNAMIC_OFF)
-+		return 0;
++	if (pci_gfx_root == NULL) {
++		WARN_ON(1);
++		return;
++	}
 +
- 	return nouveau_do_suspend(drm, false);
- }
- 
-@@ -1087,6 +1091,10 @@ nouveau_pmops_thaw(struct device *dev)
- {
- 	struct nouveau_drm *drm = dev_get_drvdata(dev);
- 
-+	if (drm->dev->switch_power_state == DRM_SWITCH_POWER_OFF ||
-+	    drm->dev->switch_power_state == DRM_SWITCH_POWER_DYNAMIC_OFF)
-+		return 0;
-+
- 	return nouveau_do_resume(drm, false);
- }
- 
-
----
-base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
-change-id: 20250304-nouveau-fix-hibernate-249826d427bb
-
-Best regards,
+ 	/* Get the address of the platform config vbt */
+ 	pci_read_config_dword(pci_gfx_root, 0xFC, &addr);
+ 	pci_dev_put(pci_gfx_root);
 -- 
-chr[] <chris@rudorff.com>
+2.48.1
 
