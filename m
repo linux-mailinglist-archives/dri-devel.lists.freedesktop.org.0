@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE776A53E08
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 00:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377B7A53E09
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 00:06:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA6110E852;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2985A10E853;
 	Wed,  5 Mar 2025 23:06:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="REzJvCeD";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AAXJuDb0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27AD010E84F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96EF010E84F
  for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 23:06:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1741216009;
@@ -22,27 +22,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t861S+lJA1FAHGRt4CQfszfhAAbg1AWVUqKzD27olGw=;
- b=REzJvCeDnH73Y7djDwQDTEGffATs6V1l2JMM2j0yBUATfmMOimWrHtloykEwNwCHiP5Jz2
- zwS0lpE9apTVaZ88NbzlFdWdN2RQDE2G2l5fC/TPVUMUvx/rJVPFdXwyRZQq0qiMAdLCU6
- j/q8jArwblCIuL9HWi5GTe/2IlKuPT8=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=FiII/UFZj0PJa3aqHS4adfK6RLGvexStwXEtTIs9AeA=;
+ b=AAXJuDb0xn5cnkZ9lXlvrNX3xW839UpDifTcL/9ZHzrPtZF1WrOQ7SAHuaKlnY7zfecCen
+ UDuhn1B/NC91bWMGjBshHIOoHZia1Am488Q4901SSsX5fwUUvU8iTV83flO26KBCuWeWFp
+ Bx+j5viIl8/irDFP+dgxWEiD7tBSLHs=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-614-R_vdkGnWMOKYaG23ECL0KQ-1; Wed,
- 05 Mar 2025 18:06:38 -0500
-X-MC-Unique: R_vdkGnWMOKYaG23ECL0KQ-1
-X-Mimecast-MFC-AGG-ID: R_vdkGnWMOKYaG23ECL0KQ_1741215996
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-354-Xad8I59GMX2nR9Rn7DYrPA-1; Wed,
+ 05 Mar 2025 18:06:46 -0500
+X-MC-Unique: Xad8I59GMX2nR9Rn7DYrPA-1
+X-Mimecast-MFC-AGG-ID: Xad8I59GMX2nR9Rn7DYrPA_1741216004
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9D01319560AD; Wed,  5 Mar 2025 23:06:36 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id F0DCA1800361; Wed,  5 Mar 2025 23:06:43 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.88.81])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id DB9C8300019E; Wed,  5 Mar 2025 23:06:32 +0000 (UTC)
+ id ECAF5300019E; Wed,  5 Mar 2025 23:06:39 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -56,10 +56,9 @@ Cc: Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
  Benno Lossin <benno.lossin@proton.me>,
  Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [RFC v3 14/33] rust: drm/kms: Add OpaqueConnector and
- OpaqueConnectorState
-Date: Wed,  5 Mar 2025 17:59:30 -0500
-Message-ID: <20250305230406.567126-15-lyude@redhat.com>
+Subject: [RFC v3 15/33] rust: drm/kms: Add OpaqueCrtc and OpaqueCrtcState
+Date: Wed,  5 Mar 2025 17:59:31 -0500
+Message-ID: <20250305230406.567126-16-lyude@redhat.com>
 In-Reply-To: <20250305230406.567126-1-lyude@redhat.com>
 References: <20250305230406.567126-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -80,259 +79,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since we allow drivers to have multiple implementations of DriverConnector
-and DriverConnectorState (in C, the equivalent of this is having multiple
-structs which embed drm_connector) - there are some situations we will run
-into where it's not possible for us to know the corresponding
-DriverConnector or DriverConnectorState for a given connector. The most
-obvious one is iterating through all connectors on a KMS device.
-
-So, take advantage of the various connector traits we added to introduce
-OpaqueConnector<> and OpaqueConnectorState<> which both can be used as a
-DRM connector and connector state respectively without needing to know the
-corresponding traits.
+This is the same thing as OpaqueConnector and OpaqueConnectorState, but for
+CRTCs now.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 
 ---
 
 V3:
-* Add safety comment to implementation of ModeObject
-* Add safety comments to AsRawConnector implementation
+* Add safety comment for implementation of ModeObject
+* Add safety comments to AsRawCrtc implementation
 * Implement try_from_opaque() and from_opaque() using a macro
-* Ensure all Opaque types have the ability to "upcast"
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/kms.rs           | 115 +++++++++++++++++++++
- rust/kernel/drm/kms/connector.rs | 171 ++++++++++++++++++++++++++++++-
- 2 files changed, 285 insertions(+), 1 deletion(-)
+ rust/kernel/drm/kms/crtc.rs | 167 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 166 insertions(+), 1 deletion(-)
 
-diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
-index 7935e935f9975..1d6ca9c92659a 100644
---- a/rust/kernel/drm/kms.rs
-+++ b/rust/kernel/drm/kms.rs
-@@ -61,6 +61,104 @@ unsafe fn setup_kms(_drm: &Device<Self::Driver>) -> Result<ModeConfigInfo> {
-     }
- }
- 
-+/// Implement the repetitive from_opaque/try_from_opaque methods for all mode object and state
-+/// types.
-+///
-+/// Because there are so many different ways of accessing mode objects, their states, etc. we need a
-+/// macro that we can use for consistently implementing try_from_opaque()/from_opaque() functions to
-+/// convert from Opaque mode objects to fully typed mode objects. This macro handles that, and can
-+/// generate said functions for any kind of type which the original mode object driver trait can be
-+/// derived from. All conversions check the mode object's vtable. For example:
-+///
-+/// ```compile_fail
-+/// impl<'a, T: DriverConnectorState> ConnectorState<T> {
-+///     impl_from_opaque_mode_obj! {
-+///         // | An optional lifetime and meta-variables to declare for each function
-+///         // |          | The type of the input parameter `opaque`
-+///         // |          |                               | The converted type
-+///         // v          v                               v
-+///         fn <'a, D, C>(&'a OpaqueConnectorState<T>) -> &'a Self
-+///         where // <-- An optional set of additional trait bounds to match against
-+///             T: DriverConnectorState<Connector = C>;
-+///         use
-+///         //  | Meta-variable that will contain ::OPS (the auto-generated vtable)
-+///         //  |    | The driver trait implemented by the driver for generating the vtable
-+///         //  |    | It will add the bound C: DriverConnector<Driver = D> to the function
-+///         //  v    v
-+///             C as DriverConnector,
-+///         //  | Meta-variable to assign to KmsDriver
-+///         //  |    | This must always be KmsDriver, it's just here for clarity
-+///         //  v    v
-+///             D as KmsDriver,
-+///     }
-+/// }
-+/// ```
-+macro_rules! impl_from_opaque_mode_obj {
-+    (
-+        fn <
-+            $( $lifetime:lifetime, )?
-+            $( $decl_bound_id:ident ),*
-+        > ($opaque:ty) -> $inner_ret_ty:ty
-+        $(
-+            where
-+                $( $extra_bound_id:ident : $extra_trait:ident<$( $extra_assoc:ident = $extra_meta_match:ident ),+> ),+
-+        )? ;
-+        use
-+            $obj_trait_meta:ident as $obj_trait:ident,
-+            $drv_trait_meta:ident as KmsDriver
-+    ) => {
-+        #[doc = "Try to convert `opaque` into a fully qualified `Self`."]
-+        #[doc = ""]
-+        #[doc = concat!("This will try to convert `opaque` into `Self` if it shares the same [`",
-+                        stringify!($obj_trait), "`] implementation as `Self`.")]
-+        pub fn try_from_opaque<$( $lifetime, )? $( $decl_bound_id ),* >(
-+            opaque: $opaque
-+        ) -> Result<$inner_ret_ty, $opaque>
-+        where
-+            $drv_trait_meta: KmsDriver,
-+            $obj_trait_meta: $obj_trait<Driver = $drv_trait_meta>
-+            $( , $( $extra_bound_id: $extra_trait<$( $extra_assoc = $extra_meta_match ),+> ),+ )?
-+        {
-+            let funcs = opaque.vtable();
-+            let obj_funcs = &$obj_trait_meta::OPS.funcs;
-+
-+            if core::ptr::eq(funcs, obj_funcs) {
-+                // SAFETY: We only perform this transmutation if the opaque object shares our vtable
-+                // pointers, so the underlying full object must share our data layout.
-+                Ok(unsafe { core::mem::transmute(opaque) })
-+            } else {
-+                Err(opaque)
-+            }
-+        }
-+
-+        #[doc = "Convert `opaque` into a fully qualified `Self`."]
-+        #[doc = ""]
-+        #[doc = concat!("This is an infallible version of [`Self::try_from_opaque`]. This ",
-+                        "function is mainly useful for drivers where only a single [`",
-+                        stringify!($obj_trait), "`] implementation exists.")]
-+        #[doc = ""]
-+        #[doc = "# Panics"]
-+        #[doc = ""]
-+        #[doc = concat!("This function will panic if `opaque` belongs to a different [`",
-+                        stringify!($obj_trait), "`] implementation.")]
-+        pub fn from_opaque<$( $lifetime, )? $( $decl_bound_id ),* >(
-+            opaque: $opaque
-+        ) -> $inner_ret_ty
-+        where
-+            $drv_trait_meta: KmsDriver,
-+            $obj_trait_meta: $obj_trait<Driver = $drv_trait_meta>
-+            $( , $( $extra_bound_id: $extra_trait<$( $extra_assoc = $extra_meta_match ),+> ),+ )?
-+        {
-+            Self::try_from_opaque(opaque)
-+                .map_or(None, |o| Some(o))
-+                .expect(concat!("Passed ", stringify!($opaque), " does not share this ",
-+                                stringify!($obj_trait), " implementation."))
-+        }
-+    };
-+}
-+
-+pub(crate) use impl_from_opaque_mode_obj;
-+
- /// A [`Device`] with KMS initialized that has not been registered with userspace.
- ///
- /// This type is identical to [`Device`], except that it is able to create new static KMS resources.
-@@ -337,6 +435,23 @@ unsafe fn dec_ref(obj: NonNull<Self>) {
-     }
- }
- 
-+/// A trait for any object related to a [`ModeObject`] that can return its vtable.
-+///
-+/// This reference will used for checking whether an opaque representation of a mode object uses a
-+/// specific driver trait implementation.
-+///
-+/// # Safety
-+///
-+/// `ModeObjectVtable::vtable()` must always return a valid pointer to the relevant mode object's
-+/// vtable.
-+pub(crate) unsafe trait ModeObjectVtable {
-+    /// The type for the auto-generated vtable.
-+    type Vtable;
-+
-+    /// Return a static reference to the auto-generated vtable for the relevant mode object.
-+    fn vtable(&self) -> *const Self::Vtable;
-+}
-+
- /// A mode config guard.
- ///
- /// This is an exclusive primitive that represents when [`drm_device.mode_config.mutex`] is held - as
-diff --git a/rust/kernel/drm/kms/connector.rs b/rust/kernel/drm/kms/connector.rs
-index 0cfe346b4760e..4521643d19749 100644
---- a/rust/kernel/drm/kms/connector.rs
-+++ b/rust/kernel/drm/kms/connector.rs
-@@ -4,7 +4,7 @@
+diff --git a/rust/kernel/drm/kms/crtc.rs b/rust/kernel/drm/kms/crtc.rs
+index 9950b09754072..bcdd452ff7b10 100644
+--- a/rust/kernel/drm/kms/crtc.rs
++++ b/rust/kernel/drm/kms/crtc.rs
+@@ -4,7 +4,9 @@
  //!
- //! C header: [`include/drm/drm_connector.h`](srctree/include/drm/drm_connector.h)
+ //! C header: [`include/drm/drm_crtc.h`](srctree/include/drm/drm_crtc.h)
  
--use super::{encoder::*, KmsDriver, ModeConfigGuard, ModeObject, RcModeObject};
-+use super::{encoder::*, KmsDriver, ModeConfigGuard, ModeObject, ModeObjectVtable, RcModeObject};
+-use super::{plane::*, KmsDriver, ModeObject, StaticModeObject, UnregisteredKmsDevice};
++use super::{
++    plane::*, KmsDriver, ModeObject, ModeObjectVtable, StaticModeObject, UnregisteredKmsDevice,
++};
  use crate::{
      alloc::KBox,
      bindings,
-@@ -203,6 +203,13 @@ fn deref(&self) -> &Self::Target {
- }
+@@ -185,6 +187,25 @@ fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
+ // SAFETY: CRTCs are non-refcounted modesetting objects
+ unsafe impl<T: DriverCrtc> StaticModeObject for Crtc<T> {}
  
- impl<T: DriverConnector> Connector<T> {
-+    super::impl_from_opaque_mode_obj! {
-+        fn <'a, D>(&'a OpaqueConnector<D>) -> &'a Self;
-+        use
-+            T as DriverConnector,
-+            D as KmsDriver
-+    }
-+
-     /// Acquire a [`ConnectorGuard`] for this connector from a [`ModeConfigGuard`].
-     ///
-     /// This verifies using the provided reference that the given guard is actually for the same
-@@ -286,6 +293,16 @@ fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
- // SAFETY: DRM connectors are refcounted mode objects
- unsafe impl<T: DriverConnector> RcModeObject for Connector<T> {}
- 
-+// SAFETY: `funcs` is initialized by DRM when the connector is allocated
-+unsafe impl<T: DriverConnector> ModeObjectVtable for Connector<T> {
-+    type Vtable = bindings::drm_connector_funcs;
++// SAFETY: `funcs` is initialized when the crtc is allocated
++unsafe impl<T: DriverCrtc> ModeObjectVtable for Crtc<T> {
++    type Vtable = bindings::drm_crtc_funcs;
 +
 +    fn vtable(&self) -> *const Self::Vtable {
-+        // SAFETY: `funcs` is initialized by DRM when the connector is allocated
++        // SAFETY: `as_raw()` always returns a valid pointer to a CRTC
 +        unsafe { *self.as_raw() }.funcs
 +    }
 +}
 +
- // SAFETY:
- // * Via our type variants our data layout starts with `drm_connector`
- // * Since we don't expose `Connector` to users before it has been initialized, this and our data
-@@ -448,6 +465,81 @@ impl<T: AsRawConnector> RawConnector for T {}
-     T::get_modes(connector.guard(&guard), &guard)
++impl<T: DriverCrtc> Crtc<T> {
++    super::impl_from_opaque_mode_obj! {
++        fn <'a, D>(&'a OpaqueCrtc<D>) -> &'a Self;
++        use
++            T as DriverCrtc,
++            D as KmsDriver
++    }
++}
++
+ /// A [`Crtc`] that has not yet been registered with userspace.
+ ///
+ /// KMS registration is single-threaded, so this object is not thread-safe.
+@@ -361,6 +382,86 @@ fn mask(&self) -> u32 {
  }
+ impl<T: AsRawCrtc> RawCrtc for T {}
  
-+/// A [`struct drm_connector`] without a known [`DriverConnector`] implementation.
++/// A [`struct drm_crtc`] without a known [`DriverCrtc`] implementation.
 +///
-+/// This is mainly for situations where our bindings can't infer the [`DriverConnector`]
-+/// implementation for a [`struct drm_connector`] automatically. It is identical to [`Connector`],
-+/// except that it does not provide access to the driver's private data.
++/// This is mainly for situations where our bindings can't infer the [`DriverCrtc`] implementation
++/// for a [`struct drm_crtc`] automatically. It is identical to [`Crtc`], except that it does not
++/// provide access to the driver's private data.
++///
++/// It may be upcasted to a full [`Crtc`] using [`Crtc::from_opaque`] or
++/// [`Crtc::try_from_opaque`].
 +///
 +/// # Invariants
 +///
-+/// - `connector` is initialized for as long as this object is exposed to users.
-+/// - The data layout of this type is equivalent to [`struct drm_connector`].
++/// - `crtc` is initialized for as long as this object is made available to users.
++/// - The data layout of this structure is equivalent to [`struct drm_crtc`].
 +///
-+/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
++/// [`struct drm_crtc`]: srctree/include/drm/drm_crtc.h
 +#[repr(transparent)]
-+pub struct OpaqueConnector<T: KmsDriver> {
-+    connector: Opaque<bindings::drm_connector>,
++pub struct OpaqueCrtc<T: KmsDriver> {
++    crtc: Opaque<bindings::drm_crtc>,
 +    _p: PhantomData<T>,
 +}
 +
-+impl<T: KmsDriver> Sealed for OpaqueConnector<T> {}
++impl<T: KmsDriver> Sealed for OpaqueCrtc<T> {}
 +
 +// SAFETY:
-+// - Via our type variants our data layout starts is identical to `drm_connector`
-+// - Since we don't expose `OpaqueConnector` to users before it has been initialized, this and our
-+//   data layout ensure that `as_raw()` always returns a valid pointer to a `drm_connector`.
-+unsafe impl<T: KmsDriver> AsRawConnector for OpaqueConnector<T> {
-+    fn as_raw(&self) -> *mut bindings::drm_connector {
-+        self.connector.get()
++// - Via our type variants our data layout is identical to `drm_crtc`
++// - Since we don't expose `OpaqueCrtc` to users before it has been initialized, this and our data
++//   layout ensure that `as_raw()` always returns a valid pointer to a `drm_crtc`.
++unsafe impl<T: KmsDriver> AsRawCrtc for OpaqueCrtc<T> {
++    fn as_raw(&self) -> *mut bindings::drm_crtc {
++        self.crtc.get()
 +    }
 +
-+    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_connector) -> &'a Self {
-+        // SAFETY: Our data layout is identical to `bindings::drm_connector`
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_crtc) -> &'a Self {
++        // SAFETY: Our data layout starts with `bindings::drm_crtc`
 +        unsafe { &*ptr.cast() }
 +    }
 +}
 +
 +// SAFETY: We only expose this object to users directly after KmsDriver::create_objects has been
 +// called.
-+unsafe impl<T: KmsDriver> ModesettableConnector for OpaqueConnector<T> {
-+    type State = OpaqueConnectorState<T>;
++unsafe impl<T: KmsDriver> ModesettableCrtc for OpaqueCrtc<T> {
++    type State = OpaqueCrtcState<T>;
 +}
 +
-+// SAFETY: We don't expose OpaqueConnector<T> to users before `base` is initialized in
-+// Connector::new(), so `raw_mode_obj` always returns a valid pointer to a bindings::drm_mode_object.
-+unsafe impl<T: KmsDriver> ModeObject for OpaqueConnector<T> {
++// SAFETY: We don't expose OpaqueCrtc<T> to users before `base` is initialized in Crtc::<T>::new(),
++// so `raw_mode_obj` always returns a valid pointer to a bindings::drm_mode_object.
++unsafe impl<T: KmsDriver> ModeObject for OpaqueCrtc<T> {
 +    type Driver = T;
 +
 +    fn drm_dev(&self) -> &Device<Self::Driver> {
@@ -343,114 +198,110 @@ index 0cfe346b4760e..4521643d19749 100644
 +
 +    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
 +        // SAFETY: We don't expose DRM connectors to users before `base` is initialized
-+        unsafe { &mut (*self.as_raw()).base }
++        unsafe { addr_of_mut!((*self.as_raw()).base) }
 +    }
 +}
 +
-+// SAFETY: Connectors are reference counted mode objects
-+unsafe impl<T: KmsDriver> RcModeObject for OpaqueConnector<T> {}
++// SAFETY: CRTCs are non-refcounted modesetting objects
++unsafe impl<T: KmsDriver> StaticModeObject for OpaqueCrtc<T> {}
 +
-+// SAFETY: `funcs` is initialized by DRM when the connector is allocated
-+unsafe impl<T: KmsDriver> ModeObjectVtable for OpaqueConnector<T> {
-+    type Vtable = bindings::drm_connector_funcs;
++// SAFETY: Our CRTC interface is guaranteed to be thread-safe
++unsafe impl<T: KmsDriver> Send for OpaqueCrtc<T> {}
++
++// SAFETY: Our CRTC interface is guaranteed to be thread-safe
++unsafe impl<T: KmsDriver> Sync for OpaqueCrtc<T> {}
++
++// SAFETY: `funcs` is initialized when the CRTC is allocated
++unsafe impl<T: KmsDriver> ModeObjectVtable for OpaqueCrtc<T> {
++    type Vtable = bindings::drm_crtc_funcs;
 +
 +    fn vtable(&self) -> *const Self::Vtable {
-+        // SAFETY: `funcs` is initialized by DRM when the connector is allocated
-+        unsafe { *self.as_raw() }.funcs
++        // SAFETY: `as_raw()` always returns a valid pointer to a crtc
++        unsafe { (*self.as_raw()).funcs }
 +    }
 +}
 +
-+// SAFETY: Our connector interfaces are guaranteed to be thread-safe
-+unsafe impl<T: KmsDriver> Send for OpaqueConnector<T> {}
-+unsafe impl<T: KmsDriver> Sync for OpaqueConnector<T> {}
-+
- /// A privileged [`Connector`] obtained while holding a [`ModeConfigGuard`].
- ///
- /// This provides access to various methods for [`Connector`] that must happen under lock, such as
-@@ -655,6 +747,83 @@ unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_connector_state) -> &'a mut S
+ unsafe impl Zeroable for bindings::drm_crtc_state {}
+ 
+ impl<T: DriverCrtcState> Sealed for CrtcState<T> {}
+@@ -429,6 +530,26 @@ fn deref_mut(&mut self) -> &mut Self::Target {
      }
  }
  
-+// SAFETY: `funcs` is initialized by DRM when the connector is allocated
-+unsafe impl<T: DriverConnectorState> ModeObjectVtable for ConnectorState<T> {
-+    type Vtable = bindings::drm_connector_funcs;
++// SAFETY: Shares the safety guarantee of Crtc<T>'s ModeObjectVtable impl
++unsafe impl<T: DriverCrtcState> ModeObjectVtable for CrtcState<T> {
++    type Vtable = bindings::drm_crtc_funcs;
 +
 +    fn vtable(&self) -> *const Self::Vtable {
-+        self.connector().vtable()
++        self.crtc().vtable()
 +    }
 +}
 +
-+impl<T: DriverConnectorState> ConnectorState<T> {
++impl<T: DriverCrtcState> CrtcState<T> {
 +    super::impl_from_opaque_mode_obj! {
-+        fn <'a, D, C>(&'a OpaqueConnectorState<D>) -> &'a Self
++        fn <'a, D, C>(&'a OpaqueCrtcState<D>) -> &'a Self
 +        where
-+            T: DriverConnectorState<Connector = C>;
++            T: DriverCrtcState<Crtc = C>;
 +        use
-+            C as DriverConnector,
++            C as DriverCrtc,
 +            D as KmsDriver
 +    }
 +}
 +
-+/// A [`struct drm_connector_state`] without a known [`DriverConnectorState`] implementation.
+ /// A trait implemented by any type which can produce a reference to a [`struct drm_crtc_state`].
+ ///
+ /// This is implemented internally by DRM.
+@@ -502,6 +623,50 @@ unsafe fn from_raw<'a>(ptr: *const bindings::drm_crtc_state) -> &'a Self {
+     }
+ }
+ 
++/// A [`struct drm_crtc_state`] without a known [`DriverCrtcState`] implementation.
 +///
-+/// This is mainly for situations where our bindings can't infer the [`DriverConnectorState`]
-+/// implementation for a [`struct drm_connector_state`] automatically. It is identical to
-+/// [`Connector`], except that it does not provide access to the driver's private data.
++/// This is mainly for situations where our bindings can't infer the [`DriverCrtcState`]
++/// implementation for a [`struct drm_crtc_state`] automatically. It is identical to [`Crtc`],
++/// except that it does not provide access to the driver's private data.
 +///
 +/// # Invariants
 +///
 +/// - `state` is initialized for as long as this object is exposed to users.
-+/// - The data layout of this type is identical to [`struct drm_connector_state`].
-+/// - The DRM C API and our interface guarantees that only the user has mutable access to `state`,
-+///   up until [`drm_atomic_helper_commit_hw_done`] is called. Therefore, `connector` follows rust's
-+///   data aliasing rules and does not need to be behind an [`Opaque`] type.
++/// - The data layout of this type is identical to [`struct drm_crtc_state`].
 +///
-+/// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
-+/// [`drm_atomic_helper_commit_hw_done`]: srctree/include/drm/drm_atomic_helper.h
++/// [`struct drm_crtc_state`]: srctree/include/drm/drm_crtc.h
 +#[repr(transparent)]
-+pub struct OpaqueConnectorState<T: KmsDriver> {
-+    state: bindings::drm_connector_state,
++pub struct OpaqueCrtcState<T: KmsDriver> {
++    state: Opaque<bindings::drm_crtc_state>,
 +    _p: PhantomData<T>,
 +}
 +
-+impl<T: KmsDriver> AsRawConnectorState for OpaqueConnectorState<T> {
-+    type Connector = OpaqueConnector<T>;
++impl<T: KmsDriver> AsRawCrtcState for OpaqueCrtcState<T> {
++    type Crtc = OpaqueCrtc<T>;
 +}
 +
-+impl<T: KmsDriver> private::AsRawConnectorState for OpaqueConnectorState<T> {
-+    fn as_raw(&self) -> &bindings::drm_connector_state {
-+        &self.state
-+    }
-+
-+    unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_connector_state {
-+        &mut self.state
++impl<T: KmsDriver> private::AsRawCrtcState for OpaqueCrtcState<T> {
++    fn as_raw(&self) -> *mut bindings::drm_crtc_state {
++        self.state.get()
 +    }
 +}
 +
-+impl<T: KmsDriver> FromRawConnectorState for OpaqueConnectorState<T> {
-+    unsafe fn from_raw<'a>(ptr: *const bindings::drm_connector_state) -> &'a Self {
-+        // SAFETY: Our data layout is identical to `bindings::drm_connector_state`
-+        unsafe { &*ptr.cast() }
-+    }
-+
-+    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_connector_state) -> &'a mut Self {
-+        // SAFETY: Our data layout is identical to `bindings::drm_connector_state`
-+        unsafe { &mut *ptr.cast() }
++impl<T: KmsDriver> FromRawCrtcState for OpaqueCrtcState<T> {
++    unsafe fn from_raw<'a>(ptr: *const bindings::drm_crtc_state) -> &'a Self {
++        // SAFETY: Our data layout is identical to `bindings::drm_crtc_state`
++        unsafe { &*(ptr.cast()) }
 +    }
 +}
 +
-+// SAFETY: See OpaqueConnector's ModeObjectVtable implementation
-+unsafe impl<T: KmsDriver> ModeObjectVtable for OpaqueConnectorState<T> {
-+    type Vtable = bindings::drm_connector_funcs;
++// SAFETY: Shares the safety guarantees of OpaqueCrtc<T>'s ModeObjectVtable impl
++unsafe impl<T: KmsDriver> ModeObjectVtable for OpaqueCrtcState<T> {
++    type Vtable = bindings::drm_crtc_funcs;
 +
 +    fn vtable(&self) -> *const Self::Vtable {
-+        self.connector().vtable()
++        self.crtc().vtable()
 +    }
 +}
 +
- unsafe extern "C" fn atomic_duplicate_state_callback<T: DriverConnectorState>(
-     connector: *mut bindings::drm_connector,
- ) -> *mut bindings::drm_connector_state {
+ unsafe extern "C" fn crtc_destroy_callback<T: DriverCrtc>(crtc: *mut bindings::drm_crtc) {
+     // SAFETY: DRM guarantees that `crtc` points to a valid initialized `drm_crtc`.
+     unsafe { bindings::drm_crtc_cleanup(crtc) };
 -- 
 2.48.1
 
