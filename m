@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECA9A50EE9
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 23:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FFBA50EF9
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 23:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 646C210E845;
-	Wed,  5 Mar 2025 22:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0C7210E83D;
+	Wed,  5 Mar 2025 22:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eq9c20d4";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="I2IJ7WoZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B14410E844;
- Wed,  5 Mar 2025 22:44:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3CC8C5C6D18;
- Wed,  5 Mar 2025 22:42:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BEF4C4CEE8;
- Wed,  5 Mar 2025 22:44:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741214688;
- bh=2JxaXI5uQ/VneCUNHP4A8xwsmj4sJP3Fjq8bh80NpMk=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=eq9c20d4norAxAO/oMommFxdW5nm5a2y3XaA7Qha34sd5nGnP/rbR0V456aYJ4EeC
- cP7aJS37nVs2b667748aLYJ9J+kwrHvmFzaIlYfB7HDTgi9vdCnCWpFkQCIstZQgzN
- ZK5cGurB3ATJ962JrXevwrV+Rxjb38ZM44YqTq6asgFg2Qcr0QQZuMFKwCFoSH5FR0
- MkbKMdfS90PvCPDhCSXem6gZHUMDPqEZFa6M55GtnnS1csFE7/gxoKHhukfYWu1uAt
- gZSon1tF0JDfLAp2y9itQJF+Ua7euPIIUnui/+AzSsMxPs2wDNmRatJQ1rJnqCfXWq
- hcI7JpQEaS+Mw==
-From: Dmitry Baryshkov <lumag@kernel.org>
-Date: Thu, 06 Mar 2025 00:44:37 +0200
-Subject: [PATCH 2/2] mailmap: remap all addresses to kernel.org alias
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E0E10E839;
+ Wed,  5 Mar 2025 22:46:33 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 525LhohL028207;
+ Wed, 5 Mar 2025 22:46:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ /+PSw0qvB/W8fKpy4PMRcWsMSIMOhwf5q/v1ZQL/lrY=; b=I2IJ7WoZF7e9pg5V
+ b3FtX6kFLTOcJ1xoa2qMSzBW4A9k74JxcBTTDf6m1xz8EGPciBe378oKDsjD0puQ
+ q3g5bNfnK1dNvLXq0SWrMWwu0+VLyh2kITF2vD1VTBTI5FFgEwPz9kFIw138h0Hb
+ nxAHsCHG2Sqlr21sdQFjFSALSS4RGXj7Q5JBoYXwtzgPGDrJktK52/4ldKJ5WmaO
+ Z0MzSfLZuLebTY03iKWMqDGMsOptcZ/rQipT+OCxvEcqZrP8wH5MkV5WLfdQkMa4
+ TrS3y0EjF/hsIP3U8GB19J6vTwFJnbg4mkAB3p1MGLOw/Sx6KsJEcZZz8/WNnn96
+ uwsJlg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6vex9e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Mar 2025 22:46:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 525MkOfO014259
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 5 Mar 2025 22:46:24 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 5 Mar 2025
+ 14:46:23 -0800
+Message-ID: <d0448a8f-8592-4414-9af7-c0ef528c2bb5@quicinc.com>
+Date: Wed, 5 Mar 2025 14:46:23 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250306-update-email-v1-2-9a231571e905@kernel.org>
-References: <20250306-update-email-v1-0-9a231571e905@kernel.org>
-In-Reply-To: <20250306-update-email-v1-0-9a231571e905@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] MAINTAINERS: use kernel.org alias
+To: Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1435; i=lumag@kernel.org;
- h=from:subject:message-id; bh=2JxaXI5uQ/VneCUNHP4A8xwsmj4sJP3Fjq8bh80NpMk=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnyNPbtNRffpS72VGGUzgGFdbbeJ4zw8URN3JwT
- MnlkNNV+g+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8jT2wAKCRCLPIo+Aiko
- 1VXoB/9r868Rnm6Qgm8v+i+z+GwgFkQsLFFZJ/rkbhFHCaL5qp/nuJBuLKC4ORbhfMqR0sSKqPF
- bV2pQrWJBQ8pOalre5Hte6DapC+ZiOLplDHok4KiqNHhLXNkYufmrcatuX0P+a/vy15BOlCW6bY
- 5SW9CbZNAurM0klwzqGzcuBQjrQVAzj9+BRea2nbGnX7SiOd9dIrueKAjiLPiLE+n4Ml2Ru/hqy
- ZbbmYVkvvaJty5Sj15/SokhZZkIn0+Gi4+q2fNLXhQt4s8Yy3twdg8hE1c57cfY+9/33iYjGvan
- WWNQxEzqJ9FkyCRZRefv2BKWXZy0tyH0IbnSnwRSuu3h7HKH
-X-Developer-Key: i=lumag@kernel.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+CC: <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250306-update-email-v1-0-9a231571e905@kernel.org>
+ <20250306-update-email-v1-1-9a231571e905@kernel.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250306-update-email-v1-1-9a231571e905@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: ZQEz5YSe_4B5utvCiLHvMgIAZPEQS07t
+X-Authority-Analysis: v=2.4 cv=bPnsIO+Z c=1 sm=1 tr=0 ts=67c8d441 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=VwQbUJbxAAAA:8
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=pGLkceISAAAA:8
+ a=COk6AnOGAAAA:8
+ a=KKAkSRfTAAAA:8 a=tVI0ZWmoAAAA:8 a=7segCkSFUhES_0U3-ikA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22 a=-BPWgnxRz2uhmvdm1NTO:22
+X-Proofpoint-GUID: ZQEz5YSe_4B5utvCiLHvMgIAZPEQS07t
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-05_09,2025-03-05_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ spamscore=0 mlxscore=0 clxscore=1011 bulkscore=0 mlxlogscore=880
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503050175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,34 +98,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remap all historical and non-historical entries to my kernel.org email.
 
-Signed-off-by: Dmitry Baryshkov <lumag@kernel.org>
----
- .mailmap | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/.mailmap b/.mailmap
-index 01145c078838bf9348e8d0e5e48b7b0954248dc5..a5c80ef0b7800519f3124e0d85294f34d6b275ca 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -198,10 +198,11 @@ Dengcheng Zhu <dzhu@wavecomp.com> <dengcheng.zhu@imgtec.com>
- Dengcheng Zhu <dzhu@wavecomp.com> <dengcheng.zhu@mips.com>
- <dev.kurt@vandijck-laurijssen.be> <kurt.van.dijck@eia.be>
- Dikshita Agarwal <quic_dikshita@quicinc.com> <dikshita@codeaurora.org>
--Dmitry Baryshkov <dbaryshkov@gmail.com>
--Dmitry Baryshkov <dbaryshkov@gmail.com> <[dbaryshkov@gmail.com]>
--Dmitry Baryshkov <dbaryshkov@gmail.com> <dmitry_baryshkov@mentor.com>
--Dmitry Baryshkov <dbaryshkov@gmail.com> <dmitry_eremin@mentor.com>
-+Dmitry Baryshkov <lumag@kernel.org> <dbaryshkov@gmail.com>
-+Dmitry Baryshkov <lumag@kernel.org> <[dbaryshkov@gmail.com]>
-+Dmitry Baryshkov <lumag@kernel.org> <dmitry_baryshkov@mentor.com>
-+Dmitry Baryshkov <lumag@kernel.org> <dmitry_eremin@mentor.com>
-+Dmitry Baryshkov <lumag@kernel.org> <dmitry.baryshkov@linaro.org>
- Dmitry Safonov <0x7f454c46@gmail.com> <dima@arista.com>
- Dmitry Safonov <0x7f454c46@gmail.com> <d.safonov@partner.samsung.com>
- Dmitry Safonov <0x7f454c46@gmail.com> <dsafonov@virtuozzo.com>
+On 3/5/2025 2:44 PM, Dmitry Baryshkov wrote:
+> My Linaro email will stop working soon. Use @kernel.org email instead.
+> 
+> Signed-off-by: Dmitry Baryshkov <lumag@kernel.org>
+> ---
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 29e1a423eee5bcf9df7938aaffe5bd3e2f6a2bbe..b3a67e278a839fa14d1329a249ecf4bbec00c26c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7459,7 +7459,7 @@ F:	include/uapi/drm/msm_drm.h
+>   DRM DRIVER for Qualcomm display hardware
+>   M:	Rob Clark <robdclark@gmail.com>
+>   M:	Abhinav Kumar <quic_abhinavk@quicinc.com>
+> -M:	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> +M:	Dmitry Baryshkov <lumag@kernel.org>
+>   R:	Sean Paul <sean@poorly.run>
+>   R:	Marijn Suijten <marijn.suijten@somainline.org>
+>   L:	linux-arm-msm@vger.kernel.org
+> 
 
--- 
-2.39.5
+Acked-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
