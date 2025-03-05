@@ -2,60 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EB6A50507
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877E0A504FE
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:35:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CEF10E80B;
-	Wed,  5 Mar 2025 16:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE8810E801;
+	Wed,  5 Mar 2025 16:35:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="c5MIv4RP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RTI1tYhM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c5MIv4RP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RTI1tYhM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 364AC10E80B
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:35:27 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E39F310E801
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:35:07 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7BCBD211C8;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A935A1F394;
  Wed,  5 Mar 2025 16:35:06 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741192506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
+ b=c5MIv4RPYbPIOmnYBrzr1xc98bHiOcLMpCYEmdKITvbMNNZoBn7sisct0iIepl13COqgi/
+ mFkfm2w00Ilo5Kf/GcHAlTmuJ/JNF26ooxmTuUnj2ibFRfqyisAVL0xraqudgaiOVjCJwg
+ WMsa1GtMdamnmbsVIjhDQnBuk8IIfA8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741192506;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
+ b=RTI1tYhMbwgMwJLqh3juWKUfTg1BAZ5yvn43//tDyOfvv87yG4IwMcmPWkxj8CedfNmTGZ
+ oAQvUtQtWouVyaBg==
+Authentication-Results: smtp-out2.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741192506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
+ b=c5MIv4RPYbPIOmnYBrzr1xc98bHiOcLMpCYEmdKITvbMNNZoBn7sisct0iIepl13COqgi/
+ mFkfm2w00Ilo5Kf/GcHAlTmuJ/JNF26ooxmTuUnj2ibFRfqyisAVL0xraqudgaiOVjCJwg
+ WMsa1GtMdamnmbsVIjhDQnBuk8IIfA8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741192506;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
+ b=RTI1tYhMbwgMwJLqh3juWKUfTg1BAZ5yvn43//tDyOfvv87yG4IwMcmPWkxj8CedfNmTGZ
+ oAQvUtQtWouVyaBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 567831366F;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 824311366F;
  Wed,  5 Mar 2025 16:35:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4M2sEzp9yGfxfQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id aGtUHjp9yGfxfQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 05 Mar 2025 16:35:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com,
 	airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 5/7] drm/ast: Add helper for computing framebuffer location
- in video memory
-Date: Wed,  5 Mar 2025 17:30:44 +0100
-Message-ID: <20250305163207.267650-6-tzimmermann@suse.de>
+Subject: [PATCH v2 6/7] drm/ast: Remove vram_fb_available from struct
+ ast_device
+Date: Wed,  5 Mar 2025 17:30:45 +0100
+Message-ID: <20250305163207.267650-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250305163207.267650-1-tzimmermann@suse.de>
 References: <20250305163207.267650-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 7BCBD211C8
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
+X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
+ BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -6.80
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,65 +115,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ast driver stores the primary plane's image in the framebuffer
-memory up to where the cursor is located. Add helpers to calculate
-the offset and size.
+Helpers compute the offset and size of the available framebuffer
+memory. Remove the obsolete field vram_fb_available from struct
+ast_device. Also define the cursor-signature size next to its only
+user.
+
+v2:
+- initialize plane size
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ast/ast_cursor.c | 18 ++++--------------
+ drivers/gpu/drm/ast/ast_drv.h    |  4 ----
+ drivers/gpu/drm/ast/ast_mm.c     |  1 -
+ 3 files changed, 4 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index c3b950675485..4cac5c7f4547 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -51,6 +51,24 @@
+diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+index 05e297f30b4e..cb0c48d47207 100644
+--- a/drivers/gpu/drm/ast/ast_cursor.c
++++ b/drivers/gpu/drm/ast/ast_cursor.c
+@@ -37,6 +37,7 @@
+  */
  
- #define AST_LUT_SIZE 256
- 
-+static unsigned long ast_fb_vram_offset(void)
-+{
-+	return 0; // with shmem, the primary plane is always at offset 0
-+}
-+
-+static unsigned long ast_fb_vram_size(struct ast_device *ast)
-+{
-+	struct drm_device *dev = &ast->base;
-+	unsigned long offset = ast_fb_vram_offset(); // starts at offset
-+	long cursor_offset = ast_cursor_vram_offset(ast); // ends at cursor offset
-+
-+	if (cursor_offset < 0)
-+		cursor_offset = ast->vram_size; // no cursor; it's all ours
-+	if (drm_WARN_ON_ONCE(dev, offset > cursor_offset))
-+		return 0; // cannot legally happen; signal error
-+	return cursor_offset - offset;
-+}
-+
- static inline void ast_load_palette_index(struct ast_device *ast,
- 				     u8 index, u8 red, u8 green,
- 				     u8 blue)
-@@ -609,9 +627,8 @@ static int ast_primary_plane_init(struct ast_device *ast)
- 	struct ast_plane *ast_primary_plane = &ast->primary_plane;
- 	struct drm_plane *primary_plane = &ast_primary_plane->base;
- 	void __iomem *vaddr = ast->vram;
--	u64 offset = 0; /* with shmem, the primary plane is always at offset 0 */
--	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
--	unsigned long size = ast->vram_fb_available - cursor_size;
-+	u64 offset = ast_fb_vram_offset();
-+	unsigned long size = ast_fb_vram_size(ast);
+ /* define for signature structure */
++#define AST_HWC_SIGNATURE_SIZE		SZ_32
+ #define AST_HWC_SIGNATURE_CHECKSUM	0x00
+ #define AST_HWC_SIGNATURE_SizeX		0x04
+ #define AST_HWC_SIGNATURE_SizeY		0x08
+@@ -289,25 +290,16 @@ int ast_cursor_plane_init(struct ast_device *ast)
+ 	struct ast_cursor_plane *ast_cursor_plane = &ast->cursor_plane;
+ 	struct ast_plane *ast_plane = &ast_cursor_plane->base;
+ 	struct drm_plane *cursor_plane = &ast_plane->base;
+-	size_t size;
++	unsigned long size;
+ 	void __iomem *vaddr;
+ 	long offset;
  	int ret;
  
- 	ret = ast_plane_init(dev, ast_primary_plane, vaddr, offset, size,
-@@ -942,7 +959,7 @@ static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
- 	struct ast_device *ast = to_ast_device(dev);
- 	unsigned long fbsize, fbpages, max_fbpages;
+-	/*
+-	 * Allocate backing storage for cursors. The BOs are permanently
+-	 * pinned to the top end of the VRAM.
+-	 */
+-
+-	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+-
+-	if (ast->vram_fb_available < size)
+-		return -ENOMEM;
+-
+-	vaddr = ast->vram + ast->vram_fb_available - size;
++	size = ast_cursor_vram_size();
+ 	offset = ast_cursor_vram_offset(ast);
+ 	if (offset < 0)
+ 		return offset;
++	vaddr = ast->vram + offset;
  
--	max_fbpages = (ast->vram_fb_available) >> PAGE_SHIFT;
-+	max_fbpages = ast_fb_vram_size(ast) >> PAGE_SHIFT;
+ 	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
+ 			     0x01, &ast_cursor_plane_funcs,
+@@ -320,7 +312,5 @@ int ast_cursor_plane_init(struct ast_device *ast)
+ 	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
+ 	drm_plane_enable_fb_damage_clips(cursor_plane);
  
- 	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
- 	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
+-	ast->vram_fb_available -= size;
+-
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index ec9ec77260e9..d9da2328d46b 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -112,12 +112,9 @@ enum ast_config_mode {
+ 
+ #define AST_MAX_HWC_WIDTH	64
+ #define AST_MAX_HWC_HEIGHT	64
+-
+ #define AST_HWC_PITCH		(AST_MAX_HWC_WIDTH * SZ_2)
+ #define AST_HWC_SIZE		(AST_MAX_HWC_HEIGHT * AST_HWC_PITCH)
+ 
+-#define AST_HWC_SIGNATURE_SIZE	32
+-
+ /*
+  * Planes
+  */
+@@ -183,7 +180,6 @@ struct ast_device {
+ 	void __iomem	*vram;
+ 	unsigned long	vram_base;
+ 	unsigned long	vram_size;
+-	unsigned long	vram_fb_available;
+ 
+ 	struct mutex modeset_lock; /* Protects access to modeset I/O registers in ioregs */
+ 
+diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
+index 3d03ef556d0a..0bc140319464 100644
+--- a/drivers/gpu/drm/ast/ast_mm.c
++++ b/drivers/gpu/drm/ast/ast_mm.c
+@@ -92,7 +92,6 @@ int ast_mm_init(struct ast_device *ast)
+ 
+ 	ast->vram_base = base;
+ 	ast->vram_size = vram_size;
+-	ast->vram_fb_available = vram_size;
+ 
+ 	return 0;
+ }
 -- 
 2.48.1
 
