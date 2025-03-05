@@ -2,178 +2,194 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB29EA4F6A7
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 06:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2C2A4F74B
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 07:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D700510E6D7;
-	Wed,  5 Mar 2025 05:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D44910E6F3;
+	Wed,  5 Mar 2025 06:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AUYAy/hR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hhMzrwnP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B54B10E6D7;
- Wed,  5 Mar 2025 05:46:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C5310E6F3;
+ Wed,  5 Mar 2025 06:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741153577; x=1772689577;
+ t=1741156842; x=1772692842;
  h=from:to:cc:subject:date:message-id:references:
- in-reply-to:mime-version;
- bh=Ngw8moi8qc677gi1VwgKV33b7i38cBhaUH051KUD9nQ=;
- b=AUYAy/hR4f2JRPMzw/SD94OlFASBERlgy8SXf9Dn7Nf0cPPnyV1zXg0k
- cQx9l5kF222eoVAM+xLkLw/PsJgUUY7Dd6cw1WnO5mKRTl6fk7BL0nSji
- ku/knKzTeBwCK0rmedqB6D/jRAmyA2BH559C/Jwfr1CEgALbg3O+JWlOQ
- k3iqP4s+92QE2KRdmLZCiys4eU2y0wQDxTdpgFXCCY1vNwARczFbcbMeR
- gfnQg+bcBPUIjypyroBKUczaQMAuwuoaYPVnNlMVOKfzJbkSZhkeFvBZb
- 6wKAS4LmqwhWOpWWk72bR1LPwUQPMBMOIGGE95GdsWpcmSNtoDaph8W8I A==;
-X-CSE-ConnectionGUID: kScqD1qRTxuuWoddrwgn3Q==
-X-CSE-MsgGUID: 8TVbINpeTJmHjWKZ2pRvCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41813487"
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; d="scan'208,217";a="41813487"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2025 21:46:15 -0800
-X-CSE-ConnectionGUID: xm19k8eWSpOXxn72UDESrg==
-X-CSE-MsgGUID: YtMBqsGNR/u+X162jpgXhw==
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=8q0AmOZUlycLN4/4txwQq5OwG793htuNG8ySVQbXGew=;
+ b=hhMzrwnP3INGB2hnutCfYBUXQEmoPz+UdfpKFwBZNfTdoLBus4BOUbM6
+ SjCyMDDikA8GOBxXPTm2y5tB5MOacDlC5qchgREWkY8jPA6wU7fE0zGx4
+ /krvCrMKGr4LDJa+TtnsPnM7WS5jH3YwpaTbX4py1g9X5UxOibBt85220
+ Bbr+UGYxdNP6TBDXMQcpf4QbY1Xm3yyJCvXiNyIXedeRln3IYJsJ2S8Vs
+ pFA+9+KOU8Oa0pJJe0iuawY/uwbOX9Hg97fKWjS/LPStmGkQRaJNjiu2A
+ /tTimyWIAu7uyr6pn73ZLO7D4xylZJTwvK/kdd7NMhAUozwj/0098QM6K g==;
+X-CSE-ConnectionGUID: 6L0KgJzyQOOgyCIgwaDeZw==
+X-CSE-MsgGUID: rdtiuhnlQc2MMyvUsvJCdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41962595"
+X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; d="scan'208";a="41962595"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2025 22:40:42 -0800
+X-CSE-ConnectionGUID: XtJUHzI4Rw6U2ZoiRbcStQ==
+X-CSE-MsgGUID: ndQlyXVnSZaN8QNjAesHtQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
- d="scan'208,217";a="123605365"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2025 21:46:15 -0800
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="155788401"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2025 22:40:42 -0800
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 4 Mar 2025 21:46:14 -0800
+ 15.2.1544.14; Tue, 4 Mar 2025 22:40:42 -0800
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 21:46:14 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.43) by
+ 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 22:40:42 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.48) by
  edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 4 Mar 2025 21:46:13 -0800
+ 15.1.2507.44; Tue, 4 Mar 2025 22:40:41 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N8XADx94/poNrH0STxqYZss7GjkpV/JivvqY+XHS5AvYgtPrR92k2mJ9OMsjI1jBM4tzf+SxKdtIi4oHHSxo/bMQG59nbdpZjGKKg2SL0EjH+eIF1DOAunT0YiX6SsabpKmU6SJgteyWpg8+5BuiRdQmTDjXT+yPJB8Swk4GFNF3OrP3zXeCz1y51Hhw1LDy9B0j1WDdOSSdMXYYEbNPiXB+ZfDWUhskJVzDsGP2tTuqUgwNfGnxw5jqKOGFH6njEqvsFomx6LXymw3zO2D31bGj6FnvjxWkIo9OQTmDReMjX9cfZNDUwJJupl2feoQHUwdNGtQx0ZMNbiF7e1YMbw==
+ b=vcwu/Dt8VvophGjHQkuxtgOXT4l6jbGJAHBCkMgmAzk2XiT2ExGAHIfI68u95cyLVotmlzX9wry9hZj8HMhG0GJM2IlHwwY12v1pESfdOx1j+7mmOq/17fvPekDF9tHw5z0Wrl3kaZXPCre83DCjRu7KqqDDvF7baGcJ7R5D16rza3MC10M8c/wm8t0+hsFNJ5KVTZw3VgrNkq5XqsjBxzsglozfmha7ZiutAP1dwjTmWAptP0K4NSyy24ygd2eEsepCiVkydsB5P+GoqCwNBhAh4EdsOPodu8j0BFayZ+nMhWBaTgC6lipSScDPoD4SL0YFM2W/JKZEY9jROkXt0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B86DIECLjYe+PsDt2v84NXndrvlmySYAS69/S2LEWzE=;
- b=uNR+3m7jj+UsrMCzIrwxQ1o94JsciLa0pFhYvUout1TRyY8ZBvpZuCVIEBR6GgGk0TlB+X3CMSh4n/P2m6r9qGiqB1Cn+lbTPVjW+eAz7YwnTbAINjtrgetqpbudClmNJIyHrjMkb9LYxhLp9vUFikQCNlqR876EqAofQOHZw+gEhz7kYyDyjJ0W6u6jz9+KPzk1i+cMXx+p9c15XnReEaG4kJ2QSUPSuE7uskgb1QSni8sOLIB2rTxbINDisDsvUrtaWeWumQjXXFbg1RxT4UKFsXMqfpmxYBHWs6fKt9ycp6qJtZHYHEttkM5KrkllINOMn4SSJFdD3y2KCaRmDA==
+ bh=8q0AmOZUlycLN4/4txwQq5OwG793htuNG8ySVQbXGew=;
+ b=k/9/uZvvQ7zCNGFnGvcg3ChmN8jVwRGZLU0p16W9lWdrJSN8HuSOFBVfiGTxVy3kVmNxvrjEySTR+RljaJy3Qu93KpkpH68R4AbyM9wYoPpNriksQLnxOSCghbZG/I5YDhJy/qh7z5XjT7l69fJ1Cx5qKe8hRf3bJrqcqGI3CqkCkn6RT+rdyZDIsg/Iaispfb6whlEilnS5eZe0eePCslSnffF0DsQ9ng/dX2FdvuTbMQOqWZvqfo+ZbB9ePs06LJCO7OXo12P0prt2qPBJX877B4bV+ue2Q1H2S4SvyRAnoPbhXMJuHZqoJrzvDtT9P1dloFWeZQivEZKbMKZQcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from CH3PR11MB8707.namprd11.prod.outlook.com (2603:10b6:610:1bf::20)
- by SJ1PR11MB6155.namprd11.prod.outlook.com (2603:10b6:a03:45e::10)
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
+ by IA1PR11MB6467.namprd11.prod.outlook.com (2603:10b6:208:3a5::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.27; Wed, 5 Mar
- 2025 05:45:31 +0000
-Received: from CH3PR11MB8707.namprd11.prod.outlook.com
- ([fe80::24af:ac1c:2b1d:7e62]) by CH3PR11MB8707.namprd11.prod.outlook.com
- ([fe80::24af:ac1c:2b1d:7e62%3]) with mapi id 15.20.8511.015; Wed, 5 Mar 2025
- 05:45:31 +0000
-From: "Zhang, Jianxun" <jianxun.zhang@intel.com>
-To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-CC: "Gupta, saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex"
- <alex.zuo@intel.com>, "joonas.lahtinen@linux.intel.com"
- <joonas.lahtinen@linux.intel.com>, "Brost, Matthew"
- <matthew.brost@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info
-Thread-Topic: [PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info
-Thread-Index: AQHbig2aj68byJK2iUqwcOktmoeLx7NkDW6J
-Date: Wed, 5 Mar 2025 05:45:30 +0000
-Message-ID: <CH3PR11MB870734408B85CB51778D01C9F4CB2@CH3PR11MB8707.namprd11.prod.outlook.com>
-References: <20250228182122.77475-1-jonathan.cavitt@intel.com>
- <20250228182122.77475-4-jonathan.cavitt@intel.com>
-In-Reply-To: <20250228182122.77475-4-jonathan.cavitt@intel.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.16; Wed, 5 Mar
+ 2025 06:40:39 +0000
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::21c3:4b36:8cc5:b525]) by SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::21c3:4b36:8cc5:b525%5]) with mapi id 15.20.8489.025; Wed, 5 Mar 2025
+ 06:40:38 +0000
+From: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
+CC: "Brzezinka, Sebastian" <sebastian.brzezinka@intel.com>, "Kumar, Naveen1"
+ <naveen1.kumar@intel.com>
+Subject: RE: [PATCH v7 3/3] drm/i915/display: Add i915 hook for
+ format_mod_supported_async
+Thread-Topic: [PATCH v7 3/3] drm/i915/display: Add i915 hook for
+ format_mod_supported_async
+Thread-Index: AQHbh1mz6Gae1kJJGEuiQXdPtRTnOLNkCMDg
+Date: Wed, 5 Mar 2025 06:40:38 +0000
+Message-ID: <SJ1PR11MB61297FE97935A543F480DF59B9CB2@SJ1PR11MB6129.namprd11.prod.outlook.com>
+References: <20250225-asyn-v7-0-20b81122f4ce@intel.com>
+ <20250225-asyn-v7-3-20b81122f4ce@intel.com>
+In-Reply-To: <20250225-asyn-v7-3-20b81122f4ce@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: 
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB8707:EE_|SJ1PR11MB6155:EE_
-x-ms-office365-filtering-correlation-id: 9d06d57b-23cb-40a9-958c-08dd5ba8f0dc
+x-ms-traffictypediagnostic: SJ1PR11MB6129:EE_|IA1PR11MB6467:EE_
+x-ms-office365-filtering-correlation-id: aa8e33ae-8f2f-42b3-736f-08dd5bb0a42e
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|38070700018|7053199007|8096899003; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?M/Zkcw/6Frgt0HqREqRWQZZg46w5UNRdLvqLAA9Iq8yn8nTLdBqjCMmlCT?=
- =?iso-8859-1?Q?pTF3osBymv7wGlZC4DTmr+6Gd1ON5K1Xgwa5e4Y/GRORRrh657XekBgwlK?=
- =?iso-8859-1?Q?+/7RV8qZtrjDe+rX5eMCtRwxWd0jFEclAMRrxHOWWdAiM43o71JxOwz7Mt?=
- =?iso-8859-1?Q?I7TpvZ42Pmbq34XqrObFfiD696IPQKby5xF85vuqo5JxMCtNIkZ4BSGApq?=
- =?iso-8859-1?Q?PifAkpRxE4FhaqYGBWDwGKww4wPPXqEtQs+FUubgZk8L0odlXBS32F5tQo?=
- =?iso-8859-1?Q?rhoONNrSG9RvwvNGVB7nqIyVf2Qn1d2XmCSDlyBovlrbzmrsunsWRsEPKk?=
- =?iso-8859-1?Q?gCatqDj9vVfU0iyseqmJizHG+BFbPB2GR5k4e2Xmik6s5jJ8rP7/6FpXSx?=
- =?iso-8859-1?Q?bkWrjPzNqbdXCl1sA6UI5Z1tyIQLnYwu/no8s8fTYKWDYedn0jlMaKzrXn?=
- =?iso-8859-1?Q?mRJWDrnMbDaH/kfiKKptRfBQjB6LFAqUZCuLV5uNzZ/efn8y9+/f7Yerp7?=
- =?iso-8859-1?Q?xtiafLdA0hwHmpy5Twe28Wx+1UrUigx08Gsmq0N8Ummok86z+00rBD1gIJ?=
- =?iso-8859-1?Q?MjlSjaeZkOnoUCDGAM9vomRUb+KxR3j65oFj677BbDNTCyNv9K2OCOA9Cv?=
- =?iso-8859-1?Q?hFtXBr/38DVwQUZU/3IASnilkfUBSQFNKl+f0G+Bv538lBOXC93eXKMBGl?=
- =?iso-8859-1?Q?ZfZ2DWiclOcwdg180/TacmlkIrLps88Tq/saPt9VSvTcN99MnMJ/pwxvjj?=
- =?iso-8859-1?Q?70+rCEgu9AVN6VDcrssqt5GVCniQHITyABxeGUSQWMfWQ/7LT1+4oG7yNA?=
- =?iso-8859-1?Q?uNJJa0nF6jBOsVhk+PtWohEYqRtTYlWeP7nx1fCDNYlxNsRemV3cVJc470?=
- =?iso-8859-1?Q?OM2Z1mEGXKwDq3OecSmeknqj087XvWXVPmV1zFa7IRdDPuqb2lirZMiz7D?=
- =?iso-8859-1?Q?Ky1U6WC8AXs3D5ZF6+ZM7rgzWcSrXG76PPGyq+4L9FsRNsjTJkqKKOFbrB?=
- =?iso-8859-1?Q?IjHUG1EZKd7alGUPYz/8EnjraWXdKp2Kv7UowBgPYKSREBjzXhbTXPbWA5?=
- =?iso-8859-1?Q?p8Ad3W9kQ7Fi5l7dfWUgR3CtqUJz9zEIN72oLuXoYAH3/Vuv/Ak3LlQ733?=
- =?iso-8859-1?Q?kOEOJol2zE6OoYgA/wnChxbgRKiXnKZUDXehZgOUcvTvCuni9lIlnJECju?=
- =?iso-8859-1?Q?8oebczPYuKXJJJJE834c+IQP0TZrUTKH2JyN+o/mSbLbQXhPouOXyfRGty?=
- =?iso-8859-1?Q?xtyB9FF3BaN+Lg4SanNuqUzORqHEf9iMh5I4RKxejCgTfeDlfCZwFC+J/d?=
- =?iso-8859-1?Q?5LCiQvw6sjE8ua1GiKARQm18OxjrwifRebkWk+Ylogq4XbveEQBwfC/DgR?=
- =?iso-8859-1?Q?ENTr23eBOdoYs+sbhoAduGCG2gLfUDYTrE4GCKTJU03s9g55bbGkjO7FPT?=
- =?iso-8859-1?Q?9h+RzC9SEUbyiN94t8zHMx2eUw9XJKcCkxFgp1kEYNxGLcyqSZ/Iavtj1K?=
- =?iso-8859-1?Q?i5a77E5co4hK7EO7oc0uwk?=
+ ARA:13230040|366016|1800799024|376014|38070700018|7053199007; 
+x-microsoft-antispam-message-info: =?utf-8?B?anp0ZUJNa011RWgwS2FNejU5a0UvejZyeEcvT3FoRVJDSGlrV3dWZ2hvcEwr?=
+ =?utf-8?B?NnJoR2xpbC9yaEhrQmxTaEV6dHhtQk5xaTR1VXhiK1ZUUGFDYXduLzJoLzhS?=
+ =?utf-8?B?aXRFcXpQdEJ0blBOc3dGWjNHWGllMVNMeGhDWDk2WUlBQnJpaktWZzNMMDh3?=
+ =?utf-8?B?cDI1WWlhQkRaeHN1WGJ4Mjl1Q3lXWUZ2OGE1c2VTaDBLODJKd1Z6MHd1bWQ5?=
+ =?utf-8?B?Z1VrQUIyck5tdnFFdytxMUtza1BqOC8xMDVqaElvS0lOOGN5aWxLSEttR3pK?=
+ =?utf-8?B?T2l5TXR2cHh1U09GZ2tUaGtDeURaeTdOQmhuRkhmMXY3cDM4cGxGRTdNSHB2?=
+ =?utf-8?B?SUM1aVFiYTJLZjRIRW02WDVKaDJybnFoWnNROGt6eThuWDlqcGMwS01hVjFa?=
+ =?utf-8?B?c1hEQXNlN1JpTy9ON05WSG1kWXBKUmRJWEZ4Y3hSaURDazNnWWtJRDRKSDZV?=
+ =?utf-8?B?YXBIMXJSc0pUcy9MbnJUSmJobnpSV2plOXVVWmJBd2I1c01XczUvcEl4QVdG?=
+ =?utf-8?B?aFBJUVhjd0ZuWU1IK283dXdBOThQMkNCakFpRlpIK0ovR3JsYTZ0SUNWekk3?=
+ =?utf-8?B?RlJ5RmlURWxDU09mTlF6VE1JSGVHdnh2b1hEWXhBZ1RqTkdYNVJwMG01cWti?=
+ =?utf-8?B?TFN1YjR5YS9nN3B1cUVlQzlFNzcyUS9jMFBQMVJyU1F5YmY1Mkt3MnM5MVhx?=
+ =?utf-8?B?eDFWWitpNm9MNGs4WjZja2I5L1BOQ2VNczZjcjBJU0JHWDRlWXoxeWZ5NlhG?=
+ =?utf-8?B?bjJEbCt1djZ1UzNzU0tRbS91RWxUSHJwR0ZpMkowekVDaGRWckh2VGwyQ3d5?=
+ =?utf-8?B?QndaSFcrZGFzcSt3U281TlMvM0ZqSFlwdXVGRUZhVWw1ZDlnOUp3Y0dCMUdI?=
+ =?utf-8?B?MnBzNU5NRWpTWFpJem4rbDdjNDlLa1piQndnOW90VjVrR3dMME9VUFg0dHBq?=
+ =?utf-8?B?S291dDI5cW9FOVBWc0VhamJhTEhrcms0dE5HNEprQ2YyY3ArdUtkZWcxN09p?=
+ =?utf-8?B?dnJHQWhkOGh0MXJHcHpKd201ZFpuU1BlbmJoM2M3cnpTaFpjS2pqRjFMNG1a?=
+ =?utf-8?B?OWtMRGNPaDQ3bkhLbzZRMzVIVXZzd2R3bFNoRjAzTWl1ekluVDhOZmxUR1pN?=
+ =?utf-8?B?dnlrK01jOUJHcTFnOElIbmZPQUlYYWVZY2tJYldRRTgyMEZvV2tXcTZYQ3Br?=
+ =?utf-8?B?T3A3TUFqRUpETjBLd1crZkpOZVVVekRDUmdVV0hqcEdUN3FVdldNdGVzN0l4?=
+ =?utf-8?B?cnF2RHhOLzNPSHhUd2lIa3RoRXBCWm03MmVQYTBmR2k1ZXE3VXY0ZnNNSEhq?=
+ =?utf-8?B?WWU5aWZ3Rk1WbGhqSElMZ1FWTDJad0gzRjJQRVJjLzBCSHAvczJFYXhaTVpY?=
+ =?utf-8?B?ZC9leXExUUZITW5LY0NIUytROVp0ZDJWNEw5SURnKys3TUpFL0pVUUNiWGtt?=
+ =?utf-8?B?elc0cEZocWhEQzYyYldsejlTNmtWbWU3b0pGeHBrMUpyZit3Y09QOTRDSm01?=
+ =?utf-8?B?a1JHR0xPUlFyOWxxRFU3QmxMcnZIRWdpTlE5SW1qbk1UdzBpTHBVaFpQSUZp?=
+ =?utf-8?B?bGg5dWFINGZ5TURMZUcwaTRvUDl4OFNQaVA1YTE1VjZic1VZQmNGMU5MaVB0?=
+ =?utf-8?B?Vi84RCtUcDU4QUJWVGJhYWdPdzlSeXFlcjlHSFB3WmR6Wlp5KytUL2U4U0l1?=
+ =?utf-8?B?cXdvck9uN2Q4bnJaNHRPT2ZKalVKNGlkTWRXMmhZMTRMZElyakVlZEhySTZt?=
+ =?utf-8?B?cjhiYWZWRGExMlNLNDFzUXBLcURwMzN2a0RQQUdnVXl5UjFNelJUNDcvU0E5?=
+ =?utf-8?B?VWNrdHpLT1g5aEFlRmEyZEpjUkJGWDhVQnN1WlRHMWlyM25vVXZOR1AwRjJ3?=
+ =?utf-8?B?M1VkSkhGNU8vWGJMNlhqTG5ibS8ydE9xQ3FaRjdpeHRFRWo4bFNmdHdDMFNi?=
+ =?utf-8?Q?vl9HrHyJzpyj8LMVxqRjVhuNwD5108FM?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR11MB8707.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(7053199007)(8096899003);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:SJ1PR11MB6129.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(38070700018)(7053199007); DIR:OUT;
+ SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?MkciXqx/SDWxAJ94ntEQd2CNE2pTvQlovZWCkXivt1w9V0vIjuTG+OhN3W?=
- =?iso-8859-1?Q?JUbkCAnL9ybLO6f/VtnaVNHpMVrTDleQfK3lq//1yqxC4NP8wijVmkrDGu?=
- =?iso-8859-1?Q?X56wB37SI8xZmaRiEP00JI1c1srfqbX9s3COL+nV3Qg2NmDaXTZ10zFTqc?=
- =?iso-8859-1?Q?py3iOmWgeE7poxlcInA/NMWw0f9W5ZLVq+PjNaQXMr4TudDT0BhXrdIgU9?=
- =?iso-8859-1?Q?jCB6hF3IYue9TQAtppfqXmWC5y6W/QJztU2arU1gAqq5eWigHrIRJRwu4U?=
- =?iso-8859-1?Q?2APnHOSCEoc5MWwK2QNVK6Vq5VsK0onYGxfNg8QGUIZLTnXrDN46U6UnBI?=
- =?iso-8859-1?Q?5JEMUy0KCkHOlCUJAlnGpHRKyEdHvLMjXJa3v4jLxzjYP2afaOY17Itje9?=
- =?iso-8859-1?Q?Zfs3z3CZQ1bEHA/0yhU0JtTbgy+U64xSm1/soCWJ6U5uOJIxXiz+Cnh10d?=
- =?iso-8859-1?Q?K9zzD1hGG4sJdXgqq7+QB3xxfiaK5Y5QwifBii//1irj/fm7Gb+yDE2258?=
- =?iso-8859-1?Q?D4EUKpLPeikl2y4T4HxmijuCXEyDVsxHx34sIv54c8pg649qoNnUeyuS0t?=
- =?iso-8859-1?Q?9eUFzTQ54Yn8/B8XrqgvgNMZl/zFDg1+gvc79VYr9Y1cJ14uM+3Ns0gXD/?=
- =?iso-8859-1?Q?qQmPDGzo2AId7XPcaH/fFZDJ0PQtrnUUdbDO3Hh8AYpsMJmnGZFp99Iz54?=
- =?iso-8859-1?Q?UDKylV5Uqo7qFSRY0NojPL07q0Zwxmp5wxvBpG9lQshQb9K9LyH3JXFv7F?=
- =?iso-8859-1?Q?zNsEvJOvglpClY9VYYjrywHopOCoYGRGdUmZW6ERCTe4EKfgOQY765XWnX?=
- =?iso-8859-1?Q?flEpFushbIf3MlR3FlNe1gKFcsWemPwmXrrxlPHz4CaTZlhT+j+6xRLbbX?=
- =?iso-8859-1?Q?RgsnJZaEFhbdSUWjI1QHeYqOC5fDBlP/LhcstnzAF2tBQLww2SLcnvZ86/?=
- =?iso-8859-1?Q?8zAVPnclgPYsKICc0J5ThD1tmyr5aTqR2cWuVkYfGYsUYppqJMXz1MbCSQ?=
- =?iso-8859-1?Q?JrRZDll+mcj/wObQ6+jC5kaqJ18ZTIgYd5O7SY71eGAe92YbnR3GQMB1vw?=
- =?iso-8859-1?Q?VCQ0FowtpzR0BDLL4PsaUHamOLkJEqULrpg82OzFnb3/yWa+LUoOoat3QK?=
- =?iso-8859-1?Q?es2zxcdSPcZl32iHqLxA5b5vUoY6DpAgJDtWv+viLXB83t0dWWDYgnkty3?=
- =?iso-8859-1?Q?cSaLGMrVN7iwazye9NwUKP7WcXzLUaXWrALeX/vxIiviZ7BCKQs8sglKXs?=
- =?iso-8859-1?Q?RDl8L7RFtilZJxt89GSRQpaRSwyfkmpUdBLMPputfkJbzZA2tVJGQDcHQE?=
- =?iso-8859-1?Q?kwUqCtki1mph2bvYW97c2qWk5XN4jC4d4spddmDcRg4Zezv+w1rhONgsLS?=
- =?iso-8859-1?Q?F1JSSpRU1+q8HQJv+mCT+jRCqDB1RXzBelqVjSX5mjMan/sw5e2lAJ49pr?=
- =?iso-8859-1?Q?SZ9MtXbFB6AW88k46uEup2WOwv5N8NTJP7HAFW1kRWcotRCCjDbneyLakS?=
- =?iso-8859-1?Q?RcFWUPtMV1lKduRx3PzPmjpG95DbpA68oBic6YQONylZDCGthpd52h7Bkz?=
- =?iso-8859-1?Q?Dg0wNhV4sm2bWSI2X6OyxC4xamVv2AEolQg+M+q37aybfrLtDVUZyt6zFo?=
- =?iso-8859-1?Q?MGiC/JiCwZfnpd1lJMlsefu1ub0Y26/89d?=
-Content-Type: multipart/alternative;
- boundary="_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_"
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bWZ4RUFVcmtmU2JTQ1VmblB5c2pzRDFQL2wvMEdhajNHdm5KaEhENnBKb3Y0?=
+ =?utf-8?B?VThGVGFTd3NlME1Qa2szTHJ5SW9aZHJRUE1jRHF3SjE5ZTNBTjhjcStaRnZi?=
+ =?utf-8?B?YlpuclhTNEUrK2pBMXRObS8yaERkaFJRQnpNaDdzazU0OU1pblErK0p2aFJO?=
+ =?utf-8?B?dmlVak5Db0l3RFdLMHhRK25tMkNseStUVkhDS21xVkhqUEw3TitBZjEzSEM5?=
+ =?utf-8?B?ZXVnN0NraVF1dmE3SmViZnVHc1JjKytFU3cxRElDT1VZTFY2RkppRXI5emov?=
+ =?utf-8?B?K3FIK2c1T1doSHJLSUdpMmlocW1tckxKQjN6c2xidU9NZTk1VE15dCs2VVRl?=
+ =?utf-8?B?TDNnTWVkV3l1WkpnZEFMbEF4UXVhTGZkWlRVT2lIUXdTYVkydFdkcXF4WW1C?=
+ =?utf-8?B?ZkdVYW0yWm1UaE1RblJHYVlDOG5SL2hYSkFPM2F6bkNUc083QVVxbGI1Mkg4?=
+ =?utf-8?B?U2dNKzM0VkhTZHRMSllsaG1MaXYyYVFuNjhURWFtYmJUTktSWW1oZXY0UW9I?=
+ =?utf-8?B?S2F2dElReXRkV3pjMWVycVdRQ0VMVm9CdFZhNVZxcFVtSC9LKzlMM0ZLZS9O?=
+ =?utf-8?B?b3lFc0R3WGNSLzExdjlpcWoxUzFOMXd6Z3lFQVBsazdhTTQ3VXdQbWNoUDdl?=
+ =?utf-8?B?KzN2d3YwR0txNTk5MVlsREZPMSsyTDVpYWdwSTU5WW9CZTVycDVoSGsydmps?=
+ =?utf-8?B?RXY2dG5BNFd2K3NyQ3RsME1ZRU13LzBIOVdSNGJRN3g4REV6RGNUQjFQTyt1?=
+ =?utf-8?B?ZXRaZllmMkNWZDhoK2p1eHpIVjgrL0ZqUnRsTGpONW5mMU90YWhHa0RYWGgy?=
+ =?utf-8?B?NytkM2dDMnY4RHdvMjZTRCtDNk9lZklvQ1ZoK1E4WnduRmE4SDlnaHZLVXdv?=
+ =?utf-8?B?UG5WODFFYlFON2V2cDQxQm1jK25vdG5YT3V3VEtmU0Q2Y3NwRXlSSksyUUoz?=
+ =?utf-8?B?OVhwR21NUm5ObWcrNWlMbTlQanlXbkxXTmZvajZtYVpmcytVZDMyQnk0VmUz?=
+ =?utf-8?B?SCthVWUvTkhzbi92YWF6QlpHMmZBdlZOeDRtUUF0UUhDNnpwYnRDb0pYUVAr?=
+ =?utf-8?B?bzk3RkpQSDRpRm4xR04rbjV2dWY0Q21WNEdhVjFySnFqMVNNOFlkSWxZdVJr?=
+ =?utf-8?B?eU5HdVc2UXQva3kyQW5vSVhCTzluM1I0TlpBVHhCK0JtVmFOZTZzckh4dXQ2?=
+ =?utf-8?B?WEpuM3dHSjRhcG5ycVZoNnNRM2Y0UUFZWmh6NWU4eGRjYkRTOEdaQzRCTHMr?=
+ =?utf-8?B?Tlc5SU5DazRPVnplQzVmZ3VUSW4wMzloUTVnRzJETk9FMlZLSGZ1QjRnN0lZ?=
+ =?utf-8?B?R3o5eWdSTWV3NXdDOURZK3p4YU1JZUtjSVIrTk1oRmVYbGpaOC93RFNJVnpJ?=
+ =?utf-8?B?bzBMVE9KTWN1K1BIejR1bnRSOXFqS05maWlneUJ2SlQ5enkrN01sc3NxZXdx?=
+ =?utf-8?B?U1B2R2VwRWRjazVDQ2diWXdpME8rLzFEZGVEcFRsTEh5WkIrR0NsM3g4YnFy?=
+ =?utf-8?B?eGYrU3hNYXI2clRKTlBmYmJoWEVIU28rOFh2VlJKdXVBdmpyMTFUOVZ5OTJB?=
+ =?utf-8?B?d0c3Z0NvdW5IajNiZzI3UGdCeUd3Nkp0NjBBKzlnUmpuaENRSTl6dlBVU2pj?=
+ =?utf-8?B?aTJUV3VSazVYU3IwY2dHZkxQQ3J4Z2tGU3pRaWduWGh4WDNOaXV0OU9TM0wx?=
+ =?utf-8?B?R3pFUGFSWHZadmhidjM4VWNrV3huVFdvUmJndlVhY2svMFNXZzNObGFFOGQ2?=
+ =?utf-8?B?am9TbnBaSTVyampESmFZMVBqSFRmMjF0WGQ0bmpyYnk4VnBGN3h6bkxzREx0?=
+ =?utf-8?B?YlV6OU5rakRITXBkczY5bXo2YjV3eitDSGp3VkdUb2FsTW9SY2M3aSt0amF4?=
+ =?utf-8?B?WDl2OFIrUU10cWtEYjdnZmJUaG5XRGVVWW1aSmlJK3dVODJQanJaYjdyM1kx?=
+ =?utf-8?B?SnQ4UUFQRkw3Q2ttemFDQjFJdDU2dkg2eHNBQmhnK1dWbTBFZmNodEZtSGc5?=
+ =?utf-8?B?T21hVWJCL3A3Y1UyWEJ6eWp4YVJ4ZzlqdlJoR3REdXBybDc5QVh1RDl0M1or?=
+ =?utf-8?B?NnY4cGVLYkJtcWNKYWxBVTB5Ymk4WnZPQnNTSmpvNm1YZUdEdXEzbXd2Q3Ry?=
+ =?utf-8?B?SElzZ05OK2pLbTRaS25KelJ1OHBYVTBJVjRaYmpHVXVCSXJwWjIxQWJkZm96?=
+ =?utf-8?B?cEE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8707.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d06d57b-23cb-40a9-958c-08dd5ba8f0dc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2025 05:45:30.9843 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa8e33ae-8f2f-42b3-736f-08dd5bb0a42e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2025 06:40:38.2945 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3Rwxrfk/5DRzhRJJRAT/iTQwzMWO9eLF7poJZi5Wz8siSmAKRfPAdRLERUpL6rFiu7GXdvekPfaYyTCNGYNlEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6155
+X-MS-Exchange-CrossTenant-userprincipalname: HUMGfEKQbVq0QzIoQTO0NcSZoRudwQ9aCFJ6wQd0c0ht67Bktx3wuUP/EG0UCOY+d5URGR6tzIpzRHEBFqh6L4NikhlVnbjy9+4tv+B0HMw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6467
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -190,539 +206,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-
-
-________________________________
-From: Cavitt, Jonathan <jonathan.cavitt@intel.com>
-Sent: Friday, February 28, 2025 10:21 AM
-To: intel-xe@lists.freedesktop.org <intel-xe@lists.freedesktop.org>
-Cc: Gupta, saurabhg <saurabhg.gupta@intel.com>; Zuo, Alex <alex.zuo@intel.c=
-om>; Cavitt, Jonathan <jonathan.cavitt@intel.com>; joonas.lahtinen@linux.in=
-tel.com <joonas.lahtinen@linux.intel.com>; Brost, Matthew <matthew.brost@in=
-tel.com>; Zhang, Jianxun <jianxun.zhang@intel.com>; dri-devel@lists.freedes=
-ktop.org <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info
-
-Add additional information to each VM so they can report up to the last
-50 seen pagefaults.  Only failed pagefaults are saved this way, as
-successful pagefaults should recover and not need to be reported to
-userspace.
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_gt_pagefault.c | 17 +++++++++++
- drivers/gpu/drm/xe/xe_vm.c           | 45 ++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h           |  6 ++++
- drivers/gpu/drm/xe/xe_vm_types.h     | 20 +++++++++++++
- 4 files changed, 88 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_g=
-t_pagefault.c
-index 07b52d3c1a60..84907fb4295e 100644
---- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
-+++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-@@ -335,6 +335,22 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *=
-msg, u32 len)
-         return full ? -ENOSPC : 0;
- }
-
-+static void save_pagefault_to_vm(struct xe_device *xe, struct xe_pagefault=
- *pf)
-+{
-+       struct xe_vm *vm;
-+       struct xe_pagefault *store;
-+
-+       vm =3D asid_to_vm(xe, pf->asid);
-+       if (IS_ERR(vm))
-+               return;
-+
-+       spin_lock(&vm->pfs.lock);
-+       store =3D kzalloc(sizeof(*pf), GFP_KERNEL);
-+       memcpy(store, pf, sizeof(*pf));
-+       xe_vm_add_pf_entry(vm, store);
-+       spin_unlock(&vm->pfs.lock);
-+}
-+
- #define USM_QUEUE_MAX_RUNTIME_MS        20
-
- static void pf_queue_work_func(struct work_struct *w)
-@@ -353,6 +369,7 @@ static void pf_queue_work_func(struct work_struct *w)
-                 ret =3D handle_pagefault(gt, &pf);
-                 if (unlikely(ret)) {
-                         print_pagefault(xe, &pf);
-+                       save_pagefault_to_vm(xe, &pf);
-                         pf.fault_unsuccessful =3D 1;
-                         drm_dbg(&xe->drm, "Fault response: Unsuccessful %d=
-\n", ret);
-                 }
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 996000f2424e..6211b971bbbd 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -746,6 +746,46 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)
-                 list_empty_careful(&vm->userptr.invalidated)) ? 0 : -EAGAI=
-N;
- }
-
-+static void free_pf_entry(struct xe_vm *vm, struct xe_vm_pf_entry *e)
-+{
-+       list_del(&e->list);
-+       kfree(e->pf);
-+       kfree(e);
-+       vm->pfs.len--;
-+}
-+
-+void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf)
-+{
-+       struct xe_vm_pf_entry *e =3D NULL;
-+
-+       e =3D kzalloc(sizeof(*e), GFP_KERNEL);
-+       xe_assert(vm->xe, e);
-+
-+       spin_lock(&vm->pfs.lock);
-+       list_add_tail(&e->list, &vm->pfs.list);
-+       vm->pfs.len++;
-+       /**
-+        * Limit the number of pfs in the pf list to prevent memory overuse=
-.
-+        */
-+       if (vm->pfs.len > MAX_PFS) {
-+               struct xe_vm_pf_entry *rem =3D
-+                       list_first_entry(&vm->pfs.list, struct xe_vm_pf_ent=
-ry, list);
-+
-I think the first page fault could be more valuable than the following in a=
-ctual debug work though I cannot provide a concrete case. Maybe we should j=
-ust stop adding new page faults once the list is full? 50 faults perphaps i=
-s enough for a developer to work out...
-+               free_pf_entry(vm, rem);
-
-+       }
-+       spin_unlock(&vm->pfs.lock);
-+}
-+
-+void xe_vm_remove_pf_entries(struct xe_vm *vm)
-+{
-+       struct xe_vm_pf_entry *e, *tmp;
-+
-+       spin_lock(&vm->pfs.lock);
-+       list_for_each_entry_safe(e, tmp, &vm->pfs.list, list)
-+               free_pf_entry(vm, e);
-+       spin_unlock(&vm->pfs.lock);
-+}
-+
- static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_binds)
- {
-         int i;
-@@ -1448,6 +1488,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 =
-flags)
-         init_rwsem(&vm->userptr.notifier_lock);
-         spin_lock_init(&vm->userptr.invalidated_lock);
-
-+       INIT_LIST_HEAD(&vm->pfs.list);
-+       spin_lock_init(&vm->pfs.lock);
-+
-         ttm_lru_bulk_move_init(&vm->lru_bulk_move);
-
-         INIT_WORK(&vm->destroy_work, vm_destroy_work_func);
-@@ -1672,6 +1715,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
-         }
-         up_write(&xe->usm.lock);
-
-+       xe_vm_remove_pf_entries(vm);
-+
-         for_each_tile(tile, xe, id)
-                 xe_range_fence_tree_fini(&vm->rftree[id]);
-
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index f66075f8a6fe..4d94ab5c8ea4 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -12,6 +12,8 @@
- #include "xe_map.h"
- #include "xe_vm_types.h"
-
-+#define MAX_PFS 50
-+
- struct drm_device;
- struct drm_printer;
- struct drm_file;
-@@ -244,6 +246,10 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uv=
-ma);
-
- int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
-
-+void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf);
-+
-+void xe_vm_remove_pf_entries(struct xe_vm *vm);
-+
- bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktime_t *=
-end);
-
- int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);
-diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_ty=
-pes.h
-index 52467b9b5348..10b0952db56c 100644
---- a/drivers/gpu/drm/xe/xe_vm_types.h
-+++ b/drivers/gpu/drm/xe/xe_vm_types.h
-@@ -18,6 +18,7 @@
- #include "xe_range_fence.h"
-
- struct xe_bo;
-+struct xe_pagefault;
- struct xe_sync_entry;
- struct xe_user_fence;
- struct xe_vm;
-@@ -135,6 +136,13 @@ struct xe_userptr_vma {
-
- struct xe_device;
-
-+struct xe_vm_pf_entry {
-+       /** @pf: observed pagefault */
-+       struct xe_pagefault *pf;
-+       /** @list: link into @xe_vm.pfs.list */
-+       struct list_head list;
-+};
-+
- struct xe_vm {
-         /** @gpuvm: base GPUVM used to track VMAs */
-         struct drm_gpuvm gpuvm;
-@@ -274,6 +282,18 @@ struct xe_vm {
-                 bool capture_once;
-         } error_capture;
-
-+       /**
-+        * @pfs: List of all pagefaults associated with this VM
-+        */
-+       struct {
-+               /** @lock: lock protecting @bans.list */
-+               spinlock_t lock;
-+               /** @list: list of xe_exec_queue_ban_entry entries */
-+               struct list_head list;
-+               /** @len: length of @bans.list */
-+               unsigned int len;
-+       } pfs;
-+
-         /**
-          * @tlb_flush_seqno: Required TLB flush seqno for the next exec.
-          * protected by the vm resv.
---
-2.43.0
-
-
---_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><span style=3D"font-family: Calibri, =
-sans-serif; font-size: 11pt; color: rgb(0, 0, 0);"><b>From:</b>&nbsp;Cavitt=
-, Jonathan &lt;jonathan.cavitt@intel.com&gt;<br>
-<b>Sent:</b>&nbsp;Friday, February 28, 2025 10:21 AM<br>
-<b>To:</b>&nbsp;intel-xe@lists.freedesktop.org &lt;intel-xe@lists.freedeskt=
-op.org&gt;<br>
-<b>Cc:</b>&nbsp;Gupta, saurabhg &lt;saurabhg.gupta@intel.com&gt;; Zuo, Alex=
- &lt;alex.zuo@intel.com&gt;; Cavitt, Jonathan &lt;jonathan.cavitt@intel.com=
-&gt;; joonas.lahtinen@linux.intel.com &lt;joonas.lahtinen@linux.intel.com&g=
-t;; Brost, Matthew &lt;matthew.brost@intel.com&gt;; Zhang, Jianxun
- &lt;jianxun.zhang@intel.com&gt;; dri-devel@lists.freedesktop.org &lt;dri-d=
-evel@lists.freedesktop.org&gt;<br>
-<b>Subject:</b>&nbsp;[PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info=
-</span>
-<div>&nbsp;</div>
-</div>
-<div class=3D"elementToProof" style=3D"font-size: 11pt;">Add additional inf=
-ormation to each VM so they can report up to the last<br>
-50 seen pagefaults.&nbsp; Only failed pagefaults are saved this way, as<br>
-successful pagefaults should recover and not need to be reported to<br>
-userspace.<br>
-<br>
-Signed-off-by: Jonathan Cavitt &lt;jonathan.cavitt@intel.com&gt;<br>
-Suggested-by: Matthew Brost &lt;matthew.brost@intel.com&gt;<br>
----<br>
-&nbsp;drivers/gpu/drm/xe/xe_gt_pagefault.c | 17 +++++++++++<br>
-&nbsp;drivers/gpu/drm/xe/xe_vm.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; | 45 ++++++++++++++++++++++++++++<br>
-&nbsp;drivers/gpu/drm/xe/xe_vm.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; |&nbsp; 6 ++++<br>
-&nbsp;drivers/gpu/drm/xe/xe_vm_types.h&nbsp;&nbsp;&nbsp;&nbsp; | 20 +++++++=
-++++++<br>
-&nbsp;4 files changed, 88 insertions(+)<br>
-<br>
-diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_g=
-t_pagefault.c<br>
-index 07b52d3c1a60..84907fb4295e 100644<br>
---- a/drivers/gpu/drm/xe/xe_gt_pagefault.c<br>
-+++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c<br>
-@@ -335,6 +335,22 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *=
-msg, u32 len)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return full ? -ENOSPC : 0;=
-<br>
-&nbsp;}<br>
-&nbsp;<br>
-+static void save_pagefault_to_vm(struct xe_device *xe, struct xe_pagefault=
- *pf)<br>
-+{<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_vm *vm;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_pagefault *store;<br>
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm =3D asid_to_vm(xe, pf-&gt;asid);<b=
-r>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(vm))<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; return;<br>
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock(&amp;vm-&gt;pfs.lock);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; store =3D kzalloc(sizeof(*pf), GFP_KE=
-RNEL);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memcpy(store, pf, sizeof(*pf));<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xe_vm_add_pf_entry(vm, store);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_unlock(&amp;vm-&gt;pfs.lock);<br=
->
-+}<br>
-+<br>
-&nbsp;#define USM_QUEUE_MAX_RUNTIME_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; 20<br>
-&nbsp;<br>
-&nbsp;static void pf_queue_work_func(struct work_struct *w)<br>
-@@ -353,6 +369,7 @@ static void pf_queue_work_func(struct work_struct *w)<b=
-r>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; ret =3D handle_pagefault(gt, &amp;pf);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; if (unlikely(ret)) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print=
-_pagefault(xe, &amp;pf);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; save_pagefault_t=
-o_vm(xe, &amp;pf);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pf.fa=
-ult_unsuccessful =3D 1;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; drm_d=
-bg(&amp;xe-&gt;drm, &quot;Fault response: Unsuccessful %d\n&quot;, ret);<br=
->
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; }<br>
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c<br>
-index 996000f2424e..6211b971bbbd 100644<br>
---- a/drivers/gpu/drm/xe/xe_vm.c<br>
-+++ b/drivers/gpu/drm/xe/xe_vm.c<br>
-@@ -746,6 +746,46 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; list_empty_careful(&amp;vm-&gt;userptr.invalidated)) =
-? 0 : -EAGAIN;<br>
-&nbsp;}<br>
-&nbsp;<br>
-+static void free_pf_entry(struct xe_vm *vm, struct xe_vm_pf_entry *e)<br>
-+{<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_del(&amp;e-&gt;list);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kfree(e-&gt;pf);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kfree(e);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm-&gt;pfs.len--;<br>
-+}<br>
-+<br>
-+void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf)<br>
-+{<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_vm_pf_entry *e =3D NULL;<br=
->
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e =3D kzalloc(sizeof(*e), GFP_KERNEL)=
-;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xe_assert(vm-&gt;xe, e);<br>
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock(&amp;vm-&gt;pfs.lock);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_add_tail(&amp;e-&gt;list, &amp;v=
-m-&gt;pfs.list);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm-&gt;pfs.len++;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Limit the number of pfs in th=
-e pf list to prevent memory overuse.<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (vm-&gt;pfs.len &gt; MAX_PFS) {<br=
->
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; struct xe_vm_pf_entry *rem =3D<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_first_entry=
-(&amp;vm-&gt;pfs.list, struct xe_vm_pf_entry, list);<br>
-+</div>
-<div class=3D"elementToProof" style=3D"font-size: 11pt; color: rgb(0, 0, 0)=
-;">I think the first page fault could be more valuable than the following i=
-n actual debug work though I cannot provide a concrete case. Maybe we shoul=
-d just stop adding new page faults once
- the list is full? 50 faults perphaps is enough for a developer to work out=
-...</div>
-<div class=3D"elementToProof" style=3D"font-size: 11pt;">+&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free_pf=
-_entry(vm, rem);</div>
-<div class=3D"elementToProof" style=3D"font-size: 11pt;"><br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_unlock(&amp;vm-&gt;pfs.lock);<br=
->
-+}<br>
-+<br>
-+void xe_vm_remove_pf_entries(struct xe_vm *vm)<br>
-+{<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_vm_pf_entry *e, *tmp;<br>
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock(&amp;vm-&gt;pfs.lock);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_for_each_entry_safe(e, tmp, &amp=
-;vm-&gt;pfs.list, list)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; free_pf_entry(vm, e);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_unlock(&amp;vm-&gt;pfs.lock);<br=
->
-+}<br>
-+<br>
-&nbsp;static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_bi=
-nds)<br>
-&nbsp;{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i;<br>
-@@ -1448,6 +1488,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 =
-flags)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; init_rwsem(&amp;vm-&gt;use=
-rptr.notifier_lock);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock_init(&amp;vm-&gt=
-;userptr.invalidated_lock);<br>
-&nbsp;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INIT_LIST_HEAD(&amp;vm-&gt;pfs.list);=
-<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock_init(&amp;vm-&gt;pfs.lock);=
-<br>
-+<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm_lru_bulk_move_init(&am=
-p;vm-&gt;lru_bulk_move);<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INIT_WORK(&amp;vm-&gt;dest=
-roy_work, vm_destroy_work_func);<br>
-@@ -1672,6 +1715,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; up_write(&amp;xe-&gt;usm.l=
-ock);<br>
-&nbsp;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xe_vm_remove_pf_entries(vm);<br>
-+<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for_each_tile(tile, xe, id=
-)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; xe_range_fence_tree_fini(&amp;vm-&gt;rftree[id]);<br>
-&nbsp;<br>
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h<br>
-index f66075f8a6fe..4d94ab5c8ea4 100644<br>
---- a/drivers/gpu/drm/xe/xe_vm.h<br>
-+++ b/drivers/gpu/drm/xe/xe_vm.h<br>
-@@ -12,6 +12,8 @@<br>
-&nbsp;#include &quot;xe_map.h&quot;<br>
-&nbsp;#include &quot;xe_vm_types.h&quot;<br>
-&nbsp;<br>
-+#define MAX_PFS 50<br>
-+<br>
-&nbsp;struct drm_device;<br>
-&nbsp;struct drm_printer;<br>
-&nbsp;struct drm_file;<br>
-@@ -244,6 +246,10 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uv=
-ma);<br>
-&nbsp;<br>
-&nbsp;int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);<br>
-&nbsp;<br>
-+void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf);<br>
-+<br>
-+void xe_vm_remove_pf_entries(struct xe_vm *vm);<br>
-+<br>
-&nbsp;bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktim=
-e_t *end);<br>
-&nbsp;<br>
-&nbsp;int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);<br>
-diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_ty=
-pes.h<br>
-index 52467b9b5348..10b0952db56c 100644<br>
---- a/drivers/gpu/drm/xe/xe_vm_types.h<br>
-+++ b/drivers/gpu/drm/xe/xe_vm_types.h<br>
-@@ -18,6 +18,7 @@<br>
-&nbsp;#include &quot;xe_range_fence.h&quot;<br>
-&nbsp;<br>
-&nbsp;struct xe_bo;<br>
-+struct xe_pagefault;<br>
-&nbsp;struct xe_sync_entry;<br>
-&nbsp;struct xe_user_fence;<br>
-&nbsp;struct xe_vm;<br>
-@@ -135,6 +136,13 @@ struct xe_userptr_vma {<br>
-&nbsp;<br>
-&nbsp;struct xe_device;<br>
-&nbsp;<br>
-+struct xe_vm_pf_entry {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** @pf: observed pagefault */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_pagefault *pf;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** @list: link into @xe_vm.pfs.list =
-*/<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct list_head list;<br>
-+};<br>
-+<br>
-&nbsp;struct xe_vm {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** @gpuvm: base GPUVM use=
-d to track VMAs */<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct drm_gpuvm gpuvm;<br=
->
-@@ -274,6 +282,18 @@ struct xe_vm {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; bool capture_once;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } error_capture;<br>
-&nbsp;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @pfs: List of all pagefaults =
-associated with this VM<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; /** @lock: lock protecting @bans.list */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; spinlock_t lock;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; /** @list: list of xe_exec_queue_ban_entry entries */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; struct list_head list;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; /** @len: length of @bans.list */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; unsigned int len;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } pfs;<br>
-+<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @tlb_flush_seqno: =
-Required TLB flush seqno for the next exec.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * protected by the v=
-m resv.<br>
---<br>
-2.43.0<br>
-<br>
-</div>
-</body>
-</html>
-
---_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTXVydGh5LCBBcnVuIFIg
+PGFydW4uci5tdXJ0aHlAaW50ZWwuY29tPg0KPiBTZW50OiBUdWVzZGF5LCBGZWJydWFyeSAyNSwg
+MjAyNSAxOjA0IFBNDQo+IFRvOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBpbnRl
+bC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBpbnRlbC0NCj4geGVAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnOyB2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbQ0KPiBDYzogTXVydGh5LCBBcnVu
+IFIgPGFydW4uci5tdXJ0aHlAaW50ZWwuY29tPjsgQm9yYWgsIENoYWl0YW55YSBLdW1hcg0KPiA8
+Y2hhaXRhbnlhLmt1bWFyLmJvcmFoQGludGVsLmNvbT47IEJyemV6aW5rYSwgU2ViYXN0aWFuDQo+
+IDxzZWJhc3RpYW4uYnJ6ZXppbmthQGludGVsLmNvbT47IEt1bWFyLCBOYXZlZW4xDQo+IDxuYXZl
+ZW4xLmt1bWFyQGludGVsLmNvbT4NCj4gU3ViamVjdDogW1BBVENIIHY3IDMvM10gZHJtL2k5MTUv
+ZGlzcGxheTogQWRkIGk5MTUgaG9vayBmb3INCj4gZm9ybWF0X21vZF9zdXBwb3J0ZWRfYXN5bmMN
+Cj4gDQo+IEhvb2sgdXAgdGhlIG5ld2x5IGFkZGVkIHBsYW5lIGZ1bmN0aW9uIHBvaW50ZXINCj4g
+Zm9ybWF0X21vZF9zdXBwb3J0ZWRfYXN5bmMgdG8gcG9wdWxhdGUgdGhlIG1vZGlmaWVycy9mb3Jt
+YXRzIHN1cHBvcnRlZA0KPiBieSBhc3luY2hyb25vdXMgZmxpcHMuDQo+IA0KPiB2NTogQ29ycmVj
+dCB0aGUgaWYgY29uZGl0aW9uIGZvciBtb2RpZmllciBzdXBwb3J0IGNoZWNrIChDaGFpdGFueWEp
+DQo+IHY2OiBSZXBsYWNlIHVpbnQzMl90L3VpbnQ2NF90IHdpdGggdTMyL3U2NCAoSmFuaSkNCj4g
+djc6IE1vdmUgcGxhbm5hciBjaGVjayBmcm9tIGludGVsX2FzeW5jX2ZsaXBfY2hlY2tfaHcoKSB0
+bw0KPiBpbnRlbF9wbGFuZV9mb3JtYXRfbW9kX3N1cHBvcnRlZF9hc3luYygpIChWaWxsZSkNCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IEFydW4gUiBNdXJ0aHkgPGFydW4uci5tdXJ0aHlAaW50ZWwuY29t
+Pg0KPiBSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bWFyIEJvcmFoIDxjaGFpdGFueWEua3VtYXIu
+Ym9yYWhAaW50ZWwuY29tPg0KPiBSZXZpZXdlZC1ieTogU2ViYXN0aWFuIEJyemV6aW5rYSA8c2Vi
+YXN0aWFuLmJyemV6aW5rYUBpbnRlbC5jb20+DQo+IFRlc3RlZC1ieTogTmF2ZWVuIEt1bWFyIDxu
+YXZlZW4xLmt1bWFyQGludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2k5eHhfcGxhbmUuYyAgICAgICAgICB8ICA2ICsrKy0tDQo+ICBkcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21pY19wbGFuZS5jICB8IDMwDQo+ICsrKysrKysrKysr
+KysrKysrKysrKy0NCj4gZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNf
+cGxhbmUuaCAgfCAgNiArKysrLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
+bF9kaXNwbGF5LmMgICAgICAgfCAxMSArKy0tLS0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9za2xfdW5pdmVyc2FsX3BsYW5lLmMgfCAgNSArKystDQo+ICA1IGZpbGVzIGNoYW5n
+ZWQsIDQ0IGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaTl4eF9wbGFuZS5jDQo+IGIvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pOXh4X3BsYW5lLmMNCj4gaW5kZXgNCj4gMDEzMjk1ZjY2ZDU2
+ZWM1ZTkxOWIzYTBjOTA0MDM0YmY3OTg1OTg2YS4uNmJkMDlhZGI4YTMwYmEwMDJlZjMzNDINCj4g
+NjFkNzYzOGYzOTg1ODdhM2UgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
+c3BsYXkvaTl4eF9wbGFuZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aTl4eF9wbGFuZS5jDQo+IEBAIC04MjAsNyArODIwLDcgQEAgdW5zaWduZWQgaW50IHZsdl9wbGFu
+ZV9taW5fYWxpZ25tZW50KHN0cnVjdA0KPiBpbnRlbF9wbGFuZSAqcGxhbmUsICB7DQo+ICAJc3Ry
+dWN0IGludGVsX2Rpc3BsYXkgKmRpc3BsYXkgPSB0b19pbnRlbF9kaXNwbGF5KHBsYW5lKTsNCj4g
+DQo+IC0JaWYgKGludGVsX3BsYW5lX2Nhbl9hc3luY19mbGlwKHBsYW5lLCBmYi0+bW9kaWZpZXIp
+KQ0KPiArCWlmIChpbnRlbF9wbGFuZV9jYW5fYXN5bmNfZmxpcChwbGFuZSwgZmItPmZvcm1hdC0+
+Zm9ybWF0LA0KPiArZmItPm1vZGlmaWVyKSkNCj4gIAkJcmV0dXJuIDI1NiAqIDEwMjQ7DQo+IA0K
+PiAgCS8qIEZJWE1FIHVuZG9jdW1lbnRlZCBzbyBub3Qgc3VyZSB3aGF0J3MgYWN0dWFsbHkgbmVl
+ZGVkICovIEBAIC0NCj4gODQ0LDcgKzg0NCw3IEBAIHN0YXRpYyB1bnNpZ25lZCBpbnQgZzR4X3By
+aW1hcnlfbWluX2FsaWdubWVudChzdHJ1Y3QNCj4gaW50ZWxfcGxhbmUgKnBsYW5lLCAgew0KPiAg
+CXN0cnVjdCBpbnRlbF9kaXNwbGF5ICpkaXNwbGF5ID0gdG9faW50ZWxfZGlzcGxheShwbGFuZSk7
+DQo+IA0KPiAtCWlmIChpbnRlbF9wbGFuZV9jYW5fYXN5bmNfZmxpcChwbGFuZSwgZmItPm1vZGlm
+aWVyKSkNCj4gKwlpZiAoaW50ZWxfcGxhbmVfY2FuX2FzeW5jX2ZsaXAocGxhbmUsIGZiLT5mb3Jt
+YXQtPmZvcm1hdCwNCj4gK2ZiLT5tb2RpZmllcikpDQo+ICAJCXJldHVybiAyNTYgKiAxMDI0Ow0K
+PiANCj4gIAlpZiAoaW50ZWxfc2Nhbm91dF9uZWVkc192dGRfd2EoZGlzcGxheSkpDQo+IEBAIC04
+ODksNiArODg5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfZnVuY3MgaTk2NV9w
+bGFuZV9mdW5jcw0KPiA9IHsNCj4gIAkuYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSA9IGludGVsX3Bs
+YW5lX2R1cGxpY2F0ZV9zdGF0ZSwNCj4gIAkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBpbnRlbF9w
+bGFuZV9kZXN0cm95X3N0YXRlLA0KPiAgCS5mb3JtYXRfbW9kX3N1cHBvcnRlZCA9IGk5NjVfcGxh
+bmVfZm9ybWF0X21vZF9zdXBwb3J0ZWQsDQo+ICsJLmZvcm1hdF9tb2Rfc3VwcG9ydGVkX2FzeW5j
+ID0NCj4gaW50ZWxfcGxhbmVfZm9ybWF0X21vZF9zdXBwb3J0ZWRfYXN5bmMsDQo+ICB9Ow0KPiAN
+Cj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2Z1bmNzIGk4eHhfcGxhbmVfZnVuY3Mg
+PSB7IEBAIC04OTgsNiArODk5LDcNCj4gQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVf
+ZnVuY3MgaTh4eF9wbGFuZV9mdW5jcyA9IHsNCj4gIAkuYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSA9
+IGludGVsX3BsYW5lX2R1cGxpY2F0ZV9zdGF0ZSwNCj4gIAkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUg
+PSBpbnRlbF9wbGFuZV9kZXN0cm95X3N0YXRlLA0KPiAgCS5mb3JtYXRfbW9kX3N1cHBvcnRlZCA9
+IGk4eHhfcGxhbmVfZm9ybWF0X21vZF9zdXBwb3J0ZWQsDQo+ICsJLmZvcm1hdF9tb2Rfc3VwcG9y
+dGVkX2FzeW5jID0NCj4gaW50ZWxfcGxhbmVfZm9ybWF0X21vZF9zdXBwb3J0ZWRfYXN5bmMsDQo+
+ICB9Ow0KPiANCj4gIHN0cnVjdCBpbnRlbF9wbGFuZSAqDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21pY19wbGFuZS5jDQo+IGIvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNfcGxhbmUuYw0KPiBpbmRleA0KPiAxMjRj
+ZDlkZGJhMGI5NjY1N2E4MTY2ZTYxM2I5MzAwM2U3N2UxMzNjLi40ZWJjNDBjOTE0YjcyYjhmZTMx
+MThlZA0KPiBiNzRkOWJmOTVhYjY2MWIxMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNfcGxhbmUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21pY19wbGFuZS5jDQo+IEBAIC0xNzAsMTEgKzE3MCwz
+OSBAQCBib29sIGludGVsX3BsYW5lX25lZWRzX3BoeXNpY2FsKHN0cnVjdCBpbnRlbF9wbGFuZQ0K
+PiAqcGxhbmUpDQo+ICAJCURJU1BMQVlfSU5GTyhpOTE1KS0+Y3Vyc29yX25lZWRzX3BoeXNpY2Fs
+Ow0KPiAgfQ0KPiANCj4gLWJvb2wgaW50ZWxfcGxhbmVfY2FuX2FzeW5jX2ZsaXAoc3RydWN0IGlu
+dGVsX3BsYW5lICpwbGFuZSwgdTY0IG1vZGlmaWVyKQ0KPiArYm9vbCBpbnRlbF9wbGFuZV9jYW5f
+YXN5bmNfZmxpcChzdHJ1Y3QgaW50ZWxfcGxhbmUgKnBsYW5lLCB1MzIgZm9ybWF0LA0KPiArCQkJ
+CXU2NCBtb2RpZmllcikNCj4gIHsNCj4gKwlzdHJ1Y3QgaW50ZWxfZGlzcGxheSAqZGlzcGxheSA9
+IHRvX2ludGVsX2Rpc3BsYXkocGxhbmUpOw0KPiArDQo+ICsJaWYgKERJU1BMQVlfVkVSKGRpc3Bs
+YXkpIDw9IDE0ID8NCj4gKwkgICAgZHJtX2Zvcm1hdF9pbmZvKGZvcm1hdCktPmlzX3l1diA6DQo+
+ICsJICAgIGludGVsX2Zvcm1hdF9pbmZvX2lzX3l1dl9zZW1pcGxhbmFyKGRybV9mb3JtYXRfaW5m
+byhmb3JtYXQpLA0KPiArCQkJCQkJbW9kaWZpZXIpKSB7DQo+ICsJCWRybV9kYmdfa21zKHBsYW5l
+LT5iYXNlLmRldiwNCj4gKwkJCSAgICAiW1BMQU5FOiVkOiVzXSBQbGFuYXIgZm9ybWF0cyBkbyBu
+b3Qgc3VwcG9ydA0KPiBhc3luYyBmbGlwc1xuIiwNCj4gKwkJCSAgICBwbGFuZS0+YmFzZS5iYXNl
+LmlkLCBwbGFuZS0+YmFzZS5uYW1lKTsNCj4gKwkJcmV0dXJuIGZhbHNlOw0KPiArCX0NCj4gKw0K
+PiAgCXJldHVybiBwbGFuZS0+Y2FuX2FzeW5jX2ZsaXAgJiYgcGxhbmUtPmNhbl9hc3luY19mbGlw
+KG1vZGlmaWVyKTsgIH0NCj4gDQo+ICtib29sIGludGVsX3BsYW5lX2Zvcm1hdF9tb2Rfc3VwcG9y
+dGVkX2FzeW5jKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPiArCQkJCQkgICAgdTMyIGZvcm1h
+dCwNCj4gKwkJCQkJICAgIHU2NCBtb2RpZmllcikNCj4gK3sNCj4gKwlpZiAoIXBsYW5lLT5mdW5j
+cy0+Zm9ybWF0X21vZF9zdXBwb3J0ZWQocGxhbmUsIGZvcm1hdCwgbW9kaWZpZXIpKSB7DQoNCklu
+IHRoZW9yeSB0aGlzIGhvb2sgaXMgc3RpbGwgb3B0aW9uYWwsIHdlIHNob3VsZCBjaGVjayBmb3Ig
+aXRzIGF2YWlsYWJpbGl0eS4NCg0KPiArCQlkcm1fZGJnX2ttcyhwbGFuZS0+ZGV2LA0KPiArCQkJ
+ICAgICJbUExBTkU6JWQ6JXNdIFBsYW5hciBmb3JtYXQvbW9kaWZpZXIgbm90IGluDQo+IHVuaXZl
+cnNhbCBsaXN0XG4iLA0KDQpUaGUgZGVidWcgbWVzc2FnZSBpcyBpbmNvcnJlY3QuIFdlIGFyZSBu
+b3QgY2hlY2tpbmcgb25seSBmb3IgcGxhbmFyIGZvcm1hdHMgaGVyZS4NCldlIGNhbiBwZXJoYXBz
+IHByaW50IHRoZSBmb3JtYXQgYW5kIG1vZGlmaWVyIHJlamVjdGVkLg0KDQo+ICsJCQkgICAgcGxh
+bmUtPmJhc2UuaWQsIHBsYW5lLT5uYW1lKTsNCj4gKwkJcmV0dXJuIGZhbHNlOw0KPiArCX0NCj4g
+Kw0KPiArCXJldHVybiBpbnRlbF9wbGFuZV9jYW5fYXN5bmNfZmxpcCh0b19pbnRlbF9wbGFuZShw
+bGFuZSksDQo+ICsJCQkJCWZvcm1hdCwgbW9kaWZpZXIpOw0KPiArfQ0KPiArDQo+ICB1bnNpZ25l
+ZCBpbnQgaW50ZWxfYWRqdXN0ZWRfcmF0ZShjb25zdCBzdHJ1Y3QgZHJtX3JlY3QgKnNyYywNCj4g
+IAkJCQkgY29uc3Qgc3RydWN0IGRybV9yZWN0ICpkc3QsDQo+ICAJCQkJIHVuc2lnbmVkIGludCBy
+YXRlKQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9h
+dG9taWNfcGxhbmUuaA0KPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRv
+bWljX3BsYW5lLmgNCj4gaW5kZXgNCj4gNjVlZGQ4OGQyOGE5YzUzMmQ2MzQ3ZmJkMTNiMGY0NTY5
+OGU5ZTViYi4uMGQxNzAwYmQ1YzZkN2IxYjNlNGU3ZQ0KPiA2YmU3NjBiNTQ4NDkzZDY4NDYgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRvbWljX3Bs
+YW5lLmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNf
+cGxhbmUuaA0KPiBAQCAtMjEsNyArMjEsOCBAQCBlbnVtIHBsYW5lX2lkOw0KPiANCj4gIHN0cnVj
+dCBpbnRlbF9wbGFuZSAqDQo+ICBpbnRlbF9jcnRjX2dldF9wbGFuZShzdHJ1Y3QgaW50ZWxfY3J0
+YyAqY3J0YywgZW51bSBwbGFuZV9pZCBwbGFuZV9pZCk7IC1ib29sDQo+IGludGVsX3BsYW5lX2Nh
+bl9hc3luY19mbGlwKHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsIHU2NCBtb2RpZmllcik7DQo+
+ICtib29sIGludGVsX3BsYW5lX2Nhbl9hc3luY19mbGlwKHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxh
+bmUsIHUzMiBmb3JtYXQsDQo+ICsJCQkJdTY0IG1vZGlmaWVyKTsNCj4gIHVuc2lnbmVkIGludCBp
+bnRlbF9hZGp1c3RlZF9yYXRlKGNvbnN0IHN0cnVjdCBkcm1fcmVjdCAqc3JjLA0KPiAgCQkJCSBj
+b25zdCBzdHJ1Y3QgZHJtX3JlY3QgKmRzdCwNCj4gIAkJCQkgdW5zaWduZWQgaW50IHJhdGUpOw0K
+PiBAQCAtODcsNSArODgsOCBAQCB2b2lkIGludGVsX3BsYW5lX2luaXRfY3Vyc29yX3ZibGFua193
+b3JrKHN0cnVjdA0KPiBpbnRlbF9wbGFuZV9zdGF0ZSAqb2xkX3BsYW5lX3N0YSAgaW50DQo+IGlu
+dGVsX2F0b21pY19hZGRfYWZmZWN0ZWRfcGxhbmVzKHN0cnVjdCBpbnRlbF9hdG9taWNfc3RhdGUg
+KnN0YXRlLA0KPiAgCQkJCSAgICAgc3RydWN0IGludGVsX2NydGMgKmNydGMpOw0KPiAgaW50IGlu
+dGVsX2F0b21pY19jaGVja19wbGFuZXMoc3RydWN0IGludGVsX2F0b21pY19zdGF0ZSAqc3RhdGUp
+Ow0KPiArYm9vbCBpbnRlbF9wbGFuZV9mb3JtYXRfbW9kX3N1cHBvcnRlZF9hc3luYyhzdHJ1Y3Qg
+ZHJtX3BsYW5lICpwbGFuZSwNCj4gKwkJCQkJICAgIHUzMiBmb3JtYXQsDQo+ICsJCQkJCSAgICB1
+NjQgbW9kaWZpZXIpOw0KPiANCj4gICNlbmRpZiAvKiBfX0lOVEVMX0FUT01JQ19QTEFORV9IX18g
+Ki8NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlz
+cGxheS5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMN
+Cj4gaW5kZXgNCj4gMDY1ZmRmNmRiYjg4ZTNjNGFjOTkwYjM4ZTdmMTU3NWUwYzljYTQxMy4uYzlh
+YmUxNDEyYWVmMTJkMGVkYTE3MTEwDQo+IDQzMWE1N2EwNmYzZjVkMjAgMTAwNjQ0DQo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jDQo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jDQo+IEBAIC02MTg4LDcg
+KzYxODgsOCBAQCBzdGF0aWMgaW50IGludGVsX2FzeW5jX2ZsaXBfY2hlY2tfaHcoc3RydWN0DQo+
+IGludGVsX2F0b21pY19zdGF0ZSAqc3RhdGUsIHN0cnVjdCBpbg0KPiAgCQlpZiAoIXBsYW5lLT5h
+c3luY19mbGlwKQ0KPiAgCQkJY29udGludWU7DQo+IA0KPiAtCQlpZiAoIWludGVsX3BsYW5lX2Nh
+bl9hc3luY19mbGlwKHBsYW5lLCBuZXdfcGxhbmVfc3RhdGUtDQo+ID5ody5mYi0+bW9kaWZpZXIp
+KSB7DQo+ICsJCWlmICghaW50ZWxfcGxhbmVfY2FuX2FzeW5jX2ZsaXAocGxhbmUsIG5ld19wbGFu
+ZV9zdGF0ZS0NCj4gPmh3LmZiLT5mb3JtYXQtPmZvcm1hdCwNCj4gKwkJICAgIG5ld19wbGFuZV9z
+dGF0ZS0+aHcuZmItPm1vZGlmaWVyKSkgew0KPiAgCQkJZHJtX2RiZ19rbXMoJmk5MTUtPmRybSwN
+Cj4gIAkJCQkgICAgIltQTEFORTolZDolc10gTW9kaWZpZXIgMHglbGx4IGRvZXMgbm90DQo+IHN1
+cHBvcnQgYXN5bmMgZmxpcFxuIiwNCg0KTm93IHRoYXQgd2UgYXJlIGNoZWNraW5nIGZvciBmb3Jt
+YXRzIHRvby4gR29vZCB0byBwcmludCBpdC4NCg0KUmVnYXJkcw0KDQpDaGFpdGFueWENCg0KPiAg
+CQkJCSAgICBwbGFuZS0+YmFzZS5iYXNlLmlkLCBwbGFuZS0+YmFzZS5uYW1lLA0KPiBAQCAtNjE5
+NiwxNCArNjE5Nyw2IEBAIHN0YXRpYyBpbnQgaW50ZWxfYXN5bmNfZmxpcF9jaGVja19odyhzdHJ1
+Y3QNCj4gaW50ZWxfYXRvbWljX3N0YXRlICpzdGF0ZSwgc3RydWN0IGluDQo+ICAJCQlyZXR1cm4g
+LUVJTlZBTDsNCj4gIAkJfQ0KPiANCj4gLQkJaWYgKGludGVsX2Zvcm1hdF9pbmZvX2lzX3l1dl9z
+ZW1pcGxhbmFyKG5ld19wbGFuZV9zdGF0ZS0NCj4gPmh3LmZiLT5mb3JtYXQsDQo+IC0JCQkJCQkJ
+bmV3X3BsYW5lX3N0YXRlLQ0KPiA+aHcuZmItPm1vZGlmaWVyKSkgew0KPiAtCQkJZHJtX2RiZ19r
+bXMoJmk5MTUtPmRybSwNCj4gLQkJCQkgICAgIltQTEFORTolZDolc10gUGxhbmFyIGZvcm1hdHMg
+ZG8gbm90DQo+IHN1cHBvcnQgYXN5bmMgZmxpcHNcbiIsDQo+IC0JCQkJICAgIHBsYW5lLT5iYXNl
+LmJhc2UuaWQsIHBsYW5lLT5iYXNlLm5hbWUpOw0KPiAtCQkJcmV0dXJuIC1FSU5WQUw7DQo+IC0J
+CX0NCj4gLQ0KPiAgCQkvKg0KPiAgCQkgKiBXZSB0dXJuIHRoZSBmaXJzdCBhc3luYyBmbGlwIHJl
+cXVlc3QgaW50byBhIHN5bmMgZmxpcA0KPiAgCQkgKiBzbyB0aGF0IHdlIGNhbiByZWNvbmZpZ3Vy
+ZSB0aGUgcGxhbmUgKGVnLiBjaGFuZ2UgbW9kaWZpZXIpLg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9za2xfdW5pdmVyc2FsX3BsYW5lLmMNCj4gYi9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L3NrbF91bml2ZXJzYWxfcGxhbmUuYw0KPiBpbmRleA0KPiBj
+ZDk3NjI5NDdmMWRlMjI3YTNhYmJjZDYxYjdjN2IwYzk4NDhlNDM5Li4xYjBjYWZlOWIxNThjMjRl
+NzRiZjQ2MjINCj4gMmFjMjNkMmM5MzM1NTVhNSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZGlzcGxheS9za2xfdW5pdmVyc2FsX3BsYW5lLmMNCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9za2xfdW5pdmVyc2FsX3BsYW5lLmMNCj4gQEAgLTYwMSw3ICs2
+MDEsNyBAQCBzdGF0aWMgdTMyIHRnbF9wbGFuZV9taW5fYWxpZ25tZW50KHN0cnVjdCBpbnRlbF9w
+bGFuZQ0KPiAqcGxhbmUsDQo+ICAJICogRmlndXJlIG91dCB3aGF0J3MgZ29pbmcgb24gaGVyZS4u
+Lg0KPiAgCSAqLw0KPiAgCWlmIChkaXNwbGF5LT5wbGF0Zm9ybS5hbGRlcmxha2VfcCAmJg0KPiAt
+CSAgICBpbnRlbF9wbGFuZV9jYW5fYXN5bmNfZmxpcChwbGFuZSwgZmItPm1vZGlmaWVyKSkNCj4g
+KwkgICAgaW50ZWxfcGxhbmVfY2FuX2FzeW5jX2ZsaXAocGxhbmUsIGZiLT5mb3JtYXQtPmZvcm1h
+dCwNCj4gK2ZiLT5tb2RpZmllcikpDQo+ICAJCXJldHVybiBtdWx0ICogMTYgKiAxMDI0Ow0KPiAN
+Cj4gIAlzd2l0Y2ggKGZiLT5tb2RpZmllcikgew0KPiBAQCAtMjYyMyw2ICsyNjIzLDcgQEAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfZnVuY3MNCj4gc2tsX3BsYW5lX2Z1bmNzID0gew0K
+PiAgCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gaW50ZWxfcGxhbmVfZHVwbGljYXRlX3N0YXRl
+LA0KPiAgCS5hdG9taWNfZGVzdHJveV9zdGF0ZSA9IGludGVsX3BsYW5lX2Rlc3Ryb3lfc3RhdGUs
+DQo+ICAJLmZvcm1hdF9tb2Rfc3VwcG9ydGVkID0gc2tsX3BsYW5lX2Zvcm1hdF9tb2Rfc3VwcG9y
+dGVkLA0KPiArCS5mb3JtYXRfbW9kX3N1cHBvcnRlZF9hc3luYyA9DQo+IGludGVsX3BsYW5lX2Zv
+cm1hdF9tb2Rfc3VwcG9ydGVkX2FzeW5jLA0KPiAgfTsNCj4gDQo+ICBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRybV9wbGFuZV9mdW5jcyBpY2xfcGxhbmVfZnVuY3MgPSB7IEBAIC0yNjMyLDYgKzI2MzMs
+Nw0KPiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9mdW5jcyBpY2xfcGxhbmVfZnVu
+Y3MgPSB7DQo+ICAJLmF0b21pY19kdXBsaWNhdGVfc3RhdGUgPSBpbnRlbF9wbGFuZV9kdXBsaWNh
+dGVfc3RhdGUsDQo+ICAJLmF0b21pY19kZXN0cm95X3N0YXRlID0gaW50ZWxfcGxhbmVfZGVzdHJv
+eV9zdGF0ZSwNCj4gIAkuZm9ybWF0X21vZF9zdXBwb3J0ZWQgPSBpY2xfcGxhbmVfZm9ybWF0X21v
+ZF9zdXBwb3J0ZWQsDQo+ICsJLmZvcm1hdF9tb2Rfc3VwcG9ydGVkX2FzeW5jID0NCj4gaW50ZWxf
+cGxhbmVfZm9ybWF0X21vZF9zdXBwb3J0ZWRfYXN5bmMsDQo+ICB9Ow0KPiANCj4gIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2Z1bmNzIHRnbF9wbGFuZV9mdW5jcyA9IHsgQEAgLTI2NDEs
+NiArMjY0Myw3DQo+IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2Z1bmNzIHRnbF9w
+bGFuZV9mdW5jcyA9IHsNCj4gIAkuYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSA9IGludGVsX3BsYW5l
+X2R1cGxpY2F0ZV9zdGF0ZSwNCj4gIAkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBpbnRlbF9wbGFu
+ZV9kZXN0cm95X3N0YXRlLA0KPiAgCS5mb3JtYXRfbW9kX3N1cHBvcnRlZCA9IHRnbF9wbGFuZV9m
+b3JtYXRfbW9kX3N1cHBvcnRlZCwNCj4gKwkuZm9ybWF0X21vZF9zdXBwb3J0ZWRfYXN5bmMgPQ0K
+PiBpbnRlbF9wbGFuZV9mb3JtYXRfbW9kX3N1cHBvcnRlZF9hc3luYywNCj4gIH07DQo+IA0KPiAg
+c3RhdGljIHZvaWQNCj4gDQo+IC0tDQo+IDIuMjUuMQ0KDQo=
