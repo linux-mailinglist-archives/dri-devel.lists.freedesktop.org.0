@@ -2,85 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16196A50121
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64212A5012D
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:57:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F34C10E294;
-	Wed,  5 Mar 2025 13:56:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB14010E29B;
+	Wed,  5 Mar 2025 13:57:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IOLF4Fpw";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xu/9qv6R";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4Tk9Rin5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xu/9qv6R";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4Tk9Rin5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A326B10E294
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:56:27 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-ab744d5e567so155152366b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 05:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741182986; x=1741787786; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7tKVO1/yFtKo8AxMa+9eBPIXNrWvUam3daAFVJ/GPxo=;
- b=IOLF4Fpwmk+w8ydSB9qGL7oN4dXEzDRLB6HvyxuPG2W1Tz8+nipjLuJzep0EXDnO2I
- GY8+1nkSgukTlC+qgA4sXN8eEWK44uezo7lF9BO6gLIgxHp/IiiYj0pSWLG8NKWj8Boa
- xqeUueG4qYAGllFfhd/jFGE0p3HXEj0spl1fSciG2U2A6L7RQVkoOD7+ukE5EpNCUXMH
- s1hLvOwBhCCQY/SuEtW9OyWbk7OGz2XuQ7RsP62LS+EmLS1BwOCy0D9+8ViNQvqw+bgu
- FoxDdiB42Qt1HtxCcYvnKBjxyOQ0CSw6P4Y62M63EdYC+V71petoMDw+lvjirx2R5f/l
- cd5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741182986; x=1741787786;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7tKVO1/yFtKo8AxMa+9eBPIXNrWvUam3daAFVJ/GPxo=;
- b=MLEPsZoN6TiQ0DtSr0+3rwuG7iJ0aFPRv1NO/YO9daFTo66pdkDQsrVaXWE/JCx8Ay
- qBetl909u7MmQ1ogS9CHb2/0n+1kbfmjTdyxaajdltvhgBxXIFgwqXDwizd/5/pzoqkF
- OBMyRudSaw64e90UGJzMhOCSJT4s+luhA0A6PcOZpe9aXy0dHxz8pQ7SRAN0vER3A0Og
- q7kPgBghjfXmwHfTq4EB6PuuxJSfyvf4COejgctZckge9JGCwFum7ukrl5e7lQg/Rt6N
- Uzf4Y5ymhUPE79bKRj26FsfqPMWmVbhlGeZYTExFYceEHuQeG/YKDMjLzVzMXRsNM9rL
- E0lA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVvUKSM1EyMqV2tITwU8VWGqNacS0XjiqSl/OdJzLZlgLp1ZrkT0H9EN4L5B4cO8HXD/EepauqAv4k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7Mki1ZjLtBEGbT33miAR0D9RckfeIVMKBE32HurH8jEQop/2u
- l0OQG60yMqxJZaE53cv/eb3Hyp14ylIfTKdJVhr15hQkP5MaEmZx
-X-Gm-Gg: ASbGnctSI5UaK00MgqVKJtojcyr87Lupi1vNxhm/wSkI2jFvpm0rWpl+KAiWQgcDkUa
- cxYouSrqvXdfg+IvGxvFktt0DCZ6opSrUPeZxloDq+2lCHeuS4S0t4zpFfIiXRecvjT+3CJVuKN
- ZNooi8MBviaoUtPFidopYI4yGAmOmbcWnI5SV5iPJ8kDp2FA5S2vp9OC4yl36kMfZY8uPx2F5to
- sHz053VPKM2oLhlcbtj5LqO/9WrXZamEevJJvlDmwIncRWxgg+F+ibbiBW/cUr5xXOcNrNLYWg+
- 5U764QVNv8ZgBM+eSE6K00aMQKlS9MvIvPgOA2L0O50Kzl7KTrxlVvy4hLa13UqyEAEPyOp/MGx
- jhoMNWYTSZ//2yYsCdOmzHmlLrg==
-X-Google-Smtp-Source: AGHT+IFPKwZUivV9o2egwM9HtqA1X+Wqp5ZNIRNxx/29F/9iRwcSuupsGjgksk9DPk6Csl6LQmklyQ==
-X-Received: by 2002:a17:907:7216:b0:abf:6951:4bc2 with SMTP id
- a640c23a62f3a-ac1f0edc6b9mr612346766b.7.1741182985565; 
- Wed, 05 Mar 2025 05:56:25 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl.
- [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-abf7663b935sm550196266b.150.2025.03.05.05.56.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 05 Mar 2025 05:56:25 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-X-Priority: 3
-In-Reply-To: <25401bfa.291d.19564244e54.Coremail.andyshrk@163.com>
-Date: Wed, 5 Mar 2025 14:56:12 +0100
-Cc: heiko@sntech.de, neil.armstrong@linaro.org,
- sebastian.reichel@collabora.com, devicetree@vger.kernel.org,
- hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, yubing.zhang@rock-chips.com,
- dri-devel@lists.freedesktop.org, Andy Yan <andy.yan@rock-chips.com>,
- krzk+dt@kernel.org, robh@kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <75189787-28E1-4FC2-8E10-4960B3877A6F@gmail.com>
-References: <25401bfa.291d.19564244e54.Coremail.andyshrk@163.com>
-To: Andy Yan <andyshrk@163.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 285A210E29B
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:57:06 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C6368211A0;
+ Wed,  5 Mar 2025 13:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741183024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yTnDHL5YJ0HDpBxPL0hM7J8YAxYeprvi3CyWYIY1kSY=;
+ b=xu/9qv6RPFZV3YWTznTzJlA84tCKVEcQDPaa9+ZVXD9pwf/6Rq2ahSvOUcMgARNOqGTOKS
+ jBzAX2Q06cNV4090jaL1dLuCLcYpKU3mxIljOa0NI3zDs2AnHIoIUtCw66D3UIL2yBYDTA
+ KxnKn2YvrjKn4JPCuJbtCAzLQTebHNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741183024;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yTnDHL5YJ0HDpBxPL0hM7J8YAxYeprvi3CyWYIY1kSY=;
+ b=4Tk9Rin5clgy6+6sidc+5BmDI6c9f3MgVuMNeAktdsjRgogxmqn/1wGEhwFpXQLoZVzMgn
+ rAUVyPr6YtYGgdCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741183024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yTnDHL5YJ0HDpBxPL0hM7J8YAxYeprvi3CyWYIY1kSY=;
+ b=xu/9qv6RPFZV3YWTznTzJlA84tCKVEcQDPaa9+ZVXD9pwf/6Rq2ahSvOUcMgARNOqGTOKS
+ jBzAX2Q06cNV4090jaL1dLuCLcYpKU3mxIljOa0NI3zDs2AnHIoIUtCw66D3UIL2yBYDTA
+ KxnKn2YvrjKn4JPCuJbtCAzLQTebHNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741183024;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yTnDHL5YJ0HDpBxPL0hM7J8YAxYeprvi3CyWYIY1kSY=;
+ b=4Tk9Rin5clgy6+6sidc+5BmDI6c9f3MgVuMNeAktdsjRgogxmqn/1wGEhwFpXQLoZVzMgn
+ rAUVyPr6YtYGgdCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7D021366F;
+ Wed,  5 Mar 2025 13:57:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id aKKiJzBYyGciRwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 05 Mar 2025 13:57:04 +0000
+Message-ID: <7706a441-1664-4fe3-8b45-2f8f266ceeb4@suse.de>
+Date: Wed, 5 Mar 2025 14:57:04 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] drm/ast: Remove vram_fb_available from struct
+ ast_device
+To: jfalempe@redhat.com, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20250305134401.60609-1-tzimmermann@suse.de>
+ <20250305134401.60609-7-tzimmermann@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250305134401.60609-7-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
+ FROM_EQ_ENVFROM(0.00)[]; TO_DN_NONE(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,28 +142,109 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-> Wiadomo=C5=9B=C4=87 napisana przez Andy Yan <andyshrk@163.com> w dniu =
-5 mar 2025, o godz. 03:30:
->=20
->>=20
->=20
-> I only see the HDMI connector from your dri/state ; so it appears the =
-DP driver hasn't been successfully
-> initialized=EF=BC=88I think kernel dmesg can tell that=EF=BC=89.=20
-> Have you enabled CONFIG_ROCKCHIP_DW_DP ? This is needed.
->=20
+Am 05.03.25 um 14:35 schrieb Thomas Zimmermann:
+> Helpers compute the offset and size of the available framebuffer
+> memory. Remove the obsolete field vram_fb_available from struct
+> ast_device. Also define the cursor-signature size next to its only
+> user.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_cursor.c | 15 ++-------------
+>   drivers/gpu/drm/ast/ast_drv.h    |  4 ----
+>   drivers/gpu/drm/ast/ast_mm.c     |  1 -
+>   3 files changed, 2 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+> index 05e297f30b4e..f48207a45359 100644
+> --- a/drivers/gpu/drm/ast/ast_cursor.c
+> +++ b/drivers/gpu/drm/ast/ast_cursor.c
+> @@ -37,6 +37,7 @@
+>    */
+>   
+>   /* define for signature structure */
+> +#define AST_HWC_SIGNATURE_SIZE		SZ_32
+>   #define AST_HWC_SIGNATURE_CHECKSUM	0x00
+>   #define AST_HWC_SIGNATURE_SizeX		0x04
+>   #define AST_HWC_SIGNATURE_SizeY		0x08
+> @@ -294,20 +295,10 @@ int ast_cursor_plane_init(struct ast_device *ast)
+>   	long offset;
+>   	int ret;
+>   
+> -	/*
+> -	 * Allocate backing storage for cursors. The BOs are permanently
+> -	 * pinned to the top end of the VRAM.
+> -	 */
+> -
+> -	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
 
+There's a bug here, as size if now uninitialized. will be fixed in the 
+next iteration.
 
-Andy,
+> -
+> -	if (ast->vram_fb_available < size)
+> -		return -ENOMEM;
+> -
+> -	vaddr = ast->vram + ast->vram_fb_available - size;
+>   	offset = ast_cursor_vram_offset(ast);
+>   	if (offset < 0)
+>   		return offset;
+> +	vaddr = ast->vram + offset;
+>   
+>   	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
+>   			     0x01, &ast_cursor_plane_funcs,
+> @@ -320,7 +311,5 @@ int ast_cursor_plane_init(struct ast_device *ast)
+>   	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
+>   	drm_plane_enable_fb_damage_clips(cursor_plane);
+>   
+> -	ast->vram_fb_available -= size;
+> -
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index ec9ec77260e9..d9da2328d46b 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -112,12 +112,9 @@ enum ast_config_mode {
+>   
+>   #define AST_MAX_HWC_WIDTH	64
+>   #define AST_MAX_HWC_HEIGHT	64
+> -
+>   #define AST_HWC_PITCH		(AST_MAX_HWC_WIDTH * SZ_2)
+>   #define AST_HWC_SIZE		(AST_MAX_HWC_HEIGHT * AST_HWC_PITCH)
+>   
+> -#define AST_HWC_SIGNATURE_SIZE	32
+> -
+>   /*
+>    * Planes
+>    */
+> @@ -183,7 +180,6 @@ struct ast_device {
+>   	void __iomem	*vram;
+>   	unsigned long	vram_base;
+>   	unsigned long	vram_size;
+> -	unsigned long	vram_fb_available;
+>   
+>   	struct mutex modeset_lock; /* Protects access to modeset I/O registers in ioregs */
+>   
+> diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
+> index 3d03ef556d0a..0bc140319464 100644
+> --- a/drivers/gpu/drm/ast/ast_mm.c
+> +++ b/drivers/gpu/drm/ast/ast_mm.c
+> @@ -92,7 +92,6 @@ int ast_mm_init(struct ast_device *ast)
+>   
+>   	ast->vram_base = base;
+>   	ast->vram_size = vram_size;
+> -	ast->vram_fb_available = vram_size;
+>   
+>   	return 0;
+>   }
 
-Do you mean CONFIG_ROCKCHIP_DW_DP or CONFIG_DRM_DW_DP ?
-
-If CONFIG_DRM_DW_DP - then yes - i have it: =
-https://github.com/warpme/minimyth2/blob/2e267842b1033bbc4c2c5d80c1756a142=
-e347cc5/script/kernel/linux-6.14/files/linux-6.14-arm64-armv8.config#L5024=
-
-
-Kernel dmesg: https://termbin.com/uiup
-
-
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
