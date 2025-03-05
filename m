@@ -2,84 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877E0A504FE
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C75A50508
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:35:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE8810E801;
-	Wed,  5 Mar 2025 16:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0ABA10E80D;
+	Wed,  5 Mar 2025 16:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="c5MIv4RP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RTI1tYhM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c5MIv4RP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RTI1tYhM";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="P2iEBeO1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UeiDKvKQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P2iEBeO1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UeiDKvKQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E39F310E801
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:35:07 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2015110E80D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:35:31 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A935A1F394;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D3688211CD;
  Wed,  5 Mar 2025 16:35:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1741192506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
- b=c5MIv4RPYbPIOmnYBrzr1xc98bHiOcLMpCYEmdKITvbMNNZoBn7sisct0iIepl13COqgi/
- mFkfm2w00Ilo5Kf/GcHAlTmuJ/JNF26ooxmTuUnj2ibFRfqyisAVL0xraqudgaiOVjCJwg
- WMsa1GtMdamnmbsVIjhDQnBuk8IIfA8=
+ bh=AGdBRbRvOuGT82TjydmrfBspyITBxhWhTFdUHdfco1U=;
+ b=P2iEBeO1Xrj7JR2KbQ6d6tKcoi2UksKL1S/EPNbfFp2usiDn/ubrntp/fyPd58UMQaetnO
+ wSPkVyp9EqyZywFqxMItd88hHeaGsirKD4mCdTOaII/QCyK1pi0mIry4qRSIJc9ETf98L+
+ szHlOYP6YaYBbrfcMLAlAEXmteEWKNM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1741192506;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
- b=RTI1tYhMbwgMwJLqh3juWKUfTg1BAZ5yvn43//tDyOfvv87yG4IwMcmPWkxj8CedfNmTGZ
- oAQvUtQtWouVyaBg==
-Authentication-Results: smtp-out2.suse.de;
+ bh=AGdBRbRvOuGT82TjydmrfBspyITBxhWhTFdUHdfco1U=;
+ b=UeiDKvKQNNh8y6zqPON8z6JruoFSK/iFyswlYGoE+JWuacQAygOAUELXQqORsOGj2ZhwjC
+ XIrzY+vzr3HlJIBg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1741192506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
- b=c5MIv4RPYbPIOmnYBrzr1xc98bHiOcLMpCYEmdKITvbMNNZoBn7sisct0iIepl13COqgi/
- mFkfm2w00Ilo5Kf/GcHAlTmuJ/JNF26ooxmTuUnj2ibFRfqyisAVL0xraqudgaiOVjCJwg
- WMsa1GtMdamnmbsVIjhDQnBuk8IIfA8=
+ bh=AGdBRbRvOuGT82TjydmrfBspyITBxhWhTFdUHdfco1U=;
+ b=P2iEBeO1Xrj7JR2KbQ6d6tKcoi2UksKL1S/EPNbfFp2usiDn/ubrntp/fyPd58UMQaetnO
+ wSPkVyp9EqyZywFqxMItd88hHeaGsirKD4mCdTOaII/QCyK1pi0mIry4qRSIJc9ETf98L+
+ szHlOYP6YaYBbrfcMLAlAEXmteEWKNM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1741192506;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=beRDuN7o+YzIMMzFcO5EqUWWvPuPklna5yIjYJmrwoo=;
- b=RTI1tYhMbwgMwJLqh3juWKUfTg1BAZ5yvn43//tDyOfvv87yG4IwMcmPWkxj8CedfNmTGZ
- oAQvUtQtWouVyaBg==
+ bh=AGdBRbRvOuGT82TjydmrfBspyITBxhWhTFdUHdfco1U=;
+ b=UeiDKvKQNNh8y6zqPON8z6JruoFSK/iFyswlYGoE+JWuacQAygOAUELXQqORsOGj2ZhwjC
+ XIrzY+vzr3HlJIBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 824311366F;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AEEE01399F;
  Wed,  5 Mar 2025 16:35:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id aGtUHjp9yGfxfQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2FxCKTp9yGfxfQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 05 Mar 2025 16:35:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com,
 	airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 6/7] drm/ast: Remove vram_fb_available from struct
- ast_device
-Date: Wed,  5 Mar 2025 17:30:45 +0100
-Message-ID: <20250305163207.267650-7-tzimmermann@suse.de>
+Subject: [PATCH v2 7/7] drm/ast: cursor: Drop page alignment
+Date: Wed,  5 Mar 2025 17:30:46 +0100
+Message-ID: <20250305163207.267650-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250305163207.267650-1-tzimmermann@suse.de>
 References: <20250305163207.267650-1-tzimmermann@suse.de>
@@ -95,7 +94,7 @@ X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
  FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
  RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  RCVD_TLS_ALL(0.00)[]
 X-Spam-Score: -6.80
@@ -115,107 +114,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Helpers compute the offset and size of the available framebuffer
-memory. Remove the obsolete field vram_fb_available from struct
-ast_device. Also define the cursor-signature size next to its only
-user.
-
-v2:
-- initialize plane size
+The cursor scanout address requires alignment to a multiple of 8,
+but does not require page alignment. Change the offset calculation
+accordingly. Frees up a few more bytes for the primary framebuffer.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_cursor.c | 18 ++++--------------
- drivers/gpu/drm/ast/ast_drv.h    |  4 ----
- drivers/gpu/drm/ast/ast_mm.c     |  1 -
- 3 files changed, 4 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/ast/ast_cursor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 05e297f30b4e..cb0c48d47207 100644
+index cb0c48d47207..5ee724bfd682 100644
 --- a/drivers/gpu/drm/ast/ast_cursor.c
 +++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -37,6 +37,7 @@
-  */
+@@ -58,7 +58,7 @@ long ast_cursor_vram_offset(struct ast_device *ast)
+ 	if (size > ast->vram_size)
+ 		return -EINVAL;
  
- /* define for signature structure */
-+#define AST_HWC_SIGNATURE_SIZE		SZ_32
- #define AST_HWC_SIGNATURE_CHECKSUM	0x00
- #define AST_HWC_SIGNATURE_SizeX		0x04
- #define AST_HWC_SIGNATURE_SizeY		0x08
-@@ -289,25 +290,16 @@ int ast_cursor_plane_init(struct ast_device *ast)
- 	struct ast_cursor_plane *ast_cursor_plane = &ast->cursor_plane;
- 	struct ast_plane *ast_plane = &ast_cursor_plane->base;
- 	struct drm_plane *cursor_plane = &ast_plane->base;
--	size_t size;
-+	unsigned long size;
- 	void __iomem *vaddr;
- 	long offset;
- 	int ret;
- 
--	/*
--	 * Allocate backing storage for cursors. The BOs are permanently
--	 * pinned to the top end of the VRAM.
--	 */
--
--	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
--
--	if (ast->vram_fb_available < size)
--		return -ENOMEM;
--
--	vaddr = ast->vram + ast->vram_fb_available - size;
-+	size = ast_cursor_vram_size();
- 	offset = ast_cursor_vram_offset(ast);
- 	if (offset < 0)
- 		return offset;
-+	vaddr = ast->vram + offset;
- 
- 	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
- 			     0x01, &ast_cursor_plane_funcs,
-@@ -320,7 +312,5 @@ int ast_cursor_plane_init(struct ast_device *ast)
- 	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
- 	drm_plane_enable_fb_damage_clips(cursor_plane);
- 
--	ast->vram_fb_available -= size;
--
- 	return 0;
+-	return PAGE_ALIGN_DOWN(ast->vram_size - size);
++	return ALIGN_DOWN(ast->vram_size - size, SZ_8);
  }
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index ec9ec77260e9..d9da2328d46b 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -112,12 +112,9 @@ enum ast_config_mode {
  
- #define AST_MAX_HWC_WIDTH	64
- #define AST_MAX_HWC_HEIGHT	64
--
- #define AST_HWC_PITCH		(AST_MAX_HWC_WIDTH * SZ_2)
- #define AST_HWC_SIZE		(AST_MAX_HWC_HEIGHT * AST_HWC_PITCH)
- 
--#define AST_HWC_SIGNATURE_SIZE	32
--
- /*
-  * Planes
-  */
-@@ -183,7 +180,6 @@ struct ast_device {
- 	void __iomem	*vram;
- 	unsigned long	vram_base;
- 	unsigned long	vram_size;
--	unsigned long	vram_fb_available;
- 
- 	struct mutex modeset_lock; /* Protects access to modeset I/O registers in ioregs */
- 
-diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
-index 3d03ef556d0a..0bc140319464 100644
---- a/drivers/gpu/drm/ast/ast_mm.c
-+++ b/drivers/gpu/drm/ast/ast_mm.c
-@@ -92,7 +92,6 @@ int ast_mm_init(struct ast_device *ast)
- 
- 	ast->vram_base = base;
- 	ast->vram_size = vram_size;
--	ast->vram_fb_available = vram_size;
- 
- 	return 0;
- }
+ static u32 ast_cursor_calculate_checksum(const void *src, unsigned int width, unsigned int height)
 -- 
 2.48.1
 
