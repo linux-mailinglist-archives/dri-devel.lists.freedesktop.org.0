@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A81A4FFCE
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21622A4FFD0
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:14:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0F510E774;
-	Wed,  5 Mar 2025 13:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6431710E772;
+	Wed,  5 Mar 2025 13:14:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gnErVkC1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fwi9dMXa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F3210E774;
- Wed,  5 Mar 2025 13:14:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F31F10E77E;
+ Wed,  5 Mar 2025 13:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741180452; x=1772716452;
+ t=1741180456; x=1772716456;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rBTtm5oYRc6ht6IB0U16i1BGPgDb5CAiTvee4LkRwDw=;
- b=gnErVkC1gNPULXgFZBV+vrONfjFJwUQreFTb7na7XwbufoeBgfEqs6pL
- D90NCDHBOvfIGc2EP1VO0DWnGv0yfSodPHFjj9YVuYiZa3mJpznOMKKhp
- NsgZ7fubDUkNE1R3sNwUtVcQtWLfB+C4H+2mS+2jkJDEfHfP7HuEb8804
- FUyKoEP2Fy1MQoYbRicMshKg3beUsXDo7MwE+6ZEeI7XCrf/XjEx2YQqc
- 3toP25FGdd+jlDfiWMw0snrgLlQ6F5mgOR0wZmyHt5Ve/j5ZYgJB0qBEJ
- ckPQnY59nv5C04dhEuM3uDCFOT1wxkM/Uv+Z2/RH0sm3PtZdmEcd8R3g+ A==;
-X-CSE-ConnectionGUID: nH+mPjvuSzCNpbJYtczftw==
-X-CSE-MsgGUID: 6DU3emE1Tpm6apgaSIuThA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59685380"
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="59685380"
+ bh=PgYrUvt4BVq0TsBspivs2rBPJRGxmfwaqa3DBz0tsAI=;
+ b=Fwi9dMXaS8Yxrq+m31A53ncvvDI0XkNDx3PpwS3Dome/oW2SHMxsMX61
+ 9sPkKbdDHbJ7FCskolUygVu1ph+SxIQ6OFsPFAXiRBLJnQ0cKLtW84D6C
+ mMpaJ4x3NCUDb4Gg3sUg3rjg8DGYw65CMbLQ/ptZRf9ZAN8pvNLpWT7Lm
+ 9H3xym4IfNIGZ/aRG64Lqmhs4A0Wramgtnl3TmZPW7SztctzQhtosuqFi
+ 7rrPN84J1hY4VlzAUV1hUt5Go8eol5caqaojWPHYii7gXdUDOb/bzWPCF
+ 5TyD5+m0ZFTUcMOwbhI/XbIqf7rncINxrBWzccdvoLEvmKH0zjsYh1W77 Q==;
+X-CSE-ConnectionGUID: eCcP9XE0QaK2Locsr7IAEg==
+X-CSE-MsgGUID: B2ABqLTWSl6xEGoszjCpuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59685389"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="59685389"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 05:14:11 -0800
-X-CSE-ConnectionGUID: UKexvSkjTsSZrtWqvwB1MQ==
-X-CSE-MsgGUID: LVaiaR9hRMuORJ2lZSwn6A==
+ 05 Mar 2025 05:14:15 -0800
+X-CSE-ConnectionGUID: 4GWs2fFcSH6MTJCMm2c63g==
+X-CSE-MsgGUID: yitJeIPRTO2kUf7fvmVZOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="118701096"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="118701099"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orviesa006.jf.intel.com with ESMTP; 05 Mar 2025 05:14:07 -0800
+ by orviesa006.jf.intel.com with ESMTP; 05 Mar 2025 05:14:12 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org
 Cc: ville.syrjala@linux.intel.com, harry.wentland@amd.com,
  pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com, jadahl@redhat.com,
  mwen@igalia.com, contact@emersion.fr, naveen1.kumar@intel.com,
- dmitry.baryshkov@linaro.org,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
- Uma Shankar <uma.shankar@intel.com>
-Subject: [v3 02/23] drm: Add support for 3x3 CTM
-Date: Wed,  5 Mar 2025 18:55:47 +0530
-Message-ID: <20250305132608.2379253-3-uma.shankar@intel.com>
+ dmitry.baryshkov@linaro.org, Uma Shankar <uma.shankar@intel.com>
+Subject: [v3 03/23] drm: Add Enhanced LUT precision structure
+Date: Wed,  5 Mar 2025 18:55:48 +0530
+Message-ID: <20250305132608.2379253-4-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20250305132608.2379253-1-uma.shankar@intel.com>
 References: <20250305132608.2379253-1-uma.shankar@intel.com>
@@ -72,137 +70,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Existing LUT precision structure is having only 16 bit
+precision. This is not enough for upcoming enhanced hardwares
+and advance usecases like HDR processing. Hence added a new
+structure with 32 bit precision values.
 
-Add support for 3x3 Color Transformation Matrices in Color Pipeline.
-
-v2: Updated the documentation for 3x3 CTM colorop (Dmitry)
-
-Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 ---
- drivers/gpu/drm/drm_atomic.c      |  3 +++
- drivers/gpu/drm/drm_atomic_uapi.c |  3 +++
- drivers/gpu/drm/drm_colorop.c     | 29 +++++++++++++++++++++++++++++
- include/drm/drm_colorop.h         | 10 ++++++++++
- include/uapi/drm/drm_mode.h       |  8 ++++++++
- 5 files changed, 53 insertions(+)
+ drivers/gpu/drm/drm_color_mgmt.c | 43 ++++++++++++++++++++++++++++++++
+ include/drm/drm_color_mgmt.h     | 13 ++++++++++
+ include/uapi/drm/drm_mode.h      | 18 +++++++++++++
+ 3 files changed, 74 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index fabf09b88900..ab7d2ed9ee8c 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -800,6 +800,9 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
- 			   drm_get_colorop_lut1d_interpolation_name(colorop->lut1d_interpolation));
- 		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
- 		break;
-+	case DRM_COLOROP_CTM_3X3:
-+		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
-+		break;
- 	case DRM_COLOROP_CTM_3X4:
- 		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
- 		break;
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 195c7bfbae5f..8258558ff334 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -708,6 +708,9 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
- 	case DRM_COLOROP_CTM_3X4:
- 		size = sizeof(struct drm_color_ctm_3x4);
- 		break;
-+	case DRM_COLOROP_CTM_3X3:
-+		size = sizeof(struct drm_color_ctm);
-+		break;
- 	case DRM_COLOROP_3D_LUT:
- 		size = colorop->lut_size * colorop->lut_size * colorop->lut_size *
- 		       sizeof(struct drm_color_lut);
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 5245d6a4da39..7aa572f74193 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -362,6 +362,35 @@ int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index 3969dc548cff..83dc850d3b54 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -630,3 +630,46 @@ int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_colorop_ctm_3x4_init);
- 
+ EXPORT_SYMBOL(drm_color_lut_check);
++
 +/**
-+ * drm_colorop_ctm_3x3_init - Initialize a DRM_COLOROP_CTM_3X3
++ * drm_color_lut_32_check - check validity of extended lookup table
++ * @lut: property blob containing extended LUT to check
++ * @tests: bitmask of tests to run
 + *
-+ * @dev: DRM device
-+ * @colorop: The drm_colorop object to initialize
-+ * @plane: The associated drm_plane
-+ * @allow_bypass: true if BYPASS property should be created, false if bypass of
-+ *                this colorop is not possible
-+ * @return zero on success, -E value on failure
++ * Helper to check whether a userspace-provided extended lookup table is valid and
++ * satisfies hardware requirements.  Drivers pass a bitmask indicating which of
++ * the tests in &drm_color_lut_tests should be performed.
++ *
++ * Returns 0 on success, -EINVAL on failure.
 + */
-+int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
-+			     struct drm_plane *plane, bool allow_bypass)
++int drm_color_lut_32_check(const struct drm_property_blob *lut, u32 tests)
 +{
-+	int ret;
++	const struct drm_color_lut_32 *entry;
++	int i;
 +
-+	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_CTM_3X3, allow_bypass);
-+	if (ret)
-+		return ret;
++	if (!lut || !tests)
++		return 0;
 +
-+	ret = drm_colorop_create_data_prop(dev, colorop);
-+	if (ret)
-+		return ret;
++	entry = lut->data;
++	for (i = 0; i < drm_color_lut_32_size(lut); i++) {
++		if (tests & DRM_COLOR_LUT_EQUAL_CHANNELS) {
++			if (entry[i].red != entry[i].blue ||
++			    entry[i].red != entry[i].green) {
++				DRM_DEBUG_KMS("All LUT entries must have equal r/g/b\n");
++				return -EINVAL;
++			}
++		}
 +
-+	drm_colorop_reset(colorop);
++		if (i > 0 && tests & DRM_COLOR_LUT_NON_DECREASING) {
++			if (entry[i].red < entry[i - 1].red ||
++			    entry[i].green < entry[i - 1].green ||
++			    entry[i].blue < entry[i - 1].blue) {
++				DRM_DEBUG_KMS("LUT entries must never decrease.\n");
++				return -EINVAL;
++			}
++		}
++	}
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL(drm_colorop_ctm_3x3_init);
++EXPORT_SYMBOL(drm_color_lut_32_check);
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index ed81741036d7..882253a82bf1 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -72,6 +72,18 @@ static inline int drm_color_lut_size(const struct drm_property_blob *blob)
+ 	return blob->length / sizeof(struct drm_color_lut);
+ }
+ 
++/**
++ * drm_color_lut_32_size - calculate the number of entries in the extended LUT
++ * @blob: blob containing the LUT
++ *
++ * Returns:
++ * The number of entries in the color LUT stored in @blob.
++ */
++static inline int drm_color_lut_32_size(const struct drm_property_blob *blob)
++{
++	return blob->length / sizeof(struct drm_color_lut_32);
++}
 +
- /**
-  * drm_colorop_mult_init - Initialize a DRM_COLOROP_MULTIPLIER
-  *
-diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index 953eea079708..1cd8ce81224e 100644
---- a/include/drm/drm_colorop.h
-+++ b/include/drm/drm_colorop.h
-@@ -156,6 +156,14 @@ struct drm_colorop_state {
- 	 * |G| = |4  5  6  7 | x | G |
- 	 * |B|   |8  9  10 12|   | B |
- 	 *
-+	 * For 3x3 matrix (DRM_COLOROP_CTM_3X3), the blob is of type struct drm_color_ctm
-+	 * which represents the Conversion matrix in S31.32 sign-magnitude
-+	 * (not two's complement!) format.
-+	 * out   matrix    in
-+	 * |R|   |0 1 2|   |R|
-+	 * |G| = |3 4 5| x |G|
-+	 * |B|   |6 7 8|   |B|
-+	 *
- 	 * For 3D LUTs (DRM_COLOROP_3D_LUT), the blob is a 3D array of
- 	 * struct drm_color_lut with dimension length of "lut_size".
- 	 * The LUT elements are traversed like so:
-@@ -376,6 +384,8 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
- 				  struct drm_plane *plane, uint32_t lut_size,
- 				  enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
- 				  bool allow_bypass);
-+int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
-+			     struct drm_plane *plane, bool allow_bypass);
- int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
- 			     struct drm_plane *plane, bool allow_bypass);
- int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+ enum drm_color_encoding {
+ 	DRM_COLOR_YCBCR_BT601,
+ 	DRM_COLOR_YCBCR_BT709,
+@@ -118,4 +130,5 @@ enum drm_color_lut_tests {
+ };
+ 
+ int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests);
++int drm_color_lut_32_check(const struct drm_property_blob *lut, u32 tests);
+ #endif
 diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 316c643e0dea..c47788dc84c8 100644
+index c47788dc84c8..2ac4285b2dff 100644
 --- a/include/uapi/drm/drm_mode.h
 +++ b/include/uapi/drm/drm_mode.h
-@@ -905,6 +905,14 @@ enum drm_colorop_type {
- 	 */
- 	DRM_COLOROP_CTM_3X4,
+@@ -872,6 +872,23 @@ struct drm_color_lut {
+ 	__u16 reserved;
+ };
  
-+	/**
-+	 * @DRM_COLOROP_CTM_3X3:
-+	 *
-+	 * A 3x3 matrix. Its values are specified via the
-+	 * &drm_color_ctm struct provided via the DATA property.
++/**
++ * struct drm_color_lut_32 - Represents high precision lut values
++ *
++ * Creating 32 bit palette entries for better data
++ * precision. This will be required for HDR and
++ * similar color processing usecases.
++ */
++struct drm_color_lut_32 {
++	/*
++	 * Data for high precision LUTs
 +	 */
-+	DRM_COLOROP_CTM_3X3,
++	__u32 red;
++	__u32 green;
++	__u32 blue;
++	__u32 reserved;
++};
 +
+ /**
+  * enum drm_colorop_type - Type of color operation
+  *
+@@ -879,6 +896,7 @@ struct drm_color_lut {
+  * and defines a different set of properties. This enum defines all types and
+  * gives a high-level description.
+  */
++
+ enum drm_colorop_type {
  	/**
- 	 * @DRM_COLOROP_MULTIPLIER:
- 	 *
+ 	 * @DRM_COLOROP_1D_CURVE:
 -- 
 2.42.0
 
