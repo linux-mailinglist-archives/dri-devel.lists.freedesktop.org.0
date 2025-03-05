@@ -2,93 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7791CA5065E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 18:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2E3A50691
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 18:40:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8839B10E81C;
-	Wed,  5 Mar 2025 17:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86E3810E055;
+	Wed,  5 Mar 2025 17:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="a6P0b94y";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RLXmrKGX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A348110E81C
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 17:29:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741195769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=m+Uc6ofXsQKUvvRYiZER3AwMsPnTWSon6PId4zI6oXo=;
- b=a6P0b94yZRcPqnfLGsZZfWNl6gpCPumaFgyoXrDOuwl3DFyfiWVerbMHSc37VdiC19pPlz
- aX3vVu9G1ttrOhPGRVtWizllgmtmZhQX9SU4K+pR639c8JRIwUxdDWNSiAoyb9IhCKENZA
- /OehOfUrqRnp9VXGP8hYTOWAK2jhy9w=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-81-AKzY_PWVOfyD7cSJ5ftq4w-1; Wed, 05 Mar 2025 12:29:18 -0500
-X-MC-Unique: AKzY_PWVOfyD7cSJ5ftq4w-1
-X-Mimecast-MFC-AGG-ID: AKzY_PWVOfyD7cSJ5ftq4w_1741195758
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-6f2a2ab50f6so101165377b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 09:29:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741195758; x=1741800558;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m+Uc6ofXsQKUvvRYiZER3AwMsPnTWSon6PId4zI6oXo=;
- b=dOcFgNVSvCmSzkUYxUy3dkGNyGrjlDWrN/OXsTILSiRYwIRQgo/pN2a7L5qnBdn1Ar
- 1DVmoJVGdUNyMRAdHKZC6B0m3vm2GCo5Z3jZMemtGtlHvA+LTMieUIhI7cFwzEgkcWTx
- bVcsqiVeZEED2ok5X6RI9Hs4mtKob3rTM++e0AWELghZwq/iBuIg2NswvG4+hhyOLF8r
- hlw8Yx6DU1MblgdrIcehJlicoGhL2kI4wPth+TudJtqajJopqKeIR9exfUKw+MI5J73Y
- nRRKuJ2YX9rTxlKyt5Q6KzM2ae26gE3st7mDl8BJ5CZU02HfedLpGHJCvcPeA+Z8joQl
- +zYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXqhjh46+KrzQoX4CdBnGaNIoliaH/gQbg5zb07gZ5p79e0AG0pli7pZyEqL5MQllbdjuXw6cGgXnU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymQNfyiWAXWGZP2Ev/1nPOr+YKxmxrlfeYJZA/bgkQFVKYuciw
- vX7epIUViJTDCavI6pdSfceTBokwb8ZdBR41FdjPHmpxxRUgf3701FJXdLOWuvBQRhgKFSB+w3t
- b78J8tdT1LmOOC7sI1MryBZ71wvbIWV5BHfsszNkFlH2o40iyjXfFfKbqjYbYXgxFnqOqY2h3Gp
- 35l8pyrcTFNrmBq7KS5v9c6fnqpnyYwK5BCVIrf0Vh
-X-Gm-Gg: ASbGncs/9RWA/7VTa0Ngeg/mu6K9fb2FkQAQTT0qZcoxAIqU9zdsNcqlwdTKH5gbgVA
- chr7acjayOPsrPLftzQIkyRpCp68bgDuqXU0vzf3cvSEBcWnGRQfT3KVR4JLh5nOcJ8ZH0tk=
-X-Received: by 2002:a05:690c:6b11:b0:6ef:48ac:9d0c with SMTP id
- 00721157ae682-6fda31225cbmr61042447b3.25.1741195757973; 
- Wed, 05 Mar 2025 09:29:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEqf+rgcCZfkvxo+b2+MYpfub1OpKQvQ29tSf+h3GzR3IN0Da+EIhlEIILuxDfYOJt/Ef5AaNGONyN3mWAEEC8=
-X-Received: by 2002:a05:690c:6b11:b0:6ef:48ac:9d0c with SMTP id
- 00721157ae682-6fda31225cbmr61042057b3.25.1741195757656; Wed, 05 Mar 2025
- 09:29:17 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E69210E055
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 17:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741196433;
+ bh=xeU6W8dr+Xx44tYwHCvYEUZQm+N4fX/QzQxV0VbFOsk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=RLXmrKGXAheI/WPSgzRwEz2WzIRFcgBxYpDBX74aJUqV1KexEyqvFt/sZmqmk1zXm
+ l9rrps+gwi0tDOkPcX23wGNh91SuAoNVFUATwSBCT31Wy5ftA4ioHN0punSnOyQ0Yq
+ NGnn1cemoH48NiNr2OZA1DdiKD+uz7kY7AJoGTGA+YFWISYFPmZS1WCYjroDOjkTWj
+ IJDFG3Dac5hktsfbV51IFrBrn9gqmJOHJHeInrHif7XXzVK0C3QWfWOuW5ELyYyrgf
+ AjjPN69aKvN7JXQKKbjx4DOgqqlvq7hgZOtsRm6bCPoP+c5H2jSJBNKXQB4iqSR0kw
+ NeE/Ee80U3o8w==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3831917E0880;
+ Wed,  5 Mar 2025 18:40:32 +0100 (CET)
+Message-ID: <0d929810-1189-41ce-8f8a-3b7230c3b2a9@collabora.com>
+Date: Wed, 5 Mar 2025 18:40:31 +0100
 MIME-Version: 1.0
-References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
- <CAD=FV=WkPefg00R_TAQQA6waRqGdD+3e84JXfPLk2i9BRzW6Yg@mail.gmail.com>
-In-Reply-To: <CAD=FV=WkPefg00R_TAQQA6waRqGdD+3e84JXfPLk2i9BRzW6Yg@mail.gmail.com>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 5 Mar 2025 12:29:06 -0500
-X-Gm-Features: AQ5f1JoyXJztYYlq-TtxDj4yoBykgBKoLz7TpFuH6vwJfXZDkoQmfuH4eq39PGU
-Message-ID: <CAN9Xe3S6u1hjp0YifoFC4N9t6Ek3+ZZQPPbL529Y1_+AvnPNLg@mail.gmail.com>
-Subject: Re: [PATCH 00/14] drm/panel: Transition away from using
- mipi_dsi_*_write_seq()
-To: Doug Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Joel Selvaraj <jo@jsfamily.in>, Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Artur Weber <aweber.kernel@gmail.com>, 
- Jianhua Lu <lujianhua000@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Tejas Vipin <tejasvipin76@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: xErfcYSxSp7I4LRifsAcVLUJ9cjmxmeZYDKyZLuExZA_1741195758
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000009ead96062f9bba49"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/8] soc: mediatek: mtk-cmdq: Add pa_base parsing for
+ unsupported subsys ID hardware
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ =?UTF-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?UTF-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "fshao@chromium.org" <fshao@chromium.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "treapking@chromium.org" <treapking@chromium.org>
+References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
+ <20250218054405.2017918-5-jason-jh.lin@mediatek.com>
+ <581fc075-25d8-4104-a4ee-8c97e1a017e6@collabora.com>
+ <03c523e66fd56442f49c38456476cf18be59e8fb.camel@mediatek.com>
+ <8203317e-7f99-4ea5-bda0-fcd791602a9f@collabora.com>
+ <c27653233ed2ee2ee6eb0d40ad2167721a2b1476.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <c27653233ed2ee2ee6eb0d40ad2167721a2b1476.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,148 +90,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000009ead96062f9bba49
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Il 05/03/25 16:58, Jason-JH Lin (林睿祥) ha scritto:
+> On Wed, 2025-03-05 at 12:03 +0100, AngeloGioacchino Del Regno wrote:
+>>
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> Il 05/03/25 10:46, Jason-JH Lin (林睿祥) ha scritto:
+>>> On Tue, 2025-03-04 at 10:35 +0100, AngeloGioacchino Del Regno
+>>> wrote:
+>>>>
+>>>> External email : Please do not click links or open attachments
+>>>> until
+>>>> you have verified the sender or the content.
+>>>>
+>>>>
+>>>> Il 18/02/25 06:41, Jason-JH Lin ha scritto:
+>>>>> When GCE executes instructions, the corresponding hardware
+>>>>> register
+>>>>> can be found through the subsys ID. For hardware that does not
+>>>>> support
+>>>>> subsys ID, its subsys ID will be set to invalid value and its
+>>>>> physical
+>>>>> address needs to be used to generate GCE instructions.
+>>>>>
+>>>>> This commit adds a pa_base parsing flow to the cmdq_client_reg
+>>>>> structure
+>>>>> for these unsupported subsys ID hardware.
+>>>>>
+>>>>
+>>>> Does this work only for the MMINFRA located GCEs, or does this
+>>>> work
+>>>> also for
+>>>> the legacy ones in MT8173/83/88/92/95 // MT6795/6893/etc?
+>>>>
+>>>> In order to actually review and decide, I do need to know :-)
+>>>>
+>>>
+>>> Yes, it's for the SoCs without subsys ID, it's not related to the
+>>> MMINFRA.
+>>>
+>>> This can also work on MT8173/83/92/95 // MT6795/6893/etc.
+>>> You can remove the `mediatek,gce-client-reg` properties in their
+>>> dtsi
+>>> and cherry-pick this series to verify it. :-)
+>>>
+>>
+>> This is curious - and that brings more questions to the table (for
+>> curiosity
+>> more than anything else at this point).
+>>
+>> Since this is a way to make use of the CMDQ for address ranges that
+>> are not tied
+>> to any subsys id (hence no gce-client-reg and just physical address
+>> parsing for
+>> generating instructions), do you know what are the performance
+>> implications of
+>> using this, instead of subsys IDs on SoCs that do support them?
+>>
+> 
+> The main advantage of using subsys ID is to reduce the number of
+> instruction.
+> Without subsy ID, you will need one more `ASSIGN` instruction to assign
+> the high bytes of the physical address.
+> 
+> E,g. In mt8195-gce.h: #define SUBSYS_1c00XXXX 3
+> 
+> If you want GCE to write the value 0x0000000f to 0x1c00_002c.
+> 
+> With subsys ID, you can use only one instruction to achieve it:
+> 1. WRITE value: 0x000000f to subsys: 0x3 + offset: 0x0002c
+> - OP code: WRTIE = 0x90
+> - subsys ID: 0x1c00XXXX = 0x03
+> - offset: 0x002c
+> - value: 0x0000000f
+> 
+> Without subsys ID, you will need 2 instructions to achieve it:
+> 1. ASSIGN address high bytes: 0x1c00 to GCE temp register: SPR0
+> - OP code: LOGIC = 0xa0
+> - arg_type: register, value, value = (0x8)
+> - sub OP: ASSIGN = 0x0
+> - register index to store the assign value: SPR0 = 0x0
+> - value to assign: 0x1c00
+> 2. WRITE value: 0x0000000f to temp register: SPR0 + offset:0x002c
+> - OP code: WRITE = 0x90
+> - sub OP(temp register index): SPR0 = 0x0
+> - offset for temp register: 0x002c
+> - value: 0x0000000f
+> 
+>> Being clear: if we were to migrate a SoC like MT8195 to using this
+>> globally
+>> instead of using subsys ids, would the performance be degraded?
+>> And if yes, do you know by how much?
+>>
+> 
+> E,g. If the inst number with subsys ID is N.
+> 1. If CMDQ is implement like this, then inst number will be (N * 2):
+> assign SPR0 = 0x1c00
+> write A to SPR0 + offset: 0x2c
+> assign SPR0 = 0x1c00
+> write B to SPR0 + offset: 0x3c
+> assign SPR0 = 0x1c00
+> write C to SPR0 + offset: 0x4c
+> ...
+> 
+> 2. If CMDQ is implement like this, the inst number will be (N + 1 * n):
+> assign SPR0 = 0x1c00
+> write A to SPR0 + offset: 0x2c
+> write B to SPR0 + offset: 0x3c
+> write C to SPR0 + offset: 0x4c
+> ...
+> 
+> When the same cmd buffer changes the base address for n times:
+> assign SPR0 = 0x1c00
+> write A to SPR0 + offset: 0x2c
+> assign SPR0 = 0x1c01
+> write B to SPR0 + offset: 0x2c
+> assign SPR0 = 0x1c02
+> write C to SPR0 + offset: 0x2c
+> assign SPR0 = 0x1c00
+> write D to SPR0 + offset: 0x3c
+> ...
+> 
+> So you can imagine the performance will increase, but maybe not too
+> much if we use it in the right way...
+> Except the old SoC that didn't support SPR and CPR. The reason will be
+> addressed in the next paragraph.
+> 
+>> What you're proposing almost looks like being too good to be true -
+>> and makes
+>> me wonder, at this point, why the subsys id was used in the first
+>> place :-)
+>>
+> 
+> That's because of the old GCE version in the old SoC only support GPR,
+> it didn't support SPR and CPR.
+> 
+> GPR:
+> All 32 GCE threads share the same GPR0~GPR15, GPR will be affected by
+> other GCE threads if they use it at the same time.
+> 
+> SPR:
+> Each GCE thread has 4 SPR, SPR won't be affected by another GCE thread.
+> 
+> CPR:
+> All 32 GCE threads share the same CPR, there are over 1000 CPR can be
+> used. It need to be managed properly to avoid the resource conflicting.
+> 
+> Due to the GPR resource restriction in the old GCE version, the usage
+> of subsys ID can avoid GPR conflicting issues when multiple GCE threads
+> are using GPR to physical assign high bytes all the time.
+> 
+> 
+> I have simplified some complicate instruction rules, so the description
+> above may not be 100% matched to the CMDQ helper driver code.
+> But I think the main concept is correct.
+> Hope these explanation can help well :-)
+> 
 
-On Sat, Feb 8, 2025 at 3:43=E2=80=AFPM Doug Anderson <dianders@chromium.org=
-> wrote:
+Jason, that's simply wonderful. Thanks a lot for this precious description.
 
-> Hi,
->
-> On Thu, Feb 6, 2025 at 1:06=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.c=
-om>
-> wrote:
-> >
-> > Transition away from mipi_dsi_generic_write_seq() and
-> > mipi_dsi_dcs_write_seq() to mipi_dsi_generic_write_seq_multi()
-> > and mipi_dsi_dcs_write_seq_multi() respectively.
-> >
-> > This is addressing one of the gpu todo items [1]
-> >
-> > Used Coccinelle to make the code changes.
->
-> As Dmitry mentioned [1], I think a real cleanup needs more thought
-> than can be done in a Coccinelle script. Maybe you can make a script
-> that's super fancy and does a perfect conversion, but I sorta doubt it
-> in this case.
->
-> A few other note:
->
-> * Tejas Vipin has been slowly whittling down this TODO item. It would
-> be good to CC him on any attempts to avoid duplicating work. He just
-> submitted a patch [2] that duplicates one of the panels you ran your
-> script on. It would also be good to look at the patches he has been
-> posting to see some of the extra complexities.
->
-> * I'm happy you CCed on the cover letter, but given that I've been
-> helping with this TODO entry it would have been nice to have been CCed
-> on all the patches.
->
-> For now I'm not going to review the individual patches in this series.
-> If there are any where you think your Coccinelle script really got
-> everything adjusted perfectly then feel free to point them out and
-> I'll review them. If you want to help with this effort, my own
-> personal preference would be to at least start w/ one panel at a time
-> since probably review feedback on all the conversions will be similar.
->
-> Thanks!
->
->
-I thought I had replied to this  :( (face-palm) sincere apologies. Luckily
-I bumped into this today.  Thanks for the feedback. I agree with what you
-said. While the script catches the patterns , a little of manual conversion
-and proof checking is needed. I am taking this into account while I spin
-the next version. WIll CC everyone in individual patches who have taken
-their time to take a look at my clearly incomplete approach to this
-redesign.
+Yes, this has clarified even more than I was asking for, and besides,
+yeah I know that there are some rules to follow, some of which I know,
+some of which I imagine - and describing all of that would need lots
+and lots of text - again, I know, and no worries about that! :-D
 
-Again, thanks Dough
+Thanks again!
+Angelo
 
-Anusha
-
-> -Doug
->
-> [1]
-> https://lore.kernel.org/r/mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4n6mli5hosrpcv=
-dwp@wmvfvhaqhpkm
-> [2]
-> http://lore.kernel.org/r/20250208051541.176667-1-tejasvipin76@gmail.com
->
->
-
---0000000000009ead96062f9bba49
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 8, =
-2025 at 3:43=E2=80=AFPM Doug Anderson &lt;<a href=3D"mailto:dianders@chromi=
-um.org">dianders@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Hi,<br>
-<br>
-On Thu, Feb 6, 2025 at 1:06=E2=80=AFPM Anusha Srivatsa &lt;<a href=3D"mailt=
-o:asrivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&gt; wrote:=
-<br>
-&gt;<br>
-&gt; Transition away from mipi_dsi_generic_write_seq() and<br>
-&gt; mipi_dsi_dcs_write_seq() to mipi_dsi_generic_write_seq_multi()<br>
-&gt; and mipi_dsi_dcs_write_seq_multi() respectively.<br>
-&gt;<br>
-&gt; This is addressing one of the gpu todo items [1]<br>
-&gt;<br>
-&gt; Used Coccinelle to make the code changes.<br>
-<br>
-As Dmitry mentioned [1], I think a real cleanup needs more thought<br>
-than can be done in a Coccinelle script. Maybe you can make a script<br>
-that&#39;s super fancy and does a perfect conversion, but I sorta doubt it<=
-br>
-in this case.<br>
-<br>
-A few other note:<br>
-<br>
-* Tejas Vipin has been slowly whittling down this TODO item. It would<br>
-be good to CC him on any attempts to avoid duplicating work. He just<br>
-submitted a patch [2] that duplicates one of the panels you ran your<br>
-script on. It would also be good to look at the patches he has been<br>
-posting to see some of the extra complexities.<br>
-<br>
-* I&#39;m happy you CCed on the cover letter, but given that I&#39;ve been<=
-br>
-helping with this TODO entry it would have been nice to have been CCed<br>
-on all the patches.<br>
-<br>
-For now I&#39;m not going to review the individual patches in this series.<=
-br>
-If there are any where you think your Coccinelle script really got<br>
-everything adjusted perfectly then feel free to point them out and<br>
-I&#39;ll review them. If you want to help with this effort, my own<br>
-personal preference would be to at least start w/ one panel at a time<br>
-since probably review feedback on all the conversions will be similar.<br>
-<br>
-Thanks!<br>
-<br></blockquote><div><br></div><div>I thought I had replied to this=C2=A0 =
-:( (face-palm) sincere apologies. Luckily I bumped into this today.=C2=A0 T=
-hanks for the feedback. I agree with what you said. While the script catche=
-s the patterns , a little of manual conversion and proof checking is needed=
-. I am taking this into account while I spin the next version. WIll CC ever=
-yone in individual patches who have taken their time to take a look at my c=
-learly incomplete approach to this redesign.=C2=A0</div><div><br></div><div=
->Again, thanks Dough</div><div><br></div><div>Anusha</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
--Doug<br>
-<br>
-[1] <a href=3D"https://lore.kernel.org/r/mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4=
-n6mli5hosrpcvdwp@wmvfvhaqhpkm" rel=3D"noreferrer" target=3D"_blank">https:/=
-/lore.kernel.org/r/mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4n6mli5hosrpcvdwp@wmvfv=
-haqhpkm</a><br>
-[2] <a href=3D"http://lore.kernel.org/r/20250208051541.176667-1-tejasvipin7=
-6@gmail.com" rel=3D"noreferrer" target=3D"_blank">http://lore.kernel.org/r/=
-20250208051541.176667-1-tejasvipin76@gmail.com</a><br>
-<br>
-</blockquote></div></div>
-
---0000000000009ead96062f9bba49--
+> Regards,
+> Jason-JH Lin
+> 
+>> Cheers!
+>> Angelo
+>>
+>>> Regards,
+>>> Jason-JH Lin
+>>>
+>>>> Thanks,
+>>>> Angelo
+>>>>
+>>>>
+>>>
+>>
+>>
+>>
+> 
 
