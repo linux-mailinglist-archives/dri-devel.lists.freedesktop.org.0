@@ -2,53 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83DDA5016B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 15:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910ADA501A3
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 15:19:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F0D610E733;
-	Wed,  5 Mar 2025 14:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E74E110E723;
+	Wed,  5 Mar 2025 14:09:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="J0oA6cBl";
+	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="akN+WSzb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A89D910E733
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 14:07:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1741183673;
- bh=ylMxxZGDNV+12878qZV6Un+P+/ufktGGRokW3IlN2MA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=J0oA6cBlaf/d4hoCk55aUhPODHTrYMUo5qTT2Ofwbd2qyAFMkkcm++olxv9J7hSne
- JaNtjoN1juPP3N6TuxEZEVuW/MyiPtfTNuuEc9TEFqeVQCXaKYY4EZ7/QHmbGn4xhc
- wS+8kTLsk/9Q4Sq3cfcSCjLtL68uwhvmPXQ1v8a5GLREJSd16g8hMXkG4MUT4x48S3
- pomIFGhtpF5rpDpS2nmUZZYKefloiX5jcdeNgeMInqfpeQr/JwjK4IGYi6wl2A1h9E
- aClCfJybIGHrffuXF95yN5H1cy4m1PC+ka1jM7LxOauh0R/t7mBovjKRUyAGCCJBjf
- w18YPG7vmb0bw==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B37FB17E0599;
- Wed,  5 Mar 2025 15:07:52 +0100 (CET)
-Date: Wed, 5 Mar 2025 15:07:46 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: David Airlie <airlied@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann
- <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] drm/panthor: Clean up FW version information display
-Message-ID: <20250305150746.5b5dabba@collabora.com>
-In-Reply-To: <20250213161248.1642392-1-steven.price@arm.com>
-References: <20250213161248.1642392-1-steven.price@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B59D510E723
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 14:09:34 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-39104c1cbbdso1787724f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 06:09:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1741183773; x=1741788573;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jC9QV0bJcgZgqHHH3SUMbf/vptPD4PQ0vRL1kkv5HIw=;
+ b=akN+WSzbpho9bQFiH+xrlxrwgLi3aznNTMU8dCyCbsh5E/qYxuw7k5uN+V211zB898
+ b3wpBELWlo2ygfWHO1RYYOfbbOhzm8QDQkRZxi2IRTn6SywL5z6NkVYcAH8lK9aClPFI
+ k4PuXSumVZtkaMTAPHpM+WNo9arert+/CHm7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741183773; x=1741788573;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jC9QV0bJcgZgqHHH3SUMbf/vptPD4PQ0vRL1kkv5HIw=;
+ b=UTdLdfSp5wRZsGfy0HBOHH+pM05C78fgPYCE6Oy/x3iyWXJ8Xlif/hOny2NazMTOAY
+ DSahd89dhF7SyxuWPd1gJmKjIuEa75Xa1jRfMaU4IWzHnAEuBcQQBpM845oP6lHHtMjK
+ o7rU4ELzqZzqf54GpFxvcgx0JjkD2miKxgq3sgzHpqZ5OsETwLl9tqyhQDB6MEuVyp5N
+ /cCsjfm35nww9j6e6KzmKHOKMU4PFFAer1WwE+GpxD92Oc648zvza8BKQfupmCvBo+hu
+ uKB/SdIGDVDZYnuUsWgBNsGQR/LzJDUK+n2XzCuNi+lDfXKI2fRFD/SLEhDJ69Nb7+na
+ j5Yg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZYaEh7QGNjw0QJYdabLs4kNuAODJo2rcDzrn0bTJfoYPTi4ZDsYit+yZxp5uw5i8koQeaMhJHANA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqtXpBJCfhaQQc3k1WfO5nr7F0zzI7uPscEshrI1k87m++n394
+ lbBfhzixWZUm+HasaBwurIDLyFD2fZGMDZShAlCvkKf03x1xtNy16xy0z+BmVO8=
+X-Gm-Gg: ASbGncs6TTaZPdukZO0SJDwS2pJD/k43wtinRHZKZ3tqyzXieNXoQvGbrHfLvm8Ke0U
+ R9YrSC9juIh4NHkWFE/txn3VEmCJATn3eFdOJwalj87wfns+yLkEX2l5r5xd1Q08updmoTvS898
+ 7LBR3S34zDJ6fJVZTRL7RSz2AG1rZs/p2avurDE7oLf0HlhYDykBzFwgVxrqMGZDrBLprFXgFB/
+ YEc8ncEDThvQtu/u91xUu2K0WvTDcnNMZ2AfetxjFPjhUnOM9kTClCpJ26JWMnrHvWJ41KcxcfO
+ GBqsNO8mM9o+FHQjC1EVzRpma4xP4V1a0qA1ZGMSqK9TCVA7t4+NcWCi5DLpE/hPSRpNjZuka7t
+ ylhRV
+X-Google-Smtp-Source: AGHT+IHdccH4w20LAtL5Tnt1zvD+qT2oMJLO3EagpAUtyRarROFNC3ETwO4Ig2JSfhHI6IHFm6KeuA==
+X-Received: by 2002:a05:6000:1546:b0:390:df02:47f0 with SMTP id
+ ffacd0b85a97d-3911f7bb461mr2279778f8f.42.1741183772882; 
+ Wed, 05 Mar 2025 06:09:32 -0800 (PST)
+Received: from localhost.localdomain ([2001:b07:6474:ebbf:334:5d7f:7a52:9e84])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-390e4847e62sm21374802f8f.67.2025.03.05.06.09.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Mar 2025 06:09:32 -0800 (PST)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Vasut <marex@denx.de>, Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Stefan Agner <stefan@agner.ch>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: [RESEND PATCH v3] drm/mxsfb: Remove generic DRM drivers in probe
+ function
+Date: Wed,  5 Mar 2025 15:09:16 +0100
+Message-ID: <20250305140929.174398-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,62 +95,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Feb 2025 16:12:48 +0000
-Steven Price <steven.price@arm.com> wrote:
+Use aperture helpers to remove all generic graphics drivers before
+loading mxsfb. Makes mxsfb compatible with simpledrm.
 
-> Assigning a string to an array which is too small to include the NUL
-> byte at the end causes a warning on some compilers. But this function
-> also has some other oddities like the 'header' array which is only ever
-> used within sizeof().
-> 
-> Tidy up the function by removing the 'header' array, allow the NUL byte
-> to be present in git_sha_header, and calculate the length directly from
-> git_sha_header.
-> 
-> Reported-by: Will Deacon <will@kernel.org>
-> Fixes: 9d443deb0441 ("drm/panthor: Display FW version information")
-> Signed-off-by: Steven Price <steven.price@arm.com>
+Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
 
-> ---
-> Note that there should be no functional change from this patch.
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 4a9c4afa9ad7..645fc6d2e63b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -636,8 +636,8 @@ static int panthor_fw_read_build_info(struct panthor_device *ptdev,
->  				      u32 ehdr)
->  {
->  	struct panthor_fw_build_info_hdr hdr;
-> -	char header[9];
-> -	const char git_sha_header[sizeof(header)] = "git_sha: ";
-> +	const char git_sha_header[] = "git_sha: ";
-> +	const int header_len = sizeof(git_sha_header) - 1;
->  	int ret;
->  
->  	ret = panthor_fw_binary_iter_read(ptdev, iter, &hdr, sizeof(hdr));
-> @@ -651,8 +651,7 @@ static int panthor_fw_read_build_info(struct panthor_device *ptdev,
->  		return 0;
->  	}
->  
-> -	if (memcmp(git_sha_header, fw->data + hdr.meta_start,
-> -		   sizeof(git_sha_header))) {
-> +	if (memcmp(git_sha_header, fw->data + hdr.meta_start, header_len)) {
->  		/* Not the expected header, this isn't metadata we understand */
->  		return 0;
->  	}
-> @@ -665,7 +664,7 @@ static int panthor_fw_read_build_info(struct panthor_device *ptdev,
->  	}
->  
->  	drm_info(&ptdev->base, "Firmware git sha: %s\n",
-> -		 fw->data + hdr.meta_start + sizeof(git_sha_header));
-> +		 fw->data + hdr.meta_start + header_len);
->  
->  	return 0;
->  }
+Changes in v3:
+- Add 'Reviewed-by' of  Thomas Zimmermann
+
+Changes in v2:
+- Use aperture_remove_all_conflicting_devices() instead of
+  drm_aperture_remove_framebuffers().
+
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 59020862cf65..e5eb644b54ae 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -8,6 +8,7 @@
+  * Copyright (C) 2008 Embedded Alley Solutions, Inc All Rights Reserved.
+  */
+ 
++#include <linux/aperture.h>
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
+@@ -361,6 +362,15 @@ static int mxsfb_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_free;
+ 
++	/*
++	 * Remove early framebuffers (ie. simplefb). The framebuffer can be
++	 * located anywhere in RAM
++	 */
++	ret = aperture_remove_all_conflicting_devices(mxsfb_driver.name);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "can't kick out existing framebuffers\n");
++
+ 	ret = drm_dev_register(drm, 0);
+ 	if (ret)
+ 		goto err_unload;
+-- 
+2.43.0
 
