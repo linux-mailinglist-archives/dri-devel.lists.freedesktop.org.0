@@ -2,97 +2,179 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1183BA4F5E2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 05:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB29EA4F6A7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 06:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B52310E6C9;
-	Wed,  5 Mar 2025 04:02:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D700510E6D7;
+	Wed,  5 Mar 2025 05:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Fgs1RfNW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AUYAy/hR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06CE110E143;
- Wed,  5 Mar 2025 04:02:40 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524NB4dh027093;
- Wed, 5 Mar 2025 04:02:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SgKJsdGdhNSbxAfDueZa1IuPNhuY/9sWOXQM+zzU8YE=; b=Fgs1RfNW3Ax4MOsH
- 53+Em6HBVk7H3z+WvrPRlfVc/ueG92sMTJyw2Xcw652Q+pWKaxTbct98BTbHiUdz
- W1Z90iQ/PQpjOb23oJdoaQOj59GrKBKBnic5FA7ArzhA2bUQE2R5dTbva2lzxK9P
- 27nKjvSrS6JETHlwzc8u1ZWNAkN6tKtOOPMQiO6ONw9FOs5iLosks6WwuIOKoS8D
- f2iEK+6pDHcnzrn0MH55JrlunoE/5u6T+9GDJ8IAtRB6x1khyMnWulezVWHZR4ti
- H5Ywf6DhmzGQ3U5bD+Y+XfYAq/OjgTpwiVcKwB/c1/LIVPTxJ7u9/921AuSVHd5O
- EJo2VQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6tm1eu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Mar 2025 04:02:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52542P0P026196
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 5 Mar 2025 04:02:25 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Mar 2025
- 20:02:24 -0800
-Message-ID: <3cd320d3-1ed2-45a7-91eb-bf6c1abdfbd6@quicinc.com>
-Date: Tue, 4 Mar 2025 20:02:24 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] drm/msm/dpu: Force modeset if new CTLs have been
- reserved
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250303-force-modeset-hw-ctl-v1-1-9cbf6d4fbf8e@quicinc.com>
- <flc3cyky4wxfin7dlxhukwmhonze3napmuyhl2s6jbsgepco7a@q4l2ndh23lus>
- <4bb1d4a7-dd0b-4565-8d5d-ff8fd4cda20a@quicinc.com>
- <CAA8EJppMV7uj6w1_qr2AMVT7KYJiVqPRWBibqXtf3adLpRKcrw@mail.gmail.com>
- <a098b6f9-547d-42c7-b4f5-91762dc7c631@quicinc.com>
- <imxktwztfjyh4v6yuldgsluwv7wrx7qhvhgzsllnz3hnmmbc23@pnrfmdnjxg3b>
- <90e91cd7-e5d7-4d0f-aef8-e19b9f0e336b@quicinc.com>
- <CAA8EJpqFWUVA3XraxXNFrXUNW=48iEqDGr7HAVcETmmnygRgDQ@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B54B10E6D7;
+ Wed,  5 Mar 2025 05:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741153577; x=1772689577;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:mime-version;
+ bh=Ngw8moi8qc677gi1VwgKV33b7i38cBhaUH051KUD9nQ=;
+ b=AUYAy/hR4f2JRPMzw/SD94OlFASBERlgy8SXf9Dn7Nf0cPPnyV1zXg0k
+ cQx9l5kF222eoVAM+xLkLw/PsJgUUY7Dd6cw1WnO5mKRTl6fk7BL0nSji
+ ku/knKzTeBwCK0rmedqB6D/jRAmyA2BH559C/Jwfr1CEgALbg3O+JWlOQ
+ k3iqP4s+92QE2KRdmLZCiys4eU2y0wQDxTdpgFXCCY1vNwARczFbcbMeR
+ gfnQg+bcBPUIjypyroBKUczaQMAuwuoaYPVnNlMVOKfzJbkSZhkeFvBZb
+ 6wKAS4LmqwhWOpWWk72bR1LPwUQPMBMOIGGE95GdsWpcmSNtoDaph8W8I A==;
+X-CSE-ConnectionGUID: kScqD1qRTxuuWoddrwgn3Q==
+X-CSE-MsgGUID: 8TVbINpeTJmHjWKZ2pRvCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41813487"
+X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; d="scan'208,217";a="41813487"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2025 21:46:15 -0800
+X-CSE-ConnectionGUID: xm19k8eWSpOXxn72UDESrg==
+X-CSE-MsgGUID: YtMBqsGNR/u+X162jpgXhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
+ d="scan'208,217";a="123605365"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2025 21:46:15 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 4 Mar 2025 21:46:14 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 21:46:14 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.43) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 4 Mar 2025 21:46:13 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N8XADx94/poNrH0STxqYZss7GjkpV/JivvqY+XHS5AvYgtPrR92k2mJ9OMsjI1jBM4tzf+SxKdtIi4oHHSxo/bMQG59nbdpZjGKKg2SL0EjH+eIF1DOAunT0YiX6SsabpKmU6SJgteyWpg8+5BuiRdQmTDjXT+yPJB8Swk4GFNF3OrP3zXeCz1y51Hhw1LDy9B0j1WDdOSSdMXYYEbNPiXB+ZfDWUhskJVzDsGP2tTuqUgwNfGnxw5jqKOGFH6njEqvsFomx6LXymw3zO2D31bGj6FnvjxWkIo9OQTmDReMjX9cfZNDUwJJupl2feoQHUwdNGtQx0ZMNbiF7e1YMbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B86DIECLjYe+PsDt2v84NXndrvlmySYAS69/S2LEWzE=;
+ b=uNR+3m7jj+UsrMCzIrwxQ1o94JsciLa0pFhYvUout1TRyY8ZBvpZuCVIEBR6GgGk0TlB+X3CMSh4n/P2m6r9qGiqB1Cn+lbTPVjW+eAz7YwnTbAINjtrgetqpbudClmNJIyHrjMkb9LYxhLp9vUFikQCNlqR876EqAofQOHZw+gEhz7kYyDyjJ0W6u6jz9+KPzk1i+cMXx+p9c15XnReEaG4kJ2QSUPSuE7uskgb1QSni8sOLIB2rTxbINDisDsvUrtaWeWumQjXXFbg1RxT4UKFsXMqfpmxYBHWs6fKt9ycp6qJtZHYHEttkM5KrkllINOMn4SSJFdD3y2KCaRmDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH3PR11MB8707.namprd11.prod.outlook.com (2603:10b6:610:1bf::20)
+ by SJ1PR11MB6155.namprd11.prod.outlook.com (2603:10b6:a03:45e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.27; Wed, 5 Mar
+ 2025 05:45:31 +0000
+Received: from CH3PR11MB8707.namprd11.prod.outlook.com
+ ([fe80::24af:ac1c:2b1d:7e62]) by CH3PR11MB8707.namprd11.prod.outlook.com
+ ([fe80::24af:ac1c:2b1d:7e62%3]) with mapi id 15.20.8511.015; Wed, 5 Mar 2025
+ 05:45:31 +0000
+From: "Zhang, Jianxun" <jianxun.zhang@intel.com>
+To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+CC: "Gupta, saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex"
+ <alex.zuo@intel.com>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "Brost, Matthew"
+ <matthew.brost@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info
+Thread-Topic: [PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info
+Thread-Index: AQHbig2aj68byJK2iUqwcOktmoeLx7NkDW6J
+Date: Wed, 5 Mar 2025 05:45:30 +0000
+Message-ID: <CH3PR11MB870734408B85CB51778D01C9F4CB2@CH3PR11MB8707.namprd11.prod.outlook.com>
+References: <20250228182122.77475-1-jonathan.cavitt@intel.com>
+ <20250228182122.77475-4-jonathan.cavitt@intel.com>
+In-Reply-To: <20250228182122.77475-4-jonathan.cavitt@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpqFWUVA3XraxXNFrXUNW=48iEqDGr7HAVcETmmnygRgDQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=HZbuTjE8 c=1 sm=1 tr=0 ts=67c7ccde cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=P-IC7800AAAA:8
- a=e5mUnYsNAAAA:8 a=COk6AnOGAAAA:8
- a=RkwdLvar3pSL7fnUwLwA:9 a=QEXdDO2ut3YA:10 a=QOpKv_Gl0K8A:10
- a=d3PnA9EDa4IxuAV0gXij:22 a=Vxmtnl_E_bksehYqCbjh:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: d6h9AUocTxwdtaIcAxgKO_L1ddBTds2e
-X-Proofpoint-ORIG-GUID: d6h9AUocTxwdtaIcAxgKO_L1ddBTds2e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-05_02,2025-03-04_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 mlxscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
- priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2503050029
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH3PR11MB8707:EE_|SJ1PR11MB6155:EE_
+x-ms-office365-filtering-correlation-id: 9d06d57b-23cb-40a9-958c-08dd5ba8f0dc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|376014|1800799024|38070700018|7053199007|8096899003; 
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?M/Zkcw/6Frgt0HqREqRWQZZg46w5UNRdLvqLAA9Iq8yn8nTLdBqjCMmlCT?=
+ =?iso-8859-1?Q?pTF3osBymv7wGlZC4DTmr+6Gd1ON5K1Xgwa5e4Y/GRORRrh657XekBgwlK?=
+ =?iso-8859-1?Q?+/7RV8qZtrjDe+rX5eMCtRwxWd0jFEclAMRrxHOWWdAiM43o71JxOwz7Mt?=
+ =?iso-8859-1?Q?I7TpvZ42Pmbq34XqrObFfiD696IPQKby5xF85vuqo5JxMCtNIkZ4BSGApq?=
+ =?iso-8859-1?Q?PifAkpRxE4FhaqYGBWDwGKww4wPPXqEtQs+FUubgZk8L0odlXBS32F5tQo?=
+ =?iso-8859-1?Q?rhoONNrSG9RvwvNGVB7nqIyVf2Qn1d2XmCSDlyBovlrbzmrsunsWRsEPKk?=
+ =?iso-8859-1?Q?gCatqDj9vVfU0iyseqmJizHG+BFbPB2GR5k4e2Xmik6s5jJ8rP7/6FpXSx?=
+ =?iso-8859-1?Q?bkWrjPzNqbdXCl1sA6UI5Z1tyIQLnYwu/no8s8fTYKWDYedn0jlMaKzrXn?=
+ =?iso-8859-1?Q?mRJWDrnMbDaH/kfiKKptRfBQjB6LFAqUZCuLV5uNzZ/efn8y9+/f7Yerp7?=
+ =?iso-8859-1?Q?xtiafLdA0hwHmpy5Twe28Wx+1UrUigx08Gsmq0N8Ummok86z+00rBD1gIJ?=
+ =?iso-8859-1?Q?MjlSjaeZkOnoUCDGAM9vomRUb+KxR3j65oFj677BbDNTCyNv9K2OCOA9Cv?=
+ =?iso-8859-1?Q?hFtXBr/38DVwQUZU/3IASnilkfUBSQFNKl+f0G+Bv538lBOXC93eXKMBGl?=
+ =?iso-8859-1?Q?ZfZ2DWiclOcwdg180/TacmlkIrLps88Tq/saPt9VSvTcN99MnMJ/pwxvjj?=
+ =?iso-8859-1?Q?70+rCEgu9AVN6VDcrssqt5GVCniQHITyABxeGUSQWMfWQ/7LT1+4oG7yNA?=
+ =?iso-8859-1?Q?uNJJa0nF6jBOsVhk+PtWohEYqRtTYlWeP7nx1fCDNYlxNsRemV3cVJc470?=
+ =?iso-8859-1?Q?OM2Z1mEGXKwDq3OecSmeknqj087XvWXVPmV1zFa7IRdDPuqb2lirZMiz7D?=
+ =?iso-8859-1?Q?Ky1U6WC8AXs3D5ZF6+ZM7rgzWcSrXG76PPGyq+4L9FsRNsjTJkqKKOFbrB?=
+ =?iso-8859-1?Q?IjHUG1EZKd7alGUPYz/8EnjraWXdKp2Kv7UowBgPYKSREBjzXhbTXPbWA5?=
+ =?iso-8859-1?Q?p8Ad3W9kQ7Fi5l7dfWUgR3CtqUJz9zEIN72oLuXoYAH3/Vuv/Ak3LlQ733?=
+ =?iso-8859-1?Q?kOEOJol2zE6OoYgA/wnChxbgRKiXnKZUDXehZgOUcvTvCuni9lIlnJECju?=
+ =?iso-8859-1?Q?8oebczPYuKXJJJJE834c+IQP0TZrUTKH2JyN+o/mSbLbQXhPouOXyfRGty?=
+ =?iso-8859-1?Q?xtyB9FF3BaN+Lg4SanNuqUzORqHEf9iMh5I4RKxejCgTfeDlfCZwFC+J/d?=
+ =?iso-8859-1?Q?5LCiQvw6sjE8ua1GiKARQm18OxjrwifRebkWk+Ylogq4XbveEQBwfC/DgR?=
+ =?iso-8859-1?Q?ENTr23eBOdoYs+sbhoAduGCG2gLfUDYTrE4GCKTJU03s9g55bbGkjO7FPT?=
+ =?iso-8859-1?Q?9h+RzC9SEUbyiN94t8zHMx2eUw9XJKcCkxFgp1kEYNxGLcyqSZ/Iavtj1K?=
+ =?iso-8859-1?Q?i5a77E5co4hK7EO7oc0uwk?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR11MB8707.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(7053199007)(8096899003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?MkciXqx/SDWxAJ94ntEQd2CNE2pTvQlovZWCkXivt1w9V0vIjuTG+OhN3W?=
+ =?iso-8859-1?Q?JUbkCAnL9ybLO6f/VtnaVNHpMVrTDleQfK3lq//1yqxC4NP8wijVmkrDGu?=
+ =?iso-8859-1?Q?X56wB37SI8xZmaRiEP00JI1c1srfqbX9s3COL+nV3Qg2NmDaXTZ10zFTqc?=
+ =?iso-8859-1?Q?py3iOmWgeE7poxlcInA/NMWw0f9W5ZLVq+PjNaQXMr4TudDT0BhXrdIgU9?=
+ =?iso-8859-1?Q?jCB6hF3IYue9TQAtppfqXmWC5y6W/QJztU2arU1gAqq5eWigHrIRJRwu4U?=
+ =?iso-8859-1?Q?2APnHOSCEoc5MWwK2QNVK6Vq5VsK0onYGxfNg8QGUIZLTnXrDN46U6UnBI?=
+ =?iso-8859-1?Q?5JEMUy0KCkHOlCUJAlnGpHRKyEdHvLMjXJa3v4jLxzjYP2afaOY17Itje9?=
+ =?iso-8859-1?Q?Zfs3z3CZQ1bEHA/0yhU0JtTbgy+U64xSm1/soCWJ6U5uOJIxXiz+Cnh10d?=
+ =?iso-8859-1?Q?K9zzD1hGG4sJdXgqq7+QB3xxfiaK5Y5QwifBii//1irj/fm7Gb+yDE2258?=
+ =?iso-8859-1?Q?D4EUKpLPeikl2y4T4HxmijuCXEyDVsxHx34sIv54c8pg649qoNnUeyuS0t?=
+ =?iso-8859-1?Q?9eUFzTQ54Yn8/B8XrqgvgNMZl/zFDg1+gvc79VYr9Y1cJ14uM+3Ns0gXD/?=
+ =?iso-8859-1?Q?qQmPDGzo2AId7XPcaH/fFZDJ0PQtrnUUdbDO3Hh8AYpsMJmnGZFp99Iz54?=
+ =?iso-8859-1?Q?UDKylV5Uqo7qFSRY0NojPL07q0Zwxmp5wxvBpG9lQshQb9K9LyH3JXFv7F?=
+ =?iso-8859-1?Q?zNsEvJOvglpClY9VYYjrywHopOCoYGRGdUmZW6ERCTe4EKfgOQY765XWnX?=
+ =?iso-8859-1?Q?flEpFushbIf3MlR3FlNe1gKFcsWemPwmXrrxlPHz4CaTZlhT+j+6xRLbbX?=
+ =?iso-8859-1?Q?RgsnJZaEFhbdSUWjI1QHeYqOC5fDBlP/LhcstnzAF2tBQLww2SLcnvZ86/?=
+ =?iso-8859-1?Q?8zAVPnclgPYsKICc0J5ThD1tmyr5aTqR2cWuVkYfGYsUYppqJMXz1MbCSQ?=
+ =?iso-8859-1?Q?JrRZDll+mcj/wObQ6+jC5kaqJ18ZTIgYd5O7SY71eGAe92YbnR3GQMB1vw?=
+ =?iso-8859-1?Q?VCQ0FowtpzR0BDLL4PsaUHamOLkJEqULrpg82OzFnb3/yWa+LUoOoat3QK?=
+ =?iso-8859-1?Q?es2zxcdSPcZl32iHqLxA5b5vUoY6DpAgJDtWv+viLXB83t0dWWDYgnkty3?=
+ =?iso-8859-1?Q?cSaLGMrVN7iwazye9NwUKP7WcXzLUaXWrALeX/vxIiviZ7BCKQs8sglKXs?=
+ =?iso-8859-1?Q?RDl8L7RFtilZJxt89GSRQpaRSwyfkmpUdBLMPputfkJbzZA2tVJGQDcHQE?=
+ =?iso-8859-1?Q?kwUqCtki1mph2bvYW97c2qWk5XN4jC4d4spddmDcRg4Zezv+w1rhONgsLS?=
+ =?iso-8859-1?Q?F1JSSpRU1+q8HQJv+mCT+jRCqDB1RXzBelqVjSX5mjMan/sw5e2lAJ49pr?=
+ =?iso-8859-1?Q?SZ9MtXbFB6AW88k46uEup2WOwv5N8NTJP7HAFW1kRWcotRCCjDbneyLakS?=
+ =?iso-8859-1?Q?RcFWUPtMV1lKduRx3PzPmjpG95DbpA68oBic6YQONylZDCGthpd52h7Bkz?=
+ =?iso-8859-1?Q?Dg0wNhV4sm2bWSI2X6OyxC4xamVv2AEolQg+M+q37aybfrLtDVUZyt6zFo?=
+ =?iso-8859-1?Q?MGiC/JiCwZfnpd1lJMlsefu1ub0Y26/89d?=
+Content-Type: multipart/alternative;
+ boundary="_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_"
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8707.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d06d57b-23cb-40a9-958c-08dd5ba8f0dc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2025 05:45:30.9843 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3Rwxrfk/5DRzhRJJRAT/iTQwzMWO9eLF7poJZi5Wz8siSmAKRfPAdRLERUpL6rFiu7GXdvekPfaYyTCNGYNlEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6155
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,314 +190,539 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 
-On 3/4/2025 7:09 PM, Dmitry Baryshkov wrote:
-> On Wed, 5 Mar 2025 at 00:43, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 3/4/2025 12:42 PM, Dmitry Baryshkov wrote:
->>> On Tue, Mar 04, 2025 at 11:38:24AM -0800, Abhinav Kumar wrote:
->>>>
->>>>
->>>> On 3/3/2025 9:32 PM, Dmitry Baryshkov wrote:
->>>>> On Tue, 4 Mar 2025 at 03:44, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 3/3/2025 3:49 PM, Dmitry Baryshkov wrote:
->>>>>>> On Mon, Mar 03, 2025 at 10:28:00AM -0800, Jessica Zhang wrote:
->>>>>>>> If new CTLs are reserved by CRTC but atomic_enable() is skipped, the
->>>>>>>> encoders will configure the stale CTL instead of the newly reserved one.
->>>>>>>
->>>>>>> The CTLs are propagates in .atomic_mode_set(), not in .atomic_enable().
->>>>>>
->>>>>> Hi Dmitry,
->>>>>>
->>>>>> Yes, sorry mixed up the two function ops here and in my reply in the CWB
->>>>>> thread.
->>>>>>
->>>>>>>
->>>>>>>>
->>>>>>>> Avoid this by setting mode_changed to true if new CTLs have been
->>>>>>>> reserved by CRTC.
->>>>>>>
->>>>>>> This looks very strange. First we reserve new CTLs when there is a
->>>>>>> modeset requested. Then on one of the next commits we detect that
->>>>>>> encoder has stale CTLs and try to upgrade the commit to full modeset
->>>>>>> (while the user might not have .allow_modeset set to true for whatever
->>>>>>> reason, e.g. because only ACTIVE is changed).
->>>>>>
->>>>>> Ah I see what you mean. I think this is an issue with how/when we're
->>>>>> calling dpu_rm_reserve(). Since RM reservation is tied to
->>>>>> atomic_check(), we aren't able to force a modeset based on HW block
->>>>>> reservation. The only reason we were able to avoid this issue with
->>>>>> needs_cdm is because needs_cdm didn't depend on the CDM HW block index.
->>>>>>
->>>>>> I think there's not really a good way to avoid this other than flipping
->>>>>> the order of the msm_atomic_check to drm_helper_atomic_check ->
->>>>>> dpu_kms.check_mode_changed -> drm_atomic_helper_check_modeset().
->>>>>
->>>>> No-no-no. This would require a full drm_atomic_helper_check() call
->>>>> again, after the check_mode_changed() callback. But again, this should
->>>>> not be required at all. The whole point of .check_mode_changed() is to
->>>>> be called before performing full atomic_check() chains.
->>>>>
->>>>
->>>> Right but the documentation also allows calling
->>>> drm_atomic_helper_check_modeset() again. We are looking at all options even
->>>> moving forward and not just this issue.
->>>
->>> It does. But I'd rather not do it. Especially not in this case: we
->>> perfectly know in advance if hw resources were reallocated or not.
->>>
->>>>
->>>>>>
->>>>>> What do you think? It seems to be valid given the examples in the DRM
->>>>>> docs [1]
->>>>>>
->>>>>> [1]
->>>>>> https://elixir.bootlin.com/linux/v6.13.5/source/drivers/gpu/drm/drm_atomic_helper.c#L610
->>>>>>
->>>>>>>
->>>>>>> Could you please check if the following change fixes the issue: in
->>>>>>> crtc_set_mode() replace the raw !new_crtc_state->mode_changed check with
->>>>>>> the drm_atomic_crtc_needs_modeset() call?
->>>>>>
->>>>>> This also fixes the DPMS failures. IIRC Abhinav had suggested a similar
->>>>>> change to fix a different issue [2] and you gave some feedback on
->>>>>> avoiding mode_set() for enable/disable calls which don't have mode_changed.
->>>>>
->>>>> After reading the documentation for
->>>>> drm_encoder_helper_funcs.atomic_mode_set() and looking around, I think
->>>>> the issue is in the handling of the DPMS functions. I might have a fix
->>>>> for the issue.
->>>>>
->>>>>> Also, while this may fix the CWB CI failures, wouldn't the issue still
->>>>>> remain regarding how to force modeset for changes in HW block reservation?
->>>>>
->>>>> I think it is the other way around: HW block reservation is only
->>>>> changed if there is a modeset. I'm currently testing my theory :-) We
->>>>> were performing HW reassignment if drm_atomic_crtc_needs_modeset() was
->>>>> true. However this function returns true in one of the cases, where
->>>>> there is no actual modeset happening (and it's even documented this
->>>>> way) - when only DPMS call has happened (in other words, when
->>>>> .active_changed = true, but two other bits are false). It is required
->>>>> not to reassign HW resources in such a case. So, I think, a correct
->>>>> fix is to change the condition in dpu_crtc_atomic_check().
->>>>>
->>>>
->>>> Yes, Jessica had also suggested this option. This will work because now the
->>>> resource re-assignment will not happen and hence will avoid the issue. The
->>>> documentation of DPMS was not fully clear. So it said, the same thing you
->>>> mentioned, that when active has changed there is no need to reassign
->>>> hardware resources but I was not sure if that would impact normal
->>>> suspend/resume because across suspend/resume hardware resources need to be
->>>> cleared / re-assigned.
->>>
->>> Suspend / resume is handled via the helpers, which commit an
->>> all-disabled state and then commit a previous state. Other than that,
->>> there is no need to clear resource assignments during suspend resume.
->>> They should be disabled, but there is no need to drop the assignment.
->>>
->>
->> We will need to do some testing to make sure this does not introduce
->> some other regressions. You can post your change, we can discuss it there.
-> 
-> Posted in another thread.
-> 
->>
->>>> I do still think that, even if this also works, we
->>>> will still run into issues when we will need to force a mode_changed based
->>>> on resource assignment of other encoder based blocks such as DSC or PP etc.
->>>
->>> This is what dpu_encoder_needs_modeset() is for. On the other hand,
->>> note, if we reassigned resources, it means that either mode_changes or
->>> connectors_changed is set. And the DRM framework will call encoder's
->>> atomic_mode_set() in such a case.
->>>
->>
->> Like we wrote, dpu_encoder_needs_modeset() is not useful without the
->> sequence change in msm_atomic_check because dpu_encoder_needs_modeset()
->> is called before the resource assignments are done today.
-> 
-> Resources are reassigned if the mode_changed or connector_changed is
-> true. There are no other ways to reassign resources.  Under these
-> circumstances the encoder's atomic_mode_set() callback is called,
-> propagating those changes to the encoder. What is the problem that you
-> are trying to solve here?
-> 
 
-Thats fine. We will re-test the patch for some more cases and move fwd 
-with that.
+________________________________
+From: Cavitt, Jonathan <jonathan.cavitt@intel.com>
+Sent: Friday, February 28, 2025 10:21 AM
+To: intel-xe@lists.freedesktop.org <intel-xe@lists.freedesktop.org>
+Cc: Gupta, saurabhg <saurabhg.gupta@intel.com>; Zuo, Alex <alex.zuo@intel.c=
+om>; Cavitt, Jonathan <jonathan.cavitt@intel.com>; joonas.lahtinen@linux.in=
+tel.com <joonas.lahtinen@linux.intel.com>; Brost, Matthew <matthew.brost@in=
+tel.com>; Zhang, Jianxun <jianxun.zhang@intel.com>; dri-devel@lists.freedes=
+ktop.org <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info
 
->>
->>>>
->>>>>>
->>>>>> [2] https://gitlab.freedesktop.org/drm/msm/-/issues/59
->>>>>>
->>>>>> Thanks,
->>>>>>
->>>>>> Jessica Zhang
->>>>>>
->>>>>>>
->>>>>>>>
->>>>>>>> Note: This patch only adds tracking for the CTL reservation, but eventually
->>>>>>>> all HW blocks used by encoders (i.e. DSC, PINGPONG, CWB) should have a
->>>>>>>> similar check to avoid the same issue.
->>>>>>>>
->>>>>>>> Suggested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>>>> Closes: https://lists.freedesktop.org/archives/freedreno/2025-February/036719.html
->>>>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>>>>>> ---
->>>>>>>>      drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 13 +++++++++++++
->>>>>>>>      drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 12 ++++++++++++
->>>>>>>>      drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  1 +
->>>>>>>>      3 files changed, 26 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>>>>> index 4073d821158c0..a1a8be8f5ab9f 100644
->>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>>>>> @@ -1406,19 +1406,32 @@ int dpu_crtc_check_mode_changed(struct drm_crtc_state *old_crtc_state,
->>>>>>>>         struct drm_crtc *crtc = new_crtc_state->crtc;
->>>>>>>>         bool clone_mode_enabled = drm_crtc_in_clone_mode(old_crtc_state);
->>>>>>>>         bool clone_mode_requested = drm_crtc_in_clone_mode(new_crtc_state);
->>>>>>>> +    struct dpu_crtc_state *cstate = to_dpu_crtc_state(new_crtc_state);
->>>>>>>> +    uint32_t enc_ctl_mask = 0;
->>>>>>>> +    uint32_t crtc_ctl_mask = 0;
->>>>>>>> +    struct dpu_crtc_mixer *m;
->>>>>>>>
->>>>>>>>         DRM_DEBUG_ATOMIC("%d\n", crtc->base.id);
->>>>>>>>
->>>>>>>> +    for (int i = 0; i < cstate->num_mixers; i++) {
->>>>>>>> +            m = &cstate->mixers[i];
->>>>>>>> +            crtc_ctl_mask |= BIT(m->lm_ctl->idx - CTL_0);
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>>         /* there might be cases where encoder needs a modeset too */
->>>>>>>>         drm_for_each_encoder_mask(drm_enc, crtc->dev, new_crtc_state->encoder_mask) {
->>>>>>>>                 if (dpu_encoder_needs_modeset(drm_enc, new_crtc_state->state))
->>>>>>>>                         new_crtc_state->mode_changed = true;
->>>>>>>> +            enc_ctl_mask |= dpu_encoder_get_ctls(drm_enc);
->>>>>>>>         }
->>>>>>>>
->>>>>>>>         if ((clone_mode_requested && !clone_mode_enabled) ||
->>>>>>>>             (!clone_mode_requested && clone_mode_enabled))
->>>>>>>>                 new_crtc_state->mode_changed = true;
->>>>>>>>
->>>>>>>> +    if (crtc_ctl_mask != enc_ctl_mask)
->>>>>>>> +            new_crtc_state->mode_changed = true;
->>>>>>>> +
->>>>>>>>         return 0;
->>>>>>>>      }
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>>>> index a61598710acda..2f3101caeba91 100644
->>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>>>> @@ -188,6 +188,7 @@ struct dpu_encoder_virt {
->>>>>>>>
->>>>>>>>         unsigned int dsc_mask;
->>>>>>>>         unsigned int cwb_mask;
->>>>>>>> +    unsigned int ctl_mask;
->>>>>>>>
->>>>>>>>         bool intfs_swapped;
->>>>>>>>
->>>>>>>> @@ -707,6 +708,13 @@ void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
->>>>>>>>         }
->>>>>>>>      }
->>>>>>>>
->>>>>>>> +uint32_t dpu_encoder_get_ctls(struct drm_encoder *drm_enc)
->>>>>>>> +{
->>>>>>>> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
->>>>>>>> +
->>>>>>>> +    return dpu_enc->ctl_mask;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>      bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_state *state)
->>>>>>>>      {
->>>>>>>>         struct drm_connector *connector;
->>>>>>>> @@ -1155,6 +1163,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>>>>>>>         bool is_cwb_encoder;
->>>>>>>>         unsigned int dsc_mask = 0;
->>>>>>>>         unsigned int cwb_mask = 0;
->>>>>>>> +    unsigned int ctl_mask = 0;
->>>>>>>>         int i;
->>>>>>>>
->>>>>>>>         if (!drm_enc) {
->>>>>>>> @@ -1245,11 +1254,14 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>>>>>>>                                 "no ctl block assigned at idx: %d\n", i);
->>>>>>>>                         return;
->>>>>>>>                 }
->>>>>>>> +            ctl_mask |= BIT(phys->hw_ctl->idx - CTL_0);
->>>>>>>>
->>>>>>>>                 phys->cached_mode = crtc_state->adjusted_mode;
->>>>>>>>                 if (phys->ops.atomic_mode_set)
->>>>>>>>                         phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
->>>>>>>>         }
->>>>>>>> +
->>>>>>>> +    dpu_enc->ctl_mask = ctl_mask;
->>>>>>>>      }
->>>>>>>>
->>>>>>>>      static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
->>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>>>>>> index ca1ca2e51d7ea..70b03743dc346 100644
->>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>>>>>> @@ -91,6 +91,7 @@ bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_st
->>>>>>>>
->>>>>>>>      void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
->>>>>>>>                 struct drm_writeback_job *job);
->>>>>>>> +uint32_t dpu_encoder_get_ctls(struct drm_encoder *drm_enc);
->>>>>>>>
->>>>>>>>      void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
->>>>>>>>                 struct drm_writeback_job *job);
->>>>>>>>
->>>>>>>> ---
->>>>>>>> base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
->>>>>>>> change-id: 20250228-force-modeset-hw-ctl-d02b80a2bb4c
->>>>>>>> prerequisite-change-id: 20241222-drm-dirty-modeset-88079bd27ae6:v2
->>>>>>>> prerequisite-patch-id: 0c61aabfcd13651203f476985380cbf4d3c299e6
->>>>>>>> prerequisite-patch-id: c6026f08011c288fd301676e9fa6f46d0cc1dab7
->>>>>>>> prerequisite-patch-id: b0cb06d5c88791d6e4755d879ced0d5050aa3cbf
->>>>>>>> prerequisite-patch-id: fd72ddde9dba0df053113bc505c213961a9760da
->>>>>>>> prerequisite-change-id: 20250209-dpu-c3fac78fc617:v2
->>>>>>>> prerequisite-patch-id: c84d2b4b06be06384968429085d1e8ebae23a583
->>>>>>>> prerequisite-patch-id: fb8ea7b9e7c85fabd27589c6551108382a235002
->>>>>>>> prerequisite-change-id: 20250211-dither-disable-b77b1e31977f:v1
->>>>>>>> prerequisite-patch-id: 079e04296212b4b83d51394b5a9b5eea6870d98a
->>>>>>>> prerequisite-change-id: 20240618-concurrent-wb-97d62387f952:v6
->>>>>>>> prerequisite-patch-id: b52034179741dc182aea9411fd446e270fdc69d1
->>>>>>>> prerequisite-patch-id: bc472765a7d5214691f3d92696cc8b0119f3252e
->>>>>>>> prerequisite-patch-id: c959bc480e96b04297ebaf30fea3a68bbac69da6
->>>>>>>> prerequisite-patch-id: f7db8449b241a41faac357d9257f8c7cb16503ec
->>>>>>>> prerequisite-patch-id: 7beb73131d0ab100f266fcd3c1f67c818a3263f4
->>>>>>>> prerequisite-patch-id: c08cbb5cf4e67e308afd61fdad6684b89429d3b6
->>>>>>>> prerequisite-patch-id: a4e343143b8fbe98ae4aa068cc459c750105eb9d
->>>>>>>> prerequisite-patch-id: 1d09edcf12ef7e7ab43547eefacae5b604b698e9
->>>>>>>> prerequisite-patch-id: 0008f9802bfd3c5877267666cceb7608203e5830
->>>>>>>> prerequisite-patch-id: 49402eb767c97915faf2378c5f5d05ced2dcfdac
->>>>>>>> prerequisite-patch-id: 522be2a6b5fe4e3a2d609526bb1539f9bc6f828f
->>>>>>>> prerequisite-patch-id: 031da00d0fffd522f74d682a551362f3ecda0c71
->>>>>>>> prerequisite-patch-id: 9454cec22231a8f3f01c33d52a5df3e26dd88287
->>>>>>>> prerequisite-patch-id: 7edbeaace3549332e581bee3183a76b0e4d18163
->>>>>>>>
->>>>>>>> Best regards,
->>>>>>>> --
->>>>>>>> Jessica Zhang <quic_jesszhan@quicinc.com>
->>>>>>>>
->>>>>>>
->>>>>>> --
->>>>>>> With best wishes
->>>>>>> Dmitry
->>>>>>
->>>>>
->>>>>
->>>>
->>>
->>
-> 
-> 
+Add additional information to each VM so they can report up to the last
+50 seen pagefaults.  Only failed pagefaults are saved this way, as
+successful pagefaults should recover and not need to be reported to
+userspace.
 
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/xe/xe_gt_pagefault.c | 17 +++++++++++
+ drivers/gpu/drm/xe/xe_vm.c           | 45 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h           |  6 ++++
+ drivers/gpu/drm/xe/xe_vm_types.h     | 20 +++++++++++++
+ 4 files changed, 88 insertions(+)
+
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_g=
+t_pagefault.c
+index 07b52d3c1a60..84907fb4295e 100644
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+@@ -335,6 +335,22 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *=
+msg, u32 len)
+         return full ? -ENOSPC : 0;
+ }
+
++static void save_pagefault_to_vm(struct xe_device *xe, struct xe_pagefault=
+ *pf)
++{
++       struct xe_vm *vm;
++       struct xe_pagefault *store;
++
++       vm =3D asid_to_vm(xe, pf->asid);
++       if (IS_ERR(vm))
++               return;
++
++       spin_lock(&vm->pfs.lock);
++       store =3D kzalloc(sizeof(*pf), GFP_KERNEL);
++       memcpy(store, pf, sizeof(*pf));
++       xe_vm_add_pf_entry(vm, store);
++       spin_unlock(&vm->pfs.lock);
++}
++
+ #define USM_QUEUE_MAX_RUNTIME_MS        20
+
+ static void pf_queue_work_func(struct work_struct *w)
+@@ -353,6 +369,7 @@ static void pf_queue_work_func(struct work_struct *w)
+                 ret =3D handle_pagefault(gt, &pf);
+                 if (unlikely(ret)) {
+                         print_pagefault(xe, &pf);
++                       save_pagefault_to_vm(xe, &pf);
+                         pf.fault_unsuccessful =3D 1;
+                         drm_dbg(&xe->drm, "Fault response: Unsuccessful %d=
+\n", ret);
+                 }
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index 996000f2424e..6211b971bbbd 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -746,6 +746,46 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)
+                 list_empty_careful(&vm->userptr.invalidated)) ? 0 : -EAGAI=
+N;
+ }
+
++static void free_pf_entry(struct xe_vm *vm, struct xe_vm_pf_entry *e)
++{
++       list_del(&e->list);
++       kfree(e->pf);
++       kfree(e);
++       vm->pfs.len--;
++}
++
++void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf)
++{
++       struct xe_vm_pf_entry *e =3D NULL;
++
++       e =3D kzalloc(sizeof(*e), GFP_KERNEL);
++       xe_assert(vm->xe, e);
++
++       spin_lock(&vm->pfs.lock);
++       list_add_tail(&e->list, &vm->pfs.list);
++       vm->pfs.len++;
++       /**
++        * Limit the number of pfs in the pf list to prevent memory overuse=
+.
++        */
++       if (vm->pfs.len > MAX_PFS) {
++               struct xe_vm_pf_entry *rem =3D
++                       list_first_entry(&vm->pfs.list, struct xe_vm_pf_ent=
+ry, list);
++
+I think the first page fault could be more valuable than the following in a=
+ctual debug work though I cannot provide a concrete case. Maybe we should j=
+ust stop adding new page faults once the list is full? 50 faults perphaps i=
+s enough for a developer to work out...
++               free_pf_entry(vm, rem);
+
++       }
++       spin_unlock(&vm->pfs.lock);
++}
++
++void xe_vm_remove_pf_entries(struct xe_vm *vm)
++{
++       struct xe_vm_pf_entry *e, *tmp;
++
++       spin_lock(&vm->pfs.lock);
++       list_for_each_entry_safe(e, tmp, &vm->pfs.list, list)
++               free_pf_entry(vm, e);
++       spin_unlock(&vm->pfs.lock);
++}
++
+ static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_binds)
+ {
+         int i;
+@@ -1448,6 +1488,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 =
+flags)
+         init_rwsem(&vm->userptr.notifier_lock);
+         spin_lock_init(&vm->userptr.invalidated_lock);
+
++       INIT_LIST_HEAD(&vm->pfs.list);
++       spin_lock_init(&vm->pfs.lock);
++
+         ttm_lru_bulk_move_init(&vm->lru_bulk_move);
+
+         INIT_WORK(&vm->destroy_work, vm_destroy_work_func);
+@@ -1672,6 +1715,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
+         }
+         up_write(&xe->usm.lock);
+
++       xe_vm_remove_pf_entries(vm);
++
+         for_each_tile(tile, xe, id)
+                 xe_range_fence_tree_fini(&vm->rftree[id]);
+
+diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+index f66075f8a6fe..4d94ab5c8ea4 100644
+--- a/drivers/gpu/drm/xe/xe_vm.h
++++ b/drivers/gpu/drm/xe/xe_vm.h
+@@ -12,6 +12,8 @@
+ #include "xe_map.h"
+ #include "xe_vm_types.h"
+
++#define MAX_PFS 50
++
+ struct drm_device;
+ struct drm_printer;
+ struct drm_file;
+@@ -244,6 +246,10 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uv=
+ma);
+
+ int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
+
++void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf);
++
++void xe_vm_remove_pf_entries(struct xe_vm *vm);
++
+ bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktime_t *=
+end);
+
+ int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);
+diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_ty=
+pes.h
+index 52467b9b5348..10b0952db56c 100644
+--- a/drivers/gpu/drm/xe/xe_vm_types.h
++++ b/drivers/gpu/drm/xe/xe_vm_types.h
+@@ -18,6 +18,7 @@
+ #include "xe_range_fence.h"
+
+ struct xe_bo;
++struct xe_pagefault;
+ struct xe_sync_entry;
+ struct xe_user_fence;
+ struct xe_vm;
+@@ -135,6 +136,13 @@ struct xe_userptr_vma {
+
+ struct xe_device;
+
++struct xe_vm_pf_entry {
++       /** @pf: observed pagefault */
++       struct xe_pagefault *pf;
++       /** @list: link into @xe_vm.pfs.list */
++       struct list_head list;
++};
++
+ struct xe_vm {
+         /** @gpuvm: base GPUVM used to track VMAs */
+         struct drm_gpuvm gpuvm;
+@@ -274,6 +282,18 @@ struct xe_vm {
+                 bool capture_once;
+         } error_capture;
+
++       /**
++        * @pfs: List of all pagefaults associated with this VM
++        */
++       struct {
++               /** @lock: lock protecting @bans.list */
++               spinlock_t lock;
++               /** @list: list of xe_exec_queue_ban_entry entries */
++               struct list_head list;
++               /** @len: length of @bans.list */
++               unsigned int len;
++       } pfs;
++
+         /**
+          * @tlb_flush_seqno: Required TLB flush seqno for the next exec.
+          * protected by the vm resv.
+--
+2.43.0
+
+
+--_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><span style=3D"font-family: Calibri, =
+sans-serif; font-size: 11pt; color: rgb(0, 0, 0);"><b>From:</b>&nbsp;Cavitt=
+, Jonathan &lt;jonathan.cavitt@intel.com&gt;<br>
+<b>Sent:</b>&nbsp;Friday, February 28, 2025 10:21 AM<br>
+<b>To:</b>&nbsp;intel-xe@lists.freedesktop.org &lt;intel-xe@lists.freedeskt=
+op.org&gt;<br>
+<b>Cc:</b>&nbsp;Gupta, saurabhg &lt;saurabhg.gupta@intel.com&gt;; Zuo, Alex=
+ &lt;alex.zuo@intel.com&gt;; Cavitt, Jonathan &lt;jonathan.cavitt@intel.com=
+&gt;; joonas.lahtinen@linux.intel.com &lt;joonas.lahtinen@linux.intel.com&g=
+t;; Brost, Matthew &lt;matthew.brost@intel.com&gt;; Zhang, Jianxun
+ &lt;jianxun.zhang@intel.com&gt;; dri-devel@lists.freedesktop.org &lt;dri-d=
+evel@lists.freedesktop.org&gt;<br>
+<b>Subject:</b>&nbsp;[PATCH v3 3/6] drm/xe/xe_vm: Add per VM pagefault info=
+</span>
+<div>&nbsp;</div>
+</div>
+<div class=3D"elementToProof" style=3D"font-size: 11pt;">Add additional inf=
+ormation to each VM so they can report up to the last<br>
+50 seen pagefaults.&nbsp; Only failed pagefaults are saved this way, as<br>
+successful pagefaults should recover and not need to be reported to<br>
+userspace.<br>
+<br>
+Signed-off-by: Jonathan Cavitt &lt;jonathan.cavitt@intel.com&gt;<br>
+Suggested-by: Matthew Brost &lt;matthew.brost@intel.com&gt;<br>
+---<br>
+&nbsp;drivers/gpu/drm/xe/xe_gt_pagefault.c | 17 +++++++++++<br>
+&nbsp;drivers/gpu/drm/xe/xe_vm.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; | 45 ++++++++++++++++++++++++++++<br>
+&nbsp;drivers/gpu/drm/xe/xe_vm.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; |&nbsp; 6 ++++<br>
+&nbsp;drivers/gpu/drm/xe/xe_vm_types.h&nbsp;&nbsp;&nbsp;&nbsp; | 20 +++++++=
+++++++<br>
+&nbsp;4 files changed, 88 insertions(+)<br>
+<br>
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_g=
+t_pagefault.c<br>
+index 07b52d3c1a60..84907fb4295e 100644<br>
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c<br>
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c<br>
+@@ -335,6 +335,22 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *=
+msg, u32 len)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return full ? -ENOSPC : 0;=
+<br>
+&nbsp;}<br>
+&nbsp;<br>
++static void save_pagefault_to_vm(struct xe_device *xe, struct xe_pagefault=
+ *pf)<br>
++{<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_vm *vm;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_pagefault *store;<br>
++<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm =3D asid_to_vm(xe, pf-&gt;asid);<b=
+r>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(vm))<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; return;<br>
++<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock(&amp;vm-&gt;pfs.lock);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; store =3D kzalloc(sizeof(*pf), GFP_KE=
+RNEL);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memcpy(store, pf, sizeof(*pf));<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xe_vm_add_pf_entry(vm, store);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_unlock(&amp;vm-&gt;pfs.lock);<br=
+>
++}<br>
++<br>
+&nbsp;#define USM_QUEUE_MAX_RUNTIME_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; 20<br>
+&nbsp;<br>
+&nbsp;static void pf_queue_work_func(struct work_struct *w)<br>
+@@ -353,6 +369,7 @@ static void pf_queue_work_func(struct work_struct *w)<b=
+r>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; ret =3D handle_pagefault(gt, &amp;pf);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; if (unlikely(ret)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print=
+_pagefault(xe, &amp;pf);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; save_pagefault_t=
+o_vm(xe, &amp;pf);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pf.fa=
+ult_unsuccessful =3D 1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; drm_d=
+bg(&amp;xe-&gt;drm, &quot;Fault response: Unsuccessful %d\n&quot;, ret);<br=
+>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; }<br>
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c<br>
+index 996000f2424e..6211b971bbbd 100644<br>
+--- a/drivers/gpu/drm/xe/xe_vm.c<br>
++++ b/drivers/gpu/drm/xe/xe_vm.c<br>
+@@ -746,6 +746,46 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; list_empty_careful(&amp;vm-&gt;userptr.invalidated)) =
+? 0 : -EAGAIN;<br>
+&nbsp;}<br>
+&nbsp;<br>
++static void free_pf_entry(struct xe_vm *vm, struct xe_vm_pf_entry *e)<br>
++{<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_del(&amp;e-&gt;list);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kfree(e-&gt;pf);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kfree(e);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm-&gt;pfs.len--;<br>
++}<br>
++<br>
++void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf)<br>
++{<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_vm_pf_entry *e =3D NULL;<br=
+>
++<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e =3D kzalloc(sizeof(*e), GFP_KERNEL)=
+;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xe_assert(vm-&gt;xe, e);<br>
++<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock(&amp;vm-&gt;pfs.lock);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_add_tail(&amp;e-&gt;list, &amp;v=
+m-&gt;pfs.list);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vm-&gt;pfs.len++;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Limit the number of pfs in th=
+e pf list to prevent memory overuse.<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (vm-&gt;pfs.len &gt; MAX_PFS) {<br=
+>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; struct xe_vm_pf_entry *rem =3D<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_first_entry=
+(&amp;vm-&gt;pfs.list, struct xe_vm_pf_entry, list);<br>
++</div>
+<div class=3D"elementToProof" style=3D"font-size: 11pt; color: rgb(0, 0, 0)=
+;">I think the first page fault could be more valuable than the following i=
+n actual debug work though I cannot provide a concrete case. Maybe we shoul=
+d just stop adding new page faults once
+ the list is full? 50 faults perphaps is enough for a developer to work out=
+...</div>
+<div class=3D"elementToProof" style=3D"font-size: 11pt;">+&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free_pf=
+_entry(vm, rem);</div>
+<div class=3D"elementToProof" style=3D"font-size: 11pt;"><br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_unlock(&amp;vm-&gt;pfs.lock);<br=
+>
++}<br>
++<br>
++void xe_vm_remove_pf_entries(struct xe_vm *vm)<br>
++{<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_vm_pf_entry *e, *tmp;<br>
++<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock(&amp;vm-&gt;pfs.lock);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_for_each_entry_safe(e, tmp, &amp=
+;vm-&gt;pfs.list, list)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; free_pf_entry(vm, e);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_unlock(&amp;vm-&gt;pfs.lock);<br=
+>
++}<br>
++<br>
+&nbsp;static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_bi=
+nds)<br>
+&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i;<br>
+@@ -1448,6 +1488,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 =
+flags)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; init_rwsem(&amp;vm-&gt;use=
+rptr.notifier_lock);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock_init(&amp;vm-&gt=
+;userptr.invalidated_lock);<br>
+&nbsp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INIT_LIST_HEAD(&amp;vm-&gt;pfs.list);=
+<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock_init(&amp;vm-&gt;pfs.lock);=
+<br>
++<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm_lru_bulk_move_init(&am=
+p;vm-&gt;lru_bulk_move);<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INIT_WORK(&amp;vm-&gt;dest=
+roy_work, vm_destroy_work_func);<br>
+@@ -1672,6 +1715,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; up_write(&amp;xe-&gt;usm.l=
+ock);<br>
+&nbsp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xe_vm_remove_pf_entries(vm);<br>
++<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for_each_tile(tile, xe, id=
+)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; xe_range_fence_tree_fini(&amp;vm-&gt;rftree[id]);<br>
+&nbsp;<br>
+diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h<br>
+index f66075f8a6fe..4d94ab5c8ea4 100644<br>
+--- a/drivers/gpu/drm/xe/xe_vm.h<br>
++++ b/drivers/gpu/drm/xe/xe_vm.h<br>
+@@ -12,6 +12,8 @@<br>
+&nbsp;#include &quot;xe_map.h&quot;<br>
+&nbsp;#include &quot;xe_vm_types.h&quot;<br>
+&nbsp;<br>
++#define MAX_PFS 50<br>
++<br>
+&nbsp;struct drm_device;<br>
+&nbsp;struct drm_printer;<br>
+&nbsp;struct drm_file;<br>
+@@ -244,6 +246,10 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uv=
+ma);<br>
+&nbsp;<br>
+&nbsp;int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);<br>
+&nbsp;<br>
++void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf);<br>
++<br>
++void xe_vm_remove_pf_entries(struct xe_vm *vm);<br>
++<br>
+&nbsp;bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktim=
+e_t *end);<br>
+&nbsp;<br>
+&nbsp;int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);<br>
+diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_ty=
+pes.h<br>
+index 52467b9b5348..10b0952db56c 100644<br>
+--- a/drivers/gpu/drm/xe/xe_vm_types.h<br>
++++ b/drivers/gpu/drm/xe/xe_vm_types.h<br>
+@@ -18,6 +18,7 @@<br>
+&nbsp;#include &quot;xe_range_fence.h&quot;<br>
+&nbsp;<br>
+&nbsp;struct xe_bo;<br>
++struct xe_pagefault;<br>
+&nbsp;struct xe_sync_entry;<br>
+&nbsp;struct xe_user_fence;<br>
+&nbsp;struct xe_vm;<br>
+@@ -135,6 +136,13 @@ struct xe_userptr_vma {<br>
+&nbsp;<br>
+&nbsp;struct xe_device;<br>
+&nbsp;<br>
++struct xe_vm_pf_entry {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** @pf: observed pagefault */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct xe_pagefault *pf;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** @list: link into @xe_vm.pfs.list =
+*/<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct list_head list;<br>
++};<br>
++<br>
+&nbsp;struct xe_vm {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** @gpuvm: base GPUVM use=
+d to track VMAs */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct drm_gpuvm gpuvm;<br=
+>
+@@ -274,6 +282,18 @@ struct xe_vm {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; bool capture_once;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } error_capture;<br>
+&nbsp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @pfs: List of all pagefaults =
+associated with this VM<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; /** @lock: lock protecting @bans.list */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; spinlock_t lock;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; /** @list: list of xe_exec_queue_ban_entry entries */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; struct list_head list;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; /** @len: length of @bans.list */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; unsigned int len;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } pfs;<br>
++<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @tlb_flush_seqno: =
+Required TLB flush seqno for the next exec.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * protected by the v=
+m resv.<br>
+--<br>
+2.43.0<br>
+<br>
+</div>
+</body>
+</html>
+
+--_000_CH3PR11MB870734408B85CB51778D01C9F4CB2CH3PR11MB8707namp_--
