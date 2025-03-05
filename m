@@ -2,76 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F29A5026B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 15:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FF8A50288
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 15:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DA1882AF;
-	Wed,  5 Mar 2025 14:43:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DjSvBK2B";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526A910E7B0;
+	Wed,  5 Mar 2025 14:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A12B882AF;
- Wed,  5 Mar 2025 14:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741185792; x=1772721792;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=J1i7qe67RESKlvYl+Yda1vlNo50Sk/TQVjKtxyrQbOY=;
- b=DjSvBK2BL3zW1c5432cWXjL7cWDXZ3gbFLbYFHqrpQHdcM0BI9PlUNxw
- cHU3aBnY1hxlS725pAXdkuJovj6Qpwb5o8ktREXW5sm8fOxVeJ/d7l14c
- MzT18aAAPZ6LvmvVH06205NDwnsUvvF0fS3dY6donOpDiC4Zug0yyqHC+
- 1mlYPIpApV+L+3hwNXgzd9DoyAWMenLSa9Ho9SPwxO3zLdbir3ouj2y6+
- qm1drPRjmeUcTM+CptCoEM8xROCG0/g+e3ZDJWy9lSIob2CzTrMbAzQ4Z
- cNFnFmHyOTmH5x9D762LdZMG1vjt81P82Vx/ahmWXCTqgoA5EC9puvwiZ Q==;
-X-CSE-ConnectionGUID: WHECq8sfQmGUDtiQC992tw==
-X-CSE-MsgGUID: WC4FvHulSUiTiaAIkZe+LA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52788176"
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="52788176"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 06:43:12 -0800
-X-CSE-ConnectionGUID: Kzd5AkpjSgWt6Wn/gUhwIw==
-X-CSE-MsgGUID: TCsapfVFSsyIUv6V6peZ7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="118420148"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 06:41:51 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tppwR-0000000HRGP-2JQv; Wed, 05 Mar 2025 16:41:47 +0200
-Date: Wed, 5 Mar 2025 16:41:47 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Yury Norov <yury.norov@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
+ [91.218.175.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE52E10E769
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 14:46:02 +0000 (UTC)
+Date: Wed, 5 Mar 2025 09:45:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+ s=key1; t=1741185960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z329ElrlSp3rQHppigkdIVXSICv/TbxnBscusxoOv24=;
+ b=jQZX5anT/ko5/mYm0pMPS1Y+rc5VQkGiE84sLqQvSND1ZGpDwx5bqNeIwukC8GWvTOiwpL
+ 1REMtXHJxYGZWst1d7jx5kxyyELwriPt9Vsy/N59jY4egAZZXQyOm7HMUHjx9fjnYzTUY6
+ /wqyO6vOQtqtXYrfMxR6REWSlMGrLI+VwryHoZn4KSRDANskvTQQXxgFSeoXowrP2KjO0E
+ NlcSMhJUchdJ1pr0xQDcmf32ygWMeax6BDUdGb+NK1gjW5JN6e8hQfyaXTBzHLlDyHWWLP
+ ZRXJED/XUXq/nuEZJ3SCjd4kkhyqCGbtj/78++gDX5xRVOPB1LdJ1tt3c/amVg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
+ Janne Grunau <j@jannau.net>, Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Neal Gompa <neal@gompa.dev>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v4 3/8] bits: introduce fixed-type genmasks
-Message-ID: <Z8hiqzCMoyxHj9rL@smile.fi.intel.com>
-References: <20250305-fixed-type-genmasks-v4-0-1873dcdf6723@wanadoo.fr>
- <20250305-fixed-type-genmasks-v4-3-1873dcdf6723@wanadoo.fr>
- <Z8hf7pN84-64LWPv@smile.fi.intel.com>
- <9f0215c4-62e5-4dfa-8dac-732682600c8c@wanadoo.fr>
+ Nick Chan <towinchenmi@gmail.com>
+Subject: Re: [PATCH v8 0/5] Driver for pre-DCP apple display controller.
+Message-ID: <Z8hjnRyCn82OrDcO@blossom>
+References: <20250224-adpdrm-v8-0-cccf96710f0f@gmail.com>
+ <174118223158.156873.6982508045942987984.b4-ty@rosenzweig.io>
+ <Z8hZKW_F-HtzYm-w@blossom>
+ <18f9658f-f2ca-4fd9-809c-ec4d198072be@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f0215c4-62e5-4dfa-8dac-732682600c8c@wanadoo.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <18f9658f-f2ca-4fd9-809c-ec4d198072be@linaro.org>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,21 +71,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 05, 2025 at 11:38:19PM +0900, Vincent Mailhol wrote:
-> On 05/03/2025 at 23:30, Andy Shevchenko wrote:
-> > On Wed, Mar 05, 2025 at 10:00:15PM +0900, Vincent Mailhol via B4 Relay wrote:
-
-...
-
-> > Perhaps T or TYPE will suffice. Or perhaps we want
-> > __GENMASK_Uxx() here?
+> Yeah it's because you applied the whole patchset, and discarded/skipped
+> patch 3 & 4 afterwards, so b4 gets confused.
 > 
-> If no objection, I have a preference for GENMASK_TYPE().
+> Next time specify which patch you want to apply with -P 1,2,5
+> and b4 with know which patch you applied and generate a good ty patch.
 
-No objection from me :-)
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Ah nice, didn't know about -P, thanks!
