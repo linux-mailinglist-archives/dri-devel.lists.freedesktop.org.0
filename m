@@ -2,98 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E4CA50D8C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 22:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72010A50E2C
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 22:50:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE3A510E09E;
-	Wed,  5 Mar 2025 21:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD19910E06C;
+	Wed,  5 Mar 2025 21:50:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aUte/Ugy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hR+pRBQ/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 958AD10E09E;
- Wed,  5 Mar 2025 21:35:05 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-43bdc607c16so639295e9.1; 
- Wed, 05 Mar 2025 13:35:05 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF6B10E06C;
+ Wed,  5 Mar 2025 21:50:31 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43bc638686eso8624175e9.1; 
+ Wed, 05 Mar 2025 13:50:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741210504; x=1741815304; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1741211430; x=1741816230; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GkfOGAJyjI2lzXCaMBa1FddJd+TtvvII6nxqC6Kgsa0=;
- b=aUte/UgyXoXl8wR90RqjIbgxDoJoFYkuazTrM7On+hIASYdW4nzNWaQvSoerjlHeJ3
- 5hemr5jlQlxIfLC9XIDsERGbUR5UiYl9UPeixEufuArPNWXEU7SVKFPLtDEKdYLMG8q3
- /AfyoDIgyg8Z26yhTGMfh1QkiJQpd2AMviluntmVwbNrJU2jUueMV6NocsFy7Qh4/hSV
- 8BbHGtA+KWc4K1qPpiHuQgpO27oyPMg5lCXAxhV5vNqeBN0ajnN4ahXMYYtNWrVTfbUq
- l4WmnHnU+Z/RGPC0d68EfTsjJz5gbe73M1Z+fneGMfDL+jmJSuqFDUb+cQN1SoItXLa3
- FCzg==
+ bh=6sXlsk07FZxhY/T3MpoCtJCcVQMm9u5T5zif23+8N4I=;
+ b=hR+pRBQ/NHvUclBY7UFMgqssdj2FgRKoI1rSh8tIjBYX//9NPuJag5e/Wx8RElVHr8
+ qoBL8vLVUNxKtYc3hUWaKJEiXGPX3RlUEe7iuKl2LguU2XD9hgYUH+yQtfpuIDlIOPuo
+ WIshOEusDI23D+bTun7leJsCB4Py9q6gKXcoeNOC3AbQf2ttGsZqFvlCOjycH3L6c1cx
+ LMwdgSM9iLFBFzn0n9HAOrOqRTOU6WrMTfeU7iJqCacRnoHdG+J9/5S8rPpf4eCkm4pM
+ sBxQcj5mYrT9mp0AA7wPm+KyUQ1uB+jSKMDiUnv5etdllfLL6b+L2JVfNhz2hmqt5UAR
+ e4Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741210504; x=1741815304;
+ d=1e100.net; s=20230601; t=1741211430; x=1741816230;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GkfOGAJyjI2lzXCaMBa1FddJd+TtvvII6nxqC6Kgsa0=;
- b=LDU23A6q3ONRsrQhy9X2KqCV6vgMeme9PhWX3jBJ3NaWZMIttN1O9KqFeimSIUaTDW
- N4GD+WNnp8n986tQtUzSu/tes974DOWUDm812sEl0/Wn1jK5rLF8Gk9S33DpqVCmfCIE
- 8KOLA5EUvhHF8fXzHqVq7bPXlc9t2BNtprOshuVVB0xz45BSMFWNue+C9l6zeUR3t2xF
- BSfwXtkb70PeFvNFuHaqkjXoEVONWVXEj1ylnocEJVArmbNItZgI9eHLcfBG3s7Gp3BQ
- kLzrVX9X9yz95XHMSxd4ZQrqADtc1BNDvytq57lX4wok4VDCCz/pYna5J2iC0S3IYixf
- w7nw==
+ bh=6sXlsk07FZxhY/T3MpoCtJCcVQMm9u5T5zif23+8N4I=;
+ b=lx+OqhaEYm7juI5TNsobu6V4L4r6lYUCeFNwNYQqX4Tx/oDC9JvPj5kcRVVX5fCWFG
+ gvK8R80bXj1tTVLbD99xOCO11dp0SXCNVy7Bx4ZhlfMJgnQl+NkYe4freh88bvN+A6Ud
+ t0VnOeOKzbUVOWoJeRt6M/KYLKcT+OubWBGI/q5dwBHVcHBgMgadgC5K6bAmGeA92pjI
+ G3JHtbO5kqywwamTIN6GtgJTYa3tDUN2YsOEszFZD4JZrvGZiQ+yMa/tZJTSGKdnaUId
+ E2+yuBF/yFvzmgrB+GrSp9+rLgyyhKsI2gldWNAJ7vbrzwXDHJMIV6Ah+Trj0XWYqmCU
+ pdYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV0VoFg2/7VvQ0+H28Z49MISgD5zaPmtWCLkuBznU19r87Uw/dqk8NPoHMvHIPGBy1QwLxA5cPgF6zR@lists.freedesktop.org,
- AJvYcCXLVYpVYaoh3Ipvw+PxjuvEsR2TEGaD0WpxMsRiYOIOv8SRxuAtPFjUuR/85YlnbNTc/SLOGLsbeGg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzr2NkIcGtUqKbFG3cr0+SBrQ4LX423h/1ZKzVDOFBfMey+yhGW
- JQ1MLTzvg/6nm+HANufDcy/LZ4DZopT3IzKgGy0+5BglkQzXBzHd
-X-Gm-Gg: ASbGnctflaArNnRW3ikfKbhy2WuEkaJNC14DgdHHI2EZ0qPW3DL+WrPp0LofCZTizCD
- wYMiDA3/rL+r5D3IazA1qCYAnXmB/ib7Uro3nSdxkwZI2iHkSDMUloVyJPTi82/FUSc95ea+m+2
- Dzp6XNuClUaIzEf5XGZdTm21cua3XJ3TTFStl4tZNKTyOl+tR1eDc9/0ewGHmzgEegb9GfG2SNe
- Q1qX8TNtSPDYwyfbou9UYBqVY4yG7Zwex/R3a2z74HmPihsWwQM1lzho9M7YCF9/z4xojbJRO6b
- 5QfRtxEmRaTYFsK283UPIEHDeMw7SrFfhfvXBPfSAlfLGoPAzYvchko/WlslTiHGcy3LYv8KBVA
- yoSZ1uGo=
-X-Google-Smtp-Source: AGHT+IE8jxO6kdtaaWpEp4oWi8exS7NgMp++p3+pS078xL7aEkKJBfV7Vnbc8oFxX1styMXDjNOaDg==
-X-Received: by 2002:a05:600c:190d:b0:43b:cf9c:6ffc with SMTP id
- 5b1f17b1804b1-43bd298a59emr40252875e9.12.1741210503722; 
- Wed, 05 Mar 2025 13:35:03 -0800 (PST)
+ AJvYcCULu+SEnzG0Qqdz9fLiD/ELok83r2xVOPWuXU1NZQ9FgSbRhNmIEf3ok3sp34JiDfM/6+d9XGmetbr1@lists.freedesktop.org,
+ AJvYcCX6eyXyAUHbk7+NjECx091rtYLIL1u+0P3fdKvywv7AmK8gALTGMmEKxSGKTGZkpwGhI9va0Zm+VnA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXc2w1qu3JupyOhv7rpH3dFAsGj+H7m2sTG6Sar3ZBxP7SvZ13
+ 8Pn2j553YLkW9WVm131krb62GmF1k/icgDZeQknw+Zqv9fiGzfUl
+X-Gm-Gg: ASbGncsBPKq6PXSi70xAUF2eBmTGDqbH3KddQ8lc6haL4tDvd+hOidGosaItsWbEnSw
+ wTqeeBXW7+485a+h5tLjYjiPUbVuXFUm38gF+ILcjSpJVGHnyoLcPoisCivl7sDJPIdKf7UoZvv
+ vteEoBEp/VMovhiYgVVuKlc8hzkboYc89diJd76okJkCHiNjeGXtN+djn1REHE7iKQ56vxt0NUf
+ 5Yl/x8+6oxBflJDdVFheiNT6T93f2uEKiAGQUYLOWTTij7BjpHX51Nas6Gf1i+Ja/h73qeoDkVb
+ 0b+/LyQ/GSdZl/OD2n7rDo7VM1Y8OfTwx7XKrr9I12uewvSFsXTxujKfbUoZKrqJ4/ninnKXuos
+ IC/Q6he0=
+X-Google-Smtp-Source: AGHT+IG71FMGRyiv4mH56x2l3ar2LR8avIi/yv9IH3AmHHF/clful2q3Uy7KDSjam8AZJ3mZxK8wvg==
+X-Received: by 2002:a05:600c:3657:b0:43b:baf7:76e4 with SMTP id
+ 5b1f17b1804b1-43bdb368d0emr7700425e9.1.1741211429755; 
+ Wed, 05 Mar 2025 13:50:29 -0800 (PST)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43bd42e6bcfsm28935975e9.32.2025.03.05.13.35.02
+ 5b1f17b1804b1-43bd4310779sm29158675e9.37.2025.03.05.13.50.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 13:35:02 -0800 (PST)
-Date: Wed, 5 Mar 2025 21:35:01 +0000
+ Wed, 05 Mar 2025 13:50:28 -0800 (PST)
+Date: Wed, 5 Mar 2025 21:50:27 +0000
 From: David Laight <david.laight.linux@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, kernel-janitors@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Archit Taneja <architt@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jeykumar Sankaran
- <jsanka@codeaurora.org>, Jordan Crouse <jordan@cosmicpenguin.net>, Marijn
- Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>, Vinod Koul
- <vkoul@kernel.org>, cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC] Clarification for =?UTF-8?B?4oCcdW5kZWZpbmVkIGJlaGF2?=
- =?UTF-8?B?aW91cuKAnT8=?=
-Message-ID: <20250305213501.496ea4bf@pumpkin>
-In-Reply-To: <ed9e65a7-6cdf-4d93-83a8-464b47a4bc1d@stanley.mountain>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
- <54c30a69-71cf-4582-9086-50eb0d39f273@web.de>
- <k7un3bjavyt4ogscgc7jn7thfobegaguqqiy7gtypmq6vq7zox@l4bsevbsjrud>
- <29b32b0d-312d-4848-9e26-9e5e76e527a7@stanley.mountain>
- <e665514b-5a62-4afb-b267-7c320e4872af@web.de>
- <4c489b64-4c25-43e3-90d3-37f2f335d665@stanley.mountain>
- <20250305141732.26b91742@pumpkin>
- <ed9e65a7-6cdf-4d93-83a8-464b47a4bc1d@stanley.mountain>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Yury Norov
+ <yury.norov@gmail.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v4 4/8] bits: introduce fixed-type BIT
+Message-ID: <20250305215027.5d9be1fa@pumpkin>
+In-Reply-To: <Z8isZodEqhZw5p7-@smile.fi.intel.com>
+References: <20250305-fixed-type-genmasks-v4-0-1873dcdf6723@wanadoo.fr>
+ <20250305-fixed-type-genmasks-v4-4-1873dcdf6723@wanadoo.fr>
+ <Z8hgqOB5Ym-GGykS@smile.fi.intel.com>
+ <d7f3150d-0167-44be-90b2-17f8a050687c@wanadoo.fr>
+ <Z8hyNXVZxLzhEzNy@smile.fi.intel.com>
+ <824dc1d1-14f0-433e-aa3f-679527b87077@wanadoo.fr>
+ <Z8isZodEqhZw5p7-@smile.fi.intel.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,37 +106,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 5 Mar 2025 17:30:28 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+On Wed, 5 Mar 2025 21:56:22 +0200
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-> On Wed, Mar 05, 2025 at 02:17:32PM +0000, David Laight wrote:
-...
-> > And the 'fun' starts because NULL isn't required to use the all-zero
-> > bit pattern.
-> > Regardless of the bit-pattern, things like (void *)(1 - 1) are valid
-> > NULL pointers.
-> > 
-> > Of course, while C allows this, I doubt NULL has ever been other than 0.
-> > (It was 0 on a system I used many years ago where the O/S invalid pointer
-> > was ~0.)  
-> 
-> Kernel style guidelines don't even allow if (p == NULL) so we would be
-> screwed.  :P
+> On Thu, Mar 06, 2025 at 02:17:18AM +0900, Vincent Mailhol wrote:
+> > On 06/03/2025 at 00:48, Andy Shevchenko wrote: =20
+> > > On Wed, Mar 05, 2025 at 11:48:10PM +0900, Vincent Mailhol wrote: =20
+> > >> On 05/03/2025 at 23:33, Andy Shevchenko wrote: =20
+> > >>> On Wed, Mar 05, 2025 at 10:00:16PM +0900, Vincent Mailhol via B4 Re=
+lay wrote: =20
+>=20
+> ...
+>=20
+> > >>>> +#define BIT_U8(b) (BIT_INPUT_CHECK(u8, b) + (unsigned int)BIT(b))
+> > >>>> +#define BIT_U16(b) (BIT_INPUT_CHECK(u16, b) + (unsigned int)BIT(b=
+)) =20
+> > >>>
+> > >>> Why not u8 and u16? This inconsistency needs to be well justified. =
+=20
+> > >>
+> > >> Because of the C integer promotion rules, if casted to u8 or u16, the
+> > >> expression will immediately become a signed integer as soon as it is=
+ get
+> > >> used. For example, if casted to u8
+> > >>
+> > >>   BIT_U8(0) + BIT_U8(1)
+> > >>
+> > >> would be a signed integer. And that may surprise people. =20
+> > >=20
+> > > Yes, but wouldn't be better to put it more explicitly like
+> > >=20
+> > > #define BIT_U8(b)	(BIT_INPUT_CHECK(u8, b) + (u8)BIT(b) + 0 + UL(0)) /=
+/ + ULL(0) ? =20
+> >=20
+> > OK, the final result would be unsigned. But, I do not follow how this is
+> > more explicit.
+> >=20
+> > Also, why doing:
+> >=20
+> >   (u8)BIT(b) + 0 + UL(0)
+> >=20
+> > and not just:
+> >=20
+> >   (u8)BIT(b) + UL(0)
+> >=20
+> > ?
+> >=20
+> > What is that intermediary '+ 0' for?
+> >=20
+> > I am sorry, but I=C2=A0am having a hard time understanding how casting =
+to u8
+> > and then doing an addition with an unsigned long is more explicit than
+> > directly doing a cast to the desired type. =20
+>=20
+> Reading this again, I think we don't need it at all. u8, aka unsigned cha=
+r,
+> will be promoted to int, but it will be int with a value < 256, can't be =
+signed
+> as far as I understand this correctly.
 
-Doesn't matter:
-	if (!p) ...
-	if (p == 0) ...
-	if (p == (void *)0) ...
-	if (p == NULL) ...
-	if (p == (void *)(constant integer expression with value 0)) ...
-and the equivalent assignments all behave the same regardless of the
-bit-pattern use for NULL.
-So:
-	union { long l; void *p; } lpu;
-	lpu.p = 0;
-	return lpu.l;
-Returns ABI (implementation) defined constant value.
-I think the only requirement is that it can never be the address
-of a valid variable.
+The value can't be negative, but the type will be a signed one.
+Anything comparing types (and there are a few) will treat it as signed.
+It really is bad practise to even pretend you can have an expression
+(rather that a variable) that has a type smaller than 'int'.
+It wouldn't surprise me if even an 'a =3D b' assignment promotes 'b' to int.
 
-	David
+So it is even questionable whether BIT8() and BIT16() should even exist at =
+all.
+There can be reasons to return 'unsigned int' rather than 'unsigned long'.
+But with the type definitions that Linux uses (and can't really be changed)
+you can have BIT32() that is 'unsigned int' and BIT64() that is 'unsigned l=
+ong
+long'. These are then the same on 32bit and 64bit.
+
+	David=20
+
