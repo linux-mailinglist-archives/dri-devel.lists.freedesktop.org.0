@@ -2,63 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0D8A50B83
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 20:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A86A50BC7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 20:45:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0B510E2B6;
-	Wed,  5 Mar 2025 19:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8E910E2B9;
+	Wed,  5 Mar 2025 19:45:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B3sL7kRy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KWn6sKyF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D10F10E2B1;
- Wed,  5 Mar 2025 19:30:23 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C519310E2B3;
+ Wed,  5 Mar 2025 19:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741203023; x=1772739023;
+ t=1741203911; x=1772739911;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=cMmFBFf9szNiu9T5z9GzitqEPhArY0VccDYTOzDZWhs=;
- b=B3sL7kRyzzHqUHTp3hfBNCwiUCnY6km4dHjmU8ty7ZrMYQbZ/LQLWdjG
- J2OeQ7p3hs6E9P86etR8KDN44UeqCYjzfaBWwLn8iS8xh84z/ESEbpFCp
- sIAoI0E/wUExn53hzdLchN7Z7kka01xP7WnydQ4fa2CcNNBdcK8gPHlVY
- zjSzXqzfPvJYgTw61KhF08q3YtTiSQwcsppUMPHO8E4sD4IkVAGA31MVi
- 2slMdx+uJKpn+oAPy/wwCdJbIvXOAgA7gCstO5aRuuv9jJs7tQq15Ud6k
- noTmmydQPc3KUjPn4DoukSd4Rwsy0our0e9Yze+djykA/6PlQHWcaQDAg A==;
-X-CSE-ConnectionGUID: a91g8WTNSHO34JpUHACzLA==
-X-CSE-MsgGUID: F7SFjNDfS/e8IFLqXRWZpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="44993791"
-X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="44993791"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 11:30:22 -0800
-X-CSE-ConnectionGUID: BeliJiNDT4C9h8C2hibEbw==
-X-CSE-MsgGUID: H8ZQLCb4TaS3EMcRJ9pqtw==
+ bh=18ZM1//KmWlpxbNtgrT5Ib/LlAyiKm/m64pVpWJqYVY=;
+ b=KWn6sKyFBim14ZkCWl2uQaCnXYDrZFSif1SfsXfmlHTyoi7/fjRVxUPW
+ RUNMYU4ZFL9cIIgXgkqIhvCkEqXsty4/15Is3biUdeiHPz99lvP7U/1/V
+ Cz8c7YRQXbOuOVQc/BGQAAJLXdjY1BYXfQS4EIb9ZqrecMKbwpF7xfaMI
+ 3UtlJQprPdLMEkwNzQkltejkYWujjfPSYbuhgJ3S0YXCLlDT0WsvQOf4g
+ +8kKtEzBVjtZ6MDxgoksp85ZhSkwmm1UWa8unYNqEdsiHdiV75XT6T2sv
+ WdTvT//qjdKW7bvVOfFd/Rj/3dDJA1hNqt/XLyXdVUGuJLlNxVY/JBuX+ g==;
+X-CSE-ConnectionGUID: 3ZJDRqewR36cAfRclbOQvA==
+X-CSE-MsgGUID: yMjR5ZFNT1CJuMIQbRrAqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53585771"
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="53585771"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 11:45:11 -0800
+X-CSE-ConnectionGUID: ka/lj1c3SCCQmIutfsiqfw==
+X-CSE-MsgGUID: XUV/fNJYRWG8hLjPhRMhIA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="149718640"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
- by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2025 11:30:19 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tpuRd-000M5y-0U;
- Wed, 05 Mar 2025 19:30:17 +0000
-Date: Thu, 6 Mar 2025 03:29:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- ville.syrjala@linux.intel.com, harry.wentland@amd.com,
- pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com,
- jadahl@redhat.com, mwen@igalia.com, contact@emersion.fr,
- naveen1.kumar@intel.com, dmitry.baryshkov@linaro.org
-Subject: Re: [v3 01/23] drm: color pipeline base work
-Message-ID: <202503060317.IL9ThPki-lkp@intel.com>
-References: <20250305132608.2379253-2-uma.shankar@intel.com>
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="118507028"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 11:45:06 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tpufu-0000000HVgZ-1HsU; Wed, 05 Mar 2025 21:45:02 +0200
+Date: Wed, 5 Mar 2025 21:45:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v4 3/8] bits: introduce fixed-type genmasks
+Message-ID: <Z8ipvnURG_iejzSX@smile.fi.intel.com>
+References: <20250305-fixed-type-genmasks-v4-0-1873dcdf6723@wanadoo.fr>
+ <20250305-fixed-type-genmasks-v4-3-1873dcdf6723@wanadoo.fr>
+ <Z8hx9AaUX_GvYq_A@thinkpad>
+ <8301ecbc-d035-4257-9b04-c6ef9be4ce32@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305132608.2379253-2-uma.shankar@intel.com>
+In-Reply-To: <8301ecbc-d035-4257-9b04-c6ef9be4ce32@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,67 +87,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uma,
+On Thu, Mar 06, 2025 at 01:48:49AM +0900, Vincent Mailhol wrote:
+> On 06/03/2025 at 00:47, Yury Norov wrote:
+> > On Wed, Mar 05, 2025 at 10:00:15PM +0900, Vincent Mailhol via B4 Relay wrote:
 
-kernel test robot noticed the following build errors:
+...
 
-[auto build test ERROR on next-20250305]
-[also build test ERROR on v6.14-rc5]
-[cannot apply to drm-exynos/exynos-drm-next linus/master v6.14-rc5 v6.14-rc4 v6.14-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > Having, in fact, different implementations of the same macro for kernel
+> > and userspace is a source of problems. Can we move GENMASK_TYPE() to uapi,
+> > and implement __GENMASK() on top of them? If not, I'd prefer to keep
+> > GENMASK and GENMASK_ULL untouched.
+> 
+> This is something which I tried to explain in the cover letter. I am not
+> confident to declare GENMASK_TYPE() in the uapi and expose it to the
+> userland. If we do so, any future change in the parameters would be a
+> user breaking change. __GENMASK_U128() looks already too much to me for
+> the uapi, I am not keen to bloat it even more with GENMASK_TYPE().
+> 
+> This plus the fact that if we use GENMASK_TYPE() to generate the asm
+> variant, then we can not rely on sizeof() in the definition which makes
+> everything over complicated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20250306-011827
-base:   next-20250305
-patch link:    https://lore.kernel.org/r/20250305132608.2379253-2-uma.shankar%40intel.com
-patch subject: [v3 01/23] drm: color pipeline base work
-config: x86_64-buildonly-randconfig-002-20250306 (https://download.01.org/0day-ci/archive/20250306/202503060317.IL9ThPki-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503060317.IL9ThPki-lkp@intel.com/reproduce)
+I am with you here. The less we done in uAPI the better.
+uAPI is something carved in stone, once done it's impossible to change.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503060317.IL9ThPki-lkp@intel.com/
+> I acknowledge that not having a common denominator is not best, but I
+> see this as an acceptable tradeoff.
 
-All errors (new ones prefixed by >>):
+...
 
-   In file included from drivers/gpu/drm/vkms/tests/vkms_color_test.c:7:
-   In file included from drivers/gpu/drm/vkms/tests/../vkms_drv.h:10:
-   In file included from include/drm/drm_gem.h:42:
-   In file included from include/drm/drm_vma_manager.h:27:
-   In file included from include/linux/mm.h:2306:
-   include/linux/vmstat.h:493:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     493 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     494 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:507:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     507 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:513:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     513 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     514 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/vkms/tests/vkms_color_test.c:13:18: error: expected ';' after top level declarator
-      13 | MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
-         |                  ^
-   4 warnings and 1 error generated.
+> >> +#define GENMASK_U8(h, l) ((unsigned int)GENMASK_t(u8,  h, l))
+> >> +#define GENMASK_U16(h, l) ((unsigned int)GENMASK_t(u16, h, l))
+> > 
+> > Typecast to the type that user provides explicitly?  And maybe do
+> > in GENMASK_TYPE()
+> 
+> I have a slight preference for the cast to unsigned int for the reason
+> explained above. But that is not a deal breaker. If you believe that the
+> u8/u16 casts are better, let me know, I will be happy to change it :)
 
+At least can you provide an existing use case (or use cases) that need
+this castings? Also still a big question what will happen with it on asm.
+Can it cope with 0x000000f0 passed as imm8, for example?
 
-vim +13 drivers/gpu/drm/vkms/tests/vkms_color_test.c
+> >> +#define GENMASK_U32(h, l) GENMASK_t(u32, h, l)
+> >> +#define GENMASK_U64(h, l) GENMASK_t(u64, h, l)
 
-    12	
-  > 13	MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
-    14	
+...
+
+> > But GENMASK_U128() becomes a special case now.
+> > The 128-bit GENMASK is unsued, but it's exported in uapi. Is there any
+> > simple way to end up with a common implementation for all fixed-type
+> > GENMASKs?
+> 
+> What bothers me is that the 128 bit types are not something available on
+> all architectures, c.f. the CONFIG_ARCH_SUPPORTS_INT128. So, I would
+> need a U128() equivalent to the ULL() but which does not break on
+> architectures which do not support 128 bits integers.
+> 
+> This is where I am stuck. If someone can guide me on how to write a
+> robust U128() macro, then I think the common implementation could be
+> feasible.
+
+I think we may leave that U128 stuff alone for now.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
