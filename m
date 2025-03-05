@@ -2,59 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6809A4F7E2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 08:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6E1A4F7E5
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 08:30:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1859310E1C0;
-	Wed,  5 Mar 2025 07:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A30710E6F1;
+	Wed,  5 Mar 2025 07:30:40 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="WVqiVCFj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702B010E6F1
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 07:29:26 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Z73xB3NpGzvWqF;
- Wed,  5 Mar 2025 15:25:34 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id E501A14022D;
- Wed,  5 Mar 2025 15:29:21 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Wed, 5 Mar 2025 15:29:20 +0800
-Message-ID: <3465ce51-a844-4c77-8e80-179d5ca279cc@huawei.com>
-Date: Wed, 5 Mar 2025 15:29:19 +0800
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6155410E6F1
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 07:30:39 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4394345e4d5so43746695e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 23:30:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1741159838; x=1741764638; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6eIPjoywVHzslmjO8vs+eTHuxI6qCJTL5FwNFg9NfBw=;
+ b=WVqiVCFjwzalirb4cus2iUb3umzYkVfR8m9FomRG4HNA9f/C7YRo1IwvnZVplvmtDm
+ w1uEj+1q1Kf2+sLKFLTUL5+FRVYb+kqrzIR1PRDgVgTOWwP6T4BvS34zjjQHNZydAy1x
+ cJIQZvD4FaO0d5AbtPF/iJZbja9oylZDJLUgg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741159838; x=1741764638;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6eIPjoywVHzslmjO8vs+eTHuxI6qCJTL5FwNFg9NfBw=;
+ b=tKRft6tsEHhXKQC9siwNsfTDMVLeZ5wjnYXRgJ9aEG04jEFoPRtcPhPk5/79YJ7usD
+ frBa2xKBgkSDnVOHGx3a0BSTVao/jKhBE7Yu6HHx8GYbp4TlXAI7u+cP25izu9AgOF0x
+ Y3H6zXi8s7t5iGF+E4xVUhIcVP/C0mlQX9yZE6RbFsuGlQR8xNtGTOWeDaGcqQEIwmrQ
+ IdAnN2BN1wG4Fci6G4LPLy12lp2qycSF/zfDCzMREu+9YQPrqCVzbnV9eilFdiV6SW0T
+ RSltIj3Ik2FtQL3EGVrRi3jmHIcqN5o4QcnVWuUOuUbRzy1e+Djw6VU1qzNAkuqb1JFG
+ Op6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXtCZkyH9GOmu6sOPJPzOHniadN85cLzfRzAzOR+8QeCawQTGjoPce9Ph0Enb3A15iwszXtfufcEYY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYoP/pLqaDC7kV/HzHbVlXExLT1TmnZincLT9GSRwtL8h6AqMA
+ j0AmkyUC3c2eN+nKHkyhMXczaiCvDjV3TAq2gl7f/+iZwqI1Tyi8R3hIdxuj3PY=
+X-Gm-Gg: ASbGncscXWzjbjYB0SXY5DSktr8KrqY/P5lKG0CT+aLTMhfLiFb4GLicvVtHOu6iu4D
+ RBIOnPtN/WD4f4akuMngPJcpbFKQUfvVI8m5/6LgD+H4os5AeqJRN6tepMET/M4tmGs+6/4nJ3O
+ nhsOUQN1tjaPEMPZkioqHk462KnBeP3ru8nEYgcYikgr0Hox6jxaoSmpGF/E3cskKJNPDzjPp9I
+ s79DyRkOpJ8WaI5bDhgvkpB2b1M/cwMqyR8HFYypM+BdTeCd3f+cSzTPyrvXQWpXWoQR5DdTxuk
+ w9MTAWgW4aqd4qJK9cAz8A08nZbuJzfgzBRQf//eciTaWsVRaDayzp8U
+X-Google-Smtp-Source: AGHT+IGLEHkW+RyaKKz2KrNndnwh4djhORTNBKpw376Kno8bWHtJQuS7EruIxE2wip3vv6xuWjSI3w==
+X-Received: by 2002:a05:600c:1d0f:b0:43b:d203:da18 with SMTP id
+ 5b1f17b1804b1-43bd295494bmr11723085e9.13.1741159837590; 
+ Tue, 04 Mar 2025 23:30:37 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43bd426cbc2sm8898505e9.4.2025.03.04.23.30.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Mar 2025 23:30:37 -0800 (PST)
+Date: Wed, 5 Mar 2025 08:30:34 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+References: <Z75riltJo0WvOsS5@cassiopeiae> <20250226172120.GD28425@nvidia.com>
+ <Z7-IHgcVVS8XBurW@cassiopeiae> <20250226234730.GC39591@nvidia.com>
+ <2025022644-fleshed-petite-a944@gregkh>
+ <D82UB3V6NZ55.3OEPPW2W8MFZV@nvidia.com>
+ <Z8GViQzZJVFPxfNd@phenom.ffwll.local>
+ <20250228184013.GF39591@nvidia.com>
+ <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
+ <20250304164201.GN133783@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
- detect of irq feature
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
-References: <vrsy4hao4qu3hlcbmjyfyibeearhhjgtik3e6o3v2eyzkatdve@kdb7cyvl45tu>
- <ade54ddd-79ea-4335-9058-c17e4525e83f@huawei.com>
- <4hicem4rbz5l7wnzaaz3krrl3euh2dmvlah2rb7errrdq5fann@44dvdxirkuzh>
- <6506e448-3851-436f-9354-42f9ef844d27@huawei.com>
- <njnz5hxumrvqrgsfq7zlunle3jgfan3be34ao5xtkmzczpi6af@waywds2ww6qw>
- <c87613aa-1d17-4a88-acce-269ea9eddc22@huawei.com>
- <CAA8EJpo71m_ae9siT7f4Tsfr0C4XeoraqPYPsPp0gz-N+oMOjw@mail.gmail.com>
- <6e54c88f-dfaf-462d-b66b-c237d19faec6@huawei.com>
- <zzi2h52xiernm32h7i7xtrlnjwaqc3n2tx33ypmhw6quoi5qyg@pilzj5zantii>
- <fce2e5e8-ba38-474d-891c-f8ab0de8d07e@huawei.com>
- <kdk7p6yhuvby2nyqriufj3jo7kkyxv4ml4awdhszkehv2r2om3@cvho3j27hmwx>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <kdk7p6yhuvby2nyqriufj3jo7kkyxv4ml4awdhszkehv2r2om3@cvho3j27hmwx>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250304164201.GN133783@nvidia.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,102 +113,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Mar 04, 2025 at 12:42:01PM -0400, Jason Gunthorpe wrote:
+> On Tue, Mar 04, 2025 at 05:10:45PM +0100, Simona Vetter wrote:
+> > On Fri, Feb 28, 2025 at 02:40:13PM -0400, Jason Gunthorpe wrote:
+> > > On Fri, Feb 28, 2025 at 11:52:57AM +0100, Simona Vetter wrote:
+> > > 
+> > > > - Nuke the driver binding manually through sysfs with the unbind files.
+> > > > - Nuke all userspace that might beholding files and other resources open.
+> > > > - At this point the module refcount should be zero and you can unload it.
+> > > > 
+> > > > Except developers really don't like the manual unbind step, and so we're
+> > > > missing try_module_get() in a bunch of places where it really should be.
+> > > 
+> > > IMHO they are not missing, we just have a general rule that if a
+> > > cleanup function, required to be called prior to module exit, revokes
+> > > any .text pointers then you don't need to hold the module refcount.
+> > > 
+> > > file_operations doesn't have such a cleanup function which is why it
+> > > takes the refcount.
+> > > 
+> > > hrtimer does have such a function which is why it doesn't take the
+> > > refcount.
+> > 
+> > I was talking about a bunch of other places, where it works like
+> > file_operations, except we don't bother with the module reference count.
+> > I've seen patches fly by where people "fix" these things because module
+> > unload is "broken".
+> 
+> Sure, but there are only two correct API approaches, either you
+> require the user to make a cancel call that sanitizes the module
+> references, or you manage them internally.
+> 
+> Hope and pray isn't an option :)
+> 
+> > gpu drivers can hog console_lock (yes we're trying to get away from that
+> > as much as possible), at that point a cavalier attitude of "you can just
+> > wait" isn't very appreciated.
+> 
+> What are you trying to solve here? If the system is already stuck
+> infinitely on the console lock why is module remove even being
+> considered?
+> 
+> module remove shouldn't be a remedy for a crashed driver...
 
-> On Tue, Mar 04, 2025 at 10:23:14AM +0800, Yongbang Shi wrote:
->>> On Mon, Mar 03, 2025 at 01:02:44PM +0800, Yongbang Shi wrote:
->>>>> On Sat, 1 Mar 2025 at 11:54, Yongbang Shi <shiyongbang@huawei.com> wrote:
->>>>>>> On Sat, Mar 01, 2025 at 04:45:40PM +0800, Yongbang Shi wrote:
->>>>>>>>> On Thu, Feb 27, 2025 at 09:46:10PM +0800, Yongbang Shi wrote:
->>>>>>>>>>> On Tue, Feb 25, 2025 at 09:57:17PM +0800, Yongbang Shi wrote:
->>>>>>>>>>>>> On Mon, 24 Feb 2025 at 16:03, Yongbang Shi <shiyongbang@huawei.com> wrote:
->>>>>>>>>>>>>>> On Sat, Feb 22, 2025 at 06:35:48PM +0800, Yongbang Shi wrote:
->>>>>>>>>>>>>>>>>> +static int hibmc_dp_hpd_event(struct drm_client_dev *client)
->>>>>>>>>>>>>>>>>> +{
->>>>>>>>>>>>>>>>>> +  struct hibmc_dp *dp = container_of(client, struct hibmc_dp, client);
->>>>>>>>>>>>>>>>>> +  struct hibmc_drm_private *priv = to_hibmc_drm_private(dp->drm_dev);
->>>>>>>>>>>>>>>>>> +  struct drm_display_mode *mode = &priv->crtc.state->adjusted_mode;
->>>>>>>>>>>>>>>>>> +  int ret;
->>>>>>>>>>>>>>>>>> +
->>>>>>>>>>>>>>>>>> +  if (dp->hpd_status) {
->>>>>>>>>>>>>>>>>> +          hibmc_dp_hpd_cfg(&priv->dp);
->>>>>>>>>>>>>>>>>> +          ret = hibmc_dp_prepare(dp, mode);
->>>>>>>>>>>>>>>>>> +          if (ret)
->>>>>>>>>>>>>>>>>> +                  return ret;
->>>>>>>>>>>>>>>>>> +
->>>>>>>>>>>>>>>>>> +          hibmc_dp_display_en(dp, true);
->>>>>>>>>>>>>>>>>> +  } else {
->>>>>>>>>>>>>>>>>> +          hibmc_dp_display_en(dp, false);
->>>>>>>>>>>>>>>>>> +          hibmc_dp_reset_link(&priv->dp);
->>>>>>>>>>>>>>>>>> +  }
->>>>>>>>>>>>>>>>> If I understand this correctly, you are using a separate drm_client to
->>>>>>>>>>>>>>>>> enable and disable the link & display. Why is it necessary? Existing
->>>>>>>>>>>>>>>>> drm_clients and userspace compositors use drm framework, they should be
->>>>>>>>>>>>>>>>> able to turn the display on and off as required.
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> Thanks for your asking, there are cfg/reset process when the connector 's pluging in/out.
->>>>>>>>>>>>>>>> We want to cfg DP registers again when the connector changes. Not only dp link training, but also cfg
->>>>>>>>>>>>>>>> the different video modes into DP registers.
->>>>>>>>>>>>>>> Why? The link training and mode programming should happen during
->>>>>>>>>>>>>>> pre_enable / enable stage (legacy or atomic).
->>>>>>>>>>>>>> Hi Dmitry,
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Right, that's what I'm curious about. It won't call encoder enble/disable functions when I triggered HPD.
->>>>>>>>>>>>>> And I'm sure the drm_connector_helper_hpd_irq_event() is called. So I add a drm_client for it.I
->>>>>>>>>>>>> It should be userspace, who triggers the enable/disable (or it should
->>>>>>>>>>>>> be the in-kernel fbdev / fbcon, which interface through the generic
->>>>>>>>>>>>> drm_fbdev client).
->>>>>>>>>>>> Right, I knew it. When I insmode my driver firstly (or restart display service), it will call disable, modeset and enable,
->>>>>>>>>>>> by user, but it won't call when HPD triggered .
->>>>>>>>>>> - Is HPD even properly delivered to userspace? What kind of compsitor
->>>>>>>>>>>         are you using? Is .detect working properly and reporting a correct
->>>>>>>>>>>         plug-in state?
->>>>>>>>>> Thanks for your answering. I'm not very good understanding about userspace in framework. In my opinion, when I call
->>>>>>>>>> this drm_connector_helper_hpd_irq_event(), the HPD will deliver to userspace.
->>>>>>>>>> I use Xorg, and the display service is GDM.
->>>>>>>>>> The .detect is called and the getting modes info is correct.
->>>>>>>>>> I find that it would only trigger(disable, modeset and enable), when I changed resolutions, restart display service and insmod driver.
->>>>>>>>> You can go to the display settings in GDM. It would be interesting to
->>>>>>>>> observe if it notes the second monitor or not. Last, but not least, you
->>>>>>>>> can use a simple tool like 'xrandr' under your XOrg session to set the
->>>>>>>>> display resolution.
->>>>>>>> Thank you for your advice!
->>>>>>>> Right, there are DP and VGA two monitors. I tried to totally remove the vga connector in driver, the problem is gone.
->>>>>>>> So do I need to clear the vga connector, if dp is plugged in?
->>>>>>> Unless your hardware can not manage two outputs at the same time, no,
->>>>>>> you don't have to. Just check how it behaves on x86 systems. Ideally
->>>>>>> your driver should have the same behaviour.
->>>>>> Our hardware cannot support two outputs with different timing, so I used the one crtc and one plane that DP and VGA share. And just add a new DP connector
->>>>>> with a encoder, just like the previous VGA's code logic. But the HPD problem makes me feel confused, should I change the framwork structure to slove this problem?
->>>>> I think registering a single CRTC is a correct way. Then it is logical
->>>>> that there is no mode set on the DP when you connect it. The userspace
->>>>> can not output any data. However if you disconnect VGA and connect DP
->>>>> then it should become active and should output your desktop
->>>>> environment.
->>>> Okay, Thank you for your guidance. So I need to disconnect VGA when I get the HPD (plugged in) , then
->>>> userapce will active and enanble DP, right?
->>> Yes.
->> I'm sorry for that, just wanna make sure one more thing. I found if I only set the VGA connector's status to disconnected when HPD plugged in, it won't be active.
-> Huh? You should implement hibmc_connector_funcs.detect() or
-> .detect_ctx() to report VGA connector's status. Use
-> ast_vga_connector_helper_detect_ctx() as an inspiration.
+I mean hotunplug here, and trying to make that correct.
 
-Okay, thanks for your correcting, I'll try to add drm_connector_helper_detect_from_ddc() in VGA's detect_ctx.
-And also, I wanna make sure that do I need to unplug the VGA monitor manually when I plug in DP, or just
-set the status of VGA connector to disconnected in interrupt handler.
+This confusion is is why this is so hard, because there's really two main
+users for all this:
 
+- developers who want to quickly test new driver versions without full
+  reboot. They're often preferring convenience over correctness, like with
+  the removal of module refcounting that's strictly needed but means they
+  first have to unbind drivers in sysfs before they can unload the driver.
 
->> And If I add drm_cleanup_connector() for VGA, it work. So is this okay that I use this cleanup in HPD?
-> drm_connector_cleanup() should only be callsed if the connector is going
-> to be destroyed. You should not be callign that function.
->
->>
->>>>>> And also, I will check whether this driver works good on the x86 server. Right now, I'm testing on arm64 server.
->>>>>>
->>>>>>>> And also, I used xrandr to set modes after 'startx'. Changing resolutions works,
->>>>>>>> but there are errs when set some low resolutions.
->>>>>>> That's a separate topic, most likely related to timing or to some other
->>>>>>> issues. You can fix that separately (but please do, switching modes
->>>>>>> should work).
->>>>>> Okay!
->>>>>>
->>>>>>
+  Another one is that this use-case prefers that the hw is cleanly shut
+  down, so that you can actually load the new driver from a well-known
+  state. And it's entirely ok if this all fails occasionally, it's just
+  for development and testing.
+
+- hotunplug as an actual use-case. Bugs are not ok. The hw can go away at
+  any moment. And it might happen while you're holding console_lock. You
+  generally do not remove the actual module here, which is why for the
+  actual production use-case getting that part right isn't really
+  required. But getting the lifetimes of all the various
+  structs/objects/resources perfectly right is required.
+
+So the "stuck on console_lock" is the 2nd case, not the first. Module
+unload doesn't even come into play on that one.
+
+> > > But so is half removing the driver while it is doing *anything* and
+> > > trying to mitigate that with a different kind of hard to do locking
+> > > fix. *shrug*
+> > 
+> > The thing is that rust helps you enormously with implementing revocable
+> > resources and making sure you're not cheating with all the bail-out paths.
+> 
+> Assuming a half alive driver with MMIO and interrupts ripped away
+> doesn't lock up.
+
+Rust's drop takes care of that for you. It's not guaranteed, but it's a
+case of "the minimal amount of typing yields correct code", unlike C,
+where that just blows up for sure.
+
+> Assuming all your interrupt triggered sleeps have gained a shootdown
+> mechanism.
+
+Hence why I want revocable to only be rcu, not srcu.
+
+> Assuming all the new extra error paths this creates don't corrupt the
+> internal state of the driver and cause it to lockup.
+
+Yeah this one is a bit scary. Corrupting the state is doable, locking up
+is much less likely I think, it seems to be more leaks that you get if
+rust goes wrong.
+
+> Meh. It doesn't seem like such an obvious win to me. Personally I'm
+> terrified of the idea of a zombie driver half sitting around in a
+> totally untestable configuration working properly..
+
+Yeah agreed. I might really badly regret this all. But I'm not sold that
+switching to message passing design is really going to be better, while
+it's definitely going to be a huge amount of work.
+
+> > It cannot help you with making sure you have interruptible/abortable
+> > sleeps in all the right places. 
+> 
+> :(
+> 
+> > > Like, I see a THIS_MODULE in driver->fops == amdgpu_driver_kms_fops ?
+> > 
+> > Yeah it's there, except only for the userspace references and not for the
+> > kernel internal ones. Because developers get a bit prickle about adding
+> > those unfortunately due to "it breaks module unload". Maybe we just should
+> > add them, at least for rust.
+> 
+> Yeah, I think such obviously wrong things should be pushed back
+> against. We don't want EAF bugs in the kernel, we want security...
+
+Maybe the two different use-cases above help explain why I'm a bit more
+pragmatic here. As long as the hotunplug case does not gain bugs (or gets
+some fixed) I'm fairly lax with hacks for the driver developer use-case of
+reloading modules.
+
+> > You've missed the "it will upset developers part". I've seen people remove
+> > module references that are needed, to "fix" driver unloading.
+> 
+> When done properly the module can be unloaded. Most rdma driver
+> modules are unloadable, live, while FDs are open.
+> 
+> > The third part is that I'm not aware of anything in rust that would
+> > guarantee that the function pointer and the module reference actually
+> > belong to each another. Which means another runtime check most likely, and
+> > hence another thing that shouldn't fail which kinda can now.
+> 
+> I suspect it has to come from the C code API contracts, which leak
+> into the binding design.
+> 
+> If the C API handles module refcounting internally then rust is fine
+> so long as it enforces THIS_MODULE.
+
+You could do contrived stuff and pass function pointers around, so that
+THIS_MODULE doesn't actually match up with the function pointer. Sure it's
+really stupid, but the idea with rust is that for memory safety stuff like
+this, it's not just stupid, but impossible and the compiler will catch
+you. So we need a tad more for rust.
+
+> If the C API requires cancel then rust is fine so long as the binding
+> guarantees cancel before module unload.
+
+Yeah this is again where I think rust needs a bit more, because the
+compiler can't always nicely proof this for you in all the "obvious"
+cases.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
