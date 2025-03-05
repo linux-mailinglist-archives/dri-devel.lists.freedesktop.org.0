@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946CBA53DF5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 00:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B07A53DF9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 00:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E123A10E7F9;
-	Wed,  5 Mar 2025 23:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0E3D10E84B;
+	Wed,  5 Mar 2025 23:05:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DACNdJWH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AVsh+Oo+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEA1E10E7E6
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 23:05:23 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 287BB10E84B
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 23:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741215923;
+ s=mimecast20190719; t=1741215941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sl6/ekVgAWYCDTBSA2VtxkimLd/n9xlZs5F5lrJfmw0=;
- b=DACNdJWHL5hwYZXy1A0q9MiRmZNJU6E0sVpuP/PMZuUIs3VlioRGdRcZEW9ldTF35n4ZTy
- T0VlbyN/ssqCtvEC6rccmHsVtPmbkkPwTU0cxJvmTqZg/fxpZ4briBw6RlKuXlRsdGLipX
- SD1XPEANi1xS4eX7gcCE8J0bo0Hirs4=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ bh=o3hYAZMTN2jTPeOCbI/wI2H7Z/11t/pfZBKrXGMP/6Y=;
+ b=AVsh+Oo+XMyG4Hb9/Hzy9xB2YWnLht31cCzxt4XQ8sCndSd9h76V516rJ3ACKYQLYjblM1
+ h6WWYdkrwhSjIPD8X91ovTe60kChi+xNkeAjpaGyVah0a1i+PdcbrJVKPnkW96/xDe7nBF
+ NEUtV3vF8704sEDl062ItNLGq7aLAlQ=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-689-_WqexueYPgqrl-lh9vpcxw-1; Wed,
- 05 Mar 2025 18:05:18 -0500
-X-MC-Unique: _WqexueYPgqrl-lh9vpcxw-1
-X-Mimecast-MFC-AGG-ID: _WqexueYPgqrl-lh9vpcxw_1741215916
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-226-mpPo4-fhOxOK9YLqfb8UNA-1; Wed,
+ 05 Mar 2025 18:05:32 -0500
+X-MC-Unique: mpPo4-fhOxOK9YLqfb8UNA-1
+X-Mimecast-MFC-AGG-ID: mpPo4-fhOxOK9YLqfb8UNA_1741215927
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 3D7181955DB9; Wed,  5 Mar 2025 23:05:16 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id C7FC019560B8; Wed,  5 Mar 2025 23:05:26 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.88.81])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 1D9B8300019E; Wed,  5 Mar 2025 23:05:10 +0000 (UTC)
+ id 75C7E300019E; Wed,  5 Mar 2025 23:05:22 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -55,15 +55,15 @@ Cc: Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
  =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
  Benno Lossin <benno.lossin@proton.me>,
  Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Asahi Lina <lina@asahilina.net>, Wedson Almeida Filho <wedsonaf@gmail.com>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [RFC v3 05/33] rust: drm/kms: Add drm_plane bindings
-Date: Wed,  5 Mar 2025 17:59:21 -0500
-Message-ID: <20250305230406.567126-6-lyude@redhat.com>
+Subject: [RFC v3 06/33] rust: drm/kms: Add drm_crtc bindings
+Date: Wed,  5 Mar 2025 17:59:22 -0500
+Message-ID: <20250305230406.567126-7-lyude@redhat.com>
 In-Reply-To: <20250305230406.567126-1-lyude@redhat.com>
 References: <20250305230406.567126-1-lyude@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,190 +81,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The next step is adding a set of basic bindings to create a plane, which
-has to happen before we can create a CRTC (since we need to be able to at
-least specify a primary plane for a CRTC upon creation). This mostly
-follows the same general pattern as connectors (AsRawPlane,
-AsRawPlaneState, etc.).
+This introduces basic bindings for DRM CRTCs which follow the same general
+pattern as connectors and planes (e.g. AsRawCrtc, AsRawCrtcState, etc.).
+There is one big difference though - drm_crtc_state appears to be the one
+atomic state that actually has data which can be mutated from outside of
+the atomic commit phase - which means we can't keep rust referencs to it,
+and instead need to use the Opaque type and implement things through
+pointers instead.
 
-There is one major difference with planes vs. other types of atomic mode
-objects: drm_plane_state isn't the only base plane struct used in DRM
-drivers, as some drivers will use helpers like drm_shadow_plane_state which
-have a drm_plane_state embedded within them.
-
-Since we'll eventually be adding bindings for shadow planes, we introduce a
-PlaneStateHelper trait - which represents any data type which can be used
-as the main wrapping structure around a drm_plane_state - and we implement
-this trait for PlaneState<T>. This trait can be used in our C callbacks to
-allow for drivers to use different wrapping structures without needing to
-implement a separate set of FFI callbacks for each type. Currently planes
-are the only type I'm aware of which do this.
+This should be the last mode object we're introducing for the time being
+with its own atomic state. Note that we've not added bindings for private
+modesetting objects yet, but I don't think those will be needed for rvkms -
+and the same general patterns we're using here should work for adding
+private modesetting objects.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 
 ---
 
-V2:
-* Start using Gerry Guo's updated #[vtable] function so that our driver
-  operations table has a static location in memory
+TODO:
+* Add commit data in the future
 
 V3:
-* Add safety comment for implementation of ModeObject
-* Make AsRawPlane unsafe, since we need a guarantee that `as_raw()` always
-  returns a valid pointer to an initialized drm_plane.
-* Add comments to __drm_atomic_helper_duplicate_state()
-* Switch `PlaneType` to camel casing
-* Improve safety comment in `Plane::<T>::new()`
-* Fix parameter types for `formats` and `format_modifiers`, as pointed out
-  by Louis Chauvet DRM will copy all of these into its own storage.
-* Improve safety comments in FromRawPlaneState
-* Introduce UnregisteredPlane type
-* Don't have AsRawPlane be a supertrait of StaticModeObject. We don't want
+* Add safety comments for ModeObject implementation
+* Make AsRawCrtc unsafe, as we need a guarantee that `as_raw()` will always
+  return a pointer to a valid `drm_crtc`.
+* Update safety comments in atomic_duplicate_state_callback
+* Rename generics in Crtc::new to PrimaryData and CursorData
+* Add missing safety comment in Crtc::new()
+* Improve safety comments in AsRawCrtc
+* Break up the conversion from Pin<Box<Crtc>> to &Crtc a bit
+* Document why there's an UnsafeCell in CrtcState, because even I forgot
+  the reason for this :).
+* Introduce UnregisteredCrtc type
+* Don't have AsRawCrtc be a supertrait of StaticModeObject. We don't want
   Unregistered mode object variants to be able to return a pointer to the
   DRM device since that would break the UnregisteredKmsDevice pattern.
-* Change name of PlaneType to Type (for consistency with the other type IDs
-  we've adde)
-* Use addr_of_mut! in more places instead of &mut
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/bindings/bindings_helper.h |   2 +
- rust/kernel/drm/fourcc.rs       |   1 -
+ rust/bindings/bindings_helper.h |   2 +-
  rust/kernel/drm/kms.rs          |   1 +
- rust/kernel/drm/kms/plane.rs    | 621 ++++++++++++++++++++++++++++++++
- 4 files changed, 624 insertions(+), 1 deletion(-)
- create mode 100644 rust/kernel/drm/kms/plane.rs
+ rust/kernel/drm/kms/crtc.rs     | 577 ++++++++++++++++++++++++++++++++
+ 3 files changed, 579 insertions(+), 1 deletion(-)
+ create mode 100644 rust/kernel/drm/kms/crtc.rs
 
 diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index c41a3309223b2..5b85f3faca525 100644
+index 5b85f3faca525..551ddcf02ea0e 100644
 --- a/rust/bindings/bindings_helper.h
 +++ b/rust/bindings/bindings_helper.h
-@@ -10,6 +10,7 @@
+@@ -10,7 +10,7 @@
  #include <drm/drm_atomic_helper.h>
  #include <drm/clients/drm_client_setup.h>
  #include <drm/drm_connector.h>
-+#include <drm/drm_plane.h>
+-#include <drm/drm_plane.h>
++#include <drm/drm_crtc.h>
  #include <drm/drm_device.h>
  #include <drm/drm_drv.h>
  #include <drm/drm_file.h>
-@@ -18,6 +19,7 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_plane.h>
- #include <drm/drm_ioctl.h>
- #include <kunit/test.h>
- #include <linux/blk-mq.h>
-diff --git a/rust/kernel/drm/fourcc.rs b/rust/kernel/drm/fourcc.rs
-index 62203478b5955..a30e40dbc037c 100644
---- a/rust/kernel/drm/fourcc.rs
-+++ b/rust/kernel/drm/fourcc.rs
-@@ -11,7 +11,6 @@ const fn fourcc_code(a: u8, b: u8, c: u8, d: u8) -> u32 {
- 
- // TODO: We manually import this because we don't have a reasonable way of getting constants from
- // function-like macros in bindgen yet.
--#[allow(dead_code)]
- pub(crate) const FORMAT_MOD_INVALID: u64 = 0xffffffffffffff;
- 
- // TODO: We need to automate importing all of these. For the time being, just add the single one
 diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
-index f10e9f83ccb78..6cc5bb53f3628 100644
+index 6cc5bb53f3628..f8d6d522c9d96 100644
 --- a/rust/kernel/drm/kms.rs
 +++ b/rust/kernel/drm/kms.rs
 @@ -3,6 +3,7 @@
  //! KMS driver abstractions for rust.
  
  pub mod connector;
-+pub mod plane;
++pub mod crtc;
+ pub mod plane;
  
  use crate::{
-     device,
-diff --git a/rust/kernel/drm/kms/plane.rs b/rust/kernel/drm/kms/plane.rs
+diff --git a/rust/kernel/drm/kms/crtc.rs b/rust/kernel/drm/kms/crtc.rs
 new file mode 100644
-index 0000000000000..9f262156eac6c
+index 0000000000000..95c79ffb584cd
 --- /dev/null
-+++ b/rust/kernel/drm/kms/plane.rs
-@@ -0,0 +1,621 @@
++++ b/rust/kernel/drm/kms/crtc.rs
+@@ -0,0 +1,577 @@
 +// SPDX-License-Identifier: GPL-2.0 OR MIT
 +
-+//! DRM display planes.
++//! DRM CRTCs.
 +//!
-+//! C header: [`include/drm/drm_plane.h`](srctree/include/drm/drm_plane.h)
++//! C header: [`include/drm/drm_crtc.h`](srctree/include/drm/drm_crtc.h)
 +
-+use super::{KmsDriver, ModeObject, StaticModeObject, UnregisteredKmsDevice};
++use super::{plane::*, KmsDriver, ModeObject, StaticModeObject, UnregisteredKmsDevice};
 +use crate::{
 +    alloc::KBox,
 +    bindings,
-+    drm::{device::Device, fourcc::*},
-+    error::{to_result, Error},
++    drm::device::Device,
++    error::to_result,
 +    init::Zeroable,
 +    prelude::*,
 +    private::Sealed,
 +    types::{NotThreadSafe, Opaque},
 +};
 +use core::{
++    cell::UnsafeCell,
 +    marker::*,
 +    mem,
-+    ops::*,
-+    pin::Pin,
++    ops::{Deref, DerefMut},
 +    ptr::{addr_of_mut, null, null_mut},
 +};
-+use macros::pin_data;
++use macros::vtable;
 +
-+/// The main trait for implementing the [`struct drm_plane`] API for [`Plane`].
++/// The main trait for implementing the [`struct drm_crtc`] API for [`Crtc`].
 +///
 +/// Any KMS driver should have at least one implementation of this type, which allows them to create
-+/// [`Plane`] objects. Additionally, a driver may store driver-private data within the type that
-+/// implements [`DriverPlane`] - and it will be made available when using a fully typed [`Plane`]
++/// [`Crtc`] objects. Additionally, a driver may store driver-private data within the type that
++/// implements [`DriverCrtc`] - and it will be made available when using a fully typed [`Crtc`]
 +/// object.
 +///
 +/// # Invariants
 +///
 +/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_plane`] pointers are contained within a [`Plane<Self>`].
++///   [`struct drm_crtc`] pointers are contained within a [`Crtc<Self>`].
 +/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_plane_state`] pointers are contained within a [`PlaneState<Self::State>`].
++///   [`struct drm_crtc_state`] pointers are contained within a [`CrtcState<Self::State>`].
 +///
-+/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
-+/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
++/// [`struct drm_crtc`]: srctree/include/drm/drm_crtc.h
++/// [`struct drm_crtc_state`]: srctree/include/drm/drm_crtc.h
 +#[vtable]
-+pub trait DriverPlane: Send + Sync + Sized {
-+    /// The generated C vtable for this [`DriverPlane`] implementation.
++pub trait DriverCrtc: Send + Sync + Sized {
++    /// The generated C vtable for this [`DriverCrtc`] implementation.
 +    #[unique]
-+    const OPS: &'static DriverPlaneOps = &DriverPlaneOps {
-+        funcs: bindings::drm_plane_funcs {
-+            update_plane: Some(bindings::drm_atomic_helper_update_plane),
-+            disable_plane: Some(bindings::drm_atomic_helper_disable_plane),
-+            destroy: Some(plane_destroy_callback::<Self>),
-+            reset: Some(plane_reset_callback::<Self>),
-+            set_property: None,
-+            atomic_duplicate_state: Some(atomic_duplicate_state_callback::<Self::State>),
++    const OPS: &'static DriverCrtcOps = &DriverCrtcOps {
++        funcs: bindings::drm_crtc_funcs {
 +            atomic_destroy_state: Some(atomic_destroy_state_callback::<Self::State>),
-+            atomic_set_property: None,
++            atomic_duplicate_state: Some(atomic_duplicate_state_callback::<Self::State>),
 +            atomic_get_property: None,
-+            late_register: None,
-+            early_unregister: None,
 +            atomic_print_state: None,
-+            format_mod_supported: None,
++            atomic_set_property: None,
++            cursor_move: None,
++            cursor_set2: None,
++            cursor_set: None,
++            destroy: Some(crtc_destroy_callback::<Self>),
++            disable_vblank: None,
++            early_unregister: None,
++            enable_vblank: None,
++            gamma_set: None,
++            get_crc_sources: None,
++            get_vblank_counter: None,
++            get_vblank_timestamp: None,
++            late_register: None,
++            page_flip: Some(bindings::drm_atomic_helper_page_flip),
++            page_flip_target: None,
++            reset: Some(crtc_reset_callback::<Self::State>),
++            set_config: Some(bindings::drm_atomic_helper_set_config),
++            set_crc_source: None,
++            set_property: None,
++            verify_crc_source: None,
 +        },
 +
-+        helper_funcs: bindings::drm_plane_helper_funcs {
-+            prepare_fb: None,
-+            cleanup_fb: None,
-+            begin_fb_access: None,
-+            end_fb_access: None,
-+            atomic_check: None,
-+            atomic_update: None,
-+            atomic_enable: None,
++        helper_funcs: bindings::drm_crtc_helper_funcs {
 +            atomic_disable: None,
-+            atomic_async_check: None,
-+            atomic_async_update: None,
-+            panic_flush: None,
-+            get_scanout_buffer: None,
++            atomic_enable: None,
++            atomic_check: None,
++            dpms: None,
++            commit: None,
++            prepare: None,
++            disable: None,
++            mode_set: None,
++            mode_valid: None,
++            mode_fixup: None,
++            atomic_begin: None,
++            atomic_flush: None,
++            mode_set_nofb: None,
++            mode_set_base: None,
++            mode_set_base_atomic: None,
++            get_scanout_position: None,
 +        },
 +    };
 +
-+    /// The type to pass to the `args` field of [`UnregisteredPlane::new`].
++    /// The type to pass to the `args` field of [`UnregisteredCrtc::new`].
 +    ///
 +    /// This type will be made available in in the `args` argument of [`Self::new`]. Drivers which
 +    /// don't need this can simply pass [`()`] here.
@@ -273,70 +260,43 @@ index 0000000000000..9f262156eac6c
 +    /// The parent [`KmsDriver`] implementation.
 +    type Driver: KmsDriver;
 +
-+    /// The [`DriverPlaneState`] implementation for this [`DriverPlane`].
++    /// The [`DriverCrtcState`] implementation for this [`DriverCrtc`].
 +    ///
-+    /// See [`DriverPlaneState`] for more info.
-+    type State: DriverPlaneState;
++    /// See [`DriverCrtcState`] for more info.
++    type State: DriverCrtcState;
 +
-+    /// The constructor for creating a [`Plane`] using this [`DriverPlane`] implementation.
++    /// The constructor for creating a [`Crtc`] using this [`DriverCrtc`] implementation.
 +    ///
-+    /// Drivers may use this to instantiate their [`DriverPlane`] object.
-+    fn new(device: &Device<Self::Driver>, args: Self::Args) -> impl PinInit<Self, Error>;
++    /// Drivers may use this to instantiate their [`DriverCrtc`] object.
++    fn new(device: &Device<Self::Driver>, args: &Self::Args) -> impl PinInit<Self, Error>;
 +}
 +
-+/// The generated C vtable for a [`DriverPlane`].
++/// The generated C vtable for a [`DriverCrtc`].
 +///
 +/// This type is created internally by DRM.
-+pub struct DriverPlaneOps {
-+    funcs: bindings::drm_plane_funcs,
-+    helper_funcs: bindings::drm_plane_helper_funcs,
++pub struct DriverCrtcOps {
++    funcs: bindings::drm_crtc_funcs,
++    helper_funcs: bindings::drm_crtc_helper_funcs,
 +}
 +
-+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-+#[repr(u32)]
-+/// An enumerator describing a type of [`Plane`].
++/// The main interface for a [`struct drm_crtc`].
 +///
-+/// This is mainly just relevant for DRM legacy drivers.
-+///
-+/// # Invariants
-+///
-+/// This type is identical to [`enum drm_plane_type`].
-+///
-+/// [`enum drm_plane_type`]: srctree/include/drm/drm_plane.h
-+pub enum Type {
-+    /// Overlay planes represent all non-primary, non-cursor planes. Some drivers refer to these
-+    /// types of planes as "sprites" internally.
-+    Overlay = bindings::drm_plane_type_DRM_PLANE_TYPE_OVERLAY,
-+
-+    /// A primary plane attached to a CRTC that is the most likely to be able to light up the CRTC
-+    /// when no scaling/cropping is used, and the plane covers the whole CRTC.
-+    Primary = bindings::drm_plane_type_DRM_PLANE_TYPE_PRIMARY,
-+
-+    /// A cursor plane attached to a CRTC that is more likely to be enabled when no scaling/cropping
-+    /// is used, and the framebuffer has the size indicated by [`ModeConfigInfo::max_cursor`].
-+    ///
-+    /// [`ModeConfigInfo::max_cursor`]: crate::drm::kms::ModeConfigInfo
-+    Cursor = bindings::drm_plane_type_DRM_PLANE_TYPE_CURSOR,
-+}
-+
-+/// The main interface for a [`struct drm_plane`].
-+///
-+/// This type is the main interface for dealing with DRM planes. In addition, it also allows
-+/// immutable access to whatever private data is contained within an implementor's [`DriverPlane`]
++/// This type is the main interface for dealing with DRM CRTCs. In addition, it also allows
++/// immutable access to whatever private data is contained within an implementor's [`DriverCrtc`]
 +/// type.
 +///
 +/// # Invariants
 +///
-+/// - `plane` and `inner` are initialized for as long as this object is made available to users.
-+/// - The data layout of this structure begins with [`struct drm_plane`].
-+/// - The atomic state for this type can always be assumed to be of type [`PlaneState<T::State>`].
++/// - `crtc` and `inner` are initialized for as long as this object is made available to users.
++/// - The data layout of this structure begins with [`struct drm_crtc`].
++/// - The atomic state for this type can always be assumed to be of type [`CrtcState<T::State>`].
 +///
-+/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
++/// [`struct drm_crtc`]: srctree/include/drm/drm_crtc.h
 +#[repr(C)]
 +#[pin_data]
-+pub struct Plane<T: DriverPlane> {
-+    /// The FFI drm_plane object
-+    plane: Opaque<bindings::drm_plane>,
++pub struct Crtc<T: DriverCrtc> {
++    // The FFI drm_crtc object
++    crtc: Opaque<bindings::drm_crtc>,
 +    /// The driver's private inner data
 +    #[pin]
 +    inner: T,
@@ -344,11 +304,18 @@ index 0000000000000..9f262156eac6c
 +    _p: PhantomPinned,
 +}
 +
-+unsafe impl Zeroable for bindings::drm_plane {}
++// SAFETY: DRM expects this struct to be zero-initialized
++unsafe impl Zeroable for bindings::drm_crtc {}
 +
-+impl<T: DriverPlane> Sealed for Plane<T> {}
++impl<T: DriverCrtc> Sealed for Crtc<T> {}
 +
-+impl<T: DriverPlane> Deref for Plane<T> {
++// SAFETY: Our CRTC interfaces are guaranteed to be thread-safe
++unsafe impl<T: DriverCrtc> Send for Crtc<T> {}
++
++// SAFETY: Our CRTC interfaces are guaranteed to be thread-safe
++unsafe impl<T: DriverCrtc> Sync for Crtc<T> {}
++
++impl<T: DriverCrtc> Deref for Crtc<T> {
 +    type Target = T;
 +
 +    fn deref(&self) -> &Self::Target {
@@ -356,103 +323,79 @@ index 0000000000000..9f262156eac6c
 +    }
 +}
 +
-+/// A [`Plane`] that has not yet been registered with userspace.
++// SAFETY: We don't expose Crtc<T> to users before `base` is initialized in ::new(), so
++// `raw_mode_obj` always returns a valid pointer to a bindings::drm_mode_object.
++unsafe impl<T: DriverCrtc> ModeObject for Crtc<T> {
++    type Driver = T::Driver;
++
++    fn drm_dev(&self) -> &Device<Self::Driver> {
++        // SAFETY: DRM connectors exist for as long as the device does, so this pointer is always
++        // valid
++        unsafe { Device::borrow((*self.as_raw()).dev) }
++    }
++
++    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
++        // SAFETY: We don't expose Crtc<T> to users before it's initialized, so `base` is always
++        // initialized
++        unsafe { addr_of_mut!((*self.as_raw()).base) }
++    }
++}
++
++// SAFETY: CRTCs are non-refcounted modesetting objects
++unsafe impl<T: DriverCrtc> StaticModeObject for Crtc<T> {}
++
++/// A [`Crtc`] that has not yet been registered with userspace.
 +///
 +/// KMS registration is single-threaded, so this object is not thread-safe.
 +///
 +/// # Invariants
 +///
 +/// - This object can only exist before its respective KMS device has been registered.
-+/// - Otherwise, it inherits all invariants of [`Plane`] and has an identical data layout.
-+pub struct UnregisteredPlane<T: DriverPlane>(Plane<T>, NotThreadSafe);
++/// - Otherwise, it inherits all invariants of [`Crtc`] and has an identical data layout.
++pub struct UnregisteredCrtc<T: DriverCrtc>(Crtc<T>, NotThreadSafe);
 +
-+// SAFETY: We share the invariants of `Plane`
-+unsafe impl<T: DriverPlane> AsRawPlane for UnregisteredPlane<T> {
-+    fn as_raw(&self) -> *mut bindings::drm_plane {
-+        self.0.as_raw()
-+    }
-+
-+    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_plane) -> &'a Self {
-+        // SAFETY: This is another from_raw() call, so this function shares the same safety contract
-+        let plane = unsafe { Plane::<T>::from_raw(ptr) };
-+
-+        // SAFETY: Our data layout is identical via our type invariants.
-+        unsafe { mem::transmute(plane) }
-+    }
-+}
-+
-+impl<T: DriverPlane> Deref for UnregisteredPlane<T> {
-+    type Target = T;
-+
-+    fn deref(&self) -> &Self::Target {
-+        &self.0.inner
-+    }
-+}
-+
-+impl<T: DriverPlane> UnregisteredPlane<T> {
-+    /// Construct a new [`UnregisteredPlane`].
++impl<T: DriverCrtc> UnregisteredCrtc<T> {
++    /// Construct a new [`UnregisteredCrtc`].
 +    ///
 +    /// A driver may use this from their [`KmsDriver::create_objects`] callback in order to
-+    /// construct new [`UnregisteredPlane`] objects.
++    /// construct new [`UnregisteredCrtc`] objects.
 +    ///
 +    /// [`KmsDriver::create_objects`]: kernel::drm::kms::KmsDriver::create_objects
-+    pub fn new<'a, 'b: 'a>(
++    pub fn new<'a, 'b: 'a, PrimaryData, CursorData>(
 +        dev: &'a UnregisteredKmsDevice<'a, T::Driver>,
-+        possible_crtcs: u32,
-+        formats: &[u32],
-+        format_modifiers: Option<&[u64]>,
-+        type_: Type,
++        primary: &'a UnregisteredPlane<PrimaryData>,
++        cursor: Option<&'a UnregisteredPlane<CursorData>>,
 +        name: Option<&CStr>,
 +        args: T::Args,
-+    ) -> Result<&'b Self> {
-+        let this: Pin<KBox<Plane<T>>> = KBox::try_pin_init(
-+            try_pin_init!(Plane::<T> {
-+                plane: Opaque::new(bindings::drm_plane {
++    ) -> Result<&'a Self>
++    where
++        PrimaryData: DriverPlane<Driver = T::Driver>,
++        CursorData: DriverPlane<Driver = T::Driver>,
++    {
++        let this: Pin<KBox<Crtc<T>>> = KBox::try_pin_init(
++            try_pin_init!(Crtc::<T> {
++                crtc: Opaque::new(bindings::drm_crtc {
 +                    helper_private: &T::OPS.helper_funcs,
 +                    ..Default::default()
 +                }),
-+                inner <- T::new(dev, args),
-+                _p: PhantomPinned
++                inner <- T::new(dev, &args),
++                _p: PhantomPinned,
 +            }),
 +            GFP_KERNEL,
 +        )?;
 +
-+        // TODO: Move this over to using collect() someday
-+        // Create a modifiers array with the sentinel for passing to DRM
-+        let format_modifiers_raw;
-+        if let Some(modifiers) = format_modifiers {
-+            let mut raw = KVec::with_capacity(modifiers.len() + 1, GFP_KERNEL)?;
-+            for modifier in modifiers {
-+                raw.push(*modifier, GFP_KERNEL)?;
-+            }
-+            raw.push(FORMAT_MOD_INVALID, GFP_KERNEL)?;
-+
-+            format_modifiers_raw = Some(raw);
-+        } else {
-+            format_modifiers_raw = None;
-+        }
-+
 +        // SAFETY:
-+        // - `dev` handles destroying the plane, and thus will outlive us and always be valid.
++        // - `dev` handles destroying the CRTC and thus will outlive us.
 +        // - We just allocated `this`, and we won't move it since it's pinned
-+        // - We just allocated the `format_modifiers_raw` vec and added the sentinel DRM expects
-+        //   above
-+        // - `drm_universal_plane_init` will memcpy() the following parameters into its own storage,
-+        //   so it's safe for them to become inaccessible after this call returns:
-+        //   - `formats`
-+        //   - `format_modifiers_raw`
-+        //   - `name`
-+        // - `type_` is equivalent to `drm_plane_type` via its type invariants.
++        // - `primary` and `cursor` share the lifetime 'a with `dev`
++        // - This function will memcpy the contents of `name` into its own storage.
 +        to_result(unsafe {
-+            bindings::drm_universal_plane_init(
++            bindings::drm_crtc_init_with_planes(
 +                dev.as_raw(),
 +                this.as_raw(),
-+                possible_crtcs,
++                primary.as_raw(),
++                cursor.map_or(null_mut(), |c| c.as_raw()),
 +                &T::OPS.funcs,
-+                formats.as_ptr(),
-+                formats.len() as _,
-+                format_modifiers_raw.map_or(null(), |f| f.as_ptr()),
-+                type_ as _,
 +                name.map_or(null(), |n| n.as_char_ptr()),
 +            )
 +        })?;
@@ -460,52 +403,75 @@ index 0000000000000..9f262156eac6c
 +        // SAFETY: We don't move anything
 +        let this = unsafe { Pin::into_inner_unchecked(this) };
 +
-+        // We'll re-assemble the box in plane_destroy_callback()
++        // We'll re-assemble the box in crtc_destroy_callback()
 +        let this = KBox::into_raw(this);
 +
-+        // UnregisteredPlane has an equivalent data layout
++        // UnregisteredCrtc has an equivalent data layout
 +        let this: *mut Self = this.cast();
 +
-+        // SAFETY: We just allocated the plane above, so this pointer must be valid
++        // SAFETY: We just allocated the crtc above, so this pointer must be valid
 +        Ok(unsafe { &*this })
 +    }
 +}
 +
-+/// A trait implemented by any type that acts as a [`struct drm_plane`] interface.
++// SAFETY: We inherit all relevant invariants of `Crtc`
++unsafe impl<T: DriverCrtc> AsRawCrtc for UnregisteredCrtc<T> {
++    fn as_raw(&self) -> *mut bindings::drm_crtc {
++        self.0.as_raw()
++    }
++
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_crtc) -> &'a Self {
++        // SAFETY: This is another from_raw() call, so this function shares the same safety contract
++        let crtc = unsafe { Crtc::<T>::from_raw(ptr) };
++
++        // SAFETY: Our data layout is identical via our type invariants.
++        unsafe { mem::transmute(crtc) }
++    }
++}
++
++impl<T: DriverCrtc> Deref for UnregisteredCrtc<T> {
++    type Target = T;
++
++    fn deref(&self) -> &Self::Target {
++        &self.0.inner
++    }
++}
++
++/// A trait implemented by any type that acts as a [`struct drm_crtc`] interface.
 +///
 +/// This is implemented internally by DRM.
 +///
 +/// # Safety
 +///
-+/// [`as_raw()`] must always return a valid pointer to an initialized [`struct drm_plane`].
++/// [`as_raw()`] must always return a valid pointer to a [`struct drm_crtc`].
 +///
-+/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
-+/// [`as_raw()`]: AsRawPlane::as_raw()
-+pub unsafe trait AsRawPlane {
-+    /// Return the raw `bindings::drm_plane` for this DRM plane.
-+    ///
-+    /// Drivers should never use this directly.
-+    fn as_raw(&self) -> *mut bindings::drm_plane;
++/// [`struct drm_crtc`]: srctree/include/drm/drm_crtc.h
++/// [`as_raw()`]: AsRawCrtc::as_raw()
++pub unsafe trait AsRawCrtc {
++    /// Return a raw pointer to the `bindings::drm_crtc` for this object
++    fn as_raw(&self) -> *mut bindings::drm_crtc;
 +
-+    /// Convert a raw `bindings::drm_plane` pointer into an object of this type.
++    /// Convert a raw [`struct drm_crtc`] pointer into an object of this type.
 +    ///
 +    /// # Safety
 +    ///
 +    /// Callers promise that `ptr` points to a valid instance of this type
-+    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_plane) -> &'a Self;
++    ///
++    /// [`struct drm_crtc`]: srctree/include/drm/drm_crtc.h
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_crtc) -> &'a Self;
 +}
 +
 +// SAFETY:
-+// - Via our type variants our data layout starts with `drm_plane`
-+// - Since we don't expose `plane` to users before it has been initialized, this and our data
-+//   layout ensure that `as_raw()` always returns a valid pointer to a `drm_plane`.
-+unsafe impl<T: DriverPlane> AsRawPlane for Plane<T> {
-+    fn as_raw(&self) -> *mut bindings::drm_plane {
-+        self.plane.get()
++// - Via our type variants our data layout starts with `drm_crtc`
++// - Since we don't expose `crtc` to users before it has been initialized, this and our data
++//   layout ensure that `as_raw()` always returns a valid pointer to a `drm_crtc`.
++unsafe impl<T: DriverCrtc> AsRawCrtc for Crtc<T> {
++    fn as_raw(&self) -> *mut bindings::drm_crtc {
++        self.crtc.get()
 +    }
 +
-+    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_plane) -> &'a Self {
-+        // Our data layout start with `bindings::drm_plane`.
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_crtc) -> &'a Self {
++        // Our data layout start with `bindings::drm_crtc`.
 +        let ptr: *mut Self = ptr.cast();
 +
 +        // SAFETY: Our safety contract requires that `ptr` point to a valid intance of `Self`.
@@ -515,36 +481,11 @@ index 0000000000000..9f262156eac6c
 +
 +// SAFETY: We only expose this object to users directly after KmsDriver::create_objects has been
 +// called.
-+unsafe impl<T: DriverPlane> ModesettablePlane for Plane<T> {
-+    type State = PlaneState<T::State>;
++unsafe impl<T: DriverCrtc> ModesettableCrtc for Crtc<T> {
++    type State = CrtcState<T::State>;
 +}
 +
-+// SAFETY: We don't expose Plane<T> to users before `base` is initialized in ::new(), so
-+// `raw_mode_obj` always returns a valid pointer to a bindings::drm_mode_object.
-+unsafe impl<T: DriverPlane> ModeObject for Plane<T> {
-+    type Driver = T::Driver;
-+
-+    fn drm_dev(&self) -> &Device<Self::Driver> {
-+        // SAFETY: DRM planes exist for as long as the device does, so this pointer is always valid
-+        unsafe { Device::borrow((*self.as_raw()).dev) }
-+    }
-+
-+    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
-+        // SAFETY: We don't expose DRM planes to users before `base` is initialized
-+        unsafe { addr_of_mut!((*self.as_raw()).base) }
-+    }
-+}
-+
-+// SAFETY: Planes do not have a refcount
-+unsafe impl<T: DriverPlane> StaticModeObject for Plane<T> {}
-+
-+// SAFETY: Our interface is thread-safe.
-+unsafe impl<T: DriverPlane> Send for Plane<T> {}
-+
-+// SAFETY: Our interface is thread-safe.
-+unsafe impl<T: DriverPlane> Sync for Plane<T> {}
-+
-+/// A supertrait of [`AsRawPlane`] for [`struct drm_plane`] interfaces that can perform modesets.
++/// A supertrait of [`AsRawCrtc`] for [`struct drm_crtc`] interfaces that can perform modesets.
 +///
 +/// This is implemented internally by DRM.
 +///
@@ -553,258 +494,245 @@ index 0000000000000..9f262156eac6c
 +/// Any object implementing this trait must only be made directly available to the user after
 +/// [`create_objects`] has completed.
 +///
-+/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
++/// [`struct drm_crtc`]: srctree/include/drm/drm_crtc.h
 +/// [`create_objects`]: KmsDriver::create_objects
-+pub unsafe trait ModesettablePlane: AsRawPlane {
-+    /// The type that should be returned for a plane state acquired using this plane interface
-+    type State: FromRawPlaneState;
++pub unsafe trait ModesettableCrtc: AsRawCrtc {
++    /// The type that should be returned for a CRTC state acquired using this CRTC interface
++    type State: FromRawCrtcState;
++}
++unsafe impl Zeroable for bindings::drm_crtc_state {}
++
++impl<T: DriverCrtcState> Sealed for CrtcState<T> {}
++
++/// The main trait for implementing the [`struct drm_crtc_state`] API for a [`Crtc`].
++///
++/// A driver may store driver-private data within the implementor's type, which will be available
++/// when using a full typed [`CrtcState`] object.
++///
++/// # Invariants
++///
++/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
++///   [`struct drm_crtc`] pointers are contained within a [`Crtc<Self::Crtc>`].
++/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
++///   [`struct drm_crtc_state`] pointers are contained within a [`CrtcState<Self>`].
++///
++/// [`struct drm_crtc`]: srctree/include/drm_crtc.h
++/// [`struct drm_crtc_state`]: srctree/include/drm_crtc.h
++pub trait DriverCrtcState: Clone + Default + Unpin {
++    /// The parent CRTC driver for this CRTC state
++    type Crtc: DriverCrtc<State = Self>
++    where
++        Self: Sized;
 +}
 +
-+/// A trait implemented by any type which can produce a reference to a [`struct drm_plane_state`].
++/// The main interface for a [`struct drm_crtc_state`].
 +///
-+/// This is implemented internally by DRM.
-+///
-+/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
-+pub trait AsRawPlaneState: private::AsRawPlaneState {
-+    /// The type that this plane state interface returns to represent the parent DRM plane
-+    type Plane: ModesettablePlane;
-+}
-+
-+pub(crate) mod private {
-+    /// Trait for retrieving references to the base plane state contained within any plane state
-+    /// compatible type
-+    #[allow(unreachable_pub)]
-+    pub trait AsRawPlaneState {
-+        /// Return an immutable reference to the raw plane state
-+        fn as_raw(&self) -> &bindings::drm_plane_state;
-+
-+        /// Get a mutable reference to the raw `bindings::drm_plane_state` contained within this
-+        /// type.
-+        ///
-+        /// # Safety
-+        ///
-+        /// The caller promises this mutable reference will not be used to modify any contents of
-+        /// `bindings::drm_plane_state` which DRM would consider to be static - like the backpointer
-+        /// to the DRM plane that owns this state. This also means the mutable reference should
-+        /// never be exposed outside of this crate.
-+        unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_plane_state;
-+    }
-+}
-+
-+pub(crate) use private::AsRawPlaneState as AsRawPlaneStatePrivate;
-+
-+/// A trait implemented for any type which can be constructed directly from a
-+/// [`struct drm_plane_state`] pointer.
-+///
-+/// This is implemented internally by DRM.
-+///
-+/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
-+pub trait FromRawPlaneState: AsRawPlaneState {
-+    /// Get an immutable reference to this type from the given raw [`struct drm_plane_state`]
-+    /// pointer.
-+    ///
-+    /// # Safety
-+    ///
-+    /// - The caller guarantees `ptr` is contained within a valid instance of `Self`
-+    /// - The caller guarantees that `ptr` cannot not be modified for the lifetime of `'a`.
-+    ///
-+    /// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
-+    unsafe fn from_raw<'a>(ptr: *const bindings::drm_plane_state) -> &'a Self;
-+
-+    /// Get a mutable reference to this type from the given raw [`struct drm_plane_state`] pointer.
-+    ///
-+    /// # Safety
-+    ///
-+    /// - The caller guarantees that `ptr` is contained within a valid instance of `Self`
-+    /// - The caller guarantees that `ptr` cannot have any other references taken out for the
-+    ///   lifetime of `'a`.
-+    ///
-+    /// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
-+    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_plane_state) -> &'a mut Self;
-+}
-+
-+/// The main interface for a [`struct drm_plane_state`].
-+///
-+/// This type is the main interface for dealing with the atomic state of DRM planes. In addition, it
-+/// allows access to whatever private data is contained within an implementor's [`DriverPlaneState`]
++/// This type is the main interface for dealing with the atomic state of DRM crtcs. In addition, it
++/// allows access to whatever private data is contained within an implementor's [`DriverCrtcState`]
 +/// type.
 +///
 +/// # Invariants
 +///
-+/// - The DRM C API and our interface guarantees that only the user has mutable access to `state`,
-+///   up until [`drm_atomic_helper_commit_hw_done`] is called. Therefore, `plane` follows rust's
-+///   data aliasing rules and does not need to be behind an [`Opaque`] type.
 +/// - `state` and `inner` initialized for as long as this object is exposed to users.
-+/// - The data layout of this structure begins with [`struct drm_plane_state`].
-+/// - The plane for this atomic state can always be assumed to be of type [`Plane<T::Plane>`].
++/// - The data layout of this structure begins with [`struct drm_crtc_state`].
++/// - The CRTC for this type can always be assumed to be of type [`Crtc<T::Crtc>`].
 +///
-+/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
-+/// [`drm_atomic_helper_commit_hw_done`]: srctree/include/drm/drm_atomic_helper.h
-+#[derive(Default)]
++/// [`struct drm_crtc_state`]: srctree/include/drm/drm_crtc.h
 +#[repr(C)]
-+pub struct PlaneState<T: DriverPlaneState> {
-+    state: bindings::drm_plane_state,
-+    inner: T,
++pub struct CrtcState<T: DriverCrtcState> {
++    // It should be noted that CrtcState is a bit of an oddball - it's the only atomic state
++    // structure that can be modified after it has been swapped in, which is why we need to have
++    // `state` within an `Opaque<>`…
++    state: Opaque<bindings::drm_crtc_state>,
++
++    // …it is also one of the few atomic states that some drivers will embed work structures into,
++    // which means there's a good chance in the future we may have pinned data here - making it
++    // impossible for us to hold a mutable or immutable reference to the CrtcState. In preparation
++    // for that possibility, we keep `T` in an UnsafeCell.
++    inner: UnsafeCell<T>,
 +}
 +
-+/// The main trait for implementing the [`struct drm_plane_state`] API for a [`Plane`].
-+///
-+/// A driver may store driver-private data within the implementor's type, which will be available
-+/// when using a full typed [`PlaneState`] object.
-+///
-+/// # Invariants
-+///
-+/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_plane`] pointers are contained within a [`Plane<Self::Plane>`].
-+/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_plane_state`] pointers are contained within a [`PlaneState<Self>`].
-+///
-+/// [`struct drm_plane`]: srctree/include/drm_plane.h
-+/// [`struct drm_plane_state`]: srctree/include/drm_plane.h
-+pub trait DriverPlaneState: Clone + Default + Sized {
-+    /// The type for this driver's drm_plane implementation
-+    type Plane: DriverPlane;
-+}
-+
-+impl<T: DriverPlaneState> Sealed for PlaneState<T> {}
-+
-+impl<T: DriverPlaneState> AsRawPlaneState for PlaneState<T> {
-+    type Plane = Plane<T::Plane>;
-+}
-+
-+impl<T: DriverPlaneState> private::AsRawPlaneState for PlaneState<T> {
-+    fn as_raw(&self) -> &bindings::drm_plane_state {
-+        &self.state
-+    }
-+
-+    unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_plane_state {
-+        &mut self.state
-+    }
-+}
-+
-+impl<T: DriverPlaneState> FromRawPlaneState for PlaneState<T> {
-+    unsafe fn from_raw<'a>(ptr: *const bindings::drm_plane_state) -> &'a Self {
-+        // Our data layout starts with `bindings::drm_plane_state`.
-+        let ptr: *const Self = ptr.cast();
-+
-+        // SAFETY:
-+        // - Our safety contract requires that `ptr` be contained within `Self`.
-+        // - Our safety contract requires the caller ensure that it is safe for us to take an
-+        //   immutable reference.
-+        unsafe { &*ptr }
-+    }
-+
-+    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_plane_state) -> &'a mut Self {
-+        // Our data layout starts with `bindings::drm_plane_state`.
-+        let ptr: *mut Self = ptr.cast();
-+
-+        // SAFETY:
-+        // - Our safety contract requires that `ptr` be contained within `Self`.
-+        // - Our safety contract requires the caller ensure it is safe for us to take a mutable
-+        //   reference.
-+        unsafe { &mut *ptr }
-+    }
-+}
-+
-+unsafe impl Zeroable for bindings::drm_plane_state {}
-+
-+impl<T: DriverPlaneState> Deref for PlaneState<T> {
++impl<T: DriverCrtcState> Deref for CrtcState<T> {
 +    type Target = T;
 +
 +    fn deref(&self) -> &Self::Target {
-+        &self.inner
++        // SAFETY: Our interface ensures that `inner` will not be modified unless only a single
++        // mutable reference exists to `inner`, so this is safe
++        unsafe { &*self.inner.get() }
 +    }
 +}
 +
-+impl<T: DriverPlaneState> DerefMut for PlaneState<T> {
++impl<T: DriverCrtcState> DerefMut for CrtcState<T> {
 +    fn deref_mut(&mut self) -> &mut Self::Target {
-+        &mut self.inner
++        self.inner.get_mut()
 +    }
 +}
 +
-+unsafe extern "C" fn plane_destroy_callback<T: DriverPlane>(plane: *mut bindings::drm_plane) {
-+    // SAFETY: DRM guarantees that `plane` points to a valid initialized `drm_plane`.
-+    unsafe { bindings::drm_plane_cleanup(plane) };
++/// A trait implemented by any type which can produce a reference to a [`struct drm_crtc_state`].
++///
++/// This is implemented internally by DRM.
++///
++/// [`struct drm_crtc_state`]: srctree/include/drm/drm_crtc.h
++pub trait AsRawCrtcState: private::AsRawCrtcState {
++    /// The type that this CRTC state interface returns to represent the parent CRTC
++    type Crtc: ModesettableCrtc;
++}
++
++pub(crate) mod private {
++    use super::*;
++
++    #[allow(unreachable_pub)]
++    pub trait AsRawCrtcState {
++        /// Return a raw pointer to the DRM CRTC state
++        ///
++        /// Note that CRTC states are the only atomic state in KMS which don't nicely follow rust's
++        /// data aliasing rules already.
++        fn as_raw(&self) -> *mut bindings::drm_crtc_state;
++    }
++}
++
++/// A trait for providing common methods which can be used on any type that can be used as an atomic
++/// CRTC state.
++pub trait RawCrtcState: AsRawCrtcState {
++    /// Return the CRTC that owns this state.
++    fn crtc(&self) -> &Self::Crtc {
++        // SAFETY:
++        // - This type conversion is guaranteed by type invariance
++        // - Our interface ensures that this access follows rust's data-aliasing rules
++        // - `crtc` is guaranteed to never be NULL and is invariant throughout the lifetime of the
++        //   state
++        unsafe { <Self::Crtc as AsRawCrtc>::from_raw((*self.as_raw()).crtc) }
++    }
++}
++impl<T: AsRawCrtcState> RawCrtcState for T {}
++
++/// A trait implemented for any type which can be constructed directly from a
++/// [`struct drm_crtc_state`] pointer.
++///
++/// This is implemented internally by DRM.
++///
++/// [`struct drm_crtc_state`]: srctree/include/drm/drm_crtc.h
++pub trait FromRawCrtcState: AsRawCrtcState {
++    /// Obtain a reference back to this type from a raw DRM crtc state pointer
++    ///
++    /// # Safety
++    ///
++    /// Callers must ensure that ptr contains a valid instance of this type.
++    unsafe fn from_raw<'a>(ptr: *const bindings::drm_crtc_state) -> &'a Self;
++}
++
++impl<T: DriverCrtcState> private::AsRawCrtcState for CrtcState<T> {
++    #[inline]
++    fn as_raw(&self) -> *mut bindings::drm_crtc_state {
++        self.state.get()
++    }
++}
++
++impl<T: DriverCrtcState> AsRawCrtcState for CrtcState<T> {
++    type Crtc = Crtc<T::Crtc>;
++}
++
++impl<T: DriverCrtcState> FromRawCrtcState for CrtcState<T> {
++    unsafe fn from_raw<'a>(ptr: *const bindings::drm_crtc_state) -> &'a Self {
++        // SAFETY: Our data layout starts with `bindings::drm_crtc_state`
++        unsafe { &*(ptr.cast()) }
++    }
++}
++
++unsafe extern "C" fn crtc_destroy_callback<T: DriverCrtc>(crtc: *mut bindings::drm_crtc) {
++    // SAFETY: DRM guarantees that `crtc` points to a valid initialized `drm_crtc`.
++    unsafe { bindings::drm_crtc_cleanup(crtc) };
 +
 +    // SAFETY:
-+    // - DRM guarantees we are now the only one with access to this [`drm_plane`].
-+    // - This cast is safe via `DriverPlane`s type invariants.
-+    drop(unsafe { KBox::from_raw(plane as *mut Plane<T>) });
++    // - DRM guarantees we are now the only one with access to this [`drm_crtc`].
++    // - This cast is safe via `DriverCrtc`s type invariants.
++    // - We created this as a pinned type originally
++    drop(unsafe { Pin::new_unchecked(KBox::from_raw(crtc as *mut Crtc<T>)) });
 +}
 +
-+unsafe extern "C" fn atomic_duplicate_state_callback<T: DriverPlaneState>(
-+    plane: *mut bindings::drm_plane,
-+) -> *mut bindings::drm_plane_state {
-+    // SAFETY: DRM guarantees that `plane` points to a valid initialized `drm_plane`.
-+    let state = unsafe { (*plane).state };
++unsafe extern "C" fn atomic_duplicate_state_callback<T: DriverCrtcState>(
++    crtc: *mut bindings::drm_crtc,
++) -> *mut bindings::drm_crtc_state {
++    // SAFETY: DRM guarantees that `crtc` points to a valid initialized `drm_crtc`.
++    let state = unsafe { (*crtc).state };
 +    if state.is_null() {
 +        return null_mut();
 +    }
 +
-+    // SAFETY: This cast is safe via `DriverPlaneState`s type invariants.
-+    let state = unsafe { PlaneState::<T>::from_raw(state) };
++    // SAFETY: This cast is safe via `DriverCrtcState`s type invariants.
++    let crtc = unsafe { Crtc::<T::Crtc>::from_raw(crtc) };
++
++    // SAFETY: This cast is safe via `DriverCrtcState`s type invariants.
++    let state = unsafe { CrtcState::<T>::from_raw(state) };
 +
 +    let new = KBox::try_init(
-+        try_init!(PlaneState::<T> {
-+            state: bindings::drm_plane_state {
-+                ..Default::default()
-+            },
-+            inner: state.inner.clone()
++        try_init!(CrtcState::<T> {
++            state: Opaque::new(Default::default()),
++            inner: UnsafeCell::new((*state).clone()),
 +        }),
 +        GFP_KERNEL,
 +    );
 +
-+    if let Ok(mut new) = new {
-+        // SAFETY:
-+        // - `new` provides a valid pointer to a newly allocated `drm_plane_state` via type
-+        //   invariants
-+        // - This initializes `new` via memcpy()
-+        unsafe { bindings::__drm_atomic_helper_plane_duplicate_state(plane, new.as_raw_mut()) };
++    if let Ok(new) = new {
++        let new = KBox::into_raw(new).cast();
 +
-+        KBox::into_raw(new).cast()
++        // SAFETY:
++        // - `new` provides a valid pointer to a newly allocated `drm_crtc_state` via type
++        // invariants
++        // - This initializes `new` via memcpy()
++        unsafe { bindings::__drm_atomic_helper_crtc_duplicate_state(crtc.as_raw(), new) }
++
++        new
 +    } else {
 +        null_mut()
 +    }
 +}
 +
-+unsafe extern "C" fn atomic_destroy_state_callback<T: DriverPlaneState>(
-+    _plane: *mut bindings::drm_plane,
-+    state: *mut bindings::drm_plane_state,
++unsafe extern "C" fn atomic_destroy_state_callback<T: DriverCrtcState>(
++    _crtc: *mut bindings::drm_crtc,
++    crtc_state: *mut bindings::drm_crtc_state,
 +) {
-+    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_plane_state`
-+    unsafe { bindings::__drm_atomic_helper_plane_destroy_state(state) };
++    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_crtc_state`
++    unsafe { bindings::__drm_atomic_helper_crtc_destroy_state(crtc_state) };
 +
 +    // SAFETY:
-+    // * DRM guarantees we are the only one with access to this `drm_plane_state`
-+    // * This cast is safe via our type invariants.
-+    drop(unsafe { KBox::from_raw(state.cast::<PlaneState<T>>()) });
++    // - DRM guarantees we are the only one with access to this `drm_crtc_state`
++    // - This cast is safe via our type invariants.
++    // - All data in `CrtcState` is either Unpin, or pinned
++    drop(unsafe { KBox::from_raw(crtc_state as *mut CrtcState<T>) });
 +}
 +
-+unsafe extern "C" fn plane_reset_callback<T: DriverPlane>(plane: *mut bindings::drm_plane) {
-+    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_plane_state`
-+    let state = unsafe { (*plane).state };
++unsafe extern "C" fn crtc_reset_callback<T: DriverCrtcState>(crtc: *mut bindings::drm_crtc) {
++    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_crtc_state`
++    let state = unsafe { (*crtc).state };
 +    if !state.is_null() {
 +        // SAFETY:
-+        // - We're guaranteed `plane` is `Plane<T>` via type invariants
-+        // - We're guaranteed `state` is `PlaneState<T>` via type invariants.
-+        unsafe { atomic_destroy_state_callback::<T::State>(plane, state) }
++        // - We're guaranteed `crtc` is `Crtc<T>` via type invariants
++        // - We're guaranteed `state` is `CrtcState<T>` via type invariants.
++        unsafe { atomic_destroy_state_callback::<T>(crtc, state) }
 +
 +        // SAFETY: No special requirements here, DRM expects this to be NULL
 +        unsafe {
-+            (*plane).state = null_mut();
++            (*crtc).state = null_mut();
 +        }
 +    }
 +
++    // SAFETY: `crtc` is guaranteed to be of type `Crtc<T::Crtc>` by type invariance
++    let crtc = unsafe { Crtc::<T::Crtc>::from_raw(crtc) };
++
 +    // Unfortunately, this is the best we can do at the moment as this FFI callback was mistakenly
 +    // presumed to be infallible :(
-+    let new =
-+        KBox::new(PlaneState::<T::State>::default(), GFP_KERNEL).expect("Blame the API, sorry!");
++    let new = KBox::try_init(
++        try_init!(CrtcState::<T> {
++            state: Opaque::new(Default::default()),
++            inner: UnsafeCell::new(Default::default()),
++        }),
++        GFP_KERNEL,
++    )
++    .expect("Unfortunately, this API was presumed infallible");
 +
-+    // DRM takes ownership of the state from here, resets it, and then assigns it to the plane
-+    // SAFETY:
-+    // - DRM guarantees that `plane` points to a valid instance of `drm_plane`.
-+    // - The cast to `drm_plane_state` is safe via `PlaneState`s type invariants.
-+    unsafe { bindings::__drm_atomic_helper_plane_reset(plane, KBox::into_raw(new).cast()) };
++    // SAFETY: DRM takes ownership of the state from here, and will never move it
++    unsafe { bindings::__drm_atomic_helper_crtc_reset(crtc.as_raw(), KBox::into_raw(new).cast()) };
 +}
 -- 
 2.48.1
