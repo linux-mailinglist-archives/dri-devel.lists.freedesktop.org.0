@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450D2A4FF75
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11147A4FF7E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:06:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89A298945A;
-	Wed,  5 Mar 2025 13:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62B9C10E09B;
+	Wed,  5 Mar 2025 13:06:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jsEXxU28";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V5XF2zMK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB90F10E09B
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:04:45 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 26E0A440EC;
- Wed,  5 Mar 2025 13:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741179880;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a5cKEtirGP0Rs6xzOYVU1k4mOvhjvDHY1CUqXTEhlOU=;
- b=jsEXxU282Zw46sinma0efR/mPTZgANVomjhkHqlfO1cy+Idd/VmHwO3ZQKP87d7UdnhiKh
- asJRJT4AtKRNZDxgTtQ4oJ/bc0/cBgDsw//8oPtdoCglq/ZUl41+VD11WoYvDKm8UIs9ER
- rwVnSM69MG20kE55V/6Vn/I8Gw3B0ti78t7wpW6W87p8W30UuR++NWbKmiSVNdXQxSr9HZ
- 598TXzrMGMEYaR0MLrvlqcbXsoNN3/TP/42z2kTsbcHMD0PRAuFqV1p08JlXqJ7AxeqhkC
- 7ix78TvKNnLgGbmcsgcWazsoIBvp9PJ3bsOLqPvi0YhAvLfyN5CU7NIIWucFxA==
-Date: Wed, 5 Mar 2025 14:04:36 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Douglas
- Anderson <dianders@chromium.org>, Herve Codina <herve.codina@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v5 01/16] drm/bridge: Add encoder parameter to
- drm_bridge_funcs.attach
-Message-ID: <20250305140436.2903b88d@booty>
-In-Reply-To: <20250304-bridge-connector-v5-1-aacf461d2157@kernel.org>
-References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
- <20250304-bridge-connector-v5-1-aacf461d2157@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A02010E09B
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:06:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 823B95C6859;
+ Wed,  5 Mar 2025 13:03:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91318C4CEE2;
+ Wed,  5 Mar 2025 13:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741179962;
+ bh=LRCjF4OfWgUdrLVSHUh/AiNipL4Jl4BHFHjUmsczaPc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=V5XF2zMKMXEtPOdlVG7l7pd12VGChbIQNQ5AB5iEyS+tHuTnHqnjeiqbcCAXikmNu
+ gyXxqunjIf6fq1tDfRtjCtu64Zl2cuc0n+RZdRhODtQsxqWlf+ye8GliRJUn0z0dBI
+ sTaWbdVoKHA0UuG+KQKl3FFecJQVi24DiKEAUYFkdYB3/9iBjvOWdExKg9LSK6IJz/
+ e6Iw+y6VGsbVMwAqb4U+x8we0SgXWrEqcgvnBeN//AJzi5Cf1UVFzehkqdF7Xl/nGX
+ smA8zlr+LH53gXy/LtkAw8I9VnfskSaRkdhO1av+M8nKi6FylC/LM6R2AqlVvNvEjd
+ cEOzc2mjJiPDg==
+From: Philipp Stanner <phasta@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/3] drm/sched: Documentation and refcount improvements
+Date: Wed,  5 Mar 2025 14:05:49 +0100
+Message-ID: <20250305130551.136682-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdegkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrn
- hhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,31 +61,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 04 Mar 2025 12:10:44 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+Changes in v7:
+  - Add Christian's info about violated dma_fence rules. (Christian)
+  - Fix some typos
 
-> The drm_bridge structure contains an encoder pointer that is widely used
-> by bridge drivers. This pattern is largely documented as deprecated in
-> other KMS entities for atomic drivers.
-> 
-> However, one of the main use of that pointer is done in attach to just
-> call drm_bridge_attach on the next bridge to add it to the bridge list.
-> While this dereferences the bridge->encoder pointer, it's effectively
-> the same encoder the bridge was being attached to.
-> 
-> We can make it more explicit by adding the encoder the bridge is
-> attached to to the list of attach parameters. This also removes the need
-> to dereference bridge->encoder in most drivers.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Tested-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Changes in v6:
+  - Switch patches 1 and 2. (Maira)
+  - Move section related to run_job() out of timedout_job() patch.
+    (Maira).
+  - Fix some places for correct crosslink references.
+  - Add comment to inform about run_job() incrementing the refcount.
+    (Danilo)
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Changes in v5:
+  - Fix broken enumarated list in timedout_job's docu.
+  - Add TODO for documenting the dma_fence rules in timedout_job one
+    day.
+
+Changes in v4:
+  - Remove mention of vague "dma_fence rules" in timedout_job() again
+    since I couldn't get input on what those rules precisely are.
+  - Address a forgotten TODO. (Me)
+  - Reposition "Return:" statements to make them congruent with the
+    official kernel style. (Tvrtko)
+  - Change formatting a bit because of crazy make htmldocs errors. (Me)
+
+Changes in v3:
+  - timedout_job(): various docu wording improvements. (Danilo)
+  - Use the term "ring" consistently. (Danilo)
+  - Add fully fledged docu for enum drm_gpu_sched_stat. (Danilo)
+
+Changes in v2:
+  - Document what run_job() is allowed to return. (Tvrtko)
+  - Delete confusing comment about putting the fence. (Danilo)
+  - Apply Danilo's RB to patch 1.
+  - Delete info about job recovery for entities in patch 3. (Danilo, me)
+  - Set the term "ring" as fix term for both HW rings and FW rings. A
+    ring shall always be the thingy on the CPU ;) (Danilo)
+  - Many (all) other comments improvements in patch 3. (Danilo)
+
+This is as series succeeding my previous patch [1].
+
+I recognized that we are still referring to a non-existing function and
+a deprecated one in the callback docu. We should probably also point out
+the important distinction between hardware and firmware schedulers more
+cleanly.
+
+Please give me feedback, especially on the RFC comments in patch3.
+
+(This series still fires docu-build-warnings. I want to gather feedback
+on the opion questions first and will solve them in v2.)
+
+Thank you,
+Philipp
+
+[1] https://lore.kernel.org/all/20241220124515.93169-2-phasta@kernel.org/
+
+Philipp Stanner (3):
+  drm/sched: Adjust outdated docu for run_job()
+  drm/sched: Document run_job() refcount hazard
+  drm/sched: Update timedout_job()'s documentation
+
+ drivers/gpu/drm/scheduler/sched_main.c |   9 +-
+ include/drm/gpu_scheduler.h            | 112 +++++++++++++++++--------
+ 2 files changed, 83 insertions(+), 38 deletions(-)
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.48.1
+
