@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257C7A50506
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EB6A50507
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:35:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAEF88A27;
-	Wed,  5 Mar 2025 16:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01CEF10E80B;
+	Wed,  5 Mar 2025 16:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E35910E808
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:35:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364AC10E80B
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:35:27 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4F8D2211D4;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7BCBD211C8;
  Wed,  5 Mar 2025 16:35:06 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
@@ -25,20 +25,20 @@ Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A3D41366F;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 567831366F;
  Wed,  5 Mar 2025 16:35:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id oCoECTp9yGfxfQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4M2sEzp9yGfxfQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 05 Mar 2025 16:35:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com,
 	airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 4/7] drm/ast: cursor: Add helpers for computing location in
- video memory
-Date: Wed,  5 Mar 2025 17:30:43 +0100
-Message-ID: <20250305163207.267650-5-tzimmermann@suse.de>
+Subject: [PATCH v2 5/7] drm/ast: Add helper for computing framebuffer location
+ in video memory
+Date: Wed,  5 Mar 2025 17:30:44 +0100
+Message-ID: <20250305163207.267650-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250305163207.267650-1-tzimmermann@suse.de>
 References: <20250305163207.267650-1-tzimmermann@suse.de>
@@ -50,7 +50,7 @@ X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 4F8D2211D4
+X-Rspamd-Queue-Id: 7BCBD211C8
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
 X-Rspamd-Action: no action
@@ -71,73 +71,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ast drivers stores the cursor image at the end of the video memory.
-Add helpers to calculate the offset and size.
+The ast driver stores the primary plane's image in the framebuffer
+memory up to where the cursor is located. Add helpers to calculate
+the offset and size.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_cursor.c | 21 +++++++++++++++++++--
- drivers/gpu/drm/ast/ast_drv.h    |  1 +
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 139ab00dee8f..05e297f30b4e 100644
---- a/drivers/gpu/drm/ast/ast_cursor.c
-+++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -45,6 +45,21 @@
- #define AST_HWC_SIGNATURE_HOTSPOTX	0x14
- #define AST_HWC_SIGNATURE_HOTSPOTY	0x18
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index c3b950675485..4cac5c7f4547 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -51,6 +51,24 @@
  
-+static unsigned long ast_cursor_vram_size(void)
+ #define AST_LUT_SIZE 256
+ 
++static unsigned long ast_fb_vram_offset(void)
 +{
-+	return AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE;
++	return 0; // with shmem, the primary plane is always at offset 0
 +}
 +
-+long ast_cursor_vram_offset(struct ast_device *ast)
++static unsigned long ast_fb_vram_size(struct ast_device *ast)
 +{
-+	unsigned long size = ast_cursor_vram_size();
++	struct drm_device *dev = &ast->base;
++	unsigned long offset = ast_fb_vram_offset(); // starts at offset
++	long cursor_offset = ast_cursor_vram_offset(ast); // ends at cursor offset
 +
-+	if (size > ast->vram_size)
-+		return -EINVAL;
-+
-+	return PAGE_ALIGN_DOWN(ast->vram_size - size);
++	if (cursor_offset < 0)
++		cursor_offset = ast->vram_size; // no cursor; it's all ours
++	if (drm_WARN_ON_ONCE(dev, offset > cursor_offset))
++		return 0; // cannot legally happen; signal error
++	return cursor_offset - offset;
 +}
 +
- static u32 ast_cursor_calculate_checksum(const void *src, unsigned int width, unsigned int height)
- {
- 	u32 csum = 0;
-@@ -276,7 +291,7 @@ int ast_cursor_plane_init(struct ast_device *ast)
- 	struct drm_plane *cursor_plane = &ast_plane->base;
- 	size_t size;
- 	void __iomem *vaddr;
--	u64 offset;
-+	long offset;
+ static inline void ast_load_palette_index(struct ast_device *ast,
+ 				     u8 index, u8 red, u8 green,
+ 				     u8 blue)
+@@ -609,9 +627,8 @@ static int ast_primary_plane_init(struct ast_device *ast)
+ 	struct ast_plane *ast_primary_plane = &ast->primary_plane;
+ 	struct drm_plane *primary_plane = &ast_primary_plane->base;
+ 	void __iomem *vaddr = ast->vram;
+-	u64 offset = 0; /* with shmem, the primary plane is always at offset 0 */
+-	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+-	unsigned long size = ast->vram_fb_available - cursor_size;
++	u64 offset = ast_fb_vram_offset();
++	unsigned long size = ast_fb_vram_size(ast);
  	int ret;
  
- 	/*
-@@ -290,7 +305,9 @@ int ast_cursor_plane_init(struct ast_device *ast)
- 		return -ENOMEM;
+ 	ret = ast_plane_init(dev, ast_primary_plane, vaddr, offset, size,
+@@ -942,7 +959,7 @@ static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
+ 	struct ast_device *ast = to_ast_device(dev);
+ 	unsigned long fbsize, fbpages, max_fbpages;
  
- 	vaddr = ast->vram + ast->vram_fb_available - size;
--	offset = ast->vram_fb_available - size;
-+	offset = ast_cursor_vram_offset(ast);
-+	if (offset < 0)
-+		return offset;
+-	max_fbpages = (ast->vram_fb_available) >> PAGE_SHIFT;
++	max_fbpages = ast_fb_vram_size(ast) >> PAGE_SHIFT;
  
- 	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
- 			     0x01, &ast_cursor_plane_funcs,
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 2c7861835cfb..ec9ec77260e9 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -432,6 +432,7 @@ int ast_vga_output_init(struct ast_device *ast);
- int ast_sil164_output_init(struct ast_device *ast);
- 
- /* ast_cursor.c */
-+long ast_cursor_vram_offset(struct ast_device *ast);
- int ast_cursor_plane_init(struct ast_device *ast);
- 
- /* ast dp501 */
+ 	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
+ 	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
 -- 
 2.48.1
 
