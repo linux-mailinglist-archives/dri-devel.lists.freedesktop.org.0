@@ -2,68 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1382AA503C0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 16:47:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953B5A503C4
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 16:48:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9AD10E690;
-	Wed,  5 Mar 2025 15:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B2B10E7CA;
+	Wed,  5 Mar 2025 15:48:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HK/FeeG4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nxy9QdBB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B66410E7C7;
- Wed,  5 Mar 2025 15:47:05 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-2f9b91dff71so11423910a91.2; 
- Wed, 05 Mar 2025 07:47:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741189624; x=1741794424; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qbmBv9WPN2ltuxsgR8pg8jbB1hgd+dc954tuEUYQ9Iw=;
- b=HK/FeeG44eSchQ52BPeA+YuLuHDD+P8FbhMrfCZlcv00jwg/tykhbmYofXNXPHoar4
- 7j1j0jDKGhPsfg7EdRNfZCXP3xin8EQ69f7PBueT25AVQjLItfHqGImTSexXD8MbAA2n
- fd+OHXd6ayYAof8iBjp9M21RU1lskltPQ6VrVySNZoDA1791p8Ju20rcFMzjaRqqwYqS
- lT4TJRKxHhQVXiJOHNZa2biEgyMy63xaEFIFbYY82jBfiSsswwOkQEUZFCbOq/2VdbSx
- 0OG0wFjbigux+QGUW1JUjHI3kPHjG2h3E1L3Kq3Js4mDAvYhqG5mlsoeK5jsOcknsyg4
- a5AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741189624; x=1741794424;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qbmBv9WPN2ltuxsgR8pg8jbB1hgd+dc954tuEUYQ9Iw=;
- b=ALJcohb8Q9YQGZ3t1Kqzc00HqiFclLiR0b6yZk6PmVQ6Ekmta2KiUHG3Rah5mDPy9A
- dCw8+Z51BIEobUSFJPl1eKiuO3yB2ArWokNo4KjXvisUI5JVNDU7srjZN3eFuS5nXfUE
- qGHB8MLzztD5swpaer6vyh5M4Rsak+AyizE/qdBZgEVfgXezeis/BQtmIrdEjG60RPuf
- Awmnzmobq7nofp6k4Jq5Gbv3mpjqJZJIQdg3M9TFyVHWXH4WkMLUPalHBobw0loMfH7n
- qDvNVD5X7oI7K69qR1nkuGouwfv5FzhtkKwOFVGkrgT6fmMgyrOv/QrKObJ7A6tVQV7I
- 8POg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbK4p70dzRZAVj7XZ2d9jSXj+WtpSK0HZRtKfB0JUebCbzEQNQImhO7ts5eiNEJkkkCvMKAoYI+u8=@lists.freedesktop.org,
- AJvYcCXnA/JAneejqP5SqBxLaoVss6TCSuSToB22F4k3QxAP+R1PpkFDlQpFbBYKVrCeW+VhwlKEXTw4AJnK@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqthZC4Dkg0KyM+cfhDn/YelsPNqGujg6yIaQPQv//URwAu/tl
- bAyFP0INYu29DeOSlRO3Y3fZxmm9sSNUJR6ao4BuAgrzY2GEgu9Z
-X-Gm-Gg: ASbGncsWXfosSU8T489JBa8niRF5gGKCkEvLQq2ulq0Bkew7MRzTdfAMdQBTWoHjl8X
- ruxK+sycJ4IXjkbDRkCVyO3/Fb9Jy09Usd96x2ZP+Ihc+yEqpa9xN+ebMeGpwZyzyImJd29yKq6
- wXS77aPCZNOQocNfgZLtDi4hpff4Y49kVCmwHLhCNC3/Ao6/ZzccEqG/ZI3gPaLGv2O9a4+6CAb
- As+73y8Z6Ad5iUVS3GUumf+28NPNRpSuUvC09nnqvlSHEtMA1ofJGdr3Hp+6cDWkM/vyJtdr954
- XBqX/kmJqdvsyZ7Pqz3Otf/BK3AzFh9L7PNFwBqycGn4
-X-Google-Smtp-Source: AGHT+IH6GxbgpDkJALxCm31tn74sfA7iweXsWVkgkcuDtN2qWf9CiMByQx77ZiiaPQFQa+lPoaMXpQ==
-X-Received: by 2002:a17:90b:48c7:b0:2fe:a0ac:5fcc with SMTP id
- 98e67ed59e1d1-2ff497c57ccmr5005442a91.34.1741189622904; 
- Wed, 05 Mar 2025 07:47:02 -0800 (PST)
-Received: from localhost ([216.228.125.131]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2ff4e7ff9f7sm1491518a91.33.2025.03.05.07.47.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 07:47:02 -0800 (PST)
-Date: Wed, 5 Mar 2025 10:47:00 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: mailhol.vincent@wanadoo.fr
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02A3710E7C7;
+ Wed,  5 Mar 2025 15:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741189695; x=1772725695;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=PYXpyrvj59Rr+s6Viq0NdMfzWxntWWdSb5icZCvFr1k=;
+ b=Nxy9QdBBv/hR3dmWv2f/DcJV8ET++szOqpgZyUQCIRH16agd3xyLs3oS
+ F2z6gVNe1zxwCs/qfeWtj3f9LHIHeyQmO1WMkEQl0IRXZ9mrUGgIGCwqE
+ Vs9WJmu9EKJfkkuHnc9/qS04eHbvk7NOJqh3QSrIG6BKo+rPnwxseGYA5
+ uvjZ0gh6N9Uth0J2c8BhOum7m66u9Xdzo5YvVHDaEEKR7PW/GNMe7RTzZ
+ 93iq7+r9Nh+CnWZfNIPlRaR7Qb/NrpNns0BBDFMLjRCyn0RdHlRWCl/iT
+ RvSIqUxqwsA49yJ8ZxMWkak0lGXjxNv+EFU25tlzYi/9n0APZxMJZrigW g==;
+X-CSE-ConnectionGUID: NXYcp9JTSCCnKRe/79AHag==
+X-CSE-MsgGUID: KXiF7ExOSp2Qm/YyLFFF0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59703953"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="59703953"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 07:48:13 -0800
+X-CSE-ConnectionGUID: pWMuf/kOQ0ynRaGTKOE2Rg==
+X-CSE-MsgGUID: A6V0KezpQMaHNoqhGG1fQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="118647762"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 07:48:10 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tpqyb-0000000HSFo-2v5I; Wed, 05 Mar 2025 17:48:05 +0200
+Date: Wed, 5 Mar 2025 17:48:05 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -75,16 +60,18 @@ Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
  dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
  David Laight <David.Laight@aculab.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v4 3/8] bits: introduce fixed-type genmasks
-Message-ID: <Z8hx9AaUX_GvYq_A@thinkpad>
+Subject: Re: [PATCH v4 4/8] bits: introduce fixed-type BIT
+Message-ID: <Z8hyNXVZxLzhEzNy@smile.fi.intel.com>
 References: <20250305-fixed-type-genmasks-v4-0-1873dcdf6723@wanadoo.fr>
- <20250305-fixed-type-genmasks-v4-3-1873dcdf6723@wanadoo.fr>
+ <20250305-fixed-type-genmasks-v4-4-1873dcdf6723@wanadoo.fr>
+ <Z8hgqOB5Ym-GGykS@smile.fi.intel.com>
+ <d7f3150d-0167-44be-90b2-17f8a050687c@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305-fixed-type-genmasks-v4-3-1873dcdf6723@wanadoo.fr>
+In-Reply-To: <d7f3150d-0167-44be-90b2-17f8a050687c@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,160 +87,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 05, 2025 at 10:00:15PM +0900, Vincent Mailhol via B4 Relay wrote:
-> From: Yury Norov <yury.norov@gmail.com>
+On Wed, Mar 05, 2025 at 11:48:10PM +0900, Vincent Mailhol wrote:
+> On 05/03/2025 at 23:33, Andy Shevchenko wrote:
+> > On Wed, Mar 05, 2025 at 10:00:16PM +0900, Vincent Mailhol via B4 Relay wrote:
+
+...
+
+> >> +#define BIT_U8(b) (BIT_INPUT_CHECK(u8, b) + (unsigned int)BIT(b))
+> >> +#define BIT_U16(b) (BIT_INPUT_CHECK(u16, b) + (unsigned int)BIT(b))
+> > 
+> > Why not u8 and u16? This inconsistency needs to be well justified.
 > 
-> Add __GENMASK_t() which generalizes __GENMASK() to support different
-> types, and implement fixed-types versions of GENMASK() based on it.
-> The fixed-type version allows more strict checks to the min/max values
-> accepted, which is useful for defining registers like implemented by
-> i915 and xe drivers with their REG_GENMASK*() macros.
+> Because of the C integer promotion rules, if casted to u8 or u16, the
+> expression will immediately become a signed integer as soon as it is get
+> used. For example, if casted to u8
 > 
-> The strict checks rely on shift-count-overflow compiler check to fail
-> the build if a number outside of the range allowed is passed.
-> Example:
+>   BIT_U8(0) + BIT_U8(1)
 > 
-> 	#define FOO_MASK GENMASK_U32(33, 4)
+> would be a signed integer. And that may surprise people.
+
+Yes, but wouldn't be better to put it more explicitly like
+
+#define BIT_U8(b)	(BIT_INPUT_CHECK(u8, b) + (u8)BIT(b) + 0 + UL(0)) // + ULL(0) ?
+
+Also, BIT_Uxx() gives different type at the end, shouldn't they all be promoted
+to unsigned long long at the end? Probably it won't work in real assembly.
+Can you add test cases which are written in assembly? (Yes, I understand that it will
+be architecture dependent, but still.)
+
+> David also pointed this in the v3:
 > 
-> will generate a warning like:
+> https://lore.kernel.org/intel-xe/d42dc197a15649e69d459362849a37f2@AcuMS.aculab.com/
 > 
-> 	../include/linux/bits.h:41:31: error: left shift count >= width of type [-Werror=shift-count-overflow]
-> 	   41 |          (((t)~0ULL - ((t)(1) << (l)) + 1) & \
-> 	      |                               ^~
+> and I agree with his comment.
 > 
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-
-Co-developed-by?
-
-> ---
-> Changelog:
+> I explained this in the changelog below the --- cutter, but it is
+> probably better to make the explanation more visible. I will add a
+> comment in the code to explain this.
 > 
->   v3 -> v4:
-> 
->     - The v3 is one year old. Meanwhile people started using
->       __GENMASK() directly. So instead of generalizing __GENMASK() to
->       support different types, add a new GENMASK_t().
-> 
->     - replace ~0ULL by ~_ULL(0). Otherwise, __GENMASK_t() would fail
->       in asm code.
-> 
->     - Make GENMASK_U8() and GENMASK_U16() return an unsigned int. In
->       v3, due to the integer promotion rules, these were returning a
->       signed integer. By casting these to unsigned int, at least the
+> >> +#define BIT_U32(b) (BIT_INPUT_CHECK(u32, b) + (u32)BIT(b))
+> >> +#define BIT_U64(b) (BIT_INPUT_CHECK(u64, b) + (u64)BIT_ULL(b))
 
-This comment will disappear when I'll apply the patch. Can you comment
-it in the code instead?
+-- 
+With Best Regards,
+Andy Shevchenko
 
->       signedness is kept.
-> ---
->  include/linux/bitops.h |  1 -
->  include/linux/bits.h   | 33 +++++++++++++++++++++++++++++----
->  2 files changed, 29 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> index c1cb53cf2f0f8662ed3e324578f74330e63f935d..9be2d50da09a417966b3d11c84092bb2f4cd0bef 100644
-> --- a/include/linux/bitops.h
-> +++ b/include/linux/bitops.h
-> @@ -8,7 +8,6 @@
->  
->  #include <uapi/linux/kernel.h>
->  
-> -#define BITS_PER_TYPE(type)	(sizeof(type) * BITS_PER_BYTE)
->  #define BITS_TO_LONGS(nr)	__KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(long))
->  #define BITS_TO_U64(nr)		__KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(u64))
->  #define BITS_TO_U32(nr)		__KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(u32))
-> diff --git a/include/linux/bits.h b/include/linux/bits.h
-> index 5f68980a1b98d771426872c74d7b5c0f79e5e802..f202e46d2f4b7899c16d975120f3fa3ae41556ae 100644
-> --- a/include/linux/bits.h
-> +++ b/include/linux/bits.h
-> @@ -12,6 +12,7 @@
->  #define BIT_ULL_MASK(nr)	(ULL(1) << ((nr) % BITS_PER_LONG_LONG))
->  #define BIT_ULL_WORD(nr)	((nr) / BITS_PER_LONG_LONG)
->  #define BITS_PER_BYTE		8
-> +#define BITS_PER_TYPE(type)	(sizeof(type) * BITS_PER_BYTE)
->  
->  /*
->   * Create a contiguous bitmask starting at bit position @l and ending at
-> @@ -25,14 +26,38 @@
->  
->  #define GENMASK_INPUT_CHECK(h, l) BUILD_BUG_ON_ZERO(const_true((l) > (h)))
->  
-> -#define GENMASK(h, l) \
-> -	(GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-> -#define GENMASK_ULL(h, l) \
-> -	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
-> +/*
-> + * Generate a mask for the specified type @t. Additional checks are made to
-> + * guarantee the value returned fits in that type, relying on
-> + * shift-count-overflow compiler check to detect incompatible arguments.
-> + * For example, all these create build errors or warnings:
-> + *
-> + * - GENMASK(15, 20): wrong argument order
-> + * - GENMASK(72, 15): doesn't fit unsigned long
-> + * - GENMASK_U32(33, 15): doesn't fit in a u32
-> + */
-> +#define GENMASK_t(t, h, l)				\
 
-Agree with Andy. This should be GENMASK_TYPE, or triple-underscored
-___GENMASK() maybe. This _t thing looks misleading.
-
-> +	(GENMASK_INPUT_CHECK(h, l) +			\
-> +	 (((t)~ULL(0) - ((t)1 << (l)) + 1) &		\
-> +	  ((t)~ULL(0) >> (BITS_PER_TYPE(t) - 1 - (h)))))
-
-Can you rebase it on top of -next? In this dev cycle I merge a patch
-that reverts the __GENMASK() back to:
-
-#define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (BITS_PER_LONG - 1 - (h))))
-
-> +#define GENMASK(h, l) GENMASK_t(unsigned long,  h, l)
-> +#define GENMASK_ULL(h, l) GENMASK_t(unsigned long long, h, l)
-
-This makes __GENMASK() and __GENMASK_ULL() unused in the kernel, other
-than in uapi. Or I misunderstand it?
-
-Having, in fact, different implementations of the same macro for kernel
-and userspace is a source of problems. Can we move GENMASK_TYPE() to uapi,
-and implement __GENMASK() on top of them? If not, I'd prefer to keep
-GENMASK and GENMASK_ULL untouched.
-
-Can you run bloat-o-meter and ensure there's no unwanted effects on
-code generation?
-
->  /*
->   * Missing asm support
->   *
-> + * __GENMASK_U*() depends on BITS_PER_TYPE() which would not work in the asm
-
-And there's no __GENMASK_U*(), right?
-
-> + * code as BITS_PER_TYPE() relies on sizeof(), something not available in
-> + * asm. Nethertheless, the concept of fixed width integers is a C thing which
-> + * does not apply to assembly code.
-> + */
-> +#define GENMASK_U8(h, l) ((unsigned int)GENMASK_t(u8,  h, l))
-> +#define GENMASK_U16(h, l) ((unsigned int)GENMASK_t(u16, h, l))
-
-Typecast to the type that user provides explicitly?  And maybe do
-in GENMASK_TYPE()
-
-> +#define GENMASK_U32(h, l) GENMASK_t(u32, h, l)
-> +#define GENMASK_U64(h, l) GENMASK_t(u64, h, l)
-
-OK, this looks good. But GENMASK_U128() becomes a special case now.
-The 128-bit GENMASK is unsued, but it's exported in uapi. Is there any
-simple way to end up with a common implementation for all fixed-type
-GENMASKs?
-
-> +
-> +/*
->   * __GENMASK_U128() depends on _BIT128() which would not work
->   * in the asm code, as it shifts an 'unsigned __int128' data
->   * type instead of direct representation of 128 bit constants
-
-This comment is duplicated by the previous one. Maybe just join them?
-(Let's wait for a while for updates regarding GENMASK_U128 status before
-doing it.)
