@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B137EA4FF8B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:07:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646E7A4FF8D
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:07:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 372B510E779;
-	Wed,  5 Mar 2025 13:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043DF10E1F1;
+	Wed,  5 Mar 2025 13:07:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EypjspN7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KhdAmGR4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
  [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC82D10E768
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:07:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC43110E77A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:07:02 +0000 (UTC)
 Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-5e4ce6e3b8cso1311683a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 05:07:00 -0800 (PST)
+ 4fb4d7f45d1cf-5e50de0b5easo5933609a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 05:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741180019; x=1741784819; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741180021; x=1741784821; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+6L88VawgT5clB6S0hOB/yQKL6Af309OnWxwlD6cmBU=;
- b=EypjspN7ahomBnrQhR9/QYpDp4Bkve/P8de0w0XW2CeJPulXJweWSQkjh87+hR37jI
- WaDl7a6WvNmIJsJdAhyrtXuGXmoanKwUlnLV7rCi6Fgi7111My+2Hq4MFVm0XWOBOK8D
- a0h+EUxu8FfzGNMxLGfYcRK0nimQ7JbZrXEFpJpmP58OoAWPMTtUvutTq26SpafqSF0+
- yhbYyDs6ef2cwNc4n58hqLb45HsEq+3Cl8/ROfVqtDthqHVcmtT5/Sm9D7nLF+/ISaFE
- IkWyfzwtm1fJz23f+RGwsX+yea57N3njnT75NPANU/zRvWWIlDt1TKrTohUnzKi1ot8y
- 4ZHA==
+ bh=GV+1CN9mTm6W0e8GwrPdwh4pOa9jooWXILMnvo8a19M=;
+ b=KhdAmGR4dwiLgVxn+wHtUlmfRf5fLeep5kW6+dOnl7u4h2D0NgYn2cHvCGwsaHXopD
+ nLRlMYq2jg+NdM/8HaCZj35xJfN+bwpiA2e6rsfBQWj10kpOOowVNo+/O66IloK+TPBZ
+ qJKM4TsZ+tMIhGN1emGHsQtkbeA9OoyU7fDmAUlkTcSi+ccRh18lMkB2pSL9MJbNgJ38
+ L+Ivv3LL3YUxp2H0fSxHkxhbNxLqKxjjiNAsppGufmfYFEuZAs4HzgYpyytTeXSmET6V
+ fJ2Wx+HEEtPnzChW4zcTOu+zw/QDBsYHW28edzuoUtLjZiHf748TrUl60U/PphNCuRZy
+ KYYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741180019; x=1741784819;
+ d=1e100.net; s=20230601; t=1741180021; x=1741784821;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+6L88VawgT5clB6S0hOB/yQKL6Af309OnWxwlD6cmBU=;
- b=XxsnnROr8n22V5LEOA9pNDLKFcouavqNf1MD7IhtT7ojLoHKU8cpH0PdrS5XHX0LLz
- rupb4zJJimeEmZ0A0v+iF/GxR2rRjcVL6Fp+xiU998V1OeoDTxMZ1v9xqI3ifXOYQmgI
- KyABcac/Sn2jum3Z/hj4aD2Qr/Yz7EZX5g6u89YRSQWWif0d4Ma4qsloSWu4Kfkbk1I4
- iq25FvKIyjVHbwSj08A/JRn/+y3UBnPHeCyZbgYUOG3fAVTTdWte/H1xg4htmhlBs1An
- 1J3NFG0iYpFyOcMUP0MBkolfq2YW1znGo3Gd3ntRoQEm7HNSflt1DWQ2AzZJJMeJg76e
- TF9w==
+ bh=GV+1CN9mTm6W0e8GwrPdwh4pOa9jooWXILMnvo8a19M=;
+ b=bM3tG9iLoIeqCsoFZhjfNk4qBea5cGiKFnNSE2OpzY7QyWlkpxvIdIsvZj2ULIQVih
+ Quw2Igm8o93L0fUQaCwjE3p6d2/7CoDDMvNP0knIcD9pJWoAvVA0OhlwAeGWwXjdN7Lp
+ vl8KpafwV6hNWM4wTW0Tu+aug/6Df2/NYia1lcpRpguh418WKXe4Vs+bDd6iM+xiD/1+
+ ZiUuNxp3g3tqVdMaz1whpLWPZjPBVv7Fr/tmyfyTocG7Fre0shn+/Xv7/Tre4Xg3KCFn
+ cVaxMlj/QQk/dzLLp+pNCk7n8DgIl/SrkGPb1xWKKLoDEheDHrTfmnlzVKTFcWL332gn
+ JrmQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCP9lg3yiibvp72Vx+yRgxexvTggUCfZqPgutnHj/UOU3w0UfyktKvqRfPQk5fHZ5V8oIyu46EN4Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeuaiYH/vWnLkb4v8NCLpMpse7Bc848K+t7f9CpHMOh0Zsv+6V
- pvMEQS+fVz4u27hVZrVEM406xdiSJ4JP86yK3FveXY33Ul0kft47FoKVAJwDu38=
-X-Gm-Gg: ASbGncs8ESMaUr9677ZraVluPN6diHoqamQL1ZEA4x8A2UovVic3d8oNgNwuH2kR+Gh
- rLsXNhlziRECnqK0vkGPp42ykTwAiNiqMu+r10Ey1dBnutrktHW+jGsva50fWKC12AA6vYPEZgQ
- 4uDV7lJ4Fvyz7VWvfJCVbsd00m2v8JOxNNqxvHH1TrXHp524LuC1dmzJpsh+7fao00+uq0InsXP
- HhpWUEutuBBxhORgOxMXbzfCz+V0ROKEu/wloPyLxxilXPF4lLVgPt4scAAWcNu7Fdm7cowOWYj
- +JfYJmsJuYynPsHAfm+dF1crrjDIhpDfmOz0uCrCN8WBxZ0iE083YRsRshZ2HlkSw3gQAsCDpu7
- H3wK2l7RLSPtYqxHpKw3LsQ==
-X-Google-Smtp-Source: AGHT+IEAmgkcE8RyjO1pJJHrKqdAmUGw9vFkZJI7+m0/4SoKqcFz7yQm/3SS6AjKMMHXW07x446SxQ==
-X-Received: by 2002:a05:6402:4309:b0:5e4:d52b:78a2 with SMTP id
- 4fb4d7f45d1cf-5e584f51077mr7080244a12.15.1741180019316; 
- Wed, 05 Mar 2025 05:06:59 -0800 (PST)
+ AJvYcCVPj3ylmQeDHZ6iPZYKgOgxHLylUU3CgDFinklbL2wUOIshftpQrs+nJVcDb3dwH1Vm5KP13tevKyM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNOzFsLRyk+TC0RwPpqeUP6LO6KdC3gS+mZnU4mC+RIbs+h/el
+ 1dAGUzZrJJMFzL+6G6nHL+2B9QHnQrDZ0J0ZWUJMjH18OBH1UldYOss4GGs8C18=
+X-Gm-Gg: ASbGnct6uVzHHMuLmawwWfU1R0IHEivZ9uUMJeus0Ls0eqboZnjUrFAcdRoMgUr805J
+ oj8IX/8SdtsBSWixQEOcWjJPt7TXvzHz6vYmFDxwFQGaKLmZuINr0LI5NDYxBxrih4JARblxSsp
+ lQISOOxotG0FCJTDWCpuOTsyeHlhl2X+bxJB44UwHYOAYPHck+pTBUZYiXHMDDg33Hoc8I4iHXk
+ xTqJYLrGHtpjTXF6Sop/NviRuUWMqS9hhiRHJXYhjpfgyV2IcTQPThexT4G/XvZFrfWZstCoqb5
+ SJTGS7KT46+4JE3fzWApRYX1moEQEMUxxJLT1y5tvyi1bXOOvc4iWE438n5uqiMvpO8p2UjSfTm
+ jc0OtF5kLhrXMCCNb30HQEA==
+X-Google-Smtp-Source: AGHT+IFZCxWXYzGPaJ+Fpyr5pD44xJg3mO/vEGV3TFHnOgghMwA++b6wko/XdNnqusONUByGqiK4lg==
+X-Received: by 2002:a05:6402:4302:b0:5de:dc08:9cc5 with SMTP id
+ 4fb4d7f45d1cf-5e59f35eab4mr2661989a12.7.1741180021272; 
+ Wed, 05 Mar 2025 05:07:01 -0800 (PST)
 Received: from rayden.urgonet (h-98-128-140-123.A175.priv.bahnhof.se.
  [98.128.140.123]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5e5bcd1595bsm65714a12.42.2025.03.05.05.06.56
+ 4fb4d7f45d1cf-5e5bcd1595bsm65714a12.42.2025.03.05.05.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 05:06:57 -0800 (PST)
+ Wed, 05 Mar 2025 05:07:00 -0800 (PST)
 From: Jens Wiklander <jens.wiklander@linaro.org>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
@@ -79,9 +79,9 @@ Cc: Olivier Masse <olivier.masse@nxp.com>,
  azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
  Daniel Stone <daniel@fooishbar.org>,
  Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v6 07/10] tee: add tee_shm_alloc_cma_phys_mem()
-Date: Wed,  5 Mar 2025 14:04:13 +0100
-Message-ID: <20250305130634.1850178-8-jens.wiklander@linaro.org>
+Subject: [PATCH v6 08/10] optee: support restricted memory allocation
+Date: Wed,  5 Mar 2025 14:04:14 +0100
+Message-ID: <20250305130634.1850178-9-jens.wiklander@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250305130634.1850178-1-jens.wiklander@linaro.org>
 References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
@@ -102,128 +102,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add tee_shm_alloc_cma_phys_mem() to allocate a physical memory using
-from the default CMA pool. The memory is represented by a tee_shm object
-using the new flag TEE_SHM_CMA_BUF to identify it as physical memory
-from CMA.
+Add support in the OP-TEE backend driver for restricted memory
+allocation. The support is limited to only the SMC ABI and for secure
+video buffers.
+
+OP-TEE is probed for the range of restricted physical memory and a
+memory pool allocator is initialized if OP-TEE have support for such
+memory.
 
 Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 ---
- drivers/tee/tee_shm.c    | 55 ++++++++++++++++++++++++++++++++++++++--
- include/linux/tee_core.h |  4 +++
- 2 files changed, 57 insertions(+), 2 deletions(-)
+ drivers/tee/optee/core.c    |  1 +
+ drivers/tee/optee/smc_abi.c | 44 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-index 8b79918468b5..8d8341f8ebd7 100644
---- a/drivers/tee/tee_shm.c
-+++ b/drivers/tee/tee_shm.c
-@@ -3,8 +3,11 @@
-  * Copyright (c) 2015-2017, 2019-2021 Linaro Limited
-  */
- #include <linux/anon_inodes.h>
-+#include <linux/cma.h>
- #include <linux/device.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-map-ops.h>
-+#include <linux/highmem.h>
- #include <linux/idr.h>
- #include <linux/io.h>
- #include <linux/mm.h>
-@@ -13,7 +16,6 @@
- #include <linux/tee_core.h>
- #include <linux/uaccess.h>
- #include <linux/uio.h>
--#include <linux/highmem.h>
- #include "tee_private.h"
+diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+index c75fddc83576..c7fd8040480e 100644
+--- a/drivers/tee/optee/core.c
++++ b/drivers/tee/optee/core.c
+@@ -181,6 +181,7 @@ void optee_remove_common(struct optee *optee)
+ 	tee_device_unregister(optee->supp_teedev);
+ 	tee_device_unregister(optee->teedev);
  
- /* extra references appended to shm object for registered shared memory */
-@@ -59,7 +61,14 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
- 	struct tee_shm *parent_shm = NULL;
- 	void *p = shm;
- 
--	if (shm->flags & TEE_SHM_DMA_BUF) {
-+	if (shm->flags & TEE_SHM_CMA_BUF) {
-+#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_CMA)
-+		struct page *page = phys_to_page(shm->paddr);
-+		struct cma *cma = dev_get_cma_area(&shm->ctx->teedev->dev);
-+
-+		cma_release(cma, page, shm->size / PAGE_SIZE);
-+#endif
-+	} else if (shm->flags & TEE_SHM_DMA_BUF) {
- 		struct tee_shm_dmabuf_ref *ref;
- 
- 		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
-@@ -341,6 +350,48 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
++	tee_device_unregister_all_dma_heaps(optee->teedev);
+ 	tee_shm_pool_free(optee->pool);
+ 	optee_supp_uninit(&optee->supp);
+ 	mutex_destroy(&optee->call_queue.mutex);
+diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+index cfdae266548b..a14ff0b7d3b3 100644
+--- a/drivers/tee/optee/smc_abi.c
++++ b/drivers/tee/optee/smc_abi.c
+@@ -1620,6 +1620,41 @@ static inline int optee_load_fw(struct platform_device *pdev,
  }
- EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+ #endif
  
-+struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-+					   size_t page_count, size_t align)
++static int optee_sdp_pool_init(struct optee *optee)
 +{
-+#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_CMA)
-+	struct tee_device *teedev = ctx->teedev;
-+	struct cma *cma = dev_get_cma_area(&teedev->dev);
-+	struct tee_shm *shm;
-+	struct page *page;
++	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
++	struct tee_rstmem_pool *pool;
++	int rc;
 +
-+	if (!tee_device_get(teedev))
-+		return ERR_PTR(-EINVAL);
++	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP) {
++		union {
++			struct arm_smccc_res smccc;
++			struct optee_smc_get_sdp_config_result result;
++		} res;
 +
-+	page = cma_alloc(cma, page_count, align, true/*no_warn*/);
-+	if (!page)
-+		goto err_put_teedev;
++		optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0, 0, 0,
++				     0, &res.smccc);
++		if (res.result.status != OPTEE_SMC_RETURN_OK) {
++			pr_err("Secure Data Path service not available\n");
++			return 0;
++		}
 +
-+	shm = kzalloc(sizeof(*shm), GFP_KERNEL);
-+	if (!shm)
-+		goto err_cma_crelease;
++		pool = tee_rstmem_static_pool_alloc(res.result.start,
++						    res.result.size);
++		if (IS_ERR(pool))
++			return PTR_ERR(pool);
 +
-+	refcount_set(&shm->refcount, 1);
-+	shm->ctx = ctx;
-+	shm->paddr = page_to_phys(page);
-+	shm->size = page_count * PAGE_SIZE;
-+	shm->flags = TEE_SHM_CMA_BUF;
++		rc = tee_device_register_dma_heap(optee->teedev, heap_id, pool);
++		if (rc)
++			goto err;
++	}
 +
-+	teedev_ctx_get(ctx);
-+
-+	return shm;
-+
-+err_cma_crelease:
-+	cma_release(cma, page, page_count);
-+err_put_teedev:
-+	tee_device_put(teedev);
-+
-+	return ERR_PTR(-ENOMEM);
-+#else
-+	return ERR_PTR(-EINVAL);
-+#endif
++	return 0;
++err:
++	pool->ops->destroy_pool(pool);
++	return rc;
 +}
-+EXPORT_SYMBOL_GPL(tee_shm_alloc_cma_phys_mem);
 +
- int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
- 			     int (*shm_register)(struct tee_context *ctx,
- 						 struct tee_shm *shm,
-diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-index 6bd833b6d0e1..b6727d9a3556 100644
---- a/include/linux/tee_core.h
-+++ b/include/linux/tee_core.h
-@@ -29,6 +29,7 @@
- #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
- #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
- #define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
-+#define TEE_SHM_CMA_BUF		BIT(5)	/* CMA allocated memory */
+ static int optee_probe(struct platform_device *pdev)
+ {
+ 	optee_invoke_fn *invoke_fn;
+@@ -1715,7 +1750,7 @@ static int optee_probe(struct platform_device *pdev)
+ 	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+ 	if (!optee) {
+ 		rc = -ENOMEM;
+-		goto err_free_pool;
++		goto err_free_shm_pool;
+ 	}
  
- #define TEE_DEVICE_FLAG_REGISTERED	0x1
- #define TEE_MAX_DEV_NAME_LEN		32
-@@ -307,6 +308,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
-  */
- struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
+ 	optee->ops = &optee_ops;
+@@ -1788,6 +1823,10 @@ static int optee_probe(struct platform_device *pdev)
+ 		pr_info("Asynchronous notifications enabled\n");
+ 	}
  
-+struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-+					   size_t page_count, size_t align);
++	rc = optee_sdp_pool_init(optee);
++	if (rc)
++		goto err_notif_uninit;
 +
- int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
- 			     int (*shm_register)(struct tee_context *ctx,
- 						 struct tee_shm *shm,
+ 	/*
+ 	 * Ensure that there are no pre-existing shm objects before enabling
+ 	 * the shm cache so that there's no chance of receiving an invalid
+@@ -1823,6 +1862,7 @@ static int optee_probe(struct platform_device *pdev)
+ 		optee_disable_shm_cache(optee);
+ 	optee_smc_notif_uninit_irq(optee);
+ 	optee_unregister_devices();
++	tee_device_unregister_all_dma_heaps(optee->teedev);
+ err_notif_uninit:
+ 	optee_notif_uninit(optee);
+ err_close_ctx:
+@@ -1839,7 +1879,7 @@ static int optee_probe(struct platform_device *pdev)
+ 	tee_device_unregister(optee->teedev);
+ err_free_optee:
+ 	kfree(optee);
+-err_free_pool:
++err_free_shm_pool:
+ 	tee_shm_pool_free(pool);
+ 	if (memremaped_shm)
+ 		memunmap(memremaped_shm);
 -- 
 2.43.0
 
