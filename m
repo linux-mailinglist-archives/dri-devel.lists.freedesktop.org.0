@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95401A50B2E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 20:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B28A50B31
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 20:12:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE2989CB3;
-	Wed,  5 Mar 2025 19:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFBB389EAC;
+	Wed,  5 Mar 2025 19:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nv/iJB9f";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ru2QB7GV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD24789CC4;
- Wed,  5 Mar 2025 19:12:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28EBC89E2A;
+ Wed,  5 Mar 2025 19:12:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741201953; x=1772737953;
+ t=1741201956; x=1772737956;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2y0IAQJOIHSlN2JegxVzy7R+8p+B5tU9ch8652S01Js=;
- b=Nv/iJB9fWG36P4t4NIXWDvE3Q/TWc1oNy7z5S8Opd+UC1ltX9HpMla0g
- YP81l84QI2j1uB1qZQHzk26WL7X7rYVoKUO6LL3NA6stkhNwU87jVV6l2
- ujSAa1GEwxE0ZrZRMzRViVOUCrKizFEcf/mLO1QsDorFaH1vEyKcdfpuQ
- y/LLHcZrvbt8CX6i6wslRCN8B7pWPCM/6UzpcL1Uto3Ts0azDmaM1KrQn
- YvGw9zRQcXiYlKzunNpYyrz0SWxZ/q/KHR5DWWSPwp6OD0haBnsyCTWxG
- UZChCmZDtA36TmB0PXIN2nWm3VCHk5F/9pEwcL9bnuj0yOAalA8mIYp7v w==;
-X-CSE-ConnectionGUID: eqw325dXTX6TYAh/JSVnzw==
-X-CSE-MsgGUID: jiqeRyliQ2Kmfgp2XP5ItA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46110889"
-X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="46110889"
+ bh=vkvnXL4bg4NjI5RXmjIIctMdmRH3UwfvRzkvPK0G34A=;
+ b=Ru2QB7GV/6tJ4asqyIA+E5Y4c+FqIUMgPuUqfizHYGWFKbzSrWDTIziQ
+ GaucA2ImX6P3AtkRHwOfeKctEoAVLUDnlk+a43woSIhLWebN0ZhLY9CMs
+ DNV2UNNjPaqiQ4qduPC3d7tQ2cY0g6RoJCLtkwNDGlf2mnOjrPGxpI1C7
+ yBFdY8v/ReRepRtcA/pMHe82RZCInn/esuh+PQAKg/L+3oddg8gnYWWKR
+ xWvbZd3LU8u9eJ6VNBBIfLaON/3m55hx/JMg4IUc9M96JTLXfs1koIzjr
+ mSizIAvs1yU7sWAyJq3Yhd1jCIpTWkzP0Gy6UQ5meHJokyNXA4OIxC2Zd g==;
+X-CSE-ConnectionGUID: W2PkQdBTRt6jW3p4NSqbaw==
+X-CSE-MsgGUID: XXURyJTBRNeKXhydwzwnDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46110895"
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="46110895"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 11:12:33 -0800
-X-CSE-ConnectionGUID: 26HK2nPTT46N4F2gK4LWDQ==
-X-CSE-MsgGUID: +Pk2PL7eR7qgpglMjzADoQ==
+ 05 Mar 2025 11:12:36 -0800
+X-CSE-ConnectionGUID: FRCZmq1bSCO3Dka4VcPj4g==
+X-CSE-MsgGUID: DFC6uqEzSRCODvSS6/FFKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="118803046"
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="118803083"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.58])
  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 11:12:29 -0800
+ 05 Mar 2025 11:12:33 -0800
 From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>
@@ -54,10 +54,9 @@ Cc: dri-devel@lists.freedesktop.org,
  Ashutosh Dixit <ashutosh.dixit@intel.com>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH v3 3/4] drm/i915: Fix asymmetry in PMU register/unregister
- step order
-Date: Wed,  5 Mar 2025 20:11:12 +0100
-Message-ID: <20250305191152.164615-9-janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH v3 4/4] drm/i915: Group not skipped unregister steps
+Date: Wed,  5 Mar 2025 20:11:13 +0100
+Message-ID: <20250305191152.164615-10-janusz.krzysztofik@linux.intel.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250305191152.164615-6-janusz.krzysztofik@linux.intel.com>
 References: <20250305191152.164615-6-janusz.krzysztofik@linux.intel.com>
@@ -78,48 +77,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To simplify i915_driver_unregister() code, make sure reverts of driver
-registration steps executed before potentially unsuccessful device
-registration are symmetrically called after drm_dev_unplug().  There is
-one case that doesn't follow that rule, introduced by commit b46a33e271ed
-("drm/i915/pmu: Expose a PMU interface for perf queries"), with no
-justification for asymmetry provided in commit description, then assumed
-not intentional.
+Further simplification of i915_driver_unregister() requires moving of two
+steps, intel_pxp_fini() and intel_gt_driver_unregister(), down, e.g.,
+right behind drm_dev_unplug().  Local testing hasn't revealed any issues
+with that move, so go for it.
 
+Former placement of intel_gt_driver_unregister() within
+i915_driver_unregister() originated from commit 42014f69bb235f ("drm/i915:
+Hook up GT power management") while its content has grown significantly
+since its introduction.  Placement of intel_pxp_fini() originated from
+commit f67986b0119c04 ("drm/i915/pxp: Promote pxp subsystem to top-level
+of i915").
+
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
 Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 ---
- drivers/gpu/drm/i915/i915_driver.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/i915_driver.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index d865e90f54704..7980bb880c7dc 100644
+index 7980bb880c7dc..0a07de2a7734b 100644
 --- a/drivers/gpu/drm/i915/i915_driver.c
 +++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -689,20 +689,17 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- 		intel_gt_driver_unregister(gt);
+@@ -673,7 +673,7 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
+ 	unsigned int i;
  
  	if (!dev_priv->do_unregister)
--		goto do_pmu;
+-		goto do_pxp_gt;
 +		goto do_unplug;
  
+ 	i915_switcheroo_unregister(dev_priv);
+ 
+@@ -682,15 +682,6 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
+ 
+ 	intel_display_driver_unregister(display);
+ 
+-do_pxp_gt:
+-	intel_pxp_fini(dev_priv);
+-
+-	for_each_gt(gt, dev_priv, i)
+-		intel_gt_driver_unregister(gt);
+-
+-	if (!dev_priv->do_unregister)
+-		goto do_unplug;
+-
  	i915_hwmon_unregister(dev_priv);
  
  	i915_perf_unregister(dev_priv);
--do_pmu:
--	i915_pmu_unregister(dev_priv);
--	if (!dev_priv->do_unregister)
--		goto do_unplug;
- 
- 	i915_teardown_sysfs(dev_priv);
+@@ -699,6 +690,11 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
  do_unplug:
  	drm_dev_unplug(&dev_priv->drm);
  
-+	i915_pmu_unregister(dev_priv);
++	intel_pxp_fini(dev_priv);
++
++	for_each_gt(gt, dev_priv, i)
++		intel_gt_driver_unregister(gt);
++
+ 	i915_pmu_unregister(dev_priv);
  	i915_gem_driver_unregister(dev_priv);
  }
- 
 -- 
 2.48.1
 
