@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284A9A50C5A
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 21:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E36A50C5C
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 21:18:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12D310E04C;
-	Wed,  5 Mar 2025 20:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8795310E2CB;
+	Wed,  5 Mar 2025 20:18:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rUW0uhtw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="b5awYqgT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4888110E2CB
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 20:18:01 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5496301c6afso1299753e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 12:18:01 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B749F10E2CB
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 20:18:44 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5497590ffbbso3070746e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 12:18:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741205879; x=1741810679; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741205923; x=1741810723; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=EYOlyE/UtiCRh5jP6oKp0hKwGJoeA7m+6rQ+nW6gLRw=;
- b=rUW0uhtwlvktucNIeCNjpJ26MbVfOZVB1lWiVhmbutzeKzBf9XrFrzYIdCLiXtSDpS
- 3nDHru6+ZD/em5BAfhVue824Q/9zoY+CcEFlHtOCZbPf1GesaWdWQFMHfdkHwLtrk6MG
- Z5d1GgpLBPyWE5enZZ5r+3cE2iyPOTzT0P2eWuSwVlBYIPZbJr55PaHsFq9nV87jn8pl
- 1rIf/gj1TpgVRHAPnRr62es88d4MFiQa+3yonzJRLUnczak+B55ivoBz41ljmWz6zPlY
- DMqUvRU8j1zxkGVW/1EW+GWnK4DDCB7SyT0NXfbPkNLQTL200IDM/tzbPmCMAf8LE4zk
- W+7A==
+ bh=/zYiNnGxls5NQwkni1gf5Kr7TVqL+dgRikHrlU+v848=;
+ b=b5awYqgTY16FLx7JJ6BQl71wDjzpv1ks/EbfV0y84CEcJZk+vivNPTqe4aA4FgO5z7
+ m9a50dKIQAQ1HO/YxD9wED43VBPvI2bpnwkxXm9fvxs6sVTFqVWJbKSFn+CxvJP/xRW5
+ 0iiD5Gwgsze9ObjD4ISof0FwF3EhL5OsHYzoH24DhK+ys656gH58jQUtlKrm4tYKklod
+ BFTTLQHoINFy3Px8VsVnHHV5uDWPIJqxVAlTIkhQ1Zhwg1OhD/Z97HDAA5m4vWYwpIdM
+ EjC6gNeLeNkImYY0900Gkh6gqCGtzCBzT5BXqJ1xz2Be8iv/h85sQFbHZfzSSj4TZErF
+ hfew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741205879; x=1741810679;
+ d=1e100.net; s=20230601; t=1741205923; x=1741810723;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EYOlyE/UtiCRh5jP6oKp0hKwGJoeA7m+6rQ+nW6gLRw=;
- b=KKtFmCvUXXHJwNkELq+zBT7PPihSYmFYIuqGGPjKoS8UBnNyUEBgMSXDTfxnEtSudU
- 8RLBaqJ1b4BMZNf9xhUsF4A5zkq9lwrtr0X3DQFAo0CW0tUnN5jEo+0GsJRstrRw6FyQ
- RHRfFVF17bFuDs8kW/jHnRP1VZCcswEBfaDAXq/1ErBdyJ0v1t6h5SlAO7Q3+6ijgqT+
- KiCOUFzsxEjjjDQDfK5Yv7bT8laQyZJqL2GRMRSLdvs3p1bcgDjkK/Z+QgsU9l7Hoof/
- c7vmTlzR8ES+OH0eLIvnvJVIYPqt6yt4/k3TchxXi01LtwPxPFtYG+Eo0DWRDUZxvkV7
- 9d3A==
+ bh=/zYiNnGxls5NQwkni1gf5Kr7TVqL+dgRikHrlU+v848=;
+ b=ZzxQMKrAEtJpRBT2leS8q2UF9kfcSuAId0mJxkeNTT6aXWR6p11xXw2bCUkAqI27AA
+ HttHhFvTVyaU0CN0CxhUGSZMF2dU5MtTESEEdc//qFsOBkg3TGLHWTboy6TIl1k14TIV
+ J+s3Bc7I/ehwwfLr1A/x9sfG1bOcQB7o1x7oSmvuOToX62E7c5Ijew1S4wPnEMCYVSLP
+ 35ZyVBc7hDsmQ3BRvuVv9T1B0NCLTUL5XFqzsRyOsGd65WJtDXDgr1/xmOFUbq61Ke0O
+ pDPfTbKoZ5FwOsWtQqB+pcIjbiA6ECOLAL8Je44lSw9VLXlpOnAp7VV82rLTm+kis51X
+ 0rMg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWCdBJ5xnSIJiwYMNuGNaqdvLZoZ10/cHDSUThaQujUwKXKBSNSXSB6Uqj7s9B6YlDiytiHswqILbo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWy0VsWm2+BxSN+gs07HuHgoJ5a6J0AUWP8MaZNp+XfYnS6vJz
- Nw76igrj2Bs82xaLrqAoUlkxbM6HuYvuWOjXHjASrXGIYTmZ/uYIsYwkjaDlLmQ=
-X-Gm-Gg: ASbGnctER4PDLyj4y7UfxQk5lwkffAh/bW8W5neUCSky8pfFw0qAQEqBvFK+T+Nleaz
- OUgPbS9ypc8hlIg2SiMvrf5fAWKm/Ktd+m+DF4Pf2WTZrwTntxJ2mG371QzABFBg+jVGCMaDr1T
- F0lYOW6qhoi5w9uT10QEE+wZB7bEfsLf+pNh/51SH/ei/d4l15rZD2jURZXxetOHITXb77l2m0H
- SVyHhab6BJsAHcWT4vP20Cc7Ceh3W68pY+K8PrqNnZOoXqEXdGtmwV899m7tntpJfTYBcMvCCUe
- L8Rt9iv8ZIawskuVfFpRVJPt8S1FSOm36pUu79lkhU7KzEEuYW0RCMoC18IGcwuzHkYb/q89rsx
- NyoCFiejCSMBjbPtyTnedQaUt
-X-Google-Smtp-Source: AGHT+IEIJG5E53l5u0CMWxtBFVzfwJVo6R2kbMyIYyOXI9lhhi/ulkjJEK8lyfcdv5sHAcoowToDaw==
-X-Received: by 2002:a05:6512:3e08:b0:545:c51:4a03 with SMTP id
- 2adb3069b0e04-54984be6443mr272551e87.11.1741205879455; 
- Wed, 05 Mar 2025 12:17:59 -0800 (PST)
+ AJvYcCXY6fBLJXLcQA2ewId8S+8k2u0CsrVW1A6La0tGeHwNdV9slsAl+8wTmC5A5sINBmLpaLWyjJDTUTM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCe5FNvkcqwWPSPcCOX1KREwgFJ/XycRJXzDAm7NAUkwKJG6NI
+ OgmzFwh5pISRRnqMfu3fr2LoE//OMTR01/Z+QRxVEtABq/njIkGaLz5YZkwPO1I=
+X-Gm-Gg: ASbGncsI99vh8i6RttiU/H1Nyc4lPdTR3ByvXLUnyvb13Ce9A5Dodd3hHqlSpylLKbu
+ JcPvlP9RiLcmA7OcO6+kobTHsHfxCBTsSbP2zXeI/rFajpkYqsnZ+xFgLiV7L5Ytf0mfrzMGZ+Z
+ am+ZjPlbOrT4daZy0zQcduRX3NoENZlwY+yarr4JWOyVbYZErjvII67+IDrp5qydv8RtSP3jn7i
+ +Yan5rnygF/T7hq68nsrdMy2np5ZONFO5PxKSsKALMOqUTf954hxa2lZQShXXDMogf5kis46+zR
+ UqxCZBqA37fdhdGQFZKDTLaDY0tTzmwor2Y0OO2ypPqkV9KzYSh5ahhJlUfM5DP+PIq0dPNADzA
+ 69piL+ovf8WHeQbJQ8predaBZ
+X-Google-Smtp-Source: AGHT+IGfSQMVA0rAbvtw7eZZjQbZgRCizMe4yyJ2LJBgQ6PQ3Zg+lNGip7UTnXIZjwRe9hOTM1t+GQ==
+X-Received: by 2002:a05:6512:ba3:b0:545:2d4d:36d1 with SMTP id
+ 2adb3069b0e04-5497d33603cmr1885817e87.20.1741205922964; 
+ Wed, 05 Mar 2025 12:18:42 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5495fde71a2sm1146106e87.248.2025.03.05.12.17.57
+ 2adb3069b0e04-5494919b530sm1807328e87.141.2025.03.05.12.18.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 12:17:58 -0800 (PST)
-Date: Wed, 5 Mar 2025 22:17:56 +0200
+ Wed, 05 Mar 2025 12:18:41 -0800 (PST)
+Date: Wed, 5 Mar 2025 22:18:40 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Yongbang Shi <shiyongbang@huawei.com>
 Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
@@ -72,15 +72,15 @@ Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
  chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
  shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 drm-dp 3/8] drm/hisilicon/hibmc: Add dp serdes cfg in
- dp process
-Message-ID: <bg5yiyru6fqnm73qctgullgsdnywdnv2zbcy72mvglxf2uttp4@v2cmuekciqgm>
+Subject: Re: [PATCH v4 drm-dp 6/8] drm/hisilicon/hibmc: Add colorbar-cfg
+ feature and its debugfs file
+Message-ID: <2ajmcqbmqfra3ojqee2zhxvmcqzejytfirr4zumz4mkbekvtje@qxbe5e2lqcif>
 References: <20250305112647.2344438-1-shiyongbang@huawei.com>
- <20250305112647.2344438-4-shiyongbang@huawei.com>
+ <20250305112647.2344438-7-shiyongbang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305112647.2344438-4-shiyongbang@huawei.com>
+In-Reply-To: <20250305112647.2344438-7-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,69 +96,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 05, 2025 at 07:26:42PM +0800, Yongbang Shi wrote:
+On Wed, Mar 05, 2025 at 07:26:45PM +0800, Yongbang Shi wrote:
 > From: Baihan Li <libaihan@huawei.com>
 > 
-> Add dp serdes cfg in link training process, and related adapting
-> and modificating. Change some init values about training,
-> because we want completely to negotiation process, so we start with
-> the maximum rate and the electrical characteristic level is 0.
-
-In the commit message there should be a mention, why are you also
-changing hibmc_kms_init().
-
+> DP controller can support generating a color bar signal over the
+> DisplayPort interface. This can be useful to check for possible DDR
+> or GPU problems, as the signal generator resides completely in the DP
+> block. Add debugfs file that controls colorbar generator.
+> 
+> echo: config the color bar register to display
+> cat: print the color bar configuration
 > 
 > Signed-off-by: Baihan Li <libaihan@huawei.com>
 > Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 > ---
 > ChangeLog:
 > v3 -> v4:
->   - add comments for if-statement of dp_init(), suggested by Dmitry Baryshkov.
+>   - add comments in hibmc_control_write(), suggested by Dmitry Baryshkov.
 > v2 -> v3:
->   - change commit to an imperative sentence, suggested by Dmitry Baryshkov.
->   - put HIBMC_DP_HOST_SERDES_CTRL in dp_serdes.h, suggested by Dmitry Baryshkov.
+>   - rewrite the commit log, suggested by Dmitry Baryshkov.
+>   - move colorbar debugfs entry to this patch, suggested by Dmitry Baryshkov.
+>   - change binary format to integer format, suggested by Dmitry Baryshkov.
 > v1 -> v2:
->   - splittting the patch and add more detailed the changes in the commit message, suggested by Dmitry Baryshkov.
+>   - add colorbar introduction in commit, suggested by Dmitry Baryshkov.
+>   - splittting colorbar and debugfs in different patches, suggested by Dmitry Baryshkov.
+>   - deleting edid decoder and its debugfs, suggested by Dmitry Baryshkov.
+>   - using debugfs_init() callback, suggested by Dmitry Baryshkov.
 > ---
->  1                                             |  0
->  .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  1 +
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  5 ++-
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 32 ++++++++++++++++---
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  5 +++
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 12 +++----
->  6 files changed, 43 insertions(+), 12 deletions(-)
->  create mode 100644 1
+>  drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  43 ++++++++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  29 +++++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |   3 +
+>  .../drm/hisilicon/hibmc/hibmc_drm_debugfs.c   | 104 ++++++++++++++++++
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    |   1 +
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   2 +
+>  7 files changed, 184 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
 > 
 
-[...]
-
-> @@ -121,9 +119,11 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
->  		return ret;
->  	}
->  
-> -	/* if DP existed, init DP */
-> -	if ((readl(priv->mmio + HIBMC_DP_HOST_SERDES_CTRL) &
-> -	     HIBMC_DP_HOST_SERDES_CTRL_MASK) == HIBMC_DP_HOST_SERDES_CTRL_VAL) {
-> +	/* if the serdes reg is readable and is not equal to 0,
-> +	 * DP existed, and init DP.
-> +	 */
-
-Nit: A typical format for block comments is:
-
-  /*
-   * Something Something Something
-   */
-
-Please follow it.
-
-> +	ret = readl(priv->mmio + HIBMC_DP_HOST_SERDES_CTRL);
-> +	if (ret) {
->  		ret = hibmc_dp_init(priv);
->  		if (ret)
->  			drm_err(dev, "failed to init dp: %d\n", ret);
-> -- 
-> 2.33.0
-> 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
