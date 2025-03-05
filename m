@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BE3A4FD97
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 12:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7BCA4FE12
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 12:56:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A619910E05C;
-	Wed,  5 Mar 2025 11:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07E4710E0B6;
+	Wed,  5 Mar 2025 11:56:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="QPYmHm4s";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="G2uvU2Iu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 369C910E0B6
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 11:27:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1741174020; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CGgNB9ioCrBhZoIu/54P4IE8VnMh233mFWObUx4IRiSRYQN0kgpLfN/b1j6tf5xb9Qvawe5SYEsGSK1SKsCH+dJbVCYse5EBI+9PFV7Rmc0b36jSY3crmcWENqDPN/6t7PReK6l5xQ+TsIlEZAEIJAYGp006r/VmxtROQH9FOZM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1741174020;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=NzN883oKEAj7l0UzhDNc+FFNuxWeXDfWS3FNs5UvJiU=; 
- b=KkVW8eJlC1hVbD11lN1H56RQJHKk6lUI912ctlOYikwCfPSGLEc07HcNeJxn7AAdEZmZ5nhmYrx9qqHxOhBwSmmnQ4ECRwwSgoxZsLadBzP+9iQJ5cj6h719LPU4dPnnY7ua33GJYX/yGb/i/OF/92tiedgKjG3ea7e7CkQy86E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741174019; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=NzN883oKEAj7l0UzhDNc+FFNuxWeXDfWS3FNs5UvJiU=;
- b=QPYmHm4szIi7SlH9hSsNQbOfL5iaoAIjlaI4j/ShskiVl0RYg2oj2q+fLX7EyQBx
- djPTZWjB0QSPFT6ygEduHEVCS65V1dZkkAL0ipOv2v+S+NaDvJ4lQD+8EXil1bG9flW
- Z2CPVo0wGKJvUVQ5aKbtzC5q4r+fms/tl/5Nchk4=
-Received: by mx.zohomail.com with SMTPS id 1741174017652344.167196887577;
- Wed, 5 Mar 2025 03:26:57 -0800 (PST)
-Message-ID: <f164cb3a-5285-46e9-9ba1-062cfcb2f920@collabora.com>
-Date: Wed, 5 Mar 2025 14:26:52 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 22/30] drm/shmem-helper: Add common memory shrinker
-To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-23-dmitry.osipenko@collabora.com>
- <d1f856c7-47dd-4f1d-a124-973064dcd1f0@suse.de>
- <6b7d95b7-a9dd-43c9-b1db-8a636b85ad51@collabora.com>
- <d777ab50-51cf-4eed-bfec-a44eca7ba3c5@suse.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <d777ab50-51cf-4eed-bfec-a44eca7ba3c5@suse.de>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 76D2B10E0B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 11:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=ZBolk1LZXgoT4MAlU82C+Bay0+aggXY4hc9EohCPN9M=; b=G
+ 2uvU2IuMkZAsFfnko47wrBISBuIppDnHBIqVxqvrUyf4OJ/P7WZAf0QXPWfM+H/T
+ lS0uk6kbqg8KZBvE+cV5BEGPECZ6fd+KxQa5quaB6KkWDNjZo+Haqng7MNVWq/fQ
+ 04ZJI1HgNk9rXDZHpioo2YeUDWxHVZxliMwzUk3Xug=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-118 (Coremail) ; Wed, 5 Mar 2025 19:55:19 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Wed, 5 Mar 2025 19:55:19 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Maxime Ripard" <mripard@kernel.org>
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Douglas Anderson" <dianders@chromium.org>,
+ "Herve Codina" <herve.codina@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ "Simona Vetter" <simona.vetter@ffwll.ch>
+Subject: Re:[PATCH v5 04/16] drm/atomic: Introduce helper to lookup
+ connector by encoder
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
+References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
+ <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
+X-NTES-SC: AL_Qu2fA/2cuk8q7yKZbOkfmkcVgOw9UcO5v/Qk3oZXOJF8jDDp2ycwUUJSDXLaweO0FQ+OmgmGXTtC9/R7f4VTVaQN9am3C55vGTWoPemjvbENWw==
+Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Message-ID: <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: digvCgC3f56nO8hnSeZ2AA--.5945W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkAoHXmfIOAs9HQABs+
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,39 +73,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/4/25 14:43, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 04.03.25 um 11:59 schrieb Dmitry Osipenko:
->> On 3/4/25 13:29, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 05.01.24 um 19:46 schrieb Dmitry Osipenko:
->>>> Introduce common drm-shmem shrinker for DRM drivers.
->>> What's the status of this patch?
->> It was de-prioritized on my list a year ago as I had to move to a higher
->> priority problems. Rebasing and re-testing these patches takes much
->> time, it either has to be split up in a smaller parts or applied in
->> one go.
-> 
-> The first 11 patches seem uncontroversial to me; maybe except for patch
-> 9. Could they be merged any time soon?
-> 
-> The next batch could then be patches up to #20, which seem to be
-> reviewed as well.
-> 
->>
->> The current status is that I started to work on v20 rather long time ago
->> and the patches need to be rebased and re-tested again. Heard that
->> Panthor driver may want shmem shrinker more than others today.
-> 
-> I've been receiving reports about low performance of ast plus gem-shmem
-> recently. I suspect that the vmap/vunmap overhead could be related and
-> this series would likely lessen the problem.
-
-Alright, will refresh the patches. See if the first ones sill can be
-merged right away and then split the remainder into batches.
-
--- 
-Best regards,
-Dmitry
+CgpIaSBNYXhpbWUsCgpBdCAyMDI1LTAzLTA0IDE5OjEwOjQ3LCAiTWF4aW1lIFJpcGFyZCIgPG1y
+aXBhcmRAa2VybmVsLm9yZz4gd3JvdGU6Cj5XaXRoIHRoZSBicmlkZ2VzIHN3aXRjaGluZyBvdmVy
+IHRvIGRybV9icmlkZ2VfY29ubmVjdG9yLCB0aGUgZGlyZWN0Cj5hc3NvY2lhdGlvbiBiZXR3ZWVu
+IGEgYnJpZGdlIGRyaXZlciBhbmQgaXRzIGNvbm5lY3RvciB3YXMgbG9zdC4KPgo+VGhpcyBpcyBt
+aXRpZ2F0ZWQgZm9yIGF0b21pYyBicmlkZ2UgZHJpdmVycyBieSB0aGUgZmFjdCB5b3UgY2FuIGFj
+Y2Vzcwo+dGhlIGVuY29kZXIsIGFuZCB0aGVuIGNhbGwgZHJtX2F0b21pY19nZXRfb2xkX2Nvbm5l
+Y3Rvcl9mb3JfZW5jb2RlcigpIG9yCj5kcm1fYXRvbWljX2dldF9uZXdfY29ubmVjdG9yX2Zvcl9l
+bmNvZGVyKCkgd2l0aCBkcm1fYXRvbWljX3N0YXRlLgo+Cj5UaGlzIHdhcyBhbHNvIG1hZGUgZWFz
+aWVyIGJ5IHByb3ZpZGluZyBkcm1fYXRvbWljX3N0YXRlIGRpcmVjdGx5IHRvIGFsbAo+YXRvbWlj
+IGhvb2tzIGJyaWRnZXMgY2FuIGltcGxlbWVudC4KPgo+SG93ZXZlciwgYnJpZGdlIGRyaXZlcnMg
+ZG9uJ3QgaGF2ZSBhIHdheSB0byBhY2Nlc3MgZHJtX2F0b21pY19zdGF0ZQo+b3V0c2lkZSBvZiB0
+aGUgbW9kZXNldCBwYXRoLCBsaWtlIGZyb20gdGhlIGhvdHBsdWcgaW50ZXJydXB0IHBhdGggb3Ig
+YW55Cj5pbnRlcnJ1cHQgaGFuZGxlci4KPgo+TGV0J3MgaW50cm9kdWNlIGEgZnVuY3Rpb24gdG8g
+cmV0cmlldmUgdGhlIGNvbm5lY3RvciBjdXJyZW50bHkgYXNzaWduZWQKPnRvIGFuIGVuY29kZXIs
+IHdpdGhvdXQgdXNpbmcgZHJtX2F0b21pY19zdGF0ZSwgdG8gbWFrZSB0aGVzZSBkcml2ZXJzJwo+
+bGlmZSBlYXNpZXIuCj4KPlJldmlld2VkLWJ5OiBEbWl0cnkgQmFyeXNoa292IDxkbWl0cnkuYmFy
+eXNoa292QGxpbmFyby5vcmc+Cj5Dby1kZXZlbG9wZWQtYnk6IFNpbW9uYSBWZXR0ZXIgPHNpbW9u
+YS52ZXR0ZXJAZmZ3bGwuY2g+Cj5TaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJk
+QGtlcm5lbC5vcmc+Cj4tLS0KPiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jIHwgNDUgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiBpbmNsdWRlL2RybS9k
+cm1fYXRvbWljLmggICAgIHwgIDMgKysrCj4gMiBmaWxlcyBjaGFuZ2VkLCA0OCBpbnNlcnRpb25z
+KCspCj4KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9hdG9taWMuYwo+aW5kZXggOWVhMjYxMTc3MGY0M2NlN2NjYmE0MTA0MDZk
+NWYyYzUyOGFhYjAyMi4uYjkyNmIxMzI1OTBlNzhmOGQ0MWQ0OGViNGRhNGJjY2YxNzBlZTIzNiAx
+MDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKPisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fYXRvbWljLmMKPkBAIC05ODUsMTAgKzk4NSw1NSBAQCBkcm1fYXRvbWljX2dl
+dF9uZXdfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVjdCBkcm1fYXRvbWljX3N0YXRl
+ICpzdGF0ZSwKPiAKPiAJcmV0dXJuIE5VTEw7Cj4gfQo+IEVYUE9SVF9TWU1CT0woZHJtX2F0b21p
+Y19nZXRfbmV3X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcik7Cj4gCj4rLyoqCj4rICogZHJtX2F0b21p
+Y19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyIC0gR2V0IGNvbm5lY3RvciBjdXJyZW50bHkgYXNz
+aWduZWQgdG8gYW4gZW5jb2Rlcgo+KyAqIEBlbmNvZGVyOiBUaGUgZW5jb2RlciB0byBmaW5kIHRo
+ZSBjb25uZWN0b3Igb2YKPisgKiBAY3R4OiBNb2Rlc2V0IGxvY2tpbmcgY29udGV4dAo+KyAqCj4r
+ICogVGhpcyBmdW5jdGlvbiBmaW5kcyBhbmQgcmV0dXJucyB0aGUgY29ubmVjdG9yIGN1cnJlbnRs
+eSBhc3NpZ25lZCB0bwo+KyAqIGFuIEBlbmNvZGVyLgo+KyAqCj4rICogUmV0dXJuczoKPisgKiBU
+aGUgY29ubmVjdG9yIGNvbm5lY3RlZCB0byBAZW5jb2Rlciwgb3IgYW4gZXJyb3IgcG9pbnRlciBv
+dGhlcndpc2UuCj4rICogV2hlbiB0aGUgZXJyb3IgaXMgRURFQURMSywgYSBkZWFkbG9jayBoYXMg
+YmVlbiBkZXRlY3RlZCBhbmQgdGhlCj4rICogc2VxdWVuY2UgbXVzdCBiZSByZXN0YXJ0ZWQuCj4r
+ICovCj4rc3RydWN0IGRybV9jb25uZWN0b3IgKgo+K2RybV9hdG9taWNfZ2V0X2Nvbm5lY3Rvcl9m
+b3JfZW5jb2Rlcihjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIsCj4rCQkJCSAgICAg
+c3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgpCj4rewo+KwlzdHJ1Y3QgZHJtX2Nv
+bm5lY3Rvcl9saXN0X2l0ZXIgY29ubl9pdGVyOwo+KwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqb3V0
+X2Nvbm5lY3RvciA9IEVSUl9QVFIoLUVJTlZBTCk7Cj4rCXN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3I7Cj4rCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBlbmNvZGVyLT5kZXY7Cj4rCWlu
+dCByZXQ7Cj4rCj4rCXJldCA9IGRybV9tb2Rlc2V0X2xvY2soJmRldi0+bW9kZV9jb25maWcuY29u
+bmVjdGlvbl9tdXRleCwgY3R4KTsKPisJaWYgKHJldCkKPisJCXJldHVybiBFUlJfUFRSKHJldCk7
+CgpJdCBzZWVtcyB0aGF0IHRoaXMgd2lsbCBjYXVzZSBhIGRlYWRsb2NrIHdoZW4gY2FsbGVkIGZy
+b20gYSAgaG90cGx1ZyBoYW5kbGluZyBwYXRoLApJIGhhdmUgYSBXSVAgRFAgZGl2ZXJbMF0sICB3
+aGljaCBzdWdnZXN0ZWQgYnkgRG1pdHJ5IHRvIHVzZSB0aGlzIEFQSSBmcm9tIGEgCiZkcm1fYnJp
+ZGdlX2Z1bmNzLmRldGVjdCBjYWxsYmFjayB0byBnZXQgdGhlIGNvbm5lY3RvciwgIGFzIGRldGVj
+dCBpcyBjYWxsZWQgYnkgZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3QsCndoaWNoIHdpbGwgaG9sZCBj
+b25uZWN0aW9uX211dGV4IGZpcnN0LCBzbyB0aGUgZGVha2xvY2sgaGFwcGVuczoKCgpkcm1faGVs
+cGVyX3Byb2JlX2RldGVjdChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAogICAgICAg
+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX21vZGVzZXRfYWNxdWlyZV9jdHggKmN0eCwKICAg
+ICAgICAgICAgICAgICAgICAgICAgYm9vbCBmb3JjZSkKewogICAgICAgIGNvbnN0IHN0cnVjdCBk
+cm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyAqZnVuY3MgPSBjb25uZWN0b3ItPmhlbHBlcl9wcml2
+YXRlOwogICAgICAgIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBjb25uZWN0b3ItPmRldjsKICAg
+ICAgICBpbnQgcmV0OwoKICAgICAgICBpZiAoIWN0eCkKICAgICAgICAgICAgICAgIHJldHVybiBk
+cm1faGVscGVyX3Byb2JlX2RldGVjdF9jdHgoY29ubmVjdG9yLCBmb3JjZSk7CgogICAgICAgIHJl
+dCA9IGRybV9tb2Rlc2V0X2xvY2soJmRldi0+bW9kZV9jb25maWcuY29ubmVjdGlvbl9tdXRleCwg
+Y3R4KTsKICAgICAgICBpZiAocmV0KQogICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKCiAgICAg
+ICAgaWYgKGZ1bmNzLT5kZXRlY3RfY3R4KQogICAgICAgICAgICAgICAgcmV0ID0gZnVuY3MtPmRl
+dGVjdF9jdHgoY29ubmVjdG9yLCBjdHgsIGZvcmNlKTsKICAgICAgICBlbHNlIGlmIChjb25uZWN0
+b3ItPmZ1bmNzLT5kZXRlY3QpCiAgICAgICAgICAgICAgICByZXQgPSBjb25uZWN0b3ItPmZ1bmNz
+LT5kZXRlY3QoY29ubmVjdG9yLCBmb3JjZSk7CiAgICAgICAgZWxzZQogICAgICAgICAgICAgICAg
+cmV0ID0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7CgogICAgICAgIGlmIChyZXQgIT0gY29u
+bmVjdG9yLT5zdGF0dXMpCiAgICAgICAgICAgICAgICBjb25uZWN0b3ItPmVwb2NoX2NvdW50ZXIg
+Kz0gMTsKClNvIEkgd29uZGVyIGNhbiB3ZSBsZXQgZHJtX2JyaWRnZV9mdW5jcy5kZXRlY3QgcGFz
+cyBhIGNvbm5lY3RvciBmb3IgdGhpcyBjYXNlID8KCgoKWzBdaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvbGludXgtcm9ja2NoaXAvMDQ3RUVDRkMtN0U1NS00NEVDLTg5NkYtMTNGRTA0MzMzRTREQGdt
+YWlsLmNvbS9ULyNtMjViYzUzYjc5ZjVjYzdiZGRmY2I3YWFlNTY1NmY2OGRmMzk2ZjA5NAo+Kwo+
+Kwlkcm1fY29ubmVjdG9yX2xpc3RfaXRlcl9iZWdpbihkZXYsICZjb25uX2l0ZXIpOwo+Kwlkcm1f
+Zm9yX2VhY2hfY29ubmVjdG9yX2l0ZXIoY29ubmVjdG9yLCAmY29ubl9pdGVyKSB7Cj4rCQlpZiAo
+IWNvbm5lY3Rvci0+c3RhdGUpCj4rCQkJY29udGludWU7Cj4rCj4rCQlpZiAoZW5jb2RlciA9PSBj
+b25uZWN0b3ItPnN0YXRlLT5iZXN0X2VuY29kZXIpIHsKPisJCQlvdXRfY29ubmVjdG9yID0gY29u
+bmVjdG9yOwo+KwkJCWJyZWFrOwo+KwkJfQo+Kwl9Cj4rCWRybV9jb25uZWN0b3JfbGlzdF9pdGVy
+X2VuZCgmY29ubl9pdGVyKTsKPisJZHJtX21vZGVzZXRfdW5sb2NrKCZkZXYtPm1vZGVfY29uZmln
+LmNvbm5lY3Rpb25fbXV0ZXgpOwo+Kwo+KwlyZXR1cm4gb3V0X2Nvbm5lY3RvcjsKPit9Cj4rRVhQ
+T1JUX1NZTUJPTChkcm1fYXRvbWljX2dldF9jb25uZWN0b3JfZm9yX2VuY29kZXIpOwo+Kwo+Kwo+
+IC8qKgo+ICAqIGRybV9hdG9taWNfZ2V0X29sZF9jcnRjX2Zvcl9lbmNvZGVyIC0gR2V0IG9sZCBj
+cnRjIGZvciBhbiBlbmNvZGVyCj4gICogQHN0YXRlOiBBdG9taWMgc3RhdGUKPiAgKiBAZW5jb2Rl
+cjogVGhlIGVuY29kZXIgdG8gZmV0Y2ggdGhlIGNydGMgc3RhdGUgZm9yCj4gICoKPmRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2RybS9kcm1fYXRvbWljLmggYi9pbmNsdWRlL2RybS9kcm1fYXRvbWljLmgK
+PmluZGV4IDRjNjczZjA2OThmZWY2YjYwZjc3ZGI5ODAzNzhkNWU4OGUwZTI1MGUuLjM4NjM2YTU5
+M2M5ZDk4Y2FkZGE4NWNjZDY3MzI2Y2IxNTJmMGRkMjcgMTAwNjQ0Cj4tLS0gYS9pbmNsdWRlL2Ry
+bS9kcm1fYXRvbWljLmgKPisrKyBiL2luY2x1ZGUvZHJtL2RybV9hdG9taWMuaAo+QEAgLTYyMywx
+MCArNjIzLDEzIEBAIHN0cnVjdCBkcm1fY29ubmVjdG9yICoKPiBkcm1fYXRvbWljX2dldF9vbGRf
+Y29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
+ZSwKPiAJCQkJCSBzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpOwo+IHN0cnVjdCBkcm1fY29u
+bmVjdG9yICoKPiBkcm1fYXRvbWljX2dldF9uZXdfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0
+IHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKPiAJCQkJCSBzdHJ1Y3QgZHJtX2VuY29k
+ZXIgKmVuY29kZXIpOwo+K3N0cnVjdCBkcm1fY29ubmVjdG9yICoKPitkcm1fYXRvbWljX2dldF9j
+b25uZWN0b3JfZm9yX2VuY29kZXIoY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLAo+
+KwkJCQkgICAgIHN0cnVjdCBkcm1fbW9kZXNldF9hY3F1aXJlX2N0eCAqY3R4KTsKPiAKPiBzdHJ1
+Y3QgZHJtX2NydGMgKgo+IGRybV9hdG9taWNfZ2V0X29sZF9jcnRjX2Zvcl9lbmNvZGVyKHN0cnVj
+dCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKPiAJCQkJCSBzdHJ1Y3QgZHJtX2VuY29kZXIgKmVu
+Y29kZXIpOwo+IHN0cnVjdCBkcm1fY3J0YyAqCj4KPi0tIAo+Mi40OC4xCg==
