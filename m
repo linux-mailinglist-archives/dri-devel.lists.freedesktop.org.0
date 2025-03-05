@@ -2,132 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60459A50513
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C501A50517
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 17:38:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B45F88EA1;
-	Wed,  5 Mar 2025 16:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F06510E809;
+	Wed,  5 Mar 2025 16:38:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uwhWgibV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Fq3pdVe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uwhWgibV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Fq3pdVe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N4Ut2cNz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEC7E88EA1
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:37:51 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A2B1A211D1;
- Wed,  5 Mar 2025 16:37:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1741192670; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V7YE4l6QvGMtICsK1zBLWcptgXG3+9dOdoIJu/W2Epw=;
- b=uwhWgibVQoWe4VLwAq99QxpsWWrB6zL5ylahQgLmLqtcCaOdgTsZWPpR7zopqwfdqf1uM9
- HABfKpGyViqYqolO03pEbnjSnU1urcYdpmJc8Ti+dPemeEGK2p2MfT5lHFbsxDRZwNuDrc
- 1o3szYddUsG/jAyhZJGzOZ6SRjJ4g7E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1741192670;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V7YE4l6QvGMtICsK1zBLWcptgXG3+9dOdoIJu/W2Epw=;
- b=3Fq3pdVewqII+jR/YrIYGW1SJv8hMOiZ0X8Yv9GExHQM/huY10b/QCJdeSwQeOs3FmXl/s
- cVHdLFb409MRt+BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1741192670; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V7YE4l6QvGMtICsK1zBLWcptgXG3+9dOdoIJu/W2Epw=;
- b=uwhWgibVQoWe4VLwAq99QxpsWWrB6zL5ylahQgLmLqtcCaOdgTsZWPpR7zopqwfdqf1uM9
- HABfKpGyViqYqolO03pEbnjSnU1urcYdpmJc8Ti+dPemeEGK2p2MfT5lHFbsxDRZwNuDrc
- 1o3szYddUsG/jAyhZJGzOZ6SRjJ4g7E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1741192670;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V7YE4l6QvGMtICsK1zBLWcptgXG3+9dOdoIJu/W2Epw=;
- b=3Fq3pdVewqII+jR/YrIYGW1SJv8hMOiZ0X8Yv9GExHQM/huY10b/QCJdeSwQeOs3FmXl/s
- cVHdLFb409MRt+BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 52E5813939;
- Wed,  5 Mar 2025 16:37:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZW4uEt59yGfSfgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 05 Mar 2025 16:37:50 +0000
-Message-ID: <6fffc2b6-c43c-4029-8c15-62bda34278f9@suse.de>
-Date: Wed, 5 Mar 2025 17:37:49 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 734B410E809
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 16:38:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D5031A45B68;
+ Wed,  5 Mar 2025 16:32:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD7DC4CED1;
+ Wed,  5 Mar 2025 16:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741192687;
+ bh=sL6HKnFMuXDXenCBceEoHD1TmQX+6oJO6AlNMpLGC5I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=N4Ut2cNzPxw/19HWcA9q6UtjX96+MvXtTOt/spQ3Kaa+W2/+8jLSKzmKdQfqq784h
+ iXyfpjwvj2pTl+oH/pXFQUSIATsV9GDQUrPpY1XGGg5K2Ec3lSimClooKk4ynyGvUT
+ r1PicB+2aVmGYeq5t8RYER35rZsdl0FcxkOhZOQIMiqVhIJjGkFPyBk/REwuohhG/d
+ euKrDtjZjx1dIMBrkGYX5ZMNE1iPMHZ8ZJuJ6YZr+yGG2ppJvpgHbjVU81Ljc4A8Cq
+ w+kRXk2NJVka0QLj05JGXMw/DRAN7bWAq46yGtSnJIxDDewUcFooFOLbAD+mTsOL1F
+ droruHgs3mybQ==
+Date: Wed, 5 Mar 2025 10:38:05 -0600
+From: Rob Herring <robh@kernel.org>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
+ color encoder
+Message-ID: <20250305163805.GA2071011-robh@kernel.org>
+References: <20250304101530.969920-1-victor.liu@nxp.com>
+ <20250304101530.969920-4-victor.liu@nxp.com>
+ <20250304152320.GA2630063-robh@kernel.org>
+ <1891036.atdPhlSkOF@steina-w>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] drm: Hide import_attach from GEM code and helpers
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- simona@ffwll.ch, javierm@redhat.com, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20250226172457.217725-1-tzimmermann@suse.de>
- <f150286f-1609-4175-a431-ba5cad80717c@amd.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <f150286f-1609-4175-a431-ba5cad80717c@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[amd.com,ffwll.ch,redhat.com,gmail.com,linux.intel.com,kernel.org,linaro.org];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[8]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <1891036.atdPhlSkOF@steina-w>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,72 +67,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 05, 2025 at 10:35:26AM +0100, Alexander Stein wrote:
+> Hi,
+> 
+> Am Dienstag, 4. M�rz 2025, 16:23:20 CET schrieb Rob Herring:
+> > On Tue, Mar 04, 2025 at 06:15:28PM +0800, Liu Ying wrote:
+> > > A DPI color encoder, as a simple display bridge, converts input DPI color
+> > > coding to output DPI color coding, like Adafruit Kippah DPI hat[1] which
+> > > converts input 18-bit pixel data to 24-bit pixel data(with 2 low padding
+> > > bits in every color component though). Document the DPI color encoder.
+> > 
+> > Why do we need a node for this? Isn't this just wired how it is wired 
+> > and there's nothing for s/w to see or do? I suppose if you are trying to 
+> > resolve the mode with 24-bit on one end and 18-bit on the other end, you 
+> > need to allow that and not require an exact match. You still might need 
+> > to figure out which pins the 18-bit data comes out on, but you have that 
+> > problem with an 18-bit panel too. IOW, how is this any different if you 
+> > have an 18-bit panel versus 24-bit panel?
+> 
+> Especially panel-simple.c has a fixed configuration for each display, such as:
+> > .bus_format = MEDIA_BUS_FMT_RGB666_1X18
+> 
+> How would you allow or even know it should be addressed as
+> MEDIA_BUS_FMT_RGB888_1X24 instead? I see different ways:
+> 1. Create a new display setting/compatible
+> 2. Add an overwrite property to the displays
+> 3. Use a (transparent) bridge (this series)
+> 
+> Number 1 is IMHO out of question. 
 
+Agreed.
 
-Am 05.03.25 um 16:38 schrieb Christian König:
-> Reviewed-by: Christian König <christian.koenig@amd.com> for the entire series.
+> I personally don't like number 2 as this
+> feels like adding quirks to displays, which they don't have.
 
-Thanks. I have equivalent patches for drivers as well. I'll send them 
-out once this series has propagated through the trees.
+This is what I would do except apply it to the controller side. We know 
+the panel side already. This is a board variation, so a property makes 
+sense. I don't think you need any more than knowing what's on each end. 
 
-Best regards
-Thomas
+> Number 3 actually describe the hardware connection. The only impact for
+> software is to know which bus format it should use.
 
->
-> Regards,
-> Christian.
->
-> Am 26.02.25 um 18:03 schrieb Thomas Zimmermann:
->> Do not use struct drm_gem_object.import_attach unnecessarily. The
->> field is set by the PRIME import helpers. GEM and other helpers use
->> it for testing for imported dma-bufs and retrieving the respective
->> dma-buf instance.
->>
->> Replace all tests for import_attach with the new GEM helper function
->> drm_gem_is_imported(). The helper avoids import_attach in favor of
->> testing the imported dma-buf's object against the provided GEM object.
->>
->> Also replace references to import_attach.dmabuf. The imported dma-buf
->> is also available in the GEM object's dma_buf field.
->>
->> This series cleans up the GEM core and helpers. Drivers also use
->> import_attach and should later be updated as well.
->>
->> There's a TODO item for making import_attach entirely optional. This
->> series is a first step towards this goal.
->>
->> Thomas Zimmermann (10):
->>    drm/gem: Test for imported GEM buffers with helper
->>    drm/gem-dma: Test for imported buffers with drm_gem_is_imported()
->>    drm/gem-dma: Use dma_buf from GEM object instance
->>    drm/gem-shmem: Test for imported buffers with drm_gem_is_imported()
->>    drm/gem-shmem: Use dma_buf from GEM object instance
->>    drm/gem-framebuffer: Test for imported buffers with
->>      drm_gem_is_imported()
->>    drm/gem-framebuffer: Use dma_buf from GEM object instance
->>    drm/fb-dma-helper: Test for imported buffers with
->>      drm_gem_is_imported()
->>    drm/mipi-dbi: Test for imported buffers with drm_gem_is_imported()
->>    drm/prime: Use dma_buf from GEM object instance
->>
->>   drivers/gpu/drm/drm_fb_dma_helper.c          |  2 +-
->>   drivers/gpu/drm/drm_gem.c                    |  4 +--
->>   drivers/gpu/drm/drm_gem_dma_helper.c         |  4 +--
->>   drivers/gpu/drm/drm_gem_framebuffer_helper.c | 12 +++-----
->>   drivers/gpu/drm/drm_gem_shmem_helper.c       | 30 ++++++++++----------
->>   drivers/gpu/drm/drm_mipi_dbi.c               |  2 +-
->>   drivers/gpu/drm/drm_prime.c                  |  8 +-----
->>   include/drm/drm_gem.h                        | 14 +++++++++
->>   include/drm/drm_gem_shmem_helper.h           |  2 +-
->>   9 files changed, 41 insertions(+), 37 deletions(-)
->>
+I'm not opposed to this, but only if it provides *something* that option 
+2 does not. I'm not seeing what that is.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Node or not, either case needs a format property. We already have a 
+variety of bus/pixel format related properties. I've rejected new ones 
+because we need something common here that's flexible enough to handle 
+any situation. That's either something that can describe any bit layout 
+or something enumerating the formats (as MEDIA_BUS_FMT_* does). The 
+former is hard to get right and there's always something else you can't 
+handle. I'm not opposed to just reusing MEDIA_BUS_FMT_ if that works.
 
+Rob
