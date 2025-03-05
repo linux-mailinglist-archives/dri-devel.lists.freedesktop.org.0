@@ -2,46 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAA4A500D6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:43:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3797A500D7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:44:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1FF10E2A8;
-	Wed,  5 Mar 2025 13:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3CF710E766;
+	Wed,  5 Mar 2025 13:43:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="LDmPYd2o";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="mQFr02Xf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com
- [95.215.58.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B28910E2A8
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:43:44 +0000 (UTC)
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27DBF10E766
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:43:57 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1741182217;
+ s=key1; t=1741182235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vo2hm+yMszxw3H9IReAl6SWR01jDv9fDEr6AUb0zh0U=;
- b=LDmPYd2osyiwOtg15j1DhkvRsDox4S/7CWQcaQHJwA3oEc6JJUovfPV/14oJeBHS+QyeZX
- f38N7q/ngNHs7ROVDw/Y01T9VIX69i2GXD0+VJ+U9AUTCXQjc2NVr6CzioyKDytl2cWST6
- eCbK/4AOWjNPMl4osjXe1Y3cO/67NGudq5CTPMkggcoVgFAv/r4iNAdtuYUFGq8NZ6tdzn
- W4dqHDr6TdOJPzAUAkvEFxKLz5VW9Kw4v864lc1ZWVDx31e/73SnimmCSxfs/yaxHPbJ+i
- Gl5R/rx//ZM8CD5USk4LLF8+8GQhZTESdJRqKfit6nGzoU+dGqNKsgfLqRl00w==
+ bh=QO9qKoULzoYWBABgf51NjYdGSNxXU0EMfpVjVSk9Mzc=;
+ b=mQFr02Xf/PCIkBtVH8ROPNcA1j26gf1sXqPL3epIxfHi3UC8BpWHrc0qm5fGbxC8Lt0gG8
+ GI4jfqo5mTnEFtPDiKPxgu8apCWZdIjwKidneo36lLjI6HV6/BTGBTK7fzMjA3E7yISf6T
+ NPpeqG3Fruhu2vc2vx1977bIZA863Mptjma1YcjBPPyZbAWm+EL2FoEu8nYdn0D5IYDcRw
+ i0Ijl0xPRfwQcG68W0K3b8j477UEcxEtQr8X9hzUfeWrLToGPkjY15Ii0OZtNaH6VM7Qjw
+ OotUMUUDicGWrvuiygnZd/pmxp64+g3AI36H0egvb1zWG0a9Ze3Ee/MOX/q68Q==
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: fnkl.kernel@gmail.com, Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: j@jannau.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-In-Reply-To: <20250305020546.96564-1-jiapeng.chong@linux.alibaba.com>
-References: <20250305020546.96564-1-jiapeng.chong@linux.alibaba.com>
-Subject: Re: [PATCH -next] drm: adp: Remove unnecessary print function
- dev_err()
-Message-Id: <174118221552.156796.17819891844477649355.b4-ty@rosenzweig.io>
-Date: Wed, 05 Mar 2025 08:43:35 -0500
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
+ Janne Grunau <j@jannau.net>, Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Alyssa Ross <hi@alyssa.is>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20250224-adpdrm-v8-0-cccf96710f0f@gmail.com>
+References: <20250224-adpdrm-v8-0-cccf96710f0f@gmail.com>
+Subject: Re: [PATCH v8 0/5] Driver for pre-DCP apple display controller.
+Message-Id: <174118223158.156873.6982508045942987984.b4-ty@rosenzweig.io>
+Date: Wed, 05 Mar 2025 08:43:51 -0500
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -62,20 +71,25 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 05 Mar 2025 10:05:46 +0800, Jiapeng Chong wrote:
-> The print function dev_err() is redundant because platform_get_irq_byname()
-> already prints an error.
-> 
-> ./drivers/gpu/drm/adp/adp_drv.c:470:2-9: line 470 is redundant because platform_get_irq() already prints an error.
-> ./drivers/gpu/drm/adp/adp_drv.c:476:2-9: line 476 is redundant because platform_get_irq() already prints an error.
+On Mon, 24 Feb 2025 12:02:15 +0100, Sasha Finkelstein wrote:
+> This patch series adds support for a secondary display controller
+> present on Apple M1/M2 chips and used to drive the display of the
+> "touchbar" touch panel present on those.
 > 
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] drm: adp: Remove unnecessary print function dev_err()
-      commit: e4c0fd3f965533cd2b38200ca73625afd602d39b
+[1/5] dt-bindings: display: Add Apple pre-DCP display controller
+      commit: 7a108b930a84e71be71c3370eef6dd96fbb8f618
+[2/5] drm: adp: Add Apple Display Pipe driver
+      commit: 332122eba628d537a1b7b96b976079753fd03039
+[3/5] drm: panel: Add a panel driver for the Summit display
+      (no commit info)
+[4/5] arm64: dts: apple: Add touchbar screen nodes
+      (no commit info)
+[5/5] MAINTAINERS: Add entries for touchbar display driver
+      commit: 4d2a877cc0efefa815648f1ed5f5b2b796f55bab
 
 Best regards,
 -- 
