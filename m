@@ -2,177 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CAE4A4F825
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 08:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECC7A4F829
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 08:44:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 706BB10E75C;
-	Wed,  5 Mar 2025 07:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A14C110E6F5;
+	Wed,  5 Mar 2025 07:44:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RkLI1aB2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NDV/2He9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB91110E751;
- Wed,  5 Mar 2025 07:42:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741160559; x=1772696559;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=oxXqY0Eo2+OHttJssbX8T85159QFjPCJeG273GQQ8k0=;
- b=RkLI1aB2PStVcNLU18M1q4nlXZRBBpwDlHibA174+fsRagdP1MYrhzZ+
- yviPgMlWP4Yjb688l938XXzouEWOmCQbWjDE7V2ByBzMbjO30Jhd27vq6
- V70sh0D4JnC/xYDngU+/l4Z8DGEwYr4VPHTLTyRsd4TcsovCKLhohxNIF
- z1F8dRGVyj4wYe8cEq6cUi108L5rcz0tFwdcPXkc6Uy+n4GzAS5ja2ppN
- HFipz0qW73khZG/qDT60IDTcNa5zXMm5ReZPnPFSaNqxUS2rtPV02o7tO
- e/l95hnwh2RQ5ctOu6Vj5FcuCQPuk9YBY/Czrb4jLCU6Xa0lKAjTauKli w==;
-X-CSE-ConnectionGUID: dcEt2MG4QGWZ4r0C84c+xA==
-X-CSE-MsgGUID: w8fIIE5iTtOkK7asHHUpkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42233908"
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; d="scan'208";a="42233908"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2025 23:42:33 -0800
-X-CSE-ConnectionGUID: LCk8vimPQOidHFFOZVQ5Ng==
-X-CSE-MsgGUID: ttoqxVk+Qq2Ny1bO4mRCKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; d="scan'208";a="123713370"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Mar 2025 23:42:32 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 4 Mar 2025 23:42:32 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 23:42:31 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 4 Mar 2025 23:42:30 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HRinahZOoF4aBdyCkFI0GIKG4bemGOz9gB8jGELCEEcZgvMCOEPk3e+OEF8hW5SfFQ11XXuCs2AfeyuOT+KyCkuIQzTZbZyCTPKhUZcqEly5LsxiCtvLzTmKthHQ24X3eLjt9/qzwjYN9mlbyNsrl4yqOnrNK7mGKFzy329Bm4Wrxyn8sB2EOIBqIrEdMwrkYvki68w5WQFvD3pWIhA2cb2/bSLm+wYjlxopQAMziuXW0x4lt/c4v4TU7EFDSy+Y0hEJI/ZQBK1xIkWLzzPBHMvb+f6YU96PtKd5ZN4pkixqbzV/u0BOT5WA9OP3giKX6rsMPJMGOVqklmBFxxvG7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KgAUNDNOb9y4us0CoJtwedudttmpmGH7VKSQ+VQ7LZM=;
- b=o+BMB/J/Ja/YfgkUHmyfQ1Jif6wXOqpeZcrNckHewd9GpWqVs7CrhD7m4rVl6U1sh+54abtpHJAwJuG35jb8IAXwpUeWpfP4t3a9+7WqnMUvfJbuXkUji26V6pMvAuWXn2y6hbua95RmcB2PLP+ORLoMCHe2PEJjPuEh59XeTCks88/OXzoIof0UAy/ktnW5mCQ5vUdYoAUxuAiHfGuCotj0xVVIveeNj0uo91Mqd2oBFeXsb2d7YtNT9aie4o9d5IGVMczVseRhNdXr+F32Y3LmCkKtTyeecdmYXT7t+pOAxhSdVX+hOBttNqmKVS7A+EAQ3HVm6V2RoLsqg8L4qA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
- by SJ0PR11MB5021.namprd11.prod.outlook.com (2603:10b6:a03:2dc::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Wed, 5 Mar
- 2025 07:42:28 +0000
-Received: from CH0PR11MB5444.namprd11.prod.outlook.com
- ([fe80::5f89:ba81:ff70:bace]) by CH0PR11MB5444.namprd11.prod.outlook.com
- ([fe80::5f89:ba81:ff70:bace%3]) with mapi id 15.20.8511.017; Wed, 5 Mar 2025
- 07:42:28 +0000
-From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-To: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "De
- Marchi, Lucas" <lucas.demarchi@intel.com>, "thomas.hellstrom@linux.intel.com"
- <thomas.hellstrom@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-CC: "Gupta, saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex"
- <alex.zuo@intel.com>, "joonas.lahtinen@linux.intel.com"
- <joonas.lahtinen@linux.intel.com>, "Brost, Matthew"
- <matthew.brost@intel.com>, "Zhang, Jianxun" <jianxun.zhang@intel.com>, "Lin,
- Shuicheng" <shuicheng.lin@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v5 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Thread-Topic: [PATCH v5 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Thread-Index: AQHbjSgrkUdgP7FPhkOUcLjMXjcnI7NkJ7rA
-Date: Wed, 5 Mar 2025 07:42:28 +0000
-Message-ID: <CH0PR11MB544457856F678C159B66F8F0E5CB2@CH0PR11MB5444.namprd11.prod.outlook.com>
-References: <20250304170854.67195-1-jonathan.cavitt@intel.com>
- <20250304170854.67195-7-jonathan.cavitt@intel.com>
-In-Reply-To: <20250304170854.67195-7-jonathan.cavitt@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|SJ0PR11MB5021:EE_
-x-ms-office365-filtering-correlation-id: 3bfe3b3e-22cd-4e9f-cafc-08dd5bb94762
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|38070700018|7053199007; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?sXRw5g5a2iaOTPsdSGEYrOCiFannWP+qUhyrahdJQzkHi7nkNKheEQx9Exh5?=
- =?us-ascii?Q?KWkkRv9I1spCnkRKuRZQwwcdxhw8aQC2FWXU6EhMuHZ9bUMpJGDPv/ZZb/ca?=
- =?us-ascii?Q?tWFoll4pNIt19K60P1P/yQzpdEyvdIyHe5jNwbqP+nsBn8wWbmLOy2TGF/xv?=
- =?us-ascii?Q?ZvUEOQoN17vSfcn+rrrVfR9Dba4w4vKgtqymHLNys9XP8Y7LlUSnMTscsIm5?=
- =?us-ascii?Q?EHq+Dqz2zHeUgwLzJ4navfZGalVzEdc3/EJ8OtCxDmdhTHAsk2UtvSrcsWtT?=
- =?us-ascii?Q?uhHdMqOBgUqFere29BJLG0JKJYSL9lvufqxtck6kVRdSwW5sgzymU0lacuxW?=
- =?us-ascii?Q?UIUDtcV2yO//HAupuW7PH3cfYmz0p/ZiFcd8pxKh2niktz2HCJ+cOveDEYM2?=
- =?us-ascii?Q?Xbiq9mlnX8Q7Mfx0UstwHNSSEwjA9jRYPtgqCMN9HHMMp1xEXqmRc8SW6LwI?=
- =?us-ascii?Q?IGRLbAdldXddU+P0Lz0TPSt0nunCIBn7W4z2ZvvXAUNWMs3yG08KSzMvW4Pl?=
- =?us-ascii?Q?TPaGhy1lvW9Eu3QZMhRBVY+YljiUAukB7y6O37R1TTBAwzZtDsqTHlaDJbN0?=
- =?us-ascii?Q?+dh0ijMAtTeR+ifd0cXbgIej0qqcFneFCFxeDkG3OWb5QIRe2DDKRnrF0gDu?=
- =?us-ascii?Q?m+UkmYher9JeZUMCacqs9mBH+kx1nDwyZZJC90c27IP4qdxWayzkydCrYtnS?=
- =?us-ascii?Q?rDcmCD5s3QG+1L20wwB/fz7Yf/t16uLll3sosjNCn15659sNvIWMP6CVIKWa?=
- =?us-ascii?Q?FdTUlVoXHQPoRh7tnj2+yKW5uiW3PPspoNIsJRLm+OdVCpHM/o3vAZ2Kh8jQ?=
- =?us-ascii?Q?rUynwy5OQrwWUMTmY7lMezgrkRUu2Q0fcPHNiYmJnNUBkjbsgUonf1JeoAk+?=
- =?us-ascii?Q?b4g2Xsv2Xl+2eg+alj4INRAZb+RIoPnKWXaCZsQXytnCM//ldh1ZnIVFX2Wn?=
- =?us-ascii?Q?F8Cf8O27uGoSdrg4H6z1VTBmQuKM3aoAhKvC0LHXe5/m87OlKxwujnFhSO+a?=
- =?us-ascii?Q?fOgh8u0ECkxyotlZ/vvfYMOha5ilgVuL//VJB7KcUnFgb5ONVPYiRjMgRfYQ?=
- =?us-ascii?Q?UQhm2grAX70mOt5jiRkiVrvD6mf6HqmWMaY9xaPV2NJrWrRYf4BXhabsE9cD?=
- =?us-ascii?Q?tvU/XbNAhBJOcTDoNKY+okgBBgif5xbimcSnqn7E5Gil3mS2+k4hL+IOTff7?=
- =?us-ascii?Q?6xQNDmU+rrTCOCVVeSJ0BO1MyvwieQw1fkEWyAWcCdsP5gb6bQtQXp2O/2sS?=
- =?us-ascii?Q?T0IzUN64sDfg4r43CpMSntxHMzSflJZloZd3wMW20tgmmpXkUrybECUXjhVr?=
- =?us-ascii?Q?8xzn06bYUz662nP/9VDI7c11wygIJpc4aLduTh29XeyZ2X15DTjiCsX97IcU?=
- =?us-ascii?Q?CDOFlTE9GEJohbuQ4hFJ0Mpc6B8mbqu8Ibp6FB0ptLnOB0uNuskvtTMnzpKE?=
- =?us-ascii?Q?xKhBoi8NHt2PFZthIeAaR6GQNO04k+ew?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(38070700018)(7053199007); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?h5jzJJ7cyny3pmID0O7d8KEOIbHrYuYzQDOiJ4RwqvUwGtRJPEaajQF7KsbU?=
- =?us-ascii?Q?4SdSah6UAd7El3uVe7O+tZH8fQGjowW7PnmoGCVpWmXfA4EMi44h1+p47X/m?=
- =?us-ascii?Q?JgrkVFUsPqyKY7naRD67vqOFr9GVa0dD5zLIoxu2GUzdkCO6P1Rl4BhzYAfl?=
- =?us-ascii?Q?YEliNpBk0TUASVFH/URIAhCMEZLntI6erkAMm6JWjJ3/DMNhGiKoPm41cfdp?=
- =?us-ascii?Q?JpwcjYMv6IeDh2s921Q6EIGd1S3WT80JBgKYHH3tkDOf9DjcpuER6UahO2i8?=
- =?us-ascii?Q?sCQSS85uEDOeMLDSEcrgx1Htw3l6WH2Ck/uajKS9YFhRNJffk2CuSP2ZmwWl?=
- =?us-ascii?Q?igADlAE/BixCGvIRvwf3LfPtPdl9yEef1zSWqk/QTCfuUc7hRUPqviLusTQU?=
- =?us-ascii?Q?xbwro5OeIkck4J/IWbuccA62uH6L7RxVdm+ymtcwJWh5tjLk2dfFCDnD6fyE?=
- =?us-ascii?Q?OhIuZx2C7U1NFMgyzX+kUNzaX3vz5DKshkUpFUIhDt6IKZvEnnQQIncI+0fw?=
- =?us-ascii?Q?nGB2GfjflxjdhC4zoN7h9f0iGknbSmByH+7SZoHup3IqQXn+2Fn3zat0HLPQ?=
- =?us-ascii?Q?cRYurtHOGKrdYFJlP8+pVIE/hT5rXemlKYk/7RHIsYXYiZUV2+5LhBjJiWWN?=
- =?us-ascii?Q?EQPt9K2gW9nJOhN+k3JBVzUl9oqz4cVuR78mXjjC3OvFVdajr0v1TwNOX+ea?=
- =?us-ascii?Q?xPFbAVmM2pn7F8Zbw6N37OSej1bLii3WQhw9GGzSj5tq2FEIxtPD1La4cnXq?=
- =?us-ascii?Q?p8OJP+5r4xOewjF+AVcPuaJuaa4DWpd6SLMlgc3Y06s9JytRj/D8AFvoGylq?=
- =?us-ascii?Q?McbUvzb5w24pP15XaPH91J2IsoWhct17bEwj0AVRiHavebPYvbhVncUQ19PF?=
- =?us-ascii?Q?+AiZr5NtpobZXjK1I0A33nY018P77Tcuk2th6F3GUev9dL9ya7meXchI8fqE?=
- =?us-ascii?Q?J1g3+tYCjkvCjLlfkxr7tyHJpSJx0sf/8wGJsmKpZqIUSjkxVJ0zyOCzZdeA?=
- =?us-ascii?Q?DU/j+cJx7+VQ3mD+DQFK2jepWu8ZgSfiRPH3CdOz5gBoIrsRyjbRc3YYjsGc?=
- =?us-ascii?Q?JusCnGtflP2+0iuEW/ulvAa52tC97B22Yr6xu0QXBGGlncq+ki24d+ESsQbV?=
- =?us-ascii?Q?dhj1aX5ald5VY+8E1TAVggiF7XphC8QLQ29pDXTutNHD13Te0tQOgBCY+ndj?=
- =?us-ascii?Q?bvd4Alszt9gK6RnN+JOPQaEibE0qDpexfPGIaWN9ocP5BOnWpzM8NmH8KdxA?=
- =?us-ascii?Q?btnP+xHdr1WWkm1pH0KRHSNAZ/+ie0xsd3jk/CIXWElyZ1Y/rLX4u9HpIK3k?=
- =?us-ascii?Q?kjOxMo88AazcAvk+o0ZjyMEp20/lBDSSUdDfpOuAENgYzc1m/2at3cL9yGGX?=
- =?us-ascii?Q?ERmBt0mUgt0U9RnvvMCXA3rjzDbgUQsTgy6Q/iAXUGGoI0x/c2M9iqYrjsNW?=
- =?us-ascii?Q?KJPw0HqbN44JTPz9IQ801XCwKmuhtqBj/YYr1i91F8RFX0NCSCJBQs7WTon8?=
- =?us-ascii?Q?noayy+GZUAqQsX5DWOm285It6rgrPRTcNH4UhNYB+XbsallvV8GBivkJ3nbF?=
- =?us-ascii?Q?nZkokrLzMXORRQLk9b2ejMv57Qa7tSM+Vc3nD5QJ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5675410E6F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 07:44:09 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-43bc0b8520cso19408825e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Mar 2025 23:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1741160648; x=1741765448; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=+aVVWfpM/R7114kq8yw+67pir5NUPFWO9h9JRxaS7qo=;
+ b=NDV/2He99GGD3Dy+tfDF+NakgC8F7mgsv+dBtviQkVJZDtQLAQgbfPrqqNvDglC3Zx
+ 2Rspi4wtCjv4Jwl58vO+z8GHdzCfg9V6fpNH+vE4yjugqskK2HSEX0Sb0PcJUCW5fGN2
+ Gju83lfCiOP68u0Ywf+r4hJH5N2qUML0k4XU2pYYkZYKk2NSNn7lNXcqDFkYokzR07O/
+ 7vdK0vCXV/qLrPr5l19M+qS9d33TzoFkXLMPlJB5XRsf4wm7mfPqSPFiYU9SuMkBeMOq
+ KfHvQ72JbRqvepB0oWtH/rl6vCB3moTqvD7tEn/BWAZiLf6oLw0O7H2RDIXGJI/W7zx2
+ +6bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741160648; x=1741765448;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=+aVVWfpM/R7114kq8yw+67pir5NUPFWO9h9JRxaS7qo=;
+ b=NBLrST3t6FRxCYJuBBTht4A+taLuFig4xobqeadqpq4DrkfLrrCrk1T9V+n14+wRGs
+ U2LJyK55q0xHSC8rnOIp10L/xfgV1fyLdBO4XZHp4FkrJcmdoFRZTW7VSonXAf9oKDXj
+ U6ODvlPBuLbJqxfz1hyKeWlfchfqMAxoXawwgIT3stpB3JJ8z966zLvG8Y00sYEsMsm2
+ 9H3rJH1uI1s3PyXNR9EdEQo4agTIoHnabAhfo8XxNCARpqFQCMjhR+Fl5dhly6f7OyTg
+ REsLHpEZmw+Urj+b8bLKhxym+2Mig1OeO1S+LfjotseK1mUansDiGQgALJr/nU95cvxs
+ ztMA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVTSXac+8kq2GAqjiuRfqQoriiCOrZ5RAVJD0CzrhMDvR7HFnwAgnHrW7Ky5JOmFY8yF+vFVibFe7g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvWTm3HE/n/pbD1sC4LrPS0ULgIIIrPReRecU1etfB2JtHFliU
+ mVrOHGYwdIjUKcNUSNhnNtjRze4BaIA9/pdyd918A2YY4CkcP1fYSF99dsl8TbA=
+X-Gm-Gg: ASbGnctu9PFLAXd/IjCzBZQ28EdcJXdEH2NuYKLSI+SaEry50e/y4Z+HwJzTnZGg8AN
+ u/ELpgTxY2soY0/SncumFrEE7qM3zWMmz5/QcPuqDPMUwFh1Bm3AV7kgZfWqsnAVKH204XCCn7Y
+ XBp42UziyrivcLLiMlPq8bQe0nbJy69tCrVGyT2tolQp2KPH0XB+cFOOeIm6278g1KCCGUxscqp
+ coSuoXYDnHIlsXJAtR5U0xiK/3dqz+pIvH6Z21rd6n0LDm91aT9UN1Q4D/5AlUWDvsnck9lJPT/
+ lygPAHgsiVBu0Eoozcg5luYZbVKd5lmWyYt7xwbkJOK1wZUlxeTz1j62nK7ovcnjwu+L80ZANfI
+ hKREPQnbGpT0InoHVups=
+X-Google-Smtp-Source: AGHT+IEPvMkwnzMHESBZZ3ISL/jIpWI/iMcyXh+NYDVcMmY+PloN4Ai5r0S5PZs9sI+S0GqIqmbenw==
+X-Received: by 2002:a05:600c:4f15:b0:439:8c80:6af2 with SMTP id
+ 5b1f17b1804b1-43bd2ae000emr10350255e9.21.1741160647791; 
+ Tue, 04 Mar 2025 23:44:07 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:80fe:f5c:3d29:e407?
+ ([2a01:e0a:982:cbb0:80fe:f5c:3d29:e407])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43bd426c355sm9274075e9.1.2025.03.04.23.44.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Mar 2025 23:44:07 -0800 (PST)
+Message-ID: <02fb7b29-6af0-40f2-a187-326fd762835a@linaro.org>
+Date: Wed, 5 Mar 2025 08:44:07 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bfe3b3e-22cd-4e9f-cafc-08dd5bb94762
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2025 07:42:28.0588 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OhOZJ7nAkxmIpPxUhNGlkve3ia7NrqV4nO6vQYGrXtC0ua38xphEKalzsupDIENPkXLqgcmFK8FTskH3NmrEYFUAi+2HXCNZodcqYhW4Tow=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5021
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: fix Visionox RM692E5 dependencies
+To: Arnd Bergmann <arnd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Danila Tikhonov <danila@jiaxyga.com>, Eugene Lepshy <fekz115@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Wronek <david@mainlining.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250304142907.732196-1-arnd@kernel.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250304142907.732196-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,187 +122,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Lucas, Rodrigo, and Thomas.  Just querying the room on something.
-
-I need help deciding if this new xe_vm_get_property_ioctl should actually j=
-ust be an extension
-of the currently existing xe_query functionality.  On one hand, there's a d=
-ecent chance that this
-ioctl will need to be extended in the future to allow for querying addition=
-al information on the
-VM (E.G. engine reset counts), which has no precedent in xe_query and would=
- make this type
-of query better suited for a new ioctl.  On the other hand, there's also no=
- anti-precedence for
-such a type of query, and it's also debatable if the currently returned dat=
-a from the
-xe_vm_get_property_ioctl is even a "property" of the vm itself.
-
-Any input welcome.  Thank you for your time.
--Jonathan Cavitt
-
------Original Message-----
-From: Cavitt, Jonathan <jonathan.cavitt@intel.com>=20
-Sent: Tuesday, March 4, 2025 9:09 AM
-To: intel-xe@lists.freedesktop.org
-Cc: Gupta, saurabhg <saurabhg.gupta@intel.com>; Zuo, Alex <alex.zuo@intel.c=
-om>; Cavitt, Jonathan <jonathan.cavitt@intel.com>; joonas.lahtinen@linux.in=
-tel.com; Brost, Matthew <matthew.brost@intel.com>; Zhang, Jianxun <jianxun.=
-zhang@intel.com>; Lin, Shuicheng <shuicheng.lin@intel.com>; dri-devel@lists=
-.freedesktop.org
-Subject: [PATCH v5 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
->=20
-> Add support for userspace to request a list of observed failed
-> pagefaults from a specified VM.
->=20
-> v2:
-> - Only allow querying of failed pagefaults (Matt Brost)
->=20
-> v3:
-> - Remove unnecessary size parameter from helper function, as it
->   is a property of the arguments. (jcavitt)
-> - Remove unnecessary copy_from_user (Jainxun)
-> - Set address_precision to 1 (Jainxun)
-> - Report max size instead of dynamic size for memory allocation
->   purposes.  Total memory usage is reported separately.
->=20
-> v4:
-> - Return int from xe_vm_get_property_size (Shuicheng)
-> - Fix memory leak (Shuicheng)
-> - Remove unnecessary size variable (jcavitt)
->=20
-> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Suggested-by: Matthew Brost <matthew.brost@intel.com>
-> CC: Jainxun Zhang <jianxun.zhang@intel.com>
-> CC: Shuicheng Lin <shuicheng.lin@intel.com>
+On 04/03/2025 15:29, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The newly added driver uses the DSC helpers, so the corresponding
+> Kconfig option must be enabled:
+> 
+> ERROR: modpost: "drm_dsc_pps_payload_pack" [drivers/gpu/drm/panel/panel-visionox-rm692e5.ko] undefined!
+> 
+> Fixes: 7cb3274341bf ("drm/panel: Add Visionox RM692E5 panel driver")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/xe/xe_device.c |  3 ++
->  drivers/gpu/drm/xe/xe_vm.c     | 75 ++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/xe/xe_vm.h     |  2 +
->  3 files changed, 80 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_devic=
-e.c
-> index 9454b51f7ad8..43accae152ff 100644
-> --- a/drivers/gpu/drm/xe/xe_device.c
-> +++ b/drivers/gpu/drm/xe/xe_device.c
-> @@ -193,6 +193,9 @@ static const struct drm_ioctl_desc xe_ioctls[] =3D {
->  	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
->  			  DRM_RENDER_ALLOW),
->  	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLO=
-W),
-> +	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-> +			  DRM_RENDER_ALLOW),
-> +
->  };
-> =20
->  static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned l=
-ong arg)
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index 6211b971bbbd..1e78103fb0f6 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -3234,6 +3234,81 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void =
-*data, struct drm_file *file)
->  	return err;
->  }
-> =20
-> +static int xe_vm_get_property_size(struct xe_vm *vm, u32 property)
-> +{
-> +	switch (property) {
-> +	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-> +		return MAX_PFS * sizeof(struct drm_xe_pf);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int fill_property_pfs(struct xe_vm *vm,
-> +			     struct drm_xe_vm_get_property *args)
-> +{
-> +	struct drm_xe_pf __user *usr_ptr =3D u64_to_user_ptr(args->ptr);
-> +	struct drm_xe_pf *fault_list;
-> +	struct drm_xe_pf *fault;
-> +	struct xe_vm_pf_entry *entry;
-> +	int ret, i =3D 0;
-> +
-> +	fault_list =3D kzalloc(args->size, GFP_KERNEL);
-> +	if (!fault_list)
-> +		return -ENOMEM;
-> +
-> +	spin_lock(&vm->pfs.lock);
-> +	list_for_each_entry(entry, &vm->pfs.list, list) {
-> +		struct xe_pagefault *pf =3D entry->pf;
-> +
-> +		fault =3D &fault_list[i++];
-> +		fault->address =3D pf->page_addr;
-> +		fault->address_type =3D pf->address_type;
-> +		fault->address_precision =3D 1;
-> +	}
-> +	args->value =3D vm->pfs.len;
-> +	spin_unlock(&vm->pfs.lock);
-> +
-> +	ret =3D copy_to_user(usr_ptr, &fault_list, args->size);
-> +	kfree(fault_list);
-> +
-> +	return ret ? -EFAULT : 0;
-> +}
-> +
-> +int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-> +			     struct drm_file *file)
-> +{
-> +	struct xe_device *xe =3D to_xe_device(drm);
-> +	struct xe_file *xef =3D to_xe_file(file);
-> +	struct drm_xe_vm_get_property *args =3D data;
-> +	struct xe_vm *vm;
-> +	int size;
-> +
-> +	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
-> +		return -EINVAL;
-> +
-> +	vm =3D xe_vm_lookup(xef, args->vm_id);
-> +	if (XE_IOCTL_DBG(xe, !vm))
-> +		return -ENOENT;
-> +
-> +	size =3D xe_vm_get_property_size(vm, args->property);
-> +	if (size < 0) {
-> +		return size;
-> +	} else if (args->size !=3D size) {
-> +		if (args->size)
-> +			return -EINVAL;
-> +		args->size =3D size;
-> +		return 0;
-> +	}
-> +
-> +	switch (args->property) {
-> +	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-> +		return fill_property_pfs(vm, args);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
->  /**
->   * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
->   * @vm: VM to bind the BO to
-> diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-> index 4d94ab5c8ea4..bf6604465aa3 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.h
-> +++ b/drivers/gpu/drm/xe/xe_vm.h
-> @@ -184,6 +184,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void =
-*data,
->  			struct drm_file *file);
->  int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
->  		     struct drm_file *file);
-> +int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-> +			     struct drm_file *file);
-> =20
->  void xe_vm_close_and_put(struct xe_vm *vm);
-> =20
-> --=20
-> 2.43.0
->=20
->=20
+>   drivers/gpu/drm/panel/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 5927806cb4a9..e059b06e0239 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -1020,6 +1020,8 @@ config DRM_PANEL_VISIONOX_RM692E5
+>   	depends on OF
+>   	depends on DRM_MIPI_DSI
+>   	depends on BACKLIGHT_CLASS_DEVICE
+> +	select DRM_DISPLAY_DSC_HELPER
+> +	select DRM_DISPLAY_HELPER
+>   	help
+>   	  Say Y here if you want to enable support for Visionox RM692E5 amoled
+>   	  display panels, such as the one found in the Nothing Phone (1)
+
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
