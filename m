@@ -2,94 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD80A50D70
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 22:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E4CA50D8C
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 22:35:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66BD10E07C;
-	Wed,  5 Mar 2025 21:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3A510E09E;
+	Wed,  5 Mar 2025 21:35:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RD7LQqUS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aUte/Ugy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 096BE10E07C
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 21:28:53 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-54965898051so3927705e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 13:28:52 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 958AD10E09E;
+ Wed,  5 Mar 2025 21:35:05 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-43bdc607c16so639295e9.1; 
+ Wed, 05 Mar 2025 13:35:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741210131; x=1741814931; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=qgnK/dsQDqVevTIS+vzAayMgUb2QQS8JA32FshFegrE=;
- b=RD7LQqUSDS+BGVJ+8hn4SiK0rEbtDSFjy4C0nZO7smetyL9lldPAAXgLEmWfhHbE+j
- m+Qpoa29XlIn8FcxDLEBpFH1rouLYwG+DvlfpV1bJItWD+/CGN0ycZZ3cempgnZhUiXw
- LcCSJe88FH+Djl6VdtDfCeVjoEgCiGbHApyfr+hK7KkVF1FRWvC4AYlinE5vXvHjC61O
- j6aY0/GHzXAzyRaWO2s8WHw56twtF4JSJwvrGnyjrI4x7SYpCTiwKKYliy6A+ADUWE/3
- rZrYyMwnSEmYLfTmz86wo5jvj3FuI7hb9u6/c5teID4uD2PcBXv6ixX58lfzgYPwwwDs
- CsMA==
+ d=gmail.com; s=20230601; t=1741210504; x=1741815304; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GkfOGAJyjI2lzXCaMBa1FddJd+TtvvII6nxqC6Kgsa0=;
+ b=aUte/UgyXoXl8wR90RqjIbgxDoJoFYkuazTrM7On+hIASYdW4nzNWaQvSoerjlHeJ3
+ 5hemr5jlQlxIfLC9XIDsERGbUR5UiYl9UPeixEufuArPNWXEU7SVKFPLtDEKdYLMG8q3
+ /AfyoDIgyg8Z26yhTGMfh1QkiJQpd2AMviluntmVwbNrJU2jUueMV6NocsFy7Qh4/hSV
+ 8BbHGtA+KWc4K1qPpiHuQgpO27oyPMg5lCXAxhV5vNqeBN0ajnN4ahXMYYtNWrVTfbUq
+ l4WmnHnU+Z/RGPC0d68EfTsjJz5gbe73M1Z+fneGMfDL+jmJSuqFDUb+cQN1SoItXLa3
+ FCzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741210131; x=1741814931;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qgnK/dsQDqVevTIS+vzAayMgUb2QQS8JA32FshFegrE=;
- b=YXYI/bXHZZL9t1h31b8aLokMPsR7M4zIjdxtkF07aS8LgAoBTSLLkSn3e532XB9aTg
- KrM5NGuXOzLr80gYKYzYlDPQ2IzE9SGuPANf71UveEZjes2XxDL/IzngMapAU2CTEmqa
- svygMqQN8KWdb0uBM8zqpTn0/GPnBcVDd6N3JCwVRP3ghPfcn8iYABQpVzZtRKeOBCUS
- vOZktO4dCGJgYRWjcjrHzUIzDwZ5gzH1IZvvgGX+BUGRi+plcYjzOX9CcOy6tHFeM5iK
- 7VQux36Z74bQwu6vCrlxl7npgqRh7biTGOEX/H8lITT4l0eTJYa8cAfcq/FnRugmk+uJ
- fwfg==
+ d=1e100.net; s=20230601; t=1741210504; x=1741815304;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GkfOGAJyjI2lzXCaMBa1FddJd+TtvvII6nxqC6Kgsa0=;
+ b=LDU23A6q3ONRsrQhy9X2KqCV6vgMeme9PhWX3jBJ3NaWZMIttN1O9KqFeimSIUaTDW
+ N4GD+WNnp8n986tQtUzSu/tes974DOWUDm812sEl0/Wn1jK5rLF8Gk9S33DpqVCmfCIE
+ 8KOLA5EUvhHF8fXzHqVq7bPXlc9t2BNtprOshuVVB0xz45BSMFWNue+C9l6zeUR3t2xF
+ BSfwXtkb70PeFvNFuHaqkjXoEVONWVXEj1ylnocEJVArmbNItZgI9eHLcfBG3s7Gp3BQ
+ kLzrVX9X9yz95XHMSxd4ZQrqADtc1BNDvytq57lX4wok4VDCCz/pYna5J2iC0S3IYixf
+ w7nw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUnL1w1gl2NA6/uTUrGWpEE/aIDpyJ2IlOGhKmavziQ6vt1W33BAdQcx5ipGqLm6qJozYPlk2PlEuQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBWwORUZ2Ac/0RDW0sAQl98+Ta/jxaJhUUM2ksy/jTKTHs6PL3
- nMD+poI8ioOb/W9mWtXdPNVky8xuQneglMOUpcYuxjNpO2XwuqyIEIPcBEzCjBQ=
-X-Gm-Gg: ASbGncvb/Rqd9Fa4svAdWiQQ/AIj8uIhVMwZ2tTShoQnI0gqR++EJOGlk4Y39wFrZBC
- 38JN3lXty8OAeXY3OYPViUg+5cprJ9oyNNgrDY+NiFOu/S4/FYkY5sTuXKt+WUBPtqeKOueGs3g
- yzN6CIcm4Umyg33Wo10bM7k4wn5PmIVtkQ9mBCtKUrfx4j4SosF2oYIK4BP7U6xt1ytpS9kMsrj
- eI66RFHMz06WZVNHfkIjTrdbelAUoXmlXKZmu7BwqY+5GBaIW2HlijXujSYUtSmUVWcEpSNrBGW
- Le4m7SL3UkfA4BCx+bj7wYSthpgr+2Ck7YGazM14wWC80XhOWVfpeulzs0bYglAh9gYndDbeBhN
- BS96VheUGFO4lBgej2ahqGMLf
-X-Google-Smtp-Source: AGHT+IH2qGb5qPmpNY2+Tt7o5llhv1gkGQNprrWhdZNfFd33pV50IdQ/Kc8ny7RCAvA4GDgOXB71KQ==
-X-Received: by 2002:a05:6512:b20:b0:545:fba:8a57 with SMTP id
- 2adb3069b0e04-5497d32f412mr1645346e87.8.1741210131261; 
- Wed, 05 Mar 2025 13:28:51 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCV0VoFg2/7VvQ0+H28Z49MISgD5zaPmtWCLkuBznU19r87Uw/dqk8NPoHMvHIPGBy1QwLxA5cPgF6zR@lists.freedesktop.org,
+ AJvYcCXLVYpVYaoh3Ipvw+PxjuvEsR2TEGaD0WpxMsRiYOIOv8SRxuAtPFjUuR/85YlnbNTc/SLOGLsbeGg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzr2NkIcGtUqKbFG3cr0+SBrQ4LX423h/1ZKzVDOFBfMey+yhGW
+ JQ1MLTzvg/6nm+HANufDcy/LZ4DZopT3IzKgGy0+5BglkQzXBzHd
+X-Gm-Gg: ASbGnctflaArNnRW3ikfKbhy2WuEkaJNC14DgdHHI2EZ0qPW3DL+WrPp0LofCZTizCD
+ wYMiDA3/rL+r5D3IazA1qCYAnXmB/ib7Uro3nSdxkwZI2iHkSDMUloVyJPTi82/FUSc95ea+m+2
+ Dzp6XNuClUaIzEf5XGZdTm21cua3XJ3TTFStl4tZNKTyOl+tR1eDc9/0ewGHmzgEegb9GfG2SNe
+ Q1qX8TNtSPDYwyfbou9UYBqVY4yG7Zwex/R3a2z74HmPihsWwQM1lzho9M7YCF9/z4xojbJRO6b
+ 5QfRtxEmRaTYFsK283UPIEHDeMw7SrFfhfvXBPfSAlfLGoPAzYvchko/WlslTiHGcy3LYv8KBVA
+ yoSZ1uGo=
+X-Google-Smtp-Source: AGHT+IE8jxO6kdtaaWpEp4oWi8exS7NgMp++p3+pS078xL7aEkKJBfV7Vnbc8oFxX1styMXDjNOaDg==
+X-Received: by 2002:a05:600c:190d:b0:43b:cf9c:6ffc with SMTP id
+ 5b1f17b1804b1-43bd298a59emr40252875e9.12.1741210503722; 
+ Wed, 05 Mar 2025 13:35:03 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54957fe5d00sm1467587e87.154.2025.03.05.13.28.48
+ 5b1f17b1804b1-43bd42e6bcfsm28935975e9.32.2025.03.05.13.35.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 13:28:49 -0800 (PST)
-Date: Wed, 5 Mar 2025 23:28:47 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Doug Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>,
- Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Artur Weber <aweber.kernel@gmail.com>, 
- Jianhua Lu <lujianhua000@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
-Subject: Re: [PATCH 00/14] drm/panel: Transition away from using
- mipi_dsi_*_write_seq()
-Message-ID: <bifqi2pn4cmefj5sxt26n7xc3kpn4rwaajgxcyv6aujlgpx3dt@tjfignye446u>
-References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
- <CAD=FV=WkPefg00R_TAQQA6waRqGdD+3e84JXfPLk2i9BRzW6Yg@mail.gmail.com>
- <CAN9Xe3S6u1hjp0YifoFC4N9t6Ek3+ZZQPPbL529Y1_+AvnPNLg@mail.gmail.com>
+ Wed, 05 Mar 2025 13:35:02 -0800 (PST)
+Date: Wed, 5 Mar 2025 21:35:01 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Markus Elfring <Markus.Elfring@web.de>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, kernel-janitors@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Archit Taneja <architt@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jeykumar Sankaran
+ <jsanka@codeaurora.org>, Jordan Crouse <jordan@cosmicpenguin.net>, Marijn
+ Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>, Vinod Koul
+ <vkoul@kernel.org>, cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC] Clarification for =?UTF-8?B?4oCcdW5kZWZpbmVkIGJlaGF2?=
+ =?UTF-8?B?aW91cuKAnT8=?=
+Message-ID: <20250305213501.496ea4bf@pumpkin>
+In-Reply-To: <ed9e65a7-6cdf-4d93-83a8-464b47a4bc1d@stanley.mountain>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
+ <54c30a69-71cf-4582-9086-50eb0d39f273@web.de>
+ <k7un3bjavyt4ogscgc7jn7thfobegaguqqiy7gtypmq6vq7zox@l4bsevbsjrud>
+ <29b32b0d-312d-4848-9e26-9e5e76e527a7@stanley.mountain>
+ <e665514b-5a62-4afb-b267-7c320e4872af@web.de>
+ <4c489b64-4c25-43e3-90d3-37f2f335d665@stanley.mountain>
+ <20250305141732.26b91742@pumpkin>
+ <ed9e65a7-6cdf-4d93-83a8-464b47a4bc1d@stanley.mountain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAN9Xe3S6u1hjp0YifoFC4N9t6Ek3+ZZQPPbL529Y1_+AvnPNLg@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,76 +109,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 05, 2025 at 12:29:06PM -0500, Anusha Srivatsa wrote:
-> On Sat, Feb 8, 2025 at 3:43 PM Doug Anderson <dianders@chromium.org> wrote:
-> 
-> > Hi,
-> >
-> > On Thu, Feb 6, 2025 at 1:06 PM Anusha Srivatsa <asrivats@redhat.com>
-> > wrote:
-> > >
-> > > Transition away from mipi_dsi_generic_write_seq() and
-> > > mipi_dsi_dcs_write_seq() to mipi_dsi_generic_write_seq_multi()
-> > > and mipi_dsi_dcs_write_seq_multi() respectively.
-> > >
-> > > This is addressing one of the gpu todo items [1]
-> > >
-> > > Used Coccinelle to make the code changes.
-> >
-> > As Dmitry mentioned [1], I think a real cleanup needs more thought
-> > than can be done in a Coccinelle script. Maybe you can make a script
-> > that's super fancy and does a perfect conversion, but I sorta doubt it
-> > in this case.
-> >
-> > A few other note:
-> >
-> > * Tejas Vipin has been slowly whittling down this TODO item. It would
-> > be good to CC him on any attempts to avoid duplicating work. He just
-> > submitted a patch [2] that duplicates one of the panels you ran your
-> > script on. It would also be good to look at the patches he has been
-> > posting to see some of the extra complexities.
-> >
-> > * I'm happy you CCed on the cover letter, but given that I've been
-> > helping with this TODO entry it would have been nice to have been CCed
-> > on all the patches.
-> >
-> > For now I'm not going to review the individual patches in this series.
-> > If there are any where you think your Coccinelle script really got
-> > everything adjusted perfectly then feel free to point them out and
-> > I'll review them. If you want to help with this effort, my own
-> > personal preference would be to at least start w/ one panel at a time
-> > since probably review feedback on all the conversions will be similar.
-> >
-> > Thanks!
-> >
-> >
-> I thought I had replied to this  :( (face-palm) sincere apologies. Luckily
-> I bumped into this today.  Thanks for the feedback. I agree with what you
-> said. While the script catches the patterns , a little of manual conversion
-> and proof checking is needed. I am taking this into account while I spin
-> the next version. WIll CC everyone in individual patches who have taken
-> their time to take a look at my clearly incomplete approach to this
-> redesign.
+On Wed, 5 Mar 2025 17:30:28 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-- Please post them one by one rather than the whole series
-- As you are looking into the same set of items as Tejas has been
-  working on, please make sure to discuss the order, so that you don't
-  do the same job twice.
+> On Wed, Mar 05, 2025 at 02:17:32PM +0000, David Laight wrote:
+...
+> > And the 'fun' starts because NULL isn't required to use the all-zero
+> > bit pattern.
+> > Regardless of the bit-pattern, things like (void *)(1 - 1) are valid
+> > NULL pointers.
+> > 
+> > Of course, while C allows this, I doubt NULL has ever been other than 0.
+> > (It was 0 on a system I used many years ago where the O/S invalid pointer
+> > was ~0.)  
+> 
+> Kernel style guidelines don't even allow if (p == NULL) so we would be
+> screwed.  :P
 
-> 
-> Again, thanks Dough
-> 
-> Anusha
-> 
-> > -Doug
-> >
-> > [1]
-> > https://lore.kernel.org/r/mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4n6mli5hosrpcvdwp@wmvfvhaqhpkm
-> > [2]
-> > http://lore.kernel.org/r/20250208051541.176667-1-tejasvipin76@gmail.com
-> >
-> >
+Doesn't matter:
+	if (!p) ...
+	if (p == 0) ...
+	if (p == (void *)0) ...
+	if (p == NULL) ...
+	if (p == (void *)(constant integer expression with value 0)) ...
+and the equivalent assignments all behave the same regardless of the
+bit-pattern use for NULL.
+So:
+	union { long l; void *p; } lpu;
+	lpu.p = 0;
+	return lpu.l;
+Returns ABI (implementation) defined constant value.
+I think the only requirement is that it can never be the address
+of a valid variable.
 
--- 
-With best wishes
-Dmitry
+	David
