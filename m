@@ -2,52 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00580A4FF82
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFE3A50011
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 14:16:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38D6810E2A3;
-	Wed,  5 Mar 2025 13:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3200F10E7F1;
+	Wed,  5 Mar 2025 13:16:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tATyV5Ui";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bRVE3pdR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9E910E75D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 13:06:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B488C5C6907;
- Wed,  5 Mar 2025 13:03:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CABE9C4CEE7;
- Wed,  5 Mar 2025 13:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741179971;
- bh=g0qXb7qT37d8NawbNDtCoQfOOQYTUFtVMfWi8jZyKsY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tATyV5UiMxIS7HQvYHGcsTmAJkTZ1KYGzyVCVE598ENI8gNwnllRSg560rfrI9Xvl
- bLjn6A2iKI1rJL/9eC1aklp3FltF+Z9MlFTIxGpj6VW9jFK93XFSDx0XCAv+ZgEbNq
- C6oNhxO9RRlxnPNQM/RXxRDP2hKP0I7arthPhcgAdr7g3tTQMYJF0qv+/qt9kjOAPt
- 5gYBe/J0wluncGtCD8VWp6jOygkfTjR06k+jiVM1xu7TRlThLszlmDw4NOu9GD8byD
- xJGcfzB5JLB8fpkhfiJrl2D4gSQyLax0/kymmRFf0eoqCKIEbPieC7F/puUVNC6y23
- eOxKQpyplgIpg==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 3/3] drm/sched: Update timedout_job()'s documentation
-Date: Wed,  5 Mar 2025 14:05:52 +0100
-Message-ID: <20250305130551.136682-5-phasta@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250305130551.136682-2-phasta@kernel.org>
-References: <20250305130551.136682-2-phasta@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C1810E822;
+ Wed,  5 Mar 2025 13:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741180559; x=1772716559;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=FSA9Ozv525IV5w6+GJaUCX1AAA/L5wOmQaWsfimaaX4=;
+ b=bRVE3pdRrPUhBZzx3R3IJwBuZtr0HlF07kq+erI2ly6o1hAch/0BPwOT
+ FPFnzBVMkZQjt9+99NG3Nf9rTSh0GX9yTkz9i1+Z25cumgYnsLTze01rq
+ siuMmtKvgwz5uZJEL/vSQfbIV+ve6ZAfEcbvEP3GM7YnJ1TwP14LhVc+M
+ UmaOO1LyRmNHqvRFB+VjmHAud/+he+tbkripsStcoLSCSMgs/HP6bf4rB
+ Rzf7OL1KNxUiZXp0YoNZQrM8quymt8CNpDDmCiYHe48HQN50YCziHFSJ6
+ 09JMdA69WduG+Dgvm++L6JmEZxAMTQkp/t4fU9ax263pW8heiS1I0nSCl w==;
+X-CSE-ConnectionGUID: fnpU1dFrRjiF3aPCjSr8qQ==
+X-CSE-MsgGUID: hPtxTECjTlSOfz+hGNE5aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53537157"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; d="scan'208";a="53537157"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 05:15:59 -0800
+X-CSE-ConnectionGUID: +qx5GYliTR65WIshKN7ndw==
+X-CSE-MsgGUID: CFm95MOBS+qd55cWAF9+lQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="118610885"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+ by orviesa010.jf.intel.com with ESMTP; 05 Mar 2025 05:15:55 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tpobI-000KzO-36;
+ Wed, 05 Mar 2025 13:15:52 +0000
+Date: Wed, 5 Mar 2025 21:15:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Su Hui <suhui@nfschina.com>, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, Su Hui <suhui@nfschina.com>,
+ ilpo.jarvinen@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ michael.j.ruhl@intel.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
+Message-ID: <202503052153.gQnXU123-lkp@intel.com>
+References: <20250227073205.1248282-1-suhui@nfschina.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250227073205.1248282-1-suhui@nfschina.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,130 +76,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_backend_ops.timedout_job()'s documentation is outdated. It
-mentions the deprecated function drm_sched_resubmit_jobs(). Furthermore,
-it does not point out the important distinction between hardware and
-firmware schedulers.
+Hi Su,
 
-Since firmware schedulers typically only use one entity per scheduler,
-timeout handling is significantly more simple because the entity the
-faulted job came from can just be killed without affecting innocent
-processes.
+kernel test robot noticed the following build errors:
 
-Update the documentation with that distinction and other details.
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on linus/master v6.14-rc5 next-20250304]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Reformat the docstring to work to a unified style with the other
-handles.
+url:    https://github.com/intel-lab-lkp/linux/commits/Su-Hui/drm-xe-Select-INTEL_VSEC-to-fix-build-dependency/20250227-153437
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250227073205.1248282-1-suhui%40nfschina.com
+patch subject: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
+config: loongarch-randconfig-001-20250304 (https://download.01.org/0day-ci/archive/20250305/202503052153.gQnXU123-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052153.gQnXU123-lkp@intel.com/reproduce)
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 78 ++++++++++++++++++++++---------------
- 1 file changed, 47 insertions(+), 31 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503052153.gQnXU123-lkp@intel.com/
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 6381baae8024..1a7e377d4cbb 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -383,8 +383,15 @@ struct drm_sched_job {
- 	struct xarray			dependencies;
- };
- 
-+/**
-+ * enum drm_gpu_sched_stat - the scheduler's status
-+ *
-+ * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
-+ * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
-+ * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
-+ */
- enum drm_gpu_sched_stat {
--	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-+	DRM_GPU_SCHED_STAT_NONE,
- 	DRM_GPU_SCHED_STAT_NOMINAL,
- 	DRM_GPU_SCHED_STAT_ENODEV,
- };
-@@ -447,43 +454,52 @@ struct drm_sched_backend_ops {
- 	 * @timedout_job: Called when a job has taken too long to execute,
- 	 * to trigger GPU recovery.
- 	 *
--	 * This method is called in a workqueue context.
-+	 * @sched_job: The job that has timed out
- 	 *
--	 * Drivers typically issue a reset to recover from GPU hangs, and this
--	 * procedure usually follows the following workflow:
-+	 * Drivers typically issue a reset to recover from GPU hangs.
-+	 * This procedure looks very different depending on whether a firmware
-+	 * or a hardware scheduler is being used.
- 	 *
--	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
--	 *    scheduler thread and cancel the timeout work, guaranteeing that
--	 *    nothing is queued while we reset the hardware queue
--	 * 2. Try to gracefully stop non-faulty jobs (optional)
--	 * 3. Issue a GPU reset (driver-specific)
--	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
--	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
--	 *    jobs can be queued, and the scheduler thread is unblocked
-+	 * For a FIRMWARE SCHEDULER, each ring has one scheduler, and each
-+	 * scheduler has one entity. Hence, the steps taken typically look as
-+	 * follows:
-+	 *
-+	 * 1. Stop the scheduler using drm_sched_stop(). This will pause the
-+	 *    scheduler workqueues and cancel the timeout work, guaranteeing
-+	 *    that nothing is queued while the ring is being removed.
-+	 * 2. Remove the ring. The firmware will make sure that the
-+	 *    corresponding parts of the hardware are resetted, and that other
-+	 *    rings are not impacted.
-+	 * 3. Kill the entity and the associated scheduler.
-+	 *
-+	 *
-+	 * For a HARDWARE SCHEDULER, a scheduler instance schedules jobs from
-+	 * one or more entities to one ring. This implies that all entities
-+	 * associated with the affected scheduler cannot be torn down, because
-+	 * this would effectively also affect innocent userspace processes which
-+	 * did not submit faulty jobs (for example).
-+	 *
-+	 * Consequently, the procedure to recover with a hardware scheduler
-+	 * should look like this:
-+	 *
-+	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop().
-+	 * 2. Kill the entity the faulty job stems from.
-+	 * 3. Issue a GPU reset on all faulty rings (driver-specific).
-+	 * 4. Re-submit jobs on all schedulers impacted by re-submitting them to
-+	 *    the entities which are still alive.
-+	 * 5. Restart all schedulers that were stopped in step #1 using
-+	 *    drm_sched_start().
- 	 *
- 	 * Note that some GPUs have distinct hardware queues but need to reset
- 	 * the GPU globally, which requires extra synchronization between the
--	 * timeout handler of the different &drm_gpu_scheduler. One way to
--	 * achieve this synchronization is to create an ordered workqueue
--	 * (using alloc_ordered_workqueue()) at the driver level, and pass this
--	 * queue to drm_sched_init(), to guarantee that timeout handlers are
--	 * executed sequentially. The above workflow needs to be slightly
--	 * adjusted in that case:
-+	 * timeout handlers of different schedulers. One way to achieve this
-+	 * synchronization is to create an ordered workqueue (using
-+	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
-+	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
-+	 * that timeout handlers are executed sequentially.
- 	 *
--	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop()
--	 * 2. Try to gracefully stop non-faulty jobs on all queues impacted by
--	 *    the reset (optional)
--	 * 3. Issue a GPU reset on all faulty queues (driver-specific)
--	 * 4. Re-submit jobs on all schedulers impacted by the reset using
--	 *    drm_sched_resubmit_jobs()
--	 * 5. Restart all schedulers that were stopped in step #1 using
--	 *    drm_sched_start()
-+	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_stat
- 	 *
--	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
--	 * and the underlying driver has started or completed recovery.
--	 *
--	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
--	 * available, i.e. has been unplugged.
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+>> ERROR: modpost: "intel_vsec_register" [drivers/gpu/drm/xe/xe.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_VSEC
+   Depends on [n]: X86_PLATFORM_DEVICES [=n] && PCI [=y]
+   Selected by [m]:
+   - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=y]=y [=y])
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
+
 -- 
-2.48.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
