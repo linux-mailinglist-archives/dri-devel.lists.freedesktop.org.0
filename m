@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D74A4FDB1
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 12:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD15A4FDB2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 12:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D35010E75A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D084D10E75E;
 	Wed,  5 Mar 2025 11:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2736710E742
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 11:34:29 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.112])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Z79MV12sxz2Dkn2;
- Wed,  5 Mar 2025 19:30:14 +0800 (CST)
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 295AA10E742
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 11:34:31 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Z79T1530Sz17NSv;
+ Wed,  5 Mar 2025 19:35:01 +0800 (CST)
 Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id D129F1400D3;
- Wed,  5 Mar 2025 19:34:26 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 167891402DE;
+ Wed,  5 Mar 2025 19:34:28 +0800 (CST)
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Wed, 5 Mar 2025 19:34:25 +0800
+ 15.2.1258.34; Wed, 5 Mar 2025 19:34:26 +0800
 From: Yongbang Shi <shiyongbang@huawei.com>
 To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -31,10 +31,10 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
- detect of irq feature
-Date: Wed, 5 Mar 2025 19:26:46 +0800
-Message-ID: <20250305112647.2344438-8-shiyongbang@huawei.com>
+Subject: [PATCH v4 drm-dp 8/8] drm/hisilicon/hibmc: Add MSI irq getting and
+ requesting for HPD
+Date: Wed, 5 Mar 2025 19:26:47 +0800
+Message-ID: <20250305112647.2344438-9-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20250305112647.2344438-1-shiyongbang@huawei.com>
 References: <20250305112647.2344438-1-shiyongbang@huawei.com>
@@ -61,246 +61,167 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Baihan Li <libaihan@huawei.com>
 
-Add HPD interrupt enable functions in drm framework. Add link reset
-process to reset link status when a new connector pulgged in. Because the
-connected VGA connector would make driver can't get the userspace
-call, adding detect_ctx in vga connector to make HPD active userspace.
+To realize HPD feature, request irq for HPD , add its handler function.
+We use pci_alloc_irq_vectors() to get our msi irq, because we have two
+interrupts now.
 
 Signed-off-by: Baihan Li <libaihan@huawei.com>
 Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-ChangeLog:
-v3 -> v4:
-  - add link reset of rates and lanes in pre link training process, suggested by Dmitry Baryshkov.
-  - add vdac detect and connected/disconnected status to enable HPD process, suggested by Dmitry Baryshkov.
-  - remove a drm_client, suggested by Dmitry Baryshkov.
-  - fix build errors reported by kernel test robot <lkp@intel.com>
-    Closes: https://lore.kernel.org/oe-kbuild-all/202502231304.BCzV4Y8D-lkp@intel.com/
-v2 -> v3:
-  - remove mdelay(100) hpd function in ISR, suggested by Dmitry Baryshkov.
-  - remove enble_display in ISR, suggested by Dmitry Baryshkov.
-  - change drm_kms_helper_connector_hotplug_event() to
-    drm_connector_helper_hpd_irq_event(), suggested by Dmitry Baryshkov.
-  - move macros to dp_reg.h, suggested by Dmitry Baryshkov.
-  - remove struct irqs, suggested by Dmitry Baryshkov.
-  - split this patch into two parts, suggested by Dmitry Baryshkov.
-  - add a drm client dev to handle HPD event.
-v1 -> v2:
-  - optimizing the description in commit message, suggested by Dmitry Baryshkov.
-  - add mdelay(100) comments, suggested by Dmitry Baryshkov.
-  - deleting display enable in hpd event, suggested by Dmitry Baryshkov.
----
- .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  1 +
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 36 +++++++++++++++++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  5 +++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  |  3 ++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 33 +++++++++++++++++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  2 ++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  3 ++
- 7 files changed, 83 insertions(+)
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  3 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 76 +++++++++++++++----
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  3 +
+ 3 files changed, 68 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
-index c5feef8dc27d..08f9e1caf7fc 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
-@@ -16,5 +16,6 @@
- #define HIBMC_DP_SYNC_EN_MASK		0x3
- #define HIBMC_DP_LINK_RATE_CAL		27
- #define HIBMC_DP_SYNC_DELAY(lanes)	((lanes) == 0x2 ? 86 : 46)
-+#define HIBMC_DP_INT_ENABLE		0xc
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+index 4a31334f0420..37dadcd67194 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+@@ -99,6 +99,9 @@
  
- #endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-index ce7cb07815b2..8f0daec7d174 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-@@ -189,6 +189,36 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
- 	return 0;
- }
+ #define HIBMC_DP_TIMING_SYNC_CTRL		0xFF0
  
-+void hibmc_dp_enable_int(struct hibmc_dp *dp)
-+{
-+	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
++#define HIBMC_DP_INTSTAT			0x1e0724
++#define HIBMC_DP_INTCLR				0x1e0728
 +
-+	writel(HIBMC_DP_INT_ENABLE, dp_dev->base + HIBMC_DP_INTR_ENABLE);
-+}
+ /* dp serdes reg */
+ #define HIBMC_DP_HOST_OFFSET		0x10000
+ #define HIBMC_DP_LANE0_RATE_OFFSET	0x4
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 8586f7bb11eb..30c2ac2a3da7 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -32,6 +32,8 @@
+ 
+ DEFINE_DRM_GEM_FOPS(hibmc_fops);
+ 
++static const char *g_irqs_names_map[HIBMC_MAX_VECTORS] = { "vblank", "hpd" };
 +
-+void hibmc_dp_disable_int(struct hibmc_dp *dp)
-+{
-+	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
-+
-+	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
-+	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
-+}
-+
-+void hibmc_dp_hpd_cfg(struct hibmc_dp *dp)
-+{
-+	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
-+
-+	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_SYNC_LEN_SEL, 0x0);
-+	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_TIMER_TIMEOUT, 0x1);
-+	hibmc_dp_reg_write_field(dp->dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_MIN_PULSE_NUM, 0x9);
-+	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
-+	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
-+	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
-+	writel(HIBMC_DP_INT_ENABLE, dp_dev->base + HIBMC_DP_INTR_ENABLE);
-+	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
-+	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
-+}
-+
- void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable)
+ static irqreturn_t hibmc_interrupt(int irq, void *arg)
  {
- 	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
-@@ -227,6 +257,12 @@ int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode)
- 	return 0;
+ 	struct drm_device *dev = (struct drm_device *)arg;
+@@ -49,6 +51,22 @@ static irqreturn_t hibmc_interrupt(int irq, void *arg)
+ 	return IRQ_HANDLED;
  }
  
-+void hibmc_dp_reset_link(struct hibmc_dp *dp)
-+{
-+	dp->dp_dev->link.status.clock_recovered = false;
-+	dp->dp_dev->link.status.channel_equalized = false;
-+}
-+
- static const struct hibmc_dp_color_raw g_rgb_raw[] = {
- 	{CBAR_COLOR_BAR, 0x000, 0x000, 0x000},
- 	{CBAR_WHITE,     0xfff, 0xfff, 0xfff},
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-index 83a53dae8012..665f5b166dfb 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-@@ -49,11 +49,16 @@ struct hibmc_dp {
- 	void __iomem *mmio;
- 	struct drm_dp_aux aux;
- 	struct hibmc_dp_cbar_cfg cfg;
-+	u32 irq_status;
- };
- 
- int hibmc_dp_hw_init(struct hibmc_dp *dp);
- int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode);
- void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable);
- void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg);
-+void hibmc_dp_reset_link(struct hibmc_dp *dp);
-+void hibmc_dp_hpd_cfg(struct hibmc_dp *dp);
-+void hibmc_dp_enable_int(struct hibmc_dp *dp);
-+void hibmc_dp_disable_int(struct hibmc_dp *dp);
- 
- #endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-index f6e722d063de..54a09e7565ec 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-@@ -45,6 +45,9 @@ static int hibmc_dp_link_training_configure(struct hibmc_dp_dev *dp)
- 	if (ret)
- 		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
- 
-+	dp->link.cap.link_rate = dp->dpcd[DP_MAX_LINK_RATE];
-+	dp->link.cap.lanes = 0x2;
-+
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-index a7f611e82f73..31f1e8970265 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-@@ -13,6 +13,8 @@
- #include "hibmc_drm_drv.h"
- #include "dp/dp_hw.h"
- 
-+#define DP_MASKED_SINK_HPD_PLUG_INT	BIT(2)
-+
- static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
- {
- 	struct hibmc_dp *dp = to_hibmc_dp(connector);
-@@ -39,6 +41,8 @@ static int hibmc_dp_late_register(struct drm_connector *connector)
- {
- 	struct hibmc_dp *dp = to_hibmc_dp(connector);
- 
-+	hibmc_dp_enable_int(dp);
-+
- 	return drm_dp_aux_register(&dp->aux);
- }
- 
-@@ -47,6 +51,8 @@ static void hibmc_dp_early_unregister(struct drm_connector *connector)
- 	struct hibmc_dp *dp = to_hibmc_dp(connector);
- 
- 	drm_dp_aux_unregister(&dp->aux);
-+
-+	hibmc_dp_disable_int(dp);
- }
- 
- static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
-@@ -98,6 +104,31 @@ static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
- 	.atomic_disable = hibmc_dp_encoder_disable,
- };
- 
-+irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
++static irqreturn_t hibmc_dp_interrupt(int irq, void *arg)
 +{
 +	struct drm_device *dev = (struct drm_device *)arg;
 +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
-+	int idx;
++	u32 status;
 +
-+	if (!drm_dev_enter(dev, &idx))
-+		return -ENODEV;
-+
-+	if (priv->dp.irq_status & DP_MASKED_SINK_HPD_PLUG_INT) {
-+		drm_dbg_dp(&priv->dev, "HPD IN isr occur!\n");
-+		hibmc_dp_hpd_cfg(&priv->dp);
-+	} else {
-+		drm_dbg_dp(&priv->dev, "HPD OUT isr occur!\n");
-+		hibmc_dp_reset_link(&priv->dp);
++	status = readl(priv->mmio + HIBMC_DP_INTSTAT);
++	if (status) {
++		priv->dp.irq_status = status;
++		writel(status, priv->mmio + HIBMC_DP_INTCLR);
++		return IRQ_WAKE_THREAD;
 +	}
-+
-+	if (dev->registered)
-+		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
-+
-+	drm_dev_exit(idx);
 +
 +	return IRQ_HANDLED;
 +}
 +
- int hibmc_dp_init(struct hibmc_drm_private *priv)
+ static int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			     struct drm_mode_create_dumb *args)
  {
- 	struct drm_device *dev = &priv->dev;
-@@ -138,5 +169,7 @@ int hibmc_dp_init(struct hibmc_drm_private *priv)
- 
- 	drm_connector_attach_encoder(connector, encoder);
- 
-+	connector->polled = DRM_CONNECTOR_POLL_HPD;
-+
+@@ -250,15 +268,50 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
  	return 0;
  }
+ 
+-static int hibmc_unload(struct drm_device *dev)
++static void hibmc_unload(struct drm_device *dev)
+ {
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-
+ 	drm_atomic_helper_shutdown(dev);
+ 
+-	free_irq(pdev->irq, dev);
+-
+ 	pci_disable_msi(to_pci_dev(dev->dev));
++}
++
++static int hibmc_msi_init(struct drm_device *dev)
++{
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	char name[32] = {0};
++	int valid_irq_num;
++	int irq;
++	int ret;
++
++	ret = pci_alloc_irq_vectors(pdev, HIBMC_MIN_VECTORS,
++				    HIBMC_MAX_VECTORS, PCI_IRQ_MSI);
++	if (ret < 0) {
++		drm_err(dev, "enabling MSI failed: %d\n", ret);
++		return ret;
++	}
++
++	valid_irq_num = ret;
++
++	for (int i = 0; i < valid_irq_num; i++) {
++		snprintf(name, ARRAY_SIZE(name) - 1, "%s-%s-%s",
++			 dev->driver->name, pci_name(pdev), g_irqs_names_map[i]);
++
++		irq = pci_irq_vector(pdev, i);
++
++		if (i)
++			/* PCI devices require shared interrupts. */
++			ret = devm_request_threaded_irq(&pdev->dev, irq,
++							hibmc_dp_interrupt,
++							hibmc_dp_hpd_isr,
++							IRQF_SHARED, name, dev);
++		else
++			ret = devm_request_irq(&pdev->dev, irq, hibmc_interrupt,
++					       IRQF_SHARED, name, dev);
++		if (ret) {
++			drm_err(dev, "install irq failed: %d\n", ret);
++			return ret;
++		}
++	}
+ 
+ 	return 0;
+ }
+@@ -290,15 +343,10 @@ static int hibmc_load(struct drm_device *dev)
+ 		goto err;
+ 	}
+ 
+-	ret = pci_enable_msi(pdev);
++	ret = hibmc_msi_init(dev);
+ 	if (ret) {
+-		drm_warn(dev, "enabling MSI failed: %d\n", ret);
+-	} else {
+-		/* PCI devices require shared interrupts. */
+-		ret = request_irq(pdev->irq, hibmc_interrupt, IRQF_SHARED,
+-				  dev->driver->name, dev);
+-		if (ret)
+-			drm_warn(dev, "install irq failed: %d\n", ret);
++		drm_err(dev, "hibmc msi init failed, ret:%d\n", ret);
++		goto err;
+ 	}
+ 
+ 	/* reset all the states of crtc/plane/encoder/connector */
+@@ -374,7 +422,7 @@ static void hibmc_pci_remove(struct pci_dev *pdev)
+ 
+ static void hibmc_pci_shutdown(struct pci_dev *pdev)
+ {
+-	drm_atomic_helper_shutdown(pci_get_drvdata(pdev));
++	hibmc_pci_remove(pdev);
+ }
+ 
+ static const struct pci_device_id hibmc_pci_table[] = {
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index bc89e4b9f4e3..daed1330b961 100644
+index daed1330b961..274feabe7df0 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
 +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -71,4 +71,6 @@ int hibmc_dp_init(struct hibmc_drm_private *priv);
+@@ -22,6 +22,9 @@
  
- void hibmc_debugfs_init(struct drm_connector *connector, struct dentry *root);
+ #include "dp/dp_hw.h"
  
-+irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg);
++#define HIBMC_MIN_VECTORS	1
++#define HIBMC_MAX_VECTORS	2
 +
- #endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 05e19ea4c9f9..e8a527ede854 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -60,6 +60,7 @@ static void hibmc_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_helper_funcs
- 	hibmc_connector_helper_funcs = {
- 	.get_modes = hibmc_connector_get_modes,
-+	.detect_ctx = drm_connector_helper_detect_from_ddc,
- };
- 
- static const struct drm_connector_funcs hibmc_connector_funcs = {
-@@ -127,5 +128,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 
- 	drm_connector_attach_encoder(connector, encoder);
- 
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
-+
- 	return 0;
- }
+ struct hibmc_vdac {
+ 	struct drm_device *dev;
+ 	struct drm_encoder encoder;
 -- 
 2.33.0
 
