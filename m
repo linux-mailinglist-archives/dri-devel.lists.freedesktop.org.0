@@ -2,90 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5663DA4FE5D
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 13:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3950A4FE6E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 13:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB2F10E253;
-	Wed,  5 Mar 2025 12:15:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3410A10E74A;
+	Wed,  5 Mar 2025 12:16:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="qVwJPx/y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mIHsbNWr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5597B10E253
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 12:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1741176875; x=1741781675; i=markus.elfring@web.de;
- bh=vN9RsOM9w1Ta2OcodrGTCSnu8bj52DWvF1ogcLjUyJM=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=qVwJPx/y4WCQsTW5x9jGetYyVflxE8dsDy1VFIlVZCLlNM2xXX/BSXqg/LwMt3Cy
- nxwR0GtcxRhljx5e/DmXH4ErVg5D4LzqfbYp4dVQGlqdaG49x2hQH0IIgzkpEKPbN
- 0ucGZqbExRMcMxdvEdoFCSrB4Z+MvthP0C+WVk0QS3xAwqqS6RbpA9BuPDagJhpvo
- srIKnZV3HX1XsFqpMEJwZRWLC+1HpDxPbgF8HUXbia4ISXOZ55shnxUSqYJVxATZK
- 5jwoCDVvOO3lJSiQsPx5r/ab1WOIIRvjqFvW/sP3v88rgWnNsYYjBLEOa+yqc7U7R
- njq4LhSB6ZMWWcobdA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.10]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MNOQy-1tauUT2X3i-00Q3r9; Wed, 05
- Mar 2025 13:14:35 +0100
-Message-ID: <9d042e6a-6d93-4ae4-8373-28b9dec21867@web.de>
-Date: Wed, 5 Mar 2025 13:14:34 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69DD110E74A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 12:16:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9641CA4575D;
+ Wed,  5 Mar 2025 12:11:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 195FEC4CEE7;
+ Wed,  5 Mar 2025 12:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741177011;
+ bh=T2pQRTux3aYb+/CsCX8gA7mq5gtnfR9xR/UlnPTP87k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mIHsbNWrRVTGYVkCJ92Cdx5uA/uc0y8VXHzPS3Fh/qygSll/CTER9VrVIuuiCEDdd
+ Sfjnb93R4rcMBV5Q5pMswQJVnw0HKpcKjWJq7qwV1yFQE4MVUvxShW5WwJNkK5Qn2g
+ 5HCzEZV5VmM2TEBFI2Vn27z+F760oO6JjXnrv1WINsP5JGY+ZzfN3yPzqR2NZhWioX
+ QoEaDphzUj+BBjxaPUInUnahhyFjNBqxRGpsg8kW4tVmM5ruh88vzCeqoSya5oCboW
+ YbB02XEl97+El+vn2IcPxiogWIwXcS/I4M4YYSC9dDpT23wwinbF1A78+1mfSOpKE1
+ OlSAEpjFszaxA==
+Message-ID: <0606709e-2a08-4168-89f0-826a0fb23cab@kernel.org>
+Date: Wed, 5 Mar 2025 13:16:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: video: au1100fb: Move a variable assignment behind a null pointer
- check in au1100fb_setmode()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: Antonino Daplas <adaplas@pol.net>, Helge Deller <deller@gmx.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, Yihao Han <hanyihao@vivo.com>,
- cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <86551e6f-d529-1ff6-6ce6-b9669d10e6cb@web.de>
- <3f1e7aaa-501a-44f1-8122-28e9efa0a33c@web.de>
- <ugymllbkcsg22ffgyofvkquh5afbvoyv2nna5udmy3xfhv2rjz@jhgghzldzm4u>
- <eebf8c0c-7a6a-405f-aaab-2a8a8c2bd91f@stanley.mountain>
- <hwk2nf62owdo3olxrwt5tu7nwfpjkrr3yawizfpb3xn6ydeekx@xwz7nh5ece2c>
- <47c37d1a-5740-4f48-ac0f-635d8b6f51b2@stanley.mountain>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <47c37d1a-5740-4f48-ac0f-635d8b6f51b2@stanley.mountain>
+Subject: Re: [PATCH 1/5] dt-bindings: display: Document DPI color codings
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+References: <20250304101530.969920-1-victor.liu@nxp.com>
+ <20250304101530.969920-2-victor.liu@nxp.com>
+ <20250304-deer-of-striking-pride-ff6e86@houat>
+ <20250305-important-quizzical-chamois-ff48af@krzk-bin>
+ <20250305-mustard-parrot-of-karma-1caf5d@houat>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250305-mustard-parrot-of-karma-1caf5d@houat>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:xz927XuN+dy2MzwEWFmWxNyf3scK2QK3WwvGUP6+iFc0rGUk62+
- 4cBG06YgVkrsQSP7oz2GxkjorzrbEe/+yD99qrKbbrN6r4/IGiNzM2c5QFhdv+Ly1HpAoFV
- o8rtyc4teA7X4Je6sy9ECjv9ObROXAcJv55ghu0oB33hD2tbtVundyy1MzNHWooMwFEFZu5
- CmnGqxkaNfAKVHRpzUZuw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Oy7sG1MKKpI=;JNu2zC9KnC1wTlorr60/eeRODji
- Twvn6Tjrl4ER+r2013vtqMYFWVlvLZXzO0mFQHQfyjI9f6lVP6Gkb0dLwr61wUah9a+fRo6KF
- CQH9f+WuwktSsLCezC9KSIWt74cIqVMecpXzmTKQwf/HAspIHRV67TvuuE8jN0uZbKAeej/+z
- k4vozN3jP6fBUz+KgntPvDueV642U0/djQnAPKVUxRPWpMHdK+iS4L72u9HelQbvCxPZGduYS
- DMiJm+a4CIayWj6kwQEhCWadgxOZdll4RinYa27znlaEcYEZhNvl8oOC1V5Q517Jw/bKLphRd
- +iT9jjowUhXdNe1gpaW9LU7bqar9wue49Ds9Sw5OKluJ/tYI9SaYKU81NHmY3gTNw9Hii6wyM
- uHWLZezEF7LLauwnwW2fiDGMbOZVs7AWkXI3eKgEzUmjPQiMFoFGMAxrJ8LgonMePMEFcvimL
- BMD1Lr5JU76qouQy+9tvXN0+36/YUfuV64mBzT/9eSXhTyovsnKWwkLKZ7pLlVM8xO7W7eWMP
- SZAe5k1CjHH1KvCkOa0aq+P3inEo8GOAYh6Z6KbdKIL5UAu+CIMV7Qt/cjMhfYY0rvttdZtn8
- yeTlgCEntMkGug43gsgV88lWouf3iUhKA+wZssgGAqT5yiVhkgtslUVpE7PtNRTnXuRv0g0rM
- 9UH6blSj67Wgh20slE8jaiZ4ozl3VWHwsEZTWyk3c8W+8gFvHwEmjdNMgVFcTPUtPuz3tu057
- +5tw+5H9JRqiXJeakXtbLCJz3opmeQUVgrMz+z+rsnf3jcHsob+HvlJaED1oQJWmRIHPrtldJ
- fQpHfNld4/1kM768BP6JxshhNTUuzTyH26YvOsq3JACnjh18PIJ3hgJokME8yKdO0uy0ydRDZ
- iedtvaJbEHRvGO0k/ga/jzyvKYLF3VOi8U1jhdFHNW47e6v7MCZriGhwXBDKYDs2q7diyist2
- DaP2oQT7wTnUjfbVM6sS4dLuwe5c85UEGEIfAUkaqb5OeDfiaKN/jjtvEsDqUSdSdm2i67jrZ
- emCa0gwpvqExfAQCAGwzEcI/vKhxwRHKW9wITHzXDovhJ1afLYCrKJL/gY/F0qwXpUeL06uCp
- jBRSfztoSNVtpM/ZxewybtJ+BJLELgDrcoVKEUc6s0Gh+sG2kOQVGIGrJpBhvS7i71OkoSwmm
- w2Mj2QTs7Y0r+eeSgAG3z5gU0ADZ4FK1GtsYOfYPsq+l0JbdSGB3V7YX46ohLp/iZ/Wmc5yjC
- ioOqMs9hXgm54NBaTOhHJLsdfQv47MIeeggCLQhAksjnD+cdktcyyuxsihlgQojf5WVDA8t8p
- 9y3ySv28w/BgaIcb3Lk9AjaaOS2WfPOPncDshEqdi8aGl0mkGlMEZPOQt89zDDKoem1d8pPmw
- hha8NFd33dxZva4qDJ89SwxdbrRz7LCZ4GNmUvBeVUoCbjzMLtw2VdQRPcstdxL6r7GtUoSLr
- t4QRoLg==
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,12 +111,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Anyway, none of that applies here, because this is just pointer math.
-Which data processing do you expect to be generally supported at the discu=
-ssed
-source code place (according to the rules of the programming language =E2=
-=80=9CC=E2=80=9D)?
-https://en.cppreference.com/w/c/language/behavior
+On 05/03/2025 09:26, Maxime Ripard wrote:
+> On Wed, Mar 05, 2025 at 08:51:35AM +0100, Krzysztof Kozlowski wrote:
+>> On Tue, Mar 04, 2025 at 11:33:44AM +0100, Maxime Ripard wrote:
+>>>> +properties:
+>>>> +  dpi-color-coding:
+>>>> +    enum:
+>>>> +      - 16bit-configuration1
+>>>> +      - 16bit-configuration2
+>>>> +      - 16bit-configuration3
+>>>> +      - 18bit-configuration1
+>>>> +      - 18bit-configuration2
+>>>> +      - 24bit
+>>>
+>>> Do we really needs strings there? It would be much better to use an int
+>>> plus a header
+>>
+>> So DTS would sill have a name, just being a define? Then what is the
+>> benefit comparing to strings above in DTS readability?
+> 
+> There's no benefits and no downside when it comes to readability.
+> 
+> However, it's not the only criteria, and not having to manipulate
+> strings but instead just doing int comparison is a huge plus.
 
-Regards,
-Markus
+Sure, defines work as well. BTW, it has a minor drawback on bindings as
+it means you might need to update both binding and the header when
+adding new entry, but I understand that it makes implementation life
+easier or faster.
+
+Best regards,
+Krzysztof
