@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83306A53E0D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 00:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E47A53E0B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 00:07:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CABDC10E855;
-	Wed,  5 Mar 2025 23:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 509E610E84F;
+	Wed,  5 Mar 2025 23:07:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dZBd+sqM";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iGSgPfUP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D549810E855
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 23:07:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4E7410E84F
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 23:07:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741216039;
+ s=mimecast20190719; t=1741216021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BXbABbsFOrkboMzt8NBf4+h/5hP5zznTgfYSP2dMRX4=;
- b=dZBd+sqM3lg3O64/FOzRuyox6Bvnykl1gMFMcLLAw1xOifdVJmMeWEheprKE8Xzo9S4GAQ
- QW0WnD+tagb1GXItoBUM2WWlju18KiZduJ7/QQ7jSvadrrPoZ5uKAUBYoIwsSVX7QgnSrK
- gQTQJ+jgKPE8UIErMZoGzNkbpnwL7Rs=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=iGhdforG/hfsTGcf1d8lWIscR/N9faUXID3wN0fe8hE=;
+ b=iGSgPfUPg3VXLesHXUxyj85lVsp/ED/Ll+pzlw+k25uzpVhc4Qlxw9cqWwkvAvIYKOi9Rv
+ 5GWXhDHHu02nPL9i6rmlNTzzZX2zaXUeJ4bXBI3vxU8RCoiZygqJIuiMje4WA0LVAbGT0x
+ Ke9HIka80GKsHXOfQxTIHsz+qXlE0FE=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-265-LeCARbz_Ndugqsb0rL7kxg-1; Wed,
- 05 Mar 2025 18:06:52 -0500
-X-MC-Unique: LeCARbz_Ndugqsb0rL7kxg-1
-X-Mimecast-MFC-AGG-ID: LeCARbz_Ndugqsb0rL7kxg_1741216010
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-391-7XKPghc_PD-C1h_03dlyvw-1; Wed,
+ 05 Mar 2025 18:06:58 -0500
+X-MC-Unique: 7XKPghc_PD-C1h_03dlyvw-1
+X-Mimecast-MFC-AGG-ID: 7XKPghc_PD-C1h_03dlyvw_1741216016
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 5FD111955DBA; Wed,  5 Mar 2025 23:06:50 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 6ED5F180025A; Wed,  5 Mar 2025 23:06:56 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.88.81])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 4557D300019E; Wed,  5 Mar 2025 23:06:47 +0000 (UTC)
+ id 57C33300019E; Wed,  5 Mar 2025 23:06:53 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -56,9 +56,9 @@ Cc: Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
  Benno Lossin <benno.lossin@proton.me>,
  Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [RFC v3 16/33] rust: drm/kms: Add OpaquePlane and OpaquePlaneState
-Date: Wed,  5 Mar 2025 17:59:32 -0500
-Message-ID: <20250305230406.567126-17-lyude@redhat.com>
+Subject: [RFC v3 17/33] rust: drm/kms: Add OpaqueEncoder
+Date: Wed,  5 Mar 2025 17:59:33 -0500
+Message-ID: <20250305230406.567126-18-lyude@redhat.com>
 In-Reply-To: <20250305230406.567126-1-lyude@redhat.com>
 References: <20250305230406.567126-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -79,232 +79,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Same thing as OpaqueCrtc and OpaqueCrtcState, but for plane states now.
+Same thing as OpaquePlane, but for encoders now.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 
 ---
 
 V3:
-* Add safety comment to implementation of ModeObject
-* Add safety comments to implementation of AsRawPlane
+* Add safety comment to ModeObject implementation
+* Add safety comments for AsRawEncoder
 * Implement try_from_opaque() and from_opaque() using a macro
-* Add missing upcasts
-* Use addr_of_mut!() instead of &mut
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/kms/plane.rs | 176 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 175 insertions(+), 1 deletion(-)
+ rust/kernel/drm/kms/encoder.rs | 91 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 90 insertions(+), 1 deletion(-)
 
-diff --git a/rust/kernel/drm/kms/plane.rs b/rust/kernel/drm/kms/plane.rs
-index d1fabdf42df54..be69dc16c6cc7 100644
---- a/rust/kernel/drm/kms/plane.rs
-+++ b/rust/kernel/drm/kms/plane.rs
+diff --git a/rust/kernel/drm/kms/encoder.rs b/rust/kernel/drm/kms/encoder.rs
+index 2e4e88055c890..9ae2ff8eb5d50 100644
+--- a/rust/kernel/drm/kms/encoder.rs
++++ b/rust/kernel/drm/kms/encoder.rs
 @@ -4,7 +4,7 @@
  //!
- //! C header: [`include/drm/drm_plane.h`](srctree/include/drm/drm_plane.h)
+ //! C header: [`include/drm/drm_encoder.h`](srctree/include/drm/drm_encoder.h)
  
 -use super::{KmsDriver, ModeObject, StaticModeObject, UnregisteredKmsDevice};
 +use super::{KmsDriver, ModeObject, ModeObjectVtable, StaticModeObject, UnregisteredKmsDevice};
  use crate::{
      alloc::KBox,
-     bindings,
-@@ -169,6 +169,25 @@ fn deref(&self) -> &Self::Target {
+     drm::device::Device,
+@@ -219,6 +219,25 @@ unsafe fn from_raw<'a>(ptr: *mut bindings::drm_encoder) -> &'a Self {
      }
  }
  
-+// SAFETY: `funcs` is initialized when the plane is allocated
-+unsafe impl<T: DriverPlane> ModeObjectVtable for Plane<T> {
-+    type Vtable = bindings::drm_plane_funcs;
++// SAFETY: `funcs` is initialized when the encoder is allocated
++unsafe impl<T: DriverEncoder> ModeObjectVtable for Encoder<T> {
++    type Vtable = bindings::drm_encoder_funcs;
 +
 +    fn vtable(&self) -> *const Self::Vtable {
-+        // SAFETY: `as_raw()` always returns a valid plane pointer
++        // SAFETY: `as_raw()` always returns a valid pointer to an encoder
 +        unsafe { *self.as_raw() }.funcs
 +    }
 +}
 +
-+impl<T: DriverPlane> Plane<T> {
++impl<T: DriverEncoder> Encoder<T> {
 +    super::impl_from_opaque_mode_obj! {
-+        fn <'a, D>(&'a OpaquePlane<D>) -> &'a Self;
++        fn <'a, D>(&'a OpaqueEncoder<D>) -> &'a Self;
 +        use
-+            T as DriverPlane,
++            T as DriverEncoder,
 +            D as KmsDriver
 +    }
 +}
 +
- /// A [`Plane`] that has not yet been registered with userspace.
+ /// A [`Encoder`] that has not yet been registered with userspace.
  ///
  /// KMS registration is single-threaded, so this object is not thread-safe.
-@@ -396,6 +415,84 @@ fn mask(&self) -> u32 {
+@@ -311,6 +330,76 @@ pub fn new<'a, 'b: 'a>(
+     }
  }
- impl<T: AsRawPlane> RawPlane for T {}
  
-+/// A [`struct drm_plane`] without a known [`DriverPlane`] implementation.
++/// A [`struct drm_encoder`] without a known [`DriverEncoder`] implementation.
 +///
-+/// This is mainly for situations where our bindings can't infer the [`DriverPlane`] implementation
-+/// for a [`struct drm_plane`] automatically. It is identical to [`Plane`], except that it does not
++/// This is mainly for situations where our bindings can't infer the [`DriverEncoder`] implementation
++/// for a [`struct drm_encoder`] automatically. It is identical to [`Encoder`], except that it does not
 +/// provide access to the driver's private data.
-+///
-+/// It may be upcasted to a full [`Plane`] using [`Plane::from_opaque`] or
-+/// [`Plane::try_from_opaque`].
 +///
 +/// # Invariants
 +///
-+/// - `plane` is initialized for as long as this object is made available to users.
-+/// - The data layout of this structure is equivalent to [`struct drm_plane`].
-+///
-+/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
++/// Same as [`Encoder`].
 +#[repr(transparent)]
-+pub struct OpaquePlane<T: KmsDriver> {
-+    plane: Opaque<bindings::drm_plane>,
++pub struct OpaqueEncoder<T: KmsDriver> {
++    encoder: Opaque<bindings::drm_encoder>,
 +    _p: PhantomData<T>,
 +}
 +
-+impl<T: KmsDriver> Sealed for OpaquePlane<T> {}
++impl<T: KmsDriver> Sealed for OpaqueEncoder<T> {}
 +
-+// SAFETY:
-+// * Via our type variants our data layout is identical to `drm_plane`
-+// * Since we don't expose `plane` to users before it has been initialized, this and our data
-+//   layout ensure that `as_raw()` always returns a valid pointer to a `drm_plane`.
-+unsafe impl<T: KmsDriver> AsRawPlane for OpaquePlane<T> {
-+    fn as_raw(&self) -> *mut bindings::drm_plane {
-+        self.plane.get()
-+    }
++// SAFETY: All of our encoder interfaces are thread-safe
++unsafe impl<T: KmsDriver> Send for OpaqueEncoder<T> {}
 +
-+    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_plane) -> &'a Self {
-+        // SAFETY: Our data layout is identical to `bindings::drm_plane`
-+        unsafe { &*ptr.cast() }
-+    }
-+}
++// SAFETY: All of our encoder interfaces are thread-safe
++unsafe impl<T: KmsDriver> Sync for OpaqueEncoder<T> {}
 +
-+// SAFETY: We only expose this object to users directly after KmsDriver::create_objects has been
-+// called.
-+unsafe impl<T: KmsDriver> ModesettablePlane for OpaquePlane<T> {
-+    type State = OpaquePlaneState<T>;
-+}
-+
-+// SAFETY: We don't expose OpaquePlane<T> to users before `base` is initialized in
-+// Plane::<T>::new(), so `raw_mode_obj` always returns a valid pointer to a
++// SAFETY: We don't expose OpaqueEncoder<T> to users before `base` is initialized in
++// OpaqueEncoder::new(), so `raw_mode_obj` always returns a valid poiner to a
 +// bindings::drm_mode_object.
-+unsafe impl<T: KmsDriver> ModeObject for OpaquePlane<T> {
++unsafe impl<T: KmsDriver> ModeObject for OpaqueEncoder<T> {
 +    type Driver = T;
 +
 +    fn drm_dev(&self) -> &Device<Self::Driver> {
-+        // SAFETY: DRM planes exist for as long as the device does, so this pointer is always valid
-+        unsafe { Device::borrow((*self.as_raw()).dev) }
++        // SAFETY: DRM encoders exist for as long as the device does, so this pointer is always
++        // valid
++        unsafe { Device::borrow((*self.encoder.get()).dev) }
 +    }
 +
 +    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
-+        // SAFETY: We don't expose DRM planes to users before `base` is initialized
-+        unsafe { addr_of_mut!((*self.as_raw()).base) }
++        // SAFETY: We don't expose Encoder<T> to users before it's initialized, so `base` is always
++        // initialized
++        unsafe { addr_of_mut!((*self.encoder.get()).base) }
 +    }
 +}
 +
-+// SAFETY: Planes do not have a refcount
-+unsafe impl<T: KmsDriver> StaticModeObject for OpaquePlane<T> {}
++// SAFETY: Encoders do not have a refcount
++unsafe impl<T: KmsDriver> StaticModeObject for OpaqueEncoder<T> {}
 +
-+// SAFETY: `funcs` is initialized when the plane is allocated
-+unsafe impl<T: KmsDriver> ModeObjectVtable for OpaquePlane<T> {
-+    type Vtable = bindings::drm_plane_funcs;
++// SAFETY:
++// - Via our type variants our data layout is identical to  with `drm_encoder`
++// - Since we don't expose `Encoder` to users before it has been initialized, this and our data
++//   layout ensure that `as_raw()` always returns a valid pointer to a `drm_encoder`.
++unsafe impl<T: KmsDriver> AsRawEncoder for OpaqueEncoder<T> {
++    fn as_raw(&self) -> *mut bindings::drm_encoder {
++        self.encoder.get()
++    }
++
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_encoder) -> &'a Self {
++        // SAFETY: Our data layout is identical to `bindings::drm_encoder`
++        unsafe { &*ptr.cast() }
++    }
++}
++
++// SAFETY: `funcs` is initialized when the encoder is allocated
++unsafe impl<T: KmsDriver> ModeObjectVtable for OpaqueEncoder<T> {
++    type Vtable = bindings::drm_encoder_funcs;
 +
 +    fn vtable(&self) -> *const Self::Vtable {
-+        // SAFETY: `as_raw()` always returns a valid pointer to a plane
++        // SAFETY: `as_raw()` always returns a valid pointer to an encoder
 +        unsafe { *self.as_raw() }.funcs
 +    }
 +}
 +
-+// SAFETY: Our plane interfaces are guaranteed to be thread-safe
-+unsafe impl<T: KmsDriver> Send for OpaquePlane<T> {}
-+unsafe impl<T: KmsDriver> Sync for OpaquePlane<T> {}
-+
- /// A trait implemented by any type which can produce a reference to a [`struct drm_plane_state`].
- ///
- /// This is implemented internally by DRM.
-@@ -572,6 +669,83 @@ fn deref_mut(&mut self) -> &mut Self::Target {
-     }
- }
- 
-+// SAFETY: Shares the safety guarantee of Plane<T>'s vtable impl
-+unsafe impl<T: DriverPlaneState> ModeObjectVtable for PlaneState<T> {
-+    type Vtable = bindings::drm_plane_funcs;
-+
-+    fn vtable(&self) -> *const Self::Vtable {
-+        self.plane().vtable()
-+    }
-+}
-+
-+impl<T: DriverPlaneState> PlaneState<T> {
-+    super::impl_from_opaque_mode_obj! {
-+        fn <'a, D, P>(&'a OpaquePlaneState<D>) -> &'a Self
-+        where
-+            T: DriverPlaneState<Plane = P>;
-+        use
-+            P as DriverPlane,
-+            D as KmsDriver
-+    }
-+}
-+
-+/// A [`struct drm_plane_state`] without a known [`DriverPlaneState`] implementation.
-+///
-+/// This is mainly for situations where our bindings can't infer the [`DriverPlaneState`]
-+/// implementation for a [`struct drm_plane_state`] automatically. It is identical to [`Plane`],
-+/// except that it does not provide access to the driver's private data.
-+///
-+/// # Invariants
-+///
-+/// - The DRM C API and our interface guarantees that only the user has mutable access to `state`,
-+///   up until [`drm_atomic_helper_commit_hw_done`] is called. Therefore, `plane` follows rust's
-+///   data aliasing rules and does not need to be behind an [`Opaque`] type.
-+/// - `state` is initialized for as long as this object is exposed to users.
-+/// - The data layout of this structure is identical to [`struct drm_plane_state`].
-+///
-+/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
-+/// [`drm_atomic_helper_commit_hw_done`]: srctree/include/drm/drm_atomic_helper.h
-+#[repr(transparent)]
-+pub struct OpaquePlaneState<T: KmsDriver> {
-+    state: bindings::drm_plane_state,
-+    _p: PhantomData<T>,
-+}
-+
-+impl<T: KmsDriver> AsRawPlaneState for OpaquePlaneState<T> {
-+    type Plane = OpaquePlane<T>;
-+}
-+
-+impl<T: KmsDriver> private::AsRawPlaneState for OpaquePlaneState<T> {
-+    fn as_raw(&self) -> &bindings::drm_plane_state {
-+        &self.state
-+    }
-+
-+    unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_plane_state {
-+        &mut self.state
-+    }
-+}
-+
-+impl<T: KmsDriver> FromRawPlaneState for OpaquePlaneState<T> {
-+    unsafe fn from_raw<'a>(ptr: *const bindings::drm_plane_state) -> &'a Self {
-+        // SAFETY: Our data layout is identical to `ptr`
-+        unsafe { &*ptr.cast() }
-+    }
-+
-+    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_plane_state) -> &'a mut Self {
-+        // SAFETY: Our data layout is identical to `ptr`
-+        unsafe { &mut *ptr.cast() }
-+    }
-+}
-+
-+// SAFETY: Shares the safety guarantee of OpaquePlane<T>'s vtable impl
-+unsafe impl<T: KmsDriver> ModeObjectVtable for OpaquePlaneState<T> {
-+    type Vtable = bindings::drm_plane_funcs;
-+
-+    fn vtable(&self) -> *const Self::Vtable {
-+        self.plane().vtable()
-+    }
-+}
-+
- unsafe extern "C" fn plane_destroy_callback<T: DriverPlane>(plane: *mut bindings::drm_plane) {
-     // SAFETY: DRM guarantees that `plane` points to a valid initialized `drm_plane`.
-     unsafe { bindings::drm_plane_cleanup(plane) };
+ unsafe extern "C" fn encoder_destroy_callback<T: DriverEncoder>(
+     encoder: *mut bindings::drm_encoder,
+ ) {
 -- 
 2.48.1
 
