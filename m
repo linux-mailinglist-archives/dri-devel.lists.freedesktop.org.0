@@ -2,56 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0D3A4FD08
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 12:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DE9A4FD12
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 12:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9591C10E0D2;
-	Wed,  5 Mar 2025 11:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DCE10E28E;
+	Wed,  5 Mar 2025 11:03:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b5A+PoQ9";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Ca+GaY1N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6206D10E0D2
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 11:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741172491; x=1772708491;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=GpRp9L00DRuTC3CdDytrwHek71bCCrqaSgJl3vTeZ5g=;
- b=b5A+PoQ9YL/a6S86xbjSfEJFOmzRe+WyDL4mr1wm5jXskIiNJvMW0cOl
- lOCDFgfxO69+uYDGyZap3AXQBKZn02CM1TfOq4v8BDTKEqW8QkIF2kcfB
- ERuh1HVpwm7s6kCw5cOD1xVMjwcMnGdLkCbkioi0sV2EZof5iTUR42rOq
- 6T1VuVDjGHYrNiQqxjzo9Pz50FpebtWVh3DRGiouDJ/CduM19MMKyAUTb
- lmuqaE0MOeTuAeai5Hm771pysVU50l26cpvTfDBkLv8IYQ9/IQt+HWgnn
- Yqpc44cx5xp9KYiu961mEpU8cq7baxKFKvMcG0pnI5hgPUQht669rFCZi Q==;
-X-CSE-ConnectionGUID: TLwVolsOTL6dRP0ssktBsQ==
-X-CSE-MsgGUID: DWMaTOIFRK6LebPIBHs9Fg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42375627"
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; d="scan'208";a="42375627"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 03:01:30 -0800
-X-CSE-ConnectionGUID: D7Vq9gXiSKeOefM5s4LZgg==
-X-CSE-MsgGUID: 3p2sJt5lSiquD+2kXPAsVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; d="scan'208";a="141911060"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa002.fm.intel.com with ESMTP; 05 Mar 2025 03:01:29 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 5763B21F; Wed, 05 Mar 2025 13:01:28 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ofir Bitton <obitton@habana.ai>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v3 1/1] accel/habanalabs: Switch to use %ptTs
-Date: Wed,  5 Mar 2025 13:00:25 +0200
-Message-ID: <20250305110126.2134307-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03DB810E28E
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 11:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741172600;
+ bh=RGJcaalCEarW5jwI3J/1uzxBnyofX9WJFnHBzN1I0u4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Ca+GaY1NHRG821pXxcN2YgQThJ4wozNyL5ewinAdLGmBBu63gQ4riKGjkQoaXPy1h
+ eQsSYsnKtxuH2MRuR2tF4y/rz1OBlc8q1pp9rsyBnCFu5jp5LEo3f+0cE7D5AG0PoP
+ 1NqkHaf481Ivk35YPtiZybbVokgSfncR19+jtcHfh8PKwfhCb1dsZnu0j0ELO0QfRx
+ +U880/O+Uxtq1Rjpz/ef54E3OVaFFjIo3ePswS8+azo/gVyuPNmx4bB7SOTsa3qtLf
+ 5Z6c7ceG9rRTfPt7bRyt90UtUc7SLVunx9GHUUzETVutemstvWn1oDcI8Yh8MXiL6B
+ C4rVCXAnzNf+Q==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9C09017E0343;
+ Wed,  5 Mar 2025 12:03:19 +0100 (CET)
+Message-ID: <8203317e-7f99-4ea5-bda0-fcd791602a9f@collabora.com>
+Date: Wed, 5 Mar 2025 12:03:18 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/8] soc: mediatek: mtk-cmdq: Add pa_base parsing for
+ unsupported subsys ID hardware
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ =?UTF-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
+ =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?UTF-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "fshao@chromium.org" <fshao@chromium.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "treapking@chromium.org" <treapking@chromium.org>
+References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
+ <20250218054405.2017918-5-jason-jh.lin@mediatek.com>
+ <581fc075-25d8-4104-a4ee-8c97e1a017e6@collabora.com>
+ <03c523e66fd56442f49c38456476cf18be59e8fb.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <03c523e66fd56442f49c38456476cf18be59e8fb.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,75 +88,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use %ptTs instead of open-coded variant to print contents of time64_t type
-in human readable form.
+Il 05/03/25 10:46, Jason-JH Lin (林睿祥) ha scritto:
+> On Tue, 2025-03-04 at 10:35 +0100, AngeloGioacchino Del Regno wrote:
+>>
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> Il 18/02/25 06:41, Jason-JH Lin ha scritto:
+>>> When GCE executes instructions, the corresponding hardware register
+>>> can be found through the subsys ID. For hardware that does not
+>>> support
+>>> subsys ID, its subsys ID will be set to invalid value and its
+>>> physical
+>>> address needs to be used to generate GCE instructions.
+>>>
+>>> This commit adds a pa_base parsing flow to the cmdq_client_reg
+>>> structure
+>>> for these unsupported subsys ID hardware.
+>>>
+>>
+>> Does this work only for the MMINFRA located GCEs, or does this work
+>> also for
+>> the legacy ones in MT8173/83/88/92/95 // MT6795/6893/etc?
+>>
+>> In order to actually review and decide, I do need to know :-)
+>>
+> 
+> Yes, it's for the SoCs without subsys ID, it's not related to the
+> MMINFRA.
+> 
+> This can also work on MT8173/83/92/95 // MT6795/6893/etc.
+> You can remove the `mediatek,gce-client-reg` properties in their dtsi
+> and cherry-pick this series to verify it. :-)
+> 
 
-This changes N/A output to 1970-01-01 00:00:00 for zero timestamps,
-but it's used only in the dev_err() output and won't break anything.
+This is curious - and that brings more questions to the table (for curiosity
+more than anything else at this point).
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+Since this is a way to make use of the CMDQ for address ranges that are not tied
+to any subsys id (hence no gce-client-reg and just physical address parsing for
+generating instructions), do you know what are the performance implications of
+using this, instead of subsys IDs on SoCs that do support them?
 
-v3: explained the difference for N/A cases (Jani)
-v2: fixed the parameters to be the pointers
+Being clear: if we were to migrate a SoC like MT8195 to using this globally
+instead of using subsys ids, would the performance be degraded?
+And if yes, do you know by how much?
 
- drivers/accel/habanalabs/common/device.c | 25 +++---------------------
- 1 file changed, 3 insertions(+), 22 deletions(-)
+What you're proposing almost looks like being too good to be true - and makes
+me wonder, at this point, why the subsys id was used in the first place :-)
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 68eebed3b050..80fa08bf57bd 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -1066,28 +1066,11 @@ static bool is_pci_link_healthy(struct hl_device *hdev)
- 	return (device_id == hdev->pdev->device);
- }
- 
--static void stringify_time_of_last_heartbeat(struct hl_device *hdev, char *time_str, size_t size,
--						bool is_pq_hb)
--{
--	time64_t seconds = is_pq_hb ? hdev->heartbeat_debug_info.last_pq_heartbeat_ts
--					: hdev->heartbeat_debug_info.last_eq_heartbeat_ts;
--	struct tm tm;
--
--	if (!seconds)
--		return;
--
--	time64_to_tm(seconds, 0, &tm);
--
--	snprintf(time_str, size, "%ld-%02d-%02d %02d:%02d:%02d (UTC)",
--		tm.tm_year + 1900, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
--}
--
- static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
- {
- 	struct eq_heartbeat_debug_info *heartbeat_debug_info = &hdev->heartbeat_debug_info;
- 	u32 cpu_q_id = heartbeat_debug_info->cpu_queue_id, pq_pi_mask = (HL_QUEUE_LENGTH << 1) - 1;
- 	struct asic_fixed_properties *prop = &hdev->asic_prop;
--	char pq_time_str[64] = "N/A", eq_time_str[64] = "N/A";
- 
- 	if (!prop->cpucp_info.eq_health_check_supported)
- 		return true;
-@@ -1095,17 +1078,15 @@ static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
- 	if (!hdev->eq_heartbeat_received) {
- 		dev_err(hdev->dev, "EQ heartbeat event was not received!\n");
- 
--		stringify_time_of_last_heartbeat(hdev, pq_time_str, sizeof(pq_time_str), true);
--		stringify_time_of_last_heartbeat(hdev, eq_time_str, sizeof(eq_time_str), false);
- 		dev_err(hdev->dev,
--			"EQ: {CI %u, HB counter %u, last HB time: %s}, PQ: {PI: %u, CI: %u (%u), last HB time: %s}\n",
-+			"EQ: {CI %u, HB counter %u, last HB time: %ptTs}, PQ: {PI: %u, CI: %u (%u), last HB time: %ptTs}\n",
- 			hdev->event_queue.ci,
- 			heartbeat_debug_info->heartbeat_event_counter,
--			eq_time_str,
-+			&hdev->heartbeat_debug_info.last_eq_heartbeat_ts,
- 			hdev->kernel_queues[cpu_q_id].pi,
- 			atomic_read(&hdev->kernel_queues[cpu_q_id].ci),
- 			atomic_read(&hdev->kernel_queues[cpu_q_id].ci) & pq_pi_mask,
--			pq_time_str);
-+			&hdev->heartbeat_debug_info.last_pq_heartbeat_ts);
- 
- 		hl_eq_dump(hdev, &hdev->event_queue);
- 
--- 
-2.47.2
+Cheers!
+Angelo
+
+> Regards,
+> Jason-JH Lin
+> 
+>> Thanks,
+>> Angelo
+>>
+>>
+> 
+
+
 
