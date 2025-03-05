@@ -2,95 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25084A5036D
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 16:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E500A50392
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 16:39:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7478A10E7C2;
-	Wed,  5 Mar 2025 15:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2DDD10E7D6;
+	Wed,  5 Mar 2025 15:39:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="McYKGNOQ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fAEDTMJq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C195010E7C2
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 15:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741188416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qPtUDuBhtdSX6GhOg+XQnbMK00oSmP61u2YCpHroymk=;
- b=McYKGNOQVKe2+FRlPu2CimJjHwuvxpvosMz57KrxI45qI4mQZj2QtEo/YfYdX56ClLL5th
- KMbk8mkcDc6riDIFpGMQmG++CjAr28jDPgsvtMscyMPt4aMHZxc99Gs0Hnkwew+Ue6NDX3
- fB0BCVYCahtgz8sWmuV/XPanlAF9Iy0=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-655-S-SNIuNANpO0Prn_zQ5Caw-1; Wed, 05 Mar 2025 10:26:47 -0500
-X-MC-Unique: S-SNIuNANpO0Prn_zQ5Caw-1
-X-Mimecast-MFC-AGG-ID: S-SNIuNANpO0Prn_zQ5Caw_1741188407
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-2217a4bfcc7so121018365ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 07:26:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741188406; x=1741793206;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qPtUDuBhtdSX6GhOg+XQnbMK00oSmP61u2YCpHroymk=;
- b=KzKibT0nsV+zqFjS5xPUm6JPLNUwezqPO/OJ84Y/KWT1pLYqKxC1l7+uU0xlFEl2xw
- KR1KZXsdYxctWMEYCyghJYmseG0u8ktHyiU7H3nTSJFob5zDbNSFycLlk0JNx4Ul2Lw3
- 3tION1/ym4pR7Fup3BnApNL9p1LBxzm69Ebfn5mXa5Za+wfRfKIznmo9xShH9Jtwi3Lk
- tOTDLCINtgmIcLDWkXB8JgtkeSeSZOyVO42hrAFalNjENRC0DGtoLZ0ZSPRWxuyAzNlE
- 9F8IsOWtJMPLGZT1f1i+8WMcIno6WehCExvWU/2X56l3Wl4euU7RhH/uf4ZQImJDakE8
- Etvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUy1KXWeBvKWVQBWDnJVk2mjklfhaQWcttkLT5mGnrJG4jzBGiO899rWKY/aTZSsIxCZ3c3sWxAMr8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4pnojRG9vA9vJ0gdi9oBoc08ce3PCii07zQMIonL1hvDfIJbe
- CnXwsl7Hf9lGIQfaGcp++bbbehIDpBIS6Hgz3saxAeWt3yq97nBrNKcnuaJZg3bR5PEtnFUnvp6
- cW0k4Hx5UXOT4JieE7oD8k+q5EaAXTRgnI0PNmeZdzsz9RE2A0FdN//YaD3FBq1MDDw==
-X-Gm-Gg: ASbGncstqTu6hNVyFT+rJMEOxx/r4gHpXluCgCDbxA/9cBHYcDhkQsBn9Ou52yZb7WM
- Nv4MkY6qR2NlN6y9UpPh6a73O+dOg0AZwIYf2uq6WW0rQOuEERXgTs9fXQDExwosEVhXtXVz0YT
- 4dcTn8fOXpkLlb419JII1w8TwBC5y6lyiX0IyqUFMGyMWxlHvqDM2EzJz4LwvFdP3UNghHLnWwZ
- CPKRZ7T+Gmv8OVoIHph7RiGkAxxGhQi9oxRzhTABokuCsGs0ONJaQX9676QCvRWQnluElTCfdXr
- mpXsv4ydG31zbyGU
-X-Received: by 2002:a05:6a00:998:b0:736:46b4:beef with SMTP id
- d2e1a72fcca58-73682b55144mr6706582b3a.3.1741188406431; 
- Wed, 05 Mar 2025 07:26:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IECYyXVd+Gb6leHDb5NO82ag7tQipklHOXKqXQqY4fydYrcJZzPu+CjaBp7aum4qt8U11Vpow==
-X-Received: by 2002:a05:6a00:998:b0:736:46b4:beef with SMTP id
- d2e1a72fcca58-73682b55144mr6706526b3a.3.1741188406066; 
- Wed, 05 Mar 2025 07:26:46 -0800 (PST)
-Received: from zeus.elecom ([240b:10:83a2:bd00:6e35:f2f5:2e21:ae3a])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7364b4eff66sm6983292b3a.83.2025.03.05.07.26.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 07:26:45 -0800 (PST)
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, kraxel@redhat.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com, akpm@linux-foundation.org,
- urezki@gmail.com, hch@infradead.org, dmitry.osipenko@collabora.com,
- jfalempe@redhat.com
-Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- linux-mm@kvack.org
-Subject: [PATCH drm-next 2/2] drm/virtio: Use atomic_vmap to work drm_panic in
- GUI
-Date: Thu,  6 Mar 2025 00:25:54 +0900
-Message-ID: <20250305152555.318159-3-ryasuoka@redhat.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250305152555.318159-1-ryasuoka@redhat.com>
-References: <20250305152555.318159-1-ryasuoka@redhat.com>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7CZUc5CdnAW9BQCFhFVheTQ5he0KlpCatEy2mS3c3VQ_1741188407
-X-Mimecast-Originator: redhat.com
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFB110E7D6
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 15:38:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UXKi9UKYri7lEWmoln9oFiKFI6IT6V1wjht7HAZU2q0+a9vqwVuKQbLSSvh698SP5sEKJb3X4AHuwI+Y/ND4KJSrENHQ34AEdoI1LUPn6GHfxjcC854mrWsPAvQZ4oIi74Finf7iZMMTqiaCmu3Dk+O2uTVePJspmapbLEmE3GCjbu0Oti1zelx2rdEgKBJTSAPF47ODT9sBw8tSO/C7NWQuNy7kMq8bY2+f95c4pkGvwamadEMIw08YpSKCXWM9O8mixMdS18OhGZZLS4UWXl6+eoloKJlCyIQjIGABqcRHxD6mBiffrVAuGY2Rlrp6al8UzVM0sAwJH+OQ9CTPQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=33Fwp0t8M78q32Df9v1Q6yfWy2PYGF5j1Urqnt/qd5s=;
+ b=vg/j7h+/eVLCw41gExj01rOlwRFXh1y+Q+kZOwmnGEuluEN8S+WqlPD1bq4eGnpCBDr8OiCRDNnBrcn/xnXKRJg8VPZJ0OKuCTkjNXrNttRToebvm5jUXYCbsCLadTEGzTIYRDaVWgsfPsSD+GtsuaiYKoejK+/DJO3dA+hJIu5NPe3Mald1F8Z9uacgAz696W8mq0iqGRZs4QPDb0y97AqxBK5qIcpLdzr9RlRWvG31ZXPrHrV7qehvY/fsr0nI4Jl2Up0TtvhtXTCmSj5V2sYzpWVX2x66eqgxE3Z2a0ABLyPjWS3bFp9RTk+orQWsBItQyXzQvZGZv0d+bS9f/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=33Fwp0t8M78q32Df9v1Q6yfWy2PYGF5j1Urqnt/qd5s=;
+ b=fAEDTMJqCnARFC+GFDTqRXIvBgUTmSm85Z25cEwfLZisXlMATnQ6qsRvs9MyF/0FfPfDu311uci4vupAebI+AQJ3mhZlPmMUt86tNWNOF/s9veldYan0ygCWqH37k0yZ/72b1soBIDa+ba4IkhbC4kAe8BRRDh2frf1KmfR5rUc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB8820.namprd12.prod.outlook.com (2603:10b6:806:341::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.25; Wed, 5 Mar
+ 2025 15:38:53 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8489.025; Wed, 5 Mar 2025
+ 15:38:53 +0000
+Message-ID: <f150286f-1609-4175-a431-ba5cad80717c@amd.com>
+Date: Wed, 5 Mar 2025 16:38:46 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/10] drm: Hide import_attach from GEM code and helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ javierm@redhat.com, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20250226172457.217725-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250226172457.217725-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-ClientProxiedBy: FR2P281CA0108.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9c::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8820:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd7becb3-ff19-4b79-64dd-08dd5bfbd533
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q3JDZWkzdjF5WTVuYjlNbHFscUVQQStRMDJPZkgyNVFsdmIvQXJ0Y2RjcUFl?=
+ =?utf-8?B?NDRmS21hSTducEU0VTJIMXB3NEZkODluaGtkVUlVQy9DU3BCU09HVWNXYjdi?=
+ =?utf-8?B?UWg3NFZSM0I0SUJIaWVZbG1ROVRVQ1d0ZzZTajVGRytxWWNqc1lVR1ZmdWF2?=
+ =?utf-8?B?L09tLzIyeWw5RFpyWjVGWndzVlZNbmJGUFpUc1UweHM0V3VVQXZGMzZSVkQ5?=
+ =?utf-8?B?RTVGUnU0ZWpWY0ZsaTY0VVhXK2lkS0tEK1hMQThaemUvTlJORWUzb081QWNB?=
+ =?utf-8?B?Mk1xYXlNSHBIRGVOaTJGWVFMSzF6S1ZVSGUrd1pOYUpiUXovRFhNeGR1K0Mx?=
+ =?utf-8?B?Tk9TYStiUmZPTFFpYnpRUEZTWkpINGpjaXdKK1JiUHB1UnlSNkJJOC9hNWQv?=
+ =?utf-8?B?NGFmbnlKVmpFaFFrc3Ayd1l4U1VXL3VkNXoxaDErcHpJVTl3bDBVQkxvYXg3?=
+ =?utf-8?B?ZFo0UmlTOVNhY0NXMUM0WXFZQ1lwN0R3dldOTlhaNGIrZ1JyaTh3MUd4Mi9v?=
+ =?utf-8?B?S01vMmpPMitxTTF0RlNScWhWdTBPTzM2elI0S3UyVm5BVGJtaW1saVBVdnRp?=
+ =?utf-8?B?MlVqdFhSQ1BjcURNRWJWNzVsbTAvWnpVMldLMFN3ZlF0d21pUDg0QVR6ZVZr?=
+ =?utf-8?B?Tm5YVHBnUU1iclBIQWJpUGM2dDQ5RURRKzVVSzRvMGp2d2FvdzhCZkN2RXF0?=
+ =?utf-8?B?ZkJseit1NVE3QWVSc043MUdBcDV2NStGTUtCekRxZk5wWWh4TWdwYitJakkw?=
+ =?utf-8?B?a3JRWEQ4L0o0bCtWV3JROCtzSFBQMVo3MU1TMXM0dVFPOFo5WHQxOHJHZ2p0?=
+ =?utf-8?B?aGd4SVpDN3FOdC94cm1SaUFUZzE3Ry9BVmhPeXNwYk1walA1M1I5WVcrTjg0?=
+ =?utf-8?B?TzFhaEVyc1p6eHozajFuWnN1WGk1YjBqM0g2VUpTdUhtZ0M1Mzk4NjdpOC9M?=
+ =?utf-8?B?cG03aGY0aEQyWklrYUF1dytZUU91OFM3MU1qU1M0QUVNWElobm00bFNST0pI?=
+ =?utf-8?B?WjFFOXpYc0o2OHNpZmV6ZHVwL0IvZ0JhTTJYOWdaOC84MGxwNEFFQUVWVHJk?=
+ =?utf-8?B?SmkvNGdiUVAxMDcvOGQ5V2xhckZsM25TbVF5WHJxZndyRSt6NmxOVlI3TlFS?=
+ =?utf-8?B?aFdwZGt3RHVyeGRySmFmOVVFY3cvK04vM28yUHRhazAzMlVPaHQ0YWQ5Z0lC?=
+ =?utf-8?B?d2ZYMDlET1IvaGVEZVZVbUoxWktDNjYwNXd6THRyR0hOcmlrNzk4TDVSQUNk?=
+ =?utf-8?B?S2p2Q21rbTlmUzFNdUxwTVUrOTdNUGpWY0FrbkVoV3h4OVVPVlVlSUtzdHdU?=
+ =?utf-8?B?UDlZWXZqVGN6R3RMZitrVGpzdnFYL0RCdDhmVHN3VWFmVEF5L3VIYWduRmZ1?=
+ =?utf-8?B?SkJMSHZzcnora0hGVHFFbytqR0hwbUx0VWhqekk2Z2NkdFdPY3Zkd2JHclB3?=
+ =?utf-8?B?Q2JTZi9PODczcVUwZ1haTzN4bnozakNtNTM5cmhScERpQUFwQ1VlR3V4eE9w?=
+ =?utf-8?B?cmtXdWJxL2Z3NzhuZXFaK2h0UlJ0d3ZLMFZxVE1QanhCQUIycGFLOGlTeTdk?=
+ =?utf-8?B?VGhQQ1FPUEJEalYwNUhaNWFwcGgwemlSbDJXR3NrYXNqOGo1TnRTeDcyMEJ5?=
+ =?utf-8?B?YlVaV3RlSzNGbE5kMG45a3N1aWhQaTBVdUJjZ1JpbDFqcnJWcWZoaU5rUnBN?=
+ =?utf-8?B?RS9iMExwQ09reE9jRCt2ZUdEUUdIQURtMytFM1F2MytMUStUd0JIUitWUDMw?=
+ =?utf-8?B?Ri8yZXNpOE00UjM2ZFRBd3B1Zlc5OXg5VE0veFNMZFBVMUdpekhyZHUxa2V4?=
+ =?utf-8?B?SFN3eENMOG9ZdkpCNGdJYSt0SjZMZEp3Q3VSWWdMdFBmYTYwd0I5cFVvc0Fo?=
+ =?utf-8?Q?6p5h/eAG+3pw+?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFltZWk2eEZrV2N3U1dsSERSaFRmazE3SjhValNDM3BGWUJHcHEzNGpmMTZU?=
+ =?utf-8?B?TWJaZFM5RUpIc3pnMm9lV3ZmeFgrWWpCMzdBZS9mWk5iYkFVelV5WFhvTTZI?=
+ =?utf-8?B?WUtENE5sSWZJdGhlMGZSNFNXQTQ0OVBOQ0hBaTVqQ29ra2tnckJ5UmM3QnVu?=
+ =?utf-8?B?N1ZXNkVGbFhVYVdNQnYwdWtGd2FWWEl2UXFSSlZraXBkdEJleHZ2RStSTm9P?=
+ =?utf-8?B?NGc0MWtGMG1sTEJsejlueHB6dUV1NWw3TkZSL1pTNi8wTGlqb25iOTdSMmd1?=
+ =?utf-8?B?cXE3Mjg0cEhpcENMbHhTdlVXOXV6bGJ1WDVWNjVLNUxweHNsK216azNiY2hQ?=
+ =?utf-8?B?Z1ZCZ3d3SVpsdnZxR3NQa25pQzVjbXJiNlRxQ2JDQVRPTzlmZktDd1EvRVY2?=
+ =?utf-8?B?SldKMjRFN0xYRmJ4MEozd1c5UElFazkrRWpYUjBDUW1helM2UDAxNXgwdlA1?=
+ =?utf-8?B?WHFaWDMyU2FZMURyODB2a3pXVDhmVFdleGdLOGUzTnl0VjlKKzdkdC85eC9L?=
+ =?utf-8?B?eDR2dGQzbWMwQ294aXZLeHBBOEF3VHRkN012SjE3RTlRbnl4ZFBiL2VWdTdx?=
+ =?utf-8?B?K1pxYVhDbndwanI1MmVqbEtCYytxYng1ZGNzdElaVGRQRWpOdklndnlIcDF3?=
+ =?utf-8?B?QVpVRjYvekh6azNXTC81VXlTNytBaUtrS0pTVk1iVDZiSkxmRG5IMFByU1I5?=
+ =?utf-8?B?aS95ckNmL25pb1JsRllXODRFZVFSQkk4NmhsMUt6d0M5RkhGUTdWMjI0eXUx?=
+ =?utf-8?B?akFVRE5aRTNOMFV5bVR6NjNJSDdoSjZBNDRMcEJBc1piTThWRzhpMElqM1pl?=
+ =?utf-8?B?Z1ZJSm1PRnEvNzJTWmlyNXJTSXBjQkJCSGNyZ3RiV2JJSFBUWnoyM1lHYnJq?=
+ =?utf-8?B?QzFiWWJ0MWc0Rmd2MlVwNDZyRXBuWEFBMGdScm5jc216djRLS0s1K3BhRzds?=
+ =?utf-8?B?a3VlYVBGM0tEbmFwWlVGM1RYam1ocnRkbkRsUlNST3RpdkdaUWhoUElaWXpP?=
+ =?utf-8?B?a3l6YVRhQy9mSzZ1ekxIR1IrT0RmTE5zaFBkUFdoRUswSGllZE9IZDF2VFFL?=
+ =?utf-8?B?NVRlU3U0TFBwUzdtbmhybFd5SUNhY1JQZUx5MW5sWXZhc0U1bHd0by8zZzZC?=
+ =?utf-8?B?NDdjMno2clNranp5YnE0a29yNVJDNDUvRVR5UGhpbC9DM0ZCUXJMdFJ0YXRt?=
+ =?utf-8?B?ZHRVWmtWVjc4RURCbllOQ0ZTcktUaU12RlZ3YVlHWEFjR1Z4QTRuYmI5NmM4?=
+ =?utf-8?B?Z3hvdThHOC9DVjBvaGhBUTVVTkxTd1hERHdBdUt2MnBWd3NUdUtwSUlSODRY?=
+ =?utf-8?B?UXZoa1BhNG9GYTd0NlRNVVhmZ1ZzVzRReTZpU2ZIbnJrN29TTVFVR2dvVEhO?=
+ =?utf-8?B?Ny9naW9VdEorcFFsY0FXL3VFQ1Z1QzdvVTNKa2gybURSWEZUWmpIaXMrdnh6?=
+ =?utf-8?B?MTdZbnBZczBJbnZaRWluclo4UWZ6WTFNdERob1A4ZEk2dVdDeUZNZWhwL0I5?=
+ =?utf-8?B?Z2llWCtqSHF2YW5QU0hZRCtRL2UzWXVKTHdMcjQ1ejhObm9XZ3VaWjlqT1Js?=
+ =?utf-8?B?SmVlbS9nZlpUbjk5MGMxb1luMVBmQ2lWd0FhQ3VPTkR2bGxqWlU5WFRBS3ow?=
+ =?utf-8?B?QlhqcTU3RkQvbUlCZTZkdm9Lc1JGYWVNZTBvbmlTODc0K2ZMbklQQ21Za3BH?=
+ =?utf-8?B?TFJ0eUlycU80c2J4Ry8yOGxHNGV0ak1tbnV3YXd3NEZFclB4THVVUGNuWnI2?=
+ =?utf-8?B?a3BzMHI5bzZRS0VuSFhLakVSOU9MYmZtSGM2R3FsU200OE9aRXphZDI5bEpT?=
+ =?utf-8?B?eU8xSUNDUFFzMHBzc0NDRGluUEswVmFISkx0dmNuNnlhaUlBNWpPUHprenV6?=
+ =?utf-8?B?R0xMTXEyNjlybFZqc3A3bkpSdFdhQ2g5VnBEUWphZDRnVGFmeUZiSFIvYU5Y?=
+ =?utf-8?B?bkpuOHFpcDg5a2w5cFZna2hha0piZmxpeFUxL3hBNktTVlZUeFZiS3Q5VDVB?=
+ =?utf-8?B?RG9jZTF3SjBIWnU1YVc2WlpIVTlRci9QeEJiMnhKSk5qRzhwdDNDQ2FzUnZK?=
+ =?utf-8?B?YXBqMWp1ajRXMmFrbGVMUzhLeitFamxONHZFVnlUUSt5NGZRdTBFR0xMQng3?=
+ =?utf-8?Q?j3wO4rwRpoobMtN8kyvkw9nzO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd7becb3-ff19-4b79-64dd-08dd5bfbd533
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2025 15:38:53.0976 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ik82M07vF2DGHhDXJ0lpQrWOyQc3jbm+oXckKGJD+A5kRUhVE5PPXbPpBX/oomgn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8820
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,202 +162,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-virtio drm_panic supports only vmapped shmem BO because there is no
-atomic vmap feature. Now atomic_vmap is supported, so drm_panic tries to
-vmap addr if it is not mapped.
+Reviewed-by: Christian König <christian.koenig@amd.com> for the entire series.
 
-Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
----
- drivers/gpu/drm/drm_gem.c              | 51 ++++++++++++++++++++++++++
- drivers/gpu/drm/drm_gem_shmem_helper.c | 51 ++++++++++++++++++++++++++
- drivers/gpu/drm/virtio/virtgpu_plane.c | 14 +++++--
- include/drm/drm_gem.h                  |  1 +
- include/drm/drm_gem_shmem_helper.h     |  2 +
- 5 files changed, 116 insertions(+), 3 deletions(-)
+Regards,
+Christian.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index ee811764c3df..eebfaef3a52e 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -535,6 +535,57 @@ static void drm_gem_check_release_batch(struct folio_batch *fbatch)
- 	cond_resched();
- }
- 
-+struct page **drm_gem_atomic_get_pages(struct drm_gem_object *obj)
-+{
-+	struct address_space *mapping;
-+	struct page **pages;
-+	struct folio *folio;
-+	long i, j, npages;
-+
-+	if (WARN_ON(!obj->filp))
-+		return ERR_PTR(-EINVAL);
-+
-+	/* This is the shared memory object that backs the GEM resource */
-+	mapping = obj->filp->f_mapping;
-+
-+	/* We already BUG_ON() for non-page-aligned sizes in
-+	 * drm_gem_object_init(), so we should never hit this unless
-+	 * driver author is doing something really wrong:
-+	 */
-+	WARN_ON((obj->size & (PAGE_SIZE - 1)) != 0);
-+
-+	npages = obj->size >> PAGE_SHIFT;
-+
-+	pages = kmalloc_array(npages, sizeof(struct page *), GFP_ATOMIC);
-+	if (pages == NULL)
-+		return ERR_PTR(-ENOMEM);
-+
-+	mapping_set_unevictable(mapping);
-+
-+	i = 0;
-+	while (i < npages) {
-+		long nr;
-+
-+		folio = shmem_read_folio_gfp(mapping, i,
-+				GFP_ATOMIC);
-+		if (IS_ERR(folio))
-+			return ERR_PTR(-ENOMEM);
-+		nr = min(npages - i, folio_nr_pages(folio));
-+		for (j = 0; j < nr; j++, i++)
-+			pages[i] = folio_file_page(folio, i);
-+
-+		/* Make sure shmem keeps __GFP_DMA32 allocated pages in the
-+		 * correct region during swapin. Note that this requires
-+		 * __GFP_DMA32 to be set in mapping_gfp_mask(inode->i_mapping)
-+		 * so shmem can relocate pages during swapin if required.
-+		 */
-+		BUG_ON(mapping_gfp_constraint(mapping, __GFP_DMA32) &&
-+				(folio_pfn(folio) >= 0x00100000UL));
-+	}
-+
-+	return pages;
-+}
-+
- /**
-  * drm_gem_get_pages - helper to allocate backing pages for a GEM object
-  * from shmem
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 5ab351409312..789dfd726a36 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -186,6 +186,34 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
- 
-+static int drm_gem_shmem_atomic_get_pages(struct drm_gem_shmem_object *shmem)
-+{
-+	struct drm_gem_object *obj = &shmem->base;
-+	struct page **pages;
-+
-+	pages = drm_gem_atomic_get_pages(obj);
-+	if (IS_ERR(pages)) {
-+		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
-+			    PTR_ERR(pages));
-+		shmem->pages_use_count = 0;
-+		return PTR_ERR(pages);
-+	}
-+
-+	/*
-+	 * TODO: Allocating WC pages which are correctly flushed is only
-+	 * supported on x86. Ideal solution would be a GFP_WC flag, which also
-+	 * ttm_pool.c could use.
-+	 */
-+#ifdef CONFIG_X86
-+	if (shmem->map_wc)
-+		set_pages_array_wc(pages, obj->size >> PAGE_SHIFT);
-+#endif
-+
-+	shmem->pages = pages;
-+
-+	return 0;
-+}
-+
- static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
-@@ -317,6 +345,29 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
- }
- EXPORT_SYMBOL(drm_gem_shmem_unpin);
- 
-+int drm_gem_shmem_atomic_vmap(struct drm_gem_shmem_object *shmem,
-+			      struct iosys_map *map)
-+{
-+	struct drm_gem_object *obj = &shmem->base;
-+	int ret = 0;
-+
-+	pgprot_t prot = PAGE_KERNEL;
-+
-+	ret = drm_gem_shmem_atomic_get_pages(shmem);
-+	if (ret)
-+		return -ENOMEM;
-+
-+	if (shmem->map_wc)
-+		prot = pgprot_writecombine(prot);
-+	shmem->vaddr = atomic_vmap(shmem->pages, obj->size >> PAGE_SHIFT,
-+				   VM_MAP, prot);
-+	if (!shmem->vaddr)
-+		return -ENOMEM;
-+	iosys_map_set_vaddr(map, shmem->vaddr);
-+
-+	return 0;
-+}
-+
- /*
-  * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
-  * @shmem: shmem GEM object
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index a6f5a78f436a..2a977c5cf42a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -500,11 +500,19 @@ static int virtio_drm_get_scanout_buffer(struct drm_plane *plane,
- 
- 	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
- 
--	/* Only support mapped shmem bo */
--	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach || !bo->base.vaddr)
-+	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach)
- 		return -ENODEV;
- 
--	iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-+	/* try to vmap it if possible */
-+	if (!bo->base.vaddr) {
-+		int ret;
-+
-+		ret = drm_gem_shmem_atomic_vmap(&bo->base, &sb->map[0]);
-+		if (ret)
-+			return ret;
-+	} else {
-+		iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-+	}
- 
- 	sb->format = plane->state->fb->format;
- 	sb->height = plane->state->fb->height;
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index fdae947682cd..cfed66bc12ef 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -529,6 +529,7 @@ void drm_gem_free_mmap_offset(struct drm_gem_object *obj);
- int drm_gem_create_mmap_offset(struct drm_gem_object *obj);
- int drm_gem_create_mmap_offset_size(struct drm_gem_object *obj, size_t size);
- 
-+struct page **drm_gem_atomic_get_pages(struct drm_gem_object *obj);
- struct page **drm_gem_get_pages(struct drm_gem_object *obj);
- void drm_gem_put_pages(struct drm_gem_object *obj, struct page **pages,
- 		bool dirty, bool accessed);
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index d22e3fb53631..86a357945f42 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -105,6 +105,8 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
- int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
-+int drm_gem_shmem_atomic_vmap(struct drm_gem_shmem_object *shmem,
-+			      struct iosys_map *map);
- int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
- 		       struct iosys_map *map);
- void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
--- 
-2.48.1
+Am 26.02.25 um 18:03 schrieb Thomas Zimmermann:
+> Do not use struct drm_gem_object.import_attach unnecessarily. The
+> field is set by the PRIME import helpers. GEM and other helpers use
+> it for testing for imported dma-bufs and retrieving the respective
+> dma-buf instance.
+>
+> Replace all tests for import_attach with the new GEM helper function
+> drm_gem_is_imported(). The helper avoids import_attach in favor of
+> testing the imported dma-buf's object against the provided GEM object.
+>
+> Also replace references to import_attach.dmabuf. The imported dma-buf
+> is also available in the GEM object's dma_buf field.
+>
+> This series cleans up the GEM core and helpers. Drivers also use
+> import_attach and should later be updated as well.
+>
+> There's a TODO item for making import_attach entirely optional. This
+> series is a first step towards this goal.
+>
+> Thomas Zimmermann (10):
+>   drm/gem: Test for imported GEM buffers with helper
+>   drm/gem-dma: Test for imported buffers with drm_gem_is_imported()
+>   drm/gem-dma: Use dma_buf from GEM object instance
+>   drm/gem-shmem: Test for imported buffers with drm_gem_is_imported()
+>   drm/gem-shmem: Use dma_buf from GEM object instance
+>   drm/gem-framebuffer: Test for imported buffers with
+>     drm_gem_is_imported()
+>   drm/gem-framebuffer: Use dma_buf from GEM object instance
+>   drm/fb-dma-helper: Test for imported buffers with
+>     drm_gem_is_imported()
+>   drm/mipi-dbi: Test for imported buffers with drm_gem_is_imported()
+>   drm/prime: Use dma_buf from GEM object instance
+>
+>  drivers/gpu/drm/drm_fb_dma_helper.c          |  2 +-
+>  drivers/gpu/drm/drm_gem.c                    |  4 +--
+>  drivers/gpu/drm/drm_gem_dma_helper.c         |  4 +--
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 12 +++-----
+>  drivers/gpu/drm/drm_gem_shmem_helper.c       | 30 ++++++++++----------
+>  drivers/gpu/drm/drm_mipi_dbi.c               |  2 +-
+>  drivers/gpu/drm/drm_prime.c                  |  8 +-----
+>  include/drm/drm_gem.h                        | 14 +++++++++
+>  include/drm/drm_gem_shmem_helper.h           |  2 +-
+>  9 files changed, 41 insertions(+), 37 deletions(-)
+>
 
