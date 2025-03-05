@@ -2,95 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50144A50197
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 15:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887EEA5019F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Mar 2025 15:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D4110E783;
-	Wed,  5 Mar 2025 14:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BD610E790;
+	Wed,  5 Mar 2025 14:18:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ccZmPUTA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b/lVWU3f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B92F310E783;
- Wed,  5 Mar 2025 14:17:37 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-43995b907cfso44349535e9.3; 
- Wed, 05 Mar 2025 06:17:37 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2578110E78E
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 14:18:51 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-43bb6b0b898so32771165e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 06:18:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741184255; x=1741789055; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1741184329; x=1741789129; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BvAmhIp672FcTh8QydCVgJQ9OGkof1lTKDgnIKxGf1A=;
- b=ccZmPUTAuB6FGT/WmFihbqfBTkbC+bCVx6qUfvVH403xinZc4ampmwC8eb9COY/qFK
- jC50BSm3wmcbmBtOKbWIuXmvuATd+dRVawEY6GJKDUImDarEWN5fY7FvY0TpNls5wv2A
- AHFiYnNCRaQhxxqLuK9OFz25mJrd3C8BBXJIo/cP+V/c1iu9CGCvFgCNHFYkdRIeFGTm
- UAqz0oHhZ+agWNt+FkGE5APDp+vpkp72OQxFYsts3J+8xjy8r7AqqGaBz7PErI5VsXjO
- IKE9r+wTRE5CqqVkQ7KQd6QquyFZYVSRda3iG/dthkS0HDpzXYrPbLOi8rPKePc3DR6e
- /5Hg==
+ bh=uVxEKUGPmST9SVCsY1zuL15uHcxYusVnASOLADTY7W0=;
+ b=b/lVWU3fT8tiCpSJ5orjBi8/2t/KxMQNwyc/IU8ZZntH30K9REAt1m3kpfTL4LhZvF
+ PxtHns6o3/LdqD/A17mCAOUrx33yOrSbgz1OaHh3cvg8prp67Egc7rukPetUHcW8VQ2X
+ fh/XorsK3u+oqJcLQi3yqV8XEQwrLy4I3/oV1h2S+DclUuzP38DWYpLg8VGttA07dV3C
+ v3HRyQe2jH3Xf/QKy38+BjHc5UHnL9BCDeS820TnqP505TteL6G0dVSZ3wGUsyHbfYWx
+ HXZgE6bwVOcyyrwbZ02CZA6aVaib7a7k34mrkOpWZ4Z1RP7Khw9RQmGhexfq7MykDbwF
+ EMXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741184255; x=1741789055;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1741184329; x=1741789129;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BvAmhIp672FcTh8QydCVgJQ9OGkof1lTKDgnIKxGf1A=;
- b=ofKuWjMXAwBt1XcetywNY4wqHXv5E9kiiQXWubWMguNVXfSi2HDV9JkFrU6tSRfGkZ
- zUar5LrC/zFkUoC5FoiRSn4ALbn/dH6fnsmYnBjnUu0VjxPxDz0ljkPzwwrS4Mbe2jji
- jKOeTKcPhc7AN5fNJk76LL8juUlpXKb0Awba805jtpPuEh4OpzjUAqk54b4vqeg1krha
- EzyYsjxXaYCBNNTKrhRLVU95CudHrnT6JY6AGgxFKrBtJmd/TiG+pFT3W6pySt1uwbd3
- z+utFTBQj0npX6V2SEHsvqu1GfXc+PnTd/bDVTNFX822Pv+mjsSjMPkY8Pv5kDXIl4uA
- E7nQ==
+ bh=uVxEKUGPmST9SVCsY1zuL15uHcxYusVnASOLADTY7W0=;
+ b=k41QmiKPrsWqWJPQekeJ9HqLkDhGqrS90WwhXbT7XuTx2ToW19Mp2ra2TQpPvh2soP
+ sjevAVg3m7TLi+NjYq/oM5O1VOzzl/OC/Kv33J1lrGJKRaenvOATiZ5RAnLCFWme0khm
+ ciUTxYnEf49w2qdeus7pBv0YPeatXXRXvFTdyoRuHB3J/Dhg4HjmabdqRGM0NjSOFN7x
+ CaDK3NqmP5CMI5x0KiA6Q5i7w+bXlU12c+3HVsE2ppv872Qwv7LLaQ5YhVyLLNmYKuug
+ fUU0AgpDQzGb8PJVgTXQgIR/9v/hYOldWqhWNXxFTk1oeI2QwomzmPmjOoN1S8rm8sq6
+ eNyA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUmj1fOP8v8PTb4FxvgMo53OFksuHiBnxqOlRVv87DrcJ+rNeJAq0btMnGRFWvNHDJ/f4J2oW4TYW5i@lists.freedesktop.org,
- AJvYcCXCVdoqzihA6EpCz/x+Gf+51eEkJlDmmodBaDHqT/8FfF5lK/8CU1E/8y5Sn4fxNcaP21ykVjW10pE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlzalhfB9gJlJLsIhnANBcrEPFJHuLJlJlNsZrMQs/z4hYNjhL
- qF5DHydgLiAbwPOIVqU1ibtbvRinGQQwnFOK5NtfBkqyrJIMTQpx
-X-Gm-Gg: ASbGnctNRoTfgZ+6K/L1xfgq9j+o6WL0GQvjCb5zArVbGI8xq4nG6SOV463powCdf/o
- aKhX8pmTd+mfVt39HLTYwQP+4sTSnkFVKMRpm0edboqPtfuwYum5hLq6zEd3PVYLw7ERtDAOqa1
- ApeuBGBdYAKNo8cz/I+yXXbkGazipjtrh7e87HGsYj50P2q5gN2bjbr2EsyP6AJrJn8Wb0OmAcb
- bjNSuT8kZfym/dq9N5rHqRxifoevl9vw1IfKjeRMTTROCx14an20TINuXnkeYAZjYiVRNGyiXSr
- gUAYTisq2MvoRw+9QA2TdS5u8+ngHhUYErjolYlcbf3lYGLwcEq3I7tamxAvraQKFBSKIjkfhyB
- Vmhpu04c=
-X-Google-Smtp-Source: AGHT+IHvrbtQypROMlLTHn2hwI/hJh1CATinBr60gY+FLSdoAnk3R75qGQ0/XKEyAvFG+ldQ1Dh+tA==
-X-Received: by 2002:a05:600c:35d4:b0:439:9f42:c137 with SMTP id
- 5b1f17b1804b1-43bd298f9fbmr29484425e9.11.1741184254319; 
- Wed, 05 Mar 2025 06:17:34 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43bd4291ffbsm18687465e9.15.2025.03.05.06.17.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 06:17:33 -0800 (PST)
-Date: Wed, 5 Mar 2025 14:17:32 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, kernel-janitors@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Archit Taneja <architt@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jeykumar Sankaran
- <jsanka@codeaurora.org>, Jordan Crouse <jordan@cosmicpenguin.net>, Marijn
- Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>, Vinod Koul
- <vkoul@kernel.org>, cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC] Clarification for =?UTF-8?B?4oCcdW5kZWZpbmVkIGJlaGF2?=
- =?UTF-8?B?aW91cuKAnT8=?=
-Message-ID: <20250305141732.26b91742@pumpkin>
-In-Reply-To: <4c489b64-4c25-43e3-90d3-37f2f335d665@stanley.mountain>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <13566308-9a80-e4aa-f64e-978c02b1406d@web.de>
- <54c30a69-71cf-4582-9086-50eb0d39f273@web.de>
- <k7un3bjavyt4ogscgc7jn7thfobegaguqqiy7gtypmq6vq7zox@l4bsevbsjrud>
- <29b32b0d-312d-4848-9e26-9e5e76e527a7@stanley.mountain>
- <e665514b-5a62-4afb-b267-7c320e4872af@web.de>
- <4c489b64-4c25-43e3-90d3-37f2f335d665@stanley.mountain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+ AJvYcCWChWgkENeismWUEAoZ4lOoPyyE7L7Y740cjtBg/zoBOkANajGfu1sH+NGMDpMTpxMHt15H979hkJE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwLRB5yjw6bZI2ZmaBf6Yt7D3LJDEwmZYWrmHlzMFPhcYZZOzH7
+ QNswDhjBcXbMbU2a+jApwaW0+6HrnTbTCpZFbgMT0BYbUhjLoB98nhrSmCsSyl5BgLelCp6OinX
+ HaBRQ2koMc54IgNaGE1jhPrIxBnw=
+X-Gm-Gg: ASbGnctyV9W2AE/3w6U+dmfgpqKzBoOGzTQluLPdQttk8n3z9+KlKMogpIR7Ret8dNA
+ XN6jjkkECvqbN0UvaIe0kSQUQjBwu5FXv5bxIcszQdnmFOR3oMG1iA6RSPMd3iT+aL/gwgW/i5j
+ sI2Ad/G0BFAYXAg/UCHW4b7XbxOkw=
+X-Google-Smtp-Source: AGHT+IGtt5kKKBiJjBbm2DU1GbYl+vKb+nT4lkgnAmQUxI2KsqJnS5S/wjYJqyjYIYU15T1CQievr7HPF4XKPY8Qlu8=
+X-Received: by 2002:a5d:5986:0:b0:38d:d664:67d8 with SMTP id
+ ffacd0b85a97d-3911f7200cbmr2836278f8f.11.1741184329266; Wed, 05 Mar 2025
+ 06:18:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250224114815.146053-1-clamor95@gmail.com>
+ <20250224114815.146053-3-clamor95@gmail.com>
+ <20250228085927.GM824852@google.com>
+ <CAPVz0n0jaR=UM7WbBs3zM-cZzuaPVWBjf4Q7i82hvxtXg2oCzQ@mail.gmail.com>
+ <20250305134455.2843f603@jic23-huawei>
+In-Reply-To: <20250305134455.2843f603@jic23-huawei>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Wed, 5 Mar 2025 16:18:38 +0200
+X-Gm-Features: AQ5f1JpXA6J5TL49b1DAVq6n5wnuuTukD3GyYGoSYEpxJIiUmzK9BkiZvUPOFTs
+Message-ID: <CAPVz0n3Qt00my1ejoyEgxTRi-mQszHybwhPq70eO=94oxMfECQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] mfd: lm3533: convert to use OF
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+ Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-leds@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,42 +95,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 5 Mar 2025 11:51:59 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+=D1=81=D1=80, 5 =D0=B1=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 15:45 Jonat=
+han Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Fri, 28 Feb 2025 11:30:51 +0200
+> Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+>
+> > =D0=BF=D1=82, 28 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 10:59 =
+Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Mon, 24 Feb 2025, Svyatoslav Ryhel wrote:
+> > >
+> > > > Remove platform data and fully relay on OF and device tree
+> > > > parsing and binding devices.
+> > > >
+> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > ---
+> > > >  drivers/iio/light/lm3533-als.c      |  40 ++++---
+> > > >  drivers/leds/leds-lm3533.c          |  46 +++++---
+> > > >  drivers/mfd/lm3533-core.c           | 159 ++++++++----------------=
+----
+> > > >  drivers/video/backlight/lm3533_bl.c |  71 ++++++++++---
+> > > >  include/linux/mfd/lm3533.h          |  35 +-----
+> > > >  5 files changed, 164 insertions(+), 187 deletions(-)
+> > > >
+...
+> > > >       /* ALS input is always high impedance in PWM-mode. */
+> > > > -     if (!pdata->pwm_mode) {
+> > > > -             ret =3D lm3533_als_set_resistor(als, pdata->r_select)=
+;
+> > > > +     if (!als->pwm_mode) {
+> > > > +             ret =3D lm3533_als_set_resistor(als, als->r_select);
+> > >
+> > > You're already passing 'als'.
+> > >
+> > > Just teach lm3533_als_set_resistor that 'r_select' is now contained.
+> > >
+> >
+> > This is not scope of this patchset. I was already accused in too much
+> > changes which make it unreadable. This patchset is dedicated to
+> > swapping platform data to use of the device tree. NOT improving
+> > functions, NOT rewriting arbitrary mechanics. If you feed a need for
+> > this change, then propose a followup. I need from this driver only one
+> > thing, that it could work with device tree. But it seems that it is
+> > better that it just rots in the garbage bin until removed cause no one
+> > cared.
+>
+> This is not an unreasonable request as you added r_select to als.
+> Perhaps it belongs in a separate follow up patch.
 
-> On Wed, Mar 05, 2025 at 09:40:43AM +0100, Markus Elfring wrote:
-> > >>> The address of a data structure member was determined before
-> > >>> a corresponding null pointer check in the implementation of
-> > >>> the functions =E2=80=9Cdpu_hw_pp_enable_te=E2=80=9D and =E2=80=9Cdp=
-u_hw_pp_get_vsync_info=E2=80=9D.
-> > >>>
-> > >>> Thus avoid the risk for undefined behaviour by removing extra
-> > >>> initialisations for the variable =E2=80=9Cc=E2=80=9D (also because =
-it was already
-> > >>> reassigned with the same value behind this pointer check). =20
-> > > There is no undefined behavior here. =20
-> >=20
-> > Is there a need to improve the wording precision?
-> >=20
-> > There are words which denote a special meaning according to aspects of
-> > the programming language =E2=80=9CC=E2=80=9D.
-> > https://en.cppreference.com/w/c/language/behavior
-> >=20
-> > Dereferences of null pointers are treated in special ways. =20
->=20
-> This not a dereference.  It's just pointer math.
+I have just moved values used in pdata to private structs of each
+driver. Without changing names or purpose.
 
-And the 'fun' starts because NULL isn't required to use the all-zero
-bit pattern.
-Regardless of the bit-pattern, things like (void *)(1 - 1) are valid
-NULL pointers.
+> However
+> it is worth remembering the motivation here is that you want get
+> this code upstream, the maintainers don't have that motivation.
 
-Of course, while C allows this, I doubt NULL has ever been other than 0.
-(It was 0 on a system I used many years ago where the O/S invalid pointer
-was ~0.)
+This driver is already upstream and it is useless and incompatible
+with majority of supported devices. Maintainers should encourage those
+who try to help and instead we have what? A total discouragement. Well
+defined path into nowhere.
 
-I know Clang has started warning about arithmetic on NULL.
-I wonder when it is going to start warning about memset(p, 0, sz)
-for anything that contains a pointer - equally invalid.
+>
+> Greg KH has given various talks on the different motivations in the
+> past. It maybe worth a watch.
+>
+>
+> >
+> > > >               if (ret)
+> > > >                       return ret;
+> > > >       }
+> > > > @@ -828,22 +833,16 @@ static const struct iio_info lm3533_als_info =
+=3D {
+> > > >
+> > > >  static int lm3533_als_probe(struct platform_device *pdev)
+> > > >  {
+> > > > -     const struct lm3533_als_platform_data *pdata;
+> > > >       struct lm3533 *lm3533;
+> > > >       struct lm3533_als *als;
+> > > >       struct iio_dev *indio_dev;
+> > > > +     u32 val;
+> > >
+> > > Value of what, potatoes?
+> > >
+> >
+> > Oranges.
+>
+> A well named variable would avoid need for any discussion of
+> what it is the value of.
+>
 
-	David
+This is temporary placeholder used to get values from the tree and
+then pass it driver struct.
+
+> >
+> > > >       int ret;
+> > > >
+> > > >       lm3533 =3D dev_get_drvdata(pdev->dev.parent);
+> > > >       if (!lm3533)
+> > > >               return -EINVAL;
+> > > >
+> > > > -     pdata =3D dev_get_platdata(&pdev->dev);
+> > > > -     if (!pdata) {
+> > > > -             dev_err(&pdev->dev, "no platform data\n");
+> > > > -             return -EINVAL;
+> > > > -     }
+> > > > -
+> > > >       indio_dev =3D devm_iio_device_alloc(&pdev->dev, sizeof(*als))=
+;
+> > > >       if (!indio_dev)
+> > > >               return -ENOMEM;
+> > > > @@ -864,13 +863,21 @@ static int lm3533_als_probe(struct platform_d=
+evice *pdev)
+> > > >
+> > > >       platform_set_drvdata(pdev, indio_dev);
+> > > >
+> > > > +     val =3D 200 * KILO; /* 200kOhm */
+> > >
+> > > Better to #define magic numbers; DEFAULT_{DESCRIPTION}_OHMS
+> > >
+> >
+> > Why? that is not needed.
+> If this variable had a more useful name there would be no need for
+> the comment either.
+>
+>         val_resitor_ohms =3D 200 * KILLO;
+>
+> or similar.
+>
+
+So I have to add a "reasonably" named variable for each property I
+want to get from device tree? Why? It seems to be a bit of overkill,
+no? Maybe I am not aware, have variables stopped being reusable?
+
+> >
+> > > > +     device_property_read_u32(&pdev->dev, "ti,resistor-value-ohm",=
+ &val);
+> > > > +
+> > > > +     /* Convert resitance into R_ALS value with 2v / 10uA * R */
+> > >
+> > > Because ...
+> > >
+> >
+> > BACAUSE the device DOES NOT understand human readable values, only 0s
+> > and 1s, hence mOhms must be converted into value lm3533 chip can
+> > understand.
+> A comment that gave the motivation would be much more useful than
+> repeating the maths.
+>
+> /* Convert resistance to equivalent register value */
+>
+
+ok, this is reasonable.
+
+> >
+> > > > +     als->r_select =3D DIV_ROUND_UP(2 * MICRO, 10 * val);
+> > > > +
+> > > > +     als->pwm_mode =3D device_property_read_bool(&pdev->dev, "ti,p=
+wm-mode");
+> > > > +
+> > > >       if (als->irq) {
+> > > >               ret =3D lm3533_als_setup_irq(als, indio_dev);
+> > > >               if (ret)
+> > > >                       return ret;
+> > > >       }
+> > > >
+> > > > -     ret =3D lm3533_als_setup(als, pdata);
+> > > > +     ret =3D lm3533_als_setup(als);
+> > > >       if (ret)
+> > > >               goto err_free_irq;
+> > > >
+> > > > @@ -907,9 +914,16 @@ static void lm3533_als_remove(struct platform_=
+device *pdev)
+> > > >               free_irq(als->irq, indio_dev);
+> > > >  }
+> > > >
+> > > > +static const struct of_device_id lm3533_als_match_table[] =3D {
+> > > > +     { .compatible =3D "ti,lm3533-als" },
+> > > > +     { }
+> > > > +};
+> > > > +MODULE_DEVICE_TABLE(of, lm3533_als_match_table);
+> > > > +
+> > > >  static struct platform_driver lm3533_als_driver =3D {
+> > > >       .driver =3D {
+> > > >               .name   =3D "lm3533-als",
+> > > > +             .of_match_table =3D lm3533_als_match_table,
+> > > >       },
+> > > >       .probe          =3D lm3533_als_probe,
+> > > >       .remove         =3D lm3533_als_remove,
+>
+> Anyhow, I'm short on time so only looking at the IIO related part.
+>
+> Jonathan
