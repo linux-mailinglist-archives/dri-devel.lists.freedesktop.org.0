@@ -2,65 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F7CA54282
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 07:05:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF731A54290
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 07:07:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33B210E8E8;
-	Thu,  6 Mar 2025 06:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 281CC10E8F4;
+	Thu,  6 Mar 2025 06:07:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MaIoZkOh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Dw6bWNSe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5273A10E8E8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 06:05:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B1266A4346A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 05:59:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D78A5C4CEEA
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 06:05:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741241105;
- bh=/X70Jc5Cl2Xt2Thn4TXsoYHLhjr2y6sNdJN4w6uDzog=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=MaIoZkOhvbVtl4kf/KvxLmKe1vADxr/USTMoqrOLkDe1qin+a6OaiVyQ+JdFRKtNq
- Kwx9rHyzkzahtsp+iAiTUj7IVsWx4qPB0rhjOt9+yEuAPhzAYE5R+pBMoRrQbo1ZRQ
- L6WYXf6TGpl4spdRQMypqmxXYKwFQjmQcWzvF+EWjI2y6rQ4Lxk7reH6LCAE1CAbcB
- pRTt0b7jBJKuzqaTqK4z6iHeNMc8sF4yi6GH4DCJhUH+oJP5LyGNHtk8KmGOnfRsEL
- /sulcsd1WwqDOY5mQkYX0Gr7h1+t509Xu9K8qR3xfW/6NrpkV90A22kj8+EL+5h2jX
- sSouBsjFwCBEQ==
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-5e4cbade42aso3019093a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 22:05:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWZipWdTcczWBMv/T7TpZXBPBh8oEr4VSJdDMTEeX9o+2z/N+Qkeu7PqzlZLiSNWHbBanwTg6C0idw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmG3AEMOrTaTryb7Qwv4DHzsg6wnO4InKlWyG4Tj4BB/y6t0Nk
- MMoUlogoem+2zS5+Y+hscwuyVWPyVGaUKMXrO0s2jV6cJgGoVG4B/6dmzYiDnA883YusoXeZCAM
- DW22psAwdQYPiiM+BLKXWBYlIIL8=
-X-Google-Smtp-Source: AGHT+IGrgDXtipv22TgPFj6kOVP614IhIHCbRlrKAAYBHmpfBSq5vRXCCqYNxtakkVi8VEVStNqsvwyqtiinIa/C928=
-X-Received: by 2002:a17:907:9484:b0:abf:6bba:9626 with SMTP id
- a640c23a62f3a-ac22cab7faemr159419566b.12.1741241103010; Wed, 05 Mar 2025
- 22:05:03 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F06EB10E8F1;
+ Thu,  6 Mar 2025 06:07:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741241264; x=1772777264;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=fQ4SfzNo0z2W/4FeLHOYZPFusSbdJIE4vTbmwpdN4dE=;
+ b=Dw6bWNSe2o0MZQ3JZk9XvRS1kOgrTvR3MVbDAHn4yid0BeaNbLfvRuWR
+ vpweeW3sdZxsEeM7PeLSOfZ/UNvyBsK0GaTOvn9I5m11AzgjT9S+/ZUD4
+ hIz+3sH1bFYv7mB/Zn6fZi8FSKG6UUnQqduMMjjCRL/IzOZNA3LbeTK0o
+ nSKRoOOPfB+M/ID7KOxbjHQNaF+gRsaOgrsY3pMAPkcF8DCorYalD0UMq
+ UMzySiGHlahZ1g5i6Jez6lNaYYBpVd/YTI0zChAd/JW3ekFfIwABxP/Vr
+ T7w2tFuCNDM409KzYXlekjhh3RsQAUnfJfznmBmqf+uhlad3rn1UU63aB A==;
+X-CSE-ConnectionGUID: gwHQmpuTSeC110a00ga1TQ==
+X-CSE-MsgGUID: NG15eviIQmerL+HVahlVAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53635385"
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="53635385"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 22:07:43 -0800
+X-CSE-ConnectionGUID: eKTRozInQ6GNZdklyg+K8Q==
+X-CSE-MsgGUID: OixyerG8TLCgt/cHmeberw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="119612379"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 22:07:43 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 5 Mar 2025 22:07:42 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Wed, 5 Mar 2025 22:07:42 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 5 Mar 2025 22:07:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r0cnOzdSrV7ZeKrxzZ6CU6+T749nNf4s/no48bISnwOiPgGnDDUyl92h9XRdKsTMQ3oBSe5l+bHWyflqrzD+8PBojLBFBgdiyM8LJzpv2ZOZBLSF3O3AP62RYgZynlIONzcThj6lwnC2TYzwBWdvGpwYOzD0LbFnVO9DciimH/MzxQ6UhgGUPj90+QlkOsVs5h1IPCYU4DqnkTACMYg4f1eye7X2VBC+sNbVi6lXjJ6YO2r3c3mEGNeoV7r2sYDqqM0XNpjs7eTVpqWI4EebjRh52kXoRwW8lJ2pfNpnJtAEmlLTgx8+YOdUSfD8/qQMceEioH2mG0nyGgQmq8X2vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QkQj/e3DqAq8Mpn0ktdhM66oEEjlaPQ+pIDbzWOigv8=;
+ b=A9ekPV5/fHer0v0umBpzM1b2UF/D8dkAE4tfjAFwjrXE4jNThHggkeR65fKX0KvY6ApB/Zn6T4XmwqJmSwO5Jauw6cupZYQIyzt00KQpatFh+Vzww9SHrJ+7m5r/kTYtz9oAyLylyt7eD2ggzYLbbBdaVmS8ZQrFBp4Hk/iCBaN4KeWbscF7GFBCLHkXyL8sx8SujOZc5Wc4RY28Qf6r/9MjVUpO4OIhL7hBNAWs+fQLRN79vpnqMEyk5rLSGkS8hWVowCya0zV51+2y9buSujwayqmvv93gacfwbYlJQqooq1bEWKpGW9Ok8fhDfFEhgU49zq4y1+yfxo5ts4rb7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by IA0PR11MB7401.namprd11.prod.outlook.com (2603:10b6:208:433::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Thu, 6 Mar
+ 2025 06:07:32 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.8489.028; Thu, 6 Mar 2025
+ 06:07:32 +0000
+Date: Wed, 5 Mar 2025 22:08:39 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Alistair Popple <apopple@nvidia.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <himal.prasad.ghimiray@intel.com>, <airlied@gmail.com>,
+ <thomas.hellstrom@linux.intel.com>, <simona.vetter@ffwll.ch>,
+ <felix.kuehling@amd.com>, <dakr@kernel.org>
+Subject: Re: [PATCH v7 32/32] drm/doc: gpusvm: Add GPU SVM documentation
+Message-ID: <Z8k757kchJi3fWdG@lstrano-desk.jf.intel.com>
+References: <20250306012657.3505757-1-matthew.brost@intel.com>
+ <20250306012657.3505757-33-matthew.brost@intel.com>
+ <4vqsd4n7umeimw4gqwa6c5oeuvrpqxfxquzsaizfzuqcdfd7vs@bed32kv2hjom>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4vqsd4n7umeimw4gqwa6c5oeuvrpqxfxquzsaizfzuqcdfd7vs@bed32kv2hjom>
+X-ClientProxiedBy: MW4PR04CA0223.namprd04.prod.outlook.com
+ (2603:10b6:303:87::18) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-References: <20250304063351.3975323-1-chenhuacai@loongson.cn>
- <5314b1bb-5208-4342-a7a4-5c985ea0ce52@suse.de>
- <CAAhV-H4kBZ52E_4iju-mH=NgYOQb-TiiwBbmeTytcy0_wVkUiQ@mail.gmail.com>
- <0e1a7eaf-5fd1-451a-9b62-8fec108e351c@suse.de>
- <CAAhV-H6DLxiC63TrEnVj6Sy5vQfG=j5nmtxYoh2b9iT=crbnvA@mail.gmail.com>
- <86304aef-4610-4df8-8f82-9889b7108fb5@suse.de>
-In-Reply-To: <86304aef-4610-4df8-8f82-9889b7108fb5@suse.de>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 6 Mar 2025 14:04:52 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6ks80o-s5F3SjiVPuwm2v1=dO+Jo0GJVT9gUvo79BePw@mail.gmail.com>
-X-Gm-Features: AQ5f1JoEUXiKbb99_GRB67UyzIFI-HTwslQ7ftXoKJv9fle5p8n8IXEXWmCFyNo
-Message-ID: <CAAhV-H6ks80o-s5F3SjiVPuwm2v1=dO+Jo0GJVT9gUvo79BePw@mail.gmail.com>
-Subject: Re: [PATCH] drm/ast: Support both SHMEM helper and VRAM helper
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@gmail.com>, 
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA0PR11MB7401:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ff9387b-b688-4b81-4e78-08dd5c752f02
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?nSVsGII81lP6x9VbElVw7wUSGhVzEMCZoCkVl8pzcRuQoMH6Cg47V58d9I?=
+ =?iso-8859-1?Q?NO7ODfoXsKxdtPd2sqzvxPRgPCb7Q68ezdqu9SqMUnrIw+VMLRWEKv0xYT?=
+ =?iso-8859-1?Q?QSFN3M6md1BSLH+mvVdRc23KG65DEB6FWTka6an1vzhDrCLFTjs2Tq586b?=
+ =?iso-8859-1?Q?V0J00lmabMp0XdwWTQQKaUg+Mk7Zqn+9v1bTr3Ms6KUHLyxBDshTN36uXM?=
+ =?iso-8859-1?Q?z3dWo5jhjHxM7rNBTR3vFUfn6dWyG6/StjyHUdvVbVWE6NOrVQThPds2FJ?=
+ =?iso-8859-1?Q?eB3A0DKU5j43BZeYA4J7S7hKqle6/kUgOeaY3a8V4Pcrh29BVevSh9C1wz?=
+ =?iso-8859-1?Q?jGszXVHv6IfkIWDlPcJ8MzqRvntUfvKnzxVrPuVz0wcHliEqZz0llKg3ZA?=
+ =?iso-8859-1?Q?FeEF4AZunRIYXgijwMuZHtop6TLVpPii/Yq1o37STKdf7NyRhmp/d2e4hZ?=
+ =?iso-8859-1?Q?1z0vfksS24bXDjqnIchtxUl5qXzr0JSq0PFfB4CYl1YJ1JlzfYiRIXqQQS?=
+ =?iso-8859-1?Q?Edxb1npm3gEvC5iK1WcvBvTo/z5oolZbY7xFToSRy8o4bQWsFU4M16I68t?=
+ =?iso-8859-1?Q?dFuV9Lg2h5Jj4E3/QGPkiNevjCVEcansqIohZNIB5gyB1ePpXw4FIAMH8h?=
+ =?iso-8859-1?Q?bq7+W/Cd1IqE5pzPdG1V+8EJrFjer4qfuTVTRAJRL96ReNI+1X2PZjYPnX?=
+ =?iso-8859-1?Q?EaHksk3O9N4LZDwdsv/UzP42NtAOw1aQMbnLSjdcPM9/K75TnDad5zaEHc?=
+ =?iso-8859-1?Q?kt77kDXL0S37cl47k8yTD3Xfem+i5zxcWA+8VFqEUltcMHMlp7fNnTpX4t?=
+ =?iso-8859-1?Q?Cpk72cth04k33sYKGTplnftL2FJoviLO7QSwZTBuWQrpflFqoQb49RJHh9?=
+ =?iso-8859-1?Q?88RsyL7/2tubRLQH7jyP8M9RQmlpK2BYTGvCCmmpPt3qiMQ6HvS8UgzXus?=
+ =?iso-8859-1?Q?uwAd4G2TvzBp461ZBX6O1HP1wliE1rAf5zj+hztnl09B/DnGEPwO3ix/Iw?=
+ =?iso-8859-1?Q?WREBVqcGF/34da/Mpbc4AmmkzapHCYWnTqh/0HQEnQmmVTLf/iPfQJXRyz?=
+ =?iso-8859-1?Q?PbHuZF6JhP76DLvpLGcosEBs/itQpeeaIpTbdfWScTk+gLvDpikcFk15P2?=
+ =?iso-8859-1?Q?x3s6qSZ3G2eUCNkyubdWGBCbNtq97Cb9MTq54mUEutvW+R8x9t3ftr71QM?=
+ =?iso-8859-1?Q?KHiIorKhW82oZbQxv2Hb/qTfMyxz5f0IFa1pR4EcD0BmGRP250QqgRU9D+?=
+ =?iso-8859-1?Q?Kfn5AswKbHG533EzvEWs68YtkbpTR/1GeDASp5FEvELrC+URiy5SAG8+vS?=
+ =?iso-8859-1?Q?d/TKFbf1x8Fa8jt7NdZf3fFGI4gY/4B0wm7eG4ejTvrqRbof0j8yenTWfx?=
+ =?iso-8859-1?Q?phLwt5Beygeq336BOJQOUD8BzlscxR+Eu21DXk+NKhU/bdpDI5edF+zot5?=
+ =?iso-8859-1?Q?BIFpVPm6v/aWFuH1vKgg7VCIA+TZ0xiEEngecg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?f9GLO33NzuoqaLkSKD6N14zlb65NAMfXQVkN/IDSZCnS5/MdK69TfhXTyW?=
+ =?iso-8859-1?Q?8cA0+o+FbygOA7VReFKBnreP7SJUruunTtFV4TBuU6VvXW7uGMkFGP56vR?=
+ =?iso-8859-1?Q?gEIWYpny91GbKNNaLT2+RMlvFhjQjF39p/QBRoKTTDuasmxDPmjgNGawOa?=
+ =?iso-8859-1?Q?l8rgNOwYFVNdbpGR0d13kxrom1x6YnnvdwoHvyVUpaduNHAKhSAsDqoH7R?=
+ =?iso-8859-1?Q?HUW9ZMlXJYIGA/aOA+XI1MqYm2Xb/OQq4sqj2hZ0WpvQKOzoBv3gLN/ZDQ?=
+ =?iso-8859-1?Q?5MhkfdYopK0O6yAeplt/WdImtvtKvAetY6wqZyP5ryEKfmEh+j0Ka4keLr?=
+ =?iso-8859-1?Q?V4+RfsLIDmMwgpD2QwTqPsMhqMoWHJeVk3AC5RAnPMNjCXz33VZl/hxI1X?=
+ =?iso-8859-1?Q?VqaqO0mr7kk9LsMqJWzohPG1ICEm5wVhF1K7RaQQo0DDxh7P6nuEgjje2S?=
+ =?iso-8859-1?Q?zQaDdYcxTN3hFhUGeHE49+kFVCgPimOQ3sBI7EMZg3Y39bJD4YX6nPPefz?=
+ =?iso-8859-1?Q?0hB3PWW5EzFePb3U5oNgKi7sv0HI736KAh3dZmf17y2C0ZI7e9Zq2HdU6f?=
+ =?iso-8859-1?Q?crOa/JgiRrPWRf+e+lyPm8SFwMb8JpHI7OmxuZwXZg4GHogZsDL+iSX32m?=
+ =?iso-8859-1?Q?2fRSVcKPFjvUJULl/js3s79DUbZnx9UEiIXjn5k1dTxy2HrbHowUishQig?=
+ =?iso-8859-1?Q?6OUA916e2/gw3XzsIPOju78uNjqY4GLdvnDaNE6pmYvmb+ciGfYr2Lds/0?=
+ =?iso-8859-1?Q?+0b3P62YMLfFoDih0lZLcyw/6/mEdglVKy/wFQwy+KFXz9DUzSnczsYnRL?=
+ =?iso-8859-1?Q?F/6omqvVjOO2hkkK+LoumNXAQ7A/agOHv8TH+YGgVSWKmHsA0YiRE/c41+?=
+ =?iso-8859-1?Q?x6j4pX8znZu01oulUs8l3UTwaGlYIvpDeSDyzngAoBYHu087JhzBUGD9kd?=
+ =?iso-8859-1?Q?kGygya4jFXuvpBihp0mfT7GkVCc5FFZ0ENU1z7ZYTF5Chz8Tq+vK4bx7en?=
+ =?iso-8859-1?Q?NfvD37+CoGsJgcmalOkDJ/6xfTEkHZouwygDqSw9gjV4gJAshMgWrL+5C7?=
+ =?iso-8859-1?Q?f3b8UfUHG9VDIySrr4OQWnQrQPb+hDHxCDAxB48J12YIbbuf5ze64VO1jt?=
+ =?iso-8859-1?Q?LxH+mqyWTiKG/zhiq39QvTJPHV3/ABKXnRttdilLwLsVCD82/x4xwgpiQI?=
+ =?iso-8859-1?Q?ybKNCZvBCCLijSLE+JZf9CMIqQwtd5GIRO6eFxbaDa9nIfTd3Es7YHhrpg?=
+ =?iso-8859-1?Q?DVQJX3JGweOrG7Mf273SqHYvCRgTGJTza8+pKNiWwU7sEdTAKAhBwdQNv4?=
+ =?iso-8859-1?Q?3d1eAehpCldrIoWE8DYHX51+Qd8pSWIi+A5tyYafbLGedwoTUfL1NEdN6L?=
+ =?iso-8859-1?Q?G5k2IL65LLkFcrV9iR+WMGX3MJWhYUyGFDqgGAzOivPqMIt+f8SvyC3nBu?=
+ =?iso-8859-1?Q?F2BaOfuo92K2i49IsITMkae/EXfDO14scnZ5k8Zj4hp1agOMQCob50yVoa?=
+ =?iso-8859-1?Q?lXrXyqnj8sKvEhKuMfDz0w1Al9aY/syfnj0sIZDQNwKaLgYsR7lnb9qEjP?=
+ =?iso-8859-1?Q?JY8uJQfBsKEV0xAaa4AA6HKYBKSg0ghMz2sj5zeRrIdfg0RZQwfbs5+GMS?=
+ =?iso-8859-1?Q?QYgh/YGpci5dUN5FcBK0wt5BgXf9uzG28wvPkP6m12IVcpV5Yb3gy1lw?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ff9387b-b688-4b81-4e78-08dd5c752f02
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 06:07:32.7360 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WkvS5JWGNrgP8rw22dUOkc8Maw0M2plMCY0/3LGEbfoKIAxOvv+/gltRmMsN1ORFkA0iCTvKGxeQIBCpi8yEOg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7401
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,636 +183,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 5, 2025 at 5:04=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->
-> Hi
->
-> Am 04.03.25 um 12:55 schrieb Huacai Chen:
-> > On Tue, Mar 4, 2025 at 5:39=E2=80=AFPM Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
-> >> Hi
-> >>
-> >> Am 04.03.25 um 10:19 schrieb Huacai Chen:
-> >>> On Tue, Mar 4, 2025 at 4:41=E2=80=AFPM Thomas Zimmermann <tzimmermann=
-@suse.de> wrote:
-> >>>> Hi
-> >>>>
-> >>>> Am 04.03.25 um 07:33 schrieb Huacai Chen:
-> >>>>> Commit f2fa5a99ca81ce105653 ("drm/ast: Convert ast to SHMEM") conve=
-rts
-> >>>>> ast from VRAM helper to SHMEM helper. The convertion makesast suppo=
-rt
-> >>>>> higher display resolutions, but the performance decreases significa=
-ntly
-> >>>>> on platforms which don't support writecombine (fallback to uncached=
-).
-> >>>>>
-> >>>>> This patch implements both SHMEM helper and VRAM helper for ast dri=
-ver
-> >>>>> at the same time. A module parameter ast.shmem is added, 1 means SH=
-MEM
-> >>>>> hepler, 0 means VRAM helper, and the default (-1) means auto select=
-ion
-> >>>>> according to drm_arch_can_wc_memory().
-> >>>> Sorry won't happen. There's one memory manager and that's it.
-> >>>>
-> >>>> The question is why there is a difference between the two. Because
-> >>>> conceptually, it's both software rendering that copies the final ima=
-ge
-> >>>> into video ram. Why is that much faster with VRAM helpers?
-> >>> Correct me if I'm wrong.
-> >>>
-> >>> SHMEM helper means "copy damage data to a fixed VRAM buffer", VRAM
-> >>> helper means "double buffers and swapping the two". So if WC is not
-> >>> supported, SHMEM helper is slower from visible effect.
-> >> First of all, which component is slow? The kernel console, the desktop=
-,
-> >> something else?
-> > "Slow" here means the desktop ui is not smooth, not kernel console,
-> > and not data copy rate.
->
-> For a simple test you can set
->
->    mode_config.prefer_shadow =3D false
->
-> (It's somewhere in your patch). This will disable Xorg's shadow buffer
-> and make it operate directly on I/O memory. This should be much slower th=
-en.
-I have tested this case, but not slow from desktop visible effect, is
-this option ignored by Xorg?
+On Thu, Mar 06, 2025 at 04:45:31PM +1100, Alistair Popple wrote:
+> On Wed, Mar 05, 2025 at 05:26:57PM -0800, Matthew Brost wrote:
+> > Add documentation for agree upon GPU SVM design principles, current
+> > status, and future plans.
+> 
+> One minor nit and a comment below, but feel free to add:
+> 
+> Acked-by: Alistair Popple <apopple@nvidia.com>
+> 
 
->
->
-> >
-> >> On your question. This is all software rendering. In the case of
-> >> GEM-SHMEM, we mmap shmem pages to user-space compositors and let them
-> >> draw the UI. That should be fast because these SHMEM pages should be
-> >> mapped with full caching. The WC caching is the exception here. This
-> >> could be the problem. Maybe these pages are uncached for some reason.
-> >> But so far, we've not touched VRAM at all. After rendering to the
-> >> provided pages, the compositor instructs the DRM driver to flush the
-> >> changes to VRAM. That involves a vmap of the I/O range and a
-> >> memcpy_toio(). Without WC caching, this will be slow. It is optimized =
-by
-> >> using damage information; only the updated part of the screen will be
-> >> copied.
-> >>
-> >> With GEM-VRAM, the kernel mmap's the VRAM's I/O range to the composito=
-r.
-> >> The compositor renders into a malloc'ed memory buffer and then copies
-> >> the result over to the mmap'ed range fom the driver. (And essentially
-> >> into the VRAM). If your platform does not have WC caching, this would =
-be
-> >> uncached and fairly slow.  The compositor then instructs the driver to
-> >> swap buffers, which is always fast because we've already done he copyi=
-ng
-> >> in user space.
-> >>
-> >> Now the question is why the GEM-SHMEM code is slower than the GEM-VRAM
-> >> path. In principle, they both do the same work.
-> > Yes, they do the same work, so the data copy rate may be the same. But
-> > GEM-SHMEM is an in-place update while GEM-VRAM is an off-screen
-> > update, so the desktop effect is different.
->
-> Oh, so you see tearing.
->
-> Years ago, we had a bug report about ast's lack of performance on x86.
-> Back then, we had a VRAM-based memory manager. It turned out that ast
-> was misconfigured to use uncached framebuffer access, just like on your
-> system. See [1][2]. Hence, returning to this memory manager would just
-> paper over the fact that framebuffer access is too slow. And it would
-> bring disadvantages to other users.
->
-> Ast hardware provides a vretrace interrupt AFAIK. Getting this to work
-> would allow for the copying to take place during the display's vblank
-> interval. This might be a solution that benefits everyone.
-Maybe, but I'm not familiar with ast hardware. :(
+Thanks!
 
+> > v4:
+> >  - Address Thomas's feedback
+> > v5:
+> >  - s/Current/Basline (Thomas)
+> > v7:
+> >  - Add license (CI)
+> >  - Add examples for design guideline reasoning (Alistair)
+> >  - Add snippet about possible livelock with concurrent GPU and and CPU
+> >    access (Alistair)
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > ---
+> >  Documentation/gpu/rfc/gpusvm.rst | 106 +++++++++++++++++++++++++++++++
+> >  Documentation/gpu/rfc/index.rst  |   4 ++
+> >  2 files changed, 110 insertions(+)
+> >  create mode 100644 Documentation/gpu/rfc/gpusvm.rst
+> > 
+> > diff --git a/Documentation/gpu/rfc/gpusvm.rst b/Documentation/gpu/rfc/gpusvm.rst
+> > new file mode 100644
+> > index 000000000000..87d9f9506155
+> > --- /dev/null
+> > +++ b/Documentation/gpu/rfc/gpusvm.rst
+> > @@ -0,0 +1,106 @@
+> > +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +
+> > +===============
+> > +GPU SVM Section
+> > +===============
+> > +
+> > +Agreed upon design principles
+> > +=============================
+> > +
+> > +* migrate_to_ram path
+> > +	* Rely only on core MM concepts (migration PTEs, page references, and
+> > +	  page locking).
+> > +	* No driver specific locks other than locks for hardware interaction in
+> > +	  this path. These are not required and generally a bad idea to
+> > +	  invent driver defined locks to seal core MM races.
+> > +	* An example of a driver-specific lock causing issues occurred before
+> > +	  fixing do_swap_page to lock the faulting page. A driver-exclusive lock
+> > +	  in migrate_to_ram produced a stable livelock if enough threads read
+> > +	  the faulting page.
+> > +	* Partial migration is supported (i.e., a subset of pages attempting to
+> > +	  migrate can actually migrate, with only the faulting page guaranteed
+> > +	  to migrate).
+> > +	* Driver handles mixed migrations via retry loops rather than locking.
+> > +* Eviction
+> > +	* Eviction is defined as migrating data from the GPU back to the
+> > +	  CPU without a virtual address to free up GPU memory.
+> > +	* Only looking at physical memory data structures and locks as opposed to
+> > +	  looking at virtual memory data structures and locks.
+> > +	* No looking at mm/vma structs or relying on those being locked.
+> > +	* The rationale for the above two points is that CPU virtual addresses
+> > +	  can change at any moment, while the physical pages remain stable.
+> > +	* GPU page table invalidation, which requires a GPU virtual address, is
+> > +	  handled via the notifier that has access to the GPU virtual address.
+> > +* GPU fault side
+> > +	* mmap_read only used around core MM functions which require this lock
+> > +	  and should strive to take mmap_read lock only in GPU SVM layer.
+> > +	* Big retry loop to handle all races with the mmu notifier under the gpu
+> > +	  pagetable locks/mmu notifier range lock/whatever we end up calling
+> > +          those.
+> > +	* Races (especially against concurrent eviction or migrate_to_ram)
+> > +	  should not be handled on the fault side by trying to hold locks;
+> > +	  rather, they should be handled using retry loops. One possible
+> > +	  exception is holding a BO's dma-resv lock during the initial migration
+> > +	  to VRAM, as this is a well-defined lock that can be taken underneath
+> > +	  the mmap_read lock.
+> > +	* One possible issue with the above approach is if a driver has a strict
+> > +	  migration policy requiring GPU access to occur in GPU memory.
+> > +	  Concurrent CPU access could cause a livelock due to endless retries.
+> > +	  While no current user (Xe) of GPU SVM has such a policy, it is likely
+> > +	  to be added in the future. Ideally, this should be resolved on the
+> > +	  core-MM side rather than through a driver-side lock.
+> > +* Physical memory to virtual backpointer
+> > +	* This does not work, as no pointers from physical memory to virtual
+> > +	  memory should exist. mremap() is an example of the core MM updating
+> > +	  the virtual address without notifying the driver.
+> 
+> Pretty minor nit, but this could be read as core MM won't send a mmu notifier
+> when calling mremap(). That's not the case, as it will get a notifier to
+> invalidate the address but won't explicitly get notified of the new address.
+> 
+> Not worth sending an update just for that though.
+> 
 
-Huacai
+Yep, will fix up when merging.
 
->
-> Best regards
-> Thomas
->
-> [1] https://bugzilla.opensuse.org/show_bug.cgi?id=3D1112963
-> [2]
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/?id=3D5478ad10e7850ce3d8b7056db05ddfa3c9ddad9a
->
-> >
-> > Huacai
-> >
-> >> Best regard
-> >> Thomas
-> >>
-> >>>
-> >>> Huacai
-> >>>
-> >>>> Best regards
-> >>>> Thomas
-> >>>>
-> >>>>> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> >>>>> ---
-> >>>>>     drivers/gpu/drm/ast/Kconfig    |   3 +
-> >>>>>     drivers/gpu/drm/ast/ast_drv.c  |  31 ++++++++--
-> >>>>>     drivers/gpu/drm/ast/ast_drv.h  |   6 +-
-> >>>>>     drivers/gpu/drm/ast/ast_mm.c   |  11 +++-
-> >>>>>     drivers/gpu/drm/ast/ast_mode.c | 105 +++++++++++++++++++++++++-=
--------
-> >>>>>     5 files changed, 124 insertions(+), 32 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kcon=
-fig
-> >>>>> index da0663542e8a..ed07ef70072f 100644
-> >>>>> --- a/drivers/gpu/drm/ast/Kconfig
-> >>>>> +++ b/drivers/gpu/drm/ast/Kconfig
-> >>>>> @@ -5,6 +5,9 @@ config DRM_AST
-> >>>>>         select DRM_CLIENT_SELECTION
-> >>>>>         select DRM_GEM_SHMEM_HELPER
-> >>>>>         select DRM_KMS_HELPER
-> >>>>> +     select DRM_TTM
-> >>>>> +     select DRM_TTM_HELPER
-> >>>>> +     select DRM_VRAM_HELPER
-> >>>>>         select I2C
-> >>>>>         select I2C_ALGOBIT
-> >>>>>         help
-> >>>>> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/as=
-t_drv.c
-> >>>>> index ff3bcdd1cff2..a0c693844f1e 100644
-> >>>>> --- a/drivers/gpu/drm/ast/ast_drv.c
-> >>>>> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> >>>>> @@ -33,9 +33,12 @@
-> >>>>>
-> >>>>>     #include <drm/clients/drm_client_setup.h>
-> >>>>>     #include <drm/drm_atomic_helper.h>
-> >>>>> +#include <drm/drm_cache.h>
-> >>>>>     #include <drm/drm_drv.h>
-> >>>>>     #include <drm/drm_fbdev_shmem.h>
-> >>>>> +#include <drm/drm_fbdev_ttm.h>
-> >>>>>     #include <drm/drm_gem_shmem_helper.h>
-> >>>>> +#include <drm/drm_gem_vram_helper.h>
-> >>>>>     #include <drm/drm_module.h>
-> >>>>>     #include <drm/drm_probe_helper.h>
-> >>>>>
-> >>>>> @@ -46,13 +49,18 @@ static int ast_modeset =3D -1;
-> >>>>>     MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
-> >>>>>     module_param_named(modeset, ast_modeset, int, 0400);
-> >>>>>
-> >>>>> +int ast_shmem =3D -1;
-> >>>>> +
-> >>>>> +MODULE_PARM_DESC(shmem, "1 =3D SHMEM helper, 0 =3D VRAM helper, -1=
- =3D Auto");
-> >>>>> +module_param_named(shmem, ast_shmem, int, 0400);
-> >>>>> +
-> >>>>>     /*
-> >>>>>      * DRM driver
-> >>>>>      */
-> >>>>>
-> >>>>>     DEFINE_DRM_GEM_FOPS(ast_fops);
-> >>>>>
-> >>>>> -static const struct drm_driver ast_driver =3D {
-> >>>>> +static struct drm_driver ast_driver =3D {
-> >>>>>         .driver_features =3D DRIVER_ATOMIC |
-> >>>>>                            DRIVER_GEM |
-> >>>>>                            DRIVER_MODESET,
-> >>>>> @@ -63,9 +71,6 @@ static const struct drm_driver ast_driver =3D {
-> >>>>>         .major =3D DRIVER_MAJOR,
-> >>>>>         .minor =3D DRIVER_MINOR,
-> >>>>>         .patchlevel =3D DRIVER_PATCHLEVEL,
-> >>>>> -
-> >>>>> -     DRM_GEM_SHMEM_DRIVER_OPS,
-> >>>>> -     DRM_FBDEV_SHMEM_DRIVER_OPS,
-> >>>>>     };
-> >>>>>
-> >>>>>     /*
-> >>>>> @@ -280,6 +285,24 @@ static int ast_pci_probe(struct pci_dev *pdev,=
- const struct pci_device_id *ent)
-> >>>>>         struct drm_device *drm;
-> >>>>>         bool need_post =3D false;
-> >>>>>
-> >>>>> +     if (ast_shmem =3D=3D -1)
-> >>>>> +             ast_shmem =3D drm_arch_can_wc_memory() ? 1 : 0;
-> >>>>> +
-> >>>>> +     if (ast_shmem) {
-> >>>>> +             ast_driver.dumb_create =3D drm_gem_shmem_dumb_create;
-> >>>>> +             ast_driver.gem_prime_import_sg_table =3D drm_gem_shme=
-m_prime_import_sg_table;
-> >>>>> +#ifdef CONFIG_DRM_FBDEV_EMULATION
-> >>>>> +             ast_driver.fbdev_probe =3D drm_fbdev_shmem_driver_fbd=
-ev_probe;
-> >>>>> +#endif
-> >>>>> +     } else {
-> >>>>> +             ast_driver.dumb_create =3D drm_gem_vram_driver_dumb_c=
-reate;
-> >>>>> +             ast_driver.dumb_map_offset =3D drm_gem_ttm_dumb_map_o=
-ffset;
-> >>>>> +             ast_driver.debugfs_init =3D drm_vram_mm_debugfs_init;
-> >>>>> +#ifdef CONFIG_DRM_FBDEV_EMULATION
-> >>>>> +             ast_driver.fbdev_probe =3D drm_fbdev_ttm_driver_fbdev=
-_probe;
-> >>>>> +#endif
-> >>>>> +     }
-> >>>>> +
-> >>>>>         ret =3D aperture_remove_conflicting_pci_devices(pdev, ast_d=
-river.name);
-> >>>>>         if (ret)
-> >>>>>                 return ret;
-> >>>>> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/as=
-t_drv.h
-> >>>>> index 6b4305ac07d4..3fcf6717ad8a 100644
-> >>>>> --- a/drivers/gpu/drm/ast/ast_drv.h
-> >>>>> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> >>>>> @@ -29,6 +29,7 @@
-> >>>>>     #define __AST_DRV_H__
-> >>>>>
-> >>>>>     #include <linux/io.h>
-> >>>>> +#include <linux/iosys-map.h>
-> >>>>>     #include <linux/types.h>
-> >>>>>
-> >>>>>     #include <drm/drm_connector.h>
-> >>>>> @@ -53,6 +54,8 @@
-> >>>>>
-> >>>>>     #define __AST_CHIP(__gen, __index)  ((__gen) << 16 | (__index))
-> >>>>>
-> >>>>> +extern int ast_shmem;
-> >>>>> +
-> >>>>>     enum ast_chip {
-> >>>>>         /* 1st gen */
-> >>>>>         AST1000 =3D __AST_CHIP(1, 0), // unused
-> >>>>> @@ -130,7 +133,8 @@ enum ast_config_mode {
-> >>>>>     struct ast_plane {
-> >>>>>         struct drm_plane base;
-> >>>>>
-> >>>>> -     void __iomem *vaddr;
-> >>>>> +     struct drm_gem_vram_object *gbo;
-> >>>>> +     struct iosys_map map;
-> >>>>>         u64 offset;
-> >>>>>         unsigned long size;
-> >>>>>     };
-> >>>>> diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast=
-_mm.c
-> >>>>> index 6dfe6d9777d4..588326b7d53e 100644
-> >>>>> --- a/drivers/gpu/drm/ast/ast_mm.c
-> >>>>> +++ b/drivers/gpu/drm/ast/ast_mm.c
-> >>>>> @@ -28,6 +28,7 @@
-> >>>>>
-> >>>>>     #include <linux/pci.h>
-> >>>>>
-> >>>>> +#include <drm/drm_gem_vram_helper.h>
-> >>>>>     #include <drm/drm_managed.h>
-> >>>>>     #include <drm/drm_print.h>
-> >>>>>
-> >>>>> @@ -87,9 +88,13 @@ int ast_mm_init(struct ast_device *ast)
-> >>>>>
-> >>>>>         vram_size =3D ast_get_vram_size(ast);
-> >>>>>
-> >>>>> -     ast->vram =3D devm_ioremap_wc(dev->dev, base, vram_size);
-> >>>>> -     if (!ast->vram)
-> >>>>> -             return -ENOMEM;
-> >>>>> +     if (!ast_shmem)
-> >>>>> +             drmm_vram_helper_init(dev, base, vram_size);
-> >>>>> +     else {
-> >>>>> +             ast->vram =3D devm_ioremap_wc(dev->dev, base, vram_si=
-ze);
-> >>>>> +             if (!ast->vram)
-> >>>>> +                     return -ENOMEM;
-> >>>>> +     }
-> >>>>>
-> >>>>>         ast->vram_base =3D base;
-> >>>>>         ast->vram_size =3D vram_size;
-> >>>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/a=
-st_mode.c
-> >>>>> index 9d5321c81e68..0744d1ac5dfb 100644
-> >>>>> --- a/drivers/gpu/drm/ast/ast_mode.c
-> >>>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> >>>>> @@ -41,6 +41,7 @@
-> >>>>>     #include <drm/drm_gem_atomic_helper.h>
-> >>>>>     #include <drm/drm_gem_framebuffer_helper.h>
-> >>>>>     #include <drm/drm_gem_shmem_helper.h>
-> >>>>> +#include <drm/drm_gem_vram_helper.h>
-> >>>>>     #include <drm/drm_managed.h>
-> >>>>>     #include <drm/drm_panic.h>
-> >>>>>     #include <drm/drm_probe_helper.h>
-> >>>>> @@ -566,8 +567,7 @@ static void ast_wait_for_vretrace(struct ast_de=
-vice *ast)
-> >>>>>      */
-> >>>>>
-> >>>>>     static int ast_plane_init(struct drm_device *dev, struct ast_pl=
-ane *ast_plane,
-> >>>>> -                       void __iomem *vaddr, u64 offset, unsigned l=
-ong size,
-> >>>>> -                       uint32_t possible_crtcs,
-> >>>>> +                       u64 offset, unsigned long size, uint32_t po=
-ssible_crtcs,
-> >>>>>                           const struct drm_plane_funcs *funcs,
-> >>>>>                           const uint32_t *formats, unsigned int for=
-mat_count,
-> >>>>>                           const uint64_t *format_modifiers,
-> >>>>> @@ -575,7 +575,6 @@ static int ast_plane_init(struct drm_device *de=
-v, struct ast_plane *ast_plane,
-> >>>>>     {
-> >>>>>         struct drm_plane *plane =3D &ast_plane->base;
-> >>>>>
-> >>>>> -     ast_plane->vaddr =3D vaddr;
-> >>>>>         ast_plane->offset =3D offset;
-> >>>>>         ast_plane->size =3D size;
-> >>>>>
-> >>>>> @@ -630,7 +629,7 @@ static void ast_handle_damage(struct ast_plane =
-*ast_plane, struct iosys_map *src
-> >>>>>                               struct drm_framebuffer *fb,
-> >>>>>                               const struct drm_rect *clip)
-> >>>>>     {
-> >>>>> -     struct iosys_map dst =3D IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane=
-->vaddr);
-> >>>>> +     struct iosys_map dst =3D ast_plane->map;
-> >>>>>
-> >>>>>         iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb-=
->format, clip));
-> >>>>>         drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
-> >>>>> @@ -650,6 +649,7 @@ static void ast_primary_plane_helper_atomic_upd=
-ate(struct drm_plane *plane,
-> >>>>>         struct drm_crtc *crtc =3D plane_state->crtc;
-> >>>>>         struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_cr=
-tc_state(state, crtc);
-> >>>>>         struct drm_rect damage;
-> >>>>> +     struct drm_gem_vram_object *gbo;
-> >>>>>         struct drm_atomic_helper_damage_iter iter;
-> >>>>>
-> >>>>>         if (!old_fb || (fb->format !=3D old_fb->format) || crtc_sta=
-te->mode_changed) {
-> >>>>> @@ -660,9 +660,15 @@ static void ast_primary_plane_helper_atomic_up=
-date(struct drm_plane *plane,
-> >>>>>                 ast_set_vbios_color_reg(ast, fb->format, vbios_mode=
-_info);
-> >>>>>         }
-> >>>>>
-> >>>>> -     drm_atomic_helper_damage_iter_init(&iter, old_plane_state, pl=
-ane_state);
-> >>>>> -     drm_atomic_for_each_plane_damage(&iter, &damage) {
-> >>>>> -             ast_handle_damage(ast_plane, shadow_plane_state->data=
-, fb, &damage);
-> >>>>> +     if (!ast_shmem) {
-> >>>>> +             gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
-> >>>>> +             ast_plane->offset =3D drm_gem_vram_offset(gbo);
-> >>>>> +             ast_set_start_address_crt1(ast, (u32)ast_plane->offse=
-t);
-> >>>>> +     } else {
-> >>>>> +             drm_atomic_helper_damage_iter_init(&iter, old_plane_s=
-tate, plane_state);
-> >>>>> +             drm_atomic_for_each_plane_damage(&iter, &damage) {
-> >>>>> +                     ast_handle_damage(ast_plane, shadow_plane_sta=
-te->data, fb, &damage);
-> >>>>> +             }
-> >>>>>         }
-> >>>>>
-> >>>>>         /*
-> >>>>> @@ -704,19 +710,18 @@ static int ast_primary_plane_helper_get_scano=
-ut_buffer(struct drm_plane *plane,
-> >>>>>     {
-> >>>>>         struct ast_plane *ast_plane =3D to_ast_plane(plane);
-> >>>>>
-> >>>>> -     if (plane->state && plane->state->fb && ast_plane->vaddr) {
-> >>>>> +     if (plane->state && plane->state->fb && ast_plane->map.vaddr_=
-iomem) {
-> >>>>>                 sb->format =3D plane->state->fb->format;
-> >>>>>                 sb->width =3D plane->state->fb->width;
-> >>>>>                 sb->height =3D plane->state->fb->height;
-> >>>>>                 sb->pitch[0] =3D plane->state->fb->pitches[0];
-> >>>>> -             iosys_map_set_vaddr_iomem(&sb->map[0], ast_plane->vad=
-dr);
-> >>>>> +             iosys_map_set_vaddr_iomem(&sb->map[0], ast_plane->map=
-.vaddr_iomem);
-> >>>>>                 return 0;
-> >>>>>         }
-> >>>>>         return -ENODEV;
-> >>>>>     }
-> >>>>>
-> >>>>> -static const struct drm_plane_helper_funcs ast_primary_plane_helpe=
-r_funcs =3D {
-> >>>>> -     DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> >>>>> +static struct drm_plane_helper_funcs ast_primary_plane_helper_func=
-s =3D {
-> >>>>>         .atomic_check =3D ast_primary_plane_helper_atomic_check,
-> >>>>>         .atomic_update =3D ast_primary_plane_helper_atomic_update,
-> >>>>>         .atomic_enable =3D ast_primary_plane_helper_atomic_enable,
-> >>>>> @@ -724,11 +729,10 @@ static const struct drm_plane_helper_funcs as=
-t_primary_plane_helper_funcs =3D {
-> >>>>>         .get_scanout_buffer =3D ast_primary_plane_helper_get_scanou=
-t_buffer,
-> >>>>>     };
-> >>>>>
-> >>>>> -static const struct drm_plane_funcs ast_primary_plane_funcs =3D {
-> >>>>> +static struct drm_plane_funcs ast_primary_plane_funcs =3D {
-> >>>>>         .update_plane =3D drm_atomic_helper_update_plane,
-> >>>>>         .disable_plane =3D drm_atomic_helper_disable_plane,
-> >>>>>         .destroy =3D drm_plane_cleanup,
-> >>>>> -     DRM_GEM_SHADOW_PLANE_FUNCS,
-> >>>>>     };
-> >>>>>
-> >>>>>     static int ast_primary_plane_init(struct ast_device *ast)
-> >>>>> @@ -737,12 +741,28 @@ static int ast_primary_plane_init(struct ast_=
-device *ast)
-> >>>>>         struct ast_plane *ast_primary_plane =3D &ast->primary_plane=
-;
-> >>>>>         struct drm_plane *primary_plane =3D &ast_primary_plane->bas=
-e;
-> >>>>>         void __iomem *vaddr =3D ast->vram;
-> >>>>> -     u64 offset =3D 0; /* with shmem, the primary plane is always =
-at offset 0 */
-> >>>>> +     u64 offset =3D 0; /* the primary plane is initially at offset=
- 0 */
-> >>>>>         unsigned long cursor_size =3D roundup(AST_HWC_SIZE + AST_HW=
-C_SIGNATURE_SIZE, PAGE_SIZE);
-> >>>>>         unsigned long size =3D ast->vram_fb_available - cursor_size=
-;
-> >>>>>         int ret;
-> >>>>>
-> >>>>> -     ret =3D ast_plane_init(dev, ast_primary_plane, vaddr, offset,=
- size,
-> >>>>> +     if (ast_shmem) {
-> >>>>> +             ast_primary_plane_funcs.reset =3D drm_gem_reset_shado=
-w_plane;
-> >>>>> +             ast_primary_plane_funcs.atomic_duplicate_state =3D dr=
-m_gem_duplicate_shadow_plane_state;
-> >>>>> +             ast_primary_plane_funcs.atomic_destroy_state =3D drm_=
-gem_destroy_shadow_plane_state;
-> >>>>> +             ast_primary_plane_helper_funcs.begin_fb_access =3D dr=
-m_gem_begin_shadow_fb_access;
-> >>>>> +             ast_primary_plane_helper_funcs.end_fb_access =3D drm_=
-gem_end_shadow_fb_access;
-> >>>>> +     } else {
-> >>>>> +             ast_primary_plane_funcs.reset =3D drm_atomic_helper_p=
-lane_reset;
-> >>>>> +             ast_primary_plane_funcs.atomic_duplicate_state =3D dr=
-m_atomic_helper_plane_duplicate_state;
-> >>>>> +             ast_primary_plane_funcs.atomic_destroy_state =3D drm_=
-atomic_helper_plane_destroy_state;
-> >>>>> +             ast_primary_plane_helper_funcs.prepare_fb =3D drm_gem=
-_vram_plane_helper_prepare_fb;
-> >>>>> +             ast_primary_plane_helper_funcs.cleanup_fb =3D drm_gem=
-_vram_plane_helper_cleanup_fb;
-> >>>>> +     }
-> >>>>> +
-> >>>>> +     iosys_map_set_vaddr_iomem(&ast_primary_plane->map, vaddr);
-> >>>>> +
-> >>>>> +     ret =3D ast_plane_init(dev, ast_primary_plane, offset, size,
-> >>>>>                              0x01, &ast_primary_plane_funcs,
-> >>>>>                              ast_primary_plane_formats, ARRAY_SIZE(=
-ast_primary_plane_formats),
-> >>>>>                              NULL, DRM_PLANE_TYPE_PRIMARY);
-> >>>>> @@ -902,10 +922,11 @@ static void ast_cursor_plane_helper_atomic_up=
-date(struct drm_plane *plane,
-> >>>>>         struct drm_plane_state *old_plane_state =3D drm_atomic_get_=
-old_plane_state(state, plane);
-> >>>>>         struct ast_device *ast =3D to_ast_device(plane->dev);
-> >>>>>         struct iosys_map src_map =3D shadow_plane_state->data[0];
-> >>>>> +     struct iosys_map dst_map =3D ast_plane->map;
-> >>>>>         struct drm_rect damage;
-> >>>>>         const u8 *src =3D src_map.vaddr; /* TODO: Use mapping abstr=
-action properly */
-> >>>>>         u64 dst_off =3D ast_plane->offset;
-> >>>>> -     u8 __iomem *dst =3D ast_plane->vaddr; /* TODO: Use mapping ab=
-straction properly */
-> >>>>> +     u8 __iomem *dst =3D dst_map.vaddr_iomem; /* TODO: Use mapping=
- abstraction properly */
-> >>>>>         u8 __iomem *sig =3D dst + AST_HWC_SIZE; /* TODO: Use mappin=
-g abstraction properly */
-> >>>>>         unsigned int offset_x, offset_y;
-> >>>>>         u16 x, y;
-> >>>>> @@ -967,10 +988,22 @@ static const struct drm_plane_helper_funcs as=
-t_cursor_plane_helper_funcs =3D {
-> >>>>>         .atomic_disable =3D ast_cursor_plane_helper_atomic_disable,
-> >>>>>     };
-> >>>>>
-> >>>>> -static const struct drm_plane_funcs ast_cursor_plane_funcs =3D {
-> >>>>> +static void ast_cursor_plane_destroy(struct drm_plane *plane)
-> >>>>> +{
-> >>>>> +     struct ast_plane *ast_plane =3D to_ast_plane(plane);
-> >>>>> +     struct drm_gem_vram_object *gbo =3D ast_plane->gbo;
-> >>>>> +     struct iosys_map map =3D ast_plane->map;
-> >>>>> +
-> >>>>> +     drm_gem_vram_vunmap(gbo, &map);
-> >>>>> +     drm_gem_vram_unpin(gbo);
-> >>>>> +     drm_gem_vram_put(gbo);
-> >>>>> +
-> >>>>> +     drm_plane_cleanup(plane);
-> >>>>> +}
-> >>>>> +
-> >>>>> +static struct drm_plane_funcs ast_cursor_plane_funcs =3D {
-> >>>>>         .update_plane =3D drm_atomic_helper_update_plane,
-> >>>>>         .disable_plane =3D drm_atomic_helper_disable_plane,
-> >>>>> -     .destroy =3D drm_plane_cleanup,
-> >>>>>         DRM_GEM_SHADOW_PLANE_FUNCS,
-> >>>>>     };
-> >>>>>
-> >>>>> @@ -979,6 +1012,8 @@ static int ast_cursor_plane_init(struct ast_de=
-vice *ast)
-> >>>>>         struct drm_device *dev =3D &ast->base;
-> >>>>>         struct ast_plane *ast_cursor_plane =3D &ast->cursor_plane;
-> >>>>>         struct drm_plane *cursor_plane =3D &ast_cursor_plane->base;
-> >>>>> +     struct drm_gem_vram_object *gbo;
-> >>>>> +     struct iosys_map map;
-> >>>>>         size_t size;
-> >>>>>         void __iomem *vaddr;
-> >>>>>         u64 offset;
-> >>>>> @@ -994,10 +1029,25 @@ static int ast_cursor_plane_init(struct ast_=
-device *ast)
-> >>>>>         if (ast->vram_fb_available < size)
-> >>>>>                 return -ENOMEM;
-> >>>>>
-> >>>>> -     vaddr =3D ast->vram + ast->vram_fb_available - size;
-> >>>>> -     offset =3D ast->vram_fb_available - size;
-> >>>>> +     if (ast_shmem) {
-> >>>>> +             vaddr =3D ast->vram + ast->vram_fb_available - size;
-> >>>>> +             offset =3D ast->vram_fb_available - size;
-> >>>>> +             iosys_map_set_vaddr_iomem(&ast_cursor_plane->map, vad=
-dr);
-> >>>>> +             ast_cursor_plane_funcs.destroy =3D drm_plane_cleanup;
-> >>>>> +     } else {
-> >>>>> +             gbo =3D drm_gem_vram_create(dev, size, 0);
-> >>>>> +             if (IS_ERR(gbo))
-> >>>>> +                     return PTR_ERR(gbo);
-> >>>>> +
-> >>>>> +             drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM | DRM=
-_GEM_VRAM_PL_FLAG_TOPDOWN);
-> >>>>> +             drm_gem_vram_vmap(gbo, &map);
-> >>>>> +             offset =3D drm_gem_vram_offset(gbo);
-> >>>>> +             ast_cursor_plane->gbo =3D gbo;
-> >>>>> +             ast_cursor_plane->map =3D map;
-> >>>>> +             ast_cursor_plane_funcs.destroy =3D ast_cursor_plane_d=
-estroy;
-> >>>>> +     }
-> >>>>>
-> >>>>> -     ret =3D ast_plane_init(dev, ast_cursor_plane, vaddr, offset, =
-size,
-> >>>>> +     ret =3D ast_plane_init(dev, ast_cursor_plane, offset, size,
-> >>>>>                              0x01, &ast_cursor_plane_funcs,
-> >>>>>                              ast_cursor_plane_formats, ARRAY_SIZE(a=
-st_cursor_plane_formats),
-> >>>>>                              NULL, DRM_PLANE_TYPE_CURSOR);
-> >>>>> @@ -1348,9 +1398,7 @@ static enum drm_mode_status ast_mode_config_m=
-ode_valid(struct drm_device *dev,
-> >>>>>         return MODE_OK;
-> >>>>>     }
-> >>>>>
-> >>>>> -static const struct drm_mode_config_funcs ast_mode_config_funcs =
-=3D {
-> >>>>> -     .fb_create =3D drm_gem_fb_create_with_dirty,
-> >>>>> -     .mode_valid =3D ast_mode_config_mode_valid,
-> >>>>> +static struct drm_mode_config_funcs ast_mode_config_funcs =3D {
-> >>>>>         .atomic_check =3D drm_atomic_helper_check,
-> >>>>>         .atomic_commit =3D drm_atomic_helper_commit,
-> >>>>>     };
-> >>>>> @@ -1372,6 +1420,15 @@ int ast_mode_config_init(struct ast_device *=
-ast)
-> >>>>>         dev->mode_config.min_width =3D 0;
-> >>>>>         dev->mode_config.min_height =3D 0;
-> >>>>>         dev->mode_config.preferred_depth =3D 24;
-> >>>>> +     dev->mode_config.prefer_shadow =3D !ast_shmem;
-> >>>>> +
-> >>>>> +     if (!ast_shmem) {
-> >>>>> +             ast_mode_config_funcs.fb_create =3D drm_gem_fb_create=
-;
-> >>>>> +             ast_mode_config_funcs.mode_valid =3D drm_vram_helper_=
-mode_valid;
-> >>>>> +     } else {
-> >>>>> +             ast_mode_config_funcs.fb_create =3D drm_gem_fb_create=
-_with_dirty;
-> >>>>> +             ast_mode_config_funcs.mode_valid =3D ast_mode_config_=
-mode_valid;
-> >>>>> +     }
-> >>>>>
-> >>>>>         if (ast->chip =3D=3D AST2100 || // GEN2, but not AST1100 (?=
-)
-> >>>>>             ast->chip =3D=3D AST2200 || // GEN3, but not AST2150 (?=
-)
-> >>>> --
-> >>>> --
-> >>>> Thomas Zimmermann
-> >>>> Graphics Driver Developer
-> >>>> SUSE Software Solutions Germany GmbH
-> >>>> Frankenstrasse 146, 90461 Nuernberg, Germany
-> >>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> >>>> HRB 36809 (AG Nuernberg)
-> >>>>
-> >> --
-> >> --
-> >> Thomas Zimmermann
-> >> Graphics Driver Developer
-> >> SUSE Software Solutions Germany GmbH
-> >> Frankenstrasse 146, 90461 Nuernberg, Germany
-> >> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> >> HRB 36809 (AG Nuernberg)
-> >>
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
+> > +	* The physical memory backpointer (page->zone_device_data) should remain
+> > +	  stable from allocation to page free. Safely updating this against a
+> > +	  concurrent user would be very difficult unless the page is free.
+> > +* GPU pagetable locking
+> > +	* Notifier lock only protects range tree, pages valid state for a range
+> > +	  (rather than seqno due to wider notifiers), pagetable entries, and
+> > +	  mmu notifier seqno tracking, it is not a global lock to protect
+> > +          against races.
+> > +	* All races handled with big retry as mentioned above.
+> > +
+> > +Overview of baseline design
+> > +===========================
+> > +
+> > +Baseline design is simple as possible to get a working basline in which can be
+> > +built upon.
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/xe/drm_gpusvm.c
+> > +   :doc: Overview
+> > +   :doc: Locking
+> > +   :doc: Migrataion
+> > +   :doc: Partial Unmapping of Ranges
+> > +   :doc: Examples
+> > +
+> > +Possible future design features
+> > +===============================
+> > +
+> > +* Concurrent GPU faults
+> > +	* CPU faults are concurrent so makes sense to have concurrent GPU
+> > +	  faults.
+> > +	* Should be possible with fined grained locking in the driver GPU
+> > +	  fault handler.
+> > +	* No expected GPU SVM changes required.
+> > +* Ranges with mixed system and device pages
+> > +	* Can be added if required to drm_gpusvm_get_pages fairly easily.
+> > +* Multi-GPU support
+> > +	* Work in progress and patches expected after initially landing on GPU
+> > +	  SVM.
+> > +	* Ideally can be done with little to no changes to GPU SVM.
+> > +* Drop ranges in favor of radix tree
+> > +	* May be desirable for faster notifiers.
+> > +* Compound device pages
+> > +	* Nvidia, AMD, and Intel all have agreed expensive core MM functions in
+> > +	  migrate device layer are a performance bottleneck, having compound
+> > +	  device pages should help increase performance by reducing the number
+> > +	  of these expensive calls.
+> 
+> Balbir has also just posted an initial RFC implementation of this here:
+> 
+> https://lore.kernel.org/linux-mm/20250306044239.3874247-1-balbirs@nvidia.com/
+> 
+
+Nice. Will take a look as we have time. I also want to pull in Leon's
+series [1] too.
+
+Matt
+
+[1] https://lore.kernel.org/all/cover.1738765879.git.leonro@nvidia.com/
+
+> > +* Higher order dma mapping for migration
+> > +	* 4k dma mapping adversely affects migration performance on Intel
+> > +	  hardware, higher order (2M) dma mapping should help here.
+> > +* Build common userptr implementation on top of GPU SVM
+> > +* Driver side madvise implementation and migration policies
+> > +* Pull in pending dma-mapping API changes from Leon / Nvidia when these land
+> > diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+> > index 476719771eef..396e535377fb 100644
+> > --- a/Documentation/gpu/rfc/index.rst
+> > +++ b/Documentation/gpu/rfc/index.rst
+> > @@ -16,6 +16,10 @@ host such documentation:
+> >  * Once the code has landed move all the documentation to the right places in
+> >    the main core, helper or driver sections.
+> >  
+> > +.. toctree::
+> > +
+> > +    gpusvm.rst
+> > +
+> >  .. toctree::
+> >  
+> >      i915_gem_lmem.rst
+> > -- 
+> > 2.34.1
+> > 
