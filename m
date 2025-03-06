@@ -2,51 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3621A54DED
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:36:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D94A54E27
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D8F10E9C4;
-	Thu,  6 Mar 2025 14:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85E6010E9CF;
+	Thu,  6 Mar 2025 14:49:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lJXI93Fq";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61BD810E9C4
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:36:37 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.194])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Z7sLL28FgzyRqT;
- Thu,  6 Mar 2025 22:31:38 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 43387140521;
- Thu,  6 Mar 2025 22:36:34 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08CD210E9CD;
+ Thu,  6 Mar 2025 14:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741272552; x=1772808552;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=A3i3KSHvLjRwB8BzDnhTzixi/JwCkD4HTXt8Z87k8bY=;
+ b=lJXI93FqjfYRU0TDrBbNHqisgwLLbFkVViWUz/miDTObafGgfXl+/4pO
+ GcFmTpSrZ9iJa6+mwt9jGIrCnlfhRnO0ThkduaGvMjKeBlzmMBCAwhiLp
+ wJatxZJ0rN6w4Xom4okskDcNL6nO/PCq+URq9u9THFFGeOo3WZYaU86kM
+ +lLcaNelgkJVMGnUyNmxrCbgczpEsB7nsYYdHj/1vkYwjO6JTYLseC28R
+ eymYVdfni3BBkJcQgtYE8fhBSBzK78UAtzBLcUsQfUsx+zJ+T3QGx4GCy
+ ii5lcG7CT97HuWHPqDPNpZY4VASTkKX9u5CgM7s30NPIiEbo+emsvJoYL A==;
+X-CSE-ConnectionGUID: e/kDXvCITR2Vgt3cVVmluQ==
+X-CSE-MsgGUID: anj++/BrRmq4BzV+g7CWeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53269983"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="53269983"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 06:49:12 -0800
+X-CSE-ConnectionGUID: MYRENQIOSRuSHsXMM842lQ==
+X-CSE-MsgGUID: sdQqyLPmSkSNPv6SkjkNow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="119714521"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 06 Mar 2025 06:49:10 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 6 Mar 2025 06:49:09 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Thu, 6 Mar 2025 22:36:32 +0800
-Message-ID: <79ad8faa-02ce-470b-a01b-a7fb5dc5ba23@huawei.com>
-Date: Thu, 6 Mar 2025 22:36:31 +0800
+ 15.2.1544.14 via Frontend Transport; Thu, 6 Mar 2025 06:49:09 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 6 Mar 2025 06:49:09 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T8vNDcbeneJ4+KmnPwKkjSETlA4JabkwW72A4u5/H4LUhDPi7wPKBFOZAd/xpkVQeuwCSKDyjMa4TvbbsIVmA9NiUhQiZh3kgMw8CgN9t4tT1Drs6W4SaSfJyTKBbMw5ZKeYN0ZKjQ7qWSKmodO5DtlPvi77fGMaEc7bKDmXs15ZrWqu2QHrK7rzRzAbH/NtOb4bXxZX2K7CFp//mftIuFgWbDoBZBUAxwHumRpeb0eZ/3SVj3rUKhBxWzx3A0rRjU/yTgiABpSHo/nVpcdfKYl2gjLJSJccaDuIF9cYW41XvQa4PTB0EVkGlr5ptakcuPOU/CyymJ8DFgmkoJaihg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A3i3KSHvLjRwB8BzDnhTzixi/JwCkD4HTXt8Z87k8bY=;
+ b=tFVgmHLaowbugCNoglDpvwtS7G/IgOAZHHzUFPW6pLd9FAA5wSvF5PvDenlDshA9m8yvPo15Txb4V6Pi0yZmt9KWfkMshd62PfEPVN+KnuKPRtFqFGcrhyw0/mriDESnGAI4cG6D74Zu71C+es1Z1KfRPCMutaVw7S0vvH/nKIwLN+QP+47fSwfxrXbMMWSTS/4lwZv/mqf4aUS8nROyFrLuJiMTi2yqGpeWZvUBentFzPdiJQ/zJP8SVj6OEq+qpRODbi1Q1y5uJGNi5bVeKI+qGnDCdeId4udI5WtH9ESWiYbeC8lJwKcMIky89WYx+Iiifbev7rJ8IKij3mul5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by MN0PR11MB5964.namprd11.prod.outlook.com (2603:10b6:208:373::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.16; Thu, 6 Mar
+ 2025 14:48:52 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%3]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
+ 14:48:52 +0000
+Date: Thu, 6 Mar 2025 08:48:47 -0600
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Yury Norov
+ <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, "Jani
+ Nikula" <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ <linux-kernel@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v4 3/8] bits: introduce fixed-type genmasks
+Message-ID: <vwvpdshuoxvqzw6hdwofh3b5tgm5k4rldytcoidqdldhkdlmh4@epxun47qrzer>
+References: <20250305-fixed-type-genmasks-v4-0-1873dcdf6723@wanadoo.fr>
+ <20250305-fixed-type-genmasks-v4-3-1873dcdf6723@wanadoo.fr>
+ <Z8hf7pN84-64LWPv@smile.fi.intel.com>
+ <9f0215c4-62e5-4dfa-8dac-732682600c8c@wanadoo.fr>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <9f0215c4-62e5-4dfa-8dac-732682600c8c@wanadoo.fr>
+X-ClientProxiedBy: MW2PR16CA0032.namprd16.prod.outlook.com (2603:10b6:907::45)
+ To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
- detect of irq feature
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
-References: <20250305112647.2344438-1-shiyongbang@huawei.com>
- <20250305112647.2344438-8-shiyongbang@huawei.com>
- <3ylvvfee5yekzunxctsmqrk2rw6awyvgryl6nhzprgrlvjsknt@mgabeirg3s2r>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <3ylvvfee5yekzunxctsmqrk2rw6awyvgryl6nhzprgrlvjsknt@mgabeirg3s2r>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|MN0PR11MB5964:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4d8f40f-2dfe-4d25-7fe3-08dd5cbe032d
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?eHlF8n527xPu4iJCy4IcAC2O0P03RlSiVkImhDl0cotinDpkwH6B9z42Zw9c?=
+ =?us-ascii?Q?3XlhAAIhQg9W6XbD6PpKS3G7oezlxp62j0UyZCZ3nbC8a1PWTtQddtE+vGVh?=
+ =?us-ascii?Q?AZvTKb2aPDy1Vt7V2c+vh/cm3F7GCPgG9hRXDmF/lfB/sEk9wld8fh5f6HA1?=
+ =?us-ascii?Q?sfzilsUx4ZPC6g/4X1Fi6bkD7caMSWuuLIfX8aSbuP+RrdVO8d4AuKC8mS/r?=
+ =?us-ascii?Q?jvbfC/f6VtYxFaEWGkuB59fW9edgRz/3ai4p5e4jbxeEPIDwfEcM9vVL/BZ6?=
+ =?us-ascii?Q?A9lEe/U/e3U/IeIjcXBi4cxj3plQes52F4Syg4VNL2KUb6/FkK7zYFHLywjE?=
+ =?us-ascii?Q?9zghZ/z9nDDwkJJIwPM/5YfdlLrtU9LtOK4kz8X834yn9kkMFN8EMCaw67Lm?=
+ =?us-ascii?Q?ccfBCpRWIe/tMTeSumBHvr0z6+mDaj02hdvk5n7CCgqQD4bi2utkiOH+D9UD?=
+ =?us-ascii?Q?xe/4krCrweaM63mmojORmWxiOmRcvdREoHSeRR+Hec32pDPMzsVn/e1UC0/N?=
+ =?us-ascii?Q?QoloweV8Z1J3vdHfH7qUS8n74bzWE5eazILorZKTKoQ7Yni8/Usxfmkqit45?=
+ =?us-ascii?Q?KBIG9pkzSbcI0u9Y1QCc1VVPXWUPBNB2G3xmdHB1mJDgJVcE+L6y2xhFjhVI?=
+ =?us-ascii?Q?bJ5msMPWMBJVXDM9NBsW/FQ0ayTawzGMsWqX9EcjLNhmHweflxWeWb0Rb1qZ?=
+ =?us-ascii?Q?o3DJ4RK0M843KFZ9mr3MlGaXlG9luLJB2Eu/lFlfUygGojCnWfXdgfrNaOM6?=
+ =?us-ascii?Q?7etgikItYolWD0a4mABb6j4mYGUg07wQGlAC6NiXlYlyc9+qTONtHkqprdnJ?=
+ =?us-ascii?Q?Esfyp4yAECJCiGOh08f34y0++y6C0vEsmJxscBBxwqxV4CpNld7TVApcfkk3?=
+ =?us-ascii?Q?ipfYnfreDB1Htff7xVzQuO9nCs8T0YUWXqrGu+N4U9DkrVzrQhQ6OFyEv2gP?=
+ =?us-ascii?Q?y2D60nh+jY45y08wjTnSM69w+FodD3Z1wPKsghTD2vSf+s8SNaLdLGE6DkDb?=
+ =?us-ascii?Q?x6KlDybUC1SoYSTkQ5ALYSgSWUkDW0pdDL7XTyZBDnOizwVqJ4LyFCbYlq5N?=
+ =?us-ascii?Q?z6uFA+qYzQXDr9tH4B873Wg3VQdzitkLIolG8Re1muNOhq4tIfcuJI2Lk/1E?=
+ =?us-ascii?Q?7btYjn3Fql2DWNclPfe5P2FNFtgOBZpMNEyfxDyd47r0SoBjS9wv/dc/PyFh?=
+ =?us-ascii?Q?6UXG/evq+TMWLb2Ho0dKB48sM7MeUyeIj9m4IzGQXDxyOjIw0Kej7OycbpLg?=
+ =?us-ascii?Q?LNhuyVtq/L1s9C2ZFkiKAgjxqlNa3dObZu6FwBODOK7tZNLV6aXFAsBQ3T8m?=
+ =?us-ascii?Q?1rHewhkTSIPKXRTmJAoJQ+F6RMvNpUzRLuDJkA5RmkMTe7g7HfSTMhm6Rw8R?=
+ =?us-ascii?Q?uVcYFg5vEv4UHk0QsgiWGS/zD16t?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?opz80G80a9RhKb3CLMMCbopm1mh5ADr5805jI3dahqwK/A7wdspQBo3EBNmS?=
+ =?us-ascii?Q?yrwWG58XpIoJGFczDs7EmVelmTIp+i0gFCtVDbYarEAMzdJBL+Vt41Ox3Z39?=
+ =?us-ascii?Q?4ZHYGoYXWIZaNrBSAWMB68jb4WTMLFxFj6H5vn5RkLcf0alRWhlgrW9keZ4y?=
+ =?us-ascii?Q?mdmz8J+pEzcwFXHpC0ACOTEaGr4IjptW4vV1NlR9tnXJW1RgUcBMm8cTNt0q?=
+ =?us-ascii?Q?PZrj+voVwYvdOWz8srptz/YXNjoOiIsUqx6/Rpf6Xu2ynuxz1/HVd9A48Ftk?=
+ =?us-ascii?Q?h5ZYo22fme7k49McziLvUfHdXPKqgyYjAtlNzDj4rMhRQcAa3ppeE40dMNZI?=
+ =?us-ascii?Q?Y59/bi7RViL6J8Txy/Cv8mpoIsK+vKTZLgr+1hDtxVMWDw/XMc/LqpDd8W98?=
+ =?us-ascii?Q?WGHNA5SYRpTjj9/aXx3b6Hpcik8pHxg9zBFYUYdD6BdbzPMLA4hXp2c9E5IS?=
+ =?us-ascii?Q?FAyYTZl5cI+p80Q2ak68k+n5yIOCOoHD9Yw97vZnsvOxZExCyHj8fKd1FcpO?=
+ =?us-ascii?Q?6VmMNQ7Xc2T/GnSlBiD4S57fMsViN7WNliDNxdVT0myHNoc7bEG5ota0EETr?=
+ =?us-ascii?Q?2IBq/PLX6SNDhqLM2n8aWGAxIOg3hFLwsB+i1qGHfV80AEO7UHZ5i8kOORv9?=
+ =?us-ascii?Q?vU3nkA7r/fSJl+BX7QGENzQ5N9j92KbYgceypmzzGytmB1VzHquvLEyRubrs?=
+ =?us-ascii?Q?raHiAcgWmk1JuWCorJMCdHsmqOEqP7BIKQd0RqSvO3eARbBpp0+xEcWMjgEW?=
+ =?us-ascii?Q?gIUT/owpevUf8AwuJVMFcrJiCJrZwI/KaS1imie6o3vrzOHal/oxTxmZyJEX?=
+ =?us-ascii?Q?romlnHiEGgyrZ9un7yw7vBzFCr0zO4dGsRLVkzsBgZvj1P4kjq5GvobuNdFM?=
+ =?us-ascii?Q?3maA/JKsDxj1wb7PVoBi2QEaAjoh8LwD7mmcd63DsE7pQb6iFB/RvdIHIEhD?=
+ =?us-ascii?Q?yQ/fnTGSIMScHv3WEPr9oxd3jyBM6qFN3xgu+6WI+TokfzY4BP6sLBa3Gtrb?=
+ =?us-ascii?Q?EeP9Z9+I+cILHpPModoW3vKJoo9puN2Plnf5ElbX9NvS027HfHH3eHuEiWSR?=
+ =?us-ascii?Q?Q1kq1cs4+ExmhMbmU8JbcM4Ro3jonOH14oY+bmJ46H0F2uyAF690uiF+sWaK?=
+ =?us-ascii?Q?Xgxuzmq62H7lvLFoPNX4dxH84QNtUHEziq+jtf5fLXR0ZAnMWObv2fLp7RkD?=
+ =?us-ascii?Q?x3zszXzhkjG1se+s/RCdHe0xpRFZs/6gGuqC0zBO91kixxt5WoLadodZLIYL?=
+ =?us-ascii?Q?qxZm7/pdGX8Fy+M6NUMed9NO/JQUxN0mzqmWaKDFDs4ERByS88ZQlBEl22r/?=
+ =?us-ascii?Q?r6XqzSV8Ivq5WV7Z9fPMsKUvFDWd49dTDmejxEPCEvQSpBpdshnS+C/GbdMS?=
+ =?us-ascii?Q?tlKn4FiwwVKfARAq/r3qW1Bw/1QT8MwiOG2Lacu6Mfl7/NVd/Fj2U5Kc2eAh?=
+ =?us-ascii?Q?Z/MgBQ8qR0Jt1xdOlEz4rkZhIafOPerKXegtefxk4/wJwy5T6xud4pRq2GZK?=
+ =?us-ascii?Q?lScVaCISmZCxZFSSa5iLE+BnjhfKgHwCnFNfXoMGXK2mIPcuRU+dco8zZF0+?=
+ =?us-ascii?Q?M8nWR9SyX/UN940hDIw1fChXH9TctDjNBRcahWt3YK5ixJHkxst2SSBxPV/6?=
+ =?us-ascii?Q?sA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4d8f40f-2dfe-4d25-7fe3-08dd5cbe032d
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 14:48:52.5475 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lEw2Co4/PcmvBYW+2B6oENDLLnQ26VGN+KfSs+sUpqH29/pFVIP42AnZrocQn5cniuNqkD7F45kdSzE8+me6bTb/2m1t4guqipBFpY0KdUQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB5964
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,258 +188,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> On Wed, Mar 05, 2025 at 07:26:46PM +0800, Yongbang Shi wrote:
->> From: Baihan Li <libaihan@huawei.com>
+On Wed, Mar 05, 2025 at 11:38:19PM +0900, Vincent Mailhol wrote:
+>On 05/03/2025 at 23:30, Andy Shevchenko wrote:
+>> On Wed, Mar 05, 2025 at 10:00:15PM +0900, Vincent Mailhol via B4 Relay wrote:
+>>> From: Yury Norov <yury.norov@gmail.com>
+>>>
+>>> Add __GENMASK_t() which generalizes __GENMASK() to support different
 >>
->> Add HPD interrupt enable functions in drm framework. Add link reset
->> process to reset link status when a new connector pulgged in. Because the
->> connected VGA connector would make driver can't get the userspace
->> call, adding detect_ctx in vga connector to make HPD active userspace.
->>
->> Signed-off-by: Baihan Li <libaihan@huawei.com>
->> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->> ---
->> ChangeLog:
->> v3 -> v4:
->>    - add link reset of rates and lanes in pre link training process, suggested by Dmitry Baryshkov.
->>    - add vdac detect and connected/disconnected status to enable HPD process, suggested by Dmitry Baryshkov.
->>    - remove a drm_client, suggested by Dmitry Baryshkov.
->>    - fix build errors reported by kernel test robot <lkp@intel.com>
->>      Closes: https://lore.kernel.org/oe-kbuild-all/202502231304.BCzV4Y8D-lkp@intel.com/
->> v2 -> v3:
->>    - remove mdelay(100) hpd function in ISR, suggested by Dmitry Baryshkov.
->>    - remove enble_display in ISR, suggested by Dmitry Baryshkov.
->>    - change drm_kms_helper_connector_hotplug_event() to
->>      drm_connector_helper_hpd_irq_event(), suggested by Dmitry Baryshkov.
->>    - move macros to dp_reg.h, suggested by Dmitry Baryshkov.
->>    - remove struct irqs, suggested by Dmitry Baryshkov.
->>    - split this patch into two parts, suggested by Dmitry Baryshkov.
->>    - add a drm client dev to handle HPD event.
->> v1 -> v2:
->>    - optimizing the description in commit message, suggested by Dmitry Baryshkov.
->>    - add mdelay(100) comments, suggested by Dmitry Baryshkov.
->>    - deleting display enable in hpd event, suggested by Dmitry Baryshkov.
->> ---
->>   .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  1 +
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 36 +++++++++++++++++++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  5 +++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  |  3 ++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 33 +++++++++++++++++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  2 ++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  3 ++
->>   7 files changed, 83 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> index c5feef8dc27d..08f9e1caf7fc 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> @@ -16,5 +16,6 @@
->>   #define HIBMC_DP_SYNC_EN_MASK		0x3
->>   #define HIBMC_DP_LINK_RATE_CAL		27
->>   #define HIBMC_DP_SYNC_DELAY(lanes)	((lanes) == 0x2 ? 86 : 46)
->> +#define HIBMC_DP_INT_ENABLE		0xc
->>   
->>   #endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> index ce7cb07815b2..8f0daec7d174 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> @@ -189,6 +189,36 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
->>   	return 0;
->>   }
->>   
->> +void hibmc_dp_enable_int(struct hibmc_dp *dp)
->> +{
->> +	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
->> +
->> +	writel(HIBMC_DP_INT_ENABLE, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->> +}
->> +
->> +void hibmc_dp_disable_int(struct hibmc_dp *dp)
->> +{
->> +	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
->> +
->> +	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->> +	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
->> +}
->> +
->> +void hibmc_dp_hpd_cfg(struct hibmc_dp *dp)
->> +{
->> +	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
->> +
->> +	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_SYNC_LEN_SEL, 0x0);
->> +	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_TIMER_TIMEOUT, 0x1);
->> +	hibmc_dp_reg_write_field(dp->dp_dev, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_MIN_PULSE_NUM, 0x9);
->> +	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
->> +	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->> +	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
->> +	writel(HIBMC_DP_INT_ENABLE, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->> +	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
->> +	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
->> +}
->> +
->>   void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable)
->>   {
->>   	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
->> @@ -227,6 +257,12 @@ int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode)
->>   	return 0;
->>   }
->>   
->> +void hibmc_dp_reset_link(struct hibmc_dp *dp)
->> +{
->> +	dp->dp_dev->link.status.clock_recovered = false;
->> +	dp->dp_dev->link.status.channel_equalized = false;
->> +}
->> +
->>   static const struct hibmc_dp_color_raw g_rgb_raw[] = {
->>   	{CBAR_COLOR_BAR, 0x000, 0x000, 0x000},
->>   	{CBAR_WHITE,     0xfff, 0xfff, 0xfff},
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> index 83a53dae8012..665f5b166dfb 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> @@ -49,11 +49,16 @@ struct hibmc_dp {
->>   	void __iomem *mmio;
->>   	struct drm_dp_aux aux;
->>   	struct hibmc_dp_cbar_cfg cfg;
->> +	u32 irq_status;
->>   };
->>   
->>   int hibmc_dp_hw_init(struct hibmc_dp *dp);
->>   int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode);
->>   void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable);
->>   void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg);
->> +void hibmc_dp_reset_link(struct hibmc_dp *dp);
->> +void hibmc_dp_hpd_cfg(struct hibmc_dp *dp);
->> +void hibmc_dp_enable_int(struct hibmc_dp *dp);
->> +void hibmc_dp_disable_int(struct hibmc_dp *dp);
->>   
->>   #endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->> index f6e722d063de..54a09e7565ec 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->> @@ -45,6 +45,9 @@ static int hibmc_dp_link_training_configure(struct hibmc_dp_dev *dp)
->>   	if (ret)
->>   		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
->>   
->> +	dp->link.cap.link_rate = dp->dpcd[DP_MAX_LINK_RATE];
->> +	dp->link.cap.lanes = 0x2;
->> +
->>   	return ret;
->>   }
->>   
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> index a7f611e82f73..31f1e8970265 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> @@ -13,6 +13,8 @@
->>   #include "hibmc_drm_drv.h"
->>   #include "dp/dp_hw.h"
->>   
->> +#define DP_MASKED_SINK_HPD_PLUG_INT	BIT(2)
->> +
->>   static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->>   {
->>   	struct hibmc_dp *dp = to_hibmc_dp(connector);
->> @@ -39,6 +41,8 @@ static int hibmc_dp_late_register(struct drm_connector *connector)
->>   {
->>   	struct hibmc_dp *dp = to_hibmc_dp(connector);
->>   
->> +	hibmc_dp_enable_int(dp);
->> +
->>   	return drm_dp_aux_register(&dp->aux);
->>   }
->>   
->> @@ -47,6 +51,8 @@ static void hibmc_dp_early_unregister(struct drm_connector *connector)
->>   	struct hibmc_dp *dp = to_hibmc_dp(connector);
->>   
->>   	drm_dp_aux_unregister(&dp->aux);
->> +
->> +	hibmc_dp_disable_int(dp);
->>   }
->>   
->>   static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
->> @@ -98,6 +104,31 @@ static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
->>   	.atomic_disable = hibmc_dp_encoder_disable,
->>   };
->>   
->> +irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
->> +{
->> +	struct drm_device *dev = (struct drm_device *)arg;
->> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
->> +	int idx;
->> +
->> +	if (!drm_dev_enter(dev, &idx))
->> +		return -ENODEV;
->> +
->> +	if (priv->dp.irq_status & DP_MASKED_SINK_HPD_PLUG_INT) {
->> +		drm_dbg_dp(&priv->dev, "HPD IN isr occur!\n");
->> +		hibmc_dp_hpd_cfg(&priv->dp);
->> +	} else {
->> +		drm_dbg_dp(&priv->dev, "HPD OUT isr occur!\n");
->> +		hibmc_dp_reset_link(&priv->dp);
->> +	}
->> +
->> +	if (dev->registered)
->> +		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
->> +
->> +	drm_dev_exit(idx);
->> +
->> +	return IRQ_HANDLED;
->> +}
->> +
->>   int hibmc_dp_init(struct hibmc_drm_private *priv)
->>   {
->>   	struct drm_device *dev = &priv->dev;
->> @@ -138,5 +169,7 @@ int hibmc_dp_init(struct hibmc_drm_private *priv)
->>   
->>   	drm_connector_attach_encoder(connector, encoder);
->>   
->> +	connector->polled = DRM_CONNECTOR_POLL_HPD;
->> +
->>   	return 0;
->>   }
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> index bc89e4b9f4e3..daed1330b961 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> @@ -71,4 +71,6 @@ int hibmc_dp_init(struct hibmc_drm_private *priv);
->>   
->>   void hibmc_debugfs_init(struct drm_connector *connector, struct dentry *root);
->>   
->> +irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg);
->> +
->>   #endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
->> index 05e19ea4c9f9..e8a527ede854 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> Separate commit, please. It concerns your VGA connector, not the DP
-> connector.
+>> Is it with double underscore? I do not see it.
 >
-> LGTM otherwise.
+>This is my mistake. In an earlier draft, it was __GENMASK_t(),
+>meanwhile, I dropped the __ prefix but forget to update the patch
+>description.
+>
+>> _t is used for typedef simple types. It's unfortunate to have it
+>> in such a macro.
+>
+>Ack.
+>
+>> Perhaps T or TYPE will suffice. Or perhaps we want
+>> __GENMASK_Uxx() here?
+>
+>If no objection, I have a preference for GENMASK_TYPE().
 
-Okay!
+ack, GENMASK_TYPE() seems better.
 
-
->> @@ -60,6 +60,7 @@ static void hibmc_connector_destroy(struct drm_connector *connector)
->>   static const struct drm_connector_helper_funcs
->>   	hibmc_connector_helper_funcs = {
->>   	.get_modes = hibmc_connector_get_modes,
->> +	.detect_ctx = drm_connector_helper_detect_from_ddc,
->>   };
->>   
->>   static const struct drm_connector_funcs hibmc_connector_funcs = {
->> @@ -127,5 +128,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
->>   
->>   	drm_connector_attach_encoder(connector, encoder);
->>   
->> +	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
->> +
->>   	return 0;
->>   }
->> -- 
->> 2.33.0
->>
+thanks
+Lucas De Marchi
