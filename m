@@ -2,120 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F108CA556D0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 20:34:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88D9A556D5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 20:35:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59AB910EA76;
-	Thu,  6 Mar 2025 19:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046F810EA7F;
+	Thu,  6 Mar 2025 19:35:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Uy2HPo8C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Uhh8I9TN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8622C10E239;
- Thu,  6 Mar 2025 19:34:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aBntfObY0TCuhknCrbQoh90imPzJXrh+AOaj66UqGStJI+GEc1Fn+UTDUoF7WTSqUcc1YiaDSvU59XJPnf1Gq2N/vYdmNJ948s7DEtFb3NebUrxlGq26CvZH5un+RGXJlS1IQvpv+vnDRuG8IE/c+mFTzQYl1QpBt2CsEgV7fLd1f+t+h7KQs8AHEnsqsRN1HPuzWc4kTm2yHo+UrtTd+je/9FGakj5S29sM81g+c1sEW9NPKuUmMAbAoN46FU9o4O3xvoZc28Fugd6Vo5rMps3ceNthMXmzpt5nISDtqNRSrCJtDlwZZqUJ7hXFxgjI6fkt/GEkPTxc62JoYTs4bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5UFaxzU9MFgEfeeSp/qCcQ8FLHTHtakGoQrl34nGWZI=;
- b=y7hSqA/XT1YnWO1l2GNtDRVbXV4VUN/6JY4oFbYRp2xBIfrA0PAkL2T1RjWSpfhMm/AXVlXp1tcRQ0cRuqlvfokVciI2TNcN9qT8EnTxrFxU+FLfkjQUf3kDHDUMulISk2q7r4AwFP/19jHFJ4CUdvJNxkgciI+5rLQiU3fpRUYrYV/R2UONosd4q3GqfiKS+r2kycqbBHrbjUFGU9kmMyBnRQB51xmtrWc4N10GQyx30TpZwbsq1lZ0DwsI6ccwJMsWXgtcDfQr4KVLl/NWvtaLm3/80a97GsEg3iYT3rX6Mfd3MpL/8y/F8W2yQHUEYkOvF4lOEE5u6SevQntSww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5UFaxzU9MFgEfeeSp/qCcQ8FLHTHtakGoQrl34nGWZI=;
- b=Uy2HPo8Cl0fvbkZ+cmOsu3h37oTRlvhiHVabuEpHdbK8/q18lDOZbrpZpS3e+HV6kWHhV88vldReJYZYxDEU70s1LZzcppADeyroCMh01XKt6UcstPqcz+WwdwGPC1pi/UgtMaSbhILHqkJHaHuv6mYtE+gGJxf5VuezfQ2A3QY=
-Received: from DS0PR17CA0008.namprd17.prod.outlook.com (2603:10b6:8:191::15)
- by DM4PR12MB7528.namprd12.prod.outlook.com (2603:10b6:8:110::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Thu, 6 Mar
- 2025 19:34:39 +0000
-Received: from DS1PEPF00017099.namprd05.prod.outlook.com
- (2603:10b6:8:191:cafe::ae) by DS0PR17CA0008.outlook.office365.com
- (2603:10b6:8:191::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8511.17 via Frontend Transport; Thu,
- 6 Mar 2025 19:34:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF00017099.mail.protection.outlook.com (10.167.18.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8511.15 via Frontend Transport; Thu, 6 Mar 2025 19:34:39 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 6 Mar
- 2025 13:34:37 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd, radeon drm-fixes-6.14
-Date: Thu, 6 Mar 2025 14:34:24 -0500
-Message-ID: <20250306193424.27413-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.48.1
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
+ [209.85.219.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20AA110EA7F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 19:35:23 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-e53ef7462b6so916936276.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 11:35:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1741289722; x=1741894522;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:reply-to
+ :from:mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=CvPMTrx2LK8ttn52lw1f4VuLYVYsKdz+5pXWmHGm5ac=;
+ b=Uhh8I9TNM2BFT93H/kagTljD2QcgqApsln4DsF7PYXY8Ym85vZFKs/dpXd7k9eVAJG
+ 8MX8NPq7Nz6pCbf6bZaln4P62w5E5VLXZfEM8ser6LIndwBOBztQmCUWDTn9FJhTAcII
+ KcVriG9DlhXc/oS3POJtNiC/mzrJOBTS5Ein8KR+92R1BEsEe0YJ1ECn0sNQAYVIFhLH
+ 4iNm+Igm5ggOqTCBeNRS9M8/ujOjaKBhiscxuqIDiInm+wFS+hzN6b9x7rasMG9ME+rJ
+ MfCpOwBgM9Mh+y9iv3KJjyWyLysl78LYtn5L7D8RimyvFmcXzy4YqZSVL7W24u9DmT9L
+ iOVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741289722; x=1741894522;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:reply-to
+ :from:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CvPMTrx2LK8ttn52lw1f4VuLYVYsKdz+5pXWmHGm5ac=;
+ b=uFIx6BSQ+Wyzm+lZ6SnFUbD0iptMXUApIPhhKfj1APQ4ZBMmHv1DnX2D7ho7vmieBR
+ GPehV5wlaROF3HNqKAFQzIisGADQc579EqMvDIHuVLR7jxp2s433VBWJY2GI3x9HmLJq
+ SAUgLH0/opAajwWJ0B67uXdPgAPyAG3SNUD86hCu4DOcz3NdkmT85n1JGaS/SG6no9lf
+ kuUt8icVh3eWWE0nhpiYL9gqTrMt1vJJ1sTwY4+XKtPwigxrka1RX0J9cAmwcr4zwrm4
+ jOcZ0HvHkabQp50ILjI7dV/dzUE3JzCVdU9BinuQ9Rp4VhcTIU6FWJxhMBZQ/F4skKxs
+ NpYg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEOhnkZj8R+o2ZFoLQojbbFri7Ey1R/5ela0sjokeM2YlNzv0+NWjjC8d0Y6nTcKlJQ3lwjAZ+zzA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+wZSE+D0OJVnte5gS2N9EXep/Xy6BC5S2d/3mYXbyYbPHbPrf
+ YB9kHq/AYI53FjNf3cTLu89bSyOTtqamQch1DAB2mlWH+vCIg4XjLN8yhqYoxEWrF9XTFU5071l
+ i+3Kba8k7XVC2IlMTfgDFnkmyH5YaES37SsnO/DJwpowRxOUNiVY=
+X-Gm-Gg: ASbGnctGs2DOphBGo65lrwhA81PLx59bd1k5dSdI6iqZXLD7oIsmXztaQoatZA72dNJ
+ Eb5nOmtcvElmj169vwRyccVkgoC2cPVRDzr3gkizBIfHjeOKgh5ysee2qLgjP6TmYhkfpPOROzR
+ 5+FqZG8xvpSg63MBQPXQqScb/c1sAG7uYWfByJRmMFh5nCtFKHZHvRxlx+5Ds=
+X-Google-Smtp-Source: AGHT+IFu5qzlSfjRyYEZRsFK8Ljwu+Xti1lksICN6Iz6HEI6gOkU2N/N44HMd7OnuaCh7zX7MxejwovVffPNiI2M2Dw=
+X-Received: by 2002:a05:6902:98e:b0:e5d:d8ea:8c96 with SMTP id
+ 3f1490d57ef6-e635c18bcc6mr881445276.29.1741289720501; Thu, 06 Mar 2025
+ 11:35:20 -0800 (PST)
+Received: from 415818378487 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 6 Mar 2025 19:35:18 +0000
+Received: from 415818378487 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 6 Mar 2025 19:35:18 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017099:EE_|DM4PR12MB7528:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74120dec-15f1-4d0f-04b6-08dd5ce5ef76
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|376014|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5hm17/7pCrEBMaJ4zOGUByw/LTFTYCfB3J8sZ7Z5+CbDaaZg2Mb5qTkx1Cp6?=
- =?us-ascii?Q?LfXWabqE2EMG4ylYKcbacmALc0saUW4WmsP1tXkZ7TxppnNiBm3l6vU1tPoH?=
- =?us-ascii?Q?vE9al2vvUkJ4lJlc2NbxyCXJupWqCNJEAiwQy7AH4ANLqzxGCtYFni6CInJD?=
- =?us-ascii?Q?4KkRKSRzkCwx0D4cG1Xr9No781LWkh9cZs64TswruZJHaOawE7wu8GqK5b7x?=
- =?us-ascii?Q?z8iDETcxljtKlM/YFpcLRLIcXZ3xycao89eBGLDup7KXiTVWM3jRzu/d4GEl?=
- =?us-ascii?Q?BEx+6jc9zn3ns7r5N2m6VMQz5PKaiz+M3IjplOCZBUX8DvXmnWeBqY1gcOKi?=
- =?us-ascii?Q?vsyoVgIR6JxwsuPUA0idWsR5rJS/h6iwbEZwrExC+98vGrFGpihOkDayLIp5?=
- =?us-ascii?Q?qflueWfHYQANRsZ1j3NgOSLBfmnBwcBK2TF7JkoI1wJRDNnld8IlZZ1F3rAC?=
- =?us-ascii?Q?PBtvMIFLNKDt6D69zHal3b8A64Pr7qOCaAf+3ffjMa4O/d1l57ezEpx6LeA/?=
- =?us-ascii?Q?36fmhqhCrk8tGf019GEQ0Ku3g/Clae6T51l0R95qWbCjg3sVQUbeEUh/svCC?=
- =?us-ascii?Q?qyMr5H+5C9TzyRyinxt99p0xn1vzoqDZRU6Gj8OkZvOgjzxpU9BoGLfIot/0?=
- =?us-ascii?Q?OX6ocE2v5sjSzMUx/pgso9oz6xwdB5dLL84bYLsyLc37cwLZPMDHqOeho52B?=
- =?us-ascii?Q?uQoxE6ZPmq8+nWiVmkll01a+B3+PS87tPSfeKUWheDKooPF3yhsNbxWwmknx?=
- =?us-ascii?Q?U9LLlP2fAbrcNT981ZX3hdvJ6LtiAnIjfu2iLTVTJZknmvjTALYSj8LJTPtl?=
- =?us-ascii?Q?GBxQ/S83aARwcDb4X6I/KiQaFMuy+ATGtzM/7cTlbUr6xwmHSZJQtobtlqiT?=
- =?us-ascii?Q?ajik8KcmRLUTakIgHgVDyH07z2PoOpSyHxE7JbE6DQroLQ4iBVdwBiS6AmeY?=
- =?us-ascii?Q?OaUyXp70kyjVLJFEqCPrvVHW9jjuLOi1+tFypm/KbcfkeA0vPBGFWfLuOkvn?=
- =?us-ascii?Q?T9lRmlO8aiyQmOLxw8lPsSwbc0c114shaRTrc/EkDoq+HX7ItK3Hxa9Ujima?=
- =?us-ascii?Q?I4RePpfp9OB75YJatRP6troBZ5s8KULozR7waGKsNnwTLFsJbcL+FVnoPizg?=
- =?us-ascii?Q?zmOiI1YStPhIacEf2IwVMK3zdtew5Sjtoz8VQ5idq5uN1c1EIF3w5RVX3gdY?=
- =?us-ascii?Q?slLWGMQXgeq/mYbliYqAp22FXMl6nVvvUgjaBlVvj+SZ9cMZSc6i+nifYgSi?=
- =?us-ascii?Q?hW0/iBEquhtWVAK5hGhQKlLYAwgfV0c1RCGchoS+2kSolRw/15ex7FtsdJLo?=
- =?us-ascii?Q?LllqGquSdyNJPHBOoYb/3RjI1WbirpBL7Snl8B88dIfW+Z6jETNg3eP0ySpF?=
- =?us-ascii?Q?dtmX7hoUzAkBMXT9sYGfZtcRXUSS49PWgVB8IdczjXCtRdXmuGmWJdsQXj/+?=
- =?us-ascii?Q?upjeTINEemg=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(13003099007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 19:34:39.0296 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74120dec-15f1-4d0f-04b6-08dd5ce5ef76
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017099.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7528
+from: KernelCI bot <bot@kernelci.org>
+Date: Thu, 6 Mar 2025 19:35:18 +0000
+X-Gm-Features: AQ5f1JpR-IMILuWowlv8FzVS53GLeSDO5M8sexr3-UZ2xOgqG9jjR2HbNqHCe0U
+Message-ID: <CACo-S-2zeP=ArF5idL4f--vTPEAJzQ0kmisXBh3tT_Vs3Xv-JQ@mail.gmail.com>
+Subject: =?UTF-8?B?W1JFR1JFU1NJT05dIHVwc3RyZWFtLW1haW5saW5lL21hc3RlcjogKGJ1aWxkKSBpbml0aQ==?=
+ =?UTF-8?B?YWxpemVyLXN0cmluZyBmb3IgYXJyYXkgb2Yg4oCYY2hhcuKAmSBpcyB0b28gbG9uZyBbLVdlcnJvcj11?=
+ =?UTF-8?B?bnRlcm0uLi4=?=
+To: kernelci-results@groups.io
+Cc: gus@collabora.com, dri-devel@lists.freedesktop.org, 
+ tales.aparecida@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,55 +84,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: kernelci@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+Hello,
 
-Fixes for 6.14.
+New build issue found on upstream-mainline/master:
 
-The following changes since commit 7eb172143d5508b4da468ed59ee857c6e5e01da6:
+---
+ initializer-string for array of =E2=80=98char=E2=80=99 is too long
+[-Werror=3Dunterminated-string-initialization] in
+drivers/gpu/drm/panthor/panthor_fw.o
+(drivers/gpu/drm/panthor/panthor_fw.c)
+[logspec:kbuild,kbuild.compiler.error]
+---
 
-  Linux 6.14-rc5 (2025-03-02 11:48:20 -0800)
+- dashboard: https://d.kernelci.org/issue/redhat:89b66683928343b36d40dad548=
+87077a02269f3a
+- giturl: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t
+- commit HEAD:  848e076317446f9c663771ddec142d7c2eb4cb43
 
-are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.14-2025-03-06
+Log excerpt:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+00:16:36 drivers/gpu/drm/panthor/panthor_fw.c:641:53: error:
+initializer-string for array of =E2=80=98char=E2=80=99 is too long
+[-Werror=3Dunterminated-string-initialization]
+00:16:36   641 |         const char git_sha_header[sizeof(header)] =3D
+"git_sha: ";
+00:16:36       |                                                     ^~~~~~=
+~~~~~
+00:16:36   CC [M]  drivers/net/ethernet/mellanox/mlxsw/spectrum_mr.o
+00:16:37   CC [M]  drivers/media/dvb-frontends/tda1004x.o
+00:16:37   CC [M]  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.o
+00:16:37   CC [M]  drivers/net/ethernet/netronome/nfp/nfpcore/nfp_cppcore.o
+00:16:37   CC [M]  drivers/firmware/arm_scmi/transports/optee.o
+00:16:37   CC [M]  drivers/gpu/drm/msm/adreno/a6xx_preempt.o
+00:16:37   CC [M]  drivers/gpu/drm/nouveau/nvkm/subdev/i2c/nv4e.o
+00:16:37 cc1: all warnings being treated as errors
+00:16:37
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
 
-for you to fetch changes up to da552bda987420e877500fdd90bd0172e3bf412b:
 
-  drm/amd/pm: always allow ih interrupt from fw (2025-03-05 12:34:09 -0500)
+# Builds where the incident occurred:
 
-----------------------------------------------------------------
-amd-drm-fixes-6.14-2025-03-06:
+## olddefconfig on (aarch64):
+- compiler: gcc (GCC) 15.0.1 20250228 (Red Hat 15.0.1-0)
+- dashboard: https://d.kernelci.org/build/redhat:1702059263-aarch64-kernel
 
-amdgpu:
-- Fix NULL check in DC code
-- SMU 14 fix
 
-amdkfd:
-- Fix NULL check in queue validation
+#kernelci issue redhat:89b66683928343b36d40dad54887077a02269f3a
 
-radeon:
-- RS400 HyperZ fix
+Reported-by: kernelci.org bot <bot@kernelci.org>
 
-----------------------------------------------------------------
-Andrew Martin (1):
-      drm/amdkfd: Fix NULL Pointer Dereference in KFD queue
+--
+This is an experimental report format. Please send feedback in!
+Talk to us at kernelci@lists.linux.dev
 
-Kenneth Feng (1):
-      drm/amd/pm: always allow ih interrupt from fw
-
-Ma Ke (1):
-      drm/amd/display: Fix null check for pipe_ctx->plane_state in resource_build_scaling_params
-
-Richard Thier (1):
-      drm/radeon: Fix rs400_gpu_init for ATI mobility radeon Xpress 200M
-
- drivers/gpu/drm/amd/amdkfd/kfd_queue.c            |  4 ++--
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c |  3 ++-
- drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0.c    | 12 +-----------
- drivers/gpu/drm/radeon/r300.c                     |  3 ++-
- drivers/gpu/drm/radeon/radeon_asic.h              |  1 +
- drivers/gpu/drm/radeon/rs400.c                    | 18 ++++++++++++++++--
- 6 files changed, 24 insertions(+), 17 deletions(-)
+Made with love by the KernelCI team - https://kernelci.org
