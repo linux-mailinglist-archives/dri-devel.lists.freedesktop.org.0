@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DACFA550C3
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:27:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D535EA550C5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:28:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFD810E9F8;
-	Thu,  6 Mar 2025 16:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12B6C10E9F2;
+	Thu,  6 Mar 2025 16:27:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZdcXhXVL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GOJubE6x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90CF310E9EB
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:27:48 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-2feb91a25bdso1493867a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:27:48 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2F810E9F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:27:57 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-2ff187f027fso1640038a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:27:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741278468; x=1741883268; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1741278477; x=1741883277; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/lzzZDV4xgSskf5edAWcKAl1UECahSIOp1fWE1tA1yk=;
- b=ZdcXhXVLdMI+Cb5qDHIzAgn2FGwDN+Yg2QKARsyXwejDqkkoMN5fte9S6chhpWqCea
- s7x1/8hST4OT3yq927pu9NCTfmgIAfcpm/HISzZm2B6mdDZ6MXgj938q8DW3WWYLDoW1
- tmayJm4oLPKvYjZCaDgPVo/s14LRl864R1/iExtVmMHUwYS0NAfGggm9/mrO+N8UOVMl
- o0UvbELJ48gC2VdD84H/aToXffPikvHxR4jQRjbV9uOi07bKCagd54jiszIYlBgUbuVR
- a7dzjTg7x8AQN4YT2sZAFQyoHBVO2gQL1/bFnPIrj+XpuFFslZbFrmjCyTavqb45Fkrd
- 0sMw==
+ bh=VAZ6yehSc4MEYrK/rteyLhLjWQGTSbLYrKbJr1roEME=;
+ b=GOJubE6xjVC7T+kN3+SWK4Dff2JJn3ZNqisujfLDOa0o0ds6537pTGbqwdVJ88lgAP
+ 9fXuBzW0LBEPpnWH4oDoPBPLPhZWw9OFYWL9uJ/8bguBbYSOam/S3QwdPnpdEd+8kaeE
+ peOSSZz4+MAzwVr0Jql/I7zuVzr6QgzgBcjtFWlREOuUwVFH2CJU0jxyfGsgJTi6w7rH
+ ETEcnB5zYKjSjyCp/hi+GASKOp1myR3Stx6myJwNpB+ShAsgjNDTDsp3yyOlvjUPgeWI
+ EDb51j8+b4xhU+FQXklK6kqOYY7voGfAaz6R/hwE2KaRbXwD0yRDdJpbrMAKy2wI+vaL
+ ERZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741278468; x=1741883268;
+ d=1e100.net; s=20230601; t=1741278477; x=1741883277;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/lzzZDV4xgSskf5edAWcKAl1UECahSIOp1fWE1tA1yk=;
- b=JUx6Vjy8MZqzCSFt57rDPY+uVc4TpFKjaikpW9xGVH//nKtDLgH1kU1Sj3EploH3S1
- 2KvZBB2uvhcVUA9/oyryZjgG+gzUmatmxueXjI2vltWSEXT0d+RdCxKq3RkNg+M7PapD
- LWnm50GXdbjfhI51OKiOp77+9yJcbkPFjr3fJg4N92qdQC2LoTxOlt9Xw8iKyotNIlI8
- XCRzzqBp06RErewz1AOVQvima9qE78v6aajN75iX0hlUcGeYgrBuMrltC75MTaWjQr6u
- 4ES1S9TvniWRg25OeT9+DnCt9cgSW5JLBCVY7pZnppG50VwrXtvYHH3QgRRt2PlPHVr8
- m/YA==
+ bh=VAZ6yehSc4MEYrK/rteyLhLjWQGTSbLYrKbJr1roEME=;
+ b=Rw412zT6xU9VGYuIobbVFhZRCW+Z7+I82lOs1EExJjUHFQw+JLI6vT1tgfwjyHqCfU
+ farFj7Jk44yrUY3xSGteBC78D9j0B8F4ozvwrElcWYaBL4B3mC0Sp8/GlLTTGV2Lc8os
+ AvxaknfXh+Dd7aubnIhA/qNOxbILvVOJd/wYrCmrzEikKAQ0D3dNQuyBtua5Secs6xFR
+ wPlORzSXL1eOHGUeqEbvS0smdcSOGauVTDgZ/j0t8JYg9xUb7ltVWrOlHzVItQJpKlY3
+ 26oPhATtaLwNI0NpJ2fIPkPVQBAWGbEST1iE5+i2fZgeVshbTXEUvT6D5GxivoKkgemB
+ xfSg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVX90WRadeD4YU3YhqS7Y9U1Rqp8NOqq9eo0ebjCJSwWEEys1UmG49NffKdCHHwbG3sPSRdRUvfMjQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyIRVsxSfJWeXxhGGWhgfS0SwvSN6lAc4GaRxOwVXE73RKD9yai
- M3fLAfqGMI6ih9epHpLwuz4Xk1fBmkneO2jL7i0vDu6FC7hzj5+B
-X-Gm-Gg: ASbGncvcgtF6tFcwAY/PzW8UsKhEBjcAiZpdi+ktryK8/Ebmx72DHCWn9hHA1Wj+Sxp
- W/m4HEgmoK2159kc4Lu1stcgupYE9AYff1uxWJNcjtZ59/lN5dwm5q3T+8pNRwQumNMwNSWK1e3
- Qd44UNgqmudTnuElDz0b9PfCqX06D5GYcIzmDlI6f50YEcH9vR9q5AdZkAwK8aLEENJSxM3h8gC
- vw7vwYrqvpnyP21jPU93tsjlavahuwxsAe6yQKF0mI3XmenRBUN1ih5ygPTiTuIK4rO3KN75204
- YN17asLlnhP6EFg/+M6bGGs7mIqeKWLk1zLTU/TEufkWcLWwKPXSFnVulfWDqjtEUxY5YRXCFag
+ AJvYcCV6PUI+OyFY0OmtO7SqG5mpgj6OpTeeluDEeMeMkAaApZt/V8E9B70mzd9o+HW9rvFEZLXtU1qs7Og=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzp/KduUlEGmmois2lg2TB/pCq/yGf5+UUM/sH8skYgA/XXG9OP
+ eFgeuUwrIjxwOFB/PJcC9Rvge/h7R4VZWH9OYOs/0n7XOS8z+O8N
+X-Gm-Gg: ASbGnctcjTHJwYp35Kn5VjTFHl5y75dCOUGCDDPjAy1kFlG0HzXIJMP///v081h9Usn
+ Y1WN+lnW1BvBDVL1+xs191va+4HeC2qFtaa6Xs9yGFRlwlaDE190rBE0pmztmHn/0ll6zYP+nG9
+ sHkeP/6LkUcm2lUDutuUnprO2OKa6Gy5nx/gSPalDSQAZZWrX2jBNjt7t5OX+hdArRMu5QVclxv
+ IuI1NRv//DmoYnLEA/ltSzJlgUPUrziHm/JXhuBoAamQHs9j7SNHCJoo7LEttPkABSOdMWObD4c
+ 7Xb96ggbexNXgedHGshuLH7zJgO3TdsLXYQsWojUkpzg9MR1bai7oZjF8IpTZrNHQ0xkwdeF4TQ
  =
-X-Google-Smtp-Source: AGHT+IHWBk8+6ksfik0EhK6cGMIWVO4KCt6lAGGIta1FZHsm7ob/3ELoZ4FHcMM7AbzddV9ZAUKTxA==
-X-Received: by 2002:a17:90a:c888:b0:2fe:a77b:d97e with SMTP id
- 98e67ed59e1d1-2ff49728368mr13045551a91.11.1741278468014; 
- Thu, 06 Mar 2025 08:27:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGSTp6IoXEU2YpG6BXR34TKK6tsBmlfHVAOxv0eBhCn0t3RdyPBa0hZZRnTXXw4e83qNulrtA==
+X-Received: by 2002:a17:90a:e707:b0:2fa:1d9f:c80 with SMTP id
+ 98e67ed59e1d1-2ff618003c5mr6206329a91.17.1741278477310; 
+ Thu, 06 Mar 2025 08:27:57 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.27.40
+ 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.27.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 08:27:47 -0800 (PST)
+ Thu, 06 Mar 2025 08:27:56 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -85,10 +85,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v3 11/16] drm/bridge: dw-hdmi: Replace open-coded parity
- calculation with parity32()
-Date: Fri,  7 Mar 2025 00:25:36 +0800
-Message-Id: <20250306162541.2633025-12-visitorckw@gmail.com>
+Subject: [PATCH v3 12/16] mtd: ssfdc: Replace open-coded parity calculation
+ with parity32()
+Date: Fri,  7 Mar 2025 00:25:37 +0800
+Message-Id: <20250306162541.2633025-13-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250306162541.2633025-1-visitorckw@gmail.com>
 References: <20250306162541.2633025-1-visitorckw@gmail.com>
@@ -118,37 +118,59 @@ Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
 Changes in v3:
-- Change parity32(sample) to !!parity32(sample).
+- Change variable 'parity' type from int to bool.
 
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/mtd/ssfdc.c | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-index cf1f66b7b192..a992ecb149d7 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-@@ -4,6 +4,7 @@
-  *
-  * Written and tested against the Designware HDMI Tx found in iMX6.
+diff --git a/drivers/mtd/ssfdc.c b/drivers/mtd/ssfdc.c
+index 46c01fa2ec46..53a72576a646 100644
+--- a/drivers/mtd/ssfdc.c
++++ b/drivers/mtd/ssfdc.c
+@@ -7,6 +7,7 @@
+  * Based on NTFL and MTDBLOCK_RO drivers
   */
-+#include <linux/bitops.h>
- #include <linux/io.h>
- #include <linux/interrupt.h>
- #include <linux/module.h>
-@@ -171,12 +172,7 @@ static void dw_hdmi_reformat_iec958(struct snd_dw_hdmi *dw,
  
- static u32 parity(u32 sample)
- {
--	sample ^= sample >> 16;
--	sample ^= sample >> 8;
--	sample ^= sample >> 4;
--	sample ^= sample >> 2;
--	sample ^= sample >> 1;
--	return (sample & 1) << 27;
-+	return !!parity32(sample) << 27;
++#include <linux/bitops.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+@@ -178,24 +179,11 @@ static int read_raw_oob(struct mtd_info *mtd, loff_t offs, uint8_t *buf)
+ 	return 0;
  }
  
- static void dw_hdmi_reformat_s24(struct snd_dw_hdmi *dw,
+-/* Parity calculator on a word of n bit size */
+-static int get_parity(int number, int size)
+-{
+- 	int k;
+-	int parity;
+-
+-	parity = 1;
+-	for (k = 0; k < size; k++) {
+-		parity += (number >> k);
+-		parity &= 1;
+-	}
+-	return parity;
+-}
+-
+ /* Read and validate the logical block address field stored in the OOB */
+ static int get_logical_address(uint8_t *oob_buf)
+ {
+-	int block_address, parity;
++	int block_address;
++	bool parity;
+ 	int offset[2] = {6, 11}; /* offset of the 2 address fields within OOB */
+ 	int j;
+ 	int ok = 0;
+@@ -215,7 +203,7 @@ static int get_logical_address(uint8_t *oob_buf)
+ 			block_address &= 0x7FF;
+ 			block_address >>= 1;
+ 
+-			if (get_parity(block_address, 10) != parity) {
++			if (parity32(block_address & 0x3ff) == parity) {
+ 				pr_debug("SSFDC_RO: logical address field%d"
+ 					"parity error(0x%04X)\n", j+1,
+ 					block_address);
 -- 
 2.34.1
 
