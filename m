@@ -2,103 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D75A54822
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 11:42:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B33A54860
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 11:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61ADB10E167;
-	Thu,  6 Mar 2025 10:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6B0B10E153;
+	Thu,  6 Mar 2025 10:49:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="PgBLs1DY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bYIqgVJI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2497210E167
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 10:42:43 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-43bdc607c3fso2926025e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 02:42:43 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C51E210E153
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 10:49:39 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-43bc0b8520cso3002935e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 02:49:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1741257761; x=1741862561; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KWKW3oIaJ3+3t6x61qexA9c5kKVmeqkOjY9qTsiPgw0=;
- b=PgBLs1DY9mkHR6O8X3nMmAlwvqD2auHVv7jhj/VPTjsjX9nFgSuejKhJjOCAgyzitd
- ch4Bw82AwLp//KRJ0ebh5mImm4lFXohtXXe3HAjSHQajPO0bgp3CX9HxPLEHyuStiDqh
- DCeWI6Q0DKeQX20sDC2JJxqgvAOxvhwFnDMc4=
+ d=gmail.com; s=20230601; t=1741258178; x=1741862978; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=TPq6CfuM/9epSJQ5qan4iieYXluNdh1lWPLg0zDe+dk=;
+ b=bYIqgVJILUC3Pquf3uQfm1L1i8Gspa5EXNhF5M0fhMItCoacXAoQKnC1dUWd7aQBhL
+ utJFecj1oZZH94fy6YgwI9LfwDJeUvxmITxmiSkszqozvhDiY5MQjgovhLqi37zjLSKo
+ WhYq3ydBkI60tIfxWSPxrZ5cfj55QkDy7XgFilt0pKVN0CHSeJVL+b7eOKYIehBof7NF
+ wMWlzAgxQBGn3Bwx4ftWw7B/wHMi68acVekiwZAt7wTCD7htdWf3+l94nWiAOD8qwBqB
+ KID04jleQPbH1crb0JknvHVUe9fDzNi7OKkSzF/tAIJiY7LhRXMP/lX9ES/hvr2VST4W
+ ZD3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741257761; x=1741862561;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1741258178; x=1741862978;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KWKW3oIaJ3+3t6x61qexA9c5kKVmeqkOjY9qTsiPgw0=;
- b=tz/n09SC3C28io6vZqqR3LO3+unW4hpCHFER71V/WX6cQRpFj96H0us3392eF7u6tK
- iSugFIGhui2524UIZwVxei0UN3KlL8mws8iIDr6+zW5z30wP4wQuxevlILm4ZaR0KXfU
- ZSox/PW/4eC3mqjaKGi/pTdqojP3sTsLUG4499DZ+lw+Nd+tru9KCVI/ivdZeuO63hPS
- GMpSvUtAuQfqygLtRD4I8/Npjd9mx7/RF1Pv1flsPoEZ8cwqo0q87x2VS0Jgklj7jWy1
- +HGYU342McR77bOaQouT+lkIp4HSCR9Xznm4WHrBSP2llpy+9Vo7BVhPtDzZsnUC3kBi
- K6ng==
+ bh=TPq6CfuM/9epSJQ5qan4iieYXluNdh1lWPLg0zDe+dk=;
+ b=arzzOVz6z4R6hUjCO7+Fio0U03OqQliaT3Kaixw3ZEPHJ2D6MV+Eo2rCByVs1KtiZi
+ aTYT70VnZCz2N1pRgYua67rk1ABnwshBE8fLutEPOam9mmxcyOYpeHCEb9CTlTt9Ync6
+ PYfj+9HH764ePgL7+cdOgZlR5Jbv70a/5XYXDI7wE0eNBlM59BwFKFlBQxTE8erll6YC
+ 8XfIXlSmv7d/eeVLWrdpfYBkO3H6qxXqeYtHXXxxM4J73e0sTIZ00Lr0TkcDrhuwgUOh
+ K5fo9Bpcumj3maGVK8ijeTEeJ04CcyBe1kZZc7ZXSwjDa0/iMdkOCqRrmbM1PO9T+uxT
+ VnjA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAHFSv6Eaj02VWheAbpk5IF04RTabpfhimz+fkrFqfhMQiq5quy/+m07r882xjNmg8QPHYprfv/jQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7wVt47yhah4G/39EIg6ojngjZCfVsyDTkN6wcfkRYpzObV57Y
- kNX2aIMHPgbj79hg86mWTQ3c6JKU3VQyFbdrlIxjChzY/s1mJS+MHa9MokNprmE=
-X-Gm-Gg: ASbGncviGxeHuenT+k1yO+pzx1mUx09ef9nLggK2UtiIrxg3HUvLNvT+0vAUZhAz0op
- GLi18MnYiz9o1YKDyvXhhNFwTTWb13B+xqLWxiwSJ7NTX4zi29GF9ycM/GTQiKCudfsoJw1Qn9d
- DSP1SNbipTBh+6AA56e0/8P9piWriKDc9L4R0tEY65c0Uy7v6vCi2GgelWSeC/p2XKwpeIhrhbP
- A3r9sdQOlBuO+L12cwGqiFLh2WgBHdGGus7ioSKpcZbqho75vGobpnill2Jh4NEa2J78nQnz2/N
- DK4WOSVti8UrE/rOCGcY4gIIjsPnqxUYpqc2I0JuMuMizs0MqqJyIVdX
-X-Google-Smtp-Source: AGHT+IFWtDrzAmHmNppiYyx5/EBa7seM+yDY/129ZcXODnx/XUpZbw/Xkl5sipcWH6LwnCCp7EOkxQ==
-X-Received: by 2002:a05:600c:3b14:b0:43a:b8eb:9e5f with SMTP id
- 5b1f17b1804b1-43bd294dd4emr47339385e9.3.1741257761331; 
- Thu, 06 Mar 2025 02:42:41 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43bd435c9c7sm45137295e9.38.2025.03.06.02.42.40
+ AJvYcCVJFSZdmPI/0zuve830fP6djYrRDU7XUhY4MzLA1cg41TqtKvFlANwccv3B1/JYYq/szf9SdmOX+J0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxHZ2bBgVzBeZ3PwFmi2izUSQqC734nMoLHtzBrRpNzP8rohQKN
+ In39wX6rwMAlFKM2p6Y/NV8TSAItlqQBHyDwmhmaTGjMoc775Bvw
+X-Gm-Gg: ASbGncvFQK8APC613t6pxKkcLehTpHoR9XgDpR4f+5jiw6V4y7kzjSYhiyAPdCxcBH/
+ ZW8sTYOwby5f2xuzClagCIlQ6hFkTEUaHk1RWVdMQcy22Ojug38sNJ1GrdzwxqxifH1uqNitTlr
+ FVcbf9nX/hsoK+rlYf0+hvb8ZEP6YHnGn3KdL3WZ01ViBZqgUcnjX40dAZMa2qF8UgAcqq5LdmQ
+ NZWMm31GhQ5+u5dNIoV+xSoQcbnP4qj1pJic7YXdS0yw4nxrXaK9XEw9sTQbYuBMSv+PcawRvxV
+ XgVkgFoPvJysER//4bD8HmSQ80MUkE3eNCOyNjZneWXb
+X-Google-Smtp-Source: AGHT+IHnX6SiWzMoCGL6P5TJkV77SJo6sxHfxSWyJ8LddfFC/TkuF415sAvFNV27LZ2CQvLukHXELQ==
+X-Received: by 2002:a05:600c:4ed2:b0:43b:c3b0:56af with SMTP id
+ 5b1f17b1804b1-43bd29a30d4mr57386285e9.14.1741258177773; 
+ Thu, 06 Mar 2025 02:49:37 -0800 (PST)
+Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43bdd93cac5sm15995605e9.27.2025.03.06.02.49.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 02:42:40 -0800 (PST)
-Date: Thu, 6 Mar 2025 11:42:38 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>,
- Greg KH <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-References: <Z7-IHgcVVS8XBurW@cassiopeiae> <20250226234730.GC39591@nvidia.com>
- <2025022644-fleshed-petite-a944@gregkh>
- <D82UB3V6NZ55.3OEPPW2W8MFZV@nvidia.com>
- <Z8GViQzZJVFPxfNd@phenom.ffwll.local>
- <20250228184013.GF39591@nvidia.com>
- <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
- <20250304164201.GN133783@nvidia.com>
- <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
- <20250305151012.GW133783@nvidia.com>
+ Thu, 06 Mar 2025 02:49:37 -0800 (PST)
+Date: Thu, 6 Mar 2025 11:49:35 +0100
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 03/16] drm/vkms: Allow to configure multiple planes
+ via configfs
+Message-ID: <Z8l9v0xJppuxG0Cd@fedora>
+References: <20250225175936.7223-1-jose.exposito89@gmail.com>
+ <20250225175936.7223-4-jose.exposito89@gmail.com>
+ <52bc3f15-28da-4b40-917f-981f1f10d9b8@bootlin.com>
+ <Z8VtPMzuZOYqjraQ@fedora>
+ <e813ac5b-298c-4863-b0b6-e9ac7fec1da0@bootlin.com>
+ <Z8cUN8Q4L0VE-bVm@fedora>
+ <fa4f4d3d-6a3e-4659-8a59-4928c2285d55@bootlin.com>
+ <Z8cpH3twrgmR0TxI@fedora>
+ <fd63f9c0-d5da-438c-b307-5b9a9f97f1d2@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250305151012.GW133783@nvidia.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fd63f9c0-d5da-438c-b307-5b9a9f97f1d2@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,175 +99,406 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 05, 2025 at 11:10:12AM -0400, Jason Gunthorpe wrote:
-> On Wed, Mar 05, 2025 at 08:30:34AM +0100, Simona Vetter wrote:
-> > - developers who want to quickly test new driver versions without full
-> >   reboot. They're often preferring convenience over correctness, like with
-> >   the removal of module refcounting that's strictly needed but means they
-> >   first have to unbind drivers in sysfs before they can unload the driver.
+Hi Louis,
+
+On Tue, Mar 04, 2025 at 07:17:53PM +0100, Louis Chauvet wrote:
+> 
+> 
+> Le 04/03/2025 à 17:23, José Expósito a écrit :
+> > On Tue, Mar 04, 2025 at 04:35:50PM +0100, Louis Chauvet wrote:
+> > > 
+> > > 
+> > > Le 04/03/2025 à 15:54, José Expósito a écrit :
+> > > > Hi Louis,
+> > > > 
+> > > > On Mon, Mar 03, 2025 at 11:34:50AM +0100, Louis Chauvet wrote:
+> > > > > 
+> > > > > 
+> > > > > Le 03/03/2025 à 09:50, José Expósito a écrit :
+> > > > > > Hi Louis,
+> > > > > > 
+> > > > > > On Fri, Feb 28, 2025 at 03:43:25PM +0100, Louis Chauvet wrote:
+> > > > > > > 
+> > > > > > > 
+> > > > > > > Le 25/02/2025 à 18:59, José Expósito a écrit :
+> > > > > > > > Create a default subgroup at /config/vkms/planes to allow to create as
+> > > > > > > > many planes as required.
+> > > > > > > > 
+> > > > > > > > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > > > > > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > > > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > > > > > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> > > > > > > > [...]
+> > > > > > > > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> > > > > > > > index 92512d52ddae..4f9d3341e6c0 100644
+> > > > > > > > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> > > > > > > > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> > > > > > > > [...]
+> > > > > > > > +static void plane_release(struct config_item *item)
+> > > > > > > > +{
+> > > > > > > > +	struct vkms_configfs_plane *plane;
+> > > > > > > > +	struct mutex *lock;
+> > > > > > > > +
+> > > > > > > > +	plane = plane_item_to_vkms_configfs_plane(item);
+> > > > > > > > +	lock = &plane->dev->lock;
+> > > > > > > > +
+> > > > > > > > +	guard(mutex)(lock);
+> > > > > > > > +	vkms_config_destroy_plane(plane->config);
+> > > > > > > > +	kfree(plane);
+> > > > > > > > +}
+> > > > > > > 
+> > > > > > > I just found a flaw in our work: there is currently no way to forbid the
+> > > > > > > deletion of item/symlinks...
+> > > > > > > 
+> > > > > > > If you do:
+> > > > > > > 
+> > > > > > > modprobe vkms
+> > > > > > > cd /sys/kernel/config/vkms/
+> > > > > > > mkdir DEV
+> > > > > > > mkdir DEV/connectors/CON
+> > > > > > > mkdir DEV/planes/PLA
+> > > > > > > mkdir DEV/crtcs/CRT
+> > > > > > > mkdir DEV/encoders/ENC
+> > > > > > > ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
+> > > > > > > ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
+> > > > > > > ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
+> > > > > > > echo 1 > DEV/planes/PLA/type
+> > > > > > > tree
+> > > > > > > echo 1 > DEV/enabled
+> > > > > > > modetest -M vkms
+> > > > > > > => everything fine
+> > > > > > > 
+> > > > > > > rm DEV/connectors/CON/possible_encoders/ENC
+> > > > > > > rmdir DEV/connectors/CON
+> > > > > > > modetest -M vkms
+> > > > > > > => BUG: KASAN: slab-use-after-free
+> > > > 
+> > > > I'm trying to reproduce this issue, but those commands don't show any BUG
+> > > > in dmesg. This is my Kasan .config:
+> > > > 
+> > > >       CONFIG_HAVE_ARCH_KASAN=y
+> > > >       CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
+> > > >       CONFIG_CC_HAS_KASAN_GENERIC=y
+> > > >       CONFIG_CC_HAS_KASAN_SW_TAGS=y
+> > > >       CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
+> > > >       CONFIG_KASAN=y
+> > > >       CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX=y
+> > > >       CONFIG_KASAN_GENERIC=y
+> > > >       # CONFIG_KASAN_OUTLINE is not set
+> > > >       CONFIG_KASAN_INLINE=y
+> > > >       CONFIG_KASAN_STACK=y
+> > > >       CONFIG_KASAN_VMALLOC=y
+> > > >       # CONFIG_KASAN_KUNIT_TEST is not set
+> > > >       CONFIG_KASAN_EXTRA_INFO=y
+> > > > 
+> > > > I tryed to delete even more items:
+> > > > 
+> > > >       root@kernel-dev:/sys/kernel/config/vkms# tree
+> > > >       .
+> > > >       └── DEV
+> > > >           ├── connectors
+> > > >           ├── crtcs
+> > > >           ├── enabled
+> > > >           ├── encoders
+> > > >           └── planes
+> > > > 
+> > > >       root@kernel-dev:/sys/kernel/config/vkms# cat DEV/enabled
+> > > >       1
+> > > > 
+> > > > And I still don't see any errors. Is it possible that we are running different
+> > > > branches? Asking because of the failing IGT tests you reported. There seems to
+> > > > be a difference in our code or setup that is creating these differences.
+> > > 
+> > > I just re-applied your last vkms-config version and this series on top of
+> > > drm-misc-next. See [1] for the exact commits.
+> > > 
+> > > Argg sorry, I just noticed something: you need to disable the default vkms
+> > > device (I had this option in my kernel command line...), otherwise modetest
+> > > only use the first vkms gpu...
+> > > 
+> > > I will check again the igt tests, but I don't think this is the same issue
+> > > (it should not use the default device to test)
+> > > 
+> > > So, with [1] and the defconfig below, I have this:
+> > > 
+> > > 
+> > >      1  modprobe vkms create_default_dev=0
+> > >      2  cd /sys/kernel/config/vkms/
+> > >      3  mkdir DEV
+> > >      4  mkdir DEV/connectors/CON
+> > >      5  mkdir DEV/planes/PLA
+> > >      6  mkdir DEV/crtcs/CRT
+> > >      7  mkdir DEV/encoders/ENC
+> > >      8  ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
+> > >      9  ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
+> > >     10  ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
+> > >     11  echo 1 > DEV/planes/PLA/type
+> > >     12  tree
+> > >     13  echo 1 > DEV/enabled
+> > >     14  modetest -M vkms
+> > >     15  rm DEV/connectors/CON/possible_encoders/ENC
+> > >     16  rmdir DEV/connectors/CON
+> > >     17  modetest -M vkms
+> > > KASAN: slab-use-after-free
+> > > 
+> > > 
+> > > [1]:https://github.com/Fomys/linux/tree/20250225175936.7223-1-jose.exposito89%40gmail.com
 > > 
-> >   Another one is that this use-case prefers that the hw is cleanly shut
-> >   down, so that you can actually load the new driver from a well-known
-> >   state. And it's entirely ok if this all fails occasionally, it's just
-> >   for development and testing.
+> > Aha! Are you testing without a desktop environment running?
 > 
-> I've never catered to this because if you do this one:
-> 
-> > - hotunplug as an actual use-case. Bugs are not ok. The hw can go away at
-> >   any moment. And it might happen while you're holding console_lock. You
-> >   generally do not remove the actual module here, which is why for the
-> >   actual production use-case getting that part right isn't really
-> >   required. But getting the lifetimes of all the various
-> >   structs/objects/resources perfectly right is required.
-> 
-> Fully and properly then developers are happy too..
-> 
-> And we were always able to do this one..
-> 
-> > So the "stuck on console_lock" is the 2nd case, not the first. Module
-> > unload doesn't even come into play on that one.
-> 
-> I don't see reliable hot unplug if the driver can get stuck on a
-> lock :|
-> 
-> > > Assuming all your interrupt triggered sleeps have gained a shootdown
-> > > mechanism.
+> Yes! I run a minimal VM (virtme-ng), so no services are started.
 > > 
-> > Hence why I want revocable to only be rcu, not srcu.
-> 
-> Sorry, I was not clear. You also have to make the PCI interrupt(s)
-> revocable. Just like the MMIO it cannot leak past the remove() as a
-> matter of driver-model correctness.
-> 
-> So, you end up disabling the interrupt while the driver is still
-> running and any sleeps in the driver that are waiting for an interrupt
-> still need to be shot down.
-> 
-> Further, I just remembered, (Danilo please notice!) there is another
-> related issue here that DMA mappings *may not* outlive remove()
-> either. netdev had a bug related to this recently and it was all
-> agreed that it is not allowed. The kernel can crash in a couple of
-> different ways if you try to do this.
-> 
-> https://lore.kernel.org/lkml/8067f204-1380-4d37-8ffd-007fc6f26738@kernel.org/T/#m0c7dda0fb5981240879c5ca489176987d688844c
-
-Hm for the physical dma I thought disabling pci bust master should put a
-stop to all this stuff?
-
-For the sw lifecycle stuff I honestly didn't know that was an issue, I
-guess that needs to be adressed in the dma-api wrappers or rust can blow
-up in funny ways. C drivers just walk all mappings and shoot them.
-
->  > a device with no driver bound should not be passed to the DMA API,
->  > much less a dead device that's already been removed from its parent
->  > bus.
-> 
-> So now we have a driver design that must have:
->  1) Revocable MMIO
->  2) Revocable Interrupts
->  3) Revocable DMA mappings
->  4) Revocable HW DMA - the HW MUST stop doing DMA before the DMA API
->     is shut down. Failure is a correctness/UAF/security issue
-> 
-> Somehow the driver has to implement this, not get confused or lock up,
-> all while Rust doesn't help you guarentee much of any of the important
-> properties related to #2/#3/#4. And worse all this manual recvocable
-> stuff is special and unique to hot-unplug. So it will all be untested
-> and broken.
-
-The trouble is that for real hotunplug, you need all this anyway. Because
-when you physically hotunplug the interrupts will be dead, the mmio will
-be gone any momem (not just at the beginnning of an rcu revocable
-section), so real hotunplug is worse than what we're trying to do here.
-
-Which means I think this actually helps you with testing, since it's much
-easier to test stuff with pure software than physically yanking hardware.
-You could perhaps fake that with mmiotrace-like infrastructure, but that's
-not easy either.
-
-So randomly interrupts not happening is something you need to cope with no
-matter what.
-
-> Looks really hard to me. *Especially* the wild DMA thing.
-> 
-> This has clearly been missed here as with the current suggestion to
-> just revoke MMIO means the driver can't actually go out and shutdown
-> it's HW DMA after-the-fact since the MMIO is gone. Thus you are pretty
-> much guaranteed to fail #4, by design, which is a serious issue.
-> 
-> I'm sorry it has taken so many emails to reach this, I did know it,
-> but didn't put the pieces coherently together till just now :\
-> 
-> Compare that to how RDMA works, where we do a DMA shutdown by
-> destroying all the objects just the same as if the user closed a
-> FD. The normal destruction paths fence the HW DMA and we end up in
-> remove with cleanly shutdown HW and no DMA API open. The core code
-> manages all of this. Simple, correct, no buggy hotplug only paths.
-
-This is where it gets really annoying, because with a physical hotunplug
-you don't need to worry about dma happening after ->remove, it already
-stopped before ->remove even started.
-
-But for a driver unbind you _do_ have to worry about cleanly shutting down
-the hardware. For the above reasons and also in general putting hardware
-into a well-known (all off usually) state is better for then reloading a
-new driver version and binding that. Except that there's no way to tell
-whether your ->remove got called for unbinding or hotunplug. And you could
-get called for unbinding and then get hotunplugged in the middle to make
-this even more messy. At least last time around I chatted with Greg about
-this he really didn't like the idea of allowing drivers to know whether a
-pci device was physically unplugged or not, and so for developer
-convenience most pci drivers go with the "cleanly shut down everything"
-approach, which is the wrong thing to do for actual hotunplug.
-
-> > Yeah agreed. I might really badly regret this all. But I'm not sold that
-> > switching to message passing design is really going to be better, while
-> > it's definitely going to be a huge amount of work.
-> 
-> Yeah, I'd think from where DRM is now continuing trying to address the
-> sleeps is more tractable and achievable than a message passing
-> redesign..
-> 
-> > > If the C API handles module refcounting internally then rust is fine
-> > > so long as it enforces THIS_MODULE.
+> >      $ sudo systemctl isolate multi-user.target
 > > 
-> > You could do contrived stuff and pass function pointers around, so that
-> > THIS_MODULE doesn't actually match up with the function pointer.
-> 
-> Ah.. I guess rust would have to validate the function pointers and the
-> THIS_MODULE are consistent at runtime time before handing them off to
-> C to prevent this. Seems like a reasonable thing to put under some
-> CONFIG_DEBUG, also seems a bit hard to implement perhaps..
-
-We should know the .text section of a module, so checking whether a
-pointer is within that shouldn't be too hard.
-
-> > > If the C API requires cancel then rust is fine so long as the binding
-> > > guarantees cancel before module unload.
+> > Running that (^) command before yours gives me this use after free:
 > > 
-> > Yeah this is again where I think rust needs a bit more, because the
-> > compiler can't always nicely proof this for you in all the "obvious"
-> > cases.
+> >      BUG: KASAN: slab-use-after-free in vkms_connector_detect+0x61/0x70 [vkms]
+> > 
+> > Is the same one you are seeing?
 > 
-> But in the discussion about the hrtimer it was asserted that Rust can :)
+> Yes!
 > 
-> I believe it could be, so long as rust bindings are pretty restricted
-> and everything rolls up and cancels when things are destroyed. Nothing
-> should be able to leak out as a principle of the all the binding
-> designs.
+> > Looking at the connector_release() function in vkms_configfs.c, I see
+> > that I'm freeing the configuration:
+> > 
+> >      vkms_config_destroy_connector(connector->config);
+> > 
+> > And I don't think there is a reason to do it. vkms_config_destroy() in
+> > device_release() will free everything once we are done.
 > 
-> Seems like a hard design to enforce across all bindings, eg workqeue
-> is already outside of it. Seems like something that should be written
-> down in a binding design document..
+> Yes, but if you don't free it will always remain in the config, which means
+> that:
 
-Yeah ...
+Busy week, but I finally have a couple of hours to sit and look into this
+with detail.
 
-I think a big issue is that very often all these things aren't even
-documented on the C side, like the dma-api unmapping lifetime I wasn't
-aware of at all.
+The problem is in my patch to implement connector hot-plug ("drm/vkms: Allow
+to update the connector status").
 
-Cheers, Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I was storing a pointer to the connector configuration in vkms_connector (OK)
+and using it to get the connector status (wrong).
+The configuration is mean to be used during device initialization, but after
+that, it can change at any point responding to configfs changes.
+
+I even documented that accessing vkms_config_connector->connector is not
+safe... Just to access it a few patches later (sigh).
+In my opinion, the solution is to avoid this behavior. This is how the fix
+looks like [1]. The code is even simpler than the  previous version.
+
+[1] https://github.com/JoseExposito/linux/commit/da116085590d644575e9d78fb5c3a665aa7848f5
+ 
+> modprobe vkms create_default_dev=0
+> cd /sys/kernel/config/vkms/
+> mkdir DEV
+> mkdir DEV/connectors/CON
+> mkdir DEV/crtcs/CRT
+> mkdir DEV/planes/PLA
+> mkdir DEV/encoders/ENC
+> ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
+> ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
+> ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
+> echo 1 > DEV/planes/PLA/type
+> echo 1 > DEV/enabled
+> echo 0 > DEV/enabled
+> rm DEV/connectors/CON/possible_encoders/ENC
+> rmdir DEV/connectors/CON
+> echo 1 > DEV/enabled
+> 
+> Expected (and current) result:
+> 
+> (NULL device *): [drm] The number of connectors must be between 1 and 31
+> 
+> Result with the diff:
+> - vkms_config_destroy_connector(connector->config);
+> + //vkms_config_destroy_connector(connector->config);
+> 
+> (NULL device *): [drm] All connectors must have at least one possible
+> encoder
+> 
+> This is because the connector list in vkms_config contains the deleted CON
+> connector. If you also remove the connector from the list, it will be a
+> memory leak.
+> 
+> The solution I proposed with get/put should solve this: once the device is
+> disabled, all the release functions (and the corresponding
+> vkms_config_destroy) will be called, so no issue there.
+> 
+> I attempted to do it, but it looks a bit more complex than I expected:
+> - config_item_get works as expected, if you get all the items in
+> device_enabled_store they are not released, even if the directory is
+> deleted;
+> - but as the directory is deleted, you can't use cg_children to put your
+> last reference on it.
+> 
+> I think a solution could be to add refcounting in vkms_config, it seems to
+> work, and it is even better, the refcounting is done in the vkms driver, not
+> in configfs (I did it only for connector, see below). It seems to work as
+> expected and doesn't increase the complexity of the code.
+> 
+> Do you think this is sufficient/clear enough?
+
+
+This would also work. But, is it worth to include this complexity now?
+I think that the configuration is handled correctly as it is now, we just
+need to make sure that we don't rely on invalid pointers (as documented).
+
+Enjoy your day,
+Jose
+ 
+> Have a nice day,
+> Louis Chauvet
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c
+> b/drivers/gpu/drm/vkms/vkms_config.c
+> index f8394a063ecf..4dc65ab15517 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+> 
+> +#include <linux/kref.h>
+>  #include <linux/slab.h>
+> 
+>  #include <drm/drm_print.h>
+> @@ -123,7 +124,7 @@ void vkms_config_destroy(struct vkms_config *config)
+>  		vkms_config_destroy_encoder(config, encoder_cfg);
+> 
+>  	list_for_each_entry_safe(connector_cfg, connector_tmp,
+> &config->connectors, link)
+> -		vkms_config_destroy_connector(connector_cfg);
+> +		vkms_config_connector_put(connector_cfg);
+> 
+>  	kfree_const(config->dev_name);
+>  	kfree(config);
+> @@ -596,17 +597,32 @@ struct vkms_config_connector
+> *vkms_config_create_connector(struct vkms_config *c
+> 
+>  	list_add_tail(&connector_cfg->link, &config->connectors);
+> 
+> +	kref_init(&connector_cfg->ref);
+>  	return connector_cfg;
+>  }
+>  EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_connector);
+> 
+> -void vkms_config_destroy_connector(struct vkms_config_connector
+> *connector_cfg)
+> +static void vkms_config_destroy_connector(struct vkms_config_connector
+> *connector_cfg)
+>  {
+>  	xa_destroy(&connector_cfg->possible_encoders);
+>  	list_del(&connector_cfg->link);
+>  	kfree(connector_cfg);
+>  }
+> -EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
+> +// EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
+> +
+> +static void vkms_config_destroy_connector_kref(struct kref *kref)
+> +{
+> +	struct vkms_config_connector *connector = container_of(kref, struct
+> vkms_config_connector, ref);
+> +
+> +	vkms_config_destroy_connector(connector);
+> +}
+> +
+> +void vkms_config_connector_get(struct vkms_config_connector *connector) {
+> +	kref_get(&connector->ref);
+> +}
+> +void vkms_config_connector_put(struct vkms_config_connector *connector) {
+> +	kref_put(&connector->ref, vkms_config_destroy_connector_kref);
+> +}
+> 
+>  int __must_check vkms_config_connector_attach_encoder(struct
+> vkms_config_connector *connector_cfg,
+>  						      struct vkms_config_encoder *encoder_cfg)
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h
+> b/drivers/gpu/drm/vkms/vkms_config.h
+> index e202b5a84ddd..30e6c6bf34f4 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -3,6 +3,7 @@
+>  #ifndef _VKMS_CONFIG_H_
+>  #define _VKMS_CONFIG_H_
+> 
+> +#include <linux/kref.h>
+>  #include <linux/list.h>
+>  #include <linux/types.h>
+>  #include <linux/xarray.h>
+> @@ -109,6 +110,7 @@ struct vkms_config_encoder {
+>   *             configuration and must be managed by other means.
+>   */
+>  struct vkms_config_connector {
+> +	struct kref ref;
+>  	struct list_head link;
+>  	struct vkms_config *config;
+> 
+> @@ -416,11 +418,8 @@ void vkms_config_encoder_detach_crtc(struct
+> vkms_config_encoder *encoder_cfg,
+>   */
+>  struct vkms_config_connector *vkms_config_create_connector(struct
+> vkms_config *config);
+> 
+> -/**
+> - * vkms_config_destroy_connector() - Remove and free a connector
+> configuration
+> - * @connector_cfg: Connector configuration to destroy
+> - */
+> -void vkms_config_destroy_connector(struct vkms_config_connector
+> *connector_cfg);
+> +void vkms_config_connector_get(struct vkms_config_connector *connector);
+> +void vkms_config_connector_put(struct vkms_config_connector *connector);
+> 
+>  /**
+>   * vkms_config_connector_attach_encoder - Attach a connector to an encoder
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c
+> b/drivers/gpu/drm/vkms/vkms_configfs.c
+> index 76afb0245388..ae929a084feb 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -550,7 +550,7 @@ static void connector_release(struct config_item *item)
+>  	lock = &connector->dev->lock;
+> 
+>  	guard(mutex)(lock);
+> -	vkms_config_destroy_connector(connector->config);
+> +	vkms_config_connector_put(connector->config);
+>  	kfree(connector);
+>  }
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c
+> b/drivers/gpu/drm/vkms/vkms_connector.c
+> index ed99270c590f..c15451b50440 100644
+> --- a/drivers/gpu/drm/vkms/vkms_connector.c
+> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
+> @@ -20,6 +20,15 @@ static enum drm_connector_status
+> vkms_connector_detect(struct drm_connector *con
+>  	return status;
+>  }
+> 
+> +static void vkms_connector_destroy(struct drm_device *dev, void *raw)
+> +{
+> +	struct vkms_connector *vkms_connector = raw;
+> +
+> +	vkms_config_connector_put(vkms_connector->connector_cfg);
+> +
+> +	return;
+> +}
+> +
+>  static const struct drm_connector_funcs vkms_connector_funcs = {
+>  	.detect = vkms_connector_detect,
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
+> @@ -65,8 +74,13 @@ struct vkms_connector *vkms_connector_init(struct
+> vkms_device *vkmsdev,
+>  	if (!connector)
+>  		return ERR_PTR(-ENOMEM);
+> 
+> +	vkms_config_connector_get(connector->connector_cfg);
+>  	connector->connector_cfg = connector_cfg;
+> 
+> +	ret = drmm_add_action_or_reset(dev, &vkms_connector_destroy, connector);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+>  	ret = drmm_connector_init(dev, &connector->base, &vkms_connector_funcs,
+>  				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
+>  	if (ret)
+> 
+> 
