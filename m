@@ -2,71 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4D5A54E65
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D02A54E68
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:57:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2385A10E9D3;
-	Thu,  6 Mar 2025 14:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B5010E9D8;
+	Thu,  6 Mar 2025 14:57:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="A0rzXYL6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eVOQ1vtw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out.smtpout.orange.fr (out-18.smtpout.orange.fr [193.252.22.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF96C10E9D3;
- Thu,  6 Mar 2025 14:57:10 +0000 (UTC)
-Received: from [172.16.82.72] ([124.33.176.97]) by smtp.orange.fr with ESMTPA
- id qCectS0xXfuZZqCeht9SE6; Thu, 06 Mar 2025 15:57:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1741273026;
- bh=IApVMtvhjjP+ynu8qaqYMeHBWOrmsHhRBAhBqDTMITc=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=A0rzXYL688yLcQtnNV/Xch+ap1kY4osfMKwIBOGou3ooRn6PSSXwvXKQf5+dPpT3F
- J5xB/DPmofS4uEZh7v6XufjsSpI3u9pHPOphsgCONylcCBo9zlfTryY3MJjAdTFYTw
- GBtkeKCpApzQqzWcB1i9K3T9FaltKARpTS2pHng+7CTGwtpyEVZ3lqcUhEQ4QCWR5v
- 91wW5uaSNKA2h9boasBgQqpY5/30tc4fTsKaYIaxjkXSi1ohjShpNlx4+vksJBh14L
- 2GnWEve1JZ6jKdecGCfIi+QHzfkwvboan5WmuAZFXYXkjcD05gd5xZUGgauPdUA4d8
- +rBDaBJWJYapA==
-X-ME-Helo: [172.16.82.72]
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 06 Mar 2025 15:57:06 +0100
-X-ME-IP: 124.33.176.97
-Message-ID: <34c42bf9-a9e6-41db-9efb-a32bb253b4d2@wanadoo.fr>
-Date: Thu, 6 Mar 2025 23:56:54 +0900
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B1110E9D8;
+ Thu,  6 Mar 2025 14:57:52 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2fc92215d15so193090a91.1; 
+ Thu, 06 Mar 2025 06:57:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741273072; x=1741877872; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ukUCWGxvoTM5xaocQvMdv9IPv4xm083YArvGDeKyolg=;
+ b=eVOQ1vtwTj3zGz4/4lUor4O7ilGZsYX1JQ26AAwi2IV793cG3SkGcWRkQuH8aMdnBY
+ CcrMku0JqHLkiwpPn/HfsXavSvuZjmDu9Su7JcdNJBpTWpV+5Xu9Q0tc/zO7dCsWmBtY
+ Q9sKjxzl8NKIrq68TBC+xLJo5JLJFawLgSbbP742T4Q+SEeXbj92AoPUTfmII+6N0kD8
+ bDKTKFKYaBG6WftvzaLeC0FRPYGKZN0QxqZCQJizzi0Qpe3/l1+rJovO9sTPhTEi0aCX
+ zGzWNAIwSV3ZxwZeWRSdXnM2EURcK04gpRwkc+gVHmu6QxDKPiKlMBvE7P4+2/7qQi+b
+ pDoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741273072; x=1741877872;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ukUCWGxvoTM5xaocQvMdv9IPv4xm083YArvGDeKyolg=;
+ b=fq1b7JYkrFwNjC9iwYuYPogiL+kaatu+SPIrM2JQIOnrgy5cuK5V8iLY7EPP9QnIsE
+ 0rvCxe068CVNbEvu73+Bjzj8p3jrLwK8QaFo6RaoAr1NLVyShEuiTm8U3Rr6Z3sbGlGh
+ OxhWQToT6BWvQjXlisQR2YGjMB6pyd+wAwJsm+aixLuAWvaHqNcKGOLUHm2Q0kyN5VN3
+ IcV2Ak+zqTB0908gdJZGkRpO0uCbU2XizTIATbBW6DZPiC7yg5HoCPgTpoRDMA79xJvS
+ 5KF84LC6BNKiS4LZXd1X9xmnQcZcrPaIk9RF8OaiJiBFiaPaRgnFcld1sozGS1LK7Oqo
+ /j5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU8Zlcv//YA5b00lpxrg0nTUI+2oxbcZL2cICijKQ5tVp8WKEXsyz3VEb/Ft/LGx8rk6J3Bt9EFAF2v@lists.freedesktop.org,
+ AJvYcCVulN5KjIC/FYn7BKWyFkn7LWQ+Rdsa/gWMuuickt6pEO1oueJupRlR2zKj7e2wG+7WqTW7iyhG@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxwHWXjV8XD1nPnEfJAnj7edu7PmSZUlyK49QKA9RDWS3+TsMre
+ CkxB0lwD/+Kti5E+NFb1BUxEKQcqbeXWSF3RMxiKJxl21RosIfTc+hUp0+n/hgHqcuFrgwM/u1g
+ rkjGMuMtBENOFiqoBiAOAdC6nbY4=
+X-Gm-Gg: ASbGncvswyhoI6P3+5lj97tlgDsnjrZwOHDJMCDfkoMW6+QEHI7xiEHuC64J/hudlOY
+ 1xmJeJnzIdyL8mRJNb/9k6A6TUPFHraZfLKYlVlU8gZYPYcnGL0KPIO67BPBjFTLkWDgbEg6KfW
+ LWN0gSyg0DL7QWzn1717Dy1FbAmA==
+X-Google-Smtp-Source: AGHT+IFFvTkNxjyxH3OhwMrPOCnoGirYk4RRPl4wpFL3uc4YUYEn6uPwllrEZdOoh/5mgKss4M3aXC3fAJNdB6X8MJk=
+X-Received: by 2002:a17:90b:17c1:b0:2fe:a747:935a with SMTP id
+ 98e67ed59e1d1-2ff49815d68mr37955a91.4.1741273072132; Thu, 06 Mar 2025
+ 06:57:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/7] bits: Fixed-type GENMASK()/BIT()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>
-References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
- <Z8mc8t_OJzUGFjH-@smile.fi.intel.com>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
- GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
- bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
- BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
- 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
- yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
- CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
- ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <Z8mc8t_OJzUGFjH-@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250306075148.2382-1-vulab@iscas.ac.cn>
+In-Reply-To: <20250306075148.2382-1-vulab@iscas.ac.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 6 Mar 2025 09:57:40 -0500
+X-Gm-Features: AQ5f1JobaKMBHvrjKb5uUx8V2l7PIiJtkP8GoC3q6xiyWznC0Pev0Zr1rfxKQPA
+Message-ID: <CADnq5_OAvMKvSZUVA1ktk5Oc7Huu+Jx-0WbSGA_r+fZ+jQDE5g@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu: handle amdgpu_cgs_create_device() errors
+ in amd_powerplay_create()
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: kenneth.feng@amd.com, christian.koenig@amd.com, alexander.deucher@amd.com, 
+ Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunil.khatri@amd.com, 
+ Jun.Ma2@amd.com, lijo.lazar@amd.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,85 +88,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/03/2025 at 22:02, Andy Shevchenko wrote:
-> On Thu, Mar 06, 2025 at 08:29:51PM +0900, Vincent Mailhol via B4 Relay wrote:
->> Introduce some fixed width variant of the GENMASK() and the BIT()
->> macros in bits.h. Note that the main goal is not to get the correct
->> type, but rather to enforce more checks at compile time. For example:
->>
->>   GENMASK_U16(16, 0)
->>
->> will raise a build bug.
->>
->> This series is a continuation of:
->>
->>   https://lore.kernel.org/intel-xe/20240208074521.577076-1-lucas.demarchi@intel.com
->>
->> from Lucas De Marchi. Above series is one year old. I really think
->> that this was a good idea and I do not want this series to die. So I
->> am volunteering to revive it.
->>
->> Meanwhile, many changes occurred in bits.h. The most significant
->> change is that __GENMASK() was moved to the uapi headers.
->>
->> In v4 an onward, I introduce one big change: split the definition of
->> the asm and non-asm GENMASK(). I think this is controversial.
->> Especially, Yury commented that he did not want such split. So I
->> initially implemented a first draft in which both the asm and non-asm
->> version would rely on the same helper macro, i.e. adding this:
->>
->>   #define __GENMASK_t(t, w, h, l)			\
-> 
-> I thought we agreed on renaming...
-> 
->>   	(((t)~_ULL(0) - ((t)1 << (l)) + 1) &		\
->>   	 ((t)~_ULL(0) >> (w - 1 - (h))))
->>     
->> to uapi/bits.h. And then, the different GENMASK()s would look like
->> this:
->>
->>   #define __GENMASK(h, l) __GENMASK_t(unsigned long, __BITS_PER_LONG, h, l)
-> 
-> Ditto.
+Applied.  Thanks
 
-I forgot to update the cover letter, my bad…
-
->> and so on.
->>     
->> I implemented it, and the final result looks quite ugly. Not only do
->> we need to manually provide the width each time, the biggest concern
->> is that adding this to the uapi is asking for trouble. Who knows how
->> people are going to use this? And once it is in the uapi, there is
->> virtually no way back.
->>
->> Finally, I do not think it makes sense to expose the fixed width
->> variants to the asm. The fixed width integers type are a C
->> concept. For asm, the long and long long variants seems sufficient.
->>
->> And so, after implementing both, the asm and non-asm split seems way
->> more clean and I think this is the best compromise. Let me know what
->> you think :)
->>
->> As requested, here are the bloat-o-meter stats:
->>
->>   $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o 
->>   add/remove: 0/0 grow/shrink: 4/2 up/down: 5/-4 (1)
->>   Function                                     old     new   delta
->>   intel_psr_invalidate                         666     668      +2
->>   mst_stream_compute_config                   1652    1653      +1
->>   intel_psr_flush                              977     978      +1
->>   intel_dp_compute_link_config                1327    1328      +1
->>   cfg80211_inform_bss_data                    5109    5108      -1
->>   intel_drrs_activate                          379     376      -3
->>   Total: Before=22723481, After=22723482, chg +0.00%
->>
->> (done with GCC 12.4.1 on a defconfig)
-> 
-> What defconfig? x86_64_defconfig?
-
-Yes, x86_64 defconfig.
-
-
-Yours sincerely,
-Vincent Mailhol
-
+On Thu, Mar 6, 2025 at 2:52=E2=80=AFAM Wentao Liang <vulab@iscas.ac.cn> wro=
+te:
+>
+> Add error handling to propagate amdgpu_cgs_create_device() failures
+> to the caller. When amdgpu_cgs_create_device() fails, release hwmgr
+> and return -ENOMEM to prevent null pointer dereference.
+>
+> [v1]->[v2]: Change error code from -EINVAL to -ENOMEM. Free hwmgr.
+>
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> ---
+>  drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/g=
+pu/drm/amd/pm/powerplay/amd_powerplay.c
+> index 26624a716fc6..f8434158a402 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+> @@ -51,6 +51,11 @@ static int amd_powerplay_create(struct amdgpu_device *=
+adev)
+>         hwmgr->adev =3D adev;
+>         hwmgr->not_vf =3D !amdgpu_sriov_vf(adev);
+>         hwmgr->device =3D amdgpu_cgs_create_device(adev);
+> +       if (!hwmgr->device) {
+> +               kfree(hwmgr);
+> +               return -ENOMEM;
+> +       }
+> +
+>         mutex_init(&hwmgr->msg_lock);
+>         hwmgr->chip_family =3D adev->family;
+>         hwmgr->chip_id =3D adev->asic_type;
+> --
+> 2.42.0.windows.2
+>
