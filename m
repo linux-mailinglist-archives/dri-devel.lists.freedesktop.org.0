@@ -2,99 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE092A5538A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BD1A55389
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18F1510EA42;
-	Thu,  6 Mar 2025 17:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8341810E98F;
+	Thu,  6 Mar 2025 17:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="exQXuDB/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k9tOjDmo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B348810EA42
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 17:53:55 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30bee278c2aso7174141fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 09:53:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1741283633; x=1741888433;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VcmDipHwuj8PgRhQ4UBe7gUhRK502GziUS3SiEtvIAg=;
- b=exQXuDB/G90xqWlfrBaQMdSttF179YI5SvzBdVnNdPIHTQvxZbRtHPd68gWdlfoaAP
- uWt18WqFvc4PFTDn/ICFvAqk4cV9K7cCnOUVEAMbrUXn7GQ759L8Qph15hqmX4HPx/7Z
- vSPcEdCzToRsuUrA0p9mti7QLlGJ8dxsSMY1w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741283633; x=1741888433;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VcmDipHwuj8PgRhQ4UBe7gUhRK502GziUS3SiEtvIAg=;
- b=MYlYY/9ODZ3rkPuekAk/wkx78NcCs81csQ17rTepnPJr5vi0As3c9XUf2SXn2I1QB4
- DPaWmnqBUVRoLsyHm3wGUKRUy0Vh74l0Y2W/dtbC6huqxKdkmOJ70C8sNuDZDclurSND
- w25/neZY+7Q6ghEJC1+MTM41l/XDBCkiveI/biWf8CZpiARiaIxMAg0bp1j3aKoZ5LDE
- qcYicxXz0tBas48WciwqbbuSKFsF56ANadiCXZqVi+Qzbf5GmMQWgyaJkWOsBKGodZj4
- JzEu/xROABKpidKyqBx+/MWOQxH6bQtXRBs8uWtsBqkkPRU1co/EWj/CSx7soz+/gPGX
- 2WMw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXYRADPUqSYPekiZ5h7mFAuYYiXNfD3wVb4on4VzVW3HDlLcFSWoJvkiHmNhVPGM+AXeid9Mb/E/X4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9hNNAAD/N9r8mEwWnpl9SDEMoT0WbK6Sp901tcsmAdGa4jal5
- 4SYYdbtG02RIm9EH1vewRsLs1kDkBXSEv4UQPJl1b/EZecU3jWU0Ak572rkqZmUfHD0R6/6Ukxg
- 8Dqhs
-X-Gm-Gg: ASbGncvCaGNjg1NreyiLBnawvWp7klXEwXfZTv1wvVR3DlLRkcBtMvsfYPpr+/7mAaT
- xXWUTCxZOF02LBfXycFq7cAQ3vmWAIlzuGv9meqeiZmsEUz0VpsuWdpdrwFEk+EHd0GNyKf31AU
- c5FZdVo5JL/7jlN5FrrCuGMfvyhKx3N4IKpW5fmgDKe8pBrAf8KixVfCZk1eKzBz0mMTxCvZgea
- 4AOHlK6Z08wjIKBq+Dj3ZNXDeee2cGO25kOdBCFAw/nLHsea1GeDsw4FPMrWZEr5Pb3a28vCeIg
- VyDYZOcp4YsLjAulmu3OIF5lEQQz0piLI/dD9ianO4IHjHJ1QQcGEReTASBZMk123u8/GU0AJcy
- NyVsMSAaIbkxf
-X-Google-Smtp-Source: AGHT+IFMthfd/oqX8QxrT5ofYB1O1LqTJBSF4nudkG60h/gtrvCDmvcAINkFMMRWRh8WW/+WpkGHDw==
-X-Received: by 2002:a2e:bc27:0:b0:30b:c328:3cdc with SMTP id
- 38308e7fff4ca-30bf3397e2amr1796691fa.2.1741283632668; 
- Thu, 06 Mar 2025 09:53:52 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
- [209.85.208.174]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30be98f3175sm2665981fa.40.2025.03.06.09.53.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Mar 2025 09:53:51 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30ba563a6d1so25745881fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 09:53:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXhG9vK0/zCGrxNQaP/cK5A2pjGbxLOv3YeCNURD3cVIjVTg5LHCaGB15qMfzKgUe0etOl69VNbZuk=@lists.freedesktop.org
-X-Received: by 2002:a2e:9187:0:b0:30b:f0fd:5136 with SMTP id
- 38308e7fff4ca-30bf0fd5290mr6793931fa.18.1741283631322; Thu, 06 Mar 2025
- 09:53:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20250305-mipi-synaptic-1-v1-1-92017cd19ef6@redhat.com>
- <20250306-clever-lime-tanuki-e2fc43@houat>
- <CAN9Xe3SDyC47HWww1eH63aZOiM-WF9BGxztM3yh9bf6ORuY7VA@mail.gmail.com>
- <20250306-brave-wonderful-sambar-3d0bc5@houat>
-In-Reply-To: <20250306-brave-wonderful-sambar-3d0bc5@houat>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 6 Mar 2025 09:53:39 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XZJjNpzUgvGog0pFGwqUR09SocYFEk5355eptbK_gjqA@mail.gmail.com>
-X-Gm-Features: AQ5f1JrRJDiXo61n02Hjt29_oRyhxwMEG-u37b6Vvo-aWJLulx2MO1UpXmYjZko
-Message-ID: <CAD=FV=XZJjNpzUgvGog0pFGwqUR09SocYFEk5355eptbK_gjqA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel/synaptics-r63353: Use _multi variants
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>,
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1C2110E83E;
+ Thu,  6 Mar 2025 17:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741283631; x=1772819631;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=TsDBzmg+/rLwfKQ/+P27CYwnhvUD4cy1XnVraIMWiyw=;
+ b=k9tOjDmos0HJvnDAdAE9P3d4t9MhmGSx4DvVksMDlxkpbfaJrK+qkmU6
+ EmMCOMBy68iOOKu7Q3Fxdb3WDcN5D3U2/H/ZqgoqNYZAmO90zGn3V7uFi
+ 3eeUnVyPbLDwkgInKTbpulZ2cFI5hdBDb6ia8mD/cI5TlxyBvcJep1gRC
+ 5QkepGDZCtw4Tjupi1VC0wdhSiq6EPPgU0GWyvIxhcWGz0bO3kn9K48tj
+ mmji+EGKxGHzzM5311F+koMIxGyYQ78jOI1v7EWfuSuJi7LdLaToZHI2S
+ rCDTMZxxGq+mTX01X29GXYbAL7rT4mgKY9ejAzHbPhcKdimXDaBecPayN w==;
+X-CSE-ConnectionGUID: Y8vxyeL5T9+9JQBCQmI98A==
+X-CSE-MsgGUID: xvbbkZpRQD6HLH+dNAZlig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42446057"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="42446057"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 09:53:50 -0800
+X-CSE-ConnectionGUID: lXk9vUeURSOFzz5QrvGS7w==
+X-CSE-MsgGUID: jvwBAumET9S2eHd1WBwZdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="119278800"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 09:53:46 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tqFPi-00000000B5i-2edP; Thu, 06 Mar 2025 19:53:42 +0200
+Date: Thu, 6 Mar 2025 19:53:42 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Tejas Vipin <tejasvipin76@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v5 2/7] bits: introduce fixed-type genmasks
+Message-ID: <Z8nhJv36eq11oJOD@smile.fi.intel.com>
+References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
+ <20250306-fixed-type-genmasks-v5-2-b443e9dcba63@wanadoo.fr>
+ <Z8meY7NS65_d14og@smile.fi.intel.com>
+ <1c081c07-2833-4fa9-96fb-88a7295d2c14@wanadoo.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1c081c07-2833-4fa9-96fb-88a7295d2c14@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,85 +88,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Mar 07, 2025 at 01:08:01AM +0900, Vincent Mailhol wrote:
+> On 06/03/2025 à 22:08, Andy Shevchenko wrote:
+> > On Thu, Mar 06, 2025 at 08:29:53PM +0900, Vincent Mailhol via B4 Relay wrote:
 
-On Thu, Mar 6, 2025 at 9:20=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
->
-> On Thu, Mar 06, 2025 at 10:08:24AM -0500, Anusha Srivatsa wrote:
-> > On Thu, Mar 6, 2025 at 4:31=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
-g> wrote:
-> >
-> > > Hi Anusha,
-> > >
-> > > On Wed, Mar 05, 2025 at 07:01:41PM -0500, Anusha Srivatsa wrote:
-> > > > Move away from using deprecated API and use _multi
-> > > > variants if available. Use mipi_dsi_msleep()
-> > > > and mipi_dsi_usleep_range() instead of msleep()
-> > > > and usleep_range() respectively.
-> > > >
-> > > > Used Coccinelle to find the multiple occurences.
-> > > > SmPl patch:
-> > > > @rule@
-> > > > identifier dsi_var;
-> > > > identifier r;
-> > > > identifier func;
-> > > > type t;
-> > > > position p;
-> > > > expression dsi_device;
-> > > > expression list es;
-> > > > @@
-> > > > t func(...) {
-> > > > ...
-> > > > struct mipi_dsi_device *dsi_var =3D dsi_device;
-> > > > +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };
-> > > > <+...
-> > > > (
-> > > > -mipi_dsi_dcs_write_seq(dsi_var,es)@p;
-> > > > +mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
-> > > > |
-> > > > -mipi_dsi_generic_write_seq(dsi_var,es)@p;
-> > > > +mipi_dsi_generic_write_seq_multi(&dsi_ctx,es);
-> > > > |
-> > > > -mipi_dsi_generic_write(dsi_var,es)@p;
-> > > > +mipi_dsi_generic_write_multi(&dsi_ctx,es);
-> > > > |
-> > > > -r =3D mipi_dsi_dcs_nop(dsi_var)@p;
-> > > > +mipi_dsi_dcs_nop_multi(&dsi_ctx);
-> > > > |
-> > > > ....rest of API
-> > > > ..
-> > > > )
-> > > > -if(r < 0) {
-> > > > -...
-> > > > -}
-> > > > ...+>
-> > >
-> > > The point of sending a single patch was to review the coccinelle scri=
-pt,
-> > > so you must put the entire script you used here.
-> >
-> > I was actually thinking of sending patches per driver this time around
-> > since Tejas also seems to be looking into similar parts....Thoughts?
->
-> Not really?
->
-> The point of doing it with one driver was to make sure the coccinelle
-> script was fine before rolling it to other drivers. And actually, it
-> doesn't really matter: the whole point of putting the script in the
-> commit log is to be able to review and document the script you used. If
-> you're not going to put the one you used, it's kind of pointless.
+...
 
-Personally, I don't have any interest in reviewing the coccinelle
-script so I don't need it and, from my point of view, you could just
-remove it from the patch description (or point to it indirectly or
-something). I'll review each patch on its own merits. I am a bit
-curious if you ended up fully generating this patch with a coccinelle
-script or if you used a coccinelle script to start and then had to
-manually tweak the patch after. Actually, I guess I'll take it back.
-If you manage to fully generate conversions for all the panels with a
-single cocinelle script, I would love to take a glance at your full
-script just to satisfy my curiosity for how you handled everything
-properly. :-P
+> Does this mean I get your Reviewed-by tag? Or will you wait the v6 to
+> formally give it?
 
--Doug
+I'll wait for v6.
+
+> > but just to be sure: you prepared your series using histogram
+> > diff algo, right?
+> 
+> No, I never used the histogram diff. My git config is extremely boring.
+> Mostly vanilla.
+> 
+> I remember that Linus even commented on this:
+> 
+> https://lore.kernel.org/all/CAHk-=wiUxm-NZ1si8dXWVTTJ9n3c+1SRTC0V+Lk7hOE4bDVwJQ@mail.gmail.com/
+> 
+> But he made it clear this was *not* a requirement, so I just left the
+> diff algorithm to the default. Or did I miss any communication that
+> contributors should now use histogram diff?
+
+Use your common sense, i.e. look at the result and evaluate which one is more
+readable. My guts are telling me that histogram will be slightly better here.
+
+> Regardless, I do not mind activating it. I just did a:
+> 
+>   git config diff.algorithm histogram
+> 
+> The v6 will have histogram diffs.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
