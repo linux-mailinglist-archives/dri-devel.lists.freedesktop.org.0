@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933BFA54CD8
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:04:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1969A54CE2
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0194E10E1FC;
-	Thu,  6 Mar 2025 14:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39EB710E998;
+	Thu,  6 Mar 2025 14:05:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA6A10E1FC
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:04:31 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-47519994f25so8494171cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:04:31 -0800 (PST)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3648510E998
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:05:05 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-4750ca77db0so2939771cf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:05:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741269869; x=1741874669;
+ d=1e100.net; s=20230601; t=1741269903; x=1741874703;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OVN3i5PuRzQd5GnIu45kxsywYrlcAkKHUI5lcUWEDuA=;
- b=RDN8PSDiNer/wK+2s/JlmyLOz9SN2nTtFwdKqL3aPgYBhfU12Vyaqklljc+Cu56GHY
- +H5ftBaP9uv1K69gBJEfM2Gd43Y//15hskg8MnxGBfmzv4U5a5DJzWQYEwUfijybbcVq
- mf37cFVlWGom6uv+7OxqtZ/39XU1n72K54yMqMgeVOuYKiZryFSE7tHCjJI/r0EQxbkb
- C7VLKOF4SeCHplxbMR052XPEGfOl1PPx7rRvRnBoJ95s9F4gLCz2I+6qxKIq+jJQGNpt
- 9LlFl4pwFXWTT2IgL134HJfyOTbzrBGlAwU1PW9Z53hFStOs6HnsehRdrYqD+YVjv/I6
- Ac+w==
+ bh=KvdtDEC9XOZ4SiNShBFndqkvatMXAPv3rT5wVsIIH7w=;
+ b=C53veKH2/mcvE8+bwgjuhKfqCZ+n1phlQSyTeoOC6ihRBiVCXuPsEo8vfh6scsVCjo
+ E/G6M2nTVdIR2bOjr2FIGUP5ri75E0PRv6iIYZt5r15XKjZJq+ausJabQeRM9afyPkW6
+ ISSuFL5iCDM5MJ2t36vayAJC8u2jL4KaZMiOmb62qs4am5J4tQQP9DzCpNffo+CxuW6Z
+ wKlpJjQXaPwYU+wJ/nLJIrt19Gz9GMxoiihzujqZi/TKxdz8uxb/t4cMLtreb0kPkc0z
+ BIs5eQz42suLe8ZNQ4G8864t69Ed/MDiKN0ayu1Zkv5JUyQwM924fB+mzSstkI2y5wge
+ LdjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSBACca3ExaFPzEj+FDO8u5s0/mCL/wS4CCMStCtxuUON6RCOt6hDo/9NNO1U1pcTyKlKVJUGoOd0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YykbPIf22VvPmNRqJE8OoywRB6lwPEiIXY+CkFpt4of3KpNotOk
- xLiWAGQ1yh29ild1A3kdu5GgkSrsd9oML0U0tiswNEgDMvQtYc6T2X64fVnM
-X-Gm-Gg: ASbGncsfTcUWXAcPLImpIr2j/py2Gp0PjlAMDzcPw7jjF+jXiDg4JFiuZD4j4PTXZlO
- KHS5sOjsZS2YwM35CEn8tHOAtfn2ZmbxB8oIqwmX9PrcdFcPPKYQ4+23Cvg0Wmp/kXm92p7U5eX
- JtcbKi//OvKgqgBzAVDlGOXkfraTozVLgJm0cmrrbBrwYge3Mk02UA/Jn+gmvT8DekhQTl4vYdB
- GosdLBElHX+CxMr7YHQe830fR1pI0M2Uxs5qoH0diVXU+hDTbW+2YfBk+C/xXMhw3RKHkSh1hFv
- 42I8g0qWV1irmesFI3A9Oco8raRJEVnmR3sYX0RxDc2+Z2KSF69S2mmJVEMJoc1bXlio7QYt3Lh
- Elh1Nxdoxgno=
-X-Google-Smtp-Source: AGHT+IHQsu0pmBNzSpt2Q4b8dJNQlQ7soR6QcpsF9uxB89hpAjxkqJyS4yMyL34Ud0cI03xPZj9Mug==
-X-Received: by 2002:a05:622a:11c8:b0:475:999:21b4 with SMTP id
- d75a77b69052e-4750b4c94c1mr109764361cf.37.1741269867706; 
- Thu, 06 Mar 2025 06:04:27 -0800 (PST)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com.
- [209.85.222.171]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4751d94b1easm7771291cf.8.2025.03.06.06.04.27
+ AJvYcCWvfXUe8PmV2yYYYmswVxGCJPkbhaCqtNFTUpQD7+Of/h/mMDAR56vkWS0HdA90D6p9MQf1gxd4l9w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTZBzQrUn7VgF28iHp48mj5Z++UhHlugUezvrBITDuTp8uc8uO
+ vK48ciaap0KYT7om+EBEl3BZfO1A46ad/DPlgzGbH7GjMjtjuNUTq3oPdAnP
+X-Gm-Gg: ASbGncvW7TOGhnTRnQkRVv3ysoqw+p0mZ3LAhRtYvu5GidY76vlj/Fhg0B2vMZz2TxR
+ Cu6L3YJtr76kmKqKJ/bQrEBLHxjDadatwEoFwcEDEMTuPeoxb8srftnflcFdVdy2wvMKbhtT2/t
+ AE7jc3PD3QI+oPUYgmUsMVPowlIx6QuZgSHnVq7lMt9hLW07CLhb5RmWp51kgWcP6YQ9+PQCw6r
+ fbLm6A4jKCUOaLQMx96y3jvXgmjrcaGFukDndXHoWtSxVdXRLVYlTu5PYblNB6ZEGgutuB+XU0D
+ +aQpRt8dXMjh/FOEgsf30OdmyyWwvkMP70HEr09s32LzpAlB97SjPzFog2DCZjwXNU3W+RgOLe4
+ UIlHSfHwPhGk=
+X-Google-Smtp-Source: AGHT+IHEFvbZ3cEqG0DoO0vSylFPwO21jmkshuQxmL44Lmt7rCNDSYxF7D/hu3VwG1Ols0InMM1Eww==
+X-Received: by 2002:a05:6214:1d28:b0:6e8:9dfa:d934 with SMTP id
+ 6a1803df08f44-6e8e6d9422amr97817376d6.42.1741269903200; 
+ Thu, 06 Mar 2025 06:05:03 -0800 (PST)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
+ [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6e8f70a4eb7sm7489276d6.58.2025.03.06.06.05.02
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Mar 2025 06:04:27 -0800 (PST)
-Received: by mail-qk1-f171.google.com with SMTP id
- af79cd13be357-7c0155af484so98869085a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:04:27 -0800 (PST)
+ Thu, 06 Mar 2025 06:05:02 -0800 (PST)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-47509ac80cbso2415211cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:05:02 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVtsiK6P0Uu3ufVoXmcbQJOk3QNorP6MwYMWLGMzQYO0nQdIv8oLSN9Qq2G2gR2QKeW5INnhhCx+5s=@lists.freedesktop.org
-X-Received: by 2002:a05:620a:8082:b0:7c3:bdce:d1f7 with SMTP id
- af79cd13be357-7c3d8eec180mr1208781785a.58.1741269867178; Thu, 06 Mar 2025
- 06:04:27 -0800 (PST)
+ AJvYcCVL08Xpoxgy3ehpqxb4S7No/9Wap/Dli92JYJtUcToh3oJ3TON9qCh5emaaIpFwkmG9ZtmjLaugvoY=@lists.freedesktop.org
+X-Received: by 2002:a05:622a:4f:b0:474:dc44:28c4 with SMTP id
+ d75a77b69052e-4750b4d3938mr107138931cf.38.1741269902594; Thu, 06 Mar 2025
+ 06:05:02 -0800 (PST)
 MIME-Version: 1.0
 References: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250218115922.407816-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250218115922.407816-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250218115922.407816-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250218115922.407816-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 6 Mar 2025 15:04:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUmfcJCc9eMYZkROYOsXnwZh9QCNHFzsRKiV41_Jcs=KA@mail.gmail.com>
-X-Gm-Features: AQ5f1JrYPsfu25PIeNIu60xL2O69zif9ZzXRhar4BbB7hfkcOwb3D_-DKEmgPEo
-Message-ID: <CAMuHMdUmfcJCc9eMYZkROYOsXnwZh9QCNHFzsRKiV41_Jcs=KA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r9a09g057: Add Mali-G31 GPU node
+Date: Thu, 6 Mar 2025 15:04:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUN-wGtZPZMOKjK9jLoG4v36XWON-G-1x01vk+pX3bsXw@mail.gmail.com>
+X-Gm-Features: AQ5f1Jr5FGGmyRUsY7dF6NNrna-C1X_Xx4h4D0DCZ6Sms6J1TfoVs9ByrC17zCQ
+Message-ID: <CAMuHMdUN-wGtZPZMOKjK9jLoG4v36XWON-G-1x01vk+pX3bsXw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable
+ Mali-G31
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -95,10 +96,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, 18 Feb 2025 at 12:59, Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add Mali-G31 GPU node to SoC DTSI.
+> Enable Mali-G31 (GPU) node on EVK board.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
