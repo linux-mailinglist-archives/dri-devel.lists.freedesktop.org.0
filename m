@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9199DA53FB9
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 02:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC18BA53FC7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 02:26:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A13EB10E04E;
-	Thu,  6 Mar 2025 01:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D5410E88E;
+	Thu,  6 Mar 2025 01:25:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="l6ZTXAIn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nLpxo3uy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC1F310E04E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 01:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=Asb1tVt0R+2PVuzu9vwJKCs5UPe4up8SUva1c5FR3zc=; b=l
- 6ZTXAInlHySLIGVftlX9HAM2mBsgaIAQqF0Oh0DXRVsgr4kIlTXCoXGQu0/9tcwy
- cvjMXikpgNGKBOTCgjN6Ue2+//BLq73HRnJpaAisj7xG/HWmpcaHCLGuTMVmryEZ
- IxO8PYG/E1RTphS+VPSGtYwh8wS7RCZYiRCxkFb4kE=
-Received: from andyshrk$163.com ( [103.29.142.67] ) by
- ajax-webmail-wmsvr-40-118 (Coremail) ; Thu, 6 Mar 2025 09:16:24 +0800 (CST)
-X-Originating-IP: [103.29.142.67]
-Date: Thu, 6 Mar 2025 09:16:24 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Cc: "Maxime Ripard" <mripard@kernel.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Douglas Anderson" <dianders@chromium.org>,
- "Herve Codina" <herve.codina@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Simona Vetter" <simona.vetter@ffwll.ch>
-Subject: Re:Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
- connector by encoder
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <mqh4wedfokuta2tmyctoi6jrzol7mqzm27nj3ylu6yj2vjy22j@mexke5x2o7a2>
-References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
- <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
- <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
- <20250305-ruddy-nightingale-of-wealth-db100a@houat>
- <mqh4wedfokuta2tmyctoi6jrzol7mqzm27nj3ylu6yj2vjy22j@mexke5x2o7a2>
-X-NTES-SC: AL_Qu2fA/6ZvE8j4iSQZ+kfmkcVgOw9UcO5v/Qk3oZXOJF8jDDp2ycwUUJSDXLaweO0FQ+OmgmGXTtC9/R7f4VTVaQNVQrcdePLOYL6u5hRII2AKA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D7E10E885;
+ Thu,  6 Mar 2025 01:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741224358; x=1772760358;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yQ43nobF+p/0Xchpm+Tx7n/7cOyu5ogA8xd4IJ8QQZk=;
+ b=nLpxo3uy5UmA5pMzirSAWguyhG/Wphm0x5FAJKuhq6h6xm9aLOJRnWmN
+ mWBnvFHgQAR05Ln2aAs+eNHbgm1yPjsHeOE5jBVZTe9ixHej+XN6kfwyW
+ RbfNW+PCza7FuA2ywG1M0inYHl7J4eVhFHiNtbaeXpr8TYuSTkndL5ryp
+ gorLNbI/5umcxAOi/6V3+5rnoCJlzv20qbLovN1BMgXYwgIG3Uirdp2/W
+ FMKVBoih3IX8BI0jC/xrtF5pRI/de9ggXWt2WLY3G0yp5OkOPddQntjf8
+ 1fTo3FIXdFbI1Rd1yGAxr+oWK1DiSifb/NlfpZlDM3M2CMiPDJnVsv4BJ Q==;
+X-CSE-ConnectionGUID: hXon9Mj3Qs6/JrQ5oZBlEA==
+X-CSE-MsgGUID: XgZIr/V0TlikLBso+J7Ssw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52427247"
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; d="scan'208";a="52427247"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 17:25:53 -0800
+X-CSE-ConnectionGUID: bT7wZzG6Soq1JDE37i2SJw==
+X-CSE-MsgGUID: sBHZY9+4TsS24y8EJbg2Og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="124063231"
+Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2025 17:25:53 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
+ felix.kuehling@amd.com, dakr@kernel.org
+Subject: [PATCH v7 00/32] Introduce GPU SVM and Xe SVM implementation
+Date: Wed,  5 Mar 2025 17:26:25 -0800
+Message-Id: <20250306012657.3505757-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Message-ID: <7c1c61e7.10e1.19569067029.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: digvCgD33_5o98hniRR3AA--.6430W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0ggIXmfI7EjOUAADsa
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,98 +69,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIE1heGltZSBhbmQgRG1pdHJ5OgoKQXQgMjAyNS0wMy0wNiAwNDoxMzo1MywgIkRtaXRyeSBC
-YXJ5c2hrb3YiIDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+IHdyb3RlOgo+T24gV2VkLCBN
-YXIgMDUsIDIwMjUgYXQgMDI6MTk6MzZQTSArMDEwMCwgTWF4aW1lIFJpcGFyZCB3cm90ZToKPj4g
-SGkgQW5keSwKPj4gCj4+IE9uIFdlZCwgTWFyIDA1LCAyMDI1IGF0IDA3OjU1OjE5UE0gKzA4MDAs
-IEFuZHkgWWFuIHdyb3RlOgo+PiA+IEF0IDIwMjUtMDMtMDQgMTk6MTA6NDcsICJNYXhpbWUgUmlw
-YXJkIiA8bXJpcGFyZEBrZXJuZWwub3JnPiB3cm90ZToKPj4gPiA+V2l0aCB0aGUgYnJpZGdlcyBz
-d2l0Y2hpbmcgb3ZlciB0byBkcm1fYnJpZGdlX2Nvbm5lY3RvciwgdGhlIGRpcmVjdAo+PiA+ID5h
-c3NvY2lhdGlvbiBiZXR3ZWVuIGEgYnJpZGdlIGRyaXZlciBhbmQgaXRzIGNvbm5lY3RvciB3YXMg
-bG9zdC4KPj4gPiA+Cj4+ID4gPlRoaXMgaXMgbWl0aWdhdGVkIGZvciBhdG9taWMgYnJpZGdlIGRy
-aXZlcnMgYnkgdGhlIGZhY3QgeW91IGNhbiBhY2Nlc3MKPj4gPiA+dGhlIGVuY29kZXIsIGFuZCB0
-aGVuIGNhbGwgZHJtX2F0b21pY19nZXRfb2xkX2Nvbm5lY3Rvcl9mb3JfZW5jb2RlcigpIG9yCj4+
-ID4gPmRybV9hdG9taWNfZ2V0X25ld19jb25uZWN0b3JfZm9yX2VuY29kZXIoKSB3aXRoIGRybV9h
-dG9taWNfc3RhdGUuCj4+ID4gPgo+PiA+ID5UaGlzIHdhcyBhbHNvIG1hZGUgZWFzaWVyIGJ5IHBy
-b3ZpZGluZyBkcm1fYXRvbWljX3N0YXRlIGRpcmVjdGx5IHRvIGFsbAo+PiA+ID5hdG9taWMgaG9v
-a3MgYnJpZGdlcyBjYW4gaW1wbGVtZW50Lgo+PiA+ID4KPj4gPiA+SG93ZXZlciwgYnJpZGdlIGRy
-aXZlcnMgZG9uJ3QgaGF2ZSBhIHdheSB0byBhY2Nlc3MgZHJtX2F0b21pY19zdGF0ZQo+PiA+ID5v
-dXRzaWRlIG9mIHRoZSBtb2Rlc2V0IHBhdGgsIGxpa2UgZnJvbSB0aGUgaG90cGx1ZyBpbnRlcnJ1
-cHQgcGF0aCBvciBhbnkKPj4gPiA+aW50ZXJydXB0IGhhbmRsZXIuCj4+ID4gPgo+PiA+ID5MZXQn
-cyBpbnRyb2R1Y2UgYSBmdW5jdGlvbiB0byByZXRyaWV2ZSB0aGUgY29ubmVjdG9yIGN1cnJlbnRs
-eSBhc3NpZ25lZAo+PiA+ID50byBhbiBlbmNvZGVyLCB3aXRob3V0IHVzaW5nIGRybV9hdG9taWNf
-c3RhdGUsIHRvIG1ha2UgdGhlc2UgZHJpdmVycycKPj4gPiA+bGlmZSBlYXNpZXIuCj4+ID4gPgo+
-PiA+ID5SZXZpZXdlZC1ieTogRG1pdHJ5IEJhcnlzaGtvdiA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5h
-cm8ub3JnPgo+PiA+ID5Dby1kZXZlbG9wZWQtYnk6IFNpbW9uYSBWZXR0ZXIgPHNpbW9uYS52ZXR0
-ZXJAZmZ3bGwuY2g+Cj4+ID4gPlNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRA
-a2VybmVsLm9yZz4KPj4gPiA+LS0tCj4+ID4gPiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5j
-IHwgNDUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPj4gPiA+
-IGluY2x1ZGUvZHJtL2RybV9hdG9taWMuaCAgICAgfCAgMyArKysKPj4gPiA+IDIgZmlsZXMgY2hh
-bmdlZCwgNDggaW5zZXJ0aW9ucygrKQo+PiA+ID4KPj4gPiA+ZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fYXRvbWljLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jCj4+ID4g
-PmluZGV4IDllYTI2MTE3NzBmNDNjZTdjY2JhNDEwNDA2ZDVmMmM1MjhhYWIwMjIuLmI5MjZiMTMy
-NTkwZTc4ZjhkNDFkNDhlYjRkYTRiY2NmMTcwZWUyMzYgMTAwNjQ0Cj4+ID4gPi0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKPj4gPiA+KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9h
-dG9taWMuYwo+PiA+ID5AQCAtOTg1LDEwICs5ODUsNTUgQEAgZHJtX2F0b21pY19nZXRfbmV3X2Nv
-bm5lY3Rvcl9mb3JfZW5jb2Rlcihjb25zdCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUs
-Cj4+ID4gPiAKPj4gPiA+IAlyZXR1cm4gTlVMTDsKPj4gPiA+IH0KPj4gPiA+IEVYUE9SVF9TWU1C
-T0woZHJtX2F0b21pY19nZXRfbmV3X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcik7Cj4+ID4gPiAKPj4g
-PiA+Ky8qKgo+PiA+ID4rICogZHJtX2F0b21pY19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyIC0g
-R2V0IGNvbm5lY3RvciBjdXJyZW50bHkgYXNzaWduZWQgdG8gYW4gZW5jb2Rlcgo+PiA+ID4rICog
-QGVuY29kZXI6IFRoZSBlbmNvZGVyIHRvIGZpbmQgdGhlIGNvbm5lY3RvciBvZgo+PiA+ID4rICog
-QGN0eDogTW9kZXNldCBsb2NraW5nIGNvbnRleHQKPj4gPiA+KyAqCj4+ID4gPisgKiBUaGlzIGZ1
-bmN0aW9uIGZpbmRzIGFuZCByZXR1cm5zIHRoZSBjb25uZWN0b3IgY3VycmVudGx5IGFzc2lnbmVk
-IHRvCj4+ID4gPisgKiBhbiBAZW5jb2Rlci4KPj4gPiA+KyAqCj4+ID4gPisgKiBSZXR1cm5zOgo+
-PiA+ID4rICogVGhlIGNvbm5lY3RvciBjb25uZWN0ZWQgdG8gQGVuY29kZXIsIG9yIGFuIGVycm9y
-IHBvaW50ZXIgb3RoZXJ3aXNlLgo+PiA+ID4rICogV2hlbiB0aGUgZXJyb3IgaXMgRURFQURMSywg
-YSBkZWFkbG9jayBoYXMgYmVlbiBkZXRlY3RlZCBhbmQgdGhlCj4+ID4gPisgKiBzZXF1ZW5jZSBt
-dXN0IGJlIHJlc3RhcnRlZC4KPj4gPiA+KyAqLwo+PiA+ID4rc3RydWN0IGRybV9jb25uZWN0b3Ig
-Kgo+PiA+ID4rZHJtX2F0b21pY19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVj
-dCBkcm1fZW5jb2RlciAqZW5jb2RlciwKPj4gPiA+KwkJCQkgICAgIHN0cnVjdCBkcm1fbW9kZXNl
-dF9hY3F1aXJlX2N0eCAqY3R4KQo+PiA+ID4rewo+PiA+ID4rCXN0cnVjdCBkcm1fY29ubmVjdG9y
-X2xpc3RfaXRlciBjb25uX2l0ZXI7Cj4+ID4gPisJc3RydWN0IGRybV9jb25uZWN0b3IgKm91dF9j
-b25uZWN0b3IgPSBFUlJfUFRSKC1FSU5WQUwpOwo+PiA+ID4rCXN0cnVjdCBkcm1fY29ubmVjdG9y
-ICpjb25uZWN0b3I7Cj4+ID4gPisJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGVuY29kZXItPmRl
-djsKPj4gPiA+KwlpbnQgcmV0Owo+PiA+ID4rCj4+ID4gPisJcmV0ID0gZHJtX21vZGVzZXRfbG9j
-aygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4LCBjdHgpOwo+PiA+ID4rCWlmIChy
-ZXQpCj4+ID4gPisJCXJldHVybiBFUlJfUFRSKHJldCk7Cj4+ID4gCj4+ID4gSXQgc2VlbXMgdGhh
-dCB0aGlzIHdpbGwgY2F1c2UgYSBkZWFkbG9jayB3aGVuIGNhbGxlZCBmcm9tIGEgaG90cGx1Zwo+
-PiA+IGhhbmRsaW5nIHBhdGgsIEkgaGF2ZSBhIFdJUCBEUCBkaXZlclswXSwgd2hpY2ggc3VnZ2Vz
-dGVkIGJ5IERtaXRyeSB0bwo+PiA+IHVzZSB0aGlzIEFQSSBmcm9tIGEgJmRybV9icmlkZ2VfZnVu
-Y3MuZGV0ZWN0IGNhbGxiYWNrIHRvIGdldCB0aGUKPj4gPiBjb25uZWN0b3IsIGFzIGRldGVjdCBp
-cyBjYWxsZWQgYnkgZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3QsIHdoaWNoIHdpbGwKPj4gPiBob2xk
-IGNvbm5lY3Rpb25fbXV0ZXggZmlyc3QsIHNvIHRoZSBkZWFrbG9jayBoYXBwZW5zOgo+PiA+Cj4+
-ID4gZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
-ciwKPj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX21vZGVzZXRfYWNxdWly
-ZV9jdHggKmN0eCwKPj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBib29sIGZvcmNlKQo+PiA+
-IHsKPj4gPiAgICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyAq
-ZnVuY3MgPSBjb25uZWN0b3ItPmhlbHBlcl9wcml2YXRlOwo+PiA+ICAgICAgICAgc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+ZGV2Owo+PiA+ICAgICAgICAgaW50IHJldDsKPj4g
-PiAKPj4gPiAgICAgICAgIGlmICghY3R4KQo+PiA+ICAgICAgICAgICAgICAgICByZXR1cm4gZHJt
-X2hlbHBlcl9wcm9iZV9kZXRlY3RfY3R4KGNvbm5lY3RvciwgZm9yY2UpOwo+PiA+IAo+PiA+ICAg
-ICAgICAgcmV0ID0gZHJtX21vZGVzZXRfbG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9u
-X211dGV4LCBjdHgpOwo+PiA+ICAgICAgICAgaWYgKHJldCkKPj4gPiAgICAgICAgICAgICAgICAg
-cmV0dXJuIHJldDsKPj4gPiAKPj4gPiAgICAgICAgIGlmIChmdW5jcy0+ZGV0ZWN0X2N0eCkKPj4g
-PiAgICAgICAgICAgICAgICAgcmV0ID0gZnVuY3MtPmRldGVjdF9jdHgoY29ubmVjdG9yLCBjdHgs
-IGZvcmNlKTsKPj4gPiAgICAgICAgIGVsc2UgaWYgKGNvbm5lY3Rvci0+ZnVuY3MtPmRldGVjdCkK
-Pj4gPiAgICAgICAgICAgICAgICAgcmV0ID0gY29ubmVjdG9yLT5mdW5jcy0+ZGV0ZWN0KGNvbm5l
-Y3RvciwgZm9yY2UpOwo+PiA+ICAgICAgICAgZWxzZQo+PiA+ICAgICAgICAgICAgICAgICByZXQg
-PSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZDsKPj4gPiAKPj4gPiAgICAgICAgIGlmIChyZXQg
-IT0gY29ubmVjdG9yLT5zdGF0dXMpCj4+ID4gICAgICAgICAgICAgICAgIGNvbm5lY3Rvci0+ZXBv
-Y2hfY291bnRlciArPSAxOwo+PiA+IAo+PiA+IFNvIEkgd29uZGVyIGNhbiB3ZSBsZXQgZHJtX2Jy
-aWRnZV9mdW5jcy5kZXRlY3QgcGFzcyBhIGNvbm5lY3RvciBmb3IKPj4gPiB0aGlzIGNhc2UgPwo+
-PiAKPj4gRG8geW91IGFjdHVhbGx5IHNlZSBhIGRlYWRsb2NrIG9jY3VycmluZz8gQUZBSUssIGRy
-bV9tb2Rlc2V0X2xvY2sgaXMKPj4gZmluZSB3aXRoIHJlZW50cmFuY3kgZnJvbSB0aGUgc2FtZSBj
-b250ZXh0LCBzbyBpdCBzaG91bGQgd29yayBqdXN0IGZpbmUuCj4KPkFuZHksIHRoYXQgcHJvYmFi
-bHkgbWVhbnMgdGhhdCB5b3Ugc2hvdWxkIHVzZSAuZGV0ZWN0X2N0eCgpIGFuZCBwYXNzIHRoZQo+
-Y29udGV4dCB0byBkcm1fYXRvbWljX2dldF9jb25uZWN0b3JfZm9yX2VuY29kZXIoKS4KClVuZm9y
-dHVuYXRlbHksIHRoZSBkcm1fYnJpZGdlX2Z1bmNzIGRvZXMgbm90IGhhdmUgYSAuZGV0ZWN0X2N0
-eCgpICB2ZXJzaW9uIC4KVGhlIGNhbGwgY2hhaW4gaXM6CiBkcm1faGVscGVyX3Byb2JlX2RldGVj
-dCAKIC0tPiBkcm1fYnJpZGdlX2Nvbm5lY3Rvcl9kZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3RvciwgYm9vbCBmb3JjZSkKLS0+IGRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0KGJyaWRn
-ZSkKVGhlIGN0eCBnb3QgZHJvcHBlZCB3aGVuIGRybV9oZWxwZXJfcHJvYmVfZGV0ZWN0IGNhbGwg
-IGRybV9icmlkZ2VfY29ubmVjdG9yX2RldGVjdApUaGUgY29ubmVjdG9yIGdvdCBkcm9wcGVkICB3
-aGVuIGNvbm5lY3RvciBjYWxsIGl0J3MgYnJpZGVnZS5kZXRlY3QKClNvIEkgdGhpbmsgdGhlIHNp
-bXBsZXN0IHNvbHV0aW9uIGlzIHRvIGhhdmUgZHJtX2JyaWRnZV9mdW5jcy5kZXRlY3QgZGlyZWN0
-bHkgcGFzcyB0aGUgY29ubmVjdG9yCgo+Cj4tLSAKPldpdGggYmVzdCB3aXNoZXMKPkRtaXRyeQo=
+Version 7 of GPU SVM. Thanks to everyone (especially Sima, Thomas,
+Alistair, Himal) for their numerous reviews on revision 1, 2, 3 and for
+helping to address many design issues.
+
+This version has been tested with IGT [1] on PVC, BMG, and LNL. Also
+tested with level0 (UMD) PR [2].
+
+Major changes in v2:
+- Dropped mmap write abuse
+- core MM locking and retry loops instead of driver locking to avoid races
+- Removed physical to virtual references
+- Embedded structure/ops for drm_gpusvm_devmem
+- Fixed mremap and fork issues
+- Added DRM pagemap
+- Included RFC documentation in the kernel doc
+
+Major changes in v3:
+- Move GPU SVM and DRM pagemap to DRM level
+- Mostly addresses Thomas's feedback, lots of small changes documented
+  in each individual patch change log
+
+Major changes in v4:
+- Pull documentation patch in
+- Fix Kconfig / VRAM migration issue
+- Address feedback which came out of internal multi-GPU implementation
+
+Major changes in v5:
+- Rebase on s/xe_mem_region/xe_vram_region
+- Bit for uAPI has changed given PXP has landed
+
+Major changes in v6:
+- Fix selftest compile so GPU SVM compiles out on UML
+
+Major changes in v7:
+- Fix CI, addresses last nits, update GPU SVM doc
+
+Known issues in v7:
+- Check pages still exists, changed to threshold in this version which
+  is better but still need to root cause cross process page finding on
+  small user allocations.
+
+Matt
+
+[1] https://patchwork.freedesktop.org/series/137545/#rev3
+[2] https://github.com/intel/compute-runtime/pull/782
+
+Matthew Brost (28):
+  drm/xe: Retry BO allocation
+  mm/migrate: Add migrate_device_pfns
+  mm/migrate: Trylock device page in do_swap_page
+  drm/gpusvm: Add support for GPU Shared Virtual Memory
+  drm/xe: Select DRM_GPUSVM Kconfig
+  drm/xe/uapi: Add DRM_XE_VM_BIND_FLAG_CPU_ADDR_MIRROR
+  drm/xe: Add SVM init / close / fini to faulting VMs
+  drm/xe: Nuke VM's mapping upon close
+  drm/xe: Add SVM range invalidation and page fault
+  drm/gpuvm: Add DRM_GPUVA_OP_DRIVER
+  drm/xe: Add (re)bind to SVM page fault handler
+  drm/xe: Add SVM garbage collector
+  drm/xe: Add unbind to SVM garbage collector
+  drm/xe: Do not allow CPU address mirror VMA unbind if
+  drm/xe: Enable CPU address mirror uAPI
+  drm/xe/uapi: Add DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR
+  drm/xe: Add migrate layer functions for SVM support
+  drm/xe: Add SVM device memory mirroring
+  drm/xe: Add drm_gpusvm_devmem to xe_bo
+  drm/xe: Add GPUSVM device memory copy vfunc functions
+  drm/xe: Add Xe SVM populate_devmem_pfn GPU SVM vfunc
+  drm/xe: Add Xe SVM devmem_release GPU SVM vfunc
+  drm/xe: Add SVM VRAM migration
+  drm/xe: Basic SVM BO eviction
+  drm/xe: Add SVM debug
+  drm/xe: Add modparam for SVM notifier size
+  drm/xe: Add always_migrate_to_vram modparam
+  drm/doc: gpusvm: Add GPU SVM documentation
+
+Thomas Hellström (4):
+  drm/pagemap: Add DRM pagemap
+  drm/xe/bo: Introduce xe_bo_put_async
+  drm/xe: Add dma_addr res cursor
+  drm/xe: Add drm_pagemap ops to SVM
+
+ Documentation/gpu/rfc/gpusvm.rst            |  106 +
+ Documentation/gpu/rfc/index.rst             |    4 +
+ drivers/gpu/drm/Kconfig                     |    9 +
+ drivers/gpu/drm/Makefile                    |    1 +
+ drivers/gpu/drm/drm_gpusvm.c                | 2236 +++++++++++++++++++
+ drivers/gpu/drm/xe/Kconfig                  |   10 +
+ drivers/gpu/drm/xe/Makefile                 |    1 +
+ drivers/gpu/drm/xe/xe_bo.c                  |   54 +
+ drivers/gpu/drm/xe/xe_bo.h                  |   20 +
+ drivers/gpu/drm/xe/xe_bo_types.h            |    4 +
+ drivers/gpu/drm/xe/xe_device.c              |    3 +
+ drivers/gpu/drm/xe/xe_device_types.h        |   22 +
+ drivers/gpu/drm/xe/xe_gt_pagefault.c        |   18 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c |   22 +
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h |    2 +
+ drivers/gpu/drm/xe/xe_migrate.c             |  175 ++
+ drivers/gpu/drm/xe/xe_migrate.h             |   10 +
+ drivers/gpu/drm/xe/xe_module.c              |    7 +
+ drivers/gpu/drm/xe/xe_module.h              |    2 +
+ drivers/gpu/drm/xe/xe_pt.c                  |  399 +++-
+ drivers/gpu/drm/xe/xe_pt.h                  |    5 +
+ drivers/gpu/drm/xe/xe_pt_types.h            |    2 +
+ drivers/gpu/drm/xe/xe_query.c               |    5 +-
+ drivers/gpu/drm/xe/xe_res_cursor.h          |  123 +-
+ drivers/gpu/drm/xe/xe_svm.c                 |  946 ++++++++
+ drivers/gpu/drm/xe/xe_svm.h                 |  150 ++
+ drivers/gpu/drm/xe/xe_tile.c                |    5 +
+ drivers/gpu/drm/xe/xe_vm.c                  |  381 +++-
+ drivers/gpu/drm/xe/xe_vm.h                  |   15 +-
+ drivers/gpu/drm/xe/xe_vm_types.h            |   57 +
+ include/drm/drm_gpusvm.h                    |  509 +++++
+ include/drm/drm_gpuvm.h                     |    5 +
+ include/drm/drm_pagemap.h                   |  107 +
+ include/linux/migrate.h                     |    1 +
+ include/uapi/drm/xe_drm.h                   |   22 +-
+ mm/memory.c                                 |   13 +-
+ mm/migrate_device.c                         |  116 +-
+ 37 files changed, 5412 insertions(+), 155 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/gpusvm.rst
+ create mode 100644 drivers/gpu/drm/drm_gpusvm.c
+ create mode 100644 drivers/gpu/drm/xe/xe_svm.c
+ create mode 100644 drivers/gpu/drm/xe/xe_svm.h
+ create mode 100644 include/drm/drm_gpusvm.h
+ create mode 100644 include/drm/drm_pagemap.h
+
+-- 
+2.34.1
 
