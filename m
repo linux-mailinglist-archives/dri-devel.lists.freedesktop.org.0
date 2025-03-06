@@ -2,89 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E9DA54CBF
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 14:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12334A54CCD
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:01:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D63210E997;
-	Thu,  6 Mar 2025 13:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF07610E9BC;
+	Thu,  6 Mar 2025 14:01:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YOqqeLXQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yx3jNbHa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4299710E997;
- Thu,  6 Mar 2025 13:59:11 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-224100e9a5cso11445635ad.2; 
- Thu, 06 Mar 2025 05:59:11 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 620B510E9A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:01:34 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43bc4b16135so4230325e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:01:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741269551; x=1741874351; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to:from
- :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
- :reply-to; bh=gcMj47LDDJL0C0ekfxA2WdyVcUGhX6i6MQXT5ot4g4M=;
- b=YOqqeLXQzNsfCzaqzMHBkmVhZo0qK1VPoKgNB7yUzzdjCdrvVAO/hdqzs5vdwrrdf8
- dk0EgCTRLPfbZGki5a17/D+UmZaKDM+9h56Zkbz3YEcRQRMabh124/5CWvzOP7Moz+5h
- 3oA1L7zYAihKFwiMFQwMw+U3sswvL/kSxVOZAua3g6yMOA7sygmK0n03tihmCz/Bza2d
- yQrSj6AsAKiHK1E0cASVKm899E5WJvzrHV9GQcMG5Tr02ocb5u4f+hZzVLc2F/yyOtxI
- rv98BJbh309GVQIIm/2HhqQMb+YeuzJqfyZf1MM3C509kUuIPRvqpMiuY7/lCgMN8txm
- 9PRQ==
+ d=linaro.org; s=google; t=1741269693; x=1741874493; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=4u+yD+L8SkoBuycxt7wpDjWCkCg00Nv1+CGnM5syVQo=;
+ b=yx3jNbHaqgkS4YVVkMkrI2Y8Nc+D5yrF19TctqKsxim2jWOcnQ21dEu0yybfSUxgyD
+ KuAwO0a7TN7lzGVyhfVWIIzrIQsk+eQgEweQmtbu0iGZBJRNT0kJUe5IyLRqHqXbzx/e
+ 3iHzbRrhS9aLk+D0578dI4GXlqLiB8CckEG3Z8wzko+6KAhNOnvMm27A9oukCskjBhn4
+ bsBLREH1aLsyPDFTQ3Azet30zR5ObuzVR1AF3gsVD8S+LTgd8nJvqwW7Cnm8PSPek5K/
+ tPI48KwBfIMwt9r6lzbjvnXePSYfrNGmE+Wl9cvOERUoJHaSs4ykwzerL/K5E+Re3Uh3
+ kGjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741269551; x=1741874351;
- h=content-transfer-encoding:mime-version:references:in-reply-to:from
- :subject:cc:to:message-id:date:x-gm-message-state:from:to:cc:subject
+ d=1e100.net; s=20230601; t=1741269693; x=1741874493;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=gcMj47LDDJL0C0ekfxA2WdyVcUGhX6i6MQXT5ot4g4M=;
- b=Hx4z+uxFTJUyuTy1S5r+pmPnbhOz3C16GCVLL1ywbBT2aRcZe1r7tacrZcAHpEylhN
- x3ctU1UVY6tImUu4GQiXzXmr91u9wo6g4gZmTSpbHz79s+nXRSxl7vUjsXJ+8Youz4CV
- b8bTJKmRf3/Tx4B8sXwgMmRJzrytZh/d6lEPg/8f0eNvRqufMaaBMSoNSuKgWk90+UuP
- ukAJ6GB/KeiiQs4wlX84k9+6+ZQhjZSjw2dT8bhjhT0RqJTAdiYJFe/7805yYgnmLy+y
- lVRlH2n0z586oaoXYhCEp/hxU1kJ1T29AMfJ0E62jLD5oXrBWmvBfcNEJZCKpguPHkzJ
- 1GXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkA6qPw738L+pkkCLTa8MKk3wThqgHUW97jmN469TOuZERCzgy6RqN5kUjOxb99555LvcVgTa0CQ==@lists.freedesktop.org,
- AJvYcCWPMidHb8CMyrzwo356LNUH0nGwTXlWHOUhWaQaBL/+JQxeF6J0T/X+N8pmeNpGlnp+EHS4qeWfrDc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyzvv4v+oqJvRUcstUVFpY/h9+f7nRQLjen89x5hZRUeAePC0qo
- 0Zr9KoMEd1aBEouEXFIL2YFxzpMNS0n4tgg/qC1fLrJoK4ARxkeC
-X-Gm-Gg: ASbGncuSYSymKjbitYvjLfCR39puMZ8SGPGz1h+ovDN/yBAIA8dW4QOoi9ewG1h42lx
- Ivz/WSmmlwhwK0cNKRwqYGdZbxLrGeZxu0mM6E6Qm0wm6n8lcZwdVdr1t8GPVYJxuHfZGF4pCq7
- oIHl3k+EvaHOQxoSeFAdtsiq1MB3e7OyUplCh2+oeZvv4YfoMN9MRwzWRBleXNqEDTzFfcEvp8x
- rgUoly+j05oim6tBRSMNb0WZkMyj1h+wWLrJzfyEPOup0ESf92dTL0NZi1eU8a9gTuxf7BXieCp
- dBW0ApF5jsF9YzXcUPZjMStjk7mdDYNutdpZ/TWBtb61PrK3Scx3+XG8BNz6zmbYCKw1l6dhuuR
- M/B0xdBMLA+jecNWp3bR/WZGC+dA=
-X-Google-Smtp-Source: AGHT+IFqC7dar9vSI6YGsXxKnsXEPE0Q3GPt4+bYPBgIONPD8wz2KSMdMkJPHp0sptOtsCw8Cul/TQ==
-X-Received: by 2002:a05:6a20:4305:b0:1e0:dcc5:164d with SMTP id
- adf61e73a8af0-1f34944ed8bmr12193897637.8.1741269550654; 
- Thu, 06 Mar 2025 05:59:10 -0800 (PST)
-Received: from localhost (p4204131-ipxg22701hodogaya.kanagawa.ocn.ne.jp.
- [153.160.176.131]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-af28bbf3ab0sm76581a12.9.2025.03.06.05.59.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 05:59:10 -0800 (PST)
-Date: Thu, 06 Mar 2025 22:59:02 +0900 (JST)
-Message-Id: <20250306.225902.541492197262171384.fujita.tomonori@gmail.com>
-To: dakr@kernel.org
-Cc: fujita.tomonori@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- corbet@lwn.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
- pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- gregkh@linuxfoundation.org, mcgrof@kernel.org, russ.weight@linux.dev,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 5/5] gpu: nova-core: add initial documentation
-From: FUJITA Tomonori <fujita.tomonori@gmail.com>
-In-Reply-To: <Z8mm4fJQxXMiN5tu@cassiopeiae>
-References: <20250304173555.2496-6-dakr@kernel.org>
- <20250306.215638.838863448505767234.fujita.tomonori@gmail.com>
- <Z8mm4fJQxXMiN5tu@cassiopeiae>
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
+ bh=4u+yD+L8SkoBuycxt7wpDjWCkCg00Nv1+CGnM5syVQo=;
+ b=RmPG4TgiXdFf4NUINiRYXEo1KZ4D3/O2qonC4rK6IXHdrBBbzstnUviGaH9pFHqOjC
+ 4YPFSe/ApVWfOQaR5NJQ8w949FqayHLTGt60kPn33p9/qt/kX5AGUZQ0ZUbJECSSFlzL
+ ZXjLrkNJk4NgR4XbF95gz3BgdU7IH1URmaQ8ZqRNqrBQDywpBJmdDmWalfHYPr62yAWl
+ fNLa302BtKSI5IO9PYUmzTCylQfqluMfGk2+EZ0UnFga6/ZTNLKIuGrn0pWd5VMy78RQ
+ ETuhY8Y62eWdtBHadcDUEgKfs9tWTrGyBFUu4Y2GSaAoXR4hI5FGEKQgBxRaprhRIWnm
+ 21CA==
+X-Gm-Message-State: AOJu0YyHvmZNeCp8tUEORKOSdXLyT+AydzWi0PGUz/wl7pAp1EW1gl7L
+ Sq6kyn45KB/L8dPHt5i8hEO3rGHF31UvbXB1rUA3+tUL/fEPs7a5GTOFQETvglM=
+X-Gm-Gg: ASbGncv5qFSEh+QBDKgBwK93Sz5eTUQcP8ZvsKNsRJ711a/WbBKAHcHR/wef9S210rs
+ s9mHsAL9jE4iCraApuRe4OZCmoelMu+pa0eNPD6OBzCxDBsqT1y7Wh8kxLKyD3d/28F6x/o1AeX
+ bkBumckGjU+gOZnQUelfGbBv2ltO8uc1Q+NzHMYFiD/ZOsTXNcfCfSC/xH1qhDDTkb4LUyVl81v
+ LHWNuPJMebgiAxWKQFBWWgUUE0LlDoWR0VFUz/YZOo584Y1EsAgEd8shSOtO2GaorP+kuCRY1U8
+ mW+lxZpouVAHJCieSdXKhCq1joDIfcolRZYkZwia59RCDEcNH210K6clRDiFEOhAfPB0dk7RKc0
+ 94+4roYq2CL2mc9i80Uo=
+X-Google-Smtp-Source: AGHT+IFO4rfzomCLNmADCAKVmM3ka5dd5/nPpW1p4/Cl3JYo+9BNI7+poWnrhRYHc3uKC6SQbkscOQ==
+X-Received: by 2002:a05:600c:1c9f:b0:43b:c0fa:f9c5 with SMTP id
+ 5b1f17b1804b1-43bd2aed752mr48353045e9.21.1741269692653; 
+ Thu, 06 Mar 2025 06:01:32 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:d77f:d3a:3ea1:f8c9?
+ ([2a01:e0a:982:cbb0:d77f:d3a:3ea1:f8c9])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43bdd8c28f5sm20931555e9.9.2025.03.06.06.01.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Mar 2025 06:01:32 -0800 (PST)
+Message-ID: <afe1589b-81dc-488e-95ee-ce617213cbd1@linaro.org>
+Date: Thu, 6 Mar 2025 15:01:31 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/bridge: dw-hdmi-cec: fix inconsistent indenting
+ warning
+To: Charles Han <hanchunchao@inspur.com>, andrzej.hajda@intel.com,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ festevam@denx.de
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250305103541.3207-1-hanchunchao@inspur.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250305103541.3207-1-hanchunchao@inspur.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,50 +117,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Mar 2025 14:45:05 +0100
-Danilo Krummrich <dakr@kernel.org> wrote:
-
-> On Thu, Mar 06, 2025 at 09:56:38PM +0900, FUJITA Tomonori wrote:
->> On Tue,  4 Mar 2025 18:34:52 +0100
->> Danilo Krummrich <dakr@kernel.org> wrote:
->> 
->> > +Delay / Sleep abstractions
->> > +--------------------------
->> > +
->> > +Rust abstractions for the kernel's delay() and sleep() functions.
->> > +
->> > +There is some ongoing work from FUJITA Tomonori [1], which has not seen any updates
->> > +since Oct. 24.
->> > +
->> > +| Complexity: Beginner
->> > +| Link: https://lore.kernel.org/netdev/20241001112512.4861-2-fujita.tomonori@gmail.com/ [1]
->> 
->> I posted v11 last month.
->> 
->> https://lore.kernel.org/netdev/20250220070611.214262-1-fujita.tomonori@gmail.com/
+On 05/03/2025 11:35, Charles Han wrote:
+> Fix below inconsistent indenting smatch warning.
+> smatch warnings:
+> drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c:336 dw_hdmi_cec_suspend() warn: inconsistent indenting
 > 
-> Thanks for letting me know.
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> I think I lost track of this because in v1 the series was named "add delay
-> abstraction (sleep functions)" and with v2 it was switched to "rust: Add IO
-> polling" and I was searching for subsequent patch series with the "delay"
-> keyword.
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> index 9549dabde941..9d5bded54e8b 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> @@ -333,9 +333,9 @@ static int dw_hdmi_cec_suspend(struct device *dev)
+>   	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
+>   
+>   	/* store interrupt status/mask registers */
+> -	 cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
+> -	 cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
+> -	 cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
+> +	cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
+> +	cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
+> +	cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
+>   
+>   	return 0;
+>   }
 
-I see.
-
-During the review process, I changed the subject due to the consensus
-that, in most cases, device drivers should use read_poll_timeout
-instead of calling the sleep function directly.
-
-> Anyways, AFAICS you ended up with adding fsleep(). I think nova-core will need
-> control over having a busy loop or actually re-schedule.
-
-I plan to add read_poll_timeout_atomic() with delay functions:
-
-https://lore.kernel.org/netdev/20250228.080550.354359820929821928.fujita.tomonori@gmail.com/
-
-delay functions need Delta struct in the patchset so the patchset
-needs to be merged first.
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
