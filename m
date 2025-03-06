@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE42A5545F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 19:12:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB07DA55465
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 19:12:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CAD10EA31;
-	Thu,  6 Mar 2025 18:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 280F610EA60;
+	Thu,  6 Mar 2025 18:12:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Efa3mE7g";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nXwwQOj0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B786710EA5F;
- Thu,  6 Mar 2025 18:12:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B183910EA5F;
+ Thu,  6 Mar 2025 18:12:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5AF9A5C4D89;
- Thu,  6 Mar 2025 18:10:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66242C4CEE0;
- Thu,  6 Mar 2025 18:12:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3B17C5C53D1;
+ Thu,  6 Mar 2025 18:10:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56B7DC4CEED;
+ Thu,  6 Mar 2025 18:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741284765;
- bh=lwAaODSSkqHKy+lcOcpuXU7amU02IOXnR3U8lDPLoNw=;
+ s=k20201202; t=1741284775;
+ bh=p6haZlLu98e1jcMK34i1CA53DE83QhpV9m8QW34BiYg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Efa3mE7ghQXjJ0ma7Gt3irJEbEpWwKw3KwCO6fALZm0W1ZsB49SR6nv3UYZjo0eQx
- ZYepuLtCdrq6EPkLdHB/ZiWDQB7zq1evj6fRfpz9HmO7UzIft/nTm3xSASd85u1gGY
- +m88ep3tjVdlBhMTFTx9fUr5kxBtmVNnPZdmGSk8PHjve1gIYPCK57On+998XAL46D
- kh8FfzoJy0SyXeOrO8WftRVVdDi180ovUH/MS9QB71uCKL83M1yEr9KK4M+PPP5xLv
- g9JwRMi183yO8urYavV007ARdyBEw752St2KvbtEubNYcvCqcOMdR8Yx0ako497BRW
- 4rPccUCx3KoFw==
+ b=nXwwQOj0O4YJF7QOJlZUbl5y8cYKb5OkpS2wbSd+zNSQmNglW9AcT6WHiTgGDkF6I
+ u+baUvRlsmAzqip43hhM6qDoeda42naqRyvMMmQrh1PywdQgeU+lEz4W6cVRAUHMNt
+ DVntyqznHLiE6wk/eGPn8XoxTAx60PuOhcDX4NSfzTUY673qxsuMDfYyYiedLvNLe1
+ vktJ4B48NFt5FzvMoI75vI8g2Sk6R4ecjztHwRd4J6np+XGS9WcOJz76K0wVm2wLRA
+ NLkG744hLmvISn5bqqPSIOBr1LHMGuYdbP3yjj2d7/6rxz3ixXQwV5ANT3M3JXeQDP
+ jSlIG8kK11VMw==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Thu, 06 Mar 2025 19:11:20 +0100
-Subject: [PATCH 08/11] arm64: dts: qcom: sc8180x: Rename AOSS_QMP to
- power-management
+Date: Thu, 06 Mar 2025 19:11:21 +0100
+Subject: [PATCH 09/11] arm64: dts: qcom: x1e80100-dell-xps13-9345: Drop
+ clock-names from PS8830
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250306-topic-dt_bindings_fixups-v1-8-0c84aceb0ef9@oss.qualcomm.com>
+Message-Id: <20250306-topic-dt_bindings_fixups-v1-9-0c84aceb0ef9@oss.qualcomm.com>
 References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
 In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
@@ -63,11 +63,11 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741284679; l=1128;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741284679; l=1009;
  i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=QcbLDu/JCvSajtmQcGni6Wyw36X/N/6SEY8kvKIxueo=;
- b=4UMnnCCJ66VxjcdU9W4oGDTTTiJxJZgM/3w/SYgUgaeFIQDHsbFLPpXhJNzOV14PaTm9QOzP+
- wKKurTO7DcrDGua94u3nrX6aH6aI40l4kTZX9LdeS6OBzHEXHw5tPtl
+ bh=wyc+zP4LYxR1G859qmmStxLp5kumhkuHTctJK/cg80E=;
+ b=4gOO3Egg1F+QXvTMndcT3Bzynhw7RsYmFCjV0qXTzGzSu3k3lF9aiJAbtbQonyZfvcKEyKrB3
+ dTNghBpAQ37BzB+o9Y4vgMW04PiKYB4mrF9C7Te0/8Kx+Z1bYYDTM9T
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,31 +87,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-The node is currently named power-controller, which requires the device
-underneath is a power domain provider. Rename it to align with other
-SoCs and resolve this sort of warnings:
+The preemptively-merged node contains a property absent from the final
+bindings. Remove it.
 
-power-controller@c310000: '#power-domain-cells' is a required property
-
-Fixes: 8575f197b077 ("arm64: dts: qcom: Introduce the SC8180x platform")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- arch/arm64/boot/dts/qcom/sc8180x.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dts | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8180x.dtsi b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-index 28693a3bfc7fefd883a7dee69a406235317c3047..f142eb63b8d7f443a8df2334cf3c205353762893 100644
---- a/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-@@ -3524,7 +3524,7 @@ tsens1: thermal-sensor@c265000 {
- 			#thermal-sensor-cells = <1>;
- 		};
+diff --git a/arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dts b/arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dts
+index 124051334be072fce1351d12211eb61e154b3785..5d807fb34aee2dabf16fe32664ee05ea76532675 100644
+--- a/arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dts
++++ b/arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dts
+@@ -612,7 +612,6 @@ typec-mux@8 {
+ 		reg = <0x08>;
  
--		aoss_qmp: power-controller@c300000 {
-+		aoss_qmp: power-management@c300000 {
- 			compatible = "qcom,sc8180x-aoss-qmp", "qcom,aoss-qmp";
- 			reg = <0x0 0x0c300000 0x0 0x400>;
- 			interrupts = <GIC_SPI 389 IRQ_TYPE_EDGE_RISING>;
+ 		clocks = <&rpmhcc RPMH_RF_CLK3>;
+-		clock-names = "xo";
+ 
+ 		vdd-supply = <&vreg_rtmr0_1p15>;
+ 		vdd33-supply = <&vreg_rtmr0_3p3>;
+@@ -676,7 +675,6 @@ typec-mux@8 {
+ 		reg = <0x8>;
+ 
+ 		clocks = <&rpmhcc RPMH_RF_CLK4>;
+-		clock-names = "xo";
+ 
+ 		vdd-supply = <&vreg_rtmr1_1p15>;
+ 		vdd33-supply = <&vreg_rtmr1_3p3>;
 
 -- 
 2.48.1
