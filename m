@@ -2,79 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA83A55624
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 20:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA9DA55648
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 20:12:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DDA910E06F;
-	Thu,  6 Mar 2025 19:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BD010E14A;
+	Thu,  6 Mar 2025 19:12:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zNjEXnxJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U4diPYor";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3F210E06F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 19:03:35 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-e60cab0f287so714031276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 11:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741287814; x=1741892614; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FwCDdrKQOyctXlG8s2t32dxkWsTqqYWpj8SXJw5MqC4=;
- b=zNjEXnxJYhGk5ntuFtkKVffFPzGkKCzKmAso7/TfbRScYl8E1ZyDLNYHH5rK6cm5MY
- A299DSW9EojN7gAmqYZYnseb3Z0zYuVpDZTkDs6mWudbaKfdii1zp2IvVrB0d0wCBKvz
- FCLg/X3uewOO3eC4W93q2FZ8bMYFYlYGmvl5mAyhtxjH755rzsOrULeH0rLjcAKAcCoC
- 0tq2YHfTL9jby5O/JFcOWAYU5nXry3T0kawPG9Yc57fVs4/ZWg/RcQrkoOcaYzIoNppV
- mEJ8S6t9plDp1rQD7HGBHrvwNEC8LkCvzu0gTXL4OIiK+3SI+vEDKNAcIzX2yvqyO1c6
- vwKw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3057710E14A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 19:12:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741288350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oUaxGhaSa65I1vyfBFz+7hMDka6h+dzFcMS/CL4nHeA=;
+ b=U4diPYor43qCv4A7C4/SS1zIt7eJZk+GE94596OPD791UtcR5PAZw+BMvO7kCWvXiupPIk
+ VUFtp5AaB0IcgWENzoqTGtfsr8BNnLBq08Mw0JSt62afUEx1cHc+0olnzbm0E1WAzfah6x
+ nYMVfFrzyfNj9F1ER++ux/eteu4u66E=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-629-iAqZCxY5Pl-K6y-tTuIo_A-1; Thu, 06 Mar 2025 14:12:26 -0500
+X-MC-Unique: iAqZCxY5Pl-K6y-tTuIo_A-1
+X-Mimecast-MFC-AGG-ID: iAqZCxY5Pl-K6y-tTuIo_A_1741288346
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-6fda1dcbdf1so10788787b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 11:12:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741287814; x=1741892614;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FwCDdrKQOyctXlG8s2t32dxkWsTqqYWpj8SXJw5MqC4=;
- b=SuwgiT5EKJGvjfP5yzoVfqIHkwrtiuC1cBGY5zFqfCT2S0tpITkfZ737ZQ0PKrURUO
- gri+fmaE8xT3kwEIlg+F8CePR/H2gPBv+zfEBvJyCO6axaQv4NhJ0rHjV0W9+PARCbPV
- 9PjCQOihePYF2PuxeFSvNw7B8iUQ7Sf1RseZoKpkXL1JKbRKgaV3/qB99SHuH5S80Psf
- +GBz5SMR60mcCQcPY9XvTlJSdwr7LcgQ3vpO1tQDLxP9oRx1Valv/FL+ippqxSKtIooz
- CwNgRG3oVCjgpZCQTGGMmFuGvgMVgpe1yz59HTZ/vYeQbA+5CUSoypB3nUOPr3xfSSUG
- u/Sw==
+ d=1e100.net; s=20230601; t=1741288346; x=1741893146;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oUaxGhaSa65I1vyfBFz+7hMDka6h+dzFcMS/CL4nHeA=;
+ b=p2ElBMk0AZ459AU3HmaHvQmLsyYgQ3M0guvOPJLNXLprP1t4+0qpv3l+NpuZsBJ54x
+ ZPk4Xdz2yGJfUwmoUyVs5ZWdK5PKWeZVFxdJ9jQKZfh3y/6iXTagAEwNWptlkiIrDGMO
+ Nmh/WYsmqublitah2NzbySVhY2eBW12LQhXHKZ48EYDLiJkN8LuEFJ17Znrf1nAKYjbw
+ IvJvOvzLViexQFJoExlCm8WGZhKcjzkndpAker/xHPb3QmYE/9MuSY26y+NYR/nVupoJ
+ lvXE7Tg8ZHJdMpvqWiUQJydL2nT8uCeUzXox81d6vu/L/ArTLwt5JlUJKUbuOrU9LfDO
+ X/jA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX24KqI/6ojrU76xSXp8U/KJOFSg/tHAuK8Lqkze2A9aegbGCoDrNNUr7PO3V3Yt0FaBzU1koer9Hg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweIa9TSj8vx2Q64tvru39WhQgGIqV/4cli5uUtiH9P8rcZZmWe
- baOwzjySWSg5Cllc28Lr4LAJ8S9bewgkuITiLkWM6JiVmmen4hH26JkDvTez4gG/b/cY6nFhmt0
- YxAzqg5E3vY1K4ukfWJPKwfhs7mkcdvyuAwz1kA==
-X-Gm-Gg: ASbGncvOgN4vyLc3LxYhzsySZbrkQbhjrxL7OyaspK766EwUgQuKKE9qw/x2sbs4/I0
- YsIaam90+S8nbi+L/2IwU0oaN3cIICweaQfc/u/kJuo7UB0qdjNbkZbclEgrRpFRhpEy17fe1ah
- jdxuY4GAV3VKwWWvfu2xgApkY/1VANL6i8XFK65gJoNfMPoZGGLjh6x9xA
-X-Google-Smtp-Source: AGHT+IHwvj0CxkMdhq6vZm8WoZOOXbWTiQ8NAVWXBvLwqYH0y2h7UDiE+hITztg+nqSsiSEQ4EgrLVUkS+uTYKmx4H4=
-X-Received: by 2002:a05:6902:1b8f:b0:e5d:bf57:7dc7 with SMTP id
- 3f1490d57ef6-e635c16eec8mr606132276.21.1741287814199; Thu, 06 Mar 2025
- 11:03:34 -0800 (PST)
+ AJvYcCVtC3Fvs1tpEVoYCUs8bS6QK7Z5wsJQixSvO1ofNv0k0Tn25YOyXLkX2tZDrb6MKqo0iliGcPLXfNA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrcKArXswEY0Tml1MLwJVah0VJxjYr1oc8AKdN8TWXMFo3vq64
+ 3pAt1wuCYbqReoFYAfXBXtqhKO0uI/CDla8DJhBJVkJvpO6IcvSUBkbSChXYqEUDWEf/BfQswGY
+ lF5gCqrVukofalEMpwRx6PM4lYkBtNrmcm2fiurtyPQpH0qEZMP2UcVn3jqc2lenVRXENscXkGg
+ J5CbObXOqfYe68FE1ozrIWI790b3R0CrvBckwSoVWd
+X-Gm-Gg: ASbGncs6BaftDa6uIRGztxyZVLvX7rp6mVcxyBS1ZV6jYvDUi+AxVQzbplNBT15NBqO
+ 7kqXfoS88y5/M2NqOaUfKmwgJMVlyqawfIqIAEM71wpSzAbSOE8DPzRQZWiXYGgrtAbVSdM4=
+X-Received: by 2002:a05:690c:6382:b0:6ef:94db:b208 with SMTP id
+ 00721157ae682-6febf3a8fa9mr9179577b3.24.1741288346087; 
+ Thu, 06 Mar 2025 11:12:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFhbL22fkNNALu7nLX0QTzkBL8eRbVIgqXWGCiJWLENjIL5MXsTdYXxTALJmqnRLmd1EDdp2N/CUWDgTiLF1VQ=
+X-Received: by 2002:a05:690c:6382:b0:6ef:94db:b208 with SMTP id
+ 00721157ae682-6febf3a8fa9mr9179237b3.24.1741288345750; Thu, 06 Mar 2025
+ 11:12:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20250306134350.139792-1-tejasvipin76@gmail.com>
- <ca5b0825-a485-4bec-bd93-b57a8d7ced99@linaro.org>
- <p2esqngynwfrshz5rqfnmx6qgwf4dclpkb3mphwg2vavx2jbcg@clqoy5tjh7bb>
- <CAD=FV=XyOwoMmdvFA565AzGRUSNwonQ-5Ke2H6jc2ki9Sz+0Pg@mail.gmail.com>
-In-Reply-To: <CAD=FV=XyOwoMmdvFA565AzGRUSNwonQ-5Ke2H6jc2ki9Sz+0Pg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 6 Mar 2025 20:03:23 +0100
-X-Gm-Features: AQ5f1Jq5XTpi2paX4JarjRQ14efVOLE111e7OJDJdnK2KOGvG8rnVmL6vgNVl5c
-Message-ID: <CAA8EJpoG-rfaVb0rhbP-6xwzD7=k-95NVeyHUy=X3ESLEwZgYw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: novatek-nt36523: transition to mipi_dsi
- wrapped functions
+References: <20250305-mipi-synaptic-1-v1-1-92017cd19ef6@redhat.com>
+ <20250306-clever-lime-tanuki-e2fc43@houat>
+ <CAN9Xe3SDyC47HWww1eH63aZOiM-WF9BGxztM3yh9bf6ORuY7VA@mail.gmail.com>
+ <20250306-brave-wonderful-sambar-3d0bc5@houat>
+ <CAD=FV=XZJjNpzUgvGog0pFGwqUR09SocYFEk5355eptbK_gjqA@mail.gmail.com>
+In-Reply-To: <CAD=FV=XZJjNpzUgvGog0pFGwqUR09SocYFEk5355eptbK_gjqA@mail.gmail.com>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Thu, 6 Mar 2025 14:12:14 -0500
+X-Gm-Features: AQ5f1Jq41EsbXcuPnZXX5lHTX1SXVhYk8DtQYnCknIiIBQ0oQin3VT_EKTy9MKU
+Message-ID: <CAN9Xe3TEYjfjDcaCL7MOUBMu5Uq0ifN36=jRumtDX7pQ0FsK3g@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel/synaptics-r63353: Use _multi variants
 To: Doug Anderson <dianders@chromium.org>
-Cc: neil.armstrong@linaro.org, Tejas Vipin <tejasvipin76@gmail.com>, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, lujianhua000@gmail.com, 
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Tejas Vipin <tejasvipin76@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 2uXZ_VKezzXe7-dN21XvRhc1zU9C13i2-DXvNB88kWQ_1741288346
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000004ce5b7062fb14931"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,118 +103,364 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Mar 2025 at 18:44, Doug Anderson <dianders@chromium.org> wrote:
->
+--0000000000004ce5b7062fb14931
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Mar 6, 2025 at 12:54=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
+
 > Hi,
 >
-> On Thu, Mar 6, 2025 at 8:33=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
+> On Thu, Mar 6, 2025 at 9:20=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
 > >
-> > On Thu, Mar 06, 2025 at 03:05:10PM +0100, neil.armstrong@linaro.org wro=
-te:
-> > > On 06/03/2025 14:43, Tejas Vipin wrote:
-> > > > Changes the novatek-nt36523 panel to use multi style functions for
-> > > > improved error handling.
+> > On Thu, Mar 06, 2025 at 10:08:24AM -0500, Anusha Srivatsa wrote:
+> > > On Thu, Mar 6, 2025 at 4:31=E2=80=AFAM Maxime Ripard <mripard@kernel.=
+org>
+> wrote:
+> > >
+> > > > Hi Anusha,
 > > > >
-> > > > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> > > > ---
-> > > >   drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1683 ++++++++----=
------
-> > > >   1 file changed, 823 insertions(+), 860 deletions(-)
+> > > > On Wed, Mar 05, 2025 at 07:01:41PM -0500, Anusha Srivatsa wrote:
+> > > > > Move away from using deprecated API and use _multi
+> > > > > variants if available. Use mipi_dsi_msleep()
+> > > > > and mipi_dsi_usleep_range() instead of msleep()
+> > > > > and usleep_range() respectively.
+> > > > >
+> > > > > Used Coccinelle to find the multiple occurences.
+> > > > > SmPl patch:
+> > > > > @rule@
+> > > > > identifier dsi_var;
+> > > > > identifier r;
+> > > > > identifier func;
+> > > > > type t;
+> > > > > position p;
+> > > > > expression dsi_device;
+> > > > > expression list es;
+> > > > > @@
+> > > > > t func(...) {
+> > > > > ...
+> > > > > struct mipi_dsi_device *dsi_var =3D dsi_device;
+> > > > > +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };
+> > > > > <+...
+> > > > > (
+> > > > > -mipi_dsi_dcs_write_seq(dsi_var,es)@p;
+> > > > > +mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
+> > > > > |
+> > > > > -mipi_dsi_generic_write_seq(dsi_var,es)@p;
+> > > > > +mipi_dsi_generic_write_seq_multi(&dsi_ctx,es);
+> > > > > |
+> > > > > -mipi_dsi_generic_write(dsi_var,es)@p;
+> > > > > +mipi_dsi_generic_write_multi(&dsi_ctx,es);
+> > > > > |
+> > > > > -r =3D mipi_dsi_dcs_nop(dsi_var)@p;
+> > > > > +mipi_dsi_dcs_nop_multi(&dsi_ctx);
+> > > > > |
+> > > > > ....rest of API
+> > > > > ..
+> > > > > )
+> > > > > -if(r < 0) {
+> > > > > -...
+> > > > > -}
+> > > > > ...+>
 > > > >
-> > > > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/driver=
-s/gpu/drm/panel/panel-novatek-nt36523.c
-> > > > index 04f1d2676c78..922a225f6258 100644
-> > > > --- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> > > > +++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> > > > @@ -23,10 +23,12 @@
-> > > >   #define DSI_NUM_MIN 1
-> > > > -#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)      =
-  \
-> > > > -           do {                                                 \
-> > > > -                   mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      \
-> > > > -                   mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      \
-> > > > +#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, cmd,=
- seq...)      \
-> > > > +           do {                                                   =
-         \
-> > > > +                   mipi_dsi_dcs_write_seq_multi(&dsi_ctx0, cmd, se=
-q);      \
-> > > > +                   dsi_ctx1.accum_err =3D dsi_ctx0.accum_err;     =
-           \
-> > > > +                   mipi_dsi_dcs_write_seq_multi(&dsi_ctx1, cmd, se=
-q);      \
-> > > > +                   dsi_ctx0.accum_err =3D dsi_ctx1.accum_err;     =
-           \
+> > > > The point of sending a single patch was to review the coccinelle
+> script,
+> > > > so you must put the entire script you used here.
 > > >
-> > > Just thinking out loud, but can't we do :
-> > >
-> > > struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D NULL };
-> > >
-> > > #define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd, s=
-eq...)      \
-> > >               do {
-> > >                       dsi_ctx.dsi =3D dsi0;                          =
-           \
-> > >                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq=
-);       \
-> > >                       dsi_ctx.dsi =3D dsi1;                          =
-           \
-> > >                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq=
-);       \
-> > >
-> > > ?
-> > >
-> > > So we have a single accum_err.
+> > > I was actually thinking of sending patches per driver this time aroun=
+d
+> > > since Tejas also seems to be looking into similar parts....Thoughts?
 > >
-> > I'd say that can be counter-prodactive. If only one of the links falls
-> > apart, then the second link still can be initialized (and by observing =
-a
-> > half of the screen the user / devloper can make several assumptions).
-> > In case of using just one context the driver will fail on the first
-> > error and skip the rest of the init for both halves.
+> > Not really?
 > >
-> > I'd have a different suggestion though: what about passing two contexts
-> > to the init_sequence callback and letting nt36523_prepare() handle each
-> > of the error separately?
+> > The point of doing it with one driver was to make sure the coccinelle
+> > script was fine before rolling it to other drivers. And actually, it
+> > doesn't really matter: the whole point of putting the script in the
+> > commit log is to be able to review and document the script you used. If
+> > you're not going to put the one you used, it's kind of pointless.
 >
-> IMO that's a bit outside the scope of what Tejas is doing since it's a
-> functional change. Unless something is a super obvious bugfix it feels
-> like doing the conversions like we're doing here should not include
-> functionality changes and should be straight conversions.
+> Personally, I don't have any interest in reviewing the coccinelle
+> script so I don't need it and, from my point of view, you could just
+> remove it from the patch description (or point to it indirectly or
+> something). I'll review each patch on its own merits. I am a bit
+> curious if you ended up fully generating this patch with a coccinelle
+> script or if you used a coccinelle script to start and then had to
+> manually tweak the patch after. Actually, I guess I'll take it back.
+> If you manage to fully generate conversions for all the panels with a
+> single cocinelle script, I would love to take a glance at your full
+> script just to satisfy my curiosity for how you handled everything
+> properly. :-P
 >
-> Also: I don't have tons of experience with dual MIPI panels, but I'm
-> not totally sure how your suggestion would work in the end. Would you
-> expect that if one panel succeeded and the other didn't that the
-> prepare/enable calls in the panel should return "success"?
 
-Well, panel bridge ignores return codes.
+managed to get all conversions other than the usleep_range() and mslee()
+because I was trying to replace them with mipi_dsi_* variants only in
+functions that I was  touching and not each and every occurrence. Didnt
+spend enough time to get the script smart enough to do that and did only
+usleep() and msleep change manually. Here goes the script:
 
->  If they
-> don't then higher levels will assume that the single "panel" that
-> they're aware of didn't initialize at all and won't continue to do
-> more. That means the user wouldn't have a chance to observe half the
-> screen working.
+@rule_1@
+identifier dsi_var;
+expression dsi_device;
+expression list es;
+@@
+struct mipi_dsi_device *dsi_var =3D dsi_device;
++struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };
+<+...
+-mipi_dsi_dcs_write_seq(dsi_var,es);
++mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
+...+>
+
+//rule_2
+@@
+expression list es;
+identifier jdi;
+@@
+static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
+{
++struct mipi_dsi_multi_context dsi_ctx1 =3D { .dsi =3D jdi->link1 };
++struct mipi_dsi_multi_context dsi_ctx2 =3D { .dsi =3D jdi->link2 };
+<+...
+-mipi_dsi_generic_write_seq(jdi->link1,es);
++mipi_dsi_generic_write_seq_multi(&dsi_ctx1,es);
+-mipi_dsi_generic_write_seq(jdi->link2,es);
++mipi_dsi_generic_write_seq_multi(&dsi_ctx2,es);
+...+>
+}
+@rule_3@
+identifier dsi_var;
+identifier r;
+identifier func;
+type t;
+position p;
+expression dsi_device;
+expression list es;
+@@
+t func(...) {
+...
+struct mipi_dsi_device *dsi_var =3D dsi_device;
++struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };
+<+...
+(
+-r =3D mipi_dsi_dcs_nop(dsi_var)@p;
++mipi_dsi_dcs_nop_multi(&dsi_ctx);
+|
+-r =3D mipi_dsi_dcs_exit_sleep_mode(dsi_var)@p;
++mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+|
+-r =3D mipi_dsi_dcs_enter_sleep_mode(dsi_var)@p;
++mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+|
+|
+-r =3D mipi_dsi_dcs_write_buffer(dsi_var,es)@p;
++mipi_dsi_dcs_write_buffer_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_dcs_set_display_off(dsi_var,es)@p;
++mipi_dsi_dcs_set_display_off_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_compression_mode_ext(dsi_var,es)@p;
++mipi_dsi_compression_mode_ext_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_compression_mode(dsi_var,es)@p;
++mipi_dsi_compression_mode_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_picture_parameter_set(dsi_var,es)@p;
++mipi_dsi_picture_parameter_set_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_dcs_set_display_on(dsi_var,es)@p;
++mipi_dsi_dcs_set_display_on_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_dcs_set_tear_on(dsi_var)@p;
++mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx);
+|
+-r =3D mipi_dsi_turn_on_peripheral(dsi_var)@p;
++mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
+|
+-r =3D mipi_dsi_dcs_soft_reset(dsi_var)@p;
++mipi_dsi_dcs_soft_reset_multi(&dsi_ctx);
+|
+-r =3D mipi_dsi_dcs_set_display_brightness(dsi_var,es)@p;
++mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_dcs_set_pixel_format(dsi_var,es)@p;
++mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_dcs_set_column_address(dsi_var,es)@p;
++mipi_dsi_dcs_set_column_address_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_dcs_set_page_address(dsi_var,es)@p;
++mipi_dsi_dcs_set_page_address_multi(&dsi_ctx,es);
+|
+-r =3D mipi_dsi_dcs_set_tear_scanline(dsi_var,es)@p;
++mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx,es);
+)
+-if(r < 0) {
+-...
+-}
+...+>
+}
+
+Thanks,
+Anusha
+
+> -Doug
 >
-> I could believe that, for all practical purposes, we could keep the
-> errors separate and then just return the if either panel got an error
-> in the end. It probably wouldn't make a huge difference and would
-> shrink the code side. ...but that I think that should probably be the
-> second patch in the series and not squahsed into the conversion.
-
-I think passing two contexts can be considered a part of the
-conversion. In the end, we have been changing some of the function
-arguments already to pass context instead of global data.
-In the end, currently there was no way for either of those double-DSI
-panels to fail the init seq.
-
 >
+
+--0000000000004ce5b7062fb14931
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 6, =
+2025 at 12:54=E2=80=AFPM Doug Anderson &lt;<a href=3D"mailto:dianders@chrom=
+ium.org">dianders@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Hi,<br>
+<br>
+On Thu, Mar 6, 2025 at 9:20=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:=
+mripard@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Thu, Mar 06, 2025 at 10:08:24AM -0500, Anusha Srivatsa wrote:<br>
+&gt; &gt; On Thu, Mar 6, 2025 at 4:31=E2=80=AFAM Maxime Ripard &lt;<a href=
+=3D"mailto:mripard@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt;=
+ wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; Hi Anusha,<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Wed, Mar 05, 2025 at 07:01:41PM -0500, Anusha Srivatsa wr=
+ote:<br>
+&gt; &gt; &gt; &gt; Move away from using deprecated API and use _multi<br>
+&gt; &gt; &gt; &gt; variants if available. Use mipi_dsi_msleep()<br>
+&gt; &gt; &gt; &gt; and mipi_dsi_usleep_range() instead of msleep()<br>
+&gt; &gt; &gt; &gt; and usleep_range() respectively.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Used Coccinelle to find the multiple occurences.<br>
+&gt; &gt; &gt; &gt; SmPl patch:<br>
+&gt; &gt; &gt; &gt; @rule@<br>
+&gt; &gt; &gt; &gt; identifier dsi_var;<br>
+&gt; &gt; &gt; &gt; identifier r;<br>
+&gt; &gt; &gt; &gt; identifier func;<br>
+&gt; &gt; &gt; &gt; type t;<br>
+&gt; &gt; &gt; &gt; position p;<br>
+&gt; &gt; &gt; &gt; expression dsi_device;<br>
+&gt; &gt; &gt; &gt; expression list es;<br>
+&gt; &gt; &gt; &gt; @@<br>
+&gt; &gt; &gt; &gt; t func(...) {<br>
+&gt; &gt; &gt; &gt; ...<br>
+&gt; &gt; &gt; &gt; struct mipi_dsi_device *dsi_var =3D dsi_device;<br>
+&gt; &gt; &gt; &gt; +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D d=
+si_var };<br>
+&gt; &gt; &gt; &gt; &lt;+...<br>
+&gt; &gt; &gt; &gt; (<br>
+&gt; &gt; &gt; &gt; -mipi_dsi_dcs_write_seq(dsi_var,es)@p;<br>
+&gt; &gt; &gt; &gt; +mipi_dsi_dcs_write_seq_multi(&amp;dsi_ctx,es);<br>
+&gt; &gt; &gt; &gt; |<br>
+&gt; &gt; &gt; &gt; -mipi_dsi_generic_write_seq(dsi_var,es)@p;<br>
+&gt; &gt; &gt; &gt; +mipi_dsi_generic_write_seq_multi(&amp;dsi_ctx,es);<br>
+&gt; &gt; &gt; &gt; |<br>
+&gt; &gt; &gt; &gt; -mipi_dsi_generic_write(dsi_var,es)@p;<br>
+&gt; &gt; &gt; &gt; +mipi_dsi_generic_write_multi(&amp;dsi_ctx,es);<br>
+&gt; &gt; &gt; &gt; |<br>
+&gt; &gt; &gt; &gt; -r =3D mipi_dsi_dcs_nop(dsi_var)@p;<br>
+&gt; &gt; &gt; &gt; +mipi_dsi_dcs_nop_multi(&amp;dsi_ctx);<br>
+&gt; &gt; &gt; &gt; |<br>
+&gt; &gt; &gt; &gt; ....rest of API<br>
+&gt; &gt; &gt; &gt; ..<br>
+&gt; &gt; &gt; &gt; )<br>
+&gt; &gt; &gt; &gt; -if(r &lt; 0) {<br>
+&gt; &gt; &gt; &gt; -...<br>
+&gt; &gt; &gt; &gt; -}<br>
+&gt; &gt; &gt; &gt; ...+&gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; The point of sending a single patch was to review the coccin=
+elle script,<br>
+&gt; &gt; &gt; so you must put the entire script you used here.<br>
+&gt; &gt;<br>
+&gt; &gt; I was actually thinking of sending patches per driver this time a=
+round<br>
+&gt; &gt; since Tejas also seems to be looking into similar parts....Though=
+ts?<br>
+&gt;<br>
+&gt; Not really?<br>
+&gt;<br>
+&gt; The point of doing it with one driver was to make sure the coccinelle<=
+br>
+&gt; script was fine before rolling it to other drivers. And actually, it<b=
+r>
+&gt; doesn&#39;t really matter: the whole point of putting the script in th=
+e<br>
+&gt; commit log is to be able to review and document the script you used. I=
+f<br>
+&gt; you&#39;re not going to put the one you used, it&#39;s kind of pointle=
+ss.<br>
+<br>
+Personally, I don&#39;t have any interest in reviewing the coccinelle<br>
+script so I don&#39;t need it and, from my point of view, you could just<br=
 >
-> Oh, also: Tejas, please make sure you CC Anusha on your patches. :-) Adde=
-d here.
+remove it from the patch description (or point to it indirectly or<br>
+something). I&#39;ll review each patch on its own merits. I am a bit<br>
+curious if you ended up fully generating this patch with a coccinelle<br>
+script or if you used a coccinelle script to start and then had to<br>
+manually tweak the patch after. Actually, I guess I&#39;ll take it back.<br=
+>
+If you manage to fully generate conversions for all the panels with a<br>
+single cocinelle script, I would love to take a glance at your full<br>
+script just to satisfy my curiosity for how you handled everything<br>
+properly. :-P<br></blockquote><div><br></div><div>managed to get all conver=
+sions other than the usleep_range() and mslee() because I was trying to rep=
+lace them with mipi_dsi_* variants only in functions that I was=C2=A0 touch=
+ing and not each and every occurrence. Didnt spend enough time to get the s=
+cript smart enough to do that and did only usleep() and msleep change manua=
+lly. Here goes the script:</div><div><br></div><div>@rule_1@<br>identifier =
+dsi_var;<br>expression dsi_device;<br>expression list es;<br>@@<br>struct m=
+ipi_dsi_device *dsi_var =3D dsi_device;<br>+struct mipi_dsi_multi_context d=
+si_ctx =3D { .dsi =3D dsi_var };<br>&lt;+...<br>-mipi_dsi_dcs_write_seq(dsi=
+_var,es);<br>+mipi_dsi_dcs_write_seq_multi(&amp;dsi_ctx,es);<br>...+&gt;<br=
+><br>//rule_2<br>@@<br>expression list es;<br>identifier jdi;<br>@@<br>stat=
+ic int jdi_write_dcdc_registers(struct jdi_panel *jdi)<br>{<br>+struct mipi=
+_dsi_multi_context dsi_ctx1 =3D { .dsi =3D jdi-&gt;link1 };<br>+struct mipi=
+_dsi_multi_context dsi_ctx2 =3D { .dsi =3D jdi-&gt;link2 };<br>&lt;+...<br>=
+-mipi_dsi_generic_write_seq(jdi-&gt;link1,es);<br>+mipi_dsi_generic_write_s=
+eq_multi(&amp;dsi_ctx1,es);<br>-mipi_dsi_generic_write_seq(jdi-&gt;link2,es=
+);<br>+mipi_dsi_generic_write_seq_multi(&amp;dsi_ctx2,es);<br>...+&gt;<br>}=
+<br>@rule_3@<br>identifier dsi_var;<br>identifier r;<br>identifier func;<br=
+>type t;<br>position p;<br>expression dsi_device;<br>expression list es;<br=
+>@@<br>t func(...) {<br>...<br>struct mipi_dsi_device *dsi_var =3D dsi_devi=
+ce;<br>+struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };<br>=
+&lt;+...<br>(<br>-r =3D mipi_dsi_dcs_nop(dsi_var)@p;<br>+mipi_dsi_dcs_nop_m=
+ulti(&amp;dsi_ctx);<br>|<br>-r =3D mipi_dsi_dcs_exit_sleep_mode(dsi_var)@p;=
+<br>+mipi_dsi_dcs_exit_sleep_mode_multi(&amp;dsi_ctx);<br>|<br>-r =3D mipi_=
+dsi_dcs_enter_sleep_mode(dsi_var)@p;<br>+mipi_dsi_dcs_enter_sleep_mode_mult=
+i(&amp;dsi_ctx);<br>|<br>|<br>-r =3D mipi_dsi_dcs_write_buffer(dsi_var,es)@=
+p;<br>+mipi_dsi_dcs_write_buffer_multi(&amp;dsi_ctx,es);<br>|<br>-r =3D mip=
+i_dsi_dcs_set_display_off(dsi_var,es)@p;<br>+mipi_dsi_dcs_set_display_off_m=
+ulti(&amp;dsi_ctx,es);<br>|<br>-r =3D mipi_dsi_compression_mode_ext(dsi_var=
+,es)@p;<br>+mipi_dsi_compression_mode_ext_multi(&amp;dsi_ctx,es);<br>|<br>-=
+r =3D mipi_dsi_compression_mode(dsi_var,es)@p;<br>+mipi_dsi_compression_mod=
+e_multi(&amp;dsi_ctx,es);<br>|<br>-r =3D mipi_dsi_picture_parameter_set(dsi=
+_var,es)@p;<br>+mipi_dsi_picture_parameter_set_multi(&amp;dsi_ctx,es);<br>|=
+<br>-r =3D mipi_dsi_dcs_set_display_on(dsi_var,es)@p;<br>+mipi_dsi_dcs_set_=
+display_on_multi(&amp;dsi_ctx,es);<br>|<br>-r =3D mipi_dsi_dcs_set_tear_on(=
+dsi_var)@p;<br>+mipi_dsi_dcs_set_tear_on_multi(&amp;dsi_ctx);<br>|<br>-r =
+=3D mipi_dsi_turn_on_peripheral(dsi_var)@p;<br>+mipi_dsi_turn_on_peripheral=
+_multi(&amp;dsi_ctx);<br>|<br>-r =3D mipi_dsi_dcs_soft_reset(dsi_var)@p;<br=
+>+mipi_dsi_dcs_soft_reset_multi(&amp;dsi_ctx);<br>|<br>-r =3D mipi_dsi_dcs_=
+set_display_brightness(dsi_var,es)@p;<br>+mipi_dsi_dcs_set_display_brightne=
+ss_multi(&amp;dsi_ctx,es);<br>|<br>-r =3D mipi_dsi_dcs_set_pixel_format(dsi=
+_var,es)@p;<br>+mipi_dsi_dcs_set_pixel_format_multi(&amp;dsi_ctx,es);<br>|<=
+br>-r =3D mipi_dsi_dcs_set_column_address(dsi_var,es)@p;<br>+mipi_dsi_dcs_s=
+et_column_address_multi(&amp;dsi_ctx,es);<br>|<br>-r =3D mipi_dsi_dcs_set_p=
+age_address(dsi_var,es)@p;<br>+mipi_dsi_dcs_set_page_address_multi(&amp;dsi=
+_ctx,es);<br>|<br>-r =3D mipi_dsi_dcs_set_tear_scanline(dsi_var,es)@p;<br>+=
+mipi_dsi_dcs_set_tear_scanline_multi(&amp;dsi_ctx,es);<br>)<br>-if(r &lt; 0=
+) {<br>-...<br>-}<br>...+&gt;<br>}<br></div><div><br></div><div>Thanks,</di=
+v><div>Anusha</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+-Doug<br>
+<br>
+</blockquote></div></div>
 
+--0000000000004ce5b7062fb14931--
 
-
---=20
-With best wishes
-Dmitry
