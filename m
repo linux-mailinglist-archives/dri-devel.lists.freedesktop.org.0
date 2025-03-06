@@ -2,84 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1969A54CE2
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1EDA54CE7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:05:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39EB710E998;
-	Thu,  6 Mar 2025 14:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2197810E99B;
+	Thu,  6 Mar 2025 14:05:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A3jO7+46";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3648510E998
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:05:05 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-4750ca77db0so2939771cf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:05:05 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17BF610E99B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:05:14 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-43bc63876f1so6263195e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:05:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1741269912; x=1741874712; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=3Sifyn0hGJgfCLkIQL9nE3piXEH6RdFnSyKfM5mQzh0=;
+ b=A3jO7+46W2KIJHcdgXphGahPuChTUCOHg2UIsfIc117S1tVSYTce0DzIrpFw4IQ13F
+ DrYbOf4FW0MpitifF+HTKeDFvLWZTMB8daWyIEqsXszW0d3bp2qI1HEkBGqgaNfoyy31
+ nP3QwtwBzjlse0mVM4dBRtfO8eiN/xqb0n60t0UxPMddut/ho1MOl7X7TuoE7BOgzpgt
+ 48QP00l+EoG6lfZTZueRukR1JYeUUZkx/67ERByTY0ai4b3+XXV4TvWF3oyRHA6DHYRs
+ LHTplRk0xXWT8eImnqBS62hBV98blGrYf8NFFyOU5ylM+yTDQ3XUW4Kqn0liTiOLdNcT
+ V7rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741269903; x=1741874703;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KvdtDEC9XOZ4SiNShBFndqkvatMXAPv3rT5wVsIIH7w=;
- b=C53veKH2/mcvE8+bwgjuhKfqCZ+n1phlQSyTeoOC6ihRBiVCXuPsEo8vfh6scsVCjo
- E/G6M2nTVdIR2bOjr2FIGUP5ri75E0PRv6iIYZt5r15XKjZJq+ausJabQeRM9afyPkW6
- ISSuFL5iCDM5MJ2t36vayAJC8u2jL4KaZMiOmb62qs4am5J4tQQP9DzCpNffo+CxuW6Z
- wKlpJjQXaPwYU+wJ/nLJIrt19Gz9GMxoiihzujqZi/TKxdz8uxb/t4cMLtreb0kPkc0z
- BIs5eQz42suLe8ZNQ4G8864t69Ed/MDiKN0ayu1Zkv5JUyQwM924fB+mzSstkI2y5wge
- LdjQ==
+ d=1e100.net; s=20230601; t=1741269912; x=1741874712;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=3Sifyn0hGJgfCLkIQL9nE3piXEH6RdFnSyKfM5mQzh0=;
+ b=OZry5jxV5IYCeocqrHBJFHOtqQKRdPlRUWF7rQmJxjaw1govokAoz+mk4SrFGdxy+0
+ 3GLHRcJI8ip7IJho0/0s7Y/c3Q95H0mz1Xz6Bt3EJa+0lR6SN30zaR9oV001q5c7CY+q
+ KGTqLbO8J8q6S1JafxGiaZk//k74X4ZnmhIAIe6whh5YmW5AO0Dij9wWkC5SueTZBqYj
+ XbqC6SyFGvy9QHoKjiK5UMU/nAEh/zJ9ObMpr+AZtPAVYDBKndKnEczp1mDvCi1Y7LG+
+ aATVW1ch5IkI98/wRrvRGqomeb9Uv4QdWBl+cht3JCaV0GrMWcA2bNpazTEQL2F+Mudz
+ ZoHA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvfXUe8PmV2yYYYmswVxGCJPkbhaCqtNFTUpQD7+Of/h/mMDAR56vkWS0HdA90D6p9MQf1gxd4l9w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTZBzQrUn7VgF28iHp48mj5Z++UhHlugUezvrBITDuTp8uc8uO
- vK48ciaap0KYT7om+EBEl3BZfO1A46ad/DPlgzGbH7GjMjtjuNUTq3oPdAnP
-X-Gm-Gg: ASbGncvW7TOGhnTRnQkRVv3ysoqw+p0mZ3LAhRtYvu5GidY76vlj/Fhg0B2vMZz2TxR
- Cu6L3YJtr76kmKqKJ/bQrEBLHxjDadatwEoFwcEDEMTuPeoxb8srftnflcFdVdy2wvMKbhtT2/t
- AE7jc3PD3QI+oPUYgmUsMVPowlIx6QuZgSHnVq7lMt9hLW07CLhb5RmWp51kgWcP6YQ9+PQCw6r
- fbLm6A4jKCUOaLQMx96y3jvXgmjrcaGFukDndXHoWtSxVdXRLVYlTu5PYblNB6ZEGgutuB+XU0D
- +aQpRt8dXMjh/FOEgsf30OdmyyWwvkMP70HEr09s32LzpAlB97SjPzFog2DCZjwXNU3W+RgOLe4
- UIlHSfHwPhGk=
-X-Google-Smtp-Source: AGHT+IHEFvbZ3cEqG0DoO0vSylFPwO21jmkshuQxmL44Lmt7rCNDSYxF7D/hu3VwG1Ols0InMM1Eww==
-X-Received: by 2002:a05:6214:1d28:b0:6e8:9dfa:d934 with SMTP id
- 6a1803df08f44-6e8e6d9422amr97817376d6.42.1741269903200; 
- Thu, 06 Mar 2025 06:05:03 -0800 (PST)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
- [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6e8f70a4eb7sm7489276d6.58.2025.03.06.06.05.02
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCXNHTY5ZM+svPwqT/hoUBonr6VLmwQdQdsi/AVWWgDG2oAkiW2MnEfC1Tjf1h1M12I1x5QAC4tjDyo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlPwOhhoChNQ3N+c+2v1q80CLdwy2PUV9/Ziu6Trw5I5BQg3HZ
+ NY7zpr80BnJJe2Y0tC/zLdZm9ofXegnplkmbrZ+xZYP0R/ygcVhA5k2vtubcCEk=
+X-Gm-Gg: ASbGncvBb3qUOa+to7hPIL4F+Xx/ERtrn7+vVvmOs4DPKoDdCJO/ZFxx+irqm+EVSlf
+ 9UfyPmKCUAYZnl63e/AlCJjsuWOc9wqGmbBkW/oPY92lsVv3WWDVLVr2fRgTjT/v4anFOOQUWIa
+ gyBgrTnQjBg9Ul9I/eqXIX8iOQqXDkp8E6DqC0Xrncznm4L1ycj0z97FUIvQdnCUAs9NpKIG4uy
+ X9A5+Zi6RR4LSU8MZlsxZMqSeYahg5R+l0+a5QItc8QvBzQIXJZ7L626spV0/g9mJV60GfOILvn
+ odgE7qqH+8Wty+S8WXffv8r3zCXaF4EzioxubyhX+mozPCEYWyTIka5CU2ImY9MLjkoiRyrLk54
+ eFfCb9mhTGgMzxI1Sars=
+X-Google-Smtp-Source: AGHT+IF6vyhXb/CLEja5VTOo8EpYauFcOYocbFUEJ3I2GpzzAxExXdeyrk8zoyzzmJoa+9rRBUzGNg==
+X-Received: by 2002:a05:600c:3147:b0:43b:d0fe:b8c2 with SMTP id
+ 5b1f17b1804b1-43bd29d8590mr50898345e9.22.1741269911785; 
+ Thu, 06 Mar 2025 06:05:11 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:d77f:d3a:3ea1:f8c9?
+ ([2a01:e0a:982:cbb0:d77f:d3a:3ea1:f8c9])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43bd42b7245sm50969005e9.17.2025.03.06.06.05.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Mar 2025 06:05:02 -0800 (PST)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-47509ac80cbso2415211cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:05:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVL08Xpoxgy3ehpqxb4S7No/9Wap/Dli92JYJtUcToh3oJ3TON9qCh5emaaIpFwkmG9ZtmjLaugvoY=@lists.freedesktop.org
-X-Received: by 2002:a05:622a:4f:b0:474:dc44:28c4 with SMTP id
- d75a77b69052e-4750b4d3938mr107138931cf.38.1741269902594; Thu, 06 Mar 2025
- 06:05:02 -0800 (PST)
+ Thu, 06 Mar 2025 06:05:11 -0800 (PST)
+Message-ID: <ca5b0825-a485-4bec-bd93-b57a8d7ced99@linaro.org>
+Date: Thu, 6 Mar 2025 15:05:10 +0100
 MIME-Version: 1.0
-References: <20250218115922.407816-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250218115922.407816-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250218115922.407816-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 6 Mar 2025 15:04:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUN-wGtZPZMOKjK9jLoG4v36XWON-G-1x01vk+pX3bsXw@mail.gmail.com>
-X-Gm-Features: AQ5f1Jr5FGGmyRUsY7dF6NNrna-C1X_Xx4h4D0DCZ6Sms6J1TfoVs9ByrC17zCQ
-Message-ID: <CAMuHMdUN-wGtZPZMOKjK9jLoG4v36XWON-G-1x01vk+pX3bsXw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable
- Mali-G31
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/panel: novatek-nt36523: transition to mipi_dsi
+ wrapped functions
+To: Tejas Vipin <tejasvipin76@gmail.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ lujianhua000@gmail.com
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250306134350.139792-1-tejasvipin76@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250306134350.139792-1-tejasvipin76@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +118,1761 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Feb 2025 at 12:59, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Enable Mali-G31 (GPU) node on EVK board.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 06/03/2025 14:43, Tejas Vipin wrote:
+> Changes the novatek-nt36523 panel to use multi style functions for
+> improved error handling.
+> 
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+>   drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1683 ++++++++---------
+>   1 file changed, 823 insertions(+), 860 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+> index 04f1d2676c78..922a225f6258 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+> @@ -23,10 +23,12 @@
+>   
+>   #define DSI_NUM_MIN 1
+>   
+> -#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)        \
+> -		do {                                                 \
+> -			mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      \
+> -			mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      \
+> +#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, cmd, seq...)      \
+> +		do {								\
+> +			mipi_dsi_dcs_write_seq_multi(&dsi_ctx0, cmd, seq);	\
+> +			dsi_ctx1.accum_err = dsi_ctx0.accum_err;		\
+> +			mipi_dsi_dcs_write_seq_multi(&dsi_ctx1, cmd, seq);	\
+> +			dsi_ctx0.accum_err = dsi_ctx1.accum_err;		\
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.15.
+Just thinking out loud, but can't we do :
 
-Gr{oetje,eeting}s,
+struct mipi_dsi_multi_context dsi_ctx = { .dsi = NULL };
 
-                        Geert
+#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd, seq...)      \
+		do {						
+			dsi_ctx.dsi = dsi0;					\
+			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
+			dsi_ctx.dsi = dsi1;					\
+			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+So we have a single accum_err.
+
+Neil
+
+>   		} while (0)
+>   
+>   struct panel_info {
+> @@ -67,868 +69,831 @@ static int elish_boe_init_sequence(struct panel_info *pinfo)
+>   {
+>   	struct mipi_dsi_device *dsi0 = pinfo->dsi[0];
+>   	struct mipi_dsi_device *dsi1 = pinfo->dsi[1];
+> +	struct mipi_dsi_multi_context dsi_ctx0 = { .dsi = dsi0 };
+> +	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = dsi1 };
+>   	/* No datasheet, so write magic init sequence directly */
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x05);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x18, 0x40);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x23);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0x84);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x05, 0x2d);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x06, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x07, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x08, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0x45);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x12, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x15, 0x83);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x16, 0x0c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29, 0x0a);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x31, 0xfe);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x32, 0xfd);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x33, 0xfb);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x34, 0xf8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0xf5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x36, 0xf3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x37, 0xf2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x38, 0xf2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0xf2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0xef);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0xec);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3d, 0xe9);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3f, 0xe5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x40, 0xe5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x41, 0xe5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x13);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x45, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x46, 0xf4);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x47, 0xe7);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x48, 0xda);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x49, 0xcd);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4a, 0xc0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4b, 0xb3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4c, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4d, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4e, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x99);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x50, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x68);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x52, 0x66);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x66);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x54, 0x66);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0x0e);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x58, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x59, 0xfb);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5a, 0xf7);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5b, 0xf3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5c, 0xef);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5d, 0xe3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5e, 0xda);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5f, 0xd8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x60, 0xd8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x61, 0xd8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x62, 0xcb);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x63, 0xbf);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x64, 0xb3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x65, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x66, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x67, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x25, 0x47);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0x47);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0x47);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1a, 0xe0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0xe0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x84, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x85, 0x0c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x91, 0x1f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x92, 0x0f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x93, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x94, 0x18);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x95, 0x03);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x96, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb0, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x1f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x1b);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x24);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x28);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x27);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x31);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd1, 0x20);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd2, 0x30);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xde, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdf, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x81);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0xb0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x22);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9f, 0x50);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x6f, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x70, 0x11);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x73, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x74, 0x49);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x76, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x77, 0x49);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa0, 0x3f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa9, 0x50);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xaa, 0x28);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xab, 0x28);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xad, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x49);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xba, 0x49);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x49);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbe, 0x04);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbf, 0x49);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc0, 0x04);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc1, 0x59);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc2, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc5, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc6, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc7, 0x48);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xca, 0x43);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcb, 0x3c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xce, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcf, 0x43);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x3c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd3, 0x43);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x3c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd7, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdc, 0x43);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdd, 0x3c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xe1, 0x43);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xe2, 0x3c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xf2, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xf3, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xf4, 0x48);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x13, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x14, 0x23);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbc, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbd, 0x23);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x97, 0x3c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x98, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x99, 0x95);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9a, 0x03);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9b, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9c, 0x0b);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9d, 0x0a);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9e, 0x90);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x22);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9f, 0x50);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x23);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa3, 0x50);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xe0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x14, 0x60);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x16, 0xc0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xd0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x02, 0xaf);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0xee);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x99);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1d, 0x09);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x0f, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x2c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x13);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0x03, 0xac, 0x1a, 0x04, 0x04);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11);
+> -	msleep(70);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29);
+> -
+> -	return 0;
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb9, 0x05);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x20);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x18, 0x40);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb9, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x23);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x00, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x01, 0x84);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x05, 0x2d);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x06, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x07, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x08, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x09, 0x45);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x11, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x12, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x15, 0x83);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x16, 0x0c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x29, 0x0a);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x30, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x31, 0xfe);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x32, 0xfd);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x33, 0xfb);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x34, 0xf8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x35, 0xf5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x36, 0xf3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x37, 0xf2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x38, 0xf2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x39, 0xf2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3a, 0xef);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3b, 0xec);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3d, 0xe9);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3f, 0xe5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x40, 0xe5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x41, 0xe5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2a, 0x13);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x45, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x46, 0xf4);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x47, 0xe7);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x48, 0xda);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x49, 0xcd);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4a, 0xc0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4b, 0xb3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4c, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4d, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4e, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4f, 0x99);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x50, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x51, 0x68);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x52, 0x66);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x53, 0x66);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x54, 0x66);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2b, 0x0e);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x58, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x59, 0xfb);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5a, 0xf7);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5b, 0xf3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5c, 0xef);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5d, 0xe3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5e, 0xda);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5f, 0xd8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x60, 0xd8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x61, 0xd8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x62, 0xcb);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x63, 0xbf);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x64, 0xb3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x65, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x66, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x67, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x2a);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x25, 0x47);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x30, 0x47);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x39, 0x47);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x26);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x19, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1a, 0xe0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1b, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1c, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2a, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2b, 0xe0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xf0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x84, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x85, 0x0c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x20);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x51, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x25);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x91, 0x1f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x92, 0x0f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x93, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x94, 0x18);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x95, 0x03);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x96, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb0, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x25);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x19, 0x1f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1b, 0x1b);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x24);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb8, 0x28);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x27);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd0, 0x31);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd1, 0x20);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd2, 0x30);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd4, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xde, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xdf, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x26);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x00, 0x81);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x01, 0xb0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x22);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9f, 0x50);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x6f, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x70, 0x11);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x73, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x74, 0x49);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x76, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x77, 0x49);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xa0, 0x3f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xa9, 0x50);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xaa, 0x28);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xab, 0x28);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xad, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb8, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb9, 0x49);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xba, 0x49);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbb, 0x49);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbe, 0x04);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbf, 0x49);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc0, 0x04);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc1, 0x59);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc2, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc5, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc6, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc7, 0x48);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xca, 0x43);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xcb, 0x3c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xce, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xcf, 0x43);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd0, 0x3c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd3, 0x43);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd4, 0x3c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd7, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xdc, 0x43);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xdd, 0x3c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xe1, 0x43);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xe2, 0x3c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xf2, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xf3, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xf4, 0x48);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x25);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x13, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x14, 0x23);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbc, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbd, 0x23);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x2a);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x97, 0x3c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x98, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x99, 0x95);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9a, 0x03);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9b, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9c, 0x0b);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9d, 0x0a);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9e, 0x90);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x22);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9f, 0x50);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x23);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xa3, 0x50);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xe0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x14, 0x60);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x16, 0xc0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4f, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xf0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3a, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xd0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x02, 0xaf);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x09, 0xee);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1c, 0x99);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1d, 0x09);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x51, 0x0f, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x53, 0x2c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x35, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbb, 0x13);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3b, 0x03, 0xac, 0x1a, 0x04, 0x04);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x11);
+> +	mipi_dsi_msleep(&dsi_ctx0, 70);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x29);
+> +
+> +	return dsi_ctx0.accum_err;
+>   }
+>   
+>   static int elish_csot_init_sequence(struct panel_info *pinfo)
+>   {
+>   	struct mipi_dsi_device *dsi0 = pinfo->dsi[0];
+>   	struct mipi_dsi_device *dsi1 = pinfo->dsi[1];
+> +	struct mipi_dsi_multi_context dsi_ctx0 = { .dsi = dsi0 };
+> +	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = dsi1 };
+>   	/* No datasheet, so write magic init sequence directly */
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x05);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x18, 0x40);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xd0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x02, 0xaf);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x30);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0xee);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x99);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1d, 0x09);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xe0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x58, 0x40);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x23);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0x84);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x05, 0x2d);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x06, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x07, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x08, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0x45);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x12, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x15, 0x83);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x16, 0x0c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29, 0x0a);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x31, 0xfe);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x32, 0xfd);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x33, 0xfb);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x34, 0xf8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0xf5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x36, 0xf3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x37, 0xf2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x38, 0xf2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0xf2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0xef);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0xec);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3d, 0xe9);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3f, 0xe5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x40, 0xe5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x41, 0xe5);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x13);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x45, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x46, 0xf4);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x47, 0xe7);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x48, 0xda);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x49, 0xcd);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4a, 0xc0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4b, 0xb3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4c, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4d, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4e, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x99);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x50, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x68);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x52, 0x66);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x66);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x54, 0x66);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0x0e);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x58, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x59, 0xfb);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5a, 0xf7);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5b, 0xf3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5c, 0xef);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5d, 0xe3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5e, 0xda);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5f, 0xd8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x60, 0xd8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x61, 0xd8);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x62, 0xcb);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x63, 0xbf);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x64, 0xb3);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x65, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x66, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x67, 0xb2);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x0f, 0xff);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x2c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x55, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x13);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0x03, 0xac, 0x1a, 0x04, 0x04);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x25, 0x46);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0x46);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0x46);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0xb0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1a, 0xe0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0xe0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x84, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x85, 0x0c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x91, 0x1f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x92, 0x0f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x93, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x94, 0x18);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x95, 0x03);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x96, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb0, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x1f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x1b);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x24);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x28);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x27);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x31);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd1, 0x20);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xde, 0x80);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdf, 0x02);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x81);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0xb0);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x22);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x6f, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x70, 0x11);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x73, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x74, 0x4d);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa0, 0x3f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa9, 0x50);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xaa, 0x28);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xab, 0x28);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xad, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x4b);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xba, 0x96);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x4b);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbe, 0x07);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbf, 0x4b);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc0, 0x07);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc1, 0x5c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc2, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc5, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc6, 0x3f);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc7, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xca, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcb, 0x40);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xce, 0x00);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcf, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x40);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd3, 0x08);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x40);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbc, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbd, 0x1c);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9a, 0x03);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11);
+> -	msleep(70);
+> -	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29);
+> -
+> -	return 0;
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb9, 0x05);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x20);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x18, 0x40);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb9, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xd0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x02, 0xaf);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x00, 0x30);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x09, 0xee);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1c, 0x99);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1d, 0x09);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xf0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3a, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xe0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4f, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x20);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x58, 0x40);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x35, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x23);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x00, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x01, 0x84);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x05, 0x2d);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x06, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x07, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x08, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x09, 0x45);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x11, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x12, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x15, 0x83);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x16, 0x0c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x29, 0x0a);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x30, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x31, 0xfe);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x32, 0xfd);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x33, 0xfb);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x34, 0xf8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x35, 0xf5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x36, 0xf3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x37, 0xf2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x38, 0xf2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x39, 0xf2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3a, 0xef);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3b, 0xec);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3d, 0xe9);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3f, 0xe5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x40, 0xe5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x41, 0xe5);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2a, 0x13);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x45, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x46, 0xf4);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x47, 0xe7);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x48, 0xda);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x49, 0xcd);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4a, 0xc0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4b, 0xb3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4c, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4d, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4e, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x4f, 0x99);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x50, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x51, 0x68);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x52, 0x66);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x53, 0x66);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x54, 0x66);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2b, 0x0e);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x58, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x59, 0xfb);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5a, 0xf7);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5b, 0xf3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5c, 0xef);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5d, 0xe3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5e, 0xda);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x5f, 0xd8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x60, 0xd8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x61, 0xd8);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x62, 0xcb);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x63, 0xbf);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x64, 0xb3);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x65, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x66, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x67, 0xb2);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x51, 0x0f, 0xff);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x53, 0x2c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x55, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbb, 0x13);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x3b, 0x03, 0xac, 0x1a, 0x04, 0x04);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x2a);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x25, 0x46);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x30, 0x46);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x39, 0x46);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x26);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x01, 0xb0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x19, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1a, 0xe0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1b, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1c, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2a, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x2b, 0xe0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0xf0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x84, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x85, 0x0c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x20);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x51, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x25);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x91, 0x1f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x92, 0x0f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x93, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x94, 0x18);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x95, 0x03);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x96, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb0, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x25);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x19, 0x1f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x1b, 0x1b);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x24);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb8, 0x28);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x27);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd0, 0x31);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd1, 0x20);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd4, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xde, 0x80);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xdf, 0x02);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x26);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x00, 0x81);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x01, 0xb0);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x22);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x6f, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x70, 0x11);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x73, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x74, 0x4d);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xa0, 0x3f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xa9, 0x50);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xaa, 0x28);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xab, 0x28);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xad, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb8, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xb9, 0x4b);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xba, 0x96);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbb, 0x4b);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbe, 0x07);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbf, 0x4b);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc0, 0x07);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc1, 0x5c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc2, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc5, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc6, 0x3f);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xc7, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xca, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xcb, 0x40);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xce, 0x00);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xcf, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd0, 0x40);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd3, 0x08);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xd4, 0x40);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x25);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbc, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xbd, 0x1c);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x2a);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xfb, 0x01);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x9a, 0x03);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0xff, 0x10);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x11);
+> +	mipi_dsi_msleep(&dsi_ctx0, 70);
+> +	mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, 0x29);
+> +
+> +	return dsi_ctx0.accum_err;
+>   }
+>   
+>   static int j606f_boe_init_sequence(struct panel_info *pinfo)
+>   {
+>   	struct mipi_dsi_device *dsi = pinfo->dsi[0];
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x20);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x05, 0xd9);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x78);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x08, 0x5a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0d, 0x63);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0e, 0x91);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0f, 0x73);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x95, 0xeb);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x96, 0xeb);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS, 0x11);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x6d, 0x66);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x75, 0xa2);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x77, 0xb3);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4d, 0x00, 0x6d, 0x00,
+> -			       0x89, 0x00, 0xa1, 0x00, 0xb6, 0x00, 0xc9);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb1, 0x00, 0xda, 0x01, 0x13, 0x01, 0x3c, 0x01, 0x7e, 0x01,
+> -			       0xab, 0x01, 0xf7, 0x02, 0x2f, 0x02, 0x31);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x02, 0x67, 0x02, 0xa6, 0x02, 0xd1, 0x03, 0x08, 0x03,
+> -			       0x2e, 0x03, 0x5b, 0x03, 0x6b, 0x03, 0x7b);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb3, 0x03, 0x8e, 0x03, 0xa2, 0x03, 0xb7, 0x03, 0xe7, 0x03,
+> -			       0xfd, 0x03, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb4, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4d, 0x00, 0x6d, 0x00,
+> -			       0x89, 0x00, 0xa1, 0x00, 0xb6, 0x00, 0xc9);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb5, 0x00, 0xda, 0x01, 0x13, 0x01, 0x3c, 0x01, 0x7e, 0x01,
+> -			       0xab, 0x01, 0xf7, 0x02, 0x2f, 0x02, 0x31);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x02, 0x67, 0x02, 0xa6, 0x02, 0xd1, 0x03, 0x08, 0x03,
+> -			       0x2e, 0x03, 0x5b, 0x03, 0x6b, 0x03, 0x7b);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb7, 0x03, 0x8e, 0x03, 0xa2, 0x03, 0xb7, 0x03, 0xe7, 0x03,
+> -			       0xfd, 0x03, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb8, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4d, 0x00, 0x6d, 0x00,
+> -			       0x89, 0x00, 0xa1, 0x00, 0xb6, 0x00, 0xc9);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0xda, 0x01, 0x13, 0x01, 0x3c, 0x01, 0x7e, 0x01,
+> -			       0xab, 0x01, 0xf7, 0x02, 0x2f, 0x02, 0x31);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xba, 0x02, 0x67, 0x02, 0xa6, 0x02, 0xd1, 0x03, 0x08, 0x03,
+> -			       0x2e, 0x03, 0x5b, 0x03, 0x6b, 0x03, 0x7b);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x03, 0x8e, 0x03, 0xa2, 0x03, 0xb7, 0x03, 0xe7, 0x03,
+> -			       0xfd, 0x03, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x21);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x45, 0x00, 0x65, 0x00,
+> -			       0x81, 0x00, 0x99, 0x00, 0xae, 0x00, 0xc1);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb1, 0x00, 0xd2, 0x01, 0x0b, 0x01, 0x34, 0x01, 0x76, 0x01,
+> -			       0xa3, 0x01, 0xef, 0x02, 0x27, 0x02, 0x29);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x02, 0x5f, 0x02, 0x9e, 0x02, 0xc9, 0x03, 0x00, 0x03,
+> -			       0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb3, 0x03, 0x86, 0x03, 0x9a, 0x03, 0xaf, 0x03, 0xdf, 0x03,
+> -			       0xf5, 0x03, 0xf7);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb4, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x45, 0x00, 0x65, 0x00,
+> -			       0x81, 0x00, 0x99, 0x00, 0xae, 0x00, 0xc1);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb5, 0x00, 0xd2, 0x01, 0x0b, 0x01, 0x34, 0x01, 0x76, 0x01,
+> -			       0xa3, 0x01, 0xef, 0x02, 0x27, 0x02, 0x29);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x02, 0x5f, 0x02, 0x9e, 0x02, 0xc9, 0x03, 0x00, 0x03,
+> -			       0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb7, 0x03, 0x86, 0x03, 0x9a, 0x03, 0xaf, 0x03, 0xdf, 0x03,
+> -			       0xf5, 0x03, 0xf7);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb8, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x45, 0x00, 0x65, 0x00,
+> -			       0x81, 0x00, 0x99, 0x00, 0xae, 0x00, 0xc1);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0xd2, 0x01, 0x0b, 0x01, 0x34, 0x01, 0x76, 0x01,
+> -			       0xa3, 0x01, 0xef, 0x02, 0x27, 0x02, 0x29);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xba, 0x02, 0x5f, 0x02, 0x9e, 0x02, 0xc9, 0x03, 0x00, 0x03,
+> -			       0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x03, 0x86, 0x03, 0x9a, 0x03, 0xaf, 0x03, 0xdf, 0x03,
+> -			       0xf5, 0x03, 0xf7);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x23);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x80);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x11, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x12, 0x77);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x07);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x16, 0x07);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x24);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x01, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x02, 0x1c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x03, 0x1c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x04, 0x1d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x05, 0x1d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x06, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x08, 0x0f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x09, 0x0f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0a, 0x0e);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0b, 0x0e);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0c, 0x0d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0d, 0x0d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0e, 0x0c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0f, 0x0c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x10, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x11, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x12, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x13, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x14, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x16, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x17, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x18, 0x1c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x1c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1a, 0x1d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1b, 0x1d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1c, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1e, 0x0f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1f, 0x0f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x0e);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x21, 0x0e);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x0d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x23, 0x0d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x24, 0x0c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x25, 0x0c);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_GAMMA_CURVE, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x27, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x28, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x29, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2a, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2b, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_LUT, 0x20);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2f, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS, 0x44);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x33, 0x0c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x34, 0x32);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x37, 0x44);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x38, 0x40);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x39, 0x00);
+> -
+> -	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x9a);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set pixel format: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0x3b, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x42);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x3f, 0x06);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x43, 0x06);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x47, 0x66);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4a, 0x9a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4b, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4c, 0x91);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4d, 0x21);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4e, 0x43);
+> -
+> -	ret = mipi_dsi_dcs_set_display_brightness(dsi, 18);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display brightness: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0x52, 0x34);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x55, 0x82, 0x02);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x56, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x58, 0x21);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x59, 0x30);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5a, 0xba);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5b, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00, 0x06);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5f, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x65, 0x82);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x7e, 0x20);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x7f, 0x3c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x82, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x97, 0xc0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb6,
+> -			       0x05, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05,
+> -			       0x05, 0x00, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x92, 0xc4);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x93, 0x1a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x94, 0x5f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xd7, 0x55);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xda, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdb, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdc, 0xc4);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdd, 0x22);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe0, 0xc4);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe1, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe2, 0xc4);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe3, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0xc4);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe5, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe6, 0xc4);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5c, 0x88);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5d, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x8d, 0x88);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x8e, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb5, 0x90);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x25);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x05, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x07);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1f, 0xba);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x20, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_GAMMA_CURVE, 0xba);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x27, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x33, 0xba);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x34, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x3f, 0xe0);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_VSYNC_TIMING, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x44, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_GET_SCANLINE, 0x40);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x48, 0xba);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x49, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5b, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5c, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5d, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0xd0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x61, 0xba);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x62, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xf1, 0x10);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x2a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x64, 0x16);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x67, 0x16);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x6a, 0x16);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x70, 0x30);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_READ_PPS_START, 0xf3);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xa3, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xa4, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xa5, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xd6, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x26);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x00, 0xa1);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0a, 0xf2);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x04, 0x28);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x06, 0x30);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0c, 0x13);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0d, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x0f, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x11, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x12, 0x50);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x13, 0x51);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x14, 0x65);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x16, 0x10);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x17, 0xa0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x18, 0x86);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x11);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1a, 0x7b);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1b, 0x10);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1c, 0xbb);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x23, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2a, 0x11);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2b, 0x7b);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1e, 0xc3);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1f, 0xc3);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x24, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x25, 0xc3);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2f, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS, 0xc3);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_COLUMNS, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x32, 0xc3);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x39, 0x00);
+> -
+> -	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0xc3);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set pixel format: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x33, 0x11);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x34, 0x78);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x35, 0x16);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xc8, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xc9, 0x82);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xca, 0x4e);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xcb, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_READ_PPS_CONTINUE, 0x4c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xaa, 0x47);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x27);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x56, 0x06);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x58, 0x80);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x59, 0x53);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5a, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5b, 0x14);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5c, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5d, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x20);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5f, 0x10);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x60, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x61, 0x1d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x62, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x63, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x64, 0x24);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x65, 0x1c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x66, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x67, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x68, 0x25);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x78, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xc3, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xd1, 0x24);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xd2, 0x30);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x2a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x2f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x23, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x24, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x25, 0xc3);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_GAMMA_CURVE, 0xf8);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x27, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x28, 0x1a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x29, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2a, 0x1a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2b, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_LUT, 0x1a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0xe0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x14, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x16, 0xc0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0xf0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -
+> -	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x08);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set pixel format: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x24);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -
+> -	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x5d);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set pixel format: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0x3b, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4a, 0x5d);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4b, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5a, 0x70);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5b, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x91, 0x44);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x92, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdb, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdc, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdd, 0x22);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe0, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe1, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe2, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe3, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe5, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5c, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5d, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x8d, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x8e, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x25);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1f, 0x70);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_GAMMA_CURVE, 0x70);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x27, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x33, 0x70);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x34, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x48, 0x70);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x49, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x5b, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x61, 0x70);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x62, 0x60);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x26);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x02, 0x31);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1a, 0x7f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1b, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1c, 0x0c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2a, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x2b, 0x7f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1e, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1f, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x25, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_COLUMNS, 0x05);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x32, 0x8d);
+> -
+> -	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x75);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set pixel format: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x2a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x25, 0x75);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x20);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x18, 0x40);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x02);
+> -
+> -	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set tear on: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x13);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x3b, 0x03, 0x5f, 0x1a, 0x04, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
+> -	usleep_range(10000, 11000);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+> -
+> -	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display brightness: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x2c);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x68, 0x05, 0x01);
+> -
+> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(100);
+> -
+> -	ret = mipi_dsi_dcs_set_display_on(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display on: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(30);
+> -
+> -	return 0;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x05, 0xd9);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x07, 0x78);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x08, 0x5a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0d, 0x63);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x91);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0f, 0x73);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x95, 0xeb);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x96, 0xeb);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_ROWS, 0x11);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6d, 0x66);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0xa2);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0xb3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4d, 0x00, 0x6d,
+> +				     0x00, 0x89, 0x00, 0xa1, 0x00, 0xb6, 0x00, 0xc9);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb1, 0x00, 0xda, 0x01, 0x13, 0x01, 0x3c, 0x01, 0x7e,
+> +				     0x01, 0xab, 0x01, 0xf7, 0x02, 0x2f, 0x02, 0x31);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x02, 0x67, 0x02, 0xa6, 0x02, 0xd1, 0x03, 0x08,
+> +				     0x03, 0x2e, 0x03, 0x5b, 0x03, 0x6b, 0x03, 0x7b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x03, 0x8e, 0x03, 0xa2, 0x03, 0xb7, 0x03, 0xe7,
+> +				     0x03, 0xfd, 0x03, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb4, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4d, 0x00, 0x6d,
+> +				     0x00, 0x89, 0x00, 0xa1, 0x00, 0xb6, 0x00, 0xc9);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb5, 0x00, 0xda, 0x01, 0x13, 0x01, 0x3c, 0x01, 0x7e,
+> +				     0x01, 0xab, 0x01, 0xf7, 0x02, 0x2f, 0x02, 0x31);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x02, 0x67, 0x02, 0xa6, 0x02, 0xd1, 0x03, 0x08,
+> +				     0x03, 0x2e, 0x03, 0x5b, 0x03, 0x6b, 0x03, 0x7b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb7, 0x03, 0x8e, 0x03, 0xa2, 0x03, 0xb7, 0x03, 0xe7,
+> +				     0x03, 0xfd, 0x03, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4d, 0x00, 0x6d,
+> +				     0x00, 0x89, 0x00, 0xa1, 0x00, 0xb6, 0x00, 0xc9);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x00, 0xda, 0x01, 0x13, 0x01, 0x3c, 0x01, 0x7e,
+> +				     0x01, 0xab, 0x01, 0xf7, 0x02, 0x2f, 0x02, 0x31);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xba, 0x02, 0x67, 0x02, 0xa6, 0x02, 0xd1, 0x03, 0x08,
+> +				     0x03, 0x2e, 0x03, 0x5b, 0x03, 0x6b, 0x03, 0x7b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbb, 0x03, 0x8e, 0x03, 0xa2, 0x03, 0xb7, 0x03, 0xe7,
+> +				     0x03, 0xfd, 0x03, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x21);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x45, 0x00, 0x65,
+> +				     0x00, 0x81, 0x00, 0x99, 0x00, 0xae, 0x00, 0xc1);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb1, 0x00, 0xd2, 0x01, 0x0b, 0x01, 0x34, 0x01, 0x76,
+> +				     0x01, 0xa3, 0x01, 0xef, 0x02, 0x27, 0x02, 0x29);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x02, 0x5f, 0x02, 0x9e, 0x02, 0xc9, 0x03, 0x00,
+> +				     0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x03, 0x86, 0x03, 0x9a, 0x03, 0xaf, 0x03, 0xdf,
+> +				     0x03, 0xf5, 0x03, 0xf7);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb4, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x45, 0x00, 0x65,
+> +				     0x00, 0x81, 0x00, 0x99, 0x00, 0xae, 0x00, 0xc1);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb5, 0x00, 0xd2, 0x01, 0x0b, 0x01, 0x34, 0x01, 0x76,
+> +				     0x01, 0xa3, 0x01, 0xef, 0x02, 0x27, 0x02, 0x29);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x02, 0x5f, 0x02, 0x9e, 0x02, 0xc9, 0x03, 0x00,
+> +				     0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb7, 0x03, 0x86, 0x03, 0x9a, 0x03, 0xaf, 0x03, 0xdf,
+> +				     0x03, 0xf5, 0x03, 0xf7);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x45, 0x00, 0x65,
+> +				     0x00, 0x81, 0x00, 0x99, 0x00, 0xae, 0x00, 0xc1);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x00, 0xd2, 0x01, 0x0b, 0x01, 0x34, 0x01, 0x76,
+> +				     0x01, 0xa3, 0x01, 0xef, 0x02, 0x27, 0x02, 0x29);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xba, 0x02, 0x5f, 0x02, 0x9e, 0x02, 0xc9, 0x03, 0x00,
+> +				     0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbb, 0x03, 0x86, 0x03, 0x9a, 0x03, 0xaf, 0x03, 0xdf,
+> +				     0x03, 0xf5, 0x03, 0xf7);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x23);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x80);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x07, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x11, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x12, 0x77);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x15, 0x07);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x16, 0x07);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x1c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x03, 0x1c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x04, 0x1d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x05, 0x1d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x06, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x07, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x08, 0x0f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x0f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0a, 0x0e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0b, 0x0e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x0d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0d, 0x0d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0f, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x10, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x11, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x12, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x13, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x14, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x15, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x16, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0x1c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x1c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x1d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0x1d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1d, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1e, 0x0f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0x0f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0x0e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x21, 0x0e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x0d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x23, 0x0d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_GAMMA_CURVE, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x27, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x28, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x29, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_LUT, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2f, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_ROWS, 0x44);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x33, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x34, 0x32);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x44);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x40);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x00);
+> +
+> +	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x9a);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3b, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_3D_CONTROL, 0x42);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x43, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x47, 0x66);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4a, 0x9a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4b, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4c, 0x91);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4d, 0x21);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4e, 0x43);
+> +
+> +	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 18);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x52, 0x34);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x82, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x56, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x58, 0x21);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x30);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0xba);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x82);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7e, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x3c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x97, 0xc0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6,
+> +				     0x05, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05,
+> +				     0x05, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x92, 0xc4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x93, 0x1a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x94, 0x5f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd7, 0x55);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xda, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xde, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdb, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdc, 0xc4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdd, 0x22);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0xc4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0xc4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe3, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe4, 0xc4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe5, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0xc4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x88);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x8d, 0x88);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x8e, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb5, 0x90);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x25);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x05, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x07);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0xba);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_GAMMA_CURVE, 0xba);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x27, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x33, 0xba);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x34, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0xe0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_VSYNC_TIMING, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x44, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_GET_SCANLINE, 0x40);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x48, 0xba);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x49, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0xd0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0xba);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x2a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x16);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x16);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x16);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x70, 0x30);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_READ_PPS_START, 0xf3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xa3, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xa4, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xa5, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd6, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x26);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0xa1);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0a, 0xf2);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x04, 0x28);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x06, 0x30);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x13);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0d, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0f, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x11, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x12, 0x50);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x13, 0x51);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x14, 0x65);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x15, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x16, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0x86);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x11);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x7b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0xbb);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x23, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x11);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x7b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1d, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1e, 0xc3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0xc3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0xc3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2f, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_ROWS, 0xc3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_COLUMNS, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x32, 0xc3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x00);
+> +
+> +	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0xc3);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x33, 0x11);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x34, 0x78);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x35, 0x16);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc9, 0x82);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0x4e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcb, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_READ_PPS_CONTINUE, 0x4c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xaa, 0x47);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x27);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x56, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x58, 0x80);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x53);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x14);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x1d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x1c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x25);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd1, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd2, 0x30);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x2a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x2f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x23, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0xc3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_GAMMA_CURVE, 0xf8);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x27, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x28, 0x1a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x29, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x1a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_LUT, 0x1a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0xe0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x14, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x16, 0xc0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0xf0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +
+> +	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x08);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x24);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +
+> +	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x5d);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3b, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4a, 0x5d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4b, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0x70);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x91, 0x44);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x92, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdb, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdc, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdd, 0x22);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe3, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe4, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe5, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x8d, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x8e, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x25);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0x70);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_GAMMA_CURVE, 0x70);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x27, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x33, 0x70);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x34, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x48, 0x70);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x49, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x70);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x60);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x26);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x31);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x7f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x0c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x0a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x7f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1e, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_ROWS, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_COLUMNS, 0x05);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x32, 0x8d);
+> +
+> +	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x75);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x2a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0x75);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0x40);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x02);
+> +
+> +	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbb, 0x13);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3b, 0x03, 0x5f, 0x1a, 0x04, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xff, 0x10);
+> +	mipi_dsi_usleep_range(&dsi_ctx, 10000, 11000);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfb, 0x01);
+> +
+> +	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x2c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x05, 0x01);
+> +
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 100);
+> +
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 30);
+> +
+> +	return dsi_ctx.accum_err;
+>   }
+>   
+>   static const struct drm_display_mode elish_boe_modes[] = {
+> @@ -1063,18 +1028,16 @@ static int nt36523_prepare(struct drm_panel *panel)
+>   static int nt36523_disable(struct drm_panel *panel)
+>   {
+>   	struct panel_info *pinfo = to_panel_info(panel);
+> -	int i, ret;
+> +	int i;
+>   
+>   	for (i = 0; i < DSI_NUM_MIN + pinfo->desc->is_dual_dsi; i++) {
+> -		ret = mipi_dsi_dcs_set_display_off(pinfo->dsi[i]);
+> -		if (ret < 0)
+> -			dev_err(&pinfo->dsi[i]->dev, "failed to set display off: %d\n", ret);
+> +		mipi_dsi_dcs_set_display_off_multi(
+> +			&(struct mipi_dsi_multi_context){.dsi = pinfo->dsi[i]});
+>   	}
+>   
+>   	for (i = 0; i < DSI_NUM_MIN + pinfo->desc->is_dual_dsi; i++) {
+> -		ret = mipi_dsi_dcs_enter_sleep_mode(pinfo->dsi[i]);
+> -		if (ret < 0)
+> -			dev_err(&pinfo->dsi[i]->dev, "failed to enter sleep mode: %d\n", ret);
+> +		mipi_dsi_dcs_enter_sleep_mode_multi(
+> +			&(struct mipi_dsi_multi_context){.dsi = pinfo->dsi[i]});
+>   	}
+>   
+>   	msleep(70);
+
