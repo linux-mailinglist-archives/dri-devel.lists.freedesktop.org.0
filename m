@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBF0A550B5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:27:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F466A550B9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:27:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8AE10E95D;
-	Thu,  6 Mar 2025 16:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F31A10E03D;
+	Thu,  6 Mar 2025 16:27:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gk0kI4Yt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GvlZwSZk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06D6410E9E7
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:27:09 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-2ff615a114bso2088219a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:27:09 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C23A310E03D
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:27:18 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-22337bc9ac3so19028835ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:27:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741278428; x=1741883228; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1741278438; x=1741883238; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vfkeURT+EbeVrjHOwezSCAhftS9inN7HFKHEaavRXXI=;
- b=Gk0kI4Yt62eC8TrofuHaajb2silr4N0xpTNTfhzIxODC4JkSsvUUAgwVrYO2RKpbxB
- 9RAeEmaBL8CVhIFhac8fvOVLB945G/LdvtkZhKhcv2k9ohBFZElbqyDtHQWmoehorPEV
- EqhatyEInGJRVhaF2FhNix1gC5XNzvWjCqAcPLy/d9RXbPQZtw/Kj20jxIWdI5TwhYe5
- OUPqcj9UYUFMR4azoTsjvOTsdlw2cMUEsw3/hxESk5uMWdq6Qyv+Af9IIslzV472jWfK
- wjjqx6sdbWSiTW7VAqPccXQWeiVwGJo4XTkudA04IrgUe+QbrJ2cTWLi0bgM2ZQW+Nn/
- rYGw==
+ bh=XN5ImNH6dAdBfCykY87Jt3WvSMwHnviLIgPuEMqr3Q4=;
+ b=GvlZwSZkHN5aKvXLGs9x7MSOXEWEYAJglaftledDpAbID73c/h55Jy8z3sPkJDjtzx
+ EJXHmS7yEWcx7DeCnx2HYeCOCvkE6e+cxxBuIFQcy5dQjI7Fs9PxRhwUeZw5XDWLudyQ
+ NZ3EdchmiQCigUPa/6+6hL8b50ygKUS48XHtWK5GC8GQTywjOfxHHU1bfH2qPA4lS64U
+ e1WDqb9lz0aiIpOjl6KDK8dhjkNdVEhHbRj6SH+kY2E1GXtEM+DjMvyqJVQiCQsBwI7q
+ gMnodjKO4/cQEDR0cS4QH6Yf7h+5Z1Wy6UlhUPzspHf6mBMRzY+vNVmMlgX6QyJzcd7F
+ 4qkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741278428; x=1741883228;
+ d=1e100.net; s=20230601; t=1741278438; x=1741883238;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vfkeURT+EbeVrjHOwezSCAhftS9inN7HFKHEaavRXXI=;
- b=k7nE61klotpDxE4dNF1NAKtua9e8WmA/EeHsML/21WuWIETg9KktZw3n2qdWhBIQIh
- wV14GrItDBHo3N6wsKSyg1PRK6VbPBC03TiRZx2MkcsVIs1nOPk+gjrRBdAS/DA+0sJa
- 47VPyuAQrw8MDH0PA9uUd1kQSHuoE93BM0heH4/Hp2U07FbL9cq2OrRLAp4z1muRL1J/
- mcG8zlzDoZMA4JU8TY+c+LzVQIlrIWtAGZGDt+QXxRKIEdliWDQ2ZSKE3Y3JdhE6x/Ng
- j7rnYEDmt6ajwo6Yhip38a7Vp3oGwz0kTyaJMwd1UvdEX/QblQ6DA/R0sjdDxDPnOFTT
- P2fg==
+ bh=XN5ImNH6dAdBfCykY87Jt3WvSMwHnviLIgPuEMqr3Q4=;
+ b=nQzmN5RPZIgPGFAQdqcuWe/R9nDefN8fH2A4qp9Fbu7Jr/t6pVHRPk7y/zM/bS3B5Q
+ vQlW+A31tHsw8pi9AqlsWZ0P+giNBVvcSR3p7M6nwfB0TeoSye0PY30eTxAqMHpQ4Jwu
+ 9upipCHBTpTZfKSZPlfTcLaXt8Blad2+jF1CXcmIYR7P9GR364EkgOb0SnfVAeN81KHT
+ BBwenCzHGsjh9v+/cdlpbUqXojxENVj9v4u83gtfAiEfcziIjNckSIyk0uy6Y9aGFNFh
+ BGFSgUNZqNZ8MKLJs4EpNAKrPeLWtgkqnKE3dLoUQ4OvHJiQJ8wIQHi5lQRL1eckHK92
+ CC4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUh7y6Lxok/aW/JHsv6qdf6sv4OpbXOn11y74AWDIsLiBbO+45/0H0y1cL3wFeTrnHTv4x5zX6Y6c0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBLzsGDJjt9KDwwQ/fOogg2IpXYrB8wKUAwrEno2DJpP54BXm8
- v8h0/Qo59fJNPjYPKYYXcyiX9nx3NLhn4YzR2E++1kUhHoYa5s7U
-X-Gm-Gg: ASbGncsGeR/QlG5qBznnp1ICRF22RkAMad6dowqnTdQhVfbu/avb2/KG+sNKvLl7krT
- /GcTii8pAINg6E7Wg3Hzt7OOC3Bhdl6bTL0Asm1bwseJp+QS5Te78yJv5hfqZbJJVOI78qwwqxh
- b5uJvkLtcadA8jHR+BU9WM0zB8bCyyi33SSHNX5mQQRFKjTy7EwW7lsKYCJphcmG/QUbAdJoZSx
- I/cc3LhvjmqeZqhSRXMyi+3H3vHMAYsckwpUrEQs2GrBjyIPcShL+Gz7wdTPJpwGowDmwK7QeuV
- 1sHdPT4ljvUScQCefWw7M2iwv3i46k1HGMf/4fQjqy76X8UNIQIm5fIlAxsAIHPTPslEAMwItm4
+ AJvYcCX/gZwCa7uNbhE4oR5mdZaOINcY0HmmkeFqyPQrfwIH2jn2goSF6Rl+AclHjdC4MvVkKRUgJugk+y8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YznrKt6xhxrFSsmx+OQX9lXrQDk3HcyisJfSs/vZUR8JmGiUu0Q
+ U6x2c34ySuQrs/A00e6roXSpCOKUiWef9EoXPzF8MwW2it659h2n
+X-Gm-Gg: ASbGncsttZyRuIj4/TCohF/TV7ki0OpM9q8NCK0Lrd7dlL0+pQytCeZ7i+oV057B288
+ LQV1e8ED8/hiW2BgrfG9PDjlkr6ifyCGjvehqHk0cqyCdT++woEkN7qImMJ/fwYAjhUGqZvs6T7
+ ke/GAH6l3CuR1XNbbfcyxnfg7d6Uv5TO5VGRTpGw6SZBssO8HdC5GZIPP63N1hHonPaBmhOc4j6
+ BDqJUuUYSre7Uj+c7/UhORJ0NJkpWsVDkFqxycZh3QeJpK0wKbKN2pYZ8aTMoILzhlNshrLclwq
+ 6eF3IsuK/11BESV4j45tWvJ5wokPqksdAPsQN2sF2EgSbcLUX8sI/CKuk+/f9kaOrl9f//hD5e0
  =
-X-Google-Smtp-Source: AGHT+IGNBcefivOmpQNsVFSdkYo/uQMo0VhzohCZYprzHPevS02kDmNn83LuER8aDdhmdhff3Ulvpw==
-X-Received: by 2002:a17:90b:1808:b0:2fa:17e4:b1cf with SMTP id
- 98e67ed59e1d1-2ff7b59dcffmr195851a91.2.1741278428557; 
- Thu, 06 Mar 2025 08:27:08 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF18uiSk+IKiG1ozkM3lMeST4qvi8jhpDhJUoUXK6z5h5Y70JgwenicEaPtYCl0NNS2nVYnUA==
+X-Received: by 2002:a17:902:e5cf:b0:224:1eaa:5de1 with SMTP id
+ d9443c01a7336-2241eaa5f50mr17212195ad.18.1741278438234; 
+ Thu, 06 Mar 2025 08:27:18 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.27.00
+ 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.27.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 08:27:08 -0800 (PST)
+ Thu, 06 Mar 2025 08:27:17 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -85,10 +85,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v3 07/16] lib/bch: Replace open-coded parity calculation with
- parity32()
-Date: Fri,  7 Mar 2025 00:25:32 +0800
-Message-Id: <20250306162541.2633025-8-visitorckw@gmail.com>
+Subject: [PATCH v3 08/16] Input: joystick - Replace open-coded parity
+ calculation with parity32()
+Date: Fri,  7 Mar 2025 00:25:33 +0800
+Message-Id: <20250306162541.2633025-9-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250306162541.2633025-1-visitorckw@gmail.com>
 References: <20250306162541.2633025-1-visitorckw@gmail.com>
@@ -118,43 +118,53 @@ Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
 Changes in v3:
-- Change parity32(mask) to !!parity32(mask).
+- Change condition if(parity32(pkt) == 1) to if(parity32(pkt)).
 
- lib/bch.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ drivers/input/joystick/grip_mp.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/lib/bch.c b/lib/bch.c
-index 1c0cb07cdfeb..6c29122c0982 100644
---- a/lib/bch.c
-+++ b/lib/bch.c
-@@ -311,18 +311,6 @@ static inline int deg(unsigned int poly)
- 	return fls(poly)-1;
- }
+diff --git a/drivers/input/joystick/grip_mp.c b/drivers/input/joystick/grip_mp.c
+index 5eadb5a3ca37..26a7ae785942 100644
+--- a/drivers/input/joystick/grip_mp.c
++++ b/drivers/input/joystick/grip_mp.c
+@@ -18,6 +18,7 @@
+ #include <linux/delay.h>
+ #include <linux/proc_fs.h>
+ #include <linux/jiffies.h>
++#include <linux/bitops.h>
  
--static inline int parity(unsigned int x)
+ #define DRIVER_DESC	"Gravis Grip Multiport driver"
+ 
+@@ -112,20 +113,6 @@ static const int axis_map[] = { 5, 9, 1, 5, 6, 10, 2, 6, 4, 8, 0, 4, 5, 9, 1, 5
+ 
+ static int register_slot(int i, struct grip_mp *grip);
+ 
+-/*
+- * Returns whether an odd or even number of bits are on in pkt.
+- */
+-
+-static int bit_parity(u32 pkt)
 -{
--	/*
--	 * public domain code snippet, lifted from
--	 * http://www-graphics.stanford.edu/~seander/bithacks.html
--	 */
--	x ^= x >> 1;
+-	int x = pkt ^ (pkt >> 16);
+-	x ^= x >> 8;
+-	x ^= x >> 4;
 -	x ^= x >> 2;
--	x = (x & 0x11111111U) * 0x11111111U;
--	return (x >> 28) & 1;
+-	x ^= x >> 1;
+-	return x & 1;
 -}
 -
- /* Galois field basic operations: multiply, divide, inverse, etc. */
- 
- static inline unsigned int gf_mul(struct bch_control *bch, unsigned int a,
-@@ -524,7 +512,7 @@ static int solve_linear_system(struct bch_control *bch, unsigned int *rows,
- 		tmp = 0;
- 		for (r = m-1; r >= 0; r--) {
- 			mask = rows[r] & (tmp|1);
--			tmp |= parity(mask) << (m-r);
-+			tmp |= !!parity32(mask) << (m-r);
- 		}
- 		sol[p] = tmp >> 1;
+ /*
+  * Poll gameport; return true if all bits set in 'onbits' are on and
+  * all bits set in 'offbits' are off.
+@@ -236,7 +223,7 @@ static int mp_io(struct gameport* gameport, int sendflags, int sendcode, u32 *pa
+ 		pkt = (pkt >> 2) | 0xf0000000;
  	}
+ 
+-	if (bit_parity(pkt) == 1)
++	if (parity32(pkt))
+ 		return IO_RESET;
+ 
+ 	/* Acknowledge packet receipt */
 -- 
 2.34.1
 
