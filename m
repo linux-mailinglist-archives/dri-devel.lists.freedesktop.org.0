@@ -2,128 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2981A54104
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 04:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73124A54119
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 04:15:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C115410E0C9;
-	Thu,  6 Mar 2025 03:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7EE10E0EB;
+	Thu,  6 Mar 2025 03:15:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="enLIb8M4";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lDyt+/Ws";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazolkn19012057.outbound.protection.outlook.com
- [52.103.20.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76DB910E0C9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 03:07:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=onXlMcQTSN/eSdD5Lj7BR7HvNU3rDRqPcxOtuBI85PCc9/UAsTmvGFlpyq6dMH6KTIx/LfKbD82hLNxPeEhTUfvWAclfSdifAxNQUkdsO54/r/0Q4RuqlR2sYyAcVWaiFtRI82Gw9GieB1iLKkyoIAjEbBL5EyJJIqL6fxfT0fBxZrYfhk32XPhhe8lU+OJu8xwR5R1oabqaP6Q1/ejc1PDVL0dFA8CWAetgwpW+V7raodZQ6Wjeav237kWz2qxScBAkkj4+2VOsAR2y1r6OZqTt4YUwn8cjiY17rMuOhVfGqIAZdbcIkUglFryP8LGqzwlfXxVxWk3z6DiOPvoong==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KL7PbFmrzPeDQJB5kU4FNUT1Y7VTHaElZbQbARr5vPs=;
- b=mhbDzN4PlahCVSYz+NwpVWmv5+8xD2xYJ28CrJxQ70xKYmhM5KdDVUzz58vIfQFlCr5xIGAT2wF+F+LXcKls3nvuOZMZsLJj46QnpBAYAG0yDHuzuNYmHv93ZVouV1Qv13HGzcm/thTjrN/q0hWumE/x59aYpobGmGFio0ufYkRiquTVC5oHRv4WATu9CLdCErWFCbraojenyuE2LVtGSRwWw34lEFXR3vJuCDRIlzJB4f5JtqZcTQSP8wpBV2nlA4xUMFPtzaqBc0XU6wcWmUTQ2ZKCLkzHejLK9UXnmhhmktZ2DZOH78q5+lS+hEE3SRvk/6Zfb3DYwri97tMIzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KL7PbFmrzPeDQJB5kU4FNUT1Y7VTHaElZbQbARr5vPs=;
- b=enLIb8M4djFvDww+ASIEDha1uUo3tYhx9mfVVIVmp1qb5vzgkP0rtyoeR4d0jG80ZIHP4iEvFURcuqHkRzzF1qjz/idAGz7xEhqWFCwgIzC6NM1dy9gE2c9SuGOAdLGeEaHO7eoncam1AaR43tXUzm67GuIVV9vIPsaL648azyvdDGm+pMozURPyxIP8zzy6Z68r1E5xTDPXJStXtNQ19i+bLsiSrtQKxxc1srcPSkiP9BV+KNbp4O+6xz6lXkQWoqciZ5uKXcuz0e8D38g/KqfT4slwxDk6PTtuwaR9adq8MlLiR4j8Uxcp406FTDvmn/zyGB6W6DiycrJoVMLbxA==
-Received: from BN7PR02MB4148.namprd02.prod.outlook.com (2603:10b6:406:f6::17)
- by SN4PR0201MB8728.namprd02.prod.outlook.com (2603:10b6:806:1eb::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Thu, 6 Mar
- 2025 03:06:56 +0000
-Received: from BN7PR02MB4148.namprd02.prod.outlook.com
- ([fe80::1c3a:f677:7a85:4911]) by BN7PR02MB4148.namprd02.prod.outlook.com
- ([fe80::1c3a:f677:7a85:4911%4]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
- 03:06:55 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Saurabh Sengar <ssengar@linux.microsoft.com>, "kys@microsoft.com"
- <kys@microsoft.com>, "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, "decui@microsoft.com"
- <decui@microsoft.com>, "deller@gmx.de" <deller@gmx.de>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: "ssengar@microsoft.com" <ssengar@microsoft.com>
-Subject: RE: [PATCH v3 2/2] fbdev: hyperv_fb: Allow graceful removal of
- framebuffer
-Thread-Topic: [PATCH v3 2/2] fbdev: hyperv_fb: Allow graceful removal of
- framebuffer
-Thread-Index: AQHbisVRnvCldUULrUOKRdfkOSEc2LNlc7WA
-Date: Thu, 6 Mar 2025 03:06:54 +0000
-Message-ID: <BN7PR02MB4148986520E4843A34300436D4CA2@BN7PR02MB4148.namprd02.prod.outlook.com>
-References: <1740845791-19977-1-git-send-email-ssengar@linux.microsoft.com>
- <1740845791-19977-3-git-send-email-ssengar@linux.microsoft.com>
-In-Reply-To: <1740845791-19977-3-git-send-email-ssengar@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN7PR02MB4148:EE_|SN4PR0201MB8728:EE_
-x-ms-office365-filtering-correlation-id: 6e278758-faf7-4c8a-1959-08dd5c5bf341
-x-microsoft-antispam: BCL:0;
- ARA:14566002|8060799006|15080799006|461199028|8062599003|19110799003|102099032|3412199025|440099028;
-x-microsoft-antispam-message-info: =?us-ascii?Q?YWdv4xnH8kofuo+anFdvy3yIbpW6AUrtrcxRPujuNZt5wfM//7uhJmH2rJbb?=
- =?us-ascii?Q?i/konjgJyoTOi8xNPdusqHZa7iPn5JpT9cGiJEoZNuEiPrL8iqdOgpsRP/Kx?=
- =?us-ascii?Q?SQHMbySYuRYUhuOMUCMeWEQyeLDoaMMxti/VqlQnL/ueg1wO3mPIcr3DE802?=
- =?us-ascii?Q?wTXgmb2lB/TiHO8yddK9ygewazs62qLhLbGCYHjNbCedIXq0weiLuWzzoFWw?=
- =?us-ascii?Q?5b+yvPtsNyZo3wOsbW4avV5bKVuknXcKyI1QqJmc3M8n8vqFQksZ+DGH7GL4?=
- =?us-ascii?Q?m+npOviQK+KYGHmgp1gCHo/i5fuIwy0qAVDgsjLTXfAYSbuqAtyeY80FAA5k?=
- =?us-ascii?Q?NL4YoQfYW9tHNkd6frfCN2bpw7QlvHmTgoz3HF32i4xKEFkjDgk9IXaV0i9y?=
- =?us-ascii?Q?NBL3kk2BFnHwOkaCaGfD+bjWSpYCNgppWI1QgVvDk39I5KZCRbPvUxWndNKm?=
- =?us-ascii?Q?FoW0RQE+AFuWhajrEfrheoCc3jCXYnTSQ6lA2fyIJ4S54YsdOHzypyNXlYOk?=
- =?us-ascii?Q?5PAEeuiUJ+kYogDuBBBX4Mf2Yw8C3PxVteYkglRNg5rgv2wNkt/Gk1idwoms?=
- =?us-ascii?Q?eTgttYUqEaeNEVVuPXE0lOThyck5IYQqe5nWWtVw+kIJOKq+NafZj5YhZJIR?=
- =?us-ascii?Q?xlG+gS0jepS5nXKjVVpb8bY5Pf2WJeAF2qOdXGZuEGS2fJERB25yGWXkjZa2?=
- =?us-ascii?Q?IIjSx0q1aRVfE9ErCNcAhLgHw2InUcLDDGZ+AhbdeBkqHSqjaFTSpfIBT38w?=
- =?us-ascii?Q?OGIDSc2GghjPVn37p+Dvpi0gKTMMVYIttXba9PBlTUbX7neBSQAQ71iCilaX?=
- =?us-ascii?Q?Hl23woxy3ecM9oxYMV2rybr3RapYoDfzOmtn5HugqKXGNS+bz/fVTVcOO6sA?=
- =?us-ascii?Q?INhOcsyr+ynzqzWLrriWslGhMb899W9+BdRjwYSFxZRp6xC/IhtIpzJT9SX2?=
- =?us-ascii?Q?J0ZrrJqm7s9xbZ3ewunehvXBsNMeuMrFMuysz8EYm0nrjd5vVGC8OrLS2c+v?=
- =?us-ascii?Q?1g91E6/duAJUNGrNQkv3PZgNm3R6XOC1w1uMutgEUSM/cWI=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?XcBfSZ/QQEZnx9X5Q8+oM4NbcZAZKxIZAAgp0wGjPTvsLEDbS/yatOJELgiG?=
- =?us-ascii?Q?R/3ddP5C5AZOKYpqULp4hJIx26u5j6TopH7QuWuJnZ5tqfvfdTmPv1Ru3CKG?=
- =?us-ascii?Q?KbFgqG328puhdbZieOMVoN1ULA3YCaQxqN9SZHUgV+ghuS+qvUH0dNjotnnI?=
- =?us-ascii?Q?QfEZDarjtAUUfhcp6aqbY24SoOHO96rLrUZwA5elzyjL7MQaOHOeNVdnLGWo?=
- =?us-ascii?Q?QFbM7ajPNpRGNNM9qCPfsl34IqN3xrgmskypjpklorBnGH7t0/lsDKn/P1QA?=
- =?us-ascii?Q?uHEwdMOkFvgUT3mz+yTtXNiFBYVl5OAcmb6HNxlIx//nqgATQM1sDF+33wtk?=
- =?us-ascii?Q?K+U9zyZe8bJJeQBjGVNmXReOdL3TJnkNrF0xdVAcYB3IjkUj3CagRHCpDBPI?=
- =?us-ascii?Q?Phyh1peo3HAtZQyxqReApMq8/IoLFbfnOa7GawFAR2wrn9xMPv/yARSXMfiB?=
- =?us-ascii?Q?+NEhdN0I/LO8Ew56aSIbqo1lWbKBu6rs4n/vNDrcOeNFvYXVmFXDlLfdkAoZ?=
- =?us-ascii?Q?kx3qxMh29J6xz118+wzuVG2o2vNvQ2yauFxMQ6y6W6d2pq+eaZCZsiR//ZAw?=
- =?us-ascii?Q?xSq8goZL6LrD/m0HSvelqRqavO3FP4zDcIrYPDTRBh1uCpytC9/4Jj8LC1pe?=
- =?us-ascii?Q?3AG4bq5VAFYFUauelrwuWs+80uyr8O3qmV5RnW7H0bBShfTvQyhEuRfdL2BU?=
- =?us-ascii?Q?KPD7JOalhoBdfREuhjrWDdp2/0xeRlmWC0Lk7asxt33bAfrKG7KbWhPth26E?=
- =?us-ascii?Q?9SpRmUuYJlj2eKrkLtD3721XwoJbsE7FlV7z49nlUxgC6HUUYoMR6YCCpdUT?=
- =?us-ascii?Q?ZCZsPoz/dXiZKcwx9z9uJauyc6WAEzzhMH3+qG09SeBRawnO55XN39vRRsHG?=
- =?us-ascii?Q?C+ivjSGOJbyKX+E/vy+2vEb3XQChD7XJ2gF1ivxC5+tzy6jQKRRF3G3BpoDf?=
- =?us-ascii?Q?b9j4fF9U1jTJ0aSUq3k7znCECeybhivzIQiS/bh6lz23rMAXHW6Piq7XARxT?=
- =?us-ascii?Q?2OUJJjKtaZM7bOGBBs3ccFVqvCa+O7prfj6GyaFfxymiew5x8huHWOUj2Wvy?=
- =?us-ascii?Q?V6W6ZXRJqm0LmVHozuwMNYBma+46DQzavvTETRiqQ5zhtTo0qOrQxM2kUrKw?=
- =?us-ascii?Q?2QIAz0SbdVHqxFO99glRUY1LTa2XTmAVOi2yuxsBCi4tuYVYDBpNptQu7UQ0?=
- =?us-ascii?Q?QTRxLXf3LaRwkHBCioa6XFxzjjlqkIejQYQ3JpMuqamEhMq9jMX2JuNlpG0?=
- =?us-ascii?Q?=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39DF810E848;
+ Thu,  6 Mar 2025 03:15:12 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 525LIQQi025491;
+ Thu, 6 Mar 2025 03:15:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=qaZhFp42MmEJNzOT5RZMPU
+ mJ/QcxRENOj4hsd/6um8Y=; b=lDyt+/WsV2CThJQWRAYcKzt2F4iKb00ydsVExq
+ UMBlqPJwc4IoMj3UjV4IDUnyXKphthHtuEIDaFSlRrlbe1A1Qs8gKSj31Ox2DhMI
+ 6ktEmWl6bfEZqvplAWkVdJxvE9RdeSwc1G29APRFJiT9q6Or2AFNULpmXNElE/Pc
+ Pxoxiak8IYhunjRpNRkegobkoCHOwLf+e3syc8NIK6twpg2XxxxxkdsioTOEnljX
+ nJawmq3blc61NuAohrHnoSaZrAz2+0cE5CbSqcQpakicYnRUitOwJafaGDDS6hvv
+ LpobvMjq3sL66YJy5f3Ft4Z2Fs/ej9byk/eg0P1deL6eO6dg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6tyhb0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Mar 2025 03:15:09 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5263F80V008494
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 6 Mar 2025 03:15:08 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 5 Mar 2025 19:15:08 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Date: Wed, 5 Mar 2025 19:15:05 -0800
+Subject: [PATCH] drm/msm/dpu: Support YUV formats on writeback for DPU 5.x+
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4148.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e278758-faf7-4c8a-1959-08dd5c5bf341
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2025 03:06:54.9308 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0201MB8728
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250305-cdm-yuv-fix-v1-1-5f1dd8ecf76c@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIADgTyWcC/x2MQQqAIBAAvyJ7bkEtL30lOpiutYcslKSQ/p50n
+ IGZCpkSU4ZRVEhUOPMRG6hOgNtsXAnZNwYttZG9NOj8js9VMPCNFJRbhhCMkxZacSZq+r9N8/t
+ +IZ/G6V0AAAA=
+X-Change-ID: 20250305-cdm-yuv-fix-ef1cb4ff5c0a
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "Jessica Zhang" <quic_jesszhan@quicinc.com>
+X-Mailer: b4 0.15-dev-f0f05
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741230908; l=9714;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=T6Eg3jHQRZjNZA2biHpCd/Z11nU+PWVm8Nm1NbKbkZQ=;
+ b=JginAgk1MAos8fazpWixxF9cs1djUWypLUklb285BTU3iLb0L0AHy7utIelHQhpUvn5Lgj4MG
+ ixTBNqvtjNSAw06gSGlNKzP+p8Vxd3jaV4I/QivOvr7P9oRt+tSEKl/
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: cd86C0yHXLK6pPzSz4gGx-YPf9R6gvVh
+X-Proofpoint-ORIG-GUID: cd86C0yHXLK6pPzSz4gGx-YPf9R6gvVh
+X-Authority-Analysis: v=2.4 cv=Sf4NduRu c=1 sm=1 tr=0 ts=67c9133d cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8
+ a=MteKOLTB0tUDDyy3xKIA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-06_02,2025-03-05_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
+ suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0 mlxlogscore=721
+ mlxscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503060020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,120 +106,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Saurabh Sengar <ssengar@linux.microsoft.com> Sent: Saturday, March 1,=
- 2025 8:17 AM
->=20
-> When a Hyper-V framebuffer device is unbind, hyperv_fb driver tries to
-> release the framebuffer forcefully. If this framebuffer is in use it
-> produce the following WARN and hence this framebuffer is never released.
->=20
-> [   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_=
-info.c:70
-> framebuffer_release+0x2c/0x40
-> < snip >
-> [   44.111289] Call Trace:
-> [   44.111290]  <TASK>
-> [   44.111291]  ? show_regs+0x6c/0x80
-> [   44.111295]  ? __warn+0x8d/0x150
-> [   44.111298]  ? framebuffer_release+0x2c/0x40
-> [   44.111300]  ? report_bug+0x182/0x1b0
-> [   44.111303]  ? handle_bug+0x6e/0xb0
-> [   44.111306]  ? exc_invalid_op+0x18/0x80
-> [   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
-> [   44.111311]  ? framebuffer_release+0x2c/0x40
-> [   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
-> [   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
-> [   44.111323]  device_remove+0x40/0x80
-> [   44.111325]  device_release_driver_internal+0x20b/0x270
-> [   44.111327]  ? bus_find_device+0xb3/0xf0
->=20
-> Fix this by moving the release of framebuffer and assosiated memory
-> to fb_ops.fb_destroy function, so that framebuffer framework handles
-> it gracefully.
->=20
-> While we fix this, also replace manual registrations/unregistration of
-> framebuffer with devm_register_framebuffer.
->=20
-> Fixes: 68a2d20b79b1 ("drivers/video: add Hyper-V Synthetic Video Frame Bu=
-ffer Driver")
->=20
-> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> ---
-> [V3]
->  - using simplified hvfb_putmem()
->=20
->  drivers/video/fbdev/hyperv_fb.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv=
-_fb.c
-> index 09fb025477f7..76a42379c8df 100644
-> --- a/drivers/video/fbdev/hyperv_fb.c
-> +++ b/drivers/video/fbdev/hyperv_fb.c
-> @@ -282,6 +282,8 @@ static uint screen_depth;
->  static uint screen_fb_size;
->  static uint dio_fb_size; /* FB size for deferred IO */
->=20
-> +static void hvfb_putmem(struct fb_info *info);
-> +
->  /* Send message to Hyper-V host */
->  static inline int synthvid_send(struct hv_device *hdev,
->  				struct synthvid_msg *msg)
-> @@ -862,6 +864,17 @@ static void hvfb_ops_damage_area(struct fb_info *inf=
-o, u32 x, u32 y, u32 width,
->  		hvfb_ondemand_refresh_throttle(par, x, y, width, height);
->  }
->=20
-> +/*
-> + * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
-> + * of unregister_framebuffer() or fb_release(). Do any cleanup related t=
-o
-> + * framebuffer here.
-> + */
-> +static void hvfb_destroy(struct fb_info *info)
-> +{
-> +	hvfb_putmem(info);
-> +	framebuffer_release(info);
-> +}
-> +
->  /*
->   * TODO: GEN1 codepaths allocate from system or DMA-able memory. Fix the
->   *       driver to use the _SYSMEM_ or _DMAMEM_ helpers in these cases.
-> @@ -877,6 +890,7 @@ static const struct fb_ops hvfb_ops =3D {
->  	.fb_set_par =3D hvfb_set_par,
->  	.fb_setcolreg =3D hvfb_setcolreg,
->  	.fb_blank =3D hvfb_blank,
-> +	.fb_destroy	=3D hvfb_destroy,
->  };
->=20
->  /* Get options from kernel paramenter "video=3D" */
-> @@ -1172,7 +1186,7 @@ static int hvfb_probe(struct hv_device *hdev,
->  	if (ret)
->  		goto error;
->=20
-> -	ret =3D register_framebuffer(info);
-> +	ret =3D devm_register_framebuffer(&hdev->device, info);
->  	if (ret) {
->  		pr_err("Unable to register framebuffer\n");
->  		goto error;
-> @@ -1220,14 +1234,10 @@ static void hvfb_remove(struct hv_device *hdev)
->=20
->  	fb_deferred_io_cleanup(info);
->=20
-> -	unregister_framebuffer(info);
->  	cancel_delayed_work_sync(&par->dwork);
->=20
->  	vmbus_close(hdev->channel);
->  	hv_set_drvdata(hdev, NULL);
-> -
-> -	hvfb_putmem(info);
-> -	framebuffer_release(info);
->  }
->=20
->  static int hvfb_suspend(struct hv_device *hdev)
-> --
-> 2.43.0
+Now that CDM_0 has been enabled for DPU 5.x+, add support for YUV formats
+on writeback
 
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-Tested-by: Michael Kelley <mhklinux@outlook.com>
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 4 ++--
+ 12 files changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
+index 85fde7243dd4..6ac97c378056 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
+@@ -343,8 +343,8 @@ static const struct dpu_wb_cfg sm8650_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+ 		.maxlinewidth = 4096,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+index 23188290001f..979527d98fbc 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+@@ -298,8 +298,8 @@ static const struct dpu_wb_cfg sm8150_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+index de8ccf589f1f..d76b8992a6c1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+@@ -305,8 +305,8 @@ static const struct dpu_wb_cfg sc8180x_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+index b2ebf76e3867..83db11339b29 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+@@ -261,8 +261,8 @@ static const struct dpu_wb_cfg sm7150_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+index 2b4aea177bca..da11830d4407 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+@@ -168,8 +168,8 @@ static const struct dpu_wb_cfg sm6150_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
+index cc2951112bda..d3d3a34d0b45 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
+@@ -145,8 +145,8 @@ static const struct dpu_wb_cfg sm6125_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+index 42a00550eefb..040c94c0bb66 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+@@ -157,8 +157,8 @@ static const struct dpu_wb_cfg sc7180_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+index 828a02429405..397278ba999b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+@@ -151,8 +151,8 @@ static const struct dpu_wb_cfg sm6350_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+index 795e9ebf8c11..0c860e804cab 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+@@ -305,8 +305,8 @@ static const struct dpu_wb_cfg sm8350_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+index 048dfb9dbb60..19b2ee8bbd5f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+@@ -321,8 +321,8 @@ static const struct dpu_wb_cfg sm8450_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+index a5b90e5e3120..24f988465bf6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+@@ -317,8 +317,8 @@ static const struct dpu_wb_cfg sm8550_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+ 		.maxlinewidth = 4096,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+index 8977fa48926b..6417baa84f82 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+@@ -317,8 +317,8 @@ static const struct dpu_wb_cfg x1e80100_wb[] = {
+ 		.name = "wb_2", .id = WB_2,
+ 		.base = 0x65000, .len = 0x2c8,
+ 		.features = WB_SM8250_MASK,
+-		.format_list = wb2_formats_rgb,
+-		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+ 		.xin_id = 6,
+ 		.vbif_idx = VBIF_RT,
+ 		.maxlinewidth = 4096,
+
+---
+base-commit: 6d3175a72cc07e90f81fb35841048a8a9b5134cb
+change-id: 20250305-cdm-yuv-fix-ef1cb4ff5c0a
+
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
