@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D442A54B66
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 14:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FB3A54B6D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 14:05:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F87E10E0C0;
-	Thu,  6 Mar 2025 13:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A65E10E1B5;
+	Thu,  6 Mar 2025 13:05:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TveEw6+o";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GEAE9Iht";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8497610E0C0;
- Thu,  6 Mar 2025 13:02:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E423610E1B5;
+ Thu,  6 Mar 2025 13:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741266170; x=1772802170;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=zvqUPQ5xDGGVdVd7TADQXHUeO+pBV6JYWZxWMCQ6W98=;
- b=TveEw6+ojd2MfBUfvIM/w59GQh3VX5qpnFMwk1TA2Xi6c36Fvs46Amf+
- YN++zWpiLPVGN1CmGLrF1BQpSl4YPcxxCepFsVLdFciEg5NihPQ7ahXZu
- Tjxs/ZUrUzWI3sZ3QRmwt1LkL67MM/uoZ5okn59RXjKPtrTI3LGcpe9fs
- JFSxHs4tIzMtTS/MI291LqaTr3XS8X4t2pUpM80xrLAmVQF4ujebS7XB9
- pfgICkDNT4IEslYG6OAzwMA+YpAh4Z2Fjp71lj8b3c8NqtUJX8iMR3vTu
- CMjQ/x55BMkx0FnbbBpFFw8TjqfmD1K7c2/4Ui0wRI+hwfoKnXMp2hW81 A==;
-X-CSE-ConnectionGUID: tomaS9qtRaSNbFhpCAocKg==
-X-CSE-MsgGUID: l0iSEhpXTtyQ4U55ntM5rA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42297517"
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="42297517"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2025 05:02:50 -0800
-X-CSE-ConnectionGUID: eosJfhSsRX2NIO7VsGruiQ==
-X-CSE-MsgGUID: Gf9Mmk6QSXi1wI72FPblKw==
+ t=1741266301; x=1772802301;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=YNELi245vPsmcaIKuPOO2R4iHmuof+ZAbfWgXuQSYgQ=;
+ b=GEAE9IhtIZU912xQwtXBXyqfQU8sHOgu4pcAbwv27XTUMYqSQLUmsw95
+ 1S1RlscQE1GASv+HtJA510N5DzS3dkXMQy4iFyiR326Zka5CxpZJujtpA
+ ftPJvHoyoaqpuoI50T7tPSHv7q0EIUPYwbD9U1sVeg8wKa0ADXjcvyLuU
+ crW2mjBIXrF6CXE+XKtC0LMiDaRXjy7P9QZeN8rqTArgL6dQpq85kqGeM
+ v7f6XZ7WzSgZiATEcgKNYO+oKkVLBlsSfH9eTRb2FyeisZj506cpe9MWh
+ JZJ85l4NfeSL9YjiFE3a5xOwlHOSDRAqU3fDe74y+/tQOdSZxEbCB6Sdr Q==;
+X-CSE-ConnectionGUID: JqAS7zwyQeyT99KVRdteug==
+X-CSE-MsgGUID: /wVBfp6eTJ+vZZnU+pAbAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41447290"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="41447290"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 05:05:00 -0800
+X-CSE-ConnectionGUID: bwaNFyECQie78jsFcEQlRQ==
+X-CSE-MsgGUID: QkNFBrDxQFWlSj1RB07U9g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="118929453"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2025 05:02:46 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tqAs6-000000007dA-2FVL; Thu, 06 Mar 2025 15:02:42 +0200
-Date: Thu, 6 Mar 2025 15:02:42 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: mailhol.vincent@wanadoo.fr
-Cc: Yury Norov <yury.norov@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v5 0/7] bits: Fixed-type GENMASK()/BIT()
-Message-ID: <Z8mc8t_OJzUGFjH-@smile.fi.intel.com>
-References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="149800015"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 05:04:55 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Lyude Paul
+ <lyude@redhat.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH RFC v2 0/7] drm/display: dp: add new DPCD access functions
+In-Reply-To: <87a59ywda3.fsf@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250301-drm-rework-dpcd-access-v2-0-4d92602fc7cd@linaro.org>
+ <87a59ywda3.fsf@intel.com>
+Date: Thu, 06 Mar 2025 15:04:50 +0200
+Message-ID: <877c52wbrh.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,81 +75,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 08:29:51PM +0900, Vincent Mailhol via B4 Relay wrote:
-> Introduce some fixed width variant of the GENMASK() and the BIT()
-> macros in bits.h. Note that the main goal is not to get the correct
-> type, but rather to enforce more checks at compile time. For example:
-> 
->   GENMASK_U16(16, 0)
-> 
-> will raise a build bug.
-> 
-> This series is a continuation of:
-> 
->   https://lore.kernel.org/intel-xe/20240208074521.577076-1-lucas.demarchi@intel.com
-> 
-> from Lucas De Marchi. Above series is one year old. I really think
-> that this was a good idea and I do not want this series to die. So I
-> am volunteering to revive it.
-> 
-> Meanwhile, many changes occurred in bits.h. The most significant
-> change is that __GENMASK() was moved to the uapi headers.
-> 
-> In v4 an onward, I introduce one big change: split the definition of
-> the asm and non-asm GENMASK(). I think this is controversial.
-> Especially, Yury commented that he did not want such split. So I
-> initially implemented a first draft in which both the asm and non-asm
-> version would rely on the same helper macro, i.e. adding this:
-> 
->   #define __GENMASK_t(t, w, h, l)			\
+On Thu, 06 Mar 2025, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Sat, 01 Mar 2025, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+>> Existing DPCD access functions return an error code or the number of
+>> bytes being read / write in case of partial access. However a lot of
+>> drivers either (incorrectly) ignore partial access or mishandle error
+>> codes. In other cases this results in a boilerplate code which compares
+>> returned value with the size.
+>>
+>> As suggested by Jani implement new set of DPCD access helpers, which
+>> ignore partial access, always return 0 or an error code. Reimplement
+>> existing helpers using the new functions to ensure backwards
+>> compatibility.
+>
+> I think that description is for earlier versions of the series, it's the
+> other way round now.
+>
+> Regardless, glanced through the series quickly, I like it, this is
+>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-I thought we agreed on renaming...
+PS. If you need to send another round, please Cc: intel-gfx and intel-xe
+to run this through CI for both i915 and xe drivers. Thanks!
 
->   	(((t)~_ULL(0) - ((t)1 << (l)) + 1) &		\
->   	 ((t)~_ULL(0) >> (w - 1 - (h))))
->     
-> to uapi/bits.h. And then, the different GENMASK()s would look like
-> this:
-> 
->   #define __GENMASK(h, l) __GENMASK_t(unsigned long, __BITS_PER_LONG, h, l)
-
-Ditto.
-
-> and so on.
->     
-> I implemented it, and the final result looks quite ugly. Not only do
-> we need to manually provide the width each time, the biggest concern
-> is that adding this to the uapi is asking for trouble. Who knows how
-> people are going to use this? And once it is in the uapi, there is
-> virtually no way back.
-> 
-> Finally, I do not think it makes sense to expose the fixed width
-> variants to the asm. The fixed width integers type are a C
-> concept. For asm, the long and long long variants seems sufficient.
-> 
-> And so, after implementing both, the asm and non-asm split seems way
-> more clean and I think this is the best compromise. Let me know what
-> you think :)
-> 
-> As requested, here are the bloat-o-meter stats:
-> 
->   $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o 
->   add/remove: 0/0 grow/shrink: 4/2 up/down: 5/-4 (1)
->   Function                                     old     new   delta
->   intel_psr_invalidate                         666     668      +2
->   mst_stream_compute_config                   1652    1653      +1
->   intel_psr_flush                              977     978      +1
->   intel_dp_compute_link_config                1327    1328      +1
->   cfg80211_inform_bss_data                    5109    5108      -1
->   intel_drrs_activate                          379     376      -3
->   Total: Before=22723481, After=22723482, chg +0.00%
-> 
-> (done with GCC 12.4.1 on a defconfig)
-
-What defconfig? x86_64_defconfig?
+>
+>
+>>
+>> This series targets only the DRM helpers code. If the approach is found
+>> to be acceptable, each of the drivers should be converted on its own.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>> Changes in v2:
+>> - Reimplemented new helpers using old ones (Lyude)
+>> - Reworked the drm_dp_dpcd_read_link_status() patch (Lyude)
+>> - Dropped the dp-aux-dev patch (Jani)
+>> - Link to v1: https://lore.kernel.org/r/20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org
+>>
+>> ---
+>> Dmitry Baryshkov (7):
+>>       drm/display: dp: implement new access helpers
+>>       drm/display: dp: change drm_dp_dpcd_read_link_status() return value
+>>       drm/display: dp: use new DCPD access helpers
+>>       drm/display: dp-aux-dev: use new DCPD access helpers
+>>       drm/display: dp-cec: use new DCPD access helpers
+>>       drm/display: dp-mst-topology: use new DCPD access helpers
+>>       drm/display: dp-tunnel: use new DCPD access helpers
+>>
+>>  drivers/gpu/drm/amd/amdgpu/atombios_dp.c           |   8 +-
+>>  .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   2 +-
+>>  drivers/gpu/drm/display/drm_dp_aux_dev.c           |  12 +-
+>>  drivers/gpu/drm/display/drm_dp_cec.c               |  37 ++-
+>>  drivers/gpu/drm/display/drm_dp_helper.c            | 307 +++++++++------------
+>>  drivers/gpu/drm/display/drm_dp_mst_topology.c      | 105 ++++---
+>>  drivers/gpu/drm/display/drm_dp_tunnel.c            |  20 +-
+>>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       |   4 +-
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  24 +-
+>>  drivers/gpu/drm/msm/dp/dp_link.c                   |  18 +-
+>>  drivers/gpu/drm/radeon/atombios_dp.c               |   8 +-
+>>  include/drm/display/drm_dp_helper.h                |  92 +++++-
+>>  12 files changed, 322 insertions(+), 315 deletions(-)
+>> ---
+>> base-commit: c0eb65494e59d9834af7cbad983629e9017b25a1
+>> change-id: 20241231-drm-rework-dpcd-access-b0fc2e47d613
+>>
+>> Best regards,
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
