@@ -2,84 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D82A55335
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D45A55378
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:51:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 535CD10E09A;
-	Thu,  6 Mar 2025 17:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 533C510EA4D;
+	Thu,  6 Mar 2025 17:51:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jy0RXJDS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W+Utj4D1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1ECF10E09A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 17:38:24 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-22337bc9ac3so20815945ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 09:38:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741282704; x=1741887504; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vOLh9gzLLTnBkEL+yV1uI1454538r2FfTEhP5HmpB1o=;
- b=Jy0RXJDSgSDWdMDEs6QYbXhzoJBSkMl5htkww6v9ChhO7uNqDpb4KnF9qabwdOu/Fa
- vphKzAIBYQKkI08RhB9NF+W9wXH+m4ep7mWVHwwWTBg9jt7m+g5h8i7Ea2y3Xd/gx+fM
- GHTrPbKWj7Wxg6QHAvC2C7hDqu64Whsmwga9w11gK5BS8ProFu+ndsOwHoPYSntJr6gv
- 5AYK3pdS/LB4MBcp8mLNgeUp/eSBvbojMtvAYAdzqJLY0nQQ5s92gNN9XGiqYe8zDJCd
- p8MKOUU3gt2oV2XFwPm/3DM1Yr3OdO75W1ogMJAdWTl5ufhRsJOzXgC2y7v9BwGYyR8v
- oeeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741282704; x=1741887504;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vOLh9gzLLTnBkEL+yV1uI1454538r2FfTEhP5HmpB1o=;
- b=G+d3YNjLAdXIbV1C0okWQmcR5mq7xKWHdsHv/z/lj3LPKdbm8TQluL+5rWrYbTyu1z
- nirBIuOPbtu9IMbGxh5nMc53ZVDNdAfyW8e2bngiRMB7L8Eo6HMz7ZY7GsVh1SOcwJyt
- WliXCBDy6mlmlOsOTpKjXK+A5KJAz0bmU6H5JqAnVed964c3Mn6DNGXP/rLvs9zqyBxu
- 2bMb+2ZBDjeR2aCiERWYUwCfzjRcwegY7HDeBIF0kvDxum1rVPbXKV4pBzGt+g5wSQQ5
- i/Jf+dp/TDHkcCPo62h/zbJfI2BILOr1wdwYpTRGWDtiI792TdoC3i9Dobzghp7dJoeh
- dr0g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXCO3P8j2d5X0y1AFa/rGXY7nw++lD6q06ejPE19xDOmp9E/RTodYBvUNNhAyvqnG29vSUB3PyjHQk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyz1BITZPVV7f3yfs+9aK589G/LWC7M0M97P/S42kJUNyBgC7fI
- tmHxzCLkRp0m35P5ZmseKJWHTk106HEiJZ07mZUcjPJTyrm5/ITC
-X-Gm-Gg: ASbGncuLzUAfXb7IGMZS2wcnkO0gyyEX/9G9C/Sd/7ihmmqSUTnwAvWfp86ifElUiwD
- GXe2ijXEIAJYj1viNKCmlGRCMusq2g6uU2+pOzT7dAk8ypGR2gNrv4xnSAkBp9hbpDyYSIO0m1q
- ekbtpOGt00+ryP8jLM+zZpodxM7vqqiCnn3La7EUukiv16M0D/W5wngXb457C4GjmWRP5QEVWUy
- BH9VrKEZZ9iHIPX41P0T3pEkJjazzwIjS/Qx/4fre4o5P6cPnpRHU5TOoVNGPS0Fs13je4ITmbE
- 1uiZd74vsn5fIqHaSxXdtgHEnLAPVtczcvB99nmGUqvWGQ65
-X-Google-Smtp-Source: AGHT+IE9qyV8d9/1YplE6bXK6QT01t3t9rgog6hxOfOk/24ZIViC5gY/auBymcqgFNZlpeaHkchN8g==
-X-Received: by 2002:a05:6a00:1819:b0:736:53ce:a32c with SMTP id
- d2e1a72fcca58-736aaac644bmr192705b3a.17.1741282704310; 
- Thu, 06 Mar 2025 09:38:24 -0800 (PST)
-Received: from [10.3.72.248] ([59.152.80.69]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7369844cfd8sm1636038b3a.83.2025.03.06.09.38.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Mar 2025 09:38:24 -0800 (PST)
-Message-ID: <0d473dc1-cbbe-4a1e-933a-938438db24f5@gmail.com>
-Date: Thu, 6 Mar 2025 23:08:18 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A099510E2B2;
+ Thu,  6 Mar 2025 17:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741283495; x=1772819495;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=p2iSreTYKbljOg3NhjKET7agWJ9OBLv8elOeZggvxJo=;
+ b=W+Utj4D11vxlJc0sG0dBb5DDKJSHZboHE6J9JVEwS2vIQCJsChSEoR2w
+ c34WuFnly4O+//7DcVW4nVLE6mD2T51Ncv5ry6RUg6rZvFkqp2uAVDyGN
+ Edi5XTOwLOmZ8++8H+us48fx9gNIDoxiYw9MLto/EMq0FtUZgR24Rp2cW
+ NWSVz6KIeO4672ZfNpdmHduGY+oFxonIzcWmFvHh4/GIt3t/hXzgiRBs5
+ NcAUV+FEvX3GKzHGG9H+JYpZxstuH0uIjAmrppNLu15dQlj7aT848dJmD
+ tznYtwbG+/GC5RX8dtHnBLqNIgVqzA0OF/sS7uDvAnvMy0zQgMY0TXDg0 A==;
+X-CSE-ConnectionGUID: 9IJ0mye6RMiAWlX8o1+ICA==
+X-CSE-MsgGUID: o9Y09kJvR2CViEugygSaqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42451571"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="42451571"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 09:51:33 -0800
+X-CSE-ConnectionGUID: TCVBOzqsQ/qZJgtD7x6Kew==
+X-CSE-MsgGUID: jcaAc1YpR7ezFh9fO3B40g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="124187676"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 09:51:29 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tqFNV-00000000B38-3Uf7; Thu, 06 Mar 2025 19:51:25 +0200
+Date: Thu, 6 Mar 2025 19:51:25 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v5 1/7] bits: split the definition of the asm and non-asm
+ GENMASK()
+Message-ID: <Z8ngnTDqsNAiZDIz@smile.fi.intel.com>
+References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
+ <20250306-fixed-type-genmasks-v5-1-b443e9dcba63@wanadoo.fr>
+ <Z8mdk3z7t42CWfmZ@smile.fi.intel.com>
+ <84abfaef-0fb9-4fd4-a657-0cc80eb1de0f@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: novatek-nt36523: transition to mipi_dsi
- wrapped functions
-To: Doug Anderson <dianders@chromium.org>, neil.armstrong@linaro.org
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- lujianhua000@gmail.com, quic_jesszhan@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Anusha Srivatsa <asrivats@redhat.com>
-References: <20250306134350.139792-1-tejasvipin76@gmail.com>
- <ca5b0825-a485-4bec-bd93-b57a8d7ced99@linaro.org>
- <CAD=FV=VoW-Zm5wY6Y9sr=GqnvfMP4urGw_zW8NJRHpdC4=rHXQ@mail.gmail.com>
-Content-Language: en-US
-From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <CAD=FV=VoW-Zm5wY6Y9sr=GqnvfMP4urGw_zW8NJRHpdC4=rHXQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84abfaef-0fb9-4fd4-a657-0cc80eb1de0f@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,70 +87,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 07, 2025 at 12:07:45AM +0900, Vincent Mailhol wrote:
+> On 06/03/2025 at 22:05, Andy Shevchenko wrote:
+> > On Thu, Mar 06, 2025 at 08:29:52PM +0900, Vincent Mailhol via B4 Relay wrote:
+> >> From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 
+...
 
-On 3/6/25 10:58 PM, Doug Anderson wrote:
-> Hi,
+> >> -/*
+> >> - * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
+> >> - * disable the input check if that is the case.
+> >> - */
+> > 
+> > I believe this comment is still valid...
+> > 
+> >> +#else /* defined(__ASSEMBLY__) */
+> > 
+> > 
+> > ...here.
+> > 
+> > Otherwise justify its removal in the commit message.
 > 
-> On Thu, Mar 6, 2025 at 6:05 AM <neil.armstrong@linaro.org> wrote:
->>
->> On 06/03/2025 14:43, Tejas Vipin wrote:
->>> Changes the novatek-nt36523 panel to use multi style functions for
->>> improved error handling.
->>>
->>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
->>> ---
->>>   drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1683 ++++++++---------
->>>   1 file changed, 823 insertions(+), 860 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
->>> index 04f1d2676c78..922a225f6258 100644
->>> --- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
->>> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
->>> @@ -23,10 +23,12 @@
->>>
->>>   #define DSI_NUM_MIN 1
->>>
->>> -#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)        \
->>> -             do {                                                 \
->>> -                     mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      \
->>> -                     mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      \
->>> +#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, cmd, seq...)      \
->>> +             do {                                                            \
->>> +                     mipi_dsi_dcs_write_seq_multi(&dsi_ctx0, cmd, seq);      \
->>> +                     dsi_ctx1.accum_err = dsi_ctx0.accum_err;                \
->>> +                     mipi_dsi_dcs_write_seq_multi(&dsi_ctx1, cmd, seq);      \
->>> +                     dsi_ctx0.accum_err = dsi_ctx1.accum_err;                \
->>
->> Just thinking out loud, but can't we do :
->>
->> struct mipi_dsi_multi_context dsi_ctx = { .dsi = NULL };
->>
->> #define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd, seq...)      \
->>                 do {
->>                         dsi_ctx.dsi = dsi0;                                     \
->>                         mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);       \
->>                         dsi_ctx.dsi = dsi1;                                     \
->>                         mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);       \
->>
->> ?
->>
->> So we have a single accum_err.
-> 
-> Even though the code you used was what I suggested in IRC, I like
-> Neil's suggestion better here. What do you think?
+> OK. I will restore the comment in v6, but will move it to the #else
+> branch,
 
-I like Dmitry's suggestion [1]. If we went ahead with this we'd also
-only need to equate the accum_err for the few msleep calls. Since it
-does change the behavior, I'd like to hear another opinion on it before
-I go ahead with it.
+Isn't it what I suggested? :-)
 
-[1]: https://lore.kernel.org/all/p2esqngynwfrshz5rqfnmx6qgwf4dclpkb3mphwg2vavx2jbcg@clqoy5tjh7bb/
+> like this:
 
+>   #else /* defined(__ASSEMBLY__) */
 > 
-> Other than that, it looks good to me.
+>   /*
+>    * BUILD_BUG_ON_ZERO is not available in h files included from asm
+>    * files, so no input checks in assembly.
+>    */
+>   #define GENMASK(h, l)		__GENMASK(h, l)
+>   #define GENMASK_ULL(h, l)	__GENMASK_ULL(h, l)
 > 
-> -Doug
+>   #endif /* !defined(__ASSEMBLY__) */
+> 
+> >> +#define GENMASK(h, l)		__GENMASK(h, l)
+> >> +#define GENMASK_ULL(h, l)	__GENMASK_ULL(h, l)
+> >> +
+> >> +#endif /* !defined(__ASSEMBLY__) */
 
 -- 
-Tejas Vipin
+With Best Regards,
+Andy Shevchenko
+
+
