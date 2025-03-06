@@ -2,89 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6E7A549E5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 12:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0225A54A7B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 13:15:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C511910E17C;
-	Thu,  6 Mar 2025 11:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37DD010E120;
+	Thu,  6 Mar 2025 12:15:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wksise9B";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Ib/W0itk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86EE910E19A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 11:47:47 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5e5cded3e2eso514886a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 03:47:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741261666; x=1741866466; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FeRfzX4J4SSpOIDf0qW1PY6Ceutjf1oaVySsSvMl5vc=;
- b=Wksise9BT8Ygt9uGqDfIG5aUTHd2+f5cDZ2S2MPoW1l3E1MXbVLI/5LIM69x0ASVfO
- Jd1YG94HJwpdRMkbzgIWAyDKP3n1CCNaO5GyOWjQsZFP/n5gN9Sed4quFNF/L9Ut5rv6
- Fr7wq/gL5tLIspVchQCzdzZgqDshE7+Rptq2m4TKfT3fJkr2HDh8k6brNIyZPHQI45tC
- E1oVDhnixG8w9xbE61p9fZyHwqYk1Kn/FN3z8L+m1XBOFqo4sCA6v5YsxNe1dNxENgW3
- XK1zQJv4UJDNkTeyGVlf6Bb2o/p6LPgHe7i8Y2cCOXNYaXg50tgBsTp08vIB6PsdiSYQ
- IbLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741261666; x=1741866466;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FeRfzX4J4SSpOIDf0qW1PY6Ceutjf1oaVySsSvMl5vc=;
- b=eXVhwLB/FyX6dgkG7OAqdv1ffLk6o5BjthKbg/NnmFvhTGfl9+FNAdPAwjjIX1S2qX
- 3jk7zkPAw3XTbxWOKrltV5jpyCu2spr2UvQn8Jo5Z+c97VzRm8chz2TCVqhUMTqqqGVg
- 9D6pGE7Z9iqsiDTvyWXHHKKOjkFYP+Qx6s9nN2UyhaANv5buel8Wt/BX7bnvHOUBKvtJ
- pRkKEjhGgtpEndz6Rqjsse2aE7DroIC4aCIApddqcox5YngI0fEF5PyO6BJK3FkdToaT
- BH+IYvSxCTGQUQgPdF2BRQDyzGOrKglgxhM+BNVs3aAP+Eq5at6uzjV/vBBv6PwwSiq6
- rpOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXLYS4QBqzMeQeQncxiZ9LNXWjitxH2eb1jjv2eN71mQ99Yctmv8SUUOuatVncMeTR1f4WqA3w2pSc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzvDDHehGg/0p8EEfXr6y/QvLdVO9f2hUmL9ESOd4Wzf9nlUUs5
- llyk6DZoT+MBDBHnUVX9oY3v/PptFtej14xMAsFWKQgowHCuxDTL
-X-Gm-Gg: ASbGncvpQZduNreXQsL1U0vNpUvcJqQFGH/Sawf36qlAhghxyLFKgF0hFH8okTSPGmm
- Mxg9i4nGjYiatLtw2OjY9RjV0Vt9UoKNJgWOFEcwEFS7EeEJxOt/dyooWpLd9ga5Te4P2DxYKO3
- LFzo+h5KI15QskKoejLI+ubWQvtpKcKZox2aiylDPnpf+w2zdmX1w8grt3qKE+6+a2lZ2HISdFq
- xUW2jcof/Yr6TCL57zVKa5AiN4steTAqXykQs5vDFxKP5G0QxmZwIMh+yWLIyzjACro18qiNAaL
- tWXha5whmVgs+O/QgnFqXkMLYch1hBoTysM28FvMb/SRE+ZU8nihRwMNQzYEjZuqHOcsSOleTMk
- rs8WKCWmS9DVfDqW/kBicckhRWw==
-X-Google-Smtp-Source: AGHT+IGmWH/iGLqzVwuFP7RJWXn1M1/VMzVhYdWXO/tkwNgc0iTeL4UpWXsQLzyXQnZ0n4LlZ1JcXg==
-X-Received: by 2002:a17:906:730d:b0:ac2:63b:6a45 with SMTP id
- a640c23a62f3a-ac20db4ccd0mr725046966b.30.1741261665523; 
- Thu, 06 Mar 2025 03:47:45 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl.
- [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac23973a8d0sm82006266b.87.2025.03.06.03.47.42
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 06 Mar 2025 03:47:45 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-X-Priority: 3
-In-Reply-To: <74c154b6.8c50.1956aa8c8d2.Coremail.andyshrk@163.com>
-Date: Thu, 6 Mar 2025 12:47:31 +0100
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5E6B310E120
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 12:15:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=ZT8W8O2GpG3FuArzjRc+5izCLu3sUSwue06QcXfT6EA=; b=I
+ b/W0itkwCv47Xspajq5+SUGkC0geyqCbKQ5PtBUDYOC7vAmogaDYTk0rGEjPyQGL
+ Lf5LppPSwTJOqrxIMjRl2r9ziJpErCMdP/zftIVBb+mMhoFE9FL8m/N5099W66YR
+ 7uAGxV4zNOsbLLUBkATuvI0LJyz0u2SmtMSS2HdMsE=
+Received: from andyshrk$163.com ( [103.29.142.67] ) by
+ ajax-webmail-wmsvr-40-114 (Coremail) ; Thu, 6 Mar 2025 20:15:13 +0800 (CST)
+X-Originating-IP: [103.29.142.67]
+Date: Thu, 6 Mar 2025 20:15:13 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Piotr Oniszczuk" <piotr.oniszczuk@gmail.com>
 Cc: heiko@sntech.de, neil.armstrong@linaro.org,
  sebastian.reichel@collabora.com, devicetree@vger.kernel.org,
  hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org, yubing.zhang@rock-chips.com,
- dri-devel@lists.freedesktop.org, Andy Yan <andy.yan@rock-chips.com>,
- krzk+dt@kernel.org, robh@kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1573D5D6-AFED-4D92-8112-B0C6BB52D5FF@gmail.com>
+ dri-devel@lists.freedesktop.org,
+ "Andy Yan" <andy.yan@rock-chips.com>, krzk+dt@kernel.org,
+ robh@kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re:Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <1573D5D6-AFED-4D92-8112-B0C6BB52D5FF@gmail.com>
 References: <25401bfa.291d.19564244e54.Coremail.andyshrk@163.com>
  <75189787-28E1-4FC2-8E10-4960B3877A6F@gmail.com>
  <28b0d3fc.bb3.19568f6b5f8.Coremail.andyshrk@163.com>
  <44213B17-FE14-4FB8-8319-1E31BBF6EAA0@gmail.com>
  <74c154b6.8c50.1956aa8c8d2.Coremail.andyshrk@163.com>
-To: Andy Yan <andyshrk@163.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+ <1573D5D6-AFED-4D92-8112-B0C6BB52D5FF@gmail.com>
+X-NTES-SC: AL_Qu2fA/6dvEsq5SiZZOkfmkcVgOw9UcO5v/Qk3oZXOJF8jDvp6zIxdG1jMkbm3ueENxqyjTi3chhO99R2eY5ddJAgq5n513r+UzHPqjSjYasCiQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Message-ID: <46c0d239.a4f5.1956b619b97.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cigvCgCnTgvRkclnDvx3AA--.57925W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkA8IXmfJi6d62gACsp
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,111 +69,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> Wiadomo=C5=9B=C4=87 napisana przez Andy Yan <andyshrk@163.com> w dniu =
-6 mar 2025, o godz. 09:53:
->=20
->=20
-> Hi,
->=20
-> =E5=9C=A8 2025-03-06 16:42:00=EF=BC=8C"Piotr Oniszczuk" =
-<piotr.oniszczuk@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
->>=20
->>=20
->>> Wiadomo=C5=9B=C4=87 napisana przez Andy Yan <andyshrk@163.com> w =
-dniu 6 mar 2025, o godz. 01:59:
->>>=20
->>>=20
->>>=20
->>>=20
->>> Both of the two config options should be enabled.
->>> andy@Pro480:~/WorkSpace/linux-next$ rg DW_DP .config
->>> 4044:CONFIG_ROCKCHIP_DW_DP=3Dy
->>=20
->> here i=E2=80=99m a bit lost=E2=80=A6.
->> greping on full kernel sources (with applied =
-https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D936784)=
- gives me no single appearance of ROCKCHIP_DW_DP=E2=80=A6
->> Do i miss something?
->=20
-> see PATCH 3/6:  =20
->=20
->=20
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig =
-b/drivers/gpu/drm/rockchip/Kconfig
-> index 26c4410b2407..c8638baf9641 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -8,6 +8,7 @@ config DRM_ROCKCHIP
-> select DRM_PANEL
-> select VIDEOMODE_HELPERS
-> select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
-> + select DRM_DW_DP if ROCKCHIP_DW_DP
-> select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
-> select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
-> select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
-> @@ -58,6 +59,12 @@ config ROCKCHIP_CDN_DP
->  RK3399 based SoC, you should select this
->  option.
->=20
-> +config ROCKCHIP_DW_DP
-> + bool "Rockchip specific extensions for Synopsys DW DP"
-> + help
-> +  Choose this option for Synopsys DesignWare Cores DisplayPort
-> +  transmit controller support on Rockchip SoC.
->=20
-> =
-https://lore.kernel.org/linux-rockchip/047EECFC-7E55-44EC-896F-13FE04333E4=
-D@gmail.com/T/#m178a325ea0ebc64187aae474d77c3f7a9e0bc93d
->>=20
-
-
-Ah my bad!
-One patch patch was commented - so not all dp code was applied.
-
-Now it is much better:
-
-root@myth-frontend-56b0f018b5e0:~ # dmesg | grep drm
-[    9.795380] panthor fb000000.gpu: [drm] clock rate =3D 198000000
-[    9.796257] panthor fb000000.gpu: [drm] mali-g610 id 0xa867 major 0x0 =
-minor 0x0 status 0x5
-[    9.796262] panthor fb000000.gpu: [drm] Features: L2:0x7120306 =
-Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
-[    9.796265] panthor fb000000.gpu: [drm] shader_present=3D0x50005 =
-l2_present=3D0x1 tiler_present=3D0x1
-[    9.851869] panthor fb000000.gpu: [drm] Firmware protected mode entry =
-not be supported, ignoring
-[    9.851921] panthor fb000000.gpu: [drm] Firmware git sha: =
-814b47b551159067b67a37c4e9adda458ad9d852
-[    9.852127] panthor fb000000.gpu: [drm] CSF FW using interface =
-v1.1.0, Features 0x0 Instrumentation features 0x71
-[    9.852436] [drm] Initialized panthor 1.3.0 for fb000000.gpu on minor =
-0
-[   10.003108] rockchip-drm display-subsystem: bound fdd90000.vop (ops =
-vop2_component_ops)
-[   10.004705] rockchip-drm display-subsystem: bound fde60000.dp (ops =
-dw_dp_rockchip_component_ops)
-[   10.006085] rockchip-drm display-subsystem: bound fdea0000.hdmi (ops =
-dw_hdmi_qp_rockchip_ops)
-[   10.006679] [drm] Initialized rockchip 1.0.0 for display-subsystem on =
-minor 1
-[   10.006737] rockchip-drm display-subsystem: [drm] Cannot find any =
-crtc or sizes
-[   10.007663] rockchip-drm display-subsystem: [drm] Cannot find any =
-crtc or sizes
-
-Unfortunately still nothing on screen
-
-dri state: =
-https://gist.github.com/warpme/5e971dfd2e9fd52fae76641831cebe46
-
-and kernel dmesg https://termbin.com/r0m3
-
-i=E2=80=99m not sure what is missing (some dts enablement or=E2=80=A6.)
- =20
-
-
-
-
-
-
+SGkgUGlvdHIsCgrlnKggMjAyNS0wMy0wNiAxOTo0NzozMe+8jCJQaW90ciBPbmlzemN6dWsiIDxw
+aW90ci5vbmlzemN6dWtAZ21haWwuY29tPiDlhpnpgZPvvJoKPgo+PiBXaWFkb21vxZvEhyBuYXBp
+c2FuYSBwcnpleiBBbmR5IFlhbiA8YW5keXNocmtAMTYzLmNvbT4gdyBkbml1IDYgbWFyIDIwMjUs
+IG8gZ29kei4gMDk6NTM6Cj4+IAo+PiAKPj4gSGksCj4+IAo+PiDlnKggMjAyNS0wMy0wNiAxNjo0
+MjowMO+8jCJQaW90ciBPbmlzemN6dWsiIDxwaW90ci5vbmlzemN6dWtAZ21haWwuY29tPiDlhpnp
+gZPvvJoKPj4+IAo+Pj4gCj4+Pj4gV2lhZG9tb8WbxIcgbmFwaXNhbmEgcHJ6ZXogQW5keSBZYW4g
+PGFuZHlzaHJrQDE2My5jb20+IHcgZG5pdSA2IG1hciAyMDI1LCBvIGdvZHouIDAxOjU5Ogo+Pj4+
+IAo+Pj4+IAo+Pj4+IAo+Pj4+IAo+Pj4+IEJvdGggb2YgdGhlIHR3byBjb25maWcgb3B0aW9ucyBz
+aG91bGQgYmUgZW5hYmxlZC4KPj4+PiBhbmR5QFBybzQ4MDp+L1dvcmtTcGFjZS9saW51eC1uZXh0
+JCByZyBEV19EUCAuY29uZmlnCj4+Pj4gNDA0NDpDT05GSUdfUk9DS0NISVBfRFdfRFA9eQo+Pj4g
+Cj4+PiBoZXJlIGnigJltIGEgYml0IGxvc3TigKYuCj4+PiBncmVwaW5nIG9uIGZ1bGwga2VybmVs
+IHNvdXJjZXMgKHdpdGggYXBwbGllZCBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2pl
+Y3QvbGludXgtcm9ja2NoaXAvbGlzdC8/c2VyaWVzPTkzNjc4NCkgZ2l2ZXMgbWUgbm8gc2luZ2xl
+IGFwcGVhcmFuY2Ugb2YgUk9DS0NISVBfRFdfRFDigKYKPj4+IERvIGkgbWlzcyBzb21ldGhpbmc/
+Cj4+IAo+PiBzZWUgUEFUQ0ggMy82OiAgIAo+PiAKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9LY29u
+ZmlnCj4+IGluZGV4IDI2YzQ0MTBiMjQwNy4uYzg2MzhiYWY5NjQxIDEwMDY0NAo+PiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+cm9ja2NoaXAvS2NvbmZpZwo+PiBAQCAtOCw2ICs4LDcgQEAgY29uZmlnIERSTV9ST0NLQ0hJUAo+
+PiBzZWxlY3QgRFJNX1BBTkVMCj4+IHNlbGVjdCBWSURFT01PREVfSEVMUEVSUwo+PiBzZWxlY3Qg
+RFJNX0FOQUxPR0lYX0RQIGlmIFJPQ0tDSElQX0FOQUxPR0lYX0RQCj4+ICsgc2VsZWN0IERSTV9E
+V19EUCBpZiBST0NLQ0hJUF9EV19EUAo+PiBzZWxlY3QgRFJNX0RXX0hETUkgaWYgUk9DS0NISVBf
+RFdfSERNSQo+PiBzZWxlY3QgRFJNX0RXX0hETUlfUVAgaWYgUk9DS0NISVBfRFdfSERNSV9RUAo+
+PiBzZWxlY3QgRFJNX0RXX01JUElfRFNJIGlmIFJPQ0tDSElQX0RXX01JUElfRFNJCj4+IEBAIC01
+OCw2ICs1OSwxMiBAQCBjb25maWcgUk9DS0NISVBfQ0ROX0RQCj4+ICBSSzMzOTkgYmFzZWQgU29D
+LCB5b3Ugc2hvdWxkIHNlbGVjdCB0aGlzCj4+ICBvcHRpb24uCj4+IAo+PiArY29uZmlnIFJPQ0tD
+SElQX0RXX0RQCj4+ICsgYm9vbCAiUm9ja2NoaXAgc3BlY2lmaWMgZXh0ZW5zaW9ucyBmb3IgU3lu
+b3BzeXMgRFcgRFAiCj4+ICsgaGVscAo+PiArICBDaG9vc2UgdGhpcyBvcHRpb24gZm9yIFN5bm9w
+c3lzIERlc2lnbldhcmUgQ29yZXMgRGlzcGxheVBvcnQKPj4gKyAgdHJhbnNtaXQgY29udHJvbGxl
+ciBzdXBwb3J0IG9uIFJvY2tjaGlwIFNvQy4KPj4gCj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
+L2xpbnV4LXJvY2tjaGlwLzA0N0VFQ0ZDLTdFNTUtNDRFQy04OTZGLTEzRkUwNDMzM0U0REBnbWFp
+bC5jb20vVC8jbTE3OGEzMjVlYTBlYmM2NDE4N2FhZTQ3NGQ3N2MzZjdhOWUwYmM5M2QKPj4+IAo+
+Cj4KPkFoIG15IGJhZCEKPk9uZSBwYXRjaCBwYXRjaCB3YXMgY29tbWVudGVkIC0gc28gbm90IGFs
+bCBkcCBjb2RlIHdhcyBhcHBsaWVkLgo+Cj5Ob3cgaXQgaXMgbXVjaCBiZXR0ZXI6Cj4KPnJvb3RA
+bXl0aC1mcm9udGVuZC01NmIwZjAxOGI1ZTA6fiAjIGRtZXNnIHwgZ3JlcCBkcm0KPlsgICAgOS43
+OTUzODBdIHBhbnRob3IgZmIwMDAwMDAuZ3B1OiBbZHJtXSBjbG9jayByYXRlID0gMTk4MDAwMDAw
+Cj5bICAgIDkuNzk2MjU3XSBwYW50aG9yIGZiMDAwMDAwLmdwdTogW2RybV0gbWFsaS1nNjEwIGlk
+IDB4YTg2NyBtYWpvciAweDAgbWlub3IgMHgwIHN0YXR1cyAweDUKPlsgICAgOS43OTYyNjJdIHBh
+bnRob3IgZmIwMDAwMDAuZ3B1OiBbZHJtXSBGZWF0dXJlczogTDI6MHg3MTIwMzA2IFRpbGVyOjB4
+ODA5IE1lbToweDMwMSBNTVU6MHgyODMwIEFTOjB4ZmYKPlsgICAgOS43OTYyNjVdIHBhbnRob3Ig
+ZmIwMDAwMDAuZ3B1OiBbZHJtXSBzaGFkZXJfcHJlc2VudD0weDUwMDA1IGwyX3ByZXNlbnQ9MHgx
+IHRpbGVyX3ByZXNlbnQ9MHgxCj5bICAgIDkuODUxODY5XSBwYW50aG9yIGZiMDAwMDAwLmdwdTog
+W2RybV0gRmlybXdhcmUgcHJvdGVjdGVkIG1vZGUgZW50cnkgbm90IGJlIHN1cHBvcnRlZCwgaWdu
+b3JpbmcKPlsgICAgOS44NTE5MjFdIHBhbnRob3IgZmIwMDAwMDAuZ3B1OiBbZHJtXSBGaXJtd2Fy
+ZSBnaXQgc2hhOiA4MTRiNDdiNTUxMTU5MDY3YjY3YTM3YzRlOWFkZGE0NThhZDlkODUyCj5bICAg
+IDkuODUyMTI3XSBwYW50aG9yIGZiMDAwMDAwLmdwdTogW2RybV0gQ1NGIEZXIHVzaW5nIGludGVy
+ZmFjZSB2MS4xLjAsIEZlYXR1cmVzIDB4MCBJbnN0cnVtZW50YXRpb24gZmVhdHVyZXMgMHg3MQo+
+WyAgICA5Ljg1MjQzNl0gW2RybV0gSW5pdGlhbGl6ZWQgcGFudGhvciAxLjMuMCBmb3IgZmIwMDAw
+MDAuZ3B1IG9uIG1pbm9yIDAKPlsgICAxMC4wMDMxMDhdIHJvY2tjaGlwLWRybSBkaXNwbGF5LXN1
+YnN5c3RlbTogYm91bmQgZmRkOTAwMDAudm9wIChvcHMgdm9wMl9jb21wb25lbnRfb3BzKQo+WyAg
+IDEwLjAwNDcwNV0gcm9ja2NoaXAtZHJtIGRpc3BsYXktc3Vic3lzdGVtOiBib3VuZCBmZGU2MDAw
+MC5kcCAob3BzIGR3X2RwX3JvY2tjaGlwX2NvbXBvbmVudF9vcHMpCj5bICAgMTAuMDA2MDg1XSBy
+b2NrY2hpcC1kcm0gZGlzcGxheS1zdWJzeXN0ZW06IGJvdW5kIGZkZWEwMDAwLmhkbWkgKG9wcyBk
+d19oZG1pX3FwX3JvY2tjaGlwX29wcykKPlsgICAxMC4wMDY2NzldIFtkcm1dIEluaXRpYWxpemVk
+IHJvY2tjaGlwIDEuMC4wIGZvciBkaXNwbGF5LXN1YnN5c3RlbSBvbiBtaW5vciAxCj5bICAgMTAu
+MDA2NzM3XSByb2NrY2hpcC1kcm0gZGlzcGxheS1zdWJzeXN0ZW06IFtkcm1dIENhbm5vdCBmaW5k
+IGFueSBjcnRjIG9yIHNpemVzCj5bICAgMTAuMDA3NjYzXSByb2NrY2hpcC1kcm0gZGlzcGxheS1z
+dWJzeXN0ZW06IFtkcm1dIENhbm5vdCBmaW5kIGFueSBjcnRjIG9yIHNpemVzCj4KPlVuZm9ydHVu
+YXRlbHkgc3RpbGwgbm90aGluZyBvbiBzY3JlZW4KPgo+ZHJpIHN0YXRlOiBodHRwczovL2dpc3Qu
+Z2l0aHViLmNvbS93YXJwbWUvNWU5NzFkZmQyZTlmZDUyZmFlNzY2NDE4MzFjZWJlNDYKPgo+YW5k
+IGtlcm5lbCBkbWVzZyBodHRwczovL3Rlcm1iaW4uY29tL3IwbTMKPgo+aeKAmW0gbm90IHN1cmUg
+d2hhdCBpcyBtaXNzaW5nIChzb21lIGR0cyBlbmFibGVtZW50IG9y4oCmLikKCkZyb20geW91ciBk
+dHMsICBJIGZpbmQgeW91IHVzZSBncGlvIGZvciBocGQsIEknbSBub3Qgc3VyZSBob3cgdG8gaGFu
+ZGxlIGl0ICB3aXRoIHVwc3RyZWFtICBjb2RlIG5vdy4KCgomZHAxIHsKCXN0YXR1cyA9ICJva2F5
+IjsKCXBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7CglwaW5jdHJsLTAgPSA8JmRwMV9ocGQ+OwoJ
+aHBkLWdwaW9zID0gPCZncGlvMyBSS19QRDUgR1BJT19BQ1RJVkVfSElHSD47Cn07CgpJIHN1Z2dl
+c3QgYSBjaGFuZ2UgbGlrZSB0aGlzOgoKJmRwMSB7CglzdGF0dXMgPSAib2theSI7CglwaW5jdHJs
+LW5hbWVzID0gImRlZmF1bHQiOwogICAgICAgIHBpbmN0cmwtMCA9IDwmZHAxbTBfcGlucz47Cgp9
+OwoKQW5kIGFsc28gcmVtb3ZlIGRwMV9ocGQgcGluY3RybCBpbiB5b3VyIGR0cy4KClRoZW4gd2hl
+biB5b3UgRFAgY2FibGUgcGx1Z2luLCB5b3UgY2FuIHJ1biBjb21tYW5kIGFzIGJlbGxvdyB0byBz
+ZWUgaWYgdGhlIGRyaXZlciBkZXRlY3RzIHRoZSBIUEQ6CgojIGNhdCAvc3lzL2NsYXNzL2RybS9j
+YXJkMC1EUC0xL3N0YXR1cyAKY29ubmVjdGVkCiMgCgoKCgoKPiAgCj4KPgo+Cj4KPgo=
