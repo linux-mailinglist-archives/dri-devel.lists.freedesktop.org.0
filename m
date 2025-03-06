@@ -2,72 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA73A5527E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5CBA552BB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:17:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A29DD10E8E1;
-	Thu,  6 Mar 2025 17:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD9E10EA33;
+	Thu,  6 Mar 2025 17:17:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Z6FfQSYH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qXfD3GW7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out.smtpout.orange.fr (out-17.smtpout.orange.fr [193.252.22.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 765BD10EA30;
- Thu,  6 Mar 2025 17:10:43 +0000 (UTC)
-Received: from [172.16.82.72] ([124.33.176.97]) by smtp.orange.fr with ESMTPA
- id qEjstfRGtQBhYqEjytwcmv; Thu, 06 Mar 2025 18:10:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1741281042;
- bh=AcXvdcwkshwhiYBYbISTdU+fXgHvnVIWLoGFLaK/LSY=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=Z6FfQSYHH1Ol08L7ET9tSXK7Mo2lZdrbvwMt4TCu04RDpe1dOq/w+TOzlQRT7/MZa
- bC5IUve/j4baW3dFxfr0gWJqCFLqGmfwkgN9roksYbWqz2h67lDcu9IZeO4xJuTRdG
- uSybdgWW2hHmJT1j81A7IgRe4RwP9liz+KGUTrTDv73eDTpLwfUfGW8Q1Y7aFCFcRV
- kU5a9EsxhrKDlTeS+NZHwHvqM9Rh+YoYUHo32P9bEO0T2URNiYraQF0lrRoFRq/Nay
- CPSDCe4uJfBJbyCMtcEj+8oljeFN/nhj2uWepsE/uM+WDp9FC/wBiOsfbUUXLgzgGj
- Wo4Pmh8fVkxSw==
-X-ME-Helo: [172.16.82.72]
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 06 Mar 2025 18:10:42 +0100
-X-ME-IP: 124.33.176.97
-Message-ID: <f15eac8c-567c-4ae5-bf9b-bb3964c83846@wanadoo.fr>
-Date: Fri, 7 Mar 2025 02:10:28 +0900
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B088610EA33
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 17:17:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id CF386A44F22;
+ Thu,  6 Mar 2025 17:11:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BD1C4CEE0;
+ Thu,  6 Mar 2025 17:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741281449;
+ bh=wE8fq9Xqj1ipKusjlJNDPVDEqeo82zu7GP8fRPCWKr4=;
+ h=From:Subject:Date:To:Cc:From;
+ b=qXfD3GW7mCtmQg6GAXeGiRb4G400UXfB3zA01WSs0aYLyO77Tf4brftJPzbLyYwYt
+ Scmq01JJELOGdFJG0Iteuc7ti9kTuuTxTBA+9/y6mWkItpz2HkqvMC6XvI1T96QgrW
+ PIJxEui5Nf6YTON9vll7+XW7bMyOQaRbMLkOV5gnaAZPOLOyDhUJrIJf4SK6RnpUc8
+ lA6QJxSXivpWwHGlvDAXbiUvb2BX3Fw5OP4FfCzXS22TpWSXWUoCJlBn/I+OtehDnn
+ P5d8edHsIlui/PcxNXfcLTYmyRV5e5oqN7IQggARZo9uZgTTRMXPfUp+sxPkVf+FWa
+ 4N7wo0kSLgKWQ==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 0/2] drm/display: HDMI documentation improvements
+Date: Thu, 06 Mar 2025 18:17:22 +0100
+Message-Id: <20250306-drm-hdmi-state-docs-v1-0-56a19d3805a1@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/7] bits: split the definition of the asm and non-asm
- GENMASK()
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
- <20250306-fixed-type-genmasks-v5-1-b443e9dcba63@wanadoo.fr>
- <fao7tp2y66f7nuep4nl6kz5zenfpzswp3hwqiw325uitgu6u6u@7dipwr3vjui7>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
- GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
- bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
- BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
- 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
- yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
- CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
- ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <fao7tp2y66f7nuep4nl6kz5zenfpzswp3hwqiw325uitgu6u6u@7dipwr3vjui7>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKLYyWcC/x3MSQqAMAxA0atI1gZqnb2KuLBt1CwcaIoIxbtbX
+ L7F/xGEPJPAkEXwdLPweSQUeQZ2m4+VkF0yaKVrVaoGnd9xczujhDkQutMKdn2rSlPoypgFUnl
+ 5Wvj5r+P0vh8hF1FRZQAAAA==
+X-Change-ID: 20250306-drm-hdmi-state-docs-89703b124bbf
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=750; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=wE8fq9Xqj1ipKusjlJNDPVDEqeo82zu7GP8fRPCWKr4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOknbyxhu3Fpq+W6s39mn38pGuypUSCW9WxKb6bHxDkz1
+ 0a8Dr7q0FHKwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJ9OUwMjzKqk9uu3JdKynJ
+ YNrUJyttbzYtTAx45hVi/iJPxOLFDjZGhmsdt7mrRaXdy66eEUmoOuSV93NP0ufN8ecUCw6c+aj
+ PygwA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,36 +71,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/03/2025 at 23:34, Lucas De Marchi wrote:
-> On Thu, Mar 06, 2025 at 08:29:52PM +0900, Vincent Mailhol via B4 Relay
-> wrote:
+Hi,
 
-(...)
+These patches improve the HDMI infrastructure documentation, in
+particular to mention that edid-decode can help debug and check
+infoframes issues.
 
-> it seems we now have 1 inconsistency that we comment why
-> GENMASK_U128() is not available in asm, but we don't comment why
-> GENMASK_INPUT_CHECK() is not available there. Maybe move this comment on
-> top of GENMASK_INPUT_CHECK().
+Let me know what you think,
+Maxime
 
-I will restore the comment in v6 and put it next to the asm definition,
-c.f. my reply to Andy.
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Maxime Ripard (2):
+      drm/display: hdmi: Create documentation section
+      drm/display: hdmi: Mention Infoframes testing with edid-decode
 
-> Anyway,
-> 
->     Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+ Documentation/gpu/drm-kms-helpers.rst           |  15 ++
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 261 ++++++++++++++++++++++++
+ 2 files changed, 276 insertions(+)
+---
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+change-id: 20250306-drm-hdmi-state-docs-89703b124bbf
 
-Is this only valid for the first patch or for the full series? If this
-is for the full series, would you mind replying to the cover letter with
-your review tag?
-
-> thanks for picking up this series.
-
-You are welcome!
-
-> Lucas De Marchi
-
-(...)
-
-Yours sincerely,
-Vincent Mailhol
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
