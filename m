@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22A5A5449A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 09:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A102AA544A0
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 09:22:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9505510E139;
-	Thu,  6 Mar 2025 08:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5F8310E14B;
+	Thu,  6 Mar 2025 08:22:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cotuQ391";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NFpunNOu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC18910E139
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 08:21:06 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1775F443EF;
- Thu,  6 Mar 2025 08:21:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741249264;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=477azTeILJMHJbPuzL3O9g7l+T0x51meEHGTEhodXtI=;
- b=cotuQ391r97jESnp54sLMEE/H58/aOC+YaNt0GWbUCOhBIKRPh2DZb1p2QqO5cm3n+o/R/
- VHxzTmUT+HV5il0Bk+aVQ88ZKoe/AZZl8kEFvbtHJJ9uOrQJnyDQpXaSAweu2egzT6qL56
- 4K5v8ldvhVLzDGfljPGSWWR0NMCRKpUpiIk+q8b0DoMP5zGD4pCcuJ8j0pJYMMKakElz6l
- CzqhwAxtfOq5IG9igj6kVGlr1Oe35QEPSAHAYFU4m7BpDFZOVMFoSkIvPT9gBi9uUNFwfN
- Fr6FxvT9PfpYU/VDKkOh4thfmoycPng+1Q3vUX80rfg3b9lvwlIxsFRQdA54AQ==
-Date: Thu, 6 Mar 2025 09:21:02 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Douglas
- Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
- connector by encoder
-Message-ID: <20250306092102.77583816@bootlin.com>
-In-Reply-To: <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
-References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
- <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAC6110E13D;
+ Thu,  6 Mar 2025 08:22:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0789C5C10AF;
+ Thu,  6 Mar 2025 08:20:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7A5BC4CEE0;
+ Thu,  6 Mar 2025 08:22:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741249355;
+ bh=lqfVSt1q8Nv4x662WSVSo/wapty2VM77sNt4P9YbEes=;
+ h=From:Subject:Date:To:Cc:From;
+ b=NFpunNOu4mBT/7vt+D+E4gjgFVBNtbWNON0S1bfNI1eYlv+bkm4mLs/niYN7p4KKf
+ 8Bu9FkYYE9HUwxH6UAt0IIpztAfMDWIDEB7n832uEwsIFs3Se3uJ2woQy6sjXquF1L
+ 3v1AZGNhdrRrxcFHkJAh52STHIv1N1QpBrAfLS+hVCi6FC6I0sKLchrYDjL3V3G2fi
+ k2lKutRKD5vwEJXWnUPyua5j7ITXYHKtBYMav8d/BvPB4S/bgzo4hKzq//6oDzR1NY
+ XSpNGKeaC8Q6XwpTprimzduXaWLEbyJrYhR1p0dcGpyg0rxwBe4iWLi/iUiMhsR90V
+ 60NFrVCXfrZHg==
+From: Dmitry Baryshkov <lumag@kernel.org>
+Subject: [PATCH 0/2] drm/msm/dpu: two fixes for kerneldocs
+Date: Thu, 06 Mar 2025 10:22:28 +0200
+Message-Id: <20250306-dpu-fix-docs-v1-0-e51b71e8ad84@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdejvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtkeeftdertdejnecuhfhrohhmpefjvghrvhgvucevohguihhnrgcuoehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveefkeegteduhedvgeffieejfffgtdffgfduvedtveelkeegvedufedutdevveffnecukfhppedvrgdtudemvgdtrgemvdegieemjeejledtmedviegtgeemvgdvvdemiedtfegumeehkegrnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmedvgeeimeejjeeltdemvdeitgegmegvvddvmeeitdefugemheekrgdphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhiv
- ggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAERbyWcC/x2MQQqAMAzAviI9W6ibTvAr4mFuVXtR2VCE4d8tH
+ kNICmROwhmGqkDiW7Icu0JTVxA2v6+MEpXBkOnIksN4XrjIg/EIGW1P5FozW8seNDkTq/t34/S
+ +Hwy3iDteAAAA
+X-Change-ID: 20250306-dpu-fix-docs-3700642b33ea
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=524; i=lumag@kernel.org;
+ h=from:subject:message-id; bh=lqfVSt1q8Nv4x662WSVSo/wapty2VM77sNt4P9YbEes=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnyVtHx812qfFzzxfAi5u9cmy/26pr4haA7+zFG
+ yGbuTwDqVqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8lbRwAKCRCLPIo+Aiko
+ 1cBQCACJHtvEqKcWqxwsJtEvCMDDIVKtK6UH56HMXMtNDT2eosYBRosXkr2UmngSyu/xUF46zur
+ 9gQ3R4vvKJOQuEPi2qvA6BaFkf9kIHs8dZks5LCdMnA75yGdRGDk5XDea+/44IYqiAuy1Ud/rTS
+ KXWog5nBigD7bUJd/nbi8cAaQfurTcQ2JDyRryhhPN0OfSOehz/43zWLxpZB1SKks6hwXje4/c0
+ twdfgY/pL0GPxyqsBRYBorTV3EsXMf+Tmzyzbi2QbAX3GeaT/xKCbga7EeUdflwJ25C2gx91Cnx
+ ekExEDPsA8+cmij5opfvM8fmpuxyi2dhvpVNNa5zImpfFJJu
+X-Developer-Key: i=lumag@kernel.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,43 +76,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-Hi Maxime,
+Signed-off-by: Dmitry Baryshkov <lumag@kernel.org>
+---
+Dmitry Baryshkov (2):
+      drm/msm/dpu: correct dpu_crtc_check_mode_changed docs
+      drm/msm/dpu: correct struct dpu_encoder_virt docs
 
-On Tue, 04 Mar 2025 12:10:47 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
-
-> With the bridges switching over to drm_bridge_connector, the direct
-> association between a bridge driver and its connector was lost.
-> 
-> This is mitigated for atomic bridge drivers by the fact you can access
-> the encoder, and then call drm_atomic_get_old_connector_for_encoder() or
-> drm_atomic_get_new_connector_for_encoder() with drm_atomic_state.
-> 
-> This was also made easier by providing drm_atomic_state directly to all
-> atomic hooks bridges can implement.
-> 
-> However, bridge drivers don't have a way to access drm_atomic_state
-> outside of the modeset path, like from the hotplug interrupt path or any
-> interrupt handler.
-> 
-> Let's introduce a function to retrieve the connector currently assigned
-> to an encoder, without using drm_atomic_state, to make these drivers'
-> life easier.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Co-developed-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_atomic.c | 45 ++++++++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_atomic.h     |  3 +++
->  2 files changed, 48 insertions(+)
-> 
-
-Tested the drm_atomic_get_connector_for_encoder() in the context of the
-ti-sn65dsi83 driver recovery process (later modification in this series).
-
-Tested-by: Herve Codina <herve.codina@bootlin.com>
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+---
+base-commit: 6d3175a72cc07e90f81fb35841048a8a9b5134cb
+change-id: 20250306-dpu-fix-docs-3700642b33ea
 
 Best regards,
-Hervé
+-- 
+Dmitry Baryshkov <lumag@kernel.org>
+
