@@ -2,78 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5031AA54733
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 11:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB72A5474C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 11:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4F0610E92E;
-	Thu,  6 Mar 2025 10:02:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D99710E930;
+	Thu,  6 Mar 2025 10:05:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BLN//5Tr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AoR8M1hF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1244510E92E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 10:02:27 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-3f674610374so276848b6e.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 02:02:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741255346; x=1741860146; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BjlyJFGbEZ5AGo1PtX3zO+4PQA4fvsT0t5eYe3h3Qgw=;
- b=BLN//5Tr4FtV3qM/Uwf3FyOV47zzgs0AXofAxN374n9dPrkqmeJIP6oJAhcrjaeJmr
- 8GeEWdP1V4ztxuk5G/8d96U3wZNY8E0XRGAkk1Xb62BRzW8f9UwAAMbitT+0vCDNQqEq
- Nl95Qqca9HUGNTaqafaLQC2jlyH5W/lpnrJbF8+NsBVDxkl0n0Q0EzZMFmwsBqxgAVno
- nKOspnyMS4US7F+Y+6X1vEgJKfTg1zXIlHMnHGizJYhF3X0KzM189GLcT2Y5Mtb9Tvgd
- xkPVQVow/05wLIZ9M8NwbBUR9jtCvEPwgBOSIOiH5p+oBeF7dvqeWBKqs/UGn1R3fU+x
- I+qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741255346; x=1741860146;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BjlyJFGbEZ5AGo1PtX3zO+4PQA4fvsT0t5eYe3h3Qgw=;
- b=dg8lSLDo21sk6DiqYMJAnnu8uZl4RDhD3Vs2ikNV7vODB4uaJPYJvZsoQooO+SH41o
- D3OKeG2oId57M1RCas+/GCroyba5PZH0TbOxJEKvRp9NmHrYPJVPL3ldq2XAGEY83UI6
- eYNRvAw0elshE5Fz9NXtyuTzv941WKUyQtSEBedtf6JnjbGfFNHgORUwggI6hf4HK1KF
- JwOhM7keoVqTGW0d7/OFp/9RdmPnLNy3pcIhrvEo246tJH4yboq+0KNA7pu83X5Xm1Jr
- ikWUvPPGchoEsm5jymsMtgOVsxoEzv38LwHoBWw8piNDhvuwxsOd3Rd/FrMw6HyywZBg
- HWWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoBcWibyld83yfAL+cBVFB/hHY+03HojZHQRq9hugjqzto6YSTx1hzqXAe36x2bEuOHIMzSHFh/YU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPEI5YLttS87wCwZxpkAjLzlOC5wLZE0fAqJSMFAXJ8Efcbp8G
- afVytJXEZAUbuTba+QlywqFn2NrHdhkz7nkyj8fTRbmIrtNQjV90opE/XoW9IKLXsoVpcjC7raf
- mqBT6QO4frKDjqm1lUjzV8DCXvVw=
-X-Gm-Gg: ASbGncsrpr+1OLw/vTDqdvp9abL8MLw5PQX9oc2jSLfGk0qfgLxRyfR/J4dh4n5rpJd
- VOGRxA6zFuKOA85UDDqwsYoZFqddvddENvMdx+9PrPV1nLaZgeFdVDquzRXQzFJbQ1haJ9NN5MD
- YZmEKvuYNB7Sq/tUpf2AarhR79
-X-Google-Smtp-Source: AGHT+IGktwl8RHqxyYhUIgJi6CiDGuwav2mr9f9ZxPvSiuh2DPm3TXfAG1Nj1w++8u4AXmmRlftDeAZPpvCYOXbu9zY=
-X-Received: by 2002:a05:6808:3a0b:b0:3f4:9e6:fd6 with SMTP id
- 5614622812f47-3f68316d410mr4124510b6e.23.1741255346176; Thu, 06 Mar 2025
- 02:02:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20250305112038.43852-1-i.abramov@mt-integration.ru>
-In-Reply-To: <20250305112038.43852-1-i.abramov@mt-integration.ru>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 6 Mar 2025 11:02:14 +0100
-X-Gm-Features: AQ5f1JrBT3mLoOQn49e3Z1XJM2wsj6BZo-pbHKXZ26bJSLKWAVr7Xp_R-lJsWXA
-Message-ID: <CAMeQTsYVnBFiirGLKfG+pDt0Aagr0sjanPafKCygUou0s+iB=Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500: Add NULL check for pci_gfx_root in
- mid_get_vbt_data()
-To: Ivan Abramov <i.abramov@mt-integration.ru>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Bjorn Helgaas <helgaas@kernel.org>, Sinan Kaya <okaya@codeaurora.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7FCE10E157;
+ Thu,  6 Mar 2025 10:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741255532; x=1772791532;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=lgS1XTmG5WHUYg3rgRyqfp3hl5XYJgmaLl4pWbaaKO8=;
+ b=AoR8M1hFmNELnPzMtpRwgZR+44l6fovQJfwSZBPe5bH1xFv5g+HMteqw
+ FKe23t+91kswNW+7yUSr39JCRdtrR5XQD7i7OfA8Ur8iauF7NL+y9JQ4G
+ ul3E41vrwZbCkkrpHtQF9fMJG/vqzpFfdpkB1B0amiHbKC4W0bQHJ07vh
+ KPx1f0kkURp6/u3B1GeBzqflYH8OCfPaSRSDZ/ICnYV1wtArptmiaxUyg
+ OqO2DTfvBkZtB4T5wDrmwzOxSOd46Bm6xQMvRY3nphHJPJVWcmwjOccKC
+ lLZZxhMr9OFhz/luoY0f7SQRKtv/yQDS+BBE1eyTnIwgyAUYGMQx+deYF Q==;
+X-CSE-ConnectionGUID: LDcFWWCNSEGydDFk+WJqxg==
+X-CSE-MsgGUID: t0buSDp5TEaf1cW7Cc3tOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59801545"
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="59801545"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 02:05:31 -0800
+X-CSE-ConnectionGUID: r2bx+HIPSuW2a5pcFvijnw==
+X-CSE-MsgGUID: oAG6ME33SB2lXAB+1PlnTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="118789079"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.140])
+ ([10.245.246.140])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 02:05:29 -0800
+Message-ID: <e679bdc64e740e5f100256a209cdb79729bf0060.camel@linux.intel.com>
+Subject: Re: RESEND Re: [PATCH v16 2/7] drm/ttm/pool, drm/ttm/tt: Provide a
+ helper to shrink pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Dave
+ Airlie <airlied@gmail.com>
+Cc: intel-xe@lists.freedesktop.org, Somalapuram Amaranath
+ <Amaranath.Somalapuram@amd.com>, Matthew Brost <matthew.brost@intel.com>, 
+ dri-devel@lists.freedesktop.org
+Date: Thu, 06 Mar 2025 11:05:26 +0100
+In-Reply-To: <eee837e3-a6a3-4585-9297-a86a926fedc4@amd.com>
+References: <20250130101325.3068-1-thomas.hellstrom@linux.intel.com>
+ <20250130101325.3068-3-thomas.hellstrom@linux.intel.com>
+ <57ec915f-f766-413e-9377-af37071f29d8@amd.com>
+ <cdb50c7a4e721afd6cebfbf7cacab6cd8cd524c7.camel@linux.intel.com>
+ <a57a92694883a2243def43ee1c9b803d02c8e1b3.camel@linux.intel.com>
+ <CAPM=9txN-FsAk=W_QbyYhUk9fWios5t-h5oL=ZrdTKoxKjWVWg@mail.gmail.com>
+ <eee837e3-a6a3-4585-9297-a86a926fedc4@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,54 +80,1735 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 5, 2025 at 12:20=E2=80=AFPM Ivan Abramov
-<i.abramov@mt-integration.ru> wrote:
->
-> Since pci_get_domain_bus_and_slot() can return NULL, add NULL check for
-> pci_gfx_root in the mid_get_vbt_data().
->
-> This change is similar to the checks implemented in mid_get_fuse_settings=
-()
-> and mid_get_pci_revID(), which were introduced by commit 0cecdd818cd7
-> ("gma500: Final enables for Oaktrail") as "additional minor
-> bulletproofing".
->
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-> Fixes: ba99d8348864 ("drm/gma500: Deprecate pci_get_bus_and_slot()")
+On Wed, 2025-03-05 at 10:10 +0100, Christian K=C3=B6nig wrote:
+> Yeah, it's sad but I probably won't find time for a deeper review
+> anytime soon.
+>=20
+> So feel free to add my Acked-by as well.
+>=20
+> Christian.
 
-Patch looks good but pci_get_bus_and_slot() also returned a struct
-pci_dev so the issue was present before ba99d8348864.
-The correct fixes tag should be:
-Fixes: f910b411053f ("gma500: Add the glue to the various BIOS and
-firmware interfaces")
+Thanks, Christian, I added those acks and pushed the series.
 
--Patrik
+I discussed a bit with Dave and Sima on how to avoid similar stalls in
+the future, and the suggestion was to drop the maintainer ack
+requirement for TTM, and instead use the "seek rough consensus, don't
+push anything that would cause immediate protests." policy of core DRM,
+still running major designs with you.
 
->
-> Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
-> ---
->  drivers/gpu/drm/gma500/mid_bios.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/gma500/mid_bios.c b/drivers/gpu/drm/gma500/m=
-id_bios.c
-> index 7e76790c6a81..cba97d7db131 100644
-> --- a/drivers/gpu/drm/gma500/mid_bios.c
-> +++ b/drivers/gpu/drm/gma500/mid_bios.c
-> @@ -279,6 +279,11 @@ static void mid_get_vbt_data(struct drm_psb_private =
-*dev_priv)
->                                             0, PCI_DEVFN(2, 0));
->         int ret =3D -1;
->
-> +       if (pci_gfx_root =3D=3D NULL) {
-> +               WARN_ON(1);
-> +               return;
-> +       }
-> +
->         /* Get the address of the platform config vbt */
->         pci_read_config_dword(pci_gfx_root, 0xFC, &addr);
->         pci_dev_put(pci_gfx_root);
-> --
-> 2.48.1
->
+Would that work for you?
+
+Thanks,
+Thomas
+
+
+
+
+>=20
+> Am 05.03.25 um 04:01 schrieb Dave Airlie:
+> > I've looked over the two patches mentioned here, I think they have
+> > seen enough time and we need to unblock,
+> >=20
+> > Please add and merge them:
+> > Acked-by: Dave Airlie <airlied@redhat.com>
+> >=20
+> > Dave.
+> >=20
+> > On Tue, 25 Feb 2025 at 18:44, Thomas Hellstr=C3=B6m
+> > <thomas.hellstrom@linux.intel.com> wrote:
+> > > Hi, Christian,
+> > >=20
+> > > Ping? I'd really want to get this in before -rc6
+> > >=20
+> > > Thanks,
+> > > Thomas
+> > >=20
+> > >=20
+> > >=20
+> > > On Tue, 2025-02-18 at 16:40 +0100, Thomas Hellstr=C3=B6m wrote:
+> > > > Hi, Christian,
+> > > >=20
+> > > > On Wed, 2025-02-05 at 15:02 +0100, Christian K=C3=B6nig wrote:
+> > > > > Am 30.01.25 um 11:13 schrieb Thomas Hellstr=C3=B6m:
+> > > > > > Provide a helper to shrink ttm_tt page-vectors on a per-
+> > > > > > page
+> > > > > > basis. A ttm_backup backend could then in theory get away
+> > > > > > with
+> > > > > > allocating a single temporary page for each struct ttm_tt.
+> > > > > >=20
+> > > > > > This is accomplished by splitting larger pages before
+> > > > > > trying to
+> > > > > > back them up.
+> > > > > >=20
+> > > > > > In the future we could allow ttm_backup to handle backing
+> > > > > > up
+> > > > > > large pages as well, but currently there's no benefit in
+> > > > > > doing that, since the shmem backup backend would have to
+> > > > > > split those anyway to avoid allocating too much temporary
+> > > > > > memory, and if the backend instead inserts pages into the
+> > > > > > swap-cache, those are split on reclaim by the core.
+> > > > > >=20
+> > > > > > Due to potential backup- and recover errors, allow
+> > > > > > partially
+> > > > > > swapped
+> > > > > > out struct ttm_tt's, although mark them as swapped out
+> > > > > > stopping
+> > > > > > them
+> > > > > > from being swapped out a second time. More details in the
+> > > > > > ttm_pool.c
+> > > > > > DOC section.
+> > > > > >=20
+> > > > > > v2:
+> > > > > > - A couple of cleanups and error fixes in
+> > > > > > ttm_pool_back_up_tt.
+> > > > > > - s/back_up/backup/
+> > > > > > - Add a writeback parameter to the exported interface.
+> > > > > > v8:
+> > > > > > - Use a struct for flags for readability (Matt Brost)
+> > > > > > - Address misc other review comments (Matt Brost)
+> > > > > > v9:
+> > > > > > - Update the kerneldoc for the ttm_tt::backup field.
+> > > > > > v10:
+> > > > > > - Rebase.
+> > > > > > v13:
+> > > > > > - Rebase on ttm_backup interface change. Update kerneldoc.
+> > > > > > - Rebase and adjust ttm_tt_is_swapped().
+> > > > > > v15:
+> > > > > > - Rebase on ttm_backup return value change.
+> > > > > > - Rebase on previous restructuring of ttm_pool_alloc()
+> > > > > > - Rework the ttm_pool backup interface (Christian K=C3=B6nig)
+> > > > > > - Remove cond_resched() (Christian K=C3=B6nig)
+> > > > > > - Get rid of the need to allocate an intermediate page
+> > > > > > array
+> > > > > > =C2=A0=C2=A0 when restoring a multi-order page (Christian K=C3=
+=B6nig)
+> > > > > > - Update documentation.
+> > > > > >=20
+> > > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> > > > > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > > > > Cc: <dri-devel@lists.freedesktop.org>
+> > > > > > Signed-off-by: Thomas Hellstr=C3=B6m
+> > > > > > <thomas.hellstrom@linux.intel.com>
+> > > > > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > I've tried to wrap my head around all of this like twenty
+> > > > > times in
+> > > > > the
+> > > > > last three month, but was always interrupted at some point.
+> > > > >=20
+> > > > > Feel free to add Acked-by: Christian Koenig
+> > > > > <christian.koenig@amd.com>.
+> > > > >=20
+> > > > > Sorry,
+> > > > > Christian.
+> > > > Thanks a lot for all reviewing and comments so far. There are
+> > > > two TTM
+> > > > patches left in the series that don't have an ack by you:
+> > > >=20
+> > > > https://patchwork.freedesktop.org/patch/634715/?series=3D131815&rev=
+=3D17
+> > > > and
+> > > >=20
+> > > > https://patchwork.freedesktop.org/patch/634716/?series=3D131815&rev=
+=3D17
+> > > >=20
+> > > > None of them particularly big considering the amount of doc
+> > > > text.
+> > > >=20
+> > > > It'd be great if those could have an ack as well so we could
+> > > > finally
+> > > > merge this series.
+> > > >=20
+> > > > Thanks,
+> > > > Thomas
+> > > >=20
+> > > >=20
+> > > >=20
+> > > >=20
+> > > >=20
+> > > >=20
+> > > > > > ---
+> > > > > > =C2=A0 drivers/gpu/drm/ttm/ttm_pool.c | 554
+> > > > > > +++++++++++++++++++++++++++++----
+> > > > > > =C2=A0 drivers/gpu/drm/ttm/ttm_tt.c=C2=A0=C2=A0 |=C2=A0 54 ++++
+> > > > > > =C2=A0 include/drm/ttm/ttm_pool.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 8 +
+> > > > > > =C2=A0 include/drm/ttm/ttm_tt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 67 +++-
+> > > > > > =C2=A0 4 files changed, 629 insertions(+), 54 deletions(-)
+> > > > > >=20
+> > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > > b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > > index c9eba76d5143..ffb7abf52bab 100644
+> > > > > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > > @@ -41,6 +41,7 @@
+> > > > > > =C2=A0 #include <asm/set_memory.h>
+> > > > > > =C2=A0 #endif
+> > > > > >=20
+> > > > > > +#include <drm/ttm/ttm_backup.h>
+> > > > > > =C2=A0 #include <drm/ttm/ttm_pool.h>
+> > > > > > =C2=A0 #include <drm/ttm/ttm_tt.h>
+> > > > > > =C2=A0 #include <drm/ttm/ttm_bo.h>
+> > > > > > @@ -75,6 +76,35 @@ struct ttm_pool_alloc_state {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum ttm=
+_caching tt_caching;
+> > > > > > =C2=A0 };
+> > > > > >=20
+> > > > > > +/**
+> > > > > > + * struct ttm_pool_tt_restore - State representing restore
+> > > > > > from
+> > > > > > backup
+> > > > > > + * @pool: The pool used for page allocation while
+> > > > > > restoring.
+> > > > > > + * @snapshot_alloc: A snapshot of the most recent struct
+> > > > > > ttm_pool_alloc_state.
+> > > > > > + * @alloced_page: Pointer to the page most recently
+> > > > > > allocated
+> > > > > > from
+> > > > > > a pool or system.
+> > > > > > + * @first_dma: The dma address corresponding to
+> > > > > > @alloced_page if
+> > > > > > dma_mapping
+> > > > > > + * is requested.
+> > > > > > + * @alloced_pages: The number of allocated pages present
+> > > > > > in the
+> > > > > > struct ttm_tt
+> > > > > > + * page vector from this restore session.
+> > > > > > + * @restored_pages: The number of 4K pages restored for
+> > > > > > @alloced_page (which
+> > > > > > + * is typically a multi-order page).
+> > > > > > + * @page_caching: The struct ttm_tt requested caching
+> > > > > > + * @order: The order of @alloced_page.
+> > > > > > + *
+> > > > > > + * Recovery from backup might fail when we've recovered
+> > > > > > less
+> > > > > > than
+> > > > > > the
+> > > > > > + * full ttm_tt. In order not to loose any data (yet), keep
+> > > > > > information
+> > > > > > + * around that allows us to restart a failed ttm backup
+> > > > > > recovery.
+> > > > > > + */
+> > > > > > +struct ttm_pool_tt_restore {
+> > > > > > + struct ttm_pool *pool;
+> > > > > > + struct ttm_pool_alloc_state snapshot_alloc;
+> > > > > > + struct page *alloced_page;
+> > > > > > + dma_addr_t first_dma;
+> > > > > > + pgoff_t alloced_pages;
+> > > > > > + pgoff_t restored_pages;
+> > > > > > + enum ttm_caching page_caching;
+> > > > > > + unsigned int order;
+> > > > > > +};
+> > > > > > +
+> > > > > > =C2=A0 static unsigned long page_pool_size;
+> > > > > >=20
+> > > > > > =C2=A0 MODULE_PARM_DESC(page_pool_size, "Number of pages in the
+> > > > > > WC/UC/DMA pool");
+> > > > > > @@ -199,12 +229,11 @@ static int
+> > > > > > ttm_pool_apply_caching(struct
+> > > > > > ttm_pool_alloc_state *alloc)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0=
+;
+> > > > > > =C2=A0 }
+> > > > > >=20
+> > > > > > -/* Map pages of 1 << order size and fill the DMA address
+> > > > > > array
+> > > > > > */
+> > > > > > +/* DMA Map pages of 1 << order size and return the
+> > > > > > resulting
+> > > > > > dma_address. */
+> > > > > > =C2=A0 static int ttm_pool_map(struct ttm_pool *pool, unsigned
+> > > > > > int
+> > > > > > order,
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct page *p, dma_addr_t **dma_addr)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct page *p, dma_addr_t *dma_addr)
+> > > > > > =C2=A0 {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr=
+_t addr;
+> > > > > > - unsigned int i;
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pool=
+->use_dma_alloc) {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_pool_dma *dma =3D (void =
+*)p-
+> > > > > > >private;
+> > > > > > @@ -218,10 +247,7 @@ static int ttm_pool_map(struct
+> > > > > > ttm_pool
+> > > > > > *pool,
+> > > > > > unsigned int order,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return -EFAULT;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > >=20
+> > > > > > - for (i =3D 1 << order; i ; --i) {
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *(*dma_addr)+=
++ =3D addr;
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 addr +=3D PAG=
+E_SIZE;
+> > > > > > - }
+> > > > > > + *dma_addr =3D addr;
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0=
+;
+> > > > > > =C2=A0 }
+> > > > > > @@ -371,6 +397,190 @@ static unsigned int
+> > > > > > ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return p=
+->private;
+> > > > > > =C2=A0 }
+> > > > > >=20
+> > > > > > +/*
+> > > > > > + * Split larger pages so that we can free each PAGE_SIZE
+> > > > > > page as
+> > > > > > soon
+> > > > > > + * as it has been backed up, in order to avoid memory
+> > > > > > pressure
+> > > > > > during
+> > > > > > + * reclaim.
+> > > > > > + */
+> > > > > > +static void ttm_pool_split_for_swap(struct ttm_pool *pool,
+> > > > > > struct
+> > > > > > page *p)
+> > > > > > +{
+> > > > > > + unsigned int order =3D ttm_pool_page_order(pool, p);
+> > > > > > + pgoff_t nr;
+> > > > > > +
+> > > > > > + if (!order)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+> > > > > > +
+> > > > > > + split_page(p, order);
+> > > > > > + nr =3D 1UL << order;
+> > > > > > + while (nr--)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (p++)->privat=
+e =3D 0;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * DOC: Partial backup and restoration of a struct ttm_tt.
+> > > > > > + *
+> > > > > > + * Swapout using ttm_backup_backup_page() and swapin using
+> > > > > > + * ttm_backup_copy_page() may fail.
+> > > > > > + * The former most likely due to lack of swap-space or
+> > > > > > memory,
+> > > > > > the
+> > > > > > latter due
+> > > > > > + * to lack of memory or because of signal interruption
+> > > > > > during
+> > > > > > waits.
+> > > > > > + *
+> > > > > > + * Backup failure is easily handled by using a ttm_tt
+> > > > > > pages
+> > > > > > vector
+> > > > > > that holds
+> > > > > > + * both backup handles and page pointers. This has to be
+> > > > > > taken
+> > > > > > into account when
+> > > > > > + * restoring such a ttm_tt from backup, and when freeing
+> > > > > > it
+> > > > > > while
+> > > > > > backed up.
+> > > > > > + * When restoring, for simplicity, new pages are actually
+> > > > > > allocated from the
+> > > > > > + * pool and the contents of any old pages are copied in
+> > > > > > and then
+> > > > > > the old pages
+> > > > > > + * are released.
+> > > > > > + *
+> > > > > > + * For restoration failures, the struct
+> > > > > > ttm_pool_tt_restore
+> > > > > > holds
+> > > > > > sufficient state
+> > > > > > + * to be able to resume an interrupted restore, and that
+> > > > > > structure
+> > > > > > is freed once
+> > > > > > + * the restoration is complete. If the struct ttm_tt is
+> > > > > > destroyed
+> > > > > > while there
+> > > > > > + * is a valid struct ttm_pool_tt_restore attached, that is
+> > > > > > also
+> > > > > > properly taken
+> > > > > > + * care of.
+> > > > > > + */
+> > > > > > +
+> > > > > > +/* Is restore ongoing for the currently allocated page? */
+> > > > > > +static bool ttm_pool_restore_valid(const struct
+> > > > > > ttm_pool_tt_restore *restore)
+> > > > > > +{
+> > > > > > + return restore && restore->restored_pages < (1 <<
+> > > > > > restore-
+> > > > > > > order);
+> > > > > > +}
+> > > > > > +
+> > > > > > +/* DMA unmap and free a multi-order page, either to the
+> > > > > > relevant
+> > > > > > pool or to system. */
+> > > > > > +static pgoff_t ttm_pool_unmap_and_free(struct ttm_pool
+> > > > > > *pool,
+> > > > > > struct page *page,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const dma_addr_t
+> > > > > > *dma_addr,
+> > > > > > enum ttm_caching caching)
+> > > > > > +{
+> > > > > > + struct ttm_pool_type *pt =3D NULL;
+> > > > > > + unsigned int order;
+> > > > > > + pgoff_t nr;
+> > > > > > +
+> > > > > > + if (pool) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 order =3D ttm=
+_pool_page_order(pool, page);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nr =3D (1UL <=
+< order);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dma_addr)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_unmap(pool, *dma_addr, nr);
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pt =3D ttm_po=
+ol_select_type(pool, caching, order);
+> > > > > > + } else {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 order =3D pag=
+e->private;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nr =3D (1UL <=
+< order);
+> > > > > > + }
+> > > > > > +
+> > > > > > + if (pt)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_type=
+_give(pt, page);
+> > > > > > + else
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_free=
+_page(pool, caching, order, page);
+> > > > > > +
+> > > > > > + return nr;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/* Populate the page-array using the most recent allocated
+> > > > > > multi-
+> > > > > > order page. */
+> > > > > > +static void ttm_pool_allocated_page_commit(struct page
+> > > > > > *allocated,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ dma_addr_t first_dma,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ struct
+> > > > > > ttm_pool_alloc_state *alloc,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ pgoff_t nr)
+> > > > > > +{
+> > > > > > + pgoff_t i;
+> > > > > > +
+> > > > > > + for (i =3D 0; i < nr; ++i)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *alloc->pages=
+++ =3D allocated++;
+> > > > > > +
+> > > > > > + alloc->remaining_pages -=3D nr;
+> > > > > > +
+> > > > > > + if (!alloc->dma_addr)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+> > > > > > +
+> > > > > > + for (i =3D 0; i < nr; ++i) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *alloc->dma_a=
+ddr++ =3D first_dma;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 first_dma +=
+=3D PAGE_SIZE;
+> > > > > > + }
+> > > > > > +}
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * When restoring, restore backed-up content to the newly
+> > > > > > allocated page and
+> > > > > > + * if successful, populate the page-table and dma-address
+> > > > > > arrays.
+> > > > > > + */
+> > > > > > +static int ttm_pool_restore_commit(struct
+> > > > > > ttm_pool_tt_restore
+> > > > > > *restore,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_backup *backup,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct
+> > > > > > ttm_operation_ctx
+> > > > > > *ctx,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_pool_alloc_state
+> > > > > > *alloc)
+> > > > > > +
+> > > > > > +{
+> > > > > > + pgoff_t i, nr =3D 1UL << restore->order;
+> > > > > > + struct page **first_page =3D alloc->pages;
+> > > > > > + struct page *p;
+> > > > > > + int ret =3D 0;
+> > > > > > +
+> > > > > > + for (i =3D restore->restored_pages; i < nr; ++i) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p =3D first_p=
+age[i];
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ttm_backu=
+p_page_ptr_is_handle(p)) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long handle =3D
+> > > > > > ttm_backup_page_ptr_to_handle(p);
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (handle =3D=3D 0) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 restore->restored_pages++;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 continue;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D ttm_backup_copy_page(backup,
+> > > > > > restore->alloced_page + i,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 handle, ctx-
+> > > > > > > interruptible);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 break;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_backup_drop(backup, handle);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (p)=
+ {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * We could probably avoid splitt=
+ing the
+> > > > > > old page
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * using clever logic, but ATM we=
+ don't
+> > > > > > care, as
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * we prioritize releasing memory=
+ ASAP.
+> > > > > > Note that
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * here, the old retained page is=
+ always
+> > > > > > write-back
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * cached.
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_split_for_swap(restore->pool,
+> > > > > > p);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 copy_highpage(restore->alloced_page + =
+i,
+> > > > > > p);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __free_pages(p, 0);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 restore->rest=
+ored_pages++;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 first_page[i]=
+ =3D
+> > > > > > ttm_backup_handle_to_page_ptr(0);
+> > > > > > + }
+> > > > > > +
+> > > > > > + if (ret) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!restore-=
+>restored_pages) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *dma_addr =3D alloc->dma_ad=
+dr ?
+> > > > > > &restore->first_dma : NULL;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_unmap_and_free(restore->pool,
+> > > > > > restore->alloced_page,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr,
+> > > > > > restore-
+> > > > > > > page_caching);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 restore->restored_pages =3D nr;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+> > > > > > + }
+> > > > > > +
+> > > > > > + ttm_pool_allocated_page_commit(restore->alloced_page,
+> > > > > > restore->first_dma,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc, nr);
+> > > > > > + if (restore->page_caching =3D=3D alloc->tt_caching ||
+> > > > > > PageHighMem(restore->alloced_page))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc->cachin=
+g_divide =3D alloc->pages;
+> > > > > > + restore->snapshot_alloc =3D *alloc;
+> > > > > > + restore->alloced_pages +=3D nr;
+> > > > > > +
+> > > > > > + return 0;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/* If restoring, save information needed for
+> > > > > > ttm_pool_restore_commit(). */
+> > > > > > +static void
+> > > > > > +ttm_pool_page_allocated_restore(struct ttm_pool *pool,
+> > > > > > unsigned
+> > > > > > int order,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 struct page *p,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 enum ttm_caching page_caching,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 dma_addr_t first_dma,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 struct ttm_pool_tt_restore
+> > > > > > *restore,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 const struct
+> > > > > > ttm_pool_alloc_state
+> > > > > > *alloc)
+> > > > > > +{
+> > > > > > + restore->pool =3D pool;
+> > > > > > + restore->order =3D order;
+> > > > > > + restore->restored_pages =3D 0;
+> > > > > > + restore->page_caching =3D page_caching;
+> > > > > > + restore->first_dma =3D first_dma;
+> > > > > > + restore->alloced_page =3D p;
+> > > > > > + restore->snapshot_alloc =3D *alloc;
+> > > > > > +}
+> > > > > > +
+> > > > > > =C2=A0 /*
+> > > > > > =C2=A0=C2=A0 * Called when we got a page, either from a pool or=
+ newly
+> > > > > > allocated.
+> > > > > > =C2=A0=C2=A0 * if needed, dma map the page and populate the dma
+> > > > > > address
+> > > > > > array.
+> > > > > > @@ -380,10 +590,11 @@ static unsigned int
+> > > > > > ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+> > > > > > =C2=A0=C2=A0 */
+> > > > > > =C2=A0 static int ttm_pool_page_allocated(struct ttm_pool *pool=
+,
+> > > > > > unsigned int order,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 struct page *p, enum
+> > > > > > ttm_caching page_caching,
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_pool_alloc_state
+> > > > > > *alloc)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_pool_alloc_state
+> > > > > > *alloc,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_pool_tt_restore
+> > > > > > *restore)
+> > > > > > =C2=A0 {
+> > > > > > - pgoff_t i, nr =3D 1UL << order;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool cac=
+hing_consistent;
+> > > > > > + dma_addr_t first_dma;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int r =
+=3D 0;
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 caching_=
+consistent =3D (page_caching =3D=3D alloc-
+> > > > > > >tt_caching)
+> > > > > > > > PageHighMem(p);
+> > > > > > @@ -395,17 +606,20 @@ static int
+> > > > > > ttm_pool_page_allocated(struct
+> > > > > > ttm_pool *pool, unsigned int order,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (allo=
+c->dma_addr) {
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D ttm_poo=
+l_map(pool, order, p, &alloc-
+> > > > > > > dma_addr);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D ttm_poo=
+l_map(pool, order, p, &first_dma);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return r;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > >=20
+> > > > > > - alloc->remaining_pages -=3D nr;
+> > > > > > - for (i =3D 0; i < nr; ++i)
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *alloc->pages=
+++ =3D p++;
+> > > > > > + if (restore) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_page=
+_allocated_restore(pool, order, p,
+> > > > > > page_caching,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 first_dma,
+> > > > > > restore, alloc);
+> > > > > > + } else {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_allo=
+cated_page_commit(p, first_dma,
+> > > > > > alloc, 1UL << order);
+> > > > > >=20
+> > > > > > - if (caching_consistent)
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc->cachin=
+g_divide =3D alloc->pages;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (caching_c=
+onsistent)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc->caching_divide =3D alloc->pages=
+;
+> > > > > > + }
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0=
+;
+> > > > > > =C2=A0 }
+> > > > > > @@ -428,22 +642,24 @@ static void
+> > > > > > ttm_pool_free_range(struct
+> > > > > > ttm_pool *pool, struct ttm_tt *tt,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgoff_t start_=
+page,
+> > > > > > pgoff_t
+> > > > > > end_page)
+> > > > > > =C2=A0 {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct p=
+age **pages =3D &tt->pages[start_page];
+> > > > > > - unsigned int order;
+> > > > > > + struct ttm_backup *backup =3D tt->backup;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgoff_t =
+i, nr;
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =
+=3D start_page; i < end_page; i +=3D nr, pages
+> > > > > > +=3D nr)
+> > > > > > {
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_po=
+ol_type *pt =3D NULL;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct page *=
+p =3D *pages;
+> > > > > >=20
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 order =3D ttm=
+_pool_page_order(pool, *pages);
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nr =3D (1UL <=
+< order);
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (tt->dma_a=
+ddress)
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_unmap(pool, tt->dma_address[i=
+],
+> > > > > > nr);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nr =3D 1;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ttm_backu=
+p_page_ptr_is_handle(p)) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long handle =3D
+> > > > > > ttm_backup_page_ptr_to_handle(p);
+> > > > > >=20
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pt =3D ttm_po=
+ol_select_type(pool, caching, order);
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pt)
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_type_give(pt, *pages);
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_free_page(pool, caching, orde=
+r,
+> > > > > > *pages);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (handle !=3D 0)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ttm_backup_drop(backup, handle);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (p)=
+ {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *dma_addr =3D tt->dma_addre=
+ss ?
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 tt->dma_address + i : NULL;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nr =3D ttm_pool_unmap_and_free(pool, p=
+,
+> > > > > > dma_addr, caching);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > =C2=A0 }
+> > > > > >=20
+> > > > > > @@ -467,22 +683,11 @@ static unsigned int
+> > > > > > ttm_pool_alloc_find_order(unsigned int highest,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return m=
+in_t(unsigned int, highest, __fls(alloc-
+> > > > > > > remaining_pages));
+> > > > > > =C2=A0 }
+> > > > > >=20
+> > > > > > -/**
+> > > > > > - * ttm_pool_alloc - Fill a ttm_tt object
+> > > > > > - *
+> > > > > > - * @pool: ttm_pool to use
+> > > > > > - * @tt: ttm_tt object to fill
+> > > > > > - * @ctx: operation context
+> > > > > > - *
+> > > > > > - * Fill the ttm_tt object with pages and also make sure to
+> > > > > > DMA
+> > > > > > map
+> > > > > > them when
+> > > > > > - * necessary.
+> > > > > > - *
+> > > > > > - * Returns: 0 on successe, negative error code otherwise.
+> > > > > > - */
+> > > > > > -int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt
+> > > > > > *tt,
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 struct ttm_operation_ctx *ctx)
+> > > > > > +static int __ttm_pool_alloc(struct ttm_pool *pool, struct
+> > > > > > ttm_tt
+> > > > > > *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct t=
+tm_operation_ctx *ctx,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_poo=
+l_alloc_state *alloc,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_poo=
+l_tt_restore *restore)
+> > > > > > =C2=A0 {
+> > > > > > - struct ttm_pool_alloc_state alloc;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum ttm=
+_caching page_caching;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp_t gf=
+p_flags =3D GFP_USER;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgoff_t =
+caching_divide;
+> > > > > > @@ -491,10 +696,8 @@ int ttm_pool_alloc(struct ttm_pool
+> > > > > > *pool,
+> > > > > > struct ttm_tt *tt,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct p=
+age *p;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int r;
+> > > > > >=20
+> > > > > > - ttm_pool_alloc_state_init(tt, &alloc);
+> > > > > > -
+> > > > > > - WARN_ON(!alloc.remaining_pages ||
+> > > > > > ttm_tt_is_populated(tt));
+> > > > > > - WARN_ON(alloc.dma_addr && !pool->dev);
+> > > > > > + WARN_ON(!alloc->remaining_pages ||
+> > > > > > ttm_tt_is_populated(tt));
+> > > > > > + WARN_ON(alloc->dma_addr && !pool->dev);
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (tt->=
+page_flags & TTM_TT_FLAG_ZERO_ALLOC)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp_flags |=3D __GFP_ZERO;
+> > > > > > @@ -509,9 +712,9 @@ int ttm_pool_alloc(struct ttm_pool
+> > > > > > *pool,
+> > > > > > struct ttm_tt *tt,
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 page_cac=
+hing =3D tt->caching;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 allow_po=
+ols =3D true;
+> > > > > > - for (order =3D ttm_pool_alloc_find_order(MAX_PAGE_ORDER,
+> > > > > > &alloc);
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc.remaining_pages;
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 order =3D ttm_pool_alloc_find_o=
+rder(order, &alloc)) {
+> > > > > > + for (order =3D ttm_pool_alloc_find_order(MAX_PAGE_ORDER,
+> > > > > > alloc);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc->remaining_pages;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 order =3D ttm_pool_alloc_find_o=
+rder(order, alloc)) {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_pool_type *pt;
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* First, try to allocate a page fr=
+om a
+> > > > > > pool if
+> > > > > > one exists. */
+> > > > > > @@ -541,30 +744,120 @@ int ttm_pool_alloc(struct ttm_pool
+> > > > > > *pool,
+> > > > > > struct ttm_tt *tt,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 r =3D -ENOMEM;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 goto error_free_all;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D ttm_poo=
+l_page_allocated(pool, order, p,
+> > > > > > page_caching, &alloc);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D ttm_poo=
+l_page_allocated(pool, order, p,
+> > > > > > page_caching, alloc,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 restore);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 goto error_free_page;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ttm_pool_=
+restore_valid(restore)) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D ttm_pool_restore_commit(restore,=
+ tt-
+> > > > > > > backup, ctx, alloc);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 goto error_free_all;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > >=20
+> > > > > > - r =3D ttm_pool_apply_caching(&alloc);
+> > > > > > + r =3D ttm_pool_apply_caching(alloc);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto error_free_all;
+> > > > > >=20
+> > > > > > + kfree(tt->restore);
+> > > > > > + tt->restore =3D NULL;
+> > > > > > +
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0=
+;
+> > > > > >=20
+> > > > > > =C2=A0 error_free_page:
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool=
+_free_page(pool, page_caching, order, p);
+> > > > > >=20
+> > > > > > =C2=A0 error_free_all:
+> > > > > > - caching_divide =3D alloc.caching_divide - tt->pages;
+> > > > > > + if (tt->restore)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return r;
+> > > > > > +
+> > > > > > + caching_divide =3D alloc->caching_divide - tt->pages;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool=
+_free_range(pool, tt, tt->caching, 0,
+> > > > > > caching_divide);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool=
+_free_range(pool, tt, ttm_cached,
+> > > > > > caching_divide,
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->num_pages =
+-
+> > > > > > alloc.remaining_pages);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->num_pages =
+- alloc-
+> > > > > > > remaining_pages);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return r=
+;
+> > > > > > =C2=A0 }
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * ttm_pool_alloc - Fill a ttm_tt object
+> > > > > > + *
+> > > > > > + * @pool: ttm_pool to use
+> > > > > > + * @tt: ttm_tt object to fill
+> > > > > > + * @ctx: operation context
+> > > > > > + *
+> > > > > > + * Fill the ttm_tt object with pages and also make sure to
+> > > > > > DMA
+> > > > > > map
+> > > > > > them when
+> > > > > > + * necessary.
+> > > > > > + *
+> > > > > > + * Returns: 0 on successe, negative error code otherwise.
+> > > > > > + */
+> > > > > > +int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt
+> > > > > > *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 struct ttm_operation_ctx *ctx)
+> > > > > > +{
+> > > > > > + struct ttm_pool_alloc_state alloc;
+> > > > > > +
+> > > > > > + if (WARN_ON(ttm_tt_is_backed_up(tt)))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVA=
+L;
+> > > > > > +
+> > > > > > + ttm_pool_alloc_state_init(tt, &alloc);
+> > > > > > +
+> > > > > > + return __ttm_pool_alloc(pool, tt, ctx, &alloc, NULL);
+> > > > > > +}
+> > > > > > =C2=A0 EXPORT_SYMBOL(ttm_pool_alloc);
+> > > > > >=20
+> > > > > > +/**
+> > > > > > + * ttm_pool_restore_and_alloc - Fill a ttm_tt, restoring
+> > > > > > previously backed-up
+> > > > > > + * content.
+> > > > > > + *
+> > > > > > + * @pool: ttm_pool to use
+> > > > > > + * @tt: ttm_tt object to fill
+> > > > > > + * @ctx: operation context
+> > > > > > + *
+> > > > > > + * Fill the ttm_tt object with pages and also make sure to
+> > > > > > DMA
+> > > > > > map
+> > > > > > them when
+> > > > > > + * necessary. Read in backed-up content.
+> > > > > > + *
+> > > > > > + * Returns: 0 on successe, negative error code otherwise.
+> > > > > > + */
+> > > > > > +int ttm_pool_restore_and_alloc(struct ttm_pool *pool,
+> > > > > > struct
+> > > > > > ttm_tt *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 const struct ttm_operation_ctx
+> > > > > > *ctx)
+> > > > > > +{
+> > > > > > + struct ttm_pool_alloc_state alloc;
+> > > > > > +
+> > > > > > + if (WARN_ON(!ttm_tt_is_backed_up(tt)))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVA=
+L;
+> > > > > > +
+> > > > > > + if (!tt->restore) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp_t gfp =3D=
+ GFP_KERNEL | __GFP_NOWARN;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_allo=
+c_state_init(tt, &alloc);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ctx->gfp_=
+retry_mayfail)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp |=3D __GFP_RETRY_MAYFAIL;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->restore =
+=3D kzalloc(sizeof(*tt->restore),
+> > > > > > gfp);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!tt->rest=
+ore)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->restore->=
+snapshot_alloc =3D alloc;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->restore->=
+pool =3D pool;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->restore->=
+restored_pages =3D 1;
+> > > > > > + } else {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_po=
+ol_tt_restore *restore =3D tt-
+> > > > > > > restore;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc =3D res=
+tore->snapshot_alloc;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ttm_pool_=
+restore_valid(tt->restore)) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D ttm_pool_restore_commit(restor=
+e,
+> > > > > > tt-
+> > > > > > > backup, ctx, &alloc);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 return ret;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!alloc.re=
+maining_pages)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > > > > > + }
+> > > > > > +
+> > > > > > + return __ttm_pool_alloc(pool, tt, ctx, &alloc, tt-
+> > > > > > > restore);
+> > > > > > +}
+> > > > > > +
+> > > > > > =C2=A0 /**
+> > > > > > =C2=A0=C2=A0 * ttm_pool_free - Free the backing pages from a tt=
+m_tt
+> > > > > > object
+> > > > > > =C2=A0=C2=A0 *
+> > > > > > @@ -582,6 +875,163 @@ void ttm_pool_free(struct ttm_pool
+> > > > > > *pool,
+> > > > > > struct ttm_tt *tt)
+> > > > > > =C2=A0 }
+> > > > > > =C2=A0 EXPORT_SYMBOL(ttm_pool_free);
+> > > > > >=20
+> > > > > > +/**
+> > > > > > + * ttm_pool_drop_backed_up() - Release content of a
+> > > > > > swapped-out
+> > > > > > struct ttm_tt
+> > > > > > + * @tt: The struct ttm_tt.
+> > > > > > + *
+> > > > > > + * Release handles with associated content or any
+> > > > > > remaining
+> > > > > > pages
+> > > > > > of
+> > > > > > + * a backed-up struct ttm_tt.
+> > > > > > + */
+> > > > > > +void ttm_pool_drop_backed_up(struct ttm_tt *tt)
+> > > > > > +{
+> > > > > > + struct ttm_pool_tt_restore *restore;
+> > > > > > + pgoff_t start_page =3D 0;
+> > > > > > +
+> > > > > > + WARN_ON(!ttm_tt_is_backed_up(tt));
+> > > > > > +
+> > > > > > + restore =3D tt->restore;
+> > > > > > +
+> > > > > > + /*
+> > > > > > +=C2=A0 * Unmap and free any uncommitted restore page.
+> > > > > > +=C2=A0 * any tt page-array backup entries already read back
+> > > > > > has
+> > > > > > +=C2=A0 * been cleared already
+> > > > > > +=C2=A0 */
+> > > > > > + if (ttm_pool_restore_valid(restore)) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *d=
+ma_addr =3D tt->dma_address ?
+> > > > > > &restore-
+> > > > > > > first_dma : NULL;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_unma=
+p_and_free(restore->pool, restore-
+> > > > > > > alloced_page,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr, restore=
+-
+> > > > > > > page_caching);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 restore->rest=
+ored_pages =3D 1UL << restore->order;
+> > > > > > + }
+> > > > > > +
+> > > > > > + /*
+> > > > > > +=C2=A0 * If a restore is ongoing, part of the tt pages may
+> > > > > > have
+> > > > > > a
+> > > > > > +=C2=A0 * caching different than writeback.
+> > > > > > +=C2=A0 */
+> > > > > > + if (restore) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgoff_t mid =
+=3D restore-
+> > > > > > > snapshot_alloc.caching_divide - tt->pages;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 start_page =
+=3D restore->alloced_pages;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(mid >=
+ start_page);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Pages that=
+ might be dma-mapped and non-cached
+> > > > > > */
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_free=
+_range(restore->pool, tt, tt-
+> > > > > > > caching,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0, mid);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Pages that=
+ might be dma-mapped but cached */
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_free=
+_range(restore->pool, tt,
+> > > > > > ttm_cached,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mid, restore-
+> > > > > > > alloced_pages);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(restore=
+);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->restore =
+=3D NULL;
+> > > > > > + }
+> > > > > > +
+> > > > > > + ttm_pool_free_range(NULL, tt, ttm_cached, start_page,
+> > > > > > tt-
+> > > > > > > num_pages);
+> > > > > > +}
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * ttm_pool_backup() - Back up or purge a struct ttm_tt
+> > > > > > + * @pool: The pool used when allocating the struct ttm_tt.
+> > > > > > + * @tt: The struct ttm_tt.
+> > > > > > + * @flags: Flags to govern the backup behaviour.
+> > > > > > + *
+> > > > > > + * Back up or purge a struct ttm_tt. If @purge is true,
+> > > > > > then
+> > > > > > + * all pages will be freed directly to the system rather
+> > > > > > than to
+> > > > > > the pool
+> > > > > > + * they were allocated from, making the function behave
+> > > > > > similarly
+> > > > > > to
+> > > > > > + * ttm_pool_free(). If @purge is false the pages will be
+> > > > > > backed
+> > > > > > up
+> > > > > > instead,
+> > > > > > + * exchanged for handles.
+> > > > > > + * A subsequent call to ttm_pool_restore_and_alloc() will
+> > > > > > then
+> > > > > > read back the content and
+> > > > > > + * a subsequent call to ttm_pool_drop_backed_up() will
+> > > > > > drop it.
+> > > > > > + * If backup of a page fails for whatever reason, @ttm
+> > > > > > will
+> > > > > > still
+> > > > > > be
+> > > > > > + * partially backed up, retaining those pages for which
+> > > > > > backup
+> > > > > > fails.
+> > > > > > + * In that case, this function can be retried, possibly
+> > > > > > after
+> > > > > > freeing up
+> > > > > > + * memory resources.
+> > > > > > + *
+> > > > > > + * Return: Number of pages actually backed up or freed, or
+> > > > > > negative
+> > > > > > + * error code on error.
+> > > > > > + */
+> > > > > > +long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt
+> > > > > > *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 const struct ttm_backup_flags *flags)
+> > > > > > +{
+> > > > > > + struct ttm_backup *backup =3D tt->backup;
+> > > > > > + struct page *page;
+> > > > > > + unsigned long handle;
+> > > > > > + gfp_t alloc_gfp;
+> > > > > > + gfp_t gfp;
+> > > > > > + int ret =3D 0;
+> > > > > > + pgoff_t shrunken =3D 0;
+> > > > > > + pgoff_t i, num_pages;
+> > > > > > +
+> > > > > > + if (WARN_ON(ttm_tt_is_backed_up(tt)))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVA=
+L;
+> > > > > > +
+> > > > > > + if ((!ttm_backup_bytes_avail() && !flags->purge) ||
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0 pool->use_dma_alloc || ttm_tt_is_back=
+ed_up(tt))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EBUSY=
+;
+> > > > > > +
+> > > > > > +#ifdef CONFIG_X86
+> > > > > > + /* Anything returned to the system needs to be cached.
+> > > > > > */
+> > > > > > + if (tt->caching !=3D ttm_cached)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_pages_arr=
+ay_wb(tt->pages, tt->num_pages);
+> > > > > > +#endif
+> > > > > > +
+> > > > > > + if (tt->dma_address || flags->purge) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0;=
+ i < tt->num_pages; i +=3D num_pages) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int order;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 page =3D tt->pages[i];
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unlikely(!page)) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 num_pages =3D 1;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 continue;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 order =3D ttm_pool_page_order(pool, pa=
+ge);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 num_pages =3D 1UL << order;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (tt->dma_address)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ttm_pool_unmap(pool, tt-
+> > > > > > > dma_address[i],
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 num_pages);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (flags->purge) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 shrunken +=3D num_pages;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 page->private =3D 0;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 __free_pages(page, order);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 memset(tt->pages + i, 0,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 num_pages * sizeof(*tt-
+> > > > > > > pages));
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > + }
+> > > > > > +
+> > > > > > + if (flags->purge)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return shrunk=
+en;
+> > > > > > +
+> > > > > > + if (pool->use_dma32)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp =3D GFP_D=
+MA32;
+> > > > > > + else
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp =3D GFP_H=
+IGHUSER;
+> > > > > > +
+> > > > > > + alloc_gfp =3D GFP_KERNEL | __GFP_HIGH | __GFP_NOWARN |
+> > > > > > __GFP_RETRY_MAYFAIL;
+> > > > > > +
+> > > > > > + for (i =3D 0; i < tt->num_pages; ++i) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s64 shandle;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 page =3D tt->=
+pages[i];
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unlikely(=
+!page))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 continue;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_spli=
+t_for_swap(pool, page);
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shandle =3D t=
+tm_backup_backup_page(backup, page,
+> > > > > > flags->writeback, i,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp,
+> > > > > > alloc_gfp);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (shandle <=
+ 0) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* We allow partially shrunken tts */
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D shandle;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 handle =3D sh=
+andle;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->pages[i] =
+=3D
+> > > > > > ttm_backup_handle_to_page_ptr(handle);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 put_page(page=
+);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shrunken++;
+> > > > > > + }
+> > > > > > +
+> > > > > > + return shrunken ? shrunken : ret;
+> > > > > > +}
+> > > > > > +
+> > > > > > =C2=A0 /**
+> > > > > > =C2=A0=C2=A0 * ttm_pool_init - Initialize a pool
+> > > > > > =C2=A0=C2=A0 *
+> > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > b/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > index 3baf215eca23..00b7c28f2329 100644
+> > > > > > --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > @@ -40,6 +40,7 @@
+> > > > > > =C2=A0 #include <drm/drm_cache.h>
+> > > > > > =C2=A0 #include <drm/drm_device.h>
+> > > > > > =C2=A0 #include <drm/drm_util.h>
+> > > > > > +#include <drm/ttm/ttm_backup.h>
+> > > > > > =C2=A0 #include <drm/ttm/ttm_bo.h>
+> > > > > > =C2=A0 #include <drm/ttm/ttm_tt.h>
+> > > > > >=20
+> > > > > > @@ -158,6 +159,8 @@ static void ttm_tt_init_fields(struct
+> > > > > > ttm_tt
+> > > > > > *ttm,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm->swa=
+p_storage =3D NULL;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm->sg =
+=3D bo->sg;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm->cac=
+hing =3D caching;
+> > > > > > + ttm->restore =3D NULL;
+> > > > > > + ttm->backup =3D NULL;
+> > > > > > =C2=A0 }
+> > > > > >=20
+> > > > > > =C2=A0 int ttm_tt_init(struct ttm_tt *ttm, struct
+> > > > > > ttm_buffer_object
+> > > > > > *bo,
+> > > > > > @@ -182,6 +185,13 @@ void ttm_tt_fini(struct ttm_tt *ttm)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fput(ttm->swap_storage);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm->swa=
+p_storage =3D NULL;
+> > > > > >=20
+> > > > > > + if (ttm_tt_is_backed_up(ttm))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_pool_drop=
+_backed_up(ttm);
+> > > > > > + if (ttm->backup) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_backup_fi=
+ni(ttm->backup);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm->backup =
+=3D NULL;
+> > > > > > + }
+> > > > > > +
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ttm-=
+>pages)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kvfree(ttm->pages);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+> > > > > > @@ -253,6 +263,49 @@ int ttm_tt_swapin(struct ttm_tt *ttm)
+> > > > > > =C2=A0 }
+> > > > > > =C2=A0 EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapin);
+> > > > > >=20
+> > > > > > +/**
+> > > > > > + * ttm_tt_backup() - Helper to back up a struct ttm_tt.
+> > > > > > + * @bdev: The TTM device.
+> > > > > > + * @tt: The struct ttm_tt.
+> > > > > > + * @flags: Flags that govern the backup behaviour.
+> > > > > > + *
+> > > > > > + * Update the page accounting and call ttm_pool_shrink_tt
+> > > > > > to
+> > > > > > free
+> > > > > > pages
+> > > > > > + * or back them up.
+> > > > > > + *
+> > > > > > + * Return: Number of pages freed or swapped out, or
+> > > > > > negative
+> > > > > > error
+> > > > > > code on
+> > > > > > + * error.
+> > > > > > + */
+> > > > > > +long ttm_tt_backup(struct ttm_device *bdev, struct ttm_tt
+> > > > > > *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 const struct ttm_backup_flags flags)
+> > > > > > +{
+> > > > > > + long ret;
+> > > > > > +
+> > > > > > + if (WARN_ON(IS_ERR_OR_NULL(tt->backup)))
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > > > > > +
+> > > > > > + ret =3D ttm_pool_backup(&bdev->pool, tt, &flags);
+> > > > > > + if (ret > 0) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->page_flag=
+s &=3D ~TTM_TT_FLAG_PRIV_POPULATED;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tt->page_flag=
+s |=3D TTM_TT_FLAG_BACKED_UP;
+> > > > > > + }
+> > > > > > +
+> > > > > > + return ret;
+> > > > > > +}
+> > > > > > +
+> > > > > > +int ttm_tt_restore(struct ttm_device *bdev, struct ttm_tt
+> > > > > > *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 const struct ttm_operation_ctx *ctx)
+> > > > > > +{
+> > > > > > + int ret =3D ttm_pool_restore_and_alloc(&bdev->pool, tt,
+> > > > > > ctx);
+> > > > > > +
+> > > > > > + if (ret)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+> > > > > > +
+> > > > > > + tt->page_flags &=3D ~TTM_TT_FLAG_BACKED_UP;
+> > > > > > +
+> > > > > > + return 0;
+> > > > > > +}
+> > > > > > +EXPORT_SYMBOL(ttm_tt_restore);
+> > > > > > +
+> > > > > > =C2=A0 /**
+> > > > > > =C2=A0=C2=A0 * ttm_tt_swapout - swap out tt object
+> > > > > > =C2=A0=C2=A0 *
+> > > > > > @@ -348,6 +401,7 @@ int ttm_tt_populate(struct ttm_device
+> > > > > > *bdev,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto error;
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm->pag=
+e_flags |=3D TTM_TT_FLAG_PRIV_POPULATED;
+> > > > > > + ttm->page_flags &=3D ~TTM_TT_FLAG_BACKED_UP;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unli=
+kely(ttm->page_flags &
+> > > > > > TTM_TT_FLAG_SWAPPED)) {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D ttm_tt_swapin(ttm);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unlikely(ret !=3D 0)) {
+> > > > > > diff --git a/include/drm/ttm/ttm_pool.h
+> > > > > > b/include/drm/ttm/ttm_pool.h
+> > > > > > index 160d954a261e..54cd34a6e4c0 100644
+> > > > > > --- a/include/drm/ttm/ttm_pool.h
+> > > > > > +++ b/include/drm/ttm/ttm_pool.h
+> > > > > > @@ -33,6 +33,7 @@
+> > > > > >=20
+> > > > > > =C2=A0 struct device;
+> > > > > > =C2=A0 struct seq_file;
+> > > > > > +struct ttm_backup_flags;
+> > > > > > =C2=A0 struct ttm_operation_ctx;
+> > > > > > =C2=A0 struct ttm_pool;
+> > > > > > =C2=A0 struct ttm_tt;
+> > > > > > @@ -89,6 +90,13 @@ void ttm_pool_fini(struct ttm_pool
+> > > > > > *pool);
+> > > > > >=20
+> > > > > > =C2=A0 int ttm_pool_debugfs(struct ttm_pool *pool, struct
+> > > > > > seq_file
+> > > > > > *m);
+> > > > > >=20
+> > > > > > +void ttm_pool_drop_backed_up(struct ttm_tt *tt);
+> > > > > > +
+> > > > > > +long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt
+> > > > > > *ttm,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 const struct ttm_backup_flags *flags);
+> > > > > > +int ttm_pool_restore_and_alloc(struct ttm_pool *pool,
+> > > > > > struct
+> > > > > > ttm_tt *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 const struct ttm_operation_ctx
+> > > > > > *ctx);
+> > > > > > +
+> > > > > > =C2=A0 int ttm_pool_mgr_init(unsigned long num_pages);
+> > > > > > =C2=A0 void ttm_pool_mgr_fini(void);
+> > > > > >=20
+> > > > > > diff --git a/include/drm/ttm/ttm_tt.h
+> > > > > > b/include/drm/ttm/ttm_tt.h
+> > > > > > index 991edafdb2dd..c736c01ac2ca 100644
+> > > > > > --- a/include/drm/ttm/ttm_tt.h
+> > > > > > +++ b/include/drm/ttm/ttm_tt.h
+> > > > > > @@ -32,11 +32,13 @@
+> > > > > > =C2=A0 #include <drm/ttm/ttm_caching.h>
+> > > > > > =C2=A0 #include <drm/ttm/ttm_kmap_iter.h>
+> > > > > >=20
+> > > > > > +struct ttm_backup;
+> > > > > > =C2=A0 struct ttm_device;
+> > > > > > =C2=A0 struct ttm_tt;
+> > > > > > =C2=A0 struct ttm_resource;
+> > > > > > =C2=A0 struct ttm_buffer_object;
+> > > > > > =C2=A0 struct ttm_operation_ctx;
+> > > > > > +struct ttm_pool_tt_restore;
+> > > > > >=20
+> > > > > > =C2=A0 /**
+> > > > > > =C2=A0=C2=A0 * struct ttm_tt - This is a structure holding the =
+pages,
+> > > > > > caching- and aperture
+> > > > > > @@ -85,17 +87,22 @@ struct ttm_tt {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * =
+fault handling abuses the DMA api a bit and
+> > > > > > dma_map_attrs can't be
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * =
+used to assure pgprot always matches.
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+> > > > > > +=C2=A0 * TTM_TT_FLAG_BACKED_UP: TTM internal only. This is set
+> > > > > > if the
+> > > > > > +=C2=A0 * struct ttm_tt has been (possibly partially) backed
+> > > > > > up.
+> > > > > > +=C2=A0 *
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * =
+TTM_TT_FLAG_PRIV_POPULATED: TTM internal only.
+> > > > > > DO NOT
+> > > > > > USE. This is
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * =
+set by TTM after ttm_tt_populate() has
+> > > > > > successfully
+> > > > > > returned, and is
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * =
+then unset when TTM calls ttm_tt_unpopulate().
+> > > > > > +=C2=A0 *
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > > > > =C2=A0 #define TTM_TT_FLAG_SWAPPED=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(0)
+> > > > > > =C2=A0 #define TTM_TT_FLAG_ZERO_ALLOC=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(1)
+> > > > > > =C2=A0 #define TTM_TT_FLAG_EXTERNAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(2)
+> > > > > > =C2=A0 #define TTM_TT_FLAG_EXTERNAL_MAPPABLE=C2=A0=C2=A0 BIT(3)
+> > > > > > =C2=A0 #define TTM_TT_FLAG_DECRYPTED=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(4)
+> > > > > > +#define TTM_TT_FLAG_BACKED_UP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(5)
+> > > > > >=20
+> > > > > > -#define TTM_TT_FLAG_PRIV_POPULATED=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 BIT(5)
+> > > > > > +#define TTM_TT_FLAG_PRIV_POPULATED=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 BIT(6)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t=
+ page_flags;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /** @num=
+_pages: Number of pages in the page
+> > > > > > array. */
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t=
+ num_pages;
+> > > > > > @@ -105,11 +112,20 @@ struct ttm_tt {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr=
+_t *dma_address;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /** @swa=
+p_storage: Pointer to shmem struct file
+> > > > > > for swap
+> > > > > > storage. */
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct f=
+ile *swap_storage;
+> > > > > > + /**
+> > > > > > +=C2=A0 * @backup: Pointer to backup struct for backed up tts.
+> > > > > > +=C2=A0 * Could be unified with @swap_storage. Meanwhile, the
+> > > > > > driver's
+> > > > > > +=C2=A0 * ttm_tt_create() callback is responsible for assigning
+> > > > > > +=C2=A0 * this field.
+> > > > > > +=C2=A0 */
+> > > > > > + struct ttm_backup *backup;
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /**
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * =
+@caching: The current caching state of the
+> > > > > > pages, see
+> > > > > > enum
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * =
+ttm_caching.
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum ttm=
+_caching caching;
+> > > > > > + /** @restore: Partial restoration from backup state. TTM
+> > > > > > private */
+> > > > > > + struct ttm_pool_tt_restore *restore;
+> > > > > > =C2=A0 };
+> > > > > >=20
+> > > > > > =C2=A0 /**
+> > > > > > @@ -129,9 +145,38 @@ static inline bool
+> > > > > > ttm_tt_is_populated(struct
+> > > > > > ttm_tt *tt)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return t=
+t->page_flags &
+> > > > > > TTM_TT_FLAG_PRIV_POPULATED;
+> > > > > > =C2=A0 }
+> > > > > >=20
+> > > > > > +/**
+> > > > > > + * ttm_tt_is_swapped() - Whether the ttm_tt is swapped out
+> > > > > > or
+> > > > > > backed up
+> > > > > > + * @tt: The struct ttm_tt.
+> > > > > > + *
+> > > > > > + * Return: true if swapped or backed up, false otherwise.
+> > > > > > + */
+> > > > > > =C2=A0 static inline bool ttm_tt_is_swapped(const struct ttm_tt
+> > > > > > *tt)
+> > > > > > =C2=A0 {
+> > > > > > - return tt->page_flags & TTM_TT_FLAG_SWAPPED;
+> > > > > > + return tt->page_flags & (TTM_TT_FLAG_SWAPPED |
+> > > > > > TTM_TT_FLAG_BACKED_UP);
+> > > > > > +}
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * ttm_tt_is_backed_up() - Whether the ttm_tt backed up
+> > > > > > + * @tt: The struct ttm_tt.
+> > > > > > + *
+> > > > > > + * Return: true if swapped or backed up, false otherwise.
+> > > > > > + */
+> > > > > > +static inline bool ttm_tt_is_backed_up(const struct ttm_tt
+> > > > > > *tt)
+> > > > > > +{
+> > > > > > + return tt->page_flags & TTM_TT_FLAG_BACKED_UP;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * ttm_tt_clear_backed_up() - Clear the ttm_tt backed-up
+> > > > > > status
+> > > > > > + * @tt: The struct ttm_tt.
+> > > > > > + *
+> > > > > > + * Drivers can use this functionto clear the backed-up
+> > > > > > status,
+> > > > > > + * for example before destroying or re-validating a purged
+> > > > > > tt.
+> > > > > > + */
+> > > > > > +static inline void ttm_tt_clear_backed_up(struct ttm_tt
+> > > > > > *tt)
+> > > > > > +{
+> > > > > > + tt->page_flags &=3D ~TTM_TT_FLAG_BACKED_UP;
+> > > > > > =C2=A0 }
+> > > > > >=20
+> > > > > > =C2=A0 /**
+> > > > > > @@ -235,6 +280,24 @@ void ttm_tt_mgr_init(unsigned long
+> > > > > > num_pages,
+> > > > > > unsigned long num_dma32_pages);
+> > > > > > =C2=A0 struct ttm_kmap_iter *ttm_kmap_iter_tt_init(struct
+> > > > > > ttm_kmap_iter_tt *iter_tt,
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_tt
+> > > > > > *tt);
+> > > > > > =C2=A0 unsigned long ttm_tt_pages_limit(void);
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * struct ttm_backup_flags - Flags to govern backup
+> > > > > > behaviour.
+> > > > > > + * @purge: Free pages without backing up. Bypass pools.
+> > > > > > + * @writeback: Attempt to copy contents directly to swap
+> > > > > > space,
+> > > > > > even
+> > > > > > + * if that means blocking on writes to external memory.
+> > > > > > + */
+> > > > > > +struct ttm_backup_flags {
+> > > > > > + u32 purge : 1;
+> > > > > > + u32 writeback : 1;
+> > > > > > +};
+> > > > > > +
+> > > > > > +long ttm_tt_backup(struct ttm_device *bdev, struct ttm_tt
+> > > > > > *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 const struct ttm_backup_flags flags);
+> > > > > > +
+> > > > > > +int ttm_tt_restore(struct ttm_device *bdev, struct ttm_tt
+> > > > > > *tt,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 const struct ttm_operation_ctx *ctx);
+> > > > > > +
+> > > > > > =C2=A0 #if IS_ENABLED(CONFIG_AGP)
+> > > > > > =C2=A0 #include <linux/agp_backend.h>
+> > > > > >=20
+>=20
+
