@@ -2,58 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9C8A53F90
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 02:04:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9199DA53FB9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 02:17:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31AD010E883;
-	Thu,  6 Mar 2025 01:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13EB10E04E;
+	Thu,  6 Mar 2025 01:17:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dtqYTxcm";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="l6ZTXAIn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACC1810E87E;
- Thu,  6 Mar 2025 01:04:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 56363A448C7;
- Thu,  6 Mar 2025 00:59:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C4CAC4CED1;
- Thu,  6 Mar 2025 01:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741223082;
- bh=MG8qD6EbxcKVc0A7pj1N1I8F4g6Nc+3vpshMYLH2lVk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dtqYTxcmheUPDrEtsUCTqUqsElt6JsFHh92ayvSWAiqmKI9q3Jm+B35Ff5BLbZ96c
- NPsr4urjWCY+xH6yc3rTA8CXJbpwvK3ovFiVvm5zI+jY28YSKj3AxIJxXXt0eOkqhi
- 8z+iZCrJ/S4EPfBo+QKyHEKwWVCrwuWk2II8A5F+qfpLm+PGu20O1+OA4WQBMCXu7H
- 5Mb8nP81aes/CXKjJBK97hd5//LKY967+krR8St9v7NWf/4MZeQTxGfB/lsSxFhs97
- 9z0xWU9aVyAfZ/DAYWVZ6yWR82beP1B0ELz6+M1yavI1Obq9esQRqWcqsb/izV07CD
- 1/K2hnFbpDNSg==
-Date: Thu, 6 Mar 2025 02:04:34 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
- pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
- aliceryhl@google.com, tmgross@umich.edu, gregkh@linuxfoundation.org,
- mcgrof@kernel.org, russ.weight@linux.dev,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] rust: firmware: add `module_firmware!` macro
-Message-ID: <Z8j0otfkVtnMXIRQ@pollux>
-References: <20250304173555.2496-1-dakr@kernel.org>
- <20250304173555.2496-4-dakr@kernel.org>
- <D88RCQTNVD7B.3RIN253F8LODY@proton.me>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AC1F310E04E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 01:17:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=Asb1tVt0R+2PVuzu9vwJKCs5UPe4up8SUva1c5FR3zc=; b=l
+ 6ZTXAInlHySLIGVftlX9HAM2mBsgaIAQqF0Oh0DXRVsgr4kIlTXCoXGQu0/9tcwy
+ cvjMXikpgNGKBOTCgjN6Ue2+//BLq73HRnJpaAisj7xG/HWmpcaHCLGuTMVmryEZ
+ IxO8PYG/E1RTphS+VPSGtYwh8wS7RCZYiRCxkFb4kE=
+Received: from andyshrk$163.com ( [103.29.142.67] ) by
+ ajax-webmail-wmsvr-40-118 (Coremail) ; Thu, 6 Mar 2025 09:16:24 +0800 (CST)
+X-Originating-IP: [103.29.142.67]
+Date: Thu, 6 Mar 2025 09:16:24 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Cc: "Maxime Ripard" <mripard@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Douglas Anderson" <dianders@chromium.org>,
+ "Herve Codina" <herve.codina@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "Simona Vetter" <simona.vetter@ffwll.ch>
+Subject: Re:Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
+ connector by encoder
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <mqh4wedfokuta2tmyctoi6jrzol7mqzm27nj3ylu6yj2vjy22j@mexke5x2o7a2>
+References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
+ <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
+ <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
+ <20250305-ruddy-nightingale-of-wealth-db100a@houat>
+ <mqh4wedfokuta2tmyctoi6jrzol7mqzm27nj3ylu6yj2vjy22j@mexke5x2o7a2>
+X-NTES-SC: AL_Qu2fA/6ZvE8j4iSQZ+kfmkcVgOw9UcO5v/Qk3oZXOJF8jDDp2ycwUUJSDXLaweO0FQ+OmgmGXTtC9/R7f4VTVaQNVQrcdePLOYL6u5hRII2AKA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D88RCQTNVD7B.3RIN253F8LODY@proton.me>
+Message-ID: <7c1c61e7.10e1.19569067029.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: digvCgD33_5o98hniRR3AA--.6430W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0ggIXmfI7EjOUAADsa
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,74 +76,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 12:31:14AM +0000, Benno Lossin wrote:
-> On Tue Mar 4, 2025 at 6:34 PM CET, Danilo Krummrich wrote:
-> 
-> > +#[macro_export]
-> > +macro_rules! module_firmware {
-> > +    ($($builder:tt)*) => {
-> 
-> This should probably be `$builder:expr` instead.
+CkhpIE1heGltZSBhbmQgRG1pdHJ5OgoKQXQgMjAyNS0wMy0wNiAwNDoxMzo1MywgIkRtaXRyeSBC
+YXJ5c2hrb3YiIDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+IHdyb3RlOgo+T24gV2VkLCBN
+YXIgMDUsIDIwMjUgYXQgMDI6MTk6MzZQTSArMDEwMCwgTWF4aW1lIFJpcGFyZCB3cm90ZToKPj4g
+SGkgQW5keSwKPj4gCj4+IE9uIFdlZCwgTWFyIDA1LCAyMDI1IGF0IDA3OjU1OjE5UE0gKzA4MDAs
+IEFuZHkgWWFuIHdyb3RlOgo+PiA+IEF0IDIwMjUtMDMtMDQgMTk6MTA6NDcsICJNYXhpbWUgUmlw
+YXJkIiA8bXJpcGFyZEBrZXJuZWwub3JnPiB3cm90ZToKPj4gPiA+V2l0aCB0aGUgYnJpZGdlcyBz
+d2l0Y2hpbmcgb3ZlciB0byBkcm1fYnJpZGdlX2Nvbm5lY3RvciwgdGhlIGRpcmVjdAo+PiA+ID5h
+c3NvY2lhdGlvbiBiZXR3ZWVuIGEgYnJpZGdlIGRyaXZlciBhbmQgaXRzIGNvbm5lY3RvciB3YXMg
+bG9zdC4KPj4gPiA+Cj4+ID4gPlRoaXMgaXMgbWl0aWdhdGVkIGZvciBhdG9taWMgYnJpZGdlIGRy
+aXZlcnMgYnkgdGhlIGZhY3QgeW91IGNhbiBhY2Nlc3MKPj4gPiA+dGhlIGVuY29kZXIsIGFuZCB0
+aGVuIGNhbGwgZHJtX2F0b21pY19nZXRfb2xkX2Nvbm5lY3Rvcl9mb3JfZW5jb2RlcigpIG9yCj4+
+ID4gPmRybV9hdG9taWNfZ2V0X25ld19jb25uZWN0b3JfZm9yX2VuY29kZXIoKSB3aXRoIGRybV9h
+dG9taWNfc3RhdGUuCj4+ID4gPgo+PiA+ID5UaGlzIHdhcyBhbHNvIG1hZGUgZWFzaWVyIGJ5IHBy
+b3ZpZGluZyBkcm1fYXRvbWljX3N0YXRlIGRpcmVjdGx5IHRvIGFsbAo+PiA+ID5hdG9taWMgaG9v
+a3MgYnJpZGdlcyBjYW4gaW1wbGVtZW50Lgo+PiA+ID4KPj4gPiA+SG93ZXZlciwgYnJpZGdlIGRy
+aXZlcnMgZG9uJ3QgaGF2ZSBhIHdheSB0byBhY2Nlc3MgZHJtX2F0b21pY19zdGF0ZQo+PiA+ID5v
+dXRzaWRlIG9mIHRoZSBtb2Rlc2V0IHBhdGgsIGxpa2UgZnJvbSB0aGUgaG90cGx1ZyBpbnRlcnJ1
+cHQgcGF0aCBvciBhbnkKPj4gPiA+aW50ZXJydXB0IGhhbmRsZXIuCj4+ID4gPgo+PiA+ID5MZXQn
+cyBpbnRyb2R1Y2UgYSBmdW5jdGlvbiB0byByZXRyaWV2ZSB0aGUgY29ubmVjdG9yIGN1cnJlbnRs
+eSBhc3NpZ25lZAo+PiA+ID50byBhbiBlbmNvZGVyLCB3aXRob3V0IHVzaW5nIGRybV9hdG9taWNf
+c3RhdGUsIHRvIG1ha2UgdGhlc2UgZHJpdmVycycKPj4gPiA+bGlmZSBlYXNpZXIuCj4+ID4gPgo+
+PiA+ID5SZXZpZXdlZC1ieTogRG1pdHJ5IEJhcnlzaGtvdiA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5h
+cm8ub3JnPgo+PiA+ID5Dby1kZXZlbG9wZWQtYnk6IFNpbW9uYSBWZXR0ZXIgPHNpbW9uYS52ZXR0
+ZXJAZmZ3bGwuY2g+Cj4+ID4gPlNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRA
+a2VybmVsLm9yZz4KPj4gPiA+LS0tCj4+ID4gPiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5j
+IHwgNDUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPj4gPiA+
+IGluY2x1ZGUvZHJtL2RybV9hdG9taWMuaCAgICAgfCAgMyArKysKPj4gPiA+IDIgZmlsZXMgY2hh
+bmdlZCwgNDggaW5zZXJ0aW9ucygrKQo+PiA+ID4KPj4gPiA+ZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fYXRvbWljLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jCj4+ID4g
+PmluZGV4IDllYTI2MTE3NzBmNDNjZTdjY2JhNDEwNDA2ZDVmMmM1MjhhYWIwMjIuLmI5MjZiMTMy
+NTkwZTc4ZjhkNDFkNDhlYjRkYTRiY2NmMTcwZWUyMzYgMTAwNjQ0Cj4+ID4gPi0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKPj4gPiA+KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9h
+dG9taWMuYwo+PiA+ID5AQCAtOTg1LDEwICs5ODUsNTUgQEAgZHJtX2F0b21pY19nZXRfbmV3X2Nv
+bm5lY3Rvcl9mb3JfZW5jb2Rlcihjb25zdCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUs
+Cj4+ID4gPiAKPj4gPiA+IAlyZXR1cm4gTlVMTDsKPj4gPiA+IH0KPj4gPiA+IEVYUE9SVF9TWU1C
+T0woZHJtX2F0b21pY19nZXRfbmV3X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcik7Cj4+ID4gPiAKPj4g
+PiA+Ky8qKgo+PiA+ID4rICogZHJtX2F0b21pY19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyIC0g
+R2V0IGNvbm5lY3RvciBjdXJyZW50bHkgYXNzaWduZWQgdG8gYW4gZW5jb2Rlcgo+PiA+ID4rICog
+QGVuY29kZXI6IFRoZSBlbmNvZGVyIHRvIGZpbmQgdGhlIGNvbm5lY3RvciBvZgo+PiA+ID4rICog
+QGN0eDogTW9kZXNldCBsb2NraW5nIGNvbnRleHQKPj4gPiA+KyAqCj4+ID4gPisgKiBUaGlzIGZ1
+bmN0aW9uIGZpbmRzIGFuZCByZXR1cm5zIHRoZSBjb25uZWN0b3IgY3VycmVudGx5IGFzc2lnbmVk
+IHRvCj4+ID4gPisgKiBhbiBAZW5jb2Rlci4KPj4gPiA+KyAqCj4+ID4gPisgKiBSZXR1cm5zOgo+
+PiA+ID4rICogVGhlIGNvbm5lY3RvciBjb25uZWN0ZWQgdG8gQGVuY29kZXIsIG9yIGFuIGVycm9y
+IHBvaW50ZXIgb3RoZXJ3aXNlLgo+PiA+ID4rICogV2hlbiB0aGUgZXJyb3IgaXMgRURFQURMSywg
+YSBkZWFkbG9jayBoYXMgYmVlbiBkZXRlY3RlZCBhbmQgdGhlCj4+ID4gPisgKiBzZXF1ZW5jZSBt
+dXN0IGJlIHJlc3RhcnRlZC4KPj4gPiA+KyAqLwo+PiA+ID4rc3RydWN0IGRybV9jb25uZWN0b3Ig
+Kgo+PiA+ID4rZHJtX2F0b21pY19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVj
+dCBkcm1fZW5jb2RlciAqZW5jb2RlciwKPj4gPiA+KwkJCQkgICAgIHN0cnVjdCBkcm1fbW9kZXNl
+dF9hY3F1aXJlX2N0eCAqY3R4KQo+PiA+ID4rewo+PiA+ID4rCXN0cnVjdCBkcm1fY29ubmVjdG9y
+X2xpc3RfaXRlciBjb25uX2l0ZXI7Cj4+ID4gPisJc3RydWN0IGRybV9jb25uZWN0b3IgKm91dF9j
+b25uZWN0b3IgPSBFUlJfUFRSKC1FSU5WQUwpOwo+PiA+ID4rCXN0cnVjdCBkcm1fY29ubmVjdG9y
+ICpjb25uZWN0b3I7Cj4+ID4gPisJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGVuY29kZXItPmRl
+djsKPj4gPiA+KwlpbnQgcmV0Owo+PiA+ID4rCj4+ID4gPisJcmV0ID0gZHJtX21vZGVzZXRfbG9j
+aygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4LCBjdHgpOwo+PiA+ID4rCWlmIChy
+ZXQpCj4+ID4gPisJCXJldHVybiBFUlJfUFRSKHJldCk7Cj4+ID4gCj4+ID4gSXQgc2VlbXMgdGhh
+dCB0aGlzIHdpbGwgY2F1c2UgYSBkZWFkbG9jayB3aGVuIGNhbGxlZCBmcm9tIGEgaG90cGx1Zwo+
+PiA+IGhhbmRsaW5nIHBhdGgsIEkgaGF2ZSBhIFdJUCBEUCBkaXZlclswXSwgd2hpY2ggc3VnZ2Vz
+dGVkIGJ5IERtaXRyeSB0bwo+PiA+IHVzZSB0aGlzIEFQSSBmcm9tIGEgJmRybV9icmlkZ2VfZnVu
+Y3MuZGV0ZWN0IGNhbGxiYWNrIHRvIGdldCB0aGUKPj4gPiBjb25uZWN0b3IsIGFzIGRldGVjdCBp
+cyBjYWxsZWQgYnkgZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3QsIHdoaWNoIHdpbGwKPj4gPiBob2xk
+IGNvbm5lY3Rpb25fbXV0ZXggZmlyc3QsIHNvIHRoZSBkZWFrbG9jayBoYXBwZW5zOgo+PiA+Cj4+
+ID4gZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
+ciwKPj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX21vZGVzZXRfYWNxdWly
+ZV9jdHggKmN0eCwKPj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBib29sIGZvcmNlKQo+PiA+
+IHsKPj4gPiAgICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyAq
+ZnVuY3MgPSBjb25uZWN0b3ItPmhlbHBlcl9wcml2YXRlOwo+PiA+ICAgICAgICAgc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+ZGV2Owo+PiA+ICAgICAgICAgaW50IHJldDsKPj4g
+PiAKPj4gPiAgICAgICAgIGlmICghY3R4KQo+PiA+ICAgICAgICAgICAgICAgICByZXR1cm4gZHJt
+X2hlbHBlcl9wcm9iZV9kZXRlY3RfY3R4KGNvbm5lY3RvciwgZm9yY2UpOwo+PiA+IAo+PiA+ICAg
+ICAgICAgcmV0ID0gZHJtX21vZGVzZXRfbG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9u
+X211dGV4LCBjdHgpOwo+PiA+ICAgICAgICAgaWYgKHJldCkKPj4gPiAgICAgICAgICAgICAgICAg
+cmV0dXJuIHJldDsKPj4gPiAKPj4gPiAgICAgICAgIGlmIChmdW5jcy0+ZGV0ZWN0X2N0eCkKPj4g
+PiAgICAgICAgICAgICAgICAgcmV0ID0gZnVuY3MtPmRldGVjdF9jdHgoY29ubmVjdG9yLCBjdHgs
+IGZvcmNlKTsKPj4gPiAgICAgICAgIGVsc2UgaWYgKGNvbm5lY3Rvci0+ZnVuY3MtPmRldGVjdCkK
+Pj4gPiAgICAgICAgICAgICAgICAgcmV0ID0gY29ubmVjdG9yLT5mdW5jcy0+ZGV0ZWN0KGNvbm5l
+Y3RvciwgZm9yY2UpOwo+PiA+ICAgICAgICAgZWxzZQo+PiA+ICAgICAgICAgICAgICAgICByZXQg
+PSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZDsKPj4gPiAKPj4gPiAgICAgICAgIGlmIChyZXQg
+IT0gY29ubmVjdG9yLT5zdGF0dXMpCj4+ID4gICAgICAgICAgICAgICAgIGNvbm5lY3Rvci0+ZXBv
+Y2hfY291bnRlciArPSAxOwo+PiA+IAo+PiA+IFNvIEkgd29uZGVyIGNhbiB3ZSBsZXQgZHJtX2Jy
+aWRnZV9mdW5jcy5kZXRlY3QgcGFzcyBhIGNvbm5lY3RvciBmb3IKPj4gPiB0aGlzIGNhc2UgPwo+
+PiAKPj4gRG8geW91IGFjdHVhbGx5IHNlZSBhIGRlYWRsb2NrIG9jY3VycmluZz8gQUZBSUssIGRy
+bV9tb2Rlc2V0X2xvY2sgaXMKPj4gZmluZSB3aXRoIHJlZW50cmFuY3kgZnJvbSB0aGUgc2FtZSBj
+b250ZXh0LCBzbyBpdCBzaG91bGQgd29yayBqdXN0IGZpbmUuCj4KPkFuZHksIHRoYXQgcHJvYmFi
+bHkgbWVhbnMgdGhhdCB5b3Ugc2hvdWxkIHVzZSAuZGV0ZWN0X2N0eCgpIGFuZCBwYXNzIHRoZQo+
+Y29udGV4dCB0byBkcm1fYXRvbWljX2dldF9jb25uZWN0b3JfZm9yX2VuY29kZXIoKS4KClVuZm9y
+dHVuYXRlbHksIHRoZSBkcm1fYnJpZGdlX2Z1bmNzIGRvZXMgbm90IGhhdmUgYSAuZGV0ZWN0X2N0
+eCgpICB2ZXJzaW9uIC4KVGhlIGNhbGwgY2hhaW4gaXM6CiBkcm1faGVscGVyX3Byb2JlX2RldGVj
+dCAKIC0tPiBkcm1fYnJpZGdlX2Nvbm5lY3Rvcl9kZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3Ig
+KmNvbm5lY3RvciwgYm9vbCBmb3JjZSkKLS0+IGRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0KGJyaWRn
+ZSkKVGhlIGN0eCBnb3QgZHJvcHBlZCB3aGVuIGRybV9oZWxwZXJfcHJvYmVfZGV0ZWN0IGNhbGwg
+IGRybV9icmlkZ2VfY29ubmVjdG9yX2RldGVjdApUaGUgY29ubmVjdG9yIGdvdCBkcm9wcGVkICB3
+aGVuIGNvbm5lY3RvciBjYWxsIGl0J3MgYnJpZGVnZS5kZXRlY3QKClNvIEkgdGhpbmsgdGhlIHNp
+bXBsZXN0IHNvbHV0aW9uIGlzIHRvIGhhdmUgZHJtX2JyaWRnZV9mdW5jcy5kZXRlY3QgZGlyZWN0
+bHkgcGFzcyB0aGUgY29ubmVjdG9yCgo+Cj4tLSAKPldpdGggYmVzdCB3aXNoZXMKPkRtaXRyeQo=
 
-That doesn't work, the compiler then complains, since it's not an expression:
-
-193  |         static __MODULE_FIRMWARE: [u8; $builder::create(__module_name()).build_length()] =
-     |                                                ^^ expected one of `.`, `?`, `]`, or an operator
-
-`ty` doesn't work either, since then the compiler expects the caller to add the
-const generic, which we want the macro to figure out instead.
-
-> 
-> > +
-> > +        #[cfg(not(MODULE))]
-> > +        const fn __module_name() -> &'static kernel::str::CStr {
-> > +            <LocalModule as kernel::ModuleMetadata>::NAME
-> 
-> Please either use `::kernel::` or `$crate::` instead of `kernel::`.
-
-Good catch, thanks.
-
-> 
-> Hmm, I am not 100% comfortable with the `LocalModule` way of accessing
-> the current module for some reason, no idea if there is a rational
-> argument behind that, but it just doesn't sit right with me.
-> 
-> Essentially you're doing this for convenience, right? So you don't want
-> to have to repeat the name of the module type every time?
-
-No, it's really that I can't know the type name here, please see the previous
-patch commit message that introduces `LocalModule` for explanation.
-
-> 
-> > +        }
-> > +
-> > +        #[cfg(MODULE)]
-> > +        const fn __module_name() -> &'static kernel::str::CStr {
-> > +            kernel::c_str!("")
-> 
-> Ditto.
-> 
-> > +        }
-> 
-> Are these two functions used outside of the `static` below? If no, then
-> you can just move them into the static? You can also probably use a
-> `const` instead of a function, that way you only have 4 lines instead
-> of 8.
-
-Is this what you're proposing?
-
-	#[macro_export]
-	macro_rules! module_firmware {
-	    ($($builder:tt)*) => {
-	        const __MODULE_FIRMWARE_PREFIX: &'static $crate::str::CStr = if cfg!(MODULE) {
-	            $crate::c_str!("")
-	        } else {
-	            <LocalModule as $crate::ModuleMetadata>::NAME
-	        };
-	
-	        #[link_section = ".modinfo"]
-	        #[used]
-	        static __MODULE_FIRMWARE: [u8; $($builder)*::create(__MODULE_FIRMWARE_PREFIX)
-	            .build_length()] = $($builder)*::create(__MODULE_FIRMWARE_PREFIX).build();
-	    };
-	}
