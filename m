@@ -2,68 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0A6A54D1B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB103A54D1F
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:12:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4AE110E92F;
-	Thu,  6 Mar 2025 14:12:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VqEG6RiQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162FD10E935;
+	Thu,  6 Mar 2025 14:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CED210E92F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:12:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741270335; x=1772806335;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=uvthA8XmJqP8gVQqug7//D0qhv7CI6kWw6mhcSfz7dw=;
- b=VqEG6RiQMwy19HEZsg9L84mnsBle/M2S/l8a0kPLHgJV0NCQr583w3wz
- dvYfGHNZHeGiwAXMvhzIgTu8FRDX8TbBADYKIxyEhIXtS40HpJ9GPZRXs
- ammoEkpRlEJkukVRU6FZ7XLtuScICN+GfE19rY2/nOtqrvVGtdaF6YD86
- C+QB0v4XENTf5V3rN2DG9M7l+vIogcexqS9lUo1++TYDxg5hKevotRwhj
- RyVL55vwyi+eYnbcs4wPrOCaepiksaQn8cZrulMKZ3XBYuagwgPXIOpxd
- +k2yh3P0ivYzDjhxV0ZMsyoiTbU/LFHBNeIM0ZxMewHLSTnZt0G8CwRdw w==;
-X-CSE-ConnectionGUID: dQgW1YpOSEOr0KkukVtAKg==
-X-CSE-MsgGUID: OlXEKkJ/QASo2gtOfM7c3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59688351"
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="59688351"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2025 06:12:14 -0800
-X-CSE-ConnectionGUID: 66snu02YQ1C8Wh5LATTmWg==
-X-CSE-MsgGUID: 8+HhNCdgRpqmGG7XsbJYXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="118763809"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2025 06:12:11 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Avizrat, Yaron" <yaron.avizrat@intel.com>, Ofir Bitton
- <obitton@habana.ai>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "gregkh@linuxfoundation.org"
- <gregkh@linuxfoundation.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "sfr@canb.auug.org.au"
- <sfr@canb.auug.org.au>
-Cc: "jgg@nvidia.com" <jgg@nvidia.com>, koby.elbaz@intel.com,
- konstantin.sinyuk@intel.com
-Subject: Re: [PATCH 1/1] MAINTAINERS: Change habanalabs maintainer
-In-Reply-To: <f543ec81-1092-4700-b695-c4126f122444@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240729121718.540489-1-obitton@habana.ai>
- <20240729121718.540489-2-obitton@habana.ai>
- <dc139f06-3f5a-4216-93c2-1e8b3b9c27ba@intel.com>
- <87cyevy9k0.fsf@intel.com>
- <f543ec81-1092-4700-b695-c4126f122444@intel.com>
-Date: Thu, 06 Mar 2025 16:12:08 +0200
-Message-ID: <874j06w8nb.fsf@intel.com>
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43BC810E935
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:12:38 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6ddcff5a823so4350466d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:12:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741270357; x=1741875157;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9w95l6741tt/4ainrJVSGUVwqtU9mkEIQhAfIpu6hIQ=;
+ b=iMPmeJSxD8JQWssuIyETyRextkHL/VyNVMWRhJYxO6PlCanWJ5Xbv4Omv3OqYsS1Ed
+ 3EiKoiUDKw5VZsjadqpCY4a3lmXVlVwyGsX1UILGtXCMbU3Pd39Wd1caF0FX5rhMPzSX
+ MdTsEG4ksK3wi/9H5B5YDJcT0h0eRdOK+TEoCVPCbtadrz7DRg9sIzyQyHPiU3x1Lp6w
+ K+eu27oJYZctmetfrYR/PekjvdsvIHdbd9coZT1h+pQF8ZdLE4nlzivOohjMXodV56AE
+ Z9CLVjeYnVsTjxWdF/vtMqzrVnCjvAF4T8j60TGuzvbE79JbnupxF4oAEdOggwWlxCu6
+ oopQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVvKVoPONgryG5aaCC+4KM319MiJnPWxWFVsprwkeZUgJBp92yjsY7uSWP2kFQPvey0Nk5IJYbrEqs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiXiVeKQOY7J2FaCrE1R9SXqHwBF8+bPaDYsY0Rp8qXpcMnhck
+ 4OWmpH5gGOVuSMkRtMPafib/MrttXvCw5QveNWSiTGDh3WZqMrex/HPKkO9h
+X-Gm-Gg: ASbGnct3aoQqvKyWSQrXMWPqRwcGxgQm8sNcnjIj50BeALbGqP+cGQvrM8b64No03A0
+ Nwhw1Pzl3KFDpMQtuPdGo1evfmelpXaxy63S/UMazBbC42saqXYGVg/rMp1tuoBYoSa7xyKhveg
+ ci9EcO6beeYRGTbrMgNthGhJ62R3n/7PBXXO2qNHCfga1mJ69qaKTLwZ4GK/9NKzfgZ5bzVOy2+
+ fBKFB6fMWOGQRaEv2AAHv27hKbybtNffJGxcecSm9fWky4N7nRfme/OCZJAnxuNWN95Id7IvBDP
+ lpcTx5LU4jYrcGe1+ptqZz4XUL7jB93e2A2vzrtQwCpp8kxlCxgpkCqkhLlapz0f70CAZsS8+Lh
+ sDtqqa2Q=
+X-Google-Smtp-Source: AGHT+IG4BnVi7vXsH/uGX/cSiX4ZZ7Pm0C0+VGl8cO6Z8z2PqTGlyWN3meNE73AiE3CeYcVpu3WCWg==
+X-Received: by 2002:a05:6214:c28:b0:6e8:8934:337e with SMTP id
+ 6a1803df08f44-6e8e6daab83mr101078286d6.38.1741270357358; 
+ Thu, 06 Mar 2025 06:12:37 -0800 (PST)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com.
+ [209.85.219.54]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6e8f715b4fcsm7558986d6.78.2025.03.06.06.12.36
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Mar 2025 06:12:37 -0800 (PST)
+Received: by mail-qv1-f54.google.com with SMTP id
+ 6a1803df08f44-6ddcff5a823so4349566d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:12:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVBN0I2ACHm4F753nFpuV8/uz3VP5lqdj+54DdoCE6JqYDz6xxGGmvPehGgce7iEZzBartm1350Abo=@lists.freedesktop.org
+X-Received: by 2002:a05:6214:5287:b0:6e6:683c:1e32 with SMTP id
+ 6a1803df08f44-6e8e6cfe364mr103086106d6.8.1741270353722; Thu, 06 Mar 2025
+ 06:12:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20250225210316.3043357-1-robh@kernel.org>
+ <20250225210316.3043357-2-robh@kernel.org>
+In-Reply-To: <20250225210316.3043357-2-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Mar 2025 15:12:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVuTgOnTw_xXZ23-+RTvPxgQFpMQD=fPgu0CaeP2bQE2Q@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp-7DXJEQQeg30O9jhmPV8jIkRv8kW6lNjjvAd7Gsc4GXS7ywNeuGDPxjI
+Message-ID: <CAMuHMdVuTgOnTw_xXZ23-+RTvPxgQFpMQD=fPgu0CaeP2bQE2Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: display: mitsubishi,aa104xd12: Adjust
+ allowed and required properties
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +94,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 06 Mar 2025, "Avizrat, Yaron" <yaron.avizrat@intel.com> wrote:
-> On 05/03/2025 13:57, Jani Nikula wrote:
->> On Wed, 05 Mar 2025, "Avizrat, Yaron" <yaron.avizrat@intel.com> wrote:
->>> On 29/07/2024 15:17, Ofir Bitton wrote:
->>>> I will be leaving Intel soon, Yaron Avizrat will take the role
->>>> of habanalabs driver maintainer.
->>>>
->>>> Signed-off-by: Ofir Bitton <obitton@habana.ai>
->>>> ---
->>>>  MAINTAINERS | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index ed2d2dbcec81..a4b36590061e 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -9599,7 +9599,7 @@ S:	Maintained
->>>>  F:	block/partitions/efi.*
->>>>=20=20
->>>>  HABANALABS PCI DRIVER
->>>> -M:	Ofir Bitton <obitton@habana.ai>
->>>> +M:	Yaron Avizrat <yaron.avizrat@intel.com>
->>>>  L:	dri-devel@lists.freedesktop.org
->>>>  S:	Supported
->>>>  C:	irc://irc.oftc.net/dri-devel
->>> Acked-by: Yaron Avizrat <yaron.avizrat@intel.com>
->>>
->>> Apologies for the long silence =E2=80=94 it=E2=80=99s been a challengin=
-g period with
->>> the Habanalabs-Intel merger, but we're back and ready to continue
->>> contributing.
->>>
->>> We'll be moving forward with our roadmap =E2=80=94 upstreaming the late=
-st
->>> HabanaLabs driver, including recent changes and full support for the
->>> entire GaudiX series.
->>>
->>> To support this effort, Koby Elbaz and Konstantin Sinyuk will join me
->>> as co-maintainers on a regular basis.
->> Should they be added as maintainers in the MAINTAINERS entry too?
->>
->> Are you going to pick this up and apply to the Habanalabs repo, and send
->> a pull request with it? Or how do you propose to proceed?
->>
->>
->> BR,
->> Jani.
->>
+On Tue, 25 Feb 2025 at 22:03, Rob Herring (Arm) <robh@kernel.org> wrote:
+> The Mitsubishi aa104xd12 panel requires an external backlight driver
+> circuit, so allow the "backlight" property.
 >
-> Yes, in a later patch, they would be added as maintainers in the MAINTAIN=
-ERS entry too.
-> Regarding your second question, we should start with merging Ofir's initi=
-al patch.
-> Any additional/upcoming changes will be initially merged into the officia=
-l HabanaLabs repo as you mentioned above.
+> There are users of this panel without a vcc-supply, so it shouldn't be
+> required.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
 
---=20
-Jani Nikula, Intel
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
