@@ -2,78 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D57A549A5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 12:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63200A549A9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 12:40:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C99F10E94B;
-	Thu,  6 Mar 2025 11:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B34510E949;
+	Thu,  6 Mar 2025 11:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ivQ+J6J2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="keckk8NZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 144EC10E949
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 11:40:33 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id
- 5614622812f47-3f3edbef7d2so185635b6e.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 03:40:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741261232; x=1741866032; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7gOXYzq9nqcs8aHgZt+3uZFVTQyVn9buEBCz2wyHWs4=;
- b=ivQ+J6J25Bjcm8tXQWOdZ6xeUMvKZFk+DGOxEBmLLvTX+m3J58CkODW8nAmmQ+T749
- 5+pAB5TiD7Vb35hT+Da3LNOO7tRebSK7T8FTnS9F7hepmew6hzIbLFFRFA2gVLVCGJxs
- o/Y4lnLE5cC1361kvTlujUGZBnJ5goUh1l2xNI6iltmiCJb0cUvJJ7A2BhpvzXz+JSJe
- jVmnuQjwfdiQgHpkLREV4yzFGSFRfbux1kIesbvW6bxB6oCcQqgRx0Z623J1cwEzQobH
- Ps5tEMiroOBWXchAAUoJyHc9HbdgUfqjSyNdq+jA/iTtdUOebxxLkB1ihtTh2tNeLNhT
- f0bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741261232; x=1741866032;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7gOXYzq9nqcs8aHgZt+3uZFVTQyVn9buEBCz2wyHWs4=;
- b=cL0K0qxRuU2e4TQXBrqaL0B727CZn3Yy5yVNgWk9nV6YJYC6H8P5n0GsGJxyN8pTr9
- YDU/ZDOs2O531RW2cDMTmfUrHoYTHa+s/3JmoItFXR2Pzvl2GnALfhHhGHAwqy8MuoKI
- mGPsuFS/AQtaNqXOFzHBvh8jvFKSRULf6AHyAj+DLzrl8MJXkXyCH0CoZ6yQ676cr8SL
- 9wv6VPP4v9Bc/o5H+UeJiG9bAkGzCco6tL4QB8ee/e145xBLGSLwmmXjVhP1rlAbSKCK
- BLwfiz+JnhAA6vg758j+tTPhRGJJl94mbcARWg9D3iYTPAuwt4DeL6oqR5Ux4DNRach4
- 7bOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqr2hoy8nbO/ylfAVLlNxPiFc764GbmPvQLDnaZIjStQC2a6DpuigKTI8PY29D8eR9X+eavWxu0rE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxvu00xXuQIlXN6K4teS5mtqGDfdaJqSGza0prG+FrIhKjj0ZZp
- QT/R8i76RzNeNuGByDBywTSzmULbTrV7/ramF3JFRNo1DjBjV+VNI0ZQFfz/zvgoPGcxMHmwghp
- b9rH7F8oCdlj5iTW5vebGcjF+A1Q=
-X-Gm-Gg: ASbGncuuleQSWfyWaD2LTeo3Gx4iUiTxlp5eD2CdCUz6F1P+Y3JOrrRcembGBSTfPHT
- jNRJpFx8AaI3qTbadD45u86pJCePzJbER6Yay7Bpp00O8mDp0Thm3Qcy6gyzRNkJlJlIWU/vBMg
- 0YcIIiuuVVqWkz+D2PcZ13tZFx
-X-Google-Smtp-Source: AGHT+IEBHIhyO9+1uVVsz6t3TEe1SqOAcPgdQVGj4AVDvCzuJWAhsMw6GjuELn/dnLHLmMgNkrhRhzGAWIhQai37hts=
-X-Received: by 2002:a05:6808:2e9a:b0:3f6:7832:77f1 with SMTP id
- 5614622812f47-3f6831efa80mr3740715b6e.33.1741261232222; Thu, 06 Mar 2025
- 03:40:32 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3B310E950;
+ Thu,  6 Mar 2025 11:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741261255; x=1772797255;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=bTEUk+6VnBTihhXT4Le7u457efB+7ppYZXXke7+ATxM=;
+ b=keckk8NZ6IoSBwFLqniaRNeMso1jJaH+1GJQyD0K0eoFmuTQ4sj8Gbup
+ t4U6VKZ3txdv34QHiJ/UQe6l6L1h4oDOGv0Fre0UhkQMFOdmxMkGtVFrA
+ s8hXus87FLQwqqXZscO5TLhv3+l5mLne1BT/27pJH2sPQex0aGELQuimc
+ YJouiDAEx7oKfrAEo41Y63zYiuTeQFWSQxC63i+UiIDj4cJyUzOGGhYmm
+ nI4Wi3Yy1TpW55tuw4Vv9xcxNegxAPbtRbtrwPuJu4wuy5IFjxBNzlWil
+ qlHkkX9mV8wKgP8P31vwg3SQmPHgzl/4NqwUEV03Ce4CzNI4TX6GPZE5E g==;
+X-CSE-ConnectionGUID: QUqxeQp1T4u3xfHZuovJ3Q==
+X-CSE-MsgGUID: RH/XiryzROGZWe0SHf3tnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41514795"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="41514795"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 03:40:55 -0800
+X-CSE-ConnectionGUID: +WQR3oquQES/0SENHI01Zw==
+X-CSE-MsgGUID: 1ftJT9LkSkG7XVshHF9WwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="124010411"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.151])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 03:40:52 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v3 0/4] drm/i915: Fix harmfull driver register/unregister
+ assymetry
+Date: Thu, 06 Mar 2025 12:40:48 +0100
+Message-ID: <2748512.BddDVKsqQX@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <3de2rgkr5lwzqs2v3rvmyds5zsjtj4eoitsojs5kd4bl545nn4@rzkcinr6f2bi>
+References: <20250305191152.164615-6-janusz.krzysztofik@linux.intel.com>
+ <3de2rgkr5lwzqs2v3rvmyds5zsjtj4eoitsojs5kd4bl545nn4@rzkcinr6f2bi>
 MIME-Version: 1.0
-References: <20250306112046.17144-1-i.abramov@mt-integration.ru>
-In-Reply-To: <20250306112046.17144-1-i.abramov@mt-integration.ru>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 6 Mar 2025 12:40:20 +0100
-X-Gm-Features: AQ5f1Jo-Q_unUYceAIgdIls3n-1TkFDSFuK08TpYbXPzRE5wm2xyWkPcAOXeLSI
-Message-ID: <CAMeQTsZJp7AGYtcanGwJObFw=7U897biXvPs4xm-igCFN_6G8w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/gma500: Add NULL check for pci_gfx_root in
- mid_get_vbt_data()
-To: Ivan Abramov <i.abramov@mt-integration.ru>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Alan Cox <alan@linux.intel.com>, Dave Airlie <airlied@redhat.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,51 +79,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 6, 2025 at 12:21=E2=80=AFPM Ivan Abramov
-<i.abramov@mt-integration.ru> wrote:
->
-> Since pci_get_domain_bus_and_slot() can return NULL, add NULL check for
-> pci_gfx_root in the mid_get_vbt_data().
->
-> This change is similar to the checks implemented in mid_get_fuse_settings=
-()
-> and mid_get_pci_revID(), which were introduced by commit 0cecdd818cd7
-> ("gma500: Final enables for Oaktrail") as "additional minor
-> bulletproofing".
->
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-> Fixes: f910b411053f ("gma500: Add the glue to the various BIOS and firmwa=
-re interfaces")
-> Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
+Hi Krzysztof,
 
-Thanks for the patch
-Applied to drm-misc-fixes
+Thank you for looking at it.
 
-> ---
-> v2: Update Fixes tag as per Patrik Jakobsson's observation.
->
->  drivers/gpu/drm/gma500/mid_bios.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/gma500/mid_bios.c b/drivers/gpu/drm/gma500/m=
-id_bios.c
-> index 7e76790c6a81..cba97d7db131 100644
-> --- a/drivers/gpu/drm/gma500/mid_bios.c
-> +++ b/drivers/gpu/drm/gma500/mid_bios.c
-> @@ -279,6 +279,11 @@ static void mid_get_vbt_data(struct drm_psb_private =
-*dev_priv)
->                                             0, PCI_DEVFN(2, 0));
->         int ret =3D -1;
->
-> +       if (pci_gfx_root =3D=3D NULL) {
-> +               WARN_ON(1);
-> +               return;
-> +       }
-> +
->         /* Get the address of the platform config vbt */
->         pci_read_config_dword(pci_gfx_root, 0xFC, &addr);
->         pci_dev_put(pci_gfx_root);
-> --
-> 2.48.1
->
+On Thursday, 6 March 2025 12:00:40 CET Krzysztof Karas wrote:
+> Hi Janusz,
+> 
+> throughout the series you modify the code right after
+> introducing it. 
+
+Yes, that split among patches reflects my way of getting to a solution that 
+not only resolves the issue but also tries to address comments I got and take 
+care of resulting code clarity.  That's why I mentioned the possibility of 
+squashing one or more follow-ups with the initial patch.  Patch 1/4 alone is a 
+minimal fix that actually resolves the issues.  The rest is only about 
+satisfying Andi's comments (patch 2/4) and simplifying the code (patches 
+3-4/4) that we may or may not want to apply or squash.
+
+> How about changing the order of things a bit:
+>  1) order the functions in a symmetrical way between
+>   register/unregister steps and group them as you see necessary,
+>   (At that point you would not be fixing the issue yet, but
+>   prepare the code for further changes)
+
+Please note that I still haven't achieved full symmetry.  If I only had clues 
+from authors of patches that introduced asymmetry on why they did it that way 
+then I would think of reordering the steps to achieve full symmetry, each in a 
+separate patch, together with meaningful justification and possibly 
+alternative solutions to issues that asymmetry was trying to address.  Without 
+those clues, more work on analysis and more testing is needed, I believe, and 
+that would be still more beyond the scope of a quick fix I initially intended.
+
+> 
+>  2) then introduce the new flag along with all the labels needed
+>   for clean unregistration.
+
+The flag, or a single global point of indication if device registration 
+succeeded or not, was an idea suggested by Andi, and now objected by Jani from 
+the display code PoV, so not a final solution.
+
+BTW, have you seen v1 of the series[1]?  How do you find it, compared to v2/3?
+
+Thanks,
+Janusz
+
+[1] https://lore.kernel.org/dri-devel/20250206180927.2237256-5-janusz.krzysztofik@linux.intel.com/
+
+> 
+> I think that way you could reduce number of patches (and changes
+> in code needing review) while also fixing the original issue.
+> 
+> Overall, I believe this is a good effort and much needed change
+> in registration and unregistering process.
+> 
+> Best Regards,
+> Krzysztof
+> 
+> > Starting with commit ec3e00b4ee27 ("drm/i915: stop registering if
+> > drm_dev_register() fails"), we may return from i915_driver_register()
+> > immediately, skipping remaining registration steps.  However, the
+> > _unregister() counterpart called at device remove knows nothing about that
+> > skip and executes reverts of all those steps.  As a consequence, a number
+> > of kernel warnings that taint the kernel are triggered.
+> > 
+> > Introduce a flag that indicates device registration status and raise it on
+> > device registration success.  As a minimum (first patch), when that flag
+> > is found not set while unregistering the driver, jump over those reverts
+> > of registration steps omitted after device registration failure that are
+> > not ready for being called unconditionally (and trigger the kernel
+> > warnings).
+> > 
+> > With the second patch, also jump over reverts of other driver registration
+> > steps that were not called due to device registration failure.  Some
+> > unregister function calls, found implementing additional steps beyond the
+> > register reverts, are still executed.
+> > 
+> > To simplify i915_driver_unregister() code, the third patch makes sure
+> > reverts of driver registration steps executed before potentially
+> > unsuccessful device registration are symmetrically called after
+> > the device unplug.
+> > 
+> > Finally, the last patch further simplifies the i915_driver_unregister()
+> > code by moving two required steps down, right after device unplug.
+> > 
+> > The first patch may be squashed with one or more of its follow-ups if so
+> > decided.
+> > 
+> > Janusz Krzysztofik (4):
+> >   drm/i915: Skip harmful unregister steps if not registered
+> >   drm/i915: Omit unnecessary driver unregister steps
+> >   drm/i915: Fix asymmetry in PMU register/unregister step order
+> >   drm/i915: Group not skipped unregister steps
+> > 
+> >  drivers/gpu/drm/i915/gt/intel_gt.c |  6 ++++++
+> >  drivers/gpu/drm/i915/i915_driver.c | 18 ++++++++++++------
+> >  drivers/gpu/drm/i915/i915_drv.h    |  2 ++
+> >  3 files changed, 20 insertions(+), 6 deletions(-)
+> > 
+> 
+
+
+
+
