@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DE2A550CE
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:28:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED68A550D1
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:28:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15E6610E751;
-	Thu,  6 Mar 2025 16:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B1410E9F4;
+	Thu,  6 Mar 2025 16:28:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DCS5f+y5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TNvQowNL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A283D10E751
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:28:29 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2f44353649aso1509216a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:28:29 -0800 (PST)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4343810E9F4
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:28:37 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2fec13a4067so1485872a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:28:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741278509; x=1741883309; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1741278517; x=1741883317; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rykqQnwPkGRFwR5KILLeuUxXhWjh1d/Lo2VO4W9LQtQ=;
- b=DCS5f+y5w4DB79FrvlOvfSHLF4AKMpisfTa7wQOl3uHUqQcOCJjmCLqyYj+zaP5bcn
- 0IVZyCS+qIi7tcHCsfgurUM7AKL2DGZCorMDYEKPImQC+Ayq419Ftsk5Dq+m5dfJJj2f
- 9va/FzyyuXZpFJi2t3t9MRkfd+G7tYRkuVQ9PBbANNGZwMn+jPObTR0j2Ihhtqv5xPJ3
- MGk0b+kMBJ78Cd8v9AywSCpGP8jwKWUGpW99ZNuSTTvrqO5wVATdSwycKHKpdsvVtXog
- 6SNwA9pWeZcXRCbPFOwyZS/hxyFiCB/FHV8yeblToURXmJXQvAKwRGD2PyFDnmHmnsN3
- vRSA==
+ bh=AlCo47pw1I/mq/I7vHIVVBFEFMdGZP7EQcov25MLW34=;
+ b=TNvQowNLS9yWqLMOpgL+5Yssf7rRhQ2yKjicIKwTU9pn9g2qSMp3+EFYF6xnfpVsBe
+ 2JdptVYq9Lshy+fTvUB/Yfm1u/Wn/z/xmWdw1xC9MexpZGXoFHR8uGkhGjqMp3I4oJDH
+ uiFvR3LN1Z2O3PJKjfmvSR0+T3mjtKSBGsZFGnsqjOHwwuHiY24bbmh20r7l+RTl7xYE
+ +QtwJCpDURy/gF2D6GSd8JUadW08hctddThMH1YL0zzUaQCw6wVFXSq9r5ngNNBEubIl
+ xOnsaaiRElFqIb/ItXY8YCj3nfYm7BJM1RsXNx9QUbt9zNRlD/zaF0m8vMIAk5Z8EYLy
+ EBTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741278509; x=1741883309;
+ d=1e100.net; s=20230601; t=1741278517; x=1741883317;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rykqQnwPkGRFwR5KILLeuUxXhWjh1d/Lo2VO4W9LQtQ=;
- b=JOMLIEHb4bKSxE2Six5N3lR+uxmlSq2uXZ5fBM+FWiVuViSZ5X6LK47bFX6VHKV/Vg
- gqmv6FuAP/bHIusjG7vclqluL+rBbSXtWFTwqiHehHU/XNleOkQDFU0CeCjTxBOD1AYr
- WY1oqUTxmfCK/MPWw5af11c6qOA3lHBD0C1hYLyRTDnz1kbKuoraL1PHx4tr3JNTdIZ6
- GIw4AUoSp/lPTCc2Jpi3rKm3XDFsn97vrP/2krxkftFpe+JQoqOXVeqXYn5kfS75u3kT
- cgp3vkQ/v3CgA0dzS4+4ggNu1PCAsgbsHfHiqzlme8B4LfjG82jl/XEWgTNS450v7QKE
- ZNdA==
+ bh=AlCo47pw1I/mq/I7vHIVVBFEFMdGZP7EQcov25MLW34=;
+ b=hL3NptBm6riNWGA23tlOT0TDK7vB3he0P0JMSZAg84oEc2YbB81ePi7/XOIEFHrHW4
+ iyjJYKBRm+uzdoWM5sPF9eoOB7RwOOT8HdpBrJ89DTzQa/rX9+w+PewIE4N9IdR9o4ZX
+ FNsuiUymETQ7JbBPwWFPxsTJi1yLqfjAiWISg/j7a88yWnWxGxg48/AOhHDy9nwJ4k+e
+ m8q7yKlDr2XslHutSf/gClOV9Aroxuo6qaAuDatomAwWncCZ6i7lu2AL8Z3ntAYl0d9C
+ UWmR9B9O5+cGZe1bV6jgP+ePKyqBOFTVdGoyM7HKs5vpVkCsno/dJ5DK31EFk8vv10Lp
+ A+Zw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXm0G6YuU6Z8pK4PobZTPILX/2zGZ/bpGFqqeW91f+D8BQz3o/zlEIG1dCiGEw3JWUVhGPMgYTOwY8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUo7njfoAn7pGil0EY/chGcBXuEgi386ywQHS7V5o9eL75inGc
- O6iGdfqAASKPaTYiuwsWD5hYOCosTQPyDEBVJJQTKAHjYTnbP9fd
-X-Gm-Gg: ASbGncvGnG4Uvkr+c+Lr/nQ5gCOsErcTXi21j9IsFNgPvN1lJUdGkg0wq6d9nsjl9SY
- sNuAUFGdlDapfw1Rm65G3gqWuKhhddzm6HWwnMXujPHAwPqngMZYSvrulHyzJK9cSdZyLkITRUL
- ZwOu8Tnt4lUiWl47NhXBbl451L9jkSOBmjZw+cl5m1L+DmthwBx2Hdlcl+LYyTus/7S5Ob78R3b
- SIc9Mih6l7O/cA2LtyNHuj0BpXfcMI4RyuZUXaCoVkDP5l2jWKCNbIP3K2C6s0YENK7oVwbARDh
- 5VOwMyRUlMIH+C7mUsw2lGNhmvPBdoiBBsPBMRXr6uSOERkS8rQe9pGLx/plTJsDSlYxdXrupgI
+ AJvYcCUUKQNR66HhARN6+/c6OqszxaPhlKs83uZu0stv5Td1BkWCqDM7yzo2qO5ah4eGOgpwcC9VCLrq+Yo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5WEeVJ4BBYfkOXliro0YiOZFyPSMnczv7475TPN+Z5PIQpzTK
+ GE2T0G9DJedq+a12cZkxWbj3ZBPpHGe7yjITLxNEquQsxHwIYDFh
+X-Gm-Gg: ASbGncvBax6pnoO2uenvKyhpFpHmWAueclVDI7dVyS7vGEe6fcAJGKxobHf8hidevwa
+ Ctom15pyXEyC5nVY/n7fc/e+19FlWokbRzVgqfiQNEVKOrRtU/JGvgUhn8a4GBhxP94ikg9SqRf
+ crestB2PkKw42SO7FzAh4XpCpGwXJLRjAeT1npK9BXivan6LlS815X95MoSi9noZBfPmSvQyE6y
+ PNqvhU55gJ+U8k8PgWaqJt2AeRMJiL1zJ636HLesLznqW69Rzi6IY7cp5KjZT3ubXHK4hCoPqFS
+ Vbts6lfF2nDGTZoRHpUBmGaifDJkf8VFeE7ubQOamvwXhpnDZo4fzHf2Q9Lendk5hg1X2UyarOA
  =
-X-Google-Smtp-Source: AGHT+IE7CMC10LMwovhBW4tB6jZafU5napSqaqhkL82rznmGKafZamE59+csgSshd0lW2KvQujLljw==
-X-Received: by 2002:a17:90b:568b:b0:2f9:c139:b61f with SMTP id
- 98e67ed59e1d1-2ff49728389mr14240353a91.14.1741278507670; 
- Thu, 06 Mar 2025 08:28:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEEoNncBZARV2kGM5Yy+T23A5PpEPT2NiyzW+biIXJ8M18fImFLR3KC2etUuhFwV9KdupSQZw==
+X-Received: by 2002:a17:90b:1f88:b0:2fe:68a5:d84b with SMTP id
+ 98e67ed59e1d1-2ff49716658mr11420319a91.1.1741278516777; 
+ Thu, 06 Mar 2025 08:28:36 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.28.19
+ 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.28.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 08:28:27 -0800 (PST)
+ Thu, 06 Mar 2025 08:28:36 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -85,10 +85,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v3 15/16] Input: joystick - Replace open-coded parity
- calculation with parity64()
-Date: Fri,  7 Mar 2025 00:25:40 +0800
-Message-Id: <20250306162541.2633025-16-visitorckw@gmail.com>
+Subject: [PATCH v3 16/16] nfp: bpf: Replace open-coded parity calculation with
+ parity64()
+Date: Fri,  7 Mar 2025 00:25:41 +0800
+Message-Id: <20250306162541.2633025-17-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250306162541.2633025-1-visitorckw@gmail.com>
 References: <20250306162541.2633025-1-visitorckw@gmail.com>
@@ -117,79 +117,37 @@ Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/input/joystick/sidewinder.c | 24 +++++-------------------
- 1 file changed, 5 insertions(+), 19 deletions(-)
+Changes in v3:
+- Change parity64() to !!parity64().
 
-diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
-index 3a5873e5fcb3..9fe980096f70 100644
---- a/drivers/input/joystick/sidewinder.c
-+++ b/drivers/input/joystick/sidewinder.c
-@@ -7,6 +7,7 @@
-  * Microsoft SideWinder joystick family driver for Linux
-  */
+ drivers/net/ethernet/netronome/nfp/nfp_asm.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/drivers/net/ethernet/netronome/nfp/nfp_asm.c b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
+index 154399c5453f..14306f128497 100644
+--- a/drivers/net/ethernet/netronome/nfp/nfp_asm.c
++++ b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
+@@ -295,11 +295,6 @@ static const u64 nfp_ustore_ecc_polynomials[NFP_USTORE_ECC_POLY_WORDS] = {
+ 	0x0daf69a46910ULL,
+ };
  
-+#include <linux/bitops.h>
- #include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -240,21 +241,6 @@ static void sw_init_digital(struct gameport *gameport)
- 	local_irq_restore(flags);
- }
- 
--/*
-- * sw_parity() computes parity of __u64
-- */
--
--static int sw_parity(__u64 t)
+-static bool parity(u64 value)
 -{
--	int x = t ^ (t >> 32);
--
--	x ^= x >> 16;
--	x ^= x >> 8;
--	x ^= x >> 4;
--	x ^= x >> 2;
--	x ^= x >> 1;
--	return x & 1;
+-	return hweight64(value) & 1;
 -}
+-
+ int nfp_ustore_check_valid_no_ecc(u64 insn)
+ {
+ 	if (insn & ~GENMASK_ULL(NFP_USTORE_OP_BITS, 0))
+@@ -314,7 +309,7 @@ u64 nfp_ustore_calc_ecc_insn(u64 insn)
+ 	int i;
  
- /*
-  * sw_ccheck() checks synchronization bits and computes checksum of nibbles.
-@@ -316,7 +302,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
+ 	for (i = 0; i < NFP_USTORE_ECC_POLY_WORDS; i++)
+-		ecc |= parity(nfp_ustore_ecc_polynomials[i] & insn) << i;
++		ecc |= !!parity64(nfp_ustore_ecc_polynomials[i] & insn) << i;
  
- 			for (i = 0; i < sw->number; i ++) {
- 
--				if (sw_parity(GB(i*15,15)))
-+				if (parity64(GB(i*15,15)))
- 					return -1;
- 
- 				input_report_abs(sw->dev[i], ABS_X, GB(i*15+3,1) - GB(i*15+2,1));
-@@ -333,7 +319,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
- 		case SW_ID_PP:
- 		case SW_ID_FFP:
- 
--			if (!sw_parity(GB(0,48)) || (hat = GB(42,4)) > 8)
-+			if (!parity64(GB(0,48)) || (hat = GB(42,4)) > 8)
- 				return -1;
- 
- 			dev = sw->dev[0];
-@@ -354,7 +340,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
- 
- 		case SW_ID_FSP:
- 
--			if (!sw_parity(GB(0,43)) || (hat = GB(28,4)) > 8)
-+			if (!parity64(GB(0,43)) || (hat = GB(28,4)) > 8)
- 				return -1;
- 
- 			dev = sw->dev[0];
-@@ -379,7 +365,7 @@ static int sw_parse(unsigned char *buf, struct sw *sw)
- 
- 		case SW_ID_FFW:
- 
--			if (!sw_parity(GB(0,33)))
-+			if (!parity64(GB(0,33)))
- 				return -1;
- 
- 			dev = sw->dev[0];
+ 	return insn | (u64)ecc << NFP_USTORE_OP_BITS;
+ }
 -- 
 2.34.1
 
