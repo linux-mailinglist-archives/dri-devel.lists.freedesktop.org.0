@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68843A5543D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 19:11:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D16A55446
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 19:11:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B90E610EA5D;
-	Thu,  6 Mar 2025 18:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A45E310EA5B;
+	Thu,  6 Mar 2025 18:11:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E55EmeLX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H0tFRW+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD33710EA5D;
- Thu,  6 Mar 2025 18:11:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3190010EA5A;
+ Thu,  6 Mar 2025 18:11:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 112C9A45054;
- Thu,  6 Mar 2025 18:06:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2361AC4CEE0;
- Thu,  6 Mar 2025 18:11:28 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B71E8A4503C;
+ Thu,  6 Mar 2025 18:06:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF211C4CEF3;
+ Thu,  6 Mar 2025 18:11:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741284698;
- bh=TGDEu2STiqYGeD3JRa0RBM3cTzKUNBPChBweLyyidiw=;
+ s=k20201202; t=1741284708;
+ bh=Lg8OMwB1TlZ3vqDkS3JAutAwNZfreerCcV/Pp6SERuo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=E55EmeLXqmagfIpWgpi7jjJYLRMx2cH7bqj2sbGLvoDlVUQeT1qXYQVQ7aBz3TfBv
- L1GnHx5iJw5LILaUZVVd5PUrb4lBJy5A3bOvhsr+msMBuXBL+CyqGMQkjSrmFm/GXf
- /xFaYgKtDBebfBg4n7FWQPWFr865vccT6w1bRI6PuPcI5iC3MDIwANy6IhM5L1QBae
- mVfq/Sx/g+YDAaekZJSltViMJx/g5vMUbh40bt/333QKpyM8TT+R+klLD6QhF97RXW
- ce25W2PW9JcvmJIe3nBpiOjhnzPrJOqDFwHAtOYLEwBfp0n0nUKzK1MSG8kzPUy+hb
- vy7WYqrtgKNBw==
+ b=H0tFRW+0GMOzxCov/2CpSpJmD3ljpDYJ7QDjRy8RIDkr0xohFL95FIOgCiwQKjJMh
+ sAs5NbQYPhExD027SeU0IaTU96Pi/Ss+xjRmUNVdA8Z2GgCs/7VY2GhugE728rwuV6
+ gfWNNyA2KZ4yLMeIKy2vL89I4aZ8qbddl40dM7OPe/EhovnA6P41JXjlBbkF45rrqC
+ go5aC/LSXRlGfI8msy1ybJtUHB5co6p8kkMB+2J8KWgn6SC+Q9kr+JpA8fQkCi336q
+ jIzo5OF2jw4tPqk+hg+5dI/fsL7a1LM74tlMWpX9yggFPZgyo+E3DpKBegqPvZBIeX
+ +HHMAjeCXivcw==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Thu, 06 Mar 2025 19:11:13 +0100
-Subject: [PATCH 01/11] dt-bindings: iommu: qcom,iommu: Add optional TBU clock
+Date: Thu, 06 Mar 2025 19:11:14 +0100
+Subject: [PATCH 02/11] dt-bindings: display: msm: sm8350-mdss: Describe the
+ CPU-CFG icc path
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250306-topic-dt_bindings_fixups-v1-1-0c84aceb0ef9@oss.qualcomm.com>
+Message-Id: <20250306-topic-dt_bindings_fixups-v1-2-0c84aceb0ef9@oss.qualcomm.com>
 References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
 In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
@@ -62,11 +63,11 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741284679; l=1136;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741284679; l=1199;
  i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=GbSJhNvPymdXfLEhMABU7ydqhf3LjmvyneLWjlqwYcY=;
- b=Gvxxdpcoh52RW4kU1ayFveBjlOW3okp2WEGgXcJakTS1JpAZj2OYMvZDAVGPqFKpZL2uVdxcN
- rPakUHjJQTQDsRfMVYqAMosWgIdVzkB5xsq0u8SY1sRBLb9OTb+VSmp
+ bh=WAIG5J6lBLZI7pGI8lxlnhUdSlxey3u+py6kR6LIBCs=;
+ b=w1duYqY77CoKKwCcl0eUqUxC8MHaO2gDt76adsFPXmBvtm4a7V0X+15agO8oAUc+q3B9oibZh
+ 188KKD705L5Ck6IwxpTAjZ7OJZNWVeiCEjR2UwJ3AW0gGtZdTd7SJhM
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,37 +87,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Some MMU instances feature a Translation Buffer Unit (TBU), which comes
-with its own clock. Allow describing it.
+There's a separate path that allows register access from CPUSS.
+Describe it.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/iommu/qcom,iommu.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml b/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
-index 5ae9a628261fd251c1e991a70662c6d37ef2c4e3..09879bc8ad8d04b73dd22f7f64b2d1de60409941 100644
---- a/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
-@@ -31,14 +31,18 @@ properties:
-           - const: qcom,msm-iommu-v2
- 
-   clocks:
-+    minItems: 2
-     items:
-       - description: Clock required for IOMMU register group access
-       - description: Clock required for underlying bus access
-+      - description: Clock required for the MMU Translation Buffer Unit
- 
-   clock-names:
-+    minItems: 2
-     items:
-       - const: iface
-       - const: bus
-+      - const: tbu
- 
-   power-domains:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
+index 163fc83c1e80cf07383f9aef510f2f58a26e1ecc..3733d8cd2ae07597952ebdc1d74edda330173ef6 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
+@@ -38,12 +38,16 @@ properties:
      maxItems: 1
+ 
+   interconnects:
+-    maxItems: 2
++    items:
++      - description: Interconnect path from the MDP0 port to the data bus
++      - description: Interconnect path from the MDP1 port to the data bus
++      - description: Interconnect path from the CPU to the reg bus
+ 
+   interconnect-names:
+     items:
+       - const: mdp0-mem
+       - const: mdp1-mem
++      - const: cpu-cfg
+ 
+ patternProperties:
+   "^display-controller@[0-9a-f]+$":
 
 -- 
 2.48.1
