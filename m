@@ -2,84 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7323CA5443C
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 09:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDBCA54350
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 08:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C528610E914;
-	Thu,  6 Mar 2025 08:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368CB10E051;
+	Thu,  6 Mar 2025 07:10:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mWK7ZLa7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZuqElGty";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B52510E81C
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Mar 2025 17:27:54 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-54964606482so3728976e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Mar 2025 09:27:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741195672; x=1741800472; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mQfPowMtzeZLUBwXZYQU5v1yt0PyPUIi7t8i3xRpFoI=;
- b=mWK7ZLa7xEyVWRYzokT7HaIncVDHbzMV2lBGK3+SBsrxvmqtJOHdZx8ZJxJndML76j
- setrpst/N4BB+0PWoqLrQ8vQI6J6a/ReJAeeKaptpdjOkigPImlMbFg+AwS53+kZlMsb
- +ADyeoZvtSflsDsE1NFiRB1LrAQkgM7ptxnkMgkaTOfpEPuobNrGlKFOrNJk6S+wdkU8
- bg6YRY5aUNv1BMc0/RfdjOPhnC+V6/MwAFaDN9g4PldJTWjVsY4NMbYpeRuYYtnvkagS
- 9I2F5cKk/Vok9bp2HPdsUDfrvsJctpFOwlrKQsXZnxlFQsFdyyIVeH/TNOesZigS7GIQ
- BPYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741195672; x=1741800472;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mQfPowMtzeZLUBwXZYQU5v1yt0PyPUIi7t8i3xRpFoI=;
- b=mlJcPbwZEYV1kKQhvu894FbhDRXAdpyFzLlVS8+8SLNhqDxK3Wp83cUOSz1EAMc+BG
- /3HUJxXoOpfImisxwmSFNRMlIs1NoorTWtJgvIWv/gR14/8n6TyJGRrN8fjUgzfJ0wDi
- rqamQ09uFr+fQCTXuQjSyHu6+ZnYv9VwhGjOIM+WAzLTPIeTN9qcFhQ+s+hHXYxjiQja
- PTaoCwZWZst522xBLUqKvpG0JjtBbQYIXhj7RhnHtn5A4SatlNDn4vPcizF3S/bK7FCk
- sQu5RoS8MUNq8TtXGKKjGh9O+EhfPpq4FoxK5FKtNlpIkeaZQRslemQjLrK0B3oJ/v69
- HyxA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWXA2LUnAKeKW3OcjDDYMY+gb5kUVBJcybs7qYFErkjhqggqyB5SH7WCJuLRXerWNWyxNAV7N5UaRI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxmsEPZwzR5+MvOm/4aqFPEiWD6Lk2J5Flo5d8K1olKK/xU1URR
- RscDC8qBMsfe/VqXvI4Mie4h9AqF3xBWs062ipBRxVPYbH2pZZLo
-X-Gm-Gg: ASbGncvzjL/OsvuaGB0WnyG1bITa38PJcSIYKTkaFyn9lq/BhRYq9kyqm30NfO1A4ff
- vTR9VDbgSV9jYbqMOuMeG6bvAlDD8uq9A3ZzLueVpW+ZXE2o7YwGAdGrsjfaEh2G6+YJ0D5Ah/H
- j7VGcRvO8T+qeibB5bjrFHviMnCcbU51OKCr31P1F6+LQkoGDcly3N3MsRepxMGK/+jk3V/tTQJ
- q/z337ndZ/k/2Skp7WB9TVicIEE76U5CiekQtAViegFp0b2F74zUzmRq1IfmEGnooK4rljAEz4c
- WyANjJDC3rMqEeU8xFDNG0Uq/6u8EfxrjbCUnf1fs68r06iDKtBlokFSO95RFjdInjI=
-X-Google-Smtp-Source: AGHT+IHyD6K0X+cwMdho8elbWUJdV3bSzGzUYT8hcFGebMzXlBqxa8XmfvT3QC4L7DaVDpeBC8TCQg==
-X-Received: by 2002:a05:6512:39c5:b0:549:58d5:f899 with SMTP id
- 2adb3069b0e04-5497d37a98cmr1313981e87.37.1741195671718; 
- Wed, 05 Mar 2025 09:27:51 -0800 (PST)
-Received: from pc636 (host-95-203-6-24.mobileonline.telia.com. [95.203.6.24])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54963962fe4sm1070504e87.240.2025.03.05.09.27.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Mar 2025 09:27:51 -0800 (PST)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
-Date: Wed, 5 Mar 2025 18:27:48 +0100
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
- akpm@linux-foundation.org, urezki@gmail.com, hch@infradead.org,
- dmitry.osipenko@collabora.com, jfalempe@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux.dev, linux-mm@kvack.org
-Subject: Re: [PATCH drm-next 1/2] vmalloc: Add atomic_vmap
-Message-ID: <Z8iJlOyBjsGfqvM_@pc636>
-References: <20250305152555.318159-1-ryasuoka@redhat.com>
- <20250305152555.318159-2-ryasuoka@redhat.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA3310E051
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 07:10:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 621F15C459F;
+ Thu,  6 Mar 2025 07:08:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8879FC4CEE4;
+ Thu,  6 Mar 2025 07:10:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741245018;
+ bh=uLVKQD758EUg7Bo+dpC2xCHWzH3049GVfgk/d5pPfqc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZuqElGtySpnV76JQM6BL7UC7PMl1NZrXQdii8R2nl738rgghN8/r2jNj3wmvcE80r
+ 7QaSxP2OHN12tdUR/ndi3dd6z3v1mdnexaOo1Ar45FUDqeRwQEn4F/9UWiSlFTC1Gi
+ un8WN6BBUXnlLMUt+RCHtPkXn8g/tpnFq5+uaIpEuUs1rmEgeEm52Tc+0O95UDohNt
+ Oy2VT0UXc4nW9P8tj33EDFQVDNQKR7P0Btd1srFi4dYTLeOfG4Vy4Cm7kbvDwxn/i8
+ 2zFe4f82V00q3Q17TbfnBs76nxhim0omT+y5PdO4g0R/InEaIJi62orMuv4pTaibDP
+ 0uGl/jlEhQ+Wg==
+Date: Thu, 6 Mar 2025 08:10:16 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Herve Codina <herve.codina@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
+ connector by encoder
+Message-ID: <20250306-able-wonderful-saluki-aacd1d@houat>
+References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
+ <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
+ <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
+ <20250305-ruddy-nightingale-of-wealth-db100a@houat>
+ <mqh4wedfokuta2tmyctoi6jrzol7mqzm27nj3ylu6yj2vjy22j@mexke5x2o7a2>
+ <7c1c61e7.10e1.19569067029.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="pmuiqbf7dxpe77sp"
 Content-Disposition: inline
-In-Reply-To: <20250305152555.318159-2-ryasuoka@redhat.com>
-X-Mailman-Approved-At: Thu, 06 Mar 2025 08:07:52 +0000
+In-Reply-To: <7c1c61e7.10e1.19569067029.Coremail.andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,186 +75,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 12:25:53AM +0900, Ryosuke Yasuoka wrote:
-> Some drivers can use vmap in drm_panic, however, vmap is sleepable and
-> takes locks. Since drm_panic will vmap in panic handler, atomic_vmap
-> requests pages with GFP_ATOMIC and maps KVA without locks and sleep.
-> 
-> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
-> ---
->  include/linux/vmalloc.h |   2 +
->  mm/internal.h           |   5 ++
->  mm/vmalloc.c            | 105 ++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 112 insertions(+)
-> 
-> diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
-> index 31e9ffd936e3..c7a2a9a1976d 100644
-> --- a/include/linux/vmalloc.h
-> +++ b/include/linux/vmalloc.h
-> @@ -190,6 +190,8 @@ void * __must_check vrealloc_noprof(const void *p, size_t size, gfp_t flags)
->  extern void vfree(const void *addr);
->  extern void vfree_atomic(const void *addr);
->  
-> +extern void *atomic_vmap(struct page **pages, unsigned int count,
-> +			 unsigned long flags, pgprot_t prot);
->  extern void *vmap(struct page **pages, unsigned int count,
->  			unsigned long flags, pgprot_t prot);
->  void *vmap_pfn(unsigned long *pfns, unsigned int count, pgprot_t prot);
-> diff --git a/mm/internal.h b/mm/internal.h
-> index 109ef30fee11..134b332bf5b9 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -1278,6 +1278,11 @@ int numa_migrate_check(struct folio *folio, struct vm_fault *vmf,
->  void free_zone_device_folio(struct folio *folio);
->  int migrate_device_coherent_folio(struct folio *folio);
->  
-> +struct vm_struct *atomic_get_vm_area_node(unsigned long size, unsigned long align,
-> +					  unsigned long shift, unsigned long flags,
-> +					  unsigned long start, unsigned long end, int node,
-> +					  gfp_t gfp_mask, const void *caller);
-> +
->  struct vm_struct *__get_vm_area_node(unsigned long size,
->  				     unsigned long align, unsigned long shift,
->  				     unsigned long flags, unsigned long start,
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index a6e7acebe9ad..f5c93779c60a 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -1945,6 +1945,57 @@ static inline void setup_vmalloc_vm(struct vm_struct *vm,
->  	va->vm = vm;
->  }
->  
-> +static struct vmap_area *atomic_alloc_vmap_area(unsigned long size,
-> +						unsigned long align,
-> +						unsigned long vstart, unsigned long vend,
-> +						int node, gfp_t gfp_mask,
-> +						unsigned long va_flags, struct vm_struct *vm)
-> +{
-> +	struct vmap_node *vn;
-> +	struct vmap_area *va;
-> +	unsigned long addr;
-> +
-> +	if (unlikely(!size || offset_in_page(size) || !is_power_of_2(align)))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (unlikely(!vmap_initialized))
-> +		return ERR_PTR(-EBUSY);
-> +
-> +	va = kmem_cache_alloc_node(vmap_area_cachep, gfp_mask, node);
-> +	if (unlikely(!va))
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	/*
-> +	 * Only scan the relevant parts containing pointers to other objects
-> +	 * to avoid false negatives.
-> +	 */
-> +	kmemleak_scan_area(&va->rb_node, SIZE_MAX, gfp_mask);
-> +
-> +	addr = __alloc_vmap_area(&free_vmap_area_root, &free_vmap_area_list,
-> +				 size, align, vstart, vend);
-> +
-> +	trace_alloc_vmap_area(addr, size, align, vstart, vend, addr == vend);
-> +
-> +	va->va_start = addr;
-> +	va->va_end = addr + size;
-> +	va->vm = NULL;
-> +	va->flags = va_flags;
-> +
-> +	vm->addr = (void *)va->va_start;
-> +	vm->size = va_size(va);
-> +	va->vm = vm;
-> +
-> +	vn = addr_to_node(va->va_start);
-> +
-> +	insert_vmap_area(va, &vn->busy.root, &vn->busy.head);
-> +
-> +	BUG_ON(!IS_ALIGNED(va->va_start, align));
-> +	BUG_ON(va->va_start < vstart);
-> +	BUG_ON(va->va_end > vend);
-> +
-> +	return va;
-> +}
-> +
->  /*
->   * Allocate a region of KVA of the specified size and alignment, within the
->   * vstart and vend. If vm is passed in, the two will also be bound.
-> @@ -3106,6 +3157,33 @@ static void clear_vm_uninitialized_flag(struct vm_struct *vm)
->  	vm->flags &= ~VM_UNINITIALIZED;
->  }
->  
-> +struct vm_struct *atomic_get_vm_area_node(unsigned long size, unsigned long align,
-> +					  unsigned long shift, unsigned long flags,
-> +					  unsigned long start, unsigned long end, int node,
-> +					  gfp_t gfp_mask, const void *caller)
-> +{
-> +	struct vmap_area *va;
-> +	struct vm_struct *area;
-> +
-> +	size = ALIGN(size, 1ul << shift);
-> +	if (unlikely(!size))
-> +		return NULL;
-> +
-> +	area = kzalloc_node(sizeof(*area), gfp_mask, node);
-> +	if (unlikely(!area))
-> +		return NULL;
-> +
-> +	size += PAGE_SIZE;
-> +	area->flags = flags;
-> +	area->caller = caller;
-> +
-> +	va = atomic_alloc_vmap_area(size, align, start, end, node, gfp_mask, 0, area);
-> +	if (IS_ERR(va))
-> +		return NULL;
-> +
-> +	return area;
-> +}
-> +
->  struct vm_struct *__get_vm_area_node(unsigned long size,
->  		unsigned long align, unsigned long shift, unsigned long flags,
->  		unsigned long start, unsigned long end, int node,
-> @@ -3418,6 +3496,33 @@ void vunmap(const void *addr)
->  }
->  EXPORT_SYMBOL(vunmap);
->  
-> +void *atomic_vmap(struct page **pages, unsigned int count,
-> +		  unsigned long flags, pgprot_t prot)
-> +{
-> +	struct vm_struct *area;
-> +	unsigned long addr;
-> +	unsigned long size;		/* In bytes */
-> +
-> +	if (count > totalram_pages())
-> +		return NULL;
-> +
-> +	size = (unsigned long)count << PAGE_SHIFT;
-> +	area = atomic_get_vm_area_node(size, 1, PAGE_SHIFT, flags,
-> +				       VMALLOC_START, VMALLOC_END,
-> +				       NUMA_NO_NODE, GFP_ATOMIC,
-> +				       __builtin_return_address(0));
-> +	if (!area)
-> +		return NULL;
-> +
-> +	addr = (unsigned long)area->addr;
-> +	if (vmap_pages_range(addr, addr + size, pgprot_nx(prot),
-> +			     pages, PAGE_SHIFT) < 0) {
-> +		return NULL;
-> +	}
-> +
-> +	return area->addr;
-> +}
-> +
->  /**
->   * vmap - map an array of pages into virtually contiguous space
->   * @pages: array of page pointers
-> -- 
-> 2.48.1
-> 
-It is copy-paste code, so it is odd. The proposal is not a way forward
-to me. Unfortunately vmalloc is not compatible with GFP_ATOMIC, there
-is at least one place it is a page-table allocation entries where it is
-hard-coded to the GFP_KERNEL.
 
-Doing this without locks and synchronizations is not possible.
+--pmuiqbf7dxpe77sp
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
+ connector by encoder
+MIME-Version: 1.0
 
---
-Uladzislau Rezki
+On Thu, Mar 06, 2025 at 09:16:24AM +0800, Andy Yan wrote:
+>=20
+> Hi Maxime and Dmitry:
+>=20
+> At 2025-03-06 04:13:53, "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org> =
+wrote:
+> >On Wed, Mar 05, 2025 at 02:19:36PM +0100, Maxime Ripard wrote:
+> >> Hi Andy,
+> >>=20
+> >> On Wed, Mar 05, 2025 at 07:55:19PM +0800, Andy Yan wrote:
+> >> > At 2025-03-04 19:10:47, "Maxime Ripard" <mripard@kernel.org> wrote:
+> >> > >With the bridges switching over to drm_bridge_connector, the direct
+> >> > >association between a bridge driver and its connector was lost.
+> >> > >
+> >> > >This is mitigated for atomic bridge drivers by the fact you can acc=
+ess
+> >> > >the encoder, and then call drm_atomic_get_old_connector_for_encoder=
+() or
+> >> > >drm_atomic_get_new_connector_for_encoder() with drm_atomic_state.
+> >> > >
+> >> > >This was also made easier by providing drm_atomic_state directly to=
+ all
+> >> > >atomic hooks bridges can implement.
+> >> > >
+> >> > >However, bridge drivers don't have a way to access drm_atomic_state
+> >> > >outside of the modeset path, like from the hotplug interrupt path o=
+r any
+> >> > >interrupt handler.
+> >> > >
+> >> > >Let's introduce a function to retrieve the connector currently assi=
+gned
+> >> > >to an encoder, without using drm_atomic_state, to make these driver=
+s'
+> >> > >life easier.
+> >> > >
+> >> > >Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> > >Co-developed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> >> > >Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> >> > >---
+> >> > > drivers/gpu/drm/drm_atomic.c | 45 ++++++++++++++++++++++++++++++++=
+++++++++++++
+> >> > > include/drm/drm_atomic.h     |  3 +++
+> >> > > 2 files changed, 48 insertions(+)
+> >> > >
+> >> > >diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_ato=
+mic.c
+> >> > >index 9ea2611770f43ce7ccba410406d5f2c528aab022..b926b132590e78f8d41=
+d48eb4da4bccf170ee236 100644
+> >> > >--- a/drivers/gpu/drm/drm_atomic.c
+> >> > >+++ b/drivers/gpu/drm/drm_atomic.c
+> >> > >@@ -985,10 +985,55 @@ drm_atomic_get_new_connector_for_encoder(cons=
+t struct drm_atomic_state *state,
+> >> > >=20
+> >> > > 	return NULL;
+> >> > > }
+> >> > > EXPORT_SYMBOL(drm_atomic_get_new_connector_for_encoder);
+> >> > >=20
+> >> > >+/**
+> >> > >+ * drm_atomic_get_connector_for_encoder - Get connector currently =
+assigned to an encoder
+> >> > >+ * @encoder: The encoder to find the connector of
+> >> > >+ * @ctx: Modeset locking context
+> >> > >+ *
+> >> > >+ * This function finds and returns the connector currently assigne=
+d to
+> >> > >+ * an @encoder.
+> >> > >+ *
+> >> > >+ * Returns:
+> >> > >+ * The connector connected to @encoder, or an error pointer otherw=
+ise.
+> >> > >+ * When the error is EDEADLK, a deadlock has been detected and the
+> >> > >+ * sequence must be restarted.
+> >> > >+ */
+> >> > >+struct drm_connector *
+> >> > >+drm_atomic_get_connector_for_encoder(const struct drm_encoder *enc=
+oder,
+> >> > >+				     struct drm_modeset_acquire_ctx *ctx)
+> >> > >+{
+> >> > >+	struct drm_connector_list_iter conn_iter;
+> >> > >+	struct drm_connector *out_connector =3D ERR_PTR(-EINVAL);
+> >> > >+	struct drm_connector *connector;
+> >> > >+	struct drm_device *dev =3D encoder->dev;
+> >> > >+	int ret;
+> >> > >+
+> >> > >+	ret =3D drm_modeset_lock(&dev->mode_config.connection_mutex, ctx);
+> >> > >+	if (ret)
+> >> > >+		return ERR_PTR(ret);
+> >> >=20
+> >> > It seems that this will cause a deadlock when called from a hotplug
+> >> > handling path, I have a WIP DP diver[0], which suggested by Dmitry to
+> >> > use this API from a &drm_bridge_funcs.detect callback to get the
+> >> > connector, as detect is called by drm_helper_probe_detect, which will
+> >> > hold connection_mutex first, so the deaklock happens:
+> >> >
+> >> > drm_helper_probe_detect(struct drm_connector *connector,
+> >> >                         struct drm_modeset_acquire_ctx *ctx,
+> >> >                         bool force)
+> >> > {
+> >> >         const struct drm_connector_helper_funcs *funcs =3D connector=
+->helper_private;
+> >> >         struct drm_device *dev =3D connector->dev;
+> >> >         int ret;
+> >> >=20
+> >> >         if (!ctx)
+> >> >                 return drm_helper_probe_detect_ctx(connector, force);
+> >> >=20
+> >> >         ret =3D drm_modeset_lock(&dev->mode_config.connection_mutex,=
+ ctx);
+> >> >         if (ret)
+> >> >                 return ret;
+> >> >=20
+> >> >         if (funcs->detect_ctx)
+> >> >                 ret =3D funcs->detect_ctx(connector, ctx, force);
+> >> >         else if (connector->funcs->detect)
+> >> >                 ret =3D connector->funcs->detect(connector, force);
+> >> >         else
+> >> >                 ret =3D connector_status_connected;
+> >> >=20
+> >> >         if (ret !=3D connector->status)
+> >> >                 connector->epoch_counter +=3D 1;
+> >> >=20
+> >> > So I wonder can we let drm_bridge_funcs.detect pass a connector for
+> >> > this case ?
+> >>=20
+> >> Do you actually see a deadlock occurring? AFAIK, drm_modeset_lock is
+> >> fine with reentrancy from the same context, so it should work just fin=
+e.
+> >
+> >Andy, that probably means that you should use .detect_ctx() and pass the
+> >context to drm_atomic_get_connector_for_encoder().
+>=20
+> Unfortunately, the drm_bridge_funcs does not have a .detect_ctx()  versio=
+n .
+> The call chain is:
+>  drm_helper_probe_detect=20
+>  --> drm_bridge_connector_detect(struct drm_connector *connector, bool fo=
+rce)
+> --> drm_bridge_funcs.detect(bridge)
+> The ctx got dropped when drm_helper_probe_detect call  drm_bridge_connect=
+or_detect
+> The connector got dropped  when connector call it's bridege.detect
+>=20
+> So I think the simplest solution is to have drm_bridge_funcs.detect
+> directly pass the connector
+
+I don't disagree on principle, but I think a better first step would be
+to provide a detect_ctx hook to bridges.
+
+Maxime
+
+--pmuiqbf7dxpe77sp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ8lKUwAKCRAnX84Zoj2+
+dplLAYD0PNkWx2P6tT36ZQI4vktBQwh+kmk3ttmeVB9ObjGZ8/Ms2eFWQgF1Tab2
+YpCqetIBf1d2P+PGirdlb8kkIk1NEfgOc5tRF1cL5rlFnGcXwQnyWpVG8AHTe9BF
+dODqm7D1ig==
+=n2MU
+-----END PGP SIGNATURE-----
+
+--pmuiqbf7dxpe77sp--
