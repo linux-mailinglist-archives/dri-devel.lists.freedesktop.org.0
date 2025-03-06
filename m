@@ -2,89 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF62A54B47
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 13:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D442A54B66
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 14:02:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF5210E00D;
-	Thu,  6 Mar 2025 12:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F87E10E0C0;
+	Thu,  6 Mar 2025 13:02:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IN0FRkeD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TveEw6+o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B93110E00D;
- Thu,  6 Mar 2025 12:56:46 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-2240b4de12bso13277105ad.2; 
- Thu, 06 Mar 2025 04:56:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741265806; x=1741870606; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to:from
- :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
- :reply-to; bh=04e5QVlW7LFU5EHlao9T7yWPAHQynGYSDz8qPerZSOo=;
- b=IN0FRkeDZThZ9amPWEWNEBa9yNOrDVVWEA33jpRxzuvRDEnJnNeYeqY8DeiIbS8OGm
- Vu/uF4PhZxzSt/3qTMBnlmwlu5Is+26unj62O2n+f8wcTMLQfx1HmpSdpBL25DWvpLPk
- qM0jWxBsKM0wPMIKEd9cFwhOGQiTR/8lO+BXsjmItGp5lvDNKVHLkksoI1wAoqtjL2aR
- tB4ouY/rFVFKPv5fWEylA8wm3Ulu64v3PsaNTCrqusa9iHHWt/fxUJDy9qgj5zwrg9Fu
- OfRW5vFGKgHK4qxi72e/rfwVw00MnpCjL6g0xAcEJ3JeSgJhVFSti0+QaNtPmzTQ90SS
- CyuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741265806; x=1741870606;
- h=content-transfer-encoding:mime-version:references:in-reply-to:from
- :subject:cc:to:message-id:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=04e5QVlW7LFU5EHlao9T7yWPAHQynGYSDz8qPerZSOo=;
- b=JmOx5ks/ONZyuRTGmu9dEszWzVw8HJIGCVG1vFCcMosSzW8rFpV5PjEiMK1ToZN2Oq
- S1VDI/WRICPYwqE4cN9ycTlX2V9XbTb6Weur4Q5spCTyCId2izA7dGkuidb4ljjttr5H
- 3RDBuXFZSXUJUP83/MXtv5kJhf7rcsNbiYar1xpwViI8dqXT9D5LILA0IcjX79HiRodO
- lmLN/LHoR7UMsDzau89uYyioroi4BRr0cdGi+Yc9vzLdr9NaRR/E3SkvvmshtJf2S9JF
- l9iXj5L5eKlUo3jh1ZGCtoa08GPYsrVKKqvYIMNu2zf7V++vsCP6kxvbvHnFgmEoAYGT
- l3Sg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPxU3K53dHXtERxYhePNasNX184EV8XvCbKeauOF8z8ST86gMdD1H+6Kc+T/JlGS//GAJgLz6RlQ==@lists.freedesktop.org,
- AJvYcCXnHVsXNoyRx9mIUnxypcyGYbOyb5dVCPfs0t+tX9LrIc8CrIaVmW+f9YUlG+yZiJ0UvM32Y+rRHK8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJLbpS9ZFeahNDrR1R9HHaY/Sjm8z8xCDKj1wZSLVM2guvCOgZ
- j6yRYmHUOAkKIezzynTXvL/6AXCVHGR0yLhb6L9lEdR85CWG+02o
-X-Gm-Gg: ASbGncuenIbV4dKZhMkjv4WG2VNX07i0XYu8+CVz67YtpYZodVFB05awu00zkrpu04O
- BxeuS9qpvvtnt7Bs7nBCb+s+da0NLiJe3dq8VTt7AUyGxZTsf++1NWRT7+jFsGW3dmLZ7Y8RBob
- p836hLwpipugURtLWnYxMeHWeye+jJwy7DDEmaltDPrkPAR09D7Qek7GD/cryCWbXxJVmUpL+YX
- /FEpzmuGCDZ5rYlMxy/K0IDoJWoEV6pWh5g7dkWiynmgdLLs13BmYLI32+QCQYs3xRDZA+5+qEy
- CwA0r5z3QwRR9wNalGiRI47NX6ImTw5goGAH3i1jVv76YLvhgNUqznfZIPP2rTNP1qXcUDDb94g
- lzeTNkMDQmGbQq/0f+eeCPWfvFLo=
-X-Google-Smtp-Source: AGHT+IE9D2V0PlMV5ZABesh7TdWr7X7Bayt5c+xg1q0luPahNx96F8HAIiwpPIbDk09xv10uSnCpqQ==
-X-Received: by 2002:a17:902:ec8f:b0:224:1dd5:4878 with SMTP id
- d9443c01a7336-2241dd54accmr6811955ad.7.1741265805743; 
- Thu, 06 Mar 2025 04:56:45 -0800 (PST)
-Received: from localhost (p4204131-ipxg22701hodogaya.kanagawa.ocn.ne.jp.
- [153.160.176.131]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22410a91985sm11384815ad.194.2025.03.06.04.56.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 04:56:45 -0800 (PST)
-Date: Thu, 06 Mar 2025 21:56:38 +0900 (JST)
-Message-Id: <20250306.215638.838863448505767234.fujita.tomonori@gmail.com>
-To: dakr@kernel.org
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
- pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- gregkh@linuxfoundation.org, mcgrof@kernel.org, russ.weight@linux.dev,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 5/5] gpu: nova-core: add initial documentation
-From: FUJITA Tomonori <fujita.tomonori@gmail.com>
-In-Reply-To: <20250304173555.2496-6-dakr@kernel.org>
-References: <20250304173555.2496-1-dakr@kernel.org>
- <20250304173555.2496-6-dakr@kernel.org>
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8497610E0C0;
+ Thu,  6 Mar 2025 13:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741266170; x=1772802170;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=zvqUPQ5xDGGVdVd7TADQXHUeO+pBV6JYWZxWMCQ6W98=;
+ b=TveEw6+ojd2MfBUfvIM/w59GQh3VX5qpnFMwk1TA2Xi6c36Fvs46Amf+
+ YN++zWpiLPVGN1CmGLrF1BQpSl4YPcxxCepFsVLdFciEg5NihPQ7ahXZu
+ Tjxs/ZUrUzWI3sZ3QRmwt1LkL67MM/uoZ5okn59RXjKPtrTI3LGcpe9fs
+ JFSxHs4tIzMtTS/MI291LqaTr3XS8X4t2pUpM80xrLAmVQF4ujebS7XB9
+ pfgICkDNT4IEslYG6OAzwMA+YpAh4Z2Fjp71lj8b3c8NqtUJX8iMR3vTu
+ CMjQ/x55BMkx0FnbbBpFFw8TjqfmD1K7c2/4Ui0wRI+hwfoKnXMp2hW81 A==;
+X-CSE-ConnectionGUID: tomaS9qtRaSNbFhpCAocKg==
+X-CSE-MsgGUID: l0iSEhpXTtyQ4U55ntM5rA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42297517"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="42297517"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 05:02:50 -0800
+X-CSE-ConnectionGUID: eosJfhSsRX2NIO7VsGruiQ==
+X-CSE-MsgGUID: Gf9Mmk6QSXi1wI72FPblKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="118929453"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 05:02:46 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tqAs6-000000007dA-2FVL; Thu, 06 Mar 2025 15:02:42 +0200
+Date: Thu, 6 Mar 2025 15:02:42 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: mailhol.vincent@wanadoo.fr
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v5 0/7] bits: Fixed-type GENMASK()/BIT()
+Message-ID: <Z8mc8t_OJzUGFjH-@smile.fi.intel.com>
+References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,21 +84,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  4 Mar 2025 18:34:52 +0100
-Danilo Krummrich <dakr@kernel.org> wrote:
+On Thu, Mar 06, 2025 at 08:29:51PM +0900, Vincent Mailhol via B4 Relay wrote:
+> Introduce some fixed width variant of the GENMASK() and the BIT()
+> macros in bits.h. Note that the main goal is not to get the correct
+> type, but rather to enforce more checks at compile time. For example:
+> 
+>   GENMASK_U16(16, 0)
+> 
+> will raise a build bug.
+> 
+> This series is a continuation of:
+> 
+>   https://lore.kernel.org/intel-xe/20240208074521.577076-1-lucas.demarchi@intel.com
+> 
+> from Lucas De Marchi. Above series is one year old. I really think
+> that this was a good idea and I do not want this series to die. So I
+> am volunteering to revive it.
+> 
+> Meanwhile, many changes occurred in bits.h. The most significant
+> change is that __GENMASK() was moved to the uapi headers.
+> 
+> In v4 an onward, I introduce one big change: split the definition of
+> the asm and non-asm GENMASK(). I think this is controversial.
+> Especially, Yury commented that he did not want such split. So I
+> initially implemented a first draft in which both the asm and non-asm
+> version would rely on the same helper macro, i.e. adding this:
+> 
+>   #define __GENMASK_t(t, w, h, l)			\
 
-> +Delay / Sleep abstractions
-> +--------------------------
-> +
-> +Rust abstractions for the kernel's delay() and sleep() functions.
-> +
-> +There is some ongoing work from FUJITA Tomonori [1], which has not seen any updates
-> +since Oct. 24.
-> +
-> +| Complexity: Beginner
-> +| Link: https://lore.kernel.org/netdev/20241001112512.4861-2-fujita.tomonori@gmail.com/ [1]
+I thought we agreed on renaming...
 
-I posted v11 last month.
+>   	(((t)~_ULL(0) - ((t)1 << (l)) + 1) &		\
+>   	 ((t)~_ULL(0) >> (w - 1 - (h))))
+>     
+> to uapi/bits.h. And then, the different GENMASK()s would look like
+> this:
+> 
+>   #define __GENMASK(h, l) __GENMASK_t(unsigned long, __BITS_PER_LONG, h, l)
 
-https://lore.kernel.org/netdev/20250220070611.214262-1-fujita.tomonori@gmail.com/
+Ditto.
+
+> and so on.
+>     
+> I implemented it, and the final result looks quite ugly. Not only do
+> we need to manually provide the width each time, the biggest concern
+> is that adding this to the uapi is asking for trouble. Who knows how
+> people are going to use this? And once it is in the uapi, there is
+> virtually no way back.
+> 
+> Finally, I do not think it makes sense to expose the fixed width
+> variants to the asm. The fixed width integers type are a C
+> concept. For asm, the long and long long variants seems sufficient.
+> 
+> And so, after implementing both, the asm and non-asm split seems way
+> more clean and I think this is the best compromise. Let me know what
+> you think :)
+> 
+> As requested, here are the bloat-o-meter stats:
+> 
+>   $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o 
+>   add/remove: 0/0 grow/shrink: 4/2 up/down: 5/-4 (1)
+>   Function                                     old     new   delta
+>   intel_psr_invalidate                         666     668      +2
+>   mst_stream_compute_config                   1652    1653      +1
+>   intel_psr_flush                              977     978      +1
+>   intel_dp_compute_link_config                1327    1328      +1
+>   cfg80211_inform_bss_data                    5109    5108      -1
+>   intel_drrs_activate                          379     376      -3
+>   Total: Before=22723481, After=22723482, chg +0.00%
+> 
+> (done with GCC 12.4.1 on a defconfig)
+
+What defconfig? x86_64_defconfig?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
