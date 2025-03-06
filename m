@@ -2,152 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F72DA5531B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C18A55333
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 18:37:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF73E10EA41;
-	Thu,  6 Mar 2025 17:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC18E10E056;
+	Thu,  6 Mar 2025 17:37:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="RnG4DDVX";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="YUH6+jI6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2045.outbound.protection.outlook.com [40.107.22.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF37210EA41
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 17:31:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H3qW3IqQGbN+27nDBGv7gVIryztPBbGZaxPkkreAwXwHHxOTe5KsfRwFTtYCiP6ZvuBrOQkruzTecxClun7W9qy8Hka0+KcOxjckh4RLvcO8HHJuum+cCDavnKejBLevKTkQ7lcehxnojFwaciRMc/XRslv9qn+fODjm1UrGwwTONSPNYUzuKHYzmGKszCFz/t08Y3LwaH4R4Q5rv5A5xfImTacSwcp+SXf91qqZvutH51Mmj7xMxNLbVwloX/PSnb4vTmcLnbExEdwfpukrhTKj61/GgpBXTJpXTAj08ylT1ZyrcfHw/oweMUYORkLrEz5xVjupjFw8M2RVjoqn7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qVzzO7FWVa1iKwSWOpqsOdr+VG2WMePPJ2nWnMCdAbQ=;
- b=RQLwPefdSrzk+yE5RectrkE8BNjoPGKhIsNOrfO/0iaZeJbVu4UAniXJDgvklLQi+HTeM+Nk04atGaEWvm6+yxFVmZhz9dsVoIMffppCihtZg/TUys2Ds2dWEwAeMd9VdzUrq1avpLCeiyYnvUpN43TtAhY2I0gv5BzYcTAkX/6J+FIpFh9K+vQGqIVWr8BEHIQQgkIBmH/h2Z2cnF3JXgZSiSlZ2SRREQtu82sR/OWb5edhoFtd7G6CSblTGnH4OdR3FrXkygqpOEogMwFrUgh4ITpfrglkEF92Ybsr5tkCotrmGXLwB0njKFNG6M1fgDtaLy/RfhAO7Jb5xE5MIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qVzzO7FWVa1iKwSWOpqsOdr+VG2WMePPJ2nWnMCdAbQ=;
- b=RnG4DDVXSqqhpyvQusf5J6TGp+mRatjRv9mrK1gPmtKuA5nCx9MT+Kdbfbwit19ceCT7eTDRNvELBWb4hkWpIBB9Jvy5WzKQkfk4NFRfolW4m6sTpWoRI1aEgUr41kO2YJ6YEWjG1+RPVuoypIlJI/vQBvPGlIg4Bhmh8rdTil875Jk+Wc4jdmR/f2sh7nXNZRZuLuMAyufsvfDCI5Fr0yOXspApxYXs+gO20Cl05nKh1jZpctLd4BAUMuQoH0uBIAlxTYHV5vSzu7SzB1yJKmM0Rsr4JuSCH28L9ln4/eKV8S4XcKUZs4mtIvX6Sj04SDQKv2V4O3IvE+ybYGqkWw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by PA1PR04MB10627.eurprd04.prod.outlook.com (2603:10a6:102:48b::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Thu, 6 Mar
- 2025 17:31:39 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%6]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
- 17:31:38 +0000
-Date: Thu, 6 Mar 2025 12:31:28 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Guido =?iso-8859-1?Q?G=FAnther?= <agx@sigxcpu.org>,
- Robert Chiras <robert.chiras@nxp.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH v2 1/1] dt-bindings: display: nwl-dsi: Allow 'data-lanes'
- property for port@1
-Message-ID: <Z8nb8F3x9R6PunkI@lizhi-Precision-Tower-5810>
-References: <20250110161733.2515332-1-Frank.Li@nxp.com>
- <c5y6mocsd77wj5lah6n47vtteqc5ekcrbdod6z5vtcnxhleudw@kfhpyoiylqqp>
- <Z6prCyX+edpaSwUH@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z6prCyX+edpaSwUH@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: SJ0PR05CA0101.namprd05.prod.outlook.com
- (2603:10b6:a03:334::16) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6A6210E056
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 17:37:39 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-5498c742661so910225e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 09:37:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1741282655; x=1741887455;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hrmy4N2N6H45SCFx9m0r+IsEyPbwtHoe5bS5CVO84lo=;
+ b=YUH6+jI6kypSABJL7OmVX7IxopXtj260x9PLFRCuqb8j25zR5p/COLMx+xMt8i5tBX
+ gWT+L1OaojaFx6AKFxqwYDwqERb6vqfd7LgRDUhBQ0Ui4lbyWMV5SSZu54TkZOzYBDas
+ nzsgSTNWY2mhb3lSCCSgDvvUZvpnzr2BVHzM0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741282655; x=1741887455;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Hrmy4N2N6H45SCFx9m0r+IsEyPbwtHoe5bS5CVO84lo=;
+ b=EifROfBOWtxtJ1trcaeYNMBJJXGx7QAFIC01ZXCmbFLbH2t+v/b8ZYtIn7wddT23WB
+ f36ZUJw5kw37RCLmjrxYHOXU0e6Jj8gMB3ZedlaEKr1toYuO+DqD8DlriiivpN3/u2AL
+ 8IJtZmsCo1bMqmTLDGHWebtdqSrbOfKpsc0inm39zpKQcQEN0BgwWNq1gO6eO8Uk0OSe
+ wqaywhQqrVsuvxJhpXsZKvmP73EOlREERZaEWgshPdQ1emoExEyHqJBPkpgLw0AHY2Dl
+ cIFbTZFZlH42L9Wr759t73ggP2Y7EY5Cwp4IrbGoBDentQsVP+htu6PY11JRu1MLki5e
+ F4cw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX2nNpD1K3wQzozOkjiZgTBGtrYp/kLzeFy/pFgEePVxQo9wqk0PuSGwMXXpsxoUWrmTyPQAnfVKFE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmNKNyvVM3Ok7T8aKzTBI3ZTd9LoPmPzNbr68eJmAHOHwF4GTa
+ Db16BOKMdCgAlyRSmwwYjTJz8r/KImYfiLrrjz8+omTs8b8MU3y0yU4htEXGMaye6kp4ENHDErv
+ WXq+i
+X-Gm-Gg: ASbGncsWgf4/pc4RyzV6Qm0iX+nJ3SiWops+PjWsK09uduNi4aM/AfHjAjkeQPODg7/
+ BxWDa6IueYLY+A6ONJb3yBxBKAuFKjQUS8r3wOTTSGQZC6FgY1yx6U74ocx1hA0Mdnj0LyGMJI2
+ FaM3zpaIVhh4aPYt0WVQn0C/vgchHMqJIZrYlvQlegrj7in9TGo9Lb9FAzfor+GOvgXgyMemVab
+ cCvOHTA/NBZjR/fTLH9N8cUCICZg86FXQXZzErQ82AMyshLb3J5E4uzQoYIWaM7giuHZuypUicS
+ zutS2UZ6L84VXk+oOm15WwR4qkP/RTo+cJaQ2fFeglSK6X1ImmFSFCnqbnmaCwfoj5GCN4cxnOS
+ PwsjqpeBp
+X-Google-Smtp-Source: AGHT+IGhbAXhaDnxPo2c/1U9piEB7t5lLJr7auuE3dXjZLHs7KH1rQFiOWv9N0aSoWh1RD0rC0qZ6Q==
+X-Received: by 2002:a05:6512:114e:b0:549:7c13:e88a with SMTP id
+ 2adb3069b0e04-54990e5d488mr8004e87.17.1741282655066; 
+ Thu, 06 Mar 2025 09:37:35 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com.
+ [209.85.167.42]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5498ae46601sm240498e87.1.2025.03.06.09.37.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Mar 2025 09:37:31 -0800 (PST)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5498c742661so910008e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 09:37:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7S0oQ9ZtAeR4/ZkfK3y9M1330AMNaiR1FilQi0GiLIjyn9j22NWb0vY2jF5EOn27fRla0XJiCZpo=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:ba3:b0:545:1d96:d702 with SMTP id
+ 2adb3069b0e04-5497d380ca6mr3503371e87.48.1741282650614; Thu, 06 Mar 2025
+ 09:37:30 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA1PR04MB10627:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1cb60f9-332a-474c-75ac-08dd5cd4c05f
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|52116014|7416014|376014|366016|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?RRmI+HstJq/A4UrpcWt1ErrCjipMIvSqkV9I+vuQ5QXFI/beKW4Ejh5RBUZQ?=
- =?us-ascii?Q?hiAAgL0kIabqn4A+3bl0G93sUdi5eUbl+qI8BbRb569CG1Li5L57zfjlG25U?=
- =?us-ascii?Q?1oTaTqJ4vxkDA1DJWRrvMl0TpJVvtjHG6QJwrw3I/HrExFk3o9ATZhQFhwr+?=
- =?us-ascii?Q?r+kpjmEuZQsG4NR9w/4ohyLbhBpUQ52SHVcuLW1Jl1MAF9Yaz0RxjIAWoQhU?=
- =?us-ascii?Q?PhuATdtz2krbfkPU7QtUElh7oWA3ZTdFO+DHRYkoTSa0QXjnEVCcmKsQuv4D?=
- =?us-ascii?Q?FoZju3LTX9QOXTBE1b5cfXGo4vBMS14fh44qAVuNwaDX1ZageXc3Jpv738d4?=
- =?us-ascii?Q?JPeNwMUD22DZndcx5PY+w7hqBhoFcaOlPtaAsgvU5hj3htTSoehIAiB5L8sw?=
- =?us-ascii?Q?VlS6ufxUgqQDEwTlhp7ZnwLLYC/A0vH8amD5Nn1Pew7QRrESYUtvVHPxupsj?=
- =?us-ascii?Q?lgcTPJTBn9O3dLyv0wW+YM9rsZjNjy70QwxREAAYH0r7T6q+Lt+E67Mt3GNf?=
- =?us-ascii?Q?lBxyrgtckI/lOuvG3ASX+9U2E2tfUQm006lq9l9+MqrNXdkiQiAQLZiNboXr?=
- =?us-ascii?Q?BLSpQDo4n7QYbE5fXFareqXK6Z9IOZ7EtAiHp/Ej7uifGiUk77nzfnUORFR+?=
- =?us-ascii?Q?cOlKA4HINJw1LggaiVaCQRzCRowyzYeBB1LVZgpU+K3rp87ubau/PVEm8O1o?=
- =?us-ascii?Q?c7Lk3G1cZTf0YbeFOGXvJ0/eFkRH/5x8FhWIq+LfcchMgK12MuCSwdiMW9Bd?=
- =?us-ascii?Q?QmNIvV1ILbgprCMfVsXd2lo5Sybjw75uTkQkA3ADfPTqJp/fZlyQ+PokSA2D?=
- =?us-ascii?Q?n4ED/5Q8I5pfA6KCVGw1MaYtKrC/2naIaAcirf+LYRp8+YZ3idoB35XspG/D?=
- =?us-ascii?Q?9XwutCw2kAsxENADvzjpoREmVkBaKJV5C1mjikaEpBUL/x9MrphcGg5d2lYh?=
- =?us-ascii?Q?6qFI3U3Lnd7DgZXqa0C0JAz7GlMRmNFyusf3yKNiZrUqf53/hG7SWH/o670e?=
- =?us-ascii?Q?E4zzQl02yabQx4RgVnss2GlY6VrD2W/vhWqC5a0O9IDfYRtQR09XRVCkqNrt?=
- =?us-ascii?Q?X6Z6Un3FV+HQ/AtmE55D6uh0xG3cWPoyLoYdt2VfsA4a7sNJUUwRDYqORHsn?=
- =?us-ascii?Q?lSWnnfAaxISStdRXEf/wgHFEgrnTPmcLo9ubitg8F2qWnGblHMub9twOeEwg?=
- =?us-ascii?Q?TEfXIb3hYdcGyiaqrTPKoJsxl0hMLDEP1Uuz6YOZw/b/VKO9YvrLAiqZEvw2?=
- =?us-ascii?Q?WTI/Mr63REgL2p32SEFoVNdIhYsOC9WMDNJhc0TIhz6exQFHFjnkATs9p/jU?=
- =?us-ascii?Q?nEBO/gfISlZ7eQdsrqVmfgddzvjYTfMHldJsgVgyTkyl9oafFZf5emQ2e9fV?=
- =?us-ascii?Q?udY+OKDRUXF2W4UDm3gGuY4IlEZWWWQt8AUx9TjtniGDQ90chlgRuCgZKksC?=
- =?us-ascii?Q?KdX9MmsZPDO27ouaxzYY8He3Jt3NS7vD?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(52116014)(7416014)(376014)(366016)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HAmH0ta6Y5nD3daD9+NSHksCSZ9Fezet/P/bt42E70gPYn+hWyKyijEMxrj8?=
- =?us-ascii?Q?7vTdZzpCv4HBkrOF4Rd8rvbpdtgf1B0iOMcAkmuxzIKxlNZxcZI6oBFe6aDJ?=
- =?us-ascii?Q?rfCCpGpqcI9hGxSQJ6gui/pHp/QCwb1QpZsQGhUg+wd13R9Lh5SIlgDJoSwG?=
- =?us-ascii?Q?8t6KGl61js/SF+fbALev/eweK5SDC06XC+DmHJUatYrL8F01gP5namXun34p?=
- =?us-ascii?Q?qUOFQw93px5uJZBKBjxJIlvJCIJIF2CtczVugdQi3lpY6cNBTV36bQlaMzVD?=
- =?us-ascii?Q?d9kur/Sr3dGCY7/iZaIGqsQf2E43UJbTBXbF3b6qRp3C+PtOVe2OaGpjgdvU?=
- =?us-ascii?Q?PEI4C+a4AmJjRJMU3UsufnVdKm5mVg/OewTqbi9m8LoutZb0YEhUszA7wEFI?=
- =?us-ascii?Q?5KouF07fTIGb6tktln4b4QhCAqFc1XHmzmyC+tRtsWWh1K+y2qYA5L6B9AXi?=
- =?us-ascii?Q?EkA/Kf9CjSjwlHVDcTYbIco8QnqIX4ZztAqLrmfRQN8RfkiocD+JZlqGGFgK?=
- =?us-ascii?Q?X5rZy/URpkABSCzx6qOkZFpIe2SI7uXBUBbPOYg/HBB0VZHU+UX4kmwgINwy?=
- =?us-ascii?Q?DBG8p03KSgS8AeJa5/huMF9A0wWmpkSmUd7PHHV+xhZ+qE7IfehdHbexCimC?=
- =?us-ascii?Q?VMhl5b4wYDlDdiQfI0KiuBeA+DSwFW9/m8vFf1K3hnWdGG2Yyv29+ZCB9iww?=
- =?us-ascii?Q?AHBjn9G1jLSd7uqS1a2wWo2Ab4+NtVYiEWhoccfMns62rUQQeZE44BSKDP71?=
- =?us-ascii?Q?2a4QQulq1AvVA07PaYTwask1i1EBs72xMdUkClr7vo+QEOgIWk7wTKNGRi8h?=
- =?us-ascii?Q?Dz8dCQ4Di9E5FrwJpTJZjiJDs9whiURu4KTA0fYZxAKkrDRXu8gWZxnQDTHM?=
- =?us-ascii?Q?pUCPTW05VleXXSrt2/LOY3cs+C+UMQyZIIdhgxhByhWTed0+jhehd+GovIqx?=
- =?us-ascii?Q?3Dvu1MyqcOF1Nb6e/euZlELiTI6kWolGJEnIebsD7jnEm+oNbdWcBGGeNGIZ?=
- =?us-ascii?Q?ZG5XlmYO2oIoYHoinsfz4IslU5RFIRF4xdIGVJ5t9srkUKma/yDoR95LGd/s?=
- =?us-ascii?Q?5NFmpudBI32JKmoHUxk41bltks3XjY0dt1/sIWbWF+xUoHMCk+aou+0BPHtL?=
- =?us-ascii?Q?92SzKZYDM9T0Z6gePM4ATjNucxDKKX+lrZlKbKbKUoWX66WO1oYOZRTnZ2bh?=
- =?us-ascii?Q?lJwQt5K4rcygWcBj8HF5VrQc7bvMgVZ0CEkTOgL36dPmw27VjejR0HWkvhUp?=
- =?us-ascii?Q?X6lnSvl7yhMoPNberzKwrI+BuOBltkW9TCFFKPXJ7feF4q0MWIaf8geDg5gB?=
- =?us-ascii?Q?BC3w70JwfouJSRbMErCk2hg74u1E87Nz+aHzyr7FUFQ5G+bFRLCpG/jL2l2f?=
- =?us-ascii?Q?jUFZJJWdQytTKrd8kw2vNEq37bvoW3IoYBxLco6hrdsj9c8LcV7g7ya/JJ2I?=
- =?us-ascii?Q?GrygclRMULdNBHSVKswmvO/78wVV+2fBmiBGA1smtYIShEJTe3rmUwVjBkBs?=
- =?us-ascii?Q?0nTp39kLITOR26ieihrm1ubz+uEzx6jRSv58hAKRvJ3Dn8X2Vu47OZHTXY8h?=
- =?us-ascii?Q?MqArrjY5083CdVktDj3V0gjjuyBXgpQsEZQpDAei?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1cb60f9-332a-474c-75ac-08dd5cd4c05f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 17:31:38.8054 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NHljpvOTXVqGbOhe+3QvToejb3jKjRC0qB0Yy3qcWftiKbf4vFOoWFR3IveFHBr/+2VeBBU9T2QfH+YNJUmIFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10627
+References: <20250306134350.139792-1-tejasvipin76@gmail.com>
+ <ca5b0825-a485-4bec-bd93-b57a8d7ced99@linaro.org>
+ <p2esqngynwfrshz5rqfnmx6qgwf4dclpkb3mphwg2vavx2jbcg@clqoy5tjh7bb>
+In-Reply-To: <p2esqngynwfrshz5rqfnmx6qgwf4dclpkb3mphwg2vavx2jbcg@clqoy5tjh7bb>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 6 Mar 2025 09:37:19 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XyOwoMmdvFA565AzGRUSNwonQ-5Ke2H6jc2ki9Sz+0Pg@mail.gmail.com>
+X-Gm-Features: AQ5f1JrjbFVtoGA2nDwsNiD6Pg8ldMrCyTA0zDfBVytct4PwWSu2rnonE6kHuA0
+Message-ID: <CAD=FV=XyOwoMmdvFA565AzGRUSNwonQ-5Ke2H6jc2ki9Sz+0Pg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: novatek-nt36523: transition to mipi_dsi
+ wrapped functions
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: neil.armstrong@linaro.org, Tejas Vipin <tejasvipin76@gmail.com>, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, lujianhua000@gmail.com, 
+ quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,44 +105,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2025 at 04:09:31PM -0500, Frank Li wrote:
-> On Tue, Jan 14, 2025 at 09:34:49AM +0100, Krzysztof Kozlowski wrote:
-> > On Fri, Jan 10, 2025 at 11:17:32AM -0500, Frank Li wrote:
-> > > This controller support scalable data lanes from 1 to 4. Add the
-> > > 'data-lanes' property to configure the number of MIPI display panel lanes
-> > > selected for boards.
+Hi,
+
+On Thu, Mar 6, 2025 at 8:33=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Thu, Mar 06, 2025 at 03:05:10PM +0100, neil.armstrong@linaro.org wrote=
+:
+> > On 06/03/2025 14:43, Tejas Vipin wrote:
+> > > Changes the novatek-nt36523 panel to use multi style functions for
+> > > improved error handling.
 > > >
-> > > Change $ref of port@1 from 'port' to 'port-base' and add 'endpoint'
-> > > property referencing video-interfaces.yaml. Allow 'data-lanes' values
-> > > 1, 2, 3, and 4 for port@1.
-> > >
-> > > Fix below CHECK_DTB warnings:
-> > > arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb:
-> > >  dsi@30a00000: ports:port@1:endpoint: Unevaluated properties are not allowed ('data-lanes' was unexpected)
-> > >
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 > > > ---
-> > > Change from v1 to v2
-> > > - Add the reason why need 'data-lanes' property in commit message.
-> > > ---
-> > >  .../bindings/display/bridge/nwl-dsi.yaml       | 18 +++++++++++++++++-
-> > >  1 file changed, 17 insertions(+), 1 deletion(-)
+> > >   drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1683 ++++++++------=
+---
+> > >   1 file changed, 823 insertions(+), 860 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/=
+gpu/drm/panel/panel-novatek-nt36523.c
+> > > index 04f1d2676c78..922a225f6258 100644
+> > > --- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+> > > +++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+> > > @@ -23,10 +23,12 @@
+> > >   #define DSI_NUM_MIN 1
+> > > -#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)        =
+\
+> > > -           do {                                                 \
+> > > -                   mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      \
+> > > -                   mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      \
+> > > +#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, cmd, s=
+eq...)      \
+> > > +           do {                                                     =
+       \
+> > > +                   mipi_dsi_dcs_write_seq_multi(&dsi_ctx0, cmd, seq)=
+;      \
+> > > +                   dsi_ctx1.accum_err =3D dsi_ctx0.accum_err;       =
+         \
+> > > +                   mipi_dsi_dcs_write_seq_multi(&dsi_ctx1, cmd, seq)=
+;      \
+> > > +                   dsi_ctx0.accum_err =3D dsi_ctx1.accum_err;       =
+         \
 > >
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> All:
-> 	Anyone take care this patch? Krysztof already acked.
-
-Rob:
-	Can you pick this patch?  look like display maintainer miss this
-one.
-
-Frank Li
-
->
-> Frank
->
+> > Just thinking out loud, but can't we do :
 > >
-> > Best regards,
-> > Krzysztof
+> > struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D NULL };
 > >
+> > #define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd, seq=
+...)      \
+> >               do {
+> >                       dsi_ctx.dsi =3D dsi0;                            =
+         \
+> >                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);=
+       \
+> >                       dsi_ctx.dsi =3D dsi1;                            =
+         \
+> >                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);=
+       \
+> >
+> > ?
+> >
+> > So we have a single accum_err.
+>
+> I'd say that can be counter-prodactive. If only one of the links falls
+> apart, then the second link still can be initialized (and by observing a
+> half of the screen the user / devloper can make several assumptions).
+> In case of using just one context the driver will fail on the first
+> error and skip the rest of the init for both halves.
+>
+> I'd have a different suggestion though: what about passing two contexts
+> to the init_sequence callback and letting nt36523_prepare() handle each
+> of the error separately?
+
+IMO that's a bit outside the scope of what Tejas is doing since it's a
+functional change. Unless something is a super obvious bugfix it feels
+like doing the conversions like we're doing here should not include
+functionality changes and should be straight conversions.
+
+Also: I don't have tons of experience with dual MIPI panels, but I'm
+not totally sure how your suggestion would work in the end. Would you
+expect that if one panel succeeded and the other didn't that the
+prepare/enable calls in the panel should return "success"? If they
+don't then higher levels will assume that the single "panel" that
+they're aware of didn't initialize at all and won't continue to do
+more. That means the user wouldn't have a chance to observe half the
+screen working.
+
+I could believe that, for all practical purposes, we could keep the
+errors separate and then just return the if either panel got an error
+in the end. It probably wouldn't make a huge difference and would
+shrink the code side. ...but that I think that should probably be the
+second patch in the series and not squahsed into the conversion.
+
+
+Oh, also: Tejas, please make sure you CC Anusha on your patches. :-) Added =
+here.
