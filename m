@@ -2,73 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354C6A54BAB
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 14:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AEFA54C14
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 14:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8C8F10E964;
-	Thu,  6 Mar 2025 13:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C2310E99E;
+	Thu,  6 Mar 2025 13:25:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BFzI3pph";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Vw2pCUUh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC7410E964;
- Thu,  6 Mar 2025 13:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741266761; x=1772802761;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=kD0+DAAqaOpRalTEvEv3LkIwBg3q4DkH1TTKWRYyGa8=;
- b=BFzI3pphyob7j/c/WlvSdfR9+RQCHbUc/JnQjNtztyUQcZz4zlt68EJX
- BgfmIjpN6tTIlAG4Mmpg5eEOHZbi2lMpkH0ILFpMsTzHe3k8zd2ioZzN1
- fJyW5cGxXOGx6ylZh91vzvSXGkw3DuQ4kzvKP2ezXG4IZaUJH++0/s7yw
- U2AHyXkepK9qJZ57qEhu4/DSKnoMLmbrUkYewKUH8nS0r9ujAGiQFtPcH
- irIrvqDCdhCGJQmjffmJl36u4LMsYgM0opgP77f3m9Um/pO+XYEYAK/jk
- xH/tW7t4fVuRbJgS0G7rKFHpJBT2C+LtN3xUPSusy1s0pLq2BvMFuVudN g==;
-X-CSE-ConnectionGUID: UaHnaxbBS2icYPtpFyJMhg==
-X-CSE-MsgGUID: rl1jQSzLRi6KQK7TUR9Ngg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46043310"
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="46043310"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2025 05:12:40 -0800
-X-CSE-ConnectionGUID: +E/rE1M9SrukXMZwIvHJaw==
-X-CSE-MsgGUID: ibkmCI4tQE2yVKV/WhaO0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; d="scan'208";a="123975000"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2025 05:12:37 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tqB1d-000000007jv-2Mea; Thu, 06 Mar 2025 15:12:33 +0200
-Date: Thu, 6 Mar 2025 15:12:33 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: mailhol.vincent@wanadoo.fr
-Cc: Yury Norov <yury.norov@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v5 0/7] bits: Fixed-type GENMASK()/BIT()
-Message-ID: <Z8mfQVP6AkFIxYcY@smile.fi.intel.com>
-References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD7610E99E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 13:25:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741267507;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AMe2L544kp/d38WLjn3xMcZvhSWCOUekm7mNyssXwXc=;
+ b=Vw2pCUUhjY8aXJ6JGkj6HVUbkga7b7M6e3g8LRAh4To14aoxmGjO9q1IjBNVNtPylaW1Ub
+ GMo8VESZL8cYobIWOqyrNfYDceK1A6HX4lHw1UHrOvB7zH6i/9RXoX02lvRwgumv8UMJO7
+ t9oEx1Q9+px1VkbIss2lg83fggLjel0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-657-ZihQ8_yfMnOfcoWZnO5EpA-1; Thu, 06 Mar 2025 08:24:56 -0500
+X-MC-Unique: ZihQ8_yfMnOfcoWZnO5EpA-1
+X-Mimecast-MFC-AGG-ID: ZihQ8_yfMnOfcoWZnO5EpA_1741267495
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-391079c9798so310633f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 05:24:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741267495; x=1741872295;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AMe2L544kp/d38WLjn3xMcZvhSWCOUekm7mNyssXwXc=;
+ b=maZfMuImd7XI80JqkYdtf2qmohSNDdcQXP7YW1qGfDykOIM3JxZ4pTBhmzGQ7CGxdf
+ k3CqSZqKuRWhKLQ6nc90rQNDlB0YM6wf5nvEQ2cO4vPDDF7OT3YRRZSMXESkjxTlHGYj
+ hQzd0TBwvEWjFDfnPojdTA4Ggm4Y+9KmkULi1cUhIM6YzpnJGEYZv5+ZunG5pu6ijupW
+ K91CTIOvYteVmx938d1yC094YDumcTekHr+iMRvdzM0ATHpBv62GV378oy1osTTUhRiM
+ lwzatA1mYnQRl/BSQbc5VgJ853l+l+TCvK+z384HiEm4h+mlWltCjgrxSbNab+zsvCI7
+ hymg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV8rilkh9Mc5fkZMpBzxilfMzgrQv5q7YxohWjzZocZQ4j6r14kxAYNl9WVv1ZOGA3BKW/6Ql7MmfE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRlUUGOC8x5SzYG/wHwNrgLejFddCSqErjdDbnk9+nXMmPQhPN
+ S1e0UQmGoviO9Nw4E4tbR3Ja6cxKLAf7gSd9VZH8KDVQr6ann025cSDNsTpO9On8Sti0Umt/cO6
+ A4d43RULsaI6Klgzx43aU4r6rDhPbQ88Cr2Rf5oUCdiD3uXrCC+4CJ0udMzbgJsFUkw==
+X-Gm-Gg: ASbGnctXw91TUT5LaKXP+zLqcoxieIbrH5dOGzHwJu0ztTgWEamvewVZjr/qjK0ACVF
+ tyVcaRVcPe6jnedKHRlIXZm8GfGdrJpQMYos45dyrdNvykdmBguJs538pC82ksl3CuUxiEx+M3t
+ BjnrElxf93qDNgnKurj05R5J+534XrlmaidRhkJAtj1tFdXioapcEs2rPcLN0A+PPqQFc7ZwRMM
+ kbkLWoyOop65DwaVqhWPyK8AW4MZ5yfGzabySWlAu9nz+iaOGqEOGHsxf1bVxkmHFeFwz8Jralj
+ UKJCVaAmUpWXo4rJnjOiCT5dCUpqS/4CKiZJdy6dYDRbo74H7KzFlNU=
+X-Received: by 2002:a05:6000:42c7:b0:390:f9d0:5e4 with SMTP id
+ ffacd0b85a97d-3911f741261mr5096854f8f.21.1741267494954; 
+ Thu, 06 Mar 2025 05:24:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEIwqvoLsZ7nWE/oVtc7eKMKzGDa6NvX7GYnOgsSJBfK4lxmD7NxGmoi2sk4zoXn8lH+Jx7Gg==
+X-Received: by 2002:a05:6000:42c7:b0:390:f9d0:5e4 with SMTP id
+ ffacd0b85a97d-3911f741261mr5096838f8f.21.1741267494530; 
+ Thu, 06 Mar 2025 05:24:54 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3912bfdfdfdsm2117782f8f.34.2025.03.06.05.24.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Mar 2025 05:24:53 -0800 (PST)
+Message-ID: <3bfd4238-6954-41a3-a5a3-8515a3ac9dce@redhat.com>
+Date: Thu, 6 Mar 2025 14:24:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH drm-next 1/2] vmalloc: Add atomic_vmap
+To: Matthew Wilcox <willy@infradead.org>, Ryosuke Yasuoka <ryasuoka@redhat.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, kraxel@redhat.com,
+ gurchetansingh@chromium.org, olvaffe@gmail.com, akpm@linux-foundation.org,
+ urezki@gmail.com, hch@infradead.org, dmitry.osipenko@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-mm@kvack.org
+References: <20250305152555.318159-1-ryasuoka@redhat.com>
+ <20250305152555.318159-2-ryasuoka@redhat.com>
+ <Z8kp9Z9VgTpQmV9d@casper.infradead.org>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <Z8kp9Z9VgTpQmV9d@casper.infradead.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 9DF1QtqnK0KXc8oPEA2HEiqzOH9nuYZDtMjZrXdHX8A_1741267495
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,20 +108,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 08:29:51PM +0900, Vincent Mailhol via B4 Relay wrote:
-> Introduce some fixed width variant of the GENMASK() and the BIT()
-> macros in bits.h. Note that the main goal is not to get the correct
-> type, but rather to enforce more checks at compile time. For example:
+On 06/03/2025 05:52, Matthew Wilcox wrote:
+> On Thu, Mar 06, 2025 at 12:25:53AM +0900, Ryosuke Yasuoka wrote:
+>> Some drivers can use vmap in drm_panic, however, vmap is sleepable and
+>> takes locks. Since drm_panic will vmap in panic handler, atomic_vmap
+>> requests pages with GFP_ATOMIC and maps KVA without locks and sleep.
 > 
->   GENMASK_U16(16, 0)
+> In addition to the implicit GFP_KERNEL allocations Vlad mentioned, how
+> is this supposed to work?
 > 
-> will raise a build bug.
+>> +	vn = addr_to_node(va->va_start);
+>> +
+>> +	insert_vmap_area(va, &vn->busy.root, &vn->busy.head);
+> 
+> If someone else is holding the vn->busy.lock because they're modifying the
+> busy tree, you'll corrupt the tree.  You can't just say "I can't take a
+> lock here, so I won't bother".  You need to figure out how to do something
+> safe without taking the lock.  For example, you could preallocate the
+> page tables and reserve a vmap area when the driver loads that would
+> then be usable for the panic situation.  I don't know that we have APIs
+> to let you do that today, but it's something that could be added.
+> 
+Regarding the lock, it should be possible to use the trylock() variant, 
+and fail if the lock is already taken. (In the panic handler, only 1 CPU 
+remain active, so it's unlikely the lock would be released anyway).
 
-This version LGTM, just a couple of comments that you may find
-in the individual replies.
+If we need to pre-allocate the page table and reserve the vmap area, 
+maybe it would be easier to just always vmap() the primary framebuffer, 
+so it can be used in the panic handler?
+
+Best regards,
 
 -- 
-With Best Regards,
-Andy Shevchenko
 
+Jocelyn
 
