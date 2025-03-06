@@ -2,85 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B98AA55111
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:34:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7B9A5516A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59DE910E9F9;
-	Thu,  6 Mar 2025 16:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE5A10EA0F;
+	Thu,  6 Mar 2025 16:39:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IHaM0PGp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iihMIT3Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B9810E9F5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:33:57 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30bb64a4060so7742251fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:33:57 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A05210EA0F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:39:53 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-549662705ffso985092e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:39:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741278836; x=1741883636; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mcYfZGCaAKvP2JNTvUnndgZpH/B+98c6oldv3E5aRaA=;
- b=IHaM0PGpfU2ojtqRQ+MPfktuy9npBKongAmbd41IsDxEcFAQU009YBVfvxQciKHIqO
- kcgEW1sqcrpztI1T5wLnfip8ZBXTyJBwPDaACoQcwVxyYDyavyphiALuzchGAE0fERBM
- E6M9Grqp8lo9Ids0LVua849rFbXqO9JiIs94EEml5+kVqql9MrhyForQxci4Hc2D0sb+
- h3HJCe7qNqp9ZHML1C3hU6WCcoHFgkun4TW/erYjwSq5VEwxsubGG9zQSI3sNfwqeOgX
- BLK5u4S6Fp0KLmTObNmqkkplKlshVZ/cHq7z7Y/qboJRIWD6OUZW4VtasyjExqCXMC+Q
- 6V5g==
+ d=linaro.org; s=google; t=1741279192; x=1741883992; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=FBPYVaLi/uKYGxgimpo2QNuRdBqjr1WrILf7lC0MLjw=;
+ b=iihMIT3QqUW5nIlTnX/oNAzpQh8ljw16iBPsckYbsXpcqqnVrLxvlaekc7Ko6cjPn6
+ Vu0khp0Vl1GfKcQxQ21YodUpIyjYnbYeayu0EmH721DtDfM8+1rBtX5kGjkS7nKzrEIt
+ VHnrrMb4IImC6x02zm87tp4qlwV+kZh+PP1nmZGlul5NZr6llz+CT5ybEGJwiaPLdniV
+ 3bGWrBcx15Wbn0RxeE2Yk7dss5ooeicAE5ZsuvmeguigNa3YdAaANeQtLe2L7q0co/Gb
+ 6CnIOyqlX8kIegEmNKvdpslejfh6pxiFSTcvKzU207qvO1Zj8eRVhK8TGN0VEoH67Qj2
+ Zxjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741278836; x=1741883636;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mcYfZGCaAKvP2JNTvUnndgZpH/B+98c6oldv3E5aRaA=;
- b=wJX0LCRhyOg0NPPjSftRmHOs5zshzVWyU4aj6kF66DX8DN7U35E37xbbkAXIrqCSKk
- C2Fxbx0/py3cOCaLKbJF9fvbhkj6TS6OyelEywvO1Ig5RGYZs5rUx9TQhrYFQyNMaCZ+
- OL/C7LqOtg4wxGiRYMAm8z0dIfqite68EHrLy1aqbDf7kMA1b0f1mSkr8HLfb0ysD2Fe
- kkHxA7NwyES3z6xRO7TtUPUPvcmPumVSbbsPlgO9zIokp72fVwAImFAQI4FUgbbPd46X
- 8p1XQq3Ug1urObRc0fqUxTTCDY/kqUZP6vUHXr3G8NK85OFIP4PryNfln2d4aU+05oVb
- bFqA==
+ d=1e100.net; s=20230601; t=1741279192; x=1741883992;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FBPYVaLi/uKYGxgimpo2QNuRdBqjr1WrILf7lC0MLjw=;
+ b=u40Cs0PV3erH/m+C4nXEt1/iihSyKlGS3vMshum2ZhJl3nni/368CCSA8OGTX9x/Wd
+ TRm1vAXoxjrrnAPa8yn8dGprNza+n/OhExipfxJc72aMZxFqTvGyceNY12rYoV7vM8Up
+ WpNukbTmkBddppdlhYJiTyq0GMbckiOd5zMR5TUU0bevo4/kvpw44IXJ86RroebEN/gx
+ ChERbuzmiBbAox6NAShysnXPnKCmH4PIF5cuHYZ32zRrxBswRdwG4tQzc3frcl+EGVzn
+ BLqj+CLV0aDN3wXJsZH9KlWpnMWGSVG0KPIQwI8Hn//WFoJP116/FaYfr/nWGK6Fjcg5
+ awdQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV8ZlYREseM7IYlhtaU4/bZFfywopv8cpLw+bmxh2JQWFpCw09uNtd2amxH77m1Ehqvjo9RPy5c9r4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYtKbW9jTir9HGYrcE8RDMLf/zJeiqnGGDC+ul1QDg/XEdZ01y
- FVKFeMGgm6OUC26YVSiHSXmFaZMTJEEFk4n/v3l7B2IxYrFpH9rz8pQyYjbfoZ0D3xH8jI14Ksk
- BWro=
-X-Gm-Gg: ASbGncu9vf74P9dWlIzk7I8u8g5MV9zlH6UZr12YIf62W12txuPTg/Qaas35YzyrYsK
- TmQc3Uh6cVbH7LnI4ChIeVZAFqsbCMS50KEAfQo6BmPdKUWZ4tX8QbkCrnYfZ6eDoQ10HAlB8Yp
- ythfaDnVg/5Un2EiEga9v8o2P8MmMZU4bat2yCsxjNRQ5YwfYxp1T61Mdjdn7+w3trh2xGFReL8
- JeZ5AaiB53+K+hyGnteHk6Y1hYN8fdb1lpv9MlN0b7F8BsZbU7n4vNL1al4pzYxYUOfOjtzNARL
- KiBhjTxCKeoel7Zduo7kpncC3QWUgBqIirK/QbIEQEJClew3YPiuk3kVqwEkOnL2dMu7o+zsHbS
- sqciI2iw7PUxo74OygQB14sy4
-X-Google-Smtp-Source: AGHT+IEhK8WPCNQ2ny4wFVJ0Mn/g931J/pH6k2jlLt44c80Y4amsFqDiQ97ufGuuRZNFOtxZQ3FiJA==
-X-Received: by 2002:a2e:be05:0:b0:30b:b852:2f85 with SMTP id
- 38308e7fff4ca-30bd7a3dbd6mr32951271fa.13.1741278835567; 
- Thu, 06 Mar 2025 08:33:55 -0800 (PST)
+ AJvYcCUJJzYEMsOK+Qzfu0bxhxx+2WY/3DDFHJJiDm0qgUe5YHpzMx/txB+yxXkSiAGzjakRsU5a7eva8+k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmQuw2fHAH0qrjG9WkobtG1kyWyilbML1emtOVdVDJnV0FFtSY
+ 1ryzqiQZZTDm85WWzrZw2R6DwJrVyWriNLKSyirY3kIWQRRsTmmpTBlYUTk8tPo=
+X-Gm-Gg: ASbGncuHqrN0rj2FHIpXBdgk0Re9M8pptgesH3JUa6uo9zH+YY2twk73AS10y4AlYzi
+ DxomRoTStO7xm7VqxYheBy/LkaXEq6E6GrcY0A444EhLx2FeU1MR2cb61bLjHkFpCt5IApNPYco
+ vxceSXOA4lr1q3oKmTxKdA8tb6EFyh9Q1YdkdlX2wr43vXB73ECAPD/tJiOKTPnqqbwtP1Nhmdp
+ 7zNtI1iVMfuMuhCrNxM6VxT/F+EOCN9Ahy78zg4V6to0TzxLqLbNQHAgULzIjwgQc8Kkh/gMX3+
+ iBXQ8CqkDfApqDJ0SkJ9Qua9mkgFk+NfOUIZ4OeDv9wRR/amo+Vo98+kNKcHNigeWBhDUszXB30
+ eLcNcsAoj1G6n/vqZH7yeCSrH
+X-Google-Smtp-Source: AGHT+IHt8WQLWAGDWHo3md1Ffan9Wx7URm1t0MnTSAc9qQkPKqnAbToODyzMc5O6JoOi7DfCRhZZiA==
+X-Received: by 2002:a05:6512:2391:b0:549:9078:dd45 with SMTP id
+ 2adb3069b0e04-5499078ddd8mr7463e87.28.1741279191737; 
+ Thu, 06 Mar 2025 08:39:51 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30be98f2f9bsm2526731fa.35.2025.03.06.08.33.53
+ 2adb3069b0e04-5498b1c3c0esm227438e87.248.2025.03.06.08.39.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 08:33:54 -0800 (PST)
-Date: Thu, 6 Mar 2025 18:33:51 +0200
+ Thu, 06 Mar 2025 08:39:51 -0800 (PST)
+Date: Thu, 6 Mar 2025 18:39:48 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: neil.armstrong@linaro.org
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- simona@ffwll.ch, lujianhua000@gmail.com, quic_jesszhan@quicinc.com, 
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: novatek-nt36523: transition to mipi_dsi
- wrapped functions
-Message-ID: <p2esqngynwfrshz5rqfnmx6qgwf4dclpkb3mphwg2vavx2jbcg@clqoy5tjh7bb>
-References: <20250306134350.139792-1-tejasvipin76@gmail.com>
- <ca5b0825-a485-4bec-bd93-b57a8d7ced99@linaro.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, heiko@sntech.de, 
+ neil.armstrong@linaro.org, sebastian.reichel@collabora.com,
+ devicetree@vger.kernel.org, 
+ hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, yubing.zhang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, 
+ Andy Yan <andy.yan@rock-chips.com>, krzk+dt@kernel.org, robh@kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
+Message-ID: <zybxwxxkua2zqukcd7tn2z4uwbqjbxt2fdtnrmpsov4hy55tzn@moxuyfxtyagb>
+References: <25401bfa.291d.19564244e54.Coremail.andyshrk@163.com>
+ <75189787-28E1-4FC2-8E10-4960B3877A6F@gmail.com>
+ <28b0d3fc.bb3.19568f6b5f8.Coremail.andyshrk@163.com>
+ <44213B17-FE14-4FB8-8319-1E31BBF6EAA0@gmail.com>
+ <74c154b6.8c50.1956aa8c8d2.Coremail.andyshrk@163.com>
+ <1573D5D6-AFED-4D92-8112-B0C6BB52D5FF@gmail.com>
+ <46c0d239.a4f5.1956b619b97.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ca5b0825-a485-4bec-bd93-b57a8d7ced99@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <46c0d239.a4f5.1956b619b97.Coremail.andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,58 +103,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 03:05:10PM +0100, neil.armstrong@linaro.org wrote:
-> On 06/03/2025 14:43, Tejas Vipin wrote:
-> > Changes the novatek-nt36523 panel to use multi style functions for
-> > improved error handling.
-> > 
-> > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> > ---
-> >   drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1683 ++++++++---------
-> >   1 file changed, 823 insertions(+), 860 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> > index 04f1d2676c78..922a225f6258 100644
-> > --- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> > +++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> > @@ -23,10 +23,12 @@
-> >   #define DSI_NUM_MIN 1
-> > -#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)        \
-> > -		do {                                                 \
-> > -			mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      \
-> > -			mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      \
-> > +#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, cmd, seq...)      \
-> > +		do {								\
-> > +			mipi_dsi_dcs_write_seq_multi(&dsi_ctx0, cmd, seq);	\
-> > +			dsi_ctx1.accum_err = dsi_ctx0.accum_err;		\
-> > +			mipi_dsi_dcs_write_seq_multi(&dsi_ctx1, cmd, seq);	\
-> > +			dsi_ctx0.accum_err = dsi_ctx1.accum_err;		\
+On Thu, Mar 06, 2025 at 08:15:13PM +0800, Andy Yan wrote:
+> Hi Piotr,
 > 
-> Just thinking out loud, but can't we do :
+> 在 2025-03-06 19:47:31，"Piotr Oniszczuk" <piotr.oniszczuk@gmail.com> 写道：
+> >
+> >> Wiadomość napisana przez Andy Yan <andyshrk@163.com> w dniu 6 mar 2025, o godz. 09:53:
+> >> 
+> >> 
+> >> Hi,
+> >> 
+> >> 在 2025-03-06 16:42:00，"Piotr Oniszczuk" <piotr.oniszczuk@gmail.com> 写道：
+> >>> 
+> >>> 
+> >>>> Wiadomość napisana przez Andy Yan <andyshrk@163.com> w dniu 6 mar 2025, o godz. 01:59:
+> >>>> 
+> >>>> 
+> >>>> 
+> >>>> 
+> >>>> Both of the two config options should be enabled.
+> >>>> andy@Pro480:~/WorkSpace/linux-next$ rg DW_DP .config
+> >>>> 4044:CONFIG_ROCKCHIP_DW_DP=y
+> >>> 
+> >>> here i’m a bit lost….
+> >>> greping on full kernel sources (with applied https://patchwork.kernel.org/project/linux-rockchip/list/?series=936784) gives me no single appearance of ROCKCHIP_DW_DP…
+> >>> Do i miss something?
+> >> 
+> >> see PATCH 3/6:   
+> >> 
+> >> 
+> >> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> >> index 26c4410b2407..c8638baf9641 100644
+> >> --- a/drivers/gpu/drm/rockchip/Kconfig
+> >> +++ b/drivers/gpu/drm/rockchip/Kconfig
+> >> @@ -8,6 +8,7 @@ config DRM_ROCKCHIP
+> >> select DRM_PANEL
+> >> select VIDEOMODE_HELPERS
+> >> select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
+> >> + select DRM_DW_DP if ROCKCHIP_DW_DP
+> >> select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
+> >> select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
+> >> select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
+> >> @@ -58,6 +59,12 @@ config ROCKCHIP_CDN_DP
+> >>  RK3399 based SoC, you should select this
+> >>  option.
+> >> 
+> >> +config ROCKCHIP_DW_DP
+> >> + bool "Rockchip specific extensions for Synopsys DW DP"
+> >> + help
+> >> +  Choose this option for Synopsys DesignWare Cores DisplayPort
+> >> +  transmit controller support on Rockchip SoC.
+> >> 
+> >> https://lore.kernel.org/linux-rockchip/047EECFC-7E55-44EC-896F-13FE04333E4D@gmail.com/T/#m178a325ea0ebc64187aae474d77c3f7a9e0bc93d
+> >>> 
+> >
+> >
+> >Ah my bad!
+> >One patch patch was commented - so not all dp code was applied.
+> >
+> >Now it is much better:
+> >
+> >root@myth-frontend-56b0f018b5e0:~ # dmesg | grep drm
+> >[    9.795380] panthor fb000000.gpu: [drm] clock rate = 198000000
+> >[    9.796257] panthor fb000000.gpu: [drm] mali-g610 id 0xa867 major 0x0 minor 0x0 status 0x5
+> >[    9.796262] panthor fb000000.gpu: [drm] Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
+> >[    9.796265] panthor fb000000.gpu: [drm] shader_present=0x50005 l2_present=0x1 tiler_present=0x1
+> >[    9.851869] panthor fb000000.gpu: [drm] Firmware protected mode entry not be supported, ignoring
+> >[    9.851921] panthor fb000000.gpu: [drm] Firmware git sha: 814b47b551159067b67a37c4e9adda458ad9d852
+> >[    9.852127] panthor fb000000.gpu: [drm] CSF FW using interface v1.1.0, Features 0x0 Instrumentation features 0x71
+> >[    9.852436] [drm] Initialized panthor 1.3.0 for fb000000.gpu on minor 0
+> >[   10.003108] rockchip-drm display-subsystem: bound fdd90000.vop (ops vop2_component_ops)
+> >[   10.004705] rockchip-drm display-subsystem: bound fde60000.dp (ops dw_dp_rockchip_component_ops)
+> >[   10.006085] rockchip-drm display-subsystem: bound fdea0000.hdmi (ops dw_hdmi_qp_rockchip_ops)
+> >[   10.006679] [drm] Initialized rockchip 1.0.0 for display-subsystem on minor 1
+> >[   10.006737] rockchip-drm display-subsystem: [drm] Cannot find any crtc or sizes
+> >[   10.007663] rockchip-drm display-subsystem: [drm] Cannot find any crtc or sizes
+> >
+> >Unfortunately still nothing on screen
+> >
+> >dri state: https://gist.github.com/warpme/5e971dfd2e9fd52fae76641831cebe46
+> >
+> >and kernel dmesg https://termbin.com/r0m3
+> >
+> >i’m not sure what is missing (some dts enablement or….)
 > 
-> struct mipi_dsi_multi_context dsi_ctx = { .dsi = NULL };
+> From your dts,  I find you use gpio for hpd, I'm not sure how to handle it  with upstream  code now.
 > 
-> #define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd, seq...)      \
-> 		do {						
-> 			dsi_ctx.dsi = dsi0;					\
-> 			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
-> 			dsi_ctx.dsi = dsi1;					\
-> 			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
 > 
-> ?
-> 
-> So we have a single accum_err.
+> &dp1 {
+> 	status = "okay";
+> 	pinctrl-names = "default";
+> 	pinctrl-0 = <&dp1_hpd>;
+> 	hpd-gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_HIGH>;
 
-I'd say that can be counter-prodactive. If only one of the links falls
-apart, then the second link still can be initialized (and by observing a
-half of the screen the user / devloper can make several assumptions).
-In case of using just one context the driver will fail on the first
-error and skip the rest of the init for both halves.
+If this GPIO is handled by the DP controller itself, it should be a part
+of DP's node. Otherwise please move it to the correctponding
+dp-connector node.
 
-I'd have a different suggestion though: what about passing two contexts
-to the init_sequence callback and letting nt36523_prepare() handle each
-of the error separately?
-
+> };
+> 
+> I suggest a change like this:
+> 
+> &dp1 {
+> 	status = "okay";
+> 	pinctrl-names = "default";
+>         pinctrl-0 = <&dp1m0_pins>;
+> 
+> };
+> 
+> And also remove dp1_hpd pinctrl in your dts.
+> 
+> Then when you DP cable plugin, you can run command as bellow to see if the driver detects the HPD:
+> 
+> # cat /sys/class/drm/card0-DP-1/status 
+> connected
+> # 
 
 -- 
 With best wishes
