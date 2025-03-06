@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A0AA53F0C
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 01:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3304A53F23
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 01:31:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AECA10E878;
-	Thu,  6 Mar 2025 00:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB0110E876;
+	Thu,  6 Mar 2025 00:31:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="WZcVsfI7";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="fvFai9fn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 6826 seconds by postgrey-1.36 at gabe;
- Thu, 06 Mar 2025 00:24:30 UTC
 Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA6010E878;
- Thu,  6 Mar 2025 00:24:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B75010E876
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 00:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=7i7nfeayubfi5gqgovqg3wpoeq.protonmail; t=1741220667; x=1741479867;
- bh=zM6T0I1UDmm6pK0qaYYW60tPdabgjnBTsVC6Y/zI8KY=;
+ s=protonmail; t=1741221079; x=1741480279;
+ bh=lP7zxDTbeyDZl0Ryw9P4Uxud5cGW/sqewezSoPeHTi8=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=WZcVsfI7qYj4WAZOGHfQb7lCbP1yZ1/lSOuNILHMFYSHa4/uZtr2x6VVCKmX2VSRu
- 4XBLKSpZrd6O0S6t4dQWmMS4vzSqk8KfEBjBYNy+xrMRPHvbTHk+FY+DlSEhAFhw8S
- tnH8nfLTD3rXiSwAX+wQlw8xWBDJhUHJygGMCZVtsfDp3c7R9+t4xemK2xGtKISEsU
- ROPXFdpVUwKYFvQ3PpSr3mbXIZ3En3zvogFQRAFbw9PF01jBFml22Ig0KbnsXZaVol
- 7+q8vjZJ3x9hAN+PzETkNgnZ3lVMOW/IqD7r5Qb5t2EKG1xZTL7ZJ1isqLqAzIX63o
- JyTa0JnlpcsEw==
-Date: Thu, 06 Mar 2025 00:24:21 +0000
-To: Danilo Krummrich <dakr@kernel.org>
+ b=fvFai9fnStR80Ck8q5ZbNYGtkk79SqF9sDYjImm1MpaSN6RDOS+8lhTcu4HXf7pz9
+ T9lMedaRW741aWPMQu6x1qkNz8rYkPnDMz8G+InK+mr5ym8Z7os07oaG3k52xycWtO
+ +408J6O0lf8KRisg58hDagab57rMVaK1CGz5b/l+UPFxpmr3J+3NZ3e10uo9jLU0bF
+ e2JszLzwZOYc+Xly3hL/osA3FiNUHbd1RsjCl90QuuRVXxUg+QnvleEhOwJPKkukQY
+ Ids9xB5ZbQEABna8Y5ccztGCUDGX4jSYLlVeOdFw4VApoGE/t2yucj2hckmCuoSGHR
+ 318twzUTdMVGw==
+Date: Thu, 06 Mar 2025 00:31:14 +0000
+To: Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com, simona@ffwll.ch,
+ corbet@lwn.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
+ pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com, jhubbard@nvidia.com,
+ bskeggs@nvidia.com, acurrid@nvidia.com
 From: Benno Lossin <benno.lossin@proton.me>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- ajanulgu@redhat.com, lyude@redhat.com, pstanner@redhat.com, zhiw@nvidia.com,
- cjia@nvidia.com, jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
  gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
  aliceryhl@google.com, tmgross@umich.edu, gregkh@linuxfoundation.org,
  mcgrof@kernel.org, russ.weight@linux.dev, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] rust: firmware: introduce
- `firmware::ModInfoBuilder`
-Message-ID: <D88R7HI1Z6GG.ZOQ9A1VQOR28@proton.me>
-In-Reply-To: <Z8jk3qs6nCIJz-39@pollux>
+Subject: Re: [PATCH v5 3/5] rust: firmware: add `module_firmware!` macro
+Message-ID: <D88RCQTNVD7B.3RIN253F8LODY@proton.me>
+In-Reply-To: <20250304173555.2496-4-dakr@kernel.org>
 References: <20250304173555.2496-1-dakr@kernel.org>
- <20250304173555.2496-3-dakr@kernel.org> <D88OSC9XJXZL.C5HXWFYCG9U6@proton.me>
- <Z8jSV5CpZDcXrviY@pollux> <D88Q7503C8FF.2TMMBSEMOGKU1@proton.me>
- <Z8jk3qs6nCIJz-39@pollux>
+ <20250304173555.2496-4-dakr@kernel.org>
 Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: da2143f6321c35ea1a493628d2ba460ec60f7fa3
+X-Pm-Message-ID: 8d1ff6c103cb6cc8c060a13e03d39356aa065e1c
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -70,68 +65,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Mar 6, 2025 at 12:57 AM CET, Danilo Krummrich wrote:
-> On Wed, Mar 05, 2025 at 11:36:54PM +0000, Benno Lossin wrote:
->> On Wed Mar 5, 2025 at 11:38 PM CET, Danilo Krummrich wrote:
->> > On Wed, Mar 05, 2025 at 10:30:31PM +0000, Benno Lossin wrote:
->> >> On Tue Mar 4, 2025 at 6:34 PM CET, Danilo Krummrich wrote:
->> >> > +    /// Push an additional path component.
->> >> > +    ///
->> >> > +    /// After a new [`ModInfoBuilder`] instance has been created, =
-[`ModInfoBuilder::prepare`] must
->> >> > +    /// be called before adding path components.
->> >> > +    pub const fn push(self, s: &str) -> Self {
->> >> > +        if N !=3D 0 && self.n =3D=3D 0 {
->> >> > +            crate::build_error!("Must call prepare() before push()=
-.");
->> >>
->> >> This will only prevent the first `prepare` call being missed, right?
->> >
->> > Correct, unfortunately there's no way to detect subsequent ones.
->>
->> Does it make sense to do that one in the constructor?
->>
->> (After looking at the example below) Ah maybe you can't do that, since
->> then you would have two `prepare()` calls for the example below...?
+On Tue Mar 4, 2025 at 6:34 PM CET, Danilo Krummrich wrote:
+> Analogous to the `module!` macro `module_firmware!` adds additional
+> firmware path strings to the .modinfo section.
 >
-> Exactly.
+> In contrast to `module!`, where path strings need to be string literals,
+> path strings can be composed with the `firmware::ModInfoBuilder`.
 >
->> >> If you always have to call this before `push`, why not inline it ther=
-e?
->> >
->> > You can push() multiple times to compose the firmware path string (whi=
-ch is the
->> > whole purpose :).
->>
->> Ah I see, I only looked at the example you have in the next patch. All
->> in all, I think this patch could use some better documentation, since I
->> had to read a lot of the code to understand what everything is supposed
->> to do...
+> Some drivers require a lot of firmware files (such as nova-core) and
+> hence benefit from more flexibility composing firmware path strings.
 >
-> I can expand the example in module_firmware! to make things a bit more ob=
-vious.
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  rust/kernel/firmware.rs | 79 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
 >
-> Otherwise, what information do you think is missing?
+> diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+> index 6e6972d94597..5d1ac8287171 100644
+> --- a/rust/kernel/firmware.rs
+> +++ b/rust/kernel/firmware.rs
+> @@ -116,6 +116,85 @@ unsafe impl Send for Firmware {}
+>  // be used from any thread.
+>  unsafe impl Sync for Firmware {}
+>
+> +/// Create firmware .modinfo entries.
+> +///
+> +/// This macro is the counterpart of the C macro `MODULE_FIRMWARE()`, bu=
+t instead of taking a
+> +/// simple string literals, which is already covered by the `firmware` f=
+ield of
+> +/// [`crate::prelude::module!`], it allows the caller to pass a builder =
+type (e.g.
+> +/// [`ModInfoBuilder`]) which can create the firmware modinfo strings in=
+ a more flexible way.
+> +///
+> +/// Drivers should extend the [`ModInfoBuilder`] with their own driver s=
+pecific builder type.
+> +///
+> +/// The `builder` argument must be a type which implements the following=
+ function.
+> +///
+> +/// `const fn create(module_name: &'static CStr) -> ModInfoBuilder`
+> +///
+> +/// `create` should pass the `module_name` to the [`ModInfoBuilder`] and=
+, with the help of
+> +/// it construct the corresponding firmware modinfo.
+> +///
+> +/// Typically, such contracts would be enforced by a trait, however trai=
+ts do not (yet) support
+> +/// const functions.
+> +///
+> +/// # Example
+> +///
+> +/// ```
+> +/// # mod module_firmware_test {
+> +/// # use kernel::firmware;
+> +/// # use kernel::prelude::*;
+> +/// #
+> +/// # struct MyModule;
+> +/// #
+> +/// # impl kernel::Module for MyModule {
+> +/// #     fn init(_module: &'static ThisModule) -> Result<Self> {
+> +/// #         Ok(Self)
+> +/// #     }
+> +/// # }
+> +/// #
+> +/// #
+> +/// struct Builder<const N: usize>;
+> +///
+> +/// impl<const N: usize> Builder<N> {
+> +///     const fn create(module_name: &'static kernel::str::CStr) -> firm=
+ware::ModInfoBuilder<N> {
+> +///         firmware::ModInfoBuilder::new(module_name)
+> +///             .prepare()
+> +///             .push("vendor/foo.bin")
+> +///             .prepare()
+> +///             .push("vendor/bar.bin")
+> +///     }
+> +/// }
+> +///
+> +/// module! {
+> +///    type: MyModule,
+> +///    name: "module_firmware_test",
+> +///    author: "Rust for Linux",
+> +///    description: "module_firmware! test module",
+> +///    license: "GPL",
+> +/// }
+> +///
+> +/// kernel::module_firmware!(Builder);
+> +/// # }
+> +/// ```
 
-Abstractly: what `ModInfoBuilder` *does*, concretely:
-- why the generic constant `N` exists,
-- what `prepare()` does,
-- what happens with the `module_name` parameter of `new`
-- answer the question "I want that the builder outputs the string `???`
-  can it do that? If yes, how do I do it?"
+Would be nice to see a more complex example here like the one from nova
+you sent in the other thread. So with "dynamic" string interpolation and
+multiple pushes.
 
->> It might also make sense to make this more generic, since one probably
->> also needs this in other places? Or do you think this will only be
->> required for modinfo?
->
-> Currently, I don't think there's any more need for a generic const string
-> builder. For now, I think we're good. Let's factor it out, once we have a=
-ctual
-> need for that.
+> +#[macro_export]
+> +macro_rules! module_firmware {
+> +    ($($builder:tt)*) =3D> {
 
-Sounds good.
+This should probably be `$builder:expr` instead.
+
+> +
+> +        #[cfg(not(MODULE))]
+> +        const fn __module_name() -> &'static kernel::str::CStr {
+> +            <LocalModule as kernel::ModuleMetadata>::NAME
+
+Please either use `::kernel::` or `$crate::` instead of `kernel::`.
+
+Hmm, I am not 100% comfortable with the `LocalModule` way of accessing
+the current module for some reason, no idea if there is a rational
+argument behind that, but it just doesn't sit right with me.
+
+Essentially you're doing this for convenience, right? So you don't want
+to have to repeat the name of the module type every time?
+
+> +        }
+> +
+> +        #[cfg(MODULE)]
+> +        const fn __module_name() -> &'static kernel::str::CStr {
+> +            kernel::c_str!("")
+
+Ditto.
+
+> +        }
+
+Are these two functions used outside of the `static` below? If no, then
+you can just move them into the static? You can also probably use a
+`const` instead of a function, that way you only have 4 lines instead
+of 8.
 
 ---
 Cheers,
 Benno
+
+> +
+> +        #[link_section =3D ".modinfo"]
+> +        #[used]
+> +        static __MODULE_FIRMWARE: [u8; $($builder)*::create(__module_nam=
+e()).build_length()] =3D
+> +            $($builder)*::create(__module_name()).build();
+> +    };
+> +}
+> +
+>  /// Builder for firmware module info.
+>  ///
+>  /// [`ModInfoBuilder`] is a helper component to flexibly compose firmwar=
+e paths strings for the
+> --
+> 2.48.1
+
 
