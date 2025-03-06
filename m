@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D79A5551E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 19:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66ED1A55521
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 19:35:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9AB10EA65;
-	Thu,  6 Mar 2025 18:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2400610EA6A;
+	Thu,  6 Mar 2025 18:35:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=siemens.com header.i=alessandro.zini@siemens.com header.b="Af/Yq6H1";
+	dkim=pass (2048-bit key; secure) header.d=siemens.com header.i=alessandro.zini@siemens.com header.b="YNGZClJW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
  Thu, 06 Mar 2025 09:21:45 UTC
-Received: from mta-64-226.siemens.flowmailer.net
- (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 258D110E91C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 09:21:45 +0000 (UTC)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id
- 2025030609113487d3306ddd8a0962f9
+Received: from mta-64-227.siemens.flowmailer.net
+ (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26BCD10E920
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 09:21:44 +0000 (UTC)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id
+ 202503060911371fb5f5d63be22173ab
  for <dri-devel@lists.freedesktop.org>;
- Thu, 06 Mar 2025 10:11:35 +0100
+ Thu, 06 Mar 2025 10:11:38 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=alessandro.zini@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=551wx5oTEqfZyjay5LJbEZtGjB9vzpZh1VRl3hD8kLg=;
- b=Af/Yq6H1MQjdSf52ulEnsWhK6tfSzLeb/Lz3pfIb8I4aRvtYEdIVh2CglTXnHtnS7QKRXZ
- AsXlbKT7ImaVTPTT/2H8rUJcXLpNdtCU6gtJ931JJgdkXUx4vZ2fh7bBEG65d47/+MGWi4yY
- MSe0whRMPE8sG0XVYxKYkIIbcgsZSmTOlAKlX4fgJGnovt96hLCJsBLvRh7cJRbmhiHzV0T7
- zzdFNZ73Fe4XSSbN/5/P3euVbusEtY79E5D0OVanGv4/K4Z4Sakf5i70W0HW2lbXHBQUkPXV
- NhRKDE8zIhgbJH3hxQ3bRPhaNIpGhrI50eJqX3CN1iLgSnCBd/ByGt5g==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=NMfsC4/yM01xpBetTGZUi8FhmxQx5NVH65WeTChQBQ0=;
+ b=YNGZClJWueHEkQbRaHVtzgCso65t1U9Nej1WKRdKjXmrFNKF3PAA9YONyDkK0+C2y/mRI5
+ 506yKqvpbIUu7do3enUmJfVHjg+Wo38cyYGUwk/3J4IicPG6IKSeERW+c57uc8PT0YaW+cvu
+ 1zsMHtjkA6f1mCES4nutLF0Sxhm6ski0k3eYwFOL9nsoGJzJJ1ES/GbP1iQnp7HvWbWRJx9o
+ dM2xiFSe7EfS/1RO7qOecfLj0vpSo1bGdi7lG7T1dIOMYwEHiua9Xnmen15tvrCDEzaPa1uK
+ 3bURbWppy9dwCXk+WuYz2OuDa95vVr5L62h19LrR3Z7D3ykchHJf1Oog==;
 From: "A. Zini" <alessandro.zini@siemens.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -43,9 +43,12 @@ Cc: Andrej Picej <andrej.picej@norik.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
  Alessandro Zini <alessandro.zini@siemens.com>
-Subject: [PATCH 0/2] Introduce h/vsync-disable properties for ti-sn65dsi83
-Date: Thu,  6 Mar 2025 10:11:31 +0100
-Message-ID: <20250306091133.46888-1-alessandro.zini@siemens.com>
+Subject: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: add
+ h/vsync-disable bindings
+Date: Thu,  6 Mar 2025 10:11:32 +0100
+Message-ID: <20250306091133.46888-2-alessandro.zini@siemens.com>
+In-Reply-To: <20250306091133.46888-1-alessandro.zini@siemens.com>
+References: <20250306091133.46888-1-alessandro.zini@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -68,24 +71,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alessandro Zini <alessandro.zini@siemens.com>
 
-This patch series adds support for disabling the generation of h/vsync signals
-on the ti-sn65dsi83 bridge.
+Add hsync- and vsync-disable bindings, used to disable the generation of
+h/vsync signals.
 
-This is required on some panels which are driven in DE-only mode but do not
-ignore sync packets, and instead require them to be low-voltage level or ground.
+Signed-off-by: Alessandro Zini <alessandro.zini@siemens.com>
+---
+ .../bindings/display/bridge/ti,sn65dsi83.yaml        | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-A discussion (1) on TI's E2E forum confirms that this may be required for some
-panels.
-
-(1) https://e2e.ti.com/support/interface-group/interface/f/interface-forum/1475734/sn65dsi84-disable-hsync-and-vsync
-
-Alessandro Zini (2):
-  dt-bindings: drm/bridge: ti-sn65dsi83: add h/vsync-disable bindings
-  drm/bridge: ti-sn65dsi83: add h/vsync-disable support
-
- .../bindings/display/bridge/ti,sn65dsi83.yaml    | 12 ++++++++++++
- drivers/gpu/drm/bridge/ti-sn65dsi83.c            | 16 ++++++++++++++--
- 2 files changed, 26 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+index 9b5f3f3eab198..ff80876d504ad 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+@@ -94,6 +94,18 @@ properties:
+       - port@0
+       - port@2
+ 
++  hsync-disable:
++    type: boolean
++    description: |
++      Disable HSYNC generation on the LVDS output by setting the
++      width in pixel clocks of the hsync pulse width to 0.
++
++  vsync-disable:
++    type: boolean
++    description: |
++      Disable VSYNC generation on the LVDS output by setting the
++      length in lines of the vsync pulse width to 0.
++
+ required:
+   - compatible
+   - reg
 -- 
 2.48.1
+
