@@ -2,41 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8F2A53FFF
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 02:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E722A5400A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 02:38:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C7210E890;
-	Thu,  6 Mar 2025 01:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B23D10E891;
+	Thu,  6 Mar 2025 01:38:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m8fBaVdQ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.nfschina.com (unknown [42.101.60.213])
- by gabe.freedesktop.org (Postfix) with SMTP id 9B82E10E890;
- Thu,  6 Mar 2025 01:37:28 +0000 (UTC)
-Received: from [172.30.20.101] (unknown [180.167.10.98])
- by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 11774604A4FAC; 
- Thu,  6 Mar 2025 09:36:48 +0800 (CST)
-Message-ID: <cef18438-4cb3-f69e-f3b9-200151b2eb4c@nfschina.com>
-Date: Thu, 6 Mar 2025 09:36:47 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A79610E891;
+ Thu,  6 Mar 2025 01:38:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AAF305C6DF6;
+ Thu,  6 Mar 2025 01:36:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD3DC4CED1;
+ Thu,  6 Mar 2025 01:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741225100;
+ bh=UrM87g5D3UWDiuKi4KaePsOLKzw0YeiUZ6UGIXP/nmc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=m8fBaVdQPpH5BGqnqZgzsQcGmB+yJ4tkSOFBXFNUoeokAkoh02hbJQXS59dUbc3vp
+ XrsyGCnQe9Loq1vPnpPmHK6VER2iahCfyQl6+nNw2y3//hnVABiDk6GtJyvghx8Ujz
+ KhfZZpngm0p3H02I/5x5kt79DXZCtAG7yH0/NQPJb1irylxXqdTQ5oEm7KtMjhtWhb
+ 39ZTWUh4/uYn5F81WhLnWagqcDTbBb1o2j5UqgMNBst4US6p3s/uf8zzsm/PbiSuYc
+ eicQAXz18Ar/ZbKSnkQ8EKNhKc4di8QVDVYyeoENpchA/BnW7wsIcrcS+r/6M3lI6Y
+ fSB6ueacX/vEw==
+Date: Thu, 6 Mar 2025 02:38:11 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
+ pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+ jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
+ aliceryhl@google.com, tmgross@umich.edu, gregkh@linuxfoundation.org,
+ mcgrof@kernel.org, russ.weight@linux.dev,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v5 3/5] rust: firmware: add `module_firmware!` macro
+Message-ID: <Z8j8gwvnmKF9ZymM@pollux>
+References: <20250304173555.2496-1-dakr@kernel.org>
+ <20250304173555.2496-4-dakr@kernel.org>
+ <D88RCQTNVD7B.3RIN253F8LODY@proton.me> <Z8j0otfkVtnMXIRQ@pollux>
+ <D88SJOTH9GN4.3OVO4JFYAF9R2@proton.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, rodrigo.vivi@intel.com,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- ilpo.jarvinen@linux.intel.com, andriy.shevchenko@linux.intel.com,
- michael.j.ruhl@intel.com, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, mripard@kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- tzimmermann@suse.de, airlied@gmail.com
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From: Su Hui <suhui@nfschina.com>
-In-Reply-To: <202503052153.gQnXU123-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D88SJOTH9GN4.3OVO4JFYAF9R2@proton.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,61 +70,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025/3/5 21:15, kernel test robot wrote:
-> Hi Su,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on drm-xe/drm-xe-next]
-> [also build test ERROR on linus/master v6.14-rc5 next-20250304]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Su-Hui/drm-xe-Select-INTEL_VSEC-to-fix-build-dependency/20250227-153437
-> base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-> patch link:    https://lore.kernel.org/r/20250227073205.1248282-1-suhui%40nfschina.com
-> patch subject: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
-> config: loongarch-randconfig-001-20250304 (https://download.01.org/0day-ci/archive/20250305/202503052153.gQnXU123-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052153.gQnXU123-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503052153.gQnXU123-lkp@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
->>> ERROR: modpost: "intel_vsec_register" [drivers/gpu/drm/xe/xe.ko] undefined!
-> Kconfig warnings: (for reference only)
->     WARNING: unmet direct dependencies detected for INTEL_VSEC
->     Depends on [n]: X86_PLATFORM_DEVICES [=n] && PCI [=y]
->     Selected by [m]:
->     - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=y]=y [=y])
->     WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
->     Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
->     Selected by [m]:
->     - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
->
-Thanks for these reported, this patch has some problems and is discarded.
+On Thu, Mar 06, 2025 at 01:27:19AM +0000, Benno Lossin wrote:
+> On Thu Mar 6, 2025 at 2:04 AM CET, Danilo Krummrich wrote:
+> > On Thu, Mar 06, 2025 at 12:31:14AM +0000, Benno Lossin wrote:
+> >> On Tue Mar 4, 2025 at 6:34 PM CET, Danilo Krummrich wrote:
+> >>
+> >> > +#[macro_export]
+> >> > +macro_rules! module_firmware {
+> >> > +    ($($builder:tt)*) => {
+> >>
+> >> This should probably be `$builder:expr` instead.
+> >
+> > That doesn't work, the compiler then complains, since it's not an expression:
+> >
+> > 193  |         static __MODULE_FIRMWARE: [u8; $builder::create(__module_name()).build_length()] =
+> >      |                                                ^^ expected one of `.`, `?`, `]`, or an operator
+> 
+> Does `<$builder>::create` work (with the `expr` fragment)?
 
-As Lucas's and Jani's suggestion, there are some other solutions, but I 
-can't
-make sure these solutions won't generate such building errors like this one.
-So I want to use some tools to make sure this dependency is absolutely 
-right.
-I saw there were some thoughts about kconfig-sat[1], maybe it can help. 
-I guess
-using SAT is a nice solution for this problem, but I'm not famlilar with 
-SAT.
+No, the compiler then explicitly complains that it expects a type.
 
-So it need some time (maybe more) for me to send a v2 patch.
+> 
+> > `ty` doesn't work either, since then the compiler expects the caller to add the
+> > const generic, which we want the macro to figure out instead.
+> >
+> >>
+> >> > +
+> >> > +        #[cfg(not(MODULE))]
+> >> > +        const fn __module_name() -> &'static kernel::str::CStr {
+> >> > +            <LocalModule as kernel::ModuleMetadata>::NAME
+> >>
+> >> Please either use `::kernel::` or `$crate::` instead of `kernel::`.
+> >
+> > Good catch, thanks.
+> >
+> >>
+> >> Hmm, I am not 100% comfortable with the `LocalModule` way of accessing
+> >> the current module for some reason, no idea if there is a rational
+> >> argument behind that, but it just doesn't sit right with me.
+> >>
+> >> Essentially you're doing this for convenience, right? So you don't want
+> >> to have to repeat the name of the module type every time?
+> >
+> > No, it's really that I can't know the type name here, please see the previous
+> > patch commit message that introduces `LocalModule` for explanation.
+> 
+> Gotcha.
+> 
+> >> > +        }
+> >> > +
+> >> > +        #[cfg(MODULE)]
+> >> > +        const fn __module_name() -> &'static kernel::str::CStr {
+> >> > +            kernel::c_str!("")
+> >>
+> >> Ditto.
+> >>
+> >> > +        }
+> >>
+> >> Are these two functions used outside of the `static` below? If no, then
+> >> you can just move them into the static? You can also probably use a
+> >> `const` instead of a function, that way you only have 4 lines instead
+> >> of 8.
+> >
+> > Is this what you're proposing?
+> >
+> > 	#[macro_export]
+> > 	macro_rules! module_firmware {
+> > 	    ($($builder:tt)*) => {
+> > 	        const __MODULE_FIRMWARE_PREFIX: &'static $crate::str::CStr = if cfg!(MODULE) {
+> > 	            $crate::c_str!("")
+> > 	        } else {
+> > 	            <LocalModule as $crate::ModuleMetadata>::NAME
+> > 	        };
+> >
+> > 	        #[link_section = ".modinfo"]
+> > 	        #[used]
+> > 	        static __MODULE_FIRMWARE: [u8; $($builder)*::create(__MODULE_FIRMWARE_PREFIX)
+> > 	            .build_length()] = $($builder)*::create(__MODULE_FIRMWARE_PREFIX).build();
+> 
+> I meant to also move the `const` into the expression, but I guess that
+> leads to duplication:
+> 
+>     #[link_section = ".modinfo"]
+>     #[used]
+>     static __MODULE_FIRMWARE: [u8; {
+>         const PREFIX: &'static $crate::str::CStr = if cfg!(MODULE) {
+>             $crate::c_str!("")
+>         } else {
+>             <LocalModule as $crate::ModuleMetadata>::NAME
+>         };
+>         <$builder>::create(PREFIX).build_length()
+>     }] = {
+>         const PREFIX: &'static $crate::str::CStr = if cfg!(MODULE) {
+>             $crate::c_str!("")
+>         } else {
+>             <LocalModule as $crate::ModuleMetadata>::NAME
+>         };
+>         <$builder>::create(PREFIX)
+>     };
+> 
+> But then the advantage is that only the `__MODULE_FIRMWARE` static will
+> be in-scope.
+> 
+> Do you think that its useful to have the static be accessible? I.e. do
+> users need to access it (I would think they don't)? If they don't, then
+> we could put all of those things into a `const _: () = { /* ... */ };`.
+> But then people can invoke `module_firmware!` multiple times in the same
+> module, is that a problem?
 
-[1] https://kernelnewbies.org/KernelProjects/linux-sat
-
-Su Hui
-
+Didn't know that's possible (const _; () = { ... };). That's pretty nice, I will
+go with my above proposal wrapped into the anonymous const. Thanks.
