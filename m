@@ -2,88 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B33A54860
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 11:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064FDA54865
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 11:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6B0B10E153;
-	Thu,  6 Mar 2025 10:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 694E910E16D;
+	Thu,  6 Mar 2025 10:50:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bYIqgVJI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kOLQiNdg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C51E210E153
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 10:49:39 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43bc0b8520cso3002935e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 02:49:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741258178; x=1741862978; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=TPq6CfuM/9epSJQ5qan4iieYXluNdh1lWPLg0zDe+dk=;
- b=bYIqgVJILUC3Pquf3uQfm1L1i8Gspa5EXNhF5M0fhMItCoacXAoQKnC1dUWd7aQBhL
- utJFecj1oZZH94fy6YgwI9LfwDJeUvxmITxmiSkszqozvhDiY5MQjgovhLqi37zjLSKo
- WhYq3ydBkI60tIfxWSPxrZ5cfj55QkDy7XgFilt0pKVN0CHSeJVL+b7eOKYIehBof7NF
- wMWlzAgxQBGn3Bwx4ftWw7B/wHMi68acVekiwZAt7wTCD7htdWf3+l94nWiAOD8qwBqB
- KID04jleQPbH1crb0JknvHVUe9fDzNi7OKkSzF/tAIJiY7LhRXMP/lX9ES/hvr2VST4W
- ZD3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741258178; x=1741862978;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TPq6CfuM/9epSJQ5qan4iieYXluNdh1lWPLg0zDe+dk=;
- b=arzzOVz6z4R6hUjCO7+Fio0U03OqQliaT3Kaixw3ZEPHJ2D6MV+Eo2rCByVs1KtiZi
- aTYT70VnZCz2N1pRgYua67rk1ABnwshBE8fLutEPOam9mmxcyOYpeHCEb9CTlTt9Ync6
- PYfj+9HH764ePgL7+cdOgZlR5Jbv70a/5XYXDI7wE0eNBlM59BwFKFlBQxTE8erll6YC
- 8XfIXlSmv7d/eeVLWrdpfYBkO3H6qxXqeYtHXXxxM4J73e0sTIZ00Lr0TkcDrhuwgUOh
- K5fo9Bpcumj3maGVK8ijeTEeJ04CcyBe1kZZc7ZXSwjDa0/iMdkOCqRrmbM1PO9T+uxT
- VnjA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVJFSZdmPI/0zuve830fP6djYrRDU7XUhY4MzLA1cg41TqtKvFlANwccv3B1/JYYq/szf9SdmOX+J0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHZ2bBgVzBeZ3PwFmi2izUSQqC734nMoLHtzBrRpNzP8rohQKN
- In39wX6rwMAlFKM2p6Y/NV8TSAItlqQBHyDwmhmaTGjMoc775Bvw
-X-Gm-Gg: ASbGncvFQK8APC613t6pxKkcLehTpHoR9XgDpR4f+5jiw6V4y7kzjSYhiyAPdCxcBH/
- ZW8sTYOwby5f2xuzClagCIlQ6hFkTEUaHk1RWVdMQcy22Ojug38sNJ1GrdzwxqxifH1uqNitTlr
- FVcbf9nX/hsoK+rlYf0+hvb8ZEP6YHnGn3KdL3WZ01ViBZqgUcnjX40dAZMa2qF8UgAcqq5LdmQ
- NZWMm31GhQ5+u5dNIoV+xSoQcbnP4qj1pJic7YXdS0yw4nxrXaK9XEw9sTQbYuBMSv+PcawRvxV
- XgVkgFoPvJysER//4bD8HmSQ80MUkE3eNCOyNjZneWXb
-X-Google-Smtp-Source: AGHT+IHnX6SiWzMoCGL6P5TJkV77SJo6sxHfxSWyJ8LddfFC/TkuF415sAvFNV27LZ2CQvLukHXELQ==
-X-Received: by 2002:a05:600c:4ed2:b0:43b:c3b0:56af with SMTP id
- 5b1f17b1804b1-43bd29a30d4mr57386285e9.14.1741258177773; 
- Thu, 06 Mar 2025 02:49:37 -0800 (PST)
-Received: from fedora ([213.94.27.232]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43bdd93cac5sm15995605e9.27.2025.03.06.02.49.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 02:49:37 -0800 (PST)
-Date: Thu, 6 Mar 2025 11:49:35 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/16] drm/vkms: Allow to configure multiple planes
- via configfs
-Message-ID: <Z8l9v0xJppuxG0Cd@fedora>
-References: <20250225175936.7223-1-jose.exposito89@gmail.com>
- <20250225175936.7223-4-jose.exposito89@gmail.com>
- <52bc3f15-28da-4b40-917f-981f1f10d9b8@bootlin.com>
- <Z8VtPMzuZOYqjraQ@fedora>
- <e813ac5b-298c-4863-b0b6-e9ac7fec1da0@bootlin.com>
- <Z8cUN8Q4L0VE-bVm@fedora>
- <fa4f4d3d-6a3e-4659-8a59-4928c2285d55@bootlin.com>
- <Z8cpH3twrgmR0TxI@fedora>
- <fd63f9c0-d5da-438c-b307-5b9a9f97f1d2@bootlin.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 076F710E16D;
+ Thu,  6 Mar 2025 10:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741258226; x=1772794226;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=5Wyc0bIuufauI85MXt4gSS+/RQ9axyJe14USAJ8nP5Y=;
+ b=kOLQiNdgD7QXQEHTf9GhyQS4xWGeGqu5KfGeo5OhApr8VCivIAmTpTB0
+ FThmMdKJtEWZuEZS9QcPuTBUuI8yI7Nhs+zqwqUiL9fPR9ySETD9iOaiC
+ bT27B7E3N7Fqw6sfH6JEumZayRJV+RoNgkr/fMuNdQo1xCzY34gI5ho5J
+ Bw5hbyHzCjUnqp8gskyf/CVdNHx1TXiEOf+pu8FowjMRlDTqaAP0t7aMI
+ Drymm9LOJjIMajXOr5AxrvacweFmBSFJuXbL4pH9ivgc/Whod/GiUURzk
+ rOSnTTKDWuxSxGS/zoBKbDPMQxQirSWOSvmk5Ip8O0TjBO+fJsJydEBE1 g==;
+X-CSE-ConnectionGUID: dQLXL27XQ9mz0dCRshKvTA==
+X-CSE-MsgGUID: xnmCKkzwTt60Z3P2wn24Bg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42392773"
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="42392773"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 02:50:26 -0800
+X-CSE-ConnectionGUID: XYENyoH/Q9S/FLZKkWivyA==
+X-CSE-MsgGUID: 4xgVQF1TR32Ni6cRNUmHpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="123566559"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.151])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 02:50:22 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v3 1/4] drm/i915: Skip harmful unregister steps if not
+ registered
+Date: Thu, 06 Mar 2025 11:50:19 +0100
+Message-ID: <23884888.6Emhk5qWAg@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <87ikomwj4f.fsf@intel.com>
+References: <20250305191152.164615-6-janusz.krzysztofik@linux.intel.com>
+ <20250305191152.164615-7-janusz.krzysztofik@linux.intel.com>
+ <87ikomwj4f.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fd63f9c0-d5da-438c-b307-5b9a9f97f1d2@bootlin.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,406 +80,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+Hi Jani,
 
-On Tue, Mar 04, 2025 at 07:17:53PM +0100, Louis Chauvet wrote:
+On Thursday, 6 March 2025 11:25:52 CET Jani Nikula wrote:
+> On Wed, 05 Mar 2025, Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com> wrote:
+> > Starting with commit ec3e00b4ee27 ("drm/i915: stop registering if
+> > drm_dev_register() fails"), we return from i915_driver_register()
+> > immediately if drm_dev_register() fails, skipping remaining registration
+> > steps.  However, the _unregister() counterpart called at device remove
+> > knows nothing about that skip and executes reverts of all those steps,
+> > some of those reverts possibly added or modified later.  As a consequence,
+> > a number of kernel warnings that taint the kernel are triggered:
+> >
+> > <3> [525.823143] i915 0000:00:02.0: [drm] *ERROR* Failed to register driver for
+> > userspace access!
+> > ...
+> > <4> [525.831069] ------------[ cut here ]------------
+> > <4> [525.831071] i915 0000:00:02.0: [drm] drm_WARN_ON(power_domains->init_wakere
+> > f)
+> > <4> [525.831095] WARNING: CPU: 6 PID: 3440 at drivers/gpu/drm/i915/display/intel
+> > _display_power.c:2074 intel_power_domains_disable+0xc2/0xd0 [i915]
+> > ...
+> > <4> [525.831328] CPU: 6 UID: 0 PID: 3440 Comm: i915_module_loa Tainted: G     U
+> >             6.14.0-rc1-CI_DRM_16076-g7a632b6798b6+ #1
+> > ...
+> > <4> [525.831334] RIP: 0010:intel_power_domains_disable+0xc2/0xd0 [i915]
+> > ...
+> > <4> [525.831483] Call Trace:
+> > <4> [525.831484]  <TASK>
+> > ...
+> > <4> [525.831943]  i915_driver_remove+0x4b/0x140 [i915]
+> > <4> [525.832028]  i915_pci_remove+0x1e/0x40 [i915]
+> > <4> [525.832099]  pci_device_remove+0x3e/0xb0
+> > <4> [525.832103]  device_remove+0x40/0x80
+> > <4> [525.832107]  device_release_driver_internal+0x215/0x280
+> > ...
+> > <4> [525.947666] ------------[ cut here ]------------
+> > <4> [525.947669] kobject: '(null)' (ffff88814f62a218): is not initialized, yet kobject_put() is being called.
+> > <4> [525.947707] WARNING: CPU: 6 PID: 3440 at lib/kobject.c:734 kobject_put+0xe4/0x200
+> > ...
+> > <4> [525.947875] RIP: 0010:kobject_put+0xe4/0x200
+> > ...
+> > <4> [525.947909] Call Trace:
+> > <4> [525.947911]  <TASK>
+> > ...
+> > <4> [525.947963]  intel_gt_sysfs_unregister+0x25/0x40 [i915]
+> > <4> [525.948133]  intel_gt_driver_unregister+0x14/0x80 [i915]
+> > <4> [525.948291]  i915_driver_remove+0x6c/0x140 [i915]
+> > <4> [525.948411]  i915_pci_remove+0x1e/0x40 [i915]
+> > ...
+> > <4> [526.441186] ------------[ cut here ]------------
+> > <4> [526.441191] kernfs: can not remove 'error', no directory
+> > <4> [526.441211] WARNING: CPU: 1 PID: 3440 at fs/kernfs/dir.c:1684 kernfs_remove_by_name_ns+0xbc/0xc0
+> > ...
+> > <4> [526.441536] RIP: 0010:kernfs_remove_by_name_ns+0xbc/0xc0
+> > ...
+> > <4> [526.441578] Call Trace:
+> > <4> [526.441581]  <TASK>
+> > ...
+> > <4> [526.441686]  sysfs_remove_bin_file+0x17/0x30
+> > <4> [526.441691]  i915_gpu_error_sysfs_teardown+0x1d/0x30 [i915]
+> > <4> [526.442226]  i915_teardown_sysfs+0x1c/0x60 [i915]
+> > <4> [526.442369]  i915_driver_remove+0x9d/0x140 [i915]
+> > <4> [526.442473]  i915_pci_remove+0x1e/0x40 [i915]
+> > ...
+> > <4> [526.685700] ------------[ cut here ]------------
+> > <4> [526.685706] i915 0000:00:02.0: [drm] i915 raw-wakerefs=1 wakelocks=1 on cle
+> > anup
+> > <4> [526.685734] WARNING: CPU: 1 PID: 3440 at drivers/gpu/drm/i915/intel_runtime
+> > _pm.c:443 intel_runtime_pm_driver_release+0x75/0x90 [i915]
+> > ...
+> > <4> [526.686090] RIP: 0010:intel_runtime_pm_driver_release+0x75/0x90 [i915]
+> > ...
+> > <4> [526.686294] Call Trace:
+> > <4> [526.686296]  <TASK>
+> > ...
+> > <4> [526.687025]  i915_driver_release+0x7e/0xb0 [i915]
+> > <4> [526.687243]  drm_dev_put.part.0+0x47/0x90
+> > <4> [526.687250]  devm_drm_dev_init_release+0x13/0x30
+> > <4> [526.687255]  devm_action_release+0x12/0x30
+> > <4> [526.687261]  release_nodes+0x3a/0x120
+> > <4> [526.687268]  devres_release_all+0x97/0xe0
+> > <4> [526.687277]  device_unbind_cleanup+0x12/0x80
+> > <4> [526.687282]  device_release_driver_internal+0x23a/0x280
+> > ...
+> >
+> > A call to intel_power_domains_disable() that triggeres the drm_WARN_ON()
+> > and takes another wakeref even if the one taken during driver register was
+> > not released after device register error, was already there.  The WARN()
+> > triggered by kernfs_remove_by_name_ns() from i915_teardown_sysfs()->
+> > i915_gpu_error_sysfs_teardown(), formerly i915_teardown_error_capture(),
+> > was also there.  A call to intel_gt_sysfs_unregister() that triggers the
+> > WARN() from kobject_put() was added to intel_gt_driver_unregister() with
+> > commit 69d6bf5c3754ff ("drm/i915/gt: Fix memory leaks in per-gt sysfs").
+> >
+> > Introduce a flag that indicates device registration status and raise it on
+> > device registration success.  As a minimum (first step), when that flag is
+> > found not set while unregistering the driver, jump over those reverts of
+> > registration steps omitted after device registration failure that are not
+> > ready for being called unconditionally (and trigger kernel warnings).
+> >
+> > In case of i915_gt_driver_unregister() called for each GT, omitting it
+> > proved to introduce new issues.  Skip only its problematic
+> > intel_gt_sysfs_unregister() sub-step.
+> >
+> > Other unregister steps seem to be safe but may still occur redundant in
+> > that scenario -- that will be addressed in follow-up patches.
+> >
+> > v3: Based on Andi's commitment on introducing a flag, try to address
+> >     Jani's "must find another way" by finding a better place and name for
+> >     the flag (in hope that's what Jani had on mind),
+> >   - split into a series of patches and limit the scope of the first (this)
+> >     one to a minimum of omitting conditionally only those unregister
+> >     (sub)steps that trigger kernel warnings when not registered.
+> > v2: Check in _unregister whether the drm_dev_register has succeeded and
+> >     skip some of the _unregister() steps. (Andi)
+> >
+> > Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10047
+> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/9820
+> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10131
+> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10887
+> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12817
+> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> > Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_gt.c | 3 ++-
+> >  drivers/gpu/drm/i915/i915_driver.c | 8 ++++++--
+> >  drivers/gpu/drm/i915/i915_drv.h    | 2 ++
+> >  3 files changed, 10 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > index 3d3b1ba76e2be..77eb9305a1ff8 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > @@ -783,7 +783,8 @@ void intel_gt_driver_unregister(struct intel_gt *gt)
+> >  {
+> >  	intel_wakeref_t wakeref;
+> >  
+> > -	intel_gt_sysfs_unregister(gt);
+> > +	if (gt->i915->do_unregister)
+> > +		intel_gt_sysfs_unregister(gt);
+> >  	intel_rps_driver_unregister(&gt->rps);
+> >  	intel_gsc_fini(&gt->gsc);
+> >  
+> > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> > index 613084fd00979..2caaeeab1f0f6 100644
+> > --- a/drivers/gpu/drm/i915/i915_driver.c
+> > +++ b/drivers/gpu/drm/i915/i915_driver.c
+> > @@ -638,6 +638,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
+> >  		return;
+> >  	}
+> >  
+> > +	dev_priv->do_unregister = true;
+> > +
+> >  	i915_debugfs_register(dev_priv);
+> >  	i915_setup_sysfs(dev_priv);
+> >  
+> > @@ -673,7 +675,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
+> >  	i915_switcheroo_unregister(dev_priv);
+> >  
+> >  	intel_runtime_pm_disable(&dev_priv->runtime_pm);
+> > -	intel_power_domains_disable(display);
+> > +	if (dev_priv->do_unregister)
+> > +		intel_power_domains_disable(display);
 > 
+> I still think we must find another way than adding a global
+> ->do_unregister flag.
 > 
-> Le 04/03/2025 à 17:23, José Expósito a écrit :
-> > On Tue, Mar 04, 2025 at 04:35:50PM +0100, Louis Chauvet wrote:
-> > > 
-> > > 
-> > > Le 04/03/2025 à 15:54, José Expósito a écrit :
-> > > > Hi Louis,
-> > > > 
-> > > > On Mon, Mar 03, 2025 at 11:34:50AM +0100, Louis Chauvet wrote:
-> > > > > 
-> > > > > 
-> > > > > Le 03/03/2025 à 09:50, José Expósito a écrit :
-> > > > > > Hi Louis,
-> > > > > > 
-> > > > > > On Fri, Feb 28, 2025 at 03:43:25PM +0100, Louis Chauvet wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Le 25/02/2025 à 18:59, José Expósito a écrit :
-> > > > > > > > Create a default subgroup at /config/vkms/planes to allow to create as
-> > > > > > > > many planes as required.
-> > > > > > > > 
-> > > > > > > > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > > > > Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > > > > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > > > > > > > [...]
-> > > > > > > > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > > > > > > index 92512d52ddae..4f9d3341e6c0 100644
-> > > > > > > > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > > > > > > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > > > > > > [...]
-> > > > > > > > +static void plane_release(struct config_item *item)
-> > > > > > > > +{
-> > > > > > > > +	struct vkms_configfs_plane *plane;
-> > > > > > > > +	struct mutex *lock;
-> > > > > > > > +
-> > > > > > > > +	plane = plane_item_to_vkms_configfs_plane(item);
-> > > > > > > > +	lock = &plane->dev->lock;
-> > > > > > > > +
-> > > > > > > > +	guard(mutex)(lock);
-> > > > > > > > +	vkms_config_destroy_plane(plane->config);
-> > > > > > > > +	kfree(plane);
-> > > > > > > > +}
-> > > > > > > 
-> > > > > > > I just found a flaw in our work: there is currently no way to forbid the
-> > > > > > > deletion of item/symlinks...
-> > > > > > > 
-> > > > > > > If you do:
-> > > > > > > 
-> > > > > > > modprobe vkms
-> > > > > > > cd /sys/kernel/config/vkms/
-> > > > > > > mkdir DEV
-> > > > > > > mkdir DEV/connectors/CON
-> > > > > > > mkdir DEV/planes/PLA
-> > > > > > > mkdir DEV/crtcs/CRT
-> > > > > > > mkdir DEV/encoders/ENC
-> > > > > > > ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
-> > > > > > > ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
-> > > > > > > ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
-> > > > > > > echo 1 > DEV/planes/PLA/type
-> > > > > > > tree
-> > > > > > > echo 1 > DEV/enabled
-> > > > > > > modetest -M vkms
-> > > > > > > => everything fine
-> > > > > > > 
-> > > > > > > rm DEV/connectors/CON/possible_encoders/ENC
-> > > > > > > rmdir DEV/connectors/CON
-> > > > > > > modetest -M vkms
-> > > > > > > => BUG: KASAN: slab-use-after-free
-> > > > 
-> > > > I'm trying to reproduce this issue, but those commands don't show any BUG
-> > > > in dmesg. This is my Kasan .config:
-> > > > 
-> > > >       CONFIG_HAVE_ARCH_KASAN=y
-> > > >       CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
-> > > >       CONFIG_CC_HAS_KASAN_GENERIC=y
-> > > >       CONFIG_CC_HAS_KASAN_SW_TAGS=y
-> > > >       CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
-> > > >       CONFIG_KASAN=y
-> > > >       CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX=y
-> > > >       CONFIG_KASAN_GENERIC=y
-> > > >       # CONFIG_KASAN_OUTLINE is not set
-> > > >       CONFIG_KASAN_INLINE=y
-> > > >       CONFIG_KASAN_STACK=y
-> > > >       CONFIG_KASAN_VMALLOC=y
-> > > >       # CONFIG_KASAN_KUNIT_TEST is not set
-> > > >       CONFIG_KASAN_EXTRA_INFO=y
-> > > > 
-> > > > I tryed to delete even more items:
-> > > > 
-> > > >       root@kernel-dev:/sys/kernel/config/vkms# tree
-> > > >       .
-> > > >       └── DEV
-> > > >           ├── connectors
-> > > >           ├── crtcs
-> > > >           ├── enabled
-> > > >           ├── encoders
-> > > >           └── planes
-> > > > 
-> > > >       root@kernel-dev:/sys/kernel/config/vkms# cat DEV/enabled
-> > > >       1
-> > > > 
-> > > > And I still don't see any errors. Is it possible that we are running different
-> > > > branches? Asking because of the failing IGT tests you reported. There seems to
-> > > > be a difference in our code or setup that is creating these differences.
-> > > 
-> > > I just re-applied your last vkms-config version and this series on top of
-> > > drm-misc-next. See [1] for the exact commits.
-> > > 
-> > > Argg sorry, I just noticed something: you need to disable the default vkms
-> > > device (I had this option in my kernel command line...), otherwise modetest
-> > > only use the first vkms gpu...
-> > > 
-> > > I will check again the igt tests, but I don't think this is the same issue
-> > > (it should not use the default device to test)
-> > > 
-> > > So, with [1] and the defconfig below, I have this:
-> > > 
-> > > 
-> > >      1  modprobe vkms create_default_dev=0
-> > >      2  cd /sys/kernel/config/vkms/
-> > >      3  mkdir DEV
-> > >      4  mkdir DEV/connectors/CON
-> > >      5  mkdir DEV/planes/PLA
-> > >      6  mkdir DEV/crtcs/CRT
-> > >      7  mkdir DEV/encoders/ENC
-> > >      8  ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
-> > >      9  ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
-> > >     10  ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
-> > >     11  echo 1 > DEV/planes/PLA/type
-> > >     12  tree
-> > >     13  echo 1 > DEV/enabled
-> > >     14  modetest -M vkms
-> > >     15  rm DEV/connectors/CON/possible_encoders/ENC
-> > >     16  rmdir DEV/connectors/CON
-> > >     17  modetest -M vkms
-> > > KASAN: slab-use-after-free
-> > > 
-> > > 
-> > > [1]:https://github.com/Fomys/linux/tree/20250225175936.7223-1-jose.exposito89%40gmail.com
-> > 
-> > Aha! Are you testing without a desktop environment running?
-> 
-> Yes! I run a minimal VM (virtme-ng), so no services are started.
-> > 
-> >      $ sudo systemctl isolate multi-user.target
-> > 
-> > Running that (^) command before yours gives me this use after free:
-> > 
-> >      BUG: KASAN: slab-use-after-free in vkms_connector_detect+0x61/0x70 [vkms]
-> > 
-> > Is the same one you are seeing?
-> 
-> Yes!
-> 
-> > Looking at the connector_release() function in vkms_configfs.c, I see
-> > that I'm freeing the configuration:
-> > 
-> >      vkms_config_destroy_connector(connector->config);
-> > 
-> > And I don't think there is a reason to do it. vkms_config_destroy() in
-> > device_release() will free everything once we are done.
-> 
-> Yes, but if you don't free it will always remain in the config, which means
-> that:
+> The i915 core to display interface needs to be unified with xe. This
+> patch is counter-productive to that goal.
 
-Busy week, but I finally have a couple of hours to sit and look into this
-with detail.
+Thank you for clarification.
 
-The problem is in my patch to implement connector hot-plug ("drm/vkms: Allow
-to update the connector status").
+Have you seen my v1 of the changeset?  That was an attempt to resolve each 
+issue individually, without adding the global flag.  In case of 
+intel_power_domains_enable/disable(), I proposed to move it out of 
+i915_driver_register/unregister() up one level, to i915_drv_probe/remove(), so 
+it is called unconditionally, enabling power domains (releasing the wakeref) 
+on probe regardless of device register result, then safely re-acquiring the 
+wakeref on remove[1].  Would that work for you?
 
-I was storing a pointer to the connector configuration in vkms_connector (OK)
-and using it to get the connector status (wrong).
-The configuration is mean to be used during device initialization, but after
-that, it can change at any point responding to configfs changes.
+Thanks,
+Janusz
 
-I even documented that accessing vkms_config_connector->connector is not
-safe... Just to access it a few patches later (sigh).
-In my opinion, the solution is to avoid this behavior. This is how the fix
-looks like [1]. The code is even simpler than the  previous version.
+[1] https://lore.kernel.org/dri-devel/20250206180927.2237256-6-janusz.krzysztofik@linux.intel.com/
 
-[1] https://github.com/JoseExposito/linux/commit/da116085590d644575e9d78fb5c3a665aa7848f5
- 
-> modprobe vkms create_default_dev=0
-> cd /sys/kernel/config/vkms/
-> mkdir DEV
-> mkdir DEV/connectors/CON
-> mkdir DEV/crtcs/CRT
-> mkdir DEV/planes/PLA
-> mkdir DEV/encoders/ENC
-> ln -s DEV/crtcs/CRT DEV/planes/PLA/possible_crtcs/
-> ln -s DEV/crtcs/CRT DEV/encoders/ENC/possible_crtcs
-> ln -s DEV/encoders/ENC DEV/connectors/CON/possible_encoders
-> echo 1 > DEV/planes/PLA/type
-> echo 1 > DEV/enabled
-> echo 0 > DEV/enabled
-> rm DEV/connectors/CON/possible_encoders/ENC
-> rmdir DEV/connectors/CON
-> echo 1 > DEV/enabled
 > 
-> Expected (and current) result:
 > 
-> (NULL device *): [drm] The number of connectors must be between 1 and 31
+> BR,
+> Jani.
 > 
-> Result with the diff:
-> - vkms_config_destroy_connector(connector->config);
-> + //vkms_config_destroy_connector(connector->config);
+> >  
+> >  	intel_display_driver_unregister(display);
+> >  
+> > @@ -687,7 +690,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
+> >  	i915_perf_unregister(dev_priv);
+> >  	i915_pmu_unregister(dev_priv);
+> >  
+> > -	i915_teardown_sysfs(dev_priv);
+> > +	if (dev_priv->do_unregister)
+> > +		i915_teardown_sysfs(dev_priv);
+> >  	drm_dev_unplug(&dev_priv->drm);
+> >  
+> >  	i915_gem_driver_unregister(dev_priv);
+> > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> > index ffc346379cc2c..0c6cbedaa71fe 100644
+> > --- a/drivers/gpu/drm/i915/i915_drv.h
+> > +++ b/drivers/gpu/drm/i915/i915_drv.h
+> > @@ -184,6 +184,8 @@ struct drm_i915_private {
+> >  	/* FIXME: Device release actions should all be moved to drmm_ */
+> >  	bool do_release;
+> >  
+> > +	bool do_unregister;
+> > +
+> >  	/* i915 device parameters */
+> >  	struct i915_params params;
 > 
-> (NULL device *): [drm] All connectors must have at least one possible
-> encoder
 > 
-> This is because the connector list in vkms_config contains the deleted CON
-> connector. If you also remove the connector from the list, it will be a
-> memory leak.
-> 
-> The solution I proposed with get/put should solve this: once the device is
-> disabled, all the release functions (and the corresponding
-> vkms_config_destroy) will be called, so no issue there.
-> 
-> I attempted to do it, but it looks a bit more complex than I expected:
-> - config_item_get works as expected, if you get all the items in
-> device_enabled_store they are not released, even if the directory is
-> deleted;
-> - but as the directory is deleted, you can't use cg_children to put your
-> last reference on it.
-> 
-> I think a solution could be to add refcounting in vkms_config, it seems to
-> work, and it is even better, the refcounting is done in the vkms driver, not
-> in configfs (I did it only for connector, see below). It seems to work as
-> expected and doesn't increase the complexity of the code.
-> 
-> Do you think this is sufficient/clear enough?
 
 
-This would also work. But, is it worth to include this complexity now?
-I think that the configuration is handled correctly as it is now, we just
-need to make sure that we don't rely on invalid pointers (as documented).
 
-Enjoy your day,
-Jose
- 
-> Have a nice day,
-> Louis Chauvet
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c
-> b/drivers/gpu/drm/vkms/vkms_config.c
-> index f8394a063ecf..4dc65ab15517 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
-> 
-> +#include <linux/kref.h>
->  #include <linux/slab.h>
-> 
->  #include <drm/drm_print.h>
-> @@ -123,7 +124,7 @@ void vkms_config_destroy(struct vkms_config *config)
->  		vkms_config_destroy_encoder(config, encoder_cfg);
-> 
->  	list_for_each_entry_safe(connector_cfg, connector_tmp,
-> &config->connectors, link)
-> -		vkms_config_destroy_connector(connector_cfg);
-> +		vkms_config_connector_put(connector_cfg);
-> 
->  	kfree_const(config->dev_name);
->  	kfree(config);
-> @@ -596,17 +597,32 @@ struct vkms_config_connector
-> *vkms_config_create_connector(struct vkms_config *c
-> 
->  	list_add_tail(&connector_cfg->link, &config->connectors);
-> 
-> +	kref_init(&connector_cfg->ref);
->  	return connector_cfg;
->  }
->  EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_connector);
-> 
-> -void vkms_config_destroy_connector(struct vkms_config_connector
-> *connector_cfg)
-> +static void vkms_config_destroy_connector(struct vkms_config_connector
-> *connector_cfg)
->  {
->  	xa_destroy(&connector_cfg->possible_encoders);
->  	list_del(&connector_cfg->link);
->  	kfree(connector_cfg);
->  }
-> -EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
-> +// EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_connector);
-> +
-> +static void vkms_config_destroy_connector_kref(struct kref *kref)
-> +{
-> +	struct vkms_config_connector *connector = container_of(kref, struct
-> vkms_config_connector, ref);
-> +
-> +	vkms_config_destroy_connector(connector);
-> +}
-> +
-> +void vkms_config_connector_get(struct vkms_config_connector *connector) {
-> +	kref_get(&connector->ref);
-> +}
-> +void vkms_config_connector_put(struct vkms_config_connector *connector) {
-> +	kref_put(&connector->ref, vkms_config_destroy_connector_kref);
-> +}
-> 
->  int __must_check vkms_config_connector_attach_encoder(struct
-> vkms_config_connector *connector_cfg,
->  						      struct vkms_config_encoder *encoder_cfg)
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.h
-> b/drivers/gpu/drm/vkms/vkms_config.h
-> index e202b5a84ddd..30e6c6bf34f4 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -3,6 +3,7 @@
->  #ifndef _VKMS_CONFIG_H_
->  #define _VKMS_CONFIG_H_
-> 
-> +#include <linux/kref.h>
->  #include <linux/list.h>
->  #include <linux/types.h>
->  #include <linux/xarray.h>
-> @@ -109,6 +110,7 @@ struct vkms_config_encoder {
->   *             configuration and must be managed by other means.
->   */
->  struct vkms_config_connector {
-> +	struct kref ref;
->  	struct list_head link;
->  	struct vkms_config *config;
-> 
-> @@ -416,11 +418,8 @@ void vkms_config_encoder_detach_crtc(struct
-> vkms_config_encoder *encoder_cfg,
->   */
->  struct vkms_config_connector *vkms_config_create_connector(struct
-> vkms_config *config);
-> 
-> -/**
-> - * vkms_config_destroy_connector() - Remove and free a connector
-> configuration
-> - * @connector_cfg: Connector configuration to destroy
-> - */
-> -void vkms_config_destroy_connector(struct vkms_config_connector
-> *connector_cfg);
-> +void vkms_config_connector_get(struct vkms_config_connector *connector);
-> +void vkms_config_connector_put(struct vkms_config_connector *connector);
-> 
->  /**
->   * vkms_config_connector_attach_encoder - Attach a connector to an encoder
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c
-> b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index 76afb0245388..ae929a084feb 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -550,7 +550,7 @@ static void connector_release(struct config_item *item)
->  	lock = &connector->dev->lock;
-> 
->  	guard(mutex)(lock);
-> -	vkms_config_destroy_connector(connector->config);
-> +	vkms_config_connector_put(connector->config);
->  	kfree(connector);
->  }
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c
-> b/drivers/gpu/drm/vkms/vkms_connector.c
-> index ed99270c590f..c15451b50440 100644
-> --- a/drivers/gpu/drm/vkms/vkms_connector.c
-> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
-> @@ -20,6 +20,15 @@ static enum drm_connector_status
-> vkms_connector_detect(struct drm_connector *con
->  	return status;
->  }
-> 
-> +static void vkms_connector_destroy(struct drm_device *dev, void *raw)
-> +{
-> +	struct vkms_connector *vkms_connector = raw;
-> +
-> +	vkms_config_connector_put(vkms_connector->connector_cfg);
-> +
-> +	return;
-> +}
-> +
->  static const struct drm_connector_funcs vkms_connector_funcs = {
->  	.detect = vkms_connector_detect,
->  	.fill_modes = drm_helper_probe_single_connector_modes,
-> @@ -65,8 +74,13 @@ struct vkms_connector *vkms_connector_init(struct
-> vkms_device *vkmsdev,
->  	if (!connector)
->  		return ERR_PTR(-ENOMEM);
-> 
-> +	vkms_config_connector_get(connector->connector_cfg);
->  	connector->connector_cfg = connector_cfg;
-> 
-> +	ret = drmm_add_action_or_reset(dev, &vkms_connector_destroy, connector);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
->  	ret = drmm_connector_init(dev, &connector->base, &vkms_connector_funcs,
->  				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
->  	if (ret)
-> 
-> 
+
