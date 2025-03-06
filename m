@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDE5A5467A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 10:38:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9181A54687
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 10:38:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDBC10E8AD;
-	Thu,  6 Mar 2025 09:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0064010E924;
+	Thu,  6 Mar 2025 09:38:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BcS47UoR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b6yhuVlR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
- [209.85.167.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13A8A10E8AD
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 09:37:58 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id
- 5614622812f47-3f67508fc3fso134662b6e.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 01:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741253877; x=1741858677; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ly4DUe1eU6957OuFSZ3eXS3BEy7ZnbSJGPgZO9Zt0qk=;
- b=BcS47UoR9Z93Y3m3CJ5L9xkxS6wyuTESsd2BttfTX3qzCdAE58f3ybJ9eYDDHFYzmX
- tQMnn/O8woOi4aDvZ5+Y1WoWhLFyl9zKaKG+tUN0TXrKK90OpsguGINJ1fkvoGdU7yL/
- Un36SmfJyy8ZD5Tjcrn4imn0XoMVAm//OuqD171UZcxYdLPl+eWVAfJbUSevoLW+zy00
- WtSAxRro8+LsnJQr5lXTu0CqTMXVXV8KA5m5eg56UILtBzOGyG7Alp5rcyeTjA37X+ra
- nuEa7Lrn6qGBz9RFZ5oE371qfdQgfu6ogFeGkV+hf7MslHJ9EIJF2nByiasYLvI1Hf1J
- HlIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741253877; x=1741858677;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ly4DUe1eU6957OuFSZ3eXS3BEy7ZnbSJGPgZO9Zt0qk=;
- b=kmykBVHopsrRZ8etc1CUCcOfX2IHjkwYc/aWu5OV2/3/ncBvtNoz5xRB7pF6J+T7g5
- 1ORxRN0t8yUisiVPPlYWw8wLK1DRQqs2A7EI61vDQxwLgAa2o0p34+2f6CArEXgy3hZe
- CAPYCrw97L2lBljgts5fSsD9ZfiTO7E+2/9J15vtWShh9vjbAThFHKxBa/B4StDaz4A6
- Yd1lyaRaSpZgFa1cXu6dIs7nS+63RAig5vqZakCfaxXy30nHNTxUF2BsA0fjjkfOQxFW
- wa029dnuzGv3RXyiMDTdKRsbJhlWpl/6vUtfqbPeCHDIj3RnzG/2vhCqUYCCwpwhafFi
- n88A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3+88igngSn3osbqRt7q9VcTr8B3Hb4rBv1cfkYfimd4G4kT7umoIlD189leEbb+pqi+qagZlVGbA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyM09s8OYPb4WKVt56wdeKsqKXwZBOPKsbmA5nqNZ7q9tmnLkmJ
- zcyTolcPFWqbjmNAkjfA2ucWP1yDsR+xLdPeIOfMShc0/EVyt49X8hfKz97wZsaEhkwDlPf/5vF
- yuYhtNcTswH31YTrLcPj1B/T1aw0=
-X-Gm-Gg: ASbGnct2A8Dkq5f/uR3H0ef/4r9Q1mwO/yp0swrNiyT2h874BZcnSdL7IwYtE/vzJ8S
- mS/rznKBjzXmulLl4xgnhZbQEn/HFr6/MeimFyq+QlqZ+FGpSD/g/EbXGqj6L3i1VDV62GBqAxQ
- RBqRcbY2sYucEP+HIyVx4DCXj/
-X-Google-Smtp-Source: AGHT+IH2qoeCbMEwg0LuMk0rNhe0HnPjQOgBA6M22Fis4lXVJxP3n/tAQ7eCBTbfgxGvZE85sTDxaOzL4aO6krM9OGw=
-X-Received: by 2002:a05:6808:2384:b0:3f6:7d8f:63e1 with SMTP id
- 5614622812f47-3f683214aadmr3140491b6e.25.1741253877301; Thu, 06 Mar 2025
- 01:37:57 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12B8110E151;
+ Thu,  6 Mar 2025 09:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741253920; x=1772789920;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=yg9a4ShFg0RQ9AlyyGbnp+mN7hb0Beorgdfbkp4r/8c=;
+ b=b6yhuVlRiDYV3s8KRAzTXEydCEaKTWbEc2FeqpjNM3bUi1quJXUgMYVu
+ zha6UDcFliCaoa8vGhmQsJiLr5BbeWRWxBuz+2JBEEA4xZb9p7eREDZBE
+ 08dU2RXqTqHBB/bAFCckBn3rda1qfhOgMUAhuLQgRBcu+3gx7r3oKSACi
+ X1PFxCcyDaJkvZxL82pN4TZGK/rvl176ELzZXVkl/i5GDp9djwd5JXV88
+ v1GVu5HIexMfY66dHBaCDDMk86VcMHr3dZ1uAv7iQCIr5XzHCrV0C4ZqP
+ ZRCyHTG5MCnYBCKZdKuEjeQg2a1K2Y77sSp2WtzLqft+q1FeN95i7JjoY w==;
+X-CSE-ConnectionGUID: 8ePKSHCgT8mZr/sIitIUxQ==
+X-CSE-MsgGUID: X0Mg2yG8QmWHAdh67lHkxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53238516"
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="53238516"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 01:38:40 -0800
+X-CSE-ConnectionGUID: ENgsSW8kRxCB4vdXYvN8gg==
+X-CSE-MsgGUID: cqvygY7dRT+BGoKLY2VSrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="118781449"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.125])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2025 01:38:34 -0800
+Date: Thu, 6 Mar 2025 10:38:31 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: =?iso-8859-15?Q?Asbj=F8rn_Sloth_T=F8nnesen?= <asbjorn@asbjorn.st>
+Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jouni =?iso-8859-15?Q?H=F6gander?= <jouni.hogander@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915: implement vmap/vunmap GEM object functions
+Message-ID: <Z8ltF3n4n6iwDfxr@ashyti-mobl2.lan>
+References: <20240629182513.78026-1-asbjorn@asbjorn.st>
 MIME-Version: 1.0
-References: <20250305084911.6394-1-hanchunchao@inspur.com>
-In-Reply-To: <20250305084911.6394-1-hanchunchao@inspur.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 6 Mar 2025 10:37:45 +0100
-X-Gm-Features: AQ5f1Jq-LTLZ0dJ8bro4RfPbulbLn2H-ocB-6Y4LD68OracOtht3dbXXHPUJvAE
-Message-ID: <CAMeQTsaQQoVQB8WBdQngeOFU=qXF-ajn_0SAOQJhuzk7EL3K6w@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500: fix inconsistent indenting warning
-To: Charles Han <hanchunchao@inspur.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240629182513.78026-1-asbjorn@asbjorn.st>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,39 +76,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 5, 2025 at 9:49=E2=80=AFAM Charles Han <hanchunchao@inspur.com>=
- wrote:
->
-> Fix below inconsistent indenting smatch warning.
-> smatch warnings:
-> drivers/gpu/drm/gma500/cdv_device.c:218 cdv_errata() warn: inconsistent i=
-ndenting
->
-> Signed-off-by: Charles Han <hanchunchao@inspur.com>
+Hi Asbjorn,
 
-Thanks for the patch.
-Applied to drm-misc-next
+On Sat, Jun 29, 2024 at 06:25:06PM +0000, Asbjørn Sloth Tønnesen wrote:
+> Implement i915_gem_vmap_object() and i915_gem_vunmap_object(),
+> based on i915_gem_dmabuf_vmap() and i915_gem_dmabuf_vunmap().
+> 
+> This enables a drm_client to use drm_client_buffer_vmap() and
+> drm_client_buffer_vunmap() on hardware using the i915 driver.
+> 
+> Tested with a currently out of tree pixelflut drm_client[1] on:
+> - Lenovo ThinkCentre M720q (CoffeeLake-S GT2 / Intel UHD Graphics 630)
+> - Dell Wyse N06D - 3030 LT (ValleyView on Intel Celeron N2807 SOC)
 
--Patrik
+do you mind sharing the tests?
 
-> ---
->  drivers/gpu/drm/gma500/cdv_device.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500=
-/cdv_device.c
-> index 3e83299113e3..718d45891fc7 100644
-> --- a/drivers/gpu/drm/gma500/cdv_device.c
-> +++ b/drivers/gpu/drm/gma500/cdv_device.c
-> @@ -215,7 +215,7 @@ static void cdv_errata(struct drm_device *dev)
->          *      Bonus Launch to work around the issue, by degrading
->          *      performance.
->          */
-> -        CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
-> +       CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
->  }
->
->  /**
-> --
-> 2.43.0
->
+> [1] XDP->DRM pixelflut: https://labitat.dk/wiki/Pixelflut-XDR
+> 
+> Signed-off-by: Asbjørn Sloth Tønnesen <asbjorn@asbjorn.st>
+
+thanks, reviewed and merged to drm-intel-gt-next.
+
+Andi
