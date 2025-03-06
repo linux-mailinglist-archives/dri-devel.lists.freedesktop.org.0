@@ -2,91 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B4EAA54D05
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722A7A54D0B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 15:10:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21A8810E9A3;
-	Thu,  6 Mar 2025 14:08:37 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jkA+RhBX";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF04F10E8B1;
+	Thu,  6 Mar 2025 14:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4503810E9A3
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:08:35 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-5e57c81d5d0so839487a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:08:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741270110; x=1741874910; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kWV8ljageqb0izUaC+/nzAbBvrv81I+4eNjdwXRR/Fs=;
- b=jkA+RhBX4whB7w+vAp7KMea6DRUG0DAuOoX8MlegVqi0Oe9R3C5Z6kFlnT/hftn1so
- iKLaCh/uCggUyQZnGeKkEtTe2b3XCUwIoIlvM326KJj+P1w0O42jTIfEuLiPLkv2yM8q
- nt2RmGk3I6EDrXQ2Yvag6DEwliYxVngkj5W39PMa8CuuEHH1aX/xmJFwvUUOZB9Tzhad
- gOiAiY6mLnJlT2JfGMG3EWFRs6AQChCvWR1Q+XibI7kLDT6rPZ6D4dOBS1uOwCJ0V2I6
- nfxWmg9QGI+ZOZdmji72PBldAmrl25sKFypsF57uHGJjEfF/Lp4KP4Lfd4hSBw2ZiTYb
- a1Jg==
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D135F10E8B1
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 14:10:37 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id
+ af79cd13be357-7c3b4c4b409so108798685a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:10:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741270110; x=1741874910;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kWV8ljageqb0izUaC+/nzAbBvrv81I+4eNjdwXRR/Fs=;
- b=hAAm6qHtKqzHM0fl+1aPftRXNbqTDnBJpDoZv4JUQcvfySgFU6kiZoeKfL3AJvGfNq
- JLQBNKRJkff7F37O8rDOYF8xvkkCU4xKPC2afb14yirxTHc+YcPp+qanxAU5BTI/SseE
- Pe0cLDBxvaiNbEcYgjjfxOaBHIB6PxIr3OwdTfIbakffpvlOrM6LN1uqJwTRX9WjIyQc
- P23LK2YFmXAPDAHIlgyu5AhAYjgtsc9kdomx9+zcPZe447m64rLls2M2unqFY9PNPZPb
- I8u9lVV41DasPJ2GBVrmrEUs9GEgttBBD2Nry5gs5A0KX9mSOvoOQGCk4vRPJZgHxdpm
- KKvw==
+ d=1e100.net; s=20230601; t=1741270236; x=1741875036;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=p5tWRsmAkNRl3CcCpEBYNoShz/dMC+I168fgqmDeCw4=;
+ b=iNAFbRwl+PdzVtNcpYGiuHqmV3SfMdNcY5MKhPZy9AEIRdqA9k7NI5AQVWLf+nw0wf
+ t8gPCe0Yx6N6lTgIJ0ke8Tyysp+EDlopRqODY2+evFSn+RIG9YTXdAKBBNcwBa6j+ESD
+ gNaQRc0dM2t1lOiyxblFO8x4OTBUVP/RM8fiWwUvsegPpWnxC3I5MZD+FPRXS/s8vcZM
+ dO6kn2LPiL09DfsiQ8CdZAzIgVgZN0nz4Dr6OVwDXmeC4LoIjWwmb5qtgXvGOV0W/1+4
+ CPiMouSxq5tPTwcUKG2VDC5KTZ8bGrYpjYgRk/W+ICBcsdszvVnstMBb29ppcW9Y+oOH
+ Wsxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX187XQNeQUsy+IiWzfoPvk8o8YQOhiXVLS7ofY5/ofD6dlyI9rscvLj6NgaF7DkMaf6v58k7rrWNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSNnxTaEHbUNw8jPJWgh+4/x6PrebxYWDGTOObMeXMeBC4ej4y
- YM5kyMFFuDx8WlpvdsIBzV4+oQsALO+duq++ub5q39W3uTiIv3wJ
-X-Gm-Gg: ASbGnctE97WsnpuvBfxTYM9w7INmY7mR4D+GumDb//FxqSIBlNG9HvOFTvGrFqHsRDE
- RxJQJZJaYS4EbZxDzhefwWT4nk+5yOsZAZYIoWVwfyDFEV5HEpSxsSpMwE7RzQCtaqZO7V8qYAv
- gpGrOmxflL3Jp2X5D4RXgHDajFU+E18jbxekSMeiEhNwdD7qT3b86OE6c/MrBhecc4cEG91y+5l
- 0U1qAJsCb29FUoDMo11ZuLTZYttOihe4nPHXo2pDB8gm58/aVpA7iJKOKInxj7ZostPCMO6nO9j
- XMhXe3GWiGSQE17Xr8obuOksi75K6SReCOWzhm4I4UF2IPxriDV8GBfMpnHq09ybKh4UzMAKeq6
- 3LphBjx1Lw6BwMU1swp2R6kuRHA==
-X-Google-Smtp-Source: AGHT+IEjOK8tItru0CnDJMfpuW+YocWEOgCRwuy6WiSEato+NxCIl7mKq10KFt+G6Q2r3z6rTWjduA==
-X-Received: by 2002:a05:6402:2186:b0:5e5:be7f:a1f6 with SMTP id
- 4fb4d7f45d1cf-5e5be7fa870mr8495205a12.1.1741270109496; 
- Thu, 06 Mar 2025 06:08:29 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl.
- [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5e5c7475e9dsm989794a12.30.2025.03.06.06.08.26
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 06 Mar 2025 06:08:28 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-X-Priority: 3
-In-Reply-To: <46c0d239.a4f5.1956b619b97.Coremail.andyshrk@163.com>
-Date: Thu, 6 Mar 2025 15:08:14 +0100
-Cc: heiko@sntech.de, neil.armstrong@linaro.org,
- sebastian.reichel@collabora.com, devicetree@vger.kernel.org,
- hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, yubing.zhang@rock-chips.com,
- dri-devel@lists.freedesktop.org, Andy Yan <andy.yan@rock-chips.com>,
- krzk+dt@kernel.org, robh@kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <252BB2E2-4BC5-4402-953D-F7B30EA5DE14@gmail.com>
-References: <25401bfa.291d.19564244e54.Coremail.andyshrk@163.com>
- <75189787-28E1-4FC2-8E10-4960B3877A6F@gmail.com>
- <28b0d3fc.bb3.19568f6b5f8.Coremail.andyshrk@163.com>
- <44213B17-FE14-4FB8-8319-1E31BBF6EAA0@gmail.com>
- <74c154b6.8c50.1956aa8c8d2.Coremail.andyshrk@163.com>
- <1573D5D6-AFED-4D92-8112-B0C6BB52D5FF@gmail.com>
- <46c0d239.a4f5.1956b619b97.Coremail.andyshrk@163.com>
-To: Andy Yan <andyshrk@163.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+ AJvYcCUmsRuHdHEeoLPV8DfyuZl1h6Wo4v4Nkpz6xaq6A09BpiuapbmaduslCJw1c+3gms1AqObKc2l/0a8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlHjnbHgWi8waxr7XAf5Vdycd162C7+mn8xUbV6YcnFNz+alFy
+ rEQ6rFHlR+xLJ0bdGcyc56eWzDTCPJQVltKYYhGgFCFtyhHKAIbdRiPBUFya
+X-Gm-Gg: ASbGncs7t6zNa6rfad8ubYlb1rciQeg3V9ZuMQXHIgbPig5lOvKnxmj+IQK8/XWKUpi
+ MdXKeKT+U7w3vu3RGu8jIyUTat4UBXyja45SslpzgElVQO7ON7OPQ8qvzw8/V+OdYPsI+iVDeul
+ RS6hMLSAOpufZjjw50J9JkDaCjdmhoww8XmjBSMqotw/V1eAl6bIDUkdttKn/3dtnbccGZcCdqc
+ HW3KO5O7OOG2UJt9yNLdKkhqZfEs291v9Rdp+hxs2UCVs4qdc9aUx2a2AgfxrqyTdvCux0AbGYh
+ 1Quuf9RlCTS8SeYhietZNNt/mcmJhzpd6hhWRBTUiLxCDcj3oeBPwurQgMUUlkDcuofN+BtWHpa
+ 6nTCDKLc=
+X-Google-Smtp-Source: AGHT+IEj0tQbEXMufrSkPLTy4XZgV+NUO+3L0hfmBoP1yLIiHDtSwnMb/NYl3Np7F6nc8WwAFGN/ag==
+X-Received: by 2002:a05:620a:6285:b0:7c3:9645:354c with SMTP id
+ af79cd13be357-7c3d8e41794mr1307728385a.21.1741270235690; 
+ Thu, 06 Mar 2025 06:10:35 -0800 (PST)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com.
+ [209.85.219.49]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7c3e54ff91esm94771285a.88.2025.03.06.06.10.33
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Mar 2025 06:10:33 -0800 (PST)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-6e8f05acc13so6774526d6.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 06:10:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWuydGYHxGs7Rf34WY7g9kIKPq+MsKL0Lkbz2ssCjLEO4I0ut10o4VH2wZJYph1E6xEkZEV81JAqVk=@lists.freedesktop.org
+X-Received: by 2002:a05:6214:f26:b0:6e4:4393:de7 with SMTP id
+ 6a1803df08f44-6e8e6cc7519mr101951716d6.2.1741270233688; Thu, 06 Mar 2025
+ 06:10:33 -0800 (PST)
+MIME-Version: 1.0
+References: <20250225210316.3043357-1-robh@kernel.org>
+In-Reply-To: <20250225210316.3043357-1-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Mar 2025 15:10:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUc1Gx8bQu0ePZFxNgy0=MZv909V74A-2y6wPTy8=MEDg@mail.gmail.com>
+X-Gm-Features: AQ5f1JosAcu1iTpm2frNZuQquQZI0u4F7EQoGM3oNMP34Y7utGYqLFLTZUH1d1A
+Message-ID: <CAMuHMdUc1Gx8bQu0ePZFxNgy0=MZv909V74A-2y6wPTy8=MEDg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: mitsubishi,aa104xd12: Allow
+ jeida-18 for data-mapping
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,29 +93,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 25 Feb 2025 at 22:03, Rob Herring (Arm) <robh@kernel.org> wrote:
+> There's both a user and the datasheet[1] indicate that 6-bpp is supported
+> as well.
+>
+> [1] https://agdisplays.com/pub/media/catalog/datasheet/Mitsubishi/AA104XD12.pdf
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Wiadomo=C5=9B=C4=87 napisana przez Andy Yan <andyshrk@163.com> w dniu =
-6 mar 2025, o godz. 13:15:
->=20
-> Hi Piotr,
->=20
->=20
->=20
-> Then when you DP cable plugin, you can run command as bellow to see if =
-the driver detects the HPD:
->=20
-> # cat /sys/class/drm/card0-DP-1/status=20
-> connected
-> #=20
->=20
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Andy,
-Thx!
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-With above changes i=E2=80=99m getting =E2=80=9Econnected=E2=80=9D.
-Also it looks crtc gets reasonable mode: =
-https://gist.github.com/warpme/d6220e3cc502086a4c95f05bd9f9cf0c
-
-Still black screen however... =20=
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
