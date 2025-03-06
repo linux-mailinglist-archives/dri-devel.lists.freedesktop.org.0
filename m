@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D840A550A7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:26:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B67A550AC
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:26:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5002F10E030;
-	Thu,  6 Mar 2025 16:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2E610E29C;
+	Thu,  6 Mar 2025 16:26:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OC3N8xjt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JzH45KXe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A28C710E03D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:26:17 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-2f9d3d0f55dso1499871a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:26:17 -0800 (PST)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2852F10E29C
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:26:27 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2fec13a4067so1481924a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741278377; x=1741883177; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1741278387; x=1741883187; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g4VnYHrG4RwnHlGdrfRVkI5G3ZqKaX1Ck3mTCfWdoMQ=;
- b=OC3N8xjtxKL7IIZ8ZhulaflVu+qbZHPy7E7gVdc5NvvGXTVUYYsX7fQDc6sfVuDtls
- YK0oEVAzzH/907CVDOOXG1MGX95GIzTVN6aiE1/DNAB1m86SeBNjh+eBeN69kywpLXGm
- AkeEfc0UiszAzsm9j9vcK+JlLAIdaHSa+Dr5J3NLGaTmr3WMv4sdgwiWW8I1DdR4LFYw
- SvW1I5dIyh60hUaeahsqpQL1L4psXpmAojV7yUKwhkHQgwICdHfv161VSNybVWcnCq4H
- SpfPsv9VYJDiJj6yN3tcm+1DTUtM0+YDdzMgN2d3EwaCWj5E+RRBKpYvM6hfpVCZU/F7
- M7Dg==
+ bh=Nutb7MJ9eZ82YUrFszN8Vow0UKyoKuoqD2og5G/xi8M=;
+ b=JzH45KXenVAFqEu6+YUF3S5kPxteZ4eFBVWYXfHgBvRmohdKLiW0bj8tOhyDSfIK+f
+ 7cFHv15uINY7+c5f9ahBdkbgr+eGqr6sDBEM8L4A9jcfpkV2NRG9V7fKREz1ErVKzV0+
+ JHCzFrdT5YsvO+cx7BfmsO8FmA/7x6sdXYlEOtbK9PBrqkrjB+CPzzrAOGpvP86h6kx6
+ b5zEVG1DkD7B1uZAqjKbbKudbIpUgWuDHYkGMZJMZ+PJbAcsgZOq9Y3dhrn/qouAKWiD
+ yX8c938niRo0IA30n1J79ptNm4DUrX+aGDnXBP8rj8hXAVVV8D/U7YZ1S6Q7wLvQZBLM
+ PKag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741278377; x=1741883177;
+ d=1e100.net; s=20230601; t=1741278387; x=1741883187;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g4VnYHrG4RwnHlGdrfRVkI5G3ZqKaX1Ck3mTCfWdoMQ=;
- b=njeMJWDRHzxhJrsyWiP/uMo2fT8pDTF1nsGipWxDT2Kb/CJ7jpWNKpPR9BsoekANvP
- 6tNWKwLMuIYpr0kujYg4lr0D4gxJDiq6B0vK1qm7Oq3OpfrNr5TXOCiEXFR6ttZ92epf
- huaGbfR+FVJM+cnVHoO7zNwWlPCCegEkq5GKYX7JuDKlctQT3+wXVeYWZJGb60u+NaTP
- vV55U4x1b1xCYDk7lK2s0SSJRYJsoZiQgP/ZF2sY+w5evcVhRkSZIVCD7IekNkjTUCEZ
- FaDKnb+bud2MZP8wik+xb7xHMWY7neAKnrbKs6nL9B0RvOeBYQuffXjmsK1ARNR28Jp6
- 21SA==
+ bh=Nutb7MJ9eZ82YUrFszN8Vow0UKyoKuoqD2og5G/xi8M=;
+ b=uBz3tOlnDeqcrfzDbig+tpeBhYAysNjwuCSDVf14tYCspNc9d+h0EgFV76EASo0Mf8
+ oL19EYG7vUKv7GF5vNfwyizbfjx4G/jcXxtl7hkOuM67vVKm1/vzWeDB7xQ6LdKRWjYP
+ 1LL8qsupcBcTmzgosqANSEsZoZI/vTDD8dOAfC//Bccmmi893lALuBaETmcbBUc+hh2q
+ lM3D5pnKqsHchaD3ShAkwe46mP9KtZ1Y+/KiWaQdFrGqMSZVmM7HDw0dT0pL7Hqt5blw
+ RWf1ZgysAKjZicQ+C2uG0PHis+7cCyNHaDi2+ekYXQ/i/gqDXtSIsrMPcuU7DhUPLSwR
+ 1E2Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+EvUkbi4NiVI9WvTjBUG/CbRBjn5W/FQsU8nml5PaKNlWgLF8yIcZitGuHIubzH62kbLPx97UMCE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxp3dS3qAYmM4X7K0T/jwvkVNycAYQ4uKaFgeea9DNROKmlbc5v
- Nc8jZsd7vqbTrwzQt8+EDHwgZwD+GHaZ9F9HAnVasjMDi5bTfecO
-X-Gm-Gg: ASbGncvxROOwMnCKm+9YXYVFprmZcbwPbOtDkuFkxhYPPqjzx5y0WA69nI0vgY0hJyX
- urHhQwvF/kuOHoAFSbBYjSXNtQvubPqFrPwmnQEvHlB1smYKIRnPJNGDP1Sjt5wMHHnlOIuAvqQ
- 2Q36LQk07xd/IIy8tpcp5ltjM9C18JBkR3OR4R/GI389iA24XzdSsAYmoXOMasbFWwjLopY4Syq
- VCC/0nzdq14mJHwPdPiPZ35Xc5mKrSqtkPF+x4D9bRwC0A35LAwDnKwm5iewjqUJDZWGl3Jsp41
- MhJ/T8Nfh+fhX0g3FcR4hv8lsQfgjqSjymywIrN2HPkgIy5mm42DQrMbR1bL77ucCodv6T656lM
+ AJvYcCU44PHyWq4ph84FdzhkxxT/U28bgqr/w7b9N9axzNmn/jevGNDq6Q9ouBswNovBmZWNAre5LilODbQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7o/odg62ZSgurq2zT1y4WtSuxFWLXL0AqAj2jbd9bSpz01+YE
+ 4jNTZsgBqFhAENZnRNaUyoMBedLXaIEP7iORN9DK4tOD7lWg++e2
+X-Gm-Gg: ASbGncvlpvhzgEuiTw2X5HEmAWu/Y7IzmC/Z8EJIJcPO/bwjdZmsLxKol95Yi1/gV68
+ NMEpkgTuD31/uLVKJBZ/wBkrGeojeRB8yZoB2uekXPPAJHs2BIPeCgNhYI7DLJYljgMM8bA3XqX
+ svvAaXTtLtHVpQuOiizWUGOr8Kt15tQhtL6+/kZqGMdai9p+cAjWKQZl8uK7IxbFG+5Ns2p1pBp
+ BCi8Oiv33eAGX2Z2MFoJsla3dpRm5zwm3ORSMhW4zmAbrPtpHBiMPowtFzWUOVxGPlQCN0ZFN8g
+ bSLRbKlnEuK5uiptok41lbXwz7as0CmmhdaFrCF78sa8SwhxJofnYMyUzzEvPVoim6V1cgez9b4
  =
-X-Google-Smtp-Source: AGHT+IHz+gPXGVLABcu1Z5L/FQeF1foGDNMRW0PUwFQDBuhtYoYyf91GQ4fqN6r0d6c4jX9sVUpwVA==
-X-Received: by 2002:a17:90b:264c:b0:2ee:863e:9ffc with SMTP id
- 98e67ed59e1d1-2ff49753d20mr10753652a91.21.1741278377011; 
- Thu, 06 Mar 2025 08:26:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGnAbA7Y19sbet7/e0FnFCoTVhlFvSe7Bxbq8+Kkwl3FpD5fIN6ErN6a+dRmXJdCrcvBmbfjw==
+X-Received: by 2002:a17:90b:4c07:b0:2ff:6ac2:c5a6 with SMTP id
+ 98e67ed59e1d1-2ff6ac2c770mr3503350a91.31.1741278386628; 
+ Thu, 06 Mar 2025 08:26:26 -0800 (PST)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.26.08
+ 98e67ed59e1d1-2ff693e75bfsm1464298a91.33.2025.03.06.08.26.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 08:26:16 -0800 (PST)
+ Thu, 06 Mar 2025 08:26:26 -0800 (PST)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -85,10 +85,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
  linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v3 02/16] bitops: Add parity16(), parity32(),
- and parity64() helpers
-Date: Fri,  7 Mar 2025 00:25:27 +0800
-Message-Id: <20250306162541.2633025-3-visitorckw@gmail.com>
+Subject: [PATCH v3 03/16] media: media/test_drivers: Replace open-coded parity
+ calculation with parity8()
+Date: Fri,  7 Mar 2025 00:25:28 +0800
+Message-Id: <20250306162541.2633025-4-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250306162541.2633025-1-visitorckw@gmail.com>
 References: <20250306162541.2633025-1-visitorckw@gmail.com>
@@ -109,71 +109,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add parity16(), parity32(), and parity64() to compute the parity of
-16-bit, 32-bit, and 64-bit values, respectively. Each function extends
-parity8() by XOR-ing upper and lower halves, reducing the input size
-progressively.
+Refactor parity calculations to use the standard parity8() helper. This
+change eliminates redundant implementations and improves code
+efficiency.
 
 Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- include/linux/bitops.h | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ drivers/media/test-drivers/vivid/vivid-vbi-gen.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index 44e5765b8bec..906757e1ddf8 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -260,6 +260,48 @@ static inline __attribute_const__ bool parity8(u8 val)
- 	return (0x6996 >> (val & 0xf)) & 1;
+diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+index 70a4024d461e..e0f4151bda18 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
++++ b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+@@ -5,6 +5,7 @@
+  * Copyright 2014 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+  */
+ 
++#include <linux/bitops.h>
+ #include <linux/errno.h>
+ #include <linux/kernel.h>
+ #include <linux/ktime.h>
+@@ -165,12 +166,7 @@ static const u8 vivid_cc_sequence2[30] = {
+ 
+ static u8 calc_parity(u8 val)
+ {
+-	unsigned i;
+-	unsigned tot = 0;
+-
+-	for (i = 0; i < 7; i++)
+-		tot += (val & (1 << i)) ? 1 : 0;
+-	return val | ((tot & 1) ? 0 : 0x80);
++	return val | (parity8(val) ? 0 : 0x80);
  }
  
-+/**
-+ * parity16 - get the parity of an u16 value
-+ * @val: the value to be examined
-+ *
-+ * Determine the parity of the u16 argument.
-+ *
-+ * Returns:
-+ * false for even parity, true for odd parity
-+ */
-+static inline __attribute_const__ bool parity16(u16 val)
-+{
-+	return parity8(val ^ (val >> 8));
-+}
-+
-+/**
-+ * parity32 - get the parity of an u32 value
-+ * @val: the value to be examined
-+ *
-+ * Determine the parity of the u32 argument.
-+ *
-+ * Returns:
-+ * false for even parity, true for odd parity
-+ */
-+static inline __attribute_const__ bool parity32(u32 val)
-+{
-+	return parity16(val ^ (val >> 16));
-+}
-+
-+/**
-+ * parity64 - get the parity of an u64 value
-+ * @val: the value to be examined
-+ *
-+ * Determine the parity of the u64 argument.
-+ *
-+ * Returns:
-+ * false for even parity, true for odd parity
-+ */
-+static inline __attribute_const__ bool parity64(u64 val)
-+{
-+	return parity32(val ^ (val >> 32));
-+}
-+
- /**
-  * __ffs64 - find first set bit in a 64 bit word
-  * @word: The 64 bit word
+ static void vivid_vbi_gen_set_time_of_day(u8 *packet)
 -- 
 2.34.1
 
