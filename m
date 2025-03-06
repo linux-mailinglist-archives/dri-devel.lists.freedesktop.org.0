@@ -2,172 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF731A54290
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 07:07:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3746A542CC
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 07:31:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 281CC10E8F4;
-	Thu,  6 Mar 2025 06:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD4CF10E7E5;
+	Thu,  6 Mar 2025 06:31:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Dw6bWNSe";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="izWW1/xR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06EB10E8F1;
- Thu,  6 Mar 2025 06:07:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741241264; x=1772777264;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=fQ4SfzNo0z2W/4FeLHOYZPFusSbdJIE4vTbmwpdN4dE=;
- b=Dw6bWNSe2o0MZQ3JZk9XvRS1kOgrTvR3MVbDAHn4yid0BeaNbLfvRuWR
- vpweeW3sdZxsEeM7PeLSOfZ/UNvyBsK0GaTOvn9I5m11AzgjT9S+/ZUD4
- hIz+3sH1bFYv7mB/Zn6fZi8FSKG6UUnQqduMMjjCRL/IzOZNA3LbeTK0o
- nSKRoOOPfB+M/ID7KOxbjHQNaF+gRsaOgrsY3pMAPkcF8DCorYalD0UMq
- UMzySiGHlahZ1g5i6Jez6lNaYYBpVd/YTI0zChAd/JW3ekFfIwABxP/Vr
- T7w2tFuCNDM409KzYXlekjhh3RsQAUnfJfznmBmqf+uhlad3rn1UU63aB A==;
-X-CSE-ConnectionGUID: gwHQmpuTSeC110a00ga1TQ==
-X-CSE-MsgGUID: NG15eviIQmerL+HVahlVAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53635385"
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="53635385"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 22:07:43 -0800
-X-CSE-ConnectionGUID: eKTRozInQ6GNZdklyg+K8Q==
-X-CSE-MsgGUID: OixyerG8TLCgt/cHmeberw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; d="scan'208";a="119612379"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2025 22:07:43 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 5 Mar 2025 22:07:42 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Wed, 5 Mar 2025 22:07:42 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 5 Mar 2025 22:07:39 -0800
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+ (mail-am7eur03on2085.outbound.protection.outlook.com [40.107.105.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1933510E8F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 06:31:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r0cnOzdSrV7ZeKrxzZ6CU6+T749nNf4s/no48bISnwOiPgGnDDUyl92h9XRdKsTMQ3oBSe5l+bHWyflqrzD+8PBojLBFBgdiyM8LJzpv2ZOZBLSF3O3AP62RYgZynlIONzcThj6lwnC2TYzwBWdvGpwYOzD0LbFnVO9DciimH/MzxQ6UhgGUPj90+QlkOsVs5h1IPCYU4DqnkTACMYg4f1eye7X2VBC+sNbVi6lXjJ6YO2r3c3mEGNeoV7r2sYDqqM0XNpjs7eTVpqWI4EebjRh52kXoRwW8lJ2pfNpnJtAEmlLTgx8+YOdUSfD8/qQMceEioH2mG0nyGgQmq8X2vg==
+ b=dQ/ceLQQ5yAJzyNWh4g4+6+9XpEVgoQ5eurmiJ1Jvrmjilr2t7I/cUhZrvpTWf+We9NGkzNTfeq/vaU4LNhJr5KcubnTmdPCnT+oQwqP3FdbkyocXzHab0bwW9GOVKRPq7fT0BdsQf89pXMnWlQZaTm4Xim9I6BOXq3PGIA97/YyBuhGKFMaLQtVuHnl1/P8DSMpp37XNK9KpsGs9mpsOWJMPA0oy+eRMga5YEDJMpwCwIWdVR7BXvV1y0HG7TthOOUSOFaxlnBAZ6naHZy13Hg+yJtYc4kDgIoKQmXT5aLZVgY2bKU6vHYfvJaDS1w5ATZ590unI8WqRk2he556AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QkQj/e3DqAq8Mpn0ktdhM66oEEjlaPQ+pIDbzWOigv8=;
- b=A9ekPV5/fHer0v0umBpzM1b2UF/D8dkAE4tfjAFwjrXE4jNThHggkeR65fKX0KvY6ApB/Zn6T4XmwqJmSwO5Jauw6cupZYQIyzt00KQpatFh+Vzww9SHrJ+7m5r/kTYtz9oAyLylyt7eD2ggzYLbbBdaVmS8ZQrFBp4Hk/iCBaN4KeWbscF7GFBCLHkXyL8sx8SujOZc5Wc4RY28Qf6r/9MjVUpO4OIhL7hBNAWs+fQLRN79vpnqMEyk5rLSGkS8hWVowCya0zV51+2y9buSujwayqmvv93gacfwbYlJQqooq1bEWKpGW9Ok8fhDfFEhgU49zq4y1+yfxo5ts4rb7g==
+ bh=/ibGwqDRVyuENaX81h4bqZlx2lOAikBeLiVQZwWUQ2M=;
+ b=EwM6mOHtqT7dA1V3j9CxgqXyWaWg9ALcxoYEXW9muK3W6uU5Dl+pXr07OMXoLCyO5A7nzZuxsOerPE5woJCOHh1jO9nW9DVDRPVfJ6ofJ07jY8S9O2tvH54jeGJKq0PipnRONNlB/L96jbSywYwJdn/s+wUMWxq+N4G6XGwf0OTUvB6Bz5MnpZYkn5korlLHrqZATq8Hq3avZLGLbfazZYjnrd+mXAHMhriHjKhTL/nMXatgz0MORqVYjEMUmB7NQ1V7MYtkluUsEmn1TP7BR4QkPlPisPcdOq0RLjEz4OUEz5MaFGsDnn+gILyQXT09ZV2+ATFZCkQQHPIHafMxzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/ibGwqDRVyuENaX81h4bqZlx2lOAikBeLiVQZwWUQ2M=;
+ b=izWW1/xRIjxZ84eAoNdPruT+i4xa7W5rvxgV2lojz9dHoh/RXIet0d2rDr686367Q8FWIrfOqpyt5qt49wlBAdvTEnwysz1xUiiuTQZ4SlM6k1VdUuDmWPTLCvDvpCTI7h2aqrUWJkPsebD2dfDrNh9Ma97KrWylJjTIkgU93NUZQM0tScEgMElM6mkNPad47hN8HDIVZAQWLlCd9q+jfqP4yXNAc/csVVcVJ7FH7koE52NxeGE7p3hApMBSjDb0xx0DKZgH6b42GQ3HP4dUHhUdaVyoSqE99F09tGGIihRP/eE85/XKsJ1aaJopfyXRMuLLeWa/Tcv8f+nBbBaJJw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA0PR11MB7401.namprd11.prod.outlook.com (2603:10b6:208:433::18)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DU2PR04MB8630.eurprd04.prod.outlook.com (2603:10a6:10:2dd::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Thu, 6 Mar
- 2025 06:07:32 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.8489.028; Thu, 6 Mar 2025
- 06:07:32 +0000
-Date: Wed, 5 Mar 2025 22:08:39 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <himal.prasad.ghimiray@intel.com>, <airlied@gmail.com>,
- <thomas.hellstrom@linux.intel.com>, <simona.vetter@ffwll.ch>,
- <felix.kuehling@amd.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v7 32/32] drm/doc: gpusvm: Add GPU SVM documentation
-Message-ID: <Z8k757kchJi3fWdG@lstrano-desk.jf.intel.com>
-References: <20250306012657.3505757-1-matthew.brost@intel.com>
- <20250306012657.3505757-33-matthew.brost@intel.com>
- <4vqsd4n7umeimw4gqwa6c5oeuvrpqxfxquzsaizfzuqcdfd7vs@bed32kv2hjom>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4vqsd4n7umeimw4gqwa6c5oeuvrpqxfxquzsaizfzuqcdfd7vs@bed32kv2hjom>
-X-ClientProxiedBy: MW4PR04CA0223.namprd04.prod.outlook.com
- (2603:10b6:303:87::18) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ 2025 06:16:01 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
+ 06:16:01 +0000
+Message-ID: <69dbfa41-31d9-41fb-9897-74735b3b5a3e@nxp.com>
+Date: Thu, 6 Mar 2025 14:17:13 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] drm/bridge: simple-bridge: Add next panel support
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+References: <20250304101530.969920-1-victor.liu@nxp.com>
+ <20250304101530.969920-6-victor.liu@nxp.com>
+ <20250304-interesting-solemn-potoo-fd4c6e@houat>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20250304-interesting-solemn-potoo-fd4c6e@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR02CA0042.apcprd02.prod.outlook.com
+ (2603:1096:4:196::19) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA0PR11MB7401:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ff9387b-b688-4b81-4e78-08dd5c752f02
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU2PR04MB8630:EE_
+X-MS-Office365-Filtering-Correlation-Id: 78af812b-5ebb-4af6-3fd6-08dd5c765e4b
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?nSVsGII81lP6x9VbElVw7wUSGhVzEMCZoCkVl8pzcRuQoMH6Cg47V58d9I?=
- =?iso-8859-1?Q?NO7ODfoXsKxdtPd2sqzvxPRgPCb7Q68ezdqu9SqMUnrIw+VMLRWEKv0xYT?=
- =?iso-8859-1?Q?QSFN3M6md1BSLH+mvVdRc23KG65DEB6FWTka6an1vzhDrCLFTjs2Tq586b?=
- =?iso-8859-1?Q?V0J00lmabMp0XdwWTQQKaUg+Mk7Zqn+9v1bTr3Ms6KUHLyxBDshTN36uXM?=
- =?iso-8859-1?Q?z3dWo5jhjHxM7rNBTR3vFUfn6dWyG6/StjyHUdvVbVWE6NOrVQThPds2FJ?=
- =?iso-8859-1?Q?eB3A0DKU5j43BZeYA4J7S7hKqle6/kUgOeaY3a8V4Pcrh29BVevSh9C1wz?=
- =?iso-8859-1?Q?jGszXVHv6IfkIWDlPcJ8MzqRvntUfvKnzxVrPuVz0wcHliEqZz0llKg3ZA?=
- =?iso-8859-1?Q?FeEF4AZunRIYXgijwMuZHtop6TLVpPii/Yq1o37STKdf7NyRhmp/d2e4hZ?=
- =?iso-8859-1?Q?1z0vfksS24bXDjqnIchtxUl5qXzr0JSq0PFfB4CYl1YJ1JlzfYiRIXqQQS?=
- =?iso-8859-1?Q?Edxb1npm3gEvC5iK1WcvBvTo/z5oolZbY7xFToSRy8o4bQWsFU4M16I68t?=
- =?iso-8859-1?Q?dFuV9Lg2h5Jj4E3/QGPkiNevjCVEcansqIohZNIB5gyB1ePpXw4FIAMH8h?=
- =?iso-8859-1?Q?bq7+W/Cd1IqE5pzPdG1V+8EJrFjer4qfuTVTRAJRL96ReNI+1X2PZjYPnX?=
- =?iso-8859-1?Q?EaHksk3O9N4LZDwdsv/UzP42NtAOw1aQMbnLSjdcPM9/K75TnDad5zaEHc?=
- =?iso-8859-1?Q?kt77kDXL0S37cl47k8yTD3Xfem+i5zxcWA+8VFqEUltcMHMlp7fNnTpX4t?=
- =?iso-8859-1?Q?Cpk72cth04k33sYKGTplnftL2FJoviLO7QSwZTBuWQrpflFqoQb49RJHh9?=
- =?iso-8859-1?Q?88RsyL7/2tubRLQH7jyP8M9RQmlpK2BYTGvCCmmpPt3qiMQ6HvS8UgzXus?=
- =?iso-8859-1?Q?uwAd4G2TvzBp461ZBX6O1HP1wliE1rAf5zj+hztnl09B/DnGEPwO3ix/Iw?=
- =?iso-8859-1?Q?WREBVqcGF/34da/Mpbc4AmmkzapHCYWnTqh/0HQEnQmmVTLf/iPfQJXRyz?=
- =?iso-8859-1?Q?PbHuZF6JhP76DLvpLGcosEBs/itQpeeaIpTbdfWScTk+gLvDpikcFk15P2?=
- =?iso-8859-1?Q?x3s6qSZ3G2eUCNkyubdWGBCbNtq97Cb9MTq54mUEutvW+R8x9t3ftr71QM?=
- =?iso-8859-1?Q?KHiIorKhW82oZbQxv2Hb/qTfMyxz5f0IFa1pR4EcD0BmGRP250QqgRU9D+?=
- =?iso-8859-1?Q?Kfn5AswKbHG533EzvEWs68YtkbpTR/1GeDASp5FEvELrC+URiy5SAG8+vS?=
- =?iso-8859-1?Q?d/TKFbf1x8Fa8jt7NdZf3fFGI4gY/4B0wm7eG4ejTvrqRbof0j8yenTWfx?=
- =?iso-8859-1?Q?phLwt5Beygeq336BOJQOUD8BzlscxR+Eu21DXk+NKhU/bdpDI5edF+zot5?=
- =?iso-8859-1?Q?BIFpVPm6v/aWFuH1vKgg7VCIA+TZ0xiEEngecg=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a0NKQ0paUTUzdXVFemowTFBHMVpnQXlrbXk4U2tWL0JGZUI3WHZGcVNGZHJr?=
+ =?utf-8?B?aWRKMHo0WDNLa3ltbDdxeDF6ZG5wM3BWOThNb3p3MUd3OEZNTzlIN1N2VGta?=
+ =?utf-8?B?a01GWW1BMndxdmdaSUR0Y1RhU2s2SU9nZHZ3RFFrSFhHZ0hjZ2swbFFzMWlY?=
+ =?utf-8?B?MFdiZlJpT29pVzNDbkd2TjZuZjF4a09Icng4MDBOSG5MUEtOY0lWU3ZXNmRM?=
+ =?utf-8?B?SnFTcStxWDBldjFvaEVyWUdiY0FmVWltQU1BN0NDckN3S2prSHBxalJRc1BM?=
+ =?utf-8?B?dUd4cmsvSURqZjRHTHl0RjJtNWpXT0NZZkF6UkxNci9xb3B0d0hUc1FUV2pN?=
+ =?utf-8?B?Mm1ER2laUlF5Z3NBbnEzeU5pL3NIbzY3amtQazJjUlNscTJ4ZWkyWkRVY3pj?=
+ =?utf-8?B?eTlVUzcxbW5EbDJGNGkzRDNDVGg1VnBpcHFhdFRvU05ZTWRLZExJTjdkRnQr?=
+ =?utf-8?B?RDhyUldFNGpNSzJFekIra1dsWDNVMnRwZHJHOWZZdU9sS2pYeDNhNWJVbmpP?=
+ =?utf-8?B?YlFSNytrWWVlcmc2RGRRZlh6S0xES08vUkE0S292TWUxdlE1UUNPaEQyYVZn?=
+ =?utf-8?B?NW9ISVFCak1FOE5MV1pJcmttbzdCUXBTb2hsbyszaWIwRjdBK2dHd3ZxS1dP?=
+ =?utf-8?B?L29GYXVsNmZwcGRUMlUxUXhud1RsVkVvdENYMHQzSWJUU2lKaEhqcTNWcWpG?=
+ =?utf-8?B?a2NjYXVIaVlBRGRURjAvYk1zOGxJT2dvNE9pSUV6VXdHQzZzWVMvb2k3UlV2?=
+ =?utf-8?B?OExEREZSZ1cyVVlKSWZ6N0pubURPcmM3a1B5cXJOOTVJWitYeC9EUjB6aS9w?=
+ =?utf-8?B?R1UyRUE2b09STDExbUFtMkhieE5pZUMrTVB1Yklmejg3b1BqM2pUeDBGZGVm?=
+ =?utf-8?B?QXJVazBLK2M3N0FqSlpBdTYrSTNRRlJENHpvekd1SGpOS2dGVklOZC9kZ0dY?=
+ =?utf-8?B?disrTG9URkVzS21YMG03ZjZQVjAzZ0daZjJicm5oV0lyZnlkZmYvcHFpbWtL?=
+ =?utf-8?B?Qlk2TGJPMkxSdmpPdFRVNWZZNVRZRU85WTdCdlZyY2s5OFM0UnFBTGE4bDdO?=
+ =?utf-8?B?VFpEOUxMaWdXRkE0QjlxaFNLYSs2aDFueG1mVFBvcHE4VjA3UFF1RThTSEl5?=
+ =?utf-8?B?RmxjanR0K1FTWS9rNEMvWHUzbnJRWHdoRG1MK1QrMG94TFRyVHY2VGxCSGU0?=
+ =?utf-8?B?b2pxMDRnZkVjS2M4Wm9HbDEyOUJnNkxVVmZ3Z1NFTU44emhpMTBCSkFlUk9I?=
+ =?utf-8?B?dWZtQ2dPbnM3K1l2dXZkYUlUMjlDcDFtUVQ3bkhQdHJ5MmYvczByYzgzTzVh?=
+ =?utf-8?B?b0ZtZzIxY3B0d0x1b1VrRlR3RnN5eDhzV1h0eXNIV0gyc1JMVW9aUW5mUzhq?=
+ =?utf-8?B?V0duMWZRTW9FSVZ5VGt5RzJoUC91d2d4YkorZnVpdEZYWGRPeXF4MjZmWEsr?=
+ =?utf-8?B?QS9NQk1paHhNR01tMVRodlhDdGd3cUNnNXpyRmVYWXZVb0lYbVRsWU1XR3BX?=
+ =?utf-8?B?T1I3Vm5QMmZpR0l6NURjV2FUSnJrb3R3NXpzQXhvWGRYeU0wTkp5eDltMkND?=
+ =?utf-8?B?V25Tcm5OaUFSN00rV3ZTQmc2VCtlYkJybDJpbnpaazR5QTlPU0NJbjZUQm1U?=
+ =?utf-8?B?SC9nck9UUFM0eU9BSnJ2UXEwNVBTMG1xMHJaL201RWttUDQ3REtSaURkOFBr?=
+ =?utf-8?B?cnVWclJYR1hiUzUzSVMzOWJRdlpmV3k1UnRZRHlYQWs0a0xDUm52RVo1c2Nk?=
+ =?utf-8?B?UGU5dE1Vd21IR25sY3VYODdjUWF3ZGFMeWFpZVcvMGtCRGV1YUorM09BVGZa?=
+ =?utf-8?B?eTZxVFpKMm9Jc2FnQUEvWXhVeEF1ZEovK3crdDNIUjAzcENidkFDYUZGc3I5?=
+ =?utf-8?Q?gG9u1tylIKpno?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?f9GLO33NzuoqaLkSKD6N14zlb65NAMfXQVkN/IDSZCnS5/MdK69TfhXTyW?=
- =?iso-8859-1?Q?8cA0+o+FbygOA7VReFKBnreP7SJUruunTtFV4TBuU6VvXW7uGMkFGP56vR?=
- =?iso-8859-1?Q?gEIWYpny91GbKNNaLT2+RMlvFhjQjF39p/QBRoKTTDuasmxDPmjgNGawOa?=
- =?iso-8859-1?Q?l8rgNOwYFVNdbpGR0d13kxrom1x6YnnvdwoHvyVUpaduNHAKhSAsDqoH7R?=
- =?iso-8859-1?Q?HUW9ZMlXJYIGA/aOA+XI1MqYm2Xb/OQq4sqj2hZ0WpvQKOzoBv3gLN/ZDQ?=
- =?iso-8859-1?Q?5MhkfdYopK0O6yAeplt/WdImtvtKvAetY6wqZyP5ryEKfmEh+j0Ka4keLr?=
- =?iso-8859-1?Q?V4+RfsLIDmMwgpD2QwTqPsMhqMoWHJeVk3AC5RAnPMNjCXz33VZl/hxI1X?=
- =?iso-8859-1?Q?VqaqO0mr7kk9LsMqJWzohPG1ICEm5wVhF1K7RaQQo0DDxh7P6nuEgjje2S?=
- =?iso-8859-1?Q?zQaDdYcxTN3hFhUGeHE49+kFVCgPimOQ3sBI7EMZg3Y39bJD4YX6nPPefz?=
- =?iso-8859-1?Q?0hB3PWW5EzFePb3U5oNgKi7sv0HI736KAh3dZmf17y2C0ZI7e9Zq2HdU6f?=
- =?iso-8859-1?Q?crOa/JgiRrPWRf+e+lyPm8SFwMb8JpHI7OmxuZwXZg4GHogZsDL+iSX32m?=
- =?iso-8859-1?Q?2fRSVcKPFjvUJULl/js3s79DUbZnx9UEiIXjn5k1dTxy2HrbHowUishQig?=
- =?iso-8859-1?Q?6OUA916e2/gw3XzsIPOju78uNjqY4GLdvnDaNE6pmYvmb+ciGfYr2Lds/0?=
- =?iso-8859-1?Q?+0b3P62YMLfFoDih0lZLcyw/6/mEdglVKy/wFQwy+KFXz9DUzSnczsYnRL?=
- =?iso-8859-1?Q?F/6omqvVjOO2hkkK+LoumNXAQ7A/agOHv8TH+YGgVSWKmHsA0YiRE/c41+?=
- =?iso-8859-1?Q?x6j4pX8znZu01oulUs8l3UTwaGlYIvpDeSDyzngAoBYHu087JhzBUGD9kd?=
- =?iso-8859-1?Q?kGygya4jFXuvpBihp0mfT7GkVCc5FFZ0ENU1z7ZYTF5Chz8Tq+vK4bx7en?=
- =?iso-8859-1?Q?NfvD37+CoGsJgcmalOkDJ/6xfTEkHZouwygDqSw9gjV4gJAshMgWrL+5C7?=
- =?iso-8859-1?Q?f3b8UfUHG9VDIySrr4OQWnQrQPb+hDHxCDAxB48J12YIbbuf5ze64VO1jt?=
- =?iso-8859-1?Q?LxH+mqyWTiKG/zhiq39QvTJPHV3/ABKXnRttdilLwLsVCD82/x4xwgpiQI?=
- =?iso-8859-1?Q?ybKNCZvBCCLijSLE+JZf9CMIqQwtd5GIRO6eFxbaDa9nIfTd3Es7YHhrpg?=
- =?iso-8859-1?Q?DVQJX3JGweOrG7Mf273SqHYvCRgTGJTza8+pKNiWwU7sEdTAKAhBwdQNv4?=
- =?iso-8859-1?Q?3d1eAehpCldrIoWE8DYHX51+Qd8pSWIi+A5tyYafbLGedwoTUfL1NEdN6L?=
- =?iso-8859-1?Q?G5k2IL65LLkFcrV9iR+WMGX3MJWhYUyGFDqgGAzOivPqMIt+f8SvyC3nBu?=
- =?iso-8859-1?Q?F2BaOfuo92K2i49IsITMkae/EXfDO14scnZ5k8Zj4hp1agOMQCob50yVoa?=
- =?iso-8859-1?Q?lXrXyqnj8sKvEhKuMfDz0w1Al9aY/syfnj0sIZDQNwKaLgYsR7lnb9qEjP?=
- =?iso-8859-1?Q?JY8uJQfBsKEV0xAaa4AA6HKYBKSg0ghMz2sj5zeRrIdfg0RZQwfbs5+GMS?=
- =?iso-8859-1?Q?QYgh/YGpci5dUN5FcBK0wt5BgXf9uzG28wvPkP6m12IVcpV5Yb3gy1lw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ff9387b-b688-4b81-4e78-08dd5c752f02
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K05ZQ0dXR0dEb0NTRVlheHNMOGROMENROWhwWU1vSHc3aGFtV0FRWHZGQzFD?=
+ =?utf-8?B?UzNoTlNyaW43bUgzYlNRZ0gxMVR6QXJGYU1vc3VzTHJqQVFhS0QzNm16dndj?=
+ =?utf-8?B?Y25TbGd1L2pzWTN3cTVKRkllWGpFZHJVRThwaFgvd3NEeHkvQWwycExoOVFQ?=
+ =?utf-8?B?VTJ6V2xySTlXc2J6WWszQlNjbE5jT0ZoOFNNVG9meWM2VHBkZk9JK3REblNv?=
+ =?utf-8?B?dVRPVXpzc2tDV3BzN3g0RWhvWUVKY2gyN3ZBQU9RdEtIQklLcUZTcUdHY09l?=
+ =?utf-8?B?RkFTVHBZSFhFa1pYU3F0bWVEcXFOYUJySDFxaSt3eTh1cUswOE4zM0lTeFp5?=
+ =?utf-8?B?WTZWbWZSd04rMG5wZHlPYlQ5d0tqRWg4SUdQM2Q4TVp3VTgxcTA2cklVK0Nh?=
+ =?utf-8?B?MlV2ckFXbkUrR2V5T1RybXpiR294c3ZFbEhHRkFtNlJ3SytQNVlmY1U3RUZF?=
+ =?utf-8?B?NWhrOExQWEhGY1JQdktnM1ZpN2gxZ1AxcnFsenJjM0RtUTJkQzNiY1ZsVEZB?=
+ =?utf-8?B?UDJLc0RRcW51YUh0aWRHRGxiUkEraWhPUENIVmxFdisyVlY0cHk0bE5SaUFZ?=
+ =?utf-8?B?anJWTGxpYTZEYUlhVCtybHpKazBwa1lQYU9hdVdndHZFZS9DaWdDVUkwQ1JM?=
+ =?utf-8?B?cktpQjZpT2llRVp0azZ4cHY1NnFJeWJaMEtBMEpOZE5xRWo1anFaak9FRE94?=
+ =?utf-8?B?eVovUlZ0enREQXo0ck5ndW4wQjBLZjFpUHhQVE9MZWlUMUd6NTE0TDY1Q25X?=
+ =?utf-8?B?eXdwVllCd1dmajM1Ymxkc1hzcTc3Yjdnc3lYemlZbHZUZnhJTGR4T0RvY3F5?=
+ =?utf-8?B?MVJSTGx2QUVUbnd4V2RSelUyZnViSU1LeUhQY1hLUUpib3pzQ29Tano2ZnYx?=
+ =?utf-8?B?T2dUMEMwcWluSGFVSHBVY0NzdXNpcEpZaDlQYnVsLzZuaGJ2OHlHYU02L09l?=
+ =?utf-8?B?QkRJYWRFd2U4YVZXQXVESGVRWTZ1NENXREhJMDVKSUJiTHUzOTdML0YreE1w?=
+ =?utf-8?B?amVlaDFPNFNWak5HMzZXbzZldjM0aG05NTcyV0g0KzJqY3o2djdyOFdHTEZn?=
+ =?utf-8?B?ZEdBRmo0T3pYUWduRTE3SWtjaGx4NEVKY0dCMVp5djYwYzZyMlAvR0t6Nkpu?=
+ =?utf-8?B?Nk5TS0RSTVo5VDhOTmtpY2xlM2grdmxMeStKUjlVZUgrTkJOVlFCQk81emdF?=
+ =?utf-8?B?TkhDelJCSmdNMUZnMVIzT2xraUpGTm9CVm5Zc3VoUTJ2d2NiWFJMZXFkWWcz?=
+ =?utf-8?B?cStZVDRuNGIycG9LdVY1MlU0Zmt6eDRaWWhXVis3RjBGS2g5eDVRczdOVW1B?=
+ =?utf-8?B?aVRZY2FramhiUDFRWFRKakpUUVVsd3BhT2Y2QnloTXdhbVZUbTdSZVRubi82?=
+ =?utf-8?B?bUpLREpPakdlOVRYd3lmY3RzTlRUbWdrR3VxR1A4dDVpUXNaMDdPZVYwOTV0?=
+ =?utf-8?B?WFdITUJSYWQ1K3djSEtUS1VjbnBKY0RzTE1UYjVCbm5SUVFVazUxSjVSbnlz?=
+ =?utf-8?B?MDgwamFpNDg3OEJyakdhVzAzNk5UamN2VUFEOUJhMHhUbUwrWHZKUlRLQnRl?=
+ =?utf-8?B?SGU1eUZKRllTSFJjcUN3djF4Uy8yNzJvU1BOazlLYWFKVUtKTytqd0tJZ21E?=
+ =?utf-8?B?ejhmb2xIMG5HSHlsMk5vVEZQbXR6WklvSDJORURHb2RTak9aVjk0ek5USG5K?=
+ =?utf-8?B?Mi9XRk5OT1VKY0JoM1VVSEtMN3hhYnBNclE3OG5wenU0MUwxVnRhNEVDeUp5?=
+ =?utf-8?B?ZXVMdnJmbTBMMTBINU9IdkhoNDNvQVpuMDNKalBjTDYwdnArTFc5Wm8yYVF4?=
+ =?utf-8?B?NHFINHNuR1RUcG4wdVhzSnRGaWV2TURsMUc1ekw3eWxGWThQb2c2WVR5Nzhx?=
+ =?utf-8?B?cHNZd3UzOWRnWkxFNG9RWGgrS3RjWWc3NTlsd1pSMEExc0hyOWo5YjFhNWJD?=
+ =?utf-8?B?MndtaHVvOWdvSVkxWVBWSWlKZm5vTXNYenN5OFNEd2FnNVNHcklVczFmU3FE?=
+ =?utf-8?B?RWJJN3BlZmV5V1NtZ0JnWFNpY1lQT0VNNTZKczVoMUUwd1dNNnVIUHluSGkx?=
+ =?utf-8?B?M3h3NjVKTVBZd1JFaVB4RXBGSi9WRkliRjdjMWEwbWF3aXBzdzVaNlo1bU1M?=
+ =?utf-8?Q?GEJN/Ue2TGTTdMvox1Dl/lUSW?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78af812b-5ebb-4af6-3fd6-08dd5c765e4b
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 06:07:32.7360 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 06:16:01.7376 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WkvS5JWGNrgP8rw22dUOkc8Maw0M2plMCY0/3LGEbfoKIAxOvv+/gltRmMsN1ORFkA0iCTvKGxeQIBCpi8yEOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7401
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: GaMdUB0mQD+och0D3RFGr/TOf5haSlNyCvj6PHn7eYcGmRXWAFxI2+Xa6XwCuTf0/xaeEmiTcNVIjqBzt7q7rQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8630
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,186 +168,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 04:45:31PM +1100, Alistair Popple wrote:
-> On Wed, Mar 05, 2025 at 05:26:57PM -0800, Matthew Brost wrote:
-> > Add documentation for agree upon GPU SVM design principles, current
-> > status, and future plans.
+On 03/04/2025, Maxime Ripard wrote:
+> On Tue, Mar 04, 2025 at 06:15:30PM +0800, Liu Ying wrote:
+>> The next bridge connected to a simple bridge could be a panel, e.g.,
+>> a DPI panel connected to a DPI color encoder. Add the next panel support,
+>> instead of supporting non-panel next bridge only.
+>>
+>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>> ---
+>>  drivers/gpu/drm/bridge/Kconfig         |  1 +
+>>  drivers/gpu/drm/bridge/simple-bridge.c | 32 ++++++++++++++++----------
+>>  2 files changed, 21 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+>> index d20f1646dac2..92187dbdd32b 100644
+>> --- a/drivers/gpu/drm/bridge/Kconfig
+>> +++ b/drivers/gpu/drm/bridge/Kconfig
+>> @@ -310,6 +310,7 @@ config DRM_SIMPLE_BRIDGE
+>>  	tristate "Simple DRM bridge support"
+>>  	depends on OF
+>>  	select DRM_KMS_HELPER
+>> +	select DRM_PANEL_BRIDGE
+>>  	help
+>>  	  Support for non-programmable DRM bridges, such as ADI ADV7123, TI
+>>  	  THS8134 and THS8135 or passive resistor ladder DACs.
+>> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+>> index c0445bd20e07..4c585e5583ca 100644
+>> --- a/drivers/gpu/drm/bridge/simple-bridge.c
+>> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
+>> @@ -19,6 +19,7 @@
+>>  #include <drm/drm_crtc.h>
+>>  #include <drm/drm_edid.h>
+>>  #include <drm/drm_of.h>
+>> +#include <drm/drm_panel.h>
+>>  #include <drm/drm_print.h>
+>>  #include <drm/drm_probe_helper.h>
+>>  
+>> @@ -35,6 +36,7 @@ struct simple_bridge {
+>>  	const struct simple_bridge_info *info;
+>>  
+>>  	struct drm_bridge	*next_bridge;
+>> +	struct drm_panel	*next_panel;
+>>  	struct regulator	*vdd;
+>>  	struct gpio_desc	*enable;
+>>  
+>> @@ -114,6 +116,10 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+>>  	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
+>>  	int ret;
+>>  
+>> +	if (sbridge->next_panel)
+>> +		return drm_bridge_attach(bridge->encoder, sbridge->next_bridge,
+>> +					 bridge, flags);
+>> +
+>>  	ret = drm_bridge_attach(bridge->encoder, sbridge->next_bridge, bridge,
+>>  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>>  	if (ret < 0)
+>> @@ -247,7 +253,6 @@ static int simple_bridge_get_dpi_color_coding(struct simple_bridge *sbridge,
+>>  static int simple_bridge_probe(struct platform_device *pdev)
+>>  {
+>>  	struct simple_bridge *sbridge;
+>> -	struct device_node *remote;
+>>  	int ret;
+>>  
+>>  	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
+>> @@ -257,17 +262,20 @@ static int simple_bridge_probe(struct platform_device *pdev)
+>>  	sbridge->info = of_device_get_match_data(&pdev->dev);
+>>  
+>>  	/* Get the next bridge in the pipeline. */
+>> -	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
+>> -	if (!remote)
+>> -		return -EINVAL;
+>> -
+>> -	sbridge->next_bridge = of_drm_find_bridge(remote);
+>> -	of_node_put(remote);
+>> -
+>> -	if (!sbridge->next_bridge) {
+>> -		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
+>> -		return -EPROBE_DEFER;
+>> -	}
+>> +	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, -1,
+>> +					  &sbridge->next_panel,
+>> +					  &sbridge->next_bridge);
+>> +	if (ret)
+>> +		return dev_err_probe(&pdev->dev, ret,
+>> +				     "Next panel or bridge not found\n");
+>> +
+>> +	if (sbridge->next_panel)
+>> +		sbridge->next_bridge = devm_drm_panel_bridge_add(&pdev->dev,
+>> +								 sbridge->next_panel);
+>> +
+>> +	if (IS_ERR(sbridge->next_bridge))
+>> +		return dev_err_probe(&pdev->dev, PTR_ERR(sbridge->next_bridge),
+>> +				     "Next bridge not found\n");
 > 
-> One minor nit and a comment below, but feel free to add:
-> 
-> Acked-by: Alistair Popple <apopple@nvidia.com>
-> 
+> This makes sense in general, but I think a better approach would be to
+> use devm/drmm_of_get_bridge here.
 
-Thanks!
+I chose to open-code devm_of_get_bridge() because sbridge->next_panel can
+be grabbed and used to determine the logics in simple_bridge_attach() and
+the flags handled over to drm_bridge_attach().
 
-> > v4:
-> >  - Address Thomas's feedback
-> > v5:
-> >  - s/Current/Basline (Thomas)
-> > v7:
-> >  - Add license (CI)
-> >  - Add examples for design guideline reasoning (Alistair)
-> >  - Add snippet about possible livelock with concurrent GPU and and CPU
-> >    access (Alistair)
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > ---
-> >  Documentation/gpu/rfc/gpusvm.rst | 106 +++++++++++++++++++++++++++++++
-> >  Documentation/gpu/rfc/index.rst  |   4 ++
-> >  2 files changed, 110 insertions(+)
-> >  create mode 100644 Documentation/gpu/rfc/gpusvm.rst
-> > 
-> > diff --git a/Documentation/gpu/rfc/gpusvm.rst b/Documentation/gpu/rfc/gpusvm.rst
-> > new file mode 100644
-> > index 000000000000..87d9f9506155
-> > --- /dev/null
-> > +++ b/Documentation/gpu/rfc/gpusvm.rst
-> > @@ -0,0 +1,106 @@
-> > +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +
-> > +===============
-> > +GPU SVM Section
-> > +===============
-> > +
-> > +Agreed upon design principles
-> > +=============================
-> > +
-> > +* migrate_to_ram path
-> > +	* Rely only on core MM concepts (migration PTEs, page references, and
-> > +	  page locking).
-> > +	* No driver specific locks other than locks for hardware interaction in
-> > +	  this path. These are not required and generally a bad idea to
-> > +	  invent driver defined locks to seal core MM races.
-> > +	* An example of a driver-specific lock causing issues occurred before
-> > +	  fixing do_swap_page to lock the faulting page. A driver-exclusive lock
-> > +	  in migrate_to_ram produced a stable livelock if enough threads read
-> > +	  the faulting page.
-> > +	* Partial migration is supported (i.e., a subset of pages attempting to
-> > +	  migrate can actually migrate, with only the faulting page guaranteed
-> > +	  to migrate).
-> > +	* Driver handles mixed migrations via retry loops rather than locking.
-> > +* Eviction
-> > +	* Eviction is defined as migrating data from the GPU back to the
-> > +	  CPU without a virtual address to free up GPU memory.
-> > +	* Only looking at physical memory data structures and locks as opposed to
-> > +	  looking at virtual memory data structures and locks.
-> > +	* No looking at mm/vma structs or relying on those being locked.
-> > +	* The rationale for the above two points is that CPU virtual addresses
-> > +	  can change at any moment, while the physical pages remain stable.
-> > +	* GPU page table invalidation, which requires a GPU virtual address, is
-> > +	  handled via the notifier that has access to the GPU virtual address.
-> > +* GPU fault side
-> > +	* mmap_read only used around core MM functions which require this lock
-> > +	  and should strive to take mmap_read lock only in GPU SVM layer.
-> > +	* Big retry loop to handle all races with the mmu notifier under the gpu
-> > +	  pagetable locks/mmu notifier range lock/whatever we end up calling
-> > +          those.
-> > +	* Races (especially against concurrent eviction or migrate_to_ram)
-> > +	  should not be handled on the fault side by trying to hold locks;
-> > +	  rather, they should be handled using retry loops. One possible
-> > +	  exception is holding a BO's dma-resv lock during the initial migration
-> > +	  to VRAM, as this is a well-defined lock that can be taken underneath
-> > +	  the mmap_read lock.
-> > +	* One possible issue with the above approach is if a driver has a strict
-> > +	  migration policy requiring GPU access to occur in GPU memory.
-> > +	  Concurrent CPU access could cause a livelock due to endless retries.
-> > +	  While no current user (Xe) of GPU SVM has such a policy, it is likely
-> > +	  to be added in the future. Ideally, this should be resolved on the
-> > +	  core-MM side rather than through a driver-side lock.
-> > +* Physical memory to virtual backpointer
-> > +	* This does not work, as no pointers from physical memory to virtual
-> > +	  memory should exist. mremap() is an example of the core MM updating
-> > +	  the virtual address without notifying the driver.
+However, if a separate driver is needed for the DPI color encoder, I won't
+touch this driver.
+
 > 
-> Pretty minor nit, but this could be read as core MM won't send a mmu notifier
-> when calling mremap(). That's not the case, as it will get a notifier to
-> invalidate the address but won't explicitly get notified of the new address.
-> 
-> Not worth sending an update just for that though.
-> 
+> Maxime
 
-Yep, will fix up when merging.
-
-> > +	* The physical memory backpointer (page->zone_device_data) should remain
-> > +	  stable from allocation to page free. Safely updating this against a
-> > +	  concurrent user would be very difficult unless the page is free.
-> > +* GPU pagetable locking
-> > +	* Notifier lock only protects range tree, pages valid state for a range
-> > +	  (rather than seqno due to wider notifiers), pagetable entries, and
-> > +	  mmu notifier seqno tracking, it is not a global lock to protect
-> > +          against races.
-> > +	* All races handled with big retry as mentioned above.
-> > +
-> > +Overview of baseline design
-> > +===========================
-> > +
-> > +Baseline design is simple as possible to get a working basline in which can be
-> > +built upon.
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/xe/drm_gpusvm.c
-> > +   :doc: Overview
-> > +   :doc: Locking
-> > +   :doc: Migrataion
-> > +   :doc: Partial Unmapping of Ranges
-> > +   :doc: Examples
-> > +
-> > +Possible future design features
-> > +===============================
-> > +
-> > +* Concurrent GPU faults
-> > +	* CPU faults are concurrent so makes sense to have concurrent GPU
-> > +	  faults.
-> > +	* Should be possible with fined grained locking in the driver GPU
-> > +	  fault handler.
-> > +	* No expected GPU SVM changes required.
-> > +* Ranges with mixed system and device pages
-> > +	* Can be added if required to drm_gpusvm_get_pages fairly easily.
-> > +* Multi-GPU support
-> > +	* Work in progress and patches expected after initially landing on GPU
-> > +	  SVM.
-> > +	* Ideally can be done with little to no changes to GPU SVM.
-> > +* Drop ranges in favor of radix tree
-> > +	* May be desirable for faster notifiers.
-> > +* Compound device pages
-> > +	* Nvidia, AMD, and Intel all have agreed expensive core MM functions in
-> > +	  migrate device layer are a performance bottleneck, having compound
-> > +	  device pages should help increase performance by reducing the number
-> > +	  of these expensive calls.
-> 
-> Balbir has also just posted an initial RFC implementation of this here:
-> 
-> https://lore.kernel.org/linux-mm/20250306044239.3874247-1-balbirs@nvidia.com/
-> 
-
-Nice. Will take a look as we have time. I also want to pull in Leon's
-series [1] too.
-
-Matt
-
-[1] https://lore.kernel.org/all/cover.1738765879.git.leonro@nvidia.com/
-
-> > +* Higher order dma mapping for migration
-> > +	* 4k dma mapping adversely affects migration performance on Intel
-> > +	  hardware, higher order (2M) dma mapping should help here.
-> > +* Build common userptr implementation on top of GPU SVM
-> > +* Driver side madvise implementation and migration policies
-> > +* Pull in pending dma-mapping API changes from Leon / Nvidia when these land
-> > diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-> > index 476719771eef..396e535377fb 100644
-> > --- a/Documentation/gpu/rfc/index.rst
-> > +++ b/Documentation/gpu/rfc/index.rst
-> > @@ -16,6 +16,10 @@ host such documentation:
-> >  * Once the code has landed move all the documentation to the right places in
-> >    the main core, helper or driver sections.
-> >  
-> > +.. toctree::
-> > +
-> > +    gpusvm.rst
-> > +
-> >  .. toctree::
-> >  
-> >      i915_gem_lmem.rst
-> > -- 
-> > 2.34.1
-> > 
+-- 
+Regards,
+Liu Ying
