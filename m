@@ -2,99 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D262A54636
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 10:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B692A5463B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 10:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D2B10E054;
-	Thu,  6 Mar 2025 09:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE83D10E036;
+	Thu,  6 Mar 2025 09:25:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="P0SGC5HS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LmeW/38J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 772D310E027
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 09:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741253108;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WM7yWeObA9CF+Z7/sodqheqkakLF4KM63V0xRYX1Nzs=;
- b=P0SGC5HSufOeC7NkHAT0DqOnZarG0F/r6PbUSQe3luZdM0NywSd5AJX+Pakf/Lv4urXgCD
- pKDePYsJs+4ujibAbNbFppKSgj8+xNqc5L8h+k+YkbI2zLZbRJYjxuTQYnYY0y2gbyhc0w
- LjFym/g7TXv6PpfJVHByYrNrlYMavKw=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-94-cM3ca1BQO-mT6JBN0Ci9yg-1; Thu, 06 Mar 2025 04:25:02 -0500
-X-MC-Unique: cM3ca1BQO-mT6JBN0Ci9yg-1
-X-Mimecast-MFC-AGG-ID: cM3ca1BQO-mT6JBN0Ci9yg_1741253101
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-54966c49a34so295449e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 01:25:02 -0800 (PST)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D320510E036
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 09:25:53 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id
+ 5614622812f47-3f66bf7602eso136388b6e.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 01:25:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741253152; x=1741857952; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eAXYiA/MHOAdQMXh+C0jw5Ofxnxlrhaorm6TX8gdw8c=;
+ b=LmeW/38JZ3QXiHpqcWxPn3dZcngV/SBWhsxIwSWEVzZ17O/pjbADXRZxVvIF70oGxq
+ DImqVyvc3p3y7CvhfZI6C+abKGE18LKAdFdh/+6g3D+llmNmVByTdkCaBa0BA6W3ua2L
+ wMZsGg3Evgz/a7E+x8Sx2MhTshmkNxcl3UErBM0xwtAvsTdMSSnvNsA3W4vYWLuktDAp
+ 9F6f8Cfcjr/Svz8B1lTPYe1ARSa2Tv40TIn8zRmZLZYXYTJmFO2cm/QK3RH1z/c4hOPg
+ e7f1YGHUBoQXgBb/ak74cgqqlb7XLxepLRz0eJqlQWK4m6PPdgHn41JeW02Yvm1Gxc1K
+ MI3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741253101; x=1741857901;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WM7yWeObA9CF+Z7/sodqheqkakLF4KM63V0xRYX1Nzs=;
- b=hVqDH/jXMTA0xVkPa4+J7w93XOcRj3yTbkVEbjbLjSmbywopmygnIY8XNH0tlMGkx7
- ckFYQ/GnTTaoLew4RUYWS8HUh+kWTSJ4opuEL8Gujbh6KieLaXSbrQyU1vdB8dFomP0Q
- fElNBEiFO5FQpuDnQQxiBu87UjsYgxdSSSYn7j1trc95zYHasNqcU8rfbzFpcQPS5vuo
- PsTDZavu6Qcz+P98kfrTC6P2xJkFfipictQHLD9CDsZULgE3qU/Fn8yvCcMVJ/jHBJL0
- NMe1neodnN9piuD5MkOWDPWam1XpoJsFYA9VnPrIP8uFz/dFysV0yBgymUQhGMMQD4Va
- nxUA==
-X-Gm-Message-State: AOJu0Ywlt+uK8e6tbUsu9Va7EEKtTTYMS7PTWDZK/3dnw4Ziyx7HnAUg
- Bjq8G7N1IwtGlqhXmDhHueOsWkGZKBiC5uRnjl6VyekrVrbO5rCzG0ZtfbsdrBstqAj1TGTQgYd
- wB0tTFgr1+PucRwmLqt9zYea3F5J7KZ3vLi9Iwma6MWUpQ7AEMD5XF0Xdaf9Fba79
-X-Gm-Gg: ASbGnctzLLU86RNQIIoMgW3WCPhaYK9t/VP2X1pVWaEaKOxoWfZF+xA6dwfmytCyHQO
- 2oipUKyLS8v+LPT97wBAezHsUb8Z1KwFsFFwImGivKoeJtBhJr88qTtdYDRjOSgE1dRPJ6VsOHr
- eZUEstlwCc0ww9k+R3bMWF+x/4yDQ/euTV6C0af/xRlwISwabnUibqr+4RXc9zHEZtpvgMNrkRU
- 2zkUcCVhI2HAf31nOyBnod/zZjUrvI2JrItafT1mFZfLobR4HfhptxXijcbEHOD/fnb2Ch3opgs
- dFPvcawV6hnef5W1Gfq3lvz5sNr/IoOVjyVkF3xt6A==
-X-Received: by 2002:a05:6512:6d2:b0:545:2eca:856 with SMTP id
- 2adb3069b0e04-5497d330b21mr2679364e87.9.1741253100614; 
- Thu, 06 Mar 2025 01:25:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEIwq38VGt7y79hXuVQM/A10zAVLGVX2sPPrzqn5KFw8tGh93hCxrMBcCyARSUv3U5pfE1Fzw==
-X-Received: by 2002:a05:6512:6d2:b0:545:2eca:856 with SMTP id
- 2adb3069b0e04-5497d330b21mr2679341e87.9.1741253100141; 
- Thu, 06 Mar 2025 01:25:00 -0800 (PST)
-Received: from [192.168.1.86] (85-23-48-6.bb.dnainternet.fi. [85.23.48.6])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498ae5904esm118763e87.76.2025.03.06.01.24.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Mar 2025 01:24:59 -0800 (PST)
-Message-ID: <3dc94555-ae24-407f-8ac3-277b911de5d9@redhat.com>
-Date: Thu, 6 Mar 2025 11:24:58 +0200
+ d=1e100.net; s=20230601; t=1741253152; x=1741857952;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eAXYiA/MHOAdQMXh+C0jw5Ofxnxlrhaorm6TX8gdw8c=;
+ b=FCPi3duvHcO7zNIGfS+OQedBqH4MVq8fxtsOvomxcn+2oIGNbB6QB+Ve52TKVKMKTh
+ QjfW7vElxwLI1XOafmOWmrD8B2srSPd/Xt/VAOzThnOk9GJMvEdkK7JE246xxtWGnhD2
+ 1px16hME/ipLhkGpdjxkPyYzImILCKO5LkCaQ8sheicFVWMEJkvRR6lWP3JAflAWAOSO
+ 0/rMwX1/YekH0SKLOniv1tDNKeWJss4Ui3tR929pb2xtxY5gip7es2o+Tickc5W1vIT3
+ lO5OZ+vZu3y4u4JPi5oFAFgw671NMPg8zwOJd+KOUPFojv690GXxze9R0CKmW7uQ/ZU0
+ DufQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJ6h2AsYj09VIQl5LiRjO6huW0nLYw+WPmGHLurSrsWGUk6Qq4XXp9Ro4YMzpnr5YtnR7Hl4Z7A/g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyngnHi0VhdJ06effMs0tPmD/1tzeG8lp+2kZ6XPAU4DPw+n5p3
+ klvotuF5hslPmdqQdFpjuVoQ793+z3LgHbVza8d8msTjh8eEVyPn5K94vrllr9hKfIDOR2X4AUU
+ jLHPP2VOrk3gbH6x6d7Y+eGH+hDY=
+X-Gm-Gg: ASbGncv5ZQzMBjutl2oqTutraiwow4HoAG1IYJ+CcDgrsuZfkoreyiXBjVe49s/0mcu
+ 8nllWp470TF1OTdSu3E8h0Eqvq78/17q7UoOn10dfwnw9RXqpIK1OXMVxRh9/rKq9zCbCW57CGd
+ sYv/0LkFl7nQKYDdaWaYgdqCHA
+X-Google-Smtp-Source: AGHT+IE+MrhlxDA97sRbtzv0SinGLTbWQPhTRvM4OzDVVIZo23dvkiNaf+0XUCosZsqKFyerKq91Qoa7XWsl1LHUYfk=
+X-Received: by 2002:a05:6808:f12:b0:3f3:ff78:e5e4 with SMTP id
+ 5614622812f47-3f6831f210dmr3120103b6e.38.1741253152337; Thu, 06 Mar 2025
+ 01:25:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 04/11] mm/migrate_device: THP migration of zone device pages
-To: Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
- akpm@linux-foundation.org
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Shuah Khan <shuah@kernel.org>,
- David Hildenbrand <david@redhat.com>, Barry Song <baohua@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Matthew Wilcox <willy@infradead.org>,
- Peter Xu <peterx@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>, Jane Chu <jane.chu@oracle.com>,
- Alistair Popple <apopple@nvidia.com>, Donet Tom <donettom@linux.ibm.com>
-References: <20250306044239.3874247-1-balbirs@nvidia.com>
- <20250306044239.3874247-5-balbirs@nvidia.com>
-From: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>
-In-Reply-To: <20250306044239.3874247-5-balbirs@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wuEa7kV21zf980PJgATVW9EQ0dcExdLixpOUC3L0xuI_1741253101
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250201011434.453879-1-linux@treblig.org>
+In-Reply-To: <20250201011434.453879-1-linux@treblig.org>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Thu, 6 Mar 2025 10:25:41 +0100
+X-Gm-Features: AQ5f1Jrlft8qiL2kDUOEuJjZM9OIv8RXYZ3aWpqOMf8V_TmACTpv9Oxf_0_ImSQ
+Message-ID: <CAMeQTsa8enkergRai6ixmE-ivTQgWazoTJ9stMWSgzobexphJw@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Remove unused mrst_helper_funcs
+To: linux@treblig.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,148 +84,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sat, Feb 1, 2025 at 2:14=E2=80=AFAM <linux@treblig.org> wrote:
+>
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>
+> The mrst_helper_funcs const was added in 2013 by
+> commit ac6113ebb70d ("drm/gma500/mrst: Add SDVO clock calculation")
+> and commented as 'Not used yet'.
+>
+> It's not been used since, so remove it.
 
-On 3/6/25 06:42, Balbir Singh wrote:
-...
+You talk about mrst_helper_funcs but the patch removes
+mrst_clock_funcs. I assume this is not intentional.
 
->  
->  			/*
->  			 * The only time there is no vma is when called from
-> @@ -728,15 +1000,47 @@ static void __migrate_device_pages(unsigned long *src_pfns,
->  					migrate->pgmap_owner);
->  				mmu_notifier_invalidate_range_start(&range);
->  			}
-> -			migrate_vma_insert_page(migrate, addr, newpage,
-> +
-> +			if ((src_pfns[i] & MIGRATE_PFN_COMPOUND) &&
-> +				(!(dst_pfns[i] & MIGRATE_PFN_COMPOUND))) {
-> +				nr = HPAGE_PMD_NR;
-> +				src_pfns[i] &= ~MIGRATE_PFN_COMPOUND;
-> +				src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-> +				goto next;
-> +			}
-> +
-> +			migrate_vma_insert_page(migrate, addr, &dst_pfns[i],
->  						&src_pfns[i]);
-> -			continue;
-> +			goto next;
->  		}
->  
->  		newfolio = page_folio(newpage);
->  		folio = page_folio(page);
->  		mapping = folio_mapping(folio);
->  
-> +		/*
-> +		 * If THP migration is enabled, check if both src and dst
-> +		 * can migrate large pages
-> +		 */
-> +		if (thp_migration_supported()) {
-> +			if ((src_pfns[i] & MIGRATE_PFN_MIGRATE) &&
-> +				(src_pfns[i] & MIGRATE_PFN_COMPOUND) &&
-> +				!(dst_pfns[i] & MIGRATE_PFN_COMPOUND)) {
-> +
-> +				if (!migrate) {
-> +					src_pfns[i] &= ~(MIGRATE_PFN_MIGRATE |
-> +							 MIGRATE_PFN_COMPOUND);
-> +					goto next;
-> +				}
-> +				src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
+-Patrik
 
-This looks strange as is but patch 08 changes this to split and then
-migrate.
-
-
-> +			} else if ((src_pfns[i] & MIGRATE_PFN_MIGRATE) &&
-> +				(dst_pfns[i] & MIGRATE_PFN_COMPOUND) &&
-> +				!(src_pfns[i] & MIGRATE_PFN_COMPOUND)) {
-> +				src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-
-Should there be goto next; or similar here also, we are not migrating
-this src?
-
-
-> +			}
-> +		}
-> +
-> +
->  		if (folio_is_device_private(newfolio) ||
->  		    folio_is_device_coherent(newfolio)) {
->  			if (mapping) {
-> @@ -749,7 +1053,7 @@ static void __migrate_device_pages(unsigned long *src_pfns,
->  				if (!folio_test_anon(folio) ||
->  				    !folio_free_swap(folio)) {
->  					src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-> -					continue;
-> +					goto next;
->  				}
->  			}
->  		} else if (folio_is_zone_device(newfolio)) {
-> @@ -757,7 +1061,7 @@ static void __migrate_device_pages(unsigned long *src_pfns,
->  			 * Other types of ZONE_DEVICE page are not supported.
->  			 */
->  			src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-> -			continue;
-> +			goto next;
->  		}
->  
->  		BUG_ON(folio_test_writeback(folio));
-> @@ -769,6 +1073,8 @@ static void __migrate_device_pages(unsigned long *src_pfns,
->  			src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
->  		else
->  			folio_migrate_flags(newfolio, folio);
-> +next:
-> +		i += nr;
->  	}
->  
->  	if (notified)
-> @@ -899,24 +1205,40 @@ EXPORT_SYMBOL(migrate_vma_finalize);
->  int migrate_device_range(unsigned long *src_pfns, unsigned long start,
->  			unsigned long npages)
->  {
-> -	unsigned long i, pfn;
-> +	unsigned long i, j, pfn;
->  
-> -	for (pfn = start, i = 0; i < npages; pfn++, i++) {
-> -		struct folio *folio;
-> +	i = 0;
-> +	pfn = start;
-> +	while (i < npages) {
-> +		struct page *page = pfn_to_page(pfn);
-> +		struct folio *folio = page_folio(page);
-> +		unsigned int nr = 1;
->  
->  		folio = folio_get_nontail_page(pfn_to_page(pfn));
->  		if (!folio) {
->  			src_pfns[i] = 0;
-> -			continue;
-> +			goto next;
->  		}
->  
->  		if (!folio_trylock(folio)) {
->  			src_pfns[i] = 0;
->  			folio_put(folio);
-> -			continue;
-> +			goto next;
->  		}
->  
->  		src_pfns[i] = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
-> +		nr = folio_nr_pages(folio);
-> +		if (nr > 1) {
-> +			src_pfns[i] |= MIGRATE_PFN_COMPOUND;
-> +			for (j = 1; j < nr; j++)
-> +				src_pfns[i+j] = 0;
-> +			i += j;
-> +			pfn += j;
-> +			continue;
-> +		}
-> +next:
-> +		i++;
-> +		pfn++;
->  	}
->  
->  	migrate_device_unmap(src_pfns, npages, NULL);
-
---Mika
-
-
+>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  drivers/gpu/drm/gma500/oaktrail_crtc.c | 7 -------
+>  1 file changed, 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma=
+500/oaktrail_crtc.c
+> index de8ccfe9890f..ea9b41af0867 100644
+> --- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
+> +++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+> @@ -658,10 +658,3 @@ const struct drm_crtc_helper_funcs oaktrail_helper_f=
+uncs =3D {
+>         .prepare =3D gma_crtc_prepare,
+>         .commit =3D gma_crtc_commit,
+>  };
+> -
+> -/* Not used yet */
+> -const struct gma_clock_funcs mrst_clock_funcs =3D {
+> -       .clock =3D mrst_lvds_clock,
+> -       .limit =3D mrst_limit,
+> -       .pll_is_valid =3D gma_pll_is_valid,
+> -};
+> --
+> 2.48.1
+>
