@@ -2,79 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D67A550A3
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2315A550CF
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 17:28:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0126A10E08D;
-	Thu,  6 Mar 2025 16:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E6DB10E9F3;
+	Thu,  6 Mar 2025 16:28:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="v/syNi4R";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ExPWbScw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF42810E316
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:26:03 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-6feb229b716so8215507b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:26:03 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C66EC10E751
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 16:28:30 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-e461015fbd4so576619276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 08:28:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741278363; x=1741883163; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3v8JKXAUz/cikqcFkMkfK+7rsNwqE6VvbBGzuyv1Gso=;
- b=v/syNi4Ra/HJzWMvjgu6n0CIZJ6iHMpAQk9jjsxHelTvQ7sqnKAhU91yzkOY9/B5Mi
- +8O3HIfu/WjXVYxEBEkFfTiWWODmYKHiXhErp29nb6RJVS3hGJP0NL5khULJ7O+MxKMl
- zYd2FH0LSzTuG6g4TsBXbpcHlZ+pXYuIb1FdZHyngPawexwXbXnK4MGzLrDFTV6RBSRo
- p9DoGT2MQVzc24CSK8rbz3IcNeKpRRqzH+8aGueLhwHMe/Y0L8QOKhZC9fG9YuQafjax
- XkuL30AXwaHvoZ47u5sb3qQqPdfedHIbXCc31NqrqThSUKuQsMySvaMYjNP9nnEZgY/8
- 5zTw==
+ d=linaro.org; s=google; t=1741278510; x=1741883310; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=u401eKdfAsjVPwVjKoY3JEKzFhztqUsvAALPu64QJMg=;
+ b=ExPWbScwfqVLMLV6Jq3WlzHe7VxPlBmsxM2MR8XyrKbt9W9VO/vzaN784HO0SOhJNU
+ gH8stjDEmLvzkfzkTBeSv2fbLk6sgenmr+FDJwbeKNm+7bBgpYGvqms7RJQMEXGgrb+b
+ LHpRF6Ek3KSB7jqV9V2m81fWdO+mDg+O5vSr7IWxgB7PeyIFzrBXmpgsYVx8VegpHlRp
+ 6gHO3x4Z0e0LSCsKP8qShz6dHDgUafxX7TKal7gDs1qWAB4O7Aewv+aLLMsDWD8Xtql0
+ g4RebdAuouqH0enYZhMp53GOd01w87npQ0LphRnCFAVxSk2WqnUPa9ucJhjf0dHAhlcN
+ fvvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741278363; x=1741883163;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3v8JKXAUz/cikqcFkMkfK+7rsNwqE6VvbBGzuyv1Gso=;
- b=RvvQYp/DtV3VNpwUPcwIaO6w+h4aCA4l1QcucCUGFrxU362LD96WF7S4iIK2dFvzes
- 82pNxdRstQZvYkjq4ITyDNogkisCtbzIC4O9Yp2JJXkxOpc2+yzcpRVTNQOEd+Q+cKnc
- X1kD7bhaxCPqlbAtKGuaIRfzKsmGp98OzAr/IFDwbBe2LdWNdedpiB/R4BZqPPJc0aSY
- tEPMNNufLaTrHAXJ1dW5rbM83BzU3GTv+NN91BeIyc3d86ZzvvRdRVVBVRJPT6kBSHXj
- sv0cfxWgvkXkIHV0EwtwzCP6i3Scqp3A8U/e2LkbmmUfixG86nqiEAmGxLyQHA4ufxsV
- 8srw==
+ d=1e100.net; s=20230601; t=1741278510; x=1741883310;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=u401eKdfAsjVPwVjKoY3JEKzFhztqUsvAALPu64QJMg=;
+ b=nu5DtUmnIVsFYjlzF+t9sg7WhoFg3prso0R/LV83HqYNFe+nMzt6whyrmOYHbB7Zpf
+ l8boCjyI1f3SbSWEmRloTMjv5HD0r0p1OAsMSY2gvOcNkv5kFreSrUuelM8pCf5pOf5i
+ db6Dd/fVuYPJme6cbXN3bjWP2Dic5Bc7onWCSOIi60qajMpqOCBNyaM5qheucsz/pYDQ
+ Iek7fdwGTwY6t316Lci90bi11OInps1fLHCV02t+vJD3Zyv0KLGWWlBJnQLKE/mQCGbs
+ GPZYzpyy8grr0wGXAPbqfOnb++cFLwgKdObevI5xrVBktjzXLD44wiHqMG3KBMGX4VoI
+ NNdA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwlPNarQKayhD5pO2dvzaq/H/bRvJ1azk/Y3/GHIWt/Y82Q4EKTpmrEH5bGk4JnpMk4bNOsUZSUTE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdW537Q1RPtXf+5FUwVJNd0CXfrANVYCJRNCYKRn4cKJlHZsI4
- DQdVT8AC/mFSDjnd9ILWYTtslEKh0akmImYIgiUnI0c5VHM2UhTqH5dqzXlc0H0UklPROEoxAgq
- MUwdxANbsrXTR9gEJ0s5MUpdVwJbCfK/wPppFlTPkov6kIbPt4w0=
-X-Gm-Gg: ASbGnctEr8f7xEtQamlmd9yNHUcODsAtHjpB0oSS9Q3ZbYMc9ioE+O7rjQGY+lOG6It
- 2iw8y5hc5yhALKQMPPnWsiK46/cdAn2xSGGdWH4WiGHMoFtergisZNs5K+GxpTtfYuXz1t4ggU8
- KkLcS3CXhos5pVme/P8b6+HkEvPY3cscV9fPUmLD6qHwGN7vsJYL0mjSLY
-X-Google-Smtp-Source: AGHT+IGMRsrRoHu/LOV09AkxuZCKxwMIKO/0o8NEY6i19VTDJF4iNwlslzQz72J6S8S1Vrg0KcM+/xh415MqzOyi6CY=
-X-Received: by 2002:a05:690c:610b:b0:6fb:1e5a:fcdd with SMTP id
- 00721157ae682-6fda2fd9535mr99878457b3.17.1741278362850; Thu, 06 Mar 2025
- 08:26:02 -0800 (PST)
+ AJvYcCVNT1xoRE0OjP41aT3OaNUy24HrymiP5NxicpESn0yNlysfCksLAVS3m+iFR+L2FlyQLJVHto2T3YM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCqQ6hYb2pExOfi+BhEKbHBeg2SwJ/zu4tvxjg99j002/Umymk
+ kX8sUsUxmH4vEuO0S3N4t8OjVWqpO+sKCaApfjd8wiNtsM1/xmHtzycCY7vBASmDqtViKBCoTSr
+ kSMIDag3gqjmzjWEqcJw0aLmFl4LjW1XgmOzDBw==
+X-Gm-Gg: ASbGncuam+Ln5coO89borBMO0GW4khve4psMLkt+MM2a5h6/BCHvIPU+DfBndwQQ3lm
+ 1La922KkYIZU4LdcAcb3AjXB4fwxrlcwWe7efhip/RunVSfvnCcKQTWBDhI/wXmgCztifHn2JVp
+ u3HNor/5Ko4Kj8CAbG0B8Z7gQPXQwkJEy2uOukUb3nwfvy4Udc8bpEx5dY
+X-Google-Smtp-Source: AGHT+IFWX8cMwz1Cinq5ViWvbdeKGSudz4sYjepsj7zpuVhC2/gnGasZpctcONcxuPwKJpNSiunXCog2EiU/l1jDLV4=
+X-Received: by 2002:a05:6902:72e:b0:e61:1b41:1765 with SMTP id
+ 3f1490d57ef6-e611e1af5e5mr11126896276.17.1741278509724; Thu, 06 Mar 2025
+ 08:28:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20250304193912.5696-1-wahrenst@gmx.net>
- <20250304193912.5696-3-wahrenst@gmx.net>
- <20250306-delectable-quixotic-polecat-ecd2c3@houat>
-In-Reply-To: <20250306-delectable-quixotic-polecat-ecd2c3@houat>
+References: <20250305-mipi-synaptic-1-v1-1-92017cd19ef6@redhat.com>
+ <20250306-clever-lime-tanuki-e2fc43@houat>
+ <CAN9Xe3SDyC47HWww1eH63aZOiM-WF9BGxztM3yh9bf6ORuY7VA@mail.gmail.com>
+In-Reply-To: <CAN9Xe3SDyC47HWww1eH63aZOiM-WF9BGxztM3yh9bf6ORuY7VA@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 6 Mar 2025 17:25:50 +0100
-X-Gm-Features: AQ5f1Jp8n9gmsLnAfNriD3ocfnEesGqbUAsa-BIm3T7TejCg6svP9KJiKanhKY4
-Message-ID: <CAA8EJprK2Dm_MuLkbF0cywPsbLKZVwvfnJpzy=56tGMrJ_ac4w@mail.gmail.com>
-Subject: Re: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio
- driver
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Stefan Wahren <wahrenst@gmx.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+Date: Thu, 6 Mar 2025 17:28:17 +0100
+X-Gm-Features: AQ5f1JrGCXtLbfdfJxbvkwabPWzjGFyxIosg6el8QHcriEDkbtpQ9dR5dwW-KkA
+Message-ID: <CAA8EJpqBy22eWZjccT5_UM2PQGjiG4ZEfrb6S_1tP1w962rd8w@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel/synaptics-r63353: Use _multi variants
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, 
- David Turner <david.turner@raspberrypi.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- kernel-list@raspberrypi.com, linux-sound@vger.kernel.org
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>, 
+ Doug Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,107 +93,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Mar 2025 at 14:39, Maxime Ripard <mripard@kernel.org> wrote:
+On Thu, 6 Mar 2025 at 17:10, Anusha Srivatsa <asrivats@redhat.com> wrote:
 >
-> Hi,
 >
-> On Tue, Mar 04, 2025 at 08:39:12PM +0100, Stefan Wahren wrote:
-> > From: David Turner <david.turner@raspberrypi.com>
-> >
-> > Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
-> > when to add/remove HDMI audio devices.
-> >
-> > Signed-off-by: David Turner <david.turner@raspberrypi.com>
-> > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 18 ++++++++++++++++++
-> >  drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
-> >  2 files changed, 25 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > index e4b027616d04..f46a135568b2 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -51,6 +51,7 @@
-> >  #include <linux/reset.h>
-> >  #include <sound/dmaengine_pcm.h>
-> >  #include <sound/hdmi-codec.h>
-> > +#include <sound/jack.h>
-> >  #include <sound/pcm_drm_eld.h>
-> >  #include <sound/pcm_params.h>
-> >  #include <sound/soc.h>
-> > @@ -2203,6 +2204,22 @@ static const struct drm_connector_hdmi_audio_funcs vc4_hdmi_audio_funcs = {
-> >       .shutdown = vc4_hdmi_audio_shutdown,
-> >  };
-> >
-> > +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
-> > +{
-> > +     struct vc4_hdmi *vc4_hdmi = snd_soc_card_get_drvdata(rtd->card);
-> > +     struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
-> > +     int ret;
-> > +
-> > +     ret = snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOUT,
-> > +                                 &vc4_hdmi->hdmi_jack);
-> > +     if (ret) {
-> > +             dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
-> > +             return ret;
-> > +     }
-> > +
-> > +     return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NULL);
-> > +}
-> > +
-> >  static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
-> >  {
-> >       const struct vc4_hdmi_register *mai_data =
-> > @@ -2316,6 +2333,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
-> >       dai_link->cpus->dai_name = dev_name(dev);
-> >       dai_link->codecs->name = dev_name(&vc4_hdmi->connector.hdmi_audio.codec_pdev->dev);
-> >       dai_link->platforms->name = dev_name(dev);
-> > +     dai_link->init = vc4_hdmi_codec_init;
-> >
-> >       card->dai_link = dai_link;
-> >       card->num_links = 1;
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> > index e3d989ca302b..a31157c99bee 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> > @@ -4,6 +4,7 @@
-> >  #include <drm/drm_connector.h>
-> >  #include <media/cec.h>
-> >  #include <sound/dmaengine_pcm.h>
-> > +#include <sound/hdmi-codec.h>
-> >  #include <sound/soc.h>
-> >
-> >  #include "vc4_drv.h"
-> > @@ -211,6 +212,12 @@ struct vc4_hdmi {
-> >        * KMS hooks. Protected by @mutex.
-> >        */
-> >       enum hdmi_colorspace output_format;
-> > +
-> > +     /**
-> > +      * @hdmi_jack: Represents the connection state of the HDMI plug, for
-> > +      * ALSA jack detection.
-> > +      */
-> > +     struct snd_soc_jack hdmi_jack;
-> >  };
 >
-> It looks fairly generic to me. Is there any reason you didn't put it in
-> the HDMI audio helpers?
+> On Thu, Mar 6, 2025 at 4:31=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+>>
+>> Hi Anusha,
+>>
+>> On Wed, Mar 05, 2025 at 07:01:41PM -0500, Anusha Srivatsa wrote:
+>> > Move away from using deprecated API and use _multi
+>> > variants if available. Use mipi_dsi_msleep()
+>> > and mipi_dsi_usleep_range() instead of msleep()
+>> > and usleep_range() respectively.
+>> >
+>> > Used Coccinelle to find the multiple occurences.
+>> > SmPl patch:
+>> > @rule@
+>> > identifier dsi_var;
+>> > identifier r;
+>> > identifier func;
+>> > type t;
+>> > position p;
+>> > expression dsi_device;
+>> > expression list es;
+>> > @@
+>> > t func(...) {
+>> > ...
+>> > struct mipi_dsi_device *dsi_var =3D dsi_device;
+>> > +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };
+>> > <+...
+>> > (
+>> > -mipi_dsi_dcs_write_seq(dsi_var,es)@p;
+>> > +mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
+>> > |
+>> > -mipi_dsi_generic_write_seq(dsi_var,es)@p;
+>> > +mipi_dsi_generic_write_seq_multi(&dsi_ctx,es);
+>> > |
+>> > -mipi_dsi_generic_write(dsi_var,es)@p;
+>> > +mipi_dsi_generic_write_multi(&dsi_ctx,es);
+>> > |
+>> > -r =3D mipi_dsi_dcs_nop(dsi_var)@p;
+>> > +mipi_dsi_dcs_nop_multi(&dsi_ctx);
+>> > |
+>> > ....rest of API
+>> > ..
+>> > )
+>> > -if(r < 0) {
+>> > -...
+>> > -}
+>> > ...+>
+>>
+>> The point of sending a single patch was to review the coccinelle script,
+>> so you must put the entire script you used here.
+>>
+>
+> I was actually thinking of sending patches per driver this time around si=
+nce Tejas also seems to be looking into similar parts....Thoughts?
 
-I had a similar question in my mind, but after checking I also could
-not find a good place for it. I had an idea of pushing this kind of
-code to hdmi-codec.c / hdmi_probe(), but then I understood that it
-might not work.
-The codec can be registered independently from the platform sound card
-device, the codec doesn't have a knowledge of the platform's data or
-topology. We might not be able to specify the name (even through codec
-platform data) if there are more than one HDMI connector / codec in
-play.
-So, I think that a sound card driver is a proper place for that (so it
-belongs to the vc4 driver).
+Have you discussed it with Tejas? What is his next target?
+
+>> > Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+>>
+>> That hasn't been my email address for 6 years :)
+>>
+> My bad. Will change this.
 
 
 
--- 
+--=20
 With best wishes
 Dmitry
