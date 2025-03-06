@@ -2,96 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D70FA55748
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 21:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B5EA55781
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 21:34:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEA1010E2B8;
-	Thu,  6 Mar 2025 20:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E94A10E32E;
+	Thu,  6 Mar 2025 20:34:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="J3dZeUbN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q/k6vPYS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E1810E2B8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 20:07:03 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5495c1e1b63so1187482e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 12:07:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1741291620; x=1741896420;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DFBVTxBK91gOv/J1RwnobV6isevkXmYhVXuftt1K/I8=;
- b=J3dZeUbNfVawcS6zS2axPkXm0eUFZwM8G/6nfTpt+ZTqjUSlkJ3Q3+5wpSYvJK6v+t
- 9QL4rQJhioFU3c9aBezEXjfeKI2CFAdVlErdIBKmcm+UIOu8h5QeIzQsAGt3p7Dh/kMk
- bivvV1cU2CLY6ywIRQBwY35VTy/lKcaexoL/U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741291620; x=1741896420;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DFBVTxBK91gOv/J1RwnobV6isevkXmYhVXuftt1K/I8=;
- b=ssRwrCTsrOq2sUDsG4PmQaNpqDDTkcveSC6borf9OOU+pmEyVpyLmbK0HOqq/0uExF
- XFteqkdrbphiqj2pUeNLr7n5BM008w1/UW0ZP4Mw5HVCuSXMFvvLUpVDCrk9hP4RAIvQ
- Vy/QJPJuS6A4jdeVmoCm3yETx7nSGeTp5npq9gHzF2+nLpnhQe8+O/jC7jW1LNkYTkex
- lWGJdl9AusYeJY99FRjeSMjxu3HOJcnq7pzzI+wpdkZa5gYyPsxmuGkHZ10HlNCB6TIZ
- FQQqYeQ4kjX/NDbrJKtpjRh2xx80DEXA3iYcmdNdRdU+CIQAxEkpKUE/Bz2RZ3E1M73f
- u2dg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUGN5up5yy2Zcz3UEeremhL9DZupIZxbgmMC9p/r2Jz1FzOBgUNYoBwAacc09vYyXOo6z1d5ELiVL0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBRFkFtv055YeJgGnUmMud/a0HhfoB5oQznmfIH8m2xIfI8mKt
- bhnwHEWNgsx/mDdNiL7JVguJ0NIrfwdMUS6sfyUDbaOOQSFDOfxhcIXzqlj3Bml46YJwfRUauOl
- q3CS/
-X-Gm-Gg: ASbGncsaEx3p9BG1B4uemctcUr/+bPtk2Yb6p2/WYv+e0NxI6mr9gBtESr9mVB5MZ+M
- q1NkU11zXkouvgRoYTvWXhcc0j1jEwVEykjhaClqtsTQ7RDKOgdUYnXOnsbBKJlSSP2+8KUqpd2
- N7Z/hTU0ae624gqjF8CBuFR/vdM8jBSt9AbKa/exsZIIBPWaHtv2xf4sxJqRu2uYq8tO6Odnr/P
- cztsxvFtrOYeNHK4wNt3ZJjiVP4/TDuW5xLhIMggI4zr8wHG5Ib4A+jvG6ZvDpjXSw/KAkU8hwJ
- S3GDbFumlwtI12Uw2tLGKK5+gvonLxxnW8HAjvKLEgTxxMhYfa0JNrDDD6z/sEGcTrnS+OgsNTW
- pPXcPS7K2
-X-Google-Smtp-Source: AGHT+IHJDW79sMIfqiv4B1a9YYuisAb0J/2TSLQknGqDSbzgmHY73JKLw6r8eQcNFvPQNur2ECQ5eQ==
-X-Received: by 2002:a05:6512:3d15:b0:549:5b54:2c68 with SMTP id
- 2adb3069b0e04-54990e5daccmr209597e87.22.1741291619855; 
- Thu, 06 Mar 2025 12:06:59 -0800 (PST)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com.
- [209.85.167.52]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498b1c29adsm268304e87.215.2025.03.06.12.06.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Mar 2025 12:06:59 -0800 (PST)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-5495c1e1b63so1187406e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 12:06:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9KkK+KDtFcdnzvo/j1w5w0iqQcKdXKtrjVjFCXzP88ATXSnOmpgCZEWdAor9q0R7cKZR9xGUvRTg=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:2309:b0:549:7d6e:fe84 with SMTP id
- 2adb3069b0e04-549910b7650mr139656e87.53.1741291617911; Thu, 06 Mar 2025
- 12:06:57 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6850E10E32E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 20:34:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D2FEE5C5871;
+ Thu,  6 Mar 2025 20:32:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 261BBC4CEE0;
+ Thu,  6 Mar 2025 20:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741293286;
+ bh=fEVqDpO/35p9tPuJm0FDXst+QSbIafm5kupIMkvxhnQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=q/k6vPYSqWwRQhS7/u2j8QqVXHeuWI04eHC5KytFd2rzRfGsd7eMdaAsMibXVP2+d
+ 3B1GpEA50uo8ieggb/YjUxeowxQVSFaMLIrjvxkT1k0pbYkkFOuidxM/FVO1NmbEuC
+ 1G82vpWUsAwohCSOW1ZzXlzzm8ihnJeMnnFQJ+DM/K84Ohw2lFJ9NnOSnXDbWp5HD9
+ gw2sCUt9p6GcIeBs401NZqj0Hd9nZpa/HKyP3ymDlmw3O/GgzaYqBquk1BOKoyH4WT
+ eY1n2Dduk1IQrA0FRVSpwI2rJKVYDvXNgVDpxm11dQtlaa2UXA7NbWf4U2QxcqPAWv
+ BEYm9LTCCQQBw==
+Date: Thu, 6 Mar 2025 14:34:44 -0600
+From: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Liu Ying <victor.liu@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
+ color encoder
+Message-ID: <20250306203444.GA570402-robh@kernel.org>
+References: <20250304101530.969920-1-victor.liu@nxp.com>
+ <20250304101530.969920-4-victor.liu@nxp.com>
+ <20250304152320.GA2630063-robh@kernel.org>
+ <1891036.atdPhlSkOF@steina-w>
+ <20250305163805.GA2071011-robh@kernel.org>
+ <7d98163d-10c8-457d-92e7-6a1d6e379beb@nxp.com>
+ <20250306-kangaroo-of-pastoral-typhoon-8aefb2@houat>
 MIME-Version: 1.0
-References: <20250306134350.139792-1-tejasvipin76@gmail.com>
- <ca5b0825-a485-4bec-bd93-b57a8d7ced99@linaro.org>
- <p2esqngynwfrshz5rqfnmx6qgwf4dclpkb3mphwg2vavx2jbcg@clqoy5tjh7bb>
- <CAD=FV=XyOwoMmdvFA565AzGRUSNwonQ-5Ke2H6jc2ki9Sz+0Pg@mail.gmail.com>
- <CAA8EJpoG-rfaVb0rhbP-6xwzD7=k-95NVeyHUy=X3ESLEwZgYw@mail.gmail.com>
-In-Reply-To: <CAA8EJpoG-rfaVb0rhbP-6xwzD7=k-95NVeyHUy=X3ESLEwZgYw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 6 Mar 2025 12:06:46 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WvKjTFOubSyDcdn1TKoBL9jeExkKSLydfxpKhqjVPLuA@mail.gmail.com>
-X-Gm-Features: AQ5f1Jos7fHq7Zgo3vzyzU6fKV4__HXNnXnaQS-cI3RFMrxWkmNF6UCCasL5LYQ
-Message-ID: <CAD=FV=WvKjTFOubSyDcdn1TKoBL9jeExkKSLydfxpKhqjVPLuA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: novatek-nt36523: transition to mipi_dsi
- wrapped functions
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: neil.armstrong@linaro.org, Tejas Vipin <tejasvipin76@gmail.com>, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, lujianhua000@gmail.com, 
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250306-kangaroo-of-pastoral-typhoon-8aefb2@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,125 +72,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Mar 06, 2025 at 12:35:49PM +0100, Maxime Ripard wrote:
+> On Thu, Mar 06, 2025 at 03:02:41PM +0800, Liu Ying wrote:
+> > On 03/06/2025, Rob Herring wrote:
+> > > On Wed, Mar 05, 2025 at 10:35:26AM +0100, Alexander Stein wrote:
+> > >> Hi,
+> > >>
+> > >> Am Dienstag, 4. März 2025, 16:23:20 CET schrieb Rob Herring:
+> > >>> On Tue, Mar 04, 2025 at 06:15:28PM +0800, Liu Ying wrote:
+> > >>>> A DPI color encoder, as a simple display bridge, converts input DPI color
+> > >>>> coding to output DPI color coding, like Adafruit Kippah DPI hat[1] which
+> > >>>> converts input 18-bit pixel data to 24-bit pixel data(with 2 low padding
+> > >>>> bits in every color component though). Document the DPI color encoder.
+> > >>>
+> > >>> Why do we need a node for this? Isn't this just wired how it is wired 
+> > >>> and there's nothing for s/w to see or do? I suppose if you are trying to 
+> > >>> resolve the mode with 24-bit on one end and 18-bit on the other end, you 
+> > >>> need to allow that and not require an exact match. You still might need 
+> > >>> to figure out which pins the 18-bit data comes out on, but you have that 
+> > >>> problem with an 18-bit panel too. IOW, how is this any different if you 
+> > >>> have an 18-bit panel versus 24-bit panel?
+> > >>
+> > >> Especially panel-simple.c has a fixed configuration for each display, such as:
+> > >>> .bus_format = MEDIA_BUS_FMT_RGB666_1X18
+> > >>
+> > >> How would you allow or even know it should be addressed as
+> > >> MEDIA_BUS_FMT_RGB888_1X24 instead? I see different ways:
+> > >> 1. Create a new display setting/compatible
+> > >> 2. Add an overwrite property to the displays
+> > >> 3. Use a (transparent) bridge (this series)
+> > >>
+> > >> Number 1 is IMHO out of question. 
+> > > 
+> > > Agreed.
+> > > 
+> > >> I personally don't like number 2 as this
+> > >> feels like adding quirks to displays, which they don't have.
+> > > 
+> > > This is what I would do except apply it to the controller side. We know 
+> > > the panel side already. This is a board variation, so a property makes 
+> > > sense. I don't think you need any more than knowing what's on each end. 
+> > 
+> > With option 2, no matter putting a property in source side or sink side,
+> > impacted display drivers and DT bindings need to be changed, once a board
+> > manipulates the DPI color coding.  This adds burdens and introduces new
+> > versions of those DT bindings.  Is this what we want?
+> 
+> There's an option 4: make it a property of the OF graph endpoints. In
+> essence, it's similar to properties that are already there like
+> lane-mapping, and it wouldn't affect the panel drivers, or create an
+> intermediate bridge.
 
-On Thu, Mar 6, 2025 at 11:03=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Thu, 6 Mar 2025 at 18:44, Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Hi,
-> >
-> > On Thu, Mar 6, 2025 at 8:33=E2=80=AFAM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> > >
-> > > On Thu, Mar 06, 2025 at 03:05:10PM +0100, neil.armstrong@linaro.org w=
-rote:
-> > > > On 06/03/2025 14:43, Tejas Vipin wrote:
-> > > > > Changes the novatek-nt36523 panel to use multi style functions fo=
-r
-> > > > > improved error handling.
-> > > > >
-> > > > > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> > > > > ---
-> > > > >   drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1683 ++++++++--=
--------
-> > > > >   1 file changed, 823 insertions(+), 860 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/driv=
-ers/gpu/drm/panel/panel-novatek-nt36523.c
-> > > > > index 04f1d2676c78..922a225f6258 100644
-> > > > > --- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> > > > > +++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-> > > > > @@ -23,10 +23,12 @@
-> > > > >   #define DSI_NUM_MIN 1
-> > > > > -#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)    =
-    \
-> > > > > -           do {                                                 =
-\
-> > > > > -                   mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      =
-\
-> > > > > -                   mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      =
-\
-> > > > > +#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx0, dsi_ctx1, cm=
-d, seq...)      \
-> > > > > +           do {                                                 =
-           \
-> > > > > +                   mipi_dsi_dcs_write_seq_multi(&dsi_ctx0, cmd, =
-seq);      \
-> > > > > +                   dsi_ctx1.accum_err =3D dsi_ctx0.accum_err;   =
-             \
-> > > > > +                   mipi_dsi_dcs_write_seq_multi(&dsi_ctx1, cmd, =
-seq);      \
-> > > > > +                   dsi_ctx0.accum_err =3D dsi_ctx1.accum_err;   =
-             \
-> > > >
-> > > > Just thinking out loud, but can't we do :
-> > > >
-> > > > struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D NULL };
-> > > >
-> > > > #define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd,=
- seq...)      \
-> > > >               do {
-> > > >                       dsi_ctx.dsi =3D dsi0;                        =
-             \
-> > > >                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, s=
-eq);       \
-> > > >                       dsi_ctx.dsi =3D dsi1;                        =
-             \
-> > > >                       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, s=
-eq);       \
-> > > >
-> > > > ?
-> > > >
-> > > > So we have a single accum_err.
-> > >
-> > > I'd say that can be counter-prodactive. If only one of the links fall=
-s
-> > > apart, then the second link still can be initialized (and by observin=
-g a
-> > > half of the screen the user / devloper can make several assumptions).
-> > > In case of using just one context the driver will fail on the first
-> > > error and skip the rest of the init for both halves.
-> > >
-> > > I'd have a different suggestion though: what about passing two contex=
-ts
-> > > to the init_sequence callback and letting nt36523_prepare() handle ea=
-ch
-> > > of the error separately?
-> >
-> > IMO that's a bit outside the scope of what Tejas is doing since it's a
-> > functional change. Unless something is a super obvious bugfix it feels
-> > like doing the conversions like we're doing here should not include
-> > functionality changes and should be straight conversions.
-> >
-> > Also: I don't have tons of experience with dual MIPI panels, but I'm
-> > not totally sure how your suggestion would work in the end. Would you
-> > expect that if one panel succeeded and the other didn't that the
-> > prepare/enable calls in the panel should return "success"?
->
-> Well, panel bridge ignores return codes.
->
-> >  If they
-> > don't then higher levels will assume that the single "panel" that
-> > they're aware of didn't initialize at all and won't continue to do
-> > more. That means the user wouldn't have a chance to observe half the
-> > screen working.
-> >
-> > I could believe that, for all practical purposes, we could keep the
-> > errors separate and then just return the if either panel got an error
-> > in the end. It probably wouldn't make a huge difference and would
-> > shrink the code side. ...but that I think that should probably be the
-> > second patch in the series and not squahsed into the conversion.
->
-> I think passing two contexts can be considered a part of the
-> conversion. In the end, we have been changing some of the function
-> arguments already to pass context instead of global data.
-> In the end, currently there was no way for either of those double-DSI
-> panels to fail the init seq.
+Yes, that's actually where I meant to put the property(ies).
 
-OK, fair enough. No objections from me for going this way, then.
-Please make sure that the functionality change is mentioned in the
-commit message, though.
-
--Doug
+Rob
