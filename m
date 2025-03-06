@@ -2,75 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8333BA5494E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 12:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093AEA54989
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 12:35:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F62210E947;
-	Thu,  6 Mar 2025 11:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D52E010E945;
+	Thu,  6 Mar 2025 11:35:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J6Z/LqDY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t0ZjVSbH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 554F210E942;
- Thu,  6 Mar 2025 11:31:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A3A10E945
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 11:35:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 13BD65C5627;
- Thu,  6 Mar 2025 11:28:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B4FCC4CEF4;
- Thu,  6 Mar 2025 11:31:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C1E525C4724;
+ Thu,  6 Mar 2025 11:33:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD17C4CEE0;
+ Thu,  6 Mar 2025 11:35:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741260667;
- bh=nswRbJg0534axjb88dgcnucQYVhi1rNjBxDjWoz+4sg=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=J6Z/LqDYN1zcrETwYMJoohVrou0m7VbhYwy09KG8AvYcgjT5n3PFlZbGOUgkDSSb4
- fkDzkrnWeMy5EyiLPma6ETmgdMmoB66RMWNNINCc8CEePoc2tTLMF0rL8ZaZsJqv8V
- Pqsaa3rLxMZR8lRuzklVIU/H4eNZDOMb36zU9fdPfkxtd2RD2WYiZMIMsDo3s9Vszd
- knYZyno8fGDo/2j2ZKjYN23DfDheOp3jE4crSzMAEurp8wypFOYXZ5iWRpWt8pxS9H
- G/uRiRQOT4jNHDXnq4pvq02d2bmIOTCVVzRhMnDbSPd+89S+hwdvgGzd85LOSOBIx+
- 4GRf+/mm9zI9g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8142FC282D1;
- Thu,  6 Mar 2025 11:31:07 +0000 (UTC)
-From: Vincent Mailhol via B4 Relay
- <devnull+mailhol.vincent.wanadoo.fr@kernel.org>
-Date: Thu, 06 Mar 2025 20:29:58 +0900
-Subject: [PATCH v5 7/7] test_bits: add tests for BIT_U*()
+ s=k20201202; t=1741260952;
+ bh=Leu1gIlGz01KC2qXmkX9EuXv0fktHfYgkAuj3cjXmYc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=t0ZjVSbHtMk/AGk/0+5zsZZmWz1J7zYKKn+hgJMgEH/5yGLibX4OccWyYTsj6JiFn
+ 8uT1wq0eVoMClAebU6guvInopQZS8/Z7J88QvR4dOVuk18BEu/PWpZR3tzmot/iiO/
+ mbda0FdpDb2a0eZe48pUemGsg1lyySxbs+kaP6TFgD7xicZK4+X30SBzNQ/3G4AHuR
+ LK4tmDjTqwl6YLhd6bVVOZWyQ0nFwnzYBLXnhXzO/FcR6W8DYoBXYhi7SjrzKVE8a9
+ wfABHD6hbH43LxKxNNbnRiWgm2tZKFRvVltOdPlqRzWkHne7xu2MAfN/j6QBtwBqEp
+ aIerDMl4OwgAA==
+Date: Thu, 6 Mar 2025 12:35:49 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
+ color encoder
+Message-ID: <20250306-kangaroo-of-pastoral-typhoon-8aefb2@houat>
+References: <20250304101530.969920-1-victor.liu@nxp.com>
+ <20250304101530.969920-4-victor.liu@nxp.com>
+ <20250304152320.GA2630063-robh@kernel.org>
+ <1891036.atdPhlSkOF@steina-w>
+ <20250305163805.GA2071011-robh@kernel.org>
+ <7d98163d-10c8-457d-92e7-6a1d6e379beb@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250306-fixed-type-genmasks-v5-7-b443e9dcba63@wanadoo.fr>
-References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
-In-Reply-To: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
-To: Yury Norov <yury.norov@gmail.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>, 
- David Laight <David.Laight@ACULAB.COM>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1339;
- i=mailhol.vincent@wanadoo.fr; h=from:subject:message-id;
- bh=asAoSxIsd+6NgC+TDV5wEh4nM1LYuph2VqJY5OZYYVA=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDOkn28uit0fOchL91THp8/2pV/2ZatYHPC/pu5WoLLzuq
- OS5RrXZHaUsDGJcDLJiiizLyjm5FToKvcMO/bWEmcPKBDKEgYtTACZiEsvwV9Lq43bev36PTq/U
- 28S76/Gz+Uf49G+sKPm5gDdLReyIUSrD/6T3j8zWV5iXfJwUN/2L1OH+B9t1fn1z3v9/13sNT/n
- Ms5wA
-X-Developer-Key: i=mailhol.vincent@wanadoo.fr; a=openpgp;
- fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
-X-Endpoint-Received: by B4 Relay for mailhol.vincent@wanadoo.fr/default
- with auth_id=291
-X-Original-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="qxu4bxugckchmvib"
+Content-Disposition: inline
+In-Reply-To: <7d98163d-10c8-457d-92e7-6a1d6e379beb@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,53 +67,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: mailhol.vincent@wanadoo.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 
-Add some additional tests in lib/test_bits.c to cover the expected
-results of the fixed type BIT_U*() macros.
+--qxu4bxugckchmvib
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
+ color encoder
+MIME-Version: 1.0
 
-Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
----
-Changelog
+On Thu, Mar 06, 2025 at 03:02:41PM +0800, Liu Ying wrote:
+> On 03/06/2025, Rob Herring wrote:
+> > On Wed, Mar 05, 2025 at 10:35:26AM +0100, Alexander Stein wrote:
+> >> Hi,
+> >>
+> >> Am Dienstag, 4. M=E4rz 2025, 16:23:20 CET schrieb Rob Herring:
+> >>> On Tue, Mar 04, 2025 at 06:15:28PM +0800, Liu Ying wrote:
+> >>>> A DPI color encoder, as a simple display bridge, converts input DPI =
+color
+> >>>> coding to output DPI color coding, like Adafruit Kippah DPI hat[1] w=
+hich
+> >>>> converts input 18-bit pixel data to 24-bit pixel data(with 2 low pad=
+ding
+> >>>> bits in every color component though). Document the DPI color encode=
+r.
+> >>>
+> >>> Why do we need a node for this? Isn't this just wired how it is wired=
+=20
+> >>> and there's nothing for s/w to see or do? I suppose if you are trying=
+ to=20
+> >>> resolve the mode with 24-bit on one end and 18-bit on the other end, =
+you=20
+> >>> need to allow that and not require an exact match. You still might ne=
+ed=20
+> >>> to figure out which pins the 18-bit data comes out on, but you have t=
+hat=20
+> >>> problem with an 18-bit panel too. IOW, how is this any different if y=
+ou=20
+> >>> have an 18-bit panel versus 24-bit panel?
+> >>
+> >> Especially panel-simple.c has a fixed configuration for each display, =
+such as:
+> >>> .bus_format =3D MEDIA_BUS_FMT_RGB666_1X18
+> >>
+> >> How would you allow or even know it should be addressed as
+> >> MEDIA_BUS_FMT_RGB888_1X24 instead? I see different ways:
+> >> 1. Create a new display setting/compatible
+> >> 2. Add an overwrite property to the displays
+> >> 3. Use a (transparent) bridge (this series)
+> >>
+> >> Number 1 is IMHO out of question.=20
+> >=20
+> > Agreed.
+> >=20
+> >> I personally don't like number 2 as this
+> >> feels like adding quirks to displays, which they don't have.
+> >=20
+> > This is what I would do except apply it to the controller side. We know=
+=20
+> > the panel side already. This is a board variation, so a property makes=
+=20
+> > sense. I don't think you need any more than knowing what's on each end.=
+=20
+>=20
+> With option 2, no matter putting a property in source side or sink side,
+> impacted display drivers and DT bindings need to be changed, once a board
+> manipulates the DPI color coding.  This adds burdens and introduces new
+> versions of those DT bindings.  Is this what we want?
 
-  v4 -> v5:
+There's an option 4: make it a property of the OF graph endpoints. In
+essence, it's similar to properties that are already there like
+lane-mapping, and it wouldn't affect the panel drivers, or create an
+intermediate bridge.
 
-    - BIT_U8()/BIT_U16() are now back to u8/u16.
+Maxime
 
-  v3 -> v4:
+--qxu4bxugckchmvib
+Content-Type: application/pgp-signature; name="signature.asc"
 
-    - New patch.
----
- lib/test_bits.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/lib/test_bits.c b/lib/test_bits.c
-index 91968227687bb11b7d1361b153c27eb851c6c1c2..72984fae7b815031bb6eb2892c772ffcc409cf78 100644
---- a/lib/test_bits.c
-+++ b/lib/test_bits.c
-@@ -9,6 +9,16 @@
- 
- #define assert_type(t, x) _Generic(x, t: x, default: 0)
- 
-+static_assert(assert_type(u8, BIT_U8(0)) == 1u);
-+static_assert(assert_type(u16, BIT_U16(0)) == 1u);
-+static_assert(assert_type(u32, BIT_U32(0)) == 1u);
-+static_assert(assert_type(u64, BIT_U64(0)) == 1ull);
-+
-+static_assert(assert_type(u8, BIT_U8(7)) == 0x80u);
-+static_assert(assert_type(u16, BIT_U16(15)) == 0x8000u);
-+static_assert(assert_type(u32, BIT_U32(31)) == 0x80000000u);
-+static_assert(assert_type(u64, BIT_U64(63)) == 0x8000000000000000ull);
-+
- static_assert(assert_type(unsigned long, GENMASK(31, 0)) == U32_MAX);
- static_assert(assert_type(unsigned long long, GENMASK_ULL(63, 0)) == U64_MAX);
- static_assert(assert_type(u8, GENMASK_U8(7, 0)) == U8_MAX);
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ8mIlQAKCRAnX84Zoj2+
+dnSoAYDBB/bDc4oiForTt6hTu2T7k5fxsgOo6hpzAFvD1SElI/SAR1gLrEg+btZA
+V7TvczkBgLPm3LiHqD7N6MPlIcKl0SPzNFbP8/UcGvqUWcgBigVdJhw6AY6uj4Ey
+73K5s0Sz4A==
+=a1cs
+-----END PGP SIGNATURE-----
 
--- 
-2.45.3
-
-
+--qxu4bxugckchmvib--
