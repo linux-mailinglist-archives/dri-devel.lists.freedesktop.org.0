@@ -2,81 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E070A54F77
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 16:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282B8A54F7A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 16:48:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92C9F10E2BF;
-	Thu,  6 Mar 2025 15:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6712C10E839;
+	Thu,  6 Mar 2025 15:48:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="cmwn1x+M";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HOlQr4y5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D58C010E839
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 15:48:03 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-223cc017ef5so15935895ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 07:48:03 -0800 (PST)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF22310E839
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 15:48:31 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-390eebcc331so557834f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 07:48:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1741276083; x=1741880883;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/OI6qWkzSL42ENObYHFHYvCUsETCfZznWv+xdQF4mt4=;
- b=cmwn1x+MgxgT+9ihQ0qa/6Gog+9E5XxhVXiql+1xFZtB1223z3wmEqjdtIWjO8xl+A
- juW937lk1PO8/S0gWYsEiXyhXlMqTP1hvUOCTmBcaSLrB3hsyknX40X3bZmZML5lb/gI
- n7kpVyFMdzBJmkcl+48irN0fN3TO2H+i3GBZr75Rp6I8Bj2SjPhJ6ngZoVupSsJwsXHo
- HHrC/QSuOEMcQ2orgxzT1i/oLyN3i55p3gXsR2BpAUk9vkf9OItzzzKTWs0V5gbqGVMA
- rX/OPuU9tKcH/DhM4Wp+XLNhpcb/k367CHEEQPTnX2xJv1NLgcXbbTA1h33ehfP1ydOc
- ka1w==
+ d=ffwll.ch; s=google; t=1741276109; x=1741880909; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZMlvZVmGmfe9jET5j6AVC1Iu+TuVwvxBrNk+geFYLL4=;
+ b=HOlQr4y5gyifAjkATvoFRufspudpOQWq58jSy99Ti2XSr8ddpV6LM/fHrbPsNcMQIY
+ LDjaPjkTteDU6/KzEWHGrT8Xdq+En629UO3P+78bLk3gXSQKGqWVP4Jdvss3F0JV/Rw7
+ TIYubn3zXkBR/gRAkQf29m5AvQctkkLnkmYxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741276083; x=1741880883;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/OI6qWkzSL42ENObYHFHYvCUsETCfZznWv+xdQF4mt4=;
- b=CwHWTUgcH3hMJvl9RW81Db/knpkC0pfKLPjeeV5An9ND5JWGipCK9vqe7fSlNcuYj0
- xvyRT92y9bmYzXQQjAF9aSRFdHEV1rGngWTzmoy0wX+EZQJZcxzoRMHBzeobm0ULVo30
- xc6K/TEJXpljUpKXto3wGnz2Fj1bbswwjrA1MtAtRE/AED9VEGBTeBLguP4EMQtMUmKG
- oRadE/HXs/ZlYs+9lSOQahrxtkPVtCdY7/qr1+dFnHAThfS40Qa6vB+gRiXUOsmtY/sY
- 6Pg/KfP+vE9wSZ39U4hhjsX6/9C0dtsxv0uofaIqZMJ+ySDrZDzhE/eyfpO6FRf6OAxQ
- HD/Q==
+ d=1e100.net; s=20230601; t=1741276109; x=1741880909;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZMlvZVmGmfe9jET5j6AVC1Iu+TuVwvxBrNk+geFYLL4=;
+ b=jAgX5588ZTYvqh8lZueSBUCyytAp0ODPG/npmlornWN/RqOQqpB+wFdzGJeamdzMZt
+ vIazdSQfTjgTgy6j3HOeNGT3W8qYsLVr44kXtp1KsCDZCOUlFbEFxYgTxv2orlttbc8G
+ /KgAUx5G9UU3y6C0W5frFrqaBXiwr4tB4eF+qkKIzbaW24XJrajmA2thjefeVrBb+ahp
+ EktQFrxUw+LukH/aEkCJP0Chua3MBiw8WIGCjCZ6wZyi0phjEiuxlxEvitZ8Vs/0QnG8
+ 6+jNA5qD072f2/RU15x09g8uzC45CRrmK6cEzwjltm8rV8SKYVAgSMGt6dep0U+JV200
+ W64g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXARwXoVunZzOogn7QWrrUGmKqjo51YXLZfwlr8Mx3A2cHSHxbyuDfBLfNep3tDQV4FE0KF81wGlks=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxN7NPAjHWxuBPVUfk02tpdFnO7um425/+htR4J16MYw5md4FgS
- CFSsmCTvIBlsfreXyrcaDxX1R0B2B0kv5g1awQ5KKHV6LNaLNal+TdkxcbLijL0K6fjAlcXlZE0
- 6rJrIv2rWrocO0AoccaQowI0PgWVGr2yqojVApQ==
-X-Gm-Gg: ASbGncuKyv4o3MQk5Cees72/at/CqAd4wb0LXJrJSu/wIh1opkUwYj3BBxXDyT2ws23
- li8SNmiCJP8TkdukFvh9eP2Q3cJ1dDCYVnOiMLYdHasvzX2FXV/nvc4CM5fjoFpkWyYlBxOxKRn
- M+tMFGm6aTVyB2xPK3TE9OHJg+xJ9cMtqMeHKEJSiMKOfCxD1ThOrUYVS64w==
-X-Google-Smtp-Source: AGHT+IHdH9LY7zK/Q0pWZb9VOvETaJ79jmjeJJTfURtSwN6QJfJvhZaPVX/aXAeMTzGfATxm32kbiX1wlMowGWPYNJg=
-X-Received: by 2002:a05:6a00:2d9a:b0:736:4ebd:e5a with SMTP id
- d2e1a72fcca58-73682cfa781mr11104081b3a.20.1741276083262; Thu, 06 Mar 2025
- 07:48:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20250304193912.5696-1-wahrenst@gmx.net>
- <20250304193912.5696-3-wahrenst@gmx.net>
- <20250306-delectable-quixotic-polecat-ecd2c3@houat>
-In-Reply-To: <20250306-delectable-quixotic-polecat-ecd2c3@houat>
-From: David Turner <david.turner@raspberrypi.com>
-Date: Thu, 6 Mar 2025 15:47:27 +0000
-X-Gm-Features: AQ5f1Jqspy5s7bBncwIT9FkLCyjrZ2w8bgfIcgASFwW7Hu0kjHYkImdZGmJ3bSw
-Message-ID: <CACXvZi-NT1e8YXJEmcHyf29eSr5NSL2fdLXfQb5amCf_YFL16A@mail.gmail.com>
-Subject: Re: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio
- driver
+ AJvYcCX2PMoEWXlxStu3J2asFtuIyfwxFGmgPZcEE1k+V3R1sypLigpmpVpUjv/s1zKgO3VR4DQS7U7SnhQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz0sD2uRg0LjlSv14xxKjqc3zFsY4INk6C/xM/8WY8TKAKSuzgd
+ aeAhGhiM1dmNt+5x9tcmmolKlI/OcpZtaFGg1ijKIksxni+WgjsAUD4W7w0E+n4=
+X-Gm-Gg: ASbGncuQCEVVP8jGr4zztMbwVahWBcbDLW4EmYlWVrfZLR5RoPmQb3kGskmGw9T3UVM
+ nj5nhxYlCCisNS1XM6b94txVW4L8OVgBHCo3j23m+IWpEKq2T52Lq4spqtn2Kb7rBfo5sGWBVOU
+ GetqRij4S47KQEq39C6XfLVdSKu3oPGiUcjpJx96mAPKZvgLxUxF62nRw+w10X68TzC4sNqfPvY
+ pU18opn5JkEgJTOMaE9MH6vDvPpYadzGmCDKXisWHY4x+ZkcmTkOnILaJzuIKR/D8UiiO6XU8xD
+ cLGB/AaZVz01YF4ufWOAUkwWxs221LLGurAOrwYykWz6USuIYAW/y+Br
+X-Google-Smtp-Source: AGHT+IFtOXpx6jiep5HwmWGtbHwDrBT4bMHCGPI0ael0tguvlAKpS/nUPea89z2t6vc5g9hpe7v3ew==
+X-Received: by 2002:a05:6000:18a8:b0:38a:4184:14ec with SMTP id
+ ffacd0b85a97d-391296d3cefmr3990555f8f.1.1741276107354; 
+ Thu, 06 Mar 2025 07:48:27 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3912c10437dsm2433714f8f.99.2025.03.06.07.48.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Mar 2025 07:48:26 -0800 (PST)
+Date: Thu, 6 Mar 2025 16:48:24 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Maxime Ripard <mripard@kernel.org>
-Cc: Stefan Wahren <wahrenst@gmx.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Herve Codina <herve.codina@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v5 14/16] drm/bridge: tc358768: Stop disabling when
+ failing to enable
+Message-ID: <Z8nDyNVQ5p007Mw6@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- kernel-list@raspberrypi.com, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Herve Codina <herve.codina@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
+ <20250304-bridge-connector-v5-14-aacf461d2157@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250304-bridge-connector-v5-14-aacf461d2157@kernel.org>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,18 +111,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+On Tue, Mar 04, 2025 at 12:10:57PM +0100, Maxime Ripard wrote:
+> The tc358768 bridge driver, if enabling it fails, tries to disable it.
+> This is pretty uncommon in bridge drivers, and also stands in the way
+> for further reworks.
+> 
+> Worse, since pre_enable and enable aren't expected to fail, disable and
+> post_disable might be called twice: once to handle the failure, and once
+> to actually disable the bridge.
+> 
+> Since post_disable uses regulators and clocks, this would lead to enable
+> count imbalances.
+> 
+> In order to prevent that imbalance, and to allow further reworks, let's
+> drop the calls to disable and post_disable, but keep the warning to let
+> users know about what's going on.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-On Thu, 6 Mar 2025 at 13:39, Maxime Ripard <mripard@kernel.org> wrote:
-> It looks fairly generic to me. Is there any reason you didn't put it in
-> the HDMI audio helpers?
+Yeah proper way to clear these would be like any other link failure:
+- Launch async worker to do a bridge reset with the fancy new helper.
+- Set the link-status attribute if you can't automatically fix it and let
+  userspace sort out the mess.
 
-I originally wrote the downstream patch last year on 6.6, before the
-generic HDMI audio code existed.
+Maybe we need to improve the docs a bit more?
+-Sima
 
-I just had a look at doing this.  At the moment drm_hdmi_audio_helper
-doesn't manage the snd_soc_card (needed to setup the jack) at all,
-that still lives in vc4_hdmi_audio, so I can't see an easy way to move
-this over without a lot more reorganising.
+> ---
+>  drivers/gpu/drm/bridge/tc358768.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+> index 6db18d1e8824dd7d387211d6d1e668645cf88bbe..6b65ba8aed86012bc0f464bd5ee44325dae677c6 100644
+> --- a/drivers/gpu/drm/bridge/tc358768.c
+> +++ b/drivers/gpu/drm/bridge/tc358768.c
+> @@ -1075,15 +1075,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>  	val = TC358768_DSI_CONFW_MODE_CLR | TC358768_DSI_CONFW_ADDR_DSI_CONTROL;
+>  	val |= TC358768_DSI_CONTROL_DIS_MODE; /* DSI mode */
+>  	tc358768_write(priv, TC358768_DSI_CONFW, val);
+>  
+>  	ret = tc358768_clear_error(priv);
+> -	if (ret) {
+> +	if (ret)
+>  		dev_err(dev, "Bridge pre_enable failed: %d\n", ret);
+> -		tc358768_bridge_disable(bridge);
+> -		tc358768_bridge_post_disable(bridge);
+> -	}
+>  }
+>  
+>  static void tc358768_bridge_enable(struct drm_bridge *bridge)
+>  {
+>  	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+> @@ -1099,15 +1096,12 @@ static void tc358768_bridge_enable(struct drm_bridge *bridge)
+>  
+>  	/* set PP_en */
+>  	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(6), BIT(6));
+>  
+>  	ret = tc358768_clear_error(priv);
+> -	if (ret) {
+> +	if (ret)
+>  		dev_err(priv->dev, "Bridge enable failed: %d\n", ret);
+> -		tc358768_bridge_disable(bridge);
+> -		tc358768_bridge_post_disable(bridge);
+> -	}
+>  }
+>  
+>  #define MAX_INPUT_SEL_FORMATS	1
+>  
+>  static u32 *
+> 
+> -- 
+> 2.48.1
+> 
 
-David
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
