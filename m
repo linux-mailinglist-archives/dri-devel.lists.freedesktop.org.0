@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3304A53F23
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 01:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 891A7A53F82
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Mar 2025 01:59:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB0110E876;
-	Thu,  6 Mar 2025 00:31:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B55310E102;
+	Thu,  6 Mar 2025 00:59:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="fvFai9fn";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="h8YMtUap";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B75010E876
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 00:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=protonmail; t=1741221079; x=1741480279;
- bh=lP7zxDTbeyDZl0Ryw9P4Uxud5cGW/sqewezSoPeHTi8=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=fvFai9fnStR80Ck8q5ZbNYGtkk79SqF9sDYjImm1MpaSN6RDOS+8lhTcu4HXf7pz9
- T9lMedaRW741aWPMQu6x1qkNz8rYkPnDMz8G+InK+mr5ym8Z7os07oaG3k52xycWtO
- +408J6O0lf8KRisg58hDagab57rMVaK1CGz5b/l+UPFxpmr3J+3NZ3e10uo9jLU0bF
- e2JszLzwZOYc+Xly3hL/osA3FiNUHbd1RsjCl90QuuRVXxUg+QnvleEhOwJPKkukQY
- Ids9xB5ZbQEABna8Y5ccztGCUDGX4jSYLlVeOdFw4VApoGE/t2yucj2hckmCuoSGHR
- 318twzUTdMVGw==
-Date: Thu, 06 Mar 2025 00:31:14 +0000
-To: Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com, simona@ffwll.ch,
- corbet@lwn.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
- pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com, jhubbard@nvidia.com,
- bskeggs@nvidia.com, acurrid@nvidia.com
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
- aliceryhl@google.com, tmgross@umich.edu, gregkh@linuxfoundation.org,
- mcgrof@kernel.org, russ.weight@linux.dev, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] rust: firmware: add `module_firmware!` macro
-Message-ID: <D88RCQTNVD7B.3RIN253F8LODY@proton.me>
-In-Reply-To: <20250304173555.2496-4-dakr@kernel.org>
-References: <20250304173555.2496-1-dakr@kernel.org>
- <20250304173555.2496-4-dakr@kernel.org>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 8d1ff6c103cb6cc8c060a13e03d39356aa065e1c
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D764B10E102
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 00:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=PMDmUXSIdq2f/nNiLc3wTT/iCwj2VpHuoogdeFCSGXI=; b=h
+ 8YMtUapnYGyIdc6KXijq7eDjxK5Fzb6FN58zHAcyKJi9X6I7AfreyRhAF6tyk2XN
+ dXyyAMfZIC3Jw8RC6K7iymB6vBLMGv+B0oCvojWZtKtZzwSwUnvwWVdIdBebFjdw
+ 8KqLAuQ2JmcKMtbcjuhvln2pg6VEAXA3OcGCEHKrA0=
+Received: from andyshrk$163.com ( [103.29.142.67] ) by
+ ajax-webmail-wmsvr-40-118 (Coremail) ; Thu, 6 Mar 2025 08:59:13 +0800 (CST)
+X-Originating-IP: [103.29.142.67]
+Date: Thu, 6 Mar 2025 08:59:13 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Piotr Oniszczuk" <piotr.oniszczuk@gmail.com>
+Cc: heiko@sntech.de, neil.armstrong@linaro.org,
+ sebastian.reichel@collabora.com, devicetree@vger.kernel.org,
+ hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, yubing.zhang@rock-chips.com,
+ dri-devel@lists.freedesktop.org,
+ "Andy Yan" <andy.yan@rock-chips.com>, krzk+dt@kernel.org,
+ robh@kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re:Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <75189787-28E1-4FC2-8E10-4960B3877A6F@gmail.com>
+References: <25401bfa.291d.19564244e54.Coremail.andyshrk@163.com>
+ <75189787-28E1-4FC2-8E10-4960B3877A6F@gmail.com>
+X-NTES-SC: AL_Qu2fA/6ZvU8u5SefbOkfmkcVgOw9UcO5v/Qk3oZXOJF8jDDp2ycwUUJSDXLaweO0FQ+OmgmGXTtC9/R7f4VTVaQNWrfgx5ouyclyVgmtq3rycg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <28b0d3fc.bb3.19568f6b5f8.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: digvCgC3FURh88hnLg13AA--.6915W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkBkIXmfI596+CwACs+
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,154 +65,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Mar 4, 2025 at 6:34 PM CET, Danilo Krummrich wrote:
-> Analogous to the `module!` macro `module_firmware!` adds additional
-> firmware path strings to the .modinfo section.
->
-> In contrast to `module!`, where path strings need to be string literals,
-> path strings can be composed with the `firmware::ModInfoBuilder`.
->
-> Some drivers require a lot of firmware files (such as nova-core) and
-> hence benefit from more flexibility composing firmware path strings.
->
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  rust/kernel/firmware.rs | 79 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 79 insertions(+)
->
-> diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-> index 6e6972d94597..5d1ac8287171 100644
-> --- a/rust/kernel/firmware.rs
-> +++ b/rust/kernel/firmware.rs
-> @@ -116,6 +116,85 @@ unsafe impl Send for Firmware {}
->  // be used from any thread.
->  unsafe impl Sync for Firmware {}
->
-> +/// Create firmware .modinfo entries.
-> +///
-> +/// This macro is the counterpart of the C macro `MODULE_FIRMWARE()`, bu=
-t instead of taking a
-> +/// simple string literals, which is already covered by the `firmware` f=
-ield of
-> +/// [`crate::prelude::module!`], it allows the caller to pass a builder =
-type (e.g.
-> +/// [`ModInfoBuilder`]) which can create the firmware modinfo strings in=
- a more flexible way.
-> +///
-> +/// Drivers should extend the [`ModInfoBuilder`] with their own driver s=
-pecific builder type.
-> +///
-> +/// The `builder` argument must be a type which implements the following=
- function.
-> +///
-> +/// `const fn create(module_name: &'static CStr) -> ModInfoBuilder`
-> +///
-> +/// `create` should pass the `module_name` to the [`ModInfoBuilder`] and=
-, with the help of
-> +/// it construct the corresponding firmware modinfo.
-> +///
-> +/// Typically, such contracts would be enforced by a trait, however trai=
-ts do not (yet) support
-> +/// const functions.
-> +///
-> +/// # Example
-> +///
-> +/// ```
-> +/// # mod module_firmware_test {
-> +/// # use kernel::firmware;
-> +/// # use kernel::prelude::*;
-> +/// #
-> +/// # struct MyModule;
-> +/// #
-> +/// # impl kernel::Module for MyModule {
-> +/// #     fn init(_module: &'static ThisModule) -> Result<Self> {
-> +/// #         Ok(Self)
-> +/// #     }
-> +/// # }
-> +/// #
-> +/// #
-> +/// struct Builder<const N: usize>;
-> +///
-> +/// impl<const N: usize> Builder<N> {
-> +///     const fn create(module_name: &'static kernel::str::CStr) -> firm=
-ware::ModInfoBuilder<N> {
-> +///         firmware::ModInfoBuilder::new(module_name)
-> +///             .prepare()
-> +///             .push("vendor/foo.bin")
-> +///             .prepare()
-> +///             .push("vendor/bar.bin")
-> +///     }
-> +/// }
-> +///
-> +/// module! {
-> +///    type: MyModule,
-> +///    name: "module_firmware_test",
-> +///    author: "Rust for Linux",
-> +///    description: "module_firmware! test module",
-> +///    license: "GPL",
-> +/// }
-> +///
-> +/// kernel::module_firmware!(Builder);
-> +/// # }
-> +/// ```
-
-Would be nice to see a more complex example here like the one from nova
-you sent in the other thread. So with "dynamic" string interpolation and
-multiple pushes.
-
-> +#[macro_export]
-> +macro_rules! module_firmware {
-> +    ($($builder:tt)*) =3D> {
-
-This should probably be `$builder:expr` instead.
-
-> +
-> +        #[cfg(not(MODULE))]
-> +        const fn __module_name() -> &'static kernel::str::CStr {
-> +            <LocalModule as kernel::ModuleMetadata>::NAME
-
-Please either use `::kernel::` or `$crate::` instead of `kernel::`.
-
-Hmm, I am not 100% comfortable with the `LocalModule` way of accessing
-the current module for some reason, no idea if there is a rational
-argument behind that, but it just doesn't sit right with me.
-
-Essentially you're doing this for convenience, right? So you don't want
-to have to repeat the name of the module type every time?
-
-> +        }
-> +
-> +        #[cfg(MODULE)]
-> +        const fn __module_name() -> &'static kernel::str::CStr {
-> +            kernel::c_str!("")
-
-Ditto.
-
-> +        }
-
-Are these two functions used outside of the `static` below? If no, then
-you can just move them into the static? You can also probably use a
-`const` instead of a function, that way you only have 4 lines instead
-of 8.
-
----
-Cheers,
-Benno
-
-> +
-> +        #[link_section =3D ".modinfo"]
-> +        #[used]
-> +        static __MODULE_FIRMWARE: [u8; $($builder)*::create(__module_nam=
-e()).build_length()] =3D
-> +            $($builder)*::create(__module_name()).build();
-> +    };
-> +}
-> +
->  /// Builder for firmware module info.
->  ///
->  /// [`ModInfoBuilder`] is a helper component to flexibly compose firmwar=
-e paths strings for the
-> --
-> 2.48.1
-
-
+CkhpIFBpb3RyLAoK5ZyoIDIwMjUtMDMtMDUgMjE6NTY6MTLvvIwiUGlvdHIgT25pc3pjenVrIiA8
+cGlvdHIub25pc3pjenVrQGdtYWlsLmNvbT4g5YaZ6YGT77yaCj4KPgo+PiBXaWFkb21vxZvEhyBu
+YXBpc2FuYSBwcnpleiBBbmR5IFlhbiA8YW5keXNocmtAMTYzLmNvbT4gdyBkbml1IDUgbWFyIDIw
+MjUsIG8gZ29kei4gMDM6MzA6Cj4+IAo+Pj4gCj4+IAo+PiBJIG9ubHkgc2VlIHRoZSBIRE1JIGNv
+bm5lY3RvciBmcm9tIHlvdXIgZHJpL3N0YXRlIDsgc28gaXQgYXBwZWFycyB0aGUgRFAgZHJpdmVy
+IGhhc24ndCBiZWVuIHN1Y2Nlc3NmdWxseQo+PiBpbml0aWFsaXplZO+8iEkgdGhpbmsga2VybmVs
+IGRtZXNnIGNhbiB0ZWxsIHRoYXTvvIkuIAo+PiBIYXZlIHlvdSBlbmFibGVkIENPTkZJR19ST0NL
+Q0hJUF9EV19EUCA/IFRoaXMgaXMgbmVlZGVkLgo+PiAKPgo+Cj5BbmR5LAo+Cj5EbyB5b3UgbWVh
+biBDT05GSUdfUk9DS0NISVBfRFdfRFAgb3IgQ09ORklHX0RSTV9EV19EUCA/Cj4KPklmIENPTkZJ
+R19EUk1fRFdfRFAgLSB0aGVuIHllcyAtIGkgaGF2ZSBpdDogaHR0cHM6Ly9naXRodWIuY29tL3dh
+cnBtZS9taW5pbXl0aDIvYmxvYi8yZTI2Nzg0MmIxMDMzYmJjNGMyYzVkODBjMTc1NmExNDJlMzQ3
+Y2M1L3NjcmlwdC9rZXJuZWwvbGludXgtNi4xNC9maWxlcy9saW51eC02LjE0LWFybTY0LWFybXY4
+LmNvbmZpZyNMNTAyNAo+Cj5LZXJuZWwgZG1lc2c6IGh0dHBzOi8vdGVybWJpbi5jb20vdWl1cAoK
+CkJvdGggb2YgdGhlIHR3byBjb25maWcgb3B0aW9ucyBzaG91bGQgYmUgZW5hYmxlZC4KYW5keUBQ
+cm80ODA6fi9Xb3JrU3BhY2UvbGludXgtbmV4dCQgcmcgRFdfRFAgLmNvbmZpZwo0MDQ0OkNPTkZJ
+R19ST0NLQ0hJUF9EV19EUD15CjQyMTg6Q09ORklHX0RSTV9EV19EUD15CgpBbmQgaWYgZHcgZHAg
+ZHJpdmVyIGJvb3RzIHN1Y2Nlc3MsIHlvdSB3aWxsIHNlZSBkbWVzZyBsaWtlIGJlbGxvdzoKCiBb
+ICAgIDEuMDU4NjM0XSBhcm0tc21tdS12MyBmYzkwMDAwMC5pb21tdTogbXNpX2RvbWFpbiBhYnNl
+bnQgLSBmYWxsaW5nIGJhY2sgdG8gd2lyZWQgaXJxcwpbICAgIDEuMDYyNDU4XSByb2NrY2hpcC12
+b3AyIGZkZDkwMDAwLnZvcDogQWRkaW5nIHRvIGlvbW11IGdyb3VwIDAKWyAgICAxLjA2NzkwOF0g
+cm9ja2NoaXAtZHJtIGRpc3BsYXktc3Vic3lzdGVtOiBib3VuZCBmZGQ5MDAwMC52b3AgKG9wcyB2
+b3AyX2NvbXBvbmVudF9vcHMpClsgICAgMS4wNjg5ODFdIHJvY2tjaGlwLWRybSBkaXNwbGF5LXN1
+YnN5c3RlbTogYm91bmQgZmRlNjAwMDAuZHAgKG9wcyBkd19kcF9yb2NrY2hpcF9jb21wb25lbnRf
+b3BzKQpbICAgIDEuMDcwMTMzXSBkd2hkbWlxcC1yb2NrY2hpcCBmZGU4MDAwMC5oZG1pOiByZWdp
+c3RlcmVkIERlc2lnbldhcmUgSERNSSBRUCBJMkMgYnVzIGRyaXZlcgpbICAgIDEuMDcwODU5XSBy
+b2NrY2hpcC1kcm0gZGlzcGxheS1zdWJzeXN0ZW06IGJvdW5kIGZkZTgwMDAwLmhkbWkgKG9wcyBk
+d19oZG1pX3FwX3JvY2tjaGlwX29wcykKWyAgICAxLjA3MjEwM10gW2RybV0gSW5pdGlhbGl6ZWQg
+cm9ja2NoaXAgMS4wLjAgZm9yIGRpc3BsYXktc3Vic3lzdGVtIG9uIG1pbm9yIDAKWyAgICAxLjA4
+MDE5MV0gbG9vcDogbW9kdWxlIGxvYWRlZAoKQnV0IEkganVzdCBzZWUgaGRtaSAgZHJpdmVyIGJv
+b3RzIGZyb20geW91ciBkbWVzZy4KCj4KPgo+Cg==
