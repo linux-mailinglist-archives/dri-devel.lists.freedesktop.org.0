@@ -2,102 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6CFA57091
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 19:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46670A57098
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 19:32:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D25A10E191;
-	Fri,  7 Mar 2025 18:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4605310E6B0;
+	Fri,  7 Mar 2025 18:31:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ISkWdP4F";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jp3H5PjS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8F2910E69D
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 18:30:18 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-2235908a30aso14593085ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Mar 2025 10:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741372218; x=1741977018; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ADljs+6QUrhT8gv23eyNcU2smhHAIyZh+jPjPfAngag=;
- b=ISkWdP4FX2C3OxEySFZP/W4oHgfrpvBmtT4NDulWYTE978W+h9qlXW47RPNia5F1hn
- 71Cy523XaibdBZqVnh1pX5PRZ2TrPSJqlUYe5YQFjKs7j4sf+YZBhIOJbKvMEO9x1xlj
- bvIIQfDiEsTUBYoM9IaBRpP08C3hrEnUhSj+TI3+u7v6mbjPEI0vjKmWCHH7WedHUuOI
- TD6rmG2tT5Z3Qjq9+YlfcJkCk+dBKnmg4+Ffi9PXUMquw/83PMYtk8MKklkuwwYeTY+4
- E/c4zzp4x8AOE0EJQEHzswg0+EP2yLNaQlyh/230l7rMI/QyO3O26iFhQPhv0Z9eccGL
- I7ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741372218; x=1741977018;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ADljs+6QUrhT8gv23eyNcU2smhHAIyZh+jPjPfAngag=;
- b=o/qKnEdegcG+DbPJrjk1dDDaSqBwSnzlrBlnucq5fgvYjuerEiKrbPOSnI/3IOrfmN
- s7wm6/F+e9/rCNsa2WPlLzai9FVvEDahXdrptbC8WqrZca3fhJZFso6o2zyrehirdJs4
- lGEPr+btNXVClAMCTWBSpuJwAFMGfsAXSicjwykwlZpYVYMK8GqQxbqEzPb7g9flS1p8
- k7HaJcbT5vR2gIMf9TVT+JrxEAz8OdENNzOKY/AFhvbnXBJVqIzf+fkvfpBcSzJiTVbA
- GkzB+3kFm+xRBp80RJsBHJ2pGQOEZ7LH7qq1fLdTNO6NO9cz1EDbrBsrgbfsXJ+tBAgH
- q3kg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsGLuc0qQOhrNHkN+Jt+NIBT9baTZOfCyH7a/X9VuiZsZytInxd00n+eXfGPHwOt5dxc8NyvGSTnM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy844srWXz97CwsfaNApgGI+FDqnnbUE4GBnsS+pRJpgEZ5iZ42
- flN+Kgmx2TkPZ2wH+TApeJgxsD+WGACeSWaTw+v1tAynwtbwjsDE
-X-Gm-Gg: ASbGncunhRKbkuMbkjR/+CUjsA3/nY93bt/rO5D799rvEO9q/Aa+OGJR+wUy55R0J6b
- IqkQN2IJzH8Lhl5DCxgE5WKbvZyHkRkxLl0SJok3UCFzEu8gtvkkCthwmFwU/s3iai1p4YUxZBF
- qOy1uP+i5pRMcSEfaFriDxJ9xL2wLYaGvloMHaqli90VNz7mImqmK42f9H/aA8NELJZdEJXKwxu
- +oYl//uej4CFL+ArLAUxAkgIadAicCcZD4QadGUVlxq/gW4iRnD4SxDWF2QGZub115RKqkGRea+
- 4Q/XRBrA8c+EFWSExOelGuIJeBNpBs+sJWUpnK0x1KAfoBRkiytvDvsjp6kGU2113/cp2ReI
-X-Google-Smtp-Source: AGHT+IHgn9VYVN+pY6VrcRSpGmZ1OnVGCCY/wp+YVj8MkJGAiDKX4lh0yxX6MBBGMkwIe7/wx2wiPQ==
-X-Received: by 2002:a05:6a00:139a:b0:736:520a:58f9 with SMTP id
- d2e1a72fcca58-736aaadf082mr5830777b3a.17.1741372218220; 
- Fri, 07 Mar 2025 10:30:18 -0800 (PST)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-736984f7268sm3588473b3a.116.2025.03.07.10.30.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Mar 2025 10:30:17 -0800 (PST)
-Date: Sat, 8 Mar 2025 02:30:07 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Jiri Slaby <jirislaby@kernel.org>, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dmitry.torokhov@gmail.com, mchehab@kernel.org,
- awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-Message-ID: <Z8s7L+ZCI/yM5qm4@visitorckw-System-Product-Name>
-References: <20250306162541.2633025-1-visitorckw@gmail.com>
- <3dfc81eb-caa1-42fe-8fd6-61101de0ef13@kernel.org>
- <Z8sW4c5LxV-ITdCi@thinkpad>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2626A10E69D;
+ Fri,  7 Mar 2025 18:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741372316; x=1772908316;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xAPoOl5E6d6FFqkDAmVH1nYHQECWj7e0x4LjKlRP2os=;
+ b=jp3H5PjSpbzu6XetAUezK6UHEtNbuwX98Ss+LY+BMxxzcFTrk2rHs6sV
+ TNb4OvoF6AYeULG/D3e4vTA/wOtiTaralXKYFk8WbwamC51Iwli5cq2Yg
+ vnAI61hGcJo6AEodGbY4TamPw5leEYhPbqtWJTYZxE7GlCY1VAoxsB3jJ
+ 0L0gsBDBsORWCb6hB6OSaMj0YyrGQrUFdzFDOySzMTxpc++fD/oj+9D0F
+ t9h3UHcfGj/S1qRagOi82j+0U5cgOdyy7sKE+Z5Bo/YSOburMG9t0gRqG
+ HjAajm14ffoc6LusgwLoyBF55FmDERGZxLJhanU3k+kczNbqUB2X3junx w==;
+X-CSE-ConnectionGUID: wehW+klIQ82r0/xQPXheHQ==
+X-CSE-MsgGUID: OkJakdSdSp2UD3nk2sl75A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53068599"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="53068599"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2025 10:31:55 -0800
+X-CSE-ConnectionGUID: CSVWqhpaSY+g8/AVtpBBYw==
+X-CSE-MsgGUID: IerteWPUQVm6CrmeYL8Tow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="119336588"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2025 10:31:54 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Wayne Lin <Wayne.Lin@amd.com>, Lyude Paul <lyude@redhat.com>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/dp_mst: Fix locking when skipping CSN before topology
+ probing
+Date: Fri,  7 Mar 2025 20:31:52 +0200
+Message-ID: <20250307183152.3822170-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.44.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z8sW4c5LxV-ITdCi@thinkpad>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,57 +68,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yury,
+The handling of the MST Connection Status Notify message is skipped if
+the probing of the topology is still pending. Acquiring the
+drm_dp_mst_topology_mgr::probe_lock for this in
+drm_dp_mst_handle_up_req() is problematic: the task/work this function
+is called from is also responsible for handling MST down-request replies
+(in drm_dp_mst_handle_down_rep()). Thus drm_dp_mst_link_probe_work() -
+holding already probe_lock - could be blocked waiting for an MST
+down-request reply while drm_dp_mst_handle_up_req() is waiting for
+probe_lock while processing a CSN message. This leads to the probe
+work's down-request message timing out.
 
-On Fri, Mar 07, 2025 at 10:55:13AM -0500, Yury Norov wrote:
-> On Fri, Mar 07, 2025 at 07:57:48AM +0100, Jiri Slaby wrote:
-> > On 06. 03. 25, 17:25, Kuan-Wei Chiu wrote:
-> > > Several parts of the kernel contain redundant implementations of parity
-> > > calculations for 16/32/64-bit values. Introduces generic
-> > > parity16/32/64() helpers in bitops.h, providing a standardized
-> > > and optimized implementation.
-> > > 
-> > > Subsequent patches refactor various kernel components to replace
-> > > open-coded parity calculations with the new helpers, reducing code
-> > > duplication and improving maintainability.
-> > > 
-> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > > ---
-> > > In v3, I use parityXX() instead of the parity() macro since the
-> > > parity() macro may generate suboptimal code and requires special hacks
-> > > to make GCC happy. If anyone still prefers a single parity() macro,
-> > > please let me know.
-> > 
-> > What is suboptimal and where exactly it matters? Have you actually measured
-> > it?
-> 
-> I asked exactly this question at least 3 times, and have never
-> received perf tests or asm listings - nothing. I've never received
-> any comments from driver maintainers about how performance of the
-> parity() is important for them, as well.
-> 
-To be clear, I use parityXX() was mainly because you dislike the >>
-16 >> 16 hack, and I dislike the #if gcc #else hack—not due to
-performance or generated code considerations.
+A scenario similar to the above leading to a down-request timeout is
+handling a CSN message in drm_dp_mst_handle_conn_stat(), holding the
+probe_lock and sending down-request messages while a second CSN message
+sent by the sink subsequently is handled by drm_dp_mst_handle_up_req().
 
-> With the absence of _any_ feedback, I'm not going to take this series,
-> of course, for the reason: overengineering.
-> 
-I'm quite surprised that three separate one-line functions are
-considered overengineering compared to a multi-line approach that
-requires special handling to satisfy gcc.
+Fix the above by moving the logic to skip the CSN handling to
+drm_dp_mst_process_up_req(). This function is called from a work
+(separate from the task/work handling new up/down messages), already
+holding probe_lock. This solves the above timeout issue, since handling
+of down-request replies won't be blocked by probe_lock.
 
-> With that said, the simplest way would be replacing parity8(u8) with
-> parity(u64) 'one size fits all' thing. I even made a one extra step,
-> suggesting a macro that would generate a better code for smaller types
-> with almost no extra maintenance burden. This is another acceptable
-> option to me.
-> 
-I'm fine with unifying everything to a single parity(u64) function.
-Before I submit the next version, please let me know if anyone has
-objections to this approach.
+Fixes: ddf983488c3e ("drm/dp_mst: Skip CSN if topology probing is not done yet")
+Cc: Wayne Lin <Wayne.Lin@amd.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: stable@vger.kernel.org # v6.6+
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 40 +++++++++++--------
+ 1 file changed, 24 insertions(+), 16 deletions(-)
 
-Regards,
-Kuan-Wei
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 8b68bb3fbffb0..3a1f1ffc7b552 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -4036,6 +4036,22 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+ 	return 0;
+ }
+ 
++static bool primary_mstb_probing_is_done(struct drm_dp_mst_topology_mgr *mgr)
++{
++	bool probing_done = false;
++
++	mutex_lock(&mgr->lock);
++
++	if (mgr->mst_primary && drm_dp_mst_topology_try_get_mstb(mgr->mst_primary)) {
++		probing_done = mgr->mst_primary->link_address_sent;
++		drm_dp_mst_topology_put_mstb(mgr->mst_primary);
++	}
++
++	mutex_unlock(&mgr->lock);
++
++	return probing_done;
++}
++
+ static inline bool
+ drm_dp_mst_process_up_req(struct drm_dp_mst_topology_mgr *mgr,
+ 			  struct drm_dp_pending_up_req *up_req)
+@@ -4066,8 +4082,12 @@ drm_dp_mst_process_up_req(struct drm_dp_mst_topology_mgr *mgr,
+ 
+ 	/* TODO: Add missing handler for DP_RESOURCE_STATUS_NOTIFY events */
+ 	if (msg->req_type == DP_CONNECTION_STATUS_NOTIFY) {
+-		dowork = drm_dp_mst_handle_conn_stat(mstb, &msg->u.conn_stat);
+-		hotplug = true;
++		if (!primary_mstb_probing_is_done(mgr)) {
++			drm_dbg_kms(mgr->dev, "Got CSN before finish topology probing. Skip it.\n");
++		} else {
++			dowork = drm_dp_mst_handle_conn_stat(mstb, &msg->u.conn_stat);
++			hotplug = true;
++		}
+ 	}
+ 
+ 	drm_dp_mst_topology_put_mstb(mstb);
+@@ -4149,10 +4169,11 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 	drm_dp_send_up_ack_reply(mgr, mst_primary, up_req->msg.req_type,
+ 				 false);
+ 
++	drm_dp_mst_topology_put_mstb(mst_primary);
++
+ 	if (up_req->msg.req_type == DP_CONNECTION_STATUS_NOTIFY) {
+ 		const struct drm_dp_connection_status_notify *conn_stat =
+ 			&up_req->msg.u.conn_stat;
+-		bool handle_csn;
+ 
+ 		drm_dbg_kms(mgr->dev, "Got CSN: pn: %d ldps:%d ddps: %d mcs: %d ip: %d pdt: %d\n",
+ 			    conn_stat->port_number,
+@@ -4161,16 +4182,6 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 			    conn_stat->message_capability_status,
+ 			    conn_stat->input_port,
+ 			    conn_stat->peer_device_type);
+-
+-		mutex_lock(&mgr->probe_lock);
+-		handle_csn = mst_primary->link_address_sent;
+-		mutex_unlock(&mgr->probe_lock);
+-
+-		if (!handle_csn) {
+-			drm_dbg_kms(mgr->dev, "Got CSN before finish topology probing. Skip it.");
+-			kfree(up_req);
+-			goto out_put_primary;
+-		}
+ 	} else if (up_req->msg.req_type == DP_RESOURCE_STATUS_NOTIFY) {
+ 		const struct drm_dp_resource_status_notify *res_stat =
+ 			&up_req->msg.u.resource_stat;
+@@ -4185,9 +4196,6 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 	list_add_tail(&up_req->next, &mgr->up_req_list);
+ 	mutex_unlock(&mgr->up_req_lock);
+ 	queue_work(system_long_wq, &mgr->up_req_work);
+-
+-out_put_primary:
+-	drm_dp_mst_topology_put_mstb(mst_primary);
+ out_clear_reply:
+ 	reset_msg_rx_state(&mgr->up_req_recv);
+ 	return ret;
+-- 
+2.44.2
+
