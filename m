@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE15AA55F0A
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 04:58:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD45A55F1C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 05:03:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C03B810EABC;
-	Fri,  7 Mar 2025 03:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0190A10EA8B;
+	Fri,  7 Mar 2025 04:03:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oKmtfUvq";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MLIEU11n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D298910EABC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 03:58:09 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-5498c742661so1463560e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 19:58:09 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C33910EA8B
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 04:03:55 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5497e7bf2e0so1561769e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 20:03:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741319887; x=1741924687; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741320233; x=1741925033; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uEBF7q7djaNS5nAjrGOiMY9ClFLfelskzs9woxu33aM=;
- b=oKmtfUvqs0okZkrKAKFUBK7DrLjbx4ronbmq4qAMGDmC2IKCooUj1fgPyHRVj8cvps
- OPRuW3hiiAQaNEBpLVr3SCTQvVL6AsdIrcP7aT/rJFDKz2KXUcKvm5TX+gHhf7NgPh3Y
- BFmkYsn+M/xPInnFN7dUdJe5t1DB4levPLGfJff+e5ecJ7mC81AaZSzn7uGSXQ/w/8g0
- 7/DxBCaDLCFimKSUUjdUNHW6MvZZN91O80GcyG7j/SRyXxB5VxUbvBemmyb/SIjcptd4
- 3qgYJqncYgx/Y1r2YKAfIqfvy0iEdDj6wjjKDjvWFYvJu8rh5+1kuvkYEaN8HxEMLtSN
- ku/Q==
+ bh=q559lQVO0eqbcaMdE1cepZ7h+gw822oPb1VcWyT+D3k=;
+ b=MLIEU11nm5nI3TEFAQISTqIMgYVNgfypWA3vzqnwxfSGYxd+Bjrmw8Jr7ixq9wYRvw
+ 7pgCmLaLOtemCdN+sMnlp3U4xxD1cW3FaCGD2SXCozBMFdgf6mPdU3yrxP0mbocfDlO/
+ ledzbqlvGQAz5bpK6jawcOMIro212XxKIqfOOnbA2vsrIHAbeQLLNPY+rhOKaOMQZPab
+ 6Y/PLrcjTWlc8chibAw0VenZ+9MBBtS3QemZdtx0wmbhR+PH0M1Er3szB99a62sI6jC0
+ Oy49R6gkXBbtqQnzEHbKyz3NTihEo9tnLUYGs66u7Fe/Z3lhiU4bvn5p5Uear95AqBJ/
+ xlkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741319887; x=1741924687;
+ d=1e100.net; s=20230601; t=1741320233; x=1741925033;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uEBF7q7djaNS5nAjrGOiMY9ClFLfelskzs9woxu33aM=;
- b=Tml2s8Ep7EEo4PdNZ77K1EwMxDo8l/9nK5dpwS4zlFLHSrNCdC9j0rlMCAgRUCJt0P
- baj9LAgpgazJ9epxHI5gGDw/tb2a2cNJyleMs+iWF6nq4bSb511yuA/PGwsrikaVYM4C
- NxqZNiyPVfBQ9/u0gaZe0hqF5Scc2pkM90lZI0rf4vpz9Qhs1vtt5j1nYCWCs31msrXN
- 2xR9y1+eJEBCKTC6kDAyXvyt7lyKsl4DV0R2q8fubzu7Gu9B1Q+/IBjbA5B2bLAFzp5d
- rKjPW0XLJd/wn1uoAegouAKkgJJeGnC9W7NAreE7U0NaKzyqn4nuWWV/0iZcD4SXUmUE
- CkIg==
+ bh=q559lQVO0eqbcaMdE1cepZ7h+gw822oPb1VcWyT+D3k=;
+ b=mCWYTnK0MnuYEHN5yy2a5/5xfnPI8eniKf840RwladznxWl8Hg1d2Ci/Fa1NVZJM1f
+ lHggmvEZGIeb/qOeOVYL8LLDnzhzKjZyacujQio4x5y8uUO9NCi0xFkxthGh96wMoQMK
+ 0+9CklSxX8mq3vypMNAFngUh3OzfkglUr141Q3PKRuzOwO7TKx86Tl82hpaaXL7BkYAM
+ PWoBRP1f8dZhlgHIxrMBeB96lbagnUGzspL50FsP33Hsl51aEDpkG7muRqK887A45UOB
+ 9CzLnMjP/DWbSKZoXkfZTX94TluBOCFyjt8QQQvgdGQ4zL2t41EF8O7thI5vdLkYywPT
+ mg2A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXtroRHyEQkdi8RKRji51xd/UVfvcBJ9S+bre2/ncsZ8qCITz0TUbr/SzhZf4rN9UNDhQPR1j7Fsjc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9teHpdlBB8t4R/Am7Ou7rtjrm3gG4w8/dgVfyJJFzq+tWfYGM
- 0WLvHxpV35Uh6JPkYkOi6aXHsr+CS7HseN8h2aWqQnTiyAfNaOHbd2WsxHgFrio=
-X-Gm-Gg: ASbGnctgaUkqLIlPAR2n6keNdik5rmQlMU9ED8UAza3gyQl1gzC1uZfbw7OpsKmfl5B
- ClHys/fj8FIsOOxmjJH1sgOvWGPq3DBorxRiF67/3CFbkkaXKejrmUZgLm7Vpl6RMJDkLRu6WBE
- Ql99Nko9/DnQIF8aTH4va/fN/zcC4/AAj5/UdQn+rQii23lSfEsQtQCQCN5SZytZTCRJO6jQVaa
- 3AAG+hjT7F7iK9MstDs1u2shoNmjKq9Eiyl9QK2n4gNerB46Xt/ibeZ+y0VBVJuCYz0/H6tiIJN
- by1IlK2dsLHU4YoZ9E0Ei2Ux4OvUDv4Membw9fAuIIn4ZWovxQsqmuIMU6rUtEm6wyhLDTuwGWS
- BkYGv6mzFAVNU1G/1PeG7VIHq
-X-Google-Smtp-Source: AGHT+IGOFCkKLZ1UQh2TRUPs+Eu6QCFBBW9AoVDPv1C752stT+7E5xh4IuWYrNCXRm/wPrkUfsK6hg==
-X-Received: by 2002:a05:6512:118a:b0:549:6759:3982 with SMTP id
- 2adb3069b0e04-54990eac875mr558887e87.37.1741319887522; 
- Thu, 06 Mar 2025 19:58:07 -0800 (PST)
+ AJvYcCXDLJqFHlyZHTbIilh4Pqw0nvslIURiy+I3/EIubWcaoumw6Rh4/agfQG2S7L45GRRJQ2nl/H0WTrM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTWWfTwsr6Du1TrW8O5j1pqvl3z69Uy2QLkR/alOTYJ7A9zmPg
+ T4jijsHTDt834wPWYmLplG7DrHWfVjQeH80OX3UpQw4LKJ+s+JKiTlDZxQ6Au94=
+X-Gm-Gg: ASbGncuYs4CTqfdHNlGonjaQShX18VsNKU2BCe2OTUn3YgUMpnhBI4vuIkmVCXLPb3C
+ 9+eJdOXd/CsaiurnU5VmHmkfPuLGD3dM7UOkq/HbmQFhs/v1xUPCDBHOqEHO95mVzhJlT0vKD2W
+ 9q0OB+Topo0jiEjvz1V6occz/bBuHngTAvCw6sZcykapbR49GE7ovPlQ/li+Jc1UY1CBqtpGhn+
+ vWiSL5nPJSaYaQ9ulE1Wf5s64vRgdcyWbxrlWFLJMUctmLKUvn96VtygRkYGWB3RlLOo8vqwh/a
+ +77hO7iKShGAAQaCcSgsav/FmL937K9T6SYO9PPryaiLec4V4OfQ4aPBZTDdZfsM9kI+C5zr06+
+ dCEs0wSj8TnpKXiuUNQGbqoKT
+X-Google-Smtp-Source: AGHT+IFkU/H2JgQ+KzgwwZXcDnVmGrvz6WNb4Dvni6Bmcn4jgovRKWXORNDJCk42rS/+awsQtmG+NA==
+X-Received: by 2002:a05:6512:3b14:b0:545:2c2c:5802 with SMTP id
+ 2adb3069b0e04-54990ec1da0mr569205e87.48.1741320233311; 
+ Thu, 06 Mar 2025 20:03:53 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498b0bd0absm365580e87.157.2025.03.06.19.58.05
+ 2adb3069b0e04-5498ae461edsm362946e87.38.2025.03.06.20.03.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 19:58:06 -0800 (PST)
-Date: Fri, 7 Mar 2025 05:58:04 +0200
+ Thu, 06 Mar 2025 20:03:52 -0800 (PST)
+Date: Fri, 7 Mar 2025 06:03:49 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: Adjust CDM_MUX to support CWB PINGPONG
-Message-ID: <7wqtrfc24j7irouintg3h3fh337maziqjxcxcvxuvltdohqc7c@ai6zm6tidqgo>
-References: <20250305-cdm-cwb-mux-fix-v1-1-16148ca6e4d2@quicinc.com>
- <vjufkcrkungrwy7w4pxzsac57ilzk2dt3eeypzy6pna2z5ocxg@uf237ixu6kqq>
- <b125d75f-eb71-469b-808e-3078f2f7e266@quicinc.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] drm/msm/dpu: Remove duplicate dpu_hw_cwb.h header
+Message-ID: <gs6zemh276kxuphyedsv445ujroazok6jq66mdljkrkd2f5fzf@zjumlvcebaix>
+References: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b125d75f-eb71-469b-808e-3078f2f7e266@quicinc.com>
+In-Reply-To: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,59 +92,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 11:33:46AM -0800, Abhinav Kumar wrote:
+On Fri, Mar 07, 2025 at 09:50:30AM +0800, Jiapeng Chong wrote:
+> ./drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: dpu_hw_cwb.h is included more than once.
 > 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=19239
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> On 3/5/2025 10:44 PM, Dmitry Baryshkov wrote:
-> > On Wed, Mar 05, 2025 at 07:16:51PM -0800, Jessica Zhang wrote:
-> > > Similar to WB_MUX, CDM_MUX also needs to be adjusted to support
-> > > dedicated CWB PINGPONGs
-> > > 
-> > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > ---
-> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c | 4 +++-
-> > >   1 file changed, 3 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
-> > > index ae1534c49ae0..3f88c3641d4a 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
-> > > @@ -214,7 +214,9 @@ static void dpu_hw_cdm_bind_pingpong_blk(struct dpu_hw_cdm *ctx, const enum dpu_
-> > >   	mux_cfg = DPU_REG_READ(c, CDM_MUX);
-> > >   	mux_cfg &= ~0xf;
-> > > -	if (pp)
-> > > +	if (pp >= PINGPONG_CWB_0)
-> > > +		mux_cfg |= 0xd;
-> > 
-> > Shouldn't it be 0xb for PINGPONG_CWB_2 and 3?
-> > 
-> 
-> No, this register CDM_MUX can take only 0xd for CWB PPs.
-> 
-> 0xb is not listed as a valid value at all.
 
-Thanks for the confirmation.
+Also
 
+Fixes: dd331404ac7c ("drm/msm/dpu: Configure CWB in writeback encoder")
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-> 
-> > > +	else if (pp)
-> > >   		mux_cfg |= (pp - PINGPONG_0) & 0x7;
-> > >   	else
-> > >   		mux_cfg |= 0xf;
-> > > 
-> > > ---
-> > > base-commit: 6d3175a72cc07e90f81fb35841048a8a9b5134cb
-> > > change-id: 20250305-cdm-cwb-mux-fix-69ed5297d4f7
-> > > 
-> > > Best regards,
-> > > -- 
-> > > Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > 
-> > 
-> 
 
 -- 
 With best wishes
