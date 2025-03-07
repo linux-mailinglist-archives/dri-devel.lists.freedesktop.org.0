@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B25A56F85
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 18:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CB0A56F88
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 18:48:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 720A910EC0D;
-	Fri,  7 Mar 2025 17:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC2BA10EC17;
+	Fri,  7 Mar 2025 17:48:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AMO7dmMT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lGKtBk0p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6F010EC0D;
- Fri,  7 Mar 2025 17:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741369703; x=1772905703;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=B8llukmjpnYTZeJDVBXphW31+bV8O5TYaK3otj6LuiY=;
- b=AMO7dmMTk8oDRSVMXx+kZX4TrmSK1esAYRHvSBoEoR4leZm3hg9Oa7xv
- Zy0LuLR2Rgl80hbhW/le12CZ+794SagQstg1OC5vbw7lrhp8a9Rds31Gr
- wCSd5APLPDnZW6hapKQiSCBRy3XDTwOaVo1agoryflRLbd6uVhopfJ+cd
- Nb/C9dbLu3hTrC8Dqw8KyCu3l2CXQZfRO33SaXhkdkELznyOiOkYlrm1A
- pwtFYMrN8fV2e7i7D/i1KLYlSOzxfsDdsUffw6HEJznqIQw5tU9srWfQo
- 4ecJJvFnz3j8VbrJKpUyVdDE5zi8ynimvF+Xkvbspyz/S4bRGWDzy9K90 w==;
-X-CSE-ConnectionGUID: BCGOiEPhTAy/PEceS1fHdA==
-X-CSE-MsgGUID: PFI+2n0TTSubRBMVqVWUaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46208126"
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="46208126"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2025 09:48:22 -0800
-X-CSE-ConnectionGUID: CuEhmC5tQfedXFcSOLBxtg==
-X-CSE-MsgGUID: k3JJJ6D/SCi+V3YKyNBjoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="119908613"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2025 09:48:06 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tqbnl-00000000TZX-33Lr; Fri, 07 Mar 2025 19:48:01 +0200
-Date: Fri, 7 Mar 2025 19:48:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: mailhol.vincent@wanadoo.fr
-Cc: Yury Norov <yury.norov@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86FD010EC18;
+ Fri,  7 Mar 2025 17:48:39 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-2232aead377so44795015ad.0; 
+ Fri, 07 Mar 2025 09:48:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741369719; x=1741974519; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=lRufdviAnmuT6DteRbLHEBa+gV4tGFtrU2SoznIeeXg=;
+ b=lGKtBk0pWXEL08d67wPDRAPw6WQENJgNssFjlkdEakZhjWfx+T5DzXtlLmzunZXEDw
+ YTpGcj5ZB9c92+eJ6WoXeFLBW0ROdr0QJvPs3Aze7UeZ6rGXXpDQTRBOOH7z0AS9jc8E
+ eLwdT4+wLDWXcnXs9/U/mDErBRmuvcnJg3/4YnY7qqcHKH81raXEutC5X6obENftwYII
+ KpipKitCI03PhbIwRMBwRd54MPL75pFgsO5hLAyQxjAXiIeN6DWXT7cQPuxUaKpTSyYl
+ iK4qnOW5ayBPhRVJvXCnS7IK/Ou3IoozKdPvkkze7WDt9ntRn3IBJQSShaMm8V6uAtfv
+ STRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741369719; x=1741974519;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lRufdviAnmuT6DteRbLHEBa+gV4tGFtrU2SoznIeeXg=;
+ b=ceEredx35xE2TJrbAs1lLaYEskkgoPLJM/omfc3bl4uexbcaDh1cCNeHVS4s96L+na
+ 8jT9ZiJgvxn6mAmYEM5Fd49scMK4D6zVb7MpxBFI7XZwOjhvdacRwta8y7p/MCILQNUI
+ cNjE+ZCPD1h0c4AuQDTVUfjRV6PEnkrZTjsIGaQAPoD9X18RQLqMI9RkB8IYFGgNXzfG
+ gwkpesOZ5jIU+9+x+5uoBRNqmcUrH6zOLP8aGXtj9hHYKf0MvnIs1l4tTVeSKRL9an8P
+ zzvmdrQY6HG4RlSCM9htYy6VPtW3tzZ2ZXNhqD5v4Zb238ufvbr0+kqYTjeWGZ0kptUy
+ CDfQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwBQoVmDKm7r7Yo01FcvnH37urTJB/IEWgFBm2QZiMe5vrnwfYSmGBIQBHJuexu1bmQ60zCtPfIOgk@lists.freedesktop.org,
+ AJvYcCV8z3c+RdbLvJLmuQkrvfgQ+TxZy/l18FAefU/YCayn9g9Ve2a8B2G9xXkme5rH+/Gvd2qCw+/S15M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyoWNgDXshDyFu483BirslQvUizgWNgegq+IBJtjII2l2x+y0Yk
+ hxRbWmbFGgPRVW02tEmTP/XNJsz7e4DFRlT+u/I4ZO4QwFwfesD7
+X-Gm-Gg: ASbGncsEIw1m2fnR/vQZERFBQLuvswNcK2Elfu0vtjdZz3DSXw6WRmqBppdTmWa3I8V
+ zxO8PkTqnXwnnT8u2z0/gVvcXtJbXYkmp4Nb6hrjCZRKX/5N1iwlADNNcV+egWgMmG7dFmcbukJ
+ FDAWi4o12gAJtqb1fzmQjswOQZ6aRdE8qQQeIMsF5cW2wdDBepHaFIOMT941j7WWw3tSA3Az+u8
+ yDQwMqKaY4xG8rPZo6op5tG+37T9wCA4PfYXSWpri3D/W6DpG8uf9zGL0cz8wQT49lo+9I7I4T9
+ mF9uoc2JFRBbM9ylvqpuxVeVJoE2fvx+DsFekzZzjIvp
+X-Google-Smtp-Source: AGHT+IEjZU9p4DHsi8ki85oRnVlIV3neE5cWyioPrK7kaRY8hlLWs1+CZSrq8Ll4+I1znDxUmj29qA==
+X-Received: by 2002:a05:6a21:10c:b0:1f3:44de:6190 with SMTP id
+ adf61e73a8af0-1f544c93787mr9937505637.36.1741369718923; 
+ Fri, 07 Mar 2025 09:48:38 -0800 (PST)
+Received: from localhost ([216.228.125.130]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-af2810be5aesm2821781a12.34.2025.03.07.09.48.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Mar 2025 09:48:38 -0800 (PST)
+Date: Fri, 7 Mar 2025 12:48:36 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: mailhol.vincent@wanadoo.fr, Lucas De Marchi <lucas.demarchi@intel.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -61,15 +76,14 @@ Cc: Yury Norov <yury.norov@gmail.com>,
  David Laight <David.Laight@aculab.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v6 3/7] bits: introduce fixed-type BIT_U*()
-Message-ID: <Z8sxUTR-5j5XmZnO@smile.fi.intel.com>
+Subject: Re: [PATCH v6 0/7] bits: Fixed-type GENMASK_U*() and BIT_U*()
+Message-ID: <Z8sxdOjk3LksG9ky@thinkpad>
 References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
- <20250308-fixed-type-genmasks-v6-3-f59315e73c29@wanadoo.fr>
+ <Z8sqSpKZzfolKm8Q@thinkpad> <Z8swXUGf9rtTHw1o@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250308-fixed-type-genmasks-v6-3-f59315e73c29@wanadoo.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <Z8swXUGf9rtTHw1o@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,33 +99,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 08, 2025 at 01:48:50AM +0900, Vincent Mailhol via B4 Relay wrote:
-> From: Lucas De Marchi <lucas.demarchi@intel.com>
+On Fri, Mar 07, 2025 at 07:43:57PM +0200, Andy Shevchenko wrote:
+> On Fri, Mar 07, 2025 at 12:18:02PM -0500, Yury Norov wrote:
+> > No rush, please allow your reviewers a week or two before submitting
+> > a new iteration unless you want to disregard the previous version for
+> > some reason, of course. This will not get into the upcoming merge
+> > window, anyways.
+> > 
+> > So, what should I do? Go through the v5 and all discussions in there,
+> > or just jump on this?
 > 
-> Implement fixed-type BIT_U*() to help drivers add stricter checks,
-> like it was done for GENMASK_U*().
+> There is also question to you. Are we going to leave with U128 variants or is
+> it subject to remove? If the latter, can you issue a formal patch?
 
-...
-
->  /*
->   * Missing asm support
->   *
-> - * GENMASK_U*() depends on BITS_PER_TYPE() which relies on sizeof(),
-> - * something not available in asm. Nethertheless, fixed width integers
-> - * is a C concept. Assembly code can rely on the long and long long
-> - * versions instead.
-> + * GENMASK_U*() and BIT_U*() depend on BITS_PER_TYPE() which relies on
-> + * sizeof(), something not available in asm. Nethertheless, fixed
-> + * width integers is a C concept. Assembly code can rely on the long
-> + * and long long versions instead.
->   */
-
-I don't like this hunk. You just introduced a message which is rewritten
-completely in the immediate followup. Can you come up in a better text
-here and/or there so it will give only + LoCs (or minimizes - to 1:ish)?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+I asked Anshuman about it as he's the only person interested in it. Will wait
+for a _usual_ few weeks for reply before making any conclusions. If you know
+anyone relevant in ARM or everywhere else, feel free to loop them.
