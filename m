@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DB1A55FA0
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 05:56:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D6AA55FA2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 05:56:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D95DB10E26C;
-	Fri,  7 Mar 2025 04:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B91810E271;
+	Fri,  7 Mar 2025 04:56:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X5VDSJvy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ULo03jYg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2544A10E25E;
- Fri,  7 Mar 2025 04:55:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A8B10E271;
+ Fri,  7 Mar 2025 04:56:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A7885A4519A;
- Fri,  7 Mar 2025 04:50:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88E1C4CED1;
- Fri,  7 Mar 2025 04:55:53 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 858175C3A5A;
+ Fri,  7 Mar 2025 04:53:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66A0EC4CEE2;
+ Fri,  7 Mar 2025 04:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741323356;
- bh=E1tGqBG4q3WyXmXJFf4A7lz3Msd3by1RgkwFKwYO8z0=;
+ s=k20201202; t=1741323362;
+ bh=XWXNbvIxximv5SHxdHtGkkmkTEQ52Z6C89taO57X5vg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X5VDSJvynweTliVM/mhd/EafcBxkNXlRSUkGExLFKCrd/35utULDpAU2pMWcX16pU
- O3vU9J3CFkj4cvc6wOAujv1SWfuDzxCk2P8AmqJGfdMyMfMNa4+0PiYIFCVW2lO/qQ
- 0tHSBWCyFwQUvJs9kGRLa0nOLurZe00hVGC0A8mQBcp0T15xRe7+ke2edvG8GefcyR
- cediCSXU1FFfC4NI453QkMEI8Osvokwv1bd5Wpr92v+YFJVUqMa7FVcdrSAWOcGuaz
- 9FFYUbgFDmkLgVJ58sgxK+RVHZe0NYqlfRmJkGu2t8uN0KB5YlVmS2240TnverfS7d
- KZk36pUJowqwg==
+ b=ULo03jYgTl/A7Sx10Lga84AvKwy1O12N+xCjWJyIPIArQaZa5HBodckhx42j5xwIr
+ 6AoZldOCszwDEgq1EMj6SJKsz70+HZmADYyW7vbcd8RHYp4Fz8FozS0bKTgUnU5NmP
+ LGOxjePjhQvnjV598JHP/+GZ27VSh8VBWFFwqKiJWvKgaNOjcGCWT6sEJJiVJ/uFOI
+ Q32kIV+6yErdgDDa8ZglQJvyk25+3yd5M5k+jaWRDibXba4DJhPcp/3XuuZVQGDvj2
+ 0la0QWB+sfqL3gddVr9NgVGCIkemlp+3zyeTv4adp1eFo/pJ0iPtCVyH/RLlDnv/Z6
+ YIAtiLLFZN4Gg==
 From: Dmitry Baryshkov <lumag@kernel.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/msm/dpu: fix error pointer dereference in
- msm_kms_init_aspace()
-Date: Fri,  7 Mar 2025 06:55:45 +0200
-Message-Id: <174132271320.1132259.4482083694406886110.b4-ty@linaro.org>
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Archit Taneja <architt@codeaurora.org>,
+ Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 0/4] drm/msm/dpu: follow rules for
+ drm_atomic_helper_check_modeset()
+Date: Fri,  7 Mar 2025 06:55:46 +0200
+Message-Id: <174132327775.1133698.7325717045129206986.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <3221e88c-3351-42e6-aeb1-69f4f014b509@stanley.mountain>
-References: <3221e88c-3351-42e6-aeb1-69f4f014b509@stanley.mountain>
+In-Reply-To: <20250123-drm-dirty-modeset-v2-0-bbfd3a6cd1a4@linaro.org>
+References: <20250123-drm-dirty-modeset-v2-0-bbfd3a6cd1a4@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -68,17 +74,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
-On Tue, 25 Feb 2025 10:30:26 +0300, Dan Carpenter wrote:
-> If msm_gem_address_space_create() fails, then return right away.
-> Otherwise it leads to a Oops when we dereference "aspace" on the next
-> line.
+On Thu, 23 Jan 2025 14:43:32 +0200, Dmitry Baryshkov wrote:
+> As pointed out by Simona, the drm_atomic_helper_check_modeset() and
+> drm_atomic_helper_check() require the former function is rerun if the
+> driver's callbacks modify crtc_state->mode_changed. MSM is one of the
+> drivers which failed to follow this requirement.
 > 
+> Rework the MSM / DPU driver to follow the requirements of the
+> drm_atomic_helper_check_modeset() helper function.
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: fix error pointer dereference in msm_kms_init_aspace()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/f9d1b528219b
+[1/4] drm/msm/dpu: don't use active in atomic_check()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/25b4614843bc
+[2/4] drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/7d39f5bb82c0
+[3/4] drm/msm/dpu: simplify dpu_encoder_get_topology() interface
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/41921f231abf
+[4/4] drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/2dde2aadaed1
 
 Best regards,
 -- 
