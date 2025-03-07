@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D35A5635A
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 10:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3852BA5635C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 10:15:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EBAD10EA82;
-	Fri,  7 Mar 2025 09:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36B4110EB11;
+	Fri,  7 Mar 2025 09:15:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k7jWzU4s";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iuDiHx3E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 314A010EA82
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 09:15:40 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-224191d92e4so23716695ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Mar 2025 01:15:40 -0800 (PST)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F94C10EB11
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 09:15:45 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2ff6a98c638so3169429a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Mar 2025 01:15:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741338939; x=1741943739; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sHBKKzshGSI6hL7EG6ZIvM89MIwiECzUbfWIxwk2NAc=;
- b=k7jWzU4s9C0wdAkkExuo5wafXNE9lDgDEldlFjyOJqftDyDmLcbvV/xYzxFQrM9Whw
- X6S+lSYlR/wwBQyUzpDT+stLePY/ra3YD0CSzEX9kwl6tU/84DcGGUy1wFX1BCG4fZ+s
- 00ErE8vYSnn70jSsJHaox+JajFmGgtOEpzkL5SmK08wTXLWzNzxFfxNsJEZpzgpoHLFC
- L7Id3JBC1H4xX/cdX2NansLTlq0JbuzS3VR9vRCzRbg4/D8w/wtja9mSuTmUOM3MV9bP
- MUkpVNFZTpxvnI/oktpRHFZ5Mts+Gv2fZ9Ky/CuXhjjSvGUiFNr0V7k0jUwO739Dszqd
- yCqA==
+ d=gmail.com; s=20230601; t=1741338944; x=1741943744; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cTEQtsNDpMTEAuo12CfPbUrfIXkF/+bRSFAzAmu8bNg=;
+ b=iuDiHx3EmbRYIBKBoL/0d0FN8UD1lgdldQ0QvBrgaOvuzH7RZahKbmx49vnNg+BCMe
+ Sbnc4AGmFm1eyxlnAe9AYtinX26aliIE7N7m1Wp/gMVNvt58jcOdJm8bY+jNf1GqS5pd
+ gecrbFDrHX4GIWhkuggJs5s1bhDvzI1V+jCD9W2ovK3pPd3OdH22A8NZ1lRBdgsLCSqH
+ iK4jicYZxYAltgOw31T5K2+T+zecw0opoLDeNGv8SXi+4l7CH95OIKYctGtUxnXbJ65p
+ jhWaK9pBrCpsSYIGnRjzgHVpgsJi2dC9tbvhIADk4J3gvH4klgvfV/CLvowrc3QKJgoG
+ s8oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741338939; x=1741943739;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sHBKKzshGSI6hL7EG6ZIvM89MIwiECzUbfWIxwk2NAc=;
- b=KCHc0mJOgI/76FqlOTp4jAs/VcgmGUcZOO6AaasIGy0GxrMCzVt4APucF9p4sruJ9d
- MdgHgieMXWXi9tqvRsfnRF8SdHsYc7tsr4FpmrFjVQ0CzJ4ERLXlm4a08jdXF8WeWt0A
- rmaBUVL1ZZauMy2mufDgilWPWzNjrRS8+DAEGGzUWddCVUPgsu7TiAbaE9ECaNsJeF4p
- xdeqMDLRavaIPCblOFrXwJmX94VQdeDY0GMKl5Z5flJg4WCncLsUk3T8QrU9emKxTN/A
- YvRZABVfI6tKFrLSBTuQO+Pc1JZ5otguuLPjLHWzT25mFVFZX4Lz/0Ar5wM1dO2zeMKX
- 8F2g==
+ d=1e100.net; s=20230601; t=1741338944; x=1741943744;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cTEQtsNDpMTEAuo12CfPbUrfIXkF/+bRSFAzAmu8bNg=;
+ b=LispAK9HFA24SX6iWwbm0rOXURjb6J341bWcnVvoeZyGUnIm40wiGmz0DJQORvuS2N
+ n/rojC6Wz5zVxWPzc7D0a65LVzhVKj4Q5AmPYpXw1d56k76jwtpuMFtFnjdzOo2Ri/Mx
+ MzdDASFhvAufHfFnGcbGpvqkuUGP9CrHhSmz+imf+eFivgIY9Mrcm6f+6WS9cUVVGH4w
+ hk9HTwDwPCOeRk7EF6U5fW7i2apeMCwsPmHL0Ew4dDWrPxQq82Ixqz6iLa/XDIl7opNK
+ HorSTT6iFYqg3Vd+oUZJOO/ED90QPi1Vge07jcgyMKwiHdzqidsygcL4n0Yl1IzmGfZi
+ Jlfw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfBhxCPqBz1+MrGWt5eP4IzVvypLF3ADHVQIjcPakrUpS97zJApGQiYLn4fSb50TTCYB3fJC1Cj0o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWArtHsLfh25GCdcfJ8HrQZengFnmdHXckyF5SD226MgOIDDg0
- TGbvvcLgfZ+eJNt2uB6GuqNhab88aCCMgD0NWKsUE5PHii8w8huH
-X-Gm-Gg: ASbGncvcZgOYTtipzoqAjbdfVVoEhTzGFRv2Sh7Y//HLZOAEC58V3f7D+0xLX9Fx2nN
- TDhRm4+qflqKEppYG+TAguzpHcEMLokwaHYjWrdi3vMYqnWeF/itaQozNW7ej+b/e44MPkS5p/p
- 3x0yWrkilcrO8MsnydaEukaYi7F4FIw6CU/630KurnEP1uBa6fmmYy08fM865PVxlnCPxhpvzcl
- rnWBTy5g3hDABr9s8hIutzg6Q3bzy8+QKK9rkPnosQNK9jAG6smY+QRgOI7lYj6OsoY4gr4SVHM
- lsyS0RVM6EhbaBrwQjjWryYgksXMWvfhoxCIffmJ8DykLYxUhrnUqhILJrucX2U=
-X-Google-Smtp-Source: AGHT+IEec9pMlf2KOix/XihNQ581VxoPi3BNtjWLThoyon10QS1gS+pBOn8m3CutqsgYTli9zMzUIA==
-X-Received: by 2002:a17:902:d48c:b0:223:5de7:6c81 with SMTP id
- d9443c01a7336-22428aa193bmr42571825ad.27.1741338938941; 
- Fri, 07 Mar 2025 01:15:38 -0800 (PST)
+ AJvYcCXjNOBxHzpKQU4jLuHYree4lbnlV8hdUWeDZQkxeQXKWVCslS4e9LnJM62HejOf96rF0ZOXpsV0KM4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvYq3hY1Arj1WOeGa7XEuipxmxjuom/AUHdp3UhumDdZw/FlS/
+ RWNHlb139tq5P628FQzP2o+7FP9XdrQ25ylChgWv/0+HutcAFlngBEitdQ==
+X-Gm-Gg: ASbGncs16AOfJuOkD+EDjuhPzpvAbA2I+OMYGseN/vI5tuwEdsmagUDF6cNxjGk7ZwE
+ Ze4KaYuYicUSnnJgm6u5EV112R2kMTRp9zNzniaaYWunGGqc7EjQOH2a7oGajHU3RMR/5lsXC6G
+ mrAeB/pbZt5x01zZk40BFUQY7+7ul96rIFCI4wjCXmTG/KKTV3CS+/HY2QHsBE2g5BDwFS6xVGV
+ HreTrmeHRWmkBRUxz3OGp/nYlxpoF/GL1J0mEI39DehJCfkCjSh2Y7QeyeT1lfCsfA1wq6QFYcf
+ JhE3C2Fjj29aOZxDaE7TrBBMWAw0UMglUM7nN8QVJ50uKSNYJUJmzGbUmKX23qk=
+X-Google-Smtp-Source: AGHT+IHPQP3t6+AgORSL6BXyyzUz4ljqlr/LPYND1h52ZOt9zldf8tqnLuWoYqmIFgWN7aKpCbjxsA==
+X-Received: by 2002:a17:90b:3ec2:b0:2ee:9e06:7db0 with SMTP id
+ 98e67ed59e1d1-2ff7ce6349emr4649914a91.11.1741338944384; 
+ Fri, 07 Mar 2025 01:15:44 -0800 (PST)
 Received: from distilledx.SRMIST.EDU.IN ([59.152.80.69])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-224109de11asm25563985ad.31.2025.03.07.01.15.34
+ d9443c01a7336-224109de11asm25563985ad.31.2025.03.07.01.15.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Mar 2025 01:15:38 -0800 (PST)
+ Fri, 07 Mar 2025 01:15:44 -0800 (PST)
 From: Tejas Vipin <tejasvipin76@gmail.com>
 To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
@@ -67,11 +68,12 @@ To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
 Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  asrivats@redhat.com, Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH v2 0/2] Add mipi_dsi_dual_msleep and use multi functions in
- novatek-nt36523
-Date: Fri,  7 Mar 2025 14:45:17 +0530
-Message-ID: <20250307091519.245889-1-tejasvipin76@gmail.com>
+Subject: [PATCH v2 1/2] drm/mipi-dsi: Add mipi_dsi_dual_msleep
+Date: Fri,  7 Mar 2025 14:45:18 +0530
+Message-ID: <20250307091519.245889-2-tejasvipin76@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250307091519.245889-1-tejasvipin76@gmail.com>
+References: <20250307091519.245889-1-tejasvipin76@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,19 +91,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduces mipi_dsi_dual_msleep to be used with double-DSI panels and
-converts novatek-nt36523 to use multi style functions including
-mipi_dsi_dual_msleep. In this process, minor changes to
-novatek-nt36523's behavior are introduced.
+Introduces mipi_dsi_dual_msleep to make it easier to use msleep in the
+case of a double-DSI panel.
 
-Tejas Vipin (2):
-  drm/mipi-dsi: Add mipi_dsi_dual_msleep
-  drm/panel: novatek-nt36523: transition to mipi_dsi wrapped functions
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+---
+ include/drm/drm_mipi_dsi.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1681 ++++++++---------
- include/drm/drm_mipi_dsi.h                    |    6 +
- 2 files changed, 827 insertions(+), 860 deletions(-)
-
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index bd40a443385c..d9bc0d79dd82 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -306,6 +306,12 @@ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+ 			usleep_range(min, max);	\
+ 	} while (0)
+ 
++#define mipi_dsi_dual_msleep(ctx1, ctx2, delay)				\
++	do {								\
++		if ((!(ctx1)->accum_err) || (!(ctx2)->accum_err))	\
++			msleep(delay);					\
++	} while (0)
++
+ /**
+  * enum mipi_dsi_dcs_tear_mode - Tearing Effect Output Line mode
+  * @MIPI_DSI_DCS_TEAR_MODE_VBLANK: the TE output line consists of V-Blanking
 -- 
 2.48.1
 
