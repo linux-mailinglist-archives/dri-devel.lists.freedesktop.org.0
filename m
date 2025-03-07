@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFC6A5700F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 19:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBCBA57028
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 19:10:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0174210E008;
-	Fri,  7 Mar 2025 18:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB9F10E161;
+	Fri,  7 Mar 2025 18:10:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="l+TDEK3b";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Fji5kqzS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A24B210E008
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 18:06:15 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z8Z3S2VBmz9t5k;
- Fri,  7 Mar 2025 19:06:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741370772; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gOULT+y5tMwGMCr3JTm9sUOzkdY6/PVrtxtXoMBxsy0=;
- b=l+TDEK3bLzvuX1cQSW9KMszYFnKG1rWUlm6XxJcGyABdBTOYJEB1vQQot9+r42jOjQ8tWC
- 7HGbz1aU97cZMcf+jkX1RWBEs06gJv/JNAtvg819tRnM9VWHrdbRVPxtRJI5SBAv0UZYxW
- dw5gsL65jAPeGjMIhRM5FxOEMMN+fzRgF/sEWkTArj5cVegOjXkSakBGaC7wiHwv8Obul8
- w/pFqXWsB29v2SIUihnOsedDVK1xjaPM3ukta3j5VkoRklCbTmO5AXepowCzRDc66Zk1tJ
- 03oG6KaKywqwfJL+JV6QWJabSR/5XQMmwD8elM8HMJEyfZN5Jsbq51gJKrb4iw==
-Message-ID: <61b4e7342572269b61ed4188dccfb688c3d95d79.camel@mailbox.org>
-Subject: Re: [PATCH v4 1/5] drm: Move some options to separate new Kconfig
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Simona Vetter <simona@ffwll.ch>, David
- Airlie <airlied@gmail.com>
-Date: Fri, 07 Mar 2025 19:06:09 +0100
-In-Reply-To: <f9bbc28f-d2ee-403d-ba9b-708edcc4fb20@igalia.com>
-References: <20250306170555.7244-1-tvrtko.ursulin@igalia.com>
- <20250306170555.7244-2-tvrtko.ursulin@igalia.com>
- <d355bccc3127b727c9f6fe03dfd7a43e4c5cc78e.camel@mailbox.org>
- <f9bbc28f-d2ee-403d-ba9b-708edcc4fb20@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC44B10E161
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 18:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4hMBSR6a742363nCujmsUyxpy/ct/roqWkQT1nfgQbc=; b=Fji5kqzSnmSbBnKJJTQzYEgzh9
+ RB0f4J7Qvv204sKyCH9QdaYc6glzjc06PGQBPzZ90tdxazgiH8XkwbBj7ghIUketh67S8p425NQV0
+ uLDhbgUB3mSuDwZL++Bu3Vnm29IqbAYy27GmYOTM8MWYn2S6B04WIhXW1VT21Q0tnQwGGhnEvGhiJ
+ DXSh+tSQU68qsQAqw5m9TYj9gOPKKXqX8ho3nRtGKq/rpsPyOAMw6psrLGg+FJAPkI6ejracrpTzb
+ iQdS2YYYZvFbGads5NeVQBuZ8dAfc9IbtWYvJv6xqWFFXE9uz7HVWw+6HzY//V0B21c0W+399atZK
+ n2rrOLcw==;
+Received: from [189.7.87.170] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tqc8t-005TCi-No; Fri, 07 Mar 2025 19:09:57 +0100
+Message-ID: <7502a793-4e92-4bfc-9c87-66bd7fdd88ce@igalia.com>
+Date: Fri, 7 Mar 2025 15:09:50 -0300
 MIME-Version: 1.0
-X-MBO-RS-META: bur4rtrjkbix4tf67o74knjecyoqnyjj
-X-MBO-RS-ID: aebcc51d303fabe15c1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/3] drm/sched: Adjust outdated docu for run_job()
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250305130551.136682-2-phasta@kernel.org>
+ <20250305130551.136682-3-phasta@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250305130551.136682-3-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,123 +64,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-03-07 at 16:59 +0000, Tvrtko Ursulin wrote:
->=20
-> On 07/03/2025 13:41, Philipp Stanner wrote:
-> > Hi,
-> >=20
-> > You forgot to put folks in CC as recipents for the cover letter :(
-> >=20
-> >=20
-> > On Thu, 2025-03-06 at 17:05 +0000, Tvrtko Ursulin wrote:
-> > > Move some options out into a new debug specific kconfig file in
-> > > order
-> > > to
-> > > make things a bit cleaner.
-> > >=20
-> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > Cc: Danilo Krummrich <dakr@kernel.org>
-> > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: Philipp Stanner <phasta@kernel.org>
-> >=20
-> > We all have our individual work flows, so don't take this as
-> > lecturing
-> > or anything =E2=80=93 I just suspect that I was forgotten in the cover
-> > letter
-> > because you Cc people by hand in the individual patches.
-> >=20
-> > What I do is that I run get_maintainer and then put the individuals
-> > listed there into the --to=3D field. That sends the entire series to
-> > all
-> > of them.
-> >=20
-> > Only sometimes, when there's a huge list of recipents or when the
-> > patches of a series are very independent, I deviate from that rule.
-> >=20
-> > JFYI
->=20
-> Notice it was there in v3, I just omitted to paste it this time.
->=20
-> > Anyways, we have a bigger problem about the entire series. I now
-> > tested
-> > again with the same setup as yesterday and the faults are indeed
-> > gone,
-> > so that's good.
-> >=20
-> > But to be sure I then did run kmemleak and got a list of leaks that
-> > is
-> > more than 2000 lines long.
->=20
-> There is this comment for drm_sched_fini which ends with:
->=20
-> """
-> ...
-> =C2=A0 * This stops submission of new jobs to the hardware through
-> =C2=A0 * drm_sched_backend_ops.run_job(). Consequently,=20
-> drm_sched_backend_ops.free_job()
-> =C2=A0 * will not be called for all jobs still in
-> drm_gpu_scheduler.pending_list.
-> =C2=A0 * There is no solution for this currently. Thus, it is up to the=
-=20
-> driver to make
-> =C2=A0 * sure that:
-> =C2=A0 *
-> =C2=A0 *=C2=A0 a) drm_sched_fini() is only called after for all submitted=
- jobs
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_backend_ops.free_job() has bee=
-n called or that
-> =C2=A0 *=C2=A0 b) the jobs for which drm_sched_backend_ops.free_job() has=
- not
-> been=20
-> called
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 after drm_sched_fini() ran are freed man=
-ually.
-> =C2=A0 *
->=20
-> =C2=A0 * FIXME: Take care of the above problem and prevent this function
-> from=20
-> leaking
-> =C2=A0 * the jobs in drm_gpu_scheduler.pending_list under any
-> circumstances.
-> """
->=20
-> I got bitten by that. Keep forgetting how fragile the thing is.. :(
+Hi Philipp,
 
-argh damn, those are *all* from the pending_list?!
+On 05/03/25 10:05, Philipp Stanner wrote:
+> The documentation for drm_sched_backend_ops.run_job() mentions a certain
+> function called drm_sched_job_recovery(). This function does not exist.
+> What's actually meant is drm_sched_resubmit_jobs(), which is by now also
+> deprecated.
+> 
+> Furthermore, the scheduler expects to "inherit" a reference on the fence
+> from the run_job() callback. This, so far, is also not documented.
+> 
+> Remove the mention of the removed function.
+> 
+> Discourage the behavior of drm_sched_backend_ops.run_job() being called
+> multiple times for the same job.
+> 
+> Document the necessity of incrementing the refcount in run_job().
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+>   include/drm/gpu_scheduler.h | 34 ++++++++++++++++++++++++++++++----
+>   1 file changed, 30 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 50928a7ae98e..6381baae8024 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -410,10 +410,36 @@ struct drm_sched_backend_ops {
+>   					 struct drm_sched_entity *s_entity);
+>   
+>   	/**
+> -         * @run_job: Called to execute the job once all of the dependencies
+> -         * have been resolved.  This may be called multiple times, if
+> -	 * timedout_job() has happened and drm_sched_job_recovery()
+> -	 * decides to try it again.
+> +	 * @run_job: Called to execute the job once all of the dependencies
+> +	 * have been resolved.
+> +	 *
+> +	 * @sched_job: the job to run
+> +	 *
+> +	 * The deprecated drm_sched_resubmit_jobs() (called by &struct
+> +	 * drm_sched_backend_ops.timedout_job) can invoke this again with the
+> +	 * same parameters. Using this is discouraged because it violates
+> +	 * dma_fence rules, notably dma_fence_init() has to be called on
+> +	 * already initialized fences for a second time. Moreover, this is
+> +	 * dangerous because attempts to allocate memory might deadlock with
+> +	 * memory management code waiting for the reset to complete.
 
-OK. Well.
+Thanks for adding this paragraph! Also, thanks Christian for providing
+this explanation in v5. It really helped clarify the reasoning behind
+deprecating drm_sched_resubmit_jobs().
 
-Now we've got a philosophical problem:
+Best Regards,
+- Maíra
 
-We still have to fix those leaks (I'm still working on it, but my
-current attempt has failed and I probably fall back to a refcount
-solution).
-
-And to see whether the fix actually fixes the leaks, directly using the
-kunit tests would be handy.
-
-After all, this is what the kunit tests are there for: show what is
-broken within the scheduler. And those leaks definitely qualify. Or
-should kunit tests follow the same rules we demand from drivers?
-
-I'd like to hear more opinions about that.
-
-@Danilo, @Dave, @Sima
-would it be OK if we add kunit tests for the scheduler to DRM that
-cause leaks until we can fix them?
-
-
-P.
-
-
->=20
-> Regards,
->=20
-> Tvrtko
->=20
+> +	 *
+> +	 * TODO: Document what drivers should do / use instead.
+> +	 *
+> +	 * This method is called in a workqueue context - either from the
+> +	 * submit_wq the driver passed through drm_sched_init(), or, if the
+> +	 * driver passed NULL, a separate, ordered workqueue the scheduler
+> +	 * allocated.
+> +	 *
+> +	 * Note that the scheduler expects to 'inherit' its own reference to
+> +	 * this fence from the callback. It does not invoke an extra
+> +	 * dma_fence_get() on it. Consequently, this callback must take a
+> +	 * reference for the scheduler, and additional ones for the driver's
+> +	 * respective needs.
+> +	 *
+> +	 * Return:
+> +	 * * On success: dma_fence the driver must signal once the hardware has
+> +	 * completed the job ("hardware fence").
+> +	 * * On failure: NULL or an ERR_PTR.
+>   	 */
+>   	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+>   
 
