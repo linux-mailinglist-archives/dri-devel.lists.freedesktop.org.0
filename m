@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C62A56923
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 14:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0960CA569D5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:00:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55C6910EB4F;
-	Fri,  7 Mar 2025 13:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A53310EB98;
+	Fri,  7 Mar 2025 14:00:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="JHtHq+aW";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fzFiMSof";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0560110EB4F
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 13:42:08 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Z8SBh18gXz9sGw;
- Fri,  7 Mar 2025 14:42:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741354924; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gNFJ4WWT/HAA7YjklzhnZokC4b4A1Y9NdgueWNvZEQo=;
- b=JHtHq+aW0AB5SaDoBrobfYqWrCAlJdH4+4dLtaliWziQ9iiLT/KQNsn79p+joAKtZSFBb0
- yb3o2kPqH9AbDgxIpAo+1dCF58PcrAb/NakSkqAEkBZOKcJ5eH988OxlZ7ARUwL/xbvo4e
- V2eBtZjNr+kvzompThsLhB/0nZ3GAYQjb6DeFQnMPuhYLXg3RZ4Npukc5R2Bc1NDhO6rZt
- 6crD55scBM+PR56q818fa7M8cpP8SRbCXBA3r1cP1pUECTe/kGxQTJiarA7NUsfHg6euUO
- FJsbane/Vnu6DkHHOCC5LhbrnLKzJdwhdZ3jlsY/Gsg8OK8tg7XqOoRZ3RjOzw==
-Message-ID: <d355bccc3127b727c9f6fe03dfd7a43e4c5cc78e.camel@mailbox.org>
-Subject: Re: [PATCH v4 1/5] drm: Move some options to separate new Kconfig
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-Date: Fri, 07 Mar 2025 14:41:58 +0100
-In-Reply-To: <20250306170555.7244-2-tvrtko.ursulin@igalia.com>
-References: <20250306170555.7244-1-tvrtko.ursulin@igalia.com>
- <20250306170555.7244-2-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF61410EB98;
+ Fri,  7 Mar 2025 14:00:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 209775C5422;
+ Fri,  7 Mar 2025 13:57:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DC0C4CED1;
+ Fri,  7 Mar 2025 14:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1741356013;
+ bh=MU+C8WbcetcKkddPtvMu8XaFGjwcxIw90GFaJbuu6iU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fzFiMSof2btrCftHqZlPnCqV4m8aPjlsYpYVE4kM2KWMwlfZErFmROsc/m1CNRawK
+ sz/IaKUDxRYmVvRkNGh9ZQV6kjwTZTg1UP/znLOqw5g3WOljGOYwUlz7Nc0ENu2GAq
+ mDevphihXfBNLZZnDLk6xJQjJcMEd5+t1JiT/MOk=
+Date: Fri, 7 Mar 2025 15:00:09 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Danilo Krummrich <dakr@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <2025030753-celtic-quarry-1799@gregkh>
+References: <Z8GViQzZJVFPxfNd@phenom.ffwll.local>
+ <20250228184013.GF39591@nvidia.com>
+ <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
+ <20250304164201.GN133783@nvidia.com>
+ <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
+ <20250305151012.GW133783@nvidia.com>
+ <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
+ <20250306153236.GE354511@nvidia.com>
+ <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
+ <20250307123255.GK354511@nvidia.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: efbaf3d0b5797178186
-X-MBO-RS-META: awcd4anpbh6wc5cakgs5u7g6h31fj1i3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250307123255.GK354511@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,436 +68,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Mar 07, 2025 at 08:32:55AM -0400, Jason Gunthorpe wrote:
+> On Fri, Mar 07, 2025 at 11:28:37AM +0100, Simona Vetter wrote:
+> 
+> > > I wouldn't say it is wrong. It is still the correct thing to do, and
+> > > following down the normal cleanup paths is a good way to ensure the
+> > > special case doesn't have bugs. The primary difference is you want to
+> > > understand the device is dead and stop waiting on it faster. Drivers
+> > > need to consider these things anyhow if they want resiliency against
+> > > device crashes, PCI link wobbles and so on that don't involve
+> > > remove().
+> > 
+> > Might need to revisit that discussion, but Greg didn't like when we asked
+> > for a pci helper to check whether the device is physically gone (at least
+> > per the driver model). Hacking that in drivers is doable, but feels
+> > icky.
+> 
+> I think Greg is right here, the driver model has less knowledge than
+> the driver if the device is alive.
 
-You forgot to put folks in CC as recipents for the cover letter :(
+That's not why I don't want this.  Think about this sequence:
+	if (!device_is_gone(dev)) {
+		// do something
+	}
+right after you check it, the value can change.  So all you really can
+check for is:
+	if (device_is_gone(dev)) {
+		// clean up
+	}
+which is going to be racy as well, because you should already be
+handling this if you care about it because the device could be gone but
+not yet told the driver core / bus yet.
 
+So this type of check can't really work, which is why I don't want
+people to even consider it.
 
-On Thu, 2025-03-06 at 17:05 +0000, Tvrtko Ursulin wrote:
-> Move some options out into a new debug specific kconfig file in order
-> to
-> make things a bit cleaner.
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
+> The resiliency/fast-failure issue is not just isolated to having
+> observed a proper hot-unplug, but there are many classes of failure
+> that cause the device HW to malfunction that a robust driver can
+> detect and recover from. mlx5 attempts to do this for instance.
+> 
+> It turns out when you deploy clusters with 800,000 NICs in them there
+> are weird HW fails constantly and you have to be resilient on the SW
+> side and try to recover from them when possible.
+> 
+> So I'd say checking for a -1 read return on PCI is a sufficient
+> technique for the driver to use to understand if it's device is still
+> present. mlx5 devices further have an interactive register operation
+> "health check" that proves the device and it's PCI path is alive.
 
-We all have our individual work flows, so don't take this as lecturing
-or anything =E2=80=93 I just suspect that I was forgotten in the cover lett=
-er
-because you Cc people by hand in the individual patches.
+The -1 read is what PCI says will happen if the device is gone, so all
+drivers have to do this if they care about it.  USB does something
+different, as does all other busses.  So this is a very driver/bus
+specific thing as you say.
 
-What I do is that I run get_maintainer and then put the individuals
-listed there into the --to=3D field. That sends the entire series to all
-of them.
+> Failing health checks trigger recovery, which shoot downs sleeps,
+> cleanly destroys stuff, resets the device, and starts running
+> again. IIRC this is actually done with a rdma hot unplug/plug sequence
+> autonomously executed inside the driver.
+> 
+> A driver can do a health check immediately in remove() and make a
+> decision if the device is alive or not to speed up removal in the
+> hostile hot unplug case.
 
-Only sometimes, when there's a huge list of recipents or when the
-patches of a series are very independent, I deviate from that rule.
+Agreed.
 
-JFYI
+But really, all these gyrations just to attempt to make it easier for
+driver developers, the smallest number of people who will ever interact
+with the device in the world, just to prevent rebooting, seems not
+really all that important.
 
+Handle the real cases, like you are are saying here, and then all should
+be ok.
 
-----
+thanks,
 
-
-Anyways, we have a bigger problem about the entire series. I now tested
-again with the same setup as yesterday and the faults are indeed gone,
-so that's good.
-
-But to be sure I then did run kmemleak and got a list of leaks that is
-more than 2000 lines long.
-
-Excerpt:
-
-unreferenced object 0xffff88810ade5600 (size 168):
-  comm "kunit_try_catch", pid 300, jiffies 4294670705
-  hex dump (first 32 bytes):
-    98 56 de 0a 81 88 ff ff e0 f2 48 b3 ff ff ff ff  .V........H.....
-    d9 de 75 22 01 00 00 00 20 7c 45 01 81 88 ff ff  ..u".... |E.....
-  backtrace (crc 4f2b379c):
-    kmem_cache_alloc_noprof+0x299/0x320
-    drm_sched_fence_alloc+0x1d/0xa0
-    drm_sched_job_init+0xbc/0x2d0
-    drm_mock_sched_job_new+0x105/0x400
-    drm_sched_basic_entity_cleanup+0x182/0x510
-    kunit_try_run_case+0x1ae/0x490
-    kunit_generic_run_threadfn_adapter+0x7b/0xe0
-    kthread+0x30f/0x620
-    ret_from_fork+0x2f/0x70
-    ret_from_fork_asm+0x1a/0x30
-unreferenced object 0xffff88810ade5700 (size 168):
-  comm "kunit_try_catch", pid 300, jiffies 4294670705
-  hex dump (first 32 bytes):
-    98 57 de 0a 81 88 ff ff e0 f2 48 b3 ff ff ff ff  .W........H.....
-    ff 2d 85 22 01 00 00 00 20 7c 45 01 81 88 ff ff  .-.".... |E.....
-  backtrace (crc b5f15c1c):
-    kmem_cache_alloc_noprof+0x299/0x320
-    drm_sched_fence_alloc+0x1d/0xa0
-    drm_sched_job_init+0xbc/0x2d0
-    drm_mock_sched_job_new+0x105/0x400
-    drm_sched_basic_entity_cleanup+0x182/0x510
-    kunit_try_run_case+0x1ae/0x490
-    kunit_generic_run_threadfn_adapter+0x7b/0xe0
-    kthread+0x30f/0x620
-    ret_from_fork+0x2f/0x70
-    ret_from_fork_asm+0x1a/0x30
-unreferenced object 0xffff88810ade5800 (size 168):
-  comm "kunit_try_catch", pid 300, jiffies 4294670705
-  hex dump (first 32 bytes):
-    98 58 de 0a 81 88 ff ff e0 f2 48 b3 ff ff ff ff  .X........H.....
-    fb a0 82 1f 01 00 00 00 20 7c 45 01 81 88 ff ff  ........ |E.....
-  backtrace (crc 9fe7a1c9):
-    kmem_cache_alloc_noprof+0x299/0x320
-    drm_sched_fence_alloc+0x1d/0xa0
-    drm_sched_job_init+0xbc/0x2d0
-    drm_mock_sched_job_new+0x105/0x400
-    drm_sched_basic_entity_cleanup+0x182/0x510
-    kunit_try_run_case+0x1ae/0x490
-    kunit_generic_run_threadfn_adapter+0x7b/0xe0
-    kthread+0x30f/0x620
-    ret_from_fork+0x2f/0x70
-    ret_from_fork_asm+0x1a/0x30
-unreferenced object 0xffff88810ade5900 (size 168):
-  comm "kunit_try_catch", pid 300, jiffies 4294670705
-  hex dump (first 32 bytes):
-    98 59 de 0a 81 88 ff ff e0 f2 48 b3 ff ff ff ff  .Y........H.....
-    03 cb 82 1f 01 00 00 00 20 7c 45 01 81 88 ff ff  ........ |E.....
-  backtrace (crc 524ba9e4):
-    kmem_cache_alloc_noprof+0x299/0x320
-    drm_sched_fence_alloc+0x1d/0xa0
-    drm_sched_job_init+0xbc/0x2d0
-    drm_mock_sched_job_new+0x105/0x400
-    drm_sched_basic_entity_cleanup+0x182/0x510
-    kunit_try_run_case+0x1ae/0x490
-    kunit_generic_run_threadfn_adapter+0x7b/0xe0
-    kthread+0x30f/0x620
-    ret_from_fork+0x2f/0x70
-    ret_from_fork_asm+0x1a/0x30
-
-
-I'm no expert with kunit tests, but I'm being told that there shouldn't
-be leaks from test leftovers.
-
-
-Please do a test with kmemleak, too, i.e. build and boot a kernel in
-QEMU and then do some scans.
-
-
-Thanks,
-Philipp
-
-
-> ---
-> =C2=A0drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 109 +=
-+------------------------------
-> --
-> =C2=A0drivers/gpu/drm/Kconfig.debug | 103 +++++++++++++++++++++++++++++++=
-+
-> =C2=A02 files changed, 108 insertions(+), 104 deletions(-)
-> =C2=A0create mode 100644 drivers/gpu/drm/Kconfig.debug
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index d9986fd52194..46ba24592553 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -26,6 +26,11 @@ menuconfig DRM
-> =C2=A0	=C2=A0 details.=C2=A0 You should also select and configure AGP
-> =C2=A0	=C2=A0 (/dev/agpgart) support if it is available for your
-> platform.
-> =C2=A0
-> +menu "DRM debugging options"
-> +depends on DRM
-> +source "drivers/gpu/drm/Kconfig.debug"
-> +endmenu
-> +
-> =C2=A0if DRM
-> =C2=A0
-> =C2=A0config DRM_MIPI_DBI
-> @@ -37,65 +42,6 @@ config DRM_MIPI_DSI
-> =C2=A0	bool
-> =C2=A0	depends on DRM
-> =C2=A0
-> -config DRM_DEBUG_MM
-> -	bool "Insert extra checks and debug info into the DRM range
-> managers"
-> -	default n
-> -	depends on DRM
-> -	depends on STACKTRACE_SUPPORT
-> -	select STACKDEPOT
-> -	help
-> -	=C2=A0 Enable allocation tracking of memory manager and leak
-> detection on
-> -	=C2=A0 shutdown.
-> -
-> -	=C2=A0 Recommended for driver developers only.
-> -
-> -	=C2=A0 If in doubt, say "N".
-> -
-> -config DRM_USE_DYNAMIC_DEBUG
-> -	bool "use dynamic debug to implement drm.debug"
-> -	default n
-> -	depends on BROKEN
-> -	depends on DRM
-> -	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
-> -	depends on JUMP_LABEL
-> -	help
-> -	=C2=A0 Use dynamic-debug to avoid drm_debug_enabled() runtime
-> overheads.
-> -	=C2=A0 Due to callsite counts in DRM drivers (~4k in amdgpu) and
-> 56
-> -	=C2=A0 bytes per callsite, the .data costs can be substantial,
-> and
-> -	=C2=A0 are therefore configurable.
-> -
-> -config DRM_KUNIT_TEST_HELPERS
-> -	tristate
-> -	depends on DRM && KUNIT
-> -	select DRM_KMS_HELPER
-> -	help
-> -	=C2=A0 KUnit Helpers for KMS drivers.
-> -
-> -config DRM_KUNIT_TEST
-> -	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
-> -	depends on DRM && KUNIT && MMU
-> -	select DRM_BUDDY
-> -	select DRM_DISPLAY_DP_HELPER
-> -	select DRM_DISPLAY_HDMI_STATE_HELPER
-> -	select DRM_DISPLAY_HELPER
-> -	select DRM_EXEC
-> -	select DRM_EXPORT_FOR_TESTS if m
-> -	select DRM_GEM_SHMEM_HELPER
-> -	select DRM_KUNIT_TEST_HELPERS
-> -	select DRM_LIB_RANDOM
-> -	select PRIME_NUMBERS
-> -	default KUNIT_ALL_TESTS
-> -	help
-> -	=C2=A0 This builds unit tests for DRM. This option is not useful
-> for
-> -	=C2=A0 distributions or general kernels, but only for kernel
-> -	=C2=A0 developers working on DRM and associated drivers.
-> -
-> -	=C2=A0 For more information on KUnit and unit tests in general,
-> -	=C2=A0 please refer to the KUnit documentation in
-> -	=C2=A0 Documentation/dev-tools/kunit/.
-> -
-> -	=C2=A0 If in doubt, say "N".
-> -
-> =C2=A0config DRM_KMS_HELPER
-> =C2=A0	tristate
-> =C2=A0	depends on DRM
-> @@ -247,23 +193,6 @@ config DRM_TTM
-> =C2=A0	=C2=A0 GPU memory types. Will be enabled automatically if a
-> device driver
-> =C2=A0	=C2=A0 uses it.
-> =C2=A0
-> -config DRM_TTM_KUNIT_TEST
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tristate "KUnit tests for TTM=
-" if !KUNIT_ALL_TESTS
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default n
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on DRM && KUNIT && MM=
-U && (UML || COMPILE_TEST)
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_TTM
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_BUDDY
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_EXPORT_FOR_TESTS i=
-f m
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_KUNIT_TEST_HELPERS
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default KUNIT_ALL_TESTS
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 help
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Enables unit test=
-s for TTM, a GPU memory manager subsystem
-> used
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to manage memory =
-buffers. This option is mostly useful for
-> kernel
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 developers. It de=
-pends on (UML || COMPILE_TEST) since no
-> other driver
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 which uses TTM ca=
-n be loaded while running the tests.
-> -
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If in doubt, say =
-"N".
-> -
-> =C2=A0config DRM_EXEC
-> =C2=A0	tristate
-> =C2=A0	depends on DRM
-> @@ -463,9 +392,6 @@ config DRM_HYPERV
-> =C2=A0
-> =C2=A0	 If M is selected the module will be called hyperv_drm.
-> =C2=A0
-> -config DRM_EXPORT_FOR_TESTS
-> -	bool
-> -
-> =C2=A0# Separate option as not all DRM drivers use it
-> =C2=A0config DRM_PANEL_BACKLIGHT_QUIRKS
-> =C2=A0	tristate
-> @@ -478,31 +404,6 @@ config DRM_PRIVACY_SCREEN
-> =C2=A0	bool
-> =C2=A0	default n
-> =C2=A0
-> -config DRM_WERROR
-> -	bool "Compile the drm subsystem with warnings as errors"
-> -	depends on DRM && EXPERT
-> -	depends on !WERROR
-> -	default n
-> -	help
-> -	=C2=A0 A kernel build should not cause any compiler warnings, and
-> this
-> -	=C2=A0 enables the '-Werror' flag to enforce that rule in the drm
-> subsystem.
-> -
-> -	=C2=A0 The drm subsystem enables more warnings than the kernel
-> default, so
-> -	=C2=A0 this config option is disabled by default.
-> -
-> -	=C2=A0 If in doubt, say N.
-> -
-> -config DRM_HEADER_TEST
-> -	bool "Ensure DRM headers are self-contained and pass kernel-
-> doc"
-> -	depends on DRM && EXPERT
-> -	default n
-> -	help
-> -	=C2=A0 Ensure the DRM subsystem headers both under
-> drivers/gpu/drm and
-> -	=C2=A0 include/drm compile, are self-contained, have header
-> guards, and have
-> -	=C2=A0 no kernel-doc warnings.
-> -
-> -	=C2=A0 If in doubt, say N.
-> -
-> =C2=A0endif
-> =C2=A0
-> =C2=A0# Separate option because drm_panel_orientation_quirks.c is shared
-> with fbdev
-> diff --git a/drivers/gpu/drm/Kconfig.debug
-> b/drivers/gpu/drm/Kconfig.debug
-> new file mode 100644
-> index 000000000000..601d7e07d421
-> --- /dev/null
-> +++ b/drivers/gpu/drm/Kconfig.debug
-> @@ -0,0 +1,103 @@
-> +config DRM_USE_DYNAMIC_DEBUG
-> +	bool "use dynamic debug to implement drm.debug"
-> +	default n
-> +	depends on BROKEN
-> +	depends on DRM
-> +	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
-> +	depends on JUMP_LABEL
-> +	help
-> +	 Use dynamic-debug to avoid drm_debug_enabled() runtime
-> overheads.
-> +	 Due to callsite counts in DRM drivers (~4k in amdgpu) and
-> 56
-> +	 bytes per callsite, the .data costs can be substantial, and
-> +	 are therefore configurable.
-> +
-> +config DRM_WERROR
-> +	bool "Compile the drm subsystem with warnings as errors"
-> +	depends on DRM && EXPERT
-> +	depends on !WERROR
-> +	default n
-> +	help
-> +	=C2=A0 A kernel build should not cause any compiler warnings, and
-> this
-> +	=C2=A0 enables the '-Werror' flag to enforce that rule in the drm
-> subsystem.
-> +
-> +	=C2=A0 The drm subsystem enables more warnings than the kernel
-> default, so
-> +	=C2=A0 this config option is disabled by default.
-> +
-> +	=C2=A0 If in doubt, say N.
-> +
-> +config DRM_HEADER_TEST
-> +	bool "Ensure DRM headers are self-contained and pass kernel-
-> doc"
-> +	depends on DRM && EXPERT
-> +	default n
-> +	help
-> +	=C2=A0 Ensure the DRM subsystem headers both under
-> drivers/gpu/drm and
-> +	=C2=A0 include/drm compile, are self-contained, have header
-> guards, and have
-> +	=C2=A0 no kernel-doc warnings.
-> +
-> +	=C2=A0 If in doubt, say N.
-> +
-> +config DRM_DEBUG_MM
-> +	bool "Insert extra checks and debug info into the DRM range
-> managers"
-> +	default n
-> +	depends on DRM
-> +	depends on STACKTRACE_SUPPORT
-> +	select STACKDEPOT
-> +	help
-> +	=C2=A0 Enable allocation tracking of memory manager and leak
-> detection on
-> +	=C2=A0 shutdown.
-> +
-> +	=C2=A0 Recommended for driver developers only.
-> +
-> +	=C2=A0 If in doubt, say "N".
-> +
-> +config DRM_KUNIT_TEST_HELPERS
-> +	tristate
-> +	depends on DRM && KUNIT
-> +	select DRM_KMS_HELPER
-> +	help
-> +	=C2=A0 KUnit Helpers for KMS drivers.
-> +
-> +config DRM_KUNIT_TEST
-> +	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
-> +	depends on DRM && KUNIT && MMU
-> +	select DRM_BUDDY
-> +	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_DISPLAY_HDMI_STATE_HELPER
-> +	select DRM_DISPLAY_HELPER
-> +	select DRM_EXEC
-> +	select DRM_EXPORT_FOR_TESTS if m
-> +	select DRM_GEM_SHMEM_HELPER
-> +	select DRM_KUNIT_TEST_HELPERS
-> +	select DRM_LIB_RANDOM
-> +	select PRIME_NUMBERS
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	=C2=A0 This builds unit tests for DRM. This option is not useful
-> for
-> +	=C2=A0 distributions or general kernels, but only for kernel
-> +	=C2=A0 developers working on DRM and associated drivers.
-> +
-> +	=C2=A0 For more information on KUnit and unit tests in general,
-> +	=C2=A0 please refer to the KUnit documentation in
-> +	=C2=A0 Documentation/dev-tools/kunit/.
-> +
-> +	=C2=A0 If in doubt, say "N".
-> +
-> +config DRM_TTM_KUNIT_TEST
-> +	tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
-> +	default n
-> +	depends on DRM && KUNIT && MMU && (UML || COMPILE_TEST)
-> +	select DRM_TTM
-> +	select DRM_BUDDY
-> +	select DRM_EXPORT_FOR_TESTS if m
-> +	select DRM_KUNIT_TEST_HELPERS
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	=C2=A0 Enables unit tests for TTM, a GPU memory manager subsystem
-> used
-> +	=C2=A0 to manage memory buffers. This option is mostly useful for
-> kernel
-> +	=C2=A0 developers. It depends on (UML || COMPILE_TEST) since no
-> other driver
-> +	=C2=A0 which uses TTM can be loaded while running the tests.
-> +
-> +	=C2=A0 If in doubt, say "N".
-> +
-> +config DRM_EXPORT_FOR_TESTS
-> +	bool
-
+greg k-h
