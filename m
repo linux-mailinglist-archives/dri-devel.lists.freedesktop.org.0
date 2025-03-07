@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D3DA573D2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 22:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F53A5741D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 22:56:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81B9D10E01F;
-	Fri,  7 Mar 2025 21:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9EFF10E05D;
+	Fri,  7 Mar 2025 21:55:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RMBXD4Cm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BO8+HRZH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 952C910E01F
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 21:40:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 571BA10E05D;
+ Fri,  7 Mar 2025 21:55:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2B107A45379
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 21:35:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 373FDC4CEF2
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 21:40:55 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3449EA4536C;
+ Fri,  7 Mar 2025 21:50:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3F9C4CED1;
+ Fri,  7 Mar 2025 21:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741383655;
- bh=OExTuxpAwwgK2Up9S6FzOeGi7MiyGlByqRcqzuo2EV4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=RMBXD4CmfM4zemR8CcPAOf5xX0ZiLcGrtHJ5wUZyXWAPUbu+GmqlRtjBPU4Q389jf
- +at+8BvNmAl530XtPsrDXGeNFCxdLYH6EmL7EsZP90litbMCH1rsQjwx3Vt3VTMXRk
- igCtSj5FMxUwq0Xy7ZHfTP/kWr2rSjWY1bczFI/gDCPnWIx412Hr7SUc3+jup43ZAm
- rdbzc5jUgGQ+H9rq6qkwp/VVOijFrJEciybVacemxLQ3ymPyBPqZe1NxwNQSVN87qD
- AjdEmOjSHOvdLFJTVvrazx3ABb5W2kkSRyuqh/2kgPjrcV69zakvtdYs11XXddTpkU
- 88bksDitT11Lg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2D722C41614; Fri,  7 Mar 2025 21:40:55 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219834] amdgpu: kernel oops dce_aux_transfer_raw
-Date: Fri, 07 Mar 2025 21:40:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: atiqcx@gmail.com
-X-Bugzilla-Status: CLOSED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-219834-2300-CdvarYm6R7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219834-2300@https.bugzilla.kernel.org/>
-References: <bug-219834-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1741384545;
+ bh=HHaLvWmewEA0UB1/ZT/LTbWWfHBvq2qa7R4z05u++JU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BO8+HRZHaRE5kBHYT5HbpF7Opg3fQElryBtTp79LF07A/DKXJqfN1cBNszyyLOZLp
+ Zj/UXPE/cnP+e1xIVF4dASEHoSMqTI7lluUu8NU92nhImuS417cLyVFasX2YQMzUic
+ YntmikDx2twsr+L8tnb+7HTCbaB7d+IyjtvEVFtEcF6jzuXO6Z7dbfvynPPfAWDWOf
+ kCHS3DX+UD7q5dyC6Rg5pK+O42N3h0IZjjuXJ14StHMBGdmHHRMCpOut2u9e5+BZOd
+ refk7J2V+p1cayr1hOWGseGVZOtr3QHuGI4MTnCgwfk0N/nuNcgAfJfQ4llGrtREjC
+ ROgVzbuJzoNTw==
+Date: Fri, 7 Mar 2025 15:55:43 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Will Deacon <will@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-usb@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Wesley Cheng <quic_wcheng@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kyle Deng <quic_chunkaid@quicinc.com>,
+ Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Christian Marangi <ansuelsmth@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, iommu@lists.linux.dev,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ David Airlie <airlied@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rohit Agarwal <quic_rohiagar@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH 01/11] dt-bindings: iommu: qcom,iommu: Add optional TBU
+ clock
+Message-ID: <174138454322.672545.5612308446106419533.robh@kernel.org>
+References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
+ <20250306-topic-dt_bindings_fixups-v1-1-0c84aceb0ef9@oss.qualcomm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-1-0c84aceb0ef9@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,26 +81,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219834
 
-Atiq (atiqcx@gmail.com) changed:
+On Thu, 06 Mar 2025 19:11:13 +0100, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> Some MMU instances feature a Translation Buffer Unit (TBU), which comes
+> with its own clock. Allow describing it.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/iommu/qcom,iommu.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|RESOLVED                    |CLOSED
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
---- Comment #3 from Atiq (atiqcx@gmail.com) ---
-Thanks for pointing that out.
-
-Found existing similar issue at
-https://gitlab.freedesktop.org/drm/amd/-/issues/4017
-
-Commented there and attached OOPS trace. Please let me know if anything els=
-e is
-necessary.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
