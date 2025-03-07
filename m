@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF632A5605A
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 06:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4419DA56060
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 06:51:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D67A10EADB;
-	Fri,  7 Mar 2025 05:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1BBC10EADC;
+	Fri,  7 Mar 2025 05:51:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BTZC1037";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rVqekRQo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970AB10EADB
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 05:50:41 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-54298ec925bso2249573e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 21:50:41 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A237310EADC
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 05:51:13 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30797730cbdso13909541fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 21:51:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741326640; x=1741931440; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741326672; x=1741931472; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Cklowoo6XciocBvug5xE2tihHXT/6nAX/LWrS1DCIo4=;
- b=BTZC1037iPWdNFkQDwuFojxFcpApWneU844dw2Dowc13kFRC3+gx0PfTSnaQZTxgX1
- Z9CU03kUHcGJ6/7R86noATmUNUFjHkfAjtyfCWX6b2ghD82lV2ukXJP9cYxeCCZAe6cy
- 1BY4Xevr4/TYZr5F7HAsIUn3ghhTnuNIqK8YKocrA+Y8I7X3/SsukFxK9GxoLcbEHFi2
- Tdj4mII8rhlDnBqCd3kW2AtVWwfpUrl9ssVdA6OqFoGVY/Kg895OG7Jf1OzH8wd20jYE
- wbt6wM73WwqND/AwYUy2gsrYftpZNA7HNNkeaU4zdplUdVheJCahWYKruAktOG/QmHyV
- CKyA==
+ bh=tXmSK8/WMVoYp/YH6Up96+HRQthxxadTxRUuQDlSb80=;
+ b=rVqekRQooHvQGylVN/J8aUdHPTQ2sX7qM/grC/zR10TsyLj5pA1b+EY4ZFQsMdgxE/
+ excgapqwDw4xr7e8pJTnfqIwXnl1cwVW4wyEZRQCsB/WHoWWTH/90aHVL2uBzIvFMd9I
+ FbKFfeiatr09YvpMj+RPY4Pl2nz4k3WBNLtySmdMeqoQXnqYOREWTqW1NipWpcC5qz6S
+ 5wXfEpH9EIg7CNr9Zs2kjOOpF+dwOkGR1l2jxwvtBtiz0k3b+Zw20nz1HB/jZweF1yXo
+ AHHqfkxgZw/3F4ifnCNhukJV3eS+2SBL7os5et/7a+IVvPTnmkjfQkNzyj2nYtQlZWsD
+ eEEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741326640; x=1741931440;
+ d=1e100.net; s=20230601; t=1741326672; x=1741931472;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Cklowoo6XciocBvug5xE2tihHXT/6nAX/LWrS1DCIo4=;
- b=umoqyCtwfiZQQR+Lm1B+MM+uLQUrc7yhzrmmUocndKtt8uHxPt0ENZcrhU316gc2YB
- uqy0As40UzCyE3mMJbp2vBgJT5Bhi0x0xVflv56WJbc7wbPDKKpcQkl0NFUUHKU47/hg
- 4by+ilUxSmcJYTVGQbY2q/Dy/t4MV9A/Td+GnGBCgLI9Bs5p8A8LcAN1rBubgUUFH8Qa
- FyAxD097MyzTJ3Ynw+6EKABGG9emAx5up9jkhrB/1dEBDjrVCrbRWmuKJFHkno7axVIM
- u58/YrbgLJI3g47EnKfMzodfsGB9VMLobgP0d++dP/gxjyhhgmE/8XDcn9nrEOPDAKK8
- yCwA==
+ bh=tXmSK8/WMVoYp/YH6Up96+HRQthxxadTxRUuQDlSb80=;
+ b=NZACawENURahXgj/nY2PK+BKEMdTGUxAIfgkzEotwIzk1FcXfZgzVAOS6xL6nznTtC
+ ensS+rqbyi6PHojWddGvhY7Ldl1X1VCv/wGf9n+HzbwQHdPYwZOhlFn/xiP1yW9uoVe1
+ RxtaEV/grqfIQnJcEOiuxpRYVz43OeZV7Tmdm1zyDYdGdnNStFRk27GBlLng/sdPkl5x
+ DQlA1xfBUf7yNWpWqBXcer/HEw92PPaiNz6MZ5xnXoqeE28cZOEIGr0Kk4aFkiH70zU/
+ dl2MA7ic4cfyfj6Q8YAI+6QTL7p7L/IRNPafvcL+wWVw4Fd8PEhYtJPjodm8UH7xbyBN
+ VYxw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAJ7EDR6Q/SazcgJdRYWU8J2Boj1BApaQ/e59doIIhHyq+OO/hbdMq29K+AdoBc67qP8l3nVELNj4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHLeOmjzEBnjwPPn35vxle4PkDLraGXVhW+miKvCbZNUIAspJE
- CTzmHKx8ERNlR1MV0bADfhsOK5SzWNkuPvpprY8Zfm3InDWp4lZ2pOntERikS9g=
-X-Gm-Gg: ASbGnctnkpbZfriZ3W/FD4jb2scw/DtlQQBDlCw7Oz050nzsQkwvYlINsOn1zXrnSOv
- P47P7QJGBdCB4rYlBo/iStPtR1AtwldzRYv5jeknsZBS0N4K0/002+shadRExwEp6mM7RvRT//u
- Kr7TecJxLwdkXs4htjMa2qxTlgT/s6RCVbuPG1l2TLOBi78iSwb8SwnuUEr+CUfaqzW7pLsWxSH
- RW5+QS20iI3UEbs5kqCFTZTJrgzT2Rh3h6cy7ETbT5nzYLpv7/4OqzKLmSPMC5IpTtA0ja+Hb3t
- B9YlFJrYTb8X/fvBjC2AEmpSJfdrJEegte7D+/ja7gB+Sue10+au/l2zxvkRsOMmN+XI8uykZrZ
- C9ryWzRTuJdRw8T2zb7fhxweT
-X-Google-Smtp-Source: AGHT+IFxMJzgkc6aT8SLqY3HFH44f3uS0Pbx7E1LtfSoww8PpYJPAwYDmAvb6be7iccEdwfO0MQmLQ==
-X-Received: by 2002:a05:6512:12c3:b0:549:8cc9:67b3 with SMTP id
- 2adb3069b0e04-549910b5d9fmr492625e87.42.1741326639884; 
- Thu, 06 Mar 2025 21:50:39 -0800 (PST)
+ AJvYcCUwTfwA3zDeiJSjrQnrzWNP7JcNWSzatcYscz6wSO95G0QUFpqrmXV204NsS+8GO7jVaySBmn3QOBA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6pk+JMAWfLqu//g8Zf4YGCUpvwXGRjyMXVOfl0eSZnz93eq98
+ wNAjPebU4VL/eY4ttbJGgFHbFAgSoJD0ROsRspMrWpSpMeJEwGCxkV5OGd9HLVI=
+X-Gm-Gg: ASbGncsHSjWV4vFaJXloZcFUA6lpp6eLRorG0eW+MVGeLHMWKfhHWHs/ISpCZXQy2OP
+ W6phUfQF9WqJ8bIzJzulXK+VW0LqWH8UBsRQNYmKwyYbq+4gaDQycf1UGbeRVjNKuki1qLwxQge
+ AzzmbW+4KKNUoTujWROWUHqg/PTfRJ402+A450ju0BloRfvIrp+QWh9rsjhoQ9ze4u6ByfkTrhJ
+ SVXMpgDWSwh/SR9AYWFnv09tLw6Gt2p0BEKGT3QFRQ/6mQifdS8HuiRUkQgpMBqHFoNZng5qWB/
+ xK0SQlKv8f9dVL9yf0Kzodxbn1Yqogxp0pHAtlleGMuv+8F0E8RkBqAsGiq7NJ6lzjHM1B3LhL0
+ 7FQs7lCDMTpeGAtPPLHwRR2On
+X-Google-Smtp-Source: AGHT+IGZcu2fypEgK7clxXmR93TzJ7unEXU/+kahsKp0+Qev+odXPrrlaC4iINRI4Yd2AzKHpypLwQ==
+X-Received: by 2002:a2e:330e:0:b0:30b:eb08:53e3 with SMTP id
+ 38308e7fff4ca-30bf45360acmr4804561fa.17.1741326672025; 
+ Thu, 06 Mar 2025 21:51:12 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498b1bc56asm382830e87.183.2025.03.06.21.50.38
+ 38308e7fff4ca-30be9a073d0sm4291591fa.112.2025.03.06.21.51.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 21:50:39 -0800 (PST)
-Date: Fri, 7 Mar 2025 07:50:37 +0200
+ Thu, 06 Mar 2025 21:51:10 -0800 (PST)
+Date: Fri, 7 Mar 2025 07:51:08 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konradybcio@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>, g@eriador.lumag.spb.ru
 Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
  Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -85,15 +85,15 @@ Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH 11/11] arm64: dts: qcom: x1e001de-devkit: Drop
+Subject: Re: [PATCH 09/11] arm64: dts: qcom: x1e80100-dell-xps13-9345: Drop
  clock-names from PS8830
-Message-ID: <ec272btbpxlewp2qiz42c7c77gpg476wdzx23dpv7fqoe2v5fj@53vu6jgpa7xc>
+Message-ID: <bth4rfqqu2bat24avosimvxuqmruc52taues4wljnhfcmxnx7m@zkjvf32oiogt>
 References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
- <20250306-topic-dt_bindings_fixups-v1-11-0c84aceb0ef9@oss.qualcomm.com>
+ <20250306-topic-dt_bindings_fixups-v1-9-0c84aceb0ef9@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-11-0c84aceb0ef9@oss.qualcomm.com>
+In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-9-0c84aceb0ef9@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,7 +109,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 07:11:23PM +0100, Konrad Dybcio wrote:
+On Thu, Mar 06, 2025 at 07:11:21PM +0100, Konrad Dybcio wrote:
 > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > 
 > The preemptively-merged node contains a property absent from the final
@@ -117,11 +117,12 @@ On Thu, Mar 06, 2025 at 07:11:23PM +0100, Konrad Dybcio wrote:
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > ---
->  arch/arm64/boot/dts/qcom/x1e001de-devkit.dts | 3 ---
->  1 file changed, 3 deletions(-)
+>  arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dts | 2 --
+>  1 file changed, 2 deletions(-)
 > 
 
-Fixes: 019e1ee32fec ("arm64: dts: qcom: x1e001de-devkit: Enable external DP support")
+Fixes: bd2dbbb1f35a ("arm64: dts: qcom: x1e80100-dell-xps13-9345: Introduce retimer support")
+
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
