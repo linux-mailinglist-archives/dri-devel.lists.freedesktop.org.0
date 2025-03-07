@@ -2,67 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05627A55B31
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 00:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC3FA55B78
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 01:08:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0999510E038;
-	Thu,  6 Mar 2025 23:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0B6910E033;
+	Fri,  7 Mar 2025 00:08:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FbVXrALk";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="axVN0JU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A07010E038
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Mar 2025 23:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741305499; x=1772841499;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Ysfi3IJpWU0q4KuMX92m4SfIaDX+nhzcOw9b5BXdpgM=;
- b=FbVXrALkgS2zWoKuezmZbUORGaBswj07NNRSEfTKo9ch5Ug5SWRa7XPZ
- OFebvBOXZNmVRa8UUylrTsnAYqrF3b+JzwWkamUTrkPlgokT2ZgtnFtVS
- fLtLXyIiJ8+s2d7Aeesr0CNR5sppSqod8tpsHVHzhJ5mSa6LOf0gOiPaW
- CpSXhOw00ZxCeo4qM/s5gQyjvCwMMjktogyhREkhPSbaSB0XLWbKgAjGV
- bJ6DHVhKjvxosAArldV42LCZ7Fl5Qv/lUqNTU5Jha0z0NfEgTv5MvCMwm
- +y1d7f71dNNWUHJWwvz3uH3mtZ2vz/UpB3UFNa/kqr4IZUfs0EjbFwyoY Q==;
-X-CSE-ConnectionGUID: Ob6dQfvSS7SyERRUTbU33g==
-X-CSE-MsgGUID: 4B7ObVtrSrWjLDk/t9cMcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42051282"
-X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; d="scan'208";a="42051282"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2025 15:58:14 -0800
-X-CSE-ConnectionGUID: iOrXB3uPQIS9LIc4TsgJ+Q==
-X-CSE-MsgGUID: +4LUmdnKRg2IMCJ5r/qOkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; d="scan'208";a="149965485"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
- by orviesa002.jf.intel.com with ESMTP; 06 Mar 2025 15:58:10 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tqL6A-000NmU-29;
- Thu, 06 Mar 2025 23:58:04 +0000
-Date: Fri, 7 Mar 2025 07:56:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
- akpm@linux-foundation.org, urezki@gmail.com, hch@infradead.org,
- dmitry.osipenko@collabora.com, jfalempe@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Ryosuke Yasuoka <ryasuoka@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux.dev, linux-mm@kvack.org
-Subject: Re: [PATCH drm-next 2/2] drm/virtio: Use atomic_vmap to work
- drm_panic in GUI
-Message-ID: <202503070700.ePiUr1E6-lkp@intel.com>
-References: <20250305152555.318159-3-ryasuoka@redhat.com>
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
+ [209.85.160.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDAB810E033
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 00:08:51 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id
+ 586e51a60fabf-2bcc0c6c149so1097199fac.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 16:08:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1741306126; x=1741910926;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qIBYJfinn3ZTy2inbKBXycwp5r8VN34mN6BJPNVjbHg=;
+ b=axVN0JU/DBXdZdWzSZNtEVQ+dcQgCbSMAHso7WOiy5Lha7AkXjCzchE5nWqOmEgCUo
+ 5ySubynXXYCqruOrylukOx4XhyZ0ls8LGrQ7hZflv8RUeT0t6uzix4D4VoM/GjCGSaRB
+ PBpk27EDTcdNSwxzZdlS5mKocccMvGL3NSvRI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741306126; x=1741910926;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qIBYJfinn3ZTy2inbKBXycwp5r8VN34mN6BJPNVjbHg=;
+ b=bevh2WPWC7hS4JN7qKpKfhvO0KChfVWZNszTsNftnbtmUYAvicjOMozPQ8ZvuHNKvz
+ ghEH5Gcc1r1JA8G0pJ2TAYN27CHcvmBIYsyltZxoZ1YsL+QrQvudviQhXgwTcYbTi6+M
+ y+eaKFAIG9ZQ+uJsb4i2ZhyMsJJraF7KAReTOSgIMCy3t5qWzU+IMA59Sjnj5u3Do9zd
+ 064U0yGh51n9GJDpd+uSC66RuJFjlWpQb+i1Tztr0qLBdWEZjzJh+11JDl7oljH4xLoM
+ F5Su+W6nETeGsgaSDuk6wt9GkdIGdJNU1akLeVM/PBFtAzgU1BKRsKWLAbCu3Yy/0h3T
+ MsIA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoMMJfNWRsgvVIViPl5cdwlRTF/IkEuFDni8j9C18af5BnWXcZBmYNeFh/49sJN3/gJBldkwWbJho=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykPYWty0/wZ5cMQVvwLzw7EMWeDCoIe6bQ83Zof3qbtgslRHkS
+ jqLMh3DXAxfQhJQHzpU36WaEWQHxfQe2GyHu7SDUeJakDMFxNzFFwiJq193mQQ==
+X-Gm-Gg: ASbGncto4vSPtH7ACvxnmDNIa8yjxNYrCHMvmWtE1Uhf9OhnwMcO+9u19n9uJjRD3WR
+ nFz/OFx83XMVvtuqCI7/zmJWqGzyXytypa9LYub2pIZ6s09xZnkjdQdWlzttayC0eenWIuz5aIc
+ qNBIJ0NrkKbndRwMACgfOc73IvruE6vo6EV4GisNU5DHQBSGhEKD8yFnopsMaXN7xxPK2OK4sgW
+ phhKhNt9zaB7NJL005cKHqZIDsZjZX7grygQFYDwFGRfZyuUxVfyWUYZXDrqxVsUwYh+hXWfh/a
+ 4o782B456ZohszttQbUuXG3ZmUIwIKosmVRtmWRvb3AAMG7s1odH45QaAz3L22W7+tFTWR1VATA
+ Xvc1WTm94DQ==
+X-Google-Smtp-Source: AGHT+IFrJZjCqawt6r8iNZej/vCgzAPRwgtzxXc5RImQuEHCyAi1ABwtdeoCCElXtGijb4agexMchQ==
+X-Received: by 2002:a05:6870:b291:b0:2b8:e4b9:47a3 with SMTP id
+ 586e51a60fabf-2c261143981mr697030fac.22.1741306126140; 
+ Thu, 06 Mar 2025 16:08:46 -0800 (PST)
+Received: from [10.211.247.102] ([216.221.25.44])
+ by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-2c2488ba989sm466859fac.15.2025.03.06.16.08.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Mar 2025 16:08:45 -0800 (PST)
+Message-ID: <5e45550e-6e00-4498-a2da-e5711bbe03a9@broadcom.com>
+Date: Thu, 6 Mar 2025 16:10:18 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250305152555.318159-3-ryasuoka@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] Fix native cursors with vmwgfx
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com
+References: <20250306041222.2776379-1-zack.rusin@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Content-Language: en-US
+In-Reply-To: <20250306041222.2776379-1-zack.rusin@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,33 +90,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ryosuke,
+On 3/5/25 20:11, Zack Rusin wrote:
+> vmwgfx had a number of cursor issues that related both to our handling
+> of dumb buffers and general detection when a cursor has actually changed.
+> Fix those issues and bump the kernel module version to allow userspace
+> to recognize fixed versions of the driver.
+> 
+> v2: Include the fix for leaked dirty trackers in kms fb surface
+> cleanup code.
+> 
+> Zack Rusin (2):
+>   drm/vmwgfx: Refactor cursor handling
+>   drm/vmwgfx: Bump the minor version
+> 
+>  drivers/gpu/drm/vmwgfx/Makefile              |   2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c           |   6 +
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h           |   2 +
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c | 844 ++++++++++++++++++
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h |  81 ++
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c          |   3 -
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h          |  12 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c      |   2 -
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c          | 851 +------------------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h          |  49 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c          |  10 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c   |  40 +
+>  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c         |  10 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c         |  11 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c      |  25 +-
+>  15 files changed, 1031 insertions(+), 917 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c
+>  create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h
+> 
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on e21cba704714c301d04c5fd37a693734b623872a]
+Should update the year in the copyright to 2025, looks good otherwise.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryosuke-Yasuoka/vmalloc-Add-atomic_vmap/20250305-232918
-base:   e21cba704714c301d04c5fd37a693734b623872a
-patch link:    https://lore.kernel.org/r/20250305152555.318159-3-ryasuoka%40redhat.com
-patch subject: [PATCH drm-next 2/2] drm/virtio: Use atomic_vmap to work drm_panic in GUI
-config: i386-buildonly-randconfig-001-20250306 (https://download.01.org/0day-ci/archive/20250307/202503070700.ePiUr1E6-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503070700.ePiUr1E6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503070700.ePiUr1E6-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
->> ERROR: modpost: "drm_gem_atomic_get_pages" [drivers/gpu/drm/drm_shmem_helper.ko] undefined!
->> ERROR: modpost: "atomic_vmap" [drivers/gpu/drm/drm_shmem_helper.ko] undefined!
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Maaz Mombasawala <maaz.mombasawala@broadcom.com>
