@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E571A5603B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 06:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FDAA56040
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 06:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7795310EAD5;
-	Fri,  7 Mar 2025 05:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3656C10EAD6;
+	Fri,  7 Mar 2025 05:48:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QuI5O2PN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H8vT/vUM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2054910EAD5
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 05:48:23 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-307d1ab59c6so15117211fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 21:48:23 -0800 (PST)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7C0410EAD7
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 05:48:35 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-30bee1cb370so10371601fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 21:48:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741326501; x=1741931301; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741326514; x=1741931314; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=QBJJ6mH3Lq4uasqO2w/mLpbOX1gw+uVajo1XywdLac4=;
- b=QuI5O2PN0shXkeiXhehaG+N4vwfyjW+rR83A18HJY0cnScn2MkAz6CBtiLUdpJaJ4x
- YGto3b7FgVsp/RCiMWfnSR8j2TByCps+lDGhmgyjxS/LqQlsU5wzA2bFcqUdNTwhKt19
- nZjhpX5I6b4QsQ9FECP1k6pdNqc+tBosgDrAEj0rcTG/mMFxyS+oqqOgaJIY5meAX6gQ
- G90FLfae+0UhUlbO82/E7mPNtadKrlrqx2qYgv/SNQfBzL2w1ZdFAhFRbUmk84WmE88/
- LwzeGRMtVi//TK1ToyKHP56/3pLW/p855luwiS2a7sRM38quiaFct90rx0+vW5qsuXbk
- Trjw==
+ bh=xIUlPQiEEjx7lB+nUPvIprXpkiiTW4hGNlxewbBn0Vo=;
+ b=H8vT/vUMtHt/Ir5xKU7dGdBKxK7fONcJJk5IaHHyoJYRRPsJHxinrUZWfrv533zIcR
+ u3MwieEmuFlp+U4kmTg7ygkBqSoVse3Fstv3awPzkCue3PK1fNfSp/q/ZUo3izCb6toT
+ oG3zQduk8Z5SpskcGxH1mNoia6EotJCssWY9jxI0T6NPvu2AR+TuN7L22rt6PdofxOLh
+ 7LJq0ti1AOmqmG8N0i6AQO929WUnpFh7yzY/9hX6lw2b14lvQZSz4fMRtJ3eNo7w47xK
+ kDHGGKqM1eUejx46uNs576mQv03k3boc6BmrUOu6dPoXJGrOOZ/7tCOrjcQ14xJUHSCe
+ NnNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741326501; x=1741931301;
+ d=1e100.net; s=20230601; t=1741326514; x=1741931314;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QBJJ6mH3Lq4uasqO2w/mLpbOX1gw+uVajo1XywdLac4=;
- b=FTHQQ5L1yTS8tNcTPshVFD7IH02kxAx5VoxSrDjRnIitHvjjf2/cxE932yKLvCR/Sa
- P+0OgsUVk5pG4Ag3T1necNEBnAG1vqtjE+7puefV6TOLulEKgZIfk04pztTsn8XnggDA
- f1hU5JDuFPyUliPzANcTBl3wXQXkf/beHdMd+WzX9nzIyPTYjvZ1PogCTzOEs0INxAlS
- kc2g/six73BrCVuys/de3WHZzn9soD/ak5mppGoHNqAG+hohNkZ1k1rqxawQnCpOqCG1
- ZJbEwcNhsV6QRDd0meMXWs3RJq6KZ91z6i9JVHqAPnneWfd9DbsiyEyYz5zHlhqshoLM
- 0F3A==
+ bh=xIUlPQiEEjx7lB+nUPvIprXpkiiTW4hGNlxewbBn0Vo=;
+ b=jMExqp777A8QVXiUWCZq5leFSj4SY+6gqdjdMC4iTxTzRaJdxG7DnH8KfK3DXCQ+qK
+ 29iu3HLCge8oFHVhTAhQnMgbcQ+o+35Pt5PBCeYlFDGFbC23HCRax/8aO/WYG0YAw7lt
+ ZlF+tRjLQGsUFppwREdSF0J9m29T1ETfOuZEDQ8PhpSh6C8EsI/xBiB/8JPO6J8EBI9A
+ 9qU5r8j9STX/bHozionhLRNt9CKd/1jkHy/u+X0E+qiVSdYRqRp57gOAseW28YhIVw9I
+ AraiDG1OT5FyKAck/a0xXQI4WTjSSxDf24Ks/ELQQSohUhAFZfXTZrRq3kpozenAWvwZ
+ mmVQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUyG8jpIbrTxtERETzVLv8KWajykHGhXLuyYDVPIvpdIRGx7CFTBuQ0L1P+g6nr/W3WeypkQaSWZes=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyC7aVwk1NlzzvNaL8gb9+xYOxjdoNOr8+hLJrquQfUOhgc/Dcs
- zub3WgYnPmhKjNf2rIbSrnChVDApCohTDhJArxmi32ZkbipSIxmn5l7Y3OzHvjw=
-X-Gm-Gg: ASbGnctv/vJ95+Baph6ef9uIdQnugihrvpSdQlueWD5KTpJYxPmO/AsfwgSmvHfV9oC
- I52BmN+IeHFuhplD67fYFYKWjjiO5rfhvMztLoqJzyQhJQyB4g3ZmFP/uAeUCoq+n3lWcinunON
- IDjLwQB67IURzSRMtltDrKof0V9XH9I6Xjckgz4YJAf2OMsu2UFY2DOK7pseX+fK8g7Nxe4c+k5
- z7sleLLNdwWx6oZYnVfpyy9ARCMGqqlNAr+UXRV29H8/gQ52/tFExdruxTKHDpu/9rc5JV/X4cJ
- Bdmx4neaoMAHBLUa5ec2PqoII8ZwpLECuLVNa6g94Mx//dme2SWc+GA4h+A4ydkwGUTZDdrnu9x
- CsbVLNwn+5YO+b9S5UnLfAIpS
-X-Google-Smtp-Source: AGHT+IGmsERqhfZqLPyNL7GHC82EoyeyaDNDfDa4E87aEDrWxyBlXoZ/5KIqAbmzZjDQsHi6vMCl1w==
-X-Received: by 2002:a05:6512:3d8f:b0:548:de7f:b3be with SMTP id
- 2adb3069b0e04-54990e5e265mr590371e87.21.1741326501038; 
- Thu, 06 Mar 2025 21:48:21 -0800 (PST)
+ AJvYcCVGym7SLrkFlY2eHm030wzHB9TvsWz5fF4wpNafwYLmrhj/GmpgMlXimLzk8v3h3P6//RJFZuM5NoM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjMcEOkhfDjkSOc81jrf/xG3VW1mwQWZNGYqbZTciSdG9IFYnf
+ bvgDCqz9c3ytrZHiUCOSd9r3vkCEqJ+1aXHttgxDvoZ/88/bAZqiY04HI+HjY04=
+X-Gm-Gg: ASbGnctAMuV9ynnBfCWI/1V8oyzi8kL/ixWbvfAw6U5Xep8a877vikhEPYUgSTYVkmE
+ PL7UL9tOfJekSOJlhGbNpAUQj2Ub59rqF9mvHbozyQgRoppayeGSWRCRzIjvnaYPJp0Kx2RlkSc
+ daUGAfNC1qWEwIXxDqLfnGNyFqGNp8Q46rDS1FPC0ymopC4bQT0swFS++aWAmii++O2TpKWg8AY
+ 2Tsqn4VKx6MDFNfvZOEGU6Z5EJBjEDSelcAL0Uzqf2mv2+j7xsVrxutw4f6JWTKNavtaA4ln1BO
+ hV7678zZ2Kdl5jo89ZOYV97oIDTapORIYj/frr9QjzGyzYRF9C/q4PM7LW/4hldMqYyv1LBBuTl
+ rsIPe5c/pMNiM/eYAdx726rmS
+X-Google-Smtp-Source: AGHT+IFLgCjDUK+ssfV3W8fYXWF3IcyBRSZKJMxl/h3Pqf22SL2LHsOB83+2OXk5a+mSVQE5lVC+4w==
+X-Received: by 2002:a05:651c:b2c:b0:300:2a29:d47c with SMTP id
+ 38308e7fff4ca-30bf4606942mr5189011fa.24.1741326514230; 
+ Thu, 06 Mar 2025 21:48:34 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498ae579a3sm380848e87.53.2025.03.06.21.48.19
+ 38308e7fff4ca-30be9a07204sm4342721fa.114.2025.03.06.21.48.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 21:48:20 -0800 (PST)
-Date: Fri, 7 Mar 2025 07:48:17 +0200
+ Thu, 06 Mar 2025 21:48:33 -0800 (PST)
+Date: Fri, 7 Mar 2025 07:48:31 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Konrad Dybcio <konradybcio@kernel.org>
 Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
@@ -85,14 +85,15 @@ Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH 04/11] arm64: dts: qcom: msm8916: Fix KPSS ACC compatible
-Message-ID: <5e3i5p4er7hcqsm55nf2qjvegmoozntq2aqrpk4lvw43ydlvcl@xsgxgx4fj6zx>
+Subject: Re: [PATCH 06/11] arm64: dts: qcom: sdx75: Rename AOSS_QMP to
+ power-management
+Message-ID: <zmy54zmhuai5vip7fvdjkf5hr2tsnmmh6ts2labnh3amkg4s2l@6pjfprdfxn56>
 References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
- <20250306-topic-dt_bindings_fixups-v1-4-0c84aceb0ef9@oss.qualcomm.com>
+ <20250306-topic-dt_bindings_fixups-v1-6-0c84aceb0ef9@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-4-0c84aceb0ef9@oss.qualcomm.com>
+In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-6-0c84aceb0ef9@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,68 +109,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 07:11:16PM +0100, Konrad Dybcio wrote:
+On Thu, Mar 06, 2025 at 07:11:18PM +0100, Konrad Dybcio wrote:
 > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > 
-> The current compatible has been used with no corresponding
-> documentation. Replace it with one that has been documented.
-
-qcom,msm8916-kpss-acc is also not documented. Most likely you meant
-qcom,kpss-acc-v2
-
+> The node is currently named power-controller, which requires the device
+> underneath is a power domain provider. Rename it to align with other
+> SoCs and resolve this sort of warnings:
 > 
-> This has no functional effect, as these nodes' resources are only
-> consumed through a phandle reference, anyway.
+> power-controller@c310000: '#power-domain-cells' is a required property
 > 
+> Fixes: 91f767eb6938 ("arm64: dts: qcom: sdx75: Add AOSS node")
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > ---
->  arch/arm64/boot/dts/qcom/msm8916.dtsi | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  arch/arm64/boot/dts/qcom/sdx75.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/msm8916.dtsi b/arch/arm64/boot/dts/qcom/msm8916.dtsi
-> index 8f35c9af18782aa1da7089988692e6588c4b7c5d..33a28f8163dda0e53f4176d61738ce175efc096c 100644
-> --- a/arch/arm64/boot/dts/qcom/msm8916.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/msm8916.dtsi
-> @@ -2574,7 +2574,7 @@ frame@b028000 {
->  		};
->  
->  		cpu0_acc: power-manager@b088000 {
-> -			compatible = "qcom,msm8916-acc";
-> +			compatible = "qcom,msm8916-kpss-acc";
->  			reg = <0x0b088000 0x1000>;
->  			status = "reserved"; /* Controlled by PSCI firmware */
->  		};
-> @@ -2586,7 +2586,7 @@ cpu0_saw: power-manager@b089000 {
->  		};
->  
->  		cpu1_acc: power-manager@b098000 {
-> -			compatible = "qcom,msm8916-acc";
-> +			compatible = "qcom,msm8916-kpss-acc";
->  			reg = <0x0b098000 0x1000>;
->  			status = "reserved"; /* Controlled by PSCI firmware */
->  		};
-> @@ -2598,7 +2598,7 @@ cpu1_saw: power-manager@b099000 {
->  		};
->  
->  		cpu2_acc: power-manager@b0a8000 {
-> -			compatible = "qcom,msm8916-acc";
-> +			compatible = "qcom,msm8916-kpss-acc";
->  			reg = <0x0b0a8000 0x1000>;
->  			status = "reserved"; /* Controlled by PSCI firmware */
->  		};
-> @@ -2610,7 +2610,7 @@ cpu2_saw: power-manager@b0a9000 {
->  		};
->  
->  		cpu3_acc: power-manager@b0b8000 {
-> -			compatible = "qcom,msm8916-acc";
-> +			compatible = "qcom,msm8916-kpss-acc";
->  			reg = <0x0b0b8000 0x1000>;
->  			status = "reserved"; /* Controlled by PSCI firmware */
->  		};
-> 
-> -- 
-> 2.48.1
-> 
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
