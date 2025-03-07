@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0344A55F6F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 05:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD46A55F6D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 05:35:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E450410EABF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2823210EA14;
 	Fri,  7 Mar 2025 04:35:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s+HhjOhS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kbBv0Wez";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E25EA10E0B8;
- Fri,  7 Mar 2025 04:35:03 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFBF410E304;
+ Fri,  7 Mar 2025 04:35:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 703115C5BCA;
- Fri,  7 Mar 2025 04:32:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F21C4CED1;
- Fri,  7 Mar 2025 04:34:47 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9F7DAA45443;
+ Fri,  7 Mar 2025 04:29:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA82C4CEE7;
+ Fri,  7 Mar 2025 04:34:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741322093;
- bh=XqzhyeJqcijzc1zEWnFHc8CXWW9TaUwdVzABORTsWzg=;
- h=From:Subject:Date:To:Cc:From;
- b=s+HhjOhSqHORZRdCgtb8Vrv/rRuiWnb96ZQPANjE1MyLwf3qdFWc2jI5VqiZa8eLB
- rD1b7oK29o0X37aFgrq8IN7nhINe9omVacWzB1cRMkwuo/SdpjKFNyeexIIPWkrzvB
- 6ETBorUlap+aEeFVdMzQs9lrybWuEK8ArkvbW48OaEc6E9wMJYRWulm31uDNeZGiR0
- LwuAYUWGW/uDhdQZUGNrZ4xjC81nKYrfrCmTW8kPQWKaPG6l+nZGBVZ7gj4l1EByIT
- f8d4wcY/gZVqdKMs/XKdc7OXjzmKrTaJBsNyBunLaPyoVNRZWA6moIo3coTUSjn4BF
- 2Y+dPoHVcvD4w==
+ s=k20201202; t=1741322100;
+ bh=eOTV044WYhocRx1vXkpraElTyG3Fqa9oEKLRf65avo8=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=kbBv0Wez8COiRkm4MKqKGM+B9CMdvf6w2xB6CCt79bTj2qE4PdtCoyOtslleQvw9J
+ Tf8bkIsng/MGnib3O741wH+yTt+1cEhUgH56C5VRvlABiMkBK+6yrkJAIiQDhFpmLY
+ tBluPkg4/TYUg83NYvvFfmyXAjnsRicuS7Rt/TpM7TtSVQrQr9XJmHBAjwpeDSdqiE
+ qEhqe3u4xPnzk8wmElvd9/kg8q1jIoRsIHM/tIxBYZjPuIdqoVPwaFOWi2n+ub4UbW
+ h84gvqs85+4Jj+YWbZ1PQ3tmHFmxo8WdFb4LCwk7wfOOTH6mvvFBd9rkyrnnyMthmC
+ xqCGfJJijZ3NQ==
 From: Dmitry Baryshkov <lumag@kernel.org>
-Subject: [PATCH RFC v3 0/7] drm/display: dp: add new DPCD access functions
-Date: Fri, 07 Mar 2025 06:34:42 +0200
-Message-Id: <20250307-drm-rework-dpcd-access-v3-0-9044a3a868ee@linaro.org>
+Date: Fri, 07 Mar 2025 06:34:43 +0200
+Subject: [PATCH RFC v3 1/7] drm/display: dp: implement new access helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGJ3ymcC/3XOwQrCMAwG4FeRnq2k2dzQkyD4AF7Fw5ZmW1HXk
- UpVxt7dsot42PFP+L9kVIHFcVD71aiEowvO9ylk65Wirupb1s6mrBAwN5gZbeWhhV9ebtoOZHV
- FxCHoGhpCzktbmEyl8iDcuPcMX9T5dFTXNOxceHr5zMeimVfJ3YIx5ZIbjQZdNgQIDLmt6XB3f
- SV+46WdzYg/J4PF/yImJ7c7LAAbKsn+OdM0fQEd0r1rCgEAAA==
-X-Change-ID: 20241231-drm-rework-dpcd-access-b0fc2e47d613
+Message-Id: <20250307-drm-rework-dpcd-access-v3-1-9044a3a868ee@linaro.org>
+References: <20250307-drm-rework-dpcd-access-v3-0-9044a3a868ee@linaro.org>
+In-Reply-To: <20250307-drm-rework-dpcd-access-v3-0-9044a3a868ee@linaro.org>
 To: Lyude Paul <lyude@redhat.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -64,16 +61,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2883;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6662;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=XqzhyeJqcijzc1zEWnFHc8CXWW9TaUwdVzABORTsWzg=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnyndlMsf/JrFPSmdbYWWLvhwHDkT/ieTkTXN9/
- lqE5dH+wNGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8p3ZQAKCRCLPIo+Aiko
- 1aKhCACjQw5F7YO5gtzvIHSaGtZo4Y/5aGzxeTxD0OMUp/5hT2oTXrms082iYP0AiH6KDcY4cRH
- cd3zg/fRgPvw+3Pnwe88wo/9F9RGhnuyAzfT+b76GOoq3qiO6xws9hNIM/+p+uQ0quL67unGB7/
- 8PJc5scnCbK2hQcuNiYvuD2+Zy3SQn2wz4LaZHuLOo9WrMlIpiwz0iFIaXWJPG0nfCgYTbp15g3
- A0mofYnAkZSoMSG4BUHj4Wje+l7WpPdL2AD9Pd1BYoFabjJX6gnm2HhidAkS7cXc4tU7/onNjrc
- 2IRbVF+vSZdWm+C9yJ/TubcGS1ZPe8N0m4SoukasvViWrDel
+ bh=SmZu1bk63rEb0BXZXya3Ueg7NpPOC5KqOlIN1CXFX+4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnyndlpmM7SwYZ9oezAZbVfAnEvPMSol8yIr3yL
+ cjm9tXBuZSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8p3ZQAKCRCLPIo+Aiko
+ 1XwuB/94oyKTlhatl5m82hLLyvzpc7YCxkMcpwIBqCye2l9AEF2N7CcaS13LLQqV72VPqizPqkV
+ Y76HuqAJ90v42eB3x/As32QFw2dcPobj+smP+OArSoN1pzgty2qvUK6wPaiRoY0px6MrzGUzLR8
+ X2pVePwcouuQpYsLN3cTjtnw6xAe2ChT4S5TiaoK+50m4z0Hf6EX8lVbGByY/l2F2zQFUOTr0Gs
+ ZI7JejT0cBOpQPeZegZqy+O7ic7mXXoLAtb0hjRHhUpVUdp4JEBruO1g4TzwaCuqX89uXmELSHV
+ 2+ptEU1JzbibIyR9bSUj04CvQ1H1SVVOef0tcYQYHNCuAx0j
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,63 +88,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 Existing DPCD access functions return an error code or the number of
 bytes being read / write in case of partial access. However a lot of
 drivers either (incorrectly) ignore partial access or mishandle error
 codes. In other cases this results in a boilerplate code which compares
 returned value with the size.
 
-As suggested by Jani implement new set of DPCD access helpers, which
-ignore partial access, always return 0 or an error code. Implement
-new helpers using existing functions to ensure backwards compatibility
-and to assess necessity to handle incomplete reads on a global scale.
-Currently only one possible place has been identified, dp-aux-dev, which
-needs to handle possible holes in DPCD.
+Implement new set of DPCD access helpers, which ignore partial access,
+always return 0 or an error code.
 
-This series targets only the DRM helpers code. If the approach is found
-to be acceptable, each of the drivers should be converted on its own.
-
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v3:
-- Fixed cover letter (Jani)
-- Added intel-gfx and intel-xe to get the series CI-tested (Jani)
-- Link to v2: https://lore.kernel.org/r/20250301-drm-rework-dpcd-access-v2-0-4d92602fc7cd@linaro.org
+ drivers/gpu/drm/display/drm_dp_helper.c |  4 ++
+ include/drm/display/drm_dp_helper.h     | 92 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 94 insertions(+), 2 deletions(-)
 
-Changes in v2:
-- Reimplemented new helpers using old ones (Lyude)
-- Reworked the drm_dp_dpcd_read_link_status() patch (Lyude)
-- Dropped the dp-aux-dev patch (Jani)
-- Link to v1: https://lore.kernel.org/r/20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index dbce1c3f49691fc687fee2404b723c73d533f23d..e43a8f4a252dae22eeaae1f4ca94da064303033d 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -704,6 +704,8 @@ EXPORT_SYMBOL(drm_dp_dpcd_set_powered);
+  * function returns -EPROTO. Errors from the underlying AUX channel transfer
+  * function, with the exception of -EBUSY (which causes the transaction to
+  * be retried), are propagated to the caller.
++ *
++ * In most of the cases you want to use drm_dp_dpcd_read_data() instead.
+  */
+ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+ 			 void *buffer, size_t size)
+@@ -752,6 +754,8 @@ EXPORT_SYMBOL(drm_dp_dpcd_read);
+  * function returns -EPROTO. Errors from the underlying AUX channel transfer
+  * function, with the exception of -EBUSY (which causes the transaction to
+  * be retried), are propagated to the caller.
++ *
++ * In most of the cases you want to use drm_dp_dpcd_write_data() instead.
+  */
+ ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
+ 			  void *buffer, size_t size)
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 5ae4241959f24e2c1fb581d7c7d770485d603099..c5be44d72c9a04474f6c795e03bf02bf08f5eaef 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -527,6 +527,64 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+ ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
+ 			  void *buffer, size_t size);
+ 
++/**
++ * drm_dp_dpcd_read_data() - read a series of bytes from the DPCD
++ * @aux: DisplayPort AUX channel (SST or MST)
++ * @offset: address of the (first) register to read
++ * @buffer: buffer to store the register values
++ * @size: number of bytes in @buffer
++ *
++ * Returns zero (0) on success, or a negative error
++ * code on failure. -EIO is returned if the request was NAKed by the sink or
++ * if the retry count was exceeded. If not all bytes were transferred, this
++ * function returns -EPROTO. Errors from the underlying AUX channel transfer
++ * function, with the exception of -EBUSY (which causes the transaction to
++ * be retried), are propagated to the caller.
++ */
++static inline int drm_dp_dpcd_read_data(struct drm_dp_aux *aux,
++					unsigned int offset,
++					void *buffer, size_t size)
++{
++	int ret;
++
++	ret = drm_dp_dpcd_read(aux, offset, buffer, size);
++	if (ret < 0)
++		return ret;
++	if (ret < size)
++		return -EPROTO;
++
++	return 0;
++}
++
++/**
++ * drm_dp_dpcd_write_data() - write a series of bytes to the DPCD
++ * @aux: DisplayPort AUX channel (SST or MST)
++ * @offset: address of the (first) register to write
++ * @buffer: buffer containing the values to write
++ * @size: number of bytes in @buffer
++ *
++ * Returns zero (0) on success, or a negative error
++ * code on failure. -EIO is returned if the request was NAKed by the sink or
++ * if the retry count was exceeded. If not all bytes were transferred, this
++ * function returns -EPROTO. Errors from the underlying AUX channel transfer
++ * function, with the exception of -EBUSY (which causes the transaction to
++ * be retried), are propagated to the caller.
++ */
++static inline int drm_dp_dpcd_write_data(struct drm_dp_aux *aux,
++					 unsigned int offset,
++					 void *buffer, size_t size)
++{
++	int ret;
++
++	ret = drm_dp_dpcd_write(aux, offset, buffer, size);
++	if (ret < 0)
++		return ret;
++	if (ret < size)
++		return -EPROTO;
++
++	return 0;
++}
++
+ /**
+  * drm_dp_dpcd_readb() - read a single byte from the DPCD
+  * @aux: DisplayPort AUX channel
+@@ -534,7 +592,8 @@ ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
+  * @valuep: location where the value of the register will be stored
+  *
+  * Returns the number of bytes transferred (1) on success, or a negative
+- * error code on failure.
++ * error code on failure. In most of the cases you should be using
++ * drm_dp_dpcd_read_byte() instead
+  */
+ static inline ssize_t drm_dp_dpcd_readb(struct drm_dp_aux *aux,
+ 					unsigned int offset, u8 *valuep)
+@@ -549,7 +608,8 @@ static inline ssize_t drm_dp_dpcd_readb(struct drm_dp_aux *aux,
+  * @value: value to write to the register
+  *
+  * Returns the number of bytes transferred (1) on success, or a negative
+- * error code on failure.
++ * error code on failure. In most of the cases you should be using
++ * drm_dp_dpcd_write_byte() instead
+  */
+ static inline ssize_t drm_dp_dpcd_writeb(struct drm_dp_aux *aux,
+ 					 unsigned int offset, u8 value)
+@@ -557,6 +617,34 @@ static inline ssize_t drm_dp_dpcd_writeb(struct drm_dp_aux *aux,
+ 	return drm_dp_dpcd_write(aux, offset, &value, 1);
+ }
+ 
++/**
++ * drm_dp_dpcd_read_byte() - read a single byte from the DPCD
++ * @aux: DisplayPort AUX channel
++ * @offset: address of the register to read
++ * @valuep: location where the value of the register will be stored
++ *
++ * Returns zero (0) on success, or a negative error code on failure.
++ */
++static inline int drm_dp_dpcd_read_byte(struct drm_dp_aux *aux,
++					unsigned int offset, u8 *valuep)
++{
++	return drm_dp_dpcd_read_data(aux, offset, valuep, 1);
++}
++
++/**
++ * drm_dp_dpcd_write_byte() - write a single byte to the DPCD
++ * @aux: DisplayPort AUX channel
++ * @offset: address of the register to write
++ * @value: value to write to the register
++ *
++ * Returns zero (0) on success, or a negative error code on failure.
++ */
++static inline int drm_dp_dpcd_write_byte(struct drm_dp_aux *aux,
++					 unsigned int offset, u8 value)
++{
++	return drm_dp_dpcd_write_data(aux, offset, &value, 1);
++}
++
+ int drm_dp_read_dpcd_caps(struct drm_dp_aux *aux,
+ 			  u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+ 
 
----
-Dmitry Baryshkov (7):
-      drm/display: dp: implement new access helpers
-      drm/display: dp: change drm_dp_dpcd_read_link_status() return value
-      drm/display: dp: use new DCPD access helpers
-      drm/display: dp-aux-dev: use new DCPD access helpers
-      drm/display: dp-cec: use new DCPD access helpers
-      drm/display: dp-mst-topology: use new DCPD access helpers
-      drm/display: dp-tunnel: use new DCPD access helpers
-
- drivers/gpu/drm/amd/amdgpu/atombios_dp.c           |   8 +-
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   2 +-
- drivers/gpu/drm/display/drm_dp_aux_dev.c           |  12 +-
- drivers/gpu/drm/display/drm_dp_cec.c               |  37 ++-
- drivers/gpu/drm/display/drm_dp_helper.c            | 307 +++++++++------------
- drivers/gpu/drm/display/drm_dp_mst_topology.c      | 105 ++++---
- drivers/gpu/drm/display/drm_dp_tunnel.c            |  20 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       |   4 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  24 +-
- drivers/gpu/drm/msm/dp/dp_link.c                   |  18 +-
- drivers/gpu/drm/radeon/atombios_dp.c               |   8 +-
- include/drm/display/drm_dp_helper.h                |  92 +++++-
- 12 files changed, 322 insertions(+), 315 deletions(-)
----
-base-commit: 565351ae7e0cee80e9b5ed84452a5b13644ffc4d
-change-id: 20241231-drm-rework-dpcd-access-b0fc2e47d613
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
