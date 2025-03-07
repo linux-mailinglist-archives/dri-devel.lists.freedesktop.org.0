@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFE3A560C5
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 07:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3388FA560C1
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 07:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 345E810EAF4;
-	Fri,  7 Mar 2025 06:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24C9310EAEE;
+	Fri,  7 Mar 2025 06:25:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SbAXzbP4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ma2vRfTp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B21DA10E0A8;
- Fri,  7 Mar 2025 06:25:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FAAF10E0A8;
+ Fri,  7 Mar 2025 06:25:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2F6F7A4551C;
- Fri,  7 Mar 2025 06:19:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA8AC4CED1;
- Fri,  7 Mar 2025 06:25:02 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1D857A4551B;
+ Fri,  7 Mar 2025 06:19:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12850C4AF09;
+ Fri,  7 Mar 2025 06:25:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741328704;
- bh=nJoWHOMQ8q8HP76pYfSPuPBQ6x3qxxqKS53pX2IDBLI=;
+ s=k20201202; t=1741328707;
+ bh=ToJ3cdSShRxTh5D7YbbrmuSVXEQc4dk2gJEoA36jpSA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=SbAXzbP4PqqfXPNpC7j7AaLa0fIiaCe2lm52upDJmU7dwS3uhbWFoi3EYq3vgByqO
- Uy3RAsdmRwosVmumzSKSOgQp/az7VL1dkMPTfF9XjqL2n3QJ/9PgB8IW+A5j/CV8bB
- S0jbAIgkNtBuPnejMq17PrRXjrn6xYh1hvBZHMTuue0asJhrIzBSdsryZpu6fRFINh
- loftolThnJxqhYsJ9MVY/48Xn/2ugzXH5LmPJlhdTRPKJh8k65YW6bv0N9jWAEMmI9
- 6ezsItBolOTEgvfwY8ASUgA9+/4ZQcY7xWcX1gwop7CHbVBFEU5XuldtUrLwYmJ7KT
- ksbuDF/xGiUyg==
+ b=Ma2vRfTpZETfjiq8xEkioqtoRP+fxwZVqSSNO3eulV4HVGVoFJ/WcNdMbiZOW1aNW
+ dptmcjtQaZIHxJMYcy0V3WMP08W0WRcKQf29a9bHKHjbLWq3onp1OhYb1LsHFWDOII
+ RRTWHl4FOlZkv4+oDoWeL8uivIfOSenASwdqAm50o/hCy6Tq0d7NJOYnt/REv8Aae+
+ rjMww6SwGq67heVvB150q7wVbUsJiOrgzxDq2nMrskQwnjgOARiEnh+dbLKdlQEmKs
+ goOJ3vNLEjMzFfZnlZlJ7sOCxBBz1+5fZoJRVaGIYfsMbePWurqegSkrzrSCMRRNi7
+ by1rDHPXFEvxg==
 From: Dmitry Baryshkov <lumag@kernel.org>
-Date: Fri, 07 Mar 2025 08:24:51 +0200
-Subject: [PATCH v3 3/8] drm/msm/dpu: pass master interface to CTL configuration
+Date: Fri, 07 Mar 2025 08:24:52 +0200
+Subject: [PATCH v3 4/8] drm/msm/dpu: use single CTL if it is the only CTL
+ returned by RM
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250307-dpu-active-ctl-v3-3-5d20655f10ca@linaro.org>
+Message-Id: <20250307-dpu-active-ctl-v3-4-5d20655f10ca@linaro.org>
 References: <20250307-dpu-active-ctl-v3-0-5d20655f10ca@linaro.org>
 In-Reply-To: <20250307-dpu-active-ctl-v3-0-5d20655f10ca@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -47,16 +48,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2026;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1329;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=oVfKOWmTPH50k3vMdPgIIC2WrqXf0n9e3Mps/0OUaaQ=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnypE0/QQLLH8Tc8Vq3wDQPyBTwbI1ZpZuH9xQC
- qFLLhWC556JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8qRNAAKCRCLPIo+Aiko
- 1e9vB/924ommEply1S72q20YfRcBAI1r6VU6QVp/4u0zddnvilukGQ2rSvYuDzpdVxvTKTmu2V+
- c3RANegzKbWxA83T6XesT3em9SoGRDpgxyFcy4LW7Xcpxnq4iml8jAoo6SgT86zpTrNGCBQalkj
- 7MDFs0j/XiefmeZ2RYy7oTm4vhHkWLzGgpidDiC4jcetNRM+ya+RuZfqxyo3M05F1+9FvuVcTJ4
- qjT2+UqCMg4MnJgH72qux8ia2GSU5Z7MEkMmoQM+LT6tU0NmmavAGpV42gb9fiXT983LJzsK3OD
- p1TtBPQIbIWsTho3ybni6vnTeL13PDRi9+oONMjgp3N/UjvS
+ bh=XtKtQEs7QltCe35WP411DsS3zIkURK+Ca3d0ucslYjU=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnypE0Josiif5SEScDkGJhl2eT7X6NXJy3N12wn
+ hzi2f+Qa+KJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8qRNAAKCRCLPIo+Aiko
+ 1f0bB/91WlJXYDXmggaf0hbEqIgDXXViJDXPQ0YJV5zRc0a23Z4tsW/gZY5TMYw5RPhD6z18Wzl
+ n8x1txku97hlQaZbnNeFyJuRi0WHD7rk6jAwoK6Q2kgWdUoO45SOSowyn8pvVfLvCtGevpICddk
+ UJuWHx2re90hZf2h0t0nohYwotgBxBLqhXxkVt3Wd1Zn2nStypELAJiGkjoFTaf4phSrjFh6WHV
+ 5Tw7wnWA1QqRtYPLzg6GeExRX+7YxdTGbN03rDQ682Ryo3FzOdF9x0nHOANuiafoZ/oUI1fK8Fb
+ nqhnlG+FXmBBU/GNy5smz92rYIawQ4PxVBc0ZHYdEfdrz2ou
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,43 +77,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Active controls require setup of the master interface. Pass the selected
-interface to CTL configuration.
+On DPU >= 5.0 CTL blocks were reworked in order to support using a
+single CTL for all outputs. In preparation of reworking the RM code to
+return single CTL make sure that dpu_encoder can cope with that.
 
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 ++
- 2 files changed, 4 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index da9994a79ca293ec0265680c438835742102db2a..a0ba55ab3c894c200225fe48ec6214ae4135d059 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -60,6 +60,8 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
- 		return;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 0eed93a4d056beda6b54c0d20f027a53c84f67db..b5e8ba592d8af298a52924d34a573d4f9e05c476 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1247,7 +1247,11 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 			return;
+ 		}
  
- 	intf_cfg.intf = phys_enc->hw_intf->idx;
-+	if (phys_enc->split_role == ENC_ROLE_MASTER)
-+		intf_cfg.intf_master = phys_enc->hw_intf->idx;
- 	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
- 	intf_cfg.stream_sel = cmd_enc->stream_sel;
- 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index abd6600046cb3a91bf88ca240fd9b9c306b0ea2e..232055473ba55998b79dd2e8c752c129bbffbff4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -298,6 +298,8 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	if (phys_enc->hw_cdm)
- 		intf_cfg.cdm = phys_enc->hw_cdm->idx;
- 	intf_cfg.intf = phys_enc->hw_intf->idx;
-+	if (phys_enc->split_role == ENC_ROLE_MASTER)
-+		intf_cfg.intf_master = phys_enc->hw_intf->idx;
- 	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_VID;
- 	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
- 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+-		phys->hw_ctl = i < num_ctl ? to_dpu_hw_ctl(hw_ctl[i]) : NULL;
++		/* Use first (and only) CTL if active CTLs are supported */
++		if (num_ctl == 1)
++			phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[0]);
++		else
++			phys->hw_ctl = i < num_ctl ? to_dpu_hw_ctl(hw_ctl[i]) : NULL;
+ 		if (!phys->hw_ctl) {
+ 			DPU_ERROR_ENC(dpu_enc,
+ 				"no ctl block assigned at idx: %d\n", i);
 
 -- 
 2.39.5
