@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB135A56AE7
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:54:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E3AA56AE9
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:55:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF3710E315;
-	Fri,  7 Mar 2025 14:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA12A10EBB7;
+	Fri,  7 Mar 2025 14:54:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oYwtdnfV";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oVG5Qbiu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C745310EBBA
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:54:53 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3E2884431A;
- Fri,  7 Mar 2025 14:54:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 314DB10EBB6
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:54:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B542244320;
+ Fri,  7 Mar 2025 14:54:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741359292;
+ t=1741359294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BjkypQfzRJxgBfqmsHQ4+JuDYpzLw2y1hlLxWJbh47Q=;
- b=oYwtdnfVBnhp+4txWVrQBrkhbDeEGCXy5grBSQ7pcnut3O58djojwJ7DkeQkuXhUed+A0h
- FD3TNTYfMH3udNyDX2UaX1qRRY17slT+zeM4vZELiysmlXgptTY6IE3W/jluzfNJL0IJ6A
- 1vfLaFaRhV2/tSViRiXMPDLfdopiPMwoEHayb1y8uskvRr45YLhPx8nRVtHQTjd0N29sWB
- r4dPh07mKVKqjZsmuDynKtRYFSrnuvcc/F15CRAHmGhnDJIR5aeizMk3LfG8QtAs1KdcWS
- m9azIrMi9Gbf7gzbTD14cjIdGWNtDaQqCOcu3t8VmnGhTrplwzSEiYM55BwjCQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=czH/cClJ9GvnsD2iNrv4/rz8fJTBo8RMcJixT7ICMkg=;
+ b=oVG5QbiuXq2YCmp8QbB+8d7lZ7tvM/uZryD3YXcA8rB5/KlCARbcunab6qq6jQCpG2DyCk
+ qjLu5STxr7iWVFyjEfIgqdpthIlxPHG3oy6mwCZpNbB5hj1UX1xxYFfXnvhHTPXAjBhyWo
+ ZEusXsdibfzxN0BlS635SRJ7cqDF1w4nLJlLVcjyPNoGqLcM8KCvsoq0Uo2GfoNJ68y64j
+ 0KZMDV6U1ZEYwk3jA6GcljqIWrKB0VLLLm9MgPvasYgH0CURa4XGbCNRUBnha6CkXxTjxK
+ Cy5HxLOi8yLTwqhg+3x24xVg8ZBfu67+BVMicVP4D92nFEhwS2XNLGu7clMhhg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH 0/3] drm/panel: simple: add Tianma P0700WXF1MBAA and
- improve Tianma TM070JDHG34-00
-Date: Fri, 07 Mar 2025 15:54:46 +0100
-Message-Id: <20250307-tianma-p0700wxf1mbaa-v1-0-1c31039a3790@bootlin.com>
+Date: Fri, 07 Mar 2025 15:54:47 +0100
+Subject: [PATCH 1/3] dt-bindings: display: simple: Add Tianma P0700WXF1MBAA
+ panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALYIy2cC/x3MTQ5AMBBA4avIrDUZpP6uIhZDp8xCSSs0EXfXW
- H6L9x4I7IUD9NkDni8JsruEIs9gXsktrMQkQ4mlxgobdQq5jdSBDeIdbbFNRAp1PXHbWsO2g5Q
- enq3EfzuM7/sBrruYrmYAAAA=
-X-Change-ID: 20250307-tianma-p0700wxf1mbaa-056be88fdef9
+Message-Id: <20250307-tianma-p0700wxf1mbaa-v1-1-1c31039a3790@bootlin.com>
+References: <20250307-tianma-p0700wxf1mbaa-v1-0-1c31039a3790@bootlin.com>
+In-Reply-To: <20250307-tianma-p0700wxf1mbaa-v1-0-1c31039a3790@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, 
@@ -56,8 +55,8 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddtleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeektedvtdfhhedvveeiveffheefffejvefgleekhfelueefveeiveefhfejtefgveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudekpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdprhgtphhtthhop
- egrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddtleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudekpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdprhgtphhtt
+ hhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,24 +73,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This short series adds power on/off timings to the Tianma TM070JDHG34-00
-panel and adds support for the the Tianma P0700WXF1MBAA panel.
+Add the Tianma Micro-electronics P0700WXF1MBAA 7.0" LVDS LCD TFT panel.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
-Luca Ceresoli (3):
-      dt-bindings: display: simple: Add Tianma P0700WXF1MBAA panel
-      drm/panel: simple: Tianma TM070JDHG34-00: add delays
-      drm/panel: simple: add Tianma P0700WXF1MBAA panel
+ Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../bindings/display/panel/panel-simple.yaml       |  2 ++
- drivers/gpu/drm/panel/panel-simple.c               | 39 +++++++++++++++++++---
- 2 files changed, 37 insertions(+), 4 deletions(-)
----
-base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
-change-id: 20250307-tianma-p0700wxf1mbaa-056be88fdef9
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index e3ee3a332bb7e1736a8d44773b0aef4873153be1..56b636560cbeb2277d65fce83916650de7ec4cbf 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -282,6 +282,8 @@ properties:
+       - startek,kd070wvfpa
+         # Team Source Display Technology TST043015CMHX 4.3" WQVGA TFT LCD panel
+       - team-source-display,tst043015cmhx
++        # Tianma Micro-electronics P0700WXF1MBAA 7.0" WXGA (1280x800) LVDS TFT LCD panel
++      - tianma,p0700wxf1mbaa
+         # Tianma Micro-electronics TM070JDHG30 7.0" WXGA TFT LCD panel
+       - tianma,tm070jdhg30
+         # Tianma Micro-electronics TM070JDHG34-00 7.0" WXGA (1280x800) LVDS TFT LCD panel
 
-Best regards,
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+2.48.1
 
