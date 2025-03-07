@@ -2,192 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7C8A56EA8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 18:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE26FA56EE4
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 18:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1094C10EC00;
-	Fri,  7 Mar 2025 17:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F6B10E341;
+	Fri,  7 Mar 2025 17:18:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a0m0S3Qy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YYIAnmWi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7B210EC0D
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 17:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741367217; x=1772903217;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=6fCMi8JFwnA1Yn0PE4O38TsDUa+IAa/kA418RXMiNCg=;
- b=a0m0S3Qy/pMR8TL7q6e3z9W5+Ep1oaVfMPgNccKttOzJdzFA5axsvU0t
- Q3/gbjiRA0S/gNqRRTC83tURoTDiBsUw3irHx6Ngz+zb1Wl3E3WKCcvM0
- 0qqksXEEcylgjg53nDDE9UbHyKUZsWoEUbkj/7mG0JXTFrnbKXkR3EVUY
- 7cgNHRmPlBbOocSqmH/wm1Yr9/cGoz2ogtzT+PI9TndMGNNCmECqFHn1I
- UHCYOoC2YRWmycbYfgexVz7HY/7BO5tU1pu2TE7jJnhOS6E6YQIczSAkL
- oeBw9TN05W6foichmDJhOvrYxYfpzZ/EJZNgGDQL8y4wDLUW7cTWtjrLE A==;
-X-CSE-ConnectionGUID: 3KMxmbmgTWmDKmDnvtYFHA==
-X-CSE-MsgGUID: IAghgahkTeqUdwDd63FLiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42131708"
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="42131708"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2025 09:06:56 -0800
-X-CSE-ConnectionGUID: TRRIcN8lS5q/cSN0BRHipA==
-X-CSE-MsgGUID: 8DXuXMmiQ5Kh+S5f9LGONA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="124290013"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2025 09:06:56 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Fri, 7 Mar 2025 09:06:54 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Fri, 7 Mar 2025 09:06:54 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 7 Mar 2025 09:06:11 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wOgU/E4IXF6blh3+DZr9IKZsNq5i0Gm0Q6CPgPxcFjKGotx5HOTIBtrtXfuaDKZ5c53oFKzQkufY/AN7/24zZ1Y4BF49yWqWzh7JuR2yKOSg40kdM3bTpnfYkfbzvQ6mzn7jPa9YZp3NOoMR3iNeTXCiK5wXYQJxdbc6g5zrrAdbYBYhcXSEcj1rNSXqXoLwLal08s1Dr8Ns86GwSc6OZqH5SHqetu8PCwIjy9cpLe+e2ncnXPOEsedx5b3bHqeS7y3nePf1NYEPB1toV6JEJfwzYEWFj9ygfGgkcf1uoChLIJ4ooL0HSoKD+GRLCoZadTzB4ECXXWoaaDcXwQgtKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QUps7IMX2ZUeIg0lpN1c3evqye+zIVAaqPbugEEWOAw=;
- b=DGtY/eSl9KktqkSbk/eRuPSEEmSteP1SgNnIzaTe/S+oK7JfsxLudH8cmhZUUgdJix+hLhNLabPNyGEMiDbx9pp7Pt8QezEVdGTlGGzhcri11vAYgJD9LELnDZwlmhUarrQZT11Ba/q8xNQUCw5zGPBs/kY5BjugtY7tzPzHTjaWw4YQUX9K+hJwzsQKJEyRtwkMrMtEnkMMAVP+bGnLDUCOIWqOT56vUwsamqdd0oMGUHd3tybkk5AfayuywU4hnxls+2S8SR7PFDH761r16dd5PdAa4GVDNe32ZFBUca/bKB2QyvocQa2NmzEI9JZGUnHct6kJQQGqb03LrhJLbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by MW4PR11MB6935.namprd11.prod.outlook.com (2603:10b6:303:228::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Fri, 7 Mar
- 2025 17:06:05 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
- 17:06:05 +0000
-Date: Fri, 7 Mar 2025 09:07:12 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: <phasta@kernel.org>
-CC: Danilo Krummrich <dakr@kernel.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 3/3] drm/sched: Update timedout_job()'s documentation
-Message-ID: <Z8snwOx7C7jzkt70@lstrano-desk.jf.intel.com>
-References: <20250305130551.136682-2-phasta@kernel.org>
- <20250305130551.136682-5-phasta@kernel.org>
- <Z8oMSWulN0mF43aB@lstrano-desk.jf.intel.com>
- <0ff8b5ddce856a7d9f5ffbabcb220e345b2dcfaa.camel@mailbox.org>
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4BE810E0CC;
+ Fri,  7 Mar 2025 17:18:04 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-e6119fc5e9bso1461762276.0; 
+ Fri, 07 Mar 2025 09:18:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741367884; x=1741972684; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Peeb251MvSHM+3gUXma/XyQegei79/j9jUNe5rzX1oA=;
+ b=YYIAnmWiyscaaP9vPIjI8aCnKy1i4NSha2jSIAAjycn/gExPJ+oBoSIubeTvXMtIr+
+ U7Vm+TpBsmm8MpTEVZS9GjAmxVHrKsgAawmjeFSxmp+MdTy+m2XpHMMuIxS51fS/ZanI
+ YZfcyuu3bOuBo+VZoB9Z8hzr1eYVEYEvqwa8zjHUHamjowiIppP6Mx+MfWHy82TwQYoa
+ wiqHluUwM1KZCJ1e4GvocnNBGqT5doDbRw0qVXKuCqMxwt/zOLmGQ5GdOZslhtgPVe19
+ uRxlH6u/CPGEjqhwJbUrmSR6wWu2TpauWDZlwW71D4B8+c2USjzekofgcTxsRDGSkFXB
+ ChPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741367884; x=1741972684;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Peeb251MvSHM+3gUXma/XyQegei79/j9jUNe5rzX1oA=;
+ b=DDDtQ0uIABRghGwXAWgLjiDkb7R0eAzUYdADoJ2nOrolVCQoRCAKkkq7TF4Zn2fD3Q
+ Rfo/ZM+hsTQWN28ZZfnbrqQ7tOWq4/wWXYnpWwnyKhRdu6QeDIsup2E+Rq0X/vfc5iTL
+ n2nqAGTPv6poDeLbt5EKRaYqzAJTZt3+E/I3O5sBPG4W6QTz1L3etdc3JW3iDre70oX7
+ fiIdz1hn3mRtQhs7aRRP2JWojuIZcZ2ElmXxfrfMMKfF5rm1NFFa8EVw9zG0T2fh57pS
+ SB6nCmDDlCZkmqUlAdq7ickIuDVb7YgIhkuZrzZsk/+jpQ9KVIRGr1KpswPsddI/8knB
+ VkiQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/HYa4VuEmsmmIIfD1wiuYoXLmBjbJHPXAcS6BqMLhaCYEu7GMnNGsfSr4bVeuhpLxvjz76s52B9jV@lists.freedesktop.org,
+ AJvYcCXwOnz0G0Gfh+mOF5tfDw8pH2P/uClaKTBpKaKFecDm4wnz3N+892mXA5pJ7YUEroAst/P/XPU0DYI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyFlQ4WGrD97RfjfFVMzoE3CVpvlPRJYhwwzkyqA6lEPKCa2n+j
+ DANNI+oAYv54DrubUqNi+2cd+xfH1hJfVeV67xg7oeWADJi1/uyl
+X-Gm-Gg: ASbGncu63N6d+hhLU/ITdGevTL/J25DVVcJzpIO/a7pNrJfVkr851HGEWk2bFY15wuZ
+ IHN+O8kEuTGeHAtNAqkfy062VyLLiKRTPJRBzxUGG/wR7Ppv4X7m/OTim5dDxazg9qehEVz28xX
+ 1GKo3NKELLZ0avq1YrPITrye9HJZxZIVIcaOSSszTD3i/2I+Sk6Xv0OIUNdxbLDNQ7pXd4UFSQk
+ tx4UZVOEZ2W2JaBxfIrA4briP8n8dbhOkmjXPvGF4JUdc4aZtfdXdP0tz/1rfE4XTtp9qLo14oD
+ 2PGuJKmpEF2jk8KpPTatk6/X0pniTgQrEW9kkOhGAidW6+GfY7OANPG2HalRpDEggsg3tEplGvW
+ xAcmu
+X-Google-Smtp-Source: AGHT+IEHFCWT89Ioz7/PyTLUzg88TY7P6CYM+MvJU0uY5S4dmN+2b1iDHoDD8tHOCSEw3trVdgguOw==
+X-Received: by 2002:a05:6902:348a:b0:e5d:bf59:3343 with SMTP id
+ 3f1490d57ef6-e635c1cab17mr4708121276.38.1741367883762; 
+ Fri, 07 Mar 2025 09:18:03 -0800 (PST)
+Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
+ by smtp.gmail.com with ESMTPSA id
+ 3f1490d57ef6-e634b841f82sm903536276.15.2025.03.07.09.18.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Mar 2025 09:18:03 -0800 (PST)
+Date: Fri, 7 Mar 2025 12:18:02 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: mailhol.vincent@wanadoo.fr
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v6 0/7] bits: Fixed-type GENMASK_U*() and BIT_U*()
+Message-ID: <Z8sqSpKZzfolKm8Q@thinkpad>
+References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0ff8b5ddce856a7d9f5ffbabcb220e345b2dcfaa.camel@mailbox.org>
-X-ClientProxiedBy: MW2PR2101CA0004.namprd21.prod.outlook.com
- (2603:10b6:302:1::17) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6935:EE_
-X-MS-Office365-Filtering-Correlation-Id: 537c62bd-5922-4446-ed10-08dd5d9a58c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MU5namVyNHhrVkxsUWJVbGN0aHlWMkt0WTUzZElTcHlHeEJ1SmpIOHhoS1JW?=
- =?utf-8?B?N0MvVUx1K1gyRUUxSHhIdVlGNUFNZkxXang5YkZoSUhtdVJOOFpWNzNNYmYr?=
- =?utf-8?B?bExObHdLbVpMRWxVb3JJeXFGV3VDOVZiS1o3eGpLL3NwYktWTmxaZG40WjJX?=
- =?utf-8?B?Q3dLUmd3Sm00Mm12OC9RRURCMEZUeGZ6VEhneVFCZjkrd2gwMDZNcU1rUjhR?=
- =?utf-8?B?UEU2VkI5UHYyZmFqMDVtVERNMSsvR3RBR0RwTjhVR1J2ZE5rTXpCdnV1YUpF?=
- =?utf-8?B?ZU9JV2JySGZUSEZtaC9XYU9JSkNLbFQ2VzJEN1FZVHdoNHNFbis0QktnTjNS?=
- =?utf-8?B?Ym02Rjk4aUFrTERQY2JrSTBmQXR3aVdwVDVwL1FKMFdBc1NaVldrV2ZSa1Vh?=
- =?utf-8?B?cUlGUXhoUXhBY1IxMDZDUi9JNERCN0pNTHp5NU04N1E0cjlHOExIaE5YblNQ?=
- =?utf-8?B?bWJRUkhkak4vanJaT3E3emZoZFJxZ3BGWFBObWJzMStDamd3UElpeU5PblR5?=
- =?utf-8?B?di9pM1VROTlTdE4yNmQ5ajhmN01LT01aSGNOWlZHd0JER0FBblppNHhaSXBU?=
- =?utf-8?B?Q2RGRW1yYzBuSXBUak84ay9ScThUMVBWcGpHV29zMmxra3YwYmc0cmhuY0FK?=
- =?utf-8?B?Ulc5Ti9JcFR1dnhsMnZ5Yk0zVThpd3pJNW1mUmNpTHhDalphK0dWeDZnQWJG?=
- =?utf-8?B?UUkzSFBNK3Z2MHNESUhabG1UdVlTb2RKbzl0ME5yNk5RQjRuN29iV3BCS0FQ?=
- =?utf-8?B?YjNFaU8vMFlZTjh1Y29LYjJzQWJDNXVQU0dCSm90RkMzSlBrL2VydjB3cHRN?=
- =?utf-8?B?b1NxU0YxOGp6VHVSRlNJN0FEYUpUUGo5MVdHNWhteFFkU2k5TjBpTnhnTkF2?=
- =?utf-8?B?Z2lXa2dGUXEraWVidG1STERKWlNpcVRPdDFjQ1ExTFo0ZnFaaHlRcEluMTNM?=
- =?utf-8?B?RkxrUXlpaDdmQzFDbWZVTnlnTGdYTmZGZHhuK0J1OGVoVnc1WHpjeCs5QnhZ?=
- =?utf-8?B?VlI5WURMYTdMdkNiVmlNRlFxMlA0OXBnL2dZdUpLbDhwT1RCUXlqbXJPNVJK?=
- =?utf-8?B?bVNtZEVieGo0QWxUWEJ2SCswT1Vtei9hN1F3SHdFdHB6Tm52MWp4azBqYjNz?=
- =?utf-8?B?TnFDMTRURS90YzB1RmxoVTBlRVFaOE45bFI1NWtBSnVyUmdyb0Zlc2hsYTN2?=
- =?utf-8?B?SGJPZzhVUmJqQVIzWjZ5bzc5SkxPaW9zVVBXNldLdG13Sys4YWZKcUlWdEF2?=
- =?utf-8?B?cU5Hb2s0ZVBZY0ZpZmp0NC95ZTBZVlF3VGNsSWFCTElUMDhaeEcwL3NVYUpL?=
- =?utf-8?B?VEZROWxaUmpjNXAzc1NEK04zYm8wWTA2Q0dWcS8zc0hENW5tdFVEU2dLU2pu?=
- =?utf-8?B?c2I5U2tuMDl6WFdHWnR3NXRUZGxpODdiWjRLMFBqSjhtbXluREY2SEM2Z0h0?=
- =?utf-8?B?ZElETHRpbDNpdzhWTUswTDNMb1NTMkxUbCtVa0Rzbzh6VERsSWlnY1JCVzNC?=
- =?utf-8?B?UEpaSVJ0S2syK1N1YlN1NENtbkJpRG44dE8rb2VCd282a2RUazZ4U1NKOHds?=
- =?utf-8?B?QjZ5Q0QzK1IyZTlFYk55LzVJZk1oWHIyeGQyQkVWdWhLTTQ3UC9BaVh0KzdM?=
- =?utf-8?B?Y1pvcGpRa2JpRHFqWkI3L21TL01EKy9zcXBJd0tiSmVaMWppTU9yNlpCcGxi?=
- =?utf-8?B?cEZVWXRBZ0NEQVRESVl6U0xPS3VyTmM4THgwR0N2RFN3Rm1uMGVqQWJzNEsz?=
- =?utf-8?B?RTNjM2U3REx5TlhiKys5VlE2R0F5K1RSK3RvSlZyZU5lOU02YW93eGRDRzBr?=
- =?utf-8?B?RU5tNWVmZUZpQW9vWGdNOTlONjhNQU0ySjZXbmdTeUVOT3pXNDEzaXB4VjBh?=
- =?utf-8?Q?ig6u3d2V3rBP3?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWJ3b1dQT3dBZlprK1oyUmEySmNkdkI2WEtwdjhYMlpkZmw1TkdRajQwcTVk?=
- =?utf-8?B?OExmWm9rSS9mMUttWTBvRllNTjVrTnY2YzM2WUVkTGJDcWxydEtRZ2hlSFNp?=
- =?utf-8?B?SUFCU011S0tzTEt5dG9SMFB1V1VUVXlKT09aZkt2L3hNS3hrbDZCSkFqUThC?=
- =?utf-8?B?WUV1dTY4NEVRUnJkQzErY21OVEZadWo0OUVZQmdKWmdnRlU0RHR2TVNSQXlU?=
- =?utf-8?B?SmZEN2plNURFMDByZ1BBSWQ0RVQ3UnV3MmFBZmtNakJyMkNvMGtLeDhLM211?=
- =?utf-8?B?bm02YTBSUDY0VnRKcTcyTE9BYXZvcmFMeTN3dnBFSGpoSGpRL1MzVE5PdWxp?=
- =?utf-8?B?ODhOZU5DWjNTaWE1S1krZnJTYWcrWmhXUm9nS29ULzR6c1hWSWZtaU9saFV5?=
- =?utf-8?B?ZWd3R3ZYNE4wSUlYV1FETGcvM1BYWXkweSsxbjlWV3h0NGh1WU1jNlpDK2hx?=
- =?utf-8?B?KzNLNjdCQ1l3VExyRWswY3RoSy9iNUE0QXpoNENtcmZzYmhHR0hUQy8wMFFp?=
- =?utf-8?B?Q0pOQnQvTldoZ091N3BzZjNNaFYvTTVQbmhsU3FIVTlieWc3bGZ1U09MTzBn?=
- =?utf-8?B?dFlVMlIreGlDVk4yeHNKWkhZdUF2Zmllbm5lQW9qNXlueDVqZ3JhdkZ6THRX?=
- =?utf-8?B?dXVHUW9yeW9CR294RTkzV3ZZT1FFNWxvRjBiNnFCeDN3MVZWODB5ODlTNldH?=
- =?utf-8?B?cGZZcDlOVEhFVWx5ckQzQlBsQXJ4czV6M1dmWGpQZGVoMVF2RFpJWGlJNUtW?=
- =?utf-8?B?MTZISURLd0JocVRFY1pLRlJWRk5wSVlpUE11K2tHVHVsd3RuUitGdzVkNVdk?=
- =?utf-8?B?RTFFMXhCZzVjb2xRY2xoVDJ4dHM5VzZIZ0xKU2ZHQ3JyaDd3ZG52ZE1RT3pZ?=
- =?utf-8?B?U2xQTWU1QklyTlpzd2x2MkJOTm5nYy9TMkpDRFUyZ1prOGJwT0JyU1BtT01v?=
- =?utf-8?B?ZFR0bVRiMStvOEpCNGtBMUtla2JNb0FvengwWHlJVXVaa3B0anpNaHc3dDVs?=
- =?utf-8?B?ekgzS3FKRzhHeDdVV1RJdmdpOWt5NjVzMmNwQWhaT0tMVEpwTWlmTTZGYWF1?=
- =?utf-8?B?NWM4ZHpIYm9TZ1l1V3Fyb040MWRIMmFlVWkveVlUNnl3S2RaWlNyM1kyTzBZ?=
- =?utf-8?B?bG5zd1hsU2ZqNHUwZ1Q5Q0NNcnFiTER6cFN4bzVWOGJvak1qT0pLRGRhdXJP?=
- =?utf-8?B?Z0ZsaC80WGpya3BuV3ZLK05HcXdTYVNrYmxUVFJxUWw5Rkx2TzhlK0JITEFv?=
- =?utf-8?B?c2UwUzBTeUIvR0NidkRseVUrUExaWmJDQTRNYURRVC9VRnpIR2Q1MU0yL0M0?=
- =?utf-8?B?M2syY2hCUkFYMlhWbzAzcVhWQ1pTOVJ1Z2N5V2lndGZUTmlna3ZDVVB6TEl6?=
- =?utf-8?B?RHB3Uk9LVkREYlI4YlpyenpSMFJTUkpCckJhSXBCSXAwN2lHOFRlTGRUcDRT?=
- =?utf-8?B?Y3p2K2UxNXBSYTkrRlQ4c0lVUXRNdEdRcnhUaTBWSVFMQTFhNXlYQmwwMXN6?=
- =?utf-8?B?YmFSOEtMcE1LcFJFczJBY2JSbmVacWFmWGRyYmFUQ01yQTRHUno1WjRHeEdX?=
- =?utf-8?B?SVZzOTVXU2Z5VVdWOHlvUi9IdzZzUEZ6ajMvU0hoZ2hScm9tQldRSDRzWUlZ?=
- =?utf-8?B?NldBSjBuVHVnNDZMY2FnckdNY285QURHUGpKQ3hXNzZpVEhIVHYyc1lyYmo0?=
- =?utf-8?B?Zzc0b2lCOTdpeUtWaWxEbmNNQTdqTmtNcHJKY0t5ZVI0bGJrSmpEa1haZDFW?=
- =?utf-8?B?QjJDRE1KZkN3eHlMTDYzWlhzTDRzVHFSS1oxd050dzEvNkFRd2kvY1VCc2tz?=
- =?utf-8?B?eGszUnhmSm9YaE44VjBWb1AxZWpIUHJISWlNMXVobHZGRmkyUkorODJpNEZD?=
- =?utf-8?B?MWRyRjZsT3JhYVVoMHhKS05ySnNiN2wrOWp0ZU9VSzJEUkl6NnRqRHcrUVY2?=
- =?utf-8?B?RUorTUs4dEFRTzBHczhCSXpRSFlIdUpvYzVQOUV1cGR5bzh5TGtaNDRZV1Yx?=
- =?utf-8?B?ZVY0QjVKSzZaT2ExS3NoSGxGaHNzbzhRcGhmOGF3Tm5aRG51SGxrZHJNVm5X?=
- =?utf-8?B?WXBuTGtLRjZndW8vNExZUmRTenRzb0J6MERPQnV1MDhrdm42ZUFjNFpaU1FV?=
- =?utf-8?B?TzNhMzMydEF2R3d1SkdZMTQ2Vzk2Nms1ZmJVb1lyckRRUi9yWXBwOWJlRXE2?=
- =?utf-8?B?cEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 537c62bd-5922-4446-ed10-08dd5d9a58c1
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 17:06:05.3926 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SHKrNaCGZXU9Htt5uvlq2aUjIvi9BHQrLwyihU8D0ptkBq/BLgy5qm7qLcUU7c3vWTejW1TyhzoLU2nwSUDGhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6935
-X-OriginatorOrg: intel.com
+In-Reply-To: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -203,237 +103,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 07, 2025 at 10:37:04AM +0100, Philipp Stanner wrote:
-> On Thu, 2025-03-06 at 12:57 -0800, Matthew Brost wrote:
-> > On Wed, Mar 05, 2025 at 02:05:52PM +0100, Philipp Stanner wrote:
-> > > drm_sched_backend_ops.timedout_job()'s documentation is outdated.
-> > > It
-> > > mentions the deprecated function drm_sched_resubmit_jobs().
-> > > Furthermore,
-> > > it does not point out the important distinction between hardware
-> > > and
-> > > firmware schedulers.
-> > > 
-> > > Since firmware schedulers typically only use one entity per
-> > > scheduler,
-> > > timeout handling is significantly more simple because the entity
-> > > the
-> > > faulted job came from can just be killed without affecting innocent
-> > > processes.
-> > > 
-> > > Update the documentation with that distinction and other details.
-> > > 
-> > > Reformat the docstring to work to a unified style with the other
-> > > handles.
-> > > 
-> > 
-> > Looks really good, one suggestion.
-> 
-> Already merged. But I'm working already on the TODO and could address
-> your feedback in that followup.
-> 
-> Of course, would also be great if you could provide a proposal in a
-> patch? :)
-> 
+No rush, please allow your reviewers a week or two before submitting
+a new iteration unless you want to disregard the previous version for
+some reason, of course. This will not get into the upcoming merge
+window, anyways.
 
-I can post something. Let me try to get something out today.
+So, what should I do? Go through the v5 and all discussions in there,
+or just jump on this?
 
-Matt
-
-> > 
-
-> > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > ---
-> > >  include/drm/gpu_scheduler.h | 78 ++++++++++++++++++++++-----------
-> > > ----
-> > >  1 file changed, 47 insertions(+), 31 deletions(-)
-> > > 
-> > > diff --git a/include/drm/gpu_scheduler.h
-> > > b/include/drm/gpu_scheduler.h
-> > > index 6381baae8024..1a7e377d4cbb 100644
-> > > --- a/include/drm/gpu_scheduler.h
-> > > +++ b/include/drm/gpu_scheduler.h
-> > > @@ -383,8 +383,15 @@ struct drm_sched_job {
-> > >  	struct xarray			dependencies;
-> > >  };
-> > >  
-> > > +/**
-> > > + * enum drm_gpu_sched_stat - the scheduler's status
-> > > + *
-> > > + * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
-> > > + * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
-> > > + * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available
-> > > anymore.
-> > > + */
-> > >  enum drm_gpu_sched_stat {
-> > > -	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-> > > +	DRM_GPU_SCHED_STAT_NONE,
-> > >  	DRM_GPU_SCHED_STAT_NOMINAL,
-> > >  	DRM_GPU_SCHED_STAT_ENODEV,
-> > >  };
-> > > @@ -447,43 +454,52 @@ struct drm_sched_backend_ops {
-> > >  	 * @timedout_job: Called when a job has taken too long to
-> > > execute,
-> > >  	 * to trigger GPU recovery.
-> > >  	 *
-> > > -	 * This method is called in a workqueue context.
-> > > +	 * @sched_job: The job that has timed out
-> > >  	 *
-> > > -	 * Drivers typically issue a reset to recover from GPU
-> > > hangs, and this
-> > > -	 * procedure usually follows the following workflow:
-> > > +	 * Drivers typically issue a reset to recover from GPU
-> > > hangs.
-> > > +	 * This procedure looks very different depending on
-> > > whether a firmware
-> > > +	 * or a hardware scheduler is being used.
-> > >  	 *
-> > > -	 * 1. Stop the scheduler using drm_sched_stop(). This will
-> > > park the
-> > > -	 *    scheduler thread and cancel the timeout work,
-> > > guaranteeing that
-> > > -	 *    nothing is queued while we reset the hardware queue
-> > > -	 * 2. Try to gracefully stop non-faulty jobs (optional)
-> > > -	 * 3. Issue a GPU reset (driver-specific)
-> > > -	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
-> > > -	 * 5. Restart the scheduler using drm_sched_start(). At
-> > > that point, new
-> > > -	 *    jobs can be queued, and the scheduler thread is
-> > > unblocked
-> > > +	 * For a FIRMWARE SCHEDULER, each ring has one scheduler,
-> > > and each
-> > > +	 * scheduler has one entity. Hence, the steps taken
-> > > typically look as
-> > > +	 * follows:
-> > > +	 *
-> > > +	 * 1. Stop the scheduler using drm_sched_stop(). This will
-> > > pause the
-> > > +	 *    scheduler workqueues and cancel the timeout work,
-> > > guaranteeing
-> > > +	 *    that nothing is queued while the ring is being
-> > > removed.
-> > > +	 * 2. Remove the ring. The firmware will make sure that
-> > > the
-> > > +	 *    corresponding parts of the hardware are resetted,
-> > > and that other
-> > > +	 *    rings are not impacted.
-> > > +	 * 3. Kill the entity and the associated scheduler.
-> > 
-> > Xe doesn't do step 3.
-> > 
-> > It does:
-> > - Ban entity / scheduler so futures submissions are a NOP. This would
-> > be
-> >   submissions with unmet dependencies. Submission at the IOCTL are
-> >   disallowed 
-> > - Signal all job's fences on the pending list
-> > - Restart scheduler so free_job() is naturally called
-> > 
-> > I'm unsure if this how other firmware schedulers do this, but it
-> > seems
-> > to work quite well in Xe.
+On Sat, Mar 08, 2025 at 01:48:47AM +0900, Vincent Mailhol via B4 Relay wrote:
+> Introduce some fixed width variant of the GENMASK() and the BIT()
+> macros in bits.h. Note that the main goal is not to get the correct
+> type, but rather to enforce more checks at compile time. For example:
 > 
-> Alright, so if I interpret this correctly you do that to avoid our
-> infamous memory leaks. That makes sense.
+>   GENMASK_U16(16, 0)
 > 
-> The memory leaks are documented in drm_sched_fini()'s docu, but it
-> could make sense to mention them here, too.
+> will raise a build bug.
 > 
-> … thinking about it, we probably actually have to rephrase this line.
-> Just tearing down entity & sched makes those leaks very likely. Argh.
+> This series is a continuation of:
 > 
-> Nouveau, also a firmware scheduler, has effectively a copy of the
-> pending_list and also ensures that all fences get signalled. Only once
-> that copy of the pending list is empty it calls into drm_sched_fini().
-> Take a look at nouveau_sched.c if you want, the code is quite
-> straightforward.
+>   https://lore.kernel.org/intel-xe/20240208074521.577076-1-lucas.demarchi@intel.com
 > 
-> P.
+> from Lucas De Marchi. Above series is one year old. I really think
+> that this was a good idea and I do not want this series to die. So I
+> am volunteering to revive it.
 > 
-> > 
-> > Matt
-> > 
-> > > +	 *
-> > > +	 *
-> > > +	 * For a HARDWARE SCHEDULER, a scheduler instance
-> > > schedules jobs from
-> > > +	 * one or more entities to one ring. This implies that all
-> > > entities
-> > > +	 * associated with the affected scheduler cannot be torn
-> > > down, because
-> > > +	 * this would effectively also affect innocent userspace
-> > > processes which
-> > > +	 * did not submit faulty jobs (for example).
-> > > +	 *
-> > > +	 * Consequently, the procedure to recover with a hardware
-> > > scheduler
-> > > +	 * should look like this:
-> > > +	 *
-> > > +	 * 1. Stop all schedulers impacted by the reset using
-> > > drm_sched_stop().
-> > > +	 * 2. Kill the entity the faulty job stems from.
-> > > +	 * 3. Issue a GPU reset on all faulty rings (driver-
-> > > specific).
-> > > +	 * 4. Re-submit jobs on all schedulers impacted by re-
-> > > submitting them to
-> > > +	 *    the entities which are still alive.
-> > > +	 * 5. Restart all schedulers that were stopped in step #1
-> > > using
-> > > +	 *    drm_sched_start().
-> > >  	 *
-> > >  	 * Note that some GPUs have distinct hardware queues but
-> > > need to reset
-> > >  	 * the GPU globally, which requires extra synchronization
-> > > between the
-> > > -	 * timeout handler of the different &drm_gpu_scheduler.
-> > > One way to
-> > > -	 * achieve this synchronization is to create an ordered
-> > > workqueue
-> > > -	 * (using alloc_ordered_workqueue()) at the driver level,
-> > > and pass this
-> > > -	 * queue to drm_sched_init(), to guarantee that timeout
-> > > handlers are
-> > > -	 * executed sequentially. The above workflow needs to be
-> > > slightly
-> > > -	 * adjusted in that case:
-> > > +	 * timeout handlers of different schedulers. One way to
-> > > achieve this
-> > > +	 * synchronization is to create an ordered workqueue
-> > > (using
-> > > +	 * alloc_ordered_workqueue()) at the driver level, and
-> > > pass this queue
-> > > +	 * as drm_sched_init()'s @timeout_wq parameter. This will
-> > > guarantee
-> > > +	 * that timeout handlers are executed sequentially.
-> > >  	 *
-> > > -	 * 1. Stop all schedulers impacted by the reset using
-> > > drm_sched_stop()
-> > > -	 * 2. Try to gracefully stop non-faulty jobs on all queues
-> > > impacted by
-> > > -	 *    the reset (optional)
-> > > -	 * 3. Issue a GPU reset on all faulty queues (driver-
-> > > specific)
-> > > -	 * 4. Re-submit jobs on all schedulers impacted by the
-> > > reset using
-> > > -	 *    drm_sched_resubmit_jobs()
-> > > -	 * 5. Restart all schedulers that were stopped in step #1
-> > > using
-> > > -	 *    drm_sched_start()
-> > > +	 * Return: The scheduler's status, defined by &enum
-> > > drm_gpu_sched_stat
-> > >  	 *
-> > > -	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
-> > > -	 * and the underlying driver has started or completed
-> > > recovery.
-> > > -	 *
-> > > -	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no
-> > > longer
-> > > -	 * available, i.e. has been unplugged.
-> > >  	 */
-> > >  	enum drm_gpu_sched_stat (*timedout_job)(struct
-> > > drm_sched_job *sched_job);
-> > >  
-> > > -- 
-> > > 2.48.1
-> > > 
+> Meanwhile, many changes occurred in bits.h. The most significant
+> change is that __GENMASK() was moved to the uapi headers.
+> 
+> In v4 and onward, I introduce one big change: split the definition of
+> the asm and non-asm GENMASK(). I think this is controversial.
+> Especially, Yury commented that he did not want such split. So I
+> initially implemented a first draft in which both the asm and non-asm
+> version would rely on the same helper macro, i.e. adding this:
+> 
+>   #define __GENMASK_TYPE(t, w, h, l)			\
+>   	(((t)~_ULL(0) - ((t)1 << (l)) + 1) &		\
+>   	 ((t)~_ULL(0) >> (w - 1 - (h))))
+>     
+> to uapi/bits.h. And then, the different GENMASK()s would look like
+> this:
+> 
+>   #define __GENMASK(h, l) __GENMASK_TYPE(unsigned long, __BITS_PER_LONG, h, l)
+>     
+> and so on.
+>     
+> I implemented it, and the final result looks quite ugly. Not only do
+> we need to manually provide the width each time, the biggest concern
+> is that adding this to the uapi is asking for trouble. Who knows how
+> people are going to use this? And once it is in the uapi, there is
+> virtually no way back.
+> 
+> Adding to this, that macro can not even be generalized to u128
+> integers, whereas after the split, it is.
+> 
+> Finally, I do not think it makes sense to expose the fixed width
+> variants to the asm. The fixed width integers type are a C
+> concept. For asm, the long and long long variants seems sufficient.
+> 
+> And so, after implementing both, the asm and non-asm split seems way
+> more clean and I think this is the best compromise. Let me know what
+> you think :)
+> 
+> As requested, here are the bloat-o-meter stats:
+> 
+>   $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o 
+>   add/remove: 0/0 grow/shrink: 4/2 up/down: 5/-4 (1)
+>   Function                                     old     new   delta
+>   intel_psr_invalidate                         666     668      +2
+>   mst_stream_compute_config                   1652    1653      +1
+>   intel_psr_flush                              977     978      +1
+>   intel_dp_compute_link_config                1327    1328      +1
+>   cfg80211_inform_bss_data                    5109    5108      -1
+>   intel_drrs_activate                          379     376      -3
+>   Total: Before=22723481, After=22723482, chg +0.00%
+> 
+> (done with GCC 12.4.1 on an x86_64 defconfig)
+> 
+> --
+> 2.43.0
+> 
+> ---
+> Changes from v5:
+> 
+>   - Update the cover letter message. I was still refering to
+>     GENMASK_t() instead of GENMASK_TYPE().
+> 
+>   - Add a comment in the cover letter to explain that a common
+>     GENMASK_TYPE() for C and asm wouldn't allow to generate the u128
+>     variant.
+> 
+>   - Restore the comment saying that BUILD_BUG_ON() is not available in
+>     asm code.
+> 
+>   - Add a FIXME message to highlight the absence of the asm GENMASK*()
+>     unit tests.
+> 
+>   - Use git's histogram diff algorithm
+> 
+>   - Link to v5: https://lore.kernel.org/r/20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr
+> 
+> Changes from v4:
+> 
+>   - Rebase on https://github.com/norov/linux/tree/bitmap-for-next
+> 
+>   - Rename GENMASK_t() to GENMASK_TYPE()
+> 
+>   - First patch of v4 (the typo fix 'init128' -> 'int128') is removed
+>     because it was resent separately in:
+>     https://lore.kernel.org/all/20250305-fix_init128_typo-v1-1-cbe5b8e54e7d@wanadoo.fr
+> 
+>   - Replace the (t)~ULL(0) by type_max(t). This way, GENMASK_TYPE()
+>     can now be used to generate GENMASK_U128().
+> 
+>   - Get rid of the unsigned int cast for the U8 and U16 variants.
+> 
+>   - Add the BIT_TYPE() helper macro.
+> 
+>   - Link to v4: https://lore.kernel.org/r/20250305-fixed-type-genmasks-v4-0-1873dcdf6723@wanadoo.fr
+> 
+> Changes from v3:
+> 
+>   - Rebase on v6.14-rc5
+> 
+>   - Fix a typo in GENMASK_U128() comment.
+> 
+>   - Split the asm and non-asm definition of 
+> 
+>   - Replace ~0ULL by ~ULL(0)
+> 
+>   - Since v3, __GENMASK() was moved to the uapi and people started
+>     using directly. Introduce GENMASK_t() instead.
+> 
+>   - Link to v3: https://lore.kernel.org/intel-xe/20240208074521.577076-1-lucas.demarchi@intel.com
+> 
+> Changes from v2:
+> 
+>   - Document both in commit message and code about the strict type
+>     checking and give examples how it�d break with invalid params.
+> 
+>   - Link to v2: https://lore.kernel.org/intel-xe/20240124050205.3646390-1-lucas.demarchi@intel.com
+> 
+> Link to v1: https://lore.kernel.org/intel-xe/20230509051403.2748545-1-lucas.demarchi@intel.com
+> 
+> ---
+> Lucas De Marchi (3):
+>       bits: introduce fixed-type BIT_U*()
+>       drm/i915: Convert REG_GENMASK*() to fixed-width GENMASK_U*()
+>       test_bits: add tests for GENMASK_U*()
+> 
+> Vincent Mailhol (3):
+>       bits: split the definition of the asm and non-asm GENMASK()
+>       test_bits: add tests for __GENMASK() and __GENMASK_ULL()
+>       test_bits: add tests for BIT_U*()
+> 
+> Yury Norov (1):
+>       bits: introduce fixed-type genmasks
+> 
+>  drivers/gpu/drm/i915/i915_reg_defs.h | 108 ++++-------------------------------
+>  include/linux/bitops.h               |   1 -
+>  include/linux/bits.h                 |  91 ++++++++++++++++++++---------
+>  lib/test_bits.c                      |  49 ++++++++++++++++
+>  4 files changed, 124 insertions(+), 125 deletions(-)
+> ---
+> base-commit: 0312e94abe484b9ee58c32d2f8ba177e04955b35
+> change-id: 20250228-fixed-type-genmasks-8d1a555f34e8
+> 
+> Best regards,
+> -- 
+> Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 > 
