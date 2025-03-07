@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C10A5750C
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 23:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CA0A57509
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 23:41:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D11510EC58;
-	Fri,  7 Mar 2025 22:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014B310EC55;
+	Fri,  7 Mar 2025 22:41:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fmXLtFz/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZBLuYllp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08BC910EC4E;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B22A10EC4A;
  Fri,  7 Mar 2025 22:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1741387287; x=1772923287;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Js3F+xcvqQ/b3H2lkKt5SK4bLmNS8gHwcvM+mikSozk=;
- b=fmXLtFz/N3R+0FUu5/qtPssS2v6NnyIRNYl6VlwhNJsLEKdTNueRJOhZ
- XXcLyQrec8vbz+/ZY/OZfnuNGUfL9C7uvUmhPLAmg6Pj+6xC6nM1DfcGq
- 5zibri4lZQcUazAgZMrPKRiuyS0u07GBwHAx4PMvb9rhQQN3CAo3AAx7e
- BSoMPdLWHxT6a7DlzVIpPb9IhyVDpp+xJD4uFKAdGdQAisuIrTALckzZm
- x01z+LmQiBN39UEkmC9nnwBs3bAE780kVjmotUF5Twjr0iG1+YI8PwWtG
- EM+ySrkJMQ9iXRpJT4x4WlNzBQkyfRk9OA9OHw1viBdBHcyrRxhrw1Y+K w==;
-X-CSE-ConnectionGUID: /GYqH8aiRii5T8OzbkF5EA==
-X-CSE-MsgGUID: kCyRbQpzTgOoV9gDZ6OhWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="41704520"
-X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; d="scan'208";a="41704520"
+ bh=7kg75Tyyd8ZeYruQ/MbWxm2QqgWZiPahNdEEuu/Obk8=;
+ b=ZBLuYllpYTtVuDbF4lWybjGjBPh0/Mol6DzeEZCTyEUNGtQ3HmAObweQ
+ S4A1I+LeRJgx4g1AKJMWYSr2F5OD+zCil8xWWVH6d0CbQZY0D6+uuVBTY
+ q6dFrAGpkQAsq4JXnE04Ed4VZZX+CJWZqsv03PYzBVXkE2itfIcsXSdRM
+ CGKcXmiryECIklB0DFlRrMm6NYl1m7QLWXIs5HNfeD0Dj/2bNTNdVXH5I
+ SYx8xdQEP0M8tzZQa15zymP7/Clg3MbrkFMlCvrfkb6V2h9yVY2iiHGwG
+ p/8DDEJ26333rXN/yfHcVPdkX0G1B8Sd4bet7DWkvlkaqJ0bFu/IJzQ+u w==;
+X-CSE-ConnectionGUID: zTFecB4xRtK+vaE+wBNTnA==
+X-CSE-MsgGUID: xv/MHjF9RMyhHVaVuCizPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="41704521"
+X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; d="scan'208";a="41704521"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Mar 2025 14:41:27 -0800
-X-CSE-ConnectionGUID: q5HJtphAQ/yUiJT5ypTVLw==
-X-CSE-MsgGUID: mknF5kecT96DiPNhMbzB/g==
+X-CSE-ConnectionGUID: JwMl4at3SnmlkdOxvuj3hg==
+X-CSE-MsgGUID: T/nWD2GJTLaSOs3fQPG0fg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; d="scan'208";a="124457955"
+X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; d="scan'208";a="124457958"
 Received: from dut4440lnl.fm.intel.com ([10.105.10.114])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Mar 2025 14:41:27 -0800
@@ -47,9 +47,10 @@ Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
  jianxun.zhang@intel.com, shuicheng.lin@intel.com,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 4/6] drm/xe/uapi: Define drm_xe_vm_get_faults
-Date: Fri,  7 Mar 2025 22:41:22 +0000
-Message-ID: <20250307224125.111430-5-jonathan.cavitt@intel.com>
+Subject: [PATCH v6 5/6] drm/xe/xe_gt_pagefault: Add address_type field to
+ pagefaults
+Date: Fri,  7 Mar 2025 22:41:23 +0000
+Message-ID: <20250307224125.111430-6-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250307224125.111430-1-jonathan.cavitt@intel.com>
 References: <20250307224125.111430-1-jonathan.cavitt@intel.com>
@@ -70,94 +71,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add initial declarations for the drm_xe_vm_get_faults ioctl.
+Add a new field to the xe_pagefault struct, address_type, that tracks
+the type of fault the pagefault incurred.
 
 Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 ---
- include/uapi/drm/xe_drm.h | 49 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ drivers/gpu/drm/xe/xe_gt_pagefault.c | 3 +++
+ drivers/gpu/drm/xe/xe_gt_pagefault.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 616916985e3f..90c2fcdbd5c1 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -81,6 +81,7 @@ extern "C" {
-  *  - &DRM_IOCTL_XE_EXEC
-  *  - &DRM_IOCTL_XE_WAIT_USER_FENCE
-  *  - &DRM_IOCTL_XE_OBSERVATION
-+ *  - %DRM_IOCTL_XE_VM_GET_FAULTS
-  */
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+index 964ca1efb698..fa8bf743d4d7 100644
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+@@ -206,11 +206,13 @@ static int handle_pagefault(struct xe_gt *gt, struct xe_pagefault *pf)
  
- /*
-@@ -102,6 +103,7 @@ extern "C" {
- #define DRM_XE_EXEC			0x09
- #define DRM_XE_WAIT_USER_FENCE		0x0a
- #define DRM_XE_OBSERVATION		0x0b
-+#define DRM_XE_VM_GET_FAULTS		0x0c
+ 	vma = lookup_vma(vm, pf->page_addr);
+ 	if (!vma) {
++		pf->address_type = DRM_XE_FAULT_ADDRESS_TYPE_NONE_EXT;
+ 		err = -EINVAL;
+ 		goto unlock_vm;
+ 	}
  
- /* Must be kept compact -- no holes */
- 
-@@ -117,6 +119,7 @@ extern "C" {
- #define DRM_IOCTL_XE_EXEC			DRM_IOW(DRM_COMMAND_BASE + DRM_XE_EXEC, struct drm_xe_exec)
- #define DRM_IOCTL_XE_WAIT_USER_FENCE		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_WAIT_USER_FENCE, struct drm_xe_wait_user_fence)
- #define DRM_IOCTL_XE_OBSERVATION		DRM_IOW(DRM_COMMAND_BASE + DRM_XE_OBSERVATION, struct drm_xe_observation_param)
-+#define DRM_IOCTL_XE_VM_GET_FAULTS		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_VM_GET_FAULTS, struct drm_xe_vm_get_faults)
- 
- /**
-  * DOC: Xe IOCTL Extensions
-@@ -1189,6 +1192,52 @@ struct drm_xe_vm_bind {
- 	__u64 reserved[2];
- };
- 
-+struct xe_vm_fault {
-+	/** @address: Address of the fault, if relevant */
-+	__u64 address;
-+#define DRM_XE_FAULT_ADDRESS_TYPE_NONE_EXT		0
-+#define DRM_XE_FAULT_ADDRESS_TYPE_READ_INVALID_EXT	1
-+#define DRM_XE_FAULT_ADDRESS_TYPE_WRITE_INVALID_EXT	2
-+	/** @address_type: , if relevant */
-+	__u32 address_type;
-+	/**
-+	 * @address_precision: Precision of faulted address, if relevant.
-+	 * Currently only SZ_4K.
-+	 */
-+	__u32 address_precision;
-+	/** @reserved: MBZ */
-+	__u64 reserved[3];
-+};
-+
-+/**
-+ * struct drm_xe_vm_get_faults - Input of &DRM_IOCTL_XE_VM_GET_FAULTS
-+ *
-+ * The user provides a VM ID, and the ioctl will
-+ *
-+ */
-+struct drm_xe_vm_get_faults {
-+	/** @extensions: Pointer to the first extension struct, if any */
-+	__u64 extensions;
-+
-+	/** @vm_id: The ID of the VM to query the properties of */
-+	__u32 vm_id;
-+
-+	/** @size: Size to allocate for @ptr */
-+	__u32 size;
-+
-+	/** @fault_count: Number of faults to be returned */
-+	__u32 fault_count;
-+
-+	/** @pad: MBZ */
-+	__u32 pad;
-+
-+	/** @reserved: MBZ */
-+	__u64 reserved[2];
-+
-+	/** @faults: Pointer to user-defined array of xe_vm_fault of flexible size */
-+	__u64 faults;
-+};
-+
- /**
-  * struct drm_xe_exec_queue_create - Input of &DRM_IOCTL_XE_EXEC_QUEUE_CREATE
-  *
+ 	if (xe_vma_read_only(vma) && pf->access_type != XE_PAGEFAULT_ACCESS_TYPE_READ) {
++		pf->address_type = DRM_XE_FAULT_ADDRESS_TYPE_WRITE_INVALID_EXT;
+ 		err = -EPERM;
+ 		goto unlock_vm;
+ 	}
+@@ -284,6 +286,7 @@ static bool get_pagefault(struct pf_queue *pf_queue, struct xe_pagefault *pf)
+ 		pf->asid = FIELD_GET(PFD_ASID, desc->dw1);
+ 		pf->vfid = FIELD_GET(PFD_VFID, desc->dw2);
+ 		pf->access_type = FIELD_GET(PFD_ACCESS_TYPE, desc->dw2);
++		pf->address_type = 0;
+ 		pf->fault_type = FIELD_GET(PFD_FAULT_TYPE, desc->dw2);
+ 		pf->page_addr = (u64)(FIELD_GET(PFD_VIRTUAL_ADDR_HI, desc->dw3)) <<
+ 			PFD_VIRTUAL_ADDR_HI_SHIFT;
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.h b/drivers/gpu/drm/xe/xe_gt_pagefault.h
+index 33616043d17a..969f7b458d3f 100644
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.h
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.h
+@@ -17,6 +17,7 @@ struct xe_pagefault {
+ 	u16 pdata;
+ 	u8 vfid;
+ 	u8 access_type;
++	u8 address_type;
+ 	u8 fault_type;
+ 	u8 fault_level;
+ 	u8 engine_class;
 -- 
 2.43.0
 
