@@ -2,60 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39213A57044
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 19:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6CFA57091
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 19:30:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3905710E699;
-	Fri,  7 Mar 2025 18:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D25A10E191;
+	Fri,  7 Mar 2025 18:30:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="uau6aD9F";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ISkWdP4F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7805210E699
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 18:17:25 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Z8ZJL2792z9srd;
- Fri,  7 Mar 2025 19:17:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741371442; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IePPmOmMn8KJIitOVOV3s2iLtbd6ZgsJKHOeXdSwiwA=;
- b=uau6aD9F5+oh2NMxob2D6Gg5hf7asidDx3re/t8GC03fE7MJ6xr7E6CNCVndrHg6yan9jB
- 6Z4Z2cYt9jvLWqP7I9vDl0GImOyzG8sfOY63gWKw/tJZDSQnrrNcA/82iWhN0GKW3ohZrt
- BzypSAkmHB5X7pRivubR1ZQR+bsBG18p2fDMFLZ3F4+aEk/XREQQsjkZEdXDuKxx1LkuE6
- 4j/5MvKIYe5HaXjlc+mUssHSqt+2m7V/jRy7djeVu7T/lLvpUhqxRF0+FTmWKgvIb8NryD
- ALf9sDzqJNyXuJIEta/X3qMO7HZzwMO5FUAL+zejXC50CmOtVs683e9q5VHy8A==
-Message-ID: <81065d3cdf24c3d972e46b39eff1b744c93c7ccc.camel@mailbox.org>
-Subject: Re: [PATCH v7 1/3] drm/sched: Adjust outdated docu for run_job()
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Philipp Stanner
- <phasta@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Danilo
- Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Fri, 07 Mar 2025 19:17:18 +0100
-In-Reply-To: <7502a793-4e92-4bfc-9c87-66bd7fdd88ce@igalia.com>
-References: <20250305130551.136682-2-phasta@kernel.org>
- <20250305130551.136682-3-phasta@kernel.org>
- <7502a793-4e92-4bfc-9c87-66bd7fdd88ce@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8F2910E69D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 18:30:18 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-2235908a30aso14593085ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Mar 2025 10:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741372218; x=1741977018; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ADljs+6QUrhT8gv23eyNcU2smhHAIyZh+jPjPfAngag=;
+ b=ISkWdP4FX2C3OxEySFZP/W4oHgfrpvBmtT4NDulWYTE978W+h9qlXW47RPNia5F1hn
+ 71Cy523XaibdBZqVnh1pX5PRZ2TrPSJqlUYe5YQFjKs7j4sf+YZBhIOJbKvMEO9x1xlj
+ bvIIQfDiEsTUBYoM9IaBRpP08C3hrEnUhSj+TI3+u7v6mbjPEI0vjKmWCHH7WedHUuOI
+ TD6rmG2tT5Z3Qjq9+YlfcJkCk+dBKnmg4+Ffi9PXUMquw/83PMYtk8MKklkuwwYeTY+4
+ E/c4zzp4x8AOE0EJQEHzswg0+EP2yLNaQlyh/230l7rMI/QyO3O26iFhQPhv0Z9eccGL
+ I7ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741372218; x=1741977018;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ADljs+6QUrhT8gv23eyNcU2smhHAIyZh+jPjPfAngag=;
+ b=o/qKnEdegcG+DbPJrjk1dDDaSqBwSnzlrBlnucq5fgvYjuerEiKrbPOSnI/3IOrfmN
+ s7wm6/F+e9/rCNsa2WPlLzai9FVvEDahXdrptbC8WqrZca3fhJZFso6o2zyrehirdJs4
+ lGEPr+btNXVClAMCTWBSpuJwAFMGfsAXSicjwykwlZpYVYMK8GqQxbqEzPb7g9flS1p8
+ k7HaJcbT5vR2gIMf9TVT+JrxEAz8OdENNzOKY/AFhvbnXBJVqIzf+fkvfpBcSzJiTVbA
+ GkzB+3kFm+xRBp80RJsBHJ2pGQOEZ7LH7qq1fLdTNO6NO9cz1EDbrBsrgbfsXJ+tBAgH
+ q3kg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUsGLuc0qQOhrNHkN+Jt+NIBT9baTZOfCyH7a/X9VuiZsZytInxd00n+eXfGPHwOt5dxc8NyvGSTnM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy844srWXz97CwsfaNApgGI+FDqnnbUE4GBnsS+pRJpgEZ5iZ42
+ flN+Kgmx2TkPZ2wH+TApeJgxsD+WGACeSWaTw+v1tAynwtbwjsDE
+X-Gm-Gg: ASbGncunhRKbkuMbkjR/+CUjsA3/nY93bt/rO5D799rvEO9q/Aa+OGJR+wUy55R0J6b
+ IqkQN2IJzH8Lhl5DCxgE5WKbvZyHkRkxLl0SJok3UCFzEu8gtvkkCthwmFwU/s3iai1p4YUxZBF
+ qOy1uP+i5pRMcSEfaFriDxJ9xL2wLYaGvloMHaqli90VNz7mImqmK42f9H/aA8NELJZdEJXKwxu
+ +oYl//uej4CFL+ArLAUxAkgIadAicCcZD4QadGUVlxq/gW4iRnD4SxDWF2QGZub115RKqkGRea+
+ 4Q/XRBrA8c+EFWSExOelGuIJeBNpBs+sJWUpnK0x1KAfoBRkiytvDvsjp6kGU2113/cp2ReI
+X-Google-Smtp-Source: AGHT+IHgn9VYVN+pY6VrcRSpGmZ1OnVGCCY/wp+YVj8MkJGAiDKX4lh0yxX6MBBGMkwIe7/wx2wiPQ==
+X-Received: by 2002:a05:6a00:139a:b0:736:520a:58f9 with SMTP id
+ d2e1a72fcca58-736aaadf082mr5830777b3a.17.1741372218220; 
+ Fri, 07 Mar 2025 10:30:18 -0800 (PST)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-736984f7268sm3588473b3a.116.2025.03.07.10.30.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Mar 2025 10:30:17 -0800 (PST)
+Date: Sat, 8 Mar 2025 02:30:07 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dmitry.torokhov@gmail.com, mchehab@kernel.org,
+ awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
+ linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+Message-ID: <Z8s7L+ZCI/yM5qm4@visitorckw-System-Product-Name>
+References: <20250306162541.2633025-1-visitorckw@gmail.com>
+ <3dfc81eb-caa1-42fe-8fd6-61101de0ef13@kernel.org>
+ <Z8sW4c5LxV-ITdCi@thinkpad>
 MIME-Version: 1.0
-X-MBO-RS-META: bzczxdz9wd1pabtuc3yzuexj5eefyemq
-X-MBO-RS-ID: 44e0341c584da62060b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z8sW4c5LxV-ITdCi@thinkpad>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,138 +110,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-03-07 at 15:09 -0300, Ma=C3=ADra Canal wrote:
-> Hi Philipp,
->=20
-> On 05/03/25 10:05, Philipp Stanner wrote:
-> > The documentation for drm_sched_backend_ops.run_job() mentions a
-> > certain
-> > function called drm_sched_job_recovery(). This function does not
-> > exist.
-> > What's actually meant is drm_sched_resubmit_jobs(), which is by now
-> > also
-> > deprecated.
-> >=20
-> > Furthermore, the scheduler expects to "inherit" a reference on the
-> > fence
-> > from the run_job() callback. This, so far, is also not documented.
-> >=20
-> > Remove the mention of the removed function.
-> >=20
-> > Discourage the behavior of drm_sched_backend_ops.run_job() being
-> > called
-> > multiple times for the same job.
-> >=20
-> > Document the necessity of incrementing the refcount in run_job().
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0 include/drm/gpu_scheduler.h | 34 ++++++++++++++++++++++++++++++-=
--
-> > --
-> > =C2=A0 1 file changed, 30 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/include/drm/gpu_scheduler.h
-> > b/include/drm/gpu_scheduler.h
-> > index 50928a7ae98e..6381baae8024 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -410,10 +410,36 @@ struct drm_sched_backend_ops {
-> > =C2=A0=C2=A0					 struct drm_sched_entity
-> > *s_entity);
-> > =C2=A0=20
-> > =C2=A0=C2=A0	/**
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @run_job: Called to=
- execute the job once all of the
-> > dependencies
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * have been resolved.=
-=C2=A0 This may be called multiple times,
-> > if
-> > -	 * timedout_job() has happened and
-> > drm_sched_job_recovery()
-> > -	 * decides to try it again.
-> > +	 * @run_job: Called to execute the job once all of the
-> > dependencies
-> > +	 * have been resolved.
-> > +	 *
-> > +	 * @sched_job: the job to run
-> > +	 *
-> > +	 * The deprecated drm_sched_resubmit_jobs() (called by
-> > &struct
-> > +	 * drm_sched_backend_ops.timedout_job) can invoke this
-> > again with the
-> > +	 * same parameters. Using this is discouraged because it
-> > violates
-> > +	 * dma_fence rules, notably dma_fence_init() has to be
-> > called on
-> > +	 * already initialized fences for a second time. Moreover,
-> > this is
-> > +	 * dangerous because attempts to allocate memory might
-> > deadlock with
-> > +	 * memory management code waiting for the reset to
-> > complete.
->=20
-> Thanks for adding this paragraph!
+Hi Yury,
 
-You're welcome
+On Fri, Mar 07, 2025 at 10:55:13AM -0500, Yury Norov wrote:
+> On Fri, Mar 07, 2025 at 07:57:48AM +0100, Jiri Slaby wrote:
+> > On 06. 03. 25, 17:25, Kuan-Wei Chiu wrote:
+> > > Several parts of the kernel contain redundant implementations of parity
+> > > calculations for 16/32/64-bit values. Introduces generic
+> > > parity16/32/64() helpers in bitops.h, providing a standardized
+> > > and optimized implementation.
+> > > 
+> > > Subsequent patches refactor various kernel components to replace
+> > > open-coded parity calculations with the new helpers, reducing code
+> > > duplication and improving maintainability.
+> > > 
+> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > ---
+> > > In v3, I use parityXX() instead of the parity() macro since the
+> > > parity() macro may generate suboptimal code and requires special hacks
+> > > to make GCC happy. If anyone still prefers a single parity() macro,
+> > > please let me know.
+> > 
+> > What is suboptimal and where exactly it matters? Have you actually measured
+> > it?
+> 
+> I asked exactly this question at least 3 times, and have never
+> received perf tests or asm listings - nothing. I've never received
+> any comments from driver maintainers about how performance of the
+> parity() is important for them, as well.
+> 
+To be clear, I use parityXX() was mainly because you dislike the >>
+16 >> 16 hack, and I dislike the #if gcc #else hack—not due to
+performance or generated code considerations.
 
+> With the absence of _any_ feedback, I'm not going to take this series,
+> of course, for the reason: overengineering.
+> 
+I'm quite surprised that three separate one-line functions are
+considered overengineering compared to a multi-line approach that
+requires special handling to satisfy gcc.
 
->  Also, thanks Christian for providing
-> this explanation in v5. It really helped clarify the reasoning behind
-> deprecating drm_sched_resubmit_jobs().
+> With that said, the simplest way would be replacing parity8(u8) with
+> parity(u64) 'one size fits all' thing. I even made a one extra step,
+> suggesting a macro that would generate a better code for smaller types
+> with almost no extra maintenance burden. This is another acceptable
+> option to me.
+> 
+I'm fine with unifying everything to a single parity(u64) function.
+Before I submit the next version, please let me know if anyone has
+objections to this approach.
 
-I thought a bit more about it the last days and think that you are
-right and we definitely have to tell drivers with hardware scheduler
-how they can achieve that without using drm_sched_resubmit_jobs().
-
-Unfortunately, I discovered that this is quite complicated and
-certainly difficult to do right.
-
-So I'd only feel comfortable writing more docu about that once we got
-more input from Christian or someone else who's got a hardware
-scheduler about how they're currently doing it
-
-
-Cheers
-P.
-
->=20
-> Best Regards,
-> - Ma=C3=ADra
->=20
-> > +	 *
-> > +	 * TODO: Document what drivers should do / use instead.
-> > +	 *
-> > +	 * This method is called in a workqueue context - either
-> > from the
-> > +	 * submit_wq the driver passed through drm_sched_init(),
-> > or, if the
-> > +	 * driver passed NULL, a separate, ordered workqueue the
-> > scheduler
-> > +	 * allocated.
-> > +	 *
-> > +	 * Note that the scheduler expects to 'inherit' its own
-> > reference to
-> > +	 * this fence from the callback. It does not invoke an
-> > extra
-> > +	 * dma_fence_get() on it. Consequently, this callback must
-> > take a
-> > +	 * reference for the scheduler, and additional ones for
-> > the driver's
-> > +	 * respective needs.
-> > +	 *
-> > +	 * Return:
-> > +	 * * On success: dma_fence the driver must signal once the
-> > hardware has
-> > +	 * completed the job ("hardware fence").
-> > +	 * * On failure: NULL or an ERR_PTR.
-> > =C2=A0=C2=A0	 */
-> > =C2=A0=C2=A0	struct dma_fence *(*run_job)(struct drm_sched_job
-> > *sched_job);
-> > =C2=A0=20
->=20
-
+Regards,
+Kuan-Wei
