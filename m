@@ -2,85 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEABDA56868
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 14:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17154A56878
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 14:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70F0D10EA1C;
-	Fri,  7 Mar 2025 13:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B31F410EA1D;
+	Fri,  7 Mar 2025 13:09:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VYcrP3Rn";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="kIntLYTT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DEEE10EA1D
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 13:03:12 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5496078888eso2083288e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Mar 2025 05:03:12 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7997E10EA1D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 13:09:17 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-43bd5644de8so20603525e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Mar 2025 05:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741352590; x=1741957390; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kLeGgbjVBcAPCl3aG2E0GcrYM0Yzi9aa/3xxUloO+y4=;
- b=VYcrP3RntjcNFL9LCISUDHl1MJLd1Vvuadx0+9zNyrHMTfthbrN2jSM1ZIe0n0HVEx
- YHBeTk8VXjWtsoFlwtbgAfYnDDNrzhowpckyFYKHDZbE2BJaBA9JrfFXAIwRZxcBnrpW
- hLiuYYnjeK+TJea0qBqipXBnm+XHl/b3y8g9ov1l8pPTCXainwUsElBe4AGSMejFYA/a
- MP5Lqh8KA6cJER899E6NYZtH7GyrSSIpIdwc4dnGeJYAQq/j+ZSgFikyWgFK6x3Ge+F/
- PEQPEY2MWnV9EVKvclVI01F+z/8tpGdRMrNlOdTezPw5zYh6QHw+QKv6Z9aIOMEai5jq
- wz1g==
+ d=ffwll.ch; s=google; t=1741352955; x=1741957755; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fLXbK1kB32hdkos1OXYsIkc5qxoXTv1ZW+nI08u1/9M=;
+ b=kIntLYTT/FjSBOveIdRrzfHFWMEyOMCgiHcUh7XS0dl0homuWBf0zkWPdSm6bfD+1Z
+ xnQalYAPi+/PXRLXqqu0VRTYgrJflg0WviZov75JuzVjxu2rMpz6/7HRNUmTLzuhdmmv
+ Kv8+k5thjKHCFU4iRY/+8MOV3oMAQ1BR6T/OU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741352590; x=1741957390;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kLeGgbjVBcAPCl3aG2E0GcrYM0Yzi9aa/3xxUloO+y4=;
- b=wJJ5/wICA/SXj81/0WSf40sXW7zuoVmTrgItzV7SJNTdsSrSNDYVl+8jhLc0qQR/o0
- zXgxxgrXul7UDWtQYz0olaIIMKWzD7JEDQ71m3xZtw6nwBpPQRlbC3cXb+M9RTiIlH6d
- 55hoUMtjL3pCdiy/PNYGgbr+X8W7Zw/HHW3WGE62ieLxgaCr3Qyt3v5KCucNYgrlYeue
- /5u2lO2ZP2a26+nESbphxzPcERCYOo6kHzQkxOmzizD9NhCmDrtPtJ8ksZjfCI7LIhOD
- GDQ6A54SuowO0ZCLoli5y02jXAriRjU0MBRYUX1s/F22yD8+9Y9R9gpKbxHjhXbvimbG
- Dd2A==
+ d=1e100.net; s=20230601; t=1741352955; x=1741957755;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fLXbK1kB32hdkos1OXYsIkc5qxoXTv1ZW+nI08u1/9M=;
+ b=H/thdfiw6BQzME8bPOcmNp7FF94mBFouUoghEdSluS7ayU5AbFPi7iZKu7xzE009SA
+ VhNT1haAIE7x/bMhJx4Uu+FkO03rlfsVBp9d71/d/vvYQPCijWTUhnYoWKoJVvX8Pd6b
+ FhGKbjIZV05Rcwl4Rgo1TNFu/zDda/MfeorST/L/MQaVfiUALPvcR7o1iST4GcmzXHqE
+ /iPLVWhaYqhGnns4LO7v0ox5kKBAjLryJsEFSJn1pLcK6Fs+ZW2YrbOQC49ebvxrJIYF
+ Xuf1rw9n8UZIMGtiRnKO6EbYZh7jVXKYEOiGFC/tn6vX7M+cPWms6/G+rbIQIk1KrM7H
+ /E6g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVm0mV58lwd7iNG1pwFZC4WWpih8V8s+iIVt2Oz7a80rcNwq0RUnh6k1yV49A9G6IUj96dlGVjr/JE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJX2ZbkCYTUvf8YQ2K5mhFRSj/CSBZBjvIxpRtuEjVbXQ4zBL1
- VdhRbvRDgt8fK2ZoaELuOcS1C7zIUghl35Unq8Rlk6Gtdc1ZHYfeEX5W19j1Z5g=
-X-Gm-Gg: ASbGnct1TIfX18zHRc2qbo210sL4/yl3eOtanbBTdskcLeMMgNymnM7tr2vFmTI/BzW
- cNuCBOh6WrWcWe25H6E1WzitrMOC/9yQEsvZerNlOb49dkXPDMyz05X3OkOnmCO8J4cjmWN0JkX
- BhR5alVb0wwpEyCznZjDGbiB9GyQlMDodvpnICA0DjDANYPkJEE/BMlEuuOMz3cbl7VPXYYOe80
- 5AoaTKjmZTVZNuyXHavvg0zo4Gp7vS6RYAdZLn2nD/W2prCAM6aeKjGHAU33w3UiUAUN2PpbkEl
- I2yI24RSajPM5eYdG2kNrUgIpqNPFBMLwAhEDGUPbJfZaCEYhDe4m89/Ng91b6qOVm8l1ZSThKc
- KB9PwEl+D0kHdjaNyW9dYImBJ
-X-Google-Smtp-Source: AGHT+IGIJV0ELkHdf7lsKbA2N6s1XmXcUz7x/m7RVlnY4w+TAn+21DgF7ag+RAW2PzSo5ynAcv/AoQ==
-X-Received: by 2002:a05:6512:ad1:b0:549:8f3a:f64 with SMTP id
- 2adb3069b0e04-549910b59b2mr1123534e87.41.1741352590041; 
- Fri, 07 Mar 2025 05:03:10 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCVJZKTx1Jy37Tmko4BNXK6S322jxhJhYzgdWgbEUjmqamwqtyqKxM8//JwDE0oYqaADp/jw3IPErx8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy2ZnMghdLUIAGSYMr2wiwHxOIOM4s9rtaSGbgn+8I2T43QQZm0
+ A4ZGgVs+xz56dHFhhEVlI6RWemTHE2J2w4OpFb9cprXs70a0TC4ff2sjleBTYqw=
+X-Gm-Gg: ASbGnctg4zCPgfUASiPO7a4WjJ1EUkhHHER0MLqjyqdUnFFt6PaF/CnuUoZU6rEQhkA
+ HPjmw00iUq1ia7q2aXRcDiP4Bq+K8pXgmfRcZn7yKjW+iQWefF526zoCW8ptdsFH2dtJ4CtuDww
+ z5n5B1a9kS9wJX39+9vA4V9vaDoK5MwQBVGsS6sq/4PwWm/gQiSUhg28XYoiFffDKQuzssadHP4
+ vlU7pu1528pSNcnAJErrNqO/T7flPDI1ef9J2vDsrZMMlkVs0lz7HYvUbt5iHZbGIkL0tA+mIXh
+ 9HPocTdvLj+XMZv8tGvjNRHKmss7haKFrxir2XxIcPHbjXJxt3259YGj
+X-Google-Smtp-Source: AGHT+IGXKnB7QtBKk8gCa+TlzYNbGzQEnm9bXI6Rnch3Ew5gX/H5UMUN/1g1KPRfZAkAjvrureRPLg==
+X-Received: by 2002:a5d:6c63:0:b0:390:f0f3:138a with SMTP id
+ ffacd0b85a97d-39132d5b4bfmr3104340f8f.27.1741352954934; 
+ Fri, 07 Mar 2025 05:09:14 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498b1bc0c2sm481749e87.162.2025.03.07.05.03.07
+ ffacd0b85a97d-3912bfdfcb8sm5384143f8f.33.2025.03.07.05.09.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Mar 2025 05:03:08 -0800 (PST)
-Date: Fri, 7 Mar 2025 15:03:06 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
- chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
- shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 drm-dp 3/9] drm/hisilicon/hibmc: Add dp serdes cfg in
- dp process
-Message-ID: <qig57go45vj6hnnacak3qvuzapkgymf55bp7uobn5xvfjwgcir@ue4zm7dqqrnt>
-References: <20250307101640.4003229-1-shiyongbang@huawei.com>
- <20250307101640.4003229-4-shiyongbang@huawei.com>
+ Fri, 07 Mar 2025 05:09:14 -0800 (PST)
+Date: Fri, 7 Mar 2025 14:09:12 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z8rv-DQuGdxye28N@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+References: <Z8GViQzZJVFPxfNd@phenom.ffwll.local>
+ <20250228184013.GF39591@nvidia.com>
+ <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
+ <20250304164201.GN133783@nvidia.com>
+ <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
+ <20250305151012.GW133783@nvidia.com>
+ <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
+ <20250306153236.GE354511@nvidia.com>
+ <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
+ <20250307123255.GK354511@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250307101640.4003229-4-shiyongbang@huawei.com>
+In-Reply-To: <20250307123255.GK354511@nvidia.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,41 +115,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 07, 2025 at 06:16:34PM +0800, Yongbang Shi wrote:
-> From: Baihan Li <libaihan@huawei.com>
+On Fri, Mar 07, 2025 at 08:32:55AM -0400, Jason Gunthorpe wrote:
+> On Fri, Mar 07, 2025 at 11:28:37AM +0100, Simona Vetter wrote:
 > 
-> Add dp serdes cfg in link training process, and related adapting
-> and modificating. Change some init values about training, because we want
-> completely to negotiation process, so we start with the maximum rate and
-> the electrical characteristic level is 0. Becuase serdes default cfgs is
-> changed and used in hibmc_kms_init(), we changed the if-statement to check
-> whether the value is 0.
+> > > I wouldn't say it is wrong. It is still the correct thing to do, and
+> > > following down the normal cleanup paths is a good way to ensure the
+> > > special case doesn't have bugs. The primary difference is you want to
+> > > understand the device is dead and stop waiting on it faster. Drivers
+> > > need to consider these things anyhow if they want resiliency against
+> > > device crashes, PCI link wobbles and so on that don't involve
+> > > remove().
+> > 
+> > Might need to revisit that discussion, but Greg didn't like when we asked
+> > for a pci helper to check whether the device is physically gone (at least
+> > per the driver model). Hacking that in drivers is doable, but feels
+> > icky.
 > 
-> Signed-off-by: Baihan Li <libaihan@huawei.com>
-> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-> ---
-> ChangeLog:
-> v4 -> v5:
->   - add commit log about hibmc_kms_init(), suggested by Dmitry Baryshkov.
->   - fix the format of block comments, suggested by Dmitry Baryshkov.
->   - add hibmc_dp_get_serdes_rate_cfg() to correct transferring serdes cfg.
-> v3 -> v4:
->   - add comments for if-statement of dp_init(), suggested by Dmitry Baryshkov.
-> v2 -> v3:
->   - change commit to an imperative sentence, suggested by Dmitry Baryshkov.
->   - put HIBMC_DP_HOST_SERDES_CTRL in dp_serdes.h, suggested by Dmitry Baryshkov.
-> v1 -> v2:
->   - splittting the patch and add more detailed the changes in the commit message, suggested by Dmitry Baryshkov.
-> ---
->  .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  1 +
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  5 +-
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 77 ++++++++++++++-----
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  5 ++
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 13 ++--
->  5 files changed, 75 insertions(+), 26 deletions(-)
-> 
+> I think Greg is right here, the driver model has less knowledge than
+> the driver if the device is alive.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Maybe I misremember, but iirc he was fairly fundamentally opposed to
+trying to guess whether the hw is gone or not in the ->remove callback.
+But maybe that's more from the usb world, where all the hotremove race
+conditions are handled in the subsystem and you only have to deal with
+errno from calling into usb functions and unwind. So much, much easier
+situation.
+
+> The resiliency/fast-failure issue is not just isolated to having
+> observed a proper hot-unplug, but there are many classes of failure
+> that cause the device HW to malfunction that a robust driver can
+> detect and recover from. mlx5 attempts to do this for instance.
+> 
+> It turns out when you deploy clusters with 800,000 NICs in them there
+> are weird HW fails constantly and you have to be resilient on the SW
+> side and try to recover from them when possible.
+> 
+> So I'd say checking for a -1 read return on PCI is a sufficient
+> technique for the driver to use to understand if it's device is still
+> present. mlx5 devices further have an interactive register operation
+> "health check" that proves the device and it's PCI path is alive.
+> 
+> Failing health checks trigger recovery, which shoot downs sleeps,
+> cleanly destroys stuff, resets the device, and starts running
+> again. IIRC this is actually done with a rdma hot unplug/plug sequence
+> autonomously executed inside the driver.
+> 
+> A driver can do a health check immediately in remove() and make a
+> decision if the device is alive or not to speed up removal in the
+> hostile hot unplug case.
+
+Hm ... I guess when you get an all -1 read you check with a specific
+register to make sure it's not a false positive? Since for some registers
+that's a valid value.
+
+But yeah maybe this approach is more solid. The current C approach we have
+with an srcu revoceable section is definitely a least worse attempt from a
+very, very bad starting point.
+
+I think maybe we should also have two levels here:
+
+- Ideal driver design, probably what you've outlined above. This will need
+  some hw/driver specific thought to get the optimal design most likely.
+  This part is probably more bus and subsystem specific best practices
+  documentation than things we enforce with the rust abstractions.
+
+- The "at least we don't blow up with memory safety issues" bare minimum
+  that the rust abstractions should guarantee. So revocable and friends.
+
+And I think the latter safety fallback does not prevent you from doing the
+full fancy design, e.g. for revocable resources that only happens after
+your explicitly-coded ->remove() callback has finished. Which means you
+still have full access to the hw like anywhere else.
+
+Does this sounds like a possible conclusion of this thread, or do we need
+to keep digging?
+
+Also now that I look at this problem as a two-level issue, I think drm is
+actually a lot better than what I explained. If you clean up driver state
+properly in ->remove (or as stack automatic cleanup functions that run
+before all the mmio/irq/whatever stuff disappears), then we are largely
+there already with being able to fully quiescent driver state enough to
+make sure no new requests can sneak in. As an example
+drm_atomic_helper_shutdown does a full kernel modesetting commit across
+all resources, which guarantees that all preceeding in-flight commits have
+finished (or timed out, we should probably be a bit smarter on this so the
+timeouts are shorter when the hw is gone for good). And if you do that
+after drm_dev_unplug then nothing new should have been able to sneak in I
+think, at least conceptually. In practice we might have a bunch of funny
+races that are worth plugging I guess.
+
+Cheers, Sima
 -- 
-With best wishes
-Dmitry
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
