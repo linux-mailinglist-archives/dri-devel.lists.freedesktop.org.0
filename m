@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E3AA56AE9
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41308A56AEC
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:55:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA12A10EBB7;
-	Fri,  7 Mar 2025 14:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE03610E169;
+	Fri,  7 Mar 2025 14:55:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oVG5Qbiu";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jBAbbgtE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 314DB10EBB6
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:54:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B542244320;
- Fri,  7 Mar 2025 14:54:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8990510EBB6
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:54:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 20697442ED;
+ Fri,  7 Mar 2025 14:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741359294;
+ t=1741359295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=czH/cClJ9GvnsD2iNrv4/rz8fJTBo8RMcJixT7ICMkg=;
- b=oVG5QbiuXq2YCmp8QbB+8d7lZ7tvM/uZryD3YXcA8rB5/KlCARbcunab6qq6jQCpG2DyCk
- qjLu5STxr7iWVFyjEfIgqdpthIlxPHG3oy6mwCZpNbB5hj1UX1xxYFfXnvhHTPXAjBhyWo
- ZEusXsdibfzxN0BlS635SRJ7cqDF1w4nLJlLVcjyPNoGqLcM8KCvsoq0Uo2GfoNJ68y64j
- 0KZMDV6U1ZEYwk3jA6GcljqIWrKB0VLLLm9MgPvasYgH0CURa4XGbCNRUBnha6CkXxTjxK
- Cy5HxLOi8yLTwqhg+3x24xVg8ZBfu67+BVMicVP4D92nFEhwS2XNLGu7clMhhg==
+ bh=G21BmaGD2FdZhrUaiTjeUKOtU4RcOXLjWhYvPkQoCE8=;
+ b=jBAbbgtE5iKCWuqw1n15fHJkJ/3NQjawEgOMNvRYESr8VYNLY63i/+5irQ6kA7TDHY5rK6
+ YFI+PButfLOcjNMkcS/98PubSgB2ea8kqmOl8CcGwdyRe3HozwwYiZzkw0tFoitAwUmpl0
+ LG4W5hVdiRasT18AU8Ny2EcRP9kIAE7k4y9OragSThBYC3fxVm8oG1xPE9CgC4/rVQ/R6W
+ I4bcIrNtkf7DfpgrXh1PCWI2LJpM4MQ7sP18lPjN5xG3bp0T0g4TZ08lJNiaOunzGxYkaA
+ j3MXBRlIuEXnmJxhX7jC2K+Yg/GF6QLHgKDNTDeOiNvv2R1pdYqIEuBLL7paHA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 07 Mar 2025 15:54:47 +0100
-Subject: [PATCH 1/3] dt-bindings: display: simple: Add Tianma P0700WXF1MBAA
- panel
+Date: Fri, 07 Mar 2025 15:54:48 +0100
+Subject: [PATCH 2/3] drm/panel: simple: Tianma TM070JDHG34-00: add delays
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250307-tianma-p0700wxf1mbaa-v1-1-1c31039a3790@bootlin.com>
+Message-Id: <20250307-tianma-p0700wxf1mbaa-v1-2-1c31039a3790@bootlin.com>
 References: <20250307-tianma-p0700wxf1mbaa-v1-0-1c31039a3790@bootlin.com>
 In-Reply-To: <20250307-tianma-p0700wxf1mbaa-v1-0-1c31039a3790@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -73,26 +72,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the Tianma Micro-electronics P0700WXF1MBAA 7.0" LVDS LCD TFT panel.
+Add power on/off delays for the Tianma TM070JDHG34-00.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index e3ee3a332bb7e1736a8d44773b0aef4873153be1..56b636560cbeb2277d65fce83916650de7ec4cbf 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -282,6 +282,8 @@ properties:
-       - startek,kd070wvfpa
-         # Team Source Display Technology TST043015CMHX 4.3" WQVGA TFT LCD panel
-       - team-source-display,tst043015cmhx
-+        # Tianma Micro-electronics P0700WXF1MBAA 7.0" WXGA (1280x800) LVDS TFT LCD panel
-+      - tianma,p0700wxf1mbaa
-         # Tianma Micro-electronics TM070JDHG30 7.0" WXGA TFT LCD panel
-       - tianma,tm070jdhg30
-         # Tianma Micro-electronics TM070JDHG34-00 7.0" WXGA (1280x800) LVDS TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 9b2f128fd3094bfb6731fc348b91cc101f495a86..9ca88ae83224e306734386dc4ce2d7ef5f6c84f2 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -4369,6 +4369,12 @@ static const struct panel_desc tianma_tm070jdhg34_00 = {
+ 		.width = 150, /* 149.76 */
+ 		.height = 94, /* 93.60 */
+ 	},
++	.delay = {
++		.prepare = 18,		/* Tr + Tp1 */
++		.enable = 150,		/* Tp2 */
++		.disable = 150,		/* Tp4 */
++		.unprepare = 120,	/* Tp3 */
++	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
 
 -- 
 2.48.1
