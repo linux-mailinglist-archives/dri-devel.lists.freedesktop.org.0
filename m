@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32ECA55B90
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 01:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6552EA55C30
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 01:49:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3BD10E837;
-	Fri,  7 Mar 2025 00:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7819710EAAD;
+	Fri,  7 Mar 2025 00:49:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eN/sS6jL";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="PzkSHdZc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 143AF10E2F6
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 00:13:22 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-aaec111762bso241801666b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 16:13:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741306401; x=1741911201; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=V+coMIrKPqiErWfQYpK9wmQFyJx26pAi45ANI3Pnrqs=;
- b=eN/sS6jLidZJwWmmPFwOv6awDDVynnvlDrL+O8DbK8QEl+NgXAHBo/IwCRQTwOrp1a
- Iq3kgTZ1ha+JiAuaRiazTrIBjj59xwc/geZHbR/gJ14AgxaqManWZKv0hoe3vFW/sj35
- iO/fwqCponsKcCajVj0oc2PedWcTS4125aWbc7ixtzoyNafdYIpLS35pEPvy5hM8oua0
- 2U+gUX3eBhCDtYZ0G7QaSuRDe9715iKB3VHjQBLfp7pPkcj/vxcwXkcPiKrV9CyqVmrC
- fB6beuszoo40w2PGfEWPXyM8HyxK1c+sCPF6Sard3YSZIafPxk4WJQB0YJ2DwEzpPOUR
- UqmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741306401; x=1741911201;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=V+coMIrKPqiErWfQYpK9wmQFyJx26pAi45ANI3Pnrqs=;
- b=xGXD70QM7H4/GxQ7MBjZz6fQwQIbX8DWsZPHCTDUtVSzFVZlkHXTwvljuXNOssqQxb
- Okebuae+QGzTcFAJjEBNK5ClzVTc7MLMA/ioWQckulDVKfac3PVKIoA+RGHZnfhogl+B
- K+/fenIJHgFjAbomuakp3c18gqagUW/eavOwSVttkS9fzpPgKPmVHxsfEc6jhmEcjyGI
- AVcMYUxhb9aSmEIFerc8T5urZw6EMeNzpFVmy57F4/Vp8bcy4zQPQONNWrNQTL3UGM1G
- UGXFXvTB+sWpGD9XPPWFHjvJ1Ok/MGJXh9x1hJruDSSs+riHkpdM+RyqV/g8CihoRi72
- TYPw==
-X-Gm-Message-State: AOJu0YyGasSO59gyfos6BGiEsaf5WmID28DmjFZp3CEFeT55JYEUdMu7
- oj17C5bL2/mm7WvY8A6RxL26qIfmg8iropcTQhsinH8V4cP4ZfWyZVTQ3wFDFCCa4RcZf83ZMDP
- 50HzH5qqjA/wWe98GjNQy4HGhoTw=
-X-Gm-Gg: ASbGncvM32Cv5YfZxd4vTU98+aKN95RIUDOFeQxSkw1gZBskXFi5t5r1p2JGhUYyw1j
- 8KU/AiqEOtJtlXLOqzW+O/C5VOehcB6z72D2G6DK/zor/c3lqP2eYQpUpowMess7iUe9a2sIIFk
- T/iWJ9Zn6no+p9tvGjt1m/jDca
-X-Google-Smtp-Source: AGHT+IEs1H7D9wR1RtDGXDvz8FVlYfWVFiJqdKal9HypXfyO5HuEqNCbowowkuut9E3ZHZsn1JHucObPLqq+FkMKUiQ=
-X-Received: by 2002:a17:907:1c1f:b0:ac1:dc35:8337 with SMTP id
- a640c23a62f3a-ac252fb9b12mr126049366b.38.1741306400461; Thu, 06 Mar 2025
- 16:13:20 -0800 (PST)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 761AE10EAC3
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 00:49:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=CnrtcoGRW+pS+hN72KT+FKiUeqkTv48XxIJR0USPjrs=; b=P
+ zkSHdZc1KZ0lkqSkqPyHrEiB1fLYoXtzu8ixrDZ7UrSe0LIw153YMzyj/MOT7WAb
+ Pd2lJZPvsRf5vO18S6yEZTYCMwFxVwqBXq++0HiskWRpzm2ba14pSbtlu4Tzuf8K
+ TU78IH6ozWGfy2Rc9cgIp8uJ1SIGHL+KEliyZCT0sk=
+Received: from andyshrk$163.com ( [103.29.142.67] ) by
+ ajax-webmail-wmsvr-40-114 (Coremail) ; Fri, 7 Mar 2025 08:48:55 +0800 (CST)
+X-Originating-IP: [103.29.142.67]
+Date: Fri, 7 Mar 2025 08:48:55 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Piotr Oniszczuk" <piotr.oniszczuk@gmail.com>
+Cc: heiko@sntech.de, neil.armstrong@linaro.org,
+ sebastian.reichel@collabora.com, devicetree@vger.kernel.org,
+ hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, yubing.zhang@rock-chips.com,
+ dri-devel@lists.freedesktop.org,
+ "Andy Yan" <andy.yan@rock-chips.com>, krzk+dt@kernel.org,
+ robh@kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re:Re: [PATCH 0/6] Add support for RK3588 DisplayPort Controller
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <326B91E9-FB91-43C3-B98B-3EF079F313C6@gmail.com>
+References: <25401bfa.291d.19564244e54.Coremail.andyshrk@163.com>
+ <75189787-28E1-4FC2-8E10-4960B3877A6F@gmail.com>
+ <28b0d3fc.bb3.19568f6b5f8.Coremail.andyshrk@163.com>
+ <44213B17-FE14-4FB8-8319-1E31BBF6EAA0@gmail.com>
+ <74c154b6.8c50.1956aa8c8d2.Coremail.andyshrk@163.com>
+ <1573D5D6-AFED-4D92-8112-B0C6BB52D5FF@gmail.com>
+ <46c0d239.a4f5.1956b619b97.Coremail.andyshrk@163.com>
+ <252BB2E2-4BC5-4402-953D-F7B30EA5DE14@gmail.com>
+ <326B91E9-FB91-43C3-B98B-3EF079F313C6@gmail.com>
+X-NTES-SC: AL_Qu2fA/+bt00o4yefZukfmkcVgOw9UcO5v/Qk3oZXOJF8jDvp6zIxdG1jMkbm3ueENxqyjTi3chhO99R2eY5ddJAgLOFk3fWQb48AINGO0GciIQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 7 Mar 2025 10:13:09 +1000
-X-Gm-Features: AQ5f1JoQcijU1PWlrdTrt7IvLjGGmpF6i0qrOAiYW8LmLQ3TMWUvadsseaEZHJ8
-Message-ID: <CAPM=9tzHwhm74Z=itrPBz=yz=0VZOrcbnKs6u5LLQuwJrng5zw@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.14-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <545cc438.7e3.1956e13a3e2.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cigvCgD3Xw13QspnURl4AA--.4412W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkBsJXmfKOquklAABsR
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,195 +72,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
-
-Looks like the cyclone is taking its time getting here, so I can at
-least get the drm fixes tree out.
-
-Fixes across the board, mostly xe and imagination with some amd and
-misc others. The xe fixes are mostly hmm related, though there are
-some others in there as well, nothing really stands out otherwise. The
-nouveau Kconfig to select FW_CACHE is in this, which we discussed a
-while back.
-
-drm-fixes-2025-03-07:
-drm fixes for 6.14-rc6
-
-nouveau:
-- rely on fw caching Kconfig fix
-
-imagination:
-- avoid deadlock on fence release
-- fix fence initialisation
-- fix timestamps firmware traces
-
-scheduler:
-- fix include guard
-
-bochs:
-- dpms fix
-
-i915:
-- bump max stream count to match pipes
-
-xe:
-- Remove double page flip on initial plane
-- Properly setup userptr pfn_flags_mask
-- Fix GT "for each engine" workarounds
-- Fix userptr races and missed validations
-- Userptr invalid page access fixes
-- Cleanup some style nits
-
-amdgpu:
-- Fix NULL check in DC code
-- SMU 14 fix
-
-amdkfd:
-- Fix NULL check in queue validation
-
-radeon:
-- RS400 HyperZ fix
-The following changes since commit 7eb172143d5508b4da468ed59ee857c6e5e01da6=
-:
-
-  Linux 6.14-rc5 (2025-03-02 11:48:20 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-03-07
-
-for you to fetch changes up to c8bc66206a44f389649af374f5301b2c3a71fff4:
-
-  Merge tag 'amd-drm-fixes-6.14-2025-03-06' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2025-03-07
-09:54:43 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.14-rc6
-
-nouveau:
-- rely on fw caching Kconfig fix
-
-imagination:
-- avoid deadlock on fence release
-- fix fence initialisation
-- fix timestamps firmware traces
-
-scheduler:
-- fix include guard
-
-bochs:
-- dpms fix
-
-i915:
-- bump max stream count to match pipes
-
-xe:
-- Remove double page flip on initial plane
-- Properly setup userptr pfn_flags_mask
-- Fix GT "for each engine" workarounds
-- Fix userptr races and missed validations
-- Userptr invalid page access fixes
-- Cleanup some style nits
-
-amdgpu:
-- Fix NULL check in DC code
-- SMU 14 fix
-
-amdkfd:
-- Fix NULL check in queue validation
-
-radeon:
-- RS400 HyperZ fix
-
-----------------------------------------------------------------
-Alessio Belle (1):
-      drm/imagination: Fix timestamps in firmware traces
-
-Andrew Martin (1):
-      drm/amdkfd: Fix NULL Pointer Dereference in KFD queue
-
-Brendan King (3):
-      drm/imagination: avoid deadlock on fence release
-      drm/imagination: Hold drm_gem_gpuva lock for unmap
-      drm/imagination: only init job done fences once
-
-Dave Airlie (5):
-      drm/nouveau: select FW caching
-      Merge tag 'drm-misc-fixes-2025-03-06' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-intel-fixes-2025-03-06' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-03-06' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.14-2025-03-06' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Jani Nikula (1):
-      drm/i915/mst: update max stream count to match number of pipes
-
-Kenneth Feng (1):
-      drm/amd/pm: always allow ih interrupt from fw
-
-Ma Ke (1):
-      drm/amd/display: Fix null check for pipe_ctx->plane_state in
-resource_build_scaling_params
-
-Maarten Lankhorst (1):
-      drm/xe: Remove double pageflip
-
-Matthew Auld (1):
-      drm/xe/userptr: properly setup pfn_flags_mask
-
-Matthew Brost (1):
-      drm/xe: Add staging tree for VM binds
-
-Philipp Stanner (1):
-      drm/sched: Fix preprocessor guard
-
-Richard Thier (1):
-      drm/radeon: Fix rs400_gpu_init for ATI mobility radeon Xpress 200M
-
-Takashi Iwai (1):
-      drm/bochs: Fix DPMS regression
-
-Thomas Hellstr=C3=B6m (6):
-      drm/xe/vm: Validate userptr during gpu vma prefetching
-      drm/xe/vm: Fix a misplaced #endif
-      drm/xe: Fix fault mode invalidation with unbind
-      drm/xe/hmm: Style- and include fixes
-      drm/xe/hmm: Don't dereference struct page pointers without notifier l=
-ock
-      drm/xe/userptr: Unmap userptrs in the mmu notifier
-
-Tvrtko Ursulin (1):
-      drm/xe: Fix GT "for each engine" workarounds
-
- drivers/gpu/drm/amd/amdkfd/kfd_queue.c            |   4 +-
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c |   3 +-
- drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0.c    |  12 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c       |   3 +-
- drivers/gpu/drm/imagination/pvr_fw_meta.c         |   6 +-
- drivers/gpu/drm/imagination/pvr_fw_trace.c        |   4 +-
- drivers/gpu/drm/imagination/pvr_queue.c           |  18 +-
- drivers/gpu/drm/imagination/pvr_queue.h           |   4 +
- drivers/gpu/drm/imagination/pvr_vm.c              | 134 ++++++++++++---
- drivers/gpu/drm/imagination/pvr_vm.h              |   3 +
- drivers/gpu/drm/nouveau/Kconfig                   |   1 +
- drivers/gpu/drm/radeon/r300.c                     |   3 +-
- drivers/gpu/drm/radeon/radeon_asic.h              |   1 +
- drivers/gpu/drm/radeon/rs400.c                    |  18 +-
- drivers/gpu/drm/scheduler/gpu_scheduler_trace.h   |   4 +-
- drivers/gpu/drm/tiny/bochs.c                      |   5 +-
- drivers/gpu/drm/xe/display/xe_plane_initial.c     |  10 --
- drivers/gpu/drm/xe/xe_gt.c                        |   4 +-
- drivers/gpu/drm/xe/xe_hmm.c                       | 194 ++++++++++++++++--=
-----
- drivers/gpu/drm/xe/xe_hmm.h                       |   7 +
- drivers/gpu/drm/xe/xe_pt.c                        |  96 +++++------
- drivers/gpu/drm/xe/xe_pt_walk.c                   |   3 +-
- drivers/gpu/drm/xe/xe_pt_walk.h                   |   4 +
- drivers/gpu/drm/xe/xe_vm.c                        | 100 +++++++----
- drivers/gpu/drm/xe/xe_vm.h                        |  10 +-
- drivers/gpu/drm/xe/xe_vm_types.h                  |   8 +-
- 26 files changed, 459 insertions(+), 200 deletions(-)
+CkhpIFBpb3RyLArlnKggMjAyNS0wMy0wNiAyMjoyODowOO+8jCJQaW90ciBPbmlzemN6dWsiIDxw
+aW90ci5vbmlzemN6dWtAZ21haWwuY29tPiDlhpnpgZPvvJoKPgo+Cj4+IFdpYWRvbW/Fm8SHIG5h
+cGlzYW5hIHByemV6IFBpb3RyIE9uaXN6Y3p1ayA8cGlvdHIub25pc3pjenVrQGdtYWlsLmNvbT4g
+dyBkbml1IDYgbWFyIDIwMjUsIG8gZ29kei4gMTU6MDg6Cj4+IAo+PiAKPj4gCj4+PiBXaWFkb21v
+xZvEhyBuYXBpc2FuYSBwcnpleiBBbmR5IFlhbiA8YW5keXNocmtAMTYzLmNvbT4gdyBkbml1IDYg
+bWFyIDIwMjUsIG8gZ29kei4gMTM6MTU6Cj4+PiAKPj4+IEhpIFBpb3RyLAo+Pj4gCj4+PiAKPj4+
+IAo+Pj4gVGhlbiB3aGVuIHlvdSBEUCBjYWJsZSBwbHVnaW4sIHlvdSBjYW4gcnVuIGNvbW1hbmQg
+YXMgYmVsbG93IHRvIHNlZSBpZiB0aGUgZHJpdmVyIGRldGVjdHMgdGhlIEhQRDoKPj4+IAo+Pj4g
+IyBjYXQgL3N5cy9jbGFzcy9kcm0vY2FyZDAtRFAtMS9zdGF0dXMgCj4+PiBjb25uZWN0ZWQKPj4+
+ICMgCj4+PiAKPj4gCj4+IAo+PiBBbmR5LAo+PiBUaHghCj4+IAo+PiBXaXRoIGFib3ZlIGNoYW5n
+ZXMgaeKAmW0gZ2V0dGluZyDigJ5jb25uZWN0ZWTigJ0uCj4+IEFsc28gaXQgbG9va3MgY3J0YyBn
+ZXRzIHJlYXNvbmFibGUgbW9kZTogaHR0cHM6Ly9naXN0LmdpdGh1Yi5jb20vd2FycG1lL2Q2MjIw
+ZTNjYzUwMjA4NmE0Yzk1ZjA1YmQ5ZjljZjBjCj4+IAo+PiBTdGlsbCBibGFjayBzY3JlZW4gaG93
+ZXZlcuKApgo+PiAgIAo+Cj5zb21lIGFkZGl0aW9uYWwgZGF0YSBwb2ludDogL3N5cy9rZXJuZWwv
+ZGVidWcvZHJpLzEvdm9wMi9zdW1tYXJ5IAo+Cj4KPndvcmtpbmcgaGRtaToKPgo+VmlkZW8gUG9y
+dDE6IEFDVElWRQo+ICAgIENvbm5lY3RvcjogSERNSS1BLTEKPiAgICAgICAgYnVzX2Zvcm1hdFsw
+XTogVW5rbm93bgo+ICAgICAgICBvdXRwdXRfbW9kZVtmXSBjb2xvcl9zcGFjZVswXQo+ICAgIERp
+c3BsYXkgbW9kZTogMTkyMHgxMDgwcDYwCj4gICAgICAgIGNsa1sxNDg1MDBdIHJlYWxfY2xrWzE0
+ODUwMF0gdHlwZVs0OF0gZmxhZ1s1XQo+ICAgICAgICBIOiAxOTIwIDIwMDggMjA1MiAyMjAwCj4g
+ICAgICAgIFY6IDEwODAgMTA4NCAxMDg5IDExMjUKPiAgICBDbHVzdGVyMC13aW4wOiBBQ1RJVkUK
+PiAgICAgICAgd2luX2lkOiAwCj4gICAgICAgIGZvcm1hdDogWFIyNCBsaXR0bGUtZW5kaWFuICgw
+eDM0MzI1MjU4KSBnbGJfYWxwaGFbMHhmZl0KPiAgICAgICAgcm90YXRlOiB4bWlycm9yOiAwIHlt
+aXJyb3I6IDAgcm90YXRlXzkwOiAwIHJvdGF0ZV8yNzA6IDAKPiAgICAgICAgenBvczogMAo+ICAg
+ICAgICBzcmM6IHBvc1swLCAwXSByZWN0WzE5MjAgeCAxMDgwXQo+ICAgICAgICBkc3Q6IHBvc1sw
+LCAwXSByZWN0WzE5MjAgeCAxMDgwXQo+ICAgICAgICBidWZbMF06IGFkZHI6IDB4MDAwMDAwMDAw
+MTdlMTAwMCBwaXRjaDogNzY4MCBvZmZzZXQ6IDAKPlZpZGVvIFBvcnQyOiBESVNBQkxFRAo+Cj4K
+Pgo+Cj5ub24td29ya2luZyBEUDoKPgo+VmlkZW8gUG9ydDE6IERJU0FCTEVECj5WaWRlbyBQb3J0
+MjogQUNUSVZFCj4gICAgQ29ubmVjdG9yOiBEUC0xCj4gICAgICAgIGJ1c19mb3JtYXRbMTAwYV06
+IFJHQjg4OF8xWDI0Cj4gICAgICAgIG91dHB1dF9tb2RlW2ZdIGNvbG9yX3NwYWNlWzBdCj4gICAg
+RGlzcGxheSBtb2RlOiAxOTIweDEwODBwNjAKPiAgICAgICAgY2xrWzE0ODUwMF0gcmVhbF9jbGtb
+MTQ4NTAwXSB0eXBlWzQ4XSBmbGFnWzVdCj4gICAgICAgIEg6IDE5MjAgMjAwOCAyMDUyIDIyMDAK
+PiAgICAgICAgVjogMTA4MCAxMDg0IDEwODkgMTEyNQo+ICAgIENsdXN0ZXIxLXdpbjA6IEFDVElW
+RQo+ICAgICAgICB3aW5faWQ6IDEKPiAgICAgICAgZm9ybWF0OiBYUjI0IGxpdHRsZS1lbmRpYW4g
+KDB4MzQzMjUyNTgpIGdsYl9hbHBoYVsweGZmXQo+ICAgICAgICByb3RhdGU6IHhtaXJyb3I6IDAg
+eW1pcnJvcjogMCByb3RhdGVfOTA6IDAgcm90YXRlXzI3MDogMAo+ICAgICAgICB6cG9zOiAwCj4g
+ICAgICAgIHNyYzogcG9zWzAsIDBdIHJlY3RbMTkyMCB4IDEwODBdCj4gICAgICAgIGRzdDogcG9z
+WzAsIDBdIHJlY3RbMTkyMCB4IDEwODBdCj4gICAgICAgIGJ1ZlswXTogYWRkcjogMHgwMDAwMDAw
+MDAwN2VkMDAwIHBpdGNoOiA3NjgwIG9mZnNldDogMAoKPgoKQWxsIGR1bXAgaW5mb3JtYXRpb24g
+Y3VycmVudGx5IGFwcGVhcnMgdG8gYmUgY29ycmVjdCwgc28gSSdtIHRlbXBvcmFyaWx5IHVuc3Vy
+ZSB3aHkKdGhlcmUgaXMgbm8gZGlzcGxheSBvbiB0aGUgbW9uaXRvci4KTWF5YmUgdHJ5IHNvbWUg
+cGx1ZyBhbmQgdW5wbHVnIGZvciB0aGUgRFAgY2FibGUsIG9yIHRyeSBhbm90aGVyIGNhYmxlIG9y
+IG1vbml0b3I/CgpJdCBzZWVtcyB0aGF0IHRoaXMgYm9hcmQgdXNlcyBhIERQIHRvIEhETUkgY29u
+dmVydGVyPyBEb2VzIHRoaXMgdHJhbnNtaXR0ZXIgbmVlZCBhIGRyaXZlcj8KCkkgd29uJ3QgYmUg
+YXQgbXkgY29tcHV0ZXIgb3ZlciB0aGUgbmV4dCB0d28gb3IgdGhyZWUgZGF5cywgc28gYW55IGZ1
+cnRoZXIgcmVwbGllcyB0byB5b3VyIGVtYWlsCm1pZ2h0IGhhdmUgdG8gd2FpdCB1bnRpbCBuZXh0
+IHdlZWsuCgoK
