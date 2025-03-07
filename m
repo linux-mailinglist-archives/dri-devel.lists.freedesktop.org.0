@@ -2,81 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD45A55F1C
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 05:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0344A55F6F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 05:35:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0190A10EA8B;
-	Fri,  7 Mar 2025 04:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E450410EABF;
+	Fri,  7 Mar 2025 04:35:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MLIEU11n";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s+HhjOhS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C33910EA8B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 04:03:55 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5497e7bf2e0so1561769e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 20:03:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741320233; x=1741925033; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=q559lQVO0eqbcaMdE1cepZ7h+gw822oPb1VcWyT+D3k=;
- b=MLIEU11nm5nI3TEFAQISTqIMgYVNgfypWA3vzqnwxfSGYxd+Bjrmw8Jr7ixq9wYRvw
- 7pgCmLaLOtemCdN+sMnlp3U4xxD1cW3FaCGD2SXCozBMFdgf6mPdU3yrxP0mbocfDlO/
- ledzbqlvGQAz5bpK6jawcOMIro212XxKIqfOOnbA2vsrIHAbeQLLNPY+rhOKaOMQZPab
- 6Y/PLrcjTWlc8chibAw0VenZ+9MBBtS3QemZdtx0wmbhR+PH0M1Er3szB99a62sI6jC0
- Oy49R6gkXBbtqQnzEHbKyz3NTihEo9tnLUYGs66u7Fe/Z3lhiU4bvn5p5Uear95AqBJ/
- xlkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741320233; x=1741925033;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q559lQVO0eqbcaMdE1cepZ7h+gw822oPb1VcWyT+D3k=;
- b=mCWYTnK0MnuYEHN5yy2a5/5xfnPI8eniKf840RwladznxWl8Hg1d2Ci/Fa1NVZJM1f
- lHggmvEZGIeb/qOeOVYL8LLDnzhzKjZyacujQio4x5y8uUO9NCi0xFkxthGh96wMoQMK
- 0+9CklSxX8mq3vypMNAFngUh3OzfkglUr141Q3PKRuzOwO7TKx86Tl82hpaaXL7BkYAM
- PWoBRP1f8dZhlgHIxrMBeB96lbagnUGzspL50FsP33Hsl51aEDpkG7muRqK887A45UOB
- 9CzLnMjP/DWbSKZoXkfZTX94TluBOCFyjt8QQQvgdGQ4zL2t41EF8O7thI5vdLkYywPT
- mg2A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDLJqFHlyZHTbIilh4Pqw0nvslIURiy+I3/EIubWcaoumw6Rh4/agfQG2S7L45GRRJQ2nl/H0WTrM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTWWfTwsr6Du1TrW8O5j1pqvl3z69Uy2QLkR/alOTYJ7A9zmPg
- T4jijsHTDt834wPWYmLplG7DrHWfVjQeH80OX3UpQw4LKJ+s+JKiTlDZxQ6Au94=
-X-Gm-Gg: ASbGncuYs4CTqfdHNlGonjaQShX18VsNKU2BCe2OTUn3YgUMpnhBI4vuIkmVCXLPb3C
- 9+eJdOXd/CsaiurnU5VmHmkfPuLGD3dM7UOkq/HbmQFhs/v1xUPCDBHOqEHO95mVzhJlT0vKD2W
- 9q0OB+Topo0jiEjvz1V6occz/bBuHngTAvCw6sZcykapbR49GE7ovPlQ/li+Jc1UY1CBqtpGhn+
- vWiSL5nPJSaYaQ9ulE1Wf5s64vRgdcyWbxrlWFLJMUctmLKUvn96VtygRkYGWB3RlLOo8vqwh/a
- +77hO7iKShGAAQaCcSgsav/FmL937K9T6SYO9PPryaiLec4V4OfQ4aPBZTDdZfsM9kI+C5zr06+
- dCEs0wSj8TnpKXiuUNQGbqoKT
-X-Google-Smtp-Source: AGHT+IFkU/H2JgQ+KzgwwZXcDnVmGrvz6WNb4Dvni6Bmcn4jgovRKWXORNDJCk42rS/+awsQtmG+NA==
-X-Received: by 2002:a05:6512:3b14:b0:545:2c2c:5802 with SMTP id
- 2adb3069b0e04-54990ec1da0mr569205e87.48.1741320233311; 
- Thu, 06 Mar 2025 20:03:53 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498ae461edsm362946e87.38.2025.03.06.20.03.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 20:03:52 -0800 (PST)
-Date: Fri, 7 Mar 2025 06:03:49 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH -next] drm/msm/dpu: Remove duplicate dpu_hw_cwb.h header
-Message-ID: <gs6zemh276kxuphyedsv445ujroazok6jq66mdljkrkd2f5fzf@zjumlvcebaix>
-References: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E25EA10E0B8;
+ Fri,  7 Mar 2025 04:35:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 703115C5BCA;
+ Fri,  7 Mar 2025 04:32:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F21C4CED1;
+ Fri,  7 Mar 2025 04:34:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741322093;
+ bh=XqzhyeJqcijzc1zEWnFHc8CXWW9TaUwdVzABORTsWzg=;
+ h=From:Subject:Date:To:Cc:From;
+ b=s+HhjOhSqHORZRdCgtb8Vrv/rRuiWnb96ZQPANjE1MyLwf3qdFWc2jI5VqiZa8eLB
+ rD1b7oK29o0X37aFgrq8IN7nhINe9omVacWzB1cRMkwuo/SdpjKFNyeexIIPWkrzvB
+ 6ETBorUlap+aEeFVdMzQs9lrybWuEK8ArkvbW48OaEc6E9wMJYRWulm31uDNeZGiR0
+ LwuAYUWGW/uDhdQZUGNrZ4xjC81nKYrfrCmTW8kPQWKaPG6l+nZGBVZ7gj4l1EByIT
+ f8d4wcY/gZVqdKMs/XKdc7OXjzmKrTaJBsNyBunLaPyoVNRZWA6moIo3coTUSjn4BF
+ 2Y+dPoHVcvD4w==
+From: Dmitry Baryshkov <lumag@kernel.org>
+Subject: [PATCH RFC v3 0/7] drm/display: dp: add new DPCD access functions
+Date: Fri, 07 Mar 2025 06:34:42 +0200
+Message-Id: <20250307-drm-rework-dpcd-access-v3-0-9044a3a868ee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGJ3ymcC/3XOwQrCMAwG4FeRnq2k2dzQkyD4AF7Fw5ZmW1HXk
+ UpVxt7dsot42PFP+L9kVIHFcVD71aiEowvO9ylk65Wirupb1s6mrBAwN5gZbeWhhV9ebtoOZHV
+ FxCHoGhpCzktbmEyl8iDcuPcMX9T5dFTXNOxceHr5zMeimVfJ3YIx5ZIbjQZdNgQIDLmt6XB3f
+ SV+46WdzYg/J4PF/yImJ7c7LAAbKsn+OdM0fQEd0r1rCgEAAA==
+X-Change-ID: 20241231-drm-rework-dpcd-access-b0fc2e47d613
+To: Lyude Paul <lyude@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2883;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=XqzhyeJqcijzc1zEWnFHc8CXWW9TaUwdVzABORTsWzg=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnyndlMsf/JrFPSmdbYWWLvhwHDkT/ieTkTXN9/
+ lqE5dH+wNGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8p3ZQAKCRCLPIo+Aiko
+ 1aKhCACjQw5F7YO5gtzvIHSaGtZo4Y/5aGzxeTxD0OMUp/5hT2oTXrms082iYP0AiH6KDcY4cRH
+ cd3zg/fRgPvw+3Pnwe88wo/9F9RGhnuyAzfT+b76GOoq3qiO6xws9hNIM/+p+uQ0quL67unGB7/
+ 8PJc5scnCbK2hQcuNiYvuD2+Zy3SQn2wz4LaZHuLOo9WrMlIpiwz0iFIaXWJPG0nfCgYTbp15g3
+ A0mofYnAkZSoMSG4BUHj4Wje+l7WpPdL2AD9Pd1BYoFabjJX6gnm2HhidAkS7cXc4tU7/onNjrc
+ 2IRbVF+vSZdWm+C9yJ/TubcGS1ZPe8N0m4SoukasvViWrDel
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +91,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 07, 2025 at 09:50:30AM +0800, Jiapeng Chong wrote:
-> ./drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: dpu_hw_cwb.h is included more than once.
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=19239
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
+Existing DPCD access functions return an error code or the number of
+bytes being read / write in case of partial access. However a lot of
+drivers either (incorrectly) ignore partial access or mishandle error
+codes. In other cases this results in a boilerplate code which compares
+returned value with the size.
 
-Also
+As suggested by Jani implement new set of DPCD access helpers, which
+ignore partial access, always return 0 or an error code. Implement
+new helpers using existing functions to ensure backwards compatibility
+and to assess necessity to handle incomplete reads on a global scale.
+Currently only one possible place has been identified, dp-aux-dev, which
+needs to handle possible holes in DPCD.
 
-Fixes: dd331404ac7c ("drm/msm/dpu: Configure CWB in writeback encoder")
+This series targets only the DRM helpers code. If the approach is found
+to be acceptable, each of the drivers should be converted on its own.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v3:
+- Fixed cover letter (Jani)
+- Added intel-gfx and intel-xe to get the series CI-tested (Jani)
+- Link to v2: https://lore.kernel.org/r/20250301-drm-rework-dpcd-access-v2-0-4d92602fc7cd@linaro.org
 
+Changes in v2:
+- Reimplemented new helpers using old ones (Lyude)
+- Reworked the drm_dp_dpcd_read_link_status() patch (Lyude)
+- Dropped the dp-aux-dev patch (Jani)
+- Link to v1: https://lore.kernel.org/r/20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org
+
+---
+Dmitry Baryshkov (7):
+      drm/display: dp: implement new access helpers
+      drm/display: dp: change drm_dp_dpcd_read_link_status() return value
+      drm/display: dp: use new DCPD access helpers
+      drm/display: dp-aux-dev: use new DCPD access helpers
+      drm/display: dp-cec: use new DCPD access helpers
+      drm/display: dp-mst-topology: use new DCPD access helpers
+      drm/display: dp-tunnel: use new DCPD access helpers
+
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c           |   8 +-
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   2 +-
+ drivers/gpu/drm/display/drm_dp_aux_dev.c           |  12 +-
+ drivers/gpu/drm/display/drm_dp_cec.c               |  37 ++-
+ drivers/gpu/drm/display/drm_dp_helper.c            | 307 +++++++++------------
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      | 105 ++++---
+ drivers/gpu/drm/display/drm_dp_tunnel.c            |  20 +-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       |   4 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  24 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |  18 +-
+ drivers/gpu/drm/radeon/atombios_dp.c               |   8 +-
+ include/drm/display/drm_dp_helper.h                |  92 +++++-
+ 12 files changed, 322 insertions(+), 315 deletions(-)
+---
+base-commit: 565351ae7e0cee80e9b5ed84452a5b13644ffc4d
+change-id: 20241231-drm-rework-dpcd-access-b0fc2e47d613
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
