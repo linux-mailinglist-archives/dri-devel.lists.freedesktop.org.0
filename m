@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4419DA56060
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 06:51:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1369FA5606A
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 06:52:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1BBC10EADC;
-	Fri,  7 Mar 2025 05:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64A9A10EADE;
+	Fri,  7 Mar 2025 05:52:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rVqekRQo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nMjQgzhU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A237310EADC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 05:51:13 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-30797730cbdso13909541fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 21:51:13 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99C210EAE0
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 05:52:10 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-54943bb8006so1640952e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Mar 2025 21:52:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741326672; x=1741931472; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741326729; x=1741931529; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=tXmSK8/WMVoYp/YH6Up96+HRQthxxadTxRUuQDlSb80=;
- b=rVqekRQooHvQGylVN/J8aUdHPTQ2sX7qM/grC/zR10TsyLj5pA1b+EY4ZFQsMdgxE/
- excgapqwDw4xr7e8pJTnfqIwXnl1cwVW4wyEZRQCsB/WHoWWTH/90aHVL2uBzIvFMd9I
- FbKFfeiatr09YvpMj+RPY4Pl2nz4k3WBNLtySmdMeqoQXnqYOREWTqW1NipWpcC5qz6S
- 5wXfEpH9EIg7CNr9Zs2kjOOpF+dwOkGR1l2jxwvtBtiz0k3b+Zw20nz1HB/jZweF1yXo
- AHHqfkxgZw/3F4ifnCNhukJV3eS+2SBL7os5et/7a+IVvPTnmkjfQkNzyj2nYtQlZWsD
- eEEQ==
+ bh=97xCV+Gvyecw927R3SbsNwJBWiMKRLeo3l2nPZL/r98=;
+ b=nMjQgzhUmc8DESceOocdmrybQboezm0JT0hcLBq6WNiAjxc0gNfXHAyzpov7mXo8F+
+ p2XSX3ncfBvmeoFuawtyGh2525hNoMSfh029pvdYU0C5didNAakNL6xp+kM4LRgbtPo9
+ NM/fP3LDGchMnZYD0KKeNje34LRXKuYo6H6psFwqQRwrpn7eFlSku2eRVHGXP7El8Gzk
+ gx0R/t7cn5LBagnOxKjTrz9zqEpLBWqTeti2ZEUqT+0Ra7PX4P8NXiBI675GRud/N/r9
+ b3U0W+Wp7VvfUEOpI1mLEEOCO1mRH4o5qik/5T5UAXC1XByJBQEeq5YzXaJfl/YG6apl
+ TZKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741326672; x=1741931472;
+ d=1e100.net; s=20230601; t=1741326729; x=1741931529;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tXmSK8/WMVoYp/YH6Up96+HRQthxxadTxRUuQDlSb80=;
- b=NZACawENURahXgj/nY2PK+BKEMdTGUxAIfgkzEotwIzk1FcXfZgzVAOS6xL6nznTtC
- ensS+rqbyi6PHojWddGvhY7Ldl1X1VCv/wGf9n+HzbwQHdPYwZOhlFn/xiP1yW9uoVe1
- RxtaEV/grqfIQnJcEOiuxpRYVz43OeZV7Tmdm1zyDYdGdnNStFRk27GBlLng/sdPkl5x
- DQlA1xfBUf7yNWpWqBXcer/HEw92PPaiNz6MZ5xnXoqeE28cZOEIGr0Kk4aFkiH70zU/
- dl2MA7ic4cfyfj6Q8YAI+6QTL7p7L/IRNPafvcL+wWVw4Fd8PEhYtJPjodm8UH7xbyBN
- VYxw==
+ bh=97xCV+Gvyecw927R3SbsNwJBWiMKRLeo3l2nPZL/r98=;
+ b=D5dZ2Bb6L9jsh6F4Rc2Fb3qlaqVQ9daQA3M66Y6UVKxBboKKgZ59wZUaLJOPYzz4DW
+ d1L73Xt/rP1PZhSOYA9kizivfi23ZGs4UgoEv8q2JLEEt2sK1eKwizKxHRP8+f55khTK
+ VlLZYl337pN/mDU3Nh2DywfDmrUUvB/pd4y+/EHAFoNy6RDG7sbL1WRcQ/o01AJR8DuK
+ Pt22OgAwGHZZaeMgGbEwKK9FW4soQa5NixNpF1+cOC3ZOINmacaqMx1tzHkaIeOk8nuW
+ 35Tqd2BJMVtj840NTsL8XWcwB8BkPQB0qAJGXM/D9c0boI679wQSs+vnI2la9Y4bJUIF
+ OFeA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUwTfwA3zDeiJSjrQnrzWNP7JcNWSzatcYscz6wSO95G0QUFpqrmXV204NsS+8GO7jVaySBmn3QOBA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6pk+JMAWfLqu//g8Zf4YGCUpvwXGRjyMXVOfl0eSZnz93eq98
- wNAjPebU4VL/eY4ttbJGgFHbFAgSoJD0ROsRspMrWpSpMeJEwGCxkV5OGd9HLVI=
-X-Gm-Gg: ASbGncsHSjWV4vFaJXloZcFUA6lpp6eLRorG0eW+MVGeLHMWKfhHWHs/ISpCZXQy2OP
- W6phUfQF9WqJ8bIzJzulXK+VW0LqWH8UBsRQNYmKwyYbq+4gaDQycf1UGbeRVjNKuki1qLwxQge
- AzzmbW+4KKNUoTujWROWUHqg/PTfRJ402+A450ju0BloRfvIrp+QWh9rsjhoQ9ze4u6ByfkTrhJ
- SVXMpgDWSwh/SR9AYWFnv09tLw6Gt2p0BEKGT3QFRQ/6mQifdS8HuiRUkQgpMBqHFoNZng5qWB/
- xK0SQlKv8f9dVL9yf0Kzodxbn1Yqogxp0pHAtlleGMuv+8F0E8RkBqAsGiq7NJ6lzjHM1B3LhL0
- 7FQs7lCDMTpeGAtPPLHwRR2On
-X-Google-Smtp-Source: AGHT+IGZcu2fypEgK7clxXmR93TzJ7unEXU/+kahsKp0+Qev+odXPrrlaC4iINRI4Yd2AzKHpypLwQ==
-X-Received: by 2002:a2e:330e:0:b0:30b:eb08:53e3 with SMTP id
- 38308e7fff4ca-30bf45360acmr4804561fa.17.1741326672025; 
- Thu, 06 Mar 2025 21:51:12 -0800 (PST)
+ AJvYcCVUClapp2/O9pwbeANd6gyEKdvtPZFiOYPntVGrtRDMevqxSdnlw1Ec/eQ9dqIZ+ibh4UF9iQ2c4/o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMZnk8vc+jBU1CN6pF/t5b2IGWu8kzXckBGJyzhp/XCXjr8zIA
+ MGueo4tR7+FfGTmQRu7pkYJ0h5vOBFWlQDUQKoQsdllFjVLRjo8wZYwKIRhHCmI=
+X-Gm-Gg: ASbGncv09jCV7To2JpNL3ER3/c2yW6hL444YQH1usJv/ni34OzuQHD1h6ClM52PJu33
+ hRu6eirIl10R9/Nkji/CLYBt178X48XWp0eC+oG2+M9r+xy2VWON6xSLbKQAbasXHH+Yvb0c32I
+ aF3E1l3lRVMtAUGHH5YE+FerEYptovlJB8ivVkDOabSqW/RukwTZm+guPsNJAHARK+w0eBeNUS1
+ omv0smIkhwsbd5bPiVOhmbzxHaGPl32ZlUCD2kaD+wVFl0aSYpx37M/6guJyqJGgqW4qAY3G8in
+ EIV/9WcnDrZAWAC34lcJS+v0w115XZYnxIVjYE85icOyT5nfo2vmAv0aVsW6uy0K9bMfH0VD5oN
+ d/lAWHTRD2RVokRJJuRABLSeM
+X-Google-Smtp-Source: AGHT+IHunk8+MpzZDHTJkBgYb12y6m7jhuOmcjA3ogw1gP8DkwdgKWszNP4J5Id48vGNdylVuIQYaw==
+X-Received: by 2002:a05:6512:2342:b0:549:4de9:22df with SMTP id
+ 2adb3069b0e04-54990da2057mr687182e87.0.1741326729036; 
+ Thu, 06 Mar 2025 21:52:09 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30be9a073d0sm4291591fa.112.2025.03.06.21.51.09
+ 2adb3069b0e04-5498ae45f8dsm384613e87.34.2025.03.06.21.52.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Mar 2025 21:51:10 -0800 (PST)
-Date: Fri, 7 Mar 2025 07:51:08 +0200
+ Thu, 06 Mar 2025 21:52:07 -0800 (PST)
+Date: Fri, 7 Mar 2025 07:52:05 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konradybcio@kernel.org>, g@eriador.lumag.spb.ru
+To: Konrad Dybcio <konradybcio@kernel.org>
 Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
  Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -85,15 +85,15 @@ Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH 09/11] arm64: dts: qcom: x1e80100-dell-xps13-9345: Drop
- clock-names from PS8830
-Message-ID: <bth4rfqqu2bat24avosimvxuqmruc52taues4wljnhfcmxnx7m@zkjvf32oiogt>
+Subject: Re: [PATCH 03/11] dt-bindings: power: qcom,kpss-acc-v2: Add MSM8916
+ compatible
+Message-ID: <nolgnvhb4ipmt64bhy3swibrjb5cxncz7nwk56osn7bkbrsy2b@6ntbn5pk22gf>
 References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
- <20250306-topic-dt_bindings_fixups-v1-9-0c84aceb0ef9@oss.qualcomm.com>
+ <20250306-topic-dt_bindings_fixups-v1-3-0c84aceb0ef9@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-9-0c84aceb0ef9@oss.qualcomm.com>
+In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-3-0c84aceb0ef9@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,22 +109,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 06, 2025 at 07:11:21PM +0100, Konrad Dybcio wrote:
+On Thu, Mar 06, 2025 at 07:11:15PM +0100, Konrad Dybcio wrote:
 > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > 
-> The preemptively-merged node contains a property absent from the final
-> bindings. Remove it.
+> MSM8916 seems to reuse the same hardware as MSM8974 and friends (for
+> whom this binding document was created). Add a new compatible for it.
+
+Ok, I should have read dt-bindigns before sending a comment. But this
+commit doesn't explain, why do you need an extra compat string.
+
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > ---
->  arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dts | 2 --
->  1 file changed, 2 deletions(-)
+>  Documentation/devicetree/bindings/power/qcom,kpss-acc-v2.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-
-Fixes: bd2dbbb1f35a ("arm64: dts: qcom: x1e80100-dell-xps13-9345: Introduce retimer support")
-
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> diff --git a/Documentation/devicetree/bindings/power/qcom,kpss-acc-v2.yaml b/Documentation/devicetree/bindings/power/qcom,kpss-acc-v2.yaml
+> index 202a5d51ee88c7190805efe8f1bf493bdb69ec45..27dae49163fa0790ceb6fda8a5c674f739d4a41a 100644
+> --- a/Documentation/devicetree/bindings/power/qcom,kpss-acc-v2.yaml
+> +++ b/Documentation/devicetree/bindings/power/qcom,kpss-acc-v2.yaml
+> @@ -18,7 +18,9 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    const: qcom,kpss-acc-v2
+> +    enum:
+> +      - qcom,msm8916-kpss-acc
+> +      - qcom,kpss-acc-v2
+>  
+>    reg:
+>      items:
+> 
+> -- 
+> 2.48.1
+> 
 
 -- 
 With best wishes
